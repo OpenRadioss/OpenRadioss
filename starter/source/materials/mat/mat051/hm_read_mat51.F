@@ -103,7 +103,7 @@ C-----------------------------------------------
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
       INTEGER,INTENT(IN)                    :: MAT_ID
       CHARACTER*nchartitle,INTENT(IN)       :: TITR
-      TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -808,12 +808,12 @@ C     !============================!
         ENDDO
         EINF(4)=ZERO
       END IF
-      !initialisation vitesse du son, loi51
+      !sound speed initialization loi51
       IF(IFLG == 0 .OR. IFLG == 1)THEN
         DO I=1,3
           P0(I)    = C0(I)+C4(I)*E0(I)
           DPDMU(I) = (C1(I)+C5(I)*E0(I)) + C4(I)*(PEXT+P0(I)) 
-          IF(RHO0_(I) /= ZERO) SSP(I)  = SQRT( (DPDMU(I) + TWO_THIRD*GG(I)) / RHO0_(I) )   !achtung GG = 2*G   =>  TWO_THIRD*GG = FOUR_OVER_3*G
+          IF(RHO0_(I) /= ZERO) SSP(I)  = SQRT( (DPDMU(I) + TWO_THIRD*GG(I)) / RHO0_(I) )   !warning GG = 2*G   =>  TWO_THIRD*GG = FOUR_OVER_3*G
         ENDDO
         P0(4)  = C0(4)
         SSP(4) = VDET
@@ -1089,8 +1089,6 @@ C     !============================!
 
 
       RETURN
-
-  999 CALL FREERR(3)
 
 C======================================================================|
   900 FORMAT(

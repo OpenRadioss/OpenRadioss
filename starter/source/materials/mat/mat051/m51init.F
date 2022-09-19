@@ -33,11 +33,11 @@ Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE M51INIT(
-     .               IPM     ,DETONATORS,PM      ,
-     .               NGL     ,NUVAR     ,UVAR    ,UPARAM  ,X       ,
-     .               MAT     ,IPARG     ,IFORM   ,IX      ,NIX     ,
-     .               ALE_CONNECTIVITY   ,BUFMAT    ,RHO0    ,ILOADP  ,FACLOAD ,
-     .               GBUF    ,NEL       ,SIG)
+     .               IPM                ,DETONATORS ,PM      ,
+     .               NGL                ,NUVAR      ,UVAR    ,UPARAM  ,X       ,
+     .               MAT                ,IPARG      ,IFORM   ,IX      ,NIX     ,
+     .               ALE_CONNECTIVITY   ,BUFMAT     ,RHO0    ,
+     .               GBUF               ,NEL        ,SIG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,10 +59,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPM(NPROPMI,NUMMAT),NGL(*),MAT(*), IPARG(NPARG),IFORM,NIX,IX(NIX,*)
-      my_real PM(NPROPM,NUMMAT),UVAR(NEL,NUVAR),UPARAM(*), X(3,*), BUFMAT(*), RHO0
-      INTEGER,INTENT(IN)                   :: ILOADP(SIZLOADP,*),NEL
-      my_real,INTENT(IN)                   :: FACLOAD(LFACLOAD,*)
+      INTEGER IPM(NPROPMI,NUMMAT),NGL(NEL),MAT(NEL), IPARG(NPARG),IFORM,NIX,IX(NIX,NEL)
+      my_real PM(NPROPM,NUMMAT),UVAR(NEL,NUVAR),UPARAM(*), X(3,NUMNOD), BUFMAT(*), RHO0
+      INTEGER,INTENT(IN)                   :: NEL
       my_real,INTENT(INOUT) :: SIG(NEL,6)
       TYPE(G_BUFEL_), INTENT(INOUT),TARGET :: GBUF  
       TYPE(DETONATOR_STRUCT_) :: DETONATORS
@@ -85,15 +84,6 @@ C-----------------------------------------------
 
       IFLG  = NINT(UPARAM(55))
       IFORM = NINT(UPARAM(31))
-
-c      !---------------------------------!
-c      ! Fill buffer from submaterial id !
-c      !---------------------------------!
-c      !case of generic input, material cards must be read before. It is done if program is here.
-c      IF(IFORM==12)THEN
-c        CALL FILL_BUFFER_51(IPM,PM,UPARAM,BUFMAT)
-c        PM(38,MAT(1)) = UPARAM(42)
-c      ENDIF
 
       !---------------------------------!
       ! Test if only fluids are defined !
@@ -119,8 +109,7 @@ c      ENDIF
         IPARG(63) = 1  !  FLAG FOR FLUID MATERIAL
         IPARG(64) = 1  !  FLAG FOR SILENT BOUNDARY FORMULATION        
       ENDIF
-
-            
+   
       !---------------------------------!
       ! Compute Burning Time            !
       !---------------------------------!
@@ -155,7 +144,7 @@ c      ENDIF
       !===========================!                                     
       ! material IMAT : TIME=0    ! 
       ! default :                 !                                    
-      ! if no /load/hydro         !                                     
+      ! if no /INIGRAV option     !                                     
       !===========================!                                     
       DO IMAT=1,4                                                       
        DO I=1,NEL                                                       
@@ -184,7 +173,7 @@ c      ENDIF
 	UVAR(I,23+KK) = VF(IMAT)                      !alpha0                   
        ENDDO                                                            
       ENDDO 
-      !cas particulier sous-materiau4 dispose d'un temps de detonation a initialiser
+      !particular case of submaterial 4 (burning time to initialize)
       IMAT              = 4
       KK                = N0PHAS+(IMAT-1)*NVPHAS      
       UVAR(1:NEL,15+KK) = UVAR(1:NEL,1) ! Tdet
@@ -211,9 +200,9 @@ c      ENDIF
         NV46 = 4
         IF(N2D==0)NV46 = 6
         CALL NRF51INI (
-     .                  IPM   , PM    , X     , NIX     ,  IX,
+     .                  IPM              , PM    , X     , NIX     ,  IX,
      .                  ALE_CONNECTIVITY , BUFMAT, UPARAM, NV46    ,  RHO0,
-     .                  UVAR  , NUVAR , NEL   , GBUF%RHO
+     .                  UVAR             , NUVAR , NEL   , GBUF%RHO
      .                )
       ENDIF      
 C---

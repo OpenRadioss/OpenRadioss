@@ -316,18 +316,18 @@ c
      .                 ILOADP  ,FACLOAD  ,GBUF     ,NEL)
         ELSEIF (MTN == 38) THEN 
           CALL M38INIT(
-     1       NEL   , NPAR, NUVAR   ,NFUNC  ,IFUNC  ,
+     1       NEL   ,NPAR    ,NUVAR         ,NFUNC  ,IFUNC  ,
      2       NPF   ,TF      ,BUFMAT(IADBUF),RHO0   ,VOL    ,
      3       EINT  ,MBUF%VAR )
         ELSEIF (MTN == 51) THEN
-          CALL M51INIT(IPM     ,DETONATORS,PM  ,
-     .                 NGL     ,NUVAR     ,MBUF%VAR ,UPARAM     ,X   ,
-     .                 MAT     ,IPARG     ,IFORM    ,IX         ,NIX ,
-     .                 ALE_CONNECTIVITY   ,BUFMAT    ,RHO0     ,ILOADP     ,FACLOAD,
-     .                 GBUF    ,NEL       ,SIG)
+          CALL M51INIT(IPM                ,DETONATORS ,PM  ,
+     .                 NGL                ,NUVAR      ,MBUF%VAR ,UPARAM     ,X   ,
+     .                 MAT                ,IPARG      ,IFORM    ,IX         ,NIX ,
+     .                 ALE_CONNECTIVITY   ,BUFMAT     ,RHO0     ,
+     .                 GBUF               ,NEL        ,SIG)
         ELSEIF (MTN == 70) THEN
           CALL M70INIT(
-     1       NEL   , NPAR  ,NUVAR    ,NFUNC  ,IFUNC  ,
+     1       NEL   ,NPAR   ,NUVAR    ,NFUNC  ,IFUNC  ,
      2       NPF   ,TF     ,UPARAM   ,RHO0   ,VOL    ,
      3       EINT  ,MBUF%VAR)
         ELSEIF (MTN == 75) THEN

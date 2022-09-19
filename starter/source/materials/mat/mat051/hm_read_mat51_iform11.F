@@ -60,6 +60,7 @@ C-----------------------------------------------
 #include      "mmale51_c.inc"
 #include      "units_c.inc"
 #include      "sysunit.inc"
+#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -75,10 +76,9 @@ C-----------------------------------------------
      .    AMX(4),  BUNL(4), MUMX(4), 
      .    B1,B2,R1,R2,W,VDET,PCJ,IBFRAC,
      .    PEXT,VIS,VISV
-      my_real
-     .    BID
+      my_real BID
       LOGICAL,INTENT(INOUT) :: IS_ENCRYPTED
-      TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   L o c a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -334,5 +334,4 @@ C-----------------------------------------------
       CALL HM_GET_INT_ARRAY_INDEX  ('MAT_IBFRAC'              ,IBFRAC  ,I ,IS_AVAILABLE, LSUBMODEL)        
 C-----------------------------------------------
       RETURN 
-  999 CALL FREERR(3)
       END SUBROUTINE
