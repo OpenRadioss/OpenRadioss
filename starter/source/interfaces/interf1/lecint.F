@@ -199,7 +199,7 @@ C 19 :ISINT :FLAG TH
 C 20 :ILEV  :FLAG DE FORMULATION
 C 21 :IGAP  :FLAG DE GAP VARIABLE
 C 22 :INACTI:inactivation pene init                       :(3,4,5,6)7 
-C 23 :MULTIMP:number of possible muliple impact           :     7,10,11
+C 23 :MULTIMP:number of possible multiple impact          :     7,10,11
 C 24 :NSNR  :NOMBRE DE NOEUDS SECONDARY ADDITIONNELS DES  
 C            PROC REMOTEEN SPMD                           :     7,10,11
 C    :IRM   :RENUMBER MAIN FLAG                         : 3,5,6;8
@@ -235,7 +235,7 @@ C 46 :ISU2  : Main Gpe or Surface                        20
 C 47 :IFILTR: Flag filtrage interf type 2 with rupture
 C    :INTTH : Flag thermique                               7...
 C 48 :IFORM : Choice of formulation                       7
-C               (constant tempurature or contact shell&brick)
+C               (constant temperature or contact shell&brick)
 C    :IFUNS : Function ID for type 2 with rupture          2
 C 49 :IFUNN : Function ID for type 2 with rupture          2
 C 49 :NRADM:Nb of elements within an arc, if adaptive meshing.
@@ -442,7 +442,7 @@ C!!!!!re-calculate NRTM_SH taking into account to ISU1  :inside I24SURFI
           NRTM_SH=IPARI(42,NI)
 C          
         ELSEIF(NTYP == 25)THEN
-          IALLO = 1  ! memory evalution
+          IALLO = 1  ! memory evaluation
           INTPLY = 0
           CALL I25SURFI(
      1      IALLO        ,IPARI(1,NI)  ,IGRNOD     ,IGRSURF      ,

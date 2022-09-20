@@ -151,22 +151,22 @@ C-----------------------------------------------
       A34 = (N1*XN3+N2*YN3+N3*ZN3)
       A41 = (N1*XN4+N2*YN4+N3*ZN4)
 
-      !1st traingle based on SECONDARY node
+      !1st triangle based on SECONDARY node
       XN1 = YI1*ZI2 - YI2*ZI1
       YN1 = ZI1*XI2 - ZI2*XI1
       ZN1 = XI1*YI2 - XI2*YI1
       B12 = (N1*XN1+N2*YN1+N3*ZN1)
-      !2nd traingle based on SECONDARY node
+      !2nd triangle based on SECONDARY node
       XN2 = YI2*ZI3 - YI3*ZI2
       YN2 = ZI2*XI3 - ZI3*XI2
       ZN2 = XI2*YI3 - XI3*YI2
       B23 = (N1*XN2+N2*YN2+N3*ZN2)
-      !3rd traingle based on SECONDARY node
+      !3rd triangle based on SECONDARY node
       XN3 = YI3*ZI4 - YI4*ZI3
       YN3 = ZI3*XI4 - ZI4*XI3
       ZN3 = XI3*YI4 - XI4*YI3
       B34 = (N1*XN3+N2*YN3+N3*ZN3)
-      !4th traingle based on SECONDARY node
+      !4th triangle based on SECONDARY node
       XN4 = YI4*ZI1 - YI1*ZI4
       YN4 = ZI4*XI1 - ZI1*XI4
       ZN4 = XI4*YI1 - XI1*YI4

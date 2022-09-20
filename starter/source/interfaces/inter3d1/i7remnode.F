@@ -347,7 +347,7 @@ C
       END DO
       KNOD2SEG(1)=0
 C-----------------------------------------------
-C  Searching Algorith Connected nodes : D < SQRT(2.) * GAP
+C  Searching Algorithm Connected nodes : D < SQRT(2.) * GAP
 C-----------------------------------------------
       IF(IGAP >= 1)THEN
         DO I=1,NSN
@@ -417,7 +417,7 @@ C-----------------------------------------------
       my_real
      .        MINDIST,DMAX,DIST,X0,Y0,Z0,X1,Y1,Z1,LMAX
 C-----------------------------------------------
-C  Searching Algorith Connected nodes : D < SQRT(2.) * GAP
+C  Searching Algorithm Connected nodes : D < SQRT(2.) * GAP
 C-----------------------------------------------
       CPTOPER   = 0
       CPT       = 0

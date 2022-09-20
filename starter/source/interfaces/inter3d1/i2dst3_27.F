@@ -99,7 +99,7 @@ C-----------------------------------------------
 C=======================================================================
 C
 C-----------------------------------------------
-C     DERVIED FROM I2DST3 - improved projection on triagnles
+C     DERIVED FROM I2DST3 - improved projection on triangles
 C-----------------------------------------------
 C
       DO I=LFT,LLT
@@ -285,7 +285,7 @@ C
         ENDIF
       ENDIF
 C
-C--  Choose segement to keep as main segment
+C--  Choose segment to keep as main segment
       SWITCH = 0
       IF ((TFLAG_OLD==0).AND.(TFLAG==0)) THEN
 C--     two quadrangles

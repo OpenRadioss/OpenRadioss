@@ -624,7 +624,7 @@ c store new edge
             IXWORK(5,NL)=1 ! bord
           ELSE
 C------internal lines are not incremented because they are always double
-C--------- and the sencond one does the correction
+C--------- and the second one does the correction
             IXWORK(5,NL)=0  ! interne
 c           second segment
             IF(IXWORK(8,LI)==0)THEN
@@ -1395,7 +1395,7 @@ c store new edge
             IXWORK(5,NL)=1 ! bord
           ELSE
 C------internal lines are not incremented because they are always double
-C--------- and the sencond one does the correction
+C--------- and the second one does the correction
             IXWORK(5,NL)=0  ! interne
 c           second segment
             IF(IXWORK(8,LI)==0)THEN
@@ -1623,7 +1623,7 @@ C------Change to simplify SPMD
          IS2SE(2,I) = 0
         END IF
 C IS2ID Give global internal ID for Each Fictive node.
-C Usefull in SPMD to find easily the SECONDARY
+C Useful in SPMD to easily find the SECONDARY
         IS2ID(I)=I
        END DO !I = 1,NSNE
       ENDIF

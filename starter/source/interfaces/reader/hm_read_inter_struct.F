@@ -131,7 +131,7 @@ C-----------------------------------------------
 !
 
 C=======================================================================
-C     INTERFACES FOR SOLID AND STRCUTURE READING ROUTINES
+C     INTERFACES FOR SOLID AND STRUCTURE READING ROUTINES
 C=======================================================================
 
       NTYP = 0

@@ -155,7 +155,7 @@ C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
 C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
 C---------------------------------------------------------------
 C      NRT->NRT0
-C---  MVOISN is used temporaly for Pen_ini MVOISN(1,*) -> MTYPE(solid),MVOISN(2,*) -> E_id
+C---  MVOISN is used temporarily for Pen_ini MVOISN(1,*) -> MTYPE(solid),MVOISN(2,*) -> E_id
 C-----MVOISN(3,*) -> part_id, IPARTNS->part_id(SECONDARY)
        SLSFAC = STFAC
       DXM=ZERO
@@ -822,7 +822,7 @@ C
           GAPINF = MIN(GAPINF,GAP_M(I))
       ENDDO
       GAPINF=MAX(GAPINF,GAPMIN)
-C---  MVOISN is used temporaly for Pen_ini MVOISN(1,*) -> MTYPE(solid),MVOISN(2,*) -> E_id
+C---  MVOISN is used temporarily for Pen_ini MVOISN(1,*) -> MTYPE(solid),MVOISN(2,*) -> E_id
       DO I=1,NRT
         CALL INSOL3ET(X   ,IRECT ,IXS     ,NINT   ,MVOISN(2,I),I ,
      .                AREA ,NOINT ,KNOD2ELS,NOD2ELS,IXS10 ,
@@ -867,7 +867,7 @@ C------nodal part_id
         DO I=1,NUMNOD
          TAGB(I)=0
         ENDDO
-C-----------if node connects to both shell and solid -> taks solid's        
+C-----------if node connects to both shell and solid -> take solid's
        DO I=1,NUMELC
         IP = IPARTC(I)
         DO J=1,4
@@ -880,7 +880,7 @@ C-----------if node connects to both shell and solid -> taks solid's
          TAGB(IXTG(1+J,I))=IP
         ENDDO
        ENDDO
-C----factulative for Trus and beam      
+C----factulative for Truss and beam
 c       DO I=1,NUMELT
 c           IP = IPARTT(I)
 c        TAGB(IXT(2,I))=IP
@@ -2061,14 +2061,14 @@ C----SHELLS ------------
         WA(IXTG(3,I))=MIN(WA(IXTG(3,I)),DX)
         WA(IXTG(4,I))=MIN(WA(IXTG(4,I)),DX)
       ENDDO
-C----trus ------------     
+C----truss------------
       DO I=1,NUMELT
         MG=IXT(4,I)
         DX=SQRT(GEO(1,MG))
         WA(IXT(2,I))=MIN(WA(IXT(2,I)),DX)
         WA(IXT(3,I))=MIN(WA(IXT(3,I)),DX)
       ENDDO
-C----beam------------     
+C----beam------------
       DO I=1,NUMELP
         MG=IXP(5,I)
         DX=SQRT(GEO(1,MG))

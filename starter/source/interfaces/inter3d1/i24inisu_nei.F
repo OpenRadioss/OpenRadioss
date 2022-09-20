@@ -255,7 +255,7 @@ C---------------------
 C-------------neighbour segments-----------       
        CALL COMM_SEG_E(N1,IED1,N2,IED2,NE,ICE,ISELF,
      .                I1,I2,IRECT,IASYM )
-C-------------treatement of multi-neighbours (T form,shell) segments->reduce to 1----------
+C-------------treatment of multi-neighbours (T form,shell) segments->reduce to 1----------
        DNE = NE-NE0
        IF (DNE > 1) THEN
          CALL REMOVEIC1(DNE,ICE(NE0+1),ISELF,IRECT,X ,I1,I2,IASYM,IRR)
@@ -514,7 +514,7 @@ C        WA(IXP(2,I))=MAX(WA(IXP(2,I)),DX)
 C        WA(IXP(3,I))=MAX(WA(IXP(3,I)),DX)
 C       ENDDO
 C------------------------------------
-C     INI GAP_N (4 + 8 voisins), GAP_M is modified taking into accound nodal gap
+C     INI GAP_N (4 + 8 voisins), GAP_M is modified taking into account nodal gap
 C------------------------------------
 C -----due to the fact that if surf_M does not contain the defining w/ shell
 C-------> should not take into account GAP_shell    

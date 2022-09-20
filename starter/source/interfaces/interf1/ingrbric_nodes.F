@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Cts
-Cts Node definition for secnd side of Itnerface Type18.
+Cts Node definition for secnd side of Interface Type18.
 Cts Input for secnd side is a GRBRIC. Nodes are extracted 
 Cts from it into a sorted list
 Chd|====================================================================

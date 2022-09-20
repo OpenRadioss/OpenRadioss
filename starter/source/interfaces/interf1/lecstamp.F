@@ -103,7 +103,7 @@ C START BROWSING MODEL INTERFACES
 C--------------------------------------------------
       CALL HM_OPTION_START('/INTER')
 C--------------------------------------------------
-C BROWSING MODEL INTERACES 1->HM_NINTER
+C BROWSING MODEL INTERFACES 1->HM_NINTER
 C--------------------------------------------------
       DO NIN=1,HM_NINTER
 C

@@ -123,7 +123,7 @@ C     REAL
 C-----------------------------------------------
       GAPMAX=EP30
       GAPMIN=ZERO
-C-------use temporaly GAP_N(1,*)=V/A
+C-------use temporarily GAP_N(1,*)=V/A
 C       Not used :: MVOISN(1,*)-> MTYPE(solid),MVOISN(2,*)-> E_id
 C
 C
