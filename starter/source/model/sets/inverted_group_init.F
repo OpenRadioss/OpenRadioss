@@ -37,7 +37,7 @@ Chd|====================================================================
 !           2 different modes :
 !           - MODE = 0 --> first initialization
 !           - MODE = 1 --> recomputation of the inverted connectivity
-!             the size does not change, the structure was alreay allocated,
+!             the size does not change, the structure was already allocated,
 !             flush to 0 the array 
 !$ENDCOMMENT
 C-----------------------------------------------

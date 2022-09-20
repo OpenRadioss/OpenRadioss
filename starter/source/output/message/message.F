@@ -872,7 +872,7 @@ C ...         ...         ...         ...         ...
 C  It is recommended to use ANINFO for sensitive messages.
 C ...         ...         ...         ...         ...
 C  PRMODE=MSG_CUMU/MSG_PRINT
-C         MSG_CUMU cumul informations in a scratch file
+C         MSG_CUMU cumul information in a scratch file
 C         MSG_PRINT print compact message from the scratch file
 C ...         ...         ...         ...         ...
 C  starter_message_description.txt extract :
@@ -1733,7 +1733,7 @@ C                    WRITE(ISTDO,'(A)')TMPOUT(1:INDXTMPOUT)
 C                  END IF
                   END IF
                 ELSE
-C               other informations written on stdo only in case ANINFO
+C               other information written on stdo only in case ANINFO
                   IF (ILINE==1) THEN
                     IF (ANMODE==ANINFO) THEN
                       IF(ITYPE /= 4) WRITE(ISTDO,'(A)')CTYPE
@@ -2195,7 +2195,7 @@ C                    WRITE(ISTDO,'(A)')TMPOUT(1:INDXTMPOUT)
 C                  END IF
                   END IF
                 ELSE
-C               other informations written on stdo only in case ANINFO
+C               other information written on stdo only in case ANINFO
                   IF (ILINE==1) THEN
                     IF (ANMODE==ANINFO) THEN
                       WRITE(ISTDO,'(A)')CTYPE

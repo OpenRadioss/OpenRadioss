@@ -1402,7 +1402,7 @@ C-----------------------------------------------
 C
       INTEGER ITAG(NUMNOD),ISAME
 C========================================================================|
-C--------merging RBE2 w/ the same NS/M (seperated IC)--------------------
+C--------merging RBE2 w/ the same NS/M (separated IC)--------------------
       ITAG(1:NUMNOD)=0
 C--------if same node as several IND. of /RBE2------------
       NZ=0

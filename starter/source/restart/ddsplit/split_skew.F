@@ -91,7 +91,7 @@ C=======================================================================
 !       SPLIT_SKEW initializes the SKEW index ISKWP_L used in the engine
 !       
 !       SPLIT_SKEW organization :
-!       - loop over the NUMSKW and check if the SKEW is on the curent
+!       - loop over the NUMSKW and check if the SKEW is on the current
 !         processor
 !$ENDCOMMENT
 

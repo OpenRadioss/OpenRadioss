@@ -34,9 +34,9 @@ Chd|====================================================================
      3                            SURF_ELM,MODE )
         USE SURF_MOD
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* 
-!       INIT_SURF_ELM initializes the structur SURF_ELM
+!       INIT_SURF_ELM initializes the structure SURF_ELM
 !       SURF_ELM gathers the element ID for each /PART
-!       MODE = 1 is for solid/shell and shell3n elememts
+!       MODE = 1 is for solid/shell and shell3n elements
 !       MODE = 2 is for truss/beam and spring elements
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* 
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C-----------------------------------------------
 !                  number of solid/solid8/10/shell/shell3n...
 !       IPARTxxx : integer, dimension=number of element
 !                  ID of the /PART for the current I element
-!       SURF_ELM : PART_TYPE structur 
+!       SURF_ELM : PART_TYPE structure 
 !                  %Nxxx : number of element per part
 !                  %xxx_PART : ID of the element 
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
@@ -207,8 +207,8 @@ Chd|====================================================================
         USE SURF_MOD
 
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* 
-!       DEALLOCATE_SURF_ELM deallocates the structur SURF_ELM
-!       MODE = 1 is for solid/shell and shell3n elememts
+!       DEALLOCATE_SURF_ELM deallocates the structure SURF_ELM
+!       MODE = 1 is for solid/shell and shell3n elements
 !       MODE = 2 is for truss/beam and spring elements
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* 
 C-----------------------------------------------
@@ -226,12 +226,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(IN) :: NPART,MODE
         TYPE(PART_TYPE), DIMENSION(NPART), INTENT(INOUT) :: SURF_ELM
-!       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*       
+!       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 !       NPART    : integer
 !                  number of /PART
-!       SURF_ELM : PART_TYPE structur 
+!       SURF_ELM : PART_TYPE structure 
 !                  %Nxxx : number of element per part
-!                  %xxx_PART : ID of the element 
+!                  %xxx_PART : ID of the element
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

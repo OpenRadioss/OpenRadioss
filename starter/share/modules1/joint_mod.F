@@ -40,8 +40,8 @@ Chd|====================================================================
 !       
 !       JOINT_MOD organization :
 !       the main /CYL_JOINT structure is CYL_JOINT
-!       the type(joint_node) proc structure is used for the restart writting
-!       the type(joint_main_node) structure is not really usefull :)
+!       the type(joint_node) proc structure is used for the restart writing
+!       the type(joint_main_node) structure is not really useful :)
 !$ENDCOMMENT
             TYPE JOINT_NODE
                 INTEGER, DIMENSION(:), ALLOCATABLE :: NODE          ! list of node

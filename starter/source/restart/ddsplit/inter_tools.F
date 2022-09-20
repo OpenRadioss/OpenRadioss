@@ -1525,7 +1525,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|====================================================================
       SUBROUTINE SPLIT_SEG_IVAL2(TAB,DIM1,TAG,TAG2)
 c
-c split segment array with global value specifi type2
+c split segment array with global value specific type2
 c
 C-----------------------------------------------
 C   M o d u l e s
@@ -2230,7 +2230,7 @@ C-----------------------------------------------
       INTEGER :: NB_BOUNDARY_EDGES_LOCAL  ! boundary edges treated by current domain 
       INTEGER :: NB_BOUNDARY_EDGES_REMOTE ! boundary edges treated by the other domain 
       INTEGER, DIMENSION(:),ALLOCATABLE :: KCANDMS,ICANDMS,CANDMS
-      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGREMCAND_E2E, TAGREMCAND_E2S ! tabs to tag edges to be desactivated 
+      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGREMCAND_E2E, TAGREMCAND_E2S ! tabs to tag edges to be deactivated 
 C ----------------------------------------
 
 ! prepare split candidates
@@ -5547,7 +5547,7 @@ C Nitsche Method
          ENDIF
        ENDDO  
 
-      !TAG_IELEM for IELNRTS tab writting
+      !TAG_IELEM for IELNRTS tab writing
 
         DO I = 1, CNRTS_L ! NRTS = NRTM only if NRT_SH = 0
           K = TAG_SEGSS(I) 
@@ -5573,7 +5573,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|====================================================================
       SUBROUTINE SPLIT_NODE_IVAL_I24(TAB,DIM1,TAG,TAG2)
 c
-c split node array with global value specifi type24 & type25
+c split node array with global value specific type24 & type25
 c (see SPLIT_NODE_NODLOC for local values)
 c
 C-----------------------------------------------
@@ -6081,7 +6081,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|====================================================================
       SUBROUTINE SPLIT_NODE_IVAL_I25(TAB,DIMO,DIMN,TAG,TAG2)
 c
-c split node array with global value specifi type24 & type25
+c split node array with global value specific type24 & type25
 c (see SPLIT_NODE_NODLOC for local values)
 c
 C-----------------------------------------------

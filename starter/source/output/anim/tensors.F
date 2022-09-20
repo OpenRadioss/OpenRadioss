@@ -93,7 +93,7 @@ C
         LFT=1                                                           
         LLT=NEL                                                         
 !
-        DO J=1,6  ! lenght max of GBUF%L_STRA = 6
+        DO J=1,6  ! length max of GBUF%L_STRA = 6
           JJ(J) = (J-1)*NEL
         ENDDO
 !

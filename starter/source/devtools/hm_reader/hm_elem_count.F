@@ -39,7 +39,7 @@ C   ===================
 C
 C     NAME               DESCRIPTION                         
 C
-C     ELEM_TYPE        KEYWORD YOU WANT TO FIND NUMBER OF OCCURENCES 
+C     ELEM_TYPE        KEYWORD YOU WANT TO FIND NUMBER OF OCCURRENCES 
 C          'SPRING'
 C          'XELEM'
 C          'BEAM'
@@ -52,7 +52,7 @@ C          'BRICK'
 C          'TETRA10'
 C          'BRICK20'
 C          ...........
-C     HM_ELEM_NUMBER   NUMBER OF OCCURENCES
+C     HM_ELEM_NUMBER   NUMBER OF OCCURRENCES
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------

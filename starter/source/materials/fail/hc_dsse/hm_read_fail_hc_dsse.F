@@ -2536,7 +2536,7 @@ C=======================================================================
       NUVAR   = 2
       NFUNC   = 0
 c! 
-c!   UVAR 1 = damage value falg for IP at DSSE instability 
+c!   UVAR 1 = damage value flag for IP at DSSE instability 
 c!   UVAR 2 = damage value for DSSE 
 c!       
 C=======================================================================

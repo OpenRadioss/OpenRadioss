@@ -77,7 +77,7 @@ int parse_cpuinfo();
 /* --------------------------------------------------
    get_ibuiltin_arch() 
    routine to find the underlying CPU/OS architecture 
-   to apply propper Domain Decomposition optimization
+   to apply proper Domain Decomposition optimization
 
    0 - X86-64 Linux AVX-2
    1 - X86-64 Linux AVX-512

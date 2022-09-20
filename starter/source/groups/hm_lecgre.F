@@ -150,7 +150,7 @@ C    IGRELEM(IGS)%GRPGRP : TYPE of element GROUP
 !                                 = 3 SUBSET,PART,MAT,PROP
 !                                 = 4 BOX,GENE
 !                                 = 5 SUBMOD
-C    IGRELEM(IGS)%LEVEL  : Hierachy level
+C    IGRELEM(IGS)%LEVEL  : Hierarchy level
 !                             (FLAG 'SUBLEVEL DONE' FOR GROUPS OF GROUPS)
 !                            = 0 ---> not yet initialized
 !                            = 1 ---> done

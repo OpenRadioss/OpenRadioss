@@ -106,9 +106,9 @@ C
                 DO I=1,CYL_JOIN(N)%NB_NODE(P)
                     SECONDARY_NODE(I) = NODLOCAL(CYL_JOIN(N)%PROC(P)%NODE(I))
                 ENDDO
-                !   number of node for the curent processor and joint
+                !   number of node for the current processor and joint
                 CALL WRITE_I_C(SECONDARY_NODE,CYL_JOIN(N)%NB_NODE(P))
-                !   weight array (0 or 1) for the curent processor and joint
+                !   weight array (0 or 1) for the current processor and joint
                 CALL WRITE_I_C(CYL_JOIN(N)%PROC(P)%WEIGHT,CYL_JOIN(N)%NB_NODE(P))
                 DEALLOCATE( SECONDARY_NODE )
             ENDIF

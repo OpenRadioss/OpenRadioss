@@ -1336,7 +1336,7 @@ c      CALL WRITE_I_C(IADRBE3,NSKYRBE3_L)
 c      LEN_IA = LEN_IA + NSKYRBE3_L
       CALL WRITE_I_C(IADI18,NSKYI18_L)
       LEN_IA = LEN_IA + NSKYI18_L
-C adresses rigid materail Kin
+C adresses rigid material Kin
       CALL WRITE_I_C(IADRBMK,NSKYRBMK_L)
       LEN_IA = LEN_IA + NSKYRBMK_L
 C

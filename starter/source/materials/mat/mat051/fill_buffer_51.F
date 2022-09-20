@@ -213,7 +213,7 @@ C-----------------------------------------------
               IF(IMID > 0)THEN
                 COUNT_VALID_MAT = COUNT_VALID_MAT + 1    !take into account only line with MID>0
                 MID_VALID(COUNT_VALID_MAT) = IMID
-                !--UPARAM(276:280) is BIJECTION TO RETRIVE PHASE ORDER FROM USER
+                !--UPARAM(276:280) is BIJECTION TO RETRIEVE PHASE ORDER FROM USER
                 IF(MLN /= 5)THEN
                   COUNT_NONEXPLO=COUNT_NONEXPLO + 1
                   UPARAM(276+COUNT_VALID_MAT)=MINLOC(TAG(1:4),1)
@@ -261,7 +261,7 @@ C-----------------------------------------------
      .                C2=chain1)
        ENDIF
 
-!ALREADY CHEKED IN LECM51
+!ALREADY CHECKED IN LECM51
 !   chain1='AT LEAST ONE SUBMATERIAL MUST BE DEFINED'
 
 

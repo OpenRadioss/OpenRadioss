@@ -337,7 +337,7 @@ C-----------------------------------------------
               !                 --- CALCUL DES DISTANCES ---                      !
               !-USER SURFACE :              IGRSURF(ISURF)%TYPE=0 ,   ISURF/=0    !
               !===================================================================!
-                 !LOOP ON CELL, THEN LOOP ON FACE :  complexity is O(NCELL*NFACE), can be optimized with space partitionning              
+                 !LOOP ON CELL, THEN LOOP ON FACE :  complexity is O(NCELL*NFACE), can be optimized with space partitioning
                  lERROR=.FALSE.
                  lFOUND_PROJ=.FALSE.
                  DO ISEG=1,NSEG

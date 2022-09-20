@@ -301,7 +301,7 @@ C=======================================================================
 
              NODE = J
 
-             NINDX=NINDX+1    !   nb of Nodess of CLAUSE subsets
+             NINDX=NINDX+1    !   nb of Nodes of CLAUSE subsets
              NODE_READ_TMP(NINDX) = NODE
 
           ENDIF
@@ -309,7 +309,7 @@ C=======================================================================
       ENDDO
 
 
-      ! Sort of TAG Nodess from Readed SUBMODELs and remove eventual duplicates
+      ! Sort of TAG Nodes from Readed SUBMODELs and remove eventual duplicates
       ! ---------------------------------------------------- 
 
       ALLOCATE(SORTED_NODES(NINDX))
@@ -547,7 +547,7 @@ C=======================================================================
 
              NODE = J
 
-             NINDX=NINDX+1    !   nb of Nodess of CLAUSE subsets
+             NINDX=NINDX+1    !   nb of Nodes of CLAUSE subsets
              NODE_READ_TMP(NINDX) = NODE
 
           ENDIF
@@ -555,7 +555,7 @@ C=======================================================================
       ENDDO
 
 
-      ! Sort of TAG Nodess from Readed SUBMODELs and remove eventual duplicates
+      ! Sort of TAG Nodes from Readed SUBMODELs and remove eventual duplicates
       ! ---------------------------------------------------- 
 
       ALLOCATE(SORTED_NODES(NINDX))

@@ -74,16 +74,16 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRELE) :: IGRELEM
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*       
-!       FLAG_GRBRIC : flag to initialize the INDX_SOL(10) arraies
+!       FLAG_GRBRIC : flag to initialize the INDX_SOL(10) arrays
 !                     and optimize an old and expensive treatment in SSURFTAG      
 !       NINDX_SOL(10) : number of the tagged solid(10) element
 !                      --> need to split solid and solid10 
 !                      for a treatment in the SSURFTAG routine
-!                      only usefull for /SURF/GRBRIC
+!                      only useful for /SURF/GRBRIC
 !       INDX_SOL(10) : ID of the tagged solid(10) element
 !                      --> need to split solid and solid10 
 !                      for a treatment in the SSURFTAG routine
-!                      only usefull for /SURF/GRBRIC
+!                      only useful for /SURF/GRBRIC
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

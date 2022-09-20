@@ -70,7 +70,7 @@ C-----------------------------------------------
 C=======================================================================
 C
 C--------------------------------------------------------------------------------------
-C     DUPPLICATED FROM OUTRIN - STATS ON ADDED MASS + TARGET NODAL TIME STEP ESTIMATION
+C     DUPLICATED FROM OUTRIN - STATS ON ADDED MASS + TARGET NODAL TIME STEP ESTIMATION
 C--------------------------------------------------------------------------------------
 C
       MASS0_START = TOTMAS
@@ -152,7 +152,7 @@ C
  3000 FORMAT(2X,A,2X,'|',2X,A,2X,'|',2X,A)
  3001 FORMAT(17X,1PG9.3,17X,'|',17X,1PG9.3,17X,'|',17X,1PG9.3)
 C
- 4001 FORMAT(//,'    WARNING : Theses added mass estimations are valid at first cycle only.')
+ 4001 FORMAT(//,'    WARNING : These added mass estimations are valid at first cycle only.')
  4002 FORMAT('    Because of element deformation or contacts the added mass can increase during the run',//)
 C----------
 

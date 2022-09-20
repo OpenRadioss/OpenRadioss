@@ -140,7 +140,7 @@ C--------------------------------------------------------
  1001 FORMAT(  '         ------------------------')
  2000 FORMAT(/,'     ESTIMATED TIME STEP FOR FULLDOMAIN',3X,1PG20.13)
  2001 FORMAT('     ESTIMATED TIME STEP FOR SUBDOMAIN',1X,A,3X,1PG20.13)
- 2002 FORMAT(/,'     ESTIMATED THEORICAL SPEEDUP',2X,F10.1,//)
+ 2002 FORMAT(/,'     ESTIMATED THEORETICAL SPEEDUP',2X,F10.1,//)
 C--------------------------------------------------------
  
       RETURN
@@ -287,7 +287,7 @@ C
       END DO
 
 C-----------------------------------------------
-C     Compuation of min time step for each type of element 
+C     Computation of min time step for each type of element 
 C----------------------------------------------- 
       DO I=1,11
         DT_MIN_ELEM(I) = DTELEM(1+DT_INDEX(I))

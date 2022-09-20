@@ -167,7 +167,7 @@ C-----------------------------------------------
         UVAR(I,17+KK) = ZERO                ! chaleur diffusee          
         UVAR(I,18+KK) = C0_(IMAT)+C4_(IMAT)*E0_(IMAT)                   
         UVAR(I,19+KK) = ZERO 
-        UVAR(I,20+KK) = RHO0_(IMAT)  !rho0 initial state is element depedent and can be updated by /INIGRAV
+        UVAR(I,20+KK) = RHO0_(IMAT)  !rho0 initial state is element dependent and can be updated by /INIGRAV
         UVAR(I,21+KK) = E0_(IMAT)    !E0
         UVAR(I,22+KK) = ZERO !SSP0 to introduce if needed
 	UVAR(I,23+KK) = VF(IMAT)                      !alpha0                   

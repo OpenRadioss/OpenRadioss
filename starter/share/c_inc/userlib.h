@@ -69,7 +69,7 @@
 
 /*
    ------------------------------------------------ 
-    Set libname / extention according to Arch name 
+    Set libname / extension according to Arch name 
    ------------------------------------------------ 
 */
 

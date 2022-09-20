@@ -76,7 +76,7 @@ char *analyse_string_strrev(char *name)
 }
 
 /*****************************************************************************
- * remove blanks at the begining of a string " a a cc  " -> "a a cc  " 
+ * remove blanks at the beginning of a string " a a cc  " -> "a a cc  " 
  *****************************************************************************/
 char *analyse_string_fit_start(char *name)
 {
@@ -115,7 +115,7 @@ char *analyse_string_fit_end(char *name)
 
 
 /*****************************************************************************
- * remove blanks at the begining AND the end of a string " a a cc  " -> "a a cc" 
+ * remove blanks at the beginning AND the end of a string " a a cc  " -> "a a cc" 
  *****************************************************************************/
 char *analyse_string_fit_start_end(char *name)
 {

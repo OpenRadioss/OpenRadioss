@@ -73,7 +73,7 @@ C-----------------------------------------------
 !                 tag array=0 --> the SKEW is not used by a SPRING
 !                 tag array=1 --> the SKEW is used by one SPRING      
 !                 tag array>1 --> the SKEW is used by several SPRING
-!                 tag array <0 --> the SKEW is used by serveral options (has to be duplicated to all domains that have the nodes)
+!                 tag array <0 --> the SKEW is used by several options (has to be duplicated to all domains that have the nodes)
 !       CEP : integer ; dimension=NUMNOD
 !             gives the ID processor of the current i node
 !       ISKWP : integer ; dimension=NUMSKW+1

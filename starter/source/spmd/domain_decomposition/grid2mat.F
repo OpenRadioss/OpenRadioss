@@ -488,7 +488,7 @@ C additional test for barrier
         PID = ABS(IXS(10,II))
         JALE_FROM_MAT = NINT(PM(72,MID))
         JALE_FROM_PROP = IGEO(62,PID)
-        JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
+        JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if inconsistent, error message was displayed in PART reader
         MLN = NINT(PM(19,MID))
         IF(JALE==0.AND.(MLN==28.OR.MLN==68))THEN
           ISOLBAR=ISOLBAR+1
@@ -1807,7 +1807,7 @@ C           according to the distance
             NUMG2 = ROOTS(J)
             IF(NUMG1 /= NUMG2 .AND. MIN_DIST(J) < 2.0*DIST) THEN
 C connectivity added between roots of the distance is < 2 x the minimum
-C distance between the current root, and its closest neighboor
+C distance between the current root, and its closest neighbor
               CALL IDDCONNECTPLUS(NUMG1,NUMG2,NELEM)
               CALL IDDCONNECTPLUS(NUMG2,NUMG1,NELEM)
               K = K + 1
@@ -2236,7 +2236,7 @@ C       1234567123456789012345123456789012345123456789012345123456789012345
     
 
       IF(ICFSI > 0 .AND.  ICFSI < ICELEM) THEN 
-! the order in DMIN,DMAX is independant of the orther of the constrains
+! the order in DMIN,DMAX is independant of the order of constraints
         MAIN_TARGET = 7
       ELSE
         MAIN_TARGET = 1
@@ -2355,11 +2355,11 @@ C      CHECK Quality of Domain Decomp on elements
             ENDIF 
             IF(NB_FVMBAG_TRIM > 0) THEN 
               ! Try to reduce the weight of the FVMBAG vertex
-              ! before reducing the number of constrains
+              ! before reducing the number of constraints
               DD_FVMBAG_TRY = DD_FVMBAG_TRY + 1
             ELSE
-              ! Reducing the number of constrains
-              ! Reseting weights
+              ! Reducing the number of constraints
+              ! Resetting weights
               NCOND2= NCOND2 - 1
               DD_FVMBAG_TRY = 0
               MAX_TRY = MAX_TRY + 1
@@ -4542,7 +4542,7 @@ C In order to be able to compute a partition
              WD_MAX = WD_MAX + (1.0D0*WD(N)) / (1.0D0 * NSPMD)
           ENDDO
 C================================================================================
-C Arbitrary: limit the weight of one FVMBAG to 25% of the weight of one subdoamin
+C Arbitrary: limit the weight of one FVMBAG to 25% of the weight of one subdomain
           WD_MAX = WD_MAX / 4.0D0
 C================================================================================
                     

@@ -544,7 +544,7 @@ C--         default damping is 30% of critical damping
           ENDIF
           BUFMAT(IADBUF+71) = 0.1*XC  
           BUFMAT(IADBUF+72) = 0.1*XC         
-C--       for 2D_seatbelt mass is apllied on shell - rho set to 0 - rho is stored int UPARAM(128) for elementary time step
+C--       for 2D_seatbelt mass is applied on shell - rho set to 0 - rho is stored int UPARAM(128) for elementary time step
           IF ((TAG_MAT_2D(MID) > 0).AND.(IDDLEVEL==0)) THEN
             BUFMAT(IADBUF+127-1) = ONE
             BUFMAT(IADBUF+128-1) = 0.9*PM(1,MID)

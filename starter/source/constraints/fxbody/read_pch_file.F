@@ -91,7 +91,7 @@ C
 C
       IF ((IFO == 6).AND.(TIN < 3)) THEN
 C
-C-------  Symetric matrix - real (no imaginary part) -----------
+C-------  Symmetric matrix - real (no imaginary part) -----------
 C
 C       Reading of a new block --
         DO WHILE (I_ERR == 0)

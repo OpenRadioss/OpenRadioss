@@ -50,13 +50,13 @@ C-----------------------------------------------
 !       NTRUSS : number of truss element per part
 !       NBEAM : number of beam element per part
 !       NSPRING : number of spring element per part
-!       SOL_PART : ID of each solid (/=solid10) elment in the current part
-!       SOL10_PART : ID of each solid10 elment in the current part
-!       SHELL_PART : ID of each shell elment in the current part
-!       TRI_PART : ID of each shell3n elment in the current part
-!       TRUSS_PART : ID of each truss elment in the current part
-!       BEAM_PART : ID of each beam elment in the current part
-!       SPRING_PART : ID of each spring elment in the current part
+!       SOL_PART : ID of each solid (/=solid10) element in the current part
+!       SOL10_PART : ID of each solid10 element in the current part
+!       SHELL_PART : ID of each shell element in the current part
+!       TRI_PART : ID of each shell3n element in the current part
+!       TRUSS_PART : ID of each truss element in the current part
+!       BEAM_PART : ID of each beam element in the current part
+!       SPRING_PART : ID of each spring element in the current part
 !--------------------------------------------------------------------
                 INTEGER :: NSOL,NSOL10,NSHELL,NTRI
                 INTEGER :: NTRUSS,NBEAM,NSPRING

@@ -251,7 +251,7 @@ C computing energy increase
 !!                 DO K=1,3
 !!                   EPSE = STRAIN(I,K)
 !!                   SQSTAT(I,K) = YFAC*FINTER(IFUNC(1),EPSE,NPF,TF,DF(K))
-C compute curent energy
+C compute current energy
 !!                  QUASI_EINT= QUASI_EINT + HALF*STRAIN(I,K)*SQSTAT(I,K)
 !!                 ENDDO   
 !!                   DEINT  = QUASI_EINT - UVAR(I,9)
@@ -329,7 +329,7 @@ C computecurent energy
                    E(I) = MAX(E0,Emax)
                    E_MIN(I) =EMIN
                ENDDO 
-C  flag is a hidden falg, only idam=0 is activated, Idam > o not tested.     
+C  flag is a hidden flag, only idam=0 is activated, Idam > o not tested.     
               IF(IDAM == 0) THEN 
                 DO II=1,NE_UNL
                    I = INDX_UNL(II)

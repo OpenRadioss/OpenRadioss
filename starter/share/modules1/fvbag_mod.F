@@ -106,7 +106,7 @@ C------------------------
          my_real
      .          , DIMENSION(:,:), POINTER :: QPOLH
 C---------------------------
-C Variables stabilite
+C Variables stability
 C---------------------------
          my_real
      .           DLH

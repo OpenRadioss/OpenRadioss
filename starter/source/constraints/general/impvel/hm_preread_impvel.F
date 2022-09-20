@@ -83,7 +83,7 @@ c     Count number of nodes with imposed velocity => NUMVEL
 C======================================================================|
       IS_AVAILABLE = .FALSE.
 c
-      NIMPVEL = 0   ! initalize counter of nodes
+      NIMPVEL = 0   ! initialize counter of nodes
 c--------------------------------------------------
 c     /IMPVEL and /IMPVEL/LAGMUL
 c--------------------------------------------------

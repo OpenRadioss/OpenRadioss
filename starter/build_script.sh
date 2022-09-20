@@ -19,7 +19,7 @@ function my_help()
   echo " -prec=[dp|sp]                        : set precision - dp (default) |sp "
   echo " -static-link                         : Fortran, C & C++ runtime are linked in binary"
   echo " -debug=[0|1]                         : debug version 0 no debug flags (default), 1 usual debug flag )"
-  echo " -addflag=\"list of additionnal flags\" : add compiler flags to usual set"
+  echo " -addflag=\"list of additional flags\" : add compiler flags to usual set"
   echo " " 
   echo " Execution control "
   echo " -nt=[threads]      : number of threads for build "

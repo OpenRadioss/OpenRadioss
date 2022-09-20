@@ -128,7 +128,7 @@ C=======================================================================
 !---
 !------------------
 !
-! Decide wheter the result is stored in an array or in the clause.
+! Decide whether the result is stored in an array or in the clause.
 ! In certain cases it is usfull to store in ARRAY.
 ! Example : Clause with delete clause. Surfaces must be recreated & merged...
 ! ----------------------------------------------------------------------------

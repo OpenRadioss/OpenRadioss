@@ -127,7 +127,7 @@ C=======================================================================
 !                    ENDIF
 
                     ! add the secondary node to the CYL_JOINT structure for proc P
-                    ! for the restart writting
+                    ! for the restart writing
                     DO II=1,PROC_NUMBER
                         P = PROC_LIST(II)
                         CYL_JOIN(I)%NB_NODE(P) = CYL_JOIN(I)%NB_NODE(P) + 1

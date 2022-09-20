@@ -108,7 +108,7 @@ C-----------------------------------------------
 !   IGRSURF(IGS)%TYPE_MADYMO   :: Entity type which impose surface movement.
 !                                  = 1 : Rigid Body.
 !                                  = 2 : MADYMO Hyper-ellipsoide.
-!   IGRSURF(IGS)%IAD_BUFR   :: Analitical Surfaces address (reals BUFSF - temp)
+!   IGRSURF(IGS)%IAD_BUFR   :: Analytical Surfaces address (reals BUFSF - temp)
 !   IGRSURF(IGS)%LEVEL   :: FLAG "SUBLEVEL DONE" FOR SURFACES OF SURFACES
 !                                 = 0 ! initialized surface
 !                                 = 1 ! uninitialized surface
@@ -403,7 +403,7 @@ C-----------
                  ENDIF
               ENDDO
 ! --------------
-! pretreatement of surface node permutation
+! pretreatment of surface node permutation
 ! --------------
               DO  L=1,NSEG
                IF (BUFTMP((L-1)*NISX+1) /= 0) THEN
@@ -438,7 +438,7 @@ C-----------
                  NN(2) = INOD(NPERM(IMIN,2))
                  NN(3) = INOD(NPERM(IMIN,3))
                  NN(4) = INOD(NPERM(IMIN,4))
-                 ! permuted nodes temporary storage for futher treatements (sorting, double removing)
+                 ! permuted nodes temporary storage for further treatments (sorting, double removing)
                  BUFTMP((L-1)*NISX+1) = NN(1)*ISIGN_NOD(1)
                  BUFTMP((L-1)*NISX+2) = NN(2)*ISIGN_NOD(2)
                  BUFTMP((L-1)*NISX+3) = NN(3)*ISIGN_NOD(3)

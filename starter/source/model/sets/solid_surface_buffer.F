@@ -108,7 +108,7 @@ C
               NS(II)=IXS(FACES(II,JJ)+1,JS)
             END DO
 C
-C           keep only 1 occurence of each node (triangles, degenerated cases...)
+C           keep only 1 occurrence of each node (triangles, degenerated cases...)
 C
             DO K1=1,3
               DO K2=K1+1,4
@@ -167,7 +167,7 @@ C
                     MS(II)=IXS(FACES(II,KK)+1,KS)
                   END DO
 C
-C                 keep only 1 occurence of each node (triangles, degenerated cases...)
+C                 keep only 1 occurrence of each node (triangles, degenerated cases...)
 C
                   DO K1=1,3
                     DO K2=K1+1,4

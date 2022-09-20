@@ -87,7 +87,7 @@ C---------------------------------------
         II=IECR(I)
         YL=X(2,II)
         ZL=X(3,II)
-        IF(IOMBR(DETONATORS,X,IECR,DDMX,VDET) == 0)THEN   !Vdet is optionnal velocity from origin (default is material velocity VDTO)
+        IF(IOMBR(DETONATORS,X,IECR,DDMX,VDET) == 0)THEN   !Vdet is optional velocity from origin (default is material velocity VDTO)
           DTIME(I)=DTO !DT0 is lightening time from function IOMBR
           IF(DTIME(I) <= DTOMIN)THEN
             IORDR(1)=I

@@ -954,7 +954,7 @@ C-----
           ELSEIF(KEY2(1:4)=='EREF')THEN
             NUMSOL = NUMSOL + 1
             READ(LINE,ERR=999,FMT=FMT_5I) NE,NPT,ISOLNOD,ISOLID,ISMSTR
-C------ use NVSOLID5 temporaly, read directly after new reader  or add NVSOLID6    
+C------ use NVSOLID5 temporarily, read directly after new reader  or add NVSOLID6    
             NVSOLID5 = MAX(NVSOLID5, ISOLNOD*3)
             IREC=IREC+ISOLNOD
           ENDIF

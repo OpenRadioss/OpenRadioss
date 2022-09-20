@@ -679,7 +679,7 @@ C     Multifluid law, setting NLAY
              IPARG(20, NGROUP) = IPM(20, MID)
              JALE_FROM_MAT = NINT(PM(72,MID))
              JALE_FROM_PROP = IGEO(62,PID)
-             JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
+             JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if inconsistent, error message was displayed in PART reader
              JLAG=0
              JEUL=0
              IF(JALE == 2)THEN

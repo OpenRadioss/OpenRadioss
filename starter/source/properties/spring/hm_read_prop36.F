@@ -313,7 +313,7 @@ C         I     :     VARIABLE INDEX(1 for first function)
 C         IM    :     MATERIAL NUMBER
 C         KFUNC :     ONLY FUNCTION ARE YET AVAILABLE.
 C         THIS FUNCTION RETURN THE USER STORED FUNCTION NUMBERS(function
-C         refered by users materials).
+C         referred by users materials).
 C         SEE LECM29 FOR CORRESPONDING ID STORAGE.
 C-------------------------------------------------------------------------
 C my_real PARAMI = GET_U_GEO(I,IP)
@@ -410,7 +410,7 @@ C
         RY2    = GET_U_GEO(6,IPROP2)
         RZ2    = GET_U_GEO(7,IPROP2)
 C
-C SEE LECM29 FOR USER MATERIAL PARAMETER STORAGE (RHO IS ALLWAYS AT 0)
+C SEE LECM29 FOR USER MATERIAL PARAMETER STORAGE (RHO IS ALWAYS AT 0)
 C
         IMAT2  = GET_U_PNU(1,IPROP2,KMAT)
         YOUNG2 = GET_U_MAT(7,IMAT2)

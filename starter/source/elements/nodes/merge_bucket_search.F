@@ -87,7 +87,7 @@ C - BUCKET SEARCH FOR MERGING OF NODES
 C - --> FLAG = 1 : merging of nodes with cnodes
 C - --> FLAG = 2 : merging of nodes with modes (/MERGE/NODE)
 C
-C - --> LIST1 / NN1 : list of nodes candiate for merging
+C - --> LIST1 / NN1 : list of nodes candidate for merging
 C - --> LIST2 / NN2 : list of destinations
 C=======================================================================
 C 
@@ -404,7 +404,7 @@ C
                               DO J=1,LIST2_NBMERGE(IPCZ(KP))
                                 DO K=1,LIST1_NBMERGE(IPZ(KS))
                                   IF (TABC(J) == TABS(K)) THEN
-C--                                 candidate is retianed only if refered by same merge/node
+C--                                 candidate is retianed only if referred by same merge/node
                                     TAG = 1
                                     DMERGE = CMERGE(TABS(K))*CMERGE(TABS(K))
                                   ENDIF

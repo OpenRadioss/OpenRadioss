@@ -980,7 +980,7 @@ C
      .                    FXBRPM(FXBIPM(14,NFX))      
       ENDDO
 C
-C -- Last adresses are stored for storage of other fxbodies in initia
+C -- Last addresses are stored for storage of other fxbodies in initia
 C
       FXB_LAST_ADRESS(1) = ADRMOD
       FXB_LAST_ADRESS(2) = ADRGLM

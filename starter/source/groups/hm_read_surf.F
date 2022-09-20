@@ -172,19 +172,19 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDX_SOL, INDX_SOL10
       TYPE(PART_TYPE), DIMENSION(:), ALLOCATABLE :: SURF_ELM
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*       
-!       FLAG_GRBRIC : flag to initialize the INDX_SOL(10) arraies
+!       FLAG_GRBRIC : flag to initialize the INDX_SOL(10) arrays
 !                     and optimize an old and expensive treatment in SSURFTAG      
 !       NINDX_SOL(10) : number of the tagged solid(10) element
 !                      --> need to split solid and solid10 
 !                      for a treatment in the SSURFTAG routine
-!                      only usefull for /SURF/GRBRIC
+!                      only useful for /SURF/GRBRIC
 !       INDX_SOL(10) : ID of the tagged solid(10) element
 !                      --> need to split solid and solid10 
 !                      for a treatment in the SSURFTAG routine
-!                      only usefull for /SURF/GRBRIC
+!                      only useful for /SURF/GRBRIC
 !       MODE : integer
 !              switch to initialize solid/shell/shell3n or truss/beam/spring
-!       SURF_ELM : PART_TYPE structur 
+!       SURF_ELM : PART_TYPE structure
 !                  %Nxxx : number of element per part
 !                  %xxx_PART : ID of the element 
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
@@ -214,7 +214,7 @@ C-----------------------------------------------
 !   IGRSURF(IGS)%TYPE_MADYMO   :: Entity type which impose surface movement.
 !                                  = 1 : Rigid Body.
 !                                  = 2 : MADYMO Hyper-ellipsoide.
-!   IGRSURF(IGS)%IAD_BUFR   :: Analitical Surfaces address (reals BUFSF - temp)
+!   IGRSURF(IGS)%IAD_BUFR   :: Analytical Surfaces address (reals BUFSF - temp)
 !   IGRSURF(IGS)%LEVEL   :: FLAG "SUBLEVEL DONE" FOR SURFACES OF SURFACES
 !                                 = 0 ! initialized surface
 !                                 = 1 ! uninitialized surface

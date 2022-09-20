@@ -85,16 +85,16 @@ C
 C
           DO L=1,4
              L1 = LINES(1,L)
-             L2 = LINES(2,L)      
+             L2 = LINES(2,L)
              TRUEAXE= 1
              N1 = NQ(L1)
              N2 = NQ(L2)
-             IF(N2D==1.AND.X(2,N1)<=EM10.AND.X(2,N2)<=EM10) THEN ! Case Axi ommit nodes of revolution axe z ( y=0)
+             IF(N2D==1.AND.X(2,N1)<=EM10.AND.X(2,N2)<=EM10) THEN ! Case Axi omit nodes of revolution axe z ( y=0)
                 TRUEAXE= 0
              ENDIF
 
              IF(TRUEAXE==1)THEN
-               IF(NODTAG(L)==1) THEN ! nodes of external lines      
+               IF(NODTAG(L)==1) THEN ! nodes of external lines
                   NSEG=NSEG+1  
                   SEGTAG(L,JQ) = 1
                ENDIF

@@ -94,7 +94,7 @@ C-----------------------------------------------
       CHARACTER(LEN = nchartitle) :: TITLE
 !     External surface Id, Internal surface id (internal numbering)
       INTEGER :: EXT_SURFID, INT_SURFID
-!     IVOLU -> integer attribues
+!     IVOLU -> integer attributes
       INTEGER, DIMENSION(:), ALLOCATABLE :: IVOLU
 !     RVOLU -> double precision attributes
       my_real, DIMENSION(:), ALLOCATABLE :: RVOLU
@@ -1672,7 +1672,7 @@ C-----------------------------------------------
                SURF%NODES(ELEM2ID, 1:4) = (/ II(1), II(4), II(3), II(2) /)
             ENDIF
          ELSE
-!     Target element is necesserily the triangle
+!     Target element is necessarily the triangle
             II(1:4) = SURF%NODES(ELEM2ID,1:4)  
             EDGES_A(1:5) = (/ II(1:3), II(1), 0 /) 
             NPT_A = 3 

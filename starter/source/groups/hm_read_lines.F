@@ -135,12 +135,12 @@ C-----------------------------------------------
 C   D e s c r i p t i o n 
 C-----------------------------------------------
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*       
-!       FLAG_GRBRIC : flag to initialize the INDX_SOL(10) arraies
+!       FLAG_GRBRIC : flag to initialize the INDX_SOL(10) arrays
 !                     and optimize an old and expensive treatment in SSURFTAG 
 !                     NOT USED IN THIS ROUTINE !!!!!!!!!!!!     
 !       MODE : integer
 !              switch to initialize solid/shell/shell3n or truss/beam/spring
-!       SURF_ELM : PART_TYPE structur 
+!       SURF_ELM : PART_TYPE structure 
 !                  %Nxxx : number of element per part
 !                  %xxx_PART : ID of the element 
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
@@ -636,7 +636,7 @@ C-----------
 C=======================================================================
       DEALLOCATE(BUFTMP,INDX)
       IF(IT2/=0.OR.IT6/=0) THEN
-!       deallocation of SURT_ELM structur
+!       deallocation of SURT_ELM structure
         MODE = 2
         CALL DEALLOCATE_SURF_ELM(NPART,SURF_ELM,MODE)
         DEALLOCATE( SURF_ELM ) 

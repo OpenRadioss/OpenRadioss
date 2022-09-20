@@ -121,12 +121,12 @@ C
 C---------------------------------------------------------------------------------- 
 
 C     ILOADP(SIZLOADP,*)
-C     ILOADP(1,K) :   NN (Nb of segments)                             NN 
+C     ILOADP(1,K) :   NN (Nb of segments)                             NN
 C     ILOADP(2,K) :   ID                                              IS
 C     ILOADP(3,K) :   Pressure Function number                        IFUNC
-C     ILOADP(4,K) :   IAD  Address of segments in LLOADP              IAD 
-C     ILOADP(5,K) :   Nubmer of interfaces associated                 NINTERP                                           -
-C     ILOADP(6,K) :   Direction                                       IDIR 
+C     ILOADP(4,K) :   IAD  Address of segments in LLOADP              IAD
+C     ILOADP(5,K) :   Number of interfaces associated                 NINTERP
+C     ILOADP(6,K) :   Direction                                       IDIR
 C     ILOADP(7,K) :   Sensor Number                                   ISENS
 C     ILOADP(8,K) :   Skew Number                                     NOSKEW
 C     ILOADP(9,K) :   Inorm flag                                      INORM

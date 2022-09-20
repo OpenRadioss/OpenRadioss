@@ -92,7 +92,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS, USRTOS
-      DATA MESS/'INITIAL TEMPURATURE DEFINITION           '/
+      DATA MESS/'INITIAL TEMPERATURE DEFINITION           '/
 C=======================================================================
       BID =0
       NBTEMP = 0
@@ -209,7 +209,7 @@ C--------------------------------------------------
       J=0
       RETURN
 C
-2000  FORMAT(/, ' INITIAL TEMPURATURE ',/' -------------------',//
+2000  FORMAT(/, ' INITIAL TEMPERATURE ',/' -------------------',//
      + 6X,'NODE',17X,'TEMP ' )
       RETURN
       END

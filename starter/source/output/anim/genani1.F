@@ -387,7 +387,7 @@ C
       IF (IFLAG1D/=0) IFLAG1D = 1
       CALL WRITE_I_C(IFLAG1D,1)
 C
-C HIERARCHIE
+C HIERARCHY
       CALL WRITE_I_C(1,1)
 C TH
       CALL WRITE_I_C(0,1)
@@ -1154,7 +1154,7 @@ C--------------------
          DEALLOCATE(FVEL2FA, FVINUM)
       ENDIF
 C-----------------------------------------------
-C   HIERARCHIE
+C   HIERARCHY
 C-----------------------------------------------
 C       Transmis a ANIM ::
 C       Subset Rbodies  == NSUBS
@@ -1473,7 +1473,7 @@ C-----------------------------------------------
        CALL DELNUMBS(IPARG,IXS  ,EL2FA,NNN ,WAFT ,
      .               KXSP ,ISPH3D )
 C-----------------------------------------------
-C   HIERARCHIE
+C   HIERARCHY
 C-----------------------------------------------
       DO I=1,NPART
        IF(MATER(I)==2)THEN
@@ -1792,7 +1792,7 @@ C-----------------------------------------------
        CALL WRITE_I_C(0,1)
       ENDDO
 C-----------------------------------------------
-C   HIERARCHIE
+C   HIERARCHY
 C-----------------------------------------------
       DO I=1,NPART
          IF(MATER(I)==3)THEN
@@ -1825,7 +1825,7 @@ C=======================================================================
  600  CONTINUE
 C=======================================================================
 C
-C   HIERARCHIE
+C   HIERARCHY
 C
 C=======================================================================
        J=0
@@ -2611,7 +2611,7 @@ C   NUMBERING (SPH)
 C-----------------------------------------------
        CALL DELNUMB0(IPARG,EL2FA,NNN ,WAFT,KXSP )
 C-----------------------------------------------
-C   HIERARCHIE
+C   HIERARCHY
 C-----------------------------------------------
        DO I=1,NPART
         IF(MATER(I)==4)THEN

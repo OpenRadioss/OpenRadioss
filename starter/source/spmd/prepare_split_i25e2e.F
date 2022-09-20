@@ -102,7 +102,7 @@ C         WRITE(6,*) NIN,NTY,IEDGE
           IF(NTY/=25 .OR. IEDGE==0) CYCLE
           NEDGE = IPARI(68,NIN)
           NRTM = IPARI(4,NIN) 
-          ALLOCATE(CEP_EDGE(NEDGE)) !saved also temporarly in LEDGE
+          ALLOCATE(CEP_EDGE(NEDGE)) !saved also temporarily in LEDGE
           ALLOCATE(LOCAL_ID_EDG(NEDGE))
           ALLOCATE(LOCAL_ID_SEG(NRTM))
           CALL LOCAL_EDGE_NUMBERING(NEDGE,NRTM,NSPMD,

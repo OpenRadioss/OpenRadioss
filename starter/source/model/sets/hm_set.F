@@ -181,7 +181,7 @@ C     Characters
       CHARACTER KEYSET*ncharfield,SET_TYPE*ncharfield,KEY*ncharkey,KEY_TYPE*ncharfield
       CHARACTER TITLE*nchartitle,SET_TITLE*nchartitle,KEYPART*ncharkey,TITLE2*nchartitle
 C-----------------------------------------------
-C Intialization / SET Dependancy build
+C Initialization / SET Dependancy build
 C-----------------------------------------------
 
       IDEBUG =  0
@@ -191,7 +191,7 @@ C-----------------------------------------------
 
 
 C-------------------------------------------
-C Reorder Sets to take care of dependancies
+C Reorder Sets to take care of dependencies
 C-------------------------------------------
       ALLOCATE(SET_LIST(NSETS))
       CALL SORT_SET(LSUBMODEL ,MAP_TABLES, SET_LIST,SET,CLAUSE)
@@ -258,7 +258,7 @@ C-----------------------------------------------
 
            !-----------------------
            ! issue 'KEY'  ---> read one more character than the KEY
-           ! ===> workarround
+           ! ===> workaround
 
            ITMP = LEN(TRIM(KEYSET))
            ICODE = IACHAR(KEYSET(ITMP:ITMP))

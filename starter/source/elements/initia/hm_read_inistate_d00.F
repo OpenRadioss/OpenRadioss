@@ -3135,7 +3135,7 @@ C----------
                       SIGSH(NVSHELL,I) = 1
                     ENDIF
 !
-!         check for consistancy ( D00 & INIBRI)
+!         check for consistency ( D00 & INIBRI)
                     IOK = 0
                     DO K=1,5
                       NFAIL(K) = IPM(236+K,IMAT)
@@ -4314,7 +4314,7 @@ C----------
                       SIGSH(NVSHELL,I) = 1
                     ENDIF
 !
-!         check for consistancy ( D00 & INIBRI)
+!         check for consistency ( D00 & INIBRI)
                     IOK = 0
                     DO K=1,5
                       NFAIL(K) = IPM(236+K,IMAT)

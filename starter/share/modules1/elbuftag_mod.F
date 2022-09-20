@@ -210,8 +210,8 @@ c
         INTEGER ::  G_IERR
         INTEGER ::  G_DAMDL
         INTEGER ::  G_SEQ          ! equivalent stress (/= VON MISES)
-        INTEGER ::  G_ABURN        !  Additionnal Burn Rate for (post)combustion : exemple : Miller's extension of JWL 
-        INTEGER ::  G_MU           !  Additionnal Burn Rate for (post)combustion : exemple : Miller's extension of JWL 
+        INTEGER ::  G_ABURN        !  Additional Burn Rate for (post)combustion : example : Miller's extension of JWL 
+        INTEGER ::  G_MU           !  Additional Burn Rate for (post)combustion : example : Miller's extension of JWL 
         INTEGER ::  G_MAXFRAC
         INTEGER ::  G_MAXEPS
         INTEGER ::  G_DMG          ! 

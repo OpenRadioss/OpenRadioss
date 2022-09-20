@@ -95,7 +95,7 @@ C
         INTBUF_TAB(NI)%ADDSUBS(1:NSN+1)  = 0   ! address of different subinter related to secondary node
         INTBUF_TAB(NI)%ADDSUBM(1:NRTM+1) = 0   ! address of different subinter related to main segment
 
-        INTBUF_TAB(NI)%INFLG_SUBS(1:NISUBS)=0  ! Flags for determing what is surface Surf1 or Surf2
+        INTBUF_TAB(NI)%INFLG_SUBS(1:NISUBS)=0  ! Flags for determining what is surface Surf1 or Surf2
         INTBUF_TAB(NI)%INFLG_SUBM(1:NISUBM)=0
 
 C----------------------------------------

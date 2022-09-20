@@ -106,7 +106,7 @@ C-------------Tag of external nodes with the id of their domain------
 C-----FLAG = 2 : tag of nodes of elements tagged for the contacts between domains---------
 
         DO J=1,NUMEL
-C----------> TAG_EL is transfered to IPARTE-------------
+C----------> TAG_EL is transferred to IPARTE-------------
           TAG_EL=IPARTE(J+NPART)
           IF (TAG_EL>0) THEN
             DO L=NIX1,NIX2
@@ -546,7 +546,7 @@ C-------------Error -  common nodes between domains -----------------
 
 
 C-----------------------------------------------------------------------------------------------
-c-----si FLAG = 2 : tag of nodes of tagged elements ( treatement for interfaces TYPE2) ---------
+c-----si FLAG = 2 : tag of nodes of tagged elements (treatment for interfaces TYPE2) -----------
 C-----------------------------------------------------------------------------------------------
 
       ELSEIF (FLAG==2) THEN

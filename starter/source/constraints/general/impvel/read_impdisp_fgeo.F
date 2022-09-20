@@ -165,7 +165,7 @@ c--------------------------------------------------
 c
         WRITE (IOUT,1000)
 c--------------------------------------------------
-c       Treatment of explicitely defined nodes
+c       Treatment of explicitly defined nodes
 c--------------------------------------------------
         DO I=1,NNOD
 c

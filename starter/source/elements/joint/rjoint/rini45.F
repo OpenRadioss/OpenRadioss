@@ -660,7 +660,7 @@ Chd|====================================================================
       SUBROUTINE INIT_SKEW45(JTYP,IPROP,IDSK1,IDSK2,EX,THETA0,ID,TITR)
       USE MESSAGE_MOD
 C-------------------------------------------------------------------------
-C     This subroutine compute the inital angles from skews
+C     This subroutine compute the initial angles from skews
 C-------------------------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -791,7 +791,7 @@ C--      init angle not allowed for joints with no rotations
      .                 C1=TITR,
      .                 I2=JTYP)
         ELSE
-C--      Check of initial angles vs stoping angles  
+C--      Check of initial angles vs stopping angles
           DO I=1,3
             IF (THETA0(I)<0) THEN
               STOP_ANGL = GET_U_GEO(35+2*(I-1),IPROP)

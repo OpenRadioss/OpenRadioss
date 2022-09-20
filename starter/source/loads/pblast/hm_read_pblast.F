@@ -362,7 +362,7 @@ C-----------------------------------------------
                     END SELECT                                                         
                   ENDIF                                                                
                 ENDDO                                                                  
-                ! Provided ID is refering to an unexisting surface                                                     
+                ! Provided ID is referring to an nonexistent surface                                                     
                 IF (.NOT.lFOUND) THEN                                                  
                   CALL ANCMSG(MSGID=73,ANMODE=ANINFO,MSGTYPE=MSGERROR,                 
      .                        I1=ID,                                                   
@@ -466,7 +466,7 @@ C-----------------------------------------------
                   N3=IGRSURF(internal_SURF_ID)%NODES(I,3)
                   N4=IGRSURF(internal_SURF_ID)%NODES(I,4)                                
                   IF(N4 /= 0 .AND. N1 /= N2 .AND. N2 /= N3 .AND. N3 /= N4 .AND. N4 /= N1 )THEN
-!     4 NODE SEGEMENT
+!     4 NODE SEGMENT
                      NPt   = FOUR
 !     Segment Zentrum
                      Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)
@@ -481,7 +481,7 @@ C-----------------------------------------------
                      Nz_SEG  = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
                      NORM_= SQRT(Nx_SEG*Nx_SEG+Ny_SEG*Ny_SEG+Nz_SEG*Nz_SEG)
                   ELSE
-!     3 NODE SEGEMENT 
+!     3 NODE SEGMENT 
                      NPt   = THREE 
                      IF(N4==0)THEN
 !     nothing to do
@@ -948,7 +948,7 @@ C-----------------------------------------------
                                                                                                                                     
                   ENDIF                                                                                                                                                                                       
                                                                                                                                                                                                               
-                  !swtich from normalized values.      ( Pressure are not scaled by W13 in tables )  
+                  !switch from normalized values.      ( Pressure are not scaled by W13 in tables )  
                                                                                                                                       
                   I_inci  = I_inci * W13                                                                                                                                                                      
                   I_inci_ = I_inci_* W13                                                                                                                                                                      
