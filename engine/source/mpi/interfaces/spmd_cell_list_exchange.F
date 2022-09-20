@@ -342,7 +342,7 @@ C-----------------------------------------------
 
                 IF(SORT_COMM(NIN)%PROC_LIST(REMOTE_PROC)==ISPMD+1) IS_EXCHANGE_NEEDED = .FALSE.
                 IF(IS_EXCHANGE_NEEDED.AND.SORT_COMM(NIN)%NB_CELL_PROC(REMOTE_PROC)==0) IS_EXCHANGE_NEEDED = .FALSE. !   proc without any main node cell
-                IF(ITIED/=0)  IS_EXCHANGE_NEEDED = .TRUE.   ! itied option : force the exchange    
+                IF(ITIED/=0.AND.IRCVFROM(NIN,REMOTE_PROC)/=0)  IS_EXCHANGE_NEEDED = .TRUE.   ! itied option : force the exchange    
                 !   -------------------------
                 IF(IS_EXCHANGE_NEEDED) THEN
                     !   send/rcv the number of secondary nodes
