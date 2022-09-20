@@ -1503,7 +1503,7 @@ C-----------------------------------------------------------------------
      8  ZN3      ,XN4    ,YN4    ,ZN4      )
 C
 C      CALCUL DES RIGIDITES ELEMENTTAIRES ET NODALES 
-C----  INTBUF_TAB%CRIT V/A is used temporaly for sorting and Pen-max
+C----  INTBUF_TAB%CRIT V/A is used temporarily for sorting and Pen-max
        ALLOCATE(IPARTNS(NSN))
        IPARTNS(1:NSN)=0
        CALL I24STI3(
@@ -1542,7 +1542,7 @@ C---------secnd normal (nodal)------------------
      1                     INTBUF_TAB%IS2PT ,NSN     ,INTBUF_TAB%NBINFLG )
         END IF
 
-C      INITIALIZE NODAL SECND,MAIN LENGHT FOR [K]geo(implicit) 
+C      INITIALIZE NODAL SECND,MAIN LENGTH FOR [K]geo(implicit) 
 C------------------
        IF(INTKG > 0 ) THEN
         CALL I24LL_KG(

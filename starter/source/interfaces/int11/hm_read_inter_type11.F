@@ -276,7 +276,7 @@ C-- for TYPE19 field6 is iedge
           IF (FIELD6<=2) THEN
             IEDGE = FIELD6
           ELSE
-C-- COmpatibilty with old inputs where multimp can be read in field6
+C-- Compatibility with old inputs where multimp can be read in field6
             IEDGE = 2
           ENDIF
 C

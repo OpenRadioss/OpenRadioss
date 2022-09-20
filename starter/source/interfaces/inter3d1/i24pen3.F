@@ -80,7 +80,7 @@ C     REAL
       my_real
      .   X(3,*),PMIN(*),GAP_N(12,*),PENMAX,PENMIN,PEN_OLD(5,NSN),
      .   XFIC(3,*)
-C--------GAP_N(1,*) stock temporaly characristic length for Pen_max
+C--------GAP_N(1,*) stock temporarily characristic length for Pen_max
       INTEGER ID,IPEN0
       CHARACTER*nchartitle,
      .   TITR
@@ -96,9 +96,9 @@ C     REAL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-C---  MVOISN,IRTLM(2,*) is used temporaly for Pen_ini MVOISN(1,*) -> MTYPE(solid),MVOISN(2,*) -> E_id
+C---  MVOISN,IRTLM(2,*) is used temporarily for Pen_ini MVOISN(1,*) -> MTYPE(solid),MVOISN(2,*) -> E_id
 C-----MVOISN(3,*) -> part_id, PEN_OLD(1-3,*)->SECONDARY nodal normal, reput PEN_OLD(1-2,*)=0, 3,)=5,)after
-C-----to be consiting with engine for PENMIN
+C-----to be consistent with engine for PENMIN
       IF (IRESP==1.AND.PENMIN<=EM06) PENMIN = TWO*EM06
           TOL = PENMIN
       ALP = TWO*EM06
@@ -263,7 +263,7 @@ c             TAG(NS)=NI
 c            END IF
 c           END IF !(MSEGTYP(L)/=0 ) THEN
           ELSEIF(PEN > PENMAX) THEN
-C----------warning w/o treatement                  
+C----------warning w/o treatment
 #ifndef HYPERMESH_LIB
             WRITE(IOUT,1200)PEN
 #endif

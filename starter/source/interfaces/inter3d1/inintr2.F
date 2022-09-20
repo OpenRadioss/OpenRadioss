@@ -507,7 +507,7 @@ C Impacted ply node
           ISEG_PLY(11,I) = 0
           ISEG_PLY(12,I) = 0
           IF(ISEG_PXFEM(I) == 0) CYCLE
-C or by node segement if it needed            
+C or by node segment if it needed            
  !!          ISEG(I) = 0
 
           IF(MSEGTYP(I) == ZERO) CYCLE  

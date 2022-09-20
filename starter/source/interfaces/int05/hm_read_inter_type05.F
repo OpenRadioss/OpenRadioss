@@ -366,7 +366,7 @@ C
           WRITE(IOUT,*)'    AIRBAG POROSITY COUPLING ON   '
         ENDIF
         IF(IADM/=0) THEN
-          WRITE(IOUT,*)'    MESH REFINMENT CASE OF CONTACT',
+          WRITE(IOUT,*)'    MESH REFINEMENT CASE OF CONTACT',
      .' (0:NO/1:DUE TO CURVATURE/2:DUE TO CURVATURE OR PENETRATION)',
      .' SET TO ',IADM
           IF(IADM==2)THEN
@@ -410,7 +410,7 @@ C------------
 
 C------------
  1505 FORMAT(//
-     .    '    TYPE==5  SLIDING AND VOIDS(NON SYMETRIC)' //,
+     .    '    TYPE==5  SLIDING AND VOIDS(NON SYMMETRIC)' //,
      .    '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .    '       (1:YES 0:NO)                      Y DIR  ',I1/,
      .    '                                         Z DIR  ',I1/,
@@ -420,7 +420,7 @@ C------------
      .    '    MAIN SURFACE REORDERING FLAG. . . . . . . ',I1/,
      .    '    TANGENTIAL PRESSURE LIMIT. . .. . . . . . . ',1PG20.13/)
  1516 FORMAT(//
-     .    '    TYPE==5  SLIDING AND VOIDS(NON SYMETRIC)' //,
+     .    '    TYPE==5  SLIDING AND VOIDS(NON SYMMETRIC)' //,
      .    '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .    '       (1:YES 0:NO)                      Y DIR  ',I1/,
      .    '                                         Z DIR  ',I1/,

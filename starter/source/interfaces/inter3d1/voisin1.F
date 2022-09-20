@@ -37,7 +37,7 @@ C-----------------------------------------------
 C     REAL
       INTEGER NC1(*),NC2(*),INV,I1 ,I2
 C-----------------------------------------------
-c FUNCTION: find the same orientation of two segement (4n)
+c FUNCTION: find the same orientation of two segments (4n)
 c
 c Note:
 c ARGUMENTS:  (I: input, O: output, IO: input * output, W: workspace)

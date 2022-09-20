@@ -96,7 +96,7 @@ C
             IF (NBCSCYC > 0) KCOND = KCOND +ITAGCYC(ISL)
 C       
             IF (KCOND /= 0) PENTAG(ISL) = 1
-C--         Check of incompatibility with other spt27 or spt28 t2 interfaces - multiple connections with the same main on several interfaces alredy cleaned
+C--         Check of incompatibility with other spt27 or spt28 t2 interfaces - multiple connections with the same main on several interfaces already cleaned
             TAGNOS(ISL) = 1
           ENDDO
         ENDIF

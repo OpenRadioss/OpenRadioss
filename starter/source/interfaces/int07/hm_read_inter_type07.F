@@ -218,7 +218,7 @@ C-- first type7 of type19
         NTYP = 19
         IPARI(71) = -1
       ELSEIF (ID_TYPE19 > 0) THEN
-C-- symetrical type7 of type19 - internal id of main type7 must be identified 
+C-- symmetrical type7 of type19 - internal id of main type7 must be identified
         NTYP = 19
         DO I=1,NI-1
           IF (NOM_OPT(1,I)==ID_TYPE19) THEN
@@ -371,7 +371,7 @@ C-- for TYPE19 field6 is iedge
           IF (FIELD6<=2) THEN
             IEDGE = FIELD6
           ELSE
-C-- COmpatibilty with old inputs where multimp can be read in field6
+C-- Compatibility with old inputs where multimp can be read in field6
             IEDGE = 2
           ENDIF
 C
@@ -942,7 +942,7 @@ C
         ENDIF
 
         IF(IADM/=0) THEN
-           WRITE(IOUT,*)'    MESH REFINMENT CASE OF CONTACT',
+           WRITE(IOUT,*)'    MESH REFINEMENT CASE OF CONTACT',
      .' (0:NO/1:DUE TO CURVATURE/2:DUE TO CURVATURE OR PENETRATION)',
      .' SET TO ',IADM
            IF(IADM==2)THEN

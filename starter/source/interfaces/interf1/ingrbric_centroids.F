@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Cts
-Cts Centroids definition for secnd side of Itnerface Type18 and colocated scheme.
+Cts Centroids definition for secnd side of Interface Type18 and colocated scheme.
 Cts Input for secnd side is a GRBRIC. 
 Chd|====================================================================
 Chd|  INGRBRIC_CENTROIDS            source/interfaces/interf1/ingrbric_centroids.F

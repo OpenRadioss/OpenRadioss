@@ -93,7 +93,7 @@ C----------Copying default values of friction in the top of the Tab TABCOEF_FRIC
            DO J=1,LENC
               TABCOEF_FRIC(J) =TABCOEF_FRIC_TMP(NIF,J)
            ENDDO
-C----------Copying parts numbers and coefficient in the new structure and ommiting duplicated couple of parts
+C----------Copying parts numbers and coefficient in the new structure and omitting duplicated couple of parts
            J = 1
            K = 0
            IF(IORTH == 0) THEN
@@ -136,7 +136,7 @@ C----------Copying parts tab tagged by friction model
                 TABPARTS_FRIC(I) = TABPARTS_FRIC_TMP(NIF,I)
            ENDDO    
 
-C----------Computation of the adress of each part in the tabs TABPARTSFRIC TABCOEF_FRIC_TMP
+C----------Computation of the address of each part in the tabs TABPARTSFRIC TABCOEF_FRIC_TMP
            ADPART_FRIC(1) = 1
            ADPART_FRIC(2:NPARTF+1) = 0
            DO I=1,NPARTF 

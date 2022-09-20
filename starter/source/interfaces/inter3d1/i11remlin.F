@@ -150,7 +150,7 @@ C
       IF (((I_START==1).AND.(CPT > 0)).OR.(I_START>1)) THEN
 C
 C-----------------------------------------------
-C  Searching Algorith Connected nodes : D < SQRT(2.) * GAP
+C  Searching Algorithm Connected nodes : D < SQRT(2.) * GAP
 C-----------------------------------------------
 C
         ALLOCATE(TAGNOD(NUMNOD),ORIGIN(NUMNOD),DIST1(NUMNOD))
@@ -273,7 +273,7 @@ C
               LIN = LISTLINTOTAL(L)
               IF ((IM1 /= IRECTM(1,LIN)).AND.(IM1 /= IRECTM(2,LIN))
      .           .AND.(IM2 /= IRECTM(1,LIN)).AND.(IM2 /= IRECTM(2,LIN))) THEN
-C--- lines with common nodes with main lines are aready removed - no need to store them in remnode
+C--- lines with common nodes with main lines are already removed - no need to store them in remnode
                 IF ((DIST1(IRECTM(1,LIN)) <= DMAX).OR.(DIST1(IRECTM(2,LIN)) <= DMAX)) THEN
                   REMNODE(KREMNODE(I)+CPT1) = LIN
                   CPT1 = CPT1 + 1
@@ -292,7 +292,7 @@ C--- lines with common nodes with main lines are aready removed - no need to sto
               LIN = LISTLINTOTAL(L)
               IF ((IM1 /= IRECTM(1,LIN)).AND.(IM1 /= IRECTM(2,LIN))
      .           .AND.(IM2 /= IRECTM(1,LIN)).AND.(IM2 /= IRECTM(2,LIN))) THEN
-C--- lines with common nodes with main lines are aready removed - no need to store them in remnode
+C--- lines with common nodes with main lines are already removed - no need to store them in remnode
                 GAPV = GAP_S(LIN)+GAP_M(I)
                 GAPV = SQRT(TWO)*MAX(DRAD,GAPMIN,GAPV+DGAPLOAD)
                 IF ((DIST1(IRECTM(1,LIN)) <= GAPV).OR.(DIST1(IRECTM(2,LIN)) <= GAPV)) THEN

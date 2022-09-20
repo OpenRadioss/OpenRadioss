@@ -165,7 +165,7 @@ C------don't use no more MWA which is not sufficient; I_ADD<=1000
        LWORK = IP31 + 2000
        ALLOCATE(IWORK(LWORK))
       END IF
-C-------use temporaly GAP_N(1,*)=V/A; MVOISN(1,*)-> MTYPE(solid),MVOISN(2,*)-> E_id
+C-------use temporarily GAP_N(1,*)=V/A; MVOISN(1,*)-> MTYPE(solid),MVOISN(2,*)-> E_id
 C
 C
 C     1-CALCUL TAILLE DES ZONES INFLUENCES

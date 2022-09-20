@@ -74,7 +74,7 @@ C-----------------------------------------------
           IPID = IXS(10,MSV(I))
           JALE_FROM_MAT = NINT(PM(72,IMAT))
           JALE_FROM_PROP = IGEO(62,IPID)
-          IALE_ = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader          
+          IALE_ = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if inconsistent, error message was displayed in PART reader          
           IF(IALE_==1)IF_ALE=1
           IF(IALE_==2)IF_EUL=1
         ENDDO

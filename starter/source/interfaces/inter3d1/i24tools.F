@@ -173,14 +173,14 @@ C     REAL
       my_real
      .   X(3,*),YI(3),YJ(3)
 C-----------------------------------------------
-c FUNCTION: find the same orientation of two segement (4n)
+c FUNCTION: find the same orientation of two segments (4n)
 c
 c Note:
 c ARGUMENTS:  (I: input, O: output, IO: input * output, W: workspace)
 c
 c TYPE NAME                FUNCTION
 c  I   NC1(1:4),NC2(1:4) - connectivity
-c  I   I1,I2             - commun nodes of two seg
+c  I   I1,I2             - common nodes of two seg
 c  I   X(3,*)            - co-ordinates
 c  O   INV               - flag : 0 same orientation; 1 inverse one
 C-----------------------------------------------
@@ -388,7 +388,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*)
-C----si the normal of two segements are opposite or near opposite
+C----if the normal of two segments are opposite or near opposite
 C----if two common segs, will also be eliminated 
 C-----------------------------------------------
 C   External function

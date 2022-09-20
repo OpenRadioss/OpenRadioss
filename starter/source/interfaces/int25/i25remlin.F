@@ -127,7 +127,7 @@ C
       IF (I_START>=1) THEN
 C
 C-----------------------------------------------
-C  Searching Algorith Connected nodes : D < SQRT(2.) * GAP
+C  Searching Algorithm Connected nodes : D < SQRT(2.) * GAP
 C-----------------------------------------------
 C
         ALLOCATE(TAGNOD(NUMNOD),ORIGIN(NUMNOD),DIST1(NUMNOD))
@@ -258,7 +258,7 @@ C
               LIN = LISTLINTOTAL(L)
               IF ((IM1 /= LEDGE(5,LIN)).AND.(IM1 /= LEDGE(6,LIN))
      .           .AND.(IM2 /= LEDGE(5,LIN)).AND.(IM2 /= LEDGE(6,LIN))) THEN
-C--- lines with common nodes with main lines are aready removed - no need to store them in remnode
+C--- lines with common nodes with main lines are already removed - no need to store them in remnode
                 IF(IGAP0 == 0) THEN
                    GAPV = GAP_E(LIN)+TWO*GAP_E(I)
                 ELSE
@@ -448,7 +448,7 @@ C
 
 C---------------------------------------------------------------------
 C  Main solids : buid tables for deleted edges for each NRTM
-C     Use tabs of N2S : edge is deactivated if 1 node is desactivated
+C     Use tabs of N2S : edge is deactivated if 1 node is deactivated
 C--------------------------------------------------------------------
 
         IF(SOL_EDGE > 0 ) THEN

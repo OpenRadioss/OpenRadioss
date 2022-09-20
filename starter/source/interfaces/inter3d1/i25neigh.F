@@ -1064,7 +1064,7 @@ C        WA(IXP(2,I))=MAX(WA(IXP(2,I)),DX)
 C        WA(IXP(3,I))=MAX(WA(IXP(3,I)),DX)
 C       ENDDO
 C------------------------------------
-C     INI GAP_N (4), GAP_M is modified taking into accound nodal gap for sorting
+C     INI GAP_N (4), GAP_M is modified taking into account nodal gap for sorting
 C------------------------------------
 C -----due to the fact that if surf_M does not contain the defining w/ shell
 C-------> should not take into account GAP_shell    
@@ -1158,7 +1158,7 @@ C      MVOISIN already filled due to symetrization ::
 C-------------neighbour segments-----------       
        CALL I25NEIGH_SEG_E(N1,IED1,N2,IED2,NE,ICE,ISELF,
      .                I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
-C-------------treatement of multi-neighbours (T shape,shell) segments => reduce to 1----------
+C-------------treatment of multi-neighbours (T shape,shell) segments => reduce to 1----------
        DNE = NE-NE0
        IF (DNE > 1) THEN
          CALL I25NEIGH_REMOVEALLBUT1(DNE,ICE(NE0+1),ISELF,IRECT,X ,I1,I2,IRR)
@@ -1166,7 +1166,7 @@ C-------------treatement of multi-neighbours (T shape,shell) segments => reduce 
        END IF
        IF (ICE(NE)>0 )THEN
 C
-C       shell symetric segment will be removed here !
+C       shell symmetric segment will be removed here !
         CALL I25NEIGH_SEG_OPP(ISELF,ICE(NE),IRECT,X ,IOP)
         IF (IOP > 0 ) ICE(NE) = 0
        END IF !(ICE(NE)>0 )THEN
@@ -1183,7 +1183,7 @@ C       print *,'!!!error (report to developer)!!!',(NE-NE0)
 
        IF(NE-NE0 == 1 .AND. IE(NE)/=0)THEN
 C
-C        Enforce symetry ::
+C        Enforce symmetry ::
          DO JJ=1,4
           IF(I2==IRECT(JJ,IE(NE)))THEN
             J2 = JJ
@@ -1443,7 +1443,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*)
-C----if the normals of two segements are opposite or near opposite
+C----if the normals of two segments are opposite or near opposite
 C----if two common segs, will also be eliminated 
 C-----------------------------------------------
 C   External function

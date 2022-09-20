@@ -78,7 +78,7 @@ C Need to sort MNM but avoid treatment over NUMNOD if too big
             NTAG(I) = 0
           END IF
         END DO
-      ELSE   ! N needs to be at leas < NUMNOD/2
+      ELSE   ! N needs to be at least < NUMNOD/2
         CALL MY_ORDERS(0,IWORK,MNN,NTAG(1),N,1)
         DO I=1,N
           NTAG(N+I)=MNN(I)
