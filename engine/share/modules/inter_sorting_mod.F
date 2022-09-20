@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|-- called by -----------
 Chd|        CHECK_COARSE_GRID             source/interfaces/generic/check_coarse_grid.F
+Chd|        I7MAIN_TRI                    source/interfaces/intsort/i7main_tri.F
 Chd|        INTER_BOX_CREATION            source/interfaces/generic/inter_box_creation.F
 Chd|        INTER_CELL_COLOR              source/interfaces/generic/inter_cell_color.F
 Chd|        INTER_COLOR_COARSE_VOXEL      source/interfaces/generic/inter_color_coarse_voxel.F
