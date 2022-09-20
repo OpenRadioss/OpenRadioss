@@ -49,7 +49,7 @@ C     IBOX          BOX structure
 C     X             Node position 
 C     SKEW          SKEW array
 C     ELT_ARRAY     Result list of elems
-C     ELT_SIZE      nuber of stacked elems
+C     ELT_SIZE      number of stacked elems
 C     IB            Box to treat
 C============================================================================
 C-----------------------------------------------

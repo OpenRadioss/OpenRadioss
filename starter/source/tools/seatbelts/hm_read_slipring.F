@@ -184,9 +184,9 @@ C
             IF (XSCALE4== ZERO) XSCALE4 = ONE*XSCALE2_UNIT  
           ENDIF
 C
-C---------CHeck of sensors is done in creat_seatblet as sensors are not yet avaialble
+C---------Check of sensors is done in creat_seatblet as sensors are not yet available
 C
-C---------CHeck of functions
+C---------Check of functions
 C
           IFUNC_LOC(1:4) = 0
 C              
@@ -271,7 +271,7 @@ C
      .                                     I1=ID,I2=EL2) 
             ENDIF
 C
-C--------   Initialisaton of fram structure
+C--------   Initialisation of fram structure
 C
             NFRAM = 1
             SLIPRING(I)%NFRAM = 1
@@ -448,7 +448,7 @@ C
             GRS1_LOC = NGR2USR(GR_SHEL1,INGR2USR,NGRSHEL)
             GRS2_LOC = NGR2USR(GR_SHEL2,INGR2USR,NGRSHEL)
 C
-C--------   Initialisaton of fram structure
+C--------   Initialisation of fram structure
 C
             SLIPRING(I)%NFRAM = NFRAM
             MY_ALLOCATE (SLIPRING(I)%FRAM,NFRAM)
@@ -477,7 +477,7 @@ C
               SLIPRING(I)%FRAM(J)%INTVAR_STR2 = ZERO
             ENDDO
 C
-C--------   CHeck of alignement of anchorage nodes
+C--------   Check of alignment of anchorage nodes
             MY_ALLOCATE(DIST,NFRAM)
             MY_ALLOCATE(JPERM,NFRAM)
             JPERM(1:NFRAM) = 0
@@ -505,7 +505,7 @@ C--------   CHeck of alignement of anchorage nodes
               ENDIF
             ENDDO
 
-C--------   CHeck of distance between anchorage nodes (sorting by distance to first node)
+C--------   Check of distance between anchorage nodes (sorting by distance to first node)
             CALL MYQSORT(NFRAM,DIST,JPERM,IERROR)
             DO J=1,NFRAM-1
               IF (DIST(J)==DIST(J+1)) THEN

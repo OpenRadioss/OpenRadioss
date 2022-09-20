@@ -141,7 +141,7 @@ C    -> temporary storage if element found type in segment type <--
                    IGRSURF(I)%ELEM(J)  = ID_ELTG
 		 ENDIF		      	   	   
 	      ENDIF
-C    -> counting of segments intially in the domain <--
+C    -> counting of segments initially in the domain <--
               CUR_ID  = IGRSURF(I)%ELEM(J)
 	      CUR_TYP = IGRSURF(I)%ELTYP(J)
               IP = 0

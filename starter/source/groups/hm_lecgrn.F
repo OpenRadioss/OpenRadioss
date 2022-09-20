@@ -160,7 +160,7 @@ C    IGRNOD(IGS)%GRPGRP : TYPE of nodal GROUP
 !                                 = 1 FOR /GRNOD/NOD
 !                                 = 2 FOR /GRNOD/GNROD
 !                                 = 0 ALL THE REST
-C    IGRNOD(IGS)%LEVEL  : Hierachy level
+C    IGRNOD(IGS)%LEVEL  : Hierarchy level
 !                             (FLAG 'SUBLEVEL DONE' FOR GROUPS OF GROUPS)
 !                            = 0 ---> not yet initialized
 !                            = 1 ---> done

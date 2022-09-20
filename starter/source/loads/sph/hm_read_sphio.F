@@ -140,11 +140,11 @@ Case TYPE=1
 C   VSPHIO(IVAD+4+2*J,J=0,NSEG-1) =                        x
 C          MASS FLOW THROUGH SEGMENT J SINCE LAST ENTRY
 C   VSPHIO(IVAD+5+2*J,J=0,NSEG-1) = SEGMENTS WIDTH         x                       
-Case TYPE=2,3,4 control section + new outlet / silent bounday (if surface defined by coordinates)                          
+Case TYPE=2,3,4 control section + new outlet / silent boundary (if surface defined by coordinates)                          
 C   VSPHIO(IVAD+4->6) = X1                                          x        x        x                           
 C   VSPHIO(IVAD+7->9) = X2                                          x        x        x                          
 C   VSPHIO(IVAD+10->12) = X3                                        x        x        x
-Case TYPE=2,3,4 control section + new outlet / silent bounday
+Case TYPE=2,3,4 control section + new outlet / silent boundary
 C   VSPHIO(IVAD+13) = Total mass that cross section                 x        x        x
 C   VSPHIO(IVAD+14) = DT12                                          x        x        x
 C   VSPHIO(IVAD+15) = Fcut Butterworth filter                       x        x        x

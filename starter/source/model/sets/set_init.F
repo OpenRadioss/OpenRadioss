@@ -60,8 +60,8 @@ C-----------------------------------------------
       SET(IGS)%SET_TYPE  = ISET_TYPE
 !
 !      SET(IGS)%SET_ACTIV = 1         ! SET_ACTIV was already initialized in sort_sets.F, 
-                                      ! this permits to treat the /SET/COLLECT, in /SET/COLLECT, only one is active, 
-                                      ! the others are as depency
+                                      ! this permits to treat the /SET/COLLECT, in /SET/COLLECT, only one is active,
+                                      ! the others are as dependency
       SET(IGS)%SURF_SET_ID = 0
       SET(IGS)%LINE_SET_ID = 0
       SET(IGS)%SURF_SET_FLAG = 0

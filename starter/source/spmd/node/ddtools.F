@@ -794,7 +794,7 @@ C Allocate CEP INTERFACE
              INTERCEP(3,NI)%P(1:NRTS)=0
               
              DO K=1,NRTS
-               ! SECND SEGEMENT AND ELEMENT HAVE TO ON THE SAME MPI DOMAIN (only solids/ if other CEP(OFF+IE))
+               ! SECND SEGMENT AND ELEMENT HAVE TO ON THE SAME MPI DOMAIN (only solids/ if other CEP(OFF+IE))
                 IE = INTBUF_TAB(NI)%IELNRTS(K)
                 IF(IE > 0) THEN
                   PROC = CEP(IE)

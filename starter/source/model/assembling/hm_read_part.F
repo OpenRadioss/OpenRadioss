@@ -219,7 +219,7 @@ C--------------------------------------------------
         ENDIF
         !--- check material identifier
         IF(MID == 0) THEN
-         !fictious material law for spring elements
+         !fictitious material law for spring elements
          IMID=NUMMAT
          ILAW=IPM(2,IMID)
         ELSE
@@ -402,7 +402,7 @@ C     Allow SHELL3N for 2D law 151
           JALE_FROM_PROP = 0
         ENDIF
         
-        !display error message if MATERIAL and PROPERTY have unconsistent definitions     
+        !display error message if MATERIAL and PROPERTY have inconsistent definitions     
         IF(JALE_FROM_MAT > 0 .AND. JALE_FROM_PROP > 0)THEN
           IF(JALE_FROM_MAT /= JALE_FROM_PROP)THEN
             CALL ANCMSG(MSGID=130,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
@@ -544,7 +544,7 @@ C     SPH : switch to fem thermal formulation - update of thermal flags
         ENDDO      
       ENDIF
       
-C     SOL2SPH : Orthotropic flag transfered to SPH property
+C     SOL2SPH : Orthotropic flag transferred to SPH property
       DO I=1,NPART
         IDPARTSPH = IGEO(38,IPART(2,I))
         IF (IDPARTSPH > 0) THEN

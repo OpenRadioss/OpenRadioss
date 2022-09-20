@@ -47,7 +47,7 @@ C     IBOX          BOX structure
 C     X             Node position 
 C     SKEW          SKEW array
 C     NOD_ARRAY     Result list of nodes
-C     ND_SIZE       nuber of stacked nodes
+C     ND_SIZE       number of stacked nodes
 C     IB            Box to treat
 C============================================================================
 C-----------------------------------------------

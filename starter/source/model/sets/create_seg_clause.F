@@ -146,7 +146,7 @@ C=======================================================================
 
 
 
-        IF (LINE_SEG == 0) THEN! Surf SEG --> continue Node check existance
+        IF (LINE_SEG == 0) THEN! Surf SEG --> continue Node check existence
           IF (NODSYS_3 == 0) THEN
             ! Node was not found. Issue a Warning & Skip.
             CALL ANCMSG(MSGID=1903,ANMODE=ANINFO,

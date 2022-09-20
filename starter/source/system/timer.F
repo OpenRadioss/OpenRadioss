@@ -288,7 +288,7 @@ c---Standard output
 
                 WRITE(ISTDO,'(A)') ' ' 
                 WRITE(ISTDO,'(A,E9.4)') '                  CONVERTER : ', REALTIME(15,1)
-                WRITE(ISTDO,'(A,E9.4)') '            RD INTPUT BUILD : ', REALTIME(16,1)
+                WRITE(ISTDO,'(A,E9.4)') '             RD INPUT BUILD : ', REALTIME(16,1)
                 WRITE(ISTDO,'(A)') ' ' 
                 WRITE(ISTDO,'(A,E9.4)') '       RD GROUPS & SURFACES : ', REALTIME(19,1)
                 WRITE(ISTDO,'(A)') ' ' 

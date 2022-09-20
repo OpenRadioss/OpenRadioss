@@ -306,7 +306,7 @@ C
             ENDIF
 !     Number of nodes on external surface
             T_MONVOL(N)%IVOLU(32)=NNS
-!     Number of nodes on internel surface
+!     Number of nodes on internal surface
             T_MONVOL(N)%IVOLU(68)=NNI
 
             IADALE2=IADALE+NNS+NNI
@@ -600,10 +600,10 @@ C
             IF (NNA > 0) THEN
                ALLOCATE(T_MONVOL(N)%VELOCITY(3, NNA), T_MONVOL(N)%NODE_COORD(3, NNA))
             ENDIF
-C     
+C
             IADALE13=IADALE12+16*NNA
             T_MONVOL(N)%IVOLU(18)=IADALE13-1
-!     Copy adresses to structure
+!     Copy addresses to structure
             T_MONVOL(N)%IADALE = IADALE
             T_MONVOL(N)%IADALE2 = IADALE2
             T_MONVOL(N)%IADALE3 = IADALE3

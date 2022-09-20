@@ -82,24 +82,24 @@ C=======================================================================
 
 
 ! ------------------------------------------------------------------------
-!       MODE = 0 : create the mid_pid arraies for each element type that 
+!       MODE = 0 : create the mid_pid arrays for each element type that 
 !                  will be used in INITWG_[X] subroutine (X = SHELL, SOL 
-!                  or TRI). The mid_pid arraies will be initialized with 
+!                  or TRI). The mid_pid arrays will be initialized with 
 !                  the Radioss element cost if MODE = 1 is not used. 
 !                  If MODE = 1 is used, mid_pid will be initialized to 
 !                  the element costs obtained from a previous Radioss run
 !               
-!       MODE = 1 : initialize the mid_pid arraies to the element costs 
+!       MODE = 1 : initialize the mid_pid arrays to the element costs 
 !                  obtained from a previous Radioss run
 !
-!       MODE = 0 : allocate and initialize the mid_pid_1 arraies for 
+!       MODE = 0 : allocate and initialize the mid_pid_1 arrays for 
 !                  each element type :
 !                    * check the number of pid properties 
 !                      per mid ( %NBR_PID )
 !                    * allocate each array(mid)%pid1d ( number of 
 !                      pid ) + %cost1d( number of pid )
 !
-!       MODE = 1 : initialize each aray(mid)%pid1d(pid) + %cost1d(pid)
+!       MODE = 1 : initialize each array(mid)%pid1d(pid) + %cost1d(pid)
 ! ------------------------------------------------------------------------
 
         IF(MODE==0) THEN
@@ -196,7 +196,7 @@ C=======================================================================
 !       mode = 0 --> %cost1d = 0
 !       mode = 1 --> %cost1d = old cost 
 ! -----------------------
-!       initialize each aray(mid)%pid1d(pid) + %cost1d
+!       initialize each array(mid)%pid1d(pid) + %cost1d
 ! -----------------------
         PID_SHELL(1:NUMMAT) = 0
         PID_TRI(1:NUMMAT) = 0
@@ -271,8 +271,8 @@ C=======================================================================
                 ILAW = IPM(2,IPART(1,I))
 ! for /TRIA element, force the IGTYP flag 
 ! -->  not really the best way to define a TRIA element but the TRIA element dev. was not
-! a beatiful dev! TRIA element are solid element but TRIA does not use the solid arraies (too simple!)
-! and use the SHELL3N arraies !!!!!!!! 
+! a beautiful dev! TRIA element are solid element but TRIA does not use the solid arrays (too simple!)
+! and use the SHELL3N arrays !!!!!!!! 
                 IF(ILAW==151.AND.N2D/=0) IGTYP_LOC = 1 
                 IGTYP = IGTYP_LOC
 

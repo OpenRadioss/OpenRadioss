@@ -68,8 +68,8 @@ C=======================================================================
       ESHIFT(2) = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP  ! spring cluster
       ESHIFT(3) = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP  ! spring cluster special 
       ALLOCATE(INDX(NCLUSTER_L)) ! INDeXes of local clusters 
-      ALLOCATE(ILCLUSTER(NCLUSTER_L)) ! Integer Lengthes of local CLUSTERs
-      ALLOCATE(RLCLUSTER(NCLUSTER_L)) ! Real Lengthes of local CLUSTERs
+      ALLOCATE(ILCLUSTER(NCLUSTER_L)) ! Integer Lengths of local CLUSTERs
+      ALLOCATE(RLCLUSTER(NCLUSTER_L)) ! Real Lengths of local CLUSTERs
       J = 0
       ILCLUSTER(1:NCLUSTER_L)  = 0 
       RLCLUSTER(1:NCLUSTER_L) =  ZERO

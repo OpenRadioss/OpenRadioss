@@ -510,7 +510,7 @@ c-------------------------------------------------------------------
          ENDIF
       ENDDO
       
-      !SPECIFIC TREATMENTS FOR LAW151 MATERIAL LAWS RELATED TO PSH PAREMETERS & EOS
+      !SPECIFIC TREATMENTS FOR LAW151 MATERIAL LAWS RELATED TO PSH PARAMETERS & EOS
       IF (MULTI_FVM%IS_USED) THEN
          !Check pressure shift consistency between submaterials
          !They must be equal one to another, otherwise, throw an error

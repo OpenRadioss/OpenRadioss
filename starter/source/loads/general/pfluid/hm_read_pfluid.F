@@ -383,7 +383,7 @@ C----------Multidomains -> deleting common segments (one single time)
            FACLOADP( 6,K) = ONE/FCX2 
            ILOADP  (12,K) = ICFIELD12
            ILOADP  (13,K) = ICFIELD13
-           !Multidomains -> numbering common segments (one singe time)        
+           !Multidomains -> numbering common segments (one single time)
 	   IF (IDDOM > 0) NN = NN-ISURF_R2R(1,IS)                
          ENDIF    
 

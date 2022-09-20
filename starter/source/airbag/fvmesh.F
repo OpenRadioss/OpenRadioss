@@ -3352,7 +3352,7 @@ C-------------------------------------------
             XN(3) = PNODES(3,IAD2)
             DD2=(XX-XN(1))**2+(YY-XN(2))**2+(ZZ-XN(3))**2
             IF (DD2 <= TOLE2) THEN
-C     NODE IAD2 is dupplicated with node IAD1
+C     NODE IAD2 is duplicated with node IAD1
                REDIR(IAD2) = REDIR(IAD1)
                IAD = IAD + 1
             ELSE

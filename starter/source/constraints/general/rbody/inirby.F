@@ -367,7 +367,7 @@ C
           ENDDO
 
         ELSEIF(N2D==1) THEN
-C        ANALYSE 2D : Axisymetry  
+C        ANALYSE 2D : Axisymmetry  
 C             I= A 0 0
 C                0 A 0
 C                0 0 B 

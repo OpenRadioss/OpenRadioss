@@ -102,7 +102,7 @@ C--             Count of remote anchor node (send)
               ENDIF
             ENDDO         
           ELSEIF (NLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE,P)==1) THEN
-C--         Count of remote anchor node (receve)
+C--         Count of remote anchor node (receive)
             N_ANCHOR_REMOTE_L = N_ANCHOR_REMOTE_L + 1
             COMPT = 0
             DO PP=1,NSPMD 

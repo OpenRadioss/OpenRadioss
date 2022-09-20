@@ -94,7 +94,7 @@ C         I     :     VARIABLE INDEX(1 for first function)
 C         IM    :     MATERIAL NUMBER
 C         KFUNC :     ONLY FUNCTION ARE YET AVAILABLE.
 C         THIS FUNCTION RETURN THE USER STORED FUNCTION NUMBERS(function 
-C         refered by users materials).
+C         referred by users materials).
 C         SEE LECM28 FOR CORRESPONDING ID STORAGE.
 C-------------------------------------------------------------------------
 C my_real PARAMI = GET_U_GEO(I,IP)
@@ -210,7 +210,7 @@ C
         MASS(1)  =HALF*RHO*LPREV
         IF (LPREV<=EM15) THEN
 C         WRITE(IOUT,*)
-C     .' ** ERROR NSTRAND : NULL STRAND LENGH, ELEMENT=',
+C     .' ** ERROR NSTRAND : NULL STRAND LENGHT, ELEMENT=',
 C     .      IDS
 C        IERR=IERR+1
 C        GOTO 999

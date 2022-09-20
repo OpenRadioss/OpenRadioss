@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER I, J, K, N, PX, PY, PZ
 C-----------------------------------------------
 C
-C Pre construction ADRESSES
+C Pre construction ADDRESSES
 C    
       DO  K=2,9
         DO  I=1,NUMELS
@@ -534,7 +534,7 @@ C
 
         DO N=1,NSN
 C
-C         IRTLM(3,-) <=> n° de segment local sur IRTLM(4,-)
+C         IRTLM(3,-) <=> nï¿½ de segment local sur IRTLM(4,-)
           K = INTBUF_TAB(NIN)%IRTLM(4*(N-1)+3)
           IF(K /= 0)THEN
             INTBUF_TAB(NIN)%IRTLM(4*(N-1)+3)=IRTLM_L(K)
@@ -587,7 +587,7 @@ C-----------------------------------------------
       INTEGER NIN, NTY, I, N, I1, I2, I3, I4, NRTM, NADMSR, ISHIFT
 C-----------------------------------------------
 C
-C Pre construction ADRESSES
+C Pre construction ADDRESSES
 C   
       ADDCSRECT(0) = 0
 

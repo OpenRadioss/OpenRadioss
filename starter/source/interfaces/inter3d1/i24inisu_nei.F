@@ -303,9 +303,9 @@ C-----------------------------------------------
       INTEGER N1,IED1(*),N2,IED2(*),N,IC(*),ISELF,
      .        I1,I2,IRECT(4,*),IASYM
 C-----------------------------------------------
-c FUNCTION: find neighbour segment and which share the same nodes I1,I2
-c        ---neighbour node arry will be buid after taking into account of treatment w/ IC 
-c           (remains only one segment at the end)
+c FUNCTION: find neighbour segment which shares the same nodes I1,I2
+c        ---neighbour node array will be built after taking into account treatment w/ IC 
+c           (only one segment remains at the end)
 c
 c Note:
 c ARGUMENTS:  (I: input, O: output, IO: input * output, W: workspace)

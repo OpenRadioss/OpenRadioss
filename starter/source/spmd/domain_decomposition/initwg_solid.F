@@ -267,7 +267,7 @@ C -------------------------------
         ELSEIF(MLN==100) THEN
         !       SPECIAL TREATMENT :
         !       LAW 100 : material cost = base cost + viscosity cost + N * network cost
-        !                                              (optionnal)        (optionnal)
+        !                                               (optional)         (optional)
         !                                   INDI        INDI_OPT_1         INDI_OPT_2
            INDI=1
            IAD=IPM(7,ABS(MID))-1

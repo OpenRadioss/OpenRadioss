@@ -93,7 +93,7 @@ C
       INTBUF_TAB(NI)%ADDSUBS(1:NRTS+1) = 0 ! address of different subinter related to secondary line
       INTBUF_TAB(NI)%ADDSUBM(1:NRTM+1) = 0 ! address of different subinter related to main line
 
-      INTBUF_TAB(NI)%INFLG_SUBS(1:NISUBS)=0  ! Flags for determing what is surface Surf1 or Surf2
+      INTBUF_TAB(NI)%INFLG_SUBS(1:NISUBS)=0  ! Flags for determining what is surface Surf1 or Surf2
       INTBUF_TAB(NI)%INFLG_SUBM(1:NISUBM)=0
 
 
@@ -712,7 +712,7 @@ C
 
 C
       ELSEIF ((NTY==11).AND.(NT19>0)) THEN
-C   interface type11 of iterface type19 - subinterface input by surfaces
+C   interface type11 of interface type19 - subinterface input by surfaces
 C
 C
 C--- SECONDARY Side--

@@ -211,9 +211,9 @@ C
      .                                   I1=ID,I2=EL_ID) 
           ENDIF
 C
-C---------CHeck of sensors is done in creat_seatblet as sensors are not yet avaialble
+C---------Check of sensors is done in creat_seatblet as sensors are not yet available
 C
-C---------CHeck of functions
+C---------Check of functions
 C
           IFUNC_LOC(1:3) = 0
 C              

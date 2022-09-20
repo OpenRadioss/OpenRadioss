@@ -143,7 +143,7 @@ C--     Check dynain file is requested --
           J=1
           NPRT = 0
 C
-C--     Couting and storing parts id --
+C--     Counting and storing parts id --
          IF(CARTE(1:1)/='#'.OR.CARTE(1:1)/='$') THEN
 
            DO WHILE(CARTE(1:1) /= '/'.OR.LEN_TRIM(CARTE)/=0) 

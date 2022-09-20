@@ -76,7 +76,7 @@ C            yes if no crossing with the screen (IOMBR returns 0)
 C             no otherwise (IOMBR return 1)
 C---------------------------------------
       DDMX=EP20
-      IF(IOMBR(DETONATORS,X,IECR,DDMX,VDET) == 0)RETURN   !Vdet is optionnal velocity from origin (default is material velocity VDTO)
+      IF(IOMBR(DETONATORS,X,IECR,DDMX,VDET) == 0)RETURN   !Vdet is optional velocity from origin (default is material velocity VDTO)
 
 C-----------------------------------------
 C     2) DETONATION ORIGIN:EACH POINT OF THE SCREEN PATH

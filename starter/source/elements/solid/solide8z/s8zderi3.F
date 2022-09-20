@@ -1119,7 +1119,7 @@ C--------conctruction trandfert matrix QQ,Q
      .    BYZ1, BYZ2, BYZ3, BYZ4, BYZ5, BYZ6, BYZ7, BYZ8,
      .    BZY1, BZY2, BZY3, BZY4, BZY5, BZY6, BZY7, BZY8,
      .    NU  )
-C ------------retrun to global system for PIJ and store in PIJ(1:24->PX,PY,PZ)    
+C ------------return to global system for PIJ and store in PIJ(1:24->PX,PY,PZ)    
          CALL S8EDERIL2G(
      .    PX1(1,IP), PX2(1,IP), PX3(1,IP), PX4(1,IP),
      .    PX5(1,IP), PX6(1,IP), PX7(1,IP), PX8(1,IP),

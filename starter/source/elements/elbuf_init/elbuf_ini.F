@@ -696,7 +696,7 @@ c        Corotational nodal forces (isolid 19)
            GBUF%G_COR_NF = 24
 c        Corotational frame  (isolid 19)
            GBUF%G_COR_FR =  9          !3*3                 ! sb Mis en standby pourl'instant
-c        Corotational reference coordiantes (isolid 19)
+c        Corotational reference coordinates (isolid 19)
            GBUF%G_COR_XR = 21         !7*3
          ENDIF
 C                            

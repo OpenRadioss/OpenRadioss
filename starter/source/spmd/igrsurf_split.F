@@ -33,7 +33,7 @@ Chd|====================================================================
 !$COMMENT
 !       IGSURF_SPLIT description
 !       IGSURF_SPLIT splits the global IGSURF array into local 
-!                    IGSURF_PROC arraies in order to save 
+!                    IGSURF_PROC arrays in order to save 
 !                    CPU time in ddsplit routine (avoid NSPMD 
 !                    treatments)
 !       
@@ -98,7 +98,7 @@ C-----------------------------------------------------
         OFFC = NUMELS+NUMELQ    
         OFFTG = NUMELS+NUMELQ+ NUMELC+NUMELT+NUMELP+NUMELR
 
-        !       1st step : count the number of element per proc and allocate the structur
+        !       1st step : count the number of element per proc and allocate the structure
         K1 = 1
 
         DO NV=1,NVOLU                   !       NVOLU = number of volume

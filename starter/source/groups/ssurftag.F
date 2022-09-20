@@ -64,7 +64,7 @@ C-----------------------------------------------
 !
       TYPE (SURF_) :: IGRSURF
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*       
-!       FLAG_GRBRIC : flag to initialize the INDX_SOL(10) arraies
+!       FLAG_GRBRIC : flag to initialize the INDX_SOL(10) arrays
 !                     and optimize an old and expensive treatment in SSURFTAG
 !                     = true for /SURF/GCBRIC
 !                     = false  if /SURF/XXX is different from  /SURF/GCBRIC
@@ -77,14 +77,14 @@ C-----------------------------------------------
 !       NINDX_SOL(10) : number of the tagged solid(10) element
 !                      --> need to split solid and solid10 
 !                      for a treatment in the SSURFTAG routine
-!                      only usefull for /SURF/GRBRIC
+!                      only useful for /SURF/GRBRIC
 !       INDX_SOL(10) : ID of the tagged solid(10) element
 !                      --> need to split solid and solid10 
 !                      for a treatment in the SSURFTAG routine
-!                      only usefull for /SURF/GRBRIC
-!       SURF_ELM : PART_TYPE structur 
+!                      only useful for /SURF/GRBRIC
+!       SURF_ELM : PART_TYPE structure
 !                  %NSOL(10) : number of element per part
-!                  %SOL(10)_PART : ID of the element 
+!                  %SOL(10)_PART : ID of the element
 !       ----------------
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 C-----------------------------------------------
@@ -130,7 +130,7 @@ C       External surface only.
               NS(II)=IXS(FACES(II,JJ)+1,JS)
             END DO
 C
-C           keep only 1 occurence of each node (triangles, degenerated cases...)
+C           keep only 1 occurrence of each node (triangles, degenerated cases...)
             DO K1=1,3
               DO K2=K1+1,4
                 IF(NS(K2)==NS(K1))NS(K2)=0
@@ -165,7 +165,7 @@ C           looks for an elt sharing the face.
             DO K=KNOD2ELS(NI(1))+1,KNOD2ELS(NI(1)+1)
               KS=NOD2ELS(K)
               IF(KS==JS .OR. KS > NUMELS8+NUMELS10)CYCLE
-              IF (KEY(1:6)=='GRBRIC'.AND.TAGBUF(KS)==0.AND.IFRE==0)CYCLE ! if IFRE=0 on cherche la connectivite uniquement avec les elements du marques du groupe (cycle), sinon si IFRE=1 on cherche la connectivité avec tout le monde
+              IF (KEY(1:6)=='GRBRIC'.AND.TAGBUF(KS)==0.AND.IFRE==0)CYCLE ! if IFRE=0 on cherche la connectivite uniquement avec les elements du marques du groupe (cycle), sinon si IFRE=1 on cherche la connectivitï¿½ avec tout le monde
               IF (KEY(1:6)/='GRBRIC'.AND.TAGBUF(IPARTS(KS))==0)CYCLE     
               DO II=1,NF
                 NODTAG(NI(II))=0
@@ -183,7 +183,7 @@ C           looks for an elt sharing the face.
             	    MS(II)=IXS(FACES(II,KK)+1,KS)
             	  END DO
 C
-C                 keep only 1 occurence of each node (triangles, degenerated cases...)
+C                 keep only 1 occurrence of each node (triangles, degenerated cases...)
             	  DO K1=1,3
             	    DO K2=K1+1,4
             	      IF(MS(K2)==MS(K1))MS(K2)=0
@@ -595,7 +595,7 @@ C       Tag nodes External surface (solid)
               NS(II)=IXS(FACES(II,JJ)+1,JS)
             END DO
 C
-C           keep only 1 occurence of each node (triangles, degenerated cases...)
+C           keep only 1 occurrence of each node (triangles, degenerated cases...)
             DO K1=1,3
               DO K2=K1+1,4
                 IF(NS(K2)==NS(K1))NS(K2)=0
@@ -646,7 +646,7 @@ C           looks for an elt sharing the face.
             	    MS(II)=IXS(FACES(II,KK)+1,KS)
             	  END DO
 C
-C                 keep only 1 occurence of each node (triangles, degenerated cases...)
+C                 keep only 1 occurrence of each node (triangles, degenerated cases...)
             	  DO K1=1,3
             	    DO K2=K1+1,4
             	      IF(MS(K2)==MS(K1))MS(K2)=0

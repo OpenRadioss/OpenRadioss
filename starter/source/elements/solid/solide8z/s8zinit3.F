@@ -323,7 +323,7 @@ c
         ENDDO
         ENDDO
         ENDDO
-C   cas LBUF%L_PIJ>24 local system w/ assumed strain and retrun to global only for Isolid=18
+C   cas LBUF%L_PIJ>24 local system w/ assumed strain and return to global only for Isolid=18
        ELSE
         CALL SRCOOR3(X,BID(1),IXS(1,NF1)   ,GEO  ,MAT  ,PID  ,NGL  ,JHBE ,
      .           IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8  ,

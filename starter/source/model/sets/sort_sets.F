@@ -44,7 +44,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
-C   Main Routine to Sort SETs according to their dependancies (/SET of /SET)
+C   Main Routine to Sort SETs according to their dependencies (/SET of /SET)
 C   If a SET has SET clause (child SETs), ensure that those are treated before.
 C
 C   All Sets are parsed to find Child Sets, fill a Graph with SET & Childs 

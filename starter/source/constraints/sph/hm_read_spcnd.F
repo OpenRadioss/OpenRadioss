@@ -91,7 +91,7 @@ C-----------------------------------------------
       INTEGER NGR2USR
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C-----------------------------------------------
-      DATA MESS/'SPECIFIC TO SPH SYMETRY CONDITIONS      '/
+      DATA MESS/'SPECIFIC TO SPH SYMMETRY CONDITIONS      '/
 C-----------------------------------------------
       WRITE(IOUT,1000)
       NY = 0
@@ -184,10 +184,10 @@ C-------------------------------------
       RETURN
 C
 1000  FORMAT(
-     . '      SPECIFIC TO SPH SYMETRY CONDITIONS '/
+     . '      SPECIFIC TO SPH SYMMETRY CONDITIONS '/
      . '      ---------------------------------- '/)
 1100  FORMAT(/5X,'CONDITION ID                               ',I10,1X,A
-     .       /10X,'NORMAL DIRECTION TO SYMETRY PLANE         ',A10,
+     .       /10X,'NORMAL DIRECTION TO SYMMETRY PLANE         ',A10,
      .       /10X,'REFERENCE FRAME ID                        ',I10,
      .       /10X,'NODES GROUP ID FOR KINEMATIC CONDITIONS   ',I10,
      .       /10X,'FORMULATION LEVEL                         ',I10)

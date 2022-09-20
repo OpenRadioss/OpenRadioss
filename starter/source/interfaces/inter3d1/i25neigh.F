@@ -309,7 +309,7 @@ C
         ADMSR(4,I)=NTAG(ADMSR(4,I))
       END DO
 C-------------------------------------------------
-C     Compute adresses for Parith/ON assembling of the normals
+C     Compute addresses for Parith/ON assembling of the normals
 C-------------------------------------------------
       NTAG(1:4*NRTM)=0
       DO I=1,NRTM

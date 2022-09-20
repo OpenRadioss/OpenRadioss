@@ -198,7 +198,7 @@ C-----------------------------------------------
       ENDDO
 
       
-!     Flag Elems to supress
+!     Flag Elems to suppress
       FLAG_ELEM(1:NTG + NTGI) = 1
       IAD1 = 1
       DO ICOMP = 1, NB_CONNEX_COMP

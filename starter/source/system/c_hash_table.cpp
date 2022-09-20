@@ -48,7 +48,7 @@ extern "C" {
      } 
     }
 
-// should be called with val beeing an invalid value
+// should be called with val being an invalid value
     void c_hash_find_(int * map_id, int * key, int * val  )
     {
       if(*map_id >= 0 && *map_id < umaps.size())

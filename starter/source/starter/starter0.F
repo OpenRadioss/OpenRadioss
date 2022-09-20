@@ -316,7 +316,7 @@ C init to 0 variable position writing double precision (XDP)
 C
       IF(IR4R8==2) ITESTV=-ITESTV
 C
-C Dynamical Libaries initialization
+C Dynamical Libraries initialization
         USERLIB_LIST(1:100)=0
         IF(GOT_USERL_ALTNAME==1)THEN
           DLIBFILE(1:LEN_USERL_ALTNAME)=USERL_ALTNAME(1:LEN_USERL_ALTNAME)
@@ -815,7 +815,7 @@ C restart file with binary format ieee 64 bits .Z
         CALL OPEN_C(IFILNAM,OUTFILE_NAME_LEN+ROOTLEN+14,3)
         CALL WRITE_C_C(IFILNAM,ROOTLEN+14)
        ELSEIF (IRFORM/5==4) THEN
-C restart writen file with binary format ieee 64 bits .gz
+C restart written file with binary format ieee 64 bits .gz
         DO I=1,OUTFILE_NAME_LEN
             IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))     
         ENDDO

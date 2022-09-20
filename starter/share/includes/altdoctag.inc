@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C.. Altdoctag common need to transfert Altdoctag informations to the Engine.
+C.. Altdoctag common need to transfer Altdoctag information to the Engine.
 
       COMMON /ALTDOCTAG/ ALTTAGLEN, CHKSUMLEN, IALTTAGSTR,ICHKSUMSTR
       COMMON /ALTDOCSTRING/ ALTTAGSTR, CHKSUMSTR

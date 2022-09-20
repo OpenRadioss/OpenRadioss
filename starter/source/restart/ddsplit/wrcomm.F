@@ -325,7 +325,7 @@ C---- fin check point restart
 C      
       LVARREA=RVARINT
 C----------------------------------------------------------------
-C    warning to radioss developpers : Check LVARREA < LMXVREA
+C    warning to radioss developers : Check LVARREA < LMXVREA
 C----------------------------------------------------------------
       IF(LVARREA>LMXVREA)STOP 123
 C

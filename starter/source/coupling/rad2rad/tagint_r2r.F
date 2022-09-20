@@ -340,7 +340,7 @@ C-->  if one side is empty interface is not kept   <---
       	
       GOTO 150
       
-C-->  tag and couting for contact interfaces that will be kept  <---      
+C-->  tag and counting for contact interfaces that will be kept  <---
 149   TAGINT(I) = ID_INTER
       COMPT = COMPT+1
       

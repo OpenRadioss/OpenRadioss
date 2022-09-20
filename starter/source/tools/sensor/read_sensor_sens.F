@@ -72,7 +72,7 @@ C-----------------------------------------------
 C--------------------------------
 C     SENSOR BASED ON SENSOR1 AND SENSOR2 state:
 c          activated when sensor1 is active
-c          desactivated when sensor2 is active
+c          deactivated when sensor2 is active
 C=======================================================================
       IS_AVAILABLE = .FALSE.
 c--------------------------------------------------

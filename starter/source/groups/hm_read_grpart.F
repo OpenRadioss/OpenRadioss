@@ -107,7 +107,7 @@ C    IGRPART(IGS)%GRPGRP : TYPE of part GROUP
 !                                 = 3 SUBSET,PART,MAT,PROP
 !                                 = 4 BOX,GENE
 !                                 = 5 SUBMOD
-C    IGRPART(IGS)%LEVEL  : Hierachy level
+C    IGRPART(IGS)%LEVEL  : Hierarchy level
 !                             (FLAG 'SUBLEVEL DONE' FOR GROUPS OF GROUPS)
 !                            = 0 ---> not yet initialized
 !                            = 1 ---> done

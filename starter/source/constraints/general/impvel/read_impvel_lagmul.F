@@ -205,7 +205,7 @@ c       Read NODE numbers from the group
            LAG_NKF = LAG_NKF + NNOD*3
         ENDIF
 c--------------------------------------------------
-c       Treatment of explicitely defined nodes
+c       Treatment of explicitly defined nodes
 c--------------------------------------------------
         DO J=1,NNOD
             INUM = INUM + 1   

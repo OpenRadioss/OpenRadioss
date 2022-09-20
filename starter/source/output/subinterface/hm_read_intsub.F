@@ -423,7 +423,7 @@ C
           CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,
      .                          NINTER+I),LTITR)
 C
-C    ------   If one of the 2 surface is empty then type7 is symetric ------
+C    ------   If one of the 2 surface is empty then type7 is symmetric ------
           IF ((ISU1==0).AND.(ISU2/=0)) THEN
             ISU1 = ISU2
           ELSEIF ((ISU1/=0).AND.(ISU2==0)) THEN

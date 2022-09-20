@@ -31,7 +31,7 @@ Chd|====================================================================
         SUBROUTINE DEALLOCATE_IGRSURF_SPLIT(T_MONVOL,IGRSURF_PROC)
 !$COMMENT
 !       DEALLOCATE_IGRSURF_SPLIT description
-!       DEALLOCATE_IGRSURF_SPLIT deallocates the local IGSURF_PROC arraies
+!       DEALLOCATE_IGRSURF_SPLIT deallocates the local IGSURF_PROC arrays
 !       
 !       DEALLOCATE_IGRSURF_SPLIT organization :
 !       -loop over NVOLU in order to deallocate the array

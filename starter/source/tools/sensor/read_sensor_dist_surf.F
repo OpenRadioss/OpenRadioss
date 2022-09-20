@@ -131,7 +131,7 @@ c--------------------------------------------------
 c
       SENSOR_PTR%TYPE    = SENS_TYPE     ! sensor type
       SENSOR_PTR%SENS_ID = SENS_ID
-      SENSOR_PTR%STATUS  = 0             ! status = desactivated
+      SENSOR_PTR%STATUS  = 0             ! status = deactivated
       SENSOR_PTR%TSTART  = INFINITY
       SENSOR_PTR%TCRIT   = INFINITY
       SENSOR_PTR%TMIN    = TMIN

@@ -92,7 +92,7 @@ C--------------------------------------------------
       CALL HM_OPTION_START('/DEFAULT/INTER')
 
 C--------------------------------------------------
-C BROWSING MODEL INTERACES 1->HM_NINTER_DEF
+C BROWSING MODEL INTERFACES 1->HM_NINTER_DEF
 C--------------------------------------------------
       DO I=1,HM_NINTER_DEF
 

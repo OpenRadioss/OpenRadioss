@@ -423,8 +423,8 @@ C-----------------------------------------------
      .     /5X,'INCOMPRESSIBLE VOLUME.. . . . . . . . .=',1PG20.13,
      .     /5X,'INITIAL MASS. . . . . . . . . . . . . .=',1PG20.13,
      .     /5X,'RELAXATION TIME . . . . . . . . . . . .=',1PG20.13,
-     .     /5X,'INTIAL MASS DENSITY . . . . . . . . . .=',1PG20.13,
-     .     /5X,'INTIAL TEMPERATURE  . . . . . . . . . .=',1PG20.13)
+     .     /5X,'INITIAL MASS DENSITY. . . . . . . . . .=',1PG20.13,
+     .     /5X,'INITIAL TEMPERATURE . . . . . . . . . .=',1PG20.13)
  1370 FORMAT(
      .     /5X,'VENT HOLES                              ',
      .     /5X,'----------                              ')

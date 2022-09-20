@@ -123,7 +123,7 @@ C-----------------------------------------------
             CALL HM_GET_STRING('set_Type', SET_TYPE ,ncharfield, IS_AVAILABLE)
 !-----------------------
 ! issue 'SET_TYPE'  ---> read one more character than the SET_TYPE
-! ===> workarround
+! ===> workaround
             ITMP = LEN(TRIM(SET_TYPE))
             IF (ITMP > 0) THEN
               ICODE = IACHAR(SET_TYPE(ITMP:ITMP))
@@ -143,7 +143,7 @@ C-----------------------------------------------
               CALL HM_GET_STRING_INDEX('KEY_type', KEYSET, J, ncharline, IS_AVAILABLE)
 !-----------------------
 ! issue 'KEYSET'  ---> read one more character than the KEYSET
-! ===> workarround
+! ===> workaround
               ITMP = LEN(TRIM(KEYSET))
               ICODE = IACHAR(KEYSET(ITMP:ITMP))
               IF (ICODE == 0)  KEYSET(ITMP:ITMP)=' '

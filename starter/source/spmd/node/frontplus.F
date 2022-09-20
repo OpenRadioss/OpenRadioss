@@ -141,7 +141,7 @@ c one or more SPMD domain(s) already attributed for this node
       ! test if domain to insert is lower than current domain 
       ! test assure that P is different from IFRONT%P(1,CURR)
       IF(IFRONT%P(1,CURR)>P)THEN
-	! insert P at begining of the list
+	! insert P at beginning of the list
         IF(IFRONT_END+1>SIFRONT)THEN
 	  ! realloc if needed
 	  CALL REALLOC_IFRONT() 
@@ -246,7 +246,7 @@ C-----------------------------------------------------
       !    Test if node to insert is lower than current node 
       !    Test assure that P is different from IFRONT%P(1,CURR)
       IF(IDDCONNECT%PDOM(1,CURR)>P)THEN
-	!    Insert P at begining of the list
+	!    Insert P at beginning of the list
         IF(IDDCONNECT_END+1>SIDDCONNECT)THEN
 	  !    Realloc if needed
 	  CALL REALLOC_IDDCONNECT(NUMEL) 

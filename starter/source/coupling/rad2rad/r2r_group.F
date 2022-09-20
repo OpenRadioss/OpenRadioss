@@ -191,8 +191,8 @@ C-----2 pass : pass 1 - contact nodes / passe 2 - connection nodes
         N = P
         IF (IPID==0) N = IDDOM
         COMPT = 0
-C--------------------------------------------------------------------C			
-C---------------FLAG = 0 --> tag of nodes and couting ---------------C
+C--------------------------------------------------------------------C
+C---------------FLAG = 0 --> tag of nodes and counting --------------C
 C--------------------------------------------------------------------C
         IF (FLAG==0) THEN
 C---------------Reset of out file + printout of new heading ---------C
@@ -297,7 +297,7 @@ C---------------Tag of nodes -> pass 2-------------------------------C
 C---------------Tag of 3rd nodes of beams/springs -> pass 3----------C
         CALL TAGNOD_R2R(IXP,NIXP,4,4,NUMELP,IPARTP,TAGNO,NPART,3,N)
         CALL TAGNOD_R2R(IXR,NIXR,4,4,NUMELR,IPARTR,TAGNO,NPART,3,N)
-C---------------Tag of additionals nodes for kjoints-- --------------C        
+C---------------Tag of additional nodes for kjoints-- --------------C        
         CALL TAGNOD_R2R(IXR_KJ,5,1,3,NUMELR,IPARTR,TAGNO,NPART,4,N)        
 C---------------Tag of specific nodes -> Skew,Frames-----------------C 
         IF (P==NSUBDOM_LOC) CALL TAGNOD_R2R_S(TAGNO)
@@ -370,7 +370,7 @@ C---------------Determination of flag for coupled sph particles------C
           DO J=1,NUMSPH
             IF (TAGNO(KXSP(NISP*(J-1)+3)+NPART)>1) FLG_SPH = 1
           END DO   
-C---------------Couting of remaining nodes---------------------------C
+C---------------Counting of remaining nodes--------------------------C
           COMPT = 0
           DO J=1,NUMNOD
             IF (TAGNO(J+NPART)>1) INNOD = INNOD+1	        

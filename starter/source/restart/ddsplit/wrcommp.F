@@ -1382,7 +1382,7 @@ C   ----for spmd
       TABVINT(LVARINT)= NSPMD+1
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= NBDDNRBE2_L
-C   ----for hierachy both smp & spmd
+C   ----for hierarchy both smp & spmd
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NHRBE2
 C
@@ -1932,7 +1932,7 @@ C---- Time history strain flag
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=TH_STRAIN
 C----------------------------------------------------------------
-C    warning to radioss developpers : Check LVARINT < LMXVINT
+C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------
       IF(LVARINT>LMXVINT)STOP 123
 C-----------

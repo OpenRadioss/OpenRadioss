@@ -674,12 +674,12 @@ C-----------------------------------------------
 !             KNOD2SURF(NSH) - the nb of surfaces of the current container IDC, 
 !                              connected to node NSH
               DO JJ=1,KNOD2SURF(NSH)
-!               INOD2SURF(JJ,NSH) - identify the segment of the curent surface
+!               INOD2SURF(JJ,NSH) - identify the segment of the current surface
 !                                   container
                 IPL = INOD2SURF(JJ,NSH)
 !               SEGTOSURF(IPL) - identify the right surface to whom the segment
-!               IPL belongs. One node NSH can connect segments comming from
-!               differents surface containers.
+!               IPL belongs. One node NSH can connect segments coming from
+!               different surface containers.
 !               Do not forget that containers overwrite phases (superpose)
                 ISURF = SEGTOSURF(IPL)
                 IPL = IPL - SWIFTSURF(ISURF)

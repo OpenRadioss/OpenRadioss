@@ -640,7 +640,7 @@ C poids interface deja calcul
                 PID = ABS(IXS(10,I))
                 JALE_FROM_MAT = NINT(PM(72,MID))
                 JALE_FROM_PROP = IGEO(62,PID)
-                JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
+                JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if inconsistent, error message was displayed in PART reader
                 MLN = NINT(PM(19,MID))
                 IF(JALE==0.AND.MLN/=18)THEN
                   IWD(NCOND*(I-1)+1) = INT(WD(I)*1000)

@@ -105,7 +105,7 @@ C   ===================
 C
 C     NAME               DESCRIPTION                         
 C
-C     ENTITY_TYPE        KEYWORD YOU WANT TO FIND NUMBER OF OCCURENCES 
+C     ENTITY_TYPE        KEYWORD YOU WANT TO FIND NUMBER OF OCCURRENCES 
 C          'MATERIAL'
 C          'PROPERTY'
 C          'PART'
@@ -124,7 +124,7 @@ C          'AIRBAG'
 C          'FRICTION'
 C          'UNIT'
 C          ...........
-C     HM_OPTION_NUMBER   NUMBER OF OCCURENCES
+C     HM_OPTION_NUMBER   NUMBER OF OCCURRENCES
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------

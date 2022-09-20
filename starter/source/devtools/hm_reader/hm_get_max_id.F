@@ -100,7 +100,7 @@ C--------------------------------------------------
       CALL HM_OPTION_COUNT(NAME(1:LEN_TRIM(NAME)), NBOPTION)
       CALL HM_OPTION_START(NAME(1:LEN_TRIM(NAME)))
 C--------------------------------------------------
-C      READ EACH OCCURENCE OF OPTION 
+C      READ EACH OCCURRENCE OF OPTION 
 C--------------------------------------------------
       IF(NBOPTION > 0)THEN
         DO I=1,NBOPTION

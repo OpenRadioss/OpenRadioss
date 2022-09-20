@@ -639,9 +639,9 @@ C-----------------------------------------------
         INTEGER, DIMENSION(3*NUMELTG,*), INTENT(in) :: FACE_ELM_TG
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       INDX_xxx : integer ; dimension=NUMELxxx ; index for the surface
-!                  of the remote connecte element
+!                  of the remote connected element
 !       FACE_ELM_xxx : integer ; dimension=(6/4/3*NUMELxxx,2) ; surface
-!                  of the remote connecte element
+!                  of the remote connected element
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
         TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
 C-----------------------------------------------
@@ -3178,7 +3178,7 @@ C--------------------------------------
       END IF
 #ifdef DNC
 C--------------------------------------
-C MDS Restart informations
+C MDS Restart information
 C--------------------------------------
       CALL MDS_RESTART()
 #endif
@@ -3315,7 +3315,7 @@ C  ply xfem
 C
        IF(IPLYXFEM > 0 ) THEN
          OFF = NUMELS + NUMELQ
-C plyxfem float + interger
+C plyxfem float + integer
          CALL W_PXFEM(IEPXFEM_L,INPXFEM_L ,INDEX_PXFEM,
      .                MS_PLY,ZI_PLY ,NUMELC_L, NUMNOD_L   ,
      .                NUMELCPXFE_L,NUMNODPXFE_L,LEN_AM,LEN_IA,MSZ2)
@@ -3354,7 +3354,7 @@ C--------------------------------------------
 C  crack xfem
 C--------------------------------------------
        IF(ICRACK3D > 0)THEN
-C  interger
+C  integer
          CALL W_CRKXFEM(IELXFEMC_L,IELXFEMTG_L,INCRKXFEM_L,NUMELC_L,
      .                  NUMELTG_L,NUMNOD_L,LEN_IA,NUMNODCRKXFE_L,
      .                  NODLEVXF_L)

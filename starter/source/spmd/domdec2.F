@@ -3220,7 +3220,7 @@ C-----------------------------------------------
       TAGI(1:NUMNOD) = 0 
       NNF(1:NS10E) = 1 
       IPLUS = 0
-C-------------only one of the mid-node is choosen (max_nf) for 1er pass---------
+C-------------only one of the mid-node is chosen (max_nf) for 1er pass---------
       DO N = 1, NS10E
         NN = ICNDS10(1,N)
         IF(ITAGND(NN)>NS10E) CYCLE

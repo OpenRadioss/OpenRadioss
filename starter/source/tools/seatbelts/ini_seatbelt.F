@@ -405,7 +405,7 @@ C
             N3 = IXC(4,J)
             N4 = IXC(5,J)
 C
-C--         Scale factor on stress intialised 
+C--         Scale factor on stress initialised 
             GBUF%INTVAR(I) = ONE
 C
 C--         Initial length of fram 1/2 and fram 4/3
@@ -417,7 +417,7 @@ C
             DO M=2,5
 CCC-        Find node after node i
 C
-C--             spring either betwenn node 1/2 - or 3/4
+C--             spring either between node 1/2 - or 3/4
                 IF (M==2) MS =3
                 IF (M==3) MS =2
                 IF (M==4) MS =5

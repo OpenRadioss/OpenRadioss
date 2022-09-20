@@ -779,11 +779,11 @@ C
 	NB_INT = 0
         KCUR = KINTER
 C
-C-->  for TYPE19 interfaces NSLASH(KCUR) > NINTER because of specif /card for TYPE19	
+C-->  for TYPE19 interfaces NSLASH(KCUR) > NINTER because of specific /card for TYPE19	
 	IF (PASSE==0) ALLOCATE(TAGINT(HM_NINTER+NSLASH(KCUR)),TAGINT_WARN(NINTER+1))
 C
 C--     -> FOR TAGINT subinterfaces are stored with interfaces in order of the reader
-C--     -> TAGINT( --- INTER new reader + SUB interfaces --- INTER old reader -- )         
+C--     -> TAGINT( --- INTER new reader + SUB interfaces --- INTER old reader -- )
 C
 	TAGINT(:)=0
 	TAGINT_WARN(:)=0	

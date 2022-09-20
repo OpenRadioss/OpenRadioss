@@ -382,7 +382,7 @@ c-------------------------------------------------------
           MEAN  = SUM(ARRAY)/NB_RANDOM
           STDEV = SQRT(SUM((ARRAY - MEAN)**2)/NB_RANDOM)
 c-------------------------------------------------------
-c         plot normal ditribution
+c         plot normal distribution
 c-------------------------------------------------------
           IF (I_METHOD == 2) THEN
             MAX_DISTRIB = ONE /(STDEV*SQRT(TWO * pi))

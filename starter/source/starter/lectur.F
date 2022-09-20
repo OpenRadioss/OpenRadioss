@@ -1053,7 +1053,7 @@ C
 !                 tag array=0 --> the SKEW is not used by a SPRING
 !                 tag array=1 --> the SKEW is used by one SPRING
 !                 tag array>1 --> the SKEW is used by several SPRING
-!                 tag array <0 --> the SKEW is used by serveral options (has to be duplicated to all domains that have the nodes)
+!                 tag array <0 --> the SKEW is used by several options (has to be duplicated to all domains that have the nodes)
 !       MULTIPLE_SKEW : SKEW_TYPE ; dimension=NUMSKW+1
 !                       MULTIPLE_SKEW(I)%PLIST(:) is a list of processor
 !                       where the SKEW is stuck
@@ -1093,9 +1093,9 @@ c For /RANDOM --------------------------------------------------
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       BOOL_ALE_TG : logical, true only if 2d model + MULTI_FVM used
 !       INDX_xxx : integer ; dimension=NUMELxxx ; index for the surface
-!                  of the remote connecte element
+!                  of the remote connected element
 !       FACE_ELM_xxx : integer ; dimension=(6/4/3*NUMELxxx,2) ; surface
-!                  of the remote connecte element
+!                  of the remote connected element
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
         LOGICAL :: BOOL_ALE_TG
         INTEGER, DIMENSION(:), ALLOCATABLE :: INDX_S,INDX_Q,INDX_TG
@@ -4226,7 +4226,7 @@ C--------------------------------------------
      2     IXTG     ,PM       ,IGEO      ,ITAB              ,GEO     ,
      3     NALE_R2R ,NSUBDOM  ,MULTI_FVM ,ALE_CONNECTIVITY)
 C     ---------------------------------------------------------------
-C     Unplug neighboor elements in case of direct lagrangian coupling
+C     Unplug neighbor elements in case of direct lagrangian coupling
 C     ---------------------------------------------------------------
        IF (MULTI_FVM%IS_USED) THEN
           CALL MULTI_UNPLUG_NEIGHBORS(ALE_CONNECTIVITY, IXS, IXQ, IXTG)
@@ -5189,7 +5189,7 @@ C       Sauvegarde longueurs tableaux lagmult
         LAG_NKL0 = LAG_NKL
       CALL TRACE_OUT1()
 C-----------------
-C  Stack part orginisation
+C  Stack part organisation
 C-------------------------
       IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0) THEN
          CALL STACKGROUP(
@@ -5365,7 +5365,7 @@ C
       ENDIF
 C
 c-----------------------------------------------------------------------
-c     Create seatbelt entites + domdec
+c     Create seatbelt entities + domdec
 c-----------------------------------------------------------------------
 C
       N_SEATBELT = 0
@@ -7263,7 +7263,7 @@ C
        AUX = 2002 + 8*MAXRTMS
        NS_I11 = MAX(NS_I11,AUX)
 C
-C      Max size for itnerface type2 - i2buc1
+C      Max size for interface type2 - i2buc1
        AUX = MAX( NUMNOD , MAXRTM_T2+100 )
        NS_I2 = 2*NUMNOD + 2002 + 4*AUX
 C
@@ -7310,7 +7310,7 @@ C read /INIBRI/FILL before interfaces stiffness
 C
 C fill interface structure to be used by sorting
 c set INTERCEP for INT7 only to avoid bug with INT20 dur to renumerotation
-c in I20NLG (other inteface types still done in SET_INTERCEP)
+c in I20NLG (other interface types still done in SET_INTERCEP)
         CALL FILL_INTERCEP(IPARI,INTBUF_TAB,INTERCEP)
 C
         CALL ININTR(IPARI     ,INSCR    ,X,V     ,IXS      ,IXQ      ,
@@ -7654,7 +7654,7 @@ C
       IF (NFXBODY>0) THEN
 C
          IF (IDDLEVEL==1) THEN
-C--      lenght must be reset for second pass
+C--      length must be reset for second pass
            LENGLM=0
            LENCP=0
            LENLM=0
@@ -10518,7 +10518,7 @@ c         start CPU timer for ddsplit
                 SIZE_ALE_ELM(1:NSPMD) = 0
           ENDIF
           ! -----------------------------------------
-          ! reverse connectivity for FVM solver : usefull for ensure the parith/on
+          ! reverse connectivity for FVM solver : useful to ensure the parith/on
           IF(IALE+IEULER+ITHERM+IALELAG/=0) THEN
                 ALLOCATE( INDX_S(NUMELS) )
                 ALLOCATE( INDX_Q(NUMELQ) )
@@ -10824,7 +10824,7 @@ C
           IF(NBCSCYC>0) DEALLOCATE(ITAGCYC)
           IF (ALLOCATED(FVM_INIVEL)) DEALLOCATE(FVM_INIVEL)
 C
-C--       Seatblet stuctures deallocation
+C--       Seatblet structures deallocation
           IF (N_SEATBELT > 0) THEN
             DO I=1,N_SEATBELT
               DEALLOCATE(SEATBELT_TAB(I)%SPRING)

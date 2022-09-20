@@ -52,14 +52,14 @@ C-----------------------------------------------
       TYPE(PART_TYPE), DIMENSION(*) :: SURF_ELM
 !
       TYPE (SURF_) :: ISU
-!       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*       
+!       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 !       ----------------
-!       NINDX : number of tagged part 
-!       INDX  : tagged part     
+!       NINDX : number of tagged part
+!       INDX  : tagged part
 !       ----------------
-!       SURF_ELM : PART_TYPE structur 
+!       SURF_ELM : PART_TYPE structure
 !                  %NSHELL or %NTRI : number of element per part
-!                  %SHELL_PART or %TRI_PART : ID of the element 
+!                  %SHELL_PART or %TRI_PART : ID of the element
 !       ----------------
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 C-----------------------------------------------

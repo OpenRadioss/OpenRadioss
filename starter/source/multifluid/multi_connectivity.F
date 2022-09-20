@@ -60,9 +60,9 @@ C-----------------------------------------------
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       BOOL_ALE_TG : logical, true only if 2d model + MULTI_FVM used
 !       INDX_xxx : integer ; dimension=NUMELxxx ; index for the surface 
-!                  of the remote connecte element
+!                  of the remote connected element
 !       FACE_ELM_xxx : integer ; dimension=(6/4/3*NUMELxxx,2) ; surface 
-!                  of the remote connecte element
+!                  of the remote connected element
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
         LOGICAL, INTENT(in) :: BOOL_ALE_TG
         INTEGER, DIMENSION(NUMELS), INTENT(inout) :: INDX_S

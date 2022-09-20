@@ -767,7 +767,7 @@ C
      .                        I3=MLAWLY)
   450         CONTINUE
             ENDIF !IF (IGTYP == 17) THEN
-         ENDIF ! beging igtype = 17   
+         ENDIF ! begin igtype = 17   
       ENDDO ! DO CPT = 1, HM_NUMGEO
 C------------------------------
 C SQRT precalculation

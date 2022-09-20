@@ -1296,7 +1296,7 @@ C=======================================================================
      .'    NUMSPH : NUMBER OF SMOOTH PARTICLES (SPH CELLS) . . .',
      .                                                      NUMSPH
       WRITE (IOUT,'(A,I10)')
-     .'    NSPHBCS: NUMBER OF SPH SYMETRY CONDITIONS . . . . . .',
+     .'    NSPHBCS: NUMBER OF SPH SYMMETRY CONDITIONS . . . . . .',
      .                                                     NSPCOND
       WRITE (IOUT,'(A,I10)')
      .'    NSPHIO : NUMBER OF SPH INLET/OUTLET CONDITIONS. . . .',
