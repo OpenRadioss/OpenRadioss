@@ -1601,7 +1601,7 @@ C
            DHOUT  =DHOUT+RBAGHOL(22,IVENT)
         ENDDO
         FSAV(7) =FSAV(7) /MAX(AOUTOT,EM20)
-        FSAV(13)=DTPOLH(PHDT)
+        FSAV(13)=DTX ! not DTPOLH(PHDT) since DTX may be updated with smoothing factor
 
         IF(ITYP == 8) THEN
            CALL FVINJT8_1(NJET, IBAGJET , RBAGJET , IGEO, GEO, PM,
