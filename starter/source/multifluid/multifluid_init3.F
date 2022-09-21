@@ -145,7 +145,7 @@ C-----------------------------------------------
      .     PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),PX4(MVSIZ),
      .     PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
      .     PZ1(MVSIZ),PZ2(MVSIZ),PZ3(MVSIZ),PZ4(MVSIZ),
-     .     RHOF(MVSIZ),ALPHA(MVSIZ), DELTAX(MVSIZ), AIRE(1), DUMMY, PRES, VFRAC
+     .     RHOF(MVSIZ),ALPHA(MVSIZ), DELTAX(MVSIZ), AIRE(MVSIZ), DUMMY, PRES, VFRAC
       my_real
      .     BID, FV, STI
       DOUBLE PRECISION

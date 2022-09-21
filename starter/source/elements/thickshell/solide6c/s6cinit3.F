@@ -133,7 +133,7 @@ C-----------------------------------------------
      .   E2X(MVSIZ),E2Y(MVSIZ),E2Z(MVSIZ),
      .   E3X(MVSIZ),E3Y(MVSIZ),E3Z(MVSIZ),
      .   F1X(MVSIZ) ,F1Y(MVSIZ) ,F1Z(MVSIZ) ,LLSH(MVSIZ) ,
-     .   F2X(MVSIZ) ,F2Y(MVSIZ) ,F2Z(MVSIZ) ,RHOCP(MVSIZ),TEMP0(MVSIZ), DELTAX(MVSIZ), AIRE(1)
+     .   F2X(MVSIZ) ,F2Y(MVSIZ) ,F2Z(MVSIZ) ,RHOCP(MVSIZ),TEMP0(MVSIZ), DELTAX(MVSIZ), AIRE(MVSIZ)
 C-----------------------------------------------
 C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF     

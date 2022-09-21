@@ -131,7 +131,7 @@ C-----------------------------------------------
      .   E1X(MVSIZ),E1Y(MVSIZ),E1Z(MVSIZ),E2X(MVSIZ),
      .   E2Y(MVSIZ),E2Z(MVSIZ),E3X(MVSIZ),E3Y(MVSIZ),E3Z(MVSIZ),
      .   NX(MVSIZ,10,5), WIP(5,5) ,ALPH(5,5),BETA(5,5),MASSCP(MVSIZ),
-     .   RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(1), DTX(MVSIZ)
+     .   RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(MVSIZ), DTX(MVSIZ)
 C
 C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER :: LBUF     

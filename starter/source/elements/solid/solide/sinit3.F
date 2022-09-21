@@ -154,7 +154,7 @@ C-----------------------------------------------
      .   PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),PX4(MVSIZ),
      .   PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
      .   PZ1(MVSIZ),PZ2(MVSIZ),PZ3(MVSIZ),PZ4(MVSIZ),
-     .   RHOF(MVSIZ),ALPHA(MVSIZ), AIRE(1),RHO0(MVSIZ)
+     .   RHOF(MVSIZ),ALPHA(MVSIZ), AIRE(MVSIZ),RHO0(MVSIZ)
       my_real :: BID, FV, STI
       my_real :: DELTAX(MVSIZ)
       DOUBLE PRECISION 
