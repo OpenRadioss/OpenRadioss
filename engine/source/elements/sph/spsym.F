@@ -66,16 +66,15 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),ITAB(*),
+      INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),ITAB(NUMNOD),
      .        ISPCOND(NISPCOND,*),ISPSYM(NSPCOND,*),
      .        IREDUCE, WSP2SORT(*), ITASK, KREDUCE(*),
-     .        LGAUGE(3,*)
-C     REAL
+     .        LGAUGE(3,NBGAUGE)
       my_real
-     .   X(3,*) ,V(3,*) ,MS(*) ,SPBUF(NSPBUF,*) ,
+     .   X(3,NUMNOD) ,V(3,NUMNOD) ,MS(*) ,SPBUF(NSPBUF,*) ,
      .   XFRAME(NXFRAME,*) ,
      .   XSPSYM(3,*) ,VSPSYM(3,*),
-     .   MYSPATRUE, DMAX, MYSPATRUE2, GAUGE(LLGAUGE,*)
+     .   MYSPATRUE, DMAX, MYSPATRUE2, GAUGE(LLGAUGE,NBGAUGE)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -99,7 +98,10 @@ C     new construction of ghost particles is necessary.
 
 c     save MYSPATRUE value
       MYSPATRUE2 = MYSPATRUE
-C      NSPHSYM=0 initialise dans sphprep
+C      NSPHSYM=0 initialized in sphprep
+
+      NVOIS1 = 0
+      NVOISS1 = 0
 
       DO NC=1,NSPCOND
         IS=ISPCOND(3,NC)
@@ -145,7 +147,7 @@ C      NSPHSYM=0 initialise dans sphprep
          ENDIF
         ENDDO
 C
-C Particules symetriques de particules remotes
+C Symmetrical particles of remote particles
 C
         DO NS = ITASK+1,NSPHR,NTHREAD
          XI =XSPHR(3,NS)
@@ -180,7 +182,7 @@ C
         END DO
       END DO
 C
-C Synchro sur ISPSYM & ISPSYMR 
+C Synchronization of ISPSYM & ISPSYMR 
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
@@ -222,7 +224,7 @@ C------
 C------
         DO I=1,NVOIS2
          JNOD=IXSP(I,N)
-         IF(JNOD>0)THEN          ! particule interne       
+         IF(JNOD>0)THEN          ! internal particle       
           M=NOD2SP(JNOD)
           DJ =SPBUF(1,M)
           DIJ=(DI+DJ)
@@ -243,7 +245,7 @@ C------
             END IF
            END IF
           END DO
-         ELSE                    ! particule remote
+         ELSE                    ! remote particle
           NN = -JNOD
           DJ =XSPHR(2,NN)
           DIJ=(DI+DJ)
@@ -258,10 +260,10 @@ C------
             IF(DD<=(ONE+MYSPATRUE2)*DIJ) THEN
              NVOISS=KXSP(7,N)
              NVOISS=NVOISS+1
-             JVOIS(NVOIS2+NVOISS)=-NC-NN*(NSPCOND+1)           ! reperage particule sym remote
+             JVOIS(NVOIS2+NVOISS)=-NC-NN*(NSPCOND+1)           ! identifying remote sym particles
 C             JVOIS(NVOIS2+NVOISS)=NC+M*(NSPCOND+1)
-C 2 choix : NC + (NN+NUMSPH)*(NSPCOND+1) : on retrouve ensuite que NN > NUMSPH
-C           -NC-NN*(NSPCOND+1) : on sait que l'on est sur du remote car -
+C 2 choices : NC + (NN+NUMSPH)*(NSPCOND+1) : we get then NN > NUMSPH
+C           -NC-NN*(NSPCOND+1) : remote if negative sign
              DVOIS(NVOIS2+NVOISS)=DD/DIJ
              KXSP(7,N)=NVOISS
             END IF
@@ -273,7 +275,7 @@ C           -NC-NN*(NSPCOND+1) : on sait que l'on est sur du remote car -
         IF(NVOIS2+NVOISS<=KVOISPH)THEN
 C--------------------------------------------------
 C        ghost particles are added to real ones.
-C        (ordonne les particules fantomes).
+C        (sorting ghost particles).
          NVOISS1=0
          NVOISS2=NVOISS
          DO K=NVOIS2+1,NVOIS2+NVOISS
@@ -297,7 +299,7 @@ C-------
 C        preparing all real neighbours for sort.
          DO J=1,NVOIS2
           JNOD=IXSP(J,N)
-          IF(JNOD>0)THEN               ! particule interne  
+          IF(JNOD>0)THEN               ! internal particle  
             XJ =X(1,JNOD)
             YJ =X(2,JNOD)
             ZJ =X(3,JNOD)
@@ -308,7 +310,7 @@ C        preparing all real neighbours for sort.
             DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
             DVOIS(J)=DD/DIJ
             JVOIS(J)=M*(NSPCOND+1)
-          ELSE                           ! particule remote
+          ELSE                           ! remote particle
             NN = -JNOD
             XJ = XSPHR(3,NN)
             YJ = XSPHR(4,NN)
@@ -333,7 +335,7 @@ C-------
 C        adapting bucket sort true security coefficient ; 
 C        looking if non-zero weight neighbours were lost.
          DK=DVOIS(KVOISPH)
-C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
+C Choice of cells to keep such as distance < DK toa void parith/on issue
 	 NVOIS=0
 	 DO K=1,KVOISPH
 	   IF(DVOIS(K)<DK)THEN
@@ -341,19 +343,18 @@ C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
 	   END IF
 	 END DO
 C-------
-C        Re-ordonne les voisins (particules reelles puis particules fantomes).
+C        Resorting adjacent particles (real ones and then ghost ones).
          NVOIS1=0
-c         DO K=1,KVOISPH
          DO K=1,NVOIS
           JK=JVOIS(K)
           DK=DVOIS(K)
-          IF(JK>0)THEN            ! particule interne
+          IF(JK>0)THEN            ! internal particle
             NC=MOD(JK,NSPCOND+1)
             IF(NC==0.AND.DK<ONE)THEN
               NVOIS1=NVOIS1+1
               IXSP(NVOIS1,N)=KXSP(3,JK/(NSPCOND+1))
             ENDIF
-          ELSE                      ! particule remote
+          ELSE                      ! remote particle
             JK = -JK
             NC=MOD(JK,NSPCOND+1)
             IF(NC==0.AND.DK<ONE)THEN
@@ -368,13 +369,13 @@ C
          DO K=1,NVOIS
           JK=JVOIS(K)
           DK=DVOIS(K)
-          IF(JK>0)THEN            ! particule interne
+          IF(JK>0)THEN            ! internal particle
             NC=MOD(JK,NSPCOND+1)
             IF(NC==0.AND.DK>=ONE)THEN
               NVOIS2=NVOIS2+1
               IXSP(NVOIS2,N)=KXSP(3,JK/(NSPCOND+1))
             END IF
-          ELSE                      ! particule remote
+          ELSE                      ! remote particle
             JK = -JK
             NC=MOD(JK,NSPCOND+1)
             IF(NC==0.AND.DK>=ONE)THEN
@@ -385,19 +386,18 @@ C
          END DO
          KXSP(5,N)=NVOIS2
 C--------
-C        ordonne les particules fantomes.
+C        Sorting ghost particles
          NVOISS1=0
-c         DO K=1,KVOISPH
          DO K=1,NVOIS
           JK=JVOIS(K)
           DK=DVOIS(K)
-          IF(JK>0)THEN            ! particule interne
+          IF(JK>0)THEN            ! internal particle
             NC=MOD(JK,NSPCOND+1)
             IF(NC/=0.AND.DK<ONE)THEN
               NVOISS1=NVOISS1+1
               IXSP(NVOIS2+NVOISS1,N)=JK
             END IF
-          ELSE                      ! particule remote
+          ELSE                      ! remote particle
             JK = -JK
             NC=MOD(JK,NSPCOND+1)
             IF(NC/=0.AND.DK<ONE)THEN
@@ -412,13 +412,13 @@ C
          DO K=1,NVOIS
           JK=JVOIS(K)
           DK=DVOIS(K)
-          IF(JK>0)THEN            ! particule interne
+          IF(JK>0)THEN            ! internal particle
             NC=MOD(JK,NSPCOND+1)
             IF(NC/=0.AND.DK>=ONE)THEN
               NVOISS2=NVOISS2+1
               IXSP(NVOIS2+NVOISS2,N)=JK
             END IF
-          ELSE                      ! particule remote
+          ELSE                      ! remote particle
             JK = -JK
             NC=MOD(JK,NSPCOND+1)
             IF(NC/=0.AND.DK>=ONE)THEN
@@ -429,16 +429,15 @@ C
          END DO
          KXSP(7,N)=NVOISS2
 C-----------------
-        END IF   ! fin suivant NVOIS2+NVOISS<=KVOISPH
+        END IF   ! end : NVOIS2+NVOISS<=KVOISPH
 C
         IF(NVOIS1+NVOISS1 > LVOISPH)IREDUCE=1
 C-------------------------------------------
        END DO
 C-----------------
-C      Gauges
+C      GAUGES
 C-----------------
-C Boucle parallele dynamique SMP
-C
+
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG=1,NBGAUGE
         IF(LGAUGE(1,IG) <= -(NUMELS+1))THEN
@@ -453,7 +452,7 @@ C------
 C------
          DO I=1,NVOIS2
           JNOD=IXSP(I,N)
-          IF(JNOD>0)THEN          ! particule interne       
+          IF(JNOD>0)THEN          ! internal particle    
            M=NOD2SP(JNOD)
            DJ =SPBUF(1,M)
            DIJ=TWO*DJ
@@ -474,7 +473,7 @@ C------
              END IF
             END IF
            END DO
-          ELSE                    ! particule remote
+          ELSE                    ! remote particle
            NN = -JNOD
            DJ =XSPHR(2,NN)
            DIJ=TWO*DJ
@@ -489,10 +488,10 @@ C------
              IF(DD<=(ONE+MYSPATRUE2)*DIJ) THEN
               NVOISS=KXSP(7,N)
               NVOISS=NVOISS+1
-              JVOIS(NVOIS2+NVOISS)=-NC-NN*(NSPCOND+1)           ! reperage particule sym remote
+              JVOIS(NVOIS2+NVOISS)=-NC-NN*(NSPCOND+1)           ! identifying remote sym particle
 C             JVOIS(NVOIS2+NVOISS)=NC+M*(NSPCOND+1)
-C 2 choix : NC + (NN+NUMSPH)*(NSPCOND+1) : on retrouve ensuite que NN > NUMSPH
-C             -NC-NN*(NSPCOND+1) : on sait que l'on est sur du remote car -
+C 2 choices : NC + (NN+NUMSPH)*(NSPCOND+1) : we get then NN > NUMSPH
+C             -NC-NN*(NSPCOND+1) : remote if negative sign
               DVOIS(NVOIS2+NVOISS)=DD/DIJ
               KXSP(7,N)=NVOISS
              END IF
@@ -524,7 +523,7 @@ C-------
 C         preparing all real neighbours for sort.
           DO J=1,NVOIS2
            JNOD=IXSP(J,N)
-           IF(JNOD>0)THEN               ! particule interne  
+           IF(JNOD>0)THEN               ! internal particle 
             XJ =X(1,JNOD)
             YJ =X(2,JNOD)
             ZJ =X(3,JNOD)
@@ -535,7 +534,7 @@ C         preparing all real neighbours for sort.
             DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
             DVOIS(J)=DD/DIJ
             JVOIS(J)=M*(NSPCOND+1)
-           ELSE                           ! particule remote
+           ELSE                           ! remote particle
             NN = -JNOD
             XJ = XSPHR(3,NN)
             YJ = XSPHR(4,NN)
@@ -560,7 +559,7 @@ C-------
 C         adapting bucket sort true security coefficient ; 
 C         looking if non-zero weight neighbours were lost.
           DK=DVOIS(KVOISPH)
-C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
+C Select cells to keep such as distance < DK to avoid parith/on issue
 	  NVOIS=0
 	  DO K=1,KVOISPH
 	   IF(DVOIS(K)<DK)THEN
@@ -568,18 +567,18 @@ C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
 	   END IF
 	  END DO
 C-------
-C         Re-ordonne les voisins (particules reelles puis particules fantomes).
+C         Resorting adjacent particles (real ones and then ghost ones).
           NVOIS1=0
           DO K=1,NVOIS
            JK=JVOIS(K)
            DK=DVOIS(K)
-           IF(JK>0)THEN            ! particule interne
+           IF(JK>0)THEN            ! internal particle
             NC=MOD(JK,NSPCOND+1)
             IF(NC==0.AND.DK<ONE)THEN
               NVOIS1=NVOIS1+1
               IXSP(NVOIS1,N)=KXSP(3,JK/(NSPCOND+1))
             ENDIF
-           ELSE                      ! particule remote
+           ELSE                      ! remote particle
             JK = -JK
             NC=MOD(JK,NSPCOND+1)
             IF(NC==0.AND.DK<ONE)THEN
@@ -594,13 +593,13 @@ C
           DO K=1,NVOIS
            JK=JVOIS(K)
            DK=DVOIS(K)
-           IF(JK>0)THEN            ! particule interne
+           IF(JK>0)THEN            ! internal particle
             NC=MOD(JK,NSPCOND+1)
             IF(NC==0.AND.DK>=ONE)THEN
               NVOIS2=NVOIS2+1
               IXSP(NVOIS2,N)=KXSP(3,JK/(NSPCOND+1))
             END IF
-           ELSE                      ! particule remote
+           ELSE                      ! remote particle
             JK = -JK
             NC=MOD(JK,NSPCOND+1)
             IF(NC==0.AND.DK>=ONE)THEN
@@ -611,18 +610,18 @@ C
           END DO
           KXSP(5,N)=NVOIS2
 C--------
-C         ordonne les particules fantomes.
+C         sorting ghost particles
           NVOISS1=0
           DO K=1,NVOIS
            JK=JVOIS(K)
            DK=DVOIS(K)
-           IF(JK>0)THEN            ! particule interne
+           IF(JK>0)THEN            ! internal particle
             NC=MOD(JK,NSPCOND+1)
             IF(NC/=0.AND.DK<ONE)THEN
               NVOISS1=NVOISS1+1
               IXSP(NVOIS2+NVOISS1,N)=JK
             END IF
-           ELSE                      ! particule remote
+           ELSE                      ! remote particle
             JK = -JK
             NC=MOD(JK,NSPCOND+1)
             IF(NC/=0.AND.DK<ONE)THEN
@@ -637,13 +636,13 @@ C
           DO K=1,NVOIS
            JK=JVOIS(K)
            DK=DVOIS(K)
-           IF(JK>0)THEN            ! particule interne
+           IF(JK>0)THEN            ! internal particle
              NC=MOD(JK,NSPCOND+1)
              IF(NC/=0.AND.DK>=ONE)THEN
                NVOISS2=NVOISS2+1
                IXSP(NVOIS2+NVOISS2,N)=JK
              END IF
-           ELSE                      ! particule remote
+           ELSE                      ! remote particle
              JK = -JK
              NC=MOD(JK,NSPCOND+1)
              IF(NC/=0.AND.DK>=ONE)THEN
@@ -654,7 +653,7 @@ C
           END DO
           KXSP(7,N)=NVOISS2
 C-----------------
-         END IF   ! fin suivant NVOIS2+NVOISS<=KVOISPH
+         END IF   ! end NVOIS2+NVOISS<=KVOISPH
 C-------------------------------------------
          END IF
        END DO

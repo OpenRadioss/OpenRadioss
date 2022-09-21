@@ -28,7 +28,7 @@ Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|====================================================================
-      SUBROUTINE W_ISKEWSP(ISKEW,NODGLOB,NUMNOD_L,CEPSP,PROC,LEN_IA)
+      SUBROUTINE W_ISKEWSP(ISKEW,NODGLOB,NUMNOD_L,NUMSPH_L,CEPSP,PROC,LEN_IA)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,13 +39,12 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "sphcom.inc"
+#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISKEW(*), NODGLOB(*), CEPSP(*), PROC, NUMNOD_L, LEN_IA
-C-----------------------------------------------
-C   F u n c t i o n
-C-----------------------------------------------
+      INTEGER ISKEW(*), NODGLOB(*), CEPSP(*), PROC, LEN_IA
+      INTEGER,INTENT(IN) :: NUMSPH_L, NUMNOD_L
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -71,14 +70,13 @@ C
         ISK = ISKEW(NODGLOB(I))
         IF(ISK<=NUMSKW+1)THEN     ! no skew classique
           ITMP(I) = ISK
-        ELSEIF(ISK<=NUMSKW+NUMSPH+1 .AND.NSPCOND > 0
-     .            .AND. NUMSPH > 0 )THEN                      ! no skew sph
+        ELSEIF(ISK <= NUMSKW+NUMSPH+1 .AND.NSPCOND > 0 .AND. NUMSPH > 0 )THEN                      ! no skew sph
           NG = ISK-NUMSKW-1
           NL = LOCAL(NG)
           IF(NL==0)print*,'error in sph decomp'
           ITMP(I)=NL+NUMSKW+1
         ELSE
-          ITMP(I) = ISK
+          ITMP(I) = ISK-NUMSKW-NUMSPH+NUMSPH_L      
         END IF
       END DO
 C

@@ -33,25 +33,23 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NINDX, INDX(*), ISKEW(*), ICODT(*)
-C     REAL
-      my_real
-     .   A(3,*), V(3,*), SKEW(LSKEW,*)
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
+#include      "tabsiz_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER NINDX, INDX(NINDX), ISKEW(SISKEW), ICODT(SICODT)
+      my_real A(3,NUMNOD), V(3,NUMNOD), SKEW(LSKEW,SSKEW/LSKEW)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, K, L, ISK, LCOD
-C     REAL
-      my_real
-     .   AA, VV
+      my_real AA, VV
 C-----------------------------------------------
 #include "vectorize.inc"
       DO K = 1, NINDX
@@ -60,7 +58,7 @@ C-----------------------------------------------
         LCOD=ICODT(L)
         IF(ISK==1) THEN
 C------------------
-C     REPERE GLOBAL
+C     GLOBAL SYSTEM
 C------------------
           IF(LCOD==1)THEN
             V(3,L)=ZERO
@@ -97,7 +95,7 @@ C------------------
 C
         ELSE
 C-------------------
-C     REPERE OBLIQUE
+C     USER SYSTEM
 C-------------------
           IF(LCOD==1)THEN
             AA =SKEW(7,ISK)*A(1,L)+SKEW(8,ISK)*A(2,L)+SKEW(9,ISK)*A(3,L)
