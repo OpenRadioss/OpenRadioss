@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPM(NPROPMI,NUMMAT),NGL(NEL),MAT(NEL), IPARG(NPARG),IFORM,NIX,IX(NIX,NEL)
+      INTEGER IPM(NPROPMI,NUMMAT),NGL(NEL),MAT(NEL), IPARG(NPARG),IFORM,NIX,IX(NIX,*)
       my_real PM(NPROPM,NUMMAT),UVAR(NEL,NUVAR),UPARAM(*), X(3,NUMNOD), BUFMAT(*), RHO0
       INTEGER,INTENT(IN)                   :: NEL
       my_real,INTENT(INOUT) :: SIG(NEL,6)
@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER I,J,NUVAR, GG1, GG2, GG3, ISFLUID
       INTEGER NPH,IFLG,NV46,ISUBW,ISUBA,NL
       INTEGER M_IID,M_UID,IE,IMAT
-      INTEGER N(3,8),ITER,NITER,KK
+      INTEGER N(3,8),ITER,NITER,KK,NUMEL
       my_real C0,C1,C2,C3,C4,C5,E0,EF,PF,RHOF,EINTF,RHOE
       my_real A1,RHO0_LIQ,RHO0_GAS,GAM,PMIN,PSH,
      .        XBAS,YBAS,ZBAS,
@@ -198,11 +198,15 @@ C-----------------------------------------------
       !---------------------------------!      
       IF(IFORM == 6) THEN
         NV46 = 4
-        IF(N2D==0)NV46 = 6
+        NUMEL=NUMELQ+NUMELTG
+        IF(N2D==0)THEN
+          NV46 = 6
+          NUMEL=NUMELS
+        ENDIF
         CALL NRF51INI (
      .                  IPM              , PM    , X     , NIX     ,  IX,
      .                  ALE_CONNECTIVITY , BUFMAT, UPARAM, NV46    ,  RHO0,
-     .                  UVAR             , NUVAR , NEL   , GBUF%RHO
+     .                  UVAR             , NUVAR , NEL   , GBUF%RHO, NUMEL
      .                )
       ENDIF      
 C---
