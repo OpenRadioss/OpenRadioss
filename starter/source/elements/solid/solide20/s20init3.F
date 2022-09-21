@@ -122,7 +122,7 @@ C-----------------------------------------------
      .  SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),VOLG(MVSIZ),
      .  TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ),UL(MVSIZ,20),
      .  NI(MVSIZ,20),DNIDR(MVSIZ,20),DNIDS(MVSIZ,20),DNIDT(MVSIZ,20),
-     .  DTX(MVSIZ), WI,RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(1)
+     .  DTX(MVSIZ), WI,RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(MVSIZ)
 C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     

@@ -138,7 +138,7 @@ C-----------------------------------------------
      .   PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
      .   PZ1(MVSIZ),PZ2(MVSIZ),PZ3(MVSIZ),PZ4(MVSIZ),
      .   V8LOC(51,MVSIZ), VOLU(MVSIZ), DTX(MVSIZ),RHOCP(MVSIZ),
-     .   TEMP0(MVSIZ), DELTAX(MVSIZ), AIRE(1)
+     .   TEMP0(MVSIZ), DELTAX(MVSIZ), AIRE(MVSIZ)
 C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     

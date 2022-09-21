@@ -136,7 +136,7 @@ C-----------------------------------------------
      .   AJC7(MVSIZ) , AJC8(MVSIZ) , AJC9(MVSIZ) ,
      .   HX(4,MVSIZ) , HY(4,MVSIZ), HZ(4,MVSIZ),GAMA(6,MVSIZ),
      .   SMAX(MVSIZ) , VOLU(MVSIZ), DTX(MVSIZ), DELTAX(MVSIZ),
-     .   RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(1),LLSH(MVSIZ)
+     .   RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(MVSIZ),LLSH(MVSIZ)
       my_real
      .   BID, FV, STI, WI
       my_real

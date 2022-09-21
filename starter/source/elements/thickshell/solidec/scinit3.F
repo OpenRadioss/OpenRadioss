@@ -135,7 +135,7 @@ C-----------------------------------------------
      .   F1X(MVSIZ) ,F1Y(MVSIZ) ,F1Z(MVSIZ) ,
      .   F2X(MVSIZ) ,F2Y(MVSIZ) ,F2Z(MVSIZ) ,GAMA(6,MVSIZ),
      .   RHOCP(MVSIZ) ,TEMP0(MVSIZ),ANGLE(MVSIZ),DTX0(MVSIZ),
-     .   DELTAX(MVSIZ), AIRE(1),LLSH(MVSIZ)
+     .   DELTAX(MVSIZ), AIRE(MVSIZ),LLSH(MVSIZ)
       my_real, DIMENSION(8,MVSIZ) :: BID8MVSIZ
       my_real, DIMENSION(MVSIZ) :: BIDMVSIZ
 C--------------------------------

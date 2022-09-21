@@ -96,7 +96,7 @@ C-----------------------------------------------
       INTEGER MXT(MVSIZ),NGEO(MVSIZ),NC1(MVSIZ),NGL(MVSIZ)
       my_real
      .        VOL(MVSIZ),MASS(MVSIZ),RHO(MVSIZ),DELTAX(MVSIZ),DTX(MVSIZ),
-     .        X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),RBID(1), AIRE(1)
+     .        X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),RBID(1), AIRE(MVSIZ)
       my_real
      .        DIST,STI,FV,MP,BID,RHOCP
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -248,7 +248,7 @@ C--------------------------------------------------
        NDEPAR=NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELUR+NUMELTG
      .       +NUMELX+NFT
      
-      AIRE(1) = ZERO
+      AIRE(:) = ZERO
       CALL DTMAIN(GEO       ,PM        ,IPM         ,NGEO    ,MXT     ,FV    ,
      .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AIRE, 
      .     GBUF%VOL, DTX, IGEO)
