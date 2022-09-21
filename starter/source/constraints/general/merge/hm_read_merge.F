@@ -931,7 +931,9 @@ C-------------------------------------
         IAD=IGRV(4,K)
         DO I=1,NN
           N=IBGR(I+IAD-1)
-          IF(ITAG(N) == 1)IBGR(I+IAD-1) = -N
+          IF(N > 0)THEN
+            IF(ITAG(N) == 1)IBGR(I+IAD-1) = -N
+          ENDIF
         ENDDO
       ENDDO
 C------------------------------------
