@@ -29,9 +29,9 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE NRF51INI(IPM             ,     PM,      X, NIX,    IX,
-     .                    ALE_CONNECTIVITY, BUFMAT, UPARAM, NV46, RHO0,
-     .                    UVAR            , NUVAR , NEL   , RHO
+      SUBROUTINE NRF51INI(IPM             ,     PM,      X, NIX,     IX,
+     .                    ALE_CONNECTIVITY, BUFMAT, UPARAM, NV46,  RHO0,
+     .                    UVAR            , NUVAR , NEL   , RHO , NUMEL
      .                   )
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -45,6 +45,13 @@ C NRF READS
 C AV, RHO, E, PMIN, P0, SSP
 C 0.0 means automatic initialisation
 C otherwise use read
+C
+C NUMEL : total number of solid elements (2d or 3d)
+C NEL   : Number of element in current group (<=MVSIZ)
+C IX    : element connectivity + mat_id
+C IPM   : material properties (integer)
+C PM    : material properties (real)
+C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN)    :: NIX,IX(NIX,NEL),IPM(NPROPMI,NUMMAT),NV46,NUVAR,NEL
+      INTEGER,INTENT(IN)    :: NUMEL,NIX,IX(NIX,NUMEL),IPM(NPROPMI,NUMMAT),NV46,NUVAR,NEL
       my_real               :: PM(NPROPM,NUMMAT), X(3,NUMNOD),  UPARAM(*),  RHO0
       my_real,TARGET        :: BUFMAT(*)
       my_real,INTENT(INOUT) :: UVAR(NEL,NUVAR), RHO(NEL)
