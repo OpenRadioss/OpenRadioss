@@ -1472,7 +1472,7 @@ C---------------------------------------------------
 !$OMP DO SCHEDULE(GUIDED,1)        
           DO I=1,NPOLH
              IF (IBPOLH(I) == 0 .AND.IDTMIN(52) < 2) THEN
-                DLS(I)=DLH ! constant length calculated during starter
+               DLS(I)=DLH ! constant length calculated during starter
              ELSE
                DLS(I)=PVOLU(I)**THIRD
              ENDIF
@@ -1965,7 +1965,7 @@ C
            DHOUT  =DHOUT+RBAGHOL(22,IVENT)
         ENDDO
         FSAV(7) =FSAV(7) /MAX(AOUTOT,EM20)
-        FSAV(13)=DTPOLH(PHDT)
+        FSAV(13)=DTX ! not DTPOLH(PHDT) since DTX may be updated with smoothing factor
 
         IF(ITYP == 8) THEN
            CALL FVINJT8_1(NJET, IBAGJET , RBAGJET , IGEO, GEO, PM,
