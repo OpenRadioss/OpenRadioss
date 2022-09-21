@@ -1603,7 +1603,7 @@ C-----------------------------------------------------
         JLAG  =IPARG(14,NG)
         JMULT =IPARG(20,NG)
         JPOR  =IPARG(27,NG)
-        IF(ITY == 1.AND.JEUL * (1 - IMULTI_FVM)/=0)THEN
+        IF(ITY==1 .AND. JEUL*(1-IMULTI_FVM)/=0 .AND. N2D==0)THEN
             LFT=1
             LLT=NEL
             NFT = IPARG(3,NG)
