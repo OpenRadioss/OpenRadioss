@@ -1515,7 +1515,6 @@ Chd|        ELSTAGBOX                     source/model/box/bigbox.F
 Chd|        ELSTAGBOX2                    source/model/box/rdbox.F      
 Chd|        ELSTAGBOXBOX                  source/model/box/boxbox.F     
 Chd|        FACEBOX                       source/model/box/bigbox.F     
-Chd|        FILL_BUFFER_51                source/materials/mat/mat051/fill_buffer_51.F
 Chd|        FREDEC0                       source/starter/freform.F      
 Chd|        FREDEC3                       source/starter/freform.F      
 Chd|        FREDEC4                       source/starter/freform.F      
@@ -1630,8 +1629,6 @@ Chd|        HM_READ_MAT26                 source/materials/mat/mat026/hm_read_ma
 Chd|        HM_READ_MAT32                 source/materials/mat/mat032/hm_read_mat32.F
 Chd|        HM_READ_MAT42                 source/materials/mat/mat042/hm_read_mat42.F
 Chd|        HM_READ_MAT49                 source/materials/mat/mat049/hm_read_mat49.F
-Chd|        HM_READ_MAT51                 source/materials/mat/mat051/hm_read_mat51.F
-Chd|        HM_READ_MAT51_IFORM11         source/materials/mat/mat051/hm_read_mat51_iform11.F
 Chd|        HM_READ_MAT62                 source/materials/mat/mat062/hm_read_mat62.F
 Chd|        HM_READ_MAT72                 source/materials/mat/mat072/hm_read_mat72.F
 Chd|        HM_READ_MAT80                 source/materials/mat/mat080/hm_read_mat80.F

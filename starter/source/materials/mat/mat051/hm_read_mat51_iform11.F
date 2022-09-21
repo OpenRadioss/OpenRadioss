@@ -25,7 +25,6 @@ Chd|  HM_READ_MAT51_IFORM11         source/materials/mat/mat051/hm_read_mat51_if
 Chd|-- called by -----------
 Chd|        HM_READ_MAT51                 source/materials/mat/mat051/hm_read_mat51.F
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
 Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
