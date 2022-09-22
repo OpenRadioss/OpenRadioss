@@ -130,8 +130,7 @@ c
         YINC = ZERO
         XINT = ZERO
         YINT = ZERO
-
-        IF(IUNL_FOR == 1 .OR. ICASE == 6) THEN
+        IF( ICASE == 3) THEN
           FUNC = IFUNC(1)
           FUND = IFUNC(NL + 1)
           FAC1 = UPARAM(11  )
