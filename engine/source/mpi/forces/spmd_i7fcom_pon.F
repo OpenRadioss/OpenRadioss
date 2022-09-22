@@ -1026,68 +1026,68 @@ C noeud generant une force
               END IF
 C Fin type 20 edge
 C
-C Partie supplementaire type 25 edge
+C TYPE25 edge
 C
-
-              IF(NTY == 25 .AND. NSNFIE(NIN)%P(P) > 0) THEN
-                NB = NSNFIE(NIN)%P(P)
-                IDEB = DEBUTE(NIN)
-                IDEBI= DEBUTIE(NIN)
-C               L0 = L
-                LL = L + 1
-                L = L  + 1
-                NB_TOT_EDGES = 0 
-                IF(NB>0) THEN
-                    DO N = 1, NB
-                      DEBUG_E2E(LEDGE_FIE(NIN)%P(E_GLOBAL_ID,IDEB+N) == D_ES,IDEB)
-                      IF(NSVFIE(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
-                        NOD = -NSVFIE(NIN)%P(IDEB+N)
-                        NSVFIE(NIN)%P(IDEB+N)=NOD
-                        IF(IDEBI<=NISKYFIE(NIN)) THEN
-                          ITEST = ISKYFIE(NIN)%P(IDEBI)==IDEB+N
-                        ELSE
-                          ITEST = .FALSE.
-                        END IF
-                        THOFFSET = 0
-                        IF(INTTH > 0) THEN
-                          THOFFSET = 1
-                          ! Not available yet
-                          ASSERT(.FALSE.)
-                        ENDIF
-                        DO WHILE(ITEST)
-                          BBUFS(L+1)  = NOD
-                          BBUFS(L+2)  = FSKYFIE(NIN)%P(1,IDEBI)
-                          BBUFS(L+3)  = FSKYFIE(NIN)%P(2,IDEBI)
-                          BBUFS(L+4)  = FSKYFIE(NIN)%P(3,IDEBI)
-                          BBUFS(L+5)  = FSKYFIE(NIN)%P(4,IDEBI)
-                          BBUFS(L+6+THOFFSET)  = NOD
-                          BBUFS(L+7+THOFFSET)  = FSKYFIE(NIN)%P(5+THOFFSET,IDEBI)
-                          BBUFS(L+8+THOFFSET)  = FSKYFIE(NIN)%P(6+THOFFSET,IDEBI)
-                          BBUFS(L+9+THOFFSET)  = FSKYFIE(NIN)%P(7+THOFFSET,IDEBI)
-                          BBUFS(L+10+THOFFSET) = FSKYFIE(NIN)%P(8+THOFFSET,IDEBI)
-                          IDEBI = IDEBI + 1
-                          NB_TOT_EDGES = NB_TOT_EDGES + 1 
-                          L = L + LEN25E ! + 2*THOFFSET
+              IF(NTY == 25) THEN
+                IF( NSNFIE(NIN)%P(P) > 0) THEN
+                  NB = NSNFIE(NIN)%P(P)
+                  IDEB = DEBUTE(NIN)
+                  IDEBI= DEBUTIE(NIN)
+C                 L0 = L
+                  LL = L + 1
+                  L = L  + 1
+                  NB_TOT_EDGES = 0 
+                  IF(NB>0) THEN
+                      DO N = 1, NB
+                        DEBUG_E2E(LEDGE_FIE(NIN)%P(E_GLOBAL_ID,IDEB+N) == D_ES,IDEB)
+                        IF(NSVFIE(NIN)%P(IDEB+N)<0)THEN
+C Node generat  ing the force                        
+                          NOD = -NSVFIE(NIN)%P(IDEB+N)
+                          NSVFIE(NIN)%P(IDEB+N)=NOD
                           IF(IDEBI<=NISKYFIE(NIN)) THEN
                             ITEST = ISKYFIE(NIN)%P(IDEBI)==IDEB+N
                           ELSE
                             ITEST = .FALSE.
                           END IF
-                        END DO
-                      END IF
-                   END DO
-                END IF
-                ! LL = L0 +1 
-                ! L = L0 +1 + LEN25 * (NBEDGES_WITH_FORCES)
-                ! L - LL = LEN25 * NB_TOT_EDGES / LEN25 = NB_TOT_EDGES
-                ! BBUFS(L0 + 1 ) = NB_TOT_EDGES
-                BBUFS(LL) = NB_TOT_EDGES
-                ASSERT( (L-LL)/LEN25E == NB_TOT_EDGES)
-                DEBUTE(NIN) = DEBUTE(NIN) + NB
-                DEBUTIE(NIN)= IDEBI
-              END IF !TYPE 25 E2E
-
+                          THOFFSET = 0
+                          IF(INTTH > 0) THEN
+                            THOFFSET = 1
+                            ! Not available yet
+                            ASSERT(.FALSE.)
+                          ENDIF
+                          DO WHILE(ITEST)
+                            BBUFS(L+1)  = NOD
+                            BBUFS(L+2)  = FSKYFIE(NIN)%P(1,IDEBI)
+                            BBUFS(L+3)  = FSKYFIE(NIN)%P(2,IDEBI)
+                            BBUFS(L+4)  = FSKYFIE(NIN)%P(3,IDEBI)
+                            BBUFS(L+5)  = FSKYFIE(NIN)%P(4,IDEBI)
+                            BBUFS(L+6+THOFFSET)  = NOD
+                            BBUFS(L+7+THOFFSET)  = FSKYFIE(NIN)%P(5+THOFFSET,IDEBI)
+                            BBUFS(L+8+THOFFSET)  = FSKYFIE(NIN)%P(6+THOFFSET,IDEBI)
+                            BBUFS(L+9+THOFFSET)  = FSKYFIE(NIN)%P(7+THOFFSET,IDEBI)
+                            BBUFS(L+10+THOFFSET) = FSKYFIE(NIN)%P(8+THOFFSET,IDEBI)
+                            IDEBI = IDEBI + 1
+                            NB_TOT_EDGES = NB_TOT_EDGES + 1 
+                            L = L + LEN25E ! + 2*THOFFSET
+                            IF(IDEBI<=NISKYFIE(NIN)) THEN
+                              ITEST = ISKYFIE(NIN)%P(IDEBI)==IDEB+N
+                            ELSE
+                              ITEST = .FALSE.
+                            END IF
+                          END DO
+                        END IF
+                     END DO
+                  END IF
+                  ! LL = L0 +1 
+                  ! L = L0 +1 + LEN25 * (NBEDGES_WITH_FORCES)
+                  ! L - LL = LEN25 * NB_TOT_EDGES / LEN25 = NB_TOT_EDGES
+                  ! BBUFS(L0 + 1 ) = NB_TOT_EDGES
+                  BBUFS(LL) = NB_TOT_EDGES
+                  ASSERT( (L-LL)/LEN25E == NB_TOT_EDGES)
+                  DEBUTE(NIN) = DEBUTE(NIN) + NB
+                  DEBUTIE(NIN)= IDEBI
+                END IF !TYPE 25 E2E
+              ENDIF
             END DO
             SIZ = L+1-ADD
             MSGTYP = MSGOFF2
