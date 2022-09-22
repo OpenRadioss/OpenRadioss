@@ -15,6 +15,115 @@ env:
 
 jobs:
 
+  build_tools:
+    if: ${{ github.repository_owner == 'OpenRadioss' }}
+    # DEV ONLY # runs-on: ["${{ matrix.os }}","dev_pmci"]
+    runs-on: ["${{ matrix.os }}","prmerge_ci"]
+    continue-on-error: true
+    container: 
+      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:ompi411
+      credentials: 
+        username: ${{secrets.DOCKER_REGISTRY_USER}}
+        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+      volumes: 
+        - /etc/localtime:/etc/localtime:ro
+ 
+    env:
+      STATUS_BUILD: 0
+
+    strategy:
+      # If one job fails others continue (tools build & delivery is not blocking no blocker)
+      fail-fast: false
+      matrix:
+        include:
+          - os: linux64
+    steps:
+
+      # Set the working dir suffixed with branch name
+      - uses: haya14busa/action-cond@v1
+        id: set_workdir
+        with:
+          cond: ${{ github.base_ref == '' }}
+          if_true: ${{github.ref_name}}
+          if_false: ${{github.base_ref}}
+
+      - name: Create branch oriented WS directory & integration WS
+        run: |
+          mkdir -p ${{ steps.set_workdir.outputs.value }}
+
+      - name: Clean local exe dir
+        working-directory: ${{ steps.set_workdir.outputs.value }}
+        run: |
+          rm -rf exec
+          md5sum exec/* || echo "Nothing in exec/" 
+
+      # Get last git modifications, don't clean before (way to keep persistent obj files)
+      - uses: actions/checkout@v2
+        with:
+          path: ${{ steps.set_workdir.outputs.value }}
+          clean: 'false'
+          lfs: 'true'
+
+      - name: Running builds
+        working-directory: ${{ steps.set_workdir.outputs.value }}
+        run: |
+          mkdir exec
+          source /home/adminqa/.bashrc
+
+          cmd="./build.bash"
+          echo "========================================="
+          echo "--  BUILD tools for anim_to_vtk (${{ matrix.os }}) --"   
+          echo "--  $cmd --"   
+          echo "========================================="
+
+          cd tools/anim_to_vtk/${{ matrix.os }}
+          eval $cmd
+
+          cmd="./build.bash"
+          echo "========================================="
+          echo "--  BUILD tools for anim_to_vtk (${{ matrix.os }}) --"   
+          echo "--  $cmd --"   
+          echo "========================================="
+
+          cd ../../th_to_csv/${{ matrix.os }}
+          eval $cmd
+
+          # Set correct end of step status (if not an email will be sent)
+          echo "STATUS_BUILD=1" >> $GITHUB_ENV
+
+      - name: Managing step execution
+        if: ${{ always() }}
+        run: |
+
+          MAILMSG="Some error(s) has(ve) been raised during workflow execution:\n\n"
+          echo -e "\n#### STATUS_STEP_BUILD ${{ matrix.os }} ###"
+          if [ "$STATUS_BUILD" = 0 ]
+          then
+            echo -e "Status\t[ \033[31;2;1mFAILED\033[0m ]" 
+            MAILMSG="The build tools ${{ matrix.os }} has failed \n"
+
+            # Send email 
+
+            # Setting SMTP server (docker host)
+            DOCKER_HOST=`/sbin/ip route|awk '/default/ { print $3 }'`
+            echo "set smtp=smtp://${DOCKER_HOST}:25" >> /etc/mail.rc 
+
+            # Print message in log 
+            echo -e $MAILMSG
+
+            # Send email
+            echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} (${{github.sha}})" $TO_EMAIL
+
+          else
+            echo -e "Status\t[ \033[32;2;1mOK\033[0m ]"
+          fi
+
+      # Upload artifact
+      - name: Upload built artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: tools-${{ matrix.os }}
+          path: ${{ steps.set_workdir.outputs.value }}/exec
 
   build:
     if: ${{ github.repository_owner == 'OpenRadioss' }}
@@ -378,7 +487,7 @@ jobs:
       DATE_MIN_CHECK_COMMITS: "${{ secrets.DATE_MIN_CHECK_COMMITS }}"
 
   delivery:
-    needs: qa
+    needs: [qa,build_tools]
     runs-on: delivery
     container: 
       image: fr-qafactorydev.europe.altair.com/common-linux64
@@ -387,6 +496,7 @@ jobs:
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
       volumes: 
          - /etc/localtime:/etc/localtime:ro
+         # DEV ONLY # - /github_download_counter_dev:/github_download_counter
          - /github_download_counter:/github_download_counter
 
     env:
