@@ -355,7 +355,6 @@ C MDS Table
       TYPE(T_MUMPS_SOLVER) :: LINEAR_SOLVER
 #else 
       TYPE(T_CG_SOLVER) :: LINEAR_SOLVER
-
 #endif
       TYPE(T_DIFFUSION) :: DIFFUSION
       TYPE(t_segvar) :: SEGVAR
@@ -373,7 +372,7 @@ C------------------------------------------------------------------
 C=======================================================================
 C------------------------------------------------
 C     Init Timer (from begining of radioss2 (reading timer)
-C------------------------------------------------
+C------------------------------------------------    
       ISTDO=6
       CALL INI_MSG()
       CALL BUILD_MSG()
@@ -1484,6 +1483,18 @@ C--------------------------------------------
 C--------------------------------------------
       CALL TRACE_OUT(17)
       IRUN=IRUNN
+C------------------------------------------------
+C     multimat law 151 + Navier Stokes
+C------------------------------------------------
+#if !defined(MUMPS5)
+      !If Viscosity is defined (/MAT/LAW6:NU parameter) with collocated scheme (/MAT/LAW151 , viscosity is solved with linear solver
+      !   Consequently if MUMPS is not defined then it will work only with -nspmd=1 
+      IF(NSPMD>1 .AND. MULTI_FVM%NS_DIFF)THEN
+        WRITE(6,FMT='(A)') " Fatal error: MUMPS is required to solve Navier-Stokes viscosity"
+        CALL FLUSH(6)
+        CALL ARRET(5)        
+       ENDIF
+#endif       
 C------------------------------------------------
 C     Restart indicator for multimat law 151 + symmetry
 C------------------------------------------------
