@@ -1315,6 +1315,9 @@ C
      .                         LIRECVP_CRK)
         ALLOCATE(ISENDTO (NINTER+1,NSPMD+1))
         ALLOCATE(IRCVFROM(NINTER+1,NSPMD+1))
+        ISENDTO(1:NINTER+1, 1:NSPMD+1) = 0
+        IRCVFROM(1:NINTER+1, 1:NSPMD+1) = 0
+
         ALLOCATE(INTLIST(2*NINTER))
         ALLOCATE(INTLIST25(NINTER25))
         ALLOCATE(NISKYFI(NINTER))
@@ -8451,7 +8454,10 @@ C Regular animation
      r   KNOTLOCPC     ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6     ,IRUNN_BIS     ,
      s   TF            ,NPC            ,IPART_DYNAIN   ,FCONT_MAX      ,MDS_MATID     ,
      t   FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP         ,LLOADP        ,
-     u   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           )
+     u   LOADP         
+     . ,TAGNCONT    
+     .   ,LOADP_HYD_INTER,
+     . FORC           )
 
 C
         IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
@@ -9247,7 +9253,6 @@ C--------------------------------------------------------
      .                 H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
      .                 SENSOR_TAB, EBCS_TAB)
-          IF (NDSOLV==1) CALL DSWREST(GRAPHE)
           IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
           CALL FVWREST()
           IF (IMPL_S>0) THEN
@@ -9507,7 +9512,6 @@ C--------------------------------------------------------
      .                 H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
      .                 SENSOR_TAB, EBCS_TAB)
-        IF (NDSOLV==1) CALL DSWREST(GRAPHE)
         IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
         CALL FVWREST()
         IF (IMPL_S>0) THEN
@@ -9644,7 +9648,6 @@ C--------------------------------------------------------
      .                    H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                    PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
      .                    SENSOR_TAB, EBCS_TAB)
-              IF (NDSOLV==1) CALL DSWREST(GRAPHE)
               IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
               CALL FVWREST()
               IF (IMPL_S>0) THEN

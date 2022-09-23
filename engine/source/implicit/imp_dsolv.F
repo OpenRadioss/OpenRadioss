@@ -71,6 +71,7 @@ C-----------------------------------------------
      .        RBID
       CHARACTER TITRE*80
 C
+#if defined(DNC) && !defined(WITHOUT_LINALG)
       IOPT=1
       IWKLI=0
       NDDLI7=0
@@ -82,7 +83,6 @@ C Condensation statique
             WRITE(IOUT,'(A)') ' * MULTI-LEVEL STATIC CONDENSATION *'
          ENDIF
       ENDIF
-#ifndef WITHOUT_LINALG
       CALL DSCOND(GRAPHE, K_DIAG, K_LT,  IADK,  JDIK,
      .            RBID,   NDDL,   NB,    B,     IOPT,
      .            IBID,   IBID,   RBID,  IBID,  ITAB,
@@ -90,7 +90,6 @@ C Condensation statique
      .            I7_LT,  I7TOK )
       IF (IMACH==3.AND.ICONDP==1)
      .   CALL DSPGRID(GRAPHE(1), GRAPHE(1)%NDDL_GLOB, NDDLC, 2)
-#endif
 C Resolution
       NDDLG=NDDL
       IPRI=GRAPHE(1)%IPRI
@@ -99,26 +98,21 @@ C Resolution
 C     IF (IMACH/=3.OR.ICONDP==0) THEN
          LTITR1=42
          TITRE=' * CONDENSED PROBLEM SEQUENTIAL SOLUTION *'
-#ifndef WITHOUT_LINALG
          CALL DSRESOL(GRAPHE, IOPT,  NB,     NDDLG, B,
      .                IBID,   IBID,  RBID,   RBID,  IBID,
      .                IPRI,   IBID,  RBID,   IBID,  RBID,
      .                TITRE,  LTITR1, IPRINT)
-#endif
 C     ELSE
 #else
          LTITR1=40
          TITRE=' * CONDENSED PROBLEM PARALLEL SOLUTION *'
 
-#ifndef WITHOUT_LINALG
          CALL DSRESOLP(GRAPHE(1), IOPT,  NB,     NDDLC, B,
      .                 IBID,      IBID,  RBID,   RBID,  IBID,
      .                 IPRI,      IBID,  RBID,   IBID,  RBID,
      .                 TITRE,     LTITR1, IPRINT)
-#endif
 
 #endif
-C     ENDIF
 C Redescente
       IF (IPRINT/=0) THEN
          IF (IMACH==3.AND.ISPMD==0) WRITE(ISTDO,*)
@@ -127,17 +121,19 @@ C Redescente
             WRITE(IOUT,'(A)') ' * STATIC SOLUTION EXPANSION *'
          ENDIF
       ENDIF
-#ifndef WITHOUT_LINALG
       CALL DSDESC(GRAPHE, NB, NDDL, IOPT)
 C Recuperation du vecteur solution
       CALL DSRECU(GRAPHE, NB, X, NDDL, NB,
      .            0     )     
-#endif
 C
       IF (IMACH==3.AND.IPRI<0) THEN
          CALL SPMD_BARRIER()
          IF (ISPMD==0) WRITE(ISTDO,*)
       ENDIF
+#else
+      write(6,*) "ERROR: DSOLVE is deprecated"  
+      CALL ARRET(5)
+#endif
 C
       RETURN
       END
@@ -194,7 +190,8 @@ C-----------------------------------------------
       my_real
      .        RBID
       CHARACTER TITRE*80
-C
+#if defined(DNC) && !defined(WITHOUT_LINALG)
+C Deprecated feature
       IOPT=1
       IWKLI=1
 C Condensation statique si necessaire
@@ -205,7 +202,6 @@ C Condensation statique si necessaire
      .         WRITE(ISTDO,'(A)') ' * MULTI-LEVEL STATIC CONDENSATION *'
             WRITE(IOUT,'(A)') ' * MULTI-LEVEL STATIC CONDENSATION *'
          ENDIF
-#ifndef WITHOUT_LINALG
          CALL DSCOND(GRAPHE, K_DIAG, K_LT,  IADK,  JDIK,
      .               RBID,   NDDL,   NB,    B,     IOPT,
      .               IBID,   IBID,   RBID,  IBID,  ITAB,
@@ -215,7 +211,6 @@ C Condensation statique si necessaire
             CALL DSPGRID(GRAPHE(1), GRAPHE(1)%NDDL_GLOB, NDDLC, 2)
             GRAPHE(1)%NDDLC=NDDLC
          ENDIF
-#endif
       ELSE
 C Condensation du vecteur des forces seul
          IF (IPRINT/=0) THEN
@@ -224,9 +219,7 @@ C Condensation du vecteur des forces seul
      .         WRITE(ISTDO,'(A)') ' * MULTI-LEVEL FORCES CONDENSATION *'
             WRITE(IOUT,'(A)') ' * MULTI-LEVEL FORCES CONDENSATION *'
          ENDIF
-#ifndef WITHOUT_LINALG
          CALL DSCDF(GRAPHE, NB, B, NDDL)
-#endif
       ENDIF
 C Resolution
       NDDLG=NDDL
@@ -235,21 +228,17 @@ C Resolution
       IF (IMACH/=3.OR.ICONDP==0) THEN
          LTITR1=42
          TITRE=' * CONDENSED PROBLEM SEQUENTIAL SOLUTION *'
-#ifndef WITHOUT_LINALG
          CALL DSRESOL_ITER(GRAPHE, IT,     NB, NDDLG, B,
      .                     FAC_K,  IPIV_K, NK, TITRE, LTITR1,
      .                     IPRINT)
-#endif
       ELSE
          LTITR1=40
          TITRE=' * CONDENSED PROBLEM PARALLEL SOLUTION *'
          NDDLC=GRAPHE(1)%NDDLC
          NR=GRAPHE(1)%NNRP
-#ifndef WITHOUT_LINALG
          CALL DSRESOLP_ITER(GRAPHE(1), IT, NB,    NDDLC,  B,
      .                      FAC_K,     NR, TITRE, LTITR1,  IPRINT,
      .                      IBID,      1        ) 
-#endif
       ENDIF
 C Redescente
       IF (IPRINT/=0) THEN
@@ -257,18 +246,21 @@ C Redescente
      .      WRITE(ISTDO,'(A)') ' * STATIC SOLUTION EXPANSION *'
          WRITE(IOUT,'(A)') ' * STATIC SOLUTION EXPANSION *'
       ENDIF
-#ifndef WITHOUT_LINALG
       CALL DSDESC(GRAPHE, NB, NDDL, IOPT)
 C Recuperation du vecteur solution
       CALL DSRECU(GRAPHE, NB, X, NDDL, NB,
      .            0     )     
 C
-#endif
       IF (IMACH==3.AND.IPRI<0) THEN
          CALL SPMD_BARRIER()
          IF (ISPMD==0) WRITE(ISTDO,*)
       ENDIF
 C
+#else
+      write(6,*) "ERROR: DSOLVE is deprecated"  
+      CALL ARRET(5)
+#endif
+
       RETURN
       END
             

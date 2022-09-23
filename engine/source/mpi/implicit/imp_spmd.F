@@ -806,7 +806,8 @@ C          CALL STARTIME(98,1)
            CALL DMUMPS(MUMPS_PAR)
 C          CALL STOPTIME(98,1)
 
-         ELSEIF(MUMPS_PAR%INFOG(1)==-9 .OR. MUMPS_PAR%INFOG(1)==-11) THEN
+         ELSEIF(MUMPS_PAR%INFOG(1)==-9 .OR. MUMPS_PAR%INFOG(1)==-11 
+     .    .OR.  MUMPS_PAR%INFOG(1)== -19 ) THEN
 C if internal workspace is too small (S)
            IF(ISPMD ==0 ) THEN
              WRITE(IOUT,*) 'Warning: MUMPS workspace too small. Retry'

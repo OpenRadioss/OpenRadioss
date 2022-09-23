@@ -76,14 +76,6 @@ Chd|        DOMDEC1                       source/spmd/domain_decomposition/domde
 Chd|        DOMDEC2                       source/spmd/domdec2.F         
 Chd|        DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
 Chd|        DSDIM0                        source/implicit/dsolve/dsdim.F
-Chd|        DSDIM0RB                      source/implicit/dsolve/dsdim.F
-Chd|        DSDIM1                        source/implicit/dsolve/dsdim.F
-Chd|        DSDIM2                        source/implicit/dsolve/dsdim.F
-Chd|        DSELSUB                       source/implicit/dsolve/dselsub.F
-Chd|        DSGRAPH1P                     source/implicit/dsolve/dsgraph.F
-Chd|        DSGRAPH2                      source/implicit/dsolve/dsgraph.F
-Chd|        DSGRAPH3                      source/implicit/dsolve/dsgraph.F
-Chd|        DSWRDD                        source/implicit/dsolve/dswrdd.F
 Chd|        ELBUF_INI                     source/elements/elbuf_init/elbuf_ini.F
 Chd|        FAILWAVE_INIT                 source/materials/fail/failwave_init.F
 Chd|        FICTIVMASSIGEO                source/groups/ssurftagigeo.F  
@@ -5161,14 +5153,6 @@ c replace save of old FRONT
 c FRONT(I,NSPMD+1) = FRONT(I,1)
         IENTRY2(I) = IFRONT%IENTRY(I)
       ENDDO
-C      ELSEIF(NDSOLV==1) THEN
-C aussi besoin en SMP si AMLS
-C        DO I = 1, NUMNOD
-C          IWCONT(I) = 0
-C          IWCIN2(I)= 0
-C        ENDDO
-C      ENDIF
-C Communs utiles pour la domdec a mettre a Zero pour le SMP
         DO I=0,MAXLAW
            SOL1TNL(I,1)=ZERO
            SOL1TNL(I,2)=ZERO
@@ -7772,85 +7756,10 @@ C
          ALLOCATE(EIGRPM(0))
       ENDIF
       CALL TRACE_OUT1()
-C---------------------------------------------
-C     SOLVEUR DIRECT PAR CONDENSATION MULTI-NIVEAUX : GRAPHE
-C---------------------------------------------
-      ERR_MSG='MULTI-LEVEL DIRECT SOLVER'
-      ERR_CATEGORY='MULTI-LEVEL DIRECT SOLVER'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       IF (NDSOLV==1) THEN
-         CALL DSDIM1(VERSDD,  EIGIPM,   NSLEVEL, NSDEC,   NSVMAX,
-     .               NSPRI ,  DSCUTFRQ, DSARCH , NDOFMIN, DSANIM )
-         IF (NSPROC>0) THEN
-            IF (NUMSPH>0) THEN
-              CALL ANCMSG(MSGID=619,
-     .                    MSGTYPE=MSGERROR,
-     .                    ANMODE=ANINFO)
-            END IF
-            NELEM = NUMELC+NUMELTG+NUMELS+NUMELR +
-     .              NUMELP+NUMELT +NUMELQ+NUMELUR+NUMELX+NUMELIG3D
-C
-            IF (IDDLEVEL==0) ALLOCATE(CEPTMP(NELEM),NELDOM(NSPROC))
-C
-C            IF (IMACH/=3) THEN
-C                CALL DSGRAPH1(
-C     1                  IXS    ,IXQ     ,IXC       ,IXT    ,IXP    ,
-C     2                  IXR    ,IXUR    ,IXTG      ,CEPTMP ,GEO    ,
-C     3                  NELEM  ,NELEMINT,IXINT     ,PM     ,X      ,
-C     4                  KXX    ,IXX     ,NELDOM    ,NELDMAX,ADDCNE ,
-C     5                  IGEO   ,DSARCH  ,NSPRI     ,EANI   ,IWCONT ,
-C     6                  IWCIN2 ,DSDOF   ,
-C     7  TAILLE   ,POIN_UMP ,TAB_UMP,
-C     8  POIN_UMP_OLD,TAB_UMP_OLD,CPUTIME_MP_OLD,BUFMAT,
-C     9  TABMP_L,TAB_MAT_PROP)
-C etrange ISOLNOD devenu EANI ??? (ici c est bien ISOLNOD !!!)
-C            ELSE
-C On prend comme premier decoupage celui de RADIOSS SPMD
-            CALL DSGRAPH1P(CEP, CEPTMP, NELDOM, NELDMAX, NELEM)
-C            ENDIF
-C calcul apres SMP passe dans domdec pourr rester consistant avec SPMD
-            CALL DSDIM0RB(DSDOF,NPBY)
-C
-            IF (IDDLEVEL==0) ALLOCATE(ELDOM(NSPROC,3,MAX(NELDMAX,9)))
-            CALL DSGRAPH2(IXS    ,IXQ     ,IXC       ,IXT    ,IXP    ,
-     2                    IXR    ,IXUR    ,IXTG      ,CEPTMP ,GEO    ,
-     3                    NELEM  ,NELEMINT,IXINT     ,PM     ,X      ,
-     4                    KXX    ,IXX     ,NELDOM    ,ELDOM  ,NSLEVEL,
-     5                    NSDEC  ,ADDCNE  ,IGEO      ,DSARCH ,DSDOF  ,
-     6                    NDOFMIN,NSPRI   ,EANI      ,IWCONT ,IWCIN2 ,
-     7                    IPM    ,BUFMAT  ,
-     8                    TAILLE,POIN_UMP,TAB_UMP,
-     9                    POIN_UMP_OLD,TAB_UMP_OLD,CPUTIME_MP_OLD,
-     1                    TABMP_L,IPART,IPARTC,IPARTG,
-     2                    IPARTS,POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
-     3                    MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL)
-C etrange ISOLNOD devenu EANI ??? (ici c est bien ISOLNOD !!!)
-C
-            IF (IDDLEVEL==0) ALLOCATE(GRAPHE(NSPROC))
-            CALL DSDIM2(IXS    ,IXQ     ,IXC    ,IXT    ,IXP     ,
-     2                  IXR    ,IXTG    ,IXUR   ,KXX    ,IXX     ,
-     3                  ELDOM  ,DSDOF   ,DSNISM ,GEO    ,NPBY    ,
-     4                  LPBY   ,GRAPHE  ,NSLEVEL,NSDEC  ,NSVMAX  ,
-     5                  NSPRI  ,DSCUTFRQ,IPARI  ,INTBUF_TAB  )
-C
-            CALL DSGRAPH3(IXS    ,IXQ    ,IXC    ,IXT    ,IXP     ,
-     2                    IXR    ,IXTG   ,IXUR   ,KXX    ,IXX     ,
-     3                    ELDOM  ,DSDOF  ,DSNISM ,GEO    ,NPBY    ,
-     4                    LPBY   ,GRAPHE ,IPARI  ,INTBUF_TAB  ,DSMEMORY)
-C
-            IF (VERSDD/=0)
-     .         CALL DSWRDD(IXS    ,IXQ    ,IXC    ,IXT    ,IXP     ,
-     2                     IXR    ,IXTG   ,IXUR   ,KXX    ,IXX     ,
-     3                     ELDOM  ,VERSDD ,X      ,ITAB   ,NUMNOD  ,
-     4                     GRAPHE ,DSDOF  ,NPBY   ,LPBY   ,NRBYKIN )
-C
-            IF (DSANIM==1) THEN
-               IF (IDDLEVEL==0) ALLOCATE(ELSUB(NSLEVEL,NELEM))
-               CALL DSELSUB(ELSUB, GRAPHE, ELDOM, NSLEVEL)
-            ELSE
-               IF (IDDLEVEL==0) ALLOCATE(ELSUB(0,0))
-            ENDIF
-         ENDIF
+        WRITE(6,*) "ERROR Deprecated Linear solver"
+        CALL ARRET(5)
       ELSEIF (IDDLEVEL==0) THEN
          NSLEVEL=0
          ALLOCATE(GRAPHE(0), CEPTMP(0), NELDOM(0), ELDOM(0,0,0),

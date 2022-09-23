@@ -1023,16 +1023,7 @@ c
 c----------
 
       IF (IMACH==3) NSPROC=1
-      IF (NDSOLV==1) THEN
-         ALLOCATE(GRAPHE(NSPROC))
-         CALL DSRREST(GRAPHE)
-#if defined(MYREAL8) && !defined(WITHOUT_LINALG)
-         CALL DSALLOC(GRAPHE)
-         CALL DSOPEN(GRAPHE)
-#endif
-      ELSE
-         ALLOCATE(GRAPHE(0))
-      ENDIF
+      ALLOCATE(GRAPHE(0))
       IF (NFLOW>0) THEN
          ALLOCATE(IFLOW(LIFLOW), RFLOW(LRFLOW))
          CALL NFRREST(IFLOW, RFLOW)
@@ -2253,12 +2244,6 @@ C---------------------------------------------------------------------
         N = 3
       ELSE
         N = 1
-      ENDIF
-      IF (NDSOLV==1) THEN
-#if defined(MYREAL8) && !defined(WITHOUT_LINALG)
-         CALL DSDEAL(GRAPHE)
-         CALL DSCLOSE
-#endif
       ENDIF
       DEALLOCATE(GRAPHE)
       DEALLOCATE(IFLOW, RFLOW)

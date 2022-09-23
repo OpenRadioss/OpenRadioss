@@ -3284,8 +3284,15 @@ C       IMPMV>0 isolv/=1 --> IMPMV=0
        IF (ISPMD == 0) IPRINT=1
        IF(ISOLV >= 3 ) THEN
           CALL ANCMSG(MSGID=296,ANMODE=ANINFO,I1=ISOLV)
-	      ISOLV = 2
+          ISOLV = 2
        END IF
+
+#ifndef MUMPS5
+       IF(ISOLV == 2 .AND. NSPMD > 1) THEN
+         WRITE(6,*) "Fatal error: MUMPS is required, but not avaiable"
+         CALL ARRET(5)
+       ENDIF
+#endif
        IF (NEIG > 0) THEN
         ILINE=1
         ISPRB=0

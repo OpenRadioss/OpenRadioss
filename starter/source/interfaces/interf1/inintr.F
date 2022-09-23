@@ -157,7 +157,7 @@ C
         IKINE1(I) = 0
       ENDDO
 C-----------------------------------------------
-      IF(((IMACH==3.AND.IDDLEVEL==0).OR.NDSOLV==1).AND.
+      IF(((IMACH==3.AND.IDDLEVEL==0)).AND.
      +   (DECTYP>=3.AND.DECTYP<=6).AND.N2D==0)THEN
         NSNT = 0
         NMNT = 0
@@ -327,7 +327,7 @@ C significantly different velocities between secnd and main
       MAIN_INTERFACE_SIZE = -1 
       ID_MAIN_INTERFACE = -1
       IF(N2D==0)THEN
-      IF((IDDLEVEL==0.OR.NDSOLV==1).AND.(DECTYP>=3.AND.DECTYP<=6))THEN
+      IF((IDDLEVEL==0).AND.(DECTYP>=3.AND.DECTYP<=6))THEN
 
         CONDITION(1:NINTER) = .FALSE.
         avg_stiff(1:NINTER) = HUGE(1.0D0)

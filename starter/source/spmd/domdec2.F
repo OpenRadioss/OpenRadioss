@@ -3015,38 +3015,6 @@ C
      .          DDSTAT(25,P)/1024
         ENDIF
 
-        IF (NDSOLV>0) THEN
-           WRITE(IOUT,*)
-           IF( GOT_INSPIRE_ALM == 1)THEN
-             WRITE(IOUT,'(A)')
-     .  '     ADDITIONAL SOLVER STORAGE FOR MULTI-LEVEL CONDENSATION'
-           ELSE
-             WRITE(IOUT,'(A)')
-     .  '     ADDITIONAL ENGINE STORAGE FOR MULTI-LEVEL CONDENSATION'
-           ENDIF
-           WRITE(IOUT,'(A)')
-     .  '     ------------------------------------------------------'
-           WRITE(IOUT,1300) DSMEMORY(1,P)*RTOBYTES,
-     *                      DSMEMORY(2,P)*RTOBYTES
-           IF (P==1.AND.DSMEMORY(5,P)==0) THEN
-              WRITE(IOUT,1310) DSMEMORY(3,P)*RTOBYTES
-           ELSE
-              WRITE(IOUT,1320) DSMEMORY(3,P)*RTOBYTES,DSMEMORY(6,P)
-           ENDIF
-           WRITE(IOUT,'(A)')
-     .  '                                 ---------'
-           MEMTOTAL=MEMTOTAL+
-     .       (DSMEMORY(1,P)+DSMEMORY(2,P)+DSMEMORY(3,P))*RTOBYTES
-           WRITE(IOUT,1340) MEMTOTAL/1048576
-           WRITE(IOUT,*)
-           WRITE(IOUT,'(A)')
-     .'     DISK SPACE REQUIREMENTS IN TMPDIR FOR GRAPH STORAGE'
-           WRITE(IOUT,'(A)')
-     .'     ---------------------------------------------------'
-           WRITE(IOUT,1350) DSMEMORY(7,P)/(1024*1024),
-     .                      DSMEMORY(4,P)/(1024*1024),
-     .                      (DSMEMORY(7,P)+DSMEMORY(4,P))/(1024*1024)
-        ENDIF
         IF (NFLOW>0) THEN
            WRITE(IOUT,*)
            IF( GOT_INSPIRE_ALM == 1)THEN
@@ -3082,40 +3050,6 @@ C
      .                    DDSTAT(25,P)/1024
         ENDIF
 
-        IF (NDSOLV>0) THEN
-           WRITE(IOUT,*)
-           IF( GOT_INSPIRE_ALM == 1)THEN
-             WRITE(IOUT,'(A)')
-     .  '     ADDITIONAL SOLVER STORAGE FOR MULTI-LEVEL CONDENSATION' 
-           ELSE
-             WRITE(IOUT,'(A)')
-     .  '     ADDITIONAL ENGINE STORAGE FOR MULTI-LEVEL CONDENSATION'
-           ENDIF
-           WRITE(IOUT,'(A)')
-     .  '     ------------------------------------------------------'
-           WRITE(IOUT,1300) DSMEMORY(1,P)*RTOBYTES,
-     .                      DSMEMORY(2,P)*RTOBYTES
-           IF (DSMEMORY(5,P)==0) THEN
-              WRITE(IOUT,1310) DSMEMORY(3,P)*RTOBYTES
-           ELSE
-              WRITE(IOUT,1320) DSMEMORY(3,P)*RTOBYTES,DSMEMORY(6,P)
-           ENDIF
-           WRITE(IOUT,'(A)')
-     .  '                                 ---------'
-           MEMTOTAL=MEMTOTAL+
-     .       DSMEMORY(1,P)*RTOBYTES +
-     .       DSMEMORY(2,P)*RTOBYTES +
-     .       DSMEMORY(3,P)*RTOBYTES
-           WRITE(IOUT,1340) MEMTOTAL/1048576
-           WRITE(IOUT,*)
-           WRITE(IOUT,'(A)')
-     .'     DISK SPACE REQUIREMENTS IN TMPDIR FOR GRAPH STORAGE'
-           WRITE(IOUT,'(A)')
-     .'     ---------------------------------------------------'
-           WRITE(IOUT,1350) DSMEMORY(7,P)/(1024*1024),
-     .                      DSMEMORY(4,P)/(1024*1024),
-     .                      (DSMEMORY(7,P)+DSMEMORY(4,P))/(1024*1024)
-        ENDIF
         IF (NFLOW>0) THEN
            WRITE(IOUT,*)
            IF( GOT_INSPIRE_ALM == 1)THEN
