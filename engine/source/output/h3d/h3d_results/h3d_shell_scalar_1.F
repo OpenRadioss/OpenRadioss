@@ -40,8 +40,8 @@ Chd|====================================================================
      .                  EL2FA       ,NBF       ,IXUR      ,IADP        ,
      .                  NBF_L       ,EHOUR     ,ANIM      ,NBPART      ,IADG       ,
      .                  IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
-     .                  INVERT      ,X         ,V         ,W           ,ALE_CONNECT      ,
-     .                  NV46        ,NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
+     .                  INVERT      ,X         ,V         ,W           ,ALE_CONNECT,
+     .                  NV46        ,NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS   ,
      .                  STACK       ,ID_ELEM   ,ITY_ELEM  ,INFO1       ,INFO2      , 
      .                  IS_WRITTEN_SHELL,IPARTC,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
      .                  PLY_INPUT   ,GAUSS_INPUT,IUVAR_INPUT,H3D_PART  ,KEYWORD    ,
@@ -79,20 +79,21 @@ C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "mmale51_c.inc"
 #include      "alefvm.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real,INTENT(IN),TARGET :: BUFMAT(*)
       my_real
-     .   SHELL_SCALAR(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),D(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,*),
-     .   ANIM(*),PM(NPROPM,NUMMAT),ERR_THK_SH4(*), ERR_THK_SH3(*)
+     .   SHELL_SCALAR(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),D(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,NUMGEO),
+     .   ANIM(*),PM(NPROPM,NUMMAT),ERR_THK_SH4(*), ERR_THK_SH3(NUMELTG)
       INTEGER IPARG(NPARG,NGROUP),IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),EL2FA(*),
-     .   IXQ(NIXQ,NUMELQ),IXUR(NIXUR,*),IFUNC,NBF,
-     .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
-     .   IGEO(NPROPGI,*),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),
-     .   INFO1,INFO2,IS_WRITTEN_SHELL(*),IPARTC(*),IPARTTG(*),H3D_PART(*),
+     .   IXQ(NIXQ,NUMELQ),IXUR(NIXUR,NUMELUR),IFUNC,NBF,
+     .   IADP(*),NBF_L, NBPART,IADG(NSPMD,NPART),IPM(NPROPMI,NUMMAT),
+     .   IGEO(NPROPGI,NUMGEO),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),
+     .   INFO1,INFO2,IS_WRITTEN_SHELL(*),IPARTC(NUMELC),IPARTTG(NUMELTG),H3D_PART(*),
      .   LAYER_INPUT ,IPT_INPUT,GAUSS_INPUT,PLY_INPUT,IUVAR_INPUT,NG,IDMDS,
-     .   MDS_MATID(*),IMDSVAR
+     .   MDS_MATID(*),IMDSVAR,NERCVOIS(SNERCVOIS),NESDVOIS(SNESDVOIS),LERCVOIS(SLERCVOIS),LESDVOIS(SLESDVOIS)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
       CHARACTER*ncharline KEYWORD
@@ -101,59 +102,44 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .   EVAR(MVSIZ),DAM1(MVSIZ),DAM2(MVSIZ),
-     .   WPLA(MVSIZ),DMAX(MVSIZ),WPMAX(MVSIZ),FAIL(MVSIZ),
-     .   EPST1(MVSIZ),EPST2(MVSIZ),EPSF1(MVSIZ),EPSF2(MVSIZ),
-     .   VALUE(MVSIZ),VG(5),VLY(5),VE(5),MASS(MVSIZ),A002(MVSIZ),
-     .   XPXX(MVSIZ),XPYY(MVSIZ),XPXY(MVSIZ),XPPXX(MVSIZ),
-     .   XPPYY(MVSIZ),XPPXY(MVSIZ),XP1(MVSIZ),XP2(MVSIZ),XPP1(MVSIZ),XPP2(MVSIZ),
-     .   PHIP(MVSIZ),PHIPP(MVSIZ),NINTY
-      my_real
-     .   OFF, P,VONM2,S1,S2,S12,S3,DMGMX,FAC,A1,A2,A3,A4,
-     .   DIR1_1,DIR1_2,DIR2_1,DIR2_2,AA,BB,V1,V2,V3,X21,X32,X34,
-     .   X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,VR,VS,X31,Y31,
-     .   Z31,E11,E12,E13,E21,E22,E23,SUM_,AREA,X2L,VAR,
-     .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,SX,SY,SZ,
-     .   RHO0(MVSIZ),THK0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3,A0,VEL(0:3),
-     .   RINDX,VFRAC(MVSIZ,1:21),TMP(3,3),CUMUL(3),VX,VY,VZ,SURF,NX,NY,NZ,
-     .   A01,A02,A03,A12,CRIT,M,B_1,B_2,B_3,A,FF,GG,HH,AL1,AL2,AL3,AL4,AL5,
-     .   AL6,AL7,AL8,UNSA,LPP11,LPP12,LPP21,LPP22,LPP66,PHI,ERR,
-     .   VOL,PRES(MVSIZ)
+      my_real EVAR(MVSIZ),DAM1(MVSIZ),DAM2(MVSIZ),WPLA(MVSIZ),DMAX(MVSIZ),WPMAX(MVSIZ),FAIL(MVSIZ),
+     .        EPST1(MVSIZ),EPST2(MVSIZ),EPSF1(MVSIZ),EPSF2(MVSIZ),VALUE(MVSIZ),VG(5),VLY(5),VE(5),MASS(MVSIZ),
+     .        NINTY,VONM2,S1,S2,S12,DMGMX,A1,A2,A3,A4,DIR1_1,DIR1_2,AA,BB,V1,V2,V3,X21,X32,X34,
+     .        X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,VR,VS,X31,Y31,Z31,E11,E12,E13,E21,E22,E23,SUM_,AREA,X2L,
+     .        E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,S_X,S_Y,S_Z,RHO0(MVSIZ),THK0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3,A0,
+     .        RINDX,VFRAC(MVSIZ,1:21),TMP(3,3),CUMUL(3),VX,VY,VZ,SURF,NX,NY,NZ,PHI,ERR,PRES(MVSIZ),VEL(0:3)
       INTEGER I,I1,II,J,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
-     .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
-     .        N,NN,K,K1,K2,JTURB,MT,IMID,IPID,ISH3N,NNI,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
-     .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
-     .        IIGEO,IADI,ISUBSTACK,ITHK,SWA_L,NERCVOIS(*),NESDVOIS(*),
-     .        LERCVOIS(*),LESDVOIS(*),ID_PLY,NB_PLYOFF,IOK,N1,N2,N3,N4,
-     .        IMAT,IU(4),NFRAC,IPOS,ITRIMAT,NRATE,NS,EXPA,IAD2
+     .        IR,IS,IT,IL,MLW, NUVAR,NFAIL,
+     .        N,K,K1,K2,JTURB,
+     .        OFFSET,IHBE,NPG, MPT,IPT,IADR,IPMAT,
+     .        ISUBSTACK,ITHK,SWA_L,ID_PLY,IOK,N1,N2,N3,N4,
+     .        IMAT,IU(4),NFRAC,IPOS,ITRIMAT,NS,IAD2
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
-     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),LENCOM,IOFF,NPT_ALL,IPLY,
-     .        ID_ELEM_TMP(MVSIZ),NIX,IOK_PART(MVSIZ),JJ(5),NPGT,IUVAR,
+     .        IOFF,NPT_ALL,IPLY,
+     .        IOK_PART(MVSIZ),JJ(5),NPGT,IUVAR,
      .        IS_WRITTEN_VALUE(MVSIZ),IV,KFACE,NB_FACE,IADBUF,NUPARAM,ISUBMAT,IS_EULER,IS_ALE,
-     .        IPINCH,IPG,USER_OK
+     .        IPINCH,IPG,USER_OK,IALEL
       CHARACTER*5 BUFF
-      REAL R4
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
       TYPE(BUF_FAIL_) ,POINTER :: FBUF 
-      my_real,
-     .  DIMENSION(:), POINTER  :: UVAR
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
-      TYPE(BUF_MAT_)  ,POINTER :: MBUF       
+      TYPE(BUF_MAT_)  ,POINTER :: MBUF 
+      my_real, DIMENSION(:), POINTER  :: UVAR            
       my_real, DIMENSION(:) ,POINTER  :: UPARAM
       DATA NS/10/
-C----------------------------------------------- 
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
        NINTY = 90.
-       CALL INITBUF (IPARG    ,NG     ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
-     7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
+       CALL INITBUF (IPARG   ,NG      ,                    
+     2               MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
+     3               NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,  
+     4               JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
+     5               NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
+     6               IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+     7               ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 
        IF(MLW /= 13) THEN 
   
@@ -164,18 +150,17 @@ C-----------------------------------------------
           IS_ALE = IPARG(7,NG)
 
           IOK_PART(1:NEL) = 0  
-!
+
           DO I=1,5
             JJ(I) = NEL*(I-1)
           ENDDO  
-c
+
           DO I=1,NEL
             VALUE(I) = ZERO
             IS_WRITTEN_VALUE(I) = 0
-            A002(I) = ZERO
           ENDDO	
 C----------------------------------------------- 
-C           COQUES 3 N 4 N
+C           3-NODE-SHELL & 4-NODE-SHELL
 C-----------------------------------------------
          IF (ITY == 3.OR.ITY == 7) THEN
 
@@ -239,7 +224,7 @@ C Mass computation
 C-----------------------------------------------
             IF (KEYWORD == 'MASS'  .OR. KEYWORD == 'HOURGLASS' .OR. KEYWORD == 'ENER' .OR. KEYWORD(1:4) == 'EINT') THEN
 C-----------------------------------------------
-C       COQUES 4 N
+C        4-NODE-SHELL
 C-----------------------------------------------
               IF(ITY==3)THEN
 C
@@ -287,7 +272,7 @@ C
              	  ENDDO 
              	ENDIF 
 C-----------------------------------------------
-C       COQUES 3 N
+C       3-NODE-SHELL
 C-----------------------------------------------
               ELSEIF(ITY==7)THEN
 C       
@@ -338,7 +323,7 @@ C---------------------
 
 C
             IF (MLW == 0 .OR. MLW == 13) THEN
-              CONTINUE  
+              !nothing to do
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'MASS') THEN   ! MASS
 C--------------------------------------------------
@@ -1011,12 +996,12 @@ c
                           RX = E1X                                                
                           RY = E1Y                                                
                           RZ = E1Z                                                
-                          SX = E2X                                                
-                          SY = E2Y                                                
-                          SZ = E2Z                                                
+                          S_X = E2X                                                
+                          S_Y = E2Y                                                
+                          S_Z = E2Z                                                
                         ENDIF                                                     
                         IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN                  
-C------                   Repere convecte symetrique - version 5 (default)        
+C------                   Convected frame symmetric - version 5 (default)        
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
                           SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
@@ -1040,7 +1025,7 @@ C
                           E2Y = E3Z * E1X - E3X * E1Z                             
                           E2Z = E3X * E1Y - E3Y * E1X                             
                         ELSEIF (ISHFRAM == 2) THEN                                
-C------                   Repere convecte nonsymetrique - version 4               
+C------                   Convected frame non-symmetric - version 4               
                           SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
                           E1X = E1X*SUMA + E2Y*E3Z-E2Z*E3Y                        
                           E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z                        
@@ -1069,9 +1054,9 @@ C
                         IF (IREP >= 1) THEN                                       
                           AA = BUFLY%DIRA(I)                              
                           BB = BUFLY%DIRA(I+NEL)                              
-                          V1 = AA*RX + BB*SX                                      
-                          V2 = AA*RY + BB*SY                                      
-                          V3 = AA*RZ + BB*SZ                                      
+                          V1 = AA*RX + BB*S_X                                      
+                          V2 = AA*RY + BB*S_Y                                      
+                          V3 = AA*RZ + BB*S_Z                                      
                           VR = V1*E1X+ V2*E1Y + V3*E1Z                            
                           VS = V1*E2X+ V2*E2Y + V3*E2Z                            
                           SUMA=SQRT(VR*VR + VS*VS)                                
@@ -1215,12 +1200,12 @@ c
                 	    RX = E1X						    
                 	    RY = E1Y						    
                 	    RZ = E1Z						    
-                	    SX = E2X						    
-                	    SY = E2Y						    
-                	    SZ = E2Z						    
+                	    S_X = E2X						    
+                	    S_Y = E2Y						    
+                	    S_Z = E2Z						    
                 	  ENDIF 						    
                 	  IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN		    
-C------         	    Repere convecte symetrique - version 5 (default)	    
+C------         	    Convected frame symmetric - version 5 (default)	    
                 	    SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z			    
                 	    SUMA   = ONE / MAX(SQRT(SUMA),EM20)  	    
                 	    E3X = E3X * SUMA					    
@@ -1244,7 +1229,7 @@ C
                 	    E2Y = E3Z * E1X - E3X * E1Z 			    
                 	    E2Z = E3X * E1Y - E3Y * E1X 			    
                 	  ELSEIF (ISHFRAM == 2) THEN				    
-C------         	    Repere convecte nonsymetrique - version 4		    
+C------         	    Convected frame non-symmetric - version 4		    
                 	    SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z			    
                 	    E1X = E1X*SUMA + E2Y*E3Z-E2Z*E3Y			    
                 	    E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z			    
@@ -1273,9 +1258,9 @@ C
                 	  IF (IREP >= 1) THEN					    
                 	    AA = BUFLY%DIRA(I)  			    
                 	    BB = BUFLY%DIRA(I+NEL)			      
-                            V1 = AA*RX + BB*SX     
-                	    V2 = AA*RY + BB*SY  				    
-                	    V3 = AA*RZ + BB*SZ  				    
+                            V1 = AA*RX + BB*S_X     
+                	    V2 = AA*RY + BB*S_Y  				    
+                	    V3 = AA*RZ + BB*S_Z  				    
                 	    VR = V1*E1X+ V2*E1Y + V3*E1Z			    
                 	    VS = V1*E2X+ V2*E2Y + V3*E2Z			    
                 	    SUMA=SQRT(VR*VR + VS*VS)				    
@@ -2950,8 +2935,23 @@ C--------------------------------------------------
                   ENDIF   
                ENDIF
 C--------------------------------------------------
-            ELSE IF ( KEYWORD == 'SCHLI') THEN   
-C           ALE SCHLIEREN N/A                      
+            ELSEIF(KEYWORD == 'SCHLIEREN') THEN     
+C--------------------------------------------------                                                   
+               IALEL=IPARG(7,NG)+IPARG(11,NG)
+               IF(IALEL /= 0)THEN 
+                 EVAR(1:NEL)=ZERO  
+                 LFT=1
+                 LLT=NEL                                      
+                 CALL SCHLIEREN(
+     1                 EVAR    , IXTG   , X           , V             , W       ,
+     2                 IPARG   , WA_L   , ELBUF_TAB   , ALE_CONNECT   , GBUF%VOL,
+     3                 PM      , NG     , NIXTG       , IOFF    ,
+     4                 ITY) 
+                 DO  I=1,NEL 
+                   VALUE(I) = EVAR(I) 
+		   IS_WRITTEN_VALUE(I) = 1
+                 ENDDO
+               ENDIF                       
 C--------------------------------------------------
             ELSE IF ( KEYWORD == 'ERROR/THICK') THEN
 C--------------------------------------------------
@@ -3691,4 +3691,3 @@ C-----------------------------------------------
 C-----------------------------------------------
       RETURN
       END
-
