@@ -67,7 +67,8 @@ C-----------------------------------------------
      .        NFT,N1,N2,N3,N4,MTN,NN1,NN2,NN3,II(6),SLIP,
      .        COMPT,FRA,NFOUND,FOUND_SLIP(2),FOUND_FRAM(2),FRAM1,FRAM2,
      .        NODE_FRAM1,NODE_FRAM2,IREP,FLAG_REACTIV,FLAG_R1,FLAG_R2,NUVAR,
-     .        ISEATBELT,FRA1,FRA2,L_DIRA,NLAY,ISMSTR,NFRAM_MAX,STRAND,NODE_CORES_DIR2(4)
+     .        ISEATBELT,FRA1,FRA2,L_DIRA,NLAY,ISMSTR,NFRAM_MAX,STRAND,NODE_CORES_DIR2(4),
+     .        NPTR,NPTS,NPTT,IR,IS,IT
 C
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_NOD,CORES_SLIP,CORES_FRAM
 C
@@ -258,8 +259,11 @@ C
           IF ((ITYP == 3).AND.(ISEATBELT==1)) THEN
 C
             BUFLY => ELBUF_TAB(NG)%BUFLY(1)
-            NLAY   = ELBUF_TAB(NG)%NLAY
-            L_DIRA = BUFLY%LY_DIRA
+            NLAY   = ELBUF_TAB(NG)%NLAY 
+            NPTR  = ELBUF_TAB(NG)%NPTR
+            NPTS  = ELBUF_TAB(NG)%NPTS
+            NPTT  = ELBUF_TAB(NG)%NPTT
+            L_DIRA = BUFLY%LY_DIRA 
 C
             DO I=JFT,JLT
 C
@@ -419,6 +423,15 @@ C--             shell reactivation process - update of reference state -- reset 
 C               reset of fram
                 GBUF%SLIPRING_FRAM_ID(II(1)+I-1) = ZERO
                 GBUF%SLIPRING_FRAM_ID(II(2)+I-1) = ZERO
+C               flag for reset of stress - for each integ point
+                DO IR=1,NPTR
+                  DO IS=1,NPTS
+                    DO IT=1,NPTT
+                      BUFLY%MAT(IR,IS,IT)%VAR(NEL*(7-1)+I) = 1
+                    ENDDO 
+                  ENDDO
+                ENDDO
+C 
               ENDIF
 C
             ENDDO
