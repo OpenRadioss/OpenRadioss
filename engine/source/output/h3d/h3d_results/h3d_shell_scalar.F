@@ -75,19 +75,20 @@ C-----------------------------------------------
 #include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   SHELL_SCALAR(*),X(3,*),V(3,*),W(3,*),D(3,*),THKE(*),EHOUR(*),GEO(NPROPG,*),
-     .   ANIM(*),PM(NPROPM,*),ERR_THK_SH4(*), ERR_THK_SH3(*)
-      INTEGER IPARG(NPARG,*),IXC(NIXC,*),IXTG(NIXTG,*),EL2FA(*),
-     .   IXQ(NIXQ,*),IXUR(NIXUR,*),IFUNC,NBF,
-     .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,*),
-     .   IGEO(NPROPGI,*),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),
-     .   INFO1,INFO2,IS_WRITTEN_SHELL(*),IPARTC(*),IPARTTG(*),H3D_PART(*),
+     .   SHELL_SCALAR(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),D(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,NUMGEO),
+     .   ANIM(*),PM(NPROPM,NUMMAT),ERR_THK_SH4(NUMELC), ERR_THK_SH3(NUMELTG)
+      INTEGER IPARG(NPARG,NGROUP),IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),EL2FA(*),
+     .   IXQ(NIXQ,NUMELQ),IXUR(NIXUR,NUMELUR),IFUNC,NBF,
+     .   IADP(*),NBF_L, NBPART,IADG(NSPMD,NPART),IPM(NPROPMI,NUMMAT),
+     .   IGEO(NPROPGI,NUMGEO),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),
+     .   INFO1,INFO2,IS_WRITTEN_SHELL(*),IPARTC(NUMELC),IPARTTG(NUMELTG),H3D_PART(*),
      .   LAYER_INPUT ,IPT_INPUT,GAUSS_INPUT,PLY_INPUT,IUVAR_INPUT,IDMDS,
-     .   MDS_MATID(*),IMDSVAR
+     .   MDS_MATID(*),IMDSVAR,NERCVOIS(SNERCVOIS),NESDVOIS(SNESDVOIS),LERCVOIS(SLERCVOIS),LESDVOIS(SLESDVOIS)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
       CHARACTER*ncharline KEYWORD
@@ -97,51 +98,71 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .   EVAR(MVSIZ),DAM1(MVSIZ),DAM2(MVSIZ),
-     .   WPLA(MVSIZ),DMAX(MVSIZ),WPMAX(MVSIZ),FAIL(MVSIZ),
-     .   EPST1(MVSIZ),EPST2(MVSIZ),EPSF1(MVSIZ),EPSF2(MVSIZ),
-     .   VALUE(MVSIZ),VG(5),VLY(5),VE(5),MASS(MVSIZ)
-      my_real
-     .   OFF, P,VONM2,S1,S2,S12,S3,DMGMX,FAC,
-     .   DIR1_1,DIR1_2,DIR2_1,DIR2_2,AA,BB,V1,V2,V3,X21,X32,X34,
-     .   X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,VR,VS,X31,Y31,
-     .   Z31,E11,E12,E13,E21,E22,E23,SUM,AREA,X2L,VAR,
-     .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,SX,SY,SZ,
-     .   RHO0,THK0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3,A0
-      INTEGER I,I1,II,J,NG,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
-     .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
-     .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
-     .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
-     .        IIGEO,IADI,ISUBSTACK,ITHK,SWA_L,NERCVOIS(*),NESDVOIS(*),
-     .        LERCVOIS(*),LESDVOIS(*),ID_PLY,NB_PLYOFF,IOK,N1,N2,N3,N4
-      INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
-     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),LENCOM,IOFF,NPT_ALL,IPLY,
-     .        ID_ELEM_TMP(MVSIZ),NIX,IOK_PART(MVSIZ),JJ(5),NPGT,IUVAR,
-     .        IS_WRITTEN_VALUE(MVSIZ)
-      REAL R4
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      TYPE(BUF_FAIL_) ,POINTER :: FBUF 
-      my_real,
-     .  DIMENSION(:), POINTER  :: UVAR
-      TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
+      INTEGER II,NG,OFFSET,SWA_L,LENCOM,IOFF,IALEL,MLW,NEL           
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF       
 C-----------------------------------------------
-c      print *,'LAYER_INPUT',LAYER_INPUT
-c      print *,'IPT_INPUT',IPT_INPUT
-c      print *,'GAUSS_INPUT',GAUSS_INPUT
-c      print *,'PLY_INPUT',PLY_INPUT
-c      print *,'IUVAR_INPUT',IUVAR_INPUT
-c      print *,'KEYWORD',KEYWORD,'KEYWORD'
-C
-      DO I=1,NUMELC+NUMELTG
-         IS_WRITTEN_SHELL(I) = 0
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      DO II=1,NUMELC+NUMELTG
+         IS_WRITTEN_SHELL(II) = 0
       ENDDO
-c a corriger
-      NN3 = 0
-C
+C-----------------------------------------------
+      
+      !-------------------------------------------------------!
+      !     SCHLIEREN INITIALIZATION (IF DEFINED)             !
+      !       DENSITY FOR ALL TRIA ARE STORED IN WA_L         !
+      !-------------------------------------------------------!    
+      ! /TRIA are 2d solid elements (new entity type derived from SH3N, it is currently managed from h3d_shell_* subroutines. It will change in the future.  
+      IF(KEYWORD == 'SCHLIEREN' .AND. N2D > 0)THEN
+        SWA_L = MAX(IALE,ITHERM,IEULER,IALELAG)*( NUMELTG + NTGVOIS + NSEGFLU )
+        IF(.NOT.ALLOCATED(WA_L))ALLOCATE(WA_L(SWA_L)) ! work array for ANIM/ELEM/SCHLIEREN or /H3D/ELEM/SCHLIEREN (density)
+        DO NG=1,NGROUP
+          CALL INITBUF (IPARG	 ,NG	  ,		       
+     2        MLW     ,NEL     ,NFT	,IAD	 ,ITY	  ,  
+     3        NPT     ,JALE    ,ISMSTR  ,JEUL	 ,JTUR    ,  
+     4        JTHE    ,JLAG    ,JMULT	,JHBE	 ,JIVF    ,  
+     5        NVAUX   ,JPOR    ,JCVT	,JCLOSE  ,JPLASOL ,  
+     6        IREP    ,IINT    ,IGTYP	,ISRAT   ,ISROT   ,  
+     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
+          IF (MLW /= 13) THEN	  
+            DO OFFSET = 0,NEL-1,NVSIZ
+              NFT = IPARG(3,NG) + OFFSET
+              LFT=1
+              LLT=MIN(NVSIZ,NEL-OFFSET)
+              IALEL  = IPARG(7,NG) + IPARG(11,NG)
+              IF (IALEL==0)CYCLE
+              IF (ITY == 7) THEN !TRIA
+               !SOLID ELEMENTS
+               IF (MLW == 151) THEN
+                WA_L(NFT+LFT:NFT+LLT) =  MULTI_FVM%RHO(NFT+LFT:NFT+LLT)
+               ELSE
+        	GBUF => ELBUF_TAB(NG)%GBUF
+        	WA_L(NFT+LFT:NFT+LLT) = GBUF%RHO(LFT:LLT)   
+               ENDIF
+              ENDIF
+            ENDDO
+          ENDIF!(MLW /= 13)	     
+        ENDDO!next NG
+          !--------------------
+        CALL MY_BARRIER    
+          !--------------------
+          !    SPMD EXCHANGE OF ADJACENT ELEMS 
+          !--------------------
+        IF(IALE+IEULER+ITHERM /= 0)THEN	     
+          LENCOM = NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
+          IF (NSPMD>1) THEN
+            CALL SPMD_E1VOIS(WA_L     ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM  )
+          END IF         
+          !In Case of Inter12, additional surface adjacent elems must be taken into account (3D only)
+          IOFF = 0  
+        ENDIF      
+      ENDIF
+C-----------------------------------------------
+
+
+      !-------------------------------------------------------!
+      !     LOOP OVER ELEM GROUPS & OUTPUT DATA               !
+      !-------------------------------------------------------!
       DO NG=1,NGROUP
        CALL H3D_SHELL_SCALAR_1(
      .                  ELBUF_TAB   ,SHELL_SCALAR,IFUNC   ,IPARG       ,GEO        ,
@@ -158,6 +179,7 @@ C
      .                  MDS_MATID   )
       ENDDO
 C-----------------------------------------------
+
+
       RETURN
       END
-
