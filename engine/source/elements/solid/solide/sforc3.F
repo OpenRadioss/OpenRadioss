@@ -1450,7 +1450,15 @@ C
      .   X17(MVSIZ), X28(MVSIZ), X35(MVSIZ), X46(MVSIZ),
      .   Y17(MVSIZ), Y28(MVSIZ), Y35(MVSIZ), Y46(MVSIZ),
      .   Z17(MVSIZ), Z28(MVSIZ), Z35(MVSIZ), Z46(MVSIZ),
-     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ)
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
+     .   A17_46(MVSIZ),
+     .   A28_35(MVSIZ),
+     .   B17_46(MVSIZ),
+     .   B28_35(MVSIZ),
+     .   C17_46(MVSIZ),
+     .   C28_35(MVSIZ)
+ 
+
 C=======================================================================
       DO I=1,NEL
         X17(I)=X7(I)-X1(I)
@@ -1468,22 +1476,28 @@ C
         Z35(I)=Z5(I)-Z3(I)
         Z46(I)=Z6(I)-Z4(I)
       ENDDO
-C
-C Jacobian Matrix
+
       DO I=1,NEL
         JAC1(I)=X17(I)+X28(I)-X35(I)-X46(I)
         JAC2(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
         JAC3(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
-C
-        JAC4(I)=X17(I)+X46(I)+X28(I)+X35(I)
-        JAC5(I)=Y17(I)+Y46(I)+Y28(I)+Y35(I)
-        JAC6(I)=Z17(I)+Z46(I)+Z28(I)+Z35(I)
-C
-        JAC7(I)=X17(I)+X46(I)-X28(I)-X35(I)
-        JAC8(I)=Y17(I)+Y46(I)-Y28(I)-Y35(I)
-        JAC9(I)=Z17(I)+Z46(I)-Z28(I)-Z35(I)     
+        A17_46(I)=X17(I)+X46(I)
+        A28_35(I)=X28(I)+X35(I)
+        B17_46(I)=Y17(I)+Y46(I)
+        B28_35(I)=Y28(I)+Y35(I)
+        C17_46(I)=Z17(I)+Z46(I)
+        C28_35(I)=Z28(I)+Z35(I)
       ENDDO
-C
+         
+      DO I=1,NEL
+        JAC4(I)=A17_46(I)+A28_35(I)
+        JAC5(I)=B17_46(I)+B28_35(I)
+        JAC6(I)=C17_46(I)+C28_35(I)
+        JAC7(I)=A17_46(I)-A28_35(I)
+        JAC8(I)=B17_46(I)-B28_35(I)
+        JAC9(I)=C17_46(I)-C28_35(I)
+      ENDDO
+
       DO I=1,NEL
         JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
         JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)

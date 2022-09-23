@@ -66,6 +66,7 @@ C
       my_real
      .   VOL(NEL), VEUL(LVEUL,*) , GEO(NPROPG,NUMGEO),
      .   JAC1(NEL), JAC2(NEL), JAC3(NEL), JAC4(NEL), JAC5(NEL), JAC6(NEL),
+     .   JAC12(NEL), JAC45(NEL), JAC78(NEL),
      .   PX1(NEL), PX2(NEL), PX3(NEL), PX4(NEL),  
      .   PY1(NEL), PY2(NEL), PY3(NEL), PY4(NEL),  
      .   PZ1(NEL), PZ2(NEL), PZ3(NEL), PZ4(NEL), DET(NEL)
@@ -192,23 +193,35 @@ C Jacobian matrix inverse
 C
 C Shape functions partial derivatives
       DO I=1,NEL
-        PX1(I)=-JACI1(I)-JACI2(I)-JACI3(I)
-        PY1(I)=-JACI4(I)-JACI5(I)-JACI6(I)
-        PZ1(I)=-JACI7(I)-JACI8(I)-JACI9(I)
-C
-        PX2(I)=-JACI1(I)-JACI2(I)+JACI3(I)
-        PY2(I)=-JACI4(I)-JACI5(I)+JACI6(I)
-        PZ2(I)=-JACI7(I)-JACI8(I)+JACI9(I)
-C
-        PX3(I)= JACI1(I)-JACI2(I)+JACI3(I)
-        PY3(I)= JACI4(I)-JACI5(I)+JACI6(I)
-        PZ3(I)= JACI7(I)-JACI8(I)+JACI9(I)
-C
-        PX4(I)= JACI1(I)-JACI2(I)-JACI3(I)
-        PY4(I)= JACI4(I)-JACI5(I)-JACI6(I)
-        PZ4(I)= JACI7(I)-JACI8(I)-JACI9(I)
+        JAC12(I)=JACI1(I)-JACI2(I)
+        JAC45(I)=JACI4(I)-JACI5(I)
+        JAC78(I)=JACI7(I)-JACI8(I)
       ENDDO
 C
+      DO I=1,NEL
+        PX3(I)= JAC12(I)+JACI3(I)
+        PY3(I)= JAC45(I)+JACI6(I)
+        PZ3(I)= JAC78(I)+JACI9(I)
+        PX4(I)= JAC12(I)-JACI3(I)
+        PY4(I)= JAC45(I)-JACI6(I)
+        PZ4(I)= JAC78(I)-JACI9(I)
+      ENDDO
+C
+      DO I=1,NEL
+        JAC12(I)=JACI1(I)+JACI2(I)
+        JAC45(I)=JACI4(I)+JACI5(I)
+        JAC78(I)=JACI7(I)+JACI8(I)
+      ENDDO
+C
+      DO I=1,NEL
+        PX1(I)=-JAC12(I)-JACI3(I)
+        PY1(I)=-JAC45(I)-JACI6(I)
+        PZ1(I)=-JAC78(I)-JACI9(I)
+        PX2(I)=-JAC12(I)+JACI3(I)
+        PY2(I)=-JAC45(I)+JACI6(I)
+        PZ2(I)=-JAC78(I)+JACI9(I)
+      ENDDO
+
       IF(JEUL * (1 - IMULTI_FVM) /= 0)THEN
         DO I=1,NEL
           VEUL(1,I) = PX1(I)
