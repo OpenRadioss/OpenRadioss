@@ -43,16 +43,15 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C Biphasic material law : air / liquid.
-C   air is modeled with ideal gas EOS : P = C4(1+mu)E  where C4=gamma-1
-C   liquid is modeled with linear EOS : P= C0+C1mu     where C1=bulk modulus and C0=initial pressure
+C   air is modeled with ideal gas EOS : PV**gamma = constant
+C   liquid is modeled with linear EOS : P= P0+C1.mu     where C1 is bulk modulus and P0 is initial pressure
 C   massic percentage determines the ratio AIR/LIQUID in the cell
 C Purpose is to compute equilibrium Pair=Pwater, this leads to mu_air and mu_water (iterative method, niter=2 is used)
 C
-C Two different solver are proposed.
-C   ISOLVER = 1 (default) is the historical solver. Sound Speed is computed from water whatever is the mixture. There is only 2 iterations.
-C   ISOLVER = 2 is an alternative solver using a Newton Algorithm with 20iteration. Convergence criteria introduced and sound speed computed from mixture.
-C               This sounnd speed update leads to global value potentially lower than each submaterial value and fail in historical solver.
-C               must be used with dt_scale <= 0.5
+C   ISOLVER = 1 (default) is the legacy solver. Sound Speed is computed from water whatever is the mixture. There is only 2 iterations.
+C   ISOLVER = 2 is an alternative solver using a Newton Algorithm with (max 20 iterations). Convergence criteria introduced and sound speed computed from mixture.
+C               This sound speed formulation may leads to global value potentially lower than each submaterial value.
+C               recommended : Courant number <= 0.5 (dt_scale)
 C
 C Output
 C    !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multipling by element volume in aleconve.F)
@@ -153,7 +152,7 @@ C-----------------------------------------------
      .   RHO1,RHO2,A1,A,B,C, B1,B2,P,GAM,P0,GPR,POLD,
      .   PN2,RHN2,VISA1,VISB1,VISA2,VISB2,DYDX,RHOSCALE,TOL, VOL, MAS, MAS1, MAS2,
      .   RHO1T,RHO2T, ERROR, P1,P2,F1,F2,DF11,DF12,DF21,DF22,DET,DRHO1,DRHO2,
-     .   MU1P1, MU2P1, DP0, PSH, SSP1, SSP2
+     .   MU1P1, MU2P1, PSH, SSP1, SSP2
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------
@@ -177,17 +176,16 @@ C-----------------------------------------------
       ISOLVER  = NINT(UPARAM(17))
       RHOSCALE = ONE
       IF(IFUNC(1)>0)RHOSCALE=FINTER(IFUNC(1),TIME,NPF,TF,DYDX)
-      DP0      = P0+PSH !default = P0-P0 = ZERO
 
       !------------------------------------!
-      !      TIME==ZERO                  !
+      !      INITIALIZATION TIME==ZERO     !
       !------------------------------------!
       IF(TIME==ZERO)THEN
        DO I=1,NEL
-         P = MAX(EM30,(-SIGOXX(I)-SIGOYY(I)-SIGOZZ(I))*THIRD)         
+         P = MAX(EM30,(-SIGOXX(I)-SIGOYY(I)-SIGOZZ(I))*THIRD)-PSH         
          IF(GAM*C1>=EM30)THEN !if Liquid and gas correctly defined
-          MU1P1     = (P/C1+ONE)
-          MU2P1     =( ONE+P/P0)**(ONE/GAM)
+          MU1P1     = ((P-P0)/C1+ONE)
+          MU2P1     =( P/P0)**(ONE/GAM)
           RHO1      = RHO10*MU1P1
           RHO2      = RHO20*MU2P1
           A         = (RHO(I)-RHO2)/(RHO1-RHO2)
@@ -203,7 +201,7 @@ C-----------------------------------------------
        ENDDO
       ELSE
         DO I=1,NEL
-          UVAR(I,1) = UVAR(I,1)/volume(I)      !aleconve.F transforms it to obtain liquid mass for its transportation EV(K) =EV(K)*EV(NB6+I-1)
+          UVAR(I,1) = UVAR(I,1)/volume(I)      !updated in aleconve.F 
         ENDDO
       ENDIF
 
@@ -227,38 +225,23 @@ C-----------------------------------------------
          UVAR(I,5) = ZERO
         ENDIF                                   
         SOUNDSP(I) = EM30
-        SIGNXX(I)  = DP0+SIGOXX(I)
-        SIGNYY(I)  = DP0+SIGOYY(I)
-        SIGNZZ(I)  = DP0+SIGOZZ(I)
-        SIGNXY(I)  = DP0+SIGOXY(I)
-        SIGNYZ(I)  = DP0+SIGOYZ(I)
-        SIGNZX(I)  = DP0+SIGOZX(I)
+        SIGNXX(I)  = SIGOXX(I)
+        SIGNYY(I)  = SIGOYY(I)
+        SIGNZZ(I)  = SIGOZZ(I)
+        SIGNXY(I)  = SIGOXY(I)
+        SIGNYZ(I)  = SIGOYZ(I)
+        SIGNZX(I)  = SIGOZX(I)
        ENDDO
        RETURN
       ENDIF
 
-      !------------------------------------!
-      !    EQUILIBRIUM ITERATIONS (T>0)    !
-      !------------------------------------!
       IF(ISOLVER==2)THEN
         !------------------------------------!
-        !       NEW SOLVER (ISOLVER=1)       !
+        !     ALTERNATIVE SOLVER (Newton)    !
         !------------------------------------!
         TOL = EM10
         NITER = 20
         DO I=1,NEL
-                ! if(ix(11,I+NFT)==1807425 .OR. ix(11,I+NFT)==1807425)then
-                !      print *, " 0    ELEM_ID    =", IX(11,I+NFT)
-                !      print *, " 0    PRES       =", P0 * RHO2T**GAM
-                !      print *, " 0    DENS       =", RHO(I)
-                !     print *, " 0    VOL        =", VOLUME(I)                  
-                !      print *, " 0     m_liq     =", UVAR(I,1)
-                !      print *, " 0     rho_liq   =", UVAR(I,3)
-                !      print *, " 0     rho_gas   =", UVAR(I,2)
-                !      print *, " 0     Vfrac_liq =", UVAR(I,4)
-                !      print *, " 0     Vfrac_gas =", UVAR(I,5)
-                !      print *, " 0    ------------------------"       
-                ! endif      
           VOL = VOLUME(I)
           MAS = RHO(I) * VOL
           MAS1 = UVAR(I, 1) * VOL
@@ -269,28 +252,20 @@ C-----------------------------------------------
           RHO2T = RHO2 / RHO20
           POLD = P0 * RHO2T**GAM
           IF (MAS1 / MAS < EM10) THEN
-             !! Phase 2 seule presente
+             !! Phase 2 only is present
              UVAR(I, 1) = ZERO
              UVAR(I, 4) = ZERO
              UVAR(I, 5) = ONE
              RHO2 = MAS / VOL
              UVAR(I, 2) = RHO2
-             !!
-             !!UVAR(I, 3) = RHO10
-             !!RHO1 = RHO10
-             !!
              P = P0 * (RHO2/RHO20)**GAM
           ELSEIF (MAS2 / MAS < EM10) THEN
-             !! Phase 1 seule presente
+             !! Phase 1 only is present
              RHO1 = MAS / VOL
              UVAR(I, 1) = RHO1
              UVAR(I, 3) = RHO1
              UVAR(I, 4) = ONE
              UVAR(I, 5) = ZERO
-             !!
-             !!UVAR(I, 2) = RHO20
-             !!RHO2 = RHO20
-             !!
              P = R1 * RHO1 - C1 + P0
           ELSE
              ERROR = EP30
@@ -300,7 +275,6 @@ C-----------------------------------------------
                 P2 = P0 * (RHO2/RHO20)**GAM
                 F1 = MAS1 / RHO1 + MAS2 / RHO2 - VOL
                 F2 = P1 - P2
-              !ERROR = ABS(F1) / VOL + ABS(F2) / POLD
                 DF11 = - MAS1 / (RHO1 * RHO1)
                 DF12 = - MAS2 / (RHO2 * RHO2)
                 DF21 = R1
@@ -315,9 +289,6 @@ C-----------------------------------------------
                 ERROR = ABS(DRHO1 / RHO1) + ABS(DRHO2 / RHO2)
                 ITER = ITER + 1
              ENDDO
-             IF (ABS(P1 - P2) > 1.D-5) THEN
-                !PRINT*, "P1", P1, "P2", P2
-             ENDIF
              IF (ERROR > TOL) THEN
                 PRINT*, "*** WARNING LAW37, convergence tolerance ", ERROR, TOL
              ENDIF
@@ -327,7 +298,6 @@ C-----------------------------------------------
           SSP2 = GAM * P0 * (RHO2/RHO20)**GAM 
           B1 = UVAR(I, 1)
           B2 = RHO(I) - B1
-          ! P2 = P0 * ((RHO2/RHO20)**GAM-ONE)
           !---output
           UVAR(I,2)  = RHO2
           UVAR(I,3)  = RHO1
@@ -367,26 +337,15 @@ C-----------------------------------------------
           UVAR(I,3)  = MAX(ZERO, UVAR(I,3))
           UVAR(I,4)  = MAX(ZERO, UVAR(I,4))
           UVAR(I,5)  = MAX(ZERO, UVAR(I,5))
-                  ! if(ix(11,I+NFT)==1807425 .OR. ix(11,I+NFT)==1807425)then
-                  !    print *, " 1    ELEM_ID    =", IX(11,I+NFT)
-                  !    print *, " 1    PRES       =", -SIGNXX(I)
-                  !    print *, " 1    DENS       =", RHO(I)
-                  !    print *, " 1    VOL        =", VOLUME(I)                  
-                  !    print *, " 1     m_liq     =", UVAR(I,1)
-                  !    print *, " 1     rho_liq   =", UVAR(I,3)
-                  !    print *, " 1     rho_gas   =", UVAR(I,2)
-                  !    print *, " 1     Vfrac_liq =", UVAR(I,4)
-                  !    print *, " 1     Vfrac_gas =", UVAR(I,5)
-                  !    print *, " 1    ________________________"       
-                  ! endif
         ENDDO!next I
+        
       ELSE !ISOLVER 
         !------------------------------------!
-        !    HISTORICAL SOLVER (ISOLVER=1)   !  Default
+        !    LEGACY SOLVER (default)         ! 
         !------------------------------------!
         DO I=1,NEL
           RHO2       = UVAR(I,2)
-          !---iter 0
+          !---iter 1
           POLD       = P0 * (RHO2/RHO20)**GAM
           R2         = GAM * POLD / RHO2
           C2         = - (ONE-GAM)*POLD + P0
@@ -399,7 +358,7 @@ C-----------------------------------------------
           RHO1       = ( B + SQRT(MAX(ZERO,B*B - A*C)) ) / A
           P          = R1*RHO1 - C1
           RHN2       = MAX(EM30,(P + C2) / R2)       
-          !---iter 1
+          !---iter 2
           PN2        = (POLD + P0 * (RHN2/RHO20)**GAM)
           R2         = GAM * PN2 / (RHO2+RHN2)
           B          = HALF*(B1*R1+B2*R2+C12)
@@ -412,7 +371,7 @@ C-----------------------------------------------
           UVAR(I,4)  = UVAR(I,1)/RHO1 
           IF(UVAR(I,4)<EM20)UVAR(I,4)=ZERO
           UVAR(I,5)  = ONE-UVAR(I,4)
-          P          = MAX(PMIN, P) + DP0
+          P          = MAX(PMIN, P) +P0+PSH !P is here a relative pressure
           SIGNXX(I)  = -P
           SIGNYY(I)  = -P
           SIGNZZ(I)  = -P
@@ -433,11 +392,6 @@ C-----------------------------------------------
           UVAR(I,3)  = MAX(ZERO, UVAR(I,3))
           UVAR(I,4)  = MAX(ZERO, UVAR(I,4))
           UVAR(I,5)  = MAX(ZERO, UVAR(I,5))
-          !IF(UVAR(I,1)<=EM20)UVAR(I,1) = ZERO
-          !IF(UVAR(I,2)<=EM20)UVAR(I,2) = ZERO
-          !IF(UVAR(I,3)<=EM20)UVAR(I,3) = ZERO
-          !IF(UVAR(I,4)<=EM20)UVAR(I,4) = ZERO
-          !IF(UVAR(I,5)<=EM20)UVAR(I,5) = ZERO                              
         ENDDO!next I
       ENDIF
 
