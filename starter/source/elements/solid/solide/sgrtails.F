@@ -664,7 +664,7 @@ c
           IF(IKSNOD0 == 10.OR.
      .      (IKSNOD0 == 4.AND.ITET4 == 1))THEN
             NPT=4
-            IT10 =1
+            IF (IKSNOD0 == 10) IT10 =1
           ELSEIF(IKSNOD0 == 4)THEN
             NPT=1
 !          ELSEIF(IKSNOD0 == 20.OR.IKSNOD0 == 16)THEN
