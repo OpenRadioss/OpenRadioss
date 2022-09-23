@@ -186,7 +186,7 @@ c-----------------------------------------
       UPARAM(21) = IRELOAD
 c
       NUPARAM = 21
-      NUVAR   = 6
+      NUVAR   = 7
       NUMTABL = 2
 c
       ITABLE(1) = FUNC1                
