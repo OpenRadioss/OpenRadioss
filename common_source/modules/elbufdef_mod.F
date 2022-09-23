@@ -509,6 +509,7 @@ Chd|        S10DERITO3                    engine/source/elements/solid/solide10/
 Chd|        S10FORC3                      engine/source/elements/solid/solide10/s10forc3.F
 Chd|        S10KE3                        engine/source/elements/solid/solide10/s10ke3.F
 Chd|        S10UPD11T12                   engine/source/elements/solid/solide10/s10upd11t12.F
+Chd|        S10VOLNODT3                   engine/source/elements/solid/solide4_sfem/s10volnodt3.F
 Chd|        S16FORC3                      engine/source/elements/thickshell/solide16/s16forc3.F
 Chd|        S16SIGP3                      engine/source/elements/thickshell/solide16/s16sigp3.F
 Chd|        S20FORC3                      engine/source/elements/solid/solide20/s20forc3.F

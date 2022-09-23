@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  S10PIJTO3                     source/elements/solid/solide10/s10pijto3.F
 Chd|-- called by -----------
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
+Chd|        S10VOLNODT3                   source/elements/solid/solide4_sfem/s10volnodt3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S10PIJTO3(PX,PY,PZ, PIJ,NEL)
