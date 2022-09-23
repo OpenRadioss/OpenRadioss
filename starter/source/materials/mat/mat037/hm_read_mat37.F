@@ -99,9 +99,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      my_real 
-     .        C1,C2,P0,VIS,VISV,RHO10,RHO20,A1,PMIN,GAM,VIS2,PSHIFT,
-     .        VISV2,FAC_M,FAC_L,FAC_T,FAC_C,RHO0,RHOR
+      my_real C1,C2,P0,VIS,VISV,RHO10,RHO20,A1,PMIN,GAM,VIS2,PSHIFT,VISV2,FAC_M,FAC_L,FAC_T,FAC_C,RHO0,RHOR
       INTEGER I,ISOLVER,IRHO
       character*63 chain1      
 C-----------------------------------------------
@@ -176,54 +174,30 @@ C-----------------------------------------------
       !--------------------------------!
 
       !===SOLVER VERSION
-      !ISOLVER = 0 :default
-      !ISOLVER = 1 : historical solver
-      !ISOLVER = 2 : new solver (2018.0)
-      IF(INVERS_INIT>=2017)THEN
-        ISOLVER = NINT(RHOR)
-        IF(ISOLVER<=0 .OR. ISOLVER>=3)THEN 
-          ISOLVER = 1
-        ENDIF
-      ELSE
-        ISOLVER = 1
-      ENDIF  
+      !ISOLVER = 1 : legacy solver
+      !ISOLVER = 2 : alternative solver (2018.0)
+      ISOLVER = 1
       IF(INT22 > 0) ISOLVER = 2
 
       !===NEW PRESSURE SHIFT PARAM (2018.0)
-      IF(INVERS_INIT>=2017)THEN
         IF(PSHIFT==ZERO)THEN 
           PSHIFT=-P0
         ELSE
-          PSHIFT = - PSHIFT
+          PSHIFT = -PSHIFT
         ENDIF
-      ELSE
-        PSHIFT = -P0
-      ENDIF      
-      ! PSH  = 0       : => PSH=-P0
-      ! PSH  = -P0     : relative pressure P_liq = C1.mu,      P_gas = P0(1+mu)**gamma - P0
-      ! PSH  = 1e-20   : total pressure    P_liq = C0+C1.mu,   P_gas = P0(1+mu)**gamma 
 
-      !===UNITS
-      !line-1 : RHO10,C1,A1,VIS,VISV
-      !line-2 : RHO20,GAM,P0,VIS2,VISV2
-      !PSHIFT = PSHIFT * FAC_C
-      !RHO10  = RHO10 * FAC_M/(FAC_L**3)
-      !RHO20  = RHO20 * FAC_M/(FAC_L**3)
-      !C1     = C1 * FAC_C
-      !P0     = P0 * FAC_C
-      !VIS    = VIS   * FAC_L**2 / FAC_T
-      !VISV   = VISV  * FAC_L**2 / FAC_T
-      !VIS2   = VIS2  * FAC_L**2 / FAC_T
-      !VISV2  = VISV2 * FAC_L**2 / FAC_T
+      ! PSH  = -P0    : relative pressure P_liq = C1.mu,      P_gas = P0(1+mu)**gamma - P0
+      ! PSH  = -1e-20 : total pressure    P_liq = C0+C1.mu,   P_gas = P0(1+mu)**gamma 
 
-      
       !===UPARAM STORAGE
-      PMIN       = - P0
-      RHO0       = RHO10 * A1 + (ONE-A1)*RHO20
-      RHOR       = RHO0
-      PM(01)     = RHO0
-      PM(89)     = RHO0
-      PM(91)     = RHO10
+      PMIN = - P0
+      RHO0 = RHO10 * A1 + (ONE-A1)*RHO20
+      RHOR = RHO0
+      PM(01) = RHO0
+      PM(89) = RHO0
+      PM(91) = RHO10
+      PM(31) = P0+PSHIFT
+      PM(104) = P0+PSHIFT      
 
       UPARAM(1)  = VIS                    
       UPARAM(2)  = TWO*VIS               
@@ -250,7 +224,6 @@ C-----------------------------------------------
       NUVAR      = 5
       STIFINT    = C1
 
-
       !--------------------------------!
       !     PRINTOUT                   !
       !--------------------------------!
@@ -263,8 +236,7 @@ C-----------------------------------------------
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
         ELSE
           WRITE(IOUT,1012) RHO0
-          WRITE(IOUT,1100)RHO10,C1,A1,VIS,VISV,
-     .                    RHO20,GAM,P0,VIS2,VISV2,P0,-PSHIFT
+          WRITE(IOUT,1100)RHO10,C1,A1,VIS,VISV,RHO20,GAM,P0,VIS2,VISV2,P0,-PSHIFT
         ENDIF
       ELSE
         WRITE(IOUT,1001)

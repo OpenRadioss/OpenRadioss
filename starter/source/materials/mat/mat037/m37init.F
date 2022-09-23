@@ -61,10 +61,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: IPM(NPROPMI,*),NGL(*)      ,MAT(*), IPARG(NPARG)   ,IFORM,NIX,IX(NIX,*)
-      my_real :: PM(NPROPM,*),X(3,*), UVAR(LLT,NUVAR)
-      INTEGER,INTENT(IN)                   :: ILOADP(SIZLOADP,*),NEL
-      my_real,INTENT(IN)                   :: FACLOAD(LFACLOAD,*)
+      INTEGER :: IPM(NPROPMI,NUMMAT),NGL(MVSIZ)      ,MAT(MVSIZ), IPARG(NPARG)   ,IFORM,NIX,IX(NIX,*)
+      my_real :: PM(NPROPM,NUMMAT),X(3,NUMNOD), UVAR(LLT,NUVAR)
+      INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*),NEL
+      my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
       TYPE(G_BUFEL_), INTENT(INOUT),TARGET :: GBUF  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -76,7 +76,6 @@ C-----------------------------------------------
       my_real  :: POLD,HEIGHT
       my_real  :: N(3,8)
 C-----------------------------------------------
-
 
       !---------------------------------!
       ! CELL INIT.   (UVAR ARRAY)       !
