@@ -493,6 +493,7 @@ c-----------------------------------------------------------------------
      & 5X,'SMALL STRAIN FLAG . . . . . . . . . . .=',I10/,
      & 5X,'SHELL FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'3NODE SHELL FORMULATION FLAG. . . . . .=',I10/,
+     & 5X,'DRILLING D.O.F. FLAG  . . . . . . . . .=',I10/,
      & 5X,'SHELL HOURGLASS MEMBRANE DAMPING. . . .=',1PG20.13/,
      & 5X,'SHELL HOURGLASS FLEXURAL DAMPING. . . .=',1PG20.13/,
      & 5X,'SHELL HOURGLASS ROTATIONAL DAMPING. . .=',1PG20.13/,
