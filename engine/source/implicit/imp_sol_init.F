@@ -487,7 +487,7 @@ C----i--initialisation for for travers nodes detection-----
           CALL IMP_TRANS0(IMPBUF_TAB%R_IMP,IMPL_S0)
           IF (ILINE/=1) CALL ZERO1(IMPBUF_TAB%DD,NNDL)
 c      IBUCK= IBUCKL
-      IF (NBUCK>0.AND.BISOLV==2.AND.NDSOLV/=1) THEN
+      IF (NBUCK>0.AND.BISOLV==2) THEN
          WRITE(ISTDO,'(A)')
      .' !! BISOLV =2 REQUIRES OPTION /IMPL/GRAPH IN RADIOSS STARTER'
          WRITE(IOUT,'(A)')

@@ -34,13 +34,13 @@ function my_help()
   echo "           3. -mpi-include=[directory]            : set include directory where to find mpif.h and mpi.h"
   echo "              -mpi-libdir=[directory]             : set library directory where to find mpi libraries"  
   echo " " 
-  echo " Other control"
   echo " -prec=[dp|sp]                        : set precision - dp (default) |sp "
   echo " -static-link                         : Fortran, C & C++ runtime are linked in binary"
   echo " -debug=[0|1]                         : debug version 0 no debug flags (default), 1 usual debug flag )"
   echo " -addflag=\"list of additionnal flags\" : add compiler flags to usual set"
-  echo " " 
-  echo " Build control "
+  echo " -mumps_root=[path_to_mumps]          : path_to_mumps/lib/libdmumps.a must exist"
+  echo " -scalapack_root=[path to scalapack]  : path_to_scalapack/libscalapack.a must exist" 
+  echo " -lapack_root=[path to lapack]  : path_to_lapack/liblapack.a must exist" 
   echo " -nt=[threads]      : number of threads for build "
   echo " -verbose           : Verbose build"
   echo " -clean             : clean build directory"
@@ -79,6 +79,9 @@ ddebug=""
 number_of_arguments=$#
 eng_vers="engine"
 verbose=""
+mumps_root=""
+scalapack_root=""
+lapack_root=""
 
 if [ $number_of_arguments = 0 ]
 then
@@ -135,6 +138,22 @@ else
          then
            suffix=_sp
          fi
+       fi
+
+       if [ "$arg" == "-mumps_root" ]
+       then
+        mumps_root=`echo $var|awk -F '=' '{print $2}'`
+        mumps_root="-Dmumps_root=${mumps_root}"
+       fi
+       if [ "$arg" == "-lapack_root" ]
+       then
+        lapack_root=`echo $var|awk -F '=' '{print $2}'`
+        lapack_root="-Dlapack_root=${lapack_root}"
+       fi
+       if [ "$arg" == "-scalapack_root" ]
+       then
+        scalapack_root=`echo $var|awk -F '=' '{print $2}'`
+        scalapack_root="-Dsclapack_root=${scalapack_root}"
        fi
 
        if [ "$arg" == "-addflag" ]
@@ -270,9 +289,9 @@ cd ${build_directory}
 
 if [ ${arch} = "win64" ]
 then
-  cmake.exe -G "Unix Makefiles"  -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} -DCMAKE_BUILD_TYPE=Release .. 
+  cmake.exe -G "Unix Makefiles"  -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -DCMAKE_BUILD_TYPE=Release .. 
 else
-  cmake -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} -Dsanitize=${sanitize} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} .. 
+  cmake -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} -Dsanitize=${sanitize} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} .. 
 fi
 
 make -j ${threads} ${verbose}

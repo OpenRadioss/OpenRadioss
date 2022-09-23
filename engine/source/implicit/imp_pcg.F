@@ -761,7 +761,7 @@ C---------------------
         IF (ITOL>1) THEN
          ISTOP=-1
          GOTO 200
-	ELSE
+        ELSE
          ALPHA = ZERO
         ENDIF
        ELSE
@@ -971,7 +971,7 @@ C---------------------
 
         IF((IUPD>0.AND.IT==NLIM).OR.
      .     (IUPD==0.AND.ISTOP/=1.AND.IUPD0>0))THEN
-C------- re-iter with linear Kint------	
+C------- re-iter with linear Kint------ 
          IUPD0 = 0 
          IF(IUPD>0) IUPD = 0 
 #include "lockon.inc"
@@ -3053,12 +3053,12 @@ C-----------------------------------------------
      .  WORK_T(NDDL)
 C--- COMPUTE another lowest eigenvecor V(U_TMP)
         IF (IPRO_S0/=4) RETURN
-C	
+C   
         CALL PRODUT_H( F_DDL  ,L_DDL ,P   ,P  ,W_DDL , P2 ,ITASK )
         CALL PRODUT_H( F_DDL  ,L_DDL ,P   ,Y  ,W_DDL , PY ,ITASK )
        IF (IT==0 ) THEN
         M_TMP(1,1)=ONE
-	S = ONE/SQRT(P2)
+        S = ONE/SQRT(P2)
         K_TMP(1,1)=PY/P2
         DO I=F_DDL,L_DDL
          U_TMP(I)=S*P(I)
@@ -3070,7 +3070,7 @@ C
         M_TMP(2,2)=P2
         K_TMP(1,2)=VY
         K_TMP(2,2)=PY
-	ND =2
+        ND =2
         JOBZ='V'
         UPLO='U'
         LW=3*ND
@@ -3141,7 +3141,7 @@ C-----------------------------------------------
      .  RR
 C-----------------------------------     
         IF (IPRO_S0==4) RETURN
-C	
+C   
           IF (IT==1) THEN
            R2_OLD=R2
           ELSE
@@ -3452,7 +3452,7 @@ C---------------------
         IF (ITOL>1) THEN
          ISTOP=-1
          GOTO 200
-	ELSE
+        ELSE
          ALPHA = ZERO
         ENDIF
        ELSE
@@ -3702,7 +3702,7 @@ C---------------------
         ISTOP=CRIT_STOP(IT,R2,NLIM,TOLN)
         IF((IUPD>0.AND.IT==NLIM).OR.
      .     (IUPD==0.AND.ISTOP/=1.AND.IUPD0>0))THEN
-C------- re-iter with linear Kint------	
+C------- re-iter with linear Kint------ 
          IUPD0 = 0 
          IF(IUPD>0) IUPD = 0 
          ISTOP = 1
@@ -3798,7 +3798,7 @@ C--------x=Lm x'--------------
        ENDDO
        IF (ITASK == 0) THEN
         NCG_RUN = NCG_RUN + 1
-	IF (IPREC>1) DEALLOCATE(SQ_DIAG_M)
+        IF (IPREC>1) DEALLOCATE(SQ_DIAG_M)
        END IF
 C----------------------
       CALL MY_BARRIER
@@ -3814,7 +3814,7 @@ C----------------------
 c      CALL MY_BARRIER
 C---------------------
 c          CALL PRODUT_H( F_DDL  ,L_DDL ,X  ,Z ,W_DDL , XNORM2 ,ITASK )
-c	 END IF 
+c    END IF 
       IF(ITASK == 0) THEN
         ISTOP_H = ISTOP
        CALL PUPD(N_MAX,NDDLI_G,IT)

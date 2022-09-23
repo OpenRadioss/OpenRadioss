@@ -43,11 +43,6 @@ if ( NOT DEFINED COM)
 #Fortran source files
 file(GLOB_RECURSE source_files  ${source_directory}/source/*.F ${source_directory}/stub/*.F ${source_directory}/share/*.F  ${source_directory}/../common_source/*.F   )
 
-if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
-# remove files related to linear algebra
-file(GLOB_RECURSE remove_files ${source_directory}/source/implicit/dsolve/*.F )
-list(REMOVE_ITEM source_files ${remove_files})
-endif()
 
 #C source files
 file(GLOB_RECURSE c_source_files ${source_directory}/source/*.c ${source_directory}/stub/*.c ${source_directory}/share/*.c ${source_directory}/../common_source/*.c )
@@ -67,7 +62,7 @@ file(GLOB_RECURSE source_files  ${source_directory}/source/*.F ${source_director
 
 if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
 # remove files related to linear algebra
-file(GLOB_RECURSE remove_files ${source_directory}/source/implicit/dsolve/*.F ${source_directory}/com/eig/*.F  )
+file(GLOB_RECURSE remove_files ${source_directory}/com/eig/*.F  )
 list(REMOVE_ITEM source_files ${remove_source})
 endif()
 

@@ -436,7 +436,7 @@ C
 
        ENDIF
 C
-       IF (IDDLEVEL==0.OR.NDSOLV==1)THEN
+       IF (IDDLEVEL==0)THEN
          IF ( ((NELEMINT+NSN))*6 > SIXINT)
      .     CALL UPGRADE_IXINT(SIXINT,NELEMINT,NSN)
            NULLIFY(pIXINT)
@@ -447,7 +447,7 @@ C
            CALL I2NINTDD(NELEMINT       ,pIXINT           ,INTBUF_TAB%IRECTM,
      .                   INTBUF_TAB%NSV ,INTBUF_TAB%IRTLM ,NSN              ,IFIEND )
        ENDIF
-       IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+       IF((IDDLEVEL==0).AND.
      +    (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
          CALL I2WCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCIN2,
@@ -518,7 +518,7 @@ c       IF ((ILEV >=10 .AND. ILEV < 23) ) THEN
      .    ID               ,TITR              ,INTTH    )
        ENDIF
 C
-       IF (IDDLEVEL==0.OR.NDSOLV==1)THEN
+       IF (IDDLEVEL==0)THEN
          IF ( (NELEMINT+NSN)*6 >  SIXINT)CALL UPGRADE_IXINT(SIXINT,NELEMINT,NSN)
          NULLIFY(pIXINT)
          IF(SIXINT>0)THEN
@@ -529,7 +529,7 @@ C
      .                 INTBUF_TAB%NSV ,INTBUF_TAB%IRTLM ,NSN              ,IFIEND )
        ENDIF
 C
-       IF(IDDLEVEL==0.OR.(NDSOLV==1).AND.
+       IF(IDDLEVEL==0 .AND.
      +   (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
          CALL I2WCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCIN2,
@@ -745,7 +745,7 @@ C
      .                                                                      INTBUF_TAB%VARIABLES(46))
       ENDIF
 
-      IF((IDDLEVEL==0.OR.NDSOLV==1).AND.(DECTYP>=3.AND.DECTYP<=6))THEN
+      IF((IDDLEVEL==0).AND.(DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
           CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN_FE,NMN_FE,
      .         IWCONT,NSNT,NMNT)
@@ -1013,7 +1013,7 @@ C
        DO I=1,NUMNOD
          INPENE=INPENE+MIN(MWA(I),1)
        ENDDO
-       IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+       IF((IDDLEVEL==0).AND.
      +    (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
          CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,
@@ -1144,7 +1144,7 @@ C
      .     X                 ,INTBUF_TAB%VARIABLES(1) ,DRAD              ,INTBUF_TAB%VARIABLES(46))
        ENDIF
 
-       IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+       IF((IDDLEVEL==0).AND.
      +    (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
          CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,
@@ -1180,7 +1180,7 @@ C
         IF(IWPENE/=0.AND.INACTI==3.OR.INACTI==4) IWRN = 1
 
        ENDDO
-       IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+       IF((IDDLEVEL==0).AND.
      +    (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
          CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,
@@ -1430,7 +1430,7 @@ C
      .                                                                        INTBUF_TAB%VARIABLES(46))
        ENDIF
 
-       IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+       IF((IDDLEVEL==0).AND.
      .  (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
       CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,
@@ -1669,7 +1669,7 @@ C      CLOSE(67)
      .         X              ,INTBUF_TAB%VARIABLES(2) ,DRAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
      .         INTBUF_TAB%VARIABLES(46))
        ENDIF
-       IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+       IF((IDDLEVEL==0).AND.
      .  (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
          CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN0,NMN,IWCONT,
@@ -2099,7 +2099,7 @@ C
      .         X              ,INTBUF_TAB%VARIABLES(2) ,DRAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
      .         INTBUF_TAB%VARIABLES(46))
        ENDIF
-       IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+       IF((IDDLEVEL==0).AND.
      .  (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
          CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,

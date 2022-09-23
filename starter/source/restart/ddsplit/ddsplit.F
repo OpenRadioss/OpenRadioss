@@ -86,7 +86,6 @@ Chd|        C_SECTIO                      source/restart/ddsplit/c_sectio.F
 Chd|        C_SEGQUADFR                   source/restart/ddsplit/c_segquadfr.F
 Chd|        C_SPMD_NE_CONNECT             source/ale/spmd_ne_connect.F  
 Chd|        C_VOIS                        source/restart/ddsplit/c_vois.F
-Chd|        DSGRLOC                       source/implicit/dsolve/dsgrloc.F
 Chd|        DSWRESTP                      source/restart/ddsplit/wrrest.F
 Chd|        EIGWRESTP                     source/restart/ddsplit/wrrest.F
 Chd|        ELAPSTIME_OMP                 source/system/timer.F         
@@ -3222,13 +3221,6 @@ C--------------------------------------------
       IF (LMAX_DIS>0)CALL W_R3NLOC(D,NODGLOB,NUMNOD_L,LEN_AM)
       IF (LMAX_VEL>0)CALL W_R3NLOC(V,NODGLOB,NUMNOD_L,LEN_AM)
       CALL W_OUTMAXN(NUMNOD_L,LEN_AM)
-C-----------------------------------------------
-C DSOLVE
-C-----------------------------------------------
-      IF (NDSOLV==1) THEN
-         CALL DSGRLOC(PGRAPH, NODLOCAL, P, DSMEMORY)
-         CALL DSWRESTP(PGRAPH,LEN_IA,LEN_AM)
-      ENDIF
 C-----------------------------------------------
 C FLOW
 C-----------------------------------------------
