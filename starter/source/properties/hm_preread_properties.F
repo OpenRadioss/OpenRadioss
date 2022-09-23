@@ -119,7 +119,6 @@ C--------------------------------------------------
      .                       OPTION_ID = IG,
      .                       KEYWORD2 = KEY)
 C--------------------------------------------------
-
         SELECT CASE(KEY(1:LEN_TRIM(KEY)))
           CASE ('TYPE0','VOID')
 C--------------------------------------------------
@@ -210,8 +209,6 @@ C--------------------------------------------------
 C--------------------------------------------------
           CASE ('PCOMPP')
             IGTYP=52
-            NPROP_STACK    = NPROP_STACK + 1
-            NUMGEOSTACK(I) = NPROP_STACK
 C--------------------------------------------------
           CASE ('TYPE29','TYPE30','TYPE31',
      .          'USER1' ,'USER2' ,'USER3')
@@ -225,12 +222,12 @@ c-----------------------------------------------------------------------
 C
       IF(NUMSTACK > 0) THEN
            CALL HM_OPTION_START('/STACK')
-           CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID = IG,KEYWORD2 = KEY)
            DO 700 I=1,NUMSTACK 
+            CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID = IG,KEYWORD2 = KEY)
             NPROP_STACK = NPROP_STACK + 1
             NUMGEOSTACK(NUMGEO + I) = NPROP_STACK
             CALL HM_GET_INTV('laminateconfig'    ,LAMINATE, IS_AVAILABLE, LSUBMODEL)
-            CALL HM_GET_INTV('laminateconfig'    ,LAMIN   , IS_AVAILABLE, LSUBMODEL)  
+            CALL HM_GET_INTV('laminateconfig'    ,LAMIN   , IS_AVAILABLE, LSUBMODEL)
                    
             IF (LAMINATE > 0) THEN                                                            
               CALL HM_GET_INTV('sublaminateidlistmax' ,NLAM,  IS_AVAILABLE, LSUBMODEL)        
@@ -243,11 +240,12 @@ C
               END DO                                                                          
             ELSE                                                                              
               CALL HM_GET_INTV('plyidlistmax'      ,NP,  IS_AVAILABLE, LSUBMODEL)             
-              NPLY(NPROP_STACK) = NPLY(NPROP_STACK) + NP                                      
+              NPLY(NPROP_STACK) = NPLY(NPROP_STACK) + NP                                   
             END IF                                                                            
 C          
  700      CONTINUE
       ENDIF
+      
 c-----------
 C
 C Table allocation for type17,51 and 52
@@ -291,7 +289,6 @@ C
           ENDDO 
          ELSE
             ALLOCATE(STACK_INFO(0))
-         ENDIF ! NPROP_STACK   
-        !! stop      
+         ENDIF ! NPROP_STACK       
       RETURN
       END
