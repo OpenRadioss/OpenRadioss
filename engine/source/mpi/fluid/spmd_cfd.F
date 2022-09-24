@@ -399,6 +399,7 @@ Chd|        DFUNC0                        source/output/anim/generate/dfunc0.F
 Chd|        DFUNCC                        source/output/anim/generate/dfuncc.F
 Chd|        DFUNCS                        source/output/anim/generate/dfunc6.F
 Chd|        H3D_QUAD_SCALAR               source/output/h3d/h3d_results/h3d_quad_scalar.F
+Chd|        H3D_SHELL_SCALAR              source/output/h3d/h3d_results/h3d_shell_scalar.F
 Chd|        H3D_SOLID_SCALAR              source/output/h3d/h3d_results/h3d_solid_scalar.F
 Chd|        MULTI_TIMEEVOLUTION           source/multifluid/multi_timeevolution.F
 Chd|        PRELECFLOW                    source/elements/solid/solide/prelecflow.F

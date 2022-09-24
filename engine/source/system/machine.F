@@ -90,6 +90,7 @@ Chd|        FORINTP                       source/elements/forintp.F
 Chd|        GRAVIT                        source/loads/general/grav/gravit.F
 Chd|        GRAVIT_FVM_FEM                source/loads/general/grav/gravit_fvm_fem.F
 Chd|        H3D_QUAD_SCALAR               source/output/h3d/h3d_results/h3d_quad_scalar.F
+Chd|        H3D_SHELL_SCALAR              source/output/h3d/h3d_results/h3d_shell_scalar.F
 Chd|        H3D_SOLID_SCALAR              source/output/h3d/h3d_results/h3d_solid_scalar.F
 Chd|        I10MAIN_TRI                   source/interfaces/intsort/i10main_tri.F
 Chd|        I11BUCE_VOX                   source/interfaces/intsort/i11buce.F
