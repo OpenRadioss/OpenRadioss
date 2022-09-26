@@ -43,7 +43,7 @@ Chd|====================================================================
      8                  SIGI       ,SIGSH        ,SIGSP        ,SIGSPH       ,SIGRS    ,
      9                  SIGBEAM    ,SIGTRUSS     ,STRSGLOB     ,STRAGLOB     ,ORTHOGLOB,
      A                  ISIGSH     ,IYLDINI      ,KSIGSH3      ,FAIL_INI     ,IUSOLYLD ,
-     B                  IUSER      ,IGRBRIC      ,MAP_TABLES  )
+     B                  IUSER      ,IGRBRIC      ,MAP_TABLES   ,IPARG        )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -85,6 +85,7 @@ C-----------------------------------------------
      .        NUMEL,ISOLNODD00(*),NSIGBEAM,NSIGTRUSS,STRSGLOB(*),
      .        STRAGLOB(*),ORTHOGLOB(*),ISIGSH,IYLDINI,KSIGSH3,FAIL_INI(5),
      .        IUSOLYLD,IUSER,VARMAX
+      INTEGER, DIMENSION(NPARG,NGROUP) ,INTENT(IN):: IPARG
       my_real
      .   GEO(*),PM(NPROPM,*),RTRANS(NTRANSF,*),
      .   SIGI(NSIGS,*),SIGSH(MAX(1,NSIGSH),*),SIGTRUSS(NSIGTRUSS,*),
@@ -210,7 +211,7 @@ C-----------------------------------------
      A                  ID_SIGSH   ,ID_SOLID_SIGI,ID_QUAD_SIGI ,ID_SIGSPRI   ,ID_SIGBEAM,
      B                  ID_SIGTRUSS,WORK         ,IGRBRIC      ,NIBRICK      ,NIQUAD    ,
      C                  NISHELL    ,NISH3N       ,NISPRING     ,NIBEAM       ,NITRUSS   ,
-     D                  MAP_TABLES ,VARMAX       )
+     D                  MAP_TABLES ,VARMAX       ,IPARG        )
 
       ENDIF
 C------------------------------------------------------------------------------------------

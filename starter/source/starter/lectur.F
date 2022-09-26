@@ -8347,7 +8347,7 @@ C
      8            SIGI    ,SIGSH   ,SIGSP   ,SIGSPH  ,SIGRS   ,
      9            SIGBEAM ,SIGTRUSS,STRSGLOB,STRAGLOB,ORTHOGLOB,
      A            ISIGSH  ,IYLDINI ,KSIGSH3 ,FAIL_INI,IUSOLYLD,
-     B            IUSERL  ,IGRBRIC ,MAP_TABLES)
+     B            IUSERL  ,IGRBRIC ,MAP_TABLES,IPARG )
 C
 C----------------------------------
 C -- ELEMENT INITIALIZATION
