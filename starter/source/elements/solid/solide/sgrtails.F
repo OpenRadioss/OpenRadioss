@@ -1060,6 +1060,9 @@ C--------hyperelastic, visco-elastic
 C--------SUPERELASTIC           
              CASE(71)                                             
               IINT =2
+C--------compo (damage)          
+             CASE(24)                                             
+              IINT =2
             END SELECT 
            END IF
           END IF !(JHBE == 24 ) THEN
