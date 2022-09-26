@@ -59,7 +59,7 @@ Chd|====================================================================
      A                  ID_SIGSH   ,ID_SOLID_SIGI,ID_QUAD_SIGI ,ID_SIGSPRI   ,ID_SIGBEAM,
      B                  ID_SIGTRUSS,WORK         ,IGRBRIC      ,NIBRICK      ,NIQUAD    ,
      C                  NISHELL    ,NISH3N       ,NISPRING     ,NIBEAM       ,NITRUSS   ,
-     D                  MAP_TABLES ,VARMAX       )
+     D                  MAP_TABLES ,VARMAX       ,IPARG        )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -117,6 +117,7 @@ C
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
 C
       TYPE(MAPPING_STRUCT_) :: MAP_TABLES
+      INTEGER, DIMENSION(NPARG,NGROUP) ,INTENT(IN):: IPARG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -132,7 +133,7 @@ C-----------------------------------------------
       INTEGER IE, KN, IR, IS, IT, BRIGLOB, SUB_ID, NLAY, ILAY, PID
       INTEGER KTRIELS, KTRIELC, KTRIELTG, KTRIELSPR, KTRIELBEAM, KTRIELTRUSS,
      .   KTRIELTQUAD
-      INTEGER IGBR, JGBR, I1, SIZE,NSROT
+      INTEGER IGBR, JGBR, I1, SIZE,NSROT,NG,ITYR,NFTR,NELR,ISMRAD
 !      INTEGER :: VARMAX
 !      PARAMETER (VARMAX = MAX(NSIGSH,NSIGI,NSIGI,NSIGTRUSS,NSIGBEAM,NSIGRS))
       my_real
@@ -152,7 +153,7 @@ C-----------------------------------------------
      .   TMPVAL13(VARMAX)
 !
       INTEGER, DIMENSION(:), ALLOCATABLE :: KSYSUSRTG ,KSYSUSRS,INDEXS,ITRIS,
-     . KSYSUSRQ,INDEXQ,ITRIQ
+     . KSYSUSRQ,INDEXQ,ITRIQ,IES2IPARG
 
       CHARACTER KEY2*ncharkey,KEY3*ncharkey
       CHARACTER*nchartitle,TITR,TITR1  
@@ -165,7 +166,7 @@ C-----------------------------------------------
       CHARACTER KEY*ncharkey
       INTEGER  NB_INIBRI,NB_INISHE,NB_INISH3,NB_ELEMENTS,ID_ELEM,
      . ELT,ELTP,INI,K0,NB_INITRUSS,NB_INIBEAM,NB_INISPRI,NB_INIQUA,
-     . SUB_INDEX,IDOUB,ISTRSF,ISTRSFG,ISTRAF,ISTRAFG
+     . SUB_INDEX,IDOUB,ISTRSF,ISTRSFG,ISTRAF,ISTRAFG,ISTAT
       my_real
      .   THK,FOR1,FOR2,FOR3,MOM1,MOM2,MOM3
 !
@@ -185,6 +186,10 @@ C
       ALLOCATE (ITRIQ(NUMELQ))
       ALLOCATE (INDEXQ(2*NUMELQ))
       ALLOCATE (KSYSUSRQ(2*NUMELQ))
+      ALLOCATE (IES2IPARG(NUMELS) ,STAT=ISTAT)
+      IF (ISTAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,
+     .                         C1='IES2IPARG')
 C
       IF (NUMELS  > 0) ITRIS(1:NUMELS)  = 0
       IF (NUMELS  > 0) INDEXS(1:2*NUMELS) = 0
@@ -193,6 +198,7 @@ C
       IF (NUMELQ  > 0) ITRIQ(1:NUMELQ)  = 0
       IF (NUMELQ  > 0) INDEXQ(1:2*NUMELQ) = 0
       IF (NUMELQ  > 0) KSYSUSRQ(1:2*NUMELQ)=0
+      IF (NUMELS  > 0) IES2IPARG(1:NUMELS)  = 0
 C
       KTRIELS = 0
       KTRIELC = 0
@@ -214,7 +220,17 @@ C-----------------------------------------
       CALL HM_OPTION_COUNT('/INIBRI', NB_INIBRI)
 !
       IF ( NB_INIBRI > 0 ) THEN
-!
+!--
+        DO NG=1,NGROUP
+          ITYR=IPARG(5,NG)
+          NFTR=IPARG(3,NG)
+          NELR=IPARG(2,NG)
+          IF (ITYR /= 1 ) CYCLE
+          DO I=1,NELR
+            IES2IPARG(I+NFTR) = NG
+          ENDDO
+        END DO
+!        
         ! Start reading /INIBRI card 
         CALL HM_OPTION_START('/INIBRI')
         ISTRSF=0
@@ -1888,7 +1904,9 @@ C---------
 C
 C---------!!!add check Ismstr
                     PID = IXS(10,IE)
-                    IF (IGEO(5,PID)/=ISMSTR.OR.(ISMSTR/=1.AND.ISMSTR<10)) THEN
+                    NG = IES2IPARG(IE)
+                    ISMRAD = IPARG(9,NG)
+                    IF (ISMRAD/=ISMSTR.OR.(ISMSTR/=1.AND.ISMSTR<10)) THEN
                       CALL ANCMSG(MSGID=695,
      .                       MSGTYPE=MSGERROR,
      .                       ANMODE=ANINFO,
@@ -5075,6 +5093,7 @@ C------------------------------------
       DEALLOCATE (ITRIQ)
       DEALLOCATE (INDEXQ)
       DEALLOCATE (KSYSUSRQ)
+      DEALLOCATE (IES2IPARG)
 C------------------------------------
       RETURN
  999  CALL FREERR(3)
