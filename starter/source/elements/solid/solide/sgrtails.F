@@ -664,7 +664,7 @@ c
           IF(IKSNOD0 == 10.OR.
      .      (IKSNOD0 == 4.AND.ITET4 == 1))THEN
             NPT=4
-            IF (IKSNOD0 == 10) IT10 =1
+            IT10 =1
           ELSEIF(IKSNOD0 == 4)THEN
             NPT=1
 !          ELSEIF(IKSNOD0 == 20.OR.IKSNOD0 == 16)THEN
@@ -838,7 +838,8 @@ C--------message out
            END IF
           END IF
 C---add ICPRE auto for T10, firsly limited by Large Strain          
-          IF (IT10 ==1 .AND.  (ISSN==4 .OR. ISSN==10) ) THEN
+          IF (IT10 ==1 .AND. (ISSN==4 .OR. ISSN==10)
+     .                 .AND. IKSNOD0==10 ) THEN
             MATPARAM => MATPARAM_TAB(MID)
              ICP0=MATPARAM%COMPRESSIBILITY
              SELECT CASE (ICP0)
