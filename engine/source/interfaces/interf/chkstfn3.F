@@ -609,7 +609,8 @@ Chd|====================================================================
      4    ITAGL   ,IXTG1  ,IAD_ELEM,FR_ELEM,ITAB   ,ITABM1 ,
      5    ADDCNEL ,CNEL   ,KXSP   ,ELBUF_TAB,TAGEL ,IEXLNK ,
      6    IGRNOD  ,DD_R2R,DD_R2R_ELEM,SDD_R2R_ELEM,IDEL7NOK_SAV,
-     7    IDEL7NOK_R2R,TAGTRIMC,TAGTRIMTG)
+     7    IDEL7NOK_R2R,TAGTRIMC,TAGTRIMTG,S_ELEM_STATE,ELEM_STATE,
+     8    SHOOT_STRUCT,GLOBAL_NB_ELEM_OFF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -617,6 +618,7 @@ C-----------------------------------------------
       USE RAD2R_MOD     
       USE REMESH_MOD
       USE GROUPDEF_MOD
+      USE SHOOTING_NODE_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -661,6 +663,10 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 !
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
+      INTEGER, INTENT(in) :: S_ELEM_STATE   ! size of ELEM_STATE
+      LOGICAL, DIMENSION(S_ELEM_STATE), INTENT(inout) :: ELEM_STATE ! boolean : true if element is ON, false if element is OFF
+      INTEGER, DIMENSION(NTHREAD), INTENT(inout) :: GLOBAL_NB_ELEM_OFF
+      TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -675,11 +681,16 @@ C-----------------------------------------------
      .        TAGEL_SIZE,LEVEL
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGEL_R2R_RECV,TAGEL_R2R_SENDG
       TYPE(G_BUFEL_) ,POINTER :: GBUF
+      INTEGER, DIMENSION(:), ALLOCATABLE :: LOCAL_ELEM_INDEX
+      INTEGER :: SHIFT
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER SYSFUS2      
 C-----------------------------------------------
+      ! allocation of local list of deactivated element
+      ALLOCATE( LOCAL_ELEM_INDEX(S_ELEM_STATE) )
+      GLOBAL_NB_ELEM_OFF(ITASK+1) = 0
       LFT = NODFT
       LLT = NODLT
       NTAGEL_R2R_SEND = 0
@@ -748,6 +759,11 @@ C
      .                           OFUR,TAGEL_SIZE) 
                 ENDIF
                 TAGEL(IE)=-1
+                IF(ELEM_STATE(IE)) THEN
+                    GLOBAL_NB_ELEM_OFF(ITASK+1) = GLOBAL_NB_ELEM_OFF(ITASK+1) + 1
+                    LOCAL_ELEM_INDEX(GLOBAL_NB_ELEM_OFF(ITASK+1)) = IE
+                ENDIF
+                ELEM_STATE(IE) = .FALSE.
                 DO K=2,9
                   N = IXS(K,NFT+I)
                   ITAG(NUMNOD+N) = 1
@@ -872,6 +888,11 @@ C
      .                           OFUR,TAGEL_SIZE)
                 ENDIF
                 TAGEL(IE)=-1
+                IF(ELEM_STATE(IE)) THEN
+                    GLOBAL_NB_ELEM_OFF(ITASK+1) = GLOBAL_NB_ELEM_OFF(ITASK+1) + 1
+                    LOCAL_ELEM_INDEX(GLOBAL_NB_ELEM_OFF(ITASK+1)) = IE
+                ENDIF
+                ELEM_STATE(IE) = .FALSE.
                 DO K=2,5
                   N = IXQ(K,NFT+I)
                   ITAG(NUMNOD+N) = 1
@@ -904,6 +925,11 @@ C
      .                           OFUR,TAGEL_SIZE)                                     
                 ENDIF 
                 TAGEL(IE)=-1
+                IF(ELEM_STATE(IE)) THEN
+                    GLOBAL_NB_ELEM_OFF(ITASK+1) = GLOBAL_NB_ELEM_OFF(ITASK+1) + 1
+                    LOCAL_ELEM_INDEX(GLOBAL_NB_ELEM_OFF(ITASK+1)) = IE
+                ENDIF
+                ELEM_STATE(IE) = .FALSE.
                 DO K=2,5
                   N = IXC(K,NFT+I)
                   ITAG(NUMNOD+N) = 1
@@ -941,6 +967,11 @@ C
      .                           OFUR,TAGEL_SIZE)                                      
                 ENDIF
                 TAGEL(IE)=-1
+                IF(ELEM_STATE(IE)) THEN
+                    GLOBAL_NB_ELEM_OFF(ITASK+1) = GLOBAL_NB_ELEM_OFF(ITASK+1) + 1
+                    LOCAL_ELEM_INDEX(GLOBAL_NB_ELEM_OFF(ITASK+1)) = IE
+                ENDIF
+                ELEM_STATE(IE) = .FALSE.
                 DO K=2,3
                   N = IXT(K,NFT+I)
                   ITAG(NUMNOD+N) = 1
@@ -967,6 +998,11 @@ C
      .                           OFUR,TAGEL_SIZE)                                      
                 ENDIF
                 TAGEL(IE)=-1
+                IF(ELEM_STATE(IE)) THEN
+                    GLOBAL_NB_ELEM_OFF(ITASK+1) = GLOBAL_NB_ELEM_OFF(ITASK+1) + 1
+                    LOCAL_ELEM_INDEX(GLOBAL_NB_ELEM_OFF(ITASK+1)) = IE
+                ENDIF
+                ELEM_STATE(IE) = .FALSE.
                 DO K=2,3
                   N = IXP(K,NFT+I)
                   ITAG(NUMNOD+N) = 1
@@ -997,6 +1033,11 @@ C
      .                          OFUR,TAGEL_SIZE)                                       
                 ENDIF
                 TAGEL(IE)=-1
+                IF(ELEM_STATE(IE)) THEN
+                    GLOBAL_NB_ELEM_OFF(ITASK+1) = GLOBAL_NB_ELEM_OFF(ITASK+1) + 1
+                    LOCAL_ELEM_INDEX(GLOBAL_NB_ELEM_OFF(ITASK+1)) = IE
+                ENDIF
+                ELEM_STATE(IE) = .FALSE.
                 DO K=2,3
                   N = IXR(K,NFT+I)
                   ITAG(NUMNOD+N) = 1
@@ -1035,6 +1076,11 @@ C
      .                         OFUR,TAGEL_SIZE)                                      
                 ENDIF
                 TAGEL(IE)=-1
+                IF(ELEM_STATE(IE)) THEN
+                    GLOBAL_NB_ELEM_OFF(ITASK+1) = GLOBAL_NB_ELEM_OFF(ITASK+1) + 1
+                    LOCAL_ELEM_INDEX(GLOBAL_NB_ELEM_OFF(ITASK+1)) = IE
+                ENDIF
+                ELEM_STATE(IE) = .FALSE.
                 DO K=2,4
                   N = IXTG(K,NFT+I)
                   ITAG(NUMNOD+N) = 1
@@ -1101,6 +1147,11 @@ C
      .                           OFUR,TAGEL_SIZE)
                 ENDIF
                 TAGEL(IE)=-1
+                IF(ELEM_STATE(IE)) THEN
+                    GLOBAL_NB_ELEM_OFF(ITASK+1) = GLOBAL_NB_ELEM_OFF(ITASK+1) + 1
+                    LOCAL_ELEM_INDEX(GLOBAL_NB_ELEM_OFF(ITASK+1)) = IE
+                ENDIF
+                ELEM_STATE(IE) = .FALSE.
                 DO K=2,5
                   N = IXUR(K,NFT+I)
                   ITAG(NUMNOD+N) = 1
@@ -1124,6 +1175,27 @@ C
         ENDDO
 
 !$OMP END DO
+
+        IF(ITASK==0) THEN            
+            IF(ALLOCATED( SHOOT_STRUCT%GLOBAL_ELEM_INDEX ) ) DEALLOCATE( SHOOT_STRUCT%GLOBAL_ELEM_INDEX )
+            ! compute the total number of new deactivated element
+            SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX = 0
+            DO I=1,NTHREAD
+                SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX = SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX + GLOBAL_NB_ELEM_OFF(I)
+            ENDDO
+            ! allocate the array "list of new deactivated element"
+            ALLOCATE( SHOOT_STRUCT%GLOBAL_ELEM_INDEX(SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX) ) 
+        ENDIF
+        CALL MY_BARRIER( )
+
+        ! omp reduction of "list of new deactivated elements"
+        SHIFT = 0
+        DO I=1,ITASK
+                SHIFT = SHIFT + GLOBAL_NB_ELEM_OFF(I)
+        ENDDO
+        SHOOT_STRUCT%GLOBAL_ELEM_INDEX(1+SHIFT:GLOBAL_NB_ELEM_OFF(ITASK+1)+SHIFT) =
+     .            LOCAL_ELEM_INDEX(1:GLOBAL_NB_ELEM_OFF(ITASK+1))
+
 
 C      CALL MY_BARRIER() => remplace par barriere implicite sur do //
 C
@@ -1244,7 +1316,8 @@ C--------------------------------------------------------
       ENDIF
 C Fin Partie non parallele
 !$OMP END SINGLE
-
+      ! deallocation of local list of deactivated element
+      DEALLOCATE( LOCAL_ELEM_INDEX )
 C
       RETURN
       END
@@ -1286,7 +1359,7 @@ Chd|====================================================================
      3    NEWFRONT,ITAGL   ,MS     ,IN        ,ADM      ,ITAB    ,
      4    ITABM1  ,ADDCNEL ,CNEL   ,IND       ,NINDEX1  ,NINDEX2 ,
      5    NINDEX3 ,NINDEX4 ,TAGEL   ,INT24USE,IBUFSEGLO,INDSEGLO ,
-     6    IBUFS ,INTBUF_TAB)
+     6    IBUFS ,INTBUF_TAB,IAD_ELEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1332,6 +1405,7 @@ C-----------------------------------------------
      .   GEO(NPROPG,*), MS(*),IN(*), ADM(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
+      INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1383,7 +1457,7 @@ C E2E have fictive nodes with NSV  > NUMNOD
              CALL CHKSLV3_T24(
      .           NSN         ,INTBUF_TAB(NG)%NSV,INTBUF_TAB(NG)%STFNS,ITAG,ITASK,
      .           INTBUF_TAB(NG)%IS2SE,INTBUF_TAB(NG)%IRTSE,NEWFRONT(NG))
-           ELSE
+           ELSEIF(NTY==25) THEN
              CALL CHKSLV3(
      .           NSN         ,INTBUF_TAB(NG)%NSV,INTBUF_TAB(NG)%STFNS,ITAG,ITASK,
      .           NEWFRONT(NG))
@@ -1402,6 +1476,7 @@ C E2E have fictive nodes with NSV  > NUMNOD
      6   IBUFS(IDBS+4),IND(IDB)     ,TAGEL         ,NG   ,INTBUF_TAB(NG)%MSEGLO,
      7   INTBUF_TAB(NG)%MVOISIN,INDSEGLO     ,IBUFSEGLO)
          ELSEIF(IDEL == 2)THEN
+            NINDEX1(NG) = 0
            CALL CHKMSR3N( 
      1   NMN          ,INTBUF_TAB(NG)%MSR ,ITAG           ,ITASK,INTBUF_TAB(NG)%IRECTM,
      2   NRTM         ,INTBUF_TAB(NG)%STFM,ITAG(NUMNOD+1),IXS  ,IXC          ,
@@ -1813,14 +1888,14 @@ C Partie non parallele
 
 !$OMP SINGLE
 
-       CALL SPMD_INIT_IDEL(IDBS-1, IRSIZE, IRECV)
+       CALL SPMD_INIT_IDEL(IDBS-1, IRSIZE, IRECV,IAD_ELEM)
        CALL SPMD_EXCHMSR_IDEL(
      1         IBUFS  ,IDBS-1 ,IXS    ,IXC    ,IXTG   , 
      2         IXQ    ,IPARG  ,ITAGL  ,ITABM1 ,
      3         IRSIZE ,IRECV  ,CNEL   ,ADDCNEL,OFC    ,
      4         OFT    ,OFTG   ,OFUR   ,OFR    ,OFP    ,
      5         IDB-1  ,IXP    ,IXR    ,IXT    ,GEO    ,
-     6         TAGEL  )
+     6         TAGEL  ,IAD_ELEM)
 
 C
 C Finalisation de la partie MAJ STIF
@@ -2002,6 +2077,7 @@ C si tag nul sur noeuds main alors msr(i) = -msr(i)
       END IF
 C
       CALL MY_BARRIER()
+      IF(NTY==7.OR.NTY==10.OR.NTY==22) RETURN
 C
       NRTF = 1 + ITASK*NRTM / NTHREAD
       NRTL = (ITASK+1)*NRTM / NTHREAD
@@ -2713,107 +2789,8 @@ C
       NRTL = (ITASK+1)*NRTM / NTHREAD
 C
       NIND = 0
-      DO I = NRTF, NRTL
-        IF(STF(I)/=ZERO) THEN
-          N1 = IRECT(1,I)
-          N2 = IRECT(2,I)
-          IF(ITAG(N1) == 0.OR.ITAG(N2) == 0) THEN
-C suivant facette main ou second
-            IF(IFL == 1) THEN
-              STF(I) = ZERO
-            ELSE
-              STF(I) =-ABS(STF(I))
-              NEWFRONT = -1
-            END IF 
-C attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1) THEN
-            NIND = NIND + 1
-            NINDL(NIND) = I
-          END IF
-        END IF
-      END DO
-C
-      DO N = 1, NIND
-        I = NINDL(N)
-        N1 = IRECT(1,I)
-        N2 = IRECT(2,I)
-C
-        DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
-         II = CNEL(J)
-         IF(TAGEL(II)<0) THEN    !    elt detruit trouve
-           ITAGL(N1) = 0
-           ITAGL(N2) = 0
-           IF(II<=OFC) THEN ! solide detruit
-             DO K = 2, 9
-               IX = IXS(K,II)
-               ITAGL(IX) = 1
-             END DO
-           ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell detruit
-             II = II - OFC
-             DO K=2,5
-               IX = IXC(K,II)
-               ITAGL(IX)=1
-             END DO
-           ELSEIF(II > OFTG.AND.II<=OFUR)THEN ! triangle detruit
-             II = II - OFTG
-             DO K=2,4
-               IX = IXTG(K,II)
-               ITAGL(IX) = 1
-             END DO
-           ELSEIF(II > OFT.AND.II<=OFP)THEN ! truss detruit
-             II = II - OFT
-             DO K=2,3
-               IX = IXT(K,II)
-               ITAGL(IX) = 1
-             ENDDO
-           ELSEIF(II > OFP.AND.II<=OFR)THEN ! poutre detruit
-             II = II - OFP
-             DO K=2,3
-               IX = IXP(K,II)
-               ITAGL(IX) = 1
-             ENDDO
-           ELSEIF(II > OFR.AND.II<=OFTG)THEN ! ressort detruit
-             II = II - OFR
-             DO K=2,3
-               IX = IXR(K,II)
-               ITAGL(IX) = 1
-             ENDDO
-             IF(NINT(GEO(12,IXR(1,II))) == 12) THEN ! ressort detruit
-               IX = IXR(4,II)
-               ITAGL(IX) = 1
-             ENDIF
-           END IF
-           IF(ITAGL(N1)+ITAGL(N2) == 2)THEN
-C suivant facette main ou second
-            IF(IFL == 1) THEN
-              STF(I) = ZERO
-            ELSE
-              STF(I) =-ABS(STF(I))
-              NEWFRONT = -1
-            END IF 
-            GOTO 400
-           END IF
-         END IF
-        END DO
-C
-Cel on a rien trouver, il faut voir sur les autres procs en SPMD
-        IF(NSPMD > 1) THEN
-#include "lockon.inc"
-          ICOMP = ICOMP + 1
-          NIND2 = ICOMP
-#include "lockoff.inc"
-          NINDEX(NIND2) = I
-          BUFS(2*(NIND2-1)+1) = ITAB(N1)
-          BUFS(2*(NIND2-1)+2) = ITAB(N2)
-        END IF
- 400    CONTINUE
-      END DO
-C
-      CALL MY_BARRIER()
 C
       NINDG = ICOMP
-C
-      CALL MY_BARRIER()
 C
       RETURN
       END
@@ -2893,110 +2870,10 @@ C
       NRTL = (ITASK+1)*NRTM / NTHREAD
 C
       NIND = 0
-      DO I = NRTF, NRTL
-        IF(STF(I)/=ZERO) THEN
-          N1 = IRECT(1,I)
-          N2 = IRECT(2,I)
-          IF(ITAG(N1) == 0.OR.ITAG(N2) == 0) THEN
-C suivant facette main ou second
-            IF(IFL == 1) THEN
-              STF(I) = ZERO
-            ELSE
-              STF(I) =-ABS(STF(I))
-              NEWFRONT = -1
-            END IF 
-C attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1) THEN
-            NIND = NIND + 1
-            NINDL(NIND) = I
-          END IF
-        END IF
-      END DO
 C
       NIND2 = 0
-      DO N = 1, NIND
-        I = NINDL(N)
-        N1 = IRECT(1,I)
-        N2 = IRECT(2,I)
 C
-        DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
-         II = CNEL(J)
-         IF(TAGEL(II) > 0) THEN    !    elt actif trouve
-           ITAGL(N1) = 0
-           ITAGL(N2) = 0
-           IF(II<=OFC) THEN ! solide actif
-             DO K = 2, 9
-               IX = IXS(K,II)
-               ITAGL(IX) = 1
-             END DO
-           ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell actif
-             II = II - OFC
-             DO K=2,5
-               IX = IXC(K,II)
-               ITAGL(IX)=1
-             END DO
-           ELSEIF(II > OFTG.AND.II<=OFUR)THEN ! triangle actif
-             II = II - OFTG
-             DO K=2,4
-               IX = IXTG(K,II)
-               ITAGL(IX) = 1
-             END DO
-           ELSEIF(II > OFT.AND.II<=OFP)THEN ! truss actif
-             II = II - OFT
-             DO K=2,3
-               IX = IXT(K,II)
-               ITAGL(IX) = 1
-             ENDDO
-           ELSEIF(II > OFP.AND.II<=OFR)THEN ! poutre actif
-             II = II - OFP
-             DO K=2,3
-               IX = IXP(K,II)
-               ITAGL(IX) = 1
-             ENDDO
-           ELSEIF(II > OFR.AND.II<=OFTG)THEN ! ressort actif
-             II = II - OFR
-             DO K=2,3
-               IX = IXR(K,II)
-               ITAGL(IX) = 1
-             ENDDO
-             IF(NINT(GEO(12,IXR(1,II))) == 12) THEN ! ressort actif
-               IX = IXR(4,II)
-               ITAGL(IX) = 1
-             ENDIF
-           END IF
-           IF(ITAGL(N1)+ITAGL(N2) == 2)THEN
-             GOTO 400
-           ENDIF
-         ENDIF
-        ENDDO
-C
-C si aucun element actif : stif a 0
-        IF(NSPMD == 1) THEN
-C suivant facette main ou second
-          IF(IFL == 1) THEN
-            STF(I) = ZERO
-          ELSE
-            STF(I) =-ABS(STF(I))
-            NEWFRONT = -1
-          END IF 
-        ELSE
-#include "lockon.inc"
-          ICOMP = ICOMP + 1
-          NIND2 = ICOMP
-#include "lockoff.inc"
-          NINDEX(NIND2) = I
-          BUFS(2*(NIND2-1)+1) = ITAB(N1)
-          BUFS(2*(NIND2-1)+2) = ITAB(N2)
-        END IF
-C
- 400    CONTINUE
-      END DO
-C
-      CALL MY_BARRIER()
-C
-      NINDG = ICOMP
-C
-      CALL MY_BARRIER()
+      NINDG = 0
 C
       RETURN
       END

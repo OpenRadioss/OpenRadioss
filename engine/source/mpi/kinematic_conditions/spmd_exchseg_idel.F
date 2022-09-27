@@ -35,7 +35,7 @@ Chd|====================================================================
      3    IRSIZE,IRECV ,CNEL   ,ADDCNEL,OFC    ,
      4    OFT   ,OFTG  ,OFUR   ,OFR    ,OFP    ,
      5    OFQ   ,LINDEX,IXP    ,IXR    ,IXT    ,
-     6    GEO   )
+     6    GEO   ,IAD_ELEM)
 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -65,6 +65,7 @@ C-----------------------------------------------
      .        BUFS(*),ITAGL(*), IRECV(*), CNEL(0:*), ADDCNEL(0:*),
      .        IRSIZE, LBUFS, OFC, OFT, OFTG, OFUR, OFR, OFP, LINDEX,
      .        OFQ
+      INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM
       my_real
      .        GEO(NPROPG,*)
 C-----------------------------------------------
@@ -79,6 +80,7 @@ C-----------------------------------------------
      .        REQ_S2(NSPMD),REQ_S3(NSPMD),STATUS(MPI_STATUS_SIZE),
      .        REQ_R1(NSPMD)
       INTEGER, DIMENSION(:), ALLOCATABLE ::  BUFR, BUFS2
+      INTEGER :: SIZ
 
       DATA MSGOFF2/188/
       DATA MSGOFF3/189/
@@ -95,7 +97,8 @@ C-----------------------------------------------
       LEN = 0
       REQ_R1(1:NSPMD) = MPI_REQUEST_NULL
       DO I = 1, NSPMD
-        IF(IRECV(I)>0) THEN
+        SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
+        IF(I.NE.LOC_PROC.AND.LBUFS.GT.0.AND.SIZ>0) THEN
           MSGTYP = MSGOFF2 
           CALL MPI_IRECV(
      .      BUFR(IDEB),IRECV(I),MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -108,7 +111,8 @@ C-----------------------------------------------
 
 C Proc sends the same BUFS to everybody
       DO I = 1, NSPMD
-        IF(I/=LOC_PROC.AND.LBUFS>0) THEN
+        SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
+        IF(I.NE.LOC_PROC.AND.LBUFS.GT.0.AND.SIZ>0) THEN
            MSGTYP = MSGOFF2
            CALL MPI_ISEND(
      C      BUFS,LBUFS,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -203,7 +207,8 @@ C Envoi BUFR
 C
       IDEB = 1
       DO I = 1, NSPMD
-        IF(IRECV(I)>0) THEN
+        SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
+        IF(I.NE.LOC_PROC.AND.LINDEX.GT.0.AND.SIZ>0) THEN
           LEN = IRECV(I)
           MSGTYP = MSGOFF3
           CALL MPI_ISEND(

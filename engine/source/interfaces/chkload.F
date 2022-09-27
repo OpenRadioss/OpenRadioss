@@ -35,7 +35,7 @@ Chd|====================================================================
      2    IXR    ,IXTG    ,ITAG   ,ITASK   ,ITAGL   ,ITAB    ,
      3    ITABM1 ,ADDCNEL ,CNEL   ,TAGEL   ,IPARG   ,GEO     ,
      4    IBUFS  ,NINDEX  ,NINDG  ,NPRESLOAD,LOADP_TAGDEL    ,
-     5    ILOADP ,LLOADP  )
+     5    ILOADP ,LLOADP  ,IAD_ELEM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,6 +67,7 @@ C-----------------------------------------------
      .        ITABM1(*), CNEL(0:*), ADDCNEL(0:*), TAGEL(*), IBUFS(*) , NINDEX(*)
       INTEGER, INTENT(INOUT) :: LOADP_TAGDEL(NPRESLOAD)
       INTEGER, INTENT(IN) :: LLOADP(SLLOADP), ILOADP(SIZLOADP,NLOADP)
+      INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM
       my_real
      .        GEO(NPROPG,*)
 C-----------------------------------------------
@@ -276,14 +277,14 @@ C
 C SPMD communication : if a node is not in the same proc as element
 C
 
-       CALL SPMD_INIT_IDEL(4*NINDG  , IRSIZE, IRECV)
+       CALL SPMD_INIT_IDEL(4*NINDG  , IRSIZE, IRECV,IAD_ELEM)
        CALL SPMD_EXCHSEG_IDEL(
      1         IBUFS  ,4*NINDG   ,IXS    ,IXC    ,IXTG   , 
      2         IXQ    ,IPARG     ,ITAGL  ,ITABM1 ,TAGEL  ,
      3         IRSIZE ,IRECV     ,CNEL   ,ADDCNEL,OFC    ,
      4         OFT    ,OFTG      ,OFUR   ,OFR    ,OFP    ,
      5         OFQ    ,NINDG     ,IXP    ,IXR    ,IXT    ,
-     6         GEO    )
+     6         GEO    ,IAD_ELEM)
 
 C
 C If no element actif after spmd comm

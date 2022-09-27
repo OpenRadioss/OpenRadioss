@@ -629,7 +629,8 @@ C-----------------------------------------------
       USE DTDC_MOD  
       USE IMPBUFDEF_MOD
       USE INTER_STRUCT_MOD
-        USE INTER_SORTING_MOD
+      USE INTER_SORTING_MOD
+      USE SHOOTING_NODE_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1192,6 +1193,10 @@ C-------------------------------------------------------------------------------
 
         INTEGER :: NATIV_SMS_SIZ ! size of NATIV_SMS array
         INTEGER :: TEMP_SIZ      ! size of TEMP
+
+        TYPE(shooting_node_type) :: SHOOT_STRUCT
+        INTEGER :: S_ELEM_STATE     ! size of ELEM_STATE array
+        LOGICAL, DIMENSION(:), ALLOCATABLE :: ELEM_STATE    ! boolean : true if element is ON, false if element is OFF
       DATA IUN/1/
 C-----------------------------------------------------------------------------------       
 C Uncomment for Debug - ITAB is copied in Debug Module.
@@ -1380,11 +1385,15 @@ C Allocation of inverse connectivity array
             pCNEL => CNEL
             pADDCNEL => ADDCNEL
             pADDTMPL => ADDTMPL
+            S_ELEM_STATE = NELEML
           ELSE
             ALLOCATE(CNEL(0),ADDCNEL(0),ADDTMPL(0),TAGEL(0))
+            S_ELEM_STATE = 0
           END IF
           ALLOCATE(IPARTL(NPART))
           ALLOCATE(PARTSAV2(2,NPART))
+          ALLOCATE( ELEM_STATE(S_ELEM_STATE) )
+          ELEM_STATE(1:S_ELEM_STATE) = .TRUE.
 C
 C   Working arrays for thermal analysis                                      
 C
@@ -2093,6 +2102,13 @@ C ---------------------
         MCLUSTER(1:3)=0
       ENDIF
       
+      ! -------------------------
+      ! initialization of SHOOT_STRUCT for 
+      ! the deactivation node algo
+      CALL INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTBUF_TAB,IAD_ELEM,FR_ELEM,
+     .                       ITAB,ITABM1,GEO,ADDCNEL,CNEL,
+     .                       IXS,IXC,IXT,IXP,IXR,IXTG )
+      ! -------------------------
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -2193,7 +2209,51 @@ C Init var parallel SMP
      4       WA(NWAFTSK) ,IXTG1    ,IAD_ELEM  ,FR_ELEM   ,ITAB     ,ITABM1 ,
      5       ADDCNEL     ,CNEL     ,KXSP      ,ELBUF_TAB ,TAGEL    ,IEXLNK , 
      6       IGRNOD      ,DD_R2R   ,DD_R2R_ELEM,SDD_R2R_ELEM,IDEL7NOK_SAV ,
-     7       IDEL7NOK_R2R,TAGTRIMC,TAGTRIMTG)
+     7       IDEL7NOK_R2R,TAGTRIMC,TAGTRIMTG,S_ELEM_STATE,ELEM_STATE,
+     8       SHOOT_STRUCT,SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF)
+          ! ---------------------
+          ! check if a node is deactivated and deactivate all the corresponding secondary nodes
+          CALL CHECK_NODAL_STATE( ITSK,WA(NUMNOD+1),NEWFRONT,INTBUF_TAB,SHOOT_STRUCT%SIZE_SEC_NODE,
+     .           SHOOT_STRUCT%SHIFT_S_NODE,SHOOT_STRUCT%INTER_SEC_NODE,SHOOT_STRUCT%SEC_NODE_ID)
+          ! ---------------------
+
+          ! ---------------------
+          ! check if a surface/edge must be deactivated and save the surface/edge id 
+          IF(ITSK==0) THEN 
+                CALL FIND_SURFACE_INTER( ITSK,ITAB,SHOOT_STRUCT,IXS,IXS(L1),IXC,IXTG )
+                CALL FIND_EDGE_INTER( ITSK,ITAB,SHOOT_STRUCT,IXS,IXS(L1),
+     1                                IXC,IXTG,IXQ,IXT,IXP,
+     2                                IXR,GEO )
+          ENDIF
+          CALL MY_BARRIER( )
+          ! ---------------------
+
+          ! ---------------------
+          ! exchange of surfaces (ie. 4 nodes) to deactivate and deactivation
+          ! ONLY FOR LOCAL SURFACE / REMOTE ELEMENT
+          IF(NSPMD>1) THEN 
+            IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,ITABM1,SHOOT_STRUCT,INTBUF_TAB,NEWFRONT,
+     .                           IPARI,GEO,
+     .                           IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL )
+            CALL MY_BARRIER()
+          ENDIF
+          ! ---------------------
+
+          ! ---------------------
+          ! loop over the surface id and deactivate the surface
+          ! ONLY FOR LOCAL SURFACE / LOCAL ELEMENT
+          CALL CHECK_SURFACE_STATE( ITSK,SHOOT_STRUCT%SAVE_SURFACE_NB,SHOOT_STRUCT%SAVE_SURFACE,
+     .                              SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB )
+
+          ! loop over the edge id and deactivate the edge
+          ! ONLY FOR LOCAL EDGE / LOCAL ELEMENT
+          CALL CHECK_EDGE_STATE( ITSK,SHOOT_STRUCT%SAVE_M_EDGE_NB,SHOOT_STRUCT%SAVE_S_EDGE_NB,
+     .                           SHOOT_STRUCT%SAVE_M_EDGE,SHOOT_STRUCT%SAVE_S_EDGE,
+     .                           SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,NEWFRONT,IPARI,GEO,
+     .                           IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                           ADDCNEL,ITABM1,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
+          ! ---------------------
 
           CALL CHKSTFN3N(
      1       IPARI   ,GEO         ,IXS      ,IXQ         ,IXC     ,IXT       ,
@@ -2201,11 +2261,11 @@ C Init var parallel SMP
      3       NEWFRONT,WA(NWAFTSK) ,MS       ,IN          ,ANIN(NDMA+1),ITAB  ,
      4       ITABM1  ,ADDCNEL     , CNEL    ,INDIDEL     ,NINDEX1 ,NINDEX2   ,
      5       NINDEX3 ,NINDEX4     ,TAGEL    ,INT24USE    ,IBUFSEGLO ,INDSEGLO,
-     6       IBUFIDEL ,INTBUF_TAB)
+     6       IBUFIDEL ,INTBUF_TAB,IAD_ELEM)
 
 
 !$OMP END PARALLEL
-
+          CALL DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
         ENDIF
       IF(ISFEM >= 1) THEN
         SVARNOD = 2*NUMNOD
@@ -5234,7 +5294,51 @@ C WA local  : utilise de 1 a NUMNOD
      4       WA(NWAFTSK) ,IXTG1    ,IAD_ELEM  ,FR_ELEM   ,ITAB     ,ITABM1 ,
      5       ADDCNEL     ,CNEL     ,KXSP      ,ELBUF_TAB ,TAGEL    ,IEXLNK , 
      6       IGRNOD      ,DD_R2R   ,DD_R2R_ELEM,SDD_R2R_ELEM,IDEL7NOK_SAV  ,
-     7       IDEL7NOK_R2R,TAGTRIMC,TAGTRIMTG)
+     7       IDEL7NOK_R2R,TAGTRIMC,TAGTRIMTG,S_ELEM_STATE,ELEM_STATE,
+     8       SHOOT_STRUCT,SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF)
+          ! ---------------------
+          ! check if a node is deactivated and deactivate all the corresponding secondary nodes
+          CALL CHECK_NODAL_STATE( ITSK,WA(NUMNOD+1),NEWFRONT,INTBUF_TAB,SHOOT_STRUCT%SIZE_SEC_NODE,
+     .           SHOOT_STRUCT%SHIFT_S_NODE,SHOOT_STRUCT%INTER_SEC_NODE,SHOOT_STRUCT%SEC_NODE_ID)
+          ! ---------------------
+
+          ! ---------------------
+          ! check if a surface/edge must be deactivated and save the surface/edge id 
+          IF(ITSK==0) THEN 
+                CALL FIND_SURFACE_INTER( ITSK,ITAB,SHOOT_STRUCT,IXS,IXS(L1),IXC,IXTG )
+                CALL FIND_EDGE_INTER( ITSK,ITAB,SHOOT_STRUCT,IXS,IXS(L1),
+     1                                IXC,IXTG,IXQ,IXT,IXP,
+     2                                IXR,GEO )
+          ENDIF
+          CALL MY_BARRIER( )
+          ! ---------------------
+
+          ! ---------------------
+          ! exchange of surfaces (ie. 4 nodes) to deactivate and deactivation
+          ! ONLY FOR LOCAL SURFACE / REMOTE ELEMENT
+          IF(NSPMD>1) THEN 
+            IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,ITABM1,SHOOT_STRUCT,INTBUF_TAB,NEWFRONT,
+     .                           IPARI,GEO,
+     .                           IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL )
+            CALL MY_BARRIER()
+          ENDIF
+          ! ---------------------
+
+          ! ---------------------
+          ! loop over the surface id and deactivate the surface
+          ! ONLY FOR LOCAL SURFACE / LOCAL ELEMENT
+          CALL CHECK_SURFACE_STATE( ITSK,SHOOT_STRUCT%SAVE_SURFACE_NB,SHOOT_STRUCT%SAVE_SURFACE,
+     .                              SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB )
+
+          ! loop over the edge id and deactivate the edge
+          ! ONLY FOR LOCAL EDGE / LOCAL ELEMENT
+          CALL CHECK_EDGE_STATE( ITSK,SHOOT_STRUCT%SAVE_M_EDGE_NB,SHOOT_STRUCT%SAVE_S_EDGE_NB,
+     .                           SHOOT_STRUCT%SAVE_M_EDGE,SHOOT_STRUCT%SAVE_S_EDGE,
+     .                           SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,NEWFRONT,IPARI,GEO,
+     .                           IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                           ADDCNEL,ITABM1,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
+          ! ---------------------
         ENDIF
 
         IF (IDEL7NG>=1.AND.IDEL7NOK==1) THEN
@@ -5244,7 +5348,7 @@ C WA local  : utilise de 1 a NUMNOD
      3       NEWFRONT,WA(NWAFTSK) ,MS       ,IN          ,ANIN(NDMA+1),ITAB  ,
      4       ITABM1  ,ADDCNEL     , CNEL    ,INDIDEL     ,NINDEX1 ,NINDEX2   ,
      5       NINDEX3 ,NINDEX4     ,TAGEL    ,INT24USE    ,IBUFSEGLO ,INDSEGLO,
-     6       IBUFIDEL ,INTBUF_TAB)
+     6       IBUFIDEL ,INTBUF_TAB ,IAD_ELEM)
 
         ENDIF
    
@@ -5254,13 +5358,13 @@ C WA local  : utilise de 1 a NUMNOD
      2       IXR     ,IXTG    ,WA(NUMNOD+1),ITSK   ,WA(NWAFTSK),ITAB    ,
      3       ITABM1  ,ADDCNEL ,CNEL        ,TAGEL  ,IPARG      ,GEO     ,
      4       IBUFPDEL,NINDEXPDEL,NINDEXP   ,NPRESLOAD,LOADP_TAGDEL      ,
-     5       ILOADP  ,LLOADP  )
+     5       ILOADP  ,LLOADP  ,IAD_ELEM)
 
         ENDIF
 
 !$OMP END PARALLEL
           IF (IMONM > 0 ) CALL STOPTIME(29,1)
-
+          CALL DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
         ENDIF
       ENDIF
 
