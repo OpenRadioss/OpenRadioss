@@ -1588,7 +1588,7 @@ C
          CALL SIGEPS109(
      1        NEL      ,NGL     ,NPAR     ,NUVAR    ,NVARTMP  ,NUMTABL  ,
      2        UPARAM   ,UVAR    ,VARTMP   ,ITABLE   ,TABLE    ,JTHE     ,
-     3        TT       ,DT1     ,OFF      ,RHO      ,LBUF%PLA ,DPLA     , 
+     3        TT       ,DT1     ,OFF      ,RHO0     ,LBUF%PLA ,DPLA     , 
      4        SSP      ,SIGY    ,ET       ,EL_TEMP  ,EPSD     ,
      5        DE1      ,DE2     ,DE3      ,DE4      ,DE5      ,DE6      , 
      6        SO1      ,SO2     ,SO3      ,SO4      ,SO5      ,SO6      , 
