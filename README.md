@@ -19,6 +19,8 @@ If you have any questions about OpenRadioss, please feel free to contact <webmas
 
 # Community and Ways to Participate
 
+`git` and `git-lfs` are need to clone the OpenRadioss repository. See [How to contribute](CONTRIBUTING.md).
+
 * [How to contribute](CONTRIBUTING.md)
 * [Code of conduct](CODE_OF_CONDUCT.md)
 
@@ -27,6 +29,12 @@ Community Manager
 Marian Bulla   
 <communitymanager@openradioss.org>  
 
+# Post Processing tools
+
+Tools are available to convert Radioss formats to VTK and CSV
+
+* [Animation files to VTK](https://github.com/OpenRadioss/OpenRadioss/tree/main/tools/anim_to_vtk)
+* [Time History file](https://github.com/OpenRadioss/OpenRadioss/tree/main/tools/th_to_csv)
 
 # Resources
 

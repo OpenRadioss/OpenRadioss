@@ -14,7 +14,21 @@ Windows users may want to use [git bash](https://gitforwindows.org/) or [WSL](ht
     * Add an [SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent). 
     * Review your account setting, in particular: [email](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-user-account/managing-email-preferences/setting-your-commit-email-address), [2FA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication)
 * [fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the OpenRadioss repository
-* Install [lfs](https://git-lfs.github.com/). On Linux, you may need to install some package first: `sudo yum install git-lfs` or `sudo apt-get install git-lfs`. Then, activate LFS: `git lfs install`
+* Install [git-lfs](https://git-lfs.github.com/). 
+  On Linux, you may need to install some package first: 
+  
+  On Rhel,CentOS
+    
+        sudo yum install git-lfs
+   
+  On Ubuntu, debian
+  
+        sudo apt-get install git-lfs
+        
+   Then, activate LFS: 
+   
+        git lfs install
+        
 * [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) your fork and go into the newly created `OpenRadioss` directory. 
 * From your local `OpenRadioss` directory, review your git user name and [email](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-user-account/managing-email-preferences/setting-your-commit-email-address). If you don't want to expose your email address: 
     * Check the boxes `Keep my email addresses private` and  `Block command line pushes that expose my email` [here](https://github.com/settings/emails)
