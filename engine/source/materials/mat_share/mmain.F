@@ -573,7 +573,7 @@ C
      C             EPSP   ,TSTAR   ,ET      ,MSSA       ,DMELS   ,
      D             TEMPEL ,LBUF%SIGB,AL_IMP ,SIGNOR     ,CONDE   ,
      E             GBUF%DT,GBUF%G_DT ,NEL   ,IPM        ,RHOREF  ,
-     F             RHOSP   )
+     F             RHOSP  ,IPG     ,LBUF%DMG)
 !----------------
        IF (ISTRAIN > 0 .AND.
      .    (H3D_STRAIN == 1 .OR. TH_STRAIN == 1 )) THEN

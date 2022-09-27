@@ -422,10 +422,12 @@ C---- Definition des variables internes (stockage elementaire)
 c
       MTAG%G_EPSD  = 1   
       MTAG%G_PLA   = 1   
+      MTAG%G_DMG   = 1
 c
       MTAG%L_EPSD  = 1   
       MTAG%L_PLA   = 1   
       MTAG%L_SIGB  = 6
+      MTAG%L_DMG   = 1
 c--------------------- 
       CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCREMENTAL")

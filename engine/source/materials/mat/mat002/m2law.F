@@ -42,11 +42,12 @@ Chd|====================================================================
      C           EPSP   ,TSTAR   ,ETSE    ,MSSA   ,DMELS   ,
      D           TEMPEL ,SIGBAK  ,AL_IMP  ,SIGNOR ,CONDE   ,
      E           DTEL   ,G_DT    ,NEL     ,IPM    ,RHOREF  ,
-     F           RHOSP   )
+     F           RHOSP  ,IPG     ,DMG     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+#include      "comlock.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -58,11 +59,12 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "vect01_c.inc"
 #include      "impl1_c.inc"
+#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C
-      INTEGER NELTST,ITYPTST,PID(*),G_DT,NEL
+      INTEGER NELTST,ITYPTST,PID(*),G_DT,NEL,IPG
       INTEGER MAT(*),NGL(*),IPLA, IPM(NPROPMI,*)
       my_real
      .   DT2T
@@ -77,7 +79,7 @@ C
      .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*), 
      .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ),
      .   SOLD4(MVSIZ), SOLD5(MVSIZ), SOLD6(MVSIZ),
-     .   TSTAR(MVSIZ), DPLA1(MVSIZ), EPSP(MVSIZ)
+     .   TSTAR(MVSIZ), DPLA1(MVSIZ), EPSP(MVSIZ), DMG(NEL)
 C
       my_real
      .   SIGY(*) ,DEFP(*),ETSE(*), MSSA(*), DMELS(*), TEMPEL(*),
@@ -87,7 +89,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ICC,IRTY,ISRATE,
-     .   I, MX , NPIF,IBID,IKFLG
+     .   I, J, MX , NPIF,IBID,IKFLG,NINDX,INDX(NEL)
       my_real
      .   RHO0, 
      .   EPD(MVSIZ),
@@ -497,7 +499,14 @@ C
 C
       DTA =HALF*DT1
 C
+      NINDX = 0
+      INDX(1:NEL) = 0
       DO I=LFT,LLT
+       IF ((EPXE(I) > EPMX).AND.(DMG(I)==ZERO)) THEN 
+         NINDX = NINDX + 1
+         INDX(NINDX) = I
+         DMG(I) = ONE
+       ENDIF
        PNEW(I)=C1*AMU(I)
        SIG(I,1)=(SIG(I,1)-PNEW(I))*OFF(I)
        SIG(I,2)=(SIG(I,2)-PNEW(I))*OFF(I)
@@ -572,6 +581,22 @@ c ...... Parameter alpha of consistent matrix
         ENDIF
        ENDDO
       ENDIF
+C
+      ! Printout element deletion
+      IF(NINDX>0)THEN
+        DO J=1,NINDX
+#include "lockon.inc"
+          WRITE(IOUT, 1000) NGL(INDX(J)),IPG
+          WRITE(ISTDO,1100) NGL(INDX(J)),IPG,TT
+#include "lockoff.inc"
+        ENDDO
+      ENDIF
+!---
+ 1000 FORMAT(1X,'EXCEEDED EPS_MAX ON SOLID ELEMENT NUMBER ',I10,
+     . ': DEVIATORIC STRESS SET TO 0 ON INTEGRATION POINT ',I5 )
+ 1100 FORMAT(1X,'EXCEEDED EPS_MAX ON SOLID ELEMENT NUMBER ',I10,
+     . ': DEVIATORIC STRESS SET TO 0 ON INTEGRATION POINT ',I5 ,
+     .          ' AT TIME :',G11.4)  
 C
       RETURN
       END
