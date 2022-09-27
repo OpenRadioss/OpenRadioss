@@ -138,7 +138,7 @@ C-----------------------------------------------
      .   SMAX(MVSIZ) , VOLU(MVSIZ), DTX(MVSIZ), DELTAX(MVSIZ),
      .   RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(MVSIZ),LLSH(MVSIZ)
       my_real
-     .   BID, FV, STI, WI
+     .   BID(MVSIZ), FV, STI, WI
       my_real
      .   ANGLE(MVSIZ),DTX0(MVSIZ),WT,ZR,ZS,ZT,ZZ
       DOUBLE PRECISION 
@@ -221,7 +221,7 @@ C=======================================================================
       MBUF => ELBUF_STR%BUFLY(1)%MAT(1,1,1)
       LBUF => ELBUF_STR%BUFLY(1)%LBUF(1,1,1)
 c
-      BID = ZERO
+      BID(1:MVSIZ) = ZERO
       NREFSTA = NXREF
       NXREF = 0
       DO I=1,NEL
@@ -242,7 +242,7 @@ C
       ENDDO
       
       IF (JCVT == 0) THEN
-        CALL SCOOR3(X ,BID,IXS(1,NF1)   ,GEO  ,MAT  ,PID  ,NGL  ,
+        CALL SCOOR3(X ,BID(1),IXS(1,NF1)   ,GEO  ,MAT  ,PID  ,NGL  ,
      .           IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8  ,
      .           X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .           Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
@@ -254,7 +254,7 @@ C
      .           YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .           ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
       ELSE
-        CALL SRCOOR3(X,BID,IXS(1,NF1)   ,GEO  ,MAT  ,PID  ,NGL  ,JHBE ,
+        CALL SRCOOR3(X,BID(1),IXS(1,NF1)   ,GEO  ,MAT  ,PID  ,NGL  ,JHBE ,
      .           IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8  ,
      .           X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .           Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
@@ -465,9 +465,9 @@ C Masses initialization
       CALL SMASS3(
      .     GBUF%RHO,MAS,PARTSAV,X,V,
      .     IPARTS(NF1),MSS(1,NF1),VOLU  ,
-     .     MSNF    ,MSSF(1,NF1) ,BID  ,
-     .     BID     ,BID         ,WMA  ,RHOCP     ,MCP     ,
-     .     MCPS(1,NF1) ,MSSA ,BID   ,BID,GBUF%FILL,
+     .     MSNF    ,MSSF(1,NF1) ,BID(1) ,
+     .     BID(1)  ,BID(1)      ,WMA  ,RHOCP     ,MCP     ,
+     .     MCPS(1,NF1) ,MSSA ,BID(1)   ,BID(1),GBUF%FILL,
      .     IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
 C
 C Assemble nodal volumes and moduli for interfaces stiffness
@@ -475,8 +475,8 @@ C Warning : IX1, IX2 ... IX8 <=> NC(MVSIZ,8)
       IF (I7STIFS /= 0) THEN
         NCC=8
         CALL SBULK3(VOLU  ,IX1    ,NCC,MAT,PM ,
-     .              VOLNOD,BVOLNOD,VNS(1,NF1),BNS(1,NF1),BID,
-     .              BID   ,GBUF%FILL)
+     .              VOLNOD,BVOLNOD,VNS(1,NF1),BNS(1,NF1),BID(1),
+     .              BID(1)  ,GBUF%FILL)
       ENDIF
 C 
 C Failure model initialization
