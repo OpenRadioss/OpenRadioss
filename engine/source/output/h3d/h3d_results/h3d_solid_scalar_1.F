@@ -131,11 +131,11 @@ C-----------------------------------------------
      .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
      .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
-     .        IIGEO,IADI,ISUBSTACK,ITHK,SWA_L,NERCVOIS(*),NESDVOIS(*),
+     .        IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
      .        LERCVOIS(*),LESDVOIS(*),NB_PLYOFF,IUVAR,IDX,IPOS,ITRIMAT,
      .        IALEFVM_FLG, IMAT,IADBUF,NUPARAM,ICSIG,NC(8)
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
-     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),LENCOM,IOFF,NPT_ALL,IPLY,
+     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
      .        ID_ELEM_TMP(MVSIZ),NIX,ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,
      .        IOK_PART(MVSIZ),JJ(6),IRUPT,IOK,NPG_PLANE,NUMLAY,IJK,IIR,
      .        IS_WRITTEN_VALUE(MVSIZ),NFRAC,IU(4),IV,NB_FACE,KFACE,IS_EULER,IS_ALE,IAD2,KK
@@ -1453,10 +1453,9 @@ C--------------------------------------------------
                  IALEL=IPARG(7,NG)+IPARG(11,NG)
                  IF(IALEL /= 0)THEN
                    CALL SCHLIEREN(
-     1                            EVAR    ,IXS    , X          , V      ,W,
-     2                            IPARG   ,WA_L   ,ELBUF_TAB   ,ALE_CONNECT   ,GBUF%VOL,
-     3                            PM      ,NG     ,NIXS        ,IOFF    ,
-     4                            ITY)
+     1                            EVAR  ,IXS  ,X         ,V           ,W       ,
+     2                            IPARG ,WA_L ,ELBUF_TAB ,ALE_CONNECT ,GBUF%VOL,
+     3                            PM    ,NG   ,NIXS      ,ITY)
                     DO I=1,NEL
                       VALUE(I) = EVAR(I) 
                       IS_WRITTEN_VALUE(I) = 1							  

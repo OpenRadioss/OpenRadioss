@@ -86,12 +86,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   QUAD_SCALAR(*),X(3,*),V(3,*),W(3,*),THKE(*),EHOUR(*),GEO(NPROPG,*),
-     .   ANIM(*),PM(NPROPM,*),ERR_THK_SH4(*), ERR_THK_SH3(*)
-      INTEGER IPARG(NPARG,*),IXC(NIXC,*),IXTG(NIXTG,*),EL2FA(*),
-     .   IXQ(NIXQ,*),IXUR(NIXUR,*),IFUNC,NBF,
-     .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,*),
-     .   IGEO(NPROPGI,*),INVERT(*), NV46,ID_ELEM(*),
+     .   QUAD_SCALAR(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,NUMGEO),
+     .   ANIM(*),PM(NPROPM,NUMMAT),ERR_THK_SH4(*), ERR_THK_SH3(*)
+      INTEGER IPARG(NPARG,NGROUP),IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),EL2FA(*),
+     .   IXQ(NIXQ,NUMELQ),IXUR(NIXUR,NUMELUR),IFUNC,NBF,
+     .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
+     .   IGEO(NPROPGI,NUMGEO),INVERT(*), NV46,ID_ELEM(*),
      .   INFO1,INFO2,IS_WRITTEN_QUAD(*),IPARTQ(*),IPARTTG(*),H3D_PART(*),
      .   LAYER_INPUT ,IPT_INPUT,GAUSS_INPUT,PLY_INPUT,IUVAR_INPUT,
      .   IR_INPUT,IS_INPUT,IT_INPUT
@@ -122,11 +122,11 @@ C-----------------------------------------------
      .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
      .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
-     .        IIGEO,IADI,ISUBSTACK,ITHK,SWA_L,NERCVOIS(*),NESDVOIS(*),
+     .        IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
      .        LERCVOIS(*),LESDVOIS(*),ID_PLY,NB_PLYOFF,IOK,IADBUF,NUPARAM,
      .        IMAT,IVISC,IPOS,ITRIMAT,IU(4)
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
-     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),LENCOM,IOFF,NPT_ALL,IPLY,
+     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
      .        ID_ELEM_TMP(MVSIZ),NIX,IOK_PART(MVSIZ),JJ(6),NPGT,IUVAR,
      .        IS_WRITTEN_VALUE(MVSIZ),NFRAC,KFACE,NB_FACE,IV,ISUBMAT,IS_EULER,IS_ALE,IAD2
       CHARACTER*5 BUFF
@@ -158,51 +158,7 @@ C
       !     INITIALIZATION IF SCHLIEREN DEFINED               !
       !-------------------------------------------------------!      
       IF(KEYWORD == 'SCHLIEREN')THEN
-        SWA_L = MAX(IALE,ITHERM,IEULER,IALELAG)*( NUMELS + NUMELQ + NSVOIS+ NQVOIS + NSEGFLU )
-        IF(.NOT.ALLOCATED(WA_L))ALLOCATE(WA_L(SWA_L)) ! work array for ANIM/ELEM/SCHLIEREN
-        DO NG=1,NGROUP
-          CALL INITBUF (IPARG	 ,NG	  ,		       
-     2        MLW     ,NEL     ,NFT	,IAD	 ,ITY	  ,  
-     3        NPT     ,JALE    ,ISMSTR  ,JEUL	 ,JTUR    ,  
-     4        JTHE    ,JLAG    ,JMULT	,JHBE	 ,JIVF    ,  
-     5        NVAUX   ,JPOR    ,JCVT	,JCLOSE  ,JPLASOL ,  
-     6        IREP    ,IINT    ,IGTYP	,ISRAT   ,ISROT   ,  
-     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-          IF (MLW /= 13) THEN	  
-            DO OFFSET = 0,NEL-1,NVSIZ
-              NFT = IPARG(3,NG) + OFFSET
-              LFT=1
-              LLT=MIN(NVSIZ,NEL-OFFSET)
-              IALEL  = IPARG(7,NG) + IPARG(11,NG)
-              IF (IALEL==0)CYCLE
-              IF (ITY == 2) THEN !QUAD
-               !SOLID ELEMENTS
-               IF (MLW == 151) THEN
-                WA_L(NFT+LFT:NFT+LLT) =  MULTI_FVM%RHO(NFT+LFT:NFT+LLT)
-               ELSE
-        	GBUF => ELBUF_TAB(NG)%GBUF
-        	WA_L(NFT+LFT:NFT+LLT) = GBUF%RHO(LFT:LLT)   
-               ENDIF
-              ENDIF
-            ENDDO
-          ENDIF!(MLW /= 13)	     
-        ENDDO!next NG
-          !--------------------
-        CALL MY_BARRIER    
-          !--------------------
-          !    SPMD EXCHANGE OF ADJACENT ELEMS 
-          !--------------------
-        IF(IALE+IEULER+ITHERM /= 0)THEN	     
-          LENCOM = NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
-          IF (NSPMD>1) THEN
-            ! Partie non parallele smt
-            CALL SPMD_E1VOIS(WA_L     ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2      	       LESDVOIS,LENCOM  )
-            ! Fin Partie non parallele smt
-          END IF         
-          !In Case of Inter12, additional surface adjacent elems must be taken into account (3D only)
-          IOFF = 0  
-        ENDIF      
+        CALL SCHLIEREN_BUFFER_GATHERING(NERCVOIS ,NESDVOIS ,LERCVOIS ,LESDVOIS, IPARG, ELBUF_TAB, MULTI_FVM)  
       ENDIF
 C-----------
       DO 900 NG=1,NGROUP
@@ -687,10 +643,9 @@ C--------------------------------------------------
                IALEL=IPARG(7,NG)+IPARG(11,NG)
                IF(IPARG(7,NG)+IPARG(11,NG) /= 0)THEN                                         
                  CALL SCHLIEREN(
-     1                 EVAR    , IXQ    , X           , V       , W       ,
-     2                 IPARG   , WA_L   , ELBUF_TAB   , ALE_CONNECT   , GBUF%VOL,
-     3                 PM      , NG     , NIXQ        , IOFF    ,
-     4                 ITY) 
+     1                 EVAR  , IXQ  , X         , V           , W       ,
+     2                 IPARG , WA_L , ELBUF_TAB , ALE_CONNECT , GBUF%VOL,
+     3                 PM    , NG   , NIXQ      , ITY) 
                  DO  I=1,NEL 
                    VALUE(I) = EVAR(I) 
 		   IS_WRITTEN_VALUE(I) = 1

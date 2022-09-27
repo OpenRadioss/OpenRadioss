@@ -101,8 +101,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,NG,OFFSET,SWA_L,LENCOM,IOFF,IALEL,MLW,NEL           
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF       
+      INTEGER II,NG,IALEL,MLW,NEL           
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -115,53 +115,11 @@ C-----------------------------------------------
       !     SCHLIEREN INITIALIZATION (IF DEFINED)             !
       !       DENSITY FOR ALL TRIA ARE STORED IN WA_L         !
       !-------------------------------------------------------!    
-      ! /TRIA are 2d solid elements (new entity type derived from SH3N, it is currently managed from h3d_shell_* subroutines. It will change in the future.  
+      ! /TRIA are 2d solid elements (new entity type derived from SH3N buffer, it is currently managed from h3d_shell_* subroutines. It will change in the future.  
       IF(KEYWORD == 'SCHLIEREN' .AND. N2D > 0)THEN
-        SWA_L = MAX(IALE,ITHERM,IEULER,IALELAG)*( NUMELTG + NTGVOIS + NSEGFLU )
-        IF(.NOT.ALLOCATED(WA_L))ALLOCATE(WA_L(SWA_L)) ! work array for ANIM/ELEM/SCHLIEREN or /H3D/ELEM/SCHLIEREN (density)
-        DO NG=1,NGROUP
-          CALL INITBUF (IPARG	 ,NG	  ,		       
-     2        MLW     ,NEL     ,NFT	,IAD	 ,ITY	  ,  
-     3        NPT     ,JALE    ,ISMSTR  ,JEUL	 ,JTUR    ,  
-     4        JTHE    ,JLAG    ,JMULT	,JHBE	 ,JIVF    ,  
-     5        NVAUX   ,JPOR    ,JCVT	,JCLOSE  ,JPLASOL ,  
-     6        IREP    ,IINT    ,IGTYP	,ISRAT   ,ISROT   ,  
-     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-          IF (MLW /= 13) THEN	  
-            DO OFFSET = 0,NEL-1,NVSIZ
-              NFT = IPARG(3,NG) + OFFSET
-              LFT=1
-              LLT=MIN(NVSIZ,NEL-OFFSET)
-              IALEL  = IPARG(7,NG) + IPARG(11,NG)
-              IF (IALEL==0)CYCLE
-              IF (ITY == 7) THEN !TRIA
-               !SOLID ELEMENTS
-               IF (MLW == 151) THEN
-                WA_L(NFT+LFT:NFT+LLT) =  MULTI_FVM%RHO(NFT+LFT:NFT+LLT)
-               ELSE
-        	GBUF => ELBUF_TAB(NG)%GBUF
-        	WA_L(NFT+LFT:NFT+LLT) = GBUF%RHO(LFT:LLT)   
-               ENDIF
-              ENDIF
-            ENDDO
-          ENDIF!(MLW /= 13)	     
-        ENDDO!next NG
-          !--------------------
-        CALL MY_BARRIER    
-          !--------------------
-          !    SPMD EXCHANGE OF ADJACENT ELEMS 
-          !--------------------
-        IF(IALE+IEULER+ITHERM /= 0)THEN	     
-          LENCOM = NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
-          IF (NSPMD>1) THEN
-            CALL SPMD_E1VOIS(WA_L     ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM  )
-          END IF         
-          !In Case of Inter12, additional surface adjacent elems must be taken into account (3D only)
-          IOFF = 0  
-        ENDIF      
+        CALL SCHLIEREN_BUFFER_GATHERING(NERCVOIS ,NESDVOIS ,LERCVOIS ,LESDVOIS, IPARG, ELBUF_TAB, MULTI_FVM)
       ENDIF
 C-----------------------------------------------
-
 
       !-------------------------------------------------------!
       !     LOOP OVER ELEM GROUPS & OUTPUT DATA               !

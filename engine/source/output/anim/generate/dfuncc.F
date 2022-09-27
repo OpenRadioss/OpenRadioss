@@ -82,12 +82,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   FUNC(*),MASS(*),X(3,*),V(3,*),W(3,*),THKE(*),EHOUR(*),GEO(NPROPG,*),
-     .   ANIM(*),PM(NPROPM,*),ERR_THK_SH4(*), ERR_THK_SH3(*),BUFMAT(*)
-      INTEGER IPARG(NPARG,*),IXC(NIXC,*),IXTG(NIXTG,*),EL2FA(*),
-     .   IXQ(NIXQ,*),IXUR(NIXUR,*),IFUNC,NBF,
-     .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,*),
-     .   IGEO(NPROPGI,*),INVERT(*), NV46
+     .   FUNC(*),MASS(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,NUMGEO),
+     .   ANIM(*),PM(NPROPM,NUMMAT),ERR_THK_SH4(*), ERR_THK_SH3(*),BUFMAT(*)
+      INTEGER IPARG(NPARG,NGROUP),IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),EL2FA(*),
+     .   IXQ(NIXQ,NUMELQ),IXUR(NIXUR,NUMELUR),IFUNC,NBF,
+     .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
+     .   IGEO(NPROPGI,NUMGEO),INVERT(*), NV46
       REAL WAL(NBF_L)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY)         :: STACK
@@ -100,10 +100,8 @@ C-----------------------------------------------
      .   EVAR(MVSIZ),DAM1(MVSIZ),DAM2(MVSIZ),
      .   WPLA(MVSIZ),DMAX(MVSIZ),WPMAX(MVSIZ),FAIL(MVSIZ),
      .   EPST1(MVSIZ),EPST2(MVSIZ),EPSF1(MVSIZ),EPSF2(MVSIZ),
-     .   SIG1(MVSIZ),SIG2(MVSIZ),SIG3(MVSIZ),XPXX(MVSIZ),XPYY(MVSIZ),
-     .   XPXY(MVSIZ),XPPXX(MVSIZ),XPPYY(MVSIZ),XPPXY(MVSIZ),
-     .   XP1(MVSIZ),XP2(MVSIZ),XPP1(MVSIZ),XPP2(MVSIZ),
-     .   PHIP(MVSIZ),PHIPP(MVSIZ),A002(MVSIZ),VALUES(MVSIZ)
+     .   SIG1(MVSIZ),SIG2(MVSIZ),SIG3(MVSIZ),
+     .   A002(MVSIZ),VALUES(MVSIZ)
       my_real
      .   OFF, P,VONM2,S1,S2,S12,S3,VALUE,VALUE1,VALUE2,DMGMX,FAC,
      .   DIR1_1,DIR1_2,DIR2_1,DIR2_2,AA,BB,V1,V2,V3,X21,X32,X34,
@@ -111,20 +109,19 @@ C-----------------------------------------------
      .   Z31,E11,E12,E13,E21,E22,E23,SUM_,AREA,X2L,VAR,RINDX,
      .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,SX,SY,SZ,
      .   VG(5),VLY(5),VE(5),DMGMX_LY,EVAR_TMP,A01,A02,A03,A12,A,
-     .   B_1,B_2,B_3,M,FF,GG,HH,NN,CRIT,AL1,AL2,AL3,AL4,AL5,AL6,AL7,AL8,
-     .   UNSA,LPP11,LPP12,LPP21,LPP22,LPP66,FF0,GG0,HH0,LL0,MM0,NN0,
-     .   S11,S22,S33,S4,S5,S6,VEL(0:3),VFRAC(MVSIZ,21),PHI,ERR,NINTY
+     .   M,FF,GG,NN,
+     .   VEL(0:3),VFRAC(MVSIZ,21),PHI,ERR,NINTY
       INTEGER I,IDX,I1,II,J,NG,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
-     .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
+     .        IR,IS,IT,IL,MLW, NUVAR,IUS,PTF,PTM,PTS,NFAIL,
      .        N,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
      .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
-     .        IIGEO,IADI,ISUBSTACK,ITHK,SWA_L,NERCVOIS(*),NESDVOIS(*),
+     .        IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
      .        LERCVOIS(*),LESDVOIS(*),ID_PLY,NB_PLYOFF,IFRAM_OLD,
      .        JJ(6),NPGT,IADBUF,NUPARAM,IMAT,NS,NRATE,EXPA,IVISC,IU(4),NFRAC
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(MVSIZ),
-     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),LENCOM,IOFF,NPT_ALL,IPLY,ITRIMAT,IPOS,
-     .        ISUBMAT,NTG, ISH_EINT, IS_ALE, IS_EULER,IPG,IPINCH
+     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),LENCOM,NPT_ALL,IPLY,ITRIMAT,IPOS,
+     .        ISUBMAT, ISH_EINT, IS_ALE, IS_EULER,IPG,IPINCH
       REAL R4
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
@@ -132,7 +129,7 @@ C-----------------------------------------------
       TYPE(BUF_FAIL_) ,POINTER :: FBUF 
       my_real,
      .  DIMENSION(:), POINTER  :: UVAR,OFFL
-      TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4  
+      TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2 
       my_real, DIMENSION(:) ,POINTER  :: UPARAM
       TARGET :: BUFMAT
       my_real TMP(3,4)
@@ -146,60 +143,18 @@ C-----------------------------------------------
       NN5  = NN4 + NUMELC
       NN6  = NN5 + NUMELTG
       NN9  = NN6 
-      IOFF = 0
       ISH_EINT = 13242 + 4*MX_PLY_ANIM + 2
+      
       !-------------------------------------------------------!
       !     INITIALIZATION IF SCHLIEREN DEFINED               !
       !-------------------------------------------------------!      
       IF(IFUNC==10672)THEN
-        NTG=0
-        IF(N2D/=0)NTG=NUMELTG
-        SWA_L = MAX(IALE,ITHERM,IEULER,IALELAG)*( NUMELS + NUMELQ + NSVOIS+ NQVOIS + NSEGFLU + NTG )
-        IF(.NOT.ALLOCATED(WA_L))ALLOCATE(WA_L(SWA_L)) ! work array for ANIM/ELEM/SCHLIEREN
-        DO NG=1,NGROUP
-          CALL INITBUF (IPARG    ,NG      ,                    
-     2            MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3            NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4            JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5            NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6            IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
-     7            ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-         IF (MLW /= 13) THEN     
-          DO OFFSET = 0,NEL-1,NVSIZ
-            NFT = IPARG(3,NG) + OFFSET
-            LFT=1
-            LLT=MIN(NVSIZ,NEL-OFFSET)
-            IALEL  = IPARG(7,NG) + IPARG(11,NG)
-            IF (IALEL==0)CYCLE
-            IF (ITY == 2 .OR.(ITY == 7.AND.N2D/=0)) THEN !QUAD
-             !SOLID ELEMENTS
-              GBUF => ELBUF_TAB(NG)%GBUF
-              WA_L(NFT+LFT:NFT+LLT) = GBUF%RHO(LFT:LLT)    
-            ENDIF
-          ENDDO
-         ENDIF!(MLW /= 13)          
-        ENDDO!next NG
-        !--------------------
-        CALL MY_BARRIER    
-        !--------------------
-        !    SPMD EXCHANGE OF ADJACENT ELEMS 
-        !--------------------
-        IF(IALE+IEULER+ITHERM /= 0)THEN            
-          LENCOM = NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
-          IF (NSPMD>1) THEN
-            ! Partie non parallele smt
-            CALL SPMD_E1VOIS(WA_L     ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2                       LESDVOIS,LENCOM  )
-            ! Fin Partie non parallele smt
-          END IF         
-          !In Case of Inter12, additional surface adjacent elems must be taken into account (3D only)
-          IOFF = 0  
-        ENDIF      
+         CALL SCHLIEREN_BUFFER_GATHERING(NERCVOIS ,NESDVOIS ,LERCVOIS ,LESDVOIS, IPARG, ELBUF_TAB, MULTI_FVM)
       ENDIF!(IFUNC==10672)
 
 C-----------------------------------------------
 
-      DO 900 NG=1,NGROUP
+      DO NG=1,NGROUP
        CALL INITBUF (IPARG    ,NG      ,                    
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,  
@@ -477,14 +432,12 @@ c----           USER VARIABLES from 6 to 60
                    CALL SCHLIEREN(
      1                   EVAR    , IXQ    , X           , V       , W       ,
      2                   IPARG   , WA_L   , ELBUF_TAB   , ALE_CONNECTIVITY   , GBUF%VOL,
-     3                   PM      , NG     , NIXQ        , IOFF    ,
-     4                   ITY)
+     3                   PM      , NG     , NIXQ        , ITY)
                  ELSEIF(ITY==7.AND.N2D/=0)THEN
                    CALL SCHLIEREN(
-     1                   EVAR    , IXTG   , X           , V       , W       ,
+     1                   EVAR    , IXTG   , X           , V                  , W       ,
      2                   IPARG   , WA_L   , ELBUF_TAB   , ALE_CONNECTIVITY   , GBUF%VOL,
-     3                   PM      , NG     , NIXTG       , IOFF    ,
-     4                   ITY)          
+     3                   PM      , NG     , NIXTG       , ITY)          
                  ENDIF 
                  DO  I=LFT,LLT 
                    FUNC(EL2FA(NN3+NFT+I)) = EVAR(I) 
@@ -1002,7 +955,6 @@ C---------------------
 C---------------------
 C
             IF (MLW == 0 .OR. MLW == 13) THEN
-              CONTINUE
 c---
             ELSEIF (IFUNC == 1 .AND. (MLW /= 15 .AND. MLW /= 25)) THEN   ! plastic strain (mid layer : npt/2 + 1) 
 ! law15 and law25 it's the plastic work instead plastic strain. it can be outp using /ANIM/ELEM/WPLA ( ifunc=4*MX_PLY_ANIM +13245)           
@@ -4175,13 +4127,11 @@ C-------------------
               ENDIF
             ENDIF  ! IFUNC
 C-----------------------------------------------
-          ELSE
-            CONTINUE
           ENDIF  ! ITY 
 C-----------------------------------------------
         END DO   !  OFFSET
        ENDIF     ! MLW /= 13
- 900  CONTINUE   ! NG 
+      ENDDO!next NG 
 C-----------------------------------------------
       IF (NSPMD == 1) THEN
         DO N=1,NBF

@@ -113,10 +113,10 @@ C-----------------------------------------------
      .        IR,IS,IT,IL,MLW, NUVAR,NFAIL,
      .        N,K,K1,K2,JTURB,
      .        OFFSET,IHBE,NPG, MPT,IPT,IADR,IPMAT,
-     .        ISUBSTACK,ITHK,SWA_L,ID_PLY,IOK,N1,N2,N3,N4,
+     .        ISUBSTACK,ITHK,ID_PLY,IOK,N1,N2,N3,N4,
      .        IMAT,IU(4),NFRAC,IPOS,ITRIMAT,NS,IAD2
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
-     .        IOFF,NPT_ALL,IPLY,
+     .        NPT_ALL,IPLY,
      .        IOK_PART(MVSIZ),JJ(5),NPGT,IUVAR,
      .        IS_WRITTEN_VALUE(MVSIZ),IV,KFACE,NB_FACE,IADBUF,NUPARAM,ISUBMAT,IS_EULER,IS_ALE,
      .        IPINCH,IPG,USER_OK,IALEL
@@ -2944,10 +2944,9 @@ C--------------------------------------------------
                  LFT=1
                  LLT=NEL                                      
                  CALL SCHLIEREN(
-     1                 EVAR    , IXTG   , X           , V             , W       ,
-     2                 IPARG   , WA_L   , ELBUF_TAB   , ALE_CONNECT   , GBUF%VOL,
-     3                 PM      , NG     , NIXTG       , IOFF    ,
-     4                 ITY) 
+     1                 EVAR  , IXTG , X         , V           , W       ,
+     2                 IPARG , WA_L , ELBUF_TAB , ALE_CONNECT , GBUF%VOL,
+     3                 PM    , NG   , NIXTG     , ITY) 
                  DO  I=1,NEL 
                    VALUE(I) = EVAR(I) 
 		   IS_WRITTEN_VALUE(I) = 1

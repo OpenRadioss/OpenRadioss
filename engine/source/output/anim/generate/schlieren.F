@@ -35,10 +35,9 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE SCHLIEREN(
-     1                     EVAR    , IX     , X           ,V       ,W, 
-     2                     IPARG   , WA_L   , ELBUF_TAB   ,ALE_CONNECTIVITY ,VOL,
-     3                     PM      , NG     , NIX         ,IOFF,
-     4                     ITYP    )
+     1                     EVAR   , IX    , X          ,V                ,W  , 
+     2                     IPARG  , WA_L  , ELBUF_TAB  ,ALE_CONNECTIVITY ,VOL,
+     3                     PM     , NG    , NIX        ,ITYP    )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -77,8 +76,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: IX(NIX,*),IPARG(NPARG,*),NIX,IOFF,NG
-      my_real :: WA_L(*),X(3,*),V(3,*),W(3,*),EVAR(*),VOL(*),PM(NPROPM,*)
+      INTEGER, INTENT(IN) :: IX(NIX,*),IPARG(NPARG,NGROUP),NIX,NG
+      my_real :: WA_L(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),EVAR(*),VOL(MVSIZ),PM(NPROPM,NUMMAT)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB            
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
 C-----------------------------------------------
@@ -91,10 +90,6 @@ C-----------------------------------------------
       INTEGER :: MAT , NC(8)
       my_real :: N(3,6,MVSIZ), RHO(6),  VALVOIS(6), AREA(MVSIZ), NX, A1, A2
       INTEGER :: IAD2, LGTH
-C-----------------------------------------------
-C   D e s c r i p t i o n
-C-----------------------------------------------
-C   This subroutine write nodal shadowgraph (schlieren)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------      

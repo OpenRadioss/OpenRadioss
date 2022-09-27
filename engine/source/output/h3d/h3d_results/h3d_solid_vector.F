@@ -35,17 +35,17 @@ Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE H3D_SOLID_VECTOR(
-     .                  ELBUF_TAB ,SOLID_VECTOR      ,IFUNC     ,IPARG       ,GEO        ,
-     .                  IXQ       ,IXS       ,IXTG      ,PM         ,
-     .                  EL2FA     ,NBF       ,IXUR      ,IADP        ,
-     .                  NBF_L     ,EHOUR     ,ANIM      ,NBPART      ,IADG       ,
-     .                  IPM       ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
-     .                  INVERT    ,X         ,V         ,W           ,
-     .                  NV46      ,NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
-     .                  STACK     ,ID_ELEM   ,ITY_ELEM  ,IPARTS      ,LAYER_INPUT ,
-     .                  IR_INPUT  ,IS_INPUT  ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
-     .                  IS_WRITTEN_SOLID,INFO1,KEYWORD  ,FANI_CELL   ,SFANI_CELL  ,
-     .                  H3D_DATA, MULTI_FVM)
+     .                  ELBUF_TAB       ,SOLID_VECTOR ,IFUNC     ,IPARG       ,GEO         ,
+     .                  IXQ             ,IXS          ,IXTG      ,PM          ,
+     .                  EL2FA           ,NBF          ,IXUR      ,IADP        ,
+     .                  NBF_L           ,EHOUR        ,ANIM      ,NBPART      ,IADG        ,
+     .                  IPM             ,IGEO         ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3 ,
+     .                  INVERT          ,X            ,V         ,W           ,
+     .                  NV46            ,NERCVOIS     ,NESDVOIS  ,LERCVOIS    ,LESDVOIS    ,
+     .                  STACK           ,ID_ELEM      ,ITY_ELEM  ,IPARTS      ,LAYER_INPUT ,
+     .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
+     .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,SFANI_CELL  ,
+     .                  H3D_DATA        ,MULTI_FVM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -82,12 +82,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   SOLID_VECTOR(3,*),X(3,*),V(3,*),W(3,*),THKE(*),EHOUR(*),GEO(NPROPG,*),
-     .   ANIM(*),PM(NPROPM,*),ERR_THK_SH4(*), ERR_THK_SH3(*)
-      INTEGER IPARG(NPARG,*),IXS(NIXS,*),IXTG(NIXTG,*),EL2FA(*),
-     .   IXQ(NIXQ,*),IXUR(NIXUR,*),IFUNC,NBF,
-     .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,*),
-     .   IGEO(NPROPGI,*),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),IPARTS(*),
+     .   SOLID_VECTOR(3,*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,NUMGEO),
+     .   ANIM(*),PM(NPROPM,NUMMAT),ERR_THK_SH4(*), ERR_THK_SH3(*)
+      INTEGER IPARG(NPARG,NGROUP),IXS(NIXS,NUMELS),IXTG(NIXTG,NUMELTG),EL2FA(*),
+     .   IXQ(NIXQ,NUMELQ),IXUR(NIXUR,NUMELUR),IFUNC,NBF,
+     .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
+     .   IGEO(NPROPGI,NUMGEO),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),IPARTS(*),
      .   H3D_PART(*),IS_WRITTEN_SOLID(*),INFO1,LAYER_INPUT,IR_INPUT,IS_INPUT,IT_INPUT,
      .   IUVAR_INPUT,SFANI_CELL
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
@@ -99,49 +99,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .   EVAR(MVSIZ),DAM1(MVSIZ),DAM2(MVSIZ),
-     .   WPLA(MVSIZ),DMAX(MVSIZ),WPMAX(MVSIZ),FAIL(MVSIZ),
-     .   EPST1(MVSIZ),EPST2(MVSIZ),EPSF1(MVSIZ),EPSF2(MVSIZ),
-     .   USER(NUMELS),VALUE(3),MASS(MVSIZ)
-      my_real
-     .   OFF, P,VONM2,S1,S2,S12,S3,DMGMX,FAC,
-     .   DIR1_1,DIR1_2,DIR2_1,DIR2_2,AA,BB,V1,V2,V3,X21,X32,X34,
-     .   X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,VR,VS,X31,Y31,
-     .   Z31,E11,E12,E13,E21,E22,E23,SUM,AREA,X2L,VAR,
-     .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,SX,SY,SZ,
-     .   VG(5),VLY(5),VE(5),S11,S22,S33,S4,S5,S6,VONM,GAMA(6),
-     .   T11,T21,T31,T12,T22,T32,T13,T23,T33,
-     .   PHI,TETA,PSI,DAMMAX,EVAR_TMP
-      INTEGER I,I1,II,J,NG,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
-     .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
-     .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
-     .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
-     .        IIGEO,IADI,ISUBSTACK,ITHK,SWA_L,NERCVOIS(*),NESDVOIS(*),
-     .        LERCVOIS(*),LESDVOIS(*),NB_PLYOFF,IUVAR,IDX,ILEN,IPOS,ITRIMAT,
-     .        IALEFVM_FLG
-      INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
-     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),LENCOM,IOFF,NPT_ALL,IPLY,
-     .        ID_ELEM_TMP(MVSIZ),NIX,ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,
-     .        IOK_PART(MVSIZ),JJ(6),IRUPT,IOK,NPG_PLANE,NUMLAY,IJK,IIR,
-     .        IS_WRITTEN_VALUE(MVSIZ)
-      REAL R4
+      my_real VALUE(3)
+      INTEGER I,NG,NEL,NPTR,NPTS,NPTT,NLAY,ILAY,IR,IS,IT,MLW,OFFSET,
+     .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IUVAR,IDX,ILEN,IPOS,
+     .        ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,IOK_PART(MVSIZ),JJ(6),IS_WRITTEN_VALUE(MVSIZ)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
       TYPE(BUF_MAT_)  ,POINTER :: MBUF      
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      TYPE(BUF_FAIL_) ,POINTER :: FBUF 
-      my_real,
-     .  DIMENSION(:), POINTER  :: UVARF,DAMF,DFMAX,TDELE
-      TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
 C-----------------------------------------------
       DO I=1,NUMELS
          IS_WRITTEN_SOLID(I) = 0
       ENDDO
 C
 c
-      DO 900 NG=1,NGROUP
+      DO NG=1,NGROUP
 
         CALL INITBUF (IPARG    ,NG      ,                    
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
@@ -183,9 +154,6 @@ C-----------------------------------------------
             TSH_ORT = 0  
             IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22) TSHELL = 1 
             IF (IGTYP==21 .OR. IGTYP==22) TSH_ORT = 1               
-c	           PID=IXS(10,1 + NFT)
-c
-
             IF (ITY == 1) OFFSET = 0
 c
             DO  I=1,NEL 
@@ -243,7 +211,7 @@ C--------------------------------------------------
          ENDIF
        ENDIF
 
- 900  CONTINUE   ! NG 
+      ENDDO!next NG
 C-----------------------------------------------
       RETURN
       END
