@@ -124,12 +124,12 @@ C-----------------------------------------------
      .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
      .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
-     .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
-     .        IIGEO,IADI,ISUBSTACK,ITHK,SWA_L,NERCVOIS(*),NESDVOIS(*),
+     .        IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
+     .        IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
      .        LERCVOIS(*),LESDVOIS(*),NB_PLYOFF,IUVAR,IDX,IPOS,ITRIMAT,
      .        IALEFVM_FLG, IMAT,IADBUF,NUPARAM
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
-     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),LENCOM,IOFF,NPT_ALL,IPLY,
+     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
      .        ID_ELEM_TMP(MVSIZ),NIX,ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,
      .        IOK_PART(MVSIZ),JJ(6),IRUPT,IOK,NPG_PLANE,NUMLAY,IJK,IIR,
      .        IS_WRITTEN_VALUE(MVSIZ),NFRAC,IU(4),IV,NB_FACE,KFACE
@@ -154,51 +154,7 @@ C
       !     INITIALIZATION IF SCHLIEREN DEFINED               !
       !-------------------------------------------------------!      
       IF(KEYWORD == 'SCHLIEREN')THEN
-        SWA_L = MAX(IALE,ITHERM,IEULER,IALELAG)*( NUMELS + NUMELQ + NSVOIS+ NQVOIS + NSEGFLU )
-        IF(.NOT.ALLOCATED(WA_L))ALLOCATE(WA_L(SWA_L)) ! work array for ANIM/ELEM/SCHLIEREN
-        DO NG=1,NGROUP
-          CALL INITBUF (IPARG	 ,NG	  ,		       
-     2        MLW     ,NEL     ,NFT	,IAD	 ,ITY	  ,  
-     3        NPT     ,JALE    ,ISMSTR  ,JEUL	 ,JTUR    ,  
-     4        JTHE    ,JLAG    ,JMULT	,JHBE	 ,JIVF    ,  
-     5        NVAUX   ,JPOR    ,JCVT	,JCLOSE  ,JPLASOL ,  
-     6        IREP    ,IINT    ,IGTYP	,ISRAT   ,ISROT   ,  
-     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-          IF (MLW /= 13) THEN	  
-            DO OFFSET = 0,NEL-1,NVSIZ
-              NFT = IPARG(3,NG) + OFFSET
-              LFT=1
-              LLT=MIN(NVSIZ,NEL-OFFSET)
-              IALEL  = IPARG(7,NG) + IPARG(11,NG)
-              IF (IALEL==0)CYCLE
-              IF (ITY == 1) THEN 
-               !SOLID ELEMENTS
-               IF (MLW == 151) THEN
-                WA_L(NFT+LFT:NFT+LLT) =  MULTI_FVM%RHO(NFT+LFT:NFT+LLT)
-               ELSE
-        	GBUF => ELBUF_TAB(NG)%GBUF
-        	WA_L(NFT+LFT:NFT+LLT) = GBUF%RHO(LFT:LLT)   
-               ENDIF 
-              ENDIF
-            ENDDO
-          ENDIF!(MLW /= 13)	     
-        ENDDO!next NG
-          !--------------------
-        CALL MY_BARRIER    
-          !--------------------
-          !    SPMD EXCHANGE OF ADJACENT ELEMS 
-          !--------------------
-        IF(IALE+IEULER+ITHERM /= 0)THEN	     
-          LENCOM = NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
-          IF (NSPMD>1) THEN
-            ! Partie non parallele smt
-            CALL SPMD_E1VOIS(WA_L     ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2      	       LESDVOIS,LENCOM  )
-            ! Fin Partie non parallele smt
-          END IF         
-          !In Case of Inter12, additional surface adjacent elems must be taken into account (3D only)
-          IOFF = 0  
-        ENDIF      
+        CALL SCHLIEREN_BUFFER_GATHERING(NERCVOIS ,NESDVOIS ,LERCVOIS ,LESDVOIS, IPARG, ELBUF_TAB, MULTI_FVM)
       ENDIF
 c
       DO 900 NG=1,NGROUP

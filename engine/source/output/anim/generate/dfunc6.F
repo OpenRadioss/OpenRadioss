@@ -87,12 +87,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   FUNC(*), MASS(*) ,PM(NPROPM,*), GEO(NPROPG,*),
-     .   EHOUR(*),ANIM(*), SPBUF(*),X(3,*),V(3,*), W(3,*),BUFMAT(*)
+     .   FUNC(*), MASS(*) ,PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),
+     .   EHOUR(*),ANIM(*), SPBUF(*),X(3,NUMNOD),V(3,NUMNOD), W(3,NUMNOD),BUFMAT(*)
       my_real, INTENT(IN) :: FANI_CELL(SFANI_CELL)
-      INTEGER IPARG(NPARG,*),EL2FA(*),IXS(NIXS,*),IFUNC,NBF,ISPH3D,
-     .        NBPART,IADG(NSPMD,*),IPM(NPROPMI,*),
-     .        IPART(LIPART1,*),IPARTSP(*),BUF,IGEO(NPROPGI,*)
+      INTEGER IPARG(NPARG,*),EL2FA(*),IXS(NIXS,NUMELS),IFUNC,NBF,ISPH3D,
+     .        NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
+     .        IPART(LIPART1,*),IPARTSP(*),BUF,IGEO(NPROPGI,NUMGEO)
       REAL  WAL(NBF)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
@@ -100,30 +100,27 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L,N, NG, NEL, ISS, ISC,
-     .        IADD,MLW,SWA_L,LENCOM,
-     .        ISTRAIN,NN, K1, K2,JTURB,MT, IMID, IALEL,IPID,IRUPT,           
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NF,
-     .        OFFSET,K,II,II_L,INC,KK, IUS, NUVAR,TSHELL,TSH_ORT,
-     .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, NLAY, IPT,
-     .        IL,IS,IR,IT, NPTG, NPTR0, NPTS0, NPTT0, ICSIG, IOR_TSH,
+      INTEGER I,J,L,N, NG, NEL, MLW, 
+     .        NN, K1, K2,JTURB,MT, IMID, IALEL,IRUPT,           
+     .        NN1,NN2,NN3,NN4,
+     .        OFFSET,K,II, IUS, NUVAR,TSHELL,TSH_ORT,
+     .        ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, NLAY, IPT,
+     .        IL,IS,IR,IT, NPTG, ICSIG,
      .        PID, NPG_PLANE,NFAIL,NUMLAY,IJK,IIR,IOFF,IALEFVM_FLG,
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
-     .        IDEB, IPOS, ITRIMAT,IVISC,JJ(6),IAD0,IFRAC,IMAT,IADBUF,
+     .        IDEB, IPOS, ITRIMAT,IVISC,JJ(6),IFRAC,IMAT,IADBUF,
      .        NUPARAM,IDX,ISUBMAT,IU(4),NFRAC,IS_ALE,IS_EULER
       my_real
      .   EVAR(MVSIZ), USER(MVSIZ),
-     .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,VALUES(MVSIZ),
-     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3,GAMA(6),
+     .   OFF, P, VONM2, VONM, S1, S2, S3, VALUE,VALUES(MVSIZ),GAMA(6),
      .   T11,T21,T31,T12,T22,T32,T13,T23,T33,
-     .   PHI,TETA,PSI,DAMMAX,M_CELL,S11,S22,S33,S4,S5,S6,EVAR_TMP,
+     .   PHI,TETA,PSI,DAMMAX,S11,S22,S33,S4,S5,S6,
      .   SIG1(MVSIZ),SIG2(MVSIZ),SIG3(MVSIZ),SIG4(MVSIZ),SIG5(MVSIZ),
      .   SIG6(MVSIZ),FF0,GG0,HH0,LL0,MM0,NN0,CRIT,VEL(0:4),VFRAC(MVSIZ,21),TMP(3,8)
       REAL R4
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF    
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
-      TYPE(FAIL_LOC_) ,POINTER :: FLOC
       my_real, 
      .   DIMENSION(:),POINTER  :: 
      .   UVARF, DAMF,DFMAX,TDELE
@@ -143,56 +140,7 @@ C-----------------------------------------------
       !     INITIALIZATION IF SCHLIEREN DEFINED               !
       !-------------------------------------------------------!      
       IF(IFUNC==4892)THEN
-        SWA_L = MAX(IALE,ITHERM,IEULER,IALELAG)*( NUMELS + NUMELQ + NSVOIS+ NQVOIS + NSEGFLU )      
-        ALLOCATE(WA_L(SWA_L)) ! work array for ANIM/ELEM/SCHLIEREN
-        DO NG=1,NGROUP
-          CALL INITBUF (
-     1            IPARG   ,NG      ,                    
-     2            MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3            NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4            JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5            NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6            IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
-     7            ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-         IF (MLW /= 13) THEN     
-          DO OFFSET = 0,NEL-1,NVSIZ
-            NFT = IPARG(3,NG) + OFFSET
-            LFT=1
-            LLT=MIN(NVSIZ,NEL-OFFSET)
-            IALEL = IPARG(7,NG) + IPARG(11,NG)
-            IF (IALEL==0)CYCLE
-            IF (ITY == 1) THEN
-             !SOLID ELEMENTS
-               IF (MLW == 151) THEN
-                WA_L(NFT+LFT:NFT+LLT) =  MULTI_FVM%RHO(NFT+LFT:NFT+LLT)
-               ELSE
-        	GBUF => ELBUF_TAB(NG)%GBUF
-        	WA_L(NFT+LFT:NFT+LLT) = GBUF%RHO(LFT:LLT)   
-               ENDIF   
-            ENDIF
-          ENDDO
-         ENDIF!(MLW /= 13)          
-        ENDDO!next NG
-        !--------------------
-        CALL MY_BARRIER    
-        !--------------------
-        !    SPMD EXCHANGE OF ADJACENT ELEMS 
-        !--------------------
-        LENCOM = NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
-        IF (NSPMD>1) THEN
-          ! Partie non parallele smt
-          CALL SPMD_E1VOIS(WA_L     ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2                     LESDVOIS,LENCOM  )
-          ! Fin Partie non parallele smt
-        END IF    
-        !In Case of Inter12, additional surface adjacent elems must beaken into account (3D only)        
-        IOFF = 0
-        IF(NSEGFLU>0)THEN
-          IOFF = NUMELS
-          IF(NSPMD>1) THEN
-            IOFF = IOFF + NSVOIS
-          ENDIF
-        ENDIF           
+        CALL SCHLIEREN_BUFFER_GATHERING(NERCVOIS ,NESDVOIS ,LERCVOIS ,LESDVOIS, IPARG, ELBUF_TAB, MULTI_FVM)
       ENDIF!(IFUNC==4892)
    
 
@@ -915,8 +863,7 @@ c-----------
                    CALL SCHLIEREN(
      1                            EVAR    ,IXS    , X          , V      ,W,
      2                            IPARG   ,WA_L   ,ELBUF_TAB   ,ALE_CONNECTIVITY   ,GBUF%VOL,
-     3                            PM      ,NG     ,NIXS        ,IOFF    ,
-     4                            ITY)
+     3                            PM      ,NG     ,NIXS        ,ITY)
                  ENDIF          
 c-----------  
               ELSEIF(IFUNC == 4893) THEN  

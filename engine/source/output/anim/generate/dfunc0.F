@@ -38,13 +38,13 @@ Chd|        INITBUF_MOD                   share/resol/initbuf.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
 Chd|====================================================================
-      SUBROUTINE DFUNC0(ELBUF_TAB ,    FUNC      ,IFUNC     ,IPARG   ,
-     2                MASS        ,    PM        ,EL2FA     ,NBF     ,
-     3                NBPART      ,    IADG      ,SPBUF     ,IPART   ,
-     4                IPARTSP     ,ALE_CONNECTIVITY,IXQ     ,
-     5                X           ,    V         ,W         ,
-     6                NERCVOIS    ,    NESDVOIS  ,LERCVOIS  ,LESDVOIS ,BUFMAT  ,
-     7                MULTI_FVM)
+      SUBROUTINE DFUNC0(ELBUF_TAB   ,    FUNC      ,IFUNC     ,IPARG   ,
+     2                  MASS        ,    PM        ,EL2FA     ,NBF     ,
+     3                  NBPART      ,    IADG      ,SPBUF     ,IPART   ,
+     4                  IPARTSP     ,ALE_CONNECTIVITY,IXQ     ,
+     5                  X           ,    V         ,W         ,
+     6                  NERCVOIS    ,    NESDVOIS  ,LERCVOIS  ,LESDVOIS ,BUFMAT  ,
+     7                  MULTI_FVM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,11 +75,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   FUNC(*), MASS(*) ,PM(NPROPM,*),SPBUF(NSPBUF,*),BUFMAT(*),X(3,*),V(3,*), W(*)
-      INTEGER IPARG(NPARG,*),EL2FA(*),IFUNC,NBF,
+      my_real FUNC(*), MASS(*) ,PM(NPROPM,NUMMAT),SPBUF(NSPBUF,*),BUFMAT(*),X(3,NUMNOD),V(3,NUMNOD), W(*)
+      INTEGER IPARG(NPARG,NGROUP),EL2FA(*),IFUNC,NBF,
      .        NBPART,IADG(NSPMD,*),IPART(LIPART1,*),IPARTSP(*),
-     .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IXQ(NIXQ,*)
+     .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IXQ(NIXQ,NUMELQ)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
@@ -88,16 +87,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .   EVAR(MVSIZ),
-     .   P, VONM2, VONM, S1, S2, S12, S3, VALUE
+     .   P, VONM2, VONM, S1, S2, S3, VALUE
       INTEGER I,II(6),N,NN,NN1,NG,NEL,JTURB,MT,MLW,IALEL,IPRT,IUS,BUF,
-     .        NUVAR,IR,NFAIL,IAD0,IALEFVM_FLG,SWA_L,OFFSET,LENCOM,IOFF
+     .        NUVAR,IR,NFAIL,IALEFVM_FLG
       REAL R4,WA(NBF)
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF 
-      TYPE(FAIL_LOC_) ,POINTER :: FLOC  
-      my_real, 
-     .   DIMENSION(:),POINTER  ::  DFMAX
+      my_real, DIMENSION(:),POINTER  ::  DFMAX
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -107,56 +104,7 @@ C-----------------------------------------------
       !     INITIALIZATION IF SCHLIEREN DEFINED               !
       !-------------------------------------------------------!      
       IF(IFUNC==4892)THEN
-        SWA_L = MAX(IALE,ITHERM,IEULER,IALELAG)*( NUMELS + NUMELQ + NSVOIS+ NQVOIS + NSEGFLU )      
-        ALLOCATE(WA_L(SWA_L)) ! work array for ANIM/ELEM/SCHLIEREN
-        DO NG=1,NGROUP
-          CALL INITBUF (
-     1            IPARG   ,NG      ,                    
-     2            MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3            NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4            JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5            NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6            IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
-     7            ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-         IF (MLW /= 13) THEN     
-          DO OFFSET = 0,NEL-1,NVSIZ
-            NFT = IPARG(3,NG) + OFFSET
-            LFT=1
-            LLT=MIN(NVSIZ,NEL-OFFSET)
-            IALEL = IPARG(7,NG) + IPARG(11,NG)
-            IF (IALEL==0)CYCLE
-            IF (ITY == 2) THEN
-             !SOLID ELEMENTS
-               IF (MLW == 151) THEN
-                WA_L(NFT+LFT:NFT+LLT) =  MULTI_FVM%RHO(NFT+LFT:NFT+LLT)
-               ELSE
-        	GBUF => ELBUF_TAB(NG)%GBUF
-        	WA_L(NFT+LFT:NFT+LLT) = GBUF%RHO(LFT:LLT)   
-               ENDIF   
-            ENDIF
-          ENDDO
-         ENDIF!(MLW /= 13)          
-        ENDDO!next NG
-        !--------------------
-        CALL MY_BARRIER    
-        !--------------------
-        !    SPMD EXCHANGE OF ADJACENT ELEMS 
-        !--------------------
-        LENCOM = NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
-        IF (NSPMD>1) THEN
-          ! Partie non parallele smt
-          CALL SPMD_E1VOIS(WA_L     ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2                     LESDVOIS,LENCOM  )
-          ! Fin Partie non parallele smt
-        END IF    
-        !In Case of Inter12, additional surface adjacent elems must beaken into account (3D only)        
-        IOFF = 0
-        IF(NSEGFLU>0)THEN
-          IOFF = NUMELS
-          IF(NSPMD>1) THEN
-            IOFF = IOFF + NSVOIS
-          ENDIF
-        ENDIF           
+        CALL SCHLIEREN_BUFFER_GATHERING(NERCVOIS ,NESDVOIS ,LERCVOIS ,LESDVOIS, IPARG, ELBUF_TAB, MULTI_FVM)
       ENDIF!(IFUNC==4892)
 
 C-----------------------------------------------
@@ -347,8 +295,7 @@ c-----------
                CALL SCHLIEREN(
      1                        EVAR    ,IXQ    ,X           ,V       ,W       ,
      2                        IPARG   ,WA_L   ,ELBUF_TAB   ,ALE_CONNECTIVITY   ,GBUF%VOL,
-     3                        PM      ,NG     ,NIXQ        ,IOFF    ,
-     4                        ITY)
+     3                        PM      ,NG     ,NIXQ        ,ITY)
              ENDIF  
              FUNC(EL2FA(NN1+NFT+1:NN1+NFT+LLT)) = EVAR(1:LLT)      
 c-----------      
