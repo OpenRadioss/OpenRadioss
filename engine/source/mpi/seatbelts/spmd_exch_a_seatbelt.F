@@ -55,8 +55,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .        A(3,*),STIFN(*),BUF_EXCH(*)
+      my_real ,INTENT(IN) :: BUF_EXCH(N_ANCHOR_REMOTE_SEND,4)
+      my_real ,INTENT(INOUT) :: A(3,NUMNOD),STIFN(NUMNOD)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -97,10 +97,10 @@ C preparation envoi  partie fixe (elem) a proc I
 #include      "vectorize.inc"
           DO J=ANCHOR_REMOTE_SEND%ADD_PROC(I),ANCHOR_REMOTE_SEND%ADD_PROC(I+1)-1
             NOD = ANCHOR_REMOTE_SEND%NODE(J)
-            SBUF(L  ) =  BUF_EXCH(NOD)
-            SBUF(L+1) =  BUF_EXCH(NOD+1)
-            SBUF(L+2) =  BUF_EXCH(NOD+2)
-            SBUF(L+3) =  BUF_EXCH(NOD+3)
+            SBUF(L  ) =  BUF_EXCH(NOD,1)
+            SBUF(L+1) =  BUF_EXCH(NOD,2)
+            SBUF(L+2) =  BUF_EXCH(NOD,3)
+            SBUF(L+3) =  BUF_EXCH(NOD,4)
             L = L + 4
           END DO
           IAD_SEND(I+1) = L
@@ -138,7 +138,7 @@ C
               A(1,NOD) = A(1,NOD) + RBUF(L)
               A(2,NOD) = A(2,NOD) + RBUF(L+1)
               A(3,NOD) = A(3,NOD) + RBUF(L+2)
-              STIFN(NOD) = STIFN(NOD) + RBUF(L+3)                  
+              STIFN(NOD) = STIFN(NOD) + RBUF(L+3)          
               L = L + 4
             END DO
 C ---
