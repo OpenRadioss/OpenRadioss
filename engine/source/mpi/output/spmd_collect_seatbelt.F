@@ -114,7 +114,7 @@ C
         DO N = 1, NSLIPRING
           SBUF(K+1) = SLIPRING(N)%IDG
           K = K + 1
-          FAC = ONE/SLIPRING(K)%NFRAM
+          FAC = ONE/SLIPRING(N)%NFRAM
           DO L = 1,SLIPRING(N)%NFRAM
 C--         IF NFRAM > 1 - RINGLSIP and BETA are average of the 1d sliprings - FORCE is the sum - GAMMA = ZERO
             SBUF(K+1) = SBUF(K+1) + FAC*SLIPRING(N)%FRAM(L)%RINGSLIP
