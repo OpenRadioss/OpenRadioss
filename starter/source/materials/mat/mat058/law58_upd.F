@@ -64,8 +64,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,FUNC,FUND,UNLOAD,PN,IOK,ISENS,TEST
-      my_real KC,KT,KFC,KFT,GMAX,DERI,STIFF,STIFFMIN,STIFFINI,GFROT,GSH, 
-     .  STIFFMAX,STIFFAVG,XINT1,YINT1,XINT2,YINT2,FAC,FAC1,FAC2 
+      my_real KC,KT,KCMAX,KTMAX,KFC,KFT,GMAX,DERI,STIFF,STIFFMIN,STIFFINI,
+     .  STIFFMAX,STIFFAVG,XINT1,YINT1,XINT2,YINT2,FAC,FAC1,FAC2,GFROT,GSH
 C=======================================================================
 c     Transform FUNC_ID ->  Function number , leakmat only
 c     NFUNL = IPM(6)     :  LEAK_MAT functions
@@ -92,6 +92,8 @@ c---------------------------------------------------------------
       KT   = ZERO
       KFC  = ZERO
       KFT  = ZERO
+      KCMAX= ZERO
+      KTMAX= ZERO
       GMAX = ZERO
 c
 c     fiber stiffness dir1 (load) 
@@ -110,8 +112,9 @@ c
      .             I2=FUNC_ID(1),
      .             C1=TITR)
         ENDIF
-        KC  = MAX(KC,STIFFMAX)
-        KFC = MAX(KFC,STIFFINI)
+        KC    = MAX(KC ,STIFFMAX)
+        KFC   = MAX(KFC,STIFFINI)
+        KCMAX = KC
         UPARAM(40) = STIFFINI
 c        
       ENDIF
@@ -131,8 +134,9 @@ c
      .             I2=FUNC_ID(2),
      .             C1=TITR)
         ENDIF
-        KT  = MAX(KT,STIFFMAX)
-        KFT = MAX(KFT,STIFFINI)
+        KT    = MAX(KT ,STIFFMAX)
+        KFT   = MAX(KFT,STIFFINI)
+        KTMAX = KT
         UPARAM(41) = STIFFINI
       ENDIF
 c
@@ -171,7 +175,7 @@ c
         IF (FUNC > 0 )THEN                                                         
           FAC  = UPARAM(33)                                                     
           CALL FUNC_SLOPE(FUNC,FAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)    
-          KC = MAX(KC,STIFFMAX)                                          
+          KCMAX = MAX(KCMAX,STIFFMAX)                                          
 c
           IF (STIFFMIN <= ZERO) THEN
             CALL ANCMSG(MSGID=1581 ,
@@ -189,7 +193,7 @@ c
         IF (FUNC > 0 )THEN                                                         
           FAC  = UPARAM(34)                                                     
           CALL FUNC_SLOPE(FUNC,FAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)    
-          KT = MAX(KT,STIFFMAX)                                          
+          KTMAX = MAX(KTMAX,STIFFMAX)                                          
 c
           IF (STIFFMIN <= ZERO) THEN
             CALL ANCMSG(MSGID=1582 ,
@@ -207,7 +211,7 @@ c
         IF (FUNC > 0 )THEN                                                       
           FAC = UPARAM(42)
           CALL FUNC_SLOPE(FUNC,FAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)  
-          GMAX = MAX(GMAX,STIFFMAX)
+          ! GMAX = MAX(GMAX,STIFFMAX)
 c
           IF (STIFFMIN <= ZERO) THEN
             CALL ANCMSG(MSGID=1583 ,
@@ -312,28 +316,23 @@ c
 c-----------
       ENDIF  ! UNLOAD
 c-----------
-      IF (KC > ZERO)   KC   = KC * TWO      !  2 * max slope dir1
-      IF (KT > ZERO)   KT   = KT * TWO      !  2 * max slope dir2
-      IF (GMAX > ZERO) GMAX = GMAX * TWO    !  2 * max slope shear
-      KC   = MAX(UPARAM(9) , KC)
-      KT   = MAX(UPARAM(10), KT)
-      GMAX = MAX(UPARAM(14), GMAX)
-      UPARAM(9)  = KC
-      UPARAM(10) = KT
+      KC   = MAX(UPARAM(9) , KC)     !  max loading slope dir1
+      KT   = MAX(UPARAM(10), KT)     !  max loading slope dir2
+      GMAX = MAX(UPARAM(14), GMAX)   !  max loading slope shear
+      UPARAM(9)  = KC                
+      UPARAM(10) = KT                
       UPARAM(14) = GMAX
-      IF (KFC == ZERO) KFC = KC
-      IF (KFT == ZERO) KFT = KT
+c
+c      IF (KFC == ZERO) KFC = KC
+c      IF (KFT == ZERO) KFT = KT
 c      UPARAM(11) = UPARAM(26)*KFC
 c      UPARAM(12) = UPARAM(27)*KFT
+c      STIFF = MAX(KCMAX,KTMAX)!  max loading & unloading stiffness
 c
-c      STIFF = KC + KT + GMAX
-      STIFF = MAX(KC,KT)
-c
-      PM(20) = STIFF
-      PM(21) = ZERO           ! NU
-      PM(22) = STIFF*HALF   ! GMAX
-      PM(24) = STIFF
-      PM(32) = STIFF/THREE
+      STIFF  = MAX(KC,KT)      ! max loading stiffness
+      PM(20) = STIFF           ! Interface stiffness
+      PM(24) = STIFF           ! Material constant stiffness for time step
+      PM(21) = ZERO            ! NU
 c-----------
       RETURN
       END
