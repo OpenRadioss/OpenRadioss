@@ -25,10 +25,8 @@ Chd|  DFUNC0                        source/output/anim/generate/dfunc0.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SCHLIEREN                     source/output/anim/generate/schlieren.F
-Chd|        SPMD_E1VOIS                   source/mpi/fluid/spmd_cfd.F   
+Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
 Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
 Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
 Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F

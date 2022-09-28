@@ -116,6 +116,7 @@ Chd|        RGWAT3                        source/interfaces/int09/rgwat3.F
 Chd|        S4ALESFEM                     source/elements/solid/solide4_sfem/s4alesfem.F
 Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4lagsfem.F
 Chd|        SCHLIEREN                     source/output/anim/generate/schlieren.F
+Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
 Chd|        SEGGETV                       source/interfaces/interf/seggetv.F
 Chd|        SIGEPS37_SINGLE_CELL          source/interfaces/int22/sigeps37_single_cell.F
 Chd|        SINIT22_FVM                   source/interfaces/int22/sinit22_fvm.F
@@ -168,7 +169,6 @@ Chd|        ALEMAIN                       source/ale/alemain.F
 Chd|        AREZON                        source/ale/arezon.F           
 Chd|        ATHERM                        source/ale/atherm.F           
 Chd|        CUTFUNCE                      source/tools/sect/cutfunc.F   
-Chd|        DFUNC0                        source/output/anim/generate/dfunc0.F
 Chd|        DFUNCC                        source/output/anim/generate/dfuncc.F
 Chd|        DFUNCC_CRK                    source/output/anim/generate/dfuncc_crk.F
 Chd|        DFUNCC_PLY                    source/output/anim/generate/dfuncc_ply.F
@@ -184,7 +184,6 @@ Chd|        GET_NODAL_IPART               source/output/h3d/h3d_results/h3d_skin
 Chd|        GPSSTRAIN_SKIN                source/output/anim/generate/tensgpstrain.F
 Chd|        H3D_QUAD_SCALAR               source/output/h3d/h3d_results/h3d_quad_scalar.F
 Chd|        H3D_QUAD_VECTOR               source/output/h3d/h3d_results/h3d_quad_vector.F
-Chd|        H3D_SHELL_SCALAR              source/output/h3d/h3d_results/h3d_shell_scalar.F
 Chd|        H3D_SHELL_SCALAR_1            source/output/h3d/h3d_results/h3d_shell_scalar_1.F
 Chd|        H3D_SHELL_VECTOR_1            source/output/h3d/h3d_results/h3d_shell_vector_1.F
 Chd|        H3D_SKIN_IXSKIN               source/output/h3d/h3d_results/h3d_skin_ixskin.F
@@ -193,7 +192,6 @@ Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin
 Chd|        H3D_SKIN_SOL_DIM              source/output/h3d/h3d_results/h3d_skin_ixskin.F
 Chd|        H3D_SKIN_TENSOR               source/output/h3d/h3d_results/h3d_skin_tensor.F
 Chd|        H3D_SKIN_TSH_DIM              source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        H3D_SOLID_SCALAR              source/output/h3d/h3d_results/h3d_solid_scalar.F
 Chd|        H3D_SOLID_SCALAR_1            source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 Chd|        H3D_SOLID_TENSOR_1            source/output/h3d/h3d_results/h3d_solid_tensor_1.F
 Chd|        H3D_SOLID_VECTOR              source/output/h3d/h3d_results/h3d_solid_vector.F
@@ -220,6 +218,7 @@ Chd|        RGWAT2                        source/interfaces/int09/rgwat2.F
 Chd|        RGWAT3                        source/interfaces/int09/rgwat3.F
 Chd|        S4ALESFEM                     source/elements/solid/solide4_sfem/s4alesfem.F
 Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4lagsfem.F
+Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
 Chd|        SEGGETV                       source/interfaces/interf/seggetv.F
 Chd|        SINIT22_FVM                   source/interfaces/int22/sinit22_fvm.F
 Chd|        SOLTOSPHP                     source/elements/sph/soltosph.F

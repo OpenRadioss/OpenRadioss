@@ -181,6 +181,7 @@ Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
 Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
+Chd|        SCHLIEREN_BUFFER_GATHERING    engine/source/output/anim/generate/schlieren_buffer_gathering.F
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
 Chd|        SPMD_CELL_EXCHANGE            engine/source/mpi/generic/spmd_cell_exchange.F
 Chd|        SPMD_COLLECT_MULTI_FVM        engine/source/mpi/output/spmd_collect_multi_fvm.F

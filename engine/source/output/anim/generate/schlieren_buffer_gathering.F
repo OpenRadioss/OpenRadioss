@@ -21,9 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  SCHLIEREN_BUFFER_GATHERING      source/output/anim/generate/schlieren_gathering.F
+Chd|  SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
 Chd|-- called by -----------
+Chd|        DFUNC0                        source/output/anim/generate/dfunc0.F
+Chd|        DFUNCC                        source/output/anim/generate/dfuncc.F
+Chd|        DFUNCS                        source/output/anim/generate/dfunc6.F
+Chd|        H3D_QUAD_SCALAR               source/output/h3d/h3d_results/h3d_quad_scalar.F
+Chd|        H3D_SHELL_SCALAR              source/output/h3d/h3d_results/h3d_shell_scalar.F
+Chd|        H3D_SOLID_SCALAR              source/output/h3d/h3d_results/h3d_solid_scalar.F
 Chd|-- calls ---------------
+Chd|        INITBUF                       share/resol/initbuf.F         
+Chd|        SPMD_E1VOIS                   source/mpi/fluid/spmd_cfd.F   
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        INITBUF_MOD                   share/resol/initbuf.F         
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
 Chd|====================================================================
       SUBROUTINE SCHLIEREN_BUFFER_GATHERING(
      1                     NERCVOIS , NESDVOIS  ,LERCVOIS   ,LESDVOIS ,

@@ -395,14 +395,9 @@ Chd|        ALE51_GRADIENT_RECONSTRUCTION source/ale/alemuscl/ale51_gradient_rec
 Chd|        ALE51_GRADIENT_RECONSTRUCTION2source/ale/alemuscl/ale51_gradient_reconstruction2.F
 Chd|        ALEW6                         source/ale/grid/alew6.F       
 Chd|        AREZON                        source/ale/arezon.F           
-Chd|        DFUNC0                        source/output/anim/generate/dfunc0.F
-Chd|        DFUNCC                        source/output/anim/generate/dfuncc.F
-Chd|        DFUNCS                        source/output/anim/generate/dfunc6.F
-Chd|        H3D_QUAD_SCALAR               source/output/h3d/h3d_results/h3d_quad_scalar.F
-Chd|        H3D_SHELL_SCALAR              source/output/h3d/h3d_results/h3d_shell_scalar.F
-Chd|        H3D_SOLID_SCALAR              source/output/h3d/h3d_results/h3d_solid_scalar.F
 Chd|        MULTI_TIMEEVOLUTION           source/multifluid/multi_timeevolution.F
 Chd|        PRELECFLOW                    source/elements/solid/solide/prelecflow.F
+Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
 Chd|-- calls ---------------
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         

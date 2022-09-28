@@ -40,6 +40,7 @@ Chd|        H3D_SOLID_TENSOR_1            source/output/h3d/h3d_results/h3d_soli
 Chd|        H3D_SOLID_VECTOR              source/output/h3d/h3d_results/h3d_solid_vector.F
 Chd|        H3D_SPH_SCALAR                source/output/h3d/h3d_results/h3d_sph_scalar.F
 Chd|        H3D_SPH_TENSOR                source/output/h3d/h3d_results/h3d_sph_tensor.F
+Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE SCHLIEREN_MOD

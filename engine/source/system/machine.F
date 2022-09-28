@@ -79,9 +79,6 @@ Chd|        CHKLOAD                       source/interfaces/chkload.F
 Chd|        CHKMSR3N                      source/interfaces/interf/chkstfn3.F
 Chd|        CHKMSR3NB                     source/interfaces/interf/chkstfn3.F
 Chd|        CNDINT                        source/model/remesh/cndint.F  
-Chd|        DFUNC0                        source/output/anim/generate/dfunc0.F
-Chd|        DFUNCC                        source/output/anim/generate/dfuncc.F
-Chd|        DFUNCS                        source/output/anim/generate/dfunc6.F
 Chd|        DYNA_IVFAC                    source/implicit/imp_dyna.F    
 Chd|        EFLUX3_INT22_FVM              source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
 Chd|        ERR_THK                       source/elements/shell/err_thk.F
@@ -89,9 +86,6 @@ Chd|        FORINT                        source/elements/forint.F
 Chd|        FORINTP                       source/elements/forintp.F     
 Chd|        GRAVIT                        source/loads/general/grav/gravit.F
 Chd|        GRAVIT_FVM_FEM                source/loads/general/grav/gravit_fvm_fem.F
-Chd|        H3D_QUAD_SCALAR               source/output/h3d/h3d_results/h3d_quad_scalar.F
-Chd|        H3D_SHELL_SCALAR              source/output/h3d/h3d_results/h3d_shell_scalar.F
-Chd|        H3D_SOLID_SCALAR              source/output/h3d/h3d_results/h3d_solid_scalar.F
 Chd|        I10MAIN_TRI                   source/interfaces/intsort/i10main_tri.F
 Chd|        I11BUCE_VOX                   source/interfaces/intsort/i11buce.F
 Chd|        I11MAIN_TRI                   source/interfaces/intsort/i11main_tri.F
