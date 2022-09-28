@@ -504,10 +504,17 @@ C
           IF (SLIPRING_STRAND(I) > 0) THEN
             COMPT = COMPT + 1
             INDEX2(COMPT) = I
+            IF (SLIPRING(SLIPRING_ID(I))%NFRAM > 1) THEN
+              YC(I) = 0.1*XC(I)
+              ZC(I) = 0.1*XC(I)
+              YK(I) = 0.01*XK(I)
+              ZK(I) = 0.01*XK(I) 
+            ELSE
+              YC(I) = ZERO
+              ZC(I) = ZERO             
+            ENDIF
 C-          No damping in slipring
             XC(I) = ZERO
-            YC(I) = ZERO
-            ZC(I) = ZERO
             XCM(I)= MAX(XC(I),YC(I),ZC(I))+XH(I)
             XK_COMP(I) = XK(I)
             FX_MAX(I) = EP20
@@ -839,7 +846,7 @@ C---------------------
         HX(I) =  UPARAM(IADBUF + I14 + 4)
         HY(I) =  UPARAM(IADBUF + I14 + 5)
         HZ(I) =  UPARAM(IADBUF + I14 + 6)
-
+C
         XHR(I)= MAX(HX(I),HY(I),HZ(I))
 
         XKR(I)= MAX(XK(I)*UPARAM(IADBUF + I1 + 4),
