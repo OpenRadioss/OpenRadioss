@@ -1446,8 +1446,8 @@ C
      .              + MAX(UPARAM(IADBUF + K11 + 4)*UPARAM(IADBUF + K1 + 4),
      .                   UPARAM(IADBUF + K11 + 5)*UPARAM(IADBUF + K1 + 5),
      .                   UPARAM(IADBUF + K11 + 6)*UPARAM(IADBUF + K1 + 6)))/XL(I)
-              XCR= (XCR+MAX(UPARAM(IAD + K12 + 1),UPARAM(IADBUF + K12 + 2),UPARAM(IADBUF + K12 + 3))
-     .            +     MAX(UPARAM(IAD + K14 + 4),UPARAM(IADBUF + K14 + 5),UPARAM(IADBUF + K14 + 6)) )/XL(I)
+              XCR= (XCR+MAX(UPARAM(IADBUF+K12 + 1),UPARAM(IADBUF+ K12 + 2),UPARAM(IADBUF+ K12 + 3))
+     .            +     MAX(UPARAM(IADBUF+K14 + 4),UPARAM(IADBUF+ K14 + 5),UPARAM(IADBUF+ K14 + 6)) )/XL(I)
 C-
               IF (UPARAM(IADBUF + 127) > ZERO) THEN
 C-              1D material of 2D seatbelt - element mass and inertia recomputed for elementary time step

@@ -173,31 +173,34 @@ c-----------------------------------------
       UPARAM(2)  = E22
       UPARAM(3)  = N12
       UPARAM(6)  = G12  
+      UPARAM(7)  = ZERO      ! A11 - calculated by seatbelt
+      UPARAM(8)  = ZERO      ! A22 - calculated by seatbelt
+      UPARAM(9)  = ZERO      ! A12 - calculated by seatbelt
       UPARAM(10) = RCOMP                          
       UPARAM(11) = FSCALE1                           
       UPARAM(12) = FSCALE2  
       UPARAM(13) = FSCALET
-      UPARAM(14) = A1C
-      UPARAM(15) = A2C
-      UPARAM(16) = TCOAT
-      UPARAM(18) = ZERO  ! Xint
-      UPARAM(19) = ZERO  ! Yint
+      UPARAM(14) = A1C       ! coating
+      UPARAM(15) = A2C       ! coating
+      UPARAM(16) = TCOAT     ! coating
+      UPARAM(18) = ZERO      ! Xint
+      UPARAM(19) = ZERO      ! Yint
       UPARAM(20) = GC
       UPARAM(21) = IRELOAD
 c
-      NUPARAM = 21
-      NUVAR   = 7
+      NUPARAM = 22
+      NUVAR   = 10
       NUMTABL = 2
 c
       ITABLE(1) = FUNC1                
       ITABLE(2) = FUNC2                
 c --------------------------
 C--   Values of C1,E11,E22 and N21 are computed in create_seatbelt.F when section is available
-C     PARMAT(1)  = C1
-C     PARMAT(2)  = MAX(E11,E22)
-C     PARMAT(3)  = SQRT(N12*N21)
-      PARMAT(4)  = ISRATE
-      PARMAT(5)  = ZERO ! FCUT
+C     PARMAT(1) = C1
+C     PARMAT(2) = MAX(E11,E22)
+C     PARMAT(3) = SQRT(N12*N21)
+      PARMAT(4) = ISRATE
+      PARMAT(5) = ZERO ! FCUT
 c
 c---- Definition of internal variables variables for seatbelts
 c

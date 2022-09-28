@@ -116,7 +116,8 @@ c
           UPARAM(19) = YINT
         END IF
 C
-        UPARAM(1) = KMAX                 ! E11
+        UPARAM(1)  = KINI ! E11
+        UPARAM(22) = KMAX             
 C       other material parameters are recomputed in create_seatbelt when section is available
 C  
       END IF      

@@ -36,8 +36,7 @@ Chd|====================================================================
      .            IQEPH   ,ZCFAC   ,DEPSXX  ,DEPSYY  ,DEPSXY  ,
      .            EPSXX   ,EPSYY   ,EPSXY   ,EPSYZ   ,EPSZX   ,
      .            SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
-     .            SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     .            FACTOR)
+     .            SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,7 +66,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)  :: UPARAM
       my_real ,DIMENSION(NEL) ,INTENT(IN) ::  SHF,THKLYL,OFF,
      .   DEPSXX,DEPSYY,DEPSXY,EPSXX,EPSYY,EPSXY,EPSYZ,EPSZX,
-     .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,FACTOR
+     .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
       my_real ,DIMENSION(NEL) ,INTENT(OUT) ::
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,SSP
       my_real, DIMENSION(NEL), INTENT(INOUT) :: THK
@@ -76,9 +75,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I
-      my_real :: NU,G12,GS,GC,A1C,A2C,TCOAT,THFAC,DEZZ
-      my_real ,DIMENSION(NEL) :: ET
+      INTEGER :: I, ICOAT
+      my_real :: NU,G12,GS,GC,A1C,A2C,TCOAT,DEZZ
+      my_real ,DIMENSION(NEL) :: ET,THFAC
 C=======================================================================
       NU      = UPARAM(5)
       G12     = UPARAM(6)
@@ -88,51 +87,37 @@ C=======================================================================
       SSP     = UPARAM(17)
       GC      = UPARAM(20)
       GS      = G12*SHF(1)
+      ICOAT   = 0
+      IF (A1C > ZERO .and. NPT == 3 .and. (IPT == 1 .or.  IPT == NPT)) ICOAT = 1
 c-------------------------------------------------------------------------
-      IF (A1C > ZERO) THEN
-        IF (IPT == 1 .or. IPT == NPT) THEN ! external coating
-          DO I=1,NEL
-            THFAC = TCOAT / THK(I)
-            SIGNXX(I) = (A1C*EPSXX(I) + A2C*EPSYY(I))*THFAC
-            SIGNYY(I) = (A2C*EPSXX(I) + A1C*EPSYY(I))*THFAC
-            SIGNXY(I) = GC*EPSXY(I)*THFAC
-            SIGNYZ(I) = GC*EPSYZ(I)*THFAC*SHF(1)
-            SIGNZX(I) = GC*EPSZX(I)*THFAC*SHF(1)
-          END DO
+      IF (ICOAT == 1) THEN ! external coating
+        IF (TCOAT == ZERO) THEN
+          THFAC(1:NEL) = ONE
         ELSE
-          SIGNXX(1:NEL) = ZERO
-          SIGNYY(1:NEL) = ZERO
-          SIGNXY(1:NEL) = ZERO
-          SIGNYZ(1:NEL) = ZERO
-          SIGNZX(1:NEL) = ZERO
+          THFAC(1:NEL) = TCOAT / THKLYL(1:NEL)
         END IF
-c
-      ELSE  ! fabric membrane
-c
+        DO I=1,NEL
+          SIGNXX(I) = (A1C*EPSXX(I) + A2C*EPSYY(I))*THFAC(I)
+          SIGNYY(I) = (A2C*EPSXX(I) + A1C*EPSYY(I))*THFAC(I)
+          SIGNXY(I) = GC*EPSXY(I)*THFAC(I)
+          SIGNYZ(I) = GC*EPSYZ(I)*THFAC(I)*SHF(1)
+          SIGNZX(I) = GC*EPSZX(I)*THFAC(I)*SHF(1)
+        END DO
+      ELSE
         CALL LAW119_MEMBRANE(
-     .            NEL    ,NUPARAM,NUVAR  ,UPARAM ,UVAR   ,
-     .            GS     ,ET     ,DEPSXX ,DEPSYY ,DEPSXY ,
-     .            EPSXX  ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX  ,
-     .            SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,
-     .            SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX ,
-     .            NUMTABL,ITABLE ,TABLE  )
+     .       NEL    ,NUPARAM,NUVAR  ,UPARAM ,UVAR   ,
+     .       GS     ,ET     ,DEPSXX ,DEPSYY ,DEPSXY ,
+     .       EPSXX  ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX  ,
+     .       SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,
+     .       SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX ,
+     .       NUMTABL,ITABLE ,TABLE  )
+      END IF
 c------------------------------------            
 c       thickness update:
 c------------------------------------            
-        DO I=1,NEL
-          DEZZ = -(DEPSXX(I)+DEPSYY(I))*NU/(ONE-NU)
-          THK(I) = THK(I) + DEZZ * THKLYL(I)*OFF(I)
-        ENDDO
-c
-      END IF
-C
-C-----Scale of stress when close of slipring
       DO I=1,NEL
-        SIGNXX(I) = SIGNXX(I)*FACTOR(I)
-        SIGNYY(I) = SIGNYY(I)*FACTOR(I)
-        SIGNXY(I) = SIGNXY(I)*FACTOR(I)
-        SIGNYZ(I) = SIGNYZ(I)*FACTOR(I)
-        SIGNZX(I) = SIGNZX(I)*FACTOR(I)
+        DEZZ = -(DEPSXX(I)+DEPSYY(I))*NU/(ONE-NU)
+        THK(I) = THK(I) + DEZZ * THKLYL(I)*OFF(I)
       ENDDO
 C
 C------for QEPH-------       

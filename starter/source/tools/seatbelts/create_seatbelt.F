@@ -70,7 +70,7 @@ C-----------------------------------------------
      .        NB_2D_SEATBELT,COMPT_BELT_END,COMPT_FRAM,NEXT_NODE,NODE_CUR,COMPT_2D,MID_2D,NODE_LONGI,
      .        IADBUF_2D,FUNC1,FUNC2,ISK,N1,N2,SEATBELT_ELEM_FOUND,IMOV
       my_real DIST2,LMIN,RHO,XK,XC,AREA,LONGI_DIRECTION(3),EDGE_DIRECTION(3),SCAL,E11,E22,G12,DET,
-     .        N12,N21,NU,FSCALE1,FSCALE2,A11,A22,A12,C1,SSP,RHO0,YOUNG,FSCALET
+     .        N12,N21,NU,FSCALE1,FSCALE2,A11,A22,A12,C1,SSP,RHO0,FSCALET,KMAX
 C
       INTEGER , DIMENSION(:), ALLOCATABLE:: TAG_RES,TAG_SHELL,TAG_NOD,CC_ELEM,CPT_MAT,TAG_MAT_2D,
      .                                      TAG_NOD_SHELL,TAG_NOD_SPRING,FRAM_TAB,TAG_FRAM_SEATBELT,
@@ -624,8 +624,10 @@ C--         E11 = K/S
             N12 = BUFMAT(IADBUF+2)
             IF (FUNC1 == 0) THEN
               N21 = N12*E22/E11
+              KMAX = MAX(E11,E22)
             ELSE
               N21 = N12*FSCALET
+              KMAX = MAX(ONE,FSCALET)*BUFMAT(IADBUF+21)/SECTION_MAT(MID)
             ENDIF
             NU  = SQRT(N12*N21)
             G12 = BUFMAT(IADBUF+5)
@@ -634,7 +636,7 @@ C--         E11 = K/S
             A11 = E11 * DET
             A22 = E22 * DET
             A12 = A11 * N21
-            C1  = MAX(E11,E22) * DET
+            C1  = KMAX * DET
             SSP = SQRT(C1/RHO0)
             IF(DET<=ZERO) THEN
               CALL ANCMSG(MSGID=307,
@@ -660,11 +662,10 @@ C--         update of UPARAM
 C--         update of PM
             PM(1,MID)=RHO0
             PM(89,MID)=RHO0
-            YOUNG = MAX(E11,E22)
-            PM(20,MID) = YOUNG/(ONE - NU**2)
+            PM(20,MID) = KMAX/(ONE - NU**2)
             PM(21,MID) = NU
-            PM(22,MID) = HALF*YOUNG/(ONE + NU)
-            PM(24,MID) = YOUNG/(ONE - NU**2)
+            PM(22,MID) = HALF*KMAX/(ONE + NU)
+            PM(24,MID) = KMAX/(ONE - NU**2)
             PM(32,MID) = C1
 C--         Need to be store in PM for hourglass forces computation
             PM(33,MID) = E11
