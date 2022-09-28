@@ -1116,13 +1116,17 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       IF (ILOOP==1) THEN
          IF (NPOLH==1) THEN
-            WRITE(IOUT,'(A,I10)') ' ** MONVOL ID ',ID
-            WRITE(IOUT,'(A)')'  ONLY ONE FINITE VOLUME REMAIN - EXITING'
+            IF (ILVOUT >= 1) THEN
+               WRITE(IOUT,'(A,I10)') ' ** MONVOL ID ',ID
+               WRITE(IOUT,'(A)')'  ONLY ONE FINITE VOLUME REMAIN - EXITING'
+            ENDIF
             GOTO 300      
          ELSE
-            WRITE(IOUT,'(A,I10,2A,I10)') ' ** MONVOL ID ',ID,
-     .                         ' FINITE VOLUME MESH UPDATE - LOOPING -',
-     .                         ' NUMBER OF FINITE VOLUMES : ',NPOLH
+            IF (ILVOUT >= 1) THEN
+               WRITE(IOUT,'(A,I10,2A,I10)') ' ** MONVOL ID ',ID,
+     .              ' FINITE VOLUME MESH UPDATE - LOOPING -',
+     .              ' NUMBER OF FINITE VOLUMES : ',NPOLH
+            ENDIF
          ENDIF
          GOTO 100
       ENDIF
