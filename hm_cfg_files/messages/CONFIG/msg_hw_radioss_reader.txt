@@ -279,4 +279,10 @@ duplicate %s id %d
 ** WARNING IN LS-DYNA IMPORT
 /MESSAGE/200027/DESCRIPTION
 %s (id: %u, name: %s) : First LCID function of *DEFINE_TABLE is used
+
+/MESSAGE/200028/TITLE
+** WARNING IN LS-DYNA IMPORT
+/MESSAGE/200028/DESCRIPTION
+%s (id: %u, name: %s) : The Mullins effect is not take into account
+
 #------------------------------------------------------------------------------
