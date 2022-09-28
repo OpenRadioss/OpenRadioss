@@ -294,8 +294,6 @@ C======================================================================|
       IJ4 = IJ(4) + 1
       IJ5 = IJ(5) + 1
 C      
-!
-C      
       IPT_ALL = 0
       NPTTOT  = 0
 !       need to check the value of ILAW for the array initializations because MTN/=ILAW
@@ -488,8 +486,7 @@ c
         DO I=1,NFUNC
           IFUNC(I)=IPM(10+I,IMAT)
         ENDDO  
-
-
+c
 !       check if EPSP arraies are used or not
 !       EPSP is not used for law : 2/25/32/42/58/63/63/64/69/71/72/76/78/80/82/85/96 --> FLAG_EPSP=.FALSE.
 !       EPSP is used for the other laws   
@@ -1259,21 +1256,18 @@ C
      D        VARNL(1,IT))
           ELSEIF (ILAW == 58) THEN
            CALL SIGEPS58C(
-     1        JLT     ,NUPARAM ,NUVAR   ,NFUNC    ,IFUNC  , 
-     2        NPF     ,NPT     ,IPT     ,IFLAG    ,          
-     2        TF      ,TT      ,DT1C    ,UPARAM   ,RHO    ,  
-     3        AREA    ,EINT    ,THKLYL  ,                    
-     4        EPSPXX  ,EPSPYY  ,EPSPXY  ,EPSPYZ   ,EPSPZX  ,  
+     1        JLT     ,NUPARAM ,NUVAR   ,NFUNC    ,IFUNC   , 
+     2        NPF     ,TF      ,NPT     ,ALDT     ,GBUF%OFF,       
+     3        TT      ,DT1     ,UPARAM  ,UVAR     ,RHO     ,  
+     4        AREA    ,THKLYL  ,OFF     ,NGL      ,ETSE    ,                    
      5        DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ   ,DEPSZX  ,  
      6        EPSXX   ,EPSYY   ,EPSXY   ,EPSYZ    ,EPSZX   ,  
      7        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),  
      8        SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ   ,SIGNZX  ,  
-     9        SIGVXX  ,SIGVYY  ,SIGVXY  ,SIGVYZ   ,SIGVZX  ,  
-     A        SSP     ,VISCMX  ,THKN    ,LBUF%PLA ,UVAR    ,
-     B        OFF     ,NGL     ,PM      ,MATLY(JMLY),ETSE  ,
-     C        SHF     ,SIGY    ,EPSPL   ,LBUF%ANG ,
-     D        ALDT    ,LSENSOR ,SENSOR  ,ISMSTR   ,TABLE  ,
-     E        GBUF%OFF)
+     9        SIGVXX  ,SIGVYY  ,SIGVXY  ,SSP      ,VISCMX  ,
+     A        SHF     ,SIGY    ,LBUF%ANG ,LSENSOR ,SENSOR  )
+             
+c
           ELSEIF (ILAW == 60) THEN
            IF (IGTYP /= 10.AND.IGTYP /= 11 .AND.IGTYP /= 17) THEN
             CALL SIGEPS60C(
@@ -2642,18 +2636,12 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NEL
 C     REAL
       my_real
      .   SIGXX(*),SIGYY(*),SIGXY(*),SIGYX(*), DIR(NEL,2)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -259,8 +259,8 @@ c
       IF (GFROT == ZERO .and. ILOAD == 0) GFROT = G0
       IF (GSH   == ZERO .and. ILOAD == 0) GSH   = G0
 c-----------------------------------------------------------------------
-      NUVAR   = 39+1     
-      NUPARAM = 46 !4pts pour l intersection +flag+PR SHEAR
+      NUVAR   = 40   
+      NUPARAM = 46 ! 4pts pour l intersection +flag+PR SHEAR
 c-----------------------------------------------------------------------
       UPARAM(1:NUPARAM) = ZERO
 c
