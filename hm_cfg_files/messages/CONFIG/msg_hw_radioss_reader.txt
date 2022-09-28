@@ -283,6 +283,6 @@ duplicate %s id %d
 /MESSAGE/200028/TITLE
 ** WARNING IN LS-DYNA IMPORT
 /MESSAGE/200028/DESCRIPTION
-%s (id: %u, name: %s) : The Mullins effect is not take into account
+%s (id: %u, name: %s) : The Mullins effect is not taken into account
 
 #------------------------------------------------------------------------------
