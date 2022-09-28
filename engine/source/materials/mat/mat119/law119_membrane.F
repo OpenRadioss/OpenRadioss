@@ -48,10 +48,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
@@ -73,13 +69,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,II,NINDXU,NINDXL,NINDXR,NINDXT,NINDXC,FUNC,FUND,FUNCR,
+      INTEGER :: I,II,NINDXU,NINDXL,NINDXR,NINDXT,NINDXC,NREAC,FUNC,FUND,FUNCR,
      .           NDIM,IRELOAD
       my_real :: NU12,NU21,G12,A11,A12,A22,RCOMP,
      .           FSCALE,FSCALE1,FSCALE2,FSCALET,DW,HT,HF,
      .           DET,S,D,T,P1,P2,R,DEZZ,SVM2,XINT,YINT
-      INTEGER ,DIMENSION(NEL)   :: INDXU,INDXL,INDXR,INDXT,INDXC
-      my_real ,DIMENSION(NEL)   :: EPSQ,SVM,ETX,ETL,ETU,
+      INTEGER ,DIMENSION(NEL)   :: INDXU,INDXL,INDXR,INDXT,INDXC,INDXX
+      my_real ,DIMENSION(NEL)   :: EPSQ,SVM,ETX,ETL,ETU,EXX,EYY,DX,DY,
      .  SIGF,EMAX,SMAX,EMINRL,SMINRL,EMAXRL,SMAXRL,BETA
       INTEGER ,DIMENSION(NEL,1) :: IPOS1
       my_real ,DIMENSION(NEL,1) :: XX1
@@ -90,6 +86,10 @@ C     UVAR(3) = EminRL
 C     UVAR(4) = EmaxRL
 C     UVAR(5) = SminRL
 C     UVAR(6) = SmaxRL
+C     UVAR(7) = reactivation flag
+C     UVAR(8) = EPSQ - equivalent strain
+C     UVAR(9) = 
+C     UVAR(10)= compression flag
 C=======================================================================
       NU12    = UPARAM(3)
       NU21    = UPARAM(4)
@@ -113,8 +113,16 @@ c
       NINDXU = 0
       NINDXL = 0
       NINDXR = 0
+      NREAC  = 0
 c-----------------------------------------
-c     test principal tension / compression
+      EMAX(1:NEL)   = UVAR(1:NEL,1)
+      SMAX(1:NEL)   = UVAR(1:NEL,2)
+      EMINRL(1:NEL) = UVAR(1:NEL,3)
+      EMAXRL(1:NEL) = UVAR(1:NEL,4)
+      SMINRL(1:NEL) = UVAR(1:NEL,5)
+      SMAXRL(1:NEL) = UVAR(1:NEL,6)
+c-----------------------------------------
+c     test principal strain direction : tag elements in tension / compression
 c-----------------------------------------
       DO I=1,NEL
         S  = HALF*(EPSXX(I) + EPSYY(I))
@@ -122,9 +130,14 @@ c-----------------------------------------
         R  = SQRT(EPSXY(I)**2 + D*D)
         P1 = S + R 
         P2 = S - R
-        IF (P2 >= -P1) THEN    ! max principal deformation in tension
-          NINDXT = NINDXT + 1
-          INDXT(NINDXT) = I
+        IF (P1 > ZERO .and. P1 >= -P2) THEN    ! max principal deformation in tension
+          IF (NINT(UVAR(I,7)) == 1) THEN ! elements are reactivated after passing through slipring
+            NREAC = NREAC + 1
+            INDXX(NREAC) = I
+          ELSE 
+            NINDXT = NINDXT + 1
+            INDXT(NINDXT) = I
+          END IF
           BETA(I) = ONE
         ELSE
           NINDXC = NINDXC + 1
@@ -133,18 +146,87 @@ c-----------------------------------------
         END IF
       END DO
 c-----------------------------------------
+c     Shear and compression - always linear using total strain
+c-----------------------------------------
       DO I=1,NEL
-        SIGNXY(I) = G12*EPSXY(I)*BETA(I)
-        SIGNYZ(I) = GS *EPSYZ(I)*BETA(I)
-        SIGNZX(I) = GS *EPSZX(I)*BETA(I)
+        SIGNXY(I) = G12*EPSXY(I) * BETA(I)
+        SIGNYZ(I) = GS *EPSYZ(I) * BETA(I)
+        SIGNZX(I) = GS *EPSZX(I) * BETA(I)
         ET(I) = BETA(I)                                  
       END DO
+c-----------------------------------------
+c     In plane stress : linear using total strain when func = 0 or compression
 c-----------------------------------------
       IF (FUNC == 0) THEN
         DO I=1,NEL
           SIGNXX(I) = (A11*EPSXX(I) + A12*EPSYY(I))*BETA(I)
           SIGNYY(I) = (A12*EPSXX(I) + A22*EPSYY(I))*BETA(I)
         END DO
+c
+      ELSE  ! FUNC > 0
+c
+        IF (NINDXT > 0 .and. FUND == 0) THEN   ! nonlinear tension
+          NDIM = TABLE(FUNC)%NDIM
+          DO I=1,NEL
+            EPSQ(I) = SQRT((EPSXX(I)**2 + EPSYY(I)**2) / (ONE + NU21**2))
+          ENDDO
+          XX1(1:NEL,1) = EPSQ(1:NEL)
+          IPOS1(1:NEL,1) = 1
+c
+          CALL TABLE_VINTERP(TABLE(FUNC),NEL,IPOS1,XX1,SIGF,ETL)                   
+c
+          DO II=1,NINDXT
+            I = INDXT(II)
+            A11 = ETL(I) * DET * FSCALE1
+            A22 = A11 * FSCALET
+            A12 = A11 * NU21         
+            SIGNXX(I) = SIGOXX(I) + A11*DEPSXX(I) + A12*DEPSYY(I)
+            SIGNYY(I) = SIGOYY(I) + A12*DEPSXX(I) + A22*DEPSYY(I)
+          ENDDO
+        END IF
+c
+        IF (NINDXC > 0) THEN  ! compression
+          DO II=1,NINDXC
+            I = INDXC(II)
+            SIGNXX(I) = (A11*EPSXX(I) + A12*EPSYY(I))*RCOMP
+            SIGNYY(I) = (A12*EPSXX(I) + A22*EPSYY(I))*RCOMP
+          END DO
+          IF (FUND > 0) THEN
+            DO II=1,NINDXC
+              I = INDXC(II)
+              EMAX(I)   = EM20 
+              SMAX(I)   = ZERO 
+              EMINRL(I) = ZERO 
+              EMAXRL(I) = EM20 
+              SMINRL(I) = ZERO 
+              SMAXRL(I) = ZERO
+            END DO
+          END IF
+        END IF
+c
+        IF (NREAC > 0) THEN   ! reactivated elements after slipring
+          DO I=1,NEL
+            EPSQ(I)   = SQRT((EPSXX(I)**2 + EPSYY(I)**2) / (ONE + NU21**2))
+          ENDDO
+          XX1(1:NEL,1) = EPSQ(1:NEL)
+          IPOS1(1:NEL,1) = 1
+c
+          CALL TABLE_VINTERP(TABLE(FUNC),NEL,IPOS1,XX1,SIGF,ETL)                    
+c
+          DO II=1,NREAC
+            I = INDXX(II)
+            SIGNXX(I) = (A11*EPSXX(I) + A12*EPSYY(I))*BETA(I)
+            SIGNYY(I) = (A12*EPSXX(I) + A22*EPSYY(I))*BETA(I)
+            SVM2   = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I)
+            SVM(I) = SQRT(SVM2)
+            EMAX(I)   = EPSQ(I)
+            SMAX(I)   = SVM(I)
+            EMINRL(I) = ZERO
+            EMAXRL(I) = ZERO 
+            SMINRL(I) = ZERO 
+            SMAXRL(I) = ZERO
+          END DO        
+        END IF
       END IF
 c-----------------------------------------
 c
@@ -153,41 +235,37 @@ c
         DO I=1,NEL
           EPSQ(I) = SQRT((EPSXX(I)**2 + EPSYY(I)**2) / (ONE + NU21**2))
         ENDDO
+c
         XX1(1:NEL,1) = EPSQ(1:NEL)
         IPOS1(1:NEL,1) = 1
 c
         CALL TABLE_VINTERP(TABLE(FUNC),NEL,IPOS1,XX1,SIGF,ETL)                    
 c
-        DO I=1,NEL
+        DO II=1,NINDXT
+          I = INDXT(II)
           A11 = ETL(I) * DET * FSCALE1
           A22 = A11 * FSCALET
           A12 = A11 * NU21         
-          SIGNXX(I) = SIGOXX(I) + (A11*DEPSXX(I) + A12*DEPSYY(I))*BETA(I)
-          SIGNYY(I) = SIGOYY(I) + (A12*DEPSXX(I) + A22*DEPSYY(I))*BETA(I)
+          SIGNXX(I) = SIGOXX(I) + A11*DEPSXX(I) + A12*DEPSYY(I)
+          SIGNYY(I) = SIGOYY(I) + A12*DEPSXX(I) + A22*DEPSYY(I)
         ENDDO
       END IF
 c-----------------------------------------
 c
       IF (FUND > 0) THEN ! nonlinear loading and unloading with hysteresis
 c
-        EMAX(1:NEL)   = UVAR(1:NEL,1)
-        SMAX(1:NEL)   = UVAR(1:NEL,2)
-        EMINRL(1:NEL) = UVAR(1:NEL,3)
-        EMAXRL(1:NEL) = UVAR(1:NEL,4)
-        SMINRL(1:NEL) = UVAR(1:NEL,5)
-        SMAXRL(1:NEL) = UVAR(1:NEL,6)
-c
         DO I=1,NEL
+          EPSQ(I) = SQRT((EPSXX(I)**2 + EPSYY(I)**2) / (ONE + NU21**2))
           SVM (I) = SQRT(SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I))
         ENDDO
 c
         DO II=1,NINDXT
           I = INDXT(II)
-          DW = SIGOXX(I)*DEPSXX(I) + SIGOYY(I)*DEPSYY(I)
-          IF (DW < ZERO) THEN
+          DW = EPSQ(I) - UVAR(I,8)
+          IF (DW < ZERO .and. UVAR(I,10) >= ZERO) THEN
             NINDXU = NINDXU + 1
             INDXU(NINDXU) = I
-          ELSE IF (SVM(I) >= SMAX(I)) THEN ! loading
+          ELSE IF (SVM(I) >= SMAX(I) .or. UVAR(I,10) == -ONE) THEN ! loading
             NINDXL = NINDXL + 1
             INDXL(NINDXL) = I
           ELSE                              ! reloading
@@ -195,49 +273,47 @@ c
             INDXR(NINDXR) = I
           END IF
         END DO
-c      
+c       loading
         IF (NINDXL > 0) THEN
-c          
           DO II=1,NINDXL
             I = INDXL(II)
             A11 = ETL(I) * DET * FSCALE1
             A22 = A11 * FSCALET
-            A12 = A11 * NU21         
+            A12 = A11 * NU21
             SIGNXX(I) = SIGOXX(I) + A11*DEPSXX(I) + A12*DEPSYY(I)
             SIGNYY(I) = SIGOYY(I) + A12*DEPSXX(I) + A22*DEPSYY(I)
-            SVM2 = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I)
+            SVM2   = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I)
             SVM(I) = SQRT(SVM2)
-            EMAX(I)   = EPSQ(I)
+            EMAX(I)   = MAX(EM20, EPSQ(I))
             EMINRL(I) = EPSQ(I)
-            EMAXRL(I) = EPSQ(I)
+            EMAXRL(I) = MAX(EM20, EPSQ(I))
             SMAX(I)   = SVM(I)
             SMINRL(I) = SVM(I)
             SMAXRL(I) = SVM(I)
           ENDDO
         END IF
-c
+c       reloading
         IF (NINDXR > 0) THEN
           IF (IRELOAD == 0) THEN
             FUNCR = FUND! reloading follows unloading curve
             FSCALE = FSCALE2
-            DO II=1,NINDXR
-              I = INDXR(II)
-              XX1(II,1) = EPSQ(I) * XINT / EMAXRL(I)
+            DO I=1,NEL
+              XX1(I,1) = EPSQ(I) * XINT / EMAXRL(I)
             END DO
           ELSE
             FUNCR = FUNC! reloading follows loading curve
             FSCALE = FSCALE1
-            DO II=1,NINDXR
-              I = INDXR(II)
-              XX1(II,1) = EMAX(I) * (EPSQ(I) - EMINRL(I)) / (EMAX(I) - EMINRL(I))
+            DO I=1,NEL
+              XX1(I,1) = EMAX(I) * (EPSQ(I) - EMINRL(I)) / (EMAX(I) - EMINRL(I))
             END DO
           END IF
-          IPOS1(1:NINDXR,1) = 1
-          CALL TABLE_VINTERP(TABLE(FUNCR),NINDXR,IPOS1,XX1,SIGF,ETX)                    
+
+          IPOS1(1:NEL,1) = 1
+          CALL TABLE_VINTERP(TABLE(FUNCR),NEL,IPOS1,XX1,SIGF,ETX)                    
 c
           IF (IRELOAD == 1) THEN! reloading follows loading curve
             DO II=1,NINDXR
-              I = INDXR(II)
+              I  = INDXR(II)
               HT = (SMAX(I)-SMINRL(I)) / (EMAX(I)-EMINRL(I))
               HF = SMAX(I) / EMAX(I)              
               ETX(I) = FSCALE * ETX(I) * HT / HF
@@ -247,16 +323,16 @@ c
               A12 = A11 * NU21         
               SIGNXX(I) = SIGOXX(I) + A11*DEPSXX(I) + A12*DEPSYY(I)
               SIGNYY(I) = SIGOYY(I) + A12*DEPSXX(I) + A22*DEPSYY(I)
-              SVM2 = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I)
-              SVM(I) = SQRT(SVM2)
-              EMAXRL(I) = EPSQ(I)
+              SVM2      = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I)
+              SVM(I)    = SQRT(SVM2)
+              EMAXRL(I) = MAX(EM20, EPSQ(I))
               SMAXRL(I) = SVM(I)
             END DO
           ELSE  ! reloading follows unloading curve
             DO II=1,NINDXR
-              I = INDXR(II)
+              I  = INDXR(II)
               HT = SMAX(I) / EMAX(I)
-              HF  = YINT / XINT
+              HF = YINT / XINT
               ETX(I) = FSCALE * ETX(I) * HT / HF
 c
               A11 = ETX(I) * DET
@@ -264,23 +340,21 @@ c
               A12 = A11 * NU21         
               SIGNXX(I) = SIGOXX(I) + A11*DEPSXX(I) + A12*DEPSYY(I)
               SIGNYY(I) = SIGOYY(I) + A12*DEPSXX(I) + A22*DEPSYY(I)
-              SVM2 = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I)
-              SVM(I) = SQRT(SVM2)
-              EMAXRL(I) = EMAX(I)
+              SVM2      = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I)
+              SVM(I)    = SQRT(SVM2)
+              EMAXRL(I) = MAX(EM20, EMAX(I))
               SMAXRL(I) = SMAX(I)
             END DO
           END IF
-c
-        END IF
-c
+        END IF   ! reloading
+c       unloading
         IF (NINDXU > 0) THEN
-c
-          DO II=1,NINDXU
-            I = INDXU(II)
-            XX1(II,1) = EPSQ(I) * XINT / EMAXRL(I)
-            IPOS1(II,1) = 1
+          DO I=1,NEL
+            XX1(I,1) = EPSQ(I) * XINT / EMAXRL(I)
           END DO
-          CALL TABLE_VINTERP(TABLE(FUND),NINDXU,IPOS1,XX1,SIGF,ETU)                    
+          IPOS1(1:NEL,1) = 1
+
+          CALL TABLE_VINTERP(TABLE(FUND),NEL,IPOS1,XX1,SIGF,ETU)                    
 c
           DO II=1,NINDXU
             I = INDXU(II)
@@ -297,34 +371,29 @@ c
             A12 = A11 * NU21         
             SIGNXX(I) = SIGOXX(I) + A11*DEPSXX(I) + A12*DEPSYY(I)
             SIGNYY(I) = SIGOYY(I) + A12*DEPSXX(I) + A22*DEPSYY(I)
-            SVM2 = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I)
-            SVM(I) = SQRT(SVM2)
+            SVM2      = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I)
+            SVM(I)    = SQRT(SVM2)
             EMINRL(I) = EPSQ(I)
             SMINRL(I) = SVM(I)
           ENDDO
-        END IF
+        END IF   ! unloading
+      END IF     ! FUND > 0
 c-------------------------------------------------------------------------
-c       compression
-c-------------------------------------------------------------------------
-        IF (NINDXC > 0) THEN
-          DO II=1,NINDXC
-            I = INDXC(II)
-            A11 = ETL(I) * DET * FSCALE1
-            A22 = A11 * FSCALET
-            A12 = A11 * NU21         
-            SIGNXX(I) = SIGOXX(I) + (A11*DEPSXX(I) + A12*DEPSYY(I))*BETA(I)
-            SIGNYY(I) = SIGOYY(I) + (A12*DEPSXX(I) + A22*DEPSYY(I))*BETA(I)
-          ENDDO
-        END IF
-c
-        UVAR(1:NEL,1) = EMAX(1:NEL)  
-        UVAR(1:NEL,2) = SMAX(1:NEL)  
-        UVAR(1:NEL,3) = EMINRL(1:NEL)
-        UVAR(1:NEL,4) = EMAXRL(1:NEL)
-        UVAR(1:NEL,5) = SMINRL(1:NEL)
-        UVAR(1:NEL,6) = SMAXRL(1:NEL)
-
-      END IF  ! FUND > 0
-c--------------------------------------------------------
+      UVAR(1:NEL,1) = EMAX(1:NEL)  
+      UVAR(1:NEL,2) = SMAX(1:NEL)  
+      UVAR(1:NEL,3) = EMINRL(1:NEL)
+      UVAR(1:NEL,4) = EMAXRL(1:NEL)
+      UVAR(1:NEL,5) = SMINRL(1:NEL)
+      UVAR(1:NEL,6) = SMAXRL(1:NEL)
+      UVAR(1:NEL,7) = ZERO
+      UVAR(1:NEL,10)= ZERO
+      DO II=1,NINDXC
+        I = INDXC(II)
+        UVAR(I,10) = -ONE
+      END DO
+      DO I=1,NEL
+        UVAR(I,8) = SQRT((EPSXX(I)**2 + EPSYY(I)**2) / (ONE + NU21**2))
+      END DO
+c-----------
       RETURN
       END
