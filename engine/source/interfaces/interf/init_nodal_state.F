@@ -36,7 +36,8 @@ Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTBUF_TAB,IAD_ELEM,FR_ELEM,
      .                               ITAB,ITABM1,GEO,ADDCNEL,CNEL,
-     .                               IXS,IXC,IXT,IXP,IXR,IXTG )
+     .                               IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                               SIZE_ADDCNEL,SIZE_CNEL )
 !$COMMENT
 !       INIT_NODAL_STATE description
 !           initialization of structures for the new shooting node algo    
@@ -89,14 +90,15 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB ! array to convert local id to global id
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITABM1    ! array of global id
         my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO
-        INTEGER, DIMENSION(0:NUMNOD+1), INTENT(in) :: ADDCNEL ! address for the CNEL array
-        INTEGER, DIMENSION(0:LCNEL), INTENT(in) :: CNEL ! connectivity node --> element
+        INTEGER, DIMENSION(0:SIZE_ADDCNEL), INTENT(in) :: ADDCNEL ! address for the CNEL array
+        INTEGER, DIMENSION(0:SIZE_CNEL), INTENT(in) :: CNEL ! connectivity node --> element
         INTEGER, DIMENSION(NIXS,NUMELS),TARGET, INTENT(in) :: IXS   ! solid array
         INTEGER, DIMENSION(NIXC,NUMELC),TARGET, INTENT(in) :: IXC   ! shell array
         INTEGER, DIMENSION(NIXT,NUMELT),TARGET, INTENT(in) :: IXT! truss array
         INTEGER, DIMENSION(NIXP,NUMELP),TARGET, INTENT(in) :: IXP! beam array
         INTEGER, DIMENSION(NIXR,NUMELR),TARGET, INTENT(in) :: IXR! spring array
         INTEGER, DIMENSION(NIXTG,NUMELTG),TARGET, INTENT(in) :: IXTG! triangle array
+        INTEGER, INTENT(in) :: SIZE_ADDCNEL,SIZE_CNEL ! array size : cnel & addcnel
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -109,8 +111,8 @@ C-----------------------------------------------
         INTEGER, DIMENSION(:), ALLOCATABLE :: WORK_ARRAY,WORK_ARRAY_2,WORK_ARRAY_3
         INTEGER, DIMENSION(:), ALLOCATABLE :: SORT_ARRAY,PERM
 
-        TYPE(array_type), DIMENSION(NSPMD) :: BUFFER_SECOND,BUFFER_MAIN
-        TYPE(array_type), DIMENSION(NSPMD) :: R_BUFFER_SECOND,R_BUFFER_MAIN
+        TYPE(array_type), DIMENSION(:), ALLOCATABLE :: BUFFER_SECOND,BUFFER_MAIN
+        TYPE(array_type), DIMENSION(:), ALLOCATABLE :: R_BUFFER_SECOND,R_BUFFER_MAIN
 #ifdef MPI
         INTEGER, DIMENSION(MPI_STATUS_SIZE) :: STATU
         INTEGER :: MSGTYP,MSGOFF1,IERROR
@@ -127,6 +129,11 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NSPMD) :: SIZE_BUFFER_MAIN,SIZE_BUFFER_SECOND
         INTEGER, DIMENSION(NSPMD) :: R_SIZE_BUFFER_MAIN,R_SIZE_BUFFER_SECOND
 C-----------------------------------------------
+
+        ALLOCATE( BUFFER_SECOND(NSPMD) )
+        ALLOCATE( BUFFER_MAIN(NSPMD) )
+        ALLOCATE( R_BUFFER_SECOND(NSPMD) )
+        ALLOCATE( R_BUFFER_MAIN(NSPMD) )
 
         BUFFER_SECOND(1:NSPMD)%SIZE_INT_ARRAY_1D = 0
         BUFFER_MAIN(1:NSPMD)%SIZE_INT_ARRAY_1D = 0
@@ -653,6 +660,10 @@ C-----------------------------------------------
         DEALLOCATE( INTERSECT_2 )
         DEALLOCATE( RESULT_INTERSECT )
 
+        DEALLOCATE( BUFFER_SECOND )
+        DEALLOCATE( BUFFER_MAIN )
+        DEALLOCATE( R_BUFFER_SECOND )
+        DEALLOCATE( R_BUFFER_MAIN )
         ! --------------------------------
         ! WORKING ARRAY
         ! --------------------------------

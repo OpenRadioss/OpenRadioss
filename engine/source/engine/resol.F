@@ -1206,6 +1206,8 @@ C-------------------------------------------------------------------------------
         TYPE(shooting_node_type) :: SHOOT_STRUCT
         INTEGER :: S_ELEM_STATE     ! size of ELEM_STATE array
         LOGICAL, DIMENSION(:), ALLOCATABLE :: ELEM_STATE    ! boolean : true if element is ON, false if element is OFF
+        INTEGER :: SIZE_ADDCNEL ! size of addcnel array
+        INTEGER :: SIZE_CNEL ! size of cnel array
       DATA IUN/1/
 C-----------------------------------------------------------------------------------       
 C Uncomment for Debug - ITAB is copied in Debug Module.
@@ -1373,12 +1375,23 @@ C
         ENDIF
 C
           IF((IDEL7NG>0).OR.(IRAD2R/=0).OR.(IALEMUSCL>0).OR.(PDEL>0))THEN
+            SIZE_ADDCNEL = NUMNOD+1
+            SIZE_CNEL = LCNEL
+            NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
+     .               NUMELR+NUMELTG+NUMELUR
+            S_ELEM_STATE = NELEML
+          ELSE
+            SIZE_ADDCNEL = 0
+            SIZE_CNEL = 0
+            S_ELEM_STATE = 0
+          ENDIF
+          IERROR = 0
+          ALLOCATE(CNEL(0:SIZE_CNEL),STAT=IERROR2)
+          IERROR = IERROR + IERROR2
+          ALLOCATE(ADDCNEL(0:SIZE_ADDCNEL),STAT=IERROR2)
+          IERROR = IERROR + IERROR2
+          IF((IDEL7NG>0).OR.(IRAD2R/=0).OR.(IALEMUSCL>0).OR.(PDEL>0))THEN
 C Allocation of inverse connectivity array
-            IERROR = 0
-            ALLOCATE(CNEL(0:LCNEL),STAT=IERROR2)
-            IERROR = IERROR + IERROR2
-            ALLOCATE(ADDCNEL(0:NUMNOD+1),STAT=IERROR2)
-            IERROR = IERROR + IERROR2
             ALLOCATE(ADDTMPL(0:NUMNOD+1),STAT=IERROR2)
             IERROR = IERROR + IERROR2
             NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
@@ -1394,10 +1407,8 @@ C Allocation of inverse connectivity array
             pCNEL => CNEL
             pADDCNEL => ADDCNEL
             pADDTMPL => ADDTMPL
-            S_ELEM_STATE = NELEML
           ELSE
-            ALLOCATE(CNEL(0),ADDCNEL(0),ADDTMPL(0),TAGEL(0))
-            S_ELEM_STATE = 0
+            ALLOCATE(ADDTMPL(0),TAGEL(0))
           END IF
           ALLOCATE(IPARTL(NPART))
           ALLOCATE(PARTSAV2(2,NPART))
@@ -2116,7 +2127,8 @@ C ---------------------
       ! the deactivation node algo
       CALL INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTBUF_TAB,IAD_ELEM,FR_ELEM,
      .                       ITAB,ITABM1,GEO,ADDCNEL,CNEL,
-     .                       IXS,IXC,IXT,IXP,IXR,IXTG )
+     .                       IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                       SIZE_ADDCNEL,SIZE_CNEL )
       ! -------------------------
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
