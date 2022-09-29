@@ -248,7 +248,11 @@ c-----------------------------------------------------------------------
         ENDIF
         IF (IXFEM > 0) WRITE(IOUT, 1003) IXFEM,DADV
         WRITE(IOUT, 1004) P_THICKFAIL,P_THINNFAIL
-        WRITE(IOUT, 1005) DCRIT,DD,DN,ECRIT
+        IF (IFUN_DMG > 0) THEN 
+          WRITE(IOUT, 1009) DCRIT,IFUN_DMG,ECRIT
+        ELSE 
+          WRITE(IOUT, 1005) DCRIT,DD,DN,ECRIT
+        ENDIF
         IF (FADE_EXPO >= ZERO) THEN
           WRITE(IOUT, 1006) FADE_EXPO
         ELSE
@@ -299,6 +303,10 @@ c-----------------------------------------------------------------------
      & 5X,'CRITICAL DAMAGE VALUE . . . . . . . . . . . . . . . .=',E12.4/
      & 5X,'DAMAGE PARAMETER D. . . . . . . . . . . . . . . . . .=',E12.4/
      & 5X,'DAMAGE PARAMETER N. . . . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'INSTABILITY STRAIN. . . . . . . . . . . . . . . . . .=',E12.4)
+ 1009 FORMAT(
+     & 5X,'CRITICAL DAMAGE VALUE . . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'DAMAGE EVOLUTION FUNCTION . . . . . . . . . . . . . .=',I10/
      & 5X,'INSTABILITY STRAIN. . . . . . . . . . . . . . . . . .=',E12.4)
  1006 FORMAT(
      & 5X,'FADE PARAMETER. . . . . . . . . . . . . . . . . . . .=',E12.4)
