@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  COUNT_NB_ELEM_EDGE                       source/interfaces/interf/count_nb_elem_edge.F
+Chd|  COUNT_NB_ELEM_EDGE            source/interfaces/interf/count_nb_elem_edge.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        INIT_NODAL_STATE              source/interfaces/interf/init_nodal_state.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE COUNT_NB_ELEM_EDGE( MODE,SIZE_BUFFER,BUFFER,SHOOT_STRUCT )
 !$COMMENT

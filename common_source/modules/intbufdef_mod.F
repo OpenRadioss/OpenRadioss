@@ -180,6 +180,9 @@ Chd|        MERGEMOD                      starter/share/modules1/merge_mod.F
 Chd|        ALEFVM_MAIN                   engine/source/ale/alefvm/alefvm_main.F
 Chd|        ALEMAIN                       engine/source/ale/alemain.F   
 Chd|        ALEWDX                        engine/source/ale/grid/alewdx.F
+Chd|        CHECK_EDGE_STATE              engine/source/interfaces/interf/check_edge_state.F
+Chd|        CHECK_NODAL_STATE             engine/source/interfaces/interf/check_nodal_state.F
+Chd|        CHECK_SURFACE_STATE           engine/source/interfaces/interf/check_surface_state.F
 Chd|        CHKSTFN3N                     engine/source/interfaces/interf/chkstfn3.F
 Chd|        CHKSTIFN                      engine/source/interfaces/inter2d/chkstifn.F
 Chd|        CNDMASI2_DIM                  engine/source/elements/solid/solide10/s10cndf.F
@@ -206,6 +209,10 @@ Chd|        EIG                           engine/stub/eig.F
 Chd|        EIG1                          engine/stub/eig1.F            
 Chd|        EIGCOND                       engine/stub/eigcond.F         
 Chd|        EIGP                          engine/stub/eigp.F            
+Chd|        FIND_EDGE_FROM_REMOTE_PROC    engine/source/interfaces/interf/find_edge_from_remote_proc.F
+Chd|        FIND_EDGE_INTER               engine/source/interfaces/interf/find_edge_inter.F
+Chd|        FIND_SURFACE_FROM_REMOTE_PROC engine/source/interfaces/interf/find_surface_from_remote_proc.F
+Chd|        FIND_SURFACE_INTER            engine/source/interfaces/interf/find_surface_inter.F
 Chd|        FR_A2BD                       engine/source/mpi/implicit/imp_fri.F
 Chd|        FR_MATV                       engine/source/mpi/implicit/imp_fri.F
 Chd|        FR_U2DD                       engine/source/mpi/implicit/imp_fri.F
@@ -351,6 +358,7 @@ Chd|        IND_KINE_I                    engine/source/implicit/ind_glob_k.F
 Chd|        IND_KINE_K                    engine/source/implicit/ind_glob_k.F
 Chd|        IND_KINFRK                    engine/source/mpi/implicit/imp_fri.F
 Chd|        INIT_INTERF_SORTING_STRATEGY  engine/source/interfaces/init_interf_sorting_strategy.F
+Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
 Chd|        INI_DD0                       engine/source/mpi/implicit/imp_fri.F
 Chd|        INI_DDFV                      engine/source/mpi/implicit/imp_fri.F
 Chd|        INI_DOFSPC                    engine/source/implicit/upd_glob_k.F
@@ -444,6 +452,7 @@ Chd|        SPMD_CELL_LIST_EXCHANGE       engine/source/mpi/interfaces/spmd_cell
 Chd|        SPMD_CELL_SIZE_EXCHANGE       engine/source/mpi/interfaces/spmd_cell_size_exchange.F
 Chd|        SPMD_CHECK_TAG                engine/source/mpi/ams/spmd_check_tag.F
 Chd|        SPMD_EXCH_DA20                engine/source/mpi/interfaces/spmd_exch_da20.F
+Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 Chd|        SPMD_EXCH_I24                 engine/source/mpi/interfaces/spmd_exch_i24.F
 Chd|        SPMD_EXCH_I25                 engine/source/mpi/interfaces/spmd_exch_i25.F
 Chd|        SPMD_EXCH_IDEL_SEGLO          engine/source/mpi/interfaces/spmd_exch_idel_seglo.F

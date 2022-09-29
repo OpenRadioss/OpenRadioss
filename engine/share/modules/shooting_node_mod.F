@@ -21,11 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  RBODY_MOD                     share/modules/rbody_mod.F     
+Chd|  SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|        RESTALLOC                     source/output/restart/arralloc.F
+Chd|        CHECK_EDGE_STATE              source/interfaces/interf/check_edge_state.F
+Chd|        COUNT_NB_ELEM_EDGE            source/interfaces/interf/count_nb_elem_edge.F
+Chd|        DEALLOC_SHOOT_INTER           source/interfaces/interf/dealloc_shoot_inter.F
+Chd|        FIND_EDGE_FROM_REMOTE_PROC    source/interfaces/interf/find_edge_from_remote_proc.F
+Chd|        FIND_EDGE_INTER               source/interfaces/interf/find_edge_inter.F
+Chd|        FIND_SURFACE_FROM_REMOTE_PROC source/interfaces/interf/find_surface_from_remote_proc.F
+Chd|        FIND_SURFACE_INTER            source/interfaces/interf/find_surface_inter.F
+Chd|        INIT_NODAL_STATE              source/interfaces/interf/init_nodal_state.F
+Chd|        RESOL                         source/engine/resol.F         
+Chd|        SPMD_EXCH_DELETED_SURF_EDGE   source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+Chd|        TAGOFF3N                      source/interfaces/interf/chkstfn3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE SHOOTING_NODE_MOD

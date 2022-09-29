@@ -110,7 +110,6 @@ Chd|        SIGEPS120_TAB_DP              source/materials/mat/mat120/sigeps120_
 Chd|        SIGEPS120_TAB_VM              source/materials/mat/mat120/sigeps120_tab_vm.F
 Chd|        SIGEPS52                      source/materials/mat/mat052/sigeps52.F
 Chd|        SIGEPS52C                     source/materials/mat/mat052/sigeps52c.F
-Chd|        SIGEPS58C                     source/materials/mat/mat058/sigeps58c.F
 Chd|        SIGEPS73C                     source/materials/mat/mat073/sigeps73c.F
 Chd|        SIGEPS74                      source/materials/mat/mat074/sigeps74.F
 Chd|        SIGEPS76                      source/materials/mat/mat076/sigeps76.F
@@ -209,7 +208,6 @@ Chd|        SIGEPS120_TAB_DP              source/materials/mat/mat120/sigeps120_
 Chd|        SIGEPS120_TAB_VM              source/materials/mat/mat120/sigeps120_tab_vm.F
 Chd|        SIGEPS52                      source/materials/mat/mat052/sigeps52.F
 Chd|        SIGEPS52C                     source/materials/mat/mat052/sigeps52c.F
-Chd|        SIGEPS58C                     source/materials/mat/mat058/sigeps58c.F
 Chd|        SIGEPS73C                     source/materials/mat/mat073/sigeps73c.F
 Chd|        SIGEPS74                      source/materials/mat/mat074/sigeps74.F
 Chd|        SIGEPS76                      source/materials/mat/mat076/sigeps76.F

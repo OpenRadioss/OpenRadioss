@@ -67,7 +67,10 @@ Chd|        BCSDTTH_COPY                  source/constraints/general/bcs/bcsdtth
 Chd|        BCSN                          source/constraints/general/bcs/bcsn.F
 Chd|        BMULTN                        source/ale/bimat/bmultn.F     
 Chd|        CFIELD_1                      source/loads/general/load_centri/cfield.F
+Chd|        CHECK_EDGE_STATE              source/interfaces/interf/check_edge_state.F
 Chd|        CHECK_NAN_ACC                 source/output/outfile/check_nan_acc.F
+Chd|        CHECK_NODAL_STATE             source/interfaces/interf/check_nodal_state.F
+Chd|        CHECK_SURFACE_STATE           source/interfaces/interf/check_surface_state.F
 Chd|        CHKLOAD                       source/interfaces/chkload.F   
 Chd|        CHKMSIN                       source/output/outfile/chkmsin.F
 Chd|        CHKSTFN3N                     source/interfaces/interf/chkstfn3.F
@@ -100,6 +103,7 @@ Chd|        DAMPING51                     source/assembly/damping.F
 Chd|        DEALLOCATE_JOINT              source/constraints/general/cyl_joint/deallocate_joint.F
 Chd|        DEALLOCM_IMP                  source/implicit/imp_solv.F    
 Chd|        DEALLOC_IMPBUF                source/implicit/imp_solv.F    
+Chd|        DEALLOC_SHOOT_INTER           source/interfaces/interf/dealloc_shoot_inter.F
 Chd|        DEPLA                         source/assembly/depla.F       
 Chd|        DEPLAFAKEIGE                  source/assembly/deplafakeige.F
 Chd|        DEPLAPINCH                    source/assembly/deplapinch.F  
@@ -122,6 +126,8 @@ Chd|        FAIL_WIND_FRWAVE_INIT         source/materials/fail/alter/fail_wind_
 Chd|        FEQUILIBRE                    source/elements/shell/fequilibre.F
 Chd|        FINALIZE_REACTIONS            source/output/reactions.F     
 Chd|        FIND_DT_FOR_TARGETED_ADDED_MASSsource/time_step/find_dt_for_targeted_added_mass.F
+Chd|        FIND_EDGE_INTER               source/interfaces/interf/find_edge_inter.F
+Chd|        FIND_SURFACE_INTER            source/interfaces/interf/find_surface_inter.F
 Chd|        FIXFINGEO                     source/constraints/general/impvel/fixfingeo.F
 Chd|        FIXFLUX                       source/constraints/thermic/fixflux.F
 Chd|        FIXTEMP                       source/constraints/thermic/fixtemp.F
@@ -182,6 +188,7 @@ Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|        IMP_SOL_INIT                  source/implicit/imp_sol_init.F
 Chd|        IMP_TRANS                     source/output/restart/wrrest.F
 Chd|        INIT_INTERF_SORTING_STRATEGY  source/interfaces/init_interf_sorting_strategy.F
+Chd|        INIT_NODAL_STATE              source/interfaces/interf/init_nodal_state.F
 Chd|        INIT_TRIM                     source/interfaces/intsort/init_trim.F
 Chd|        INIXFEM                       source/elements/xfem/inixfem.F
 Chd|        INT18_LAW151_ALLOC            source/interfaces/int18/int18_law151_alloc.F
@@ -338,6 +345,7 @@ Chd|        SPMD_EXCH_A                   source/mpi/forces/spmd_exch_a.F
 Chd|        SPMD_EXCH_A_AMS_POFF          source/mpi/forces/spmd_exch_a_ams_poff.F
 Chd|        SPMD_EXCH_CRKVEL              source/mpi/elements/spmd_xfem.F
 Chd|        SPMD_EXCH_DA20                source/mpi/interfaces/spmd_exch_da20.F
+Chd|        SPMD_EXCH_DELETED_SURF_EDGE   source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 Chd|        SPMD_EXCH_FA                  source/mpi/elements/spmd_exch_dttsh.F
 Chd|        SPMD_EXCH_I24                 source/mpi/interfaces/spmd_exch_i24.F
 Chd|        SPMD_EXCH_I25                 source/mpi/interfaces/spmd_exch_i25.F
@@ -466,6 +474,7 @@ Chd|        RIGMAT_MOD                    share/modules/rigmat_mod.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|        SMS_MOD                       share/modules/sms_mod.F       
 Chd|        SMS_PCG_PROJ                  share/modules/sms_mod.F       
 Chd|        STACK_MOD                     share/modules/stack_mod.F     

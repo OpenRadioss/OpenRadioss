@@ -90,6 +90,9 @@ Chd|  SYSFUS2                       source/system/sysfus.F
 Chd|-- called by -----------
 Chd|        ALE51_SPMD2                   source/ale/ale51/ale51_spmd2.F
 Chd|        ALE51_SPMD3                   source/ale/ale51/ale51_spmd3.F
+Chd|        COUNT_REMOTE_NB_ELEM_EDGE     source/interfaces/interf/count_remote_nb_elem_edge.F
+Chd|        FIND_EDGE_FROM_REMOTE_PROC    source/interfaces/interf/find_edge_from_remote_proc.F
+Chd|        FIND_SURFACE_FROM_REMOTE_PROC source/interfaces/interf/find_surface_from_remote_proc.F
 Chd|        FR_RLALE                      source/mpi/kinematic_conditions/fr_rlink1.F
 Chd|        FR_RLINK1                     source/mpi/kinematic_conditions/fr_rlink1.F
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F

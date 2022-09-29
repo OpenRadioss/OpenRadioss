@@ -601,6 +601,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        RAD2R_MOD                     share/modules/rad2r.F         
 Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
+Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
       SUBROUTINE TAGOFF3N(
      1    GEO     ,IXS   ,IXS10   ,IXS20   ,IXS16  ,IXQ    ,

@@ -21,11 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  CHECK_ACTIVE_ELEM_EDGE                       source/interfaces/interf/count_remote_nb_elem_edge.F
+Chd|  CHECK_ACTIVE_ELEM_EDGE        source/interfaces/interf/check_active_elem_edge.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        CHECK_EDGE_STATE              source/interfaces/interf/check_edge_state.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
         SUBROUTINE CHECK_ACTIVE_ELEM_EDGE( N1,N2,DEACTIVATION,GEO,IXS,IXC,
      .                                     IXT,IXP,IXR,IXTG,ADDCNEL,ITABM1,CNEL,

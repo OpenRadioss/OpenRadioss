@@ -21,8 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  CHECK_SURFACE_STATE                       source/interfaces/interf/check_nodal_state.F
+Chd|  CHECK_SURFACE_STATE           source/interfaces/interf/check_surface_state.F
 Chd|-- called by -----------
+Chd|        FIND_SURFACE_FROM_REMOTE_PROC source/interfaces/interf/find_surface_from_remote_proc.F
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F

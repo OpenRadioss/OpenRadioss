@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  CHECK_SURFACE_STATE                       source/interfaces/interf/check_nodal_state.F
+Chd|  DEALLOC_SHOOT_INTER           source/interfaces/interf/dealloc_shoot_inter.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
 !$COMMENT
