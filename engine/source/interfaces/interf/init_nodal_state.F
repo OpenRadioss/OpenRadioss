@@ -82,6 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        INTEGER, INTENT(in) :: SIZE_ADDCNEL,SIZE_CNEL ! array size : cnel & addcnel
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI
         INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM  ! adress for frontier node
         INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM    ! frontier node id 
@@ -98,7 +99,6 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NIXP,NUMELP),TARGET, INTENT(in) :: IXP! beam array
         INTEGER, DIMENSION(NIXR,NUMELR),TARGET, INTENT(in) :: IXR! spring array
         INTEGER, DIMENSION(NIXTG,NUMELTG),TARGET, INTENT(in) :: IXTG! triangle array
-        INTEGER, INTENT(in) :: SIZE_ADDCNEL,SIZE_CNEL ! array size : cnel & addcnel
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
