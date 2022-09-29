@@ -214,7 +214,7 @@ C
         NINDX  = 0  
         DO I=1,NEL
           IF (SFLAG==1 .AND. OFF(I)==ONE) THEN
-            ID_DD = IFUNC(NFUNC)
+            ID_DD = IFUNC(4)
             IF(ID_DD /= 0 )THEN
              DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
             ELSE
@@ -246,7 +246,7 @@ C----
 c---           
           IF (OFF(I) == ONE .AND. (SFLAG==2 .OR. SFLAG==3)) THEN
             IF (UVAR(I,1) < DCRIT)THEN
-             ID_DD = IFUNC(NFUNC)
+             ID_DD = IFUNC(4)
              IF(ID_DD /= 0 )THEN
                DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
               ELSE
