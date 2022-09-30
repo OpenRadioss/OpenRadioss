@@ -73,7 +73,7 @@ C-----------------------------------------------
         FIRST = 1 + ITASK * (NUMNOD / NTHREAD)
         LAST = (ITASK + 1) * (NUMNOD / NTHREAD)
         IF(ITASK+1==NTHREAD) LAST = NUMNOD
-        ALLOCATE( LOCAL_INDEX_SECONDARY_NODE( NUMNOD/NTHREAD ) )
+        ALLOCATE( LOCAL_INDEX_SECONDARY_NODE( LAST-FIRST+1 ) )
         ! --------------------------
         ! find the deactivated nodes 
         DO I=FIRST,LAST

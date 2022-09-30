@@ -88,7 +88,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER SYSFUS2
-C-----------------------------------------------
+C-----------------------------------------------    
       ALLOCATE(BUFR(IRSIZE))
       LOC_PROC = ISPMD+1
 
@@ -98,7 +98,7 @@ C-----------------------------------------------
       REQ_R1(1:NSPMD) = MPI_REQUEST_NULL
       DO I = 1, NSPMD
         SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
-        IF(I.NE.LOC_PROC.AND.LBUFS.GT.0.AND.SIZ>0) THEN
+        IF(I/=LOC_PROC.AND.IRECV(I)>0.AND.SIZ>0) THEN
           MSGTYP = MSGOFF2 
           CALL MPI_IRECV(
      .      BUFR(IDEB),IRECV(I),MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -112,7 +112,7 @@ C-----------------------------------------------
 C Proc sends the same BUFS to everybody
       DO I = 1, NSPMD
         SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
-        IF(I.NE.LOC_PROC.AND.LBUFS.GT.0.AND.SIZ>0) THEN
+        IF(I/=LOC_PROC.AND.LBUFS>0.AND.SIZ>0) THEN
            MSGTYP = MSGOFF2
            CALL MPI_ISEND(
      C      BUFS,LBUFS,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -120,14 +120,14 @@ C Proc sends the same BUFS to everybody
         ENDIF
       ENDDO
 
-
       IDEB = 0
       IOFF = 0
       LEN = 0
 C Proc recieve only if IRECV(I) > 0
 C
       DO I = 1, NSPMD
-        IF(IRECV(I)>0) THEN
+        SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
+        IF(I/=LOC_PROC.AND.IRECV(I)>0.AND.SIZ>0) THEN
           MSGTYP = MSGOFF2 
           CALL MPI_WAIT(REQ_R1(I),STATUS,IERROR)
           LEN = LEN+IRECV(I)
@@ -208,7 +208,7 @@ C
       IDEB = 1
       DO I = 1, NSPMD
         SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
-        IF(I.NE.LOC_PROC.AND.LINDEX.GT.0.AND.SIZ>0) THEN
+        IF(I/=LOC_PROC.AND.IRECV(I)>0.AND.SIZ>0) THEN
           LEN = IRECV(I)
           MSGTYP = MSGOFF3
           CALL MPI_ISEND(
@@ -221,7 +221,8 @@ C
 C Test reception envoi BUFS
 C
       DO I = 1, NSPMD
-        IF(I/=LOC_PROC.AND.LBUFS>0) THEN
+        SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
+        IF(I/=LOC_PROC.AND.LBUFS>0.AND.SIZ>0) THEN
           CALL MPI_WAIT(REQ_S2(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -234,7 +235,8 @@ C
           BUFS(I) = 0
         ENDDO
         DO I = 1, NSPMD
-          IF(I/=LOC_PROC.AND.LINDEX>0) THEN
+          SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
+          IF(I/=LOC_PROC.AND.LINDEX>0.AND.SIZ>0) THEN
             MSGTYP = MSGOFF3
             CALL MPI_RECV(
      .        BUFS2,LINDEX,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -251,7 +253,8 @@ C
 C Test reception envoi BUFR
 C
       DO I = 1, NSPMD
-        IF(IRECV(I)>0) THEN
+        SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
+        IF(I/=LOC_PROC.AND.SIZ>0.AND.IRECV(I)>0) THEN
           CALL MPI_WAIT(REQ_S3(I),STATUS,IERROR)
         ENDIF
       ENDDO
