@@ -48,9 +48,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(MLAW_TAG_) , DIMENSION(NUMMAT  ) , INTENT(INOUT)    :: MLAW_TAG
-      INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(OUT)   :: IPM
-      my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(OUT)   :: PM
+      TYPE(MLAW_TAG_), DIMENSION(NUMMAT), INTENT(INOUT)  :: MLAW_TAG
+      INTEGER, DIMENSION(NPROPMI,NUMMAT), INTENT(IN)  :: IPM
+      my_real, DIMENSION(NPROPM,NUMMAT), INTENT(INOUT)  :: PM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
