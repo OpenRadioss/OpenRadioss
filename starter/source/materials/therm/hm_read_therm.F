@@ -59,15 +59,16 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "sysunit.inc"
+#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  :: BUFLEN
-      INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(OUT)   :: IPM
-      my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(OUT)   :: PM
-      my_real ,DIMENSION(BUFLEN)        , INTENT(INOUT) :: BUFMAT
+      INTEGER,INTENT(IN) :: BUFLEN
+      INTEGER, DIMENSION(NPROPMI,NUMMAT), INTENT(OUT) :: IPM
+      my_real, DIMENSION(NPROPM ,NUMMAT), INTENT(OUT) :: PM
+      my_real, DIMENSION(BUFLEN), INTENT(INOUT) :: BUFMAT
       TYPE (UNIT_TYPE_) ,INTENT(IN) :: UNITAB 
-      TYPE(SUBMODEL_DATA) ,DIMENSION(*) , INTENT(IN)    :: LSUBMODEL
+      TYPE(SUBMODEL_DATA) ,DIMENSION(NSUBMOD) , INTENT(IN)    :: LSUBMODEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -77,7 +78,7 @@ C-----------------------------------------------
       my_real ::  UPWM,UPWO,T0,T1,RHO_CP,AS,BS,AL,BL,RHO_CPM1,EFRAC
       my_real ::  RCP_UNIT,AS_UNIT
       CHARACTER TITR*nchartitle,KEY*80
-      LOGICAL IS_AVAILABLE
+      LOGICAL IS_AVAILABLE,IS_AVAILABLE_IFORM
 C=======================================================================
       ITHERM_FE = 0      ! com01_c.inc
       ITHERM_FOR(:) = 0
@@ -142,7 +143,7 @@ c--------------------------------------------------
         CALL HM_GET_FLOATV('HEAT_RHocp'   ,RHO_CP   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('HEAT_AS'      ,AS       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('HEAT_BS'      ,BS       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_INTV  ('HEAT_Iform'   ,IFORM    ,IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV  ('HEAT_Iform'   ,IFORM    ,IS_AVAILABLE_IFORM, LSUBMODEL)
 c
         CALL HM_GET_FLOATV('HEAT_T1'      ,T1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('HEAT_AL'      ,AL       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -215,13 +216,19 @@ c       Check at least if the corresponding material is indeed lagrangian !!
            LAG = 1                                       
         ENDIF    
 c
-        IF (IFORM /= 0 .AND. LAG == 1) THEN
-           PM(71,IMAT) = -ONEP1
-        ELSE
-           IFORM = 0
-           CALL ANCMSG(MSGID=1609, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
-     .          I1=MAT_ID, C1="WARNING", C2=TITR,
-     .          C3="IFORM = 1 IS INCOMPATIBLE WITH /ALE AND /EULER MATERIALS, IT WILL BE IGNORED")
+        IF(IS_AVAILABLE_IFORM)THEN
+        
+          IF (IFORM /= 0 .AND. LAG == 1) THEN
+             PM(71,IMAT) = -ONEP1
+          ELSE
+             IFORM = 0
+             CALL ANCMSG(MSGID=1609, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+     .            I1=MAT_ID, C1="WARNING", C2=TITR,
+     .            C3="IFORM = 1 IS INCOMPATIBLE WITH /ALE AND /EULER MATERIALS, IT WILL BE IGNORED")
+          ENDIF
+          
+        ELSE 
+          IFORM = 0
         ENDIF
 c
         ITHERM_FOR(IMAT) = IFORM
