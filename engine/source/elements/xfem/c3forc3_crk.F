@@ -453,7 +453,7 @@ C--------------------------
      4          ALPE     ,MSTG      ,DMELTG  ,JSMS   ,PTG     ,
      5          SHF      ,IGTYP     ,IGMAT   ,G     ,A11      ,
      6          A11R     ,GBUF%G_DT ,GBUF%DT ,ALDT  ,THK0     ,
-     7          AREA     ,NGL       ,IMAT    )
+     7          AREA     ,NGL       ,IMAT    ,MTN   )
 
 C--------------------------
 C     BILANS PAR MATERIAU

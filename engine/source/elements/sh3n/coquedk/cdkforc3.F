@@ -595,7 +595,8 @@ C--------------------------
      4        A11    ,ALDT   ,ALPE     ,NGL     , ISMSTR,
      5        IOFC   ,NNOD   ,AREA     ,G       ,SHF   ,
      6        MSTG   ,DMELTG ,JSMS     ,PTG     ,IGTYP ,
-     7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT )
+     7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
+     8        PM     ,MAT(JFT))
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------

@@ -42,7 +42,7 @@ Chd|====================================================================
      D                  VHX,VHY,H11,H12,H13,
      E                  H14,H21,H22,H23,H24,
      F                  H31,H32,H33,H34,H1 , 
-     G                  H2,IGEO,NEL)
+     G                  H2,IGEO,NEL,MTN,A1 )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),IPARTC(*), JFT, JLT,PID(*),
-     .        IHBE  ,NFT ,ISMSTR,IGEO(NPROPGI, *),NEL
+     .        IHBE  ,NFT ,ISMSTR,IGEO(NPROPGI, *),NEL,MTN
       INTEGER MAT(MVSIZ) 
 C     REAL
       my_real
@@ -91,6 +91,7 @@ C     REAL
      .   VX4(MVSIZ), VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ),
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ), AREA(MVSIZ),
      .   A11R(MVSIZ)
+      my_real,DIMENSION(MVSIZ), INTENT(IN) :: A1
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -218,6 +219,7 @@ C
            A11(I) =PM(24,MX)
            G(I)  =PM(22,MX)
           ENDDO
+          IF (MTN==58) A11(JFT:JLT)=A1(JFT:JLT)
 !!        
           DO I=JFT,JLT
             IF (OFF(I)==ZERO) THEN

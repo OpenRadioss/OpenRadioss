@@ -547,7 +547,8 @@ C
      4        A11   ,LL   ,ALPE,NGL,ISMSTR,
      5        IOFC  ,NNOD ,AREA,G  ,SHF   ,
      6        MSC   ,DMELC,JSMS,BID , IGTYP ,
-     7        IGMAT ,A11R ,GBUF%G_DT, GBUF%DT)
+     7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
+     8        PM     ,MAT(JFT))
 c-------------------------------
          CALL CZFINTCE(JFT  ,JLT  ,THK0 ,THK02,A_I     ,X13     ,
      2                 X24  ,Y13  ,Y24  ,Z1   ,MX23    ,MX13    ,
