@@ -58,10 +58,20 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE READ_MATERIAL_MODELS(
-     .           MATPARAM_TAB,MLAW_TAG ,FAIL_TAG ,VISC_TAG ,EOS_TAG  ,
-     .           BUFMAT      ,BUFLEN   ,IPM      ,PM       ,UNITAB   ,
-     .           MULTI_FVM   ,MAXEOS   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL,
-     .           TABLE       ,NPC      )
+     .             MATPARAM_TAB,MLAW_TAG ,FAIL_TAG ,VISC_TAG ,EOS_TAG  ,
+     .             BUFMAT      ,BUFLEN   ,IPM      ,PM       ,UNITAB   ,
+     .             MULTI_FVM   ,MAXEOS   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL,
+     .             TABLE       ,NPC      )
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is managing all readers related to material model :
+C    - Constitutive Laws : /MAT
+C    - Equations of State : /EOS
+C    - Failure models : /FAIL
+C    - viscosity : /VISC
+C    - thermal parameters : /HEAT
+C    - etc ...
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,7 +85,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE HM_OPTION_READ_MOD
       USE TABLE_MOD
-c-----------------------------------------------------------------------
+c-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -99,54 +109,45 @@ C-----------------------------------------------
 #include      "conv_c.inc"
 #include      "mmale20_c.inc"
 #include      "mmale51_c.inc"
+#include      "tabsiz_c.inc"
+#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: BUFLEN,MAXEOS
-      INTEGER,INTENT(IN) :: NPC(*)
-      INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(INOUT)        :: IPM
-      my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(INOUT)        :: PM
-      my_real ,DIMENSION(*), INTENT(INOUT),TARGET              :: BUFMAT
-
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      TYPE(MLAW_TAG_) , DIMENSION(NUMMAT  ) , INTENT(INOUT)     :: MLAW_TAG
-      TYPE(EOS_TAG_)  ,DIMENSION(0:MAXEOS) , INTENT(INOUT)     :: EOS_TAG
-      TYPE(FAIL_TAG_) ,DIMENSION(0:MAXFAIL), INTENT(INOUT)     :: FAIL_TAG
-      TYPE(VISC_TAG_) ,DIMENSION(0:MAXVISC), INTENT(INOUT)     :: VISC_TAG
-      TYPE(MULTI_FVM_STRUCT)                                 :: MULTI_FVM
-      TYPE(FAILWAVE_STR_)                                    :: FAILWAVE 
-      TYPE(NLOCAL_STR_)                                      :: NLOC_DMG 
+      INTEGER,INTENT(IN) :: NPC(SNPC)
+      INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(INOUT) :: IPM
+      my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(INOUT) :: PM
+      my_real ,DIMENSION(SBUFMAT), INTENT(INOUT),TARGET :: BUFMAT
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
+      TYPE(MLAW_TAG_) , DIMENSION(NUMMAT  ) , INTENT(INOUT) :: MLAW_TAG
+      TYPE(EOS_TAG_)  ,DIMENSION(0:MAXEOS) , INTENT(INOUT) :: EOS_TAG
+      TYPE(FAIL_TAG_) ,DIMENSION(0:MAXFAIL), INTENT(INOUT) :: FAIL_TAG
+      TYPE(VISC_TAG_) ,DIMENSION(0:MAXVISC), INTENT(INOUT) :: VISC_TAG
+      TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
+      TYPE(FAILWAVE_STR_) :: FAILWAVE 
+      TYPE(NLOCAL_STR_) :: NLOC_DMG 
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(INOUT) :: MATPARAM_TAB
-      TYPE(SUBMODEL_DATA) ,INTENT(IN) ::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA) ,INTENT(IN) :: LSUBMODEL(NSUBMOD)
       TYPE(TTABLE) TABLE(NTABLE)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ::  I,J,K,N,IADBUF,IMAT, ILAW, JALE, JTUR, JTHE, I_ALE,
-     .     IBID, CODCONV,CODREZO, IAD_THERM, IALEFVM_FLG, IGFLAG, MFLAG,
-     .     IFUNC_ALPHA,IFORM,IGAS,IMOLE,ID,MID1,MID2,UID1,UID2, ILAW1,ILAW2,NPAR,MAT_ID,UID
-      INTEGER :: KK
+      INTEGER ::  I,J,K,N,IADBUF,IMAT, ILAW, JALE, ID,MID1,MID2,UID1,UID2, ILAW1,ILAW2,NPAR,MAT_ID,UID,KK
       LOGICAL IS_ENCRYPTED, IS_AVAILABLE
-      INTEGER ,DIMENSION(NUMMAT) :: ITHERM_FOR
-      my_real ::  UPWM,UPWO,FLRD,T0,SPH,AS,BS,T1,AL,BL,PUN,
-     .   RBID,FSCAL_ALPHA,SPHM1,EFRAC
-      CHARACTER TITR*nchartitle,KEY*ncharkey,KEY2*ncharkey,MESS*40
-C
+      my_real ::  T0,SPH,AS,BS,T1,AL,BL
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
-      INTEGER,EXTERNAL :: NINTRI
       INTEGER NRUPT
       PARAMETER (NRUPT = 10) 
       INTEGER IFUNC(MAXFUNC), NVAR_FAIL(MAXLAW,NRUPT) 
-      INTEGER :: NB_EULERMAT, NB_ALEMAT  
-      my_real, DIMENSION(:), POINTER :: UPARAM  
-      CHARACTER(len=2048) :: LIGNE
+      CHARACTER MESS*40
 C-----------------------------------------------
-      LIGNE(1:2048) =''
       DATA IADBUF /1/
       DATA MESS/'MATERIAL DEFINITION                     '/
-c-------------------------------------------------------------------===============
-C     Set default parameters used in material laws
-c----
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------      
+      !Set default parameters used in material laws
       CALL INI_MLAW_VARS(MLAW_TAG ,FAIL_TAG ,VISC_TAG ,NUMMAT)  ! attention ca ne marchera pas
       CALL INI_EOS_VARS (EOS_TAG,  MAXEOS )
       CALL INI_MATPARAM (MATPARAM_TAB ,NUMMAT)
@@ -158,357 +159,86 @@ c----------
       IEULER  = 0
       ITHERM  = 0
       ITURB   = 0
-      PUN     = EM01
-c
       PM(1:100,NUMMAT)=ZERO
-c
-c
-c     Initialise number of material in law151
-      MULTI_FVM%NBMAT = 0
-c     Initialization of failwave option
-      FAILWAVE%WAVE_MOD = 0
+      MULTI_FVM%NBMAT = 0 !Initialize number of material in law151  
+      FAILWAVE%WAVE_MOD = 0 !Initialization of failwave option
       FAILWAVE%NDDL = 0
-
+c----------       
+      !PRECONDITION - RETURN
       IF (NUMMAT == 1) THEN
         ILAG=1
         RETURN
       ENDIF
-c-------------------------------------------------------------------      
+c---------- 
+    
       WRITE(IOUT,1000)NUMMAT-1
-c-------------------------------------------------------------------
 
 c-------------------------------------------------------------------
-c     Material laws
-c-------------------------------------------------------------------
-      
+c     /MAT : Material laws (Constitutive law : sigma,epsilon)
+c-------------------------------------------------------------------      
       CALL HM_READ_MAT(
      .     MATPARAM_TAB,MLAW_TAG    ,FAIL_TAG    ,EOS_TAG     ,BUFMAT      ,
      .     BUFLEN      ,IADBUF      ,MAXEOS      ,IPM         ,PM          ,
      .     MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE)
-c
+
 c-------------------------------------------------------------------
-c     Equations of State
+c     /EOS : Equations of State P=P(µ,E)
 c-------------------------------------------------------------------
-c
       CALL HM_READ_EOS(IPM      ,PM       ,BUFMAT   ,BUFLEN   ,IADBUF   ,
      .                 EOS_TAG  ,MAXEOS   ,UNITAB   ,LSUBMODEL)
-c
-c
-      !CALL LECEOS(IPM,PM,BUFMAT,BUFLEN,IADBUF,UNITAB,EOS_TAG,MAXEOS)
-c
+
 c-------------------------------------------------------------------
-c     Failure Models
-c-------------------------------------------------------------------
-c      
+c     /FAIL : Failure Models
+c-------------------------------------------------------------------     
       CALL HM_READ_FAIL(FAIL_TAG,FAILWAVE ,NLOC_DMG,IPM     ,PM       ,
      .                  BUFMAT  ,BUFLEN   ,IADBUF  ,UNITAB  ,LSUBMODEL,
      .                  NRUPT   ,NVAR_FAIL,TABLE   )
+     
 c-------------------------------------------------------------------
-c     Visco elastic  Models
+c     /VISC : Visco elastic  Models
+c-------------------------------------------------------------------    
+      CALL HM_READ_VISC(VISC_TAG, IPM, PM, BUFMAT, BUFLEN, IADBUF, UNITAB, LSUBMODEL, TABLE)
+
 c-------------------------------------------------------------------
-c      
-      CALL HM_READ_VISC(VISC_TAG,IPM,PM,BUFMAT,BUFLEN,IADBUF,UNITAB,LSUBMODEL,TABLE)
-c
-c
-c      CALL LECVISC(VISC_TAG,IPM,PM,BUFMAT,BUFLEN,IADBUF,UNITAB)       
-c
+c     /LEAK : Fabric Leakage Models
 c-------------------------------------------------------------------
-c     Fabric Leakage Models
-c-------------------------------------------------------------------
-c
-      CALL HM_READ_LEAK(IPM,PM,UNITAB,LSUBMODEL)
-c
+      CALL HM_READ_LEAK(IPM, PM, UNITAB, LSUBMODEL)
+
 c-------------------------------------------------------------------
 C     /ALE/MAT
 c-------------------------------------------------------------------
-
-        CALL HM_OPTION_COUNT('/ALE/MAT',NB_ALEMAT)
-        CALL HM_OPTION_START('/ALE/MAT')
-        
-        DO KK=1,NB_ALEMAT
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID)
-          CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
-          CALL HM_GET_FLOATV('ALE_FLRD',FLRD,IS_AVAILABLE,LSUBMODEL,UNITAB)   
-          IALEFVM_FLG = 0
-          DO I=1,NUMMAT-1                     
-            IF(IPM(1,I) == ID) THEN                   
-              ILAW = IPM(2,I)                        
-              IF(ILAW == 11)THEN                     
-               IF(FLRD == ZERO) FLRD=ONE              
-              ELSE                                   
-               FLRD=MAX(ZERO,FLRD)                   
-               FLRD=MIN(ONE,FLRD)                     
-              ENDIF                                  
-              PM(72,I) =ONEP1                         
-              PM(92,I) =FLRD  
-              IPM(251,I)= IALEFVM_FLG                
-              IF(IALEFVM_FLG>=2)THEN               
-                WRITE(IOUT,2011)ID,IALEFVM_FLG, FLRD  
-                IALEFVM = 1                          
-              ELSE                                   
-                WRITE(IOUT,2010)ID,FLRD               
-                IALEFVM_FLG = 1                      
-              ENDIF                                  
-            ENDIF                                    
-          ENDDO                                      
-        ENDDO
+        CALL READ_ALE_MAT(LSUBMODEL, UNITAB, IPM, PM, ID)
 
 c-------------------------------------------------------------------
 C     /EULER/MAT
 c-------------------------------------------------------------------
-
-        CALL HM_OPTION_COUNT('/EULER/MAT',NB_EULERMAT)
-        CALL HM_OPTION_START('/EULER/MAT')
-        
-        DO KK=1,NB_EULERMAT
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID)
-          CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
-          CALL HM_GET_FLOATV('EULER_FLRD',FLRD,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          IALEFVM_FLG = 0
-          DO I=1,NUMMAT-1                                
-            IF(IPM(1,I) == ID)THEN                        
-                ILAW = IPM(2,I)                          
-              IF(ILAW == 11)THEN                         
-                IF(FLRD == ZERO) FLRD=ONE                 
-              ELSE                                       
-                FLRD=MAX(ZERO,FLRD)                      
-                FLRD=MIN(ONE,FLRD)                        
-              ENDIF                                      
-              PM(72,I)  = TWOP1                         
-              PM(92,I)  = FLRD      
-              IPM(251,I)= IALEFVM_FLG                    
-              IF(IALEFVM_FLG>=2)THEN                   
-                WRITE(IOUT,2021)ID,IALEFVM_FLG, FLRD      
-                IALEFVM = 1                              
-              ELSE                                       
-                WRITE(IOUT,2020)ID,FLRD                   
-                IALEFVM_FLG = 1                          
-              ENDIF                                      
-            ENDIF                                        
-          ENDDO                                          
-        ENDDO
+        CALL READ_EULER_MAT(LSUBMODEL, UNITAB, IPM, PM, ID)
         
 c-------------------------------------------------------------------
-c     multimaterial law buffer (need to be done after lecmat and before inivol)
-c         LAW51 - IFORM=12
+c     /MAT/LAW51 - FILL BUFFER (modern input)
 c-------------------------------------------------------------------
-     
-      DO I=1,NUMMAT-1
-        TITR =MATPARAM_TAB(I)%TITLE        
-        ILAW   = IPM(2,I)
-        IF(ILAW/=51)CYCLE
-        IADBUF = IPM(7,I)
-        NPAR   = IPM(9,I)
-        IADBUF = MAX(1,IADBUF)
-        UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)
-        IFORM = NINT(UPARAM(31))
-        IPM(62, I) = IFORM
-        MAT_ID=IPM(1,I)
-        IF(IFORM==12)THEN
-          CALL FILL_BUFFER_51( IPM, PM, UPARAM, BUFMAT, MAT_ID, TITR, I) 
-          PM(38,I) = UPARAM(42)
-        ENDIF
-      ENDDO
+      CALL FILL_BUFFER_51_0(MATPARAM_TAB, IPM, PM, BUFMAT)
 
 c-------------------------------------------------------------------
-c     Thermal parameters for materials : /HEAT/MAT
+c     /HEAT/MAT : thermal parameters
 c-------------------------------------------------------------------
-c
-      CALL HM_READ_THERM(BUFMAT   ,BUFLEN   ,IPM      ,PM       ,
-     .                   UNITAB   ,LSUBMODEL)
-c
-c-------------------------------------------------------------------
-c     Thermal material expansion : /THERM/STRESS
-c-------------------------------------------------------------------
+      CALL HM_READ_THERM(BUFMAT, BUFLEN, IPM, PM, UNITAB, LSUBMODEL)
 
-      CALL HM_READ_THERM_STRESS(MLAW_TAG   ,IPM   ,PM  , UNITAB  ,LSUBMODEL)
-c
 c-------------------------------------------------------------------
-c     Non-local regularization : /NONLOCAL
+c     /THERM/STRESS : thermal expansion
 c-------------------------------------------------------------------
-c
+      CALL HM_READ_THERM_STRESS(MLAW_TAG, IPM, PM, UNITAB, LSUBMODEL)
+
+c-------------------------------------------------------------------
+c     /NONLOCAL : Non-local regularization
+c------------------------------------------------------------------
       CALL HM_READ_NONLOCAL(NLOC_DMG ,MLAW_TAG ,IPM      ,UNITAB   ,LSUBMODEL)
-c
-c-------------------------------------------------------------------
-      !ALL ALE MATERIAL LAW : SSP STORAGE 
-c-------------------------------------------------------------------
-      DO I=1,NUMMAT-1   
-        ILAW = IPM(2,I)          
-        JALE = NINT(PM(72,I))          
-        IF(JALE /=0)THEN               
-          IF(ILAW==1 .OR.
-     .       ILAW==2 .OR.
-     .       ILAW==3 .OR.
-     .       ILAW==4 .OR.
-     .       ILAW==5 .OR.
-     .       ILAW==6 .OR.
-     .       ILAW==7 .OR.
-     .       ILAW==8 .OR.
-     .       ILAW==9 .OR.
-     .       ILAW==10 .OR.
-     .       ILAW==11 .OR.
-     .       ILAW==13 .OR.
-     .       ILAW==16 .OR.
-     .       ILAW==17 .OR.
-     .       ILAW==18 .OR.
-     .       ILAW==20 .OR.
-     .       ILAW==21 .OR.
-     .       ILAW==22 .OR.
-     .       ILAW==23 .OR.
-     .       ILAW==26 .OR.
-     .       ILAW==29 .OR.
-     .       ILAW==30 .OR.
-     .       ILAW==31 .OR.
-     .       ILAW==36 .OR.
-     .       ILAW==37 .OR.
-     .       ILAW==41 .OR.
-     .       ILAW==44 .OR.
-     .       ILAW==46 .OR.
-     .       ILAW==47 .OR.
-     .       ILAW==49 .OR.
-     .       ILAW>=50     )THEN     
-               MLAW_TAG(I)%L_SSP    = 1 
-               IF(ILAW==20)THEN
-                 uID1                  = NINT(PM(21,I))
-                 uID2                  = NINT(PM(22,I))
-                 MID1                  = NINTRI(uID1,IPM,NPROPMI,NUMMAT,1)
-                 MID2                  = NINTRI(uID2,IPM,NPROPMI,NUMMAT,1)
-                 ILAW1                 = IPM(2,MID1)
-                 ILAW2                 = IPM(2,MID2)               
-                 MLAW_TAG(MID1)%L_SSP = 1 ! boundary layer material (ilaw updated later in sgrtail.F)
-                 MLAW_TAG(MID2)%L_SSP = 1 ! boundary layer material (ilaw updated later in sgrtail.F) 
-               ENDIF               
-          ENDIF                        
-        ENDIF 
-      ENDDO!next I
-c-------------------------------------------------------------------
-      !ALE code convection par materiau et global
-c-------------------------------------------------------------------
-      DO I=1,LCONV
-        CODV(I)=0
-      ENDDO
-      IF(IALE+IEULER/=0.AND.ICONVCP == 1)THEN
-        WRITE(IOUT,2008)
-      END IF
-      ! mass and energy convection for ALE/EULER laws
-      DO I=1,NUMMAT-1
-        ILAW = IPM(2,I)
-        JTUR = NINT(PM(70,I))
-        JTHE = NINT(PM(71,I))
-        JALE = NINT(PM(72,I))
-        CODCONV=0
-        CODREZO=0
-        IF(JALE>0)THEN
-          IF(ILAW==1 .OR.
-     .       ILAW==2 .OR.
-     .       ILAW==3 .OR.
-     .       ILAW==4 .OR.
-     .       ILAW==5 .OR.
-     .       ILAW==6 .OR.
-     .       ILAW==7 .OR.
-     .       ILAW==8 .OR.
-     .       ILAW==9 .OR.
-     .       ILAW==10 .OR.
-     .       ILAW==11 .OR.
-     .       ILAW==13 .OR.
-     .       ILAW==16 .OR.
-     .       ILAW==17 .OR.
-     .       ILAW==18 .OR.
-     .       ILAW==20 .OR.
-     .       ILAW==21 .OR.
-     .       ILAW==22 .OR.
-     .       ILAW==23 .OR.
-     .       ILAW==26 .OR.
-     .       ILAW==29 .OR.
-     .       ILAW==30 .OR.
-     .       ILAW==31 .OR.
-     .       ILAW==36 .OR.
-     .       ILAW==37 .OR.
-     .       ILAW==41 .OR.
-     .       ILAW==44 .OR.
-     .       ILAW==46 .OR.
-     .       ILAW==47 .OR.
-     .       ILAW==49 .OR.
-     .       ILAW>=50     )THEN
-                CODCONV = 11
-                CODV(1) = 01
-                CODV(2) = 01
-          ENDIF
-        ENDIF
-        IF(JTUR>0) THEN
-          CODCONV=CODCONV + 1100
-          CODV(3)=1
-          CODV(4)=1
-        ENDIF
-        IF(ILAW == 37 .OR. ILAW == 41)THEN
-          CODCONV=CODCONV+10000
-          CODV(5)=1
-        ENDIF
-        IF(JALE>0 .AND.(
-     .     ILAW == 2  .OR.
-     .     ILAW == 3  .OR.
-     .     ILAW == 4  .OR.
-     .     ILAW == 7  .OR.
-     .     ILAW == 8  .OR.
-     .     ILAW == 9  .OR.
-     .     ILAW == 10 .OR.
-     .     ILAW == 16 .OR.
-     .     ILAW == 21 .OR.
-     .     ILAW == 22 .OR.
-     .     ILAW == 23 .OR.
-     .     ILAW == 26 .OR.
-     .     ILAW == 28 .OR.
-     .     ILAW == 29 .OR.
-     .     ILAW == 30 .OR.
-     .     ILAW == 31 .OR.
-     .     ILAW == 36 .OR.
-     .     ILAW == 44 .OR.
-     .     ILAW == 49 .OR.
-     .     ILAW == 97       )  )THEN
-             CODREZO=11
-           ENDIF
-         IF(JALE>0 .AND. ILAW == 1)THEN
-            CODREZO=1
-         ENDIF
-         
-        !---ALEFVM (obsolete)---! 
-        IF(JALE > 0 .AND. IALEFVM == 1)THEN
-          !Momentum Convection : %MOM(1:3,:)
-          CODCONV=CODCONV+011100000 
-          CODV(6) = 1
-          CODV(7) = 1
-          CODV(8) = 1                    
-        ENDIF
-        
-        !Seems no longer used since nothing was planned for NVAR=6 
-        IF(JALE>0 .AND. ICONVCP == 1 .AND.(
-     .     ILAW == 11 .OR.
-     .     ILAW == 67      ) )THEN
-         !ts 12feb2016 : nothing was done in aconve for nvar=6,7,8,9,  law67 may be re-plugged later
- !          CODCONV=CODCONV+111100000
-!          CODV(6) =1
-!          CODV(7) =1
-!          CODV(8) =1
-!          CODV(9) =1
-          !ts 12feb2016 : nothing was done in aconve for nvar=6,7,8,9,  law67 may be re-plugged later
-        ELSEIF(JALE > 0 .AND. ITHERM > 0 .AND. ILAW == 51 )THEN
-         CODCONV = CODCONV + 100000
-         CODV(6) =1          
-        END IF
- 
-        PM(10,I)=CODCONV+PUN        
-        PM(11,I)=CODREZO+PUN        
 
-      ENDDO
-
-      !ALE CONVECTION INDEXES
-      NVCONV=0
-      DO I=1,LCONV
-         IF(CODV(I) == 1)THEN
-            NVCONV=NVCONV+1
-            CODV(I)=NVCONV
-         ENDIF
-      ENDDO
+c-------------------------------------------------------------------
+c      ALE EULER SPECIFIC TREATMENTS 
+c-------------------------------------------------------------------
+      !SSP BUFFER + UPWIND + TURB + CHECK
+      CALL ALE_EULER_INIT( MLAW_TAG,IPM,PM )
       
       !SPECIFIC TREATMENTS FOR LAW151 MATERIAL LAWS RELATED TO PSH PARAMETERS & EOS
       IF (MULTI_FVM%IS_USED) THEN
@@ -516,62 +246,19 @@ c-------------------------------------------------------------------
          !They must be equal one to another, otherwise, throw an error
          CALL MULTI_CHECK_PSH(MULTI_FVM, NUMMAT, NPROPMI, NPROPM, IPM, PM)
          CALL MULTI_CHECK_EOS(MULTI_FVM, NUMMAT, NPROPMI, NPROPM, IPM, PM)
-      ENDIF      
+      ENDIF   
+      
+c-------------------------------------------------------------------
+      !ALE CONVECTION CODES (REYNOLDS TRANSPORTATION)
+c-------------------------------------------------------------------
+      CALL ALE_SET_CONVECTION_CODES(IPM,PM)   
 
 C------------------------------
-      RETURN
- 999  CALL ANCMSG(MSGID=55,
-     .            ANMODE=ANINFO,
-     .            MSGTYPE=MSGERROR,
-     .            C1=KEY0(KCUR),
-     .            C2=KLINE,
-     .            C3=LINE)
-         CALL ARRET(2)
       RETURN
 c------------------------------
  1000 FORMAT(//
      .    '    MATERIAL LAWS'/
      .    '    -------------'/,
      .    '    NUMBER OF MATERIALS. . . . . . . . . =',I10//)
- 2000 FORMAT(/
-     & 5X,'    THERMAL MATERIAL  ',/,
-     & 5X,'    ----------------  ',/,
-     & 5X,'MATERIAL NUMBER . . . . . . . . . . . . . . . =',I10/,
-     & 5X,'T0. . . . . . . . . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'SPECIFIC HEAT . . . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'AS. . . . . . . . . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'BS. . . . . . . . . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'T1. . . . . . . . . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'AL. . . . . . . . . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'BL. . . . . . . . . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'HEAT TRANSFER FORMULATION . . . . . . . . . . = ',I10/,
-     & 10X,'    0: it is based on Finite Volume  Method',/        
-     & 10X,'    1: it is based on Finite Element Method '/
-     & 5X,'FRACTION OF STRAIN ENERGY CONVERTED INTO HEAT =',1PG20.13/)
- 2008  FORMAT(
-     & 5X,'    TRANSPORT of SPECIFIC HEAT for LAW67 is ON ',/,
-     & 5X,'    ------------------------------------------- ',/)
- 2010 FORMAT(
-     & 5X,'    ALE MATERIAL  ',/,
-     & 5X,'    ------------  ',/,
-     & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
-     & 5X,'REDUCTION FACTOR ON BOUNDARY FLUXES . .=',1PG20.13//)
- 2011 FORMAT(
-     & 5X,'    ALE MATERIAL  ',/,
-     & 5X,'    ------------  ',/,
-     & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
-     & 5X,'FINITE VOLUME METHOD FOR MOMENTUM . . .=',I10/,      
-     & 5X,'REDUCTION FACTOR ON BOUNDARY FLUXES . .=',1PG20.13//)     
- 2020 FORMAT(
-     & 5X,'    EULERIAN MATERIAL  ',/,
-     & 5X,'    -----------------  ',/,
-     & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
-     & 5X,'REDUCTION FACTOR ON BOUNDARY FLUXES . .=',1PG20.13//)
- 2021 FORMAT(
-     & 5X,'    EULERIAN MATERIAL  ',/,
-     & 5X,'    -----------------  ',/,
-     & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
-     & 5X,'FINITE VOLUME METHOD FOR MOMENTUM . . .=',I10/,     
-     & 5X,'REDUCTION FACTOR ON BOUNDARY FLUXES . .=',1PG20.13//)     
 c------------------------------
       END
