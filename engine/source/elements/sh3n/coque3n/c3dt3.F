@@ -33,7 +33,7 @@ Chd|====================================================================
      4                 ALPE  ,MSTG   ,DMELTG ,JSMS   ,PTG    ,
      5                 SHF   ,IGTYP  ,IGMAT  ,G      ,A1     ,
      6                 A11R  ,G_DT   ,DTEL   ,ALDT   ,THK0   ,
-     7                 AREA  ,NGL    ,IMAT   )
+     7                 AREA  ,NGL    ,IMAT   ,MTN    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NELTST,ITYPTST,ISMSTR,NFT,IOFC, JSMS,IGTYP,
-     .        IGMAT,IMAT
+     .        IGMAT,IMAT,MTN
       INTEGER NGL(MVSIZ)
       my_real
      .   PM(NPROPM,*), OFF(*),STI(*),STIR(*),OFFG(*),SSP(MVSIZ),
@@ -100,6 +100,7 @@ C
                 ENDIF
           ENDDO       
         ELSE
+           IF (MTN ==58 ) CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   )
            DO  I=JFT,JLT
             A1(I) = PM(24,IMAT)
             G(I)  = PM(22,IMAT)

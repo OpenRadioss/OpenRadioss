@@ -37,7 +37,8 @@ Chd|====================================================================
      3                 A1    ,ALDT    ,ALPE ,NGL  ,ISMSTR,
      4                 IOFC  ,NNE     ,AREA ,G    ,SHF   ,
      5                 MSC   ,DMELC   ,JSMS ,PTG  ,IGTYP ,
-     6                 IGMAT ,A11R    ,G_DT ,DTEL)
+     6                 IGMAT ,A11R    ,G_DT ,DTEL ,MTN   ,
+     7                 PM    ,IMAT    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,16 +63,18 @@ C-----------------------------------------------
 #include      "scr18_c.inc"
 #include      "sms_c.inc"
 #include      "units_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NELTST,ITYPTST,ISMSTR,IOFC,NNE, JSMS,IGTYP
-      INTEGER NGL(*),IGMAT,G_DT
+      INTEGER NGL(*),IGMAT,G_DT,MTN,IMAT
 C     REAL
       my_real OFF(*),STI(*),STIR(*),OFFG(*),SSP(*),AMU(*),
      .   ALDT(*), ALPE(*), A1(*), THK0(*),THK02(*),
      .   VOL0(*), VISCMX(*), RHO(*),DT2T, AREA(*), G(*), SHF(*),
      .   MSC(*), DMELC(*), PTG(3,*),A11R(*),DTEL(MVSIZ)
+      my_real, DIMENSION(NPROPM,NUMMAT) ,INTENT(IN):: PM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -88,6 +91,14 @@ c---------------------------------------------------
 C
       ITYEL = 3
       IF (NNE==3) ITYEL = 7
+      IF (NODADT/=0) THEN
+        IF(IGTYP == 52 .OR. 
+     .   ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
+     .                                   .AND. IGMAT > 0 )) THEN
+        ELSE
+          IF (MTN ==58 ) CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   )
+        END IF
+      END IF
 C----- isub will add here-----
       IF(IDTMINS == 2)THEN
         DO I=JFT,JLT

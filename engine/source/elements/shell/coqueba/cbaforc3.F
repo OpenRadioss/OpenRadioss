@@ -1089,7 +1089,8 @@ C
      4        A11    ,LC   ,ALPE       , NGL    ,ISMSTR,     
      5        IOFC   ,NNOD   ,AREA     , G      ,SHF   ,     
      6        MSC    ,DMELC  ,JSMS     , BID    ,IGTYP ,     
-     7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT)
+     7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
+     8        PM     ,MAT(JFT))
 C
       ENDIF
 C--------------------------

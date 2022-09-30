@@ -455,6 +455,8 @@ C-----------------------------
       DO I=JFT,JLT
         VISCMX(I) = SQRT(ONE + VISCMX(I)*VISCMX(I)) - VISCMX(I)
       ENDDO
+      IF (NODADT /= 0 .AND. MTN ==58 ) 
+     .            CALL CSSP2A11(PM,MAT(JFT),SSP ,A11  ,JLT   )
 c---------------------------------------------------
         IF (NPTT == 1) THEN
           CALL MHVIS3(JFT    ,JLT    ,PM     ,THKG    ,HOURGG    ,
@@ -472,7 +474,7 @@ c---------------------------------------------------
      D                VHX    ,VHY    ,H11    ,H12     ,H13       ,
      E                H14    ,H21    ,H22    ,H23     ,H24       ,
      F                H31    ,H32    ,H33    ,H34     ,H1        ,
-     G                H2     ,IGEO   ,NEL    )
+     G                H2     ,IGEO   ,NEL    ,MTN     ,A11      )
         ELSEIF (IHBE == 2) THEN
           CALL CHSTI3(
      1            JFT    ,JLT    ,THKG   ,HOURGG ,OFF   ,PX1    ,
