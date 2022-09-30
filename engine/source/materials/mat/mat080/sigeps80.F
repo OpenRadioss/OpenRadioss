@@ -1220,8 +1220,8 @@ C
          IF(UVAR(I,34)>TEMPEL(I))UVAR(I,34)=TEMPEL(I)                
 
          UVAR(I,23)= FRAC2(I)/XEQ2       !X2(I)
-         UVAR(I,24)= FRAC3(I)/(ONE-XEQ2)  !X3(I)
-         UVAR(I,25)= FRAC4(I)/(ONE-XEQ2)!X4(I)        
+         UVAR(I,24)= FRAC3(I)/(ONE-XEQ2) !X3(I)
+         UVAR(I,25)= FRAC4(I)            !X4(I)        
          UVAR(I,44)= FRAC5(I)/MAX(EM20,XGAMA(I))
 
          UVAR(I,2)= FRAC1(I)
@@ -1353,8 +1353,8 @@ c---------------------------------
         ELSEIF(TEMPEL(I)>MS)THEN
           IF(X4(I)<0.999)THEN
            ! BAINITE  FORMATION 
-            X4OLD(I) =  X4(I) !FRAC4(I)/MAX(EM20,ONE- XEQ4 ) ! X4(I)
-            IF(X4(I) == ZERO) X4(I) = X3(I)  !FRAC3(I)/(ONE-XEQ2) !X3(I)!EM10!X3(I)
+            X4OLD(I) =  X4(I) !FRAC4(I) = X4(I)
+            IF(X4(I) == ZERO) X4(I) = X3(I)  !FRAC3(I)/(ONE-XEQ2) 
             ! INITIALISE AU TAUX DE PERLITE
             FTEMP=EXP(-QR4/TEMPEL(I)) *(TEMPEL(I)-BS)**2
             CONST=FTEMP*FGRAIN*FCBAI
@@ -1372,7 +1372,7 @@ c---------------------------------
               FDOT=DTI-CONST*((UDOT*VX+VDOT*UX)*GX-UX*VX*GDOT)/GX/GX
               X4(I)=MAX(EM20,X4(I)-F/FDOT)
            ENDDO
-           FRAC4(I)=X4(I)*(ONE-XEQ2)
+           FRAC4(I)=X4(I)
            FRAC1(I)=ONE-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
           ENDIF
             
