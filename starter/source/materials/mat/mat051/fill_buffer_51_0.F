@@ -52,8 +52,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(INOUT) :: MATPARAM_TAB
-      INTEGER,TARGET :: IPM(NPROPMI,NUMMAT)
-      my_real,TARGET :: PM(NPROPM,NUMMAT),BUFMAT(SBUFMAT)
+      INTEGER,TARGET,INTENT(INOUT) :: IPM(NPROPMI,NUMMAT)
+      my_real,TARGET,INTENT(INOUT) :: PM(NPROPM,NUMMAT),BUFMAT(SBUFMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

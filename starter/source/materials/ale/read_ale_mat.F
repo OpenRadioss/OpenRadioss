@@ -25,7 +25,7 @@ Chd|  READ_ALE_MAT                  source/materials/ale/read_ale_mat.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE READ_ALE_MAT(LSUBMODEL,UNITAB,IPM,PM ,ID)
+      SUBROUTINE READ_ALE_MAT(LSUBMODEL,UNITAB,IPM,PM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -49,17 +49,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  :: BUFLEN
-      INTEGER,INTENT(IN) :: ID      
-      INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(OUT)   :: IPM
-      my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(OUT)   :: PM
+      INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(INOUT)   :: IPM
+      my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(INOUT)   :: PM
       TYPE (UNIT_TYPE_) ,INTENT(IN) :: UNITAB 
       TYPE(SUBMODEL_DATA) ,DIMENSION(NSUBMOD) , INTENT(IN)    :: LSUBMODEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real FLRD
-      INTEGER II,KK,NB_ALEMAT,ILAW,IALEFVM_FLG
+      INTEGER II,KK,NB_ALEMAT,ILAW,IALEFVM_FLG,ID
       CHARACTER TITR*nchartitle,KEY*80
       LOGICAL IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------

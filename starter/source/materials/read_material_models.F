@@ -207,12 +207,12 @@ c-------------------------------------------------------------------
 c-------------------------------------------------------------------
 C     /ALE/MAT
 c-------------------------------------------------------------------
-        CALL READ_ALE_MAT(LSUBMODEL, UNITAB, IPM, PM, ID)
+        CALL READ_ALE_MAT(LSUBMODEL, UNITAB, IPM, PM)
 
 c-------------------------------------------------------------------
 C     /EULER/MAT
 c-------------------------------------------------------------------
-        CALL READ_EULER_MAT(LSUBMODEL, UNITAB, IPM, PM, ID)
+        CALL READ_EULER_MAT(LSUBMODEL, UNITAB, IPM, PM)
         
 c-------------------------------------------------------------------
 c     /MAT/LAW51 - FILL BUFFER (modern input)
@@ -232,7 +232,7 @@ c-------------------------------------------------------------------
 c-------------------------------------------------------------------
 c     /NONLOCAL : Non-local regularization
 c------------------------------------------------------------------
-      CALL HM_READ_NONLOCAL(NLOC_DMG ,MLAW_TAG ,IPM      ,UNITAB   ,LSUBMODEL)
+      CALL HM_READ_NONLOCAL(NLOC_DMG ,MLAW_TAG ,IPM, UNITAB, LSUBMODEL)
 
 c-------------------------------------------------------------------
 c      ALE EULER SPECIFIC TREATMENTS 
