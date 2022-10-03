@@ -150,7 +150,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL) :: EC,ET,LC,LT,FN,SIGG0,DTANG,TFOLD,YC,YT,
      .        EMINRLC,EMAXRLC,EPSMAXC,EMINRLT,EMAXRLT,EPSMAXT,EPSNC,EPSNT,EPSNS,
      .        KMAX,STIFFC,STIFFT,EPSNRLC,EPSNRLT,SMAXRLC,SMAXRLT,SMINRLC,SIGMAXC,
-     .        SMINRLT,SIGMAXT,PHIMIN,PHIMAX,PHIRLMAX,SXYMAX,
+     .        SMINRLT,SIGMAXT,PHIMIN,PHIMAX,PHIRLMAX,SXYMAX,ALDTM,
      .        SXYMIN,SXYMAXRL,CVISC,CVIST
 C-----------------------------------------------
 C   S t a t e    V a r i a b l e s  (U V A R)
@@ -514,7 +514,8 @@ C---      contraintes frottement cisaillement
 C---
           SINN = TAN_PHI(I) / SQRT(ONE + TAN2)
           KMAX(I) = MAX(STIFFC(I)*RFAC,STIFFT(I)*RFAT)*(ONE+SINN) + KG
-          LMIN = MIN(DC/DC0,DT/DT0)*UVAR(I,14)
+          LMIN    = MIN(DC/DC0,DT/DT0)*UVAR(I,14)
+          ALDTM(I)= ALDT(I) / LMIN
           VISCMAX(I) = MAX(V1,V2)
           ETSE(I)    = ONE
         ENDDO
@@ -522,7 +523,7 @@ C---
 #include "vectorize.inc"
         DO  J=1,NINDX
           I=INDEX(J)
-          SOUNDSP(I)= SQRT(KMAX(I)/(RHO0(I)))*ALDT(I)/LMIN
+          SOUNDSP(I)= SQRT(KMAX(I)/(RHO0(I)))*ALDTM(I)
           UVAR(I,1) = SIGNXX(I) + SIGVXX(I)
           UVAR(I,2) = SIGNYY(I) + SIGVYY(I)
           UVAR(I,3) = SIGNXY(I) + SIGVXY(I)
@@ -1571,7 +1572,8 @@ C---      contraintes frottement cisaillement
 C---
           SINN = TAN_PHI(I) / SQRT(ONE + TAN2)
           KMAX(I) = MAX(STIFFC(I)*RFAC,STIFFT(I)*RFAT)*(ONE+SINN) + KG
-          LMIN = MIN(DC/DC0,DT/DT0)*UVAR(I,14)
+          LMIN    = MIN(DC/DC0,DT/DT0)*UVAR(I,14)
+          ALDTM(I)= ALDT(I) / LMIN
           VISCMAX(I) = MAX(V1,V2)
           ETSE(I)    = ONE
         ENDDO
@@ -1579,7 +1581,7 @@ C---
 #include "vectorize.inc"
         DO  J=1,NINDX
           I=INDEX(J)
-          SOUNDSP(I)= SQRT(KMAX(I)/(RHO0(I)))*ALDT(I)/LMIN
+          SOUNDSP(I)= SQRT(KMAX(I)/(RHO0(I)))*ALDTM(I)
           UVAR(I,1) = SIGNXX(I) + SIGVXX(I)
           UVAR(I,2) = SIGNYY(I) + SIGVYY(I)
           UVAR(I,3) = SIGNXY(I) + SIGVXY(I)
