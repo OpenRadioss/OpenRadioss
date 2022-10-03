@@ -1325,6 +1325,7 @@ C--------------------------------------
         CALL WRITE_I_C(SLIPRING(I)%IFUNC, 4)
         CALL WRITE_I_C(SLIPRING(I)%SENSID, 1)
         CALL WRITE_I_C(SLIPRING(I)%FL_FLAG, 1)
+        CALL WRITE_I_C(SLIPRING(I)%RBODY, 1)
 C
         CALL WRITE_DB(SLIPRING(I)%DC, 1)
         CALL WRITE_DB(SLIPRING(I)%A, 1)

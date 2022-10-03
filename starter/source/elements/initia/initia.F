@@ -182,7 +182,7 @@ Chd|====================================================================
      I                  FXBCPM     ,FXBCPS       ,FXBLM        ,FXBFLS       ,FXBDLS,
      J                  FXB_MATRIX ,FXB_MATRIX_ADD,FXB_LAST_ADRESS,PTR_NOPT_FXB,R_SKEW,
      K                  KNOD2EL1D  ,NOD2EL1D     ,EBCS_TAB     ,RBY_INIAXIS  ,ALEA    ,
-     K                  KNOD2ELC   ,NOD2ELC      ,DR           )
+     K                  KNOD2ELC   ,NOD2ELC      ,DR           ,SLRBODY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -277,7 +277,7 @@ C-----------------------------------------------
      .        NSIGS, NSIGSPH, FXBIPM(NBIPM,*), FXBELM(*),NSIGRS,
      .        NUMEL,STAT,
      .        NCTRLMAX,NSIGBEAM,NSIGTRUSS
-      INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*)
+      INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*),SLRBODY
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
       my_real
      .   ELBUF(*), MS(*), IN(*), V(*), X(*), GEO(*),PM(NPROPM,*),
@@ -2129,7 +2129,8 @@ C Seat belts initialization :
 C--------------------------------------------
       IF (N_SEATBELT > 0) CALL INI_SEATBELT(IPARG,ELBUF_TAB,KNOD2EL1D,NOD2EL1D,IXR,
      .                                      X,ITAB,IPM,ALEA,KNOD2ELC,
-     .                                      NOD2ELC,IXC)
+     .                                      NOD2ELC,IXC,NPBY,LPBY,SLRBODY,
+     .                                      ICODE)
 C
 C----------------------------------------------------------------
       IF(IPRI>=2) THEN

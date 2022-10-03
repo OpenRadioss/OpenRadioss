@@ -123,6 +123,7 @@ C
           SLIPRING(I)%IFUNC = 0
           SLIPRING(I)%SENSID = 0
           SLIPRING(I)%FL_FLAG = 0
+          SLIPRING(I)%RBODY = 0
           SLIPRING(I)%A = ZERO
           SLIPRING(I)%DC = ZERO
           SLIPRING(I)%FRIC = ZERO

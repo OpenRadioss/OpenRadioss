@@ -30,7 +30,8 @@ Chd|====================================================================
       SUBROUTINE SHELL_REACTIVATION(I,II,L0FRAM1,L0FRAM2,NODE_FRAM1,
      .                              NODE_FRAM2,GSTR,NEL,XL2,YL2,
      .                              XL3,YL3,XL4,YL4,OFFSET,
-     .                              N_DIR2,DIRA_X,DIRA_Y,SMSTR,ISMSTR)
+     .                              N_DIR2,DIRA_X,DIRA_Y,SMSTR,ISMSTR,
+     .                              L_SMSTR)
 C----6------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,9 +49,10 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) ::  I,NODE_FRAM1,NODE_FRAM2,II(6),NEL,ISMSTR
+      INTEGER, INTENT(IN) ::  I,NODE_FRAM1,NODE_FRAM2,II(6),NEL,ISMSTR,L_SMSTR
       my_real, INTENT(IN) ::  L0FRAM1,L0FRAM2,XL2,YL2,XL3,YL3,XL4,YL4,OFFSET,N_DIR2(2)
-      my_real, INTENT(INOUT) ::  GSTR(NEL,8),DIRA_X,DIRA_Y,SMSTR(MVSIZ)
+      my_real, INTENT(INOUT) ::  GSTR(NEL,8),DIRA_X,DIRA_Y
+      DOUBLE PRECISION, INTENT(INOUT) :: SMSTR(L_SMSTR*NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -158,7 +160,7 @@ C
         GSTR(I,8)=ZERO
 C
       ELSE
-
+C
         SMSTR(II(1)+I-1)=XLL(2)
         SMSTR(II(2)+I-1)=YLL(2)
         SMSTR(II(3)+I-1)=XLL(3)

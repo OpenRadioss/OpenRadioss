@@ -4269,7 +4269,8 @@ C
 C-----------------------------------------------------
 C     UPDATE OF SLIPRING
 C-----------------------------------------------------
-      IF (NSLIPRING > 0) CALL UPDATE_SLIPRING(IXR,IXC,IPARG,ELBUF_TAB,FLAG_SLIPRING_UPDATE,X)
+      IF (NSLIPRING > 0) CALL UPDATE_SLIPRING(IXR,IXC,IPARG,ELBUF_TAB,FLAG_SLIPRING_UPDATE,
+     .                                        X,NPBY)
 C
 C---- // GROUPS ----------------
 C     FORCES INTERNES DES COQUES, COQUES 3 NOEUDS
