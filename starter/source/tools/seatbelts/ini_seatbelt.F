@@ -64,7 +64,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,NGROUP),KNOD2EL1D(*),NOD2EL1D(*),IXR(NIXR,*),ITAB(*),IPM(NPROPMI,*),
      .        KNOD2ELC(*),NOD2ELC(*),IXC(NIXC,*)
-      INTEGER, INTENT(IN) :: NPBY(NNPBY,NRBODY),LPBY(SLRBODY),SLRBODY,ICODE(SICODE)
+      INTEGER, INTENT(IN) :: NPBY(NNPBY,NRBODY),SLRBODY,LPBY(SLRBODY),ICODE(SICODE)
       my_real               :: X(3,*),ALEA(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
