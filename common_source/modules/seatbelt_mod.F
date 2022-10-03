@@ -90,6 +90,7 @@ C
         INTEGER  IFUNC(4)
         INTEGER  SENSID
         INTEGER  FL_FLAG
+        INTEGER  RBODY
         my_real  DC
         my_real  A
         my_real  FRIC
