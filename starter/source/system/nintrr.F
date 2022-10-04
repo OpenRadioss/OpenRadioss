@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  NINTRI                        source/system/nintrr.F        
 Chd|-- called by -----------
+Chd|        ALE_EULER_INIT                source/materials/ale/ale_euler_init.F
 Chd|        FILL_BUFFER_51                source/materials/mat/mat051/fill_buffer_51.F
 Chd|        FSDCOD                        source/system/fsdcod.F        
 Chd|        HM_PREREAD_PART               source/model/assembling/hm_read_part.F
@@ -34,7 +35,6 @@ Chd|        HM_READ_RETRACTOR             source/tools/seatbelts/hm_read_retract
 Chd|        HM_READ_SLIPRING              source/tools/seatbelts/hm_read_slipring.F
 Chd|        LECINT                        source/interfaces/interf1/lecint.F
 Chd|        NBADIGEMESH                   source/elements/ige3d/nbadigemesh.F
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|-- calls ---------------
 Chd|====================================================================
       INTEGER FUNCTION NINTRI(IEXT,ANTN,M,N,M1)

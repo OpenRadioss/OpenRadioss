@@ -330,6 +330,7 @@ Chd|        PREREAD_RBODY_SET             source/model/sets/preread_rbody_set.F
 Chd|        R2R_MONVOL                    source/coupling/rad2rad/r2r_prelec.F
 Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
 Chd|        R2R_PRELEC_NAME               source/coupling/rad2rad/r2r_prelec_name.F
+Chd|        READ_ALE_MAT                  source/materials/ale/read_ale_mat.F
 Chd|        READ_BOX_BOX                  source/model/box/read_box_box.F
 Chd|        READ_BOX_CYL                  source/model/box/read_box_cyl.F
 Chd|        READ_BOX_RECT                 source/model/box/read_box_rect.F
@@ -342,6 +343,7 @@ Chd|        READ_DFS_DETPLAN              source/initial_conditions/detonation/r
 Chd|        READ_DFS_DETPOINT             source/initial_conditions/detonation/read_dfs_detpoint.F
 Chd|        READ_DFS_WAVE_SHAPER          source/initial_conditions/detonation/read_dfs_wave_shaper.F
 Chd|        READ_EBCS                     source/boundary_conditions/ebcs/read_ebcs.F
+Chd|        READ_EULER_MAT                source/materials/ale/read_euler_mat.F
 Chd|        READ_IMPDISP                  source/constraints/general/impvel/read_impdisp.F
 Chd|        READ_IMPDISP_FGEO             source/constraints/general/impvel/read_impdisp_fgeo.F
 Chd|        READ_IMPVEL                   source/constraints/general/impvel/read_impvel.F

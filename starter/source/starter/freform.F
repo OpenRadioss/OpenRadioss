@@ -1916,6 +1916,7 @@ Chd|====================================================================
 Chd|  FRETITL2                      source/starter/freform.F      
 Chd|-- called by -----------
 Chd|        ADDMASPART                    source/tools/admas/addmaspart.F
+Chd|        ALE_EULER_INIT                source/materials/ale/ale_euler_init.F
 Chd|        BSIGINI                       source/elements/beam/bsigini.F
 Chd|        BUSERINI                      source/elements/beam/buserini.F
 Chd|        C3GRHEAD                      source/elements/sh3n/coque3n/c3grhead.F

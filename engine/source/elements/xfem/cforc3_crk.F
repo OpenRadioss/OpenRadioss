@@ -40,6 +40,7 @@ Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
 Chd|        CNVEC3                        source/elements/shell/coque/cnvec3.F
 Chd|        CPXPY3                        source/elements/shell/coque/cpxpy3.F
 Chd|        CSENS3                        source/elements/shell/coque/csens3.F
+Chd|        CSSP2A11                      source/elements/sh3n/coque3n/cssp2a11.F
 Chd|        CSTRA3                        source/elements/shell/coque/cstra3.F
 Chd|        CUPDT3_CRK                    source/elements/xfem/xfemfsky.F
 Chd|        MHVIS3                        source/airbag/mhvis3.F        

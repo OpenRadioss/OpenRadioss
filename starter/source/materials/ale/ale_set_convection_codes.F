@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  READ_ALE_MAT                  source/materials/ale/read_ale_mat.F
+Chd|  ALE_SET_CONVECTION_CODES      source/materials/ale/ale_set_convection_codes.F
 Chd|-- called by -----------
+Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|-- calls ---------------
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ALE_SET_CONVECTION_CODES(IPM,PM)
 C-----------------------------------------------

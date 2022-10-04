@@ -333,6 +333,7 @@ Chd|        LECTRANSSUB                   source/model/submodel/lectranssub.F
 Chd|        LEC_DOF_JNT                   source/properties/spring/hm_read_prop45.F
 Chd|        NBADMESH                      source/model/remesh/nbadmesh.F
 Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
+Chd|        READ_ALE_MAT                  source/materials/ale/read_ale_mat.F
 Chd|        READ_BOX_CYL                  source/model/box/read_box_cyl.F
 Chd|        READ_BOX_RECT                 source/model/box/read_box_rect.F
 Chd|        READ_BOX_SPHER                source/model/box/read_box_spher.F
@@ -341,12 +342,12 @@ Chd|        READ_DFS_DETLINE              source/initial_conditions/detonation/r
 Chd|        READ_DFS_DETPLAN              source/initial_conditions/detonation/read_dfs_detplan.F
 Chd|        READ_DFS_DETPOINT             source/initial_conditions/detonation/read_dfs_detpoint.F
 Chd|        READ_DFS_WAVE_SHAPER          source/initial_conditions/detonation/read_dfs_wave_shaper.F
+Chd|        READ_EULER_MAT                source/materials/ale/read_euler_mat.F
 Chd|        READ_IMPDISP                  source/constraints/general/impvel/read_impdisp.F
 Chd|        READ_IMPDISP_FGEO             source/constraints/general/impvel/read_impdisp_fgeo.F
 Chd|        READ_IMPVEL                   source/constraints/general/impvel/read_impvel.F
 Chd|        READ_IMPVEL_FGEO              source/constraints/general/impvel/read_impvel_fgeo.F
 Chd|        READ_IMPVEL_LAGMUL            source/constraints/general/impvel/read_impvel_lagmul.F
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|        READ_SENSOR_ACC               source/tools/sensor/read_sensor_acc.F
 Chd|        READ_SENSOR_AND               source/tools/sensor/read_sensor_and.F
 Chd|        READ_SENSOR_CONTACT           source/tools/sensor/read_sensor_contact.F

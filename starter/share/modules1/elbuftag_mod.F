@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|-- called by -----------
+Chd|        ALE_EULER_INIT                source/materials/ale/ale_euler_init.F
 Chd|        DEALLOCATE_ELBUF              source/elements/elbuf_init/deallocate_buffer.F
 Chd|        ELBUF_INI                     source/elements/elbuf_init/elbuf_ini.F
 Chd|        HM_PROP_READ21                source/properties/thickshell/hm_read_prop21.F

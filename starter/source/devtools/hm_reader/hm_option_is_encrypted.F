@@ -236,12 +236,13 @@ Chd|        LAW69_UPD                     source/materials/mat/mat069/law69_upd.
 Chd|        LAW87_UPD                     source/materials/mat/mat087/law87_upd.F
 Chd|        LAW92_UPD                     source/materials/mat/mat092/law92_upd.F
 Chd|        LCGEO19                       source/elements/shell/coque/lcgeo19.F
+Chd|        READ_ALE_MAT                  source/materials/ale/read_ale_mat.F
 Chd|        READ_DFS_DETCORD              source/initial_conditions/detonation/read_dfs_detcord.F
 Chd|        READ_DFS_DETLINE              source/initial_conditions/detonation/read_dfs_detline.F
 Chd|        READ_DFS_DETPLAN              source/initial_conditions/detonation/read_dfs_detplan.F
 Chd|        READ_DFS_DETPOINT             source/initial_conditions/detonation/read_dfs_detpoint.F
 Chd|        READ_DFS_WAVE_SHAPER          source/initial_conditions/detonation/read_dfs_wave_shaper.F
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
+Chd|        READ_EULER_MAT                source/materials/ale/read_euler_mat.F
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 

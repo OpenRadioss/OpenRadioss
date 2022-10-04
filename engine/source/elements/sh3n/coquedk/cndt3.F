@@ -30,6 +30,7 @@ Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.
 Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
 Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
 Chd|-- calls ---------------
+Chd|        CSSP2A11                      source/elements/sh3n/coque3n/cssp2a11.F
 Chd|====================================================================
       SUBROUTINE CNDT3(JFT   ,JLT     ,OFF  ,DT2T ,AMU ,
      1                 NELTST,ITYPTST ,STI  ,STIR ,OFFG,

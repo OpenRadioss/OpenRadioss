@@ -21,9 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  ALE_EULER_INIT                  source/materials/ale/ale_euler_init.F
+Chd|  ALE_EULER_INIT                source/materials/ale/ale_euler_init.F
 Chd|-- called by -----------
+Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        FRETITL2                      source/starter/freform.F      
+Chd|        NINTRI                        source/system/nintrr.F        
+Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ALE_EULER_INIT(MLAW_TAG,IPM,PM )
 C-----------------------------------------------

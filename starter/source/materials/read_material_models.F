@@ -25,14 +25,9 @@ Chd|  READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        FILL_BUFFER_51                source/materials/mat/mat051/fill_buffer_51.F
-Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
+Chd|        ALE_EULER_INIT                source/materials/ale/ale_euler_init.F
+Chd|        ALE_SET_CONVECTION_CODES      source/materials/ale/ale_set_convection_codes.F
+Chd|        FILL_BUFFER_51_0              source/materials/mat/mat051/fill_buffer_51_0.F
 Chd|        HM_READ_EOS                   source/materials/eos/hm_read_eos.F
 Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|        HM_READ_LEAK                  source/airbag/hm_read_leak.F  
@@ -46,7 +41,8 @@ Chd|        INI_MATPARAM                  source/materials/mat/ini_matparam.F
 Chd|        INI_MLAW_VARS                 source/elements/elbuf_init/ini_mlaw_vars.F
 Chd|        MULTI_CHECK_EOS               source/multifluid/multi_check_eos.F
 Chd|        MULTI_CHECK_PSH               source/multifluid/multi_check_psh.F
-Chd|        NINTRI                        source/system/nintrr.F        
+Chd|        READ_ALE_MAT                  source/materials/ale/read_ale_mat.F
+Chd|        READ_EULER_MAT                source/materials/ale/read_euler_mat.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F

@@ -70,7 +70,6 @@ Chd|        MATINI                        source/materials/mat_share/matini.F
 Chd|        MONVOL_ORIENT_SURF            share/modules1/monvol_struct_mod.F
 Chd|        POLYHEDR1                     source/airbag/polyhedr1.F     
 Chd|        RBE3CL                        source/constraints/general/kinchk.F
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|        READ_MSGFILE                  source/output/message/read_msgfile.F
 Chd|        READ_SENSOR_USER              source/tools/sensor/read_sensor_user.F
 Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F

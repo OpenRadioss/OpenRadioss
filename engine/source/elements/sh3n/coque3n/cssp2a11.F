@@ -21,7 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
+Chd|  CSSP2A11                      source/elements/sh3n/coque3n/cssp2a11.F
 Chd|-- called by -----------
+Chd|        C3DT3                         source/elements/sh3n/coque3n/c3dt3.F
+Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
+Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
+Chd|        CNDT3                         source/elements/sh3n/coquedk/cndt3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CSSP2A11(PM    ,IMAT  ,SSP  ,A11   ,NEL   )

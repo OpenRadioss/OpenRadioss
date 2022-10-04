@@ -36,6 +36,8 @@ Chd|        ADMLCNT                       source/model/remesh/admlist.F
 Chd|        ADMLIST                       source/model/remesh/admlist.F 
 Chd|        ALELEC                        source/ale/alelec.F           
 Chd|        ALE_CHECK_LAG                 source/ale/ale_check_lag.F    
+Chd|        ALE_EULER_INIT                source/materials/ale/ale_euler_init.F
+Chd|        ALE_SET_CONVECTION_CODES      source/materials/ale/ale_set_convection_codes.F
 Chd|        ALLOCBUF_AUTO                 source/elements/elbuf_init/allocbuf_auto.F
 Chd|        ANPRINT                       source/output/analyse/analyse_arret.F
 Chd|        AREA                          source/properties/spring/hm_read_prop32.F
@@ -165,6 +167,7 @@ Chd|        FAILWAVE_INIT                 source/materials/fail/failwave_init.F
 Chd|        FCT_FIBER                     source/materials/mat/mat098/lossfun_98.F
 Chd|        FCT_FIBER_2                   source/materials/mat/mat098/lossfun_98.F
 Chd|        FILL_BUFFER_51                source/materials/mat/mat051/fill_buffer_51.F
+Chd|        FILL_BUFFER_51_0              source/materials/mat/mat051/fill_buffer_51_0.F
 Chd|        FILL_CLAUSE_ELT_BOX           source/model/sets/fill_clause_elt_box.F
 Chd|        FILL_CLAUSE_NODE_BOX          source/model/sets/fill_clause_node_box.F
 Chd|        FILL_CLAUSE_RBODY_BOX         source/model/sets/fill_clause_rbody_box.F
@@ -957,6 +960,7 @@ Chd|        R4BUF3                        source/elements/spring/r4buf3.F
 Chd|        RBE2MODIF1_ND                 source/elements/solid/solide10/dim_s10edg.F
 Chd|        RBE2MODIF_ND                  source/elements/solid/solide10/dim_s10edg.F
 Chd|        RCHECKMASS                    source/elements/spring/rcheckmass.F
+Chd|        READ_ALE_MAT                  source/materials/ale/read_ale_mat.F
 Chd|        READ_BOX_BOX                  source/model/box/read_box_box.F
 Chd|        READ_BOX_CYL                  source/model/box/read_box_cyl.F
 Chd|        READ_BOX_RECT                 source/model/box/read_box_rect.F
@@ -970,6 +974,7 @@ Chd|        READ_DFS_DETPOINT             source/initial_conditions/detonation/r
 Chd|        READ_DFS_WAVE_SHAPER          source/initial_conditions/detonation/read_dfs_wave_shaper.F
 Chd|        READ_EBCS                     source/boundary_conditions/ebcs/read_ebcs.F
 Chd|        READ_ENGINE_DRIVER            source/general_controls/engine/read_engine_driver.F
+Chd|        READ_EULER_MAT                source/materials/ale/read_euler_mat.F
 Chd|        READ_H3DTMAX_KEY              source/starter/contrl.F       
 Chd|        READ_IMPDISP                  source/constraints/general/impvel/read_impdisp.F
 Chd|        READ_IMPDISP_FGEO             source/constraints/general/impvel/read_impdisp_fgeo.F

@@ -87,8 +87,9 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|        NBFUNCT                       source/tools/curve/nbfunc.F   
 Chd|        NBSPH                         source/elements/sph/nbsph.F   
 Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
+Chd|        READ_ALE_MAT                  source/materials/ale/read_ale_mat.F
 Chd|        READ_ENGINE_DRIVER            source/general_controls/engine/read_engine_driver.F
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
+Chd|        READ_EULER_MAT                source/materials/ale/read_euler_mat.F
 Chd|        READ_RWALL                    source/constraints/general/rwall/read_rwall.F
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

@@ -211,6 +211,7 @@ Chd|        PREREAD_RBODY_SET             source/model/sets/preread_rbody_set.F
 Chd|        R2R_MONVOL                    source/coupling/rad2rad/r2r_prelec.F
 Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
 Chd|        R2R_PRELEC_NAME               source/coupling/rad2rad/r2r_prelec_name.F
+Chd|        READ_ALE_MAT                  source/materials/ale/read_ale_mat.F
 Chd|        READ_BOX_BOX                  source/model/box/read_box_box.F
 Chd|        READ_BOX_CYL                  source/model/box/read_box_cyl.F
 Chd|        READ_BOX_RECT                 source/model/box/read_box_rect.F
@@ -218,12 +219,12 @@ Chd|        READ_BOX_SPHER                source/model/box/read_box_spher.F
 Chd|        READ_DETONATORS               source/initial_conditions/detonation/read_detonators.F
 Chd|        READ_EBCS                     source/boundary_conditions/ebcs/read_ebcs.F
 Chd|        READ_ENGINE_DRIVER            source/general_controls/engine/read_engine_driver.F
+Chd|        READ_EULER_MAT                source/materials/ale/read_euler_mat.F
 Chd|        READ_IMPDISP                  source/constraints/general/impvel/read_impdisp.F
 Chd|        READ_IMPDISP_FGEO             source/constraints/general/impvel/read_impdisp_fgeo.F
 Chd|        READ_IMPVEL                   source/constraints/general/impvel/read_impvel.F
 Chd|        READ_IMPVEL_FGEO              source/constraints/general/impvel/read_impvel_fgeo.F
 Chd|        READ_IMPVEL_LAGMUL            source/constraints/general/impvel/read_impvel_lagmul.F
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|        READ_MONVOL                   source/airbag/read_monvol.F   
 Chd|        SETRB2ON                      source/constraints/general/rbe2/hm_read_rbe2.F
 Chd|        SETRBYON                      source/constraints/general/rbody/hm_read_rbody.F

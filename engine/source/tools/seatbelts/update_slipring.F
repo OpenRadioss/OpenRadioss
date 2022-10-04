@@ -25,6 +25,8 @@ Chd|  UPDATE_SLIPRING               source/tools/seatbelts/update_slipring.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        SHELL_LOC_COR                 source/tools/seatbelts/shell_loc_cor.F
 Chd|        SHELL_REACTIVATION            source/tools/seatbelts/shell_reactivation.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

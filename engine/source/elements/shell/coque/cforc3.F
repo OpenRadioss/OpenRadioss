@@ -48,6 +48,7 @@ Chd|        CRKLAYER4N_INI                source/elements/xfem/crklayer4n_ini.F
 Chd|        CRKLEN4N_ADV                  source/elements/xfem/crklen4n_adv.F
 Chd|        CRKOFFC                       source/elements/xfem/precrklay.F
 Chd|        CSENS3                        source/elements/shell/coque/csens3.F
+Chd|        CSSP2A11                      source/elements/sh3n/coque3n/cssp2a11.F
 Chd|        CSTRA3                        source/elements/shell/coque/cstra3.F
 Chd|        CSUBC3                        source/elements/shell/coque/csubc3.F
 Chd|        CSUBF3                        source/elements/shell/coque/csubf3.F

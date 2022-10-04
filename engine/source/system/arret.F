@@ -410,6 +410,7 @@ Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|        TRACE_PRINT                   source/system/trace_back.F    
 Chd|        TRIBOX3                       stub/fvmbags_stub.F           
 Chd|        TRITRI3                       stub/fvmbags_stub.F           
+Chd|        UPDATE_SLIPRING               source/tools/seatbelts/update_slipring.F
 Chd|        UPD_ASPC0                     source/constraints/general/bcs/bc_imp0.F
 Chd|        UPGRADE_REM_2RY               source/mpi/interfaces/spmd_i7tool.F
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F

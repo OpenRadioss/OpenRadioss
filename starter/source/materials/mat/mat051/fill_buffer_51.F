@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  FILL_BUFFER_51                source/materials/mat/mat051/fill_buffer_51.F
 Chd|-- called by -----------
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
+Chd|        FILL_BUFFER_51_0              source/materials/mat/mat051/fill_buffer_51_0.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        NINTRI                        source/system/nintrr.F        

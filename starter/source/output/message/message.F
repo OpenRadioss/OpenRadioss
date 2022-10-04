@@ -28,6 +28,7 @@ Chd|        ADMBCS                        source/model/remesh/admbcs.F
 Chd|        ADMLCNT                       source/model/remesh/admlist.F 
 Chd|        ADMLIST                       source/model/remesh/admlist.F 
 Chd|        ALE_CHECK_LAG                 source/ale/ale_check_lag.F    
+Chd|        ALE_EULER_INIT                source/materials/ale/ale_euler_init.F
 Chd|        ALLOCBUF_AUTO                 source/elements/elbuf_init/allocbuf_auto.F
 Chd|        ARRET_MESSAGE                 source/interfaces/int24/arret_message.F
 Chd|        ARRET_MESSAGE_SLID            source/interfaces/int24/arret_message.F
@@ -710,7 +711,6 @@ Chd|        READ_IMPVEL_LAGMUL            source/constraints/general/impvel/read
 Chd|        READ_INTER_KINE_TYPE18        source/interfaces/int18/read_inter_kine_type18.F
 Chd|        READ_INTER_TYPE02             source/interfaces/int02/read_inter_type02.F
 Chd|        READ_INTER_TYPE08             source/interfaces/int08/read_inter_type08.F
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|        READ_MONVOL                   source/airbag/read_monvol.F   
 Chd|        READ_MSGFILE                  source/output/message/read_msgfile.F
 Chd|        READ_PCH_FILE                 source/constraints/fxbody/read_pch_file.F
