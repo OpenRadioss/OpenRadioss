@@ -3104,9 +3104,16 @@ C
         LBUFIDEL = 0
         LBUFIDEL24 = 0
 C
+        !init ISENDTO/IRCVFROM
+        DO I=1,NINTER+1
+          DO J=1,NSPMD+1
+            ISENDTO(I,J)=0
+            IRCVFROM(I,J)=0
+          ENDDO
+        ENDDO
+C
+        !-----------------------------------------------        
         IF(NINTER/=0) THEN
-
-
 C Cas INACTI = 5, 6 ou 7 + TSTART
          ALLOCATE(NSNFI_FLAG(NINTER))
          NSNFI_FLAG(1:NINTER)=0 
@@ -3193,13 +3200,6 @@ C partie edge
             END DO
           END IF
 C
-          DO I=1,NINTER+1
-            DO J=1,NSPMD+1
-              ISENDTO(I,J)=0
-              IRCVFROM(I,J)=0
-            ENDDO
-          ENDDO
-C
           NME17=0
 C
           DO I=1,NINTER
@@ -3283,7 +3283,9 @@ C
               ENDIF
             END DO
           END DO
-        END IF
+        END IF !(NINTER/=0)
+        !-----------------------------------------------
+        
         NBINTC = 0
         DO I=1,NINTER
           ITYP = IPARI(7,I)
