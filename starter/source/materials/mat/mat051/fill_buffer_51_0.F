@@ -74,7 +74,7 @@ C-----------------------------------------------
         IADBUF = IPM(7,II)
         NPAR = IPM(9,II)
         IADBUF = MAX(1,IADBUF)
-        UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)
+        UPARAM => BUFMAT(IADBUF:IADBUF+NPAR-1)
         IFORM = NINT(UPARAM(31))
         IPM(62, II) = IFORM
         MAT_ID = IPM(1,II)
