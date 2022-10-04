@@ -216,7 +216,7 @@ Execution Control
 - `-verbose`: compilation process is in Verbose mode
 - `-clean`: deletes compilation files and execution.
 
-## OpenRadioss Container using Apptainer
+## How to build OpenRadioss Container using Apptainer
 
 ### Linux
 Linux system with [Apptainer](https://apptainer.org/docs/admin/main/installation.html):
