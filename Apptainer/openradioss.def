@@ -1,0 +1,40 @@
+Bootstrap: docker
+From: rockylinux:9
+
+%post
+dnf group install -y "Development Tools"
+dnf install -y \
+gcc gcc-gfortran gcc-c++ make cmake perl git-lfs \
+wget git patch diffutils libxcrypt-compat
+
+cd /tmp
+wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz
+tar xzvf openmpi-4.1.2.tar.gz
+cd openmpi-4.1.2
+./configure --prefix=/opt/openmpi
+make -j
+make install
+
+cd /opt
+git lfs install
+git clone --depth 1 --branch main https://github.com/OpenRadioss/OpenRadioss.git
+cd /opt/OpenRadioss/starter
+./build_script.sh -arch=linux64_gf
+cd /opt/OpenRadioss/engine
+./build_script.sh -arch=linux64_gf
+./build_script.sh -arch=linux64_gf -mpi=ompi
+cd /opt/OpenRadioss/tools/anim_to_vtk/linux64
+./build.bash
+cd /opt/OpenRadioss/tools/th_to_csv/linux64
+./build.bash
+
+%environment
+export OPENRADIOSS_PATH=/opt/OpenRadioss
+export RAD_CFG_PATH=$OPENRADIOSS_PATH/hm_cfg_files
+export OMP_STACKSIZE=400m
+
+export PATH=$OPENRADIOSS_PATH/exec:$PATH
+export LD_LIBRARY_PATH=$OPENRADIOSS_PATH/extlib/hm_reader/linux64/:$OPENRADIOSS_PATH/extlib/h3d/lib/linux64/:$LD_LIBRARY_PATH
+
+export PATH=/opt/openmpi/bin:$PATH
+export LD_LIBRARY_PATH=/opt/openmpi/lib:$LD_LIBRARY_PATH
