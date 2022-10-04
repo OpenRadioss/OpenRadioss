@@ -42,6 +42,31 @@ OpenRadioss is made of:
         ./starter_linux64_gf -i [Starter input file] -np [P]
         mpiexec -n [P] ./engine_linux64_gf_ompi -i [Engine input file]
 
+## Running OpenRadioss container using Apptainer
+### Running OpenRadioss container without MPI (OpenMP only)
+
+* Define number of OpenMP threads
+
+        export OMP_NUM_THREADS=[N]
+
+* Run OpenRadioss Starter and Engine from the directory that contains the input file
+
+        openradioss.sif starter_linux64_gf -i [Starter input file] -np 1
+        openradioss.sif engine_linux64_gf -i [Engine input file]
+
+### Running OpenRadioss container with MPI+OpenMP
+
+* Set up environment variables, assuming that OpenMPI is installed in `/opt/openmpi`
+
+        export LD_LIBRARY_PATH=/opt/openmpi/lib:$LD_LIBRARY_PATH
+        export PATH=/opt/openmpi/bin:$PATH
+
+* Run OpenRadioss with P MPI processes and N threads per domain from the directory that contains the input file
+
+        export OMP_NUM_THREADS=[N]
+        openradioss.sif starter_linux64_gf -i [Starter input file] -np [P]
+        mpiexec -n [P] openradioss.sif engine_linux64_gf_ompi -i [Engine input file]
+
 
 ## Running OpenRadioss test suite from the source code
 

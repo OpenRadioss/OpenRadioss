@@ -4,7 +4,7 @@
 
 ### Linux
 Linux system with glibc version 2.17 or higher: 
-* CentOS/RHEL 7, CentOS Stream 8, RHEL 8
+* CentOS/RHEL 7, CentOS Stream 8, RHEL 8, Rocky Linux 8, Rocky Linux 9
 * Ubuntu 20.0.4 or higher
 * [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install): OpenRadioss works with WSL/WSL2 Ubuntu 20.04 LTS, WSL2 Ubuntu 22.x 
 
@@ -215,5 +215,27 @@ Execution Control
 - `-nt=N` use N threads to fasten build
 - `-verbose`: compilation process is in Verbose mode
 - `-clean`: deletes compilation files and execution.
+
+## How to build OpenRadioss Container using Apptainer
+
+### Linux
+Linux system with [Apptainer](https://apptainer.org/docs/admin/main/installation.html):
+* CentOS/RHEL 7, CentOS Stream 8, RHEL 8, Rocky Linux 8, Rocky Linux 9
+* Ubuntu 20.0.4 or higher
+* [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install): Apptainer works with WSL/WSL2 Ubuntu 20.04 LTS, WSL2 Ubuntu 22.x
+
+### Build OpenRadioss Container
+
+* Enter the OpenRadioss/Apptainer directory
+
+            cd OpenRadioss/Apptainer
+
+* Build OpenRadioss container using Apptainer
+
+            sudo apptainer build openradioss.sif openradioss.def
+
+* Copy OpenRadioss container to the directory which is in your $PATH
+
+            sudo cp openradioss.sif /usr/local/bin
 
 
