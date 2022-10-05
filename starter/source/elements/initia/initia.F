@@ -784,6 +784,13 @@ C-----------------------------------------------------
      .               NOD2SP  ,ITAB    ,ICODE   ,ISKEW   ,ISKN    ,
      .               SKEW    ,XFRAME  ,X       ,ISPSYM  ,ISPTAG  ,
      .               PM      ,GEO     ,IPART   ,IPART(I15J))
+C--------------------------------------------
+C Seat belts initialization :
+C--------------------------------------------
+      IF (N_SEATBELT > 0) CALL INI_SEATBELT(IPARG,ELBUF_TAB,KNOD2EL1D,NOD2EL1D,IXR,
+     .                                      X,ITAB,IPM,ALEA,KNOD2ELC,
+     .                                      NOD2ELC,IXC,NPBY,LPBY,SLRBODY,
+     .                                      ICODE)
 C-----------------------------------------------------
 C     INITIALISATION DES BUFFERS DES ELEMENTS
 C     INITIALISATION DES MASSES ET DES INERTIES
@@ -2124,13 +2131,6 @@ C------------------------------------------------------
           ENDIF
         ENDIF
       ENDDO
-C--------------------------------------------
-C Seat belts initialization :
-C--------------------------------------------
-      IF (N_SEATBELT > 0) CALL INI_SEATBELT(IPARG,ELBUF_TAB,KNOD2EL1D,NOD2EL1D,IXR,
-     .                                      X,ITAB,IPM,ALEA,KNOD2ELC,
-     .                                      NOD2ELC,IXC,NPBY,LPBY,SLRBODY,
-     .                                      ICODE)
 C
 C----------------------------------------------------------------
       IF(IPRI>=2) THEN

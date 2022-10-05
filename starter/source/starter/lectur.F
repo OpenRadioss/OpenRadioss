@@ -5376,7 +5376,8 @@ C
         WRITE(ISTDO,'(A)')' .. SEATBELT INITIALIZATION'
         CALL CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
      .                       X,LSENSOR,BUFMAT,PM,GEO,
-     .                       IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO)
+     .                       IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO,
+     .                       ISKWN)
         CALL TRACE_OUT1()
       ENDIF
 C

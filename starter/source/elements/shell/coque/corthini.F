@@ -43,7 +43,7 @@ Chd|====================================================================
      6           IREP   ,ELBUF_STR,DRAPE  ,ANGLE   ,X        ,
      7           GEO_STACK,IGEO_STACK,E3X  ,E3Y     ,E3Z     ,
      8           BETAORTH ,X1     ,X2      ,Y1      ,Y2      ,
-     9           Z1       ,Z2     )
+     9           Z1       ,Z2     ,NEL     ,G_ADD_NODE,ADD_NODE)
 c---     
 C-----------------------------------------------
 C   M o d u l e s
@@ -75,6 +75,7 @@ C-----------------------------------------------
      .        ISUBSTACK,IREP
       INTEGER IX(NIX,*),IGEO(NPROPGI,*),PTSH(*),IORTHLOC(*),
      .        IGEO_STACK(NPROPGI,*)
+      INTEGER, INTENT(IN) :: NEL,G_ADD_NODE,ADD_NODE(G_ADD_NODE*NEL)  
       my_real
      . GEO(NPROPG,*),SKEW(LSKEW,*),SIGSH(NSIGSH,*),VX(*),VY(*),VZ(*),
      . PHI1(NLAY,*),PHI2(NLAY,*),COOR1(NLAY,MVSIZ),COOR2(NLAY,MVSIZ),
@@ -90,7 +91,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,JJ,N,NPT,NPTI,IGTYP,IPID,PID,ISK,IPANG,IPPHI,
      . IIGEO,IADR,IPTHK,IPPOS,IPDIR,IMAT_LY,ILAW_LY,IPPID,IPMAT,ILAY,
-     . DEF_ORTH(MVSIZ),N1,N2,IRP
+     . DEF_ORTH(MVSIZ),N1,N2,IRP,POS,NOD
       my_real V(MVSIZ),E11,E12,E13,NE1
       CHARACTER*nchartitle, TITR1
 C=======================================================================
@@ -98,6 +99,7 @@ C=======================================================================
       IGTYP = IGEO(11,PID)
       IRP = IGEO(14,PID)
       DEF_ORTH(1:MVSIZ) = NLAY
+C
       IF (IGTYP == 1) THEN
 C       non orthotropic property
         RETURN
@@ -144,6 +146,15 @@ C       non orthotropic property
               VX(I) = GEO(7,PID)
               VY(I) = GEO(8,PID)
               VZ(I) = GEO(9,PID)
+            ENDDO
+          CASE (24)
+C--         seatbelt elements - dir1 defined by N1 and ADD_NODE (can be either N2 or N4)
+            DO I=JFT,JLT 
+              N1=IX(2,I)
+              NOD=ADD_NODE(I)
+              VX(I) = X(1,NOD)-X(1,N1)
+              VY(I) = X(2,NOD)-X(2,N1)
+              VZ(I) = X(3,NOD)-X(3,N1)
             ENDDO
          END SELECT
 C---    read property data

@@ -68,6 +68,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MESSAGE_MOD
+      USE SEATBELT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -121,7 +122,7 @@ C-----------------------------------------------
      3   UIX(4,MVSIZ),
      .   NB2A ,NB2B ,NB4A ,NB4B ,NB6A ,NB6B,NB7A,NB7B,NB8A ,NB8B,NB9A, 
      .    NB9B ,NB10A,NB10B,NB11A,NB11B,NB12A,NB12B,NB13A,NB13B,NB18,
-     .    IMAT,K1,K11,K14,K12,K13,IADBUF,IMASS
+     .    IMAT,K1,K11,K14,K12,K13,IADBUF,IMASS,SLIP,FRA
 C     REAL
       my_real
      .   DT, DTC, XKM, XCM, XKR, XCR, XM, XINE,  EX, EY, EZ,
@@ -1452,18 +1453,33 @@ C-              1D material of 2D seatbelt - element mass and inertia recomputed
                 RHO = UPARAM(IADBUF+128)
                 XM = RHO*XL(I)*GEO(1,I0)
                 XINE=MAX(EM20,MAX((RHO*GEO(1,I0)*LENGTH*LENGTH*LENGTH)/TWELVE+ RHO*IYY*LENGTH,RHO*IXX*LENGTH))
-                GBUF%MASS(I) = XM
-                GBUF%INTVAR(I) = XINE
+                GBUF%MASS(I) = XM*GBUF%FRAM_FACTOR(I)
+                GBUF%INTVAR(I) = XINE*GBUF%FRAM_FACTOR(I)
                 MAS2 = XM
                 INE2 = XINE
               ELSE
+                GBUF%FRAM_FACTOR(I) = ONE
                 XM  =GBUF%MASS(I)
                 XINE=UINER(I)
                 GBUF%INTVAR(I) = XINE
                 MAS2 = TWO*MSR(1,J)
                 INE2 = TWO*INR(1,J)
               ENDIF
-              GBUF%FRAM_FACTOR(I) = ONE
+C
+              IF (GBUF%SLIPRING_STRAND(I) > 0) THEN
+C--------->     Update of third node if seatblet spring in slipring------------
+                SLIP = GBUF%SLIPRING_ID(I)
+                FRA = GBUF%SLIPRING_FRAM_ID(I)
+                DO KK=1,3
+                  IF ((SLIPRING(SLIP)%FRAM(FRA)%NODE(KK)/=I1).AND.(SLIPRING(SLIP)%FRAM(FRA)%NODE(KK)/=I2)) THEN
+                     IXR(4,J)=SLIPRING(SLIP)%FRAM(FRA)%NODE(KK)
+                  ENDIF
+                ENDDO
+              ELSEIF (GBUF%RETRACTOR_ID(I) < 0) THEN
+C--------->     Deactivation of elements initally in retractor------------
+                GBUF%OFF(I) = ZERO
+                GBUF%RETRACTOR_ID(I) = 0
+              ENDIF
 C
               IF (XCM+XKM<EM15) XM  =ONE
               IF (XCR+XKR<EM15) XINE=ONE

@@ -31,7 +31,7 @@ Chd|====================================================================
      .                              NODE_FRAM2,GSTR,NEL,XL2,YL2,
      .                              XL3,YL3,XL4,YL4,OFFSET,
      .                              N_DIR2,DIRA_X,DIRA_Y,SMSTR,ISMSTR,
-     .                              L_SMSTR)
+     .                              L_SMSTR,ORIENT)
 C----6------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) ::  I,NODE_FRAM1,NODE_FRAM2,II(6),NEL,ISMSTR,L_SMSTR
+      INTEGER, INTENT(IN) ::  I,NODE_FRAM1,NODE_FRAM2,II(6),NEL,ISMSTR,L_SMSTR,ORIENT
       my_real, INTENT(IN) ::  L0FRAM1,L0FRAM2,XL2,YL2,XL3,YL3,XL4,YL4,OFFSET,N_DIR2(2)
       my_real, INTENT(INOUT) ::  GSTR(NEL,8),DIRA_X,DIRA_Y
       DOUBLE PRECISION, INTENT(INOUT) :: SMSTR(L_SMSTR*NEL)
@@ -66,10 +66,17 @@ C---------------------------------------------------------
 C     Computation of DIR1
 C---------------------------------------------------------
 C
-      NODE_CORES_DIR1(1) = 2
-      NODE_CORES_DIR1(2) = 1
-      NODE_CORES_DIR1(3) = 4
-      NODE_CORES_DIR1(4) = 3
+      IF (ORIENT == 1) THEN
+        NODE_CORES_DIR1(1) = 2
+        NODE_CORES_DIR1(2) = 1
+        NODE_CORES_DIR1(3) = 4
+        NODE_CORES_DIR1(4) = 3
+      ELSE
+        NODE_CORES_DIR1(1) = 4
+        NODE_CORES_DIR1(2) = 3
+        NODE_CORES_DIR1(3) = 2
+        NODE_CORES_DIR1(4) = 1
+      ENDIF
 C
       XLL(1) = ZERO
       XLL(2) = XL2

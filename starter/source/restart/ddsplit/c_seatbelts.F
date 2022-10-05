@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NN,PROC,ITY,MTN,NEL,NG,LOCAL_SLIP(NSLIPRING),LOCAL_RETR(NRETRACTOR),PP
+      INTEGER I,J,K,NN,PROC,ITY,MTN,NEL,NG,LOCAL_SLIP(NSLIPRING),LOCAL_RETR(NRETRACTOR),PP
      .        N_ANCHOR_REMOTE_SEND,PP,N_REC_PROC(NSPMD),N_SEND_PROC(NSPMD),COMPT,TAG_PROC(2,NSPMD),
      .        ISEATBELT
       TYPE(G_BUFEL_)     , POINTER :: GBUF
@@ -279,10 +279,10 @@ C
           ELSEIF ((P == PROC + 1).AND.(ITY==3).AND.(ISEATBELT==1)) THEN
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=1,NEL
-              IF (GBUF%ADD_NODE(I) > 0) GBUF%ADD_NODE(I) = NODLOCAL(GBUF%ADD_NODE(I))
-              IF (GBUF%ADD_NODE(NEL+I) > 0) GBUF%ADD_NODE(NEL+I) = NODLOCAL(GBUF%ADD_NODE(NEL+I))
-              IF (GBUF%ADD_NODE(2*NEL+I) > 0) GBUF%ADD_NODE(2*NEL+I) = NODLOCAL(GBUF%ADD_NODE(2*NEL+I))
-              IF (GBUF%ADD_NODE(3*NEL+I) > 0) GBUF%ADD_NODE(3*NEL+I) = NODLOCAL(GBUF%ADD_NODE(3*NEL+I))
+              DO J=1,GBUF%G_ADD_NODE
+                K = NEL*(J-1)
+                IF (GBUF%ADD_NODE(K+I) > 0) GBUF%ADD_NODE(K+I) = NODLOCAL(GBUF%ADD_NODE(K+I))
+              ENDDO
             ENDDO
 
           ENDIF
