@@ -113,7 +113,7 @@ set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-g -O0
 else ()
 
 # Fortran
-set_source_files_properties( ${source_files}    PROPERTIES COMPILE_FLAGS "${wo_linalg} ${Vect_opt} ${precision_flag} ${Fortran} ${mpi_flag} ${cppmach} ${cpprel} -03 ${h3d_inc}" )
+set_source_files_properties( ${source_files}    PROPERTIES COMPILE_FLAGS "${wo_linalg} ${Vect_opt} ${precision_flag} ${Fortran} ${mpi_flag} ${cppmach} ${cpprel} -O3 ${h3d_inc}" )
 
 # C source files
 set_source_files_properties(${c_source_files}   PROPERTIES COMPILE_FLAGS "${wo_linalg} ${Vect_opt} ${precision_flag} ${mpi_flag} ${cppmach} ${cpprel} -O2 ${h3d_inc}" )
