@@ -1,53 +1,53 @@
 DIMENSIONLESS: Dimensionless %
-MASS: kg g t dat oz lb lbf*sï¿½/in lbf*sï¿½/ft 
-LENGTH:	mm m cm ï¿½m in ft
+MASS: kg g t dat oz lb lbf*s²/in lbf*s²/ft 
+LENGTH:	mm m cm µm in ft
 TIME: s
 ELECTRIC CURRENT: A
-THERMODYNAMIC TEMPERATURE: ï¿½K ï¿½C ï¿½F ï¿½R
+THERMODYNAMIC TEMPERATURE: °K °C °F °R
 AMOUNT OF SUBSTANCE: mol
 PLANE ANGLE: deg rad gra 
 PLANE ANGLE IN DEGREES: deg
 SOLID ANGLE: sr sp
-AREA: mï¿½ mmï¿½ cmï¿½ inï¿½ ftï¿½ 
-VOLUME: mï¿½ mmï¿½ cmï¿½ dmï¿½ inï¿½  ftï¿½ 
+AREA: m² mm² cm² in² ft² 
+VOLUME: m³ mm³ cm³ dm³ in³  ft³ 
 INERTIA: m**4 mm**4 cm**4 in**4 ft**4
 ANGULAR SPEED: r.p.m. deg/s rad/s tr/s
 SPEED: m/s mm/s  km/s  cm/s km/h in/s ft/s m.p.h.
-ACCELERATION: m/sï¿½ mm/sï¿½ in/sï¿½ ft/sï¿½
+ACCELERATION: m/s² mm/s² in/s² ft/s²
 FREQUENCY: Hz
-VOLUMIC MASS: kg/mï¿½ kg/dmï¿½ t/mmï¿½ t/mï¿½ dat/mmï¿½ dat/mï¿½ lb/inï¿½ lb/ftï¿½ lbf*sï¿½/ft**4
+VOLUMIC MASS: kg/m³ kg/dm³ t/mm³ t/m³ dat/mm³ dat/m³ lb/in³ lb/ft³ lbf*s²/ft**4
 SURFACIC MASS: kg/m**2 kg/dm**2 t/mm**2 t/m**2 dat/mm**2 dat/m**2 lb/in**2 lb/ft**2
 LINEIC MASS: kg/m
 MASS FLOW: kg/s
-VOLUME FLOW: mï¿½/s
-CONSUMPTION: mï¿½
+VOLUME FLOW: m³/s
+CONSUMPTION: m²
 QUANTITY OF MOVEMENT: kg*m/s
-KINETIC MOMENT: kg*mï¿½/s
-MOMENT OF INERTIA: kg*mï¿½
+KINETIC MOMENT: kg*m²/s
+MOMENT OF INERTIA: kg*m²
 FORCE: N daN kN dyn gf kgf lbf klbf 
 MOMENT OF A FORCE: N*m daN*m N*mm lbf*in lbf*ft 
 LINEIC FORCE: N/m daN/m kgf/m lbf/in lbf/ft
-PRESSURE: Pa daN/mmï¿½ hPa MPa N/mï¿½ N/mmï¿½ daN/mï¿½ daN/cmï¿½ kgf/mmï¿½ atm bar hbar psi 
-SQUARE OF PRESSURE: kgï¿½/(mï¿½*s**4)
+PRESSURE: Pa daN/mm² hPa MPa N/m² N/mm² daN/m² daN/cm² kgf/mm² atm bar hbar psi 
+SQUARE OF PRESSURE: kg²/(m²*s**4)
 DYNAMIC VISCOSITY: Pa/s
-KINETIC VISCOSITY: mï¿½/s
-TENSION SUPERFICIELLE: m/sï¿½
+KINETIC VISCOSITY: m²/s
+TENSION SUPERFICIELLE: m/s²
 ELECTRIC POTENTIAL: V
 ENERGY: J
 POWER: W kW kcal/h Btu/h  
 LINEIC POWER: W/m kcal/(h*m) Btu/(h*ft)
-SURFACIC POWER: W/mï¿½ kcal/(h*mï¿½) Btu/(h*ftï¿½)
-VOLUMIC POWER: W/mï¿½ kcal/(h*mï¿½) Btu/(h*ftï¿½)
-COEFFICIENT OF LINEAR INFLATION: /ï¿½K /ï¿½C
-THERMAL CONDUCTIVITY: W/(m*ï¿½K)  W/(m*ï¿½C) kcal/(h*m*ï¿½K) Btu/(h*ft*ï¿½R)
-COEFFICIENT OF LINEAR THERMAL CONDUCTIVITY: W/m/ï¿½K/s
-THERMAL CONVECTIVITY: W/(mï¿½*ï¿½K) W/(mï¿½*ï¿½C) kcal/(h*mï¿½*ï¿½K) Btu/(h*ftï¿½*ï¿½R)
-THERMAL MASSIC CAPACITY: J/kg/ï¿½K
-ENTROPY: J/ï¿½K
+SURFACIC POWER: W/m² kcal/(h*m²) Btu/(h*ft²)
+VOLUMIC POWER: W/m³ kcal/(h*m³) Btu/(h*ft³)
+COEFFICIENT OF LINEAR INFLATION: /°K /°C
+THERMAL CONDUCTIVITY: W/(m*°K)  W/(m*°C) kcal/(h*m*°K) Btu/(h*ft*°R)
+COEFFICIENT OF LINEAR THERMAL CONDUCTIVITY: W/m/°K/s
+THERMAL CONVECTIVITY: W/(m²*°K) W/(m²*°C) kcal/(h*m²*°K) Btu/(h*ft²*°R)
+THERMAL MASSIC CAPACITY: J/kg/°K
+ENTROPY: J/°K
 ENTHALPY: J
-SPECIFIC HEAT: kg/m/sï¿½/ï¿½K
+SPECIFIC HEAT: kg/m/s²/°K
 LUMINOUS FLUX: Lu
-LUMINANCE: cd/mï¿½
+LUMINANCE: cd/m²
 EXITANCE: lx
 LUMINOUS INTENSITY: cd
 LUMINOUS EXPOSITION: lx*s
@@ -67,34 +67,34 @@ ELECTRIC CONDUCTANCE: S
 RESISTIVITY: O*m
 CONDUCTIVITY: S/m
 MOLAR MASS: kg/mol
-MOLAR VOLUME: mï¿½/mol
-CONCENTRATION: kg/mï¿½
-MOLAR CONCENTRATION: mol/mï¿½
-MOLAR ENTROPY: J/ï¿½K/mol
+MOLAR VOLUME: m³/mol
+CONCENTRATION: kg/m³
+MOLAR CONCENTRATION: mol/m³
+MOLAR ENTROPY: J/°K/mol
 MOLARITY: mol/kg
-ACOUSTIC INTENSITY: B
+ACCOUSTIC INTENSITY: B
 DOSE EQUIVALENT: Si
-DENSITY: kg/mï¿½ kg/dmï¿½ t/mmï¿½ t/mï¿½ dat/mmï¿½ dat/mï¿½ lb/inï¿½ lb/ftï¿½
+DENSITY: kg/m³ kg/dm³ t/mm³ t/m³ dat/mm³ dat/m³ lb/in³ lb/ft³
 ABSORBEDDOSE: Gr
 ACTIVITY: Be
-ROTATION ACCELERATION: rad/sï¿½ deg/sï¿½ r.p.m./s tr/sï¿½
+ROTATION ACCELERATION: rad/s² deg/s² r.p.m./s tr/s²
 TRANSLATION STIFFNESS: N/m daN/m kgf/m lbf/in lbf/ft 
-ROTATION STIFFNESS: kg*mmï¿½/(sï¿½*rad)
+ROTATION STIFFNESS: kg*mm²/(s²*rad)
 SPECIFIC HEAT PER UNIT VOLUME: J/(kg*cm**3)
 LORENTZ CONDUCTIVITY: J/(m*s*K**(7/2))
 LAMBDA: [m/K]**(3/2)
 STEFAN-BOLTZMAN: W/(m**2*K**4)
-TORSION DAMPING: kg*mï¿½/(s*rad)
-TORSION DAMPING PER UNIT LENGTH: kg*mï¿½/(s*rad)
-INVERSE OF PRESSURE: m*sï¿½/kg
+TORSION DAMPING: kg*m²/(s*rad)
+TORSION DAMPING PER UNIT LENGTH: kg*m³/(s*rad)
+INVERSE OF PRESSURE: m*s²/kg
 INVERSE OF SPEED: s/m
-INVERSE OF SQUARE OF PRESSURE: mï¿½*s**4/kgï¿½
-INVERSE OF SQUARE OF SPEED: sï¿½/mï¿½
+INVERSE OF SQUARE OF PRESSURE: m²*s**4/kg²
+INVERSE OF SQUARE OF SPEED: s²/m²
 INVERSE OF DYNAMIC VISCOSITY: m*s/kg
 INVERSE OF VOLUME: 1/m**3
-INVERSE OF SURFACE: 1/mï¿½
+INVERSE OF SURFACE: 1/m²
 INVERSE OF LENGTH: 1/m
 MOMENT OF INERTIA PER UNIT LENGTH: kg*m
-ROTATION STIFFNESS PER UNIT LENGTH: kg*mï¿½/(rad*sï¿½)
+ROTATION STIFFNESS PER UNIT LENGTH: kg*m³/(rad*s²)
 ANGULAR SPEED PER UNIT LENGTH: rad/(m*s)
 PLANE ANGLE PER UNIT LENGTH: rad/m
