@@ -77,55 +77,55 @@ Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE ST_QAPRINT_DRIVER(IGEO      ,GEO       ,BUFGEO    ,IPM       ,PM        ,
-     2                             BUFMAT    ,NOM_OPT   ,INOM_OPT  ,NUMLOADP  ,ILOADP    ,
-     3                             LLOADP    ,LOADP     ,IBCL      ,FORC      ,IPRES     ,
-     4                             PRES      ,NPBY      ,LPBY      ,RBY       ,IBCR      ,
-     5                             FRADIA    ,IBCV      ,FCONV     ,IBFTEMP   ,FBFTEMP   ,
-     6                             IGRV      ,LGRV      ,AGRV      ,IBFFLUX   ,FBFFLUX   ,
-     7                             ITAB      ,V         ,VR        ,W         ,ICODE     ,
-     8                             ISKEW     ,ICFIELD   ,LCFIELD   ,CFIELD    ,DAMPR     ,
-     9                             TEMP      ,IBCSLAG   ,IPARI     ,INTBUF_TAB,CLUSTERS  ,
-     A                             IBOX      ,IPMAS     ,IBFVEL    ,FBFVEL    ,NIMPACC    ,
-     B                             LACCELM    ,ACCELM   ,NOM_SECT  ,NSTRF     ,SECBUF    ,
-     C                             SKEW      ,ISKWN     ,XFRAME    ,T_MONVOL  ,T_MONVOL_METADATA,
-     D                             I2RUPT    ,AREASL    ,INTBUF_FRIC_TAB, NPFRICORTH ,
-     E                             PFRICORTH ,IREPFORTH ,PHIFORTH  ,VFORTH    ,XREFC     ,
-     F                             XREFTG    ,XREFS     ,TAGXREF   ,IXS       ,IXC       ,
-     G                             IXTG      ,RWBUF     ,NPRW      ,LPRW      ,ITHGRP    ,
-     H                             ITHBUF    ,ITHVAR    ,IPART     ,SUBSETS   ,ITHGRPA   ,
-     I                             ITHGRPB   ,ITHGRPC   ,ITHGRPD   ,ITHGRPE   ,ITHGRPF   ,
-     J                             ITHGRPG   ,ITHGRPH   ,ITHGRPI   ,ITHBUFA   ,ITHBUFB   ,
-     K                             ITHBUFC   ,ITHBUFD   ,ITHBUFE   ,ITHBUFF   ,ITHBUFG   ,
-     L                             ITHBUFH   ,ITHBUFI   ,IPARTTH   ,NTHGRPMX  ,NIMPDISP  ,
-     M                             NIMPVEL   ,DETONATORS,IBCSCYC   ,NPC       ,PLD       ,
-     N                             TABLE     ,NPTS      ,IRBE3     ,LRBE3     ,FRBE3     ,
-     O                             MGRBY     ,IXS10     ,ISOLNOD   ,IXR       ,R_SKEW    ,
-     P                             IXP       ,IXT       ,X         ,THKE      ,SH4ANG    ,
-     Q                             THKEC     ,SH3ANG    ,SET       ,LSUBMODEL ,IGRNOD    ,
-     R                             IGRPART   ,IGRBRIC   ,IGRSH4N   ,IGRSH3N   ,IGRQUAD   ,
-     S                             IGRBEAM   ,IGRTRUSS  ,IGRSPRING ,IGRSURF   ,IGRSLIN   ,
-     T                             IXQ       ,ISPCOND   ,RTRANS    ,IRAND     ,ALEA      ,
-     U                             XSEED     ,XLAS      ,LAS       ,IRBE2     ,LRBE2     ,
-     V                             KXSP      ,IPARTSP   ,DRAPE     ,IXR_KJ    ,IACTIV    ,
-     W                             FACTIV    ,UNITAB    ,NPBYL     ,LPBYL     ,RBYL      ,
-     X                             XYZREF    ,SENSOR_TAB,LSENSOR   ,SENSOR    ,FUNC2D    ,
-     Y                             INICRACK  ,IPRELOAD  ,PRELOAD   ,IFLAG_BPRELOAD ,IBMPC,
-     Z                             IBMPC2    ,IBMPC3    ,IBMPC4    ,RBMPC     ,LJOINT    ,
-     A                             NNLINK    ,LNLINK    ,BUFSF     ,SBUFSF_   ,PM_STACK  ,
-     B                             GEO_STACK ,IGEO_STACK,
-     C                             LIFLOW, LRFLOW, IFLOW, RFLOW    ,IPADMESH  ,PADMESH   ,
-     D                             SH4TREE   ,SH3TREE   ,SH4TRIM   ,SH3TRIM   ,QP_IPERTURB,
-     E                             QP_RPERTURB,LLINAL   ,LINALE    , FVM_INIVEL,GJBUFI   ,
-     F                             GJBUFR    ,MS        ,IN        ,LGAUGE    , GAUGE    ,
-     G                             KXX       ,IXX       ,IPARTX    ,IXRI      ,IXS16     ,
-     H                             IEXMAD    ,FXBIPM    ,FXBFILE_TAB,EIGIPM   ,EIGRPM    ,
-     I                             ISPHIO    ,VSPHIO    ,EBCS_TAB  ,INIMAP1D  ,INIMAP2D  ,
-     J                             NSIGSH    ,SIGSH     ,NSIGI     ,SIGSP     ,NSIGS     ,
-     K                             SIGI      ,NSIGBEAM  ,SIGBEAM   ,NSIGTRUSS ,SIGTRUSS  ,
-     L                             NSIGRS    ,SIGRS     ,MERGE_NODE_TAB,MERGE_NODE_TOL   ,
-     M                             IMERGE    ,NMERGE_TOT,IEXLNK    ,NUVARI    ,NUVAR     ,
-     N                             IUSER     ,USER      )
+      SUBROUTINE ST_QAPRINT_DRIVER(IGEO        ,GEO        ,BUFGEO          ,IPM            ,PM               ,
+     2                             BUFMAT      ,NOM_OPT    ,INOM_OPT        ,NUMLOADP       ,ILOADP           ,
+     3                             LLOADP      ,LOADP      ,IBCL            ,FORC           ,IPRES            ,
+     4                             PRES        ,NPBY       ,LPBY            ,RBY            ,IBCR             ,
+     5                             FRADIA      ,IBCV       ,FCONV           ,IBFTEMP        ,FBFTEMP          ,
+     6                             IGRV        ,LGRV       ,AGRV            ,IBFFLUX        ,FBFFLUX          ,
+     7                             ITAB        ,V          ,VR              ,W              ,ICODE            ,
+     8                             ISKEW       ,ICFIELD    ,LCFIELD         ,CFIELD         ,DAMPR            ,
+     9                             TEMP        ,IBCSLAG    ,IPARI           ,INTBUF_TAB     ,CLUSTERS         ,
+     A                             IBOX        ,IPMAS      ,IBFVEL          ,FBFVEL         ,NIMPACC          ,
+     B                             LACCELM      ,ACCELM    ,NOM_SECT        ,NSTRF          ,SECBUF           ,
+     C                             SKEW        ,ISKWN      ,XFRAME          ,T_MONVOL       ,T_MONVOL_METADATA,
+     D                             I2RUPT      ,AREASL     ,INTBUF_FRIC_TAB ,NPFRICORTH     ,
+     E                             PFRICORTH   ,IREPFORTH  ,PHIFORTH        ,VFORTH         ,XREFC            ,
+     F                             XREFTG      ,XREFS      ,TAGXREF         ,IXS            ,IXC              ,
+     G                             IXTG        ,RWBUF      ,NPRW            ,LPRW           ,ITHGRP           ,
+     H                             ITHBUF      ,ITHVAR     ,IPART           ,SUBSETS        ,ITHGRPA          ,
+     I                             ITHGRPB     ,ITHGRPC    ,ITHGRPD         ,ITHGRPE        ,ITHGRPF          ,
+     J                             ITHGRPG     ,ITHGRPH    ,ITHGRPI         ,ITHBUFA        ,ITHBUFB          ,
+     K                             ITHBUFC     ,ITHBUFD    ,ITHBUFE         ,ITHBUFF        ,ITHBUFG          ,
+     L                             ITHBUFH     ,ITHBUFI    ,IPARTTH         ,NTHGRPMX       ,NIMPDISP         ,
+     M                             NIMPVEL     ,DETONATORS ,IBCSCYC         ,NPC            ,PLD              ,
+     N                             TABLE       ,NPTS       ,IRBE3           ,LRBE3          ,FRBE3            ,
+     O                             MGRBY       ,IXS10      ,ISOLNOD         ,IXR            ,R_SKEW           ,
+     P                             IXP         ,IXT        ,X               ,THKE           ,SH4ANG           ,
+     Q                             THKEC       ,SH3ANG     ,SET             ,LSUBMODEL      ,IGRNOD           ,
+     R                             IGRPART     ,IGRBRIC    ,IGRSH4N         ,IGRSH3N        ,IGRQUAD          ,
+     S                             IGRBEAM     ,IGRTRUSS   ,IGRSPRING       ,IGRSURF        ,IGRSLIN          ,
+     T                             IXQ         ,ISPCOND    ,RTRANS          ,IRAND          ,ALEA             ,
+     U                             XSEED       ,XLAS       ,LAS             ,IRBE2          ,LRBE2            ,
+     V                             KXSP        ,IPARTSP    ,DRAPE           ,IXR_KJ         ,IACTIV           ,
+     W                             FACTIV      ,UNITAB     ,NPBYL           ,LPBYL          ,RBYL             ,
+     X                             XYZREF      ,SENSOR_TAB ,LSENSOR         ,SENSOR         ,FUNC2D           ,
+     Y                             INICRACK    ,IPRELOAD   ,PRELOAD         ,IFLAG_BPRELOAD ,IBMPC,
+     Z                             IBMPC2      ,IBMPC3     ,IBMPC4          ,RBMPC          ,LJOINT           ,
+     A                             NNLINK      ,LNLINK     ,BUFSF           ,SBUFSF_        ,PM_STACK         ,
+     B                             GEO_STACK   ,IGEO_STACK ,IPARG           ,IPADMESH       ,PADMESH          ,
+     C                             LIFLOW      , LRFLOW    ,IFLOW           ,RFLOW          ,
+     D                             SH4TREE     ,SH3TREE    ,SH4TRIM         ,SH3TRIM        ,QP_IPERTURB      ,
+     E                             QP_RPERTURB ,LLINAL     ,LINALE          ,FVM_INIVEL     ,GJBUFI           ,
+     F                             GJBUFR      ,MS         ,IN              ,LGAUGE         ,GAUGE            ,
+     G                             KXX         ,IXX        ,IPARTX          ,IXRI           ,IXS16            ,
+     H                             IEXMAD      ,FXBIPM     ,FXBFILE_TAB     ,EIGIPM         ,EIGRPM           ,
+     I                             ISPHIO      ,VSPHIO     ,EBCS_TAB        ,INIMAP1D       ,INIMAP2D         ,
+     J                             NSIGSH      ,SIGSH      ,NSIGI           ,SIGSP          ,NSIGS            ,
+     K                             SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS      ,SIGTRUSS         ,
+     L                             NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL ,
+     M                             IMERGE      ,NMERGE_TOT ,IEXLNK          ,NUVARI         ,NUVAR            ,
+     N                             IUSER       ,USER      )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -226,6 +226,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NUVARI,NUVAR
       INTEGER, INTENT(IN) :: IUSER(NUVARI+100)
       my_real, INTENT(IN) :: USER(NUVAR)
+      INTEGER,INTENT(IN) :: IPARG(NPARG,NGROUP)
 C-----------------------------------------------
 C      NOM_OPT(LNOPT1,SNOM_OPT1) 
 C         * Possibly, NOM_OPT(1) = ID
@@ -485,6 +486,7 @@ C-----------------------------------------------
      .                    NSIGRS   ,SIGRS    )
       CALL ST_QAPRINT_MULTIDOMAINS(IPART,IEXLNK,IGRNOD)
       CALL ST_QAPRINT_USERWI(NUVARI,NUVAR,IUSER,USER)
+      CALL ST_QAPRINT_INTERNAL_GROUPS(IPARG)
 C-----------------------------------------------------------------------
 
       RETURN
