@@ -128,7 +128,7 @@ C----- not output all solid element
           IF (JHBE==17.AND.IINT==2) JHBE = 18
           ISOLNOD0 = ISOLNOD
           NSROT = 0
-          IF (ISOLNOD0==4 .AND. ISROT>0) THEN
+          IF (ISOLNOD0==4 .AND. ISROT==1) THEN
             ISOLNOD=10
             NSROT = 4
           END IF
