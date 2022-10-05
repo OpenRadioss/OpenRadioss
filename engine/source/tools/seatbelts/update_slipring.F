@@ -72,7 +72,7 @@ C-----------------------------------------------
      .        COMPT,FRA,NFOUND,FOUND_SLIP(2),FOUND_FRAM(2),FRAM1,FRAM2,
      .        NODE_FRAM1,NODE_FRAM2,IREP,FLAG_REACTIV,FLAG_R1,FLAG_R2,NUVAR,
      .        ISEATBELT,FRA1,FRA2,L_DIRA,NLAY,ISMSTR,STRAND,NODE_CORES_DIR2(4),
-     .        NPTR,NPTS,NPTT,IR,IS,IT,S_SLIPRING,L_SMSTR
+     .        NPTR,NPTS,NPTT,IR,IS,IT,S_SLIPRING,L_SMSTR,ORIENT,POS_B
 C
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_NOD,CORES_SLIP,CORES_FRAM
 C
@@ -262,11 +262,6 @@ C----------------------------------------------------------
 C
       IF ((N_SEATBELT_2D > 0).AND.((NCYCLE==0).OR.(FLAG_SLIPRING_UPDATE /= 0))) THEN
 C
-        NODE_CORES_DIR2(1) = 4
-        NODE_CORES_DIR2(2) = 3
-        NODE_CORES_DIR2(3) = 2
-        NODE_CORES_DIR2(4) = 1
-C
         TAG_NOD(1:NUMNOD) = 0
         CORES_SLIP(1:S_SLIPRING) = 0
         CORES_FRAM(1:S_SLIPRING) = 0
@@ -319,7 +314,23 @@ C
               FOUND_SLIP(1:2) = 0
               FOUND_FRAM(1:2) = 0 
               FLAG_R1 = 0
-              FLAG_R2 = 0            
+              FLAG_R2 = 0      
+C
+              IF (GBUF%ADD_NODE(I) == IXC(3,J)) THEN
+C--             dir1 is N1 N2
+                ORIENT = 1
+                NODE_CORES_DIR2(1) = 4
+                NODE_CORES_DIR2(2) = 3
+                NODE_CORES_DIR2(3) = 2
+                NODE_CORES_DIR2(4) = 1
+              ELSE
+C--             dir1 is N1 N4
+                ORIENT = 2
+                NODE_CORES_DIR2(1) = 2
+                NODE_CORES_DIR2(2) = 1
+                NODE_CORES_DIR2(3) = 4
+                NODE_CORES_DIR2(4) = 3
+              ENDIF      
 C
 C--           Get previous connection between element / slipring
               SLIP = GBUF%SLIPRING_ID(I)
@@ -339,7 +350,7 @@ C
               IF (FLAG_R1 == 0) THEN
                 DO K=2,5
 C--               Tag < 0 - node 1 or 3 of slipring
-                  IF (TAG_NOD(IXC(K,J)) < 0) FLAG_R2 = K              
+                  IF (TAG_NOD(IXC(K,J)) < 0) FLAG_R2 = K - 1             
                 ENDDO
               ENDIF
 C
@@ -351,17 +362,11 @@ C-------------------------------------------------------------------------------
                 IF (SLIP == 0) THEN
 C--               element will be slowly deactivated - stress factor -> 0 in mulawc
                   GBUF%UPDATE(I) = FLAG_R2
-                  IF ((FLAG_R2==2).OR.(FLAG_R2==5)) THEN
-                    N1 = IXC(2,J)
-                    N2 = GBUF%ADD_NODE(I)
-                    N3 = IXC(5,J)
-                    N4 = GBUF%ADD_NODE(NEL*3+I)
-                  ELSE
-                    N1 = IXC(3,J)
-                    N2 = GBUF%ADD_NODE(NEL+I)
-                    N3 = IXC(4,J)
-                    N4 = GBUF%ADD_NODE(NEL*2+I)
-                  ENDIF
+                  POS_B = NODE_CORES_DIR2(FLAG_R2)
+                  N1 = IXC(1+FLAG_R2,J)
+                  N2 = GBUF%ADD_NODE(NEL*FLAG_R2+I)
+                  N3 = IXC(1+POS_B,J)
+                  N4 = GBUF%ADD_NODE(NEL*POS_B+I)
                   DIST = SQRT((X(1,N1)-X(1,N2))**2+(X(2,N1)-X(2,N2))**2+(X(3,N1)-X(3,N2))**2)
                   DISTB = SQRT(MAX(EM20,(X(1,N3)-X(1,N4))**2+(X(2,N3)-X(2,N4))**2+(X(3,N3)-X(3,N4))**2))
                   DIST = MIN(DIST,DISTB)
@@ -370,7 +375,7 @@ C--               element will be slowly deactivated - stress factor -> 0 in mul
 C--               element will be slowly activated - stress factor -> 1 in mulawc
                   GBUF%UPDATE(I) = -FLAG_R2
                   N1 = IXC(2,J)
-                  N2 = IXC(3,J)
+                  N2 = GBUF%ADD_NODE(I)
                   DIST = (X(1,N1)-X(1,N2))**2+(X(2,N1)-X(2,N2))**2+(X(3,N1)-X(3,N2))**2
                   GBUF%INTVAR(II(2)+I-1) = THIRD*SQRT(DIST)
                 ENDIF
@@ -464,7 +469,7 @@ C--             shell reactivation process - update of reference state -- reset 
      .                                  NODE_FRAM2,GBUF%STRA,NEL,XL2,YL2,
      .                                  XL3,YL3,XL4,YL4,OFFSET,
      .                                  N_DIR2,BUFLY%DIRA(I),BUFLY%DIRA(NEL+I),GBUF%SMSTR,ISMSTR,
-     .                                  L_SMSTR)
+     .                                  L_SMSTR,ORIENT)
 C               reset of fram
                 GBUF%SLIPRING_FRAM_ID(II(1)+I-1) = ZERO
                 GBUF%SLIPRING_FRAM_ID(II(2)+I-1) = ZERO
@@ -484,8 +489,10 @@ C
 C
         ENDDO
 C
-        DEALLOCATE(TAG_NOD,CORES_SLIP,CORES_FRAM)
+      ENDIF
 C
+      IF (((N_SEATBELT_2D > 0).AND.(NCYCLE==0)).OR.(FLAG_SLIPRING_UPDATE /= 0)) THEN
+        DEALLOCATE(TAG_NOD,CORES_SLIP,CORES_FRAM)
       ENDIF
 C
 C----------------------------------------------------------

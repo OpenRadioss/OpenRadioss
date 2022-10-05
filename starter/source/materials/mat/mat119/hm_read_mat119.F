@@ -201,11 +201,11 @@ C     PARMAT(3)  = SQRT(N12*N21)
 c
 c---- Definition of internal variables variables for seatbelts
 c
-      MTAG%G_INTVAR = 13
+      MTAG%G_INTVAR = 6
       MTAG%G_SLIPRING_ID = 1
       MTAG%G_SLIPRING_FRAM_ID = 2
       MTAG%G_UPDATE = 1
-      MTAG%G_ADD_NODE = 4
+      MTAG%G_ADD_NODE = 5
       MTAG%G_POSX = 2
 c
 c--------------------- 

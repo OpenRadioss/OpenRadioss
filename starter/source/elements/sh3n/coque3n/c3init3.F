@@ -303,7 +303,7 @@ c
      .   IREP      ,ELBUF_STR ,DRAPE    ,SH3ANG(NFT+1),X       ,
      .   GEO_STACK ,IGEO_STACK,E3X       ,E3Y       ,E3Z       ,
      .   GBUF%BETAORTH,X1     ,X2        ,Y1        ,Y2        ,
-     .   Z1         ,Z2       )
+     .   Z1         ,Z2       ,NEL       ,GBUF%G_ADD_NODE,GBUF%ADD_NODE)
 c---     
       IF(IGTYP == 51 .OR. IGTYP == 52 .OR. IGMAT > 0) THEN   
 c

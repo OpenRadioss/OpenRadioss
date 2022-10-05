@@ -78,7 +78,8 @@ C-----------------------------------------------
       INTEGER I,J,K,L,M,N,NG,NEL,ITY,IAD,LFT,LLT,NFT,MTN,NODE,NODE_NEXT,
      .        ELEM_NEXT,N1,N2,NTOOL,KK,NOT_USED,FLAG,ELEM_CUR,NN,ID,NNOD,
      .        MID,MTYP,P,NB_SHELL,NFRAM,N3,N4,MS,NODES,ISEATBELT,NSL,IDRB,
-     .        NOD,NFOUND_RBY,NFOUND_BCS,BCS_X,BCS_Y,BCS_Z,IC,IC1,IC2
+     .        NOD,NFOUND_RBY,NFOUND_BCS,BCS_X,BCS_Y,BCS_Z,IC,IC1,IC2,N1SP,
+     .        N2SP,ELEM,ORIENT
 C
       my_real DIST1,DIST2,ALEA_MAX,TOLE_2
 C
@@ -255,13 +256,6 @@ CC-               determinaton of slipring direction for strand1
                     SLIPRING(K)%FRAM(L)%STRAND_DIRECTION(1) = -1
                   ENDIF
 C
-C----------->     Update of third node------------
-                  DO KK=1,3
-                    IF ((SLIPRING(K)%FRAM(L)%NODE(KK)/=N1).AND.(SLIPRING(K)%FRAM(L)%NODE(KK)/=N2)) THEN
-                      IXR(4,J)=SLIPRING(K)%FRAM(L)%NODE(KK)
-                    ENDIF
-                  ENDDO
-C
                 ELSEIF (((N1==SLIPRING(K)%FRAM(L)%NODE(2)).AND.(N2==SLIPRING(K)%FRAM(L)%NODE(3))).OR.
      .                  ((N1==SLIPRING(K)%FRAM(L)%NODE(3)).AND.(N2==SLIPRING(K)%FRAM(L)%NODE(2)))) THEN
 CC-               element is strand number 2
@@ -277,12 +271,6 @@ CC-               determinaton of slipring direction for strand2
                     SLIPRING(K)%FRAM(L)%STRAND_DIRECTION(2) = -1
                   ENDIF
 C
-C----------->     Update of third node------------
-                  DO KK=1,3
-                    IF ((SLIPRING(K)%FRAM(L)%NODE(KK)/=N1).AND.(SLIPRING(K)%FRAM(L)%NODE(KK)/=N2)) THEN
-                      IXR(4,J)=SLIPRING(K)%FRAM(L)%NODE(KK)
-                    ENDIF
-                  ENDDO
                 ENDIF
               ENDDO
             ENDDO
@@ -304,6 +292,7 @@ C
             IF (TAG_RETRACTOR(J) > 0) THEN
 C-            element initially in the retractor
               GBUF%OFF(I) = ZERO
+              GBUF%RETRACTOR_ID(I) = -K
               K = TAG_RETRACTOR(J)
               ID = RETRACTOR(K)%ID
               NN = RETRACTOR(K)%ANCHOR_NODE 
@@ -459,39 +448,45 @@ C--         Initial length of fram 1/2 and fram 4/3
             GBUF%INTVAR(I+2*NEL) = SQRT(DIST1)
             GBUF%INTVAR(I+3*NEL) = SQRT(DIST2)
 C
-            DO M=2,5
-CCC-        Find node after node i
-C
-C--             spring either between node 1/2 - or 3/4
-                IF (M==2) MS =3
-                IF (M==3) MS =2
-                IF (M==4) MS =5
-                IF (M==5) MS =4
-                NODE = IXC(M,J)
-                NODES = IXC(MS,J)
-C
-                NODE_NEXT = 0
-C
-                DO K=KNOD2EL1D(NODE)+1,KNOD2EL1D(NODE+1)
-                  IF (NOD2EL1D(K) > NUMELT+NUMELP) THEN          
-                    ELEM_NEXT = NOD2EL1D(K)-NUMELT-NUMELP
-                    IF (((IXR(2,ELEM_NEXT)==NODE).AND.(IXR(3,ELEM_NEXT)/=NODES)).OR.
-     .                  ((IXR(3,ELEM_NEXT)==NODE).AND.(IXR(2,ELEM_NEXT)/=NODES))) THEN
-                      MID = IXR(5,ELEM_NEXT)
-                      IF (MID > 0) THEN
-                        MTYP = IPM(2,MID)
-                        IF (MTYP == 114) THEN
-                          IF (IXR(2,ELEM_NEXT) == NODE) THEN
-                            NODE_NEXT = IXR(3,ELEM_NEXT)
-                          ELSE
-                            NODE_NEXT = IXR(2,ELEM_NEXT)
-                          ENDIF
-                        ENDIF
-                      ENDIF  
-                    ENDIF              
+CCC-        Find node defining 1rst orthotropy direction with N1 using springs : N2 (default) or N4 
+            GBUF%ADD_NODE(I) = N2 
+            DO K=KNOD2EL1D(N1)+1,KNOD2EL1D(N1+1)
+              IF (NOD2EL1D(K) > NUMELT+NUMELP) THEN          
+                ELEM = NOD2EL1D(K)-NUMELT-NUMELP
+                MID = IXR(5,ELEM)
+                IF (MID > 0) THEN
+                  MTYP = IPM(2,MID)
+                  IF ((MTYP==114).AND.((IXR(2,ELEM)==N1).AND.(IXR(3,ELEM) == N4))
+     .                            .OR.((IXR(3,ELEM)==N1).AND.(IXR(2,ELEM) == N4))) THEN
+                    GBUF%ADD_NODE(I) = N4
                   ENDIF
-                ENDDO
-                GBUF%ADD_NODE((M-2)*NEL+I) = NODE_NEXT
+                ENDIF              
+              ENDIF
+            ENDDO
+C
+CCC-        Find node after node i
+            DO M=2,5
+              NODE = IXC(M,J)
+              NODE_NEXT = 0
+              DO K=KNOD2EL1D(NODE)+1,KNOD2EL1D(NODE+1)
+                IF (NOD2EL1D(K) > NUMELT+NUMELP) THEN          
+                  ELEM_NEXT = NOD2EL1D(K)-NUMELT-NUMELP
+                  MID = IXR(5,ELEM_NEXT)
+                  IF (MID > 0) THEN
+                    MTYP = IPM(2,MID)
+                    IF (MTYP==114) THEN
+                      N1SP=IXR(2,ELEM_NEXT)
+                      N2SP=IXR(3,ELEM_NEXT)
+                      IF ((N1SP==NODE).AND.(N2SP/=N1).AND.(N2SP/=N2).AND.(N2SP/=N3).AND.(N2SP/=N4)) THEN    
+                        NODE_NEXT = N2SP
+                      ELSEIF ((N2SP==NODE).AND.(N1SP/=N1).AND.(N1SP/=N2).AND.(N1SP/=N3).AND.(N1SP/=N4)) THEN 
+                        NODE_NEXT = N1SP
+                      ENDIF
+                    ENDIF  
+                  ENDIF              
+                ENDIF
+              ENDDO
+              GBUF%ADD_NODE((M-1)*NEL+I) = NODE_NEXT
 C
             ENDDO
 C

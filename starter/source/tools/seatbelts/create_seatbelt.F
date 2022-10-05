@@ -32,7 +32,8 @@ Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.
 Chd|====================================================================
       SUBROUTINE CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
      .                           X,LSENSOR,BUFMAT,PM,GEO,
-     .                           IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO)
+     .                           IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO,
+     .                           ISKN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,12 +53,13 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com01_c.inc"
 #include      "my_allocate.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXR(NIXR,*),ITAB(*),KNOD2EL1D(*),NOD2EL1D(*),IPM(NPROPMI,*),LSENSOR(NSENSI,*),IDDLEVEL,
      .        KNOD2ELC(*),NOD2ELC(*),IXC(NIXC,*)
-      INTEGER, INTENT(INOUT) :: IGEO(NPROPGI,NUMGEO)
+      INTEGER, INTENT(INOUT) :: IGEO(NPROPGI,NUMGEO),ISKN(SISKWN)
       my_real X(3,*),BUFMAT(*),PM(NPROPM,*),GEO(NPROPG,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -66,7 +68,7 @@ C-----------------------------------------------
      .        FLAG,NNOD,MTYP,MID,NDIR,
      .        I1,I2,IADBUF,TAG_PRINT,ISENS_LOC(2),IPID,OFFC,OFFR,NB_ELEM,NODE,
      .        NB_2D_SEATBELT,COMPT_BELT_END,COMPT_FRAM,NEXT_NODE,NODE_CUR,COMPT_2D,MID_2D,NODE_LONGI,
-     .        IADBUF_2D,FUNC1,FUNC2
+     .        IADBUF_2D,FUNC1,FUNC2,ISK,N1,N2,SEATBELT_ELEM_FOUND,IMOV
       my_real DIST2,LMIN,RHO,XK,XC,AREA,LONGI_DIRECTION(3),EDGE_DIRECTION(3),SCAL,E11,E22,G12,DET,
      .        N12,N21,NU,FSCALE1,FSCALE2,A11,A22,A12,C1,SSP,RHO0,YOUNG,FSCALET
 C
@@ -143,7 +145,7 @@ C
           DO J=2,5
             TAG_NOD_SHELL(IXC(J,I)) = TAG_NOD_SHELL(IXC(J,I)) + 1
           ENDDO
-C-        tag of prop type 9 to 1 to set IP=20 or -2 if conflict with non seatbelt elements
+C-        tag of prop type 9 to 1 to set IP=24 or -2 if conflict with non seatbelt elements
           IF (TAG_PROP_2D(IPID)==0) TAG_PROP_2D(IPID) = 1
           IF (TAG_PROP_2D(IPID)==-1) TAG_PROP_2D(IPID) = -2
         ELSEIF (IGEO(11,IPID)==9) THEN
@@ -167,20 +169,61 @@ C
         ENDIF
       ENDDO
 C
-C--   Set of IP=20 for /PROP/TYPE9 for orthotropy directions computation
+C----------------------------------------------------------------------------
+C---  Check of /PROP/TYPE9 - IP flag and skew
+C----------------------------------------------------------------------------
+C
       DO I=1,NUMGEO
-        IF (IGEO(14,I) /= 20) THEN
+C-      automatic setting of ip = 24
+        IF (IGEO(14,I) /= 24) THEN
           IF (TAG_PROP_2D(I) == 1) THEN
-            IGEO(14,I) = 20
-             CALL ANCMSG(MSGID=2076,
+            IGEO(14,I) = 24
+            CALL ANCMSG(MSGID=2076,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=IGEO(1,I)) 
+            ISK = IGEO(2,I)
+            IF (ISK > 0) THEN
+C-            skew must be skew/mov or skew/fix
+              IMOV = ISKN(LISKN*(ISK-1)+5)
+              IF (IMOV == 0) THEN
+                CALL ANCMSG(MSGID=2082,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                      I1=IGEO(1,I)) 
+              ENDIF
+            ENDIF
           ELSEIF (TAG_PROP_2D(I) == -2) THEN
              CALL ANCMSG(MSGID=2077,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=IGEO(1,I)) 
+          ENDIF
+        ENDIF
+C-      check of nodes 1 and 2 of skew - must be on the same element
+        IF (TAG_PROP_2D(I)==1) THEN
+          ISK = IGEO(2,I)
+          IMOV = ISKN(LISKN*(ISK-1)+5)
+          IF ((ISK > 0).AND.(IMOV > 0)) THEN
+            N1 = ISKN(LISKN*(ISK-1)+1)
+            N2 = ISKN(LISKN*(ISK-1)+2)
+            SEATBELT_ELEM_FOUND = 0
+            DO K=KNOD2ELC(N1)+1,KNOD2ELC(N1+1)
+              ELEM_CUR = NOD2ELC(K)
+              MID = IXC(1,ELEM_CUR)
+              MTYP = IPM(2,MID)
+              IF (MTYP==119) THEN
+                DO J=2,5
+                  IF (IXC(J,ELEM_CUR)==N2) SEATBELT_ELEM_FOUND = 1
+                ENDDO
+              ENDIF
+            ENDDO
+            IF (SEATBELT_ELEM_FOUND == 0) THEN
+                CALL ANCMSG(MSGID=2083,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                      I1=IGEO(1,I),I2=ISKN(LISKN*(ISK-1)+4))
+            ENDIF             
           ENDIF
         ENDIF
       ENDDO
