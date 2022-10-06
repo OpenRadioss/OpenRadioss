@@ -41,7 +41,7 @@ Chd|====================================================================
      5     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7     SIGY    ,ET      ,TEMPEL  ,VARNL   ,OFF     ,IPG     ,
-     8     DMG     ,TEMP    ,SEQ     ,NPG     ,ELBUF_TAB)
+     8     DMG     ,TEMP    ,SEQ     ,NPG     ,ELBUF_TAB,INLOC  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NUPARAM,NUVAR,JTHE,IPG,NPG
+      INTEGER NEL,NUPARAM,NUVAR,JTHE,IPG,NPG,INLOC
       INTEGER ,DIMENSION(NEL), INTENT(IN) :: NGL
       my_real 
      .   TIME,TIMESTEP
@@ -115,7 +115,8 @@ c
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7         SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     )
+     7         SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     ,INLOC   ,
+     8         VARNL   )
           ELSE  ! Newton
             CALL MAT104_NODAM_NEWTON(
      1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
@@ -124,7 +125,8 @@ c
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7         SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     )
+     7         SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     ,INLOC   ,
+     8         VARNL   )
           ENDIF
 c
         CASE(1,2)   ! Drucker material law with local Gurson damage
