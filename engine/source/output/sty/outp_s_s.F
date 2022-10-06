@@ -475,6 +475,8 @@ C-----------------------------------------------
              ELSEIF(ISOLNOD == 10.OR.((ISOLNOD == 6.OR.ISOLNOD == 8).
      .            AND.JHBE == 15).OR.JHBE == 12)THEN
                JJ = JJ + (NUVAR*ABS(NPT)+4)*NEL
+             ELSEIF(NPT > 1)THEN
+               JJ = JJ + (NUVAR*NPT+4)*NEL
              ELSE
                JJ = JJ + (NUVAR+4)*NEL      
              ENDIF               
