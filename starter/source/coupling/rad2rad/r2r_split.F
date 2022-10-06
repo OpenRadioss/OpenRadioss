@@ -89,7 +89,6 @@ C-----------------------------------------------
      .   EANI2(*),NB_LINE,
      .   IXR_KJ(*),INOM_OPT(*),RESERVEP(*),NALE_R2R(SNALE),
      .   NSPCOND0,RBY_MSN(2,*)
-!
       TYPE (SUBSET_) , DIMENSION(NSUBS)   :: SUBSET
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE (SURF_)   , DIMENSION(NSLIN)   :: IGRSLIN
@@ -147,13 +146,13 @@ C-------------------------------------------------------------------------------
 	N_PART = NPART
 
 C----------------------------------------------------------------------------------C
-C-----------------------Premiere passe -> tag et comptage des donnees  ------------C
+C-----------------------First pass -> tag and count--------------------------------C
 C----------------------------------------------------------------------------------C
 
       IF (FLAG==0) THEN
 
 C----------------------------------------------------------------------------------C
-C---------------------Allocation et Mize a zero des tableaux de tag----------------C
+C---------------------Allocation and intialisation of array tags-------------------C
 C----------------------------------------------------------------------------------C
 
         ALLOCATE(TAG_MAT(NUMMAT),TAG_PROP(NUMGEO),TAG_SUBS(NSUBS))
@@ -163,11 +162,11 @@ C-------------------------------------------------------------------------------
         TAG_SUBS(:) = 0
 	TAG_PART(:) = 0
 
-C------------Provisoirement on garde tous les mat et props-------------------------C
+C------------Temporarily all mat and properties are kept --------------------------C
         TAG_MAT(:) = 1
         TAG_PROP(:) = 1
 
-C------------Stockage de TAG_EL----------------------------------------------------C        
+C------------TAG_EL must be stored-------------------------------------------------C        
         ALLOCATE(TAG_ELCF2(NUMELC))
         ALLOCATE(TAG_ELSF2(NUMELS))        
         TAG_ELCF2 = 0
@@ -180,7 +179,7 @@ C------------Stockage de TAG_EL-------------------------------------------------
         END DO
         
 C----------------------------------------------------------------------------------C
-C-----------------------------tag des donnees du subdomain-------------------------C
+C-----------------------------tag of data of the subdomain-------------------------C
 C----------------------------------------------------------------------------------C
 
        IF (IDDOM/=0) THEN
@@ -194,7 +193,7 @@ C-------------------------------------------------------------------------------
 	  END DO
        ENDIF
 
-C----------------Full domain --> tag des parts de tous les sous domaines-----------C
+C----------------Full domain --> tag of parts of all subdomains--------------------C
 
        IF (IDDOM == 0) THEN
 
@@ -209,8 +208,7 @@ C----------------Full domain --> tag des parts de tous les sous domaines--------
 	    END DO
 	  END DO
 
-C-        ----->Full domain --> inversion du tag des parts<---
-
+C-        ----->Full domain --> inversion of tag of parts<---
 	  DO K=1,NPART
               IF(TAG_PART(K) == 1) THEN
                   TAG_PART(K)=0
@@ -221,7 +219,7 @@ C-        ----->Full domain --> inversion du tag des parts<---
 
 	ENDIF
 
-C---------------Tag des subsets----------------------------------------------------C
+C---------------Tag of subsets-----------------------------------------------------C
 !
 Cmi   --- TAG_SUBS  ---> ATTENTION not used
 !
@@ -241,8 +239,7 @@ Cmi   --- TAG_SUBS  ---> ATTENTION not used
         ENDDO
 !---
 
-C---------------Tag des parts pour tag d'elements----------------------------------C
-
+C---------------Tag of parts for tag of elements-----------------------------------C
 	DO K=1,NPART
               IF(TAG_PART(K) == 1) THEN
                   TAG_ELS(K)=1
@@ -254,15 +251,15 @@ C---------------Tag des parts pour tag d'elements-------------------------------
                   TAG_ELG(K)=1
                   TAG_ELSP(K)=1
 		  TAG_SURF(K)=1
-C---------------Tag des materiaux et proprietes------------------------------------C
+C---------------Tag of materials and properties------------------------------------C
                   TAG_MAT(IPART(LIPART1*(K-1)+1))=1
                   TAG_PROP(IPART(LIPART1*(K-1)+2))=1
               ENDIF
 	END DO
 
-C---------------Les noeuds sont deja tages dans TAGNO------------------------------C
+C---------------Nodes are already taged in TAGNO-----------------------------------C
 
-C---------------Tag des elements---------------------------------------------------C
+C---------------Tag of elements----------------------------------------------------C
 
         SIPART0 = LIPART1*NPART+LIPART1*NTHPART
 	SIPARTTH= 2*9*NPART+2*9*NTHPART
@@ -291,12 +288,11 @@ C---------------Tag des elements------------------------------------------------
 
         IF (NUMSPH>0) CALL TAGELEM_R2R(NUMSPH,IPART(L0),TAG_ELSP,NPART)
 
-C---------------Tag des injecteurs et de leur prop et mat--------------------------C
-
+C---------------Tag of injectors and corresponding material and property-----------C
 	CALL R2R_MONVOL(TAG_MAT,TAG_PROP,IGRSURF,LSUBMODEL)
 
 C----------------------------------------------------------------------------------C
-C--------------------------Premiere passe -> comptage -----------------------------C
+C--------------------------First pass -> counting----------------------------------C
 C----------------------------------------------------------------------------------C
 
         COMPT = 0
@@ -319,21 +315,21 @@ C-------------------------------------------------------------------------------
 	SIZ_IGEO_NEW = NPROPGI
 	SIZ_GEO_NEW = NPROPG
 
-C ---------> comptage des materiaux	-------------------------------------------C
+C ---------> counting of materials	-------------------------------------------C
         DO J=1,NUMMAT
           IF (TAG_MAT(J)/=0)THEN
 	        SIZ_IPM_NEW = SIZ_IPM_NEW + NPROPMI
 	        SIZ_PM_NEW = SIZ_PM_NEW + NPROPM
           ENDIF
         ENDDO
-C ---------> comptage des proprits	-------------------------------------------C
+C ---------> counting of properties	-------------------------------------------C
         DO J=1,NUMGEO
           IF (TAG_PROP(J)/=0)THEN
 	        SIZ_IGEO_NEW = SIZ_IGEO_NEW + NPROPGI
 	        SIZ_GEO_NEW = SIZ_GEO_NEW + NPROPG
           ENDIF
         ENDDO
-C ---------> comptage des noeuds et des noeuds deletes-----------------------------C
+C ---------> counting of nodes and deleted nodes-----------------------------------C
         DO J=1,NUMNOD
           IF (TAGNO(J+NPART)>=0)THEN
 	        NNODN = NNODN+1
@@ -341,33 +337,33 @@ C ---------> comptage des noeuds et des noeuds deletes--------------------------
 	  	NODSUPR = NODSUPR+1
           ENDIF
         ENDDO
-C ---------> comptage des parts	---------------------------------------------------C
+C ---------> counting of parts	---------------------------------------------------C
         DO J=1,NPART
           IF (TAG_PART(J)==1) THEN
 	        NPARN = NPARN+1
           ENDIF
         ENDDO
-C ---------> Noeud poubelle	---------------------------------------------------C
+C ---------> DUmmy nodes	---------------------------------------------------C
 	NNODN = NNODN+1
-C ---------> comptage des shell	---------------------------------------------------C
+C ---------> couting of shells	---------------------------------------------------C
         DO J=1,NUMELC
           IF (TAG_ELC(J+NPART)/=0) THEN
 	        NELCN = NELCN+1
           ENDIF
         ENDDO
-C ---------> comptage des sh3n	---------------------------------------------------C
+C ---------> counting of sh3n	---------------------------------------------------C
         DO J=1,NUMELTG
           IF (TAG_ELG(J+NPART)/=0) THEN
 	        NELTGN = NELTGN+1
           ENDIF
         ENDDO
-C ---------> comptage des truss	---------------------------------------------------C
+C ---------> counting of truss	---------------------------------------------------C
         DO J=1,NUMELT
           IF (TAG_ELT(J+NPART)/=0) THEN
 	        NELTN = NELTN+1
           ENDIF
         ENDDO
-C ---------> comptage des springs--------------------------------------------------C
+C ---------> counting of springs---------------------------------------------------C
         DO J=1,NUMELR
           IF (TAG_ELR(J+NPART)/=0) THEN
 	        NELRN = NELRN+1
@@ -379,13 +375,13 @@ C ---------> comptage des beams-------------------------------------------------
 	        NELPN = NELPN+1
           ENDIF
         ENDDO
-C ---------> comptage des quads----------------------------------------------------C
+C ---------> counting of beams	---------------------------------------------------C
         DO J=1,NUMELQ
           IF (TAG_ELQ(J+NPART)/=0) THEN
 	        NELQN = NELQN+1
           ENDIF
         ENDDO
-C ---------> comptage des solides--------------------------------------------------C
+C ---------> counting of solids	---------------------------------------------------C
         DO J=1,NUMELS
           IF (TAG_ELS(J+NPART)/=0) THEN
 	        NELSN = NELSN+1
@@ -394,13 +390,13 @@ C ---------> comptage des solides-----------------------------------------------
 		IF (EANI2(J)==16) NELS16N = NELS16N+1
           ENDIF
         ENDDO
-C ---------> comptage des particules SPH-------------------------------------------C
+C ---------> counting of SPH particles---------------------------------------------C
         DO J=1,NUMSPH
           IF (TAG_ELSP(J+NPART)/=0) THEN
 	        NSPHN = NSPHN+1
           ENDIF
         ENDDO
-C ---------> comptage des reserves de particules SPH-------------------------------C
+C ---------> counting of particles reserve-----------------------------------------C
         FIRST_CELL = FIRST_SPHRES
         DO J=1,NBPARTINLET
           IF (TAG_ELSP(FIRST_CELL+NPART)/=0) THEN
@@ -413,13 +409,13 @@ C-------------------------------------------------------------------------------
       ENDIF ! IF (FLAG==0) THEN
 
 C----------------------------------------------------------------------------------C
-C-------------------------Deuxieme passe -> split des tableaux  -------------------C
+C-------------------------Second pass -> split of arrays --------------------------C
 C----------------------------------------------------------------------------------C
 
       IF (FLAG==1) THEN
 
 C----------------------------------------------------------------------------------C
-C-------------On split les materiaux ----------------------------------------------C
+C-------------Split of materials --------------------------------------------------C
 C----------------------------------------------------------------------------------C
 
           ALLOCATE (IPM_TEMP(NPROPMI*NUMMAT),PM_TEMP(NPROPM*NUMMAT))
@@ -457,7 +453,7 @@ C-------------Split-------------------------------------------------------------
           DEALLOCATE(IPM_TEMP,PM_TEMP)
 
 C----------------------------------------------------------------------------------C
-C-------------On split les proprietes ---------------------------------------------C
+C-------------Split of properties -------------------------------------------------C
 C----------------------------------------------------------------------------------C
 
           ALLOCATE (IGEO_TEMP(NPROPGI*NUMGEO),GEO_TEMP(NPROPG*NUMGEO))
@@ -497,7 +493,7 @@ C-------------Split-------------------------------------------------------------
           DEALLOCATE(IGEO_TEMP,GEO_TEMP)
 
 C----------------------------------------------------------------------------------C
-C-------------On split les PARTS---------------------------------------------------C
+C-------------Split of PARTS-------------------------------------------------------C
 C----------------------------------------------------------------------------------C
 
           DO J=1,NPART
@@ -506,7 +502,7 @@ C-------------------------------------------------------------------------------
           ENDDO
 
 C----------------------------------------------------------------------------------C
-CC-------------On split les noeuds ------------------------------------------------C
+C-------------Split of nodes-------------------------------------------------------C
 C----------------------------------------------------------------------------------C
 
           ALLOCATE(CORESN(NUMNOD),X_TEMP(3,NUMNOD))
@@ -555,8 +551,7 @@ c		 ENDIF
             ENDIF
           ENDDO
 
-C -----------on update les skews---------------------------------------------------C
-
+C -----------update of skews-------------------------------------------------------C
           DO J=1,NUMSKW
 	     DO K=1,3
 	        IF (ISKWN(LISKN*J+K)>0)
@@ -564,8 +559,7 @@ C -----------on update les skews------------------------------------------------
 	     END DO
           ENDDO
 
-C -----------on update les frames--------------------------------------------------C
-
+C -----------update of frames------------------------------------------------------C
 	  JJ = SISKWN-SIFRAME
           IF (NSPHN==NUMSPH) THEN
             DO J=1,NUMFRAM
@@ -575,7 +569,7 @@ C -----------on update les frames-----------------------------------------------
 	      END DO
             ENDDO
           ELSE
-C--         on avance les frames si disparition des particules SPH      
+C--         advance of fraomes if SPH particles are removed    
             JJB = SISKWN-SIFRAME-MIN(IUN,NSPCOND0)*(NUMSPH-NSPHN)*LISKN
             DO J=1,NUMFRAM 
 	      DO K=1,3
@@ -594,11 +588,11 @@ C--         on avance les frames si disparition des particules SPH
 	  NUMNOD0 = COMPT
           DEALLOCATE(ITAB_TEMP,X_TEMP)
 
-C-------------Reconstitution de ITABM1---------------------------------------------C
+C-------------Reconstitution of ITABM1---------------------------------------------C
           PART1  => ITABM1(1:2*NUMNOD)
           CALL CONSTIT(ITAB,PART1,NUMNOD)
 
-C-------------On cre une deuxime liste de noeuds supprims pour les detection d'erreures
+C-------------A second list of removed nodes is generated for error detection
           IF (NODSUPR/=0) THEN
           PART2  => ITABM1(2*NUMNOD+1:2*NUMNOD_OLD)
           CALL CONSTIT(ITAB_SUP,PART2,NODSUPR)
@@ -606,7 +600,7 @@ C-------------On cre une deuxime liste de noeuds supprims pour les detection d'e
           ENDIF
 
 C----------------------------------------------------------------------------------C
-C-------------On split NALE_R2R----------------------------------------------------C
+C-------------Split of NALE_R2R----------------------------------------------------C
 C----------------------------------------------------------------------------------C
 
           IF (SNALE>0) THEN
@@ -630,7 +624,7 @@ C-------------Split-------------------------------------------------------------
           ENDIF
 
 C----------------------------------------------------------------------------------C
-C-------------On split EANI--------------------------------------------------------C
+C-------------Split of EANI--------------------------------------------------------C
 C----------------------------------------------------------------------------------C
 
 	  NTOT = NELSN+NELCN+NELTGN+NELQN
@@ -660,7 +654,7 @@ C-------------------------------------------------------------------------------
 	  END DO
 
 C----------------------------------------------------------------------------------C
-C-------------INITIALIZATION DE IPART----------------------------------------------C
+C-------------INITIALIZATION OF IPART----------------------------------------------C
 C----------------------------------------------------------------------------------C
 
           SIPART0 = LIPART1*NPART+LIPART1*NTHPART
@@ -684,7 +678,7 @@ C-------------------------------------------------------------------------------
 	  COMPT_IP_TMP = SIPART0+SIPARTTH
 
 C----------------------------------------------------------------------------------C
-C-------------On split les elements SOLIDES----------------------------------------C
+C-------------Split of SOLID elements----------------------------------------------C
 C----------------------------------------------------------------------------------C
 
           ALLOCATE(IX_TEMP(SIXS),CORESS(NUMELS))
@@ -695,7 +689,7 @@ C-------------------------------------------------------------------------------
             END DO
 	  END DO
 
-C-------------Stockage des termes additionnels IXS10,IXS20,IXS16-------------------C
+C-------------Storage of additional terms IXS10,IXS20,IXS16------------------------C
 
           DO J=NUMELS+1,SIXS
 	    IX_TEMP(J)=IXS(J)
@@ -773,7 +767,7 @@ C-------------Split-------------------------------------------------------------
 
 
 C----------------------------------------------------------------------------------C
-C-------------On split les elements QUAD-------------------------------------------C
+C-------------Split of QUAD elements-----------------------------------------------C
 C----------------------------------------------------------------------------------C
 
           ALLOCATE(IX_TEMP(NUMELQ*NIXQ),CORESQ(NUMELQ))
@@ -810,11 +804,11 @@ C-------------Split-------------------------------------------------------------
           DEALLOCATE(IX_TEMP)
 
 C----------------------------------------------------------------------------------C
-C-------------On split les elements SHELL------------------------------------------C
+C-------------Split of SHELL elements----------------------------------------------C
 C----------------------------------------------------------------------------------C
 
 	  NUMELC0 = NUMELC
-          ALLOCATE(IX_TEMP(NUMELC*NIXC),CORESC(NUMELC))
+          ALLOCATE(IX_TEMP(NUMELC*NIXC),CORESC(NUMELC)) 
           DO J=1,NUMELC
 	    DO K=1,NIXC
 	      IX_TEMP(NIXC*(J-1)+K)=IXC(NIXC*(J-1)+K)
@@ -841,7 +835,7 @@ C-------------Split-------------------------------------------------------------
 	        DO K=2,5
 		  IXC(NIXC*(COMPT-1)+K)=CORESN(IX_TEMP(NIXC*(J-1)+K))
 		END DO
-                IF (TAG_ELCF2(J)>1) TAG_ELCF(COMPT) = 1                
+                IF (TAG_ELCF2(J) > 1) TAG_ELCF(COMPT) = 1
              ENDIF
           ENDDO
 
@@ -849,7 +843,7 @@ C-------------Split-------------------------------------------------------------
           DEALLOCATE(IX_TEMP)
 
 C----------------------------------------------------------------------------------C
-C-------------On split les elements TRUSS------------------------------------------C
+C-------------Split of TRUSS elements----------------------------------------------C
 C----------------------------------------------------------------------------------C
 
           ALLOCATE(IX_TEMP(NUMELT*NIXT),COREST(NUMELT))
@@ -887,7 +881,7 @@ C-------------Split-------------------------------------------------------------
 
 
 C----------------------------------------------------------------------------------C
-C-------------On split les elements BEAM-------------------------------------------C
+C-------------Split of BEAM elements-----------------------------------------------C
 C----------------------------------------------------------------------------------C
 
           ALLOCATE(IX_TEMP(NUMELP*NIXP),CORESP(NUMELP))
@@ -925,7 +919,7 @@ C-------------Split-------------------------------------------------------------
 
           
 C----------------------------------------------------------------------------------C
-C-------------On split les elements SPRINGS - KJOINTS -----------------------------C
+C-------------Split of SPRINGS and KJOINTS-----------------------------------------C
 C----------------------------------------------------------------------------------C
 
           ALLOCATE(IX_TEMP(NUMELR*5+1))         
@@ -959,7 +953,7 @@ C-------------Split-------------------------------------------------------------
           DEALLOCATE(IX_TEMP)
 
 C----------------------------------------------------------------------------------C
-C-------------On split les elements SPRINGS----------------------------------------C
+C-------------Split of SPRING elements---------------------------------------------C
 C----------------------------------------------------------------------------------C
 
           ALLOCATE(IX_TEMP(NUMELR*NIXR),CORESR(NUMELR))
@@ -998,7 +992,7 @@ C-------------Split-------------------------------------------------------------
           DEALLOCATE(IX_TEMP)
           
 C----------------------------------------------------------------------------------C
-C-------------On split les elements SH3N-------------------------------------------C
+C-------------Split of SH3N elements-----------------------------------------------C
 C----------------------------------------------------------------------------------C
 
 	  NUMELTG0 = NUMELTG
@@ -1036,7 +1030,7 @@ C-------------Split-------------------------------------------------------------
           DEALLOCATE(IX_TEMP)
 
 C----------------------------------------------------------------------------------C
-C-------------On split les reserves de particules SPH------------------------------C
+C-------------Split of /SPH/RESERVE------------------------------------------------C
 C----------------------------------------------------------------------------------C
 
           ALLOCATE(RES_TEMP(NBPARTINLET))
@@ -1063,7 +1057,7 @@ C-------------Split-------------------------------------------------------------
           DEALLOCATE(RES_TEMP)
 
 C----------------------------------------------------------------------------------C
-C-------------On split les particules SPH------------------------------------------C
+C-------------Split of SPH particles-----------------------------------------------C
 C----------------------------------------------------------------------------------C
 
           COEFF = 0
@@ -1114,7 +1108,7 @@ C-------------------------------------------------------------------------------
           DEALLOCATE(IPART_TEMP)
 
 C----------------------------------------------------------------------------------C
-C-------------On split THKE pour les elts coques et sh3n --------------------------C
+C-------------Split of THKE for shell and sh3n elements----------------------------C
 C----------------------------------------------------------------------------------C
 
 	  ALLOCATE(THK_TMP(NUMELTG0+NUMELC0))
@@ -1140,7 +1134,7 @@ C-------------Split-------------------------------------------------------------
           DEALLOCATE(THK_TMP)
 
 C----------------------------------------------------------------------------------C
-C-------------On split les groupes-------------------------------------------------C
+C-------------Split of GROUPS------------------------------------------------------C
 C----------------------------------------------------------------------------------C
 
 !!          ALLOCATE(BUF_TEMP(SIZE))
@@ -1148,8 +1142,8 @@ C-------------------------------------------------------------------------------
 !!            BUF_TEMP(I)=BUF_NOD(I)
 !!          END DO
 
-C ---------> groupes d'elements----------------------------------------------------C
-C             --> solides <--
+C ---------> groups of elements----------------------------------------------------C
+C             --> solids <--
           DO I=1,NGRBRIC
 	    COMPT = 0
             IGRBRIC(I)%R2R_SHARE = 0
@@ -1262,7 +1256,7 @@ C             --> sh3n <--
 	    IGRSH3N(I)%NENTITY = COMPT
           ENDDO
 
-C ---------> groupes de parts----------------------------------------------------C
+C ---------> groups of parts-----------------------------------------------------C
 
           DO I=1,NGRPART
 	    COMPT = 0
@@ -1277,7 +1271,7 @@ C ---------> groupes de parts---------------------------------------------------
 	    IGRPART(I)%NENTITY = COMPT
 	  ENDDO
 C----------------------------------------------------------------------------------C
-C-------------On split les surfaces------------------------------------------------C
+C-------------Split of surfaces----------------------------------------------------C
 C----------------------------------------------------------------------------------C
 
           DO I=1,NB_SURF
@@ -1289,31 +1283,31 @@ C-------------------------------------------------------------------------------
 	      TAG = 0
               CUR_ID = IGRSURF(I)%ELEM(J)
               IF (IGRSURF(I)%ELTYP(J) == 1) THEN
-C---------------> cas face solide <--
+C---------------> case face of solid <--
 		IF (TAG_ELS(CUR_ID+NPART)/=0) THEN
 		   NEW_ID = CORESS(CUR_ID)
 		   TAG = 1
 	        ENDIF
 	      ELSEIF (IGRSURF(I)%ELTYP(J) == 2) THEN
-C---------------> cas quad <--
+C---------------> case quad <--
 		IF (TAG_ELQ(CUR_ID+NPART)/=0) THEN
 		   NEW_ID = CORESQ(CUR_ID)
 		   TAG = 1
 		ENDIF
               ELSEIF (IGRSURF(I)%ELTYP(J) == 3) THEN
-C---------------> cas coque <--
+C---------------> case shell <--
 	        IF (TAG_ELC(CUR_ID+NPART)/=0) THEN
 	           NEW_ID = CORESC(CUR_ID)
 		   TAG = 1
 		ENDIF
               ELSEIF (IGRSURF(I)%ELTYP(J) == 7) THEN
-C---------------> cas triangle <--
+C---------------> case sh3n <--
 	        IF (TAG_ELG(CUR_ID+NPART)/=0) THEN
 	           NEW_ID = CORESTG(CUR_ID)
 		   TAG = 1
 		ENDIF
               ELSEIF (IGRSURF(I)%ELTYP(J) > 10) THEN
-C---------------> cas surface defini par segment avec elements associes <--
+C---------------> case of surface defined by segments and associated elements <--
                  IF (IGRSURF(I)%ELTYP(J) == 11) THEN
 		   IF (TAG_ELS(CUR_ID+NPART)/=0) TAG=1
                  ELSEIF (IGRSURF(I)%ELTYP(J) == 13) THEN
@@ -1321,11 +1315,11 @@ C---------------> cas surface defini par segment avec elements associes <--
                  ELSEIF (IGRSURF(I)%ELTYP(J) == 17) THEN
 		   IF (TAG_ELG(CUR_ID+NPART)/=0) TAG=1
 		 ENDIF
-C                  ---> on remet le type de seg a zero pour <--
+C                  ---> resef of type of segment <--
 		 IGRSURF(I)%ELTYP(J) = 0
 		 NEW_ID = 0
               ELSEIF (IGRSURF(I)%ELTYP(J) == 0) THEN
-C---------------> cas surface defini par segment par noeuds <--
+C---------------> case of surface defined by segments with nodes <--
                 DO K=1,4
 	          NOD_ID = IGRSURF(I)%NODES(J,K)
 		  IF (TAGNO(NOD_ID+NPART)/=-1) NB_NOD_CPL=NB_NOD_CPL+1
@@ -1335,7 +1329,7 @@ C---------------> cas surface defini par segment par noeuds <--
 		  NEW_ID = 0
                 ENDIF
 	      ENDIF
-C---------------> TAG = 1, on garde le segment, on update les noeuds <--
+C---------------> TAG = 1, segment is kept, update of nodes <--
               IF (TAG == 1) THEN
 	        NSEG = NSEG + 1
                 DO K=1,4
@@ -1354,7 +1348,7 @@ C---------------> TAG = 1, on garde le segment, on update les noeuds <--
           END DO
 
 C----------------------------------------------------------------------------------C
-C-------------On split les lignes--------------------------------------------------C
+C-------------Split of Lines-------------------------------------------------------C
 C----------------------------------------------------------------------------------C
           DO I=1,NB_LINE
 	    NSEG = 0
@@ -1363,31 +1357,31 @@ C-------------------------------------------------------------------------------
 	      TAG = 0
               CUR_ID = IGRSLIN(I)%ELEM(J)
               IF (IGRSLIN(I)%ELTYP(J)==1) THEN
-C---------------> cas face solide <--
+C---------------> case face of solid <--
 		IF (TAG_ELS(CUR_ID+NPART)/=0) THEN
 		   NEW_ID = CORESS(CUR_ID)
 		   TAG = 1
 	        ENDIF
 	      ELSEIF (IGRSLIN(I)%ELTYP(J)==2) THEN
-C---------------> cas quad <--
+C---------------> case quad <--
 		IF (TAG_ELQ(CUR_ID+NPART)/=0) THEN
 		   NEW_ID = CORESQ(CUR_ID)
 		   TAG = 2
 		ENDIF
               ELSEIF (IGRSLIN(I)%ELTYP(J)==3) THEN
-C---------------> cas coque <--
+C---------------> case shell <--
 	        IF (TAG_ELC(CUR_ID+NPART)/=0) THEN
 	           NEW_ID = CORESC(CUR_ID)
 		   TAG = 3
 		ENDIF
               ELSEIF (IGRSLIN(I)%ELTYP(J)==4) THEN
-C---------------> cas truss <--
+C---------------> case truss <--
 	        IF (TAG_ELT(CUR_ID+NPART)/=0) THEN
 	           NEW_ID = COREST(CUR_ID)
 		   TAG = 4
 		ENDIF
               ELSEIF (IGRSLIN(I)%ELTYP(J)==5) THEN
-C---------------> cas poutre <--
+C---------------> case beam <--
 	        IF (TAG_ELP(CUR_ID+NPART)/=0) THEN
 	           NEW_ID = CORESP(CUR_ID)
 		   TAG = 5
@@ -1399,13 +1393,13 @@ C---------------> cas spring <--
 		   TAG = 6
 		ENDIF
               ELSEIF (IGRSLIN(I)%ELTYP(J)==7) THEN
-C---------------> cas triangle <--
+C---------------> cas sh3n <--
 	        IF (TAG_ELG(CUR_ID+NPART)/=0) THEN
 	           NEW_ID = CORESTG(CUR_ID)
 		   TAG = 7
 		ENDIF
               ELSEIF (IGRSLIN(I)%ELTYP(J)==0) THEN
-C---------------> Pas d'element, on compte les noeuds tags <--
+C---------------> No element, count of taged nodes <--
                 NEW_ID = 0
                 DO K=1,2
 	          CUR_ID = IGRSLIN(I)%NODES(J,K)
@@ -1413,7 +1407,7 @@ C---------------> Pas d'element, on compte les noeuds tags <--
                 END DO
 		IF (NB_NOD_SUB==2) TAG = 8
 	      ENDIF
-C---------------> TAG = 1, on garde le segment, on update les neouds <--
+C---------------> TAG = 1, segment is kept, update of nodes <--
               IF (TAG > 0) THEN
 	        NSEG = NSEG + 1
                 DO K=1,2
@@ -1429,11 +1423,11 @@ C---------------> TAG = 1, on garde le segment, on update les neouds <--
           END DO
 
 C----------------------------------------------------------------------------------C
-C-------------On split les groupes de noeuds---------------------------------------C
+C-------------Split of groups of nodes---------------------------------------------C
 C----------------------------------------------------------------------------------C
 
         DO I=1,NGRNOD
-! ---------> groupes de noeuds
+! ---------> groups of nodes
           COMPT = 0
           CCPL = 0
           DO J=1,IGRNOD(I)%NENTITY
@@ -1450,7 +1444,7 @@ C-------------------------------------------------------------------------------
         ENDDO ! DO I=1,NGRNOD
 
 C----------------------------------------------------------------------------------C
-C--------------Mise a jour de TAGNO------------------------------------------------C
+C--------------Update of TAGNO-----------------------------------------------------C
 C----------------------------------------------------------------------------------C
 
    	  ALLOCATE(TAGNO_TEMP(2*NUMNOD_OLD+NPART))
@@ -1473,7 +1467,7 @@ C-------------------------------------------------------------------------------
           ENDDO
         
 C----------------------------------------------------------------------------------C
-C------Prlecture et tag des SECTIONS-----------------------------------------------C
+C------Prereading and tag of SECTIONS----------------------------------------------C
 C----------------------------------------------------------------------------------C
 
          CALL PRELECSEC(
@@ -1482,7 +1476,7 @@ C-------------------------------------------------------------------------------
      3                  IGRBEAM ,IGRSPRING ,IGRNOD, LSUBMODEL )
 
 C----------------------------------------------------------------------------------C
-C------On split les GAUGES---------------------------------------------------------C
+C------Split of GAUGES-------------------------------------------------------------C
 C----------------------------------------------------------------------------------C
 
          COMPT = 0
@@ -1502,7 +1496,7 @@ C---------------> Cas des GAUGE/SPH <--
          NBGAUGE = COMPT
 
 C----------------------------------------------------------------------------------C
-C------On split RBY_MSN (utilise pour inivel axis) --------------------------------C
+C------Split of RBY_MSN (used for /INIVEL/AXIS) -----------------------------------C
 C----------------------------------------------------------------------------------C
 
          NRBODY_OLD = SIZE(TAGRBY)
@@ -1539,7 +1533,7 @@ C-------------------------------------------------------------------------------
          DEALLOCATE(TAG_ELG,TAG_SURF,TAG_PROP,TAG_ELCF2,TAG_ELSF2)
 
 C----------------------------------------------------------------------------------C
-C------Recriture de TAGMAT et TAGPROPpour le groupage------------------------------C
+C------Rewritinf of TAGMAT and TAGPROP for grouping--------------------------------C
 C----------------------------------------------------------------------------------C
 	DO K=1,NPART
           IF(TAG_PART(K) == 0) THEN

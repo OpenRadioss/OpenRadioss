@@ -55,7 +55,7 @@ void my_fork_c(int * pid){
 *pid = fork();
 }
 void my_waitpid_c(int * pid, int * istat, int * pidp, int * pidret){
-waitpid(pid,istat,pidp);
+waitpid(*pid,*istat,*pidp);
 }
 
 
