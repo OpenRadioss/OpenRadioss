@@ -248,7 +248,7 @@ jobs:
           if [ "$STATUS_BUILD" = 0 ]
           then
             echo -e "Status\t[ \033[31;2;1mFAILED\033[0m ]" 
-            MAILMSG="The build ${{ matrix.build }} has failed \n"
+            MAILMSG+="The build ${{ matrix.build }} has failed \n"
 
             # Send email 
             # Close the branch 
@@ -332,9 +332,10 @@ jobs:
       homeuser: /home/adminqa
       mpi: ompi
       STATUS_QA: 0
+      SERVBOT_PAT: ${{ secrets.SERVBOT_PAT }}
 
     strategy:
-      # If one job fails othere are canceled
+      # If one job fails others continue
       fail-fast: false
       matrix:
         os: [linux64]
@@ -349,7 +350,6 @@ jobs:
           lfs: 'true'
 
       - name: Clean local exe dir
-        working-directory: ${{ steps.set_workdir.outputs.value }}
         run: |
           rm -rf exec
 
@@ -386,14 +386,15 @@ jobs:
           echo "--  QA ${{ matrix.os }}_${{ matrix.precision }} --"   
           echo "--  $cmd --"   
           echo "========================================="
-          eval $cmd 
+          eval $cmd
+          res=$? 
 
           # Getting failed test
           nbtestsfailed=$(grep "# Runs Failed\s*:" QA.summary | tail -n 1 | awk -F' ' '{print $5}')
           # Checking if no test has run at all (maybe exec errors)
           nbtestsok=$(grep "# Runs Successful\s*:" QA.summary | tail -n 1 | awk -F' ' '{print $5}')
 
-          if [ $nbtestsfailed = 0 ] || [ $nbtestsok -gt 0 ]
+          if [ $res = 0 ] && [ $nbtestsfailed = 0 ] && [ $nbtestsok -gt 0 ]
           then 
             # Set correct end of step status (if not an email will be sent)
             echo "STATUS_QA=1" >> $GITHUB_ENV
@@ -408,7 +409,7 @@ jobs:
           if [ "$STATUS_QA" = 0 ]
           then
             echo -e "Status\t[ \033[31;2;1mFAILED\033[0m ]" 
-            MAILMSG="The QA ${{ matrix.os }}-${{ matrix.precision }} has failed \n"
+            MAILMSG+="The QA ${{ matrix.os }}-${{ matrix.precision }} has failed \n"
 
             # Send email 
             # Close the branch 
@@ -417,8 +418,6 @@ jobs:
             # Setting SMTP server (docker host)
             DOCKER_HOST=`/sbin/ip route|awk '/default/ { print $3 }'`
             echo "set smtp=smtp://${DOCKER_HOST}:25" >> /etc/mail.rc 
-            echo "tail -n 5 /etc/mail.rc"
-            tail -n 5 /etc/mail.rc
 
             # Print message in log 
             echo -e $MAILMSG
