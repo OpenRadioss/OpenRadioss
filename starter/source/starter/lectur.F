@@ -3598,6 +3598,20 @@ C        IF(ALLOCATED(RBY_MSN)) DEALLOCATE(RBY_MSN)
       ENDIF
 C--------------------------------------------
       CALL STOPTIME(17,1)
+C-----------------
+C     Stack part orginisation
+C-------------------------
+      IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0) THEN
+         CALL STACKGROUP(
+     .                   IGRSH3N    ,IGRSH4N    ,IXC        ,IXTG      ,
+     .                   IGEO       ,GEO        ,IWORKSH    ,THKE      ,
+     .                   STACK      ,IPM        ,IGEO_STACK ,GEO_STACK ,
+     .                   STACK_INFO ,NUMGEOSTACK,NPROP_STACK)
+      ELSE
+        ALLOCATE(STACK%GEO(0,0))
+        ALLOCATE(STACK%IGEO(0,0))
+        ALLOCATE(STACK%PM(0,0))
+      ENDIF
 C--------------------------------------------
       IF (NSUBDOM==0) GOTO 218
 C--------------------------------------------
@@ -3691,7 +3705,7 @@ C---  Premiere Passe -> comptage
      3             INOM_OPT,RESERVEP,NALE_R2R,NSPCOND0,
      4             SUBSETS,IGRSURF,IGRNOD,IGRBRIC,IGRQUAD,
      5             IGRSH4N,IGRSH3N,IGRTRUSS,IGRBEAM,IGRSPRING,
-     6             IGRPART,IGRSLIN,LSUBMODEL,RBY_MSN)
+     6             IGRPART,IGRSLIN,LSUBMODEL,RBY_MSN,IWORKSH)
 C---  Deuxieme Passe -> split
          CALL R2R_SPLIT(
      1             NSLIN,
@@ -3699,7 +3713,7 @@ C---  Deuxieme Passe -> split
      3             INOM_OPT,RESERVEP,NALE_R2R,NSPCOND0,
      4             SUBSETS,IGRSURF,IGRNOD,IGRBRIC,IGRQUAD,
      5             IGRSH4N,IGRSH3N,IGRTRUSS,IGRBEAM,IGRSPRING,
-     6             IGRPART,IGRSLIN,LSUBMODEL,RBY_MSN)
+     6             IGRPART,IGRSLIN,LSUBMODEL,RBY_MSN,IWORKSH)
          DEALLOCATE(IBUFTMP(IDX2)%ptr)
 C--------------------------------------------
 C     MULTIDOMAINS - MISE A JOUR DES STRUCTURES DE DONNEES
@@ -5188,20 +5202,6 @@ C       Sauvegarde longueurs tableaux lagmult
         LAG_NCL0 = LAG_NCL
         LAG_NKL0 = LAG_NKL
       CALL TRACE_OUT1()
-C-----------------
-C  Stack part organisation
-C-------------------------
-      IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0) THEN
-         CALL STACKGROUP(
-     .                   IGRSH3N    ,IGRSH4N    ,IXC        ,IXTG      ,
-     .                   IGEO       ,GEO        ,IWORKSH    ,THKE      ,
-     .                   STACK      ,IPM        ,IGEO_STACK ,GEO_STACK ,
-     .                   STACK_INFO ,NUMGEOSTACK,NPROP_STACK)
-      ELSE
-        ALLOCATE(STACK%GEO(0,0))
-        ALLOCATE(STACK%IGEO(0,0))
-        ALLOCATE(STACK%PM(0,0))
-      ENDIF
 C--------------------------------------------
 C      Prelecture for Max ply by element.
 C--------------------------------------------

@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE MESSAGE_MOD
       USE DDWEIGHTS_MOD
+      USE STACK_VAR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,15 +61,18 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "param_c.inc"
 #include      "r2r_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARTL(LIPART1,*)   
+      INTEGER, INTENT(INOUT) ::  IPARTL(LIPART1,NPART)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER STAT,I,J,LEN1,LEN2,NUM,LL,P,N,ANA,
-     .        MAT_ID,K,ADD,COMPT,NB_PART,F2,IGTYP,L      
+     .        MAT_ID,K,ADD,COMPT,NB_PART,F2,IGTYP,L,PID,COMPT_STACK_TOT,COMPT_STACK,
+     .        COMPT_STACK_REMOV
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NUMGEOSTACK1_TEMP,NUMGEOSTACK2_TEMP    
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IPM_TEMP,IGEO_TEMP
       CHARACTER TITR*nchartitle
       my_real
@@ -82,7 +86,7 @@ C-----------------------------------------------
       NUMMAT0 = NUMMAT
       NUMGEO0 = NUMGEO
 
-C---------Remplissage de PM_R2R--------------------------------C
+C---------filling of array PM_R2R--------------------------------C
       ALLOCATE (PM_R2R(NUMMAT+NPART+1),STAT=stat)      
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
@@ -93,7 +97,7 @@ C---------Remplissage de PM_R2R--------------------------------C
       
       IF (IPID==0) NSUBDOM = 1
 
-C---------Pr   tag des parts externes----------------------------C
+C---------tag of external parts-----------------------------------C
 
       DO P=1,NSUBDOM
         N = P
@@ -118,25 +122,35 @@ C---------Pr   tag des parts externes----------------------------C
       END DO
       ENDIF
       		 
-C--------------------------------------------------------------C     
-		 
+C--------------------------------------------------------------C     		 
       COMPT = 0
-      
+      COMPT_STACK_TOT = 0
+      COMPT_STACK_REMOV = 0
+      IPART_PCOMPP = 0
+C      
       DO K=1,NPART
         IPART_R2R(1,K) = IPARTL(1,K) !mat_id
         IPART_R2R(2,K) = IPARTL(5,K) !user_mat_id
-        IPART_R2R(3,K) = 0		     
+        IPART_R2R(3,K) = 0
+        IGTYP = IGEO(NPROPGI*(IPARTL(2,K)-1)+11)
+        IF (IGTYP==52) COMPT_STACK_TOT = COMPT_STACK_TOT + 1	     
         IPART_R2R(4,K) = IPARTL(2,K) !prop_id       
         IF (TAG_PART(K)==1) THEN
 	  COMPT=COMPT+1
-          IGTYP = IGEO(NPROPGI*(IPARTL(2,K)-1)+11)
           IF ((IGTYP==11).OR.(IGTYP==16)) THEN
-C-- Multilayer shells
+C-- Multilayer shells to be changed to void
              TAG_PART(K) = 2
+          ELSEIF (IGTYP.EQ.52) THEN
+C-- /PROP/PCOMP shells to be changed to void
+             TAG_PART(K) = 3
+             COMPT_STACK_REMOV = COMPT_STACK_REMOV + 1
           ENDIF
 	ENDIF
       END DO
-      
+
+      COMPT_STACK = COMPT_STACK_TOT - COMPT_STACK_REMOV
+      IF (COMPT_STACK > 0) IPART_PCOMPP = 1
+ 
       IF (COMPT==0) GOTO 150
 
       WRITE(IOUT,1200)
@@ -148,7 +162,7 @@ C--------------------------------------------------------------C
 C--------------------------------------------------------------C
 C--------------------------------------------------------------C
       
-C---------Allocation des tableaux temporaires------------------C
+C---------Allocation of temporary arrays ----------------------C
       
       NB_PART = COMPT    
       
@@ -169,7 +183,7 @@ C---------Allocation des tableaux temporaires------------------C
       PM_TEMP(:,:)=0
       DDW_TEMP(:,:,:)=0
       
-C---------Transfert tableau mat dans tableau temporaire--------C
+C---------Copy of arrays in temporary arrays -----------------C
 
       DO I=1,NUMMAT
         DO J=1,NPROPMI
@@ -197,21 +211,21 @@ C
         ENDDO	 
       END DO      
 
-C--------------- offset numero user des futurs mate void-------C
+C--------------- offset of id for generated void materials--------C
       NUM = 0
       DO I=1,NUMMAT
         IF (NUM<=IPM_TEMP(1,I)) NUM=IPM_TEMP(1,I)
       END DO
 
-C---------------Creation des nouveaux materiaux VOID--------------C
+C---------------Creation of new void materials -------------------C
 
       DO K=1,NPART      
         IF (TAG_PART(K)>=1) THEN
 
           NUM = NUM+1
           NUMMAT = NUMMAT+1
-
-          IF (TAG_PART(K)==1) THEN
+C
+          IF ((TAG_PART(K) == 1).OR.(TAG_PART(K) == 3)) THEN
 C--> standard elements 
             F2 = IPARTL(1,K)         
             PM_TEMP(1,NUMMAT)= 1e-20	  
@@ -258,15 +272,15 @@ C
 
           WRITE(IOUT,1300) NUM,PM_TEMP(1,NUMMAT)
      .       ,PM_TEMP(20,NUMMAT),PM_TEMP(21,NUMMAT),IPARTL(4,K)
-          	                                
+C          	                                
           IPARTL(5,K)= NUM
           IPARTL(1,K)= NUMMAT
 C
         ENDIF
 C
       END DO
-        	   
-C----------------Reallocation et remplissage IPM et PM---------C 
+        	
+C----------------Reallocation and filling of IPM and PM-----------C 
      
       LEN1 = NPROPMI*NUMMAT
       LEN2 = NPROPM*NUMMAT
@@ -312,91 +326,104 @@ C--------------------------------------------------------------C
 C--------------------------------------------------------------C
 
       DO K=1,NPART      
-      IF (TAG_PART(K)==2) THEN
+        IF (TAG_PART(K) >= 2) THEN
+C
+          PID = IGEO(NPROPGI*(IPARTL(2,K)-1)+1)
+C
+C---------Allocation of temporary arrays ----------------------C
       
-C---------Allocation des tableaux temporaires------------------C
+          NB_PART = 1    
+C
+          MY_ALLOCATE2D (IGEO_TEMP,NPROPGI,NUMGEO+NB_PART) 
+          MY_ALLOCATE2D (GEO_TEMP,NPROPG,NUMGEO+NB_PART)
+          MY_ALLOCATE (NUMGEOSTACK1_TEMP,NUMGEO+NB_PART)
+          MY_ALLOCATE (NUMGEOSTACK2_TEMP,NUMSTACK)     
+C
+          IGEO_TEMP(:,:)=0
+          GEO_TEMP(:,:)=0
+          NUMGEOSTACK1_TEMP(:)=0
+          NUMGEOSTACK2_TEMP(:)=0
+C
+C---------Copy of property arrays in temporary arrays ---------C
+
+          DO I=1,NUMGEO
+            DO J=1,NPROPGI
+              IGEO_TEMP(J,I)=IGEO(NPROPGI*(I-1)+J)	 
+            END DO
+          END DO
       
-      NB_PART = 1    
-      
-      ALLOCATE (IGEO_TEMP(NPROPGI,NUMGEO+NB_PART),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='IGEO_TEMP')   
-      ALLOCATE (GEO_TEMP(NPROPG,NUMGEO+NB_PART),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='GEO_TEMP')      
+          DO I=1,NUMGEO
+            DO J=1,NPROPG
+              GEO_TEMP(J,I)=GEO(NPROPG*(I-1)+J)	 
+            END DO     
+          END DO 
 
-      IGEO_TEMP(:,:)=0
-      GEO_TEMP(:,:)=0
-      
-C---------Transfert tableau prop dans tableau temporaire-------C
+          DO I=1,NUMGEO
+            NUMGEOSTACK1_TEMP(I)=NUMGEOSTACK(I)	    
+          END DO
 
-      DO I=1,NUMGEO
-        DO J=1,NPROPGI
-          IGEO_TEMP(J,I)=IGEO(NPROPGI*(I-1)+J)	 
-        END DO
-      END DO
-      
-      DO I=1,NUMGEO
-        DO J=1,NPROPG
-          GEO_TEMP(J,I)=GEO(NPROPG*(I-1)+J)	 
-        END DO     
-      END DO 
+          DO I=1,NUMSTACK
+            NUMGEOSTACK2_TEMP(I)=NUMGEOSTACK(NUMGEO+I)	    
+          END DO 
 
-C----------- offset numero user des futurs prop shell ---------C
-      NUM = 0
-      DO I=1,NUMGEO
-        IF (NUM<=IGEO_TEMP(1,I)) NUM=IGEO_TEMP(1,I)+1
-      END DO
+C------------offset of id for generated shell properties-------C
+          NUM = 0
+          DO I=1,NUMGEO
+            IF (NUM.LE.IGEO_TEMP(1,I)) NUM=IGEO_TEMP(1,I)+1
+          END DO
 
-C-----------------Creation de la prop shell VOID---------------C
+C-----------Creation of new void properties for shells---------C
 
-      F2 = IPARTL(2,K)
-      NUMGEO = NUMGEO+1
+          F2 = IPARTL(2,K)
+          NUMGEO = NUMGEO+1
 
-      IGEO_TEMP(1,NUMGEO)=NUM         
-      GEO_TEMP(1,NUMGEO)=GEO_TEMP(1,F2)
+          IGEO_TEMP(1,NUMGEO)=NUM
+          GEO_TEMP(1,NUMGEO)=GEO_TEMP(1,F2)
+          NUMGEOSTACK1_TEMP(NUMGEO)=0
+C
+          TITR = "Multidomains void property"      
+          CALL FRETITL(TITR,IGEO_TEMP(NPROPGI-LTITR,NUMGEO),LTITR)
 
-      TITR = "Multidomains void property"      
-      CALL FRETITL(TITR,IGEO_TEMP(NPROPGI-LTITR,NUMGEO),LTITR)
-
-      WRITE(IOUT,1400) NUM,GEO_TEMP(1,NUMGEO),IPARTL(4,K)
+          WRITE(IOUT,1400) NUM,GEO_TEMP(1,NUMGEO),IPARTL(4,K)
           
-C---------------Affectation de la property shell---------------C	                                
-      IPARTL(6,K)= NUM
-      IPARTL(2,K)= NUMGEO
-        	   
-C----------------Reallocation et remplissage IPM et PM---------C 
+C---------------Affectation of new shell property--------------C	                                
+          IPARTL(6,K)= NUM
+          IPARTL(2,K)= NUMGEO 
+   	   
+C---------------Reallocation and filling of IGEO and GEO------C 
      
-      LEN1 = NPROPGI*NUMGEO
-      LEN2 = NPROPG*NUMGEO
-       
-      DEALLOCATE(IGEO,GEO)        
-      ALLOCATE (IGEO(LEN1),STAT=stat)       
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='IGEO')           
-      ALLOCATE (GEO(LEN2),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='GEO')     
-      
-      DO I=1,NUMGEO
-       DO J=1,NPROPGI
-         IGEO(NPROPGI*(I-1)+J)=IGEO_TEMP(J,I)
-       END DO
-      END DO
-      
-      DO I=1,NUMGEO
-       DO J=1,NPROPG
-         GEO(NPROPG*(I-1)+J)=GEO_TEMP(J,I)
-       END DO
-      END DO
+          LEN1 = NPROPGI*NUMGEO
+          LEN2 = NPROPG*NUMGEO
+C         
+          DEALLOCATE(IGEO,GEO,NUMGEOSTACK)       
+          MY_ALLOCATE (IGEO,LEN1) 
+          MY_ALLOCATE (GEO,LEN2)  
+          MY_ALLOCATE (NUMGEOSTACK,NUMGEO+NUMSTACK)  
+C      
+          DO I=1,NUMGEO
+            DO J=1,NPROPGI
+              IGEO(NPROPGI*(I-1)+J)=IGEO_TEMP(J,I)
+            END DO
+          END DO
+        
+          DO I=1,NUMGEO
+            DO J=1,NPROPG
+              GEO(NPROPG*(I-1)+J)=GEO_TEMP(J,I)
+            END DO
+          END DO
 
-      DEALLOCATE(IGEO_TEMP,GEO_TEMP)
+          DO I=1,NUMGEO
+            NUMGEOSTACK(I)=NUMGEOSTACK1_TEMP(I)
+          END DO
 
-      ENDIF	
+          DO I=1,NUMSTACK
+            NUMGEOSTACK(NUMGEO+I)=NUMGEOSTACK2_TEMP(I)
+          END DO
+
+          DEALLOCATE(IGEO_TEMP,GEO_TEMP,NUMGEOSTACK1_TEMP,NUMGEOSTACK2_TEMP)
+
+        ENDIF
+C	
       END DO
       
 C--------------------------------------------------------------C      
@@ -479,14 +506,14 @@ C-----------------------------------------------
       
       IMAT = IPARTL(1,ID_PART)
       
-C---------------Si part deja traitee ou mat non void on saute---C      
+C-----If part already treated or non void material part is skiped---C         
       IF (IPART_R2R(3,ID_PART)==1) GOTO 150
       IF (IPM(NPROPMI*(IMAT-1)+2)/=0) GOTO 150
-        
-C---------------On recupere l'id du materiau original-----------C      
+           
+C-----Id of original material --------------------------------------C
       IMAT0 = IPART_R2R(1,ID_PART)
             
-C---------------On remplace le mat void par un mat bidon--------C      
+C-----Void material is replaced by dummy material-------------------C      
       DO J=1,NPROPM
          PM(NPROPM*(IMAT-1)+J)=PM(NPROPM*(IMAT0-1)+J)
       END DO          
