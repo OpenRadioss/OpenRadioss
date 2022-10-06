@@ -45,7 +45,7 @@ Chd|====================================================================
      3           INOM_OPT,RESERVEP,NALE_R2R,NSPCOND0,
      4           SUBSET ,IGRSURF,IGRNOD  ,IGRBRIC,IGRQUAD,
      5           IGRSH4N,IGRSH3N,IGRTRUSS,IGRBEAM,IGRSPRING,
-     6           IGRPART,IGRSLIN,LSUBMODEL,RBY_MSN)
+     6           IGRPART,IGRSLIN,LSUBMODEL,RBY_MSN,IWORKSH)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -89,6 +89,7 @@ C-----------------------------------------------
      .   EANI2(*),NB_LINE,
      .   IXR_KJ(*),INOM_OPT(*),RESERVEP(*),NALE_R2R(SNALE),
      .   NSPCOND0,RBY_MSN(2,*)
+      INTEGER, INTENT(INOUT) ::  IWORKSH(3,NUMELC+NUMELTG)
       TYPE (SUBSET_) , DIMENSION(NSUBS)   :: SUBSET
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE (SURF_)   , DIMENSION(NSLIN)   :: IGRSLIN
@@ -129,7 +130,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: IX10_TEMP,IX20_TEMP
       INTEGER, DIMENSION(:), ALLOCATABLE :: IX16_TEMP,CORESQ,ITAB_SUP
       INTEGER, DIMENSION(:), ALLOCATABLE :: KXSP_TEMP,RES_TEMP,NALE_R2R_TEMP
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: RBY_MSN_TEMP
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: RBY_MSN_TEMP,IWORKSH_TEMP
       my_real, DIMENSION(:,:), ALLOCATABLE :: X_TEMP
       my_real, DIMENSION(:), ALLOCATABLE :: THK_TMP,PM_TEMP
       my_real, DIMENSION(:), ALLOCATABLE :: EANI_TEMP,GEO_TEMP
@@ -808,11 +809,15 @@ C-------------Split of SHELL elements-------------------------------------------
 C----------------------------------------------------------------------------------C
 
 	  NUMELC0 = NUMELC
-          ALLOCATE(IX_TEMP(NUMELC*NIXC),CORESC(NUMELC)) 
+          ALLOCATE(IX_TEMP(NUMELC*NIXC),CORESC(NUMELC))
+          MY_ALLOCATE2D (IWORKSH_TEMP,3,NUMELC) 
           DO J=1,NUMELC
 	    DO K=1,NIXC
 	      IX_TEMP(NIXC*(J-1)+K)=IXC(NIXC*(J-1)+K)
             END DO
+            IWORKSH_TEMP(1,J) = IWORKSH(1,J)
+            IWORKSH_TEMP(2,J) = IWORKSH(2,J)
+            IWORKSH_TEMP(3,J) = IWORKSH(3,J)
 	  END DO
           DEALLOCATE(IXC)
 
@@ -836,11 +841,20 @@ C-------------Split-------------------------------------------------------------
 		  IXC(NIXC*(COMPT-1)+K)=CORESN(IX_TEMP(NIXC*(J-1)+K))
 		END DO
                 IF (TAG_ELCF2(J) > 1) TAG_ELCF(COMPT) = 1
+                IF (TAG_PART(IPART(COMPT_IP)) /= 0) THEN
+                  IWORKSH(1,COMPT)=IWORKSH_TEMP(1,J)
+                  IWORKSH(2,COMPT)=IWORKSH_TEMP(2,J)
+                  IWORKSH(3,COMPT)=IWORKSH_TEMP(3,J)  
+                ELSE
+                  IWORKSH(1,COMPT)=ZERO
+                  IWORKSH(2,COMPT)=ZERO
+                  IWORKSH(3,COMPT)=ZERO
+                ENDIF     
              ENDIF
           ENDDO
 
 	  NUMELC = COMPT
-          DEALLOCATE(IX_TEMP)
+          DEALLOCATE(IX_TEMP,IWORKSH_TEMP)
 
 C----------------------------------------------------------------------------------C
 C-------------Split of TRUSS elements----------------------------------------------C
