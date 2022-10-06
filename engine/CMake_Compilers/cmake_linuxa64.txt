@@ -133,10 +133,10 @@ set (LINK "dl ${mpi_lib} -lrt -lm -lstdc++"  )
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # Specific set of compilation flag
 
-set (F_O0 " -O0 ${Vect_op} ${Vect_precise} ${precision_flag} ${Fortran} ${mpi_flag} ${wo_linalg} ${cppmach} ${cpprel} ${h3d_inc}")
-set (F_O1 " -O1 ${Vect_op} ${Vect_precise} ${precision_flag} ${Fortran} ${mpi_flag} ${wo_linalg} ${cppmach} ${cpprel} ${h3d_inc}")
-set (F_O2 " -O2 ${Vect_op} ${Vect_precise} ${precision_flag} ${Fortran} ${mpi_flag} ${wo_linalg} ${cppmach} ${cpprel} ${h3d_inc}")
-set (F_O2 " -O3 ${Vect_op} ${Vect_precise} ${precision_flag} ${Fortran} ${mpi_flag} ${wo_linalg} ${cppmach} ${cpprel} ${h3d_inc}")
+set (F_O0 " -O0 ${Vect_opt} ${Vect_precise} ${precision_flag} ${Fortran} ${mpi_flag} ${wo_linalg} ${cppmach} ${cpprel} ${h3d_inc}")
+set (F_O1 " -O1 ${Vect_opt} ${Vect_precise} ${precision_flag} ${Fortran} ${mpi_flag} ${wo_linalg} ${cppmach} ${cpprel} ${h3d_inc}")
+set (F_O2 " -O2 ${Vect_opt} ${Vect_precise} ${precision_flag} ${Fortran} ${mpi_flag} ${wo_linalg} ${cppmach} ${cpprel} ${h3d_inc}")
+set (F_O2 " -O3 ${Vect_opt} ${Vect_precise} ${precision_flag} ${Fortran} ${mpi_flag} ${wo_linalg} ${cppmach} ${cpprel} ${h3d_inc}")
 
 set (C_BASIC "-fopenmp ${cppmach} ${cpprel}")
 
