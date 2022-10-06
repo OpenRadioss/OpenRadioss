@@ -1009,11 +1009,12 @@ c---
         my_real, DIMENSION(:) , POINTER ::   JAC_I    
         my_real, DIMENSION(:) , POINTER ::   FAC_YLD  
         my_real, DIMENSION(:) , POINTER ::   ABURN
-        my_real, DIMENSION(:) , POINTER ::   MU	  
+        my_real, DIMENSION(:) , POINTER ::   MU
         my_real, DIMENSION(:) , POINTER ::   PIJ   !--------[NI,J] for Imstr10
         DOUBLE PRECISION, DIMENSION(:) , POINTER ::   VOL0DP
         my_real, DIMENSION(:) , POINTER ::   PLANL
         my_real, DIMENSION(:) , POINTER ::   EPSDNL            
+        my_real, DIMENSION(:) , POINTER ::   DMGSCL
       END TYPE L_BUFEL_                             
 
       TYPE BUF_PROP_
@@ -1175,6 +1176,7 @@ c-------
         integer  L_VOL0DP
         integer  L_PLANL
         integer  L_EPSDNL
+        integer  L_DMGSCL
 c-------  layer variables     
         my_real, DIMENSION(:) , POINTER ::   DMG
         my_real, DIMENSION(:) , POINTER ::   GAMA

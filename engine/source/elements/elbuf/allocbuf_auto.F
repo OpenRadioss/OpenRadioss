@@ -85,7 +85,7 @@ C-----------------------------------------------
      .   L_DAM,L_DSUM,L_DGLO,L_EPE,L_EPC,L_XST,L_SSP,L_Z,L_FRAC,L_VISC,
      .   L_THK,L_FOR,L_MOM,L_EPS,L_SMSTR,L_BFRAC,L_DMG,L_FORTH,L_EINTTH,
      .   L_SEQ,L_SIGPLY,L_JAC_I,L_FAC_YLD,L_ABURN,L_MU,L_PLANL,L_EPSDNL,
-     .   L_PIJ,L_VOL0DP
+     .   L_DMGSCL,L_PIJ,L_VOL0DP
        INTEGER  ! failure variables
      .   LF_DAM,LF_DAMMX,LF_TDEL,LF_INDX,LF_OFF
       my_real, 
@@ -355,7 +355,9 @@ c
         L_PLANL = NINT(RBUF(IAD+1)) 
           IAD = IAD+1    
         L_EPSDNL = NINT(RBUF(IAD+1)) 
-          IAD = IAD+1           
+          IAD = IAD+1   
+        L_DMGSCL = NINT(RBUF(IAD+1)) 
+          IAD = IAD+1          
         L_PIJ    = NINT(RBUF(IAD+1)) 
           IAD = IAD+1 
         L_VOL0DP = NINT(RBUF(IAD+1)) 
@@ -446,6 +448,7 @@ c
         BUFLY%L_MU      = L_MU 
         BUFLY%L_PLANL   = L_PLANL
         BUFLY%L_EPSDNL  = L_EPSDNL
+        BUFLY%L_DMGSCL  = L_DMGSCL
         BUFLY%L_PIJ     = L_PIJ 
         BUFLY%L_VOL0DP  = L_VOL0DP 
 c-------------------------------------------------
@@ -707,6 +710,9 @@ c--------
           ALLOCATE(LBUF%EPSDNL(NEL*L_EPSDNL)  ,STAT=ERR)              
             LBUF%EPSDNL(1:NEL*L_EPSDNL) = RBUF(IAD+1:IAD+NEL*L_EPSDNL)               
               IAD = IAD+NEL*L_EPSDNL   
+          ALLOCATE(LBUF%DMGSCL(NEL*L_DMGSCL)  ,STAT=ERR)              
+            LBUF%DMGSCL(1:NEL*L_DMGSCL) = RBUF(IAD+1:IAD+NEL*L_DMGSCL)               
+              IAD = IAD+NEL*L_DMGSCL   
           ALLOCATE(LBUF%PIJ(NEL*L_PIJ)  ,STAT=ERR)              
             LBUF%PIJ(1:NEL*L_PIJ)   = RBUF(IAD+1:IAD+NEL*L_PIJ)               
               IAD = IAD+NEL*L_PIJ 

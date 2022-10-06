@@ -171,7 +171,8 @@ c---    local variables (per integration point)
         MTAG%L_ABURN  = 0  
         MTAG%L_MU     = 0  
         MTAG%L_PLANL  = 0  
-        MTAG%L_EPSDNL = 0  	 
+        MTAG%L_EPSDNL = 0 
+        MTAG%L_DMGSCL = 0  	 
       ENDDO
 C-----------------------------------------------
       RETURN

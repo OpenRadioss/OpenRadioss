@@ -269,7 +269,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL), TARGET  :: LE_MAX
 C----
       my_real, DIMENSION(:), POINTER   :: UPARAM,UPARAMF,UPARVIS,UVARF,DFMAX,
-     .                                    TDEL,EL_TEMP,YLDFAC,DAM,EL_LEN
+     .                                    TDEL,EL_TEMP,YLDFAC,DAM,EL_LEN,DMG_SCALE
       my_real, DIMENSION(:), ALLOCATABLE ,TARGET  :: BUFZERO
       TYPE(L_BUFEL_)  ,POINTER         :: LBUF
       TYPE(G_BUFEL_)  ,POINTER         :: GBUF      
@@ -278,6 +278,7 @@ C----
       my_real :: USER_UELR(MVSIZ)
       INTEGER, DIMENSION(:) ,POINTER   :: FLD_IDX,FOFF,IFUNC,ITABLE
       INTEGER                          :: MAT_COMP,MAT_SMSTR,MAT_FORMU
+      INTEGER                          :: DMG_FLAG
 !
       CHARACTER OPTION*256
       INTEGER SIZE
@@ -295,6 +296,7 @@ C=======================================================================
       ENDIF
       ISEQ   = ELBUF_TAB(NG)%BUFLY(ILAY)%L_SEQ
       INLOC  = IPARG(78,NG)
+      DMG_FLAG = ELBUF_TAB(NG)%BUFLY(ILAY)%L_DMGSCL
       ! Make sure that the non-local variable increment is positive
       IF (INLOC > 0) THEN 
         DO I = 1,NEL
@@ -735,6 +737,25 @@ c---------------------------------------------------------
       ENDIF
 c--------------------------------------------------------
 c     END TOTAL STRAIN
+c---------------------------------------------------------
+c
+c--------------------------------------------------------
+c     COMPUTE UNDAMAGED EFFECTIVE STRESSES
+c---------------------------------------------------------
+      DMG_SCALE => LBUF%DMGSCL
+      IF (DMG_FLAG > 0) THEN 
+        DO I = 1,NEL
+          SO1(I) = SO1(I)/MAX(DMG_SCALE(I),EM20)
+          SO2(I) = SO2(I)/MAX(DMG_SCALE(I),EM20)
+          SO3(I) = SO3(I)/MAX(DMG_SCALE(I),EM20)
+          SO4(I) = SO4(I)/MAX(DMG_SCALE(I),EM20)
+          SO5(I) = SO5(I)/MAX(DMG_SCALE(I),EM20)
+          SO6(I) = SO6(I)/MAX(DMG_SCALE(I),EM20)
+        ENDDO
+      ENDIF
+c
+c---------------------------------------------------------
+c     SELECT MATERIAL LAW
 c---------------------------------------------------------
       IF (MTN == 28) THEN
           CALL SIGEPS28(NEL ,NPAR,NUVAR,NFUNC,IFUNC,
@@ -1992,6 +2013,17 @@ c  --- RTCL failure model
      1          NEL      ,NPAR     ,NVARF    ,TT       ,DT1      ,UPARAMF  ,
      2          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
      3          NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,TDEL     )
+c
+          ELSEIF (IRUPT == 41) THEN                                      
+C---- Tabulated failure model version 2
+              CALL FAIL_TAB2_S(
+     1          NEL      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,
+     2          NPF      ,TABLE    ,TF       ,TT       ,UPARAMF  , 
+     3          NGL      ,EL_LEN   ,DPLA     ,EPSP1    ,UVARF    ,     
+     5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
+     6          EL_TEMP  ,OFF      ,DFMAX    ,TDEL     ,DMG_SCALE,
+     7          GBUF%UELR,IPG      ,NPG      ,LBUF%OFF )   
+c 
           ENDIF
         ENDDO ! IR = 1,NFAIL
       ENDIF   ! NFAIL
@@ -2014,6 +2046,20 @@ C  viscosity ( Navier-Stokes)
      5             SV6     ,S3      ,ES3     ,RHO0    ,RHOREF )
       ENDIF 
 C=======================================================================
+c--------------------------------------------------------
+c     DAMAGED STRESSES
+c---------------------------------------------------------
+      IF (DMG_FLAG > 0) THEN 
+        DO I = 1,NEL
+          S1(I) = S1(I)*DMG_SCALE(I)
+          S2(I) = S2(I)*DMG_SCALE(I)
+          S3(I) = S3(I)*DMG_SCALE(I)
+          S4(I) = S4(I)*DMG_SCALE(I)
+          S5(I) = S5(I)*DMG_SCALE(I)
+          S6(I) = S6(I)*DMG_SCALE(I)
+        ENDDO
+      ENDIF
+c---------------------------------------------------------
       IF ( MTN==68 ) THEN
 c       orthotropic global nonsymetric tensor
         IF (JCVT == 0) THEN

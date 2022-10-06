@@ -283,7 +283,7 @@ C-----------------------------------------------
       my_real
      .   Q1,Q2,Q3,STR1,STR2,STR3,STR4,STR5,STR6,WXXF,WYYF,WZZF
       my_real, DIMENSION(NEL), TARGET :: LE_MAX
-      my_real, DIMENSION(:) ,POINTER :: STRD1,STRD2,EL_LEN
+      my_real, DIMENSION(:) ,POINTER :: STRD1,STRD2,EL_LEN,DMG_SCALE
      .  
        LOGICAL :: LOGICAL_USERL_AVAIL, l_MULAW_CALLED
 !
@@ -305,7 +305,8 @@ C--------------------------------------------
 c     Bolt Preloading
       INTEGER IBOLTP, NBPRELD
       my_real, 
-     .  DIMENSION(:), POINTER :: BPRELD
+     .  DIMENSION(:), POINTER  :: BPRELD
+      INTEGER                  :: DMG_FLAG
 !      my_real T1, T2, REDUC1
 C=======================================================================
       LOGICAL_USERL_AVAIL = .FALSE.
@@ -326,6 +327,7 @@ C=======================================================================
       NPG   = NPTS*NPTT*NPTR
       IPG   = IPTR + ((IPTS-1) + (IPTT-1)*NPTS)*NPTR
       IGTYP = IPARG(38,NG)
+      DMG_FLAG = ELBUF_TAB(NG)%BUFLY(ILAY)%L_DMGSCL
       IF ((IGTYP == 20).OR.(IGTYP == 21).OR.(IGTYP == 22)) THEN
         IPG  = IPTR + ((IPTS-1) + (ILAY-1)*NPTS)*NPTR
         NPG  = NPTR*NPTS*NLAY
@@ -334,6 +336,26 @@ C
       IBOLTP = IPARG(72,NG)
       NBPRELD = GBUF%G_BPRELD
       BPRELD => GBUF%BPRELD(1:NBPRELD*NEL)
+c--------------------------------------------------------
+c     COMPUTE UNDAMAGED EFFECTIVE STRESSES
+c---------------------------------------------------------
+      DMG_SCALE => LBUF%DMGSCL
+      IF ((DMG_FLAG > 0).AND.(MTN < 28 .OR. MTN == 49)) THEN 
+        DO I = 1,NEL
+          LBUF%SIG(NEL*(1-1) + I) = 
+     .       LBUF%SIG(NEL*(1-1) + I)/MAX(DMG_SCALE(I),EM20)
+          LBUF%SIG(NEL*(2-1) + I) = 
+     .       LBUF%SIG(NEL*(2-1) + I)/MAX(DMG_SCALE(I),EM20)
+          LBUF%SIG(NEL*(3-1) + I) = 
+     .       LBUF%SIG(NEL*(3-1) + I)/MAX(DMG_SCALE(I),EM20)
+          LBUF%SIG(NEL*(4-1) + I) = 
+     .       LBUF%SIG(NEL*(4-1) + I)/MAX(DMG_SCALE(I),EM20)
+          LBUF%SIG(NEL*(5-1) + I) = 
+     .       LBUF%SIG(NEL*(5-1) + I)/MAX(DMG_SCALE(I),EM20)
+          LBUF%SIG(NEL*(6-1) + I) = 
+     .       LBUF%SIG(NEL*(6-1) + I)/MAX(DMG_SCALE(I),EM20)
+        ENDDO
+      ENDIF
 C-----
 
 C Flag Idel
@@ -1897,8 +1919,39 @@ c  --- RTCL failure model
      1          LLT      ,NPARAM   ,NVARF    ,TT       ,DT1      ,BUFMAT(IADBUF),
      2          SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,
      3          NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,TDEL     )
+c
+          ELSEIF (IRUPT == 41) THEN                                      
+C---- Tabulated failure model version 2
+              CALL FAIL_TAB2_S(
+     1          LLT      ,NPARAM   ,NVARF    ,NFUNC    ,IFUNC    ,
+     2          NPF      ,TABLE    ,TF       ,TT       ,BUFMAT(IADBUF), 
+     3          NGL      ,EL_LEN   ,DPLA     ,EPSP     ,UVARF    ,     
+     5          SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,              
+     6          TEMPEL   ,OFF      ,DFMAX    ,TDEL     ,DMG_SCALE,
+     7          GBUF%UELR,IPG      ,NPG      ,LBUF%OFF )   
 c---------
-          ENDIF ! IRUPT                                                  
+          ENDIF ! IRUPT 
+c
+c--------------------------------------------------------
+c         DAMAGED STRESSES
+c---------------------------------------------------------
+          IF (DMG_FLAG > 0) THEN 
+            DO I = 1,NEL
+              LBUF%SIG(NEL*(1-1) + I) = 
+     .            LBUF%SIG(NEL*(1-1) + I)*DMG_SCALE(I)
+              LBUF%SIG(NEL*(2-1) + I) = 
+     .            LBUF%SIG(NEL*(2-1) + I)*DMG_SCALE(I)
+              LBUF%SIG(NEL*(3-1) + I) = 
+     .            LBUF%SIG(NEL*(3-1) + I)*DMG_SCALE(I)
+              LBUF%SIG(NEL*(4-1) + I) = 
+     .            LBUF%SIG(NEL*(4-1) + I)*DMG_SCALE(I)
+              LBUF%SIG(NEL*(5-1) + I) = 
+     .            LBUF%SIG(NEL*(5-1) + I)*DMG_SCALE(I)
+              LBUF%SIG(NEL*(6-1) + I) = 
+     .            LBUF%SIG(NEL*(6-1) + I)*DMG_SCALE(I)
+            ENDDO
+          ENDIF
+C                                       
 c---------
           IF(ISORTH  > 0 .AND. JCVT == 0) THEN  
              CALL MROTENS(1,NEL,

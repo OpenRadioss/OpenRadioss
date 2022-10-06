@@ -87,7 +87,7 @@ C-----------------------------------------------
      .   L_DAM,L_DSUM,L_DGLO,L_EPE,L_EPC,L_XST,L_SSP,L_Z,L_FRAC,L_VISC,
      .   L_THK,L_FOR,L_MOM,L_EPS,L_SMSTR,L_BFRAC,L_DMG,L_FORTH,L_EINTTH,
      .   L_SEQ,L_SIGPLY,L_JAC_I,L_FAC_YLD,L_ABURN,L_MU,L_PLANL,L_EPSDNL,
-     .   L_PIJ,L_VOL0DP
+     .   L_DMGSCL,L_PIJ,L_VOL0DP
       INTEGER  ! failure variables
      .   LF_DAM,LF_DAMMX,LF_TDEL,LF_INDX,LF_OFF
       INTEGER sum
@@ -359,6 +359,7 @@ c
               L_MU      = BUFLY%L_MU 	        
               L_PLANL   = BUFLY%L_PLANL
               L_EPSDNL  = BUFLY%L_EPSDNL 
+              L_DMGSCL  = BUFLY%L_DMGSCL
               L_PIJ     = BUFLY%L_PIJ
               L_VOL0DP  = BUFLY%L_VOL0DP
 
@@ -479,6 +480,8 @@ c---
               RBUF_L(L_REL+1) = L_PLANL       
                 L_REL = L_REL + 1 
               RBUF_L(L_REL+1) = L_EPSDNL      
+                L_REL = L_REL + 1 
+              RBUF_L(L_REL+1) = L_DMGSCL      
                 L_REL = L_REL + 1 
               RBUF_L(L_REL+1) = L_PIJ       
                 L_REL = L_REL + 1 
@@ -686,7 +689,9 @@ c
               RBUF_L(L_REL+1:L_REL+NEL*L_PLANL)= LBUF%PLANL(1:NEL*L_PLANL)        
                 L_REL = L_REL+NEL*L_PLANL 	
               RBUF_L(L_REL+1:L_REL+NEL*L_EPSDNL)= LBUF%EPSDNL(1:NEL*L_EPSDNL)        
-                L_REL = L_REL+NEL*L_EPSDNL 	
+                L_REL = L_REL+NEL*L_EPSDNL
+              RBUF_L(L_REL+1:L_REL+NEL*L_DMGSCL)= LBUF%DMGSCL(1:NEL*L_DMGSCL)        
+                L_REL = L_REL+NEL*L_DMGSCL 	 	
               RBUF_L(L_REL+1:L_REL+NEL*L_PIJ) = LBUF%PIJ(1:NEL*L_PIJ)
                 L_REL = L_REL+NEL*L_PIJ
 C--------write first VOL0DP                

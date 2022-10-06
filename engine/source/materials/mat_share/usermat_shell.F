@@ -1695,6 +1695,16 @@ c
      2            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,MPT      ,
      3            NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,TDEL     ,
      4            AREA     ,FOFF     ,IGTYP    ,OFFL     ,IPT      ,THK0     )
+c
+              CASE (41)     !    TAB2
+c
+                CALL FAIL_TAB2_C(
+     1            JLT      ,NUPAR    ,NVARF    ,NFUNC1   ,IFUNC1   ,
+     2            NPF      ,TABLE    ,TF       ,TT       ,UPARAMF  , 
+     3            NGL      ,EL_LEN   ,DPLA     ,EPSPL    ,UVARF    ,     
+     4            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,              
+     5            EL_TEMP  ,FOFF     ,DFMAX    ,TDEL     ,IPT      ,
+     6            IPG      ,DMG_FLAG ,DMG_LOC_SCALE,PTHKF(ILAYER,IFL)) 
 c-------------
               END SELECT
 c-------------

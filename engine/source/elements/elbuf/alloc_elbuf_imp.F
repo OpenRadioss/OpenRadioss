@@ -247,6 +247,7 @@ c
          BUFLY_IMP%L_MU      = BUFLY%L_MU
          BUFLY_IMP%L_PLANL   = BUFLY%L_PLANL
          BUFLY_IMP%L_EPSDNL  = BUFLY%L_EPSDNL
+         BUFLY_IMP%L_DMGSCL  = BUFLY%L_DMGSCL
 c
          IF (IGTYP == 51 .OR. IGTYP == 52) THEN
            NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
@@ -315,6 +316,7 @@ c
             ALLOCATE(LBUF%BFRAC(NEL*BUFLY%L_MU)  ,STAT=ERR)
             ALLOCATE(LBUF%PLANL(NEL*BUFLY%L_PLANL)  ,STAT=ERR)
             ALLOCATE(LBUF%EPSDNL(NEL*BUFLY%L_EPSDNL)  ,STAT=ERR)
+            ALLOCATE(LBUF%DMGSCL(NEL*BUFLY%L_DMGSCL)  ,STAT=ERR)
            ENDDO                                                                    
           ENDDO                                                                     
          ENDDO                                                                      

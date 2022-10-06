@@ -297,6 +297,7 @@ c
         INTEGER ::  L_MU
         INTEGER ::  L_PLANL
         INTEGER ::  L_EPSDNL
+        INTEGER ::  L_DMGSCL
 
 c---    uvar            
         INTEGER ::  NUVAR           

@@ -41,7 +41,7 @@ Chd|====================================================================
      5     DEPSZX  ,THKLY   ,OFF     ,SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,
      6     SIGOZX  ,THK     ,SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7     VISCMAX ,SIGY    ,ET      ,VARNL   ,DMG     ,TEMP    ,SEQ     ,
-     8     NPTR    ,NPTS    ,NPTT    ,BUFLY   ,INLOC   )
+     8     NPTR    ,NPTS    ,NPTT    ,BUFLY   ,INLOC   ,EPSPL   )
      
       USE ELBUFDEF_MOD
 C-----------------------------------------------
@@ -82,7 +82,7 @@ c
       my_real ,DIMENSION(NEL) :: 
      .   SIGY,ET,VISCMAX
       my_real ,DIMENSION(NEL), INTENT(INOUT) :: 
-     .   PLA,EPSD,OFFL,THK,OFF,VARNL,DMG,TEMP,SEQ,DPLA
+     .   PLA,EPSD,OFFL,THK,OFF,VARNL,DMG,TEMP,SEQ,DPLA,EPSPL
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
       TYPE(BUF_LAY_) :: BUFLY
@@ -183,6 +183,9 @@ c
      8           TEMP    ,SEQ     )
           ENDIF      
       END SELECT        
+c    
+      ! Save the strain rate value for failure criterion
+      EPSPL(1:NEL) = EPSD(1:NEL)
 c--------------------------
       ! Integration point failure
       IF (IGURSON>0) THEN 

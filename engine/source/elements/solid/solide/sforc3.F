@@ -1096,7 +1096,7 @@ C Compute nodal internal forces
      .   DFE, P, IXS, NEL)                                                    
       ELSE
        IISROT = 1
-        CALL SFINT3B(GBUF%SIG,LBUF%SIGD,X,
+        CALL SFINT3B(GBUF%SIG,LBUF%SIGD,X, 
      .   NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,

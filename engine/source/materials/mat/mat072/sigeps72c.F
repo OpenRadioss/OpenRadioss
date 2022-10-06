@@ -312,12 +312,12 @@ C
 C
           ! Computation of triaxiality
           ETA = P/MAX(SVM(I),EM20)
-          IF (ETA < -TWO_THIRD) ETA = TWO_THIRD
-          IF (ETA > TWO_THIRD)  ETA = TWO_THIRD
+          IF (ETA < -TWO_THIRD) ETA = -TWO_THIRD
+          IF (ETA > TWO_THIRD)  ETA =  TWO_THIRD
           ! Computation of Lode angle
           COS3THETA = -HALF*TWENTY7*ETA*(ETA**2 - THIRD)
           IF (COS3THETA < -ONE ) COS3THETA = -ONE
-          IF (COS3THETA > ONE )  COS3THETA = ONE
+          IF (COS3THETA > ONE )  COS3THETA =  ONE
           THETA = ONE - TWO*ACOS(COS3THETA)/PI
 C             
           ! Computation of the failure factor
