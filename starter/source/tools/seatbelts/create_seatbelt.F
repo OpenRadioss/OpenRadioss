@@ -203,26 +203,28 @@ C-            skew must be skew/mov or skew/fix
 C-      check of nodes 1 and 2 of skew - must be on the same element
         IF (TAG_PROP_2D(I)==1) THEN
           ISK = IGEO(2,I)
-          IMOV = ISKN(LISKN*(ISK-1)+5)
-          IF ((ISK > 0).AND.(IMOV > 0)) THEN
-            N1 = ISKN(LISKN*(ISK-1)+1)
-            N2 = ISKN(LISKN*(ISK-1)+2)
-            SEATBELT_ELEM_FOUND = 0
-            DO K=KNOD2ELC(N1)+1,KNOD2ELC(N1+1)
-              ELEM_CUR = NOD2ELC(K)
-              MID = IXC(1,ELEM_CUR)
-              MTYP = IPM(2,MID)
-              IF (MTYP==119) THEN
-                DO J=2,5
-                  IF (IXC(J,ELEM_CUR)==N2) SEATBELT_ELEM_FOUND = 1
-                ENDDO
-              ENDIF
-            ENDDO
-            IF (SEATBELT_ELEM_FOUND == 0) THEN
+          IF (ISK > 0) THEN
+            IMOV = ISKN(LISKN*(ISK-1)+5)
+            IF (IMOV > 0) THEN
+              N1 = ISKN(LISKN*(ISK-1)+1)
+              N2 = ISKN(LISKN*(ISK-1)+2)
+              SEATBELT_ELEM_FOUND = 0
+              DO K=KNOD2ELC(N1)+1,KNOD2ELC(N1+1)
+                ELEM_CUR = NOD2ELC(K)
+                MID = IXC(1,ELEM_CUR)
+                MTYP = IPM(2,MID)
+                IF (MTYP==119) THEN
+                  DO J=2,5
+                    IF (IXC(J,ELEM_CUR)==N2) SEATBELT_ELEM_FOUND = 1
+                  ENDDO
+                ENDIF
+              ENDDO
+              IF (SEATBELT_ELEM_FOUND == 0) THEN
                 CALL ANCMSG(MSGID=2083,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
      .                      I1=IGEO(1,I),I2=ISKN(LISKN*(ISK-1)+4))
+              ENDIF
             ENDIF             
           ENDIF
         ENDIF
