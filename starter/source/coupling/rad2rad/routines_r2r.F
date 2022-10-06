@@ -102,7 +102,7 @@ C-----------------------------------------------
           
    10 IF(JSUP<=JINF.AND.(IU-ITABM1(J))/=0) THEN
         R2R_SYS=0
-C------------On check dans la liste des noeuds suprimes-----
+C------------Check of the list of removed nodes-------------
         ITABM2  => ITABM1(2*NUMNOD+1:2*(NUMNOD+NODSUPR))	
 	SAUV = NUMNOD
 	NUMNOD = NODSUPR
@@ -114,18 +114,23 @@ C-----------------------------------------------------------
       ENDIF
       
       IF((IU-ITABM1(J))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >IU=TABM - end of the search
          R2R_SYS=ITABM1(J+NUMNOD)
          RETURN
       ELSE IF (IU-ITABM1(J)<0) THEN
-C     >CAS IU<TABM
+C     >IU<TABM
          JSUP=J-1
       ELSE
-C     >CAS IU>TABM
+C     >IU>TABM
          JINF=J+1
       ENDIF
       J=(JSUP+JINF)/2
-      GO TO 10
+      IF (J > 0) THEN
+        GO TO 10
+      ELSE
+        R2R_SYS=0
+      ENDIF
+C
       END
       
 Chd|====================================================================
@@ -374,7 +379,7 @@ C-----------------------------------------------
       INTEGER ID,TYP
       INTEGER I,CURS
 C--------------------------------------------------------
-C------ --> TH : On check si l'option a ete conservee----
+C------ --> TH : check if corresponding option is kept---
 C--------------------------------------------------------
 
       R2R_EXIST=0
@@ -455,7 +460,7 @@ C-----------SECTION-----------------
 	  IF (TAGSEC(CURS)==ID) R2R_EXIST=1
 	END DO 	        
       ELSEIF (TYP==108) THEN
-C-----------ACCELEROMETRE-----------
+C-----------ACCELEROMETER-----------
          R2R_EXIST=1
       ELSEIF (TYP==110) THEN
 C-----------FRAMES------------------
@@ -506,7 +511,7 @@ C-----------------------------------------------
 C-----------------------------------------------      
       INTEGER I,JREC,J10(10),NVAR_TMP
 C-----------------------------------------------------------
-C------ --> TH : on recompte les entites du groupes TH------
+C------ --> TH : re-count of nb of entities in TH groups----
 C-----------------------------------------------------------      
 
       R2R_LISTCNT=0
@@ -519,7 +524,7 @@ C-----------------------------------------------------------
         READ(LINE,ERR=999,FMT=FMT_10I) J10
         DO I=1,10
           IF(J10(I)/=0) THEN
-C-----------on compte l'entite si elle existe encore----------	  
+C-----------entity is counted if it is kept-------------------	 	  
 	     IF (R2R_EXIST(TYP,J10(I))==1) NVAR=NVAR+1
 C-------------------------------------------------------------	     
 	  ENDIF   
@@ -618,8 +623,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER JINF, JSUP, J
 C-----------------------------------------------
-C-- Routine identique a USR2SYS -> utilise pour eviter
-C-- des boucles infinies avec R2R_SYS
+C-- Same routine as USR2SYS -> used to avoid infinite loop in R2R_SYS
       
       JINF=1
       JSUP=NUMNOD
@@ -634,18 +638,22 @@ C-- des boucles infinies avec R2R_SYS
         RETURN
       ENDIF
       IF((IU-ITABM1(J))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >IU=TABM - end of search
          R2R_SYS2=ITABM1(J+NUMNOD)
          RETURN
       ELSE IF (IU-ITABM1(J)<0) THEN
-C     >CAS IU<TABM
+C     >IU<TABM
          JSUP=J-1
       ELSE
-C     >CAS IU>TABM
+C     >IU>TABM
          JINF=J+1
       ENDIF
       J=(JSUP+JINF)/2
-      GO TO 10
+      IF (J > 0) THEN
+        GO TO 10
+      ELSE
+        R2R_SYS2=0
+      ENDIF
       END
       
 Chd|====================================================================
@@ -679,7 +687,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J      
 C=======================================================================
-C-- Routine de split de NOM_OPT
+C-- Split of NOM_OPT
      
       ALLOCATE (NOM_OPT_TEMP(SNOM_OPT_OLD))
       DO I=1,SNOM_OPT_OLD
@@ -741,12 +749,11 @@ C-----------------------------------------------
       FLG_FSI = 0
       ALE_EULER = 0
       DO M=1,NUMELS
-        ID_PART=IPARTS(M)  
-        IMAT0=IPART_R2R(1,ID_PART) !original mat_id
-        IPROP0=IPART_R2R(4,ID_PART) !original prop_id
-        JALE_FROM_MAT = NINT(PM(72,IMAT0))
-        JALE_FROM_PROP = IGEO(62,IPROP0)
-        JALE= MAX(JALE_FROM_MAT, JALE_FROM_PROP)
+        ID_PART=IPARTS(M)
+C---------------id of the original material -----------C      
+        IMAT0=IPART_R2R(1,ID_PART)
+        JALE=NINT(PM(72,IMAT0))
+C
         ELEM_VOID = 0
         IF ((TAGNO(ID_PART)==0).AND.(TAG_ELS(M)>0)) ELEM_VOID=1 
         IF ((JALE > 0).AND.(TAGNO(ID_PART) > 0)) ALE_EULER = 1
@@ -805,7 +812,7 @@ C-----------------------------------------------
       NF = FACE(1)
       ELTAG = 0
       
-C-->  check des elements coque  <---	    
+C-->  check of shell elements <---	    
       DO L = KNOD2ELC(NF)+1,KNOD2ELC(NF+1)
           CUR_ID = NOD2ELC(L)
           FLG_T4 = 0
@@ -820,7 +827,7 @@ C-->  check des elements coque  <---
           IF ((SUM==4).AND.((TAGNO(IPARTC(CUR_ID))==1).OR.(FLG_T4==0))) ELTAG = 1
        END DO
 
-C-->  check des elements triangle  <---	 
+C-->  check of sh3n elements <---
        DO L = KNOD2ELTG(NF)+1,KNOD2ELTG(NF+1)
           CUR_ID = NOD2ELTG(L)
           FLG_T4 = 0
@@ -836,7 +843,7 @@ C-->  check des elements triangle  <---
           IF ((SUM==4).AND.((TAGNO(IPARTG(CUR_ID))==1).OR.(FLG_T4==0))) ELTAG = 1	      
        END DO
 
-C-->  check des elements solide  <---
+C-->  check of solid elements  <---
        DO L = KNOD2ELS(NF)+1,KNOD2ELS(NF+1)
           CUR_ID = NOD2ELS(L)
           FLG_T4 = 0                     
