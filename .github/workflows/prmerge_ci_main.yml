@@ -375,6 +375,7 @@ jobs:
 
           chmod 755 exec/*
           cd qa-tests/scripts
+          rm -f QA.summary
           chmod 755 or_qa_script or_radioss.pl 
 
           source ${{ env.homeuser }}/.bashrc

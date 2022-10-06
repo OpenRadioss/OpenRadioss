@@ -184,6 +184,7 @@ jobs:
           chmod 755 exec/*
           cd qa-tests/scripts
           chmod 755 or_qa_script or_radioss.pl 
+          rm -f QA.summary
 
           source ${{ env.homeuser }}/.bashrc
           export LD_LIBRARY_PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$LD_LIBRARY_PATH
@@ -195,13 +196,14 @@ jobs:
           echo "--  $cmd --"   
           echo "========================================="
           eval $cmd 
+          res=$? 
 
           # Getting failed test
           nbtestsfailed=$(grep "# Runs Failed\s*:" QA.summary | tail -n 1 | awk -F' ' '{print $5}')
           # Checking if no test has run at all (maybe exec errors)
           nbtestsok=$(grep "# Runs Successful\s*:" QA.summary | tail -n 1 | awk -F' ' '{print $5}')
 
-          if [ $nbtestsfailed -gt 0 ] || [ $nbtestsok = 0 ]
+          if [ $res -gt 0 ] || [ $nbtestsfailed -gt 0 ] || [ $nbtestsok = 0 ]
           then 
             # If at least one test is failed we mark the CI as failed
             echo "All tests are not OK, CI is failed"
