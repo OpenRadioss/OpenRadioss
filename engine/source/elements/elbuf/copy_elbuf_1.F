@@ -80,7 +80,7 @@ C-----------------------------------------------
      .   L_DAM,L_DSUM,L_DGLO,L_EPE,L_EPC,L_XST,L_SSP,L_Z,L_FRAC,L_VISC,
      .   L_THK,L_FOR,L_MOM,L_SMSTR,L_BFRAC,L_DMG,LF_DAM,LF_DAMMX,LF_TDEL,
      .   LF_INDX,LF_OFF,L_FORTH,L_EINTTH,L_SEQ,L_SIGPLY,L_FAC_YLD,L_ABURN,
-     .   L_MU,L_PLANL,L_EPSDNL
+     .   L_MU,L_PLANL,L_EPSDNL,L_DMGSCL
       TYPE(BUF_LAY_)  , POINTER :: BUFLY
       TYPE(L_BUFEL_)  , POINTER :: LBUF
       TYPE(G_BUFEL_)  , POINTER :: GBUFS,GBUFT
@@ -221,6 +221,7 @@ c
            L_MU     = BUFLY%L_MU
            L_PLANL  = BUFLY%L_PLANL
            L_EPSDNL = BUFLY%L_EPSDNL
+           L_DMGSCL = BUFLY%L_DMGSCL
 
 c
            ELBUF_TGT(NG)%BUFLY(IL)%DMG(1:NEL*LY_DMG) =
@@ -313,6 +314,7 @@ c
                LBUFT%MU(1:NEL*L_MU)          =LBUFS%MU(1:NEL*L_MU)
                LBUFT%PLANL(1:NEL*L_PLANL)    =LBUFS%PLANL(1:NEL*L_PLANL)
                LBUFT%EPSDNL(1:NEL*L_EPSDNL)  =LBUFS%EPSDNL(1:NEL*L_EPSDNL)
+               LBUFT%DMGSCL(1:NEL*L_DMGSCL)  =LBUFS%DMGSCL(1:NEL*L_DMGSCL)
              ENDDO                     
             ENDDO                                                                 
            ENDDO                                                                  

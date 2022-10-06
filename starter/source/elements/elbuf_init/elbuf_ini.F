@@ -832,8 +832,7 @@ C ---add H3D/TMAX in BUFLEN
           LGLOB = LGLOB + GBUF%G_TM_DMG  
           LGLOB = LGLOB + 2*GBUF%G_TM_SIG  
           LGLOB = LGLOB + 2*GBUF%G_TM_STRA
-!          LGLOB = LGLOB + GBUF%G_PLANL
-!          LGLOB = LGLOB + GBUF%G_EPSDNL 
+
 C          
           BUFLEN = BUFLEN + GBUF%NVAR_GLOB + 1 + LGLOB*NEL 
 c
@@ -932,6 +931,7 @@ c           ! tags for local variables : NVAR_LOC = 51
 c            LLOC = LLOC + BUFLY%L_VOL0DP 
             LLOC = LLOC + BUFLY%L_PLANL
             LLOC = LLOC + BUFLY%L_EPSDNL
+            LLOC = LLOC + BUFLY%L_DMGSCL
             BUFLEN = BUFLEN + (LLOC * NEL + NPAR_LBUF) * NPG       
           ENDDO
 c          print*,'      local=',(LLOC * NEL + NPAR_LBUF) * NPG
@@ -1581,8 +1581,6 @@ C ---add H3D/TMAX in BUFLEN
           LGLOB = LGLOB + GBUF%G_TM_DMG  
           LGLOB = LGLOB + 2*GBUF%G_TM_SIG  
           LGLOB = LGLOB + 2*GBUF%G_TM_STRA 
-!          LGLOB = LGLOB + GBUF%G_PLANL
-!          LGLOB = LGLOB + GBUF%G_EPSDNL 
 C
 c
           BUFLEN = BUFLEN + GBUF%NVAR_GLOB + 1 + LGLOB*NEL
@@ -1715,6 +1713,7 @@ c
             LLOC = LLOC + BUFLY%L_MU 
             LLOC = LLOC + BUFLY%L_PLANL
             LLOC = LLOC + BUFLY%L_EPSDNL
+            LLOC = LLOC + BUFLY%L_DMGSCL
 c
             BUFLEN = BUFLEN + (LLOC * NEL + NPAR_LBUF) * NIP_LAY
 

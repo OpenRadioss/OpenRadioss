@@ -334,6 +334,9 @@ c--------------------------------------------
         ELSEIF(KEY(1:6) == 'VISUAL')THEN
              IRUP= 36
 c--------------------------------------------      
+        ELSEIF(KEY(1:4) == 'TAB2')THEN
+             IRUP= 41
+c--------------------------------------------      
         ELSEIF(KEY(1:3) == 'TAB')THEN
              IRUP= 37
 c--------------------------------------------      
@@ -563,6 +566,12 @@ c---
               CALL HM_READ_FAIL_RTCL(
      .             UPARAM   ,MAXPARAM ,NUPARAM  ,NUVAR    ,UNITAB   ,
      .             FAIL_ID  ,MAT_ID   ,TITR     ,LSUBMODEL)
+c---
+           CASE(41)
+              CALL HM_READ_FAIL_TAB2(
+     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID   ,MAT_ID   ,
+     .             TABLE    ,TITR     ,LSUBMODEL)
 c
 c--------------------------------------------      
             END SELECT

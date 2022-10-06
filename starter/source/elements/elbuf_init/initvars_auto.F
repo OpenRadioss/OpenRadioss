@@ -379,7 +379,8 @@ c       local material variables
         IF (BUFLY%L_ABURN  == 0) BUFLY%L_ABURN  = MTAG%L_ABURN 
         IF (BUFLY%L_MU     == 0) BUFLY%L_MU     = MTAG%L_MU   
         IF (BUFLY%L_PLANL  == 0) BUFLY%L_PLANL  = MTAG%L_PLANL
-        IF (BUFLY%L_EPSDNL == 0) BUFLY%L_EPSDNL = MTAG%L_EPSDNL         
+        IF (BUFLY%L_EPSDNL == 0) BUFLY%L_EPSDNL = MTAG%L_EPSDNL      
+        IF (BUFLY%L_DMGSCL == 0) BUFLY%L_DMGSCL = MTAG%L_DMGSCL  
 c       layer property variables
         IF (BUFLY%LY_DMG  == 0) BUFLY%LY_DMG    = PTAG%LY_DMG
         IF (BUFLY%LY_GAMA == 0) BUFLY%LY_GAMA   = PTAG%LY_GAMA               
