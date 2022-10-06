@@ -33,7 +33,8 @@ Chd|====================================================================
      4     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7     SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     )
+     7     SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     ,INLOC   ,
+     8     DPLANL  )
       !=======================================================================
       !      Implicit types
       !=======================================================================
@@ -47,14 +48,14 @@ Chd|====================================================================
       !=======================================================================
       !      Dummy arguments
       !=======================================================================
-      INTEGER NEL,NUPARAM,NUVAR,JTHE
+      INTEGER NEL,NUPARAM,NUVAR,JTHE,INLOC
       INTEGER ,DIMENSION(NEL), INTENT(IN)    :: NGL
       my_real 
      .   TIME,TIMESTEP
       my_real,DIMENSION(NUPARAM), INTENT(IN) :: 
      .   UPARAM
       my_real,DIMENSION(NEL), INTENT(IN)     :: 
-     .   RHO0,RHO,TEMPEL,
+     .   RHO0,RHO,TEMPEL,DPLANL,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
 c
@@ -85,7 +86,7 @@ c
      .   DFDSXX,DFDSYY,DFDSZZ,DFDSXY,DFDSYZ,DFDSZX,
      .   NORMXX,NORMYY,NORMZZ,NORMXY,NORMYZ,NORMZX,
      .   DENOM,DPHI,DPHI_DTRSIG,SIG_DFDSIG,DFDSIG2,
-     .   DPHI_DSIG,DPHI_DYLD,DPHI_DFDR,
+     .   DPHI_DSIG,DPHI_DYLD,DPHI_DFDR,DPDT_NL,
      .   DYLD_DPLA,DYLD_DTEMP,DTEMP_DLAM,NORMSIG
 c
       my_real, DIMENSION(NEL) ::
@@ -152,18 +153,20 @@ c
         TEMP(1:NEL)    = TINI  
       ENDIF 
       IF (CP > ZERO) THEN     
-        IF (JTHE == 0) THEN     
-          DO I=1,NEL
-            IF (EPSD(I) < DPIS) THEN
-              WEITEMP(I) = ZERO
-            ELSEIF (EPSD(I) > DPAD) THEN
-              WEITEMP(I) = ONE
-            ELSE
-              WEITEMP(I) = ((EPSD(I)-DPIS)**2 )
-     .                * (THREE*DPAD - TWO*EPSD(I) - DPIS)
-     .                / ((DPAD-DPIS)**3)
-            ENDIF
-          ENDDO
+        IF (JTHE == 0) THEN  
+          IF (INLOC == 0) THEN   
+            DO I=1,NEL
+              IF (EPSD(I) < DPIS) THEN
+                WEITEMP(I) = ZERO
+              ELSEIF (EPSD(I) > DPAD) THEN
+                WEITEMP(I) = ONE
+              ELSE
+                WEITEMP(I) = ((EPSD(I)-DPIS)**2 )
+     .                  * (THREE*DPAD - TWO*EPSD(I) - DPIS)
+     .                  / ((DPAD-DPIS)**3)
+              ENDIF
+            ENDDO
+          ENDIF
         ELSE
           TEMP(1:NEL) = TEMPEL(1:NEL)
         ENDIF
@@ -377,7 +380,7 @@ c
 c        
         !  c) Derivatives with respect to the temperature TEMP 
         !  ---------------------------------------------------
-        IF (JTHE == 0 .and. CP > ZERO) THEN
+        IF (JTHE == 0 .AND. CP > ZERO .AND. INLOC == 0) THEN
         !    i)  Derivative of the yield stress with respect to temperature dYLD / dTEMP
         !    ---------------------------------------------------------------------------          
           DYLD_DTEMP = -FHARD(I)*FRATE(I)*MTEMP
@@ -396,7 +399,7 @@ c
 c        
         !  e) Derivative of PHI with respect to DLAM ( = -DENOM)
         DENOM = DFDSIG2 - (DPHI_DYLD * DYLD_DPLA * DPLA_DLAM(I))
-        IF (JTHE == 0 .and. CP > ZERO) THEN
+        IF (JTHE == 0 .AND. CP > ZERO .AND. INLOC == 0) THEN
           DENOM = DENOM - (DPHI_DYLD * DYLD_DTEMP * DTEMP_DLAM)
         ENDIF
         DENOM = SIGN(MAX(ABS(DENOM),EM20) ,DENOM)   
@@ -446,7 +449,7 @@ c
         SIGDR(I) = KDR * EXP((ONE/SIX)*LOG(FDR(I)))
 c
         ! Temperature update
-        IF (JTHE == 0 .AND. CP > ZERO ) THEN 
+        IF (JTHE == 0 .AND. CP > ZERO .AND. INLOC == 0) THEN 
           DTEMP     = WEITEMP(I)*YLD(I)*DDEP*ETA/(RHO0(I)*CP)
           TEMP(I)   = TEMP(I) + DTEMP
           FTHERM(I) = ONE - MTEMP* (TEMP(I) - TREF)
@@ -482,6 +485,24 @@ c
         SOUNDSP(I) = SQRT((BULK + FOUR_OVER_3*G)/RHO0(I))
         ! Storing the yield stress
         SIGY(I)    = YLD(I)
+        ! Non-local temperature
+        IF (INLOC > 0) THEN 
+          IF (CP > ZERO .AND. JTHE == 0) THEN     
+            ! Computation of the weight factor
+            DPDT_NL = MAX(DPLANL(I),ZERO)/MAX(TIMESTEP,EM20)
+            IF (DPDT_NL < DPIS) THEN
+              WEITEMP(I) = ZERO
+            ELSEIF (DPDT_NL > DPAD) THEN
+              WEITEMP(I) = ONE
+            ELSE
+              WEITEMP(I) = ((DPDT_NL-DPIS)**2 )
+     .                * (THREE*DPAD - TWO*DPDT_NL - DPIS)
+     .                / ((DPAD-DPIS)**3)
+            ENDIF
+            DTEMP   = WEITEMP(I)*DPLANL(I)*YLD(I)*ETA/(RHO0(I)*CP)
+            TEMP(I) = TEMP(I) + DTEMP 
+          ENDIF
+        ENDIF
       ENDDO
 c
       END

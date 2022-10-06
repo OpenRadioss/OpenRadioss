@@ -1553,7 +1553,8 @@ c
      .                 SO1    ,SO2    ,SO3    ,SO4    ,SO5    ,SO6    ,
      .                 S1     ,S2     ,S3     ,S4     ,S5     ,S6     ,
      .                 SIGY   ,ET     ,TEMPEL ,VARNL  ,OFF    ,IPG    ,
-     .                 LBUF%DMG,LBUF%TEMP,LBUF%SEQ,NPG,ELBUF_TAB(NG))
+     .                 LBUF%DMG,LBUF%TEMP,LBUF%SEQ,NPG,ELBUF_TAB(NG)  ,
+     .                 INLOC  )
 c
       ELSEIF (MTN == 105) THEN
           IF (N2D == 0) THEN
