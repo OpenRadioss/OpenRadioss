@@ -21,9 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  ST_QAPRINT_INTERNAL_GROUPS     source/output/qaprint/st_qaprint_internal_groups.F
+Chd|  ST_QAPRINT_INTERNAL_GROUPS    source/output/qaprint/st_qaprint_internal_groups.F
 Chd|-- called by -----------
+Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|-- calls ---------------
+Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
+Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_INTERNAL_GROUPS(IPARG)
 C-----------------------------------------------

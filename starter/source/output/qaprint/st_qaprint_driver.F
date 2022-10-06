@@ -41,6 +41,7 @@ Chd|        ST_QAPRINT_INITIAL_CONDITIONS source/output/qaprint/st_qaprint_initi
 Chd|        ST_QAPRINT_INITIAL_STATE      source/output/qaprint/st_qaprint_initial_state.F
 Chd|        ST_QAPRINT_INIVOL             source/output/qaprint/st_qaprint_inivol.F
 Chd|        ST_QAPRINT_INTERFACES         source/output/qaprint/st_qaprint_interfaces.F
+Chd|        ST_QAPRINT_INTERNAL_GROUPS    source/output/qaprint/st_qaprint_internal_groups.F
 Chd|        ST_QAPRINT_LOADS              source/output/qaprint/st_qaprint_loads.F
 Chd|        ST_QAPRINT_MADYMO             source/output/qaprint/st_qaprint_madymo.F
 Chd|        ST_QAPRINT_MATERIALS          source/output/qaprint/st_qaprint_materials.F

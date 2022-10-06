@@ -68,6 +68,7 @@ Chd|        SPINIT3                       source/elements/sph/spinit3.F
 Chd|        STARTER0                      source/starter/starter0.F     
 Chd|        ST_QAPRINT_DFS_DETONATORS     source/output/qaprint/st_qaprint_dfs_detonators.F
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
+Chd|        ST_QAPRINT_INTERNAL_GROUPS    source/output/qaprint/st_qaprint_internal_groups.F
 Chd|        SUINIT3                       source/elements/elbuf_init/suinit3.F
 Chd|        IOMBR                         source/initial_conditions/detonation/iombr.F
 Chd|-- calls ---------------

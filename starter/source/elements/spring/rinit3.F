@@ -53,6 +53,7 @@ Chd|        USER_OUTPUT                   source/user_interface/user_output.F
 Chd|        STRR                          source/tools/univ/strr.F      
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|====================================================================
       SUBROUTINE RINIT3(ELBUF_STR,
      .                  IXR      ,X        ,GEO      ,XMAS   ,NPC   ,

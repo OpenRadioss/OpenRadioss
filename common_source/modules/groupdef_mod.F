@@ -382,6 +382,7 @@ Chd|        ST_QAPRINT_DFS_LASERS         starter/source/output/qaprint/st_qapri
 Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_GROUPS             starter/source/output/qaprint/st_qaprint_groups.F
 Chd|        ST_QAPRINT_INIVOL             starter/source/output/qaprint/st_qaprint_inivol.F
+Chd|        ST_QAPRINT_INTERNAL_GROUPS    starter/source/output/qaprint/st_qaprint_internal_groups.F
 Chd|        ST_QAPRINT_MADYMO             starter/source/output/qaprint/st_qaprint_madymo.F
 Chd|        ST_QAPRINT_MULTIDOMAINS       starter/source/output/qaprint/st_qaprint_multidomains.F
 Chd|        ST_QAPRINT_SET                starter/source/output/qaprint/st_qaprint_set.F
