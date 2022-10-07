@@ -37,6 +37,7 @@ Chd|        FUNC_MAXY                     source/tools/curve/func_maxy.F
 Chd|        FUNC_SLOPE                    source/tools/curve/func_slope.F
 Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|        HM_READ_FAIL_GENE1            source/materials/fail/gene1/hm_read_fail_gene1.F
+Chd|        HM_READ_FAIL_TAB2             source/materials/fail/tabulated/hm_read_fail_tab2.F
 Chd|        HM_READ_FUNCT                 source/tools/curve/hm_read_funct.F
 Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
 Chd|        HM_READ_MAT76                 source/materials/mat/mat076/hm_read_mat76.F

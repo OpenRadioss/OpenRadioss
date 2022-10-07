@@ -990,7 +990,6 @@ C
 Chd|====================================================================
 Chd|  FREDEC3                       source/starter/freform.F      
 Chd|-- called by -----------
-Chd|        R2R_MONVOL                    source/coupling/rad2rad/r2r_prelec.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
@@ -2100,7 +2099,6 @@ Chd|  NEXTSLA                       source/starter/freform.F
 Chd|-- called by -----------
 Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
 Chd|        PREREAD_INIVEL                source/initial_conditions/general/inivel/inivel.F
-Chd|        R2R_MONVOL                    source/coupling/rad2rad/r2r_prelec.F
 Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
 Chd|        SZ_R2R                        source/coupling/rad2rad/routines_r2r.F
 Chd|-- calls ---------------
@@ -2208,7 +2206,6 @@ C
 Chd|====================================================================
 Chd|  FREDEC_2KEY_2ID               source/starter/freform.F      
 Chd|-- called by -----------
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FREERR                        source/starter/freform.F      
@@ -2678,7 +2675,6 @@ C---
 Chd|====================================================================
 Chd|  FREDEC_2KEY_3ID_T             source/starter/freform.F      
 Chd|-- called by -----------
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FREERR                        source/starter/freform.F      

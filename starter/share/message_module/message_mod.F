@@ -228,6 +228,7 @@ Chd|        HM_ELEM_COUNT                 source/devtools/hm_reader/hm_elem_coun
 Chd|        HM_ELNGR                      source/groups/hm_elngr.F      
 Chd|        HM_ELNGRR                     source/groups/hm_elngrr.F     
 Chd|        HM_ELNGRS                     source/groups/hm_elngr.F      
+Chd|        HM_ENTITY_REFERENCE_NUMBER    source/devtools/hm_reader/hm_entity_reference_number.F
 Chd|        HM_GET_BOOLV                  source/devtools/hm_reader/hm_get_boolv.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
@@ -361,6 +362,7 @@ Chd|        HM_READ_FAIL_SAHRAEI          source/materials/fail/sahraei/hm_read_
 Chd|        HM_READ_FAIL_SNCONNECT        source/materials/fail/snconnect/hm_read_fail_snconnect.F
 Chd|        HM_READ_FAIL_SPALLING         source/materials/fail/spalling/hm_read_fail_spalling.F
 Chd|        HM_READ_FAIL_TAB1             source/materials/fail/tabulated/hm_read_fail_tab1.F
+Chd|        HM_READ_FAIL_TAB2             source/materials/fail/tabulated/hm_read_fail_tab2.F
 Chd|        HM_READ_FAIL_TAB_OLD          source/materials/fail/tabulated/hm_read_fail_tab_old.F
 Chd|        HM_READ_FAIL_TBUTCHER         source/materials/fail/tuler_butcher/hm_read_fail_tbutcher.F
 Chd|        HM_READ_FAIL_TENSSTRAIN       source/materials/fail/tensstrain/hm_read_fail_tensstrain.F

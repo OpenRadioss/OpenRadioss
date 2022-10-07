@@ -26,8 +26,6 @@ Chd|-- called by -----------
 Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREDEC_2KEY_2ID               source/starter/freform.F      
-Chd|        FREDEC_2KEY_3ID_T             source/starter/freform.F      
 Chd|        FREDEC_2KEY_4ID               source/starter/freform.F      
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
@@ -1288,13 +1286,11 @@ Chd|====================================================================
 Chd|  R2R_MONVOL                    source/coupling/rad2rad/r2r_prelec.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        FREDEC3                       source/starter/freform.F      
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        NEXTSLA                       source/starter/freform.F      
 Chd|        USR2SYS                       source/system/sysfus.F        
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F

@@ -54,6 +54,7 @@ Chd|        FAIL_RTCL_C                   source/materials/fail/rtcl/fail_rtcl_c
 Chd|        FAIL_SETOFF_C                 source/materials/fail/fail_setoff_c.F
 Chd|        FAIL_SETOFF_NPG_C             source/materials/fail/fail_setoff_npg_c.F
 Chd|        FAIL_SETOFF_WIND_FRWAVE       source/materials/fail/fail_setoff_wind_frwave.F
+Chd|        FAIL_TAB2_C                   source/materials/fail/tabulated/fail_tab2_c.F
 Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
 Chd|        FAIL_TAB_OLD_C                source/materials/fail/tabulated/fail_tab_old_c.F
 Chd|        FAIL_TAB_OLD_XFEM             source/materials/fail/tabulated/fail_tab_old_xfem.F

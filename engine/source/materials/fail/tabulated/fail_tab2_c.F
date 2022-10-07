@@ -20,6 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+Chd|====================================================================
+Chd|  FAIL_TAB2_C                   source/materials/fail/tabulated/fail_tab2_c.F
+Chd|-- called by -----------
+Chd|        MULAWC                        source/materials/mat_share/mulawc.F
+Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
+Chd|-- calls ---------------
+Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
+Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
+Chd|====================================================================
       SUBROUTINE FAIL_TAB2_C (
      1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
      2     NPF      ,TABLE    ,TF       ,TIME     ,UPARAM   , 
