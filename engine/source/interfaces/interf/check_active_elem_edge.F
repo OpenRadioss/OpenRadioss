@@ -95,6 +95,18 @@ C-----------------------------------------------
         I = ADDCNEL(N1) + NEXT
         DEACTIVATION = .FALSE.
         STILL_ALIVE = .FALSE.
+
+        ! ------------------
+        ! check if 1 or more elements is/are associated to 
+        ! N1 node
+        ! if no element, the edge can be deactivated (only if
+        ! the remote elements associated to N1/N2 are all deleted)
+        IF((ADDCNEL(N1+1) - ADDCNEL(N1)) ==0) THEN
+            DEACTIVATION = .TRUE.
+            STILL_COMPUTE = .FALSE.
+        ENDIF
+        ! ------------------
+
         DO WHILE( STILL_COMPUTE )
 
             ELEM_ID = CNEL(I)
