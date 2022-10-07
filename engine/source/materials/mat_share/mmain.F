@@ -1938,18 +1938,12 @@ c         DAMAGED STRESSES
 c---------------------------------------------------------
           IF (DMG_FLAG > 0) THEN 
             DO I = 1,NEL
-              LBUF%SIG(NEL*(1-1) + I) = 
-     .            LBUF%SIG(NEL*(1-1) + I)*DMG_SCALE(I)
-              LBUF%SIG(NEL*(2-1) + I) = 
-     .            LBUF%SIG(NEL*(2-1) + I)*DMG_SCALE(I)
-              LBUF%SIG(NEL*(3-1) + I) = 
-     .            LBUF%SIG(NEL*(3-1) + I)*DMG_SCALE(I)
-              LBUF%SIG(NEL*(4-1) + I) = 
-     .            LBUF%SIG(NEL*(4-1) + I)*DMG_SCALE(I)
-              LBUF%SIG(NEL*(5-1) + I) = 
-     .            LBUF%SIG(NEL*(5-1) + I)*DMG_SCALE(I)
-              LBUF%SIG(NEL*(6-1) + I) = 
-     .            LBUF%SIG(NEL*(6-1) + I)*DMG_SCALE(I)
+              SS1(I) = SS1(I)*DMG_SCALE(I)
+              SS2(I) = SS2(I)*DMG_SCALE(I)
+              SS3(I) = SS3(I)*DMG_SCALE(I)
+              SS4(I) = SS4(I)*DMG_SCALE(I)
+              SS5(I) = SS5(I)*DMG_SCALE(I)
+              SS6(I) = SS6(I)*DMG_SCALE(I)
             ENDDO
           ENDIF
 C                                       
