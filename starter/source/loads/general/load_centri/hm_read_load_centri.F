@@ -175,7 +175,8 @@ C--------------------------------------------------
      .                MSGTYPE = MSGWARNING,
      .                I1      = ID,
      .                I2      = SUB_ID,
-     .                C1      = TITR)  
+     .                C1      = '/LOAD/CENTRI - frame_ID=0',
+     .                C2      = TITR)  
         END IF
         CALL HM_GET_INTV('rad_sensor_id',ISENS,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('entityid',IGU,IS_AVAILABLE,LSUBMODEL)
