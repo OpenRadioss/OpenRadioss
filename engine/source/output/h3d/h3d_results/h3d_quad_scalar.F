@@ -640,7 +640,7 @@ C--------------------------------------------------
             ELSEIF(KEYWORD == 'SCHLIEREN') THEN     
 C--------------------------------------------------                                                   
                IALEL=IPARG(7,NG)+IPARG(11,NG)
-               IF(IPARG(7,NG)+IPARG(11,NG) /= 0)THEN                                         
+               IF(IALEL /= 0)THEN                                         
                  CALL SCHLIEREN(
      1                 EVAR  , IXQ  , X         , V           , W       ,
      2                 IPARG , WA_L , ELBUF_TAB , ALE_CONNECT , GBUF%VOL,

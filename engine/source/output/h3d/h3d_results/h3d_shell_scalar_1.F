@@ -2939,19 +2939,21 @@ C--------------------------------------------------
             ELSEIF(KEYWORD == 'SCHLIEREN') THEN     
 C--------------------------------------------------                                                   
                IALEL=IPARG(7,NG)+IPARG(11,NG)
-               IF(IALEL /= 0)THEN 
-                 EVAR(1:NEL)=ZERO  
-                 LFT=1
-                 LLT=NEL                                      
-                 CALL SCHLIEREN(
-     1                 EVAR  , IXTG , X         , V           , W       ,
-     2                 IPARG , WA_L , ELBUF_TAB , ALE_CONNECT , GBUF%VOL,
-     3                 PM    , NG   , NIXTG     , ITY) 
-                 DO  I=1,NEL 
-                   VALUE(I) = EVAR(I) 
-		   IS_WRITTEN_VALUE(I) = 1
-                 ENDDO
-               ENDIF                       
+               IF(IALEL /= 0)THEN
+                 IF(ITY ==7 .AND. N2D /= 0)THEN 
+                   EVAR(1:NEL)=ZERO  
+                   LFT=1
+                   LLT=NEL                                      
+                   CALL SCHLIEREN(
+     1                   EVAR  , IXTG , X         , V           , W       ,
+     2                   IPARG , WA_L , ELBUF_TAB , ALE_CONNECT , GBUF%VOL,
+     3                   PM    , NG   , NIXTG     , ITY) 
+                   DO  I=1,NEL 
+                     VALUE(I) = EVAR(I) 
+	  	   IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
+                 ENDIF  
+               ENDIF                     
 C--------------------------------------------------
             ELSE IF ( KEYWORD == 'ERROR/THICK') THEN
 C--------------------------------------------------

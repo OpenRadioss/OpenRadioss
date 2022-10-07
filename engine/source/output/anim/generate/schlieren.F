@@ -77,7 +77,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: IX(NIX,*),IPARG(NPARG,NGROUP),NIX,NG
-      my_real :: WA_L(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),EVAR(*),VOL(MVSIZ),PM(NPROPM,NUMMAT)
+      my_real :: WA_L(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),EVAR(MVSIZ),VOL(MVSIZ),PM(NPROPM,NUMMAT)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB            
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
 C-----------------------------------------------
@@ -101,7 +101,7 @@ C-----------------------------------------------
       !-------------------------------------!                                                                                   
       !     COMPUTE NORMAL ON FACES                                                                                             
       !-------------------------------------!   
-      IF(N2D == 0)THEN !3d solids
+      IF(N2D == 0 .AND. ITYP == 1)THEN !3d solids
         DO I=LFT,LLT
           IE=I+NFT      
          !---8 local node numbers NC1 TO NC8 for 3D solid element IE ---!         
@@ -177,7 +177,7 @@ C-----------------------------------------------
           N(1:3,5,I) = HALF * N(1:3,5,I)
           N(1:3,6,I) = HALF * N(1:3,6,I)
         ENDDO 
-      ELSEIF(ITYP==2)THEN !quads
+      ELSEIF(N2D>0 .AND. ITYP==2)THEN !quads
         DO I=LFT,LLT                                                                                                                
           IE=I+NFT    
           !---4 local node numbers NC1 TO NC4 for 2D solid element IE ---!                                                          
@@ -231,7 +231,7 @@ C-----------------------------------------------
            AREA(I)=GBUF%AREA(I)
           ENDIF
         ENDDO                                                                                                                       
-      ELSEIF(ITYP==7)THEN !triangles
+      ELSEIF(N2D>0 .AND. ITYP==7)THEN !triangles
         DO I=LFT,LLT                                                                                                                
           IE=I+NFT                                                             
           !---3 local node numbers NC1 TO NC3 for 2D solid element IE ---!                                                          
@@ -282,7 +282,7 @@ C-----------------------------------------------
       !-------------------------------------!
       !     FACE RECONSTRUCTION
       !-------------------------------------! 
-      IF(N2D == 0)THEN  
+      IF(N2D == 0 .AND. ITYP==1)THEN  
         DO I=LFT,LLT
           IE=I+NFT 
           IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
@@ -319,7 +319,7 @@ C-----------------------------------------------
           SCH = EXP(-SCH)          
           EVAR(I) = SCH        
         ENDDO!next I
-      ELSEIF(ITYP==2)THEN
+      ELSEIF(N2D>0 .AND. ITYP==2)THEN
         GBUF => ELBUF_TAB(NG)%GBUF
         DO I=LFT,LLT
           IE=I+NFT 
@@ -353,7 +353,7 @@ C-----------------------------------------------
           SCH = EXP(-SCH)
           EVAR(I) = SCH
         ENDDO!next I
-      ELSEIF(ITYP==7)THEN
+      ELSEIF(N2D>0 .AND. ITYP==7)THEN
         GBUF => ELBUF_TAB(NG)%GBUF      
         DO I=LFT,LLT
           IE=I+NFT 
@@ -384,7 +384,9 @@ C-----------------------------------------------
           SCH = SQRT(SUM(GRAD(2:3)*GRAD(2:3)))
           SCH = EXP(-SCH)
           EVAR(I) = SCH
-        ENDDO!next I        
+        ENDDO!next I  
+      ELSE
+        EVAR(LFT:LLT)=ONE  !  exp(0.) = 1.
       ENDIF
 
       END SUBROUTINE SCHLIEREN
