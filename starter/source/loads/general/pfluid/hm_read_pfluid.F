@@ -178,223 +178,241 @@ C--------------------------------------------------
 C-----------        
         ILOADP(2,K) = ID
 C-----------        
-          IAD      = NUMLOADP + 1
-          FUN_HSP = 0
-          FUN_CX = 0
-          FUN_VEL = 0
-          ICFIELD9 = 0
-          ICFIELD13 = 0
-          CALL HM_GET_INTV('surf_ID',ISU,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_INTV('sens_ID',ISENS,IS_AVAILABLE,LSUBMODEL)
-          !-----------
-          IS=0                                                     
-          DO J=1,NSURF
-            IF (ISU  == IGRSURF(J)%ID) IS=J
-          ENDDO                                                     
-          IF(IS /= 0)THEN                                          
-            NN=IGRSURF(IS)%NSEG
-            DO J=1,NN                                               
-              LLOADP(IAD+4*(J-1))  =IGRSURF(IS)%NODES(J,1)
-              LLOADP(IAD+4*(J-1)+1)=IGRSURF(IS)%NODES(J,2)
-              LLOADP(IAD+4*(J-1)+2)=IGRSURF(IS)%NODES(J,3)
-              IF(IGRSURF(IS)%ELTYP(J)  == 7)THEN
-               LLOADP(IAD+4*(J-1)+3)=0                                         
-              ELSE                                                 
-               LLOADP(IAD+4*(J-1)+3)=IGRSURF(IS)%NODES(J,4)
-              ENDIF  
-            ENDDO
-          ENDIF   
-	  ILOADP(1,K)=4*NN   
-          !-----------
-	  TSENS=0
-          DO J=1,NSENSOR
-	    IF(ISENS /= 0) THEN
-	      IF(ISENS  == LSENSOR(1,J))TSENS=J
-	    ENDIF
-	  ENDDO
-	  IF((TSENS  == 0).AND.(ISENS /= 0))THEN
-            CALL ANCMSG(MSGID=930,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=ID,
-     .                C1=TITR,
-     .                I2=ISENS)
-	  ENDIF                             
-          !-----------
-          CALL HM_GET_INTV('fct_hsp',NCUR_HSP,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_FLOATV('Ascalex_hsp',FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV_DIM('Ascalex_hsp',FAC_FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV('Fscaley_hsp',FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV_DIM('Fscaley_hsp',FAC_FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          IF (FCX == ZERO) FCX = FAC_FCX
-          IF (FCY == ZERO) FCY = FAC_FCY
-          !-----------
-          IF(NCUR_HSP  /=  0)THEN
-            DO J=1,NFUNCT
-              IF(NPC(NFUNCT+J+1)  == NCUR_HSP)FUN_HSP=J
-            ENDDO
-            IF(FUN_HSP  == 0)THEN
-              CALL ANCMSG(MSGID=929,
-     .                    MSGTYPE=MSGERROR,
-     .                    ANMODE=ANINFO_BLIND_1,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=NCUR_HSP)
-            ENDIF
-          ENDIF
-          !-----------
-          XYZ = ''
-          CALL HM_GET_STRING('Dir_hsp',XYZ,ncharfield,IS_AVAILABLE)
-          CALL HM_GET_INTV('frahsp_ID',IFRA1,IS_AVAILABLE,LSUBMODEL)
-          !-----------
-          ICFIELD8 = 0
-          IF(XYZ(1:1)  == char_X)ICFIELD8=1
-          IF(XYZ(1:1)  == char_Y)ICFIELD8=2
-          IF(XYZ(1:1)  == char_Z)ICFIELD8=3          
-          IF (NCUR_HSP /= 0)THEN
-            IF(XYZ(1:1)   /= char_X  .AND. 
-     .         XYZ(1:1)   /= char_Y  .AND.
-     .         XYZ(1:1)   /= char_Z  ) THEN
-               CALL ANCMSG(MSGID=927,
-     .                     MSGTYPE=MSGERROR,
-     .                     ANMODE=ANINFO_BLIND_1,
-     .                     I1=ID,
-     .                     C1=TITR,
-     .                     C2=XYZ)
-            ENDIF
-          ENDIF
-          DO J=0,NUMFRAM
-            IF(IFRA1  == IFRAME(4,J+1)) THEN
-              ICFIELD9=J+1
-            ENDIF
-          ENDDO
-          IF(IFRA1 == 0) ICFIELD9 = 1
-          IF (IFRA1  /= 0 .AND. ICFIELD9 == 0) THEN
-            CALL ANCMSG(MSGID=928,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_1,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=IFRA1)
-          ENDIF
-          !-----------
-          CALL HM_GET_INTV('fct_pc',NCUR_CX,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_FLOATV('Ascalex_pc',FCX1,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV_DIM('Ascalex_pc',FAC_FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV('Fscaley_pc',FCY1,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV_DIM('Fscaley_pc',FAC_FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          IF (FCX1 == ZERO) FCX1 = FAC_FCX
-          IF (FCY1 == ZERO) FCY1 = FAC_FCY
-          !-----------
-          IF (NCUR_CX /= 0)THEN
-            DO J=1,NFUNCT
-              IF(NPC(NFUNCT+J+1)  == NCUR_CX)FUN_CX=J
-            ENDDO
-            IF(FUN_CX  == 0)THEN
-              CALL ANCMSG(MSGID=929,
-     .                    MSGTYPE=MSGERROR,
-     .                    ANMODE=ANINFO_BLIND_1,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=NCUR_CX)
-            ENDIF
-          ENDIF
-          !-----------
-          CALL HM_GET_INTV('fct_vel',NCUR_VEL,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_FLOATV('Ascalex_vel',FCX2,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV_DIM('Ascalex_vel',FAC_FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV('Fscaley_vel',FCY2,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV_DIM('Fscaley_vel',FAC_FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          IF (FCX2 == ZERO) FCX2 = FAC_FCX
-          IF (FCY2 == ZERO) FCY2 = FAC_FCY
-          !-----------
-          IF (NCUR_VEL /= 0)THEN
-            DO J=1,NFUNCT
-              IF(NPC(NFUNCT+J+1)  == NCUR_VEL)FUN_VEL=J
-            ENDDO
-            IF(FUN_VEL  == 0)THEN
-              CALL ANCMSG(MSGID=929,
-     .                    MSGTYPE=MSGERROR,
-     .                    ANMODE=ANINFO_BLIND_1,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=NCUR_VEL)
-            ENDIF
-          ENDIF
-          !-----------
-          CALL HM_GET_STRING('Dir_vel',XYZ1,ncharfield,IS_AVAILABLE)
-          CALL HM_GET_INTV('fravel_ID',IFRA2,IS_AVAILABLE,LSUBMODEL)
-         !-----------
-          ICFIELD12 = 0
-          IF(XYZ1(1:1)  == char_X)ICFIELD12=1
-          IF(XYZ1(1:1)  == char_Y)ICFIELD12=2
-          IF(XYZ1(1:1)  == char_Z)ICFIELD12=3
-          IF (NCUR_VEL /= 0)THEN
-            IF(XYZ1(1:1)   /= char_X  .AND. 
-     .         XYZ1(1:1)   /= char_Y  .AND.
-     .         XYZ1(1:1)   /= char_Z  ) THEN
-               CALL ANCMSG(MSGID=927,
-     .                     MSGTYPE=MSGERROR,
-     .                     ANMODE=ANINFO_BLIND_1,
-     .                     I1=ID,
-     .                     C1=TITR,
-     .                     C2=XYZ1)
-            ENDIF
-          ENDIF
-          DO J=0,NUMFRAM
-            IF(IFRA2  == IFRAME(4,J+1)) THEN 
-              ICFIELD13=J+1
-            ENDIF
-          ENDDO
-          IF(IFRA2 == 0) ICFIELD13 = 1
-          IF (IFRA2 /= 0  .AND. ICFIELD13 == 0) THEN
-            CALL ANCMSG(MSGID=928,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_1,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=IFRA2)
-          ENDIF
+        IAD      = NUMLOADP + 1                                                      
+        FUN_HSP = 0                                                                  
+        FUN_CX = 0                                                                   
+        FUN_VEL = 0                                                                  
+        ICFIELD9 = 0                                                                 
+        ICFIELD13 = 0                                                                
+        CALL HM_GET_INTV('surf_ID',ISU,IS_AVAILABLE,LSUBMODEL)                       
+        CALL HM_GET_INTV('sens_ID',ISENS,IS_AVAILABLE,LSUBMODEL)                     
+        !-----------                                                                 
+        IS=0                                                                         
+        DO J=1,NSURF                                                                 
+          IF (ISU  == IGRSURF(J)%ID) IS=J                                            
+        ENDDO                                                                        
+        IF(IS /= 0)THEN                                                              
+          NN=IGRSURF(IS)%NSEG                                                        
+          DO J=1,NN                                                                  
+            LLOADP(IAD+4*(J-1))  =IGRSURF(IS)%NODES(J,1)                             
+            LLOADP(IAD+4*(J-1)+1)=IGRSURF(IS)%NODES(J,2)                             
+            LLOADP(IAD+4*(J-1)+2)=IGRSURF(IS)%NODES(J,3)                             
+            IF(IGRSURF(IS)%ELTYP(J)  == 7)THEN                                       
+             LLOADP(IAD+4*(J-1)+3)=0                                                 
+            ELSE                                                                     
+             LLOADP(IAD+4*(J-1)+3)=IGRSURF(IS)%NODES(J,4)                            
+            ENDIF                                                                    
+          ENDDO                                                                      
+        ENDIF                                                                        
+	ILOADP(1,K)=4*NN                                                             
+        !-----------                                                                 
+	TSENS=0                                                                      
+        DO J=1,NSENSOR                                                               
+	  IF(ISENS /= 0) THEN                                                        
+	    IF(ISENS  == LSENSOR(1,J))TSENS=J                                        
+	  ENDIF                                                                      
+	ENDDO                                                                        
+	IF((TSENS  == 0).AND.(ISENS /= 0))THEN                                       
+          CALL ANCMSG(MSGID=930,                                                     
+     .              MSGTYPE=MSGERROR,                                                
+     .              ANMODE=ANINFO_BLIND_1,                                           
+     .              I1=ID,                                                           
+     .              C1=TITR,                                                         
+     .              I2=ISENS)                                                        
+	ENDIF                                                                        
+        !-----------                                                                 
+        CALL HM_GET_INTV('fct_hsp',NCUR_HSP,IS_AVAILABLE,LSUBMODEL)                  
+        CALL HM_GET_FLOATV('Ascalex_hsp',FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)          
+        CALL HM_GET_FLOATV_DIM('Ascalex_hsp',FAC_FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+        CALL HM_GET_FLOATV('Fscaley_hsp',FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)          
+        CALL HM_GET_FLOATV_DIM('Fscaley_hsp',FAC_FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+        IF (FCX == ZERO) FCX = FAC_FCX                                               
+        IF (FCY == ZERO) FCY = FAC_FCY                                               
+        !-----------                                                                 
+        IF(NCUR_HSP  /=  0)THEN                                                      
+          DO J=1,NFUNCT                                                              
+            IF(NPC(NFUNCT+J+1)  == NCUR_HSP)FUN_HSP=J                                
+          ENDDO                                                                      
+          IF(FUN_HSP  == 0)THEN                                                      
+            CALL ANCMSG(MSGID=929,                                                   
+     .                  MSGTYPE=MSGERROR,                                            
+     .                  ANMODE=ANINFO_BLIND_1,                                       
+     .                  I1=ID,                                                       
+     .                  C1=TITR,                                                     
+     .                  I2=NCUR_HSP)                                                 
+          ENDIF                                                                      
+        ENDIF                                                                        
+        !-----------                                                                 
+        XYZ = ''                                                                     
+        CALL HM_GET_STRING('Dir_hsp',XYZ,ncharfield,IS_AVAILABLE)                    
+        !-----------                                                                 
+        ICFIELD8 = 0                                                                 
+        IF(XYZ(1:1)  == char_X)ICFIELD8=1                                            
+        IF(XYZ(1:1)  == char_Y)ICFIELD8=2                                            
+        IF(XYZ(1:1)  == char_Z)ICFIELD8=3                                            
+        IF (NCUR_HSP /= 0)THEN                                                       
+          IF(XYZ(1:1)   /= char_X  .AND.                                             
+     .       XYZ(1:1)   /= char_Y  .AND.                                             
+     .       XYZ(1:1)   /= char_Z  ) THEN                                            
+             CALL ANCMSG(MSGID=927,                                                  
+     .                   MSGTYPE=MSGERROR,                                           
+     .                   ANMODE=ANINFO_BLIND_1,                                      
+     .                   I1=ID,                                                      
+     .                   C1=TITR,                                                    
+     .                   C2=XYZ)                                                     
+          ENDIF                                                                      
+        ENDIF                                                                        
+                                                                                     
+                                                                                     
+        !-----------                                                                 
+        CALL HM_GET_INTV('frahsp_ID',IFRA1,IS_AVAILABLE,LSUBMODEL)                   
+        !-----------                                                                 
+        IF(IFRA1 == 0 .AND. SUB_INDEX /= 0)THEN                                      
+          CALL ANCMSG(MSGID   = 1712,                                                
+     .                ANMODE  = ANINFO,                                              
+     .                MSGTYPE = MSGWARNING,                                          
+     .                I1      = ID,                                                  
+     .                I2      = SUB_ID,                                              
+     .                C1      = '/LOAD/PFLUID - frahsp_ID=0',                                      
+     .                C2      = TITR)                                                
+        ENDIF                                                                        
+                                                                                     
+        DO J=0,NUMFRAM                                                               
+          IF(IFRA1  == IFRAME(4,J+1)) THEN                                           
+            ICFIELD9=J+1                                                             
+          ENDIF                                                                      
+        ENDDO                                                                        
+        IF(IFRA1 == 0) ICFIELD9 = 1                                                  
+        IF (IFRA1  /= 0 .AND. ICFIELD9 == 0) THEN                                    
+          CALL ANCMSG(MSGID=928,                                                     
+     .                MSGTYPE=MSGERROR,                                              
+     .                ANMODE=ANINFO_BLIND_1,                                         
+     .                I1=ID,                                                         
+     .                C1=TITR,                                                       
+     .                I2=IFRA1)                                                      
+        ENDIF                                                                        
+        !-----------                                                                 
+        CALL HM_GET_INTV('fct_pc',NCUR_CX,IS_AVAILABLE,LSUBMODEL)                    
+        CALL HM_GET_FLOATV('Ascalex_pc',FCX1,IS_AVAILABLE,LSUBMODEL,UNITAB)          
+        CALL HM_GET_FLOATV_DIM('Ascalex_pc',FAC_FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)   
+        CALL HM_GET_FLOATV('Fscaley_pc',FCY1,IS_AVAILABLE,LSUBMODEL,UNITAB)          
+        CALL HM_GET_FLOATV_DIM('Fscaley_pc',FAC_FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)   
+        IF (FCX1 == ZERO) FCX1 = FAC_FCX                                             
+        IF (FCY1 == ZERO) FCY1 = FAC_FCY                                             
+        !-----------                                                                 
+        IF (NCUR_CX /= 0)THEN                                                        
+          DO J=1,NFUNCT                                                              
+            IF(NPC(NFUNCT+J+1)  == NCUR_CX)FUN_CX=J                                  
+          ENDDO                                                                      
+          IF(FUN_CX  == 0)THEN                                                       
+            CALL ANCMSG(MSGID=929,                                                   
+     .                  MSGTYPE=MSGERROR,                                            
+     .                  ANMODE=ANINFO_BLIND_1,                                       
+     .                  I1=ID,                                                       
+     .                  C1=TITR,                                                     
+     .                  I2=NCUR_CX)                                                  
+          ENDIF                                                                      
+        ENDIF                                                                        
+        !-----------                                                                 
+        CALL HM_GET_INTV('fct_vel',NCUR_VEL,IS_AVAILABLE,LSUBMODEL)                  
+        CALL HM_GET_FLOATV('Ascalex_vel',FCX2,IS_AVAILABLE,LSUBMODEL,UNITAB)         
+        CALL HM_GET_FLOATV_DIM('Ascalex_vel',FAC_FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+        CALL HM_GET_FLOATV('Fscaley_vel',FCY2,IS_AVAILABLE,LSUBMODEL,UNITAB)         
+        CALL HM_GET_FLOATV_DIM('Fscaley_vel',FAC_FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+        IF (FCX2 == ZERO) FCX2 = FAC_FCX                                             
+        IF (FCY2 == ZERO) FCY2 = FAC_FCY                                             
+        !-----------                                                                 
+        IF (NCUR_VEL /= 0)THEN                                                       
+          DO J=1,NFUNCT                                                              
+            IF(NPC(NFUNCT+J+1)  == NCUR_VEL)FUN_VEL=J                                
+          ENDDO                                                                      
+          IF(FUN_VEL  == 0)THEN                                                      
+            CALL ANCMSG(MSGID=929,                                                   
+     .                  MSGTYPE=MSGERROR,                                            
+     .                  ANMODE=ANINFO_BLIND_1,                                       
+     .                  I1=ID,                                                       
+     .                  C1=TITR,                                                     
+     .                  I2=NCUR_VEL)                                                 
+          ENDIF                                                                      
+        ENDIF                                                                        
+        !-----------                                                                 
+        CALL HM_GET_STRING('Dir_vel',XYZ1,ncharfield,IS_AVAILABLE)                   
+        !-----------                                                                 
+        ICFIELD12 = 0                                                                
+        IF(XYZ1(1:1)  == char_X)ICFIELD12=1                                          
+        IF(XYZ1(1:1)  == char_Y)ICFIELD12=2                                          
+        IF(XYZ1(1:1)  == char_Z)ICFIELD12=3                                          
+        IF (NCUR_VEL /= 0)THEN                                                       
+          IF(XYZ1(1:1)   /= char_X  .AND.                                            
+     .       XYZ1(1:1)   /= char_Y  .AND.                                            
+     .       XYZ1(1:1)   /= char_Z  ) THEN                                           
+             CALL ANCMSG(MSGID=927,                                                  
+     .                   MSGTYPE=MSGERROR,                                           
+     .                   ANMODE=ANINFO_BLIND_1,                                      
+     .                   I1=ID,                                                      
+     .                   C1=TITR,                                                    
+     .                   C2=XYZ1)                                                    
+          ENDIF                                                                      
+        ENDIF                                                                        
+
+        !-----------                                                                                      
+        CALL HM_GET_INTV('fravel_ID',IFRA2,IS_AVAILABLE,LSUBMODEL)                   
+        !-----------                                                                 
+        IF(IFRA2 == 0 .AND. SUB_INDEX /= 0)THEN                                      
+          CALL ANCMSG(MSGID   = 1712,                                                
+     .                ANMODE  = ANINFO,                                              
+     .                MSGTYPE = MSGWARNING,                                          
+     .                I1      = ID,                                                  
+     .                I2      = SUB_ID,                                              
+     .                C1      = '/LOAD/PFLUID - fravel_ID=0',                                      
+     .                C2      = TITR)                                                
+        ENDIF                                                                        
+        DO J=0,NUMFRAM                                                               
+          IF(IFRA2  == IFRAME(4,J+1)) THEN                                           
+            ICFIELD13=J+1                                                            
+          ENDIF                                                                      
+        ENDDO                                                                        
+        IF(IFRA2 == 0) ICFIELD13 = 1                                                 
+        IF (IFRA2 /= 0  .AND. ICFIELD13 == 0) THEN                                   
+          CALL ANCMSG(MSGID=928,                                                     
+     .                MSGTYPE=MSGERROR,                                              
+     .                ANMODE=ANINFO_BLIND_1,                                         
+     .                I1=ID,                                                         
+     .                C1=TITR,                                                       
+     .                I2=IFRA2)                                                      
+        ENDIF                                                                        
            
-         ILOADP(5,K)=2 
+        ILOADP(5,K)=2 
                       
-         IF(IS /= 0)THEN            
-	   IF (IDDOM /= 0) THEN         
-C----------Multidomains -> deleting common segments (one single time)
-	      CAPT=0 
-              DO H=1,4
-!!	        CAPT=CAPT+TAGNO(NPART+IBUFSSG(IAD+H-1))
-!!cmi                CAPT=CAPT+TAGNO(NPART+IGRSURF(IS)%NODES(J,H))
-              END DO    
-	      IF (CAPT == 8) GOTO 150
-	   ENDIF                      
-150        ILOADP  ( 4,K) = IAD
-           ILOADP  ( 6,K) = ISENS  
-           ILOADP  ( 7,K) = FUN_HSP                                                   
-           FACLOADP( 1,K) = FCY                                          
-           FACLOADP( 2,K) = ONE/FCX   
-           ILOADP  ( 8,K) = ICFIELD8 
-           ILOADP  ( 9,K) = ICFIELD9
-           ILOADP  (10,K) = FUN_CX                                                   
-           FACLOADP( 3,K) = FCY1                                          
-           FACLOADP( 4,K) = ONE/FCX1   
-           ILOADP  (11,K) = FUN_VEL                                                  
-           FACLOADP( 5,K) = FCY2                                          
-           FACLOADP( 6,K) = ONE/FCX2 
-           ILOADP  (12,K) = ICFIELD12
-           ILOADP  (13,K) = ICFIELD13
-           !Multidomains -> numbering common segments (one single time)
-	   IF (IDDOM > 0) NN = NN-ISURF_R2R(1,IS)                
-         ENDIF    
+        IF(IS /= 0)THEN  
+          ILOADP  ( 4,K) = IAD                                                        
+          ILOADP  ( 6,K) = ISENS                                                      
+          ILOADP  ( 7,K) = FUN_HSP                                                    
+          ILOADP  ( 8,K) = ICFIELD8                                                   
+          ILOADP  ( 9,K) = ICFIELD9                                                   
+          ILOADP  (10,K) = FUN_CX                                                     
+          ILOADP  (11,K) = FUN_VEL                                                    
+          ILOADP  (12,K) = ICFIELD12                                                  
+          ILOADP  (13,K) = ICFIELD13                                                  
 
-         WRITE (IOUT,2002)
-         WRITE (IOUT,'(I10,2X,I10,9X,A1,2X,I10,2X,I10,2X,1PG20.13,2X,1PG20.13)')ISU,IFRA1,XYZ(1:1),NCUR_HSP,ISENS,FCX,FCY
-         WRITE (IOUT,2003)
-         WRITE (IOUT,'(I10,4X,1PG20.13,4X,1PG20.13)')NCUR_CX,FCX1,FCY1
-         WRITE (IOUT,2004)
-         WRITE (IOUT,'(I10,9X,A1,2X,I10,2X,1PG20.13,2X,1PG20.13)')IFRA2,XYZ1(1:1),NCUR_VEL,FCX2,FCY2
+          FACLOADP( 1,K) = FCY                                                        
+          FACLOADP( 2,K) = ONE/FCX                                                    
+          FACLOADP( 3,K) = FCY1                                                       
+          FACLOADP( 4,K) = ONE/FCX1                                                   
+          FACLOADP( 5,K) = FCY2                                                       
+          FACLOADP( 6,K) = ONE/FCX2                                                   
+          !Multidomains -> numbering common segments (one single time)                
+	  IF (IDDOM > 0) NN = NN-ISURF_R2R(1,IS)                                      
+        ENDIF    
 
-         NUMLOADP = NUMLOADP + 4*NN
+        WRITE (IOUT,2002)                                                                                                
+        WRITE (IOUT,'(I10,2X,I10,9X,A1,2X,I10,2X,I10,2X,1PG20.13,2X,1PG20.13)')ISU,IFRA1,XYZ(1:1),NCUR_HSP,ISENS,FCX,FCY 
+        WRITE (IOUT,2003)                                                                                                
+        WRITE (IOUT,'(I10,4X,1PG20.13,4X,1PG20.13)')NCUR_CX,FCX1,FCY1                                                    
+        WRITE (IOUT,2004)                                                                                                
+        WRITE (IOUT,'(I10,9X,A1,2X,I10,2X,1PG20.13,2X,1PG20.13)')IFRA2,XYZ1(1:1),NCUR_VEL,FCX2,FCY2                      
+
+        NUMLOADP = NUMLOADP + 4*NN
 
       ENDDO ! next K (next /LOAD/PFLUID)
 C--------------------------------------------------------------------------------C
