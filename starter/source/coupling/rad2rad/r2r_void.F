@@ -33,6 +33,7 @@ Chd|        DDWEIGHTS_MOD                 share/modules1/ddweights_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|        RESTMOD                       share/modules1/restart_mod.F  
+Chd|        STACK_VAR_MOD                 share/modules1/stack_var_mod.F
 Chd|====================================================================
       SUBROUTINE R2R_VOID(IPARTL)
 C-----------------------------------------------
