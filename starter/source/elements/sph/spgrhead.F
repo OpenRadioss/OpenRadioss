@@ -68,13 +68,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER KXSP(NISP,*),IPARG(NPARG,NGROUP),IXSP(KVOISPH,*),
+      INTEGER KXSP(NISP,*),IPARG(NPARG,*),IXSP(KVOISPH,*),
      .        IPART(LIPART1,*),IPARTSP(*), EADD(*), CEPSP(*),
      .        IPM(NPROPMI,NUMMAT), IGEO(NPROPGI,NUMGEO),
      .        ND, SPH2SOL(*), SOL2SPH(2,*), IRST(3,NSPHSOL)
-C     REAL
-      my_real
-     .        PM(NPROPM,NUMMAT), SPBUF(NSPBUF,NUMSPH)
+      my_real PM(NPROPM,NUMMAT), SPBUF(NSPBUF,NUMSPH)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

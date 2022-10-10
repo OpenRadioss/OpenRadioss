@@ -113,7 +113,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER ND, IDX, LB_MAX,
-     .        IXTG(NIXTG,*), IPARG(NPARG,NGROUP), EADD(*), IXTG1(4,*),
+     .        IXTG(NIXTG,*), IPARG(NPARG,*), EADD(*), IXTG1(4,*),
      .        DD_IAD(NSPMD+1,*),IPARTTG(*), NELTG(*),
      .        INUM(10,*),ITR1(*),INDEX(*),CEP(*),ICNOD(*),IPM(NPROPMI,NUMMAT),
      .        ITRIOFF(*), SH3TRIM(*),IGEO(NPROPGI,NUMGEO),

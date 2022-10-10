@@ -94,13 +94,12 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER ND, IDX, LB_MAX
-      INTEGER IGEO(NPROPGI,NUMGEO),IPM(NPROPMI,NUMMAT), IXQ(7,*),IPARG(NPARG,NGROUP),
+      INTEGER IGEO(NPROPGI,NUMGEO),IPM(NPROPMI,NUMMAT), IXQ(NIXQ,NUMELQ),IPARG(NPARG,*),
      .        EADD(*),DD_IAD(NSPMD+1,*),INUM(9,*),INDEX(*),
      .        CEP(*),IPARTQ(*),NELQ(*),ITR1(*),
      .        IQUAOFF(*)
       TYPE (INIVOL_) , DIMENSION(NINIVOL) :: INIVOL
-      MY_REAL
-     .    PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)
+      MY_REAL PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRQUAD)  :: IGRQUAD
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
