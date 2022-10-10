@@ -123,22 +123,37 @@ void c_h3d_create_shell_scalar_datatype_(int *cpt_data, char *name1, int *size1,
 
     H3D_ID layer_pool_id = H3D_NULL_ID;
 
+#ifdef _WIN64
+    strcat_s(RES_STRING,sizeof(RES_STRING),cname);
+#else
     RES_STRING = strcat(RES_STRING,cname);
+#endif
 
     if(*idMdsVar > 0 && *idMds > 0)
     {
         sprintf(NUVAR_STRING, " LAW %d",*idMatMds);
+#ifdef _WIN64
+        strcat_s(RES_STRING,sizeof(RES_STRING),NUVAR_STRING);
+#else
         RES_STRING = strcat(RES_STRING,NUVAR_STRING);
-
+#endif
         if(isBlankVar)
         {
-            sprintf(NUVAR_STRING, ": _\0");
+            sprintf(NUVAR_STRING, ": _");
+#ifdef _WIN64
+            strcat_s(RES_STRING,sizeof(RES_STRING),NUVAR_STRING);
+#else
             RES_STRING = strcat(RES_STRING,NUVAR_STRING);
+#endif
         }
         else
         {
-            sprintf(NUVAR_STRING, ": %s \0",cmdsuvar);
+            sprintf(NUVAR_STRING, ": %s ",cmdsuvar);
+#ifdef _WIN64
+            strcat_s(RES_STRING,sizeof(RES_STRING),NUVAR_STRING);
+#else
             RES_STRING = strcat(RES_STRING,NUVAR_STRING);
+#endif
         }
 // a commenter pour test
 //        sprintf(NUVAR_STRING, " (%d) \0",*idMdsVar);
@@ -146,8 +161,12 @@ void c_h3d_create_shell_scalar_datatype_(int *cpt_data, char *name1, int *size1,
     }
     else if(*nuvar > 0 )
     {
-        sprintf(NUVAR_STRING, " %d \0",*nuvar);
+        sprintf(NUVAR_STRING, " %d ",*nuvar);
+#ifdef _WIN64
+        strcat_s(RES_STRING,sizeof(RES_STRING),NUVAR_STRING);
+#else
         RES_STRING = strcat(RES_STRING,NUVAR_STRING);
+#endif
     }
 
 //    printf("String en sortie : %s  \n",RES_STRING);
@@ -158,57 +177,97 @@ void c_h3d_create_shell_scalar_datatype_(int *cpt_data, char *name1, int *size1,
         
         if(*layer > 0 && *ipt > 0)
         {
-             sprintf(LAYER_STRING, "LAYER/IPT %d %d \0" ,*layer,*ipt);
+             sprintf(LAYER_STRING, "LAYER/IPT %d %d " ,*layer,*ipt);
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
         }
         else if(*layer > 0)
         {
-             sprintf(LAYER_STRING, "LAYER %d \0" ,*layer);
+             sprintf(LAYER_STRING, "LAYER %d " ,*layer);
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
         }
         else if(*ply > 0 && *ipt > 0)
         {
-             sprintf(PLY_STRING, "PLY/IPT %d %d\0" ,*ply,*ipt);
+             sprintf(PLY_STRING, "PLY/IPT %d %d" ,*ply,*ipt);
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),PLY_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,PLY_STRING);
+#endif
         }
         else if(*ipt > 0)
         {
-             sprintf(IPT_STRING, "IPT %d \0" ,*ipt);
+             sprintf(IPT_STRING, "IPT %d " ,*ipt);
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
+#endif
         }
         else if(*ply > 0)
         {
-             sprintf(IPT_STRING, "PLY %d \0" ,*ply);
+             sprintf(IPT_STRING, "PLY %d " ,*ply);
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
+#endif
         }
     }
     else if(*layer < -1 || *ipt < -1 )
     {
         if(*layer == -2)
         {
-             sprintf(LAYER_STRING, "Layer Lower \0" );
+             sprintf(LAYER_STRING, "Layer Lower " );
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
         }
         if(*layer == -3)
         {
-             sprintf(LAYER_STRING, "Layer Upper \0" );
+             sprintf(LAYER_STRING, "Layer Upper " );
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
         }
         if(*ipt == -2)
         {
-             sprintf(IPT_STRING, "npt Lower \0" );
+             sprintf(IPT_STRING, "npt Lower " );
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
+#endif
         }
         if(*ipt == -3)
         {
-             sprintf(IPT_STRING, "npt Upper \0" );
+             sprintf(IPT_STRING, "npt Upper " );
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
+#endif
         }
     }
     else
     {
-        sprintf(IPT_STRING, "Mid\0" );
+        sprintf(IPT_STRING, "Mid" );
+#ifdef _WIN64
+        strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+#else
         LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
+#endif
     }
     rc = Hyper3DAddString(h3d_file, LAYERPOOL, &layer_pool_id);
 
@@ -236,8 +295,11 @@ void c_h3d_create_shell_scalar_datatype_(int *cpt_data, char *name1, int *size1,
         pool_count = 2;
 
         dt_id++;  
+#ifdef _WIN64
+        strncpy_s(edata_type,sizeof(edata_type),  RES_STRING , sizeof(RES_STRING)); 
+#else
         strcpy(edata_type,  RES_STRING); 
-
+#endif
         rc = Hyper3DDatatypeWrite(h3d_file, edata_type, *cpt_data , H3D_DS_SCALAR, 
                                     H3D_DS_ELEM, pool_count);
         if( !rc ) throw rc;

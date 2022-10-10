@@ -1,0 +1,13 @@
+# Fixed compiler switches for win64 Intel  binary
+set ( CMAKE_Fortran_COMPILER "ifx" )
+set ( CMAKE_C_COMPILER "icx.exe" )
+set ( CMAKE_CXX_COMPILER "icx.exe" )
+set ( CMAKE_CPP_COMPILER "icx.exe" )
+
+
+set(CMAKE_C_COMPILER_FORCED TRUE)
+set(CMAKE_CXX_COMPILER_FORCED TRUE)
+set(CMAKE_Fortran_COMPILER_FORCED TRUE)
+
+set(BUILD_SHARED_LIBS FALSE)
+

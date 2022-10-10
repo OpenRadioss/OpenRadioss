@@ -107,7 +107,7 @@ void c_h3d_update_nodes_(char *name, int *size, my_real *TT,int *IH3D, int *ITAB
         if( !rc ) throw rc;
         sim_idx=*IH3D; 
             char name[32];
-            sprintf(name,"Time = %f\0",time);
+            sprintf(name,"Time = %f",time);
             
             if(*size != 0) rc = Hyper3DSimulationWrite(h3d_file, sim_idx, cname,time);
             if(*size == 0) rc = Hyper3DSimulationWrite(h3d_file, sim_idx, name,time);

@@ -114,11 +114,19 @@ void c_h3d_create_skin_vector_datatype_(int *cpt_data, char *name1, int *size1, 
     H3D_ID layer_pool_id = H3D_NULL_ID;
 
 
+#ifdef _WIN64
+     strcat_s(RES_STRING,sizeof(RES_STRING),cname);
+#else
      RES_STRING = strcat(RES_STRING,cname);
+#endif
      if(*nuvar > 0)
     {
-        sprintf(NUVAR_STRING, " %d \0",*nuvar);
+        sprintf(NUVAR_STRING, " %d ",*nuvar);
+#ifdef _WIN64
+        strcat_s(RES_STRING,sizeof(RES_STRING),NUVAR_STRING);
+#else
         RES_STRING = strcat(RES_STRING,NUVAR_STRING);
+#endif
     }
 
 

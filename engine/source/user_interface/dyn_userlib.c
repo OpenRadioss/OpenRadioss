@@ -27,19 +27,17 @@
 #include <math.h>
 #include <fcntl.h>
 
-#if CPP_mach != CPP_macosx64
-#include <malloc.h>
-#endif 
 
-
-#if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
+#ifdef _WIN64
 #include <windows.h>
 #include <process.h>
 #include <io.h>
 #include <sys\types.h>
 #include <sys/stat.h>
 #define _FCALL 
+
 #elif 1
+
 #include <dlfcn.h>
 #include <sys/resource.h>
 #include <sys/types.h>
@@ -47,6 +45,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #define _FCALL
+
 #endif
 
 #ifdef MYREAL4
@@ -66,11 +65,11 @@ void  (*userlib_id)(int * info);
 /* User Springs */
 /* ------------ */
 void  (*eng_ruser)(int *ITYP, int *NEL     ,int *IPROP       ,my_real *UVAR   ,int *NUVAR  ,
-    		 my_real *FX	  ,my_real *FY      ,my_real *FZ     ,my_real *XMOM   ,my_real *YMOM   ,
-    		 my_real *ZMOM    ,my_real *E	    ,my_real *OFF    ,my_real *STIFM  ,my_real *STIFR  ,
-    		 my_real *VISCM   ,my_real *VISCR   ,my_real *MASS   ,my_real *XINER  ,my_real *DT     ,
-    		 my_real *XL	  ,my_real *VX      ,my_real *RY1    ,my_real *RZ1    ,my_real *RX     ,
-    		 my_real *RY2	  ,my_real *RZ2     ,my_real *FR_WAVE);
+             my_real *FX      ,my_real *FY      ,my_real *FZ     ,my_real *XMOM   ,my_real *YMOM   ,
+             my_real *ZMOM    ,my_real *E        ,my_real *OFF    ,my_real *STIFM  ,my_real *STIFR  ,
+             my_real *VISCM   ,my_real *VISCR   ,my_real *MASS   ,my_real *XINER  ,my_real *DT     ,
+             my_real *XL      ,my_real *VX      ,my_real *RY1    ,my_real *RZ1    ,my_real *RX     ,
+             my_real *RY2     ,my_real *RZ2     ,my_real *FR_WAVE);
 
 /* ------------------------- */
 /* User Law 29-30-31 Solids  */
@@ -91,7 +90,7 @@ void  (*eng_sigeps)(int* ilaw ,
 /* User Law 29-30-31 Shells  */
 /* ------------------------- */
 void  (*eng_sigepsc)(int* ilaw ,
-	  int* NEL ,int*NUPARAM ,int*NUVAR ,int*NFUNC ,int*IFUNC ,
+      int* NEL ,int*NUPARAM ,int*NUVAR ,int*NFUNC ,int*IFUNC ,
       int*NPF  ,int*NPT     ,int*IPT   ,int*IFLAG ,
       my_real *TF ,my_real *TIME ,my_real *TIMESTEP , my_real *UPARAM , my_real *RHO0   ,
       my_real *AREA   ,my_real *EINT   ,my_real *THKLY   ,
@@ -108,51 +107,51 @@ void  (*eng_sigepsc)(int* ilaw ,
 /* User Law Rupture BRICK  */
 /* ----------------------- */
 void (*eng_flaw)(int*IRUP,
-     	  int*NEL    ,int*NUPARAM,int*NUVAR   ,int*NFUNC   ,int*IFUNC   ,
-     	  int*NPF    ,my_real *TF     ,my_real *TIME   ,my_real *TIMESTEP ,my_real *UPARAM  ,
-     	  int*NGL    ,int*IPM	 ,int*NPROPMI,int*MAT,int*IDEL7NOK,
-     	  my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPZZ ,my_real *EPSPXY,my_real *EPSPYZ,my_real *EPSPZX ,
-     	  my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSZZ  ,my_real *EPSXY ,my_real *EPSYZ ,my_real *EPSZX  ,
-     	  my_real *SIGNXX ,my_real *SIGNYY ,my_real *SIGNZZ ,my_real *SIGNXY,my_real *SIGNYZ,my_real *SIGNZX ,
-     	  my_real *PLA    ,my_real *DPLA   ,my_real *EPSP   ,my_real *UVAR  ,my_real *OFF   ,
-     	  my_real *BIDON1 ,my_real *BIDON2 ,my_real *BIDON3 ,my_real *BIDON4,my_real *BIDON5);
+           int*NEL    ,int*NUPARAM,int*NUVAR   ,int*NFUNC   ,int*IFUNC   ,
+           int*NPF    ,my_real *TF     ,my_real *TIME   ,my_real *TIMESTEP ,my_real *UPARAM  ,
+           int*NGL    ,int*IPM     ,int*NPROPMI,int*MAT,int*IDEL7NOK,
+           my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPZZ ,my_real *EPSPXY,my_real *EPSPYZ,my_real *EPSPZX ,
+           my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSZZ  ,my_real *EPSXY ,my_real *EPSYZ ,my_real *EPSZX  ,
+           my_real *SIGNXX ,my_real *SIGNYY ,my_real *SIGNZZ ,my_real *SIGNXY,my_real *SIGNYZ,my_real *SIGNZX ,
+           my_real *PLA    ,my_real *DPLA   ,my_real *EPSP   ,my_real *UVAR  ,my_real *OFF   ,
+           my_real *BIDON1 ,my_real *BIDON2 ,my_real *BIDON3 ,my_real *BIDON4,my_real *BIDON5);
 
 /* ------------------------ */
 /* User Law Rupture SHELL  */
 /* ------------------------ */
 void (*eng_flawc)( int *IRUP,
-   	int *NEL   ,int *NUPARAM,int *NUVAR   ,int *NFUNC   ,int *IFUNC  ,int *NPF    ,
-   	my_real *TF    ,my_real *TIME	,my_real *TIMESTEP,my_real *UPARAM  , int *NGL   ,int *IPT    ,
-   	int *NPT0  ,int *IPM	,int *NPROPMI ,int *MAT   ,
-   	my_real *SIGNXX ,my_real *SIGNYY ,my_real *SIGNXY  ,my_real *SIGNYZ  ,my_real *SIGNZX ,
-   	my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPXY  ,my_real *EPSPYZ  ,my_real *EPSPZX ,
-   	my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSXY   ,my_real *EPSYZ   ,my_real *EPSZX  ,
-   	my_real *PLA	,my_real *DPLA   ,my_real *EPSP    ,my_real *UVAR    ,my_real *UEL    , 
-   	my_real *OFF	,my_real *BIDON1  ,my_real *BIDON2   ,my_real *BIDON3  ,my_real *BIDON4  ,my_real *BIDON5   );
+       int *NEL   ,int *NUPARAM,int *NUVAR   ,int *NFUNC   ,int *IFUNC  ,int *NPF    ,
+       my_real *TF    ,my_real *TIME    ,my_real *TIMESTEP,my_real *UPARAM  , int *NGL   ,int *IPT    ,
+       int *NPT0  ,int *IPM    ,int *NPROPMI ,int *MAT   ,
+       my_real *SIGNXX ,my_real *SIGNYY ,my_real *SIGNXY  ,my_real *SIGNYZ  ,my_real *SIGNZX ,
+       my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPXY  ,my_real *EPSPYZ  ,my_real *EPSPZX ,
+       my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSXY   ,my_real *EPSYZ   ,my_real *EPSZX  ,
+       my_real *PLA    ,my_real *DPLA   ,my_real *EPSP    ,my_real *UVAR    ,my_real *UEL    , 
+       my_real *OFF    ,my_real *BIDON1  ,my_real *BIDON2   ,my_real *BIDON3  ,my_real *BIDON4  ,my_real *BIDON5   );
 
 
 /* ---------------------------- */
 /* User Laws sigeps99c (Shells) */
 /* ---------------------------- */
 void (*eng_sigeps99c)(int*NEL      ,int*NUPARAM ,int*NUVAR   ,int*ILAW_USER ,int*NFUNC  ,
-    	 int*IFUNC    ,int *NPF     ,int*NGL    ,my_real *TF       ,my_real *TIME   ,
-    	 my_real *TIMESTEP ,my_real *UPARAM  ,my_real *RHO    ,my_real *AREA	  ,my_real *EINT   ,
-    	 my_real *SHF	   ,my_real *SOUNDSP ,my_real *VISCMAX ,my_real *PLA	   ,my_real *UVAR   , 
-    	 my_real *OFF	   ,my_real *SIGY  );
+         int*IFUNC    ,int *NPF     ,int*NGL    ,my_real *TF       ,my_real *TIME   ,
+         my_real *TIMESTEP ,my_real *UPARAM  ,my_real *RHO    ,my_real *AREA      ,my_real *EINT   ,
+         my_real *SHF       ,my_real *SOUNDSP ,my_real *VISCMAX ,my_real *PLA       ,my_real *UVAR   , 
+         my_real *OFF       ,my_real *SIGY  );
 
 /* ------------------------------- */
 /* User Law sigeps99c get variables */
 /* ------------------------------- */
 void (*eng_get_lawc_user_var)( int*NCYCLE, int*IMAT, int*ILAYER, int*NPTA, int*IFLAG,
-     				my_real* R11,	 my_real*R12,    my_real*R13,    my_real*R21,    my_real*R22,
-     				my_real* R23,	 my_real*R31,    my_real*R32,    my_real*R33,    my_real*SIGOXX,
-     				my_real* SIGOYY, my_real*SIGOXY, my_real*SIGOYZ, my_real*SIGOZX, my_real*EPSPXX,
-     				my_real* EPSPYY, my_real*EPSPXY, my_real*EPSPYZ, my_real*EPSPZX, my_real*EPSXX,
-     				my_real* EPSYY,  my_real*EPSXY,  my_real*EPSYZ,  my_real*EPSZX,  my_real*DEPSXX,
-     				my_real* DEPSYY, my_real*DEPSXY, my_real*DEPSYZ, my_real*DEPSZX, my_real*THKLYL,	  
-     				my_real* THKN,   my_real*SIGNXX, my_real*SIGNYY, my_real*SIGNXY, my_real*SIGNYZ,
-     				my_real* SIGNZX, my_real*SIGVXX, my_real*SIGVYY, my_real*SIGVXY, my_real*SIGVYZ,
-     				my_real* SIGVZX, my_real*DPLA );
+                     my_real* R11,     my_real*R12,    my_real*R13,    my_real*R21,    my_real*R22,
+                     my_real* R23,     my_real*R31,    my_real*R32,    my_real*R33,    my_real*SIGOXX,
+                     my_real* SIGOYY, my_real*SIGOXY, my_real*SIGOYZ, my_real*SIGOZX, my_real*EPSPXX,
+                     my_real* EPSPYY, my_real*EPSPXY, my_real*EPSPYZ, my_real*EPSPZX, my_real*EPSXX,
+                     my_real* EPSYY,  my_real*EPSXY,  my_real*EPSYZ,  my_real*EPSZX,  my_real*DEPSXX,
+                     my_real* DEPSYY, my_real*DEPSXY, my_real*DEPSYZ, my_real*DEPSZX, my_real*THKLYL,      
+                     my_real* THKN,   my_real*SIGNXX, my_real*SIGNYY, my_real*SIGNXY, my_real*SIGNYZ,
+                     my_real* SIGNZX, my_real*SIGVXX, my_real*SIGVYY, my_real*SIGVXY, my_real*SIGVYZ,
+                     my_real* SIGVZX, my_real*DPLA );
                     
                     
 void (*eng_get_lawc_user_var_2) (     my_real* VAR01,int *SIZVAR01,my_real* VAR02,int *SIZVAR02,
@@ -185,8 +184,8 @@ void (*eng_get_lawc_user_var_2) (     my_real* VAR01,int *SIZVAR01,my_real* VAR0
 /* User Law sigeps99 copy back results */
 /* ----------------------------------- */
 void (*eng_set_lawc_user_var) ( my_real*SIGNXX,  my_real*SIGNYY, my_real*SIGNXY, my_real* SIGNYZ,  my_real*SIGNZX,
-     				my_real* SIGVXX, my_real*SIGVYY, my_real*SIGVXY, my_real*SIGVYZ,   my_real*SIGVZX,
-     				my_real* DPLA,   my_real*ETSE,   my_real* THKN ) ;
+                     my_real* SIGVXX, my_real*SIGVYY, my_real*SIGVXY, my_real*SIGVYZ,   my_real*SIGVZX,
+                     my_real* DPLA,   my_real*ETSE,   my_real* THKN ) ;
 
 void (*eng_set_lawc_user_var_2) (my_real* VAR01,int*SIZVAR01,my_real* VAR02,int*SIZVAR02,
          my_real* VAR03,int*SIZVAR03,my_real* VAR04,int*SIZVAR04,my_real* VAR05,int*SIZVAR05,my_real* VAR06,int*SIZVAR06,
@@ -217,20 +216,20 @@ void (*eng_set_lawc_user_var_2) (my_real* VAR01,int*SIZVAR01,my_real* VAR02,int*
 /* User Laws sigeps99  (Solids) */
 /* ---------------------------- */
 void (*eng_sigeps99) (
-    	 int*NEL	 ,int*NUPARAM     ,int*NUVAR      ,int*ILAW_USER  ,int*NFUNC   ,
-    	 int*IFUNC       ,int*NPF	  ,my_real*TF	  ,my_real*TIME   ,my_real*TIMESTEP,
-    	 my_real*UPARAM  ,my_real*RHO	  ,my_real*VOLUME ,my_real*EINT   ,int*NGL    ,
-    	 my_real*SOUNDSP ,my_real*VISCMAX ,my_real*UVAR   ,my_real*OFF	  ,my_real*SIGY   ,
-    	 my_real*PLA  );
+         int*NEL     ,int*NUPARAM     ,int*NUVAR      ,int*ILAW_USER  ,int*NFUNC   ,
+         int*IFUNC       ,int*NPF      ,my_real*TF      ,my_real*TIME   ,my_real*TIMESTEP,
+         my_real*UPARAM  ,my_real*RHO      ,my_real*VOLUME ,my_real*EINT   ,int*NGL    ,
+         my_real*SOUNDSP ,my_real*VISCMAX ,my_real*UVAR   ,my_real*OFF      ,my_real*SIGY   ,
+         my_real*PLA  );
 
 void (*eng_get_law_user_var)(  int*NCYCLE, int*IMAT, int*IPTR, int*IPTS, int*IPTT,
-    	                       my_real*UR11, my_real*R12,  my_real*R13,  my_real*R21,  my_real*R22,  my_real*R23,   my_real*R31,
-    	                       my_real*UR32, my_real*R33,  my_real*SO1,  my_real*SO2,  my_real*SO3,  my_real*SO4,   my_real*SO5,
-    	                       my_real*SO6,  my_real*EP1,  my_real*EP2,  my_real*EP3,  my_real*EP4,  my_real*EP5,   my_real*EP6,
-    	                       my_real*ES1,  my_real*ES2,  my_real*ES3,  my_real*ES4,  my_real*ES5,  my_real*ES6,   my_real*DE1,
-    	                       my_real*DE2,  my_real*DE3,  my_real*DE4,  my_real*DE5,  my_real*DE6,  my_real*RHO0,  my_real*S1,
-    	                       my_real*S2,   my_real*S3,   my_real*S4,   my_real*S5,   my_real*S6,   my_real*SV1,   my_real*SV2,
-    			               my_real*SV3,  my_real*SV4,  my_real*SV5,  my_real*SV6  );
+                               my_real*UR11, my_real*R12,  my_real*R13,  my_real*R21,  my_real*R22,  my_real*R23,   my_real*R31,
+                               my_real*UR32, my_real*R33,  my_real*SO1,  my_real*SO2,  my_real*SO3,  my_real*SO4,   my_real*SO5,
+                               my_real*SO6,  my_real*EP1,  my_real*EP2,  my_real*EP3,  my_real*EP4,  my_real*EP5,   my_real*EP6,
+                               my_real*ES1,  my_real*ES2,  my_real*ES3,  my_real*ES4,  my_real*ES5,  my_real*ES6,   my_real*DE1,
+                               my_real*DE2,  my_real*DE3,  my_real*DE4,  my_real*DE5,  my_real*DE6,  my_real*RHO0,  my_real*S1,
+                               my_real*S2,   my_real*S3,   my_real*S4,   my_real*S5,   my_real*S6,   my_real*SV1,   my_real*SV2,
+                               my_real*SV3,  my_real*SV4,  my_real*SV5,  my_real*SV6  );
 
 
 void (*eng_set_law_user_var)(  my_real*S1,  my_real*S2,   my_real*S3,  my_real*S4,  my_real*S5,  my_real*S6,
@@ -294,7 +293,7 @@ void (*eng_set_law_user_var_2) (     my_real*VAR01,int *SIZVAR01,my_real*VAR02,i
 /* User strings */
 /* ------------ */
 void  (*eng_suser)(int*ITYP,
-      int*NEL	 ,int*NUVAR   ,int*IPROP  ,int*IMAT  ,int*SOLID_ID,my_real *TIME  ,my_real *TIMESTEP,
+      int*NEL     ,int*NUVAR   ,int*IPROP  ,int*IMAT  ,int*SOLID_ID,my_real *TIME  ,my_real *TIMESTEP,
       my_real *EINT   ,my_real *VOL    ,my_real *UVAR   ,my_real *FR_WAVE,my_real *OFF    ,my_real *RHO    ,my_real *SIG    ,
       my_real *XX1    ,my_real *XX2    ,my_real *XX3    ,my_real *XX4    ,my_real *XX5    ,my_real *XX6    ,my_real *XX7    ,my_real *XX8    ,     
       my_real *YY1    ,my_real *YY2    ,my_real *YY3    ,my_real *YY4    ,my_real *YY5    ,my_real *YY6    ,my_real *YY7    ,my_real *YY8    ,  
@@ -328,12 +327,12 @@ void (*eng_get_uintbuf_var)(int *ISLAVE, my_real *AREA, my_real *DT,my_real *DXN
                            my_real *RUPT, my_real *FACN, my_real *FACT );
 
 void (*eng_userwi)(char *ROOTN ,int *ROOTLEN ,
-     		int *NUVAR  ,int *NUVARI ,int *NUMNOD ,
-     		int *NCYCLE ,int *LENWA  ,int *IUVAR  ,int *ITAB   ,my_real *TT     ,
-     		my_real *DT1	,my_real *DT2	 ,my_real *USREINT,my_real *EXWORK ,my_real *UVAR   ,
-     		my_real *D	,my_real *X	 ,my_real *V	  ,my_real *VR     ,my_real *MASS   ,
-     		my_real *INER	,my_real *STIFN  ,my_real *STIFR  ,my_real *A	   ,my_real *AR     ,
-     		my_real *WA	);
+             int *NUVAR  ,int *NUVARI ,int *NUMNOD ,
+             int *NCYCLE ,int *LENWA  ,int *IUVAR  ,int *ITAB   ,my_real *TT     ,
+             my_real *DT1    ,my_real *DT2     ,my_real *USREINT,my_real *EXWORK ,my_real *UVAR   ,
+             my_real *D    ,my_real *X     ,my_real *V      ,my_real *VR     ,my_real *MASS   ,
+             my_real *INER    ,my_real *STIFN  ,my_real *STIFR  ,my_real *A       ,my_real *AR     ,
+             my_real *WA    );
 
 
 void (*eng_user_sens) (int *TYP,int *ID);
@@ -345,11 +344,11 @@ void (*engine_user_initialize) (int *NSPMD, int *NTHREAD, int *MY_RANK) ;
 /* ----------------------------------------------- */
 
 void eng_array_init_(){
-	   userlibhandle         = NULL;
-	   userlib_id            = NULL;
+       userlibhandle         = NULL;
+       userlib_id            = NULL;
            eng_ruser             = NULL;
-	   eng_sigeps            = NULL;
-	   eng_sigepsc           = NULL;
+       eng_sigeps            = NULL;
+       eng_sigepsc           = NULL;
            eng_flaw              = NULL;
            eng_flawc             = NULL;
            eng_sigeps99c         = NULL;
@@ -381,7 +380,9 @@ void _FCALL DYN_USERLIB_INIT (char * libname, int *size, int * userlib_avail, in
      char* libn,current_dir;
      int i;     
      char rname[256];
-     char dllpath[10240],dllname[15000];
+     char dllpath[10240];
+     char *dllname;
+     int sz_dllname;
      int result,dllpath_size;
      int err;
      int has_path;
@@ -390,37 +391,20 @@ void _FCALL DYN_USERLIB_INIT (char * libname, int *size, int * userlib_avail, in
      eng_array_init_();
 
     if(*userlib_altname==0){
+     libname[*size]='\0';
+     
      if(*iresp==1){
-       libname[*size   ]='w';
-       libname[*size+1 ]='i';
-       libname[*size+2 ]='n';
-       libname[*size+3 ]='6';
-       libname[*size+4 ]='4';
-       libname[*size+5 ]='_';
-       libname[*size+6 ]='s';
-       libname[*size+7 ]='p';
-       libname[*size+8 ]='.';
-       libname[*size+9 ]='d';
-       libname[*size+10]='l';
-       libname[*size+11]='l';
+       strcat_s(libname,2048,"win64_sp.dll");   // libname size set as 2048 in userlib.inc / Fortran
        *size = *size + 12;
      }else{
-       libname[*size  ]='w';
-       libname[*size+1]='i';
-       libname[*size+2]='n';
-       libname[*size+3]='6';
-       libname[*size+4]='4';
-       libname[*size+5]='.';
-       libname[*size+6]='d';
-       libname[*size+7]='l';
-       libname[*size+8]='l';
+       strcat_s(libname,2048,"win64.dll");   // libname size set as 2048 in userlib.inc / Fortran
        *size = *size + 9;
      }
     }
      libn = (char * )malloc(sizeof(char)* *size+1);
-     for (i=0;i<*size;i++)libn[i]=libname[i];
-     libn[*size]='\0';
-     
+     strcpy_s(libn,*size+1,libname);
+
+
 /* it is possible to set a path when using alternate library names*/
      has_path=0;
      for (i=0;i<*size;i++){ 
@@ -431,22 +415,25 @@ void _FCALL DYN_USERLIB_INIT (char * libname, int *size, int * userlib_avail, in
      if (has_path==1){
         userlibhandler = LoadLibrary(TEXT(libn));
      }else{
-     
+
+       sz_dllname=15360;
+       dllname=(char*)malloc(sizeof(char)*15360);
        /* first trial find Environment variable RAD_USERLIB_LIBPATH */
        dllpath_size=GetEnvironmentVariable("RAD_USERLIB_LIBPATH",dllpath,10240);
+       
        if (dllpath_size > 0){
-         strcpy(dllname,dllpath);
-         strcat(dllname,"\\");
-         strcat(dllname,libn);
+         strcpy_s(dllname,sz_dllname,dllpath);
+         strcat_s(dllname,sz_dllname,"\\");
+         strcat_s(dllname,sz_dllname,libn);
          userlibhandler = LoadLibrary(TEXT(dllname));
        }
        
        if (!userlibhandler){
        /* second trial find Environment variable in local directory */
          dllpath_size=GetCurrentDirectory(10240,dllpath);
-         strcpy(dllname,dllpath);
-         strcat(dllname,"\\");
-         strcat(dllname,libn);     
+         strcpy_s(dllname,sz_dllname,dllpath);
+         strcat_s(dllname,sz_dllname,"\\");
+         strcat_s(dllname,sz_dllname,libn);     
        userlibhandler = LoadLibrary(TEXT(dllname));
        }
             
@@ -456,7 +443,8 @@ void _FCALL DYN_USERLIB_INIT (char * libname, int *size, int * userlib_avail, in
        SetDllDirectory(dllpath);
        userlibhandler = LoadLibrary(TEXT(libn));
        }
-     
+
+       free(dllname);
      }
 
 
@@ -464,126 +452,126 @@ void _FCALL DYN_USERLIB_INIT (char * libname, int *size, int * userlib_avail, in
 
 /* Routine ENG_RUSER*/
          sprintf(rname,"ENG_RUSER");
-         eng_ruser=GetProcAddress(userlibhandler,rname);
-	 if (!eng_ruser) err=err+1;
+         eng_ruser=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_ruser) err=err+1;
 
 /* Routine ENG_SIGEPS*/
          sprintf(rname,"ENG_SIGEPS");
-         eng_sigeps=GetProcAddress(userlibhandler,rname);
-	 if (!eng_sigeps) err=err+1;
+         eng_sigeps=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_sigeps) err=err+1;
 
 /* Routine ENG_SIGEPSC*/
          sprintf(rname,"ENG_SIGEPSC");
-         eng_sigepsc=GetProcAddress(userlibhandler,rname);
-	 if (!eng_sigepsc) err=err+1;
+         eng_sigepsc=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_sigepsc) err=err+1;
 
 /* Routine ENG_FLAW*/
          sprintf(rname,"ENG_FLAW");
-         eng_flaw=GetProcAddress(userlibhandler,rname);
-	 if (!eng_flaw) err=err+1;
+         eng_flaw=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_flaw) err=err+1;
 
 
 /* Routine ENG_FLAWC*/
          sprintf(rname,"ENG_FLAWC");
-         eng_flawc=GetProcAddress(userlibhandler,rname);
-	 if (!eng_flawc) err=err+1;
+         eng_flawc=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_flawc) err=err+1;
 
 /* Routine ENG_SUSER*/
          sprintf(rname,"ENG_SUSER");
-         eng_suser=GetProcAddress(userlibhandler,rname);
-	 if (!eng_suser) err=err+1;
+         eng_suser=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_suser) err=err+1;
 
 /* Routine ENG_USERINT*/
          sprintf(rname,"ENG_USERINT");
-         eng_userint=GetProcAddress(userlibhandler,rname);
-	 if (!eng_userint) err=err+1;
+         eng_userint=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_userint) err=err+1;
 
 /* Routine ENG_GET_UINTBUF_VAR*/
          sprintf(rname,"ENG_GET_UINTBUF_VAR");
-         eng_get_uintbuf_var=GetProcAddress(userlibhandler,rname);
-	 if (!eng_get_uintbuf_var) err=err+1;
+         eng_get_uintbuf_var=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_get_uintbuf_var) err=err+1;
 
 /* Routine ENG_USERWI*/
          sprintf(rname,"ENG_USERWI");
-         eng_userwi=GetProcAddress(userlibhandler,rname);
-	 if (!eng_userwi) err=err+1;
+         eng_userwi=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_userwi) err=err+1;
 
 /* Routine ENG_USER_SENS*/
          sprintf(rname,"ENG_USER_SENS");
-         eng_user_sens=GetProcAddress(userlibhandler,rname);
-	 if (!eng_user_sens) err=err+1;
+         eng_user_sens=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_user_sens) err=err+1;
 
 /* Routine ENG_GET_LAWC_USERVAR*/
          sprintf(rname,"ENG_GET_LAWC_USER_VAR");
-         eng_get_lawc_user_var=GetProcAddress(userlibhandler,rname);
-	 if (!eng_get_lawc_user_var) err=err+1;
+         eng_get_lawc_user_var=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_get_lawc_user_var) err=err+1;
 
 /* Routine ENG_SIGEPS99C*/
          sprintf(rname,"ENG_SIGEPS99C");
-         eng_sigeps99c=GetProcAddress(userlibhandler,rname);
-	 if (!eng_sigeps99c) err=err+1;
+         eng_sigeps99c=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_sigeps99c) err=err+1;
 
 /* Routine ENG_SET_LAWC_USER_VAR*/
          sprintf(rname,"ENG_SET_LAWC_USER_VAR");
-         eng_set_lawc_user_var=GetProcAddress(userlibhandler,rname);
-	 if (!eng_set_lawc_user_var) err=err+1;
+         eng_set_lawc_user_var=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_set_lawc_user_var) err=err+1;
 
 /* Routine ENG_GET_LAW_USERVAR*/
          sprintf(rname,"ENG_GET_LAW_USER_VAR");
-         eng_get_law_user_var=GetProcAddress(userlibhandler,rname);
-	 if (!eng_get_law_user_var) err=err+1;
+         eng_get_law_user_var=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_get_law_user_var) err=err+1;
 
 /* Routine ENG_SIGEPS99C*/
          sprintf(rname,"ENG_SIGEPS99");
-         eng_sigeps99=GetProcAddress(userlibhandler,rname);
-	 if (!eng_sigeps99) err=err+1;
+         eng_sigeps99=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_sigeps99) err=err+1;
 
 /* Routine ENG_SET_LAW_USER_VAR*/
          sprintf(rname,"ENG_SET_LAW_USER_VAR");
-         eng_set_law_user_var=GetProcAddress(userlibhandler,rname);
-	 if (!eng_get_law_user_var) err=err+1;
+         eng_set_law_user_var=(void*)GetProcAddress(userlibhandler,rname);
+     if (!eng_get_law_user_var) err=err+1;
 
 /* System - Library ID Version */
          sprintf(rname,"userlib_id");
-         userlib_id=GetProcAddress(userlibhandler,rname);
-	 if(userlib_id) {
-	    userlib_id(userlib_ver);
-	    }else{
-	    err = err+1; 
-	 }
+         userlib_id=(void*)GetProcAddress(userlibhandler,rname);
+     if(userlib_id) {
+        userlib_id(userlib_ver);
+        }else{
+        err = err+1; 
+     }
      
      
-	
+    
 /* System - Windows Callback Routine */
          sprintf(rname,"set_callback");
-         set_library_callback=GetProcAddress(userlibhandler,rname);
-	 if(set_library_callback) {
-	    userlib_init_callback();
-	    }else{
-	    err = err+1; 
-	 }
+         set_library_callback=(void*)GetProcAddress(userlibhandler,rname);
+     if(set_library_callback) {
+        userlib_init_callback();
+        }else{
+        err = err+1; 
+     }
      
 /* Addtionnal interface calls with Newer SDKs */
     if  (*userlib_ver >=1301501260){
 /* Routine ENG_GET_LAW_USER_VAR*/
          sprintf(rname,"ENG_GET_LAW_USER_VAR_2");
-         eng_get_law_user_var_2=GetProcAddress(userlibhandler,rname);
-	     if (!eng_get_law_user_var_2) err=err+1;
+         eng_get_law_user_var_2=(void*)GetProcAddress(userlibhandler,rname);
+         if (!eng_get_law_user_var_2) err=err+1;
     
 /* Routine ENG_SET_LAW_USER_VAR*/
          sprintf(rname,"ENG_SET_LAW_USER_VAR_2");
-         eng_set_law_user_var_2=GetProcAddress(userlibhandler,rname);
-//	     if (!eng_set_law_user_var_2) err=err+1;
+         eng_set_law_user_var_2=(void*)GetProcAddress(userlibhandler,rname);
+//         if (!eng_set_law_user_var_2) err=err+1;
          
 /* Routine ENG_GET_LAWC_USER_VAR*/
          sprintf(rname,"ENG_GET_LAWC_USER_VAR_2");
-         eng_get_lawc_user_var_2=GetProcAddress(userlibhandler,rname);
-	     if (!eng_get_lawc_user_var_2) err=err+1;
+         eng_get_lawc_user_var_2=(void*)GetProcAddress(userlibhandler,rname);
+         if (!eng_get_lawc_user_var_2) err=err+1;
     
 /* Routine ENG_SET_LAWC_USER_VAR*/
          sprintf(rname,"ENG_SET_LAWC_USER_VAR_2");
-         eng_set_lawc_user_var_2=GetProcAddress(userlibhandler,rname);
-	     if (!eng_set_lawc_user_var_2) err=err+1;
+         eng_set_lawc_user_var_2=(void*)GetProcAddress(userlibhandler,rname);
+         if (!eng_set_lawc_user_var_2) err=err+1;
     
     }
 
@@ -593,25 +581,25 @@ void _FCALL DYN_USERLIB_INIT (char * libname, int *size, int * userlib_avail, in
     if  (*userlib_ver >=2102011230){
 /* Routine ENGINE_USER_CHECK*/
          sprintf(rname,"ENGINE_USER_CHECK");
-         engine_user_check=GetProcAddress(userlibhandler,rname);
+         engine_user_check=(void*)GetProcAddress(userlibhandler,rname);
          if(engine_user_check) dlib_array[0]=1;
-//	     if (!engine_user_check) err=err+1;
+//         if (!engine_user_check) err=err+1;
 /* Routine ENGINE_USER_FINALIZE*/
          sprintf(rname,"ENGINE_USER_FINALIZE");
-         engine_user_finalize=GetProcAddress(userlibhandler,rname);
+         engine_user_finalize=(void*)GetProcAddress(userlibhandler,rname);
          if(engine_user_finalize) dlib_array[1]=1;
-//	     if (!engine_user_finalize) err=err+1;
+//         if (!engine_user_finalize) err=err+1;
 /* Routine ENGINE_USER_INITIALIZE*/
          sprintf(rname,"ENGINE_USER_INITIALIZE");
-         engine_user_initialize=GetProcAddress(userlibhandler,rname);
+         engine_user_initialize=(void*)GetProcAddress(userlibhandler,rname);
          if(engine_user_initialize) dlib_array[2]=1;
-//	     if (!engine_user_initialize) err=err+1;
+//         if (!engine_user_initialize) err=err+1;
      }
     
 
 
      if (err==0)*userlib_avail = 1;
-	 
+     
     }else{
 /*        printf("load unsuccessfull\n");*/
     }
@@ -779,55 +767,55 @@ void dyn_userlib_init_(char * libname, int *size, int * userlib_avail, int * use
 /* Routine ENG_GET_UINTBUF_VAR*/
          sprintf(rname,"eng_get_uintbuf_var_");
          eng_get_uintbuf_var=dlsym(userlibhandle,rname);
-	 if (!eng_get_uintbuf_var) err=err+1;
+     if (!eng_get_uintbuf_var) err=err+1;
 
 /* Routine ENG_USERWI*/
          sprintf(rname,"eng_userwi_");
          eng_userwi=dlsym(userlibhandle,rname);
-	 if (!eng_userwi) err=err+1;
+     if (!eng_userwi) err=err+1;
 
 /* Routine ENG_USER_SENS*/
          sprintf(rname,"eng_user_sens_");
          eng_user_sens=dlsym(userlibhandle,rname);
-	 if (!eng_user_sens) err=err+1;
+     if (!eng_user_sens) err=err+1;
 
 /* Routine ENG_GET_LAWC_USERVAR*/
          sprintf(rname,"eng_get_lawc_user_var_");
          eng_get_lawc_user_var=dlsym(userlibhandle,rname);
-	 if (!eng_get_lawc_user_var) err=err+1;
+     if (!eng_get_lawc_user_var) err=err+1;
 
 /* Routine ENG_SIGEPS99C*/
          sprintf(rname,"eng_sigeps99c_");
          eng_sigeps99c=dlsym(userlibhandle,rname);
-	 if (!eng_sigeps99c) err=err+1;
+     if (!eng_sigeps99c) err=err+1;
 
 /* Routine ENG_GET_LAWC_USERVAR*/
          sprintf(rname,"eng_set_lawc_user_var_");
          eng_set_lawc_user_var=dlsym(userlibhandle,rname);
-	 if (!eng_set_lawc_user_var) err=err+1;
+     if (!eng_set_lawc_user_var) err=err+1;
 
 /* Routine ENG_GET_LAW_USERVAR*/
          sprintf(rname,"eng_get_law_user_var_");
          eng_get_law_user_var=dlsym(userlibhandle,rname);
-	 if (!eng_get_law_user_var) err=err+1;
+     if (!eng_get_law_user_var) err=err+1;
 
 /* Routine ENG_SIGEPS99*/
          sprintf(rname,"eng_sigeps99_");
          eng_sigeps99=dlsym(userlibhandle,rname);
-	 if (!eng_sigeps99) err=err+1;
+     if (!eng_sigeps99) err=err+1;
 
 /* Routine ENG_SET_LAW_USERVAR*/
          sprintf(rname,"eng_set_law_user_var_");
          eng_set_law_user_var=dlsym(userlibhandle,rname);
-	 if (!eng_set_law_user_var) err=err+1;
+     if (!eng_set_law_user_var) err=err+1;
 
 /* System - Library ID Version */
          sprintf(rname,"userlib_id");
          userlib_id=dlsym(userlibhandle,rname);
 
-	 if(userlib_id) {
-	    userlib_id(userlib_ver);
-	    }else{err = err+1; }
+     if(userlib_id) {
+        userlib_id(userlib_ver);
+        }else{err = err+1; }
 
 
          if  (*userlib_ver >=1301501260){
@@ -835,22 +823,22 @@ void dyn_userlib_init_(char * libname, int *size, int * userlib_avail, int * use
 /* Routine ENG_SET_LAW_USER_VAR_2*/
          sprintf(rname,"eng_get_law_user_var_2_");
          eng_get_law_user_var_2=dlsym(userlibhandle,rname);
-	 if (!eng_get_law_user_var_2) err=err+1;
+     if (!eng_get_law_user_var_2) err=err+1;
 
 /* Routine ENG_SET_LAW_USER_VAR_2*/
          sprintf(rname,"eng_set_law_user_var_2_");
          eng_set_law_user_var_2=dlsym(userlibhandle,rname);
-	 if (!eng_set_law_user_var_2) err=err+1;
+     if (!eng_set_law_user_var_2) err=err+1;
 
 /* Routine ENG_GET_LAWC_USER_VAR_2*/
          sprintf(rname,"eng_get_lawc_user_var_2_");
          eng_get_lawc_user_var_2=dlsym(userlibhandle,rname);
-	 if (!eng_get_lawc_user_var_2) err=err+1;
+     if (!eng_get_lawc_user_var_2) err=err+1;
 
 /* Routine ENG_SET_LAWC_USER_VAR_2*/
          sprintf(rname,"eng_set_lawc_user_var_2_");
          eng_set_lawc_user_var_2=dlsym(userlibhandle,rname);
-	 if (!eng_set_lawc_user_var_2) err=err+1;
+     if (!eng_set_lawc_user_var_2) err=err+1;
 
 
          }
@@ -890,60 +878,60 @@ void dyn_userlib_init_(char * libname, int *size, int * userlib_avail, int * use
 
 /* WINDOWS */
 void _FCALL ENG_USERLIB_SIGEPS(int* ilaw ,
-		int *NEL ,int* NUPARAM ,int* NUVAR ,int* NFUNC ,int* IFUNC ,
-		int* NPF ,my_real *TF  ,my_real *TIME , my_real *TIMESTEP, my_real *UPARAM ,my_real *RHO0 ,
-		my_real *RHO ,my_real *VOLUME ,my_real *EINT ,my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPZZ  ,
-		my_real *EPSPXY  ,my_real *EPSPYZ  ,my_real *EPSPZX ,my_real *DEPSXX ,my_real *DEPSYY ,my_real *DEPSZZ  ,
-		my_real *DEPSXY  ,my_real *DEPSYZ  ,my_real *DEPSZX ,my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSZZ   ,
-		my_real *EPSXY   ,my_real *EPSYZ   ,my_real *EPSZX  ,
-		my_real *IGOXX ,my_real *SIGOYY ,my_real *SIGOZZ  ,my_real *SIGOXY  ,my_real *SIGOYZ  ,my_real *SIGOZX ,
+        int *NEL ,int* NUPARAM ,int* NUVAR ,int* NFUNC ,int* IFUNC ,
+        int* NPF ,my_real *TF  ,my_real *TIME , my_real *TIMESTEP, my_real *UPARAM ,my_real *RHO0 ,
+        my_real *RHO ,my_real *VOLUME ,my_real *EINT ,my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPZZ  ,
+        my_real *EPSPXY  ,my_real *EPSPYZ  ,my_real *EPSPZX ,my_real *DEPSXX ,my_real *DEPSYY ,my_real *DEPSZZ  ,
+        my_real *DEPSXY  ,my_real *DEPSYZ  ,my_real *DEPSZX ,my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSZZ   ,
+        my_real *EPSXY   ,my_real *EPSYZ   ,my_real *EPSZX  ,
+        my_real *IGOXX ,my_real *SIGOYY ,my_real *SIGOZZ  ,my_real *SIGOXY  ,my_real *SIGOYZ  ,my_real *SIGOZX ,
         my_real *SIGNXX ,my_real *SIGNYY ,my_real *SIGNZZ  ,my_real *SIGNXY  ,my_real *SIGNYZ  ,my_real *SIGNZX ,
         my_real *SIGVXX ,my_real *SIGVYY ,my_real *SIGVZZ  ,my_real *SIGVXY  ,my_real *SIGVYZ  ,my_real *SIGVZX ,
         my_real *SOUNDSP,my_real *VISCMAX,my_real *UVAR    ,my_real *OFF     )
 {
-	if(eng_sigeps){
-		(*eng_sigeps)(ilaw ,
-				NEL     ,NUPARAM ,NUVAR  ,NFUNC    ,IFUNC          ,
-				NPF     ,TF      ,TIME   ,TIMESTEP ,UPARAM ,RHO0   ,
-				RHO     ,VOLUME  ,EINT   ,EPSPXX   ,EPSPYY ,EPSPZZ ,
-				EPSPXY  ,EPSPYZ  ,EPSPZX ,DEPSXX   ,DEPSYY ,DEPSZZ  ,
-				DEPSXY  ,DEPSYZ  ,DEPSZX ,EPSXX    ,EPSYY  ,EPSZZ   ,
-				EPSXY   ,EPSYZ   ,EPSZX  ,
-				IGOXX   ,SIGOYY  ,SIGOZZ ,SIGOXY   ,SIGOYZ ,SIGOZX ,
-		        SIGNXX  ,SIGNYY  ,SIGNZZ ,SIGNXY   ,SIGNYZ ,SIGNZX ,
-		        SIGVXX  ,SIGVYY  ,SIGVZZ ,SIGVXY   ,SIGVYZ ,SIGVZX ,
-		        SOUNDSP ,VISCMAX ,UVAR   ,OFF     );
-	}
+    if(eng_sigeps){
+        (*eng_sigeps)(ilaw ,
+                NEL     ,NUPARAM ,NUVAR  ,NFUNC    ,IFUNC          ,
+                NPF     ,TF      ,TIME   ,TIMESTEP ,UPARAM ,RHO0   ,
+                RHO     ,VOLUME  ,EINT   ,EPSPXX   ,EPSPYY ,EPSPZZ ,
+                EPSPXY  ,EPSPYZ  ,EPSPZX ,DEPSXX   ,DEPSYY ,DEPSZZ  ,
+                DEPSXY  ,DEPSYZ  ,DEPSZX ,EPSXX    ,EPSYY  ,EPSZZ   ,
+                EPSXY   ,EPSYZ   ,EPSZX  ,
+                IGOXX   ,SIGOYY  ,SIGOZZ ,SIGOXY   ,SIGOYZ ,SIGOZX ,
+                SIGNXX  ,SIGNYY  ,SIGNZZ ,SIGNXY   ,SIGNYZ ,SIGNZX ,
+                SIGVXX  ,SIGVYY  ,SIGVZZ ,SIGVXY   ,SIGVYZ ,SIGVZX ,
+                SOUNDSP ,VISCMAX ,UVAR   ,OFF     );
+    }
 
 }
 
 
 /* LINUX */
 void  eng_userlib_sigeps_(int* ilaw ,
-		int *NEL ,int* NUPARAM ,int* NUVAR ,int* NFUNC ,int* IFUNC ,
-		int* NPF ,my_real *TF  ,my_real *TIME , my_real *TIMESTEP, my_real *UPARAM ,my_real *RHO0 ,
-		my_real *RHO ,my_real *VOLUME ,my_real *EINT ,my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPZZ  ,
-		my_real *EPSPXY  ,my_real *EPSPYZ  ,my_real *EPSPZX ,my_real *DEPSXX ,my_real *DEPSYY ,my_real *DEPSZZ  ,
-		my_real *DEPSXY  ,my_real *DEPSYZ  ,my_real *DEPSZX ,my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSZZ   ,
-		my_real *EPSXY   ,my_real *EPSYZ   ,my_real *EPSZX  ,
-		my_real *IGOXX ,my_real *SIGOYY ,my_real *SIGOZZ  ,my_real *SIGOXY  ,my_real *SIGOYZ  ,my_real *SIGOZX ,
+        int *NEL ,int* NUPARAM ,int* NUVAR ,int* NFUNC ,int* IFUNC ,
+        int* NPF ,my_real *TF  ,my_real *TIME , my_real *TIMESTEP, my_real *UPARAM ,my_real *RHO0 ,
+        my_real *RHO ,my_real *VOLUME ,my_real *EINT ,my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPZZ  ,
+        my_real *EPSPXY  ,my_real *EPSPYZ  ,my_real *EPSPZX ,my_real *DEPSXX ,my_real *DEPSYY ,my_real *DEPSZZ  ,
+        my_real *DEPSXY  ,my_real *DEPSYZ  ,my_real *DEPSZX ,my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSZZ   ,
+        my_real *EPSXY   ,my_real *EPSYZ   ,my_real *EPSZX  ,
+        my_real *IGOXX ,my_real *SIGOYY ,my_real *SIGOZZ  ,my_real *SIGOXY  ,my_real *SIGOYZ  ,my_real *SIGOZX ,
         my_real *SIGNXX ,my_real *SIGNYY ,my_real *SIGNZZ  ,my_real *SIGNXY  ,my_real *SIGNYZ  ,my_real *SIGNZX ,
         my_real *SIGVXX ,my_real *SIGVYY ,my_real *SIGVZZ  ,my_real *SIGVXY  ,my_real *SIGVYZ  ,my_real *SIGVZX ,
         my_real *SOUNDSP,my_real *VISCMAX,my_real *UVAR    ,my_real *OFF     )
 {
-	if(eng_sigeps){
-		(*eng_sigeps)(ilaw ,
-				NEL     ,NUPARAM ,NUVAR  ,NFUNC    ,IFUNC          ,
-				NPF     ,TF      ,TIME   ,TIMESTEP ,UPARAM ,RHO0   ,
-				RHO     ,VOLUME  ,EINT   ,EPSPXX   ,EPSPYY ,EPSPZZ ,
-				EPSPXY  ,EPSPYZ  ,EPSPZX ,DEPSXX   ,DEPSYY ,DEPSZZ  ,
-				DEPSXY  ,DEPSYZ  ,DEPSZX ,EPSXX    ,EPSYY  ,EPSZZ   ,
-				EPSXY   ,EPSYZ   ,EPSZX  ,
-				IGOXX   ,SIGOYY  ,SIGOZZ ,SIGOXY   ,SIGOYZ ,SIGOZX ,
-		        SIGNXX  ,SIGNYY  ,SIGNZZ ,SIGNXY   ,SIGNYZ ,SIGNZX ,
-		        SIGVXX  ,SIGVYY  ,SIGVZZ ,SIGVXY   ,SIGVYZ ,SIGVZX ,
-		        SOUNDSP ,VISCMAX ,UVAR   ,OFF     );
-	}
+    if(eng_sigeps){
+        (*eng_sigeps)(ilaw ,
+                NEL     ,NUPARAM ,NUVAR  ,NFUNC    ,IFUNC          ,
+                NPF     ,TF      ,TIME   ,TIMESTEP ,UPARAM ,RHO0   ,
+                RHO     ,VOLUME  ,EINT   ,EPSPXX   ,EPSPYY ,EPSPZZ ,
+                EPSPXY  ,EPSPYZ  ,EPSPZX ,DEPSXX   ,DEPSYY ,DEPSZZ  ,
+                DEPSXY  ,DEPSYZ  ,DEPSZX ,EPSXX    ,EPSYY  ,EPSZZ   ,
+                EPSXY   ,EPSYZ   ,EPSZX  ,
+                IGOXX   ,SIGOYY  ,SIGOZZ ,SIGOXY   ,SIGOYZ ,SIGOZX ,
+                SIGNXX  ,SIGNYY  ,SIGNZZ ,SIGNXY   ,SIGNYZ ,SIGNZX ,
+                SIGVXX  ,SIGVYY  ,SIGVZZ ,SIGVXY   ,SIGVYZ ,SIGVZX ,
+                SOUNDSP ,VISCMAX ,UVAR   ,OFF     );
+    }
 
 }
 
@@ -955,7 +943,7 @@ void  eng_userlib_sigeps_(int* ilaw ,
 
 /* WINDOWS */
 void  _FCALL ENG_USERLIB_SIGEPSC(int* ilaw ,
-	  int* NEL ,int*NUPARAM ,int*NUVAR ,int*NFUNC ,int*IFUNC ,
+      int* NEL ,int*NUPARAM ,int*NUVAR ,int*NFUNC ,int*IFUNC ,
       int*NPF  ,int*NPT     ,int*IPT   ,int*IFLAG ,
       my_real *TF ,my_real *TIME ,my_real *TIMESTEP , my_real *UPARAM , my_real *RHO0   ,
       my_real *AREA   ,my_real *EINT   ,my_real *THKLY   ,
@@ -968,28 +956,28 @@ void  _FCALL ENG_USERLIB_SIGEPSC(int* ilaw ,
       my_real *SOUNDSP,my_real *VISCMAX,my_real *THK     ,my_real *PLA     ,my_real *UVAR   ,
       my_real *OFF    ,int *NGL    ,int *SHF){
 
-	  if(eng_sigepsc){
-		  (*eng_sigepsc)(ilaw ,
-		  	    NEL    ,NUPARAM ,NUVAR    ,NFUNC  ,IFUNC ,
-		        NPF    ,NPT     ,IPT      ,IFLAG  ,
-		        TF     ,TIME    ,TIMESTEP ,UPARAM ,RHO0   ,
-		        AREA   ,EINT    ,THKLY    ,
-		        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-		        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
-		        EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
-		        SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
-		        SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-		        SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-		        SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
-		        OFF    ,NGL    ,SHF);
-	  }
+      if(eng_sigepsc){
+          (*eng_sigepsc)(ilaw ,
+                  NEL    ,NUPARAM ,NUVAR    ,NFUNC  ,IFUNC ,
+                NPF    ,NPT     ,IPT      ,IFLAG  ,
+                TF     ,TIME    ,TIMESTEP ,UPARAM ,RHO0   ,
+                AREA   ,EINT    ,THKLY    ,
+                EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
+                DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
+                EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
+                SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
+                SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
+                SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
+                SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
+                OFF    ,NGL    ,SHF);
+      }
 
 }
 
 
 /* LINUX */
 void  eng_userlib_sigepsc_(int* ilaw ,
-	  int* NEL ,int*NUPARAM ,int*NUVAR ,int*NFUNC ,int*IFUNC ,
+      int* NEL ,int*NUPARAM ,int*NUVAR ,int*NFUNC ,int*IFUNC ,
       int*NPF  ,int*NPT     ,int*IPT   ,int*IFLAG ,
       my_real *TF ,my_real *TIME ,my_real *TIMESTEP , my_real *UPARAM , my_real *RHO0   ,
       my_real *AREA   ,my_real *EINT   ,my_real *THKLY   ,
@@ -1002,21 +990,21 @@ void  eng_userlib_sigepsc_(int* ilaw ,
       my_real *SOUNDSP,my_real *VISCMAX,my_real *THK     ,my_real *PLA     ,my_real *UVAR   ,
       my_real *OFF    ,int *NGL    ,int *SHF){
 
-	  if(eng_sigepsc){
-		  (*eng_sigepsc)(ilaw ,
-		  	    NEL    ,NUPARAM ,NUVAR    ,NFUNC  ,IFUNC ,
-		        NPF    ,NPT     ,IPT      ,IFLAG  ,
-		        TF     ,TIME    ,TIMESTEP ,UPARAM ,RHO0   ,
-		        AREA   ,EINT    ,THKLY    ,
-		        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-		        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
-		        EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
-		        SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
-		        SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-		        SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-		        SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
-		        OFF    ,NGL    ,SHF);
-	  }
+      if(eng_sigepsc){
+          (*eng_sigepsc)(ilaw ,
+                  NEL    ,NUPARAM ,NUVAR    ,NFUNC  ,IFUNC ,
+                NPF    ,NPT     ,IPT      ,IFLAG  ,
+                TF     ,TIME    ,TIMESTEP ,UPARAM ,RHO0   ,
+                AREA   ,EINT    ,THKLY    ,
+                EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
+                DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
+                EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
+                SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
+                SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
+                SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
+                SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
+                OFF    ,NGL    ,SHF);
+      }
 }
 
 /* --------------------------------- */
@@ -1027,17 +1015,17 @@ void  eng_userlib_sigepsc_(int* ilaw ,
 /* WINDOWS - SIGEPS99C */
 /* ------------------- */
 void _FCALL ENG_USERLIB_SIGEPS99C(int*NEL      ,int*NUPARAM ,int*NUVAR   ,int*ILAW_USER ,int*NFUNC  ,
-    	 int*IFUNC    ,int *NPF     ,int*NGL    ,my_real *TF       ,my_real *TIME   ,
-    	 my_real *TIMESTEP ,my_real *UPARAM  ,my_real *RHO    ,my_real *AREA	  ,my_real *EINT   ,
-    	 my_real *SHF	   ,my_real *SOUNDSP ,my_real *VISCMAX ,my_real *PLA	   ,my_real *UVAR   , 
-    	 my_real *OFF	   ,my_real *SIGY ){
+         int*IFUNC    ,int *NPF     ,int*NGL    ,my_real *TF       ,my_real *TIME   ,
+         my_real *TIMESTEP ,my_real *UPARAM  ,my_real *RHO    ,my_real *AREA      ,my_real *EINT   ,
+         my_real *SHF       ,my_real *SOUNDSP ,my_real *VISCMAX ,my_real *PLA       ,my_real *UVAR   , 
+         my_real *OFF       ,my_real *SIGY ){
 
        if (eng_sigeps99c){
            (eng_sigeps99c)( NEL ,NUPARAM ,NUVAR   ,ILAW_USER ,NFUNC  ,
-    	 IFUNC    ,NPF     ,NGL    ,TF       ,TIME   ,
-    	 TIMESTEP ,UPARAM  ,RHO    ,AREA     ,EINT   ,
-    	 SHF	  ,SOUNDSP ,VISCMAX,PLA      ,UVAR     , 
-    	 OFF	  ,SIGY   );
+         IFUNC    ,NPF     ,NGL    ,TF       ,TIME   ,
+         TIMESTEP ,UPARAM  ,RHO    ,AREA     ,EINT   ,
+         SHF      ,SOUNDSP ,VISCMAX,PLA      ,UVAR     , 
+         OFF      ,SIGY   );
  }
 }
 
@@ -1045,66 +1033,66 @@ void _FCALL ENG_USERLIB_SIGEPS99C(int*NEL      ,int*NUPARAM ,int*NUVAR   ,int*IL
 /* LINUX - SIGEPS99C */
 /* ----------------- */
 void eng_userlib_sigeps99c_(int*NEL      ,int*NUPARAM ,int*NUVAR   ,int*ILAW_USER ,int*NFUNC  ,
-    	 int*IFUNC    ,int*NPF     ,int*NGL    ,my_real *TF       ,my_real *TIME   ,
-    	 my_real *TIMESTEP ,my_real *UPARAM  ,my_real *RHO    ,my_real *AREA	  ,my_real *EINT   ,
-    	 my_real *SHF	   ,my_real *SOUNDSP ,my_real *VISCMAX ,my_real *PLA	   ,my_real *UVAR   , 
-    	 my_real *OFF	   ,my_real *SIGY ){
+         int*IFUNC    ,int*NPF     ,int*NGL    ,my_real *TF       ,my_real *TIME   ,
+         my_real *TIMESTEP ,my_real *UPARAM  ,my_real *RHO    ,my_real *AREA      ,my_real *EINT   ,
+         my_real *SHF       ,my_real *SOUNDSP ,my_real *VISCMAX ,my_real *PLA       ,my_real *UVAR   , 
+         my_real *OFF       ,my_real *SIGY ){
 
        if (eng_sigeps99c){
            (eng_sigeps99c)( NEL ,NUPARAM ,NUVAR   ,ILAW_USER ,NFUNC  ,
-    	 IFUNC    ,NPF     ,NGL    ,TF       ,TIME   ,
-    	 TIMESTEP ,UPARAM  ,RHO    ,AREA     ,EINT   ,
-    	 SHF	  ,SOUNDSP ,VISCMAX,PLA      ,UVAR     , 
-    	 OFF	  ,SIGY   );
+         IFUNC    ,NPF     ,NGL    ,TF       ,TIME   ,
+         TIMESTEP ,UPARAM  ,RHO    ,AREA     ,EINT   ,
+         SHF      ,SOUNDSP ,VISCMAX,PLA      ,UVAR     , 
+         OFF      ,SIGY   );
  }
 }
 
 
 void  _FCALL ENG_USERLIB_GET_LAWC_VAR( int*NCYCLE, int*IMAT, int*ILAYER, int*NPTA, int*IFLAG,
-     				my_real* R11,	 my_real*R12,    my_real*R13,    my_real*R21,    my_real*R22,
-     				my_real* R23,	 my_real*R31,    my_real*R32,    my_real*R33,    my_real*SIGOXX,
-     				my_real* SIGOYY, my_real*SIGOXY, my_real*SIGOYZ, my_real*SIGOZX, my_real*EPSPXX,
-     				my_real* EPSPYY, my_real*EPSPXY, my_real*EPSPYZ, my_real*EPSPZX, my_real*EPSXX,
-     				my_real* EPSYY,  my_real*EPSXY,  my_real*EPSYZ,  my_real*EPSZX,  my_real*DEPSXX,
-     				my_real* DEPSYY, my_real*DEPSXY, my_real*DEPSYZ, my_real*DEPSZX, my_real*THKLYL,	  
-     				my_real* THKN,   my_real*SIGNXX, my_real*SIGNYY, my_real*SIGNXY, my_real*SIGNYZ,
-     				my_real* SIGNZX, my_real*SIGVXX, my_real*SIGVYY, my_real*SIGVXY, my_real*SIGVYZ,
-     				my_real* SIGVZX, my_real*DPLA ){
+                     my_real* R11,     my_real*R12,    my_real*R13,    my_real*R21,    my_real*R22,
+                     my_real* R23,     my_real*R31,    my_real*R32,    my_real*R33,    my_real*SIGOXX,
+                     my_real* SIGOYY, my_real*SIGOXY, my_real*SIGOYZ, my_real*SIGOZX, my_real*EPSPXX,
+                     my_real* EPSPYY, my_real*EPSPXY, my_real*EPSPYZ, my_real*EPSPZX, my_real*EPSXX,
+                     my_real* EPSYY,  my_real*EPSXY,  my_real*EPSYZ,  my_real*EPSZX,  my_real*DEPSXX,
+                     my_real* DEPSYY, my_real*DEPSXY, my_real*DEPSYZ, my_real*DEPSZX, my_real*THKLYL,      
+                     my_real* THKN,   my_real*SIGNXX, my_real*SIGNYY, my_real*SIGNXY, my_real*SIGNYZ,
+                     my_real* SIGNZX, my_real*SIGVXX, my_real*SIGVYY, my_real*SIGVXY, my_real*SIGVYZ,
+                     my_real* SIGVZX, my_real*DPLA ){
           if (eng_get_lawc_user_var){
                      (eng_get_lawc_user_var)( NCYCLE, IMAT, ILAYER, NPTA, IFLAG,
-     				 R11,	 R12,    R13,    R21,    R22,
-     				 R23,	 R31,    R32,    R33,    SIGOXX,
-     				 SIGOYY, SIGOXY, SIGOYZ, SIGOZX, EPSPXX,
-     				 EPSPYY, EPSPXY, EPSPYZ, EPSPZX, EPSXX,
-     				 EPSYY,  EPSXY,  EPSYZ,  EPSZX,  DEPSXX,
-     				 DEPSYY, DEPSXY, DEPSYZ, DEPSZX, THKLYL,	  
-     				 THKN,   SIGNXX, SIGNYY, SIGNXY, SIGNYZ,
-     				 SIGNZX, SIGVXX, SIGVYY, SIGVXY, SIGVYZ,
-     				 SIGVZX, DPLA ); }
+                      R11,     R12,    R13,    R21,    R22,
+                      R23,     R31,    R32,    R33,    SIGOXX,
+                      SIGOYY, SIGOXY, SIGOYZ, SIGOZX, EPSPXX,
+                      EPSPYY, EPSPXY, EPSPYZ, EPSPZX, EPSXX,
+                      EPSYY,  EPSXY,  EPSYZ,  EPSZX,  DEPSXX,
+                      DEPSYY, DEPSXY, DEPSYZ, DEPSZX, THKLYL,      
+                      THKN,   SIGNXX, SIGNYY, SIGNXY, SIGNYZ,
+                      SIGNZX, SIGVXX, SIGVYY, SIGVXY, SIGVYZ,
+                      SIGVZX, DPLA ); }
 }
 
 
 void  eng_userlib_get_lawc_var_( int*NCYCLE, int*IMAT, int*ILAYER, int*NPTA, int*IFLAG,
-     				my_real* R11,	 my_real*R12,    my_real*R13,    my_real*R21,    my_real*R22,
-     				my_real* R23,	 my_real*R31,    my_real*R32,    my_real*R33,    my_real*SIGOXX,
-     				my_real* SIGOYY, my_real*SIGOXY, my_real*SIGOYZ, my_real*SIGOZX, my_real*EPSPXX,
-     				my_real* EPSPYY, my_real*EPSPXY, my_real*EPSPYZ, my_real*EPSPZX, my_real*EPSXX,
-     				my_real* EPSYY,  my_real*EPSXY,  my_real*EPSYZ,  my_real*EPSZX,  my_real*DEPSXX,
-     				my_real* DEPSYY, my_real*DEPSXY, my_real*DEPSYZ, my_real*DEPSZX, my_real*THKLYL,	  
-     				my_real* THKN,   my_real*SIGNXX, my_real*SIGNYY, my_real*SIGNXY, my_real*SIGNYZ,
-     				my_real* SIGNZX, my_real*SIGVXX, my_real*SIGVYY, my_real*SIGVXY, my_real*SIGVYZ,
-     				my_real* SIGVZX, my_real*DPLA ){
+                     my_real* R11,     my_real*R12,    my_real*R13,    my_real*R21,    my_real*R22,
+                     my_real* R23,     my_real*R31,    my_real*R32,    my_real*R33,    my_real*SIGOXX,
+                     my_real* SIGOYY, my_real*SIGOXY, my_real*SIGOYZ, my_real*SIGOZX, my_real*EPSPXX,
+                     my_real* EPSPYY, my_real*EPSPXY, my_real*EPSPYZ, my_real*EPSPZX, my_real*EPSXX,
+                     my_real* EPSYY,  my_real*EPSXY,  my_real*EPSYZ,  my_real*EPSZX,  my_real*DEPSXX,
+                     my_real* DEPSYY, my_real*DEPSXY, my_real*DEPSYZ, my_real*DEPSZX, my_real*THKLYL,      
+                     my_real* THKN,   my_real*SIGNXX, my_real*SIGNYY, my_real*SIGNXY, my_real*SIGNYZ,
+                     my_real* SIGNZX, my_real*SIGVXX, my_real*SIGVYY, my_real*SIGVXY, my_real*SIGVYZ,
+                     my_real* SIGVZX, my_real*DPLA ){
           if (eng_get_lawc_user_var){
                      (eng_get_lawc_user_var)( NCYCLE, IMAT, ILAYER, NPTA, IFLAG,
-     				 R11,	 R12,    R13,    R21,    R22,
-     				 R23,	 R31,    R32,    R33,    SIGOXX,
-     				 SIGOYY, SIGOXY, SIGOYZ, SIGOZX, EPSPXX,
-     				 EPSPYY, EPSPXY, EPSPYZ, EPSPZX, EPSXX,
-     				 EPSYY,  EPSXY,  EPSYZ,  EPSZX,  DEPSXX,
-     				 DEPSYY, DEPSXY, DEPSYZ, DEPSZX, THKLYL,	  
-     				 THKN,   SIGNXX, SIGNYY, SIGNXY, SIGNYZ,
-     				 SIGNZX, SIGVXX, SIGVYY, SIGVXY, SIGVYZ,
-     				 SIGVZX, DPLA ); }
+                      R11,     R12,    R13,    R21,    R22,
+                      R23,     R31,    R32,    R33,    SIGOXX,
+                      SIGOYY, SIGOXY, SIGOYZ, SIGOZX, EPSPXX,
+                      EPSPYY, EPSPXY, EPSPYZ, EPSPZX, EPSXX,
+                      EPSYY,  EPSXY,  EPSYZ,  EPSZX,  DEPSXX,
+                      DEPSYY, DEPSXY, DEPSYZ, DEPSZX, THKLYL,      
+                      THKN,   SIGNXX, SIGNYY, SIGNXY, SIGNYZ,
+                      SIGNZX, SIGVXX, SIGVYY, SIGVXY, SIGVYZ,
+                      SIGVZX, DPLA ); }
 }
 
 
@@ -1221,21 +1209,21 @@ void _FCALL ENG_USERLIB_GET_LAWC_VAR_2(my_real* VAR01,int*SIZVAR01,my_real* VAR0
     }     
 
 void  _FCALL ENG_USERLIB_SET_LAWC( my_real *SIGNXX,  my_real *SIGNYY, my_real *SIGNXY, my_real *SIGNYZ,  my_real *SIGNZX,
-     				my_real *SIGVXX, my_real *SIGVYY, my_real *SIGVXY, my_real *SIGVYZ,   my_real *SIGVZX,
-     				my_real* DPLA,   my_real *ETSE,   my_real* THKN ){
+                     my_real *SIGVXX, my_real *SIGVYY, my_real *SIGVXY, my_real *SIGVYZ,   my_real *SIGVZX,
+                     my_real* DPLA,   my_real *ETSE,   my_real* THKN ){
           if (eng_set_lawc_user_var){
                      (eng_set_lawc_user_var)(  SIGNXX,  SIGNYY, SIGNXY, SIGNYZ,  SIGNZX,
-     				               SIGVXX,  SIGVYY, SIGVXY, SIGVYZ,  SIGVZX,
-     				               DPLA,    ETSE,    THKN  ); }
+                                    SIGVXX,  SIGVYY, SIGVXY, SIGVYZ,  SIGVZX,
+                                    DPLA,    ETSE,    THKN  ); }
 }
 
 void  eng_userlib_set_lawc_ (   my_real*SIGNXX,  my_real*SIGNYY, my_real*SIGNXY, my_real* SIGNYZ,  my_real*SIGNZX,
-     				my_real* SIGVXX, my_real*SIGVYY, my_real*SIGVXY, my_real*SIGVYZ,   my_real*SIGVZX,
-     				my_real* DPLA,   my_real*ETSE,   my_real* THKN ){
+                     my_real* SIGVXX, my_real*SIGVYY, my_real*SIGVXY, my_real*SIGVYZ,   my_real*SIGVZX,
+                     my_real* DPLA,   my_real*ETSE,   my_real* THKN ){
           if (eng_set_lawc_user_var){
                      (eng_set_lawc_user_var)(  SIGNXX,  SIGNYY, SIGNXY, SIGNYZ,  SIGNZX,
-     				               SIGVXX,  SIGVYY, SIGVXY, SIGVYZ,  SIGVZX,
-     				               DPLA,    ETSE,   THKN  ); }
+                                    SIGVXX,  SIGVYY, SIGVXY, SIGVYZ,  SIGVZX,
+                                    DPLA,    ETSE,   THKN  ); }
 }
 
 void  _FCALL ENG_USERLIB_SET_LAWC_VAR_2(my_real* VAR01,int*SIZVAR01,my_real* VAR02,int*SIZVAR02,
@@ -1357,35 +1345,35 @@ void  eng_userlib_set_lawc_var_2_(my_real* VAR01,int*SIZVAR01,my_real* VAR02,int
 /* ------------------- */
 /* WINDOWS - SIGEPS99 */
 /* ------------------- */
-void _FCALL ENG_USERLIB_SIGEPS99( int*NEL	 ,int*NUPARAM     ,int*NUVAR      ,int*ILAW_USER  ,int*NFUNC   ,
-    	 int*IFUNC       ,int*NPF	  ,my_real*TF	  ,my_real*TIME   ,my_real*TIMESTEP,
-    	 my_real*UPARAM  ,my_real*RHO	  ,my_real*VOLUME ,my_real*EINT   ,int*NGL    ,
-    	 my_real*SOUNDSP ,my_real*VISCMAX ,my_real*UVAR   ,my_real*OFF	  ,my_real*SIGY   ,
-    	 my_real*PLA ){
+void _FCALL ENG_USERLIB_SIGEPS99( int*NEL     ,int*NUPARAM     ,int*NUVAR      ,int*ILAW_USER  ,int*NFUNC   ,
+         int*IFUNC       ,int*NPF      ,my_real*TF      ,my_real*TIME   ,my_real*TIMESTEP,
+         my_real*UPARAM  ,my_real*RHO      ,my_real*VOLUME ,my_real*EINT   ,int*NGL    ,
+         my_real*SOUNDSP ,my_real*VISCMAX ,my_real*UVAR   ,my_real*OFF      ,my_real*SIGY   ,
+         my_real*PLA ){
 
        if (eng_sigeps99){
-           (eng_sigeps99)( NEL	 ,NUPARAM     ,NUVAR      ,ILAW_USER  ,NFUNC   ,
-    	                   IFUNC  ,NPF	      ,TF         ,TIME   ,TIMESTEP,
-                   	 UPARAM  ,RHO	  ,VOLUME ,EINT   ,NGL    ,
-    	                 SOUNDSP ,VISCMAX ,UVAR   ,OFF	  ,SIGY   ,
-    	                   PLA  );
+           (eng_sigeps99)( NEL     ,NUPARAM     ,NUVAR      ,ILAW_USER  ,NFUNC   ,
+                           IFUNC  ,NPF          ,TF         ,TIME   ,TIMESTEP,
+                        UPARAM  ,RHO      ,VOLUME ,EINT   ,NGL    ,
+                         SOUNDSP ,VISCMAX ,UVAR   ,OFF      ,SIGY   ,
+                           PLA  );
  }
 }
 /* ----------------- */
 /* LINUX - SIGEPS99C */
 /* ----------------- */
-void  eng_userlib_sigeps99_( int*NEL	 ,int*NUPARAM     ,int*NUVAR      ,int*ILAW_USER  ,int*NFUNC   ,
-    	 int*IFUNC       ,int*NPF	  ,my_real*TF	  ,my_real*TIME   ,my_real*TIMESTEP,
-    	 my_real*UPARAM  ,my_real*RHO	  ,my_real*VOLUME ,my_real*EINT   ,int*NGL    ,
-    	 my_real*SOUNDSP ,my_real*VISCMAX ,my_real*UVAR   ,my_real*OFF	  ,my_real*SIGY   ,
-    	 my_real*PLA ){
+void  eng_userlib_sigeps99_( int*NEL     ,int*NUPARAM     ,int*NUVAR      ,int*ILAW_USER  ,int*NFUNC   ,
+         int*IFUNC       ,int*NPF      ,my_real*TF      ,my_real*TIME   ,my_real*TIMESTEP,
+         my_real*UPARAM  ,my_real*RHO      ,my_real*VOLUME ,my_real*EINT   ,int*NGL    ,
+         my_real*SOUNDSP ,my_real*VISCMAX ,my_real*UVAR   ,my_real*OFF      ,my_real*SIGY   ,
+         my_real*PLA ){
 
        if (eng_sigeps99){
-           (eng_sigeps99)( NEL	 ,NUPARAM     ,NUVAR      ,ILAW_USER  ,NFUNC   ,
-    	                   IFUNC  ,NPF	      ,TF         ,TIME   ,TIMESTEP,
-                   	 UPARAM  ,RHO	  ,VOLUME ,EINT   ,NGL    ,
-    	                 SOUNDSP ,VISCMAX ,UVAR   ,OFF	  ,SIGY   ,
-    	                   PLA  );
+           (eng_sigeps99)( NEL     ,NUPARAM     ,NUVAR      ,ILAW_USER  ,NFUNC   ,
+                           IFUNC  ,NPF          ,TF         ,TIME   ,TIMESTEP,
+                        UPARAM  ,RHO      ,VOLUME ,EINT   ,NGL    ,
+                         SOUNDSP ,VISCMAX ,UVAR   ,OFF      ,SIGY   ,
+                           PLA  );
  }
 }
 
@@ -1393,22 +1381,22 @@ void  eng_userlib_sigeps99_( int*NEL	 ,int*NUPARAM     ,int*NUVAR      ,int*ILAW
 /* WINDOWS - eng_get_law_user_var */
 /* ------------------------------ */
 void _FCALL ENG_USERLIB_GET_LAW_VAR(  int*NCYCLE, int*IMAT, int*IPTR, int*IPTS, int*IPTT,
-    	                       my_real*R11,my_real*R12, my_real*R13, my_real*R21, my_real*R22, my_real*R23,  my_real*R31,
-    	                       my_real*R32,my_real*R33, my_real*SO1, my_real*SO2, my_real*SO3, my_real*SO4,  my_real*SO5,
-    	                       my_real*SO6, my_real*EP1, my_real*EP2, my_real*EP3, my_real*EP4, my_real*EP5,  my_real*EP6,
-    	                       my_real*ES1, my_real*ES2, my_real*ES3, my_real*ES4, my_real*ES5, my_real*ES6,  my_real*DE1,
-    	                       my_real*DE2, my_real*DE3, my_real*DE4, my_real*DE5, my_real*DE6, my_real*RHO0, my_real*S1,
-    	                       my_real*S2,  my_real*S3,  my_real*S4,  my_real*S5,  my_real*S6,  my_real*SV1,  my_real*SV2,
-    			       my_real*SV3, my_real*SV4, my_real*SV5, my_real*SV6 ){
+                               my_real*R11,my_real*R12, my_real*R13, my_real*R21, my_real*R22, my_real*R23,  my_real*R31,
+                               my_real*R32,my_real*R33, my_real*SO1, my_real*SO2, my_real*SO3, my_real*SO4,  my_real*SO5,
+                               my_real*SO6, my_real*EP1, my_real*EP2, my_real*EP3, my_real*EP4, my_real*EP5,  my_real*EP6,
+                               my_real*ES1, my_real*ES2, my_real*ES3, my_real*ES4, my_real*ES5, my_real*ES6,  my_real*DE1,
+                               my_real*DE2, my_real*DE3, my_real*DE4, my_real*DE5, my_real*DE6, my_real*RHO0, my_real*S1,
+                               my_real*S2,  my_real*S3,  my_real*S4,  my_real*S5,  my_real*S6,  my_real*SV1,  my_real*SV2,
+                       my_real*SV3, my_real*SV4, my_real*SV5, my_real*SV6 ){
               if (eng_get_law_user_var){
                  (eng_get_law_user_var)( NCYCLE, IMAT,IPTR, IPTS,IPTT,
-    	                       R11,R12, R13, R21, R22, R23,  R31,
-    	                       R32,R33, SO1, SO2, SO3, SO4,  SO5,
-    	                       SO6, EP1, EP2, EP3, EP4, EP5,  EP6,
-    	                       ES1, ES2, ES3, ES4, ES5, ES6,  DE1,
-    	                       DE2, DE3, DE4, DE5, DE6, RHO0, S1,
-    	                       S2,  S3,  S4,  S5,  S6,  SV1,  SV2,
-    			       SV3, SV4, SV5, SV6 );
+                               R11,R12, R13, R21, R22, R23,  R31,
+                               R32,R33, SO1, SO2, SO3, SO4,  SO5,
+                               SO6, EP1, EP2, EP3, EP4, EP5,  EP6,
+                               ES1, ES2, ES3, ES4, ES5, ES6,  DE1,
+                               DE2, DE3, DE4, DE5, DE6, RHO0, S1,
+                               S2,  S3,  S4,  S5,  S6,  SV1,  SV2,
+                       SV3, SV4, SV5, SV6 );
                                }
 
 }
@@ -1417,23 +1405,23 @@ void _FCALL ENG_USERLIB_GET_LAW_VAR(  int*NCYCLE, int*IMAT, int*IPTR, int*IPTS, 
 /* LINUX - eng_get_law_user_var */
 /* ---------------------------- */
 void eng_userlib_get_law_var_(  int*NCYCLE, int*IMAT, int*IPTR, int*IPTS, int*IPTT,
-    	                my_real*R11,my_real*R12, my_real*R13, my_real*R21, my_real*R22, my_real*R23,  my_real*R31,
-    	                my_real*R32,my_real*R33, my_real*SO1, my_real*SO2, my_real*SO3, my_real*SO4,  my_real*SO5,
-    	                my_real*SO6, my_real*EP1, my_real*EP2, my_real*EP3, my_real*EP4, my_real*EP5,  my_real*EP6,
-    	                my_real*ES1, my_real*ES2, my_real*ES3, my_real*ES4, my_real*ES5, my_real*ES6,  my_real*DE1,
-    	                my_real*DE2, my_real*DE3, my_real*DE4, my_real*DE5, my_real*DE6, my_real*RHO0, my_real*S1,
-    	                my_real*S2,  my_real*S3,  my_real*S4,  my_real*S5,  my_real*S6,  my_real*SV1,  my_real*SV2,
-    			my_real*SV3, my_real*SV4, my_real*SV5, my_real*SV6 ){
+                        my_real*R11,my_real*R12, my_real*R13, my_real*R21, my_real*R22, my_real*R23,  my_real*R31,
+                        my_real*R32,my_real*R33, my_real*SO1, my_real*SO2, my_real*SO3, my_real*SO4,  my_real*SO5,
+                        my_real*SO6, my_real*EP1, my_real*EP2, my_real*EP3, my_real*EP4, my_real*EP5,  my_real*EP6,
+                        my_real*ES1, my_real*ES2, my_real*ES3, my_real*ES4, my_real*ES5, my_real*ES6,  my_real*DE1,
+                        my_real*DE2, my_real*DE3, my_real*DE4, my_real*DE5, my_real*DE6, my_real*RHO0, my_real*S1,
+                        my_real*S2,  my_real*S3,  my_real*S4,  my_real*S5,  my_real*S6,  my_real*SV1,  my_real*SV2,
+                my_real*SV3, my_real*SV4, my_real*SV5, my_real*SV6 ){
 
               if (eng_get_law_user_var){
                  (eng_get_law_user_var)( NCYCLE, IMAT,IPTR, IPTS,IPTT,
-    	                       R11,R12, R13, R21, R22, R23,  R31,
-    	                       R32,R33, SO1, SO2, SO3, SO4,  SO5,
-    	                       SO6, EP1, EP2, EP3, EP4, EP5,  EP6,
-    	                       ES1, ES2, ES3, ES4, ES5, ES6,  DE1,
-    	                       DE2, DE3, DE4, DE5, DE6, RHO0, S1,
-    	                       S2,  S3,  S4,  S5,  S6,  SV1,  SV2,
-    			       SV3, SV4, SV5, SV6 );
+                               R11,R12, R13, R21, R22, R23,  R31,
+                               R32,R33, SO1, SO2, SO3, SO4,  SO5,
+                               SO6, EP1, EP2, EP3, EP4, EP5,  EP6,
+                               ES1, ES2, ES3, ES4, ES5, ES6,  DE1,
+                               DE2, DE3, DE4, DE5, DE6, RHO0, S1,
+                               S2,  S3,  S4,  S5,  S6,  SV1,  SV2,
+                       SV3, SV4, SV5, SV6 );
                                }
 
 }
@@ -1697,50 +1685,50 @@ void eng_userlib_set_law_var_2_(     my_real*VAR01,int *SIZVAR01,my_real*VAR02,i
 
 /* WINDOWS */
 void  _FCALL ENG_USERLIB_FLAWC(int *IRUP,
-   	int *NEL   ,int *NUPARAM,int *NUVAR   ,int *NFUNC   ,int *IFUNC  ,int *NPF    ,
-   	my_real *TF    ,my_real *TIME	,my_real *TIMESTEP,my_real *UPARAM  , int *NGL   ,int *IPT    ,
-   	int *NPT0  ,int *IPM	,int *NPROPMI ,int *MAT   ,
-   	my_real *SIGNXX ,my_real *SIGNYY ,my_real *SIGNXY  ,my_real *SIGNYZ  ,my_real *SIGNZX ,
-   	my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPXY  ,my_real *EPSPYZ  ,my_real *EPSPZX ,
-   	my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSXY   ,my_real *EPSYZ   ,my_real *EPSZX  ,
-   	my_real *PLA	,my_real *DPLA   ,my_real *EPSP    ,my_real *UVAR    ,my_real *UEL    , 
-   	my_real *OFF	,my_real *BIDON1  ,my_real *BIDON2   ,my_real *BIDON3  ,my_real *BIDON4  ,my_real *BIDON5  ){
+       int *NEL   ,int *NUPARAM,int *NUVAR   ,int *NFUNC   ,int *IFUNC  ,int *NPF    ,
+       my_real *TF    ,my_real *TIME    ,my_real *TIMESTEP,my_real *UPARAM  , int *NGL   ,int *IPT    ,
+       int *NPT0  ,int *IPM    ,int *NPROPMI ,int *MAT   ,
+       my_real *SIGNXX ,my_real *SIGNYY ,my_real *SIGNXY  ,my_real *SIGNYZ  ,my_real *SIGNZX ,
+       my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPXY  ,my_real *EPSPYZ  ,my_real *EPSPZX ,
+       my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSXY   ,my_real *EPSYZ   ,my_real *EPSZX  ,
+       my_real *PLA    ,my_real *DPLA   ,my_real *EPSP    ,my_real *UVAR    ,my_real *UEL    , 
+       my_real *OFF    ,my_real *BIDON1  ,my_real *BIDON2   ,my_real *BIDON3  ,my_real *BIDON4  ,my_real *BIDON5  ){
 
-	  if(eng_flawc){
-		  (eng_flawc)(IRUP,
-   	NEL   ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC  ,NPF    ,
-   	TF    ,TIME	,TIMESTEP,UPARAM  , NGL   ,IPT    ,
-   	NPT0  ,IPM	,NPROPMI ,MAT   ,
-   	SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-   	EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-   	EPSXX  ,EPSYY  ,EPSXY	,EPSYZ   ,EPSZX  ,
-   	PLA    ,DPLA   ,EPSP	,UVAR	 ,UEL	 , 
-   	OFF    ,BIDON1 ,BIDON2  ,BIDON3  ,BIDON4  ,BIDON5);
-	  }
+      if(eng_flawc){
+          (eng_flawc)(IRUP,
+       NEL   ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC  ,NPF    ,
+       TF    ,TIME    ,TIMESTEP,UPARAM  , NGL   ,IPT    ,
+       NPT0  ,IPM    ,NPROPMI ,MAT   ,
+       SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
+       EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
+       EPSXX  ,EPSYY  ,EPSXY    ,EPSYZ   ,EPSZX  ,
+       PLA    ,DPLA   ,EPSP    ,UVAR     ,UEL     , 
+       OFF    ,BIDON1 ,BIDON2  ,BIDON3  ,BIDON4  ,BIDON5);
+      }
 
 }
 
 /* LINUX */
 void  eng_userlib_flawc_(int *IRUP,
-   	int *NEL   ,int *NUPARAM,int *NUVAR   ,int *NFUNC   ,int *IFUNC  ,int *NPF    ,
-   	my_real *TF    ,my_real *TIME	,my_real *TIMESTEP,my_real *UPARAM  , int *NGL   ,int *IPT    ,
-   	int *NPT0  ,int *IPM	,int *NPROPMI ,int *MAT   ,
-   	my_real *SIGNXX ,my_real *SIGNYY ,my_real *SIGNXY  ,my_real *SIGNYZ  ,my_real *SIGNZX ,
-   	my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPXY  ,my_real *EPSPYZ  ,my_real *EPSPZX ,
-   	my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSXY   ,my_real *EPSYZ   ,my_real *EPSZX  ,
-   	my_real *PLA	,my_real *DPLA   ,my_real *EPSP    ,my_real *UVAR    ,my_real *UEL    , 
-   	my_real *OFF	,my_real *BIDON1  ,my_real *BIDON2   ,my_real *BIDON3  ,my_real *BIDON4  ,my_real *BIDON5  ){
+       int *NEL   ,int *NUPARAM,int *NUVAR   ,int *NFUNC   ,int *IFUNC  ,int *NPF    ,
+       my_real *TF    ,my_real *TIME    ,my_real *TIMESTEP,my_real *UPARAM  , int *NGL   ,int *IPT    ,
+       int *NPT0  ,int *IPM    ,int *NPROPMI ,int *MAT   ,
+       my_real *SIGNXX ,my_real *SIGNYY ,my_real *SIGNXY  ,my_real *SIGNYZ  ,my_real *SIGNZX ,
+       my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPXY  ,my_real *EPSPYZ  ,my_real *EPSPZX ,
+       my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSXY   ,my_real *EPSYZ   ,my_real *EPSZX  ,
+       my_real *PLA    ,my_real *DPLA   ,my_real *EPSP    ,my_real *UVAR    ,my_real *UEL    , 
+       my_real *OFF    ,my_real *BIDON1  ,my_real *BIDON2   ,my_real *BIDON3  ,my_real *BIDON4  ,my_real *BIDON5  ){
 
-	  if(eng_flawc){
-		  (*eng_flawc)(IRUP,
-   	NEL   ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC  ,NPF    ,
-   	TF    ,TIME	,TIMESTEP,UPARAM  , NGL   ,IPT    ,
-   	NPT0  ,IPM	,NPROPMI ,MAT   ,
-   	SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-   	EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-   	EPSXX  ,EPSYY  ,EPSXY	,EPSYZ   ,EPSZX  ,
-   	PLA    ,DPLA   ,EPSP	,UVAR	 ,UEL	 , 
-   	OFF    ,BIDON1 ,BIDON2  ,BIDON3  ,BIDON4  ,BIDON5);  }
+      if(eng_flawc){
+          (*eng_flawc)(IRUP,
+       NEL   ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC  ,NPF    ,
+       TF    ,TIME    ,TIMESTEP,UPARAM  , NGL   ,IPT    ,
+       NPT0  ,IPM    ,NPROPMI ,MAT   ,
+       SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
+       EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
+       EPSXX  ,EPSYY  ,EPSXY    ,EPSYZ   ,EPSZX  ,
+       PLA    ,DPLA   ,EPSP    ,UVAR     ,UEL     , 
+       OFF    ,BIDON1 ,BIDON2  ,BIDON3  ,BIDON4  ,BIDON5);  }
 
 }
 
@@ -1751,50 +1739,50 @@ void  eng_userlib_flawc_(int *IRUP,
 
 /* WINDOWS */
 void  _FCALL ENG_USERLIB_FLAW(int*IRUP,
-     	  int*NEL    ,int*NUPARAM,int*NUVAR   ,int*NFUNC   ,int*IFUNC   ,
-     	  int*NPF    ,my_real *TF     ,my_real *TIME   ,my_real *TIMESTEP ,my_real *UPARAM  ,
-     	  int*NGL    ,int*IPM	 ,int*NPROPMI,int*MAT,int*IDEL7NOK,
-     	  my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPZZ ,my_real *EPSPXY,my_real *EPSPYZ,my_real *EPSPZX ,
-     	  my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSZZ  ,my_real *EPSXY ,my_real *EPSYZ ,my_real *EPSZX  ,
-     	  my_real *SIGNXX ,my_real *SIGNYY ,my_real *SIGNZZ ,my_real *SIGNXY,my_real *SIGNYZ,my_real *SIGNZX ,
-     	  my_real *PLA    ,my_real *DPLA   ,my_real *EPSP   ,my_real *UVAR  ,my_real *OFF   ,
-     	  my_real *BIDON1 ,my_real *BIDON2 ,my_real *BIDON3 ,my_real *BIDON4,my_real *BIDON5){
+           int*NEL    ,int*NUPARAM,int*NUVAR   ,int*NFUNC   ,int*IFUNC   ,
+           int*NPF    ,my_real *TF     ,my_real *TIME   ,my_real *TIMESTEP ,my_real *UPARAM  ,
+           int*NGL    ,int*IPM     ,int*NPROPMI,int*MAT,int*IDEL7NOK,
+           my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPZZ ,my_real *EPSPXY,my_real *EPSPYZ,my_real *EPSPZX ,
+           my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSZZ  ,my_real *EPSXY ,my_real *EPSYZ ,my_real *EPSZX  ,
+           my_real *SIGNXX ,my_real *SIGNYY ,my_real *SIGNZZ ,my_real *SIGNXY,my_real *SIGNYZ,my_real *SIGNZX ,
+           my_real *PLA    ,my_real *DPLA   ,my_real *EPSP   ,my_real *UVAR  ,my_real *OFF   ,
+           my_real *BIDON1 ,my_real *BIDON2 ,my_real *BIDON3 ,my_real *BIDON4,my_real *BIDON5){
 
-	  if(eng_flaw){
-		  (*eng_flaw)(IRUP,
-     	 NEL	, NUPARAM,NUVAR  ,NFUNC    ,IFUNC,
-     	 NPF	, TF	 ,TIME   ,TIMESTEP ,UPARAM  ,
-     	 NGL    , IPM    ,NPROPMI,MAT      ,IDEL7NOK,
-     	 EPSPXX , EPSPYY ,EPSPZZ ,EPSPXY,EPSPYZ,EPSPZX ,
-     	 EPSXX  , EPSYY  ,EPSZZ  ,EPSXY ,EPSYZ ,EPSZX  ,
-     	 SIGNXX , SIGNYY ,SIGNZZ ,SIGNXY,SIGNYZ,SIGNZX ,
-     	 PLA	, DPLA	 ,EPSP   ,UVAR  ,OFF   ,
-     	 BIDON1 , BIDON2 ,BIDON3 ,BIDON4,BIDON5);
-	  }
+      if(eng_flaw){
+          (*eng_flaw)(IRUP,
+          NEL    , NUPARAM,NUVAR  ,NFUNC    ,IFUNC,
+          NPF    , TF     ,TIME   ,TIMESTEP ,UPARAM  ,
+          NGL    , IPM    ,NPROPMI,MAT      ,IDEL7NOK,
+          EPSPXX , EPSPYY ,EPSPZZ ,EPSPXY,EPSPYZ,EPSPZX ,
+          EPSXX  , EPSYY  ,EPSZZ  ,EPSXY ,EPSYZ ,EPSZX  ,
+          SIGNXX , SIGNYY ,SIGNZZ ,SIGNXY,SIGNYZ,SIGNZX ,
+          PLA    , DPLA     ,EPSP   ,UVAR  ,OFF   ,
+          BIDON1 , BIDON2 ,BIDON3 ,BIDON4,BIDON5);
+      }
 
 }
 /* Linux */
 void  eng_userlib_flaw_(int*IRUP,
-     	  int*NEL    ,int*NUPARAM,int*NUVAR   ,int*NFUNC   ,int*IFUNC   ,
-     	  int*NPF    ,my_real *TF     ,my_real *TIME   ,my_real *TIMESTEP ,my_real *UPARAM  ,
-     	  int*NGL    ,int*IPM	 ,int*NPROPMI,int*MAT,int*IDEL7NOK,
-     	  my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPZZ ,my_real *EPSPXY,my_real *EPSPYZ,my_real *EPSPZX ,
-     	  my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSZZ  ,my_real *EPSXY ,my_real *EPSYZ ,my_real *EPSZX  ,
-     	  my_real *SIGNXX ,my_real *SIGNYY ,my_real *SIGNZZ ,my_real *SIGNXY,my_real *SIGNYZ,my_real *SIGNZX ,
-     	  my_real *PLA    ,my_real *DPLA   ,my_real *EPSP   ,my_real *UVAR  ,my_real *OFF   ,
-     	  my_real *BIDON1 ,my_real *BIDON2 ,my_real *BIDON3 ,my_real *BIDON4,my_real *BIDON5){
+           int*NEL    ,int*NUPARAM,int*NUVAR   ,int*NFUNC   ,int*IFUNC   ,
+           int*NPF    ,my_real *TF     ,my_real *TIME   ,my_real *TIMESTEP ,my_real *UPARAM  ,
+           int*NGL    ,int*IPM     ,int*NPROPMI,int*MAT,int*IDEL7NOK,
+           my_real *EPSPXX ,my_real *EPSPYY ,my_real *EPSPZZ ,my_real *EPSPXY,my_real *EPSPYZ,my_real *EPSPZX ,
+           my_real *EPSXX  ,my_real *EPSYY  ,my_real *EPSZZ  ,my_real *EPSXY ,my_real *EPSYZ ,my_real *EPSZX  ,
+           my_real *SIGNXX ,my_real *SIGNYY ,my_real *SIGNZZ ,my_real *SIGNXY,my_real *SIGNYZ,my_real *SIGNZX ,
+           my_real *PLA    ,my_real *DPLA   ,my_real *EPSP   ,my_real *UVAR  ,my_real *OFF   ,
+           my_real *BIDON1 ,my_real *BIDON2 ,my_real *BIDON3 ,my_real *BIDON4,my_real *BIDON5){
 
-	  if(eng_flaw){
-		  (*eng_flaw)(IRUP,
-     	 NEL	, NUPARAM,NUVAR  ,NFUNC    ,IFUNC,
-     	 NPF	, TF	 ,TIME   ,TIMESTEP ,UPARAM  ,
-     	 NGL    , IPM    ,NPROPMI,MAT      ,IDEL7NOK,
-     	 EPSPXX , EPSPYY ,EPSPZZ ,EPSPXY,EPSPYZ,EPSPZX ,
-     	 EPSXX  , EPSYY  ,EPSZZ  ,EPSXY ,EPSYZ ,EPSZX  ,
-     	 SIGNXX , SIGNYY ,SIGNZZ ,SIGNXY,SIGNYZ,SIGNZX ,
-     	 PLA	, DPLA	 ,EPSP   ,UVAR  ,OFF   ,
-     	 BIDON1 , BIDON2 ,BIDON3 ,BIDON4,BIDON5);
-	  }
+      if(eng_flaw){
+          (*eng_flaw)(IRUP,
+          NEL    , NUPARAM,NUVAR  ,NFUNC    ,IFUNC,
+          NPF    , TF     ,TIME   ,TIMESTEP ,UPARAM  ,
+          NGL    , IPM    ,NPROPMI,MAT      ,IDEL7NOK,
+          EPSPXX , EPSPYY ,EPSPZZ ,EPSPXY,EPSPYZ,EPSPZX ,
+          EPSXX  , EPSYY  ,EPSZZ  ,EPSXY ,EPSYZ ,EPSZX  ,
+          SIGNXX , SIGNYY ,SIGNZZ ,SIGNXY,SIGNYZ,SIGNZX ,
+          PLA    , DPLA     ,EPSP   ,UVAR  ,OFF   ,
+          BIDON1 , BIDON2 ,BIDON3 ,BIDON4,BIDON5);
+      }
 
 }
 
@@ -1806,46 +1794,46 @@ void  eng_userlib_flaw_(int*IRUP,
 /* WINDOWS */
 void  _FCALL ENG_USERLIB_RUSER(int *ITYP,
                     int * NEL     ,int *IPROP       ,my_real *UVAR   ,int *NUVAR  ,
-    		 my_real *FX	  ,my_real *FY      ,my_real *FZ     ,my_real *XMOM   ,my_real *YMOM   ,
-    		 my_real *ZMOM    ,my_real *E	    ,my_real *OFF    ,my_real *STIFM  ,my_real *STIFR  ,
-    		 my_real *VISCM   ,my_real *VISCR   ,my_real *MASS   ,my_real *XINER  ,my_real *DT     ,
-    		 my_real *XL	  ,my_real *VX      ,my_real *RY1    ,my_real *RZ1    ,my_real *RX     ,
-    		 my_real *RY2	  ,my_real *RZ2     ,my_real *FR_WAVE){
+             my_real *FX      ,my_real *FY      ,my_real *FZ     ,my_real *XMOM   ,my_real *YMOM   ,
+             my_real *ZMOM    ,my_real *E        ,my_real *OFF    ,my_real *STIFM  ,my_real *STIFR  ,
+             my_real *VISCM   ,my_real *VISCR   ,my_real *MASS   ,my_real *XINER  ,my_real *DT     ,
+             my_real *XL      ,my_real *VX      ,my_real *RY1    ,my_real *RZ1    ,my_real *RX     ,
+             my_real *RY2      ,my_real *RZ2     ,my_real *FR_WAVE){
 
-	  if(eng_ruser){
-		  (*eng_ruser)(ITYP,NEL   ,IPROP  ,UVAR    ,NUVAR  ,
-    		    FX    ,FY	  ,FZ      ,XMOM   ,YMOM   ,
-    		    ZMOM  ,E	  ,OFF     ,STIFM  ,STIFR  ,
-    		    VISCM ,VISCR   ,MASS   ,XINER  ,DT     ,
-    		    XL	  ,VX	   ,RY1    ,RZ1    ,RX     ,
-                    RY2	  ,RZ2	   ,FR_WAVE);
-	  }
+      if(eng_ruser){
+          (*eng_ruser)(ITYP,NEL   ,IPROP  ,UVAR    ,NUVAR  ,
+                FX    ,FY      ,FZ      ,XMOM   ,YMOM   ,
+                ZMOM  ,E      ,OFF     ,STIFM  ,STIFR  ,
+                VISCM ,VISCR   ,MASS   ,XINER  ,DT     ,
+                XL      ,VX       ,RY1    ,RZ1    ,RX     ,
+                    RY2      ,RZ2       ,FR_WAVE);
+      }
 
 }
 
 /* LINUX */
 void   eng_userlib_ruser_(int *ITYP,
                     int * NEL     ,int *IPROP       ,my_real *UVAR   ,int *NUVAR  ,
-    		 my_real *FX	  ,my_real *FY      ,my_real *FZ     ,my_real *XMOM   ,my_real *YMOM   ,
-    		 my_real *ZMOM    ,my_real *E	    ,my_real *OFF    ,my_real *STIFM  ,my_real *STIFR  ,
-    		 my_real *VISCM   ,my_real *VISCR   ,my_real *MASS   ,my_real *XINER  ,my_real *DT     ,
-    		 my_real *XL	  ,my_real *VX      ,my_real *RY1    ,my_real *RZ1    ,my_real *RX     ,
-    		 my_real *RY2	  ,my_real *RZ2     ,my_real *FR_WAVE){
+             my_real *FX      ,my_real *FY      ,my_real *FZ     ,my_real *XMOM   ,my_real *YMOM   ,
+             my_real *ZMOM    ,my_real *E        ,my_real *OFF    ,my_real *STIFM  ,my_real *STIFR  ,
+             my_real *VISCM   ,my_real *VISCR   ,my_real *MASS   ,my_real *XINER  ,my_real *DT     ,
+             my_real *XL      ,my_real *VX      ,my_real *RY1    ,my_real *RZ1    ,my_real *RX     ,
+             my_real *RY2      ,my_real *RZ2     ,my_real *FR_WAVE){
 
-	  if(eng_ruser){
-		  (*eng_ruser)(ITYP,
+      if(eng_ruser){
+          (*eng_ruser)(ITYP,
                     NEL   ,IPROP  ,UVAR    ,NUVAR  ,
-    		    FX    ,FY	  ,FZ      ,XMOM   ,YMOM   ,
-    		    ZMOM  ,E	  ,OFF     ,STIFM  ,STIFR  ,
-    		    VISCM ,VISCR   ,MASS   ,XINER  ,DT     ,
-    		    XL	  ,VX	   ,RY1    ,RZ1    ,RX     ,
-                    RY2	  ,RZ2	   ,FR_WAVE);
-	  }
+                FX    ,FY      ,FZ      ,XMOM   ,YMOM   ,
+                ZMOM  ,E      ,OFF     ,STIFM  ,STIFR  ,
+                VISCM ,VISCR   ,MASS   ,XINER  ,DT     ,
+                XL      ,VX       ,RY1    ,RZ1    ,RX     ,
+                    RY2      ,RZ2       ,FR_WAVE);
+      }
 }
 
 
 void _FCALL ENG_USERLIB_SUSER(int*ITYP,
-      int*NEL	 ,int*NUVAR   ,int*IPROP  ,int*IMAT  ,int*SOLID_ID,my_real *TIME  ,my_real *TIMESTEP,
+      int*NEL     ,int*NUVAR   ,int*IPROP  ,int*IMAT  ,int*SOLID_ID,my_real *TIME  ,my_real *TIMESTEP,
       my_real *EINT   ,my_real *VOL    ,my_real *UVAR   ,my_real *FR_WAVE,my_real *OFF    ,my_real *RHO    ,my_real *SIG    ,
       my_real *XX1    ,my_real *XX2    ,my_real *XX3    ,my_real *XX4    ,my_real *XX5    ,my_real *XX6    ,my_real *XX7    ,my_real *XX8    ,     
       my_real *YY1    ,my_real *YY2    ,my_real *YY3    ,my_real *YY4    ,my_real *YY5    ,my_real *YY6    ,my_real *YY7    ,my_real *YY8    ,  
@@ -1895,7 +1883,7 @@ void _FCALL ENG_USERLIB_SUSER(int*ITYP,
 
 
 void eng_userlib_suser_(int*ITYP,
-      int*NEL	 ,int*NUVAR   ,int*IPROP  ,int*IMAT  ,int*SOLID_ID,my_real *TIME  ,my_real *TIMESTEP,
+      int*NEL     ,int*NUVAR   ,int*IPROP  ,int*IMAT  ,int*SOLID_ID,my_real *TIME  ,my_real *TIMESTEP,
       my_real *EINT   ,my_real *VOL    ,my_real *UVAR   ,my_real *FR_WAVE,my_real *OFF    ,my_real *RHO    ,my_real *SIG    ,
       my_real *XX1    ,my_real *XX2    ,my_real *XX3    ,my_real *XX4    ,my_real *XX5    ,my_real *XX6    ,my_real *XX7    ,my_real *XX8    ,     
       my_real *YY1    ,my_real *YY2    ,my_real *YY3    ,my_real *YY4    ,my_real *YY5    ,my_real *YY6    ,my_real *YY7    ,my_real *YY8    ,  
@@ -2002,38 +1990,38 @@ void _FCALL eng_userlib_user_sens_(int *TYP,int *ID ){
 
 
 void _FCALL ENG_USERLIB_USERWI(char *ROOTN ,int *ROOTLEN ,
-     		int *NUVAR  ,int *NUVARI ,int *NUMNOD ,
-     		int *NCYCLE ,int *LENWA  ,int *IUVAR  ,int *ITAB   ,my_real *TT     ,
-     		my_real *DT1	,my_real *DT2	 ,my_real *USREINT,my_real *EXWORK ,my_real *UVAR   ,
-     		my_real *D	,my_real *X	 ,my_real *V	  ,my_real *VR     ,my_real *MASS   ,
-     		my_real *INER	,my_real *STIFN  ,my_real *STIFR  ,my_real *A	   ,my_real *AR     ,
-     		my_real *WA	){
+             int *NUVAR  ,int *NUVARI ,int *NUMNOD ,
+             int *NCYCLE ,int *LENWA  ,int *IUVAR  ,int *ITAB   ,my_real *TT     ,
+             my_real *DT1    ,my_real *DT2     ,my_real *USREINT,my_real *EXWORK ,my_real *UVAR   ,
+             my_real *D    ,my_real *X     ,my_real *V      ,my_real *VR     ,my_real *MASS   ,
+             my_real *INER    ,my_real *STIFN  ,my_real *STIFR  ,my_real *A       ,my_real *AR     ,
+             my_real *WA    ){
        if (*eng_userwi){
            (eng_userwi)(ROOTN ,ROOTLEN ,
-     		NUVAR  ,NUVARI ,NUMNOD ,
-     		NCYCLE ,LENWA  ,IUVAR  ,ITAB   ,TT     ,
-     		DT1    ,DT2    ,USREINT,EXWORK ,UVAR   ,
-     		D      ,X      ,V      ,VR     ,MASS   ,
-     		INER   ,STIFN  ,STIFR  ,A      ,AR     ,
-     		WA     );
+             NUVAR  ,NUVARI ,NUMNOD ,
+             NCYCLE ,LENWA  ,IUVAR  ,ITAB   ,TT     ,
+             DT1    ,DT2    ,USREINT,EXWORK ,UVAR   ,
+             D      ,X      ,V      ,VR     ,MASS   ,
+             INER   ,STIFN  ,STIFR  ,A      ,AR     ,
+             WA     );
  }
 }
 
 void eng_userlib_userwi_(char *ROOTN ,int *ROOTLEN ,
-     		int *NUVAR  ,int *NUVARI ,int *NUMNOD ,
-     		int *NCYCLE ,int *LENWA  ,int *IUVAR  ,int *ITAB   ,my_real *TT     ,
-     		my_real *DT1	,my_real *DT2	 ,my_real *USREINT,my_real *EXWORK ,my_real *UVAR   ,
-     		my_real *D	,my_real *X	 ,my_real *V	  ,my_real *VR     ,my_real *MASS   ,
-     		my_real *INER	,my_real *STIFN  ,my_real *STIFR  ,my_real *A	   ,my_real *AR     ,
-     		my_real *WA	){
+             int *NUVAR  ,int *NUVARI ,int *NUMNOD ,
+             int *NCYCLE ,int *LENWA  ,int *IUVAR  ,int *ITAB   ,my_real *TT     ,
+             my_real *DT1    ,my_real *DT2     ,my_real *USREINT,my_real *EXWORK ,my_real *UVAR   ,
+             my_real *D    ,my_real *X     ,my_real *V      ,my_real *VR     ,my_real *MASS   ,
+             my_real *INER    ,my_real *STIFN  ,my_real *STIFR  ,my_real *A       ,my_real *AR     ,
+             my_real *WA    ){
        if (*eng_userwi){
            (eng_userwi)(ROOTN ,ROOTLEN ,
-     		NUVAR  ,NUVARI ,NUMNOD ,
-     		NCYCLE ,LENWA  ,IUVAR  ,ITAB   ,TT     ,
-     		DT1    ,DT2    ,USREINT,EXWORK ,UVAR   ,
-     		D      ,X      ,V      ,VR     ,MASS   ,
-     		INER   ,STIFN  ,STIFR  ,A      ,AR     ,
-     		WA     );
+             NUVAR  ,NUVARI ,NUMNOD ,
+             NCYCLE ,LENWA  ,IUVAR  ,ITAB   ,TT     ,
+             DT1    ,DT2    ,USREINT,EXWORK ,UVAR   ,
+             D      ,X      ,V      ,VR     ,MASS   ,
+             INER   ,STIFN  ,STIFR  ,A      ,AR     ,
+             WA     );
  }
 }
 /* ----------------------------------------------- */

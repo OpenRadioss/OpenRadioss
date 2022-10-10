@@ -23,28 +23,32 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h> 
+#include <my_real_c.inc>
 
 #define _FCALL
 
 
 int *sav_buf[1000];
 
-/* in other routines */
+/* Set in other routines */
 void    ARRET(int * n);
 void    arret_(int * n);
 void arret_c(int n) ;
-void VINTER2DP(double *tf,int *jad,int *jpos,int *jlen,int *llt,double *xx,double *dydx, double *yy);
-void vinter2dp_(double *tf,int *jad,int *jpos,int *jlen,int *llt,double *xx,double *dydx, double *yy);
+void VINTER2DP (double    *tf,int *jad,int *jpos,int *jlen,int *llt, double    *xx,double    *dydx, double *yy);
+void vinter2dp_(double    *tf,int *jad,int *jpos,int *jlen,int *llt, double    *xx,double    *dydx, double *yy);
+void VINTER2   (my_real_c *tf,int *jad,int *jpos,int *jlen,int *llt, my_real_c *xx,my_real_c *dydx, my_real_c *yy);
+void vinter2_  (my_real_c *tf,int *jad,int *jpos,int *jlen,int *llt, my_real_c *xx,my_real_c *dydx, my_real_c *yy);
 /*
    ---------------------------------------------------------------------
 */
 
-void sav_buf_point_(buf,i)
-int *buf ,  *i;
+void sav_buf_point_(int *buf, int *i)
 {
-if(*i<0||*i>=1000){fprintf(stderr,"ERROR in SAV_BUF: table overflow\n");
-  arret_c(2);}
-sav_buf[*i] = buf;
+  if(*i<0||*i>=1000){
+       fprintf(stderr,"ERROR in SAV_BUF: table overflow\n");
+       arret_c(2);
+  }
+  sav_buf[*i] = buf;
 }
 
 
@@ -407,13 +411,12 @@ int *buf,*decalage,**ptr;
 
 
 
-void u_vinter2_(jad,jpos,jlen,llt,xx,dydx,yy)
-int *jad, *jpos, *jlen,*llt;
-double *xx,*dydx,*yy;
+void u_vinter2_(int *jad,int *jpos,int *jlen,int *llt,my_real_c *xx, my_real_c *dydx, my_real_c *yy)
 {
- int *tf;
- tf= sav_buf[6];
-/*Appel a une routine Fortran */
+ my_real_c *tf;
+ tf = (my_real_c *)sav_buf[6];
+ 
+// Calling a Fortran Routine 
 #ifdef _WIN64
  VINTER2(tf,jad,jpos,jlen,llt,xx,dydx,yy);
 #else

@@ -25,9 +25,12 @@
 
 #ifdef _WIN64
 #include <process.h>
+
 #else
+
 #include <unistd.h>
 #include <sys/stat.h>
+
 #endif
 
 #define _FCALL
@@ -37,7 +40,11 @@
 void  my_getpid(pid)
 int *pid;
 {
+#ifdef _WIN64
+        *pid = _getpid();
+#else
         *pid = getpid();
+#endif
 }
 
 void my_getpid_(pid)

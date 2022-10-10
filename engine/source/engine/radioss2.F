@@ -1610,11 +1610,15 @@ C
      .           NB_OF_FILES = NB_OF_FILES + 1
       ENDDO
       IF (NABFILE /= 0) THEN
+#ifdef DNC
         ABFV = 0
         IABFPIPE=1
         ABFCOMP=180182702
+        
         IF((IMACH/=3).OR.(IMACH==3.AND.ISPMD==0)) THEN
+        
           CALL OPEN_ABFPIPE(ABINP,ABOUT,IABFPIPE,1,ABFV,NB_OF_FILES)
+          
           IF (IABFPIPE < 0) THEN
             SELECT CASE (IABFPIPE)
                CASE (-1)
@@ -1631,8 +1635,15 @@ C---
             CALL CHECK_ABF(ABINP,ABOUT,-1)
             CALL ARRET(2)
           ENDIF
+          
           CALL CHECK_ABF(ABINP,ABOUT,IABFPIPE)
+          
         ENDIF
+#else 
+      ! ABF converter is not available
+      WRITE(6,'(A)') '*** ERROR /ABF is not available'
+      CALL ARRET(2)
+#endif
       ENDIF
       ENDIF
 C------------------------------------------------
@@ -1864,6 +1875,7 @@ C   Multiple th files
      4           IPARI ,IPART ,ITHGRP ,ITHBUF ,CHR_OLD)
         ENDIF
         IF(NABFILE /= 0) THEN
+#ifdef DNC
           IF(ABFILE(1) /=0)THEN
             FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.tmp'
             LONG_TMP = 9
@@ -1892,95 +1904,102 @@ C           avoid SIGFPE
             RMAXINT=1073741824
             RNB_INDEX_ABF = MIN(RMAXINT,(TSTOP-TT)/DTABF(1))
             NB_INDEX_ABF = INT(RNB_INDEX_ABF)+1
-          CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
+            CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
      .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
           ENDIF
 c
-            IF(NTHGRP01(1)/=0 .AND. ABFILE(2) /=0)THEN
+          IF(NTHGRP01(1)/=0 .AND. ABFILE(2) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_a.tmp'
               LONG_TMP = 11
               IFILABF = 12
               IFIL= IUNIT
               ITHFLAG = 1
               CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(1),LONG_TMP,
-     2      WA  ,PM  ,GEO ,IPART ,
-     3      SUBSETS ,ITHGRPA,ITHBUFA,IGEO    ,
-     4      IPM ,IPART(1+LIPART1*(NPART+NTHPART)),2,1,
-     5      1   ,ITHVAR,ITHFLAG)
+     2                      WA  ,PM  ,GEO ,IPART ,
+     3                      SUBSETS ,ITHGRPA,ITHBUFA,IGEO    ,
+     4                      IPM ,IPART(1+LIPART1*(NPART+NTHPART)),2,1,
+     5                      1   ,ITHVAR,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_a.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
-            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
+              LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+              TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
-            TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
-            DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
-              IFILNAM(I)=ICHAR(TMP_NAME(I:I))
+              LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+              TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
+              DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
+                IFILNAM(I)=ICHAR(TMP_NAME(I:I))
               ENDDO
-            DO I=1,LEN_TMP_NAME2!ROOTLEN+LONG_TMP
-              IFILNAM_TMP(I)=ICHAR(TMP_NAME2(I:I))
+              
+              DO I=1,LEN_TMP_NAME2!ROOTLEN+LONG_TMP
+                IFILNAM_TMP(I)=ICHAR(TMP_NAME2(I:I))
               ENDDO
               NB_INDEX_ABF = NINT((TSTOP-TT)/DTABF(2))+1
-           CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
-     .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
-            END IF
-            IF(NTHGRP01(2)/=0 .AND. ABFILE(3) /=0)THEN
+              CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
+     .                          IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
+          END IF
+          
+          IF(NTHGRP01(2)/=0 .AND. ABFILE(3) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_b.tmp'
               LONG_TMP = 11
               IFILABF = 13
               IFIL= IUNIT
               ITHFLAG = 2
               CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(2),LONG_TMP,
-     2      WA  ,PM  ,GEO ,IPART ,
-     3      SUBSETS ,ITHGRPB,ITHBUFB,IGEO    ,
-     4      IPM   ,IPART(1+LIPART1*(NPART+NTHPART)+2*(NPART+NTHPART)),2,1,
-     5      1   ,ITHVAR,ITHFLAG)
+     2                      WA  ,PM  ,GEO ,IPART ,
+     3                      SUBSETS ,ITHGRPB,ITHBUFB,IGEO    ,
+     4                      IPM   ,IPART(1+LIPART1*(NPART+NTHPART)+2*(NPART+NTHPART)),2,1,
+     5                      1   ,ITHVAR,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_b.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
-            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
+              LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+              TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
-            TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
-            DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
-              IFILNAM(I)=ICHAR(TMP_NAME(I:I))
+              LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+              TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
+
+              DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
+                IFILNAM(I)=ICHAR(TMP_NAME(I:I))
               ENDDO
-            DO I=1,LEN_TMP_NAME2!ROOTLEN+LONG_TMP
-              IFILNAM_TMP(I)=ICHAR(TMP_NAME2(I:I))
+              
+              DO I=1,LEN_TMP_NAME2!ROOTLEN+LONG_TMP
+                IFILNAM_TMP(I)=ICHAR(TMP_NAME2(I:I))
               ENDDO
               NB_INDEX_ABF = NINT((TSTOP-TT)/DTABF(3))+1
-           CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
-     .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
-            END IF
-            IF(NTHGRP01(3)/=0 .AND. ABFILE(4) /=0)THEN
+              CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
+     .                           IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
+          END IF
+          
+          IF(NTHGRP01(3)/=0 .AND. ABFILE(4) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_c.tmp'
               LONG_TMP = 11
               IFILABF = 14
               IFIL= IUNIT
               ITHFLAG = 3
               CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(3),LONG_TMP,
-     2      WA  ,PM  ,GEO ,IPART ,
-     3      SUBSETS ,ITHGRPC,ITHBUFC,IGEO    ,
-     4      IPM   ,IPART   ,2     ,1     ,
-     5      1   ,ITHVAR,ITHFLAG)
+     2                      WA  ,PM  ,GEO ,IPART ,
+     3                      SUBSETS ,ITHGRPC,ITHBUFC,IGEO    ,
+     4                      IPM   ,IPART   ,2     ,1     ,
+     5                      1   ,ITHVAR,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_c.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
-            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
+              LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+              TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
-            TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
-            DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
-              IFILNAM(I)=ICHAR(TMP_NAME(I:I))
+              LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+              TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
+              DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
+                IFILNAM(I)=ICHAR(TMP_NAME(I:I))
               ENDDO
-            DO I=1,LEN_TMP_NAME2!ROOTLEN+LONG_TMP
-              IFILNAM_TMP(I)=ICHAR(TMP_NAME2(I:I))
+              
+              DO I=1,LEN_TMP_NAME2!ROOTLEN+LONG_TMP
+                IFILNAM_TMP(I)=ICHAR(TMP_NAME2(I:I))
               ENDDO
               NB_INDEX_ABF = NINT((TSTOP-TT)/DTABF(4))+1
-           CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME2,
-     .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
-            END IF
-            IF(NTHGRP01(4)/=0 .AND. ABFILE(5) /=0)THEN
+              CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME2,
+     .                           IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
+          END IF
+          
+          IF(NTHGRP01(4)/=0 .AND. ABFILE(5) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_d.tmp'
               LONG_TMP = 11
               IFILABF = 15
@@ -2035,8 +2054,9 @@ c
               NB_INDEX_ABF = NINT((TSTOP-TT)/DTABF(6))+1
            CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
      .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
-            END IF
-            IF(NTHGRP01(6)/=0 .AND. ABFILE(7) /=0)THEN
+          END IF
+
+          IF(NTHGRP01(6)/=0 .AND. ABFILE(7) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_f.tmp'
               LONG_TMP = 11
               IFILABF = 17
@@ -2061,93 +2081,113 @@ c
               IFILNAM_TMP(I)=ICHAR(TMP_NAME2(I:I))
               ENDDO
               NB_INDEX_ABF = NINT((TSTOP-TT)/DTABF(7))+1
-           CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
-     .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
-            END IF
-            IF(NTHGRP01(7)/=0 .AND. ABFILE(8) /=0)THEN
+              CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
+     .                           IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
+          END IF
+
+          IF(NTHGRP01(7)/=0 .AND. ABFILE(8) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_g.tmp'
               LONG_TMP = 11
               IFILABF = 18
               IFIL= IUNIT
               ITHFLAG = 7
               CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(7),LONG_TMP,
-     2      WA  ,PM  ,GEO ,IPART ,
-     3      SUBSETS ,ITHGRPG,ITHBUFG,IGEO    ,
-     4      IPM   ,IPART   ,2     ,1     ,
-     5      1   ,ITHVAR,ITHFLAG)
+     2                      WA  ,PM  ,GEO ,IPART ,
+     3                      SUBSETS ,ITHGRPG,ITHBUFG,IGEO    ,
+     4                      IPM   ,IPART   ,2     ,1     ,
+     5                      1   ,ITHVAR,ITHFLAG)
+     
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_g.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
-            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
+              LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+              TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
-            TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
-            DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
-              IFILNAM(I)=ICHAR(TMP_NAME(I:I))
+              LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+              TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
+              
+              DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
+                IFILNAM(I)=ICHAR(TMP_NAME(I:I))
               ENDDO
-            DO I=1,LEN_TMP_NAME2!ROOTLEN+LONG_TMP
-              IFILNAM_TMP(I)=ICHAR(TMP_NAME2(I:I))
+              
+              DO I=1,LEN_TMP_NAME2!ROOTLEN+LONG_TMP
+                IFILNAM_TMP(I)=ICHAR(TMP_NAME2(I:I))
               ENDDO
+              
               NB_INDEX_ABF = NINT((TSTOP-TT)/DTABF(8))+1
-           CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
-     .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
-            END IF
-            IF(NTHGRP01(8)/=0 .AND. ABFILE(9) /=0)THEN
+              CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
+     .                           IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
+          END IF
+
+          IF(NTHGRP01(8)/=0 .AND. ABFILE(9) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_h.tmp'
               LONG_TMP = 11
               IFILABF = 19
               IFIL= IUNIT
               ITHFLAG = 8
+              
               CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(8),LONG_TMP,
-     2      WA  ,PM  ,GEO ,IPART ,
-     3      SUBSETS ,ITHGRPH,ITHBUFH,IGEO    ,
-     4      IPM   ,IPART   ,2     ,1     ,
-     5      1   ,ITHVAR,ITHFLAG)
+     2                      WA  ,PM  ,GEO ,IPART ,
+     3                      SUBSETS ,ITHGRPH,ITHBUFH,IGEO    ,
+     4                      IPM   ,IPART   ,2     ,1     ,
+     5                      1   ,ITHVAR,ITHFLAG)
+     
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_h.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
-            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
+              LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+              TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
-            TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
-            DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
-              IFILNAM(I)=ICHAR(TMP_NAME(I:I))
+              LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+              TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
+              
+              DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
+                IFILNAM(I)=ICHAR(TMP_NAME(I:I))
               ENDDO
-            DO I=1,LEN_TMP_NAME2!ROOTLEN+LONG_TMP
-              IFILNAM_TMP(I)=ICHAR(TMP_NAME2(I:I))
+              
+              DO I=1,LEN_TMP_NAME2!ROOTLEN+LONG_TMP
+                 IFILNAM_TMP(I)=ICHAR(TMP_NAME2(I:I))
               ENDDO
               NB_INDEX_ABF = NINT((TSTOP-TT)/DTABF(9))+1
-           CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
+              
+              CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
      .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
-            END IF
-            IF(NTHGRP01(9)/=0 .AND. ABFILE(10) /=0)THEN
+          END IF
+            
+          IF(NTHGRP01(9)/=0 .AND. ABFILE(10) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_i.tmp'
               LONG_TMP = 11
               IFILABF = 20
               IFIL= IUNIT
               ITHFLAG = 9
               CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(9),LONG_TMP,
-     2      WA  ,PM  ,GEO ,IPART ,
-     3      SUBSETS ,ITHGRPI,ITHBUFI,IGEO    ,
-     4      IPM,IPART(1+LIPART1*(NPART+NTHPART)+16*(NPART+NTHPART)),2,1,
-     5      1   ,ITHVAR,ITHFLAG)
+     2                      WA  ,PM  ,GEO ,IPART ,
+     3                      SUBSETS ,ITHGRPI,ITHBUFI,IGEO    ,
+     4                      IPM,IPART(1+LIPART1*(NPART+NTHPART)+16*(NPART+NTHPART)),2,1,
+     5                      1   ,ITHVAR,ITHFLAG)
+     
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_i.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
-            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
+              LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+              TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
-            TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
-            DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
-              IFILNAM(I)=ICHAR(TMP_NAME(I:I))
+              LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+              TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
+              DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
+                IFILNAM(I)=ICHAR(TMP_NAME(I:I))
               ENDDO
-            DO I=1,LEN_TMP_NAME2!ROOTLEN+LONG_TMP
-              IFILNAM_TMP(I)=ICHAR(TMP_NAME2(I:I))
+              
+              DO I=1,LEN_TMP_NAME2!ROOTLEN+LONG_TMP
+                IFILNAM_TMP(I)=ICHAR(TMP_NAME2(I:I))
               ENDDO
+              
               NB_INDEX_ABF = NINT((TSTOP-TT)/DTABF(10))+1
-           CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
+              CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
      .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
-            END IF
+          END IF
+#else
+      ! ABF converter is not available
+      WRITE(6,'(A)') '*** ERROR /ABF is not available'
+      CALL ARRET(2)
+#endif
         ENDIF
       ENDIF
       CALL INIT_TH0( IPARG,ELBUF_TAB,IGEO,IXR,

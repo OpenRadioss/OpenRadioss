@@ -1,14 +1,15 @@
 # How to Build OpenRadioss 
 
-## System and compiler installation
+## Linux
 
-### Linux
+### System and compiler installation
+
 Linux system with glibc version 2.17 or higher: 
 * CentOS/RHEL 7, CentOS Stream 8, RHEL 8, Rocky Linux 8, Rocky Linux 9
 * Ubuntu 20.0.4 or higher
 * [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install): OpenRadioss works with WSL/WSL2 Ubuntu 20.04 LTS, WSL2 Ubuntu 22.x 
 
-### Compiler and development tools
+#### Compiler and development tools
 
 You will need GCC/Gfortran version 8 or higher,
 [Cmake](https://cmake.org/) version 2.8 or higher, and GNU make.
@@ -49,7 +50,7 @@ Install as sudo or root
 
 
 
-### OpenMPI
+#### OpenMPI
 
 OpenMPI is needed to build OpenRadioss with OpenMPI support.
 It is recommended to build and install OpenMPI from OpenMPI website using gcc compiler.
@@ -73,8 +74,110 @@ It is recommended to build and install OpenMPI from OpenMPI website using gcc co
         make
         make install
 
+## Windows
+
+### Compiler Environment
+
+OpenRadioss was tested with OneAPI 2022.1 + Visual Studio 2019. Cygwin is used to build OpenRadioss. 
+
+This chapter explains how to setup 
+
+## Compiler environment
+
+1. Intel OneAPI requires Visual Studio Community, Enterprise or Professional Edition installed.
+   For all prerequisites, visit : https://www.intel.com/content/www/us/en/developer/articles/system-requirements/intel-oneapi-base-toolkit-system-requirements.html
+    
+2. Download one API Base Toolkit and one API HPC Toolkit
+
+    * Visit one API Base Toolkit Download page: [oneAPI Base Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit-download.html)
+    * Visit one API HPC Toolkit Download page: [oneAPI HPC Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html)
+
+3. Install Toolkits
+
+   Minimum required packages are 
+   
+* In the Base Toolkit: Intel DPC++/C++, Intel Math Kernel Library
+* In the HPC Toolkit: Intel Intel® oneAPI DPC++/C++ Compiler, Intel® Fortran Compiler, Intel® MPI Library
+
+Choose the default directory to install Intel oneAPI
+
+
+4. Install Git 
+
+* Install Git for Windows from : [https://git-scm.com/downloads](https://git-scm.com/downloads)
+The Git Bash tool is not need, but can be installed.
+
+
+5. Install Cygwin
+
+* Download setup-x86-64 setup from : https://www.cygwin.com/install.html
+  Direct access is : [setup-x86_64.exe](https://www.cygwin.com/setup-x86_64.exe)
+   * execute setup-x86_64.exe
+   * Choose in Download Source : 'Install from Internet'  
+   * In cygwin Install Directory : Choose Cygwin directory. 
+         It is recommended to use the Default directory
+   * In Local Download Directory, Choose the download directory
+   * In Internet Connexion : Choose System parameters
+   * In Download site menu : choose the repository server nearest to your location.
+   * In the Package Menu : 
+       * Choose make
+       * Choose perl
+       * **Do not install git, cmake and ssh from cygwin : 
+               cygwin Git does not support LFS, native Git installation will be used.
+               cmake is shipped with Visual Studio 
+               and ssh is shipped with git**
+   * Next will install the packages.
+
+* Post installation task must de done :
+  In cygwin, /bin/link.exe program conflicts with Visual Studio. 
+  Rename it to avoid issues :
+
+         Launch cygwin
+         in the shell : move /bin/link.exe in /bin/link_cygwin.exe :
+         mv /bin/link.exe in /bin/link_cygwin.exe 
+
+**Notes**
+Cygwin is a Unix environment for Windows, all unix tools are accessible.
+* Windows directories are accessible in /cygdrive/[c|d]
+* There is a user home directory in cygwin
+
+
+6. Create a build environment with Intel oneAPI, git and cygwin
+
+Cygwin can be launched with following Batch script : 
+
+         @echo off
+         rem c:
+         call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
+         chdir C:\cygwin64\bin
+         bash --login -i
+
+
+7. Setup git in Cygwin
+
+This paragraph permits to to setup Git in Cygwin and use it with GitHub as in a Linux shell.
+Launch cygwin build environment and apply the git configuration :
+
+* Install git-lfs
+
+            git lfs install
+
+* Create the ssh key & set it in GitHub
+
+            ssh-keygen -t rsa
+
+* Copy the new generated ssh key in cygwin home directory
+  As a workaround to used git in cygwin, copy the ssh key in cygwin home directory 
+  ssh keys are found in : /cygdrive/c/Users/[Windows User]/.ssh
+
+            cp -r /cygdrive/c/Users/[Windows User]/.ssh /home/[cygwin_user]/
+
+* Set your git parameters as in [CONTRIBUTING.md](./CONTRIBUTING.md)
+
+
 
 ## How to build OpenRadioss
+
 ### Get the source
 * Activate LFS: `git lfs install`
 * Run `git clone git@github.com:OpenRadioss/OpenRadioss.git`. 

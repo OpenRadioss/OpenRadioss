@@ -117,14 +117,24 @@ void c_h3d_create_quad_tensor_datatype_(int *cpt_data, char *name1, int *size1, 
     {
         if(*ir > 0 && *is > 0)
         {
-             sprintf(LAYER_STRING, "IR IS %d %d\0" ,*ir,*is);
+             sprintf(LAYER_STRING, "IR IS %d %d" ,*ir,*is);
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
+
         }
     }
     else
     {
-        sprintf(LAYER_STRING, "Mid\0" );
+        sprintf(LAYER_STRING, "Mid" );
+#ifdef _WIN64
+        strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
         LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
+        
     }
 
     char edata_type[50];

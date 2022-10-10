@@ -41,26 +41,29 @@ Chd|====================================================================
       INTEGER :: A(N),N
       CHARACTER(len=*) ::  SA
       CHARACTER*nchartitle:: TITR
-
+      INTEGER :: I,IT,J
+      INTEGER :: NT
 #if defined(_OPENMP)
        INTEGER OMP_GET_THREAD_NUM
        EXTERNAL OMP_GET_THREAD_NUM
+       NT = OMP_GET_THREAD_NUM()
+#else
+       NT=1
 #endif
-      INTEGER :: I,IT,J
       IF(FLUSH_RST_TO_TXT) THEN
         TITR(1:nchartitle) = " "
         IF(N==ceiling(dble(nchartitle)/3.0D0)) THEN
           CALL FRETITL2(TITR,A,ceiling(dble(nchartitle)/3.0D0))
-          WRITE(777+OMP_GET_THREAD_NUM(),*) TRIM(SA),' '
+          WRITE(777+NT,*) TRIM(SA),' '
           J = 1
           DO I = 1,N
-               WRITE(777+OMP_GET_THREAD_NUM(),*) A(I),TITR(J:J+2)
+               WRITE(777+NT,*) A(I),TITR(J:J+2)
                J = J + 3
           ENDDO
         ELSE
-          WRITE(777+OMP_GET_THREAD_NUM(),*) TRIM(SA),' '
+          WRITE(777+NT,*) TRIM(SA),' '
           DO I = 1,N
-            WRITE(777+OMP_GET_THREAD_NUM(),*) A(I)
+            WRITE(777+NT,*) A(I)
           ENDDO
         ENDIF
       ENDIF
@@ -84,17 +87,20 @@ Chd|====================================================================
       INTEGER :: N
       DOUBLE PRECISION :: A(N)
       CHARACTER(len=*) ::  SA
+      INTEGER :: I,NT
 #if defined(_OPENMP)
        INTEGER OMP_GET_THREAD_NUM
        EXTERNAL OMP_GET_THREAD_NUM
+       NT = OMP_GET_THREAD_NUM()
+#else
+       NT=1  
 #endif
 
-      INTEGER :: I
   
       IF(FLUSH_RST_TO_TXT) THEN
-        WRITE(777+OMP_GET_THREAD_NUM(),*) TRIM(SA),' '
+        WRITE(777+NT,*) TRIM(SA),' '
         DO I = 1,N
-          WRITE(777+OMP_GET_THREAD_NUM(),'(E10.4,2X,Z20)') A(I),A(I)
+          WRITE(777+NT,'(E10.4,2X,Z20)') A(I),A(I)
         ENDDO
       ENDIF
       CALL WRITE_DB(A,N)

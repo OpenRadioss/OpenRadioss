@@ -144,7 +144,11 @@ void ReportErrorMsg(H3DFileInfo* h3d_file, const char* error)
 {
     FILE* errorFile = (FILE*)h3d_file->client_data1;
     if( !errorFile ) {
+#ifdef _WIN64
+        fopen_s(&errorFile,"export_error_messages", "a");
+#else
         errorFile = fopen("export_error_messages", "a");
+#endif
         h3d_file->client_data1 = (void*)errorFile;
     }
 
@@ -236,12 +240,20 @@ void c_h3d_open_file_(char *name, int *size, my_real *percentage_error, int *com
     // define pool names that will be used
     char* creating_application;
     creating_application=(char*) malloc(sizeof(char)*(*LEN_RADVERS+1));
+#ifdef _WIN64
+    strncpy_s(creating_application, sizeof(creating_application), RADVERS, *LEN_RADVERS);
+#else
     strncpy(creating_application, RADVERS, *LEN_RADVERS);
+#endif
     creating_application[*LEN_RADVERS] = '\0';
 //
     char* solver_name;
     solver_name=(char*) malloc(sizeof(char)*(*LEN_RADVERS+1));
+#ifdef _WIN64
+    strncpy_s(solver_name, sizeof(solver_name) , RADVERS, *LEN_RADVERS);
+#else
     strncpy(solver_name, RADVERS, *LEN_RADVERS);
+#endif
     solver_name[*LEN_RADVERS] = '\0';
 //
     char   file_creation_date[] = __DATE__;
@@ -552,8 +564,6 @@ void h3d_write_toc ()
 {c_h3d_write_toc_ ();}
 
 
-
-/*==================================
 /*=================================================================*/
 }
 /*=================================================================*/

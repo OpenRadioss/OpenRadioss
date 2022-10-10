@@ -115,13 +115,23 @@ void c_h3d_create_1d_scalar_datatype_(int *cpt_data, char *name, int *size, int 
 //    sprintf(LAYERPOOL, "%s %d" ,cname1,*info1);
     if( *ipt > 0 )
     {
-       sprintf(IPT_STRING, "IPT %d \0" ,*ipt);
-             LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
+       sprintf(IPT_STRING, "IPT %d" ,*ipt);
+#ifdef _WIN64
+        strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+#else
+        LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
+#endif
+
     }
     else
     {
        sprintf(LAYERPOOL, "%s %d" ,cname1,*info1);
-             LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
+#ifdef _WIN64
+        strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+#else
+        LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
+#endif
+
     }
 
     rc = Hyper3DAddString(h3d_file, LAYERPOOL, &layer_pool_id);

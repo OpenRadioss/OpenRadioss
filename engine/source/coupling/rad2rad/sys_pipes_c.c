@@ -57,176 +57,137 @@
 
 void syserr(char *msg)
 {
-	fprintf(stderr,"SYSTEM ERROR>> ");
-	perror(msg);
+    fprintf(stderr,"SYSTEM ERROR>> ");
+    perror(msg);
 }
 
 void syserr_fatal(char *msg)
 {
-	fprintf(stderr,"SYSTEM ERROR>> ");
-	perror(msg);
-	exit(1); 
+    fprintf(stderr,"SYSTEM ERROR>> ");
+    perror(msg);
+    exit(1); 
 }
 
 void fatal(char *msg)
 {
-	fprintf(stderr,"%s\n", msg);
-	exit(1); 
+    fprintf(stderr,"%s\n", msg);
+    exit(1); 
 }
 
-/***************************************************************************/
-int readp(pipe, buf, nbytes)
-register int pipe;
-register char *buf;
-register int nbytes;
-{
-int ncount, done;
 
-	ncount = nbytes;
-	while (ncount > 0)
-	{
-		done = read(pipe, buf, ncount);
-		if (done < 0)
-			fatal("Failed reading fifo");	
-		else if (done == 0)
-			break;
-		ncount -= done;
-		buf += done;
-	}
-/*		if (ncount > 0)
-		fprintf(stderr," ** ERROR : RADIOSS PIPE - Partial read from FIFO : %i bytes read\n",nbytes-ncount);
-	return(nbytes-ncount);
-*/
-}
-
-/***************************************************************************/
-
-int writep(pipe, buf, nbytes)
-register int pipe;
-register char *buf;
-register int nbytes;
-{
-int ncount, done;
-
-	ncount = nbytes;
-	while (ncount > 0)
-	{
-		done = write(pipe, buf, ncount);
-		if (done < 0)
-			fatal("Failed writing fifo");	
-		ncount -= done;
-		buf += done;
-	}
-/*		if (ncount > 0)
-		fprintf(stderr," ** ERROR : RADIOSS PIPE - Error writing to FIFO\n");
-	return(nbytes-ncount);
-*/
-}
-
-/***************************************************************************/
-int readr(pipe, buf, nbytes)
-register int pipe;
-register char *buf;
-register int nbytes;
-{
-int ncount, done, error;
-#if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
-BOOL fSuccess;
+#ifdef _WIN64
+int readr(HANDLE pipe, char *buf, int nbytes)
+#else
+int readr(int pipe, char *buf, int nbytes)
 #endif
-	ncount = nbytes;
-	while (ncount > 0)
-	{
-#if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
+{
+int error;
+
+#ifdef _WIN64
+BOOL fSuccess;
+unsigned long ncount,done;
+#else
+int ncount,done;
+#endif
+    ncount = nbytes;
+    while (ncount > 0)
+    {
+#ifdef _WIN64
         fSuccess = ReadFile(pipe,buf,ncount*sizeof(TCHAR),&done,NULL);
-		if ( ! fSuccess) 
+        if ( ! fSuccess) 
         {error = GetLastError(); done = -1;
-		 if ((error == 109)||(error == 232)) printf("\nERROR Broken pipe\n\n");}		
+         if ((error == 109)||(error == 232)) printf("\nERROR Broken pipe\n\n");}        
 #elif 1 
-		done = read(pipe, buf, ncount);
+        done = read(pipe, buf, ncount);
 #endif
-		if (done < 0)
-			fatal("Failed reading fifo");	
-		else if (done == 0)
-			break;
-		ncount -= done;
-		buf += done;
-	}
+        if (done < 0)
+            fatal("Failed reading fifo");    
+        else if (done == 0)
+            break;
+        ncount -= done;
+        buf += done;
+    }
+  return 1;
 }
 
 /***************************************************************************/
-
-int writer(pipe, buf, nbytes)
-register int pipe;
-register char *buf;
-register int nbytes;
+#ifdef _WIN64
+int writer(HANDLE pipe, char*buf, int nbytes)
+#else
+int writer(int pipe   , char *buf, int nbytes)
+#endif
 {
-int ncount, done, error;
-#if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
+int  error;
+#ifdef _WIN64
 BOOL fSuccess;
+unsigned long ncount,done;
+#else
+int ncount,done;
 #endif
 
-	ncount = nbytes;
-	while (ncount > 0)
-	{
-#if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
-        fSuccess = WriteFile(pipe,buf,ncount*sizeof(TCHAR),&done,NULL);	
-		if ( ! fSuccess) 
+    ncount = nbytes;
+    while (ncount > 0)
+    {
+#ifdef _WIN64
+        fSuccess = WriteFile(pipe,buf,ncount*sizeof(TCHAR),&done,NULL);    
+        if ( ! fSuccess) 
         {error = GetLastError(); done = -1;
-		 if ((error == 109)||(error == 232)) printf("\nERROR Broken pipe\n\n");}		
+         if ((error == 109)||(error == 232)) printf("\nERROR Broken pipe\n\n");}        
 #elif 1 
-		done = write(pipe, buf, ncount);
+        done = write(pipe, buf, ncount);
 #endif
-		if (done < 0)
-			fatal("Failed writing fifo");	
-		ncount -= done;
-		buf += done;
-	}
+        if (done < 0)
+            fatal("Failed writing fifo");
+        ncount -= done;
+        buf += done;
+    }
+  return 1;
 }
 
 
 static void cleanup(int sig, int ppid)
 {
-	if (signal(sig,SIG_IGN) == SIG_ERR)
-		syserr("signal");
-	printf("\n ** ERROR: Catched system signal: ");
-	switch (sig)
-	{
-	case SIGHUP:
-		printf("Hangup\n");
-		break;
-	case SIGINT:
-		printf("Process interrupted\n");
-		break;
-	case SIGILL:
-		printf("Illegal instruction\n");
-		break;
-	case SIGABRT:
-		printf("Process aborted\n");
-		break;
-	case SIGQUIT:
-		printf("Process Quit\n");
-		break;
-	case SIGFPE:
-		printf("Floating point exception\n");
-		break;
-	case SIGBUS:
-		printf("Bus error\n");
-		break;
-	case SIGSEGV:
-		printf("Segmentation fault\n");
-		break;
-	case SIGPIPE:
-		printf("Broken pipe, lost contact with master process\n");
-		break;
-	default:
-		break;
-	}
+    if (signal(sig,SIG_IGN) == SIG_ERR)
+        syserr("signal");
+    printf("\n ** ERROR: Catched system signal: ");
+    switch (sig)
+    {
+    case SIGHUP:
+        printf("Hangup\n");
+        break;
+    case SIGINT:
+        printf("Process interrupted\n");
+        break;
+    case SIGILL:
+        printf("Illegal instruction\n");
+        break;
+    case SIGABRT:
+        printf("Process aborted\n");
+        break;
+    case SIGQUIT:
+        printf("Process Quit\n");
+        break;
+    case SIGFPE:
+        printf("Floating point exception\n");
+        break;
+    case SIGBUS:
+        printf("Bus error\n");
+        break;
+    case SIGSEGV:
+        printf("Segmentation fault\n");
+        break;
+    case SIGPIPE:
+        printf("Broken pipe, lost contact with master process\n");
+        break;
+    default:
+        break;
+    }
 #if CPP_mach==CPP_sgi5 || CPP_mach==CPP_sgi6
     printf("\tSending termination signal to master...\n");
     if(sigsend(P_PID, ppid, SIGUSR1))
-			syserr("Signal");
+            syserr("Signal");
 #endif
-	exit(0);
+    exit(0);
 }
 
 
@@ -236,26 +197,26 @@ void catch_sig_c(int *pid)
 
 #if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
 #elif 1
-	sigset(SIGHUP,  cleanup);
-	sigset(SIGINT,  cleanup);
-	sigset(SIGILL,  cleanup);
-	sigset(SIGABRT, cleanup);
-	sigset(SIGQUIT, cleanup);
-	sigset(SIGFPE,  cleanup);
-	sigset(SIGBUS,  cleanup);
-	sigset(SIGSEGV, cleanup);
-	sigset(SIGPIPE, cleanup);
+    sigset(SIGHUP,  cleanup);
+    sigset(SIGINT,  cleanup);
+    sigset(SIGILL,  cleanup);
+    sigset(SIGABRT, cleanup);
+    sigset(SIGQUIT, cleanup);
+    sigset(SIGFPE,  cleanup);
+    sigset(SIGBUS,  cleanup);
+    sigset(SIGSEGV, cleanup);
+    sigset(SIGPIPE, cleanup);
 #endif
 }
 void _FCALL CATCH_SIG_C(pid)
 int *pid;
 {
-	catch_sig_c(pid);
+    catch_sig_c(pid);
 }
 void catch_sig_c_(pid)
 int *pid;
 {
-	catch_sig_c(pid);
+    catch_sig_c(pid);
 }
 void catch_sig_c__(pid)
 int *pid;

@@ -2526,6 +2526,7 @@ C     ABF FILES
 C-----------------------
       ABFILE = 0
       NABFILE = 0
+#ifdef DNC
       CALL FREABF(IKAD(0),KEY0,KABF,ABFILE,NABFILE,1)
       CALL FREABF(IKAD(0),KEY0,KAABF,ABFILE,NABFILE,2)
       CALL FREABF(IKAD(0),KEY0,KBABF,ABFILE,NABFILE,3)
@@ -2540,6 +2541,7 @@ C-----------------------
         NABFILE = NABFILE + 1
         ABFILE(1) = ABFILE(1) + 1
       ENDIF
+#endif
 C-----------------------
 C     THERMAL ANALYSIS
 C-----------------------

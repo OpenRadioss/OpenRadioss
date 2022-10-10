@@ -97,7 +97,7 @@ void c_h3d_create_nodal_scalar_datatype_(int *cpt_data, char *name, int *size, i
     ccomment[*s_comment]='\0';  
 
     char * LAYERPOOL = new char [*size1+11];
-    sprintf(LAYERPOOL, "%s %d\0" ,cname1,*info);
+    sprintf(LAYERPOOL, "%s %d" ,cname1,*info);
     H3D_ID layer_pool_id = H3D_NULL_ID;
     rc = Hyper3DAddString(h3d_file, LAYERPOOL, &layer_pool_id);
 
@@ -119,11 +119,20 @@ void c_h3d_create_nodal_scalar_datatype_(int *cpt_data, char *name, int *size, i
         dt_id++; 
 	   if (*INTER_ID != 0) 
 	   {
-             sprintf(CH_INTER_ID, "%d\0",*INTER_ID );
+             sprintf(CH_INTER_ID, "%d",*INTER_ID );
+#ifdef _WIN64
+             strcat_s(cname,sizeof(cname),CH_INTER_ID);
+#else
              cname = strcat(cname,CH_INTER_ID);
-	    }	    
+#endif
+	    }	 
+           
 	     
-        strcpy (edata_type,cname);
+#ifdef _WIN64
+             strncpy_s(edata_type,sizeof(edata_type),cname,sizeof(edata_type));
+#else
+             strcpy(edata_type,cname);
+#endif
 
         rc = Hyper3DDatatypeWrite(h3d_file, edata_type, *cpt_data , H3D_DS_SCALAR, 
                                     H3D_DS_NODE, pool_count);

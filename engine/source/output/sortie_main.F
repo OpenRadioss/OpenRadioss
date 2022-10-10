@@ -956,6 +956,7 @@ C         to avoid double points
 
 
             IF(ABFILE(2) /= 0) THEN
+#ifdef DNC
             IFILABF = 12
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1002,6 +1003,7 @@ C         to avoid double points
      .                      CPTFILE)
                NABFWR(2) = 0
              ENDIF
+#endif
             ELSE
               TABFIS(2)= EP30
             ENDIF
@@ -1042,7 +1044,9 @@ C
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W)
             IF (SIZE_MES==1 .AND.AFORM(2)==3 .AND.ISPMD==0 )
      *        CALL file_size(MULTITHFILESIZE(2))
+     
             IF(ABFILE(3) /= 0) THEN
+#ifdef DNC
             IFILABF = 13
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1088,6 +1092,7 @@ C
      .                      CPTFILE)
                NABFWR(3) = 0
              ENDIF
+#endif
             ELSE
               TABFIS(3)= EP30
             ENDIF
@@ -1134,6 +1139,7 @@ C
      *     AFORM(3)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(3))
             IF(ABFILE(4) /= 0) THEN
+#ifdef DNC
             IFILABF = 14
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1178,11 +1184,10 @@ C
      .                      CPTFILE)
                NABFWR(4) = 0
              ENDIF
+#endif
             ELSE
               TABFIS(4)= EP30
             ENDIF
-
-
           ELSE
             THIS1(3)= EP30
             TABFIS(4)= EP30
@@ -1221,7 +1226,10 @@ C
          IF(SIZE_MES==1 .AND.
      *     AFORM(4)==3   .AND.
      *     ISPMD==0 )CALL file_size(MULTITHFILESIZE(4))
-            IF(ABFILE(5) /= 0) THEN
+
+
+         IF(ABFILE(5) /= 0) THEN
+#ifdef DNC
             IFILABF = 15
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1265,11 +1273,10 @@ C
      .                      CPTFILE)
                NABFWR(5) = 0
              ENDIF
+#endif
             ELSE
               TABFIS(5)= EP30
             ENDIF
-
-
           ELSE
             THIS1(4)= EP30
             TABFIS(5)= EP30
@@ -1308,7 +1315,9 @@ C
         IF(SIZE_MES==1 .AND.
      *     AFORM(5)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(5))
-            IF(ABFILE(6) /= 0) THEN
+     
+        IF(ABFILE(6) /= 0) THEN
+#ifdef DNC
             IFILABF = 16
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1353,11 +1362,10 @@ C
      .                      CPTFILE)
                NABFWR(6) = 0
              ENDIF
+#endif
             ELSE
               TABFIS(6)= EP30
             ENDIF
-
-
           ELSE
             THIS1(5)= EP30
             TABFIS(6)= EP30
@@ -1396,7 +1404,9 @@ C
         IF(SIZE_MES==1 .AND.
      *     AFORM(6)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(6))
+     
             IF(ABFILE(7) /= 0) THEN
+#ifdef DNC
             IFILABF = 17
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1441,11 +1451,10 @@ C
      .                      CPTFILE)
                NABFWR(7) = 0
              ENDIF
+#endif
             ELSE
               TABFIS(7)= EP30
             ENDIF
-
-
           ELSE
             THIS1(6)= EP30
             TABFIS(7)= EP30
@@ -1484,7 +1493,9 @@ C
         IF(SIZE_MES==1 .AND.
      *     AFORM(7)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(7))
-            IF(ABFILE(8) /= 0) THEN
+     
+        IF(ABFILE(8) /= 0) THEN
+#ifdef DNC
             IFILABF = 18
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1529,11 +1540,10 @@ C
      .                      CPTFILE)
                NABFWR(8) = 0
              ENDIF
+#endif
             ELSE
               TABFIS(8)= EP30
             ENDIF
-
-
           ELSE
             THIS1(7)= EP30
             TABFIS(8)= EP30
@@ -1572,7 +1582,9 @@ C
         IF(SIZE_MES==1 .AND.
      *     AFORM(8)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(8))
-            IF(ABFILE(9) /= 0) THEN
+     
+       IF(ABFILE(9) /= 0) THEN
+#ifdef DNC
             IFILABF = 19
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1617,11 +1629,10 @@ C
      .                      CPTFILE)
                NABFWR(9) = 0
              ENDIF
+#endif
             ELSE
               TABFIS(9)= EP30
             ENDIF
-
-
           ELSE
             THIS1(8)= EP30
             TABFIS(9)= EP30
@@ -1660,6 +1671,7 @@ C
      *     AFORM(9)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(9))
             IF(ABFILE(10) /= 0) THEN
+#ifdef DNC
             IFILABF = 20
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1704,11 +1716,10 @@ C
      .                      CPTFILE)
                NABFWR(10) = 0
              ENDIF
+#endif
             ELSE
               TABFIS(10)= EP30
             ENDIF
-
-
           ELSE
             THIS1(9)= EP30
             TABFIS(10)= EP30
@@ -1748,6 +1759,7 @@ C
      *     ISPMD==0 )CALL file_size(THFILESIZE)
 
         IF(ABFILE(1) /= 0) THEN
+#ifdef DNC
           IFILABF = 11
           CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                IXS  ,ELBUF,WA(N2),IPARG,
@@ -1792,6 +1804,7 @@ C
 
            NABFWR(1) = 0
          ENDIF
+#endif
        ELSE
          TABFIS(1)= EP30
        ENDIF
