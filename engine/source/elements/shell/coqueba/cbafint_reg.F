@@ -33,7 +33,7 @@ Chd|====================================================================
      .                       NC3      ,NC4      ,BUFNL   ,IMAT    ,
      .                       NDDL     ,ITASK    ,NG      ,JFT     ,
      .                       JLT      ,X13      ,Y13     ,X24     ,
-     .                       Y24      ,DT2T     )
+     .                       Y24      ,DT2T     ,THK0    ,AREA0   )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -62,7 +62,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL,NDDL), INTENT(INOUT):: 
      .  VAR_REG
       my_real, DIMENSION(NEL), INTENT(IN)        :: 
-     .  AREA,OFF,THK,X13,Y13,X24,Y24
+     .  AREA,OFF,THK,X13,Y13,X24,Y24,THK0,AREA0
       TYPE(NLOCAL_STR_), TARGET                  :: NLOC_DMG 
       TYPE(BUF_NLOC_)  , TARGET                  :: BUFNL
       my_real, INTENT(INOUT)                     ::
@@ -431,13 +431,13 @@ c
             IF (NODADT > 0) THEN 
               ! Non-local absorbing forces
               F1(I,K) = SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1))*SF1*WF(K,NDDL)*ZETA*SSPNL*
-     .                        HALF*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*LE_MAX*THK(I)
+     .                        HALF*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*SQRT(AREA0(I))*THK0(I)
               F2(I,K) = SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1))*SF2*WF(K,NDDL)*ZETA*SSPNL*
-     .                        HALF*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*LE_MAX*THK(I)
+     .                        HALF*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*SQRT(AREA0(I))*THK0(I)
               F3(I,K) = SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1))*SF3*WF(K,NDDL)*ZETA*SSPNL*
-     .                        HALF*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*LE_MAX*THK(I)
+     .                        HALF*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*SQRT(AREA0(I))*THK0(I)
               F4(I,K) = SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1))*SF4*WF(K,NDDL)*ZETA*SSPNL*
-     .                        HALF*(VNL(POS4(I)+K-1)+VNL0(POS4(I)+K-1))*LE_MAX*THK(I)
+     .                        HALF*(VNL(POS4(I)+K-1)+VNL0(POS4(I)+K-1))*SQRT(AREA0(I))*THK0(I)
               ! Computing nodal equivalent stiffness
               STI1(I,K) = EM20
               STI2(I,K) = EM20
@@ -445,10 +445,10 @@ c
               STI4(I,K) = EM20 
             ELSE
               ! Non-local absorbing forces
-              F1(I,K) = SF1*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*LE_MAX*THK(I)
-              F2(I,K) = SF2*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*LE_MAX*THK(I)
-              F3(I,K) = SF3*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*LE_MAX*THK(I)
-              F4(I,K) = SF4*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS4(I)+K-1)+VNL0(POS4(I)+K-1))*LE_MAX*THK(I)
+              F1(I,K) = SF1*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*SQRT(AREA0(I))*THK0(I)
+              F2(I,K) = SF2*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*SQRT(AREA0(I))*THK0(I)
+              F3(I,K) = SF3*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*SQRT(AREA0(I))*THK0(I)
+              F4(I,K) = SF4*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS4(I)+K-1)+VNL0(POS4(I)+K-1))*SQRT(AREA0(I))*THK0(I)
             ENDIF
           ENDIF
         ENDDO

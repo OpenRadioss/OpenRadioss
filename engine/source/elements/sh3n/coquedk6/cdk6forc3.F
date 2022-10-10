@@ -392,7 +392,8 @@ c--------------------------
      .                    OFF     ,AREA    ,NC1     ,NC2     , 
      .                    NC3     ,PX2     ,PY2     ,PX3     ,
      .                    PY3     ,ELBUF_STR%NLOC(1,1),IXTG(1,JFT),
-     .                    NDDL    ,ITASK   ,DT2T    ,ALDT    )
+     .                    NDDL    ,ITASK   ,DT2T    ,ALDT    ,
+     .                    GBUF%THK_I,GBUF%AREA)
       ENDIF
 c-------------------------------
 C--------------------------

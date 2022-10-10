@@ -620,7 +620,7 @@ c--------------------------
      .                 NC3     ,NC4     ,Y24     ,PY1     ,
      .                 PX2     ,PY2     ,ELBUF_STR%NLOC(1,1), 
      .                 IMAT    ,NDDL    ,ITASK   ,DT2T    ,
-     .                 LL      )
+     .                 LL      ,GBUF%THK_I,GBUF%AREA)
       ENDIF 
 c-------------------------------
         IF (NPTTOT == 1) THEN

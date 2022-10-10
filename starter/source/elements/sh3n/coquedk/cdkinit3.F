@@ -148,8 +148,8 @@ C-----------------------------------------------
 C=======================================================================
       GBUF => ELBUF_STR%GBUF
       IORTHLOC = 0
-      IMAT  = IXTG(1,1+NFT)          ! mat N°
-      IPROP = IXTG(NIXTG-1,1+NFT)    ! property N°
+      IMAT  = IXTG(1,1+NFT)          ! mat N
+      IPROP = IXTG(NIXTG-1,1+NFT)    ! property N
 C      IGTYP = GEO(12,IPROP)
       IGTYP = IGEO(11,IPROP)
       IGMAT = IGEO(98,IPROP)
@@ -227,6 +227,7 @@ C------------
           J = IPART(I+NFT)
 C         PART_AREA(J) = PART_AREA(J) + AREA(I)
           ELE_AREA(I+NFT) = AREA(I)
+          IF (GBUF%G_AREA > 0) GBUF%AREA(I) = AREA(I)
         ENDDO
       ENDIF
 C------------

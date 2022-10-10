@@ -418,6 +418,7 @@ c----   Shells
           PROP_TAG(IGTYP)%G_THK = 1
           PROP_TAG(IGTYP)%G_EINT= 2
           PROP_TAG(IGTYP)%G_EINS= 0
+          PROP_TAG(IGTYP)%G_AREA= 1
           PROP_TAG(IGTYP)%L_SIG = 5
 
           PROP_TAG(IGTYP)%L_THK = 0
