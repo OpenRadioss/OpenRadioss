@@ -45,7 +45,8 @@ Chd|        SUBROTVECT                    source/model/submodel/subrot.F
 Chd|        UDOUBLE                       source/system/sysfus.F        
 Chd|        ZERORE                        source/system/zerore.F        
 Chd|        ELEGROR                       source/groups/elegror.F       
-Chd|        ELEGROR_SEATBELT              source/groups/elegror_seatbelt.F
+Chd|        ELEGROR_SEATBELT              source/groups/elegror_seatbelt.F       
+Chd|        GRSIZE_ELE_TRANS              source/system/nintrr.F  
 Chd|        NODGRNR5                      source/starter/freform.F      
 Chd|        USR2SYS                       source/system/sysfus.F        
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
@@ -147,8 +148,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,NODGRNR5,ELEGROR,ELEGROR_SEATBELT
-      EXTERNAL USR2SYS,NODGRNR5,ELEGROR,ELEGROR_SEATBELT
+      INTEGER USR2SYS,NODGRNR5,ELEGROR,ELEGROR_SEATBELT,GRSIZE_ELE_TRANS
+      EXTERNAL USR2SYS,NODGRNR5,ELEGROR,ELEGROR_SEATBELT,GRSIZE_ELE_TRANS
 C
 C
       DATA MESS/'SECTION DEFINITION                      '/
@@ -534,7 +535,7 @@ C
      .               ID,TITR)                                               
        
        IF (NB_SEATBELT_SHELLS /=0) THEN
-         SNSTRF1 = (SNSTRF-K8)/2
+         SNSTRF1 = GRSIZE_ELE_TRANS(IGUC,IGRSH4N,NGRSHEL,SEATBELT_SHELL_TO_SPRING)
          NSEGR=NSEGR+ELEGROR_SEATBELT(IGUC,IGRSH4N,NGRSHEL,                    
      .               NSTRF(K8),2,SNSTRF1,NFRAM,TAGELEMS(1+NUMELS          
      .              +NUMELQ),ISTYP,               
