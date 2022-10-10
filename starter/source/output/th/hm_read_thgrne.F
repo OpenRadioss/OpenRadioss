@@ -252,9 +252,12 @@ C
        CALL UDOUBLE(ITHBUF(IAD+2*nne),1,NNE,MESS,0,BID)              
       ELSE   ! Not used in the program. Now is used for saving skew number when it's defined                                                        
        DO I=1,NNE                                                    
-         K = ITHBUF(IAD)                                             
-         ITHBUF(IAD+2*NNE)=IX(NIX,K)                                 
-         IAD=IAD+1                                                   
+         K = ITHBUF(IAD) 
+         IF(K>0)THEN                                            
+           ITHBUF(IAD+2*NNE)=IX(NIX,K)                                 
+           IAD=IAD+1 
+           !if K==0, error msg id=69 is already displayed (see above)
+         ENDIF                                                   
        ENDDO                                                         
        IAD=ITHGRP(5)                                                 
        CALL UDOUBLE(ITHBUF(IAD+2*nne),1,NNE,MESS,0,BID)              
