@@ -48,15 +48,17 @@ void radioss_set_env_variable(char *variable,char * value, int *len_value)
  int result;
  char *path_name ;
   path_name = (char *) calloc(*len_value+1, sizeof (char));
-  /* printf("%s\n",variable); */
+
 #ifdef _WIN64
   char env_string[10192];
+  size_t len=10192;
+  
   env_string[0]='\0';
-  strcat(env_string,variable);
-  strcat(env_string,"=");
-  strcat(env_string,value);
-
+  strcat_s(env_string,len,variable);
+  strcat_s(env_string,len,"=");
+  strcat_s(env_string,len,value);
   _putenv(env_string);
+  
 #elif 1
   strncpy(path_name,value, *len_value);     
   result=setenv(variable,path_name,1);

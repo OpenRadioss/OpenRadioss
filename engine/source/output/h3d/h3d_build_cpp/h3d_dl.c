@@ -317,17 +317,18 @@ void h3dlib_load_(int * IERROR)
   dllpath_size=GetEnvironmentVariable("RAD_H3D_PATH",libh3dpath,20000);
   if(dllpath_size > 0) {
   /* First trial get RAD_H3D_PATH environment variable */
-      strcpy(load_libname,libh3dpath);
-      strcat(load_libname,"\\");
-      strcat(load_libname,h3dlib);
+      strncpy_s(load_libname, sizeof(load_libname), libh3dpath, sizeof(libh3dpath));
+      strcat_s(load_libname,sizeof(load_libname),"\\");
+      strcat_s(load_libname,sizeof(load_libname),h3dlib);
+
       h3dhandle = LoadLibrary(TEXT(load_libname));
   }
   if(!h3dhandle) {
   /* Second trial : current working directory */
       dllpath_size=GetCurrentDirectory(20000,libh3dpath);
-      strcpy(load_libname,libh3dpath);
-      strcat(load_libname,"\\");
-      strcat(load_libname,h3dlib);
+      strncpy_s(load_libname, sizeof(load_libname), libh3dpath, sizeof(libh3dpath));
+      strcat_s(load_libname,sizeof(load_libname),"\\");
+      strcat_s(load_libname,sizeof(load_libname),h3dlib);
       h3dhandle = LoadLibrary(TEXT(load_libname));
   }
   
@@ -337,11 +338,11 @@ void h3dlib_load_(int * IERROR)
       if(dllpath_size > 0) {
           arch_size = GetEnvironmentVariable("ARCH",hwarch,200);
           if(arch_size >0) {
-              strcpy(load_libname,libh3dpath);
-              strcat(load_libname,"\\hwsolvers\\common\\bin\\");
-              strcat(load_libname,hwarch);
-              strcat(load_libname,"\\");
-              strcat(load_libname,h3dlib);
+              strncpy_s(load_libname, sizeof(load_libname), libh3dpath, sizeof(libh3dpath));
+              strcat_s(load_libname,sizeof(load_libname),"\\hwsolvers\\common\\bin\\");
+              strcat_s(load_libname,sizeof(load_libname),hwarch);
+              strcat_s(load_libname,sizeof(load_libname),"\\");
+              strcat_s(load_libname,sizeof(load_libname),h3dlib);
               h3dhandle = LoadLibrary(TEXT(load_libname));
           }
       }
@@ -361,132 +362,132 @@ void h3dlib_load_(int * IERROR)
 /* The Basics */
 /**************/
  
-  DLHyper3DExportOpen=GetProcAddress(h3dhandle,"Hyper3DExportOpen");
+  DLHyper3DExportOpen=(void*)GetProcAddress(h3dhandle,"Hyper3DExportOpen");
   if( !DLHyper3DExportOpen) ierr=ierr+1;
   
-  DLHyper3DWriteTOC=GetProcAddress(h3dhandle,"Hyper3DWriteTOC");
+  DLHyper3DWriteTOC=(void*)GetProcAddress(h3dhandle,"Hyper3DWriteTOC");
   if( !DLHyper3DWriteTOC) ierr=ierr+1;
 
-  DLHyper3DExportClearError=GetProcAddress(h3dhandle,"Hyper3DExportClearError");
+  DLHyper3DExportClearError=(void*)GetProcAddress(h3dhandle,"Hyper3DExportClearError");
   if( !DLHyper3DExportClearError) ierr=ierr+1;
 
-  DLHyper3DExportClose=GetProcAddress(h3dhandle,"Hyper3DExportClose");
+  DLHyper3DExportClose=(void*)GetProcAddress(h3dhandle,"Hyper3DExportClose");
   if( !DLHyper3DExportClose) ierr=ierr+1;
 
 /***********************/ 
 /* String Table Blocks */
 /***********************/ 
 
-  DLHyper3DAddString=GetProcAddress(h3dhandle,"Hyper3DAddString");
+  DLHyper3DAddString=(void*)GetProcAddress(h3dhandle,"Hyper3DAddString");
   if( !DLHyper3DAddString) ierr=ierr+1;
 
 /*************************************/ 
 /* File Information Block - REQUIRED */
 /*************************************/ 
 
-  DLHyper3DFileInfoBegin=GetProcAddress(h3dhandle,"Hyper3DFileInfoBegin");
+  DLHyper3DFileInfoBegin=(void*)GetProcAddress(h3dhandle,"Hyper3DFileInfoBegin");
   if( !DLHyper3DFileInfoBegin) ierr=ierr+1;
 
-  DLHyper3DFileInfoAddModelFile=GetProcAddress(h3dhandle,"Hyper3DFileInfoAddModelFile");
+  DLHyper3DFileInfoAddModelFile=(void*)GetProcAddress(h3dhandle,"Hyper3DFileInfoAddModelFile");
   if( !DLHyper3DFileInfoAddModelFile) ierr=ierr+1;
 
-  DLHyper3DFileInfoAddResultFile=GetProcAddress(h3dhandle,"Hyper3DFileInfoAddResultFile");
+  DLHyper3DFileInfoAddResultFile=(void*)GetProcAddress(h3dhandle,"Hyper3DFileInfoAddResultFile");
   if( !DLHyper3DFileInfoAddResultFile) ierr=ierr+1;
 
-  DLHyper3DFileInfoAddComment=GetProcAddress(h3dhandle,"Hyper3DFileInfoAddComment");
+  DLHyper3DFileInfoAddComment=(void*)GetProcAddress(h3dhandle,"Hyper3DFileInfoAddComment");
   if( !DLHyper3DFileInfoAddComment) ierr=ierr+1;
 
-  DLHyper3DFileInfoEnd=GetProcAddress(h3dhandle,"Hyper3DFileInfoEnd");
+  DLHyper3DFileInfoEnd=(void*)GetProcAddress(h3dhandle,"Hyper3DFileInfoEnd");
   if( !DLHyper3DFileInfoEnd) ierr=ierr+1;
 
 /****************/ 
 /* Model Blocks */
 /****************/ 
 
-  DLHyper3DModelBegin=GetProcAddress(h3dhandle,"Hyper3DModelBegin");
+  DLHyper3DModelBegin=(void*)GetProcAddress(h3dhandle,"Hyper3DModelBegin");
   if( !DLHyper3DModelBegin) ierr=ierr+1;
 
-  DLHyper3DModelWrite=GetProcAddress(h3dhandle,"Hyper3DModelWrite");
+  DLHyper3DModelWrite=(void*)GetProcAddress(h3dhandle,"Hyper3DModelWrite");
   if( !DLHyper3DModelWrite) ierr=ierr+1;
 
-  DLHyper3DModelEnd=GetProcAddress(h3dhandle,"Hyper3DModelEnd");
+  DLHyper3DModelEnd=(void*)GetProcAddress(h3dhandle,"Hyper3DModelEnd");
   if( !DLHyper3DModelEnd) ierr=ierr+1;
 
-  DLHyper3DSetModelToWrite=GetProcAddress(h3dhandle,"Hyper3DSetModelToWrite");
+  DLHyper3DSetModelToWrite=(void*)GetProcAddress(h3dhandle,"Hyper3DSetModelToWrite");
   if( !DLHyper3DSetModelToWrite) ierr=ierr+1;
 
 /*********************/ 
 /* Assemblies Blocks */
 /*********************/ 
 
-  DLHyper3DAssemblyBegin=GetProcAddress(h3dhandle,"Hyper3DAssemblyBegin");
+  DLHyper3DAssemblyBegin=(void*)GetProcAddress(h3dhandle,"Hyper3DAssemblyBegin");
   if( !DLHyper3DAssemblyBegin) ierr=ierr+1;
 
-  DLHyper3DAssemblyWrite=GetProcAddress(h3dhandle,"Hyper3DAssemblyWrite");
+  DLHyper3DAssemblyWrite=(void*)GetProcAddress(h3dhandle,"Hyper3DAssemblyWrite");
   if( !DLHyper3DAssemblyWrite) ierr=ierr+1;
 
-  DLHyper3DAssemblyEnd=GetProcAddress(h3dhandle,"Hyper3DAssemblyEnd");
+  DLHyper3DAssemblyEnd=(void*)GetProcAddress(h3dhandle,"Hyper3DAssemblyEnd");
   if( !DLHyper3DAssemblyEnd) ierr=ierr+1;
 
 /*********************/ 
 /* Components Blocks */
 /*********************/ 
 
-  DLHyper3DComponentBegin=GetProcAddress(h3dhandle,"Hyper3DComponentBegin");
+  DLHyper3DComponentBegin=(void*)GetProcAddress(h3dhandle,"Hyper3DComponentBegin");
   if( !DLHyper3DComponentBegin) ierr=ierr+1;
 
-  DLHyper3DComponentWrite=GetProcAddress(h3dhandle,"Hyper3DComponentWrite");
+  DLHyper3DComponentWrite=(void*)GetProcAddress(h3dhandle,"Hyper3DComponentWrite");
   if( !DLHyper3DComponentWrite) ierr=ierr+1;
 
-  DLHyper3DComponentEnd=GetProcAddress(h3dhandle,"Hyper3DComponentEnd");
+  DLHyper3DComponentEnd=(void*)GetProcAddress(h3dhandle,"Hyper3DComponentEnd");
   if( !DLHyper3DComponentEnd) ierr=ierr+1;
 
 /*********************/
 /* System Blocks     */
 /*********************/
 
-  DLHyper3DSystemBegin=GetProcAddress(h3dhandle,"Hyper3DSystemBegin");
+  DLHyper3DSystemBegin=(void*)GetProcAddress(h3dhandle,"Hyper3DSystemBegin");
   if( !DLHyper3DSystemBegin) ierr=ierr+1;
 
-  DLHyper3DSystemWrite=GetProcAddress(h3dhandle,"Hyper3DSystemWrite");
+  DLHyper3DSystemWrite=(void*)GetProcAddress(h3dhandle,"Hyper3DSystemWrite");
   if( !DLHyper3DSystemWrite) ierr=ierr+1;
 
-  DLHyper3DSystemEnd=GetProcAddress(h3dhandle,"Hyper3DSystemEnd");
+  DLHyper3DSystemEnd=(void*)GetProcAddress(h3dhandle,"Hyper3DSystemEnd");
   if( !DLHyper3DSystemEnd) ierr=ierr+1;
 
 /***************/ 
 /* Node blocks */
 /***************/ 
 
-  DLHyper3DPositionBegin=GetProcAddress(h3dhandle,"Hyper3DPositionBegin");
+  DLHyper3DPositionBegin=(void*)GetProcAddress(h3dhandle,"Hyper3DPositionBegin");
   if( !DLHyper3DPositionBegin) ierr=ierr+1;
 
-  DLHyper3DPositionWrite=GetProcAddress(h3dhandle,"Hyper3DPositionWrite");
+  DLHyper3DPositionWrite=(void*)GetProcAddress(h3dhandle,"Hyper3DPositionWrite");
   if( !DLHyper3DPositionWrite) ierr=ierr+1;
 
-  DLHyper3DPositionEnd=GetProcAddress(h3dhandle,"Hyper3DPositionEnd");
+  DLHyper3DPositionEnd=(void*)GetProcAddress(h3dhandle,"Hyper3DPositionEnd");
   if( !DLHyper3DPositionEnd) ierr=ierr+1;
 
 /******************/ 
 /* Element Blocks */
 /******************/ 
 
-  DLHyper3DElementBegin=GetProcAddress(h3dhandle,"Hyper3DElementBegin");
+  DLHyper3DElementBegin=(void*)GetProcAddress(h3dhandle,"Hyper3DElementBegin");
   if( !DLHyper3DElementBegin) ierr=ierr+1;
 
-  DLHyper3DElementWrite=GetProcAddress(h3dhandle,"Hyper3DElementWrite");
+  DLHyper3DElementWrite=(void*)GetProcAddress(h3dhandle,"Hyper3DElementWrite");
   if( !DLHyper3DElementWrite) ierr=ierr+1;
 
-  DLHyper3DElementEnd=GetProcAddress(h3dhandle,"Hyper3DElementEnd");
+  DLHyper3DElementEnd=(void*)GetProcAddress(h3dhandle,"Hyper3DElementEnd");
   if( !DLHyper3DElementEnd) ierr=ierr+1;
 
-  DLHyper3DElement2Begin=GetProcAddress(h3dhandle,"Hyper3DElement2Begin");
+  DLHyper3DElement2Begin=(void*)GetProcAddress(h3dhandle,"Hyper3DElement2Begin");
   if( !DLHyper3DElement2Begin) ierr=ierr+1;
 
-  DLHyper3DElement2Write=GetProcAddress(h3dhandle,"Hyper3DElement2Write");
+  DLHyper3DElement2Write=(void*)GetProcAddress(h3dhandle,"Hyper3DElement2Write");
   if( !DLHyper3DElement2Write) ierr=ierr+1;
 
-  DLHyper3DElement2End=GetProcAddress(h3dhandle,"Hyper3DElement2End");
+  DLHyper3DElement2End=(void*)GetProcAddress(h3dhandle,"Hyper3DElement2End");
   if( !DLHyper3DElement2End) ierr=ierr+1;
 
 /*************************************/
@@ -495,102 +496,102 @@ void h3dlib_load_(int * IERROR)
 /* Eroded Data Blocks */
 /* * all pool names are specified per block *  
                               */
-  DLHyper3DErodeBegin=GetProcAddress(h3dhandle,"Hyper3DErodeBegin");
+  DLHyper3DErodeBegin=(void*)GetProcAddress(h3dhandle,"Hyper3DErodeBegin");
   if( !DLHyper3DErodeBegin) ierr=ierr+1;
 
-  DLHyper3DErodeElement=GetProcAddress(h3dhandle,"Hyper3DErodeElement");
+  DLHyper3DErodeElement=(void*)GetProcAddress(h3dhandle,"Hyper3DErodeElement");
   if( !DLHyper3DErodeElement) ierr=ierr+1;
 
-  DLHyper3DErodeEnd=GetProcAddress(h3dhandle,"Hyper3DErodeEnd");
+  DLHyper3DErodeEnd=(void*)GetProcAddress(h3dhandle,"Hyper3DErodeEnd");
   if( !DLHyper3DErodeEnd) ierr=ierr+1;
 
 /*****************/ 
 /* Result Blocks */
 /*****************/ 
 
-  DLHyper3DResultBegin=GetProcAddress(h3dhandle,"Hyper3DResultBegin");
+  DLHyper3DResultBegin=(void*)GetProcAddress(h3dhandle,"Hyper3DResultBegin");
   if( !DLHyper3DResultBegin) ierr=ierr+1;
 
-  DLHyper3DResultWrite=GetProcAddress(h3dhandle,"Hyper3DResultWrite");
+  DLHyper3DResultWrite=(void*)GetProcAddress(h3dhandle,"Hyper3DResultWrite");
   if( !DLHyper3DResultWrite) ierr=ierr+1;
 
-  DLHyper3DResultAddSystem=GetProcAddress(h3dhandle,"Hyper3DResultAddSystem");
+  DLHyper3DResultAddSystem=(void*)GetProcAddress(h3dhandle,"Hyper3DResultAddSystem");
   if( !DLHyper3DResultAddSystem) ierr=ierr+1;
 
-  DLHyper3DResultEnd=GetProcAddress(h3dhandle,"Hyper3DResultEnd");
+  DLHyper3DResultEnd=(void*)GetProcAddress(h3dhandle,"Hyper3DResultEnd");
   if( !DLHyper3DResultEnd) ierr=ierr+1;
 
 /*****************************/ 
 /* Subcase (Loadcase) Blocks */
 /*****************************/ 
 
-  DLHyper3DSimSubcaseBegin=GetProcAddress(h3dhandle,"Hyper3DSimSubcaseBegin");
+  DLHyper3DSimSubcaseBegin=(void*)GetProcAddress(h3dhandle,"Hyper3DSimSubcaseBegin");
   if( !DLHyper3DSimSubcaseBegin) ierr=ierr+1;
 
-  DLHyper3DSimSubcaseWrite=GetProcAddress(h3dhandle,"Hyper3DSimSubcaseWrite");
+  DLHyper3DSimSubcaseWrite=(void*)GetProcAddress(h3dhandle,"Hyper3DSimSubcaseWrite");
   if( !DLHyper3DSimSubcaseWrite) ierr=ierr+1;
 
-  DLHyper3DSimSubcaseAnimationGroups=GetProcAddress(h3dhandle,"Hyper3DSimSubcaseAnimationGroups");
+  DLHyper3DSimSubcaseAnimationGroups=(void*)GetProcAddress(h3dhandle,"Hyper3DSimSubcaseAnimationGroups");
   if( !DLHyper3DSimSubcaseAnimationGroups) ierr=ierr+1;
 
-  DLHyper3DSimSubcaseEnd=GetProcAddress(h3dhandle,"Hyper3DSimSubcaseEnd");
+  DLHyper3DSimSubcaseEnd=(void*)GetProcAddress(h3dhandle,"Hyper3DSimSubcaseEnd");
   if( !DLHyper3DSimSubcaseEnd) ierr=ierr+1;
 
 /*********************/ 
 /* Simulation Blocks */
 /*********************/ 
 
-  DLHyper3DSimulationBegin=GetProcAddress(h3dhandle,"Hyper3DSimulationBegin");
+  DLHyper3DSimulationBegin=(void*)GetProcAddress(h3dhandle,"Hyper3DSimulationBegin");
   if( !DLHyper3DSimulationBegin) ierr=ierr+1;
 
-  DLHyper3DSimulationWrite=GetProcAddress(h3dhandle,"Hyper3DSimulationWrite");
+  DLHyper3DSimulationWrite=(void*)GetProcAddress(h3dhandle,"Hyper3DSimulationWrite");
   if( !DLHyper3DSimulationWrite) ierr=ierr+1;
 
-  DLHyper3DSimulationEnd=GetProcAddress(h3dhandle,"Hyper3DSimulationEnd");
+  DLHyper3DSimulationEnd=(void*)GetProcAddress(h3dhandle,"Hyper3DSimulationEnd");
   if( !DLHyper3DSimulationEnd) ierr=ierr+1;
 
 /*******************/ 
 /* Datatype Blocks */
 /*******************/ 
 
-  DLHyper3DDatatypeBegin=GetProcAddress(h3dhandle,"Hyper3DDatatypeBegin");
+  DLHyper3DDatatypeBegin=(void*)GetProcAddress(h3dhandle,"Hyper3DDatatypeBegin");
   if( !DLHyper3DDatatypeBegin) ierr=ierr+1;
 
-  DLHyper3DDatatypeWrite=GetProcAddress(h3dhandle,"Hyper3DDatatypeWrite");
+  DLHyper3DDatatypeWrite=(void*)GetProcAddress(h3dhandle,"Hyper3DDatatypeWrite");
   if( !DLHyper3DDatatypeWrite) ierr=ierr+1;
 
-  DLHyper3DDatatypeDescriptionWrite=GetProcAddress(h3dhandle,"Hyper3DDatatypeDescriptionWrite");
+  DLHyper3DDatatypeDescriptionWrite=(void*)GetProcAddress(h3dhandle,"Hyper3DDatatypeDescriptionWrite");
   if( !DLHyper3DDatatypeDescriptionWrite) ierr=ierr+1;
 
-  DLHyper3DDatatypePools=GetProcAddress(h3dhandle,"Hyper3DDatatypePools");
+  DLHyper3DDatatypePools=(void*)GetProcAddress(h3dhandle,"Hyper3DDatatypePools");
   if( !DLHyper3DDatatypePools) ierr=ierr+1;
 
-  DLHyper3DDatatypeEnd=GetProcAddress(h3dhandle,"Hyper3DDatatypeEnd");
+  DLHyper3DDatatypeEnd=(void*)GetProcAddress(h3dhandle,"Hyper3DDatatypeEnd");
   if( !DLHyper3DDatatypeEnd) ierr=ierr+1;
 
 /******************/ 
 /* Dataset Blocks */
 /******************/ 
 
-  DLHyper3DDatasetBegin=GetProcAddress(h3dhandle,"Hyper3DDatasetBegin");
+  DLHyper3DDatasetBegin=(void*)GetProcAddress(h3dhandle,"Hyper3DDatasetBegin");
   if( !DLHyper3DDatasetBegin) ierr=ierr+1;
 
-  DLHyper3DDatasetWriteParent=GetProcAddress(h3dhandle,"Hyper3DDatasetWriteParent");
+  DLHyper3DDatasetWriteParent=(void*)GetProcAddress(h3dhandle,"Hyper3DDatasetWriteParent");
   if( !DLHyper3DDatasetWriteParent) ierr=ierr+1;
 
-  DLHyper3DDatasetWrite=GetProcAddress(h3dhandle,"Hyper3DDatasetWrite");
+  DLHyper3DDatasetWrite=(void*)GetProcAddress(h3dhandle,"Hyper3DDatasetWrite");
   if( !DLHyper3DDatasetWrite) ierr=ierr+1;
 
-  DLHyper3DDatasetWriteWithSystem=GetProcAddress(h3dhandle,"Hyper3DDatasetWriteWithSystem");
+  DLHyper3DDatasetWriteWithSystem=(void*)GetProcAddress(h3dhandle,"Hyper3DDatasetWriteWithSystem");
   if( !DLHyper3DDatasetWriteWithSystem) ierr=ierr+1;
 
-  DLHyper3DDatasetDoubleWrite=GetProcAddress(h3dhandle,"Hyper3DDatasetDoubleWrite");
+  DLHyper3DDatasetDoubleWrite=(void*)GetProcAddress(h3dhandle,"Hyper3DDatasetDoubleWrite");
   if( !DLHyper3DDatasetDoubleWrite) ierr=ierr+1;
 
-  DLHyper3DDatasetDoubleWriteWithSystem=GetProcAddress(h3dhandle,"Hyper3DDatasetDoubleWriteWithSystem");
+  DLHyper3DDatasetDoubleWriteWithSystem=(void*)GetProcAddress(h3dhandle,"Hyper3DDatasetDoubleWriteWithSystem");
   if( !DLHyper3DDatasetDoubleWriteWithSystem) ierr=ierr+1;
 
-  DLHyper3DDatasetEnd=GetProcAddress(h3dhandle,"Hyper3DDatasetEnd");
+  DLHyper3DDatasetEnd=(void*)GetProcAddress(h3dhandle,"Hyper3DDatasetEnd");
   if( !DLHyper3DDatasetEnd) ierr=ierr+1;
 
   

@@ -58,15 +58,16 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LREC, L1, L2, I
-      CHARACTER STR(10)*8
+      CHARACTER*8 STR(10),OneSTR
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
+      INTEGER IC
 C     REAL
       my_real
      .   RSTR
-C-----------------------------------------------
       EXTERNAL RSTR
+C-----------------------------------------------
       IF (L==0)RETURN
       IF (MOD(IFORM,5)==1)THEN
        LREC=10
@@ -77,14 +78,17 @@ C
       L1=1
       L2=LREC
    1  L2=MIN(L,L2)
+   
       IF (MOD(IFORM,5)==1)THEN
-       READ(IUNIT,'(10A8)') (STR(I),I=1,10)
-       DO 100 I=L1,L2
-       A(I)=RSTR(STR(I-L1+1))
- 100   CONTINUE
+         READ(IUNIT,'(10A8)') (STR(I),I=1,10)
+         DO I=L1,L2
+           OneStr=STR(I-L1+1)
+           A(I)=RSTR(OneStr)
+         ENDDO
       ELSE
-       READ(IUNIT) (A(I),I=L1,L2)
+         READ(IUNIT) (A(I),I=L1,L2)
       ENDIF
+      
       IF(L2==L)RETURN
       L1=L2+1
       L2=L1+LREC-1
@@ -116,13 +120,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LREC, L1, L2, I
-      CHARACTER STR(10)*8
+      CHARACTER*8 STR(10),OneSTR
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C     REAL
       DOUBLE PRECISION
      .   RSTR
+      my_real
+     .   VAL
 C-----------------------------------------------
       EXTERNAL RSTR
       IF (L==0)RETURN
@@ -137,9 +143,11 @@ C
    1  L2=MIN(L,L2)
       IF (MOD(IFORM,5)==1)THEN
        READ(IUNIT,'(10A8)') (STR(I),I=1,10)
-       DO 100 I=L1,L2
-       A(I)=RSTR(STR(I-L1+1))
- 100   CONTINUE
+       DO  I=L1,L2
+          OneSTR=STR(I-L1+1)
+          VAL=RSTR(OneSTR)
+          A(I)=VAL
+       ENDDO
       ELSE
        READ(IUNIT) (A(I),I=L1,L2)
       ENDIF

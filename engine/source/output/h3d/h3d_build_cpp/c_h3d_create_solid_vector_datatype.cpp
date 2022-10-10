@@ -115,11 +115,19 @@ void c_h3d_create_solid_vector_datatype_(int *cpt_data, char *name1, int *size1,
     H3D_ID layer_pool_id = H3D_NULL_ID;
 
 
+#ifdef _WIN64
+     strcat_s(RES_STRING,sizeof(RES_STRING),cname);
+#else
      RES_STRING = strcat(RES_STRING,cname);
+#endif
      if(*nuvar > 0)
     {
-        sprintf(NUVAR_STRING, " %d \0",*nuvar);
+        sprintf(NUVAR_STRING, " %d ",*nuvar);
+#ifdef _WIN64
+        strcat_s(RES_STRING,sizeof(RES_STRING),NUVAR_STRING);
+#else
         RES_STRING = strcat(RES_STRING,NUVAR_STRING);
+#endif
     }
 
     if(*layer > 0 ||  *nuvar > 0 || *ir > 0 || *is > 0 || *it > 0 )
@@ -127,52 +135,88 @@ void c_h3d_create_solid_vector_datatype_(int *cpt_data, char *name1, int *size1,
         
         if(*nuvar > 0 && *layer > 0 && *ir > 0 && *is > 0)
         {
-             sprintf(LAYER_STRING, "USER VARIABLE %d / LAYER IR IS %d %d %d\0" ,*nuvar,*ir,*is,*it);
+             sprintf(LAYER_STRING, "USER VARIABLE %d / LAYER IR IS %d %d %d" ,*nuvar,*ir,*is,*it);
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
         }
         else if(*nuvar > 0 && *ir > 0 && *is > 0 && *it > 0)
         {
-             sprintf(LAYER_STRING, "USER VARIABLE %d / IR IS IT %d %d %d\0" ,*nuvar,*ir,*is,*it);
+             sprintf(LAYER_STRING, "USER VARIABLE %d / IR IS IT %d %d %d" ,*nuvar,*ir,*is,*it);
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
         }
         else if(*nuvar > 0)
         {
-             sprintf(LAYER_STRING, "USER VARIABLE %d \0" ,*nuvar);
+             sprintf(LAYER_STRING, "USER VARIABLE %d " ,*nuvar);
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
         }
         else if(*layer > 0 && *ir > 0 && *is > 0 )
         {
-             sprintf(LAYER_STRING, "LAYER IR IS %d %d %d \0" ,*layer,*ir,*is);
+             sprintf(LAYER_STRING, "LAYER IR IS %d %d %d " ,*layer,*ir,*is);
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
         }
         else if(*layer > 0)
         {
-             sprintf(LAYER_STRING, "LAYER %d \0" ,*layer);
+             sprintf(LAYER_STRING, "LAYER %d " ,*layer);
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
         }
         else if(*ir > 0 && *is > 0 && *it > 0)
         {
-             sprintf(LAYER_STRING, "IR IS IT %d %d %d\0" ,*ir,*is,*it);
+             sprintf(LAYER_STRING, "IR IS IT %d %d %d" ,*ir,*is,*it);
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
         }
     }
     else if(*layer < -1 )
     {
         if(*layer == -2)
         {
-             sprintf(LAYER_STRING, "Layer Lower \0" );
+             sprintf(LAYER_STRING, "Layer Lower " );
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
         }
         if(*layer == -3)
         {
-             sprintf(LAYER_STRING, "Layer Upper \0" );
+             sprintf(LAYER_STRING, "Layer Upper " );
+#ifdef _WIN64
+             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
         }
     }
     else
     {
-        sprintf(LAYER_STRING, "Mid\0" );
+        sprintf(LAYER_STRING, "Mid" );
+#ifdef _WIN64
+        strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+#else
         LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
+#endif
     }
     rc = Hyper3DAddString(h3d_file, LAYERPOOL, &layer_pool_id);
 

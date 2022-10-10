@@ -1,1 +1,4 @@
          -arch=linux64_gf  (SMP executable / Gfortran compiler)
+         -arch=linuxa64    (SMP executable / ARM Linux - Armflang compiler)
+         -arch=win64       (SMP executable / Windows X86-64 - Intel OneAPI)
+

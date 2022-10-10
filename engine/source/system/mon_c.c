@@ -241,10 +241,10 @@ CONTINUE:
     if ( RegOpenKeyEx ( HKEY_LOCAL_MACHINE,
 			"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
 			0, KEY_QUERY_VALUE, &handle ) != ERROR_SUCCESS )
-      return 0;
+      return;
     if ( RegQueryValueEx ( handle, "~MHz", NULL, NULL,
 			   (LPBYTE )(&mhz) ,(LPDWORD) &l ) != ERROR_SUCCESS )
-      return 0;
+      return;
     RegCloseKey ( handle );
     *frequence = (int)(mhz/50.0 +0.5)*50;
 

@@ -1,0 +1,116 @@
+# Compiler predefinition
+# Simplifiy usage for target compilation
+#########################################
+
+
+# Executable name
+# ---------------
+
+set ( RELNAME ${arch}  )
+
+
+# General machine flag setting
+set ( cppmach "-DCPP_mach=CPP_p4win64" )
+set ( cpprel  "-DCPP_rel=00" )
+
+
+# Third party libraries
+# ---------------------
+
+#hm_reader
+set ( reader_lib "${source_directory}/../extlib/hm_reader/win64/hm_reader_win64.lib")
+
+#metis
+set (metis_lib "${source_directory}/../extlib/metis/win64/libmetis_win64_i2018_1_vs2015.lib")
+
+#MKL
+set (MKL_Inc "-DMKL")
+set (MKL_Lib "mkl_intel_lp64_dll.lib mkl_intel_thread_dll.lib mkl_core_dll.lib")
+
+#
+# compiler Flags
+# --------------
+
+set (CMAKE_Fortran_FLAGS " " )
+set (CMAKE_C_FLAGS " " )
+set (CMAKE_CPP_FLAGS " " )
+set (CMAKE_CXX_FLAGS " " )
+
+set (CMAKE_Fortran_FLAGS_DEBUG " " )
+set (CMAKE_Fortran_FLAGS_RELEASE " " )
+
+set (CMAKE_C_FLAGS_DEBUG " " )
+set (CMAKE_C_FLAGS_RELEASE " " )
+
+set (CMAKE_CPP_FLAGS_DEBUG " " )
+set (CMAKE_CPP_FLAGS_RELEASE " " )
+
+set (CMAKE_CXX_FLAGS_DEBUG " " )
+set (CMAKE_CXX_FLAGS_RELEASE " " )
+
+# Single / Double Precision
+# -------------------------
+if (precision STREQUAL "sp")
+  set (precision_flag "-DMYREAL4")
+else (precision STREQUAL "sp")
+  set (precision_flag "-DMYREAL8")
+endif (precision STREQUAL "sp")
+
+# Modules directory
+set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/CMakeFiles/modules )
+set(CMAKE_Fortran_MODDIR_FLAG "/module:" )
+
+message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
+
+#Generic Compilation flags
+###########################
+set(VECT_OPT "/nologo /Qaxsse3 /O2 /fp:precise /Qftz /Qopenmp")
+set(Fortran "/fpp /extend-source /assume:buffered_io")
+# 
+if ( debug STREQUAL "1" )
+ 
+# Fortran
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 /Qcpp  /fp:precise /O1 /debug:all /Qftz /extend-source /Qopenmp /traceback  ${ADF} " )
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo $(FPP_FLAG) /fp:precise /O1 /debug:all /Qftz /extend-source /Qopenmp /traceback " )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo $(FPP_FLAG) /fp:precise /O1 /debug:all /Qftz /extend-source /Qopenmp /traceback" )
+
+else ()
+
+# Fortran
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 ${VECT_OPT} ${Fortran} ${ADF}" )
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${VECT_OPT}" )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${VECT_OPT}" )
+
+endif()
+
+# Linking flags
+set (CMAKE_EXE_LINKER_FLAGS "$(AD) /defaultlib:libiomp5md.lib /nodefaultlib:vcomp.lib /nodefaultlib:vcompd.lib /STACK:1500000000 ${reader_lib} ${MKL_Lib}  ${metis_lib} svml_dispmd.lib")
+
+#Libraries
+set (LINK "advapi32.lib")
+
+
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# Specific set of compilation flag
+
+set (F_O1_compiler_flags " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /extend-source /O1 /fp:precise /Qopenmp /Qftz")
+set (F_O1_compiler_flags_no_omp " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /extend-source /O1 /Qopenmp /fp:precise /Qftz")
+set (F_O2_compiler_flags_no_omp " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /extend-source /O2 /Qopenmp /fp:precise /Qftz")
+
+set_source_files_properties( ${source_directory}/source/starter/lectur.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
+
+set_source_files_properties( ${source_directory}/source/tools/sect/prelecsec.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags_no_omp} )
+
+set_source_files_properties( ${source_directory}/source/elements/sph/nbsph.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags_no_omp} )
+
+
+
+

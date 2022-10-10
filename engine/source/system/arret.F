@@ -501,6 +501,8 @@ C ABF FILES
 C -----------------------------------------------
       IF (ISPMD == 0 .AND. NABFILE /= 0 .AND. 
      .  (ABINP /= 0 .AND. ABOUT /= 0 )  ) THEN
+#ifdef DNC
+
            CALL RELEASE_ABFPIPE(ABINP,ABOUT)
 
            IF(ABFILE(1) /= 0) THEN
@@ -583,6 +585,7 @@ C -----------------------------------------------
              CALL CUR_FIL_C(IFIL)
              CALL DELETE_TMPFILE(TMP_NAME,LEN_TMP_NAME)
            ENDIF
+#endif
       ENDIF
 
       ! ----------------------

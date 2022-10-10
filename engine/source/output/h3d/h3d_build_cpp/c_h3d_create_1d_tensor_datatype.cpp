@@ -102,14 +102,18 @@ void c_h3d_create_1d_tensor_datatype_(int *cpt_data, char *name, int *size, int 
     H3D_ID layer_pool_id = H3D_NULL_ID;
     if(*ipt > 0)
     {
-      sprintf(IPT_STRING, "IPT %d \0" ,*ipt);
-      LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
+      sprintf(IPT_STRING, "IPT %d" ,*ipt);
     }
     else
     {
-      sprintf(IPT_STRING, "Mid\0" );
-      LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
+      sprintf(IPT_STRING, "Mid" );
     }
+    
+#ifdef _WIN64
+    strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+#else
+    LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
+#endif
 
     rc = Hyper3DAddString(h3d_file, LAYERPOOL, &layer_pool_id);
 
