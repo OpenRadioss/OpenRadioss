@@ -428,7 +428,8 @@ c--------------------------
      .                     NC3     ,PX2     ,PY2     ,PX3     ,
      .                     PY3     ,KSI     ,ETA     ,
      .                     ELBUF_STR%NLOC(IR,IS)     ,IXTG(1,JFT),
-     .                     NDDL    ,ITASK   ,NG      ,DT2T    )
+     .                     NDDL    ,ITASK   ,NG      ,DT2T    ,
+     .                     GBUF%THK_I,GBUF%AREA)
         ENDIF 
 c-------------------------------
       ENDDO  !  NG = 1,NPG

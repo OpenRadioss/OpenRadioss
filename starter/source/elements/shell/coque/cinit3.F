@@ -242,6 +242,7 @@ C------------
           IP = IPART(I+NFT)
 C         PART_AREA(IP) = PART_AREA(IP) + AREA(I)
           ELE_AREA(I+NFT) = AREA(I)
+          IF (GBUF%G_AREA > 0) GBUF%AREA(I) = AREA(I)
         ENDDO
       ENDIF
 C------------

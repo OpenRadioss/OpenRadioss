@@ -615,7 +615,7 @@ c--------------------------
      .                 NC3     ,NC4     ,PX1     ,PY1     ,
      .                 PX2     ,PY2     ,ELBUF_STR%NLOC(1,1), 
      .                 IXC(1,JFT),NDDL  ,ITASK   ,DT2T    ,
-     .                 ALDT    )
+     .                 ALDT    ,GBUF%THK_I,GBUF%AREA)
       ENDIF 
 C--------------------------
       IF (ISUB /= 0) THEN

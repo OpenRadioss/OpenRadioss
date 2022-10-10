@@ -827,7 +827,8 @@ c--------------------------
      .                      ELBUF_STR%NLOC(IR,IS), 
      .                      IXC(1,JFT),NDDL  ,ITASK   ,
      .                      NG      ,JFT     ,JLT     ,X13     ,
-     .                      Y13     ,X24     ,Y24     ,DT2T    )
+     .                      Y13     ,X24     ,Y24     ,DT2T    ,
+     .                      GBUF%THK_I,GBUF%AREA)
          ENDIF 
        ENDDO  ! NPTR
       ENDDO  ! NPTS

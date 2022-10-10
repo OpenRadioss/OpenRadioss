@@ -543,7 +543,8 @@ c--------------------------
      .                  OFF     ,AREA    ,NC1     ,NC2     , 
      .                  NC3     ,PX1     ,PY1     ,PY2     ,
      .                  ELBUF_STR%NLOC(1,1),IMAT  ,NDDL    ,
-     .                  ITASK   ,DT2T    ,ALDT    )
+     .                  ITASK   ,DT2T    ,ALDT    ,GBUF%THK_I,
+     .                  GBUF%AREA)
       ENDIF 
 c-------------------------------
 C-------------------------
