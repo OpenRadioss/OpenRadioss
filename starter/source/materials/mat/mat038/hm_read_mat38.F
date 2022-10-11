@@ -350,11 +350,11 @@ C----------------
 C-------to be consisting w/ dt in engine
       PARMAT(1)=E
       PARMAT(2)=E
-      PARMAT(3)=MAX(VC,VT)
+      NU = MAX(VC,VT)
+      PARMAT(3)=NU
 c------------------------------------
 C     Formulation for solid elements time step computation.
       IF(NPCURVE==0)THEN
-        NU=MAX(VC,VT)
         PARMAT(16) = 2
         PARMAT(17) = (ONE-TWO*NU)/(ONE-NU)
       ELSE
