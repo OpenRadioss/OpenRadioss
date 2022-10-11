@@ -9528,6 +9528,7 @@ C
           ENDIF  
           IF (NLOADC > 0) CALL WRITE_DB(CFIELD,LFACLOAD*NLOADC)
           IF (NLOADP > 0) CALL WRITE_DB(LOADP,LFACLOAD*NLOADP)
+          IF (NINTLOADP > 0) CALL WRITE_DB(DGAPLOADINT,NINTER*NLOADP_HYD)
 c-------------------------------
 C xfem for layerd shell (cracks)
 c-------------------------------
@@ -9663,6 +9664,7 @@ C ply xfem (composites)
              ENDIF 
           IF (NLOADC > 0) CALL WRITE_DB(CFIELD,LFACLOAD*NLOADC)
           IF (NLOADP > 0) CALL WRITE_DB(LOADP,LFACLOAD*NLOADP)
+          IF (NINTLOADP > 0) CALL WRITE_DB(DGAPLOADINT,NINTER*NLOADP_HYD)
 c-------------------------------
 C xfem for layerd shell (cracks)
           IF (ICRACK3D > 0) THEN
