@@ -25,7 +25,6 @@ Chd|  HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
 Chd|-- called by -----------
 Chd|        CONTRL                        source/starter/contrl.F       
 Chd|        HM_CONVERT_2D_ELEMENTS_SEATBELTsource/devtools/hm_reader/hm_convert_2d_elements_seatbelt.F
-Chd|        HM_CONVERT_2D_ELEMENT_SEATBELTsource/devtools/hm_reader/hm_convert_2d_element_seatbelt.F
 Chd|        HM_CONVERT_FAIL_TAB           source/devtools/hm_reader/hm_convert_fail_tab.F
 Chd|        HM_CONVERT_INTER_TYPE19       source/devtools/hm_reader/hm_convert_inter_type19.F
 Chd|        HM_COUNT_2D_ELEMENT_SEATBELT  source/devtools/hm_reader/hm_count_2d_element_seatbelt.F

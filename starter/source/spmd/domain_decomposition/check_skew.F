@@ -25,6 +25,7 @@ Chd|  CHECK_SKEW                    source/spmd/domain_decomposition/check_skew.
 Chd|-- called by -----------
 Chd|        DOMDEC2                       source/spmd/domdec2.F         
 Chd|-- calls ---------------
+Chd|        HM_ENTITY_REFERENCE_NUMBER    source/devtools/hm_reader/hm_entity_reference_number.F
 Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
 Chd|        SKEW_MOD                      share/modules1/skew_mod.F     
 Chd|====================================================================

@@ -29,7 +29,6 @@ Chd|        GROUPS_GET_ELEM_LIST          source/groups/groups_get_elem_list.F
 Chd|        GROUPS_GET_NENTITY            source/groups/groups_get_nentity.F
 Chd|        HM_ADMLIST                    source/groups/hm_admlist.F    
 Chd|        HM_CONVERT_2D_ELEMENTS_SEATBELTsource/devtools/hm_reader/hm_convert_2d_elements_seatbelt.F
-Chd|        HM_CONVERT_2D_ELEMENT_SEATBELTsource/devtools/hm_reader/hm_convert_2d_element_seatbelt.F
 Chd|        HM_COUNT_2D_ELEMENT_SEATBELT  source/devtools/hm_reader/hm_count_2d_element_seatbelt.F
 Chd|        HM_ELNGR                      source/groups/hm_elngr.F      
 Chd|        HM_ELNGRR                     source/groups/hm_elngrr.F     

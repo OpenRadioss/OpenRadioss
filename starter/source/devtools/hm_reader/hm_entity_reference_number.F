@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_ENTITY_REFERENCE_NUMBER    source/devtools/hm_reader/hm_entity_reference_number.F
 Chd|-- called by -----------
+Chd|        CHECK_SKEW                    source/spmd/domain_decomposition/check_skew.F
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 

@@ -64,7 +64,6 @@ Chd|        HM_ADMLCNT                    source/groups/hm_admlistcnt.F
 Chd|        HM_ADMLIST                    source/groups/hm_admlist.F    
 Chd|        HM_BIGSBOX                    source/groups/hm_bigsbox.F    
 Chd|        HM_CONVERT_2D_ELEMENTS_SEATBELTsource/devtools/hm_reader/hm_convert_2d_elements_seatbelt.F
-Chd|        HM_CONVERT_2D_ELEMENT_SEATBELTsource/devtools/hm_reader/hm_convert_2d_element_seatbelt.F
 Chd|        HM_CONVERT_FAIL_TAB           source/devtools/hm_reader/hm_convert_fail_tab.F
 Chd|        HM_COUNT_2D_ELEMENT_SEATBELT  source/devtools/hm_reader/hm_count_2d_element_seatbelt.F
 Chd|        HM_ELNGR                      source/groups/hm_elngr.F      
