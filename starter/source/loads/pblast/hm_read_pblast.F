@@ -273,7 +273,6 @@ C-----------------------------------------------
                         
             IF(ITA_SHIFT==0) ITA_SHIFT = 1
             IF(ITA_SHIFT < 0 .OR. ITA_SHIFT >= 3)ITA_SHIFT = 1
-            IF(ITA_SHIFT==2)TDET=ZERO
             
             ! IMODEL : flag for blast model
             !---1:Friedlander

@@ -650,8 +650,10 @@ C-----------------------------------------------
            P_refl  =  P_refl / FAC_P_bb                                                                                                                                                              
            I_refl  =  I_refl / FAC_I_bb                                                                                                                                                              
            DT_0    =  DT_0    / FAC_T_bb                                                                                                                                                             
-           T_A     =  T_A     / FAC_T_bb                                                                                                                                                             
-                                                                                                                                                                                                     
+           T_A     =  T_A     / FAC_T_bb 
+
+           T_A    = T_A + TDET 
+
            !update wave parameters                                                                                                                                                                   
            PBLAST_TAB(IL)%cos_theta(I) = cos_theta                                                                                                                                                   
            PBLAST_TAB(IL)%P_inci(I) = P_inci                                                                                                                                                         
@@ -674,9 +676,7 @@ C-----------------------------------------------
                                                                                                                                                                                                      
         ENDIF                                                                                                                                                                                        
 
-          T_A    = T_A + TDET                                                                                                                                                                        
-
-          T0INF_LOC = MIN(T0INF_LOC,DT_0)                                                                                                                                                            
+        T0INF_LOC = MIN(T0INF_LOC,DT_0)                                                                                                                                                            
                                                                                                                                                                                                      
 !-------------------------------                                                                                                                                                                  ---
                                                                                                                                                                                                      

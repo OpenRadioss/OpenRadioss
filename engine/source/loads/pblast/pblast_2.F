@@ -473,15 +473,17 @@ C-----------------------------------------------
           DT_0    =  DT_0    / FAC_T_bb                                                                                                                                                               
           DT_0_   =  DT_0_   / FAC_T_bb                                                                                                                                                               
           T_A     =  T_A     / FAC_T_bb                                                                                                                                                               
+
+          T_A    = T_A + TDET                                                                                                                                                                                                                                                                                                                                    
                                                                                                                                                                                                       
-          !update wave parameters                                                                                                                                                                     
+          !update wave parameters (Starter)
           PBLAST_TAB(IL)%cos_theta(I) = cos_theta                                                                                                                                                     
           PBLAST_TAB(IL)%P_inci(I) = P_inci                                                                                                                                                           
           PBLAST_TAB(IL)%P_refl(I) = P_refl                                                                                                                                                           
           PBLAST_TAB(IL)%ta(I) = T_A                                                                                                                                                                  
           PBLAST_TAB(IL)%t0(I) = DT_0                                                                                                                                                                 
           PBLAST_TAB(IL)%decay_inci(I) = decay_inci                                                                                                                                                   
-          PBLAST_TAB(IL)%decay_refl(I) = decay_refl                                                                                                                                                   
+          PBLAST_TAB(IL)%decay_refl(I) = decay_refl  
                                                                                                                                                                                                       
         ELSE                                                                                                                                                                                          
                                                                                                                                                                                                       
@@ -496,9 +498,7 @@ C-----------------------------------------------
 
         ENDIF !IF(IZ_UPDATE==1)                                                                                                                                                                       
 
-          T_A    = T_A + TDET                                                                                                                                                                         
-
-          T0INF_LOC = MIN(T0INF_LOC,DT_0)                                                                                                                                                             
+        T0INF_LOC = MIN(T0INF_LOC,DT_0)                                                                                                                                                             
 
 !-------------------------------                                                                                                                                                                   ---
                                                                                                                                                                                                       
