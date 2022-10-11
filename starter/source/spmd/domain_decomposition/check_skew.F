@@ -126,6 +126,7 @@ C=======================================================================
 !$ENDCOMMENT
 C
 !       compute adhoc size for local arrays
+        CALL CPP_APPLY_SUBMODEL_OFFSETS()
         NUMBER_SKEW_SP = 0
         TAG_SKN(1:NUMSKW+NSUBMOD+1) = -1
         NB = 0
@@ -248,6 +249,8 @@ C
 !       deallocation of local arrais
         DEALLOCATE(SKEW_PER_SP,LOCAL_P)
         DEALLOCATE(P_SKEW)
+
+        CALL CPP_UNAPPLY_SUBMODEL_OFFSETS()
 
         RETURN
         END SUBROUTINE CHECK_SKEW
