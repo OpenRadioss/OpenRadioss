@@ -473,6 +473,8 @@ C-----------------------------------------------
           DT_0    =  DT_0    / FAC_T_bb                                                                                                                                                               
           DT_0_   =  DT_0_   / FAC_T_bb                                                                                                                                                               
           T_A     =  T_A     / FAC_T_bb                                                                                                                                                               
+
+          T_A    = T_A + TDET                                                                                                                                                                         
                                                                                                                                                                                                       
           !update wave parameters                                                                                                                                                                     
           PBLAST_TAB(IL)%cos_theta(I) = cos_theta                                                                                                                                                     
@@ -485,7 +487,7 @@ C-----------------------------------------------
                                                                                                                                                                                                       
         ELSE                                                                                                                                                                                          
                                                                                                                                                                                                       
-          !Use Starter Parameters                                                                                                                                                                     
+          !update wave parameters (Starter)
           Z=ZERO                                                                                                                                                                                      
           cos_theta = PBLAST_TAB(IL)%cos_theta(I)                                                                                                                                                     
           P_inci = PBLAST_TAB(IL)%P_inci(I)                                                                                                                                                           
@@ -497,7 +499,6 @@ C-----------------------------------------------
 
         ENDIF !IF(IZ_UPDATE==1)                                                                                                                                                                       
                                                                                                                                                                                                       
-        T_A    = T_A + TDET                                                                                                                                                                         
 
         T0INF_LOC = MIN(T0INF_LOC,DT_0)                                                                                                                                                             
                                                                                                                                                                                                       
@@ -518,10 +519,7 @@ C-----------------------------------------------
         IF(TT_STAR>=T_A)THEN                                                                                                                                                                          
           WAVE_INCI =  P_inci*(ONE-(TT_STAR-T_A)/DT_0)*exp(-DECAY_inci*(TT_STAR-T_A)/DT_0)                                                                                                            
           WAVE_REFL =  P_refl*(ONE-(TT_STAR-T_A)/DT_0)*exp(-DECAY_refl*(TT_STAR-T_A)/DT_0)                                                                                                            
-!          write(*,FMT='(A,5e30.16)') "TT_STAR,TA,P_refl,I_refl,WAVE_refl=", TT_STAR,T_A,P_refl,I_refl,WAVE_refl                                                                                      
-!          write(*,FMT='(A,5e30.16)') "(ONE-(TT_STAR-T_A)/I_refl), exp    =", (ONE-(TT_STAR-T_A)/I_refl),  exp(-(TT_STAR-T_A)/I_refl)                                                                 
         ELSE                                                                                                                                                                                          
-         !to do  ? stop loading when TT_STAR>=T0                                                                                                                        
           WAVE_INCI = ZERO                                                                                                                                                                            
           WAVE_REFL = ZERO                                                                                                                                                                            
         ENDIF                                                                                                                                                                                         
@@ -529,9 +527,7 @@ C-----------------------------------------------
         P = MAX(P,PMIN)                                                                                                                                                                               
         IF (NUMSKINP > 0) PBLAST_TAB(IL)%PRES(I) = P                                                                                                                                                  
 
-        !Send Pressure load to nodes                                                                                                                                                                  
-        !compiler should optimize P/norm with -O3                                                                                                                                                     
-        !directly used in A(:,inod) so it is divided by /Npt                                                                                                                                          
+        !!Expand Pressure load to nodes                                                                                                                                            
         PBLAST_TAB(IL)%FX(I)= -P * HALF*NX / PBLAST_TAB(IL)%NPT(I)                                                                                                                                                                  
         PBLAST_TAB(IL)%FY(I)= -P * HALF*NY / PBLAST_TAB(IL)%NPT(I)                                                                                                                                                                  
         PBLAST_TAB(IL)%FZ(I)= -P * HALF*NZ / PBLAST_TAB(IL)%NPT(I)                                                                                                                                                                  
