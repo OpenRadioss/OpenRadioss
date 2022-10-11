@@ -132,7 +132,7 @@ C
         DO I = 1,NUMSKW
             ! The optimization of restricting a skew to the domains having the corresponding spring nodes
             ! works only for skew referenced by only one options
-            CALL HM_ENTITY_REFERENCE_NUMBER("/SKEW",ISKN(4,I+1),NB)
+            CALL HM_ENTITY_REFERENCE_NUMBER("/SKEW",LEN_TRIM("/SKEW"),ISKN(4,I+1),NB)
             IF(NB == 1) TAG_SKN(I+1) = 0
         ENDDO
 

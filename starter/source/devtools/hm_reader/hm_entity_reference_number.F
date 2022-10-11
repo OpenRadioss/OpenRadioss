@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_ENTITY_REFERENCE_NUMBER(NAME,ID,REF_NUMBER)
+      SUBROUTINE HM_ENTITY_REFERENCE_NUMBER(NAME,SNAME,ID,REF_NUMBER)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -40,7 +40,8 @@ C   ===================
 C
 C     NAME         DESCRIPTION              
 C
-C     NAME         OPTION          
+C     NAME         OPTION   
+C     SNAME        OPTION LENGTH        
 C     ID           ID OF OPTION
 C     REF_NUMBER   NUMBER OF ENTITIES REFERENCING 'NAME' with ID
 C     LSUBMODEL    SUBMODEL STRUCTURE           
@@ -61,8 +62,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C OUTPUT ARGUMENTS
-      CHARACTER*(ncharkey),INTENT(IN)::NAME
-      INTEGER,INTENT(IN)::ID
+      INTEGER,INTENT(IN)::ID,SNAME
+      CHARACTER*(SNAME),INTENT(IN)::NAME
       INTEGER,INTENT(OUT)::REF_NUMBER
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
