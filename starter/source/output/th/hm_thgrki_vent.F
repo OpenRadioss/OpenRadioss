@@ -146,14 +146,18 @@ C-----------------------------------------------
         CALL HM_GET_INT_ARRAY_INDEX('ids',N,K,IS_AVAILABLE,LSUBMODEL) 
         CALL HM_GET_INT_ARRAY_INDEX('SKEW_ARRAY',ISK,K,IS_AVAILABLE,LSUBMODEL) 
         CALL HM_GET_STRING_INDEX('NAME_ARRAY',TITR,K,40,IS_AVAILABLE) 
-        N_BAK=N
         IF (NSUBDOM>0) THEN
 C----------->Multidomaines - on saute si l'entite n'existe plus-------- 
           IF(R2R_EXIST(ITYP,N)==0) CYCLE
 C---------------------------------------------------------------------- 
-        ENDIF          
+        ENDIF 
+        N_BAK=N
+        N=0        
         DO J=1,NUM                                                
-          IF(N==NOM_OPT(1,INOPT1+J))N=J                         
+          IF(N_BAK==NOM_OPT(1,INOPT1+J))THEN
+            N=J                         
+            EXIT
+          ENDIF
         ENDDO                                                     
         IF(N==0)THEN                                            
            CALL FRETITL2(TITR1,ITHGRP(NITHGR-LTITR+1),LTITR)      
@@ -232,7 +236,10 @@ C----------------------------------------------------------------------
           N_BAK = N  
           N=0                                                  
           DO J=1,NUM                                              
-            IF(N_BAK==NOM_OPT(1,INOPT1+J))N=J                       
+            IF(N_BAK==NOM_OPT(1,INOPT1+J))THEN
+              N=J
+              EXIT
+            ENDIF                       
           ENDDO                                                   
           IF(N==0)THEN                                          
              CALL FRETITL2(TITR1,ITHGRP(NITHGR-LTITR+1),LTITR)    
