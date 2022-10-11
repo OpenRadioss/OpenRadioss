@@ -1301,6 +1301,12 @@ C   Check of compatibility of time step control options - /DT/CST_AMS can not be
           CALL ARRET(0)
         ENDIF
       ENDIF
+C AMS is not compatible with thermal time step
+      IF (IDT_THERM == 1.AND.IDTMINS/=0) THEN
+          CALL ANCMSG(MSGID=301,ANMODE=ANINFO,
+     .            C1=KEY0(IKEY))
+          CALL ARRET(0)
+      ENDIF
 C
 C--------------------
 C     REPERE COQUES
