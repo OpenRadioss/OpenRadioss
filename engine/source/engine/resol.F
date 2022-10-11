@@ -1137,7 +1137,7 @@ C---ADMESH + TRIMING----
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGTRIMC,TAGTRIMTG
       
 
-      INTEGER :: IFTHE, ICONDN, IDX_FTHE, IDX_CONDN, IDX_PINCH
+      INTEGER :: IFTHE, ICONDN, IDX_FTHE, IDX_CONDN, IDX_PINCH,MSTOP_DT_THERM
 C---Nitsche Method----
       INTEGER NFACNIT      
       my_real, DIMENSION(:,:),ALLOCATABLE :: STRESSMEAN    
@@ -1237,6 +1237,7 @@ C-------------------------------------------------------------------------------
       NELTST  = 0
       ITYPTST = 0
       DT2T    = 0
+      MSTOP_DT_THERM = 0
 
       IF(ITHERM_FE>0) THEN
         TEMP_SIZ = NUMNOD
@@ -6002,8 +6003,11 @@ C     IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
         IF(DT2TT<=DT2T)THEN
 C---------Check remaing time for end simulation and correct time step----
 C------------Need to stop computation at Tstop for /DT/THERM----------
-          TREST=MAX(TSTOP-TT,ZERO)  
+
+          TREST=MAX(TSTOP-TT,ZERO)
+  
           DTREST = TREST*(ONE+EM10)
+
           IF(DTREST<DT2T) THEN
              ILASTANIM = 1 
              ILASTH3D = 1 
@@ -9168,14 +9172,19 @@ C--- //0 ----------------
         IF (IMONM > 0) CALL STOPTIME(49,1)
         IF (IMON>0) CALL STOPTIME(6,1)
        ENDIF
+
+      IF(IDT_THERM == 1.AND.(TSTOP-TT)<=EM20)THEN    
+         MSTOP_DT_THERM = 1
+         goto 300
+      ENDIF
        
  300  CONTINUE
  
 C---------------
 C     END OF RUN
 C---------------
+      IF (((TT>TSTOP).OR.(MSTOP_DT_THERM==1)).AND.IMCONV==1) THEN
 
-      IF (TT>TSTOP.AND.IMCONV==1) THEN
           BOOL_RESTART = (ILASTANIM==0.OR.ILASTANIM==1.OR.ILASTANIM==3)
           IF (BOOL_RESTART.AND.(IRAD2R==0)) THEN
 C
