@@ -88,11 +88,16 @@ C
      .   X_17_46, X_28_35,
      .   Y_17_46, Y_28_35,
      .   Z_17_46, Z_28_35,
+     .   JAC12, JAC45, JAC78,
      .   HX, HY, HZ
       DOUBLE PRECISION
      .   X17 , X28 , X35 , X46,
      .   Y17 , Y28 , Y35 , Y46,
-     .   Z17 , Z28 , Z35 , Z46
+     .   Z17 , Z28 , Z35 , Z46,
+     .   A17_46 , A28_35, 
+     .   B17_46 , B28_35 ,
+     .   C17_46 , C28_35 
+
 C
 C Jacobian matrix
       DO I=1,NEL
@@ -227,13 +232,19 @@ C
           JAC2(I)=Y17+Y28-Y35-Y46
           JAC3(I)=Z17+Z28-Z35-Z46
 C
-          JAC4(I)=X17+X46+X28+X35
-          JAC5(I)=Y17+Y46+Y28+Y35
-          JAC6(I)=Z17+Z46+Z28+Z35
-C
-          JAC7(I)=X17+X46-X28-X35
-          JAC8(I)=Y17+Y46-Y28-Y35
-          JAC9(I)=Z17+Z46-Z28-Z35
+          A17_46=X17+X46
+          A28_35=X28+X35
+          B17_46=Y17+Y46
+          B28_35=Y28+Y35
+          C17_46=Z17+Z46
+          C28_35=Z28+Z35
+
+          JAC4(I)=A17_46+A28_35
+          JAC5(I)=B17_46+B28_35
+          JAC6(I)=C17_46+C28_35
+          JAC7(I)=A17_46-A28_35
+          JAC8(I)=B17_46-B28_35
+          JAC9(I)=C17_46-C28_35
 C                       
           JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
           JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
@@ -242,7 +253,7 @@ C
           VOLDP(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
           DET(I)=VOLDP(I)
 C
-	        OFFG(I) = TWO
+          OFFG(I) = TWO
         ENDDO
       END IF ! IF (NNEGA>0)
 C
@@ -259,21 +270,29 @@ C Jacobian matrix inverse
         JACI6=DETT*(JAC3(I)*JAC4(I)-JAC1(I)*JAC6(I))
         JACI9=DETT*(JAC1(I)*JAC5(I)-JAC2(I)*JAC4(I))
 C
-        PX1(I)=-JACI1-JACI2-JACI3
-        PY1(I)=-JACI4-JACI5-JACI6
-        PZ1(I)=-JACI7-JACI8-JACI9
+        JAC12=JACI1+JACI2
+        JAC45=JACI4+JACI5
+        JAC78=JACI7+JACI8
+
+        PX1(I)=-JAC12-JACI3
+        PY1(I)=-JAC45-JACI6
+        PZ1(I)=-JAC78-JACI9
+
+        PX2(I)=-JAC12+JACI3
+        PY2(I)=-JAC45+JACI6
+        PZ2(I)=-JAC78+JACI9
 C
-        PX2(I)=-JACI1-JACI2+JACI3
-        PY2(I)=-JACI4-JACI5+JACI6
-        PZ2(I)=-JACI7-JACI8+JACI9
-C
-        PX3(I)= JACI1-JACI2+JACI3
-        PY3(I)= JACI4-JACI5+JACI6
-        PZ3(I)= JACI7-JACI8+JACI9
-C
-        PX4(I)= JACI1-JACI2-JACI3
-        PY4(I)= JACI4-JACI5-JACI6
-        PZ4(I)= JACI7-JACI8-JACI9
+        JAC12=JACI1-JACI2
+        JAC45=JACI4-JACI5
+        JAC78=JACI7-JACI8
+
+        PX3(I)= JAC12+JACI3
+        PY3(I)= JAC45+JACI6
+        PZ3(I)= JAC78+JACI9
+        PX4(I)= JAC12-JACI3
+        PY4(I)= JAC45-JACI6
+        PZ4(I)= JAC78-JACI9
+
       ENDDO
 C
       IF(JHBE/=0)THEN
@@ -659,7 +678,8 @@ C-----------------------------------------------
       my_real
      .   JACI1, JACI2, JACI3,
      .   JACI4, JACI5, JACI6,
-     .   JACI7, JACI8, JACI9
+     .   JACI7, JACI8, JACI9,
+     .   JAC12, JAC45, JAC78
 C-----------------------------------------------
       DO I=1,NEL
         JACI1=JAC_I(1,I)
@@ -673,21 +693,31 @@ C-----------------------------------------------
         JACI9=JAC_I(9,I)
         DET(I)=JAC_I(10,I)
 C      
-        PX1(I)=-JACI1-JACI2-JACI3
-        PY1(I)=-JACI4-JACI5-JACI6
-        PZ1(I)=-JACI7-JACI8-JACI9
+        JAC12=JACI1+JACI2
+        JAC45=JACI4+JACI5
+        JAC78=JACI7+JACI8
+
+        PX1(I)=-JAC12-JACI3
+        PY1(I)=-JAC45-JACI6
+        PZ1(I)=-JAC78-JACI9
 C
-        PX2(I)=-JACI1-JACI2+JACI3
-        PY2(I)=-JACI4-JACI5+JACI6
-        PZ2(I)=-JACI7-JACI8+JACI9
+        PX2(I)=-JAC12+JACI3
+        PY2(I)=-JAC45+JACI6
+        PZ2(I)=-JAC78+JACI9
 C
-        PX3(I)= JACI1-JACI2+JACI3
-        PY3(I)= JACI4-JACI5+JACI6
-        PZ3(I)= JACI7-JACI8+JACI9
+        JAC12=JACI1-JACI2
+        JAC45=JACI4-JACI5
+        JAC78=JACI7-JACI8
+
+        PX3(I)= JAC12+JACI3
+        PY3(I)= JAC45+JACI6
+        PZ3(I)= JAC78+JACI9
 C
-        PX4(I)= JACI1-JACI2-JACI3
-        PY4(I)= JACI4-JACI5-JACI6
-        PZ4(I)= JACI7-JACI8-JACI9
+        PX4(I)= JAC12-JACI3
+        PY4(I)= JAC45-JACI6
+        PZ4(I)= JAC78-JACI9
+
+
       ENDDO
       RETURN
 C
