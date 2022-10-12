@@ -562,6 +562,7 @@ C-----------
 Chd|====================================================================
 Chd|  GRSIZE_ELE_TRANS              source/system/nintrr.F        
 Chd|-- called by -----------
+Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
 Chd|        PRELECSEC                     source/tools/sect/prelecsec.F 
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
