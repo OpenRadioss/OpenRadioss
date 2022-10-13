@@ -209,15 +209,15 @@ c-----------------------------------------------
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SPH_SCALAR(I)%KEY3  = 'GROUP'
-      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'debug - Group identifier'
+      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Group identifier'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SPH_SCALAR(I)%KEY3  = 'INTERNAL.ID'
-      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'debug - Internal identifier'
+      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Internal identifier'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SPH_SCALAR(I)%KEY3  = 'LOCAL.ID'
-      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'debug - Local identifier'
+      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Local identifier within the group'
 c-----------------------------------------------
 
 
