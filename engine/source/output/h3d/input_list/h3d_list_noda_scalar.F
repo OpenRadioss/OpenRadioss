@@ -215,7 +215,7 @@ c-----------------------------------------------
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'INTERNAL.ID'
-      H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'debug - Internal identifier'
+      H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Internal identifier'
 c-----------------------------------------------
 
       NKEY=I

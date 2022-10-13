@@ -497,32 +497,29 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'PEXT'
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_SKIN  = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Pressure OUTER'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
-     .'External pressure on the Skin of shell'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'External pressure on the Skin of shell'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'GROUP'
-      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'debug - Group identifier'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Group identifier'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'INTERNAL.ID'
-      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'debug - Internal identifier'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Internal identifier'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'LOCAL.ID'
-      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'debug - Local identifier'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Local identifier within the group'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'ENER/TMAX'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Max of Internal Energy per unit mass'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
-     .'Max of Internal Energy per unit mass over time'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'Max of Internal Energy per unit mass over time'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'VONM/TMAX'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Max of Von Mises'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
-     .'Max of Von Mises stress over time&ipt'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'Max of Von Mises stress over time&ipt'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'SIGEQ/TMAX'
@@ -533,8 +530,7 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY_ALL = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Max of Equiv stress'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
-     .'Max of Equivalent stress over time&ipt'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'Max of Equivalent stress over time&ipt'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'DAMA/TMAX'
@@ -545,8 +541,7 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY_ALL = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'MAX of DAMAGE'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
-     .'maximum of damage over time&ipt'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'maximum of damage over time&ipt'
 c-----------------------------------------------
 
       NKEY=I
