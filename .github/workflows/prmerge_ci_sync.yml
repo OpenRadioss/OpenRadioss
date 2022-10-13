@@ -107,7 +107,6 @@ jobs:
       # Create a WS to sync git changes on a temporary repo (sync_git_perforce)
       - name: Create/Update sync_git_perforce workspace
         working-directory: ${{ steps.set_workdir.outputs.value }}
-        id: perforce
         run: |
           echo $P4PASSWD | p4 login
           export P4CLIENT=$(echo "${P4USER}_${{ github.repository }}_sync_git_perforce" | tr '/' '_')
@@ -159,7 +158,7 @@ jobs:
               SCRIPT_OPT="--perforce_last_commit $RET"; fi
           fi
 
-          echo "::set-output name=sync_option::$SCRIPT_OPT"
+          echo "sync_option=$SCRIPT_OPT" >> $GITHUB_ENV
           echo -e "P4USER=$P4USER\nP4PORT=$P4PORT\nP4CLIENT=$P4CLIENT" > .p4config
 
           # Set correct end of step status (if not an email will be sent)
@@ -178,7 +177,7 @@ jobs:
             --git_token $SERVBOT_PAT \
             --interval_check "${{ env.DATE_MIN_CHECK_COMMITS }}" \
             --output_file ${{ env.COMMIT_LIST_FILE }} \
-            ${{ steps.perforce.outputs.sync_option }} \
+            $sync_option \
             --current_commit ${{github.sha}} 
 
       # Create/Upgrade local git repo
