@@ -58,7 +58,7 @@ jobs:
           md5sum exec/* || echo "Nothing in exec/" 
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           path: ${{ steps.set_workdir.outputs.value }}
           clean: 'false'
@@ -200,7 +200,7 @@ jobs:
           md5sum exec/* || echo "Nothing in exec/" 
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           path: ${{ steps.set_workdir.outputs.value }}
           clean: 'false'
@@ -345,7 +345,7 @@ jobs:
     steps:
 
       # Get git related to the commit
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           lfs: 'true'
 
@@ -520,7 +520,7 @@ jobs:
         rm -rf exec todeliver
 
     # Get last git modifications, don't clean before (way to go faster)
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         clean: 'false'
         lfs: 'true'
