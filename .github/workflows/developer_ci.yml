@@ -80,7 +80,7 @@ jobs:
           md5sum exec/* || echo "Nothing in exec/" 
 
       # Get last git modifications, WS is not persistent here
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           lfs: 'true'
           ref: refs/pull/${{ github.event.number }}/merge
@@ -152,7 +152,7 @@ jobs:
     steps:
 
       # Get git related to the commit
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           lfs: 'true'
           ref: refs/pull/${{ github.event.number }}/merge
