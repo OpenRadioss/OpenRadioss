@@ -112,8 +112,8 @@ c
      .             I2=FUNC_ID(1),
      .             C1=TITR)
         ENDIF
-        KC    = MAX(KC ,STIFFMAX)
-        KFC   = MAX(KFC,STIFFINI)
+        KC  = MAX(KC ,STIFFMAX)
+        KFC = MAX(KFC,STIFFINI)
         KCMAX = KC
         UPARAM(40) = STIFFINI
 c        
@@ -134,8 +134,8 @@ c
      .             I2=FUNC_ID(2),
      .             C1=TITR)
         ENDIF
-        KT    = MAX(KT ,STIFFMAX)
-        KFT   = MAX(KFT,STIFFINI)
+        KT  = MAX(KT ,STIFFMAX)
+        KFT = MAX(KFT,STIFFINI)
         KTMAX = KT
         UPARAM(41) = STIFFINI
       ENDIF
@@ -175,7 +175,7 @@ c
         IF (FUNC > 0 )THEN                                                         
           FAC  = UPARAM(33)                                                     
           CALL FUNC_SLOPE(FUNC,FAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)    
-          KCMAX = MAX(KCMAX,STIFFMAX)                                          
+          KCMAX = MAX(KCMAX,STIFFMAX)
 c
           IF (STIFFMIN <= ZERO) THEN
             CALL ANCMSG(MSGID=1581 ,
@@ -211,7 +211,7 @@ c
         IF (FUNC > 0 )THEN                                                       
           FAC = UPARAM(42)
           CALL FUNC_SLOPE(FUNC,FAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)  
-          ! GMAX = MAX(GMAX,STIFFMAX)
+          GMAX = MAX(GMAX,STIFFMAX)
 c
           IF (STIFFMIN <= ZERO) THEN
             CALL ANCMSG(MSGID=1583 ,
@@ -316,23 +316,19 @@ c
 c-----------
       ENDIF  ! UNLOAD
 c-----------
-      KC   = MAX(UPARAM(9) , KC)     !  max loading slope dir1
-      KT   = MAX(UPARAM(10), KT)     !  max loading slope dir2
-      GMAX = MAX(UPARAM(14), GMAX)   !  max loading slope shear
-      UPARAM(9)  = KC                
-      UPARAM(10) = KT                
+      KCMAX = MAX(UPARAM(9) , KCMAX) * TWO
+      KTMAX = MAX(UPARAM(10), KTMAX) * TWO
+      GMAX  = MAX(UPARAM(14), GMAX)  * TWO
+      UPARAM(9)  = KCMAX
+      UPARAM(10) = KTMAX
       UPARAM(14) = GMAX
 c
-c      IF (KFC == ZERO) KFC = KC
-c      IF (KFT == ZERO) KFT = KT
-c      UPARAM(11) = UPARAM(26)*KFC
-c      UPARAM(12) = UPARAM(27)*KFT
-c      STIFF = MAX(KCMAX,KTMAX)!  max loading & unloading stiffness
+      STIFF = MAX(KCMAX,KTMAX)
 c
-      STIFF  = MAX(KC,KT)      ! max loading stiffness
-      PM(20) = STIFF           ! Interface stiffness
-      PM(24) = STIFF           ! Material constant stiffness for time step
-      PM(21) = ZERO            ! NU
+      PM(20) = STIFF        ! Stiffness contact
+      PM(21) = ZERO         ! NU
+      PM(22) = STIFF*HALF   ! GMAX
+      PM(24) = STIFF        ! Stiffness for time step computation
 c-----------
       RETURN
       END

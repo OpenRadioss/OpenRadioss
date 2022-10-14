@@ -1256,18 +1256,23 @@ C
      C        HARDM  ,LBUF%SEQ,ISRATE ,EPSP     ,INLOC  ,
      D        VARNL(1,IT))
           ELSEIF (ILAW == 58) THEN
+
            CALL SIGEPS58C(
-     1        JLT     ,NUPARAM ,NUVAR   ,NFUNC    ,IFUNC   , 
-     2        NPF     ,TF      ,NPT     ,ALDT     ,GBUF%OFF,       
-     3        TT      ,DT1     ,UPARAM  ,UVAR     ,RHO     ,  
-     4        AREA    ,THKLYL  ,OFF     ,NGL      ,ETSE    ,                    
+     1        JLT     ,NUPARAM ,NUVAR   ,NFUNC    ,IFUNC  , 
+     2        NPF     ,NPT     ,IPT     ,IFLAG    ,          
+     2        TF      ,TT      ,DT1C    ,UPARAM   ,RHO    ,  
+     3        AREA    ,EINT    ,THKLYL  ,                    
+     4        EPSPXX  ,EPSPYY  ,EPSPXY  ,EPSPYZ   ,EPSPZX  ,  
      5        DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ   ,DEPSZX  ,  
      6        EPSXX   ,EPSYY   ,EPSXY   ,EPSYZ    ,EPSZX   ,  
      7        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),  
      8        SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ   ,SIGNZX  ,  
-     9        SIGVXX  ,SIGVYY  ,SIGVXY  ,SSP      ,VISCMX  ,
-     A        SHF     ,SIGY    ,LBUF%ANG ,LSENSOR ,SENSOR  )
-             
+     9        SIGVXX  ,SIGVYY  ,SIGVXY  ,SIGVYZ   ,SIGVZX  ,  
+     A        SSP     ,VISCMX  ,THKN    ,LBUF%PLA ,UVAR    ,
+     B        OFF     ,NGL     ,PM      ,MATLY(JMLY),ETSE  ,
+     C        SHF     ,SIGY    ,EPSPL   ,LBUF%ANG ,
+     D        ALDT    ,LSENSOR ,SENSOR  ,ISMSTR   ,TABLE  ,
+     E        GBUF%OFF)                          
 c
           ELSEIF (ILAW == 60) THEN
            IF (IGTYP /= 10.AND.IGTYP /= 11 .AND.IGTYP /= 17) THEN
