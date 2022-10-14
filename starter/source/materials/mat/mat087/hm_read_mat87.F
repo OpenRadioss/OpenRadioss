@@ -486,7 +486,7 @@ c-------------------------------------------------------------
      .    AL5, AL6, AL7, AL8
         ENDIF
         WRITE(IOUT,1202) EXPA,ISRATE,FCUT,NRATE
-        WRITE(IOUT,1400) IFLAG,IFLAGSR
+        WRITE(IOUT,1400) IFLAG,IFLAGSR,FISOKIN
         IF(IFLAG==1)THEN
           WRITE(IOUT,1401)INVP , INVC,QVOCE,BETA,KO,ALPHA,ASWIFT,NEXP,EPSO
         ELSEIF (IFLAG==2)THEN
@@ -524,7 +524,8 @@ c-------------------------------------------------------------
      & 5X,'. . . . . . . . . 2 = HANSAEL '   ,/
      & 5X,'STRAIN RATE FLAG. . . . . . . . . .=',I10/
      & 5X,'. . . . . . . . . 0 = STRAIN RATE  ',/
-     & 5X,'. . . . . . . . . 1 = PLASTIC STRAIN RATE ',/)
+     & 5X,'. . . . . . . . . 1 = PLASTIC STRAIN RATE ',/
+     & 5X,'HARDENING COEFFICIENT. . . . . . . . . . . . .=',E12.4/)
  1401 FORMAT(
      & 5X,'COWPER SEYMONDS EXPONENT P . . . . . . . . . .=',E12.4/
      & 5X,'COWPER SEYMONDS COEFFICIENT C. . . . . . . . .=',E12.4/
