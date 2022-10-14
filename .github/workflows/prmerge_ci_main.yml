@@ -354,7 +354,7 @@ jobs:
           rm -rf exec
 
       # Download artifacts
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}
           path: exec
