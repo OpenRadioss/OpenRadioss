@@ -316,6 +316,5 @@ C
      & 5X,'FAILURE PARAMETER C3. . . . . . . . . .=',1PG20.13/,
      & 5X,'DAMAGE EXPOSANT M . . . . . . . . . . .=',1PG20.13/,
      & 5X,'CRITICAL DAMAGE DC .. . . . . . . . . .=',1PG20.13/)
- 999  CALL FREERR(3)
       RETURN
       END

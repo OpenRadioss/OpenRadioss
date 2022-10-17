@@ -268,7 +268,6 @@ C---
       ENDDO
 C---        
       RETURN
- 999  CALL FREERR(3)
  1000 FORMAT(//
      .'       COMPLEX JOINTS  (GEAR TYPE) '/
      . '      --------------------------- ')

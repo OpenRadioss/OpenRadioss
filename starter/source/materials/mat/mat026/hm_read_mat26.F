@@ -378,8 +378,6 @@ c-----------
      & 5X,'SESAME ROSSELAND OPACITY TABLE :',A/,
      & 5X,40HSTEFAN-BOLTZMANN CONSTANT . . . . . . .=,E12.4//)
 c-----------
- 999  CALL FREERR(3)
-c-----------
       RETURN
       END
 c-----------

@@ -630,8 +630,6 @@ C--------------------------------------------------------------
      .            1X,' --------------             '// )
 C------------
       RETURN
- 999  CALL FREERR(3)
-      RETURN
 C------------
  1518 FORMAT( '    FRICTION FORMULATION: INCREMENTAL (STIFFNESS) ',
      .             'FORMULATION')

@@ -566,6 +566,4 @@ C-------------------------------------
       DEALLOCATE(ITAB,ITABM1,IXC,IXTG,KNOD2SH,NOD2SH,TAG)
       RETURN
 C-------------------------------------
-  999 CALL FREERR(1)
-      RETURN
       END

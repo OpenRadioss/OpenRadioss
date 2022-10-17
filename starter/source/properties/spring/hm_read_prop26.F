@@ -298,8 +298,7 @@ C-----------
      & 5X,'UNLOADING FUNCTION NUMBER . . . . . . . =',I10/
      & 7X,'SCALE FACTOR. . . . . . . . . . . . . . =',1PG20.13/
      & 7X,'STRAIN RATE . . . . . . . . . . . . . . =',1PG20.13)
-c      sensor and sensor flag not used    
- 999  CALL FREERR(1)
+c      sensor and sensor flag not used  
 C-----------
       RETURN
       END SUBROUTINE HM_READ_PROP26

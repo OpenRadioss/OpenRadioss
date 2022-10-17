@@ -2288,7 +2288,6 @@ C
       IF(ALLOCATED(ELE_AREA))DEALLOCATE(ELE_AREA)
 c-----------      
       RETURN
- 999  CALL FREERR(3)
 c-----------      
  1000 FORMAT(//
      . 5X,'NODAL MASSES',/

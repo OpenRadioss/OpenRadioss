@@ -545,8 +545,6 @@ C--------------------------------------------------------------
  1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
       RETURN
- 999  CALL FREERR(3)
-      RETURN
 
  1549 FORMAT(//
      .    '    TYPE==7   PARALLEL/AUTO IMPACTING           ' //)

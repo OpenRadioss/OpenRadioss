@@ -618,8 +618,6 @@ C-------------------------------------
 C-----
       RETURN
 C-----
- 999  CALL FREERR(1)
-C-----
  1000 FORMAT(5X,'NUMBER',8X,'N1',8X,'N2',8X,'N3',10X,'VECTORS',42X,
      .      'ORIGIN')
  1001 FORMAT(5X,'NUMBER',10X,'VECTORS',42X,'ORIGIN')

@@ -87,10 +87,6 @@ C
         ENDDO
 C
       RETURN
-C
- 999  CALL FREERR(1)
-
-      RETURN
       END
 Chd|====================================================================
 Chd|  THPRIN_SUB                    source/output/th/thprin.F     
@@ -162,10 +158,6 @@ C
           ENDIF
         ENDDO
 C
-      RETURN
-C
- 999  CALL FREERR(1)
-
       RETURN
       END
 

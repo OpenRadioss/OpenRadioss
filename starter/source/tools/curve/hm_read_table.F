@@ -114,8 +114,6 @@ C----------------------------
       ENDIF
 C
       RETURN
- 999  CALL FREERR(1)   
-      RETURN
 C-----------------------------------------------------------------
 2000  FORMAT(//
      .        '    TABLES'/
@@ -238,8 +236,6 @@ c      CALL ANCNTS(IDS,I)
 c      CALL ANCNTG(IDS,I,J)
       IDS = 56
 c      CALL ANCHECK(IDS)
-      RETURN
- 999  CALL FREERR(1)
       RETURN
 C-----------------------------------------------------------------
 2000  FORMAT(//

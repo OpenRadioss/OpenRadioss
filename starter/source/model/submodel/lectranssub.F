@@ -643,7 +643,6 @@ C-------------------------
       ENDIF
 C-----------------------
       RETURN
- 999  CALL FREERR(3)
 C-----------------------
  100  FORMAT(//
      .'  NODAL TRANSFORMATIONS       '/,

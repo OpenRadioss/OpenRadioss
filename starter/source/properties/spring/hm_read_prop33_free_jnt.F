@@ -310,7 +310,6 @@ C-----------------------
      & 5X,'USER RX TORSION FUNCTION ID. . . . . . =',I10/,
      & 5X,'USER RY TORSION FUNCTION ID. . . . . . =',I10/,
      & 5X,'USER RZ TORSION FUNCTION ID. . . . . . =',I10//)
-  999  CALL FREERR(1)
 C-----------------------
       RETURN
       END

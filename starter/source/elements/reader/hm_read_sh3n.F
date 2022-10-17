@@ -344,6 +344,4 @@ c      CALL ANCNTG(IDS,I,J)
 c      CALL ANCHECK(IDS)
 C
       RETURN
- 999  CALL FREERR(1)
-      RETURN
       END

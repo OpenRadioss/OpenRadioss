@@ -398,8 +398,4 @@ C------------------------
      & 5X,'NON REVERSIBLE POSITIVE LIMIT FORCE . .=',1PG20.13/)
 c-----------
       RETURN
-c-----------
- 999  CALL FREERR(1)
-c-----------
-      RETURN
       END

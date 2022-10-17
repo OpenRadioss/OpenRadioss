@@ -586,7 +586,4 @@ C-------------------------------------
      .    '    SECONDARY SURFACE ID. . . . . . . . . . . ',I10/,
      .    '    OUTPUT TO TH (0:NO,1:YES) . . . . . . . . ',I10/)
       RETURN
-C
- 999  CALL FREERR(1)
-      RETURN
       END

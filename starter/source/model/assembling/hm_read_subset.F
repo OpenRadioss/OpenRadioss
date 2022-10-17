@@ -349,9 +349,6 @@ C-------------------------------------
       ENDDO
 C=======================================================================
       RETURN
- 999  CALL FREERR(1)
-C-----------
-      RETURN
       END
       
        RECURSIVE INTEGER FUNCTION SUBLVL(SUBSET,NSUBS,ISU,NP,BUFTMP)

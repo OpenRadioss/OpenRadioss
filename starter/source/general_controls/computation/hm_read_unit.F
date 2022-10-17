@@ -622,8 +622,6 @@ C
       UNITAB%FAC_T(1)   = FAC_T_INPUT / FAC_TIME 
 C-----
       RETURN
- 999  CALL FREERR(0)
-      CALL MY_EXIT(2)
 C-----
 1000  FORMAT(
      . //,'    UNIT SYSTEMS DEFINITION     '/

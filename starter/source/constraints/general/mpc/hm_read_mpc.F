@@ -170,7 +170,6 @@ C---
       LAG_NCF = LAG_NCF + NUMMPC
 C---
       RETURN
- 999  CALL FREERR(1)
  1000 FORMAT(//
      .'       MULTI-POINT CONSTRAINTS   '/
      . '      ----------------------   ')
@@ -237,7 +236,5 @@ C
         LEN = LEN+NUMC
       ENDDO
 C---
-      RETURN
- 999  CALL FREERR(1)
       RETURN
       END

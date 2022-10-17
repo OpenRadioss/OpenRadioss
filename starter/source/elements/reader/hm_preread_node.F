@@ -190,6 +190,4 @@ C--------------------------------
       DEALLOCATE(ITAB,X)
       RETURN
 C--------------------------------
- 999  CALL FREERR(1)
-      RETURN
       END

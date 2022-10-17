@@ -164,7 +164,6 @@ C     Reading submaterial IDS and corresponding volumic fractions
  1010 FORMAT(
      & 5X,'  MATERIAL ID', I8, ' ; VOLUME FRACTION',1PG20.13/)
       RETURN
- 999  CALL FREERR(3)
  
 C-----------------------------------------------
       END SUBROUTINE HM_READ_MAT151

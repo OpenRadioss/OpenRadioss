@@ -303,8 +303,6 @@ C----Initialization in lecgeo:
 C        IF(GEO(171)/=ZERO.AND.IGEO(10)== 0)IGEO(10)=NINT(GEO(171))
 C---
       RETURN
- 999  CALL FREERR(3)
-      RETURN
 C---
  1000 FORMAT(
      & 5X,'STANDARD THICK SHELL PROPERTY SET'/,

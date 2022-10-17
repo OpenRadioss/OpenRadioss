@@ -333,7 +333,6 @@ C----
      + '    LOC-EL     GLO-EL       GEOM      NODE1      NODE2'
      + '    (NODE3)                                    (MAT_ID)     (SKEW)')
   310 FORMAT(' SPRING ELEMENT TH SELECTION'/
-     +       ' ---------------------------'/)   
-  999 CALL FREERR(3)
+     +       ' ---------------------------'/) 
       RETURN
       END

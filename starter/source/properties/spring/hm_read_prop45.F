@@ -1236,7 +1236,6 @@ C
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10,
      & 5X,'CONFIDENTIAL DATA'//)
                 
- 999  CALL FREERR(1)
       RETURN
       END
       
@@ -1530,8 +1529,7 @@ C-----------------------
      & 5X,'COMBINED STOP ANGLE . . . . . .. . . . =',I10/,      
      & 5X,'STIFF. FOR FRICTION AND STOP ANGLES. . =',1PG20.13/,   
      & 5X,'FRICTIONAL MOMENT FUNCTION. . .. . . . =',I10//)
-     
- 999  CALL FREERR(1)           
+              
       RETURN      
       END
 

@@ -180,8 +180,6 @@ C---
       ENDDO
 C---
       RETURN
- 999  CALL FREERR(3)
-      RETURN
 C------------------------------
 1000  FORMAT(
      . /'      RIGID BODY DEFINITIONS (LAGRANGE MULTIPLIERS)'

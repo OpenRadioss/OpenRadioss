@@ -322,7 +322,6 @@ C
      & 5X,'C5. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'INITIAL INTERNAL ENERGY PER UNIT VOLUME .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13//)     
- 999  CALL FREERR(3)
+     & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13//) 
       RETURN
       END

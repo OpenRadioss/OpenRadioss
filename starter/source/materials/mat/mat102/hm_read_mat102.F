@@ -310,5 +310,4 @@ C
      & 5X,'YIELD FUNCTION PRESSURE ROOT. . . . . .=',1PG20.13//)        
 
       RETURN
- 999  CALL FREERR(3)
       END

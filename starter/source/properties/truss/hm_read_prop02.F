@@ -132,10 +132,6 @@ C        Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
 
 C-----------
       RETURN
- 999  CALL FREERR(3)
-      RETURN
-      CALL FREERR(3)
-      RETURN
 C-----------
  1200 FORMAT(
      & 5X,'TRUSS PROPERTY SET'/,

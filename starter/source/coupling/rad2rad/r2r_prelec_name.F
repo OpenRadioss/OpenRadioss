@@ -152,10 +152,6 @@ C------Check of domain names ----------------C
       
       ENDIF
       
-      RETURN 
-            
-C------------------------------------------------------------------
- 999  CALL FREERR(3)
       RETURN          
       
       END

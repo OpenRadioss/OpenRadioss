@@ -283,7 +283,6 @@ C
      & 5X,'POISSON RATIO. . . . . . . . . . . . . . =',1PG20.13//) 
 C
       RETURN
- 999  CALL FREERR(3)
       END
 
 

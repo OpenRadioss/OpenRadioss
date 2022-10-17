@@ -256,6 +256,5 @@ C-----------------------
      & 5X,'LINEAR TRANSLATIONAL STIFFNESS KZZ . . =',1PG20.13/,
      & 5X,'USER Y TRANSLATION FUNCTION. . . . . . =',I10/,
      & 5X,'USER Z TRANSLATION FUNCTION. . . . . . =',I10//)
- 999  CALL FREERR(1)
       RETURN
       END

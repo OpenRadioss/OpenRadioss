@@ -150,7 +150,6 @@ C-----------
      & 5X,'YOUNG MODULUS . . . . . . . . . . . . .=',E12.4/,
      & 5X,'POISSON RATIO . . . . . . . . . . . . .=',E12.4/,
      & 5X,'SHEAR MODULUS . . . . . . . . . . . . .=',E12.4//)
- 999  CALL FREERR(3)
 C-----------
       RETURN
       END

@@ -259,6 +259,5 @@ c-------------------
      & 5X,'DAMAGE STRAIN LIMIT . . . . . . . . . .=',1PG20.13/,
      & 5X,'DAMAGE TANGENT MODULUS EL . . . . . . .=',1PG20.13//)
 c-------------------
- 999  CALL FREERR(3)
       RETURN
       END

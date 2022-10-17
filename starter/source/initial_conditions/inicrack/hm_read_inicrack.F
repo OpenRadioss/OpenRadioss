@@ -143,8 +143,6 @@ C-------------------------------------
       CALL UDOUBLE_IGR(LIST_INICRACK,NINICRACK,MESS,0,BID)
 C=======================================================================
 c-----------
-      RETURN
- 999  CALL FREERR(1)
 c-----------
       RETURN
       END

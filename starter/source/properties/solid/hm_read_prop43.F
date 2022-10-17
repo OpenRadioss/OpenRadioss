@@ -155,7 +155,5 @@ C-----------
      & 5X,'SMALL STRAIN FLAG . . . . . . . . . . .=',I10/,
      & 5X,'TRUE THICKNESS  . . . . . . . . . . . .=',1PG20.13/)
 C-----------
- 999  CALL FREERR(3)
-C-----------
       RETURN
       END SUBROUTINE HM_READ_PROP43

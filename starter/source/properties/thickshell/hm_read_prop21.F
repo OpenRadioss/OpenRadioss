@@ -334,8 +334,6 @@ C         Probably useless for PID21 (but addressed in thsol.F ...)
 
 C----
       RETURN
- 999  CALL FREERR(3)
-      RETURN
 C---
  1000 FORMAT(
      & 5X,'ORTHOTROPIC THICK SHELL PROPERTY SET'/,

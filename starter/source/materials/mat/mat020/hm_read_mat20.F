@@ -143,7 +143,6 @@ C--------------------------------
      & 5X,40HREFERENCED MATERIAL NUMBER. . . . . . .=,I5/,
      & 5X,40HFILLING RATIO . . . . . . . . . . . . .=,E12.4/,
      & 5X,40HINCOMING PHASIS CONTROL FLAG. . . . . .=,I5)
- 999  CALL FREERR(3)
 C-----------
       RETURN
       END

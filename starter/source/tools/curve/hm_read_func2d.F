@@ -112,5 +112,4 @@ C     TODO(DC) : Throw error here
          END SELECT
       ENDDO
       RETURN
- 999  CALL FREERR(3)
       END SUBROUTINE HM_READ_FUNC2D

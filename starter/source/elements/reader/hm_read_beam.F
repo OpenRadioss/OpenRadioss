@@ -227,6 +227,4 @@ C-------------------------------------
      + '  LOC-EL  GLO-EL   MATER     GEOM   NODE1   NODE2   NODE3')
  310  FORMAT(' BEAM ELEMENT TH SELECTION'/
      +       ' -------------------------'/)
- 999  CALL FREERR(3)
-      RETURN
       END

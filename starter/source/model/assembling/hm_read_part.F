@@ -558,8 +558,6 @@ C-------------------------------------
       CALL UDOUBLE(IPART(4,1),LIPART1,NPART,MESS,0,BID)
 
       RETURN
- 999  CALL FREERR(1)
-      RETURN
  2000 FORMAT(
      & 5X,'FOR LAW 70 THE DEFAULT VALUE OF Qa and Qb IS 0' )
 C
@@ -644,8 +642,6 @@ C--------------------------------------------------
         IPART(9,I)=SUB_INDEX
       ENDDO
 
-      RETURN
- 999  CALL FREERR(1)
       RETURN
 						
       END

@@ -140,8 +140,6 @@ C--------------------------------------------------
      .  '    TIME STEP CRITERIA FOR AMS ACTIVATION. . . . . .  . . .',1PG20.13)
 C--------------------------------------------------
       RETURN
- 999  CALL FREERR(1)
-      RETURN
       END
 Chd|====================================================================
 Chd|  FIND_YIELD_ENGINE             source/general_controls/computation/hm_read_sms.F

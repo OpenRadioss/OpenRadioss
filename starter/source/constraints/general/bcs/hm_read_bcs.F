@@ -264,6 +264,4 @@ C----- in SKEW 1:9 (x',y',z'); 10:12 (X0,Y0,Z0)
       ENDDO
 C
       RETURN
- 999  CALL FREERR(1)
-      RETURN
       END

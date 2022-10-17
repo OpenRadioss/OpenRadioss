@@ -163,8 +163,4 @@ C-----
       ENDIF                                     
 C-----
       RETURN
- 999  CALL FREERR(0)
-      CALL MY_EXIT(2)
-C-----
-      RETURN
       END

@@ -215,6 +215,4 @@ C-----
      .        1PG20.13/)
 C-----
       RETURN
- 999  CALL FREERR(3)
-      RETURN
       END

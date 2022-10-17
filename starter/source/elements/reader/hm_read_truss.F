@@ -223,6 +223,5 @@ C----
      + '  LOC-EL  GLO-EL   MATER    GEOM   NODE1   NODE2')
  310  FORMAT(' TRUSS ELEMENT TH SELECTION'/
      +       ' --------------------------'/)
- 999  CALL FREERR(3)
       RETURN
       END

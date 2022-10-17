@@ -248,8 +248,6 @@ C
       ENDDO
 C
       RETURN
- 999  CALL FREERR(1)
-      RETURN
       END
 Chd|====================================================================
 Chd|  HM_READ_BEM                   source/loads/bem/hm_read_bem.F
@@ -1208,8 +1206,6 @@ C
 C
          ENDDO
 C
-         RETURN
- 999  CALL FREERR(1)
       RETURN
 C
  1000 FORMAT(/

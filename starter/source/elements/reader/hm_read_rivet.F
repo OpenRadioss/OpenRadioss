@@ -255,6 +255,5 @@ C
  300  FORMAT(/' RIVET '            /
      +       ,' -------'/
      + '    LOC-EL    GLO-EL      GEOM     NODE1     NODE2')
-  999 CALL FREERR(3)
       RETURN
       END

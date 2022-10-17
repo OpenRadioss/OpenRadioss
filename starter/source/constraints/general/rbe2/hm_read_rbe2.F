@@ -301,7 +301,6 @@ C  noeud main sur les procs ayant au moins 1 SECONDARY
       END IF !(IDDLEVEL > 0) THEN
 C
       RETURN
- 999  CALL FREERR(3)
 C
  1000 FORMAT(//
      .'       RIGID ELEMENT (RBE2)   '/
@@ -391,8 +390,6 @@ C
         LNUM  = LNUM +NRBE2L
       ENDDO
 C-----------
-      RETURN
- 999  CALL FREERR(3)
       RETURN
       END SUBROUTINE HM_PREREAD_RBE2
 Chd|====================================================================
@@ -1090,7 +1087,6 @@ C
       ENDDO
 C
       RETURN
- 999  CALL FREERR(1)
 C
       END SUBROUTINE CONTRBE2
 Chd|====================================================================
@@ -1360,7 +1356,7 @@ C
 C
       END DO
 C
- 999  RETURN
+      RETURN
       END
 C
 Chd|====================================================================

@@ -130,8 +130,6 @@ C------------------------------------------------------------
 
        CALL HM_GET_INTV('grbric_ID', ISU1, IS_AVAILABLE, LSUBMODEL)
        CALL HM_GET_INTV('surf_ID', ISU2, IS_AVAILABLE, LSUBMODEL)
-       !READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-       !READ(LINE,ERR=999,FMT=FMT_10I)ISU1,ISU2, I22GRSH3N, I22GRTRUS, I22GRNOD,  I22GRNOD2, I22GRNOD3,IOUTP22, IBID,IBID
        I22GRSH3N=0
        I22GRTRUS=0
        I22GRNOD=0
@@ -184,9 +182,6 @@ C------------------------------------------------------------
       !   TEMPORARY : flags for equivvalent type7 interface   !
       !=======================================================!
 
-        !IREC=IREC+1
-        !READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-        !READ(LINE,ERR=999,FMT=FMT_2F) JMULT22,RATIO22_
         JMULT22=ZERO
         RATIO22_=ZERO
 
@@ -423,8 +418,6 @@ C
 C--------------------------------------------------------------
  1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
-      RETURN
- 999  CALL FREERR(3)
       RETURN
 
  2207 FORMAT(//

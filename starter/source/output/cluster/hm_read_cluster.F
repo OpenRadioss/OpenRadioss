@@ -390,7 +390,4 @@ C-----------
      .            C3=LINE)
 C-----------
       RETURN
- 999  CALL FREERR(1)
-C-----------
-      RETURN
       END
