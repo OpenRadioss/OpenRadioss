@@ -40,19 +40,21 @@ jobs:
     steps:
 
       # Set the working dir suffixed with branch name
-      - uses: haya14busa/action-cond@v1
-        id: set_workdir
-        with:
-          cond: ${{ github.base_ref == '' }}
-          if_true: ${{github.ref_name}}
-          if_false: ${{github.base_ref}}
+      - name: Set workdir 
+        run: |
+          if [ "${{ github.base_ref }}" = "" ]
+          then
+            echo "WORKDIR=${{github.ref_name}}" >> $GITHUB_ENV
+          else
+            echo "WORKDIR=${{github.base_ref}}" >> $GITHUB_ENV
+          fi
 
       - name: Create branch oriented WS directory & integration WS
         run: |
-          mkdir -p ${{ steps.set_workdir.outputs.value }}
+          mkdir -p ${{ env.WORKDIR }}
 
       - name: Clean local exe dir
-        working-directory: ${{ steps.set_workdir.outputs.value }}
+        working-directory: ${{ env.WORKDIR }}
         run: |
           rm -rf exec
           md5sum exec/* || echo "Nothing in exec/" 
@@ -60,12 +62,12 @@ jobs:
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - uses: actions/checkout@v3
         with:
-          path: ${{ steps.set_workdir.outputs.value }}
+          path: ${{ env.WORKDIR }}
           clean: 'false'
           lfs: 'true'
 
       - name: Running builds
-        working-directory: ${{ steps.set_workdir.outputs.value }}
+        working-directory: ${{ env.WORKDIR }}
         run: |
           mkdir exec
           source /home/adminqa/.bashrc
@@ -123,7 +125,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: tools-${{ matrix.os }}
-          path: ${{ steps.set_workdir.outputs.value }}/exec
+          path: ${{ env.WORKDIR }}/exec
 
   build:
     if: ${{ github.repository_owner == 'OpenRadioss' }}
@@ -182,19 +184,21 @@ jobs:
     steps:
 
       # Set the working dir suffixed with branch name
-      - uses: haya14busa/action-cond@v1
-        id: set_workdir
-        with:
-          cond: ${{ github.base_ref == '' }}
-          if_true: ${{github.ref_name}}
-          if_false: ${{github.base_ref}}
+      - name: Set workdir 
+        run: |
+          if [ "${{ github.base_ref }}" = "" ]
+          then
+            echo "WORKDIR=${{github.ref_name}}" >> $GITHUB_ENV
+          else
+            echo "WORKDIR=${{github.base_ref}}" >> $GITHUB_ENV
+          fi
 
       - name: Create branch oriented WS directory & integration WS
         run: |
-          mkdir -p ${{ steps.set_workdir.outputs.value }}
+          mkdir -p ${{ env.WORKDIR }}
 
       - name: Clean local exe dir
-        working-directory: ${{ steps.set_workdir.outputs.value }}
+        working-directory: ${{ env.WORKDIR }}
         run: |
           rm -rf exec
           md5sum exec/* || echo "Nothing in exec/" 
@@ -202,12 +206,12 @@ jobs:
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - uses: actions/checkout@v3
         with:
-          path: ${{ steps.set_workdir.outputs.value }}
+          path: ${{ env.WORKDIR }}
           clean: 'false'
           lfs: 'true'
 
       - name: Running build
-        working-directory: ${{ steps.set_workdir.outputs.value }}
+        working-directory: ${{ env.WORKDIR }}
         run: |
           mpi_opts=''
           if [ ! -z ${{ matrix.mpi }} ]
@@ -276,7 +280,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}
-          path: ${{ steps.set_workdir.outputs.value }}/exec
+          path: ${{ env.WORKDIR }}/exec
         if: ${{ env.CLOSE_BRANCH == 0 }} 
 
       # Close the branch (= restrict push to team devopsadmins) if needed

@@ -93,20 +93,22 @@ jobs:
     steps:
 
       # Set the working dir suffixed with branch name
-      - uses: haya14busa/action-cond@v1
-        id: set_workdir
-        with:
-          cond: ${{ github.base_ref == '' }}
-          if_true: ${{github.ref_name}}
-          if_false: ${{github.base_ref}}
-
+      - name: Set workdir 
+        run: |
+          if [ "${{ github.base_ref }}" = "" ]
+          then
+            echo "WORKDIR=${{github.ref_name}}" >> $GITHUB_ENV
+          else
+            echo "WORKDIR=${{github.base_ref}}" >> $GITHUB_ENV
+          fi
+          
       - name: Create branch oriented WS directory & integration WS
         run: |
-          mkdir -p ${{ steps.set_workdir.outputs.value }} $INTEGRATE_WS
+          mkdir -p ${{ env.WORKDIR }} $INTEGRATE_WS
 
       # Create a WS to sync git changes on a temporary repo (sync_git_perforce)
       - name: Create/Update sync_git_perforce workspace
-        working-directory: ${{ steps.set_workdir.outputs.value }}
+        working-directory: ${{ env.WORKDIR }}
         run: |
           echo $P4PASSWD | p4 login
           export P4CLIENT=$(echo "${P4USER}_${{ github.repository }}_sync_git_perforce" | tr '/' '_')
@@ -183,17 +185,17 @@ jobs:
       # Create/Upgrade local git repo
       - uses: actions/checkout@v3
         with:
-          path: ${{ steps.set_workdir.outputs.value }}
+          path: ${{ env.WORKDIR }}
           clean: 'false'
           lfs: 'true'
       - name: Unshallow the git log, else we won't be able to checkout commits 
-        working-directory: ${{ steps.set_workdir.outputs.value }}
+        working-directory: ${{ env.WORKDIR }}
         run: git fetch --unshallow
 
       ## For each commit found: get git files, p4 reconcile and submit
       # If some file are still opened after submit, abort
       - name: Upgrade perforce for each git commit found
-        working-directory: ${{ steps.set_workdir.outputs.value }}
+        working-directory: ${{ env.WORKDIR }}
         run: |
           git config --global advice.detachedHead false
 
