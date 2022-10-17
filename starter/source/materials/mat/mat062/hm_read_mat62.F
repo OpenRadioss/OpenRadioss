@@ -84,7 +84,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: J,NORDER,NVISC,FLAG_VISC,IVISC,ILAW,ITAG
+      INTEGER :: J,NORDER,NVISC,FLAG_VISC,IVISC,ILAW,ITAG,
+     .           FLAG_RIGIDITY
       my_real :: RHO0,RHOR,GAMMAINF,NUG,SUM,GS,P,VISCMAX,BULK
       my_real, DIMENSION(100) ::  MU,AL,GAMA,TAUX,NU,BETA
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
@@ -110,6 +111,7 @@ c
       CALL HM_GET_INTV  ('Order2'    ,NVISC     ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('MU'        ,VISCMAX   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('Vflag'     ,FLAG_VISC ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV  ('Rflag'     ,FLAG_RIGIDITY ,IS_AVAILABLE,LSUBMODEL)
 c
       IF (NORDER > 0) THEN
         DO J=1,NORDER    
@@ -141,7 +143,7 @@ c
                IF(NU(J) /= ZERO) ITAG = 1   
                IF (NU(J) >= HALF) NU(J) = ZEP499
            ENDDO                                                                                    
-      ENDIF                                                                                               
+      ENDIF                                                                                       
 c--------------------------------------------------
 c     CHECK VALUES
 c--------------------------------------------------
@@ -167,9 +169,40 @@ c
           SUM = SUM + GAMA(J)
         ENDDO
         GAMMAINF = ONE - SUM
+        IF(GAMMAINF <= ZERO ) THEN
+            CALL ANCMSG(MSGID=2084,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=MAT_ID,
+     .                  C1=TITR,
+     .                  R1=GAMMAINF)
+        ENDIF
       ENDIF
       IF (NUG >= HALF) NUG = ZEP499
       IF (VISCMAX == ZERO) VISCMAX=EP20
+      ! 
+      IF(NVISC > 0 )THEN
+        SELECT CASE (FLAG_RIGIDITY)
+          CASE (0,1)
+             ! Info message
+            CALL ANCMSG(MSGID=2086,
+     .                MSGTYPE=MSGINFO,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=MAT_ID,
+     .                C1=TITR)
+          CASE (2)
+            DO J=1,NORDER
+               MU(J)=  MU(J)/ GAMMAINF
+            ENDDO
+             ! Info message
+            CALL ANCMSG(MSGID=2085,
+     .                MSGTYPE=MSGINFO,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=MAT_ID,
+     .                C1=TITR) 
+          
+          END SELECT 
+      ENDIF 
 c
       GS = ZERO
       DO J=1,NORDER 
