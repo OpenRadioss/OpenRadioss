@@ -239,6 +239,5 @@ C-----------------------
      & 5X,'BLOCKING STIFFNESS KNN . . . . . . . . =',1PG20.13/,
      & 5X,'TRANSLATIONAL LINEAR STIFFNESS KXX . . =',1PG20.13/,
      & 5X,'TRANSLATIONAL FUNCTION ID. . . . . . . =',I10//)
- 999  CALL FREERR(1)
       RETURN
       END

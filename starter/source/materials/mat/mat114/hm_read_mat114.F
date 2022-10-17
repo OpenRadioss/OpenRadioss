@@ -529,7 +529,5 @@ c-----------
      & 5X,'SCALING FACTOR FOR INERTIA. . . . . . .=',1PG20.13/,
      & 5X,'SHEAR AREA  . . . . . . . . . . . . . .=',1PG20.13/)
 c-----------
- 999  CALL FREERR(1)
-c-----------
       RETURN
       END

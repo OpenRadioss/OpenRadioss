@@ -534,7 +534,6 @@ C            input by node ID
 C-------------------------------------
 C
       RETURN
- 999  CALL FREERR(3)
 C
  1000 FORMAT(//
      .'     SPH INLET/OUTLET CONDITIONS       '/

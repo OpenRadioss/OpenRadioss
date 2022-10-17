@@ -1182,7 +1182,6 @@ c-----------
      & 5X,'SMOOTH STRAIN RATE OPTION . . .. . . . =',I10/,
      & 5X,'STRAIN RATE CUTTING FREQUENCY .. . . . =',1PG20.13/)
 c-----------
- 999  CALL FREERR(1)
 c-----------
       RETURN
       END

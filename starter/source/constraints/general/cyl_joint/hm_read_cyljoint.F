@@ -175,7 +175,5 @@ C
 
  1100 FORMAT(7X,10I10)
       RETURN
- 999  CALL FREERR(3)
-      RETURN
       END
 

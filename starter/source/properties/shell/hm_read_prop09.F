@@ -452,10 +452,6 @@ C
 
 C-----------
       RETURN
- 999  CALL FREERR(3)
-      RETURN
-      CALL FREERR(3)
-      RETURN
 C-----------
  1010 FORMAT(
      & 5X,'ORTHOTROPIC SHELL PROPERTY SET'/,

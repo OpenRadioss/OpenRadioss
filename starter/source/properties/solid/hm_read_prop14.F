@@ -680,8 +680,6 @@ C----------------------
       ENDIF
 C----
       RETURN
- 999  CALL FREERR(3)
-      RETURN
 C---
  1000 FORMAT(
      & 5X,'STANDARD FLUID PROPERTY SET'/,

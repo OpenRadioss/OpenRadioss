@@ -149,7 +149,5 @@ C
       PROP_TAG(IGTYP)%G_LENGTH_ERR = 3
 C
       RETURN
- 999  CALL FREERR(1)
-      RETURN
       END
 

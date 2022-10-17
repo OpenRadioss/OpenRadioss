@@ -436,6 +436,4 @@ C
      + '      GEOM    LOC-NOD    GLO-NOD ')
       RETURN
 C-------------------------------------
-  999 CALL FREERR(3)
-      RETURN
       END

@@ -365,7 +365,5 @@ C----------------------
      & 5X,'TEMPERATURE LOAD CURVE. . . . . . . . .=',I10/,
      & 5X,'FLUX LOAD CURVE. . .  . . . . . . . . .=',I10/)
 C-----------
- 999  CALL FREERR(3)
-C-----------
       RETURN
       END

@@ -146,7 +146,6 @@ C-----------
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'YOUNG MODULUS . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',1PG20.13/)
- 999  CALL FREERR(3)
 C-----------
       RETURN
       END

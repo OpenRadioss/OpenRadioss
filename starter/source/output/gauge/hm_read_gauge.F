@@ -172,7 +172,6 @@ C-----------------------------------------------------------------
    
         LGAUGE(1,I)=-(NUMELS+1)
         DIST = ZERO
-        !READ(IIN,REC=IREC,ERR=999,FMT=FMT_3I_F_I_F)NOD,ISK,IG,FF,NS,DIST
         CALL HM_GET_INTV   ('NODE1'    ,NOD   ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV   ('shell_ID' ,NS    ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOATV ('DIST'     ,DIST  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -239,7 +238,6 @@ C-----------------------------------------------
         LGAUGE(1,NG)=0
 
         DIST = ZERO
-        !READ(IIN,REC=IREC,ERR=999,FMT=FMT_3I_F_I_F)NOD,ISK,IG,FF,NS,DIST
         CALL HM_GET_INTV   ('NODE1'    ,NOD   ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV   ('shell_ID' ,NS    ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOATV ('DIST'     ,DIST  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -280,7 +278,5 @@ C Recherche des ID doubles
 C-------------------------------------
       CALL VDOUBLE(NOM_OPT,LNOPT1,NBGAUGE,MESS,0,BID)
 C----
-      RETURN
-  999 CALL FREERR(3)
       RETURN
       END

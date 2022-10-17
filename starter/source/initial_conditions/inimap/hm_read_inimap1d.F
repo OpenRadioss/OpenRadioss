@@ -370,13 +370,6 @@ C     OR FUNC_RHO, FUNC_ENER AND FUNC_VEL depending on the forumlation
          ENDIF                                                                           
         
       ENDDO ! KK = 1, NINIMAP1D
-      RETURN
-
- 998  CALL ANCMSG(MSGID = 1892, ANMODE = ANINFO, MSGTYPE = MSGERROR,I1=INIMAP1D(KK)%ID, C1=INIMAP1D(KK)%TITLE,C2=MSG_DESCRIPTION)
-      CALL FREERR(3)
-      RETURN
-
- 999  CALL FREERR(3)
  
       RETURN
  2000 FORMAT(//

@@ -409,8 +409,6 @@ c      CALL ANCNTS(IDS,I)
 C
 C-----------
       RETURN
- 999  CALL FREERR(3)
-      RETURN
 C-----------
  1000 FORMAT(//
      & 5X,'    STACK OBJECT FOR PLY-BASED SHELL ELEMENT  SETS'/,

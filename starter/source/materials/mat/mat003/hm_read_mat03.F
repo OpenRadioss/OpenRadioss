@@ -260,6 +260,5 @@ C-----------
      &  5X,'  INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
      &  5X,'  REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13/)
 
- 999  CALL FREERR(3)
       RETURN
       END

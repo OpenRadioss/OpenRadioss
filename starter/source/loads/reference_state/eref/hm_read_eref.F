@@ -340,8 +340,6 @@ C------------------------------------------
       ENDIF
 C
       RETURN
- 999  CALL FREERR(3)
-      RETURN
  1000 FORMAT(//
      & 5X,'    REFERENCE STATE (EREF)  ',/
      & 5X,'    ----------------------  ' )

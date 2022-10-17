@@ -166,8 +166,6 @@ C
      & 5X,'CONFIDENTIAL DATA'//)
 C      
       RETURN
- 999  CALL FREERR(3)
-      RETURN
       END
 
 

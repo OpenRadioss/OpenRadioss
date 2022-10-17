@@ -281,6 +281,4 @@ C-----------
      & 5X,'REFERENCE DENSITY . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13//)     
       RETURN
- 999  CALL FREERR(3)
-      RETURN
       END

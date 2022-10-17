@@ -308,7 +308,6 @@ C-----------------
      & 5X,'INITIAL DENSITY . . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'EOS REFERENCE DENSITY . . . . . . . . . . =',1PG20.13/)
 C-----------------
- 999  CALL FREERR(3)
       RETURN
    
 

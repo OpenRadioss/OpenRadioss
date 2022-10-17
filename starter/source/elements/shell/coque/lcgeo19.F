@@ -176,8 +176,6 @@ C
       ENDIF ! IF (NDRAPE > 0)
 c-----------
       RETURN
- 999  CALL FREERR(3)
-      RETURN
 c-----------
  2000 FORMAT(/,
      & 5X,'LAYER PROPERTY SET ',/,

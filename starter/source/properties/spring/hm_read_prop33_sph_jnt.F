@@ -273,6 +273,5 @@ C-----------------------
      & 5X,'USER X ROT FUNCTION. . . . . . . . . . =',I10/,
      & 5X,'USER Y ROT FUNCTION. . . . . . . . . . =',I10/,
      & 5X,'USER Z ROT FUNCTION. . . . . . . . . . =',I10//)
- 999  CALL FREERR(1)
       RETURN
       END

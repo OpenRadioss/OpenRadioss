@@ -186,7 +186,5 @@ c-----------
      & 5X,'SENSOR NUMBER (0:NOT USED). . . . . . .=',I10/,
      & 5X,'SENSOR FLAG (0:ACTIV 1:DEACT 2:BOTH). .=',I10/)
 c-----------
- 999  CALL FREERR(1)
-c-----------
       RETURN
       END

@@ -363,13 +363,6 @@ C       Error here, we need 3 nodes to define a plane
                    
       ENDDO ! KK = 1, NINIMAP2D
       RETURN
-      
- 998  CALL ANCMSG(MSGID = 1893, ANMODE = ANINFO, MSGTYPE = MSGERROR,I1=INIMAP2D(KK)%ID, C1=INIMAP2D(KK)%TITLE,C2=MSG_DESCRIPTION)
-      CALL FREERR(3)
-      RETURN
-
- 999  CALL FREERR(3)
-      RETURN
 
 
  2000 FORMAT(//

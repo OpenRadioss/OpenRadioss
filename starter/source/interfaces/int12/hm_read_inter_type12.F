@@ -139,9 +139,6 @@ C------------------------------------------------------------
       IGSTI=0
       HIERA=0
 
-      !READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-      !READ(LINE,ERR=999,FMT=FMT_6I_2X_F)ISU1,ISU2,IGSTI,ILEV,HIERA
-
 C....* CHECKS *.............
 
       IS1=1
@@ -159,8 +156,6 @@ C------------------------------------------------------------
 C  Card2
 C------------------------------------------------------------
       CALL HM_GET_FLOATV('type12_tol', GAP, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      !READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-      !READ(LINE,ERR=999,FMT=FMT_5F)BID,BID,GAP,STARTT,STOPT
       BID=ZERO
       STARTT=ZERO
       STOPT=ZERO
@@ -175,9 +170,6 @@ C------------------------------------------------------------
       CALL HM_GET_INTV('type12_bcopt', BCOPT, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('SKEW_CSID', ISKEW, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Node_C', ICENTER, IS_AVAILABLE, LSUBMODEL)
-
-      !READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-      !READ(LINE,ERR=999,FMT=FMT_4I) ITIED,BCOPT,ISKEW,ICENTER
 
 C.....* CHECKS *.....
 
@@ -195,21 +187,16 @@ C------------------------------------------------------------
          CALL HM_GET_FLOATV('type12_Xc', XC, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('type12_Yc', YC, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('type12_Zc', ZC, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         !READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-         !READ(LINE,ERR=999,FMT=FMT_3F)XC,YC,ZC
 
          CALL HM_GET_FLOATV('type12_XN', XR, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('type12_YN', YR, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('type12_ZN', ZR, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('type12_theta', TETA, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         !READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-         !READ(LINE,ERR=999,FMT=FMT_4F)XR,YR,ZR,TETA
 
          CALL HM_GET_FLOATV('type12_XT', XT, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('type12_YT', YT, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('type12_ZT', ZT, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         !READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-         !READ(LINE,ERR=999,FMT=FMT_3F)XT,YT,ZT
+
        ENDIF
 
 C.....* Storage IPARI FRIGAP *.......
@@ -320,8 +307,6 @@ C
 C--------------------------------------------------------------
  1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
-      RETURN
- 999  CALL FREERR(3)
       RETURN
 
 

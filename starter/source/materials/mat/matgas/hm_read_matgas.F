@@ -366,7 +366,6 @@ C-----------------------------------------------
      & 5X,40HCOEFFICIENT CPE . . . . . . . . . . . .=,E12.4/,
      & 5X,40HCOEFFICIENT CPF . . . . . . . . . . . .=,E12.4/,
      & 5X,40HUNIVERSAL GAS CONSTANT. . . . . . . . .=,E12.4//)
- 999  CALL FREERR(3)
 C-----------
       RETURN
       END

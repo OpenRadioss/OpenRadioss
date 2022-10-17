@@ -273,10 +273,6 @@ c----   Solids
           PROP_TAG(IGTYP)%L_STRA = 6 
 C-----------
       RETURN
- 999  CALL FREERR(3)
-      RETURN
-      CALL FREERR(3)
-      RETURN
 C-----------
  1800 FORMAT(
      & 5X,'POROUS FLUID PROPERTY SET'/,

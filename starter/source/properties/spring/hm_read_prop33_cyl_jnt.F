@@ -258,7 +258,6 @@ C-----------
      & 5X,'LINEAR TORSIONAL STIFFNESS KRX . . . . =',1PG20.13/,
      & 5X,'USER X TRANSLATION FUNCTION. . . . . . =',I10/,
      & 5X,'USER RX TORSION FUNCTION ID. . . . . . =',I10//)
- 999  CALL FREERR(1)
 C-----------
       RETURN
       END

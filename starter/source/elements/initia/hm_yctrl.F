@@ -957,6 +957,5 @@ C------------------------------------
        CALL ANCMSG(MSGID=557,
      .             MSGTYPE=MSGERROR,
      .             ANMODE=ANINFO_BLIND_1)
- 999  CALL FREERR(3)
       RETURN
       END

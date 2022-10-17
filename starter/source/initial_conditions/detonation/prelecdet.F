@@ -117,7 +117,5 @@ C-----------------------------------------------
       IF (DETONATORS%SICORD > 0) DETONATORS%DCORD = ZERO      
 C-------------------------------------------
       RETURN
- 999  CALL FREERR(3)
-      RETURN
       END SUBROUTINE PRELECDET
 

@@ -278,7 +278,6 @@ c-------------------
      & 5X,'LANKFORD COEFFICIENT R90. . . . . . . .=',1PG20.13/)
  1110 FORMAT(
      & 5X,'YIELD STRESS IN ORTHOTROPIC DIR. 1 IS SUPPOSSD '/)
- 999  CALL FREERR(3)
 c-----------
       RETURN
       END

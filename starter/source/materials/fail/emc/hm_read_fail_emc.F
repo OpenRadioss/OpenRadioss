@@ -131,7 +131,6 @@ c-----------------------------------------------------------------------
       ENDIF
 C-----------
       RETURN
- 999  CALL FREERR(3)
 C-----------
  1300 FORMAT(
      & 5X,40H    CRYPTED DATA IN FAILURE MODEL             /,

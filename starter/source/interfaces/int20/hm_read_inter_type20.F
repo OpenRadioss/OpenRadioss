@@ -527,8 +527,6 @@ C--------------------------------------------------------------
      .            1X,' --------------             '// )
 C------------
       RETURN
- 999  CALL FREERR(3)
-      RETURN
  3507 FORMAT(//
      .    '    TYPE==20  PARALLEL/AUTO IMPACTING           ' //,
      .    '    FIRST SURFACE ID. . . . . . . . . . . . . ',I10/,

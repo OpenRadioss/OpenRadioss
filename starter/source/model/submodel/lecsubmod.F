@@ -321,6 +321,4 @@ c     .'  ---------------------- ')
 c 1000 FORMAT(/10X,'NEW NODE COORDINATES',14X,'X',24X,'Y',24X,'Z')
 c 1500 FORMAT( 17X,I10,3(5X,E20.13))
       RETURN
- 999  CALL FREERR(1)
-      RETURN
       END

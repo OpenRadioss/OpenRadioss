@@ -195,6 +195,5 @@ C
      & 5X,'STIFFNESS FOR INTERFACE K=E*A/L. . . . =',1PG20.13/,
      & 5X,'CRITICAL DAMPING COEFFICIENT . . . . . =',1PG20.13/,
      & 5X,'BLOCKING STIFFNESS KNN . . . . . . . . =',1PG20.13//)
- 999  CALL FREERR(1)
       RETURN
       END

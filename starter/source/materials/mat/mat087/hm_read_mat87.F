@@ -594,7 +594,6 @@ c-------------------------------------------------------------
      & 5X,'CHABOCHE_ROUSSELIER KINEMATIC PARAMETER A3. . =',1PG20.13/
      & 5X,'CHABOCHE_ROUSSELIER KINEMATIC PARAMETER C4. . =',1PG20.13/
      & 5X,'CHABOCHE_ROUSSELIER KINEMATIC PARAMETER A4. . =',1PG20.13)
-999    CALL FREERR(3)
       RETURN
       END
 

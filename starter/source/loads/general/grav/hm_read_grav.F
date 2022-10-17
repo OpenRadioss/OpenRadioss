@@ -256,7 +256,6 @@ C
       ENDDO
 C-----------
       RETURN
- 999  CALL FREERR(3)
 C-----------
  2000 FORMAT(//
      .'     GRAVITY LOADS  '/

@@ -374,6 +374,5 @@ C
      & 5X,'UNIT LENGTH FLAG. . . . . . . . . . . .=',I10/,
      & 5X,'IF=1 UNIT LENGTH MASS,STIFFNESS AND INPUT',/,
      & 5X,'     CURVE ARE STRAIN DEPENDING',/)
- 999  CALL FREERR(1)
       RETURN
       END

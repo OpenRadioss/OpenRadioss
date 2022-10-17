@@ -316,7 +316,6 @@ C-----------------------------------------------
      &     5X,'INITIAL PRESSURE. . . . . . . . . . . .=',E12.4/,
      &     5X,'PRESSURE SHIFT. . . . . . . . . . . . .=',E12.4/,  
      &     5X,'BURN FRACTION METHOD. . . . . . . . . .=',I10/)
-999   CALL FREERR(3)
 
 
 

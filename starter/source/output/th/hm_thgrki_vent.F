@@ -326,9 +326,6 @@ C
         ENDDO
       ENDIF
       RETURN
-C
- 999  CALL FREERR(1)
-      RETURN
       END
 C
 Chd|====================================================================

@@ -171,7 +171,6 @@ C-----------
      & 5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',E12.4/,
      & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',E12.4/,
      & 5X,'SHEAR MODULUS . . . . . . . . . . . . .=',E12.4//)
- 999  CALL FREERR(3)
 C-----------
       RETURN
       END

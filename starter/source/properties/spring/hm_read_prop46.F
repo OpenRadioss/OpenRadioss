@@ -227,8 +227,6 @@ C-----------------------------
       PROP_TAG(IGTYP)%G_NUVAR = NUVAR
 C
       RETURN
- 999  CALL FREERR(1)
-      RETURN
 C
  1000 FORMAT(
      & 5X,'MASS PER ELEMENT . . . . . . . . . . . . .=',E12.4/,

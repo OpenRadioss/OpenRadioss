@@ -120,8 +120,6 @@ c
 
 C----
       RETURN
- 999  CALL FREERR(3)
-      RETURN
 C---
  1500 FORMAT(
      & 5X,'RIVET PROPERTY SET'/,

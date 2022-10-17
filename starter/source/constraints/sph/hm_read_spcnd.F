@@ -180,8 +180,6 @@ C
         ENDDO
 C-------------------------------------
       RETURN
- 999  CALL FREERR(1)
-      RETURN
 C
 1000  FORMAT(
      . '      SPECIFIC TO SPH SYMMETRY CONDITIONS '/

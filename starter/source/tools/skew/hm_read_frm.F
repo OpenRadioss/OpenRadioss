@@ -705,7 +705,6 @@ C-------------------------------------
      .        MESS,0,BID)
 C-----
       RETURN
- 999  CALL FREERR(1)
 
  1000 FORMAT(5X,'NUMBER',8X,'N1',8X,'N2',8X,'N3',10X,'VECTORS',42X,
      .      'ORIGIN')

@@ -160,6 +160,4 @@ C-------------------------------------
       CALL VDOUBLE(NOM_OPT,LNOPT1,NACCELM,MESS,0,BID)
 C----
       RETURN
-  999 CALL FREERR(3)
-      RETURN
       END

@@ -93,7 +93,6 @@ C
         IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C OLD HIDDEN FLAGS - SET TO ZERO
-C READ(LINE,ERR=999,FMT=FMT_4I_4X_F) IHBE,ISMSTR,ISH3N,ISROT,CVIS
 C--------------------------------------------------
         IHBE=0
         ISMSTR=0
@@ -239,8 +238,6 @@ C
 C
 C------------------------------
 C----
-      RETURN
- 999  CALL FREERR(3)
       RETURN
 C-----------
  1300 FORMAT(

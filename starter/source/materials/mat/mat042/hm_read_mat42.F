@@ -235,7 +235,6 @@ c-----------------
       ENDIF     
 C-----------------
       RETURN
- 999  CALL FREERR(3)
 C-----------------
  1000 FORMAT
      & (5X,'MATERIAL MODEL : GREEN-ELASTIC (OGDEN)    ',/,

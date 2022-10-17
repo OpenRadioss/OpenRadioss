@@ -179,8 +179,6 @@ C--------------------------------------------------------------
  1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
       RETURN
- 999  CALL FREERR(3)
-      RETURN
 
  1501 FORMAT(//
      .    '    TYPE==1   ALE(SECONDARY)/LAGRANGE(MAIN)   ' //)

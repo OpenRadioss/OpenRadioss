@@ -521,8 +521,6 @@ C Recherche des ID doubles
 C-------------------------------------
       CALL UDOUBLE(IXS(NIXS,1),NIXS,NUMELS,MESS,0,BID)
       RETURN
- 999  CALL FREERR(1)
-      RETURN
       END
 C
 Chd|====================================================================
@@ -1095,7 +1093,5 @@ C--------------------------------------------------
       IF (ALLOCATED(IPARTS)) DEALLOCATE(IPARTS)
       IF (ALLOCATED(SUB_SOL)) DEALLOCATE(SUB_SOL)
 C--------------------------
-      RETURN
- 999  CALL FREERR(1)
       RETURN
       END

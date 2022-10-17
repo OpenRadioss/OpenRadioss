@@ -830,9 +830,6 @@ C
       ENDDO
 C
       RETURN
-C
- 999  CALL FREERR(3)
-      RETURN
 9999  CALL ANCMSG(MSGID=566,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO,

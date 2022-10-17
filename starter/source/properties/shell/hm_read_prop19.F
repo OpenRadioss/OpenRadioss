@@ -171,8 +171,6 @@ C-------------------------------------------------
          CALL ARRET(2)
       ENDIF
       RETURN
- 999  CALL FREERR(3)
-      RETURN
  1000 FORMAT(
      &    5X,' LAYER  SHELL PROPERTY SET'/,
      &    5X,'------------------------------------'/,

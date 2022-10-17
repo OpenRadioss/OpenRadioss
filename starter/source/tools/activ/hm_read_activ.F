@@ -293,7 +293,6 @@ C
       ENDDO      
 C
       RETURN
- 999  CALL FREERR(3)
 C
  1000 FORMAT(//
      . '      ELEMENT ACTIVATION-DEACTIVATION   '/

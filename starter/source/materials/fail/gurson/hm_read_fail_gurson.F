@@ -175,7 +175,6 @@ c-----------------------------------------------------------------------
       ENDIF
 C-----------
       RETURN
- 999  CALL FREERR(3)
 C-----------
  1100 FORMAT(
      & 5X,40H    GURSON DUCTILE DAMAGE MODEL          /,

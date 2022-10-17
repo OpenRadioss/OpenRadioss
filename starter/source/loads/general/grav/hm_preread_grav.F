@@ -104,6 +104,4 @@ C--------------------------------------------------
       ENDDO  
 C-----------
       RETURN
- 999  CALL FREERR(3)
-      RETURN
       END SUBROUTINE HM_PREREAD_GRAV

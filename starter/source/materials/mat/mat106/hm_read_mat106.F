@@ -254,5 +254,4 @@ C
      & 5X,'MAXIMUM NUMBER OF ITERATIONS . . . . . . . .=',I10/
      & 5X,'PLASTICITY TOLERANCE . . . . . . . . . . . .=',1PG20.13/)     
       RETURN
- 999  CALL FREERR(3)
       END

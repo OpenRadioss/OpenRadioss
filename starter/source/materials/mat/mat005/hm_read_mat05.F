@@ -334,6 +334,5 @@ C-----------------------------------------------
      &     5X,'AFTERBURNING : INSTANTANEOUS                 ',/,
      &     5X,'ADDITIONAL ENERGY PER UNIT VOLUME . . .=',E12.4/,
      &     5X,'BEGIN TIME. . . . . . . . . . . . . . .=',E12.4//)
- 999  CALL FREERR(3)
       RETURN
       END

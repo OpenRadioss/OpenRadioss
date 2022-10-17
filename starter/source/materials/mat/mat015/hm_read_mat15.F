@@ -462,6 +462,5 @@ c
      & 5X,'SHEAR STRENGTH  . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,' LONGITUDINAL COMPRESSIVE STRENGTH  . . .=',1PG20.13/,
      & 5X,' TRANSVERSE   COMPRESSIVE STRENGTH  . . .=',1PG20.13//)
- 999  CALL FREERR(3)
       RETURN
       END

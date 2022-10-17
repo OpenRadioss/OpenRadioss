@@ -669,6 +669,5 @@ C------------------------------
      & 5X,'FERRITE ALLOY DEPENDENT FACTOR CF. . . . . . . . . =',1PG20.13/
      & 5X,'PEARLITE  ALLOY DEPENDENT FACTOR CP. . . . . . . . =',1PG20.13/
      & 5X,'BAINITE   ALLOY DEPENDENT FACTOR CB. . . . . . . . =',1PG20.13/)
-999    CALL FREERR(3)
       RETURN
       END

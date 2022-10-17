@@ -1233,6 +1233,5 @@ C----
      & 5X,'B2 EXPONENT . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'B3 EXPONENT . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'B4 EXPONENT . . . . . . . . . . . . . .=',1PG20.13/)
- 999  CALL FREERR(1)
       RETURN
       END

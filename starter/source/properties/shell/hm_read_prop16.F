@@ -569,8 +569,6 @@ C
 C-----------------------------
 C----
       RETURN
- 999  CALL FREERR(3)
-      RETURN
 C---
  1010 FORMAT(
      & 5X,'COMPOSITE LAYERED SHELL PROPERTY SET ',

@@ -631,6 +631,4 @@ C-----
 !---
 C-----------      
       RETURN
- 999  CALL FREERR(1)
-      RETURN
       END SUBROUTINE HM_READ_PROP44

@@ -173,6 +173,4 @@ C
      . '     ----------------------- '/
      . '     NODE  TRANS. ROTAT.       SKEW'/)
       RETURN
- 999  CALL FREERR(1)
-      RETURN
       END

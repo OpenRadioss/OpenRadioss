@@ -90,7 +90,6 @@ C
         IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C OLD HIDDEN FLAGS - SET TO ZERO
-C READ(LINE,ERR=999,FMT=FMT_4I_4X_F) IHBE,ISMSTR,ISH3N,ISROT,CVIS
 C IHBE -> ISECT
 C ISH3N,ISROT,CVIS not used
 C--------------------------------------------------
@@ -178,10 +177,7 @@ C
         ELSE
 C---    predefined sections
 C--------------------------------------------------
-C OLD HIDDEN FLAGS - SET TO ZERO     
-C          READ(IIN,REC=IREC,ERR=999,FMT=FMT_2I_4F) INTR,INTS,L1,L2,L3,L4     
-C          READ(IIN,REC=IREC,ERR=999,FMT=FMT_2F) L5,L6
-C
+C OLD HIDDEN FLAGS - SET TO ZERO  
           INTS = 0
           L3 = ZERO 
           L4 = ZERO 
@@ -278,8 +274,6 @@ C
         PROP_TAG(IGTYP)%L_STRA = 3
 C-----------------------------
 C
-        RETURN
- 999    CALL FREERR(3)
         RETURN
 C---
  1000 FORMAT(
