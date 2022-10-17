@@ -260,7 +260,7 @@ C---------for degenerated cases
 C------to show pressure 
        NFT = NSKIN
       IF (NUMSKINP>0) THEN      
-       DO I=NFT+1,NSKIN
+       DO I=NFT+1,NUMSKIN
          SKIN_OFF(I) = ONE
        END DO 
       END IF      
