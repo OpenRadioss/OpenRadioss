@@ -4268,10 +4268,11 @@ C
       ENDIF
 C
 C-----------------------------------------------------
-C     UPDATE OF SLIPRING
+C     UPDATE OF SLIPRING AND RETRACTOR
 C-----------------------------------------------------
-      IF (NSLIPRING > 0) CALL UPDATE_SLIPRING(IXR,IXC,IPARG,ELBUF_TAB,FLAG_SLIPRING_UPDATE,
-     .                                        X,NPBY)
+
+      IF (NSLIPRING + NRETRACTOR> 0) CALL UPDATE_SLIPRING(IXR,IXC,IPARG,ELBUF_TAB,FLAG_SLIPRING_UPDATE,
+     .                                                    FLAG_RETRACTOR_UPDATE,X,NPBY)
 C
 C---- // GROUPS ----------------
 C     FORCES INTERNES DES COQUES, COQUES 3 NOEUDS

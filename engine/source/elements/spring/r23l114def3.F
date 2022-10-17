@@ -131,7 +131,7 @@ C-----------------------------------------------
      .        NINDX,ISRATE, IFUNC3(MVSIZ),I1,I2,I3,I4,I5,I6,I7,I8,
      .        I9,I10,I11,I12,I13,I14,IF1,IF2,IF3,IF4,IADBUF,NUPAR,NN1,NN2,RET,
      .        FLAG_RETRACTOR_UPDATE_OLD,FLAG,INDEX1(MVSIZ),INDEX2(MVSIZ),COMPT,
-     .        DIR,STRD
+     .        DIR,STRD,II,INDEX_SLIP(MVSIZ),COMPT2
 C     REAL
       my_real
      .     XK(MVSIZ), YK(MVSIZ),
@@ -350,6 +350,8 @@ C-------------------------------
       IF2 = 6
       IF3 = 12
       IF4 = 18
+      COMPT = 0
+C
       DO I=LFT,LLT
         IADBUF   = IPM(7,MID(I)) - 1
         IFUNC(I) = IPM(10 + IF1 + 1,MID(I))
@@ -365,7 +367,6 @@ C      unloading curve activated only if cross point is passed
 C
 C--     parameters scaled fy fram_factor for springs of 2D seatblets
         AK(I)    = UPARAM(IADBUF + I1 + 1) * FRAM_FACTOR(I)
-C
         B(I)     = UPARAM(IADBUF + I2 + 1)
         D(I)     = UPARAM(IADBUF + I3 + 1)
         EE(I)    = UPARAM(IADBUF + I4 + 1)
@@ -375,24 +376,28 @@ C
         DMN(I)   = UPARAM(IADBUF + I8 + 1)
         DMX(I)   = UPARAM(IADBUF + I9 + 1)
 C
+        IF (UPDATE_FLAG(I) /= 0) THEN
+          COMPT = COMPT + 1
+          INDEX2(COMPT) = I
+        ENDIF
       ENDDO
 C
       IF (NSLIPRING + NRETRACTOR > 0) THEN
 C
-        IF (FLAG_SLIPRING_UPDATE > 0) THEN
+        IF (COMPT > 0) THEN
 C
 C---------------------
-C       SLIPRING UPDATE  - step3
+C       SLIPRING / RETRACTOR UPDATE  - step3
 C---------------------
 C
-          DO I=LFT,LLT
-            IF ((UPDATE_FLAG(I) > 0).AND.(SLIPRING_ID(I) > 0)) THEN
+          DO II=1,COMPT
+            I = INDEX2(II)
 C
+            IF (SLIPRING_ID(I) > 0) THEN
+C--           slipring update step3
               J = SLIPRING_ID(I)
               K = FR_ID(I)
               IF (SLIPRING_STRAND(I) == 1) THEN
-C
-                FLAG_SLIPRING_UPDATE = FLAG_SLIPRING_UPDATE - 1
                 LMIN(I) = UPARAM(IADBUF + 119)
                 XL0(I)=MAX(X0DP(I),LMIN(I))
 C--             Loading of internal variables for computation of brin 2 
@@ -404,17 +409,8 @@ C--             Loading of internal variables for computation of brin 2
                 FXEP_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR2(5)
                 POSX_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR2(6)
                 EPS_OLD_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR2(7)
-                IF (SLIPRING(J)%FRAM(K)%UPDATE > 0) THEN
-                  DFS(I) = SLIPRING(J)%FRAM(K)%DFS
-                  SLIPRING(J)%FRAM(K)%UPDATE = SLIPRING(J)%FRAM(K)%UPDATE -1
-                ELSE
-                  RING_SLIP(I) = X0(I)
-                  SLIPRING(J)%FRAM(K)%UPDATE = SLIPRING(J)%FRAM(K)%UPDATE +1
-                ENDIF
-C
+                IF (UPDATE_FLAG(I) <= 0) RING_SLIP(I) = X0(I)
               ELSEIF (SLIPRING_STRAND(I) == 2) THEN
-C              
-                FLAG_SLIPRING_UPDATE = FLAG_SLIPRING_UPDATE - 1
                 LMIN(I) = UPARAM(IADBUF + 119)
                 XL0(I)=MAX(X0DP(I),LMIN(I))
 C--             Loading of internal variables for computation of brin 2 
@@ -426,84 +422,33 @@ C--             Loading of internal variables for computation of brin 2
                 FXEP_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR1(5)
                 POSX_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR1(6)
                 EPS_OLD_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR1(7)
-                IF (SLIPRING(J)%FRAM(K)%UPDATE < 0) THEN
-                  DFS(I) = SLIPRING(J)%FRAM(K)%DFS
-                  SLIPRING(J)%FRAM(K)%UPDATE = SLIPRING(J)%FRAM(K)%UPDATE +1
-                ELSE
-                  SLIPRING(J)%FRAM(K)%UPDATE = SLIPRING(J)%FRAM(K)%UPDATE -1
-                ENDIF
-C
               ENDIF
-            ENDIF
-          ENDDO
-        ENDIF
 C
-        IF (FLAG_RETRACTOR_UPDATE > 0) THEN
+            ELSEIF ((RETRACTOR_ID(I) > 0).AND.(UPDATE_FLAG(I) == -1)) THEN
+C--           retractor update of mouth element step3
+              OFF(I) = ONE
 C
-C---------------------
-C       RETRACTOR UPDATE  - step2
-C---------------------
+            ELSEIF ((RETRACTOR_ID(I) > 0).AND.(UPDATE_FLAG(I) == -2)) THEN
+C--           retractir update of new entered element step3
+              OFF(I) = ZERO
+              UPDATE_FLAG(I) = 0
+              X0(I) = ZERO
 C
-        FLAG_RETRACTOR_UPDATE_OLD = FLAG_RETRACTOR_UPDATE
-C
-        DO I=LFT,LLT
-          DO RET=1,NRETRACTOR
-C
-            IF (RETRACTOR(RET)%UPDATE /= 0) THEN
-              NN1 = RETRACTOR(RET)%NODE_NEXT(1)
-              NN2 = RETRACTOR(RET)%NODE_NEXT(2)
-              IF (((NC1(I)==NN1).AND.(NC2(I)==NN2)).OR.((NC2(I)==NN1).AND.(NC1(I)==NN2))) THEN
-                FLAG_RETRACTOR_UPDATE = FLAG_RETRACTOR_UPDATE - 1
-                RETRACTOR_ID(I) = RET
-                SLIPRING_STRAND(I) = -1
-                UPDATE_FLAG(I) = -1
-                OFF(I) = ONE
-                IF (NC1(I)==NN1) THEN
-                  RETRACTOR(RET)%STRAND_DIRECTION = 1
-                ELSE
-                  RETRACTOR(RET)%STRAND_DIRECTION = -1
-                ENDIF
-                IF (RETRACTOR(RET)%UPDATE > 0) THEN
-                  RETRACTOR(RET)%UPDATE = RETRACTOR(RET)%UPDATE - 1
-                ELSE
-                  RETRACTOR(RET)%UPDATE = RETRACTOR(RET)%UPDATE + 1
-                ENDIF
-              ELSEIF (SLIPRING_STRAND(I) < 0) THEN
-                FLAG_RETRACTOR_UPDATE = FLAG_RETRACTOR_UPDATE - 1
-                SLIPRING_STRAND(I) = 0
-                IF (RETRACTOR(RET)%UPDATE > 0) THEN
-                  RETRACTOR(RET)%UPDATE = RETRACTOR(RET)%UPDATE - 1
-C                 Small gap to prevent early release of element
-                  GAP = 0.01*RETRACTOR(RET)%ELEMENT_SIZE
-                  RING_SLIP(I) = RING_SLIP(I) -GAP
-                ELSE
-C                 Element deactivated
-                  RETRACTOR(RET)%UPDATE = RETRACTOR(RET)%UPDATE + 1
-                  OFF(I) = ZERO
-                  RING_SLIP(I) = ZERO
-                  X0(I) = ZERO
-                ENDIF
-              ENDIF
             ENDIF
 C
           ENDDO
-        ENDDO
 C
-        IF ((FLAG_RETRACTOR_UPDATE_OLD > 0).AND.(FLAG_RETRACTOR_UPDATE == 0)) THEN
-          DO RET=1,NRETRACTOR
-            RETRACTOR(RET)%NODE(1) = RETRACTOR(RET)%NODE_NEXT(1)
-            RETRACTOR(RET)%NODE(2) = RETRACTOR(RET)%NODE_NEXT(2)
-          ENDDO
         ENDIF
-C
-      ENDIF
 C
         COMPT = 0
+        COMPT2 = 0
         DO I=LFT,LLT
           ADHER(I) = 0
           IF (SLIPRING_STRAND(I) > 0) THEN
             COMPT = COMPT + 1
+            COMPT2 = COMPT2 + 1
             INDEX2(COMPT) = I
+            INDEX_SLIP(COMPT2) = I
             IF (SLIPRING(SLIPRING_ID(I))%NFRAM > 1) THEN
               YC(I) = 0.1*XC(I)
               ZC(I) = 0.1*XC(I)
@@ -518,8 +463,10 @@ C-          No damping in slipring
             XCM(I)= MAX(XC(I),YC(I),ZC(I))+XH(I)
             XK_COMP(I) = XK(I)
             FX_MAX(I) = EP20
-          ELSEIF (SLIPRING_STRAND(I) < 0) THEN
+          ELSEIF (SLIPRING_STRAND(I) == -1) THEN
 C-          No damping in retractor
+            COMPT = COMPT + 1
+            INDEX2(COMPT) = I
             XC(I) = ZERO
             YC(I) = ZERO
             ZC(I) = ZERO
@@ -550,8 +497,8 @@ C       MATERIAL FLOW COMPUTATION FOR SLIPRING/RETRACTOR
 C---------------------
 C
 C-      Computation of lenght of 2nd strand 
-        DO J=1,COMPT
-          I = INDEX2(J)
+        DO J=1,COMPT2
+          I = INDEX_SLIP(J)
           STRD = SLIPRING_STRAND(I)   
           DIR = SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%STRAND_DIRECTION(STRD)
 C---      Depending on the orientation of the spring the 2nd strand is defined by IXR(2)/IXR(3) or IXR(1)/IXR(3)       
@@ -572,14 +519,14 @@ C---      Depending on the orientation of the spring the 2nd strand is defined b
         ENDDO
 C
         IF (TT == ZERO) THEN
-          DO J=1,COMPT
-            I = INDEX2(J)
+          DO J=1,COMPT2
+            I = INDEX_SLIP(J)
             X02(I)= ALDP_B2(I)
           ENDDO
         ENDIF
 C
-        DO J=1,COMPT
-          I = INDEX2(J)
+        DO J=1,COMPT2
+          I = INDEX_SLIP(J)
           X0DP_B2(I)= X02(I)                     ! cast double vers My_real
           XL02(I)=MAX(X0DP_B2(I),LMIN(I))
           DX_B2(I) = ALDP_B2(I) - X0DP_B2(I)
@@ -594,7 +541,7 @@ C--     Computation of stress of 2nd strand for sliprings
      .                      EB      ,ANIM   ,ANIM_FE(11),POSX_B2,XL02,
      .                      DMN     ,DMX    ,LSCALE ,YIELDX_B2,AK    ,  
      .                      IECROU  ,IFUNC  ,IFUNC2 ,XX_OLD_B2,FX_MAX ,
-     .                      XK_COMP ,COMPT  ,INDEX2 ,FLAG    ,XKP_B2 ,  
+     .                      XK_COMP ,COMPT2 ,INDEX_SLIP ,FLAG ,XKP_B2 ,  
      .                      EPS_OLD_B2,FRAM_FACTOR)
 
 C--     Computation of material flow for slipring and retractor
@@ -608,7 +555,7 @@ C--     Computation of material flow for slipring and retractor
      7                     VY3,VZ3,XC,RETRACTOR_ID,FLAG_RETRACTOR_UPDATE,
      8                     SENSOR,X0DP,FR_ID,DFX,FX,FX_B2,
      9                     ALDP_B2,X0DP_B2,EX2DP,EY2DP,EZ2DP,XL02,
-     A                     XKP_B2)
+     A                     XKP_B2,COMPT,INDEX2)
 C
         DO I=LFT,LLT
           IF (SLIPRING_STRAND(I) > 0) THEN   

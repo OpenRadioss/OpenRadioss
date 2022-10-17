@@ -42,7 +42,7 @@ Chd|====================================================================
      7                         VY3,VZ3,XC,RETRACTOR_ID,FLAG_RETRACTOR_UPDATE,
      8                         SENSOR,AL0DP,FR_ID,DDF,FX,FX2,
      9                         ALDP2,AL0DP2,EX2DP,EY2DP,EZ2DP,
-     A                         XL02,XK2)
+     A                         XL02,XK2,COMPT,INDEX2)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -74,6 +74,7 @@ C-----------------------------------------------
      .        XL0(*),DL(*),DLOLD(*),EXDP(*),EYDP(*),EZDP(*),
      .        XK(*),VX1(*),VY1(*),VZ1(*),VX2(*),VY2(*),VZ2(*),VX3(*),VY3(*),VZ3(*),XC(*),
      .        OFF(*),SENSOR(NSENSR,*)
+      INTEGER, INTENT(IN) :: COMPT,INDEX2(MVSIZ)
       DOUBLE PRECISION ALDP(*),X1DP(3,*),X2DP(3,*),X3DP(3,*),AL0DP(*)
       my_real, INTENT(IN) :: FX(MVSIZ),FX2(MVSIZ),XK2(MVSIZ)
       my_real, INTENT(OUT) :: DDF(MVSIZ),XL02(MVSIZ)
@@ -82,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NODE1,NODE2,NODE3,ANCHOR_NODE,NEW_NODE2,FUNC,ISENS,FLAG_SENSOR_LOCK,FLAG_NO_COUNT_PULL,FL_IMPOSED_FORCE
+      INTEGER I,J,NODE1,NODE2,NODE3,ANCHOR_NODE,NEW_NODE2,FUNC,ISENS,FLAG_SENSOR_LOCK,FLAG_NO_COUNT_PULL,FL_IMPOSED_FORCE
       INTEGER FLAG
       my_real DDFS,BETA,HH,HH2,FRIC,DELTAF,DDV,DT11,FB,F1,F2,DF
       my_real TENS,XSCAL,NORM,PRES,VREL,ALPHA,ALPHA2,VEC1(3),VEC2(3)
@@ -101,7 +102,9 @@ C----------------------------------------------------------
 C-    MATERIAL FLOW COMPUTATION FOR SLIPRING AND RETRACTOR
 C----------------------------------------------------------
 C
-      DO I=LFT,LLT
+      DO J=1,COMPT
+C
+        I = INDEX2(J)
 C
         IF (OFF(I) == ONE) THEN
 C
@@ -219,13 +222,13 @@ C
             LMIN(I) = MAX(LMIN(I),AL02(I))
             FLAG = 1
             CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH2,ALDP(I),ALDP2(I),AL0DP(I),AL0DP2(I),LMIN(I),OMEGA)
-            DDFS = DDX*DT1*XK(I)/AL0DP(I) + DDX2*DT1*XK(I)/LMIN(I)
+            DDFS = DDX*DT1*XK(I)/AL0DP(I) + DDX2*DT1*XK2(I)/LMIN(I)
             FB = FX(I) + XK(I)*(ALDP(I)-AL0DP(I)-DELTA_LO)/(AL0DP(I)+DELTA_LO) - XK(I)*EPS1
           ELSEIF (AL0DP(I) + DELTA_LO < LMIN(I)) THEN
             LMIN(I) = MAX(LMIN(I),AL0(I))
             FLAG = 2
             CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH2,ALDP(I),ALDP2(I),AL0DP(I),AL0DP2(I),LMIN(I),OMEGA)
-            DDFS = DDX*DT1*XK(I)/LMIN(I) + DDX2*DT1*XK(I)/AL0DP2(I)
+            DDFS = DDX*DT1*XK(I)/LMIN(I) + DDX2*DT1*XK2(I)/AL0DP2(I)
             FB = FX(I) + XK(I)*(ALDP(I)-AL0DP(I)-DELTA_LO)/LMIN(I) - XK(I)*EPS1
           ENDIF
 C
@@ -416,13 +419,13 @@ C
             LMIN(I) = MAX(LMIN(I),AL0(I))
             FLAG = 1
             CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH2,ALDP2(I),ALDP(I),AL0DP2(I),AL0DP(I),LMIN(I),OMEGA)
-            DDFS = DDX*DT1*XK(I)/LMIN(I) + DDX2*DT1*XK(I)/AL0DP2(I)
+            DDFS = DDX*DT1*XK(I)/LMIN(I) + DDX2*DT1*XK2(I)/AL0DP2(I)
             FB = FX(I) + XK(I)*(ALDP(I)-AL0DP(I)+DELTA_LO)/LMIN(I) - XK(I)*EPS1
           ELSEIF (AL0DP2(I) + DELTA_LO < LMIN(I)) THEN
             LMIN(I) = MAX(LMIN(I),AL02(I))
             FLAG = 2
             CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH2,ALDP2(I),ALDP(I),AL0DP2(I),AL0DP(I),LMIN(I),OMEGA)
-            DDFS = DDX*DT1*XK(I)/AL0(I) + DDX2*DT1*XK(I)/LMIN(I)
+            DDFS = DDX*DT1*XK(I)/AL0(I) + DDX2*DT1*XK2(I)/LMIN(I)
             FB = FX(I) + XK(I)*(ALDP(I)-AL0DP(I)+DELTA_LO)/(AL0DP(I)-DELTA_LO) - XK(I)*EPS1
           ENDIF
 C
