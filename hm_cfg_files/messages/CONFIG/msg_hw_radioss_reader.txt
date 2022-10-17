@@ -26,7 +26,7 @@ Include file %s not found
 -- LINE: %s
 STRING "%s" found instead of an integer
 /MESSAGE/100101/SOLUTION
-Please check input format and its consistency with Invers value from /BEGIN option.
+Please check input format and fields description defined in the Reference Guide.
 
 /MESSAGE/100102/TITLE
 ** ERROR IN INPUT FORMAT
@@ -35,7 +35,7 @@ Please check input format and its consistency with Invers value from /BEGIN opti
 -- LINE: %s
 STRING "%s" found instead of a floating point value
 /MESSAGE/100102/SOLUTION
-Please check input format and its consistency with Invers value from /BEGIN option.
+Please check input format and fields description defined in the Reference Guide.
 
 /MESSAGE/100103/TITLE
 ** ERROR IN INPUT OPTIONS
@@ -44,7 +44,7 @@ Please check input format and its consistency with Invers value from /BEGIN opti
 -- LINE: %s
 Cannot read an integer value
 /MESSAGE/100103/SOLUTION
-Please check input format and its consistency with Invers value from /BEGIN option.
+Please check input format and fields description defined in the Reference Guide.
    
 /MESSAGE/100104/TITLE
 ** ERROR IN INPUT FORMAT
@@ -53,7 +53,7 @@ Please check input format and its consistency with Invers value from /BEGIN opti
 -- LINE: %s
 Cannot read a floating point value
 /MESSAGE/100104/SOLUTION
-Please check input format and its consistency with Invers value from /BEGIN option.
+Please check input format and fields description defined in the Reference Guide.
 
 /MESSAGE/100105/TITLE
 ** ERROR IN INPUT FORMAT
@@ -124,7 +124,7 @@ Card cannot be read. Object might be incomplete
 -- LINE: %s
 unsupported field exits at the end of line
 /MESSAGE/100213/SOLUTION
-    Please check input format and its consistency with Invers value from /BEGIN option.
+    Please check input format and fields description defined in the Reference Guide.
 
 /MESSAGE/100214/TITLE
 ** WARNING IN INPUT OPTIONS
@@ -133,7 +133,7 @@ unsupported field exits at the end of line
 -- LINE: %s
 unsupported field exits
 /MESSAGE/100214/SOLUTION
-    Please check input format and its consistency with Invers value from /BEGIN option.
+    Please check input format and fields description defined in the Reference Guide.
 
 /MESSAGE/100215/TITLE
 ** ERROR IN INPUT OPTIONS
@@ -156,7 +156,7 @@ Unable to read this line
 -- LINE: %s
 card is missing
 /MESSAGE/100217/SOLUTION
-Please check input format and its consistency with Invers value from /BEGIN option.
+Please check input format and fields description defined in the Reference Guide.
 
 
 /MESSAGE/100218/TITLE
