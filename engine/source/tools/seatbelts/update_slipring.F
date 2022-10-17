@@ -34,7 +34,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|====================================================================
       SUBROUTINE UPDATE_SLIPRING(IXR,IXC,IPARG,ELBUF_TAB,FLAG_SLIPRING_UPDATE,
-     .                           X,NPBY)
+     .                           FLAG_RETRACTOR_UPDATE,X,NPBY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,9 +59,8 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: IXC(NIXC,NUMELC),IPARG(NPARG,NGROUP),FLAG_SLIPRING_UPDATE,
-     .                       NPBY(NNPBY,NRBODY)
-      INTEGER ,INTENT(INOUT) :: IXR(NIXR,NUMELR)
+      INTEGER ,INTENT(IN) :: IXC(NIXC,NUMELC),IPARG(NPARG,NGROUP),NPBY(NNPBY,NRBODY)
+      INTEGER ,INTENT(INOUT) :: IXR(NIXR,NUMELR),FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE
       my_real ,INTENT(IN) :: X(3,NUMNOD)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
@@ -72,13 +71,14 @@ C-----------------------------------------------
      .        COMPT,FRA,NFOUND,FOUND_SLIP(2),FOUND_FRAM(2),FRAM1,FRAM2,
      .        NODE_FRAM1,NODE_FRAM2,IREP,FLAG_REACTIV,FLAG_R1,FLAG_R2,NUVAR,
      .        ISEATBELT,FRA1,FRA2,L_DIRA,NLAY,ISMSTR,STRAND,NODE_CORES_DIR2(4),
-     .        NPTR,NPTS,NPTT,IR,IS,IT,S_SLIPRING,L_SMSTR,ORIENT,POS_B
+     .        NPTR,NPTS,NPTT,IR,IS,IT,S_SLIPRING,L_SMSTR,ORIENT,POS_B,RET,COMPTR,
+     .        FLAG_SLIPRING_L
 C
-      INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_NOD,CORES_SLIP,CORES_FRAM
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_NOD,CORES_SLIP,CORES_FRAM,CORES_RET
 C
       my_real 
      .        XL2,YL2,XL3,YL3,XL4,YL4,L0FRAM1,L0FRAM2,DIST,DISTB,OFFSET,N_DIR2(2),
-     .        FLOW_DIRECTION
+     .        FLOW_DIRECTION,GAP
 C
       TYPE(G_BUFEL_),POINTER :: GBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
@@ -89,7 +89,9 @@ C-    UPDATE OF SLIPRING
 C----------------------------------------------------------
 C----------------------------------------------------------
 C
-      IF (((N_SEATBELT_2D > 0).AND.(NCYCLE==0)).OR.(FLAG_SLIPRING_UPDATE /= 0)) THEN
+      FLAG_SLIPRING_L = FLAG_SLIPRING_UPDATE
+      IF (((N_SEATBELT_2D > 0).AND.(NCYCLE==0)).OR.(FLAG_SLIPRING_UPDATE /= 0).OR.
+     .     (FLAG_RETRACTOR_UPDATE /= 0)) THEN
         S_SLIPRING = 0
         DO SLIP=1,NSLIPRING
           S_SLIPRING = S_SLIPRING + SLIPRING(SLIP)%NFRAM
@@ -105,6 +107,7 @@ C         Check of rbody status
         MY_ALLOCATE(TAG_NOD,NUMNOD)
         MY_ALLOCATE(CORES_SLIP,S_SLIPRING)
         MY_ALLOCATE(CORES_FRAM,S_SLIPRING)
+        MY_ALLOCATE(CORES_RET,NRETRACTOR)
       ENDIF
 C
 C----------------------------------------------------------
@@ -113,13 +116,13 @@ C--   Loop on springs for slipring update
 C----------------------------------------------------------
 C----------------------------------------------------------
 C
-      IF (FLAG_SLIPRING_UPDATE /= 0) THEN
+      IF ((FLAG_SLIPRING_UPDATE /= 0).OR.(FLAG_RETRACTOR_UPDATE /= 0)) THEN
 C
         TAG_NOD(1:NUMNOD) = 0
         CORES_SLIP(1:S_SLIPRING) = 0
         CORES_FRAM(1:S_SLIPRING) = 0
-        COMPT = 0
 C-----> Tag of nodes of updated sliprings -------
+        COMPT = 0
         DO SLIP=1,NSLIPRING 
           DO FRA = 1,SLIPRING(SLIP)%NFRAM
             IF (SLIPRING(SLIP)%FRAM(FRA)%UPDATE /= 0) THEN
@@ -134,6 +137,18 @@ C-----> Tag of nodes of updated sliprings -------
               CORES_FRAM(COMPT) = FRA
             ENDIF
           ENDDO
+        ENDDO
+C-----> Tag of nodes of updated retractors -------
+        COMPTR = 0
+        DO RET=1,NRETRACTOR
+          IF (RETRACTOR(RET)%UPDATE /= 0) THEN
+            COMPTR = COMPTR + 1 
+            TAG_NOD(RETRACTOR(RET)%NODE(1)) = -COMPTR
+            TAG_NOD(RETRACTOR(RET)%NODE(2)) = -COMPTR
+            TAG_NOD(RETRACTOR(RET)%NODE_NEXT(1)) = -COMPTR
+            TAG_NOD(RETRACTOR(RET)%NODE_NEXT(2)) = -COMPTR
+            CORES_RET(COMPTR) = RET
+          ENDIF
         ENDDO
 C      
         DO NG=1,NGROUP
@@ -160,6 +175,7 @@ C
               N1 = IXR(2,J)
               N2 = IXR(3,J)
               SLIP = 0
+              RET = 0
 C
               IF (TAG_NOD(N1) > 0) THEN
                 SLIP =  CORES_SLIP(TAG_NOD(N1))
@@ -167,19 +183,22 @@ C
               ELSEIF (TAG_NOD(N2) > 0) THEN
                 SLIP =  CORES_SLIP(TAG_NOD(N2))
                 FRA = CORES_FRAM(TAG_NOD(N2))
+              ELSEIF (TAG_NOD(N1) < 0) THEN
+                RET = CORES_RET(ABS(TAG_NOD(N1)))
+              ELSEIF (TAG_NOD(N2) < 0) THEN
+                RET = CORES_RET(ABS(TAG_NOD(N2)))
               ENDIF
 C
               IF (SLIP > 0) THEN
-C
                 NN1 = SLIPRING(SLIP)%FRAM(FRA)%NODE_NEXT(1)
                 NN2 = SLIPRING(SLIP)%FRAM(FRA)%NODE_NEXT(2)
                 NN3 = SLIPRING(SLIP)%FRAM(FRA)%NODE_NEXT(3)
-C
                 IF (((N1==NN1).AND.(N2==NN2)).OR.((N2==NN1).AND.(N1==NN2))) THEN
                   GBUF%SLIPRING_ID(I) = SLIP
                   GBUF%SLIPRING_FRAM_ID(I) = FRA
                   GBUF%SLIPRING_STRAND(I) = 1
-                  GBUF%UPDATE(I) = 1
+                  GBUF%UPDATE(I) = SLIPRING(SLIP)%FRAM(FRA)%UPDATE
+                  IF (GBUF%UPDATE(I) > 0) GBUF%DFS(I) = SLIPRING(SLIP)%FRAM(FRA)%DFS
                   IF (N2 == NN2) THEN
                     SLIPRING(SLIP)%FRAM(FRA)%STRAND_DIRECTION(1) = 1
                   ELSE
@@ -199,7 +218,8 @@ C                 -> Update of third node -------
                   GBUF%SLIPRING_ID(I) = SLIP
                   GBUF%SLIPRING_FRAM_ID(I) = FRA
                   GBUF%SLIPRING_STRAND(I) = 2
-                  GBUF%UPDATE(I) = 1
+                  GBUF%UPDATE(I) = SLIPRING(SLIP)%FRAM(FRA)%UPDATE
+                  IF (GBUF%UPDATE(I) < 0) GBUF%DFS(I) = SLIPRING(SLIP)%FRAM(FRA)%DFS
                   IF (N1 == NN2) THEN
                     SLIPRING(SLIP)%FRAM(FRA)%STRAND_DIRECTION(2) = 1
                   ELSE
@@ -221,7 +241,6 @@ C                 -> Update of third node -------
                   GBUF%SLIPRING_STRAND(I) = 0
                   SLIPRING(SLIP)%FRAM(FRA)%PREV_REF_LENGTH = GBUF%LENGTH(II(1)+I-1)
                 ENDIF
-C
               ENDIF
 C
 C             -> Storage of current fram ref length in slipring buffer -------
@@ -234,16 +253,48 @@ C             -> Storage of current fram ref length in slipring buffer -------
                 ENDIF
               ENDIF
 C
-            ENDDO
-          ENDIF       
+              IF (RET > 0) THEN
+                NN1 = RETRACTOR(RET)%NODE_NEXT(1)
+                NN2 = RETRACTOR(RET)%NODE_NEXT(2)
+                IF (((N1==NN1).AND.(N2==NN2)).OR.((N2==NN1).AND.(N1==NN2))) THEN
+                  GBUF%RETRACTOR_ID(I) = RET
+                  GBUF%SLIPRING_STRAND(I) = -1
+                  GBUF%UPDATE(I) = -1
+                  IF (N1==NN1) THEN
+                    RETRACTOR(RET)%STRAND_DIRECTION = 1
+                  ELSE
+                    RETRACTOR(RET)%STRAND_DIRECTION = -1
+                  ENDIF
+                ELSEIF (GBUF%SLIPRING_STRAND(I) < 0) THEN
+                  GBUF%SLIPRING_STRAND(I) = 0
+                  IF (RETRACTOR(RET)%UPDATE > 0) THEN
+C                   Small gap to prevent early release of element
+                    GAP = 0.01*RETRACTOR(RET)%ELEMENT_SIZE
+                    GBUF%RINGSLIP(I) = GBUF%RINGSLIP(I) -GAP
+                  ELSE
+C                   Element deactivated - X0 updated in r23l114def3 for consitency
+                    GBUF%UPDATE(I) = -2
+                    GBUF%RINGSLIP(I) = ZERO
+                  ENDIF
+                ENDIF
+              ENDIF 
 C	 
+            ENDDO
+C
+          ENDIF
+C
         ENDDO
+C
+      ENDIF
+
 C
 C----------------------------------------------------------
 C
+      IF (FLAG_SLIPRING_UPDATE /= 0) THEN
         DO SLIP=1,NSLIPRING
           DO FRA = 1,SLIPRING(SLIP)%NFRAM
             IF (SLIPRING(SLIP)%FRAM(FRA)%UPDATE /= 0) THEN
+              SLIPRING(SLIP)%FRAM(FRA)%UPDATE = 0
               SLIPRING(SLIP)%FRAM(FRA)%NODE2_PREV = SLIPRING(SLIP)%FRAM(FRA)%NODE(2)
               SLIPRING(SLIP)%FRAM(FRA)%NODE(1) = SLIPRING(SLIP)%FRAM(FRA)%NODE_NEXT(1)
               SLIPRING(SLIP)%FRAM(FRA)%NODE(2) = SLIPRING(SLIP)%FRAM(FRA)%NODE_NEXT(2)
@@ -251,7 +302,18 @@ C
             ENDIF
           ENDDO      
         ENDDO
+        FLAG_SLIPRING_UPDATE = 0
+      ENDIF
 C
+      IF (FLAG_RETRACTOR_UPDATE /= 0) THEN
+        DO RET=1,NRETRACTOR
+          IF (RETRACTOR(RET)%UPDATE /= 0) THEN
+            RETRACTOR(RET)%UPDATE = 0
+            RETRACTOR(RET)%NODE(1) = RETRACTOR(RET)%NODE_NEXT(1)
+            RETRACTOR(RET)%NODE(2) = RETRACTOR(RET)%NODE_NEXT(2)
+          ENDIF  
+        ENDDO
+        FLAG_RETRACTOR_UPDATE = 0
       ENDIF
 C
 C----------------------------------------------------------
@@ -260,7 +322,7 @@ C--   Loop on shells for activation / deactivation
 C----------------------------------------------------------
 C----------------------------------------------------------
 C
-      IF ((N_SEATBELT_2D > 0).AND.((NCYCLE==0).OR.(FLAG_SLIPRING_UPDATE /= 0))) THEN
+      IF ((N_SEATBELT_2D > 0).AND.((NCYCLE==0).OR.(FLAG_SLIPRING_L /= 0))) THEN
 C
         TAG_NOD(1:NUMNOD) = 0
         CORES_SLIP(1:S_SLIPRING) = 0
