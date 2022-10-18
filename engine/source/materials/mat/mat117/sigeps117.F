@@ -223,10 +223,10 @@ c-------------------------
 !     Stress update
 !---------------------------------------------------------------
       DO I=1,NEL
-         IF (EPSN(I) < ZERO )  THEN 
-            SIGNZZ(I) = E_ELAS_N*EPSN(I)            
+         IF (EPSZZ(I) < ZERO )  THEN 
+            SIGNZZ(I) = E_ELAS_N*EPSZZ(I)            
           ELSE
-            SIGNZZ(I) = (ONE-DMG(I))*E_ELAS_N*EPSN(I)
+            SIGNZZ(I) = (ONE-DMG(I))*E_ELAS_N*EPSZZ(I)
           ENDIF
           ! sigma shear Y   
           SIGNYZ(I) = (ONE-DMG(I))*E_ELAS_S*(EPSYZ(I))
