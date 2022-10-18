@@ -241,7 +241,7 @@ void c_h3d_open_file_(char *name, int *size, my_real *percentage_error, int *com
     char* creating_application;
     creating_application=(char*) malloc(sizeof(char)*(*LEN_RADVERS+1));
 #ifdef _WIN64
-    strncpy_s(creating_application, sizeof(creating_application), RADVERS, *LEN_RADVERS);
+    strncpy_s(creating_application, *LEN_RADVERS+1, RADVERS, *LEN_RADVERS);
 #else
     strncpy(creating_application, RADVERS, *LEN_RADVERS);
 #endif
@@ -250,7 +250,7 @@ void c_h3d_open_file_(char *name, int *size, my_real *percentage_error, int *com
     char* solver_name;
     solver_name=(char*) malloc(sizeof(char)*(*LEN_RADVERS+1));
 #ifdef _WIN64
-    strncpy_s(solver_name, sizeof(solver_name) , RADVERS, *LEN_RADVERS);
+    strncpy_s(solver_name, *LEN_RADVERS+1 , RADVERS, *LEN_RADVERS);
 #else
     strncpy(solver_name, RADVERS, *LEN_RADVERS);
 #endif

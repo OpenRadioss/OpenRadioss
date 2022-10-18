@@ -123,7 +123,7 @@ void c_h3d_create_shell_vector_datatype_(int *cpt_data, char *name1, int *size1,
     {
         sprintf(NUVAR_STRING, " %d ",*nuvar);
 #ifdef _WIN64
-        strcat_s(RES_STRING,sizeof(RES_STRING),NUVAR_STRING);
+        strcat_s(RES_STRING,100,NUVAR_STRING);
 #else
         RES_STRING = strcat(RES_STRING,NUVAR_STRING);
 #endif
@@ -136,7 +136,7 @@ void c_h3d_create_shell_vector_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "LAYER/IPT %d %d " ,*layer,*ipt);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -145,7 +145,7 @@ void c_h3d_create_shell_vector_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "LAYER %d " ,*layer);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -154,7 +154,7 @@ void c_h3d_create_shell_vector_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(PLY_STRING, "PLY/IPT %d %d" ,*ply,*ipt);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),PLY_STRING);
+             strcat_s(LAYERPOOL,100,PLY_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,PLY_STRING);
 #endif
@@ -163,7 +163,7 @@ void c_h3d_create_shell_vector_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(IPT_STRING, "IPT %d " ,*ipt);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+             strcat_s(LAYERPOOL,100,IPT_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
 #endif
@@ -172,7 +172,7 @@ void c_h3d_create_shell_vector_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(IPT_STRING, "PLY %d " ,*ply);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+             strcat_s(LAYERPOOL,100,IPT_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
 #endif
@@ -184,7 +184,7 @@ void c_h3d_create_shell_vector_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "Layer Lower " );
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -193,7 +193,7 @@ void c_h3d_create_shell_vector_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "Layer Upper " );
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -202,7 +202,7 @@ void c_h3d_create_shell_vector_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(IPT_STRING, "ipt Lower " );
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+             strcat_s(LAYERPOOL,100,IPT_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
 #endif
@@ -211,7 +211,7 @@ void c_h3d_create_shell_vector_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(IPT_STRING, "ipt Upper " );
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+             strcat_s(LAYERPOOL,100,IPT_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
 #endif
@@ -221,7 +221,7 @@ void c_h3d_create_shell_vector_datatype_(int *cpt_data, char *name1, int *size1,
     {
         sprintf(IPT_STRING, "Mid" );
 #ifdef _WIN64
-        strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+        strcat_s(LAYERPOOL,100,IPT_STRING);
 #else
         LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
 #endif

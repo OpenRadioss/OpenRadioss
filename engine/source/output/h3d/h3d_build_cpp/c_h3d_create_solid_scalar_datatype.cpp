@@ -121,7 +121,7 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
     H3D_ID layer_pool_id = H3D_NULL_ID;
 
 #ifdef _WIN64
-    strcat_s(RES_STRING,sizeof(RES_STRING),cname);
+    strcat_s(RES_STRING,100,cname);
 #else
     RES_STRING = strcat(RES_STRING,cname);
 #endif
@@ -130,14 +130,14 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
     {
         sprintf(NUVAR_STRING, " LAW %d",*idMatMds);
 #ifdef _WIN64
-        strcat_s(RES_STRING,sizeof(RES_STRING),NUVAR_STRING);
+        strcat_s(RES_STRING,100,NUVAR_STRING);
 #else
         RES_STRING = strcat(RES_STRING,NUVAR_STRING);
 #endif
 
         sprintf(NUVAR_STRING, ": %s ",cmdsuvar);
 #ifdef _WIN64
-        strcat_s(RES_STRING,sizeof(RES_STRING),NUVAR_STRING);
+        strcat_s(RES_STRING,100,NUVAR_STRING);
 #else
         RES_STRING = strcat(RES_STRING,NUVAR_STRING);
 #endif
@@ -149,7 +149,7 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
     {
         sprintf(NUVAR_STRING, " %d ",*nuvar);
 #ifdef _WIN64
-        strcat_s(RES_STRING,sizeof(RES_STRING),NUVAR_STRING);
+        strcat_s(RES_STRING,100,NUVAR_STRING);
 #else
         RES_STRING = strcat(RES_STRING,NUVAR_STRING);
 #endif
@@ -165,7 +165,7 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "USER VARIABLE %d / LAYER IR IS %d %d %d" ,*nuvar,*ir,*is,*it);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -174,7 +174,7 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "USER VARIABLE %d / IR IS IT %d %d %d" ,*nuvar,*ir,*is,*it);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -183,7 +183,7 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "USER VARIABLE %d " ,*nuvar);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -192,7 +192,7 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "LAYER IR IS %d %d %d " ,*layer,*ir,*is);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -201,7 +201,7 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "LAYER %d " ,*layer);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -210,7 +210,7 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "IR IS IT %d %d %d" ,*ir,*is,*it);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -222,7 +222,7 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "Layer Lower " );
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -231,7 +231,7 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "Layer Upper " );
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -241,7 +241,7 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
     {
         sprintf(LAYER_STRING, "Mid" );
 #ifdef _WIN64
-        strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+        strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
         LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
