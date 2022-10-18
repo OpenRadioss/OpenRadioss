@@ -121,7 +121,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
     H3D_ID layer_pool_id = H3D_NULL_ID;
 
 #ifdef _WIN64
-    strcat_s(RES_STRING,sizeof(RES_STRING),cname);
+    strcat_s(RES_STRING,100,cname);
 #else
     RES_STRING = strcat(RES_STRING,cname);
 #endif
@@ -130,7 +130,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
     {
         sprintf(ID_STRING, " id %d",*id);
 #ifdef _WIN64
-        strcat_s(RES_STRING,sizeof(RES_STRING),ID_STRING);
+        strcat_s(RES_STRING,100,ID_STRING);
 #else
         RES_STRING = strcat(RES_STRING,ID_STRING);
 #endif
@@ -144,7 +144,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(NUVAR_STRING, "USER VARIABLE / IPT %d %d" ,*nuvar,*ipt);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),NUVAR_STRING);
+             strcat_s(LAYERPOOL,100,NUVAR_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,NUVAR_STRING);
 #endif
@@ -153,7 +153,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "USER VARIABLE %d " ,*nuvar);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -162,7 +162,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "LAYER %d " ,*layer);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -171,7 +171,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(PLY_STRING, "PLY/IPT %d %d" ,*ply,*ipt);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),PLY_STRING);
+             strcat_s(LAYERPOOL,100,PLY_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,PLY_STRING);
 #endif
@@ -180,7 +180,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(IPT_STRING, "IPT %d " ,*ipt);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+             strcat_s(LAYERPOOL,100,IPT_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
 #endif
@@ -189,7 +189,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(IPT_STRING, "PLY %d " ,*ply);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+             strcat_s(LAYERPOOL,100,IPT_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
 #endif
@@ -198,7 +198,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(GAUSS_STRING, "GAUSS %d " ,*gauss);
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),GAUSS_STRING);
+             strcat_s(LAYERPOOL,100,GAUSS_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,GAUSS_STRING);
 #endif
@@ -210,7 +210,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "Layer Lower " );
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -219,7 +219,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(LAYER_STRING, "Layer Upper " );
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),LAYER_STRING);
+             strcat_s(LAYERPOOL,100,LAYER_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,LAYER_STRING);
 #endif
@@ -228,7 +228,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(IPT_STRING, "npt Lower " );
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+             strcat_s(LAYERPOOL,100,IPT_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
 #endif
@@ -237,7 +237,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
         {
              sprintf(IPT_STRING, "npt Upper " );
 #ifdef _WIN64
-             strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+             strcat_s(LAYERPOOL,100,IPT_STRING);
 #else
              LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
 #endif
@@ -247,7 +247,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
     {
         sprintf(IPT_STRING, "Mid" );
 #ifdef _WIN64
-        strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+        strcat_s(LAYERPOOL,100,IPT_STRING);
 #else
         LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
 #endif
@@ -271,7 +271,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
 
         dt_id++; 
 #ifdef _WIN64
-        strncpy_s(edata_type,sizeof(edata_type),  RES_STRING , sizeof(RES_STRING)); 
+        strncpy_s(edata_type,50,  RES_STRING , sizeof(RES_STRING)); 
 #else
         strcpy(edata_type,  RES_STRING); 
 #endif

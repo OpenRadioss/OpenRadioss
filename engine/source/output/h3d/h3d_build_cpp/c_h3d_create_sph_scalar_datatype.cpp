@@ -115,7 +115,7 @@ void c_h3d_create_sph_scalar_datatype_(int *cpt_data, char *name1, int *size1, i
 
 
 #ifdef _WIN64
-     strcat_s(RES_STRING,sizeof(RES_STRING),cname);
+     strcat_s(RES_STRING,100,cname);
 #else
      RES_STRING = strcat(RES_STRING,cname);
 #endif
@@ -123,7 +123,7 @@ void c_h3d_create_sph_scalar_datatype_(int *cpt_data, char *name1, int *size1, i
     {
         sprintf(NUVAR_STRING, " %d ",*nuvar);
 #ifdef _WIN64
-        strcat_s(RES_STRING,sizeof(RES_STRING),NUVAR_STRING);
+        strcat_s(RES_STRING,100,NUVAR_STRING);
 #else
         RES_STRING = strcat(RES_STRING,NUVAR_STRING);
 #endif

@@ -110,7 +110,7 @@ void c_h3d_create_1d_tensor_datatype_(int *cpt_data, char *name, int *size, int 
     }
     
 #ifdef _WIN64
-    strcat_s(LAYERPOOL,sizeof(LAYERPOOL),IPT_STRING);
+    strcat_s(LAYERPOOL,100,IPT_STRING);
 #else
     LAYERPOOL = strcat(LAYERPOOL,IPT_STRING);
 #endif

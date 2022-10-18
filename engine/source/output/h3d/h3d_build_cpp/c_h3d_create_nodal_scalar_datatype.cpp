@@ -121,7 +121,7 @@ void c_h3d_create_nodal_scalar_datatype_(int *cpt_data, char *name, int *size, i
 	   {
              sprintf(CH_INTER_ID, "%d",*INTER_ID );
 #ifdef _WIN64
-             strcat_s(cname,sizeof(cname),CH_INTER_ID);
+             strcat_s(cname,cname_len,CH_INTER_ID);
 #else
              cname = strcat(cname,CH_INTER_ID);
 #endif
@@ -129,7 +129,7 @@ void c_h3d_create_nodal_scalar_datatype_(int *cpt_data, char *name, int *size, i
            
 	     
 #ifdef _WIN64
-             strncpy_s(edata_type,sizeof(edata_type),cname,sizeof(edata_type));
+             strncpy_s(edata_type,50,cname,cname_len);
 #else
              strcpy(edata_type,cname);
 #endif
