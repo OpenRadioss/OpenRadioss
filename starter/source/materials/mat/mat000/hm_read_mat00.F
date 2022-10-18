@@ -25,7 +25,6 @@ Chd|  HM_READ_MAT00                 source/materials/mat/mat000/hm_read_mat00.F
 Chd|-- called by -----------
 Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 

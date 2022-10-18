@@ -25,7 +25,6 @@ Chd|  HM_READ_PROP05                source/properties/rivet/hm_read_prop05.F
 Chd|-- called by -----------
 Chd|        HM_READ_PROPERTIES            source/properties/hm_read_properties.F
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F

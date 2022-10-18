@@ -25,7 +25,6 @@ Chd|  HM_READ_MAT06                 source/materials/mat/mat006/hm_read_mat06.F
 Chd|-- called by -----------
 Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_BOOLV                  source/devtools/hm_reader/hm_get_boolv.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F

@@ -27,7 +27,6 @@ Chd|        HM_READ_PERTURB_FAIL          source/general_controls/computation/hm
 Chd|        HM_READ_PERTURB_PART_SHELL    source/general_controls/computation/hm_read_perturb_part_shell.F
 Chd|        HM_READ_PERTURB_PART_SOLID    source/general_controls/computation/hm_read_perturb_part_solid.F
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE PLOT_DISTRIB( ARRAY,S_ARRAY, NB_INTERV,SIZEY,X_MINVALUE,

@@ -27,7 +27,6 @@ Chd|        HM_READ_PROPERTIES            source/properties/hm_read_properties.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        DEFBEAM_SECT                  source/properties/beam/hm_read_prop18.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F

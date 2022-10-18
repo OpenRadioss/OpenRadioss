@@ -27,7 +27,6 @@ Chd|        HM_READ_INTERFACES            source/interfaces/reader/hm_read_inter
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        DEFINTER                      source/interfaces/interf1/definter.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        FRETITL                       source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F

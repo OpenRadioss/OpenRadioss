@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        BIDON2                        source/system/machine.F       
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        FRETITL                       source/starter/freform.F      
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F

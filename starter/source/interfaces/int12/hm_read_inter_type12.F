@@ -25,7 +25,6 @@ Chd|  HM_READ_INTER_TYPE12          source/interfaces/int12/hm_read_inter_type12
 Chd|-- called by -----------
 Chd|        HM_READ_INTER_FSI             source/interfaces/reader/hm_read_inter_fsi.F
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        NGR2USR                       source/system/nintrr.F        

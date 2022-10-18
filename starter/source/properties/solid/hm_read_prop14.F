@@ -478,7 +478,6 @@ Chd|-- called by -----------
 Chd|        HM_READ_PROPERTIES            source/properties/hm_read_properties.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_READ_ALE_CLOSE             source/ale/hm_read_ale_close.F

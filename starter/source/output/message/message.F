@@ -708,9 +708,6 @@ Chd|        READ_IMPDISP                  source/constraints/general/impvel/read
 Chd|        READ_IMPVEL                   source/constraints/general/impvel/read_impvel.F
 Chd|        READ_IMPVEL_FGEO              source/constraints/general/impvel/read_impvel_fgeo.F
 Chd|        READ_IMPVEL_LAGMUL            source/constraints/general/impvel/read_impvel_lagmul.F
-Chd|        READ_INTER_KINE_TYPE18        source/interfaces/int18/read_inter_kine_type18.F
-Chd|        READ_INTER_TYPE02             source/interfaces/int02/read_inter_type02.F
-Chd|        READ_INTER_TYPE08             source/interfaces/int08/read_inter_type08.F
 Chd|        READ_MONVOL                   source/airbag/read_monvol.F   
 Chd|        READ_MSGFILE                  source/output/message/read_msgfile.F
 Chd|        READ_PCH_FILE                 source/constraints/fxbody/read_pch_file.F

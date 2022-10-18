@@ -38,7 +38,6 @@ Chd|        CHEKMP2                       source/elements/initia/initia.F
 Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|        CONNESURF                     source/initial_conditions/inivol/connesurf.F
 Chd|        EPORIN3                       source/ale/ale3d/eporin3.F    
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        FXBSINI                       source/constraints/fxbody/fxbsini.F
 Chd|        FXBVINI                       source/constraints/fxbody/fxbvini.F

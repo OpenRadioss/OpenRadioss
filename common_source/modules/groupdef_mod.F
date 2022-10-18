@@ -345,9 +345,6 @@ Chd|        READ_IMPDISP_FGEO             starter/source/constraints/general/imp
 Chd|        READ_IMPVEL                   starter/source/constraints/general/impvel/read_impvel.F
 Chd|        READ_IMPVEL_FGEO              starter/source/constraints/general/impvel/read_impvel_fgeo.F
 Chd|        READ_IMPVEL_LAGMUL            starter/source/constraints/general/impvel/read_impvel_lagmul.F
-Chd|        READ_INTER_KINE_TYPE18        starter/source/interfaces/int18/read_inter_kine_type18.F
-Chd|        READ_INTER_TYPE02             starter/source/interfaces/int02/read_inter_type02.F
-Chd|        READ_INTER_TYPE08             starter/source/interfaces/int08/read_inter_type08.F
 Chd|        READ_MONVOL                   starter/source/airbag/read_monvol.F
 Chd|        READ_RWALL                    starter/source/constraints/general/rwall/read_rwall.F
 Chd|        READ_SENSOR_ENERGY            starter/source/tools/sensor/read_sensor_energy.F

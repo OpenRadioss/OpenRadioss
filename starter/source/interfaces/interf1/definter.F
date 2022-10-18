@@ -36,7 +36,6 @@ Chd|        HM_READ_INTER_TYPE07          source/interfaces/int07/hm_read_inter_
 Chd|        HM_READ_INTER_TYPE11          source/interfaces/int11/hm_read_inter_type11.F
 Chd|        HM_READ_INTER_TYPE24          source/interfaces/int24/hm_read_inter_type24.F
 Chd|        HM_READ_INTER_TYPE25          source/interfaces/int25/hm_read_inter_type25.F
-Chd|        READ_INTER_TYPE02             source/interfaces/int02/read_inter_type02.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

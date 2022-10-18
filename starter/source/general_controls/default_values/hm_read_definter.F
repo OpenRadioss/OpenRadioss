@@ -25,7 +25,6 @@ Chd|  HM_READ_DEFINTER              source/general_controls/default_values/hm_re
 Chd|-- called by -----------
 Chd|        CONTRL                        source/starter/contrl.F       
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
 Chd|        HM_READ_DEFINTER_TYPE02       source/general_controls/default_values/hm_read_definter_type02.F

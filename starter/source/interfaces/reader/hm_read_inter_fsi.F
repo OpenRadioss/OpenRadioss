@@ -25,7 +25,6 @@ Chd|  HM_READ_INTER_FSI             source/interfaces/reader/hm_read_inter_fsi.F
 Chd|-- called by -----------
 Chd|        HM_READ_INTERFACES            source/interfaces/reader/hm_read_interfaces.F
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        FRETITL                       source/starter/freform.F      
 Chd|        HM_READ_INTER_TYPE01          source/interfaces/int01/hm_read_inter_type01.F
 Chd|        HM_READ_INTER_TYPE09          source/interfaces/int09/hm_read_inter_type09.F

@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F

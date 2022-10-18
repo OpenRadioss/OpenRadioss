@@ -26,8 +26,6 @@ Chd|-- called by -----------
 Chd|        HM_READ_UNIT                  source/general_controls/computation/hm_read_unit.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        MY_EXIT                       source/output/analyse/analyse.c
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE UNIT_CODE(LENGTH,FIELD,KEY,FAC,IERR1,ID)

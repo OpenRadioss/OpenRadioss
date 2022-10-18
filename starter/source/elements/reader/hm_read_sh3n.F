@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ANODSET                       source/output/analyse/analyse_node.c
 Chd|        APARTSET                      source/output/analyse/analyse_part.c
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        VDOUBLE                       source/system/sysfus.F        
 Chd|        USR2SYS                       source/system/sysfus.F        
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

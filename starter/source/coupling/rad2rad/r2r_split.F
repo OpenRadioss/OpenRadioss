@@ -27,7 +27,6 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        CONSTIT                       source/elements/nodes/constit.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        PRELECSEC                     source/tools/sect/prelecsec.F 
 Chd|        TAGELEM_R2R                   source/coupling/rad2rad/tagelem_r2r.F
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    

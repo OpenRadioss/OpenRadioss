@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        LEC_INISTATE                  source/elements/initia/lec_inistate.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        HM_GET_FLOAT_ARRAY            source/devtools/hm_reader/hm_get_float_array.F
 Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F

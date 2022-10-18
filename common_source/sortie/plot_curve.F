@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        ADD_MASS_STAT                 starter/source/tools/admas/add_mass_stat.F
 Chd|        OUTRIN                        starter/source/materials/time_step/outri.F
 Chd|-- calls ---------------
-Chd|        FREERR                        starter/source/starter/freform.F
 Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
 Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
 Chd|====================================================================

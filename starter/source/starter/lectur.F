@@ -95,7 +95,6 @@ Chd|        FILLCNI2                      source/spmd/domdec2.F
 Chd|        FILL_INTERCEP                 source/spmd/node/ddtools.F    
 Chd|        FIXMODIF_ND                   source/elements/solid/solide10/dim_s10edg.F
 Chd|        FLOWDEC                       source/fluid/flowdec.F        
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        FSDCOD                        source/system/fsdcod.F        
 Chd|        FVDIM                         source/airbag/fvmesh.F        
 Chd|        FVMESH0                       source/airbag/fvmesh0.F       

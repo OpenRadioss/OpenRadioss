@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        CONTRL                        source/starter/contrl.F       
 Chd|-- calls ---------------
 Chd|        FIND_YIELD_ENGINE             source/general_controls/computation/hm_read_sms.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F

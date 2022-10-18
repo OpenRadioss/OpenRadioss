@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        BOXBOX                        source/model/box/boxbox.F     
 Chd|        BOXTAGN                       source/model/box/bigbox.F     
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F

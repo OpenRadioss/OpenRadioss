@@ -25,7 +25,6 @@ Chd|  PRELECSEC4BOLT                source/tools/sect/prelecsec4bolt.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        FRETITL                       source/starter/freform.F      
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F

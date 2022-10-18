@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        FRETITL                       source/starter/freform.F      
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F

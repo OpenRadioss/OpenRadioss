@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        RINIT3                        source/elements/spring/rinit3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        INIT_SKEW45                   source/elements/joint/rjoint/rini45.F
 Chd|        GET_SKEW45                    source/elements/joint/rjoint/rini45.F
 Chd|        GET_U_FUNC                    source/user_interface/uaccess.F

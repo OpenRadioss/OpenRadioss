@@ -28,7 +28,6 @@ Chd|        CONTRL                        source/starter/contrl.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        AUTO_NODE_MERGE               source/elements/nodes/auto_node_merge.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 

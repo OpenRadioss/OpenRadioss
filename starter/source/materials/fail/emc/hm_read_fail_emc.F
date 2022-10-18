@@ -25,7 +25,6 @@ Chd|  HM_READ_FAIL_EMC              source/materials/fail/emc/hm_read_fail_emc.F
 Chd|-- called by -----------
 Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F

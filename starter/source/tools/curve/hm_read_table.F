@@ -25,7 +25,6 @@ Chd|  HM_READ_TABLE1                source/tools/curve/hm_read_table.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
 Chd|        HM_READ_TABLE1_0              source/tools/curve/hm_read_table1_0.F
 Chd|        HM_READ_TABLE1_1              source/tools/curve/hm_read_table1_1.F
@@ -131,7 +130,6 @@ Chd|  HM_READ_TABLE2                source/tools/curve/hm_read_table.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
 Chd|        HM_READ_TABLE2_0              source/tools/curve/hm_read_table2_0.F
 Chd|        HM_READ_TABLE2_1              source/tools/curve/hm_read_table2_1.F

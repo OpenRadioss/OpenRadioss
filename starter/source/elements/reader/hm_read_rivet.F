@@ -27,7 +27,6 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ANODSET                       source/output/analyse/analyse_node.c
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
 Chd|        RIVET0                        source/elements/reader/rivet0.F
 Chd|        VDOUBLE                       source/system/sysfus.F        

@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        FRETITL                       source/starter/freform.F      
 Chd|        INIT_MAT_WEIGHT               source/user_interface/set_dd_mat_weight.F
 Chd|        DDWEIGHTS_MOD                 share/modules1/ddweights_mod.F

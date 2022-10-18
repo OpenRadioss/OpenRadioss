@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        HM_READ_PROP33                source/properties/spring/hm_read_prop33.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        SET_U_GEO                     source/user_interface/uaccess.F

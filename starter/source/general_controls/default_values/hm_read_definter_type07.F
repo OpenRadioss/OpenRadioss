@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        HM_READ_DEFINTER              source/general_controls/default_values/hm_read_definter.F
 Chd|-- calls ---------------
 Chd|        DEFINTER                      source/interfaces/interf1/definter.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 

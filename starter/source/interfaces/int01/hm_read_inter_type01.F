@@ -25,7 +25,6 @@ Chd|  HM_READ_INTER_TYPE01          source/interfaces/int01/hm_read_inter_type01
 Chd|-- called by -----------
 Chd|        HM_READ_INTER_FSI             source/interfaces/reader/hm_read_inter_fsi.F
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        NGR2USR                       source/system/nintrr.F        
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F

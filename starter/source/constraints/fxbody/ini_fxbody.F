@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        ORTHRG                        source/constraints/fxbody/ortho_normalization.F
 Chd|        ORTHSR                        source/constraints/fxbody/ortho_normalization.F

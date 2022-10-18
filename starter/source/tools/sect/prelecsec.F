@@ -28,7 +28,6 @@ Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
 Chd|        R2R_SPLIT                     source/coupling/rad2rad/r2r_split.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        FRETITL                       source/starter/freform.F      
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F

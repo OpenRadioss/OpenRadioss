@@ -27,7 +27,6 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ANODSET                       source/output/analyse/analyse_node.c
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        UDOUBLE                       source/system/sysfus.F        
 Chd|        USR2SYS                       source/system/sysfus.F        
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -882,7 +881,6 @@ Chd|-- called by -----------
 Chd|        CONTRL                        source/starter/contrl.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================

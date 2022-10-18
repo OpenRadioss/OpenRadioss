@@ -310,9 +310,6 @@ Chd|        HM_READ_RWALL_THERM           source/constraints/general/rwall/hm_re
 Chd|        HM_READ_SLIPRING              source/tools/seatbelts/hm_read_slipring.F
 Chd|        HM_READ_SPCND                 source/constraints/sph/hm_read_spcnd.F
 Chd|        LECTRANS                      source/model/transformation/lectrans.F
-Chd|        READ_INTER_KINE_TYPE18        source/interfaces/int18/read_inter_kine_type18.F
-Chd|        READ_INTER_TYPE02             source/interfaces/int02/read_inter_type02.F
-Chd|        READ_INTER_TYPE08             source/interfaces/int08/read_inter_type08.F
 Chd|-- calls ---------------
 Chd|        FREERR                        source/starter/freform.F      
 Chd|====================================================================

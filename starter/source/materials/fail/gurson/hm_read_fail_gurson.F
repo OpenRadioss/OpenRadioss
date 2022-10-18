@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        GET_LEMAX                     ../common_source/modules/nlocal_reg_mod.F
 Chd|        GET_LENGTH                    ../common_source/modules/nlocal_reg_mod.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F

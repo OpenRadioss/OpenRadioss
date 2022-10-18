@@ -25,7 +25,6 @@ Chd|  PRELECDET                     source/initial_conditions/detonation/prelecd
 Chd|-- called by -----------
 Chd|        READ_DETONATORS               source/initial_conditions/detonation/read_detonators.F
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F

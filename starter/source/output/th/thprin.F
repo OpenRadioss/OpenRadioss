@@ -25,7 +25,6 @@ Chd|  THPRIN                        source/output/th/thprin.F
 Chd|-- called by -----------
 Chd|        HM_READ_THGROU                source/output/th/hm_read_thgrou.F
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|====================================================================
       SUBROUTINE THPRIN(
@@ -93,7 +92,6 @@ Chd|  THPRIN_SUB                    source/output/th/thprin.F
 Chd|-- called by -----------
 Chd|        HM_READ_THGROU                source/output/th/hm_read_thgrou.F
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE THPRIN_SUB(
