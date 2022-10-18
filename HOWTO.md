@@ -129,12 +129,14 @@ The Git Bash tool is not need, but can be installed.
    * Next will install the packages.
 
 * Post installation task must de done :
-  In cygwin, /bin/link.exe program conflicts with Visual Studio. 
-  Rename it to avoid issues :
+
+   * In cygwin, /bin/link.exe program conflicts with Visual Studio. 
+   * Rename it to avoid issues :
 
          Launch cygwin
          in the shell : move /bin/link.exe in /bin/link_cygwin.exe :
          mv /bin/link.exe in /bin/link_cygwin.exe 
+
 
 **Notes**
 Cygwin is a Unix environment for Windows, all unix tools are accessible.
@@ -162,9 +164,15 @@ Launch cygwin build environment and apply the git configuration :
 
             git lfs install
 
+* Add in Git global environment the autocrlf flag
+
+            git config --global core.autocrlf true
+	    
 * Create the ssh key & set it in GitHub
 
             ssh-keygen -t rsa
+  
+  **Note: Accept all defaults, Standard directory, no passphrase**
 
 * Copy the new generated ssh key in cygwin home directory
   As a workaround to used git in cygwin, copy the ssh key in cygwin home directory 
