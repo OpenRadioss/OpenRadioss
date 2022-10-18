@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,IFLAG,IMOD
+      INTEGER I,J,II,IFLAG,IMOD,NUVARJ
       my_real 
      .  KV0,P,G,DAV,EPXX,EPYY,EPZZ
       my_real 
@@ -87,7 +87,7 @@ C-----------------------------------------------
      .  AAK(NPRONY),BBK(NPRONY),BETAK(NPRONY),KV(NPRONY),HP0,
      .  TRACE,RBULK,HP
 C=======================================================================
-      NUVAR = NUVAR/NPRONY
+      NUVARJ = (NUVAR-6)/NPRONY
       G  = ZERO
       RBULK = ZERO
       KV0 = UPARAM(IADBUF)
@@ -145,7 +145,7 @@ C
            SV6(I) = ZERO
 C            
            DO J= 1,NPRONY  
-             II = NUVAR*(J-1)
+             II = NUVARJ*(J-1)
 C                                                                    
              H0(1) = UVAR(I,II + 1)                         
              H0(2) = UVAR(I,II + 2)                         
@@ -206,7 +206,7 @@ C
            SV6(I) = ZERO
 C            
            DO J= 1,NPRONY  
-             II = NUVAR*(J-1)
+             II = NUVARJ*(J-1)
 C                                                                    
              H0(1) = UVAR(I,II + 1)                         
              H0(2) = UVAR(I,II + 2)                         

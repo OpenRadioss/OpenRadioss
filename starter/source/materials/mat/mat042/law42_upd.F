@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE LAW42_UPD(IOUT,TITR    ,MAT_ID,UPARAM)
+      SUBROUTINE LAW42_UPD(IOUT,TITR    ,MAT_ID,UPARAM, PM, GAMA_INF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -42,6 +42,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
+#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -49,15 +50,16 @@ C-----------------------------------------------
       INTEGER MAT_ID,IOUT
       my_real 
      .         UPARAM(*)
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM  
+      my_real , INTENT(IN)  :: GAMA_INF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-
-c
       INTEGER NDATA,I,K,INDX
       my_real
      .   MU(5),AL(5),LAM_MIN,LAM_MAX,STRAIN_MIN,STRAIN_MAX,
-     .   D11,D22,D12,LAM1,LAM2,LAM3,LAM12,INVD1,INVD2
+     .   D11,D22,D12,LAM1,LAM2,LAM3,LAM12,INVD1,INVD2,GS,BULK,YOUNG,
+     .   NU
       my_real , DIMENSION(:), ALLOCATABLE :: STRESS,STRETCH
       INTEGER , DIMENSION(:), ALLOCATABLE :: ITAB_ON_A,INDEX
 
@@ -67,11 +69,37 @@ C=======================================================================
        NDATA = 10000  ! La=0.1,10, EM3!!
        LAM_MIN = EM3                                         
        LAM_MAX = TEN 
-C       
-       DO I=1,5
-         MU(I) = UPARAM(I)
-         AL(I) = UPARAM(5+I)
-       ENDDO  
+       GS = ZERO
+C      
+       IF(GAMA_INF <  ONE) THEN 
+         DO I=1,5
+           UPARAM(I) = UPARAM(I)/GAMA_INF
+           MU(I) = UPARAM(I)
+           AL(I) = UPARAM(5+I)
+           GS = GS + MU(I)*AL(I)
+         ENDDO 
+         NU = UPARAM(14)
+         BULK = GS*(ONE+NU)/MAX(EM20,THREE*(ONE-TWO*NU)) 
+         UPARAM(11) = BULK
+         !! parameters 
+          YOUNG  = GS*(ONE + NU)                                              
+          PM(20) = YOUNG                                                
+          PM(22) = GS !! TWO*G                                                  
+          PM(24) = YOUNG/(ONE - NU**2)                                   
+          PM(32) = BULK                                                
+          PM(100) = BULK 
+C     Formulation for solid elements time step computation.
+         PM(105) = GS/(BULK + TWO_THIRD*GS) 
+         !!
+         WRITE(IOUT,2000) MAT_ID
+         WRITE(IOUT,2100) HALF*GS,BULK
+         WRITE(IOUT,2200) MU(1),MU(2),MU(3),MU(4),MU(5)          
+       ELSE
+         DO I=1,5
+           MU(I) = UPARAM(I)
+           AL(I) = UPARAM(5+I)
+         ENDDO  
+       ENDIF 
 C
        ALLOCATE (STRETCH(NDATA))                              
        ALLOCATE (STRESS(NDATA))                                  
@@ -220,5 +248,19 @@ C
      & 8X,'COMPRESSION:    UNSTABLE AT A NOMINAL STRAIN LESS THAN ',1PG20.13)
  1200 FORMAT(
      & 8X,'TENSION:        UNSTABLE AT A NOMINAL STRAIN LARGER THAN ',1PG20.13)
+ 2000 FORMAT
+     & (//5X, 'MODIFIED  MATERIAL RIGIDITY    ' ,/,
+     &    5X, ' ---------------------------', /,
+     &    5X, 'MATERIAL LAW =  LAW42 ',/,
+     &    5X, 'MATERIAL NUMBER =',I10,//) 
+ 2100 FORMAT (
+     & 5X,'INITIAL SHEAR MODULUS . . . . . . . . .=',E12.4/
+     & 5X,'INITIAL BULK MODULUS. . .. . . . . . .=',E12.4//)
+ 2200 FORMAT
+     & (5X,  'MU1 . . . . . . . . . . . . . . . . . .=',1PG20.13/ 
+     &  5X,  'MU2 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     &  5X,  'MU3 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     &  5X,  'MU4 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     &  5X,  'MU5 . . . . . . . . . . . . . . . . . .=',1PG20.13/)
 c-----------
       END

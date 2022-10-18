@@ -107,6 +107,7 @@ C
       BETA(1:100)  = ZERO
       K(1:100)     = ZERO
       BETAK(1:100) = ZERO
+      
 C
       !IFLAG = 0 this flag was dedicated to keep old fomrulation for version older than
       ! 1st Card - Flags and prony order 
@@ -272,7 +273,7 @@ C
       NUPARAM = 3 + 4*NPRONY 
       NUPARAM = 4 + 4*NPRONY 
       UPARAM(NUPARAM) = IMOD
-      NUVAR = 7*NPRONY
+      NUVAR = 6 + 7*NPRONY
 C
       NFUNC = 0
 C

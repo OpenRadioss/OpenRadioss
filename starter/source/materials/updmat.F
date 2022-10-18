@@ -100,11 +100,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II,IMAT,ILAW,IRUP,MAT_ID,IADD,IFC,FLAG_HE,NFUNC,NFUNCL,NUMTABL,
-     .        NPARAM,NUPARF,NUM_FAIL,IR,FLAG_FIT,IFAILG,NORDRE,IALGO
+     .        NPARAM,NUPARF,NUM_FAIL,IR,FLAG_FIT,IFAILG,NORDRE,IALGO,
+     .        IADD_VISC , NPARAM_VISC,IVISC,NPRONY,J,ITYPE_VISC,FORM
+      my_real
+     .  GAMA_INF
       INTEGER, DIMENSION(NUMMAT)     :: MULLINS,GURSON
       INTEGER, DIMENSION(MAXTAB)     :: TABLE_ID
       INTEGER, DIMENSION(:), POINTER :: IFUNC,ITABLE
-      my_real, DIMENSION(:), POINTER :: UPARAM,UPARF
+      my_real, DIMENSION(:), POINTER :: UPARAM,UPARF,UPARAM_VISC
       TYPE(MLAW_TAG_), POINTER :: MTAG
       CHARACTER*nchartitle, TITR
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
@@ -165,6 +168,24 @@ c
         NPARAM   = MIN(IPM(9,IMAT),SBUFMAT)
         UPARAM   => BUFMAT(IADD:IADD+NPARAM-1) 
         MATPARAM => MAT_PARAM(IMAT)
+        !/visc/prony
+        ITYPE_VISC = IPM(222,IMAT)
+        GAMA_INF = ONE
+        IF(ITYPE_VISC == 2) THEN
+          IADD_VISC   = MAX(1,IPM(223,IMAT))
+          NPARAM_VISC = IPM(224 ,IMAT)
+          UPARAM_VISC   => BUFMAT(IADD_VISC:IADD_VISC + NPARAM_VISC-1)
+          NPRONY = UPARAM_VISC(1)
+          FORM  = UPARAM_VISC(2)
+          IF(FORM == 1) THEN
+            GAMA_INF = ONE 
+            DO J=1,NPRONY
+              GAMA_INF = GAMA_INF - UPARAM_VISC(3 + J)
+            ENDDO
+            GAMA_INF = MAX(EM20, GAMA_INF)
+          ENDIF  
+        ENDIF
+        GAMA_INF = MIN(GAMA_INF, ONE)
 c
 c-----------------------------------------------------------------------
 c       Replace Func ID -> function system number in IFUNC table
@@ -197,7 +218,7 @@ c------------------
 c-------------------------
           CASE (42) 
 c------------------
-            CALL LAW42_UPD(IOUT,TITR,MAT_ID,UPARAM)        
+            CALL LAW42_UPD(IOUT,TITR,MAT_ID,UPARAM,PM(1,IMAT),GAMA_INF)        
 c-------------------------
           CASE (58) 
 c------------------
@@ -210,14 +231,13 @@ c
 c-------------------------
           CASE (62) 
 c------------------
-            CALL LAW62_UPD(IOUT,TITR,MAT_ID,NPARAM,UPARAM)   
-
+            CALL LAW62_UPD(IOUT,TITR,MAT_ID,NPARAM,UPARAM, PM(1,IMAT),GAMA_INF) 
 c------------------
           CASE (69) 
 c------------------
            CALL LAW69_UPD(IOUT, TITR    , MAT_ID, UPARAM, NFUNC, 
      .                    IFUNC, FUNC_ID , NPC   , PLD , 
-     .                    PM(1,IMAT),IPM(1,IMAT))
+     .                    PM(1,IMAT),IPM(1,IMAT),GAMA_INF)
 c          
 c------------------
           CASE (76) 
