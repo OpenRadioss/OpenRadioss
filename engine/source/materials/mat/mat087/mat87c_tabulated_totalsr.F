@@ -160,7 +160,7 @@ C-----------------------------------------------
      .      DSDEPL1,DSDEPL2,DSDEPL3,NORMEF,EPSPI,
      .      ASWIFT ,EPSO,QVOCE,BETA,KO,ALPHA,NEXP,
      .      EXPV,KSWIFT,KVOCE,UNSP,UNSC,PLA_I,YLD_I,NORMSIG,
-     .      DSWIFT,DVOCE,DFEPSP,YLDP, p2,UNSPT,UNSCT,DFSR,TREF,DVM,
+     .      DSWIFT,DVOCE,DFEPSP, p2,UNSPT,UNSCT,DFSR,TREF,DVM,
      .      K1,K2,AHS,BHS,MHS,EPS0HS,NHS,HMART,TEMP0,ETA,CP, AM    ,
      .          BM    , CM    , DM    , PPM    , QM    , E0MART, VM0 
       my_real
@@ -563,7 +563,7 @@ C
      .         + NORMYY * (DSDEPL2 + DADEPL2)
      .         + NORMXY * (DSDEPL3 + DADEPL3)
 
-              DF = DF - YLDP
+              DF = DF - DYDX(I)
               DF = SIGN(MAX(ABS(DF),EM20) ,DF) 
 c
               ! Plastic multiplier
