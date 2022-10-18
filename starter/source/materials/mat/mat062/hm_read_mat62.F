@@ -181,27 +181,10 @@ c
       IF (NUG >= HALF) NUG = ZEP499
       IF (VISCMAX == ZERO) VISCMAX=EP20
       ! 
-      IF(NVISC > 0 )THEN
-        SELECT CASE (FLAG_RIGIDITY)
-          CASE (0,1)
-             ! Info message
-            CALL ANCMSG(MSGID=2086,
-     .                MSGTYPE=MSGINFO,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=MAT_ID,
-     .                C1=TITR)
-          CASE (2)
-            DO J=1,NORDER
+      IF(NVISC > 0 .AND.  FLAG_RIGIDITY == 2)THEN
+         DO J=1,NORDER
                MU(J)=  MU(J)/ GAMMAINF
-            ENDDO
-             ! Info message
-            CALL ANCMSG(MSGID=2085,
-     .                MSGTYPE=MSGINFO,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=MAT_ID,
-     .                C1=TITR) 
-          
-          END SELECT 
+         ENDDO
       ENDIF 
 c
       GS = ZERO
@@ -290,6 +273,15 @@ c-----------------
 c-----------------
       WRITE(IOUT,1100) TRIM(TITR),MAT_ID,62
       WRITE(IOUT,1000)
+      IF(IVISC > 0 ) THEN
+         SELECT CASE (FLAG_RIGIDITY)
+          CASE (0,1)
+            FLAG_RIGIDITY = 1
+            WRITE(IOUT,1010)FLAG_RIGIDITY
+          CASE (2)
+            WRITE(IOUT,1020)FLAG_RIGIDITY
+          END SELECT
+      ENDIF
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
@@ -333,6 +325,13 @@ C-----------------
      & 5X,'VISCOUS STRESS FORMULATION . . . . . . =',I8 /
      &10X,' 0 : VISCOUS STRESS IS DEVIATORIC ' , /
      &10X,' 1 : VISCOUS STRESS IS SPHERICAL AND DEVIATORIC' )
+ 1010 FORMAT(/
+     & 5X,'LONG-TERM RIGIDITY FLAG . . . . . =',I8 /
+     & 5X,'INITIAL ELASTIC MODULUS IS THE INSTANTANEOUS RIGIDITY ' , / )
+ 1020 FORMAT(/
+     & 5X,'LONG-TERM RIGIDITY FLAG . . . . . =',I8 /
+     & 5X,' INITIAL ELASTIC MODULUS IS THE LONG-TERM RIGIDITY. ',/
+     & 5X,' THE MU VALUE ARE UPDATED ' , / )      
 C-----------------
       RETURN
       END
