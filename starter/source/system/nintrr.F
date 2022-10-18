@@ -315,6 +315,11 @@ Chd|        FREERR                        source/starter/freform.F
 Chd|====================================================================
       INTEGER FUNCTION NGR2USR(IU,IGR,NGR)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+      USE HM_CURRENT_OPTION_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -331,10 +336,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IE
+      INTEGER I, IE, ID
+      CHARACTER KEY*ncharkey,TITR*nchartitle
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
-C-----------------------------------------------          
+C----------------------------------------------- 
       NGR2USR=0
       IF(IU==0)THEN
         NGR2USR=0
@@ -347,7 +353,20 @@ C-----------------------------------------------
           RETURN
         ENDIF
       ENDDO
-      IF(ISKIP_NGR2USR_ERROR==0)CALL FREERR(3)
+      IF(ISKIP_NGR2USR_ERROR==0) THEN
+
+        CALL HM_GET_CURRENT_OPTION(OPTION_ID = ID,
+     .                           OPTION_TITR = TITR,
+     .                           KEYWORD1 = KEY)
+        CALL ANCMSG(MSGID=2087,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              C1=KEY,
+     .              I1=ID,
+     .              C2=KEY,
+     .              C3=TITR,
+     .              I2=IU)
+      ENDIF
       ISKIP_NGR2USR_ERROR = 0
       RETURN
       END
