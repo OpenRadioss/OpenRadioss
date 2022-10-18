@@ -33,7 +33,12 @@ Chd|====================================================================
      .           NEL     ,IMAT    ,IVISC   ,IPM     ,UPARAM  ,
      .           UVAR    ,RHO     ,VISCMAX ,SOUNDSP ,TIMESTEP, 
      .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  , 
-     .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     )
+     .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
+     .           MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
+     .           MFZX    ,MFZY    ,MFZZ    ,
+     .           SO1     ,SO2     ,SO3     ,SO4     ,SO5     ,SO6     ,
+     .           S1      ,S2      ,S3      ,S4      ,S5      ,S6      ,
+     .           NGL     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,13 +50,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,IMAT,IVISC,IADBUF
+      INTEGER NEL,IMAT,IVISC,IADBUF,NGL(NEL),NUPARAM
       INTEGER IPM(NPROPMI,*)
       my_real
-     .   UPARAM(*),UVAR(*),RHO(NEL),VISCMAX(NEL),
-     .   SOUNDSP(NEL),EPSPXX(NEL),EPSPYY(NEL),EPSPZZ(NEL), 
-     .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
-     .   SV1(NEL),SV2(NEL),SV3(NEL),SV4(NEL),SV5(NEL),SV6(NEL)
+     .   UPARAM(*),UVAR(*)
+!     
+       my_real, DIMENSION(NEL) :: RHO,VISCMAX,SOUNDSP,EPSPXX,EPSPYY,EPSPZZ, 
+     .                            EPSPXY,EPSPYZ,EPSPZX,
+     .                            SV1,SV2,SV3,SV4,SV5,SV6, 
+     .                            SO1 ,SO2 ,SO3 ,SO4 ,SO5 ,SO6 ,
+     .                            S1  ,S2  ,S3  ,S4  ,S5  ,S6  ,
+     .                            MFXX,MFXY,MFXZ,MFYX,MFYY,MFYZ,
+     .                            MFZX,MFZY,MFZZ
       my_real
      .   TIMESTEP
 C-----------------------------------------------
@@ -61,7 +71,8 @@ C-----------------------------------------------
 C=======================================================================        
        IADBUF = IPM(223,IMAT)  
        NUVAR  = IPM(225,IMAT)  
-c
+       NUPARAM = IPM(224,IMAT)
+       !
        IF (IVISC == 1) THEN
          NPRONY  = NINT(UPARAM(IADBUF + 1))
          CALL VISC_PRONY(
@@ -69,6 +80,14 @@ c
      .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  , 
      .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
      .           TIMESTEP,RHO     ,VISCMAX ,SOUNDSP )
+       ELSEIF(IVISC == 2) THEN
+         NPRONY  = NINT(UPARAM(IADBUF ))
+         CALL VISC_PRONY_LSTRAIN(
+     .           NEL     ,NUVAR   ,NPRONY  ,IADBUF  ,NUPARAM   ,UPARAM  ,
+     .           UVAR    , TIMESTEP    ,
+     .           MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
+     .           MFZX    ,MFZY    ,MFZZ   ,
+     .           S1      ,S2      ,S3      ,S4      ,S5      ,S6      )  
        ENDIF       
 c------------
        RETURN

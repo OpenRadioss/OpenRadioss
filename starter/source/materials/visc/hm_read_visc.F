@@ -77,7 +77,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,MAT_ID,IMID,UID,IUNIT,FLAGUNIT,NFUNC,NUPARAM,NUVAR,
-     .   MAXPARAM,MAXFUNC,NV,IMAT,IVISC,ILAW,MTN,N_NET,IADD,HM_NVISC,FLAGMAT
+     .   MAXPARAM,MAXFUNC,NV,IMAT,IVISC,ILAW,MTN,N_NET,IADD,HM_NVISC,FLAGMAT,
+     .   IFORM
       PARAMETER (MAXPARAM = 1000)
       PARAMETER (MAXFUNC  = 100)   
       INTEGER ,DIMENSION(MAXFUNC)   :: IFUNC
@@ -86,6 +87,7 @@ C-----------------------------------------------
 c======================================================================-       
       VISC_TAG(:)%NUVAR = 0
 c
+
 c--------------------------------------------------
 c     COUNT VISCOSITY MODELS USING CFG FILES
 c--------------------------------------------------
@@ -147,7 +149,9 @@ C--------------------------------------------------
 C          CHECK VISCOSITY MODEL
 C--------------------------------------------------
         IF(KEY(1:5) == 'PRONY')THEN
-              IVISC=1 
+              IVISC = 1 
+        ELSEIF(KEY(1:6) == 'LPRONY') THEN
+              IVISC = 2      
         ELSE
               IVISC=0
         ENDIF      
@@ -176,8 +180,16 @@ c--------------------------------------------
      .                                 NUVAR  ,IFUNC   , MAXFUNC,
      .                                 NFUNC  ,UNITAB  , LSUBMODEL,
      .                                 TABLE  ,MAT_ID  )
-
-              IF (IPM(216  ,I)>0) THEN
+              IF (IPM(216 ,I) > 0) THEN
+               IPM(216  ,I) = 3
+              ELSE
+               IPM(216  ,I) = 1
+              END IF
+            CASE (2) 
+               CALL HM_READ_VISC_LPRONY( UPARAM ,MAXPARAM, NUPARAM, 
+     .                                   NUVAR  ,UNITAB  ,LSUBMODEL,
+     .                                   MAT_ID  )
+              IF (IPM(216 ,I) > 0) THEN
                IPM(216  ,I) = 3
               ELSE
                IPM(216  ,I) = 1
@@ -187,7 +199,7 @@ c--------------------------------------------
             END SELECT
 c-------------------------
             MTN = INT(PM(19,I))      
-            IF (IVISC == 1 .AND . MTN == 100) THEN
+            IF (IVISC >= 1 .AND . MTN == 100) THEN
              IADD    = IPM(7,I)
              N_NET = NINT(BUFMAT(IADD) )
              IF (N_NET /= 0) 

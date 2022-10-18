@@ -33,7 +33,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE LAW69_UPD(IOUT,TITR    ,MAT_ID,UPARAM,NFUNC,
-     .                      IFUNC, FUNC_ID,NPC   ,PLD   ,PM,IPM)
+     .                      IFUNC, FUNC_ID,NPC   ,PLD   ,PM,IPM, GAMA_INF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,6 +56,7 @@ C-----------------------------------------------
       INTEGER NPC(*), FUNC_ID(*) ,IPM(NPROPMI)
       my_real 
      .         UPARAM(*),PLD(*),PM(NPROPM)
+      my_real , INTENT(IN)    ::  GAMA_INF
       INTEGER, DIMENSION(NFUNC):: IFUNC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -164,11 +165,20 @@ C  check if the curve is monotonic
        ENDIF 
        DEALLOCATE (STRETCH)                                                  
        DEALLOCATE (STRESS)                                                   
-       DO II=1,5                                                             
-         UPARAM(II)=MUAL(2*II-1)                                        
-         UPARAM(II+5)=MUAL(2*II)                                        
-         GS=GS+MUAL(2*II-1)*MUAL(2*II)                                       
-       ENDDO                                                                 
+       IF(GAMA_INF < ONE) THEN
+         DO II=1,5                                                           
+           UPARAM(II)=MUAL(2*II-1)/GAMA_INF                                     
+           UPARAM(II+5)=MUAL(2*II)                                      
+           GS=GS + MUAL(2*II-1)*MUAL(2*II)                                     
+         ENDDO 
+         IF(.NOT.IS_ENCRYPTED) WRITE(IOUT,100)  MAT_ID
+       ELSE 
+         DO II=1,5                                                           
+           UPARAM(II)=MUAL(2*II-1)                                      
+           UPARAM(II+5)=MUAL(2*II)                                      
+           GS=GS+MUAL(2*II-1)*MUAL(2*II)                                     
+         ENDDO   
+       ENDIF                                                              
        G=GS/TWO                                                            
        NU = UPARAM(14)                                   
        RBULK=GS*(ONE+UPARAM(14))                                         
@@ -347,6 +357,11 @@ C
         DEALLOCATE (INDEX)    
 C --------------------------------------------------------
       RETURN
+ 100  FORMAT
+     & (//5X, 'MODIFIED  FITTED MATERIAL RIGIDITY    ' ,/,
+     &    5X, ' ---------------------------', /,
+     &    5X, 'MATERIAL LAW =  LAW69 ',/,
+     &    5X, 'MATERIAL NUMBER =',I10,//) 
  277  FORMAT
      & (//5X, 'FITTED PARAMETERS FOR HYPERELASTIC_MATERIAL LAW69' ,/,
      &    5X, ' ----------------------------------------')

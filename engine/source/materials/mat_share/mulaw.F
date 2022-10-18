@@ -260,7 +260,8 @@ C-----------------------------------------------
       INTEGER NV46, NUMEL, INLOC
       INTEGER I,NPAR,IADBUF,IADVIS,NFUNC,NUMTABL,ISRATE,MX,IPG,NPTR,NPTS,
      .  IBID,IBIDON1,IBIDON2,IBIDON3,IBIDON4 ,N48,NIX,ILAW_USER,IGTYP,
-     .  NVARF,IR,IP,IRUPT,IMAT,ISVIS,IVISC,NUVARV,NUPARV,ISEQ,IADRUPBUF,IDEV
+     .  NVARF,IR,IP,IRUPT,IMAT,ISVIS,IVISC,NUVARV,NUPARV,ISEQ,IADRUPBUF,IDEV,
+     .  IFORM
       my_real 
      .E1,E2,E3,E4,E5,E6,BID1,BID3,Q1,Q2,Q3,SS1,SS2,SS3,SS4,SS5,
      . SS6,WXXF,WYYF,WZZF,P2,EPSP,DAV,ASRATE,C1(MVSIZ),
@@ -2159,14 +2160,20 @@ c
         ENDDO ! IR = 1,NFAIL
       ENDIF   ! NFAIL
       IF ((ITASK==0).AND.(IMON_MAT==1))CALL STOPTIME(121,1)
-C     viscous stress (/VISC models) 
+C     viscous stress (/VISC models)  !!!
       IVISC = IPM(222,MX)
-      IF (IVISC > 0 .AND. MTN /= 24) THEN
+      IF ((IVISC ==1 .OR. (IVISC == 2 .AND.(ISMSTR== 10 .OR. ISMSTR== 12))) 
+     .                                   .AND. MTN /= 24) THEN
          CALL VISCMAIN(
-     .        NEL     ,MX  ,IVISC   ,IPM     ,BUFMAT  ,
+     .        NEL     ,MX      ,IVISC   ,IPM     ,BUFMAT  ,
      .        VBUF%VAR,RHO0    ,VIS     ,SSP     ,DT1     , 
      .        EP1     ,EP2     ,EP3     ,EP4     ,EP5     ,EP6     ,
-     .        SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     )
+     .        SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
+     .        MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
+     .        MFZX    ,MFZY    ,MFZZ    ,
+     .        SO1     ,SO2     ,SO3     ,SO4     ,SO5     ,SO6     ,
+     .        S1      ,S2      ,S3      ,S4      ,S5      ,S6      ,
+     .        NGL     )
        ENDIF 
 C  viscosity ( Navier-Stokes)
       IF (ISVIS > 0) THEN

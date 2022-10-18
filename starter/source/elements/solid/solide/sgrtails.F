@@ -506,17 +506,7 @@ C         PARAMETRE GROUPE
 c
             ISVIS  = IGEO(33,PID)                       
 C   is a material flag   IVISC  = IGEO(34,PID)
-            IPARTSPH=IGEO(38,PID)
-C  material flag for viscosity
-            IF (IGT == 22) THEN                   
-              NLAY = IGEO(30,PID)                 
-              DO IL=1,NLAY                        
-                IMAT = IGEO(100+IL,PID)
-                IF (IPM(222,IMAT) > 0) IVISC = 1
-              ENDDO
-            ELSEIF (IPM(222,IABS(MID)) > 0) THEN
-               IVISC = 1
-            ENDIF
+            IPARTSPH=IGEO(38,PID)          
 C            
             IF (ISSN == 10.OR.ISSN == 11) THEN
                IF ((IKSNOD0/=4 .AND. IKSNOD0/=8.AND. IKSNOD0/=10) .OR. JHBE == 15 ) THEN
@@ -1379,6 +1369,14 @@ C-------
      .                PRMOD=MSG_CUMU)
           ISSN = 10
           ENDIF
+        ENDIF
+        IVISC = IPM(222,MID)
+        IF(IVISC == 2 .AND. ISSN /=10 .AND. ISSN /=12) THEN
+            CALL ANCMSG(MSGID=3018,
+     .                      MSGTYPE=MSGWARNING,
+     .                      ANMODE=ANINFO_BLIND_2,
+     .                      I1=PID,
+     .                      C1=TITR)
         ENDIF
 C-------------------------------------------------
 C STOCKAGE IPARG
