@@ -37,7 +37,7 @@ Chd|====================================================================
      5       SECND_FR,NSNR   ,PENE_OLD,STIF_OLD  ,MSEGTYP  ,
      6       NRTM   ,PMAX_GAP,I_OPT_STOK,CAND_OPT_E,CAND_OPT_N ,
      7       SIZOPT ,IGAP   ,GAP_S_L ,GAP_M_L    ,DRAD    ,
-     8       DGAPLOAD)
+     8       DGAPLOAD,ICONT_I)
 C===============================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,6 +69,7 @@ C-----------------------------------------------
      .        IGAP, IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
      .        IRTLM(4,NSN),MSEGLO(*),COUNT_REMSLV(*), ITAB(*),
      .        MSEGTYP(*), CAND_OPT_E(*), CAND_OPT_N(*), SIZOPT
+      INTEGER , INTENT(OUT) :: ICONT_I(NSN)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
      .        GAP,PMAX_GAP,
@@ -80,7 +81,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,L,IS,JS,LS,NLS,NLT,NSEG,NLS2,SG,FIRST,LAST,MSEG,NLF,
-     .        MG,II,N,KLEAVE, ISH
+     .        MG,II,N,KLEAVE, ISH, NSNRF,NSNRL,NSNF,NSNL
       INTEGER LIST(MVSIZ),IG(MVSIZ),IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),
      .        IX4(MVSIZ), LISTI(MVSIZ)
       my_real
@@ -94,14 +95,30 @@ C-----------------------------------------------
      .        VX1,VX2,VX3,VX4,VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4
 
 C-----------------------------------------------
-      IF (IRESP==1) THEN
-         PREC = TWO*EM06
+      IF (IRESP.EQ.1) THEN
+         PREC = (SEVEN+HALF)*EM06
       ELSE
-         PREC = EM20
+         PREC = EM8
       ENDIF
 C------
 C initialize PMAX_GAP to Zero for future treatments in force computation.
       PMAX_GAP   = ZERO
+C
+C CONT_I contains Starter infos, it must be flushed when IRTLM(1,xxx) is no more Zero.
+C
+
+      NSNF = 1 + ITASK*NSN / NTHREAD
+      NSNL = (ITASK+1)*NSN / NTHREAD
+      DO I = NSNF,NSNL 
+        IF(IRTLM(1,I)/=0) ICONT_I(I)=0
+      ENDDO
+
+      NSNRF = 1 + ITASK*NSNR / NTHREAD
+      NSNRL = (ITASK+1)*NSNR / NTHREAD
+
+      DO I=NSNRF,NSNRL
+        IF(IRTLM_FI(NIN)%P(1,I)/=0) ICONT_I_FI(NIN)%P(I)=0
+      ENDDO
  
       MSEG = NVSIZ
       FIRST = 1 + I_STOK*ITASK / NTHREAD

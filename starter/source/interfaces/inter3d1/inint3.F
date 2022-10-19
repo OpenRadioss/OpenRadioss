@@ -2154,7 +2154,7 @@ C
      .      ITAB   ,INACTI,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,INTBUF_TAB%STFNS,
      1      X      ,I_STOK,INTBUF_TAB%NSV,IWPENE ,INTBUF_TAB%PENE_OLD,
      2      NOINT  ,NTY   ,INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%IRECTM ,
-     3      NSN    ,ID    ,TITR    ,INTBUF_TAB%MSEGLO)
+     3      NSN    ,ID    ,TITR    ,INTBUF_TAB%MSEGLO,INTBUF_TAB%ICONT_I)
 C
          END IF !(NGROUS>0) THEN
 C-------------------------------------------------------------
