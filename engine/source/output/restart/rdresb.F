@@ -1909,7 +1909,7 @@ C--------------------------------------
      *          FVDATA_OLD(I)%QPOLH )
 
         FVDATA_OLD(I)%L_TYPE = 0
-        FVDATA_OLD(I)%ID_DT_OPTION = 0
+        FVDATA_OLD(I)%ID_DT_OPTION = -1
         FVDATA_OLD(I)%LAMBDA = ZERO
         FVDATA_OLD(I)%DTOLD = ZERO
         FVDATA_OLD(I)%CFL_COEF = ZERO
@@ -1930,15 +1930,18 @@ C--------------------------------------
          ENDDO
       ENDIF
 C
+      
       ALLOCATE(KMESH(NFVBAG))
       DO I=1,NFVBAG
+      
+         CALL READ_I_C(FVDATA_OLD(I)%L_TYPE,1)
+         CALL READ_I_C(FVDATA_OLD(I)%ID_DT_OPTION,1)
+         CALL READ_DB(FVDATA_OLD(I)%LAMBDA,1)
+         CALL READ_DB(FVDATA_OLD(I)%DTOLD,1)
+         CALL READ_DB(FVDATA_OLD(I)%CFL_COEF,1)
+         CALL READ_DB(FVDATA_OLD(I)%DTMIN,1)      
+      
          IF (IMACH==3) THEN
-            CALL READ_I_C(FVDATA_OLD(I)%L_TYPE,1)
-            CALL READ_I_C(FVDATA_OLD(I)%ID_DT_OPTION,1)
-            CALL READ_DB(FVDATA_OLD(I)%LAMBDA,1)
-            CALL READ_DB(FVDATA_OLD(I)%DTOLD,1)
-            CALL READ_DB(FVDATA_OLD(I)%CFL_COEF,1)
-            CALL READ_DB(FVDATA_OLD(I)%DTMIN,1)
             LEN=8
             CALL READ_I_C(TABI,LEN)
             NN_L=TABI(1)
@@ -2125,47 +2128,136 @@ C--------------------------------------
 C
       ENDDO
       
-      
+
 C--------------------------------------
-C     UPDATING DATA WITH ENGINE FILE PARAMETERS
+C     /MONVOL/FVMBAG1(typ=8)
+C       /DT/FVMBAG/1 if relevant for ITYP8 only
+C--------------------------------------
+C FVMBAG_INPUT_OPTIONS is a data structure from FREFORM (Engine Reader) which contains data from /DT/FVMBAG options
+C  these parameters are treated once all options are read and after initialization of parameters from restart file
+      !looping over all /DT/FVMBAG options                                        
+      DO II=NUM_OPT_DT_FVMBAG,1,-1                                                
+        ID_DT_OPTION = FVMBAG_INPUT_OPTIONS(II)%ID_DT_OPTION                      
+        ! /DT/FVMBAG/2 otherwise next cycle                                       
+        IF(ID_DT_OPTION==1)THEN                            
+          K1=1                                                                    
+            !Looping over all existing bags to check if one id is matching        
+            DO N=1,NVOLU                                                          
+              ID_BAG=MONVOL(K1-1+1)                                               
+              ITYP=MONVOL(K1-1+2)                                                 
+              IF (ITYP == 8) THEN                                                 
+                IFV = MONVOL(K1 -1 +45)                                           
+                !IF(FVDATA_OLD(IFV)%ID_DT_OPTION == 1)THEN                        
+                  FVDATA_OLD(IFV)%L_TYPE = -1                                     
+                  FVDATA_OLD(IFV)%ID_DT_OPTION = 1                     
+                  FVDATA_OLD(IFV)%LAMBDA = ZERO                                   
+                  FVDATA_OLD(IFV)%CFL_COEF = FVMBAG_INPUT_OPTIONS(II)%CFL_COEF    
+                  FVDATA_OLD(IFV)%DTMIN = FVMBAG_INPUT_OPTIONS(II)%DTMIN          
+                !ENDIF                                                             
+              ENDIF                                                               
+              K1=K1+NIMV                                                          
+            ENDDO !next N                                                         
+        ENDIF !ID_DT_OPTION                                                       
+      ENDDO!next II  
+          
+C--------------------------------------
+C     /MONVOL/FVMBAG1(typ=8) & /MONVOL/FVMBAG2(typ=11)
+C       UPDATING DATA WITH ENGINE FILE PARAMETERS(/DT/FVMBAG/2 )
 C--------------------------------------
       ! FILL FVDATA BUFFER (NOW ALLOCATED) WITH PARAMETERS READ IN ENGINE FILE (/DT/FVMBAG OPTION)      
-      IF (IMACH == 3) THEN
         !looping over all /DT/FVMBAG options
-        DO II=1,NUM_OPT_DT_FVMBAG
-          ID_DT_OPTION = FVMBAG_INPUT_OPTIONS(II)%ID_DT_OPTION
-          ! /DT/FVMBAG/2 otherwise next cycle
-          IF(ID_DT_OPTION == 2)THEN
-            K1=1
-            ID_BAG_INPUT = FVMBAG_INPUT_OPTIONS(II)%ID_BAG
-            lFOUND = .FALSE.
-            IF(ID_BAG_INPUT > 0)THEN
-              !Looping over all existing bags to check if one id is matching
-              DO N=1,NVOLU
-                ID_BAG=MONVOL(K1-1+1)
-                ITYP=MONVOL(K1-1+2) 
-                IF(ID_BAG == ID_BAG_INPUT)THEN                      
-                  IF (ITYP == 6 .OR. ITYP == 8) THEN 
-                    lFOUND=.TRUE.           
-                    IFV = MONVOL(K1 -1 +45)                     
-                    FVDATA_OLD(IFV)%L_TYPE = FVMBAG_INPUT_OPTIONS(II)%L_TYPE      
-                    FVDATA_OLD(IFV)%ID_DT_OPTION = FVMBAG_INPUT_OPTIONS(II)%ID_DT_OPTION
-                    FVDATA_OLD(IFV)%LAMBDA = FVMBAG_INPUT_OPTIONS(II)%LAMBDA
-                  ENDIF
-                ENDIF
-                K1=K1+NIMV 
-                IF(lFOUND)EXIT
-              ENDDO !next N
-              IF(.NOT.lFOUND)THEN
-                CALL ANCMSG(MSGID=299,ANMODE=ANINFO,I1=ID_BAG_INPUT)
-                CALL ARRET(2)
-              ENDIF
-            ENDIF !(ID_BAG_INPUT > 0)
-          ENDIF !IF(ID_DT_OPTION == 2)
-        ENDDO!next II
-      ENDIF! IMACH
+      DO II=1,NUM_OPT_DT_FVMBAG                                                         
+        ID_DT_OPTION = FVMBAG_INPUT_OPTIONS(II)%ID_DT_OPTION                            
+        ! /DT/FVMBAG/2 otherwise next cycle                                             
+        IF(ID_DT_OPTION == 2)THEN                                                       
+          K1=1                                                                          
+          ID_BAG_INPUT = FVMBAG_INPUT_OPTIONS(II)%ID_BAG                                
+          lFOUND = .FALSE.                                                              
+          IF(ID_BAG_INPUT > 0)THEN                                                      
+            !Looping over all existing bags to check if one id is matching              
+            DO N=1,NVOLU                                                                
+              ID_BAG=MONVOL(K1-1+1)                                                     
+              ITYP=MONVOL(K1-1+2)                                                       
+              IF(ID_BAG == ID_BAG_INPUT)THEN                                            
+                IFV = MONVOL(K1 -1 +45)                                                 
+                IF (ITYP == 8 .OR. ITYP == 11) THEN                                                     
+                  lFOUND=.TRUE.                                                         
+                  FVDATA_OLD(IFV)%L_TYPE = FVMBAG_INPUT_OPTIONS(II)%L_TYPE              
+                  FVDATA_OLD(IFV)%ID_DT_OPTION = FVMBAG_INPUT_OPTIONS(II)%ID_DT_OPTION  
+                  FVDATA_OLD(IFV)%LAMBDA = FVMBAG_INPUT_OPTIONS(II)%LAMBDA              
+                  FVDATA_OLD(IFV)%CFL_COEF = FVMBAG_INPUT_OPTIONS(II)%CFL_COEF          
+                  FVDATA_OLD(IFV)%DTMIN = FVMBAG_INPUT_OPTIONS(II)%DTMIN                
+                ENDIF                                                                   
+              ENDIF                                                                     
+              K1=K1+NIMV                                                                
+              IF(lFOUND)EXIT                                                            
+            ENDDO !next N                                                               
+            IF(.NOT.lFOUND)THEN                                                         
+              CALL ANCMSG(MSGID=299,ANMODE=ANINFO,I1=ID_BAG_INPUT)                      
+              CALL ARRET(2)                                                             
+            ENDIF                                                                       
+          ENDIF !(ID_BAG_INPUT > 0)                                                     
+        ENDIF !IF(ID_DT_OPTION == 2)                                                    
+      ENDDO!next II                                                                     
+
+
+                                                             
+                                                                  
+      
+C--------------------------------------
+C     /MONVOL/FVMBAG1(typ=6) & /MONVOL/FVMBAG1(typ=8) & /MONVOL/FVMBAG2(typ=11)
+C       DEFAULT
+C--------------------------------------
+      K1=1                                                                                   
+      DO N=1,NVOLU                                                                
+        ID_BAG=MONVOL(K1-1+1)                                                     
+        ITYP=MONVOL(K1-1+2)                                                       
+        IF (ITYP == 6 .OR. ITYP == 8 .OR. ITYP == 11) THEN                                             
+          IFV = MONVOL(K1 -1 +45)                                       
+          IF(FVDATA_OLD(IFV)%CFL_COEF == ZERO)THEN                      
+            FVDATA_OLD(IFV)%CFL_COEF = ZEP9                             
+          ENDIF                                                         
+          IF(FVDATA_OLD(IFV)%DTMIN == ZERO)THEN                         
+            FVDATA_OLD(IFV)%DTMIN = EM20                                
+          ENDIF    
+          IF(FVDATA_OLD(IFV)%LAMBDA == ZERO)THEN                         
+            FVDATA_OLD(IFV)%LAMBDA = EM02                                
+          ENDIF    
+          IF(FVDATA_OLD(IFV)%L_TYPE == 0)THEN                         
+            FVDATA_OLD(IFV)%L_TYPE = 1                                
+          ENDIF                                                                      
+        ENDIF                                                                     
+        K1=K1+NIMV                                                                
+      ENDDO !next N                                                               
+
+C--------------------------------------
+C     CHECK INCOMPATIBLE TIME STEP OPTION /DT/FVMBAG
+C       before deallocating FVMBAG_INPUT_OPTIONS
+C--------------------------------------
+      !Warn user if incompatible options are defined 
+      IF( NUM_OPT_DT_FVMBAG_0+NUM_OPT_DT_FVMBAG_1 > 0 .AND. NUM_OPT_DT_FVMBAG_2 > 0)THEN 
+         ! if /DT/FVMBAG/2 is used on a given airbag, then general option /DT/FVMBAG/1 is ignored for this airbag.
+         DO KK=1,NUM_OPT_DT_FVMBAG
+          !display WARNING DUPLICATED DEFINITION 
+          IF(FVMBAG_INPUT_OPTIONS(KK)%ID_DT_OPTION == 2)THEN
+            ID_BAG = FVMBAG_INPUT_OPTIONS(KK)%ID_BAG
+            CALL ANCMSG(MSGID=302,ANMODE=ANINFO,I1=ID_BAG)
+          ENDIF
+         ENDDO                                                                                              
+      ENDIF
+      
+      !Warn user if incompatible options are defined 
+      IF( NUM_OPT_DT_FVMBAG_1 > 1 )THEN 
+         ! if /DT/FVMBAG/2 is used on a given airbag, then general option /DT/FVMBAG/1 is ignored for this airbag.      
+            CALL ANCMSG(MSGID=303,ANMODE=ANINFO,I1=ID_BAG)
+            CALL ARRET(2)
+      ENDIF      
+
+C--------------------------------------
       IF(ALLOCATED(FVMBAG_INPUT_OPTIONS))DEALLOCATE(FVMBAG_INPUT_OPTIONS)
-C
+C--------------------------------------
+      
+
       RETURN
       END
 

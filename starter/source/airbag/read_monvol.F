@@ -171,6 +171,7 @@ C     Check units
 
          T_MONVOL(II)%ID = ID
          T_MONVOL(II)%IVOLU(1) = ID
+         T_MONVOL(II)%IVOLU(27) = -1 !ID_DT_OPTION  ( /DT/FVMBAG/[id_dt_option] )
          T_MONVOL(II)%TYPE = ITYPE
          T_MONVOL(II)%IVOLU(2) = ITYPE
          T_MONVOL(II)%TITLE = TRIM(TITR)

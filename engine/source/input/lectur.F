@@ -216,8 +216,8 @@ C-----------------------------------------------
        CHARACTER*9 Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9
        CHARACTER CARTE*ncharline,LINE*ncharline
       my_real eta1,eta2
-      my_real,
-     .   DIMENSION(:), POINTER :: OFFG
+      my_real, DIMENSION(:), POINTER :: OFFG
+      LOGICAL IS_ALREADY_PRINTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -405,65 +405,11 @@ C
         IF(DTFAC1(I) == ZERO)DTFAC1(I) = DTFAC
         DTFACX = MIN(DTFAC1(I), DTFACX)
       ENDDO
-
-C     Coeff CFL pour le FVMBAG
-      IF (DTFAC1(52) > ZERO) THEN
-         IF (ISPMD == 0) THEN
-            CALL ANCMSG(MSGID=282, ANMODE=ANINFO)
-         ENDIF
-         K1 = 1
-         DO IVOLU = 1, NVOLU
-            IFV = MONVOL(K1 - 1 + 45)
-            IFV_TYPE = MONVOL(K1 - 1 + 2)
-            IF (IFV_TYPE == 8) THEN
-               FVDATA_OLD(IFV)%CFL_COEF = DTFAC1(52)
-            ENDIF
-            K1=K1+NIMV
-         ENDDO
-      ELSE
-         K1 = 1
-         DO IVOLU = 1, NVOLU
-            IFV = MONVOL(K1 - 1 + 45)
-            IFV_TYPE = MONVOL(K1 - 1 + 2)
-            IF (IFV_TYPE == 8) THEN
-               IF (FVDATA_OLD(IFV)%CFL_COEF == ZERO) THEN
-                  FVDATA_OLD(IFV)%CFL_COEF = DTFAC
-               ENDIF
-            ELSE
-               DTFAC1(52) = DTFAC
-            ENDIF
-            K1=K1+NIMV
-         ENDDO
-         IF(IDTMIN(52) == 0)IDTMIN(52) = 1
-      ENDIF
-C     Min timestep pour le FVMBAG
-      IF (DTMIN1(52) > ZERO) THEN
-         K1 = 1
-         DO IVOLU = 1, NVOLU
-            IFV = MONVOL(K1 - 1 + 45)
-            IFV_TYPE = MONVOL(K1 - 1 + 2)
-            IF (IFV_TYPE == 8) THEN
-               FVDATA_OLD(IFV)%DTMIN = DTMIN1(52)
-            ENDIF
-            K1=K1+NIMV
-         ENDDO
-      ELSE
-         K1 = 1
-         DO IVOLU = 1, NVOLU
-            IFV = MONVOL(K1 - 1 + 45)
-            IFV_TYPE = MONVOL(K1 - 1 + 2)
-            IF (IFV_TYPE == 8) THEN
-               IF (FVDATA_OLD(IFV)%DTMIN == ZERO) THEN
-                  FVDATA_OLD(IFV)%DTMIN = DTMIN
-               ENDIF
-            ELSE
-               DTMIN1(52) = DTMIN
-            ENDIF
-            K1=K1+NIMV
-         ENDDO
-         IF(IDTMIN(52) == 0)IDTMIN(52) = 1
-      ENDIF
-
+      
+      IF(IDTMIN(52) == 0)IDTMIN(52) = 1
+      IF(DTFAC1(52) == ZERO)DTFAC1(52) = ZEP9
+      IF(DTMIN1(52) == ZERO)DTMIN1(52) = EM20
+            
       I=102
         IF(IDT_ALE==-1)THEN
           IF(DTMIN1(I) == ZERO)DTMIN1(I) = DTMIN
@@ -706,16 +652,37 @@ C
       ENDIF
 C
       IF(ISPMD == 0.AND.MCHECK == 0) THEN
+        IF(NUM_OPT_DT_FVMBAG_0+NUM_OPT_DT_FVMBAG_1>0)THEN
+         !if at least on option /DT/FVMBAG/0 or /DT/FVMBAG/1 is defined then output parameter for the retained one (last read one)
+         ! (multiple definition is not expected)
+         IF(NUM_OPT_DT_FVMBAG_1>0)THEN
+            WRITE(IOUT,1156)
+         ELSE
+            WRITE(IOUT,1155)
+         ENDIF
          WRITE(IOUT,1152)DTFAC1(52),DTMIN1(52),IDTMIN(52)
+        ENDIF
       ENDIF
       IF(ISPMD == 0.AND.MCHECK == 0) THEN
          K1 = 1
+         IS_ALREADY_PRINTED = .FALSE.
          DO IVOLU = 1, NVOLU
             IFV = MONVOL(K1 - 1 + 45)
             IFV_TYPE = MONVOL(K1 - 1 + 2)
-            IF (IFV_TYPE == 8) THEN
-               WRITE(IOUT,1153)MONVOL(K1),FVDATA_OLD(IFV)%CFL_COEF,FVDATA_OLD(IFV)%DTMIN,IDTMIN(52)
-               IF(NUM_OPT_DT_FVMBAG_2 > 0)WRITE(IOUT,1154)FVDATA_OLD(IFV)%L_TYPE,FVDATA_OLD(IFV)%LAMBDA,FVDATA_OLD(IFV)%DTOLD
+            IF (IFV_TYPE == 6 .OR. IFV_TYPE == 8 .OR. IFV_TYPE == 11) THEN
+               IF(.NOT.IS_ALREADY_PRINTED)THEN 
+                 WRITE(IOUT,1157)
+                 IS_ALREADY_PRINTED=.TRUE.
+               ENDIF
+            ENDIF            
+            IF(IFV_TYPE == 6) WRITE(IOUT,1147)MONVOL(K1)
+            IF(IFV_TYPE == 8) WRITE(IOUT,1148)MONVOL(K1)
+            IF(IFV_TYPE == 11)WRITE(IOUT,1149)MONVOL(K1)
+            IF (IFV_TYPE == 6 .OR. IFV_TYPE == 8 .OR. IFV_TYPE == 11) THEN
+               WRITE(IOUT,1153)FVDATA_OLD(IFV)%CFL_COEF,FVDATA_OLD(IFV)%DTMIN,FVDATA_OLD(IFV)%ID_DT_OPTION
+               IF(FVDATA_OLD(IFV)%ID_DT_OPTION ==2)THEN
+                 WRITE(IOUT,1154)FVDATA_OLD(IFV)%L_TYPE,FVDATA_OLD(IFV)%LAMBDA,FVDATA_OLD(IFV)%DTOLD
+               ENDIF
             ENDIF
             K1=K1+NIMV
          ENDDO
@@ -2819,6 +2786,15 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
      .  ' CONTACT TIME STEP SCALE FACTOR . . . . . . . . . ',G14.7/
      .  ' CONTACT MINIMUM TIME STEP. . . . . . . . . . . . ',G14.7/
      .  ' MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)',I5/ )
+ 1155 FORMAT('/DT/FVMBAG/0 OPTION')
+ 1156 FORMAT('/DT/FVMBAG/1 OPTION') 
+ 1157 FORMAT('FVMBAG TIME STEP SYNTHESIS')  
+ 1147 FORMAT(
+     .  ' FVMBAG  ID. . . . . . . . . . . . . . . . . . . . ',I10)
+ 1148 FORMAT(
+     .  ' FVMBAG1 ID. . . . . . . . . . . . . . . . . . . . ',I10)
+ 1149 FORMAT(
+     .  ' FVMBAG2 ID. . . . . . . . . . . . . . . . . . . . ',I10)
  1151 FORMAT(
      .  ' SMOOTH PARTICLES TIME STEP SCALE FACTOR. . . . . ',G14.7/
      .  ' SMOOTH PARTICLES MINIMUM TIME STEP . . . . . . . ',G14.7/
@@ -2828,14 +2804,13 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
      .  ' FVMBAG MINIMUM TIME STEP . . . . . . . . . . . . ',G14.7/
      .  ' FVMBAG TIME STEP FLAG. . . . . . . . . . . . . . ',I5,/)
  1153 FORMAT(
-     .  ' FVMBAG1 ID. . . . . . . . . . . . . . . . . . . . ',I10/
-     .  ' . . FVMBAG1 TIME STEP SCALE FACTOR. . . . . . . . . . ',G14.7/
-     .  ' . . FVMBAG1 MINIMUM TIME STEP . . . . . . . . . . . . ',G14.7/
-     .  ' . . FVMBAG1 TIME STEP FLAG. . . . . . . . . . . . . . ',I5)
+     .  ' . . TIME STEP SCALE FACTOR. . . . . . . . . . . . . . ',G14.7/
+     .  ' . . MINIMUM TIME STEP . . . . . . . . . . . . . . . . ',G14.7/
+     .  ' . . TIME STEP FLAG. . . . . . . . . . . . . . . . . . ',I5)
  1154 FORMAT(
-     .  ' . . FVMBAG1 CHARACTERISTIC LENGTH OPTION. . . . . . . ',I5/
-     .  ' . . FVMBAG1 TIME STEP SMOOTHING FACTOR. . . . . . . . ',G14.7/
-     .  ' . . FVMBAG1 PREVIOUS TIME STEP. . . . . . . . . . . . ',G14.7)
+     .  ' . . CHARACTERISTIC LENGTH OPTION. . . . . . . . . . . ',I5/
+     .  ' . . TIME STEP SMOOTHING FACTOR. . . . . . . . . . . . ',G14.7/
+     .  ' . . PREVIOUS TIME STEP. . . . . . . . . . . . . . . . ',G14.7)
  1107 FORMAT(
      .  ' CONTACT NODAL TIME STEP SCALE FACTOR . . . . . . ',G14.7/
      .  ' CONTACT NODAL MINIMUM TIME STEP. . . . . . . . . ',G14.7/
