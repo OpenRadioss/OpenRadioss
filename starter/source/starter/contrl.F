@@ -1685,7 +1685,7 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
  5700 FORMAT(//
      & 4X,'LAGRANGE MULTIPLIER OPTIONS'/
      & 4X,'---------------------------'/
-     & 4X,'LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . .',
+     & 4X,'LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . .',
      &                                                        1PG20.13)
       RETURN
  5600 FORMAT(//4X,'SPH GLOBAL PARAMETERS'/
