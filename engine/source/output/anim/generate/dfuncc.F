@@ -1318,8 +1318,7 @@ c
                           SX = E2X                                                
                           SY = E2Y                                                
                           SZ = E2Z                                                
-                        ENDIF    
-                        !!print*,   'ISHFRAM ',ISHFRAM,IREP                                              
+                        ENDIF                                    
                         IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN                  
 C------                   Repere convecte symetrique - version 5 (default)        
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
@@ -2996,40 +2995,34 @@ C-------------------
                 ENDDO                                                                         
 c
               ELSEIF (IFUNC == IDX+2) THEN    !  /ANIM/SHELL/FLDF/LOWER
-                IF (ILAY == 0) ILAY = 100
-                IF (NLAY > 1) THEN
-                  IL = MAX(1,ILAY)
-                ELSE
-                  IL = 1
-                ENDIF
+                IL = 1
                 IPT  = 1
                 BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                 NPTT  = BUFLY%NPTT
                 NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL                                                                   
                 NPTT  = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
-                DO IS=1,NPTS                                                                  
-                  DO IR=1,NPTR                                                                
-                    FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IPT)                            
-                    DO IFAIL=1,NFAIL                                                          
-                      IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                        DO I=LFT,LLT                                                          
-                          EVAR(I) = MAX(EVAR(I),FBUF%FLOC(IFAIL)%DAM(I))                          
-                        ENDDO                                                                 
-                      ENDIF                                                                   
+                DO IS=1,NPTS
+                  DO IR=1,NPTR
+                    FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IPT)
+                    DO IFAIL=1,NFAIL
+                      IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model
+                        DO I=LFT,LLT
+                          EVAR(I) = MAX(EVAR(I),FBUF%FLOC(IFAIL)%DAM(I))
+                        ENDDO
+                      ENDIF
                     ENDDO
-                  ENDDO                                                                       
-                ENDDO                                                                         
+                  ENDDO
+                ENDDO
 c
               ELSEIF (IFUNC == IDX+3) THEN    !  /ANIM/SHELL/FLDF/MEMB
-                IF (ILAY == 0) ILAY = 100
-                IL = NLAY/2 + 1
+                IL  = NLAY / 2 + 1
                 BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                 NPTT  = BUFLY%NPTT
                 NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL                                                                   
                 NPTT  = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
                 IPT   = NPTT/2 + 1
-                DO IS=1,NPTS                                                                  
-                  DO IR=1,NPTR                                                                
+                DO IS=1,NPTS
+                  DO IR=1,NPTR
                     FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IPT)                            
                     DO IFAIL=1,NFAIL                                                          
                       IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
@@ -3075,12 +3068,7 @@ C-------------------
                 ENDDO                                                                         
 c
               ELSEIF (IFUNC == IDX+2) THEN    !  /ANIM/SHELL/FLDZ/LOWER
-                IF (ILAY == 0) ILAY = 100
-                IF (NLAY > 1) THEN
-                  IL = MAX(1,ILAY)
-                ELSE
-                  IL = 1
-                ENDIF
+                IL = 1
                 IPT  = 1
                 BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                 NPTT  = BUFLY%NPTT
@@ -3100,9 +3088,8 @@ c
                   ENDDO                                                                       
                 ENDDO                                                                         
 c
-              ELSEIF (IFUNC == IDX+3) THEN    !  /ANIM/SHELL/FLDZON/MEMB
-                IF (ILAY == 0) ILAY = 100
-                IL = NLAY/2 + 1
+              ELSEIF (IFUNC == IDX+3) THEN    !  /ANIM/SHELL/FLDZ/MEMB
+                IL  = NLAY / 2 + 1
                 BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                 NPTT  = BUFLY%NPTT
                 NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL                                                                   
