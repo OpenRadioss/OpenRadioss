@@ -317,7 +317,7 @@ void h3dlib_load_(int * IERROR)
   dllpath_size=GetEnvironmentVariable("RAD_H3D_PATH",libh3dpath,20000);
   if(dllpath_size > 0) {
   /* First trial get RAD_H3D_PATH environment variable */
-      strncpy_s(load_libname, 20000, libh3dpath, sizeof(libh3dpath));
+      strcpy_s(load_libname, 20000, libh3dpath);
       strcat_s(load_libname,20000,"\\");
       strcat_s(load_libname,20000,h3dlib);
 
@@ -326,7 +326,7 @@ void h3dlib_load_(int * IERROR)
   if(!h3dhandle) {
   /* Second trial : current working directory */
       dllpath_size=GetCurrentDirectory(20000,libh3dpath);
-      strncpy_s(load_libname, 20000, libh3dpath, sizeof(libh3dpath));
+      strcpy_s(load_libname, 20000, libh3dpath);
       strcat_s(load_libname,20000,"\\");
       strcat_s(load_libname,20000,h3dlib);
       h3dhandle = LoadLibrary(TEXT(load_libname));
@@ -338,7 +338,7 @@ void h3dlib_load_(int * IERROR)
       if(dllpath_size > 0) {
           arch_size = GetEnvironmentVariable("ARCH",hwarch,200);
           if(arch_size >0) {
-              strncpy_s(load_libname, 20000, libh3dpath, sizeof(libh3dpath));
+              strcpy_s(load_libname, 20000, libh3dpath);
               strcat_s(load_libname,20000,"\\hwsolvers\\common\\bin\\");
               strcat_s(load_libname,20000,hwarch);
               strcat_s(load_libname,20000,"\\");
