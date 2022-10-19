@@ -417,10 +417,10 @@ c     Check common points between 2 curves => intersection
       FOUND = 0
       DO J=2,NP1
         S1 = TABLE(FUNC1)%X(1)%VALUES(J)
-        T1 = TABLE(FUNC1)%Y%VALUES(J)
+        T1 = TABLE(FUNC1)%Y%VALUES(J)*FAC1
         DO K=2,NP2
           X1 = TABLE(FUNC2)%X(1)%VALUES(K)
-          Y1 = TABLE(FUNC2)%Y%VALUES(K)
+          Y1 = TABLE(FUNC2)%Y%VALUES(K)*FAC2
           IF (S1 > ZERO .and. X1 == S1 .and. Y1 == T1) THEN
             XINT  = X1
             YINT  = Y1
@@ -435,13 +435,13 @@ c     Check intersection of curve segments
         DO J=2,NP1
           S1 = TABLE(FUNC1)%X(1)%VALUES(J-1)
           S2 = TABLE(FUNC1)%X(1)%VALUES(J)
-          T1 = TABLE(FUNC1)%Y%VALUES(J-1)
-          T2 = TABLE(FUNC1)%Y%VALUES(J)
+          T1 = TABLE(FUNC1)%Y%VALUES(J-1)*FAC1
+          T2 = TABLE(FUNC1)%Y%VALUES(J)*FAC1
           DO K=2,NP2
             X1 = TABLE(FUNC2)%X(1)%VALUES(K-1)
             X2 = TABLE(FUNC2)%X(1)%VALUES(K)
-            Y1 = TABLE(FUNC2)%Y%VALUES(K-1)
-            Y2 = TABLE(FUNC2)%Y%VALUES(K)
+            Y1 = TABLE(FUNC2)%Y%VALUES(K-1)*FAC2
+            Y2 = TABLE(FUNC2)%Y%VALUES(K)*FAC2
             IF (X2 < S1 .or. S2 < X1) CYCLE
             AX = X2 - X1
             AY = Y2 - Y1
