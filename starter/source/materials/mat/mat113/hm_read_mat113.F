@@ -1446,7 +1446,7 @@ c-----------
      & 5X,'-------------------------------'/,
      & 5X,'MATERIAL SET NUMBER . . . . . . . . . .=',I10/,
      & 5X,'FAILURE FLAG (0:UNCOUPLED 1:COUPLED). .=',I10/,
-     & 5X,'FAILURE CRITERIUM (DISPL/FORCE/ENERGY).=',I10/,
+     & 5X,'FAILURE CRITERION (DISPL/FORCE/ENERGY).=',I10/,
      & 5X,'      1:DISPLACEMENT  2:FORCE  3:ENERGY '  ,/,
      & 5X,'UNIT LENGTH FLAG. . . . . . . . . . . .=',I10/,
      & 5X,'IF=1 UNIT LENGTH MASS,STIFFNESS AND INPUT',/,
