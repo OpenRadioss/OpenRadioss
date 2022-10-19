@@ -245,7 +245,7 @@ void c_h3d_create_solid_tensor_datatype_(int *cpt_data, char *name1, int *size1,
 
         dt_id++; 
 #ifdef _WIN64
-             strncpy_s(edata_type, 50, RES_STRING, sizeof(RES_STRING));
+             strcpy_s(edata_type, 50, RES_STRING);
 #else 
              strcpy(edata_type,  RES_STRING); 
 #endif
