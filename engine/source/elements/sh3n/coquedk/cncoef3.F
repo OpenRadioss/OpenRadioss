@@ -140,11 +140,12 @@ C
       ELSEIF(MTN==58) THEN
            MX  =MAT(JFT)
 C---- due to too high young update (Starter) w/ input func            
-           FAC1TMP = PM(23,MX)/PM(20,MX)
-           K58(1) = FAC1TMP*UPARAM( 9)  ! young dir1
-           K58(2) = FAC1TMP*UPARAM(10)  ! young dir2
-           K58(3) = FAC1TMP*MAX(UPARAM(13),UPARAM(14))
-           K58I = EM02		   
+           FAC1TMP = HALF*PM(23,MX)/PM(20,MX)
+           K58(1) = UPARAM( 9)  ! young dir1
+           K58(2) = UPARAM(10)  ! young dir2
+           K58(3) = MAX(UPARAM(13),UPARAM(14))
+           K58I = EM02
+           IF (FAC1TMP <ONE) K58I = HALF*K58I	   
            FAC58(JFT:JLT,1:2) = K58I
          IF(NPT==1) THEN
            DO I=JFT,JLT                                             
@@ -164,10 +165,10 @@ C---- due to too high young update (Starter) w/ input func
              E11 = R12*T1 + R22*T2
              E22 = S12*T1 + S22*T2
              YM(I)  = MAX(E11,E22)
-             G(I)  = HALF*YM(I)
+             G(I)  = FAC1TMP*YM(I)
              NU(I)  = ZERO
              NUSR(I) =EM01
-C---- for dt compute			 
+C---- for dt compute -> will be updated by cndt in case of dtnoda 			 
              A11(I) = YM(I)
              A12(I) = NU(I)*A11(I)
              RFAC = EXP(UVAR(I,4)) 
