@@ -105,7 +105,7 @@ C-----------------------------------------------
       INTEGER I, J, K, L, N, IT, I1, I2, ITRIA(2,4),
      .        N4N, MGLOB, ITPERM(4), IA, IB, IB1, IB2, IB3, IBX, IX, IY, IZ
       INTEGER I4N(MVSIZ), INTERSECTA(MVSIZ), INTERSECTB(MVSIZ), 
-     .        INTERSECA, INTERSECB, 
+     .        INTERSECA, INTERSECB, IKEEP,
      .        FARA(MVSIZ,4), FARB(MVSIZ,4), INGAPA(MVSIZ,4), INGAPB(MVSIZ,4),  
      .        SUBTRIB(MVSIZ), SUBTRIX(MVSIZ)
       my_real
@@ -356,6 +356,30 @@ c        (intersection time can be different for each sub-triangle)
      9                      ZO3     ,ZO4    ,ZO5    ,XI(I) ,YI(I)  ,
      A                      ZI(I)   ,XOI    ,YOI    ,ZOI   ,ZEROM  ,
      B                      UNP    ,ZEROMT,UNPT   )
+
+           IKEEP = 1
+           N = CAND_N(I)
+           IF(N <= NSN) THEN
+              IF(ICONT_I(N) < 0) IKEEP = 0
+           ELSE
+              IF(ICONT_I_FI(NIN)%P(N-NSN) < 0) IKEEP = 0
+           ENDIF
+
+           IF(IKEEP == 1.AND.INTERSECA == 0)THEN ! IF contact in the same side : intersection is missed and have to be checked
+              CALL INTERSECV0_25(
+     1                      IX3(I)  ,IX4(I) , INTERSECA,
+     1                      V12     ,V23    ,V34   ,V41    ,
+     2                      VO12    ,VO23  ,VO34   ,VO41  ,XX(I,1),
+     3                      YY(I,1) ,ZZ(I,1),XX(I,2),YY(I,2),ZZ(I,2),
+     4                      XX(I,3) ,YY(I,3),ZZ(I,3),XX(I,4),YY(I,4),
+     5                      ZZ(I,4) ,XX(I,5),YY(I,5),ZZ(I,5),
+     6                      XOI      ,YOI   ,ZOI    ,XO1   ,XO2    ,
+     7                      XO3     ,XO4    ,XO5    ,YO1   ,YO2    ,
+     8                      YO3     ,YO4    ,YO5    ,ZO1   ,ZO2    ,
+     9                      ZO3     ,ZO4    ,ZO5    ,XI(I) ,YI(I)  ,
+     A                      ZI(I)   ,ZEROM , UNP   )
+           ENDIF
+
            INTERSECTA(I)=INTERSECA
          ELSE
            CALL INTERSECB_25(
@@ -2532,7 +2556,7 @@ Chd|====================================================================
      2                    VO12     ,VO23  ,VO34   ,VO41  ,XX1    ,
      3                    YY1      ,ZZ1   ,XX2    ,YY2   ,ZZ2    ,
      4                    XX3      ,YY3   ,ZZ3    ,XX4   ,YY4    ,
-     5                    ZZ4      ,XX5   ,YY5    ,ZZ5   ,ADT0   ,
+     5                    ZZ4      ,XX5   ,YY5    ,ZZ5   ,
      6                    XOI      ,YOI   ,ZOI    ,XO1   ,XO2    ,
      7                    XO3     ,XO4    ,XO5    ,YO1   ,YO2    ,
      8                    YO3     ,YO4    ,YO5    ,ZO1   ,ZO2    ,
@@ -2548,11 +2572,11 @@ C-----------------------------------------------
       INTEGER IXX3  ,IXX4  ,INTERSECT
 C     REAL
       my_real
-     1     V12   ,V23    ,V34   ,V41    ,
+     1     V12      ,V23    ,V34   ,V41    ,
      2     VO12     ,VO23  ,VO34   ,VO41  ,XX1    ,
      3     YY1      ,ZZ1   ,XX2    ,YY2   ,ZZ2    ,
      4     XX3      ,YY3   ,ZZ3    ,XX4   ,YY4    ,
-     5     ZZ4      ,XX5   ,YY5    ,ZZ5   ,ADT0   ,
+     5     ZZ4      ,XX5   ,YY5    ,ZZ5   ,
      6     XOI      ,YOI   ,ZOI    ,XO1   ,XO2    ,
      7     XO3     ,XO4    ,XO5    ,YO1   ,YO2    ,
      8     YO3     ,YO4    ,YO5    ,ZO1   ,ZO2    ,
@@ -2650,12 +2674,13 @@ c           ZOI = ZI - ADT*VZI
      .        LC0 >= ZEROMT .AND. LC0 <= UNPT .AND.
      .        LA0 >= ZEROMT .AND. LA0 <= UNPT)THEN
              INTERSECT = 1
-             ADT0= ADT
            ENDIF
          ENDIF
+
          IF(IXX3 /= IXX4)THEN
-           AAA = ONE
-           ADT = DT1
+           IF(VO23 > ZERO .AND. V23 >= ZERO)THEN
+             AAA = ONE
+             ADT = DT1
 
              XM2 = XO2
              YM2 = YO2
@@ -2718,10 +2743,6 @@ c             ZOI = ZI - ADT*VZI
      .          LC0 >= ZEROMT.and. LC0 <= UNPT .and.
      .          LA0 >= ZEROMT.and. LA0 <= UNPT)THEN
                INTERSECT = 1
-
-               IF(ADT > ADT0)THEN
-                 ADT0= ADT
-               ENDIF
              ENDIF
           ENDIF
           IF(VO34 > ZERO .and. V34 >= ZERO )THEN
@@ -2789,9 +2810,6 @@ c            ZOI = ZI - ADT*VZI
      .         LC0 >= ZEROMT.and. LC0 <= UNPT .and.
      .         LA0 >= ZEROMT.and. LA0 <= UNPT)THEN
                INTERSECT = 1
-               IF(ADT > ADT0)THEN
-                 ADT0= ADT
-               ENDIF
             ENDIF
           ENDIF
 
@@ -2860,11 +2878,9 @@ c            ZOI = ZI - ADT*VZI
      .         LC0 >= ZEROMT.and. LC0 <= UNPT .and.
      .         LA0 >= ZEROMT.and. LA0 <= UNPT)THEN
                INTERSECT = 1
-               IF(ADT > ADT0)THEN
-                 ADT0= ADT
-               ENDIF
             ENDIF
           ENDIF
+         ENDIF
 C
       RETURN
       END

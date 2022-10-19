@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE I25PWR3(ITAB  ,INACTI,CAND_E,CAND_N ,STFN     ,
      1                   X     ,I_STOK,NSV   ,IWPENE ,PENE_OLD,
      2                   NOINT ,NTY   ,MSR   ,IRTLM  ,IRECT    ,
-     4                   NSN   ,ID    ,TITR   ,MSEGLO)
+     4                   NSN   ,ID    ,TITR   ,MSEGLO,ICONT_I)
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -54,6 +54,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),CAND_E(*),CAND_N(*), IRECT(4,*), IRTLM(4,*),
      .        MSEGLO(*)
       INTEGER I_STOK,NSV(*),MSR(*),IWPENE,INACTI,NOINT,NTY,NSN
+      INTEGER , INTENT(OUT) :: ICONT_I(NSN)
 C     REAL
       my_real
      .   STFN(*),X(3,*),PENE_OLD(5,*)
@@ -98,6 +99,7 @@ C            True initial penetration
      .                           PRMOD=MSG_CUMU)
              IF(INACTI==0)THEN
 C              Ignore initial penetrations
+               ICONT_I(J)=-IRTLM(1,J)
                IRTLM(1,J)   = 0
                IRTLM(2,J)   = 0
                IRTLM(3,J)   = 0
@@ -106,6 +108,7 @@ C              Ignore initial penetrations
 C              DESACTIVATION DES NOEUDS
                WRITE(IOUT,'(A)')'NODE STIFFNESS IS SET TO ZERO'
                STFN(J) = ZERO
+               ICONT_I(J)=-IRTLM(1,J)
 C            ELSE IF(INACTI==2) THEN
 C              DESACTIVATION DES ELEMENTS
 C              WRITE(IOUT,'(A)')

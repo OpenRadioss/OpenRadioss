@@ -127,7 +127,7 @@ C      I_OPT_STOK modifie ds i25optcd, apres barriere !
      6 NRTM ,INTBUF_TAB%VARIABLES(23),I_OPT_STOK,INTBUF_TAB%CAND_OPT_E,
      .                                               INTBUF_TAB%CAND_OPT_N,
      7 SIZOPT,IGAP   ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,DRAD,
-     8 DGAPLOAD)
+     8 DGAPLOAD,INTBUF_TAB%ICONT_I)
 C
 C      I_OPT_STOK modifie ds i25optcd, avant barriere
        IF(I_OPT_STOK > SIZOPT)THEN
@@ -151,7 +151,7 @@ C        I_OPT_STOK modifie ds i25optcd, apres barriere !
      6     NRTM ,INTBUF_TAB%VARIABLES(23),I_OPT_STOK,INTBUF_TAB%CAND_OPT_E,
      .                                                   INTBUF_TAB%CAND_OPT_N,
      7     SIZOPT,IGAP   ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML ,DRAD       ,
-     8     DGAPLOAD)
+     8     DGAPLOAD,INTBUF_TAB%ICONT_I)
        END IF
 C
 C      I_OPT_STOK modifie ds i25optcd, avant barriere
