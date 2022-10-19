@@ -332,6 +332,9 @@ c
       PM(21) = ZERO         ! NU
       PM(22) = STIFF*HALF   ! GMAX
       PM(24) = STIFF        ! Stiffness for time step computation
+C---- for QEPH (hourglass) :
+      STIFFAVG = MAX(KC,KT)
+      IF ( STIFFAVG > ZERO) PM(23) = EM01*STIFFAVG
 c-----------
       RETURN
       END
