@@ -473,7 +473,7 @@ if precision == sp local TSTEP Diff_Tolerance 0.05
 if precision == sp local STEP Diff_Tolerance 0.048
 if precision == sp local ERROR Abs_Tolerance 0.15
 if precision == sp local EXTWORK Diff_Tolerance 0.02
-if module = win64 local TSTEP Diff_Tolerance 0.001
+if module = win64 local TSTEP Diff_Tolerance 0.004
 go -engine
 #--------------------------------------------------------------------------------
 #1.35
