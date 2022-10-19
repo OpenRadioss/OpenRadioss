@@ -90,7 +90,7 @@ C-----------------------------------------------
       INTEGER KR1, KR2, KR3, KR4, KR5, KR6, KR7, KR8, KR9
       INTEGER KIA1, KIA2, KIA3, KIA4, KIA5, KIA6, KIA7, KIA8
       INTEGER KRA1, KRA2, KRA3, KRA4, KRA5, KRA6, KRA7, KRA8
-      INTEGER NSKIP, IEQUI, FVMBAG_PARAM_L_TYPE
+      INTEGER NSKIP, IEQUI
       my_real CFL_COEF
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -1445,30 +1445,32 @@ C---------------------------------------------------
       QA=RVOLU(46)
       QB=RVOLU(47)
 
-                   !--------!----------------!-------------------------------------------------------------------!
-                   ! VALUE  !  HOW TO ENABLE !   DESCRIPTION                                                     !
-      !------------!--------!----------------!-------------------------------------------------------------------!
-      ! IDTMIN(52) ! 0,1    !  default       !    legacy time step formulation (grid velocity ignored)           !
-      !  =         !  2     !  /DT/FVMBAG/2  !    velocity criterion at cendroid (2022) with characterisic length!
-      ! IDT_FVMBAG !  3     !  /DT/FVMBAG/3  !    velocity criterion face by face (2022)                         !
-      !------------!--------!----------------!-------------------------------------------------------------------!
+
+      ! /DT/FVMBAG/[ID_DT_OPTION]
+      !   ID_DT_OPTION = 0 obsolete
+      !   ID_DT_OPTION = 1 (legacy method), apply to all FVMBAG1
+      !   ID_DT_OPTION = 2 (2022.3), apply to given FVMBAG1 or FVMBAG2. 
+      !                              in this case characteristic length is calculated depending on L_TYPE flag
+      !                              and smoothing is applied :  dt <- min(dt,  dt_old*(1+lambda))
+                   !--------!-------------------------------------------------------------------!
+                   ! VALUE  !   DESCRIPTION                                                     !
+      !------------!--------!-------------------------------------------------------------------!
+      !            ! 0,1    !    Constant (Starter minimum characteritic length)                !
+      !  L_TYPE    !  2     !    VOLUME^1/3 at current time                                     !
+      !            !  3     !    VOLUME / SMAX at current time                                  !
+      !------------!--------!-------------------------------------------------------------------!
       
-      !LAMBDA : is smoothing ratio (for time step increase during next cycle)
-      !L_TYPE : is characteristic length option (IDT_FVMBAG = 2 only)   
-      !         0 : default is 1
-      !         1 : minimal edge length of initial bag mesh
-      !         2 : VOL**1/3
 
       !------------------------------!
-      ! --- CHARACTERISTIC LENGTH ---!
-      !------------------------------!
       IDT_FVMBAG = FVDATA(IFV)%ID_DT_OPTION  ! /DT/FVMBAG/[IDT_FVMBAG]
-      PARAM_L_TYPE = FVDATA(IFV)%L_TYPE     
+               
       SELECT CASE(IDT_FVMBAG)
 
         ! /DT/FVMBAG/1 
         CASE(0,1)
         ! ------------ 
+          PARAM_L_TYPE = 0
+
 !$OMP DO SCHEDULE(GUIDED,1)        
           DO I=1,NPOLH
              IF (IBPOLH(I) == 0 .AND.IDTMIN(52) < 2) THEN
@@ -1481,39 +1483,46 @@ C---------------------------------------------------
 
         ! /DT/FVMBAG/2
         CASE(2) 
-        ! ------------        
+        ! ------------    
+          PARAM_L_TYPE = FVDATA(IFV)%L_TYPE
+              
           SELECT CASE(PARAM_L_TYPE)
+
+            ! /DT/FVMBAG/2 +L_TYPE=0,1          
             CASE(0,1) !dl = starter constant
 !$OMP DO SCHEDULE(GUIDED,1)
               DO I=1,NPOLH
                 DLS(I)=DLH 
               ENDDO
-!$OMP END DO          
+!$OMP END DO         
+
+            ! /DT/FVMBAG/2 +L_TYPE=2 
             CASE(2) ! dl=VOL**1/3
 !$OMP DO SCHEDULE(GUIDED,1)
               DO I=1,NPOLH
                 DLS(I)=PVOLU(I)**THIRD  
               ENDDO
 !$OMP END DO          
+
+            ! /DT/FVMBAG/2 +L_TYPE=3
+            CASE(3) 
+!$OMP DO SCHEDULE(GUIDED,1)
+              DO I=1,NPOLH
+                DLS(I)=PVOLU(I)
+              ENDDO
+!$OMP END DO
+
           END SELECT!PARAM_L_TYPE
 
-        ! /DT/FVMBAG/3
-        CASE(3) 
-        ! ------------
-!$OMP DO SCHEDULE(GUIDED,1)
-           DO I=1,NPOLH
-             DLS(I)=PVOLU(I)
-          ENDDO
-!$OMP END DO
 
       END SELECT!IDT_FVMBAG
 
       !------------------------------!
       ! ---      TIME STEP        ---!
       !------------------------------!
-      SELECT CASE (IDT_FVMBAG)
+      SELECT CASE (IDT_FVMBAG)   ! IDT_FVMBAG=FVDATA(IFV)%ID_DT_OPTION
 
-        CASE(0,1)
+        CASE(0,1)  !/DT/FVMBAG/0 & /DT/FVMBAG/1
 !$OMP DO SCHEDULE(GUIDED,1)
          DO I=1,NPOLH
            IF(MPOLH(I)<=ZERO.OR.EPOLH(I)<=ZERO.OR.GPOLH(I)<=ONE) THEN
@@ -1534,109 +1543,116 @@ C---------------------------------------------------
          ENDDO
 !$OMP END DO
 
-        CASE(2) !time step computed from a characteristic length
+        CASE(2) ! !/DT/FVMBAG/2 
+          PARAM_L_TYPE = FVDATA(IFV)%L_TYPE !characteristic length formulation
+        
+          IF(PARAM_L_TYPE /= 3)THEN !L_TYPE=0/1 & 2
 !$OMP DO SCHEDULE(GUIDED,1)
-          DO I=1,NPOLH
-             IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= ONE) THEN
-                DTPOLH(I)=EP30
-                QVISC(I) =ZERO
-             ELSE
-               ! 1.calculating Grid Velocity for each polyhedron
-               PW(1:3,I)=ZERO
-               NPOLYG = IFVPADR(I+1) - IFVPADR(I)
-               NTRIA_TOT = ZERO
-               !loop over polygons
-               DO J=IFVPADR(I),IFVPADR(I+1)-1
-                  JJ=IFVPOLH(J)
-                  NTRIA = IFVTADR(JJ+1) - IFVTADR(JJ)
-                  WSURF(1:3)=ZERO
-                  NTRIA_TOT = NTRIA_TOT + NTRIA
-                  !loop over triangles
-                  DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
-                     KK  =IFVPOLY(K)
-                     IF(KK>0)THEN
-                       WSURF(1)=WSURF(1)+VGRID(1,KK)
-                       WSURF(2)=WSURF(2)+VGRID(2,KK)
-                       WSURF(3)=WSURF(3)+VGRID(3,KK)
-                     ENDIF
-                  ENDDO! next K (triangle)
-                  PW(1,I)=PW(1,I)+WSURF(1)
-                  PW(2,I)=PW(2,I)+WSURF(2)
-                  PW(3,I)=PW(3,I)+WSURF(3)
-               ENDDO! next J (polygon)
-               !PW:polyhedron mean value over all triangles
-               PW(1,I)=PW(1,I)/NTRIA_TOT
-               PW(2,I)=PW(2,I)/NTRIA_TOT
-               PW(3,I)=PW(3,I)/NTRIA_TOT
-               ! 2.artificial viscosity
-               AL=PVOLU(I)**THIRD
-               DD=DM(I)/MPOLH(I)
-               AD=MAX(ZERO,DD)
-               GAMA=GPOLH(I)
-               SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))
-               QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
-               QX=QB*SSP+AL*QA*QA*AD
-               SSP=QX+SQRT(QX*QX+SSP*SSP)
-               ! 3.relative velocty (PU:material velocity : PW:grid velocity)
-               TMP_VEC(1)=PU(1,I)-PW(1,I)
-               TMP_VEC(2)=PU(2,I)-PW(2,I)
-               TMP_VEC(3)=PU(3,I)-PW(3,I)
-               VV=SQRT(TMP_VEC(1)*TMP_VEC(1)+TMP_VEC(2)*TMP_VEC(2)+TMP_VEC(3)*TMP_VEC(3))
-               ! 4.time step
-               DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+VV)
-             ENDIF
-          ENDDO
+            DO I=1,NPOLH
+               IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= ONE) THEN
+                  DTPOLH(I)=EP30
+                  QVISC(I) =ZERO
+               ELSE
+                 ! 1.calculating Grid Velocity for each polyhedron
+                 PW(1:3,I)=ZERO
+                 NPOLYG = IFVPADR(I+1) - IFVPADR(I)
+                 NTRIA_TOT = ZERO
+                 !loop over polygons
+                 DO J=IFVPADR(I),IFVPADR(I+1)-1
+                    JJ=IFVPOLH(J)
+                    NTRIA = IFVTADR(JJ+1) - IFVTADR(JJ)
+                    WSURF(1:3)=ZERO
+                    NTRIA_TOT = NTRIA_TOT + NTRIA
+                    !loop over triangles
+                    DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
+                       KK  =IFVPOLY(K)
+                       IF(KK>0)THEN
+                         WSURF(1)=WSURF(1)+VGRID(1,KK)
+                         WSURF(2)=WSURF(2)+VGRID(2,KK)
+                         WSURF(3)=WSURF(3)+VGRID(3,KK)
+                       ENDIF
+                    ENDDO! next K (triangle)
+                    PW(1,I)=PW(1,I)+WSURF(1)
+                    PW(2,I)=PW(2,I)+WSURF(2)
+                    PW(3,I)=PW(3,I)+WSURF(3)
+                 ENDDO! next J (polygon)
+                 !PW:polyhedron mean value over all triangles
+                 PW(1,I)=PW(1,I)/NTRIA_TOT
+                 PW(2,I)=PW(2,I)/NTRIA_TOT
+                 PW(3,I)=PW(3,I)/NTRIA_TOT
+                 ! 2.artificial viscosity
+                 AL=PVOLU(I)**THIRD
+                 DD=DM(I)/MPOLH(I)
+                 AD=MAX(ZERO,DD)
+                 GAMA=GPOLH(I)
+                 SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))
+                 QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
+                 QX=QB*SSP+AL*QA*QA*AD
+                 SSP=QX+SQRT(QX*QX+SSP*SSP)
+                 ! 3.relative velocty (PU:material velocity : PW:grid velocity)
+                 TMP_VEC(1)=PU(1,I)-PW(1,I)
+                 TMP_VEC(2)=PU(2,I)-PW(2,I)
+                 TMP_VEC(3)=PU(3,I)-PW(3,I)
+                 VV=SQRT(TMP_VEC(1)*TMP_VEC(1)+TMP_VEC(2)*TMP_VEC(2)+TMP_VEC(3)*TMP_VEC(3))
+                 ! 4.time step
+                 DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+VV)
+               ENDIF
+            ENDDO
 !$OMP END DO
 
-        CASE(3) ! check all faces and compute normal relative velocities
+          ELSE !L_TYPE=3
+           
 !$OMP DO SCHEDULE(GUIDED,1)
-          DO I=1,NPOLH
-             IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= ONE) THEN
-                DTPOLH(I)=EP30
-                QVISC(I) =ZERO
-             ELSE
-               GAMA=GPOLH(I)
-               ! 1.calculating Grid Velocity for each polyhedron
-               PW(1:3,I)=ZERO
-               Denom_max = ZERO
-               DO J=IFVPADR(I),IFVPADR(I+1)-1
-                  JJ=IFVPOLH(J)
-                  NTRIA = IFVTADR(JJ+1) - IFVTADR(JJ)
-                  WSURF(1:3)=ZERO
-                  DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
-                     KK  =IFVPOLY(K)
-                     AREA=PAREA(KK)
-                     IEL1=IFVTRI(5, KK)
-                     IEL2=IFVTRI(6, KK)
-                     IF(IEL2==0)IEL2=I !bounday surface
-                     IF(IEL1==0)IEL1=I
-                     VMAT(1) = HALF*(PU(1,IEL1)+PU(1,IEL2))
-                     VMAT(2) = HALF*(PU(2,IEL1)+PU(2,IEL2))
-                     VMAT(3) = HALF*(PU(3,IEL1)+PU(3,IEL2))
-                     SSP1= SQRT((GAMA-ONE)*GAMA*EPOLH(IEL1)/MPOLH(IEL1))
-                     SSP2= SQRT((GAMA-ONE)*GAMA*EPOLH(IEL2)/MPOLH(IEL2))
-                     SSPt = HALF*(SSP1+SSP2)
-                     TMP_VEC(1) = (VMAT(1)-VGRID(1,KK))*PNORM(1,KK)
-                     TMP_VEC(2) = (VMAT(2)-VGRID(2,KK))*PNORM(2,KK)
-                     TMP_VEC(3) = (VMAT(3)-VGRID(3,KK))*PNORM(3,KK)
-                     Denom = AREA*(SQRT(TMP_VEC(1)*TMP_VEC(1)+TMP_VEC(2)*TMP_VEC(2)+TMP_VEC(3)*TMP_VEC(3)) + SSPt)
-                     Denom_max = MAX(Denom, Denom_max)
-                  ENDDO! next K (triangle)
-               ENDDO! next J (polygon)
-               ! 2.artificial viscosity
-               AL=PVOLU(I)**THIRD
-               DD=DM(I)/MPOLH(I)
-               AD=MAX(ZERO,DD)
-               GAMA=GPOLH(I)
-               SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))
-               QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
-               QX=QB*SSP+AL*QA*QA*AD
-               SSP=QX+SQRT(QX*QX+SSP*SSP)
-               ! 3.time step
-               DTPOLH(I)=CFL_COEF*DLS(I)/(denom_max)
-             ENDIF
-          ENDDO
+             DO I=1,NPOLH
+                IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= ONE) THEN
+                   DTPOLH(I)=EP30
+                   QVISC(I) =ZERO
+                ELSE
+                  ! 1.calculating Grid Velocity for each polyhedron
+                  PW(1:3,I)=ZERO
+                  Denom_max = ZERO
+                  DO J=IFVPADR(I),IFVPADR(I+1)-1
+                     JJ=IFVPOLH(J)
+                     NTRIA = IFVTADR(JJ+1) - IFVTADR(JJ)
+                     WSURF(1:3)=ZERO
+                     DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
+                        KK  =IFVPOLY(K)
+                        AREA=PAREA(KK)
+                        IEL1=IFVTRI(5, KK)
+                        IEL2=IFVTRI(6, KK)
+                        IF(IEL2==0)IEL2=I !bounday surface
+                        IF(IEL1==0)IEL1=I
+                        VMAT(1) = HALF*(PU(1,IEL1)+PU(1,IEL2))
+                        VMAT(2) = HALF*(PU(2,IEL1)+PU(2,IEL2))
+                        VMAT(3) = HALF*(PU(3,IEL1)+PU(3,IEL2))
+                        GAMA=GPOLH(I)                     
+                        SSP1= SQRT((GAMA-ONE)*GAMA*EPOLH(IEL1)/MPOLH(IEL1))
+                        SSP2= SQRT((GAMA-ONE)*GAMA*EPOLH(IEL2)/MPOLH(IEL2))
+                        SSPt = HALF*(SSP1+SSP2)
+                        TMP_VEC(1) = (VMAT(1)-VGRID(1,KK))*PNORM(1,KK)
+                        TMP_VEC(2) = (VMAT(2)-VGRID(2,KK))*PNORM(2,KK)
+                        TMP_VEC(3) = (VMAT(3)-VGRID(3,KK))*PNORM(3,KK)
+                        Denom = AREA*(SQRT(TMP_VEC(1)*TMP_VEC(1)+TMP_VEC(2)*TMP_VEC(2)+TMP_VEC(3)*TMP_VEC(3)) + SSPt)
+                        Denom_max = MAX(Denom, Denom_max)
+                     ENDDO! next K (triangle)
+                  ENDDO! next J (polygon)
+                  ! 2.artificial viscosity
+                  AL=PVOLU(I)**THIRD
+                  DD=DM(I)/MPOLH(I)
+                  AD=MAX(ZERO,DD)
+                  GAMA=GPOLH(I)
+                  SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))
+                  QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
+                  QX=QB*SSP+AL*QA*QA*AD
+                  SSP=QX+SQRT(QX*QX+SSP*SSP)
+                  ! 3.time step
+                  DTPOLH(I)=CFL_COEF*DLS(I)/(denom_max)
+                ENDIF
+             ENDDO
 !$OMP END DO
+           
+          ENDIF
+
 
       END SELECT
 
@@ -1651,8 +1667,8 @@ C---------------------------------------------------
          ENDIF
       ENDDO
       
-      !optionnal time step growth limitor (/DT/FVMBAG/2, 3rd parameter)
-      IF(NCYCLE > 0)THEN
+      !optionnal time step growth limitor (/DT/FVMBAG/2, lambda parameter)
+      IF(NCYCLE > 0 .AND. IDT_FVMBAG == 2)THEN
         PARAM_LAMBDA =  FVDATA(IFV)%LAMBDA
         IF(PARAM_LAMBDA > ZERO)THEN
           DTOLD = FVDATA(IFV)%DTOLD

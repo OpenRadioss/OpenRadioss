@@ -154,7 +154,7 @@ C-----------------------------------------------
      .   KUPWIND,KTHERMAL,KH3D,KREPORT,KNEGVOL,KADYREL,KDT1TET10,KPERF,
      .   KDYNAIN,KDTTSH,KMASS
       INTEGER
-     .   IKEY, I, II, I1, J1, J2, K, M, N, NCT, IKOLD, NBC, K3, K4,
+     .   IKEY, I, II, I1, J1, J2, K,KK, M, N, NCT, IKOLD, NBC, K3, K4,
      .   NUBCS1,NUBCS2, IR,IDT,NELTGOF,
      .   IAL, NINTOF, NELSOF, NDEL, NOF,ITTYP, NCPRI0,NCPRI_HEAD0,IGTYP,
      .   NELQOF, NELCOF, NELTOF, NELPOF, NELROF, NUM_BCS, NINTCH,
@@ -276,9 +276,10 @@ C
         FVMBAG_INPUT_OPTIONS(II)%LAMBDA = ZERO 
         FVMBAG_INPUT_OPTIONS(II)%ID_BAG = 0
         FVMBAG_INPUT_OPTIONS(II)%L_type = 0
-        FVMBAG_INPUT_OPTIONS(II)%ID_DT_OPTION = 0        
+        FVMBAG_INPUT_OPTIONS(II)%ID_DT_OPTION = -1
       ENDDO
       NUM_OPT_DT_FVMBAG = 0
+      NUM_OPT_DT_FVMBAG_0 = 0
       NUM_OPT_DT_FVMBAG_1 = 0
       NUM_OPT_DT_FVMBAG_2 = 0
       NUM_OPT_DT_FVMBAG_3 = 0
@@ -1188,37 +1189,43 @@ C           si /DT/AMS lu + tard ce qui suit sera ecrase
          NODSUBDT=1
          IF(IDT==3)NODSUBDT=2
         ELSEIF(KEY2(1:5)=='FVMBA') THEN
-         DTFAC1(52) = DTFACA
-         DTMIN1(52) = DTMINA
-         IDTMIN(52) = 0
-         IF(KEY3(1:1)=='1')THEN
+         IF(KEY3(1:1)=='0')THEN
+           ID_DT_OPTION = 0
+           DTFAC1(52) = DTFACA
+           DTMIN1(52) = DTMINA    
+           IDTMIN(52) = ID_DT_OPTION        
+         ELSEIF(KEY3(1:1)=='1')THEN
            ID_DT_OPTION = 1
+           DTFAC1(52) = DTFACA
+           DTMIN1(52) = DTMINA    
+           IDTMIN(52) = ID_DT_OPTION   
          ELSEIF(KEY3(1:1)=='2')THEN
            ID_DT_OPTION = 2
-         ELSEIF(KEY3(1:1)=='3')THEN
-           ID_DT_OPTION = 3
+           !option requires an airbag_id.
          ELSE
            ID_DT_OPTION = 1
+           DTFAC1(52) = DTFACA
+           DTMIN1(52) = DTMINA 
+           IDTMIN(52) = ID_DT_OPTION                      
          ENDIF
-         IDTMIN(52) = ID_DT_OPTION        
+
          LAMBDA = MAX(ZERO, LAMBDA)
          FVMBAG_L_TYPE = INT(L_TYPE)
          FVMBAG_L_TYPE = MIN(FVMBAG_L_TYPE,2) !input check:upper bound
          FVMBAG_L_TYPE = MAX(0,FVMBAG_L_TYPE) !input check:lower bound
          !storing in temporary data structure. It will be used to fill the final data structure when restart file is read (not yet allocated)         
+         IF(ID_DT_OPTION == 0)NUM_OPT_DT_FVMBAG_0 = NUM_OPT_DT_FVMBAG_0 + 1
          IF(ID_DT_OPTION == 1)NUM_OPT_DT_FVMBAG_1 = NUM_OPT_DT_FVMBAG_1 + 1
          IF(ID_DT_OPTION == 2)NUM_OPT_DT_FVMBAG_2 = NUM_OPT_DT_FVMBAG_2 + 1
          IF(ID_DT_OPTION == 3)NUM_OPT_DT_FVMBAG_3 = NUM_OPT_DT_FVMBAG_3 + 1         
          NUM_OPT_DT_FVMBAG = NUM_OPT_DT_FVMBAG + 1
+         FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%CFL_COEF = DTFACA 
+         FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%DTMIN = DTMINA 
          FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%LAMBDA = LAMBDA 
          FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%ID_BAG = ID_BAG
          FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%L_type = FVMBAG_L_TYPE
          FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%ID_DT_OPTION = ID_DT_OPTION
-         !Warn user if incompatible options are defined
-         IF(NUM_OPT_DT_FVMBAG_1 * NUM_OPT_DT_FVMBAG_2 > 0)THEN
-            CALL ANCMSG(MSGID=298,ANMODE=ANINFO,I1=ID_BAG)
-         ENDIF
-         
+         !Input check is done later in rdresb.F>FVRREST once all keywords are finished to be read & before deallocating (FVMBAG_INPUT_OPTIONS)
          
         ELSEIF(KEY2(1:3)=='AMS')THEN
           DT_CTRL_COMPATIBILITY(2) = 1

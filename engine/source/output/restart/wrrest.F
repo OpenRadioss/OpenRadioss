@@ -548,13 +548,15 @@ C--------------------------------------
         CALL WRITE_I_C(NFVBAG,LEN)
 C
       DO I=1,NFVBAG
+
+         CALL WRITE_I_C(FVDATA(I)%L_TYPE,1)
+         CALL WRITE_I_C(FVDATA(I)%ID_DT_OPTION,1)            
+         CALL WRITE_DB(FVDATA(I)%LAMBDA,1)
+         CALL WRITE_DB(FVDATA(I)%DTOLD,1)
+         CALL WRITE_DB(FVDATA(I)%CFL_COEF,1)
+         CALL WRITE_DB(FVDATA(I)%DTMIN,1)
+      
          IF (IMACH==3) THEN
-            CALL WRITE_I_C(FVDATA(I)%L_TYPE,1)
-            CALL WRITE_I_C(FVDATA(I)%ID_DT_OPTION,1)            
-            CALL WRITE_DB(FVDATA(I)%LAMBDA,1)
-            CALL WRITE_DB(FVDATA(I)%DTOLD,1)
-            CALL WRITE_DB(FVDATA(I)%CFL_COEF,1)
-            CALL WRITE_DB(FVDATA(I)%DTMIN,1)
             TABI(1)=FVSPMD(I)%NN_L
             TABI(2)=FVSPMD(I)%NNA_L
             TABI(3)=FVSPMD(I)%NNSA_L

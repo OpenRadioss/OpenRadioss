@@ -123,7 +123,7 @@ C-----------------------------------------------
       my_real TSWITCH, PARAM, LX, LY, LZ, CNMERG, QA, QB, PTOLE,HMIN, CFL_COEF, DTMIN, SJET, CGMERG
       my_real NX, NY, NZ, XX, YY, ZZ, X13, Y13, Z13, X24, Y24, Z24
       my_real ORIGX, ORIGY, ORIGZ, DIR2X, DIR2Y, DIR2Z, DIR, DS, DIRX, DIRY, DIRZ, TMP
-      INTEGER :: KMESH
+      INTEGER :: KMESH,ID_DT_OPTION
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C     E x t e r n a l   F u n c t i o n s
@@ -135,6 +135,7 @@ C     B e g i n n i n g   o f   s o u r c e
 C-----------------------------------------------
       MESS = 'MONITORED VOLUME DEFINITION             '        
       lFOUND=.FALSE.
+      ID_DT_OPTION=2
 C     =======
 C     Reading
 C     =======
@@ -528,7 +529,11 @@ C     ==============
       IF (PTOLE==ZERO) PTOLE=EM5 
       IF (NLAYER ==0) NLAYER =10
       IF (NFACMAX==0) NFACMAX=20
-      IF (NPPMAX ==0) NPPMAX =20            
+      IF (NPPMAX ==0) NPPMAX =20    
+      
+      IF(CFL_COEF/=ZERO .AND. DTMIN/=ZERO)ID_DT_OPTION=1
+      IF(CFL_COEF==ZERO)CFL_COEF=ZEP9        
+      IF(DTMIN==ZERO)DTMIN=EM20      
 
          !------------------------------------------------------!  
 C     =====
@@ -539,6 +544,7 @@ C     =====
       IEQUI = 1
       T_MONVOLN%IVOLU(15) = IEQUI
       T_MONVOLN%IVOLU(17) = ITTF
+      T_MONVOLN%IVOLU(27) = ID_DT_OPTION
       T_MONVOLN%IVOLU(30) = KMESH
       T_MONVOLN%IVOLU(35)=NBX*NBY
       T_MONVOLN%IVOLU(37) = NSWITCH

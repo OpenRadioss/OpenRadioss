@@ -1092,20 +1092,22 @@ C QA, QB AND STABILITY
 C---------------------------------------------------
 !$OMP SINGLE
 
-                   !--------!----------------!-------------------------------------------------------------------!
-                   ! VALUE  !  HOW TO ENABLE !   DESCRIPTION                                                     !
-      !------------!--------!----------------!-------------------------------------------------------------------!
-      ! IDTMIN(52) ! 0,1    !  default       !    legacy time step formulation (grid velocity ignored)           !
-      !  =         !  2     !  /DT/FVMBAG/2  !    velocity criterion at cendroid (2022) with characterisic length!
-      ! IDT_FVMBAG !  3     !  /DT/FVMBAG/3  !    velocity criterion face by face (2022)                         !
-      !------------!--------!----------------!-------------------------------------------------------------------!
+      ! /DT/FVMBAG/[ID_DT_OPTION]
+      !   ID_DT_OPTION = 0 obsolete
+      !   ID_DT_OPTION = 1 (legacy method), apply to all FVMBAG1
+      !   ID_DT_OPTION = 2 (2022.3), apply to given FVMBAG1 or FVMBAG2. 
+      !                              in this case characteristic length is calculated depending on L_TYPE flag
+      !                              and smoothing is applied :  dt <- min(dt,  dt_old*(1+lambda))
+                   !--------!-------------------------------------------------------------------!
+                   ! VALUE  !   DESCRIPTION                                                     !
+      !------------!--------!-------------------------------------------------------------------!
+      !            ! 0,1    !    Constant (Starter minimum characteritic length)                !
+      !  L_TYPE    !  2     !    VOLUME^1/3 at current time                                     !
+      !            !  3     !    VOLUME / SMAX at current time                                  !
+      !------------!--------!-------------------------------------------------------------------!
       
-      !LAMBDA : is smoothing ratio (for time step increase during next cycle)
-      !L_TYPE : is characteristic length option (IDT_FVMBAG = 2 only)   
-      !         0 : default is 1
-      !         1 : minimal edge length of initial bag mesh
-      !         2 : VOL**1/3
-            
+
+      !------------------------------!      
       IDT_FVMBAG = FVDATA(IFV)%ID_DT_OPTION     !IDTMIN(52)  ! /DT/FVMBAG/[IDT_FVMBAG]
 
       QA=RVOLU(46)
@@ -1118,12 +1120,13 @@ C---------------------------------------------------
       ! --- CHARACTERISTIC LENGTH ---!
       !------------------------------!
       IDT_FVMBAG = FVDATA(IFV)%ID_DT_OPTION  ! /DT/FVMBAG/[IDT_FVMBAG]
-      PARAM_L_TYPE = FVDATA(IFV)%L_TYPE           
+              
       SELECT CASE(IDT_FVMBAG)
 
         ! /DT/FVMBAG/1 
         CASE(0,1)
         ! ------------ 
+           PARAM_L_TYPE = 0
 !$OMP DO SCHEDULE(GUIDED,1)        
           DO I=1,NPOLH
              IF (IBPOLH(I) == 0) THEN
@@ -1136,30 +1139,32 @@ C---------------------------------------------------
 
         ! /DT/FVMBAG/2
         CASE(2) 
-        ! ------------        
+        ! ------------   
+          PARAM_L_TYPE = FVDATA(IFV)%L_TYPE  
+                
           SELECT CASE(PARAM_L_TYPE)
             CASE(0,1) !dlh = starter constant
+            ! /DT/FVMBAG/2 + L_TYPE=0,1 
 !$OMP DO SCHEDULE(GUIDED,1)
               DO I=1,NPOLH
                 DLS(I)=DLH 
               ENDDO
 !$OMP END DO          
             CASE(2) ! dl=VOL**1/3
+            ! /DT/FVMBAG/2 + L_TYPE=2
 !$OMP DO SCHEDULE(GUIDED,1)
               DO I=1,NPOLH
                 DLS(I)=PVOLU(I)**THIRD  
               ENDDO
+!$OMP END DO       
+            CASE(3) ! dl=VOL**1/3
+            ! /DT/FVMBAG/2 + L_TYPE=3
+!$OMP DO SCHEDULE(GUIDED,1)
+              DO I=1,NPOLH
+                DLS(I)=PVOLU(I)  
+              ENDDO
 !$OMP END DO          
           END SELECT!PARAM_L_TYPE
-
-        ! /DT/FVMBAG/3
-        CASE(3) 
-        ! ------------
-!$OMP DO SCHEDULE(GUIDED,1)
-           DO I=1,NPOLH
-             DLS(I)=PVOLU(I)
-          ENDDO
-!$OMP END DO
 
       END SELECT!IDT_FVMBAG
       
@@ -1193,8 +1198,12 @@ C
 !$OMP END DO
 
         CASE(2) !time step computed from a characteristic length
+        
+         PARAM_L_TYPE = FVDATA(IFV)%L_TYPE !characteristic length formulation
+        
+          IF(PARAM_L_TYPE /= 3)THEN !L_TYPE=0/1 & 2        
 !$OMP DO SCHEDULE(GUIDED,1)
-          DO I=1,NPOLH
+           DO I=1,NPOLH
              IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= ONE) THEN
                 DTPOLH(I)=EP30
                 QVISC(I) =ZERO
@@ -1233,21 +1242,21 @@ C
                ! 4.time step            
                DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+VV)
              ENDIF
-          ENDDO
+           ENDDO
 !$OMP END DO
 
-        CASE(3) ! check all faces and compute normal relative velocities
+          ELSE !L_TYPE=3 ! check all faces and compute normal relative velocities
 !$OMP DO SCHEDULE(GUIDED,1)
-          DO I = 1, NPOLH
+           DO I = 1, NPOLH
              SS_=ZERO
              DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS_SIZE
                 IEL = FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS(J)
-!         FINITE VOLUME I IS ON THE LEFT SIDE OF ELEMENT IEL, HENCE A + SIGN
+!          FINITE VOLUME I IS ON THE LEFT SIDE OF ELEMENT IEL, HENCE A + SIGN
                 SS_=MAX(SS_,SS(IEL)) ! <|u-w|,n>
              ENDDO
              DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%PLUS_SIZE
                 IEL = FVDATA(IFV)%ELEM_TO_TRI(I)%PLUS(J)
-!         FINITE VOLUME I IS ON THE RIGHT SIDE OF ELEMENT IEL, HENCE A - SIGN
+!          FINITE VOLUME I IS ON THE RIGHT SIDE OF ELEMENT IEL, HENCE A - SIGN
                 SS_=MAX(SS_,SS(IEL)) ! <|u-w|,n>
              ENDDO
              
@@ -1264,8 +1273,9 @@ C
              !    u-w = 0 unless in case of porosity
              ! 4.time step                                                             
              DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+SS_)                                  
-          ENDDO
+           ENDDO
 !$OMP END DO
+          ENDIF
 
       END SELECT
 
@@ -1280,7 +1290,7 @@ C
       ENDDO
       
       !optionnal time step growth limitor (/DT/FVMBAG/2, 3rd parameter)
-      IF(NCYCLE > 0)THEN
+      IF(NCYCLE > 0  .AND.  IDT_FVMBAG == 2)THEN
         LAMBDA = FVDATA(IFV)%LAMBDA
         IF(LAMBDA > ZERO)THEN
           DTOLD = FVDATA(IFV)%DTOLD   

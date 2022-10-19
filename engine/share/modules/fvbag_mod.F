@@ -165,6 +165,8 @@ C-----------------------------------------------
         INTEGER ID_BAG        ! airbag identifier
         INTEGER L_TYPE        ! charactersitic length option
         INTEGER ID_DT_OPTION  !/DT/FVMBAG/[ID_DT_OPTION]
+        my_real CFL_COEF
+        my_real DTMIN        
         my_real LAMBDA        ! 3rd paramter of /DT/FVMBAG option
       END TYPE FVMBAG_INPUT_OPTIONS_
             
@@ -177,9 +179,10 @@ C-----------------------------------------------
 C-----------------------------------------------      
       TYPE(FVMBAG_INPUT_OPTIONS_),DIMENSION(:), ALLOCATABLE :: FVMBAG_INPUT_OPTIONS
       INTEGER NUM_OPT_DT_FVMBAG   !number of option /DT/FVMBAG/[0-9] in Engine file
+      INTEGER NUM_OPT_DT_FVMBAG_0 !number of option /DT/FVMBAG/0 in Engine file
       INTEGER NUM_OPT_DT_FVMBAG_1 !number of option /DT/FVMBAG/1 in Engine file
       INTEGER NUM_OPT_DT_FVMBAG_2 !number of option /DT/FVMBAG/2 in Engine file
-      INTEGER NUM_OPT_DT_FVMBAG_3 !number of option /DT/FVMBAG/2 in Engine file      
+      INTEGER NUM_OPT_DT_FVMBAG_3 !number of option /DT/FVMBAG/3 in Engine file      
 C-----------------------------------------------      
 
       END MODULE FVBAG_MOD
