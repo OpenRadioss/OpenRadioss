@@ -275,15 +275,15 @@ C-----------------------------------------------
           IKINW => IMPBUF_TAB%IKINW
           IKC => IMPBUF_TAB%IKC
           IKUD => IMPBUF_TAB%IKUD
-C		  
+C         
           DIAG_K  =>IMPBUF_TAB%DIAG_K  
-		  LT_K    =>IMPBUF_TAB%LT_K    
-		  BKUD    =>IMPBUF_TAB%BKUD    
-		  D_IMP   =>IMPBUF_TAB%D_IMP   
-		  DR_IMP  =>IMPBUF_TAB%DR_IMP   
-		  ELBUF_C =>IMPBUF_TAB%ELBUF_C 
-		  BUFMAT_C=>IMPBUF_TAB%BUFMAT_C
-		  LB      =>IMPBUF_TAB%LB
+          LT_K    =>IMPBUF_TAB%LT_K    
+          BKUD    =>IMPBUF_TAB%BKUD    
+          D_IMP   =>IMPBUF_TAB%D_IMP   
+          DR_IMP  =>IMPBUF_TAB%DR_IMP   
+          ELBUF_C =>IMPBUF_TAB%ELBUF_C 
+          BUFMAT_C=>IMPBUF_TAB%BUFMAT_C
+          LB      =>IMPBUF_TAB%LB
 C------------------------------------------------------------
       L1 = 1+NIXS*NUMELS
       L2 = L1+6*NUMELS10
@@ -311,9 +311,9 @@ C
        ENDIF
        NT_RW=0
        DO I=1,NUMNOD
-	    N1 = 3*(I-1)+1
-	    N2 = 3*(I-1)+2
-	    N3 = 3*(I-1)+3
+        N1 = 3*(I-1)+1
+        N2 = 3*(I-1)+2
+        N3 = 3*(I-1)+3
         X(1,I)=X(1,I)-D_IMP(N1)
         X(2,I)=X(2,I)-D_IMP(N2)
         X(3,I)=X(3,I)-D_IMP(N3)
@@ -365,7 +365,7 @@ citask0       IF (ITASK == 0) THEN
 C-------------
         NT_RW=0
         NRWDONE = 0
-	       IMCONV = 1
+           IMCONV = 1
         IF (NRWALL>0) THEN
          CALL RGWAL0_IMP(
      1     X           ,D_IMP    ,V      ,RWBUF   ,LPRW    ,
@@ -502,12 +502,8 @@ C
        ENDDO
 C
       IF (BISOLV>=2) THEN
-C  Renumerotation des ddls du graphe pour suivre celle de la matrice
-C  de rigidite
-         CALL DSRENUM0(GRAPHE, NDDL_INI0)
-         CALL DSRENUM(GRAPHE, IDDL, NDOF, NDDL0, NDDL_INI0)
-C  Report des blocages au niveau du graphe pour DSOLVE
-         CALL DSACTI1(GRAPHE, IKC, NDDL, NDDL0)
+         WRITE(6,*) "/IMPL/GRAPH is deprecated"
+         CALL ARRET(5)
       ENDIF
 C Calcul des charges critiques et des modes de flambement
       NM=BINCV
@@ -615,9 +611,9 @@ C
      .               MUMPS_PAR%IRN_LOC(NZLOC),
      .               MUMPS_PAR%JCN_LOC(NZLOC))
             IF (ISPMD==0) THEN
-	         ALLOCATE(MUMPS_PAR%RHS(NDDLG))
-	        ELSE
-	         ALLOCATE(MUMPS_PAR%RHS(0))
+             ALLOCATE(MUMPS_PAR%RHS(NDDLG))
+            ELSE
+             ALLOCATE(MUMPS_PAR%RHS(0))
             ENDIF
             MUMPS_PAR%N=NDDLG
             MUMPS_PAR%NZ_LOC=NZLOC
@@ -677,70 +673,8 @@ C
 C
          DEALLOCATE(DIAG_OP, LT_OP)
       ELSEIF (BISOLV==2) THEN
-C Resolution AMLS (mono + SPMD)
-         DO I=1,NDDL
-            INO=GRAPHE(1)%LSDDL(1,I)
-            II=GRAPHE(1)%LSDDL(2,I)
-            IF (II<=3) THEN
-               MASS(I)=MS(INO)
-            ELSE
-               MASS(I)=IN(INO)
-            ENDIF
-         ENDDO
-C
-         TOL0=TOL
-         IOPT=2
-         IWKLI=0
-         NBLF=20
-         IF (NSPMD==1.OR.ISPMD==0)
-     .      WRITE(ISTDO,'(A)') ' * MULTI-LEVEL DYNAMIC CONDENSATION *'
-         CALL DSCOND(GRAPHE, DIAG_K, LT_K, IADK, JDIK,
-     .               MASS,   NDDL,   1,    RBID, IOPT,
-     .               NM,     MAXITR, TOL,  NBLF, ITAB,
-     .               IWKLI,  NDDLI7, IBID, IBID, RBID,
-     .               RBID,   IBID  )
-C
-         IF (NSPMD==1.OR.ISPMD==0)
-     .      WRITE(ISTDO,'(A)')
-     .       ' * MULTI-LEVEL GEOMETRIC STIFFNESS CONDENSATION *'
-         WRITE(IOUT,'(A)')
-     .       ' * MULTI-LEVEL GEOMETRIC STIFFNESS CONDENSATION *'
-         CALL DSCDKG(GRAPHE, DIAG_KG, LT_KG, IADK, JDIK,
-     .               NDDL  )
-C
-         IPMESS = IPRI
-         IF (NSPMD==1.OR.ICONDP==0) THEN
-            LTITR1=48
-            TITRE=' * EULER BUCKLING MODES SEQUENTIAL COMPUTATION *'
-            CALL DSRESOL_BUCK(GRAPHE, NDDL, EIG, TITRE, LTITR1,
-     .                        IPMESS)
-         ELSE
-            CALL DSPGRID(GRAPHE(1), GRAPHE(1)%NDDL_GLOB, NDDLC, 1)
-            LTITR1=46
-            TITRE=' * EULER BUCKLING MODES PARALLEL COMPUTATION *'
-            CALL DSRESOLP_BUCK(GRAPHE(1), NDDLC, EIG, TITRE, LTITR1,
-     .                         IPMESS   )
-         ENDIF
-C 3- Redescente
-         IF (NSPMD==1.OR.ISPMD==0)
-     .      WRITE(ISTDO,'(A)') ' * BUCKLING MODES EXPANSION *'
-         WRITE(IOUT,'(A)') ' * BUCKLING MODES EXPANSION *'
-         CALL DSDESC(GRAPHE, NBUCK, NDDL, IOPT)
-C 4- Recuperation des modes dynamiques
-         ALLOCATE(VECTD(NBUCK,NDDL))
-         DO I=1,NBUCK
-            DO II=1,NDDL
-               VECTD(I,II)=ZERO
-            ENDDO
-         ENDDO
-         CALL DSRECU(GRAPHE, NBUCK, VECTD, NDDL, NBUCK,
-     .               0     )
-         DO I=1,NBUCK
-            DO II=1,NDDL
-               VECT(II,I)=VECTD(I,II)
-            ENDDO
-         ENDDO
-         DEALLOCATE(VECTD)
+         WRITE(6,*) "/IMPL/GRAPH is deprecated"
+         CALL ARRET(5)
       ENDIF
 C Sortie des charges critiques dans le listing pour les solveur 1 et 2
       IF ((NSPMD==1.OR.ISPMD==0).AND.BISOLV==1) THEN

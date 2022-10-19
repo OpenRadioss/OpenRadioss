@@ -139,7 +139,7 @@ The Git Bash tool is not need, but can be installed.
 
 
 **Notes**
-Cygwin is a Unix environment for Windows, all unix tools are accessible.
+Cygwin is a Unix environment for Windows, all Unix tools are accessible.
 * Windows directories are accessible in /cygdrive/[c|d]
 * There is a user home directory in cygwin
 
@@ -231,7 +231,7 @@ See [here](./CONTRIBUTING.md) if you want to contribute to OpenRadioss.
 
 - `-arch`: you will find the list of possible architectures
 - `-prec`: controls the OpenRadioss Floating Point Precision : dp : double Precision - Floats in 64 bits (default),  sp activates the Extended Single Precision Version (32bit)
-- `-static-link`: Runtime librairies are statically linked in Executable (easier when executable is used on different computers).
+- `-static-link`: Runtime libraries are statically linked in Executable (easier when executable is used on different computers).
 - `-debug=1`: activates debug build (-O0 + usual debug flags).
 - `-addflag="list of additional flags"`: add compiler flags to usual set for all files 
 
@@ -260,7 +260,7 @@ Execution Control
 * OpenRadioss Engine: **engine_linux64_gf** or **engine_linux64_gf_ompi** binary will be copied in **OpenRadioss/exec** directory
 
 
-* Advanced script flags can be used to build OpenRadioss Engine: launch `./build_script` without arguments:
+* Advanced script flags can be used to build OpenRadioss Engine: launch `./build_script.sh` without arguments:
 
 
         []$ ./build_script.sh 
@@ -297,6 +297,11 @@ Execution Control
          -nt=[threads]      : number of threads for build 
          -verbose           : Verbose build
          -clean             : clean build directory
+                MUMPS linear solver: available only for dp, with mpi" 
+         -mumps_root=[path_to_mumps]          : path_to_mumps/lib/libdmumps.a must exist
+         -scalapack_root=[path to scalapack]  : path_to_scalapack/libscalapack.a must exist
+         -lapack_root=[path to lapack]  : path_to_lapack/liblapack.a must exist
+
 
 
 - `-arch`: you will find the list of possible architectures
@@ -306,7 +311,7 @@ MPI libraries
 - `-mpi` controls the MPI flavor 
 
 More Flags to control the MPI installation. Per default OpenMPI is installed in /opt/openmpi. 
-3 additionnal ways are possible: 
+3 additional ways are possible: 
  1. `-mpi-os`: `mpif.h` is found in default system installation, as well as the libraries
  2. `-mpi-root`: set this flag to set a new root directory where OpenMPI can be found.
  3. `-mpi-include`: set the directory where OpenMPI can be found
@@ -317,7 +322,7 @@ Other controls
 - `-prec=[dp|sp]`: controls the OpenRadioss Floating Point Precision 
             - `dp`: double Precision - Floats in 64 bits (default)
             - `sp`: activates the Extended Single Precision Version (32bit)
-- `-static-link`: Runtime librairies are statically linked in Executable (easier when executable is used on different computers).
+- `-static-link`: Runtime libraries are statically linked in Executable (easier when executable is used on different computers).
 - `-debug=1`: activates debug build (-O0 + usual debug flags).
 - `-addflag="list of additionnal flags"`: add compiler flags to usual set for all files 
 
