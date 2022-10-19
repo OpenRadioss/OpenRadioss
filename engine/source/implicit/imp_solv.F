@@ -894,14 +894,7 @@ c          ENDIF
 !         END IF
 C
          IF (ISOLV==4.OR.ISOLV==6) THEN
-#ifdef DNC
-C  Renumerotation des ddls du graphe pour suivre celle de la matrice
-C  de rigidite
-            CALL DSRENUM0(GRAPHE, NDDL_INI0)
-            CALL DSRENUM(GRAPHE, IDDL, NDOF, NDDL0, NDDL_INI0)
-C  Report des blocages au niveau du graphe pour DSOLVE
-            CALL DSACTI1(GRAPHE, IKC, NDDL, NDDL0)
-#endif
+            CALL ARRET(5)
          ENDIF
 C-----------------------------
 citask0         END IF !(ITASK == 0) THEN
@@ -1079,14 +1072,7 @@ C
            DEALLOCATE(LT_I0)
 C
            IF (ISOLV==4.OR.ISOLV==6) THEN
-#ifdef DNC
-C Remise a zero des modifications au graphe dues aux interfaces
-              IF (ISETK==0) CALL DSACTI1(GRAPHE, IKC, NDDL, NDDL0)
-C
-              CALL DSMAJI7(
-     .            GRAPHE, NUM_IMP, NS_IMP, NE_IMP, INTBUF_TAB,
-     .            NDDL,   IPARI  )
-#endif
+             CALL ARRET(5)
            ENDIF
 C
           ELSE

@@ -26,7 +26,7 @@ function my_help()
        cat CMake_Compilers_c/mpi.txt 
   fi
   echo " " 
-  echo "         Controling MPI Libraries - if need choose one of the 3 Option Set"
+  echo "         Controlling MPI Libraries - if need choose one of the 3 Option Set"
   echo "                                    If no options set, recommended OpenMPI directories are uses (default)"
   echo "           1. -mpi-os                             : link with default MPI version installed on system"
   echo "                                                    libraries are in default installation "
@@ -37,13 +37,14 @@ function my_help()
   echo " -prec=[dp|sp]                        : set precision - dp (default) |sp "
   echo " -static-link                         : Fortran, C & C++ runtime are linked in binary"
   echo " -debug=[0|1]                         : debug version 0 no debug flags (default), 1 usual debug flag )"
-  echo " -addflag=\"list of additionnal flags\" : add compiler flags to usual set"
-  echo " -mumps_root=[path_to_mumps]          : path_to_mumps/lib/libdmumps.a must exist"
-  echo " -scalapack_root=[path to scalapack]  : path_to_scalapack/libscalapack.a must exist" 
-  echo " -lapack_root=[path to lapack]  : path_to_lapack/liblapack.a must exist" 
+  echo " -addflag=\"list of additional flags\" : add compiler flags to usual set"
   echo " -nt=[threads]      : number of threads for build "
   echo " -verbose           : Verbose build"
   echo " -clean             : clean build directory"
+  echo "        MUMPS linear solver: available only for dp, with mpi" 
+  echo " -mumps_root=[path_to_mumps]          : path_to_mumps/lib/libdmumps.a must exist"
+  echo " -scalapack_root=[path to scalapack]  : path_to_scalapack/libscalapack.a must exist" 
+  echo " -lapack_root=[path to lapack]  : path_to_lapack/liblapack.a must exist" 
   echo " " 
   echo " " 
 }
