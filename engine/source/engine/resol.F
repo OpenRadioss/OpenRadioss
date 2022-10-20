@@ -1505,23 +1505,23 @@ cc                 ALLOCATE(PLYSKYI)
                    ALLOCATE(PLY(I)%ITAG(NPLYXFE))
                    PLY(I)%ITAG = 0
                  ENDDO
-              ELSE
+               ELSE
 C is not available iparit = 0
-               DO I=1,NPLYMAX
-                   NULLIFY(PLY(I)%A)
-                   ALLOCATE(PLY(I)%A(4,NPLYXFE*NTHREAD))
-                   PLY(I)%A  = ZERO
-               ENDDO 
-                  ALLOCATE(PLYSKY(0))
-             ENDIF
-             IF(ANIM_PLY > 0) THEN
-                  ALLOCATE(VN_NOD(3,NPLYXFE))
-                  VN_NOD = ZERO
+                 DO I=1,NPLYMAX
+                     NULLIFY(PLY(I)%A)
+                     ALLOCATE(PLY(I)%A(4,NPLYXFE*NTHREAD))
+                     PLY(I)%A  = ZERO
+                 ENDDO 
+                 ALLOCATE(PLYSKY(0))
+               ENDIF
+               IF(ANIM_PLY > 0) THEN
+                 ALLOCATE(VN_NOD(3,NPLYXFE))
+                 VN_NOD = ZERO
+               ELSE
+                 ALLOCATE(VN_NOD(0,0))
+               ENDIF
              ELSE
-                  ALLOCATE(VN_NOD(0,0))
-                ENDIF
-             ELSE
-                 ALLOCATE(PLY(0),PLYSKY(0))
+               ALLOCATE(PLY(0),PLYSKY(0))
              ENDIF
 C for inteface type 24 + pxfem  
              IF(INTPLYXFEM > 0 ) THEN
@@ -3809,11 +3809,11 @@ C int 24+pxfem
             WAGAP(2,N) = ZERO
           END DO
       ENDIF
-C
-      IF(ANIM_PLY > 0) VN_NOD = ZERO
-C
 C      
 !$OMP END PARALLEL
+
+      IF(ANIM_PLY > 0) VN_NOD = ZERO
+
 
 C--------------move to here to keep TAGNCONT for output
       IF(NLOADP_HYD_INTER > 0 )THEN
