@@ -547,6 +547,12 @@ C
           IX2=IRECT(2,IRM)
           IX3=IRECT(3,IRM)
           IX4=IRECT(4,IRM)
+          IF(IX3/=IX4)THEN
+           IS_QUAD(I) = .TRUE.
+          ELSE
+           IS_QUAD(I) = .FALSE.
+          ENDIF
+
 C
           IF(TAGNOD(IX1)==0.AND.
      .       TAGNOD(IX2)==0.AND.
@@ -572,17 +578,14 @@ C
             Y4=X(2,IX4)
             Z4=X(3,IX4)
 C           
-C           IF(I3/=I4)THEN
             IF(IX3/=IX4)THEN
              X0 = (X1+X2+X3+X4)/4.0
              Y0 = (Y1+Y2+Y3+Y4)/4.0
              Z0 = (Z1+Z2+Z3+Z4)/4.0 
-             IS_QUAD(I) = .TRUE.
             ELSE
              X0 = X3
              Y0 = Y3
              Z0 = Z3
-             IS_QUAD(I) = .FALSE.
             ENDIF
 C           
             X01 = X1 - X0
@@ -753,7 +756,6 @@ C
           I3=ADMSR(3,IRM)
           I4=ADMSR(4,IRM)
 C
-C         IF(I3/=I4)THEN
           IF(IS_QUAD(I))THEN
             IAD = IADNOR(1,IRM)
             FSKYT(1,IAD) =  XN4(I)+XN1(I)
