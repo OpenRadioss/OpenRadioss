@@ -149,7 +149,6 @@ C
         ENDIF
         IF(MLN/=50)JTUR=NINT(PM(70,MID))
         JTHE=NINT(PM(71,MID))
-        JTHE = ABS(JTHE)
 C
         ITRI(1,I)=NCTRL
         ITRI(2,I)=MID

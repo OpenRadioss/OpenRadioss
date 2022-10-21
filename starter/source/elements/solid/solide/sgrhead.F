@@ -274,7 +274,6 @@ c
         ENDIF
         IF(MLN/=50)JTUR=NINT(PM(70,MID))
         JTHE=NINT(PM(71,MID))
-        JTHE = ABS(JTHE)
         IF (JLAG==0 .AND. PID/=0) ISSN=4
 C tri sur elem delete des rigidbody
 C IRB = 0 : elem actif

@@ -283,6 +283,7 @@ C ngroup global
           ENDIF
           JTUR=NINT(PM(70,MID))
           JTHE=NINT(PM(71,MID))
+                    
           JMULT=0
           IF(MLN==20)THEN
             JMULT=NINT(PM(20,MID))
@@ -402,7 +403,11 @@ c          IPARG(4,NGROUP) = LBUFEL+1
           IPARG(7,NGROUP) = JALE
           IPARG(11,NGROUP)= JEUL
           IPARG(12,NGROUP)= JTUR
-          IPARG(13,NGROUP)= JTHE
+          IF(JALE==0 .AND. JEUL==0)THEN
+            IPARG(13,NGROUP)=-ABS(JTHE)  ! -1 nodal temperature    +1 centroid temperature
+          ELSE
+            IPARG(13,NGROUP)=+ABS(JTHE)  ! -1 nodal temperature    +1 centroid temperature
+          ENDIF
           IPARG(14,NGROUP)= JLAG
           IPARG(18,NGROUP)= MID
           IPARG(20,NGROUP)= JMULT

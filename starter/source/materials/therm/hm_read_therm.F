@@ -39,6 +39,26 @@ Chd|====================================================================
       SUBROUTINE HM_READ_THERM(BUFMAT  ,BUFLEN     ,IPM     ,PM     ,
      .                         UNITAB  ,LSUBMODEL  )
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Material Parameters (hm_read_therm.F)
+C  PM(71) is a material flag.  1: thermal parameters are input    0:no thermal parameter
+C
+C GLOBAL FLAGS (hm_read_part.F)
+C  ITHEM_FE : 1 if at least one PART has thermal parameter and lagrangian framework
+C  ITHEM    : 1 if at least one PART has thermal parameter and ale/euler framework
+C
+C GROUP FLAG (./source/element/....tails.F) IPARG(13) will be flag for thermics.
+C  IN ALL CASES 
+C    IPARG(13) :  0  if current group do not require temperature calculation
+C
+C   SOLIDS 
+C    IPARG(13) : -1  if current group requires temperature calculation at nodes (FEM with Lagrange)
+C    IPARG(13) : +1  if current group requires temperature calculation at centroids (FVM with ALE or Euler)
+C
+C   SHELLS  
+C    IPARG(13) : +1  if current group requires temperature calculation at nodes (FEM with Lagrange)
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
@@ -68,20 +88,19 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM ,NUMMAT), INTENT(INOUT) :: PM
       my_real, DIMENSION(BUFLEN), INTENT(INOUT) :: BUFMAT
       TYPE (UNIT_TYPE_) ,INTENT(IN) :: UNITAB 
-      TYPE(SUBMODEL_DATA) ,DIMENSION(NSUBMOD) , INTENT(IN)    :: LSUBMODEL
+      TYPE(SUBMODEL_DATA) ,DIMENSION(NSUBMOD) , INTENT(IN) :: LSUBMODEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: ITH,IFORM,FLAGMAT,FLAGUNIT,IUNIT,UID,MAT_ID,IMAT,ILAW, 
-     .   ALE,LAG,EUL,JALE,JTHE,JTUR,IAD_THERM,NTHERM
+      INTEGER :: ITH,FLAGMAT,FLAGUNIT,IUNIT,UID,MAT_ID,IMAT,ILAW,ALE,LAG,EUL,JALE,JTHE,JTUR,IAD_THERM,NTHERM,IFORM
       INTEGER ,DIMENSION(NUMMAT) :: ITHERM_FOR
-      my_real ::  UPWM,UPWO,T0,T1,RHO_CP,AS,BS,AL,BL,RHO_CPM1,EFRAC
-      my_real ::  RCP_UNIT,AS_UNIT
+      my_real :: UPWM,UPWO,T0,T1,RHO_CP,AS,BS,AL,BL,RHO_CPM1,EFRAC
+      my_real :: RCP_UNIT,AS_UNIT
       CHARACTER TITR*nchartitle,KEY*80
       LOGICAL IS_AVAILABLE,IS_AVAILABLE_IFORM
 C=======================================================================
       ITHERM_FE = 0      ! com01_c.inc
-      ITHERM_FOR(:) = 0
+      ITHERM = 0
 c--------------------------------------------------
 c     COUNT EOS MODELS USING CFG FILES
 c--------------------------------------------------
@@ -218,20 +237,15 @@ c       Check at least if the corresponding material is indeed lagrangian !!
 c
         IF(IS_AVAILABLE_IFORM)THEN
         
-          IF (IFORM /= 0 .AND. LAG == 1) THEN
-             PM(71,IMAT) = -ONEP1
-          ELSE
+          IF(IFORM /=0 .AND. LAG == 0)THEN
              IFORM = 0
              CALL ANCMSG(MSGID=1609, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .            I1=MAT_ID, C1="WARNING", C2=TITR,
      .            C3="IFORM = 1 IS INCOMPATIBLE WITH /ALE AND /EULER MATERIALS, IT WILL BE IGNORED")
           ENDIF
           
-        ELSE 
-          IFORM = 0
         ENDIF
 c
-        ITHERM_FOR(IMAT) = IFORM
         IF (RHO_CP == ZERO .AND. LAG == 0) THEN
            CALL ANCMSG(MSGID=1609, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
      .          I1=MAT_ID, C1="ERROR", C2=TITR,
@@ -250,18 +264,9 @@ c--------------------------------------------------
 c--------------------------------------------------
 c       Output
 c--------------------------------------------------
-        WRITE(IOUT,2000) MAT_ID,T0,RHO_CP,AS,BS,T1,AL,BL,IFORM,EFRAC
-c
+        WRITE(IOUT,2000) MAT_ID,T0,RHO_CP,AS,BS,T1,AL,BL,EFRAC
+C        
       ENDDO   ! I = 1,NTHERM     
-
-c--------------------------------------------------
-c       Global flags
-c--------------------------------------------------
-      DO IMAT=1,NUMMAT-1                                    
-        JTHE = ABS(NINT(PM(71,IMAT)))
-        IF (ITHERM_FOR(IMAT) == 0) ITHERM    = MAX(ITHERM,JTHE)
-        IF (ITHERM_FOR(IMAT) /= 0) ITHERM_FE = MAX(ITHERM_FE,JTHE)
-      ENDDO
 
 c-----------------------------------------      
  2000 FORMAT(/
@@ -275,9 +280,6 @@ c-----------------------------------------
      & 5X,'T1 (MELTING TEMPERATURE). . . . . . . . . . . =',1PG20.13/,
      & 5X,'AL (LIQUID PHASE) . . . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'BL (LIQUID PHASE) . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'HEAT TRANSFER FORMULATION . . . . . . . . . . = ',I10/,
-     & 10X,'    0: it is based on Finite Volume  Method',/        
-     & 10X,'    1: it is based on Finite Element Method '/
      & 5X,'FRACTION OF STRAIN ENERGY CONVERTED INTO HEAT =',1PG20.13/)
 c-----------------------------------------      
       RETURN

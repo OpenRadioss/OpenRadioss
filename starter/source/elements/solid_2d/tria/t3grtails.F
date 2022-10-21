@@ -615,15 +615,9 @@ c--------
          ENDIF ! IGTYP
 C-------------
          IF(MLN == 13) IRIGID_MAT = 1 
-         JTHE = ABS(NINT(PM(71,MID)))
-         IF(ITHERM_FE == 0 .AND. JTHE > 0) THEN
-           CALL FRETITL2(TITR1,IPM(NPROPMI-LTITR+1,MID),LTITR)
-           CALL ANCMSG(MSGID=667,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO,
-     .                 I1=IPM(1,MID),
-     .                 C1=TITR)
-         ENDIF
+         
+         JTHE = NINT(PM(71,MID))
+         
 C thermal material expansion 
          IPARG(49,NGROUP) = 0
          IF(IPM(218,MID) > 0 .AND. MLN /=0 .AND. MLN /= 13) THEN
@@ -665,7 +659,8 @@ C         flag for group of duplicated elements in multidomains
           IPARG(6,NGROUP) = NPN
           IPARG(9,NGROUP) = ISMST
           IPARG(11,NGROUP)= KCNOD
-          IPARG(13,NGROUP)= JTHE
+          IPARG(13,NGROUP)= JTHE  !tria : 0:no temp   1: centroid temp   -1:nodal temp
+          IF(JALE+JEUL>0)IPARG(13,NGROUP)=-JTHE
           IPARG(44,NGROUP)= ISTRAIN
           IPARG(23,NGROUP)= ISH3N
           IPARG(28,NGROUP)= ITHK
@@ -688,7 +683,8 @@ C     Multifluid law, setting NLAY
              ENDIF
              IPARG(7, NGROUP) = JALE
              IPARG(11, NGROUP) = JEUL
-          ENDIF
+             IPARG(13,NGROUP) = +ABS(JTHE) ! -1 nodal temperature    +1 centroid temperature 
+          ENDIF             
 
           IPARG(45,NGROUP)= ILEV
           IF(ILEV/=0 .AND. ISH3N > 2)THEN

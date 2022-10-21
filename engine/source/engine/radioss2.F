@@ -1029,7 +1029,6 @@ c----------
 
       IF (IMPL_S0>0) CALL IMPRREST(IRFORM,IMPL_S0)
 C heat  transfer
-      IF(ITHERM_FE == 0 .AND. ITHERMC > 0)ITHERM_FE= 1
       IF(ITHERM_FE > 0   ) THEN
         ALLOCATE(MCP(NUMNOD),TEMP(NUMNOD))
         CALL THCRREST(MCP,TEMP)

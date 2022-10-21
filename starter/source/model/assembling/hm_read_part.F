@@ -41,7 +41,7 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_PART(IPART,PM,GEO,IPM,IGEO,IWA,THK_PART,
-     .           UNITAB,LSUBMODEL,MULTI_FVM)
+     .                        UNITAB,LSUBMODEL,MULTI_FVM)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -112,7 +112,7 @@ C-----------------------------------------------
       CHARACTER*5 CHAR_PROP,CHAR_MAT
       LOGICAL IS_AVAILABLE, USER_LAW, IS_ASSOCIATED_LAW51
       INTEGER PID,MID,SID,ID,ID1,ID2,I,IMID,IPID,ISID,K,ITH, IGTYP,XFEMFLG,
-     .        IXFEM,IHBE,ILAW,UID,IFLAGUNIT,J,FLG_SPH_THERM_UPDT,IDMAT_PLY,
+     .        IXFEM,IHBE,ILAW,UID,IFLAGUNIT,J,IDMAT_PLY,
      .        ILAW_PLY,IPMAT,NPT,IDPARTSPH,SUB_INDEX,SIZE, IDS, CNT, 
      .        IFIX_TMP, IGFLU, JALE,JTHE,STAT,JALE_FROM_MAT,JALE_FROM_PROP
       my_real BID, THICK,FAC_L,MP,VOL,DIAM
@@ -139,7 +139,6 @@ C-----------------------------------------------
       WRITE(IOUT,'(//A)')'       PARTS' 
       WRITE(IOUT,'(A//)')'       -----' 
 
-      FLG_SPH_THERM_UPDT = 0
       DO I=1,NUMGEO
          IWA(I) = 0
       ENDDO
@@ -159,10 +158,10 @@ C--------------------------------------------------
 C EXTRACT DATAS OF /PART/... LINE
 C--------------------------------------------------
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                       OPTION_ID = ID,
-     .                       UNIT_ID = UID,
-     .                       SUBMODEL_INDEX = SUB_INDEX,
-     .                       OPTION_TITR = TITR)
+     .                          OPTION_ID = ID,
+     .                          UNIT_ID = UID,
+     .                          SUBMODEL_INDEX = SUB_INDEX,
+     .                          OPTION_TITR = TITR)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -369,6 +368,7 @@ C     Allow SHELL3N for 2D law 151
               ENDIF
            ENDIF
         ENDIF
+
         !################################################################!
         !  EULER & ALE : CHECK CONSISTENCY BETWEEN MAT and PROP          !
         !################################################################!  
@@ -376,6 +376,7 @@ C     Allow SHELL3N for 2D law 151
         ! JALE_FROM_PROP = IGEO(62)     0:lagrange   1:ale    2:euler       
         
         !/ALE/MAT or /EULER/MAT
+        JALE_FROM_MAT = 0
         IF(IMID > 0)THEN
           JALE_FROM_MAT = PM(72,IMID)
           !character string for possible error message
@@ -388,6 +389,7 @@ C     Allow SHELL3N for 2D law 151
           JALE_FROM_MAT = 0
         ENDIF
         
+        JALE_FROM_PROP = 0
         !/PROP_TYPE14 (IALE_FLAG)
         IF(IPID > 0)THEN
           JALE_FROM_PROP = IGEO(62,IPID)
@@ -410,29 +412,38 @@ C     Allow SHELL3N for 2D law 151
      .                I3=MID,C4=TITR2,C5=CHAR_MAT )          
           ENDIF
         ENDIF
-
-
-
         
-       
+        !################################################################!
+        !  /HEAT/MAT : thermal global flag  ITHEM & ITHERM_FE            !
+        !################################################################!  
+        ! JALE_FROM_MAT = PM(72)        0:lagrange   1:ale    2:euler 
+        ! JALE_FROM_PROP = IGEO(62)     0:lagrange   1:ale    2:euler 
+        ! ITHERM : 1 => there are elements which require temperature at centroids
+        ! ITHERM_FE : 1 => there are elements which require for temperature at nodes
+        JTHE = NINT(PM(71,IMID))
+        IF( JTHE > 0 )THEN
+          IF(JALE_FROM_PROP>0 .OR. JALE_FROM_MAT>0)THEN
+            ITHERM = 1
+          ELSE
+            ITHERM_FE = 1
+          ENDIF
+        ENDIF            
+
+C             
         WRITE(IOUT,'(A,I10,2A)')'     SUBSET  :',SID
         WRITE(IOUT,'(A,1PG20.13,2A)')' VIRT. THICKN:',THK_PART(I)
-
-C       SPH : special treatments
+        ! -- SPH : printout of the smoothing length        
         IF (IGEO(11,IPID) == 34) THEN
           DIAM =GET_U_GEO(6,IPID)
-          JTHE = NINT(PM(71,IMID))
-C         SPH : printout of the smoothing length
+
           IF(DIAM == ZERO) THEN
             MP  = GET_U_GEO(1,IPID)
             VOL = MP/PM(1,IMID)
             DIAM= (SQR2*VOL)**THIRD
             WRITE(IOUT,'(A,1PG20.13,2A)')' SPH SMOOTHING LENGTH:',DIAM
           ENDIF
-C         SPH : update of thermal flags
-          IF (JTHE > 0) FLG_SPH_THERM_UPDT = 1
         ENDIF
-
+C        
         IPART(1,I)=IMID
         IPART(2,I)=IPID
         ISID=0
@@ -530,18 +541,6 @@ C         SPH : update of thermal flags
          IF (IWA(NUMGEO+I) ==  0) CNT = CNT+1
       ENDDO
       IDS = 3
-
-C     SPH : switch to fem thermal formulation - update of thermal flags
-      IF (FLG_SPH_THERM_UPDT == 1) THEN
-        ITHERM_FE = 0
-        ITHERMC = 0
-        DO I=1,NPART
-          JTHE = NINT(PM(71,IPART(1,I)))
-          IF (IGEO(11,IPART(2,I)) == 34) JTHE = -1*ABS(JTHE)
-          IF(JTHE > 0) ITHERM=MAX(ITHERM,ABS(JTHE))
-          IF(JTHE < 0) ITHERM_FE=MAX(ITHERM_FE,ABS(JTHE))
-        ENDDO      
-      ENDIF
       
 C     SOL2SPH : Orthotropic flag transferred to SPH property
       DO I=1,NPART

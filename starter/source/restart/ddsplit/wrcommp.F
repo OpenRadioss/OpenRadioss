@@ -1203,9 +1203,6 @@ C .dynain files
       ENDDO
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=DYNAIN_CHECK
-C heat trasfert for shell ---> IT'S remplaced by itherm_fe
-       LVARINT=LVARINT+1
-       TABVINT(LVARINT) = ITHERMC
 C  heat transfer + int7
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = INTHEAT

@@ -212,8 +212,7 @@ C foam + air
             JLAG=1          
           ENDIF
           IF(MTNN/=50)JTUR=NINT(PM(70,MID)) 
-          JTHE=NINT(PM(71,MID))
-
+          JTHE = NINT(PM(71,MID))
 C
           CALL ZEROIN(1,NPARG,IPARG(1,NGROUP))
 C
@@ -230,7 +229,8 @@ C
           IPARG(7,NGROUP) = JALE
           IPARG(11,NGROUP)= JEUL
           IPARG(12,NGROUP)= JTUR
-          IPARG(13,NGROUP)= JTHE
+          IPARG(13,NGROUP)= JTHE    ! -1 nodal temperature    +1 centroid temperature
+          IF(JALE+JEUL>0)IPARG(13,NGROUP)=-JTHE
           IPARG(14,NGROUP)= JLAG
           IPARG(75,NGROUP) = innd
           IPARG(62,NGROUP) = PID

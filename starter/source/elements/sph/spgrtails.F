@@ -325,7 +325,7 @@ C           IERR=IERR+1
           ENDIF
           JTUR=NINT(PM(70,MT))
           JTHE=NINT(PM(71,MT))
-          JTHE=-1*ABS(JTHE)
+
           ISPH2SOL=0
           IF(NSPHSOL/=0)ISPH2SOL=SPH2SOL(II)
 C     full geometric non linearities.
@@ -375,7 +375,7 @@ C
           IF(ISLEEP>0)IPARG(10,NGROUP)=NE1
           IPARG(11,NGROUP)=JEUL
           IPARG(12,NGROUP)=JTUR
-          IPARG(13,NGROUP)=JTHE
+          IPARG(13,NGROUP)=-ABS(JTHE)
           IPARG(14,NGROUP)=JLAG
           IPARG(18,NGROUP)=0    ! NMTV(MLN)-11
           IPARG(23,NGROUP)=JHBE
@@ -389,6 +389,7 @@ C
           IPARG(43,NGROUP)=IFAIL
           IPARG(62,NGROUP)=IG
           IPARG(69,NGROUP)=ISPH2SOL
+          
 C         flag for group of duplicated elements in multidomains
           IF (NSUBDOM>0) IPARG(71,NGROUP)= IPARTR2R
 C         thermal expansion
