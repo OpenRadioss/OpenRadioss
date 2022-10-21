@@ -23,8 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  WRTDES                        source/output/th/wrtdes.F     
 Chd|-- called by -----------
-Chd|        ABFHIST1                      source/output/abf/abfhist1.F  
-Chd|        ABFHIST2                      source/output/abf/abfhist2.F  
 Chd|        HIST1                         source/output/th/hist1.F      
 Chd|        HIST13                        source/output/th/hist13.F     
 Chd|        HIST2                         source/output/th/hist2.F      

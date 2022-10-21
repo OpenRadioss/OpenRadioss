@@ -94,7 +94,6 @@ Chd|        T3GRTAILS                     starter/source/elements/solid_2d/tria/
 Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
 Chd|        W_FI                          starter/source/restart/ddsplit/w_fi.F
 Chd|        W_FRONT                       starter/source/restart/ddsplit/w_front.F
-Chd|        ABFHIST2                      engine/source/output/abf/abfhist2.F
 Chd|        ALEMAIN                       engine/source/ale/alemain.F   
 Chd|        ALEWDX                        engine/source/ale/grid/alewdx.F
 Chd|        BUILD_CONNECTIVITY            engine/source/multifluid/connectivity.F

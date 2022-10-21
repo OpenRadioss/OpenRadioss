@@ -181,16 +181,10 @@ Chd|        FIND_DT1BRICK_ENGINE          source/starter/contrl.F
 Chd|        FIND_YIELD_ENGINE             source/general_controls/computation/hm_read_sms.F
 Chd|        FIXMODIF_ND                   source/elements/solid/solide10/dim_s10edg.F
 Chd|        FREDEC0                       source/starter/freform.F      
-Chd|        FREDEC3                       source/starter/freform.F      
 Chd|        FREDEC5                       source/starter/freform.F      
-Chd|        FREDEC_2KEY_2ID               source/starter/freform.F      
-Chd|        FREDEC_2KEY_2ID_T             source/starter/freform.F      
-Chd|        FREDEC_2KEY_3ID_T             source/starter/freform.F      
 Chd|        FREDEC_2KEY_4ID               source/starter/freform.F      
 Chd|        FREDEC_2KEY_4ID_T             source/starter/freform.F      
 Chd|        FREDEC_2KEY_ID_OR_KEY_ID      source/starter/freform.F      
-Chd|        FREDEC_3KEY_2ID_T             source/starter/freform.F      
-Chd|        FREDEC_KEY_2ID_T              source/starter/freform.F      
 Chd|        FREDEC_KEY_3ID_T              source/starter/freform.F      
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        FREFORM                       source/starter/freform.F      
@@ -229,6 +223,7 @@ Chd|        HM_ELNGRR                     source/groups/hm_elngrr.F
 Chd|        HM_ELNGRS                     source/groups/hm_elngr.F      
 Chd|        HM_ENTITY_REFERENCE_NUMBER    source/devtools/hm_reader/hm_entity_reference_number.F
 Chd|        HM_GET_BOOLV                  source/devtools/hm_reader/hm_get_boolv.F
+Chd|        HM_GET_CURRENT_OPTION         source/devtools/hm_reader/hm_get_current_option.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_FLOATV_WITHOUT_UID     source/devtools/hm_reader/hm_get_floatv_without_uid.F
@@ -1159,6 +1154,7 @@ Chd|        GET_U_PNU                     source/user_interface/uaccess.F
 Chd|        GRFIND                        source/starter/freform.F      
 Chd|        HM_THVARC                     source/output/th/hm_read_thvarc.F
 Chd|        NBOXLST                       source/model/box/nboxlist.F   
+Chd|        NGR2USR                       source/system/nintrr.F        
 Chd|        NGR2USRN                      source/system/nintrr.F        
 Chd|        NINTLST                       source/system/nintrr.F        
 Chd|        NINTLST2                      source/system/nintrr.F        

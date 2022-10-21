@@ -25,7 +25,6 @@ Chd|  RADIOSS2                      source/engine/radioss2.F
 Chd|-- called by -----------
 Chd|        RADIOSS0                      source/engine/radioss0.F      
 Chd|-- calls ---------------
-Chd|        ABFHIST1                      source/output/abf/abfhist1.F  
 Chd|        ALELAG_RREST                  source/output/restart/rdresb.F
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
@@ -42,11 +41,6 @@ Chd|        CRKXFEM_RREST                 source/output/restart/rdresb.F
 Chd|        CRKXFEM_RRESTANIM             source/output/restart/rdresb.F
 Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
 Chd|        DRAPE_RREST                   source/output/restart/rdresb.F
-Chd|        DSALLOC                       source/implicit/dsolve/dsgest.F
-Chd|        DSCLOSE                       source/implicit/dsolve/dsgest.F
-Chd|        DSDEAL                        source/implicit/dsolve/dsgest.F
-Chd|        DSOPEN                        source/implicit/dsolve/dsgest.F
-Chd|        DSRREST                       source/output/restart/rdresb.F
 Chd|        DYN_USERLIB_INIT              source/user_interface/dyn_userlib.c
 Chd|        FVDEAL                        source/airbag/fvdeal.F        
 Chd|        FVRREST                       source/output/restart/rdresb.F

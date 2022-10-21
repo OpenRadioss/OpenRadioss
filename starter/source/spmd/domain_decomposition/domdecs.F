@@ -23,8 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  DOMETIS2                      source/spmd/domain_decomposition/domdecs.F
 Chd|-- called by -----------
-Chd|        DSGRAPH1                      source/implicit/dsolve/dsgraph.F
-Chd|        DSGRAPH2                      source/implicit/dsolve/dsgraph.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        INITWG                        source/spmd/domain_decomposition/initwg.F

@@ -24,32 +24,8 @@ Cf51e6 Nouvelle routine
 Chd|====================================================================
 Chd|  DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|-- called by -----------
-Chd|        DSACTI1                       source/implicit/dsolve/dsacti.F
-Chd|        DSACTI2                       source/implicit/dsolve/dsacti.F
-Chd|        DSALLOC                       source/implicit/dsolve/dsgest.F
-Chd|        DSCALN                        source/implicit/dsolve/dscaln.F
-Chd|        DSCDF                         source/implicit/dsolve/dscdf.F
-Chd|        DSCDKG                        source/implicit/dsolve/dscdkg.F
-Chd|        DSCOND                        source/implicit/dsolve/dscond.F
-Chd|        DSDEAL                        source/implicit/dsolve/dsgest.F
-Chd|        DSDESC                        source/implicit/dsolve/dsdesc.F
-Chd|        DSEXTR2                       source/implicit/dsolve/dsextr.F
-Chd|        DSGRI7                        source/implicit/dsolve/dsgri7.F
-Chd|        DSMAJI7                       source/implicit/dsolve/dsgri7.F
-Chd|        DSOPEN                        source/implicit/dsolve/dsgest.F
-Chd|        DSPGRID                       source/implicit/dsolve/dspgrid.F
-Chd|        DSRECU                        source/implicit/dsolve/dsrecu.F
-Chd|        DSRENUM                       source/implicit/dsolve/dsrenum.F
-Chd|        DSRENUM0                      source/implicit/dsolve/dsrenum.F
-Chd|        DSRESOL                       source/implicit/dsolve/dsresol.F
-Chd|        DSRESOLP                      source/implicit/dsolve/dsresolp.F
-Chd|        DSRESOLP_BUCK                 source/implicit/dsolve/dsresolp.F
-Chd|        DSRESOLP_ITER                 source/implicit/dsolve/dsresolp.F
-Chd|        DSRESOL_BUCK                  source/implicit/dsolve/dsresol.F
-Chd|        DSRESOL_ITER                  source/implicit/dsolve/dsresol.F
 Chd|        DSRREST                       source/output/restart/rdresb.F
 Chd|        DSWREST                       source/output/restart/wrrest.F
-Chd|        DSXKG2                        source/implicit/dsolve/dsextr.F
 Chd|        EIGCOND                       stub/eigcond.F                
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
 Chd|        IMP_CHKM                      source/implicit/imp_solv.F    

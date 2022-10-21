@@ -26,8 +26,6 @@ Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
 Chd|        DOMETIS2                      source/spmd/domain_decomposition/domdecs.F
-Chd|        DSGRAPH1                      source/implicit/dsolve/dsgraph.F
-Chd|        DSGRAPH2                      source/implicit/dsolve/dsgraph.F
 Chd|        INITWG                        source/spmd/domain_decomposition/initwg.F
 Chd|        INITWG_SHELL                  source/spmd/domain_decomposition/initwg_shell.F
 Chd|        INITWG_SOLID                  source/spmd/domain_decomposition/initwg_solid.F

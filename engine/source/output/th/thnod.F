@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  THNOD                         source/output/th/thnod.F      
 Chd|-- called by -----------
-Chd|        ABFHIST2                      source/output/abf/abfhist2.F  
 Chd|        HIST2                         source/output/th/hist2.F      
 Chd|-- calls ---------------
 Chd|        RELFRAM                       source/tools/skew/relfram.F   

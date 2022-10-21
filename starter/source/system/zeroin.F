@@ -45,7 +45,6 @@ Chd|        SPGRTAILS                     source/elements/sph/spgrtails.F
 Chd|        T3GRTAILS                     source/elements/solid_2d/tria/t3grtails.F
 Chd|        TGRTAILS                      source/elements/truss/tgrtails.F
 Chd|        XGRTAILS                      source/elements/xelem/xgrtails.F
-Chd|        NODREAD                       source/starter/freform.F      
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ZEROIN(N1,N2,MA)

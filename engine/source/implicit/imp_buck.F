@@ -28,16 +28,6 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
-Chd|        DSACTI1                       source/implicit/dsolve/dsacti.F
-Chd|        DSCDKG                        source/implicit/dsolve/dscdkg.F
-Chd|        DSCOND                        source/implicit/dsolve/dscond.F
-Chd|        DSDESC                        source/implicit/dsolve/dsdesc.F
-Chd|        DSPGRID                       source/implicit/dsolve/dspgrid.F
-Chd|        DSRECU                        source/implicit/dsolve/dsrecu.F
-Chd|        DSRENUM                       source/implicit/dsolve/dsrenum.F
-Chd|        DSRENUM0                      source/implicit/dsolve/dsrenum.F
-Chd|        DSRESOLP_BUCK                 source/implicit/dsolve/dsresolp.F
-Chd|        DSRESOL_BUCK                  source/implicit/dsolve/dsresol.F
 Chd|        FV_IMP                        source/constraints/general/impvel/fv_imp0.F
 Chd|        FV_RW                         source/constraints/general/impvel/fv_imp0.F
 Chd|        GENANI                        source/output/anim/generate/genani.F

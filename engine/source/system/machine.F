@@ -418,9 +418,6 @@ C=======================================================================
 Chd|====================================================================
 Chd|  MY_ETIME                      source/system/machine.F       
 Chd|-- called by -----------
-Chd|        DSCOND                        source/implicit/dsolve/dscond.F
-Chd|        DSKCOND                       source/implicit/dsolve/dscond.F
-Chd|        DSMCOND                       source/implicit/dsolve/dscond.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STARTIMEG                     source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         

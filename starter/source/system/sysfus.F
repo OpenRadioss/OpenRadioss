@@ -409,7 +409,6 @@ Chd|====================================================================
 Chd|  ULIST2S                       source/system/sysfus.F        
 Chd|-- called by -----------
 Chd|        HM_LECGRN                     source/groups/hm_lecgrn.F     
-Chd|        NODREAD                       source/starter/freform.F      
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c

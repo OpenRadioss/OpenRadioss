@@ -24,14 +24,8 @@ Chd|====================================================================
 Chd|  DSGRAPH_MOD                   share/modules1/dsgraph_mod.F  
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|        DSDIM2                        source/implicit/dsolve/dsdim.F
-Chd|        DSELSUB                       source/implicit/dsolve/dselsub.F
-Chd|        DSGRAPH3                      source/implicit/dsolve/dsgraph.F
-Chd|        DSGRLOC                       source/implicit/dsolve/dsgrloc.F
-Chd|        DSWRDD                        source/implicit/dsolve/dswrdd.F
 Chd|        DSWREST                       source/restart/ddsplit/wrrest.F
 Chd|        DSWRESTP                      source/restart/ddsplit/wrrest.F
-Chd|        ECRGRAPH                      source/implicit/dsolve/ecrgraph.F
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================

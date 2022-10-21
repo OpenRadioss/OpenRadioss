@@ -109,7 +109,6 @@ Chd|        DEPLAFAKEIGE                  source/assembly/deplafakeige.F
 Chd|        DEPLAPINCH                    source/assembly/deplapinch.F  
 Chd|        DESACTI                       source/elements/desacti.F     
 Chd|        DRAPE_WREST                   source/output/restart/wrrest.F
-Chd|        DSWREST                       source/output/restart/wrrest.F
 Chd|        DTNODA                        source/time_step/dtnoda.F     
 Chd|        DTNODAMP                      source/time_step/dtnodamp.F   
 Chd|        DTNODAMS                      source/time_step/dtnodams.F   

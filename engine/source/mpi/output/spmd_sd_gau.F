@@ -24,7 +24,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_SD_GAU                   source/mpi/output/spmd_sd_gau.F
 Chd|-- called by -----------
-Chd|        ABFHIST2                      source/output/abf/abfhist2.F  
 Chd|        AGAUGE0                       source/ale/agauge.F           
 Chd|        HIST2                         source/output/th/hist2.F      
 Chd|-- calls ---------------

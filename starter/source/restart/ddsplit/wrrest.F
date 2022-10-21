@@ -769,7 +769,6 @@ C
 Chd|====================================================================
 Chd|  DSWRESTP                      source/restart/ddsplit/wrrest.F
 Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c

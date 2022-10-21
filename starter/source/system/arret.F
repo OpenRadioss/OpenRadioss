@@ -40,7 +40,6 @@ Chd|        C_TRICALL                     stub/fvmbags_stub.F
 Chd|        ERROR_ALLOC                   source/system/error_alloc.F   
 Chd|        FACEPOLY                      source/airbag/facepoly.F      
 Chd|        FREDEC2IM                     source/output/message/fredec2im.F
-Chd|        FREDEC3                       source/starter/freform.F      
 Chd|        FREDEC3M                      source/output/message/fredec3m.F
 Chd|        FVBRIC0                       source/airbag/fvbric0.F       
 Chd|        FVBRIC01                      source/airbag/fvbric01.F      

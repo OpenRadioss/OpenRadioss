@@ -42,8 +42,6 @@ Chd|        COPY_RVAL                     starter/source/restart/ddsplit/inter_t
 Chd|        C_FRONT                       starter/source/restart/ddsplit/c_front.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        DOMDEC2                       starter/source/spmd/domdec2.F 
-Chd|        DSDIM2                        starter/source/implicit/dsolve/dsdim.F
-Chd|        DSGRAPH3                      starter/source/implicit/dsolve/dsgraph.F
 Chd|        FICTIVMASSIGEO                starter/source/groups/ssurftagigeo.F
 Chd|        FILLCNI2                      starter/source/spmd/domdec2.F 
 Chd|        FILL_INTERCEP                 starter/source/spmd/node/ddtools.F
@@ -204,7 +202,6 @@ Chd|        DIM_KINMAX                    engine/source/implicit/ind_glob_k.F
 Chd|        DIM_KINMV                     engine/source/airbag/monv_imp0.F
 Chd|        DIM_NDOF_I                    engine/source/implicit/ind_glob_k.F
 Chd|        DIM_NDOF_II                   engine/source/implicit/ind_glob_k.F
-Chd|        DSMAJI7                       engine/source/implicit/dsolve/dsgri7.F
 Chd|        EIG                           engine/stub/eig.F             
 Chd|        EIG1                          engine/stub/eig1.F            
 Chd|        EIGCOND                       engine/stub/eigcond.F         

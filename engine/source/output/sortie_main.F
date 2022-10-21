@@ -25,7 +25,6 @@ Chd|  SORTIE_MAIN                   source/output/sortie_main.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        ABFHIST2                      source/output/abf/abfhist2.F  
 Chd|        ANICON0                       source/output/anim/generate/anicon0.F
 Chd|        ANICON2                       source/output/anim/generate/anicon0.F
 Chd|        ANI_PCONT                     source/output/anim/generate/ani_pcont.F

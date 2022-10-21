@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  STACK_MOD                     share/modules/stack_mod.F     
 Chd|-- called by -----------
-Chd|        ABFHIST2                      source/output/abf/abfhist2.F  
 Chd|        ANIM_BUILD_INDEX_ALL          source/output/anim/reader/anim_build_index_all.F
 Chd|        ANIM_DCOD_KEY_0               source/output/anim/reader/anim_dcod_key_0.F
 Chd|        ANIM_RESET_INDEX_ALL          source/output/anim/reader/anim_reset_index_all.F

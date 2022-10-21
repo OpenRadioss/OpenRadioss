@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  TH_MOD                        share/modules/th_mod.F        
 Chd|-- called by -----------
-Chd|        ABFHIST2                      source/output/abf/abfhist2.F  
 Chd|        FREFORM                       source/input/freform.F        
 Chd|        HIST1                         source/output/th/hist1.F      
 Chd|        HIST2                         source/output/th/hist2.F      

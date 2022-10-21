@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_GLOB_RSUM_POFF           source/mpi/generic/spmd_glob_rsum_poff.F
 Chd|-- called by -----------
-Chd|        ABFHIST2                      source/output/abf/abfhist2.F  
 Chd|        HIST2                         source/output/th/hist2.F      
 Chd|        THERMBILAN                    source/constraints/thermic/thermbilan.F
 Chd|-- calls ---------------

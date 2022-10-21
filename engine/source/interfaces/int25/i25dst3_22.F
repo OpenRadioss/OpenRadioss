@@ -27,6 +27,7 @@ Chd|        I25COMP_2                     source/interfaces/int25/i25comp_2.F
 Chd|-- calls ---------------
 Chd|        INTERSECA_25                  source/interfaces/int25/i25dst3_22.F
 Chd|        INTERSECB_25                  source/interfaces/int25/i25dst3_22.F
+Chd|        INTERSECV0_25                 source/interfaces/int25/i25dst3_22.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25DST3_22(
@@ -2548,6 +2549,7 @@ C
 Chd|====================================================================
 Chd|  INTERSECV0_25                 source/interfaces/int25/i25dst3_22.F
 Chd|-- called by -----------
+Chd|        I25DST3_22                    source/interfaces/int25/i25dst3_22.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE INTERSECV0_25(

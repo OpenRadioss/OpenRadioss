@@ -24,11 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_DS_ISEND                 source/mpi/implicit/spmd_dsreso.F
 Chd|-- called by -----------
-Chd|        DSCALN                        source/implicit/dsolve/dscaln.F
-Chd|        DSPGRID                       source/implicit/dsolve/dspgrid.F
-Chd|        DSRESOL                       source/implicit/dsolve/dsresol.F
-Chd|        DSRESOL_BUCK                  source/implicit/dsolve/dsresol.F
-Chd|        DSRESOL_ITER                  source/implicit/dsolve/dsresol.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_DS_ISEND(BUF, SIZE, ITAG, IDEST)
@@ -67,9 +62,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_DS_RSEND                 source/mpi/implicit/spmd_dsreso.F
 Chd|-- called by -----------
-Chd|        DSRESOL                       source/implicit/dsolve/dsresol.F
-Chd|        DSRESOL_BUCK                  source/implicit/dsolve/dsresol.F
-Chd|        DSRESOL_ITER                  source/implicit/dsolve/dsresol.F
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -110,11 +102,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_DS_IRECV                 source/mpi/implicit/spmd_dsreso.F
 Chd|-- called by -----------
-Chd|        DSCALN                        source/implicit/dsolve/dscaln.F
-Chd|        DSPGRID                       source/implicit/dsolve/dspgrid.F
-Chd|        DSRESOL                       source/implicit/dsolve/dsresol.F
-Chd|        DSRESOL_BUCK                  source/implicit/dsolve/dsresol.F
-Chd|        DSRESOL_ITER                  source/implicit/dsolve/dsresol.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_DS_IRECV(BUF, SIZE, ITAG, IPROV)
@@ -153,9 +140,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_DS_RRECV                 source/mpi/implicit/spmd_dsreso.F
 Chd|-- called by -----------
-Chd|        DSRESOL                       source/implicit/dsolve/dsresol.F
-Chd|        DSRESOL_BUCK                  source/implicit/dsolve/dsresol.F
-Chd|        DSRESOL_ITER                  source/implicit/dsolve/dsresol.F
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -196,9 +180,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_DS_IEXCH                 source/mpi/implicit/spmd_dsreso.F
 Chd|-- called by -----------
-Chd|        DSRESOLP                      source/implicit/dsolve/dsresolp.F
-Chd|        DSRESOLP_BUCK                 source/implicit/dsolve/dsresolp.F
-Chd|        DSRESOLP_ITER                 source/implicit/dsolve/dsresolp.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_DS_IEXCH(SBUF, RBUF, SIZE, MSGOFF)
@@ -252,9 +233,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_DS_MEXCH                 source/mpi/implicit/spmd_dsreso.F
 Chd|-- called by -----------
-Chd|        DSRESOLP                      source/implicit/dsolve/dsresolp.F
-Chd|        DSRESOLP_BUCK                 source/implicit/dsolve/dsresolp.F
-Chd|        DSRESOLP_ITER                 source/implicit/dsolve/dsresolp.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_DS_MEXCH(MATR, N   , IEXCH, REXCH, MSGOFF,
@@ -344,8 +322,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_DS_VEXCH                 source/mpi/implicit/spmd_dsreso.F
 Chd|-- called by -----------
-Chd|        DSRESOLP                      source/implicit/dsolve/dsresolp.F
-Chd|        DSRESOLP_ITER                 source/implicit/dsolve/dsresolp.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_DS_VEXCH(VECT, N   , IEXCH, REXCH, MSGOFF,
@@ -449,9 +425,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_DS_VDESC                 source/mpi/implicit/spmd_dsreso.F
 Chd|-- called by -----------
-Chd|        DSRESOLP                      source/implicit/dsolve/dsresolp.F
-Chd|        DSRESOLP_BUCK                 source/implicit/dsolve/dsresolp.F
-Chd|        DSRESOLP_ITER                 source/implicit/dsolve/dsresolp.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_DS_VDESC(V     , NDEPL, VV, NDDLC, NLOC,

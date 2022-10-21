@@ -1552,7 +1552,6 @@ C
 Chd|====================================================================
 Chd|  DSRREST                       source/output/restart/rdresb.F
 Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
 Chd|        READ_I_C                      source/output/tools/sortie_c.c

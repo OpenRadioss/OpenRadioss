@@ -159,7 +159,6 @@ Chd|        W_ELBUF_STR                   starter/source/restart/ddsplit/w_elbuf
 Chd|        XINIT3                        starter/source/elements/xelem/xinit3.F
 Chd|        ZEROVARS_AUTO                 starter/source/elements/elbuf_init/zerovars_auto.F
 Chd|        A22CONV3                      engine/source/ale/alefvm/cut_cells/a22conv3.F
-Chd|        ABFHIST2                      engine/source/output/abf/abfhist2.F
 Chd|        ACONVE                        engine/source/ale/aconve.F    
 Chd|        ADMDIV                        engine/source/model/remesh/admdiv.F
 Chd|        ADMERR                        engine/source/model/remesh/admerr.F

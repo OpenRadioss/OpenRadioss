@@ -311,7 +311,10 @@ Chd|        HM_READ_SLIPRING              source/tools/seatbelts/hm_read_sliprin
 Chd|        HM_READ_SPCND                 source/constraints/sph/hm_read_spcnd.F
 Chd|        LECTRANS                      source/model/transformation/lectrans.F
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        HM_GET_CURRENT_OPTION         source/devtools/hm_reader/hm_get_current_option.F
+Chd|        HM_CURRENT_OPTION_MOD         share/modules1/hm_current_option_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       INTEGER FUNCTION NGR2USR(IU,IGR,NGR)
 C-----------------------------------------------

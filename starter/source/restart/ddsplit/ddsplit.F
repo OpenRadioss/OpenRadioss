@@ -86,7 +86,6 @@ Chd|        C_SECTIO                      source/restart/ddsplit/c_sectio.F
 Chd|        C_SEGQUADFR                   source/restart/ddsplit/c_segquadfr.F
 Chd|        C_SPMD_NE_CONNECT             source/ale/spmd_ne_connect.F  
 Chd|        C_VOIS                        source/restart/ddsplit/c_vois.F
-Chd|        DSWRESTP                      source/restart/ddsplit/wrrest.F
 Chd|        EIGWRESTP                     source/restart/ddsplit/wrrest.F
 Chd|        ELAPSTIME_OMP                 source/system/timer.F         
 Chd|        FILE_SIZE_C                   source/output/tools/write_routines.c

@@ -106,16 +106,10 @@ Chd|        FIND_DT1BRICK_ENGINE          source/starter/contrl.F
 Chd|        FIND_YIELD_ENGINE             source/general_controls/computation/hm_read_sms.F
 Chd|        FIXMODIF_ND                   source/elements/solid/solide10/dim_s10edg.F
 Chd|        FREDEC0                       source/starter/freform.F      
-Chd|        FREDEC3                       source/starter/freform.F      
 Chd|        FREDEC5                       source/starter/freform.F      
-Chd|        FREDEC_2KEY_2ID               source/starter/freform.F      
-Chd|        FREDEC_2KEY_2ID_T             source/starter/freform.F      
-Chd|        FREDEC_2KEY_3ID_T             source/starter/freform.F      
 Chd|        FREDEC_2KEY_4ID               source/starter/freform.F      
 Chd|        FREDEC_2KEY_4ID_T             source/starter/freform.F      
 Chd|        FREDEC_2KEY_ID_OR_KEY_ID      source/starter/freform.F      
-Chd|        FREDEC_3KEY_2ID_T             source/starter/freform.F      
-Chd|        FREDEC_KEY_2ID_T              source/starter/freform.F      
 Chd|        FREDEC_KEY_3ID_T              source/starter/freform.F      
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        FSDCOD                        source/system/fsdcod.F        
@@ -819,6 +813,7 @@ Chd|        GRFIND                        source/starter/freform.F
 Chd|        HM_THVARC                     source/output/th/hm_read_thvarc.F
 Chd|        ID                            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
 Chd|        NBOXLST                       source/model/box/nboxlist.F   
+Chd|        NGR2USR                       source/system/nintrr.F        
 Chd|        NINTLST                       source/system/nintrr.F        
 Chd|        NINTLST2                      source/system/nintrr.F        
 Chd|        NINTLSTN                      source/system/nintrr.F        

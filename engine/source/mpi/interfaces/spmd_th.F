@@ -79,7 +79,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_GLOB_DSUM                source/mpi/interfaces/spmd_th.F
 Chd|-- called by -----------
-Chd|        ABFHIST2                      source/output/abf/abfhist2.F  
 Chd|        GET_U_NOD_A                   source/user_interface/uaccess.F
 Chd|        GET_U_NOD_D                   source/user_interface/uaccess.F
 Chd|        GET_U_NOD_V                   source/user_interface/uaccess.F
@@ -358,7 +357,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
 Chd|-- called by -----------
-Chd|        ABFHIST2                      source/output/abf/abfhist2.F  
 Chd|        ALELIN                        source/ale/grid/alelin.F      
 Chd|        ANI_PCONT21                   source/output/anim/generate/ani_pcont.F
 Chd|        ECRIT                         source/output/ecrit.F         

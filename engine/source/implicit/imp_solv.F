@@ -37,10 +37,6 @@ Chd|        CRIT_LLIM                     source/implicit/imp_solv.F
 Chd|        DEALLOCM                      source/implicit/imp_solv.F    
 Chd|        DIM_INT_K                     source/implicit/ind_glob_k.F  
 Chd|        DIS_CP                        source/implicit/imp_solv.F    
-Chd|        DSACTI1                       source/implicit/dsolve/dsacti.F
-Chd|        DSMAJI7                       source/implicit/dsolve/dsgri7.F
-Chd|        DSRENUM                       source/implicit/dsolve/dsrenum.F
-Chd|        DSRENUM0                      source/implicit/dsolve/dsrenum.F
 Chd|        DU_INI_HP                     source/implicit/imp_solv.F    
 Chd|        DYNA_CPK0                     source/implicit/imp_dyna.F    
 Chd|        DYNA_CPR0                     source/implicit/imp_dyna.F    

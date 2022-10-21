@@ -428,8 +428,6 @@ Chd|        NODGRNR6                      starter/source/starter/freform.F
 Chd|        NODGR_R2R                     starter/source/coupling/rad2rad/routines_r2r.F
 Chd|        R2R_EXIST                     starter/source/coupling/rad2rad/routines_r2r.F
 Chd|        GROUP_MOD                     starter/share/modules1/group_mod.F
-Chd|        ABFHIST1                      engine/source/output/abf/abfhist1.F
-Chd|        ABFHIST2                      engine/source/output/abf/abfhist2.F
 Chd|        AIRBAGB                       engine/source/airbag/airbag2.F
 Chd|        AIRBAGB1                      engine/source/airbag/airbagb1.F
 Chd|        ALELIN                        engine/source/ale/grid/alelin.F

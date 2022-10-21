@@ -24,7 +24,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_SD_ACC                   source/mpi/output/spmd_sd_acc.F
 Chd|-- called by -----------
-Chd|        ABFHIST2                      source/output/abf/abfhist2.F  
 Chd|        HIST2                         source/output/th/hist2.F      
 Chd|        SENSOR0                       source/tools/sensor/sensor0.F 
 Chd|-- calls ---------------

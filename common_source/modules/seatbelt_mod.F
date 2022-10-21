@@ -36,7 +36,6 @@ Chd|        RGRTAILS                      starter/source/elements/spring/rgrtail
 Chd|        RINIT3                        starter/source/elements/spring/rinit3.F
 Chd|        ST_QAPRINT_SEATBELTS          starter/source/output/qaprint/st_qaprint_seatbelts.F
 Chd|        W_SEATBELTS                   starter/source/restart/ddsplit/w_seatbelts.F
-Chd|        ABFHIST2                      engine/source/output/abf/abfhist2.F
 Chd|        HIST2                         engine/source/output/th/hist2.F
 Chd|        KINE_SEATBELT_FORCE           engine/source/tools/seatbelts/kine_seatbelt_force.F
 Chd|        KINE_SEATBELT_VEL             engine/source/tools/seatbelts/kine_seatbelt_vel.F

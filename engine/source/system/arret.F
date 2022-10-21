@@ -76,19 +76,6 @@ Chd|        C_FREEMEM                     stub/superlu_stub.F
 Chd|        C_TRICALL                     stub/fvmbags_stub.F           
 Chd|        DAASOLV                       source/fluid/daasolv.F        
 Chd|        DIM_INT7                      source/implicit/ind_glob_k.F  
-Chd|        DSACTI1                       source/implicit/dsolve/dsacti.F
-Chd|        DSBUCK                        source/implicit/dsolve/dsbuck.F
-Chd|        DSBUCKP                       source/implicit/dsolve/dsbuckp.F
-Chd|        DSCOND                        source/implicit/dsolve/dscond.F
-Chd|        DSEIG                         source/implicit/dsolve/dseig.F
-Chd|        DSEIGP                        source/implicit/dsolve/dseigp.F
-Chd|        DSGRI7                        source/implicit/dsolve/dsgri7.F
-Chd|        DSRENUM                       source/implicit/dsolve/dsrenum.F
-Chd|        DSRESOL                       source/implicit/dsolve/dsresol.F
-Chd|        DSRESOLP                      source/implicit/dsolve/dsresolp.F
-Chd|        DSRESOLP_BUCK                 source/implicit/dsolve/dsresolp.F
-Chd|        DSRESOL_BUCK                  source/implicit/dsolve/dsresol.F
-Chd|        DSRESOL_ITER                  source/implicit/dsolve/dsresol.F
 Chd|        DTNODA                        source/time_step/dtnoda.F     
 Chd|        DTNODAMS                      source/time_step/dtnodams.F   
 Chd|        DYNA_INA                      source/implicit/imp_dyna.F    
@@ -222,6 +209,8 @@ Chd|        I8LLL                         source/interfaces/int16/i8lagm.F
 Chd|        I9AVEL                        source/interfaces/int09/i9avel.F
 Chd|        IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
+Chd|        IMP_DSOLV                     source/implicit/imp_dsolv.F   
+Chd|        IMP_DSOLV_ITER                source/implicit/imp_dsolv.F   
 Chd|        IMP_FSA_INV2                  source/implicit/imp_fsa_inv.F 
 Chd|        IMP_FSA_INVH                  source/implicit/imp_fsa_inv.F 
 Chd|        IMP_FSA_INVH2                 source/implicit/imp_fsa_inv.F 
@@ -428,7 +417,6 @@ Chd|        DELETE_TMPFILE                source/output/tools/sortie_c.c
 Chd|        ENGINE_USER_FINALIZE          source/user_interface/dyn_userlib.c
 Chd|        MY_EXIT                       source/system/my_exit.c       
 Chd|        PRINT_RUNTIME                 source/system/timer.F         
-Chd|        RELEASE_ABFPIPE               source/output/abf/abfpipe.c   
 Chd|        REPORT                        source/output/report/report.F 
 Chd|        SEND_IBUF_C                   source/coupling/rad2rad/rad2rad_c.c
 Chd|        SORTIE_MVW                    source/output/report/sortie_mvw.F

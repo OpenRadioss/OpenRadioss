@@ -209,7 +209,6 @@ C
 Chd|====================================================================
 Chd|  DSWREST                       source/output/restart/wrrest.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c

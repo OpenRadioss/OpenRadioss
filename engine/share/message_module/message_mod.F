@@ -60,15 +60,6 @@ Chd|        CP_IFRONT                     source/implicit/produt_v.F
 Chd|        CREATE_H3D_ARG_KEYWORD        source/output/h3d/h3d_build_fortran/create_h3d_arg_keyword.F
 Chd|        DEALLOCATE_FI1_TMP            source/mpi/interfaces/spmd_i25slide.F
 Chd|        DIM_INT7                      source/implicit/ind_glob_k.F  
-Chd|        DSACTI1                       source/implicit/dsolve/dsacti.F
-Chd|        DSBUCK                        source/implicit/dsolve/dsbuck.F
-Chd|        DSBUCKP                       source/implicit/dsolve/dsbuckp.F
-Chd|        DSCOND                        source/implicit/dsolve/dscond.F
-Chd|        DSEIG                         source/implicit/dsolve/dseig.F
-Chd|        DSEIGP                        source/implicit/dsolve/dseigp.F
-Chd|        DSRENUM                       source/implicit/dsolve/dsrenum.F
-Chd|        DSRESOL                       source/implicit/dsolve/dsresol.F
-Chd|        DSRESOL_ITER                  source/implicit/dsolve/dsresol.F
 Chd|        DTNODA                        source/time_step/dtnoda.F     
 Chd|        DTNODAMS                      source/time_step/dtnodams.F   
 Chd|        DYNA_INA                      source/implicit/imp_dyna.F    

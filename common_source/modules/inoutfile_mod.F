@@ -28,7 +28,6 @@ Chd|        CONTRL                        starter/source/starter/contrl.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        DD_ANI                        starter/source/output/anim/dd_ani.F
 Chd|        DESOUT                        starter/source/output/outp/desout.F
-Chd|        DSWRDD                        starter/source/implicit/dsolve/dswrdd.F
 Chd|        EXECARGCHECK                  starter/source/starter/execargcheck.F
 Chd|        FIND_DT1BRICK_ENGINE          starter/source/starter/contrl.F
 Chd|        FIND_DT_ENGINE                starter/source/coupling/rad2rad/r2r_speedup.F
@@ -60,7 +59,6 @@ Chd|        READ_PCH_FILE                 starter/source/constraints/fxbody/read
 Chd|        STARTER0                      starter/source/starter/starter0.F
 Chd|        USER_OUTPUT                   starter/source/user_interface/user_output.F
 Chd|        WRITEMESH                     starter/source/airbag/writeMesh.F
-Chd|        ABFHIST1                      engine/source/output/abf/abfhist1.F
 Chd|        ADD_ELAPSED_TIME_MON_OFF      engine/source/system/timer.F  
 Chd|        ARRET                         engine/source/system/arret.F  
 Chd|        COLLECT                       engine/source/output/outfile/collect.F

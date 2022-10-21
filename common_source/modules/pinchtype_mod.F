@@ -30,7 +30,6 @@ Chd|        HM_READ_PLOAD                 starter/source/loads/general/pload/hm_
 Chd|        HM_READ_PROP01                starter/source/properties/shell/hm_read_prop01.F
 Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
-Chd|        ABFHIST2                      engine/source/output/abf/abfhist2.F
 Chd|        ACCELEPINCH                   engine/source/assembly/accelepinch.F
 Chd|        ASSPAR                        engine/source/assembly/asspar.F
 Chd|        CBAPINCHPROJ                  engine/source/elements/shell/coqueba/cbapinchproj.F

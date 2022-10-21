@@ -25,8 +25,6 @@ Chd|====================================================================
 Chd|  SPMD_BARRIER                  source/mpi/generic/spmd_barrier.F
 Chd|-- called by -----------
 Chd|        CHECK_NAN_ACC                 source/output/outfile/check_nan_acc.F
-Chd|        IMP_DSOLV                     source/implicit/imp_dsolv.F   
-Chd|        IMP_DSOLV_ITER                source/implicit/imp_dsolv.F   
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|        RESOL                         source/engine/resol.F         
 Chd|        SPHPREP                       source/elements/sph/sphprep.F 

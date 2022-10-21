@@ -2738,7 +2738,6 @@ C
 Chd|====================================================================
 Chd|  FRETITL2                      source/input/freform.F        
 Chd|-- called by -----------
-Chd|        ABFHIST1                      source/output/abf/abfhist1.F  
 Chd|        ALLOC_GROUP_STR               source/groups/alloc_group_str.F
 Chd|        ALLOC_LINE_STR                source/groups/alloc_line_str.F
 Chd|        ALLOC_SUBSET_STR              source/groups/alloc_subset_str.F

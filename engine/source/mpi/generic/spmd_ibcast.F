@@ -27,10 +27,6 @@ Chd|-- called by -----------
 Chd|        DRBE2CNT                      source/output/anim/generate/drbe2cnt.F
 Chd|        DRBE3CNT                      source/output/anim/generate/drbe3cnt.F
 Chd|        DRBYCNT                       source/output/anim/generate/drbycnt.F
-Chd|        DSCALN                        source/implicit/dsolve/dscaln.F
-Chd|        DSRESOL                       source/implicit/dsolve/dsresol.F
-Chd|        DSRESOL_BUCK                  source/implicit/dsolve/dsresol.F
-Chd|        DSRESOL_ITER                  source/implicit/dsolve/dsresol.F
 Chd|        FR_RLINK1                     source/mpi/kinematic_conditions/fr_rlink1.F
 Chd|        FXBYPID                       source/constraints/fxbody/fxbypid.F
 Chd|        GENANI                        source/output/anim/generate/genani.F

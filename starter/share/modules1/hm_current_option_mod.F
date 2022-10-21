@@ -21,8 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  HM_CURRENT_OPTION_MOD            share/modules1/hm_current_option_mod.F
+Chd|  HM_CURRENT_OPTION_MOD         share/modules1/hm_current_option_mod.F
 Chd|-- called by -----------
+Chd|        NGR2USR                       source/system/nintrr.F        
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE HM_CURRENT_OPTION_MOD

@@ -26,13 +26,7 @@ Chd|-- called by -----------
 Chd|        LIN_SOLV2                     source/implicit/lin_solv.F    
 Chd|        LIN_SOLVP2                    source/implicit/lin_solv.F    
 Chd|-- calls ---------------
-Chd|        DSCOND                        source/implicit/dsolve/dscond.F
-Chd|        DSDESC                        source/implicit/dsolve/dsdesc.F
-Chd|        DSPGRID                       source/implicit/dsolve/dspgrid.F
-Chd|        DSRECU                        source/implicit/dsolve/dsrecu.F
-Chd|        DSRESOL                       source/implicit/dsolve/dsresol.F
-Chd|        DSRESOLP                      source/implicit/dsolve/dsresolp.F
-Chd|        SPMD_BARRIER                  source/mpi/generic/spmd_barrier.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|====================================================================
       SUBROUTINE IMP_DSOLV(GRAPHE, K_DIAG, K_LT , IADK , JDIK   ,
@@ -82,14 +76,7 @@ Chd|-- called by -----------
 Chd|        LIN_SOLV2                     source/implicit/lin_solv.F    
 Chd|        LIN_SOLVP2                    source/implicit/lin_solv.F    
 Chd|-- calls ---------------
-Chd|        DSCDF                         source/implicit/dsolve/dscdf.F
-Chd|        DSCOND                        source/implicit/dsolve/dscond.F
-Chd|        DSDESC                        source/implicit/dsolve/dsdesc.F
-Chd|        DSPGRID                       source/implicit/dsolve/dspgrid.F
-Chd|        DSRECU                        source/implicit/dsolve/dsrecu.F
-Chd|        DSRESOLP_ITER                 source/implicit/dsolve/dsresolp.F
-Chd|        DSRESOL_ITER                  source/implicit/dsolve/dsresol.F
-Chd|        SPMD_BARRIER                  source/mpi/generic/spmd_barrier.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|====================================================================
       SUBROUTINE IMP_DSOLV_ITER(GRAPHE, K_DIAG, K_LT  , IADK   , JDIK  ,
