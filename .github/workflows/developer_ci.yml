@@ -210,10 +210,12 @@ jobs:
             exit 1
           fi 
 
+      # DEV ONLY #
       # Delete the artifacts
       # In private repo we are limited to 2Gb so we decided not to keep developer ci artifacts for the moment
-      - uses: joutvhu/delete-artifact@v1
-        with:
-          name: |
-            bins-${{ matrix.os }}-${{ matrix.precision }}   
-            bins-${{ matrix.os }}-sp
+      # - uses: geekyeggo/delete-artifact@v2
+      #   with:
+      #     name: |
+      #       bins-${{ matrix.os }}-${{ matrix.precision }}   
+      #       bins-${{ matrix.os }}-sp
+
