@@ -115,7 +115,7 @@ void c_h3d_create_shell_vector_datatype_(int *cpt_data, char *name1, int *size1,
     H3D_ID layer_pool_id = H3D_NULL_ID;
 
 #ifdef _WIN64
-    strcat_s(RES_STRING,sizeof(RES_STRING),cname);
+    strcat_s(RES_STRING,100,cname);
 #else
     RES_STRING = strcat(RES_STRING,cname);
 #endif
