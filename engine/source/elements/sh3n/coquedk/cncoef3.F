@@ -140,7 +140,7 @@ C
       ELSEIF(MTN==58) THEN
            MX  =MAT(JFT)
 C---- due to too high young update (Starter) w/ input func            
-           FAC1TMP = HALF*PM(23,MX)/PM(20,MX)
+           FAC1TMP = PM(23,MX)/PM(20,MX)
            K58(1) = UPARAM( 9)  ! young dir1
            K58(2) = UPARAM(10)  ! young dir2
            K58(3) = MAX(UPARAM(13),UPARAM(14))
@@ -165,7 +165,7 @@ C---- due to too high young update (Starter) w/ input func
              E11 = R12*T1 + R22*T2
              E22 = S12*T1 + S22*T2
              YM(I)  = MAX(E11,E22)
-             G(I)  = FAC1TMP*YM(I)
+             G(I)  = HALF*FAC1TMP*YM(I)
              NU(I)  = ZERO
              NUSR(I) =EM01
 C---- for dt compute -> will be updated by cndt in case of dtnoda 			 
