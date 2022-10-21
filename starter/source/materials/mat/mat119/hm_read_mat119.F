@@ -165,6 +165,7 @@ C-----------------------------------------
          RCOMP = EM03
       ENDIF
 C--------------------------------------------------------
+      IF (NUCOAT == ZERO) NUCOAT = N12
       A1C = ECOAT /  (ONE - NUCOAT**2)
       A2C = A1C * NUCOAT
       GC  = ECOAT * HALF / (ONE + NUCOAT)
@@ -204,7 +205,7 @@ C     PARMAT(3) = SQRT(N12*N21)
 c
 c---- Definition of internal variables variables for seatbelts
 c
-      MTAG%G_INTVAR = 6
+      MTAG%G_INTVAR = 7
       MTAG%G_SLIPRING_ID = 1
       MTAG%G_SLIPRING_FRAM_ID = 2
       MTAG%G_UPDATE = 1
