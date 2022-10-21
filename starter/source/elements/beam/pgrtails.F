@@ -248,16 +248,8 @@ cc       LB_L = LBUFEL
 
           NE1 = MIN( NVSIZ, NEL + NEL_PREC - NFT)
 C---
-         JTHE = ABS(NINT(PM(71,MID)))
-         IF(ITHERM_FE == 0 .AND. JTHE > 0) THEN
-           ID=IPM(1,MID)
-           CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,MID),LTITR)
-           CALL ANCMSG(MSGID=1879, 
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO,
-     .                   I1=ID,
-     .                   C1=TITR)
-         ENDIF
+          JTHE = NINT(PM(71,MID))
+
           !!
           IF(IGTYP == 3 .AND. MLN == 34 ) THEN
            ID=IPM(1,MID)
@@ -272,8 +264,7 @@ C---
      .                 C1=TITR1,
      .                 I2=ID,
      .                 C2=TITR)
-         ENDIF
-          
+          ENDIF
           
           !!         
           NUVAR  = 0
@@ -291,17 +282,17 @@ c                                        other groups using old buffer
           IPARG(5,NGROUP) = 5
           IPARG(6,NGROUP) = NIP
           IPARG(9,NGROUP) = ISSN
-          IPARG(13,NGROUP) = JTHE
+          IPARG(13,NGROUP) = JTHE  !beam : 0 or 1 only
           IPARG(38,NGROUP) = IGTYP      
           !---reperage groupe/processeur
           IPARG(32,NGROUP)= P-1
 C         flag for group of duplicated elements in multidomains
           IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
-C        thermal material expansion 
-         IPARG(49,NGROUP) = 0
-         IF(IPM(218,MID) > 0 .AND. MLN /= 0 .AND. MLN /=13) THEN
-          IPARG(49,NGROUP) = 1
-         ENDIF
+C         thermal material expansion 
+          IPARG(49,NGROUP) = 0
+          IF(IPM(218,MID) > 0 .AND. MLN /= 0 .AND. MLN /=13) THEN
+           IPARG(49,NGROUP) = 1
+          ENDIF     
 
           JSMS=0
           IF(ISMS/=0)THEN

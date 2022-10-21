@@ -1018,9 +1018,6 @@ C .dyain files
       END IF
       NEXT   = NEXT + 1
       DYNAIN_CHECK = TABVINT(NEXT)
-C shel heat transfer
-      NEXT=NEXT+1
-      ITHERMC=TABVINT(NEXT)
 C  heat transfer + int7
       NEXT=NEXT+1
       INTHEAT = TABVINT(NEXT)

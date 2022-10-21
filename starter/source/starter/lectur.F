@@ -2027,46 +2027,6 @@ c
 c
       CALL TITRE3
 C--------------------------------------------
-C     STOCKAGE DYNAMIQUE (A.L.E.) ENTIER
-C--------------------------------------------
-      SNALE  = MAX(IALE,IEULER,IALELAG)*NUMNOD
-      SIELVS = 6*NUMELS+MAX(IALE,ITHERM,IEULER,IALELAG)* (4 * NUMELQ + 3 * NUMELTG)
-      SIFILL = NMULT*NUMNOD
-      SIMS   = NMULT*NUMNOD
-C---
-      ALLOCATE (IFILL(SIFILL),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID   = 268,
-     .                           ANMODE  = ANINFO,
-     .                           MSGTYPE = MSGERROR,
-     .                           C1      = 'IFILL')
-
-      ALLOCATE (IMS(SIMS),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID   = 268,
-     .                           ANMODE  = ANINFO,
-     .                           MSGTYPE = MSGERROR,
-     .                           C1      = 'IMS')
-
-
-      IF (SIFILL > 0) IFILL = 0
-      IF (SIMS   > 0) IMS   = 0
-
-      ALLOCATE (DFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
-      ALLOCATE (VFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
-      ALLOCATE (WFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
-
-      IF(IALELAG > 0) THEN
-       DFLOW = ZERO
-       VFLOW = ZERO
-       WFLOW = ZERO
-      ENDIF
-
-      IF(IALEFVM > 0)THEN
-        ALLOCATE (FCELL(6,NUMELS)   ,STAT=stat)
-        FCELL(:,:) = ZERO
-      ENDIF
-
-C----------------------------------
-C--------------------------------------------
 C     INITIALISATION DES POINTEURS UTILISATEUR
 C--------------------------------------------
         CALL SAV_BUF_POINT(PM     ,1)
@@ -2288,6 +2248,46 @@ C
 
       CALL TRACE_OUT1()
       
+C--------------------------------------------
+C     STOCKAGE DYNAMIQUE (A.L.E.) ENTIER
+C--------------------------------------------
+      SNALE  = MAX(IALE,IEULER,IALELAG)*NUMNOD
+      SIELVS = 6*NUMELS+MAX(IALE,ITHERM,IEULER,IALELAG)* (4 * NUMELQ + 3 * NUMELTG)
+      SIFILL = NMULT*NUMNOD
+      SIMS   = NMULT*NUMNOD
+C---
+      ALLOCATE (IFILL(SIFILL),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID   = 268,
+     .                           ANMODE  = ANINFO,
+     .                           MSGTYPE = MSGERROR,
+     .                           C1      = 'IFILL')
+
+      ALLOCATE (IMS(SIMS),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID   = 268,
+     .                           ANMODE  = ANINFO,
+     .                           MSGTYPE = MSGERROR,
+     .                           C1      = 'IMS')
+
+
+      IF (SIFILL > 0) IFILL = 0
+      IF (SIMS   > 0) IMS   = 0
+
+      ALLOCATE (DFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
+      ALLOCATE (VFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
+      ALLOCATE (WFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
+
+      IF(IALELAG > 0) THEN
+       DFLOW = ZERO
+       VFLOW = ZERO
+       WFLOW = ZERO
+      ENDIF
+
+      IF(IALEFVM > 0)THEN
+        ALLOCATE (FCELL(6,NUMELS)   ,STAT=stat)
+        FCELL(:,:) = ZERO
+      ENDIF
+
+C----------------------------------      
 C--------------------------------------------
 C     MULTIDOMAINS
 C--------------------------------------------

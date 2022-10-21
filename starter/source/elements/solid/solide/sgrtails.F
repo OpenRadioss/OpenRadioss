@@ -713,7 +713,6 @@ C foam + air
           ENDIF
           IF(MLN/=50)JTUR=NINT(PM(70,MID)) 
           JTHE=NINT(PM(71,MID))
-C
 C     Multifluid law
           ISRAT=IPM(3,MID)
           IMATVIS = IPM(216, MID)
@@ -1383,15 +1382,16 @@ C-------------------------------------------------
           IPARG(1,NGROUP) = MLN
           IPARG(2,NGROUP) = NE1
           IPARG(3,NGROUP) = EADD(N)-1 + NFT
-cc          IPARG(4,NGROUP) = 1
-          IPARG(4,NGROUP) = LBUFEL+1 !  kept in place for compatibility with
-c                                        other groups using old buffer
+          IPARG(4,NGROUP) = LBUFEL+1 !  kept in place for compatibility with other groups using old buffer
           IPARG(5,NGROUP) = 1
           IPARG(7,NGROUP) = JALE
           IPARG(9,NGROUP) = ISSN
           IPARG(11,NGROUP)= JEUL
           IPARG(12,NGROUP)= JTUR
-          IPARG(13,NGROUP)= JTHE
+          IPARG(13,NGROUP)= -ABS(JTHE)
+          IF(JALE+JEUL /= 0)THEN
+            IPARG(13,NGROUP)= +ABS(JTHE)
+          ENDIF
           IPARG(14,NGROUP)= JLAG
           IPARG(10,NGROUP)= ICPRE  
           IPARG(17,NGROUP)= ICSTR  

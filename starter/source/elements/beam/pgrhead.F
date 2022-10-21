@@ -78,13 +78,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      INTEGER IXP(6,*),ISEL(*),INUM(8,*),IPARTP(*),IGEO(NPROPGI,*),
+      INTEGER IXP(6,*),ISEL(*),INUM(8,*),IPARTP(*),IGEO(NPROPGI,NUMGEO),
      .        EADD(*),ITR1(*),INDEX(*),ITRI(4,*),
      .        ND, CEP(*), XEP(*),IPOUOFF(*),
-     .        TAGPRT_SMS(*),IPM(NPROPMI,*)
-C     REAL OU REAL*8
-      my_real
-     .    PM(NPROPM,*), GEO(NPROPG,*)
+     .        TAGPRT_SMS(*),IPM(NPROPMI,NUMMAT)
+      my_real PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBEAM)  :: IGRBEAM
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
@@ -138,7 +136,7 @@ C
         IF(GEO(5,PID)/=ZERO) ISSN=1
         NPG   = IGEO(3,PID)
         IGTYP = IGEO(11,PID)
-        JTHE = ABS(NINT(PM(71,MID)))
+        JTHE = NINT(PM(71,MID))
         IEXPAN = IPM(218,MID)
 c
         IGTYP = MY_SHIFTL(IGTYP,12)

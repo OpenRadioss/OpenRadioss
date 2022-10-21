@@ -267,7 +267,7 @@ C
         PID= IXC(6,II)
         MLN  = NINT(PM(19,MID))
         IGTYP= IGEO(11,PID)
-        JTHE = ABS(NINT(PM(71,MID)))
+        JTHE = NINT(PM(71,MID))
         NPN  = IGEO(4,PID)
         IHBE = NINT(GEO(171,PID))
         ITHK = NINT(GEO(35,PID))

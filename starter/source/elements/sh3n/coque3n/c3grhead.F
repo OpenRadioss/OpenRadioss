@@ -276,7 +276,7 @@ C
         PID= IXTG(5,II)
         MLN = NINT(PM(19,MID))
 C
-        JTHE = ABS(NINT(PM(71,MID)))        
+        JTHE = NINT(PM(71,MID))
         IGTYP = IGEO(11,PID)
         NPN   = IGEO(4,PID)
         ISH3N  = IGEO(18,PID)

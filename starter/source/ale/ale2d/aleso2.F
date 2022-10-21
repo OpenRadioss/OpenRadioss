@@ -70,9 +70,9 @@ C-----------------------------------------------
       IF(IPRI <= 3)THEN
         WRITE(IOUT,1200)
         DO M=1,NUMELQ
-          JTHE_FROM_MAT = NINT(PM(71,IABS(IXQ(1,M)))) !/THERM/STRES/MAT
+          JTHE_FROM_MAT = NINT(PM(71,IABS(IXQ(1,M)))) !/HEAT/MAT
           JALE_FROM_MAT = NINT(PM(72,IABS(IXQ(1,M)))) !/EULER/MAT or /ALE/MAT
-          JALE_FROM_PROP = IGEO(62,IABS(IXQ(6,M)))  !/PROP/TYPE14 (IALE_FLAG)
+          JALE_FROM_PROP = IGEO(62,IABS(IXQ(6,M)))    !/PROP/TYPE14 (IALE_FLAG)
           IAL = JTHE_FROM_MAT + JALE_FROM_MAT + JALE_FROM_PROP
           IF(IAL == 0)CYCLE
           IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(M)

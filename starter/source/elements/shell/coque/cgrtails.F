@@ -760,16 +760,7 @@ C-------------
 C-------------
 C         
          IF (MLN == 13) IRIGID_MAT = 1
-         JTHE = ABS(NINT(PM(71,MID)))
-         IF(ITHERM_FE == 0 .AND. JTHE > 0) THEN
-           ID=IPM(1,MID)
-           CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,MID),LTITR)
-           CALL ANCMSG(MSGID=667,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO,
-     .                   I1=ID,
-     .                   C1=TITR)
-         ENDIF
+         JTHE = NINT(PM(71,MID))           
 C        thermal material expansion 
          IPARG(49,NGROUP) = 0
          IF(IPM(218,MID) > 0 .AND. MLN /= 0 .AND. MLN /=13) THEN
@@ -797,7 +788,7 @@ C         flag for group of duplicated elements in multidomains
           IPARG(5,NGROUP)  = 3          ! ITY
           IPARG(6,NGROUP)  = NPN
           IPARG(9,NGROUP)  = ISMST
-          IPARG(13,NGROUP) = JTHE
+          IPARG(13,NGROUP) = JTHE !shell : 0 or 1 only
           IPARG(23,NGROUP) = IHBE
           IPARG(28,NGROUP) = ITHK
           IPARG(29,NGROUP) = IPLA

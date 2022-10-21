@@ -1003,9 +1003,6 @@ C .dynain files
       ENDDO
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=DYNAIN_CHECK
-C shel heat transfer
-      LVARINT=LVARINT+1
-      TABVINT(LVARINT) = ITHERMC
 C  heat transfer + int7
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = INTHEAT
