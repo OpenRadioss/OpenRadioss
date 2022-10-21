@@ -1651,7 +1651,8 @@ c
      .           FLAG_ZCFAC,ZCFAC   ,DEPSXX   ,DEPSYY   ,DEPSXY   ,
      .           EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,
      .           LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
-     .           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ) 
+     .           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   , 
+     .           WMC      ,THLY     ,THK0) 
 !          
           ELSEIF (ILAW == 121 )THEN
             CALL SIGEPS121C(

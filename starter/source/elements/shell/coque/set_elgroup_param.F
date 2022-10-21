@@ -61,7 +61,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NG,ITY,IGTYP,IDEF,IGMAT,IHBE,ISH3N,IEL,PID,IMAT,ILAW,IADD,
      .        NIP,ISMSTR,ICOAT
-      my_real DM
+      my_real DM,TCOAT
 C=======================================================================
       DO NG=1,NGROUP
         ITY   = IPARG(5,NG)
@@ -123,14 +123,18 @@ c
           IF (ILAW == 119) THEN
             IADD = MAX(1,IPM(7,IMAT))-1
             ICOAT = NINT(BUFMAT(IADD+14))
+            TCOAT = BUFMAT(IADD+16)
             ISMSTR = 11   ! force small strain formulation for law 119 regardless of input
-            IF (ICOAT > ZERO) THEN 
+            IF (ICOAT > ZERO .AND. TCOAT > ZERO) THEN 
               NIP = 3
+              ! update shell thickness in the property to take coating into account
+              GEO(1,PID) = GEO(1,PID) + TWO*TCOAT
             ELSE
               NIP = 1
             END IF
             IPARG(6,NG) = NIP
             IPARG(9,NG) = ISMSTR
+            
           END IF
            
 

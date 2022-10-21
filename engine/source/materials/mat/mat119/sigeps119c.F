@@ -36,7 +36,8 @@ Chd|====================================================================
      .            IQEPH   ,ZCFAC   ,DEPSXX  ,DEPSYY  ,DEPSXY  ,
      .            EPSXX   ,EPSYY   ,EPSXY   ,EPSYZ   ,EPSZX   ,
      .            SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
-     .            SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  )
+     .            SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
+     .            WMC     ,THLY    ,THK0)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,23 +60,24 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,IPT,NPT,NUPARAM,NUVAR,NUMTABL
-      INTEGER ,DIMENSION(NUMTABL),INTENT(IN)   :: ITABLE
       LOGICAL ,INTENT(IN) :: IQEPH
-      my_real ,DIMENSION(MVSIZ,2) ,INTENT(INOUT) :: ZCFAC
+      INTEGER ,INTENT(IN) :: NEL,IPT,NPT,NUPARAM,NUVAR,NUMTABL
+      INTEGER ,DIMENSION(NUMTABL) ,INTENT(IN)  :: ITABLE
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)  :: UPARAM
-      my_real ,DIMENSION(NEL) ,INTENT(IN) ::  SHF,THKLYL,OFF,
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)  :: SHF,OFF,
      .   DEPSXX,DEPSYY,DEPSXY,EPSXX,EPSYY,EPSXY,EPSYZ,EPSZX,
-     .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
-      my_real ,DIMENSION(NEL) ,INTENT(OUT) ::
-     .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,SSP
-      my_real, DIMENSION(NEL), INTENT(INOUT) :: THK
+     .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,THK0
+      my_real ,DIMENSION(MVSIZ,2),INTENT(INOUT) :: ZCFAC
+      my_real ,DIMENSION(MVSIZ)  ,INTENT(INOUT) :: WMC
+      my_real, DIMENSION(NEL)    ,INTENT(INOUT) :: THK,THLY,THKLYL
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
+      my_real ,DIMENSION(NEL) ,INTENT(OUT) :: SSP,
+     .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
       TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, ICOAT
+      INTEGER :: I
       my_real :: NU,G12,GS,GC,A1C,A2C,TCOAT,DEZZ
       my_real ,DIMENSION(NEL) :: ET,THFAC
 C=======================================================================
@@ -86,24 +88,10 @@ C=======================================================================
       TCOAT   = UPARAM(16)
       SSP     = UPARAM(17)
       GC      = UPARAM(20)
-      GS      = G12*SHF(1)
-      ICOAT   = 0
-      IF (A1C > ZERO .and. NPT == 3 .and. (IPT == 1 .or.  IPT == NPT)) ICOAT = 1
+      GS      = G12*SHF(1) 
 c-------------------------------------------------------------------------
-      IF (ICOAT == 1) THEN ! external coating
-        IF (TCOAT == ZERO) THEN
-          THFAC(1:NEL) = ONE
-        ELSE
-          THFAC(1:NEL) = TCOAT / THKLYL(1:NEL)
-        END IF
-        DO I=1,NEL
-          SIGNXX(I) = (A1C*EPSXX(I) + A2C*EPSYY(I))*THFAC(I)
-          SIGNYY(I) = (A2C*EPSXX(I) + A1C*EPSYY(I))*THFAC(I)
-          SIGNXY(I) = GC*EPSXY(I)*THFAC(I)
-          SIGNYZ(I) = GC*EPSYZ(I)*THFAC(I)*SHF(1)
-          SIGNZX(I) = GC*EPSZX(I)*THFAC(I)*SHF(1)
-        END DO
-      ELSE
+      IF (NPT == 1) THEN ! membrane only
+
         CALL LAW119_MEMBRANE(
      .       NEL    ,NUPARAM,NUVAR  ,UPARAM ,UVAR   ,
      .       GS     ,ET     ,DEPSXX ,DEPSYY ,DEPSXY ,
@@ -111,6 +99,36 @@ c-------------------------------------------------------------------------
      .       SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,
      .       SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX ,
      .       NUMTABL,ITABLE ,TABLE  )
+
+      ELSE  ! membrane + coating
+
+        IF (IPT == 2) THEN
+          CALL LAW119_MEMBRANE(
+     .       NEL    ,NUPARAM,NUVAR  ,UPARAM ,UVAR   ,
+     .       GS     ,ET     ,DEPSXX ,DEPSYY ,DEPSXY ,
+     .       EPSXX  ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX  ,
+     .       SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,
+     .       SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX ,
+     .       NUMTABL,ITABLE ,TABLE  )
+          THKLYL(1:NEL) = THK0(1:NEL) - TWO*TCOAT
+          THLY(1:NEL)= ONE - TWO * TCOAT / THK0(1:NEL)
+          WMC(1:NEL) = ZERO
+        ELSE    ! IPT = 1,3 => coating
+          DO I=1,NEL
+            SIGNXX(I) = A1C*EPSXX(I) + A2C*EPSYY(I)
+            SIGNYY(I) = A2C*EPSXX(I) + A1C*EPSYY(I)
+            SIGNXY(I) = GC*EPSXY(I)
+            SIGNYZ(I) = GC*EPSYZ(I)*SHF(1)
+            SIGNZX(I) = GC*EPSZX(I)*SHF(1)
+          END DO
+          THKLYL(1:NEL) = TCOAT
+          THLY(1:NEL)   = TCOAT / THK0(1:NEL)
+          IF (IPT == 1) THEN
+            WMC(1:NEL) =-HALF*THLY(1:NEL)
+          ELSE IF(IPT == 3) THEN
+            WMC(1:NEL) = HALF*THLY(1:NEL)
+          END IF
+        END IF
       END IF
 c------------------------------------            
 c       thickness update:
