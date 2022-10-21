@@ -533,7 +533,7 @@ C     ==============
       
       IF(CFL_COEF/=ZERO .AND. DTMIN/=ZERO)ID_DT_OPTION=1
       IF(CFL_COEF==ZERO)CFL_COEF=ZEP9        
-      IF(DTMIN==ZERO)DTMIN=EM20      
+      IF(DTMIN==ZERO)DTMIN=EM07 / FAC_TIME      
 
          !------------------------------------------------------!  
 C     =====

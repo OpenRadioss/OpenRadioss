@@ -1863,6 +1863,7 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "param_c.inc"
 #include      "tabsiz_c.inc"
+#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2217,7 +2218,7 @@ C--------------------------------------
             FVDATA_OLD(IFV)%CFL_COEF = ZEP9                             
           ENDIF                                                         
           IF(FVDATA_OLD(IFV)%DTMIN == ZERO)THEN                         
-            FVDATA_OLD(IFV)%DTMIN = EM20                                
+            FVDATA_OLD(IFV)%DTMIN = EM07 / FAC_TIME                                
           ENDIF    
           IF(FVDATA_OLD(IFV)%LAMBDA == ZERO)THEN                         
             FVDATA_OLD(IFV)%LAMBDA = EM02                                
