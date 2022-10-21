@@ -77,7 +77,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER SUB_ID,BID
       REAL*8 DVAL,LENGTH_DIM,MASS_DIM,TIME_DIM
       LOGICAL(KIND=C_BOOL) :: C_IS_AVAILABLE
 C-----------------------------------------------
@@ -90,8 +89,8 @@ C--------------------------------------------------
         MASS_DIM = ZERO
         TIME_DIM = ZERO
 C--------------------------------------------------
-        CALL CPP_GET_FLOATV_FLOATD(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),DVAL,C_IS_AVAILABLE,
-     .                    LENGTH_DIM,MASS_DIM,TIME_DIM,BID,SUB_ID)
+        CALL CPP_GET_FLOATV_ONLY(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),DVAL,C_IS_AVAILABLE,
+     .                    LENGTH_DIM,MASS_DIM,TIME_DIM)
 C--------------------------------------------------         
         RVAL  = DVAL
         IS_AVAILABLE = C_IS_AVAILABLE
