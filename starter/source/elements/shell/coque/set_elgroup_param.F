@@ -125,6 +125,7 @@ c
             ICOAT = NINT(BUFMAT(IADD+14))
             TCOAT = BUFMAT(IADD+16)
             ISMSTR = 11   ! force small strain formulation for law 119 regardless of input
+            IHBE   = 11   ! force full shell integration (Batoz) for law 119 regardless of input
             IF (ICOAT > ZERO .AND. TCOAT > ZERO) THEN 
               NIP = 3
               ! update shell thickness in the property to take coating into account
@@ -134,7 +135,7 @@ c
             END IF
             IPARG(6,NG) = NIP
             IPARG(9,NG) = ISMSTR
-            
+            IPARG(23,NG)= IHBE
           END IF
            
 
