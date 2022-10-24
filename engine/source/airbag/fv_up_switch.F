@@ -988,7 +988,7 @@ C
 !$OMP+ PRIVATE(TEMP,CP,CV,RMW)
 !$OMP+ PRIVATE(AL,DD,AD,GAMA,SSP,QX,VV,SS_,AREA)
 ! --- PRIVATE(AREAMAX)
-!$OMP+ PRIVATE(ITYPL,J,IEL)
+!$OMP+ PRIVATE(ITYPL,J,IEL,COUNT)
 
 !$OMP DO SCHEDULE(GUIDED,1)
       DO I = 1, NPOLH
@@ -1114,6 +1114,7 @@ C---------------------------------------------------
       QB=RVOLU(47)
       DTX=EP30
       PHDT=0
+      
 !$OMP END SINGLE
 
       !------------------------------!
