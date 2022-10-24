@@ -108,7 +108,7 @@ C-----------------------------------------------
       INTEGER I4N(MVSIZ), INTERSECTA(MVSIZ), INTERSECTB(MVSIZ), 
      .        INTERSECA, INTERSECB, IKEEP,
      .        FARA(MVSIZ,4), FARB(MVSIZ,4), INGAPA(MVSIZ,4), INGAPB(MVSIZ,4),  
-     .        SUBTRIB(MVSIZ), SUBTRIX(MVSIZ)
+     .        SUBTRIB(MVSIZ), SUBTRIX(MVSIZ), ICONT_R(MVSIZ)
       my_real
      .     XIJ(MVSIZ,4),  XI0V(MVSIZ),  XI5, XOI5,
      .     YIJ(MVSIZ,4),  YI0V(MVSIZ),  YI5, YOI5,
@@ -147,7 +147,7 @@ C-----------------------------------------------
      .     SOY125,SOY235,SOY345,SOY415,
      .     SOZ125,SOZ235,SOZ345,SOZ415,
      .     N1X,N1Y,N1Z,N1N,
-     .     N2X,N2Y,N2Z,N2N
+     .     N2X,N2Y,N2Z,N2N,EPS02,TOLE
       DATA ITRIA/1,2,2,3,3,4,4,1/,
      .     ITPERM/1,4,3,2/
       LOGICAL :: ANY_TRIANGLE
@@ -158,6 +158,7 @@ C
       EPS   = (TWO+HALF)/HUNDRED
       UNPT   = ONE + EPS
       ZEROMT = ZERO - EPS
+      EPS02=EM3*EM3
 C
 C initialisation (cf triangles)
       FARA(1:JLT,1:4) = 0
@@ -343,6 +344,7 @@ c        compute volumes at previous time step
 c        compute intersection time (linear approximation)
 c        compute coordinates at intersection time
 c        (intersection time can be different for each sub-triangle)
+         ICONT_R(I) = 0        
          IF(ISHEL(I)==0)THEN
            CALL INTERSECA_25(
      1                      IX3(I)      ,IX4(I),INTERSECA,
@@ -379,6 +381,7 @@ c        (intersection time can be different for each sub-triangle)
      8                      YO3     ,YO4    ,YO5    ,ZO1   ,ZO2    ,
      9                      ZO3     ,ZO4    ,ZO5    ,XI(I) ,YI(I)  ,
      A                      ZI(I)   ,ZEROM , UNP   )
+               ICONT_R(I) = INTERSECA
            ENDIF
 
            INTERSECTA(I)=INTERSECA
@@ -798,6 +801,23 @@ C        penetration approximee (cf zone limite interpolation des normales)
        ELSE ! IF(BB(I,IT) > ZERO)THEN
          PENA(I,IT)=MAX(ZERO,GAP-SQRT(DD(I,IT)))
        END IF
+C
+C--------exclude high pene in case of ICONT_R
+        IF(ICONT_R(I) >0)THEN
+           AAA      = MAX(EM30,X0N(I,IT)*X0N(I,1)+Y0N(I,IT)*Y0N(I,IT)+Z0N(I,IT)*Z0N(I,IT))
+           TOLE =EPS02*AAA
+           IF (GAP >ZERO) TOLE =MIN(TOLE,GAP*GAP)
+           IF(PENA(I,IT)*PENA(I,IT) > TOLE) THEN
+              PENA(I,IT) = ZERO 
+              N = CAND_N(I)
+              IF(N <= NSN) THEN
+                 ICONT_I(N) = -CAND_E(I)
+              ELSE
+                 ICONT_I_FI(NIN)%P(N-NSN) = -CAND_E(I)
+              ENDIF              
+           END IF
+        END IF!(ICONT_R(I) >0)THEN
+C
 C
       ENDDO
 C--------------------------------------------------------
