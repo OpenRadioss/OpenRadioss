@@ -1371,10 +1371,12 @@ c$$$                  ENDIF
 C------------------------
 C
 
-!$OMP PARALLEL PRIVATE(I,MSINI,CPA,CPB,CPC,CPD,CPE,CPF,EFAC,TEMP0)
-!$OMP+ PRIVATE(TEMP,CP,CV,RMW)
-!$OMP+ PRIVATE(AL,DD,AD,GAMA,SSP,QX,VV)
+!$OMP PARALLEL PRIVATE(I,J,JJ,MSINI,CPA,CPB,CPC,CPD,CPE,CPF,EFAC,TEMP0)
+!$OMP+ PRIVATE(NTRIA,NTRIA_TOT,NPOLYG,WSURF,SSP1,SSP2,SSPt)
+!$OMP+ PRIVATE(TEMP,CP,CV,RMW,Denom,Denom_max,VMAT,KK, AREA,IEL1,IEL2)
+!$OMP+ PRIVATE(AL,DD,AD,GAMA,SSP,QX,VV,TMP_VEC)
 !$OMP+ PRIVATE(ITYPL)
+
       ITYPL = ITYP
 !$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NPOLH
@@ -1408,6 +1410,7 @@ C-------------------------
 C Temperature
 C-------------------------
            TEMP0=RVOLU(25)
+           TEMP = TEMP0
            CALL FVTEMP(ITYPL , EFAC , CPA  , CPB  , CPC  ,
      .                 CPD   , CPE  , CPF  , RMW  , TEMP0,
      .                 TEMP  )
