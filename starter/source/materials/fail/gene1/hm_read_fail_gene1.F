@@ -483,7 +483,9 @@ c-----------------------------------------------------
  1101 FORMAT(
      & 5X,'MAXIMUM PRESSURE (POSITIVE IN COMPRESSION) . . . . .=',1PG20.13,/) 
  1102 FORMAT(        
-     & 5X,'MAXIMUM PRINCIPAL STRESS . . . . . . . . . . . . . .=',1PG20.13,/)
+     & 5X,'MAXIMUM PRINCIPAL STRESS . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'   < 0.0 : RESTRICTED TO POSITIVE STRESS TRIAXIALITIES',/, 
+     & 5X,'   > 0.0 : UNRESTRICTED                               ',/)
  1103 FORMAT(
      & 5X,'FAILURE TIME . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/)
  1104 FORMAT(

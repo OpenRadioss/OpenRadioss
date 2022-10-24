@@ -110,7 +110,7 @@ C!-----------------------------------------------
      .        XVEC(NEL,2),Q,R,R_INTER,E11(NEL),E22(NEL),VOL_STRAIN(NEL),DAV,
      .        E1D,E2D,E3D,E4D,S11(NEL),S22(NEL),EFF_STRAIN(NEL),S1,S2,
      .        EPSMAX(NEL),SIGMAX(NEL),FACL(NEL),VFAIL(NEL),E1FLD(NEL),
-     .        DFLD(NEL),HARDR(NEL),VTOT,VDAM,DENOM
+     .        DFLD(NEL),HARDR(NEL),VTOT,VDAM,DENOM,TRIAX(NEL)
       TYPE(BUF_FAIL_) ,POINTER :: FBUF
 C!--------------------------------------------------------------
       !=======================================================================
@@ -292,6 +292,7 @@ c
         SZZ    = P(I)
         SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
      .           - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
+        TRIAX(I) = -P(I)/MAX(SVM(I),EM20)
         !  -> computing the principal stresses
         S1     = HALF*(SIGNXX(I) + SIGNYY(I))
         S2     = HALF*(SIGNXX(I) - SIGNYY(I))
@@ -365,9 +366,18 @@ c
             IPMIN(I) = 1
           ENDIF
           !  -> maximal principal stress
-          IF (S11(I) >= SIGP1*FACL(I)) THEN 
-            NCRIT(I)  = NCRIT(I) + 1
-            IS1MAX(I) = 1
+          !     (unrestricted)
+          IF (SIGP1 > ZERO) THEN 
+            IF (S11(I) >= SIGP1*FACL(I)) THEN 
+              NCRIT(I)  = NCRIT(I) + 1
+              IS1MAX(I) = 1
+            ENDIF
+          !     (restricted to positive stress triaxialities)
+          ELSE
+            IF ((S11(I) >= ABS(SIGP1)*FACL(I)).AND.(TRIAX(I)>EM10)) THEN 
+              NCRIT(I)  = NCRIT(I) + 1
+              IS1MAX(I) = 1            
+            ENDIF
           ENDIF
           !  -> maximum time
           IF (TIME >= TMAX) THEN
@@ -585,8 +595,8 @@ c------------------------
             WRITE(ISTDO,1003) P(I),MINPRES*FACL(I)
           ENDIF
           IF (IS1MAX(I) == 1) THEN
-            WRITE(IOUT, 1004) S11(I),SIGP1*FACL(I)
-            WRITE(ISTDO,1004) S11(I),SIGP1*FACL(I)
+            WRITE(IOUT, 1004) S11(I),ABS(SIGP1)*FACL(I)
+            WRITE(ISTDO,1004) S11(I),ABS(SIGP1)*FACL(I)
           ENDIF
           IF (ITMAX(I) == 1) THEN 
             WRITE(IOUT, 1005) TIME,TMAX
