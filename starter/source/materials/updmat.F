@@ -197,6 +197,10 @@ c
             CALL LAW58_UPD(IOUT,TITR,UPARAM,NPC,PLD,
      .                     NFUNC,NFUNCL,IFUNC,MAT_ID,FUNC_ID,
      .                     PM(1,IMAT),NPARAM,LSENSOR)
+c-------------------------
+          CASE (62) 
+c------------------
+            CALL LAW62_UPD(IOUT,TITR,MAT_ID,NPARAM,UPARAM)   
 c------------------
           CASE (69) 
 c------------------
