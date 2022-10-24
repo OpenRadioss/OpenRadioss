@@ -72,8 +72,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFUNC, IFLOW(*),IPARG(NPARG,*),IX(NIX,*),ITAB(*),NIX,NV46
-      my_real
-     .        RFLOW(*)
+      my_real RFLOW(*)
       REAL WA4(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB      
 C-----------------------------------------------
@@ -116,7 +115,8 @@ C-----------------------------------------------
              IALEL =IPARG(7,NG)+IPARG(11,NG)             
              IF(ITYP/=1 .AND. ITYP/=2)CYCLE 
              !IF(IALEL==0)CYCLE
-             GBUF => ELBUF_TAB(NG)%GBUF                       
+             GBUF => ELBUF_TAB(NG)%GBUF
+             IF(GBUF%G_SIG > 0)THEN    !this may not be allocated (example : /MAT/VOID)             
               DO I=1,NEL
                 P = GBUF%SIG(NEL*(1-1)+I)+GBUF%SIG(NEL*(2-1)+I)+GBUF%SIG(NEL*(3-1)+I)   
                 P = -P*THIRD   
@@ -126,7 +126,8 @@ C-----------------------------------------------
                   WA4(JJ)=WA4(JJ)+V*P               !cumulated mass
                   COUNT_VOL(JJ) = COUNT_VOL(JJ) + V !cumulated volume                 
                 ENDDO            
-              ENDDO
+              ENDDO!next I
+             END IF
            ENDDO
            !applying weight factor
            DO I=1,NUMNOD
@@ -164,10 +165,11 @@ C
              NEL   =IPARG(2,NG)
              NFT   =IPARG(3,NG)
              ITYP  =IPARG(5,NG)
-             IALEL =IPARG(7,NG)+IPARG(11,NG)             
+             IALEL =IPARG(7,NG)+IPARG(11,NG)   
+             GBUF => ELBUF_TAB(NG)%GBUF                        
              IF(ITYP/=1 .AND. ITYP/=2)CYCLE 
-             IF(IALEL==0)CYCLE             
-             GBUF => ELBUF_TAB(NG)%GBUF 
+             IF(IALEL==0)CYCLE         
+             IF(GBUF%G_SIG==0)CYCLE     
               DO I=1,NEL
 C                print *, "treating brick id=", IX(11,I+NFT)
                 IB = NINT(GBUF%TAG22(I))
