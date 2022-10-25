@@ -58,7 +58,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "scr03_c.inc"
-C #include      "scr04_c.inc"
 #include      "scr05_c.inc"
 #include      "scr18_c.inc"
 #include      "warn_c.inc"
@@ -74,7 +73,6 @@ C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       INTEGER, INTENT(IN) :: ITAB(NUMNOD),MAIN_PROC(NUMNOD)
       INTEGER, INTENT(IN) :: IPARI(NPARI,NINTER)
-C     INTEGER, INTENT(IN) :: IRECVFROM(NINTER+1,*),ISENDTO(NINTER+1,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -114,7 +112,6 @@ C Split communicator
 
             KEY = ISPMD
             COLOR = 0 
-C           IF(IRECVFROM(NIN,ISPMD+1) > 0 .OR. ISENDTO(NIN,ISPMD+1) > 0) THEN
             NSN = IPARI(MACRO_NSN,NIN)
             NEDGE = IPARI(MACRO_NEDGE,NIN)
             IF(IPARI(MACRO_IEDGE,NIN) > 0) NINTER25E = NINTER25E + 1
@@ -133,19 +130,14 @@ C           IF(IRECVFROM(NIN,ISPMD+1) > 0 .OR. ISENDTO(NIN,ISPMD+1) > 0) THEN
               IED = COUNT(TAB(1:NEDGE,1) >= 0 .AND. TAB(1:NEDGE,2) >= 0)              
               INTBUF_TAB(NIN)%NB_INTERNAL_EDGES = IED
 
-C             WRITE(6,*) "Internal edges:", INTBUF_TAB(NIN)%NB_INTERNAL_EDGES
 
               IED = COUNT(.NOT. (TAB(1:NEDGE,1) >= 0 .AND. TAB(1:NEDGE,2) >= 0)
      .           .AND. TAB(1:NEDGE,3) == 1)    
               INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_LOCAL = IED 
 
-C             WRITE(6,*) "local boundary edges:", INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_LOCAL
-
               INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_REMOTE = NEDGE 
      .               - INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_LOCAL 
      .               - INTBUF_TAB(NIN)%NB_INTERNAL_EDGES
-C             WRITE(6,*) "remote boundary edges:", INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_REMOTE
-
 
               DEALLOCATE(TAB)
             ENDIF
@@ -165,7 +157,7 @@ C     sizes of send buffers
       DO NIN = 1,NINTER
         ITY = IPARI(MACRO_ITY,NIN)
         NSN = IPARI(MACRO_NSN,NIN)
-        IF( ITY==25) THEN
+        IF( ITY == 25) THEN
           DO I = 1,NSN
             P = MAIN_PROC(INTBUF_TAB(NIN)%NSV(I))
             SIZ_SEND_BUF(NIN,P) = SIZ_SEND_BUF(NIN,P) + 1
@@ -181,7 +173,7 @@ C     allocation of buffers
       DO NIN = 1,NINTER
         ITY=IPARI(MACRO_ITY,NIN)
         NSN = IPARI(MACRO_NSN,NIN)
-        IF( ITY==25 ) THEN
+        IF( ITY == 25 ) THEN
           DO P=1,NSPMD
 c           WRITE(6,*) ISPMD+1,P, SIZ_SEND_BUF(NIN,P),SIZ_RECV_BUF(NIN,P)
             ALLOCATE(SEND_BUF(NIN,P)%P(SIZ_SEND_BUF(NIN,P))) 
@@ -195,7 +187,7 @@ C     sizes of send buffers
       DO NIN = 1,NINTER
         ITY=IPARI(MACRO_ITY,NIN)
         NSN = IPARI(MACRO_NSN,NIN)
-        IF( ITY==25) THEN
+        IF( ITY == 25) THEN
           DO I = 1,NSN
             P = MAIN_PROC(INTBUF_TAB(NIN)%NSV(I))
             SIZ_SEND_BUF(NIN,P) = SIZ_SEND_BUF(NIN,P) + 1
@@ -289,7 +281,7 @@ c                WRITE(6,*) "found at ",K
       DO NIN = 1,NINTER
         ITY=IPARI(MACRO_ITY,NIN)
         NSN = IPARI(MACRO_NSN,NIN)
-        IF( ITY==25) THEN
+        IF( ITY == 25) THEN
           ALLOCATE(INTBUF_TAB(NIN)%NSV_ON_PMAIN(NSN))
           DO I = 1, NSN
             P = MAIN_PROC(INTBUF_TAB(NIN)%NSV(I))
@@ -297,6 +289,18 @@ c                WRITE(6,*) "found at ",K
             II = SIZ_SEND_BUF(NIN,P) 
             INTBUF_TAB(NIN)%NSV_ON_PMAIN(I) = SEND_BUF(NIN,P)%P(II) 
            ENDDO
+
+        ENDIF
+      ENDDO
+
+      DO NIN = 1,NINTER
+        ITY=IPARI(MACRO_ITY,NIN)
+        NSN = IPARI(MACRO_NSN,NIN)
+        IF( ITY == 25 ) THEN
+          DO P=1,NSPMD
+            DEALLOCATE(SEND_BUF(NIN,P)%P)
+            DEALLOCATE(RECV_BUF(NIN,P)%P)
+          ENDDO
         ENDIF
       ENDDO
 #endif
