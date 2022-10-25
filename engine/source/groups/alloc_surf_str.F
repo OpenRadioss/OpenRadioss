@@ -43,6 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "nchar_c.inc"
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
 #include      "my_allocate.inc"
@@ -57,18 +58,19 @@ C-----------------------------------------------
       INTEGER ISU,I,J,K,L_SURF,ID,NSEG,TYPE,ID_MADYMO,IAD_BUFR,
      .        NB_MADYMO,TYPE_MADYMO,LEVEL,TH_SURF,ISH4N3N,NSEG_R2R_ALL,
      .        NSEG_R2R_SHARE,NODE,ELTYP,ELEM,ERR,ITITLE(LTITR),LEN
-      CHARACTER(LEN=LTITR) :: TITR,NEW_TITLE(NSURF)
+      CHARACTER(LEN=nchartitle) :: TITR
       INTEGER, ALLOCATABLE, DIMENSION (:)  ::  ISURFI
 !
 !=======================================================================
       DO ISU=1,NSURF
+        TITR(1:nchartitle) = ' '
         CALL READ_I_C(ITITLE,LTITR)
         CALL FRETITL2(TITR,ITITLE,LTITR)
         LEN = 0
         DO J=1,LTITR
           IF (TITR(J:J) /= ' ') LEN = J
         ENDDO
-        NEW_TITLE(ISU) = TITR(1:LEN)
+        IGRSURF(ISU)%TITLE = TITR
       ENDDO ! DO ISU=1,NSURF
 !!------  Allocate and read subset data from restart
 !
