@@ -286,7 +286,7 @@ c--------------------------
       PM(1)  = RHOR
       PM(89) = RHO0
 c----------------
-      IF (NU >= 0.49) THEN
+      IF (NU > 0.49) THEN
         CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
       ELSE
         CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
