@@ -640,7 +640,7 @@ C--         E11 = K/S
 C--         coating
             A1C = BUFMAT(IADBUF+13)
             A2C = BUFMAT(IADBUF+14)
-            C1 = MAX(E11,E22,A1C,A2C)
+            C1 = MAX(A11,A22,A1C)
             SSP = SQRT(C1/RHO0)
             IF(DET<=ZERO) THEN
               CALL ANCMSG(MSGID=307,
