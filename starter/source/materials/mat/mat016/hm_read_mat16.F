@@ -278,7 +278,7 @@ C     Formulation for solid elements time step computation.
       PM(105) =  (ONE -TWO*ANU)/(ONE - ANU)      
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
-      IF (ANU >= 0.49) THEN
+      IF (ANU > 0.49) THEN
         CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
       ELSE
         CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")

@@ -265,7 +265,7 @@ c---------------------
       ENDIF
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
-      IF (NUG >= 0.49) THEN
+      IF (NUG > 0.49) THEN
         CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
       ELSE
         CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
