@@ -176,12 +176,12 @@ C
 
           ELSEIF (IK(6)/= 0)THEN
             WRITE(IOUT,*)
-     .     '             - IMPOSED ACCELERATION, IMPOSED DEPLACEMENT
+     .     '             - IMPOSED ACCELERATION, IMPOSED DISPLACEMENT
      . , IMPOSED VELOCITY FOR NODES : '
             WRITE(IOUT,*) NK(6,1:IK(6)) 
 
             WRITE(ISTDO,*)
-     .     '             - IMPOSED ACCELERATION, IMPOSED DEPLACEMENT
+     .     '             - IMPOSED ACCELERATION, IMPOSED DISPLACEMENT
      . , IMPOSED VELOCITY FOR NODES'
             WRITE(ISTDO,*) NK(6,1:IK(6)) 
 
