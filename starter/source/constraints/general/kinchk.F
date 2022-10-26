@@ -831,8 +831,8 @@ C
               WRITE(IOUT,*)'    RIGID BODY'
             ENDIF
             IF (IVF(I)== 1) THEN
-              WRITE(IOUT,*)'    IMPOSED ACCELERATION, IMPOSED DEPLACEMEN
-     .T, IMPOSED VELOCITY'
+              WRITE(IOUT,*)'    IMPOSED ACCELERATION, IMPOSED DISPLACEMENT
+     ., IMPOSED VELOCITY'
             ENDIF
             IF (IRV(I)== 1) THEN
               WRITE(IOUT,*)'    RIVET'
@@ -1054,8 +1054,8 @@ C
               WRITE(IOUT,*)'    RIGID BODY'
             ENDIF
             IF (IVF(I)== 1) THEN
-              WRITE(IOUT,*)'    IMPOSED ACCELERATION, IMPOSED DEPLACEMEN
-     .T, IMPOSED VELOCITY'
+              WRITE(IOUT,*)'    IMPOSED ACCELERATION, IMPOSED DISPLACEMENT
+     ., IMPOSED VELOCITY'
             ENDIF
             IF (IRV(I)== 1) THEN
               WRITE(IOUT,*)'    RIVET'
