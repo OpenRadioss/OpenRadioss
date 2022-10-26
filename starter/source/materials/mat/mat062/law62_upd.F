@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  LAW42_UPD                     source/materials/mat/mat042/law42_upd.F
+Chd|  LAW62_UPD                     source/materials/mat/mat062/law62_upd.F
 Chd|-- called by -----------
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|-- calls ---------------
