@@ -708,7 +708,7 @@ C
       DO I=2,NLIST
           IDM=ID
           ID=INDEX(INDEX(I,1),3)
-          IF(ID==IDM)THEN
+          IF(ID==IDM .AND. ID/=0)THEN
              CALL ANCMSG(MSGID=79,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,
@@ -971,7 +971,7 @@ C
       DO I=2,NLIST
           IDM=ID
           ID=INDEX(INDEX(I,1),3)
-          IF(ID==IDM)THEN
+          IF(ID==IDM .AND. ID/=0)THEN
              CALL ANCMSG(MSGID=79,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,
@@ -1414,7 +1414,7 @@ C
       DO I=2,NLIST
           IDM=ID
           ID=INDEX(INDEX(I,1),3)
-          IF(ID==IDM)THEN
+          IF(ID==IDM .AND. ID/=0)THEN
              CALL ANCMSG(MSGID=79,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,
