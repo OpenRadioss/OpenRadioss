@@ -99,6 +99,7 @@ c-------------------------------------------------------------------------
         DO I=1,NEL
          IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
          VOLDP(I) = (ONE-FACP(I))*VOLDP(I)+FACP(I)*JACG(I)*VOL0DP(I)             
+         VOLN(I) = VOLDP(I) 
         ENDDO
        ELSE
         DO I=1,NEL

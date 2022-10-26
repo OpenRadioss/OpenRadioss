@@ -3410,7 +3410,7 @@ C---------------------------------------------
         IF(IALE+IEULER+ITHERM==0) THEN
           L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
           CALL S4LAGSFEM(IPARG,IXS,X,V,ELBUF_TAB,VARNOD,
-     .                   IAD_ELEM,FR_ELEM,IXS(L1))
+     .                   IAD_ELEM,FR_ELEM,IXS(L1),XDP)
         ENDIF
       ENDIF
 

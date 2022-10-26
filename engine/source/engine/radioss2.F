@@ -930,7 +930,8 @@ C------------------------------------------------
       ENDIF
 C
       IF (IRESP==1) THEN
-        ALLOCATE(XDP(3*NUMNOD),STAT=IXDP)
+        SXDP = 3*NUMNOD
+        ALLOCATE(XDP(SXDP),STAT=IXDP)
         IF(IXDP/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
@@ -941,7 +942,8 @@ C
           CALL ARRET(2)
         ENDIF
       ELSE
-        ALLOCATE(XDP(1),STAT=IXDP)
+        SXDP = 3
+        ALLOCATE(XDP(SXDP),STAT=IXDP)
         IF(IXDP/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)

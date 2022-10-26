@@ -31,7 +31,7 @@ Chd|        S10DEFOT3                     source/elements/solid/solide10/s10defo
 Chd|        S10PIJTO3                     source/elements/solid/solide10/s10pijto3.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE S10VOLNODT3(ELBUF_TAB,VOLNOD6,X,NC,OFFG,SAV,NEL)
+      SUBROUTINE S10VOLNODT3(ELBUF_TAB,VOLNOD6,X,NC,OFFG,SAV,XDP,NEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,6 +46,7 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
+#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -53,6 +54,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(MVSIZ,10),INTENT(IN) :: NC
       DOUBLE PRECISION
      .   VOLNOD6(6,2*NUMNOD),SAV(NEL,30)
+      DOUBLE PRECISION , DIMENSION(3,SXDP/3), INTENT(IN) :: XDP     
 C     REAL
       my_real
      .   X(3,NUMNOD),OFFG(NEL)
@@ -87,14 +89,25 @@ C----------------------------
 C     NODAL COORDINATES     
 C----------------------------
 C----------------------------
-      DO N=1,10
-        DO I=LFT,LLT               
-          NN = MAX(1,NC(I,N))    
-          XX(I,N)=X(1,NN)          
-          YY(I,N)=X(2,NN)          
-          ZZ(I,N)=X(3,NN)          
-        ENDDO                      
-      ENDDO
+      IF(IRESP == 1) THEN
+        DO N=1,10
+          DO I=LFT,LLT               
+            NN = MAX(1,NC(I,N))    
+            XX(I,N)=XDP(1,NN)          
+            YY(I,N)=XDP(2,NN)          
+            ZZ(I,N)=XDP(3,NN)          
+          ENDDO                      
+        ENDDO
+      ELSE
+        DO N=1,10
+          DO I=LFT,LLT               
+            NN = MAX(1,NC(I,N))    
+            XX(I,N)=X(1,NN)          
+            YY(I,N)=X(2,NN)          
+            ZZ(I,N)=X(3,NN)          
+          ENDDO                      
+        ENDDO
+      END IF !(IRESP == 1) THEN
 C-------exact for Itetra4=1  
       DO N=5,10
         N1=IPERM1(N)
