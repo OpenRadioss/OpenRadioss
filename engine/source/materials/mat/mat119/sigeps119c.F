@@ -122,7 +122,9 @@ c-------------------------------------------------------------------------
             SIGNZX(I) = GC*EPSZX(I)*SHF(1)
           END DO
           THKLYL(1:NEL) = TCOAT
-          THLY(1:NEL)   = TCOAT / THK0(1:NEL)
+          DO I=1,NEL
+            THLY(I) = TCOAT*(THK0(I)-TCOAT) / (THK0(I)**2)
+          END DO
           IF (IPT == 1) THEN
             WMC(1:NEL) =-HALF*THLY(1:NEL)
           ELSE IF(IPT == 3) THEN
