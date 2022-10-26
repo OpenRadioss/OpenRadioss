@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
 Chd|        S10VOLJ                       source/elements/solid/solide4_sfem/s10volj.F
 Chd|====================================================================
-      SUBROUTINE S10VOLNOD3(VOLNOD6,X,NC,OFFG,VOLG,NEL)
+      SUBROUTINE S10VOLNOD3(VOLNOD6,X,NC,OFFG,VOLG,XDP,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,6 +39,7 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
+#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -48,6 +49,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,NUMNOD),OFFG(NEL)
+      DOUBLE PRECISION , DIMENSION(3,SXDP/3), INTENT(IN) :: XDP     
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -79,14 +81,25 @@ C     NODAL COORDINATES
 C----------------------------
       IF (ISMSTR==1.OR.ISMSTR==11) RETURN
 C----------------------------
-      DO N=1,10
-        DO I=LFT,LLT               
-          NN = MAX(1,NC(I,N))    
-          XX(I,N)=X(1,NN)          
-          YY(I,N)=X(2,NN)          
-          ZZ(I,N)=X(3,NN)          
-        ENDDO                      
-      ENDDO
+      IF(IRESP == 1) THEN
+        DO N=1,10
+          DO I=LFT,LLT               
+            NN = MAX(1,NC(I,N))    
+            XX(I,N)=XDP(1,NN)          
+            YY(I,N)=XDP(2,NN)          
+            ZZ(I,N)=XDP(3,NN)          
+          ENDDO                      
+        ENDDO
+      ELSE
+        DO N=1,10
+          DO I=LFT,LLT               
+            NN = MAX(1,NC(I,N))    
+            XX(I,N)=X(1,NN)          
+            YY(I,N)=X(2,NN)          
+            ZZ(I,N)=X(3,NN)          
+          ENDDO                      
+        ENDDO
+      END IF !(IRESP == 1) THEN
 C
       DO N=5,10
         N1=IPERM1(N)

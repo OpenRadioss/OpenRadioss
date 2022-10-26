@@ -28,7 +28,7 @@ Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4l
 Chd|-- calls ---------------
 Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
 Chd|====================================================================
-      SUBROUTINE S4VOLNOD3(VOLNOD6,X,NC1,NC2,NC3,NC4,OFFG,SAV,NEL)
+      SUBROUTINE S4VOLNOD3(VOLNOD6,X,NC1,NC2,NC3,NC4,OFFG,XDP,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,12 +39,14 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
+#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC1(*),NC2(*),NC3(*),NC4(*),NEL
       DOUBLE PRECISION
-     .   VOLNOD6(6,2*NUMNOD),SAV(NEL,9)
+     .   VOLNOD6(6,2*NUMNOD)
+      DOUBLE PRECISION , DIMENSION(3,SXDP/3), INTENT(IN) :: XDP     
 C     REAL
       my_real
      .   X(3,*),OFFG(*)
@@ -60,53 +62,88 @@ C-----------------------------------------------
 C     REAL
 
       my_real
-     .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43
-      my_real
-     .   B1(MVSIZ), C1(MVSIZ), D1(MVSIZ), DET(MVSIZ),
+     .   DET(MVSIZ)
+      DOUBLE PRECISION
+     .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,
+     .   B1, C1, D1
+      DOUBLE PRECISION
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ)
 
       DOUBLE PRECISION
-     .   DET6(6,MVSIZ)
+     .   DET6(6,MVSIZ),DETDP
 C----------------------------
 C     NODAL COORDINATES     
 C----------------------------
       IF (ISMSTR==1.OR.ISMSTR==11) RETURN
-      IF((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3)THEN
-       DO I=LFT,LLT
-       IF(ABS(OFFG(I))>ONE)THEN
-       ELSE
-        X1(I)=X(1,NC1(I))
-        Y1(I)=X(2,NC1(I))
-        Z1(I)=X(3,NC1(I))
-        X2(I)=X(1,NC2(I))
-        Y2(I)=X(2,NC2(I))
-        Z2(I)=X(3,NC2(I))
-        X3(I)=X(1,NC3(I))
-        Y3(I)=X(2,NC3(I))
-        Z3(I)=X(3,NC3(I))
-        X4(I)=X(1,NC4(I))
-        Y4(I)=X(2,NC4(I))
-        Z4(I)=X(3,NC4(I))
-       ENDIF
-       ENDDO
+      IF(IRESP == 1) THEN
+        IF((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3)THEN
+          DO I=LFT,LLT
+            IF(ABS(OFFG(I))>ONE) CYCLE
+            X1(I)=XDP(1,NC1(I))
+            Y1(I)=XDP(2,NC1(I))
+            Z1(I)=XDP(3,NC1(I))
+            X2(I)=XDP(1,NC2(I))
+            Y2(I)=XDP(2,NC2(I))
+            Z2(I)=XDP(3,NC2(I))
+            X3(I)=XDP(1,NC3(I))
+            Y3(I)=XDP(2,NC3(I))
+            Z3(I)=XDP(3,NC3(I))
+            X4(I)=XDP(1,NC4(I))
+            Y4(I)=XDP(2,NC4(I))
+            Z4(I)=XDP(3,NC4(I))
+          ENDDO
+        ELSE
+          DO I=LFT,LLT
+            X1(I)=XDP(1,NC1(I))
+            Y1(I)=XDP(2,NC1(I))
+            Z1(I)=XDP(3,NC1(I))
+            X2(I)=XDP(1,NC2(I))
+            Y2(I)=XDP(2,NC2(I))
+            Z2(I)=XDP(3,NC2(I))
+            X3(I)=XDP(1,NC3(I))
+            Y3(I)=XDP(2,NC3(I))
+            Z3(I)=XDP(3,NC3(I))
+            X4(I)=XDP(1,NC4(I))
+            Y4(I)=XDP(2,NC4(I))
+            Z4(I)=XDP(3,NC4(I))
+          ENDDO
+        ENDIF
       ELSE
-       DO I=LFT,LLT
-        X1(I)=X(1,NC1(I))
-        Y1(I)=X(2,NC1(I))
-        Z1(I)=X(3,NC1(I))
-        X2(I)=X(1,NC2(I))
-        Y2(I)=X(2,NC2(I))
-        Z2(I)=X(3,NC2(I))
-        X3(I)=X(1,NC3(I))
-        Y3(I)=X(2,NC3(I))
-        Z3(I)=X(3,NC3(I))
-        X4(I)=X(1,NC4(I))
-        Y4(I)=X(2,NC4(I))
-        Z4(I)=X(3,NC4(I))
-       ENDDO
-      ENDIF
+        IF((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3)THEN
+          DO I=LFT,LLT
+            IF(ABS(OFFG(I))>ONE) CYCLE
+            X1(I)=X(1,NC1(I))
+            Y1(I)=X(2,NC1(I))
+            Z1(I)=X(3,NC1(I))
+            X2(I)=X(1,NC2(I))
+            Y2(I)=X(2,NC2(I))
+            Z2(I)=X(3,NC2(I))
+            X3(I)=X(1,NC3(I))
+            Y3(I)=X(2,NC3(I))
+            Z3(I)=X(3,NC3(I))
+            X4(I)=X(1,NC4(I))
+            Y4(I)=X(2,NC4(I))
+            Z4(I)=X(3,NC4(I))
+          ENDDO
+        ELSE
+          DO I=LFT,LLT
+            X1(I)=X(1,NC1(I))
+            Y1(I)=X(2,NC1(I))
+            Z1(I)=X(3,NC1(I))
+            X2(I)=X(1,NC2(I))
+            Y2(I)=X(2,NC2(I))
+            Z2(I)=X(3,NC2(I))
+            X3(I)=X(1,NC3(I))
+            Y3(I)=X(2,NC3(I))
+            Z3(I)=X(3,NC3(I))
+            X4(I)=X(1,NC4(I))
+            Y4(I)=X(2,NC4(I))
+            Z4(I)=X(3,NC4(I))
+          ENDDO
+        ENDIF
+      END IF !(IRESP == 1) THEN
 C----------------------------
 C     TETRAHEDRON VOLUME
 C----------------------------
@@ -124,11 +161,12 @@ C----------------------------
          Y42 = Y4(I) - Y2(I)
          Z42 = Z4(I) - Z2(I)
 C
-         B1(I) =  Y43*Z42 - Y42*Z43
-         C1(I) =  Z43*X42 - Z42*X43
-         D1(I) =  X43*Y42 - X42*Y43
+         B1 =  Y43*Z42 - Y42*Z43
+         C1 =  Z43*X42 - Z42*X43
+         D1 =  X43*Y42 - X42*Y43
 C
-         DET(I)= (X41*B1(I) + Y41*C1(I) + Z41*D1(I))*ONE_OVER_6
+         DETDP= (X41*B1 + Y41*C1 + Z41*D1)*ONE_OVER_6
+         DET(I)= DETDP
        ENDIF
       ENDDO
 
@@ -190,16 +228,18 @@ C-----------------------------------------------
       INTEGER I, K,INDEX(MVSIZ),NE_SM,J
 C     REAL
 
-      my_real
-     .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,DVOL
+      DOUBLE PRECISION
+     .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,
+     .   DVOL,DETDP,B1DP,C1DP,D1DP
+      DOUBLE PRECISION
+     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
+     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
+     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ)
       my_real
      .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), B4(MVSIZ), 
      .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),
      .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ), D4(MVSIZ),
      .   DET(MVSIZ),VOL(MVSIZ),VOLREF(MVSIZ),D,DXX,DYY,DZZ,
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   PX1(MVSIZ), PX2(MVSIZ), PX3(MVSIZ), PX4(MVSIZ),  
      .   PY1(MVSIZ), PY2(MVSIZ), PY3(MVSIZ), PY4(MVSIZ),  
      .   PZ1(MVSIZ), PZ2(MVSIZ), PZ3(MVSIZ), PZ4(MVSIZ),
@@ -316,9 +356,12 @@ C mean value on rate of vol/vol_ref
          Y42 = Y4(I) - Y2(I)
          Z42 = Z4(I) - Z2(I)
 C
-         B1(I) =  Y43*Z42 - Y42*Z43
-         C1(I) =  Z43*X42 - Z42*X43
-         D1(I) =  X43*Y42 - X42*Y43
+         B1DP =  Y43*Z42 - Y42*Z43
+         C1DP =  Z43*X42 - Z42*X43
+         D1DP =  X43*Y42 - X42*Y43
+         B1(I) =  B1DP
+         C1(I) =  C1DP
+         D1(I) =  D1DP
          B2(I) =  Y41*Z43 - Y43*Z41
          B3(I) =  Y42*Z41 - Y41*Z42
          B4(I) =  -(B1(I) + B2(I) + B3(I))
@@ -331,7 +374,8 @@ C
          D3(I) =  X42*Y41 - X41*Y42
          D4(I) =  -(D1(I) + D2(I) + D3(I))
 C
-         DET(I)= (X41*B1(I) + Y41*C1(I) + Z41*D1(I))*ONE_OVER_6
+         DETDP= (X41*B1DP + Y41*C1DP + Z41*D1DP)*ONE_OVER_6
+         DET(I)= DETDP
        ENDDO
        DO I=1,NE_SM
         D = ONE/DET(I)/SIX
@@ -358,7 +402,8 @@ C-----rho/rho0=1+AMU(t)-dvol
         DZZ=PZ1(I)*VZ1(I)+PZ2(I)*VZ2(I)+
      .         PZ3(I)*VZ3(I)+PZ4(I)*VZ4(I)
         DVOL = (DXX+DYY+DZZ)*DT1
-        VOL(I) = VOLREF(I)/MAX(EM20,(ONE+AMU(I)-DVOL))
+        DETDP = VOLREF(I)/MAX(EM20,(ONE+AMU(I)-DVOL))
+        VOL(I) = DETDP
        ENDDO
       END IF ! (TT==ZERO) THEN
 
