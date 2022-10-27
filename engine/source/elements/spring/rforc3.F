@@ -85,13 +85,13 @@ Chd|====================================================================
      3                  F        ,NPF     ,TF      ,SKEW      ,FLG_KJ2  ,
      4                  VR       ,AR      ,V       ,DT2T      ,NELTST   ,
      5                  ITYPTST  ,STIFN   ,STIFR   ,MS        ,IN       ,
-     6                  FSKY     ,IADR    ,SENSOR  ,LSENSOR   ,OFFSET   ,
+     6                  FSKY     ,IADR    ,SENSOR_TAB,OFFSET  ,
      7                  ANIM     ,PARTSAV ,IPARTR  ,TANI      ,FR_WAVE  ,
      8                  BUFMAT   ,BUFGEO  ,PM      ,RBY       ,FX1      ,
      9                  FX2      ,FY1     ,FY2     ,FZ1       ,FZ2      ,
      A                  MX1      ,MX2     ,MY1     ,MY2       ,MZ1      ,
      B                  MZ2      ,GRESAV  ,GRTH    ,IGRTH     ,MSRT     ,
-     C                  DMELRT   ,ITASK   ,H3D_DATA,SENSOR_TAB)
+     C                  DMELRT   ,ITASK   ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -122,13 +122,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),LSENSOR(NSENSI,*),IPARTR(*),
+      INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),IPARTR(*),
      .        IGEO(NPROPGI,*),JFT,JLT,NELTST ,ITYPTST,OFFSET,
      .        NEL,MTN,GRTH(*),IGRTH(*),FLG_KJ2,ITASK
       my_real DT2T ,
      .   GEO(NPROPG,*),X(*),F(*),TF(*),SKEW(LSKEW,*),FSKY(*),
      .   VR(*), V(*), AR(*), STIFN(*),STIFR(*),MS(*), IN(*),
-     .   SENSOR(NSENSR,*),ANIM(*),PARTSAV(*),TANI(15,*),
+     .   ANIM(*),PARTSAV(*),TANI(15,*),
      .   FR_WAVE(*),BUFMAT(*),BUFGEO(*),PM(*),RBY(*),
      .   FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
      .   FX2(MVSIZ),FY2(MVSIZ),FZ2(MVSIZ),
@@ -214,7 +214,7 @@ C=======================================================================
 C=======================================================================
         CALL R1COOR3(X   ,VR  ,IXR  ,XDP  ,X1DP,
      2               X2DP,NGL ,MGN  ,NC1  ,NC2 )
-        CALL R1SENS3(GEO               ,GBUF%OFF ,SENSOR ,LSENSOR,GBUF%TOTDEPL(II(1)),
+        CALL R1SENS3(GEO               ,GBUF%OFF ,SENSOR_TAB,GBUF%TOTDEPL(II(1)),
      2               GBUF%LENGTH(II(1)),IGEO      ,MGN   )
 C
         DO I=JFT,JLT
@@ -264,7 +264,7 @@ C=======================================================================
 C=======================================================================
         CALL R1COOR3(X   ,VR  ,IXR  ,XDP  ,X1DP,
      2               X2DP,NGL ,MGN  ,NC1  ,NC2 )
-        CALL R1SENS3(GEO               ,GBUF%OFF ,SENSOR ,LSENSOR ,GBUF%TOTDEPL(II(1)),
+        CALL R1SENS3(GEO               ,GBUF%OFF ,SENSOR_TAB,GBUF%TOTDEPL(II(1)),
      2               GBUF%LENGTH(II(1)),IGEO     ,MGN    )
 C
         DO I=JFT,JLT
@@ -312,7 +312,7 @@ C=======================================================================
 C=======================================================================
         CALL R1COOR3(X   ,VR  ,IXR  ,XDP  ,X1DP,
      2               X2DP,NGL ,MGN  ,NC1  ,NC2 )
-        CALL R1SENS3(GEO               ,GBUF%OFF ,SENSOR ,LSENSOR,GBUF%TOTDEPL(II(1)),
+        CALL R1SENS3(GEO               ,GBUF%OFF ,SENSOR_TAB,GBUF%TOTDEPL(II(1)),
      2               GBUF%LENGTH(II(1)),IGEO      ,MGN   )
 C
         DO I=JFT,JLT
@@ -363,7 +363,7 @@ C=======================================================================
      3               X2  ,Y2  ,Z2   ,MGN  ,RX1 ,
      4               RY1 ,RZ1 ,RX2  ,RY2  ,RZ2 ,
      5               NC1 ,NC2 )
-        CALL R2SENS3(GEO                ,GBUF%OFF           ,SENSOR            ,LSENSOR           ,GBUF%TOTDEPL(II(1)),
+        CALL R2SENS3(GEO                ,GBUF%OFF           ,SENSOR_TAB        ,GBUF%TOTDEPL(II(1)),
      2               GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)),GBUF%LENGTH(II(2)),GBUF%LENGTH(II(3)) ,
      3               GBUF%TOTROT(II(1)) ,GBUF%TOTROT(II(2)) ,GBUF%TOTROT(II(3)),IGEO              ,MGN                )
 C
@@ -442,7 +442,7 @@ C=======================================================================
         CALL R3COOR3(X    ,VR  ,IXR ,XDP ,X1DP,
      2               X2DP ,X3DP,NGL ,MGN ,NC1 ,
      3               NC2  ,NC3 )
-        CALL R1SENS3(GEO               ,GBUF%OFF ,SENSOR ,LSENSOR ,GBUF%TOTDEPL(II(1)),
+        CALL R1SENS3(GEO               ,GBUF%OFF ,SENSOR_TAB ,GBUF%TOTDEPL(II(1)),
      2               GBUF%LENGTH(II(1)),IGEO     ,MGN    )
 C
         DO I=JFT,JLT
@@ -493,7 +493,7 @@ C=======================================================================
      3              X2  ,Y2  ,Z2   ,MGN  ,RX1 ,
      4              RY1 ,RZ1 ,RX2  ,RY2  ,RZ2 ,
      5              NC1 ,NC2 )
-       CALL R2SENS3(GEO                ,GBUF%OFF           ,SENSOR            ,LSENSOR           ,GBUF%TOTDEPL(II(1)),
+       CALL R2SENS3(GEO                ,GBUF%OFF           ,SENSOR_TAB        ,GBUF%TOTDEPL(II(1)),
      2              GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)),GBUF%LENGTH(II(2)),GBUF%LENGTH(II(3)) ,
      3              GBUF%TOTROT(II(1)) ,GBUF%TOTROT(II(2)) ,GBUF%TOTROT(II(3)),IGEO              ,MGN                )
 C
@@ -581,7 +581,7 @@ C=======================================================================
      3               X2  ,Y2  ,Z2   ,MGN  ,RX1 ,
      4               RY1 ,RZ1 ,RX2  ,RY2  ,RZ2 ,
      5               NC1 ,NC2 )
-        CALL R2SENS3(GEO                ,GBUF%OFF           ,SENSOR            ,LSENSOR            ,GBUF%TOTDEPL(II(1)),
+        CALL R2SENS3(GEO                ,GBUF%OFF           ,SENSOR_TAB        ,GBUF%TOTDEPL(II(1)),
      2               GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)),GBUF%LENGTH(II(2)) ,GBUF%LENGTH(II(3)) ,
      3               GBUF%TOTROT(II(1)) ,GBUF%TOTROT(II(2)) ,GBUF%TOTROT(II(3)),IGEO               ,MGN                )
 C
@@ -876,7 +876,7 @@ C
      3 GBUF%MOM(II(3))      ,GBUF%EINT            ,OFF                 ,USTI                ,USTIR                ,
      4 VISI                 ,VISIR                ,UNUSED              ,UINER               ,DT1                  ,
      5 AL                   ,GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),
-     6 GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)),FR_W_E              )
+     6 GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)),FR_W_E              ,SENSOR_TAB          )
 C
         DO I=JFT,JLT
          IF (OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
@@ -922,7 +922,7 @@ C=======================================================================
 C=======================================================================
 C
         NUVAR  = NINT(GEO(25,I0))
-	IF (IGTYP == 45) FLG_KJ2 = 1
+	       IF (IGTYP == 45) FLG_KJ2 = 1
 C
         CALL RGJOINT(
      1     JFT                ,JLT                ,IPARTR             ,NEL               ,NUVAR             ,
@@ -937,7 +937,7 @@ C
      A     FY2                ,FZ1                ,FZ2                ,MX1               ,MX2               ,
      B     MY1                ,MY2                ,MZ1                ,MZ2               ,GRESAV            ,
      C     GRTH               ,IGRTH              ,MSRT               ,DMELRT            ,NELTST            ,
-     D     ITYPTST            ,IGTYP              ,SENSOR             ,LSENSOR           ,NC1               ,
+     D     ITYPTST            ,IGTYP              ,SENSOR_TAB         ,NC1               ,
      E     NC2                ,XDP                ,GBUF%LENGTH_ERR    ,H3D_DATA)
 C=======================================================================
       ELSEIF (IGTYP == 35 .OR. IGTYP == 36) THEN

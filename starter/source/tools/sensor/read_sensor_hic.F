@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: K,SENSOR_TYPE,INP_FLAG,ACC_ID,NOD_ID,IACC,IDIR,
+      INTEGER :: K,SENS_TYPE,INP_FLAG,ACC_ID,NOD_ID,IACC,IDIR,
      .   NPOINT,NPARIS,NPARRS,NVAR
       my_real :: TDEL,PERIOD,HIC_CRIT,DEF_GRAVITY,GRAVITY,TMIN,
      .   FAC_GRAV,Time_Unit
@@ -85,7 +85,7 @@ C     SENSOR BASED ON HEAD INJURY INDEX CRITERION
 C=======================================================================
       IS_AVAILABLE = .FALSE.
 c
-      SENSOR_TYPE = 16
+      SENS_TYPE = 16
       INP_FLAG    = 1       ! input is accelerometer ID (instead of node ID)
       NPOINT      = 200     ! default value
 c--------------------------------------------------
@@ -155,20 +155,7 @@ c--------------------
 c
       Time_Unit = FAC_T_WORK
 c-------------------------------                          
-      NPARIS = 4
-      NPARRS = 4
-      NVAR   = 4 + NPOINT
-c
-      ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
-      ALLOCATE (SENSOR_PTR%RPARAM(NPARRS))
-      ALLOCATE (SENSOR_PTR%VAR(NVAR))
-      SENSOR_PTR%VAR(:) = ZERO
-c
-      SENSOR_PTR%NPARI  = NPARIS
-      SENSOR_PTR%NPARR  = NPARRS
-      SENSOR_PTR%NVAR   = NVAR
-c
-      SENSOR_PTR%TYPE    = SENSOR_TYPE
+      SENSOR_PTR%TYPE    = SENS_TYPE
       SENSOR_PTR%SENS_ID = SENS_ID
       SENSOR_PTR%STATUS  = 0            ! status = deactivated
       SENSOR_PTR%TSTART  = INFINITY
@@ -176,6 +163,19 @@ c
       SENSOR_PTR%TMIN    = TMIN
       SENSOR_PTR%TDELAY  = TDEL         ! time delay before activation
       SENSOR_PTR%VALUE   = ZERO
+c
+      NPARIS = 4
+      NPARRS = 4
+      NVAR   = 4 + NPOINT
+c
+      SENSOR_PTR%NPARI  = NPARIS
+      SENSOR_PTR%NPARR  = NPARRS
+      SENSOR_PTR%NVAR   = NVAR
+c
+      ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
+      ALLOCATE (SENSOR_PTR%RPARAM(NPARRS))
+      ALLOCATE (SENSOR_PTR%VAR(NVAR))
+      SENSOR_PTR%VAR(:) = ZERO
 c
       SENSOR_PTR%IPARAM(1) = INP_FLAG
       SENSOR_PTR%IPARAM(2) = IACC
@@ -190,7 +190,7 @@ c---------------------------
 c     old sensor data tables
 c---------------------------
       LSENSOR(1) = SENS_ID
-      LSENSOR(2) = SENSOR_TYPE
+      LSENSOR(2) = SENS_TYPE
       LSENSOR(3:NSENSI) = 0
       SENSOR(:) = ZERO
 c-----------------------------------------------------------------------

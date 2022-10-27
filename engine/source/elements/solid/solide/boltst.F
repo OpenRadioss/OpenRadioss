@@ -32,14 +32,14 @@ Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE BOLTST (IBOLTP, IP, BPRELD, SIG, TT, NEL, SENSOR, LSENSOR)   
+      SUBROUTINE BOLTST (IBOLTP, IP, BPRELD, SIG, TT, NEL, SENSOR_TAB)   
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -52,11 +52,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C
       INTEGER IBOLTP,NEL,IP
-      INTEGER LSENSOR(NSENSI,*)
       my_real
      .   TT, DT1
       my_real
-     .   BPRELD(NEL,*),SIG(NEL,6),SENSOR(NSENSR,*)
+     .   BPRELD(NEL,*),SIG(NEL,6)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C
         ISENS = INT(BPRELD(I,10))
         IF (ISENS > 0)THEN            
          DO K=1,NSENSOR
-          IF(ISENS==LSENSOR(1,K))GOTO 100
+          IF(ISENS==SENSOR_TAB(K)%SENS_ID) GOTO 100  ! do it in staerter !!!
          ENDDO
 100      BPRELD(I,10)=K
         ENDIF
@@ -85,8 +85,8 @@ C
           ISENS = INT(BPRELD(I,10))
         
           IF (ISENS > 0) THEN
-           TS = TS+SENSOR(2,ISENS)
-           TE = TE+SENSOR(2,ISENS)
+           TS = TS+SENSOR_TAB(ISENS)%TSTART
+           TE = TE+SENSOR_TAB(ISENS)%TSTART
           ENDIF
         ENDIF
 

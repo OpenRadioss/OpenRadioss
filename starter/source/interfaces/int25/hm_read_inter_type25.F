@@ -42,7 +42,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_INTER_TYPE25(
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,
      2        IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P    ,DEF_INTER  ,
-     3        LSENSOR    ,NOM_OPT    ,UNITAB    ,LSUBMODEL  ,TITR       ,
+     3        SENSOR_TAB ,NOM_OPT    ,UNITAB    ,LSUBMODEL  ,TITR       ,
      4        NOM_OPTFRIC,INTBUF_FRIC_TAB,NPC   ,NPC1       ,TF         )
 C============================================================================
 C     
@@ -54,13 +54,11 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE UNITAB_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -70,7 +68,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOM_OPT(LNOPT1,*), NOM_OPTFRIC(LNOPT1,*)
       INTEGER ISU1,ISU2,NI
-      INTEGER IPARI(*), DEF_INTER(*),LSENSOR(NSENSI,*),NPC(*),NPC1(*)
+      INTEGER IPARI(*), DEF_INTER(*),NPC(*),NPC1(*)
       my_real
      .   STFAC,XFILTR
       my_real
@@ -79,6 +77,7 @@ C-----------------------------------------------
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
@@ -798,7 +797,7 @@ C     RENUMBERING OF FUNCTIONS AND SENSOR - USER TO INTERNAL ID
 C------------------------------------------------------------
 C
         CALL INTER_DCOD_FUNCTION(NTYP,NI,IPARI,NPC1,NOM_OPT,NPC,TF)
-        CALL INTER_DCOD_SENSOR (NTYP,NI,IPARI,NOM_OPT,LSENSOR)
+        CALL INTER_DCOD_SENSOR (NTYP,NI,IPARI,NOM_OPT,SENSOR_TAB)
         CALL INTER_DCOD_FRICTION(NTYP,NI,IPARI,NOM_OPT,NOM_OPTFRIC,
      .                INTBUF_FRIC_TAB)
 

@@ -32,13 +32,14 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|====================================================================
       SUBROUTINE PFLUID(ILOADP  ,FAC     ,NPC    ,TF    ,A       ,
      2                  V       ,X       ,XFRAME ,AR    ,VR      ,
-     3                  SENSOR  ,LSENSOR ,WEIGHT ,TFEXC ,IADC    ,
+     3                  SENSOR_TAB,WEIGHT ,TFEXC ,IADC    ,
      4                  FSKY    ,FSKYV   ,LLOADP ,FEXT  ,H3D_DATA
      5                  )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD 
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,12 +69,13 @@ C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(SNPC),LLOADP(SLLOADP)
-      INTEGER ILOADP(SIZLOADP,NLOADP),LSENSOR(NSENSI,NSENSOR)
+      INTEGER ILOADP(SIZLOADP,NLOADP)
       INTEGER WEIGHT(SWEIGHT), IADC(DSNCOL)
       my_real FAC(LFACLOAD,NLOADP), TF(STF), A(3,NUMNOD), V(3,NUMNOD), AR(3,NUMNOD), VR(3,NUMNOD),
-     .        X(3,NUMNOD), XFRAME(NXFRAME,NUMFRAM+1), SENSOR(NSENSR,NSENSOR),TFEXC,
+     .        X(3,NUMNOD), XFRAME(NXFRAME,NUMFRAM+1),TFEXC,
      .        FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -119,15 +121,12 @@ C-----------------------------------------------
           ISENS=0                                                                                  
           XSENS = ONE                                                                              
           DO K=1,NSENSOR                                                                           
-            IF(ILOADP(6,NL) == LSENSOR(1,K))ISENS=K                                                
+            IF(ILOADP(6,NL) == SENSOR_TAB(K)%SENS_ID) ISENS=K      ! do it in starter !!!                                          
           ENDDO                                                                                    
           IF(ISENS == 0)THEN                                                                       
              TS=TT                                                                                 
-          ELSEIF (LSENSOR(4,ISENS)==753096514 .AND. TT /= ZERO) THEN                               
-            IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)                                                  
-            IERR = GET_U_SENS_VALUE(ISENS,2,XSENS)                                                 
           ELSE                                                                                     
-             TS = TT-SENSOR(2,ISENS)                                                               
+             TS = TT-SENSOR_TAB(ISENS)%TSTART                                                              
              IF(TS < ZERO) CYCLE                                                                   
           ENDIF                                                                                    
           DO I = 1,ILOADP(1,NL)/4                                                                  
@@ -385,15 +384,12 @@ C-----------------------------------------------
            ENDDO
            ! -------------
            DO K=1,NSENSOR
-             IF(ILOADP(6,NL) == LSENSOR(1,K))ISENS=K
+             IF(ILOADP(6,NL) == SENSOR_TAB(K)%SENS_ID) ISENS=K
            ENDDO
            IF(ISENS == 0)THEN
               TS=TT
-           ELSEIF (LSENSOR(4,ISENS)==753096514 .AND. TT /= ZERO) THEN
-             IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)         
-             IERR = GET_U_SENS_VALUE(ISENS,2,XSENS)  
            ELSE                        
-              TS = TT-SENSOR(2,ISENS)  
+              TS = TT- SENSOR_TAB(ISENS)%TSTART 
               IF(TS < ZERO) CYCLE     
            ENDIF
            DO I = 1,ILOADP(1,NL)/4
@@ -638,15 +634,12 @@ C---------------------
            XSENS = ONE
 
            DO K=1,NSENSOR
-             IF(ILOADP(6,NL) == LSENSOR(1,K))ISENS=K
+             IF(ILOADP(6,NL) == SENSOR_TAB(K)%SENS_ID) ISENS=K
            ENDDO
            IF(ISENS == 0)THEN
               TS=TT
-           ELSEIF (LSENSOR(4,ISENS)==753096514 .AND. TT /= ZERO) THEN
-             IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)         
-             IERR = GET_U_SENS_VALUE(ISENS,2,XSENS)  
            ELSE                        
-              TS = TT-SENSOR(2,ISENS)  
+              TS = TT- SENSOR_TAB(ISENS)%TSTART 
               IF(TS < ZERO) CYCLE     
            ENDIF
            DO I = 1,ILOADP(1,NL)/4

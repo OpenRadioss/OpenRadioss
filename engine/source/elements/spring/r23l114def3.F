@@ -58,13 +58,14 @@ Chd|====================================================================
      P        LMIN,SLIPRING_ID,UPDATE_FLAG,RETRACTOR_ID,ADD_NODE1,
      Q        ADD_NODE2,NC1,NC2,NC3,X1DP,
      R        X2DP,X3DP,VX3,VY3,VZ3,
-     S        FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,SENSOR,UINER,FR_ID,
+     S        FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,SENSOR_TAB,UINER,FR_ID,
      T        FRAM_FACTOR,EPS_OLD,FX_B2,DPX_B2,YIELDX_B2,
      U        XX_OLD_B2,FXEP_B2,POSX_B2,EPS_OLD_B2)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SEATBELT_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -116,12 +117,13 @@ C     REAL
      .   XKR(MVSIZ),VX1(MVSIZ),VX2(MVSIZ),VY1(MVSIZ),VY2(MVSIZ),
      .   VZ1(MVSIZ),VZ2(MVSIZ),UVAR(NUVAR,*),UPARAM(*),MASS(*),
      .   DX0(*),DY0(*),DZ0(*),RX0(*),RY0(*),RZ0(*),LMIN(*),DFS(*),
-     .   RING_SLIP(*),X02(*),VX3(MVSIZ),VY3(MVSIZ),VZ3(MVSIZ),SENSOR(NSENSR,*),
+     .   RING_SLIP(*),X02(*),VX3(MVSIZ),VY3(MVSIZ),VZ3(MVSIZ),
      .   UINER(*),FRAM_FACTOR(*)
       my_real ,INTENT(INOUT) :: EPS_OLD(MVSIZ),FX_B2(MVSIZ),DPX_B2(MVSIZ),YIELDX_B2(MVSIZ),
      .   XX_OLD_B2(MVSIZ),FXEP_B2(MVSIZ),POSX_B2(MVSIZ),EPS_OLD_B2(MVSIZ)
       TARGET :: UVAR
       DOUBLE PRECISION ALDP(MVSIZ),AL2DP(MVSIZ),X1DP(3,*),X2DP(3,*),X3DP(3,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -553,7 +555,7 @@ C--     Computation of material flow for slipring and retractor
      5                     FLAG_SLIPRING_UPDATE,ADD_NODE1,ADD_NODE2,VX1,VY1,
      6                     VZ1,VX2,VY2,VZ2,VX3,
      7                     VY3,VZ3,XC,RETRACTOR_ID,FLAG_RETRACTOR_UPDATE,
-     8                     SENSOR,X0DP,FR_ID,DFX,FX,FX_B2,
+     8                     SENSOR_TAB,X0DP,FR_ID,DFX,FX,FX_B2,
      9                     ALDP_B2,X0DP_B2,EX2DP,EY2DP,EZ2DP,XL02,
      A                     XKP_B2,COMPT,INDEX2)
 C

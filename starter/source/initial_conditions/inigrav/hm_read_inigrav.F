@@ -37,7 +37,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_INIGRAV(IGRV     ,IBUF     ,AGRV     ,ITAB     ,ITABM1   ,
-     .                           IGRPART  ,NPC      ,LSENSOR  ,UNITAB   ,ISKN     ,
+     .                           IGRPART  ,NPC      ,UNITAB   ,ISKN     ,
      .                           ITAGND   ,IGRSURF  ,PLD      ,BUFSF    ,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -52,9 +52,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -71,8 +68,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IGRV(NIGRV,*), IBUF(*), ITAB(*), ITABM1(*),
-     .        NPC(*),LSENSOR(NSENSI,*),
+      INTEGER IGRV(NIGRV,*), IBUF(*), ITAB(*), ITABM1(*),NPC(*),
      .        ISKN(LISKN,*),ITAGND(*)
       my_real
      .   AGRV(LFACGRV,*)
@@ -86,9 +82,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .   FCX,FCY,FAC_M,FAC_L,FAC_T,NGX,NGY,NGZ,DOTPROD
-      INTEGER I, NOD, NCUR, NOSKEW,NSKW, ISENS,NN,IGS,UID,
+      INTEGER I, NOD, NCUR, NOSKEW,NSKW,NN,IGS,UID,
      .        IAD,NS,IWA,J,K,ID,K1,K2,NCURS,N1,N2,NC,L,
-     .        ITAG, TSENS, IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IADPL
+     .        ITAG, IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IADPL
       CHARACTER XYZ*ncharfield, X*1, Y*1, Z*1, XX*2, YY*2, ZZ*2, MESS*40
       CHARACTER TITR*nchartitle
       

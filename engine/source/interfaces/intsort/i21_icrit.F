@@ -33,13 +33,14 @@ Chd|====================================================================
       SUBROUTINE I21_ICRIT(
      1  INTBUF_TAB     ,IPARI  ,DT2T   ,NELTST ,
      2  ITYPTST,XSLV   ,XMSR   ,VSLV   ,VMSR   ,
-     3  INTSTAMP,X21MSR,V21MSR ,SENSOR,NBINTC21,
+     3  INTSTAMP,X21MSR,V21MSR ,SENSOR_TAB,NBINTC21,
      4  INTLIST21)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTSTAMP_MOD
       USE INTBUFDEF_MOD 
+      USE SENSOR_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,9 +73,10 @@ C     REAL
       my_real
      .        DT2T,
      .        XSLV(18,*), XMSR(12,*), VSLV(6,*), VMSR(6,*),
-     .        X21MSR(3,*), V21MSR(3,*), SENSOR(NSENSR,*)
+     .        X21MSR(3,*), V21MSR(3,*)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -107,8 +109,8 @@ C
 C
           INTERACT = 0
           ISENS = IPARI(64,I)
-          IF(ISENS/=0) THEN             
-            TS = SENSOR(2,ISENS)
+          IF (ISENS > 0) THEN             
+            TS = SENSOR_TAB(ISENS)%TSTART
             IF (TT>=TS) INTERACT = 1
           ELSE
             STARTT = INTBUF_TAB(I)%VARIABLES(3)

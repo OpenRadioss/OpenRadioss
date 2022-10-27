@@ -35,7 +35,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE INIEBCS(ALE_CONNECTIVITY, IFLAG,IGRSURF, IXS, IXQ, IXTG, 
-     .     PM, IGEO, X, LSENSOR, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
+     .     PM, IGEO, X, SENSOR_TAB, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE ALE_EBCS_MOD
       USE EBCS_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,13 +62,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
-      INTEGER IXS(SIXS),IXQ(SIXQ),IXTG(SIXTG), LSENSOR(NSENSI,NSENSOR),IVOLU(NIMV,*)
+      INTEGER IXS(SIXS),IXQ(SIXQ),IXTG(SIXTG), IVOLU(NIMV,*)
       LOGICAL, INTENT(IN) :: MULTI_FVM_IS_USED
       INTEGER, INTENT(INOUT) :: EBCS_TAG_CELL_SPMD(NUMELQ+NUMELTG+NUMELS)
       my_real PM(NPROPM,NUMMAT),X(SX)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(t_ebcs_tab), TARGET, INTENT(INOUT) :: EBCS_TAB
       INTEGER,INTENT(IN) :: IFLAG, IGEO(NPROPGI,NUMGEO)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -241,8 +243,7 @@ C=======================================================================
              ENDDO
              IF(IFLAG==1)THEN
                DO J = 1, NSENSOR
-                  IF(SENS == LSENSOR(1,J))THEN
-                     SENS = LSENSOR(1, J)
+                  IF (SENS == SENSOR_TAB(J)%SENS_ID)THEN
                      EBCS%monvol_id = SENS
                   ENDIF
                ENDDO

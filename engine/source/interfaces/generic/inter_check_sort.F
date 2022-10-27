@@ -29,7 +29,8 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|====================================================================
         SUBROUTINE INTER_CHECK_SORT( ITASK,NEED_TO_SORT,NBINTC,INTLIST,IPARI,
-     .                               INTBUF_TAB,SENSOR,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)
+     .                               INTBUF_TAB,SENSOR_TAB,NB_INTER_SORTED,
+     .                               LIST_INTER_SORTED,INTER_STRUCT)
 !$COMMENT
 !       INTER_CHECK_SORT description
 !       check if a interface must be sorted
@@ -41,8 +42,9 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE INTBUFDEF_MOD  
-        USE INTER_STRUCT_MOD
+      USE INTBUFDEF_MOD  
+      USE INTER_STRUCT_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,8 +78,8 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NBINTC), INTENT(inout) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI    !   interface data
         TYPE(INTBUF_STRUCT_),DIMENSION(NINTER) :: INTBUF_TAB    ! interface data
-        my_real, DIMENSION(NSENSR,NSENSOR), INTENT(in) :: SENSOR  !   sesnor data
         TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   struture for interface
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -100,8 +102,8 @@ C-----------------------------------------------
 
             ISENS = 0
             IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
-            IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
-                TS = SENSOR(2,ISENS)
+            IF (ISENS > 0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+                TS = SENSOR_TAB(ISENS)%TSTART
             ELSE
                 TS = TT
             ENDIF

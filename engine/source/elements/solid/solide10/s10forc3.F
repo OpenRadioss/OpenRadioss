@@ -85,7 +85,7 @@ Chd|====================================================================
      B                   STIFR    ,D       ,GRESAV  ,GRTH    ,IGRTH   ,
      C                   TABLE    ,MSSA    ,DMELS   ,IGEO    ,XDP     ,
      D                   VOLN     ,CONDN   ,CONDNSKY,VARNOD  ,
-     E                   ITAGDN  ,SENSOR  ,LSENSOR ,IOUTPRT ,
+     E                   ITAGDN  ,SENSOR_TAB,IOUTPRT ,
      F                   MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -96,6 +96,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -132,7 +133,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),NPF(*),IADS(8,*),
      .        IPARTS(*),IXS10(6,*),IADS10(6,*),IPM(*),ITASK,GRTH(*),
-     .        IGRTH(*),IGEO(*),LSENSOR(NSENSI,*),IOUTPRT,H3D_STRAIN
+     .        IGRTH(*),IGEO(*),IOUTPRT,H3D_STRAIN
       INTEGER NELTST,ITYPTST,OFFSET,NEL,NG,ISTRAIN,ISOLNOD,IEXPAN,ITAGDN(*)      
 C     REAL
 
@@ -149,12 +150,13 @@ C     REAL
       my_real
      .   FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),
      .   TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*),VOLN(MVSIZ),CONDN(*),
-     .   CONDNSKY(*),SENSOR(NSENSR,*), VARNOD(SVARNOD)
+     .   CONDNSKY(*),VARNOD(SVARNOD)
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -504,7 +506,7 @@ C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 C
-      IF(IBOLTP /= 0) CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR,LSENSOR)
+      IF(IBOLTP /= 0) CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR_TAB)
 C
         CALL MMAIN(ELBUF_TAB,NG     ,PM     ,GEO        ,FV	    ,ALE_CONNECT  ,
      2             IXS      ,IPARG  ,V      ,TF      ,NPF     ,BUFMAT ,

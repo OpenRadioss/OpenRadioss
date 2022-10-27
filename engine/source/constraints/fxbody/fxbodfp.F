@@ -233,8 +233,12 @@ Chd|====================================================================
      .                    NME    , NMOD   , MVN   , MCD   , SE     ,
      .                    SV     , FSAV   , FXBFP , TFEXT , FXBFC  ,
      .                    FXBGRVI, FXBGRVR, NLGRAV, IGRV  , NPC    ,
-     .                    TF     , FXBGRP , TFGRAV, SENSOR, LSENSOR,
+     .                    TF     , FXBGRP , TFGRAV, SENSOR_TAB,
      .                    MFEXT  , AGRV   )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -249,13 +253,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER FXBIPM(*), NME, NMOD, FXBGRVI(*), NLGRAV, IGRV(NIGRV,*),
-     .        NPC(*), LSENSOR(NSENSI,*)
+     .        NPC(*)
       my_real
      .        FXBRPM(*), FXBGLM(*), FXBCPM(*), FXBCPS(*), FXBLM(*),
      .        FXBFLS(*), FXBDLS(*), FXBDEP(*), FXBVIT(*), MVN(*), 
      .        MCD(NME,*), SE(*), SV(*), FSAV(*), FXBFP(*), TFEXT,
      .        FXBFC(*), FXBGRVR(*), TF(*), FXBGRP(*), TFGRAV,
-     .        SENSOR(NSENSR,*), MFEXT(*), AGRV(LFACGRV,*)
+     .        MFEXT(*), AGRV(LFACGRV,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -286,12 +291,12 @@ C
             IFUNC=IGRV(3,NL)
             ISENS=0
             DO K=1,NSENSOR
-               IF (IGRV(6,NL)==LSENSOR(1,K)) ISENS=K
+               IF (IGRV(6,NL)==SENSOR_TAB(K)%SENS_ID) ISENS=K  ! do it in starter !!!
             ENDDO
             IF (ISENS==0) THEN
                TS=TT
             ELSE
-               TS=TT-SENSOR(2,ISENS)
+               TS=TT-SENSOR_TAB(ISENS)%TSTART
                IF (TS<ZERO) CYCLE
             ENDIF
             IF (IFUNC > 0) THEN

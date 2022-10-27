@@ -45,7 +45,7 @@ Chd|====================================================================
      3                  XDP      ,F        ,NPF     ,TF      ,SKEW    ,
      4                  FLG_KJ2  ,VR       ,AR      ,V       ,DT2T    ,
      5                  NELTST   ,ITYPTST  ,STIFN   ,STIFR   ,MS      ,
-     6                  IN       ,FSKY     ,IADR    ,SENSOR  ,LSENSOR ,
+     6                  IN       ,FSKY     ,IADR    ,SENSOR_TAB,
      7                  OFFSET   ,ANIM     ,PARTSAV ,IPARTR  ,TANI    ,
      8                  FR_WAVE  ,BUFMAT   ,BUFGEO  ,PM      ,RBY     ,
      9                  FX1      ,FX2      ,FY1     ,FY2     ,FZ1     ,
@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE TABLE_MOD
       USE H3D_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,14 +84,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),LSENSOR(NSENSI,*),IPARTR(*),
+      INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),IPARTR(*),
      .        IGEO(NPROPGI,*),JFT,JLT,NELTST ,ITYPTST,OFFSET,
      .        NEL,MTN,GRTH(*),IGRTH(*),FLG_KJ2,IPM(NPROPMI,*),FLAG_SLIPRING_UPDATE,
      .        FLAG_RETRACTOR_UPDATE
       my_real DT2T ,
      .   GEO(NPROPG,*),X(*),F(*),TF(*),SKEW(LSKEW,*),FSKY(*),
      .   VR(*), V(*), AR(*), STIFN(*),STIFR(*),MS(*), IN(*),
-     .   SENSOR(NSENSR,*),ANIM(*),PARTSAV(*),TANI(15,*),
+     .   ANIM(*),PARTSAV(*),TANI(15,*),
      .   FR_WAVE(*),BUFMAT(*),BUFGEO(*),PM(*),RBY(*),
      .   FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
      .   FX2(MVSIZ),FY2(MVSIZ),FZ2(MVSIZ),
@@ -132,6 +133,7 @@ C     REAL
       DOUBLE PRECISION
      .   X1DP(3,MVSIZ),X2DP(3,MVSIZ),X3DP(3,MVSIZ),
      .   ELX(3,MVSIZ),AL2DP(MVSIZ),ALDP(MVSIZ)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
       TYPE(G_BUFEL_),POINTER :: GBUF
       INTEGER II(9)
@@ -168,7 +170,7 @@ C=======================================================================
      3              X2  ,Y2  ,Z2   ,PID  ,MID ,
      4              RX1 ,RY1 ,RZ1  ,RX2  ,RY2  ,RZ2 ,
      5              NC1 ,NC2 )
-       CALL R23SENS3(GEO                ,GBUF%OFF           ,SENSOR            ,LSENSOR           ,GBUF%TOTDEPL(II(1)),
+       CALL R23SENS3(GEO               ,GBUF%OFF           ,SENSOR_TAB        ,GBUF%TOTDEPL(II(1)),
      2              GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)),GBUF%LENGTH(II(2)),GBUF%LENGTH(II(3)) ,
      3              GBUF%TOTROT(II(1)) ,GBUF%TOTROT(II(2)) ,GBUF%TOTROT(II(3)),IGEO              ,PID                )
 C
@@ -231,7 +233,7 @@ C
      P GBUF%LENGTH(II(3))     ,GBUF%SLIPRING_ID        ,GBUF%UPDATE            ,GBUF%RETRACTOR_ID     ,GBUF%ADD_NODE(1)       ,
      Q GBUF%ADD_NODE(NEL+1)   ,NC1                     ,NC2                    ,NC3                   ,X1DP                   ,
      R X2DP                   ,X3DP                    ,VX3                    ,VY3                   ,VZ3                    ,
-     S FLAG_SLIPRING_UPDATE   ,FLAG_RETRACTOR_UPDATE   ,SENSOR                 ,GBUF%INTVAR(II(1))    ,GBUF%SLIPRING_FRAM_ID  ,
+     S FLAG_SLIPRING_UPDATE   ,FLAG_RETRACTOR_UPDATE   ,SENSOR_TAB             ,GBUF%INTVAR(II(1))    ,GBUF%SLIPRING_FRAM_ID  ,
      T GBUF%FRAM_FACTOR       ,GBUF%INTVAR(II(2))      ,GBUF%INTVAR(II(3))     ,GBUF%INTVAR(II(4))    ,GBUF%INTVAR(II(5))     ,
      U GBUF%INTVAR(II(6))     ,GBUF%INTVAR(II(7))      ,GBUF%INTVAR(II(8))     ,GBUF%INTVAR(II(9)))
 C

@@ -29,17 +29,15 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE LOAD_PRESSURE (ILOADP    ,LOADP     ,LLOADP ,NPC     ,TF      ,
-     2                          A         ,V         ,X      ,SKEW    ,SENSOR  ,
-     3                          LSENSOR   ,IADC     ,FSKY    ,FEXT    ,TAGNCONT,
+     2                          A         ,V         ,X      ,SKEW    ,SENSOR_TAB,
+     3                          IADC     ,FSKY    ,FEXT    ,TAGNCONT,
      4                          KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER, H3D_DATA,
      5                          NPRESLOAD ,LOADP_TAGDEL)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD
-C-----------------------------------------------
-C   M o d u l e s 
-C-----------------------------------------------
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,17 +71,17 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPRESLOAD
       INTEGER NPC(*),LLOADP(SLLOADP)
-      INTEGER ILOADP(SIZLOADP,*),LSENSOR(NSENSI,*),
+      INTEGER ILOADP(SIZLOADP,*),
      .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .        KLOADPINTER(NINTER+1),LOADPINTER(NINTER*NLOADP_HYD),
      .        LOADP_HYD_INTER(NLOADP_HYD)
       INTEGER  IADC(*) 
       my_real
      .   LOADP(SLOADP,*), TF(*), A(3,*), V(3,*), 
-     .   X(3,*), SKEW(LSKEW,*), SENSOR(NSENSR,*),
-     .   FSKY(8,LSKY), FEXT(3,*)
+     .   X(3,*), SKEW(LSKEW,*),FSKY(8,LSKY), FEXT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       INTEGER, INTENT(IN) :: LOADP_TAGDEL(NPRESLOAD)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -122,7 +120,7 @@ C
            IF(ISENS==0)THEN
               TS=TT
            ELSE
-              TS = TT-SENSOR(2,ISENS)
+              TS = TT-SENSOR_TAB(ISENS)%TSTART
               IF(TS<ZERO)CYCLE
            ENDIF    
 
@@ -444,7 +442,7 @@ C
            IF(ISENS==0)THEN
               TS=TT
            ELSE
-              TS = TT-SENSOR(2,ISENS)
+              TS = TT-SENSOR_TAB(ISENS)%TSTART
               IF(TS<ZERO)CYCLE
            ENDIF    
 

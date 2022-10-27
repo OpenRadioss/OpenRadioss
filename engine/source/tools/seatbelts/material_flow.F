@@ -40,7 +40,7 @@ Chd|====================================================================
      5                         FLAG_SLIPRING_UPDATE,ADD_NODE1,ADD_NODE2,VX1,VY1,
      6                         VZ1,VX2,VY2,VZ2,VX3,
      7                         VY3,VZ3,XC,RETRACTOR_ID,FLAG_RETRACTOR_UPDATE,
-     8                         SENSOR,AL0DP,FR_ID,DDF,FX,FX2,
+     8                         SENSOR_TAB,AL0DP,FR_ID,DDF,FX,FX2,
      9                         ALDP2,AL0DP2,EX2DP,EY2DP,EZ2DP,
      A                         XL02,XK2,COMPT,INDEX2)
 C-----------------------------------------------
@@ -48,6 +48,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE SEATBELT_MOD
+      USE SENSOR_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,6 +61,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "vect01_c.inc"
@@ -73,13 +75,14 @@ C-----------------------------------------------
       my_real DFS(*),DFS_OLD(*),AL0(*),AL02(*),LMIN(*),RING_SLIP(*),
      .        XL0(*),DL(*),DLOLD(*),EXDP(*),EYDP(*),EZDP(*),
      .        XK(*),VX1(*),VY1(*),VZ1(*),VX2(*),VY2(*),VZ2(*),VX3(*),VY3(*),VZ3(*),XC(*),
-     .        OFF(*),SENSOR(NSENSR,*)
+     .        OFF(*)
       INTEGER, INTENT(IN) :: COMPT,INDEX2(MVSIZ)
       DOUBLE PRECISION ALDP(*),X1DP(3,*),X2DP(3,*),X3DP(3,*),AL0DP(*)
       my_real, INTENT(IN) :: FX(MVSIZ),FX2(MVSIZ),XK2(MVSIZ)
       my_real, INTENT(OUT) :: DDF(MVSIZ),XL02(MVSIZ)
       DOUBLE PRECISION, INTENT(IN) :: ALDP2(MVSIZ),EX2DP(MVSIZ),EY2DP(MVSIZ),EZ2DP(MVSIZ)
       DOUBLE PRECISION, INTENT(INOUT) :: AL0DP2(MVSIZ)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -508,7 +511,7 @@ C
 C--------------------Pretensionning -------------------------------------
             IF ((RETRACTOR(RETRACTOR_ID(I))%ISENS(2) > 0).AND.
      .          (RETRACTOR(RETRACTOR_ID(I))%PRETENS_ACTIV == 0)) THEN
-              IF (TT > SENSOR(2,RETRACTOR(RETRACTOR_ID(I))%ISENS(2))) THEN
+              IF (TT > SENSOR_TAB(RETRACTOR(RETRACTOR_ID(I))%ISENS(2))%TSTART) THEN
                  RETRACTOR(RETRACTOR_ID(I))%PRETENS_ACTIV = 1
                  RETRACTOR(RETRACTOR_ID(I))%PRETENS_TIME = TT
               ENDIF
@@ -665,7 +668,7 @@ C--------------------Detection of locking -----------------------------------
 C--
             FLAG_SENSOR_LOCK = 0
             IF (RETRACTOR(RETRACTOR_ID(I))%ISENS(1) > 0) THEN
-              IF (TT > SENSOR(2,RETRACTOR(RETRACTOR_ID(I))%ISENS(1))) THEN
+              IF (TT > SENSOR_TAB(RETRACTOR(RETRACTOR_ID(I))%ISENS(1))%TSTART) THEN
 C--             lock sensor activated
                 FLAG_SENSOR_LOCK = 1
                 IF (RETRACTOR(RETRACTOR_ID(I))%LOCKED == 0) THEN 

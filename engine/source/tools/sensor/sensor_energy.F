@@ -28,8 +28,7 @@ Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SENSOR_ENERGY(SENSOR   ,SENS1    ,LSENS1    ,ISENS    ,
-     .           SUBSET   ,PARTSAV2 )
+      SUBROUTINE SENSOR_ENERGY(SENSOR   ,ISENS    ,SUBSET   ,PARTSAV2 )
 c-----------------------------------------------------------------------
 !$COMMENT
 !       SENSOR_ENERGY description
@@ -62,25 +61,25 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ISENS
-      INTEGER LSENS1(*)
-      my_real SENS1(*)
       my_real PARTSAV2(2,*)
       TYPE (SUBSET_) ,DIMENSION(NSUBS) :: SUBSET
       TYPE (SENSOR_STR_) :: SENSOR
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-       INTEGER I,J,IPART,ISUBS,NBR_GROUP,NP,INDX,ITSK,IFLAG,NI,NK
-       my_real TMIN,TDELAY,TSTART,TSTOPS,IEMIN,TACT,TACT1,TACT2,EINT,EKIN,
-     .    IEMAX,KEMIN,KEMAX,IETOL,IETIME,KETOL,KETIME,
-     .    AVG_EI1,AVG_EI2,AVG_EK1,AVG_EK2,FAC_EI,FAC_EK,STATE1,STATE2,
-     .    EMA_INT,EMVAR_INT,EMA_KIN,EMVAR_KIN,DIFF,INCR,MEAN,EVAR_INT,EVAR_KIN,
-     .    ALPHAI,BETAI,ALPHAK,BETAK
+      INTEGER :: I,J,IPART,ISUBS,NBR_GROUP,NP,INDX,ITSK,IFLAG,
+     .           NI,NK,ICRIT,ICRIT1,ICRIT2
+      my_real :: TMIN,TDELAY,TSTART,TSTOPS,IEMIN,TCRIT,
+     .   EINT,EKIN,IEMAX,KEMIN,KEMAX,IETOL,IETIME,KETOL,KETIME,
+     .   AVG_EI1,AVG_EI2,AVG_EK1,AVG_EK2,FAC_EI,FAC_EK,
+     .   EMA_INT,EMVAR_INT,EMA_KIN,EMVAR_KIN,DIFF,
+     .   INCR,MEAN,EVAR_INT,EVAR_KIN,ALPHAI,BETAI,ALPHAK,BETAK,INFINITY
+      PARAMETER (INFINITY = 1.0E20)
 c----------------------------------------------------------
-c    SENSOR%VAR(1)   = TACT1 
-c    SENSOR%VAR(2)   = STATE1
-c    SENSOR%VAR(3)   = TACT2 
-c    SENSOR%VAR(4)   = STATE2
+c    SENSOR%VAR(1)   = TCRIT1 
+c    SENSOR%VAR(2)   = TSTART1
+c    SENSOR%VAR(3)   = TCRIT2 
+c    SENSOR%VAR(4)   = TSTART2
 c    SENSOR%VAR(5)   = NI
 c    SENSOR%VAR(6)   = Mean  EI
 c    SENSOR%VAR(7)   = Stdev EI
@@ -88,22 +87,16 @@ c    SENSOR%VAR(8)   = NK
 c    SENSOR%VAR(9)   = Mean  EK
 c    SENSOR%VAR(10)  = Stdev EK
 C=======================================================================
-      IF (SENSOR%STATUS == 3) RETURN   ! already activated
+      IF (SENSOR%STATUS == 1) RETURN   ! already activated
 c
       IPART  = SENSOR%IPARAM(1)    ! LSENS1(4)
       ISUBS  = SENSOR%IPARAM(2)    ! LSENS1(5)
       IFLAG  = SENSOR%IPARAM(3)
-
-        IPART  = LSENS1(4)
-        ISUBS  = LSENS1(5)
-      
-
-      TSTART = SENS1(2)
-      TSTOPS = SENS1(3)
-      TACT   = SENS1(4)      
 c      
       TDELAY = SENSOR%TDELAY
       TMIN   = SENSOR%TMIN
+      TCRIT  = SENSOR%TCRIT
+      TSTART = SENSOR%TSTART
       IEMIN  = SENSOR%RPARAM(1)
       IEMAX  = SENSOR%RPARAM(2)
       KEMIN  = SENSOR%RPARAM(3)
@@ -115,6 +108,9 @@ c
 c
       EINT   = ZERO
       EKIN   = ZERO
+      ICRIT  = 0
+      ICRIT1 = 0
+      ICRIT2 = 0
 c---------------------------------------------------------
 c     PARITH ON
 c---------------------------------------------------------
@@ -166,52 +162,44 @@ c     TEST of principal criterion (Emax, Emin)
 c---------------------------------------------------------
       IF (EINT < IEMIN .OR. EINT > IEMAX .OR.
      .    EKIN < KEMIN .OR. EKIN > KEMAX) THEN
-        TACT   = MIN(TACT,TT)                       
-      ELSE
-        TACT   = EP20
-        SENSOR%STATUS = 0
+        ICRIT = 1                   
       ENDIF
-c     count durations
-      SENS1(4)      = TACT
-      SENSOR%TCRIT  = TACT
+      IF (SENSOR%TCRIT + TMIN > TT) THEN
+        IF (ICRIT == 0) THEN
+          SENSOR%TCRIT = INFINITY
+        ELSE IF (SENSOR%TCRIT == INFINITY) THEN
+          SENSOR%TCRIT = MIN(SENSOR%TCRIT, TT)
+        END IF
+      ELSE IF (SENSOR%TSTART == INFINITY) THEN
+        SENSOR%TSTART = SENSOR%TCRIT + TMIN + TDELAY
+      END IF
+      IF (SENSOR%TSTART <= TT) THEN   ! sensor activation
+        SENSOR%STATUS = 1
+      END IF
 c
-      IF (TACT + TMIN <= TT) THEN
-        TSTOPS = TT + TDELAY
-        SENS1(3)  = TSTOPS
-        IF (LSENS1(3) == 0) THEN
-          TSTART    = TT
-          SENS1(2)  = TSTART
-          LSENS1(3) = 1
-          SENSOR%STATUS = 3
-          SENSOR%TSTART = TSTART
+      IF (SENSOR%STATUS == 1 .and. ISPMD == 0) THEN
 #include "lockon.inc"
-          IF (ISPMD == 0) THEN
-            WRITE (ISTDO,1100 ) SENSOR%SENS_ID,TSTART
-            WRITE (IOUT ,1100 ) SENSOR%SENS_ID,TSTART
-            WRITE (IOUT ,1200 ) EINT,EKIN
-          END IF
+          WRITE (ISTDO,1100 ) SENSOR%SENS_ID,SENSOR%TSTART
+          WRITE (IOUT ,1100 ) SENSOR%SENS_ID,SENSOR%TSTART
+          WRITE (IOUT ,1200 ) EINT,EKIN
 #include "lockoff.inc"
-        ENDIF
-      ENDIF
+      END IF
 c---------------------------------------------------------
-c     TEST of constant energy criterion
+c     TEST of constant internal energy criterion
 c---------------------------------------------------------
       IF (IFLAG == 1) THEN
-        FAC_EI = EP20
-        FAC_EK = EP20
+        FAC_EI = INFINITY
+        FAC_EK = INFINITY
         IF (TT == ZERO) THEN
           NI = NINT(IETIME / DT2) + 1
           NK = NINT(KETIME / DT2) + 1
           SENSOR%VAR(5) = TWO / NI   ! ALPHAI
           SENSOR%VAR(8) = TWO / NK   ! ALPHAK
-          SENSOR%VAR(1) = EP20        ! TACT1
-          SENSOR%VAR(3) = EP20        ! TACT2
+          SENSOR%VAR(1) = INFINITY        ! TACT1
+          SENSOR%VAR(3) = INFINITY        ! TACT2
         END IF
 c
         IF (IETOL > ZERO) THEN
-c
-          TACT1  = SENSOR%VAR(1)
-          STATE1 = SENSOR%VAR(2)
 c
           IF (EINT > ZERO) THEN
             ALPHAI   = SENSOR%VAR(5)
@@ -230,33 +218,29 @@ c
 c
 c         Test sensor activation on constant internal energy criterion
 c
-          IF (FAC_EI < IETOL) THEN
-            IF (STATE1 == 0) THEN
-              TACT1 = TT + IETIME
-              STATE1 = 1
-            END IF
-            IF (STATE1 == 1 .and. TACT1 <= TT) THEN
-              STATE1 = 2
-            END IF
-            IF (STATE1 == 2 .and. TACT1 + TDELAY <= TT) THEN
-              STATE1 = 3   ! activate
-              SENSOR%TSTART = TT
-              SENSOR%STATUS = 3
+          IF (FAC_EI < IETOL) ICRIT1 = 1
 c
-              SENS1(2)  = TSTART
-              LSENS1(3) = 1
+          IF (SENSOR%VAR(1) + TMIN > TT) THEN
+            IF (ICRIT1 == 0) THEN
+              SENSOR%VAR(1) = INFINITY
+            ELSE IF (SENSOR%VAR(1) == INFINITY) THEN
+              SENSOR%VAR(1) = MIN(SENSOR%VAR(1), TT)
+            END IF
+          ELSE IF (SENSOR%VAR(2) == INFINITY) THEN
+            SENSOR%VAR(2) = SENSOR%VAR(1) + TMIN + TDELAY
+          END IF
+          IF (SENSOR%VAR(2) <= TT) THEN   ! sensor activation
+            SENSOR%STATUS = 1
+            SENSOR%TSTART = SENSOR%VAR(2)
+          END IF
+
+          IF (SENSOR%VAR(2) <= TT .and. ISPMD == 0) THEN
 #include   "lockon.inc"
-              IF (ISPMD == 0) THEN
                 WRITE (ISTDO,1100 ) SENSOR%SENS_ID,TT
                 WRITE (IOUT ,1100 ) SENSOR%SENS_ID,TT
                 WRITE (IOUT ,1400)  EINT,EMA_INT,SQRT(EVAR_INT)
-              END IF
 #include   "lockoff.inc"
-            END IF
-          ELSE IF (STATE1 == 1) THEN
-            STATE1 = 0
-            TACT1  = EP20
-          ENDIF ! end test const internal energy
+          END IF
         ENDIF
 c
 c---------------------------------------------------------
@@ -276,47 +260,36 @@ c
 c
             SENSOR%VAR(9)  = EMA_KIN
             SENSOR%VAR(10) = EVAR_KIN
-            TACT2  = SENSOR%VAR(3)
-            STATE2 = SENSOR%VAR(4)
           END IF
 
-          IF (FAC_EK < KETOL) THEN
-            IF (STATE2 == 0) THEN
-              STATE2 = 1
-              TACT2 = TT + KETIME
-            END IF
-            IF (STATE2 == 1 .and. STATE2 <= TT) THEN
-              STATE2 = 2
-            END IF
-            IF (STATE2 == 2 .and. TACT2 + TDELAY <= TT) THEN
-              STATE2 = 3   ! activate
-              SENSOR%TSTART = TT
-              SENSOR%STATUS = 3
+          IF (FAC_EK < KETOL) ICRIT2 = 1
 c
-              SENS1(2)  = TT
-              LSENS1(3) = 1
+          IF (SENSOR%VAR(3) + TMIN > TT) THEN
+            IF (ICRIT1 == 0) THEN
+              SENSOR%VAR(3) = INFINITY
+            ELSE IF (SENSOR%VAR(3) == INFINITY) THEN
+              SENSOR%VAR(3) = MIN(SENSOR%VAR(3), TT)
+            END IF
+          ELSE IF (SENSOR%VAR(4) == INFINITY) THEN
+            SENSOR%VAR(4) = SENSOR%VAR(1) + TMIN + TDELAY
+          END IF
+          IF (SENSOR%VAR(4) <= TT) THEN   ! sensor activation
+            SENSOR%STATUS = 1
+            SENSOR%TSTART = SENSOR%VAR(4)
+          END IF
+c
+          IF (SENSOR%VAR(4) <= TT .and. ISPMD == 0) THEN
 #include   "lockon.inc"
-              IF (ISPMD == 0) THEN
                 WRITE (ISTDO,1100 ) SENSOR%SENS_ID,TT
                 WRITE (IOUT ,1100 ) SENSOR%SENS_ID,TT
                 WRITE (IOUT ,1500)  EKIN,EMA_KIN,SQRT(EVAR_KIN)
-              END IF
 #include   "lockoff.inc"
-            END IF
-          ELSE IF (STATE2 == 1) THEN
-            STATE2 = 0
-            TACT2  = EP20
-          ENDIF ! end test const kinetic energy
+          END IF
         ENDIF
-c
-        SENSOR%VAR(1) = TACT1 
-        SENSOR%VAR(2) = STATE1
-        SENSOR%VAR(3) = TACT2 
-        SENSOR%VAR(4) = STATE2
 c
       END IF  ! constant energy option
 c-----------------------------------------------------------------------      
-1100  FORMAT(' SENSOR NUMBER ',I10,' ACTIVATED AT TIME ',1PE12.5)
+1100  FORMAT(' ENERGY SENSOR NUMBER ',I10,' ACTIVATED AT TIME ',1PE12.5)
 1200  FORMAT('      INT ENERGY = ',1PE12.5,'  KIN ENERGY = ',1PE12.5)
 1400  FORMAT('      INT ENERGY = ',1PE12.5,'  ,MEAN  = ',1PE12.5,'  ,STDEV  = ',1PE12.5)           
 1500  FORMAT('      KIN ENERGY = ',1PE12.5,'  ,MEAN  = ',1PE12.5,'  ,STDEV  = ',1PE12.5)           

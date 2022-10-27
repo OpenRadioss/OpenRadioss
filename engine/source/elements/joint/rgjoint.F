@@ -47,12 +47,13 @@ Chd|====================================================================
      A           FY2    ,FZ1    ,FZ2     ,MX1    ,MX2     ,
      B           MY1    ,MY2    ,MZ1     ,MZ2    ,GRESAV  ,
      C           GRTH   ,IGRTH  ,MSRT    ,DMELRT ,NELTST  ,
-     D           ITYPTST,IGTYP  ,SENSOR  ,LSENSOR,NC1     ,
+     D           ITYPTST,IGTYP  ,SENSOR_TAB,NC1     ,
      E           NC2    ,XDP    ,X0_ERR  ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE SENSOR_MOD
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,6 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
+#include      "com04_c.inc"
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
@@ -68,7 +70,7 @@ C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
       INTEGER JFT,JLT,IOUT,NEL,NUVAR,IPROP,
      .        IPARTR(*),IXR(NIXR,*),IADR(3,*),GRTH(*),IGRTH(*),
-     .        NELTST,ITYPTST,IGTYP,LSENSOR(NSENSI,*),NC1(*),NC2(*)
+     .        NELTST,ITYPTST,IGTYP,NC1(*),NC2(*)
       my_real
      .   DT1, DT2T, UVAR(NUVAR,*),STIFN(*),STIFR(*), OFF(*), E(*),
      .   X(*), VX(*), VR(*),DX(*),DY(*),DZ(*), RX(*),RY(*),RZ(*), 
@@ -79,9 +81,10 @@ C----------------------------------------------------------
      .   MX1(MVSIZ),MY1(MVSIZ),MZ1(MVSIZ),
      .   MX2(MVSIZ),MY2(MVSIZ),MZ2(MVSIZ),RBY(*),
      .   PARTSAV(*),TANI(15,*),MS(*),IN(*),FSKY(*),FSKYV(*),GRESAV(*),
-     .   MSRT(*), DMELRT(*), SENSOR(NSENSR,*), X0_ERR(3,*)
+     .   MSRT(*), DMELRT(*),X0_ERR(3,*)
       DOUBLE PRECISION XDP(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -97,7 +100,7 @@ C
      .             NUVAR  ,UVAR    ,RBY    ,X      ,XL   ,
      .             ROT1   ,ROT2    ,DX     ,DY     ,DZ   ,
      .             RX     ,RY      ,RZ     ,VR     ,IGTYP,
-     .             SENSOR ,LSENSOR ,ISENS  ,NC1    ,NC2  ,
+     .             SENSOR_TAB,ISENS  ,NC1    ,NC2  ,
      .             XDP)         
 C
       CALL RUSER33(NEL   ,IOUT   ,IPROP  ,NUVAR   ,UVAR  ,

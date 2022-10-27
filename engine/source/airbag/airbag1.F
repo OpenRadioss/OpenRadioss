@@ -29,8 +29,12 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|====================================================================
       SUBROUTINE AIRBAGA(IVOLU ,NJET   ,IBAGJET ,NVENT   ,IBAGHOL,
      2                 ICBAG   ,RVOLU   ,RBAGJET ,RBAGHOL,RCBAG   ,
-     3                 RVOLUV  ,NPC     ,TF      ,SENSOR  ,LSENSOR ,
+     3                 RVOLUV  ,NPC     ,TF      ,SENSOR_TAB ,
      4                 VOL     ,PMAIN )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,12 +56,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*),LSENSOR(NSENSI,*),IVOLU(*),NJET,IBAGJET(NIBJET,*),
+      INTEGER NPC(*),IVOLU(*),NJET,IBAGJET(NIBJET,*),
      .        NVENT,IBAGHOL(NIBHOL,*),ICBAG(NICBAG,*),PMAIN
 C     REAL
       my_real
-     .   TF(*),SENSOR(NSENSR,*),RVOLU(*),RBAGJET(NRBJET,*),
+     .   TF(*),RVOLU(*),RBAGJET(NRBJET,*),
      .   RBAGHOL(NRBHOL,*),RCBAG(NRCBAG,*),RVOLUV(NRVOLU,*),VOL
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -142,7 +147,7 @@ C       changement d'etat ?
           IF(ISENS==0)THEN
            TSTART=ZERO
           ELSE
-           TSTART=SENSOR(2,ISENS)
+           TSTART=SENSOR_TAB(ISENS)%TSTART
           ENDIF
           IF(TT>=TSTART)IS=1
         IF(IEQUI==0)THEN
@@ -237,7 +242,7 @@ C
         IF(ISENS==0)THEN
          TSTART=ZERO
         ELSE
-         TSTART=SENSOR(2,ISENS)
+         TSTART=SENSOR_TAB(ISENS)%TSTART
         ENDIF
 C
         RMWG=RBAGJET(1,IJ)

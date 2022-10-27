@@ -51,13 +51,13 @@ Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|====================================================================
       SUBROUTINE INIT_MONVOL(T_MONVOL, T_MONVOL_METADATA,
-     2     GEO     ,PM      ,
-     3     IXC     ,IXTG    ,X       ,NPC     ,
-     4     ITABM1  ,ITAB    ,IGRSURF ,
-     5     LSENSOR ,IGRBRIC ,MFI     ,
-     6     NAIRWA  ,IXS     ,V       ,LIBAGALE,
-     7     NPT     ,PLD     ,LRBAGALE,IPM     ,IGEO    ,
-     8     UNITAB  ,SENSOR)
+     2     GEO       ,PM      ,
+     3     IXC       ,IXTG    ,X       ,NPC     ,
+     4     ITABM1    ,ITAB    ,IGRSURF ,
+     5     SENSOR_TAB,IGRBRIC ,MFI     ,
+     6     NAIRWA    ,IXS     ,V       ,LIBAGALE,
+     7     NPT       ,PLD     ,LRBAGALE,IPM     ,IGEO    ,
+     8     UNITAB    )
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -67,13 +67,11 @@ C-----------------------------------------------
       USE FVMBAG_MESHCONTROL_MOD
       USE GROUPDEF_MOD
       USE MONVOL_STRUCT_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C     A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -85,7 +83,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "sysunit.inc"
-#include      "r2r_c.inc"
 #include      "my_allocate.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
@@ -93,19 +90,18 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER  IXC(NIXC,*),IXTG(NIXTG,*),NPC(*),
      .     ITABM1(*),ITAB(*),
-     .     LSENSOR(NSENSI,*),
      .     MFI,NAIRWA ,IXS(NIXS,*),
      .     LIBAGALE,NPT(*),LRBAGALE,IPM(NPROPMI,*),IGEO(NPROPGI,*)
 C     REAL
       my_real
      .     GEO(NPROPG,*), PM(NPROPM,*), X(3,*), V(3,*),
-     .     PLD(2,*), MEMBAG, 
-     .     SENSOR(NSENSR,*)
+     .     PLD(2,*), MEMBAG
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
       TYPE(MONVOL_METADATA_), INTENT(INOUT) :: T_MONVOL_METADATA
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -952,7 +948,7 @@ C
                   IF(ITEMP/=0)ITEMP=NPC(ITEMP)
                   FTEMP=T_MONVOL(N)%RBAGJET(6, I)
                   ISENS=T_MONVOL(N)%IBAGJET(4, I)
-                  IF(ISENS/=0)ISENS=LSENSOR(1,ISENS)
+                  IF (ISENS > 0) ISENS = SENSOR_TAB(ISENS)%SENS_ID
                   WRITE(IOUT,1430)I,
      .                 IMASS,IFLU,FMASS,ITEMP,FTEMP,ISENS
 C     

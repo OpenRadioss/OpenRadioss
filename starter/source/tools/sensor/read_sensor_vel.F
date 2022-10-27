@@ -58,8 +58,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
-#include      "scr_usens_c.inc"
-#include      "warn_c.inc"
 #include      "units_c.inc"
 #include      "sysunit.inc"
 #include      "submod_c.inc"
@@ -76,7 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NOD1,NS,SENS_TYPE
+      INTEGER :: NOD1,NS,NNOD,NPARIS,NPARRS,NVAR,SENS_TYPE
       my_real :: TDEL,VMAX,FREQ
       CHARACTER MESS*40
       LOGICAL :: IS_AVAILABLE
@@ -99,15 +97,46 @@ card2
       CALL HM_GET_FLOATV('INTER_FCUT' ,FREQ  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c--------------------------------------------------
 c     Check input data
-c--------------------------------------------------
+c--------------------------------------------------      
+      NNOD = USR2SYS(NOD1,ITABM1,MESS,NS)
+      CALL ANODSET(NNOD, CHECK_USED)
+c
       LSENSOR(1) = SENS_ID
       LSENSOR(2) = SENS_TYPE
-      LSENSOR(4) = USR2SYS(NOD1,ITABM1,MESS,NS)
-      CALL ANODSET(LSENSOR(4), CHECK_USED)
+      LSENSOR(4) = NNOD
       SENSOR(1) = TDEL
       SENSOR(2) = INFINITY   ! activation time
       SENSOR(3) = VMAX
       SENSOR(4) = FREQ
+c
+c     New sensor struct
+c
+      SENSOR_PTR%TYPE    = SENS_TYPE
+      SENSOR_PTR%SENS_ID = SENS_ID
+      SENSOR_PTR%STATUS  = 0            ! status = deactivated
+      SENSOR_PTR%TSTART  = INFINITY
+      SENSOR_PTR%TCRIT   = INFINITY
+      SENSOR_PTR%TMIN    = ZERO         ! TMIN global
+      SENSOR_PTR%TDELAY  = TDEL         ! time delay before activation
+      SENSOR_PTR%VALUE   = ZERO
+
+      NPARIS = 1
+      NPARRS = 2
+      NVAR   = 0 
+c
+      SENSOR_PTR%NPARI  = NPARIS
+      SENSOR_PTR%NPARR  = NPARRS
+      SENSOR_PTR%NVAR   = NVAR
+c
+      ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
+      ALLOCATE (SENSOR_PTR%RPARAM(NPARRS))
+      ALLOCATE (SENSOR_PTR%VAR(NVAR))
+      SENSOR_PTR%VAR(:) = ZERO
+
+      SENSOR_PTR%IPARAM(1) = NNOD
+
+      SENSOR_PTR%RPARAM(1) = VMAX
+      SENSOR_PTR%RPARAM(2) = FREQ
 c------------------------------------------------------------
       WRITE(IOUT, 1000) SENS_ID,TDEL
       WRITE(IOUT, 2000) NOD1,VMAX,FREQ

@@ -77,7 +77,7 @@ Chd|====================================================================
      J            GRESAV ,GRTH   ,IGRTH ,MSC    ,DMELC ,
      K            JSMS  ,TABLE   ,IPARG ,IXFEM,INOD_CRK,
      L            IEL_CRK,IADC_CRK,ELCUTC,
-     M            LSENSOR,SENSOR ,IXEL ,STACK   ,
+     M            SENSOR_TAB,IXEL ,STACK   ,
      N            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
      O            NODEDGE,CRKEDGE,DRAPE_Q4,IPRI  ,NLOC_DMG)
 C-----------------------------------------------
@@ -91,6 +91,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD           
       USE DRAPE_MOD  
       USE NLOCAL_REG_MOD  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,8 +128,7 @@ C-----------------------------------------------
       INTEGER NPF(*),IXC(NIXC,*),IADC(4,*),INDXOF(MVSIZ),IPARTC(*),
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),ITASK,JTHE, JSMS,
      .   GRTH(*),IGRTH(*),IPARG(*),IXFEM,INOD_CRK(*),IEL_CRK(*),
-     .   IADC_CRK(4,*),ELCUTC(2,*),LSENSOR(NSENSI,*),
-     .   ISUBSTACK,NODEDGE(2,*)
+     .   IADC_CRK(4,*),ELCUTC(2,*),ISUBSTACK,NODEDGE(2,*)
 C     REAL
       my_real
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
@@ -141,7 +141,7 @@ C     REAL
      .   GEO(NPROPG,*),TF(*), BUFMAT(*),PARTSAV(*),STIFN(*),STIFR(*),
      .   FSKY(8,*),D(*),DR(*),TANI(6,*),EANI(*), THKE(*),DT2T,
      .   FZERO(3,4,*),TEMP(*), FTHE(*),FTHESKY(*),GRESAV(*),
-     .   MSC(*), DMELC(*),SENSOR(NSENSR,*),UXINT_MEAN(NLEVXF,MVSIZ),
+     .   MSC(*), DMELC(*),UXINT_MEAN(NLEVXF,MVSIZ),
      .   UYINT_MEAN(NLEVXF,MVSIZ),UZINT_MEAN(NLEVXF,MVSIZ)
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET :: XFEM_STR
@@ -153,6 +153,7 @@ C     REAL
       TYPE (DRAPE_) :: DRAPE_Q4
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -443,7 +444,7 @@ C-----------------------------
      I    BID       ,BID       ,BID       ,E1X       ,E1Y       ,
      J    E1Z       ,E2X       ,E2Y       ,E2Z       ,E3X       ,
      K    E3Y       ,E3Z       ,IBID      ,TABLE     ,IXFEM     ,
-     L    BID       ,LSENSOR   ,SENSOR    ,BID       ,ELCRKINI  ,
+     L    BID       ,SENSOR_TAB,BID       ,ELCRKINI  ,
      M    DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
      N    ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT      ,
      O    IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,

@@ -72,7 +72,7 @@ Chd|====================================================================
      I           DEL_PLY   ,TH_IPLY   ,SIG_IPLY  ,E1X       ,E1Y        ,
      J           E1Z       ,E2X       ,E2Y       ,E2Z       ,E3X        ,
      K           E3Y       ,E3Z       ,NG        ,TABLE     ,IXFEM      ,
-     L           OFFI      ,LSENSOR   ,SENSOR    ,A11_IPLY  ,ELCRKINI   ,
+     L           OFFI      ,SENSOR_TAB,A11_IPLY  ,ELCRKINI   ,
      M           DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
      N           ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O           IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
@@ -87,6 +87,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE DRAPE_MOD 
       USE NLOCAL_REG_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -115,7 +116,7 @@ C-----------------------------------------------
      .   KFTS,JHBE,IFAILURE,JTHE,IEXPAN,ISHPLYXFEM,ISMSTR,
      .   IXLAY,IXEL,IXFEM,ISUBSTACK,ITASK
       INTEGER MAT(MVSIZ), PID(MVSIZ), INDXDEL(MVSIZ), NGL(MVSIZ),NPF(*), 
-     .   IGEO(NPROPGI,*),IPM(NPROPMI,*),IPARG(*),LSENSOR(NSENSI,*),
+     .   IGEO(NPROPGI,*),IPM(NPROPMI,*),IPARG(*),
      .   A11_IPLY(MVSIZ,*),ELCRKINI(*),FWAVE_EL(NEL)
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*),TF(*),THK(*),EINT(JLT,*),FOR(NEL,5), 
@@ -128,7 +129,7 @@ C-----------------------------------------------
      .   TEMPEL0(MVSIZ), PLY_F(MVSIZ,5,*),
      .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
      .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),DEL_PLY(MVSIZ,3,*) ,
-     .   TH_IPLY(MVSIZ,*), SIG_IPLY(MVSIZ,3,*),SENSOR(NSENSR,*),
+     .   TH_IPLY(MVSIZ,*), SIG_IPLY(MVSIZ,3,*),
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
      .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
      .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ),OFFI(MVSIZ,*),
@@ -142,6 +143,7 @@ C-----------------------------------------------
       TYPE (DRAPE_) :: DRAPE
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -246,19 +248,18 @@ c
      4       EYZ     ,KXX     ,KYY     ,KXY     ,GEO     ,THK_LY  ,
      5       PID     ,TF      ,NPF     ,MTN     ,DT1C    ,DM      ,
      6       BUFMAT  ,SSP     ,RHO     ,VISCMX  ,IPLA    ,IOFC    ,
-     7       INDXDEL ,NGL     ,THKLY   ,MATLY   ,ZCFAC   ,
+     7       INDXDEL ,NGL     ,THKLY   ,MATLY   ,ZCFAC   ,NG      ,
      8       SHF     ,GS      ,SIGY    ,THK0    ,EPSP    ,
      9       POSLY   ,IGEO    ,IPM     ,FAILWAVE,FWAVE_EL,
      A       IFAILURE,ALDT    ,TEMPEL  ,DIE     ,
      B       E1X     ,E1Y     ,E1Z     ,E2X     ,E2Y     ,E2Z     ,
      C       E3X     ,E3Y     ,E3Z     ,TABLE   ,IXFEM   ,ELCRKINI,
-     D       LSENSOR ,SENSOR  ,NG      ,
-     E       DIR1_CRK,DIR2_CRK,IPARG   ,JHBE    ,ISMSTR  ,JTHE    ,
-     F       TENS    ,IR      ,IS      ,NLAY    ,NPT     ,IXLAY   ,
-     G       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,
-     H       ITASK   ,STACK%PM ,ISUBSTACK,STACK ,TSTAR   ,ALPE    ,
-     I       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
-     J       VARNL   ,NLOC_DMG)
+     D       DIR1_CRK,DIR2_CRK,IPARG   ,JHBE    ,ISMSTR  ,JTHE    ,
+     E       TENS    ,IR      ,IS      ,NLAY    ,NPT     ,IXLAY   ,
+     F       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,
+     G       ITASK   ,STACK%PM ,ISUBSTACK,STACK ,TSTAR   ,ALPE    ,
+     H       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
+     I       VARNL   ,NLOC_DMG)
 cc----------------------------
       ELSE   ! User-type Radioss laws , NPT > 0
 c----------------------------
@@ -284,7 +285,7 @@ c
      A       IFAILURE,ALDT    ,TEMPEL  ,DIE     ,
      B       E1X     ,E1Y     ,E1Z     ,E2X     ,E2Y     ,E2Z     ,
      C       E3X     ,E3Y     ,E3Z     ,TABLE   ,IXFEM   ,ELCRKINI,
-     D       LSENSOR ,SENSOR  ,NG      ,
+     D       SENSOR_TAB,NG      ,
      E       DIR1_CRK,DIR2_CRK,IPARG   ,JHBE    ,ISMSTR  ,JTHE    ,
      F       TENS    ,IR      ,IS      ,NLAY    ,NPT     ,IXLAY   ,
      G       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,

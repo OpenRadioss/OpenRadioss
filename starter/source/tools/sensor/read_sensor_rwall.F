@@ -54,8 +54,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
-#include      "scr_usens_c.inc"
-#include      "warn_c.inc"
 #include      "units_c.inc"
 #include      "sysunit.inc"
 #include      "submod_c.inc"
@@ -72,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: RWALL_ID,IDIR,SENS_TYPE
+      INTEGER :: RWALL_ID,IDIR,NPARIS,NPARRS,NVAR,SENS_TYPE
       my_real :: TDEL,TMIN,FMIN,FMAX
       CHARACTER DIR*ncharkey
       LOGICAL :: IS_AVAILABLE
@@ -117,6 +115,36 @@ c
       SENSOR(4)  = FMIN     
       SENSOR(5)  = FMAX     
       SENSOR(6)  = TMIN     
+c
+c     New sensor struct
+c
+      SENSOR_PTR%TYPE    = SENS_TYPE
+      SENSOR_PTR%SENS_ID = SENS_ID
+      SENSOR_PTR%STATUS  = 0            ! status = deactivated
+      SENSOR_PTR%TSTART  = INFINITY
+      SENSOR_PTR%TCRIT   = INFINITY
+      SENSOR_PTR%TMIN    = ZERO         ! TMIN global
+      SENSOR_PTR%TDELAY  = TDEL         ! time delay before activation
+      SENSOR_PTR%VALUE   = ZERO
+
+      NPARIS = 2
+      NPARRS = 2
+      NVAR   = 0 
+c
+      SENSOR_PTR%NPARI  = NPARIS
+      SENSOR_PTR%NPARR  = NPARRS
+      SENSOR_PTR%NVAR   = NVAR
+c
+      ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
+      ALLOCATE (SENSOR_PTR%RPARAM(NPARRS))
+      ALLOCATE (SENSOR_PTR%VAR(NVAR))
+      SENSOR_PTR%VAR(:) = ZERO
+
+      SENSOR_PTR%IPARAM(1) = RWALL_ID
+      SENSOR_PTR%IPARAM(2) = IDIR
+
+      SENSOR_PTR%RPARAM(1) = FMIN
+      SENSOR_PTR%RPARAM(2) = FMAX
 c------------------------------------------------------------
       WRITE (IOUT, 1000) SENS_ID,TDEL
       WRITE (IOUT, 2000) RWALL_ID,FMIN,FMAX,TMIN,DIR(1:LEN_TRIM(DIR))

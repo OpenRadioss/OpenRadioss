@@ -52,9 +52,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
@@ -75,12 +72,11 @@ C-----------------------------------------------
       my_real
      .   FAC(LFACTHER,*)
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
-C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, NOD, NCUR, ISENS, ID, UID
+      INTEGER I, L, NOD, NCUR, SENS_ID, ID, UID
       INTEGER K, IGU, IGRS, NN, J, NUM0,
      .        IFLAGUNIT
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
@@ -128,7 +124,7 @@ C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
         CALL HM_GET_INTV('curveid',NCUR,IS_AVAILABLE,LSUBMODEL)
-        CALL HM_GET_INTV('rad_sensor_id',ISENS,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('rad_sensor_id',SENS_ID,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('entityid',IGU,IS_AVAILABLE,LSUBMODEL)    
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
@@ -163,7 +159,7 @@ C
             I=I+1
             NOD = ITAB(IABS(IBFT(1,I)))
             IBFT(2,I)= NCUR
-            IBFT(3,I)= ISENS
+            IBFT(3,I)= SENS_ID
             IBFT(4,I) = 0
 C            
             FAC(1,I)= FAC1
@@ -174,7 +170,7 @@ C
             WRITE (IOUT,'(3X,I10,3X,I10,3X,I10,2X,
      .       1PG20.13,2X,1PG20.13,2X,G20.13,2X,G20.13)')
      .       ITAB(IABS(IBFT(1,I))),
-     .       IBFT(2,I),ISENS,FAC(4,I),1/FACX,FAC(1,I),FAC(2,I)
+     .       IBFT(2,I),SENS_ID,FAC(4,I),1/FACX,FAC(1,I),FAC(2,I)
 C
         ENDDO
       ENDDO  

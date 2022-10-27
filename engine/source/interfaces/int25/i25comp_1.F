@@ -34,13 +34,13 @@ Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I25COMP_1(
      1                   IPARI   ,INTBUF_TAB ,X      ,ITAB   ,NIN        ,
-     2                   KINET      ,JTASK  ,NB_DST1,V       ,SENSOR     )
+     2                   KINET      ,JTASK  ,NB_DST1,V       ,SENSOR_TAB )
 C=======================================================================
-C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE TRI7BOX
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,9 +71,9 @@ C-----------------------------------------------
       INTEGER NIN, NB_DST1, JTASK
       INTEGER IPARI(NPARI,NINTER), ITAB(*), KINET(*)
 C     REAL
-      my_real 
-     .   X(3,*), V(3,*), SENSOR(NSENSR,*)
+      my_real :: X(3,*), V(3,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -114,8 +114,8 @@ C
 C
 C       Look if interface is activated 
         ISENS = IPARI(64,NIN)  
-        IF(ISENS/=0)  THEN         ! Interface activated by sensor
-           TS = SENSOR(2,ISENS)
+        IF (ISENS > 0)  THEN         ! Interface activated by sensor
+           TS = SENSOR_TAB(ISENS)%TSTART
         ELSE
            TS = TT
         ENDIF

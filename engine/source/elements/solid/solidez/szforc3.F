@@ -99,7 +99,7 @@ Chd|====================================================================
      E                   FTHESKY  ,IEXPAN  ,GRESAV  ,GRTH   ,IGRTH  , 
      F                   MSSA     ,DMELS   ,TABLE   ,IGEO   ,XDP    ,
      G                   CONDN    ,CONDNSKY  ,
-     H                   D        ,TAGPRT_SMS,SENSOR  ,LSENSOR  ,IOUTPRT  ,
+     H                   D        ,TAGPRT_SMS,SENSOR_TAB,IOUTPRT  ,
      I                   NALE     ,NLOC_DMG  ,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -110,6 +110,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -142,7 +143,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARG(NPARG,*), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(NPROPMI,*),ITASK,IMATVIS,GRTH(*),IGRTH(*),
-     .        IGEO(*), TAGPRT_SMS(*),LSENSOR(NSENSI,*)            
+     .        IGEO(*), TAGPRT_SMS(*)        
       INTEGER NELTST,ITYPTST,OFFSET,NEL ,ICP, NDDIM,
      .        NVC,ISTRAIN,IEXPAN,NG,NPTS,IOUTPRT,NALE(*),H3D_STRAIN
 
@@ -165,7 +166,7 @@ C-----------------------------------------------
      .   F18(MVSIZ),F28(MVSIZ),F38(MVSIZ),
      .   TEMP(*), FTHE(*), FTHESKY(*),
      .   QMV(12,*),GRESAV(*), MSSA(*), DMELS(*),
-     .   CONDN(*),CONDNSKY(*),D(*),SENSOR(NSENSR,*)
+     .   CONDN(*),CONDNSKY(*),D(*)
 
  
       TYPE (TTABLE) TABLE(*)
@@ -173,6 +174,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -560,7 +562,7 @@ C Compute regularized non local variable in Gauss point
         ENDDO
       ENDIF
 C
-      IF(IBOLTP /= 0) CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR,LSENSOR)
+      IF(IBOLTP /= 0) CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR_TAB)
 C
 C Compute stresses according to the material law
       CALL MMAIN(ELBUF_TAB,NG     ,PM     ,GEO     ,FV      ,ALE_CONNECT,

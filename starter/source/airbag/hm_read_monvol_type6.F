@@ -43,7 +43,7 @@ Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MONVOL_TYPE6(T_MONVOLN, IPM, IGEO, ITABM1,
-     .     LSENSOR, SENSOR, NPT, PLD, IGRBRIC,
+     .     SENSOR_TAB, NPT, PLD, IGRBRIC,
      .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, 
      .     LSUBMODEL)
 C-----------------------------------------------
@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE MONVOL_STRUCT_MOD
       USE SUBMODEL_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,12 +81,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
       INTEGER, INTENT(IN) :: LUID, IPM(NPROPMI, *), IGEO(NPROPGI, *),ITABM1(*), NPT(*)
-      INTEGER, INTENT(IN) :: NPC(*), ITAB(*), IXC(NIXC, *), IXTG(NIXTG, *), LSENSOR(NSENSI, *)
-      my_real, INTENT(IN) :: X(3, *), GEO(NPROPG, *), PM(NPROPM, *), SENSOR(NSENSR, *), PLD(2, *)
+      INTEGER, INTENT(IN) :: NPC(*), ITAB(*), IXC(NIXC, *), IXTG(NIXTG, *)
+      my_real, INTENT(IN) :: X(3, *), GEO(NPROPG, *), PM(NPROPM, *), PLD(2, *)
       TYPE (SURF_), INTENT(INOUT), DIMENSION(NSURF) :: IGRSURF
       TYPE(MONVOL_STRUCT_), INTENT(INOUT) :: T_MONVOLN
       TYPE (GROUP_), DIMENSION(NGRBRIC), INTENT(IN) :: IGRBRIC
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -473,7 +475,7 @@ C     =====
          IF (ISENS(II) > 0) THEN
             FOUND = .FALSE.
             DO JJ = 1, NSENSOR
-               IF (ISENS(II) == LSENSOR(1, JJ)) THEN
+               IF (ISENS(II) == SENSOR_TAB(JJ)%SENS_ID) THEN
                   T_MONVOLN%IBAGJET(4, II) = JJ
                   FOUND = .TRUE.
                   EXIT

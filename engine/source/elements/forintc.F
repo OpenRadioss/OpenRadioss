@@ -59,10 +59,10 @@ Chd|====================================================================
      3    WA        ,STIFN     ,STIFR     ,FSKY      ,CRKSKY    ,
      4    TF        ,BUFMAT    ,PARTSAV   ,D         ,MATPARAM_TAB,
      5    DR        ,EANI      ,TANI      ,FANI      ,
-     6    FSAV      ,SENSOR    ,SKEW      ,ANIN      ,FAILWAVE  ,
+     6    FSAV      ,SENSOR_TAB,SKEW      ,ANIN      ,FAILWAVE  ,
      7    DT2T      ,THKE      ,BUFGEO    ,IADC      ,IADTG	,
      8    IPARG     ,NPC       ,IXC       ,IXTG      ,NELTST    ,
-     A    IPARI     ,LSENSOR   ,ITYPTST   ,NSTRF     ,
+     A    IPARI     ,ITYPTST   ,NSTRF     ,
      B    IPART     ,IPARTC    ,IPARTTG   ,SECFCUM   ,
      D    FSAVD     ,GROUP_PARAM_TAB,
      F    FZERO     ,IXTG1     ,IADTG1    ,IGEO      ,IPM       ,
@@ -134,7 +134,7 @@ C-----------------------------------------------
      .   IXC(NIXC,*), IXTG(NIXTG,*), IGEO(NPROPGI,*), IPM(NPROPMI,*),
      .   NPC(*), IPARG(NPARG,*), IPARI(NPARI,*), 
      .   NSTRF(*), IPART(LIPART1,*), IPARTC(*), IPARTTG(*),
-     .   IADC(4,*), IADTG(3,*), LSENSOR(NSENSI,*), NELTST,
+     .   IADC(4,*), IADTG(3,*),NELTST,
      .   ITYPTST,IXTG1(4,*),XEDGE4N(4,*),XEDGE3N(3,*),
      .   IADTG1(3,*),MADFAIL(*),ITASK,
      .   INOD_PXFEM(*),IEL_PXFEM(*) ,IADC_PXFEM(4,*), IGROUC(*),
@@ -150,7 +150,7 @@ C     REAL
      .   WA(*), THKE(*),
      .   A(3,*)    ,AR(3,*) ,FANI(3,*) ,PARTSAV(NPSAV,*)    ,
      .   STIFN(*) ,STIFR(*),ANIN(*) ,FSKY(*) ,
-     .   DR(3,*) ,SENSOR(NSENSR,*),TANI(*),EANI(*),
+     .   DR(3,*) ,TANI(*),EANI(*),
      .   BUFGEO(*) ,DT2T, SECFCUM(7,NUMNOD,NSECT),
      .   FSAVD(NTHVKI,*),
      .   FZERO(3,4,(NUMELC+NUMELTG)),XSEC(4,3,NSECT),
@@ -172,6 +172,7 @@ C     REAL
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE (DRAPE_)  :: DRAPE_Q4,DRAPE_T3
       TYPE (MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -212,7 +213,7 @@ C======================================================================|
 !
       ISENS_ENERGY = 0
       DO I=1,NSENSOR
-        TYP = LSENSOR(2,I)
+        TYP = SENSOR_TAB(I)%TYPE
         IF (TYP == 14) ISENS_ENERGY = 1 ! save internal/kinetic energy (PARTSAV)
       ENDDO ! DO I=1,NSENSOR
 C
@@ -299,7 +300,7 @@ C--      Reduction factor computation for seatbelts in sliprings
          ENDIF
 C
          IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
-     .    CALL SENSOR_ENERGY_PART(LSENSOR ,IPARTC(NF1) ,SUBSET ,IPRI)
+     .    CALL SENSOR_ENERGY_PART(IPARTC(NF1) ,SUBSET ,IPRI)
           IF (JHBE >= 11.AND.JHBE <= 19) THEN
               CALL CBAFORC3(ELBUF_TAB(NG),
      1        JFT        ,JLT       ,NFT       ,NPT       ,
@@ -322,11 +323,10 @@ C
      L        FTHE       ,FTHESKY   ,IEXPAN    ,ISHPLYXFEM ,MS        ,
      M        IN         ,MS_PLY    ,ZI_PLY    ,INOD_PXFEM,IEL_PXFEM  ,
      N        IADC_PXFEM ,GRESAV    ,GRTH      ,IGRTH(NF1) ,MSC(NF1)  ,
-     O        DMELC(NF1) ,JSMS      ,TABLE     ,IPARG(1,NG),LSENSOR   ,
-     P        SENSOR     ,MSZ2      ,CONDN     ,CONDNSKY,ISUBSTACK    ,
-     R        STACK      ,
-     R        DRAPE_Q4      ,NEL,NLOC_DMG   ,VPINCH ,
-     S        APINCH     ,STIFPINCH )
+     O        DMELC(NF1) ,JSMS      ,TABLE     ,IPARG(1,NG),SENSOR_TAB,
+     P        MSZ2       ,CONDN     ,CONDNSKY  ,ISUBSTACK  ,STACK     ,
+     R        DRAPE_Q4   ,NEL       ,NLOC_DMG  ,VPINCH     ,
+     R        APINCH     ,STIFPINCH )
           ELSEIF (JHBE >= 21 .AND. JHBE <= 29) THEN
 
               CALL CZFORC3(ELBUF_TAB(NG),
@@ -348,7 +348,7 @@ C
      G        JTHE        ,TEMP     ,FTHE      ,FTHESKY   ,IEXPAN     ,
      H      GRESAV      ,GRTH     ,IGRTH(NF1),XEDGE4N   ,MSC(NF1)   ,  
      I        DMELC(NF1)  ,JSMS     ,TABLE     ,IPARG(1,NG),MATPARAM_TAB,
-     J        IXFEM       ,KNOD2ELC  ,LSENSOR    ,SENSOR    ,
+     J        IXFEM       ,KNOD2ELC  ,SENSOR_TAB,
      K        ELCUTC(1,NF1),INOD_CRK,IEL_CRK   ,IBORDNODE  ,NODENR    ,
      L        IADC_CRK    ,NODEDGE  ,CRKNODIAD ,CONDN    ,
      M      CONDNSKY    ,STACK,ISUBSTACK,XFEM_TAB(NG,1:NXEL),CRKEDGE,       
@@ -377,7 +377,7 @@ C
      K          GRTH       ,IGRTH(NF1) ,MSC(NF1) ,DMELC(NF1),JSMS        ,
      L          TABLE      ,IPARG(1,NG),IXFEM    ,INOD_CRK  ,IEL_CRK     ,
      M          IADC_CRK   ,ELCUTC(1,NF1),CRKSKY ,
-     N          LSENSOR    ,SENSOR     ,IXEL     ,
+     N          SENSOR_TAB,IXEL     ,
      O          ISUBSTACK  ,UXINT_MEAN ,UYINT_MEAN,UZINT_MEAN,NLEVXF      ,
      P          NODEDGE    ,CRKEDGE    ,STACK    ,DRAPE_Q4  ,NLOC_DMG    )
           ENDDO
@@ -404,7 +404,7 @@ c
      J        JTHE          ,TEMP , FTHE       ,FTHESKY   ,IEXPAN ,      
      K        GRESAV      ,GRTH   ,XEDGE4N  ,                                 
      L        IGRTH(NF1),MSC(NF1)  ,DMELC(NF1)  ,JSMS,TABLE    ,         
-     M        IPARG(1,NG),IXFEM,KNOD2ELC,LSENSOR   ,SENSOR   ,           
+     M        IPARG(1,NG),IXFEM,KNOD2ELC,SENSOR_TAB,           
      N        ELCUTC(1,NF1),INOD_CRK,IEL_CRK ,IBORDNODE ,NODENR   ,      
      O        IADC_CRK ,NODEDGE ,CRKNODIAD ,CONDN   ,
      P        CONDNSKY ,STACK ,ISUBSTACK ,XFEM_TAB(NG,1:NXEL),CRKEDGE,
@@ -433,7 +433,7 @@ c
      K IGRTH(NF1)    ,MSC(NF1)  ,DMELC(NF1)  ,JSMS      ,TABLE       ,
      L IPARG(1,NG) ,IXFEM       ,INOD_CRK    ,IEL_CRK   ,IADC_CRK    ,
      M ELCUTC(1,NF1),
-     N LSENSOR     ,SENSOR      ,IXEL      ,STACK       ,
+     N SENSOR_TAB,IXEL      ,STACK       ,
      O ISUBSTACK   ,UXINT_MEAN  ,UYINT_MEAN  ,UZINT_MEAN,NLEVXF      ,
      P NODEDGE     ,CRKEDGE     ,DRAPE_Q4   ,IPRI       ,NLOC_DMG    )
           ENDDO
@@ -478,7 +478,7 @@ C----6---------------------------------------------------------------7--
         ELSEIF(ITY==7)THEN
            IOFC = 0
            IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
-     .        CALL SENSOR_ENERGY_PART(LSENSOR ,IPARTTG(NF1) ,SUBSET ,IPRI)
+     .        CALL SENSOR_ENERGY_PART(IPARTTG(NF1) ,SUBSET ,IPRI)
            IF (ICNOD == 6) THEN
               NFT1 = NF1-NUMELTG+NUMELTG6
               CALL CDK6FORC3(ELBUF_TAB(NG),
@@ -498,8 +498,8 @@ C----6---------------------------------------------------------------7--
      E IXTG1(1,NFT1),IADTG1(1,NFT1),IGEO     ,IPM         ,IFAILURE   ,             
      F IEXPAN      ,GRESAV      ,GRTH        ,                          
      .      IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NUMELUR+NF1) ,MSTG(NF1) ,             
-     G DMELTG(NF1) ,JSMS        ,TABLE       ,IPARG(1,NG) ,LSENSOR    ,             
-     H SENSOR      ,PTG(1,NF1)  ,JTHE        ,CONDN       ,CONDNSKY   ,
+     G DMELTG(NF1) ,JSMS        ,TABLE       ,IPARG(1,NG) ,SENSOR_TAB,             
+     H PTG(1,NF1)  ,JTHE        ,CONDN       ,CONDNSKY   ,
      I ISUBSTACK   ,STACK       ,ITASK,DRAPE_T3,
      . IPRI        ,NLOC_DMG    )
            ELSE
@@ -521,7 +521,7 @@ C----6---------------------------------------------------------------7--
      E IGEO        ,IPM         ,IFAILURE    ,GRESAV      ,GRTH        ,
      F IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NUMELUR+NF1),
      .              MSTG(NF1)   ,DMELTG(NF1) ,JSMS        ,TABLE       ,
-     G IPARG(1,NG) ,LSENSOR     ,SENSOR      ,PTG(1,NF1)  ,JTHE        ,
+     G IPARG(1,NG) ,SENSOR_TAB  ,PTG(1,NF1)  ,JTHE        ,
      J CONDN       ,CONDNSKY    ,ISUBSTACK , STACK        ,ITASK       ,
      K DRAPE_T3,IPRI   ,NLOC_DMG    )
              ELSE
@@ -543,7 +543,7 @@ C----6---------------------------------------------------------------7--
      F JTHE        ,TEMP        , FTHE       ,FTHESKY     ,IEXPAN      ,
      G GRESAV      ,GRTH,IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NUMELUR+NF1),
      H MSTG(NF1)   ,DMELTG(NF1) ,JSMS        ,TABLE       ,IPARG(1,NG) ,
-     I IXFEM       ,LSENSOR     ,SENSOR      ,PTG(1,NF1)  ,IBORDNODE   ,
+     I IXFEM       ,SENSOR_TAB  ,PTG(1,NF1)  ,IBORDNODE   ,
      J ELCUTC(1,NF1+ITG3-1),INOD_CRK,IEL_CRK(ITG3),NODENR,IADC_CRK(ITG1),
      K NODEDGE     ,CRKNODIAD   ,KNOD2ELC    ,CONDN,
      L CONDNSKY    ,STACK       ,ISUBSTACK   ,XFEM_TAB(NG,1:NXEL),CRKEDGE,
@@ -568,7 +568,7 @@ C----6---------------------------------------------------------------7--
      E     JTHE        ,TEMP        , FTHE       ,FTHESKY     ,IEXPAN      ,
      F     GRESAV      ,GRTH,IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NUMELUR+NF1),
      G     MSTG(NF1)   ,DMELTG(NF1) ,JSMS        ,TABLE       ,IPARG(1,NG) ,
-     H     LSENSOR     ,SENSOR      ,PTG(1,NF1)  ,IXFEM       ,INOD_CRK    ,
+     H     SENSOR_TAB  ,PTG(1,NF1)  ,IXFEM       ,INOD_CRK    ,
      I     IEL_CRK(ITG3),IADC_CRK(ITG1),ELCUTC(1,NF1+ITG3-1)  ,IXEL        ,
      J     STACK       ,ISUBSTACK   ,UXINT_MEAN  ,UYINT_MEAN  ,UZINT_MEAN  ,
      K     NLEVXF      ,NODEDGE     ,CRKEDGE     ,DRAPE_T3    ,IPRI        ,

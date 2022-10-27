@@ -35,8 +35,12 @@ Chd|====================================================================
      .                   NUVAR  ,UVAR    ,RBY   ,X     ,XL   ,
      .                   ROT1   ,ROT2    ,DX    ,DY    ,DZ   ,
      .                   RX     ,RY      ,RZ    ,VR    ,IGTYP,
-     .                   SENSOR ,LSENSOR ,ISENS ,NC1   ,NC2  ,
+     .                   SENSOR_TAB,ISENS ,NC1   ,NC2  ,
      .                   XDP)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C IXR      | 5*NEL   | I | R | SPRING CONNECTIVITY
 C                            | IXR(1,I) IPROP
@@ -62,13 +66,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, IOUT, NUVAR, IPROP, IXR(NIXR,*),IGTYP,
-     .        ISENS,LSENSOR(NSENSI,*),NC1(*),NC2(*)
+     .        ISENS,NC1(*),NC2(*)
 C     REAL
       my_real UVAR(NUVAR,*),X(3,*),
      .        ROT1(3,MVSIZ),ROT2(3,MVSIZ),RBY(*),
-     .        DX(*), DY(*), DZ(*), RX(*), RY(*), RZ(*),
-     .        VR(3,*),SENSOR(NSENSR,*)
+     .        DX(*), DY(*), DZ(*), RX(*), RY(*), RZ(*),VR(3,*)
       DOUBLE PRECISION XDP(3,*),XL(MVSIZ,3)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -107,19 +111,19 @@ C----------------   skew initialisation for kjoints
       ELSE
         SKFLG = 0       	
 C----------------   sensor check for kjoints2
-	USENS = NINT(GET_U_GEO(2,IPROP))
-	ISENS_ACT = 0
-	IF (USENS>0) THEN
-	  ISENS_OLD = NINT(UVAR(16,JFT))      
+	      USENS = NINT(GET_U_GEO(2,IPROP))
+	      ISENS_ACT = 0
+	      IF (USENS>0) THEN
+	         ISENS_OLD = NINT(UVAR(16,JFT))      
           DO K=1,NSENSOR
-            IF(USENS==LSENSOR(1,K)) INSENS=K
+            IF(USENS==SENSOR_TAB(K)%SENS_ID) INSENS=K
           ENDDO
 C      
-          IF (TT>SENSOR(2,INSENS)) THEN
+          IF (TT>SENSOR_TAB(INSENS)%TSTART) THEN
             ISENS = 1
-	    UVAR(16,JFT) = ISENS
+	           UVAR(16,JFT) = ISENS
           ENDIF
-	  IF (ISENS/=ISENS_OLD) ISENS_ACT = 1
+	         IF (ISENS/=ISENS_OLD) ISENS_ACT = 1
         ENDIF
       ENDIF	
 C            	

@@ -44,7 +44,7 @@ Chd|====================================================================
      4                   SKEW  ,DT2T  ,NELTST ,ITYPTST ,
      5                   STIFN ,STIFR ,MS     ,IN      ,
      6                   FSKYI ,ISKY  ,PARTSAV,IPARTX  ,
-     7                   BUFMAT,BUFGEO,SENSOR ,LSENSOR ,
+     7                   BUFMAT,BUFGEO,
      8                   GRESAV ,GRTH  ,IGRTH,ELBUF_STR)
 C-----------------------------------------------
 C   M o d u l e s
@@ -72,14 +72,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NFT,NEL,KXX(NIXX,*),IXX(*), NPC(*),ISKY(*),
-     .        LSENSOR(NSENSI,*),IPARTX(*),NELTST ,ITYPTST,
+     .        IPARTX(*),NELTST ,ITYPTST,
      .        ITAB(*),GRTH(*),IGRTH(*)
 C     REAL
       my_real DT2T ,
      .   GEO(NPROPG,*), PM(*), X(3,*),VR(3,*), V(3,*), F(3,*), AR(3,*),
      .   EV(*),PLD(*),SKEW(LSKEW,*),FSKYI(*),
-     .   STIFN(*),STIFR(*),MS(*), IN(*),
-     .   SENSOR(NSENSR,*),PARTSAV(*),
+     .   STIFN(*),STIFR(*),MS(*), IN(*),PARTSAV(*),
      .   BUFMAT(*),BUFGEO(*) ,GRESAV(*)
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR

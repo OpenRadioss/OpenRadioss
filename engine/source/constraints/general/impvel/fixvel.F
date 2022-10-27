@@ -30,10 +30,14 @@ Chd|        VINTER_SMOOTH                 source/tools/curve/vinter_smooth.F
 Chd|====================================================================
       SUBROUTINE FIXVEL(IBFV  ,A    ,V     ,NPC    ,TF   ,
      2                  VEL   ,MS   ,X     ,SKEW   ,AR   ,
-     3                  VR    ,IN   ,SENSOR,LSENSOR,
+     3                  VR    ,IN   ,SENSOR_TAB,
      4                  WEIGHT,DEPLA    ,RBY   ,IFRAME,
      5                  XFRAME,DR   ,NODNX_SMS,
      6                  TT_DOUBLE,DEPLA_DOUBLE)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,19 +64,19 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*)
-      INTEGER IBFV(NIFV,*),LSENSOR(NSENSI,*),WEIGHT(*),IFRAME(LISKN,*),
-     .        NODNX_SMS(*)
+      INTEGER IBFV(NIFV,*),WEIGHT(*),IFRAME(LISKN,*),NODNX_SMS(*)
       my_real, DIMENSION(3,*), TARGET :: DEPLA
       REAL(KIND=8), DIMENSION(3,*), TARGET :: DEPLA_DOUBLE
       REAL(KIND=8) :: TT_DOUBLE
       my_real
      .   A(3,*), V(3,*), TF(*), VEL(LFXVELR,*), MS(*), X(3,*), 
-     .   SKEW(LSKEW,*), AR(3,*), VR(3,*), IN(*), SENSOR(NSENSR,*),
+     .   SKEW(LSKEW,*), AR(3,*), VR(3,*), IN(*),
      .   RBY(NRBY,*),XFRAME(NXFRAME,*), DR(3,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, I, ISK, J, L, K1, K2, K3, ID_SENS,K,
+      INTEGER N, I, ISK, J, L, K1, K2, K3, ISENS,K,
      .        II, IC, NN, IDEB, NR, NSK, NFK, IFM, N0,
      .        ILENC(MVSIZ), IPOSC(MVSIZ), IADC(MVSIZ),
      .        LC(MVSIZ), INDEX(MVSIZ), ICOOR, ISMOOTH,JJ
@@ -97,7 +101,7 @@ C-----------------------------------------------
       REAL(KIND=8), DIMENSION(:,:), POINTER :: D
       REAL(KIND=8) :: DT2_DOUBLE
 
-      INTEGER, DIMENSION(MVSIZ) ::ISENS
+      INTEGER, DIMENSION(MVSIZ) :: NSENS
       REAL(KIND=8), DIMENSION(MVSIZ) :: TS
 C=======================================================================
 #if MYREAL4
@@ -114,7 +118,7 @@ C=======================================================================
        AX=ZERO
       ENDIF
 C
-      ISENS(1:MVSIZ) = 0
+      NSENS(1:MVSIZ) = 0
       TS(1:MVSIZ) = ZERO           
 C
       IDEB = 0
@@ -122,7 +126,6 @@ C
       DO NN=1,NFXVEL,NVSIZ
         IF (IBFV(8,NN) == 1) CYCLE
         IC = 0
-        ISENS = 0
         IF (NSENSOR > 0) THEN
           DO II = 1, MIN(NFXVEL-IDEB,NVSIZ)
             N = II+IDEB
@@ -132,20 +135,17 @@ C
             FACX   = VEL(5,N)
             IF (TT_DOUBLE < STARTT) CYCLE
             IF (TT_DOUBLE > STOPT)  CYCLE
-            I=IABS(IBFV(1,N))
-            ID_SENS=0
-            DO K=1,NSENSOR
-              IF(IBFV(4,N) == LSENSOR(1,K))ID_SENS=K
-            ENDDO
-            IF (ID_SENS == 0) THEN
-              TSTMP = TT_DOUBLE
-            ELSE
-              TSTMP = TT_DOUBLE-SENSOR(2,ID_SENS)
+            I = IABS(IBFV(1,N))
+            ISENS = IBFV(4,N)
+            IF (SENSOR_TAB(ISENS)%STATUS == 1) THEN
+              TSTMP = TT_DOUBLE - SENSOR_TAB(ISENS)%TSTART
               IF (TSTMP < ZERO) CYCLE
+            ELSE
+              TSTMP = TT_DOUBLE
             ENDIF
             IC = IC + 1
             INDEX(IC) = N
-            ISENS(IC) = ID_SENS
+            NSENS(IC) = ISENS
             TS(IC) = TSTMP
             IF (IBFV(7,N) == 1) THEN
               TSC(IC) = (TS(IC)+HALF*DT2_DOUBLE)*FACX
@@ -216,7 +216,7 @@ C------- First pass for impdisp with sensor - in the top of the list
             L = IBFV(3,N)
             ISMOOTH = 0
             IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
-            IF(ISENS(II) > 0 .and. TS(II) >= ZERO .and. IBFV(7,N) == 2) THEN
+            IF(NSENS(II) > 0 .and. TS(II) >= ZERO .and. IBFV(7,N) == 2) THEN
               IF(ISMOOTH>0) THEN
                 NINDEX_SMOOTH = NINDEX_SMOOTH + 1
                 INDEX_SMOOTH(NINDEX_SMOOTH) = II
@@ -238,7 +238,7 @@ C------- Second pass
             L = IBFV(3,N)
             ISMOOTH = 0
             IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
-            IF(ISENS(II) == 0 .or. TS(II) < ZERO .or. IBFV(7,N) /= 2) THEN   
+            IF(NSENS(II) == 0 .or. TS(II) < ZERO .or. IBFV(7,N) /= 2) THEN   
               IF(ISMOOTH>0) THEN
                 NINDEX_SMOOTH = NINDEX_SMOOTH + 1
                 INDEX_SMOOTH(NINDEX_SMOOTH) = II
@@ -319,7 +319,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
             DW       = VEL(4,N)
             TFEXT    = TFEXT + RW_SMS(II)*DW
             VEL(4,N) = (ONE-RW_SMS(II))*VEL(4,N)
-            IF (ISENS(II) > 0 .and. TS(II) > ZERO .and. IBFV(7,N) == 2) YC0(II)   = YC0(II) * FAC
+            IF (NSENS(II) > 0 .and. TS(II) > ZERO .and. IBFV(7,N) == 2) YC0(II)   = YC0(II) * FAC
             YC(II)   = YC(II) * FAC
             YIMP     = YIMP * FAC
             I        = IABS(IBFV(1,N))
@@ -343,7 +343,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
             AXI=ONE-AX+AX*X(2,I)
             IF (ISK<=1.AND.IFM<=1.AND.ICOOR == 0) THEN
               IF (IBFV(7,N) == 2) THEN
-                IF (ISENS(II) > 0 .and. TS(II) > ZERO) THEN
+                IF (NSENS(II) > 0 .and. TS(II) > ZERO) THEN
                   YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
                 ELSE
                   YC(II)=(YC(II)-D(J,I))/DT2_DOUBLE
@@ -358,7 +358,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
             ELSEIF(ISK > 1.AND.IFM<=1.AND.ICOOR == 0.AND.
      .             SKEWGLOB == 1)THEN
               IF (IBFV(7,N) == 2) THEN
-                IF (ISENS(II) > 0 .and. TS(II) > ZERO) THEN
+                IF (NSENS(II) > 0 .and. TS(II) > ZERO) THEN
                   YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
                 ELSE
                   YC(II)=(YC(II)-D(J,I))/DT2_DOUBLE
@@ -386,7 +386,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
      .             SKEW(K3,ISK)*A(3,I)
 
               IF (IBFV(7,N) == 2) THEN
-                IF (ISENS(II) > 0 .and. TS(II) > ZERO) THEN
+                IF (NSENS(II) > 0 .and. TS(II) > ZERO) THEN
                   YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
                 ELSE
                   YC(II) = (YC(II)-DD)/DT2_DOUBLE
@@ -568,7 +568,7 @@ c-------------------------------------------------
             J = J - 3
             IF(ISK<=1.AND.IFM<=1.AND.ICOOR == 0)THEN
               IF (IBFV(7,N) == 2) THEN
-                IF (ISENS(II) > 0 .and. TS(II) > ZERO) THEN
+                IF (NSENS(II) > 0 .and. TS(II) > ZERO) THEN
                   YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
                 ELSE
                   YC(II)=(YC(II)-DR(J,I))/DT2_DOUBLE
@@ -823,7 +823,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
              IF(J<=3)THEN
                AXI=ONE-AX+AX*X(2,I)
                IF (IBFV(7,N) == 2) THEN
-                 IF (ISENS(II) > 0 .and. TS(II) > ZERO) THEN
+                 IF (NSENS(II) > 0 .and. TS(II) > ZERO) THEN
                    YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
                  ELSE
                    YC(II) = (YC(II)-D(J,I))/DT2_DOUBLE
@@ -837,7 +837,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
              ELSEIF(J<=6)THEN
                J = J - 3
                IF (IBFV(7,N) == 2) THEN
-                 IF (ISENS(II) > 0 .and. TS(II) > ZERO) THEN
+                 IF (NSENS(II) > 0 .and. TS(II) > ZERO) THEN
                    YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
                  ELSE
                    YC(II)=(YC(II)-DR(J,I))/DT2_DOUBLE

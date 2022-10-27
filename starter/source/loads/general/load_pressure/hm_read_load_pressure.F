@@ -42,7 +42,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_LOAD_PRESSURE(
      .           NUMLOADP   ,ILOADP     ,LLOADP    ,INTERLOADP ,FACLOADP   ,
-     .           KLOADPINTER,LOADPINTER ,NPC       ,LSENSOR    ,IGRSURF    ,
+     .           KLOADPINTER,LOADPINTER ,NPC       ,SENSOR_TAB ,IGRSURF    ,
      .           UNITAB     ,ISKN      ,LSUBMODEL  ,DGAPINT    ,INTGAPLOADP,
      .           DGAPLOADINT,S_LOADPINTER )
 C
@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,7 +80,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER NUMLOADP
-      INTEGER NPC(*), LSENSOR(NSENSI,*), ISKN(LISKN,*),
+      INTEGER NPC(*),ISKN(LISKN,*),
      .        ILOADP(SIZLOADP,*), LLOADP(*) 
       INTEGER, INTENT(IN) :: S_LOADPINTER
       INTEGER, INTENT(INOUT) ::  KLOADPINTER(NINTER+1)  ,LOADPINTER(S_LOADPINTER),
@@ -90,6 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -286,14 +288,14 @@ C-----------
         ISENS = 0
         IF(IDSENS > 0) THEN
            DO J=1,NSENSOR
-	      IF(IDSENS/=0) THEN
-	        IF(IDSENS==LSENSOR(1,J)) THEN
+	            IF(IDSENS/=0) THEN
+	              IF(IDSENS == SENSOR_TAB(J)%SENS_ID) THEN
                   ISENS=J
                   EXIT
                 ENDIF
-	      ENDIF
-	   ENDDO
-	   IF(ISENS==0)THEN
+	             ENDIF
+	          ENDDO
+	     IF(ISENS==0)THEN
               CALL ANCMSG(MSGID=930,
      .             MSGTYPE=MSGERROR,
      .             ANMODE=ANINFO_BLIND_1,
@@ -301,7 +303,7 @@ C-----------
      .             C1=TITR,
      .             I2=IDSENS)
            ENDIF
-	ENDIF     
+	      ENDIF     
 
          !-----------
 

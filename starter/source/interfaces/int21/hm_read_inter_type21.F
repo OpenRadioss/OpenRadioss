@@ -37,8 +37,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_INTER_TYPE21(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2        IGRSURF    ,XFILTR     ,FRIC_P     ,NPC1     ,LSENSOR   ,
+     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT    ,NI        ,
+     2        IGRSURF    ,XFILTR     ,FRIC_P     ,NPC1     ,SENSOR_TAB,
      3        NOM_OPT    ,UNITAB     ,LSUBMODEL  ,TITR     ,NPC       ,
      4        TF         )
 C============================================================================
@@ -50,13 +50,11 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE UNITAB_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -66,7 +64,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER ISU1,ISU2,ILAGM,NI
-      INTEGER IPARI(*),NPC1(*), LSENSOR(NSENSI,*),NPC(*)
+      INTEGER IPARI(*),NPC1(*),NPC(*)
       my_real
      .   STFAC,XFILTR
       my_real
@@ -76,6 +74,7 @@ C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -615,7 +614,7 @@ C     RENUMBERING OF FUNCTIONS AND SENSOR - USER TO INTERNAL ID
 C------------------------------------------------------------
 C
         CALL INTER_DCOD_FUNCTION(NTYP,NI,IPARI,NPC1,NOM_OPT,NPC,TF)
-        CALL INTER_DCOD_SENSOR (NTYP,NI,IPARI,NOM_OPT,LSENSOR)
+        CALL INTER_DCOD_SENSOR (NTYP,NI,IPARI,NOM_OPT,SENSOR_TAB)
 
 C
 C------------------------------------------------------------

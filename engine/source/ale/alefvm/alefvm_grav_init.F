@@ -29,7 +29,7 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
 Chd|====================================================================
       SUBROUTINE ALEFVM_GRAV_INIT(
-     1                          AGRV, IGRV, LGRAV, SENSOR, LSENSOR,
+     1                          AGRV, IGRV, LGRAV, SENSOR_TAB,
      2                          IXS , ITASK, NPC , TF    ,SKEW    ,
      3                          ITAB )
 C-----------------------------------------------
@@ -45,6 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ALEFVM_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,16 +76,17 @@ C finite volume scheme (IALEFVM==1)
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: IXS(NIXS,*), IGRV(NIGRV,*), ITASK, LSENSOR(NSENSI,*),LGRAV(*),NPC(*),ITAB(*)
+      INTEGER :: IXS(NIXS,*), IGRV(NIGRV,*), ITASK,LGRAV(*),NPC(*),ITAB(*)
       my_real :: AGRV(LFACGRV,*),TF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER          :: I, J, K, K1, K2, K3, NL, NN, ISK, IFUNC, N2
       INTEGER          :: IADF,IADL,ISENS,N1,NVERTEX,INOd,II
-      my_real          :: TS,AA,FCX,FCY,VV,A0, SENSOR(NSENSR,*),DYDX,GAMA,TFEXTT
+      my_real          :: TS,AA,FCX,FCY,VV,A0,DYDX,GAMA,TFEXTT
       my_real          :: M_CELL(MVSIZ),ACCEL(3,MVSIZ),SKEW(LSKEW,*)
       my_real,EXTERNAL :: FINTER      
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
@@ -112,12 +114,12 @@ C-----------------------------------------------
 
         ISENS=0
         DO K=1,NSENSOR
-          IF(IGRV(6,NL)==LSENSOR(1,K))ISENS=K
+          IF(IGRV(6,NL)==SENSOR_TAB(K)%SENS_ID) ISENS=K  ! do it in starter !!!
         ENDDO
         IF(ISENS==0)THEN
           TS  = TT
         ELSE
-          TS  = TT-SENSOR(2,ISENS)
+          TS  = TT-SENSOR_TAB(ISENS)%TSTART
           IF(TS<0.0)CYCLE
         ENDIF
 

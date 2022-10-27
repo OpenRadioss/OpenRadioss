@@ -135,7 +135,7 @@ Chd|====================================================================
      r  ADSKY_CRKXFEM,PROCNE_CRKXFEM,ISENDP_CRKXFEM,IRECVP_CRKXFEM,
      s  IADSDP_CRKXFEM,IADRCP_CRKXFEM ,INT24USE,NDAMA2  ,
      t  IGROUPC  ,IGROUPTG ,IGROUPS ,IGROUPFLG ,DMINT2  ,IRBKIN_L,
-     u  NRBYKIN_L,KINDRBY  ,ELBUF_TAB ,SENSOR,DD_R2R_ELEM,
+     u  NRBYKIN_L,KINDRBY  ,ELBUF_TAB ,SENSOR_TAB,DD_R2R_ELEM,
      v  SDD_R2R_ELEM ,KINET, WEIGHT_MD,DMSPH ,IOLDSECT,LBUFIDEL24,
      w  INTBUF_TAB   ,NUMSPH_GLO_R2R, FLG_SPHINOUT_R2R,I15K,
      y  CONDN    ,CONDNSKY ,KXFENOD2ELC  ,ELCUTC ,NODEDGE,
@@ -165,6 +165,7 @@ C-----------------------------------------------
       USE INTER_SORTING_MOD
       USE STACK_MOD
       USE OUTMAX_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -286,7 +287,7 @@ C-----------------------------------------------
      .   MSCND(*), INCND(*), FTHE(*), FTHESKY(*),FTHESKYI(*), MCP(*),
      .   MS0(*), ADMSMS(*), MCPC(*), MCPTG(*), DIAG_SMS(*),
      .   DMELC(*), DMELTG(*), DMELS(*), DMELTR(*), DMELP(*), DMELRT(*),
-     .   RES_SMS(3,*),RBY(NRBY,*), DMINT2(4,I2NSN25), SENSOR(NSENSR,*),
+     .   RES_SMS(3,*),RBY(NRBY,*), DMINT2(4,I2NSN25),
      .   DMSPH(*),CONDN(*),CONDNSKY ,TAB_MAT(NGROUP),FORNEQS(3,*)
       my_real
      .   FXBFP(*), FXBEFW(*), FXBEDP(*), FXBGRP(*), FXBGRW(*),IN0(*)
@@ -301,6 +302,7 @@ C
       TYPE (XFEM_EDGE_)   , DIMENSION(*)           :: CRKEDGE
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (PINCH) :: PINCH_DATA
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (GROUP_)  , DIMENSION(NGRQUAD) :: IGRQUAD
@@ -324,6 +326,7 @@ C-----------------------------------------------
      .        L1,L2,ISECTR,NFR,IC,ICR,NISUB, NI25,NBR
       INTEGER JD(50),KD(50),JFI,KFI,NMN,II,NINOUT,NNO,NEL,IFLGADM,
      .        NAD_SMS(NUMNOD),MAD_SMS(NUMNOD),N,JJ,KK, NFT, ISOLNOD,NBS
+      INTEGER, DIMENSION(NSENSOR) :: INDEX_SENSOR
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISEND,IRECV
       INTEGER :: ITIED
       my_real
@@ -406,6 +409,9 @@ C---------RBE2----
           R3SIZE = 0
           R2SIZE = 0
         ENDIF
+c       sensor sorting
+        CALL SENSOR_SORT(SENSOR_TAB ,INDEX_SENSOR)
+c        
 C Initialisation IRBE2
         CALL RBE2_INIT(IRBE2   ,LRBE2   ,NMRBE2 ,FR_RBE2 ,FR_RBE2M,NFR)
 C
@@ -417,7 +423,7 @@ C
      5       LINDIDEL,LBUFIDEL,IRLEN20 ,ISLEN20 ,IRLEN20T,
      6       ISLEN20T,NBINT20 ,IRLEN20E,ISLEN20E,FR_RBY  ,
      7       FR_RBY6 ,NPBY    ,IRBKIN_L,
-     8       NRBYKIN_L,KINDRBY,SENSOR  ,LBUFIDEL24, INTBUF_TAB,
+     8       NRBYKIN_L,KINDRBY,SENSOR_TAB,LBUFIDEL24, INTBUF_TAB,
      9       SORT_COMM)
 C
         IF(IDEL7NG>0.OR.IRAD2R>0.OR.IALEMUSCL>0.OR.PDEL>0) THEN

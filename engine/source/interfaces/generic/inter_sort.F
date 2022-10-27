@@ -37,7 +37,7 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod
 Chd|====================================================================
         SUBROUTINE INTER_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,
      1                         ISENDTO,IRECVFROM,INTBUF_TAB,X,ITAB,
-     2                         RENUM,NSNFIOLD,MULTI_FVM,H3D_DATA,SENSOR,
+     2                         RENUM,NSNFIOLD,MULTI_FVM,H3D_DATA,SENSOR_TAB,
      3                         INTER_STRUCT,SORT_COMM,RENUM_SIZ )
 !$COMMENT
 !       INTER_SORT description
@@ -48,12 +48,13 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE MULTI_FVM_MOD
-        USE H3D_MOD
-        USE METRIC_MOD
-        USE INTBUFDEF_MOD  
-        USE INTER_STRUCT_MOD
-        USE INTER_SORTING_MOD
+      USE MULTI_FVM_MOD
+      USE H3D_MOD
+      USE METRIC_MOD
+      USE INTBUFDEF_MOD  
+      USE INTER_STRUCT_MOD
+      USE INTER_SORTING_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,31 +80,31 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(in) :: ITASK    !   omp thread ID
-        INTEGER, INTENT(in) :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
-        INTEGER, DIMENSION(NB_INTER_SORTED), INTENT(in) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
-        INTEGER, INTENT(inout) :: RETRI
-        INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI    !   interface data
-        INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRECVFROM 
-        TYPE(INTBUF_STRUCT_),DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data
-        my_real, DIMENSION(3,NUMNOD), INTENT(in), TARGET :: X            !   position
-        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB
-        INTEGER, INTENT(in) :: RENUM_SIZ            !   size of RENUM
-        INTEGER, DIMENSION(RENUM_SIZ), INTENT(inout) :: RENUM
-        INTEGER, DIMENSION(NSPMD), INTENT(inout) :: NSNFIOLD
-        my_real, DIMENSION(NSENSR,NSENSOR), INTENT(in) :: SENSOR
-        TYPE(MULTI_FVM_STRUCT), INTENT(INOUT), TARGET     :: MULTI_FVM
-        TYPE(H3D_DATABASE) :: H3D_DATA
-        TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   struture for interface
-        TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
+      INTEGER, INTENT(in) :: ITASK    !   omp thread ID
+      INTEGER, INTENT(in) :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
+      INTEGER, DIMENSION(NB_INTER_SORTED), INTENT(in) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
+      INTEGER, INTENT(inout) :: RETRI
+      INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI    !   interface data
+      INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRECVFROM 
+      TYPE(INTBUF_STRUCT_),DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data
+      my_real, DIMENSION(3,NUMNOD), INTENT(in), TARGET :: X            !   position
+      INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB
+      INTEGER, INTENT(in) :: RENUM_SIZ            !   size of RENUM
+      INTEGER, DIMENSION(RENUM_SIZ), INTENT(inout) :: RENUM
+      INTEGER, DIMENSION(NSPMD), INTENT(inout) :: NSNFIOLD
+      TYPE(MULTI_FVM_STRUCT), INTENT(INOUT), TARGET     :: MULTI_FVM
+      TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   struture for interface
+      TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: KK,N,ESHIFT
-        INTEGER :: NTY,INACTI,ISENS
-        INTEGER :: NRTM_T
-        LOGICAL :: TYPE18
-        my_real :: TS
+      INTEGER :: KK,N,ESHIFT
+      INTEGER :: NTY,INACTI,ISENS
+      INTEGER :: NRTM_T
+      LOGICAL :: TYPE18
+      my_real :: TS
 !   ----------------------------------------
 
         DO KK=1,NB_INTER_SORTED
@@ -129,8 +130,8 @@ C-----------------------------------------------
             IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
             ! ---------------------------
             ! interface activated by a a sensor 
-            IF(ISENS/=0) THEN    
-                TS = SENSOR(2,ISENS)
+            IF (ISENS > 0) THEN    
+                TS = SENSOR_TAB(ISENS)%TSTART
             ELSE
                 TS = TT
             ENDIF

@@ -76,10 +76,9 @@ Chd|====================================================================
      J            TEMP   ,FTHE   ,FTHESKY ,IEXPAN,GRESAV ,
      K            GRTH   ,IGRTH  ,MSC    ,DMELC  ,JSMS   ,
      L            TABLE  ,IPARG  ,IXFEM ,INOD_CRK,IEL_CRK,
-     M            IADC_CRK,ELCUTC,CRKSKY,
-     N            LSENSOR,SENSOR ,IXEL    ,
-     K            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
-     L            NODEDGE,CRKEDGE, STACK ,DRAPE_Q4,NLOC_DMG)
+     M            IADC_CRK,ELCUTC,CRKSKY,SENSOR_TAB,IXEL    ,
+     N            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
+     K            NODEDGE,CRKEDGE, STACK ,DRAPE_Q4,NLOC_DMG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -91,6 +90,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD  
       USE DRAPE_MOD 
       USE NLOCAL_REG_MOD         
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -121,7 +121,7 @@ C-----------------------------------------------
       INTEGER IXC(NIXC,*),IADC(4,*),IPARTC(*),NPF(*),IGEO(NPROPGI,*),
      .        IPM(NPROPMI,*),INDXOF(MVSIZ),ITASK,IEXPAN,GRTH(*),IGRTH(*),
      .        IPARG(*),IXFEM,INOD_CRK(*),IEL_CRK(*),IADC_CRK(4,*),
-     .        ELCUTC(2,*),LSENSOR(NSENSI,*),NODEDGE(2,*)
+     .        ELCUTC(2,*),NODEDGE(2,*)
 C     REAL OU REAL*8
       my_real
      .   F11(MVSIZ),F12(MVSIZ),F13(MVSIZ),F14(MVSIZ),
@@ -134,7 +134,7 @@ C     REAL OU REAL*8
      .   BUFMAT(*),X(3,*),D(*),DR(*),V(3,*),VR(3,*),
      .   F(3,*),M(3,*),STIFN(*), STIFR(*),FSKY(8,*),TANI(6,*),
      .   EANI(*),THKE(*),FZERO(3,4,*),TEMP(*),FTHE(*),
-     .   FTHESKY(*),GRESAV(*),MSC(*), DMELC(*),SENSOR(NSENSR,*),
+     .   FTHESKY(*),GRESAV(*),MSC(*), DMELC(*),
      .   UXINT_MEAN(NLEVXF,MVSIZ),
      .   UYINT_MEAN(NLEVXF,MVSIZ),UZINT_MEAN(NLEVXF,MVSIZ)
       my_real    
@@ -150,6 +150,7 @@ C     REAL OU REAL*8
       TYPE (DRAPE_) :: DRAPE_Q4
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C   L O C A L   V A R I A B L E S
 C--------------------------------
@@ -464,7 +465,7 @@ C-----------------------------
      I       BID       ,BID       ,BID       ,R11       ,R12     ,
      J       R13       ,R21       ,R22       ,R23       ,R31     ,
      K       R32       ,R33       ,IBID      ,TABLE     ,IXFEM   ,
-     L       BID       ,LSENSOR   ,SENSOR    ,BID       ,ELCRKINI,
+     L       BID       ,SENSOR_TAB,BID       ,ELCRKINI,
      M       DIR1_CRK  ,DIR2_CRK  ,LL        ,
      N       ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT    ,
      O       IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
