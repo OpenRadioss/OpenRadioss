@@ -3244,11 +3244,9 @@ C----------------------------------
           CALL TRACE_IN(10,0,ZERO)
           IF (IMON>0) CALL STARTIME(4,1)
           IF (IMONM > 0) CALL STARTIME(41,1)
-          CALL PBLAST(ILOADP  ,LOADP      ,A      ,
-     2                V       ,X          ,
-     3                TFEXC   ,IADS(I87M) ,
-     4                FSKY    ,FSKY       ,LLOADP ,FEXT   ,ITAB       ,
-     5                H3D_DATA)
+          CALL PBLAST(ILOADP     ,LOADP      ,A          ,V       ,X      ,
+     1                IADS(I87M) ,FSKY       ,FSKY       ,LLOADP  ,FEXT   ,
+     2                ITAB       ,H3D_DATA)
           IF (IMONM > 0) CALL STOPTIME(41,1)
           IF (IMON>0) CALL STOPTIME(4,1)
           CALL TRACE_OUT(10)
