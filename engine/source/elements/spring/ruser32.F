@@ -36,7 +36,11 @@ Chd|====================================================================
      3             ZMOM    ,E       ,OFF    ,STIFM  ,STIFR  ,
      4             VISCM   ,VISCR   ,MASS   ,XINER  ,DT     ,
      5             XL      ,VX      ,RY1    ,RZ1    ,RX     ,
-     6             RY2     ,RZ2     ,FR_WAVE)
+     6             RY2     ,RZ2     ,FR_WAVE,SENSOR_TAB)
+C-----------------------------------------------  
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-------------------------------------------------------------------------
 C     This subroutine compute springs forces and moments.
 C-------------------------------------------------------------------------
@@ -112,6 +116,7 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "impl1_c.inc"
+#include      "com04_c.inc"
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
@@ -126,10 +131,11 @@ C----------------------------------------------------------
      .   STIFM(*) ,STIFR(*) , VISCM(*) ,VISCR(*) ,FR_WAVE(*) ,
      .   GET_U_MAT, GET_U_GEO, GET_U_FUNC, GET_U_SENS
       EXTERNAL GET_U_MNU,GET_U_PNU,GET_U_MID,GET_U_PID,
-     .         GET_U_MAT,GET_U_GEO, GET_U_FUNC, GET_U_SENS
+     .         GET_U_MAT,GET_U_GEO, GET_U_FUNC
       PARAMETER (KFUNC=29)
       PARAMETER (KMAT=31)
       PARAMETER (KPROP=33)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -147,7 +153,7 @@ C=======================================================================
       ISENS  = NINT(GET_U_GEO(5,IPROP)) 
       ITYP   = NINT(GET_U_GEO(6,IPROP))
       ILOCK  = NINT(GET_U_GEO(10,IPROP))
-      TACTI  = GET_U_SENS(ISENS)
+      TACTI  = SENSOR_TAB(ISENS)%STATUS   !GET_U_SENS(ISENS)
 C
       IF (TACTI == ZERO .AND. ISENS /= ZERO) THEN
         IACT=0

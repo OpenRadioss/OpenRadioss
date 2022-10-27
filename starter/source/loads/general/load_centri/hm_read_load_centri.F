@@ -40,7 +40,7 @@ Chd|        R2R_MOD                       share/modules1/r2r_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_LOAD_CENTRI(ICFIELD,LCFIELD  ,CFIELD  ,ITAB     ,ITABM1 ,
-     .                               IGRNOD ,NPC      ,LSENSOR ,UNITAB   ,IFRAME ,
+     .                               IGRNOD ,NPC      ,SENSOR_TAB ,UNITAB   ,IFRAME ,
      .                               LSUBMODEL)
 C
 C-----------------------------------------------
@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,19 +70,18 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "warn_c.inc"
-#include      "r2r_c.inc"
 #include      "sysunit.inc"
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER ICFIELD(SIZFIELD,*), LCFIELD(*), ITAB(*), ITABM1(*), 
-     .  NPC(*),LSENSOR(NSENSI,*),IFRAME(LISKN,*)
+     .  NPC(*),IFRAME(LISKN,*)
       my_real CFIELD(LFACLOAD,*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -260,26 +260,24 @@ C-----------
         ENDIF
 C-----------        
         TSENS = 0
-	IF(ISENS/=0) THEN
+	       IF (ISENS/=0) THEN
           DO J=1,NSENSOR
-	    IF(ISENS==LSENSOR(1,J))TSENS=J
-	  ENDDO
-	  IF(TSENS==0)THEN
-            CALL ANCMSG(MSGID=884,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=ID,
-     .                C1=TITR,
-     .                I2=ISENS)
-	  ENDIF
-	ENDIF
+	           IF (ISENS == SENSOR_TAB(J)%SENS_ID) TSENS=J
+	         ENDDO
+	         IF (TSENS==0) THEN
+             CALL ANCMSG(MSGID=884, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
+     .            I1=ID,
+     .            C1=TITR,
+     .            I2=ISENS)
+	         ENDIF
+	       ENDIF
 C-----------        
         NN = NODGRNR5(IGU,IGS,LCFIELD(IAD),IGRNOD,ITABM1,MESS)
 C-----------        
         IF (IVAR == 0) IVAR = 1
 C-----------        
-	ICFIELD(1,K)  = NN
-	ICFIELD(2,K)  = IDIR
+	       ICFIELD(1,K)  = NN
+	       ICFIELD(2,K)  = IDIR
         ICFIELD(3,K)  = NCURS
         ICFIELD(4,K)  = IAD
         ICFIELD(5,K)  = 1 ! Type /LOAD/CENTRI

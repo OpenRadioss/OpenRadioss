@@ -30,11 +30,15 @@ Chd|-- calls ---------------
 Chd|        VINTER                        source/tools/curve/vinter.F   
 Chd|====================================================================
       SUBROUTINE SMS_FIXVEL(IBFV  ,A     ,V     ,NPC    ,TF     ,
-     2                     VEL    ,MS    ,X     ,SKEW   ,SENSOR ,
-     3                     LSENSOR,WEIGHT,D     ,IFRAME ,XFRAME ,
+     2                     VEL    ,MS    ,X     ,SKEW   ,SENSOR_TAB,
+     3                     WEIGHT,D     ,IFRAME ,XFRAME ,
      4                     IT     ,DIAG_SMS,NODNX_SMS   ,CPTREAC,
      5                     NODREAC,FTHREAC ,AR  ,VR     ,DR     ,
      6                     IN      ,RBY )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,14 +64,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*),CPTREAC,NODREAC(*)
-      INTEGER IBFV(NIFV,*),LSENSOR(NSENSI,*),WEIGHT(*),IFRAME(LISKN,*),
+      INTEGER IBFV(NIFV,*),WEIGHT(*),IFRAME(LISKN,*),
      .        IT,NODNX_SMS(*)
 C     REAL
       my_real
      .   A(3,*), V(3,*), TF(*), VEL(LFXVELR,*), MS(*), X(3,*), D(3,*),
-     .   SKEW(LSKEW,*), SENSOR(NSENSR,*), XFRAME(NXFRAME,*),
+     .   SKEW(LSKEW,*),XFRAME(NXFRAME,*),
      .   DIAG_SMS(*),FTHREAC(6,*),
      .   AR(3,*), VR(3,*), DR(3,*), IN(*), RBY(NRBY,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -98,25 +103,22 @@ C
         IF (IBFV(8,NN)==1) GOTO 100
         IC = 0
         IF (NSENSOR>0) THEN
-          DO 10 II = 1, MIN(NFXVEL-IDEB,NVSIZ)
+          DO II = 1, MIN(NFXVEL-IDEB,NVSIZ)
             N = II+IDEB
             STARTT = VEL(2,N)
             STOPT  = VEL(3,N)
             FACX   = VEL(5,N)
-            IF(TT<STARTT)GOTO 10
-            IF(TT>STOPT) GOTO 10
+            IF (TT<STARTT) CYCLE
+            IF (TT>STOPT)  CYCLE
             I=IABS(IBFV(1,N))
 C
             IF(NODNX_SMS(I)==0) CYCLE
-            ISENS=0
-            DO K=1,NSENSOR
-              IF(IBFV(4,N)==LSENSOR(1,K))ISENS=K
-            ENDDO
-            IF(ISENS==0)THEN
-              TS=TT
+            ISENS=IBFV(4,N)
+            IF (SENSOR_TAB(ISENS)%STATUS == 1) THEN
+              TS = TT-SENSOR_TAB(ISENS)%TSTART
+              IF (TS < ZERO) CYCLE
             ELSE
-              TS = TT-SENSOR(2,ISENS)
-              IF(TS<0.0)GOTO 10
+              TS = TT
             ENDIF
             IC = IC + 1
             INDEX(IC) = N
@@ -125,16 +127,16 @@ C
             ELSE
               TSC(IC) = (TS+DT2)*FACX
             ENDIF
- 10       CONTINUE
+          END DO
         ELSE
 C         sans sensor
-          DO 20 II = 1, MIN(NFXVEL-IDEB,NVSIZ)
+          DO II = 1, MIN(NFXVEL-IDEB,NVSIZ)
             N = II+IDEB
             STARTT = VEL(2,N)
             STOPT  = VEL(3,N)
             FACX   = VEL(5,N)
-            IF(TT<STARTT)GOTO 20
-            IF(TT>STOPT) GOTO 20
+            IF (TT<STARTT) CYCLE
+            IF (TT>STOPT)  CYCLE
             I=IABS(IBFV(1,N))
 C
             IF(NODNX_SMS(I)==0) CYCLE
@@ -145,7 +147,7 @@ C
             ELSE
               TSC(IC) = (TT+DT2)*FACX
             ENDIF
- 20       CONTINUE
+          END DO
         ENDIF
 C
         IF (CPTREAC/=0) THEN
@@ -1573,14 +1575,11 @@ C
             I=IABS(IBFV(1,N))
 C
             IF(NODNX_SMS(I)==0) CYCLE
-            ISENS=0
-            DO K=1,NSENSOR
-              IF(IBFV(4,N)==LSENSOR(1,K))ISENS=K
-            ENDDO
+            ISENS = IBFV(4,N)
             IF(ISENS==0)THEN
               TS=TT
             ELSE
-              TS = TT-SENSOR(2,ISENS)
+              TS = TT-SENSOR_TAB(ISENS)%TSTART
               IF(TS<0.0)GOTO 210
             ENDIF
             IC = IC + 1

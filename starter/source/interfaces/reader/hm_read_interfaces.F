@@ -44,13 +44,13 @@ Chd|        R2R_MOD                       share/modules1/r2r_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_INTERFACES(
-     1           IPARI    ,FRIGAP   ,LINTER   ,ITAB       ,ITABM1     ,
-     2           IGRNOD   ,IGRSURF  ,IGRSLIN  ,IGRBRIC    ,IGRSH3N    ,
-     3           IGRTRUSS ,NPC      ,ISKN     ,XFILTR     ,STFAC      , 
-     4           FRIC_P   ,I2RUPT   ,AREASL   ,UNITAB     ,NOM_OPT    ,
-     5           DEF_INTER,NPC1     ,LSENSOR  ,MULTI_FVM  ,NOM_OPTFRIC,
-     6           INTBUF_FRIC_TAB    ,IDDLEVEL ,LSUBMODEL  ,TF         ,
-     7           KLOADPINTER        ,DGAPINT  )
+     1           IPARI    ,FRIGAP   ,LINTER    ,ITAB       ,ITABM1     ,
+     2           IGRNOD   ,IGRSURF  ,IGRSLIN   ,IGRBRIC    ,IGRSH3N    ,
+     3           IGRTRUSS ,NPC      ,ISKN      ,XFILTR     ,STFAC      , 
+     4           FRIC_P   ,I2RUPT   ,AREASL    ,UNITAB     ,NOM_OPT    ,
+     5           DEF_INTER,NPC1     ,SENSOR_TAB,MULTI_FVM  ,NOM_OPTFRIC,
+     6           INTBUF_FRIC_TAB    ,IDDLEVEL  ,LSUBMODEL  ,TF         ,
+     7           KLOADPINTER        ,DGAPINT   )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,13 +62,11 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------      
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -95,8 +93,7 @@ C-----------------------------------------------
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER LINTER
       INTEGER IPARI(NPARI,*), ITAB(NUMNOD), ITABM1(*),NPC(*),ISKN(*),
-     .        DEF_INTER(*),NPC1(*),LSENSOR(NSENSI,*),
-     .        NOM_OPTFRIC(LNOPT1,*),KLOADPINTER(NINTER+1)
+     .        DEF_INTER(*),NPC1(*),NOM_OPTFRIC(LNOPT1,*),KLOADPINTER(NINTER+1)
       my_real
      .   XFILTR(*),STFAC(*),FRIC_P(10,*),I2RUPT(6,*),
      .   FRIGAP(NPARIR,*),AREASL(*),TF(*)
@@ -104,6 +101,7 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE (SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -247,7 +245,7 @@ C---------------------------------------------------------------
      2          IGRNOD       ,IGRSURF    ,IGRSLIN        ,NPC       ,ILAGM       ,
      3          ITABM1       ,ITAB       ,ISKN           ,UNITAB    ,I2RUPT(1,NI),
      4          AREASL(NI)   ,NI         ,NOM_OPT        ,TITR      ,DEF_INTER   ,
-     5          IDINT7       ,IDINT7B    ,IDINT11        ,NPC1     , LSENSOR     ,
+     5          IDINT7       ,IDINT7B    ,IDINT11        ,NPC1     , SENSOR_TAB  ,
      6          NOM_OPTFRIC,INTBUF_FRIC_TAB,IGRBRIC      ,NOINT    , KEY         ,
      7          LSUBMODEL    ,TF         )
 

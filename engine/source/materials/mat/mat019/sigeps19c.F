@@ -32,7 +32,11 @@ Chd|====================================================================
      .            EPSXX  ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX     ,
      .            SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX    ,
      .            SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX    ,
-     .            SIGI   ,LSENSOR,SENSOR )
+     .            SIGI   ,SENSOR_TAB)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +56,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL,NPTTOT,NUPARAM
-      INTEGER ,DIMENSION(NSENSI,NSENSOR) ,INTENT(IN) :: LSENSOR
       LOGICAL ,INTENT(IN) :: FLAG_ZCFAC
       my_real ,DIMENSION(MVSIZ,2) ,INTENT(INOUT) :: ZCFAC
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)  :: UPARAM
@@ -61,7 +64,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL) ,INTENT(OUT) :: SSP,
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
       my_real ,DIMENSION(NEL,3) ,INTENT(INOUT) :: SIGI
-      my_real ,DIMENSION(NSENSR,NSENSOR) ,INTENT(IN) :: SENSOR
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -122,7 +125,7 @@ c-----------------------------------------------------------
 c     REF-STATE ZEROSTRESS OPTION
 c-----------------------------------------------------------
       IF (ZEROSTRESS /= ZERO) THEN
-        IF (ISENS > 0) TSTART = SENSOR(2,ISENS)
+        IF (ISENS > 0) TSTART = SENSOR_TAB(ISENS)%TSTART
 c        
         IF (TT <= TSTART) THEN
           DO I=1,NEL

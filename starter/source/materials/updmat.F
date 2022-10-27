@@ -55,8 +55,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE UPDMAT(BUFMAT   ,PM    ,IPM      ,TABLE   ,FUNC_ID  ,
-     .                  NPC      ,PLD   ,LSENSOR  ,NLOC_DMG,MLAW_TAG ,
+      SUBROUTINE UPDMAT(BUFMAT   ,PM    ,IPM       ,TABLE    ,FUNC_ID  ,
+     .                  NPC      ,PLD   ,SENSOR_TAB,NLOC_DMG ,MLAW_TAG ,
      .                  MATPARAM_TAB    )
 C-----------------------------------------------
 C   M o d u l e s
@@ -66,6 +66,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD  
       USE MESSAGE_MOD   
       USE MATPARAM_DEF_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,13 +84,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(SNPC), FUNC_ID(*), IPM(NPROPMI,NUMMAT), LSENSOR(NSENSI,*)
+      INTEGER NPC(SNPC), FUNC_ID(*), IPM(NPROPMI,NUMMAT)
       my_real PM(NPROPM,NUMMAT), PLD(STF),BUFMAT(SBUFMAT)
       TARGET IPM,BUFMAT
       TYPE(MLAW_TAG_), TARGET, DIMENSION(NUMMAT)  :: MLAW_TAG
       TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(INOUT), TARGET :: MATPARAM_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -197,11 +199,12 @@ c
             IFUNC  => IPM(10+1:10+NFUNC+NFUNCL,IMAT)
             CALL LAW58_UPD(IOUT,TITR,UPARAM,NPC,PLD,
      .                     NFUNC,NFUNCL,IFUNC,MAT_ID,FUNC_ID,
-     .                     PM(1,IMAT),NPARAM,LSENSOR)
+     .                     PM(1,IMAT),NPARAM,SENSOR_TAB)
 c-------------------------
           CASE (62) 
 c------------------
             CALL LAW62_UPD(IOUT,TITR,MAT_ID,NPARAM,UPARAM)   
+
 c------------------
           CASE (69) 
 c------------------

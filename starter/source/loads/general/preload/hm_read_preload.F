@@ -37,7 +37,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_PRELOAD(IXS     ,IXS10,IPRELOAD ,PRELOAD  ,IFLAG_BPRELOAD,
-     .                           NSTRF   ,SENSOR_TAB ,LSENSOR ,UNITAB ,X       ,
+     .                           NSTRF   ,SENSOR_TAB ,UNITAB ,X       ,
      .                           ISOLNOD ,ITAB       ,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -67,7 +67,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IXS(NIXS,*), IXS10(6,*), IPRELOAD(3,*), IFLAG_BPRELOAD(*)  
-      INTEGER NSTRF(*),LSENSOR(NSENSI,*) ,ITAB(*),ISOLNOD(*)
+      INTEGER NSTRF(*),ITAB(*),ISOLNOD(*)
       my_real PRELOAD(6,*),X(3,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
@@ -156,7 +156,7 @@ c
         SENSNUM = 0
         IF (ISENS > 0) THEN
           DO JS=1,NSENSOR
-            IF (ISENS == LSENSOR(1,JS) .or. ISENS == SENSOR_TAB(JS)%SENS_ID) THEN
+            IF (ISENS == SENSOR_TAB(JS)%SENS_ID) THEN
               SENSNUM = JS ! not used - not stored
               EXIT
             ENDIF

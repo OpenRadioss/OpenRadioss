@@ -45,7 +45,7 @@ Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
 Chd|====================================================================
       SUBROUTINE MONVOL0(MONVOL   ,VOLMON  ,X       ,A      ,
      2                   NPC      ,TF      ,V       ,N      ,
-     3                   FSAV     ,SENSOR  ,LSENSOR ,IGRSURF,
+     3                   FSAV     ,SENSOR_TAB,IGRSURF,
      4                   FR_MV   ,IADMV   ,
      5                   FSKY     ,ICONTACT,PORO    ,IPARG  ,
      6                   ELBUF_TAB,GEO     ,IGEO    ,
@@ -59,6 +59,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE GROUPDEF_MOD
       USE MONVOL_STRUCT_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,8 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*),LSENSOR(NSENSI,*),
-     .   MONVOL(*),FR_MV(NSPMD+2,NVOLU),
+      INTEGER NPC(*),MONVOL(*),FR_MV(NSPMD+2,NVOLU),
      .   IADMV(4,*),ICONTACT(*),IPARG(NPARG,*),
      .   IGEO(NPROPGI,*),
      .   IPART(*),IPARTC(*), IPARTTG(*),IPM(NPROPMI,*),
@@ -88,12 +88,14 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*), A(3,*), TF(*), V(3,*), N(3,*),PORO(*),
-     .   SENSOR(NSENSR,*),VOLMON(*),FSAV(NTHVKI,*),FSKY(*),
+     .   VOLMON(*),FSAV(NTHVKI,*),FSKY(*),
      .   GEO(NPROPG,*),PM(NPROPM,*),FEXT(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+C-----------------------------------------------
 C     N(3,*)  NORMALE STOCKEE DANS WA
 C     PORO(*) STOCKE DANS WA
 C-----------------------------------------------
@@ -182,7 +184,7 @@ C         AIRBAGS
 C=======================================================================
            CALL AIRBAGA(MONVOL(K1),NJET ,MONVOL(IADJET),NVENT ,MONVOL(IADHOL),
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
-     3 VOLMON  ,NPC     ,TF      ,SENSOR  ,LSENSOR ,
+     3 VOLMON  ,NPC     ,TF      ,SENSOR_TAB ,
      4 VOL     ,PMAIN )
         ELSEIF(ITYP==7.OR.ITYP==9)THEN
 C=======================================================================
@@ -190,7 +192,7 @@ C         AIRBAGS1 (NOUVEAUX INJECTEURS)
 C=======================================================================
            CALL AIRBAGA1(MONVOL(K1),NJET ,MONVOL(IADJET),NVENT ,MONVOL(IADHOL),
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
-     3 VOLMON  ,NPC     ,TF      ,SENSOR  ,LSENSOR ,
+     3 VOLMON  ,NPC     ,TF      ,SENSOR_TAB ,
      4 VOL     ,PMAIN ,GEO     ,IGEO    ,PM)
         ELSEIF(ITYP==10)THEN
 C=======================================================================
@@ -203,12 +205,12 @@ C=======================================================================
         IF(ITYP/=1)THEN
          IF (IPARIT==0) THEN
             CALL VOLPRE(MONVOL(K1),VOLMON(KK1),NJET ,MONVOL(IADJET),VOLMON(RADJET),
-     2                 LSENSOR ,SENSOR  ,X       ,V       ,A       ,
+     2                 SENSOR_TAB ,X       ,V       ,A       ,
      3                 N       ,NPC     ,TF      ,NN  ,IGRSURF(IS)%NODES,
      4                 FEXT    ,H3D_DATA,IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM)
          ELSE
             CALL VOLPREP(MONVOL(K1),VOLMON(KK1),NJET ,MONVOL(IADJET),VOLMON(RADJET),
-     2                 LSENSOR ,SENSOR  ,X       ,V       ,A       ,
+     2                 SENSOR_TAB  ,X       ,V       ,A       ,
      3                 N       ,NPC     ,TF      ,NN  ,IGRSURF(IS)%NODES,
      4                 IADMV(1,K6),FSKY ,FSKY    ,FEXT, H3D_DATA ,
      5                 IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM)

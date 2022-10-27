@@ -31,14 +31,15 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|====================================================================
       SUBROUTINE CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
-     .                           X,LSENSOR,BUFMAT,PM,GEO,
+     .                           X,SENSOR_TAB,BUFMAT,PM,GEO,
      .                           IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO,
-     .                           ISKN)
+     .                           ISKN    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SEATBELT_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,10 +58,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXR(NIXR,*),ITAB(*),KNOD2EL1D(*),NOD2EL1D(*),IPM(NPROPMI,*),LSENSOR(NSENSI,*),IDDLEVEL,
+      INTEGER IDDLEVEL,IXR(NIXR,*),ITAB(*),KNOD2EL1D(*),NOD2EL1D(*),IPM(NPROPMI,*),
      .        KNOD2ELC(*),NOD2ELC(*),IXC(NIXC,*)
       INTEGER, INTENT(INOUT) :: IGEO(NPROPGI,NUMGEO),ISKN(SISKWN)
       my_real X(3,*),BUFMAT(*),PM(NPROPM,*),GEO(NPROPG,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -90,7 +92,7 @@ C
           ISENS_LOC(1) = 0
           IF(SLIPRING(I)%SENSID > 0)THEN
             DO K=1,NSENSOR
-              IF(SLIPRING(I)%SENSID == LSENSOR(1,K)) ISENS_LOC(1) = K
+              IF(SLIPRING(I)%SENSID == SENSOR_TAB(K)%SENS_ID) ISENS_LOC(1) = K
             ENDDO
             IF(ISENS_LOC(1) == 0) THEN
               CALL ANCMSG(MSGID=2002,
@@ -109,7 +111,7 @@ C
           DO J=1,2
             IF(RETRACTOR(I)%ISENS(J) > 0)THEN
               DO K=1,NSENSOR
-                IF(RETRACTOR(I)%ISENS(J) == LSENSOR(1,K)) ISENS_LOC(J) = K
+                IF(RETRACTOR(I)%ISENS(J) == SENSOR_TAB(K)%SENS_ID) ISENS_LOC(J) = K
               ENDDO
               IF(ISENS_LOC(J) == 0) THEN
                 CALL ANCMSG(MSGID=2028,

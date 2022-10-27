@@ -88,8 +88,8 @@ Chd|====================================================================
      I                    ITASK  ,ISTRAIN,TEMP   ,FTHE    ,
      J                    FTHESKY  ,IEXPAN ,IGEO   ,NNPT   ,GRESAV  ,
      K                    GRTH     ,IGRTH  ,MSSA   ,DMELS  ,TABLE   ,
-     L                    XDP      ,VOLN   ,CONDN  ,CONDNSKY,SENSOR ,
-     M                    LSENSOR  ,IOUTPRT,MATPARAM_TAB,H3D_STRAIN)
+     L                    XDP      ,VOLN   ,CONDN  ,CONDNSKY,SENSOR_TAB,
+     M                    IOUTPRT,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -98,6 +98,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE SENSOR_MOD
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -130,7 +131,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP),NPF(*),
      .        IPARTS(*), IPM(NPROPMI,*),IGEO(NPROPGI,*),GRTH(*),
-     .        IGRTH(*),IADS(8,*),LSENSOR(NSENSI,*),IOUTPRT,H3D_STRAIN
+     .        IGRTH(*),IADS(8,*),IOUTPRT,H3D_STRAIN
 C
       INTEGER NELTST,ITYPTST,OFFSET,NEL,ICP, 
      .        ICSIG, NVC,ITASK, ISTRAIN, IEXPAN ,NNPT,NG
@@ -159,13 +160,13 @@ C
      .    MFYY(MVSIZ,729),MFYZ(MVSIZ,729),MFZY(MVSIZ,729),
      .    MFZZ(MVSIZ,729),MFZX(MVSIZ,729),MFXZ(MVSIZ,729),
      .    TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*), MSSA(*), 
-     .    DMELS(*), VOLN(MVSIZ),CONDN(*),CONDNSKY(*),
-     .    SENSOR(NSENSR,*)
+     .    DMELS(*), VOLN(MVSIZ),CONDN(*),CONDNSKY(*)
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -990,7 +991,7 @@ C     TIME STEP EST CALCULE ICI DT2T
 C------------------------------------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 c
-      IF(IBOLTP /= 0) CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR,LSENSOR)
+      IF(IBOLTP /= 0) CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR_TAB)
 
         CALL MMAIN(ELBUF_TAB,NG    ,PM     ,GEO     ,FV      ,ALE_CONNECT   ,
      2           IXS     ,IPARG    ,V      ,TF      ,NPF     ,BUFMAT  ,

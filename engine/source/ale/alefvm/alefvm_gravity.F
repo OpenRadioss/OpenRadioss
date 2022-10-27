@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
 Chd|====================================================================
       SUBROUTINE ALEFVM_GRAVITY(
-     1                          AGRV, IGRV, LGRAV, SENSOR, LSENSOR,
+     1                          AGRV, IGRV, LGRAV,
      2                          VOLN, IXS , ITASK, NPC   , TF     ,
      3                          SKEW, RHO 
      .                          )
@@ -75,14 +75,14 @@ C finite volume scheme (IALEFVM==1)
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: IXS(NIXS,*), IGRV(NIGRV,*), ITASK, LSENSOR(NSENSI,*),LGRAV(*),NPC(*)
+      INTEGER :: IXS(NIXS,*), IGRV(NIGRV,*), ITASK, LGRAV(*),NPC(*)
       my_real :: VOLN(MVSIZ), AGRV(LFACGRV,*),TF(*),RHO(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER          :: I, J, K
       INTEGER          :: ISENS,NVERTEX,INOd,II
-      my_real          :: TS,A0, SENSOR(NSENSR,*),TFEXTT
+      my_real          :: TS,A0, TFEXTT
       my_real          :: M_CELL(MVSIZ),ACCEL(3,MVSIZ),SKEW(LSKEW,*)
       my_real,EXTERNAL :: FINTER  
       LOGICAL          :: debug_outp

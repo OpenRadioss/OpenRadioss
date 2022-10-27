@@ -47,7 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR,NS
+      INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR,N1,N2,TYP
       my_real, DIMENSION(:), ALLOCATABLE :: RBUF
       TYPE (SENSOR_STR_) ,POINTER :: SENSOR
 C=======================================================================
@@ -55,11 +55,25 @@ C=======================================================================
 c
       DO ISEN=1,NSENSOR
         SENSOR => SENSOR_TAB(ISEN)
+        TYP   = SENSOR%TYPE 
         NPARI = SENSOR%NPARI
         NPARR = SENSOR%NPARR
         NVAR  = SENSOR%NVAR
 c       update node system N° after renumbering for sensors using nodes
-        IF (SENSOR%TYPE == 16) THEN  ! /sens/dist_surf
+        IF (TYP == 2) THEN   ! /sens/disp
+          N1 = NODLOCAL(SENSOR%IPARAM(1))
+          N2 = NODLOCAL(SENSOR%IPARAM(2))
+          SENSOR%IPARAM(1) = N1
+          SENSOR%IPARAM(2) = N2
+        ELSE IF (TYP == 13) THEN  ! /sens/work
+          N2 = SENSOR%IPARAM(2)
+          N1 = NODLOCAL(SENSOR%IPARAM(1))
+          IF (N2 > 0) THEN
+            N2 = NODLOCAL(SENSOR%IPARAM(2))
+          END IF
+          SENSOR%IPARAM(1) = N1
+          SENSOR%IPARAM(2) = N2
+        ELSE IF (TYP == 16) THEN  ! /sens/dist_surf
           SENSOR%IPARAM(1) = NODLOCAL(SENSOR%IPARAM(1))
           IF (SENSOR%IPARAM(2) == 0) THEN
             SENSOR%IPARAM(3) = NODLOCAL(SENSOR%IPARAM(3))

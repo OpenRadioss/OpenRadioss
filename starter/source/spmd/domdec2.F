@@ -41,21 +41,21 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SKEW_MOD                      share/modules1/skew_mod.F     
 Chd|====================================================================
       SUBROUTINE DOMDEC2(
-     1   DD_IAD ,IPARI,IB    ,NPBY  ,
-     2   LPBY   ,IXRI ,IBVEL ,LBVEL ,
-     3   IPARG  ,CEL    ,IXS  ,IXS10 ,IXS20 ,
-     4   IXS16  ,IXQ    ,IXC  ,IXT   ,IXP   ,
-     5   IXR    ,IXUR   ,IXTG ,IXTG6 ,T_MONVOL,
-     6   IGRSURF,ADSKY ,LCNE  ,GEO   ,
-     7   NPRW   ,LPRW   ,LCNI2 ,ADSKYI2,CEPI2,
-     8   CELI2  ,I2NSNT ,ISKN  ,ISKWP,NSKWP  ,
-     9   LSENSOR,ISENSP ,NSENSP,IACCP,NACCP  ,
-     A   LACCELM, IBCV  ,IRBE3 ,LRBE3 ,FRONT_RM,
-     B   IRBYM  ,LCRBYM ,CEP   ,IBCR  ,IRBE2 ,
-     C   LRBE2  ,CEPSP  ,CELSPH,ILOADP,LLOADP,
-     D   LGAUGE ,IGAUP  ,NGAUP ,INTBUF_TAB,IBFFLUX,
-     E   ICNDS10,ITAGND ,IGEO  ,TAG_SKN,MULTIPLE_SKEW,
-     F   IBFV   ,IBCSCYC,LBCSCYC,R_SKEW,IPM,
+     1   DD_IAD ,IPARI  ,IB     ,NPBY  ,
+     2   LPBY   ,IXRI   ,IBVEL  ,LBVEL ,
+     3   IPARG  ,CEL    ,IXS    ,IXS10 ,IXS20 ,
+     4   IXS16  ,IXQ    ,IXC    ,IXT   ,IXP   ,
+     5   IXR    ,IXUR   ,IXTG   ,IXTG6 ,T_MONVOL,
+     6   IGRSURF,ADSKY  ,LCNE   ,GEO   ,
+     7   NPRW   ,LPRW   ,LCNI2  ,ADSKYI2,CEPI2,
+     8   CELI2  ,I2NSNT ,ISKN   ,ISKWP,NSKWP  ,
+     9   ISENSP ,NSENSP ,IACCP  ,NACCP  ,
+     A   LACCELM,IBCV   ,IRBE3  ,LRBE3 ,FRONT_RM,
+     B   IRBYM  ,LCRBYM ,CEP    ,IBCR  ,IRBE2 ,
+     C   LRBE2  ,CEPSP  ,CELSPH ,ILOADP,LLOADP,
+     D   LGAUGE ,IGAUP  ,NGAUP  ,INTBUF_TAB,IBFFLUX,
+     E   ICNDS10,ITAGND ,IGEO   ,TAG_SKN,MULTIPLE_SKEW,
+     F   IBFV   ,IBCSCYC,LBCSCYC,R_SKEW,IPM     ,
      G   SENSOR_TAB)
 C
 C-----------------------------------------------
@@ -102,9 +102,8 @@ C-----------------------------------------------
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
      .        IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG6(4,*),IB(NIBCLD,*),
-     .        IXUR(NIXUR,*),I2NSNT,
+     .        IXUR(NIXUR,*),I2NSNT,ISKN(LISKN,*),ISKWP(*),NSKWP(*),
      .        ADSKY(0:*), LCNE, LCNI2, ADSKYI2(0:*),CEPI2(*),CELI2(*),
-     .        ISKN(LISKN,*),ISKWP(*),NSKWP(*), LSENSOR(NSENSI,*),
      .        ISENSP(2,*), NSENSP(*), IACCP(*), NACCP(*),
      .        LACCELM(3,*),IBCV(NICONV, *),IRBE3(NRBE3L,*), LRBE3(*),
      .        FRONT_RM(NRBYM,NSPMD), IRBYM(NIRBYM,*) ,LCRBYM(*), CEP(*),
@@ -1167,7 +1166,7 @@ C-----------------------------------------------------
          NSENSP(P) = 0
        END DO
        DO I=1,NSENSOR
-        TYP=LSENSOR(2,I)
+        TYP = SENSOR_TAB(I)%TYPE
         ISENSP(1,I) = 0
         ISENSP(2,I) = 0
 C
@@ -1177,7 +1176,7 @@ C
 C--------------------------------
 C         CAPTEUR - DEPLACEMENT
 C--------------------------------
-          N1 = LSENSOR(4,I)
+          N1 = SENSOR_TAB(I)%IPARAM(1)
           DO P = 1, NSPMD
             IF(NLOCAL(N1,P)==1)THEN
               ISENSP(1,I) = P
@@ -1186,7 +1185,7 @@ C--------------------------------
             END IF
           END DO
  500      CONTINUE
-          N2 = LSENSOR(5,I)
+          N2 = SENSOR_TAB(I)%IPARAM(2)
           DO P = 1, NSPMD
             IF(NLOCAL(N2,P)==1)THEN
               ISENSP(2,I) = P
@@ -1203,7 +1202,7 @@ C--------------------------------
         ELSEIF(TYP==8)THEN
 c
         ELSEIF(TYP==13)THEN  ! SENSOR WORK
-          N1 = LSENSOR(4,I)
+          N1 = SENSOR_TAB(I)%IPARAM(1)
           DO P = 1, NSPMD
             IF (NLOCAL(N1,P)==1) THEN
               ISENSP(1,I) = P
@@ -1211,7 +1210,7 @@ c
               EXIT
             END IF
           END DO
-          N2 = LSENSOR(5,I)
+          N2 = SENSOR_TAB(I)%IPARAM(2)
           IF (N2 > 0) THEN
             DO P = 1, NSPMD
               IF (NLOCAL(N2,P)==1) THEN

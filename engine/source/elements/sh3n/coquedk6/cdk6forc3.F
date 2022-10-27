@@ -65,8 +65,8 @@ Chd|====================================================================
      D            NPT    ,KFTS   ,
      E            IXTG1  ,IADTG1,IGEO   ,IPM    ,IFAILURE   ,
      F            IEXPAN ,GRESAV ,GRTH  ,IGRTH  ,MSTG       ,
-     G            DMELTG ,JSMS   ,TABLE ,IPARG  ,LSENSOR    ,
-     H            SENSOR ,PTG    ,JTHE  ,CONDN  ,CONDNSKY   ,
+     G            DMELTG ,JSMS   ,TABLE ,IPARG  ,SENSOR_TAB ,
+     H            PTG    ,JTHE  ,CONDN  ,CONDNSKY   ,
      K            ISUBSTACK,STACK,ITASK ,DRAPE_T3  ,IPRI, 
      L            NLOC_DMG )
 C-----------------------------------------------
@@ -79,6 +79,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD   
       USE NLOCAL_REG_MOD       
       USE DRAPE_MOD       
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -110,7 +111,7 @@ C-----------------------------------------------
      .   ISUBSTACK,ITASK,IPRI
       INTEGER NPF(*),IXTG(NIXTG,*),IADTG(3,*),IXTG1(4,*),IADTG1(3,*),
      .   IPARTTG(*),IGEO(NPROPGI,*),IPM(NPROPMI,*),GRTH(*),IGRTH(*),
-     .   IPARG(*),LSENSOR(NSENSI,*)
+     .   IPARG(*)
 C     REAL
       my_real 
      .   PM(*), X(*), F(*), M(*), V(*), R(*),
@@ -122,8 +123,7 @@ C     REAL
      .   F14(MVSIZ), F15(MVSIZ), F16(MVSIZ),
      .   F24(MVSIZ), F25(MVSIZ), F26(MVSIZ),
      .   F34(MVSIZ), F35(MVSIZ), F36(MVSIZ),
-     .   SENSOR(NSENSR,*),GRESAV(*),
-     .   MSTG(*), DMELTG(*), PTG(3,*),CONDN(*),CONDNSKY(*)
+     .   GRESAV(*),MSTG(*), DMELTG(*), PTG(3,*),CONDN(*),CONDNSKY(*)
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
@@ -132,6 +132,7 @@ C     REAL
       TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG
       TYPE (DRAPE_) :: DRAPE_T3
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -335,7 +336,7 @@ C----------------------------------------------------------------------------
      I   BID       ,BID       ,BID       ,R11       ,R12        ,
      J   R13       ,R21       ,R22       ,R23       ,R31        ,
      K   R32       ,R33       ,NG        ,TABLE     ,IBID       ,
-     L   BID       ,LSENSOR   ,SENSOR    ,BID       ,IBID       ,
+     L   BID       ,SENSOR_TAB,BID       ,IBID       ,
      M   BID       ,BID       ,ALDT      ,
      N   ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O   IBID      ,IBID      ,ISUBSTACK ,STACK     ,

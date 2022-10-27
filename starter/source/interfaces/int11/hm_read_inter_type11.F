@@ -40,7 +40,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_INTER_TYPE11(
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2        IGRSURF    ,IGRSLIN    ,LSENSOR    ,DEF_INTER ,TITR      ,
+     2        IGRSURF    ,IGRSLIN    ,SENSOR_TAB ,DEF_INTER ,TITR      ,
      3        NOM_OPT    ,UNITAB     ,LSUBMODEL  ,NOM_OPTFRIC,INTBUF_FRIC_TAB,
      4        ID_TYPE19)
 C============================================================================
@@ -53,13 +53,11 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE UNITAB_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -69,8 +67,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOM_OPT(LNOPT1,*), NOM_OPTFRIC(LNOPT1,*)
       INTEGER NI,NOINT
-      INTEGER IPARI(*),DEF_INTER(*),
-     .        LSENSOR(NSENSI,*),ID_TYPE19
+      INTEGER IPARI(*),DEF_INTER(*),ID_TYPE19
       my_real
      .   STFAC
       my_real
@@ -82,6 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE (SURF_)   ,TARGET , DIMENSION(NSLIN)   :: IGRSLIN
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -500,7 +498,7 @@ C     RENUMBERING OF FUNCTIONS AND SENSOR - USER TO INTERNAL ID
 C------------------------------------------------------------
 C
         NTYP0 = 11
-        CALL INTER_DCOD_SENSOR (NTYP0,NI,IPARI,NOM_OPT,LSENSOR)
+        CALL INTER_DCOD_SENSOR (NTYP0,NI,IPARI,NOM_OPT,SENSOR_TAB)
         CALL INTER_DCOD_FRICTION(NTYP0,NI,IPARI,NOM_OPT,NOM_OPTFRIC,
      .           INTBUF_FRIC_TAB)
 C

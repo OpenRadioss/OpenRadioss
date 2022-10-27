@@ -39,12 +39,13 @@ Chd|====================================================================
      .                   FSAV  , FXBFP ,  FXBEFW , FXBFC   , D      ,
      .                   DT2T  , ITYPTST, NELTST , FXBGRVI , FXBGRVR,
      .                   IGRV  , NPC    , TF     , FXBGRP  , FXBGRW ,
-     .                   IPARG , SENSOR , LSENSOR, IAD_ELEM, FR_ELEM,
+     .                   IPARG , SENSOR_TAB, IAD_ELEM, FR_ELEM,
      .                   AGRV  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,7 +70,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER FXBIPM(NBIPM,*), FXBNOD(*), FXBELM(*), ITYPTST, NELTST,
      .        FXBGRVI(*), IGRV(NIGRV,*), NPC(*), IPARG(NPARG,*),
-     .        LSENSOR(NSENSI,*), IAD_ELEM(2,*), FR_ELEM(*)
+     .        IAD_ELEM(2,*), FR_ELEM(*)
       my_real
      .   FXBRPM(*), FXBMOD(*), FXBGLM(*), FXBCPM(*), FXBCPS(*), 
      .   FXBLM(*),  FXBFLS(*), FXBDLS(*), FXBDEP(*), FXBVIT(*),
@@ -77,8 +78,9 @@ C-----------------------------------------------
      .   FXBMCD(*), FXBSE(*),  FXBSV(*),  FXBSIG(*), ELBUF(*) , 
      .   PARTSAV(*),FSAV(NTHVKI,*), FXBFP(*),FXBEFW(*),
      .   FXBFC(*),  D(3,*), DT2T, FXBGRVR(*), TF(*), FXBGRP(*),
-     .   FXBGRW(*), SENSOR(NSENSR,*), AGRV(LFACGRV,*)
+     .   FXBGRW(*), AGRV(LFACGRV,*)
       TYPE (ELBUF_STRUCT_), DIMENSION (NGROUP) :: ELBUF_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -176,7 +178,7 @@ C
      .NME          ,NMOD        ,FXBMVN(ACP) ,FXBMCD(AMCD),FXBSE(ASE)  ,
      .FXBSV(ALM)   ,FSAV(1,NN2) ,FXBFP(AVAR) ,FXBEFW(NFX) ,FXBFC(ALM)  ,
      .FXBGRVI(AGRVI),FXBGRVR(AGRVR),NLGRAV   ,IGRV        ,NPC         ,
-     .TF           ,FXBGRP(AVAR),FXBGRW(NFX) ,SENSOR      , LSENSOR    ,
+     .TF           ,FXBGRP(AVAR),FXBGRW(NFX) ,SENSOR_TAB  ,
      .MFEXTP(AVAR) ,AGRV        )
          ENDIF
       ENDDO

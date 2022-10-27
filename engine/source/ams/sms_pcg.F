@@ -65,8 +65,8 @@ Chd|====================================================================
      4                NODFT1_SMS,NODLT1_SMS,INDX1_SMS,ICODT   ,ICODR   ,
      5                ISKEW     ,SKEW     ,ITASK    ,NODNX_SMS,IAD_ELEM,
      6                FR_ELEM   ,WEIGHT   ,IBFV     ,VEL      ,NPC     ,
-     7                TF        ,V        ,X        ,D        ,SENSOR  ,
-     8                LSENSOR   ,IFRAME   ,XFRAME   ,JADI_SMS ,JDII_SMS,
+     7                TF        ,V        ,X        ,D        ,SENSOR_TAB,
+     8                IFRAME   ,XFRAME   ,JADI_SMS ,JDII_SMS,
      9                LTI_SMS   ,FR_SMS   ,FR_RMS   ,LIST_SMS ,LIST_RMS,
      A                MSKYI_FI_SMS,VFI    ,ISKYI_SMS,MSKYI_SMS         ,
      B                RES_SMS   ,ILINK    ,LLINK    ,FR_RL    ,FRL6    ,
@@ -89,6 +89,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTSTAMP_MOD
+      USE SENSOR_MOD
       USE SMS_PCG_PROJ
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -124,7 +125,7 @@ C----------resol [M]{X}={F}---------
      .         NODFT1_SMS,NODLT1_SMS,INDX1_SMS(*),
      .         ICODT(*), ICODR(*), ISKEW(*), ITASK, NODNX_SMS(*),
      .         IAD_ELEM(2,NSPMD+1) ,FR_ELEM(*), WEIGHT(*),
-     .         NPC(*), IBFV(NIFV,*), LSENSOR(NSENSI,*), IFRAME(LISKN,*),
+     .         NPC(*), IBFV(NIFV,*),IFRAME(LISKN,*),
      .         JADI_SMS(*), JDII_SMS(*),
      .         FR_SMS(NSPMD+1), FR_RMS(NSPMD+1),
      .         LIST_SMS(*), LIST_RMS(*),ISKYI_SMS(*),
@@ -147,7 +148,7 @@ C     REAL
      .  DIAG_SMS(*), LT_K(*) ,R(3,*),
      .  X_SMS(3,*), P_SMS(3,*), Y_SMS(3,*), Z_SMS(3,*), PREC_SMS(*),
      .  SKEW(*), V(3,*), X(3,*), D(3,*), TF(*), VEL(LFXVELR,*),
-     .  SENSOR(NSENSR,*), XFRAME(NXFRAME,*), LTI_SMS(*), RES_SMS(3,*),
+     .  XFRAME(NXFRAME,*), LTI_SMS(*), RES_SMS(3,*),
      .  MS(*), FSAV(NTHVKI,*), CJWORK(*), FRL(*), FNL(*),
      .  RWBUF(*), RWSAV(*), FOPT(*), FREA(3,*),RBID,
      .  MSKYI_FI_SMS(*), MSKYI_SMS(*), VFI(*), MV(*),FTHREAC(6,*),
@@ -158,6 +159,7 @@ C     REAL
      .                 RRBE3_PON(*)
       DOUBLE PRECISION RBY6(8,6,NRBYKIN)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -639,8 +641,8 @@ C
 C
         IF(ITASK==0)
      .  CALL SMS_FIXVEL(IBFV   ,RES_SMS ,V        ,NPC    ,TF     ,
-     2                  VEL    ,DIAG_SMS,X        ,SKEW   ,SENSOR ,
-     3                  LSENSOR,WEIGHT  ,D        ,IFRAME ,XFRAME ,
+     2                  VEL    ,DIAG_SMS,X        ,SKEW   ,SENSOR_TAB,
+     3                  WEIGHT  ,D        ,IFRAME ,XFRAME ,
      4                  IT+1   ,DIAG_SMS,NODNX_SMS,CPTREAC,NODREAC,
      5                  FTHREAC,AM       ,VR     ,DR      ,IN     ,
      6                  RBY     )
@@ -1129,8 +1131,8 @@ C
 C
         IF(ITASK==0)
      .  CALL SMS_FIXVEL(IBFV   ,RES_SMS ,V        ,NPC    ,TF     ,
-     2                  VEL    ,DIAG_SMS,X        ,SKEW   ,SENSOR ,
-     3                  LSENSOR,WEIGHT  ,D         ,IFRAME,XFRAME ,
+     2                  VEL    ,DIAG_SMS,X        ,SKEW   ,SENSOR_TAB,
+     3                  WEIGHT  ,D         ,IFRAME,XFRAME ,
      4                  IT+1   ,DIAG_SMS,NODNX_SMS,CPTREAC,NODREAC,
      5                  FTHREAC,AM       ,VR     ,DR      ,IN     ,
      6                  RBY     )

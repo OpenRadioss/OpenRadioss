@@ -110,11 +110,10 @@ Chd|====================================================================
      L            FTHE   ,FTHESKY ,IEXPAN  ,ISHPLYXFEM,MS    ,
      I            IN      ,MS_PLY  ,ZI_PLY ,INOD_PXFEM,IEL_PXFEM ,
      J            IADC_PXFEM,GRESAV,GRTH   ,IGRTH   ,MSC     ,
-     K            DMELC   ,JSMS    ,TABLE  ,IPARG   ,LSENSOR ,
-     L            SENSOR  ,MSZ2    ,CONDN  ,CONDNSKY,ISUBSTACK,
-     M            STACK ,
-     O            DRAPE_Q4   ,NEL    ,NLOC_DMG,VPINCH, 
-     P            FPINCH  ,STIFPINCH)
+     K            DMELC   ,JSMS    ,TABLE  ,IPARG   ,SENSOR_TAB,
+     L            MSZ2    ,CONDN  ,CONDNSKY,ISUBSTACK,STACK ,
+     M            DRAPE_Q4   ,NEL    ,NLOC_DMG,VPINCH, 
+     O            FPINCH  ,STIFPINCH)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -126,6 +125,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD    
       USE PINCH_LOCAL_MOD
       USE DRAPE_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -157,8 +157,7 @@ C-----------------------------------------------
      .        IEXPAN, ISHPLYXFEM,ITASK,JTHE,IBID,JSMS,ISUBSTACK,NEL
       INTEGER IXC(NIXC,*), IADC(4,*), IPARTC(*), NPF(*),IGEO(NPROPGI,*),
      .        IPM(*),INDXOF(MVSIZ),INOD_PXFEM(*),IEL_PXFEM(*),ITAB(*),
-     .        IADC_PXFEM(4,*),GRTH(*),IGRTH(*),IPARG(*),IPARI(NPARI,*),
-     .        LSENSOR(NSENSI,*)
+     .        IADC_PXFEM(4,*),GRTH(*),IGRTH(*),IPARG(*),IPARI(NPARI,*)
 C     REAL OU REAL*8
       my_real
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
@@ -172,7 +171,7 @@ C     REAL OU REAL*8
      .   V(3,*),VR(3,*),F(3,*),M(3,*),STIFN(*),
      .   STIFR(*),FSKY(*),TANI(6,*),EANI(*),THKE(*),TEMP(*),
      .   FTHE(*),FTHESKY(*),IN(*),MS(*),MS_PLY(*), ZI_PLY(*),
-     .   GRESAV(*), MSC(*), DMELC(*),SENSOR(NSENSR,*),MSZ2(*),
+     .   GRESAV(*), MSC(*), DMELC(*),MSZ2(*),
      .   CONDN(*),CONDNSKY(*),
      .   FPINCH(3,*),STIFPINCH(*),VPINCH(3,*)
       my_real    
@@ -185,6 +184,7 @@ C     REAL OU REAL*8
       TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG 
       TYPE (DRAPE_) :: DRAPE_Q4
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -713,7 +713,7 @@ C-----------------
      I    DELG_PLY  ,TH_IPLY   ,SIG_IPLY  ,R11       ,R12       ,
      J    R13       ,R21       ,R22       ,R23       ,R31       ,
      K    R32       ,R33       ,NG        ,TABLE     ,IBID      ,
-     L    OFFI      ,LSENSOR   ,SENSOR    ,A11_IPLY  ,IBID      ,
+     L    OFFI      ,A11_IPLY  ,IBID      ,
      M    DIR1_CRK  ,DIR2_CRK  ,LC        ,
      N    ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O    IBID      ,IBID      ,ISUBSTACK ,STACK     ,
@@ -742,7 +742,7 @@ C-----------------
      I    DELG_PLY  ,TH_IPLY   ,SIG_IPLY  ,R11       ,R12       ,
      J    R13       ,R21       ,R22       ,R23       ,R31       ,
      K    R32       ,R33       ,NG        ,TABLE     ,IBID      ,
-     L    OFFI      ,LSENSOR   ,SENSOR    ,A11_IPLY  ,IBID      ,
+     L    OFFI      ,SENSOR_TAB,A11_IPLY  ,IBID      ,
      M    DIR1_CRK  ,DIR2_CRK  ,LC        ,
      N    ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O    IBID      ,IBID      ,ISUBSTACK ,STACK     ,

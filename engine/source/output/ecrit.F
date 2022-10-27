@@ -38,12 +38,12 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE ECRIT(PARTSAV  ,MS      ,V	      ,IN       ,R     ,
-     2                 RBY      ,NPBY    ,DMAS    ,DINER    ,WEIGHT,
-     3                 A        ,AR      ,FXBIPM  ,FXBRPM   ,MONVOL,
-     4                 XMOM_SMS ,LSENSOR ,SENSOR  ,QFRICINT ,IPARI ,
-     5                 WEIGHT_MD,TFEXTH  ,IFLAG   ,MS_2D    , MULTI_FVM,
-     6                 MAS_ND   ,KEND    ,H3D_DATA,SENSOR_TAB)
+      SUBROUTINE ECRIT(PARTSAV    ,MS        ,V	       ,IN       ,R          ,
+     2                 RBY        ,NPBY      ,DMAS     ,DINER    ,WEIGHT     ,
+     3                 A          ,AR        ,FXBIPM   ,FXBRPM   ,MONVOL     ,
+     4                 XMOM_SMS   ,SENSOR_TAB,QFRICINT ,IPARI    ,WEIGHT_MD  ,
+     5                 TFEXTH     ,IFLAG     ,MS_2D    ,MULTI_FVM,MAS_ND     ,
+     6                 KEND       ,H3D_DATA  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -90,13 +90,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFLAG
       INTEGER NPBY(NNPBY,*),
-     .        WEIGHT(NUMNOD),FXBIPM(NBIPM,*),LSENSOR(NSENSI,*),
+     .        WEIGHT(NUMNOD),FXBIPM(NBIPM,*),
      .        IPARI(NPARI,NINTER),WEIGHT_MD(NUMNOD)
       INTEGER MONVOL(*)
       my_real DMAS,DINER,TFEXTH,
      .   PARTSAV(NPSAV,*), MS(NUMNOD), V(3,NUMNOD), A(3,NUMNOD), 
      .   IN(NUMNOD), R(3,NUMNOD), RBY(NRBY,*), AR(3,NUMNOD),FXBRPM(*),
-     .   XMOM_SMS(3,*), SENSOR(NSENSR,*), QFRICINT(*),MS_2D(*),KEND,MAS_ND
+     .   XMOM_SMS(3,*),QFRICINT(*),MS_2D(*),KEND,MAS_ND
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(H3D_DATABASE), INTENT(INOUT) :: H3D_DATA
       TYPE (SENSOR_STR_), DIMENSION(NSENSOR) :: SENSOR_TAB
@@ -107,7 +107,7 @@ C-----------------------------------------------
      .         NTY,INTHE,IABFIS,SENS_ID,SENS_TYPE
       my_real
      .   ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,MAS,
-     .   VX,VY,VZ,DT05,ENTMP(20)  ,RTMP(10),
+     .   VX,VY,VZ,DT05,ENTMP(12)  ,RTMP(10),
      .   MVX, MVY, MVZ, TS, MAS2, WEWE2, ENTOT1B,DMASND
       DOUBLE PRECISION ETIME, RETIME, TT0,
      .                 ENCIND, XMOMTD, YMOMTD, ZMOMTD,
@@ -117,9 +117,6 @@ C-----------------------------------------------
       DATA X99/99.9/
       DATA TT0/-1./
       CHARACTER ELTYP(0:105)*5
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
 C-----------------------------------------------
       DATA ELTYP/'FIXED',
      1           'SOLID','QUAD ','SHELL','TRUSS','BEAM ',
@@ -476,6 +473,7 @@ C     ENCIN + ENINT + ENROT + ENCIN2 + ENROT2
 C     ENTOT1B =
 C     (NC=0,ENCIN + ENINT + ENROT - TFEXT - TFEXT_MD) 
 C     + DEF + TFEXT + DELTAE + TFEXT_MD       
+
       IF(ISPMD==0) THEN
        ENTOT = ENCIN + ENINT + ENROT
        ENTOTB = ENTOT + ENCIN2 + ENROT2       
@@ -497,52 +495,45 @@ C     + DEF + TFEXT + DELTAE + TFEXT_MD
        ENDIF
        EMASS = (XMASS - MASS0) / MAX(MASS0,EM20)
 C-----------------------------------------------
-C /STATE/LSENSOR
+C       /STATE/LSENSOR
 C-----------------------------------------------
-       IF (NSTATSENS/=0) THEN
+        IF (NSTATSENS  > 0) THEN
           MSTATT = 0
           DO I=1,NSTATSENS
              ISENS = LSTATSENS(I)
-             TS = SENSOR(2,ISENS)       
-             IF(TT>=TS)THEN
-                MSTAT(I) = MSTAT(I)+1    
+             TS = SENSOR_TAB(ISENS)%TSTART      
+             IF (TT >= TS) THEN
+               MSTAT(I) = MSTAT(I)+1    
              ENDIF
-             IF(MSTAT(I)==1)  MSTATT=1
+             IF (MSTAT(I)==1) MSTATT=1
           ENDDO
-       ENDIF
+        ENDIF
 C-----------------------------------------------
-C /OUTP/LSENSOR
+C       /OUTP/LSENSOR
 C-----------------------------------------------
-       IF (NOUTPSENS/=0) THEN
+        IF (NOUTPSENS > 0) THEN
           MOUTPT = 0
           DO I=1,NOUTPSENS
              ISENS = LOUTPSENS(I)
-             TS = SENSOR(2,ISENS)       
-             IF(TT>=TS)THEN
+             TS = SENSOR_TAB(ISENS)%TSTART     
+             IF (TT >= TS) THEN
                 MOUTP(I) = MOUTP(I)+1    
              ENDIF
              IF(MOUTP(I)==1)  MOUTPT=1
           ENDDO
-       ENDIF
-
+        ENDIF
 C-----------------------------------------------
-C STOP OR KILL 
+C       STOP OR KILL 
 C-----------------------------------------------
-C      /STOP/LSENSOR
+C       /STOP/LSENSOR
 C-----------------------------------------------
-       IF (NSTOPSENS > 0) THEN
+        IF (NSTOPSENS > 0) THEN
           DO I=1,NSTOPSENS
              ISENS = LSTOPSENS(I)
              SENS_TYPE = SENSOR_TAB(ISENS)%TYPE
              TS = EP20
-             IF (SENS_TYPE == 14 .or. SENS_TYPE == 15 .or. SENS_TYPE == 16 .or.
-     .           SENS_TYPE == 17 .or. SENS_TYPE == 19) THEN
-               SENS_ID = SENSOR_TAB(ISENS)%SENS_ID  
-               IF (SENSOR_TAB(ISENS)%STATUS == 3) TS = TT
-             ELSE
-               TS = SENSOR(2,ISENS)
-               SENS_ID = LSENSOR(1,ISENS)    
-             END IF
+             SENS_ID = SENSOR_TAB(ISENS)%SENS_ID  
+             IF (SENSOR_TAB(ISENS)%STATUS == 1) TS = TT
              IF (TT >= TS) THEN
                 CALL ANCMSG(MSGID=234,ANMODE=ANINFO,
      .                      I1 = SENS_ID)
@@ -647,19 +638,19 @@ C
        ENDIF
       ENDIF
 C
-C Communication MSTOP & MREST
+C     Communication MSTOP & MREST
 C
-      IF(NSPMD > 1) THEN
+      IF (NSPMD > 1) THEN
         IF (ISPMD==0) THEN
-          RTMP(1) = MSTOP
-          RTMP(2) = MREST
-          RTMP(3) = MDESS
-          RTMP(4) = TANIM
-          RTMP(5) = THIS
-          RTMP(6) = TSTAT
-          RTMP(7) = TOUTP
-          RTMP(8) = INFO
-          RTMP(9) = H3D_DATA%TH3D
+          RTMP(1)  = MSTOP
+          RTMP(2)  = MREST
+          RTMP(3)  = MDESS
+          RTMP(4)  = TANIM
+          RTMP(5)  = THIS
+          RTMP(6)  = TSTAT
+          RTMP(7)  = TOUTP
+          RTMP(8)  = INFO
+          RTMP(9)  = H3D_DATA%TH3D
           RTMP(10) = TDYNAIN
         ENDIF
 C

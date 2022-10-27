@@ -29,16 +29,17 @@ Chd|        FINTER2                       source/tools/curve/vinter.F
 Chd|        FINTER2_SMOOTH                source/tools/curve/finter_smooth.F
 Chd|====================================================================
       SUBROUTINE FIXFINGEO(IBFV   ,A     ,V      ,NPC    ,TF       ,
-     2                     VEL    ,MS    ,X      ,D      ,SENSOR   ,
-     3                     LSENSOR,WEIGHT,CPTREAC,NODREAC,NODNX_SMS,
+     2                     VEL    ,MS    ,X      ,D      ,SENSOR_TAB,
+     3                     WEIGHT,CPTREAC,NODREAC,NODNX_SMS,
      4                     FTHREAC,ITABM1,ITAB   ) 
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -55,12 +56,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*),CPTREAC,NODREAC(*)
-      INTEGER IBFV(NIFV,*),LSENSOR(NSENSI,*),WEIGHT(*),
+      INTEGER IBFV(NIFV,*),WEIGHT(*),
      .        NODNX_SMS(*),ITABM1(*),ITAB(*)
 C     REAL
       my_real
      .   A(3,*), V(3,*), TF(*), VEL(LFXVELR,*), MS(*), X(3,*), D(3,*),
-     .   SENSOR(NSENSR,*), FTHREAC(6,*)
+     .   FTHREAC(6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -76,7 +77,7 @@ C     REAL
      .   AOLD0(3),
      .   VX1, VY1, VZ1, VX2, VY2, VZ2
       my_real, DIMENSION(:), ALLOCATABLE :: MASS, VX, VY, VZ      
-C
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -151,14 +152,11 @@ C-----------------------
         IF(TT<STARTT) CYCLE
         IF(TT>STOPT)  CYCLE
         IF(NSENSOR>0) THEN
-           ISENS=0
-           DO K=1,NSENSOR
-              IF(IBFV(4,N)==LSENSOR(1,K))ISENS=K
-           ENDDO
+           ISENS = IBFV(4,N)
            IF(ISENS==0)THEN
               TS=TT
            ELSE
-              TS = TT-SENSOR(2,ISENS)
+              TS = TT - SENSOR_TAB(ISENS)%TSTART
               IF(TS<0.0) CYCLE
            ENDIF
         ELSE

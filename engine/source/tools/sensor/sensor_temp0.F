@@ -97,8 +97,8 @@ C=======================================================================
         !   --------------------------
         !   loop over the sensor temp
         DO IJK=1,COMM_SENS17%NUM_SENS
-          ISENS = COMM_SENS17%ID_SENS(IJK)     ! id of sensor temp
-          IF (SENSOR(ISENS)%STATUS == 3) CYCLE   ! already activated
+          ISENS = COMM_SENS17%ID_SENS(IJK)       ! id of sensor temp
+          IF (SENSOR(ISENS)%STATUS == 1) CYCLE   ! already activated
 c
           IF (TT == ZERO) SENSOR(ISENS)%VAR(2) = EP20   ! initialize Temp min
           IGN    = SENSOR(ISENS)%IPARAM(1)

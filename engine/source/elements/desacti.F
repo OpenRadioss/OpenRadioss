@@ -33,7 +33,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|====================================================================
       SUBROUTINE DESACTI(IXS     ,IXQ      ,IXC     ,IXP     ,IXT      ,
      .                   IXR     ,IXTG     ,IPARG   , 
-     .                   IACTIV  ,SENSOR   ,FSKY    ,X       ,ELBUF_TAB,
+     .                   IACTIV  ,SENSOR_TAB,FSKY    ,X       ,ELBUF_TAB,
      .                   IBCV    ,FCONV    ,IBCR    ,FRADIA  ,IGROUPS  ,
      .                   FACTIV  ,TEMP     ,MCP     ,PM      ,MCP_OFF  ,
      .                   IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N ,IGRTRUSS ,
@@ -43,6 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE GROUPDEF_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,10 +65,11 @@ C-----------------------------------------------
      .        IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*),  
      .        IXT(NIXT,*),IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*)
       INTEGER IBCV(*), IBCR(*), IGROUPS(*)
-      my_real SENSOR(NSENSR,*), FSKY(*), FCONV(*), FRADIA(*)
+      my_real FSKY(*), FCONV(*), FRADIA(*)
       my_real X(3,*), FACTIV(LRACTIV,*), TEMP(*), MCP(*), PM(NPROPM,*)
       my_real MCP_OFF(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (GROUP_)  , DIMENSION(NGRQUAD) :: IGRQUAD
@@ -86,12 +88,12 @@ C======================================================================|
       DO N = 1,NACTIV
         ISENS = IACTIV(2,N)
         IFLAG = IACTIV(1,N)
-        IF(IACTIV(10,N) == 1) THEN
-         IF(ISENS /= 0)THEN
+        IF (IACTIV(10,N) == 1) THEN
+         IF (ISENS > 0) THEN
 C----------------------------------------------------------------------
 C   DESACTIVATION DES ELEMENTS
 C----------------------------------------------------------------------
-          IF(IFLAG == 1 .AND. TT > SENSOR(2,ISENS)) THEN
+          IF (IFLAG == 1 .AND. TT > SENSOR_TAB(ISENS)%TSTART) THEN
             CALL ELOFF(IXS     ,IXQ     ,IXC      ,IXP     ,IXT      ,
      .                 IXR     ,IXTG    ,IPARG    ,
      .                 IACTIV  ,TT      ,IFLAG    ,N       ,ELBUF_TAB,
@@ -109,7 +111,7 @@ C----------------------------------------------------------------------
 C----------------------------------------------------------------------
 C   ACTIVATION DES ELEMENTS
 C----------------------------------------------------------------------
-          ELSEIF(IFLAG == 0 .AND. TT<=SENSOR(2,ISENS))THEN
+          ELSEIF (IFLAG == 0 .AND. TT <= SENSOR_TAB(ISENS)%TSTART) THEN
             CALL ELOFF(IXS     ,IXQ     ,IXC      ,IXP     ,IXT      ,
      .                 IXR     ,IXTG    ,IPARG    ,
      .                 IACTIV  ,TT      ,IFLAG    ,N       ,ELBUF_TAB,

@@ -3024,7 +3024,7 @@ Chd|====================================================================
      5   LINDIDEL,LBUFIDEL,IRLEN20 ,ISLEN20 ,IRLEN20T,
      6   ISLEN20T,NBINT20 ,IRLEN20E,ISLEN20E,FR_RBY  ,
      7   FR_RBY6 ,NPBY    ,IRBKIN_L,
-     8   NRBYKIN_L,KINDRBY,SENSOR,LBUFIDEL24,INTBUF_TAB,
+     8   NRBYKIN_L,KINDRBY,SENSOR_TAB,LBUFIDEL24,INTBUF_TAB,
      9   SORT_COMM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -3036,6 +3036,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE INTERFACE_MODIFICATION_MOD
       USE INTER_SORTING_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3070,11 +3071,9 @@ C-----------------------------------------------
      .        IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,NBINT20,
      .        IRLEN20E, ISLEN20E, NRBYKIN_L, IRBKIN_L(*),KINDRBY(*),
      .        FR_RBY(*), FR_RBY6(*), NPBY(NNPBY,*),LBUFIDEL24
-      my_real
-     .        SENSOR(NSENSR,*)
-
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
 C-----------------------------------------------
@@ -3130,8 +3129,8 @@ C
               ISENS = 0
               IF(ITY == 7.OR.ITY == 11.OR.ITY == 24.OR.ITY == 25) 
      .           ISENS = IPARI(64,I)      
-              IF(ISENS/=0) THEN            
-                TS = SENSOR(2,ISENS)
+              IF (ISENS > 0) THEN            
+                TS = SENSOR_TAB(ISENS)%TSTART
                 IF (TS>TT) INTERACT = 0
               ELSE
                 STARTT = INTBUF_TAB(I)%VARIABLES(3)
@@ -5198,7 +5197,7 @@ Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-      SUBROUTINE SPMD_SAVEFI(IPARI, IFLAG,INTBUF_TAB,SENSOR)
+      SUBROUTINE SPMD_SAVEFI(IPARI, IFLAG,INTBUF_TAB,SENSOR_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -5207,6 +5206,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE INTSTAMP_GLOB_MOD
       USE INTERFACE_MODIFICATION_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -5230,11 +5230,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), IFLAG
-
-      my_real
-     .        SENSOR(NSENSR,*)
-
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -5270,8 +5267,8 @@ C
                ISENS = 0
                IF(ITYP == 7.OR.ITYP == 11.OR.ITYP == 24) ! All but ITYP == 25
      .            ISENS = IPARI(64,I)      
-                  IF(ISENS/=0) THEN            
-                    TS = SENSOR(2,ISENS)
+                  IF (ISENS > 0) THEN            
+                    TS = SENSOR_TAB(ISENS)%TSTART
                     IF (TS>TT) INTERACT = 0
                   ELSE
                     STARTT = INTBUF_TAB(I)%VARIABLES(3)
@@ -5550,8 +5547,8 @@ C
                ISENS = 0
                IF(ITYP == 7.OR.ITYP == 11.OR.ITYP == 24) ! All but ITYP == 25
      .            ISENS = IPARI(64,I)      
-                  IF(ISENS/=0) THEN            
-                    TS = SENSOR(2,ISENS)
+                  IF (ISENS > 0) THEN            
+                    TS = SENSOR_TAB(ISENS)%TSTART
                     IF (TS>TT) INTERACT = 0
                   ELSE
                     STARTT = INTBUF_TAB(I)%VARIABLES(3)

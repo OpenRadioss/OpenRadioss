@@ -35,8 +35,8 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE READ_SENSOR_NIC(
-     .           SENSOR_PTR,SENS_ID  ,TITR     ,
-     .           LSENSOR   ,SENSOR   ,ISKN     ,UNITAB   ,LSUBMODEL )
+     .           SENSOR_PTR,SENS_ID  ,TITR     ,ISKN     ,
+     .           UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -67,11 +67,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
-      INTEGER ,DIMENSION(NSENSI)       ,INTENT(OUT) :: LSENSOR
-      my_real ,DIMENSION(NSENSR)       ,INTENT(OUT) :: SENSOR
       INTEGER ,DIMENSION(LISKN,SISKWN) ,INTENT(IN)  :: ISKN
       CHARACTER TITR*nchartitle
-      TYPE (SENSOR_STR_) :: SENSOR_PTR
+      TYPE (SENSOR_STR_)   ,INTENT(OUT)        :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (SUBSET_)       ,DIMENSION(NSUBS)   :: SUBSET
       TYPE (UNIT_TYPE_)    ,INTENT(IN) :: UNITAB 
@@ -184,16 +182,6 @@ c
       SENSOR_PTR%RPARAM(5) = MEXT
       SENSOR_PTR%RPARAM(6) = ALPHA
       SENSOR_PTR%RPARAM(7) = CFC   
-c---------------------------
-c     old sensor data tables                                           
-c---------------------------                                           
-      LSENSOR(1) = SENS_ID                                             
-      LSENSOR(2) = SENS_TYPE
-c
-      SENSOR(1)  = TDEL        ! time delay
-      SENSOR(2)  = INFINITY    ! start time
-      SENSOR(3)  = INFINITY    ! stop time
-      SENSOR(4)  = INFINITY    ! global activation time
 c------------------------------------------------------------
       WRITE (IOUT ,1000) SENS_ID,TDEL,TMIN
       WRITE (IOUT ,2000) NIJMAX,FTENS,FCOMP,MFLEX,MEXT,SPRING_ID,SKEW_ID,

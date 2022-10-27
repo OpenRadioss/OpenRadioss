@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SENSOR_ENERGY_PART(LSENSOR ,IPART ,SUBSET ,IPRI)
+      SUBROUTINE SENSOR_ENERGY_PART(IPART ,SUBSET ,IPRI)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LSENSOR(NSENSI,*),IPART(*),IPRI
+      INTEGER IPART(*),IPRI
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

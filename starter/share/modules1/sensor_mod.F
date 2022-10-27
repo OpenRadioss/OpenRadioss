@@ -73,7 +73,9 @@ C-----------------------------------------------
       TYPE SENSOR_STR_
         INTEGER :: TYPE        !   sensor type 
         INTEGER :: SENS_ID     !   sensor ID
-        INTEGER :: STATUS      !   sensor status (activated / deactivated)
+        INTEGER :: STATUS      !   sensor status
+                               !          = 0   : deactivated
+                               !          = 1   : activated at TSTART
         my_real :: TCRIT       !   time when activation criterion is met
         my_real :: TMIN        !   time duration of crit value before activation
         my_real :: TDELAY      !   time delay before activation (after Tmin)

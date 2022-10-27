@@ -164,7 +164,8 @@ c
           CALL READ_IMPVEL_LAGMUL(
      .              LAGMULV  ,INUM     ,IOPT     ,FBFVEL   ,IBFVEL   ,
      .              ITAB     ,ITABM1   ,IGRNOD   ,NOM_OPT  ,X0       ,
-     .              IXR      ,IPART    ,IPARTR   ,ISKN     ,IKINE    ,UNITAB   ,LSUBMODEL)
+     .              IXR      ,IPART    ,IPARTR   ,ISKN     ,IKINE    ,
+     .              UNITAB   ,LSUBMODEL)
         END IF
 c
 c       TEST DOUBLE IDs of IMPVEL

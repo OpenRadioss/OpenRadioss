@@ -33,7 +33,7 @@ Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
-      SUBROUTINE FVBAG0(MONVOL,   VOLMON , X        , SENSOR , V      ,
+      SUBROUTINE FVBAG0(MONVOL,   VOLMON , X        , SENSOR_TAB, V      ,
      .                  A     ,   NPC    , TF       ,
      .                  FSAV  ,   IFVMESH, ICONTACT , LGAUGE ,
      .                  GAUGE ,   IGEO   , GEO      , PM     , IPM,
@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE FVMBAG_MESHCONTROL_MOD
       USE H3D_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,11 +74,12 @@ C-----------------------------------------------
       INTEGER IGROUPTG(*), IGROUPC(*)
       INTEGER FLAG ! 1: gather + computations
                    ! 2: scatter
-      my_real VOLMON(*), X(3,*), SENSOR(NSENSR,*), V(3,*), A(3,*),
+      my_real VOLMON(*), X(3,*),V(3,*), A(3,*),
      .        TF(*), FSAV(NTHVKI,*), GAUGE(LLGAUGE,*), GEO(NPROPG,*),
      .        PM(NPROPM,*), FEXT(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -239,7 +241,7 @@ C
      1                 NNS,           NTG,           MONVOL(KI1), MONVOL(KI2), NJET,
      2                 MONVOL(IADJET),VOLMON(RADJET),NVENT,MONVOL(IADHOL),VOLMON(RADHOL),
      3                 VOLMON(KR1),   VOLMON(KR2),   VOLMON(KR3), VOLMON(KR4),VOLMON(KR9),
-     4                 X,             V,           A,           SENSOR,
+     4                 X,             V,           A,           SENSOR_TAB,
      5                 FSAV(1,N),     NPC,           TF,          MONVOL(K1),VOLMON(KK1),
      6                 FVDATA(IFV)%MPOLH, FVDATA(IFV)%QPOLH, FVDATA(IFV)%EPOLH,
      7                 FVDATA(IFV)%PPOLH, FVDATA(IFV)%RPOLH, FVDATA(IFV)%GPOLH,
@@ -264,7 +266,7 @@ C
      1                 NNS, NTG, MONVOL(KI2), NJET, FVDATA(IFV)%NPOLY, FVDATA(IFV)%LENH,NBA,
      2                 MONVOL(IADJET),VOLMON(RADJET),NVENT,MONVOL(IADHOL),VOLMON(RADHOL),
      3                 VOLMON(KR1),   VOLMON(KR2),   VOLMON(KR3), VOLMON(KR4),VOLMON(KR9),
-     4                 X,             V,           A,           SENSOR,
+     4                 X,             V,           A,           SENSOR_TAB,
      5                 FSAV(1,N),     NPC,           TF,          MONVOL(K1),VOLMON(KK1),
      6                 FVDATA(IFV)%MPOLH, FVDATA(IFV)%QPOLH, FVDATA(IFV)%EPOLH,
      7                 FVDATA(IFV)%PPOLH, FVDATA(IFV)%RPOLH, FVDATA(IFV)%GPOLH,
@@ -325,7 +327,7 @@ Chd|====================================================================
       SUBROUTINE FVBAG1(NN     , NEL    , IBUF     , ELEM   , NJET    ,
      2                  IBAGJET, RBAGJET, NVENT    , IBAGHOL, RBAGHOL ,
      3                  P      , RHO    , TK       , U      , SSPK    ,
-     4                           X      , V        , A      , SENSOR  ,
+     4                           X      , V        , A      , SENSOR_TAB,
      5                  FSAV   , NPC    , TF       , IVOLU  , RVOLU   ,
      6                  MPOLH  , QPOLH  , EPOLH    ,
      7                  PPOLH  , RPOLH  , GPOLH    ,
@@ -352,6 +354,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD
       USE FVMBAG_MESHCONTROL_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -390,7 +393,7 @@ C-----------------------------------------------
       INTEGER MATTG(*), IGROUPTG(*), IGROUPC(*)
 
       my_real RBAGJET(NRBJET,*), RBAGHOL(NRBHOL,*), P(*), RHO(*),
-     .        TK(*), U(3,*), SSPK(*), X(3,*), V(3,*), A(3,*), SENSOR(NSENSR,*),
+     .        TK(*), U(3,*), SSPK(*), X(3,*), V(3,*), A(3,*),
      .        FSAV(NTHVKI), TF(*), RVOLU(*), MPOLH(*), QPOLH(3,*),
      .        EPOLH(*), PPOLH(*), RPOLH(*), GPOLH(*), RFVNOD(2,*), DLH,
      .        CPAPOLH(*), CPBPOLH(*), CPCPOLH(*), RMWPOLH(*), ELSINI(*),
@@ -400,6 +403,7 @@ C-----------------------------------------------
      .        TPOLH(*), CPDPOLH(*), CPEPOLH(*), CPFPOLH(*), FEXT(3,*), CFL_COEF,
      .        PDISP_OLD, PDISP
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -862,10 +866,10 @@ C---------------------------------------------------
 C
       SCALT =RVOLU(26)
       IF(ITYP == 6) THEN
-        CALL FVINJT6(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR,
+        CALL FVINJT6(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR_TAB,
      .               SCALT, DATAINJ )
       ELSEIF(ITYP == 8) THEN
-        CALL FVINJT8(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR,
+        CALL FVINJT8(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR_TAB,
      .               SCALT, IGEO, GEO, PM, IVOLU, DATAINJ )
       ENDIF
 C
@@ -876,7 +880,7 @@ C
          IF(ISENS == 0)THEN
           TSTART=ZERO
          ELSE
-          TSTART=SENSOR(2,ISENS)
+          TSTART=SENSOR_TAB(ISENS)%TSTART
          ENDIF
 C        ITTF : 1 shift event time (can be removed in a later version)
 C        ITTF : 2 shift event time + event function

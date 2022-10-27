@@ -37,7 +37,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_INTER_TYPE05(
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,    
      2        IGRNOD     ,IGRSURF    ,NOM_OPT    ,XFILTR    ,FRIC_P   ,
-     3        LSENSOR    ,UNITAB     ,LSUBMODEL  ,TITR       )
+     3        SENSOR_TAB ,UNITAB     ,LSUBMODEL  ,TITR       )
 C============================================================================
 C
 C-----------------------------------------------
@@ -47,13 +47,11 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE UNITAB_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -62,9 +60,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NOM_OPT(LNOPT1,*)
       INTEGER ISU1,ISU2,ILAGM,NI,NOINT
-      INTEGER IPARI(*),LSENSOR(NSENSI,*)
+      INTEGER NOM_OPT(LNOPT1,*),IPARI(*)
       my_real
      .   STFAC,XFILTR
       my_real
@@ -75,6 +72,7 @@ C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -327,7 +325,7 @@ C------------------------------------------------------------
 C     RENUMBERING OF FUNCTIONS AND SENSOR - USER TO INTERNAL ID
 C------------------------------------------------------------
 C
-        CALL INTER_DCOD_SENSOR (NTYP,NI,IPARI,NOM_OPT,LSENSOR)
+        CALL INTER_DCOD_SENSOR (NTYP,NI,IPARI,NOM_OPT,SENSOR_TAB)
 C
 C------------------------------------------------------------
 C     PRINTOUT

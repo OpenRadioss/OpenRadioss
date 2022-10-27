@@ -4690,14 +4690,14 @@ C
            CALL HM_READ_RADIATION(IBCR,FRADIA,ITAB,IXS,IGRSURF,UNITAB,LSUBMODEL)
          ENDIF
 C
-         IF(NFXTEMP > 0) THEN
+         IF (NFXTEMP > 0) THEN
            IBFTEMP = 0
            FBFTEMP = ZERO
            CALL HM_READ_IMPTEMP(IBFTEMP,FBFTEMP,NFXTEMP,ITABM1,
      .                    IGRNOD ,IBFTEMP,ITAB   ,UNITAB,LSUBMODEL)
          ENDIF
 C
-         IF(NFXFLUX > 0 ) THEN
+         IF (NFXFLUX > 0 ) THEN
            IBFFLUX = 0
            FBFFLUX = ZERO
            CALL HM_READ_IMPFLUX(IBFFLUX ,FBFFLUX ,ITAB   ,IXS    ,IGRSURF   ,
@@ -4752,10 +4752,11 @@ C-------------------------------------------------
       CALL READ_EBCS(IGRSURF,MULTI_FVM,NPC1,(LNOPT1*INOM_OPT(24)+1),LSUBMODEL,EBCS_TAB)
       IF (NEBCS > 0)THEN
         !allocate & count
-        ALLOCATE(LSENSOR(0))
+        ALLOCATE( SENSOR_TAB(0) )
         CALL INIEBCS(ALE_CONNECTIVITY, 0, IGRSURF, IXS, IXQ, IXTG,
-     .        PM, IGEO, X, LSENSOR, MONVOl, MULTI_FVM%IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
-        DEALLOCATE(LSENSOR)
+     .        PM, IGEO, X, SENSOR_TAB, MONVOl, MULTI_FVM%IS_USED, 
+     .        EBCS_TAB, EBCS_TAG_CELL_SPMD)
+        DEALLOCATE(SENSOR_TAB)
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -4882,7 +4883,7 @@ c
 
        WRITE(ISTDO,'(A)')TITRE(34)
        CALL HM_READ_PRELOAD(IXS   ,IXS10     ,IPRELOAD ,PRELOAD,IFLAG_BPRELOAD,
-     .                      NSTRF ,SENSOR_TAB,LSENSOR  ,UNITAB ,X        ,
+     .                      NSTRF ,SENSOR_TAB,UNITAB ,X        ,
      .                      EANI  ,ITAB      ,LSUBMODEL)
 c
        IF(ALLOCATED(NSTRF))  DEALLOCATE(NSTRF)
@@ -5080,7 +5081,7 @@ C----------------------------------
         CALL MONVOL_ALLOCATE(NVOLU + NMONVOL, T_MONVOL, T_MONVOL_METADATA)
 
         CALL READ_MONVOL(T_MONVOL, T_MONVOL_METADATA, ITAB, ITABM1, IPM, IGEO,
-     .       X, PM, GEO, IXC, IXTG, LSENSOR, SENSOR,
+     .       X, PM, GEO, IXC, IXTG, SENSOR_TAB,
      .       UNITAB, NPC1, NPC, TF, IGRSURF, IGRBRIC, NOM_OPT(LNOPT1*INOM_OPT(2)+1),IFRAME, XFRAME,
      .       LSUBMODEL)
 
@@ -5088,10 +5089,10 @@ C----------------------------------
      2       GEO     ,PM      ,
      3       IXC     ,IXTG    ,X       ,NPC1    ,
      4       ITABM1  ,ITAB      ,IGRSURF ,
-     5       LSENSOR   ,IGRBRIC  ,SBUFALE ,
+     5       SENSOR_TAB,IGRBRIC  ,SBUFALE ,
      6       NAIRWA  ,IXS     ,V       ,LIBAGALE,
      7       NPC     ,TF      ,LRBAGALE,IPM     ,IGEO    ,
-     8       UNITAB  ,SENSOR)
+     8       UNITAB  )
 
         LIBAGJET=0
         LRBAGJET=0
@@ -5292,19 +5293,19 @@ C------------------------------------------------------------------------
       ERR_MSG='USER TO SYSTEM RENUMBERING'
       ERR_CATEGORY='INTERNAL'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      CALL FSDCOD(BUFMAT   ,PM       ,GEO      ,IBCL     ,IPRES    ,
-     .            IBFV     ,ISKEW    ,ISKWN    ,
-     .            ITABM1   ,SKEW     ,LACCELM  ,BID13    ,BUFGEO   ,
+      CALL FSDCOD(BUFMAT   ,PM       ,GEO      ,IBCL      ,IPRES    ,
+     .            IBFV     ,ISKEW    ,ISKWN    ,SENSOR_TAB,
+     .            ITABM1   ,SKEW     ,LACCELM  ,BID13     ,BUFGEO   ,
      .            IBCSLAG  ,IGEO     ,IPM      ,
-     .            DAMPR    ,IBFTEMP  ,IBCV     ,
-     .            IBCR     ,TABLE    ,NPC1     ,NPC      ,TF       ,
-     .            NOM_OPT(LNOPT1*INOM_OPT(3)+1),LSENSOR  ,IBFFLUX)
+     .            DAMPR    ,IBFTEMP  ,IBCV     ,IBFV      ,
+     .            IBCR     ,TABLE    ,NPC1     ,NPC       ,TF       ,
+     .            NOM_OPT(LNOPT1*INOM_OPT(3)+1),IBFFLUX   )
 C
 c------------------------------------------------------------------------
 c     Update & check parameters of material laws
 c------------------------------------------------------------------------
-      CALL UPDMAT(BUFMAT   ,PM      ,IPM      ,TABLE    ,NPC1     ,
-     .            NPC      ,TF      ,LSENSOR  ,NLOC_DMG ,MLAW_TAG ,
+      CALL UPDMAT(BUFMAT   ,PM      ,IPM       ,TABLE    ,NPC1     ,
+     .            NPC      ,TF      ,SENSOR_TAB,NLOC_DMG ,MLAW_TAG ,
      .            MATPARAM_TAB)
 C
       CALL TRACE_OUT1()
@@ -5359,9 +5360,9 @@ C
         CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
         WRITE(ISTDO,'(A)')' .. SEATBELT INITIALIZATION'
         CALL CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
-     .                       X,LSENSOR,BUFMAT,PM,GEO,
+     .                       X,SENSOR_TAB,BUFMAT,PM,GEO,
      .                       IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO,
-     .                       ISKWN)
+     .                       ISKWN   )
         CALL TRACE_OUT1()
       ENDIF
 C
@@ -6545,9 +6546,9 @@ c      CALL PRELECGRAV(NUMGRAV ,IGRNOD)
      .                         C1='LGRAV')
       END IF
       IGRV = 0
-      CALL HM_READ_GRAV(IGRV   ,LGRAV  ,GRAV    ,ITAB    ,ITABM1  ,
-     .             IGRNOD ,NPC    , LSENSOR,UNITAB  ,ISKWN   ,
-     .             ITAGND ,LSUBMODEL)
+      CALL HM_READ_GRAV(IGRV   ,LGRAV   ,GRAV      ,ITAB    ,ITABM1  ,
+     .                 IGRNOD  ,NPC     ,SENSOR_TAB,UNITAB  ,ISKWN   ,
+     .                 ITAGND  ,LSUBMODEL)
       CALL TRACE_OUT1()
 C     on saute l'external coupling
 C----------------------------------
@@ -6572,7 +6573,7 @@ C----------------------------------
           INIGRV = 0
           WRITE(ISTDO,'(A)') ' .. INITIAL GRAVITY LOADING'
           CALL HM_READ_INIGRAV(IGRV     ,LGRAV    ,GRAV     ,ITAB     ,ITABM1   ,
-     .                         IGRPART  ,NPC      ,LSENSOR  ,UNITAB   ,ISKWN    ,
+     .                         IGRPART  ,NPC      ,UNITAB   ,ISKWN    ,
      .                         ITAGND   ,IGRSURF  ,TF       ,BUFSF    ,LSUBMODEL)
         ENDIF
       ENDIF
@@ -6642,8 +6643,8 @@ C        Centrifugal Loads
          IF(ALLOCATED(CFIELD )) CFIELD(:)  = ZERO
 !READING CARDS & STORING DATA
          IF(NLOADC/=0)THEN
-           CALL HM_READ_LOAD_CENTRI(ICFIELD ,LCFIELD   ,CFIELD ,ITAB    ,ITABM1  ,
-     .                              IGRNOD  ,NPC       ,LSENSOR,UNITAB  ,IFRAME  ,
+           CALL HM_READ_LOAD_CENTRI(ICFIELD ,LCFIELD ,CFIELD    ,ITAB    ,ITABM1  ,
+     .                              IGRNOD  ,NPC     ,SENSOR_TAB,UNITAB  ,IFRAME  ,
      .                              LSUBMODEL)
          END IF
 C
@@ -6692,8 +6693,8 @@ C        PFLUID & PBLAST & LOAD PRESSURE
          NINTLOADP = 0
          NINTLOADP21 = 0
          IF(NLOADP_F/=0)THEN
-           CALL HM_READ_PFLUID(NUMLOADP,ILOADP  ,LLOADP  ,LOADP   ,NPC      ,
-     .                        LSENSOR  ,IGRSURF ,UNITAB  ,IFRAME  ,LSUBMODEL)
+           CALL HM_READ_PFLUID(NUMLOADP ,ILOADP  ,LLOADP  ,LOADP   ,NPC      ,
+     .                        SENSOR_TAB,IGRSURF ,UNITAB  ,IFRAME  ,LSUBMODEL)
          END IF
          IF(NLOADP_B/=0)THEN
            CALL HM_READ_PBLAST(ITAB    ,ITABM1  ,UNITAB  ,IGRSURF,  NUMLOADP,
@@ -6703,7 +6704,7 @@ C        PFLUID & PBLAST & LOAD PRESSURE
          IF(NLOADP_HYD/=0)THEN
            CALL HM_READ_LOAD_PRESSURE(
      .                       NUMLOADP   ,ILOADP     ,LLOADP       ,INTERLOADP ,LOADP      ,
-     .                       KLOADPINTER,LOADPINTER ,NPC          ,LSENSOR    ,IGRSURF    ,
+     .                       KLOADPINTER,LOADPINTER ,NPC          ,SENSOR_TAB ,IGRSURF    ,
      .                       UNITAB     ,ISKWN      ,LSUBMODEL    ,DGAPINT    ,INTGAPLOADP,
      .                       DGAPLOADINT,S_LOADPINTER)
 
@@ -6804,7 +6805,7 @@ C--------------------------------------------
      .                             MSGTYPE=MSGERROR, C1='IACTIV')
       END IF
       IACTIV = 0
-      IF (NACTIV > 0) CALL HM_READ_ACTIV(IACTIV   ,FACTIV  ,LSENSOR ,SENSOR  ,IGRBRIC,
+      IF (NACTIV > 0) CALL HM_READ_ACTIV(IACTIV   ,FACTIV  ,SENSOR_TAB,IGRBRIC,
      .                             IGRQUAD  ,IGRSH4N ,IGRSH3N ,IGRTRUSS,IGRBEAM,
      .                             IGRSPRING,LSUBMODEL,UNITAB)
 C--------------------------------------------
@@ -7116,7 +7117,7 @@ C--------------------------------------------------------------
      2           IGRNOD   ,IGRSURF  ,IGRSLIN  ,IGRBRIC    ,IGRSH3N                     ,
      3           IGRTRUSS ,NPC      ,ISKWN    ,XFILTR     ,STFAC                       ,
      4           FRIC_P   ,I2RUPT   ,AREASL   ,UNITAB     ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),
-     5           DEF_INTER,NPC1     ,LSENSOR  , MULTI_FVM,NOM_OPT(LNOPT1*INOM_OPT(29)+1),
+     5           DEF_INTER,NPC1     ,SENSOR_TAB,MULTI_FVM ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),
      6           INTBUF_FRIC_TAB    ,IDDLEVEL ,LSUBMODEL  ,TF                          ,
      7           KLOADPINTER        ,DGAPINT  )
 C
@@ -7131,7 +7132,7 @@ C
      .              ITAG        ,IXC       ,IXTG      ,KNOD2ELC ,KNOD2ELTG,                                       
      .              NOD2ELC     ,NOD2ELTG  ,KNOD2ELS  ,NOD2ELS  ,IXS10   ,                                        
      .              IXS16       ,IXS20     ,DEF_INTER ,MAXNSNE  ,                                                 
-     .              NPC1        ,LSENSOR   ,MULTI_FVM ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),INTBUF_FRIC_TAB,            
+     .              NPC1        ,MULTI_FVM ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),INTBUF_FRIC_TAB,            
      .              IGRBRIC     ,IGRSH3N   ,IGRTRUSS  ,MAXRTM_T2,NSN_MULTI_CONNEC,           
      .              T2_NB_CONNEC,IDDLEVEL ,ALE_CONNECTIVITY%NALE)
 C
@@ -7494,12 +7495,12 @@ C
         IF (NRBODY  > 0) WRITE(ISTDO,'(A)')TITRE(41)
         IF (NRBYKIN > 0) THEN
             CALL HM_READ_RBODY(
-     1       RBY      ,NPBY    ,LPBY    ,ITAB    ,ITABM1   ,
-     2       IGRNOD   ,IGRSURF ,IBFV    ,IGRV    ,LGRAV    ,
-     3       LSENSOR  ,IMERGE  ,UNITAB  ,ISKWN   ,NOM_OPT  ,
-     4       SLRBODY ,KNOD2ELS,KNOD2ELC,KNOD2ELTG,KNOD2EL1D,
-     5       KNOD2ELQ,ITAGND  ,ICNDS10 ,LSUBMODEL,ICFIELD  ,
-     6       LCFIELD )
+     1       RBY       ,NPBY    ,LPBY    ,ITAB    ,ITABM1    ,
+     2       IGRNOD    ,IGRSURF ,IBFV    ,IGRV    ,LGRAV     ,
+     3       SENSOR_TAB,IMERGE  ,UNITAB  ,ISKWN   ,NOM_OPT   ,
+     4       SLRBODY   ,KNOD2ELS,KNOD2ELC,KNOD2ELTG,KNOD2EL1D,
+     5       KNOD2ELQ  ,ITAGND  ,ICNDS10 ,LSUBMODEL,ICFIELD  ,
+     6       LCFIELD   )
         ENDIF
 C--------------------------------------------
 C     LECTURE DES FUSIONS DE RIGID BODY
@@ -8966,7 +8967,7 @@ C--------------------------------------------
           STABSEN=NSECT+NINTER+NINTSUB+NRWALL+NRBODY+1
           ALLOCATE(TABSENSOR(STABSEN)  , STAT=stat)
           ALLOCATE(FBSAV6(12,6,SFSAV6)  , STAT=stat)
-          CALL INIPARSEN(SFSAV6,STABSEN,LSENSOR,TABSENSOR,FBSAV6)
+          CALL INIPARSEN(SENSOR_TAB,SFSAV6,STABSEN,TABSENSOR,FBSAV6)
         ELSE
           SFSAV6=0
           STABSEN=0
@@ -9114,7 +9115,7 @@ c
          SEGINDX = 0
          !update due to domain decomposition
          CALL INIEBCS(ALE_CONNECTIVITY, 1,IGRSURF, IXS, IXQ, IXTG,
-     .        PM, IGEO, X, LSENSOR, MONVOl, MULTI_FVM%IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
+     .        PM, IGEO, X, SENSOR_TAB, MONVOl, MULTI_FVM%IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
          !initialization
         CALL INIEBCSP0(X, IPARG, ELBUF_TAB, EBCS_TAB, IXS, IXQ, IXTG, IPARTS, IPARTQ, IPARTG, PM, IPM)
       ENDIF
@@ -10004,7 +10005,7 @@ C
      6    IGRSURF,ADDCNE ,LCNE      ,GEO     ,
      7    NPRW   ,LPRW    ,LCNI2G ,ADDCNI2   ,CEPI2   ,
      8    CELI2  ,I2NSNT  ,ISKWN  ,ISKWP     ,NSKWP   ,
-     9    LSENSOR,ISENSP  ,NSENSP ,IACCP     ,NACCP   ,
+     9    ISENSP  ,NSENSP ,IACCP  ,NACCP     ,
      A    LACCELM,IBCV    ,IRBE3  ,LRBE3     ,FRONT_RM,
      B    IRBYM  ,LNRBYM  ,CEP    ,IBCR      ,IRBE2   ,
      C    LRBE2  ,CEPSP   ,CELSPH ,ILOADP    ,LLOADP  ,

@@ -36,9 +36,13 @@ Chd|====================================================================
      .                    IBUF  , ELEM  , IINOUT , IBUFI  , IBUFR  ,
      .                    IBUFC , IBUFL , RFLOW  , PHI    , PRES   ,
      .                    U     , RINOUT, X      , V      , A      ,
-     .                    NPC   , TF    , SENSOR ,
+     .                    NPC   , TF    , SENSOR_TAB,
      .                    CNP   , ITAGEL, IBUFELR, IBUFELC, IPIV   ,
      .                    HBEM  , GBEM  , IBUFIL , CNPI   , IPINT  )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,8 +69,9 @@ C-----------------------------------------------
      .        CNPI(*), IPINT, ISMOOTH
       my_real
      .        RFLOW(*), PHI(*), PRES(*), U(3,*), RINOUT(NRIOFLOW,*),
-     .        X(3,*), V(3,*), A(3,*), SENSOR(NSENSR,*), TF(*), HBEM(*),
+     .        X(3,*), V(3,*), A(3,*), TF(*), HBEM(*),
      .        GBEM(*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -362,7 +367,7 @@ C
             IF (ISENS==0) THEN
                TSTART=ZERO
             ELSE
-               TSTART=SENSOR(2,ISENS)
+               TSTART=SENSOR_TAB(ISENS)%TSTART
             ENDIF
             IF (TT>=TSTART.AND.DT1>ZERO) THEN
                TSG=(TT-TSTART)*SCALT

@@ -64,7 +64,7 @@ Chd|====================================================================
      E       ISLEN20   ,IRLEN20T   ,ISLEN20T   ,IRLEN20E  ,ISLEN20E        ,
      F       MSKYI_SMS ,ISKYI_SMS  ,NODNX_SMS  ,INT18ADD  ,FCONTG          ,
      G       FNCONTG   ,FTCONTG    ,NODGLOB    ,MS0       ,NPC             ,
-     H       WA        ,SENSOR     ,QFRICINT   ,NCONT     ,INDEXCONT       ,
+     H       WA        ,SENSOR_TAB ,QFRICINT   ,NCONT     ,INDEXCONT       ,
      I       TAGCONT   ,INOD_PXFEM ,MS_PLY     ,WAGAP     ,ELBUF_TAB       ,
      J       CONDN     ,CONDNSKYI  ,INTBUF_TAB ,NV46      ,
      K       DIMFB      ,FBSAV6    ,STABSEN_   ,
@@ -86,6 +86,7 @@ C-----------------------------------------------
       USE METRIC_MOD
       USE GROUPDEF_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -149,7 +150,7 @@ C-----------------------------------------------
      .   VISCN(*), FNCONT(3,*),FTCONT(3,*),RCONTACT(*),TEMP(*),
      .   FTHESKYI(LSKYI),PM(NPROPM,*),FTHE(*),
      .   ACONTACT(*), PCONTACT(*), MSKYI_SMS(*),
-     .   FCONTG(3,*),FNCONTG(3,*),FTCONTG(3,*),WA(*), SENSOR(NSENSR,*),
+     .   FCONTG(3,*),FNCONTG(3,*),FTCONTG(3,*),WA(*),
      .   QFRICINT(*),MS_PLY(*),WAGAP(*),CONDN(*),CONDNSKYI(LSKYI),
      .   WIGE(*),KNOT(*),PSKIDS(*),FORNEQS(3,*),KNOTLOCPC(*),KNOTLOCEL(*),
      .   APINCH(3,*),STIFPINCH(*),T2FAC_SMS(*)
@@ -163,6 +164,7 @@ C-----------------------------------------------
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
 C-----------------------------------------------  
@@ -221,8 +223,8 @@ C
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 21.OR.NTY == 24.OR.NTY == 25)
      .      ISENS = IPARI(64,N) ! INTERFACE SENSOR NUMBER
-        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
-           TS = SENSOR(2,ISENS)
+        IF (ISENS > 0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+           TS = SENSOR_TAB(ISENS)%TSTART
         ELSE
            TS = TT
         ENDIF

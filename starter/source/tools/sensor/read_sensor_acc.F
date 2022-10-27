@@ -34,7 +34,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE READ_SENSOR_ACC(SENSOR_TAB ,SENS_ID  ,TITR      ,
+      SUBROUTINE READ_SENSOR_ACC(SENSOR_PTR ,SENS_ID  ,TITR      ,
      .           LSENSOR ,SENSOR  ,LACCELM  ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
@@ -66,13 +66,13 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NSENSI)  ,INTENT(OUT) :: LSENSOR
       my_real ,DIMENSION(NSENSR)  ,INTENT(OUT) :: SENSOR
       CHARACTER TITR*nchartitle
-      TYPE (SENSOR_STR_) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,LEN,NACC,SENS_TYPE
+      INTEGER :: I,J,LEN,NACC,NPARIS,NPARRS,NVAR,SENS_TYPE
       my_real :: TDEL
       INTEGER ,DIMENSION(6) :: ACC_ID,IACC,IDIR
       my_real ,DIMENSION(6) :: ACC,TMIN
@@ -82,6 +82,7 @@ C--------------------------------
 C     ACCELEROMETER BASED SENSOR
 C=======================================================================
       IS_AVAILABLE = .FALSE.
+      SENS_TYPE = 1
 c--------------------------------------------------
       CALL HM_GET_FLOATV('Tdelay' ,TDEL      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV  ('NACCEL1',NACC      ,IS_AVAILABLE,LSUBMODEL)
@@ -137,8 +138,8 @@ c
      .                I1=SENS_ID, C1=TITR, I2=ACC_ID(I))
         END IF
       END DO
-c      
-      SENS_TYPE = 1
+c
+c     old sensor struct      
       LSENSOR(1) = SENS_ID
       LSENSOR(2) = SENS_TYPE
       LSENSOR(3) = NACC
@@ -158,8 +159,47 @@ c
        SENSOR (3+(I-1)*3) = ACC(I)
        SENSOR (4+(I-1)*3) = TMIN(I)
        SENSOR (5+(I-1)*3) = INFINITY   ! time of first activation
-c
       END DO
+      
+c
+c     New sensor struct
+c
+      SENSOR_PTR%TYPE    = SENS_TYPE
+      SENSOR_PTR%SENS_ID = SENS_ID
+      SENSOR_PTR%STATUS  = 0            ! status = deactivated
+      SENSOR_PTR%TSTART  = INFINITY
+      SENSOR_PTR%TCRIT   = INFINITY
+      SENSOR_PTR%TMIN    = ZERO         ! TMIN global
+      SENSOR_PTR%TDELAY  = TDEL         ! time delay before activation
+      SENSOR_PTR%VALUE   = ZERO
+
+      NPARIS = NACC * 2 + 1
+      NPARRS = NACC * 3
+      NVAR   = 0 
+c
+      SENSOR_PTR%NPARI  = NPARIS
+      SENSOR_PTR%NPARR  = NPARRS
+      SENSOR_PTR%NVAR   = NVAR
+c
+      ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
+      ALLOCATE (SENSOR_PTR%RPARAM(NPARRS))
+      ALLOCATE (SENSOR_PTR%VAR(NVAR))
+      SENSOR_PTR%VAR(:) = ZERO
+c
+      SENSOR_PTR%IPARAM(1) = NACC
+      J = 1
+      DO I = 1,NACC
+        SENSOR_PTR%IPARAM(J+1) = IACC(I)
+        SENSOR_PTR%IPARAM(J+2) = IDIR(I)
+        J = J+2
+      END DO
+      J = 0
+      DO I = 1,NACC
+        SENSOR_PTR%RPARAM(J+1) = ACC(I)
+        SENSOR_PTR%RPARAM(J+2) = TMIN(I)
+        SENSOR_PTR%RPARAM(J+3) = INFINITY       
+        J = J+3
+      END DO    
 c------------------------------------------------------------
       WRITE(IOUT, 1000) SENS_ID,TDEL
       WRITE(IOUT, 2000) NACC

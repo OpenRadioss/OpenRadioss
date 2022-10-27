@@ -38,9 +38,8 @@ Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MONVOL_TYPE1(T_MONVOLN, IPM, IGEO, ITABM1,
-     .     LSENSOR, SENSOR, NPT, PLD,
-     .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, 
-     .     LSUBMODEL)
+     .     NPT, PLD,UNITAB, LUID, NPC, IGRSURF, 
+     .     ITAB, X, PM, GEO, IXC, IXTG,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,8 +72,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
       INTEGER, INTENT(IN) :: LUID, IPM(NPROPMI, *), IGEO(NPROPGI, *),ITABM1(*), NPT(*)
-      INTEGER, INTENT(IN) :: NPC(*), ITAB(*), IXC(NIXC, *), IXTG(NIXTG, *), LSENSOR(NSENSI, *)
-      my_real, INTENT(IN) :: X(3, *), GEO(NPROPG, *), PM(NPROPM, *), SENSOR(NSENSR, *), PLD(2, *)
+      INTEGER, INTENT(IN) :: NPC(*), ITAB(*), IXC(NIXC, *), IXTG(NIXTG, *)
+      my_real, INTENT(IN) :: X(3, *), GEO(NPROPG, *), PM(NPROPM, *),PLD(2, *)
       TYPE (SURF_), INTENT(INOUT), DIMENSION(NSURF) :: IGRSURF
       TYPE(MONVOL_STRUCT_), INTENT(INOUT) :: T_MONVOLN
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL

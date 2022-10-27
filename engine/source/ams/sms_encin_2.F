@@ -48,7 +48,7 @@ Chd|====================================================================
      4        A        ,WV       ,WMV      ,WDG       ,XMOM_SMS ,
      5        ICODT    ,ICODR    ,ISKEW    ,SKEW      ,IBFV     ,
      6        VEL      ,NPC      ,TF       ,X         ,D        ,
-     7        SENSOR   ,LSENSOR  ,IFRAME   ,XFRAME    ,JADI_SMS ,
+     7        SENSOR_TAB,IFRAME   ,XFRAME    ,JADI_SMS ,
      8        JDII_SMS ,LTI_SMS  ,ISKYI_SMS ,MSKYI_SMS ,FR_SMS  ,
      9        FR_RMS   ,NPBY     ,TAGSLV_RBY_SMS,INTSTAMP,CPTREAC,
      A        NODREAC  ,FTHREAC  ,AR        ,VR        ,
@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE MOD_SMS_WORK
       USE INTSTAMP_MOD
       USE MESSAGE_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,7 +94,7 @@ C-----------------------------------------------
      .         JAD_SMS(*), JDI_SMS(*), INDX1_SMS(*),
      .         IAD_ELEM(2,NSPMD+1) ,FR_ELEM(*), WEIGHT(*),
      .         ICODT(*), ICODR(*), ISKEW(*),
-     .         NPC(*), IBFV(NIFV,*), LSENSOR(NSENSI,*), IFRAME(LISKN,*),
+     .         NPC(*), IBFV(NIFV,*),IFRAME(LISKN,*),
      .         JADI_SMS(*), JDII_SMS(*),CPTREAC,NODREAC(*),
      .         FR_SMS(NSPMD+1), FR_RMS(NSPMD+1), ISKYI_SMS(*),
      .         NPBY(NNPBY,*), TAGSLV_RBY_SMS(*),
@@ -106,13 +107,13 @@ C-----------------------------------------------
      .    MS(*), DIAG_SMS(*), LT_SMS(*),
      .    V(3,*), A(3,*), WV(3,*), WMV(3,*), WDG(*),  XMOM_SMS(3,*),
      .    SKEW(*), X(3,*), D(3,*), TF(*), VEL(LFXVELR,*),
-     .    SENSOR(NSENSR,*), XFRAME(NXFRAME,*),
-     .    LTI_SMS(*), MSKYI_SMS(*),FTHREAC(6,*),
+     .    XFRAME(NXFRAME,*),LTI_SMS(*), MSKYI_SMS(*),FTHREAC(6,*),
      .    AR(3,*), VR(3,*), DR(3,*), IN(*), RBY(NRBY,*),
      .    FRBE3(*), RRBE3(*)
       DOUBLE PRECISION RRBE3_PON(*)
       DOUBLE PRECISION RBY6(8,6,NRBYKIN)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -332,8 +333,8 @@ C       reimp wmv=0
 C
         IF(ITASK==0)
      .  CALL SMS_FIXVEL(IBFV   ,WMV     ,V     ,NPC    ,TF     ,
-     2                  VEL    ,DIAG_SMS,X     ,SKEW   ,SENSOR ,
-     3                  LSENSOR,WEIGHT  ,D     ,IFRAME ,XFRAME ,
+     2                  VEL    ,DIAG_SMS,X     ,SKEW   ,SENSOR_TAB,
+     3                  WEIGHT  ,D     ,IFRAME ,XFRAME ,
      4                  -(IT+1),DIAG_SMS,NODXI_SMS,CPTREAC,
      5                  NODREAC,FTHREAC ,AR     ,VR       ,DR  ,
      6                  IN     ,RBY     )

@@ -59,16 +59,17 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER I,J,IPOINT,IDIR,IACC,ISENSOR_TYPE,NPOINT,INDX,NVAR
+      INTEGER I,J,IPOINT,IDIR,IACC,ISENSOR_TYPE,NPOINT,INDX,NVAR,ICRIT
 c
       my_real :: TIME_UNIT,TIME,xINDX, INTEGRAL,INCREMENT,TIME_INTERVAL
       my_real :: HIC_PERIOD,HIC_CRIT,HIC,HIC_PREC,HIC_TMP
       my_real :: TIME_PREC,TEST_TIME,DELTA_T,BETA
       my_real :: ACC_X,ACC_Y,ACC_Z,ACC,ACCG,ACC_PREC,CURRENT_VALUE,GRAVITY
-      my_real :: PERIOD_TMP,OPT_PERIOD,T1,T2
+      my_real :: PERIOD_TMP,OPT_PERIOD,T1,T2,TMIN,TDELAY,INFINITY
       my_real ,DIMENSION(:) ,POINTER :: VALUE_TABLE
 c
       DATA NVAR/4/
+      PARAMETER (INFINITY = 1.0E20)
 c-----------------------------------------------------------------------
 c     Sensor state variables
 c        SENSOR%VAR(1) :  TIME_PREC   = beginning of current time interval
@@ -77,8 +78,10 @@ c        SENSOR%VAR(3) :  Index of current time interval in data table
 c        SENSOR%VAR(4) :  Previous HIC value
 c        SENSOR%VAR(5...5+NPOINT)  : average acceleration data table by time intervals
 C=======================================================================
-      IF (SENSOR%STATUS == 3) RETURN   ! already activated
+      IF (SENSOR%STATUS == 1) RETURN   ! already activated
 c
+      TMIN   = SENSOR%TMIN
+      TDELAY = SENSOR%TDELAY
       ISENSOR_TYPE = SENSOR%IPARAM(1)
       IACC         = SENSOR%IPARAM(2)
       NPOINT       = SENSOR%IPARAM(3)
@@ -120,7 +123,8 @@ c...  Get last sensor state variables
       ACC_PREC  = SENSOR%VAR(2)
       xINDX     = SENSOR%VAR(3)
       HIC_PREC  = SENSOR%VAR(4)
-      INDX = NINT(xINDX)
+      INDX  = NINT(xINDX)
+      ICRIT = 0
 c
       TIME_INTERVAL = HIC_PERIOD / NPOINT
       TEST_TIME = TIME_PREC + TIME_INTERVAL
@@ -168,32 +172,32 @@ c       Save sensor status, for next step
         SENSOR%VAR(1) = TIME
         SENSOR%VAR(2) = ZERO       ! reinitialize integral for next time interval
         SENSOR%VAR(3) = INDX
-        IF (HIC > HIC_PREC) THEN
+        IF (HIC >= HIC_PREC) THEN
           SENSOR%VAR(4) = HIC
+          ICRIT = 1
         ENDIF 
 c
 c.......Check Sensor State
-        IF (HIC >= HIC_CRIT) THEN
-          IF (SENSOR%STATUS == 0) THEN
-            SENSOR%STATUS = 1
-            SENSOR%TCRIT  = TIME + SENSOR%TMIN
+        IF (SENSOR%TCRIT + TMIN > TT) THEN
+          IF (ICRIT == 0) THEN
+            SENSOR%TCRIT = INFINITY
+          ELSE IF (SENSOR%TCRIT == INFINITY) THEN
+            SENSOR%TCRIT = MIN(SENSOR%TCRIT, TT)
           END IF
-          IF (SENSOR%TCRIT <= TIME) THEN
-            SENSOR%STATUS = 2
-          END IF
-          IF (SENSOR%STATUS == 2 .and. 
-     .        SENSOR%TCRIT + SENSOR%TDELAY <= TIME) THEN
-            SENSOR%STATUS = 3   ! activate
-            SENSOR%TSTART = TIME
-          END IF
-        ENDIF ! Fin test HIC
+        ELSE IF (SENSOR%TSTART == INFINITY) THEN
+          SENSOR%TSTART = SENSOR%TCRIT + TMIN + TDELAY
+        END IF
+c
+        IF (SENSOR%TSTART <= TT) THEN   ! sensor activation
+          SENSOR%STATUS = 1
+        END IF
 c
       ELSE    ! TIME < TEST_TIME
 c       Calculate acceleration integral within current time interval 
         SENSOR%VAR(2) = SENSOR%VAR(2) + ACCG*DT12
       ENDIF  ! Fin of TIME test
 c-----------------------------------------------------------------------      
-      IF (SENSOR%STATUS == 3 .and. ISPMD == 0) THEN
+      IF (SENSOR%STATUS == 1 .and. ISPMD == 0) THEN
 #include "lockon.inc"
         WRITE (ISTDO,1100 ) SENSOR%SENS_ID,SENSOR%TSTART
         WRITE (IOUT ,1100 ) SENSOR%SENS_ID,SENSOR%TSTART

@@ -56,7 +56,7 @@ Chd|====================================================================
      I           DEL_PLY   ,TH_IPLY   ,SIG_IPLY  ,E1X       ,E1Y        ,
      J           E1Z       ,E2X       ,E2Y       ,E2Z       ,E3X        ,
      K           E3Y       ,E3Z       ,NG        ,TABLE     ,IXFEM      ,
-     L           OFFI      ,LSENSOR   ,SENSOR    ,A11_IPLY  ,ELCRKINI   ,
+     L           OFFI      ,A11_IPLY  ,ELCRKINI   ,
      M           DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
      N           ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O           IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
@@ -102,7 +102,7 @@ C-----------------------------------------------
      .   KFTS,JHBE,IFAILURE,JTHE,IEXPAN,ISHPLYXFEM,ISMSTR,
      .   IXLAY,IXEL,IXFEM,ISUBSTACK,ITASK
       INTEGER MAT(MVSIZ), PID(MVSIZ), INDXDEL(MVSIZ), NGL(MVSIZ),NPF(*), 
-     .   IGEO(NPROPGI,*),IPM(NPROPMI,*),IPARG(*),LSENSOR(NSENSI,*),
+     .   IGEO(NPROPGI,*),IPM(NPROPMI,*),IPARG(*),
      .   A11_IPLY(MVSIZ,*),ELCRKINI(*),FWAVE_EL(NEL)
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*),TF(*),THK(*),EINT(JLT,*),FOR(NEL,5), 
@@ -115,7 +115,7 @@ C-----------------------------------------------
      .   TEMPEL0(MVSIZ), PLY_F(MVSIZ,5,*),
      .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
      .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),DEL_PLY(MVSIZ,3,*) ,
-     .   TH_IPLY(MVSIZ,*), SIG_IPLY(MVSIZ,3,*),SENSOR(NSENSR,*),
+     .   TH_IPLY(MVSIZ,*), SIG_IPLY(MVSIZ,3,*),
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
      .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
      .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ),OFFI(MVSIZ,*),

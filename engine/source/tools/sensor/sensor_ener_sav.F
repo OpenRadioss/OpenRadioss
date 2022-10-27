@@ -26,7 +26,11 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SENSOR_ENER_SAV(LSENSOR ,PARTSAV ,PARTSAV2)
+      SUBROUTINE SENSOR_ENER_SAV(SENSOR_TAB ,PARTSAV ,PARTSAV2)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,18 +45,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LSENSOR(NSENSI,*)
-      my_real
-     .   PARTSAV(NPSAV,*),PARTSAV2(2,*)
+      my_real :: PARTSAV(NPSAV,*),PARTSAV2(2,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,TYP
+      INTEGER I,J,K
 C-----------------------------------------------
       IF(IPARIT==0) THEN
         DO K=1,NSENSOR
-            TYP = LSENSOR(2,K)
-            IF (TYP == 14) THEN ! energy
+            IF (SENSOR_TAB(K)%TYPE == 14) THEN ! energy
               DO J=1,2
                 DO I=1,NPART
                   PARTSAV2(J,I) = PARTSAV(J,I)

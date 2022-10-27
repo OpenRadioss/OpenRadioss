@@ -81,7 +81,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(LFXVELR,NFXVEL) ,INTENT(OUT) :: FBFVEL
       TYPE (UNIT_TYPE_)  ,INTENT(IN) ::  UNITAB
       TYPE (GROUP_)      ,DIMENSION(NGRNOD)  ,INTENT(IN) :: IGRNOD
-      TYPE(SUBMODEL_DATA),DIMENSION(*)       ,INTENT(IN) :: LSUBMODEL
+      TYPE (SUBMODEL_DATA),DIMENSION(*)      ,INTENT(IN) :: LSUBMODEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

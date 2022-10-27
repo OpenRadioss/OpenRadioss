@@ -227,7 +227,7 @@ Chd|====================================================================
      3                  IXR  ,SKEW ,ITAB  ,ITABM1,ISKWN,
      4                  NPBY ,ITAG  ,LPBY ,FSKY  ,
      5                  RBY  ,X    ,V     ,VR    ,IXTG ,
-     6                  IGRV ,IBGR ,SENSOR,A     ,AR   ,
+     6                  IGRV ,IBGR ,SENSOR_TAB,A     ,AR   ,
      7                  FSAV,STIFN,STIFR  ,FANI  ,WEIGHT,
      8                  DMAST,DINERT,BUFSF,FR_RBY2,PARTSAV,
      9                  IPART  ,ELBUF_TAB,ICFIELD,LCFIELD,TAGSLV_RBY)
@@ -235,6 +235,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -262,10 +263,11 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   SKEW(LSKEW,*),MS(*),IN(*),RBY(NRBY,*),X(3,*),
-     .   V(3,*),VR(3,*),SENSOR(NSENSR,*),FSKY(*), A(3,*) ,AR(3,*),
+     .   V(3,*),VR(3,*),FSKY(*), A(3,*) ,AR(3,*),
      .   FSAV(NTHVKI,*), STIFN(*),STIFR(*),FANI(3,*),
      .   DMAST, DINERT, BUFSF(*),PARTSAV(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -321,7 +323,7 @@ C-------------------------------------------
         IFAIL = NPBY(18,N)
         CRIT  = RBY(30,N)
         IF(ISENS/=0 .AND. (IFAIL/=1 .OR. CRIT < ONE))THEN
-          IF(IACTI==0.AND. TT<=SENSOR(2,ISENS))THEN
+          IF (IACTI==0 .AND. TT <= SENSOR_TAB(ISENS)%TSTART) THEN
 C
 C           - rbody is activated and elements are deactivated at the same time
 C           - unless failure criteria has been reached already
@@ -345,7 +347,7 @@ C
      8                    IPART(K3),NPBY(2,N)   ,ELBUF_TAB)
             ONOF1 = 1 ! at least 1 rbody is activated or deactivated
             NPBY(7,N)=1
-          ELSEIF(IACTI>1.AND. TT<=SENSOR(2,ISENS))THEN
+          ELSEIF (IACTI>1 .AND. TT <= SENSOR_TAB(ISENS)%TSTART) THEN
 C
 C          - rbody is waiting for deactivation :
 C              Sensor status changes again => override previous request unless failure criteria was already reached.
@@ -381,8 +383,8 @@ C-------------------------------------------
         IFAIL = NPBY(18,N)
         CRIT  = RBY(30,N)
         IF(ISENS/=0 .AND. (IFAIL/=1 .OR. CRIT < ONE) )THEN
-         IF(IACTI==1.AND. TT>SENSOR(2,ISENS))THEN
-           IF(TT>0.)THEN
+         IF (IACTI == 1 .AND. TT > SENSOR_TAB(ISENS)%TSTART) THEN
+           IF( TT> ZERO)THEN
              IACTI=4
              NPBY(7,N)=IACTI
              IF (ISPMD==0) THEN
