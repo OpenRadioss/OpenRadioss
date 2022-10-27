@@ -30,11 +30,9 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        PBLAST_MOD                    ../common_source/modules/pblast_mod.F
 Chd|====================================================================
-      SUBROUTINE PBLAST_1(ILOADP  ,FAC     ,A      ,
-     2                    V       ,X       ,
-     3                    TFEXC   ,IADC    ,
-     4                    FSKY    ,FSKYV   ,LLOADP ,FEXT    ,ITAB   ,
-     5                    H3D_DATA,NL,T0INF_LOC)
+      SUBROUTINE PBLAST_1(ILOADP  ,FAC      ,A       ,V         ,X       ,
+     1                    IADC    ,FSKY     ,FSKYV   ,LLOADP    ,FEXT    ,
+     2                    ITAB    ,H3D_DATA ,NL      ,T0INF_LOC ,TFEXT_LOC)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -65,22 +63,16 @@ C-----------------------------------------------
 #include      "sysunit.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
-C   E x t e r n a l  F u n c t i o n s
-C-----------------------------------------------
-C
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLOADP(SLLOADP)
-      INTEGER ILOADP(SIZLOADP,NLOADP)
-      INTEGER IADC(*)
-      my_real,INTENT(INOUT) :: T0INF_LOC
+      INTEGER,INTENT(IN) :: LLOADP(SLLOADP)
+      INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,NLOADP)
+      INTEGER,INTENT(IN) :: IADC(*)
       INTEGER, INTENT(IN) :: ITAB(NUMNOD),NL
-      my_real
-     .   FAC(LFACLOAD,NLOADP), A(3,NUMNOD), V(3,NUMNOD), 
-     .   X(3,NUMNOD),TFEXC,
-     .   FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
-      TYPE(H3D_DATABASE) :: H3D_DATA
+      my_real,INTENT(INOUT) :: T0INF_LOC,TFEXT_LOC
+      my_real,INTENT(IN) :: FAC(LFACLOAD,NLOADP),V(3,NUMNOD),X(3,NUMNOD)
+      my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
+      TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -88,13 +80,13 @@ C-----------------------------------------------
      .        IERR,ICODE,IAD,I,
      .        IANIM,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
      .        Phi_I, ID, ITA_SHIFT,
-     .        NITER,ITER,IMODEL
+     .        NITER,ITER,IMODEL,NN(4)
      
       my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz
       
       my_real
      .   AA, A0, VV, DYDX, TS, LAMBDA,
-     .   TFEXTT, F1, F2,FCX,FCY, VSEGX, VSEGY, VSEGZ,
+     .   F1, F2,FCX,FCY, VSEGX, VSEGY, VSEGZ,
      .   FCX1,FCY1,FCX2,FCY2,VX,VY,VZ,VEL,VSEG,
      .   cos_theta, alpha_inci, alpha_refl, P_inci, P_refl_,P_inci_, P_refl,Z,Phi_DB,bound1,bound2, 
      .   I_inci,I_refl,I_inci_,I_refl_, dt_0, t_a,dt_0_,
@@ -113,7 +105,9 @@ C-----------------------------------------------
       
       my_real :: LogRes
       
-      my_real :: cst_255_div_ln_Z1_on_ZN,  log10_
+      my_real :: cst_255_div_ln_Z1_on_ZN,  log10_, NPT, FF(3)
+      
+      integer, external :: OMP_GET_THREAD_NUM
       
       DATA PI_/3.141592653589793238462643D0/
       DATA cst_255_div_ln_Z1_on_ZN/-38.147316611455952998/
@@ -132,9 +126,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   S o u r c e   C o d e
 C-----------------------------------------------
-      TFEXC     = ZERO
-      TFEXTT    = ZERO
-      IANIM     = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT + ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT   !output
+      IANIM = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT + ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT   !output
 
       !Index Bijection                                                                                  
       Z1_ = 0.500000000000000                                                                           
@@ -170,21 +162,28 @@ C-----------------------------------------------
       W13            = (WTNT*FAC_M_bb)**THIRD   ! '*FAC_M'  g->work unit    '/FAC_M' : WORK_UNIT -> g   
       Z              = ZERO                                                                             
       TT_STAR = TT                                                                                      
-      IF(ITA_SHIFT==2)TT_STAR = TT + TA_SHIFT  !working unit                                            
-      IF(TT<TDET)RETURN                                                                                 
+      IF(ITA_SHIFT==2)TT_STAR = TT + TA_SHIFT  !working unit  
+      IF(TT<TDET)RETURN  
          
       !---------------------------------------------                                                                                                                                                  
       !   LOOP ON SEGMENTS (4N or 3N)                                                                                                                                                                 
-      !---------------------------------------------                                                                                                                                                  
-      DO I = 1,ISIZ_SEG                                                                                                                                                                               
+      !---------------------------------------------  
+                                                                                                                                                 
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
+      DO I = 1,ISIZ_SEG   
         N1=LLOADP(ILOADP(4,NL)+4*(I-1))                                                                                                                                                               
         N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)                                                                                                                                                             
         N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)                                                                                                                                                             
-        N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)                                                                                                                                                             
+        N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)
+        NN(1)=N1
+        NN(2)=N2
+        NN(3)=N3
+        NN(4)=N4                                                                                                                                                                       
                                                                                                                                                                                                       
         IF(N4==0 .OR. N3==N4 )THEN                                                                                                                                                                    
           !3 NODE SEGEMENT                                                                                                                                                                            
-          PBLAST_TAB(IL)%NPt(I)   = THREE                                                                                                                                                                            
+          PBLAST_TAB(IL)%NPt(I)   = THREE  
+          NPT = THREE                                                                                                                                                                          
           !Segment Zentrum                                                                                                                                                                            
           Zx = X(1,N1)+X(1,N2)+X(1,N3)                                                                                                                                                                
           Zy = X(2,N1)+X(2,N2)+X(2,N3)                                                                                                                                                                
@@ -198,7 +197,8 @@ C-----------------------------------------------
           NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                                                                                                                                                              
         ELSE                                                                                                                                                                                          
           !4 NODE SEGEMENT                                                                                                                                                                            
-          PBLAST_TAB(IL)%NPt(I)   = FOUR                                                                                                                                                                             
+          PBLAST_TAB(IL)%NPt(I)   = FOUR  
+          NPT = FOUR                                                                                                                                                                           
           !Segment Zentrum                                                                                                                                                                            
           Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)                                                                                                                                                        
           Zy = X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4)                                                                                                                                                        
@@ -211,7 +211,8 @@ C-----------------------------------------------
           NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))                                                                                                              
           NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))                                                                                                              
           NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                                                                                                                                                              
-        ENDIF                                                                                                                                                                                         
+        ENDIF     
+                                                                                                                                                                                                          
         PBLAST_TAB(IL)%N(1,I) = N1                                                                                                                                                                                   
         PBLAST_TAB(IL)%N(2,I) = N2                                                                                                                                                                                   
         PBLAST_TAB(IL)%N(3,I) = N3                                                                                                                                                                                   
@@ -224,7 +225,6 @@ C-----------------------------------------------
         ! Default : do not update:use Starter param. !                                                                                                                                                
         !--------------------------------------------!                                                                                                                                                
         IF(IZ_UPDATE==1)THEN                                                                                                                                                                          
-
                                                                                                                                                                                                       
           !Dist                                                                                                                                                                                       
           Dx    = (Xdet - Zx)*FAC_L_bb  ! => working unit to cm                                                                                                                                       
@@ -383,8 +383,6 @@ C-----------------------------------------------
           DT_0_   = DT_0_  * W13                                                                                                                                                                      
           T_A     = T_A    * W13                                                                                                                                                                      
 
-
-
           !---DECAY                                                                                                                                                                                   
           IF(TT_STAR>=T_A)THEN                                                                                                                                                                        
                                                                                                                                                                                                       
@@ -485,7 +483,7 @@ C-----------------------------------------------
           PBLAST_TAB(IL)%decay_inci(I) = decay_inci                                                                                                                                                   
           PBLAST_TAB(IL)%decay_refl(I) = decay_refl                                                                                                                                                   
                                                                                                                                                                                                       
-        ELSE                                                                                                                                                                                          
+        ELSE! => IZ_UPDATE=0                                                                                                                                                                                        
                                                                                                                                                                                                       
           !update wave parameters (Starter)
           Z=ZERO                                                                                                                                                                                      
@@ -527,24 +525,30 @@ C-----------------------------------------------
         P = MAX(P,PMIN)                                                                                                                                                                               
         IF (NUMSKINP > 0) PBLAST_TAB(IL)%PRES(I) = P                                                                                                                                                  
 
-        !!Expand Pressure load to nodes                                                                                                                                            
-        PBLAST_TAB(IL)%FX(I)= -P * HALF*NX / PBLAST_TAB(IL)%NPT(I)                                                                                                                                                                  
-        PBLAST_TAB(IL)%FY(I)= -P * HALF*NY / PBLAST_TAB(IL)%NPT(I)                                                                                                                                                                  
-        PBLAST_TAB(IL)%FZ(I)= -P * HALF*NZ / PBLAST_TAB(IL)%NPT(I)                                                                                                                                                                  
+        !!Expand Pressure load to nodes   
+        FF(1) = -P * HALF*NX / NPT                                                                                                                                          
+        FF(2) = -P * HALF*NY / NPT  
+        FF(3) = -P * HALF*NZ / NPT  
+        PBLAST_TAB(IL)%FX(I) = FF(1)                                                                                                                                                                 
+        PBLAST_TAB(IL)%FY(I) = FF(2)                                                                                                                                                                  
+        PBLAST_TAB(IL)%FZ(I) = FF(3)                                                                                                                                                                  
 
-        TFEXTT=TFEXTT+DT1*(   PBLAST_TAB(IL)%FX(I) * SUM(  V( 1, PBLAST_TAB(IL)%N(1:NINT(PBLAST_TAB(IL)%NPt(I)),I)  )  )                                                                                                                           
-     +                      + PBLAST_TAB(IL)%FY(I) * SUM(  V( 2, PBLAST_TAB(IL)%N(1:NINT(PBLAST_TAB(IL)%NPt(I)),I)  )  )                                                                                                                           
-     +                      + PBLAST_TAB(IL)%FZ(I) * SUM(  V( 3, PBLAST_TAB(IL)%N(1:NINT(PBLAST_TAB(IL)%NPt(I)),I)  )  )                                                                                                                           
-     +                     )                                                                                                                                                                          
+        TFEXT_LOC=TFEXT_LOC+DT1*(   FF(1) * SUM(  V( 1, NN(1:NINT(NPT))  )  )                                                                                                                           
+     +                            + FF(2) * SUM(  V( 2, NN(1:NINT(NPT))  )  )                                                                                                                           
+     +                            + FF(3) * SUM(  V( 3, NN(1:NINT(NPT))  )  )                                                                                                                           
+     +                          )  
 
       ENDDO!next I                                                                                                                                                                                    
+!$OMP END DO
          
+      CALL MY_BARRIER() 
                  
       !-------------------------------------------!                                                
       !   ASSEMBLY                                !                                                
       !-------------------------------------------!                                                
       ! SPMD/SMP Parith/OFF                                                                        
-      IF(IPARIT==0) THEN                                                                           
+      IF(IPARIT==0) THEN 
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
         DO I = 1,ISIZ_SEG                                                                          
           N1=LLOADP(ILOADP(4,NL)+4*(I-1))                                                          
           N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)                                                        
@@ -564,8 +568,10 @@ C-----------------------------------------------
             A(2,N4)=A(2,N4)+PBLAST_TAB(IL)%FY(I)                                                                  
             A(3,N4)=A(3,N4)+PBLAST_TAB(IL)%FZ(I)                                                                  
           ENDIF                                                                                    
-        ENDDO                                                                                      
-      ELSE                                                                                         
+        ENDDO 
+!$OMP END DO                                                                                             
+      ELSE     
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ) 
         DO I = 1,ISIZ_SEG                                                                          
           IAD         =IADC(ILOADP(4,NL)+4*(I-1))                                                  
           FSKY(1,IAD) =PBLAST_TAB(IL)%FX(I)                                                                       
@@ -585,7 +591,8 @@ C-----------------------------------------------
             FSKY(2,IAD) =PBLAST_TAB(IL)%FY(I)                                                                     
             FSKY(3,IAD) =PBLAST_TAB(IL)%FZ(I)                                                                     
           ENDIF                                                                                    
-        ENDDO                                                                                      
+        ENDDO 
+!$OMP END DO
       ENDIF !IPARIT                                                                                
                                                                                                    
                                                                                                    
@@ -593,7 +600,8 @@ C-----------------------------------------------
       !   ANIMATION FILE                          !                                                
       !-------------------------------------------!                                                
       IF(IANIM>0) THEN                                                                             
-        IF(IANIM > 0) THEN                                                                         
+        IF(IANIM > 0) THEN  
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ) 
           DO I = 1,ISIZ_SEG                                                                        
             N1=PBLAST_TAB(IL)%N(1,I)                                                                              
             N2=PBLAST_TAB(IL)%N(2,I)                                                                              
@@ -613,13 +621,10 @@ C-----------------------------------------------
               FEXT(2,N4) = FEXT(2,N4)+PBLAST_TAB(IL)%FY(I)                                                        
               FEXT(3,N4) = FEXT(3,N4)+PBLAST_TAB(IL)%FZ(I)                                                        
             ENDIF                                                                                  
-          ENDDO                                                                                    
+          ENDDO
+!$OMP END DO                                                                                               
         ENDIF                                                                                      
       ENDIF                                                                                        
-
-#include "atomic.inc"
-      TFEXT = TFEXT + TFEXTT
-#include "atomend.inc"
 
  9000 CONTINUE      
       RETURN

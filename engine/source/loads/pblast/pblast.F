@@ -32,11 +32,9 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        PBLAST_MOD                    ../common_source/modules/pblast_mod.F
 Chd|====================================================================
-      SUBROUTINE PBLAST (ILOADP  ,FAC     ,A      ,
-     2                   V       ,X       ,
-     3                   TFEXC   ,IADC    ,
-     4                   FSKY    ,FSKYV   ,LLOADP ,FEXT    ,ITAB   ,
-     5                   H3D_DATA)
+      SUBROUTINE PBLAST (ILOADP  ,FAC     ,A       , V       ,X       ,
+     1                   IADC    ,FSKY    ,FSKYV   ,LLOADP   ,FEXT    ,
+     2                   ITAB    ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -67,26 +65,20 @@ C-----------------------------------------------
 #include      "sysunit.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
-C   E x t e r n a l  F u n c t i o n s
-C-----------------------------------------------
-C
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLOADP(SLLOADP)
-      INTEGER ILOADP(SIZLOADP,NLOADP)
-      INTEGER  IADC(*)
+      INTEGER,INTENT(IN) :: LLOADP(SLLOADP)
+      INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,NLOADP)
+      INTEGER,INTENT(IN) :: IADC(*)
       INTEGER, INTENT(IN) :: ITAB(NUMNOD)
-      my_real
-     .   FAC(LFACLOAD,NLOADP), A(3,NUMNOD), V(3,NUMNOD),
-     .   X(3,NUMNOD), TFEXC,
-     .   FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
-      TYPE(H3D_DATABASE) :: H3D_DATA
+      my_real,INTENT(IN) :: FAC(LFACLOAD,NLOADP),V(3,NUMNOD),X(3,NUMNOD)
+      my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
+      TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER NL, ABAC_ID, NDT, NDT0, USER_ID, ID
-       my_real :: T0INF_LOC
+       INTEGER NL, ABAC_ID, NDT, NDT0, ID
+       my_real :: T0INF_LOC, TFEXT_LOC
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -96,19 +88,22 @@ C characteristics are built from TM5-1300 abacuses which are in unit system {cm 
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
+       DT_PBLAST = EP20
+       T0INF_PBLAST = EP20       
+       IDT_PBLAST = 0      
+
        IF(NLOADP_B==0)THEN
-         T0INF_PBLAST = EP20
-         DT_PBLAST    = EP20
-         IDT_PBLAST   = 0
          RETURN 
        ENDIF     
+       
 C-----------------------------------------------,
 C   S o u r c e   C o d e
 C-----------------------------------------------
-       TFEXC     = ZERO
-       T0INF_LOC = EP20
-       USER_ID = 0
-
+!$OMP PARALLEL
+!$OMP+ SHARED(FAC,A,V,X,TFEXT,IADC,FSKY,FSKYV,LLOADP,FEXT,ITAB,H3D_DATA,TT,ILOADP)
+!$OMP+ SHARED(T0INF_PBLAST,PBLAST_TAB,PBLAST_DATA)
+!$OMP+ PRIVATE(ABAC_ID,ID,NDT,NDT0,T0INF_LOC,NL,TFEXT_LOC)
+       
        !-----------------------------------------------
        !   LOOP OVER all /LOAD/PBLAST options
        !----------------------------------------------- 
@@ -119,48 +114,46 @@ C-----------------------------------------------
          NDT     = PBLAST_NDT                            
          NDT0    = ILOADP(10,NL)                         
          IF(NDT0/=0) NDT = NDT0                  
-                   
          
+         TFEXT_LOC = ZERO
+         T0INF_LOC = EP20
+
          SELECT CASE(ABAC_ID)
            CASE(1)
              !--- LOADING MODEL : FREE AIR, SPHERICAL CHARGE
              CALL PBLAST_1(
-     1                   ILOADP  ,FAC     ,A        ,
-     2                   V       ,X       ,
-     3                   TFEXC   ,IADC    ,
-     4                   FSKY    ,FSKYV   ,LLOADP   ,FEXT   ,ITAB ,
-     5                   H3D_DATA,NL      ,T0INF_LOC)
+     1                     ILOADP  ,FAC      ,A        ,V         ,X       ,
+     2                     IADC    ,FSKY     ,FSKYV    ,LLOADP    ,FEXT    ,
+     3                     ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC)
      
            CASE(2)
              !--- LOADING MODEL : GROUND REFLECTION, HEMISPHERICAL CHARGE
              CALL PBLAST_2(
-     1                   ILOADP  ,FAC     ,A        ,
-     2                   V       ,X       ,
-     3                   TFEXC   ,IADC    ,
-     4                   FSKY    ,FSKYV   ,LLOADP   ,FEXT   ,ITAB ,
-     5                   H3D_DATA,NL      ,T0INF_LOC)           
+     1                     ILOADP  ,FAC      ,A        ,V         ,X       ,
+     2                     IADC    ,FSKY     ,FSKYV    ,LLOADP    ,FEXT    ,
+     3                     ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC)          
            CASE(3)
              !--- LOADING MODEL : SURFACE BURST, SPHERICAL CHARGE
              CALL PBLAST_3(
-     1                   ILOADP  ,FAC     ,A        ,
-     2                   V       ,X       ,
-     3                   TFEXC   ,IADC    ,
-     4                   FSKY    ,FSKYV   ,LLOADP   ,FEXT   ,ITAB ,
-     5                   H3D_DATA,NL      ,T0INF_LOC) 
+     1                     ILOADP  ,FAC      ,A        ,V         ,X       ,
+     2                     IADC    ,FSKY     ,FSKYV    ,LLOADP    ,FEXT    ,
+     3                     ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC) 
      
-#include "lockon.inc"
-      IF(T0INF_LOC<T0INF_PBLAST) USER_ID   = ID
-#include "lockoff.inc"
-
            END SELECT 
-     
-         ENDDO !next NL
-         
-      !this is required to compute pblast Time step : DT=inf(T0)/N(parameter)
+
 #include "lockon.inc"
-      T0INF_PBLAST = MIN(T0INF_LOC,T0INF_PBLAST)
-      DT_PBLAST    = T0INF_PBLAST/NDT
-      IDT_PBLAST   = USER_ID
-#include "lockoff.inc"                 
+         TFEXT = TFEXT + TFEXT_LOC
+         IF(T0INF_LOC/NDT<DT_PBLAST) THEN
+           IDT_PBLAST  = ID 
+           DT_PBLAST = T0INF_LOC/NDT
+         ENDIF      
+#include  "lockoff.inc"
+
+           CALL MY_BARRIER()
+                
+       ENDDO !next NL
+
+!$OMP END PARALLEL
+                     
 
       END SUBROUTINE
