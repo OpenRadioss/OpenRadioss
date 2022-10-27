@@ -34,13 +34,13 @@ Chd|        INTSTAMP_MOD                  share/modules1/intstamp_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE FSDCOD(BUFMAT,PM,GEO,IBCL,IPRES,
-     .                  IBFV,ISKEW,ISKN,
-     .                  ITABM1,SKEW,LACCELM,INSEL,BUFGEO,
-     .                  IBCSLAG,IGEO ,IPM   ,
-     .                  DAMPR, IBFT  ,IBCV,
-     .                  IBCR  ,TABLE ,NPC1  ,NPC   ,PLD ,
-     .                  NOM_OPT,LSENSOR,IBFFLUX )
+      SUBROUTINE FSDCOD(BUFMAT    ,PM        ,GEO       ,IBCL      ,IPRES   ,
+     .                  IBFV      ,ISKEW     ,ISKN      ,SENSOR_TAB,
+     .                  ITABM1    ,SKEW      ,LACCELM   ,INSEL     ,BUFGEO  ,
+     .                  IBCSLAG   ,IGEO      ,IPM       ,
+     .                  DAMPR     ,IBFT      ,IBCV      ,IBFVEL    ,
+     .                  IBCR      ,TABLE     ,NPC1      ,NPC       ,PLD     ,
+     .                  NOM_OPT   ,IBFFLUX   )  
 C-----------------------------------------------
 C     SOUS PROGRAMME DE DECODAGE DES NOS USERS DES SKEW ET FCTS
 C          ENTREES NOS USER DES SKEW ET FCTS
@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTSTAMP_MOD
       USE TABLE_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,14 +78,17 @@ C-----------------------------------------------
       INTEGER IBFV(NIFV,*),NPC(*), NPC1(*), IBCL(NIBCLD,*), IPRES(NIBCLD,*),
      .   ISKEW(*), ISKN(LISKN,*), ITABM1(*),
      .   LACCELM(3,*),INSEL(*),IBCSLAG(5,*), 
-     .   IPM(NPROPMI,*), IGEO(NPROPGI,*), IBFT(NIFT,*), IBCV(NICONV,*),
-     .   IBCR(NIRADIA,*), LSENSOR(NSENSI,*), IBFFLUX(NITFLUX,*)
+     .   IPM(NPROPMI,*), IGEO(NPROPGI,*),IBCV(NICONV,*),
+     .   IBCR(NIRADIA,*),IBFFLUX(NITFLUX,*)
+      INTEGER ,DIMENSION(NIFV,NFXVEL)  ,INTENT(INOUT) :: IBFVEL
+      INTEGER ,DIMENSION(NIFT,NFXTEMP) ,INTENT(INOUT) :: IBFT
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*),SKEW(LSKEW,*),
      .   DAMPR(NRDAMP,*), PLD(*),BUFMAT(*)
       TYPE(TTABLE) , DIMENSION(NTABLE) :: TABLE
       DOUBLE PRECISION BUFGEO(*)
       INTEGER NOM_OPT(LNOPT1,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1947,7 +1951,7 @@ C
           IOK = 0
           IF (ISENS > 0) THEN
             DO J=1,NSENSOR
-              IF (ISENS == LSENSOR(1,J)) THEN
+              IF (ISENS == SENSOR_TAB(J)%SENS_ID) THEN
                 BUFMAT(IADD+13) = J
                 IOK = 1
                 EXIT
@@ -1966,7 +1970,7 @@ C-------------------------
           ISENS = IBCV(6,I)
           IF(ISENS/=0) THEN
             DO J=1,NSENSOR
-              IF(ISENS == LSENSOR(1,J)) THEN
+              IF(ISENS == SENSOR_TAB(J)%SENS_ID) THEN
                  IBCV(6,I) = J
                  GO TO 801
               ENDIF
@@ -1983,7 +1987,7 @@ C------------------------
           ISENS = IBCR(6,I)
           IF(ISENS/=0) THEN
             DO J=1,NSENSOR
-              IF(ISENS == LSENSOR(1,J)) THEN
+              IF(ISENS == SENSOR_TAB(J)%SENS_ID) THEN
                  IBCR(6,I) = J
                  GO TO 802
               ENDIF
@@ -2000,7 +2004,7 @@ C---------------------
           ISENS = IBFFLUX(6,I)
           IF(ISENS/=0) THEN
             DO J=1,NSENSOR
-              IF(ISENS == LSENSOR(1,J)) THEN
+              IF(ISENS == SENSOR_TAB(J)%SENS_ID) THEN
                  IBFFLUX(6,I) = J
                  GO TO 803
               ENDIF
@@ -2011,6 +2015,36 @@ C---------------------
  803   CONTINUE
        ENDDO
 
+C---------------------
+C  IMPOSED TEMPERATURE
+C---------------------
+      DO I=1,NFXTEMP
+        ISENS = IBFT(3,I)
+        IF (ISENS > 0) THEN
+          DO J=1,NSENSOR
+            IF (ISENS == SENSOR_TAB(J)%SENS_ID) THEN
+               IBFT(3,I) = J
+               EXIT
+            ENDIF
+          ENDDO  
+        END IF
+      ENDDO
+
+C---------------------
+C  IMPOSED DISPLACEMENTS/VELOCITIES/ACCELERATIONS
+C---------------------
+      DO I=1,NFXVEL
+        ISENS = IBFVEL(4,I)
+        IF (ISENS > 0) THEN
+          DO J=1,NSENSOR
+            IF (ISENS == SENSOR_TAB(J)%SENS_ID) THEN
+               IBFVEL(4,I) = J
+               EXIT
+            ENDIF
+          ENDDO  
+        END IF
+      ENDDO
+c
 C----------------------------
 C     (III) TRAITEMENT DES TABLES
 C----------------------------

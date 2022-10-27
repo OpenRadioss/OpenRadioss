@@ -28,8 +28,12 @@ Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE SMS_GRAVIT(IGRV  ,AGRV   ,NPC   ,TF   ,A     ,
-     2                      V     ,X      ,SKEW  ,MS   ,SENSOR,
-     3                      LSENSOR,WEIGHT,IB    ,ITASK,TAGSLV_RBY_SMS)
+     2                      V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,
+     3                      WEIGHT,IB    ,ITASK,TAGSLV_RBY_SMS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,12 +53,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*),NDDIM,NVDIM
-      INTEGER IGRV(NIGRV,*),IB(*),LSENSOR(NSENSI,*)
+      INTEGER IGRV(NIGRV,*),IB(*)
       INTEGER WEIGHT(*), ITASK, TAGSLV_RBY_SMS(*)
 C     REAL
       my_real
      .   AGRV(LFACGRV,*), TF(*), A(3,*), V(3,*), MS(*),
-     .   X(3,*), SKEW(LSKEW,*), SENSOR(NSENSR,*)
+     .   X(3,*), SKEW(LSKEW,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -83,12 +88,12 @@ C
 C
         ISENS=0
         DO K=1,NSENSOR
-          IF(IGRV(6,NL)==LSENSOR(1,K))ISENS=K
+          IF(IGRV(6,NL)== SENSOR_TAB(K)%SENS_ID) ISENS=K ! do it in starter !!!
         ENDDO
         IF(ISENS==0)THEN
           TS=TT
         ELSE
-          TS = TT-SENSOR(2,ISENS)
+          TS = TT-SENSOR_TAB(ISENS)%TSTART
           IF(TS<0.0)CYCLE
         ENDIF
 C

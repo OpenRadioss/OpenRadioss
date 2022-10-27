@@ -135,7 +135,7 @@ Chd|====================================================================
      1                  SH4TREE  ,SH3TREE  ,H3D_DATA    ,MULTI_FVM   ,SUBSET    ,
      2                  PSKIDS   ,TAG_SKINS6,TF         ,NPF         ,FCONT_MAX ,
      3                  MDS_MATID,FNCONTP2 ,FTCONTP2    ,IBCL        ,ILOADP    ,
-     4                  LLOADP   ,FAC      ,SENSOR      ,LSENSOR     ,TAGNCONT  ,
+     4                  LLOADP   ,FAC      ,SENSOR_TAB  ,TAGNCONT    ,
      5                  LOADP_HYD_INTER    ,XFRAME      ,FORC        )
 C-----------------------------------------------
 C   M o d u l e s
@@ -153,6 +153,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE INOUTFILE_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -256,11 +257,11 @@ C-----------------------------------------------
      .        NERBT(NRBODY),LOC_PROC,PROC,NERBE2T(NRBE2G),
      .        NERBE3T(NRBE3G),IAD_RBE2(4,*),NV46,KXIG3D(*),
      .        IXIG3D(*),SIG3DSOLID,MDS_MATID(*)
-      INTEGER LLOADP(SLLOADP),LSENSOR(NSENSI,*)
+      INTEGER LLOADP(SLLOADP)
       INTEGER ILOADP(SIZLOADP,*),IBCL(NIBCLD,*)
       INTEGER TAGNCONT(NLOADP_HYD_INTER,NUMNOD),LOADP_HYD_INTER(NLOADP_HYD)
       my_real
-     .       FAC(LFACCLD,*), SENSOR(NSENSR,*), XFRAME(NXFRAME,*),FORC(*)
+     .       FAC(LFACCLD,*),XFRAME(NXFRAME,*),FORC(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP,NXEL) :: XFEM_TAB
       TYPE (CLUSTER_) ,DIMENSION(NCLUSTER)    :: CLUSTER
@@ -271,6 +272,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
       TYPE (SUBSET_) , TARGET, DIMENSION(NSUBS) :: SUBSET
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2793,7 +2795,7 @@ c-----
      .                    IS_WRITEN_SKIN,INFO1,KEYWORD       , H3D_DATA  ,
      6                    IAD_ELEM        ,FR_ELEM     , WEIGHT    ,TAG_SKINS6,
      7                    NPF  ,TF   ,BUFMAT,IBCL    ,ILOADP     ,LLOADP    ,FAC    , 
-     8                    SENSOR,LSENSOR ,TAGNCONT    ,LOADP_HYD_INTER,XFRAME,FORC  ,
+     8                    SENSOR_TAB,TAGNCONT    ,LOADP_HYD_INTER,XFRAME,FORC  ,
      9                    NODAL_IPART )
 c
           IF (NSPMD > 1 ) THEN
@@ -2829,7 +2831,7 @@ c-----
 
           CALL H3D_SKIN_VECTOR(SKIN_VECTOR,NODAL_IPART,
      .                   IS_WRITEN_SKIN  ,H3D_DATA%OUTPUT_LIST(I)%PART,INFO1   ,KEYWORD ,
-     .                   IBCL,ILOADP,LLOADP,FAC ,NPF,TF ,SENSOR,LSENSOR ,
+     .                   IBCL,ILOADP,LLOADP,FAC ,NPF,TF ,SENSOR_TAB,
      .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V  )
 c
           IF (NSPMD > 1 ) THEN

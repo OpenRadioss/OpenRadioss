@@ -92,19 +92,18 @@ Chd|====================================================================
      4       EYZ      ,KXX      ,KYY      ,KXY       ,GEO      ,THK_LY   ,             
      5       PID      ,TF       ,NPF      ,MTN       ,DT1C     ,DM       ,           
      6       BUFMAT   ,SSP      ,RHO      ,VISCMX    ,IPLA     ,IOFC     ,    
-     7       INDX     ,NGL      ,THKLY    ,MATLY     ,ZCFAC    ,              
+     7       INDX     ,NGL      ,THKLY    ,MATLY     ,ZCFAC    ,NG       ,               
      8       SHF      ,GS       ,SIGY     ,THK0      ,EPSP     ,              
      9       POSLY    ,IGEO     ,IPM      ,FAILWAVE  ,FWAVE_EL ,                                   
      A       IFAILURE ,ALDT     ,TEMPEL   ,DIE       ,                        
      B       R11      ,R12      ,R13      ,R21       ,R22      ,R23      ,    
      C       R31      ,R32      ,R33      ,TABLE     ,IXFEM    ,ELCRKINI ,    
-     D       LSENSOR  ,SENSOR   ,NG       ,                         
-     E       DIR1_CRK ,DIR2_CRK ,IPARG    ,JHBE      ,ISMSTR   ,JTHE     ,             
-     F       TENSX    ,IR       ,IS       ,NLAY      ,NPT      ,IXLAY    ,    
-     G       IXEL     ,ITHK     ,F_DEF    ,ISHPLYXFEM,
-     H       ITASK    ,PM_STACK , ISUBSTACK,STACK    ,TSTAR    ,ALPE     ,
-     I       PLY_EXX  ,PLY_EYY  ,PLY_EXY  ,PLY_EXZ   ,PLY_EYZ  ,PLY_F    ,
-     J       VARNL    ,NLOC_DMG )
+     D       DIR1_CRK ,DIR2_CRK ,IPARG    ,JHBE      ,ISMSTR   ,JTHE     ,                        
+     E       TENSX    ,IR       ,IS       ,NLAY      ,NPT      ,IXLAY    ,             
+     F       IXEL     ,ITHK     ,F_DEF    ,ISHPLYXFEM,                        
+     G       ITASK    ,PM_STACK , ISUBSTACK,STACK    ,TSTAR    ,ALPE     ,
+     H       PLY_EXX  ,PLY_EYY  ,PLY_EXY  ,PLY_EXZ   ,PLY_EYZ  ,PLY_F    ,
+     I       VARNL    ,NLOC_DMG )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -147,7 +146,7 @@ C-----------------------------------------------
      .  IREP,ISUBSTACK,ITASK,ISHPLYXFEM,NUMTABL
       INTEGER MAT(*),MATLY(*),PID(*),NPF(*),NGL(MVSIZ),INDX(MVSIZ),
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),ELCRKINI(NXLAYMAX,*),
-     .   LSENSOR(NSENSI,*),IPARG(*),FWAVE_EL(NEL)
+     .   IPARG(*),FWAVE_EL(NEL)
       my_real DM
       my_real FOR(NEL,5),MOM(NEL,3),GSTR(NEL,8),THK(*),EINT(JLT,2),OFF(*),
      .   DIR_A(*),DIR_B(*),VISCMX(*),PM(NPROPM,*),THK_LY(NEL,*),
@@ -159,7 +158,7 @@ C-----------------------------------------------
      .   R11(MVSIZ), R12(MVSIZ), R13(MVSIZ),
      .   R21(MVSIZ), R22(MVSIZ), R23(MVSIZ),
      .   R31(MVSIZ), R32(MVSIZ), R33(MVSIZ),
-     .   SENSOR(NSENSR,*),DIR1_CRK(*),DIR2_CRK(*),TENSX(NEL,5),
+     .   DIR1_CRK(*),DIR2_CRK(*),TENSX(NEL,5),
      .   F_DEF(MVSIZ,8),PM_STACK(20,*),TSTAR(MVSIZ),ALPE(MVSIZ),
      .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
      .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),PLY_F(MVSIZ,5,*)

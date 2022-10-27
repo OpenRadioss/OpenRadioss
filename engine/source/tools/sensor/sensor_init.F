@@ -28,9 +28,9 @@ Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-        SUBROUTINE SENSOR_INIT( LSENSOR,SUBSET,IPARG,NGROUC,
-     1                          IPARTC,IPARTTG,IPARTS,IPARTQ,IPARTT,
-     2                          IPARTP,IPARTR,SENSOR_TAB)
+        SUBROUTINE SENSOR_INIT( SUBSET,IPARG,NGROUC,
+     .                          IPARTC,IPARTTG,IPARTS,IPARTQ,IPARTT,
+     .                          IPARTP,IPARTR,SENSOR_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -44,15 +44,14 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "mvsiz_p.inc"
-#include "com01_c.inc"
-#include "task_c.inc"
 #include "param_c.inc"
-#include "parit_c.inc"
+#include "com01_c.inc"
 #include "com04_c.inc"
+#include "task_c.inc"
+#include "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, DIMENSION(NSENSI,*), INTENT(IN) :: LSENSOR
         TYPE (SUBSET_) , DIMENSION(NSUBS), INTENT(IN) :: SUBSET
         INTEGER, INTENT(IN) :: NGROUC
         INTEGER, DIMENSION(*), TARGET, INTENT(IN) :: IPARTC,IPARTTG,IPARTS,IPARTQ
@@ -125,7 +124,7 @@ c
         !   -----------------------------------------
         !   count the number of sensors by type
         DO K=1,NSENSOR
-            TYP = LSENSOR(2,K)
+            TYP = SENSOR_TAB(K)%TYPE
             !   --------------------    
             IF (TYP==14) THEN
                 !   sensor energy
@@ -176,11 +175,11 @@ c
                !   get the /PART id for each sensor
                DO I=1,ENERGY_SENSOR
                       K = INDX_ENERGY(I)
-                      TYP = LSENSOR(2,K)
+                      TYP = SENSOR_TAB(K)%TYPE
                       !   --------------------    
                       !   sensor energy
-                      IPART  = LSENSOR(4,K)
-                      ISUBS  = LSENSOR(5,K)
+                      IPART  = SENSOR_TAB(K)%IPARAM(1)
+                      ISUBS  = SENSOR_TAB(K)%IPARAM(2)
                       IF(IPART>0) THEN
                       !   only one part per sensor
                           SENSOR_STRUCT(K)%TYP = 1

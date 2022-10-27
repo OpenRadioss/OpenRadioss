@@ -35,7 +35,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE READ_SENSOR_GAUGE(SENSOR_TAB ,SENS_ID  ,TITR  ,
+      SUBROUTINE READ_SENSOR_GAUGE(SENSOR_PTR ,SENS_ID  ,TITR  ,
      .           LGAUGE   ,LSENSOR ,SENSOR   ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
@@ -66,17 +66,16 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NSENSI) ,INTENT(OUT) :: LSENSOR
       my_real ,DIMENSION(NSENSR) ,INTENT(OUT) :: SENSOR
       CHARACTER TITR*nchartitle
-      TYPE (SENSOR_STR_) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,NGAU,SENS_TYPE
+      INTEGER :: I,J,NGAU,NPARIS,NPARRS,NVAR,SENS_TYPE
       my_real :: TDEL
       INTEGER ,DIMENSION(6) :: IGAU,G_ID
       my_real ,DIMENSION(6) :: PRES,TMIN
-      TYPE (SENSOR_STR_) :: SENSOR_PTR
       LOGICAL :: IS_AVAILABLE
 C--------------------------------
 C     SENSOR : PRESSURE GAUGE LIST
@@ -124,6 +123,42 @@ C
         SENSOR(4+(I-1)*3) = TMIN(I)
         SENSOR(5+(I-1)*3) = INFINITY  ! activation time
       ENDDO
+c
+c     New sensor struct
+c
+      SENSOR_PTR%TYPE    = SENS_TYPE
+      SENSOR_PTR%SENS_ID = SENS_ID
+      SENSOR_PTR%STATUS  = 0            ! status = deactivated
+      SENSOR_PTR%TSTART  = INFINITY
+      SENSOR_PTR%TCRIT   = INFINITY
+      SENSOR_PTR%TMIN    = ZERO         ! TMIN global
+      SENSOR_PTR%TDELAY  = TDEL         ! time delay before activation
+      SENSOR_PTR%VALUE   = ZERO
+
+      NPARIS = NGAU
+      NPARRS = NGAU * 3
+      NVAR   = 0 
+c
+      SENSOR_PTR%NPARI  = NPARIS
+      SENSOR_PTR%NPARR  = NPARRS
+      SENSOR_PTR%NVAR   = NVAR
+c
+      ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
+      ALLOCATE (SENSOR_PTR%RPARAM(NPARRS))
+      ALLOCATE (SENSOR_PTR%VAR(NVAR))
+      SENSOR_PTR%VAR(:) = ZERO
+c
+      SENSOR_PTR%IPARAM(1) = NGAU
+      DO I = 1,NGAU
+        SENSOR_PTR%IPARAM(I+1) = IGAU(I)
+      END DO
+      J = 0
+      DO I = 1,NGAU
+        SENSOR_PTR%RPARAM(J+1) = PRES(I)
+        SENSOR_PTR%RPARAM(J+2) = TMIN(I)
+        SENSOR_PTR%RPARAM(J+3) = INFINITY       
+        J = J+3
+      END DO    
 c------------------------------------------------------------
       WRITE(IOUT, 1000) SENS_ID,TDEL
       WRITE(IOUT, 2000) NGAU

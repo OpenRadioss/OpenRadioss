@@ -35,7 +35,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE READ_SENSOR_DISP(SENSOR_TAB ,SENS_ID  ,
+      SUBROUTINE READ_SENSOR_DISP(SENSOR_PTR ,SENS_ID  ,
      .           LSENSOR ,SENSOR  ,ITABM1  ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
@@ -57,11 +57,8 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "scr17_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr_usens_c.inc"
-#include      "warn_c.inc"
 #include      "units_c.inc"
 #include      "sysunit.inc"
 #include      "submod_c.inc"
@@ -72,16 +69,15 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NUMNOD)  ,INTENT(IN)  :: ITABM1
       INTEGER ,DIMENSION(NSENSI)  ,INTENT(OUT) :: LSENSOR
       my_real ,DIMENSION(NSENSR)  ,INTENT(OUT) :: SENSOR
-      TYPE (SENSOR_STR_) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NOD1,NOD2,NS,SENS_TYPE,P
+      INTEGER :: NOD1,NOD2,N1,N2,NS,NPARIS,NPARRS,NVAR,SENS_TYPE,P
       my_real :: TDEL,DMIN,DMAX
       CHARACTER MESS*40
-      TYPE (SENSOR_STR_) :: SENSOR_PTR
       LOGICAL :: IS_AVAILABLE
       DATA MESS/'SENSOR DEFINITION                       '/
 C-----------------------------------------------
@@ -92,6 +88,7 @@ C--------------------------------
 C     SENSOR BASED ON RELATIVE DISPLACEMENT OF TWO NODES
 C=======================================================================
       IS_AVAILABLE = .FALSE.
+      SENS_TYPE  = 2
 c--------------------------------------------------
 card1
       CALL HM_GET_FLOATV('Tdelay' ,TDEL  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -103,21 +100,52 @@ card2
 c--------------------------------------------------
 c     Check input data
 c--------------------------------------------------
-      SENS_TYPE  = 2
-      LSENSOR(1) = SENS_ID
-      LSENSOR(2) = SENS_TYPE
-      LSENSOR(4) = USR2SYS(NOD1,ITABM1,MESS,NS)
-      LSENSOR(5) = USR2SYS(NOD2,ITABM1,MESS,NS)
-      CALL ANODSET(LSENSOR(4), CHECK_USED)
-      CALL ANODSET(LSENSOR(5), CHECK_USED)
+      N1 = USR2SYS(NOD1,ITABM1,MESS,NS)
+      N2 = USR2SYS(NOD2,ITABM1,MESS,NS)
+      CALL ANODSET(N1, CHECK_USED)
+      CALL ANODSET(N2, CHECK_USED)
       DO P = 1, NSPMD
-        CALL IFRONTPLUS(LSENSOR(4),P)
-        CALL IFRONTPLUS(LSENSOR(5),P)
+        CALL IFRONTPLUS(N1,P)
+        CALL IFRONTPLUS(N2,P)
       ENDDO
+c
+      LSENSOR(1) = SENS_ID
+      LSENSOR(2) = -1 ! SENS_TYPE
+      LSENSOR(4) = N1
+      LSENSOR(5) = N2
       SENSOR(1)  = TDEL
       SENSOR(2)  = INFINITY   ! activation time
-      SENSOR(3) = DMIN
-      SENSOR(4) = DMAX
+      SENSOR(3)  = DMIN
+      SENSOR(4)  = DMAX
+c
+c     New sensor struct
+c
+      SENSOR_PTR%TYPE    = SENS_TYPE
+      SENSOR_PTR%SENS_ID = SENS_ID
+      SENSOR_PTR%STATUS  = 0            ! status = deactivated
+      SENSOR_PTR%TSTART  = INFINITY     ! activation time
+      SENSOR_PTR%TCRIT   = INFINITY
+      SENSOR_PTR%TMIN    = ZERO         ! TMIN global
+      SENSOR_PTR%TDELAY  = TDEL         ! time delay before activation
+      SENSOR_PTR%VALUE   = ZERO
+
+      NPARIS = 2
+      NPARRS = 2
+      NVAR   = 0 
+c
+      SENSOR_PTR%NPARI  = NPARIS
+      SENSOR_PTR%NPARR  = NPARRS
+      SENSOR_PTR%NVAR   = NVAR
+c
+      ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
+      ALLOCATE (SENSOR_PTR%RPARAM(NPARRS))
+      ALLOCATE (SENSOR_PTR%VAR(NVAR))
+      SENSOR_PTR%VAR(:) = ZERO
+
+      SENSOR_PTR%IPARAM(1) = N1
+      SENSOR_PTR%IPARAM(2) = N2
+      SENSOR_PTR%RPARAM(1) = DMIN
+      SENSOR_PTR%RPARAM(2) = DMAX
 c------------------------------------------------------------
       WRITE(IOUT, 1000) SENS_ID,TDEL
       WRITE(IOUT, 2000) NOD1,NOD2,DMIN,DMAX

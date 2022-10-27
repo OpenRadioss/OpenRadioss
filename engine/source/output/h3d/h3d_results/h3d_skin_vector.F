@@ -35,7 +35,7 @@ Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod
 Chd|====================================================================
       SUBROUTINE H3D_SKIN_VECTOR(SKIN_VECTOR,NODAL_IPART,
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,
-     .                   IB ,ILOADP,LLOADP,FAC ,NPC,TF ,SENSOR,LSENSOR ,
+     .                   IB ,ILOADP,LLOADP,FAC ,NPC,TF ,SENSOR_TAB,
      .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V )
 C-----------------------------------------------
 C   M o d u l e s 
@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE PINCHTYPE_MOD 
       USE PBLAST_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,13 +74,13 @@ C-----------------------------------------------
       TYPE (H3D_DATABASE) :: H3D_DATA
       INTEGER
      .   H3D_PART(*),IS_WRITTEN_SKIN(*),INFO1,NPC(*)
-      INTEGER LLOADP(SLLOADP),LSENSOR(NSENSI,*)
+      INTEGER LLOADP(SLLOADP)
       INTEGER ILOADP(SIZLOADP,*),IB(NIBCLD,*)
       INTEGER TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .        LOADP_HYD_INTER(NLOADP_HYD),NODAL_IPART(*)
       my_real
-     .   FAC(LFACCLD,*), SENSOR(NSENSR,*), XFRAME(NXFRAME,*),
-     .   FORC(LFACCLD,*)
+     .   FAC(LFACCLD,*),XFRAME(NXFRAME,*),FORC(LFACCLD,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -130,15 +131,12 @@ C--------default zero
          ISENS   = 0
          XSENS   = ONE
          DO K=1,NSENSOR
-           IF(IB(6,NL)==LSENSOR(1,K))ISENS=K
+           IF(IB(6,NL)== SENSOR_TAB(K)%SENS_ID) ISENS=K
          ENDDO
          IF(ISENS==0)THEN
             TS=TT
-         ELSEIF (LSENSOR(4,ISENS)==753096514 .AND. TT /= ZERO) THEN
-           IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)
-           IERR = GET_U_SENS_VALUE(ISENS,2,XSENS)
          ELSE
-            TS = TT-SENSOR(2,ISENS)
+            TS = TT- SENSOR_TAB(ISENS)%TSTART
             IF(TS < ZERO) CYCLE
          ENDIF
          IF(IDEL > 0 ) CYCLE  ! SEGMENT DELETED
@@ -208,7 +206,7 @@ C
            IF(ISENS==0)THEN
               TS=TT
            ELSE
-              TS = TT-SENSOR(2,ISENS)
+              TS = TT-SENSOR_TAB(ISENS)%TSTART
               IF(TS<ZERO) CYCLE
            ENDIF    
          DO N=1, ISIZ_SEG
@@ -322,15 +320,12 @@ C--------default zero
          ISENS=0
          XSENS = ONE
          DO K=1,NSENSOR
-           IF(ILOADP(6,NL)==LSENSOR(1,K))ISENS=K
+           IF(ILOADP(6,NL)== SENSOR_TAB(K)%SENS_ID) ISENS=K
          ENDDO
          IF(ISENS==0)THEN
             TS=TT
-         ELSEIF (LSENSOR(4,ISENS)==753096514 .AND. TT /= ZERO) THEN
-           IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)         
-           IERR = GET_U_SENS_VALUE(ISENS,2,XSENS)  
          ELSE                        
-            TS = TT-SENSOR(2,ISENS)  
+            TS = TT-SENSOR_TAB(ISENS)%TSTART
             IF(TS < ZERO) CYCLE     
          ENDIF
          DO I = 1,ISIZ_SEG

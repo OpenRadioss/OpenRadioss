@@ -49,7 +49,7 @@ Chd|        R2R_MOD                       share/modules1/r2r_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE READ_MONVOL(T_MONVOL, T_MONVOL_METADATA, ITAB, ITABM1, IPM, IGEO, 
-     .     X, PM, GEO, IXC, IXTG, LSENSOR,SENSOR,
+     .     X, PM, GEO, IXC, IXTG, SENSOR_TAB,
      .     UNITAB, NPC, NPT, PLD, IGRSURF, IGRBRIC, NOM_OPT,IFRAME, XFRAME, 
      .     LSUBMODEL)
 C-----------------------------------------------
@@ -62,6 +62,7 @@ C-----------------------------------------------
       USE MONVOL_STRUCT_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,14 +91,15 @@ C-----------------------------------------------
       TYPE(MONVOL_METADATA_), INTENT(INOUT) :: T_MONVOL_METADATA
       TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
       my_real, INTENT(IN) :: X(3, *), GEO(NPROPG, *), PM(NPROPM, *), PLD(2, *), 
-     .     SENSOR(NSENSR, *),XFRAME(NXFRAME,*)
+     .     XFRAME(NXFRAME,*)
       INTEGER, INTENT(IN) :: NPC(*), NPT(*), ITAB(*), ITABM1(*), 
-     .     IXC(NIXC, *), IXTG(NIXTG, *), LSENSOR(NSENSI, *), IPM(NPROPMI, *), 
+     .     IXC(NIXC, *), IXTG(NIXTG, *),IPM(NPROPMI, *), 
      .     IGEO(NPROPGI, *),IFRAME(LISKN,*)
       INTEGER, INTENT(INOUT) :: NOM_OPT(LNOPT1, *)
       TYPE (SURF_), INTENT(INOUT), DIMENSION(NSURF) :: IGRSURF
       TYPE (GROUP_), DIMENSION(NGRBRIC), INTENT(IN) :: IGRBRIC
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -184,7 +186,7 @@ C     Check units
 !     /MONVOL/AREA     !
 !     ************     !
             CALL HM_READ_MONVOL_TYPE1(T_MONVOL(II), IPM, IGEO, ITABM1, 
-     .           LSENSOR, SENSOR, NPT, PLD, 
+     .           SENSOR_TAB, NPT, PLD, 
      .           UNITAB, LOCAL_UID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, 
      .           LSUBMODEL)
          CASE(2)
@@ -192,7 +194,7 @@ C     Check units
 !     /MONVOL/PRES     !
 !     ************     !
             CALL HM_READ_MONVOL_TYPE2(T_MONVOL(II), IPM, IGEO, ITABM1, 
-     .           LSENSOR, SENSOR, NPT, PLD, 
+     .           SENSOR_TAB,NPT, PLD, 
      .           UNITAB, LOCAL_UID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, 
      .           LSUBMODEL)
          CASE(3)
@@ -200,7 +202,7 @@ C     Check units
 !     /MONVOL/GAS     !
 !     ***********     !
             CALL HM_READ_MONVOL_TYPE3(T_MONVOL(II), IPM, IGEO, ITABM1,   
-     .           LSENSOR, SENSOR, NPT, PLD, 
+     .           SENSOR_TAB, NPT, PLD, 
      .           UNITAB, LOCAL_UID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, 
      .           LSUBMODEL)
          CASE(4)
@@ -208,7 +210,7 @@ C     Check units
 !     /MONVOL/AIRBAG     !
 !     **************     !
             CALL HM_READ_MONVOL_TYPE4(T_MONVOL(II), IPM, IGEO, ITABM1, 
-     .           LSENSOR, SENSOR, NPT, PLD, 
+     .           SENSOR_TAB, NPT, PLD, 
      .           UNITAB, LOCAL_UID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG,
      .           LSUBMODEL)
          CASE(5)
@@ -216,7 +218,7 @@ C     Check units
 !     /MONVOL/COMMU     !
 !     *************     !
             CALL HM_READ_MONVOL_TYPE5(T_MONVOL(II), T_MONVOL_METADATA, IPM, IGEO, ITABM1, 
-     .           LSENSOR, SENSOR, NPT, PLD, 
+     .           SENSOR_TAB, NPT, PLD, 
      .           UNITAB, LOCAL_UID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG,
      .           LSUBMODEL)
          CASE(6)
@@ -224,7 +226,7 @@ C     Check units
 !     /MONVOL/FVMBAG     !
 !     **************     !
             CALL HM_READ_MONVOL_TYPE6(T_MONVOL(II), IPM, IGEO, ITABM1, 
-     .           LSENSOR, SENSOR, NPT, PLD, IGRBRIC,
+     .           SENSOR_TAB, NPT, PLD, IGRBRIC,
      .           UNITAB, LOCAL_UID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG,
      .           LSUBMODEL)
          CASE(7)
@@ -232,7 +234,7 @@ C     Check units
 !     /MONVOL/AIRBAG1     !
 !     ***************     !
             CALL HM_READ_MONVOL_TYPE7(T_MONVOL(II), IPM, IGEO, ITABM1,   
-     .           LSENSOR, SENSOR, NPT, PLD, 
+     .           SENSOR_TAB, NPT, PLD, 
      .           UNITAB, LOCAL_UID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG,
      .           LSUBMODEL)
          CASE(8)
@@ -240,7 +242,7 @@ C     Check units
 !     /MONVOL/FVMBAG1     !
 !     ***************     !
            CALL HM_READ_MONVOL_TYPE8(T_MONVOL(II), IPM, IGEO, ITABM1,   
-     .           LSENSOR, SENSOR, NPT, PLD, IFRAME, XFRAME, IGRBRIC,
+     .           SENSOR_TAB, NPT, PLD, IFRAME, XFRAME, IGRBRIC,
      .           UNITAB, LOCAL_UID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, 
      .           LSUBMODEL)           
 
@@ -249,7 +251,7 @@ C     Check units
 !     /MONVOL/COMMU1     !
 !     **************     !
             CALL HM_READ_MONVOL_TYPE9(T_MONVOL(II), T_MONVOL_METADATA, IPM, IGEO, ITABM1,   
-     .           LSENSOR, SENSOR, NPT, PLD, 
+     .           SENSOR_TAB, NPT, PLD, 
      .           UNITAB, LOCAL_UID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG,
      .           LSUBMODEL)
          CASE(10)
@@ -257,7 +259,7 @@ C     Check units
 !     /MONVOL/LFLUID     !
 !     **************     !
             CALL HM_READ_MONVOL_TYPE10(T_MONVOL(II), IPM, IGEO, ITABM1,   
-     .           LSENSOR, SENSOR, NPT, PLD, 
+     .           NPT, PLD, 
      .           UNITAB, LOCAL_UID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, 
      .           LSUBMODEL)
          CASE(11)
@@ -265,7 +267,7 @@ C     Check units
 !     /MONVOL/FVMBAG2     !
 !     ***************     !
             CALL HM_READ_MONVOL_TYPE11(T_MONVOL(II), IPM, IGEO, ITABM1,   
-     .           LSENSOR, SENSOR, NPT, PLD, IFRAME, XFRAME, IGRBRIC,
+     .           SENSOR_TAB, NPT, PLD, IFRAME, XFRAME, IGRBRIC,
      .           UNITAB, LOCAL_UID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, 
      .           LSUBMODEL)
          END SELECT

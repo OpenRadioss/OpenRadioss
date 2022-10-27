@@ -58,7 +58,7 @@ Chd|====================================================================
      .                  ITAG    ,IXC     ,IXTG    ,KNOD2ELC,KNOD2ELTG,
      .                  NOD2ELC ,NOD2ELTG,KNOD2ELS,NOD2ELS,IXS10   ,
      .                  IXS16   ,IXS20   ,DEF_INTER,MAXNSNE,
-     .                  NPC1    ,LSENSOR, MULTI_FVM,NOM_OPTFRIC,INTBUF_FRIC_TAB,
+     .                  NPC1    ,MULTI_FVM,NOM_OPTFRIC,INTBUF_FRIC_TAB,
      .                  IGRBRIC,IGRSH3N ,IGRTRUSS ,MAXRTM_T2,NSN_MULTI_CONNEC,T2_NB_CONNEC,
      .                  IDDLEVEL,NALE)
 C============================================================================
@@ -111,7 +111,7 @@ C-----------------------------------------------
      .        IXC(*),IXTG(*),KNOD2ELC(*),KNOD2ELTG(*),
      .        NOD2ELC(*),NOD2ELTG(*),KNOD2ELS(*),NOD2ELS(*),
      .        IXS10(6,*), IXS16(8,*), IXS20(12,*),DEF_INTER(*),
-     .        NPC1(*),LSENSOR(NSENSI,*),NOM_OPTFRIC(LNOPT1,*),MAXRTM_T2,
+     .        NPC1(*),NOM_OPTFRIC(LNOPT1,*),MAXRTM_T2,
      .        T2_NB_CONNEC(*),NSN_MULTI_CONNEC
       INTEGER, INTENT(IN) :: NALE(NUMNOD)
       my_real

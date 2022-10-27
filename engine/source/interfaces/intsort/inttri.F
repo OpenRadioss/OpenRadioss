@@ -111,7 +111,7 @@ Chd|====================================================================
      E       XMSR     ,VSLV    ,VMSR    ,SIZE_T   ,
      F       NODNX_SMS,DXANCG  ,IKINE   ,DIAG_SMS ,
      G       COUNT_REMSLV, COUNT_REMSLVE,ALE_CONNECTIVITY,
-     H       IXTG      ,SENSOR ,DELTA_PMAX_GAP    ,
+     H       IXTG      ,SENSOR_TAB,DELTA_PMAX_GAP    ,
      I       INTBUF_TAB ,DELTA_PMAX_GAP_NODE,
      .                                IAD_FRNOR,FR_NOR,
      J       NB25_CANDT,NB25_IMPCT,NB25_DST1,NB25_DST2,INTLIST25,
@@ -138,6 +138,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE INTER_STRUCT_MOD
       USE INTER_SORTING_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -204,7 +205,7 @@ C-----------------------------------------------
      .        THKNOD(*),DELTA_PMAX_GAP(NINTER),
      .        XSLV(18,NINTER),XMSR(12,NINTER),X21MSR(3,NINTSTAMP),
      .        VSLV(6,NINTER),VMSR(6,NINTER),V21MSR(3,NINTSTAMP),
-     .        SIZE_T(NINTER),DXANCG(3,*), DIAG_SMS(*), SENSOR(NSENSR,*),
+     .        SIZE_T(NINTER),DXANCG(3,*), DIAG_SMS(*),
      .        FORNEQS(*), MAXDGAP(NINTER), T2FAC_SMS(*)
       my_real, TARGET ::  X(3*NUMNOD),V(3*NUMNOD),W(3,NUMNOD)
       my_real, DIMENSION(*), TARGET :: MS
@@ -218,6 +219,7 @@ C-----------------------------------------------
       INTEGER, INTENT(in) :: RENUM_SIZ
       TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   struture for interface
       TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
@@ -351,8 +353,8 @@ C        Look if interface is activated
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) 
      .    ISENS = IPARI(64,N)  
-        IF(ISENS/=0)  THEN         ! Interface activated by sensor
-           TS = SENSOR(2,ISENS)
+        IF (ISENS > 0)  THEN         ! Interface activated by sensor
+           TS = SENSOR_TAB(ISENS)%TSTART
         ELSE
            TS = TT
         ENDIF
@@ -424,8 +426,8 @@ C
         ! Look if interface is activated 
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
-        IF(ISENS/=0)  THEN         ! Interface activated by sensor
-           TS = SENSOR(2,ISENS)
+        IF (ISENS > 0)  THEN         ! Interface activated by sensor
+           TS = SENSOR_TAB(ISENS)%TSTART
         ELSE
            TS = TT
         ENDIF
@@ -568,8 +570,8 @@ C
       DO KK=1,NINTSTAMP
         N = INTSTAMP(KK)%NOINTER
         ISENS = IPARI(64,N)       ! INTERFACE SENSOR NUMBER
-        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
-           TS = SENSOR(2,ISENS)
+        IF (ISENS > 0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+           TS = SENSOR_TAB(ISENS)%TSTART
         ELSE
            TS = TT
         ENDIF
@@ -616,7 +618,7 @@ C
      1    IPARI   ,NEWFRONT ,ISENDTO  ,
      2    IRECVFROM ,DT2T    ,NELTST  ,ITYPTST  ,ITAB      ,
      3    XSLV      ,XMSR    ,VSLV    ,VMSR     ,INTLIST   ,
-     4    NBINTC    ,SIZE_T  ,SENSOR  ,DELTA_PMAX_GAP,
+     4    NBINTC    ,SIZE_T  ,SENSOR_TAB,DELTA_PMAX_GAP,
      5    INTBUF_TAB,DELTA_PMAX_GAP_NODE,IDEL7NOK_SAV,MAXDGAP)
 C
 C (barriere par interface)
@@ -624,7 +626,7 @@ C (barriere par interface)
         CALL I21_ICRIT(
      1    INTBUF_TAB       ,IPARI   ,DT2T     ,NELTST    ,
      2    ITYPTST  ,XSLV   ,XMSR  ,VSLV   ,VMSR    ,
-     3    INTSTAMP ,X21MSR ,V21MSR,SENSOR,NBINTC21 ,
+     3    INTSTAMP ,X21MSR ,V21MSR,SENSOR_TAB,NBINTC21 ,
      4    INTLIST21)
       END IF
 C
@@ -650,7 +652,7 @@ C Fin Partie non parallele smt
       IF(ITASK==0) NEED_TO_SORT = 0
       ! find the list of interface (for the moment : type7) that needs to be sorted
       CALL INTER_CHECK_SORT( ITASK,NEED_TO_SORT,NBINTC,INTLIST,IPARI,
-     .                           INTBUF_TAB,SENSOR,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)
+     .                           INTBUF_TAB,SENSOR_TAB,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)
       ! globalize NEED_TO_SORT : 1= one or several interface(s) must be sorted 
       IF(NSPMD>1.AND.ITASK==0) CALL SPMD_ALLGLOB_ISUM9(NEED_TO_SORT,1)
       CALL MY_BARRIER()
@@ -690,7 +692,7 @@ C Fin Partie non parallele smt
             ! sorting computation
             CALL INTER_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,
      1                       ISENDTO,IRECVFROM,INTBUF_TAB,X,ITAB,
-     2                       RENUM,NSNFIOLD,MULTI_FVM,H3D_DATA,SENSOR,
+     2                       RENUM,NSNFIOLD,MULTI_FVM,H3D_DATA,SENSOR_TAB,
      3                       INTER_STRUCT,SORT_COMM ,RENUM_SIZ)
       ENDIF
       ! end : new sorting algorythm
@@ -724,8 +726,8 @@ C
 
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
-        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
-           TS = SENSOR(2,ISENS)
+        IF (ISENS > 0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+           TS = SENSOR_TAB(ISENS)%TSTART
         ELSE
            TS = TT
         ENDIF
@@ -956,8 +958,8 @@ C
        DO KK=1,NINTSTAMP
           N = INTSTAMP(KK)%NOINTER
           ISENS = IPARI(64,N)       ! INTERFACE SENSOR NUMBER
-          IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
-            TS = SENSOR(2,ISENS)
+          IF (ISENS > 0) THEN       ! IF INTERFACE IS ACTIVATED BY SENSOR 
+            TS = SENSOR_TAB(ISENS)%TSTART
           ELSE
             TS = TT
           ENDIF
@@ -980,8 +982,8 @@ C=======================================================================
 C
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
-        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
-           TS = SENSOR(2,ISENS)
+        IF (ISENS > 0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+           TS = SENSOR_TAB(ISENS)%TSTART
         ELSE
            TS = TT
         ENDIF
@@ -1175,8 +1177,8 @@ C--------TEST IF INTERFACE IS ACTIVE WHEN USING SENSOR-----------
          ENDIF
 
          ISENS = IPARI(64,N)      
-         IF   (ISENS   /=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
-            TS = SENSOR(2,ISENS)
+         IF   (ISENS > 0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+            TS = SENSOR_TAB(ISENS)%TSTART
          ELSE
             TS = TT
          ENDIF
@@ -1211,7 +1213,7 @@ C
 
         CALL I25MAIN_NORM(
      1      INTLIST25,IPARI   ,INTBUF_TAB ,ITASK+1  ,X      ,
-     2      ITAB    ,SENSOR ,IAD_FRNOR,FR_NOR   ,
+     2      ITAB    ,SENSOR_TAB,IAD_FRNOR,FR_NOR   ,
      3      IAD_FREDG,FR_EDG,IAD_ELEM ,FR_ELEM  ,FSKYN25    ,
      4      ADDCSRECT,PROCNOR)
 
@@ -1262,7 +1264,7 @@ C statistique interface
         ENDIF
       
         CALL I25MAIN_SLID(
-     1      IPARI    ,IAD_ELEM ,FR_ELEM   ,ITAB     ,SENSOR ,
+     1      IPARI    ,IAD_ELEM ,FR_ELEM   ,ITAB     ,SENSOR_TAB,
      2      INTLIST25,INTBUF_TAB ,IAD_FRNOR,FR_NOR ,
      3      X        ,V       ,MS      ,TEMP   ,KINET      ,
      4      NATIV_SMS,ITASK+1 ,NB25_DST2, MAIN_PROC,
@@ -1292,7 +1294,7 @@ C
       ! explicit part
       IF(IMPL_S/=1)THEN
         CALL INTER_DEALLOCATE_WAIT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,ISENDTO,
-     1                                IRECVFROM,INTBUF_TAB,SENSOR,INTER_STRUCT,SORT_COMM )
+     1                                IRECVFROM,INTBUF_TAB,SENSOR_TAB,INTER_STRUCT,SORT_COMM )
       ENDIF
       ! end : new sorting algorythm 
       ! ------------------------------
@@ -1319,11 +1321,11 @@ C
      2    NBINTC  ,INTLIST ,ISLEN7  ,IRLEN7   ,
      3    ISLEN11 ,IRLEN11 ,ISLEN17 ,IRLEN17 ,IRLEN7T  ,
      4    ISLEN7T ,IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T ,
-     5    IRLEN20E,ISLEN20E,SENSOR  ,INTBUF_TAB, 1 )
+     5    IRLEN20E,ISLEN20E,SENSOR_TAB,INTBUF_TAB, 1 )
 
         IF(NINTSTAMP /= 0.AND.FTEMPVAR21==1) THEN
           CALL SPMD_IFRONT_STAMP(
-     1      IPARI   ,INTBUF_TAB, RETRI21,TEMP    ,SENSOR,  ITAB,
+     1      IPARI   ,INTBUF_TAB, RETRI21,TEMP    ,SENSOR_TAB,  ITAB,
      2      NBINTC21,INTLIST21)
         ENDIF
          
@@ -1351,8 +1353,8 @@ C--------TEST IF INTERFACE IS ACTIVE WHEN USING SENSOR-----------
 
 
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)      
-        IF   (ISENS   /=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
-           TS = SENSOR(2,ISENS)
+        IF (ISENS > 0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+           TS = SENSOR_TAB(ISENS)%TSTART
         ELSE
            TS = TT
         ENDIF
@@ -1458,8 +1460,8 @@ C
           N = INTSTAMP(KK)%NOINTER
 C
           ISENS = IPARI(64,N)       ! INTERFACE SENSOR NUMBER
-          IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
-           TS = SENSOR(2,ISENS)
+          IF (ISENS > 0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+           TS = SENSOR_TAB(ISENS)%TSTART
          ELSE
            TS = TT
          ENDIF
@@ -1522,7 +1524,7 @@ C
         END IF 
       
         CALL I25MAIND_2(
-     1      IPARI    ,ITAB     ,SENSOR ,INTLIST25,INTBUF_TAB ,
+     1      IPARI    ,ITAB     ,SENSOR_TAB,INTLIST25,INTBUF_TAB ,
      2      X        ,V       ,KINET      ,ITASK+1 ,NB25_DST2,
      3      ICODT    ,ISKEW   )
 C 
@@ -1552,7 +1554,7 @@ C
      2    NBINTC  ,INTLIST ,ISLEN7  ,IRLEN7   ,
      3    ISLEN11 ,IRLEN11 ,ISLEN17 ,IRLEN17 ,IRLEN7T  ,
      4    ISLEN7T ,IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T ,
-     5    IRLEN20E,ISLEN20E,SENSOR  ,INTBUF_TAB, 2)
+     5    IRLEN20E,ISLEN20E,SENSOR_TAB,INTBUF_TAB, 2)
 
        IF(NINTER25E > 0) THEN
          CALL SPMD_I25FRONT_NOR(IPARI,

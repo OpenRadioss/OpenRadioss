@@ -29,7 +29,11 @@ Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE FVINJT6(NJET   , IBAGJET , RBAGJET , NPC    , TF      ,
-     2                   SENSOR , SCALT,    DATAINJ )
+     2                   SENSOR_TAB, SCALT,    DATAINJ )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -37,6 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -45,9 +50,8 @@ C-----------------------------------------------
       INTEGER NJET, IBAGJET(NIBJET,*), NPC(*)
 C     REAL
       my_real
-     .   RBAGJET(NRBJET,*), TF(*), SENSOR(NSENSR,*), SCALT, 
-     .   DATAINJ(6,NJET)
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
+     .   RBAGJET(NRBJET,*), TF(*),SCALT,DATAINJ(6,NJET)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -71,7 +75,7 @@ C-----------------------------------------------
          IF(ISENS==0)THEN
           TSTART=ZERO
          ELSE
-          TSTART=SENSOR(2,ISENS)
+          TSTART=SENSOR_TAB(ISENS)%TSTART
          ENDIF
          IF (TT>=TSTART.AND.DT1>ZERO)THEN
             TSG=(TT-TSTART)*SCALT

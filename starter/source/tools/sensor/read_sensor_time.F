@@ -30,7 +30,7 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE READ_SENSOR_TIME(SENSOR_TAB ,SENS_ID  ,
+      SUBROUTINE READ_SENSOR_TIME(SENSOR_PTR ,SENS_ID  ,
      .           LSENSOR ,SENSOR   ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
@@ -49,7 +49,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
-#include      "scr_usens_c.inc"
 #include      "units_c.inc"
 #include      "sysunit.inc"
 #include      "submod_c.inc"
@@ -59,15 +58,14 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
       INTEGER ,DIMENSION(NSENSI)  ,INTENT(OUT) :: LSENSOR
       my_real ,DIMENSION(NSENSR)  ,INTENT(OUT) :: SENSOR
-      TYPE (SENSOR_STR_) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (UNIT_TYPE_)    ,INTENT(IN) :: UNITAB 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: SENS_TYPE
+      INTEGER :: NPARIS,NPARRS,NVAR,SENS_TYPE
       my_real :: TDEL
-      TYPE (SENSOR_STR_) :: SENSOR_PTR
       LOGICAL :: IS_AVAILABLE
 C--------------------------------
 C     SENSOR TIMER
@@ -82,8 +80,34 @@ c--------------------------------------------------
       LSENSOR(1) = SENS_ID
       LSENSOR(2) = SENS_TYPE
       SENSOR(1)  = TDEL
-      SENSOR(2)  = TDEL         ! Tstart = activation time
-      SENSOR(3)  = INFINITY 
+      SENSOR(2)  = INFINITY     ! Tstart = activation time
+      SENSOR(3)  = INFINITY     ! Tstop
+c
+c     New sensor struct
+c
+      SENSOR_PTR%TYPE    = SENS_TYPE
+      SENSOR_PTR%SENS_ID = SENS_ID
+      SENSOR_PTR%STATUS  = 0            ! status = deactivated
+      SENSOR_PTR%TSTART  = INFINITY
+      SENSOR_PTR%TCRIT   = INFINITY
+      SENSOR_PTR%TMIN    = ZERO         ! TMIN global
+      SENSOR_PTR%TDELAY  = TDEL         ! time delay before activation
+      SENSOR_PTR%VALUE   = ZERO
+
+      NPARIS = 0
+      NPARRS = 0
+      NVAR   = 0 
+c
+      SENSOR_PTR%NPARI  = NPARIS
+      SENSOR_PTR%NPARR  = NPARRS
+      SENSOR_PTR%NVAR   = NVAR
+c
+      ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
+      ALLOCATE (SENSOR_PTR%RPARAM(NPARRS))
+      ALLOCATE (SENSOR_PTR%VAR(NVAR))
+      SENSOR_PTR%VAR(:) = ZERO
+      SENSOR_PTR%IPARAM(:) = 0
+      SENSOR_PTR%RPARAM(:) = 0
 c------------------------------------------------------------
       WRITE (IOUT, 1000) SENS_ID,TDEL
 c------------------------------------------------------------

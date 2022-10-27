@@ -87,8 +87,7 @@ Chd|====================================================================
      B            TEMP     ,FTHE    ,FTHESKY ,IEXPAN   ,GRESAV   ,
      C            GRTH     ,IGRTH   ,MSSA    ,DMELS    ,TABLE    ,
      D            XDP      ,VARNOD  ,VOLN    ,CONDN    ,CONDNSKY ,
-     E            D        ,
-     F            SENSOR   ,LSENSOR ,IOUTPRT ,MATPARAM_TAB,H3D_STRAIN)
+     E            D        ,SENSOR_TAB,IOUTPRT ,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -98,6 +97,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -129,7 +129,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(NPROPMI,*),IGEO(NPROPGI,*),ITASK,
-     .        GRTH(*),IGRTH(*),LSENSOR(NSENSI,*),IOUTPRT
+     .        GRTH(*),IGRTH(*),IOUTPRT
 C
       INTEGER NELTST,ITYPTST,OFFSET,NEL,NG, ISTRAIN,
      .        IEXPAN,H3D_STRAIN
@@ -149,7 +149,7 @@ C
      .   F14(MVSIZ),F24(MVSIZ),F34(MVSIZ),D(*),
      .   TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*), MSSA(*), DMELS(*), VOLN(MVSIZ)
       my_real
-     .   MSNF(*),VARNOD(*),CONDN(*),CONDNSKY(*),SENSOR(NSENSR,*),
+     .   MSNF(*),VARNOD(*),CONDN(*),CONDNSKY(*),
       ! tableau SPMD voisin ALE/CFD
      .   BUFVOIS(6,*)
       TYPE(TTABLE) TABLE(*)
@@ -157,6 +157,7 @@ C
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -487,7 +488,7 @@ Cpour le fluide en SPMD : BUFVOIS LOI11
         CALL SROTA3(BPRELD(3*NEL+1),B1   ,B2   ,B3   ,B4 ,
      .            B5      ,B6   ,WXX  ,WYY  ,WZZ,
      .            NEL     )
-        CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR,LSENSOR)
+        CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR_TAB)
       END IF
 
       CALL MMAIN(

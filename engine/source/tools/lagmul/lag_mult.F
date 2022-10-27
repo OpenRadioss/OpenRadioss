@@ -61,7 +61,7 @@ Chd|====================================================================
      7       NPBYL  ,LPBYL   ,IBFV    ,VEL      ,NPF      ,
      8       TF     ,NEWFRONT,ICONTACT,RWBUF    ,LPRW     ,
      9       NPRW   ,RBYL    ,D       ,DR       ,KINET    ,
-     A       SENSOR ,INTBUF_TAB ,H3D_DATA ,IGRBRIC)
+     A       SENSOR_TAB,INTBUF_TAB ,H3D_DATA ,IGRBRIC)
 C======================================================================|
 C-----------------------------------------------
 C   M o d u l e s
@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE GROUPDEF_MOD
+      USE SENSOR_MOD
 C----------------------------------------------- 
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,11 +100,11 @@ C     REAL
      .   X(3,*), D(3,*), DR(3,*), A(3,*), AR(3,*), V(3,*), VR(3,*),
      .   MS(*), IN(*), LAMBDA(*),FANI(3,*),FSAV(NTHVKI,*),
      .   SKEW(LSKEW,*),WAG(*),WAT(*),GJBUFR(LKJNR,*),RBMPC(*),
-     .   VEL(LFXVELR,*),TF(*),RWBUF(NRWLP,*),RBYL(NRBY,*),
-     .    SENSOR(NSENSR,*)
+     .   VEL(LFXVELR,*),TF(*),RWBUF(NRWLP,*),RBYL(NRBY,*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -205,8 +206,8 @@ C---
         IF(NTY==7.OR.NTY==22)THEN
           ISENS = 0
           IF(NTY==7) ISENS = IPARI(64,N)
-          IF(ISENS/=0)  THEN
-             TS = SENSOR(2,ISENS)
+          IF(ISENS > 0)  THEN
+             TS = SENSOR_TAB(ISENS)%TSTART
           ELSE
              TS = TT
           ENDIF

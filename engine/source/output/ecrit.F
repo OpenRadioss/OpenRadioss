@@ -41,9 +41,9 @@ Chd|====================================================================
       SUBROUTINE ECRIT(PARTSAV  ,MS      ,V	      ,IN       ,R     ,
      2                 RBY      ,NPBY    ,DMAS    ,DINER    ,WEIGHT,
      3                 A        ,AR      ,FXBIPM  ,FXBRPM   ,MONVOL,
-     4                 XMOM_SMS ,LSENSOR ,SENSOR  ,QFRICINT ,IPARI ,
+     4                 XMOM_SMS ,SENSOR_TAB,QFRICINT ,IPARI ,
      5                 WEIGHT_MD,TFEXTH  ,IFLAG   ,MS_2D    , MULTI_FVM,
-     6                 MAS_ND   ,KEND    ,H3D_DATA,SENSOR_TAB)
+     6                 MAS_ND   ,KEND    ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -90,13 +90,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFLAG
       INTEGER NPBY(NNPBY,*),
-     .        WEIGHT(NUMNOD),FXBIPM(NBIPM,*),LSENSOR(NSENSI,*),
+     .        WEIGHT(NUMNOD),FXBIPM(NBIPM,*),
      .        IPARI(NPARI,NINTER),WEIGHT_MD(NUMNOD)
       INTEGER MONVOL(*)
       my_real DMAS,DINER,TFEXTH,
      .   PARTSAV(NPSAV,*), MS(NUMNOD), V(3,NUMNOD), A(3,NUMNOD), 
      .   IN(NUMNOD), R(3,NUMNOD), RBY(NRBY,*), AR(3,NUMNOD),FXBRPM(*),
-     .   XMOM_SMS(3,*), SENSOR(NSENSR,*), QFRICINT(*),MS_2D(*),KEND,MAS_ND
+     .   XMOM_SMS(3,*),QFRICINT(*),MS_2D(*),KEND,MAS_ND
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(H3D_DATABASE), INTENT(INOUT) :: H3D_DATA
       TYPE (SENSOR_STR_), DIMENSION(NSENSOR) :: SENSOR_TAB
@@ -503,7 +503,7 @@ C-----------------------------------------------
           MSTATT = 0
           DO I=1,NSTATSENS
              ISENS = LSTATSENS(I)
-             TS = SENSOR(2,ISENS)       
+             TS = SENSOR_TAB(ISENS)%TSTART      
              IF(TT>=TS)THEN
                 MSTAT(I) = MSTAT(I)+1    
              ENDIF
@@ -517,7 +517,7 @@ C-----------------------------------------------
           MOUTPT = 0
           DO I=1,NOUTPSENS
              ISENS = LOUTPSENS(I)
-             TS = SENSOR(2,ISENS)       
+             TS = SENSOR_TAB(ISENS)%TSTART     
              IF(TT>=TS)THEN
                 MOUTP(I) = MOUTP(I)+1    
              ENDIF
@@ -535,14 +535,8 @@ C-----------------------------------------------
              ISENS = LSTOPSENS(I)
              SENS_TYPE = SENSOR_TAB(ISENS)%TYPE
              TS = EP20
-             IF (SENS_TYPE == 14 .or. SENS_TYPE == 15 .or. SENS_TYPE == 16 .or.
-     .           SENS_TYPE == 17 .or. SENS_TYPE == 19) THEN
-               SENS_ID = SENSOR_TAB(ISENS)%SENS_ID  
-               IF (SENSOR_TAB(ISENS)%STATUS == 3) TS = TT
-             ELSE
-               TS = SENSOR(2,ISENS)
-               SENS_ID = LSENSOR(1,ISENS)    
-             END IF
+             SENS_ID = SENSOR_TAB(ISENS)%SENS_ID  
+             IF (SENSOR_TAB(ISENS)%STATUS == 1) TS = TT
              IF (TT >= TS) THEN
                 CALL ANCMSG(MSGID=234,ANMODE=ANINFO,
      .                      I1 = SENS_ID)

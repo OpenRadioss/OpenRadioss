@@ -64,74 +64,79 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IN,IS1,IS2,TYP,ID,SPRING_ID
+      INTEGER I,J,K,IN,IS1,IS2,SENS_TYPE,SENS_ID,SPRING_ID
       CHARACTER TITR*nchartitle
 c=======================================================================
 C     INIT DES PARAMETRES DE SENSOR
 C---------------------------------------------
       DO K=1,NSENSOR
-        IS1=0
-        IS2=0
-        IN =0
-        ID=LSENSOR(1,K)
-c        CALL FRETITL2(TITR,LSENSOR(NSENSI-LTITR+1,K),LTITR)
-         TITR = 'SENSOR '     
-
-        TYP = LSENSOR(2,K)
-        IF (TYP == 3)THEN
+        IS1  = 0
+        IS2  = 0
+        IN   = 0
+        TITR = 'SENSOR '     
+        SENS_ID   = SENSOR_TAB(K)%SENS_ID
+        SENS_TYPE = SENSOR_TAB(K)%TYPE
+c
+        IF (SENS_TYPE == 3) THEN
 C-------------------------------------
 C         SENSOR de SENSOR
 C-------------------------------------
           DO I=1,NSENSOR
-            IF(LSENSOR(4,K) == LSENSOR(1,I))IS1=I
-            IF(LSENSOR(5,K) == LSENSOR(1,I))IS2=I
+            IF (SENSOR_TAB(K)%IPARAM(1) == SENSOR_TAB(I)%SENS_ID) IS1=I
+            IF (SENSOR_TAB(K)%IPARAM(2) == SENSOR_TAB(I)%SENS_ID) IS2=I
           ENDDO
-          IF(IS1 == 0)THEN
+          IF (IS1 == 0) THEN
             CALL ANCMSG(MSGID=339,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                  I1=ID,
+     .                  I1=SENS_ID,
      .                  C1=TITR,
-     .                  I2=LSENSOR(4,K),C2='SENSOR')
+     .                  I2=SENSOR_TAB(K)%IPARAM(1),C2='SENSOR')
           ENDIF
+          SENSOR_TAB(K)%IPARAM(1) = IS1
+          SENSOR_TAB(K)%IPARAM(2) = IS2
           LSENSOR(4,K)=IS1
           LSENSOR(5,K)=IS2
-        ELSEIF(TYP == 4.OR.TYP == 5)THEN
+c
+        ELSEIF (SENS_TYPE == 4 .OR. SENS_TYPE == 5) THEN
 C-------------------------------------
-C         SENSOR de SENSOR et ou
+C         SENSOR of SENSOR 'AND' , 'OR'
 C-------------------------------------
           DO I=1,NSENSOR
-            IF(LSENSOR(4,K) == LSENSOR(1,I))IS1=I
-            IF(LSENSOR(5,K) == LSENSOR(1,I))IS2=I
+            IF (SENSOR_TAB(K)%IPARAM(1) == SENSOR_TAB(I)%SENS_ID) IS1=I
+            IF (SENSOR_TAB(K)%IPARAM(2) == SENSOR_TAB(I)%SENS_ID) IS2=I
           ENDDO
-          IF(IS1 == 0)THEN
+          IF (IS1 == 0) THEN
             CALL ANCMSG(MSGID=339,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                  I1=ID,
+     .                  I1=SENS_ID,
      .                  C1=TITR,
-     .                  I2=LSENSOR(4,K),C2='SENSOR')
+     .                  I2=SENSOR_TAB(K)%IPARAM(1),C2='SENSOR')
           ENDIF
-          IF(IS2 == 0)THEN
+          IF (IS2 == 0) THEN
             CALL ANCMSG(MSGID=339,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                  I1=ID,
+     .                  I1=SENS_ID,
      .                  C1=TITR,
-     .                  I2=LSENSOR(5,K),C2='SENSOR')
+     .                  I2=SENSOR_TAB(K)%IPARAM(2),C2='SENSOR')
           ENDIF
+          SENSOR_TAB(K)%IPARAM(1) = IS1
+          SENSOR_TAB(K)%IPARAM(2) = IS2
           LSENSOR(4,K)=IS1
           LSENSOR(5,K)=IS2
-        ELSEIF(TYP == 6)THEN
+c
+        ELSEIF (SENS_TYPE == 6) THEN
 C-------------------------------------
-C         Interfaces
+C         Contact sensor
 C-------------------------------------
           DO I=1,NINTER
-            IF (IPARI(15,I) == LSENSOR(4,K)) THEN 
+            IF (IPARI(15,I) == SENSOR_TAB(K)%IPARAM(1)) THEN 
               IN=I
               EXIT
             ENDIF
           ENDDO
           DO I=1,NINTSUB
-            IF (NOM_OPT(1,PTR_NOPT_INTER+I) == LSENSOR(4,K)) THEN
+            IF (NOM_OPT(1,PTR_NOPT_INTER+I) == SENSOR_TAB(K)%IPARAM(1)) THEN
               DO J=1,NINTER
                  IF (IPARI(15,J) == NOM_OPT(2,PTR_NOPT_INTER+I))THEN
                    IN = I + NINTER
-                   LSENSOR(5,K) = J
+                   SENSOR_TAB(K)%IPARAM(2) = J
                  ENDIF
               ENDDO
             ENDIF
@@ -139,122 +144,137 @@ C-------------------------------------
           IF (IN == 0)THEN
 
             CALL ANCMSG(MSGID=339,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                  I1=ID,
+     .                  I1=SENS_ID,
      .                  C1=TITR,
-     .                  I2=LSENSOR(4,K),C2='INTERFACE')
+     .                  I2=SENSOR_TAB(K)%IPARAM(1),C2='INTERFACE')
           ENDIF
+          SENSOR_TAB(K)%IPARAM(1) = IN
           LSENSOR(4,K)=IN
-        ELSEIF(TYP == 7)THEN
+c
+        ELSEIF (SENS_TYPE == 7) THEN
 C-------------------------------------
 C         RWALL
 C-------------------------------------
           DO I=1,NRWALL
-            IF(NOM_OPT(1,PTR_NOPT_RWALL+I) == LSENSOR(4,K))IN=I
+            IF (NOM_OPT(1,PTR_NOPT_RWALL+I) == SENSOR_TAB(K)%IPARAM(1)) IN=I
           ENDDO
           IF (IN == 0)THEN
             CALL ANCMSG(MSGID=339,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                  I1=ID,
+     .                  I1=SENS_ID,
      .                  C1=TITR,
-     .                  I2=LSENSOR(4,K),C2='RIGID WALL')
+     .                  I2=SENSOR_TAB(K)%IPARAM(1),C2='RIGID WALL')
           ENDIF
+          SENSOR_TAB(K)%IPARAM(1) = IN
           LSENSOR(4,K)=IN
-        ELSEIF (TYP == 8)THEN
+c
+        ELSEIF (SENS_TYPE == 8)THEN
 C-------------------------------------
-C         SENSOR de !SENSOR
+C         SENSOR of SENSOR
 C-------------------------------------
           DO I=1,NSENSOR
-            IF(LSENSOR(4,K) == LSENSOR(1,I))IS1=I
+            IF (SENSOR_TAB(K)%IPARAM(1) == SENSOR_TAB(I)%SENS_ID) IS1=I
           ENDDO
           IF(IS1 == 0)THEN
             CALL ANCMSG(MSGID=339,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                  I1=ID,
+     .                  I1=SENS_ID,
      .                  C1=TITR,
-     .                  I2=LSENSOR(4,K),C2='SENSOR')
+     .                  I2=SENSOR_TAB(K)%IPARAM(1),C2='SENSOR')
           ENDIF
+          SENSOR_TAB(K)%IPARAM(1) = IS1
           LSENSOR(4,K)=IS1
-        ELSEIF (TYP == 11)THEN
+c
+        ELSEIF (SENS_TYPE == 11)THEN
 C-------------------------------------
 C         RBODY
 C-------------------------------------
           DO I=1,NRBODY
-            IF (NOM_OPT(1,I) == LSENSOR(4,K)) IN=I
+            IF (NOM_OPT(1,I) == SENSOR_TAB(K)%IPARAM(1)) IN=I
           ENDDO
           IF (IN == 0)THEN
              CALL ANCMSG(MSGID=339,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                   I1=ID,
+     .                   I1=SENS_ID,
      .                   C1=TITR,
-     .                   I2=LSENSOR(4,K),C2='RIGID BODY')
+     .                   I2=SENSOR_TAB(K)%IPARAM(1),C2='RIGID BODY')
           ENDIF
+          SENSOR_TAB(K)%IPARAM(1) = IN
           LSENSOR(4,K)=IN
-        ELSEIF (TYP == 12)THEN
+c
+        ELSEIF (SENS_TYPE == 12)THEN
 C-------------------------------------
 C         SECTION
 C-------------------------------------
           DO I=1,NSECT
-            IF (NOM_OPT(1,PTR_NOPT_SECT +I) == LSENSOR(4,K)) IN=I
+            IF (NOM_OPT(1,PTR_NOPT_SECT +I) == SENSOR_TAB(K)%IPARAM(1)) IN=I
           ENDDO
           IF (IN == 0)THEN
              CALL ANCMSG(MSGID=339,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                   I1=ID,
+     .                   I1=SENS_ID,
      .                   C1=TITR,
-     .                   I2=LSENSOR(4,K),C2='SECTION')
+     .                   I2=SENSOR_TAB(K)%IPARAM(1),C2='SECTION')
           ENDIF
+          SENSOR_TAB(K)%IPARAM(1) = IN
           LSENSOR(4,K)=IN
 c---
-        ELSEIF (TYP == 13)THEN
+        ELSEIF (SENS_TYPE == 13) THEN
 C-------------------------------------
 C         WORK
 C-------------------------------------
 c         ID section
           IN = 0
           DO I=1,NSECT
-            IF (NOM_OPT(1,PTR_NOPT_SECT +I) == LSENSOR(6,K)) IN=I
+            IF (NOM_OPT(1,PTR_NOPT_SECT +I) == SENSOR_TAB(K)%IPARAM(3)) IN=I
           ENDDO
+          SENSOR_TAB(K)%IPARAM(3) = IN
           LSENSOR(6,K)=IN
 c
 c         ID INTERFACE
           IN = 0
           DO I=1,NINTER
-            IF (IPARI(15,I) == LSENSOR(7,K)) THEN
+            IF (IPARI(15,I) == SENSOR_TAB(K)%IPARAM(4)) THEN
               IN=I
               EXIT
             ENDIF
           ENDDO
           DO I=1,NINTSUB
-            IF (NOM_OPT(1,PTR_NOPT_INTER+I) == LSENSOR(8,K)) THEN
+            IF (NOM_OPT(1,PTR_NOPT_INTER+I) == SENSOR_TAB(K)%IPARAM(5)) THEN
               DO J=1,NINTER
                  IF (IPARI(15,J) == NOM_OPT(2,PTR_NOPT_INTER+I))THEN
                    IN = I + NINTER
-                   LSENSOR(8,K) = J
+                   SENSOR_TAB(K)%IPARAM(5) = J
+                   LSENSOR(8,K)=IN
                  ENDIF
               ENDDO
             ENDIF
           ENDDO
+          SENSOR_TAB(K)%IPARAM(4) = IN
           LSENSOR(7,K)=IN
 c
 c         ID RWALL
           IN = 0
           DO I=1,NRWALL
-            IF (NOM_OPT(1,PTR_NOPT_RWALL+I) == LSENSOR(9,K)) IN=I
+            IF (NOM_OPT(1,PTR_NOPT_RWALL+I) == SENSOR_TAB(K)%IPARAM(6)) IN=I
           ENDDO
+          SENSOR_TAB(K)%IPARAM(6) = IN
           LSENSOR(9,K)=IN
 c
 c         ID RBODY
           IN = 0
           DO I=1,NRBODY
-            IF (NOM_OPT(1,I) == LSENSOR(10,K)) IN=I
+            IF (NOM_OPT(1,I) == SENSOR_TAB(K)%IPARAM(7)) IN=I
           ENDDO
+          SENSOR_TAB(K)%IPARAM(7) = IN
           LSENSOR(10,K)=IN
 c
-          IF (LSENSOR(6,K) == 0 .and. LSENSOR(7,K) == 0 .and. LSENSOR(8,K) == 0 .and.
-     .        LSENSOR(9,K) == 0 .and. LSENSOR(10,K) == 0) THEN
+          IF (SENSOR_TAB(K)%IPARAM(3) == 0 .and. SENSOR_TAB(K)%IPARAM(4) == 0 .and. 
+     .        SENSOR_TAB(K)%IPARAM(5) == 0 .and. SENSOR_TAB(K)%IPARAM(6) == 0 .and. 
+     .        SENSOR_TAB(K)%IPARAM(7) == 0) THEN
             CALL ANCMSG(MSGID=339,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IN,
      .                  C1=TITR,
-     .                  I2=LSENSOR(10,K),C2='ID in SENSOR WORK')
+     .                  I2=SENSOR_TAB(K)%SENS_ID,C2='ID in SENSOR WORK')
           ENDIF
 c
-        ELSEIF (TYP == 19)THEN
+        ELSEIF (SENS_TYPE == 19) THEN
 C-------------------------------------
 C         NIC_NIJ
 C-------------------------------------
@@ -275,12 +295,12 @@ C-------------------------------------
       IPARSENS=0        ! Flag pour sensor type force
       NBR_SENS=0
       DO I=1,NSENSOR
-         IF (LSENSOR(2,I)== 6 .OR. LSENSOR(2,I)== 12 .OR.
-     .       LSENSOR(2,I)== 7 .OR. LSENSOR(2,I)== 11 .OR.
-     .       LSENSOR(2,I)== 13) THEN 
-            NBR_SENS=NBR_SENS+1
-            IPARSENS=1
-         ENDIF
+        SENS_TYPE = SENSOR_TAB(K)%TYPE
+        IF (SENS_TYPE== 6  .OR. SENS_TYPE== 7 .OR. SENS_TYPE== 11 .OR.
+     .      SENS_TYPE== 12 .OR. SENS_TYPE== 13) THEN 
+          NBR_SENS = NBR_SENS+1
+          IPARSENS = 1
+        ENDIF
       ENDDO
 c-----------
       RETURN

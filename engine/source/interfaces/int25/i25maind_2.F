@@ -33,7 +33,7 @@ Chd|        MPI_COMMOD                    share/modules/mpi_comm_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25MAIND_2(
-     1       IPARI    ,ITAB     ,SENSOR ,INTLIST25,INTBUF_TAB ,
+     1       IPARI    ,ITAB     ,SENSOR_TAB,INTLIST25,INTBUF_TAB ,
      2       X        ,V       ,KINET   ,JTASK    ,NB_DST2    ,
      3       ICODT    ,ISKEW   )
 C-----------------------------------------------
@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE TRI7BOX
       USE INTBUFDEF_MOD  
       USE MPI_COMMOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,9 +72,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), ITAB(*), INTLIST25(*), JTASK,
      .        KINET(*), NB_DST2(PARASIZ), ICODT(*), ISKEW(*)
-      my_real
-     .        SENSOR(NSENSR,*), X(3,*), V(3,*)
+      my_real :: X(3,*), V(3,*)
       TYPE(INTBUF_STRUCT_),DIMENSION(NINTER) :: INTBUF_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,8 +94,8 @@ C
         IF(TT>STOPT)  CYCLE
 C
         ISENS = IPARI(64,NIN) 
-        IF(ISENS/=0) THEN    ! Interface activated by sensor
-           TS = SENSOR(2,ISENS)
+        IF (ISENS > 0) THEN    ! Interface activated by sensor
+           TS = SENSOR_TAB(ISENS)%TSTART
         ELSE
            TS = TT
         ENDIF

@@ -30,8 +30,12 @@ Chd|        RELFRAM_M1                    source/tools/skew/relfram_m1.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE CFIELD_1(ICFIELD  ,FAC   ,NPC   ,TF    ,A ,
-     2                  V     ,X     ,XFRAME  ,MS,SENSOR,
-     3                  LSENSOR,WEIGHT,IB,ITASK,IFRAME)
+     2                  V     ,X     ,XFRAME  ,MS,SENSOR_TAB,
+     3                  WEIGHT,IB,ITASK,IFRAME)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,13 +58,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*)
-      INTEGER ICFIELD(SIZFIELD,*),IB(*),LSENSOR(NSENSI,*),
-     .        IFRAME(LISKN,*)
+      INTEGER ICFIELD(SIZFIELD,*),IB(*),IFRAME(LISKN,*)
       INTEGER WEIGHT(*),ITASK
 C     REAL
       my_real
      .   FAC(LFACLOAD,*), TF(*), A(3,*), V(3,*), MS(*),
-     .   X(3,*), XFRAME(NXFRAME,*), SENSOR(NSENSR,*)
+     .   X(3,*), XFRAME(NXFRAME,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -108,11 +112,11 @@ C
       ENDIF
       IFLAG=ICFIELD(8,NL)
 C 
-      ISENS=ICFIELD(6,NL)
+      ISENS = ICFIELD(6,NL)
       IF(ISENS==0)THEN
           TS=TT
       ELSE
-          TS = TT-SENSOR(2,ISENS)
+          TS = TT-SENSOR_TAB(ISENS)%TSTART
           IF(TS<ZERO)CYCLE
       ENDIF
 C

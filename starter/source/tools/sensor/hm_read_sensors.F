@@ -265,12 +265,13 @@ c
 c
           CASE ('NIC_NIJ')
             CALL READ_SENSOR_NIC(
-     .           SENSOR_PTR  ,SENS_ID    ,TITR     , 
-     .           LSENS_PTR   ,RSENS_PTR  ,ISKWN    ,UNITAB   ,LSUBMODEL)   
+     .           SENSOR_PTR  ,SENS_ID    ,TITR     ,ISKWN    , 
+     .           UNITAB      ,LSUBMODEL  )   
 c
           CASE ('USER1' ,'USER2','USER3')
             CALL READ_SENSOR_USER(LSENSOR   ,SENSOR    ,HM_NSENS,ISEN    ,TITR,
-     .           UNITAB    ,LSUBMODEL       ,KEY       ,UNIT_ID ,SENS_ID )
+     .           UNITAB    ,LSUBMODEL       ,KEY       ,UNIT_ID ,SENS_ID ,
+     .           SENSOR_PTR)
 c---
           CASE DEFAULT
             CALL ANCMSG(MSGID=43, ANMODE=ANINFO, MSGTYPE=MSGERROR,
@@ -284,10 +285,10 @@ c-------------------------------------
 c     Recherche des ID doubles  : activate this code when lecsen is removed
 c-------------------------------------
       DO I = 1,NSENSOR
-        IF (LSENSOR(1,I) > 0) THEN
-          SID(I) = LSENSOR(1,I)
-        ELSE IF (SENSOR_TAB(I)%SENS_ID > 0)  THEN
+        IF (SENSOR_TAB(I)%SENS_ID > 0)  THEN
           SID(I) = SENSOR_TAB(I)%SENS_ID
+        ELSE IF (LSENSOR(1,I) > 0) THEN
+          SID(I) = LSENSOR(1,I)
         END IF
       END DO
       CALL UDOUBLE(SID,1,NSENSOR,MESS,0,BID)

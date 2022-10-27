@@ -39,7 +39,7 @@ Chd|        R2R_MOD                       share/modules1/r2r_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_PFLUID(NUMLOADP ,ILOADP  ,LLOADP ,FACLOADP ,NPC      ,
-     .                          LSENSOR  ,IGRSURF ,UNITAB ,IFRAME   ,LSUBMODEL)
+     .                          SENSOR_TAB,IGRSURF ,UNITAB ,IFRAME   ,LSUBMODEL)
 C
 C-----------------------------------------------
 C   M o d u l e s
@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,12 +74,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER NPC(SNPC), LSENSOR(NSENSI,NSENSOR), IFRAME(LISKN,NUMFRAM+1),
+      INTEGER NPC(SNPC),IFRAME(LISKN,NUMFRAM+1),
      .        NUMLOADP, ILOADP(SIZLOADP,NLOADP), LLOADP(SLLOADP)
       my_real FACLOADP(LFACLOAD,NUMLOADP)
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -204,22 +206,22 @@ C-----------
             ENDIF                                                                    
           ENDDO                                                                      
         ENDIF                                                                        
-	ILOADP(1,K)=4*NN                                                             
+	       ILOADP(1,K)=4*NN                                                             
         !-----------                                                                 
-	TSENS=0                                                                      
+	       TSENS=0                                                                      
         DO J=1,NSENSOR                                                               
-	  IF(ISENS /= 0) THEN                                                        
-	    IF(ISENS  == LSENSOR(1,J))TSENS=J                                        
-	  ENDIF                                                                      
-	ENDDO                                                                        
-	IF((TSENS  == 0).AND.(ISENS /= 0))THEN                                       
-          CALL ANCMSG(MSGID=930,                                                     
-     .              MSGTYPE=MSGERROR,                                                
-     .              ANMODE=ANINFO_BLIND_1,                                           
-     .              I1=ID,                                                           
-     .              C1=TITR,                                                         
-     .              I2=ISENS)                                                        
-	ENDIF                                                                        
+        	  IF(ISENS /= 0) THEN                                                
+	            IF (ISENS == SENSOR_TAB(J)%SENS_ID) TSENS=J
+        	  ENDIF                                                              
+        	ENDDO                                                                
+        	IF((TSENS == 0).AND.(ISENS /= 0))THEN                               
+                  CALL ANCMSG(MSGID=930,                                             
+     .                      MSGTYPE=MSGERROR,                                        
+     .                      ANMODE=ANINFO_BLIND_1,                                   
+     .                      I1=ID,                                                   
+     .                      C1=TITR,                                                 
+     .                      I2=ISENS)                                                
+        	ENDIF                                                                
         !-----------                                                                 
         CALL HM_GET_INTV('fct_hsp',NCUR_HSP,IS_AVAILABLE,LSUBMODEL)                  
         CALL HM_GET_FLOATV('Ascalex_hsp',FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)          
@@ -381,7 +383,7 @@ C-----------
      .                C1=TITR,                                                       
      .                I2=IFRA2)                                                      
         ENDIF                                                                        
-           
+
         ILOADP(5,K)=2 
                       
         IF(IS /= 0)THEN  

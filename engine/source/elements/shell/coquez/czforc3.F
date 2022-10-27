@@ -92,7 +92,7 @@ Chd|====================================================================
      G            JTHE      ,TEMP      ,FTHE      ,FTHESKY   ,IEXPAN     ,
      H            GRESAV    ,GRTH      ,IGRTH     ,XEDGE4N   ,MSC        ,
      I            DMELC     ,JSMS      ,TABLE     ,IPARG     ,MATPARAM_TAB,
-     J            IXFEM     ,KNOD2ELC  ,LSENSOR   ,SENSOR   ,
+     J            IXFEM     ,KNOD2ELC  ,SENSOR_TAB,
      K            ELCUTC    ,INOD_CRK  ,IEL_CRK   ,IBORDNODE ,NODENR   ,
      L            IADC_CRK  ,NODEDGE   ,CRKNODIAD ,CONDN    ,
      M            CONDNSKY  ,STACK     ,ISUBSTACK ,XFEM_STR  ,CRKEDGE  ,
@@ -108,6 +108,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD     
       USE NLOCAL_REG_MOD        
       USE DRAPE_MOD       
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -139,7 +140,7 @@ C-----------------------------------------------
      .   IOFC,IHBE,KFTS,ISMSTR,IFAILURE,JTHE,ISUBSTACK,NEL,N1,N2,N3,N4
       INTEGER IXC(NIXC,*),IADC(4,*),IPARTC(*),NPF(*),IGEO(NPROPGI,*),
      .   IPM(NPROPMI,*),INDXOF(MVSIZ),GRTH(*),IGRTH(*),IPARG(*),ITAB(*),
-     .   KNOD2ELC(*),LSENSOR(NSENSI,*),XEDGE4N(4,*),
+     .   KNOD2ELC(*),XEDGE4N(4,*),
      .   ELCUTC(2,*),INOD_CRK(*),IEL_CRK(*),IBORDNODE(*),
      .   NODENR(*),IADC_CRK(4,*),NODEDGE(2,*),CRKNODIAD(*)
 C     REAL OU REAL*8
@@ -154,7 +155,7 @@ C     REAL OU REAL*8
      .   BUFMAT(*), X(3,*),D(*),DR(*),V(3,*),VR(3,*),F(3,*),M(3,*),
      .   STIFN(*), STIFR(*),FSKY(*),TANI(6,*),EANI(*),THKE(*),
      .   FZERO(3,4,*),TEMP(*),FTHE(*),FTHESKY(*),GRESAV(*),
-     .   MSC(*), DMELC(*),SENSOR(NSENSR,*),CONDN(*),CONDNSKY(*)
+     .   MSC(*), DMELC(*),CONDN(*),CONDNSKY(*)
       my_real    
      .   TT, DT1, DT2T
       TARGET :: BUFMAT
@@ -168,6 +169,7 @@ C     REAL OU REAL*8
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (DRAPE_) :: DRAPE_Q4
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C   L O C A L   V A R I A B L E S
 C--------------------------------
@@ -516,7 +518,7 @@ C-----------------------------------------------
      I      BID       ,BID       ,BID       ,R11       ,R12        ,
      J      R13       ,R21       ,R22       ,R23       ,R31        ,
      K      R32       ,R33       ,NG        ,TABLE     ,IXFEM      ,
-     L      BID       ,LSENSOR   ,SENSOR    ,BID       ,ELCRKINI   ,
+     L      BID       ,SENSOR_TAB,BID       ,ELCRKINI   ,
      M      DIR1_CRK  ,DIR2_CRK  ,LL        ,
      N      ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O      IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,

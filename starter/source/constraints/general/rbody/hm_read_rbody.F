@@ -47,12 +47,12 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_RBODY(RBY     ,NPBY    ,LPBY    ,ITAB     ,ITABM1   ,
-     2                         IGRNOD  ,IGRSURF ,IBFV    ,IGRV     ,IBGR     ,
-     3                         LSENSOR ,IMERGE  ,UNITAB  ,ISKN     ,NOM_OPT  ,
-     4                         NUMSL   ,KNOD2ELS,KNOD2ELC,KNOD2ELTG,KNOD2EL1D,
-     5                         KNOD2ELQ,ITAGND  ,ICDNS10 ,LSUBMODEL,ICFIELD  ,
-     6                         LCFIELD )
+      SUBROUTINE HM_READ_RBODY(RBY       ,NPBY    ,LPBY    ,ITAB     ,ITABM1   ,
+     2                         IGRNOD    ,IGRSURF ,IBFV    ,IGRV     ,IBGR     ,
+     3                         SENSOR_TAB,IMERGE  ,UNITAB  ,ISKN     ,NOM_OPT  ,
+     4                         NUMSL     ,KNOD2ELS,KNOD2ELC,KNOD2ELTG,KNOD2EL1D,
+     5                         KNOD2ELQ  ,ITAGND  ,ICDNS10 ,LSUBMODEL,ICFIELD  ,
+     6                         LCFIELD   )
 C-------------------------------------
 C     LECTURE STRUCTURE RIGIDES 
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,7 +96,7 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER NPBY(NNPBY,*), LPBY(*), ITAB(*), ITABM1(*)
       INTEGER IBFV(NIFV,*)
-      INTEGER LSENSOR(NSENSI,*),IGRV(NIGRV,*),IBGR(*),IMERGE(*),
+      INTEGER IGRV(NIGRV,*),IBGR(*),IMERGE(*),
      .        ISKN(LISKN,*),NUMSL,
      .        KNOD2ELS(*),KNOD2ELC(*),KNOD2ELTG(*),KNOD2EL1D(*),KNOD2ELQ(*),
      .        ITAGND(*),ICDNS10(*), ICFIELD(SIZFIELD,*), LCFIELD(*)
@@ -107,6 +108,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF        
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -334,7 +336,7 @@ c
 C
         IF(ISENS > 0)THEN
           DO I=1,NSENSOR
-            IF(ISENS == LSENSOR(1,I))NPBY(4,NRB)=I
+            IF (ISENS == SENSOR_TAB(I)%SENS_ID) NPBY(4,NRB)=I
           ENDDO
           IF(NPBY(4,NRB) == 0)THEN
              TITR1 = IGRSURF(IGS)%TITLE

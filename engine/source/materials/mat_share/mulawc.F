@@ -140,7 +140,7 @@ Chd|====================================================================
      A       IFAILURE ,ALDT     ,TEMPEL   ,DIE       ,                        
      B       R11      ,R12      ,R13      ,R21       ,R22      ,R23      ,    
      C       R31      ,R32      ,R33      ,TABLE     ,IXFEM    ,ELCRKINI ,    
-     D       LSENSOR  ,SENSOR   ,NG       ,                         
+     D       SENSOR_TAB,NG      ,                         
      E       DIR1_CRK ,DIR2_CRK ,IPARG    ,JHBE      ,ISMSTR   ,JTHE     ,             
      F       TENSX    ,IR       ,IS       ,NLAY      ,NPT      ,IXLAY    ,    
      G       IXEL     ,ITHK     ,F_DEF    ,ISHPLYXFEM,
@@ -158,6 +158,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE MATPARAM_DEF_MOD
       USE NLOCAL_REG_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -190,7 +191,7 @@ C-----------------------------------------------
      .  IREP,ISUBSTACK,ITASK,ISHPLYXFEM,NUMTABL
       INTEGER MAT(*),MATLY(*),PID(*),NPF(*),NGL(MVSIZ),INDX(MVSIZ),
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),ELCRKINI(NXLAYMAX,*),
-     .   LSENSOR(NSENSI,*),IPARG(*),FWAVE_EL(NEL)
+     .   IPARG(*),FWAVE_EL(NEL)
       my_real DM
       my_real FOR(NEL,5),MOM(NEL,3),GSTR(NEL,8),THK(*),EINT(JLT,2),OFF(*),
      .   DIR_A(*),DIR_B(*),VISCMX(*),PM(NPROPM,*),THK_LY(NEL,*),
@@ -202,7 +203,7 @@ C-----------------------------------------------
      .   R11(MVSIZ), R12(MVSIZ), R13(MVSIZ),
      .   R21(MVSIZ), R22(MVSIZ), R23(MVSIZ),
      .   R31(MVSIZ), R32(MVSIZ), R33(MVSIZ),
-     .   SENSOR(NSENSR,*),DIR1_CRK(*),DIR2_CRK(*),TENSX(NEL,5),
+     .   DIR1_CRK(*),DIR2_CRK(*),TENSX(NEL,5),
      .   F_DEF(MVSIZ,8),PM_STACK(20,*),TSTAR(MVSIZ),ALPE(MVSIZ),
      .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
      .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),PLY_F(MVSIZ,5,*),ETIMP(MVSIZ)
@@ -212,6 +213,7 @@ C-----------------------------------------------
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) ,TARGET :: MATPARAM_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1010,7 +1012,7 @@ C------------------------------------------
      .            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,
      .            LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      .            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
-     .            GBUF%SIGI ,LSENSOR   ,SENSOR    )
+     .            GBUF%SIGI ,SENSOR_TAB)
 
           ELSEIF (ILAW == 22) THEN
             CALL SIGEPS22C(
@@ -1273,8 +1275,8 @@ C
      A        SSP     ,VISCMX  ,THKN    ,LBUF%PLA ,UVAR    ,
      B        OFF     ,NGL     ,PM      ,MATLY(JMLY),ETSE  ,
      C        SHF     ,SIGY    ,EPSPL   ,LBUF%ANG ,
-     D        ALDT    ,LSENSOR ,SENSOR  ,ISMSTR   ,TABLE  ,
-     E        GBUF%OFF)                          
+     D        ALDT    ,SENSOR_TAB,ISMSTR,TABLE    ,GBUF%OFF)                          
+             
 c
           ELSEIF (ILAW == 60) THEN
            IF (IGTYP /= 10.AND.IGTYP /= 11 .AND.IGTYP /= 17) THEN

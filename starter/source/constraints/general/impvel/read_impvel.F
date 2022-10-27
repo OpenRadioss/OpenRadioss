@@ -85,7 +85,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,JJ,NN,IVEL,IDIS,INOD,NODID,NOD,NOSKEW,NOFRAME,SENS_ID,
+      INTEGER I,J,JJ,NN,IVEL,IDIS,INOD,NODID,NOD,NOSKEW,NOFRAME,SENS_ID,
      .   OPTID,SYS_TYPE,UID,FCT_ID,SKEW_ID,FRAME_ID,GRN,IGS,LEN,
      .   ILAGM,FGEO,ICOOR,IUNIT,FLAGUNIT,SUBID,NOSUB
       INTEGER ,DIMENSION(NFXVEL)   :: NODENUM

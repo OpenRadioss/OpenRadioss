@@ -28,8 +28,12 @@ Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE CONVEC (IBCV  ,FCONV    ,NPC   ,TF    , X      ,
-     1                   TEMP   , SENSOR   ,LSENSOR ,FTHE   ,IAD ,
+     1                   TEMP   , SENSOR_TAB ,FTHE   ,IAD ,
      2                   FTHESKY)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,18 +52,16 @@ C-----------------------------------------------
 #include      "parit_c.inc"
 #include      "scr_thermal_c.inc"
 #include      "thermal_c.inc"
-C-----------------------------------------------
-C   E x t e r n a l  F u n c t i o n s
-C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*),IAD(4,*)
-      INTEGER IBCV(NICONV,*),LSENSOR(NSENSI,*)
+      INTEGER IBCV(NICONV,*)
 C     REAL
       my_real
-     .   FCONV(LFACTHER,*), TF(*), X(3,*), SENSOR(NSENSR,*),
+     .   FCONV(LFACTHER,*), TF(*), X(3,*), 
      .   FTHESKY(LSKY), TEMP(*), FTHE(*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -101,9 +103,9 @@ C
          IF(ISENS == 0)THEN
             TS = TT*THEACCFACT - STARTT
          ELSE 
-            STARTT = STARTT + SENSOR(2,ISENS)
-            STOPT  = STOPT  + SENSOR(2,ISENS)           
-            TS = TT*THEACCFACT -(STARTT + SENSOR(2,ISENS))      
+            STARTT = STARTT + SENSOR_TAB(ISENS)%TSTART
+            STOPT  = STOPT  + SENSOR_TAB(ISENS)%TSTART       
+            TS = TT*THEACCFACT -(STARTT + SENSOR_TAB(ISENS)%TSTART)      
          ENDIF       
 C
          IF(TT*THEACCFACT < STARTT) CYCLE
@@ -199,9 +201,9 @@ C-------------------------
           IF(ISENS == 0)THEN
              TS = TT*THEACCFACT - STARTT
           ELSE 
-             STARTT = STARTT + SENSOR(2,ISENS)
-             STOPT  = STOPT  + SENSOR(2,ISENS)          
-             TS = TT*THEACCFACT -(STARTT + SENSOR(2,ISENS))      
+             STARTT = STARTT + SENSOR_TAB(ISENS)%TSTART
+             STOPT  = STOPT  + SENSOR_TAB(ISENS)%TSTART      
+             TS = TT*THEACCFACT -(STARTT + SENSOR_TAB(ISENS)%TSTART)      
           ENDIF       
           IFLAG = 1
           IF(TT*THEACCFACT < STARTT)  IFLAG = 0

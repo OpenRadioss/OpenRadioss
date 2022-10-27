@@ -29,13 +29,14 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE VOLPRE(IVOLU ,RVOLU   ,NJET    ,IBAGJET ,RBAGJET  ,
-     2                LSENSOR ,SENSOR  ,X       ,V       ,A        ,
+     2                SENSOR_TAB,X       ,V       ,A        ,
      3                N       ,NPC     ,TF      ,NN      ,SURF_NODES,
      4                FEXT    ,H3D_DATA,SURF_ELTYP,SURF_ELEM)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,13 +56,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IVOLU(*),NJET,IBAGJET(NIBJET,*),LSENSOR(NSENSI,*),
+      INTEGER IVOLU(*),NJET,IBAGJET(NIBJET,*),
      .        NPC(*),NN,SURF_NODES(NN,4),SURF_ELTYP(NN),SURF_ELEM(NN)
 C     REAL
       my_real
-     .   RVOLU(*),RBAGJET(NRBJET,*),SENSOR(NSENSR,*),
+     .   RVOLU(*),RBAGJET(NRBJET,*),
      .   X(3,*), V(3,*), A(3,*), N(3,*),TF(*),FEXT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -233,7 +235,7 @@ C
        IF(ISENS==0)THEN
          TSTART=ZERO
        ELSE
-         TSTART=SENSOR(2,ISENS)
+         TSTART=SENSOR_TAB(ISENS)%TSTART
        ENDIF
 C
        IF(NJ1/=0.AND.TT>=TSTART)THEN

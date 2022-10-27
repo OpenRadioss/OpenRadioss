@@ -30,7 +30,7 @@ Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-sear
 Chd|====================================================================
       SUBROUTINE ALEFVM_GRAVITY_INT22
      .                         (
-     1                          AGRV, IGRV, LGRAV, SENSOR, LSENSOR,
+     1                          AGRV, IGRV, LGRAV,
      2                          VOLN, IXS , ITASK, NPC   , TF     ,
      3                          SKEW, RHO , IAD22
      .                          )
@@ -78,14 +78,14 @@ C finite volume scheme (IALEFVM==1)
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: IXS(NIXS,*), IGRV(NIGRV,*), ITASK, LSENSOR(NSENSI,*),LGRAV(*),NPC(*)
+      INTEGER :: IXS(NIXS,*), IGRV(NIGRV,*), ITASK,LGRAV(*),NPC(*)
       my_real :: VOLN(MVSIZ), AGRV(LFACGRV,*),TF(*),RHO(MVSIZ),IAD22(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER          :: I, J, K, K1, K2, K3, NL, NN, ISK, IFUNC, N2, IB, MNOD
       INTEGER          :: IADF,IADL,ISENS,N1,NVERTEX,INOd,II, NIN
-      my_real          :: TS,AA,FCX,FCY,VV,A0, SENSOR(NSENSR,*),DYDX,GAMA,TFEXTT
+      my_real          :: TS,AA,FCX,FCY,VV,A0,DYDX,GAMA,TFEXTT
       my_real          :: M_CELL(MVSIZ),ACCEL(3,MVSIZ),SKEW(LSKEW,*)
       my_real,EXTERNAL :: FINTER  
       LOGICAL          :: debug_outp

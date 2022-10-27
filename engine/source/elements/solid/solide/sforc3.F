@@ -128,10 +128,9 @@ Chd|====================================================================
      J                  VF       ,AF       ,DF       ,WF      ,FFSKY   ,
      K                  AFGLOB   ,MSF      ,IPARG1   ,XDP     ,
      M                  POR      ,ICONTACT ,IFOAM    ,VOLN    ,CONDN   ,
-     N                  CONDNSKY ,AGRAV    ,IGRV     ,LGRAV   ,SENSOR  ,
-     O                  LSENSOR  ,SKEW     ,
-     P                  NALE     ,D        ,IOUTPRT  ,NLOC_DMG,MATPARAM_TAB,
-     Q                  H3D_STRAIN)     
+     N                  CONDNSKY ,AGRAV    ,IGRV     ,LGRAV   ,SENSOR_TAB,
+     O                  SKEW     ,NALE     ,D        ,IOUTPRT  ,NLOC_DMG,
+     Q                  MATPARAM_TAB,H3D_STRAIN)     
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -141,6 +140,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -210,9 +210,10 @@ C
 C
       my_real :: P(MVSIZ),FSKYI(LSKYI,NFSKYI)
 C
-      INTEGER :: IGRV(*), LSENSOR(NSENSI,*),LGRAV(*)
-      my_real :: AGRAV(*), SENSOR(NSENSR,*), SKEW(LSKEW,*)
+      INTEGER :: IGRV(*), LGRAV(*)
+      my_real :: AGRAV(*),SKEW(LSKEW,*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -824,7 +825,7 @@ C
      .          CALL SROTA3(BPRELD(3*NEL+1),B1   ,B2   ,B3   ,B4 ,
      .            B5      ,B6   ,WXX  ,WYY  ,WZZ,
      .            NEL     )
-        CALL BOLTST(IBOLTP,IPTR,BPRELD,LBUF%SIG,TT,NEL,SENSOR,LSENSOR)
+        CALL BOLTST(IBOLTP,IPTR,BPRELD,LBUF%SIG,TT,NEL,SENSOR_TAB)
       END IF
 C
 C Stress computation according to material laws 
@@ -1153,12 +1154,12 @@ C Initial forces
 C
 C Gravity forces
           CALL ALEFVM_GRAVITY (
-     1                        AGRAV, IGRV    , LGRAV, SENSOR, LSENSOR,
+     1                        AGRAV, IGRV    , LGRAV,
      2                        GBUF%VOL , IXS     , ITASK, NPF   , TF     ,
      3                        SKEW , GBUF%RHO )
           IF(INT22/=0)THEN
             CALL ALEFVM_GRAVITY_INT22 (
-     1                        AGRAV    , IGRV    , LGRAV,     SENSOR, LSENSOR,
+     1                        AGRAV    , IGRV    , LGRAV,
      2                        GBUF%VOL , IXS     , ITASK,     NPF   , TF     ,
      3                        SKEW     , GBUF%RHO, GBUF%TAG22)
           ENDIF

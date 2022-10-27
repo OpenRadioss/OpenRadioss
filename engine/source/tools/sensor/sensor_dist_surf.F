@@ -70,14 +70,14 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-       INTEGER I,ISURF,INOD,NP1,NP2,NP3,NP4,NSEG
-       my_real DIST,DMIN,DMAX,ALPHA,TDELAY
+       INTEGER I,ISURF,INOD,NP1,NP2,NP3,NP4,NSEG,ICRIT
+       my_real DIST,DMIN,DMAX,ALPHA,TDELAY,TMIN
        my_real XNOD,YNOD,ZNOD,XP1,YP1,ZP1,XP2,YP2,ZP2,XP3,YP3,ZP3,
      .    XP4,YP4,ZP4,NORM,INFINITY
       TYPE (SURF_) ,POINTER :: SURFACE
       PARAMETER (INFINITY = 1.0E20)
 C=======================================================================
-      IF (SENSOR%STATUS == 3) RETURN   ! already activated
+      IF (SENSOR%STATUS == 1) RETURN   ! already activated
 
 C.....................................................
 C ==> DIST between node and a plan defined by 3 nodes
@@ -87,12 +87,14 @@ C     ID_PN1 : Plan Node 1 identifier
 C     ID_PN2 : Plan Node 2 identifier
 C     ID_PN3 : Plan Node 3 identifier
 C
+      TMIN   = SENSOR%TMIN
       TDELAY = SENSOR%TDELAY      ! time delay before activation
       INOD   = SENSOR%IPARAM(1)
       ISURF  = SENSOR%IPARAM(2)
 c
       DMIN   = SENSOR%RPARAM(1)
       DMAX   = SENSOR%RPARAM(2)
+      ICRIT  = 0
 c
 c...  Current position of reference node
 c
@@ -120,24 +122,25 @@ c
 c
         SENSOR%VALUE = DIST
       END IF
-c
-c...  Check Sensor State
-c
-      IF (SENSOR%VALUE <= DMIN .or. SENSOR%VALUE >= DMAX) THEN
-        IF (SENSOR%STATUS == 0) THEN
-          SENSOR%STATUS = 1
-          SENSOR%TCRIT  = TT + SENSOR%TMIN
+      IF (SENSOR%VALUE <= DMIN .or. SENSOR%VALUE >= DMAX) ICRIT = 1
+c----------------------------------------------------------------
+c     check activation status
+c----------------------------------------------------------------
+      IF (SENSOR%TCRIT + TMIN > TT) THEN
+        IF (ICRIT == 0) THEN
+          SENSOR%TCRIT = INFINITY
+        ELSE IF (SENSOR%TCRIT == INFINITY) THEN
+          SENSOR%TCRIT = MIN(SENSOR%TCRIT, TT)
         END IF
-        IF (SENSOR%TCRIT < TT) THEN
-          SENSOR%STATUS = 2
-        END IF
-        IF (SENSOR%STATUS == 2 .and. SENSOR%TCRIT + TDELAY < TT) THEN  
-          SENSOR%STATUS = 3   ! activate                               
-          SENSOR%TSTART = TT                                           
-        END IF                                                         
+      END IF
+      IF (SENSOR%TSTART == INFINITY .and. SENSOR%TCRIT < INFINITY) THEN
+        SENSOR%TSTART = SENSOR%TCRIT + TMIN + TDELAY      
+      END IF
+      IF (SENSOR%TSTART <= TT) THEN   ! sensor activation
+        SENSOR%STATUS = 1
       END IF
 c----------------------------------------------------------
-      IF (SENSOR%STATUS == 3 .and. ISPMD == 0) THEN
+      IF (SENSOR%STATUS == 1 .and. ISPMD == 0) THEN
 #include "lockon.inc"
         WRITE (*,'(A,I10,A,1PE12.5,A,1PE12.5)')   
      .  ' SENSOR NUMBER ',SENSOR%SENS_ID,' ACTIVATED AT TIME ',SENSOR%TSTART,

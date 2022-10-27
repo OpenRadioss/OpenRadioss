@@ -1759,7 +1759,7 @@ Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_IFRONT_STAMP(
-     1   IPARI   ,INTBUF_TAB, RETRI,TEMP    ,SENSOR  ,ITAB,
+     1   IPARI   ,INTBUF_TAB, RETRI,TEMP    ,SENSOR_TAB  ,ITAB,
      2   NBINTC21,INTLIST21)
 C============================================================================
 C   M o d u l e s
@@ -1768,6 +1768,7 @@ C-----------------------------------------------
       USE INTSTAMP_MOD
       USE INTSTAMP_GLOB_MOD
       USE INTBUFDEF_MOD 
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1802,9 +1803,9 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER),RETRI(*),ITAB(*),
      .        NBINTC21 ,INTLIST21(*)
 C     REAL
-      my_real
-     .   SENSOR(NSENSR,*),TEMP(*)
+      my_real :: TEMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1846,8 +1847,8 @@ C------------------------------------------------------------------------------
          NIN = INTSTAMP(NI)%NOINTER
          ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
          INTERACT = 0
-         IF(ISENS/=0) THEN             ! Sensor ID  
-           TS = SENSOR(2,ISENS)
+         IF (ISENS > 0) THEN             ! Sensor ID  
+           TS = SENSOR_TAB(ISENS)%TSTART
            IF (TT>=TS) INTERACT = 1
          ELSE
            STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
@@ -2158,7 +2159,7 @@ Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE SPMD_I21TEMPCOM(IPARI,TEMP,INTBUF_TAB,SENSOR) 
+      SUBROUTINE SPMD_I21TEMPCOM(IPARI,TEMP,INTBUF_TAB,SENSOR_TAB) 
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -2166,6 +2167,7 @@ C-----------------------------------------------
       USE INTSTAMP_MOD
       USE INTSTAMP_GLOB_MOD
       USE INTBUFDEF_MOD 
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2193,9 +2195,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IPARI(NPARI,NINTER)
 C     REAL
-      my_real
-     .   SENSOR(NSENSR,*),TEMP(*)
+      my_real :: TEMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2228,8 +2230,8 @@ C
          NIN = INTSTAMP(NI)%NOINTER
          ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
          INTERACT = 0
-         IF(ISENS/=0) THEN             ! Sensor ID  
-           TS = SENSOR(2,ISENS)
+         IF (ISENS > 0) THEN             ! Sensor ID  
+           TS = SENSOR_TAB(ISENS)%TSTART
            IF (TT>=TS) INTERACT = 1
          ELSE
            STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
@@ -2359,7 +2361,7 @@ Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-      SUBROUTINE SPMD_I21FTHECOM(IPARI    ,FTHE  ,INTBUF_TAB,SENSOR ,NISKYFI ,
+      SUBROUTINE SPMD_I21FTHECOM(IPARI    ,FTHE  ,INTBUF_TAB,SENSOR_TAB,NISKYFI ,
      .                           FTHESKYI ,ISKY  ,FSKYI     ,CONDNSKYI ) 
 C============================================================================
 C   M o d u l e s
@@ -2369,6 +2371,7 @@ C-----------------------------------------------
       USE INTSTAMP_GLOB_MOD
       USE INTBUFDEF_MOD 
       USE TRI7BOX
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2397,9 +2400,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IPARI(NPARI,NINTER), ISKY(*), NISKYFI(*)
 C     REAL
-      my_real
-     .   SENSOR(NSENSR,*),FTHE(*),FTHESKYI(*),FSKYI(LSKYI,*),CONDNSKYI(*)
+      my_real :: FTHE(*),FTHESKYI(*),FSKYI(LSKYI,*),CONDNSKYI(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2441,8 +2444,8 @@ C
          ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
          INTERACT = 0
 
-         IF(ISENS/=0) THEN             ! Sensor ID  
-           TS = SENSOR(2,ISENS)
+         IF (ISENS > 0) THEN             ! Sensor ID  
+           TS = SENSOR_TAB(ISENS)%TSTART
            IF (TT>=TS) INTERACT = 1
          ELSE
            STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
@@ -2563,8 +2566,8 @@ C
          NIN = INTSTAMP(NI)%NOINTER
          ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
 
-         IF(ISENS/=0) THEN             ! Sensor ID  
-           TS = SENSOR(2,ISENS)
+         IF (ISENS> 0) THEN             ! Sensor ID  
+           TS = SENSOR_TAB(ISENS)%TSTART
            IF (TT>=TS) INTERACT = 1
          ELSE
            STARTT=INTBUF_TAB(NIN)%VARIABLES(3)

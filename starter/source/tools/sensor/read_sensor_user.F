@@ -37,7 +37,8 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE READ_SENSOR_USER(LSENSOR  ,SENSOR    ,HM_NSENSOR,ISEN    ,TITLE  ,
-     .                            UNITAB   ,LSUBMODEL ,KEY       ,UNIT_ID ,SENS_ID)
+     .                            UNITAB   ,LSUBMODEL ,KEY       ,UNIT_ID ,SENS_ID,
+     .                            SENSOR_PTR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -80,6 +81,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NSENSR,NSENSOR)  ,INTENT(INOUT) :: SENSOR
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
+      TYPE (SENSOR_STR_)   ,INTENT(OUT)        :: SENSOR_PTR
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -177,8 +179,8 @@ C           global activation time
      .      ' TYPE 29 SENSOR : USER1'
           WRITE (IOUT,'(A,1PG20.13)')
      .    ' TIME DELAY BEFORE ACTIVATION . . . . .',TDEL
-            SENSOR (2,ISEN)=1E30
-            SENSOR (2+LSENBUF,ISEN)=1E30
+            SENSOR (2,ISEN)=INFINITY
+            SENSOR (2+LSENBUF,ISEN)=INFINITY
             IF (USERL_AVAIL==1)THEN
               CALL ST_USERLIB_LECSEN(TYP,ROOTNAM,ROOTLEN)
               CALL USER_OUTPUT(IOUT,TYP,ROOTNAM,ROOTLEN,1)
@@ -199,8 +201,8 @@ C           global activation time
      .      ' TYPE 31 SENSOR : USER3'
           WRITE (IOUT,'(A,1PG20.13)')
      .    ' TIME DELAY BEFORE ACTIVATION . . . . .',TDEL
-            SENSOR (2,ISEN)=1E30
-            SENSOR (2+LSENBUF,ISEN)=1E30
+            SENSOR (2,ISEN)=INFINITY
+            SENSOR (2+LSENBUF,ISEN)=INFINITY
             IF (USERL_AVAIL==1)THEN
               CALL ST_USERLIB_LECSEN(TYP,ROOTNAM,ROOTLEN)
               CALL USER_OUTPUT(IOUT,TYP,ROOTNAM,ROOTLEN,1)
@@ -214,6 +216,14 @@ C           global activation time
      .                  I1=SENS_ID,
      .                  C1=TITLE)
         ENDIF ! IF (TYP>=29.AND.TYP<=31)
+
+        SENSOR_PTR%TYPE    = TYP
+        SENSOR_PTR%SENS_ID = SENS_ID
+        SENSOR_PTR%STATUS  = 0
+        SENSOR_PTR%TDELAY  = TDEL
+        SENSOR_PTR%TSTART  = INFINITY
+        SENSOR_PTR%TCRIT   = INFINITY
+        SENSOR_PTR%TMIN    = ZERO
 !
       ELSE
 !   error TBD

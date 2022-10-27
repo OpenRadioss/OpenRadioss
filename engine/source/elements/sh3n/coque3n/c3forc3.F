@@ -92,7 +92,7 @@ Chd|====================================================================
      F           JTHE     ,TEMP     ,FTHE    ,FTHESKY  ,IEXPAN   ,
      G           GRESAV   ,GRTH     ,IGRTH   ,
      H           MSTG     ,DMELTG   ,JSMS    ,TABLE    ,IPARG    ,
-     I           IXFEM    ,LSENSOR  ,SENSOR  ,PTG      ,IBORDNODE,
+     I           IXFEM    ,SENSOR_TAB,PTG      ,IBORDNODE,
      J           ELCUTC   ,INOD_CRK ,IEL_CRK ,NODENR   ,IADTG_CRK,
      K           NODEDGE  ,CRKNODIAD,KNOD2ELC,CONDN    ,
      L           CONDNSKY ,STACK    ,ISUBSTACK,XFEM_STR,CRKEDGE  ,
@@ -108,6 +108,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD       
       USE NLOCAL_REG_MOD          
       USE DRAPE_MOD      
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -142,7 +143,7 @@ C-----------------------------------------------
      .        JSMS,ISUBSTACK
       INTEGER NPF(*),IXTG(NIXTG,*),IADTG(3,*),IGEO(NPROPGI,*),IPM(*),
      .   IPARTTG(*),ITASK,JTHE,IEXPAN,GRTH(*),IGRTH(*),IPARG(*),ITAB(*),
-     .   IXFEM,LSENSOR(NSENSI,*),IBORDNODE(*),
+     .   IXFEM,IBORDNODE(*),
      .   ELCUTC(2,*),INOD_CRK(*),NODENR(*),IEL_CRK(*),IADTG_CRK(3,*),
      .   NODEDGE(2,*),CRKNODIAD(*),KNOD2ELC(*),XEDGE3N(3,*)
       my_real 
@@ -156,8 +157,7 @@ C-----------------------------------------------
      .   M21(MVSIZ), M22(MVSIZ), M23(MVSIZ),
      .   M31(MVSIZ), M32(MVSIZ), M33(MVSIZ),
      .   FZERO(3,3,*),TEMP(*),FTHE(*),FTHESKY(*),GRESAV(*),MSTG(*),
-     .   DMELTG(*),SENSOR(NSENSR,*), PTG(3,*),CONDN(*),CONDNSKY(*)
- 
+     .   DMELTG(*),PTG(3,*),CONDN(*),CONDNSKY(*)
 
 !       SP issue :
       REAL(kind=8), DIMENSION(*), INTENT(in), TARGET :: XDP
@@ -172,6 +172,7 @@ C-----------------------------------------------
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (DRAPE_) :: DRAPE_T3
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -484,10 +485,10 @@ C--------------------------
      F   TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,GBUF%TEMP ,
      G   IBID      ,BID       ,
      H   BID       ,BID       ,BID       ,BID       ,BID       ,
-     I   BID       ,BID       ,BID       ,E1X0       ,E1Y0       ,
-     J   E1Z0       ,E2X0       ,E2Y0       ,E2Z0       ,E3X0       ,
-     K   E3Y0       ,E3Z0       ,NG        ,TABLE     ,IXFEM     ,
-     L   BID       ,LSENSOR   ,SENSOR    ,BID       ,ELCRKINI  ,
+     I   BID       ,BID       ,BID       ,E1X0      ,E1Y0       ,
+     J   E1Z0      ,E2X0      ,E2Y0      ,E2Z0      ,E3X0       ,
+     K   E3Y0      ,E3Z0      ,NG        ,TABLE     ,IXFEM     ,
+     L   BID       ,SENSOR_TAB,BID       ,ELCRKINI  ,
      M   DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
      N   ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O   IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,

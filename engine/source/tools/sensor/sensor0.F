@@ -37,11 +37,15 @@ Chd|        SPMD_SUMAX                    source/mpi/generic/spmd_sumax.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SENSOR0(LSENSOR, IPARI ,NPRW ,SENSOR, ISENSP  ,
-     .                   NSENSP , XSENS ,X    ,ACCELM, IACCP   ,
-     .                   NACCP  ,GAUGE  ,IGAUP,NGAUP , PARTSAV2,
-     .                   SENSOR_TAB     ,IGRSURF,IGRNOD)
-C routine spmd de maj de sensor
+      SUBROUTINE SENSOR0(SENSOR_TAB,IPARI  ,NPRW   ,ISENSP  ,NSENSP    ,
+     .                   XSENS     ,X      ,ACCELM ,IACCP   ,NACCP     ,
+     .                   GAUGE     ,IGAUP  ,NGAUP  ,PARTSAV2,LSENSOR   ,
+     .                   SENSOR    )
+C-----------------------------------------------
+C   SPMD sensor update routine
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE SENSOR_MOD
       USE GROUPDEF_MOD
 C-----------------------------------------------
@@ -54,21 +58,19 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr_usens_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
+#include      "scr_usens_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LSENSOR(NSENSI,*),IPARI(NPARI,NINTER),
+      INTEGER IPARI(NPARI,NINTER),LSENSOR(NSENSI,*),
      .        NPRW(*), ISENSP(2,*), NSENSP(*), IACCP(*), NACCP(*),
      .        IGAUP(*), NGAUP(*)
       my_real
      .        SENSOR(NSENSR,*), XSENS(12,*), X(3,*),
      .        ACCELM(LLACCELM,*), GAUGE(LLGAUGE,*),PARTSAV2(2,*)
-      TYPE(GROUP_)   ,DIMENSION(NGRNOD) ,INTENT(IN) :: IGRNOD
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
-      TYPE(SURF_)    ,DIMENSION(NSURF), INTENT(in) :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -91,13 +93,13 @@ C
        LEN = 0
        ISENSUSR = 0
        DO K=1,NSENSOR
-         TYP = LSENSOR(2,K)
-         IF(TYP == 1)THEN
+         TYP = SENSOR_TAB(K)%TYPE
+         IF (TYP == 1) THEN
            ISENST1 = 1
-         ELSEIF(TYP == 2)THEN
+         ELSEIF (TYP == 2) THEN
            ISENST2 = 1
            IF(ISENSP(1,K) == LOC_PROC)THEN
-            N1 = LSENSOR(4,K)
+            N1 = SENSOR_TAB(K)%IPARAM(1)
             IF(LOC_PROC /= 1)THEN
              KK = KK+1
              RXBUF(1,KK) = K
@@ -113,7 +115,7 @@ C stockage directe sur p0
             END IF
            END IF
            IF(ISENSP(2,K) == LOC_PROC)THEN
-            N2 = LSENSOR(5,K)
+            N2 = SENSOR_TAB(K)%IPARAM(2)
             IF(LOC_PROC /= 1)THEN
              KK = KK+1
              RXBUF(1,KK) = K
@@ -130,12 +132,12 @@ C stockage directe sur p0
            END IF
          ELSEIF(TYP == 6)THEN
            LEN = LEN + 1
-           IN = LSENSOR(4,K)
-           IF (IN > NINTER) IN = LSENSOR(5,K)
+           IN = SENSOR_TAB(K)%IPARAM(1)
+           IF (IN > NINTER) IN = SENSOR_TAB(K)%IPARAM(2)
            IBUF(LEN) = IPARI(29,IN)
          ELSEIF(TYP == 7)THEN
            LEN = LEN + 1
-           IN = LSENSOR(4,K)
+           IN = SENSOR_TAB(K)%IPARAM(1)
            N5 = IN + 4*NRWALL
            IBUF(LEN) = NPRW(N5)
          ELSEIF(TYP == 10)THEN
@@ -145,7 +147,7 @@ c-------------------------------
 c-------------------------------
            ISENST13 = 1
            IF (ISENSP(1,K) == LOC_PROC) THEN
-             N1 = LSENSOR(4,K)
+             N1 = SENSOR_TAB(K)%IPARAM(1)
              IF (LOC_PROC /= 1) THEN
                KK = KK+1
                RXBUF(1,KK) = K
@@ -160,7 +162,7 @@ c-------------------------------
              END IF
            END IF
            IF (ISENSP(2,K) == LOC_PROC) THEN
-             N2 = LSENSOR(5,K)
+             N2 = SENSOR_TAB(K)%IPARAM(2)
              IF (N2 > 0 ) THEN
                IF (LOC_PROC /= 1) THEN
                  KK = KK+1
@@ -230,8 +232,8 @@ C
          CALL SPMD_RBCAST(XSENS,XSENS,12,NSENSOR,0,2)
          IF (TT == ZERO) THEN
            DO K=1,NSENSOR
-             TYP = LSENSOR(2,K)
-             N2  = LSENSOR(5,K)
+             TYP = SENSOR_TAB(K)%TYPE
+             N2  = SENSOR_TAB(K)%IPARAM(2)
              IF (TYP == 13) THEN
                XSENS(7,K)  = XSENS(1,K)
                XSENS(8,K)  = XSENS(2,K)
@@ -281,31 +283,32 @@ C
 Cel il faut corrige la reduction et l'affecter au ipari/nprw
         LEN = 0
         DO K=1,NSENSOR
-         TYP = LSENSOR(2,K)
-         IF(TYP == 6)THEN
+         TYP = SENSOR_TAB(K)%TYPE
+         IF (TYP == 6)THEN
            LEN = LEN + 1
-           IN = LSENSOR(4,K)
-           IF (IN > NINTER) IN = LSENSOR(5,K)
+           IN = SENSOR_TAB(K)%IPARAM(1)
+           IF (IN > NINTER) IN = SENSOR_TAB(K)%IPARAM(2)
            IPARI(29,IN)=MIN(IBUF(LEN),1)
-         ELSEIF(TYP == 7)THEN
+         ELSEIF (TYP == 7)THEN
            LEN = LEN + 1
-           IN = LSENSOR(4,K)
+           IN = SENSOR_TAB(K)%IPARAM(1)
            N5 = IN + 4*NRWALL
            NPRW(N5) = MIN(IBUF(LEN),1)
          ENDIF
         ENDDO
        ENDIF
+c-----------------------------------------------------------------------
+c      User sensor
+c-----------------------------------------------------------------------
 C
-C Sensor utilisateur
-C
-       IF(ISENSUSR == 1) THEN
+       IF (ISENSUSR == 1) THEN
 C
 C TSTART : Logique B -> A
 C
          LEN = 0
          DO K=1,NSENSOR
            TYP = LSENSOR(2,K)
-           IF(TYP == 29.OR.TYP == 30.OR.TYP == 31)THEN
+           IF (TYP == 29.OR.TYP == 30.OR.TYP == 31)THEN
              LEN = LEN + 1
              RBUF(LEN) = SENSOR(ISENBUF+LSENBUF,K)
            ENDIF

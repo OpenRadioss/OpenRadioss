@@ -92,7 +92,7 @@ Chd|====================================================================
      H         GRTH        , IGRTH       ,LGAUGE        ,GAUGE     ,MSSA      ,
      I         DMELS       , IGAUP       ,NGAUP         ,TABLE     ,MS0       ,
      J         XDP         , IGRNOD      ,VARNOD                   ,FSKYI     ,ISKY            ,
-     K         INTBUF_TAB  , IXT         ,IGRV          ,AGRAV     ,SENSOR    ,LSENSOR         ,
+     K         INTBUF_TAB  , IXT         ,IGRV          ,AGRAV     ,SENSOR_TAB,
      L         LGRAV       , CONDNSKY    ,CONDN         ,MS_2D     ,MULTI_FVM ,IGRTRUSS        ,
      M         IGRBRIC     , NLOC_DMG    ,ID_GLOBAL_VOIS,FACE_VOIS ,EBCS_TAB  ,ALE_CONNECTIVITY, 
      N         DIFFUSION   , MATPARAM_TAB,H3D_DATA)
@@ -165,7 +165,7 @@ C-----------------------------------------------
      .   WEIGHT(*), ITABM1(*),
      .   ISIZXV, LENQMV,NV46,GRTH(*),IGRTH(*),LGAUGE(3,NBGAUGE),
      .   IGAUP(*),NGAUP(*),NODLT, IXT(NIXT,*),
-     .   IGRV(*),LSENSOR(NSENSI,*),LGRAV(*)
+     .   IGRV(*),LGRAV(*)
       ! for parith/on : ID_GLOBAL_VOIS --> user id ; FACE_VOIS --> face of the remote element
       INTEGER, DIMENSION(*), INTENT(in) :: ID_GLOBAL_VOIS,FACE_VOIS
      
@@ -181,7 +181,7 @@ C-----------------------------------------------
      .        AGLOB(3,*),GAUGE(LLGAUGE,*),MS0(*),
      .        MSNF(*),VOLMON(*),FSAV(NTHVKI,*),GRESAV(*),
      .        MSSA(*), DMELS(*),VARNOD(*),FSKYI(LSKYI,NFSKYI),
-     .        AGRAV(*),SENSOR(NSENSR,*),CONDN(*),CONDNSKY(*),MS_2D(*),TEMP(*)
+     .        AGRAV(*),CONDN(*),CONDNSKY(*),MS_2D(*),TEMP(*)
      
       TYPE(t_segvar) :: SEGVAR
       TYPE(TTABLE) TABLE(*)
@@ -200,6 +200,7 @@ C-----------------------------------------------
       TYPE(T_DIFFUSION), INTENT(INOUT) :: DIFFUSION
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (H3D_DATABASE) :: H3D_DATA
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       my_real, INTENT(INOUT) :: XCELL(3,SXCELL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -566,7 +567,7 @@ C     -------------------------
 C     Gravity terms
 C     -------------------------
                CALL ALEFVM_GRAV_INIT(
-     1              AGRAV, IGRV    , LGRAV, SENSOR, LSENSOR,
+     1              AGRAV, IGRV    , LGRAV, SENSOR_TAB,
      2              IXS  , ITASK   , NPC  , TF    , SKEW   ,
      3              ITAB 
      .              )
@@ -716,7 +717,7 @@ C
             !GRAVITY INIT
             ! VERTEX(4,1:NUMNOD) = ZERO  !-> not needed, nodes remain the same ones and VERTEX is initialized on allcoation
             CALL ALEFVM_GRAV_INIT(
-     1                           AGRAV, IGRV    , LGRAV, SENSOR, LSENSOR,
+     1                           AGRAV, IGRV    , LGRAV, SENSOR_TAB,
      2                           IXS  , ITASK   , NPC  , TF    , SKEW   ,
      3                           ITAB 
      .                           )
@@ -785,8 +786,7 @@ C
      B            BID       ,BID       ,BID     ,IBID       ,GRESAV   ,
      C            GRTH      ,IGRTH     ,MSSA    ,DMELS      ,TABLE    ,
      D            XDP       ,VARNOD    ,VOLN    ,BID        ,BID      ,
-     E            D        ,
-     F            SENSOR    ,LSENSOR   ,IOUTPRT ,MATPARAM_TAB,IBID)
+     E            D         ,SENSOR_TAB,IOUTPRT ,MATPARAM_TAB,IBID)
 C
                  ELSEIF (ITY == 1 .AND. ISOLNOD /= 4) THEN
                   NULLIFY(pQMV); 
@@ -816,8 +816,8 @@ C
      J            BID          ,BID          ,BID          ,BID          ,BID     ,
      K            BID          ,BID          ,IPARG(1,NG)  ,XDP     ,
      M            BID          ,IBID         ,IBID         ,VOLN         ,CONDN   ,
-     N            CONDNSKY     ,AGRAV        ,IGRV         ,LGRAV        ,SENSOR  ,
-     O            LSENSOR      ,SKEW          ,
+     N            CONDNSKY     ,AGRAV        ,IGRV         ,LGRAV        ,SENSOR_TAB,
+     O            SKEW          ,
      P            ALE_CONNECTIVITY%NALE      ,D            ,IOUTPRT      ,NLOC_DMG,
      Q            MATPARAM_TAB ,IBID)
 C
@@ -943,8 +943,7 @@ C     ALE ON / OFF
      B            BID       ,BID       ,BID     ,IBID       ,GRESAV   ,
      C            GRTH      ,IGRTH     ,MSSA    ,DMELS      ,TABLE    ,
      D            XDP       ,BID       ,VOLN    ,BID        ,BID      ,
-     E            D        ,
-     F            SENSOR    ,LSENSOR   ,IOUTPRT ,MATPARAM_TAB ,IBID)
+     E            D         ,SENSOR_TAB,IOUTPRT ,MATPARAM_TAB ,IBID)
 
                  ELSEIF(ITY == 1 .AND. ISOLNOD /= 4)THEN
                   NULLIFY(pQMV); 
@@ -974,8 +973,8 @@ C     ALE ON / OFF
      J            BID          ,BID         ,BID       ,BID          ,BID     ,      
      K            BID          ,BID         ,IPARG(1,NG)  ,XDP     ,      
      M            BID          ,IBID        ,IBID      ,VOLN         ,CONDN   ,
-     N            CONDNSKY     ,AGRAV       ,IGRV      ,LGRAV        ,SENSOR  ,
-     O            LSENSOR      ,SKEW        ,
+     N            CONDNSKY     ,AGRAV       ,IGRV      ,LGRAV        ,SENSOR_TAB,
+     O            SKEW        ,
      P            ALE_CONNECTIVITY%NALE         ,D           ,IOUTPRT   ,NLOC_DMG     ,
      Q            MATPARAM_TAB ,IBID)
                

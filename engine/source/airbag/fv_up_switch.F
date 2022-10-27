@@ -44,7 +44,7 @@ Chd|====================================================================
       SUBROUTINE FV_UP_SWITCH(NN, NEL, ELEM, NJET, NPOLY,LENH,NBA,
      2     IBAGJET, RBAGJET, NVENT    , IBAGHOL, RBAGHOL ,
      3     P      , RHO    , TK       , U      , SSPK    ,
-     4     X      , V        , A      , SENSOR  ,
+     4     X      , V        , A      , SENSOR_TAB,
      5     FSAV   , NPC    , TF       , IVOLU  , RVOLU   ,
      6     MPOLH  , QPOLH  , EPOLH    ,
      7     PPOLH  , RPOLH  , GPOLH    ,
@@ -72,6 +72,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE FVMBAG_MESHCONTROL_MOD
       USE OMP_LIB
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -111,7 +112,7 @@ C-----------------------------------------------
 
       MY_REAL, INTENT(IN) ::
      .     RBAGJET(NRBJET,NJET), X(3,NUMNOD), V(3,NUMNOD), A(3,NUMNOD),
-     .     SENSOR(NSENSR,NSENSOR),  TF(STF), XXXA(3,NNA), VVVA(3,NNA), POROSITY(NELT - NEL),
+     .     TF(STF), XXXA(3,NNA), VVVA(3,NNA), POROSITY(NELT - NEL),
      .     GEO(NPROPG,NUMGEO), PM(NPROPM,NUMMAT), CFL_COEF,  PDISP_OLD
       MY_REAL, INTENT(INOUT) ::
      .     P(NNT), RHO(NNT), TK(NNT), U(3,NNT), SSPK(NNT), MPOLH(NPOLH), QPOLH(3,NPOLH),
@@ -121,6 +122,7 @@ C-----------------------------------------------
      .     DTPOLH(NPOLH), FSAV(NTHVKI), TPOLH(NPOLH), CPDPOLH(NPOLH), CPEPOLH(NPOLH),
      .     CPFPOLH(NPOLH), RBAGHOL(NRBHOL,NVENT), PDISP, ELFEHPY(NELT), RVOLU(NRVOLU)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), INTENT(IN) :: ELBUF_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -568,10 +570,10 @@ C---------------------------------------------------
 C
       SCALT =RVOLU(26)
       IF(ITYP==6) THEN
-        CALL FVINJT6(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR,
+        CALL FVINJT6(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR_TAB,
      .               SCALT, DATAINJ )
       ELSEIF(ITYP==8) THEN
-        CALL FVINJT8(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR,
+        CALL FVINJT8(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR_TAB,
      .               SCALT, IGEO, GEO, PM, IVOLU, DATAINJ )
       ENDIF
 C
@@ -582,7 +584,7 @@ C
          IF(ISENS==0)THEN
           TSTART=ZERO
          ELSE
-          TSTART=SENSOR(2,ISENS)
+          TSTART=SENSOR_TAB(ISENS)%TSTART
          ENDIF
 C        ITTF : 1 SHIFT EVENT TIME (CAN BE REMOVED IN A LATER VERSION)
 C        ITTF : 2 SHIFT EVENT TIME + EVENT FUNCTION

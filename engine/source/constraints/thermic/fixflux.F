@@ -31,7 +31,11 @@ Chd|        S8EVOLUME                     source/elements/solid/solide8e/s8evolu
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE FIXFLUX (IBFFLUX ,FBFFLUX ,NPC   ,TF  ,X  ,IXS,
-     1                    SENSOR  ,LSENSOR ,FTHE  ,IAD ,FTHESKY)
+     1                    SENSOR_TAB,FTHE  ,IAD ,FTHESKY)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,19 +53,16 @@ C-----------------------------------------------
 #include      "thermal_c.inc"
 #include      "scr_thermal_c.inc"
 #include      "units_c.inc"
-C-----------------------------------------------
-C   E x t e r n a l  F u n c t i o n s
-C-----------------------------------------------
-
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*),IAD(4,*)
-      INTEGER IBFFLUX(NITFLUX,*),LSENSOR(NSENSI,*),IXS(NIXS,*)
+      INTEGER IBFFLUX(NITFLUX,*),IXS(NIXS,*)
 C     REAL
       my_real
-     .   FBFFLUX(LFACTHER,*), TF(*), X(3,*), SENSOR(NSENSR,*),
+     .   FBFFLUX(LFACTHER,*), TF(*), X(3,*),
      .   FTHESKY(LSKY), FTHE(*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -97,8 +98,8 @@ C
          IF(ISENS == 0)THEN
             TS = TTA - STARTT
          ELSE 
-            STARTT = STARTT + SENSOR(2,ISENS)
-            STOPT  = STOPT  + SENSOR(2,ISENS)		
+            STARTT = STARTT + SENSOR_TAB(ISENS)%TSTART
+            STOPT  = STOPT  + SENSOR_TAB(ISENS)%TSTART
             TS = TTA - STARTT      
          ENDIF       
 C
@@ -235,11 +236,11 @@ C-------------------------
            STOPT  = FBFFLUX(5,NL)
            TTA    = TT*THEACCFACT
            DT1A   = DT1*THEACCFACT
-           IF(ISENS == 0)THEN
+           IF (ISENS == 0)THEN
               TS = TTA - STARTT
            ELSE 
-              STARTT = STARTT + SENSOR(2,ISENS)
-              STOPT  = STOPT  + SENSOR(2,ISENS)		
+              STARTT = STARTT + SENSOR_TAB(ISENS)%TSTART
+              STOPT  = STOPT  + SENSOR_TAB(ISENS)%TSTART
               TS = TTA - STARTT
            ENDIF       
            IFLAG = 1

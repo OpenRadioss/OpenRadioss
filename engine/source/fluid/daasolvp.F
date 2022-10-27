@@ -33,8 +33,12 @@ Chd|====================================================================
      .                    IFLOW,  IBUF,   ELEM,  IBUFL,   SHELL_GA,  CNP,
      .                    RFLOW,  NORMAL, TA,    AREAF,   COSG,      DIST,  
      .                    MFLE,   ACCF,   PM,    PTI, X,  V, A, NPC, TF, 
-     .                    NBGAUGE,LGAUGE, GAUGE, NSENSOR, SENSOR,    LSENSOR, IGRV, AGRV,
+     .                    NBGAUGE,LGAUGE, GAUGE, NSENSOR, SENSOR_TAB, IGRV, AGRV,
      .                    CBEM   ,IPIV_L, MFLE_L,IBUFELR, IBUFELC,NFUNCT)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,12 +56,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDIM, NNO, NEL, NBGAUGE, NSENSOR, NEL_LOC,NFUNCT
       INTEGER IFLOW(*), IBUF(*), ELEM(NDIM,*), SHELL_GA(*), NPC(*), LGAUGE(3,*)
-      INTEGER IBUFL(*), CNP(*), LSENSOR(NSENSI,*), IGRV(NIGRV,*)
+      INTEGER IBUFL(*), CNP(*), IGRV(NIGRV,*)
       INTEGER IPIV_L(*), IBUFELR(NEL), IBUFELC(NEL)
       my_real X(3,*), V(3,*), A(3,*), TF(*), RFLOW(*)
       my_real NORMAL(3,*), TA(*), AREAF(*), COSG(*), DIST(*), PM(*), ACCF(*), PTI(*)
-      my_real MFLE(NEL,*), GAUGE(LLGAUGE,*), SENSOR(NSENSR,*), AGRV(LFACGRV,*)
+      my_real MFLE(NEL,*), GAUGE(LLGAUGE,*), AGRV(LFACGRV,*)
       my_real CBEM(NEL,*), MFLE_L(NEL_LOC,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -636,12 +641,12 @@ C-----------------------------------------------
         IFUNC = IGRV(3,GRAV_ID)
         ISENS = 0
         DO K=1,NSENSOR
-          IF(IGRV(6,GRAV_ID) == LSENSOR(1,K))ISENS=K
+          IF(IGRV(6,GRAV_ID) == SENSOR_TAB(K)%SENS_ID) ISENS=K ! do it in starter !!!
         ENDDO
         IF(ISENS==0)THEN
           TS = TT
         ELSE
-          TS = TT-SENSOR(2,ISENS)
+          TS = TT-SENSOR_TAB(ISENS)%TSTART
         ENDIF
         ISMOOTH = 0
         IF (IFUNC > 0) THEN
