@@ -2415,11 +2415,11 @@ C--------exclude high pene in cas of ICONT_R
          IF(PENE(I)*PENE(I) > TOLE) THEN
           N = CAND_N(I)
           IF( N <= NSN) THEN
-           IF (IRTLM(1,N)<=0.AND.IRTLM(2,N)==0) IRTLM(2,N) = -CAND_E(I)
+           IF (IRTLM(1,N)<=0.AND.ICONT_I(N)==0) ICONT_I(N) = -CAND_E(I)
           ELSE
            N = N - NSN
-           IF (IRTLM_FI(NIN)%P(1,N)<=0.AND.IRTLM_FI(NIN)%P(2,N)==0) 
-     +         IRTLM_FI(NIN)%P(2,N) = -CAND_E(I)
+           IF (IRTLM_FI(NIN)%P(1,N)<=0.AND.ICONT_I_FI(NIN)%P(N)==0) 
+     +         ICONT_I_FI(NIN)%P(N) = -CAND_E(I)
           END IF
           PENE(I) = ZERO
          END IF
@@ -4762,87 +4762,88 @@ c           ZOI = ZI - ADT*VZI
           END IF !((ABS(SX125)+ABS(SY125)+ABS(SZ125))>EM20) THEN
          ENDIF
          IF(IXX3 /= IXX4)THEN
-          IF ((ABS(SX235)+ABS(SY235)+ABS(SZ235))>EM20) THEN
-           AAA = ONE
-           ADT = DT1
-
-             XM2 = XO2
-             YM2 = YO2
-             ZM2 = ZO2 
-         
-             XM3 = XO3
-             YM3 = YO3
-             ZM3 = ZO3 
-         
-c             XOI = XI - ADT*VXI
-c             YOI = YI - ADT*VYI
-c             ZOI = ZI - ADT*VZI
-
-             XM5 = XO5
-             YM5 = YO5
-             ZM5 = ZO5
-         
-             X52 = XM2 - XM5
-             Y52 = YM2 - YM5
-             Z52 = ZM2 - ZM5
- 
-             X53 = XM3 - XM5
-             Y53 = YM3 - YM5
-             Z53 = ZM3 - ZM5
- 
-             XI2 = XM2 - XOI
-             YI2 = YM2 - YOI
-             ZI2 = ZM2 - ZOI
- 
-             XI3 = XM3 - XOI
-             YI3 = YM3 - YOI
-             ZI3 = ZM3 - ZOI
-         
-             XI5 = XM5 - XOI
-             YI5 = YM5 - YOI
-             ZI5 = ZM5 - ZOI
-
-             SX0 = Y52*Z53 - Z52*Y53
-             SY0 = Z52*X53 - X52*Z53
-             SZ0 = X52*Y53 - Y52*X53
-
-             SX2 = YI5*ZI2 - ZI5*YI2
-             SY2 = ZI5*XI2 - XI5*ZI2
-             SZ2 = XI5*YI2 - YI5*XI2
-
-             SX5 = YI2*ZI3 - ZI2*YI3
-             SY5 = ZI2*XI3 - XI2*ZI3
-             SZ5 = XI2*YI3 - YI2*XI3
-
-             SX3 = YI3*ZI5 - ZI3*YI5
-             SY3 = ZI3*XI5 - XI3*ZI5
-             SZ3 = XI3*YI5 - YI3*XI5
-             
-             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
-             LB0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
-             LC0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
-             LA0 =  ONE-LB0-LC0 
-
-             IF(LB0 >= ZEROMT.and. LB0 <= UNPT .and.
-     .          LC0 >= ZEROMT.and. LC0 <= UNPT .and.
-     .          LA0 >= ZEROMT.and. LA0 <= UNPT)THEN
-               INTERSECT = 1
-
-               IF(ADT > ADT0)THEN
-                 SUBTRIA= 2 ! subtriangle
-                 ISTEP = 5
-                 ADT0= ADT
-                 NX = SX235
-                 NY = SY235
-                 NZ = SZ235
-               ENDIF
-             ENDIF
-           END IF !((ABS(SX235)+ABS(SY235)+ABS(SZ235))>EM20) THEN
-c          ENDIF
+           IF(VO23 > ZERO .and. V23 >= ZERO )THEN
+              IF ((ABS(SX235)+ABS(SY235)+ABS(SZ235))>EM20) THEN
+                AAA = ONE
+                ADT = DT1
+              
+                XM2 = XO2
+                YM2 = YO2
+                ZM2 = ZO2 
+              
+                XM3 = XO3
+                YM3 = YO3
+                ZM3 = ZO3 
+              
+c                XOI = XI - ADT*VXI
+c                YOI = YI - ADT*VYI
+c                ZOI = ZI - ADT*VZI
+              
+                XM5 = XO5
+                YM5 = YO5
+                ZM5 = ZO5
+              
+                X52 = XM2 - XM5
+                Y52 = YM2 - YM5
+                Z52 = ZM2 - ZM5
+              
+                X53 = XM3 - XM5
+                Y53 = YM3 - YM5
+                Z53 = ZM3 - ZM5
+              
+                XI2 = XM2 - XOI
+                YI2 = YM2 - YOI
+                ZI2 = ZM2 - ZOI
+              
+                XI3 = XM3 - XOI
+                YI3 = YM3 - YOI
+                ZI3 = ZM3 - ZOI
+              
+                XI5 = XM5 - XOI
+                YI5 = YM5 - YOI
+                ZI5 = ZM5 - ZOI
+              
+                SX0 = Y52*Z53 - Z52*Y53
+                SY0 = Z52*X53 - X52*Z53
+                SZ0 = X52*Y53 - Y52*X53
+              
+                SX2 = YI5*ZI2 - ZI5*YI2
+                SY2 = ZI5*XI2 - XI5*ZI2
+                SZ2 = XI5*YI2 - YI5*XI2
+              
+                SX5 = YI2*ZI3 - ZI2*YI3
+                SY5 = ZI2*XI3 - XI2*ZI3
+                SZ5 = XI2*YI3 - YI2*XI3
+              
+                SX3 = YI3*ZI5 - ZI3*YI5
+                SY3 = ZI3*XI5 - XI3*ZI5
+                SZ3 = XI3*YI5 - YI3*XI5
+                
+                S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+                LB0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
+                LC0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
+                LA0 =  ONE-LB0-LC0 
+              
+                IF(LB0 >= ZEROMT.and. LB0 <= UNPT .and.
+     .             LC0 >= ZEROMT.and. LC0 <= UNPT .and.
+     .             LA0 >= ZEROMT.and. LA0 <= UNPT)THEN
+                  INTERSECT = 1
+              
+                  IF(ADT > ADT0)THEN
+                    SUBTRIA= 2 ! subtriangle
+                    ISTEP = 5
+                    ADT0= ADT
+                    NX = SX235
+                    NY = SY235
+                    NZ = SZ235
+                  ENDIF
+                ENDIF
+              END IF !((ABS(SX235)+ABS(SY235)+ABS(SZ235))>EM20) THEN
+           END IF!(VO23 > ZERO .and. V23 >= ZERO )THEN
           IF(VO34 > ZERO .and. V34 >= ZERO )THEN
            IF ((ABS(SX345)+ABS(SY345)+ABS(SZ345))>EM20) THEN
-           AAA = ONE
-           ADT = DT1
+            AAA = ONE
+            ADT = DT1
 
             XM3 = XO3
             YM3 = YO3
@@ -4919,8 +4920,8 @@ c            ZOI = ZI - ADT*VZI
 
           IF(VO41 > ZERO .and. V41 >= ZERO )THEN
            IF ((ABS(SX415)+ABS(SY415)+ABS(SZ415))>EM20) THEN
-           AAA = ONE
-           ADT = DT1
+            AAA = ONE
+            ADT = DT1
 
             XM4 = XO4
             YM4 = YO4
