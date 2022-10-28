@@ -77,7 +77,6 @@ C-----------------------------------------------
 #include      "sysunit.inc"
 #include      "mvsiz_p.inc"
 #include      "tabsiz_c.inc"
-C     NSUBMOD
 #include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -89,13 +88,13 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       my_real, INTENT(INOUT) :: BUFSF(SBUFSF)
       my_real, INTENT(IN) :: RTRANS(NTRANSF,NRTRANS)
-C-----------------------------------------------
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .        FCX,FCY,FAC_L,FAC_T,FAC_M,FCX1,FCY1,FCX2,FCY2,
+      CHARACTER*ncharline :: MSGOUT1
+      CHARACTER*ncharline :: MSGOUT2
+      my_real FCX,FCY,FAC_L,FAC_T,FAC_M,FCX1,FCY1,FCX2,FCY2,
      .        XDET,YDET,ZDET,TDET,WTNT,BID,PMIN,
      .        Dx,Dy,Dz, Z, W13, PHI_DB, DNORM, BOUND1, BOUND2,LAMBDA,cos_theta, T_A, T0INF,WA13,
      .        FAC_M_bb,FAC_L_bb,FAC_T_bb,FAC_P_bb,FAC_I_bb,NORM, NN2, tmp(3)
@@ -153,9 +152,9 @@ C-----------------------------------------------
       DATA char_ZZ/'ZZ'/
       LOGICAL :: IS_AVAILABLE,lFOUND
       DATA MESS/'BLAST LOADING DEFINITION                '/
-!
+
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
-      LOGICAL BOOL_COORD
+      LOGICAL BOOL_COORD, BOOL_SKIP_CALC
       INTEGER,EXTERNAL :: USR2SYS
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -165,7 +164,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m e n t s
 C-----------------------------------------------      
-C
 C                         /LOAD/PFLUID             /LOAD/PBLAST    
 C
 C     IBUFLOADP(1,K) :   NODE1                    NODE1            
@@ -193,6 +191,7 @@ C-----------------------------------------------
       ILD_PBLAST   = 0 !denombrement 
       alpha_zc = ZERO 
       HC = ZERO
+      BOOL_SKIP_CALC = .FALSE.
 
       CALL HM_OPTION_START('/LOAD/PBLAST')
      
@@ -262,14 +261,56 @@ C-----------------------------------------------
                 ZDET = X(3,NODE_ID)                                                                 
               ENDIF 
               IF(BOOL_COORD)THEN
-                CALL ANCMSG(MSGID=1907, MSGTYPE=MSGWARNING, ANMODE=ANINFO,C1=TRIM(TITR), I1=ID)              
+                MSGOUT1=''
+                MSGOUT1='NODE IDENTIFIER IS PROVIDED.'     
+                MSGOUT2=''
+                MSGOUT2='COORDINATES (XDET,YDET,ZDET) WILL BE IGNORED'     
+                CALL ANCMSG(MSGID=1907, MSGTYPE=MSGWARNING, ANMODE=ANINFO,C1=TRIM(TITR), I1=ID, C2=MSGOUT1, C3=MSGOUT2)              
               ENDIF
             ENDIF
 
             INGR2USR => IGRSURF(1:NSURF)%ID
             internal_SURF_ID =  NGR2USR(SURF_ID,INGR2USR,NSURF)
             internal_SURF_ID_GROUND =  NGR2USR(SURF_ID_GROUND,INGR2USR,NSURF)
-                        
+            
+            IF(IABAC == 3 .AND. SURF_ID_GROUND /= 0)THEN
+              IF(internal_SURF_ID_GROUND == 0)THEN
+                !user surface not found in input file
+                !display error message : ground_id not found
+                MSGOUT1=''                                                                                              
+                MSGOUT1='SURFACE IDENTIFIER FOR GROUND DEFINITION WAS NOT FOUND'                                                                                                                                       
+                MSGOUT2=''                                                                                                                                                                                 
+                MSGOUT2='SURF ID:'
+                WRITE(MSGOUT2(9:19),FMT='(I10)') SURF_ID_GROUND
+                CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
+                BOOL_SKIP_CALC = .TRUE.
+              ENDIF
+            ENDIF
+            
+            IF(SURF_ID == 0)THEN
+              !user forgot to input surf_id
+              ! disply error message : surf_id missing
+                MSGOUT1=''                                                                                              
+                MSGOUT1='MISSING SURFACE IDENTIFIER'                                            
+                MSGOUT2=''                                                                                                                                                                                                                                                                           
+                MSGOUT2='SURF_ID MUST BE PROVIDED'
+                CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
+                BOOL_SKIP_CALC = .TRUE.
+            ELSE
+              IF(internal_SURF_ID == 0)THEN
+                !surface is not existing
+                ! display error message : surf_id not found
+                MSGOUT1=''                                                                                              
+                MSGOUT1='INVALID SURFACE IDENTIFIER'                                            
+                MSGOUT2=''                                                                                                                                                                                                                                                                           
+                MSGOUT2='SURF ID:'
+                WRITE(MSGOUT2(9:19),FMT='(I10)') SURF_ID
+                CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
+                BOOL_SKIP_CALC = .TRUE.
+              ENDIF
+            ENDIF 
+            
+            
             IF(ITA_SHIFT==0) ITA_SHIFT = 1
             IF(ITA_SHIFT < 0 .OR. ITA_SHIFT >= 3)ITA_SHIFT = 1
             
@@ -306,18 +347,67 @@ C-----------------------------------------------
             ZC = ZERO
             IF(IABAC == 3 )THEN !AIR BURST ONLY
               IF(SURF_ID_GROUND == 0)THEN
+                Base_X  =  ZERO                                           
+                Base_y  =  ZERO                                           
+                Base_z  =  ZERO                                          
                 Nx_SURF=ZERO
                 Ny_SURF=ZERO
-                IF(IABAC==2)Nz_SURF=ONE      !normal vector
-                IF(IABAC==3)Nz_SURF=-Zdet   !Vector from ground projection to det point
+                Nz_SURF=-Zdet   !Vector from ground projection to det point
+                IF(ZDET == ZERO)THEN
+                  MSGOUT1=''                                                                                              
+                  MSGOUT1='ZDET IS NULL. IT IS NOT POSSIBLE TO DETERMINE DEFAULT SURFACE FOR GROUND DEFINITION'                                            
+                  MSGOUT2=''                                                                                                                                                                                                                                                                           
+                  MSGOUT2='SURFACE IDENTIFIER MUST BE INTPUT FOR GROUND DEFINITION'
+                  CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
+                  BOOL_SKIP_CALC = .TRUE.
+                  Nz_SURF=-ONE ! Starter must go on up to normal termination
+                  NN2=ONE
+                  NORM=ONE
+                ELSE
+                  MSGOUT1=''                                                                                               
+                  MSGOUT1='MISSING GROUND_ID IDENTIFIER'   
+                  MSGOUT2=''                                                                                               
+                  MSGOUT2='ASSUMING GROUND WITH BASIS=(0,0,0) AND NORMAL=(0,0,ZDET)'    
+                  CALL ANCMSG(MSGID=1907, MSGTYPE=MSGWARNING, ANMODE=ANINFO,C1=TRIM(TITR), I1=ID, C2=MSGOUT1,C3=MSGOUT2)              
+                  NN2  =  Nx_SURF*Nx_SURF+Ny_SURF*Ny_SURF+Nz_SURF*Nz_SURF                                                  
+                  NORM =  SQRT(NN2)                                                                                        
+                  !NORM IS STRICTLY POSITIVE : BECAUSE THERE IS A STARTER CHECK FROM READER, ERROR MESSAGE 891 OTHERWISE                                   
+
+                  !Determine Height                                                                                        
+                  ! find Projection along line generated by n (ground vector) and over the gound plan                      
+                  ! Proj=lambda.n                                                                                          
+                  ! <z-Proj,n>=0                                                                                           
+                  lambda=(Nx_SURF*XDET + Ny_SURF*YDET + Nz_SURF*ZDET - Nx_SURF*Base_X-Ny_SURF*Base_y-Nz_SURF*Base_z)/NN2   
+                  !Height is length Proj->Det. Storing Det->Proj into NN array                                             
+                  HC = lambda*NORM                                                                                         
+                  !vector to find ground basis point from charge                                                           
+                  Nx_SURF=HC*Nx_SURF/NORM !lambda*NX_                                                                      
+                  Ny_SURF=HC*Ny_SURF/NORM !lambda*NY_                                                                      
+                  Nz_SURF=HC*Nz_SURF/NORM !lambda*NZ_                                                                      
+                  !Scaled Height of Charge                                                                                 
+                  ZC = HC/W13                                                                                              
+                ENDIF                  
               ELSE 
                 lfound = .FALSE.                                                       
                 DO IS=1,NSURF                                                          
                   IF (SURF_ID_GROUND == IGRSURF(IS)%ID)THEN                                       
                     SELECT CASE(IGRSURF(IS)%TYPE)                                      
                      CASE DEFAULT
-                      !Surface type is not matching. Setting Default ground definition
-                      If (Zdet < ZERO) CALL ANCMSG(MSGID=2047, MSGTYPE=MSGERROR, ANMODE=ANINFO,C1=TRIM(TITR), I1=ID)                    
+                      !Surface type is not matching. Setting Default ground definition   
+                      IF (Zdet <= ZERO)THEN
+                        MSGOUT1=''                                                                               
+                        MSGOUT1='SURFACE TYPE FOR GROUND DEFINITION IS NOT MATCHING'      
+                        MSGOUT2=''                                                                               
+                        MSGOUT2='EXPECTED SURFACE TYPE:/SURF/PLANE'                        
+                        CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)    
+                        BOOL_SKIP_CALC = .TRUE.                
+                      ELSE
+                        MSGOUT1=''                                                                                               
+                        MSGOUT1='EXPECTED TYPE FOR GROUND SURFACE IS /SURF/PLANE.'   
+                        MSGOUT2=''                                                                                               
+                        MSGOUT2='ASSUMING GROUND WITH BASIS=(0,0,0) AND NORMAL=(0,0,ZDET)'    
+                        CALL ANCMSG(MSGID=1907, MSGTYPE=MSGWARNING, ANMODE=ANINFO,C1=TRIM(TITR), I1=ID, C2=MSGOUT1,C3=MSGOUT2)                                    
+                      ENDIF
                       IADPL = 0                                    
                       lfound = .TRUE.                                                  
                       Base_X  = ZERO                                                      
@@ -328,6 +418,9 @@ C-----------------------------------------------
                       Nx_SURF=ZERO
                       Ny_SURF=ZERO
                       Nz_SURF=-Zdet
+                      IF(ZDET == ZERO)THEN
+                        Nz_SURF = - ONE
+                      ENDIF                  
                       EXIT                                                             
                     CASE(200) 
                       !Surface type is matching:setting ground from surface definition                                                         
@@ -341,7 +434,15 @@ C-----------------------------------------------
                       Nz_SURF =  BUFSF(IADPL+6)!- BUFSF(IADPL+3) 
                       NN2  =  Nx_SURF*Nx_SURF+Ny_SURF*Ny_SURF+Nz_SURF*Nz_SURF                          
                       NORM =  SQRT(NN2)  
-                      !NORM IS STRICTLY POSITIVE : BECAUSE THERE IS A STARTER CHECK FROM READER, ERROR MESSAGE 891 OTHERWISE                                 
+                      !NORM IS STRICTLY POSITIVE : BECAUSE THERE IS A STARTER CHECK FROM READER, ERROR MESSAGE 891 OTHERWISE 
+                      
+                      IF(NN2 == ZERO)THEN
+                        !Starter must go on up to normal termination.
+                        !ERROR ID : 891 already printed (surface definition)
+                        Nz_SURF=-ONE
+                        NN2=ONE
+                        NORM=ONE                       
+                      ENDIF                                
 
                       !Determine Height
                       ! find Projection along line generated by n (ground vector) and over the gound plan
@@ -361,12 +462,14 @@ C-----------------------------------------------
                   ENDIF                                                                
                 ENDDO                                                                  
                 ! Provided ID is referring to an nonexistent surface                                                     
-                IF (.NOT.lFOUND) THEN                                                  
-                  CALL ANCMSG(MSGID=73,ANMODE=ANINFO,MSGTYPE=MSGERROR,                 
-     .                        I1=ID,                                                   
-     .                        C1=TITR,                                                 
-     .                        I2= SURF_ID_GROUND,                                                 
-     .                        C2='DOES NOT REFER TO A VALID /SURF ID')                 
+                IF (.NOT.lFOUND) THEN 
+                  Nx_Surf=Zero
+                  Ny_Surf=Zero  
+                  Nz_Surf=-one
+                  NN2=ONE
+                  NORM=ONE
+                  HC=ONE
+                  ZC=ONE                 
                 ENDIF 
                              
                 !Scaled Height of triple point
@@ -444,7 +547,7 @@ C-----------------------------------------------
             !--------------------------------------------------------------
             !   C o m p u t e   W a v e   P a r a m e t e r s
             !--------------------------------------------------------------    
-            IF(internal_SURF_ID /= 0)THEN   
+            IF(internal_SURF_ID /= 0 .AND. .NOT.BOOL_SKIP_CALC)THEN   
                NN       = IGRSURF(internal_SURF_ID)%NSEG
                ISIZ_SEG = NN                                    
 !     translation from Working unit System to {big bang} unit system         
@@ -715,12 +818,14 @@ C-----------------------------------------------
                       WRITE(IOUT,*) ' ** WARNING : NEGATIVE ANGLE,',ANGLE_g,' FACE:',ITAB((/N1,N2,N3,N4/)),
      .                              ' SEEMS TO BE BELOW THE GROUND'
                       WRITE(ISTDO,*)' ** WARNING : NEGATIVE ANGLE,',ANGLE_g,' FACE:',ITAB((/N1,N2,N3,N4/)),
-     .                              ' SEEMS TO BE BELOW THE GROUND'            
+     .                              ' SEEMS TO BE BELOW THE GROUND'
+                      ANGLE_g = ZERO            
                     ELSEIF(ANGLE_g > 85.00000)THEN
                       WRITE(IOUT,*) 
      .                ' ** WARNING : ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,'. ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
                       WRITE(ISTDO,*)
      .                ' ** WARNING : ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,'. ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
+                      ANGLE_g = 85.00000
                     ENDIF                                                                                               
                     tmp(1)=ANGLE_g/PBLAST_DATA%delta_angle                                                                  
                     itmp=INT(tmp(1))                                                                                      
