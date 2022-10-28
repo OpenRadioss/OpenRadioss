@@ -236,6 +236,7 @@ C-----------  R4_FREE is replaced by R3_AMU (no more free)
      .   MFXX(*)  ,MFXY(*)  ,MFXZ(*)  ,MFYX(*)  ,MFYY(*)  ,
      .   MFYZ(*)  ,MFZX(*)  ,MFZY(*)  ,MFZZ(*) ,TEMPEL(*), DIE(*),
      .   MSSA(*), DMELS(*)  ,VOLN(MVSIZ)
+      TARGET :: VARNL,DEFP
       my_real
      .   DXY(*) ,DYX(*) ,DYZ(*) ,DZY(*) ,DZX(*) ,DXZ(*),FR_WAV(*),
      .   FQVIS(*),FVD2(*),FSSP(*),FDELTAX(*),CONDE(*)
@@ -284,8 +285,8 @@ C-----------------------------------------------
       my_real
      .   Q1,Q2,Q3,STR1,STR2,STR3,STR4,STR5,STR6,WXXF,WYYF,WZZF
       my_real, DIMENSION(NEL), TARGET :: LE_MAX
-      my_real, DIMENSION(:) ,POINTER :: STRD1,STRD2,EL_LEN,DMG_SCALE
-     .  
+      my_real, DIMENSION(:) ,POINTER :: STRD1,STRD2,EL_LEN,DMG_SCALE,
+     .                                  EL_PLA
        LOGICAL :: LOGICAL_USERL_AVAIL, l_MULAW_CALLED
 !
       CHARACTER OPTION*256
@@ -1564,10 +1565,12 @@ C------------------------------------------------------------
               LBUF%EPSDNL(I) = VARNL(I)/MAX(DT1,EM20)
               DPLA(I) = MAX(VARNL(I),ZERO)
             ENDDO
+            EL_PLA => LBUF%PLANL(1:NEL)
           ENDIF
         ELSE
           ! -> Length used for failure criterion parameters scaling is the element length
           EL_LEN => DELTAX(1:NEL)
+          EL_PLA => DEFP(1:NEL)
         ENDIF
 c---
         DO IR = 1,NFAIL 
@@ -1774,7 +1777,7 @@ C
      2                     NPF ,TF  ,TT  ,DT1  ,BUFMAT(IADBUF),
      3                     NGL ,IPM ,MAT ,
      4                     SS1  ,SS2  ,SS3  ,SS4   ,SS5   ,SS6,
-     5                     DPLA ,DEFP ,UVARF,OFF   ,DFMAX ,
+     5                     DPLA ,EL_PLA ,UVARF,OFF   ,DFMAX ,
      6                     TDEL )                          
           ELSEIF(IRUPT == 10)THEN                                        
 c---- strain tension    
@@ -1828,7 +1831,7 @@ c ---   tabulated failure model
      1        LLT      ,NVARF    ,NPF      ,TF       ,TT       ,         
      2        BUFMAT(IADBUF)     ,NGL      ,IPM      ,MAT      ,EL_LEN  ,         
      3        SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6     ,    
-     4        DEFP     ,DPLA     ,EPSP     ,TSTAR    ,UVARF    ,           
+     4        EL_PLA   ,DPLA     ,EPSP     ,TSTAR    ,UVARF    ,           
      5        OFF      ,IP       ,TABLE    ,DFMAX    ,TDEL     ,
      6        NFUNC    ,IFUNC )                                       
           ELSEIF (IRUPT == 24) THEN                                      
@@ -1847,7 +1850,7 @@ c ---   extended mohr coulomb failure model
      1        LLT      ,NVARF    ,NPF      ,TF       ,TT       ,         
      2        DT1      ,BUFMAT(IADBUF)     ,NGL      ,IPM      ,MAT      ,         
      3        SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6  ,    
-     4        DEFP     ,DPLA     ,EPSP     ,UVARF    ,           
+     4        EL_PLA   ,DPLA     ,EPSP     ,UVARF    ,           
      5        OFF      ,IP       ,DFMAX    ,TDEL     )                                       
           ELSEIF (IRUPT == 29) THEN                                      
 c ---   MIT Wierzbicki Sahraei electric battery failure                                               
@@ -1874,7 +1877,7 @@ C  --- Cockroft-Latham failure model
      4        EP1     ,EP2       ,EP3      ,EP4      ,EP5           ,EP6 ,
      5        ES1     ,ES2       ,ES3      ,ES4      ,ES5           ,ES6 ,
      6        SS1     ,SS2       ,SS3      ,SS4      ,SS5           ,SS6 ,    
-     7        DEFP    ,DPLA      ,EPSP     ,UVARF    ,OFF           ,
+     7        EL_PLA  ,DPLA      ,EPSP     ,UVARF    ,OFF           ,
      8        DFMAX   ,TDEL) 
           ELSEIF (IRUPT == 36) THEN                                      
 C  --- VISUAL failure model             
@@ -1890,7 +1893,7 @@ c ---       tabulated failure model (old, obsolete version)
      1        LLT      ,NVARF    ,NPF      ,TF       ,TT       ,         
      2        BUFMAT(IADBUF)     ,NGL      ,IPM      ,MAT      ,EL_LEN   ,         
      3        SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,    
-     4        DEFP     ,DPLA     ,EPSP     ,TSTAR    ,UVARF    ,           
+     4        EL_PLA   ,DPLA     ,EPSP     ,TSTAR    ,UVARF    ,           
      5        OFF      ,IP       ,DFMAX    ,TDEL     ,
      6        NFUNC    ,IFUNC )   
 c
@@ -1930,6 +1933,17 @@ C---- Tabulated failure model version 2
      5          SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,              
      6          TEMPEL   ,OFF      ,DFMAX    ,TDEL     ,DMG_SCALE,
      7          GBUF%UELR,IPG      ,NPG      ,LBUF%OFF )   
+c
+          ELSEIF (IRUPT == 42) THEN                                      
+C---- Inievo failure model
+              CALL FAIL_INIEVO_S(
+     1          LLT      ,NPARAM   ,NVARF    ,NFUNC    ,IFUNC    ,
+     2          NPF      ,TABLE    ,TF       ,TT       ,BUFMAT(IADBUF), 
+     3          NGL      ,EL_LEN   ,DPLA     ,EPSP     ,UVARF    ,     
+     5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
+     6          EL_PLA   ,TEMPEL   ,SIGY     ,OFF      ,DFMAX    ,
+     7          TDEL     ,DMG_SCALE,GBUF%UELR,IPG      ,NPG      ,
+     8          LBUF%OFF )
 c---------
           ENDIF ! IRUPT 
 c

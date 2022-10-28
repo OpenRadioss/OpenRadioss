@@ -350,6 +350,9 @@ c--------------------------------------------
         ELSEIF(KEY(1:4) == 'RTCL')THEN
              IRUP= 40
 c--------------------------------------------      
+        ELSEIF(KEY(1:6) == 'INIEVO')THEN
+             IRUP= 42
+c--------------------------------------------      
         ELSE  
              IRUP= 0
         ENDIF
@@ -570,6 +573,12 @@ c---
 c---
            CASE(41)
               CALL HM_READ_FAIL_TAB2(
+     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID   ,MAT_ID   ,
+     .             TABLE    ,TITR     ,LSUBMODEL)
+c---
+           CASE(42)
+              CALL HM_READ_FAIL_INIEVO(
      .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
      .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID   ,MAT_ID   ,
      .             TABLE    ,TITR     ,LSUBMODEL)

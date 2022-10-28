@@ -163,7 +163,7 @@ C-----------------------------------------------
      .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
      .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),PLY_F(MVSIZ,5,*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
-      TARGET :: ALDT, IPM
+      TARGET :: ALDT, IPM, VARNL
       TYPE (STACK_PLY) :: STACK
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
@@ -216,7 +216,8 @@ c
       my_real  SCALE1(NEL)
       my_real ,DIMENSION(NEL), TARGET :: LE_MAX
       my_real TT_LOCAL
-      my_real, DIMENSION(:) ,POINTER  :: EL_TEMP,YLDFAC,CRKLEN,CRKDIR,DADV,TFAIL,EL_LEN
+      my_real, DIMENSION(:) ,POINTER  :: EL_TEMP,YLDFAC,CRKLEN,CRKDIR,DADV,TFAIL,EL_LEN,
+     .                                   EL_PLA
       my_real, DIMENSION(NLAY,10)  :: PTHKF
       TARGET :: TEMPEL,BUFMAT,EPSXX,EPSYY,DEPSXX,DEPSYY,SCALE1,POSLY,THKLY
 C
@@ -1232,11 +1233,13 @@ C           plastic strain increment for all plastic laws
                   DPLA(I)  = MAX(VARNL(I,IT),ZERO)
                   EPSPL(I) = LBUF%EPSDNL(I)
                 ENDDO
+                EL_PLA => LBUF%PLANL(1:NEL)
               ! Classical local material
               ELSE
                 DO I=JFT,JLT
                   DPLA(I) = LBUF%PLA(I) - PLA0(I)       
                 ENDDO
+                EL_PLA => LBUF%PLA(1:NEL)
               ENDIF
             ENDIF
 c
@@ -1706,6 +1709,17 @@ c
      4            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,              
      5            EL_TEMP  ,FOFF     ,DFMAX    ,TDEL     ,IPT      ,
      6            IPG      ,DMG_FLAG ,DMG_LOC_SCALE,PTHKF(ILAYER,IFL)) 
+c
+              CASE (42)     !    INIEVO
+c
+                CALL FAIL_INIEVO_C(
+     1            JLT      ,NUPAR    ,NVARF    ,NFUNC1   ,IFUNC1   ,
+     2            NPF      ,TABLE    ,TF       ,TT       ,UPARAMF  , 
+     3            NGL      ,EL_LEN   ,DPLA     ,EPSPL    ,UVARF    ,     
+     4            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,              
+     5            EL_PLA   ,EL_TEMP  ,SIGY     ,FOFF     ,DFMAX    ,
+     6            TDEL     ,IPT      ,IPG      ,DMG_FLAG ,DMG_LOC_SCALE,
+     7            PTHKF(ILAYER,IFL)) 
 c-------------
               END SELECT
 c-------------

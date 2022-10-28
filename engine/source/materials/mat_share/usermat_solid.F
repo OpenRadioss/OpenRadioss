@@ -169,7 +169,7 @@ C
      .   AL_IMP(MVSIZ),SIGNOR(MVSIZ,6),VDX(*),VDY(*),VDZ(*),
      .   SVISC(NEL,6),AMU(MVSIZ),AMU2(MVSIZ),DPDM(MVSIZ),VOL_AVG(MVSIZ),EPSTH(NEL),EPSTH3(MVSIZ),
      .   ETOTSH(NEL,6),TSTAR(MVSIZ),MUOLD(NEL),CONDE(*), RHOREF(*), RHOSP(*)
-      TARGET :: BUFMAT,DELTAX
+      TARGET :: BUFMAT,DELTAX,VARNL,DEFP
       my_real, TARGET, DIMENSION(NUVAR*LLT):: UVAR
       my_real, TARGET, DIMENSION(LLT):: UVARF1,LTEMP,TEMPEL,SCALE1,INITVARF
       TYPE (BUF_FAIL_), TARGET  :: FBUF
@@ -215,7 +215,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL), TARGET  :: LE_MAX
 C----
       my_real, DIMENSION(:), POINTER  :: UPARAM,UPARAMF,UVARF,DFMAX,TDEL,EL_TEMP, 
-     .                                   YLDFAC,DAM,EL_LEN,DMG_SCALE
+     .                                   YLDFAC,DAM,EL_LEN,DMG_SCALE,EL_PLA
       TYPE(ULAWINTBUF)                :: USERBUF
       TYPE(L_BUFEL_)  ,POINTER        :: LBUF, LBUF1, LBUF2    
       TYPE(G_BUFEL_)  ,POINTER        :: GBUF      
@@ -1197,11 +1197,13 @@ C for non-local plastic law
             DO I=LFT,LLT
               DPLA(I)  = MAX(VARNL(I),ZERO)
             ENDDO
+            EL_PLA => LBUF%PLANL(1:NEL)
           ELSE
 C for all plastic law
             DO I=LFT,LLT 
               DPLA(I)  = DEFP(I) - DEFP0(I)
             ENDDO
+            EL_PLA => DEFP(1:NEL)
           ENDIF
         ELSE
           DO I=LFT,LLT 
@@ -1532,7 +1534,18 @@ C---- Tabulated failure model version 2
      3          NGL      ,EL_LEN   ,DPLA     ,EPSP1    ,UVARF    ,     
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
      6          EL_TEMP  ,OFF      ,DFMAX    ,TDEL     ,DMG_SCALE,
-     7          GBUF%UELR,IPG      ,NPG      ,LBUF%OFF )   
+     7          GBUF%UELR,IPG      ,NPG      ,LBUF%OFF ) 
+c
+          ELSEIF (IRUPT == 42) THEN                                      
+C---- Inievo failure model
+              CALL FAIL_INIEVO_S(
+     1          NEL      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,
+     2          NPF      ,TABLE    ,TF       ,TT       ,UPARAMF  , 
+     3          NGL      ,EL_LEN   ,DPLA     ,EPSP1    ,UVARF    ,     
+     5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
+     6          EL_PLA   ,EL_TEMP  ,SIGY     ,OFF      ,DFMAX    ,
+     7          TDEL     ,DMG_SCALE,GBUF%UELR,IPG      ,NPG      ,
+     8          LBUF%OFF )   
 c             
           ENDIF
         ENDDO ! IR = 1,NFAIL
