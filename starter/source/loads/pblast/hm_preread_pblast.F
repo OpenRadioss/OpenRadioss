@@ -92,8 +92,12 @@ C-----------------------------------------------
          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID)
          CALL HM_GET_INTV('surf_ID', ISU, IS_AVAILABLE, LSUBMODEL)
          INGR2USR => IGRSURF(1:NSURF)%ID
-         IS        = NGR2USR(ISU,INGR2USR,NSURF)
-         NUMLOADP  = NUMLOADP + IGRSURF(IS)%NSEG*4
+         IS = NGR2USR(ISU,INGR2USR,NSURF)
+         IF(IS > 0)THEN
+           NUMLOADP = NUMLOADP + IGRSURF(IS)%NSEG*4
+          ELSE
+           NUMLOADP = 0 
+         ENDIF
       ENDDO
 
       IF(NLOADP_B > 0 ) ALLOCATE (   PBLAST_TAB(NLOADP_B),STAT=IERR1); 
