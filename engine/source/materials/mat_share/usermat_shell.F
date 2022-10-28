@@ -55,6 +55,7 @@ Chd|        FAIL_RTCL_C                   source/materials/fail/rtcl/fail_rtcl_c
 Chd|        FAIL_SETOFF_C                 source/materials/fail/fail_setoff_c.F
 Chd|        FAIL_SETOFF_NPG_C             source/materials/fail/fail_setoff_npg_c.F
 Chd|        FAIL_SETOFF_WIND_FRWAVE       source/materials/fail/fail_setoff_wind_frwave.F
+Chd|        FAIL_SYAZWAN                  source/materials/fail/syazwan/fail_syazwan_c.F
 Chd|        FAIL_TAB2_C                   source/materials/fail/tabulated/fail_tab2_c.F
 Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
 Chd|        FAIL_TAB_OLD_C                source/materials/fail/tabulated/fail_tab_old_c.F
@@ -1720,7 +1721,22 @@ c
      4            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,              
      5            EL_PLA   ,EL_TEMP  ,SIGY     ,FOFF     ,DFMAX    ,
      6            TDEL     ,IPT      ,IPG      ,DMG_FLAG ,DMG_LOC_SCALE,
-     7            PTHKF(ILAYER,IFL)) 
+     7            PTHKF(ILAYER,IFL))
+c
+              CASE (99)     !    Syazwan failure model
+                DO I=JFT,JLT
+                  COPY_PLA(I) = LBUF%PLA(I)
+                ENDDO
+                CALL FAIL_SYAZWAN_C(
+     1          JLT      ,NVARF   ,
+     2          TT       ,UPARAMF ,NGL      ,IPT      ,MPT      ,
+     3          SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
+     4          EPSXX    ,EPSYY   ,EPSXY    ,EPSYZ    ,EPSZX    ,
+     5          DPLA     ,EPSPL   ,UVARF    ,GBUF%NOFF,UELR1    ,
+     6          OFF      ,OFFL    ,DFMAX    ,TDEL     ,NFUNC1   ,
+     7          IFUNC1   ,EL_LEN  ,FOFF    , IGTYP    ,COPY_PLA ,
+     8          DMG_FLAG ,DMG_LOC_SCALE,NPF,TF)
+c 
 c-------------
               END SELECT
 c-------------
