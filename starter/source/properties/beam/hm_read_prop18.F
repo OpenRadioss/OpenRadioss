@@ -148,7 +148,7 @@ C-------
         ISECT  = IGEO(10) 
         ISS    = INT(GEO(3))
         IF(ISS == 0) ISS = 4
-        IF (DR == ZERO) DR = EM04
+        IF (DR == ZERO) DR = EM02
 C---                                                  
         NIP = MIN(NIP,NIPMAX)
 c------------------------
@@ -248,14 +248,8 @@ C---
 C
 C----------------------
 C
+        GEO(37)=0
         ISHEAR = GEO(37)
-        IF(ISHEAR==0)THEN
-          GEO(37)=0
-        ELSEIF(ISHEAR==1)THEN
-          GEO(37)=1
-        ELSEIF(ISHEAR==2)THEN
-          GEO(37)=0
-        ENDIF
 C
         IF(GEO( 3)/=ZERO.AND.IGEO(5)== 0)IGEO(5)=NINT(GEO(3))
         IF(GEO(171)/=ZERO.AND.IGEO(10)== 0) IGEO(10)=NINT(GEO(171))
