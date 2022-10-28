@@ -89,9 +89,10 @@ Example : If OpenRadioss is placed in C:\OpenRadioss
 
 * Run OpenRadioss with P MPI processes and N threads per domain from the directory that contains the binaries
 
+        export OMP_STACKSIZE=400m
         export OMP_NUM_THREADS=[N]
         ./starter_linux64_gf -i [Starter input file] -np [P]
-        mpiexec -n [P] ./engine_linux64_gf_ompi -i [Engine input file]
+        mpiexec -n [P]  --map-by socket:PE=$OMP_NUM_THREADS --bind-to core ./engine_linux64_gf_ompi -i [Engine input file]
 
 
 #### Under Windows in cmd.exe shell
@@ -129,8 +130,9 @@ Example : If OpenRadioss is placed in C:\OpenRadioss
 * Run OpenRadioss with P MPI processes and N threads per domain from the directory that contains the input file
 
         export OMP_NUM_THREADS=[N]
+        export OMP_STACKSIZE=400m
         openradioss.sif starter_linux64_gf -i [Starter input file] -np [P]
-        mpiexec -n [P] openradioss.sif engine_linux64_gf_ompi -i [Engine input file]
+        mpiexec  --map-by socket:PE=$OMP_NUM_THREADS --bind-to core -n [P] openradioss.sif engine_linux64_gf_ompi -i [Engine input file]
 
 ## Running OpenRadioss test suite from the source code
 
