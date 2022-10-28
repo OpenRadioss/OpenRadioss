@@ -144,13 +144,6 @@ C  double stockage temporaire - supprimer GEO(12)=IGTYP apres tests
         GEO(12) =IGTYP+PUN
         GEO(171)=IHBE
 C
-        IF (IHBE>11.AND.IHBE<29) THEN
-C---------GEO(13,I) est utilise pour porte dn;GEO(17),CVIS se change ----
-          GEO(13)=GEO(17)
-          GEO(17)=CVIS
-C          IGEO(20)=ISROT
-        ENDIF
-C
 C----------------------
 C
         IF(ISMSTR==2.OR.ISMSTR==4)THEN

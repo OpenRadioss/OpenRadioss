@@ -83,8 +83,8 @@ C
      .        SQRT(TWELVE/MAX(EM30,SL2I))*SQRT(ONE+PHI*SHF))
 C
          F1  =SQRT(ONE+DMP*DMP)-DMP
-C        F2 < F1 : ne change pas ce qui marche, meme si trop severe
-         F2  =MIN(F1,SQRT(ONE+DSH*DSH)-DSH)
+C        remove F2<=F1 potential time step reduction
+         F2  =SQRT(ONE+DSH*DSH)-DSH
          FAC =HALF*MIN(SQRT(MIN(FOUR,ONE+SL2I/TWELVE))*F1,
      .                  SQRT(SL2I/THREE)*F2)
 C
