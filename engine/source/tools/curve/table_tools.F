@@ -635,6 +635,8 @@ Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas7
 Chd|        ASSO_QPLAS76C                 source/materials/mat/mat076/asso_qplas76c.F
 Chd|        FAIL_GENE1_C                  source/materials/fail/gene1/fail_gene1_c.F
 Chd|        FAIL_GENE1_S                  source/materials/fail/gene1/fail_gene1_s.F
+Chd|        FAIL_INIEVO_C                 source/materials/fail/inievo/fail_inievo_c.F
+Chd|        FAIL_INIEVO_S                 source/materials/fail/inievo/fail_inievo_s.F
 Chd|        FAIL_TAB2_C                   source/materials/fail/tabulated/fail_tab2_c.F
 Chd|        FAIL_TAB2_S                   source/materials/fail/tabulated/fail_tab2_s.F
 Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F

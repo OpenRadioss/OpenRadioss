@@ -44,6 +44,7 @@ Chd|        FAIL_FLD_XFEM                 source/materials/fail/fld/fail_fld_xfe
 Chd|        FAIL_GENE1_C                  source/materials/fail/gene1/fail_gene1_c.F
 Chd|        FAIL_HASHIN_C                 source/materials/fail/hashin/fail_hashin_c.F
 Chd|        FAIL_HC_DSSE_C                source/materials/fail/hc_dsse/fail_hc_dsse_c.F
+Chd|        FAIL_INIEVO_C                 source/materials/fail/inievo/fail_inievo_c.F
 Chd|        FAIL_JOHNSON_C                source/materials/fail/johnson_cook/fail_johnson_c.F
 Chd|        FAIL_JOHNSON_XFEM             source/materials/fail/johnson_cook/fail_johnson_xfem.F
 Chd|        FAIL_NXT_C                    source/materials/fail/nxt/fail_nxt_c.F

@@ -62,6 +62,7 @@ Chd|        HM_READ_ADMAS                 source/tools/admas/hm_read_admas.F
 Chd|        HM_READ_BEM                   source/loads/bem/hm_read_bem.F
 Chd|        HM_READ_DRAPE                 source/properties/composite_options/drape/hm_read_drape.F
 Chd|        HM_READ_EREF                  source/loads/reference_state/eref/hm_read_eref.F
+Chd|        HM_READ_FAIL_INIEVO           source/materials/fail/inievo/hm_read_fail_inievo.F
 Chd|        HM_READ_FAIL_TAB_OLD          source/materials/fail/tabulated/hm_read_fail_tab_old.F
 Chd|        HM_READ_FRICTION              source/interfaces/friction/reader/hm_read_friction.F
 Chd|        HM_READ_FRICTION_ORIENTATIONS source/interfaces/friction/reader/hm_read_friction_orientations.F

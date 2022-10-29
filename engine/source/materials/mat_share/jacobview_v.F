@@ -20,6 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.   
+Chd|====================================================================
+Chd|  JACOBIEW_V                    source/materials/mat_share/jacobview_v.F
+Chd|-- called by -----------
+Chd|        FAIL_INIEVO_C                 source/materials/fail/inievo/fail_inievo_c.F
+Chd|        FAIL_INIEVO_S                 source/materials/fail/inievo/fail_inievo_s.F
+Chd|-- calls ---------------
+Chd|====================================================================
         SUBROUTINE  JACOBIEW_V(DIM1,DIM2,A,EW,EV,NROT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

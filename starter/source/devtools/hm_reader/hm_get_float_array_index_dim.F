@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  HM_GET_FLOAT_ARRAY_INDEX_DIM  source/devtools/hm_reader/hm_get_float_array_index_dim.F
 Chd|-- called by -----------
 Chd|        HM_READ_BEM                   source/loads/bem/hm_read_bem.F
+Chd|        HM_READ_FAIL_INIEVO           source/materials/fail/inievo/hm_read_fail_inievo.F
 Chd|        HM_READ_INJECT1               source/properties/injector/hm_read_inject1.F
 Chd|        HM_READ_MAT36                 source/materials/mat/mat036/hm_read_mat36.F
 Chd|        HM_READ_MAT51                 source/materials/mat/mat051/hm_read_mat51.F

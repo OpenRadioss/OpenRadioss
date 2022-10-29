@@ -20,6 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+Chd|====================================================================
+Chd|  FAIL_INIEVO_S                 source/materials/fail/inievo/fail_inievo_s.F
+Chd|-- called by -----------
+Chd|        MMAIN                         source/materials/mat_share/mmain.F
+Chd|        MULAW                         source/materials/mat_share/mulaw.F
+Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
+Chd|-- calls ---------------
+Chd|        JACOBIEW_V                    source/materials/mat_share/jacobview_v.F
+Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
+Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
+Chd|====================================================================
       SUBROUTINE FAIL_INIEVO_S (
      1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
      2     NPF      ,TABLE    ,TF       ,TIME     ,UPARAM   , 

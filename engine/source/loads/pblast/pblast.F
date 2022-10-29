@@ -25,6 +25,7 @@ Chd|  PBLAST                        source/loads/pblast/pblast.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        PBLAST_1                      source/loads/pblast/pblast_1.F
 Chd|        PBLAST_2                      source/loads/pblast/pblast_2.F
 Chd|        PBLAST_3                      source/loads/pblast/pblast_3.F
