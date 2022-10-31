@@ -76,7 +76,7 @@ C     REAL
      .   AMU(MVSIZ), SUM,DTR,DTREP_R,DIVDE(MVSIZ),JAC_M(MVSIZ),
      .   JAC(MVSIZ),FAC,BASE,JFAC,DVDP
       DOUBLE PRECISION 
-     .   VOL0DP(*),VOLDP(*)
+     .   VOL0DP(*),VOLDP(*),SUMDP
 
 C----------------------------
       MX = MAT(1)
@@ -102,14 +102,20 @@ C----------------------------
         END IF
       ELSE
 c-------------------------------------------------------------------------
-        DO I=LFT,LLT
-         IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
-         SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
-         VOLN(I)=FOURTH*SUM*VOL0(I) 
-         IF(IRESP==1)THEN
-           VOLDP(I) = VOLN(I) 
-         ENDIF            
-        ENDDO
+        IF(IRESP==1)THEN
+          DO I=LFT,LLT
+           IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
+           SUMDP=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
+           VOLDP(I) = FOURTH*SUMDP*VOL0DP(I) 
+           VOLN(I) = VOLDP(I)
+          ENDDO
+        ELSE
+          DO I=LFT,LLT
+           IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
+           SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
+           VOLN(I)=FOURTH*SUM*VOL0(I) 
+          ENDDO
+        END IF            
         IF (MATPARAM(MX)%STRAIN_FORMULATION==1) THEN 
 C------compute AMU(t+dt) for large strain   
           IF(IRESP==1)THEN
