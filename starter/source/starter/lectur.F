@@ -9853,6 +9853,8 @@ C---------------------------------------------
 C     Update of STIFFN for TETRA10 for time step estimation
 C--------------------------------------------
       IF (NS10E>0.AND.N2D==0) CALL STIFN1_ND(ICNDS10,STIFFN)
+      IF (NDAMP>0) CALL DAMPDTNODA(MS_B,IN_B,STIFFN,STIFFN(NUMNOD+1),
+     1                            IGRNOD,DAMPR )
 C--------------------------------------------
 C     TRI ET IMPRESSION DES DT ELEM
 C--------------------------------------------
