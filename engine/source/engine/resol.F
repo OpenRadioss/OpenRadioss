@@ -1227,7 +1227,8 @@ C-------------------------------------------------------------------------------
       ALLOCATE( ICONTACT_OLD(SICONTACT))
       IDAMP_RDOF_TAB = 0
       FLG_DTNODAMP = 0
-      IF ((NODADT==1).AND.(IDAMP_RDOF==NDAMP)) THEN
+      IF ((NODADT==1).AND.
+     .       (IDAMP_RDOF==NDAMP .OR. NDAMP>0 .OR. ISTAT==3)) THEN
         FLG_DTNODAMP = 1
       ENDIF
       FLG_KJ2 = 0
@@ -5865,9 +5866,13 @@ C----------------------------------------------------------
 
       IF (FLG_DTNODAMP==1) THEN
 C---------------NODAL TIME STEP FOR DAMPING-----------------
-        CALL DTNODAMP(ITAB  ,MS  ,IN  ,STIFN  ,STIFR  ,DT2T ,
+        IF (IDAMP_RDOF==NDAMP)
+     +  CALL DTNODAMP(ITAB  ,MS  ,IN  ,STIFN  ,STIFR  ,DT2T ,
      1                WEIGHT        ,IGRNOD   ,DAMPR ,ISTOP ,
      2              IDAMP_RDOF_TAB,ICONTACT,IXC,X)
+        IF (NDAMP>0 .OR. ISTAT==3)
+     +  CALL DTNODARAYL(MS       ,IN    ,STIFN ,STIFR ,DT2T     ,
+     1                  IGRNOD   ,DAMPR )
       ENDIF
 C -------------------------- 
 
@@ -6250,6 +6255,7 @@ C===============================================================================
         ENDIF
 C----------------------------------
       IF (IMONM > 0) CALL STARTIME(52,1)
+       IF (NODADT==0) THEN
         IF (ISTAT==3) THEN
          DAMPA3 = TWO*BETATE/(ONE + BETATE * DT12)
          IF (DT2>=EP06) DAMPA3=ZERO
@@ -6303,6 +6309,7 @@ C--           IF no node/elemt on proc - dt2=10E6 -> dt2 can be equal to zero
           BB  = HALF*DAMPA3*DT2*DT2
           DT2 = SQRT(BB*BB + DT2*DT2) - BB
         ENDIF
+       END IF !(NODADT==0) THEN
 
       IF (IMONM > 0) CALL STOPTIME(52,1)
 
