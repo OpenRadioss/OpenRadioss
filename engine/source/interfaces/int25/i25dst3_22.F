@@ -243,6 +243,8 @@ C
 
        INGAPA(1:JLT,1:4) = 0
        INGAPB(1:JLT,1:4) = 0
+
+       ICONT_R(1:JLT) = 0        
 C
        DO I=1,JLT
 C   attention triangles 
@@ -344,7 +346,6 @@ c        compute volumes at previous time step
 c        compute intersection time (linear approximation)
 c        compute coordinates at intersection time
 c        (intersection time can be different for each sub-triangle)
-         ICONT_R(I) = 0        
          IF(ISHEL(I)==0)THEN
            CALL INTERSECA_25(
      1                      IX3(I)      ,IX4(I),INTERSECA,
