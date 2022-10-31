@@ -126,7 +126,7 @@ C=======================================================================
         F12(I)   =F12_1
         SIGT1(I) =SIGT1_1
         SIGT2(I) =SIGT2_1
-        IF (IPT == 1) SIGY(I)=ONE/SQRT(F33_1)
+        YLD(I)   =ONE/SQRT(F33_1)
       ENDDO
 !
       DO I=JFT,JLT
