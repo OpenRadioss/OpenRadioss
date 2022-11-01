@@ -45,7 +45,9 @@ Chd|====================================================================
      D      IEDGE  ,ADMSR  ,LBOUND ,EDG_BISECTOR   ,
      E      VTX_BISECTOR,TYPEDGS,IAS ,JAS  ,IBS    ,
      F      JBS    ,IAM    ,STFE   , EDGE_ID, ITAB ,
-     H      INTFRIC,IPARTFRIC_E,IPARTFRIC_ES,IPARTFRIC_EM)
+     G      INTFRIC,IPARTFRIC_E,IPARTFRIC_ES,IPARTFRIC_EM,
+     H      IGSTI  ,KMIN   ,KMAX  ,E2S_NOD_NORMAL,NADMSR,
+     I      NORMALN1,NORMALN2,NORMALM1,NORMALM2)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -85,6 +87,7 @@ C-----------------------------------------------
      .        M1(4,MVSIZ), M2(4,MVSIZ), 
      .        NODNX_SMS(*), NSMS(4,MVSIZ), 
      .        TYPEDGS(MVSIZ),IAS(MVSIZ),JAS(MVSIZ),IBS(MVSIZ),JBS(MVSIZ),IAM(MVSIZ)
+      INTEGER  , INTENT(IN) :: IGSTI, NADMSR
 C     REAL
       my_real
      .        X(3,*), STFM(*), STFE(*), MS(*), V(3,*),
@@ -99,6 +102,10 @@ C     REAL
      .        GAPE(*)     ,GAPVE(4,MVSIZ),
      .        EX(4,MVSIZ), EY(4,MVSIZ), EZ(4,MVSIZ), FX(MVSIZ), FY(MVSIZ), FZ(MVSIZ)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
+      my_real  , INTENT(IN) :: KMIN, KMAX
+      REAL*4 , INTENT(IN) :: E2S_NOD_NORMAL(3,NADMSR)
+      my_real  , INTENT(INOUT) :: NORMALN1(3,MVSIZ),NORMALN2(3,MVSIZ),
+     .       NORMALM1(3,4,MVSIZ),NORMALM2(3,4,MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -178,6 +185,8 @@ C           END IF
 
             STS=STFE(ES)
             STIF(EJ,I)=STS*STM / MAX(EM20,STS+STM)
+            STIF(EJ,I)=MAX(KMIN,MIN(STIF(EJ,I),KMAX))
+
             XXS1(EJ,I) = X(1,N1(EJ,I))
             XYS1(EJ,I) = X(2,N1(EJ,I))
             XZS1(EJ,I) = X(3,N1(EJ,I))
@@ -214,6 +223,8 @@ c
             STS=STIFIE(NIN)%P(NN)
             STIF(EJ,I)=STS*STM / MAX(EM20,STS+STM)
 
+            STIF(EJ,I)=MAX(KMIN,MIN(STIF(EJ,I),KMAX))
+
             TYPEDGS(I)=LEDGE_FIE(NIN)%P(E_TYPE,NN)
 
             IAS(I)=ABS(LEDGE_FIE(NIN)%P(E_LEFT_SEG  ,NN))
@@ -236,6 +247,7 @@ c
             VZS2(EJ,I) = VFIE(NIN)%P(3,N2(EJ,I))
             MS1(EJ,I) = MSFIE(NIN)%P(N1(EJ,I)) 
             MS2(EJ,I) = MSFIE(NIN)%P(N2(EJ,I))
+C
           END IF
         END DO
       END DO
@@ -341,6 +353,33 @@ C
            IPARTFRIC_EM(1:4,I) = IPARTFRIC_E(CAND_M(I))
          ENDDO
        ENDIF
-C
+C-------Normal nodes ---------
+      IF(SOL_EDGE/=0)THEN
+         DO I=1,JLT
+          IF(TYPEDGS(I)/=1)CYCLE
+          DO EJ=1,4
+             NORMALM1(1:3,EJ,I)=E2S_NOD_NORMAL(1:3,ADMSR(EJ,IAM(I)))
+             NORMALM2(1:3,EJ,I)=E2S_NOD_NORMAL(1:3,ADMSR(MOD(EJ,4)+1,IAM(I)))
+          ENDDO
+          IF(CAND_S(I)<=NEDGE)THEN
+             IF(IS(I) == 1 ) THEN
+                NORMALN1(1:3,I)=E2S_NOD_NORMAL(1:3,ADMSR(JAS(I),IAS(I)))
+                NORMALN2(1:3,I)=E2S_NOD_NORMAL(1:3,ADMSR(MOD(JAS(I),4)+1,IAS(I)))
+             ELSE
+                NORMALN2(1:3,I)=E2S_NOD_NORMAL(1:3,ADMSR(JAS(I),IAS(I)))
+                NORMALN1(1:3,I)=E2S_NOD_NORMAL(1:3,ADMSR(MOD(JAS(I),4)+1,IAS(I)))
+             ENDIF
+          ELSE
+            IF(IS(I) == 1 ) THEN
+                NORMALN1(1:3,I)=EDG_BISECTOR_FIE(NIN)%P(1:3,2,CAND_S(I) - NEDGE)
+                NORMALN2(1:3,I)=EDG_BISECTOR_FIE(NIN)%P(1:3,3,CAND_S(I) - NEDGE)
+            ELSE
+                NORMALN2(1:3,I)=EDG_BISECTOR_FIE(NIN)%P(1:3,2,CAND_S(I) - NEDGE)
+                NORMALN1(1:3,I)=EDG_BISECTOR_FIE(NIN)%P(1:3,3,CAND_S(I) - NEDGE)
+            ENDIF
+          ENDIF
+            
+         ENDDO
+      ENDIF
       RETURN
       END

@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IA, JA, IB, JB, SOL_EDGE, SH_EDGE, K, NJNDX, N4A, 
-     .        EJ, I1, I2, I3, I4, I0, IT,IAM,IAS,JAS,
+     .        EJ, I1, I2, I3, I4, I0, IT,IAM,IAS,JAS,ISENS,
      .        IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        JNDX(MVSIZ), I4A(MVSIZ)
       my_real
@@ -244,6 +244,19 @@ C
 
           IF(IABS(LEDGE(7,CAND_S(I)))/=1)CYCLE
 
+C---------------------------------------
+C         Solid on secnd side !
+C---------------------------------------
+C
+C
+          IA=LEDGE(1,CAND_S(I))
+          JA=LEDGE(2,CAND_S(I))
+          IB=LEDGE(3,CAND_S(I))
+          JB=LEDGE(4,CAND_S(I))
+          IF(IA==0 .OR. IB==0) THEN
+            print *,' internal error - i25dst3e'
+          END IF
+
           DO EJ=1,4
 
 
@@ -254,13 +267,13 @@ C         Only contact solid/solid
 C            Common normal : contact normal computing using cross product
 C            contact normal can't be normal to secondary and main surfaces :
 C            using node normal 
-C             +- 90 with tolerance ( 10)
+C             +- 90 with tolerance ( 10deg)
 
 C Computing cross product :
 
             PEDG = XM12(EJ,I) *XS12(EJ,I) + YM12(EJ,I) *YS12(EJ,I) + ZM12(EJ,I) *ZS12(EJ,I)
             NEDG = SQRT(XM2(EJ,I)) * SQRT(XS2(EJ,I))
-            IF(ABS(PEDG)>0.9998*NEDG) THEN
+            IF(ABS(PEDG)>ZEP999*NEDG) THEN
               PENE(EJ,I)=ZERO
               CYCLE  ! no contact
             END IF
@@ -295,8 +308,21 @@ C Exclusions :
             NNM11(1:3) = E2S_NOD_NORMAL(1:3,ADMSR(EJ,IAM))
             NNM22(1:3) = E2S_NOD_NORMAL(1:3,ADMSR(MOD(EJ,4)+1,IAM))
 
-            NNS11(1:3) = E2S_NOD_NORMAL(1:3,ADMSR(JAS,IAS))
-            NNS22(1:3) = E2S_NOD_NORMAL(1:3,ADMSR(MOD(JAS,4)+1,IAS))
+
+            ISENS = 0
+            IF(IRECT(JAS,IAS)==N1(I).AND.IRECT(MOD(JAS,4)+1,IAS)==N2(I))THEN
+               ISENS= 1
+            ELSEIF(IRECT(JAS,IAS)==N2(I).AND.IRECT(MOD(JAS,4)+1,IAS)==N1(I))THEN
+               ISENS=-1
+            END IF
+
+             IF(ISENS == 1 ) THEN
+                NNS11(1:3) = E2S_NOD_NORMAL(1:3,ADMSR(JAS,IAS))
+                NNS22(1:3) = E2S_NOD_NORMAL(1:3,ADMSR(MOD(JAS,4)+1,IAS))
+             ELSE
+                NNS22(1:3) = E2S_NOD_NORMAL(1:3,ADMSR(JAS,IAS))
+                NNS11(1:3) = E2S_NOD_NORMAL(1:3,ADMSR(MOD(JAS,4)+1,IAS))
+             ENDIF
  
             NM(1:3)=H1M(EJ,I)*NNM11(1:3)+H2M(EJ,I)*NNM22(1:3)
             NS(1:3)=H1S(EJ,I)*NNS11(1:3)+H2S(EJ,I)*NNS22(1:3)
@@ -311,7 +337,7 @@ C Exclusions :
               PENE(EJ,I)=ZERO 
             ENDIF
 
-            IF(ABS(P1) <= ONE_FIFTH*NNNN .OR. ABS(P2) <= ONE_FIFTH*NNNN) THEN ! Tolerance 80deg
+            IF(ABS(P1) <= ZEP2*NNNN .OR. ABS(P2) <= ZEP2*NNNN) THEN ! Tolerance 80deg
               PENE(EJ,I)=ZERO 
               CYCLE  ! no contact
             ENDIF
@@ -322,126 +348,7 @@ C Exclusions :
 
 
       IF(SOL_EDGE/=0)THEN !  provisoire pour solides
-
-        DO I=1,JLT
-
-C         IF(PENE(I)==ZERO) CYCLE
-
-          IF(IABS(LEDGE(7,CAND_S(I)))/=1)CYCLE
-C---------------------------------------
-C         Solid on secnd side !
-C---------------------------------------
-C
-C
-          IA=LEDGE(1,CAND_S(I))
-          JA=LEDGE(2,CAND_S(I))
-          IB=LEDGE(3,CAND_S(I))
-          JB=LEDGE(4,CAND_S(I))
-          IF(IA==0 .OR. IB==0) THEN
-            print *,' internal error - i25dst3e'
-          END IF
-
-          IF(IRECT(3,IA)/=IRECT(4,IA))THEN
-            IX1(I)=IRECT(    JA	  ,IA)
-            IX2(I)=IRECT(MOD(JA,4)  +1,IA)
-            IX3(I)=IRECT(MOD(JA+1,4)+1,IA)
-            IX4(I)=IRECT(MOD(JA+2,4)+1,IA)
-          ELSE
-            IX1(I)=IRECT(NTRIA(1,JA),IA)
-            IX2(I)=IRECT(NTRIA(2,JA),IA)
-            IX3(I)=IRECT(NTRIA(3,JA),IA)
-            IX4(I)=IX3(I)
-          END IF
-C
-          XA1(I)=X(1,IX1(I))
-          YA1(I)=X(2,IX1(I))
-          ZA1(I)=X(3,IX1(I))
-          XA2(I)=X(1,IX2(I))
-          YA2(I)=X(2,IX2(I))
-          ZA2(I)=X(3,IX2(I))
-          XA3(I)=X(1,IX3(I))
-          YA3(I)=X(2,IX3(I))
-          ZA3(I)=X(3,IX3(I))
-          XA4(I)=X(1,IX4(I))
-          YA4(I)=X(2,IX4(I))
-          ZA4(I)=X(3,IX4(I))
-C
-          IF(IX3(I)/=IX4(I))THEN
-           XA0(I) = FOURTH*(XA1(I)+XA2(I)+XA3(I)+XA4(I))
-           YA0(I) = FOURTH*(YA1(I)+YA2(I)+YA3(I)+YA4(I))
-           ZA0(I) = FOURTH*(ZA1(I)+ZA2(I)+ZA3(I)+ZA4(I)) 
-          ELSE
-           XA0(I) = XA3(I)
-           YA0(I) = YA3(I)
-           ZA0(I) = ZA3(I)
-          ENDIF
-
-        END DO
-
-        DO I=1,JLT
-
-C         IF(PENE(I)==ZERO) CYCLE
-
-          IF(IABS(LEDGE(7,CAND_S(I)))/=1)CYCLE
-C---------------------------------------
-C         Solid on secnd side !
-C---------------------------------------
-C
-C
-          X0A(I,1) = XA1(I) - XA0(I)
-          Y0A(I,1) = YA1(I) - YA0(I)
-          Z0A(I,1) = ZA1(I) - ZA0(I)
-C
-          X0A(I,2) = XA2(I) - XA0(I)
-          Y0A(I,2) = YA2(I) - YA0(I)
-          Z0A(I,2) = ZA2(I) - ZA0(I)
-C
-          XNA(I,1) = -(Y0A(I,1)*Z0A(I,2) - Z0A(I,1)*Y0A(I,2))
-          YNA(I,1) = -(Z0A(I,1)*X0A(I,2) - X0A(I,1)*Z0A(I,2))
-          ZNA(I,1) = -(X0A(I,1)*Y0A(I,2) - Y0A(I,1)*X0A(I,2))
-C
-C         Normal to neighboring segment (cf F == Bisector)
-          PS=XNA(I,1)*FX(I)+YNA(I,1)*FY(I)+ZNA(I,1)*FZ(I)
-          XNB(I,1) = -XNA(I,1)+TWO*PS*FX(I)
-          YNB(I,1) = -YNA(I,1)+TWO*PS*FY(I)
-          ZNB(I,1) = -ZNA(I,1)+TWO*PS*FZ(I)
-C
-        ENDDO
-
-        DO I=1,JLT
-
-          IF(IABS(LEDGE(7,CAND_S(I)))/=1)CYCLE
-C---------------------------------------
-C         Solid on secnd side !
-C---------------------------------------
-          DO EJ=1,4
-
-            IF(EJ==3.AND.M1(EJ,I)==M2(EJ,I)) CYCLE
-
-            IF(PENE(EJ,I)==ZERO) CYCLE
-
-            XS = H1S(EJ,I)*XXS1(I)    + H2S(EJ,I)*XXS2(I)
-            YS = H1S(EJ,I)*XYS1(I)    + H2S(EJ,I)*XYS2(I)
-            ZS = H1S(EJ,I)*XZS1(I)    + H2S(EJ,I)*XZS2(I)
-
-            XM = H1M(EJ,I)*XXM1(EJ,I) + H2M(EJ,I)*XXM2(EJ,I)
-            YM = H1M(EJ,I)*XYM1(EJ,I) + H2M(EJ,I)*XYM2(EJ,I)
-            ZM = H1M(EJ,I)*XZM1(EJ,I) + H2M(EJ,I)*XZM2(EJ,I)
-            DA = (XM-XS)*XNA(I,1)+(YM-YS)*YNA(I,1)+(ZM-ZS)*ZNA(I,1)
-            DB = (XM-XS)*XNB(I,1)+(YM-YS)*YNB(I,1)+(ZM-ZS)*ZNB(I,1)
-
-            CNVX= (XA0(I)-XA1(I))*XNB(I,1)
-     .           +(YA0(I)-YA1(I))*YNB(I,1)
-     .           +(ZA0(I)-ZA1(I))*ZNB(I,1) 
-	    IF(CNVX >= ZERO)THEN
-  	      IF(.NOT.((DA >= ZERO .AND.  DB >= -EM04*CNVX) .OR.
-     .    	       (DA >= -EM04*CNVX .AND. DB >= ZERO)))PENE(EJ,I)=ZERO ! Clip ok
-	    ELSE
- 	      IF(DA <= ZERO .AND. DB <= ZERO) PENE(EJ,I)=ZERO
-	    END IF
-          ENDDO
-C
-        ENDDO
+C-----------Keep this condition for the moment (need?) : increase tolerance ( missing contacts )
 C---------------------------------------
         LBA(1:JLT,1:4) = -ONE ! cf test LBA, LCA
         LCA(1:JLT,1:4) = ZERO
@@ -548,6 +455,8 @@ C---------------------------------------
 C         Solid on main side !
 C---------------------------------------
         DO I=1,JLT
+
+          IF(IABS(LEDGE(7,CAND_S(I)))==1)CYCLE ! keep condition only Shell/solid 
 
           DO EJ=1,4
 
@@ -847,13 +756,13 @@ C
 C---------------------------------------
 C         Solid on main side !
 C---------------------------------------
-          IF(LBA(I,1) < -EM02 .OR. LCA(I,1) < -EM02 .OR. LBA(I,1)+LCA(I,1) > ONEP02)
+          IF(LBA(I,1) < -EM01 .OR. LCA(I,1) < -EM01 .OR. LBA(I,1)+LCA(I,1) > ONEP01)
      .      PENE(1,I)=ZERO
-          IF(LBA(I,2) < -EM02 .OR. LCA(I,2) < -EM02 .OR. LBA(I,2)+LCA(I,2) > ONEP02)
+          IF(LBA(I,2) < -EM01 .OR. LCA(I,2) < -EM01 .OR. LBA(I,2)+LCA(I,2) > ONEP01)
      .      PENE(2,I)=ZERO
-          IF(LBA(I,3) < -EM02 .OR. LCA(I,3) < -EM02 .OR. LBA(I,3)+LCA(I,3) > ONEP02)
+          IF(LBA(I,3) < -EM01 .OR. LCA(I,3) < -EM01 .OR. LBA(I,3)+LCA(I,3) > ONEP01)
      .      PENE(3,I)=ZERO
-          IF(LBA(I,4) < -EM02 .OR. LCA(I,4) < -EM02 .OR. LBA(I,4)+LCA(I,4) > ONEP02)
+          IF(LBA(I,4) < -EM01 .OR. LCA(I,4) < -EM01 .OR. LBA(I,4)+LCA(I,4) > ONEP01)
      .      PENE(4,I)=ZERO
         ENDDO
 

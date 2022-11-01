@@ -143,7 +143,7 @@ C-----------------------------------------------
      .   FY1(4*MVSIZ), FY2(4*MVSIZ), FY3(4*MVSIZ), FY4(4*MVSIZ),
      .   FZ1(4*MVSIZ), FZ2(4*MVSIZ), FZ3(4*MVSIZ), FZ4(4*MVSIZ),
      .   FXT(4*MVSIZ), FYT(4*MVSIZ), FZT(4*MVSIZ), 
-     .   VIS2(4*MVSIZ),PENE(4*MVSIZ),DIST(MVSIZ),
+     .   VIS2(4*MVSIZ),PENE(4*MVSIZ),DIST(4*MVSIZ),
      .   VNX, VNY, VNZ, AA, VMAX,S2,
      .   V2, FM2, DT1INV, VISCA,  FAC,  FF,
      .   FX, FY, FZ, F2, MAS2, DTMI0,DTI,
