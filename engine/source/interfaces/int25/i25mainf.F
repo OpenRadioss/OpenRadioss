@@ -233,7 +233,8 @@ C     REAL
      .   VYM1(4*MVSIZ), VYM2(4*MVSIZ), VZM1(4*MVSIZ), VZM2(4*MVSIZ),
      .   MS1(4*MVSIZ),  MS2(4*MVSIZ),  MM1(4*MVSIZ),  MM2(4*MVSIZ),
      .   EX(4*MVSIZ),  EY(4*MVSIZ), EZ(4*MVSIZ), FX(MVSIZ), FY(MVSIZ), 
-     .   FZ(MVSIZ)  , DIST(MVSIZ)
+     .   FZ(MVSIZ)  , DIST(MVSIZ),
+     .   NORMALN1(3,MVSIZ) ,NORMALN2(3,MVSIZ) ,NORMALM1(3,4,MVSIZ),NORMALM2(3,4,MVSIZ) 
 
       my_real
      .     , DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
@@ -860,7 +861,7 @@ C         preparation candidats retenus
      F IAM          ,JAM          ,IBM          ,JBM          ,IAS     ,
      G JAS          ,IBS          ,JBS          ,ITAB         ,EDGE_ID ,
      H INTFRIC      ,INTBUF_TAB%IPARTFRIC_E     ,IPARTFRICSI  ,IPARTFRICMI,
-     I IGAP         ,INTBUF_TAB%GAP_E_L)
+     I IGAP         ,INTBUF_TAB%GAP_E_L,IGSTI   ,KMIN         ,KMAX )
           CALL I_COR_EPFIT3(
      1               JLT      ,INTBUF_TAB%STFE,STIF    ,CS_LOC ,CM_LOC ,
      2               NEDGE    ,NIN     ,INACTI  ,IPARI(40,NIN),TNCY) 
@@ -1040,7 +1041,9 @@ C         preparation candidats retenus
      D IEDGE        ,INTBUF_TAB%ADMSR,INTBUF_TAB%LBOUND,INTBUF_TAB%EDGE_BISECTOR,
      E INTBUF_TAB%VTX_BISECTOR ,TYPEDGS ,IAS    ,JAS          ,IBS     ,
      F JBS          ,IAM       ,INTBUF_TAB%STFE,EDGE_ID, ITAB,
-     H INTFRIC      ,INTBUF_TAB%IPARTFRIC_E    ,IPARTFRIC_ES   ,IPARTFRIC_EM)
+     G INTFRIC      ,INTBUF_TAB%IPARTFRIC_E    ,IPARTFRIC_ES   ,IPARTFRIC_EM,
+     H IGSTI       ,KMIN        ,KMAX  ,INTBUF_TAB%E2S_NOD_NORMAL,NADMSR,
+     I NORMALN1,NORMALN2,NORMALM1,NORMALM2)
 
           CALL I25DST3_E2S(
      1      JLT    ,CS_LOC,CM_LOC ,HS1   ,HS2   ,
@@ -1059,7 +1062,7 @@ C         preparation candidats retenus
      E      INTBUF_TAB%CAND_PS,TYPEDGS ,IAS ,JAS ,IBS ,
      F      JBS    ,IAM   ,ITAB   ,INDX1,INDX2,
      G      CS_LOC4,CM_LOC4,EDGE_ID, NEDGE, NIN,
-     H      INTBUF_TAB%E2S_NOD_NORMAL,INTBUF_TAB%ADMSR,DGAPLOADPMAX)
+     H      DGAPLOADPMAX,NORMALN1,NORMALN2,NORMALM1,NORMALM2)
 C
           ASSERT(4*JLT>=JLT_NEW)
 

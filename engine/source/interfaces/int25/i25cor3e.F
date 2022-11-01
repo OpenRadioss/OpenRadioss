@@ -45,7 +45,7 @@ Chd|====================================================================
      F      IAM    ,JAM    ,IBM    ,JBM    ,IAS    ,
      G      JAS    ,IBS    ,JBS    ,ITAB   , EDGE_ID,
      H      INTFRIC,IPARTFRIC_E,IPARTFRICSI,IPARTFRICMI,
-     I      IGAP   ,GAP_E_L)
+     I      IGAP   ,GAP_E_L,IGSTI  ,KMIN   ,KMAX )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -84,6 +84,7 @@ C-----------------------------------------------
      .        IPARTFRIC_E(*),IPARTFRICSI(MVSIZ),IPARTFRICMI(MVSIZ)
       INTEGER :: EDGE_ID(2,MVSIZ)
       INTEGER NEDGE
+      INTEGER  , INTENT(IN) :: IGSTI
 C     REAL
       my_real
      .        X(3,*), STFE(*), MS(*), V(3,*), GAPE(*), 
@@ -98,6 +99,7 @@ C     REAL
      .        EX(*), EY(*), EZ(*), FX(*), FY(*), FZ(*),
      .        GAP_E_L(NEDGE)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
+      my_real  , INTENT(IN) :: KMIN, KMAX
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -193,6 +195,7 @@ CC          ASSERT(IS(I) == LEDGE(10,ES))
 
           STS=STFE(ES)
           STIF(I)=STS*STM / MAX(EM20,STS+STM)
+          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
           XXS1(I) = X(1,N1(I))
           XYS1(I) = X(2,N1(I))
           XZS1(I) = X(3,N1(I))
@@ -239,6 +242,7 @@ c         ENDIF
           TYPEDGS(I)=LEDGE_FIE(NIN)%P(E_TYPE,NN)
           STS=STIFIE(NIN)%P(NN)
           STIF(I)=STS*STM / MAX(EM20,STS+STM)
+          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
 
 
 c          STS=STFE(ES)
