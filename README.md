@@ -19,7 +19,7 @@ If you have any questions about OpenRadioss, please feel free to contact <webmas
 
 # Community and Ways to Participate
 
-`git` and `git-lfs` are need to clone the OpenRadioss repository. See [How to contribute](CONTRIBUTING.md).
+`git` and `git-lfs` are needed to clone the OpenRadioss repository.
 
 * [How to contribute](CONTRIBUTING.md)
 * [Code of conduct](CODE_OF_CONDUCT.md)
