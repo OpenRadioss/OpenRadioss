@@ -2413,14 +2413,6 @@ C--------exclude high pene in cas of ICONT_R
          GAP2 = GAPS(I)+GAP_M(CAND_E(I))
          IF (GAP2 >ZERO) TOLE =MIN(TOLE,GAP2*GAP2)
          IF(PENE(I)*PENE(I) > TOLE) THEN
-          N = CAND_N(I)
-          IF( N <= NSN) THEN
-           IF (IRTLM(1,N)<=0.AND.ICONT_I(N)==0) ICONT_I(N) = -CAND_E(I)
-          ELSE
-           N = N - NSN
-           IF (IRTLM_FI(NIN)%P(1,N)<=0.AND.ICONT_I_FI(NIN)%P(N)==0) 
-     +         ICONT_I_FI(NIN)%P(N) = -CAND_E(I)
-          END IF
           PENE(I) = ZERO
          END IF
         END IF!(ICONT_R(I) >0)THEN
