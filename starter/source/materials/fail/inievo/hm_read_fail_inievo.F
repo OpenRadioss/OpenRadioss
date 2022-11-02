@@ -97,7 +97,7 @@ C-----------------------------------------------
       my_real 
      .    PTHK,LENGTH_UNIT,RATE_UNIT
       my_real, DIMENSION(:), ALLOCATABLE :: 
-     .    SR_REF,FSCALE,INI_P1,INI_P2,EL_REF,ELSCAL,DISP,ENER,ALPHA
+     .    SR_REF,FSCALE,INI_P1,EL_REF,ELSCAL,DISP,ENER,ALPHA
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
       IS_ENCRYPTED = .FALSE.
@@ -124,8 +124,8 @@ C===============================================================================
 !---------------
       ALLOCATE(INITYPE(NINIEVO),EVOTYPE(NINIEVO),EVOSHAP(NINIEVO),COMPTYP(NINIEVO))
       ALLOCATE(TAB_ID(NINIEVO) ,SR_REF(NINIEVO) ,FSCALE(NINIEVO) ,INI_P1(NINIEVO))
-      ALLOCATE(INI_P2(NINIEVO) ,TAB_EL(NINIEVO) ,EL_REF(NINIEVO) ,ELSCAL(NINIEVO))
-      ALLOCATE(DISP(NINIEVO)   ,ENER(NINIEVO)   ,ALPHA(NINIEVO))
+      ALLOCATE(TAB_EL(NINIEVO) ,EL_REF(NINIEVO) ,ELSCAL(NINIEVO) )
+      ALLOCATE(DISP(NINIEVO)   ,ENER(NINIEVO)   ,ALPHA(NINIEVO)  )
       ALLOCATE(INT_TAB_ID(NINIEVO),INT_TAB_EL(NINIEVO))
       INITYPE(1:NINIEVO) = 0
       EVOTYPE(1:NINIEVO) = 0
@@ -138,7 +138,6 @@ C===============================================================================
       SR_REF(1:NINIEVO)  = ZERO
       FSCALE(1:NINIEVO)  = ZERO
       INI_P1(1:NINIEVO)  = ZERO
-      INI_P2(1:NINIEVO)  = ZERO
       EL_REF(1:NINIEVO)  = ZERO
       ELSCAL(1:NINIEVO)  = ZERO
       DISP(1:NINIEVO)    = ZERO
@@ -175,7 +174,6 @@ C===============================================================================
         CALL HM_GET_FLOAT_ARRAY_INDEX('FSCALE',FSCALE(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (FSCALE(J) == ZERO) FSCALE(J) = ONE
         CALL HM_GET_FLOAT_ARRAY_INDEX('INI_P1',INI_P1(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        CALL HM_GET_FLOAT_ARRAY_INDEX('INI_P2',INI_P2(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         ! Third line
         CALL HM_GET_INT_ARRAY_INDEX  ('TAB_EL',TAB_EL(J),J,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOAT_ARRAY_INDEX('EL_REF',EL_REF(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -196,7 +194,7 @@ C===============================================================================
 c     Filling buffer tables
 C======================================================================================
       ! -> Number of parameters
-      NUPARAM = 4 + NINIEVO*15
+      NUPARAM = 4 + NINIEVO*14
       ! -> Number of functions
       NFUNC   = 0
       ! -> Table internal identifier
@@ -216,21 +214,20 @@ c-----------------------------------------------------
       UPARAM(3) = FAILIP
       UPARAM(4) = PTHK
       DO J = 1,NINIEVO
-        UPARAM(5  + 15*(J-1)) = INITYPE(J)
-        UPARAM(6  + 15*(J-1)) = EVOTYPE(J)
-        UPARAM(7  + 15*(J-1)) = EVOSHAP(J)
-        UPARAM(8  + 15*(J-1)) = COMPTYP(J)
-        UPARAM(9  + 15*(J-1)) = INT_TAB_ID(J)
-        UPARAM(10 + 15*(J-1)) = SR_REF(J)
-        UPARAM(11 + 15*(J-1)) = FSCALE(J)
-        UPARAM(12 + 15*(J-1)) = INI_P1(J)
-        UPARAM(13 + 15*(J-1)) = INI_P2(J)
-        UPARAM(14 + 15*(J-1)) = INT_TAB_EL(J)
-        UPARAM(15 + 15*(J-1)) = EL_REF(J) 
-        UPARAM(16 + 15*(J-1)) = ELSCAL(J)  
-        UPARAM(17 + 15*(J-1)) = DISP(J) 
-        UPARAM(18 + 15*(J-1)) = ALPHA(J)
-        UPARAM(19 + 15*(J-1)) = ENER(J)
+        UPARAM(5  + 14*(J-1)) = INITYPE(J)
+        UPARAM(6  + 14*(J-1)) = EVOTYPE(J)
+        UPARAM(7  + 14*(J-1)) = EVOSHAP(J)
+        UPARAM(8  + 14*(J-1)) = COMPTYP(J)
+        UPARAM(9  + 14*(J-1)) = INT_TAB_ID(J)
+        UPARAM(10 + 14*(J-1)) = SR_REF(J)
+        UPARAM(11 + 14*(J-1)) = FSCALE(J)
+        UPARAM(12 + 14*(J-1)) = INI_P1(J)
+        UPARAM(13 + 14*(J-1)) = INT_TAB_EL(J)
+        UPARAM(14 + 14*(J-1)) = EL_REF(J) 
+        UPARAM(15 + 14*(J-1)) = ELSCAL(J)  
+        UPARAM(16 + 14*(J-1)) = DISP(J) 
+        UPARAM(17 + 14*(J-1)) = ALPHA(J)
+        UPARAM(18 + 14*(J-1)) = ENER(J)
       ENDDO    
 c-----------------------------------------------------
 c--------------------------
@@ -244,8 +241,7 @@ c--------------------------
         WRITE(IOUT,1200) FAILIP,PTHK
         DO J = 1,NINIEVO
           WRITE (IOUT,1300) J,INITYPE(J),TAB_ID(J),SR_REF(J),FSCALE(J),
-     .                      INI_P1(J),INI_P2(J),TAB_EL(J),EL_REF(J),
-     .                      ELSCAL(J)
+     .                      INI_P1(J),TAB_EL(J),EL_REF(J),ELSCAL(J)
           IF (EVOTYPE(J) == 1) THEN
             IF (EVOSHAP(J) == 1) THEN 
               WRITE (IOUT,1400) EVOTYPE(J),EVOSHAP(J),COMPTYP(J),
@@ -273,7 +269,6 @@ c--------------------------
       IF (ALLOCATED(SR_REF))   DEALLOCATE(SR_REF)
       IF (ALLOCATED(FSCALE))   DEALLOCATE(FSCALE)
       IF (ALLOCATED(INI_P1))   DEALLOCATE(INI_P1)
-      IF (ALLOCATED(INI_P2))   DEALLOCATE(INI_P2)
       IF (ALLOCATED(EL_REF))   DEALLOCATE(EL_REF)
       IF (ALLOCATED(ELSCAL))   DEALLOCATE(ELSCAL)
       IF (ALLOCATED(DISP))     DEALLOCATE(DISP)
@@ -299,24 +294,18 @@ c-----------------------------------------------------
      & 5X,'  TABLE DEFINING PLASTIC STRAIN AT FAILURE WITH:        ',/,
      & 5X,'     = 1: TRIAXIALITY VS STRAIN RATE                    ',/,
      & 5X,'     = 2: SHEAR INFLUENCE VS STRAIN RATE                ',/,
-     & 5X,'     = 3: TENSION PRINC. STRN RATES RATIO VS STRAIN RATE',/,
+     & 5X,'     = 3: PRINC. STRAIN RATES RATIO VS STRAIN RATE (TRIAX > 0.0)',/,
      & 5X,'     = 4: PRINC. STRAIN RATES RATIO VS STRAIN RATE      ',/,                                     
      & 5X,'     = 5: STRESS STATE PARAMETER VS STRAIN RATE         ',/,
      & 5X,'INITIATION TABLE IDENTIFIER. . . . . . . . . . . . . . =',I10,/,
      & 5X,'   REFERENCE STRAIN RATE  . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'   SCALE FACTOR . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'PARAMETER 1 . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'DAMAGE INITIATION PARAMETER . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'   INI. TYPE = 1: NOT USED                              ',/,
      & 5X,'   INI. TYPE = 2: PRESSURE INFLUENCE PARAMETER          ',/,
-     & 5X,'   INI. TYPE = 3: NOT USED                              ',/,
-     & 5X,'   INI. TYPE = 4: NOT USED                              ',/,
-     & 5X,'   INI. TYPE = 5: TRIAXIALITY INFLUENCE PARAMETER       ',/,       
-     & 5X,'PARAMETER 2 . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'   INI. TYPE = 1: NOT USED                              ',/,
-     & 5X,'   INI. TYPE = 2: NOT USED                              ',/,
      & 5X,'   INI. TYPE = 3: DIRECT / INCREMENTAL FORMULATION      ',/,
      & 5X,'   INI. TYPE = 4: DIRECT / INCREMENTAL FORMULATION      ',/,
-     & 5X,'   INI. TYPE = 5: NOT USED                              ',/,
+     & 5X,'   INI. TYPE = 5: TRIAXIALITY INFLUENCE PARAMETER       ',/,
      & 5X,'ELEMENT SIZE SCALING TABLE IDENTIFIER  . . . . . . . . =',I10,/,
      & 5X,'   REFERENCE SIZE . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'   SCALE FACTOR . . . . . . . . . . . . . . . . . . . .=',1PG20.13/)

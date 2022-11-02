@@ -92,7 +92,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: 
      .        INITYPE,EVOTYPE,EVOSHAP,COMPTYP,TAB_ID,TAB_EL      
       my_real, DIMENSION(:), ALLOCATABLE :: 
-     .        SR_REF,FSCALE,INI_P1,INI_P2,EL_REF,ELSCAL,
+     .        SR_REF,FSCALE,INI_P1,EL_REF,ELSCAL,
      .        DISP,ENER,ALPHA2
       my_real, DIMENSION(:,:), ALLOCATABLE :: 
      .        DMGINI,DMGEVO
@@ -114,24 +114,23 @@ C!--------------------------------------------------------------
       PTHKF   = UPARAM(4)
       ALLOCATE(INITYPE(NINIEVO),EVOTYPE(NINIEVO),EVOSHAP(NINIEVO),COMPTYP(NINIEVO))
       ALLOCATE(TAB_ID(NINIEVO) ,SR_REF(NINIEVO) ,FSCALE(NINIEVO) ,INI_P1(NINIEVO))
-      ALLOCATE(INI_P2(NINIEVO) ,TAB_EL(NINIEVO) ,EL_REF(NINIEVO) ,ELSCAL(NINIEVO))
+      ALLOCATE(TAB_EL(NINIEVO) ,EL_REF(NINIEVO) ,ELSCAL(NINIEVO) )
       ALLOCATE(DISP(NINIEVO)   ,ENER(NINIEVO)   ,ALPHA2(NINIEVO) )      
       DO J = 1,NINIEVO
-        INITYPE(J) = UPARAM(5  + 15*(J-1))
-        EVOTYPE(J) = UPARAM(6  + 15*(J-1))
-        EVOSHAP(J) = UPARAM(7  + 15*(J-1))
-        COMPTYP(J) = UPARAM(8 + 15*(J-1))
-        TAB_ID(J)  = NINT(UPARAM(9 + 15*(J-1)))
-        SR_REF(J)  = UPARAM(10 + 15*(J-1))
-        FSCALE(J)  = UPARAM(11 + 15*(J-1))
-        INI_P1(J)  = UPARAM(12 + 15*(J-1))
-        INI_P2(J)  = UPARAM(13 + 15*(J-1))
-        TAB_EL(J)  = NINT(UPARAM(14 + 15*(J-1)))
-        EL_REF(J)  = UPARAM(15 + 15*(J-1))
-        ELSCAL(J)  = UPARAM(16 + 15*(J-1)) 
-        DISP(J)    = UPARAM(17 + 15*(J-1))
-        ALPHA2(J)  = UPARAM(18 + 15*(J-1))
-        ENER(J)    = UPARAM(19 + 15*(J-1))
+        INITYPE(J) = UPARAM(5  + 14*(J-1))
+        EVOTYPE(J) = UPARAM(6  + 14*(J-1))
+        EVOSHAP(J) = UPARAM(7  + 14*(J-1))
+        COMPTYP(J) = UPARAM(8  + 14*(J-1))
+        TAB_ID(J)  = NINT(UPARAM(9 + 14*(J-1)))
+        SR_REF(J)  = UPARAM(10 + 14*(J-1))
+        FSCALE(J)  = UPARAM(11 + 14*(J-1))
+        INI_P1(J)  = UPARAM(12 + 14*(J-1))
+        TAB_EL(J)  = NINT(UPARAM(13 + 14*(J-1)))
+        EL_REF(J)  = UPARAM(14 + 14*(J-1))
+        ELSCAL(J)  = UPARAM(15 + 14*(J-1)) 
+        DISP(J)    = UPARAM(16 + 14*(J-1))
+        ALPHA2(J)  = UPARAM(17 + 14*(J-1))
+        ENER(J)    = UPARAM(18 + 14*(J-1))
       ENDDO  
 c
       ! Set flag for stress softening
@@ -288,7 +287,7 @@ c
               ENDIF
             ENDDO
           CASE(3)
-            IF (NINT(INI_P2(J))>0) THEN  
+            IF (NINT(INI_P1(J))>0) THEN  
               DO I = 1,NEL
                 IF ((DPLA(I) > ZERO).AND.(DMGINI(I,J)<ONE).AND.(FOFF(I) /= 0)) THEN 
                   DMGINI(I,J) = DMGINI(I,J) + (EPSMOD(I)-UVAR(I,2))/EPSF(I)
@@ -304,7 +303,7 @@ c
               ENDDO
             ENDIF
           CASE(4)
-            IF (NINT(INI_P2(J))>0) THEN  
+            IF (NINT(INI_P1(J))>0) THEN  
               DO I = 1,NEL
                 IF ((DPLA(I) > ZERO).AND.(DMGINI(I,J)<ONE).AND.(FOFF(I) /= 0)) THEN 
                   DMGINI(I,J) = DMGINI(I,J) + DPLA(I)/EPSF(I)
@@ -452,7 +451,6 @@ c
       IF (ALLOCATED(SR_REF))  DEALLOCATE(SR_REF)
       IF (ALLOCATED(FSCALE))  DEALLOCATE(FSCALE)
       IF (ALLOCATED(INI_P1))  DEALLOCATE(INI_P1)
-      IF (ALLOCATED(INI_P2))  DEALLOCATE(INI_P2)
       IF (ALLOCATED(TAB_EL))  DEALLOCATE(TAB_EL)
       IF (ALLOCATED(EL_REF))  DEALLOCATE(EL_REF)
       IF (ALLOCATED(ELSCAL))  DEALLOCATE(ELSCAL)
