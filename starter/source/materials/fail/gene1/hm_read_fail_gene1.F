@@ -420,6 +420,7 @@ c--------------------------
         ! Card 1
         IF (IMINPRES == 1) WRITE(IOUT,1100) MINPRES
         IF (IMAXPRES == 1) WRITE(IOUT,1101) MAXPRES
+        IF (IMINPRES == 1 .OR. IMAXPRES == 1) WRITE(IOUT,1105)
         IF (IMAXSIGP == 1) WRITE(IOUT,1102) SIGP1
         IF (IMAXTIME == 1) WRITE(IOUT,1103) TMAX
         IF (IMINDT   == 1) WRITE(IOUT,1104) DTMIN
@@ -479,9 +480,9 @@ c-----------------------------------------------------
      & 5X,'SPECIFIED ELEMENT DELETION CRITERIA:',/,
      & 5X,'------------------------------------',/)
  1100 FORMAT(
-     & 5X,'MINIMUM PRESSURE (POSITIVE IN COMPRESSION) . . . . .=',1PG20.13,/)
+     & 5X,'MINIMUM PRESSURE . . . . . . . . . . . . . . . . . .=',1PG20.13,/)
  1101 FORMAT(
-     & 5X,'MAXIMUM PRESSURE (POSITIVE IN COMPRESSION) . . . . .=',1PG20.13,/) 
+     & 5X,'MAXIMUM PRESSURE . . . . . . . . . . . . . . . . . .=',1PG20.13,/) 
  1102 FORMAT(        
      & 5X,'MAXIMUM PRINCIPAL STRESS . . . . . . . . . . . . . .=',1PG20.13,/
      & 5X,'   < 0.0 : RESTRICTED TO POSITIVE STRESS TRIAXIALITIES',/, 
@@ -490,6 +491,8 @@ c-----------------------------------------------------
      & 5X,'FAILURE TIME . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/)
  1104 FORMAT(
      & 5X,'MINIMUM TIME STEP  . . . . . . . . . . . . . . . . .=',1PG20.13,/)
+ 1105 FORMAT(
+     & 5X,'NOTE : PRESSURE IS DEFINED SO THAT IT IS POSITIVE IN COMPRESSION',/)
  2000 FORMAT(
      & 5X,'FUNCTION ID FOR EQ. STRESS VS STRAIN-RATE  . . . . .=',I10,/,
      & 5X,'REFERENCE STRAIN-RATE  . . . . . . . . . . . . . . .=',1PG20.13,/
