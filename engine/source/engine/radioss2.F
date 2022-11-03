@@ -183,6 +183,7 @@ C-----------------------------------------------
       USE LINEAR_SOLVER_MOD
       USE MDS_RESTART_MOD
       USE SEGVAR_MOD
+      USE SCRATCHFILE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -289,6 +290,11 @@ C-----------------------------------------------
      .          CHR_OLD*2,FNAME*2048,IOFF1*3,IOFF2*3,IOFF3*3
       CHARACTER*2048 INAME
       CHARACTER*4 PROCNAM,CHRU_M1
+
+      CHARACTER*10 CPID
+      CHARACTER*6 CISPMD
+      INTEGER MY_PID
+
       CHARACTER ABC(26)*1, FILNAMTH*100, FILTH*3, LINE*256,
      .          FILNAMABF*100,FILNAMABF_TMP*100
       DATA ABC/'a','b','c','d','e','f','g','h','i','j','k','l','m','n',
@@ -504,6 +510,9 @@ C------------------------------------------------------------------
       IUTITLHI(8)=117
       IUTITLHI(9)=118
 C--------------------------------------------------
+C Initialize ProcessID variable for scratch filesqq
+      CALL MY_GETPID(MY_PID)
+C--------------------------------------------------
 C Radioss userlibraries initialization
 C--------------------------------------------------
         IF(GOT_USERL_ALTNAME==1)THEN
@@ -620,18 +629,21 @@ C--------------------------------------------------
       HVISC=HALF
       HVLIN=ZERO
 C--------------------------------------------------
-      OPEN(UNIT=IIN,FORM='FORMATTED',STATUS='SCRATCH')
+      WRITE(CPID,'(I10.10)') MY_PID
+      WRITE(CISPMD,'(I6.6)') ISPMD
+      IINFNA='8_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+      OPEN(UNIT=IIN,FORM='FORMATTED',FILE=TRIM(IINFNA))   ! Create tempo file
 
       IF ( GOT_INPUT == 0)THEN
        IF (ISPMD/=0) THEN
 C redirect IOUT to tmp file  fichier temporaire when SPMD on pi <> 0
          IOUT = IUSC4
-         OPEN(UNIT=IOUT,ACCESS='SEQUENTIAL',
-     .       FORM='FORMATTED',STATUS='SCRATCH')
+         IUSC4_FNAM='70_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+         LEN_IUSC4_FNAM=LEN_TRIM(IUSC4_FNAM)
+         OPEN(UNIT=IOUT,ACCESS='SEQUENTIAL',FORM='FORMATTED',FILE=TRIM(IUSC4_FNAM) )
 
          WRITE(UNIT=IOUT,IOSTAT=IOS,FMT='(A)')
-         OPEN(UNIT=ISTDI,FORM='FORMATTED',FILE=INPUTNAM,
-     .       STATUS='OLD',IOSTAT=IO_ERR)
+         OPEN(UNIT=ISTDI,FORM='FORMATTED',FILE=INPUTNAM,STATUS='OLD',IOSTAT=IO_ERR)
          IF (IO_ERR/=0) THEN
            CALL ANCMSG(MSGID=145,ANMODE=ANINFO,
      .            C1=INPUTNAM)
@@ -641,8 +653,10 @@ C redirect IOUT to tmp file  fichier temporaire when SPMD on pi <> 0
       ELSE
        IF (ISPMD/=0) THEN
          IOUT = IUSC4
-         OPEN(UNIT=IOUT,ACCESS='SEQUENTIAL',
-     .       FORM='FORMATTED',STATUS='SCRATCH')
+         IUSC4_FNAM='70_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+         LEN_IUSC4_FNAM=LEN_TRIM(IUSC4_FNAM)
+         OPEN(UNIT=IOUT,ACCESS='SEQUENTIAL',FORM='FORMATTED',FILE=TRIM(IUSC4_FNAM))
+
          WRITE(UNIT=IOUT,IOSTAT=IOS,FMT='(A)')
        ENDIF
       ENDIF
@@ -760,9 +774,7 @@ C       Create info, hist, monitor, progress and tpl files for writing implicit 
             LEN_TMP_NAME = OUTFILE_NAME_LEN+ROOTLEN+9
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+9)
             INPUTNAM='CHECK_DATA'
-            OPEN(UNIT=IOUT,FILE=TMP_NAME(1:LEN_TMP_NAME),
-     .       ACCESS='SEQUENTIAL',
-     .       FORM='FORMATTED',STATUS='UNKNOWN')
+            OPEN(UNIT=IOUT,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN')
 
              IO_ERRL=0
             DO WHILE (IO_ERRL>=0)
@@ -771,13 +783,11 @@ C       Create info, hist, monitor, progress and tpl files for writing implicit 
  1000      BACKSPACE(IOUT)
            WRITE(IOUT,'(1X,A)')FILNAM(1:ROOTLEN+9)
            WRITE(PROCNAM,'(I4.4)')ISPMD
-           FILNAM =ROOTNAM(1:ROOTLEN)
-     .                  //'_'//CHRUN//'_'//PROCNAM//'.rst'
+           FILNAM =ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//PROCNAM//'.rst'
            LEN = ROOTLEN + 14
          ENDIF
          WRITE(PROCNAM,'(I4.4)')ISPMD+1
-         FILNAM =ROOTNAM(1:ROOTLEN)
-     .               //'_'//CHRUN//'_'//PROCNAM//'.rst'
+         FILNAM =ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//PROCNAM//'.rst'
          LEN = ROOTLEN + 14
         ELSE
          IF (ISPMD==0) THEN
@@ -885,6 +895,7 @@ C end init rdresa after call xtime0
 
       CALL INIPAR(ITID,3,NNODES,INPUTNAM,GOT_INPUT,NBTASK)
       IF(ISPMD==0) THEN
+
        WRITE(IOUT, '(1X,A,I5)')'NUMBER OF SPMD DOMAINS       ',
      .                           NSPMD
        IF(NBTASK(NSPMD+1) == NSPMD*NTHREAD)THEN
@@ -1541,7 +1552,13 @@ C------------------------------------------------
      F              IGRPART,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G              IPART_DYNAIN,MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,
      H              MAX_DEPVAR,MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP)
-       CLOSE (UNIT=IIN)
+
+C------------------------------------------------
+C Close & Delete scratch file
+      CLOSE (UNIT=IIN)
+      LEN_IINFNA=LEN_TRIM(IINFNA)
+      CALL DELETE_USER_FILE(IINFNA,LEN_IINFNA)
+C------------------------------------------------
       CALL TRACE_OUT(16)
 C------------------------------------------------
       CALL TRACE_IN(19,0,ZERO)

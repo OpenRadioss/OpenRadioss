@@ -37,6 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE FXB_MOD
+      USE SCRATCHFILE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,51 +63,30 @@ C--------------------------------------
 C     ECRITURE DES ENTIERS
 C--------------------------------------
       LEN_IPM=NBIPM*NFXBODY
-      IF (IRFORM/5<=1) THEN
-        CALL WRTSQI (FXBIPM,LEN_IPM,IRFORM)
-        IF (LENNOD>0) CALL WRTSQI (FXBNOD,LENNOD,IRFORM)
-        IF (LENELM>0) CALL WRTSQI (FXBELM,LENELM,IRFORM)
-        IF (LENGRVI>0) CALL WRTSQI (FXBGRVI,LENGRVI,IRFORM)
-      ELSE
-        CALL WRITE_I_C(FXBIPM,LEN_IPM)
-        IF (LENNOD>0) CALL WRITE_I_C(FXBNOD,LENNOD)
-        IF (LENELM>0) CALL WRITE_I_C(FXBELM,LENELM)
-        IF (LENGRVI>0) CALL WRITE_I_C(FXBGRVI,LENGRVI)
-      ENDIF
+      CALL WRITE_I_C(FXBIPM,LEN_IPM)
+      IF (LENNOD>0) CALL WRITE_I_C(FXBNOD,LENNOD)
+      IF (LENELM>0) CALL WRITE_I_C(FXBELM,LENELM)
+      IF (LENGRVI>0) CALL WRITE_I_C(FXBGRVI,LENGRVI)
 C--------------------------------------
 C     ECRITURE DES REELS
 C--------------------------------------
       LEN_MOD=LENMOD*6
-      IF (IRFORM/5<=1) THEN
-        IF (LEN_MOD>0) CALL WRTSQR (FXBMOD,LEN_MOD,IRFORM)
-        IF (LENGLM>0) CALL WRTSQR (FXBGLM,LENGLM,IRFORM)
-        IF (LENCP>0) CALL WRTSQR (FXBCPM,LENCP ,IRFORM)
-        IF (LENCP>0) CALL WRTSQR (FXBCPS,LENCP ,IRFORM)
-        IF (LENLM>0) CALL WRTSQR (FXBLM, LENLM ,IRFORM)
-        IF (LENFLS>0) CALL WRTSQR (FXBFLS,LENFLS,IRFORM)
-        IF (LENDLS>0) CALL WRTSQR (FXBDLS,LENDLS,IRFORM)
-        CALL WRTSQR (FXBDEP,LENVAR,IRFORM)
-        CALL WRTSQR (FXBVIT,LENVAR,IRFORM)
-        CALL WRTSQR (FXBACC,LENVAR,IRFORM)
-        CALL WRTSQR (FXBRPM,LENRPM,IRFORM)
-        IF (LENSIG>0) CALL WRTSQR (FXBSIG,LENSIG,IRFORM)
-        IF (LENGRVR>0) CALL WRTSQR (FXBGRVR,LENGRVR,IRFORM)
-      ELSE
-        IF (LEN_MOD>0) CALL WRITE_DB(FXBMOD,LEN_MOD)
-        IF (LENGLM>0) CALL WRITE_DB(FXBGLM,LENGLM)
-        IF (LENCP>0) CALL WRITE_DB(FXBCPM,LENCP )
-        IF (LENCP>0) CALL WRITE_DB(FXBCPS,LENCP )
-        IF (LENLM>0) CALL WRITE_DB(FXBLM, LENLM )
-        IF (LENFLS>0) CALL WRITE_DB(FXBFLS,LENFLS)
-        IF (LENDLS>0) CALL WRITE_DB(FXBDLS,LENDLS)
-        CALL WRITE_DB(FXBDEP,LENVAR)
-        CALL WRITE_DB(FXBVIT,LENVAR)
-        CALL WRITE_DB(FXBACC,LENVAR)
-        CALL WRITE_DB(FXBRPM,LENRPM)
-        IF (LENSIG>0) CALL WRITE_DB(FXBSIG,LENSIG)
-        IF (LENGRVR>0) CALL WRITE_DB(FXBGRVR,LENGRVR)
-      ENDIF
-C Ecriture des fichiers de modes et de contraintes
+      IF (LEN_MOD>0) CALL WRITE_DB(FXBMOD,LEN_MOD)
+      IF (LENGLM>0) CALL WRITE_DB(FXBGLM,LENGLM)
+      IF (LENCP>0) CALL WRITE_DB(FXBCPM,LENCP )
+      IF (LENCP>0) CALL WRITE_DB(FXBCPS,LENCP )
+      IF (LENLM>0) CALL WRITE_DB(FXBLM, LENLM )
+      IF (LENFLS>0) CALL WRITE_DB(FXBFLS,LENFLS)
+      IF (LENDLS>0) CALL WRITE_DB(FXBDLS,LENDLS)
+      CALL WRITE_DB(FXBDEP,LENVAR)
+      CALL WRITE_DB(FXBVIT,LENVAR)
+      CALL WRITE_DB(FXBACC,LENVAR)
+      CALL WRITE_DB(FXBRPM,LENRPM)
+      IF (LENSIG>0) CALL WRITE_DB(FXBSIG,LENSIG)
+      IF (LENGRVR>0) CALL WRITE_DB(FXBGRVR,LENGRVR)
+      
+C Write modes & constraint files in Restart
+C -----------------------------------------
       NRECM=0
       NRECS=0
       DO I=1,NFXBODY
@@ -131,6 +111,11 @@ C Ecriture des fichiers de modes et de contraintes
          CALL WRITE_DB(VV,LREC)
       ENDDO
 C
+      ClOSE(UNIT=IFXM)
+      CLOSE(UNIT=IFXS)
+      CALL DELETE_USER_FILE(IFXS_FN,LEN_IFXS_FN)
+      CALL DELETE_USER_FILE(IFXM_FN,LEN_IFXM_FN)
+
       RETURN
       END
 Chd|====================================================================
@@ -143,6 +128,10 @@ Chd|        WRTSQI                        source/output/tools/wrtsqi.F
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
 Chd|====================================================================
       SUBROUTINE EIGWREST(EIGIPM, EIGIBUF, EIGRPM)      
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE SCRATCHFILE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -202,6 +191,7 @@ C
          CALL WRITE_DB(VV,LREC)
       ENDDO
       CLOSE(IEIGM)
+      CALL DELETE_USER_FILE(IEIGM_FN,LEN_IEIGM_FN)
 C
       RETURN
       END

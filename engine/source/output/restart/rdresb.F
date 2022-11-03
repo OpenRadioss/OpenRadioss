@@ -1371,6 +1371,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE SCRATCHFILE_MOD
       USE FXB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1383,6 +1384,8 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "units_c.inc"
 #include      "fxbcom.inc"
+#include      "chara_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1393,6 +1396,9 @@ C-----------------------------------------------
      .        IRCS, IRCS0, IRCS1, LREC, I, J, RCLEN
       my_real
      .        VV(6)
+      INTEGER MY_PID
+      CHARACTER(LEN=10) :: CPID
+      CHARACTER(LEN=6) :: CISPMD
 C--------------------------------------
 C     READING INTEGERS
 C--------------------------------------
@@ -1443,10 +1449,17 @@ C--------------------------------------
       ENDIF
 C Lecture des fichiers de modes et de contraintes
       INQUIRE(IOLENGTH=RCLEN) VV
-      OPEN(UNIT=IFXM,STATUS='SCRATCH',
-     .     ACCESS='DIRECT',RECL=RCLEN)
-      OPEN(UNIT=IFXS,STATUS='SCRATCH',
-     .     ACCESS='DIRECT',RECL=RCLEN)
+
+      CALL MY_GETPID(MY_PID)
+      WRITE(CPID,'(I10.10)') MY_PID
+      WRITE(CISPMD,'(I6.6)') ISPMD
+      IFXM_FN='25_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+      IFXS_FN='26_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+      LEN_IFXM_FN=LEN_TRIM(IFXM_FN)
+      LEN_IFXS_FN=LEN_TRIM(IFXS_FN)
+
+      OPEN(UNIT=IFXM,FILE=TRIM(IFXM_FN),ACCESS='DIRECT',RECL=RCLEN)
+      OPEN(UNIT=IFXS,FILE=TRIM(IFXS_FN),ACCESS='DIRECT',RECL=RCLEN)
       NRECM=0
       NRECS=0
       DO I=1,NFXBODY
@@ -1489,6 +1502,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE EIG_MOD
+      USE SCRATCHFILE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1500,6 +1514,8 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr05_c.inc"
 #include      "eigcom.inc"
+#include      "chara_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1509,6 +1525,9 @@ C-----------------------------------------------
       INTEGER NRECM, IRCM, NBN, NBM, IAD, LREC, I, J, RCLEN
       my_real
      .        VV(6)
+      CHARACTER(LEN=10) :: CPID
+      CHARACTER(LEN=6) :: CISPMD
+      INTEGER MY_PID
 C--------------------------------------
 C     READING INTEGERS
 C--------------------------------------
@@ -1529,8 +1548,14 @@ C--------------------------------------
       ENDIF
 C Lecture du fichier de modes additionnels
       INQUIRE(IOLENGTH=RCLEN) VV
-      OPEN(UNIT=IEIGM,STATUS='SCRATCH',
-     .     ACCESS='DIRECT',RECL=RCLEN)
+
+      CALL MY_GETPID(MY_PID)
+      WRITE(CPID,'(I10.10)') MY_PID
+      WRITE(CISPMD,'(I6.6)') ISPMD
+      IEIGM_FN='27_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+      LEN_IEIGM_FN=LEN_TRIM(IEIGM_FN)
+      OPEN(UNIT=IEIGM,FILE=TRIM(IEIGM_FN),ACCESS='DIRECT',RECL=RCLEN)
+
       NRECM=0
       DO I=1,NEIG
          NBN=EIGIPM(10,I)
