@@ -388,7 +388,7 @@ C
      8            SRH1   ,SRH2   ,SRH3     ,IGEO    ,
      9            A11R    ,ISUBSTACK      ,STACK%PM )
 C
-      IF ((NODADT == 0 .AND. ISMSTR /= 3 .AND. IDT1SH == 0) .OR.
+      IF ((ISMSTR /= 3 .AND. IDT1SH == 0) .OR.
      .     IDTMIN(3) /= 0 .OR. IGTYP == 16.OR.IDT_THERM == 1) THEN
 C      CDTLEN must be always called for tissue property/law for time step correction
        CALL CDLEN3(JFT     ,JLT     ,PM      ,OFF     ,AREA,
