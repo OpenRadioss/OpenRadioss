@@ -150,6 +150,7 @@ C===============================================================================
         INITYPE(J) = MIN(INITYPE(J),5)
         IF (INITYPE(J) == 0) INITYPE(J) = 1
         CALL HM_GET_INT_ARRAY_INDEX('EVOTYPE',EVOTYPE(J),J,IS_AVAILABLE,LSUBMODEL)
+        EVOTYPE(J) = MAX(EVOTYPE(J),0)
         EVOTYPE(J) = MIN(EVOTYPE(J),2)
         CALL HM_GET_INT_ARRAY_INDEX('EVOSHAP',EVOSHAP(J),J,IS_AVAILABLE,LSUBMODEL)
         EVOSHAP(J) = MIN(EVOSHAP(J),2)
@@ -185,9 +186,23 @@ C===============================================================================
         IF (ELSCAL(J) == ZERO) ELSCAL(J) = ONE
         ! Fourth line
         CALL HM_GET_FLOAT_ARRAY_INDEX('DISP'  ,DISP(J) ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        IF (EVOTYPE(J) == 1 .AND. DISP(J) == ZERO) THEN 
+          CALL ANCMSG(MSGID=2089,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO_BLIND,
+     .                I1=MAT_ID,
+     .                I2=J)
+        ENDIF
         CALL HM_GET_FLOAT_ARRAY_INDEX('ALPHA' ,ALPHA(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (ALPHA(J) == ZERO) ALPHA(J) = ONE
         CALL HM_GET_FLOAT_ARRAY_INDEX('ENER'  ,ENER(J) ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        IF (EVOTYPE(J) == 2 .AND. ENER(J) == ZERO) THEN 
+          CALL ANCMSG(MSGID=2090,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO_BLIND,
+     .                I1=MAT_ID,
+     .                I2=J)
+        ENDIF
       ENDDO
 c
 C======================================================================================
