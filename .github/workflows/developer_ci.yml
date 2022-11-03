@@ -118,7 +118,7 @@ jobs:
 
       # Upload artifact 
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}
           path: exec
