@@ -430,6 +430,7 @@ Chd|====================================================================
       USE INOUTFILE_MOD
       USE QA_OUT_MOD
       USE DYNLIB_MOD
+      USE SCRATCHFILE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -615,6 +616,10 @@ C
               ENDIF
 
               CLOSE(UNIT=IOUT)
+              IF(ISPMD /=0) THEN
+                 CALL DELETE_USER_FILE(IUSC4_FNAM,LEN_IUSC4_FNAM)
+              ENDIF
+
               CLOSE(UNIT=IUHIS)
               CALL MY_EXIT(0)
  
@@ -648,6 +653,10 @@ C
               ENDIF
 
               CLOSE(UNIT=IOUT)
+              IF(ISPMD /=0) THEN
+                 CALL DELETE_USER_FILE(IUSC4_FNAM,LEN_IUSC4_FNAM)
+              ENDIF
+
               CLOSE(UNIT=IUHIS)
 
               CALL MY_EXIT(0)

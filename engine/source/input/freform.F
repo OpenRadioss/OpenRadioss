@@ -181,6 +181,13 @@ C-----------------------------------------------
       INTEGER :: NUM_ALE_KEY2, INUM
       LOGICAL :: lFOUND
 C-----------------------------------------------
+      INTEGER MY_PID,LEN_IUSC1_FN,LEN_IUSC2_FN,LEN_IUSCTMP_FN
+      CHARACTER(LEN=10) :: CPID
+      CHARACTER(LEN=6) :: CISPMD
+      CHARACTER(LEN=256) :: IUSC1_FN,IUSC2_FN,IUSCTMP_FN
+      
+
+C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER NVAR,INTDT
@@ -239,12 +246,23 @@ C------------------------------------------------------------------
       KEY2=" "
       KEY3=" "
       KEY4=" "
+      
+      CALL MY_GETPID(MY_PID)
+      WRITE(CPID,'(I10.10)') MY_PID
+      WRITE(CISPMD,'(I6.6)') ISPMD
 
-      OPEN(UNIT=IUSC1,FORM='FORMATTED',ACCESS='DIRECT',RECL=120,STATUS='SCRATCH')
-      OPEN(UNIT=IUSC2,FORM='FORMATTED',STATUS='SCRATCH')
+      IUSC1_FN='9_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+      IUSC2_FN='30_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+      IUSCTMP_FN='60_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+      LEN_IUSC1_FN=LEN_TRIM(IUSC1_FN)
+      LEN_IUSC2_FN=LEN_TRIM(IUSC2_FN)
+      LEN_IUSCTMP_FN=LEN_TRIM(IUSCTMP_FN)
+      OPEN(UNIT=IUSC1,FORM='FORMATTED',ACCESS='DIRECT',RECL=120,FILE=TRIM(IUSC1_FN))
+      OPEN(UNIT=IUSC2,FORM='FORMATTED',FILE=TRIM(IUSC2_FN))
+
 C attention IBM/MPI ne supporte pas de REWIND sur STDIN !
       IUSC_TMP=60
-      OPEN(UNIT=IUSC_TMP,FORM='FORMATTED',STATUS='SCRATCH')
+      OPEN(UNIT=IUSC_TMP,FORM='FORMATTED',FILE=TRIM(IUSCTMP_FN))
 C
       ROOTNAM=' '
       ROOTLEN = 0
@@ -452,6 +470,7 @@ C
       ENDDO
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         CLOSE(UNIT=IUSC_TMP)
+        CALL DELETE_USER_FILE(IUSCTMP_FN,LEN_IUSCTMP_FN)
         ISTDI = 5
        IF (GOT_INPUT==1) THEN
         ISTDI=80
@@ -2619,8 +2638,11 @@ c autoselect of files format
       ENDDO
 C========================================================================
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      CLOSE (UNIT=IUSC1)
-      CLOSE (UNIT=IUSC2)
+      CLOSE(UNIT=IUSC1)
+      CLOSE(UNIT=IUSC2)
+      CALL DELETE_USER_FILE(IUSC1_FN,LEN_IUSC1_FN)
+      CALL DELETE_USER_FILE(IUSC2_FN,LEN_IUSC2_FN)
+
       IF(IERR==0) RETURN
       CALL ARRET(0)
 C
