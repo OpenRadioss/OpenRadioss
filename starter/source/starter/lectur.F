@@ -63,6 +63,7 @@ Chd|        COPY_TO_MONVOL                share/modules1/monvol_struct_mod.F
 Chd|        COPY_TO_VOLMON                share/modules1/monvol_struct_mod.F
 Chd|        CREATE_MAP_TABLES             source/model/sets/map_tables.F
 Chd|        CREATE_SEATBELT               source/tools/seatbelts/create_seatbelt.F
+Chd|        DAMPDTNODA                    source/general_controls/damping/dampdtnoda.F
 Chd|        DDPRINT                       source/spmd/domdec2.F         
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        DEALLOCATE_DETONATORS         share/modules1/detonators_mod.F

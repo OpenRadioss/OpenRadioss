@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  HM_READ_FAIL_SYAZWAN                source/materials/fail/syazwan/hm_read_fail_syazwan.F
+Chd|  HM_READ_FAIL_SYAZWAN          source/materials/fail/syazwan/hm_read_fail_syazwan.F
 Chd|-- called by -----------
 Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
+Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F

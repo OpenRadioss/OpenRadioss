@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  FAIL_SYAZWAN_C                      source/materials/fail/syazwan/fail_syazwan_c.F
+Chd|  FAIL_SYAZWAN_C                source/materials/fail/syazwan/fail_syazwan_c.F
 Chd|-- called by -----------
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
+Chd|-- calls ---------------
+Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE FAIL_SYAZWAN_C(
      1           NEL      ,NUVAR    ,

@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  DAMPDTNODA                  source/general_controls/damping/hm_read_damp.F
+Chd|  DAMPDTNODA                    source/general_controls/damping/dampdtnoda.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
+Chd|        READ_ENGINE_DTMIN             source/general_controls/damping/read_engine_dtmin.F
+Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE DAMPDTNODA(MS ,IN  ,STIFN ,STIFR ,IGRNOD   ,DAMPR )
 C-----------------------------------------------

@@ -356,6 +356,7 @@ Chd|        HM_READ_FAIL_RTCL             source/materials/fail/rtcl/hm_read_fai
 Chd|        HM_READ_FAIL_SAHRAEI          source/materials/fail/sahraei/hm_read_fail_sahraei.F
 Chd|        HM_READ_FAIL_SNCONNECT        source/materials/fail/snconnect/hm_read_fail_snconnect.F
 Chd|        HM_READ_FAIL_SPALLING         source/materials/fail/spalling/hm_read_fail_spalling.F
+Chd|        HM_READ_FAIL_SYAZWAN          source/materials/fail/syazwan/hm_read_fail_syazwan.F
 Chd|        HM_READ_FAIL_TAB1             source/materials/fail/tabulated/hm_read_fail_tab1.F
 Chd|        HM_READ_FAIL_TAB2             source/materials/fail/tabulated/hm_read_fail_tab2.F
 Chd|        HM_READ_FAIL_TAB_OLD          source/materials/fail/tabulated/hm_read_fail_tab_old.F
@@ -972,6 +973,7 @@ Chd|        READ_DFS_DETPOINT             source/initial_conditions/detonation/r
 Chd|        READ_DFS_WAVE_SHAPER          source/initial_conditions/detonation/read_dfs_wave_shaper.F
 Chd|        READ_EBCS                     source/boundary_conditions/ebcs/read_ebcs.F
 Chd|        READ_ENGINE_DRIVER            source/general_controls/engine/read_engine_driver.F
+Chd|        READ_ENGINE_DTMIN             source/general_controls/damping/read_engine_dtmin.F
 Chd|        READ_EULER_MAT                source/materials/ale/read_euler_mat.F
 Chd|        READ_H3DTMAX_KEY              source/starter/contrl.F       
 Chd|        READ_IMPDISP                  source/constraints/general/impvel/read_impdisp.F

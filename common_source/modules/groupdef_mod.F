@@ -47,6 +47,7 @@ Chd|        C_GR_ENTITY_P                 starter/source/model/group/c_gr_entity
 Chd|        C_ISLIN_STR                   starter/source/restart/ddsplit/c_islin_str.F
 Chd|        C_ISURF_STR                   starter/source/restart/ddsplit/c_isurf_str.F
 Chd|        C_PON                         starter/source/restart/ddsplit/c_pon.F
+Chd|        DAMPDTNODA                    starter/source/general_controls/damping/dampdtnoda.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        DEALLOCATE_IGRSURF_SPLIT      starter/source/spmd/deallocate_igrsurf_split.F
 Chd|        DOMDEC2                       starter/source/spmd/domdec2.F 
@@ -447,6 +448,7 @@ Chd|        DSRGNOR                       engine/source/output/anim/generate/dsr
 Chd|        DTNODA                        engine/source/time_step/dtnoda.F
 Chd|        DTNODAMP                      engine/source/time_step/dtnodamp.F
 Chd|        DTNODAMS                      engine/source/time_step/dtnodams.F
+Chd|        DTNODARAYL                    engine/source/time_step/dtnodarayl.F
 Chd|        DXYZSRG                       engine/source/output/anim/generate/dxyzsrg.F
 Chd|        EBCS_MAIN                     engine/source/boundary_conditions/ebcs/ebcs_main.F
 Chd|        EIG                           engine/stub/eig.F             

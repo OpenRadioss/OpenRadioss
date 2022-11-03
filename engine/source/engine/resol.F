@@ -112,6 +112,7 @@ Chd|        DRAPE_WREST                   source/output/restart/wrrest.F
 Chd|        DTNODA                        source/time_step/dtnoda.F     
 Chd|        DTNODAMP                      source/time_step/dtnodamp.F   
 Chd|        DTNODAMS                      source/time_step/dtnodams.F   
+Chd|        DTNODARAYL                    source/time_step/dtnodarayl.F 
 Chd|        EBCCLAP                       source/boundary_conditions/ebcs/ebcclap.F
 Chd|        EBCS_EXTRAPOL                 source/boundary_conditions/ebcs/ebcs_extrapol.F
 Chd|        ELAPSTIME                     source/system/timer.F         

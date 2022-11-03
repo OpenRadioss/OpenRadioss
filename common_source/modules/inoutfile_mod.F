@@ -53,6 +53,7 @@ Chd|        R2R_DOMDEC                    starter/source/coupling/rad2rad/r2r_do
 Chd|        R2R_FORK                      starter/source/coupling/rad2rad/r2r_fork.F
 Chd|        R2R_GROUP                     starter/source/coupling/rad2rad/r2r_group.F
 Chd|        R2R_INPUT                     starter/source/coupling/rad2rad/r2r_input.F
+Chd|        READ_ENGINE_DTMIN             starter/source/general_controls/damping/read_engine_dtmin.F
 Chd|        READ_FLAG_ALE                 starter/source/coupling/rad2rad/r2r_fork.F
 Chd|        READ_H3DTMAX_KEY              starter/source/starter/contrl.F
 Chd|        READ_PCH_FILE                 starter/source/constraints/fxbody/read_pch_file.F
