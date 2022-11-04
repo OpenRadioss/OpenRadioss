@@ -853,7 +853,7 @@ C
      .                 IPARI(20),MULTIMP
            ELSE
                 WRITE(IOUT,1594)IBC1,IBC2,IBC3,
-     .                 ABS(STFAC)IGAP,GAP,PERCENT_SIZE,FLAGREMNOD,
+     .                 ABS(STFAC),IGAP,GAP,PERCENT_SIZE,FLAGREMNOD,
      .                 IREM7I2,STARTT,STOPT,
      .                 BUMULT,INACTI,FPENMAX,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP
