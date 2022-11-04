@@ -814,14 +814,14 @@ C
            IF(IGSTI==1)THEN
                IF(IDSENS/=0) THEN
                   WRITE(IOUT,1537)IBC1,IBC2,IBC3,
-     .                 -STFAC,
+     .                 ABS(STFAC),
      .                 FRIC,IGAP,GAP,GAPMAX,PERCENT_SIZE,FLAGREMNOD,
      .                 IREM7I2,GAPSCALE,IDSENS,                 
      .                 BUMULT,INACTI,FPENMAX,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP
                 ELSE
                   WRITE(IOUT,1538)IBC1,IBC2,IBC3,
-     .                 -STFAC,
+     .                 ABS(STFAC),
      .                 FRIC,IGAP,GAP,GAPMAX,PERCENT_SIZE,FLAGREMNOD, 
      .                 GAPSCALE,STARTT,STOPT,       
      .                 BUMULT,INACTI,FPENMAX,VISC,VISCF,IPARI(14), 
@@ -830,14 +830,14 @@ C
            ELSE
                 IF(IDSENS/=0) THEN
                   WRITE(IOUT,1547)IBC1,IBC2,IBC3,
-     .                 STFAC,IGSTI,STMIN,STMAX,
+     .                 ABS(STFAC),IGSTI,STMIN,STMAX,
      .                 FRIC,IGAP,GAP,GAPMAX,PERCENT_SIZE,FLAGREMNOD,
      .                 IREM7I2,GAPSCALE,IDSENS,                 
      .                 BUMULT,INACTI,FPENMAX,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP
                 ELSE
                   WRITE(IOUT,1548)IBC1,IBC2,IBC3,
-     .                 STFAC,IGSTI,STMIN,STMAX,
+     .                 ABS(STFAC),IGSTI,STMIN,STMAX,
      .                 FRIC,IGAP,GAP,GAPMAX,PERCENT_SIZE,FLAGREMNOD,
      .                 IREM7I2,GAPSCALE,STARTT,STOPT,                 
      .                 BUMULT,INACTI,FPENMAX,VISC,VISCF,IPARI(14),
@@ -847,13 +847,13 @@ C
        ELSEIF(STFAC>=ZERO)THEN
            IF(IDSENS/=0) THEN
                WRITE(IOUT,1507)IBC1,IBC2,IBC3,
-     .                 STFAC,IGAP,GAP,PERCENT_SIZE,FLAGREMNOD,
+     .                 ABS(STFAC),IGAP,GAP,PERCENT_SIZE,FLAGREMNOD,
      .                 IREM7I2,IDSENS,
      .                 BUMULT,INACTI,FPENMAX,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP
            ELSE
                 WRITE(IOUT,1594)IBC1,IBC2,IBC3,
-     .                 STFAC,IGAP,GAP,PERCENT_SIZE,FLAGREMNOD,
+     .                 ABS(STFAC)IGAP,GAP,PERCENT_SIZE,FLAGREMNOD,
      .                 IREM7I2,STARTT,STOPT,
      .                 BUMULT,INACTI,FPENMAX,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP
@@ -862,13 +862,13 @@ C
 C
            IF(IDSENS/=0) THEN
                  WRITE(IOUT,1517)IBC1,IBC2,IBC3,
-     .                 -STFAC,IGAP,GAP,PERCENT_SIZE,FLAGREMNOD,
+     .                 ABS(STFAC),IGAP,GAP,PERCENT_SIZE,FLAGREMNOD,
      .                 IREM7I2,IDSENS,
      .                 BUMULT,INACTI,FPENMAX,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP
            ELSE
                  WRITE(IOUT,1595)IBC1,IBC2,IBC3,
-     .                 -STFAC,IGAP,GAP,PERCENT_SIZE,FLAGREMNOD,
+     .                 ABS(STFAC),IGAP,GAP,PERCENT_SIZE,FLAGREMNOD,
      .                 IREM7I2,STARTT,STOPT,
      .                 BUMULT,INACTI,FPENMAX,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP
