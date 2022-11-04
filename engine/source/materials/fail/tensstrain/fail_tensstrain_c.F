@@ -440,11 +440,11 @@ c
           IF (S_FLAG == 3) THEN
 #include  "lockon.inc"
             WRITE(IOUT, 3001) NGL(I),IPG,ILAY,IPT,EPS_MAX(I)
-            WRITE(ISTDO,3101) NGL(I),IPG,ILAY,IPT,EPS_MAX(I),TIME
+            WRITE(ISTDO,3101) NGL(I),IPG,ILAY,IPT,TIME,EPS_MAX(I)
 #include  "lockoff.inc"
           ELSE
             WRITE(IOUT, 3002) NGL(I),IPG,ILAY,IPT,EPS_MAX(I)
-            WRITE(ISTDO,3102) NGL(I),IPG,ILAY,IPT,EPS_MAX(I),TIME
+            WRITE(ISTDO,3102) NGL(I),IPG,ILAY,IPT,TIME,EPS_MAX(I)
           ENDIF
         END DO
       END IF              
@@ -454,7 +454,7 @@ c
           I = INDX1(J)
 #include  "lockon.inc"
           WRITE(IOUT, 4000) NGL(I),IPG,ILAY,IPT,EPS_MAX(I)
-          WRITE(ISTDO,4100) NGL(I),IPG,ILAY,IPT,EPS_MAX(I),TIME
+          WRITE(ISTDO,4100) NGL(I),IPG,ILAY,IPT,TIME,EPS_MAX(I)
 #include  "lockoff.inc"
         END DO
       END IF              
@@ -464,7 +464,7 @@ c
           I = INDX2(J)
 #include  "lockon.inc"
           WRITE(IOUT, 5000) NGL(I),IPG,ILAY,IPT,EPS_MAX(I)
-          WRITE(ISTDO,5100) NGL(I),IPG,ILAY,IPT,EPS_MAX(I),TIME
+          WRITE(ISTDO,5100) NGL(I),IPG,ILAY,IPT,TIME,EPS_MAX(I)
 #include  "lockoff.inc"
         END DO
       END IF              
