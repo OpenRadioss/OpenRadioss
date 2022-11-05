@@ -414,6 +414,7 @@ Chd|        GET_U_FUNC_Y                  source/user_interface/ufunc.F
 Chd|-- calls ---------------
 Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
 Chd|        DELETE_TMPFILE                source/output/tools/sortie_c.c
+Chd|        DELETE_USER_FILE              source/user_interface/dyn_userlib.c
 Chd|        ENGINE_USER_FINALIZE          source/user_interface/dyn_userlib.c
 Chd|        MY_EXIT                       source/system/my_exit.c       
 Chd|        PRINT_RUNTIME                 source/system/timer.F         
@@ -424,6 +425,7 @@ Chd|        SPMD_KILL                     source/mpi/init/spmd_kill.F
 Chd|        DYNLIB_MOD                    share/modules/dynlib_mod.F    
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
+Chd|        SCRATCHFILE_MOD               share/modules/scratchfiles_mod.F
 Chd|====================================================================
       SUBROUTINE ARRET (N)  
       USE H3D_MOD

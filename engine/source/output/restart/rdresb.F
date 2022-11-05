@@ -1361,11 +1361,13 @@ Chd|  FXBRESB                       source/output/restart/rdresb.F
 Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
+Chd|        MY_GETPID                     source/system/pid.c           
 Chd|        READ_DB                       source/output/tools/read_db.F 
 Chd|        READ_I_C                      source/output/tools/sortie_c.c
 Chd|        REDSQI                        source/output/tools/redsqi.F  
 Chd|        REDSQR                        source/output/tools/redsqr.F  
 Chd|        FXB_MOD                       share/modules/fxb_mod.F       
+Chd|        SCRATCHFILE_MOD               share/modules/scratchfiles_mod.F
 Chd|====================================================================
       SUBROUTINE FXBRESB()
 C-----------------------------------------------
@@ -1491,11 +1493,13 @@ Chd|  EIGRREST                      source/output/restart/rdresb.F
 Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
+Chd|        MY_GETPID                     source/system/pid.c           
 Chd|        READ_DB                       source/output/tools/read_db.F 
 Chd|        READ_I_C                      source/output/tools/sortie_c.c
 Chd|        REDSQI                        source/output/tools/redsqi.F  
 Chd|        REDSQR                        source/output/tools/redsqr.F  
 Chd|        EIG_MOD                       share/modules/eig_mod.F       
+Chd|        SCRATCHFILE_MOD               share/modules/scratchfiles_mod.F
 Chd|====================================================================
       SUBROUTINE EIGRREST()
 C-----------------------------------------------

@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        CONNECTION_SOCK_INIT_C        source/coupling/rad2rad/rad2rad_c.c
+Chd|        DELETE_USER_FILE              source/user_interface/dyn_userlib.c
 Chd|        ERRMSG                        source/input/errmsg.F         
 Chd|        FRALEONOFF                    source/input/fraleonoff.F     
 Chd|        FRALNK                        source/input/fralnk.F         
@@ -59,6 +60,7 @@ Chd|        FREUPWIND                     source/input/freupwind.F
 Chd|        FREUPWM                       source/input/freupwm.F        
 Chd|        H3D_INI                       source/output/h3d/h3d_build_fortran/h3d_ini.F
 Chd|        H3D_READ                      source/output/h3d/h3d_build_fortran/h3d_read.F
+Chd|        MY_GETPID                     source/system/pid.c           
 Chd|        RDELE                         source/input/rdele.F          
 Chd|        REDKEY0                       source/input/redkey0.F        
 Chd|        REDKEY1                       source/input/redkey1.F        

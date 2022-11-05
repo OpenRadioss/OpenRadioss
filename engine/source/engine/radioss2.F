@@ -40,6 +40,7 @@ Chd|        COQINI                        source/elements/shell/coqini.F
 Chd|        CRKXFEM_RREST                 source/output/restart/rdresb.F
 Chd|        CRKXFEM_RRESTANIM             source/output/restart/rdresb.F
 Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
+Chd|        DELETE_USER_FILE              source/user_interface/dyn_userlib.c
 Chd|        DRAPE_RREST                   source/output/restart/rdresb.F
 Chd|        DYN_USERLIB_INIT              source/user_interface/dyn_userlib.c
 Chd|        FVDEAL                        source/airbag/fvdeal.F        
@@ -66,6 +67,7 @@ Chd|        LECINP                        source/input/lecinp.F
 Chd|        LECTUR                        source/input/lectur.F         
 Chd|        LF_CONVERT_C_FLAT             source/engine/lf_convert_c.c  
 Chd|        LOADPREST                     source/output/restart/rdresb.F
+Chd|        MY_GETPID                     source/system/pid.c           
 Chd|        NFRREST                       source/output/restart/rdresb.F
 Chd|        NITSCHERREST                  source/output/restart/rdresb.F
 Chd|        OPEN_C                        source/output/tools/sortie_c.c
@@ -135,6 +137,7 @@ Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod
 Chd|        RAD2R_MOD                     share/modules/rad2r.F         
 Chd|        RBODY_MOD                     share/modules/rbody_mod.F     
 Chd|        RESTMOD                       share/modules/restart_mod.F   
+Chd|        SCRATCHFILE_MOD               share/modules/scratchfiles_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        SOLTOSPH_MOD                  share/modules/soltosph_mod.F  

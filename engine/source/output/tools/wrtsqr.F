@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        CONVWREST                     source/output/restart/wrrest.F
 Chd|        DSWREST                       source/output/restart/wrrest.F
 Chd|        EIGWREST                      source/output/restart/wrrest.F
-Chd|        FXBWREST                      source/output/restart/wrrest.F
 Chd|        FXFLUXWREST                   source/constraints/thermic/fxfluxwrest.F
 Chd|        FXTEMPWREST                   source/output/restart/wrrest.F
 Chd|        IMPWREST                      source/output/restart/wrrest.F

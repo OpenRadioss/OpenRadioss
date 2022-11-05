@@ -20,14 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Chd|====================================================================
-Chd|  SEATBELT_MOD                  modules/seatbelt_mod.F        
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
-Chd| Module to share Scratchfile names among the Solver.
 Chr|           scratchfile names are opened in 
-Chd|           Radioss2.F & closed in arret
+Chd|====================================================================
+Chd|  SCRATCHFILE_MOD               share/modules/scratchfiles_mod.F
+Chd|-- called by -----------
+Chd|        ARRET                         source/system/arret.F         
+Chd|        EIGRREST                      source/output/restart/rdresb.F
+Chd|        EIGWREST                      source/output/restart/wrrest.F
+Chd|        FXBRESB                       source/output/restart/rdresb.F
+Chd|        FXBWREST                      source/output/restart/wrrest.F
+Chd|        RADIOSS2                      source/engine/radioss2.F      
+Chd|-- calls ---------------
 Chd|====================================================================
       MODULE SCRATCHFILE_MOD
 
