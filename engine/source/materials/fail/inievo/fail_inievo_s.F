@@ -88,7 +88,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,INDX(NEL),NINDX,FAILIP,IPOS(NEL,2),
-     .        NROT,NINIEVO
+     .        NROT(NEL),NINIEVO
       INTEGER, DIMENSION(:), ALLOCATABLE :: 
      .        INITYPE,EVOTYPE,EVOSHAP,COMPTYP,TAB_ID,TAB_EL
       my_real, DIMENSION(:), ALLOCATABLE :: 
@@ -160,7 +160,7 @@ c
         SZZ    = SIGNZZ(I) + P(I) 
         SVM(I) = HALF*(SXX**2 + SYY**2 + SZZ**2)
      .        + SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
-        SVM(I) = SQRT(MAX(THREE*SVM(I),ZERO))
+        SVM(I) = SQRT(THREE*SVM(I))
         TRIAX(I) = -P(I)/MAX(EM20,SVM(I))
         IF (TRIAX(I) < -ONE) TRIAX(I) = -ONE
         IF (TRIAX(I) >  ONE) TRIAX(I) = ONE
@@ -216,7 +216,7 @@ c
           SIG_PR(I,2) = R_INTER
         ENDIF
         SIGPMAJ(I)  = SIG_PR(I,1)
-        MAXSHEAR(I) = (SIG_PR(I,1)-SIG_PR(I,3))/TWO
+        MAXSHEAR(I) = (SIG_PR(I,1)-SIG_PR(I,3))*HALF
 c
         IF (DEV_PR(I,1) < DEV_PR(I,2)) THEN 
           R_INTER     = DEV_PR(I,1)
@@ -249,7 +249,7 @@ c
           ! Plastic strain vs shear influence (theta)
           CASE(2)
             DO I = 1,NEL
-              XVEC(I,1) = (SVM(I) + INI_P1(J)*P(I))/MAXSHEAR(I)
+              XVEC(I,1) = (SVM(I) + INI_P1(J)*P(I))/MAX(MAXSHEAR(I),EM20)
             ENDDO
           ! MSFLD / FLD
           CASE(3,4)
@@ -257,7 +257,7 @@ c
           ! Normalized principal stress
           CASE(5)
             DO I = 1,NEL
-              XVEC(I,1) = (SVM(I) + INI_P1(J)*P(I))/SIGPMAJ(I)
+              XVEC(I,1) = (SVM(I) + INI_P1(J)*P(I))/MAX(SIGPMAJ(I),EM20)
             ENDDO
         END SELECT
         XVEC(1:NEL,2)   = EPSP(1:NEL)/SR_REF(J)
@@ -273,13 +273,13 @@ c
               XVEC(1:NEL,2) = TRIAX(1:NEL)
             CASE(2)
               DO I = 1,NEL
-                XVEC(I,2) = (SVM(I) + INI_P1(J)*P(I))/MAXSHEAR(I)
+                XVEC(I,2) = (SVM(I) + INI_P1(J)*P(I))/MAX(MAXSHEAR(I),EM20)
               ENDDO
             CASE(3,4)
               XVEC(1:NEL,2) = ALPHA(1:NEL)
             CASE(5)
               DO I = 1,NEL
-                XVEC(I,2) = (SVM(I) + INI_P1(J)*P(I))/SIGPMAJ(I)
+                XVEC(I,2) = (SVM(I) + INI_P1(J)*P(I))/MAX(SIGPMAJ(I),EM20)
               ENDDO            
           END SELECT
           IPOS(1:NEL,1:2) = 1
@@ -293,7 +293,7 @@ c
           CASE(1,2,5) 
             DO I = 1,NEL
               IF ((DPLA(I) > ZERO).AND.(DMGINI(I,J)<ONE).AND.(LOFF(I) == ONE)) THEN 
-                DMGINI(I,J) = DMGINI(I,J) + DPLA(I)/EPSF(I)
+                DMGINI(I,J) = DMGINI(I,J) + DPLA(I)/MAX(EPSF(I),EM20)
                 DMGINI(I,J) = MIN(DMGINI(I,J),ONE)
               ENDIF
             ENDDO
@@ -301,14 +301,14 @@ c
             IF (NINT(INI_P1(J))>0) THEN  
               DO I = 1,NEL
                 IF ((DPLA(I) > ZERO).AND.(DMGINI(I,J)<ONE).AND.(LOFF(I) == ONE)) THEN 
-                  DMGINI(I,J) = DMGINI(I,J) + (EPSMOD(I)-UVAR(I,2))/EPSF(I)
+                  DMGINI(I,J) = DMGINI(I,J) + (EPSMOD(I)-UVAR(I,2))/MAX(EPSF(I),EM20)
                   DMGINI(I,J) = MIN(DMGINI(I,J),ONE)
                 ENDIF
               ENDDO
             ELSE
               DO I = 1,NEL
                 IF ((DPLA(I) > ZERO).AND.(DMGINI(I,J)<ONE).AND.(LOFF(I) == ONE)) THEN 
-                  DMGINI(I,J) = MAX(DMGINI(I,J),EPSMOD(I)/EPSF(I))
+                  DMGINI(I,J) = MAX(DMGINI(I,J),EPSMOD(I)/MAX(EPSF(I),EM20))
                   DMGINI(I,J) = MIN(DMGINI(I,J),ONE)
                 ENDIF
               ENDDO
@@ -317,14 +317,14 @@ c
             IF (NINT(INI_P1(J))>0) THEN  
               DO I = 1,NEL
                 IF ((DPLA(I) > ZERO).AND.(DMGINI(I,J)<ONE).AND.(LOFF(I) == ONE)) THEN 
-                  DMGINI(I,J) = DMGINI(I,J) + DPLA(I)/EPSF(I)
+                  DMGINI(I,J) = DMGINI(I,J) + DPLA(I)/MAX(EPSF(I),EM20)
                   DMGINI(I,J) = MIN(DMGINI(I,J),ONE)
                 ENDIF
               ENDDO
             ELSE
               DO I = 1,NEL
                 IF ((DPLA(I) > ZERO).AND.(DMGINI(I,J)<ONE).AND.(LOFF(I) == ONE)) THEN 
-                  DMGINI(I,J) = MAX(DMGINI(I,J),PLA(I)/EPSF(I))
+                  DMGINI(I,J) = MAX(DMGINI(I,J),PLA(I)/MAX(EPSF(I),EM20))
                   DMGINI(I,J) = MIN(DMGINI(I,J),ONE)
                 ENDIF
               ENDDO
