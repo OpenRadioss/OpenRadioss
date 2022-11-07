@@ -33,7 +33,11 @@ void analyse_fill_info(analyse_info_t *analyse_info)
   switch(analyse_info->calling_id)
     {
     default :
+      #ifdef _WIN64
+      analyse_info->calling_name=_strdup("Unknown");
+      #else
       analyse_info->calling_name=strdup("Unknown");
+      #endif
       analyse_info->analyze_function=NULL;
       break;
     }

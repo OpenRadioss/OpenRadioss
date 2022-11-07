@@ -64,8 +64,11 @@ int analyse_getint(int *x,int ncount,char *line)
 {
   int readret;
   char linecopy[21];
-  
+  #ifdef _WIN64
+  strncpy_s(linecopy,21,line,ncount);
+  #else
   strncpy(linecopy,line,ncount);
+  #endif
   *(linecopy+ncount)='\0';
   readret = sscanf(linecopy,"%d",x);
   if(readret < 0) 
@@ -82,7 +85,11 @@ int analyse_getdouble(double *x,int ncount,char *line)
   int readret;
   char linecopy[21];
   
+  #ifdef _WIN64
+  strncpy_s(linecopy,21,line,ncount);
+  #else
   strncpy(linecopy,line,ncount);
+  #endif
   *(linecopy+ncount)='\0';
   readret = sscanf(linecopy,"%lf",x);
   if(readret < 0) 

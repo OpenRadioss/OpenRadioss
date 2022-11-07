@@ -33,7 +33,6 @@
 /*********************************************************************
  *                        PORTAGE
  *********************************************************************/
-/* Cls41l32 +1 */
 #include "analyse_portage.h"
 
 /********************************************************************/
@@ -78,9 +77,9 @@ static analyse_error_info_t *analyse_error_list=NULL;
 static analyse_check_group_t *analyse_check_group_list=NULL;
 static analyse_check_t *analyse_check_list=NULL;
 
-/*gw41m3+2 */ 
-      static  analyse_node_t *current_node_child_sav = NULL;
-      static  analyse_node_t *node_scan_sav = NULL ;
+
+static  analyse_node_t *current_node_child_sav = NULL;
+static  analyse_node_t *node_scan_sav = NULL ;
 
 /*********************************************************************
  *
@@ -98,12 +97,9 @@ static void remove_data_in_node_recursiv(analyse_node_t *node_scan);
 
 static void manage_Core (int s);
 
-/* ls41l32 : static void analyse_stack_float(float r);
-   static void analyse_stack_int(int i); */
 static void analyse_tree_enter(int name_id);
 static void analyse_tree_close(int name_id);
 static void analyse_tree_exit(int name_id);
-static void analyse_core(void);
 static void analyse_init(int prgrm, int GUI_mode, int prgrm_language);
 
 
@@ -431,11 +427,7 @@ static void analyse_tree_enter(int name_id)
     }
   else
     {
-/*gw41m3+++      
-      node_scan = current_node->child;
-      while (node_scan->next != NULL)
-	node_scan = node_scan->next;
-*/ 
+ 
       if (current_node->child == current_node_child_sav) {
         node_scan = node_scan_sav;
       } else {
@@ -444,7 +436,6 @@ static void analyse_tree_enter(int name_id)
       }
       while (node_scan->next != NULL) node_scan = node_scan->next;
       node_scan_sav = node_scan;
-/*gw41m3--- */      
       
       node_scan->next = last_node_in_list;
       last_node_in_list->prev = node_scan;
@@ -535,7 +526,7 @@ static void analyse_tree_exit(int name_id)
 
   if (node_scan == NULL)
     {
-      sprintf(tline, "Unable to close Function id ", name_id);
+      sprintf(tline, "Unable to close Function id %i", name_id);
       Analyse_Print_Error_Level(tline, 2);
       return;
     }
@@ -581,35 +572,6 @@ void _FCALL ANEXIT(int *name_id)
  analyse_tree_exit(*name_id);
 }
 
-
-
-
-/*
-  analyse_core
-*/
-static void analyse_core(void)
-{
-  *(int *) 0 = 0;		/* produce core */
-}
-
-void ancore(void)
-{
-  analyse_core();
-}
-
-void ancore_(void)
-{
-  analyse_core();
-}
-
-void ancore__(void)
-{
-  analyse_core();
-}
-void _FCALL ANCORE(void)
-{
-  analyse_core();
-}
 
 
 /*
@@ -662,7 +624,6 @@ void analyse_call_error(int type, int id, int mode)
       analyse_error_return_message(analyse_error_list, AN_INFO, LANGUAGE, id, &title, &description, NULL);
     }
 
-/* Cls41l04 +2 */
   /* Count Error */
   analyse_error_cnt(analyse_error_list, id);
 
@@ -692,7 +653,7 @@ void analyse_call_error(int type, int id, int mode)
 
       wiout(&nb_int, tab_int);
       if (mode == ANINFO ) 
-	wistdo(&nb_int, tab_int);
+      wistdo(&nb_int, tab_int);
       
       analyse_free(tab_int);
 
@@ -819,11 +780,11 @@ void analyse_call_error(int type, int id, int mode)
     case ANINFO_BLIND_3:
     case ANINFO_BLIND_4:
       if (type == AN_ERROR)
-	analyse_tree_close(AN_ERROR);
+    analyse_tree_close(AN_ERROR);
       else if (type == AN_WARNING)
-	analyse_tree_close(AN_WARNING);
+    analyse_tree_close(AN_WARNING);
       else
-	analyse_tree_close(AN_INFO);
+    analyse_tree_close(AN_INFO);
       break;
       
     default :
@@ -884,8 +845,8 @@ static void analyse_init(int prgrm, int GUI_mode, int prgrm_language)
   char *tmp;
   char *env;
   char *var;
+  int len_path;
 
-/* el41m16 +1  char *starter_filename="$RADIRS/rad_err/starter_message_description.txt"; */
   char *starter_filename="$RADIR/rad_err/starter_message_description.txt";
   char *radioss_filename="$RADIR/rad_err/radioss_message_description.txt";
   char *program_filename="$RADIR/rad_err/program_message_description.txt";
@@ -900,17 +861,29 @@ static void analyse_init(int prgrm, int GUI_mode, int prgrm_language)
 
   if (prgrm == AN_STARTER)
     {
-      analyse_tree->info.calling_name=strdup("Starter");
+      #ifdef _WIN64
+        analyse_tree->info.calling_name=_strdup("Starter");
+      #else
+        analyse_tree->info.calling_name=strdup("Starter");
+      #endif
       filename = starter_filename;
     }
   else if(prgrm == AN_RADIOSS)
     {
-      analyse_tree->info.calling_name=strdup("Radioss");
+      #ifdef _WIN64
+        analyse_tree->info.calling_name=_strdup("Radioss");
+      #else
+        analyse_tree->info.calling_name=strdup("Radioss");
+      #endif
        filename = radioss_filename;
     }
   else 
     {
+      #ifdef _WIN64
+      analyse_tree->info.calling_name=_strdup("Program");
+      #else
       analyse_tree->info.calling_name=strdup("Program");
+      #endif
       filename = program_filename;
     }
 
@@ -919,30 +892,42 @@ static void analyse_init(int prgrm, int GUI_mode, int prgrm_language)
       tmp=strchr(filename,'/');
       length = (int)(tmp-filename);
       var = (char*)analyse_malloc(length*sizeof(char));
+      #ifdef _WIN64
+      strncpy_s(var,length, filename+1, length-1);
+      #else
       strncpy(var, filename+1, length-1);
+      #endif
       var[length-1]='\0';
 
       env = getenv(var);
       analyse_free(var);
 
-/* ls41k10+++ */
-/* if env == NULL, strlen crashes, on SGI */
       if (env == NULL)
-	{	  
-	 path = NULL;
-	}
+    {
+    path = NULL;
+    }
       else
-	{
-	  path = (char*)analyse_malloc((strlen(env)+strlen(tmp)+1)*sizeof(char));
-	  strcpy(path,"");
-	  strcat(path,env);
-	  strcat(path,tmp);
-	}
-/* ls41k10 --- */
+    {
+      len_path = (strlen(env)+strlen(tmp)+1)*sizeof(char);
+      path = (char*)analyse_malloc(len_path);
+      #ifdef _WIN64
+      strcpy_s(path,len_path,"");
+      strcat_s(path,len_path,env);
+      strcat_s(path,len_path,tmp);
+      #else
+      strcpy(path,"");
+      strcat(path,env);
+      strcat(path,tmp);
+      #endif
+    }
     }
   else
     {
+      #ifdef _WIN64
+      path = _strdup(filename);
+      #else
       path = strdup(filename);
+      #endif
     }
 
 

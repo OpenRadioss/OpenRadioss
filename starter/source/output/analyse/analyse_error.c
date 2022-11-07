@@ -59,7 +59,6 @@ static analyse_error_info_t *error_create(int size)
   for ( i=0; i<size; i++)
     {
       (error_info+i)->id = -i-1;
-/* Cls41l04 +2 */
       (error_info+i)->global_cnt=0;
       (error_info+i)->tmp_cnt=0;
       (error_info+i)->title = NULL;
@@ -162,7 +161,11 @@ void analyse_error_return_message(analyse_error_info_t *error_list, int error_wa
 	  else
 	    {
 	      scan_comment = analyse_get_right_comment(work_error->title,language,ANALYSE_ENGLISH);
-	      *title = strdup(scan_comment->text);
+          #ifdef _WIN64
+          *title = _strdup(scan_comment->text);
+          #else
+          *title = strdup(scan_comment->text);
+          #endif
 	    }
 	}
 
@@ -190,7 +193,11 @@ void analyse_error_return_message(analyse_error_info_t *error_list, int error_wa
 	  else
 	    {
 	      scan_comment = analyse_get_right_comment(work_error->comment,language,ANALYSE_ENGLISH);
-	      *comment = strdup(scan_comment->text);
+          #ifdef _WIN64
+          *comment = _strdup(scan_comment->text);
+          #else
+          *comment = strdup(scan_comment->text);
+          #endif
 	    }
 	}
     }
