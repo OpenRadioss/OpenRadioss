@@ -28,7 +28,8 @@ Chd|-- calls ---------------
 Chd|        INT8_MOD                      ../common_source/modules/int8_mod.F
 Chd|====================================================================
       SUBROUTINE I8LOC3(X,IRECT,LMSR,MSR,NSV,ILOC,NSEG,
-     .                  XI,YI,ZI,XFACE,ITAB,DISTANCE)
+     .                  XI,YI,ZI,XFACE,ITAB,DISTANCE,
+     .                  IFLINEAR,DISTLIN)
 
 C-----------------------------------------------
 C   I n f o r m a t i o n s            
@@ -54,10 +55,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), NSEG(*)
       INTEGER :: ITAB(*)
+      INTEGER  , INTENT(IN) :: IFLINEAR
 C     REAL
       my_real
      .   X(3,*),DISTANCE(*),
      .   XI(*), YI(*), ZI(*), XFACE(*)
+      my_real  , INTENT(INOUT) :: DISTLIN(NSN)
       TYPE(INT8_STRUCT_) :: T8
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -68,7 +71,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, IG, JL, JLNEW, LL2, LL1, LL, LG, J, K, M, N, JG,
-     .   KG, MG, NG
+     .   KG, MG, NG, I1
 C     REAL
       my_real
      .   GMS, CMS,
@@ -139,6 +142,22 @@ C
         ILOC(IL)=JLNEW
       ENDIF
  130  CONTINUE
+C
+C----Compute curvilinear distance for linear force computation ----
+
+      IF(IFLINEAR == 1 ) THEN
+        DO  I=LFT,LLT
+           IL=I+NFT
+           IG=NSV(IL)
+           IF(IL > 1) THEN
+              I1=NSV(IL-1)
+              DISTLIN(IL) = DISTLIN(IL-1)+
+     .                  SQRT((X(1,IG) - X(1,I1))**2 + 
+     .                       (X(2,IG) - X(2,I1))**2 +
+     .                       (X(3,IG) - X(3,I1))**2 )
+           ENDIF
+         ENDDO
+      ENDIF
 C
 
       RETURN
