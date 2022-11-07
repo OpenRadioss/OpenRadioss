@@ -50,7 +50,8 @@ Chd|====================================================================
      J                  FX4   ,FY4   ,FZ4,
      K                  THK   ,H3D_DATA,NINSKID,
      L                  NINTERSKID,PSKIDS,IRECT,NIN,
-     M                  TAGNCONT ,KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER)
+     M                  TAGNCONT ,KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,
+     O                  IFLINEAR ,FRIC_LAST,FNOR_LAST,DISTLIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,10 +79,11 @@ C-----------------------------------------------
 #include      "parit_c.inc"
 #include      "scr18_c.inc"
 #include      "remesh_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IBC, IGIMP, NSN,LFT, LLT, NFT, IFORM,IFT0,NINSKID ,NINTERSKID,NIN 
+      INTEGER IBC, IGIMP, NSN,LFT, LLT, NFT, IFORM,IFT0,NINSKID ,NINTERSKID,NIN
       INTEGER MSR(*), NSV(*), IRTL(*), ICODT(*), ISKY(*),ITAB(*)
       INTEGER NSVGLO(*),NSV2(*),ILOC(*),IRECT(4,*)
 C     REAL
@@ -89,6 +91,7 @@ C     REAL
      .  TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .  KLOADPINTER(NINTER+1),LOADPINTER(NINTER*NLOADP_HYD),
      .  LOADP_HYD_INTER(NLOADP_HYD)
+      INTEGER  , INTENT(IN) :: IFLINEAR
       my_real 
      .  E(*), STF(*), STFN(*), FSAV(*), X(3,*),V(3,*),MS(*),
      .  FSKYI(LSKYI,NFSKYI),FCONT(3,*),FMAX, RCONTACT(*),
@@ -100,6 +103,7 @@ C     REAL
      .   TTC(*), THK(*), H1(*), H2(*), H3(*), H4(*), XFACE(*), STIF(*),
      .   FXI(*), FYI(*), FZI(*), FNI(*), FX1(*), FX2(*), FX3(*), FX4(*),
      .   FY1(*), FY2(*), FY3(*), FY4(*), FZ1(*), FZ2(*), FZ3(*), FZ4(*)
+      my_real  , INTENT(IN) :: FRIC_LAST,FNOR_LAST,DISTLIN(NSN)
       TYPE(H3D_DATABASE) :: H3D_DATA
 
 C-----------------------------------------------
@@ -113,6 +117,7 @@ C-----------------------------------------------
      .   VX(NSN),VY(NSN),VZ(NSN),VV(NSN),VN(NSN),
      .   NN1(NSN),NN2(NSN),NN3(NSN),FNNI(NSN),NNX, 
      .   FELAST, FTRY, DELTAG, DT1INV, VIS2,PEN(NSN),FFAC,
+     .   FNLIM, FTLIM,
      .   FNXI(NSN),FNYI(NSN),FNZI(NSN),FNX1(NSN),FNY1(NSN),
      .   FNZ1(NSN),FNX2(NSN),FNY2(NSN),FNZ2(NSN),FNX3(NSN),
      .   FNY3(NSN),FNZ3(NSN),FNX4(NSN),FNY4(NSN),FNZ4(NSN),
@@ -136,6 +141,10 @@ C     EQUIVALENCE (FX3,BV(1,50)),(FY3,BV(1,51)),(FZ3,BV(1,52))
 C     EQUIVALENCE (FX4,BV(1,53)),(FY4,BV(1,54)),(FZ4,BV(1,55))
 C     EQUIVALENCE (THK,BV(1,70))
 C
+C---------------------------------------------
+      FTLIM = FMAX
+      FNLIM = FNOR
+
 C--------------Before Nj change----       
        IF(FNOR /=ZERO) THEN 
          DO I=LFT,LLT
@@ -248,15 +257,18 @@ C
       DO 150 I=LFT,LLT
         IF(PEN(I)>ZERO) THEN    
           IL=I+NFT
-          IG=NSV(IL)
+          IG=NSV2(IL)
           L=IRTL(IL)
           CC2 = STF(L)
      .  *FOURTH*( MS(IX1(I))+MS(IX2(I))+MS(IX3(I))+MS(IX4(I)) )
           NX2 = MAX(EM20,N1(I)*N1(I)+N2(I)*N2(I)+N3(I)*N3(I))
           LI2(I)=NX2
           FNI(I)= VV(I)*SQRT(CC2/NX2)*ABS(XFACE(I))
-          IF(FNI(I)>FMAX)THEN
-            FNI(I)= FMAX
+          IF(FRIC_LAST/= ZERO) THEN
+             FTLIM = FMAX + (DISTLIN(IG)/DISTLIN(NSN))*(FRIC_LAST-FMAX)
+          ENDIF
+          IF(FNI(I)>FTLIM)THEN
+            FNI(I)= FTLIM
           ENDIF
 C  
           FNI(I)= - FNI(I)
@@ -339,7 +351,11 @@ C
 C         
           FTRY   =FELAST+SQRT(CC2*NX2)*VV(I)*ABS(XFACE(I))
 
-          FNI(I) =SIGN(MIN(ABS(FTRY),FMAX),FTRY)
+          IF(FRIC_LAST/= ZERO) THEN
+             FTLIM = FMAX + (DISTLIN(IG)/DISTLIN(NSN))*(FRIC_LAST-FMAX)
+          ENDIF
+
+          FNI(I) =SIGN(MIN(ABS(FTRY),FTLIM),FTRY)
 
 C         
 C slidinnng (per unit length)  
@@ -383,8 +399,11 @@ c
           IF(IRTL(IL) > 0) THEN 
 c            PEN(I) = (DEPTH - DIST(I) + GAPN(L))*ABS(XFACE(I))
 C    
+            IF(FNOR_LAST/= ZERO) THEN
+               FNLIM = FNOR + (DISTLIN(IG)/DISTLIN(NSN))*(FNOR_LAST-FNOR)
+            ENDIF
             IF(PEN(I)>=DEPTH) THEN
-              FNNI(I)= FNOR*SQRT(LI2(I))
+              FNNI(I)= FNLIM*SQRT(LI2(I))
             ELSEIF(PEN(I)>ZERO) THEN
               FNNI(I)= SLOPEN(IG)*PEN(I)*SQRT(LI2(I))
 C----restraining force reducing              

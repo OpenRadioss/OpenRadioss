@@ -93,7 +93,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,L, NTYP,IS1, IS2,IGSTI,IFT0,IFORM,IRM
       my_real
-     .   FRIC,STARTT,STOPT,FNOR,DBDEPTH,VISC,VISCF
+     .   FRIC,STARTT,STOPT,FNOR,DBDEPTH,VISC,VISCF,
+     .   FRIC_LAST,FNOR_LAST
       CHARACTER MESS*40, MSGTITL*nchartitle
       CHARACTER OPT*ncharkey
 !
@@ -121,6 +122,8 @@ C
       FNOR = ZERO
       DBDEPTH =ZERO
       VISC = ZERO
+      FRIC_LAST = ZERO
+      FNOR_LAST = ZERO
 C
       NTYP = 8
       IPARI(15)=NOINT
@@ -144,6 +147,9 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('PEXT',DBDEPTH,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('TSTART',STARTT,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('TSTOP',STOPT,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('MU_LAST',FNOR_LAST,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('DBEAD_FORCE_LAST',FRIC_LAST,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        
 C
 C--------------------------------------------------
 C CHECKS And  Storage IPARI FRIGAP 
@@ -194,7 +200,9 @@ C.....* Storage IPARI FRIGAP *.......
       FRIGAP(11)=STOPT
       FRIGAP(4)=FNOR
       FRIGAP(5)=DBDEPTH
-
+      FRIGAP(6)=FRIC_LAST
+      FRIGAP(7)=FNOR_LAST
+      IF(FRIC_LAST/= ZERO.OR.FNOR_LAST/= ZERO) IPARI(49) = 1 ! flag to activate linear force computation
 C------------------------------------------------------------
 
        IF(IFORM==2) THEN
@@ -212,7 +220,15 @@ C------------------------------------------------------------
 C     PRINTOUT
 C------------------------------------------------------------
 C
+       IF(FNOR_LAST==ZERO.AND.FRIC_LAST==ZERO) THEN
         WRITE(IOUT,1508)FRIC,FNOR,DBDEPTH,STARTT,STOPT,IRM,IFORM,IFT0
+       ELSEIF(FNOR_LAST==ZERO) THEN
+        WRITE(IOUT,1509)FRIC,FRIC_LAST,FNOR,DBDEPTH,STARTT,STOPT,IRM,IFORM,IFT0
+       ELSEIF(FRIC_LAST==ZERO) THEN
+        WRITE(IOUT,1510)FRIC,FNOR,FNOR_LAST,DBDEPTH,STARTT,STOPT,IRM,IFORM,IFT0
+       ELSE
+        WRITE(IOUT,1511)FRIC,FRIC_LAST,FNOR,FNOR_LAST,DBDEPTH,STARTT,STOPT,IRM,IFORM,IFT0
+       ENDIF
 
 C--------------------------------------------------------------
       IF(IS1==0)THEN
@@ -250,6 +266,51 @@ C------------
      .    '    TYPE==8  DRAW-BEAD                       ' //,
      .    '    RETRAINING DRAW-BEAD FORCE / UNIT LENGTH . ',1PG20.13/,
      .    '    NORMAL DRAW-BEAD FORCE / UNIT LENGTH . . . ',1PG20.13/,
+     .    '    DRAW-BEAD DEPTH . . . . . . . . . .  . . . ',1PG20.13/,
+     .    '    START TIME. . . . . . . . . . . . . . . . ',1PG20.13/,
+     .    '    STOP TIME . . . . . . . . . . . . . . . . ',1PG20.13/,
+     .    '    MAIN SURFACE REORDERING FLAG. . . . . . ',I1/,
+     .    '    FORMULATION FOR TANGENTIAL FORCE COMPUTATION',/,
+     .    '            (1: VISCOUS, 2: INCREMENTAL) . . .',I1/,
+     .    '    DEACTIVATION FLAG FOR RETRAINING FORCE REDUCING',I1/)
+ 1509 FORMAT(//
+     .    '    TYPE==8  DRAW-BEAD                       ' //,
+     .    '    RETRAINING DRAW-BEAD FORCE / UNIT LENGTH . ',/,
+     .    '                AT THE FIRST NODE. . . . . . . ',1PG20.13/,
+     .    '    RETRAINING DRAW-BEAD FORCE / UNIT LENGTH . ',/,
+     .    '                AT THE LAST NODE . . . . . . . ',1PG20.13/,
+     .    '    NORMAL DRAW-BEAD FORCE / UNIT LENGTH . . . ',1PG20.13/,
+     .    '    DRAW-BEAD DEPTH . . . . . . . . . .  . . . ',1PG20.13/,
+     .    '    START TIME. . . . . . . . . . . . . . . . ',1PG20.13/,
+     .    '    STOP TIME . . . . . . . . . . . . . . . . ',1PG20.13/,
+     .    '    MAIN SURFACE REORDERING FLAG. . . . . . ',I1/,
+     .    '    FORMULATION FOR TANGENTIAL FORCE COMPUTATION',/,
+     .    '            (1: VISCOUS, 2: INCREMENTAL) . . .',I1/,
+     .    '    DEACTIVATION FLAG FOR RETRAINING FORCE REDUCING',I1/)
+ 1510 FORMAT(//
+     .    '    TYPE==8  DRAW-BEAD                       ' //,
+     .    '    RETRAINING DRAW-BEAD FORCE / UNIT LENGTH . ',1PG20.13/,
+     .    '    NORMAL DRAW-BEAD FORCE / UNIT LENGTH . . . ',/,
+     .    '                AT THE FIRST NODE. . . . . . . ',1PG20.13/,
+     .    '    NORMAL DRAW-BEAD FORCE / UNIT LENGTH . . . ',/,
+     .    '                AT THE LAST NODE . . . . . . . ',1PG20.13/,
+     .    '    DRAW-BEAD DEPTH . . . . . . . . . .  . . . ',1PG20.13/,
+     .    '    START TIME. . . . . . . . . . . . . . . . ',1PG20.13/,
+     .    '    STOP TIME . . . . . . . . . . . . . . . . ',1PG20.13/,
+     .    '    MAIN SURFACE REORDERING FLAG. . . . . . ',I1/,
+     .    '    FORMULATION FOR TANGENTIAL FORCE COMPUTATION',/,
+     .    '            (1: VISCOUS, 2: INCREMENTAL) . . .',I1/,
+     .    '    DEACTIVATION FLAG FOR RETRAINING FORCE REDUCING',I1/)
+ 1511 FORMAT(//
+     .    '    TYPE==8  DRAW-BEAD                       ' //,
+     .    '    RETRAINING DRAW-BEAD FORCE / UNIT LENGTH . ',/,
+     .    '                AT THE FIRST NODE. . . . . . . ',1PG20.13/,
+     .    '    RETRAINING DRAW-BEAD FORCE / UNIT LENGTH . ',/,
+     .    '                AT THE LAST NODE . . . . . . . ',1PG20.13/,
+     .    '    NORMAL DRAW-BEAD FORCE / UNIT LENGTH . . . ',/,
+     .    '                AT THE FIRST NODE. . . . . . . ',1PG20.13/,
+     .    '    NORMAL DRAW-BEAD FORCE / UNIT LENGTH . . . ',/,
+     .    '                AT THE LAST NODE . . . . . . . ',1PG20.13/,
      .    '    DRAW-BEAD DEPTH . . . . . . . . . .  . . . ',1PG20.13/,
      .    '    START TIME. . . . . . . . . . . . . . . . ',1PG20.13/,
      .    '    STOP TIME . . . . . . . . . . . . . . . . ',1PG20.13/,
