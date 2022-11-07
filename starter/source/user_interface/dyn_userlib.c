@@ -175,18 +175,18 @@ void _FCALL DYN_USERLIB_INIT (char * libname, int *size, int * userlib_avail, in
        /* first trial find Environment variable RAD_USERLIB_LIBPATH */
        dllpath_size=GetEnvironmentVariable("RAD_USERLIB_LIBPATH",dllpath,10240);
        if (dllpath_size > 0){
-         strcpy(dllname,dllpath);
-         strcat(dllname,"\\");
-         strcat(dllname,libn);
+         strcpy_s(dllname,15000,dllpath);
+         strcat_s(dllname,15000,"\\");
+         strcat_s(dllname,15000,libn);
          userlibhandler = LoadLibrary(TEXT(dllname));
        }
        
        if (!userlibhandler){
        /* second trial find Environment variable in local directory */
          dllpath_size=GetCurrentDirectory(10240,dllpath);
-         strcpy(dllname,dllpath);
-         strcat(dllname,"\\");
-         strcat(dllname,libn);     
+         strcpy_s(dllname,15000,dllpath);
+         strcat_s(dllname,15000,"\\");
+         strcat_s(dllname,15000,libn);     
        userlibhandler = LoadLibrary(TEXT(dllname));
        }
             
@@ -202,62 +202,62 @@ void _FCALL DYN_USERLIB_INIT (char * libname, int *size, int * userlib_avail, in
 
 /* Routine ST_LECG */
          sprintf(rname,"ST_LECG");
-         st_lecg=GetProcAddress(userlibhandler,rname);
+         st_lecg=(void*)GetProcAddress(userlibhandler,rname);
 	 if (!st_lecg) err=err+1;
 
 /* Routine ST_LECGUSER */
          sprintf(rname,"ST_LECGUSER");
-         st_lecguser=GetProcAddress(userlibhandler,rname);
+         st_lecguser=(void*)GetProcAddress(userlibhandler,rname);
 	 if (!st_lecguser) err=err+1;
 
 /* Routine ST_LECM */
          sprintf(rname,"ST_LECM");
-         st_lecm=GetProcAddress(userlibhandler,rname);
+         st_lecm=(void*)GetProcAddress(userlibhandler,rname);
 	 if (!st_lecm) err=err+1;
 
 /* Routine ST_LECR */
          sprintf(rname,"ST_LECR");
-         st_lecr=GetProcAddress(userlibhandler,rname);
+         st_lecr=(void*)GetProcAddress(userlibhandler,rname);
 	 if (!st_lecr) err=err+1;
 
 /* Routine ST_LECM99 */
          sprintf(rname,"ST_LECM99");
-         st_lecm99=GetProcAddress(userlibhandler,rname);
+         st_lecm99=(void*)GetProcAddress(userlibhandler,rname);
 	 if (!st_lecm99) err=err+1;
 
 /* Routine ST_LECSEN */
          sprintf(rname,"ST_LECSEN");
-         st_lecsen=GetProcAddress(userlibhandler,rname);
+         st_lecsen=(void*)GetProcAddress(userlibhandler,rname);
 	 if (!st_lecsen) err=err+1;
 
 /* Routine ST_RINIUSER */
          sprintf(rname,"ST_RINIUSER");
-         st_riniuser=GetProcAddress(userlibhandler,rname);
+         st_riniuser=(void*)GetProcAddress(userlibhandler,rname);
 	 if (!st_riniuser) err=err+1;
 
 /* Routine ST_SINIUSR */
          sprintf(rname,"ST_SINIUSR");
-         st_siniusr=GetProcAddress(userlibhandler,rname);
+         st_siniusr=(void*)GetProcAddress(userlibhandler,rname);
 	 if (!st_siniusr) err=err+1;
 
 /* Routine ST_USERWIS */
          sprintf(rname,"ST_USERWIS");
-         st_userwis=GetProcAddress(userlibhandler,rname);
+         st_userwis=(void*)GetProcAddress(userlibhandler,rname);
 	 if (!st_userwis) err=err+1;
 
 /* Routine ST_USERWIS_INI */
          sprintf(rname,"ST_USERWIS_INI");
-         st_userwis_ini=GetProcAddress(userlibhandler,rname);
+         st_userwis_ini=(void*)GetProcAddress(userlibhandler,rname);
 	 if (!st_userwis_ini) err=err+1;
 
 /* Routine ST_GET_USERBUF_VARIABLE */
          sprintf(rname,"ST_GET_USERBUF_VAR");
-         st_get_userbuf_variable=GetProcAddress(userlibhandler,rname);
+         st_get_userbuf_variable=(void*)GetProcAddress(userlibhandler,rname);
 	 if (!st_get_userbuf_variable) err=err+1;
 
 /* System - Library ID Version */
          sprintf(rname,"userlib_id");
-         userlib_id=GetProcAddress(userlibhandler,rname);
+         userlib_id=(void*)GetProcAddress(userlibhandler,rname);
 	 if(userlib_id) {
 	    userlib_id(userlib_ver);
 	    }else{
@@ -266,7 +266,7 @@ void _FCALL DYN_USERLIB_INIT (char * libname, int *size, int * userlib_avail, in
 
 /* System - Windows Callback Routine */
          sprintf(rname,"set_callback");
-         set_library_callback=GetProcAddress(userlibhandler,rname);
+         set_library_callback=(void*)GetProcAddress(userlibhandler,rname);
 	 if(set_library_callback) {
 	    dll_init_callback();
 	    }else{

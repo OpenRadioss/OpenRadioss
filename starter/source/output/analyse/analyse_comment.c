@@ -24,7 +24,7 @@
 #include <stdio.h> /* sprintf */
 
 #include "analyse_define.h" /* ANALYSE_SIZE_OF_LINE 
-			       ANALYSE_ERROR_TITLE ANALYSE_ERROR_DESCRIPTION ANALYSE_CHECK_GROUP ANALYSE_CHECK */
+                               ANALYSE_ERROR_TITLE ANALYSE_ERROR_DESCRIPTION ANALYSE_CHECK_GROUP ANALYSE_CHECK */
 
 #include "analyse.h" /* analyse_get_datas */
 
@@ -153,6 +153,7 @@ char *analyse_fill_description(int object_type, char *description)
  
   char line[ANALYSE_SIZE_OF_LINE];
 
+  int final_description_length;
   line[0]='\0';
 
   analyse_get_datas(object_type, &nb_int, &tab_int, &nb_float, &tab_float);
@@ -162,6 +163,7 @@ char *analyse_fill_description(int object_type, char *description)
   /* Cls41k14 length = length + nb_int*6 + nb_float*10 + 1; */
   length = length + nb_int*4*((int)sizeof(int)) + nb_float*4*((int)sizeof(float)) + 1;
 
+  final_description_length=length;
   final_description = (char *)analyse_malloc(length*sizeof(char));
 
   scan_in_description = description;
@@ -215,7 +217,11 @@ char *analyse_fill_description(int object_type, char *description)
 	    }
 
 	  length = strlen(line);
-	  strcat(final_description, line);
+      #ifdef _WIN64
+      strcat_s(final_description,final_description_length, line);
+      #else
+      strcat(final_description, line);
+      #endif
 	  line[0]='\0';
 
 	  scan_out_description = scan_out_description + length;
