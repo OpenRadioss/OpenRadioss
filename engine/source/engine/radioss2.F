@@ -512,6 +512,9 @@ C------------------------------------------------------------------
       IUTITLHI(7)=116
       IUTITLHI(8)=117
       IUTITLHI(9)=118
+      USE_IFXM = 0
+      USE_IFXS = 0
+      USE_IEIGM = 0
 C--------------------------------------------------
 C Initialize ProcessID variable for scratch filesqq
       CALL MY_GETPID(MY_PID)

@@ -1462,6 +1462,8 @@ C Lecture des fichiers de modes et de contraintes
 
       OPEN(UNIT=IFXM,FILE=TRIM(IFXM_FN),ACCESS='DIRECT',RECL=RCLEN)
       OPEN(UNIT=IFXS,FILE=TRIM(IFXS_FN),ACCESS='DIRECT',RECL=RCLEN)
+      USE_IFXM = 1
+      USE_IFXS = 1
       NRECM=0
       NRECS=0
       DO I=1,NFXBODY
@@ -1559,7 +1561,8 @@ C Lecture du fichier de modes additionnels
       IEIGM_FN='27_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
       LEN_IEIGM_FN=LEN_TRIM(IEIGM_FN)
       OPEN(UNIT=IEIGM,FILE=TRIM(IEIGM_FN),ACCESS='DIRECT',RECL=RCLEN)
-
+      USE_IEIGM = 1
+      
       NRECM=0
       DO I=1,NEIG
          NBN=EIGIPM(10,I)

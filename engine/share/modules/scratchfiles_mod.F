@@ -36,6 +36,7 @@ Chd|====================================================================
 
       CHARACTER(LEN=256) :: IINFNA,IUSC4_FNAM,IUSC2_FNAM,
      *                      IFXS_FN,IFXM_FN,IEIGM_FN
+      INTEGER USE_IFXM, USE_IFXS,USE_IEIGM
       INTEGER LEN_IINFNA,LEN_IUSC4_FNAM,LEN_IFXS_FN,LEN_IFXM_FN,
      *        LEN_IEIGM_FN
 

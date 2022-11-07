@@ -111,11 +111,6 @@ C -----------------------------------------
          CALL WRITE_DB(VV,LREC)
       ENDDO
 C
-      ClOSE(UNIT=IFXM)
-      CLOSE(UNIT=IFXS)
-      CALL DELETE_USER_FILE(IFXS_FN,LEN_IFXS_FN)
-      CALL DELETE_USER_FILE(IFXM_FN,LEN_IFXM_FN)
-
       RETURN
       END
 Chd|====================================================================
@@ -192,8 +187,6 @@ C
          READ(IEIGM,REC=IRCM) (VV(J),J=1,LREC)
          CALL WRITE_DB(VV,LREC)
       ENDDO
-      CLOSE(IEIGM)
-      CALL DELETE_USER_FILE(IEIGM_FN,LEN_IEIGM_FN)
 C
       RETURN
       END

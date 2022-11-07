@@ -592,6 +592,25 @@ C -----------------------------------------------
         CALL MDS_ENGINE_USER_FINALIZE( ISPMD_USER )
       ENDIF
 #endif
+
+      ! ------------------------------------------
+      ! Delete Temp. scratchfiles before exiting.
+      ! ------------------------------------------
+      IF(USE_IFXM == 1)THEN
+        ClOSE(UNIT=IFXM)
+        CALL DELETE_USER_FILE(IFXM_FN,LEN_IFXM_FN)
+      ENDIF
+      
+      IF(USE_IFXS == 1)THEN
+        CLOSE(UNIT=IFXS)
+        CALL DELETE_USER_FILE(IFXS_FN,LEN_IFXS_FN)
+      ENDIF
+      
+      IF (USE_IEIGM==1)THEN
+        CLOSE(IEIGM)
+        CALL DELETE_USER_FILE(IEIGM_FN,LEN_IEIGM_FN)
+      ENDIF
+
 C -----------------------------------------------
       IF (ISPMD == 0) THEN
        CALL QACLOSE()
