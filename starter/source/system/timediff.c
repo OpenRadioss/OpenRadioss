@@ -25,6 +25,12 @@
 #include <time.h>
 #define _FCALL
 
+#ifdef _WIN64
+    #include <memory.h>
+#else
+    #include <string.h>
+#endif
+
 void strptime_impl(char* date, struct tm *tm);
 /* ------------------------------------------------------------
    time_difference : get the difference between 2 dates in UTC
