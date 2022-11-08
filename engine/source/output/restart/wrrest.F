@@ -26,7 +26,6 @@ Chd|  FXBWREST                      source/output/restart/wrrest.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        DELETE_USER_FILE              source/user_interface/dyn_userlib.c
 Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        FXB_MOD                       share/modules/fxb_mod.F       
@@ -117,7 +116,6 @@ Chd|====================================================================
 Chd|  EIGWREST                      source/output/restart/wrrest.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        DELETE_USER_FILE              source/user_interface/dyn_userlib.c
 Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
