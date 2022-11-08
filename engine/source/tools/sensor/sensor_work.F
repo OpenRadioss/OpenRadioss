@@ -82,6 +82,9 @@ c
       RBOD_ID = SENSOR%IPARAM(7) 
 
       WMAX    = SENSOR%RPARAM(1)
+      FX      = ZERO
+      FY      = ZERO
+      FZ      = ZERO
       ICRIT   = 0
 c
       IF (NSPMD == 1) THEN

@@ -42,9 +42,8 @@ Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MONVOL_TYPE3(T_MONVOLN, IPM, IGEO, ITABM1, 
-     .     NPT, PLD,
-     .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG,
-     .     LSUBMODEL)
+     .     NPT, PLD,UNITAB, LUID, NPC, IGRSURF, 
+     .     ITAB, X, PM, GEO, IXC, IXTG, LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
