@@ -458,11 +458,9 @@ C---------
      .                          C3='/INIBRI/AUX')
                   ENDIF
 !
-                  CALL HM_GET_INT_ARRAY_INDEX('num_lines',NUM_LINES,J,IS_AVAILABLE,LSUBMODEL)
-!
-                  NMAX_AUX = NUM_LINES*NUVAR
+                  NMAX_AUX = NPT*NUVAR
                   CALL HM_GET_FLOAT_ARRAY('V',TMPVAL,NMAX_AUX,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
-                  DO JJ=1,NUM_LINES
+                  DO JJ=1,NPT
                     IIS = NVSOLID1 + NVSOLID2 + 4 + NUVAR*(JJ - 1)
                     DO K=1,NUVAR
                       L = NUVAR*(JJ-1) + K
