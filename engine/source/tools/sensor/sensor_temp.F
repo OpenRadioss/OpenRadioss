@@ -63,7 +63,7 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER :: I,IGN,ICRIT,INOD,NNOD,TFLAG
+      INTEGER :: I,IGN,ICRIT,TFLAG
       my_real :: TDELAY,TMIN,TEMP_MAX,TEMP_MIN,TEMP_AVG,INFINITY
       PARAMETER (INFINITY = 1.0E20)
 c----------------------------------------------------------
@@ -80,7 +80,6 @@ C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
 c
       IF (TT == ZERO) SENSOR%VAR(2) = EP20   ! initialize Temp min
-      NNOD     = IGRNOD(IGN)%NENTITY
       TDELAY   = SENSOR%TDELAY
       TMIN     = SENSOR%TMIN
       IGN      = SENSOR%IPARAM(1)

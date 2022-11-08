@@ -71,13 +71,12 @@ c
       TMIN   = ZERO
       ICRIT  = 0
 c      
-      IF (FREQ == 0) THEN
-        VX = V(1,NODE)
-        VY = V(2,NODE)
-        VZ = V(3,NODE)
-        VV = SQRT(VX*VX+VY*VY+VZ*VZ)
+      VX = V(1,NODE)
+      VY = V(2,NODE)
+      VZ = V(3,NODE)
+      VV = SQRT(VX*VX+VY*VY+VZ*VZ)
 c
-      ELSE IF (FREQ > 0) THEN   ! filtering (Butterworth) 
+      IF (FREQ > 0) THEN   ! filtering (Butterworth) 
         VVX = SENSOR%VAR(1)
         VVY = SENSOR%VAR(2)
         FVX = SENSOR%VAR(3)
