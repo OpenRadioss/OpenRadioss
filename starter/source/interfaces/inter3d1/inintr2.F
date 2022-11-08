@@ -51,7 +51,7 @@ Chd|====================================================================
      .                   MWA     ,IKINE  ,I2NSNT  ,IN    ,
      .                   STIFN   ,STIFINT,NOM_OPT,INOD_PXFEM,MS_PLY,
      .                   INTBUF_TAB,STIFINTR,ITAGND,ICNDS10,MS_B,IN_B,
-     .                   NSTRF   ,ITAGCYC)
+     .                   NSTRF   ,ITAGCYC,IRBE2  ,IRBE3  ,LRBE3 )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -71,9 +71,13 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "scr17_c.inc"
 #include      "warn_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER , DIMENSION(NRBE2L,NRBE2), INTENT(IN) :: IRBE2
+      INTEGER , DIMENSION(NRBE3L,NRBE3), INTENT(IN) :: IRBE3
+      INTEGER , DIMENSION(SLRBE3), INTENT(IN) :: LRBE3
       INTEGER IPARI(NPARI,*), IXS(*), IXQ(*),
      .    IXC(*), INTC(*), ITAB(*), NPBY(*), LPBY(*), MWA(*),
      .    IKINE(*), I2NSNT,INOD_PXFEM(*),ITAGND(*),ICNDS10(3,*),
@@ -170,7 +174,9 @@ C
 C
 C     SWITCH INTERF 2 AVEC CONDITION CINEMATIQUE => METHODE PENALITE
 C
-      CALL ITAGSL2(IPARI,NOM_OPT,ITAB,IKINE,INTBUF_TAB,ITAGND,ICNDS10,NSTRF,ITAGCYC)
+      CALL ITAGSL2(IPARI ,NOM_OPT,ITAB  ,IKINE  ,INTBUF_TAB,
+     .                   ITAGND,ICNDS10,NSTRF ,ITAGCYC,IRBE2     ,
+     .                   IRBE3 ,LRBE3  )
 C
 C LIMITATION RIGIDITE ANCRAGE
 C

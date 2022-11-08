@@ -32,7 +32,9 @@ Chd|        INTAB                         source/interfaces/inter3d1/i24tools.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE ITAGSL2(IPARI,NOM_OPT,ITAB,IKINE,INTBUF_TAB,ITAGND,ICNDS10,NSTRF,ITAGCYC)
+      SUBROUTINE ITAGSL2(IPARI ,NOM_OPT,ITAB  ,IKINE  ,INTBUF_TAB,
+     .                   ITAGND,ICNDS10,NSTRF ,ITAGCYC,IRBE2     ,
+     .                   IRBE3 ,LRBE3  )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -51,11 +53,15 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "warn_c.inc"
 #include      "kincod_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER),ITAB(*),IKINE(*),ITAGND(*),ICNDS10(3,*)
       INTEGER NOM_OPT(LNOPT1,*),NSTRF(*),ITAGCYC(*)
+      INTEGER , DIMENSION(NRBE2L,NRBE2), INTENT(IN) :: IRBE2
+      INTEGER , DIMENSION(NRBE3L,NRBE3), INTENT(IN) :: IRBE3
+      INTEGER , DIMENSION(SLRBE3), INTENT(IN) :: LRBE3
       TYPE(INTBUF_STRUCT_), DIMENSION(NINTER) :: INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -64,7 +70,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: PENTAG,TAGNOS,ITAGMD
       INTEGER, DIMENSION(:), ALLOCATABLE :: IKINE1
       CHARACTER*nchartitle, TITR
-      INTEGER II,N1,N2
+      INTEGER II,N1,N2,IAD,M
       LOGICAL IS1,IS2
 C-----------------------------------------------
 C   External function
@@ -194,6 +200,24 @@ C----         <0 tag n1,n2 S w/o penality of int2
         END IF
        END DO
       END IF !(NS10E>0) THEN
+C----------------------------------------------------------
+C - not-autorised hierarchy :RBE3/INT2
+C----------------------------------------------------------
+      DO I=1,NRBE3
+        IAD = IRBE3(1,I)
+        NMN = IRBE3(5,I)
+        DO J =1,NMN
+          M = LRBE3(IAD+J)
+          IF (PENTAG(M)==0) PENTAG(M)=1
+        END DO
+      END DO
+C----------------------------------------------------------
+C - not-autorised hierarchy :RBE2/INT2
+C----------------------------------------------------------
+      DO I=1,NRBE2
+        M = IRBE2(3,I)
+        IF (PENTAG(M)==0) PENTAG(M)=1
+      END DO
 C
       DO N=1,NINTER
         NTY  = IPARI(7,N)
@@ -210,6 +234,7 @@ c          ID=NOM_OPT(1,NINT)
             IF (PENTAG(ISL) == 1) THEN
 C             penalty node - set penalty flag
               INTBUF_TAB(N)%IRUPT(I) = 1
+              ITF(IKINE(ISL)) = 0
               CALL ANCMSG(MSGID=1179,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_1,
