@@ -102,7 +102,6 @@ C--
               END IF      	       	      	      
             END DO	    
           END IF      	       	      	      
-          DT0=MIN(DT0,DTN)
           DAMPAI = MAX(DAMPR(3,I),DAMPR(5,I),DAMPR(7,I))
           DAMPAI = MAX(DAMPAI,DAMPR(9,I),DAMPR(11,I),DAMPR(13,I))
           DAMPBI = MAX(DAMPR(4,I),DAMPR(6,I),DAMPR(8,I))
@@ -154,7 +153,6 @@ C----------global damping
             END DO	    
           END IF      	       	      	      
           DTN = SQRT(DTN2)
-          DT0=MIN(DT0,DTN)
 C------- still factor HALF* in Abaqus          
           ALPHA05 = HALF*(DAMPA+DAMPA3)
           BETA1 = MIN(DAMPB,DT0)
