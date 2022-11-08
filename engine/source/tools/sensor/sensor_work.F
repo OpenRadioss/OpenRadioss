@@ -212,10 +212,13 @@ c-----------------------------------------------------------------------
 #include "lockon.inc"
         WRITE (ISTDO,1100) SENSOR%SENS_ID,SENSOR%TSTART
         WRITE (IOUT ,1100) SENSOR%SENS_ID,SENSOR%TSTART
+        WRITE (IOUT ,1200) WMAX,WORK
 #include "lockoff.inc"
       ENDIF
 c-----------------------------------------------------------------------      
-1100  FORMAT(' SENSOR NUMBER ',I10,' ,ACTIVATED AT TIME ',1PE12.5)
+1100  FORMAT(' SENSOR WORK NUMBER ',I10,' ,ACTIVATED AT TIME ',1PE12.5)
+1200  FORMAT('      TARGET WORK = ',1PE12.5,/
+     .       '      CURRENT WORK AFTER TMIN AND TDELAY = ',1PE12.5)
 c-----------------------------------------------------------------------      
       RETURN
       END SUBROUTINE

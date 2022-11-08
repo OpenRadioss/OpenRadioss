@@ -67,7 +67,7 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER :: I,J,IPART,ISUBS,NBR_GROUP,NP,INDX,ITSK,IFLAG,
+      INTEGER :: I,J,IPART,ISUBS,NBR_GROUP,NP,INDX,ITSK,IFLAG,ICONST,
      .           NI,NK,ICRIT,ICRIT1,ICRIT2
       my_real :: TMIN,TDELAY,TSTART,TSTOPS,IEMIN,TCRIT,
      .   EINT,EKIN,IEMAX,KEMIN,KEMAX,IETOL,IETIME,KETOL,KETIME,
@@ -91,7 +91,7 @@ C=======================================================================
 c
       IPART  = SENSOR%IPARAM(1)    ! LSENS1(4)
       ISUBS  = SENSOR%IPARAM(2)    ! LSENS1(5)
-      IFLAG  = SENSOR%IPARAM(3)
+      ICONST = SENSOR%IPARAM(3)
 c      
       TDELAY = SENSOR%TDELAY
       TMIN   = SENSOR%TMIN
@@ -111,6 +111,7 @@ c
       ICRIT  = 0
       ICRIT1 = 0
       ICRIT2 = 0
+      IFLAG  = 0
 c---------------------------------------------------------
 c     PARITH ON
 c---------------------------------------------------------
@@ -160,10 +161,20 @@ c---------------------------------------------------------
 c---------------------------------------------------------
 c     TEST of principal criterion (Emax, Emin)
 c---------------------------------------------------------
-      IF (EINT < IEMIN .OR. EINT > IEMAX .OR.
-     .    EKIN < KEMIN .OR. EKIN > KEMAX) THEN
+      IF (EINT < IEMIN) THEN
+        ICRIT = 1
+        IFLAG = 1               
+      ELSE IF (EINT > IEMAX) THEN
         ICRIT = 1                   
+        IFLAG = 2               
+      ELSE IF (EKIN < KEMIN) THEN
+        ICRIT = 1                   
+        IFLAG = 3               
+      ELSE IF (EKIN > KEMAX) THEN
+        ICRIT = 1                   
+        IFLAG = 4               
       ENDIF
+c      
       IF (SENSOR%TCRIT + TMIN > TT) THEN
         IF (ICRIT == 0) THEN
           SENSOR%TCRIT = INFINITY
@@ -179,15 +190,23 @@ c---------------------------------------------------------
 c
       IF (SENSOR%STATUS == 1 .and. ISPMD == 0) THEN
 #include "lockon.inc"
-          WRITE (ISTDO,1100 ) SENSOR%SENS_ID,SENSOR%TSTART
-          WRITE (IOUT ,1100 ) SENSOR%SENS_ID,SENSOR%TSTART
-          WRITE (IOUT ,1200 ) EINT,EKIN
+        WRITE (ISTDO,1000 ) SENSOR%SENS_ID,SENSOR%TSTART
+        WRITE (IOUT ,1000 ) SENSOR%SENS_ID,SENSOR%TSTART
+        IF (IFLAG == 1) THEN
+          WRITE (IOUT ,1100) IEMIN,EINT
+        ELSE IF (IFLAG == 2) THEN
+          WRITE (IOUT ,1200) IEMAX,EINT
+        ELSE IF (IFLAG == 3) THEN
+          WRITE (IOUT ,1300) KEMIN,EKIN
+        ELSE IF (IFLAG == 4) THEN
+          WRITE (IOUT ,1400) KEMAX,EKIN
+        END IF
 #include "lockoff.inc"
       END IF
 c---------------------------------------------------------
 c     TEST of constant internal energy criterion
 c---------------------------------------------------------
-      IF (IFLAG == 1) THEN
+      IF (ICONST == 1) THEN
         FAC_EI = INFINITY
         FAC_EK = INFINITY
         IF (TT == ZERO) THEN
@@ -236,9 +255,9 @@ c
 
           IF (SENSOR%VAR(2) <= TT .and. ISPMD == 0) THEN
 #include   "lockon.inc"
-                WRITE (ISTDO,1100 ) SENSOR%SENS_ID,TT
-                WRITE (IOUT ,1100 ) SENSOR%SENS_ID,TT
-                WRITE (IOUT ,1400)  EINT,EMA_INT,SQRT(EVAR_INT)
+            WRITE (ISTDO,1000 ) SENSOR%SENS_ID,TT
+            WRITE (IOUT ,1000 ) SENSOR%SENS_ID,TT
+            WRITE (IOUT ,2100)  EINT,EMA_INT,SQRT(EVAR_INT)
 #include   "lockoff.inc"
           END IF
         ENDIF
@@ -280,19 +299,26 @@ c
 c
           IF (SENSOR%VAR(4) <= TT .and. ISPMD == 0) THEN
 #include   "lockon.inc"
-                WRITE (ISTDO,1100 ) SENSOR%SENS_ID,TT
-                WRITE (IOUT ,1100 ) SENSOR%SENS_ID,TT
-                WRITE (IOUT ,1500)  EKIN,EMA_KIN,SQRT(EVAR_KIN)
+            WRITE (ISTDO,1000 ) SENSOR%SENS_ID,TT
+            WRITE (IOUT ,1000 ) SENSOR%SENS_ID,TT
+            WRITE (IOUT ,2200)  EKIN,EMA_KIN,SQRT(EVAR_KIN)
 #include   "lockoff.inc"
           END IF
         ENDIF
 c
       END IF  ! constant energy option
 c-----------------------------------------------------------------------      
-1100  FORMAT(' ENERGY SENSOR NUMBER ',I10,' ACTIVATED AT TIME ',1PE12.5)
-1200  FORMAT('      INT ENERGY = ',1PE12.5,'  KIN ENERGY = ',1PE12.5)
-1400  FORMAT('      INT ENERGY = ',1PE12.5,'  ,MEAN  = ',1PE12.5,'  ,STDEV  = ',1PE12.5)           
-1500  FORMAT('      KIN ENERGY = ',1PE12.5,'  ,MEAN  = ',1PE12.5,'  ,STDEV  = ',1PE12.5)           
+1000  FORMAT(' ENERGY SENSOR NUMBER ',I10,' ACTIVATED AT TIME ',1PE12.5)
+1100  FORMAT('      TARGET MIN INTERNAL ENERGY = ',1PE12.5,/
+     .       '      CURRENT INTERNAL ENERGY AFTER TMIN and TDELAY = ',1PE12.5)
+1200  FORMAT('      TARGET MAX INTERNAL ENERGY = ',1PE12.5,/
+     .       '      CURRENT INTERNAL ENERGY AFTER TMIN and TDELAY = ',1PE12.5)
+1300  FORMAT('      TARGET MIN KINETIC ENERGY = ',1PE12.5,/
+     .       '      CURRENT INTERNAL ENERGY AFTER TMIN and TDELAY = ',1PE12.5)
+1400  FORMAT('      TARGET MAX KINETIC ENERGY = ',1PE12.5,/
+     .       '      CURRENT INTERNAL ENERGY AFTER TMIN and TDELAY = ',1PE12.5)
+2100  FORMAT('      CONSTANT INT ENERGY = ',1PE12.5,', MEAN = ',1PE12.5,' ,STDEV = ',1PE12.5)           
+2200  FORMAT('      CONSTANT KIN ENERGY = ',1PE12.5,', MEAN = ',1PE12.5,' ,STDEV = ',1PE12.5)           
 c----------------------------------------------------------
       RETURN
       END SUBROUTINE SENSOR_ENERGY
