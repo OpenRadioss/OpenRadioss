@@ -9847,7 +9847,8 @@ C
      .               INSCR   ,ITAB    ,MS      ,NPBY    ,LPBY    ,
      .               MWA     ,D       ,I2NSNT  ,IN      ,
      .               STIFFN,STIFINT ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),INOD_PXFEM ,MS_PLY,
-     .               INTBUF_TAB,STIFINTR,ITAGND,ICNDS10,MS_B,IN_B,NSTRF,ITAGCYC)
+     .               INTBUF_TAB,STIFINTR,ITAGND,ICNDS10,MS_B,IN_B,NSTRF,ITAGCYC,
+     .               IRBE2   ,IRBE3  ,LRBE3  )
       ENDIF
       CALL TRACE_OUT1()
 C---------------------------------------------
