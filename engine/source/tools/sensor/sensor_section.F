@@ -59,7 +59,7 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER I,SECT_ID,IDIR,ICRIT,ISECT,IAD
+      INTEGER I,SECT_ID,IDIR,ICRIT,ISECT,IAD,IFLAG
 c
       my_real :: FMIN,FMAX,FX,FY,FZ,FF,TMIN,TDELAY,INFINITY
       PARAMETER (INFINITY = 1.0E20)
@@ -74,6 +74,7 @@ c
       FMIN    = SENSOR%RPARAM(1)
       FMAX    = SENSOR%RPARAM(2)
       ICRIT   = 0
+      IFLAG   = 0
 c
       IAD   = NINTER + NRWALL + NRBODY + SECT_ID        
       ISECT = TABS(SECT_ID+1) - TABS(SECT_ID)
@@ -193,7 +194,13 @@ c
         ENDIF 
 c
         IF (IDIR < 5) FF = SQRT(FX*FX + FY*FY + FZ*FZ)  
-        IF (FF < FMIN .OR. FF > FMAX) ICRIT = 1	
+        IF (FF < FMIN) THEN
+          ICRIT = 1
+          IFLAG = 1
+        ELSE IF (FF > FMAX) THEN
+          ICRIT = 1
+          IFLAG = 2
+        END IF
 c----------------------------------------------------------------
 c     check activation status
 c----------------------------------------------------------------
@@ -215,10 +222,19 @@ c-----------------------------------------------------------------------
 #include "lockon.inc"
         WRITE (ISTDO,1100) SENSOR%SENS_ID,SENSOR%TSTART
         WRITE (IOUT ,1100) SENSOR%SENS_ID,SENSOR%TSTART
+        IF (IFLAG == 1) THEN
+          WRITE (IOUT ,1300) FMIN,FF
+        ELSE IF (IFLAG == 2) THEN
+          WRITE (IOUT ,1400) FMAX,FF
+        END IF
 #include "lockoff.inc"
       ENDIF
 c-----------------------------------------------------------------------      
-1100  FORMAT(' SENSOR NUMBER ',I10,' ,ACTIVATED AT TIME ',1PE12.5)
+1100  FORMAT(' SECTION SENSOR NUMBER ',I10,' ,ACTIVATED AT TIME ',1PE12.5)
+1300  FORMAT('      TARGET MIN FORCE = ',1PE12.5,/
+     .       '      CURRENT FORCE AFTER TMIN and TDELAY = ',1PE12.5)
+1400  FORMAT('      TARGET MAX FORCE = ',1PE12.5,/
+     .       '      CURRENT FORCE AFTER TMIN and TDELAY = ',1PE12.5)
 c-----------------------------------------------------------------------      
       RETURN
       END SUBROUTINE

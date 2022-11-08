@@ -148,9 +148,9 @@ c
           WRITE (ISTDO,1100) SENSOR%SENS_ID,SENSOR%TSTART
           WRITE (IOUT ,1100) SENSOR%SENS_ID,SENSOR%TSTART
           IF (IFLAG == 1) THEN
-            WRITE (IOUT ,1200) FMIN,FF
+            WRITE (IOUT ,1300) FMIN,FF
           ELSE IF (IFLAG == 2) THEN
-            WRITE (IOUT ,1300) FMAX,FF
+            WRITE (IOUT ,1400) FMAX,FF
           END IF
 #include "lockoff.inc"
         ENDIF

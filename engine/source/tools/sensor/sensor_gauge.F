@@ -72,34 +72,37 @@ c
         PMIN   = SENSOR%RPARAM(J+1)
         TMIN   = SENSOR%RPARAM(J+2)
         TSTART = SENSOR%RPARAM(J+3)
-        IF (ABS(GAUGE(30,IGAU)) > PMIN) ICRIT = 1
+        IF (ABS(GAUGE(30,IGAU)) > PMIN) ICRIT  = 1
 c----------------------------------------------------------------
-c     check activation status
+c       check activation status
 c----------------------------------------------------------------
-      IF (SENSOR%TCRIT + TMIN > TT) THEN
-        IF (ICRIT == 0) THEN
-          SENSOR%TCRIT = INFINITY
-        ELSE IF (SENSOR%TCRIT == INFINITY) THEN
-          SENSOR%TCRIT = MIN(SENSOR%TCRIT, TT)
+        IF (SENSOR%TCRIT + TMIN > TT) THEN
+          IF (ICRIT == 0) THEN
+            SENSOR%TCRIT = INFINITY
+          ELSE IF (SENSOR%TCRIT == INFINITY) THEN
+            SENSOR%TCRIT = MIN(SENSOR%TCRIT, TT)
+          END IF
+        ELSE IF (SENSOR%RPARAM(J+3) == INFINITY) THEN
+          SENSOR%RPARAM(J+3) = SENSOR%TCRIT + TMIN + TDELAY
         END IF
-      ELSE IF (SENSOR%RPARAM(J+3) == INFINITY) THEN
-        SENSOR%RPARAM(J+3) = SENSOR%TCRIT + TMIN + TDELAY
-      END IF
-      IF (SENSOR%RPARAM(J+3) <= TT) THEN   ! sensor activation
-        SENSOR%STATUS = 1
-        SENSOR%TSTART = SENSOR%RPARAM(J+3)
-      END IF
+        IF (SENSOR%RPARAM(J+3) <= TT) THEN   ! sensor activation
+          SENSOR%STATUS = 1
+          SENSOR%TSTART = SENSOR%RPARAM(J+3)
+        END IF
 c  
         IF (SENSOR%STATUS == 1 .and. ISPMD == 0) THEN
 #include "lockon.inc"
           WRITE (ISTDO,1100) SENSOR%SENS_ID,SENSOR%TSTART
           WRITE (IOUT ,1100) SENSOR%SENS_ID,SENSOR%TSTART
+          WRITE (IOUT ,1200) PMIN,ABS(GAUGE(30,IGAU))
 #include "lockoff.inc"
         ENDIF
         J = J + 3
       END DO
 c-----------------------------------------------------------------------      
 1100  FORMAT(' SENSOR NUMBER ',I10,' ,ACTIVATED AT TIME ',1PE12.5)
+1200  FORMAT('      TARGET PRESSURE = ',1PE12.5,/
+     .       '      CURRENT PRESSURE AFTER TMIN AND TDELAY = ',1PE12.5)
 c-----------------------------------------------------------------------      
       RETURN
       END SUBROUTINE
