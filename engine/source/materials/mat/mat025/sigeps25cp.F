@@ -147,7 +147,7 @@ C=======================================================================
      6                 G23    ,G31    ,DE     ,EPSPL  ,ISRATE ,YLD    ,
      7                 DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX ,SIGOXX ,
      8                 SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,SIGNXX ,SIGNYY ,
-     9                 SIGNXY ,SIGNYZ ,SIGNZX )
+     9                 SIGNXY ,SIGNYZ ,SIGNZX ,TSAIWU )
 !
         DO I=JFT,JLT
           WPLAR(I) = MAX(WPLAR(I),WWPLA(I))
