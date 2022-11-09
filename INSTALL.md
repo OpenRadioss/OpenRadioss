@@ -18,8 +18,9 @@ Set the following environment variables:
 
         export OPENRADIOSS_PATH=[Path to OpenRadioss root directory]
         export RAD_CFG_PATH=$OPENRADIOSS_PATH/hm_cfg_files
+        export RAD_H3D_PATH=$OPENRADIOSS_PATH/extlib/h3d/lib/linux64
         export OMP_STACKSIZE=400m
-        export LD_LIBRARY_PATH=$OPENRADIOSS_PATH/extlib/hm_reader/linux64/:$OPENRADIOSS_PATH/extlib/h3d/lib/linux64/:$LD_LIBRARY_PATH
+        export LD_LIBRARY_PATH=$OPENRADIOSS_PATH/extlib/hm_reader/linux64/:$LD_LIBRARY_PATH
 
 ### Environment variables settings under Windows cmd shell
 
@@ -27,26 +28,51 @@ Set the following environment variables:
 
         set OPENRADIOSS_PATH=[Path to OpenRadioss root directory / Windows Style]
         set RAD_CFG_PATH=%OPENRADIOSS_PATH%\hm_cfg_files
+        set RAD_H3D_PATH=%OPENRADIOSS_PATH%\extlib\h3d\lib\win64
         set KMP_STACKSIZE=400m
-        set PATH=%OPENRADIOSS_PATH%\extlib\hm_reader\win64;%OPENRADIOSS_PATH%\extlib\h3d\lib\win64;%PATH% 
+        set PATH=%OPENRADIOSS_PATH%\extlib\hm_reader\win64;%PATH% 
 
+* If OpenRadioss was downloaded from GitHub Releases, add Intel Runtime libraries shipped in the Package to PATH:
+
+        set PATH=%OPENRADIOSS_PATH%\extlib\intelOneAPI_runtime\win64;%PATH%
+
+*  If OpenRadioss was build from the Source code, use the Intel Runtime from the used compiler. 
+   The IntelOneAPI compiler installed and used for building the binaries could be more recent than the one used for building the Releases.
+   In this case the Runtimes may not be not compatible.
+
+   In a typical installation, OneAPI variables are load with following command : 
+
+        call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
 
 ### Environment variables settings under Windows cygwin shell
+
+* If OpenRadioss was build from Source code, load the Intel OneAPI variables prior to launch cygwin. This will load the appropriate 
+  Runtime libraries.
+
+        call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
+        chdir C:\cygwin64\bin
+        bash --login -i
+
+* If OpenRadioss was downloaded from GitHub Releases, 
+  Add the runtime libraries to PATH in Cygwin.
+
+        export PATH=$OPENRADIOSS_PATH/extlib/intelOneAPI_runtime/win64:$PATH
 
 Cygwin is translating PATH variable into DOS path to execute OpenRadioss, but not other variables.
 To be understand by OpenRadioss, some variables need specific syntax understood by cygwin & DOS.
 
         export OPENRADIOSS_PATH=[Path to OpenRadioss root directory / Cygwin Style]
         export RAD_CFG_PATH=[Path to OpenRadioss root directory / mixed DOS/Cygwin Style]/hm_cfg_files
+        export RAD_H3D_PATH=[Path to OpenRadioss root directory / mixed DOS/Cygwin Style]/extlib/h3d/lib/win64
         export KMP_STACKSIZE=400m
-        export PATH=$OPENRADIOSS_PATH/extlib/hm_reader/win64:$OPENRADIOSS_PATH/extlib/h3d/lib/win64;$PATH
+        export PATH=$OPENRADIOSS_PATH/extlib/hm_reader/win64:$OPENRADIOSS_PATH/extlib/h3d/lib/win64:$PATH
 
 Example : If OpenRadioss is placed in C:\OpenRadioss
 
         export OPENRADIOSS_PATH=/cygdrive/c/OpenRadioss
         export RAD_CFG_PATH=c:/OpenRadioss/hm_cfg_files
         export KMP_STACKSIZE=400m
-        export PATH=$OPENRADIOSS_PATH/extlib/hm_reader/win64:$OPENRADIOSS_PATH/extlib/h3d/lib/win64;$PATH
+        export PATH=$OPENRADIOSS_PATH/extlib/hm_reader/win64:$OPENRADIOSS_PATH/extlib/h3d/lib/win64:$PATH
 
 
 
