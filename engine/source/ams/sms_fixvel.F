@@ -114,8 +114,8 @@ C
             I=IABS(IBFV(1,N))
 C
             IF(NODNX_SMS(I)==0) CYCLE
-            ISENS=IBFV(4,N)
-            IF (SENSOR_TAB(ISENS)%STATUS == 1) THEN
+            ISENS = IBFV(4,N)
+            IF (ISENS > 0) THEN
               TS = TT-SENSOR_TAB(ISENS)%TSTART
               IF (TS < ZERO) CYCLE
             ELSE
