@@ -36,7 +36,7 @@ Chd|====================================================================
      4                    TX        ,TY   ,TZ   ,GAMA ,VNEW ,SSP , 
      5                    VOL       ,EPSP ,WPLA ,DAMT ,CRAK ,EPST, 
      6                    DEFP      ,SIGY ,SIGL ,NGL  ,ILAY ,FLAY,
-     7                    SEQ_OUTPUT,NEL  ,IPM  ,IPG  )
+     7                    SEQ_OUTPUT,NEL  ,IPM  ,IPG  ,TSAIWU)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +71,8 @@ C     REAL
      .   D1(*), D2(*), D3(*), D4(*),
      .   D5(*), D6(*),
      .   S01(*),S02(*),S03(*),S04(*),S05(*),s06(*),
-     .   VOl(*),VNEW(*),SSP(*),EPST(NEL,6),SIGL(MVSIZ,6),FLAY(*)
+     .   VOl(*),VNEW(*),SSP(*),EPST(NEL,6),SIGL(MVSIZ,6),FLAY(*),
+     .   TSAIWU(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -175,7 +176,7 @@ C-----------------------
      3             EP1  ,EP2  ,EP3 ,EP4  , EP5 ,EP6,
      4             EPST ,DAMT ,CRAK ,NFIS1  ,NFIS2    ,NFIS3,
      5             WPLAR    ,EPSP, WPLA, SIGL, ILAY,FLAY,
-     6             SEQ_OUTPUT,NEL, IPG )
+     6             SEQ_OUTPUT,NEL, IPG ,TSAIWU)
 C      
         IF(ISORTH > 0 .AND. JCVT == 0) THEN
          CALL MROTENS(LFT,LLT,

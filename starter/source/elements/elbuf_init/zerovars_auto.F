@@ -162,6 +162,8 @@ C
       IAD = IAD + 1
       GBUF%G_EPSDNL = 0  
       IAD = IAD + 1
+      GBUF%G_TSAIWU = 0  
+      IAD = IAD + 1
       GBUF%G_TEMPG = 0 
       IAD = IAD + 1
       GBUF%G_COR_NF = 0   
@@ -415,6 +417,8 @@ c
         IAD = IAD + 1
         BUFLY%L_DMGSCL = 0
         IAD = IAD + 1
+        BUFLY%L_TSAIWU = 0
+        IAD = IAD + 1        
         BUFLY%L_PIJ = 0
         IAD = IAD + 1
         BUFLY%L_VOL0DP = 0

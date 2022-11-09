@@ -39,7 +39,7 @@ Chd|====================================================================
      7                    OUTV    ,SEQ_OUTP,ISHPLYXFEM,LY_EXX,LY_EYY,
      8                    LY_EXY  ,SIGPLY  ,SIGPE   ,PLY_ID  ,NEL   ,
      9                    SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX,
-     A                    IPG     )
+     A                    IPG     ,TSAIWU  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,7 +79,7 @@ C     REAL
      .   OFFPLY(*),SIGY(*),ETSE(*),SEQ_OUTP(*), 
      .   LY_EXX(*), LY_EYY(*), LY_EXY(*), SIGPLY(NEL,3),SIGPE(MVSIZ,5),
      .   SIGNXX(MVSIZ),SIGNYY(MVSIZ),SIGNXY(MVSIZ),SIGNYZ(MVSIZ),
-     .   SIGNZX(MVSIZ)
+     .   SIGNZX(MVSIZ),TSAIWU(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -664,6 +664,7 @@ C---------------------------------------------------------------
            WVEC(I)=F1(I) *T1(I)       + F2(I) *T2(I) +
      .             F11(I)*T1(I)*T1(I) + F22(I)*T2(I)*T2(I) +
      .             F33(I)*T3(I)*T3(I) + TWO*F12(I)*T1(I)*T2(I)
+           TSAIWU(I) = MIN(WVEC(I)/FYLD(I),ONE)
 !!c    equiv crit for output
 !!           SEQ_OUTP(I) = WVEC(I)
  100     CONTINUE
@@ -747,6 +748,7 @@ C ----------------------------------------------------------
         DO I=JFT,JLT
            WVEC(I)= F11(I)*T1(I)*T1(I) + F22(I)*T2(I)*T2(I) +
      .              F33(I)*T3(I)*T3(I) + F12(I)*T1(I)*T2(I)
+           TSAIWU(I) = MIN(WVEC(I)/FYLD(I),ONE)
 !!c    equiv crit for output
 !!           SEQ_OUTP(I) = WVEC(I)
         ENDDO
@@ -823,6 +825,7 @@ C ----------------------------------------------------------
      .                 F11(I)*T1(I)*T1(I) + F22(I)*T2(I)*T2(I) +
      .                 F33(I)*T3(I)*T3(I) + TWO*F12(I)*T1(I)*T2(I)
            ENDIF
+           TSAIWU(I) = MIN(WVEC(I)/FYLD(I),ONE)
 !!c    equiv crit for output
 !!           SEQ_OUTP(I) = WVEC(I)
         ENDDO      

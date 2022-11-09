@@ -76,6 +76,7 @@ C-----------------------------------------------
             MLAW_TAG(I)%G_MU = 0
             MLAW_TAG(I)%G_PLANL = 0
             MLAW_TAG(I)%G_EPSDNL = 0
+            MLAW_TAG(I)%G_TSAIWU = 0
             MLAW_TAG(I)%G_MAXFRAC = 0
             MLAW_TAG(I)%G_MAXEPS = 0
             MLAW_TAG(I)%G_DMG = 0
@@ -146,6 +147,7 @@ c
             MLAW_TAG(I)%L_PLANL  = 0
             MLAW_TAG(I)%L_EPSDNL = 0
             MLAW_TAG(I)%L_DMGSCL = 0
+            MLAW_TAG(I)%L_TSAIWU = 0
 c---    uvar            
             MLAW_TAG(I)%NUVAR = 0           
             MLAW_TAG(I)%NVARTMP = 0      

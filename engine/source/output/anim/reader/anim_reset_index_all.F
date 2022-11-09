@@ -215,6 +215,32 @@ C
           ENDDO
         ENDDO
       ENDIF ! IF (IDAMAFULL == 1)
+!---    
+      IF (ITSAIWUALL == 1) THEN
+!   ...TSAIWU/ALL
+        IDX = 14597 + 4*MX_PLY_ANIM
+        DO I=1,100
+          ANIM_CE(IDX + I) = 0
+        ENDDO
+      ELSEIF (ITSAIWUALL == 2) THEN 
+!   ...TSAIWU/ALL/ALL
+        IDX = 14897 + 4*MX_PLY_ANIM
+        DO I=1,100
+          DO J=1,10
+            IUS = 10*(I-1)+J
+            ANIM_CE(IDX + IUS) = 0
+          ENDDO
+        ENDDO
+      ENDIF
+
+      IF (ITSAIWUFULL > 0) THEN
+!   ...TSAIWU/N1/ALL
+        IDX = 14897 + 4*MX_PLY_ANIM
+        DO J=1,10
+          IUS = 10*(ITSAIWUFULL-1) + J
+          ANIM_CE(IDX + IUS) = 0
+        ENDDO        
+      ENDIF ! IF (IWPLAFULL == 1)
 C-----------------------------------------------
       RETURN
       END

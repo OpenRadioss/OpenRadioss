@@ -36,7 +36,7 @@ Chd|====================================================================
      5                   DVOL ,SSP  ,D1        ,D2   ,D3   , 
      6                   D4   ,D5   ,D6        ,SOLD1,SOLD2,
      7                   SOLD3,SOLD4,SOLD5     ,SOLD6,SIGY ,
-     8                   DEFP ,NGL  ,SEQ_OUTPUT,NEL  )
+     8                   DEFP ,NGL  ,SEQ_OUTPUT,NEL  ,TSAIWU)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +67,8 @@ C     REAL
      .   VNEW(MVSIZ), DVOL(MVSIZ), SSP(MVSIZ), 
      .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ),D4(MVSIZ),D5(MVSIZ),D6(MVSIZ),
      .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ), SOLD4(MVSIZ),
-     .   SOLD5(MVSIZ), SOLD6(MVSIZ),SIGY(*),DEFP(*),SEQ_OUTPUT(*)
+     .   SOLD5(MVSIZ), SOLD6(MVSIZ),SIGY(*),DEFP(*),SEQ_OUTPUT(*),
+     .   TSAIWU(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -448,6 +449,7 @@ C---------------------
      .          F55(I)*T5(I)*T5(I)+F44(I)*(T4(I)*T4(I)+T6(I)*T6(I))+
      .          TWO*F12(I)*(T1(I)*T2(I)+T1(I)*T3(I))+2*F23(I)*T2(I)*T3(I)
         DAM(I,4)=WVEC(I)
+        TSAIWU(I)=MIN(WVEC(I)/SIGMY(I),ONE)
 !!        SEQ_OUTPUT(I) = WVEC(I)
       ENDDO
 C

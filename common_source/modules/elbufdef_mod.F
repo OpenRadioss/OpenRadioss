@@ -761,6 +761,7 @@ C
         integer  G_MAXEPS 
         INTEGER  G_BETAORTH
         integer  G_AMU
+        INTEGER  G_TSAIWU
 c---
 C    - 1D - elem (TRUSS, BEAM, SPRING) 
         integer  G_AREA
@@ -1014,6 +1015,7 @@ c---
         my_real, DIMENSION(:) , POINTER ::   PLANL
         my_real, DIMENSION(:) , POINTER ::   EPSDNL            
         my_real, DIMENSION(:) , POINTER ::   DMGSCL
+        my_real, DIMENSION(:) , POINTER ::   TSAIWU
       END TYPE L_BUFEL_                             
 
       TYPE BUF_PROP_
@@ -1176,6 +1178,7 @@ c-------
         integer  L_PLANL
         integer  L_EPSDNL
         integer  L_DMGSCL
+        INTEGER  L_TSAIWU
 c-------  layer variables     
         my_real, DIMENSION(:) , POINTER ::   DMG
         my_real, DIMENSION(:) , POINTER ::   GAMA

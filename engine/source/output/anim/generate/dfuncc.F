@@ -4053,8 +4053,248 @@ c------------At a given integration point in the thickness
                  ENDDO
                ENDIF
              ENDIF
+c------------------------------------ TSAIWU           
+            ELSEIF (IFUNC == 14595 + 4*MX_PLY_ANIM  .AND. (GBUF%G_TSAIWU > 0)) THEN
+              ! /ANIM/ELEM/TSAIWU ( IFUNC = 4*MX_PLY_ANIM + 14595)           
+              IF (NLAY > 1) THEN
+                IPT  = IABS(NLAY)/2 + 1
+                BUFLY => ELBUF_TAB(NG)%BUFLY(IPT)             
+                NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
+                DO I=LFT,LLT
+                  DO IR=1,NPTR
+                    DO IS=1,NPTS   
+                      DO IT=1,NPTT
+                        EVAR(I) = EVAR(I) + BUFLY%LBUF(IR,IS,IT)%TSAIWU(I)/(NPTT*NPTR*NPTS)
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ENDDO
+              ELSE  
+                BUFLY => ELBUF_TAB(NG)%BUFLY(1)
+                IF (BUFLY%L_TSAIWU > 0) THEN
+                  NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
+                  IPT  = IABS(NPTT)/2 + 1
+                  DO I=LFT,LLT
+                    DO IR=1,NPTR
+                      DO IS=1,NPTS   
+                        EVAR(I) = EVAR(I) + BUFLY%LBUF(IR,IS,IPT)%TSAIWU(I)/(NPTR*NPTS)
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ENDIF
+              ENDIF  
+c------------------------------------
+            ELSEIF (IFUNC == 14596 + 4*MX_PLY_ANIM .AND. (GBUF%G_TSAIWU > 0)) THEN  ! TSAIWU/UPPER
+c------------------------------------
+              IF (NLAY > 1) THEN                   
+                IL  = MAX(1,NPT)            
+                IPT = 1                            
+              ELSE                                 
+                IL  = 1                            
+                IPT = MAX(1,NPT)
+              ENDIF
+              BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+              IF (BUFLY%L_TSAIWU > 0) THEN
+                IF (NPG > 1) THEN
+                  IF (IGTYP == 51 .OR. IGTYP == 52) IPT = BUFLY%NPTT
+                  DO I=LFT,LLT
+                    DO IR=1,NPTR
+                      DO IS=1,NPTS
+                        LBUF => BUFLY%LBUF(IR,IS,IPT)
+                        EVAR(I) = EVAR(I) + LBUF%TSAIWU(I)/NPG
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ELSE
+                  IF (IGTYP == 51 .OR. IGTYP == 52) IPT = BUFLY%NPTT
+                  DO  I=LFT,LLT
+                    EVAR(I) = BUFLY%LBUF(1,1,IPT)%TSAIWU(I)
+                  ENDDO
+                ENDIF
+              ENDIF 
+c------------------------------------
+            ELSEIF (IFUNC == 14597 + 4*MX_PLY_ANIM .AND. (GBUF%G_TSAIWU > 0)) THEN ! TSAIWU/LOWER
+c------------------------------------
+              BUFLY => ELBUF_TAB(NG)%BUFLY(1)
+              IF (BUFLY%L_TSAIWU > 0) THEN
+                IF (NPG > 1) THEN
+                   DO I=LFT,LLT
+                     DO IR=1,NPTR
+                       DO IS=1,NPTS
+                         LBUF => BUFLY%LBUF(IR,IS,1)
+                         EVAR(I) = EVAR(I) + LBUF%TSAIWU(I)/NPG
+                       ENDDO
+                     ENDDO
+                   ENDDO
+                ELSE
+                  DO  I=LFT,LLT
+                    EVAR(I) = BUFLY%LBUF(1,1,1)%TSAIWU(I)
+                  ENDDO
+                ENDIF
+              ENDIF 
+c------------------------------------
+            ELSEIF (IFUNC > 14597 + 4*MX_PLY_ANIM .AND. IFUNC <= 14697 + 4*MX_PLY_ANIM .AND.
+     .              (GBUF%G_TSAIWU > 0)) THEN  ! anim/shell/tsaiwu/layer
+c------------------------------------
+              ILAY = MOD((IFUNC - 14597 - 4*MX_PLY_ANIM), 100)
+              IF (ILAY == 0) ILAY = 100
+              IF ((ILAY <= NLAY .OR. ILAY <= MPT) .AND. GBUF%G_TSAIWU > 0) THEN
+                IF (NPT == 0) THEN
+                  IL  = 1 
+                  IPT = 1
+                ELSEIF (NLAY > 1) THEN                   
+                  IL  = ILAY
+                  IPT = 1                            
+                ELSE                                 
+                  IL  = 1                            
+                  IPT = ILAY
+                ENDIF
+                BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+                IF (BUFLY%L_TSAIWU > 0) THEN
+                  IF (NPG > 1) THEN
+                    IF (IGTYP == 51 .OR. IGTYP == 52) THEN 
+C                     PROP/51 : more than 1 integration point by layer: average value per layer 
+                      NPTT = BUFLY%NPTT
+                      NPGT = NPG*NPTT
+                      DO I=LFT,LLT
+                        DO IT=1,NPTT
+                          DO IR=1,NPTR
+                            DO IS=1,NPTS
+                              LBUF => BUFLY%LBUF(IR,IS,IT)
+                              EVAR(I) = EVAR(I) + LBUF%TSAIWU(I)/NPGT
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                      ENDDO
+                    ELSE
+                      DO I=LFT,LLT
+                        DO IR=1,NPTR
+                          DO IS=1,NPTS
+                            LBUF => BUFLY%LBUF(IR,IS,IPT)
+                            EVAR(I) = EVAR(I) + LBUF%TSAIWU(I)/NPG
+                          ENDDO
+                        ENDDO
+                      ENDDO
+                    ENDIF 
+                  ELSE
+                    IF (IGTYP == 51 .OR. IGTYP == 52) THEN
+                      NPTT = BUFLY%NPTT
+                      DO I = LFT,LLT
+                        DO IT = 1,NPTT
+                          EVAR(I) = EVAR(I) + BUFLY%LBUF(1,1,IT)%TSAIWU(I)/NPTT
+                        ENDDO
+                      ENDDO
+                    ELSE
+                      DO I=LFT,LLT
+                        EVAR(I) = BUFLY%LBUF(1,1,IPT)%TSAIWU(I)
+                      ENDDO
+                    ENDIF 
+                  ENDIF
+                 ENDIF  
+               ENDIF  
+c------------------------------------
+            ELSEIF (IFUNC > 14697 + 4*MX_PLY_ANIM .AND. IFUNC <= 14797 + 4*MX_PLY_ANIM .AND. 
+     .       (IGTYP == 51 .OR. IGTYP == 52) .AND. (GBUF%G_TSAIWU > 0) ) THEN  
+            ! TSAIWU/ILAY/UPPER
+c------------------------------------
+C available for IGTYP = 51 and 52  only (to be generalized)
+              ILAY = MOD ((IFUNC - 14697 - 4*MX_PLY_ANIM), 100)
+              IF (ILAY == 0) ILAY = 100
+              IF (NLAY  > 1) THEN
+                IL = MAX(1,ILAY)
+              ELSE
+                IL = 1
+              ENDIF
+              BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+              NPTT = BUFLY%NPTT
+              IPT  = MAX(1,NPTT)
+              IF (BUFLY%L_TSAIWU > 0 .AND.
+     .           (IL <= NLAY .AND. IPT <= NPTT))THEN
+                IF (NPG > 1) THEN
+                  DO I=LFT,LLT
+                    DO IR=1,NPTR
+                      DO IS=1,NPTS
+                        LBUF => BUFLY%LBUF(IR,IS,IPT)
+                        EVAR(I) = EVAR(I) + LBUF%TSAIWU(I)/NPG
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ELSE ! (NPG == 1)
+                  LBUF => BUFLY%LBUF(1,1,IPT)
+                  DO I=LFT,LLT
+                    EVAR(I) = LBUF%TSAIWU(I)
+                  ENDDO
+                ENDIF ! IF (NPG > 1) THEN
+              ENDIF ! IF (BUFLY%L_TSAIWU > 0) THEN
+c------------------------------------
+            ELSEIF (IFUNC > 14797 + 4*MX_PLY_ANIM .AND. IFUNC <= 14897 + 4*MX_PLY_ANIM .AND. 
+     .       (IGTYP == 51 .OR. IGTYP == 52) .AND. (GBUF%G_TSAIWU > 0) ) THEN   
+            ! WPLA/ILAY/LOWER
+c------------------------------------
+C available for IGTYP = 51 and 52 only (to be generalized)
+              ILAY = MOD ((IFUNC - 14797 - 4*MX_PLY_ANIM), 100)
+              IF (ILAY == 0) ILAY = 100
+              IF (NLAY > 1) THEN
+                IL = MAX(1,ILAY)
+              ELSE
+                IL = 1
+              ENDIF
+              IPT  = 1
+              BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+              NPTT = BUFLY%NPTT
+              IF (BUFLY%L_TSAIWU > 0 .AND.
+     .           (IL <= NLAY .AND. IPT <= NPTT))THEN
+                IF (NPG > 1) THEN
+                  DO I=LFT,LLT
+                    DO IR=1,NPTR
+                      DO IS=1,NPTS
+                        LBUF => BUFLY%LBUF(IR,IS,IPT)
+                        EVAR(I) = EVAR(I) + LBUF%TSAIWU(I)/NPG
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ELSE ! (NPG == 1)
+                  LBUF => BUFLY%LBUF(1,1,IPT)
+                  DO I=LFT,LLT
+                    EVAR(I) = LBUF%TSAIWU(I)
+                  ENDDO
+                ENDIF ! IF (NPG > 1) THEN
+              ENDIF ! IF (BUFLY%L_TSAIWU > 0) THEN
+c------------------------------------
+            ELSEIF (IFUNC > 14897 + 4*MX_PLY_ANIM .AND. IFUNC <= 15897 + 4*MX_PLY_ANIM .AND. 
+     .       (IGTYP == 51 .OR. IGTYP == 52) .AND. (GBUF%G_TSAIWU > 0) )  THEN 
+            ! TSAIWU/ILAY/NIP
+c------------------------------------
 C
-             ! next IFUNC = 14595 + 4*MX_PLY_ANIM               
+C available for IGTYP = 51 and 52 only (to be generalized)
+C
+              IUS = IFUNC - 14897 - 4*MX_PLY_ANIM 
+              IL  = INT((IUS - 1)/10)
+              IPT = IUS - 10*IL
+              IL = IL + 1
+              IF (IL <= NLAY ) THEN
+                BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+                NPTT = BUFLY%NPTT    
+                IF (BUFLY%L_TSAIWU > 0 .AND. IPT <= NPTT) THEN
+                  IF (NPG > 1) THEN
+                    DO I=LFT,LLT
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => BUFLY%LBUF(IR,IS,IPT)
+                          EVAR(I) = EVAR(I) + LBUF%TSAIWU(I)/NPG
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ELSE ! (NPG == 1)
+                    LBUF => BUFLY%LBUF(1,1,IPT)
+                    DO I=LFT,LLT
+                      EVAR(I) = LBUF%TSAIWU(I)
+                    ENDDO
+                  ENDIF ! IF (NPG > 1) THEN
+                ENDIF ! IF (BUFLY%L_TSAIWU > 0) THEN
+              ENDIF ! IF (IL <= NLAY )
+C
+             ! next IFUNC = 15898 + 4*MX_PLY_ANIM               
 C-------------------------------------
             ENDIF ! IFUNC SHELLS
 C-------------------------------------

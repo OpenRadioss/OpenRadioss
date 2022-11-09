@@ -726,18 +726,20 @@ CC    Formulation for solid elements time step computation.
 c
 C---- Definition des variables internes (stockage elementaire)
 c
-      MTAG%G_IERR  = 1  ! tag element for projection error message
-      MTAG%G_GAMA  = 6  
-      MTAG%G_PLA   = 1    
-      MTAG%G_EPSD  = 1    
-      MTAG%G_DAMDL = 1    
+      MTAG%G_IERR   = 1  ! tag element for projection error message
+      MTAG%G_GAMA   = 6  
+      MTAG%G_PLA    = 1    
+      MTAG%G_EPSD   = 1    
+      MTAG%G_DAMDL  = 1    
 c
-      MTAG%L_GAMA  = 6  
-      MTAG%L_PLA   = 1
-      MTAG%L_EPSD  = 1
-      MTAG%L_DAM   = 2
-      MTAG%L_CRAK  = 2
-      MTAG%L_STRA  = 6
+      MTAG%L_GAMA   = 6  
+      MTAG%L_PLA    = 1
+      MTAG%L_EPSD   = 1
+      MTAG%L_DAM    = 2
+      MTAG%L_CRAK   = 2
+      MTAG%L_STRA   = 6
+      MTAG%G_TSAIWU = 1
+      MTAG%L_TSAIWU = 1
 c-----------
       CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
       CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")

@@ -45,7 +45,7 @@ Chd|====================================================================
      D                    ISRATE   ,UVARV   ,ISHPLYXFEM,IPT    ,SEQ_OUTP,
      E                    PLY_EXX  ,PLY_EYY ,PLY_EXY  ,PLY_EXZ ,PLY_EYZ ,
      F                    PLY_F    ,PLA     ,DAMT     ,CRAK    ,IERR    ,
-     G                    IOFF_DUCT,IFAILURE,PLY_ID   ,IPG     )
+     G                    IOFF_DUCT,IFAILURE,PLY_ID   ,IPG     ,TSAIWU  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -94,7 +94,7 @@ C     REAL
      .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),
      .   SIGOZX(NEL),PLA(NEL),DAMT(NEL,2),CRAK(NEL,2),SEQ_OUTP(NEL),
-     .   OFFL(NEL),SIGV(NEL,5),DT_INV(MVSIZ),SIGPLY(NEL,3)
+     .   OFFL(NEL),SIGV(NEL,5),DT_INV(MVSIZ),SIGPLY(NEL,3),TSAIWU(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -195,7 +195,7 @@ C-----------------------
      7              IERR    ,SEQ_OUTP,ISHPLYXFEM,PLY_EXX(1,IPT),PLY_EYY(1,IPT),
      8              PLY_EXY(1,IPT),SIGPLY,SIGPE,PLY_ID ,NEL   ,
      9              SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX,
-     A              IPG     )
+     A              IPG     ,TSAIWU  )
 !----------------------------------
         IF (IPLYXFEM == 1) THEN
 #include "vectorize.inc" 

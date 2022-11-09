@@ -94,6 +94,8 @@ C-----------------------------------------------
       IWPLAFULL         = 0
       IWPLAALL          = 0
       IBEAM_EPSPALL     = 0
+      ITSAIWUALL        = 0
+      ITSAIWUFULL       = 0
 
       DO I = 1,MX_ANI
         ANIM_V(I)       = 0

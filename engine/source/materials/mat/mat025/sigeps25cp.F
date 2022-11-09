@@ -34,7 +34,8 @@ Chd|====================================================================
      4                      DEPSXX ,DEPSYY ,DEPSXY   ,DEPSYZ ,DEPSZX ,
      5                      SIGOXX ,SIGOYY ,SIGOXY   ,SIGOYZ ,SIGOZX ,
      6                      SIGNXX ,SIGNYY ,SIGNXY   ,SIGNYZ ,SIGNZX ,
-     7                      IMAT   ,WPLAR  ,IOFF_DUCT,PLA    ,ISRATE )
+     7                      IMAT   ,WPLAR  ,IOFF_DUCT,PLA    ,ISRATE ,
+     8                      TSAIWU )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +67,8 @@ C     REAL
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ),SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),
      .   SIGOYZ(NEL),SIGOZX(NEL),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
-     .   SIGNYZ(NEL),SIGNZX(NEL),WPLAR(MVSIZ),OFF_OLD(MVSIZ),PLA(NEL)
+     .   SIGNYZ(NEL),SIGNZX(NEL),WPLAR(MVSIZ),OFF_OLD(MVSIZ),PLA(NEL),
+     .   TSAIWU(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

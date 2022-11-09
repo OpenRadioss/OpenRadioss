@@ -34,7 +34,7 @@ Chd|====================================================================
      6                     G23    ,G31    ,DE     ,EPSP   ,ISRATE ,SIGY   ,
      7                     DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX ,SIGOXX ,
      8                     SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,SIGNXX ,SIGNYY ,
-     9                     SIGNXY ,SIGNYZ ,SIGNZX )
+     9                     SIGNXY ,SIGNYZ ,SIGNZX ,TSAIWU )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C     REAL
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ),SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),
      .   SIGOYZ(NEL),SIGOZX(NEL),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
-     .   SIGNYZ(NEL),SIGNZX(NEL)
+     .   SIGNYZ(NEL),SIGNZX(NEL),TSAIWU(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -207,6 +207,7 @@ C
        CNN=CN(I)-ONE
        IF(WPLA(I)>ZERO) WVEC(I)=EPSP(I)*WPLA(I)**CNN
        YLD(I) = FYLD
+       TSAIWU(I) = MIN(WVEC(I)/FYLD,ONE)
       ENDDO
 C
       DO I=JFT,JLT

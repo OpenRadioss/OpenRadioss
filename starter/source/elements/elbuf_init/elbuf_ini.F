@@ -932,6 +932,7 @@ c            LLOC = LLOC + BUFLY%L_VOL0DP
             LLOC = LLOC + BUFLY%L_PLANL
             LLOC = LLOC + BUFLY%L_EPSDNL
             LLOC = LLOC + BUFLY%L_DMGSCL
+            LLOC = LLOC + BUFLY%L_TSAIWU
             BUFLEN = BUFLEN + (LLOC * NEL + NPAR_LBUF) * NPG       
           ENDDO
 c          print*,'      local=',(LLOC * NEL + NPAR_LBUF) * NPG
@@ -1714,6 +1715,7 @@ c
             LLOC = LLOC + BUFLY%L_PLANL
             LLOC = LLOC + BUFLY%L_EPSDNL
             LLOC = LLOC + BUFLY%L_DMGSCL
+            LLOC = LLOC + BUFLY%L_TSAIWU
 c
             BUFLEN = BUFLEN + (LLOC * NEL + NPAR_LBUF) * NIP_LAY
 

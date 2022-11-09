@@ -364,6 +364,10 @@ c-----------------------------------------------
      .'Damage variable for coupled damage models'
 c-----------------------------------------------
       I = I + 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%KEY3   = 'TSAIWU'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Tsai-Wu Criterion'
+c-----------------------------------------------
+      I = I + 1
       H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'TDEL'
       H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'TIME DELETION ELEMENT'
       H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = 

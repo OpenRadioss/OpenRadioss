@@ -31,7 +31,7 @@ Chd|====================================================================
      3                    DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX,
      4                    SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX,
      5                    SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX,
-     6                    EPSP   ,ISRATE ,NEL    )
+     6                    EPSP   ,ISRATE ,NEL    ,TSAIWU )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C     REAL
      .   SIGOXX(NEL),SIGOYY(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
-     .   SIGNYZ(NEL),SIGNZX(NEL)
+     .   SIGNYZ(NEL),SIGNZX(NEL),TSAIWU(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -208,6 +208,7 @@ C-------------------------------------------------------------------
         WVEC(I)=F1(I) *T1(I)       + F2(I) *T2(I) +
      .          F11(I)*T1(I)*T1(I) + F22(I)*T2(I)*T2(I) +
      .          F33(I)*T3(I)*T3(I) + TWO*F12(I)*T1(I)*T2(I)
+        TSAIWU(I) = MIN(WVEC(I)/FYLD(I),ONE)
       ENDDO
 C
       DO I=JFT,JLT

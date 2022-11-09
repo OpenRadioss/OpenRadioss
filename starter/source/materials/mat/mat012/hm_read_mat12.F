@@ -361,12 +361,14 @@ C-----------------------------------------
 c
 C---- Definition des variables internes (stockage elementaire)
 c
-      MTAG%G_PLA   = 1    
-      MTAG%L_PLA   = 1
-      MTAG%L_SIGF  = 1
-      MTAG%L_EPSF  = 1
-      MTAG%L_DAM   = 5
-      MTAG%L_EPE   = 6  ! strain in crack directions
+      MTAG%G_PLA    = 1    
+      MTAG%L_PLA    = 1
+      MTAG%L_SIGF   = 1
+      MTAG%L_EPSF   = 1
+      MTAG%L_DAM    = 5
+      MTAG%L_EPE    = 6  ! strain in crack directions
+      MTAG%G_TSAIWU = 1
+      MTAG%L_TSAIWU = 1
 c-----------
       CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
       CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
