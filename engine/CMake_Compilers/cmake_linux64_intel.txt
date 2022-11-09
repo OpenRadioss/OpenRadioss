@@ -1,4 +1,4 @@
-######################################### 
+######################################## 
 #       ENGINE - INTEL COMPILER
 #########################################
 
@@ -16,9 +16,8 @@ elseif ( mpiver STREQUAL "impi")
   # Intel MPI 
   set (mpi_suf "_${mpiver}" )
   #MPI     
-  set (mpi_flag "-DMPI -I/opt/intel/oneapi/mpi/2021.2.0/include/ ")
-  set (mpi_lib "-L/opt/intel/oneapi/mpi/2021.2.0/lib -L/opt/intel/oneapi/mpi/2021.2.0/lib/release  -lmpi -lmpifort")
-
+  set (mpi_flag "-DMPI -I$ENV{I_MPI_ROOT}/include/ ")
+  set (mpi_lib "-L$ENV{I_MPI_ROOT}/lib -L$ENV{I_MPI_ROOT}/lib/release  -lmpi -lmpifort")
 else()
   message( FATAL_ERROR "\n ERROR : -mpi=${mpiver} not available for this platform\n\n" )
 endif()
@@ -74,7 +73,7 @@ if(DEFINED mumps_root)
       set (MKL_IDIR "/opt/intel/oneapi/mkl/latest/include")
       set (MKL_LDIR "/opt/intel/oneapi/mkl/latest/lib/intel64")
     endif()
-    set (MKL_lib "-L${MKL_LDIR} -I${MKL_IDIR} ${MLM_LDIR}/libmk_scalapack_lp64.a -Wl,--start-group ${MKL_LDIR}/libmkl_intel_lp64.a ${MKL_LDIR}/libmkl_intel_thread.a ${MKL_LDIR}/libmkl_core.a ${MKL_LDIR}/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group")
+    set (MKL_lib "-L${MKL_LDIR} -I${MKL_IDIR} ${MKL_LDIR}/libmk_scalapack_lp64.a -Wl,--start-group ${MKL_LDIR}/libmkl_intel_lp64.a ${MKL_LDIR}/libmkl_intel_thread.a ${MKL_LDIR}/libmkl_core.a ${MKL_LDIR}/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group")
     set(MUMPSLIB "${mumps_root}/lib")
     set(mumps_inc "-I${mumps_root}/include")
     set(mumps_flag "-Dpord -Dthr_all -DMUMPS5 -DAdd_")
