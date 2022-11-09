@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        TELESC                        source/constraints/general/cyl_joint/telesc.F
 Chd|-- calls ---------------
 Chd|====================================================================
-        SUBROUTINE SPMD_ALLREDUCE_DB_COMM(VALUE,RESULT,MY_SIZE,MY_OPERATION,MY_COMM)
+        SUBROUTINE SPMD_ALLREDUCE_DB_COMM(VALUE,RES,MY_SIZE,MY_OPERATION,MY_COMM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,7 +48,7 @@ C-----------------------------------------------
         CHARACTER(len=*), INTENT(in) :: MY_OPERATION
         INTEGER, INTENT(in) :: MY_SIZE,MY_COMM
         REAL(kind=8), DIMENSION(MY_SIZE), INTENT(in) :: VALUE
-        REAL(kind=8), DIMENSION(MY_SIZE), INTENT(out) :: RESULT
+        REAL(kind=8), DIMENSION(MY_SIZE), INTENT(out) :: RES
 
 #ifdef MPI
 C-----------------------------------------------
@@ -70,9 +70,10 @@ C-----------------------------------------------
 
 !       ------------------
 !       mpi comm allreduce
-        CALL MPI_ALLREDUCE(VALUE,RESULT,MY_SIZE,MPI_DOUBLE_PRECISION,MPI_OPERATION,MY_COMM,error)
+        CALL MPI_ALLREDUCE(VALUE,RES,MY_SIZE,MPI_DOUBLE_PRECISION,MPI_OPERATION,MY_COMM,error)
 !       ------------------
-
+#else
+        RES = 0
 #endif
         RETURN
         END SUBROUTINE SPMD_ALLREDUCE_DB_COMM

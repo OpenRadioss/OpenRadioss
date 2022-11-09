@@ -66,6 +66,8 @@ C-----------------------------------------------
      .                   PROC,MPI_COMM_WORLD,error)
 !       ------------------
 
+#else
+        RECVBUF = 0
 #endif
         RETURN
         END SUBROUTINE SPMD_GATHERV

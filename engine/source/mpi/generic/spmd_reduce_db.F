@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|====================================================================
-        SUBROUTINE SPMD_REDUCE_DB(VALUE,RESULT,MY_SIZE,MY_RANK,MY_OPERATION)
+        SUBROUTINE SPMD_REDUCE_DB(VALUE,RES,MY_SIZE,MY_RANK,MY_OPERATION)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,7 +48,7 @@ C-----------------------------------------------
         CHARACTER(len=4), INTENT(in) :: MY_OPERATION
         INTEGER, INTENT(in) :: MY_SIZE,MY_RANK
         REAL(kind=8), DIMENSION(MY_SIZE), INTENT(in) :: VALUE
-        REAL(kind=8), DIMENSION(MY_SIZE), INTENT(out) :: RESULT
+        REAL(kind=8), DIMENSION(MY_SIZE), INTENT(out) :: RES
 
 #ifdef MPI
 C-----------------------------------------------
@@ -70,9 +70,10 @@ C-----------------------------------------------
 
 !       ------------------
 !       mpi comm reduce
-        CALL MPI_REDUCE(VALUE,RESULT,MY_SIZE,MPI_DOUBLE_PRECISION,MPI_OPERATION,MY_RANK,MPI_COMM_WORLD,error)
+        CALL MPI_REDUCE(VALUE,RES,MY_SIZE,MPI_DOUBLE_PRECISION,MPI_OPERATION,MY_RANK,MPI_COMM_WORLD,error)
 !       ------------------
-
+#else
+        RES = 0
 #endif
         RETURN
         END SUBROUTINE SPMD_REDUCE_DB

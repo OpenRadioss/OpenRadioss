@@ -89,7 +89,8 @@ C-----------------------------------------------
      .                     COMM,REQUEST,error)
 !       ------------------
 #endif
-
+#else
+        RECVBUF = 0
 #endif
         RETURN
         END SUBROUTINE SPMD_IALLTOALL
