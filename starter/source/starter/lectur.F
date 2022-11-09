@@ -10193,7 +10193,7 @@ C----------------------------------------------
      U        XSEED       ,XLAS       ,ILAS            ,IRBE2         ,LRBE2            ,
      V        KXSP        ,IPARTSP    ,DRAPE           ,IXR_KJ        ,IACTIV           ,
      W        FACTIV      ,UNITAB     ,NPBYL           ,LPBYL         ,RBYL             ,
-     X        XYZREF      ,SENSOR_TAB ,LSENSOR         ,SENSOR        ,FUNC2D           ,
+     X        XYZREF      ,SENSOR_TAB ,FUNC2D          ,
      Y        INICRACK    ,IPRELOAD   ,PRELOAD         ,IFLAG_BPRELOAD,IBMPC            ,
      Z        IBMPC2      ,IBMPC3     ,IBMPC4          ,RBMPC         ,LJOINT           ,
      A        NNLINK      ,LNLINK     ,BUFSF           ,SBUFSF        ,STACK%PM         ,
