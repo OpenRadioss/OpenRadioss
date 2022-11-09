@@ -169,6 +169,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE R2R_MOD
       USE INOUTFILE_MOD
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -183,6 +184,7 @@ C-----------------------------------------------
 #include      "sphcom.inc"
 #include      "rnur_c.inc"
 #include      "r2r_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -199,6 +201,8 @@ C-----------------------------------------------
      .   DTSCA,DTMINI,DTINI,DTMAX,DT_MIN_ELEM(11),DTFAC1(11)
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=4096) :: TMP_NAME
+      INTEGER :: IERROR
+      INTEGER, DIMENSION(:), ALLOCATABLE :: PERM
 C-----------------------------------------------
 C
       FLG_CHK = 0
@@ -210,6 +214,7 @@ C
       DTFAC1(:) = DTFAC
       NUMEL= NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELUR+NUMELTG
      .      +NUMELX+NUMSPH+NUMELIG3D
+      MY_ALLOCATE( PERM,NUMEL )
   
 C-----------------------------------------------
 C     Computation of index in dtelem for each type of elements
@@ -283,7 +288,10 @@ C
       END DO
 C
       DO I=1,11
-        IF (FLAG_TRI(I)==1) CALL TRIRAP(NUME(I),DTELEM(1+DT_INDEX(I)),NUMEL)
+        IF (FLAG_TRI(I)==1) THEN
+            CALL MYQSORT(NUME(I),DTELEM(1+DT_INDEX(I)),PERM(1+DT_INDEX(I)),IERROR)
+            DTELEM(NUMEL+1+DT_INDEX(I):NUMEL+NUME(I)+1+DT_INDEX(I)) = PERM(1+DT_INDEX(I):NUME(I)+1+DT_INDEX(I))
+        ENDIF
       END DO
 
 C-----------------------------------------------
@@ -457,6 +465,8 @@ C
       IF (DTNODA>ZERO) DT = DTNODA
 C
       DT = MIN(DT,DTMAX)
+
+      DEALLOCATE( PERM )
                    
 C------------------------------------------- 
       RETURN

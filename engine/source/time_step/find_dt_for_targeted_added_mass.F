@@ -40,6 +40,7 @@ C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,6 +61,7 @@ C-----------------------------------------------
 #include      "com06_c.inc"
 #include      "units_c.inc"
 #include      "task_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -72,6 +74,8 @@ C-----------------------------------------------
       my_real, DIMENSION(:),POINTER ::
      .   TMP
       my_real SUMK,SUMM,TARGET_PERCENT
+      INTEGER :: IERROR
+      INTEGER, DIMENSION(:), ALLOCATABLE :: PERM
 C=======================================================================
 C
 C--------------------------------------------------------------------------------------
@@ -143,6 +147,7 @@ C
       IF (ISPMD == 0) THEN     
 C
         TMP => DT2_L(SIZG+1:SIZG*2)
+        MY_ALLOCATE( PERM,SIZG )
 C
 C  --- Sorting
 C
@@ -150,11 +155,15 @@ C
         SUMK = ZERO
         DO I=1,SIZG
           TMP(I)=I
+          PERM(I) = I
           SUMM = SUMM + MS_L(I)
           SUMK = SUMK + STF_L(I)
         ENDDO
 
-        CALL TRIRAP(SIZG,DT2_L,SIZG)
+        CALL MYQSORT(SIZG,DT2_L,PERM,IERROR)
+        TMP(1:NUMNOD) = PERM(1:NUMNOD)
+
+        DEALLOCATE( PERM )
 C
 C----- determination of target time step
 C
