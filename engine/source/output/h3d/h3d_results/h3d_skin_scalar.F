@@ -101,21 +101,27 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .   VALUE(MVSIZ),RINDX
+     .   VALUE(MVSIZ),RINDX,STRAIN(3,MVSIZ),F_EXP,F_GAUSS(9)
       INTEGER I,I1,II,J,NG,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
      .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
      .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
      .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
      .        IIGEO,IADI,ISUBSTACK,ITHK,NB_PLYOFF,IUVAR,IDX,IPOS,ITRIMAT,
-     .        IALEFVM_FLG, IMAT,IADBUF,NUPARAM,IOK_PART(MVSIZ)
+     .        IALEFVM_FLG, IMAT,IADBUF,NUPARAM,IOK_PART(MVSIZ),
+     .        MLWI,PID,MID,IP,MX,KCVT,IOR_TSH,ICSTR
       INTEGER 
      .        IS_WRITTEN_VALUE(MVSIZ),NFRAC,IU(4),IV,NB_FACE,KFACE,NSKIN
+      INTEGER NGL(MVSIZ) 
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
       TYPE(BUF_MAT_)  ,POINTER :: MBUF      
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
       TYPE(BUF_FAIL_) ,POINTER :: FBUF 
+      DATA F_GAUSS / 
+     9 1.000000000000000,1.732050807568877,1.290994448735806,
+     9 1.161256338324528,1.103533701926633,1.072421119155361,
+     9 1.053620970803647,1.041352247171806,1.032886870574820/
 C-----------------------------------------------
       NSKIN = 0
       IS_WRITTEN_SKIN(1:NUMSKIN) = 0
@@ -126,7 +132,7 @@ C
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
      4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
+     5          NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,  
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 C     
@@ -143,11 +149,19 @@ C-----------------------------------------------
 !              1--------------2
         IF (ITY == 1.AND.(IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22)) THEN
           NFT = IPARG(3,NG)
+          ICSTR = IPARG(17,NG)
           LLT=NEL
           NLAY = ELBUF_TAB(NG)%NLAY                
           NPTR = ELBUF_TAB(NG)%NPTR                 
           NPTS = ELBUF_TAB(NG)%NPTS                 
           NPTT = ELBUF_TAB(NG)%NPTT
+          IOR_TSH = 0
+          IF (IGTYP == 21) THEN
+           IOR_TSH = 1
+          ELSEIF (IGTYP == 22) THEN
+           IOR_TSH = 2
+          END IF
+          IF (KCVT==1.AND.IOR_TSH/=0) KCVT=2
 c
           DO I=1,NEL
             VALUE(I) = ZERO
@@ -155,176 +169,168 @@ c
             IOK_PART(I) = 0 
             IF( H3D_PART(IPARTS(NFT+I)) == 1) IOK_PART(I) = 1
           ENDDO	     
+          MLWI = MLW
+          IF (IGTYP == 22 .AND. NLAY>9) THEN
+           F_EXP = ONE
+          ELSE
+           F_EXP = F_GAUSS(NLAY)
+          END IF
+          IF (JHBE==14.OR.JHBE==16)   F_EXP = F_EXP/(NPTR*NPTS)
 C-----------------------------------------------
           IF (KEYWORD == 'FLDZ/OUTER') THEN
             IS_WRITTEN_VALUE(1:NEL) = 1
+            MX = IXS(1,1 + NFT)
+            NGL(1:NEL) =IXS(NIXS,1 + NFT:NEL + NFT) 
+            IT = 1
 C-----------------------------------------------
               ILAY=1
-              IT = 1
 C-------- grp skin_inf first
-           IF (JHBE==15) THEN
+            IF (IGTYP == 22) THEN
+             PID = IXS(NIXS-1,1 + NFT)
+             MID = IGEO(100+ILAY,PID)
+             MLWI=NINT(PM(19,MID))
+            END IF
+            CALL H3D_FLD_STRAIN(ELBUF_TAB(NG),X  ,IXS   ,
+     .                       JHBE,MLWI,ILAY,KCVT,IOR_TSH,
+     .                       ICSTR,NPTR,NPTS,NEL,F_EXP,STRAIN )
+C----------    F.I. uses also average strain to be consisting
               IR = 1
               IS = 1
               FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)                            
               NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
              DO IFAIL=1,NFAIL                                                          
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                  DO I=1,NEL 
+                  IP=(IFAIL -1)*15         
+                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),
+     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
+     .                       IPM,NPF,TF,BUFMAT,
+     .                       NGL,STRAIN,NEL )
+                   DO I=1,NEL 
                     RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
                     VALUE(I) = MAX(VALUE(I),RINDX) 
                     IS_WRITTEN_VALUE(I) = 1	                         
                   ENDDO                                                                 
                ENDIF
              END DO               
-           ELSE ! 14,16
-             DO IR=1,NPTR
-               DO IS=1,NPTS
-                  FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)                            
-                  NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
-                 DO IFAIL=1,NFAIL                                                          
-                   IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                      DO I=1,NEL                                                      
-                        RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
-                        VALUE(I) = MAX(VALUE(I),RINDX) 
-                      ENDDO                                                                 
-                   ENDIF
-                 END DO               
-               ENDDO 
-             ENDDO
-C----------            
-           END IF !IF (JHBE==15)             
 C------           
-           DO I=1,NEL
-             SKIN_SCALAR(NSKIN+I) = VALUE(I)
-             IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_VALUE(I)
-           END DO
-           NSKIN = NSKIN + NEL
+             DO I=1,NEL
+               SKIN_SCALAR(NSKIN+I) = VALUE(I)
+               IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_VALUE(I)
+             END DO
+             NSKIN = NSKIN + NEL
 C-------- grp skin_up
               ILAY=NLAY
-              IT = 1
               VALUE(1:NEL) = ZERO
-           IF (JHBE==15) THEN
+             IF (IGTYP == 22) THEN
+              PID = IXS(NIXS-1,1 + NFT)
+              MID = IGEO(100+ILAY,PID)
+              MLWI=NINT(PM(19,MID))
+             END IF
+             CALL H3D_FLD_STRAIN(ELBUF_TAB(NG),X  ,IXS   ,
+     .                         JHBE,MLWI,ILAY,KCVT,IOR_TSH,
+     .                         ICSTR,NPTR,NPTS,NEL,F_EXP,STRAIN )
               IR = 1
               IS = 1
               FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)                            
               NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
              DO IFAIL=1,NFAIL                                                          
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
+                  IP=(IFAIL -1)*15         
                   DO I=1,NEL                                                      
+                     CALL H3D_FLD_TSH(ELBUF_TAB(NG),
+     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
+     .                       IPM,NPF,TF,BUFMAT,
+     .                       NGL,STRAIN,NEL )
                     RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
                     VALUE(I) = MAX(VALUE(I),RINDX) 
                     IS_WRITTEN_VALUE(I) = 1	                         
                   ENDDO                                                                 
                ENDIF
              END DO               
-           ELSE ! 14,16
-             DO IR=1,NPTR
-               DO IS=1,NPTS
-                  FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)                            
-                  NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
-                 DO IFAIL=1,NFAIL                                                          
-                   IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                      DO I=1,NEL                                                      
-                        RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
-                        VALUE(I) = MAX(VALUE(I),RINDX) 
-                        IS_WRITTEN_VALUE(I) = 1	                         
-                      ENDDO                                                                 
-                   ENDIF
-                 END DO               
-               ENDDO 
-             ENDDO
-           END IF   !IF (JHBE==15)            
-           DO I=1,NEL
-             SKIN_SCALAR(NSKIN+I) = VALUE(I)
-             IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_VALUE(I)
-           END DO
-           NSKIN = NSKIN + NEL
+             DO I=1,NEL
+               SKIN_SCALAR(NSKIN+I) = VALUE(I)
+               IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_VALUE(I)
+             END DO
+             NSKIN = NSKIN + NEL
 C-----------------------------------------------
           ELSEIF (KEYWORD == 'FLDF/OUTER') THEN
             IS_WRITTEN_VALUE(1:NEL) = 1
+            MX = IXS(1,1 + NFT)
+            NGL(1:NEL) =IXS(NIXS,1 + NFT:NEL + NFT) 
 C-----------------------------------------------
               ILAY=1
               IT = 1
+            IF (IGTYP == 22) THEN
+             PID = IXS(NIXS-1,1 + NFT)
+             MID = IGEO(100+ILAY,PID)
+             MLWI=NINT(PM(19,MID))
+            END IF
+            CALL H3D_FLD_STRAIN(ELBUF_TAB(NG),X  ,IXS   ,
+     .                        JHBE,MLWI,ILAY,KCVT,IOR_TSH,
+     .                        ICSTR,NPTR,NPTS,NEL,F_EXP,STRAIN )
 C-------- grp skin_inf first
-           IF (JHBE==15) THEN
               IR = 1
               IS = 1
               FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)                            
               NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
              DO IFAIL=1,NFAIL                                                          
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
+                  IP=(IFAIL -1)*15         
+                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),
+     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
+     .                       IPM,NPF,TF,BUFMAT,
+     .                       NGL,STRAIN,NEL )
                   DO I=1,NEL                                                      
                     VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
                     IS_WRITTEN_VALUE(I) = 1	                         
                   ENDDO                                                                 
                ENDIF
              END DO               
-           ELSE ! 14,16
-             DO IR=1,NPTR
-               DO IS=1,NPTS
-                  FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)                            
-                  NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
-                 DO IFAIL=1,NFAIL                                                          
-                   IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                      DO I=1,NEL                                                      
-                        VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
-                        IS_WRITTEN_VALUE(I) = 1	                         
-                      ENDDO                                                                 
-                   ENDIF
-                 END DO               
-               ENDDO 
-             ENDDO
-C----------            
-           END IF !IF (JHBE==15)             
 C------           
-           DO I=1,NEL
-             N = I + NFT
-             SKIN_SCALAR(NSKIN+I) = VALUE(I)
-             IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_VALUE(I)
-           END DO
-           NSKIN = NSKIN + NEL
+             DO I=1,NEL
+               N = I + NFT
+               SKIN_SCALAR(NSKIN+I) = VALUE(I)
+               IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_VALUE(I)
+             END DO
+             NSKIN = NSKIN + NEL
 C-------- grp skin_up
               ILAY=NLAY
               IT = 1
-           VALUE(1:NEL) = ZERO
-           IF (JHBE==15) THEN
+             VALUE(1:NEL) = ZERO
+             IF (IGTYP == 22) THEN
+              PID = IXS(NIXS-1,1 + NFT)
+              MID = IGEO(100+ILAY,PID)
+              MLWI=NINT(PM(19,MID))
+             END IF
+             CALL H3D_FLD_STRAIN(ELBUF_TAB(NG),X  ,IXS   ,
+     .                        JHBE,MLWI,ILAY,KCVT,IOR_TSH,
+     .                        ICSTR,NPTR,NPTS,NEL,F_EXP,STRAIN )
               IR = 1
               IS = 1
               FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)                            
               NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
              DO IFAIL=1,NFAIL                                                          
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
+                  IP=(IFAIL -1)*15         
+                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),
+     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
+     .                       IPM,NPF,TF,BUFMAT,
+     .                       NGL,STRAIN,NEL )
                   DO I=1,NEL                                                      
                     VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
                     IS_WRITTEN_VALUE(I) = 1	                         
                   ENDDO                                                                 
                ENDIF
              END DO               
-           ELSE ! 14,16
-             DO IR=1,NPTR
-               DO IS=1,NPTS
-                  FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)                            
-                  NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
-                 DO IFAIL=1,NFAIL                                                          
-                   IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                      DO I=1,NEL                                                      
-                        VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
-                        IS_WRITTEN_VALUE(I) = 1	                         
-                      ENDDO                                                                 
-                   ENDIF
-                 END DO               
-               ENDDO 
-             ENDDO
-           END IF   !IF (JHBE==15)            
-           DO I=1,NEL
-             N = I + NFT
-             SKIN_SCALAR(NSKIN+I) = VALUE(I)
-             IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_VALUE(I)
-           END DO
-           NSKIN = NSKIN + NEL
+             DO I=1,NEL
+               N = I + NFT
+               SKIN_SCALAR(NSKIN+I) = VALUE(I)
+               IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_VALUE(I)
+             END DO
+             NSKIN = NSKIN + NEL
 C------------to get right NSKIN for next case          
           ELSE
-           NSKIN = NSKIN + 2*NEL
+            NSKIN = NSKIN + 2*NEL
           END IF !(KEYWORD
         END IF !(ITY == 1.AND.(IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22)) THEN
       END DO !NG=1,NGROUP
