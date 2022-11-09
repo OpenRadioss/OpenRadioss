@@ -664,15 +664,6 @@ C------------------------------------------------
         CALL CPP_BUILD_MODEL(FNAME,LFNAME,EDI_RES)
         CALL STOPTIME(16,1)
       ENDIF
-C------------------------------------------------
-C Write list of replaced parameters
-C------------------------------------------------
-      IF(IPID /= 0 .AND. GOT_HSTP_READ == 0) THEN
-        CLOSE(IOUT)
-        CALL CPP_PRINT_PARAMETERS(FILNAM,ROOTLEN+9+OUTFILE_NAME_LEN)
-        OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
-     .    ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN',POSITION="APPEND") 
-      ENDIF 
 C-------------------------------------------------------------------
 C     Keyword mapping header output ( DYNA to RADIOSS)
 C-------------------------------------------------------------------
@@ -692,6 +683,15 @@ C------------------------------------------------
 C Output errors/warning message (input reading phase)
 C------------------------------------------------
       IF (GOT_INPUT == 1) CALL HM_MESSAGES(IS_DYNA)
+C------------------------------------------------
+C Write list of replaced parameters
+C------------------------------------------------
+      IF(IPID /= 0 .AND. GOT_HSTP_READ == 0) THEN
+        CLOSE(IOUT)
+        CALL CPP_PRINT_PARAMETERS(FILNAM,ROOTLEN+9+OUTFILE_NAME_LEN)
+        OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
+     .    ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN',POSITION="APPEND") 
+      ENDIF 
 C------------------------------------------------
 C count submodels & dimension LSUBMODEL structure 
 C------------------------------------------------
