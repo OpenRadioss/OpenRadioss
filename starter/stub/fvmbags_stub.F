@@ -107,7 +107,7 @@ C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NIXSL
       INTEGER, INTENT(IN) :: N, KM
-      INTEGER, INTENT(OUT) :: NB_EXTRA_VERTICES, NB_TETRA, NB_VERTICES
+      INTEGER, INTENT(INOUT) :: NB_EXTRA_VERTICES, NB_TETRA, NB_VERTICES
       TYPE(MONVOL_STRUCT_), INTENT(INOUT) :: T_MONVOLN
         WRITE(6,*) "FVMBAGS require a mesher"
         STOP

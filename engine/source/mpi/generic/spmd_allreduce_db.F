@@ -30,7 +30,7 @@ Chd|        SENSOR_TEMP0                  source/tools/sensor/sensor_temp0.F
 Chd|        SPMD_BOX_LIMIT_REDUCTION      source/mpi/interfaces/spmd_box_limit_reduction.F
 Chd|-- calls ---------------
 Chd|====================================================================
-        SUBROUTINE SPMD_ALLREDUCE_DB(VALUE,RESULT,MY_SIZE,MY_OPERATION)
+        SUBROUTINE SPMD_ALLREDUCE_DB(VALUE,RES,MY_SIZE,MY_OPERATION)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C-----------------------------------------------
         CHARACTER(len=4), INTENT(in) :: MY_OPERATION
         INTEGER, INTENT(in) :: MY_SIZE
         REAL(kind=8), DIMENSION(MY_SIZE), INTENT(in) :: VALUE
-        REAL(kind=8), DIMENSION(MY_SIZE), INTENT(out) :: RESULT
+        REAL(kind=8), DIMENSION(MY_SIZE), INTENT(out) :: RES
 
 #ifdef MPI
 C-----------------------------------------------
@@ -74,9 +74,10 @@ C-----------------------------------------------
 
 !       ------------------
 !       mpi comm allreduce
-        CALL MPI_ALLREDUCE(VALUE,RESULT,MY_SIZE,MPI_DOUBLE_PRECISION,MPI_OPERATION,MPI_COMM_WORLD,error)
+        CALL MPI_ALLREDUCE(VALUE,RES,MY_SIZE,MPI_DOUBLE_PRECISION,MPI_OPERATION,MPI_COMM_WORLD,error)
 !       ------------------
-
+#else
+        RES = 0
 #endif
         RETURN
         END SUBROUTINE SPMD_ALLREDUCE_DB

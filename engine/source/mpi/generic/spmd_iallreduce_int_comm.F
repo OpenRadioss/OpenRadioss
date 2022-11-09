@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        SPMD_GET_INACTI_GLOBAL        source/mpi/interfaces/spmd_get_inacti_global.F
 Chd|-- calls ---------------
 Chd|====================================================================
-        SUBROUTINE SPMD_IALLREDUCE_INT_COMM(VALUE,RESULT,MY_SIZE,MY_OPERATION,MY_COMM,MY_REQUEST)
+        SUBROUTINE SPMD_IALLREDUCE_INT_COMM(VALUE,RES,MY_SIZE,MY_OPERATION,MY_COMM,MY_REQUEST)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,7 +48,7 @@ C-----------------------------------------------
         CHARACTER(len=4), INTENT(in) :: MY_OPERATION
         INTEGER, INTENT(in) :: MY_SIZE,MY_COMM,MY_REQUEST
         INTEGER, DIMENSION(MY_SIZE), INTENT(in) :: VALUE
-        INTEGER, DIMENSION(MY_SIZE), INTENT(out) :: RESULT
+        INTEGER, DIMENSION(MY_SIZE), INTENT(out) :: RES
 
 #ifdef MPI
 C-----------------------------------------------
@@ -70,9 +70,10 @@ C-----------------------------------------------
 
 !       ------------------
 !       mpi comm iallreduce
-        CALL MPI_IALLREDUCE(VALUE,RESULT,MY_SIZE,MPI_INTEGER,MPI_OPERATION,MY_COMM,MY_REQUEST,error)
+        CALL MPI_IALLREDUCE(VALUE,RES,MY_SIZE,MPI_INTEGER,MPI_OPERATION,MY_COMM,MY_REQUEST,error)
 !       ------------------
-
+#else
+        RES = 0
 #endif
         RETURN
         END SUBROUTINE SPMD_IALLREDUCE_INT_COMM
