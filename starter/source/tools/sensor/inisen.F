@@ -295,7 +295,7 @@ C-------------------------------------
       IPARSENS=0        ! Flag pour sensor type force
       NBR_SENS=0
       DO I=1,NSENSOR
-        SENS_TYPE = SENSOR_TAB(K)%TYPE
+        SENS_TYPE = SENSOR_TAB(I)%TYPE
         IF (SENS_TYPE== 6  .OR. SENS_TYPE== 7 .OR. SENS_TYPE== 11 .OR.
      .      SENS_TYPE== 12 .OR. SENS_TYPE== 13) THEN 
           NBR_SENS = NBR_SENS+1
