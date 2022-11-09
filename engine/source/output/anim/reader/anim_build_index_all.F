@@ -123,7 +123,9 @@ C-------------------------------------------
      .                        IWPLAFULL > 0        .OR.
      .                        IBEAM_EPSPALL > 0    .OR.
      .                        IEPSPNLALL == 1      .OR.
-     .                        IEPSDNLALL == 1    ) THEN
+     .                        IEPSDNLALL == 1      .OR.
+     .                        ITSAIWUALL > 0       .OR.
+     .                        ITSAIWUFULL > 0)     THEN
          NIPMAX = 0
          DO I=1,NUMGEO
            NIPMAX = MAX(NIPMAX,NINT(GEO(6,I)))
@@ -902,6 +904,44 @@ c
              ENDIF
            ENDDO
          ENDIF
+       ENDIF
+C       
+!   ...TSAIWU/ALL 
+       IF (ITSAIWUALL == 1)THEN
+         IDX = 14597 + 4*MX_PLY_ANIM
+         NMAX = MIN(100,NIPMAX)
+         DO I=1,NMAX
+           IF (ANIM_CE(IDX + I) == 0) THEN
+             ANIM_CE(IDX + I) = 1
+             NCE_ANI = NCE_ANI + 1
+           ENDIF
+         ENDDO
+       ELSEIF (ITSAIWUALL == 2) THEN
+!   ...TSAIWU/ALL/ALL
+         IDX  = 14897 + 4*MX_PLY_ANIM
+         NMAX = MIN(100,NIPMAX)
+         DO I=1,NMAX
+           DO J=1,NPTT_PLY
+             IUS = 10*(I-1) + J
+             IF (ANIM_CE(IDX + IUS) == 0) THEN
+               ANIM_CE(IDX + IUS) = 1
+               NCE_ANI = NCE_ANI + 1
+             ENDIF
+           ENDDO
+         ENDDO
+       ENDIF 
+
+       IF (ITSAIWUFULL > 0) THEN
+!   ...TSAIWU/N1/ALL
+         IDX = 14897 + 4*MX_PLY_ANIM
+         ITSAIWUFULL = MIN(100,ITSAIWUFULL)
+         DO J=1,NPTT_PLY
+           IUS = 10*(ITSAIWUFULL-1) + J
+           IF (ANIM_CE(IDX + IUS) == 0) THEN
+             ANIM_CE(IDX + IUS) = 1
+             NCE_ANI = NCE_ANI + 1
+           ENDIF
+         ENDDO
        ENDIF
 C
       ELSE ! IF(MCHECK == 0 ) THEN

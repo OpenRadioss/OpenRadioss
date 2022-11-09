@@ -117,7 +117,8 @@ c---------------------
           IF (GBUF%G_MU     == 0) GBUF%G_MU     = MTAG%G_MU
           IF (GBUF%G_DMG    == 0) GBUF%G_DMG    = MTAG%G_DMG
           IF (GBUF%G_MAXFRAC== 0) GBUF%G_MAXFRAC= MTAG%G_MAXFRAC    
-          IF (GBUF%G_MAXEPS == 0) GBUF%G_MAXEPS = MTAG%G_MAXEPS            
+          IF (GBUF%G_MAXEPS == 0) GBUF%G_MAXEPS = MTAG%G_MAXEPS
+          IF (GBUF%G_TSAIWU == 0) GBUF%G_TSAIWU = MTAG%G_TSAIWU            
           BUFLY%NVAR_MAT= MTAG%NUVAR
           BUFLY%NVARTMP = MTAG%NVARTMP
         ENDDO                                      
@@ -148,7 +149,8 @@ c---------------------
             IF (GBUF%G_DAMDL  == 0) GBUF%G_DAMDL  = MTAG%G_DAMDL 
             IF (GBUF%G_IERR   == 0) GBUF%G_IERR   = MTAG%G_IERR
             IF (GBUF%G_MAXFRAC== 0) GBUF%G_MAXFRAC= MTAG%G_MAXFRAC    
-            IF (GBUF%G_MAXEPS == 0) GBUF%G_MAXEPS = MTAG%G_MAXEPS            
+            IF (GBUF%G_MAXEPS == 0) GBUF%G_MAXEPS = MTAG%G_MAXEPS      
+            IF (GBUF%G_TSAIWU == 0) GBUF%G_TSAIWU = MTAG%G_TSAIWU      
           ENDDO 
         ELSE IF (GMAT > 0) THEN
           MTAG  => MLAW_TAG(GMAT)
@@ -173,6 +175,7 @@ c---------------------
           IF (GBUF%G_MU     == 0) GBUF%G_MU     = MTAG%G_MU 
           IF (GBUF%G_PLANL  == 0) GBUF%G_PLANL  = MTAG%G_PLANL
           IF (GBUF%G_EPSDNL == 0) GBUF%G_EPSDNL = MTAG%G_EPSDNL
+          IF (GBUF%G_TSAIWU == 0) GBUF%G_TSAIWU = MTAG%G_TSAIWU
           IF (GBUF%G_MAXFRAC== 0) GBUF%G_MAXFRAC= MTAG%G_MAXFRAC   
           IF (GBUF%G_MAXEPS == 0) GBUF%G_MAXEPS = MTAG%G_MAXEPS               
           IF (GBUF%G_DMG    == 0) GBUF%G_DMG    = MTAG%G_DMG
@@ -381,6 +384,7 @@ c       local material variables
         IF (BUFLY%L_PLANL  == 0) BUFLY%L_PLANL  = MTAG%L_PLANL
         IF (BUFLY%L_EPSDNL == 0) BUFLY%L_EPSDNL = MTAG%L_EPSDNL      
         IF (BUFLY%L_DMGSCL == 0) BUFLY%L_DMGSCL = MTAG%L_DMGSCL  
+        IF (BUFLY%L_TSAIWU == 0) BUFLY%L_TSAIWU = MTAG%L_TSAIWU  
 c       layer property variables
         IF (BUFLY%LY_DMG  == 0) BUFLY%LY_DMG    = PTAG%LY_DMG
         IF (BUFLY%LY_GAMA == 0) BUFLY%LY_GAMA   = PTAG%LY_GAMA               

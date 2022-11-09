@@ -990,7 +990,8 @@ C       TSAI 3D Complet
      8            DEFP     ,NGL      ,LBUF%SEQ,NEL      ,EOSTYP  ,   
      9            RHO0     ,AMU      ,AMU2    ,ESPE     ,DF      ,
      A            PSH      ,PNEW     ,DPDM    ,DPDE     ,LBUF%RHO,
-     B            LBUF%TEMP,ECOLD    ,BUFMAT  ,NPF      ,TF)
+     B            LBUF%TEMP,ECOLD    ,BUFMAT  ,NPF      ,TF      ,
+     C            LBUF%TSAIWU)
         IF (JSPH == 0) THEN
           CALL MQVISCB(PM,OFF    ,LBUF%RHO ,LBUF%RK ,LBUF%TEMP ,CXX       ,
      2         LBUF%RE  ,STIFN   ,DT2T     ,NELTST  ,ITYPTST   ,AIRE      ,
@@ -1020,7 +1021,7 @@ C       TSAI 3D Complet
      5              DVOL     ,CXX      ,DXX     ,DYY      ,DZZ     , 
      6              D4       ,D5       ,D6      ,S1       ,S2      ,
      7              S3       ,S4       ,S5      ,S6       ,SIGY    ,
-     8              DEFP     ,NGL      ,LBUF%SEQ,NEL      )
+     8              DEFP     ,NGL      ,LBUF%SEQ,NEL      ,LBUF%TSAIWU)
         IF (JSPH == 0) THEN
           CALL MQVISCB(PM,OFF   ,LBUF%RHO,LBUF%RK ,LBUF%TEMP,CXX      ,
      2         LBUF%RE  ,STIFN   ,DT2T    ,NELTST  ,ITYPTST  ,AIRE    ,
@@ -1190,7 +1191,7 @@ C     like law25 for shell + S33 = EPS33*E33
      5       TX      ,TY       ,TZ      ,GAMA    ,VOLN     ,CXX      ,          
      6       LBUF%VOL,LBUF%EPSD,LBUF%PLA,LBUF%DAM,LBUF%CRAK,LBUF%STRA,     
      7       DEFP    ,SIGY     ,SIGL    ,NGL     ,ILAY     ,LBUF%OFF ,
-     8       LBUF%SEQ,NEL      ,IPM     ,IPG     )                         
+     8       LBUF%SEQ,NEL      ,IPM     ,IPG     ,LBUF%TSAIWU)                         
         IF (JSPH == 0) THEN
           CALL MQVISCB(PM,OFF   ,LBUF%RHO,LBUF%RK ,LBUF%TEMP,CXX       ,
      2         LBUF%RE  ,STIFN   ,DT2T    ,NELTST  ,ITYPTST  ,AIRE      ,

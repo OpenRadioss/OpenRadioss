@@ -211,10 +211,17 @@ c            IG = IGAUSS_INPUT
             USER_OK = 0
 c
             IF (KEYWORD == 'MDS') IUVAR = IMDSVAR
-            IF (ILAY == -2) ILAY = 1
-            IF (ILAY == -3) ILAY = NLAY
-            IF (IPT == -2) IPT = 1
-            IF (IPT == -3) IPT = MAX(1,NPT)           
+            IF (IGTYP == 51 .OR. IGTYP == 52) THEN 
+              IF (ILAY == -2) ILAY = 1
+              IF (ILAY == -3) ILAY = NPT
+              IF (IPT  == -2) IPT  = 1
+              IF (IPT  == -3) IPT  = MAX(1,ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT)
+            ELSE
+              IF (ILAY == -2) ILAY = 1
+              IF (ILAY == -3) ILAY = NLAY
+              IF (IPT  == -2) IPT  = 1
+              IF (IPT  == -3) IPT  = MAX(1,NPT)    
+            ENDIF                 
 C---------------------    
             DO I=1,NEL
               VALUE(I) = ZERO
@@ -1751,10 +1758,11 @@ c
 
 
 c ILAYER= NPT=
-              ELSEIF ( (ILAY <= NLAY .AND. ILAY > 0) .AND. (IPT <= MPT .AND. IPT > 0 ) .AND. GBUF%G_PLA > 0) THEN
+              ELSEIF ( (ILAY <= NLAY .AND. ILAY > 0) .AND. (IPT <= 10 .AND. IPT > 0 ) .AND. GBUF%G_PLA > 0) THEN
                 IF (IGTYP == 51 .OR. IGTYP == 52) THEN 
                   BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
-                  IF (BUFLY%L_PLA > 0) THEN
+                  NPTT  =  BUFLY%NPTT
+                  IF ((BUFLY%L_PLA > 0).AND.(IPT <= NPTT)) THEN
                     DO IR=1,NPTR
                       DO IS=1,NPTS
                         LBUF => BUFLY%LBUF(IR,IS,IPT)
@@ -3088,7 +3096,185 @@ C------------------
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO              
                 ENDIF
-              ENDIF             
+              ENDIF      
+C--------------------------------------------------
+            ELSEIF (KEYWORD == 'TSAIWU') THEN 
+              ! ---
+              IF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1 .AND. GBUF%G_TSAIWU > 0) THEN
+                IF (NLAY > 1) THEN
+                  IPT = IABS(NLAY)/2 + 1
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(IPT)
+                  IF (BUFLY%L_TSAIWU > 0) THEN
+                    NPTT = BUFLY%NPTT
+                    DO IR = 1,NPTR
+                      DO IS = 1,NPTS
+                        DO IT = 1,NPTT
+                          DO I=1,NEL 
+                            VALUE(I) = VALUE(I) + BUFLY%LBUF(IR,IS,IT)%TSAIWU(I)/(NPTT*NPTR*NPTS)
+                            IS_WRITTEN_VALUE(I) = 1	
+                          ENDDO			
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDIF
+                ELSE
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(1)
+                  IF (BUFLY%L_TSAIWU > 0) THEN
+                    NPTT = BUFLY%NPTT
+                    IPT  = IABS(NPTT)/2 + 1
+                    DO IR = 1,NPTR
+                      DO IS = 1,NPTS
+                        DO I=1,NEL 
+                          VALUE(I) = VALUE(I) + BUFLY%LBUF(IR,IS,IPT)%TSAIWU(I)/(NPTR*NPTS)
+                          IS_WRITTEN_VALUE(I) = 1				
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDIF
+                ENDIF
+c
+              ! -- PLY=IPLY NPT=IPT
+              ELSEIF ( IPLY > 0 .AND. (IPT <= MPT .AND. IPT > 0 ) .AND. GBUF%G_TSAIWU > 0) THEN
+c
+	              DO J=1,NLAY
+                  ID_PLY = 0
+                  IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+	                  ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                  ELSEIF (IGTYP == 52) THEN
+                    ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                  ENDIF
+c
+                  IF (ID_PLY  == IPLY ) THEN
+                    BUFLY => ELBUF_TAB(NG)%BUFLY(J)
+                    IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
+                      NPTT = BUFLY%NPTT 
+                      IF( IPT <= NPTT) THEN
+                	      IF( NPG > 1 ) THEN
+                	        DO IR=1,NPTR
+                	          DO IS=1,NPTS
+                	            DO I=1,NEL 			 
+                	              VALUE(I) = VALUE(I) + BUFLY%LBUF(IR,IS,IPT)%TSAIWU(I)/NPG  
+                                IS_WRITTEN_VALUE(I) = 1	
+                	            ENDDO  
+                	          ENDDO  
+                	        ENDDO
+                	      ELSE
+                	        DO I=1,NEL				   
+                	          VALUE(I) = BUFLY%LBUF(1,1,IPT)%TSAIWU(I)
+                            IS_WRITTEN_VALUE(I) = 1				
+                	        ENDDO
+                	      ENDIF
+                      ENDIF
+                    ENDIF 
+                  ENDIF 
+                ENDDO
+c
+              ! -- PLY=IPLY NPT=NULL
+              ELSEIF ( IPLY > 0  .AND. IPT == -1 .AND. GBUF%G_TSAIWU > 0) THEN
+c
+	              DO J=1,NLAY
+                  ID_PLY = 0
+                  IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+	                  ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                  ELSEIF (IGTYP == 52) THEN
+                    ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                  ENDIF
+c
+                  IF (ID_PLY  == IPLY ) THEN
+                    BUFLY => ELBUF_TAB(NG)%BUFLY(J)
+                    IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
+                      NPTT = BUFLY%NPTT 
+	                    DO IPT=1,NPTT
+                        IF (IPT <= NPTT) THEN
+                     	    IF (NPG > 1) THEN
+                     	      DO IR=1,NPTR
+                     	        DO IS=1,NPTS
+                     	    	    DO I=1,NEL			   
+                     	            VALUE(I) = VALUE(I) + BUFLY%LBUF(IR,IS,IPT)%TSAIWU(I)/(NPG*NPTT)
+                            	    IS_WRITTEN_VALUE(I) = 1 
+                                ENDDO			      
+                     	        ENDDO  
+                     	      ENDDO
+                     	    ELSE
+                     	      DO  I=1,NEL 			     
+                     	        VALUE(I) = VALUE(I) + BUFLY%LBUF(1,1,IPT)%TSAIWU(I)/NPTT
+                              IS_WRITTEN_VALUE(I) = 1				
+                     	      ENDDO
+                     	    ENDIF
+                        ENDIF
+                      ENDDO
+                    ENDIF 
+                  ENDIF 
+                ENDDO
+c
+              ! -- ILAYER= NPT=
+              ELSEIF ( (ILAY <= NLAY .AND. ILAY > 0) .AND. (IPT <= 10 .AND. IPT > 0 ) .AND. GBUF%G_TSAIWU > 0) THEN
+                IF (IGTYP == 51 .OR. IGTYP == 52) THEN 
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
+                  NPTT  = BUFLY%NPTT
+                  IF ((BUFLY%L_TSAIWU > 0).AND.(IPT <= NPTT)) THEN
+                    DO IR=1,NPTR
+                      DO IS=1,NPTS
+                        LBUF => BUFLY%LBUF(IR,IS,IPT)
+                    	  DO I=1,NEL
+                          VALUE(I) = VALUE(I) + LBUF%TSAIWU(I)/NPG
+                          IS_WRITTEN_VALUE(I) = 1
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDIF
+                ENDIF
+c
+              ! -- ILAYER=IL NPT=NULL
+              ELSEIF ( ILAY <= NLAY .AND. ILAY > 0 .AND. GBUF%G_TSAIWU > 0) THEN
+                IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN 
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
+                  IF (BUFLY%L_TSAIWU > 0) THEN
+                    DO IR=1,NPTR
+                      DO IS=1,NPTS
+                    	  LBUF => BUFLY%LBUF(IR,IS,1)
+                        DO I=1,NEL
+                    	    VALUE(I) = VALUE(I) + LBUF%TSAIWU(I)/NPG
+                          IS_WRITTEN_VALUE(I) = 1
+                    	  ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDIF
+                ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN 
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
+                  NPTT  = BUFLY%NPTT
+                  IF (BUFLY%L_TSAIWU > 0) THEN
+                    DO IT=1,NPTT
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => BUFLY%LBUF(IR,IS,IT)
+                    	    DO I=1,NEL
+                            VALUE(I) = VALUE(I) + LBUF%TSAIWU(I)/(NPG*NPTT)
+                    	      IS_WRITTEN_VALUE(I) = 1
+                          ENDDO
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDIF
+                ENDIF
+c
+              ! -- ILAYER=NULL NPT=IPT
+              ELSEIF ( IPT <= MPT .AND. IPT > 0 .AND. GBUF%G_TSAIWU > 0) THEN
+                IF (IGTYP == 1 .OR. IGTYP == 9) THEN 
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(1)
+                  IF (BUFLY%L_TSAIWU > 0) THEN
+                    DO IR=1,NPTR
+                      DO IS=1,NPTS
+                    	  LBUF => BUFLY%LBUF(IR,IS,IPT)
+                    	  DO I=1,NEL
+                    	    VALUE(I) = VALUE(I) + LBUF%TSAIWU(I)/NPG
+                          IS_WRITTEN_VALUE(I) = 1
+                    	  ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDIF
+                ENDIF
+              ENDIF   
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TEMP') THEN 
               IF ((GBUF%G_TEMP > 0).AND.(MLW == 104)) THEN

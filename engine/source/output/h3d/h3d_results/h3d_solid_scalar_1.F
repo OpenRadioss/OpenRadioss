@@ -325,7 +325,28 @@ C--------------------------------------------------
                       IS_WRITTEN_VALUE(I) = 1
                     ENDIF  
                   ENDDO
-                ENDIF ! Isolid ...               
+                ENDIF ! Isolid ...         
+C--------------------------------------------------  
+              ELSEIF (KEYWORD == 'TSAIWU' .AND. GBUF%G_TSAIWU > 0) THEN
+C--------------------------------------------------  
+                DO I=LFT,LLT   
+                  VALUE(I) = ZERO                                      
+                ENDDO  
+                DO IL=1,NLAY                          
+                  IF (ELBUF_TAB(NG)%BUFLY(IL)%L_TSAIWU > 0) THEN
+                    DO IS=1,NPTS 
+                      DO IT=1,NPTT                                      
+                        DO IR=1,NPTR                                    
+                          LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                          DO I=LFT,LLT                                 
+                            VALUE(I) = VALUE(I) + LBUF%TSAIWU(I)/NPTG 
+                            IS_WRITTEN_VALUE(I) = 1         
+                          ENDDO
+                        ENDDO    
+                      ENDDO      
+                    ENDDO        
+                  ENDIF 
+                ENDDO
 C--------------------------------------------------  
               ELSEIF(KEYWORD == 'DENS')THEN
 C--------------------------------------------------  

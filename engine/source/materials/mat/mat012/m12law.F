@@ -40,7 +40,8 @@ Chd|====================================================================
      8                   DEFP ,NGL  ,SEQ_OUTPUT  ,NEL  ,EOSTYP,
      9                   RHO0 ,AMU  ,AMU2  ,ESPE ,DF   ,
      A                   PSH  ,PNEW ,DPDM  ,DPDE ,RHO  ,
-     B                   TEMP ,ECOLD,BUFMAT,NPC  ,TF)
+     B                   TEMP ,ECOLD,BUFMAT,NPC  ,TF   ,
+     C                   TSAIWU)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,7 +73,8 @@ C-----------------------------------------------
      .   VNEW(MVSIZ), DVOL(MVSIZ), SSP(MVSIZ), 
      .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ),D4(MVSIZ),D5(MVSIZ),D6(MVSIZ),
      .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ), SOLD4(MVSIZ),
-     .   SOLD5(MVSIZ), SOLD6(MVSIZ),SIGY(*),DEFP(*),SEQ_OUTPUT(*)
+     .   SOLD5(MVSIZ), SOLD6(MVSIZ),SIGY(*),DEFP(*),SEQ_OUTPUT(*),
+     .   TSAIWU(MVSIZ)
       my_real
      .   RHO0(NEL), AMU(NEL)  , AMU2(NEL), ESPE(NEL), DF(NEL) ,
      .   PSH(NEL) , PNEW(NEL) , DPDM(NEL), DPDE(NEL), RHO(NEL),
@@ -509,6 +511,7 @@ C---------------------
      .    + TWO*F12(I)*T1(I)*T2(I) + TWO*F13(I)*T1(I)*T3(I)
      .    + TWO*F23(I)*T2(I)*T3(I)
          DAM(I,4)=WVEC(I)
+         TSAIWU(I)=MIN(WVEC(I)/SIGMY(I),ONE)
 !!        CRITERION / (EQUIVALENT STRESS) FOR OUTPUT - TSAI-WU -
 !!         SEQ_OUTPUT(I) = WVEC(I)
       ENDDO

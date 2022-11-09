@@ -172,6 +172,16 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'User Var'
 c-----------------------------------------------
       I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'TSAIWU'
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER_ALL  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT_ALL  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY_ALL  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Tsai-Wu Criterion'
+c-----------------------------------------------
+      I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'HOURGLASS'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Hourglass Energy'
 c-----------------------------------------------

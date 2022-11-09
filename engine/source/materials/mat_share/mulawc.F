@@ -1005,7 +1005,7 @@ C------------------------------------------
      4                 DEPSXX   ,DEPSYY  ,DEPSXY   ,DEPSYZ     ,DEPSZX     ,
      5        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      6                 SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ     ,SIGNZX     ,
-     7                 LBUF%DSUM)
+     7                 LBUF%DSUM,LBUF%TSAIWU)
           ELSEIF (ILAW == 19) THEN
 
             CALL SIGEPS19C(
@@ -1070,7 +1070,7 @@ C------------------------------------------
      D        ISRATE      ,UVARV    ,ISHPLYXFEM  ,IPT      ,LBUF%SEQ  ,
      E        PLY_EXX     ,PLY_EYY  ,PLY_EXY     ,PLY_EXZ  ,PLY_EYZ   ,
      F        PLY_F       ,LBUF%PLA ,LBUF%DAM    ,LBUF%CRAK,GBUF%IERR ,
-     G        IOFF_DUCT   ,IFAILURE ,PLY_ID      ,IPG      )
+     G        IOFF_DUCT   ,IFAILURE ,PLY_ID      ,IPG      ,LBUF%TSAIWU)
           ELSEIF (IGTYP == 9) THEN
 !           INTEGRATION BY POINTS (through thickness)
             CALL SIGEPS25CP(
@@ -1080,7 +1080,8 @@ C------------------------------------------
      4                      DEPSXX  ,DEPSYY ,DEPSXY   ,DEPSYZ  ,DEPSZX ,
      5        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      6                      SIGNXX  ,SIGNYY ,SIGNXY   ,SIGNYZ  ,SIGNZX ,
-     7                      IMAT    ,WPLAR  ,IOFF_DUCT,LBUF%PLA,ISRATE )
+     7                      IMAT    ,WPLAR  ,IOFF_DUCT,LBUF%PLA,ISRATE ,
+     8                      LBUF%TSAIWU)
            ENDIF ! IF (IGTYP)
 C        
        ELSEIF (ILAW == 34) THEN

@@ -268,6 +268,8 @@ c
                   LBUF%EPSDNL = ZERO
               MY_ALLOCATE(LBUF%DMGSCL,NEL*BUFLY%L_DMGSCL)                   
                   LBUF%DMGSCL = ONE
+              MY_ALLOCATE(LBUF%TSAIWU,NEL*BUFLY%L_TSAIWU)                   
+                  LBUF%TSAIWU = ZERO
 
               MY_ALLOCATE(LBUF%PIJ,NEL*BUFLY%L_PIJ)              
                   LBUF%PIJ = ZERO

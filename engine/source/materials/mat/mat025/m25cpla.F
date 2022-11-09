@@ -32,7 +32,7 @@ Chd|====================================================================
      4                   EPST , DAMT  ,CRAK ,NFIS1,
      5                   NFIS2,NFIS3,WPLAR ,
      6                   EPSP , WPLA, SIGL, ILAY,FLAY,
-     7                   SEQ_OUTPUT,NEL,IPG)
+     7                   SEQ_OUTPUT,NEL,IPG,TSAIWU)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,7 +64,8 @@ C     REAL
      .   S1(*),S2(*),S3(*),
      .   S4(*),S5(*),S6(*), 
      .   D1(*),D2(*),D3(*),
-     .   D4(*),D5(*),D6(*), SIGL(MVSIZ,6),FLAY(*),SEQ_OUTPUT(*)
+     .   D4(*),D5(*),D6(*), SIGL(MVSIZ,6),FLAY(*),SEQ_OUTPUT(*),
+     .   TSAIWU(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -682,9 +683,10 @@ C     PLASTICITE
 C-------------------------------------------------------------------
       IF(JYEILD == 0) THEN
          DO  I=JFT,JLT
-           WVEC(I)=  F1(I) *T1(I)      + F2(I) *T2(I) +
-     .               F11(I)*T1(I)*T1(I)+ F22(I)*T2(I)*T2(I) +
-     .               F33(I)*T3(I)*T3(I)+ TWO*F12(I)*T1(I)*T2(I)
+           WVEC(I) = F1(I) *T1(I)       + F2(I) *T2(I) +
+     .               F11(I)*T1(I)*T1(I) + F22(I)*T2(I)*T2(I) +
+     .               F33(I)*T3(I)*T3(I) + TWO*F12(I)*T1(I)*T2(I)
+           TSAIWU(I) = MIN(WVEC(I)/FYLD(I),ONE)
 !!c    equiv crit for output
 !!            SEQ_OUTPUT(I) = WVEC(I)
          ENDDO

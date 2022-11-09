@@ -2354,7 +2354,7 @@ C
 !!!
         IDX = 13245 + 4*MX_PLY_ANIM
         IF(ANIM_CE(IDX + 1)==1) CALL ANI_TXT('Plastic Work Upper',18)
-        IF(ANIM_CE(IDX + 1)==1) CALL ANI_TXT('Plastic Work Lower',18)
+        IF(ANIM_CE(IDX + 2)==1) CALL ANI_TXT('Plastic Work Lower',18)
         IDX = 13247 + 4*MX_PLY_ANIM
         DO I=1,100
            IF(ANIM_CE(IDX + I)==1)THEN
@@ -2468,8 +2468,63 @@ C all NPTT for PID51
           ENDIF
         ENDDO 
 
+C----------------------------------------------------------------------
+C   Tsai-Wu criterion output for composites
+C----------------------------------------------------------------------
+!/ANIM/ELEM/TSAIWU
+        IDX = 14595 + 4*MX_PLY_ANIM 
+        IF(ANIM_CE(IDX    )==1) CALL ANI_TXT('Tsai-Wu Criterion'  ,17)
+        IF(ANIM_CE(IDX + 1)==1) CALL ANI_TXT('Tsai-Wu Crit. Upper',19)
+        IF(ANIM_CE(IDX + 2)==1) CALL ANI_TXT('Tsai-Wu Crit. Lower',19)
+        DO I=1,100
+          IF(ANIM_CE(IDX + 2 + I)==1)THEN
+            IUS = I
+            IF(IUS==0) IUS = 100
+            WRITE(MES,'(A,I3,A)')
+     .       'Tsai-Wu Crit. Layer ',IUS, ' '
+            CALL ANI_TXT(MES,24)
+          END IF
+        END DO
+c
+C  upper for PID51
+        IDX = 14697 + 4*MX_PLY_ANIM
+        DO I=1,100
+           IF (ANIM_CE(IDX + I) == 1) THEN
+             IUS = I
+             IF(IUS==0) IUS = 100
+             WRITE(MES,'(A,I3,A)')
+     .       'Tsai-Wu Crit. Upper Layer',IUS, ' '
+               CALL ANI_TXT(MES,29)
+            END IF
+        END DO
+C  lower for PID51
+        IDX = 14797 + 4*MX_PLY_ANIM
+        DO I=1,100
+           IF (ANIM_CE(IDX + I) == 1) THEN
+             IUS = I
+             IF(IUS==0) IUS = 100
+             WRITE(MES,'(A,I3,A)')
+     .       'Tsai-Wu Crit. Lower Layer',IUS, ' '
+               CALL ANI_TXT(MES,29)
+            END IF
+        END DO
+C all NPTT for PID51
+        IDX = 14897 + 4*MX_PLY_ANIM
+        DO I=1,100
+          DO J=1,10
+            IUS = 10*(I-1)+J
+            IF (ANIM_CE(IDX + IUS) == 1) THEN
+              ILAY = I
+              IPT  = J
+              WRITE(MES,'(A,I4,I3,A)')
+     .        'Tsai-Wu Crit. Lay/IPT ',ILAY,IPT, ' '
+              CALL ANI_TXT(MES,30)
+            END IF
+          ENDDO
+        ENDDO 
+
         !---NEXT ANIM
-        !IDX=IDX+1   ! => IDX = 4*MX_PLY_ANIM + 14595
+        !IDX=IDX+1   ! => IDX = 4*MX_PLY_ANIM + 15898
   
        ENDIF !  (NBF+NELCUT+NESBW2/=0)
 !
@@ -4534,6 +4589,14 @@ C
         IF(ANIM_SE(4968)==1)CALL ANI_TXT('Damage',6)
         IF(ANIM_SE(4969)==1)CALL ANI_TXT('Non-local plastic strain',24)
         IF(ANIM_SE(4970)==1)CALL ANI_TXT('Non-local plastic strain rate',29)
+        IF(ANIM_SE(4971)==1)CALL ANI_TXT('Tsai-Wu Criterion',17) 
+        DO I=1,200
+          IF(ANIM_SE(4971+I)==1)THEN
+            WRITE(MES,'(A,I3)')
+     .         'Tsai-Wu Crit. layer',I
+            CALL ANI_TXT(MES,22)
+          ENDIF
+        ENDDO
 C-----------------------------------------------                                         
       ENDIF !(ISPMD==0)
 

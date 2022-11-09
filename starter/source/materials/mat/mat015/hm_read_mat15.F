@@ -383,8 +383,10 @@ C---
 c
 C---- Definition des variables internes (stockage elementaire)
 c
-      MTAG%G_PLA   = 1    
-      MTAG%L_PLA   = 1   ! NB10
+      MTAG%G_PLA    = 1    
+      MTAG%L_PLA    = 1   ! NB10
+      MTAG%G_TSAIWU = 1
+      MTAG%L_TSAIWU = 1
 c-----------
       CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
       CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")

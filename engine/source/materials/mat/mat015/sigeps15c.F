@@ -35,7 +35,7 @@ Chd|====================================================================
      A                 DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX  ,
      7                 SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX  ,
      8                 SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX  ,
-     9                 SIGR   )
+     9                 SIGR   ,TSAIWU )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C     REAL
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ),PLA(NEL),SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),
      .   SIGOYZ(NEL),SIGOZX(NEL),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
-     .   SIGNYZ(NEL),SIGNZX(NEL),SIGR(NEL,6),DAMT(NEL,2)
+     .   SIGNYZ(NEL),SIGNZX(NEL),SIGR(NEL,6),DAMT(NEL,2),TSAIWU(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -92,7 +92,7 @@ C-----------------------
      3              DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX,
      4              SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX,
      5              SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX,
-     6              EPSPL  ,ISRATE ,NEL    )
+     6              EPSPL  ,ISRATE ,NEL    ,TSAIWU )
 !
       DMG_FLAG = 2
 !

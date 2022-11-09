@@ -218,6 +218,7 @@ c
         INTEGER ::  G_DMG          ! 
         INTEGER ::  G_PLANL
         INTEGER ::  G_EPSDNL 
+        INTEGER ::  G_TSAIWU
 c for spring with mat
         INTEGER ::  G_TOTDEPL
         INTEGER ::  G_TOTROT
@@ -298,6 +299,7 @@ c
         INTEGER ::  L_PLANL
         INTEGER ::  L_EPSDNL
         INTEGER ::  L_DMGSCL
+        INTEGER ::  L_TSAIWU
 
 c---    uvar            
         INTEGER ::  NUVAR           

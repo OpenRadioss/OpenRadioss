@@ -1557,6 +1557,54 @@ c------------------------------------ Non-local plastic strain
                     ENDDO
                   ENDDO
                 ENDDO 
+c------------------------------------ Tsai-Wu criterion          
+            ! -- Mean value     
+            ELSEIF(IFUNC == 4971 .AND. GBUF%G_TSAIWU > 0)THEN
+C              
+                DO I=LFT,LLT                                          
+                  EVAR(I) = ZERO                                      
+                ENDDO  
+                DO IL=1,NLAY                          
+                  IF (ELBUF_TAB(NG)%BUFLY(IL)%L_TSAIWU > 0) THEN
+                    DO IS=1,NPTS                                        
+                      DO IT=1,NPTT                                      
+                        DO IR=1,NPTR                                    
+                          LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                          DO I=LFT,LLT                                 
+                            EVAR(I) = EVAR(I) + LBUF%TSAIWU(I)/NPTG          
+                          ENDDO
+                        ENDDO                                           
+                      ENDDO                                             
+                    ENDDO                                               
+                  ENDIF                                        
+                ENDDO   
+C
+            ! -- Layer value
+            ELSEIF(IFUNC >= 4971+1 .AND. IFUNC<= 4971+200 .AND. GBUF%G_TSAIWU > 0) THEN
+                DO I=LFT,LLT
+                  EVAR(I) = ZERO 
+                ENDDO               
+                IUS = IFUNC - 4971
+                IF (ISOLNOD == 16.OR.ISOLNOD == 20.OR.
+     .             (ISOLNOD == 8.AND.JHBE == 14).OR.
+     .             ((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15))THEN
+                  IF (IUS <= NPTG) THEN      
+                    DO IL=1,NLAY                                          
+                      IF (ELBUF_TAB(NG)%BUFLY(IL)%L_TSAIWU > 0) THEN
+                        DO IS=1,NPTS                                        
+                         DO IT=1,NPTT                                      
+                          DO IR=1,NPTR                                    
+                            LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                            DO I=LFT,LLT                                 
+                              EVAR(I) = EVAR(I) + LBUF%TSAIWU(I)              
+                            ENDDO
+                           ENDDO                                           
+                          ENDDO                                             
+                        ENDDO                                               
+                      ENDIF                                        
+                    ENDDO                                                 
+                  ENDIF                                              
+                ENDIF         
 c------------------------------------ 
               !OTHER IFUNC VALUES
               ELSE 
