@@ -138,7 +138,7 @@ C
             IF (TT_DOUBLE > STOPT)  CYCLE
             I = IABS(IBFV(1,N))
             ISENS = IBFV(4,N)
-            IF (SENSOR_TAB(ISENS)%STATUS == 1) THEN
+            IF (ISENS > 0) THEN
               TSTMP = TT_DOUBLE - SENSOR_TAB(ISENS)%TSTART
               IF (TSTMP < ZERO) CYCLE
             ELSE
