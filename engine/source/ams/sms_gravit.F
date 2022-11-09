@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        SMS_MASS_SCALE_2              source/ams/sms_mass_scale_2.F 
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SMS_GRAVIT(IGRV  ,AGRV   ,NPC   ,TF   ,A     ,
      2                      V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,

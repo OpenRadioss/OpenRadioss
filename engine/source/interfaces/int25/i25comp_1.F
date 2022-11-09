@@ -30,6 +30,7 @@ Chd|        I25DST3_1                     source/interfaces/int25/i25dst3_1.F
 Chd|        I25GLOB_1                     source/interfaces/int25/i25dst3_1.F
 Chd|        I25PREP_SLID_1                source/interfaces/int25/i25slid.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25COMP_1(

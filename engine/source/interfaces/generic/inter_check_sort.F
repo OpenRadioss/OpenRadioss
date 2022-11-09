@@ -27,6 +27,7 @@ Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
         SUBROUTINE INTER_CHECK_SORT( ITASK,NEED_TO_SORT,NBINTC,INTLIST,IPARI,
      .                               INTBUF_TAB,SENSOR_TAB,NB_INTER_SORTED,

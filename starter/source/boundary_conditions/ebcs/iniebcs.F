@@ -33,6 +33,7 @@ Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale_ebcs_mod.
 Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
       SUBROUTINE INIEBCS(ALE_CONNECTIVITY, IFLAG,IGRSURF, IXS, IXQ, IXTG, 
      .     PM, IGEO, X, SENSOR_TAB, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)

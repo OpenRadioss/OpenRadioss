@@ -221,6 +221,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        RBYPID                        source/constraints/general/rbody/rbypid.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE RBYSENS(IPARG,IPARI      ,MS    ,IN   ,
      2                  IXS  ,IXQ  ,IXC   ,IXT   ,IXP  ,

@@ -65,6 +65,7 @@ Chd|        NGR2USR                       source/input/freform.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SMS_MASS_SCALE_2(
      1        ITASK    ,NODFT    ,NODLT    ,NODII_SMS ,INDX2_SMS ,

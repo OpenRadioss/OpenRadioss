@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
       SUBROUTINE INIPARSEN(SENSOR_TAB,NBR_SENS,STABSEN,TABSENSOR,FBSAV6)
 C-----------------------------------------------

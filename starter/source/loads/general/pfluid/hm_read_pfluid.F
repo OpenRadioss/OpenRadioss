@@ -36,6 +36,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_PFLUID(NUMLOADP ,ILOADP  ,LLOADP ,FACLOADP ,NPC      ,

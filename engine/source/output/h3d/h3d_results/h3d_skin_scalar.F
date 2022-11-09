@@ -33,6 +33,7 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE H3D_SKIN_SCALAR(
      .                  ELBUF_TAB       ,SKIN_SCALAR  ,IFUNC     ,IPARG       ,GEO         ,
@@ -352,11 +353,10 @@ Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
-Chd|        GET_U_SENS_VALUE              source/user_interface/usensor.F
-Chd|        SET_U_SENS_VALUE              source/user_interface/usensor.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        PBLAST_MOD                    ../common_source/modules/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE H3D_PRE_SKIN_SCALAR(SKIN_SCALAR,NODAL_IPART,
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,

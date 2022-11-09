@@ -31,6 +31,7 @@ Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE BOLTST (IBOLTP, IP, BPRELD, SIG, TT, NEL, SENSOR_TAB)   
 C   M o d u l e s

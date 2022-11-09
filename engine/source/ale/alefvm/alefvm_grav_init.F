@@ -27,6 +27,7 @@ Chd|        ALEMAIN                       source/ale/alemain.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE ALEFVM_GRAV_INIT(
      1                          AGRV, IGRV, LGRAV, SENSOR_TAB,

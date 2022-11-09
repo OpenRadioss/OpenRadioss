@@ -31,6 +31,7 @@ Chd|        FUNC_INTERS_SHEAR             source/tools/curve/func_inters.F
 Chd|        FUNC_SLOPE                    source/tools/curve/func_slope.F
 Chd|        MATFUN_USR2SYS                source/materials/tools/matfun_usr2sys.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE LAW58_UPD(IOUT   ,TITR   ,UPARAM ,NPC    ,PLD    ,  

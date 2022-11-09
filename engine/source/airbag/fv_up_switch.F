@@ -40,6 +40,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FV_UP_SWITCH(NN, NEL, ELEM, NJET, NPOLY,LENH,NBA,
      2     IBAGJET, RBAGJET, NVENT    , IBAGHOL, RBAGHOL ,

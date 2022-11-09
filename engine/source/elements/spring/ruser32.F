@@ -29,6 +29,7 @@ Chd|        GET_U_FUNC                    source/user_interface/ufunc.F
 Chd|        GET_U_GEO                     source/user_interface/upidmid.F
 Chd|        GET_U_PNU                     source/user_interface/upidmid.F
 Chd|        GET_U_SENS                    source/user_interface/usensor.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE RUSER32(
      1             NEL     ,IOUT    ,IPROP  ,UVAR   ,NUVAR  ,

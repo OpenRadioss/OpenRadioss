@@ -31,6 +31,7 @@ Chd|        GET_U_FUNC                    source/user_interface/ufunc.F
 Chd|        GET_U_FUNC_INV                source/user_interface/ufunc.F 
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE MATERIAL_FLOW(DFS,DFS_OLD,ALDP,SLIPRING_STRAND,XK,
      1                         OFF,AL0,AL02,LMIN,UPDATE_FLAG,

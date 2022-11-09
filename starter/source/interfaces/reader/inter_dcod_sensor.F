@@ -34,6 +34,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        INTSTAMP_MOD                  share/modules1/intstamp_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
       SUBROUTINE INTER_DCOD_SENSOR(NTYP,NI,IPARI,NOM_OPT,SENSOR_TAB)
 

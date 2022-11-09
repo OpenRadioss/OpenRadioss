@@ -30,6 +30,7 @@ Chd|        R23LAW113                     source/elements/spring/r23law113.F
 Chd|        R23LAW114                     source/elements/spring/r23law114.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE R23FORC3(ELBUF_STR,

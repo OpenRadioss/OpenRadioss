@@ -29,6 +29,7 @@ Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_I21CRIT                  source/mpi/interfaces/spmd_i21crit.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE I21_ICRIT(
      1  INTBUF_TAB     ,IPARI  ,DT2T   ,NELTST ,

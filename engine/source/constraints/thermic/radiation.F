@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE RADIATION(IBCR   ,FRADIA    ,NPC     ,TF     , X  ,
      1                     TEMP   ,SENSOR_TAB,FTHE   ,IAD ,

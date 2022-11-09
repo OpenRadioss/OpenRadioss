@@ -27,6 +27,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE LOAD_PRESSURE (ILOADP    ,LOADP     ,LLOADP ,NPC     ,TF      ,
      2                          A         ,V         ,X      ,SKEW    ,SENSOR_TAB,

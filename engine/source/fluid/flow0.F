@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        DAASOLV                       source/fluid/daasolv.F        
 Chd|        DAASOLVP                      source/fluid/daasolvp.F       
 Chd|        INCPFLOW                      source/fluid/incpflow.F       
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FLOW0(IFLOW  , RFLOW  , WIFLOW , WRFLOW, X      ,
      .                 V      , A      , NPC    , TF    , SENSOR_TAB,

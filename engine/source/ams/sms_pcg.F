@@ -57,6 +57,7 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        SUM_6_FLOAT                   source/system/parit.F         
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        SMS_PCG_PROJ                  share/modules/sms_mod.F       
 Chd|====================================================================
       SUBROUTINE SMS_PCG (NODFT ,NODLT    ,NNZ      ,IADK     ,

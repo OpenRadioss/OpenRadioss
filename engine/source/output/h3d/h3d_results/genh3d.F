@@ -96,6 +96,7 @@ Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE GENH3D(X        ,D        ,V           ,A           ,BUFEL    ,

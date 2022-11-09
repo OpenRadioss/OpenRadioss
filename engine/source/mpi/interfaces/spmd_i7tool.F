@@ -3013,6 +3013,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        INTERFACE_MODIFICATION_MOD    share/modules/interface_modification_mod.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
@@ -5194,6 +5195,7 @@ Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTERFACE_MODIFICATION_MOD    share/modules/interface_modification_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

@@ -30,6 +30,7 @@ Chd|        PROD_AB                       source/elements/joint/rskew33.F
 Chd|        QROT33                        source/elements/joint/rskew33.F
 Chd|        GET_U_GEO                     source/user_interface/upidmid.F
 Chd|        GET_U_SKEW                    source/user_interface/uaccess.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE RSKEW33(JFT    ,JLT     ,IXR   ,IOUT  ,IPROP,
      .                   NUVAR  ,UVAR    ,RBY   ,X     ,XL   ,

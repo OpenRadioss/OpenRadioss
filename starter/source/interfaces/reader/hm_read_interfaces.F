@@ -41,6 +41,7 @@ Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_INTERFACES(

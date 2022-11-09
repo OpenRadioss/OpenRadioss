@@ -27,6 +27,7 @@ Chd|        MONVOL0                       source/airbag/monvol0.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE VOLPRE(IVOLU ,RVOLU   ,NJET    ,IBAGJET ,RBAGJET  ,
      2                SENSOR_TAB,X       ,V       ,A        ,

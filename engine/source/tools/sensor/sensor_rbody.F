@@ -22,11 +22,10 @@ Copyright>        software under a commercial license.  ConTSTART Altair to disc
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C=======================================================================
 Chd|====================================================================
-Chd|  SENSOR_RBODY                    source/tools/sensor/sensor_rbody.F
+Chd|  SENSOR_RBODY                  source/tools/sensor/sensor_rbody.F
 Chd|-- called by -----------
 Chd|        SENSOR1                       source/tools/sensor/sensor1.F 
 Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SENSOR_RBODY(SENSOR ,DIMFB   ,STABS   ,TABS   ,FBSAV6)

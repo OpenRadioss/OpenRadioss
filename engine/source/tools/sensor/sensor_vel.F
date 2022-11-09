@@ -26,7 +26,7 @@ Chd|  SENSOR_VEL                    source/tools/sensor/sensor_vel.F
 Chd|-- called by -----------
 Chd|        SENSOR1                       source/tools/sensor/sensor1.F 
 Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        BUTTERWORTH                   source/tools/univ/butterworth.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SENSOR_VEL(SENSOR ,V)

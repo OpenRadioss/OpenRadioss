@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE DAASOLV(NDIM,   NNO,    NEL,   
      .                   IFLOW,  IBUF,   ELEM,  SHELL_GA,

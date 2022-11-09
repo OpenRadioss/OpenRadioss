@@ -27,6 +27,7 @@ Chd|        FVBAG1                        source/airbag/fvbag.F
 Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FVINJT6(NJET   , IBAGJET , RBAGJET , NPC    , TF      ,
      2                   SENSOR_TAB, SCALT,    DATAINJ )

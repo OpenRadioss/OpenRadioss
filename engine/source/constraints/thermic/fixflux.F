@@ -29,6 +29,7 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        S4VOLUME                      source/elements/solid/solide4/s4volume.F
 Chd|        S8EVOLUME                     source/elements/solid/solide8e/s8evolume.F
 Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FIXFLUX (IBFFLUX ,FBFFLUX ,NPC   ,TF  ,X  ,IXS,
      1                    SENSOR_TAB,FTHE  ,IAD ,FTHESKY)

@@ -27,6 +27,7 @@ Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE SIGEPS58C(

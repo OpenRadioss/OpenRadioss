@@ -37,6 +37,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

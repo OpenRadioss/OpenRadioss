@@ -25,6 +25,7 @@ Chd|  R1SENS3                       source/elements/spring/rsens3.F
 Chd|-- called by -----------
 Chd|        RFORC3                        source/elements/spring/rforc3.F
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE R1SENS3(GEO,OFF ,SENSOR_TAB,DX,
      .                   X0 ,IGEO,MGN    )
@@ -112,6 +113,7 @@ Chd|  R2SENS3                       source/elements/spring/rsens3.F
 Chd|-- called by -----------
 Chd|        RFORC3                        source/elements/spring/rforc3.F
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE R2SENS3(GEO ,OFF ,SENSOR_TAB,DX ,
      2                   DY  ,DZ  ,X0    ,Y0      ,Z0 ,
@@ -210,6 +212,7 @@ Chd|        R23LAW108                     source/elements/spring/r23law108.F
 Chd|        R23LAW113                     source/elements/spring/r23law113.F
 Chd|        R23LAW114                     source/elements/spring/r23law114.F
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE R23SENS3(GEO ,OFF ,SENSOR_TAB,DX ,
      2                   DY  ,DZ  ,X0    ,Y0      ,Z0 ,

@@ -26,9 +26,8 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        GET_U_SENS_VALUE              source/user_interface/usensor.F
-Chd|        SET_U_SENS_VALUE              source/user_interface/usensor.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE PFLUID(ILOADP  ,FAC     ,NPC    ,TF    ,A       ,
      2                  V       ,X       ,XFRAME ,AR    ,VR      ,

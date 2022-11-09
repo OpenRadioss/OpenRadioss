@@ -32,6 +32,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FVBAG0(MONVOL,   VOLMON , X        , SENSOR_TAB, V      ,
      .                  A     ,   NPC    , TF       ,
@@ -323,6 +324,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FVBAG1(NN     , NEL    , IBUF     , ELEM   , NJET    ,
      2                  IBAGJET, RBAGJET, NVENT    , IBAGHOL, RBAGHOL ,

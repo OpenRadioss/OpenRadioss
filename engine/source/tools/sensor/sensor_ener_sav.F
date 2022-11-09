@@ -25,6 +25,7 @@ Chd|  SENSOR_ENER_SAV               source/tools/sensor/sensor_ener_sav.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SENSOR_ENER_SAV(SENSOR_TAB ,PARTSAV ,PARTSAV2)
 C-----------------------------------------------

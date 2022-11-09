@@ -27,6 +27,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        VINTER                        source/tools/curve/vinter.F   
 Chd|        VINTER_SMOOTH                 source/tools/curve/vinter_smooth.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FIXTEMP(IBFT  ,VAL    , TEMP  ,NPC    ,TF   ,
      .                   SENSOR_TAB)

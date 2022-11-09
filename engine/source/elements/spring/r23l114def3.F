@@ -30,6 +30,7 @@ Chd|        REDEF3                        source/elements/spring/redef3.F
 Chd|        REDEF_SEATBELT                source/tools/seatbelts/redef_seatbelt.F
 Chd|        REPLA3                        source/elements/spring/repla3.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE R23L114DEF3(
      1        SKEW    ,IPM    ,IGEO   ,MID     ,PID    ,

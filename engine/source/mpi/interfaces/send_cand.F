@@ -1757,6 +1757,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SPMD_IFRONT_STAMP(
      1   IPARI   ,INTBUF_TAB, RETRI,TEMP    ,SENSOR_TAB  ,ITAB,
@@ -2158,6 +2159,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SPMD_I21TEMPCOM(IPARI,TEMP,INTBUF_TAB,SENSOR_TAB) 
 C============================================================================
@@ -2359,6 +2361,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_I21FTHECOM(IPARI    ,FTHE  ,INTBUF_TAB,SENSOR_TAB,NISKYFI ,

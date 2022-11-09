@@ -25,6 +25,7 @@ Chd|  SIGEPS19C                     source/materials/mat/mat019/sigeps19c.F
 Chd|-- called by -----------
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SIGEPS19C(
      .            NEL    ,NUPARAM,FLAG_ZCFAC,ZCFAC  ,SHF    ,

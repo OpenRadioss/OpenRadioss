@@ -30,6 +30,7 @@ Chd|        FXBODFP2                      source/constraints/fxbody/fxbodfp.F
 Chd|        SPMD_FXB_FOR                  source/mpi/kinematic_conditions/spmd_fxb_for.F
 Chd|        SPMD_FXB_FOR_PON              source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FXBYFOR(FXBIPM, FXBRPM,  FXBNOD , FXBMOD  , FXBGLM ,
      .                   FXBCPM, FXBCPS,  FXBLM  , FXBFLS  , FXBDLS ,

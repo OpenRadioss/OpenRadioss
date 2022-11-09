@@ -24,7 +24,8 @@ Chd|====================================================================
 Chd|  BUTTERWORTH                   source/tools/univ/butterworth.F
 Chd|-- called by -----------
 Chd|        E_PERIOD                      source/general_controls/damping/static.F
-Chd|        SENSOR1                       source/tools/sensor/sensor1.F 
+Chd|        SENSOR_CONTACT                source/tools/sensor/sensor_contact.F
+Chd|        SENSOR_VEL                    source/tools/sensor/sensor_vel.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE BUTTERWORTH (DT,FREQ,X2,X1,X,FX2,FX1,FX)

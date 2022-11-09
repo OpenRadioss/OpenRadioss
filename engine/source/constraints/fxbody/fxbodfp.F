@@ -227,6 +227,7 @@ Chd|        FXBYFOR                       source/constraints/fxbody/fxbyfor.F
 Chd|-- calls ---------------
 Chd|        FXBMAJP2                      source/constraints/fxbody/fxbodfp.F
 Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FXBODFP2(FXBIPM , FXBRPM , FXBGLM, FXBCPM, FXBCPS ,
      .                    FXBLM  , FXBFLS , FXBDLS, FXBDEP, FXBVIT ,

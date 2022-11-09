@@ -34,6 +34,7 @@ Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
         SUBROUTINE INTER_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,
      1                         ISENDTO,IRECVFROM,INTBUF_TAB,X,ITAB,

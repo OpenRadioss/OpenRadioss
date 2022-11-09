@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        RELFRAM_M1                    source/tools/skew/relfram_m1.F
 Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE CFIELD_1(ICFIELD  ,FAC   ,NPC   ,TF    ,A ,
      2                  V     ,X     ,XFRAME  ,MS,SENSOR_TAB,

@@ -42,6 +42,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE MONVOL0(MONVOL   ,VOLMON  ,X       ,A      ,
      2                   NPC      ,TF      ,V       ,N      ,

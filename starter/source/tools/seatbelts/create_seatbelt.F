@@ -29,6 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        NEW_SEATBELT                  source/tools/seatbelts/new_seatbelt.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
       SUBROUTINE CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
      .                           X,SENSOR_TAB,BUFMAT,PM,GEO,

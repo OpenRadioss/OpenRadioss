@@ -25,12 +25,20 @@ Chd|  SENSOR1                       source/tools/sensor/sensor1.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        BUTTERWORTH                   source/tools/univ/butterworth.F
+Chd|        SENSOR_ACC                    source/tools/sensor/sensor_acc.F
+Chd|        SENSOR_CONTACT                source/tools/sensor/sensor_contact.F
+Chd|        SENSOR_DIST                   source/tools/sensor/sensor_dist.F
 Chd|        SENSOR_DIST_SURF              source/tools/sensor/sensor_dist_surf.F
 Chd|        SENSOR_ENERGY                 source/tools/sensor/sensor_energy.F
+Chd|        SENSOR_GAUGE                  source/tools/sensor/sensor_gauge.F
 Chd|        SENSOR_HIC                    source/tools/sensor/sensor_hic.F
 Chd|        SENSOR_NIC                    source/tools/sensor/sensor_nic.F
+Chd|        SENSOR_RBODY                  source/tools/sensor/sensor_rbody.F
+Chd|        SENSOR_RWALL                  source/tools/sensor/sensor_rwall.F
+Chd|        SENSOR_SECTION                source/tools/sensor/sensor_section.F
 Chd|        SENSOR_TEMP                   source/tools/sensor/sensor_temp.F
+Chd|        SENSOR_VEL                    source/tools/sensor/sensor_vel.F
+Chd|        SENSOR_WORK                   source/tools/sensor/sensor_work.F
 Chd|        USENS_SHIFT_AB                source/user_interface/usensor.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

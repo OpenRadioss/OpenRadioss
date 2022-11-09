@@ -28,6 +28,7 @@ Chd|        SMS_MASS_SCALE_2              source/ams/sms_mass_scale_2.F
 Chd|        SMS_PCG                       source/ams/sms_pcg.F          
 Chd|-- calls ---------------
 Chd|        VINTER                        source/tools/curve/vinter.F   
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SMS_FIXVEL(IBFV  ,A     ,V     ,NPC    ,TF     ,
      2                     VEL    ,MS    ,X     ,SKEW   ,SENSOR_TAB,

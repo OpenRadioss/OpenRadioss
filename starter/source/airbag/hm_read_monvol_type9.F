@@ -42,6 +42,7 @@ Chd|        USR2SYS                       source/system/sysfus.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MONVOL_TYPE9(T_MONVOLN, T_MONVOL_METADATA, IPM, IGEO, ITABM1, 

@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  SENSOR_SORT                       source/tools/sensor/sensor_sort.F 
+Chd|  SENSOR_SORT                   source/tools/sensor/sensor_sort.F
 Chd|-- called by -----------
-Chd|        RESOL_INIT                    source/engine/resol__init.F         
+Chd|        RESOL_INIT                    source/engine/resol_init.F    
 Chd|-- calls ---------------
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================

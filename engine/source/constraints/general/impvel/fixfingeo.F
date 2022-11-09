@@ -27,6 +27,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        FINTER2                       source/tools/curve/vinter.F   
 Chd|        FINTER2_SMOOTH                source/tools/curve/finter_smooth.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FIXFINGEO(IBFV   ,A     ,V      ,NPC    ,TF       ,
      2                     VEL    ,MS    ,X      ,D      ,SENSOR_TAB,

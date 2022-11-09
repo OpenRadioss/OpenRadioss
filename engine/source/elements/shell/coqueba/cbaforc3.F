@@ -86,6 +86,7 @@ Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        PINCH_LOCAL_MOD               share/modules/pinch_local_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================

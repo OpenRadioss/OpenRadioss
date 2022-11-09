@@ -35,6 +35,7 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTERFACE_MODIFICATION_MOD    share/modules/interface_modification_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE INTCRIT(

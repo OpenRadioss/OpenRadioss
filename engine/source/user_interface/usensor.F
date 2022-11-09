@@ -162,10 +162,7 @@ Chd|  SET_U_SENS_VALUE              source/user_interface/usensor.F
 Chd|-- called by -----------
 Chd|        FORCE                         source/loads/general/force.F  
 Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
-Chd|        H3D_PRE_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_skin_scalar.F
-Chd|        H3D_SKIN_VECTOR               source/output/h3d/h3d_results/h3d_skin_vector.F
 Chd|        IMP_KPRES                     source/implicit/imp_glob_k.F  
-Chd|        PFLUID                        source/loads/general/pfluid/pfluid.F
 Chd|-- calls ---------------
 Chd|        GET_VAR_USER_I                source/user_interface/eng_callback_c.c
 Chd|        SET_VAR_USER_F                source/user_interface/eng_callback_c.c
@@ -229,10 +226,7 @@ Chd|  GET_U_SENS_VALUE              source/user_interface/usensor.F
 Chd|-- called by -----------
 Chd|        FORCE                         source/loads/general/force.F  
 Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
-Chd|        H3D_PRE_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_skin_scalar.F
-Chd|        H3D_SKIN_VECTOR               source/output/h3d/h3d_results/h3d_skin_vector.F
 Chd|        IMP_KPRES                     source/implicit/imp_glob_k.F  
-Chd|        PFLUID                        source/loads/general/pfluid/pfluid.F
 Chd|-- calls ---------------
 Chd|        GET_VAR_USER_F                source/user_interface/eng_callback_c.c
 Chd|        GET_VAR_USER_F_SP             source/user_interface/eng_callback_c.c

@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        MONVOL0                       source/airbag/monvol0.F       
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE AIRBAGA1(IVOLU  ,NJET    ,IBAGJET ,NVENT   ,IBAGHOL ,
      2                    ICBAG  ,RVOLU   ,RBAGJET ,RBAGHOL ,RCBAG   ,

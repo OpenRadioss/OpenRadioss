@@ -32,6 +32,7 @@ Chd|        NINTRI                        source/system/nintrr.F
 Chd|        USR2SYS                       source/system/sysfus.F        
 Chd|        INTSTAMP_MOD                  share/modules1/intstamp_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE FSDCOD(BUFMAT    ,PM        ,GEO       ,IBCL      ,IPRES   ,

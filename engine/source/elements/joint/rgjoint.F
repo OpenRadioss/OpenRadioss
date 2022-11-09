@@ -33,6 +33,7 @@ Chd|        RDTIME33                      source/elements/joint/rdtime33.F
 Chd|        RSKEW33                       source/elements/joint/rskew33.F
 Chd|        RUSER33                       source/elements/joint/ruser33.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE RGJOINT(
      1           JFT    ,JLT    ,IPARTR  ,NEL    ,NUVAR   ,
