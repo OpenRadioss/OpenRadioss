@@ -54,6 +54,7 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "com01_c.inc"
 #include      "task_c.inc"
+#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -133,9 +134,9 @@ C---------------------------------
             COND = ASI(I)+BSI(I)*TS
             TSTIFM =   MAX(DIST,ZERO) / COND
             TSTIFT = TSTIFM  + RSTIF
-            CONDINT(I) = AREAC /TSTIFT
+            CONDINT(I) = AREAC * THEACCFACT /TSTIFT
 C---------------------------------
-            PHI(I) =  AREAC*(TM - TS)*DT1 / TSTIFT   
+            PHI(I) =  AREAC*(TM - TS)*DT1*THEACCFACT / TSTIFT   
 C----------------------------------------------------------------------
 C         Conduction + Radiation : Heat exchange depending on distance
 C----------------------------------------------------------------------
@@ -147,19 +148,19 @@ C---------------------------------
             TSTIFT = TSTIFM  + RSTIF
             DD = PENRAD(I) /DDCOND
             HCOND  =  FINTER(FCOND,DD,NPC,TF,DYDX) / TSTIFT 
-            CONDINT(I) = AREAC*HCOND
+            CONDINT(I) = AREAC*HCOND * THEACCFACT
 
-            PHI(I) = AREAC * (TM - TS)*DT1* HCOND     
+            PHI(I) = AREAC * (TM - TS)*DT1* HCOND * THEACCFACT    
 
             PHI(I) = PHI(I) + FRAD * AREAC * (TM*TM+TS*TS) 
-     .                    * (TM + TS) * (TM - TS) * DT1   
+     .                    * (TM + TS) * (TM - TS) * DT1 * THEACCFACT   
 C-------------------------------------
 C         Radiation :
 C-------------------------------------
           ELSEIF(PENRAD(I) <= DRAD)THEN
 C---------------------------------
             PHI(I) = FRAD * AREAC * (TM*TM+TS*TS) 
-     .                    * (TM + TS) * (TM - TS) * DT1
+     .                    * (TM + TS) * (TM - TS) * DT1 * THEACCFACT
 
           END IF  
 C
@@ -181,7 +182,7 @@ C---------------------------------
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
-         PHI(I) = PHI(I) + FHEAT * EFRICT(I)
+         PHI(I) = PHI(I) + FHEAT * EFRICT(I) * *THEACCFACT
        ENDDO
 C
       ELSE
@@ -231,9 +232,9 @@ C---------------------------------
             COND   = ASI(I)+BSI(I)*TS
             TSTIFM = MAX(DIST,ZERO) / COND
             TSTIFT = TSTIFM  + RSTIF
-            CONDINT(I) = AREAC/TSTIFT
+            CONDINT(I) = AREAC * THEACCFACT/TSTIFT
 C---------------------------------            
-            PHI(I) = AREAC * (TM- TS)*DT1 / TSTIFT
+            PHI(I) = AREAC * (TM- TS)*DT1*THEACCFACT / TSTIFT
 C---------------------------------
 C----------------------------------------------------------------------
 C         Conduction + Radiation : Heat exchange depending on distance
@@ -248,12 +249,12 @@ C---------------------------------
             TSTIFT = TSTIFM  + RSTIF
             DD = PENRAD(I) /DDCOND
             HCOND  =  FINTER(FCOND,DD,NPC,TF,DYDX) / TSTIFT 
-            CONDINT(I) = AREAC*HCOND
+            CONDINT(I) = AREAC*HCOND*THEACCFACT
 
-            PHI(I) = AREAC * (TM - TS)*DT1 * HCOND         
+            PHI(I) = AREAC * (TM - TS)*DT1 * HCOND *THEACCFACT        
 
             PHI(I) = PHI(I) + FRAD * AREAC * (TM*TM+TS*TS) 
-     .                    * (TM + TS) * (TM - TS) * DT1  
+     .                    * (TM + TS) * (TM - TS) * DT1  *THEACCFACT
 C-------------------------------------
 C         Radiation :
 C-------------------------------------   
@@ -261,7 +262,7 @@ C---------------------------------
           ELSEIF(PENRAD(I) <= DRAD)THEN
 C---------------------------------
             PHI(I) = FRAD * AREAC * (TM*TM+TS*TS) 
-     .                 * (TM + TS) * (TM - TS) * DT1
+     .                 * (TM + TS) * (TM - TS) * DT1 *THEACCFACT
           END IF
 C
          IF(IFORM == 1 )THEN 
@@ -282,7 +283,7 @@ C---------------------------------
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
-         PHI(I) = PHI(I) + FHEAT * EFRICT(I)
+         PHI(I) = PHI(I) + FHEAT * EFRICT(I)*THEACCFACT
        ENDDO
       END IF
 C
