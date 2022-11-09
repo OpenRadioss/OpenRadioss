@@ -180,7 +180,6 @@ Unexpected card, will be ignored:
 /MESSAGE/109001/TITLE
 ** ERROR IN CFG-FILE ENVIRONMENT
 /MESSAGE/109001/DESCRIPTION
-Error while reading cfg-files:
 %s
 
 /MESSAGE/109002/TITLE

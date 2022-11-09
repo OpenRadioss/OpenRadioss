@@ -83,146 +83,149 @@ C=======================================================================
 C--------------------------------------------------
 C BROWSE MESSAGES
 C--------------------------------------------------
-      SELECT CASE(IS_DYNA)
-C--------------------------------------------------
-        CASE (0)
 C--------------------------------------------------
 C RADIOSS INPUT FORMAT READING MESSAGES ( SYNTAX PB)
 C--------------------------------------------------
 C GET NUMBER OF MESSAGES
-          CALL CPP_GET_MESSAGE_NUMBER_RADIOSS(NBMESSAGES)
-          DO I=1,NBMESSAGES
-            MSG_ID = 0
-            MSG_TYPE = 0
-            MSG_DESCR = ''
-            FILE_NAME = ''
-            MSG_BLOCK = ''
-            MSG_LINE = ''
-            CALL CPP_GET_MESSAGE_RADIOSS(I,MSG_ID,MSG_TYPE,MSG_DESCR,FILE_NAME,
+      CALL CPP_GET_MESSAGE_NUMBER_RADIOSS(NBMESSAGES)
+      DO I=1,NBMESSAGES
+        MSG_ID = 0
+        MSG_TYPE = 0
+        MSG_DESCR = ''
+        FILE_NAME = ''
+        MSG_BLOCK = ''
+        MSG_LINE = ''
+        CALL CPP_GET_MESSAGE_RADIOSS(I,MSG_ID,MSG_TYPE,MSG_DESCR,FILE_NAME,
      .                                   LINE_NB,MSG_BLOCK,MSG_LINE)
 C OUTPUT MESSAGE IN RADIOSS 0.out FILE
-            IF(MSG_ID /= 0)THEN
-              IF(MSG_TYPE == 0)THEN
-                CALL ANCMSG(MSGID=MSG_ID,
-     .                MSGTYPE=MSGINFO,
-     .                ANMODE=ANINFO,
-     .                C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
-     .                C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
-     .                C3=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
-              ELSEIF(MSG_TYPE == 1)THEN
-                IF (MSG_ID > 109000)THEN
-                  FILE_END = 1
-                  IF (MSG_DESCR(1:7) == 'At line')THEN
-                    DO J=1,LEN_TRIM(MSG_DESCR)-5
-                      IF (MSG_DESCR(J:J+4) == '_FULL') FILE_END = J+5
-                    ENDDO
-                  ENDIF
-                  CALL ANCMSG(MSGID=MSG_ID,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO,
-     .                C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
-     .                C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
-     .                C3=MSG_DESCR(FILE_END:LEN_TRIM(MSG_DESCR)-1))
-                ELSE
-                  CALL ANCMSG(MSGID=MSG_ID,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO,
-     .                C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
-     .                C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
-     .                C3=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
-                ENDIF
-              ELSEIF(MSG_TYPE == 2)THEN
-                IS_READER_KO = IS_READER_KO + 1
-                IF (MSG_ID > 109000)THEN
-                  FILE_END = 1
-                  IF (MSG_DESCR(1:7) == 'At line')THEN
-                    DO J=1,LEN_TRIM(MSG_DESCR)-5
-                      IF (MSG_DESCR(J:J+4) == '_FULL') FILE_END = J+5
-                    ENDDO
-                  ENDIF
-                  CALL ANCMSG(MSGID=MSG_ID,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
-     .                C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
-     .                C3=MSG_DESCR(FILE_END:LEN_TRIM(MSG_DESCR)-1))
-                ELSE
-                  CALL ANCMSG(MSGID=MSG_ID,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
-     .                C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
-     .                C3=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
-                ENDIF
+        IF(MSG_ID /= 0)THEN
+          IF(MSG_TYPE == 0)THEN
+            CALL ANCMSG(MSGID=MSG_ID,
+     .            MSGTYPE=MSGINFO,
+     .            ANMODE=ANINFO,
+     .            C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
+     .            C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
+     .            C3=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
+          ELSEIF(MSG_TYPE == 1)THEN
+            IF (MSG_ID > 109000)THEN
+              FILE_END = 1
+              IF (MSG_DESCR(1:7) == 'At line')THEN
+                DO J=1,LEN_TRIM(MSG_DESCR)-5
+                  IF (MSG_DESCR(J:J+4) == '_FULL') FILE_END = J+5
+                ENDDO
               ENDIF
+              CALL ANCMSG(MSGID=MSG_ID,
+     .            MSGTYPE=MSGWARNING,
+     .            ANMODE=ANINFO,
+     .            C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
+     .            C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
+     .            C3=MSG_DESCR(FILE_END:LEN_TRIM(MSG_DESCR)-1))
+            ELSE
+              CALL ANCMSG(MSGID=MSG_ID,
+     .            MSGTYPE=MSGWARNING,
+     .            ANMODE=ANINFO,
+     .            C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
+     .            C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
+     .            C3=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
             ENDIF
-          ENDDO
-C--------------------------------------------------
-        CASE (1)
+          ELSEIF(MSG_TYPE >= 2)THEN
+            IS_READER_KO = IS_READER_KO + 1
+            IF (MSG_ID > 109000)THEN
+              FILE_END = 1
+              IF (MSG_DESCR(1:7) == 'At line')THEN
+                DO J=1,LEN_TRIM(MSG_DESCR)-5
+                  IF (MSG_DESCR(J:J+4) == '_FULL') FILE_END = J+5
+                ENDDO
+              ENDIF
+              IF (MSG_ID == 109000 .OR. MSG_ID == 109001) THEN
+                CALL ANCMSG(MSGID=MSG_ID,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO,
+     .            C1=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
+              ELSEIF (MSG_ID > 109002) THEN
+                CALL ANCMSG(MSGID=MSG_ID,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO,
+     .            C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
+     .            C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
+     .            C3=MSG_DESCR(FILE_END:LEN_TRIM(MSG_DESCR)-1))
+              ENDIF
+            ELSE
+              CALL ANCMSG(MSGID=MSG_ID,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO,
+     .            C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
+     .            C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
+     .            C3=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
+            ENDIF
+          ENDIF
+        ENDIF
+      ENDDO
 C--------------------------------------------------
 C LS-DYNA INPUT FORMAT READING MESSAGES ( SYNTAX PB)
 C--------------------------------------------------
 C GET NUMBER OF MESSAGES
-          CALL CPP_GET_MESSAGE_NUMBER_DYNA(NBMESSAGES)
-          DO I=1,NBMESSAGES
-            MSG_ID = 0
-            MSG_TYPE = 0
-            MSG_DESCR = ''
-            FILE_NAME = ''
-            MSG_BLOCK = ''
-            MSG_LINE = ''
-            CALL CPP_GET_MESSAGE_DYNA(I,MSG_ID,MSG_TYPE,MSG_DESCR,FILE_NAME,
-     .                                   LINE_NB,MSG_BLOCK,MSG_LINE)
+      IF(IS_DYNA == 1) THEN
+        CALL CPP_GET_MESSAGE_NUMBER_DYNA(NBMESSAGES)
+        DO I=1,NBMESSAGES
+          MSG_ID = 0
+          MSG_TYPE = 0
+          MSG_DESCR = ''
+          FILE_NAME = ''
+          MSG_BLOCK = ''
+          MSG_LINE = ''
+          CALL CPP_GET_MESSAGE_DYNA(I,MSG_ID,MSG_TYPE,MSG_DESCR,FILE_NAME,
+     .                                 LINE_NB,MSG_BLOCK,MSG_LINE)
 C OUTPUT MESSAGE IN RADIOSS 0.out FILE
-            IF(MSG_ID /= 0)THEN
-              IF(MSG_TYPE == 0)THEN
-                IF (MSG_ID > 200000)THEN
-                  CALL ANCMSG(MSGID=MSG_ID,
-     .                MSGTYPE=MSGINFO,
-     .                ANMODE=ANINFO,
-     .                C1=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
-                ELSE
-                  CALL ANCMSG(MSGID=MSG_ID,
-     .                MSGTYPE=MSGINFO,
-     .                ANMODE=ANINFO,
-     .                C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
-     .                C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
-     .                C3=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
-                ENDIF
-              ELSEIF(MSG_TYPE == 1)THEN
-                IF (MSG_ID > 200000)THEN
-                  CALL ANCMSG(MSGID=MSG_ID,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO,
-     .                C1=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
-                ELSE
-                  CALL ANCMSG(MSGID=MSG_ID,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO,
-     .                C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
-     .                C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
-     .                C3=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
-                ENDIF
-              ELSEIF(MSG_TYPE == 2)THEN
-                IS_READER_KO = IS_READER_KO + 1
-                IF (MSG_ID > 200000)THEN
-                  CALL ANCMSG(MSGID=MSG_ID,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                C1=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
-                ELSE
-                  CALL ANCMSG(MSGID=MSG_ID,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
-     .                C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
-     .                C3=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
-                ENDIF
+          IF(MSG_ID /= 0)THEN
+            IF(MSG_TYPE == 0)THEN
+              IF (MSG_ID > 200000)THEN
+                CALL ANCMSG(MSGID=MSG_ID,
+     .              MSGTYPE=MSGINFO,
+     .              ANMODE=ANINFO,
+     .              C1=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
+              ELSE
+                CALL ANCMSG(MSGID=MSG_ID,
+     .              MSGTYPE=MSGINFO,
+     .              ANMODE=ANINFO,
+     .              C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
+     .              C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
+     .              C3=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
+              ENDIF
+            ELSEIF(MSG_TYPE == 1)THEN
+              IF (MSG_ID > 200000)THEN
+                CALL ANCMSG(MSGID=MSG_ID,
+     .              MSGTYPE=MSGWARNING,
+     .              ANMODE=ANINFO,
+     .              C1=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
+              ELSE
+                CALL ANCMSG(MSGID=MSG_ID,
+     .              MSGTYPE=MSGWARNING,
+     .              ANMODE=ANINFO,
+     .              C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
+     .              C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
+     .              C3=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
+              ENDIF
+            ELSEIF(MSG_TYPE >= 2)THEN
+              IS_READER_KO = IS_READER_KO + 1
+              IF (MSG_ID == 109000 .OR. MSG_ID == 109001 .OR. MSG_ID > 200000)THEN
+                CALL ANCMSG(MSGID=MSG_ID,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              C1=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
+              ELSE
+                CALL ANCMSG(MSGID=MSG_ID,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              C1=MSG_BLOCK(1:LEN_TRIM(MSG_BLOCK)-1),
+     .              C2=MSG_LINE(1:LEN_TRIM(MSG_LINE)-1),
+     .              C3=MSG_DESCR(1:LEN_TRIM(MSG_DESCR)-1))
               ENDIF
             ENDIF
+          ENDIF
 C--------------------------------------------------
-          ENDDO
-      END SELECT ! SELECT CASE(IS_DYNA)
+        ENDDO
+      ENDIF
 
 
       IF (IS_READER_KO /= 0) THEN
