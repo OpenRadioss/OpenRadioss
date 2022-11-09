@@ -57,21 +57,21 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER :: N1,N2,ICRIT,IFLAG
+      INTEGER :: N1,N2,ICRIT,DFLAG,IFLAG,ACTI
       my_real :: DX,DY,DZ,DD,DMIN,DMAX,TMIN,TDELAY,INFINITY
       PARAMETER (INFINITY = 1.0E20)
 C=======================================================================
-      IF (SENSOR%STATUS == 1) RETURN   ! already activated
-c
       TDELAY = SENSOR%TDELAY
       TMIN   = SENSOR%TMIN
 c      
       N1     = SENSOR%IPARAM(1)
       N2     = SENSOR%IPARAM(2)
+      DFLAG  = SENSOR%IPARAM(3)
       DMIN   = SENSOR%RPARAM(1)
       DMAX   = SENSOR%RPARAM(2)
-      ICRIT  = 0
+      ICRIT  = 0    ! activation
       IFLAG  = 0
+      ACTI   = 0
 c
       IF (NSPMD == 1)THEN
         DX = X(1,N1)-X(1,N2)
@@ -88,44 +88,75 @@ c
         IFLAG = 1      
       ELSE IF (DD > DMAX) THEN
         ICRIT = 1
-        IFLAG = 2      
+        IFLAG = 2
       END IF
 c----------------------------------------------------------------
 c     check activation status
 c----------------------------------------------------------------
-      IF (SENSOR%TCRIT + TMIN > TT) THEN
-        IF (ICRIT == 0) THEN
-          SENSOR%TCRIT = INFINITY
-        ELSE IF (SENSOR%TCRIT == INFINITY) THEN
-          SENSOR%TCRIT = MIN(SENSOR%TCRIT, TT)
+      IF (SENSOR%STATUS == 0) THEN
+        IF (SENSOR%TCRIT + TMIN > TT) THEN
+          IF (ICRIT == 0) THEN
+            SENSOR%TCRIT = INFINITY
+          ELSE IF (ICRIT == 1 .and. SENSOR%TCRIT == INFINITY) THEN
+            SENSOR%TCRIT = MIN(SENSOR%TCRIT, TT)
+          END IF
         END IF
-c      ELSE IF (SENSOR%TSTART == INFINITY) THEN
-c        SENSOR%TSTART = SENSOR%TCRIT + TMIN + TDELAY
-      END IF
-      IF (SENSOR%TSTART == INFINITY .and. SENSOR%TCRIT < INFINITY) THEN
-        SENSOR%TSTART = SENSOR%TCRIT + TMIN + TDELAY      
-      END IF
-      IF (SENSOR%TSTART <= TT) THEN   ! sensor activation
-        SENSOR%STATUS = 1
+        IF (SENSOR%TSTART == INFINITY .and. SENSOR%TCRIT < INFINITY) THEN
+          SENSOR%TSTART = SENSOR%TCRIT + TMIN + TDELAY      
+        END IF
+        IF (SENSOR%TSTART <= TT) THEN   
+          ! sensor activation
+          ACTI = 1
+          SENSOR%STATUS = 1
+          SENSOR%VALUE = INFINITY
+        END IF 
+      END IF 
+c
+      IF (DFLAG == 1 .and. SENSOR%STATUS == 1) THEN
+          IF (SENSOR%VALUE + TMIN > TT) THEN
+            IF (ICRIT == 0 .and. SENSOR%VALUE == INFINITY) THEN
+              SENSOR%VALUE = MIN(SENSOR%VALUE, TT)
+            ELSE IF (ICRIT > 0) THEN
+              SENSOR%VALUE = INFINITY
+            END IF
+          END IF
+          IF (SENSOR%VALUE + TMIN + TDELAY <= TT) THEN 
+            ! sensor deactivation
+            ACTI = 2
+            SENSOR%STATUS = 0
+            SENSOR%TCRIT  = INFINITY
+            SENSOR%TSTART = INFINITY
+          END IF 
       END IF
 c-----------------------------------------------------------------------      
-      IF (SENSOR%STATUS == 1 .and. ISPMD == 0) THEN
+      IF (ACTI == 1) THEN
+        IF (ISPMD == 0) THEN
 #include "lockon.inc"
-        WRITE (ISTDO,1100) SENSOR%SENS_ID,SENSOR%TSTART
-        WRITE (IOUT ,1100) SENSOR%SENS_ID,SENSOR%TSTART
-        IF (IFLAG == 1) THEN
-          WRITE (IOUT ,1200) DMIN,DD
-        ELSE IF (IFLAG == 2) THEN
-          WRITE (IOUT ,1300) DMAX,DD
-        END IF
+          WRITE (ISTDO,1000) SENSOR%SENS_ID,SENSOR%TSTART
+          WRITE (IOUT ,1000) SENSOR%SENS_ID,SENSOR%TSTART
+          IF (IFLAG == 1) THEN
+            WRITE (IOUT ,1200) DMIN
+          ELSE IF (IFLAG == 2) THEN
+            WRITE (IOUT ,1300) DMAX
+          END IF
+          WRITE (IOUT ,1400) DD
 #include "lockoff.inc"
+        ENDIF
+      ELSE IF (ACTI == 2) THEN
+        IF (ISPMD == 0) THEN
+#include "lockon.inc"
+          WRITE (ISTDO,1100) SENSOR%SENS_ID,TT
+          WRITE (IOUT ,1100) SENSOR%SENS_ID,TT
+          WRITE (IOUT ,1400) DD
+#include "lockoff.inc"
+        ENDIF
       ENDIF
 c-----------------------------------------------------------------------      
-1100  FORMAT(' SENSOR NUMBER ',I10,' ACTIVATED AT TIME ',1PE12.5)
-1200  FORMAT('      TARGET MIN DISTANCE= ',1PE12.5,/
-     .       '      CURRENT DISTANCE AFTER TMIN and TDELAY = ',1PE12.5)
-1300  FORMAT('      TARGET MAX DISTANCE= ',1PE12.5,/
-     .       '      CURRENT DISTANCE AFTER TMIN and TDELAY = ',1PE12.5)
+1000  FORMAT(' SENSOR NUMBER ',I10,' ACTIVATED AT TIME ',1PE12.5)
+1100  FORMAT(' SENSOR NUMBER ',I10,' DEACTIVATED AT TIME ',1PE12.5)
+1200  FORMAT('      TARGET MIN DISTANCE= ',1PE12.5)
+1300  FORMAT('      TARGET MAX DISTANCE= ',1PE12.5)
+1400  FORMAT('      CURRENT DISTANCE AFTER TMIN AND TDELAY = ',1PE12.5)
 c-----------------------------------------------------------------------      
       RETURN
       END SUBROUTINE
