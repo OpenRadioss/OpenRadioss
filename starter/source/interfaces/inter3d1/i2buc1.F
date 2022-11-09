@@ -168,7 +168,7 @@ C--         Cooques 4n
             IP = IPARTC(IEL)
             IF ( THK_PART(IP) /= ZERO) THEN  
               THKSECND = MAX(THKSECND,THK_PART(IP))
-            ELSEIF ( THK(I) /= ZERO) THEN
+            ELSEIF ( THK(IEL) /= ZERO) THEN
               THKSECND = MAX(THKSECND,THK(IEL))
             ELSE
               THKSECND = MAX(THKSECND,GEO(1,MG))
@@ -181,7 +181,7 @@ C--         Cooques 3n
             IP = IPARTTG(IEL)
             IF ( THK_PART(IP) /= ZERO) THEN  
               THKSECND = MAX(THKSECND,THK_PART(IP))
-            ELSEIF ( THK(I) /= ZERO) THEN
+            ELSEIF ( THK(IEL) /= ZERO) THEN
               THKSECND = MAX(THKSECND,THK(IEL))
             ELSE
               THKSECND = MAX(THKSECND,GEO(1,MG))
@@ -204,7 +204,7 @@ C--         Cooques 3n
             IP = IPARTC(NELC) 
             IF ( THK_PART(IP) /= ZERO) THEN  
               THKMAIN = MAX(THKMAIN,THK_PART(IP))
-            ELSEIF ( THK(I) /= ZERO) THEN
+            ELSEIF ( THK(NELC) /= ZERO) THEN
               THKMAIN = MAX(THKMAIN,THK(NELC))
             ELSE
               THKMAIN = MAX(THKMAIN,GEO(1,MG))
@@ -214,7 +214,7 @@ C--         Cooques 3n
             IP = IPARTTG(NELTG) 
             IF ( THK_PART(IP) /= ZERO) THEN  
               THKMAIN = MAX(THKMAIN,THK_PART(IP))
-            ELSEIF ( THK(I) /= ZERO) THEN
+            ELSEIF ( THK(NUMELC+NELTG) /= ZERO) THEN
               THKMAIN = MAX(THKMAIN,THK(NUMELC+NELTG))
             ELSE
               THKMAIN = MAX(THKMAIN,GEO(1,MG))
