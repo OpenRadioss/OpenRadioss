@@ -1873,13 +1873,8 @@ C   user3
                 CALL ARRET(2)
               ! ----------------
             ENDIF
-          ELSEIF (IRUPT == 7) THEN                                        
-                  CALL FAIL_FLD_TSH(
-     1            NEL       ,NPAR      ,NVARF     ,NFUNC    ,IFUNC      ,
-     2            NPF       ,TF        ,TT        ,DT1      ,UPARAMF,   
-     3            UVARF     ,NGL       ,IPG       ,ILAY     ,IPTT         ,
-     5            ES1       ,ES2       ,ES4       ,ES5      ,ES6          ,
-     6            OFF       ,FOFF      ,FLD_IDX   ,DAM      ,DFMAX     )
+          ELSEIF (IRUPT == 7) THEN  
+C----- removed to ouput (H3D)          
           ELSEIF (IRUPT == 8) THEN                                         
 C---- Johnson cook + spalling          
               CALL FAIL_SPALLING_S(NEL ,NPAR,NVARF,NFUNC,IFUNC,
