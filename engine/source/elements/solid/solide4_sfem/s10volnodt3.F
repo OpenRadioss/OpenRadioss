@@ -77,12 +77,12 @@ C-----------------------------------------------
      .  MFXX(MVSIZ),MFXY(MVSIZ),MFXZ(MVSIZ),
      .  MFYX(MVSIZ),MFYY(MVSIZ),MFYZ(MVSIZ),
      .  MFZX(MVSIZ),MFZY(MVSIZ),MFZZ(MVSIZ),
-     .  PX(MVSIZ,10),PY(MVSIZ,10),PZ(MVSIZ,10),
+     .  PX(MVSIZ,10),PY(MVSIZ,10),PZ(MVSIZ,10),JAC(MVSIZ),
      .  VX0(MVSIZ,10),VY0(MVSIZ,10),VZ0(MVSIZ,10),VOLP(MVSIZ)
       DOUBLE PRECISION 
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),
      .   X0(MVSIZ,10), Y0(MVSIZ,10), Z0(MVSIZ,10),
-     .   DET6(6,MVSIZ),JAC(MVSIZ)
+     .   DET6(6,MVSIZ)
 C-----
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
 C----------------------------
