@@ -105,6 +105,9 @@ card2
 c--------------------------------------------------
 c     Check input data
 c--------------------------------------------------
+      N1 = 0
+      N2 = 0
+
       IF (NOD1 > 0) THEN
         N1 = USR2SYS(NOD1,ITABM1,MESS,NS)
         CALL ANODSET(N1, CHECK_USED)

@@ -80,11 +80,11 @@ c
           IRBOD   = RBOD_ID + NSECT + NINTER+ NINTSUB + NRWALL
           TABLOCAL(IRBOD) = I
         ELSEIF (SENS_TYPE == 13) THEN      ! sensort type work
-          SECT_ID = SENSOR_TAB(I)%IPARAM(1)
-          INT_ID  = SENSOR_TAB(I)%IPARAM(2)
-          SUB_ID  = SENSOR_TAB(I)%IPARAM(3)
-          RWAL_ID = SENSOR_TAB(I)%IPARAM(4)
-          RBOD_ID = SENSOR_TAB(I)%IPARAM(5)
+          SECT_ID = SENSOR_TAB(I)%IPARAM(3)
+          INT_ID  = SENSOR_TAB(I)%IPARAM(4)
+          SUB_ID  = SENSOR_TAB(I)%IPARAM(5)
+          RWAL_ID = SENSOR_TAB(I)%IPARAM(6)
+          RBOD_ID = SENSOR_TAB(I)%IPARAM(7)
         
           ISECT = SECT_ID
           IF (ISECT > 0) TABLOCAL(ISECT) = I
