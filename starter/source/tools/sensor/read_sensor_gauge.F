@@ -135,7 +135,7 @@ c
       SENSOR_PTR%TDELAY  = TDEL         ! time delay before activation
       SENSOR_PTR%VALUE   = ZERO
 
-      NPARIS = NGAU
+      NPARIS = NGAU + 1
       NPARRS = NGAU * 3
       NVAR   = 0 
 c
