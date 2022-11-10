@@ -137,7 +137,7 @@ Chd|====================================================================
      2                  PSKIDS   ,TAG_SKINS6,TF         ,NPF         ,FCONT_MAX ,
      3                  MDS_MATID,FNCONTP2 ,FTCONTP2    ,IBCL        ,ILOADP    ,
      4                  LLOADP   ,FAC      ,SENSOR_TAB  ,TAGNCONT    ,
-     5                  LOADP_HYD_INTER    ,XFRAME      ,FORC        )
+     5                  LOADP_HYD_INTER    ,XFRAME      ,FORC        ,AR        )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -274,6 +274,7 @@ C-----------------------------------------------
       TYPE (SUBSET_) , TARGET, DIMENSION(NSUBS) :: SUBSET
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      my_real , INTENT(IN) :: AR(SAR)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1943,7 +1944,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                   DR      , DXANCG  , FANREAC, FCLUSTER  , MCLUSTER ,
      .                   VR      , FOPT    , NPBY   , IXUR      , VGAZ     ,
      .                   IPARI   , IGRNOD  , WEIGHT , NODGLOB   ,FCONT_MAX ,
-     .                   FNCONTP2, FTCONTP2)
+     .                   FNCONTP2, FTCONTP2, AR     )
 
 c
           IF (NSPMD > 1 ) THEN

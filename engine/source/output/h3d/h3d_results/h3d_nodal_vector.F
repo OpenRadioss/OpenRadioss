@@ -38,14 +38,14 @@ Chd|====================================================================
      .                  INFO1    , INFO2       , IS_WRITTEN_NODE, H3D_PART   , IPARTC   ,
      .                  IPARTTG  , IXC         , IXTG           , TEMP       , IFLOW    ,
      .                  RFLOW    , IXS         , IXQ            , NV46,MONVOL, VOLMON   ,
-     .                  DIAG_SMS    , MS             , PDAMA2     , X        , 
+     .                  DIAG_SMS , MS          , PDAMA2         , X          , 
      .                  STIFR    , STIFN       , A              , D          , V        , 
      .                  CONT     , FCONTG      , FINT           , FEXT       , KEYWORD  ,
      .                  FNCONT   , FNCONTG     , FTCONT         , FTCONTG    , FNCONT2  , 
      .                  DR       , DXANCG      , FANREAC        , FCLUSTER   , MCLUSTER ,
      .                  VR       , FOPT        , NPBY           , IXUR       , VGAZ     ,
      .                  IPARI    , IGRNOD      , WEIGHT         ,NODGLOB     ,FCONT_MAX , 
-     .                  FNCONTP2 , FTCONTP2    ) 
+     .                  FNCONTP2 , FTCONTP2    ,AR              ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -96,6 +96,7 @@ C-----------------------------------------------
      .   IXUR(NIXUR,*),IPARI(NPARI,*),WEIGHT(*),NODGLOB(*)
       CHARACTER*ncharline KEYWORD
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
+      my_real , INTENT(IN) :: AR(3,NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -516,6 +517,18 @@ C--------------------------------------------------
           CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
      .                                    VALUE)
         ENDDO
+C--------------------------------------------------
+      ELSEIF(KEYWORD == 'AROT') THEN
+C--------------------------------------------------
+        IF(IRODDL/=0) THEN
+          DO I=1,NUMNOD
+            VALUE(1) = AR(1,I)
+            VALUE(2) = AR(2,I)
+            VALUE(3) = AR(3,I)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
+     .                                    VALUE)
+          ENDDO
+        ENDIF 
 C--------------------------------------------------
 
 

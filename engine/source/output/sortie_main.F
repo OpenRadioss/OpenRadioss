@@ -702,8 +702,8 @@ c
      1             SH4TREE    ,SH3TREE   ,H3D_DATA    ,MULTI_FVM   ,SUBSET    ,
      2             PSKIDS     ,TAG_SKINS6,TF          ,NPC         ,FCONT_MAX ,
      3             MDS_MATID  ,FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP    ,
-     4             LLOADP     ,LOADP     ,SENSOR_TAB  ,TAGNCONT  ,
-     5             LOADP_HYD_INTER,XFRAME,FORC        )
+     4             LLOADP     ,LOADP     ,SENSOR_TAB  ,TAGNCONT    ,
+     5             LOADP_HYD_INTER,XFRAME,FORC        ,AR          )
       ENDIF
       IF(TT>=H3D_DATA%TH3D) H3D_DATA%TH3D = H3D_DATA%TH3D + H3D_DATA%DTH3D
       IF ((TSTOP< H3D_DATA%TH3D).AND.(H3D_DATA%TH3D < TSTOP+EM06*TSTOP)

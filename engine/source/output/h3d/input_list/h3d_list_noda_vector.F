@@ -202,6 +202,11 @@ c-----------------------------------------------
       H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 
      .'Maximum node displacement over time'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'AROT'
+      H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Rotational Acceleration'
+      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 'drot=1 must also be set in /IOFLAG otherwise, rotational dof are not computed'
+c-----------------------------------------------
 
 
       NKEY=I
