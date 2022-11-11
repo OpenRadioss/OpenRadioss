@@ -43,7 +43,7 @@
 /* ---------------- */
 /* Define ARCH_TYPE */
 /* ---------------- */
-#ifdef unix
+#ifdef __unix
 
 #ifdef __x86_64
 #define ARCH_TYPE 1
@@ -63,7 +63,7 @@
 /* Define ARCH_TYPE */
 /* ---------------- */
 
-#ifdef unix
+#ifdef __unix
 #define OS_TYPE 1
 #endif
 

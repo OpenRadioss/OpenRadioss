@@ -35,7 +35,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <strings.h>
+#include <string.h>
 
 void map_memory(int * VmPeak, int *VmSize,int *VmRSS,int *VmHWM,int *VmStk )
 {
