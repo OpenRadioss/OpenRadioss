@@ -22,6 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C
 Chd|====================================================================
+Chd|  H3D_FLD_STRAIN                source/output/h3d/h3d_results/h3d_fld_strain.F
+Chd|-- called by -----------
+Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin_scalar.F
+Chd|-- calls ---------------
+Chd|        ROTO_SIG2D                    source/output/h3d/h3d_results/h3d_skin_tensor.F
+Chd|        TSH_DIR2                      source/output/h3d/h3d_results/h3d_skin_tensor.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|====================================================================
       SUBROUTINE H3D_FLD_STRAIN(ELBUF_TAB,X  ,IXS   ,
      .                          JHBE,MLWI,ILAY,KCVT,IOR_TSH,
      .                          ICSTR,NPTR,NPTS,NEL,F_EXP,EVAR )

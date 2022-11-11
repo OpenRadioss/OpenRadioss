@@ -25,6 +25,8 @@ Chd|  H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin_scala
 Chd|-- called by -----------
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------
+Chd|        H3D_FLD_STRAIN                source/output/h3d/h3d_results/h3d_fld_strain.F
+Chd|        H3D_FLD_TSH                   source/output/h3d/h3d_results/h3d_fld_tsh.F
 Chd|        H3D_PRE_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_skin_scalar.F
 Chd|        H3D_SOL_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
 Chd|        INITBUF                       share/resol/initbuf.F         

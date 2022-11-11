@@ -25,7 +25,8 @@ Chd|  OUTRI                         source/materials/time_step/outri.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        TRIRAP                        ../common_source/tools/sort/trirap.F
+Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE OUTRI(DTELEM,IXS   ,IXQ   ,IXC   ,IXT   ,
      .                 IXP   ,IXR   ,IXUR  ,IXTG  ,KXX   ,
@@ -385,8 +386,9 @@ Chd|  OUTRIN                        source/materials/time_step/outri.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
+Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
 Chd|        PLOT_CURVE                    ../common_source/sortie/plot_curve.F
-Chd|        TRIRAP                        ../common_source/tools/sort/trirap.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        PLOT_CURVE_MOD                ../common_source/modules/plot_curve_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|====================================================================

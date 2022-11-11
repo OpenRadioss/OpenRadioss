@@ -26,12 +26,13 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        FIND_DT_TARGET                ../common_source/tools/time_step/find_dt_target.F
+Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
 Chd|        SPMD_GATHER_DTNODA            source/mpi/generic/spmd_gather_dtnoda.F
 Chd|        SPMD_GLOB_IMAX9               source/mpi/generic/spmd_glob_imax9.F
 Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
-Chd|        TRIRAP                        ../common_source/tools/sort/trirap.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE FIND_DT_FOR_TARGETED_ADDED_MASS(MS,STIFN,DTSCA,IGRP_USR,TARGET_DT,
      .                                           PERCENT_ADDMASS,PERCENT_ADDMASS_OLD,TOTMAS,WEIGHT,IGRNOD,

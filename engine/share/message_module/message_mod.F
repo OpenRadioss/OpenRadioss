@@ -81,6 +81,7 @@ Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_t
 Chd|        FAIL_TAB_OLD_C                source/materials/fail/tabulated/fail_tab_old_c.F
 Chd|        FAIL_TAB_OLD_XFEM             source/materials/fail/tabulated/fail_tab_old_xfem.F
 Chd|        FAIL_TAB_XFEM                 source/materials/fail/tabulated/fail_tab_xfem.F
+Chd|        FIND_DT_FOR_TARGETED_ADDED_MASSsource/time_step/find_dt_for_targeted_added_mass.F
 Chd|        FORINT                        source/elements/forint.F      
 Chd|        FRALEONOFF                    source/input/fraleonoff.F     
 Chd|        FRALNK                        source/input/fralnk.F         

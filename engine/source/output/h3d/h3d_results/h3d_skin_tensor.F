@@ -455,6 +455,7 @@ C-----------
 Chd|====================================================================
 Chd|  TSH_DIR2                      source/output/h3d/h3d_results/h3d_skin_tensor.F
 Chd|-- called by -----------
+Chd|        H3D_FLD_STRAIN                source/output/h3d/h3d_results/h3d_fld_strain.F
 Chd|        H3D_SKIN_TENSOR               source/output/h3d/h3d_results/h3d_skin_tensor.F
 Chd|-- calls ---------------
 Chd|        SCORTHO3                      source/elements/thickshell/solidec/scortho3.F
@@ -618,6 +619,7 @@ C-----------
 Chd|====================================================================
 Chd|  ROTO_SIG2D                    source/output/h3d/h3d_results/h3d_skin_tensor.F
 Chd|-- called by -----------
+Chd|        H3D_FLD_STRAIN                source/output/h3d/h3d_results/h3d_fld_strain.F
 Chd|        H3D_SKIN_TENSOR               source/output/h3d/h3d_results/h3d_skin_tensor.F
 Chd|-- calls ---------------
 Chd|====================================================================

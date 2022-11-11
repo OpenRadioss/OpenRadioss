@@ -21,6 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
+Chd|  H3D_FLD_TSH                   source/output/h3d/h3d_results/h3d_fld_tsh.F
+Chd|-- called by -----------
+Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin_scalar.F
+Chd|-- calls ---------------
+Chd|        FAIL_FLD_TSH                  source/materials/fail/fld/fail_fld_tsh.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|====================================================================
       SUBROUTINE H3D_FLD_TSH(ELBUF_TAB,
      .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
      .                       IPM,NPF,TF,BUFMAT,

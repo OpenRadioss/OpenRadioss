@@ -31,6 +31,7 @@ Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/pblast_mod.F
 Chd|        PLOT_CURVE                    ../common_source/sortie/plot_curve.F
 Chd|        READ_UNITS                    ../common_source/comm/write_units.F
 Chd|        ADDMASPART                    source/tools/admas/addmaspart.F
+Chd|        ADD_MASS_STAT                 source/tools/admas/add_mass_stat.F
 Chd|        ADMBCS                        source/model/remesh/admbcs.F  
 Chd|        ADMLCNT                       source/model/remesh/admlist.F 
 Chd|        ADMLIST                       source/model/remesh/admlist.F 
@@ -178,6 +179,7 @@ Chd|        FILL_LINE                     source/model/sets/fill_gr.F
 Chd|        FILL_SURF                     source/model/sets/fill_gr.F   
 Chd|        FINDELE                       source/boundary_conditions/ebcs/findele.F
 Chd|        FIND_DT1BRICK_ENGINE          source/starter/contrl.F       
+Chd|        FIND_DT_ENGINE                source/coupling/rad2rad/r2r_speedup.F
 Chd|        FIND_YIELD_ENGINE             source/general_controls/computation/hm_read_sms.F
 Chd|        FIXMODIF_ND                   source/elements/solid/solide10/dim_s10edg.F
 Chd|        FREDEC0                       source/starter/freform.F      
@@ -924,6 +926,8 @@ Chd|        NLOCAL_INIT_STA               source/materials/fail/nlocal_init_sta.
 Chd|        NLOC_DMG_INIT                 source/materials/fail/nloc_dmg_init.F
 Chd|        NRF51INI                      source/materials/mat/mat051/nrf51ini.F
 Chd|        ORTHDIR_PROJ                  source/interfaces/interf1/inintr_orthdirfric.F
+Chd|        OUTRI                         source/materials/time_step/outri.F
+Chd|        OUTRIN                        source/materials/time_step/outri.F
 Chd|        PCOORI                        source/elements/beam/pcoori.F 
 Chd|        PGRTAILS                      source/elements/beam/pgrtails.F
 Chd|        PINIT3                        source/elements/beam/pinit3.F 

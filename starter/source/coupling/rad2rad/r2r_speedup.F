@@ -157,8 +157,9 @@ Chd|  FIND_DT_ENGINE                source/coupling/rad2rad/r2r_speedup.F
 Chd|-- called by -----------
 Chd|        R2R_SPEEDUP                   source/coupling/rad2rad/r2r_speedup.F
 Chd|-- calls ---------------
-Chd|        TRIRAP                        ../common_source/tools/sort/trirap.F
+Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|====================================================================
       SUBROUTINE FIND_DT_ENGINE(DTELEM,DTNODA,DT,FLG_CHK,FLG_CTL,

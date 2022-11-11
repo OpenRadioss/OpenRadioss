@@ -26,8 +26,9 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        FIND_DT_TARGET                ../common_source/tools/time_step/find_dt_target.F
+Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
 Chd|        PLOT_CURVE                    ../common_source/sortie/plot_curve.F
-Chd|        TRIRAP                        ../common_source/tools/sort/trirap.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        PLOT_CURVE_MOD                ../common_source/modules/plot_curve_mod.F
 Chd|====================================================================
       SUBROUTINE ADD_MASS_STAT(MS,IN,STIFN,STIFR,ITAB,TOTMAS)

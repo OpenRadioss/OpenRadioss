@@ -329,6 +329,8 @@ Chd|        GET_T3LSYS                    engine/source/output/sta/sta_c_get_t3l
 Chd|        GPSSTRAIN_SKIN                engine/source/output/anim/generate/tensgpstrain.F
 Chd|        GPSTRA_SOLID                  engine/source/output/outmaxsubr.F
 Chd|        GPS_SOLID                     engine/source/output/outmaxsubr.F
+Chd|        H3D_FLD_STRAIN                engine/source/output/h3d/h3d_results/h3d_fld_strain.F
+Chd|        H3D_FLD_TSH                   engine/source/output/h3d/h3d_results/h3d_fld_tsh.F
 Chd|        H3D_NODAL_SCALAR              engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
 Chd|        H3D_NODAL_TENSOR              engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
 Chd|        H3D_NODAL_VECTOR              engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
