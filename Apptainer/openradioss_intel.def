@@ -1,0 +1,57 @@
+Bootstrap: docker
+From: rockylinux:9
+
+%files
+oneAPI.repo /etc/yum.repos.d/oneAPI.repo
+
+%post
+dnf group install -y "Development Tools"
+dnf install -y \
+gcc gcc-gfortran gcc-c++ make perl git-lfs \
+wget git patch diffutils \
+pkgconfig libxcrypt-compat procps
+dnf install -y --enablerepo=devel compat-libpthread-nonshared
+
+cd /tmp
+wget https://github.com/Kitware/CMake/releases/download/v3.24.3/cmake-3.24.3-linux-x86_64.sh
+sh cmake-3.24.3-linux-x86_64.sh --skip-license --prefix=/usr/local
+
+dnf install -y intel-hpckit-2022.2.0
+
+sed -i "1i source /opt/intel/oneapi/setvars.sh" /etc/bashrc
+
+source /opt/intel/oneapi/setvars.sh
+export CC=icx
+export CXX=icpx
+export CPP=icpx
+export Fortran_COMPILER=ifx
+export MKLROOT=/opt/intel/oneapi/mkl/2022.1.0
+export I_MPI_ROOT=/opt/intel/oneapi/mpi/2021.6.0
+
+cd /opt
+git lfs install
+git clone https://github.com/OpenRadioss/OpenRadioss.git
+cd OpenRadioss
+cd /opt/OpenRadioss/starter
+./build_script.sh -arch=linux64_intel -nt=8
+cd /opt/OpenRadioss/engine
+./build_script.sh -arch=linux64_intel -nt=8
+./build_script.sh -arch=linux64_intel -mpi=impi -nt=8
+cd /opt/OpenRadioss/tools/anim_to_vtk/linux64
+./build.bash
+cd /opt/OpenRadioss/tools/th_to_csv/linux64
+./build.bash
+
+%environment
+export OPENRADIOSS_PATH=/opt/OpenRadioss
+export RAD_CFG_PATH=$OPENRADIOSS_PATH/hm_cfg_files
+export OMP_STACKSIZE=400m
+export PATH=$OPENRADIOSS_PATH/exec:$PATH
+export LD_LIBRARY_PATH=$OPENRADIOSS_PATH/extlib/hm_reader/linux64/:$OPENRADIOSS_PATH/extlib/h3d/lib/linux64/:$LD_LIBRARY_PATH
+
+export PATH=/opt/intel/oneapi/mpi/2021.7.1/bin:$PATH
+export LD_LIBRARY_PATH=/opt/intel/oneapi/mpi/2021.7.1/lib:$LD_LIBRARY_PATH
+
+%runscript
+source /opt/intel/oneapi/setvars.sh
+exec "$@"
