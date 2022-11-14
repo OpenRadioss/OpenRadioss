@@ -62,11 +62,13 @@ C Local Variables
 C----------------------------------------------------------
       INTEGER :: INT_ID,INTSUB,ID_INTER,IDIR,ICRIT,ISECT,IFLAG
       my_real :: FMIN,FMAX,FF,FV,FV1,FV2,VV1,VV2,FREQ,
-     .           TMIN,TDELAY,INFINITY
+     .           TMIN,TDELAY,TCRIT,TSTART,TSTOPS,INFINITY
       PARAMETER (INFINITY = 1.0E20)
 C=======================================================================
       TMIN   = SENSOR%TMIN
       TDELAY = SENSOR%TDELAY
+      TCRIT  = SENSOR%TCRIT
+      TSTOPS = SENSOR%VALUE
 c      
       INT_ID = SENSOR%IPARAM(1) 
       INTSUB = SENSOR%IPARAM(2) 
@@ -103,6 +105,17 @@ c
       END IF
 c
       IF (FREQ > ZERO) THEN   ! Filter contact forces (Butterworth) 
+    	   IF (TT == ZERO) THEN                           
+    	     VV1 = FF                                     
+    	     VV2 = FF                                     
+    	     FV1 = FF                                     
+    	     FV2 = FF                                     
+    	     SENSOR%VAR(1) = VV1                             
+    	     SENSOR%VAR(2) = VV2                            
+    	     SENSOR%VAR(3) = FV1                            
+    	     SENSOR%VAR(4) = FV2                            
+    	   ENDIF                                          
+c
     	   VV1 = SENSOR%VAR(1)                                 
     	   VV2 = SENSOR%VAR(2)                                
     	   FV1 = SENSOR%VAR(3)                                
@@ -130,54 +143,56 @@ c----------------------------------------------------------------
 c
       IF (IPARI(29,ID_INTER) == 1) THEN
 c
-        IF (SENSOR%TCRIT + TMIN > TT) THEN
-          IF (ICRIT == 0) THEN
-            SENSOR%TCRIT = INFINITY
-          ELSE IF (SENSOR%TCRIT == INFINITY) THEN
-            SENSOR%TCRIT = MIN(SENSOR%TCRIT, TT)
-          END IF
-        ELSE IF (SENSOR%TSTART == INFINITY) THEN
-          SENSOR%TSTART = SENSOR%TCRIT + TMIN + TDELAY
-        END IF
-        IF (SENSOR%TSTART <= TT) THEN   ! sensor activation
-          SENSOR%STATUS = 1
-        END IF
-c
-        IF (SENSOR%STATUS == 1 .and. ISPMD == 0) THEN
+        IF (ICRIT == 1) THEN
+          TCRIT = MIN(TCRIT, TT)
+        ELSE
+          TCRIT = INFINITY
+        ENDIF
+        TCRIT = TCRIT
+
+        IF (TCRIT + TMIN <= TT) THEN  ! activation
+          TSTOPS = TT + TDELAY
+          SENSOR%VALUE  = TSTOPS
+
+          IF (SENSOR%STATUS == 0) THEN
+            SENSOR%STATUS = 1
+            TSTART = TT
+            SENSOR%TSTART = TSTART
+            IF (ISPMD == 0) THEN
 #include "lockon.inc"
-          WRITE (ISTDO,1100) SENSOR%SENS_ID,SENSOR%TSTART
-          WRITE (IOUT ,1100) SENSOR%SENS_ID,SENSOR%TSTART
-          IF (IFLAG == 1) THEN
-            WRITE (IOUT ,1300) FMIN,FF
-          ELSE IF (IFLAG == 2) THEN
-            WRITE (IOUT ,1400) FMAX,FF
-          END IF
+              WRITE (ISTDO,1100) SENSOR%SENS_ID,SENSOR%TSTART
+              WRITE (IOUT ,1100) SENSOR%SENS_ID,SENSOR%TSTART
+              IF (IFLAG == 1) THEN
+                WRITE (IOUT ,1300) FMIN,FF
+              ELSE IF (IFLAG == 2) THEN
+                WRITE (IOUT ,1400) FMAX,FF
+              END IF
 #include "lockoff.inc"
+            ENDIF
+          ENDIF
         ENDIF
 c
-      ELSE IF (TT > SENSOR%TSTART .AND. SENSOR%STATUS == 1) THEN  ! deactivation
+      ELSE IF (TT > TSTOPS .AND. SENSOR%STATUS == 1) THEN  ! deactivation
+c
         SENSOR%STATUS = 0
         SENSOR%TSTART = INFINITY
         SENSOR%TCRIT  = INFINITY
-#include "lockon.inc"
+        SENSOR%VALUE  = INFINITY
+
         IF (ISPMD == 0) THEN
-          WRITE (ISTDO,1200) SENSOR%SENS_ID,SENSOR%TSTART
-          WRITE (IOUT ,1200) SENSOR%SENS_ID,SENSOR%TSTART
-          IF (IFLAG == 1) THEN
-            WRITE (IOUT ,1300) FMIN,FF
-          ELSE IF (IFLAG == 2) THEN
-            WRITE (IOUT ,1400) FMAX,FF
-          END IF
+#include "lockon.inc"
+          WRITE (ISTDO,1200) SENSOR%SENS_ID,TT
+          WRITE (IOUT ,1200) SENSOR%SENS_ID,TT
 #include "lockoff.inc"
         END IF
       ENDIF
 c-----------------------------------------------------------------------      
-1100  FORMAT(' SENSOR NUMBER ',I10,' ,ACTIVATED AT TIME '  ,1PE12.5)
-1200  FORMAT(' SENSOR NUMBER ',I10,' ,DEACTIVATED AT TIME ',1PE12.5)
-1300  FORMAT('      TARGET MIN FORCE = ',1PE12.5,/
-     .       '      CURRENT FORCE AFTER TMIN and TDELAY = ',1PE12.5)
-1400  FORMAT('      TARGET MAX FORCE = ',1PE12.5,/
-     .       '      CURRENT FORCE AFTER TMIN and TDELAY = ',1PE12.5)
+1100  FORMAT(' SENSOR NUMBER ',I10,' ACTIVATED AT TIME '  ,1PE12.5)
+1200  FORMAT(' SENSOR NUMBER ',I10,' DEACTIVATED AT TIME ',1PE12.5)
+1300  FORMAT('    TARGET MIN FORCE = ',1PE12.5,/
+     .       '    CURRENT FORCE AFTER TMIN and TDELAY = ',1PE12.5/)
+1400  FORMAT('    TARGET MAX FORCE = ',1PE12.5,/
+     .       '    CURRENT FORCE AFTER TMIN and TDELAY = ',1PE12.5/)
 c-----------------------------------------------------------------------      
       RETURN
       END SUBROUTINE
