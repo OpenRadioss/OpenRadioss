@@ -46,7 +46,7 @@ Chd|====================================================================
      6                  IAD_ELEM        ,FR_ELEM     , WEIGHT    ,TAG_SKINS6,
      7                  NPF   ,TF    ,BUFMAT,IBCL    ,ILOADP     ,LLOADP    ,FAC    ,
      8                  SENSOR_TAB,TAGNCONT    ,LOADP_HYD_INTER,XFRAME,FORC    ,
-     9                  NODAL_IPART ) 
+     9                  NODAL_IPART ,IMAPSKP ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,6 +56,7 @@ C-----------------------------------------------
       USE H3D_MOD        
       USE MULTI_FVM_MOD
       USE SENSOR_MOD
+      USE H3D_INC_MOD        
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,6 +87,7 @@ C-----------------------------------------------
       my_real
      .   SKIN_SCALAR(*),X(3,*),V(3,*),W(3,*),GEO(NPROPG,*),PM(NPROPM,*),
      .   TF(*),BUFMAT(*)
+      INTEGER , DIMENSION(NUMSKINP0), INTENT(IN) ::  IMAPSKP
       INTEGER IPARG(NPARG,*),IXS(NIXS,*),IFUNC,IXS10(*),IXS16(*), IXS20(*),
      .   IPM(NPROPMI,*),IGEO(NPROPGI,*),IPARTS(*),
      .   H3D_PART(*),IS_WRITTEN_SKIN(*),INFO1,
@@ -350,7 +352,8 @@ C------for solid elements
      .  CALL H3D_PRE_SKIN_SCALAR(SKIN_SCALAR,NODAL_IPART,
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,
      .                   IBCL,ILOADP,LLOADP,FAC ,NPF,TF ,SENSOR_TAB,
-     .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME ,X ,V ,NSKIN )
+     .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME ,X ,V ,
+     .                   IMAPSKP,NSKIN )
 C-----------------------------------------------
       RETURN
       END
@@ -369,7 +372,8 @@ Chd|====================================================================
       SUBROUTINE H3D_PRE_SKIN_SCALAR(SKIN_SCALAR,NODAL_IPART,
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,
      .                   IB ,ILOADP,LLOADP,FAC ,NPC,TF ,SENSOR_TAB,
-     .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,NSKIN )
+     .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,
+     .                   IMAPSKP, NSKIN )
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -377,6 +381,7 @@ C-----------------------------------------------
       USE PINCHTYPE_MOD 
       USE PBLAST_MOD
       USE SENSOR_MOD
+      USE H3D_INC_MOD        
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -407,6 +412,7 @@ C-----------------------------------------------
      .   SKIN_SCALAR(*),TF(*),X(3,*),V(3,*)
       CHARACTER*ncharline KEYWORD
       TYPE (H3D_DATABASE) :: H3D_DATA
+      INTEGER , DIMENSION(NUMSKINP0), INTENT(IN) ::  IMAPSKP
       INTEGER
      .   H3D_PART(*),IS_WRITTEN_SKIN(*),INFO1,NPC(*)
       INTEGER LLOADP(SLLOADP),NSKIN
@@ -426,7 +432,7 @@ C-----------------------------------------------
      .        FUN_CX,FUN_VEL,DIR_VEL,IFRA2, IANIM,IJK,UP_BOUND,
      .        IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
      .        Phi_I, ID, USER_ID, ITA_SHIFT,NDT,NDT0,
-     .        NITER,ITER,IMODEL,IL,IS,SEGCONT,FUN_HSP,IFRA1,IFLOAD
+     .        NITER,ITER,IMODEL,IL,IS,SEGCONT,FUN_HSP,IFRA1,IFLOAD,NP0,NPI
       my_real
      .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
      .   SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY,FCYPINCH,FP,
@@ -451,6 +457,10 @@ C-----------------------------------------------
 C=======================================================================
 C---- fill SKIN_SCALAR(*) w/ IS_WRITTEN_SKIN(*)=1
         IF (KEYWORD /= 'PEXT') RETURN
+        IS_WRITTEN_SKIN(NSKIN+1:NUMSKIN) = 0
+		SKIN_SCALAR(NSKIN+1:NUMSKIN)=ZERO
+        NP0= 0
+        NSKIN0 = NSKIN
 C-----Force (pressure) first 
       N_OLD  = 0
       X_OLD  = ZERO
@@ -465,8 +475,8 @@ C-----Force (pressure) first
          FCX     = FORC(2,NL)
 		 IF (N1==0.OR.N2==0.OR.N3==0.OR.N4==-1) CYCLE
 C--------default zero        
-		 NSKIN = NSKIN + 1
-		 SKIN_SCALAR(NSKIN)=ZERO
+		 NP0 = NP0 + 1
+         NSKIN = NSKIN0+ IMAPSKP(NP0)
          IF (NODAL_IPART(N1)>0) THEN
 		   IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
          END IF
@@ -513,9 +523,9 @@ C--------default zero
            N3 = LLOADP(IAD+4*(N-1)+2)
            N4 = LLOADP(IAD+4*(N-1)+3)
            IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
-           SKIN_SCALAR(NSKIN+N)=ZERO
+           NSKIN = NSKIN0+ IMAPSKP(NP0+N)
            IF (NODAL_IPART(N1)>0) THEN
-              IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN+N)=1
+              IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
            END IF
          ENDDO
 C
@@ -532,6 +542,8 @@ C
            N4 = LLOADP(IAD+4*(N-1)+3)
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
 
+		   NP0 = NP0 + 1
+           NSKIN = NSKIN0+ IMAPSKP(NP0)
            F1 = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
            AA = FCY*F1  
 C----------------
@@ -570,8 +582,7 @@ C----------------
 c                IF (FP==ZERO) FP = ONE
              ENDIF
              IF (SEGCONT==1) AA = ZERO
-             NSKIN = NSKIN +1
-             SKIN_SCALAR(NSKIN)=AA*FP
+             SKIN_SCALAR(NSKIN)=SKIN_SCALAR(NSKIN)+AA*FP
          END DO !N=1, NPRES/4
        END DO !NP=1,NLOADP_HYD
 C---------pfluid	   
@@ -585,7 +596,7 @@ C--------default zero
            N3 = LLOADP(IAD+4*(N-1)+2)
            N4 = LLOADP(IAD+4*(N-1)+3)
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
-		   SKIN_SCALAR(NSKIN+N)=ZERO
+           NSKIN = NSKIN0+ IMAPSKP(NP0+N)
            IF (NODAL_IPART(N1)>0) THEN
 		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN+N)=1
            END IF
@@ -622,6 +633,8 @@ C--------default zero
            N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
            N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+		   NP0 = NP0 + 1
+           NSKIN = NSKIN0+ IMAPSKP(NP0)
 C        
            AA = ZERO
            VEL = ZERO
@@ -738,8 +751,7 @@ C
      .                 (NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*
      .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
            ENDIF
-		  	NSKIN = NSKIN +1
-		    SKIN_SCALAR(NSKIN)=-AA+PVEL*NSIGN
+		    SKIN_SCALAR(NSKIN)=SKIN_SCALAR(NSKIN)-AA+PVEL*NSIGN
          END DO 
        END DO 
 C---------pblast	   
@@ -753,9 +765,9 @@ C--------default zero
            N3 = LLOADP(IAD+4*(N-1)+2)
            N4 = LLOADP(IAD+4*(N-1)+3)
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
-		   SKIN_SCALAR(NSKIN+N)=ZERO
+           NSKIN = NSKIN0+ IMAPSKP(NP0+N)
            IF (NODAL_IPART(N1)>0) THEN
-		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN+N)=1
+		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
            END IF
          ENDDO
          IL             = NL-NLOADP_F
@@ -771,11 +783,12 @@ C--------default zero
            N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
            N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3) 
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE           
+		   NP0 = NP0 + 1
+           NSKIN = NSKIN0+ IMAPSKP(NP0)
            !Dist                                                                                                          
            
            P = PBLAST_TAB(IL)%PRES(I)                                                           
-		   NSKIN = NSKIN +1
-		   SKIN_SCALAR(NSKIN)= -P
+		   SKIN_SCALAR(NSKIN)= SKIN_SCALAR(NSKIN)-P
          ENDDO!next I
        END DO 
 C
