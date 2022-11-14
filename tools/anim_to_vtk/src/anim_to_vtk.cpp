@@ -29,10 +29,22 @@
 
 #include <iostream>
 using std::cout;
-#include <arpa/inet.h>
+
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+
+#ifdef _WIN64
+
+#include <winsock2.h>
+#define htobe64(x) htonll(x)
+
+#else
+    
+#include <arpa/inet.h>
+
+#endif
+
 
 // X
 #define FASTMAGI4 0x5426
