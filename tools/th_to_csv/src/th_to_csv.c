@@ -131,6 +131,10 @@ void t01PreRead(char* t01Filename,int *nbglobVar,int *nbPartVar, int *nbSubsVar,
     int NVAR_PART_TOT=0;
     int NVAR_SUBS=0;
     int titleLength=0;
+    int *NVAR_PART = NULL;
+    int *NBELEM_THGRP = NULL;
+    int *NVAR_THGRP = NULL;
+
 /*-----------------------------
      PRE READ  
 -----------------------------*/
@@ -221,14 +225,17 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
 /*-----------------------------
      READ DATA  
 -----------------------------*/
-    int NVAR_PART[NPART_NTHPART];
-    int NBELEM_THGRP[NTHGRP2];
-    int NVAR_THGRP[NTHGRP2];
+    NVAR_PART =(int*) malloc(sizeof(int)*NPART_NTHPART);
+    NBELEM_THGRP=(int*) malloc(sizeof(int)*NTHGRP2);
+    NVAR_THGRP=(int*) malloc(sizeof(int)*NTHGRP2);
 /*      read temporary file  */
     curfile=fopen(t01Filename,"rb");
     if (!curfile)
     {
         printf(" ** ERROR: FILE %s NOT FOUND\n",t01Filename);
+        if (NVAR_PART)    free(NVAR_PART);
+        if (NBELEM_THGRP) free(NBELEM_THGRP);
+        if (NVAR_THGRP)   free(NVAR_THGRP);
         return;
     }
 /*-------TITRE------------*/
@@ -509,6 +516,9 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
     }
 
     fclose(curfile);
+    if (NVAR_PART)    free(NVAR_PART);
+    if (NBELEM_THGRP) free(NBELEM_THGRP);
+    if (NVAR_THGRP)   free(NVAR_THGRP);
     return;
 }
 
@@ -532,6 +542,11 @@ void t01Read(char* t01Filename,float *allData,char **ThPartNames,char **ThSubsNa
     int cptDataTitles=0;
     int cptThPartNames=0;
     int cptThSubsNames=0;
+
+    int *NVAR_PART;
+    int *NBELEM_THGRP;
+    int *NVAR_THGRP;
+
 /*-----------------------------
      PRE READ  
 -----------------------------*/
@@ -622,14 +637,17 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
 /*-----------------------------
      READ DATA  
 -----------------------------*/
-    int NVAR_PART[NPART_NTHPART];
-    int NBELEM_THGRP[NTHGRP2];
-    int NVAR_THGRP[NTHGRP2];
+    NVAR_PART    = (int*) malloc(sizeof(int)*NPART_NTHPART);
+    NBELEM_THGRP = (int*) malloc(sizeof(int)*NTHGRP2);
+    NVAR_THGRP   = (int*) malloc(sizeof(int)*NTHGRP2);
 /*      read temporary file  */
     curfile=fopen(t01Filename,"rb");
     if (!curfile)
     {
         printf(" ** ERROR: FILE %s NOT FOUND\n",t01Filename);
+        if (NVAR_PART)    free(NVAR_PART);
+        if (NBELEM_THGRP) free(NBELEM_THGRP);
+        if (NVAR_THGRP)   free(NVAR_THGRP);
         return;
     }
 /*-------TITRE------------*/
@@ -1132,6 +1150,10 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
     }
 
     fclose(curfile);
+    if (NVAR_PART)    free(NVAR_PART);
+    if (NBELEM_THGRP) free(NBELEM_THGRP);
+    if (NVAR_THGRP)   free(NVAR_THGRP);
+
     return;
 }
 
@@ -1142,13 +1164,17 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
     int i,j;
     int cpt;
     char buffer[100];
-    float tmpImpulse[*nbTimeStep];
+    float *tmpImpulse;
     int outpuType = 0;
     int nbData = *cptData / *nbTimeStep ;
-    int isImpulse[nbData];
+    int *isImpulse;
 
     FILE *titlesFile=fopen(titleFilename,"r");
     FILE *csvFile=fopen(csvFilename,"w");
+    
+    tmpImpulse = (float *) malloc(sizeof(float)* *nbTimeStep);
+    isImpulse = (int *)    malloc(sizeof(int)*nbData);
+
 
     fprintf(csvFile,"\"time\",");
     fprintf(csvFile,"\"INTERNAL ENERGY\",");
@@ -1290,6 +1316,8 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
     fclose(curfile);
     if (titlesFile)fclose(titlesFile);
 
+    free(tmpImpulse);
+    free(isImpulse);
     return;
 }
 

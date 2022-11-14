@@ -4,10 +4,23 @@ anim_to_vtk is an external tool to convert OpenRadioss time history files to csv
 
 # How to build
 
-Enter the platform directory.
-Apply the build script
+## Linux 
+gcc installation is required
+
+Enter the platform directory : linux64
+Apply the build script : ./build.bash
 
 Executable will be copied in [OpenRadioss]/exec directory
+
+## Windows
+Visual Studio Community, Enterprise or Professional Edition installation is required.
+Launch Visual Studio Shell for X86-64 Native tools.
+
+Enter the platform directory : win64
+Apply the build script : ./build.bat
+
+Executable will be copied in [OpenRadioss]/exec directory
+
 
 # How to use
 
