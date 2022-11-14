@@ -92,6 +92,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE ELBUFDEF_MOD     
       USE STACK_MOD    
+      USE H3D_INC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1857,7 +1858,7 @@ C=========================================================================
        IF (IOUTER==1) ISKIND=ISKIND+1
        IF (IPEXT==1) ISKIND=ISKIND+2
        CALL H3D_SKIN_DIM(IPARG   ,NUMSKIN, NUMSKING,TAG_SKINS6,
-     .                   IBCL    ,ILOADP ,LLOADP  ,NUMSKINP,ISKIND )
+     .                   IBCL    ,ILOADP ,LLOADP ,NUMSKINP0,NUMSKINP,ISKIND )
       END IF
 c For debug purpose
 c      DO I=1,H3D_DATA%N_OUTP_H3D

@@ -157,6 +157,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE SENSOR_MOD
       USE OUTMAX_MOD
+      USE H3D_INC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -402,7 +403,8 @@ c a mettre en allocatable
      .         IPARTTG_P,
      .         IPARTQ_P,  
      .         IPARTSKIN_P,
-     .         NODAL_IPART
+     .         NODAL_IPART,
+     .         IMAPSKP
       my_real, DIMENSION(:), ALLOCATABLE :: X_P,D_P
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAB_P
 
@@ -1400,17 +1402,18 @@ C CREATE SKIN (4-N) CONNECTIVITY ( THICK SHELLS +solid +PLOAD...)
 C**********************************************************************************************
 C-------------nodal_pid used for PLOAD---        
        IF (NUMSKINP>0) THEN
-          ALLOCATE(NODAL_IPART(NUMNOD))
+          ALLOCATE(NODAL_IPART(NUMNOD),IMAPSKP(NUMSKINP0))
           CALL GET_NODAL_IPART(ELBUF_TAB,IPARG,IPARTC,IPARTTG,IPARTS,
      .                          IXC, IXTG, IXS,IXS10,IXS16,IXS20,
      .                          NODAL_IPART)
+          CALL H3D_SKIN_PRE_MAP(IBCL  ,ILOADP  ,LLOADP ,IMAPSKP)
        END IF
       IF(H3D_DATA%IH3D == 1 .AND. NUMSKING>0 ) THEN
 C----create connectivity IXSKIN_P(NIXQ,NUMSKING),IPARTSKIN_P(NUMSKING) 
         IXSKIN_TMP = 0 
         CALL H3D_SKIN_IXSKIN(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
      .                       ITAB ,IXSKIN_TMP  ,TAG_SKINS6,
-     .                       IBCL,ILOADP,LLOADP,NODAL_IPART) 
+     .                       IBCL,ILOADP,LLOADP,NODAL_IPART,IMAPSKP) 
 c--------IXSKIN_TMP(1,i) :ipart (instead of mid)--IXSKIN_TMP(2-5,i) : Nj(user_id)
         IF(NSPMD > 1) THEN 
 C         
@@ -2809,7 +2812,7 @@ c-----
      6                    IAD_ELEM        ,FR_ELEM     , WEIGHT    ,TAG_SKINS6,
      7                    NPF  ,TF   ,BUFMAT,IBCL    ,ILOADP     ,LLOADP    ,FAC    , 
      8                    SENSOR_TAB,TAGNCONT    ,LOADP_HYD_INTER,XFRAME,FORC  ,
-     9                    NODAL_IPART )
+     9                    NODAL_IPART ,IMAPSKP )
 c
           IF (NSPMD > 1 ) THEN
             CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
@@ -2845,7 +2848,7 @@ c-----
           CALL H3D_SKIN_VECTOR(SKIN_VECTOR,NODAL_IPART,
      .                   IS_WRITEN_SKIN  ,H3D_DATA%OUTPUT_LIST(I)%PART,INFO1   ,KEYWORD ,
      .                   IBCL,ILOADP,LLOADP,FAC ,NPF,TF ,SENSOR_TAB,
-     .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V  )
+     .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,IMAPSKP)
 c
           IF (NSPMD > 1 ) THEN
             CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
@@ -2989,6 +2992,7 @@ c
       DEALLOCATE(SKIN_ID_P)
       DEALLOCATE(IXSKIN_TMP)
       DEALLOCATE(IXSKIN_P)
+      IF (NUMSKINP>0) DEALLOCATE(NODAL_IPART,IMAPSKP)
 c
       DEALLOCATE(ITAB_P)
 
