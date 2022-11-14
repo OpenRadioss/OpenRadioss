@@ -48,6 +48,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR,N1,N2,TYP
+      INTEGER, DIMENSION(:), ALLOCATABLE :: LTEMP
       my_real, DIMENSION(:), ALLOCATABLE :: RBUF
       TYPE (SENSOR_STR_) ,POINTER :: SENSOR
 C=======================================================================
@@ -59,26 +60,28 @@ c
         NPARI = SENSOR%NPARI
         NPARR = SENSOR%NPARR
         NVAR  = SENSOR%NVAR
+        ALLOCATE (LTEMP(NPARI))
+        LTEMP(1:NPARI) = SENSOR%IPARAM(1:NPARI)
 c       update node system N° after renumbering for sensors using nodes
         IF (TYP == 2) THEN   ! /sens/disp
           N1 = NODLOCAL(SENSOR%IPARAM(1))
           N2 = NODLOCAL(SENSOR%IPARAM(2))
-          SENSOR%IPARAM(1) = N1
-          SENSOR%IPARAM(2) = N2
+          LTEMP(1) = N1
+          LTEMP(2) = N2
         ELSE IF (TYP == 13) THEN  ! /sens/work
           N2 = SENSOR%IPARAM(2)
           N1 = NODLOCAL(SENSOR%IPARAM(1))
           IF (N2 > 0) THEN
             N2 = NODLOCAL(SENSOR%IPARAM(2))
           END IF
-          SENSOR%IPARAM(1) = N1
-          SENSOR%IPARAM(2) = N2
+          LTEMP(1) = N1
+          LTEMP(2) = N2
         ELSE IF (TYP == 16) THEN  ! /sens/dist_surf
-          SENSOR%IPARAM(1) = NODLOCAL(SENSOR%IPARAM(1))
+          LTEMP(1) = NODLOCAL(SENSOR%IPARAM(1))
           IF (SENSOR%IPARAM(2) == 0) THEN
-            SENSOR%IPARAM(3) = NODLOCAL(SENSOR%IPARAM(3))
-            SENSOR%IPARAM(4) = NODLOCAL(SENSOR%IPARAM(4))
-            SENSOR%IPARAM(5) = NODLOCAL(SENSOR%IPARAM(5))
+            LTEMP(3) = NODLOCAL(SENSOR%IPARAM(3))
+            LTEMP(4) = NODLOCAL(SENSOR%IPARAM(4))
+            LTEMP(5) = NODLOCAL(SENSOR%IPARAM(5))
           END IF
         END IF        
 c        
@@ -101,7 +104,7 @@ c
 c
         IF (NPARI > 0) THEN
           DO I = 1,NPARI
-            RBUF(IAD+I) = SENSOR%IPARAM(I)
+            RBUF(IAD+I) = LTEMP(I)
           END DO
           IAD = IAD + NPARI
         END IF
@@ -120,6 +123,7 @@ c
 c
         CALL WRITE_DB (RBUF,LEN)
         DEALLOCATE (RBUF)
+        DEALLOCATE (LTEMP)
         LEN_AM = LEN_AM + LEN
 c
       END DO
