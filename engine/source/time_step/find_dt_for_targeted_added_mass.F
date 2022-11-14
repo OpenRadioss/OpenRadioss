@@ -162,7 +162,7 @@ C
         ENDDO
 
         CALL MYQSORT(SIZG,DT2_L,PERM,IERROR)
-        TMP(1:NUMNOD) = PERM(1:NUMNOD)
+        TMP(1:SIZG) = PERM(1:SIZG)
 
         DEALLOCATE( PERM )
 C
