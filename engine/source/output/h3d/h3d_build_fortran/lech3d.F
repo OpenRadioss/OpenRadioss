@@ -1857,7 +1857,7 @@ C=========================================================================
        IF (IOUTER==1) ISKIND=ISKIND+1
        IF (IPEXT==1) ISKIND=ISKIND+2
        CALL H3D_SKIN_DIM(IPARG   ,NUMSKIN, NUMSKING,TAG_SKINS6,
-     .                   IBCL    ,ILOADP ,LLOADP  ,NUMSKINP,ISKIND )
+     .                   IBCL    ,ILOADP ,LLOADP ,NUMSKINP0,NUMSKINP,ISKIND )
       END IF
 c For debug purpose
 c      DO I=1,H3D_DATA%N_OUTP_H3D

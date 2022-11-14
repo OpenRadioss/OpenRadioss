@@ -35,7 +35,8 @@ Chd|====================================================================
       SUBROUTINE H3D_SKIN_VECTOR(SKIN_VECTOR,NODAL_IPART,
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,
      .                   IB ,ILOADP,LLOADP,FAC ,NPC,TF ,SENSOR_TAB,
-     .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V )
+     .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,
+     .                   IMAPSKP)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -71,6 +72,7 @@ C-----------------------------------------------
       my_real
      .   SKIN_VECTOR(3,*),TF(*),X(3,*),V(3,*)
       TYPE (H3D_DATABASE) :: H3D_DATA
+      INTEGER , DIMENSION(NUMSKINP0), INTENT(IN) ::  IMAPSKP
       INTEGER
      .   H3D_PART(*),IS_WRITTEN_SKIN(*),INFO1,NPC(*)
       INTEGER LLOADP(SLLOADP)
@@ -90,7 +92,7 @@ C-----------------------------------------------
      .        FUN_CX,FUN_VEL,DIR_VEL,IFRA2, IANIM,IJK,UP_BOUND,
      .        IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
      .        Phi_I, ID, USER_ID, ITA_SHIFT,NDT,NDT0,
-     .        NITER,ITER,IMODEL,IL,IS,SEGCONT,FUN_HSP,IFRA1
+     .        NITER,ITER,IMODEL,IL,IS,SEGCONT,FUN_HSP,IFRA1,NP0
       my_real
      .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
      .   SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY,FCYPINCH,FP,
@@ -107,6 +109,9 @@ C=======================================================================
       IF (KEYWORD /= 'VECT/PEXT') RETURN
       NSKIN = NUMSKIN - NUMSKINP
       IS_WRITTEN_SKIN(NSKIN+1:NUMSKIN) = 0
+	  SKIN_VECTOR(1:3,NSKIN+1:NUMSKIN)=ZERO
+        NP0= 0
+        NSKIN0 = NSKIN
 C---- fill SKIN_SCALAR(*) w/ IS_WRITTEN_SKIN(*)=1
 C-----Force (pressure) first 
       N_OLD  = 0
@@ -122,8 +127,8 @@ C-----Force (pressure) first
          FCX     = FORC(2,NL)
 		 IF (N1==0.OR.N2==0.OR.N3==0.OR.N4==-1) CYCLE
 C--------default zero        
-		 NSKIN = NSKIN + 1
-		 SKIN_VECTOR(1:3,NSKIN)=ZERO
+		 NP0 = NP0 + 1
+         NSKIN = NSKIN0+ IMAPSKP(NP0)
          IF (NODAL_IPART(N1)>0) THEN
 		   IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
          END IF
@@ -152,33 +157,7 @@ C--------default zero
            X_OLD = TS
          ENDIF
          AA = FCY*F1*XSENS
-         IF(N4/=0)THEN
-           RXI = X(1,N2)+X(1,N3)-X(1,N1)-X(1,N4)
-           SXI = X(1,N3)+X(1,N4)-X(1,N1)-X(1,N2)
-           RYI = X(2,N2)+X(2,N3)-X(2,N1)-X(2,N4)
-           SYI = X(2,N3)+X(2,N4)-X(2,N1)-X(2,N2)
-           RZI = X(3,N2)+X(3,N3)-X(3,N1)-X(3,N4)
-           SZI = X(3,N3)+X(3,N4)-X(3,N1)-X(3,N2)
-           NX = RYI * SZI - RZI * SYI
-           NY = RZI * SXI - RXI * SZI
-           NZ = RXI * SYI - RYI * SXI
-           NORM = MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
-           FX = AA*NX/NORM
-           FY = AA*NY/NORM
-           FZ = AA*NZ/NORM
-         ELSE
-         ! true triangles.
-          NX = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
-          NY = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
-          NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
-          NORM = MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
-           FX = AA*NX/NORM
-           FY = AA*NY/NORM
-           FZ = AA*NZ/NORM
-         END IF
-		 SKIN_VECTOR(1,NSKIN)=FX
-		 SKIN_VECTOR(2,NSKIN)=FY
-		 SKIN_VECTOR(3,NSKIN)=FZ
+		 SKIN_VECTOR(3,NSKIN)=SKIN_VECTOR(3,NSKIN) + AA
        END DO 
 C----------load_pressure	   
        DO NP=1,NLOADP_HYD
@@ -196,9 +175,9 @@ C--------default zero
            N3 = LLOADP(IAD+4*(N-1)+2)
            N4 = LLOADP(IAD+4*(N-1)+3)
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
-		   SKIN_VECTOR(1:3,NSKIN+N)=ZERO
+           NSKIN = NSKIN0+ IMAPSKP(NP0+N)
            IF (NODAL_IPART(N1)>0) THEN
-		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN+N)=1
+		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
            END IF
          ENDDO
 C
@@ -215,6 +194,8 @@ C
            N4 = LLOADP(IAD+4*(N-1)+3)
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
 
+		   NP0 = NP0 + 1
+           NSKIN = NSKIN0+ IMAPSKP(NP0)
            F1 = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
            AA = FCY*F1  
 C----------------
@@ -255,34 +236,7 @@ C----------------
              ENDIF
 			 IF (SEGCONT==1) AA = ZERO
 		    AA=AA*FP
-            IF(N4/=0)THEN
-              RXI = X(1,N2)+X(1,N3)-X(1,N1)-X(1,N4)
-              SXI = X(1,N3)+X(1,N4)-X(1,N1)-X(1,N2)
-              RYI = X(2,N2)+X(2,N3)-X(2,N1)-X(2,N4)
-              SYI = X(2,N3)+X(2,N4)-X(2,N1)-X(2,N2)
-              RZI = X(3,N2)+X(3,N3)-X(3,N1)-X(3,N4)
-              SZI = X(3,N3)+X(3,N4)-X(3,N1)-X(3,N2)
-              NX = RYI * SZI - RZI * SYI
-              NY = RZI * SXI - RXI * SZI
-              NZ = RXI * SYI - RYI * SXI
-              NORM = MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
-              FX = AA*NX/NORM
-              FY = AA*NY/NORM
-              FZ = AA*NZ/NORM
-            ELSE
-            ! true triangles.
-             NX = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
-             NY = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
-             NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
-             NORM = MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
-              FX = AA*NX/NORM
-              FY = AA*NY/NORM
-              FZ = AA*NZ/NORM
-            END IF
-			NSKIN = NSKIN +1
-		    SKIN_VECTOR(1,NSKIN)=FX
-		    SKIN_VECTOR(2,NSKIN)=FY
-		    SKIN_VECTOR(3,NSKIN)=FZ
+		    SKIN_VECTOR(3,NSKIN)=SKIN_VECTOR(3,NSKIN) + AA
          END DO !N=1, NPRES/4
        END DO !NP=1,NLOADP_HYD
 C---------pfluid	   
@@ -296,9 +250,9 @@ C--------default zero
            N3 = LLOADP(IAD+4*(N-1)+2)
            N4 = LLOADP(IAD+4*(N-1)+3)
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
-		   SKIN_VECTOR(1:3,NSKIN+N)=ZERO
+           NSKIN = NSKIN0+ IMAPSKP(NP0+N)
            IF (NODAL_IPART(N1)>0) THEN
-		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN+N)=1
+		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
            END IF
          ENDDO
          FUN_HSP=ILOADP(7,NL)
@@ -333,6 +287,8 @@ C--------default zero
            N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
            N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+		   NP0 = NP0 + 1
+           NSKIN = NSKIN0+ IMAPSKP(NP0)
 C        
            AA = ZERO
            VEL = ZERO
@@ -450,34 +406,7 @@ C
      .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
            ENDIF
 		    AA=-AA+PVEL*NSIGN
-            IF(N4/=0)THEN
-              RXI = X(1,N2)+X(1,N3)-X(1,N1)-X(1,N4)
-              SXI = X(1,N3)+X(1,N4)-X(1,N1)-X(1,N2)
-              RYI = X(2,N2)+X(2,N3)-X(2,N1)-X(2,N4)
-              SYI = X(2,N3)+X(2,N4)-X(2,N1)-X(2,N2)
-              RZI = X(3,N2)+X(3,N3)-X(3,N1)-X(3,N4)
-              SZI = X(3,N3)+X(3,N4)-X(3,N1)-X(3,N2)
-              NX = RYI * SZI - RZI * SYI
-              NY = RZI * SXI - RXI * SZI
-              NZ = RXI * SYI - RYI * SXI
-              NORM = MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
-              FX = AA*NX/NORM
-              FY = AA*NY/NORM
-              FZ = AA*NZ/NORM
-            ELSE
-            ! true triangles.
-             NX = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
-             NY = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
-             NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
-             NORM = MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
-              FX = AA*NX/NORM
-              FY = AA*NY/NORM
-              FZ = AA*NZ/NORM
-            END IF
-		  	NSKIN = NSKIN +1
-		    SKIN_VECTOR(1,NSKIN)=FX
-		    SKIN_VECTOR(2,NSKIN)=FY
-		    SKIN_VECTOR(3,NSKIN)=FZ
+		    SKIN_VECTOR(3,NSKIN)=SKIN_VECTOR(3,NSKIN) + AA
          END DO 
        END DO 
 C---------pblast	   
@@ -491,9 +420,9 @@ C--------default zero
            N3 = LLOADP(IAD+4*(N-1)+2)
            N4 = LLOADP(IAD+4*(N-1)+3)
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
-		   SKIN_VECTOR(1:3,NSKIN+N)=ZERO
+           NSKIN = NSKIN0+ IMAPSKP(NP0+N)
            IF (NODAL_IPART(N1)>0) THEN
-		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN+N)=1
+		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
            END IF
          ENDDO
          IL             = NL-NLOADP_F
@@ -509,39 +438,14 @@ C--------default zero
            N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
            N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3) 
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE           
+		   NP0 = NP0 + 1
+           NSKIN = NSKIN0+ IMAPSKP(NP0)
            !Dist                                                                                                          
            
            P = PBLAST_TAB(IL)%PRES(I)                                                           
 		   AA= -P
-            IF(N4/=0)THEN
-              RXI = X(1,N2)+X(1,N3)-X(1,N1)-X(1,N4)
-              SXI = X(1,N3)+X(1,N4)-X(1,N1)-X(1,N2)
-              RYI = X(2,N2)+X(2,N3)-X(2,N1)-X(2,N4)
-              SYI = X(2,N3)+X(2,N4)-X(2,N1)-X(2,N2)
-              RZI = X(3,N2)+X(3,N3)-X(3,N1)-X(3,N4)
-              SZI = X(3,N3)+X(3,N4)-X(3,N1)-X(3,N2)
-              NX = RYI * SZI - RZI * SYI
-              NY = RZI * SXI - RXI * SZI
-              NZ = RXI * SYI - RYI * SXI
-              NORM = MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
-              FX = AA*NX/NORM
-              FY = AA*NY/NORM
-              FZ = AA*NZ/NORM
-            ELSE
-            ! true triangles.
-             NX = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
-             NY = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
-             NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
-             NORM = MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
-              FX = AA*NX/NORM
-              FY = AA*NY/NORM
-              FZ = AA*NZ/NORM
-            END IF
-		  	NSKIN = NSKIN +1
-		    SKIN_VECTOR(1,NSKIN)=FX
-		    SKIN_VECTOR(2,NSKIN)=FY
-		    SKIN_VECTOR(3,NSKIN)=FZ
-         ENDDO!next I
+		   SKIN_VECTOR(3,NSKIN)=SKIN_VECTOR(3,NSKIN) + AA
+         ENDDO
        END DO 
 C
       RETURN

@@ -1155,12 +1155,11 @@ C-----------------------
          CALL SPMD_SUB_BOUNDARIES(NLOC_DMG,IAD_ELEM,FR_ELEM)
        ENDIF
 C       
-       IF (NUMSKINP > 0) THEN
-         DO I=1,NLOADP_B
-           NBS = PBLAST_TAB(I)%SIZ
-           ALLOCATE (PBLAST_TAB(I)%PRES(NBS))
-         ENDDO
-       END IF
+       DO I=1,NLOADP_B
+         NBS = PBLAST_TAB(I)%SIZ
+         ALLOCATE (PBLAST_TAB(I)%PRES(NBS))
+         PBLAST_TAB(I)%PRES(1:NBS)=ZERO
+       ENDDO
 C-----------------------
 C DT_DC OF TSH
 C-----------------------
