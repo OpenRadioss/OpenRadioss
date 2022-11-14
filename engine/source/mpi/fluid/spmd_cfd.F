@@ -75,7 +75,7 @@ C-----------------------------------------------
      .        WA(LENCOM*3)
 C-----------------------------------------------
 C
-C Maj X sur Noeuds voisins
+C Updating X on adjacent domains
 C 
 
       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
@@ -175,8 +175,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NBRCVOIS(*), NBSDVOIS(*), LNRCVOIS(*), LNSDVOIS(*),
      .        LENCOM
-      my_real
-     .        X(3,*), D(3,*), W(3,*)
+      my_real X(3,*), D(3,*), W(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -186,11 +185,10 @@ C-----------------------------------------------
      .        LOC_PROC, N, NN, NBIRECV, IRINDEX(NSPMD), II, INDEX,
      .        LEN      
       DATA MSGOFF/3001/
-      my_real
-     .       WA(LENCOM*9)
+      my_real WA(LENCOM*9)
 C-----------------------------------------------
 C
-C Maj X sur Noeuds voisins
+C Updating X on adjacent domains
 C 
       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
@@ -306,8 +304,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*),
      .        LENCOM
-      my_real
-     .        T(*), VAL2(*)
+      my_real T(*), VAL2(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -321,7 +318,7 @@ C-----------------------------------------------
      .        WA(LENCOM*2)
 C-----------------------------------------------
 C
-C Maj X sur Noeuds voisins
+C Updating X on adjacent domains
 C 
       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
@@ -403,8 +400,8 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|====================================================================
       SUBROUTINE SPMD_E1VOIS(
-     1     PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2     LESDVOIS,LENCOM  )
+     1                        PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
+     2                        LESDVOIS,LENCOM  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -428,10 +425,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*),
-     .        LENCOM
-      my_real
-     .        PHI(*)
+      INTEGER NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*),LENCOM
+      my_real PHI(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -441,11 +436,10 @@ C-----------------------------------------------
      .        LOC_PROC, N, NN, NBIRECV, IRINDEX(NSPMD), II, INDEX,
      .        LEN
       DATA MSGOFF/3003/
-      my_real
-     .        WA(LENCOM)
+      my_real WA(LENCOM)
 C-----------------------------------------------
 C
-C Maj Phi sur Elts voisins
+C Updating Phi on adjacent elements
 C 
       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
@@ -515,8 +509,8 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|====================================================================
       SUBROUTINE SPMD_E6VOIS(
-     1     PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2     LESDVOIS,LENCOM  )
+     1                       PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
+     2                       LESDVOIS,LENCOM  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -540,10 +534,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*),
-     .        LENCOM
-      my_real
-     .        PHI(NUMELS+NSVOIS,6)
+      INTEGER NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*),LENCOM
+      my_real PHI(NUMELS+NSVOIS,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -557,7 +549,7 @@ C-----------------------------------------------
      .        WA(6,LENCOM)
 C-----------------------------------------------
 C
-C Maj Phi sur Elts voisins
+C Updating Phi on adjacent elements
 C
       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
@@ -637,8 +629,8 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|====================================================================
       SUBROUTINE SPMD_E4VOIS(
-     1     PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2     LESDVOIS,LENCOM  )
+     1                       PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
+     2                       LESDVOIS,LENCOM  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -662,10 +654,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*),
-     .        LENCOM
-      my_real
-     .        PHI(NUMELQ+NQVOIS,4)
+      INTEGER NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*), LENCOM
+      my_real PHI(NUMELQ+NQVOIS,4)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -679,7 +669,7 @@ C-----------------------------------------------
      .        WA(4,LENCOM)
 C-----------------------------------------------
 C
-C Maj Phi sur Elts voisins
+C Updating Phi on adjacent elements
 C
       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
@@ -751,8 +741,8 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_E3VOIS(
-     1     PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2     LESDVOIS,LENCOM  )
+     1                       PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
+     2                       LESDVOIS,LENCOM  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -776,10 +766,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*),
-     .        LENCOM
-      my_real
-     .        PHI(NUMELTG+NTGVOIS,3)
+      INTEGER NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*), LENCOM
+      my_real PHI(NUMELTG+NTGVOIS,3)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -789,11 +777,10 @@ C-----------------------------------------------
      .        LOC_PROC, N, NN, NBIRECV, IRINDEX(NSPMD), II, INDEX,
      .        LEN
       DATA MSGOFF/3004/
-      my_real
-     .        WA(3,LENCOM)
+      my_real WA(3,LENCOM)
 C-----------------------------------------------
 C
-C Maj Phi sur Elts voisins
+C Updating Phi on adjacent elements
 C
       LOC_PROC = ISPMD+1
       IDEB = 0
@@ -866,8 +853,8 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|====================================================================
       SUBROUTINE SPMD_ENVOIS(DIM,
-     1     PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2     LESDVOIS,LENCOM  )
+     1                       PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
+     2                       LESDVOIS,LENCOM  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -892,10 +879,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: DIM
-      INTEGER NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*),
-     .        LENCOM
-      my_real
-     .        PHI(*)
+      INTEGER NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*), LENCOM
+      my_real PHI(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -909,7 +894,7 @@ C-----------------------------------------------
      .     WA(DIM, LENCOM)
 C-----------------------------------------------
 C
-C Maj Phi sur Elts voisins
+C Updating Phi on adjacent elements
 C
       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
@@ -979,8 +964,8 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_I1VOIS(
-     1     PHI   ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
-     2     LENCOM)
+     1                       PHI   ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
+     2                       LENCOM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1003,8 +988,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*),
-     .        PHI(*), LENCOM
+      INTEGER NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*),PHI(*), LENCOM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1016,7 +1000,7 @@ C-----------------------------------------------
       DATA MSGOFF/3005/
 C-----------------------------------------------
 C
-C Maj X sur Noeuds voisins
+C Updating X on adjacent domains
 C 
       LOC_PROC = ISPMD+1
       IDEB = 0
@@ -1082,8 +1066,8 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|====================================================================
       SUBROUTINE SPMD_I8VOIS(
-     1     PHI   ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
-     2     LENCOM)
+     1                       PHI   ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
+     2                       LENCOM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1120,7 +1104,7 @@ C-----------------------------------------------
       DATA MSGOFF/3006/
 C-----------------------------------------------
 C
-C Maj X sur Noeuds voisins
+C Updating X on adjacent domains
 C
       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
@@ -1206,8 +1190,8 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|====================================================================
       SUBROUTINE SPMD_I4VOIS(
-     1     PHI   ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
-     2     LENCOM)
+     1                       PHI   ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
+     2                       LENCOM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1244,7 +1228,7 @@ C-----------------------------------------------
       DATA MSGOFF/3006/
 C-----------------------------------------------
 C
-C Maj X sur Noeuds voisins
+C Updating X on adjacent domains
 C
       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
@@ -1317,8 +1301,8 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_I3VOIS(
-     1     PHI   ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
-     2     LENCOM)
+     1                       PHI   ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
+     2                       LENCOM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1355,7 +1339,7 @@ C-----------------------------------------------
       DATA MSGOFF/3006/
 C-----------------------------------------------
 C
-C Maj X sur Noeuds voisins
+C Updating X on adjacent domains
 C
       LOC_PROC = ISPMD+1
       IDEB = 0
@@ -1426,9 +1410,9 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_L11VOIS(
-     1     LBVOIS  ,IPARG   ,ELBUF_TAB,PM      ,IXS,
-     2     IXQ     ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
-     3     LENCOM  )
+     1                        LBVOIS  ,IPARG   ,ELBUF_TAB,PM      ,IXS,
+     2                        IXQ     ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
+     3                        LENCOM  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1459,8 +1443,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),IXS(NIXS,*), IXQ(NIXQ,*),
      .        NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*),
      .        LENCOM
-      my_real
-     .        LBVOIS(6,*), PM(NPROPM,*)
+      my_real LBVOIS(6,*), PM(NPROPM,*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1473,15 +1456,13 @@ C-----------------------------------------------
      .        KB1, KB2, KB3 ,KB4 ,KB10, KB11, KB12, KKB2,
      .        G_PLA,G_RK,L_RE,L_TEMP,KK(6),K
       DATA MSGOFF/3007/
-      my_real
-     .     WA(6*LENCOM)
-      my_real
-     .     ELBUF(10000)  ! BIDON !!!!!!!
+      my_real WA(6*LENCOM)
+      my_real ELBUF(10000)  ! contents not used
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
 C-----------------------------------------------
 C
-C Maj X sur Noeuds voisins
+C Updating X on adjacent domains
 C 
       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
@@ -1513,7 +1494,7 @@ C
           DO N = 1, LEN
             II = IDEB2+6*(N-1)
             NN = LESDVOIS(IDEB+N)
-            ! RECHERCHE BUFFER ELEMENT A ENVOYER SI ELEMENT DE LOI # de 11
+            ! Searching in element buffer : sending if material law /= 11
             IF (N2D == 0) THEN
               ML=NINT(PM(19,IXS(1,NN)))
             ELSE
@@ -1665,7 +1646,10 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|====================================================================
       SUBROUTINE SPMD_EXALEW(WA,WB,IAD_ELEM,FR_ELEM,NALE,SIZE,LENR)
-C realise la sommation des vitesses de grille WA, WB aux points frontiere
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------   
+C Sum of grid velocities WA,WB at boundary nodes. Parith/off
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1694,13 +1678,10 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,I,NOD,LOC_PROC,
-     .        SIZ,J, L
+      INTEGER MSGTYP,I,NOD,LOC_PROC,SIZ,J, L
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
-      INTEGER IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
-     .        REQ_R(NSPMD),REQ_S(NSPMD), MSGOFF
-      my_real
-     .        RBUF(SIZE*LENR), SBUF(SIZE*LENR)
+      INTEGER IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),REQ_R(NSPMD),REQ_S(NSPMD), MSGOFF
+      my_real RBUF(SIZE*LENR), SBUF(SIZE*LENR)
       DATA MSGOFF/3008/
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -1754,7 +1735,7 @@ C
         ENDIF
       ENDDO        
 C
-C decompactage
+C decompaction
 C
       DO I = 1, NSPMD
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
@@ -1802,14 +1783,16 @@ Chd|====================================================================
      1   FSKY  ,FSKYV ,IAD_ELEM,FR_ELEM,NALE,
      2   ADDCNE,PROCNE,FR_NBCC ,SIZE   ,LENR,
      3   LENS  )
-C realise la sommation des vitesses de grille WA, WB aux points frontiere
-C en parith/on
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------     
+C Sum of grid velocities WA,WB at boundary nodes. Parith/on
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "r4r8_p.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
 #ifdef MPI
@@ -1825,11 +1808,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IAD_ELEM(2,*),FR_ELEM(*),FR_NBCC(2,*),NALE(*),
-     .        ADDCNE(*), PROCNE(*),
-     .        SIZE, LENR ,LENS
-      my_real 
-     .        FSKY(8,LSKY), FSKYV(LSKY,8)
+      INTEGER IAD_ELEM(2,*),FR_ELEM(*),FR_NBCC(2,*),NALE(*),ADDCNE(*), PROCNE(*),SIZE, LENR ,LENS
+      my_real FSKY(8,LSKY), FSKYV(LSKY,8)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -1839,8 +1819,7 @@ C-----------------------------------------------
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD),IRINDEX(NSPMD),MSGOFF
-      my_real
-     .        RBUF(SIZE*LENR+1), SBUF(SIZE*LENS)
+      my_real RBUF(SIZE*LENR+1), SBUF(SIZE*LENS)
       DATA MSGOFF/3009/
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -1916,7 +1895,7 @@ C
         ENDIF
       ENDDO
 C
-C decompactage
+C decompaction
 C
       DO II=1,NBIRECV
         CALL MPI_WAITANY(NBIRECV,REQ_R,INDEX,STATUS,IERROR)
@@ -1979,7 +1958,10 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|====================================================================
       SUBROUTINE SPMD_GLOB_DMIN9(V,LEN)
-C min tableau V de taille LEN de type my_real
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------  
+C minimum of array V (length=LEN) of type my_real
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2000,16 +1982,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LEN
-      my_real
-     .        V(LEN)
+      my_real V(LEN)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,INFO,I,K,ATID,ATAG,ALEN
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
-      my_real
-     .        VTMP(LEN)
+      my_real VTMP(LEN)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -2071,14 +2051,14 @@ C-----------------------------------------------
       DATA MSGOFF/3010/
 C-----------------------------------------------
 C
-C Echange X sur ligne precedente de RWALE TYPE 2
+C Exchange X on previous line of RWALE TYPE 2
 C
       LOC_PROC = ISPMD+1
       N_LEN  = 4
       N_LEN2 = 3
       IF(ISPMD/=0) THEN
 C
-C Envoi X local
+C X local sending
 C
         L = 1
         DO J=1,NIMP
@@ -2098,7 +2078,7 @@ C
      S      WA,LEN,REAL,IT_SPMD(1),MSGTYP,
      G      MPI_COMM_WORLD,ierror)
 C
-C Reception X globaux
+C X global receiving
 C  
         MSGTYP = MSGOFF
         LEN = N_LEN*NIMP
@@ -2116,7 +2096,7 @@ C
         ENDDO
       ELSE
 C
-C Recuperation X
+C Getting back X
 C
         DO I = 2, NSPMD
           MSGTYP = MSGOFF 
@@ -2137,7 +2117,7 @@ C
           ENDDO
         ENDDO
 C
-C Envoi X uptodate
+C Sending updated X
 C
         L = 1
         DO J=1,NIMP
@@ -2171,7 +2151,10 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|====================================================================
       SUBROUTINE SPMD_EXTAG(NTAG,IAD_ELEM,FR_ELEM,LENR)
-C realise la sommation des tags
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------  
+C Sum of tags
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2193,7 +2176,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IAD_ELEM(2,*), FR_ELEM(*), SIZE, LENR, NTAG(*)
-
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -2234,7 +2216,7 @@ C
         DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
           NOD = FR_ELEM(J)
           IF(NTAG(NOD)>0) THEN
-C il faut enlever le tag initial deja decompe localement
+C           removing initial tag already treated locally
             SBUF(L) =  NTAG(NOD)-1
           ELSE
             SBUF(L) =  0
@@ -2255,7 +2237,7 @@ C
         ENDIF
       ENDDO        
 C
-C decompactage
+C decompaction
 C
       DO I = 1, NSPMD
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
@@ -2326,15 +2308,14 @@ C-----------------------------------------------
      .        STATUS(MPI_STATUS_SIZE), REQ_R(NSPMD), IRINDEX(NSPMD),
      .        LOC_PROC, N, KK, NN, NBIRECV, II, INDEX, LEN      
       DATA MSGOFF/3012/
-      my_real
-     .        WA(SIZE*NVCONV)
+      my_real WA(SIZE*NVCONV)
 C-----------------------------------------------
       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD+1
       IF(FLAG == 0) THEN  
 C
-C Envoi segvar de pi vers p0
+C Sending segvar from pi to p0
 C
         IF(LOC_PROC/=1)THEN
           MSGTYP = MSGOFF 
@@ -2431,7 +2412,7 @@ C
 C
       ELSE
 C
-C Envoi segvar de p0 vers pi
+C Sending segvar from p0 to pi
 C
         IF(LOC_PROC/=1)THEN
           MSGTYP = MSGOFF 
@@ -2556,10 +2537,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IAD_ELEM(2,*), FR_ELEM(*), ISIZXV
-     .        
-      my_real
-     .        V(3,*)
+      INTEGER IAD_ELEM(2,*), FR_ELEM(*), ISIZXV  
+      my_real V(3,*)
       TYPE(t_ebcs_tab), INTENT(IN) :: EBCS_TAB
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -2568,8 +2547,7 @@ C-----------------------------------------------
       INTEGER MSGTYP,I, NOD,LOC_PROC, IERROR, MSGOFF,
      .        SIZ, L, E_LEN, ICOMV, KK, TYP, J,
      .        STATUS(MPI_STATUS_SIZE)
-      my_real
-     .        WA(3*ISIZXV)
+      my_real WA(3*ISIZXV)
       DATA MSGOFF/3013/
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -2601,7 +2579,7 @@ C
           END DO
         ENDDO
 C
-C   echange messages
+C   exchanging messages
 C
         L = 1
         DO I=1,NSPMD
@@ -2616,7 +2594,7 @@ C----------------------------------------------------------------------------
           ENDIF        
         ENDDO
 C
-C decompactage
+C decompaction
 C
       ELSE
         CALL SPMD_IBCAST(ICOMV,ICOMV,1,1,0,2)
