@@ -148,7 +148,7 @@ C
       CHARACTER*10 VARRIV(NVARRIV),VARRIVG(NVARRIVG)
 C-----------------------------------------------
       PARAMETER (NVARN = 637,NVARS =239554 ,NVARC = 37856,NVART = 6)
-      PARAMETER (NVARP = 8,NVARR = 65,NVARUR = 12)
+      PARAMETER (NVARP = 11,NVARR = 65,NVARUR = 12)
       PARAMETER (NVARNS = 4,NVARSPH = 41)
       PARAMETER (NVARIN = 28,NVARRW = 6,NVARRB =15,NVARFX =4)
       PARAMETER (NVARFXM = 3)
@@ -897,7 +897,8 @@ C   trusses
 C   beams
       DATA VARP/
      . 'OFF     ','F1      ','F2      ','F3      ','M1      ',
-     . 'M2      ','M3      ','IE      '/
+     . 'M2      ','M3      ','IE      ','SX      ','SXY     ',
+     . 'SZX     '/
 C   springs
       DATA VARR/
      . 'OFF     ','FX      ','FY      ','FZ      ','MX      ',
@@ -2215,7 +2216,7 @@ C
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
-          NVALL = 8
+          NVALL = 11
           ITYP  = 5
           KEY   = 'BEAM      ' 
           CALL HM_READ_THGRNE(
