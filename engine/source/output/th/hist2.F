@@ -73,7 +73,7 @@ Chd|====================================================================
      8                 KXX     ,IXR       ,
      9                 KXSP    ,NOD2SP    ,SPBUF    ,
      B                 NPARTSAV,AR        ,VR       ,DR       ,
-     D                 FSAVD   ,LRIVET    ,RIVET    ,
+     D                 FSAVD   ,LRIVET    ,RIVET    ,IXP      ,
      E                 ISKWN   ,IFRAME    ,XFRAME   ,IXC      ,IXQ      ,
      F                 DTHIS0  ,THIS0     ,IFIL     ,NTHGRP2  ,IXTG     ,
      G                 IGEO    ,IPM       ,FXBIPM   ,FXBDEP   ,FXBVIT   ,
@@ -152,6 +152,7 @@ C-----------------------------------------------
      .   RIVOFF(NRIVET), FXBDEP(*), FXBVIT(*), FXBACC(*), VOLMON(*),
      .   TEMP(*),FTHREAC(*),GRESAV(NPSAV,*), GAUGE(LLGAUGE,NBGAUGE),RTHBUF(*),
      .   VSPHIO(*), W(3,NUMNOD)
+      INTEGER, DIMENSION(NIXP,NUMELP) ,INTENT(IN):: IXP
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (CLUSTER_) ,DIMENSION(NCLUSTER)    :: CLUSTER
       TYPE (STACK_PLY) :: STACK
@@ -790,7 +791,7 @@ C-------------------------------------------------------
 !   TH optimization for beam elements
         !   initialization of local array
         WA_POUT(ID_HIST)%WA_REAL( 1:WA_POUT_SIZE(ID_HIST) ) = ZERO
-        CALL THPOUT(IPARG , NTHGRP2  , ITHGRP ,
+        CALL THPOUT(IPARG , NTHGRP2  , ITHGRP , GEO,  IXP,  
      .              ITHBUF, ELBUF_TAB, WA_POUT(ID_HIST)%WA_REAL   )
         !   send WA_POUT to PROC0
         IF(NSPMD>1) THEN
@@ -1418,6 +1419,4 @@ C             Aout, Aout1, Uout, Mout, Hout
       END DO
       RETURN
       END
-
-
 
