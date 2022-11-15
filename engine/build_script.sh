@@ -154,7 +154,7 @@ else
        if [ "$arg" == "-scalapack_root" ]
        then
         scalapack_root=`echo $var|awk -F '=' '{print $2}'`
-        scalapack_root="-Dsclapack_root=${scalapack_root}"
+        scalapack_root="-Dscalapack_root=${scalapack_root}"
        fi
 
        if [ "$arg" == "-addflag" ]
