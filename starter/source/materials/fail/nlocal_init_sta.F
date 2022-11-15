@@ -160,12 +160,11 @@ C-----------------------------------------------
           ! Computation of the increments
           DNL = DT_NL*VNL
           ! Norm of the current increment
-          NORM   = SQRT(DOT_PRODUCT(DNL,DNL))
+          NORM = SQRT(DOT_PRODUCT(DNL,DNL))
           ! Computation of the cumulated variable
           UNL = UNL + DNL
           ! Convergence criterion
-          CONVERGED = ((NORM<TOL1).AND.(ABS(NORM-NORM_1)<TOL2))
-          !WRITE(*,*) 'NORM = ', SQRT(DOT_PRODUCT(DNL,DNL))
+          CONVERGED = ((NORM<TOL1).AND.(ABS(NORM-NORM_1)<TOL2).AND.(TIME/=ZERO))
           IF (ISNAN(SQRT(DOT_PRODUCT(DNL,DNL)))) THEN 
             CALL ANCMSG(MSGID=1765,MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1) 
