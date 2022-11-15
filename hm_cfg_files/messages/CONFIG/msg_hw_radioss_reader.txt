@@ -283,4 +283,9 @@ duplicate %s id %d
 ** WARNING IN LS-DYNA IMPORT
 /MESSAGE/200028/DESCRIPTION
 %s (id: %u, name: %s) : The Mullins effect is not taken into account
+
+/MESSAGE/200029/TITLE
+** WARNING IN LS-DYNA IMPORT
+/MESSAGE/200029/DESCRIPTION
+%s (id: %u, name: %s) : Friction card for contact is not defined, friction is set to 0
 #------------------------------------------------------------------------------
