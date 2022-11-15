@@ -89,7 +89,7 @@ c
       SENSOR_PTR%SENS_ID = SENS_ID
       SENSOR_PTR%STATUS  = 0            ! status = deactivated
       SENSOR_PTR%TSTART  = INFINITY
-      SENSOR_PTR%TCRIT   = INFINITY
+      SENSOR_PTR%TCRIT   = TDEL
       SENSOR_PTR%TMIN    = ZERO         ! TMIN global
       SENSOR_PTR%TDELAY  = TDEL         ! time delay before activation
       SENSOR_PTR%VALUE   = ZERO
