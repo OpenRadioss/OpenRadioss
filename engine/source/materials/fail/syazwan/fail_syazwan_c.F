@@ -29,17 +29,12 @@ Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE FAIL_SYAZWAN_C(
-     1           NEL      ,NUVAR    ,
-     2           TIME     ,UPARAM   ,NGL      ,IPT      ,NPTOT    ,
+     1           NEL      ,UPARAM   ,NUPARAM  ,UVAR     ,NUVAR    ,
+     2           TIME     ,NGL      ,IPT      ,DPLA     ,PLA      ,
      3           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      4           EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,
-     5           DPLA     ,EPSP     ,UVAR     ,PTHKF    ,UEL1     ,
-     6           OFF      ,OFFL     ,DFMAX    ,TDEL     ,NFUNC    ,
-     7           IFUNC    ,ALDT     ,FOFF     ,IPG      ,PLA      ,
-     8           DMG_FLAG ,DMG_SCALE,NPF      ,TF )
-C-----------------------------------------------
-C    Simplified Fracture Surface
-C-----------------------------------------------
+     5           DFMAX    ,NFUNC    ,IFUNC    ,ALDT     ,FOFF     ,
+     6           IPG      ,DMG_FLAG ,DMG_SCALE,NPF      ,TF       )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,243 +42,265 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-#include "units_c.inc"
-#include "param_c.inc"
-#include "scr17_c.inc"
-#include "scr19_c.inc"
-#include "comlock.inc"
-#include "mvsiz_p.inc"
-C---------+---------+---+---+--------------------------------------------
-C VAR     | SIZE    |TYP| RW| DEFINITION
-C---------+---------+---+---+--------------------------------------------
-C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C NPT     |  1      | I | R | NUMBER OF LAYERS OR INTEGRATION POINTS   
-C IPT     |  1      | I | R | LAYER OR INTEGRATION POINT NUMBER   
-C ISHELL  |  *      | I | R | GEOMETRICAL FLAGS   
-C NGL     | NEL     | I | R | ELEMEMT NUMBER
-C SHF     | NEL     | F | R | SHEAR FACTOR
-C---------+---------+---+---+--------------------------------------------
-C TIME    |  1      | F | R | CURRENT TIME
-C---------+---------+---+---+--------------------------------------------
-C SIGNXX  | NEL     | F | W | NEW ELASTO PLASTIC STRESS XX
-C SIGNYY  | NEL     | F | W | NEW ELASTO PLASTIC STRESS YY
-C ...     |         |   |   |
-C SOUNDSP | NEL     | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
-C VISCMAX | NEL     | F | W | MAXIMUN DAMPING MODULUS(NEEDED FOR TIME STEP)
-C---------+---------+---+---+--------------------------------------------
-C PLA     | NEL     | F |R/W| PLASTIC STRAIN
-C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
-C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
-C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C---------+---------+---+---+--------------------------------------------
-C IPTT                        CURRENT INTEGRATION POINT IN THE LAYER (FOR OUTPUT ONLY)
-C NPTOT                       NUMBER OF INTEGRATION POINTS IN ALL LAYERS (TOTAL)
-C NOFF                        NUMBER OF FAILED INTEGRATION POINTS (TOTAL)
-C IGTYP                       PROPERTY TYPE
+#include      "mvsiz_p.inc"
+#include      "scr17_c.inc"
+#include      "units_c.inc"
+#include      "comlock.inc"
+#include      "param_c.inc"
+#include      "impl1_c.inc"
+#include      "com04_c.inc"
+#include      "com01_c.inc"
+#include      "scr18_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NUVAR,IPT,NPTOT,NFUNC,IPG
-      INTEGER NGL(NEL),IFUNC(NFUNC)
-      my_real TIME,UPARAM(*),DPLA(NEL),EPSP(NEL),
-     .   UEL1(NEL),ALDT(NEL),PTHKF
+      INTEGER, INTENT(IN) :: 
+     .   NEL    ,NUPARAM,NUVAR  ,IPT    ,NFUNC  ,
+     .   IPG    ,NGL(NEL),IFUNC(NFUNC)
+      my_real, INTENT(IN) ::
+     .   TIME   ,UPARAM(NUPARAM),DPLA(NEL) ,PLA(NEL),
+     .   ALDT(NEL),EPSXX(NEL)   ,EPSYY(NEL),
+     .   EPSXY(NEL),EPSYZ(NEL)  ,EPSZX(NEL)
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-       INTEGER DMG_FLAG,FOFF(NEL)
-      my_real 
-     .  UVAR(NEL,NUVAR),OFF(NEL),OFFL(NEL),
-     .  SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
-     .  EPSXX(NEL),EPSYY(NEL),EPSXY(NEL),EPSYZ(NEL),EPSZX(NEL),
-     .  DFMAX(NEL),TDEL(NEL),PLA(NEL),DMG_SCALE(NEL)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-       INTEGER I,J,NINDX1,NINDX2,MAP,INST
-       INTEGER, DIMENSION(MVSIZ) :: INDX1,INDX2
-
-       my_real  E12, S1, S2, Q, SS, BETA, EPS
-       my_real  DAM_SF, DAM_LIM, N_VAL
-       my_real ,DIMENSION(NEL) :: EMAJ,EMIN
-       my_real  C1, C2, C3, C4, C5, C6, EPSMIN
-       my_real  P, SVM, ST, SXX, SYY, R
-       my_real  LODE, LODEP, DAMAGE, EPSFAIL, EPS_C
-       my_real  EQUA1, EQUA2, E1, E2, DCRIT, ALPHA
-       my_real  SOFTEXP, REF_LEN, LAMBDA, FAC
-       my_real  DYDX
+      INTEGER, INTENT(INOUT) :: 
+     .   DMG_FLAG,FOFF(NEL)
+      my_real, INTENT(INOUT) :: 
+     .   UVAR(NEL,NUVAR),DFMAX(NEL),DMG_SCALE(NEL)      ,
+     .   SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),SIGNYZ(NEL),
+     .   SIGNZX(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
-      INTEGER NPF(*)
-      my_real FINTER ,TF(*)
+      INTEGER, INTENT(IN) :: NPF(SNPC)
+      my_real, INTENT(IN) :: TF(STF)
+      my_real
+     .         FINTER
       EXTERNAL FINTER
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
-C      Explicit definition for trial
+C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       C1           = UPARAM(1)
-       C2           = UPARAM(2)
-       C3           = UPARAM(3)
-       C4           = UPARAM(4)
-       C5           = UPARAM(5)
-       C6           = UPARAM(6)
-       EPSMIN       = UPARAM(7)
-       PTHKF        = UPARAM(8)
-       MAP          = UPARAM(9)
-       DAM_SF       = UPARAM(10)
-       DAM_LIM      = UPARAM(11)
-       INST         = UPARAM(12)
-       N_VAL        = UPARAM(13)
-       SOFTEXP      = UPARAM(14)
-       REF_LEN      = UPARAM(15)
-       NINDX1       = 0
-       NINDX2       = 0
-       EPSFAIL      = ZERO
-       IF(INST == 1) DMG_FLAG = 1
-
-
-       IF (TIME == ZERO .AND. NFUNC > 0) THEN
-        DO I=1,NEL
-          IF (NUVAR == 5) THEN
-            UVAR(I,5) = ALDT(I)
-            LAMBDA = UVAR(I,5) / REF_LEN
-            FAC = FINTER(IFUNC(1),LAMBDA,NPF,TF,DYDX)
-            UVAR(I,5) = FAC
+      INTEGER I,J,NINDX,INST,DINIT
+      INTEGER, DIMENSION(MVSIZ) :: INDX
+      my_real
+     .   C1     ,C2     ,C3     ,C4     ,C5     ,C6     ,
+     .   N_VAL  ,SOFTEXP,REF_LEN,REG_SCALE,DAM_SF,MAX_DAM
+      my_real
+     .   LAMBDA ,DYDX   ,FAC(NEL),DC(NEL),P      ,SVM    ,
+     .   TRIAX  ,COS3THETA,LODEP ,EPSFAIL,E12    ,S1     ,
+     .   S2     ,Q      ,EMAJ    ,EMIN   ,BETA   ,ALPHA  ,
+     .   EQUA1  ,EQUA2  ,E1      ,EPS_C  ,DINST(NEL)
+      !=======================================================================
+      ! - INITIALISATION OF COMPUTATION ON TIME STEP
+      !=======================================================================
+      ! Recovering failure criterion parameters
+      C1        = UPARAM(1) 
+      C2        = UPARAM(2) 
+      C3        = UPARAM(3)
+      C4        = UPARAM(4) 
+      C5        = UPARAM(5)
+      C6        = UPARAM(6)
+      DINIT     = NINT(UPARAM(8))
+      DAM_SF    = UPARAM(9)
+      MAX_DAM   = UPARAM(10)
+      INST      = NINT(UPARAM(11))
+      N_VAL     = UPARAM(12) 
+      SOFTEXP   = UPARAM(13) 
+      REF_LEN   = UPARAM(14) 
+      REG_SCALE = UPARAM(15) 
+c
+      ! Set flag for stress softening
+      IF (INST > 0) DMG_FLAG = 1
+c
+      ! At first timestep, initialization of the critical damage and 
+      ! the element size scaling factor
+      IF (UVAR(1,1) == ZERO) UVAR(1:NEL,1) = ONE
+      IF (UVAR(1,3) == ZERO) THEN
+        IF (IFUNC(1) > 0) THEN 
+          DO I=1,NEL
+            LAMBDA    = ALDT(I)/REF_LEN
+            UVAR(I,3) = FINTER(IFUNC(1),LAMBDA,NPF,TF,DYDX)
+            UVAR(I,3) = UVAR(I,3)*REG_SCALE
+          ENDDO
+        ELSE 
+          UVAR(1:NEL,3) = ONE
+        ENDIF
+      ENDIF
+c
+      ! Checking element failure and recovering user variable
+      DO I=1,NEL
+        ! Critical damage for necking instability
+        DC(I)    = UVAR(I,1)
+        ! Instability criterion
+        DINST(I) = UVAR(I,2)
+        ! Recover element size scaling
+        FAC(I)   = UVAR(I,3)
+      ENDDO
+c
+      !====================================================================
+      ! - DAMAGE INITIALIZATION
+      !==================================================================== 
+      IF (TIME == ZERO .AND. ISIGI /= 0 .AND. DINIT > 0) THEN
+        DO I = 1,NEL
+          IF (PLA(I) > ZERO) THEN
+            ! Principal strains computation
+            E12   = HALF*EPSXY(I)
+            S1    = HALF*(EPSXX(I) + EPSYY(I))
+            S2    = HALF*(EPSXX(I) - EPSYY(I))
+            Q     = SQRT(S2**2 + E12**2)
+            EMAJ  = S1 + Q
+            EMIN  = S1 - Q
+            ! Computation of the principal strains ratio BETA
+            BETA  = EMIN/MAX(EMAJ,EM20)
+            BETA  = MAX(-ONE,BETA)
+            BETA  = MIN( ONE,BETA)
+            ! Estimation of stress triaxiality value
+            TRIAX = (ONE/SQRT(THREE))*((ONE + BETA)/SQRT(ONE + BETA + BETA**2))
+            IF (TRIAX < -TWO_THIRD) TRIAX = -TWO_THIRD
+            IF (TRIAX >  TWO_THIRD) TRIAX =  TWO_THIRD    
+            ! Computation of Lode parameter
+            COS3THETA = -HALF*TWENTY7*TRIAX*(TRIAX**2 - THIRD)
+            IF (COS3THETA < -ONE ) COS3THETA = -ONE
+            IF (COS3THETA >  ONE ) COS3THETA =  ONE
+            LODEP = ONE - TWO*ACOS(COS3THETA)/PI                    
+            ! Computation of the plastic strain at failure
+            EPSFAIL = C1 + C2*TRIAX + C3*LODEP + C4*(TRIAX**2) + 
+     .                C5*(LODEP**2) + C6*TRIAX*LODEP
+            EPSFAIL = EPSFAIL*FAC(I)
+            ! Estimation of the damage variable value
+            DFMAX(I) = PLA(I)/MAX(EPSFAIL,EM6)
+            DFMAX(I) = DFMAX(I)*DAM_SF
+            DFMAX(I) = MIN(MAX_DAM,DFMAX(I))
+            ! Computation of instability curve and stress softening
+            IF (INST > 0) THEN
+              ! Computation of the principal strain ratio
+              ALPHA = (TWO*BETA + ONE)/(TWO + BETA)
+              ! Computation of the effective plastic strain
+              EQUA1 = ONE  - ALPHA + ALPHA**2
+              EQUA2 = FOUR - THREE*ALPHA - THREE*ALPHA**2 + FOUR*ALPHA
+              E1    = (TWO*(TWO-ALPHA)*EQUA1/MAX(EQUA2,EM20))*N_VAL
+              EPS_C = E1*SQRT(FOUR*THIRD*(ONE + BETA + BETA**2))
+              ! Update instability criterion
+              DINST(I)  = PLA(I)/MAX(EPS_C,EM20)
+              DINST(I)  = MIN(DINST(I),ONE)
+              UVAR(I,2) = DINST(I) 
+              ! Test if the instability curve is reached
+              IF (DINST(I) >= ONE) THEN
+                DC(I)     = DFMAX(I)
+                UVAR(I,1) = DC(I)
+              ENDIF
+            ENDIF
           ENDIF
         ENDDO
-       ENDIF
-
-       
-C---------INITIALIZE DAMAGE DUE TO MANUF. HISTORY-------------
-C---------ASSUME LINEAR STRAIN PATH---------------------------
-       IF (TIME == ZERO .AND. MAP == 1) THEN
-        DO I = 1,NEL
-         IF (PLA(I) /= ZERO) THEN
-C----------IMPLEMENTATION-------------------------------------
-           E12= HALF*EPSXY(I)
-           S1 = HALF*(EPSXX(I) + EPSYY(I))
-           S2 = HALF*(EPSXX(I) - EPSYY(I))
-           Q  = SQRT(S2**2 + E12**2)
-           EMAJ(I) = S1 + Q
-           EMIN(I) = S1 - Q
-           IF (EMIN(I) >= EMAJ(I)) THEN
-             SS      = EMIN(I)
-             EMIN(I) = EMAJ(I)
-             EMAJ(I) = SS
-           ENDIF
-           BETA = EMIN(I)/EMAJ(I)
-           ST = (1+BETA)/SQRT(THREE)/SQRT(1+BETA+BETA**2)
-C           LODEP = ONE-(TWO/PI*ACOS(-TWENTY7*HALF*ST*(ST**2-THIRD)))
-           LODEP = ASIN((-TWENTY7*HALF*ST)*(ST**2-THIRD))*2/PI
-           EPSFAIL = C1+C2*ST+C3*LODEP+C4*ST**2+C5*LODEP**2+C6*ST*LODEP
-           EPSFAIL = MAX(EPSFAIL,EPSMIN)
-           IF(NUVAR==5) EPSFAIL = EPSFAIL*UVAR(I,5)
-           EPS = TWO*EMAJ(I)/SQRT(THREE)*SQRT(ONE+BETA+BETA**2) 
-           UVAR(I,1) = EPS/MAX(EPSFAIL,EM6)*DAM_SF
-           UVAR(I,1) = MIN(DAM_LIM,UVAR(I,1))
-           DFMAX(I) = UVAR(I,1)
-         ENDIF
-        ENDDO
-       ENDIF
-
-       DO I=1,NEL
-         IF(OFF(I) == ONE .AND. DPLA(I) /= ZERO .AND. FOFF(I) == 1) THEN
-           DAMAGE = UVAR(I,1)
-           P   = THIRD*(SIGNXX(I) + SIGNYY(I))
-           SVM = SQRT (SIGNXX(I)**2 + SIGNYY(I)**2
-     .           - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)**2)
-           ST  = P/MAX(EM20,SVM)
-           SXX = SIGNXX(I) - P
-           SYY = SIGNYY(I) - P
-           R   = (TWENTY7*HALF*SXX*SYY*(-P))**THIRD
-           LODE = (R/SVM)**3
-           IF(LODE > ONE) LODE = ONE
-           IF(LODE < -ONE) LODE = -ONE
-           LODEP = ONE-TWO/PI*ACOS(LODE)
-           EPSFAIL =C1+C2*ST+C3*LODEP+C4*ST**2+C5*LODEP**2+C6*ST*LODEP
-           EPSFAIL = MAX(EPSFAIL, EPSMIN)
-           IF(NUVAR==5) EPSFAIL = EPSFAIL*UVAR(I,5)
-           IF (EPSFAIL>ZERO) THEN     
-                IF (INST == 1) THEN
-                  E12= HALF*EPSXY(I)
-                  S1 = HALF*(EPSXX(I) + EPSYY(I))
-                  S2 = HALF*(EPSXX(I) - EPSYY(I))
-                  Q  = SQRT(S2**2 + E12**2)
-                  EMAJ(I) = S1 + Q
-                  EMIN(I) = S1 - Q
-                  IF (EMIN(I) >= EMAJ(I)) THEN
-                    SS      = EMIN(I)
-                    EMIN(I) = EMAJ(I)
-                    EMAJ(I) = SS
-                  ENDIF
-                  BETA = EMIN(I)/MAX(EMAJ(I),EM06)
-                  BETA = MAX(-0.999,BETA)
-                  BETA = MIN(ONE,BETA)
-                  ALPHA = (TWO*BETA+ONE)/(TWO+BETA)
-                  EQUA1 = ONE-ALPHA+ALPHA**2
-                  EQUA2 = FOUR-THREE*ALPHA-THREE*ALPHA**2+FOUR*ALPHA
-                  E1 = TWO*(TWO-ALPHA)*EQUA1/EQUA2*N_VAL
-                  EPS_C = TWO*E1/SQRT(THREE)*SQRT(ONE+BETA+BETA**2)
-                  IF (PLA(I)>EPS_C .AND. UVAR(I,3)/=ONE) THEN
-                    UVAR(I,3)=ONE
-                    UVAR(I,4)=EPS_C/EPSFAIL
-                  ENDIF
-                  IF(UVAR(I,3)==ONE) THEN
-                    DCRIT=UVAR(I,4)
-                    DMG_SCALE(I)=ONE-((DFMAX(I)-DCRIT)
-     .                  /MAX(ONE-DCRIT,EM20))**SOFTEXP
-                  ENDIF
-                ENDIF
-             DAMAGE = DAMAGE + DPLA(I)/EPSFAIL
-             UVAR(I,1) = DAMAGE
-           ENDIF
-         ENDIF 
-         
-         DFMAX(I)= MIN(ONE,MAX(DFMAX(I),UVAR(I,1)))
-         
-         IF(OFFL(I) == 1. .AND. DFMAX(I) >= 1.0) THEN
-           FOFF(I)       = 0
-           NINDX1        = NINDX1 + 1
-           INDX1(NINDX1) = I
-         ENDIF
-
-         IF(DAMAGE > ONE .AND. UVAR(I,2) == ZERO .AND. OFFL(I) == ONE) THEN
-             UVAR(I,2) = ONE
-         ENDIF
-       ENDDO
-c-----------------------
-      IF (NINDX1 > 0) THEN
-        DO J=1,NINDX1
-          I = INDX1(J)
-#include "lockon.inc"
-          WRITE(IOUT, 2000) NGL(I),IPG,IPT,TIME
-          WRITE(ISTDO,2000) NGL(I),IPG,IPT,TIME
-#include "lockoff.inc"
-        ENDDO
       ENDIF
-      IF (NINDX2 > 0) THEN
-        DO J=1,NINDX2
-          I = INDX2(J)
+c
+      !====================================================================
+      ! - COMPUTATION OF THE DAMAGE VARIABLE EVOLUTION
+      !==================================================================== 
+      ! Initialization of element failure index
+      NINDX = 0  
+      INDX(1:NEL) = 0
+c
+      ! Loop over the elements 
+      DO I=1,NEL
+c
+        IF (FOFF(I) /= 0 .AND. DPLA(I) > ZERO) THEN
+c
+          ! Computation of hydrostatic stress, Von Mises stress, and stress triaxiality
+          P = THIRD*(SIGNXX(I) + SIGNYY(I))
+          ! Von Mises equivalent stress
+          SVM = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I) +
+     .             THREE*SIGNXY(I)**2
+          SVM = SQRT(MAX(SVM,ZERO))
+          TRIAX = P/MAX(EM20,SVM)
+          IF (TRIAX < -TWO_THIRD) TRIAX = -TWO_THIRD
+          IF (TRIAX >  TWO_THIRD) TRIAX =  TWO_THIRD
+c
+          ! Computation of Lode parameter
+          COS3THETA = -HALF*TWENTY7*TRIAX*(TRIAX**2 - THIRD)
+          IF (COS3THETA < -ONE ) COS3THETA = -ONE
+          IF (COS3THETA >  ONE ) COS3THETA =  ONE
+          LODEP = ONE - TWO*ACOS(COS3THETA)/PI
+c
+          ! Computation of the plastic strain at failure
+          EPSFAIL = C1 + C2*TRIAX + C3*LODEP + C4*(TRIAX**2) + 
+     .              C5*(LODEP**2) + C6*TRIAX*LODEP
+          EPSFAIL = EPSFAIL*FAC(I)
+c
+          ! Computation of the damage variable update 
+          DFMAX(I) = DFMAX(I) + DPLA(I)/MAX(EPSFAIL,EM20)
+          DFMAX(I) = MIN(DFMAX(I),ONE) 
+c
+          ! Computation of instability curve and stress softening
+          IF (INST > 0) THEN
+            ! If the instability has not been reached
+            IF (DINST(I) < ONE) THEN 
+              ! Principal strains computation
+              E12   = HALF*EPSXY(I)
+              S1    = HALF*(EPSXX(I) + EPSYY(I))
+              S2    = HALF*(EPSXX(I) - EPSYY(I))
+              Q     = SQRT(S2**2 + E12**2)
+              EMAJ  = S1 + Q
+              EMIN  = S1 - Q
+              ! Computation of the principal strains ratio BETA
+              BETA  = EMIN/MAX(EMAJ,EM20)
+              BETA  = MAX(-ONE,BETA)
+              BETA  = MIN( ONE,BETA)
+              ! Computation of the principal stress ratio
+              ALPHA = (TWO*BETA + ONE)/(TWO + BETA)
+              ! Computation of the effective plastic strain
+              EQUA1 = ONE  - ALPHA + ALPHA**2
+              EQUA2 = FOUR - THREE*ALPHA - THREE*ALPHA**2 + FOUR*ALPHA
+              E1    = (TWO*(TWO-ALPHA)*EQUA1/MAX(EQUA2,EM20))*N_VAL
+              EPS_C = E1*SQRT(FOUR*THIRD*(ONE + BETA + BETA**2))
+              ! Update instability criterion
+              DINST(I)  = DINST(I) + DPLA(I)/MAX(EPS_C,EM20)
+              DINST(I)  = MIN(DINST(I),ONE)
+              UVAR(I,2) = DINST(I) 
+              ! Test if the instability curve is reached
+              IF (DINST(I) >= ONE) THEN
+                DC(I)     = DFMAX(I)
+                UVAR(I,1) = DC(I)
+              ENDIF
+            ENDIF  
+            ! Computation of the damage scale factor 
+            IF (DFMAX(I) >= DC(I)) THEN 
+              IF (DC(I) < ONE) THEN 
+                DMG_SCALE(I) = ONE - ((DFMAX(I)-DC(I))/MAX(ONE-DC(I),EM20))**SOFTEXP
+              ELSE
+                DMG_SCALE(I) = ZERO
+              ENDIF
+            ELSE
+              DMG_SCALE(I) = ONE
+            ENDIF
+          ENDIF
+c              
+          ! Check element failure    
+          IF (DFMAX(I) >= ONE) THEN
+            FOFF(I)     = 0
+            NINDX       = NINDX + 1
+            INDX(NINDX) = I
+          ENDIF
+        ENDIF
+       ENDDO
+c
+      !====================================================================
+      ! - PRINTOUT DATA ABOUT FAILED ELEMENTS
+      !====================================================================
+      IF (NINDX > 0) THEN
+        DO J = 1,NINDX
+          I = INDX(J)
 #include "lockon.inc"
-          WRITE(IOUT, 2200) NGL(I), TIME
-          WRITE(ISTDO,2200) NGL(I), TIME
+          WRITE(IOUT, 1000) NGL(I),IPG,IPT,TIME
+          WRITE(ISTDO,1000) NGL(I),IPG,IPT,TIME
 #include "lockoff.inc"
-        END DO
-      END IF   ! NINDX             
-C---------Damage for output  0 < DFMAX < 1 --------------------
- 2000 FORMAT(1X,'FOR SHELL ELEMENT (SYAZWAN)',I10,1X,'GAUSS POINT',I3,
-     .       1X,'LAYER',I3,':',/,
-     .       1X,'STRESS TENSOR SET TO ZERO',1X,'AT TIME :',1PE12.4)
- 2200 FORMAT(1X,' *** RUPTURE OF SHELL ELEMENT (SYAZWAN)',I10,1X,
-     . ' AT TIME :',1PE12.4)
-c------------------------
-       RETURN
+        ENDDO
+      ENDIF           
+C---------
+ 1000 FORMAT(1X,'FOR SHELL ELEMENT NUMBER el#',I10,
+     .          ' FAILURE (SYAZWAN) AT GAUSS POINT ',I3,' LAYER ',I3,
+     .          ' AT TIME :',1PE12.4)
+c---------
        END

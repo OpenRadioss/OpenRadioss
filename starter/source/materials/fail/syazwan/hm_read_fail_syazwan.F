@@ -83,125 +83,139 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)             ::MAXUPARAM,MAXFUNC,FAIL_ID,IMID_F
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
+      INTEGER,INTENT(IN) :: MAXUPARAM,MAXFUNC,FAIL_ID,IMID_F
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
 C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          ::IFUNC(MAXFUNC),NFUNC
-      my_real,INTENT(INOUT)          ::UPARAM(MAXUPARAM)
-      INTEGER,INTENT(OUT)            ::NUPARAM,NUVAR
+      INTEGER,INTENT(INOUT) :: IFUNC(MAXFUNC),NFUNC
+      my_real,INTENT(INOUT) :: UPARAM(MAXUPARAM)
+      INTEGER,INTENT(OUT)   :: NUPARAM,NUVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real C1,C2,C3,C4,C5,C6,EPSMIN,PTHCKF
-      my_real DAM_SF, MAX_DAM, N_VAL, SOFTEXP
-      my_real REF_LEN,REF_SIZ_UNIT
-      INTEGER STRAIN2DAM, INST, REG_FUNC
+      my_real C1,C2,C3,C4,C5,C6
+      my_real DAM_SF,MAX_DAM,N_VAL,SOFTEXP
+      my_real REF_LEN,REF_SIZ_UNIT,REG_SCALE
+      INTEGER FAILIP,DINIT,INST,REG_FUNC
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------    
-!!      FAC_T = UNITAB(4) 
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
-C EXTRACT DATAS (REAL VALUES)
+C EXTRACT DATAS
 C--------------------------------------------------
-      CALL HM_GET_FLOATV         ('C1'           ,C1      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('C2'           ,C2      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('C3'           ,C3      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('C4'           ,C4      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('C5'           ,C5      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('C6'           ,C6      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('EPSMIN'       ,EPSMIN  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('PTHCKF'       ,PTHCKF  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV           ('STRAIN2DAM'   ,STRAIN2DAM  ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV         ('DAM_SF'       ,DAM_SF  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('MAX_DAM'      ,MAX_DAM ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV           ('INST'         ,INST    ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV         ('N_VAL'        ,N_VAL   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('SOFTEXP'      ,SOFTEXP ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV           ('REG_FUNC'     ,REG_FUNC,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV         ('REF_LEN'      ,REF_LEN ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      ! 1st Line : failure criterion parameters
+      CALL HM_GET_FLOATV ('C1'       ,C1      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('C2'       ,C2      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('C3'       ,C3      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('C4'       ,C4      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('C5'       ,C5      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      ! 2nd Line : failure criterion parameters + solid element deletion control
+      CALL HM_GET_FLOATV ('C6'       ,C6      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_INTV   ('FAILIP'   ,FAILIP  ,IS_AVAILABLE,LSUBMODEL)
+      ! 3rd Line : Damage initialization control
+      CALL HM_GET_INTV   ('DINIT'    ,DINIT   ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_FLOATV ('DAM_SF'   ,DAM_SF  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('MAX_DAM'  ,MAX_DAM ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      ! 4th Line : Instability + stress softening
+      CALL HM_GET_INTV   ('INST'     ,INST    ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_FLOATV ('N_VAL'    ,N_VAL   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('SOFTEXP'  ,SOFTEXP ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      ! 5th Line : Element size regularization control
+      CALL HM_GET_INTV   ('REG_FUNC' ,REG_FUNC,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_FLOATV ('REF_LEN'  ,REF_LEN ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (REG_FUNC > 0 .AND. REF_LEN == ZERO) THEN
-        CALL HM_GET_FLOATV_DIM('REF_LEN' ,REF_SIZ_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV_DIM('REF_LEN',REF_SIZ_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
         REF_LEN = ONE*REF_SIZ_UNIT
       ENDIF
-
-!
-      IF(PTHCKF==0) PTHCKF=1.0
-      PTHCKF = MIN(PTHCKF,ONE)
-      PTHCKF = MAX(PTHCKF,ZERO)
-      IF(DAM_SF==0) DAM_SF=1.0
-      IF(MAX_DAM==0) MAX_DAM=1.0
+      CALL HM_GET_FLOATV ('REG_SCALE',REG_SCALE,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      IF (REG_FUNC > 0 .AND. REG_SCALE == ZERO) REG_SCALE = ONE
+C--------------------------------------------------
+C CHECK VALUES
+C--------------------------------------------------
+      IF (FAILIP  == 0)    FAILIP  = 1
+      DAM_SF = MAX(DAM_SF,ZERO)
+      IF (DAM_SF  == ZERO) DAM_SF  = ONE
+      IF (MAX_DAM == ZERO) MAX_DAM = ONE
       MAX_DAM = MIN(MAX_DAM,ONE)
       MAX_DAM = MAX(MAX_DAM,ZERO)
       IF(INST==1 .AND. N_VAL==ZERO) THEN
-        N_VAL = 0.25
+        N_VAL = FOURTH
       ENDIF
-      IF(SOFTEXP==0) SOFTEXP=1
+      IF (SOFTEXP == ZERO) SOFTEXP = ONE
       SOFTEXP = MAX(EM06,SOFTEXP)
-!
-      UPARAM(1) = C1
-      UPARAM(2) = C2
-      UPARAM(3) = C3
-      UPARAM(4) = C4
-      UPARAM(5) = C5
-      UPARAM(6) = C6
-      UPARAM(7) = EPSMIN
-      UPARAM(8) = PTHCKF
-      UPARAM(9) = STRAIN2DAM
-      UPARAM(10) = DAM_SF
-      UPARAM(11) = MAX_DAM
-      UPARAM(12) = INST
-      UPARAM(13) = N_VAL
-      UPARAM(14) = SOFTEXP
-      UPARAM(15) = REF_LEN
-      IFUNC(1) = REG_FUNC
-      NUPARAM = 15
-      NFUNC = 1
-      IF (REG_FUNC == 0) THEN
-        NUVAR = 4
-      ELSE
-        NUVAR = 5
-      ENDIF
-
-C----
+C--------------------------------------------------
+C SAVE PARAMETERS
+C--------------------------------------------------
+      ! Number of functions
+      NFUNC      = 1
+      IFUNC(1)   = REG_FUNC
+      ! Number of parameters
+      NUPARAM    = 15
+      UPARAM(1)  = C1
+      UPARAM(2)  = C2
+      UPARAM(3)  = C3
+      UPARAM(4)  = C4
+      UPARAM(5)  = C5
+      UPARAM(6)  = C6
+      UPARAM(7)  = FAILIP
+      UPARAM(8)  = DINIT
+      UPARAM(9)  = DAM_SF
+      UPARAM(10) = MAX_DAM
+      UPARAM(11) = INST
+      UPARAM(12) = N_VAL
+      UPARAM(13) = SOFTEXP
+      UPARAM(14) = REF_LEN
+      UPARAM(15) = REG_SCALE
+      ! Number of internal variables
+      NUVAR      = 3
+C--------------------------------------------------
+C PRINT OUT PARAMETERS
+C--------------------------------------------------
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1000)C1,C2,C3,C4,C5,C6,EPSMIN,PTHCKF,REF_LEN,REG_FUNC
-        WRITE(IOUT,1100)STRAIN2DAM,DAM_SF,MAX_DAM
-        WRITE(IOUT,1200)INST,N_VAL,SOFTEXP
+        WRITE(IOUT,1000) 
+        WRITE(IOUT,1100) C1,C2,C3,C4,C5,C6
+        WRITE(IOUT,1200) DINIT,DAM_SF,MAX_DAM
+        WRITE(IOUT,1300) INST,N_VAL,SOFTEXP
+        IF (REG_FUNC > 0) THEN 
+          WRITE(IOUT,1400) REG_FUNC,REF_LEN,REG_SCALE
+        ENDIF
       ENDIF
 C---
 C
  1000 FORMAT(
-     & 5X,40H  SYAZWAN DAMAGE PARAMETER              ,/,
-     & 5X,40H  -----------------------------         ,/,
-     & 5X,'FIRST FAILURE PARAMETER (C1).. . . . . =',E12.4/
-     & 5X,'SECOND FAILURE PARAMETER(C2). . . . . .=',E12.4/
-     & 5X,'THIRD FAILURE PARAMETER (C3). . . . . .=',E12.4/
-     & 5X,'FORTH FAILURE PARAMETER (C4). . . . . .=',E12.4/
-     & 5X,'FIFTH FAILURE PARAMETER (C5). . . . . .=',E12.4/
-     & 5X,'SIXTH FAILURE PARAMETER (C6). . . . . .=',E12.4/
-     & 5X,'MIN PLASTIC STRAIN (EPSMIN).  . . . . .=',E12.4/
-     & 5X,'PERCENTAGE OF LAYER FAILURE (PTHCKF). .=',E12.4/
-     & 5X,'REFERENCE ELEMENT LENGTH. . . . . . . .=',E12.4/
-     & 5X,'REGULARIZATION FUNCTION ID. . . . . . .=',I10/)
-C-----------
+     & 5X,' --------------------------------------------------------',/,
+     & 5X,'               SYAZWAN FAILURE CRITERION                 ',/,
+     & 5X,' --------------------------------------------------------',/)
  1100 FORMAT(
-     & 5X,'STRAIN TO DAMAGE CALCULATION FLAG . . .=',I10/
-     & 5X,'DAMAGE SCALE FACTOR . . . . . . . . . .=',E12.4/
-     & 5X,'MAXIMUM ALLOWABLE DAMAGE. . . . . . . .=',E12.4/)
-C-----------
+     & 5X,'1ST FAILURE PARAMETER (C1). . . . . . . . . . . . . . . =',1PG20.13/
+     & 5X,'2ND FAILURE PARAMETER (C2). . . . . . . . . . . . . . . =',1PG20.13/
+     & 5X,'3RD FAILURE PARAMETER (C3). . . . . . . . . . . . . . . =',1PG20.13/
+     & 5X,'4TH FAILURE PARAMETER (C4). . . . . . . . . . . . . . . =',1PG20.13/
+     & 5X,'5TH FAILURE PARAMETER (C5). . . . . . . . . . . . . . . =',1PG20.13/
+     & 5X,'6TH FAILURE PARAMETER (C6). . . . . . . . . . . . . . . =',1PG20.13/)
  1200 FORMAT(
-     & 5X,'INSTABILITY FLAG. . . . . . . . . . . .=',I10/
-     & 5X,'N VALUE . . . . . . . . . . . . . . . .=',E12.4/
-     & 5X,'STRESS SOFTENING EXPONENT . . . . . . .=',E12.4/)
+     & 5X,'DAMAGE VARIABLE INITIALIZATION FLAG (DINIT) . . . . . . =',I10/,
+     & 5X,'   DINIT = 0: NO DAMAGE INITIALIZATION                   ',/,
+     & 5X,'   DINIT = 1: DAMAGE INITIALIZATION FROM STRAIN TENSOR   ',/,
+     & 5X,'DAMAGE INITIALIZATION SCALE FACTOR. . . . . . . . . . . =',1PG20.13/
+     & 5X,'DAMAGE INITIALIZATION MAXIMAL VALUE . . . . . . . . . . =',1PG20.13/)
+ 1300 FORMAT(
+     & 5X,'INSTABILITY FLAG (INST) . . . . . . . . . . . . . . . . =',I10/,
+     & 5X,'   INST = 0: NO NECKING INSTABILITY                      ',/,
+     & 5X,'   INST = 1: NECKING INSTABILITY ACTIVATED               ',/,
+     & 5X,"HOLLOMON'S LAW N VALUE  . . . . . . . . . . . . . . . . =",1PG20.13/
+     & 5X,'STRESS SOFTENING EXPONENT (SOFTEXP) . . . . . . . . . . =',1PG20.13/)
+ 1400 FORMAT(
+     & 5X,'ELEMENT SIZE SCALING FUNCTION ID . . . . . . . . . . . .=',I10/
+     & 5X,'   REFERENCE ELEMENT SIZE  . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'   SCALE FACTOR  . . . . . . . . . . . . . . . . . . . .=',1PG20.13/)
 
-      RETURN
       END
 

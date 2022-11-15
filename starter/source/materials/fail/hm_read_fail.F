@@ -356,7 +356,7 @@ c--------------------------------------------
              IRUP= 42
 c--------------------------------------------
         ELSEIF(KEY(1:7) == 'SYAZWAN')THEN
-             IRUP= 99
+             IRUP= 43
 c--------------------------------------------      
         ELSE  
              IRUP= 0
@@ -588,7 +588,7 @@ c---
      .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID   ,MAT_ID   ,
      .             TABLE    ,TITR     ,LSUBMODEL)
 c---
-            CASE(99)
+            CASE(43)
               CALL HM_READ_FAIL_SYAZWAN(
      .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
      .             MAXFUNC  ,NFUNC    ,UNITAB         ,MAT_ID    ,FAIL_ID  ,
