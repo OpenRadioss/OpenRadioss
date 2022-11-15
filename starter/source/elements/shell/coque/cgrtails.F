@@ -156,6 +156,8 @@ C     REAL OU REAL*8
      .   TITR,TITR1,TITR2
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
+      INTEGER :: NB_NODES, LDIM, OFFSET
+
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 
       IF(NADMESH /= 0)THEN
@@ -239,22 +241,27 @@ C
           ANGLE(I) = SH4ANG(NFT+I)          
         ENDDO
 C
- 	IF(NADMESH/=0)THEN
- 	  DO  K=1,KSH4TREE
- 	    DO  I=1,NEL
- 	      ISTOR(K,I)=SH4TREE(K,NFT+I)
- 	    ENDDO
- 	  ENDDO
- 	  IF(LSH4TRIM/=0)THEN
- 	    DO  I=1,NEL
- 	      ISTOR(KSH4TREE+1,I)=SH4TRIM(NFT+I)
- 	    ENDDO
- 	  END IF
- 	END IF
+        IF(NADMESH/=0)THEN
+          DO  K=1,KSH4TREE
+            DO  I=1,NEL
+              ISTOR(K,I)=SH4TREE(K,NFT+I)
+            ENDDO
+          ENDDO
+          IF(LSH4TRIM/=0)THEN
+            DO  I=1,NEL
+              ISTOR(KSH4TREE+1,I)=SH4TRIM(NFT+I)
+            ENDDO
+          END IF
+        END IF
 C
       
-        MODE=0
-        CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
+
+        NB_NODES = 4 ! 8 nodes for solids
+        LDIM = 9 ! fist dimension of INUM
+        OFFSET = 3 ! nodes starts at INUM(4,I)
+        CALL CPP_REORDER_ELEMENTS(NEL, NSPMD, NB_NODES, OFFSET, LDIM , CEP(NFT+1), INUM, INDEX)
+
+
         DO I = 1, NEL
           PERMUTATION%SHELL(I+NFT)=INDEXS2(INDEX(I)+NFT)
           IPARTC(I+NFT) =INUM(1,INDEX(I))

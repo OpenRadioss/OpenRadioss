@@ -143,6 +143,7 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
       LOGICAL lFOUND
+      INTEGER :: NB_NODES, LDIM, OFFSET
 C--------------------------------------------------------------
 C         BORNAGE DES GROUPES DE MVSIZ
 C--------------------------------------------------------------
@@ -158,7 +159,7 @@ C
      .                           C1='XNUM_RNOISE')
       ENDIF
 C
-C phase 1 : domain decompostition
+C phase 1 : domain decomposition
 C
       IDX=IDX+ND*(NSPMD+1)
       CALL ZEROIN(1,ND*(NSPMD+1),DD_IAD(1,NSPGROUP+1))
@@ -209,8 +210,11 @@ C
           ENDDO
         END IF
       
-        MODE=0
-        CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
+
+        NB_NODES = 8 ! 8 nodes for solids
+        LDIM = 16 ! fist dimension of INUM
+        OFFSET = 2 ! nodes starts at INUM(3,I)
+        CALL CPP_REORDER_ELEMENTS(NEL, NSPMD, NB_NODES, OFFSET, LDIM , CEP(NFT+1), INUM, INDEX)
         DO I = 1, NEL
           PERMUTATION%SOLID(I+NFT)=INDEXS2(INDEX(I)+NFT)
           IPARTS(I+NFT)=INUM(1,INDEX(I))
@@ -566,27 +570,18 @@ C
               IF (ITET10/=0.AND.IKSNOD0 == 8) THEN
                 ITET10=0
               END IF
-c              IF (ITET4 == 1 .AND. IKSNOD0 == 4 .AND. ISSN <= 3) THEN
-c                CALL ANCMSG(MSGID=1112,
-c     .                  MSGTYPE=MSGWARNING,
-c     .                  ANMODE=ANINFO_BLIND_2,
-c     .                  I1=ID,
-c     .                  C1=TITR,
-c     .                  PRMOD=MSG_CUMU)
-c                ISSN=4
-c              END IF
             END IF
           ENDIF
 C
           MLN = NINT(PM(19,ABS(MID))) 
-	     IF(MLN == 20)THEN
-	           IF(IPARG(5,NGROUP)/=2)THEN
-	                    CALL ANCMSG(MSGID=129,
+         IF(MLN == 20)THEN
+               IF(IPARG(5,NGROUP)/=2)THEN
+                        CALL ANCMSG(MSGID=129,
      .                           MSGTYPE=MSGERROR,
      .                           ANMODE=ANINFO)
-                     CALL ARRET(2) 	    
+                     CALL ARRET(2)      
                      ENDIF
-	     ENDIF
+         ENDIF
 C          
           IF(MID<0)THEN
             IF(MLN == 6.AND.JPOR/=2)MLN=17
@@ -667,14 +662,6 @@ c
             IT10 =1
           ELSEIF(IKSNOD0 == 4)THEN
             NPT=1
-!          ELSEIF(IKSNOD0 == 20.OR.IKSNOD0 == 16)THEN
-!            IF(NPT == 1.OR.NPT == 8)THEN
-!              CALL ANCMSG(MSGID=615,
-!     .                    MSGTYPE=MSGERROR,
-!     .                    ANMODE=ANINFO,
-!     .                    I1=ID,
-!     .                    C1=TITR)
-!            END IF
           ENDIF
           IF ((JHBE/=1 .AND. JHBE/=2) .AND. MLN==68 ) THEN
             CALL ANCMSG(MSGID=672,
@@ -871,7 +858,7 @@ C--------------------
           !---------------------------------!
           !   ALE / EULER compatibility     !
           !---------------------------------!  
-	  IF (JALE+JEUL /= 0) THEN
+      IF (JALE+JEUL /= 0) THEN
 
             IF (JHBE>=2.AND.JHBE/=24) THEN   !FORMULATION CHECK
              CALL ANCMSG(MSGID=608,
@@ -879,8 +866,8 @@ C--------------------
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=ID,
      .                   C1=TITR,
-     .                   I2=JHBE) 	         !  allows only: isolid=1(JHBE=1)
-	    ELSEIF (JCVT==1) THEN                !COROTATIONAL NOT ALLOWED  
+     .                   I2=JHBE)            !  allows only: isolid=1(JHBE=1)
+        ELSEIF (JCVT==1) THEN                !COROTATIONAL NOT ALLOWED  
               IF(JHBE==0) THEN
               CALL ANCMSG(MSGID=246,
      .                    MSGTYPE=MSGERROR,
@@ -888,17 +875,17 @@ C--------------------
      .                    I1=ID,
      .                    C1=TITR,
      .                    I2=2)
-	      ELSE
+          ELSE
               CALL ANCMSG(MSGID=246,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=ID,
      .                    C1=TITR,
      .                    I2=JHBE)
-	      END IF
-	    END IF	  
+          END IF
+        END IF    
 
-	  END IF
+      END IF
           !---------------------------------!
 C
           IF (IGT == 14.AND.MLN == 28 .AND.
@@ -930,7 +917,7 @@ C
      .                  I1=ID,
      .                  C1=TITR,
      .                  I2=IGEO(1,PID))
-	    JCVT = 0 
+        JCVT = 0 
           ELSEIF(IKSNOD0 == 4.OR.IKSNOD0 == 10)THEN
             JCVT = 0 
           ENDIF
@@ -946,7 +933,7 @@ c     .                  ANMODE=ANINFO_BLIND_2,
 c     .                  I1=ID,
 c     .                  C1=TITR,
 c     .                  I2=JHBE)
-	      JCVT = 0     
+          JCVT = 0     
           JHBE = 1
            IF (NPT/=4) NPT=4
           ENDIF
@@ -958,7 +945,7 @@ C
      .                  ANMODE=ANINFO_BLIND_2,
      .                  I1=ID,
      .                  C1=TITR)
- 	      JCVT = 0       
+          JCVT = 0       
           ENDIF
 c          IF (JHBE == 14 .AND. (IKSNOD0 == 16 .OR. IKSNOD0 == 20)) THEN
           IF (JHBE /= 16 .AND. (IKSNOD0 == 16 .OR. IKSNOD0 == 20)) THEN
@@ -1172,11 +1159,11 @@ C-----due to ICPRE automatic
          
           ENDIF   
           IF (IKSNOD0 == 16 .OR. IKSNOD0 == 20) THEN
- 	      JCVT = 0                      
+          JCVT = 0                      
           ENDIF
 
 
-C------For Incompatibility w/ Isolid=12, don't add new law	  
+C------For Incompatibility w/ Isolid=12, don't add new law    
           IF( IKSNOD0 == 8        .AND.IABS(JHBE) < 200 .AND. NPT == 8
      .       .AND.IABS(JHBE) /= 14.    AND.IABS(JHBE) /= 15 
      .       .AND.IABS(JHBE) /= 24    .AND.IABS(JHBE) /= 17
@@ -1284,10 +1271,10 @@ C         composite-------------
             NPTS=MOD(ABS(NPT)/10,10)
             NPTT=MOD(ABS(NPT),10)
             NPG = NPTR*NPTS*NPTT
-	           NLY = NPTS
+               NLY = NPTS
           ELSE
             NPG = NPT
-	           NLY = NPT
+               NLY = NPT
           ENDIF  
 C   -----for mix hardening------------          
           IF (IGT==22) THEN
@@ -1296,21 +1283,21 @@ C   -----for mix hardening------------
              CASE(100)                                             
               NLY = NPTR
               IF (NLY ==0) THEN
-	              NLY =IINT 
+                  NLY =IINT 
                NPG = NLY*NPTS*NPTT
-	             ENDIF 
+                 ENDIF 
              CASE(10)                                          
               NLY = NPTS
               IF (NLY ==0) THEN
-	              NLY =IINT 
+                  NLY =IINT 
                NPG = NLY*NPTR*NPTT
-	             ENDIF 
+                 ENDIF 
              CASE(1)                                          
               NLY = NPTT
               IF (NLY ==0) THEN
-	              NLY =IINT 
+                  NLY =IINT 
                NPG = NLY*NPTR*NPTS
-	             ENDIF 
+                 ENDIF 
             END SELECT 
            ENDIF  
            DO NL=1,NLY
@@ -1356,15 +1343,15 @@ C           Preloaded elements are not compatible with Total Strain formulations
         ELSEIF(IKSNOD0 == 10.AND.ITET10==2)THEN
          IINT = 0
         ENDIF
-C------ compatibility w/ AMS		
-		IF (IKSNOD0 == 10.AND.ITET10==2.AND.ISMS>0) THEN
+C------ compatibility w/ AMS        
+        IF (IKSNOD0 == 10.AND.ITET10==2.AND.ISMS>0) THEN
               CALL ANCMSG(MSGID=2024,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_2,
      .                  I1=ID,
      .                  C1=TITR,
      .                  PRMOD=MSG_CUMU)
-		END IF
+        END IF
 C-------
         ! remove incompatibility for Itet4 = 3 
         IF (ISSN < 10 .AND. ITET4 == 3 .AND.MATPARAM%STRAIN_FORMULATION==2) THEN 
@@ -1526,7 +1513,6 @@ c-----------
      +                IPARG(29,N)+1,
      +                IPARG(33,N),IPARG(34,N),IPARG(43,N),IPARG(55,N)
       ENDDO
-c      WRITE(IOUT,1002) LBUFEL
       CALL ANCMSG(MSGID=758,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
