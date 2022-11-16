@@ -46,7 +46,9 @@ Chd|====================================================================
      .                  STIFR    , STIFN       , A              , D          , V        , 
      .                  CONT     , FCONTG      , FINT           , FEXT       , KEYWORD  ,
      .                  BUFMAT   , IXS10       , IXS16          , IXS20      , IXT      ,
-     .                  IXP      , IXR         ,IAD_ELEM        ,FR_ELEM     , WEIGHT   )
+     .                  IXP      , IXR         , IAD_ELEM       , FR_ELEM    , WEIGHT   , 
+     .                  IPARTSP  , IPARTR      , IPARTP         , IPARTT     , IPARTS   ,
+     .                  IPARTQ   , KXSP        )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -74,6 +76,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "rnur_c.inc"
 #include      "task_c.inc"
+#include      "sphcom.inc"
 #include      "spmd_c.inc"
 #include      "sms_c.inc"
 C-----------------------------------------------
@@ -92,6 +95,9 @@ C-----------------------------------------------
      .   IXS10(6,*) ,IXS16(8,*) ,IXS20(12,*) ,
      .   IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),IAD_ELEM(2,*),FR_ELEM(*),WEIGHT(*)
       CHARACTER*ncharline KEYWORD
+      INTEGER ,INTENT(IN) :: IPARTSP(NUMSPH),IPARTR(NUMELR),IPARTP(NUMELP),
+     .                       IPARTT(NUMELT),IPARTS(NUMELS),IPARTQ(NUMELQ)
+      INTEGER ,INTENT(IN) :: KXSP(NISP,NUMSPH)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -115,25 +121,71 @@ C
 c
       DO  I=1,NUMNOD 
         NODE_ID(I) = ITAB(I)
+        IOK_PART(I) = 0
+        IS_WRITTEN_NODE(I) = 0
       ENDDO
-
-c      DO I=1,NUMELC
-c        IF( H3D_PART(IPARTC(I)) == 1) THEN
-c          DO J=2,5
-c            IOK_PART(IXC(J,I)) = 1
-c          ENDDO
-c        ENDIF
-c      ENDDO
+C
+      DO I=1,NUMSPH
+        IF ( H3D_PART(IPARTSP(I)) == 1) THEN
+          IF(KXSP(2,I) > 0 )IOK_PART(KXSP(2,I)) = 1
+        ENDIF
+      ENDDO
 c
-c      DO I=1,NUMELTG
-c        IF( H3D_PART(IPARTTG(I)) == 1) THEN
-c          DO J=2,4
-c            IOK_PART(IXTG(J,I)) = 1
-c          ENDDO
-c        ENDIF
-c      ENDDO
-      IOK_PART(1:NUMNOD) = 1
-
+      DO I=1,NUMELR
+        IF ( H3D_PART(IPARTR(I)) == 1) THEN
+          DO J=2,4
+            IF(IXR(J,I) > 0 )IOK_PART(IXR(J,I)) = 1
+          ENDDO
+        ENDIF
+      ENDDO
+c
+      DO I=1,NUMELP
+        IF ( H3D_PART(IPARTP(I)) == 1) THEN
+          DO J=2,4
+            IF(IXP(J,I) > 0 )IOK_PART(IXP(J,I)) = 1
+          ENDDO
+        ENDIF
+      ENDDO
+c
+      DO I=1,NUMELT
+        IF ( H3D_PART(IPARTT(I)) == 1) THEN
+          DO J=2,4
+            IF(IXT(J,I) > 0 )IOK_PART(IXT(J,I)) = 1
+          ENDDO
+        ENDIF
+      ENDDO
+c
+      DO I=1,NUMELC
+        IF ( H3D_PART(IPARTC(I)) == 1) THEN
+          DO J=2,5
+            IF(IXC(J,I) > 0 )IOK_PART(IXC(J,I)) = 1
+          ENDDO
+        ENDIF
+      ENDDO
+c
+      DO I=1,NUMELTG
+        IF ( H3D_PART(IPARTTG(I)) == 1) THEN
+          DO J=2,4
+            IF(IXTG(J,I) > 0 )IOK_PART(IXTG(J,I)) = 1
+          ENDDO
+        ENDIF
+      ENDDO
+c
+      DO I=1,NUMELS
+        IF ( H3D_PART(IPARTS(I)) == 1) THEN
+          DO J=2,9
+            IF(IXS(J,I) > 0 )IOK_PART(IXS(J,I)) = 1
+          ENDDO
+        ENDIF
+      ENDDO
+c
+      DO I=1,NUMELQ
+        IF ( H3D_PART(IPARTQ(I)) == 1) THEN
+          DO J=2,5
+            IF(IXQ(J,I) > 0 )IOK_PART(IXQ(J,I)) = 1
+          ENDDO
+        ENDIF
+      ENDDO
 C
 C-----------------------------------------------
       IF(KEYWORD == 'GPS') THEN
