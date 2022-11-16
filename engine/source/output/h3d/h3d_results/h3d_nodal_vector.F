@@ -44,8 +44,10 @@ Chd|====================================================================
      .                  FNCONT   , FNCONTG     , FTCONT         , FTCONTG    , FNCONT2  , 
      .                  DR       , DXANCG      , FANREAC        , FCLUSTER   , MCLUSTER ,
      .                  VR       , FOPT        , NPBY           , IXUR       , VGAZ     ,
-     .                  IPARI    , IGRNOD      , WEIGHT         ,NODGLOB     ,FCONT_MAX , 
-     .                  FNCONTP2 , FTCONTP2    ,AR              ) 
+     .                  IPARI    , IGRNOD      , WEIGHT         , NODGLOB    , FCONT_MAX, 
+     .                  FNCONTP2 , FTCONTP2    , AR             , IPARTSP    , IPARTR   ,
+     .                  IPARTP   , IPARTT      , IPARTS         , IPARTQ     ,KXSP      ,
+     .                  IXR      , IXP         , IXT            ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,6 +77,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "rnur_c.inc"
 #include      "task_c.inc"
+#include      "sphcom.inc"
 #include      "spmd_c.inc"
 #include      "sms_c.inc"
 C-----------------------------------------------
@@ -97,6 +100,10 @@ C-----------------------------------------------
       CHARACTER*ncharline KEYWORD
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
       my_real , INTENT(IN) :: AR(3,NUMNOD)
+      INTEGER ,INTENT(IN) :: IPARTSP(NUMSPH),IPARTR(NUMELR),IPARTP(NUMELP),
+     .                       IPARTT(NUMELT),IPARTS(NUMELS),IPARTQ(NUMELQ)
+      INTEGER ,INTENT(IN) :: KXSP(NISP,NUMSPH),IXR(NIXR,NUMELR),IXP(NIXP,NUMELP),
+     .                       IXT(NIXT,NUMELT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -109,25 +116,71 @@ C
 c
       DO  I=1,NUMNOD 
         NODE_ID(I) = ITAB(I)
+        IOK_PART(I) = 0
+        IS_WRITTEN_NODE(I) = 0
       ENDDO
-
+C
+      DO I=1,NUMSPH
+        IF ( H3D_PART(IPARTSP(I)) == 1) THEN
+          IF(KXSP(2,I) > 0 )IOK_PART(KXSP(2,I)) = 1
+        ENDIF
+      ENDDO
+c
+      DO I=1,NUMELR
+        IF ( H3D_PART(IPARTR(I)) == 1) THEN
+          DO J=2,4
+            IF(IXR(J,I) > 0 )IOK_PART(IXR(J,I)) = 1
+          ENDDO
+        ENDIF
+      ENDDO
+c
+      DO I=1,NUMELP
+        IF ( H3D_PART(IPARTP(I)) == 1) THEN
+          DO J=2,4
+            IF(IXP(J,I) > 0 )IOK_PART(IXP(J,I)) = 1
+          ENDDO
+        ENDIF
+      ENDDO
+c
+      DO I=1,NUMELT
+        IF ( H3D_PART(IPARTT(I)) == 1) THEN
+          DO J=2,4
+            IF(IXT(J,I) > 0 )IOK_PART(IXT(J,I)) = 1
+          ENDDO
+        ENDIF
+      ENDDO
+c
       DO I=1,NUMELC
-        IF( H3D_PART(IPARTC(I)) == 1) THEN
+        IF ( H3D_PART(IPARTC(I)) == 1) THEN
           DO J=2,5
-            IOK_PART(IXC(J,I)) = 1
+            IF(IXC(J,I) > 0 )IOK_PART(IXC(J,I)) = 1
           ENDDO
         ENDIF
       ENDDO
 c
       DO I=1,NUMELTG
-        IF( H3D_PART(IPARTTG(I)) == 1) THEN
+        IF ( H3D_PART(IPARTTG(I)) == 1) THEN
           DO J=2,4
-            IOK_PART(IXTG(J,I)) = 1
+            IF(IXTG(J,I) > 0 )IOK_PART(IXTG(J,I)) = 1
           ENDDO
         ENDIF
       ENDDO
-      IOK_PART(1:NUMNOD) = 1
-
+c
+      DO I=1,NUMELS
+        IF ( H3D_PART(IPARTS(I)) == 1) THEN
+          DO J=2,9
+            IF(IXS(J,I) > 0 )IOK_PART(IXS(J,I)) = 1
+          ENDDO
+        ENDIF
+      ENDDO
+c
+      DO I=1,NUMELQ
+        IF ( H3D_PART(IPARTQ(I)) == 1) THEN
+          DO J=2,5
+            IF(IXQ(J,I) > 0 )IOK_PART(IXQ(J,I)) = 1
+          ENDDO
+        ENDIF
+      ENDDO
 C
 C--------------------------------------------------
       IF(KEYWORD == 'VEL') THEN

@@ -1885,7 +1885,9 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                     VOLMON   , ALE_CONNECT  ,DIAG_SMS      ,MS           ,PDAMA2    ,
      .                     X        , STIFR        , STIFN        ,KEYWORD      ,H3D_DATA  ,
      .                     NPBY     ,RBY           ,INTERSKID     ,H3D_DATA%N_SCAL_SKID,PSKIDS,
-     .                     NODGLOB  ,ITYSKID       )
+     .                     NODGLOB  ,ITYSKID       ,IPARTSP       ,IPARTR       ,IPARTP    , 
+     .                     IPARTT   ,IPARTS        ,IPARTQ        ,KXSP         ,IXR       ,
+     .                     IXP      ,IXT           )
 
 c
           IF (NSPMD > 1 ) THEN
@@ -1944,7 +1946,9 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                   DR      , DXANCG  , FANREAC, FCLUSTER  , MCLUSTER ,
      .                   VR      , FOPT    , NPBY   , IXUR      , VGAZ     ,
      .                   IPARI   , IGRNOD  , WEIGHT , NODGLOB   ,FCONT_MAX ,
-     .                   FNCONTP2, FTCONTP2, AR     )
+     .                   FNCONTP2, FTCONTP2, AR     , IPARTSP   ,IPARTR    ,
+     .                   IPARTP  , IPARTT  , IPARTS , IPARTQ    ,KXSP      ,
+     .                   IXR     , IXP     , IXT    )
 
 c
           IF (NSPMD > 1 ) THEN
@@ -2026,8 +2030,10 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                     IS_WRITEN_NODE,H3D_DATA%OUTPUT_LIST(I)%PART ,IPARTC,IPARTTG,
      .                  IXC, IXTG,TEMP,IFLOW,RFLOW,IXS,IXQ,NV46,MONVOL   ,VOLMON, DIAG_SMS,MS,
      .                   PDAMA2,X, STIFR, STIFN, A, D, V, CONT, FCONTG, FINT, FEXT,KEYWORD,
-     .                   BUFMAT   , IXS10       , IXS16          , IXS20 , IXT      ,
-     .                   IXP      , IXR        ,IAD_ELEM        ,FR_ELEM     , WEIGHT)
+     .                   BUFMAT   ,IXS10      ,IXS16      ,IXS20   ,IXT      ,
+     .                   IXP      ,IXR        ,IAD_ELEM   ,FR_ELEM ,WEIGHT   , 
+     .                   IPARTSP  ,IPARTR     ,IPARTP     ,IPARTT  ,IPARTS   , 
+     .                   IPARTQ   ,KXSP       )
 
 c
           IF (NSPMD > 1 ) THEN
