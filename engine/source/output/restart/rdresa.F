@@ -105,7 +105,7 @@ C-----------------------------------------------
 C     LECTURE DE L'ENTETE
 C-----------------------------------------------
         CALL READ_I_C(LHEADER,1)
-C       warning to radioss developpers :
+C       warning to radioss developers:
 C       IF(LHEADER>LMXHEAD)THEN
 C         WRITE(*,*) ' ** RADIOSS INTERNAL ERROR'
 C         CALL ARRET(7)
@@ -157,7 +157,7 @@ C ------------------------------------------
 C-----------------------------------------------
 C     LECTURE DES VARIABLES ENTIERES.
 C-----------------------------------------------
-C      warning to radioss developpers :
+C      warning to radioss developers:
 C      IF(LVARINT>LMXVINT)THEN
 C        WRITE(*,*) ' ** RADIOSS INTERNAL ERROR'
 C        CALL ARRET(7)

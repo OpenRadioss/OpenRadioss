@@ -132,7 +132,7 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_TENSOR(I)%IS_PLY_ALL = 1
       H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'Infinitesimal Strain'
       H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  = 
-     .'Total strain tensor is caculated from 2(initial&actual) configurations'
+     .'Total strain tensor is calculated from 2(initial&actual) configurations'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_TENSOR(I)%KEY3  = 'TENS/BSTRESS'

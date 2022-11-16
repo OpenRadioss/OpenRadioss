@@ -877,7 +877,7 @@ c-----------
                 ENDIF                                                        
               ENDIF                          
               IF (KCVT /= 0) THEN                     
-C               STRAIN TENSOR IN GLOBAL SYSTE         
+C               STRAIN TENSOR IN GLOBAL SYSTEM        
                 DO I=LFT,LLT                          
                   N = I + NFT                         
                   IF (EL2FA(NN2+N) /= 0) THEN           

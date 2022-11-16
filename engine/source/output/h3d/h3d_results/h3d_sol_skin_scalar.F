@@ -266,7 +266,7 @@ c
           ELSEIF (EMAJ(I) >= ABS(EMIN(I))) THEN
             FLD_IDX(I) = 4      ! zone 4 = safe (45 deg line)
           ELSEIF (EMAJ(I) >= R2*ABS(EMIN(I))) THEN
-            FLD_IDX(I) = 3      ! zone 3  = angle atan(r/(1+r))  - compresion
+            FLD_IDX(I) = 3      ! zone 3  = angle atan(r/(1+r))  - compression
           ELSE
             FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
           ENDIF
@@ -282,7 +282,7 @@ c
           ELSEIF (EMAJ(I) >= ABS(EMIN(I))) THEN
             FLD_IDX(I) = 4      ! zone 4 = safe (45 deg line)
           ELSEIF (EMAJ(I) >= R2*ABS(EMIN(I))) THEN
-            FLD_IDX(I) = 3      ! zone 3  = angle atan(r/(1+r))  - compresion
+            FLD_IDX(I) = 3      ! zone 3  = angle atan(r/(1+r))  - compression
           ELSE
             FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
           ENDIF

@@ -284,7 +284,7 @@ C       2EME RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME
           CALL EOR_C(12)
         ENDIF
       END IF      
-C-------HIERARCHIE INFO------------
+C-------HIERARCHY INFO------------
       IWA(1)=NPART+NTHPART
       IWA(2)=NUMMAT
       IWA(3)=NUMGEO
@@ -428,7 +428,7 @@ C-------GEO DESCRIPTION------------
          CALL EOR_C(4+LTITL)
         ENDIF
       ENDDO
-C-------HIERARCHIE DESCRIPTION------------
+C-------HIERARCHY DESCRIPTION------------
       DO N=1,NSUBS
 !!        NVAR=ISUBTH(NVSUBTH,N)
 !!        IAD =ISUBTH(NVSUBTH+1,N)

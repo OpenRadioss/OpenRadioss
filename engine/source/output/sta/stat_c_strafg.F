@@ -145,7 +145,7 @@ C-----------------------------------------------
            IREL=1
          END IF
 !
-         DO J=1,8  ! lenght max of GBUF%G_STRA = 8
+         DO J=1,8  ! length max of GBUF%G_STRA = 8
            KK(J) = NEL*(J-1)
          ENDDO
 !
@@ -438,7 +438,7 @@ C-----------------------------------------------
            IREL=2
          END IF
 !
-         DO J=1,8  ! lenght max of GBUF%G_STRA = 8
+         DO J=1,8  ! length max of GBUF%G_STRA = 8
            KK(J) = NEL*(J-1)
          ENDDO
 !

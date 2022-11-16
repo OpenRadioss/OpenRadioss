@@ -67,12 +67,12 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 !$COMMENT
 !       CHECK_NAN_ACC description
-!       check if a NaN appears in A/AR arraies
+!       check if a NaN appears in A/AR arrays
 !       
 !       CHECK_NAN_ACC organization :
 !       - at T=0, need to initialize the ITAB_DEBUG array in order to
 !         print the global node ID
-!       - check if a NaN appears in A/AR arraies 
+!       - check if a NaN appears in A/AR arrays 
 !       - if a NaN is present, print the ID node, the processor and
 !         the cycle and then stop the run with MSTOP=1
 !$ENDCOMMENT

@@ -146,7 +146,7 @@ C        IF(ANIM_K==0.AND.IPARG(8,NG)==1)GOTO 490
          LFT=1
          LLT=NEL
 !
-         DO I=1,8  ! lenght max of GBUF%G_STRA = 8
+         DO I=1,8  ! length max of GBUF%G_STRA = 8
            JJ(I) = NEL*(I-1)
          ENDDO
 !

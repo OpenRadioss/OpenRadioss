@@ -80,12 +80,12 @@ C-----------------------------------------------
      .            0,0,0,0,0,0,0,0,0,0,0,0,0,0,4/
 
 !       1st step : count the number of value send by each proc 
-!       2nd step : allocate the sended buffer for each proc and the recieved buffer (proc = 0)
+!       2nd step : allocate the sended buffer for each proc and the received buffer (proc = 0)
 !       3rd step : initialize and send the sended buffer to proc 0
-!       4rd step : write the data (proc=0)
+!       4th step : write the data (proc=0)
 !
 !
-!       Structur of the buffer :
+!       Structure of the buffer :
 !       *******************
 !
 !       sended buffer (local on each proc) :
@@ -108,7 +108,7 @@ C-----------------------------------------------
 !                          |                                           |                                      |
 ! proc =                   0                                           1                    ...               m
 
-!  Index arraies : SHIFT_R, SHIFT_SECT, RINDEX_PROC
+!  Index arrays : SHIFT_R, SHIFT_SECT, RINDEX_PROC
 !       SHIFT_R --> index for the processor
 !       SHIFT_SECT --> index for the section for each processor
 !       RINDEX_PROC --> index for the element types (shell, shell3n or solid) for each processor and each section

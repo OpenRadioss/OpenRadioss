@@ -2812,7 +2812,7 @@ c
                 NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
                 NPGT = NPTR*NPTS
 c
-                ! Reseting values
+                ! Resetting values
                 DO I = 1,NEL
                   VALUE(I) = ZERO
                 ENDDO
@@ -2866,7 +2866,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF (GBUF%G_DMG > 0) THEN
 c
-                ! Reseting values
+                ! Resetting values
                 DO I = 1,NEL
                   VALUE(I) = ZERO
                 ENDDO
@@ -3026,7 +3026,7 @@ C------------------
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'NL_EPSP') THEN 
               IF (GBUF%G_PLANL > 0) THEN
-                ! Reseting values
+                ! Resetting values
                 DO I = 1,NEL
                   VALUE(I) = ZERO
                 ENDDO
@@ -3064,7 +3064,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF (GBUF%G_EPSDNL > 0) THEN
 C------------------
-                ! Reseting values
+                ! Resetting values
                 DO I = 1,NEL
                   VALUE(I) = ZERO
                 ENDDO

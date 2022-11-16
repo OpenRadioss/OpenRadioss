@@ -1107,7 +1107,7 @@ C
         IF (IFLAG1D/=0) IFLAG1D = 1
         CALL WRITE_I_C(IFLAG1D,1)
 
-C HIERARCHIE
+C HIERARCHY
         CALL WRITE_I_C(1,1)
 C TH
         CALL WRITE_I_C(0,1)
@@ -4080,7 +4080,7 @@ C
          DEALLOCATE(FVEL2FA, FVINUM)
       ENDIF
 C-----------------------------------------------
-C   HIERARCHIE
+C   HIERARCHY
 C-----------------------------------------------
        IF (NFVPART>0) THEN
           IF (ISPMD==0) ALLOCATE(FVPBUF(NFVPART))
@@ -4421,7 +4421,7 @@ C-----------------------------------------------
        IF(ANIM_SE(282)==1) CALL ANI_TXT('Failed layers',13)
        !-------------------------------------------------------------!
        !283 to 286 : VOLUMETRIC FRACTION FOR ALE MULTIMATERIAL LAWS
-       !  radioss2.F: check consistancy with engine keyword and occurence material law. ANIM_SE(.) flag is enabled only if consistent
+       !  radioss2.F: check consistency with engine keyword and occurrence material law. ANIM_SE(.) flag is enabled only if consistent
        !  dfunc6.F : corresponding value (in MBUF%VAR) is stored in this function according material law number
        IF(ANIM_SE(283)==1) CALL ANI_TXT('Volumetric Fraction 1',21)        !law51 & law37 & law20
        IF(ANIM_SE(284)==1) CALL ANI_TXT('Volumetric Fraction 2',21)        !law37 & law37 & law20
@@ -4726,7 +4726,7 @@ C-----------------------------------------------
      .                   DD_IAD,IAD ,NBPART,IADG ,KXSP ,
      .             ISPH3D )
 C-----------------------------------------------
-C   HIERARCHIE
+C   HIERARCHY
 C-----------------------------------------------
        IF (ISPMD==0) THEN
          DO I=1,NPART
@@ -5219,7 +5219,7 @@ C-----------------------------------------------
          ENDDO
       ENDIF
 C-----------------------------------------------
-C   HIERARCHIE
+C   HIERARCHY
 C-----------------------------------------------
       IF (ISPMD==0) THEN
        DO I=1,NPART
@@ -5254,7 +5254,7 @@ C=======================================================================
  600  CONTINUE
 C=======================================================================
 C
-C   HIERARCHIE
+C   HIERARCHY
 C
 C=======================================================================
       IF (ISPMD==0) THEN
@@ -6477,7 +6477,7 @@ C-----------------------------------------------
        CALL DELNUMB0(IPARG ,EL2FA ,NNN  ,WAFT ,DD_IAD,
      .               IAD   ,NBPART,IADG ,KXSP )
 C-----------------------------------------------
-C   HIERARCHIE
+C   HIERARCHY
 C-----------------------------------------------
        IF (ISPMD==0) THEN
          DO I=1,NPART

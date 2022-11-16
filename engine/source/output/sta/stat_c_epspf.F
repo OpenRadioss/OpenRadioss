@@ -115,7 +115,7 @@ C
           LFT  = 1
           LLT  = NEL
 C
-C pre counting of all NPTT (especialy for PID_51)
+C pre counting of all NPTT (especially for PID_51)
 C
           IF (IGTYP == 51 .OR. IGTYP ==52) THEN
             NPT_ALL = 0
@@ -363,7 +363,7 @@ C
           LFT=1
           LLT=NEL
 C
-C pre counting of all NPTT (especialy for PID_51)
+C pre counting of all NPTT (especially for PID_51)
 C
           IF (IGTYP == 51 .OR. IGTYP == 52) THEN
             NPT_ALL = 0

@@ -69,7 +69,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 
       !------------------------!                                                              
-      !---EXCAHNGE DATA CELL                                                                  
+      !---EXCHANGE DATA CELL                                                                  
       !------------------------!                                                              
       IF (ISPMD/=0) THEN                                                                    
         NCELL = STATE_INIMAP_BUF(1)%NUM_CENTROIDS                                             

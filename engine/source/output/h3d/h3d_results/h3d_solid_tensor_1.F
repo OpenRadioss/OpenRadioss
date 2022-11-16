@@ -1687,7 +1687,7 @@ c-----------
                   ENDIF 						       
                 ENDIF			       
                 IF (KCVT /= 0) THEN			
-C                 STRAIN TENSOR IN GLOBAL SYSTE 	
+C                 STRAIN TENSOR IN GLOBAL SYSTEM
                   DO I=1,NEL			      
                     N = I + NFT 			  
                     IF (KCVT==2)THEN		       
@@ -2866,7 +2866,7 @@ c-----------
                   ENDDO 						     
                 ENDIF ! IF (MLW == 24 .and. ISTRAIN > 0)			       
                 IF (KCVT /= 0) THEN			
-C               PLASTIC STRAIN TENSOR IN GLOBAL SYSTE 	
+C               PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
                   DO I=1,NEL			      
                     N = I + NFT 			  
                     IF (KCVT == 2) THEN		       
@@ -4057,7 +4057,7 @@ c-----------
                   ENDIF 						       
                 ENDIF			       
                 IF (KCVT /= 0) THEN			
-C                 STRAIN TENSOR IN GLOBAL SYSTE 	
+C                 STRAIN TENSOR IN GLOBAL SYSTEM
                   DO I=1,NEL			      
                     N = I + NFT 			  
                     IF (KCVT==2)THEN		       

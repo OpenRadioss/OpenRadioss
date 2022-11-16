@@ -39,7 +39,7 @@ C   D e s c r i p t i o n
 C-----------------------------------------------
 C     This suroutine computes nodal pressure for
 C     ALE elements. In case of CEL coupling (inter22)
-C     result is also calcultated from cut cells.
+C     result is also calculated from cut cells.
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------
@@ -177,7 +177,7 @@ C                print *, "treating brick id=", IX(11,I+NFT)
                 ! NOT A CUT CELL            !
                 !---------------------------! 
                 IF(IB>0)THEN
-                  IF(BRICK_LIST(NIN,IB)%NBCUT==0)IB=0 !in cut cell buffer but not partitionned (because it is adjacent to a cut cell)
+                  IF(BRICK_LIST(NIN,IB)%NBCUT==0)IB=0 !in cut cell buffer but not partitioned (because it is adjacent to a cut cell)
                 ENDIF             
                 IF(IB==0)THEN                
                   P = GBUF%SIG(NEL*(1-1)+I)+GBUF%SIG(NEL*(2-1)+I)+GBUF%SIG(NEL*(3-1)+I)   

@@ -37,7 +37,7 @@ C   D e s c r i p t i o n
 C-----------------------------------------------
 C     This suroutine computes nodal volumetric fraction for
 C     ALE elements. In case of CEL coupling (inter22)
-C     result is also calcultated from cut cells.
+C     result is also calculated from cut cells.
 C     Aim is to expand centroid values to nodal positions
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
@@ -135,7 +135,7 @@ C-----------------------------------------------
              ELSEIF(MLW==51)THEN
                DO I=1,NEL
                  IPOS             = 1
-                 K1               = N0PHAS + (IPHASE-1)*NVPHAS +IPOS-1   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                 K1               = N0PHAS + (IPHASE-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                  K                = K1 * NEL   
                  VF               = MBUF%VAR(K+I) 
                  V                = GBUF%VOL(I)                                                                                                                         
@@ -198,7 +198,7 @@ C-----------------------------------------------
                     ENDDO !next J          
                   ELSEIF(MLW==51)THEN
                     IPOS             = 1
-                    K1               = N0PHAS + (IPHASE-1)*NVPHAS +IPOS-1   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                    K1               = N0PHAS + (IPHASE-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                     K                = K1 * NEL   
                     VF               = MBUF%VAR(K+I)  
                     V                = GBUF%VOL(I)                                                                                                                        

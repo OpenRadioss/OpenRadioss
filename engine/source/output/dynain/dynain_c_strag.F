@@ -155,12 +155,12 @@ C
           G_STRA = GBUF%G_STRA
 
 !
-         DO J=1,8  ! lenght max of GBUF%G_STRA = 8
+         DO J=1,8  ! length max of GBUF%G_STRA = 8
            KK(J) = NEL*(J-1)
          ENDDO
 !
 C
-C pre counting of all NPTT (especialy for PID_51)
+C pre counting of all NPTT (especially for PID_51)
 C
           IF (IGTYP == 51 .OR. IGTYP == 52 ) THEN
             NPT_ALL = 0
@@ -463,12 +463,12 @@ C
 
           G_STRA = GBUF%G_STRA
 !
-          DO J=1,8  ! lenght max of GBUF%G_STRA = 8
+          DO J=1,8  ! length max of GBUF%G_STRA = 8
             KK(J) = NEL*(J-1)
           ENDDO
 !
 C
-C pre counting of all NPTT (especialy for PID_51)
+C pre counting of all NPTT (especially for PID_51)
 C
           IF (IGTYP == 51 .OR. IGTYP == 52) THEN
             NPT_ALL = 0
