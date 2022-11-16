@@ -1722,19 +1722,15 @@ c
      6            TDEL     ,IPT      ,IPG      ,DMG_FLAG ,DMG_LOC_SCALE,
      7            PTHKF(ILAYER,IFL))
 c
-              CASE (99)     !    Syazwan failure model
-                DO I=JFT,JLT
-                  COPY_PLA(I) = LBUF%PLA(I)
-                ENDDO
+              CASE (43)     !    Syazwan failure model
+c
                 CALL FAIL_SYAZWAN_C(
-     1          JLT      ,NVARF   ,
-     2          TT       ,UPARAMF ,NGL      ,IPT      ,MPT      ,
-     3          SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4          EPSXX    ,EPSYY   ,EPSXY    ,EPSYZ    ,EPSZX    ,
-     5          DPLA     ,EPSPL   ,UVARF    ,GBUF%NOFF,UELR1    ,
-     6          OFF      ,OFFL    ,DFMAX    ,TDEL     ,NFUNC1   ,
-     7          IFUNC1   ,EL_LEN  ,FOFF    , IGTYP    ,COPY_PLA ,
-     8          DMG_FLAG ,DMG_LOC_SCALE,NPF,TF)
+     1            JLT      ,UPARAMF  ,NUPAR    ,UVARF    ,NVARF    ,
+     2            TT       ,NGL      ,IPT      ,DPLA     ,EL_PLA   ,
+     3            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
+     4            EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,
+     5            DFMAX    ,NFUNC1   ,IFUNC1   ,EL_LEN   ,FOFF     ,
+     6            IPG      ,DMG_FLAG ,DMG_LOC_SCALE,NPF  ,TF       )
 c 
 c-------------
               END SELECT
