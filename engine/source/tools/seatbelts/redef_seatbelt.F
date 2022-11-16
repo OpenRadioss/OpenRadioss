@@ -158,7 +158,7 @@ C-------------------------------------
       ENDIF            
 C
 C-------------------------------------
-C        ELASTO PLASTIC (Isotropic hardening) - PERFECLTY PLASTIC IN COMPRESSION
+C        ELASTO PLASTIC (Isotropic hardening) - PERFECTLY PLASTIC IN COMPRESSION
 C-------------------------------------
       IF(JECROU(2)==LLT_LOC)THEN
         DO J=LFT,LLT_LOC
@@ -196,7 +196,7 @@ C
               IF(FXEP(I)<YI1)AN3Y0(J)=(YI2-YI1)/ (XI2-XI1)
             ENDIF
 C
-C----       Crossing of compresion/tension line - mix stiffness computed
+C----       Crossing of compression/tension line - mix stiffness computed
             IF ((DXELA(J) < ZERO).AND.(ABS(DDX(J)) > ZERO)) THEN
               DDXT = -FXEP(I)/AN3Y0(J)
               DDXC = DDX(J) - DDXT
@@ -246,7 +246,7 @@ C
               IF(FXEP(I)>Y2)AN3Y0(J)=(Y2-Y1)/ (X2-X1) 
               IF(FXEP(I)<YI1)AN3Y0(J)=(YI2-YI1)/ (XI2-XI1)
             ENDIF
-C----       Crossing of compresion/tension line - mix stiffness computed
+C----       Crossing of compression/tension line - mix stiffness computed
             IF ((DXELA(J) < ZERO).AND.(ABS(DDX(J)) > ZERO)) THEN
               DDXT = -FXEP(I)/AN3Y0(J)
               DDXC = DDX(J) - DDXT
@@ -272,7 +272,7 @@ C-------------------------------------
           DXELA(J)=DX(I)-DPX(I)
           AN3Y0(J)= XK(I)
           IF ((DXELA(J) >= ZERO).OR.(FXEP(I) >= ZERO)) THEN
-C----       Crossing of compresion/tension line - mix stiffness computed
+C----       Crossing of compression/tension line - mix stiffness computed
             IF ((DXELA(J) < ZERO).AND.(ABS(DDX(J)) > ZERO)) THEN
               DDXT = -FXEP(I)/AN3Y0(J)
               DDXC = DDX(J) - DDXT
@@ -291,7 +291,7 @@ C----       Crossing of compresion/tension line - mix stiffness computed
             DXELA(J)=DX(I)-DPX(I)
             IF ((DXELA(J) >= ZERO).OR.(FXEP(I) >= ZERO)) THEN
               AN3Y0(J)= XK(I)
-C----       Crossing of compresion/tension line - mix stiffness computed
+C----       Crossing of compression/tension line - mix stiffness computed
               IF ((DXELA(J) < ZERO).AND.(ABS(DDX(J)) > ZERO)) THEN
                 DDXT = -FXEP(I)/AN3Y0(J)
                 DDXC = DDX(J) - DDXT

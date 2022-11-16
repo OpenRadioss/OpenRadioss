@@ -141,7 +141,7 @@ C       VL(1)=ROT(1)*VREL(1)+ROT(2)*VREL(2)+ROT(3)*VREL(3)
 C       VL(2)=ROT(4)*VREL(1)+ROT(5)*VREL(2)+ROT(6)*VREL(3)
 C       VL(3)=ROT(7)*VREL(1)+ROT(8)*VREL(2)+ROT(9)*VREL(3)
 C-------
-C      fully consistant VL would use rotation at time T-1/2 :
+C      fully consistent VL would use rotation at time T-1/2 :
        OMEGAX=W(1)*DT05
        OMEGAY=W(2)*DT05
        OMEGAZ=W(3)*DT05
@@ -217,7 +217,7 @@ C
        VL(1)=ROTT05(1)*VREL(1)+ROTT05(2)*VREL(2)+ROTT05(3)*VREL(3)
        VL(2)=ROTT05(4)*VREL(1)+ROTT05(5)*VREL(2)+ROTT05(6)*VREL(3)
        VL(3)=ROTT05(7)*VREL(1)+ROTT05(8)*VREL(2)+ROTT05(9)*VREL(3)
-C      end fully consistant VL.
+C      end fully consistent VL.
 C-----------
 C      relative angular velocity at time T-1/2.
 C-----------
@@ -268,24 +268,24 @@ C      VREL(3)=VG(3)-VE(3)
        AC(2)=2.*(W(3)*VREL(1)-W(1)*VREL(3))
        AC(3)=2.*(W(1)*VREL(2)-W(2)*VREL(1))
 C-----------
-C      relative accelaration in global frame at time T.
+C      relative acceleration in global frame at time T.
 C-----------
        AREL(1)=AG(1)-AE(1)-AC(1)
        AREL(2)=AG(2)-AE(2)-AC(2)
        AREL(3)=AG(3)-AE(3)-AC(3)
-C      relative accelaration in local frame at time T.
+C      relative acceleration in local frame at time T.
        AL(1)=ROT(1)*AREL(1)+ROT(2)*AREL(2)+ROT(3)*AREL(3)
        AL(2)=ROT(4)*AREL(1)+ROT(5)*AREL(2)+ROT(6)*AREL(3)
        AL(3)=ROT(7)*AREL(1)+ROT(8)*AREL(2)+ROT(9)*AREL(3)
 C
 C-----------
-C      relative angular accelaration at time T.
+C      relative angular acceleration at time T.
 C-----------
-C      relative angular accelaration in global frame at time T.
+C      relative angular acceleration in global frame at time T.
        ARREL(1)=ARG(1)-DWDT(1)
        ARREL(2)=ARG(2)-DWDT(2)
        ARREL(3)=ARG(3)-DWDT(3)
-C      relative angular accelaration in local frame at time T.
+C      relative angular acceleration in local frame at time T.
        ARL(1)=ROT(1)*ARREL(1)+ROT(2)*ARREL(2)+ROT(3)*ARREL(3)
        ARL(2)=ROT(4)*ARREL(1)+ROT(5)*ARREL(2)+ROT(6)*ARREL(3)
        ARL(3)=ROT(7)*ARREL(1)+ROT(8)*ARREL(2)+ROT(9)*ARREL(3)

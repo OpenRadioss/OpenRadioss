@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER I,J
 C-----------------------------------------------
       DO I=LFT,LLT
-C--     to prevent NC3 to be zero fo seatblet outsid slipring
+C--     to prevent NC3 to be zero fo seatblet outside slipring
         IF (IXR(4,I) > 0) THEN
           NC3(I)=IXR(4,I)
         ELSE

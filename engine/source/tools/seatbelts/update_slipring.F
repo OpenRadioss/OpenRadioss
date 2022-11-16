@@ -272,7 +272,7 @@ C                   Small gap to prevent early release of element
                     GAP = 0.01*RETRACTOR(RET)%ELEMENT_SIZE
                     GBUF%RINGSLIP(I) = GBUF%RINGSLIP(I) -GAP
                   ELSE
-C                   Element deactivated - X0 updated in r23l114def3 for consitency
+C                   Element deactivated - X0 updated in r23l114def3 for consistency
                     GBUF%UPDATE(I) = -2
                     GBUF%RINGSLIP(I) = ZERO
                   ENDIF
@@ -417,7 +417,7 @@ C--               Tag < 0 - node 1 or 3 of slipring
               ENDIF
 C
 C-----------------------------------------------------------------------------------------
-C--           2nd rank of element behing/ahead slipring - scaling factor on stress
+C--           2nd rank of element behind/ahead slipring - scaling factor on stress
 C-----------------------------------------------------------------------------------------
               GBUF%INTVAR(II(1)+I-1) = ONE
               IF ((FLAG_R2 > 0).AND.(GBUF%UPDATE(I) == 0)) THEN

@@ -321,11 +321,11 @@ C-----------------------------------------------
                                 !   ---------------------
                         ENDDO
                         !       -----------------------------                
-                        !       second shot : (b) classical interpokation with reduced interval
+                        !       second shot : (b) classical interpolation with reduced interval
 
                         !   ------------------------
                         !   INFINITE LOOP DETECTED
-                        !   the dichotomy failed to reduce the inteval, back to old treatment
+                        !   the dichotomy failed to reduce the interval, back to old treatment
                         IF( COUNTER == -1 ) THEN
                                 FIRST = 1
                                 LAST = POINT_NBR 

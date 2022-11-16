@@ -77,7 +77,7 @@ C
           A(3,ANCHOR_NODE)=A(3,ANCHOR_NODE)+A(3,NODE2)
           STIFN(ANCHOR_NODE)=STIFN(ANCHOR_NODE)+STIFN(NODE2) 
           IF (SLIPRING(I)%FRAM(J)%N_REMOTE_PROC > 0) THEN
-C--         Contribution stored to be exhanged to remote anchor node
+C--         Contribution stored to be exchanged to remote anchor node
             BUF_EXCH(L,1) = A(1,NODE2)
             BUF_EXCH(L,2) = A(2,NODE2)
             BUF_EXCH(L,3) = A(3,NODE2)
@@ -103,7 +103,7 @@ C----------------------------------------------------------
          A(3,ANCHOR_NODE)=A(3,ANCHOR_NODE)+A(3,NODE2)
          STIFN(ANCHOR_NODE)=STIFN(ANCHOR_NODE)+STIFN(NODE2)  
          IF (RETRACTOR(I)%N_REMOTE_PROC > 0) THEN
-C--        Contribution stored to be exhanged to remote anchor node
+C--        Contribution stored to be exchanged to remote anchor node
             BUF_EXCH(1,L) = A(1,NODE2)
             BUF_EXCH(2,L) = A(2,NODE2)
             BUF_EXCH(3,L) = A(3,NODE2)
