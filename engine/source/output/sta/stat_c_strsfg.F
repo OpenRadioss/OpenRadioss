@@ -158,7 +158,7 @@ C
            IREL=1
          END IF
 !
-          DO I=1,12  ! lenght max of GBUF%G_HOURG = 12
+          DO I=1,12  ! length max of GBUF%G_HOURG = 12
             KK(I) = NEL*(I-1)
           ENDDO
 !
@@ -196,7 +196,7 @@ C
      .                  IREL ,QT  ,NLAY   ,IREP ,NEL    ,
      .                  DIR_A ,DIR_B,ELBUF_TAB(NG))
 C
-C pre counting of all NPTT (especialy for PID_51)
+C pre counting of all NPTT (especially for PID_51)
 C
           NPT_ALL = 0
           DO IL=1,NLAY
@@ -708,7 +708,7 @@ C
      .                   IREL   ,QT     ,NLAY   ,IREP ,NEL    ,
      .                   DIR_A   ,DIR_B,ELBUF_TAB(NG))
 C
-C pre counting of all NPTT (especialy for PID_51)
+C pre counting of all NPTT (especially for PID_51)
 C
           NPT_ALL = 0
           DO IL=1,NLAY

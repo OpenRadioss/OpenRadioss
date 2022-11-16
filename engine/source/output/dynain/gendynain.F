@@ -163,12 +163,12 @@ c
         CALL DYNAIN_SHEL_SPMD(ITAB   ,ITABG   ,LENG    ,IGEO   ,IXC    ,
      .                          IXTG   ,IPARTC  ,IPARTTG ,IPART_DYNAIN     ,
      .                          NODTAG ,DYNAIN_INDXC,DYNAIN_INDXTG,IPARG   ,
-     .                          ELBUF_TAB,THKE  ,LENGC   ,LENGTG  ,IPART   )     
+     .                          ELBUF_TAB,THKE  ,LENGC   ,LENGTG  ,IPART   )
       END IF
 
 
 C-----------------------------------------------
-C   RIGID BODY'S PRIMARY NODE IS OUTPUTED IS ONE OF ITS SECONDARY NODES ARE 
+C   RIGID BODY'S PRIMARY NODE IS OUTPUTTED IF ONE OF ITS SECONDARY NODES ARE
 C-----------------------------------------------
       DO I=1,NRBODY
           DO J=1,NPBY(2,I)

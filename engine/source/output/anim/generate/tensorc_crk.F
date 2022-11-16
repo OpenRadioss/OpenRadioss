@@ -145,7 +145,7 @@ C
           LFT=1
           LLT=NEL
 !
-          DO I=1,8  ! lenght max of GBUF%G_STRA = 8
+          DO I=1,8  ! length max of GBUF%G_STRA = 8
             JJ(I) = NEL*(I-1)
           ENDDO
 !

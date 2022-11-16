@@ -76,7 +76,7 @@ C     DKT18----
 C------------------------
 C---QEPH:------
         IF (IHBE == 23) THEN
-C---Transfert to QBAT------
+C---Transfer to QBAT------
         ELSEIF (IHBE == 11) THEN ! QBAT,DKT18
           IF (MLW == 29.OR.MLW == 30.OR.MLW == 31.OR.MLW>=33) THEN
           NUVAR  = 0

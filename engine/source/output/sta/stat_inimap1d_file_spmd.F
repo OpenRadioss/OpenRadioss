@@ -253,7 +253,7 @@ C-----------------------------------------------
       ENDIF
   
       IF(NUM_CENTROIDS > 0)THEN
-        !---BOX CONTAING USER-1D-DOMAIN  &  BUILDING 1D AXIS  
+        !---BOX CONTAINING USER-1D-DOMAIN  &  BUILDING 1D AXIS  
         !    use centroids otherwise with spmd decomposition 1d portion may be smaller than orthogonal directions. (S >> dl) 
         LX=MAX_XC-MIN_XC                                                                                                          
         LY=MAX_YC-MIN_YC                                                                                                          
@@ -496,7 +496,7 @@ C-----------------------------------------------
           DO K=1,NNOD ; IDX(K)=K; ENDDO
           CALL QUICKSORT(MAP_NODES(2,:), IDX, 1, NNOD) 
           TOL=EM10*LENGTH
-          !---check dupplicates and remove
+          !---check duplicates and remove
           NNOD2=NNOD
           DO I=2,NNOD
             DIST = ABS(MAP_NODES(2,I)-MAP_NODES(2,I-1))

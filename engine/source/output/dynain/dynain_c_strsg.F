@@ -164,12 +164,12 @@ C
           LFT=1
           LLT=NEL
 !
-          DO I=1,12  ! lenght max (Hourglass for QEPH)
+          DO I=1,12  ! length max (Hourglass for QEPH)
             KK(I) = NEL*(I-1)
           ENDDO
 !
 C
-C pre counting of all NPTT (especialy for PID_51)
+C pre counting of all NPTT (especially for PID_51)
 C
           IF (IGTYP == 51 .OR. IGTYP == 52 ) THEN
             NPT_ALL = 0
@@ -1156,7 +1156,7 @@ C
           ENDDO
 !
 C
-C pre counting of all NPTT (especialy for PID_51)
+C pre counting of all NPTT (especially for PID_51)
 C
           IF (IGTYP == 51 .OR. IGTYP == 52) THEN
             NPT_ALL = 0

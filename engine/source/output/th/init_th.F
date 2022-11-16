@@ -165,7 +165,7 @@ C-------------------------------------------------------
 !   -------------------------------------
         !   ----------------------------------
         
-        !   allocation of local arraies
+        !   allocation of local arrays
         ALLOCATE( INDEX_WA_ELTYPE(2*NTHGRP2+1) )
         ALLOCATE( INDEX_WA_SIZE_P0(NSPMD) )
         ALLOCATE( WA_INDEX_DIPLS(NSPMD) )

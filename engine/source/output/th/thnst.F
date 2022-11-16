@@ -110,7 +110,7 @@ C       multi-purpose elements are nstrands elements only (to be modified).
                                 KVAR  = NUVAR*(I-1)+1
                                 KVARN = NUVARN*NX*(I-1)+1
 C
-C                               initial total lenght UVAR(NB1:NB1)
+C                               initial total length UVAR(NB1:NB1)
                                 NB1=1
 C                               previous elongation  UVAR(NB2:NB2)
                                 NB2=NB1+1
@@ -120,7 +120,7 @@ C                               initial nodes masses UVARN(MB1:MB1+NX-1)
                                 MB1=1
 C                               forces into strands UVARN(MB2:MB2+NX-1)
                                 MB2=MB1+NX
-C                               strands initial lenght UVARN(MB3:MB3+NX-1)
+C                               strands initial length UVARN(MB3:MB3+NX-1)
                                 MB3=MB2+NX
 C                               strands elongations UVARN(MB4:MB4+NX-1)
                                 MB4=MB3+NX
@@ -203,7 +203,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB1,NB2,NB3,MB1,MB2,MB3,MB4,MB5
 C-----------------------------------------------
-C       initial total lenght UVAR(NB1:NB1)
+C       initial total length UVAR(NB1:NB1)
       NB1=1
 C       previous elongation  UVAR(NB2:NB2)
       NB2=NB1+1
@@ -214,7 +214,7 @@ C       initial nodes masses UVARN(MB1:MB1+NX-1)
 C       forces into strands UVARN(MB2:MB2+NX-1)
 C       using UVARN(MB2:MB2+NX-2) only.
       MB2=MB1+NX
-C       strands initial lenght UVARN(MB3:MB3+NX-1)
+C       strands initial length UVARN(MB3:MB3+NX-1)
 C       using UVARN(MB3:MB3+NX-2) only.
       MB3=MB2+NX
 C       strands elongations UVARN(MB4:MB4+NX-1)

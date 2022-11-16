@@ -88,8 +88,8 @@ C
 !             global size WA_SIZE (WA_SIZE=WA_SIZE+NVAR)
 !           - add another case for the local position
 !             WA_SIZE = WA_SIZE + 1
-!             the local position is usefull to build 
-!             the glaobl index SPRING_STRUCT(I)%TH_SPRING on PROC0
+!             the local position is useful to build
+!             the global index SPRING_STRUCT(I)%TH_SPRING on PROC0
 !$ENDCOMMENT
 
 C-----------------------------------------------

@@ -119,7 +119,7 @@ C
 C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
 !
-      DO I=1,12  ! lenght max of GBUF%G_HOURG = 12
+      DO I=1,12  ! length max of GBUF%G_HOURG = 12
         II(I) = NEL*(I-1)
       ENDDO
 !
@@ -481,7 +481,7 @@ C
       ELSE  ! IF (IW == 1)
 C---QEPH:------
         IF (IHBE == 23) THEN
-C---Transfert to QBAT------
+C---Transfer to QBAT------
           IF (MPT == 0) THEN
             DO I=1,NEL
               SIG0(1,I) = GBUF%FOR(II(1)+I)  

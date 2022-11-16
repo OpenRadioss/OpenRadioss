@@ -112,7 +112,7 @@ C
               NLAY    = ELBUF_TAB(NG)%NLAY
               GBUF    =>ELBUF_TAB(NG)%GBUF
 !
-              DO I=1,8  ! lenght max of GBUF%G_STRA = 8
+              DO I=1,8  ! length max of GBUF%G_STRA = 8
                 II(I) = NEL*(I-1)
               ENDDO
 
@@ -521,12 +521,12 @@ C---
               NPTS = ELBUF_TAB(NG)%NPTS
               NPG  = NPTR*NPTS
 !
-              DO I=1,8  ! lenght max of GBUF%G_STRA = 8
+              DO I=1,8  ! length max of GBUF%G_STRA = 8
                 II(I) = NEL*(I-1)
               ENDDO
 !
 C
-C pre counting of all NPTT (especialy for PID_51)
+C pre counting of all NPTT (especially for PID_51)
 C
               MPT = IABS(NPT)
               IF (IGTYP == 51 .OR. IGTYP == 52 ) THEN
@@ -1055,7 +1055,7 @@ C------------------------
 C---QEPH:------
                 IF (IHBE == 23) THEN
                   NPG=4
-C---Transfert to QBAT------
+C---Transfer to QBAT------
                   IF (MPT == 0) THEN
                     JJ = JJ + ((9*NPG)+5)*NEL
                   ELSE

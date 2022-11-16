@@ -850,7 +850,7 @@ C----------------------------------
 C----------------------------------
 C     LECTURE DES VARIABLES REELLES
 C--------------------------------------
-C      warning to radioss developpers :
+C      warning to radioss developers :
 C      IF(LVARREA>LMXVREA)THEN
 C        WRITE(*,*) ' ** RADIOSS INTERNAL ERROR'
 C        CALL ARRET(7)

@@ -1188,7 +1188,7 @@ C   ----for spmd SIAD_RBE2,SFR_RBE2-----
       TABVINT(LVARINT)=SIAD_RBE2
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=SFR_RBE2
-C   ----add hierachy for both smp spmd----
+C   ----add hierarchy for both smp spmd----
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NHRBE2
 C --- simplified ale option + lagrange
@@ -1714,7 +1714,7 @@ C---- Time history strain flag
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=TH_STRAIN
 C----------------------------------------------------------------
-C    warning to radioss developpers : Check LVARINT < LMXVINT
+C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------
       IF (LVARINT > LMXVINT)STOP 123
 c-----------
@@ -2060,7 +2060,7 @@ C  INITIAL MASS IN STARTER
 C      
       LVARREA =RVARINT
 C----------------------------------------------------------------
-C    warning to radioss developpers : Check LVARREA < LMXVREA
+C    warning to radioss developers : Check LVARREA < LMXVREA
 C--------------------------------------
       RETURN
       END

@@ -136,7 +136,7 @@ C-------------------
 cc         NPT  = NLAY*NPTT ! not compatible with PID51 (shell)
           MPT   = MAX(1,NPT)
 !
-          DO I=1,8  ! lenght max of GBUF%G_STRA = 8
+          DO I=1,8  ! length max of GBUF%G_STRA = 8
             KK(I) = NEL*(I-1)
           ENDDO
 !

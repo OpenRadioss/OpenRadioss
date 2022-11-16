@@ -111,7 +111,7 @@ C-----------------------------------------------
          LLT=NEL
          G_STRA = GBUF%G_STRA
 !
-         DO J=1,8  ! lenght max of GBUF%G_STRA = 8
+         DO J=1,8  ! length max of GBUF%G_STRA = 8
            KK(J) = NEL*(J-1)
          ENDDO
 !
@@ -297,7 +297,7 @@ C-----------------------------------------------
          LFT=1
          LLT=NEL
 !
-         DO J=1,8  ! lenght max of GBUF%G_STRA = 8
+         DO J=1,8  ! length max of GBUF%G_STRA = 8
            KK(J) = NEL*(J-1)
          ENDDO
 !

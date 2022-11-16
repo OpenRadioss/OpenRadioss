@@ -224,7 +224,7 @@ C--------------------------------------------------
                   ENDDO
                ENDIF
                IF (JCVT == 0 .OR. ISORTH /= 0) THEN
-C                OUTPUT TENSOR STORED IN GLOBAL SYSTEM TO BE TRANSFERED IN THE ELEMENT LOCAL ONE
+C                OUTPUT TENSOR STORED IN GLOBAL SYSTEM TO BE TRANSFERRED IN THE ELEMENT LOCAL ONE
                  CALL QROTA_VECT(X,IXQ(1,NFT+1),JCVT,EVAR,GBUF%GAMA,NEL)
                ENDIF
 c 

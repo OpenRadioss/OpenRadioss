@@ -111,7 +111,7 @@ c        JHBE    = IPARG(23,NG)
         PID = IPART(2,IPRT)
         JHBE   = IGEO(10,PID)   
 !
-        DO I=1,8  ! lenght max of GBUF%G_STRA = 8
+        DO I=1,8  ! length max of GBUF%G_STRA = 8
           KK(I) = NEL*(I-1)
         ENDDO
 !

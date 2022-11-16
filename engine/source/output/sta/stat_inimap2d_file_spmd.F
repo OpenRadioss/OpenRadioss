@@ -254,7 +254,7 @@ C-----------------------------------------------
       ENDIF
   
       IF(NUM_CENTROIDS > 0)THEN
-        !---BOX CONTAING USER-2D-DOMAIN   
+        !---BOX CONTAINING USER-2D-DOMAIN   
         !                                                                                      
         LX=MAX_X-MIN_X                                                                                                          
         LY=MAX_Y-MIN_Y                                    

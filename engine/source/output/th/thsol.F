@@ -308,7 +308,7 @@ c
               IF (GBUF%G_QVIS > 0) WWA(10)= GBUF%QVIS(I)
               WWA(11)= GBUF%VOL(I)
               IF(JLAG==1 .AND. GBUF%RHO(I)>ZERO)THEN
-                WWA(11)=GBUF%VOL(I) * PM(89,IXS(1,NFT+I))/GBUF%RHO(I)    ! GBUF%VOL(I) = V0 for lagrangian solids ; (rho is optionnal for void material law)
+                WWA(11)=GBUF%VOL(I) * PM(89,IXS(1,NFT+I))/GBUF%RHO(I)    ! GBUF%VOL(I) = V0 for lagrangian solids ; (rho is optional for void material law)
               ENDIF
 C-----------
 C             STRESSES COMPUTING IN GLOBAL OR CONVECTED SYSTEM.
@@ -1351,13 +1351,13 @@ C-----------------in global ref : EPSIJK............-----------
                     ENDIF
 
                  ENDDO
-                ENDDO                     
-               ENDDO  
-C-----------------in local ref : L_EPSX............-----------      
+                ENDDO
+               ENDDO
+C-----------------in local ref : L_EPSX............-----------
                DO J= 1,6
                  WWA(239036+J) = STRAIN(J)
                ENDDO
-C-----------------in golbal ref : EPSX............-----------
+C-----------------in global ref : EPSX............-----------
 
               DO J= 1,3
                  WWA(1618+J) = EVAR(J)

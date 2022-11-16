@@ -1803,7 +1803,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,RVARINT,J
 C-----------------------------------------------
-C      warning to radioss developpers :
+C      warning to radioss developers:
 C      IF(LVARREA>LMXVREA)THEN
 C        WRITE(*,*) ' ** RADIOSS INTERNAL ERROR'
 C        CALL ARRET(7)

@@ -206,7 +206,7 @@ c
 
 
        WRITE(IOUTREP,'(A)')'<p>'
-       WRITE(IOUTREP,'(A)')'<li><b>Model Informations</b>'
+       WRITE(IOUTREP,'(A)')'<li><b>Model Information</b>'
        WRITE(IOUTREP,'(A)')'<table cellspacing="0" cellpadding="0">'
        WRITE(IOUTREP,'(A)')'<tr>'
        WRITE(IOUTREP,'(A)')'<td><font face="Arial" size="2">Number of parts: &nbsp;&nbsp;</td>'
@@ -235,7 +235,7 @@ c
 
 
        WRITE(IOUTREP,'(A)')'<p>'
-       WRITE(IOUTREP,'(A)')'<li><b>Mesh informations</b>'
+       WRITE(IOUTREP,'(A)')'<li><b>Mesh information</b>'
        WRITE(IOUTREP,'(A)')'<table cellspacing="0" cellpadding="0">'
        WRITE(IOUTREP,'(A)')'<tr>'
        WRITE(IOUTREP,'(A)')'<td><font face="Arial" size="2">Number of nodes: &nbsp;&nbsp;</td>'

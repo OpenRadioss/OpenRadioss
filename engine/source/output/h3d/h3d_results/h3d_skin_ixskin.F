@@ -370,7 +370,7 @@ C-----------------------------------------------
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    ) 
 !
         IF(MLW == 13 .OR. MLW == 0.OR.ITY /= 1) CYCLE   
-C------ possible to remove(w/ TAG_SKINS6) case of several layers in mesh (even not recommanded)        
+C------ possible to remove(w/ TAG_SKINS6) case of several layers in mesh (even not recommended)        
         IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22) THEN
             NUMSKIN = NUMSKIN + 2*NEL
         ENDIF !IF (IGTYP==20 

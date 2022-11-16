@@ -72,7 +72,7 @@ C-----------------------------------------------
 !           - check if a processor must write its values (SIZE_N>0)
 !           - compute the number of group for a given processor (REST)
 !           - compute the position in the TH file (CURRENT_J)
-!           - initialization of the writen values WA_LOCAL with the position CURRENT_J + J
+!           - initialization of the written values WA_LOCAL with the position CURRENT_J + J
 !        * write the WA_LOCAL values 
 !$ENDCOMMENT
 
