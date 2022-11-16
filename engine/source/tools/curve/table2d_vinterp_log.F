@@ -56,7 +56,7 @@ c            ISMOOTH = 1  => linear interpolation
 c            ISMOOTH = 2  => logarythmic interpolation base 10  
 c            ISMOOTH = 3  => logarythmic interpolation base n
 c   OUTPUT :
-c            YY            interpolated function falue
+c            YY            interpolated function value
 c            DYDX1         partial derivative vs 1st independent variable
 c            DYDX2         partial derivative vs 2nd independent variable
 C-----------------------------------------------

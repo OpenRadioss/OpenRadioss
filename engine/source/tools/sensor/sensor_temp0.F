@@ -188,7 +188,7 @@ c
               DIM_FOR_MEAN = 1
           ENDIF
           !   ----------------
-          !   initialiaze the buffer
+          !   initialize the buffer
           INDEX_MEAN = 0
           DO IJK=1,COMM_SENS17%NUM_SENS
               ISENS = COMM_SENS17%ID_SENS(IJK)

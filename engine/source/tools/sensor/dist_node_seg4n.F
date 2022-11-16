@@ -120,7 +120,7 @@ c---------------------------------------------------
 c     check if projection is inside sub-segments
 c     Q = projection of NODE on segment plane using normal(NPX,NPY,NPZ)
 c---------------------------------------------------
-c     1st sub-segment :       
+c     1st sub-segment :
       QX = NOD_X - D1*N1X / NORM1
       QY = NOD_Y - D1*N1Y / NORM1
       QZ = NOD_Z - D1*N1Z / NORM1
@@ -140,7 +140,7 @@ c
       END IF
 c      
       IF (OK == 0) THEN
-c       Test 2nd sub-segment :       
+c       Test 2nd sub-segment :
         QX = NOD_X - D2*N2X / NORM2
         QY = NOD_Y - D2*N2Y / NORM2
         QZ = NOD_Z - D2*N2Z / NORM2
@@ -159,7 +159,7 @@ c
         END IF
       END IF
       IF (OK == 0) THEN
-c       Test 3rd sub-segment :       
+c       Test 3rd sub-segment :
         QX = NOD_X - D3*N3X / NORM3
         QY = NOD_Y - D3*N3Y / NORM3
         QZ = NOD_Z - D3*N3Z / NORM3
@@ -178,7 +178,7 @@ c
         END IF
       END IF
       IF (OK == 0) THEN
-c       Test 4rd sub-segment :       
+c       Test 4th sub-segment :
         QX = NOD_X - D3*N3X / NORM4
         QY = NOD_Y - D3*N3Y / NORM4
         QZ = NOD_Z - D3*N3Z / NORM4

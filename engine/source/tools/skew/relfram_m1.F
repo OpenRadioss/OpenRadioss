@@ -137,7 +137,7 @@ C      VREL(3)=VG(3)-VE(3)
        AC(2)=2.*(W(3)*VREL(1)-W(1)*VREL(3))
        AC(3)=2.*(W(1)*VREL(2)-W(2)*VREL(1))
 C-----------
-C      relative accelaration in global frame at time T.
+C      relative acceleration in global frame at time T.
 C-----------
        AREL(1)=AREL(1)+AE(1)+AC(1)
        AREL(2)=AREL(2)+AE(2)+AC(2)

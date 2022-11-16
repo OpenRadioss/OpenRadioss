@@ -53,7 +53,7 @@ c
           EXIT
         END IF
       END DO
-c     we assume theres only one NIC-Nij sensor in the model
+c     we assume there's only one NIC-Nij sensor in the model
       IF (ISENS > 0) THEN   
         DO I = 1,NEL
           SPRING_ID = IXR(6,I)

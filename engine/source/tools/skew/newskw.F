@@ -433,7 +433,7 @@ C-----------------------------------------------
 !$COMMENT
 !       NEWSKW_INIT description
 !       initialization of the sent index array ISKWP_L_SEND
-!       and the number of recevied SKEW value (for the comm)
+!       and the number of received SKEW value (for the comm)
 !       
 !       NEWSKW_INIT organization :
 !       - initialize the ISKWP_L_SEND index array :
