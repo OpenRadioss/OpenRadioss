@@ -56,7 +56,8 @@ jobs:
           md5sum exec/* || echo "Nothing in exec/" 
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
-      - uses: actions/checkout@v3
+      - name: Checkout git sources
+        uses: actions/checkout@v3
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
@@ -125,7 +126,8 @@ jobs:
 
   build_tools_windows_no_container:
     if: ${{ github.repository_owner == 'OpenRadioss' }}
-    runs-on: ["win64","prmerge_ci"]
+    runs-on: ["win64","build",prmerge_ci"]
+    continue-on-error: true
  
     env:
       STATUS_BUILD: 0
@@ -163,7 +165,8 @@ jobs:
           "
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
-      - uses: actions/checkout@v3
+      - name: Checkout git sources
+        uses: actions/checkout@v3
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
@@ -182,14 +185,14 @@ jobs:
           echo \"--  $cmd --\";
           echo \"=========================================\";
           cd tools/anim_to_vtk/${{ env.os }};
-          eval $cmd;
+          eval $cmd || exit 1;
           cmd=\"./build.bat\";
           echo \"=========================================\";
           echo \"--  BUILD tools for anim_to_vtk (${{ env.os }}) --\";
           echo \"--  $cmd --\";
           echo \"=========================================\";
           cd ../../th_to_csv/${{ env.os }};
-          eval $cmd;
+          eval $cmd || exit 1;
           echo \"STATUS_BUILD=1\" >> $GITHUB_ENV;
           "
 
@@ -297,7 +300,8 @@ jobs:
           md5sum exec/* || echo "Nothing in exec/" 
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
-      - uses: actions/checkout@v3
+      - name: Checkout git sources
+        uses: actions/checkout@v3
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
@@ -445,7 +449,8 @@ jobs:
     steps:
 
       # Get git related to the commit
-      - uses: actions/checkout@v3
+      - name: Checkout git sources
+        uses: actions/checkout@v3
         with:
           lfs: 'true'
 
@@ -647,7 +652,8 @@ jobs:
           "
           
       # Get last git modifications, don't clean before (way to keep persistent obj files)
-      - uses: actions/checkout@v3
+      - name: Checkout git sources
+        uses: actions/checkout@v3
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
@@ -763,12 +769,14 @@ jobs:
     steps:
 
       # Get git related to the commit
-      - uses: actions/checkout@v3
+      - name: Checkout git sources
+        uses: actions/checkout@v3
         with:
           lfs: 'true'
 
       # Get OpenRadioss extras from dedicated repository
-      - uses: actions/checkout@v3
+      - name: Checkout git EXTRA sources
+        uses: actions/checkout@v3
         with:
           lfs: 'true'
           clean: 'false'
@@ -813,7 +821,7 @@ jobs:
           echo \"--  QA ${{ matrix.os }}_${{ matrix.precision }} --\"; 
           echo \"--  $cmd --\";   
           echo \"=========================================\";
-          eval $cmd; 
+          eval $cmd || exit 1; 
           res=$?;
           nbtestsfailed=$(grep \"# Runs Failed\s*:\" QA.summary | tail -n 1 | awk -F' ' '{print $5}');
           nbtestsok=$(grep \"# Runs Successful\s*:\" QA.summary | tail -n 1 | awk -F' ' '{print $5}');
@@ -922,13 +930,15 @@ jobs:
           rm -rf exec todeliver exec_tmp
 
       # Get last git modifications, don't clean before (way to go faster)
-      - uses: actions/checkout@v3
+      - name: Checkout git sources
+        uses: actions/checkout@v3
         with:
           clean: 'false'
           lfs: 'true'
 
       # Get OpenRadioss extras from dedicated repository
-      - uses: actions/checkout@v3
+      - name: Checkout git EXTRA sources
+        uses: actions/checkout@v3
         with:
           lfs: 'true'
           clean: 'false'
