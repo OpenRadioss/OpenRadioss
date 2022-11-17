@@ -672,7 +672,7 @@ C---
 C element type Q4
               ITY = IGRSH4N(JJ)%GRTYPE
               IF (IGR == JGR) THEN
-                IF (ITY == 3) THEN  !!! obsolette
+                IF (ITY == 3) THEN  !!! obsolete
                   DO II = 1,NEL
                     IDSHEL = IGRSH4N(JJ)%ENTITY(II)
                     PID = IXC(6,IDSHEL)
@@ -780,7 +780,7 @@ C---
 C element type T3 
               ITY = IGRSH3N(JJ)%GRTYPE
               IF (IGR == JGR) THEN
-                IF (ITY == 7) THEN  !!! obsolette
+                IF (ITY == 7) THEN  !!! obsolete
                   DO II = 1,NEL
                     IDSH3N = IGRSH3N(JJ)%ENTITY(II)
                     IDSHEL = IDSH3N + NUMELC

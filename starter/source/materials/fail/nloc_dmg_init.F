@@ -613,7 +613,7 @@ C
           ENDIF
         ENDDO
 c
-        ! Checking non-local lenght consistency with mesh size
+        ! Checking non-local length consistency with mesh size
         DO I = 1, NUMMAT
           IF (WARN_LENGHT(I,1) > ZERO) THEN
             CALL ANCMSG(MSGID=1812,MSGTYPE=MSGWARNING,

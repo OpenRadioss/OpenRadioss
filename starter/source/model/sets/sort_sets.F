@@ -278,7 +278,7 @@ C-----------------------------------------------
              WRITE(6,'(A)') ' ' 
          ENDIF
 
-         ! Create an Edge in the Dependancy Graph
+         ! Create an Edge in the Dependency Graph
          CALL SET_GRAPH_ADD_SET ( IGS, SET_ARRAY, SET_ARRAY_SIZE) 
            
 
@@ -289,7 +289,7 @@ C-----------------------------------------------
       CALL SET_GRAPH_SORT ( SET_LIST , IERROR)
       
       IF (IERROR < 0) THEN
-         print*,'ERROR CIRCULAR DEPENDANCY ON SET ',-IERROR
+         print*,'ERROR CIRCULAR DEPENDENCY ON SET ',-IERROR
          CALL ARRET(2)
       ENDIF
 

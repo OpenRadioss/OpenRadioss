@@ -289,7 +289,7 @@ C-----------------------------------------------
             
             IF(SURF_ID == 0)THEN
               !user forgot to input surf_id
-              ! disply error message : surf_id missing
+              ! display error message : surf_id missing
                 MSGOUT1=''                                                                                              
                 MSGOUT1='MISSING SURFACE IDENTIFIER'                                            
                 MSGOUT2=''                                                                                                                                                                                                                                                                           
@@ -357,7 +357,7 @@ C-----------------------------------------------
                   MSGOUT1=''                                                                                              
                   MSGOUT1='ZDET IS NULL. IT IS NOT POSSIBLE TO DETERMINE DEFAULT SURFACE FOR GROUND DEFINITION'                                            
                   MSGOUT2=''                                                                                                                                                                                                                                                                           
-                  MSGOUT2='SURFACE IDENTIFIER MUST BE INTPUT FOR GROUND DEFINITION'
+                  MSGOUT2='SURFACE IDENTIFIER MUST BE INPUT FOR GROUND DEFINITION'
                   CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
                   BOOL_SKIP_CALC = .TRUE.
                   Nz_SURF=-ONE ! Starter must go on up to normal termination
@@ -954,7 +954,7 @@ C-----------------------------------------------
                         WRITE(IOUT,*)
      .                   ' ** WARNING : SCALED HEIGHT OF CHARGE IS ABOVE THE RANGE, FIGURE 2-9, CURVE=',10,' HC=',ZC/FAC_UNIT
                         WRITE(ISTDO,*)
-     .                   ' ** WARNING : SCALED HEIGHT OF CHARGE IS ABOCE THE RANGE, FIGURE 2-9, CURVE=',10,' HC=',ZC/FAC_UNIT
+     .                   ' ** WARNING : SCALED HEIGHT OF CHARGE IS ABOVE THE RANGE, FIGURE 2-9, CURVE=',10,' HC=',ZC/FAC_UNIT
                     else
                       idx2=idx1+1
                       calculate=.true.

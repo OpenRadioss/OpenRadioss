@@ -220,7 +220,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 C-----------------------------------------------
-c FUNCTION: calculate normale with pertubation
+c FUNCTION: calculate normale with perturbation
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

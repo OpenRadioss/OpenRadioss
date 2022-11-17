@@ -1016,7 +1016,7 @@ C----
 C----
 C-----------------------------
 !-------------------------------------------------------
-c---    filtring 
+c---    filtering
 !-------------------------------------------------------
       CALL HM_GET_FLOATV('Asrate'      ,ASRATE    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('ISRATE'      ,ISRATE    ,IS_AVAILABLE, LSUBMODEL)

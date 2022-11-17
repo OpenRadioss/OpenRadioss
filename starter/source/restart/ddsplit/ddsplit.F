@@ -591,7 +591,7 @@ C-----------------------------------------------
 !                 used for optimize the initialization
 !                 of TAG_XXX array (XXX = NM or SCRT for SCRATCH)
 !                 allocated array in lectur and threadprivate array
-!       NINDX_XXX : number of non-zero TAG_XXX valuee
+!       NINDX_XXX : number of non-zero TAG_XXX value
 !       TAG_XXX : size = NUMNOD
 !                array used to tag an element for
 !                a given interface ; allocated in lectur
@@ -955,7 +955,7 @@ C--------------------------------------
       ALLOCATE(IEBCS_LISTDP0_L(0))
       EBCS_TAB_LOC%nebcs_fvm = 0
       IF (NEBCS > 0) THEN
-! Workaround for isses with Polymorphic types with some compilers
+! Workaround for issues with Polymorphic types with some compilers
 !$OMP CRITICAL
          NEBCS_FVM = 0
          DO II = 1, NEBCS

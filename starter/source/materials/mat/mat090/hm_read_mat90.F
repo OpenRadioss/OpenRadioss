@@ -218,27 +218,27 @@ c-----------------
 !---
  1000 FORMAT(
      & 5X,40H  TABULATED NON LINEAR VISCO ELASTIC LAW,/,
-     & 5X,40H  ----------------------------- --------,//)
+     & 5X,40H  --------------------------------------,//)
  1001 FORMAT(/
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1100 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1150 FORMAT(
      & 5X,'INITIAL YOUNG''S MODULUS. . . . . . . .=',1PG20.13/,
      & 5X,'POISSON''S RATIO. . . . . . . . . . . .=',1PG20.13/)
  1200 FORMAT(
      & 5X,'STRAIN RATE COEFFICIENT . . . . . . . .=',1PG20.13/,
-     & 5X,'FLAG FOR FILTRING STRAIN RATE       . .=',I10/,
+     & 5X,'FLAG FOR FILTERING STRAIN RATE  . . . .=',I10/,
      & 5X,'SHAPE FACTOR FOR UNLOADING  . . . . . .=',1PG20.13/,
-     & 5X,'HYSTERETIC UNLOADING FACTOR  . . . . . =',1PG20.13/,
-     & 5X,'EXPONANT FACTOR FOR UNLOADING  . . .  .=',1PG20.13/)
+     & 5X,'HYSTERETIC UNLOADING FACTOR . . . . . .=',1PG20.13/,
+     & 5X,'EXPONANT FACTOR FOR UNLOADING . . . . .=',1PG20.13/)
  1300 FORMAT(
-     & 5X,'LOADING STRESS FUNCTION NUMBER.. . . . . =',I10/,
+     & 5X,'LOADING STRESS FUNCTION NUMBER  . . . .=',I10/,
      & 5X,'STRAIN RATE . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'SCALE FACTOR. . . . . . . . . . . . . .=',1PG20.13/)
  1500 FORMAT(
      & 5X,'PRESSURE DEPENDENT YIELD FUNCTION . . .=',I10/
-     & 5X,'PRESSURE SCALE FACTOR. . . . . . . . . =',1PG20.13)     
+     & 5X,'PRESSURE SCALE FACTOR . . . . . . . . .=',1PG20.13)
       END

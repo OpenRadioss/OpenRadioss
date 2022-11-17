@@ -562,7 +562,7 @@ C
               IWORKSH(3,II) = IS  ! compter for all stack
 !!            IWORKSH(3,II) = ISUBSTACK(PID)   ! computer by stack ! old conception
             ENDDO            
-C Geo and Igeo orginasation       
+C Geo and Igeo organisation
 !!          I  = NFIRST(IS)
 !!          II = INDX_Q4(I)
 !!          PID = PID_Q4(II)

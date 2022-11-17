@@ -215,7 +215,7 @@ C
             CALL ANCMSG(MSGID=821, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR)             
           ENDIF   
 
-          !!get bijective applocation to retrieve internal order of submaterial.
+          !!get bijective application to retrieve internal order of submaterial.
           !! (internally & historically phase4 is explosive submaterial)
           IF(ILAW==51)THEN                    
             IADBUF = IPM((IMAT-1)*NPROPMI + 7)!IPM(7,IMAT)                       

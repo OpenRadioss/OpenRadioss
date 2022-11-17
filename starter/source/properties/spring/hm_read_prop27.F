@@ -159,7 +159,7 @@ C
       IF (MAX_RUP == ZERO) MAX_RUP = INFINITY
       ! Filtering frequency
       IF (FCUT /= ZERO) THEN
-        ! If a flitering frequency is given by the user
+        ! If a filtering frequency is given by the user
         Fsmooth = 1
       ELSE
         ! If no filtering frequency is given but the flag is activated

@@ -97,7 +97,7 @@ C    IGRPART(IGS)%NENTITY : Entities (parts) number of the GROUP
 C    IGRPART(IGS)%GRTYPE : TYPE ( 0-NOEUDS, 1-BRIC, 2-QUAD,   3-SHELL_4N,
 !                                4-TRUSS,  5-BEAM, 6-SPRINGS,7-SHELL_3N,
 C                               -1 PARTS)
-!!                   GRTYPE --- > OBSOLETTE
+!!                   GRTYPE --- > OBSOLETE
 C    IGRPART(IGS)%SORTED  : FLAG for sorted/unsorted parts
 !                    = 0 -> sorted
 !                    = 1 -> unsorted

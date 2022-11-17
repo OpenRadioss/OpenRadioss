@@ -47,11 +47,11 @@ C     KXIG3D(4,*):IAD  :   ADRESSE DE LA ZONE DES NOS DE NOEUDS DANS IXIG3D
 C                                     IXIG3D(IAD) A IXIG3D(IAD+NNOD-1)
 C     KXIG3D(5,*):ID   :   ID DE L'ELEMENT.
 C     KXIG3D(6,*):ID   :   index of 1st knot in the Xknot vector corresponding to the element
-C     KXIG3D(7,*):ID   :   index of 1nd knot in the Yknot vector corresponding to the element
-C     KXIG3D(8,*):ID   :   index of 1rd knot in the Zknot vector corresponding to the element
-C     KXIG3D(9,*):ID   :   index of 2st knot in the Xknot vector corresponding to the element
+C     KXIG3D(7,*):ID   :   index of 1st knot in the Yknot vector corresponding to the element
+C     KXIG3D(8,*):ID   :   index of 1st knot in the Zknot vector corresponding to the element
+C     KXIG3D(9,*):ID   :   index of 2nd knot in the Xknot vector corresponding to the element
 C     KXIG3D(10,*):ID  :   index of 2nd knot in the Yknot vector corresponding to the element
-C     KXIG3D(11,*):ID  :   index of 2rd knot in the Zknot vector corresponding to the element
+C     KXIG3D(11,*):ID  :   index of 2nd knot in the Zknot vector corresponding to the element
 C     KXIG3D(12,*):    :
 C     KXIG3D(13,*):    :   
 C     KXIG3D(14,*):    :   

@@ -158,7 +158,7 @@ C      which is good enough for cases where N2 << N1
        
        INTEGER, INTENT(IN)    ::  NBCONTY,IDC,IDSURF,IVOLSURF(NSURF),NSURF_INVOL
        my_real, INTENT(IN)    ::  X1(3,N1) ! Coordinates 
-       my_real, INTENT(IN)    ::  EPS  ! Minimum distance between two disctinct points
+       my_real, INTENT(IN)    ::  EPS  ! Minimum distance between two distinct points
        INTEGER, INTENT(IN)    ::  ID_X2(N2)  ! Indexes of 'root' coordinates
        INTEGER, INTENT(IN)    ::  N1,N2      ! N1: total number of nodes
                                              ! N2: number of root nodes

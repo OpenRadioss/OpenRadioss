@@ -166,7 +166,7 @@ c
         ASRATE    = 10000.0D0*FAC_T_WORK
       ELSE
         IF (ASRATE /= ZERO) THEN
-          ! If a flitering frequency is given by the user
+          ! If a filtering frequency is given by the user
           ISRAT     = 1
           ISRATE    = MAX(ISRATE,ISRAT)
         ELSE

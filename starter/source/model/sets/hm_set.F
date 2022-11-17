@@ -181,7 +181,7 @@ C     Characters
       CHARACTER KEYSET*ncharfield,SET_TYPE*ncharfield,KEY*ncharkey,KEY_TYPE*ncharfield
       CHARACTER TITLE*nchartitle,SET_TITLE*nchartitle,KEYPART*ncharkey,TITLE2*nchartitle
 C-----------------------------------------------
-C Initialization / SET Dependancy build
+C Initialization / SET Dependency build
 C-----------------------------------------------
 
       IDEBUG =  0

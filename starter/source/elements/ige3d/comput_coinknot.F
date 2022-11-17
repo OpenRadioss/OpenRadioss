@@ -118,7 +118,7 @@ C
         DIRTANG1 = 2
         DIRTANG2 = 3
         IDNBCUT=12
-        ID1KNOT1=7  ! index of 1nd knot in the Yknot vector corresponding to the element
+        ID1KNOT1=7  ! index of 1st knot in the Yknot vector corresponding to the element
         ID2KNOT1=10 ! index of 2nd knot in the Yknot vector corresponding to the element
         ID1KNOT2=8  ! index of 1st knot in the Zknot vector corresponding to the element
         ID2KNOT2=11 ! index of 2nd knot in the Zknot vector corresponding to the element

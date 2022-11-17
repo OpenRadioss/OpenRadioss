@@ -206,7 +206,7 @@ C.....* Storage IPARI FRIGAP *.......
 C------------------------------------------------------------
 
        IF(IFORM==2) THEN
-C VISC is a non documennted parameter
+C VISC is a non documented parameter
             IF(VISC==ZERO) VISC=EM01
        END IF
 

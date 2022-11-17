@@ -326,7 +326,7 @@ c
          SELECT CASE (DIR)
           CASE(1)
             IDNBCUT=12 ! where the nb of cut wished is located
-            IDKNOT1=6  ! index of 1nd knot in the Xknot vector 
+            IDKNOT1=6  ! index of 1st knot in the Xknot vector 
             IDKNOT2=9  ! index of 2nd knot in the Xknot vector
             OFFSET_KNOT=IAD_KNOT
             PDIR=PX

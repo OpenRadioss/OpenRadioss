@@ -1810,7 +1810,7 @@ C  DAM3ILYKK ( KK=001,200)
 C  DAM4ILYKK ( KK=001,200)
 C  EINTILKK
         DO KK = 1, 199
-C  3 stresss + 3 strain  + 3 average stress + 3 average strain + 4 max damage 
+C  3 stress + 3 strain + 3 average stress + 3 average strain + 4 max damage 
 C   + EINT          
           II = 30882 + (KK -1)*(6*4 + 11)
           DO J = 1,4

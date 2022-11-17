@@ -447,7 +447,7 @@ C-----------
              ENDDO
 C-------
              !---------
-             !  3 node element surface rearangement ( N4 = N3 ) after permutation
+             !  3 node element surface rearrangement ( N4 = N3 ) after permutation
              !---------
              DO L=1,NSEG
                INOD(1) = BUFTMP((L-1)*NISX+1)

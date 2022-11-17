@@ -366,7 +366,7 @@ C.......* Storage IPARI FRIGAP *........
         FRIGAP(16) = GAPMAX
         FRIGAP(23) = DEPTH
         FRIGAP(15) = PMAX
-        IPARI(52) = IFTLIM  ! flag to dactivate tangential force limitation (default =1)
+        IPARI(52) = IFTLIM  ! flag to deactivate tangential force limitation (default =1)
 
 C------------------------------------------------------------
 C  Card3 

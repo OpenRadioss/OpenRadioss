@@ -116,7 +116,7 @@ C
           CALL C_IFRONT(I,CPT)
           !returns in CPT the number of procs on which node I is sticked  
           IF(FLAGKIN(I)==0)THEN
-           !FLAGKIN array identies boundary nodes with kinematic constraints
+           !FLAGKIN array identities boundary nodes with kinematic constraints
            !(FLAGKIN(N)=1 <=> old FRONT TAG=10)  
            !FLAGKIN(N) can be set to one only for first SPMD domain       
            !Add CPT-1 in order to don't take into account current proc himself

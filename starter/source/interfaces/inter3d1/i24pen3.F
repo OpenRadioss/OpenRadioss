@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       INTEGER IWPENE,TAG(*),INACTI,NSV(*),NSN,MSEGTYP(*),IWPENE0,
      .        MVOISN(4,*),ILEV,KNOD2ELS(*),NOD2ELS(*),IPARTNS(*),NRTM
-C----  IWPENE0 : nb of tiny inital pene;  IWPENE nb of inital pene  
+C----  IWPENE0 : nb of tiny initial pene;  IWPENE nb of initial pene
 C     REAL
       my_real
      .   GAPV(*)
@@ -80,7 +80,7 @@ C     REAL
       my_real
      .   X(3,*),PMIN(*),GAP_N(12,*),PENMAX,PENMIN,PEN_OLD(5,NSN),
      .   XFIC(3,*)
-C--------GAP_N(1,*) stock temporarily characristic length for Pen_max
+C--------GAP_N(1,*) stock temporarily characteristic length for Pen_max
       INTEGER ID,IPEN0
       CHARACTER*nchartitle,
      .   TITR
@@ -148,7 +148,7 @@ C---------outside
 c         IF(IPRI>=1)WRITE(IOUT,FMT=FMT_6I)ITAB(NS),L,
 c     .                    (ITAB(IRECT(JJ,L)),JJ=1,4)
         ELSE
-C------initial penatration case 1) |PEN|<TOL : on, 2) Inacti<0 on,3)Inacti=3,4
+C------initial penetration case 1) |PEN|<TOL : on, 2) Inacti<0 on,3)Inacti=3,4
 C-------warnning out for 2),3),4)
 C --------MSEGTYP /=0 ->shell ---
           PEN0=NN(1)*(XI-XC)+NN(2)*(YI-YC)+NN(3)*(ZI-ZC)
@@ -163,7 +163,7 @@ C----------coating shell is like solid now----
           IF (MSEGTYP(L)/=0.AND.MSEGTYP(L)<=NRTM) THEN
            PEN=GAPV(I)-ABS(PEN0)
            IF (PEN > PENMAX ) IDEL = 0
-C-debug sandwish shell : avoid elimination with high thicknees outside           
+C-debug sandwish shell : avoid elimination with high thickness outside
            IF (PEN > ZERO) DIST = ABS(GAPV(I)-PEN0)
 C----------give up the the wrong one (normal direction, and)           
            IF (PEN0 < ZERO .OR. PEN > PENMAX) PEN=-ABS(PEN)-TOL

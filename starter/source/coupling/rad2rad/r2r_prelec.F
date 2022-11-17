@@ -790,7 +790,7 @@ C--> type2 interfaces with penality are treated like type7  <------C
                ENDIF
              ENDIF   	      
 
-C--> check if the contact is between domains and if it's asymetric  <------C	   		      	          
+C--> check if the contact is between domains and if it's asymmetric  <------C	   		      	          
              CALL TAGINT_R2R(G1,G2,GRS,GRM,ID_INTER,
      .                	     TYPE2,VAL,TAG,I,COMPT,PASSE,0,IGRPP_R2R,
      .                       IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
@@ -827,7 +827,7 @@ C ---------> case of TYPE18 contact interface-----------------------------------
              CALL HM_GET_INTV('tempsecondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
              CALL HM_GET_INTV('mainentityids',GRM,IS_AVAILABLE,LSUBMODEL)
 
-C--> check if the contact is between domains and if it's asymetric  <------C
+C--> check if the contact is between domains and if it's asymmetric  <------C
              IF (GRS > 0) THEN	   		      	          
                CALL TAGINT_R2R(G1,G2,GRS,GRM,ID_INTER,
      .                	     TYPE2,VAL,TAG,I,COMPT,PASSE,0,IGRPP_R2R,
@@ -869,7 +869,7 @@ C
 	     WARN = 0   	  	        
              CALL HM_GET_INTV('secondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
              CALL HM_GET_INTV('mainentityids',GRM,IS_AVAILABLE,LSUBMODEL)	     	      
-C--> check if the contact is between domains and if it's asymetric  <------C	   		      	          
+C--> check if the contact is between domains and if it's asymmetric  <------C	   		      	          
              CALL TAGINT_R2R(G1,G2,GRS,GRM,ID_INTER,
      .                	     TYPE2,VAL,TAG,I,COMPT,PASSE,2,IGRPP_R2R,     
      .                       IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
@@ -907,7 +907,7 @@ C--> pretag of elts of line2 to keep them with void material <---C
              CALL HM_GET_INTV('secondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
              CALL HM_GET_INTV('mainentityids',GRM,IS_AVAILABLE,LSUBMODEL)	
              IF ((FLAG_T24 == 1).AND.(GRM==0)) GRM = GRS      	
-C--> check if the contact is between domains and if it's asymetric  <------C   		      	          
+C--> check if the contact is between domains and if it's asymmetric  <------C   		      	          
              CALL TAGINT_R2R(G1,G2,GRS,GRM,ID_INTER,
      .                	     TYPE2,VAL,TAG,I,COMPT,PASSE,1,IGRPP_R2R,
      .                       IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
