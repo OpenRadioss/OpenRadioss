@@ -182,7 +182,7 @@ C---------------------------------
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
-         PHI(I) = PHI(I) + FHEAT * EFRICT(I) * *THEACCFACT
+         PHI(I) = PHI(I) + FHEAT * EFRICT(I) * THEACCFACT
        ENDDO
 C
       ELSE
