@@ -1144,7 +1144,6 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
             KK  =ADDSUBE(IE)
             DO WHILE(JJ<ADDSUBSFIE(NIN)%P(IL+1))
               JSUB=  LISUBSFIE(NIN)%P(JJ)
-              JSUB=LISUBE(JJ)
               ITYPSUB = TYPSUB(JSUB) 
 
               IF(ITYPSUB == 1 ) THEN  ! Defining specific inter
