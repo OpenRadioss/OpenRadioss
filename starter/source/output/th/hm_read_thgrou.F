@@ -148,7 +148,7 @@ C
       CHARACTER*10 VARRIV(NVARRIV),VARRIVG(NVARRIVG)
 C-----------------------------------------------
       PARAMETER (NVARN = 637,NVARS =239554 ,NVARC = 37856,NVART = 6)
-      PARAMETER (NVARP = 11,NVARR = 65,NVARUR = 12)
+      PARAMETER (NVARP = 254,NVARR = 65,NVARUR = 12)
       PARAMETER (NVARNS = 4,NVARSPH = 41)
       PARAMETER (NVARIN = 28,NVARRW = 6,NVARRB =15,NVARFX =4)
       PARAMETER (NVARFXM = 3)
@@ -898,7 +898,55 @@ C   beams
       DATA VARP/
      . 'OFF     ','F1      ','F2      ','F3      ','M1      ',
      . 'M2      ','M3      ','IE      ','SX      ','SXY     ',
-     . 'SZX     '/
+     . 'SZX     ','SX_1    ','SXY_1   ','SZX_1   ','SX_2    ',
+     . 'SXY_2   ','SZX_2   ','SX_3    ','SXY_3   ','SZX_3   ',
+     . 'SX_4    ','SXY_4   ','SZX_4   ','SX_5    ','SXY_5   ',
+     . 'SZX_5   ','SX_6    ','SXY_6   ','SZX_6   ','SX_7    ',
+     . 'SXY_7   ','SZX_7   ','SX_8    ','SXY_8   ','SZX_8   ',
+     . 'SX_9    ','SXY_9   ','SZX_9   ','SX_10   ','SXY_10  ',
+     . 'SZX_10  ','SX_11   ','SXY_11  ','SZX_11  ','SX_12   ',
+     . 'SXY_12  ','SZX_12  ','SX_13   ','SXY_13  ','SZX_13  ',
+     . 'SX_14   ','SXY_14  ','SZX_14  ','SX_15   ','SXY_15  ',
+     . 'SZX_15  ','SX_16   ','SXY_16  ','SZX_16  ','SX_17   ',
+     . 'SXY_17  ','SZX_17  ','SX_18   ','SXY_18  ','SZX_18  ',
+     . 'SX_19   ','SXY_19  ','SZX_19  ','SX_20   ','SXY_20  ',
+     . 'SZX_20  ','SX_21   ','SXY_21  ','SZX_21  ','SX_22   ',
+     . 'SXY_22  ','SZX_22  ','SX_23   ','SXY_23  ','SZX_23  ',
+     . 'SX_24   ','SXY_24  ','SZX_24  ','SX_25   ','SXY_25  ',
+     . 'SZX_25  ','SX_26   ','SXY_26  ','SZX_26  ','SX_27   ',
+     . 'SXY_27  ','SZX_27  ','SX_28   ','SXY_28  ','SZX_28  ',
+     . 'SX_29   ','SXY_29  ','SZX_29  ','SX_30   ','SXY_30  ',
+     . 'SZX_30  ','SX_31   ','SXY_31  ','SZX_31  ','SX_32   ',
+     . 'SXY_32  ','SZX_32  ','SX_33   ','SXY_33  ','SZX_33  ',
+     . 'SX_34   ','SXY_34  ','SZX_34  ','SX_35   ','SXY_35  ',
+     . 'SZX_35  ','SX_36   ','SXY_36  ','SZX_36  ','SX_37   ',
+     . 'SXY_37  ','SZX_37  ','SX_38   ','SXY_38  ','SZX_38  ',
+     . 'SX_39   ','SXY_39  ','SZX_39  ','SX_40   ','SXY_40  ',
+     . 'SZX_40  ','SX_41   ','SXY_41  ','SZX_41  ','SX_42   ',
+     . 'SXY_42  ','SZX_42  ','SX_43   ','SXY_43  ','SZX_43  ',
+     . 'SX_44   ','SXY_44  ','SZX_44  ','SX_45   ','SXY_45  ',
+     . 'SZX_45  ','SX_46   ','SXY_46  ','SZX_46  ','SX_47   ',
+     . 'SXY_47  ','SZX_47  ','SX_48   ','SXY_48  ','SZX_48  ',
+     . 'SX_49   ','SXY_49  ','SZX_49  ','SX_50   ','SXY_50  ',
+     . 'SZX_50  ','SX_51   ','SXY_51  ','SZX_51  ','SX_52   ',
+     . 'SXY_52  ','SZX_52  ','SX_53   ','SXY_53  ','SZX_53  ',
+     . 'SX_54   ','SXY_54  ','SZX_54  ','SX_55   ','SXY_55  ',
+     . 'SZX_55  ','SX_56   ','SXY_56  ','SZX_56  ','SX_57   ',
+     . 'SXY_57  ','SZX_57  ','SX_58   ','SXY_58  ','SZX_58  ',
+     . 'SX_59   ','SXY_59  ','SZX_59  ','SX_60   ','SXY_60  ',
+     . 'SZX_60  ','SX_61   ','SXY_61  ','SZX_61  ','SX_62   ',
+     . 'SXY_62  ','SZX_62  ','SX_63   ','SXY_63  ','SZX_63  ',
+     . 'SX_64   ','SXY_64  ','SZX_64  ','SX_65   ','SXY_65  ',
+     . 'SZX_65  ','SX_66   ','SXY_66  ','SZX_66  ','SX_67   ',
+     . 'SXY_67  ','SZX_67  ','SX_68   ','SXY_68  ','SZX_68  ',
+     . 'SX_69   ','SXY_69  ','SZX_69  ','SX_70   ','SXY_70  ',
+     . 'SZX_70  ','SX_71   ','SXY_71  ','SZX_71  ','SX_72   ',
+     . 'SXY_72  ','SZX_72  ','SX_73   ','SXY_73  ','SZX_73  ',
+     . 'SX_74   ','SXY_74  ','SZX_74  ','SX_75   ','SXY_75  ',
+     . 'SZX_75  ','SX_76   ','SXY_76  ','SZX_76  ','SX_77   ',
+     . 'SXY_77  ','SZX_77  ','SX_78   ','SXY_78  ','SZX_78  ',
+     . 'SX_79   ','SXY_79  ','SZX_79  ','SX_80   ','SXY_80  ',
+     . 'SZX_80  ','SX_81   ','SXY_81  ','SZX_81  '/
 C   springs
       DATA VARR/
      . 'OFF     ','FX      ','FY      ','FZ      ','MX      ',

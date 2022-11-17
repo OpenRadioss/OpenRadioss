@@ -61,12 +61,12 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,I,J,K,L,N,IP,IH,NG,IPT,NPT,ITY,MTE,LWA,
+      INTEGER II,I,J,K,L,N,IP,IH,NG,IPT,NPT,ITY,MTE,LWA,JJ,IK,
      .        ILAYER,NEL,NFT,IGTYP,IPA,KK(3)
       INTEGER :: NITER,IAD,NN,IADV,NVAR,ITYP,IJK,PID
 C
       my_real
-     .        AREA,AREAPT,SX,SXY,SZX     
+     .        AREA,AREAPT,SX,SXY,SZX,IDX     
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY
       TYPE(L_BUFEL_)  ,POINTER :: LBUF
@@ -201,10 +201,15 @@ C
 
                                            END IF !(BUFLY%L_SIG > 0) 
                                         END IF! (IGTYP) 
-
-
-!                                    ELSEIF (ITHBUF(L) == 9) THEN
-!                                        WA(IJK)=ZERO
+                                    ELSEIF (ITHBUF(L) > 11 .AND.ITHBUF(L) <= 254 ) THEN
+                                        IF(IGTYP == 18 ) THEN
+                                            IDX = (ITHBUF(L) - 12)/ 3                                            
+                                            JJ  = NINT(IDX)
+                                            IPT = JJ + 1
+                                            IK  = MOD((ITHBUF(L) - 12),3) + 1
+                                            LBUF  => BUFLY%LBUF(1,1,IPT) 
+                                            WA(IJK) = LBUF%SIG(KK(IK)+I)
+                                        ENDIF
                                     ENDIF
                                 ENDDO
                                 IJK = IJK + 1
