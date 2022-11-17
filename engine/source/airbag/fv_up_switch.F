@@ -97,6 +97,7 @@ C-----------------------------------------------
 #include      "scr16_c.inc"
 #include      "scr17_c.inc"
 #include      "tabsiz_c.inc"
+#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -189,6 +190,18 @@ C
       INTEGER :: COUNT, IDT_FVMBAG, PARAM_L_TYPE
       MY_REAL :: CPAM, CPBM, CPCM, RGASM, CPDM, CPEM, CPFM
       MY_REAL :: DTOLD, LAMBDA
+
+C-----------------------------------------------
+C   C O M M E N T S
+C-----------------------------------------------
+C   NEL : number of triangles (external surface only)
+C  NELT : number of traingles (both internal & external surfaces)
+C   NNS : number of nodes of TETRA mesh
+C   NNA : number of 'additional' nodes
+C   NNT : total number of nodes
+C  NNTR : number of triangles (all polyhedra)
+C NPOLH : number of polyhedron
+C NPOLY : number of polygons
 
 C-----------------------------------------------
 C   S O U R C E   L I N E S
@@ -384,12 +397,12 @@ C-----------------------------------------------
 !     SURFACE AND NORMAL COMPUTATION FOR FABRIC ELEMENT    !
 !     =================================================    !
 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNT
          NODAREA(I)=ZERO
       ENDDO
 !$OMP END DO
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO IEL=1,NELT
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
@@ -453,7 +466,7 @@ C
 !     VOLUME OF THE FINITE VOLUMES    !
 !     ============================    !
 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO IEL = 1, NELT
          NX = NORM(1, IEL)
          NY = NORM(2, IEL)
@@ -468,7 +481,7 @@ C
       ENDDO
 !$OMP END DO
 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I = 1, NPOLH
          PVOLU(I) = ZERO
          DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS_SIZE
@@ -615,7 +628,7 @@ C---------------------------------------------------
          PORO(1:NELT)=ZERO
       ELSE
 !$OMP PARALLEL PRIVATE(IEL,N1,N2,N3)
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
          DO IEL=1,NELT
             N1=ELEM(1,IEL)
             N2=ELEM(2,IEL)
@@ -695,7 +708,7 @@ C----------------------
 !     ==================    !
 !     FLUXES COMPUTATION    !
 !     ==================    !
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
          DO IEL = 1, NELT
             MASS_FLUX(IEL) = ZERO
             MOMENTUM_FLUX_X(IEL) = ZERO
@@ -993,7 +1006,7 @@ C
 ! --- PRIVATE(AREAMAX)
 !$OMP+ PRIVATE(ITYPL,J,IEL,COUNT)
 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I = 1, NPOLH
          MSINI = MPOLH(I)
          CPAPOLH(I) = MSINI * CPAPOLH(I)
@@ -1131,7 +1144,7 @@ C---------------------------------------------------
         CASE(0,1)
         ! ------------ 
            PARAM_L_TYPE = 0
-!$OMP DO SCHEDULE(GUIDED,1)        
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)        
           DO I=1,NPOLH
              IF (IBPOLH(I) == 0) THEN
                 DLS(I)=DLH !POLYHEDRON CONSTANT CHARACTERISTIC LENGTH COMPUTED IN THE STARTER
@@ -1149,21 +1162,21 @@ C---------------------------------------------------
           SELECT CASE(PARAM_L_TYPE)
             CASE(0,1) !dlh = starter constant
             ! /DT/FVMBAG/2 + L_TYPE=0,1 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
               DO I=1,NPOLH
                 DLS(I)=DLH 
               ENDDO
 !$OMP END DO          
             CASE(2) ! dl=VOL**1/3
             ! /DT/FVMBAG/2 + L_TYPE=2
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
               DO I=1,NPOLH
                 DLS(I)=PVOLU(I)**THIRD  
               ENDDO
 !$OMP END DO       
             CASE(3) ! dl=VOL**1/3
             ! /DT/FVMBAG/2 + L_TYPE=3
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
               DO I=1,NPOLH
                 DLS(I)=PVOLU(I)  
               ENDDO
@@ -1179,7 +1192,7 @@ C---------------------------------------------------
       SELECT CASE (IDT_FVMBAG)
 
         CASE(0,1)
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
           DO I=1,NPOLH
              IF(MPOLH(I)<=ZERO.OR.EPOLH(I)<=ZERO.OR.GPOLH(I)<=ONE) THEN
                DTPOLH(I)=EP30
@@ -1206,7 +1219,7 @@ C
          PARAM_L_TYPE = FVDATA(IFV)%L_TYPE !characteristic length formulation
         
           IF(PARAM_L_TYPE /= 3)THEN !L_TYPE=0/1 & 2        
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
            DO I=1,NPOLH
              IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= ONE) THEN
                 DTPOLH(I)=EP30
@@ -1250,7 +1263,7 @@ C
 !$OMP END DO
 
           ELSE !L_TYPE=3 ! check all faces and compute normal relative velocities
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
            DO I = 1, NPOLH
              SS_=ZERO
              DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS_SIZE
@@ -1321,7 +1334,7 @@ C---------------------------------------------------
 !$OMP PARALLEL PRIVATE(N1,N2,N3,IEL,NX,NY,NZ)
 !$OMP+ PRIVATE(VX1,VX2,VX3,VY1,VY2,VY3,VZ1,VZ2,VZ3)
 !$OMP+ PRIVATE(VVX,VVY,VVZ,I1,I2,AREA,IVENT,IDEF,IVENTYP,AOUT,PP,P1,P2,PMEAN,AREA_OLD,AREA1,SS_)
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO IEL=1,NELT
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
@@ -1409,7 +1422,7 @@ C---------------------------------------------------
 !$OMP PARALLEL PRIVATE(I, J, IEL)
 !$OMP+ PRIVATE(NX, NY, NZ, N1, N2, N3, VX1, VX2, VX3, VY1, VY2, VY3, VZ1, VZ2, VZ3)
 !$OMP+ PRIVATE(VVX, VVY, VVZ, I1, I2, PP, AREA_OLD, AREA, AREA1, SS_)
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I = 1, NPOLH
          DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS_SIZE
             IEL = FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS(J)
@@ -1674,7 +1687,7 @@ C     PEL(1:NELT)=ZERO
 !$OMP PARALLEL PRIVATE(I,J,JJ,K,KK,IEL,JEL,II,NV)
 !$OMP+ PRIVATE(NX,NY,NZ,NRX,NRY,NRZ)
 !$OMP+ PRIVATE(FAC,AREA,I1,I2)
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO IEL = 1, NELT
          AREA = ELAREA(IEL)
          I1 = FVDATA(IFV)%TRI_TO_ELEM(1, IEL)
@@ -1695,7 +1708,7 @@ C------------------
 C VENT HOLES
 C------------------
       IF(PREPARE_ANIM == 1) THEN
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
         DO IEL=1,NEL
            IF(ITAGEL(IEL)<0) THEN
              UEL(1,IEL)=ELFVEL(IEL)*NORM(1,IEL)
@@ -1718,7 +1731,7 @@ C------------------
 !$OMP END SINGLE
       ENDIF
 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNT
         P(I)=ZERO
       ENDDO
