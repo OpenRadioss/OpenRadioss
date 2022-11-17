@@ -49,12 +49,12 @@ C-----------------------------------------------
 #include      "task_c.inc"
 C     DTMIN1
 #include      "scr18_c.inc"
+#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MONVOL(*)
-      my_real
-     .        X(3,*), V(3,*), VOLMON(*)
+      my_real X(3,*), V(3,*), VOLMON(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -275,6 +275,7 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "units_c.inc"
 #include      "task_c.inc"
+#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -454,7 +455,7 @@ C
 !$OMP+ PRIVATE(KSI,ETA,FAC,I1,I2)
 C
 C Calcul position et vitesse des noeuds internes 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNA
         IF(NCONA(2,I) == 0) THEN
            FVSPMD(IFV)%WAV(1,I)=ZERO
@@ -476,7 +477,7 @@ C Calcul position et vitesse des noeuds internes
 !$OMP END DO
 
       IF(DT1 == ZERO) THEN         
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
         DO I=1,NNA
           IF(NCONA(2,I) == 0) THEN
              FVSPMD(IFV)%WAV(1,I)=RVOLU(67)
@@ -488,7 +489,7 @@ C Calcul position et vitesse des noeuds internes
       ENDIF
 
 C Calcul la position des noeuds internes 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNA
         IF(NCONA(2,I) == 0) THEN
            VVVA(1,I)=FVSPMD(IFV)%WAV(1,I)
@@ -503,7 +504,7 @@ C Calcul la position des noeuds internes
 
 
 C Calcul la position de tous les points 
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNS
          IF (IFVNOD(1,I)==1) THEN
             IEL=IFVNOD(2,I)
@@ -546,7 +547,7 @@ C
       ENDDO
 !$OMP END DO
 
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNS
          IF (IFVNOD(1,I)==3) THEN
             I1=IFVNOD(2,I)
@@ -560,7 +561,7 @@ C
 !$OMP END DO
 
       IF (NPOLH_ANIM>0) THEN
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
          DO I=1,NNS_ANIM             
             II=REDIR_ANIM(I)         
             NOD_ANIM(1,I)=PNOD(1,II) 
@@ -571,7 +572,7 @@ C
       ENDIF 
 	  
 C Normale et aire des triangles
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNTR
          N1=IFVTRI(1,I)
          N2=IFVTRI(2,I)
@@ -609,7 +610,7 @@ C Normale et aire des triangles
 !$OMP END DO
 C
 C Volume des polyhedres
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NPOLH
          PVOLU(I)= ZERO
          PVOLTMP = ZERO
@@ -707,7 +708,7 @@ C
       ENDDO
 C Volume max de voisins
 !$OMP PARALLEL PRIVATE(I,J,JJ,K,KK,IEL,II)
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NPOLH
          VVMAX(I)=ZERO
          DO J=IFVPADR(I),IFVPADR(I+1)-1
@@ -873,17 +874,17 @@ C
       ALLOCATE(IFVPOLH_OLD(LEN))
 
 !$OMP PARALLEL PRIVATE(I)
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ) 
       DO I=1,IFVPADR(NPOLH+1)-1
          IFVPOLH_OLD(I)=IFVPOLH(I)
       ENDDO
 !$OMP END DO
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ) 
       DO I=1,NPOLH+1
          IFVPADR_OLD(I)=IFVPADR(I)
       ENDDO
 !$OMP END DO
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ) 
       DO I=1,NPOLH
          MPOLH_OLD(I)=MPOLH(I)
          QPOLH_OLD(1,I)=QPOLH(1,I)
@@ -1048,7 +1049,7 @@ C
 !$OMP+ PRIVATE(TEMP,TEMP0,EFAC,CPA,CPB,CPC,CPD,CPE,CPF,RMW)
 !$OMP+ PRIVATE(ITYPL)
       ITYPL = ITYP
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ) 
       DO I=1,NPOLH
          IF( EPOLH(I) <= ZERO .OR. 
      .       MPOLH(I) <= ZERO .OR. 

@@ -95,6 +95,7 @@ C-----------------------------------------------
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
 #include      "scr17_c.inc"
+#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -178,6 +179,19 @@ C
       CHARACTER*20 VENTTITLE
       MY_REAL :: DTOLD, PARAM_LAMBDA
       INTEGER :: PARAM_L_TYPE
+
+C-----------------------------------------------
+C   C o m m e n t s
+C-----------------------------------------------
+C   NEL : number of triangles (external surface only)
+C  NELT : number of traingles (both internal & external surfaces)
+C   NNS : number of nodes of TETRA mesh
+C   NNA : number of 'additional' nodes
+C   NNT : total number of nodes
+C  NNTR : number of triangles (all polyhedra)
+C NPOLH : number of polyhedron
+C NPOLY : number of polygons
+
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -239,17 +253,17 @@ C---------------------------------------------------
 C Normal Vectors & Surfaces
 C---------------------------------------------------
 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNT
          NODAREA(I)=ZERO
       ENDDO
 !$OMP END DO
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO IEL=1,NELT
         FEL(IEL)=ZERO
       ENDDO
 !$OMP END DO
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO IEL=1,NELT
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
@@ -315,7 +329,7 @@ C Nodes
 C
 
 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNS
          IF (IFVNOD(1,I) == 1) THEN
             IEL=IFVNOD(2,I)
@@ -381,7 +395,7 @@ C
 !$OMP END DO
 
 C internal node
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNS
          IF (IFVNOD(1,I) == 3) THEN
             I1=IFVNOD(2,I)
@@ -397,7 +411,7 @@ C internal node
       ENDDO
 !$OMP END DO
 C Normal vector, area, grid velocity in triangle center
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNTR
          N1=IFVTRI(1,I)
          N2=IFVTRI(2,I)
@@ -448,7 +462,7 @@ C Normal vector, area, grid velocity in triangle center
 !$OMP END DO
 C Polyhedra centers
 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NPOLH
          PVOLU(I)= ZERO
          PVOLTMP = ZERO
@@ -630,7 +644,7 @@ C---------------------------------------------------
          PORO(1:NELT)=ZERO
       ELSE
 !$OMP PARALLEL PRIVATE(IEL,N1,N2,N3)
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
          DO IEL=1,NELT
             N1=ELEM(1,IEL)
             N2=ELEM(2,IEL)
@@ -701,7 +715,7 @@ C----------------------
          PU(2,1:NPOLH)=QPOLH(2,1:NPOLH)/MPOLH(1:NPOLH)
          PU(3,1:NPOLH)=QPOLH(3,1:NPOLH)/MPOLH(1:NPOLH)
 !$OMP END SECTIONS
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NPOLH
          DO J=IFVPADR(I),IFVPADR(I+1)-1
             JJ=IFVPOLH(J)
@@ -1100,7 +1114,7 @@ C
 !$OMP+ PRIVATE(ITYPL)
 
       ITYPL = ITYP
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NPOLH
          ITAGP(I)=0
          MSINI=MPOLH(I)
@@ -1196,7 +1210,7 @@ C---------------------------------------------------
         ! ------------ 
           PARAM_L_TYPE = 0
 
-!$OMP DO SCHEDULE(GUIDED,1)        
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)        
           DO I=1,NPOLH
              IF (IBPOLH(I) == 0 .AND.IDTMIN(52) < 2) THEN
                DLS(I)=DLH ! constant length calculated during starter
@@ -1215,7 +1229,7 @@ C---------------------------------------------------
 
             ! /DT/FVMBAG/2 +L_TYPE=0,1          
             CASE(0,1) !dl = starter constant
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
               DO I=1,NPOLH
                 DLS(I)=DLH 
               ENDDO
@@ -1223,7 +1237,7 @@ C---------------------------------------------------
 
             ! /DT/FVMBAG/2 +L_TYPE=2 
             CASE(2) ! dl=VOL**1/3
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
               DO I=1,NPOLH
                 DLS(I)=PVOLU(I)**THIRD  
               ENDDO
@@ -1231,7 +1245,7 @@ C---------------------------------------------------
 
             ! /DT/FVMBAG/2 +L_TYPE=3
             CASE(3) 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
               DO I=1,NPOLH
                 DLS(I)=PVOLU(I)
               ENDDO
@@ -1248,7 +1262,7 @@ C---------------------------------------------------
       SELECT CASE (IDT_FVMBAG)   ! IDT_FVMBAG=FVDATA(IFV)%ID_DT_OPTION
 
         CASE(0,1)  !/DT/FVMBAG/0 & /DT/FVMBAG/1
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
          DO I=1,NPOLH
            IF(MPOLH(I)<=ZERO.OR.EPOLH(I)<=ZERO.OR.GPOLH(I)<=ONE) THEN
              DTPOLH(I)=EP30
@@ -1272,7 +1286,7 @@ C---------------------------------------------------
           PARAM_L_TYPE = FVDATA(IFV)%L_TYPE !characteristic length formulation
         
           IF(PARAM_L_TYPE /= 3)THEN !L_TYPE=0/1 & 2
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
             DO I=1,NPOLH
                IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= ONE) THEN
                   DTPOLH(I)=EP30
@@ -1327,7 +1341,7 @@ C---------------------------------------------------
 
           ELSE !L_TYPE=3
            
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
              DO I=1,NPOLH
                 IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= ONE) THEN
                    DTPOLH(I)=EP30
@@ -1419,7 +1433,7 @@ C---------------------------------------------------
 !$OMP PARALLEL PRIVATE(N1,N2,N3,IEL,NX,NY,NZ)
 !$OMP+ PRIVATE(VX1,VX2,VX3,VY1,VY2,VY3,VZ1,VZ2,VZ3)
 !$OMP+ PRIVATE(VVX,VVY,VVZ)
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO IEL=1,NELT
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
@@ -1593,7 +1607,7 @@ C---------------------------------------------------
 C New Polyhedra quantities
 C---------------------------------------------------
 !$OMP PARALLEL PRIVATE(I)
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NPOLH
          QPOLH(1,I)=QPOLH(1,I)+DQ(1,I)*DT1
          QPOLH(2,I)=QPOLH(2,I)+DQ(2,I)*DT1
@@ -1765,7 +1779,7 @@ C     Computations for anim, also needed if there are gauges.
 !$OMP PARALLEL PRIVATE(I,J,JJ,K,KK,IEL,JEL,II,NV)
 !$OMP+ PRIVATE(NX,NY,NZ,NRX,NRY,NRZ)
 !$OMP+ PRIVATE(FAC,AREA)
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NPOLH
          DO J=IFVPADR(I),IFVPADR(I+1)-1
             JJ=IFVPOLH(J)
@@ -1860,7 +1874,7 @@ C------------------
 C VENT HOLES
 C------------------
       IF(PREPARE_ANIM == 1) THEN
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
         DO IEL=1,NEL
            IF(ITAGEL(IEL)<0) THEN
              UEL(1,IEL)=ELFVEL(IEL)*NORM(1,IEL)
@@ -1870,7 +1884,7 @@ C------------------
         ENDDO
 !$OMP END DO NOWAIT
 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
         DO I=1,NNT
           U(1,I)=ZERO
           U(2,I)=ZERO
@@ -1881,7 +1895,7 @@ C------------------
         ENDDO
 !OMP END DO
 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
         DO I=1,NNA
           VOLA(I)=ZERO
           PA(I)=ZERO
@@ -1896,7 +1910,7 @@ C------------------
 
       ENDIF
 
-!$OMP DO SCHEDULE(GUIDED,1)
+!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNT
         P(I)=ZERO
       ENDDO
@@ -2175,4 +2189,4 @@ C otherwise we may to miss some in SPMD
  1000 CONTINUE
 
       RETURN
-      END 
+      END
