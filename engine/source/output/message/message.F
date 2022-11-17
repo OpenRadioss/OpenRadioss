@@ -79,7 +79,7 @@ Chd|        FREUPWIND                     source/input/freupwind.F
 Chd|        FREUPWM                       source/input/freupwm.F        
 Chd|        FR_RLALE                      source/mpi/kinematic_conditions/fr_rlink1.F
 Chd|        FR_RLINK1                     source/mpi/kinematic_conditions/fr_rlink1.F
-Chd|        FVBAG1                        source/airbag/fvbag.F         
+Chd|        FVBAG1                        source/airbag/fvbag1.F        
 Chd|        FVRREST                       source/output/restart/rdresb.F
 Chd|        FVVENT0                       source/airbag/fvvent0.F       
 Chd|        FV_IMP0                       source/constraints/general/impvel/fv_imp0.F

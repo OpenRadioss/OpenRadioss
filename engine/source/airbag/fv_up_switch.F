@@ -23,14 +23,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
 Chd|-- called by -----------
-Chd|        FVBAG0                        source/airbag/fvbag.F         
+Chd|        FVBAG0                        source/airbag/fvbag0.F        
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        FVINJT6                       source/airbag/fvinjt6.F       
 Chd|        FVINJT8                       source/airbag/fvinjt8.F       
 Chd|        FVINJT8_1                     source/airbag/fvinjt8_1.F     
-Chd|        FVTEMP                        source/airbag/fvbag.F         
+Chd|        FVTEMP                        source/airbag/fvtemp.F        
 Chd|        FVVENT0                       source/airbag/fvvent0.F       
 Chd|        SPMD_FVB_GATH                 source/mpi/airbags/spmd_fvb_gath.F
 Chd|        SPMD_FVB_IGATH                source/mpi/airbags/spmd_fvb_igath.F

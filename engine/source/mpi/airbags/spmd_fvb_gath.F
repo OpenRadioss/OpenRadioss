@@ -25,7 +25,7 @@ C
 Chd|====================================================================
 Chd|  SPMD_FVB_GATH                 source/mpi/airbags/spmd_fvb_gath.F
 Chd|-- called by -----------
-Chd|        FVBAG1                        source/airbag/fvbag.F         
+Chd|        FVBAG1                        source/airbag/fvbag1.F        
 Chd|        FVBRIC                        source/airbag/fvbric.F        
 Chd|        FVMESH1                       source/airbag/fvmesh.F        
 Chd|        FVREZONE1                     source/airbag/fvrezone.F      

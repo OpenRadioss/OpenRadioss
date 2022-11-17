@@ -28,7 +28,6 @@ Chd|        CBAFINT_REG_INI               source/elements/shell/coqueba/cbafint_
 Chd|        CDKFINT_REG_INI               source/elements/sh3n/coquedk/cdkfint_reg_ini.F
 Chd|        CFINT_REG_INI                 source/elements/shell/coque/cfint_reg_ini.F
 Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
 Chd|        CNLOC_MAT104_INI              source/materials/mat/mat104/cnloc_mat104_ini.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

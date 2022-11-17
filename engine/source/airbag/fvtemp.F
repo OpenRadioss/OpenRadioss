@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/. 
 Chd|====================================================================
-Chd|  FVTEMP                        source/airbag/fvbag.F         
+Chd|  FVTEMP                        source/airbag/fvtemp.F        
 Chd|-- called by -----------
-Chd|        FVBAG1                        source/airbag/fvbag.F         
+Chd|        FVBAG1                        source/airbag/fvbag1.F        
 Chd|        FVUPD1                        source/airbag/fvupd.F         
 Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
 Chd|-- calls ---------------

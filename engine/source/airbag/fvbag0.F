@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  FVBAG0                        source/airbag/fvbag.F         
+Chd|  FVBAG0                        source/airbag/fvbag0.F        
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        FVBAG1                        source/airbag/fvbag.F         
+Chd|        FVBAG1                        source/airbag/fvbag1.F        
 Chd|        FVBAG2                        source/airbag/fvbag2.F        
 Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

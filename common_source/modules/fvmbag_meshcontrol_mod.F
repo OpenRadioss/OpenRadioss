@@ -35,8 +35,8 @@ Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        MESHGEMS_TETRA                starter/stub/fvmbags_stub.F   
 Chd|        WRITEMESH                     starter/source/airbag/writeMesh.F
 Chd|        ALEVFLU                       engine/source/output/anim/generate/genani.F
-Chd|        FVBAG0                        engine/source/airbag/fvbag.F  
-Chd|        FVBAG1                        engine/source/airbag/fvbag.F  
+Chd|        FVBAG0                        engine/source/airbag/fvbag0.F 
+Chd|        FVBAG1                        engine/source/airbag/fvbag1.F 
 Chd|        FVBAG2                        engine/source/airbag/fvbag2.F 
 Chd|        FVRREST                       engine/source/output/restart/rdresb.F
 Chd|        FVUPD1                        engine/source/airbag/fvupd.F  

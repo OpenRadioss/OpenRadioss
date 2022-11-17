@@ -309,8 +309,8 @@ Chd|        FORINT                        engine/source/elements/forint.F
 Chd|        FORINTC                       engine/source/elements/forintc.F
 Chd|        FORINTP                       engine/source/elements/forintp.F
 Chd|        FORINTS                       engine/source/elements/forints.F
-Chd|        FVBAG0                        engine/source/airbag/fvbag.F  
-Chd|        FVBAG1                        engine/source/airbag/fvbag.F  
+Chd|        FVBAG0                        engine/source/airbag/fvbag0.F 
+Chd|        FVBAG1                        engine/source/airbag/fvbag1.F 
 Chd|        FVBAG2                        engine/source/airbag/fvbag2.F 
 Chd|        FVVENT0                       engine/source/airbag/fvvent0.F
 Chd|        FV_UP_SWITCH                  engine/source/airbag/fv_up_switch.F

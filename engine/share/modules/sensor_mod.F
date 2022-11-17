@@ -53,8 +53,8 @@ Chd|        FIXVEL                        source/constraints/general/impvel/fixv
 Chd|        FLOW0                         source/fluid/flow0.F          
 Chd|        FORINT                        source/elements/forint.F      
 Chd|        FORINTC                       source/elements/forintc.F     
-Chd|        FVBAG0                        source/airbag/fvbag.F         
-Chd|        FVBAG1                        source/airbag/fvbag.F         
+Chd|        FVBAG0                        source/airbag/fvbag0.F        
+Chd|        FVBAG1                        source/airbag/fvbag1.F        
 Chd|        FVINJT6                       source/airbag/fvinjt6.F       
 Chd|        FVINJT8                       source/airbag/fvinjt8.F       
 Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  

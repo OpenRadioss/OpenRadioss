@@ -71,7 +71,6 @@ Chd|        CINMAS                        source/elements/shell/coque/cinmas.F
 Chd|        CM27IN3                       source/materials/mat/mat027/cm27in3.F
 Chd|        CMAINI3                       source/elements/sh3n/coquedk/cmaini3.F
 Chd|        CMATINI4                      source/materials/mat_share/cmatini4.F
-Chd|        CNLOC_MATINI                  source/materials/mat_share/cnloc_matini.F
 Chd|        CONTRL                        source/starter/contrl.F       
 Chd|        CORTHINI                      source/elements/shell/coque/corthini.F
 Chd|        CREATE_CHILD                  source/coupling/rad2rad/r2r_fork.F

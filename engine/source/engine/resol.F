@@ -148,7 +148,7 @@ Chd|        FORINTC                       source/elements/forintc.F
 Chd|        FORINTP                       source/elements/forintp.F     
 Chd|        FORINTS                       source/elements/forints.F     
 Chd|        FREE_PINCH                    ../common_source/modules/pinchtype_mod.F
-Chd|        FVBAG0                        source/airbag/fvbag.F         
+Chd|        FVBAG0                        source/airbag/fvbag0.F        
 Chd|        FVCOPY                        source/airbag/fvcopy.F        
 Chd|        FVDIM                         source/airbag/fvdim.F         
 Chd|        FVMESH0                       source/airbag/fvmesh0.F       

@@ -27,8 +27,8 @@ Chd|        ALEVEC                        source/output/anim/generate/genani.F
 Chd|        ALEVFLU                       source/output/anim/generate/genani.F
 Chd|        ANIMBALE                      source/output/anim/generate/genani.F
 Chd|        FREFORM                       source/input/freform.F        
-Chd|        FVBAG0                        source/airbag/fvbag.F         
-Chd|        FVBAG1                        source/airbag/fvbag.F         
+Chd|        FVBAG0                        source/airbag/fvbag0.F        
+Chd|        FVBAG1                        source/airbag/fvbag1.F        
 Chd|        FVBAG2                        source/airbag/fvbag2.F        
 Chd|        FVBRIC                        source/airbag/fvbric.F        
 Chd|        FVCOPY                        source/airbag/fvcopy.F        

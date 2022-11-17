@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  FVBAG2                        source/airbag/fvbag2.F        
 Chd|-- called by -----------
-Chd|        FVBAG0                        source/airbag/fvbag.F         
+Chd|        FVBAG0                        source/airbag/fvbag0.F        
 Chd|-- calls ---------------
 Chd|        SPMD_IBCAST_SUBCOMM           source/mpi/generic/spmd_ibcast_subcomm.F
 Chd|        SPMD_RBCAST_SUBCOMM           source/mpi/generic/spmd_rbcast_subcomm.F

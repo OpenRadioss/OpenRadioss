@@ -70,7 +70,7 @@ Chd|        FORCE                         source/loads/general/force.F
 Chd|        FORCEFINGEO                   source/loads/general/forcefingeo.F
 Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
 Chd|        FRICTIONPARTS_MODEL_ISOT      source/interfaces/int07/frictionparts_model.F
-Chd|        FVBAG1                        source/airbag/fvbag.F         
+Chd|        FVBAG1                        source/airbag/fvbag1.F        
 Chd|        FVINJT6                       source/airbag/fvinjt6.F       
 Chd|        FVINJT8                       source/airbag/fvinjt8.F       
 Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  

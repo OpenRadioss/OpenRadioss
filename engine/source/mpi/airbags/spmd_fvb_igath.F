@@ -24,7 +24,7 @@ C
 Chd|====================================================================
 Chd|  SPMD_FVB_IGATH                source/mpi/airbags/spmd_fvb_igath.F
 Chd|-- called by -----------
-Chd|        FVBAG1                        source/airbag/fvbag.F         
+Chd|        FVBAG1                        source/airbag/fvbag1.F        
 Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
 Chd|-- calls ---------------
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
