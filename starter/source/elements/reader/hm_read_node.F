@@ -47,15 +47,15 @@ C-----------------------------------------------
 C   DUMMY ARGUMENTS DESCRIPTION:
 C   ===================
 C
-C     NAME            DESCRIPTION                         
+C     NAME            DESCRIPTION
 C
-C     X               NODE COORDS 
-C     ITAB            USER ID OF NODES         
-C     ITABM1          REVERSE TAB ITA      
+C     X               NODE COORDS
+C     ITAB            USER ID OF NODES
+C     ITABM1          REVERSE TAB ITA
 C     CMERGE          CNODE MERGING DISTANCE
 C     UNITAB          UNITS ARRAY
-C     WIGE            WEIGTH FOR IGEO ANALYSIS
-C     LSUBMODEL       SUBMODEL STRUCTURE     
+C     WIGE            WEIGHT FOR IGEO ANALYSIS
+C     LSUBMODEL       SUBMODEL STRUCTURE
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 

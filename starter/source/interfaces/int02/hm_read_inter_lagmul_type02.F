@@ -216,7 +216,7 @@ C--------------------------------------------------------------
 
  1602 FORMAT(//
      .    '    TYPE==2   TIED SLIDING                  ' //
-     .    '    LAGRANGE MULTIPLER FORMULATION            '  /
+     .    '    LAGRANGE MULTIPLIER FORMULATION           '  /
      .    '    SEARCH FORMULATION. . . . . . . . . . . . ',I5/,
      .    '    SEARCH DISTANCE . . . . . . . . . . . . . ',1PG20.13/)
 

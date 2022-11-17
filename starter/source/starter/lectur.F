@@ -1030,7 +1030,7 @@ C
 !                 used for optimize the initialization
 !                 of TAG_XXX array (XXX = NM or SCRT for SCRATCH)
 !                 allocated array in lectur and threadprivate array
-!       NINDX_XXX : number of non-zero TAG_XXX valuee
+!       NINDX_XXX : number of non-zero TAG_XXX value
 !       TAG_XXX : size = NUMNOD
 !                array used to tag an element for
 !                a given interface ; allocated in lectur
@@ -3591,7 +3591,7 @@ C        IF(ALLOCATED(RBY_MSN)) DEALLOCATE(RBY_MSN)
 C--------------------------------------------
       CALL STOPTIME(17,1)
 C-----------------
-C     Stack part orginisation
+C     Stack part organisation
 C-------------------------
       IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0) THEN
          CALL STACKGROUP(

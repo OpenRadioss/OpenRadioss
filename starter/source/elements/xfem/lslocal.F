@@ -311,7 +311,7 @@ C---
 C---
  200  CONTINUE
 c------------------------------------------------------------------------
-C       to update warning messege
+C       to update warning message
         IF(NELCUT == 0)THEN
           IF(TAGXNOD(LS) == 0)THEN
             CALL ANCMSG(MSGID=1617,

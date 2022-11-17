@@ -448,7 +448,7 @@ C-----------------------------------------------
             T_MONVOLN%NTG = T_MONVOLN%NTG + NB_FILL_TRI
 
             IF (1==0) THEN
-               OPEN(UNIT = 210486, FILE = "OUPUT_0000.rad", FORM ='formatted')
+               OPEN(UNIT = 210486, FILE = "OUTPUT_0000.rad", FORM ='formatted')
                WRITE(210486, '(A)') "#RADIOSS STARTER"
                WRITE(210486, '(A)') "/BEGIN"
                WRITE(210486, '(A)') "ORIENTED_SURFACE "
@@ -468,7 +468,7 @@ C-----------------------------------------------
                CLOSE (210486) 
             ENDIF
             IF (1==0) THEN
-               OPEN(UNIT = 210486, FILE = "OUPUT_IN_0000.rad", FORM ='formatted')
+               OPEN(UNIT = 210486, FILE = "OUTPUT_IN_0000.rad", FORM ='formatted')
                WRITE(210486, '(A)') "#RADIOSS STARTER"
                WRITE(210486, '(A)') "/BEGIN"
                WRITE(210486, '(A)') "ORIENTED_SURFACE "

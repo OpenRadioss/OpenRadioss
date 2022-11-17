@@ -210,7 +210,7 @@ C
         MASS(1)  =HALF*RHO*LPREV
         IF (LPREV<=EM15) THEN
 C         WRITE(IOUT,*)
-C     .' ** ERROR NSTRAND : NULL STRAND LENGHT, ELEMENT=',
+C     .' ** ERROR NSTRAND : NULL STRAND LENGTH, ELEMENT=',
 C     .      IDS
 C        IERR=IERR+1
 C        GOTO 999

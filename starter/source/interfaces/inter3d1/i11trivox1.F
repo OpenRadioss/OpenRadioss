@@ -429,7 +429,7 @@ C
                 CYCLE
               END IF
 
-C             IREMPGAP - Taged lines are removded
+C             IREMPGAP - Tagged lines are removed
               IF(FLAGREMNODE==2)THEN
                 IF(TAGREMLINE(I)==1) THEN
                   CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)

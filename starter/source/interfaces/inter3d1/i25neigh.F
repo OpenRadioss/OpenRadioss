@@ -265,7 +265,7 @@ C
                 EVOISIN(IEDG,I)=JEDG
 
               ELSEIF(II(I1)==JJ(J1).AND.II(I2)==JJ(J2))THEN
-                print *,'i25inisu_nei - internal error : non consistant neighboring segment'
+                print *,'i25inisu_nei - internal error : non-consistent neighboring segment'
 
               END IF
             END DO

@@ -77,7 +77,7 @@ C----------------------------------------------------------------------
 C
       IF(DIR==1) THEN
         IDNBCUT=12
-        IDKNOT1=6  ! index of 1nd knot in the Xknot vector corresponding to the element
+        IDKNOT1=6  ! index of 1st knot in the Xknot vector corresponding to the element
         IDKNOT2=9  ! index of 2nd knot in the Xknot vector corresponding to the element
         OFFSET_KNOT = IAD_KNOT
       ELSEIF(DIR==2) THEN

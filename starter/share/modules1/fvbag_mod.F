@@ -131,7 +131,7 @@ C-----------------------------------------------
       TYPE(FVBAG_SPMD), DIMENSION(:), ALLOCATABLE :: FVSPMD
       INTEGER, DIMENSION(:), ALLOCATABLE :: FVID
 
-c after bug detected on fvmbags qa after starter paralellization
+c after bug detected on fvmbags qa after starter parallelization
 !$OMP THREADPRIVATE(FVSPMD) 
 
 C

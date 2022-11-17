@@ -178,7 +178,7 @@ C--------------------------------------------------------
 C     LAM MAX LENGTH REAL ARRAY
 C     LMA MAX LENGTH INTEGER ARRAY
 C------------------------------------------------
-C     MACHINE.INC CONTAINT MACHINES SPECIFICATIONS
+C     MACHINE.INC CONTAINS MACHINE SPECIFICATIONS
 C     (MALLOC,IGFORM,TYPE MACHINE...)
 C------------------------------------------------
 #include      "machine.inc"

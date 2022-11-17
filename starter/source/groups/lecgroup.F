@@ -112,7 +112,7 @@ C    IGRELEM(IGS)%TITLE : GROUP title
 C    IGRELEM(IGS)%NENTITY : Entities (elements) number of the GROUP
 C    IGRELEM(IGS)%GRTYPE : TYPE ( 0-NOEUDS, 1-BRIC, 2-QUAD,   3-SHELL_4N,
 !                                 4-TRUSS,  5-BEAM, 6-SPRINGS,7-SHELL_3N)
-!!                   GRTYPE --- > OBSOLETTE
+!!                   GRTYPE --- > OBSOLETE
 C    IGRELEM(IGS)%SORTED  : FLAG for sorted/unsorted elements
 !                    = 0 -> sorted
 !                    = 1 -> unsorted

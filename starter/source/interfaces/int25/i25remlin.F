@@ -447,7 +447,7 @@ C
         SH_EDGE  =IEDGE-10*SOL_EDGE ! shells
 
 C---------------------------------------------------------------------
-C  Main solids : buid tables for deleted edges for each NRTM
+C  Main solids : build tables for deleted edges for each NRTM
 C     Use tabs of N2S : edge is deactivated if 1 node is deactivated
 C--------------------------------------------------------------------
 

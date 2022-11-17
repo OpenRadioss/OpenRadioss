@@ -264,7 +264,7 @@ C
      .              MCP ,MCPS(1,NF1),MCPSX(1,NF1),IN        ,STIFR,
      .              INS(1,NF1),MSSA ,X    ,FILL)
 C
-C Create dependancy to rigid material              
+C Create dependency to rigid material              
         DO I=1,NEL
           NINDX = NINDX + 1
           N = I + NFT
@@ -454,7 +454,7 @@ C Nodal time step
           DTELEM(NDEPAR+I) = EP30
         ENDDO
 C
-C Create dependancy to rigid material
+C Create dependency to rigid material
         DO I=1,NEL
           N = I + NFT
           NINDX = NINDX + 1
@@ -510,7 +510,7 @@ C
            DTELEM(NDEPAR+I) = EP30
         ENDDO
 C
-C Create dependancy to rigid material
+C Create dependency to rigid material
         DO I=1,NEL
           N = I + NFT
           NINDX = NINDX + 1

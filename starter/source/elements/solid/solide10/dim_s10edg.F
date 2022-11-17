@@ -384,7 +384,7 @@ C----error out	ND is along in RB
      .                I2=IU,
      .                C2='RIGID BODY ')
         ELSE
-C----removed from INN directely----------
+C----removed from INN directly----------
          IER2 =1
          IF (IPRI>=5)
      .    CALL ANCMSG(MSGID=1210,
@@ -592,7 +592,7 @@ C----error out	ND is along in RBE2
      .                I2=IU,
      .                C2='RBE2 ')
         ELSE
-C----remove Nd from RBE2	directely
+C----remove Nd from RBE2 directly
          IER2 = 1
          IF (IPRI>=5)
      .     CALL ANCMSG(MSGID=1210,

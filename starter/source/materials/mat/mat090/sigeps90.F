@@ -308,7 +308,7 @@ C case with unloading stress-strain curve only the quasistatic curve is used
               E(I) = MAX(E0,Emax)
            ENDDO           
        ENDIF 
-C unloadind with damage based on the energy.
+C unloading with damage based on the energy.
        IF(IFLAG == 2) THEN
                DO I=1,NEL
                  YFAC = UPARAM(NFUNC + 11)

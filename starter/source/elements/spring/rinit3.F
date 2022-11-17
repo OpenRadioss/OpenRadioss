@@ -460,7 +460,7 @@ C---- For mat law114 lmin is used for mass setting of element with null length
 C-              1D material of 2D seatbelt - no need for inertia - mass and inertia given by shell
                 RFAC = ZERO
               ENDIF
-C-            inertia of element is automaically computed acording to moment of inertia area if Young modulus > 0
+C-            inertia of element is automatically computed according to moment of inertia area if Young modulus > 0
               UINER(I) = MAX(EM20,RFAC*MAX((RHO*GEO(1,I0)*LENGTH*LENGTH*LENGTH)/TWELVE + RHO*IYY*LENGTH,RHO*IXX*LENGTH))     
             ENDIF
             IF(IMASS == 1) THEN
@@ -1468,7 +1468,7 @@ C-              1D material of 2D seatbelt - element mass and inertia recomputed
               ENDIF
 C
               IF (GBUF%SLIPRING_STRAND(I) > 0) THEN
-C--------->     Update of third node if seatblet spring in slipring------------
+C--------->     Update of third node if seatbelt spring in slipring------------
                 SLIP = GBUF%SLIPRING_ID(I)
                 FRA = GBUF%SLIPRING_FRAM_ID(I)
                 DO KK=1,3
@@ -1477,7 +1477,7 @@ C--------->     Update of third node if seatblet spring in slipring------------
                   ENDIF
                 ENDDO
               ELSEIF (GBUF%RETRACTOR_ID(I) < 0) THEN
-C--------->     Deactivation of elements initally in retractor------------
+C--------->     Deactivation of elements initially in retractor------------
                 GBUF%OFF(I) = ZERO
                 GBUF%RETRACTOR_ID(I) = 0
               ENDIF
@@ -2128,7 +2128,7 @@ C---
           EINT(I) = SIGRS(14,JJ)
 C
           PT = 14
-!!   no realy need for initialisation, since they are computed at cycle = 0
+!!   no real need for initialisation, since they are computed at cycle = 0
 !!   within engine (overwriting initial values)
 !!          IF (IGTYP /= 32 .AND. IGTYP /= 33 .AND. IGTYP /= 45) THEN
 !!            YMOM1(I) = SIGRS(PT+1,JJ)

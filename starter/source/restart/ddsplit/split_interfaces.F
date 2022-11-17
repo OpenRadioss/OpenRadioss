@@ -139,7 +139,7 @@ C-----------------------------------------------
 !                 used for optimize the initialization
 !                 of TAG_XXX array (XXX = NM or SCRT for SCRATCH)
 !                 allocated array in lectur and threadprivate array
-!       NINDX_XXX : number of non-zero TAG_XXX valuee
+!       NINDX_XXX : number of non-zero TAG_XXX value
 !       TAG_XXX : size = NUMNOD
 !                array used to tag an element for 
 !                a given interface ; allocated in lectur

@@ -386,7 +386,7 @@ C
               NBDDNOD = NBDDNOD + 1
               DD_ELEM(NBDDNOD) = I
               PROC_REM(NBDDNOD) = P
-              !FLAGKIN array identies boundary nodes with kinematic constraints
+              !FLAGKIN array identities boundary nodes with kinematic constraints
               !(FLAGKIN(N)=1 <=> old FRONT TAG=10)  
               !FLAGKIN(N) can be set to one only for first SPMD domain
               IF(FLAGKIN(I)==1.AND.(PROC==1.OR.P==1))THEN
@@ -2288,7 +2288,7 @@ C On remplit le tableau FR_USERW
         NUSERWI_L=IADUSERW(NSPMD+1)-IADUSERW(1)
       ENDIF
 C-------------------------
-C  xfem edge boudary treatment
+C  xfem edge boundary treatment
       IF(ICRACK3D > 0)THEN
 C
         DO P = 1, NSPMD+1

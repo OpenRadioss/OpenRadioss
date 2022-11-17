@@ -201,7 +201,7 @@ C--------------------------------------------------------------
      .       '    EDGES SELECTION FLAG . . . . . . . . . . .',I5/,
      .       '    FLAGREMNODE : NOT CONSIDER NEIGHBORING    '/,
      .       '    NODES IN CASE OF ELEMENT SIZE < GAP VALUE ',I5/,
-     .       '    DE-ACTIVATION FLAG IF CONFLITING W/ TYPE2 ',I5/)
+     .       '    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2 ',I5/)
 C
 C--------------------------------------------------------------
       END 

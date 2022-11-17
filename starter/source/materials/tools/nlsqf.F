@@ -1285,8 +1285,8 @@ C       CHECK IF SUM(MU_I * ALPHA_I) > 0.0
 !>    @param[in]  Y(NPT)   engineering stress values of given stress/strain curve 
 !>    @param[in]  NPT      number of points on the given stress/strain curve
 
-!>    @param[out]  MCOF_MIN(NMUAL)     esstimated lower bounds of A(1:NMUAL)
-!>    @param[out]  MCOF_MAX(NMUAL)     esstimated upper bounds of A(1:NMUAL)
+!>    @param[out]  MCOF_MIN(NMUAL)     estimated lower bounds of A(1:NMUAL)
+!>    @param[out]  MCOF_MAX(NMUAL)     estimated upper bounds of A(1:NMUAL)
 Chd|====================================================================
 Chd|  LAW69_GUESS_BOUNDS            source/materials/tools/nlsqf.F
 Chd|-- called by -----------

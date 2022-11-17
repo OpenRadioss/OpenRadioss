@@ -287,7 +287,7 @@ c-----------------------------------------------------------------------
      & 5X,'REFERENCE THICKNESS . . . . . . . . . .=',1PG20.13/    
      & 5X,'YIELD CRITERION FLAG  . . . . . . . . .=',I3)
  1300 FORMAT(
-     & 5X,'YIELD FUNCTON TABLE IDENTIFIER. . . . .=',I10/
+     & 5X,'YIELD FUNCTION TABLE IDENTIFIER . . . .=',I10/
      & 5X,'SCALE FACTOR FOR STRAIN RATE. . . . . .=',1PG20.13/
      & 5X,'SCALE FACTOR FOR YLD FUNCTION . . . . .=',1PG20.13)
  1400 FORMAT(

@@ -1631,7 +1631,7 @@ C-----------------------------------------------
 !                 used for optimize the initialization
 !                 of TAG_XXX array (XXX = NM or SCRT for SCRATCH)
 !                 allocated array in lectur and threadprivate array
-!       NINDX_XXX : number of non-zero TAG_XXX valuee
+!       NINDX_XXX : number of non-zero TAG_XXX value
 !       TAG_XXX : size = NUMNOD
 !                array used to tag an element for 
 !                a given interface ; allocated in lectur
@@ -1825,7 +1825,7 @@ C-----------------------------------------------
 !                 used for optimize the initialization
 !                 of TAG_XXX array (XXX = NM or SCRT for SCRATCH)
 !                 allocated array in lectur and threadprivate array
-!       NINDX_SCRT : number of non-zero TAG_XXX valuee
+!       NINDX_SCRT : number of non-zero TAG_XXX value
 !       TAG_SCRATCH : size = NUMNOD + NUMELS + I24MAXNSNE2
 !                array used to tag an element for 
 !                a given interface ; allocated in lectur
@@ -2216,8 +2216,8 @@ C-----------------------------------------------
       INTEGER :: II_STOK_E, II_STOK_E_L 
       INTEGER :: II_STOK_S, II_STOK_S_L
       INTEGER :: PROC, IREMI2, FLAGREMNODE, NRTM
-      INTEGER :: TAG_JJ_E2E(*) !Gobal id of global E2E cand (OUT)
-      INTEGER :: TAG_JJ_E2S(*) !Globa id of global E2S cand (OUT)
+      INTEGER :: TAG_JJ_E2E(*) !Global id of global E2E cand (OUT)
+      INTEGER :: TAG_JJ_E2S(*) !Global id of global E2S cand (OUT)
 
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
 C-----------------------------------------------
@@ -2507,7 +2507,7 @@ C-----------------------------------------------
       INTEGER :: TAG_II_E2S(*) !local id of global E2S cand (OUT)
       INTEGER :: II_STOK_E, II_STOK_E_L 
       INTEGER :: II_STOK_S, II_STOK_S_L
-      INTEGER :: TAG_JJ_E2E(II_STOK_E) !Gobal id of global E2E cand (OUT)
+      INTEGER :: TAG_JJ_E2E(II_STOK_E) !Global id of global E2E cand (OUT)
       INTEGER :: TAG_JJ_E2S(II_STOK_S) !Globa id of global E2S cand (OUT)
 
 
@@ -5794,7 +5794,7 @@ C-----------------------------------------------
 !                 used for optimize the initialization
 !                 of TAG_XXX array (XXX = NM or SCRT for SCRATCH)
 !                 allocated array in lectur and threadprivate array
-!       NINDX_XXX : number of non-zero TAG_XXX valuee
+!       NINDX_XXX : number of non-zero TAG_XXX value
 !       TAG_XXX : size = NUMNOD + NUMELS + I24MAXNSNE2
 !                array used to tag an element for 
 !                a given interface ; allocated in lectur

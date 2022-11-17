@@ -129,7 +129,7 @@ C=======================================================================
 !------------------
 !
 ! Decide whether the result is stored in an array or in the clause.
-! In certain cases it is usfull to store in ARRAY.
+! In certain cases it is useful to store in ARRAY.
 ! Example : Clause with delete clause. Surfaces must be recreated & merged...
 ! ----------------------------------------------------------------------------
       IF (GO_IN_ARRAY .EQV. .TRUE.) THEN

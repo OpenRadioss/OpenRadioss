@@ -56,7 +56,7 @@ C-----------------------------------------------
      .   SECT_ID,INT_ID,SUB_ID,RWAL_ID,RBOD_ID
       INTEGER, DIMENSION(0:NSECT+NINTER+NINTSUB+NRWALL+NRBODY) :: TABLOCAL
 C-----------------------------------------------
-C     Special treatement of sensors with Parith/on (type 6,11,12,13)
+C     Special treatment of sensors with Parith/on (type 6,11,12,13)
 C     Tabsensor(i) pointe vers les interfaces/sections/rwalls/rbodies concernees 
 C     par les sensors type force
 c=======================================================================

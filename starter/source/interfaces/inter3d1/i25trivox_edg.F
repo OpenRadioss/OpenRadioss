@@ -555,7 +555,7 @@ C                 ISS2 = BITGET(IREM(I24IREMP+6,JJ-NEDGE),1)
 	        ENDIF
 	      ENDIF
 
-C             IREMPGAP - Taged lines are removded
+C             IREMPGAP - Tagged lines are removed
               IF(FLAGREMNODE==2)THEN
                 IF(TAGREMLINE(JJ)==1) THEN
                   CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
