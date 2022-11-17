@@ -133,6 +133,7 @@ C     DEBUT DE BOUCLE SUR POINTS INTEGRATION
 C--------------------------------------
 C        
       DO IPT= 1,NPT
+ 
         ILAYER=1
         IR = 1
         IS = 1
@@ -148,7 +149,7 @@ C---    Coordonnees du point d'integration
           SIGNXX(I) = LBUF%SIG(II(1)+I)
           SIGNXY(I) = LBUF%SIG(II(2)+I)
           SIGNXZ(I) = LBUF%SIG(II(3)+I)
-        ENDDO        
+       ENDDO        
 C---    Deformations Incrementales
         DO I= JFT,JLT
           DEPSXX(I) = EXX(I) - YPT(I)*KZZ(I) + ZPT(I)*KYY(I)
