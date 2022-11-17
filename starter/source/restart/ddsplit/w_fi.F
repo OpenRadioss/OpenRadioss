@@ -107,7 +107,7 @@ C-----------------------------------------------
      .        NSNFI(NSPMD), NUMP(NSPMD),NMNFI(NSPMD),
      .        WORK(70000),KD(50),JD(50),I,J,IEDGE4,INTNITSCHE,MY_NODE,
      .        CPT1,CPT2,P1,P2,PROC1,PROC2,SE1,PLOC,ND,FLAGREMN,LREMNORMAX
-      INTEGER :: IEDGE,NEDGE,NEDGE_KEPT
+      INTEGER :: IEDGE,NEDGE,NEDGE_KEPT,ILEV
       INTEGER, PARAMETER :: E_IBUF_SIZE = 13
       LOGICAL INACTI_CASE
 
@@ -800,6 +800,7 @@ C
           END IF   ! Type 20 edge
 
           IEDGE = IPARI(58,NI)
+          ILEV  = IPARI(20,NI)
 
           IF( ITYP == 25 .AND. IEDGE /= 0) THEN
             NEDGE = IPARI(68,NI)
@@ -837,7 +838,11 @@ C LEDGE_FIE
                 ! LocalID
                 LEDGE_FIE(E_IBUF_SIZE*(K-1) +12) = 0         
                 ! BINFLG
-                LEDGE_FIE(E_IBUF_SIZE*(K-1) +13) = INTBUF_TAB(NI)%EBINFLG(J)
+                IF(ILEV == 2) THEN
+                  LEDGE_FIE(E_IBUF_SIZE*(K-1) +13) = INTBUF_TAB(NI)%EBINFLG(J)
+                ELSE
+                  LEDGE_FIE(E_IBUF_SIZE*(K-1) +13) = 0
+                ENDIF
               ENDDO
               NSNE =  E_IBUF_SIZE*NEDGE_KEPT
               CALL WRITE_I_C(LEDGE_FIE,NSNE) ! LEDGE_FIE

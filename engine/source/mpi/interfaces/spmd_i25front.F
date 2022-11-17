@@ -390,7 +390,7 @@ C-----------------------------------------------
       INTEGER :: IM,M1,M2
       INTEGER :: NEDGE_LOCAL
       INTEGER :: IGLOB,IBEGIN
-      INTEGER :: N1,N2,N3,N4,NN1,NN2,PP
+      INTEGER :: N1,N2,N3,N4,NN1,NN2,PP,TYPEDG
       INTEGER :: NRTM
       REAL *4 :: SP
 #ifdef WITH_ASSERT
@@ -489,9 +489,11 @@ C             ASSERT(IED <= NEDGE)
               M2 = INTBUF_TAB(N)%LEDGE(6+(IED-1)*NLEDGE)
               IM = INTBUF_TAB(N)%LEDGE(10+(IED-1)*NLEDGE)
 C             ASSERT( (IM == 1 .OR. IM == -1) )
-
-              NN1 = INTBUF_TAB(N)%ADMSR(JE+(IE-1)*4)
-              NN2 = INTBUF_TAB(N)%ADMSR(MOD(JE,4)+1+(IE-1)*4)
+              TYPEDG = INTBUF_TAB(N)%LEDGE((IED-1)*NLEDGE+7)
+              IF(TYPEDG == 1) THEN 
+                 NN1 = INTBUF_TAB(N)%ADMSR(JE+(IE-1)*4)
+                 NN2 = INTBUF_TAB(N)%ADMSR(MOD(JE,4)+1+(IE-1)*4)
+              ENDIF
 
 C C====================================================
 C               IF( IM /= 1 .AND. IM /= -1) THEN
@@ -705,7 +707,9 @@ C             WRITE(6,*) "Out:",INTBUF_TAB(N)%LEDGE((IED-1)*NLEDGE+8),L
 #endif
               ENDIF
 
-C Send Normal of nodes of second edge : 
+C Send Normal of nodes of second edge : edge solid
+
+              IF(TYPEDG == 1) THEN 
 
                 BUFFERS(NI25)%SEND_BUF(L+PP+1)  = INTBUF_TAB(N)%E2S_NOD_NORMAL(3*(NN1-1)+1)
                 BUFFERS(NI25)%SEND_BUF(L+PP+2)  = INTBUF_TAB(N)%E2S_NOD_NORMAL(3*(NN1-1)+2)
@@ -714,6 +718,15 @@ C Send Normal of nodes of second edge :
                 BUFFERS(NI25)%SEND_BUF(L+PP+4)  = INTBUF_TAB(N)%E2S_NOD_NORMAL(3*(NN2-1)+1)
                 BUFFERS(NI25)%SEND_BUF(L+PP+5)  = INTBUF_TAB(N)%E2S_NOD_NORMAL(3*(NN2-1)+2)
                 BUFFERS(NI25)%SEND_BUF(L+PP+6)  = INTBUF_TAB(N)%E2S_NOD_NORMAL(3*(NN2-1)+3)
+              ELSE
+                BUFFERS(NI25)%SEND_BUF(L+PP+1)  = 0
+                BUFFERS(NI25)%SEND_BUF(L+PP+2)  = 0
+                BUFFERS(NI25)%SEND_BUF(L+PP+3)  = 0
+
+                BUFFERS(NI25)%SEND_BUF(L+PP+4)  = 0
+                BUFFERS(NI25)%SEND_BUF(L+PP+5)  = 0
+                BUFFERS(NI25)%SEND_BUF(L+PP+6)  = 0
+              ENDIF
 
 C             EID = INTBUF_TAB(N)%LEDGE((IED-1)*NLEDGE+8)
 
