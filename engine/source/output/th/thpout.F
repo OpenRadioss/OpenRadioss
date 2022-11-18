@@ -210,6 +210,26 @@ C
                                             LBUF  => BUFLY%LBUF(1,1,IPT) 
                                             WA(IJK) = LBUF%SIG(KK(IK)+I)
                                         ENDIF
+                                    ELSEIF (ITHBUF(L) == 255) THEN
+                                        WA(IJK)=ZERO 
+                                        IF(IGTYP == 18 ) THEN
+                                           IF (BUFLY%L_PLA > 0) THEN                                            
+                                            DO IPT = 1,NPT
+                                             AREAPT  = GEO(IPA+IPT,PID) 
+                                             LBUF  => BUFLY%LBUF(1,1,IPT)
+                                             WA(IJK) = WA(IJK)+ LBUF%PLA(I) * AREAPT/AREA
+                                            ENDDO 
+                                           END IF 
+                                        END IF! (IGTYP) 
+                                    ELSEIF (ITHBUF(L) > 255 .AND.ITHBUF(L) <= 336 ) THEN
+                                        IF(IGTYP == 18 ) THEN
+                                           IF (BUFLY%L_PLA > 0) THEN                                                                                     
+                                            IPT = ITHBUF(L) - 255 
+                                            LBUF  => BUFLY%LBUF(1,1,IPT) 
+                                            WA(IJK) = LBUF%SIG(KK(IK)+I)
+                                           ENDIF
+                                        ENDIF
+
                                     ENDIF
                                 ENDDO
                                 IJK = IJK + 1
