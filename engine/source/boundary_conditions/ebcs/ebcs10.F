@@ -35,7 +35,7 @@ Chd|====================================================================
      .                 LISTE,NOD,IRECT,IELEM,IFACE,
      .                 RO0,EN0,
      .                 LA,MS,STIFN,EBCS,IPARG,ELBUF_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .                 ITAB,NALE)
+     .                 ITAB,NALE,ELEM_ADRESS,FSKY)
       USE EBCS_MOD
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
@@ -54,6 +54,8 @@ C-----------------------------------------------
 #include      "conv_c.inc"
 #include      "scr11_c.inc"
 #include      "mmale51_c.inc"
+#include      "task_c.inc"
+#include      "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -67,8 +69,8 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB      
       TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM
       TYPE(t_segvar),INTENT(INOUT) :: SEGVAR
-c      my_real,INTENT(INOUT) :: UVAR(NEL,NUVAR)
-c      INTEGER,INTENT(IN) :: NUVAR
+      INTEGER, DIMENSION(4,NSEG), INTENT(IN) :: ELEM_ADRESS ! adress for fsky array (only used with parith/on)
+      my_real, DIMENSION(8,LSKY), INTENT(INOUT) :: FSKY ! acceleration array for parith/on option
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -87,6 +89,7 @@ C-----------------------------------------------
      .       TCAR_P, TCAR_VF, SURF, TIME, EINT,PHASE_ALPHA(21),PHASE_RHO(21), PHASE_EINT(21)
       LOGICAL bFOUND
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
+      INTEGER :: ADRESS ! adress for parit/on array
 C-----------------------------------------------
       DATA ICF_2d  /1,2,2,3,3,4,4,1/
       DATA ICF_3d  /1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
@@ -106,6 +109,7 @@ C-----------------------------------------------
       ENDIF
       
       IF(IALE == 1)THEN 
+
         DO II=1,NOD
           NUM=LISTE(II)
           V0(1,II)=V(1,NUM)-W(1,NUM)
@@ -135,7 +139,7 @@ C-----------------------------------------------
                    
           !---OUTWARD NORMAL
           IF(N2D == 0)THEN
-            JJ = IFACE(IS)  
+            JJ = IFACE(IS)
             IX(1)=IXS(ICF_3d(1,JJ)+1,IELEM(IS))          
             IX(2)=IXS(ICF_3d(2,JJ)+1,IELEM(IS))          
             IX(3)=IXS(ICF_3d(3,JJ)+1,IELEM(IS))          
@@ -183,7 +187,7 @@ C-----------------------------------------------
           NNG(1)=LISTE(NN(1))
           NNG(2)=LISTE(NN(2))
           NNG(3)=LISTE(NN(3))
-          NNG(4)=LISTE(NN(4))         
+          NNG(4)=LISTE(NN(4))    
                     
           TMP(1:3) = ZERO
           DO KK=1,NPT
@@ -216,7 +220,7 @@ C-----------------------------------------------
                EXIT                                         
              ENDIF                                          
           ENDDO                                             
-          IF(.NOT.bFOUND)CYCLE !next I                      
+          IF(.NOT.bFOUND)CYCLE !next I                 
           GBUF    => ELBUF_TAB(NGRP)%GBUF        
           LBUF    => ELBUF_TAB(NGRP)%BUFLY(1)%LBUF(1,1,1)   
           MTN = IPARG(1,NGRP)                     
@@ -249,7 +253,6 @@ C-----------------------------------------------
           
           !VOL FRAC          
           IF(MTN == 51)THEN
-            !NUVAR = ELBUF_TAB(NGRP)%BUFLY(1)%NVAR_MAT 
             MBUF => ELBUF_TAB(NGRP)%BUFLY(1)%MAT(1,1,1)
             DO ISUBMAT=1,4
               IPOS = 1                                                                                                       
@@ -270,7 +273,6 @@ C-----------------------------------------------
             ENDDO
           ENDIF
           NBMAT=EBCS%NBMAT
-          !IF(TIME == ZERO)EBCS%PHASE_ALPHA(1:NBMAT,IS)=PHASE_ALPHA(1:NBMAT)
           
           !segment data for flux of volumes ( upwind/ACONVE() )
           SEGVAR%RHO(KSEG)=RHO
@@ -314,41 +316,33 @@ C-----------------------------------------------
              LA(1,NN(KK)) = LA(1,NN(KK)) -  PP*SURF*XN*FAC1
              LA(2,NN(KK)) = LA(2,NN(KK)) -  PP*SURF*YN*FAC1
              LA(3,NN(KK)) = LA(3,NN(KK)) -  PP*SURF*ZN*FAC1
-           ENDDO         
-          
+           ENDDO
+
+           ! -------------
+           ! for parith/on option : need to update with FSKY array 
+           IF(IPARIT>0) THEN
+                DO KK=1,NPT
+                    ADRESS = ELEM_ADRESS(KK,IS) ! adress of FSKY array for element IS and node KK
+                    FSKY(1,ADRESS) = -PP*SURF*XN*FAC1
+                    FSKY(2,ADRESS) = -PP*SURF*YN*FAC1
+                    FSKY(3,ADRESS) = -PP*SURF*ZN*FAC1
+                    FSKY(4:8,ADRESS) = ZERO
+                ENDDO
+           ENDIF      
+           ! -------------          
         ENDDO      
         
-      DO II=1,NOD
-        NUM=LISTE(II)
-        A(1,NUM)=A(1,NUM)+LA(1,II)
-        A(2,NUM)=A(2,NUM)+LA(2,II)
-        A(3,NUM)=A(3,NUM)+LA(3,II)
-      ENDDO
-      
-         !DO II=1,NOD
-         !  NUM=LISTE(II)
-         !   FAC2 = SURF*ROC
-         !   STIFN(NUM)=STIFN(NUM)+(TWO*FAC2*FAC2)/MS(NUM) 
-         !ENDDO                           
+        ! -------------
+        ! for parith/off option : update directly the acceleration array A()
+        IF(IPARIT==0) THEN
+            DO II=1,NOD
+                NUM=LISTE(II)
+                A(1,NUM)=A(1,NUM)+LA(1,II)
+                A(2,NUM)=A(2,NUM)+LA(2,II)
+                A(3,NUM)=A(3,NUM)+LA(3,II)
+            ENDDO
+        ENDIF
+        ! -------------         
 
       RETURN
       END
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

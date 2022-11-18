@@ -67,7 +67,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II,JJ,J,K,L,M,PP,NN,KK,NEL,IRECT(4),IAD,N,ALE,NF,IP(NNODE),TURBU,NEIGH,CON(8),IS
-      INTEGER IFACE, IFACE2, IFACE2T, JALE_FROM_MAT, JALE_FROM_PROP
+      INTEGER IFACE, IFACE2, IFACE2T, JALE_FROM_MAT, JALE_FROM_PROP,MINUS
       my_real :: N1, N2, N3, DDS,AREA
       EXTERNAL  IFACE, IFACE2, IFACE2T
       DATA CON/1,2,3,4,5,6,7,8/
@@ -163,7 +163,7 @@ C-----------------------------------------------
           KK=IX(K+1,NEL)
           XC=XC+X(1,KK)
           YC=YC+X(2,KK)
-          ZC=ZC+X(3,KK)
+          ZC=ZC+X(3,KK) 
         ENDDO
         XC=XC/NNODE
         YC=YC/NNODE
@@ -190,6 +190,8 @@ C-----------------------------------------------
           SEGINDX = SEGINDX+1
           ISEG(J) = IS*SEGINDX
           IAD = ALE_CONNECTIVITY%ee_connect%iad_connect(NEL)
+          MINUS = -1
+!          IF(TYPE==10) MINUS = 1
           ALE_CONNECTIVITY%ee_connect%connected(iad + NF - 1) = -SEGINDX   !NEGATIVE VALUE => STORAGE OF SEGMENT ID
           IF(IPRI>=1)WRITE(IOUT,FMT=FMW_10I)J,IX(NIX,NEL),NF,ISEG(J)
         ELSE

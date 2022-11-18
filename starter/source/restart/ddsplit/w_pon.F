@@ -57,12 +57,13 @@ Chd|====================================================================
      N      CRKNODIAD, INTBUF_TAB,NUMELIG3D_L,KXIG3D,IXIG3D,
      O      IBFFLUX  ,NFXFLUX_L ,CEPCND  ,CELCND   ,ADDCNCND    ,
      P      CNCND     ,NS10E_L  ,ICNDS10 ,LCNCND_L ,ITAGND ,IGRSURF,
-     Q      IGRSURF_PROC )
+     Q      IGRSURF_PROC ,LOCAL_NEBCS, EBCS_TAB_LOC_2)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
+      USE EBCS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,6 +128,8 @@ C-----------------------------------------------
 !                 %ELEM  --> element id
 !                 %NSEG --> total element number
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
+      INTEGER, INTENT(IN) :: LOCAL_NEBCS ! number of parallelized ebcs 
+      TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB_LOC_2 ! ebcs structure
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -168,6 +171,9 @@ C-----------------------------------------------
      .        IADS16,IADS20,IADQ,IADC,IADT,
      .        IADP,IADR,IADTG,IADUR, IADIB,
      .        IADTG1,IADIG3D
+      TYPE(ebcs_parith_on), DIMENSION(:), ALLOCATABLE :: EBCS_PARITHON_L ! adress for the fsky array for parith/on
+      LOGICAL, DIMENSION(:), ALLOCATABLE :: EBCS_TAG ! boolean : true if the element belongs to an ebcs
+      INTEGER :: LOCAL_NODE_ID,ELEM_ID,NUMG_SAVE
 C-----------------------------------------------
       IUN = 1
       ALLOCATE(SOLTAG(NUMELS))
@@ -387,6 +393,38 @@ C
           ENDDO
         ENDDO
       ENDIF
+
+      ! --------------------------
+      ! tag the element belonging to an ebcs
+      ALLOCATE( EBCS_TAG(NUMELS+NUMELQ+NUMELTG) )
+      EBCS_TAG(1:NUMELS+NUMELQ+NUMELTG) = .FALSE.
+      ALLOCATE(EBCS_PARITHON_L(LOCAL_NEBCS))
+      IF(LOCAL_NEBCS>0) THEN
+        ! ---------------------
+        ! loop over the /EBCS
+        DO I=1,LOCAL_NEBCS
+            ! allocation of adress array
+            ALLOCATE( EBCS_PARITHON_L(I)%ELEM_ADRESS(4,EBCS_TAB_LOC_2%tab(I)%poly%nb_elem) )
+            EBCS_PARITHON_L(I)%ELEM_ADRESS(1:4,1:EBCS_TAB_LOC_2%tab(I)%poly%nb_elem) = 0
+            ! check if a surface is associated to the ebcs
+            IF(EBCS_TAB_LOC_2%tab(I)%poly%surf_id>0) THEN
+                ! ---------------------
+                ! loop over the element of the surface to tag the element
+                DO J=1,EBCS_TAB_LOC_2%tab(I)%poly%nb_elem
+                    ELEM_ID = EBCS_TAB_LOC_2%tab(I)%poly%global_ielem(J)
+                    IF(N2D/=0) THEN
+                        IF(ELEM_ID>NUMELS+NUMELQ) THEN
+                            ELEM_ID = ELEM_ID - (NUMELC+NUMELT+NUMELP+NUMELR)
+                        ENDIF
+                    ENDIF
+                    EBCS_TAG(ELEM_ID) = .TRUE.
+                ENDDO
+                ! ---------------------
+            ENDIF
+        ENDDO
+        ! ---------------------
+      ENDIF
+      ! --------------------------
 C-----------------------------------------------
 C ADDCNE_L et IADS
 C-----------------------------------------------
@@ -410,6 +448,7 @@ C
         ADDCNE_L(I+1) = ADDCNE_L(I) + N2-N1
         DO CC = N1, N2-1
           NUMG = CNE(CC)
+          NUMG_SAVE = CNE(CC)
  
           NUML = CEL(NUMG)
           PROC_L = CEP(NUMG)+1 
@@ -468,6 +507,45 @@ C
                  ENDIF
                ENDDO
              ENDIF
+
+             ! --------------------
+             ! element belongs to an ebcs
+             IF(EBCS_TAG(NUMG_SAVE)) THEN
+                DO II=1,LOCAL_NEBCS
+                ! check if a surface is associated to the ebcs
+                    IF(EBCS_TAB_LOC_2%tab(II)%poly%surf_id>0) THEN
+                        ! -------------
+                        ! loop over the element of the surface
+                        DO J=1,EBCS_TAB_LOC_2%tab(II)%poly%nb_elem
+                            ELEM_ID = EBCS_TAB_LOC_2%tab(II)%poly%global_ielem(J) ! global element id
+                            ! -------------
+                            ! find the location of the node :
+                            ! 4 nodes for a solid
+                            ! 1     2
+                            ! o-----o
+                            ! |     |
+                            ! o-----o
+                            ! 4     3
+                            IF(ELEM_ID==NUMG_SAVE) THEN
+                                DO K=1,4
+                                    LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%elem_list(K,J)
+                                    LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%node_list(LOCAL_NODE_ID)
+                                    IF(N==NODGLOB(LOCAL_NODE_ID)) THEN
+                                        IF(EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J)==0) THEN
+                                            EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J) = CC_L
+                                            GOTO 100
+                                        ENDIF                                        
+                                    ENDIF
+                                ENDDO
+                            ENDIF
+                            ! -------------
+                        ENDDO
+                        ! -------------
+                    ENDIF
+                ENDDO
+             ENDIF
+
+             ! --------------------
 C
            ELSEIF(NUMG<=NUMELS+NUMELQ) THEN
              DO K=1,4
@@ -479,6 +557,44 @@ C
                  GOTO 100
                ENDIF
              ENDDO
+             ! --------------------
+             ! element belongs to an ebcs
+             IF(EBCS_TAG(NUMG_SAVE)) THEN
+                DO II=1,LOCAL_NEBCS
+                ! check if a surface is associated to the ebcs
+                    IF(EBCS_TAB_LOC_2%tab(II)%poly%surf_id>0) THEN
+                        ! -------------
+                        ! loop over the element of the surface
+                        DO J=1,EBCS_TAB_LOC_2%tab(II)%poly%nb_elem
+                            ELEM_ID = EBCS_TAB_LOC_2%tab(II)%poly%global_ielem(J) ! global element id
+                            ! -------------
+                            ! find the location of the node for a quad :
+                            ! only 2 nodes for the surface (2D case) 
+                            ! 1     2
+                            ! o-----o
+                            ! |     |
+                            ! o-----o
+                            ! 4     3
+                            IF(ELEM_ID==NUMG_SAVE) THEN
+                                DO K=1,2
+                                    LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%elem_list(K,J)
+                                    LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%node_list(LOCAL_NODE_ID)
+                                    IF(N==NODGLOB(LOCAL_NODE_ID)) THEN
+                                        IF(EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J)==0) THEN
+                                            EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J) = CC_L
+                                            GOTO 100
+                                        ENDIF
+                                    ENDIF
+                                ENDDO
+                            ENDIF
+                            ! -------------
+                        ENDDO
+                        ! -------------
+                    ENDIF
+                ENDDO
+             ENDIF
+             ! --------------------
+
            ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC) THEN
              NUMG = NUMG - (NUMELS+NUMELQ)
              DO K=1,4
@@ -636,6 +752,46 @@ C mv coque triangle
                  ENDDO
                ENDIF
              ENDIF
+
+             ! --------------------
+             ! element belongs to an ebcs
+             IF(EBCS_TAG(NUMG_SAVE-(NUMELC+NUMELT+NUMELP+NUMELR))) THEN
+                DO II=1,LOCAL_NEBCS
+                ! check if a surface is associated to the ebcs
+                    IF(EBCS_TAB_LOC_2%tab(II)%poly%surf_id>0) THEN
+                        ! -------------
+                        ! loop over the element of the surface
+                        DO J=1,EBCS_TAB_LOC_2%tab(II)%poly%nb_elem
+                            ELEM_ID = EBCS_TAB_LOC_2%tab(II)%poly%global_ielem(J) ! global element id
+                            ! -------------
+                            ! find the location of the node for a triangle : 
+                            ! only 2 nodes for the surface (2D case) 
+                            !    1
+                            !    o
+                            !   / \
+                            !  /   \
+                            ! o-----o
+                            ! 3     2
+                            IF(ELEM_ID==NUMG_SAVE) THEN
+                                DO K=1,2
+                                    LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%elem_list(K,J)
+                                    IF(LOCAL_NODE_ID>0) THEN
+                                        IF(N==NODGLOB(LOCAL_NODE_ID)) THEN
+                                            IF(EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J)==0) THEN
+                                                EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J) = CC_L
+                                                GOTO 100
+                                            ENDIF
+                                        ENDIF
+                                    ENDIF
+                                ENDDO
+                            ENDIF
+                            ! -------------
+                        ENDDO
+                        ! -------------
+                    ENDIF
+                ENDDO
+             ENDIF
+             ! --------------------
 C
            ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
      .            NUMELR+NUMELTG+NUMELUR) THEN
@@ -1245,7 +1401,6 @@ Cel TAGE flag servant pour inacti
             END DO
           END IF
         END DO
-        if(nn/=nskyi18_l)print*,'error in type18 decomp'
       END IF
 C-----------------------------------------------
 C Ecriture tableaux P/ON propre au SPMD
@@ -1366,6 +1521,16 @@ C
         CALL WRITE_I_C(CRKNODIAD_L,LCNECRKXFEM_L)
         LEN_IA = LEN_IA + LCNECRKXFEM_L
       ENDIF
+
+      ! -----------------------
+      ! EBCS option : adress for parith/on 
+      IF(LOCAL_NEBCS>0) THEN
+        DO I=1,LOCAL_NEBCS
+            CALL WRITE_I_C(EBCS_PARITHON_L(I)%ELEM_ADRESS,4*EBCS_TAB_LOC_2%tab(I)%poly%nb_elem)
+            LEN_IA = LEN_IA + 4*EBCS_TAB_LOC_2%tab(I)%poly%nb_elem
+        ENDDO
+      ENDIF
+      ! -----------------------
 c
       DEALLOCATE (SOLTAG)
       DEALLOCATE (SOL10TAG)
@@ -1398,6 +1563,14 @@ c
       DEALLOCATE( IADUR,IADIB )
       DEALLOCATE( IADTG1,IADIG3D )
 ! -----------------------------
-
+      ! EBCS option : deallocation
+      DEALLOCATE( EBCS_TAG )
+      IF(LOCAL_NEBCS>0) THEN
+        DO I=1,LOCAL_NEBCS
+            DEALLOCATE( EBCS_PARITHON_L(I)%ELEM_ADRESS )
+        ENDDO
+      ENDIF
+      DEALLOCATE(EBCS_PARITHON_L)
+! -----------------------------
       RETURN
       END

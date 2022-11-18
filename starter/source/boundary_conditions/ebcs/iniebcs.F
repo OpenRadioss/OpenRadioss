@@ -79,6 +79,7 @@ C-----------------------------------------------
       INTEGER :: SIZ
       CLASS (T_EBCS), POINTER :: EBCS
 C=======================================================================
+      EBCS_TAG_CELL_SPMD(1:NUMELQ+NUMELTG+NUMELS)=0 
       IF (N2D == 0) THEN
          LENMWA = NUMNOD+2+8*NUMELS
          ALLOCATE(MWA(LENMWA),  STAT=ERR)
@@ -305,15 +306,14 @@ C=======================================================================
           
           IF(.NOT.EBCS%is_multifluid .AND. (TYP == 0 .OR. TYP == 10))THEN                                           
             !2D quads & trias EBCS : all on domain 1 (ispmd=0)  --> TAG with  EBCS_TAG_CELL_SPMD
-            !-------------------------------------------------   
-            EBCS_TAG_CELL_SPMD(1:NUMELQ+NUMELTG+NUMELS)=0                    
+            !-------------------------------------------------                      
             DO KK=1,EBCS%nb_elem              
               ICELL = EBCS%ielem(KK) 
               K1=0
               IF (EBCS%itype(KK)==4)K1=0
               IF (EBCS%itype(KK)==3)K1=NUMELQ 
               IF (EBCS%itype(KK)==8)K1=NUMELQ+NUMELTG             
-              EBCS_TAG_CELL_SPMD(K1+ICELL)=1    !tag elem to send to domain #1                     
+              IF(TYP/=10) EBCS_TAG_CELL_SPMD(K1+ICELL)=1    !tag elem to send to domain #1                     
             ENDDO                                                
             !-------------------------------------------------   
                                                                  

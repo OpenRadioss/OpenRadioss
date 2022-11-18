@@ -184,7 +184,8 @@ C-----------------------------------------------
       DOUBLE PRECISION, DIMENSION(:),ALLOCATABLE :: XDPDUM
       INTEGER, DIMENSION(NVOLU) :: NTRI
       INTEGER, DIMENSION(:), ALLOCATABLE :: INTEGER_DATA
-      INTEGER :: INT1, INT2, INT0, ITMP
+      INTEGER :: INT1, INT2, INT3, INT0, ITMP
+      INTEGER :: MY_SIZE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -383,24 +384,51 @@ c       WRITE(6,*) "ITAB = ",ITAB(1:SITAB)
 
         CALL READ_I_C(ILAS,SILAS)
 
-        CALL READ_I_C(INT0, 1)
-        CALL READ_I_C(INT1, 1)
-        CALL READ_I_C(INT2, 1)
+        ! -----------------------------
+        ! EBCS option
+        CALL READ_I_C(INT0, 1) ! total number of EBCS
+        CALL READ_I_C(INT1, 1) ! number of multifluid ebcs
+        CALL READ_I_C(INT2, 1) ! number of /NRF ebcs
+        CALL READ_I_C(INT3, 1) ! number of other ebcs
 
         EBCS_TAB%nebcs = INT0
         EBCS_TAB%nebcs_fvm = INT1
-        EBCS_TAB%nebcs_loc = INT2
+        EBCS_TAB%nebcs_nrf = INT2
+        EBCS_TAB%nebcs_loc = INT3
+
         IF (INT0 > 0) THEN
            ALLOCATE(INTEGER_DATA(INT0))
            CALL EBCS_TAB%read_type_data(INT0, INTEGER_DATA)
-           CALL EBCS_TAB%create_from_types(INT1 + INT2, INTEGER_DATA(1:INT1 + INT2))
+           ALLOCATE(EBCS_TAB%my_typ(INT0))
+           ALLOCATE(EBCS_TAB%need_to_compute(INT0))
+           ! save the type of /EBCS ( /EBCS/NRF --> typ = 10)
+           EBCS_TAB%my_typ(1:INT0) = INTEGER_DATA(1:INT0)
+           ! -------------
+           ! check if the current proc needs to compute an /EBCS
+           ! multifluid /EBCS and /EBCS/NRF are parallelized, can be computed by several proc
+           ! the others are sequential, only the main proc (ispmd=0) computes the other /EBCS
+           DO II=1,INT0
+                EBCS_TAB%need_to_compute(II) = .FALSE.
+                IF(ISPMD/=0) THEN
+                    IF(EBCS_TAB%my_typ(II)==10)EBCS_TAB%need_to_compute(II) = .TRUE. ! /EBCS/NRF are //
+                ELSE
+                    EBCS_TAB%need_to_compute(II) = .TRUE.   ! other /EBCS sequential
+                ENDIF
+           ENDDO
+           ! -------------
+           ! create the data of /EBCS options
+           CALL EBCS_TAB%create_from_types(INT1 + INT2 + INT3, INTEGER_DATA(1:INT1 + INT2 + INT3))
         ENDIF
-        IF (INT1 + INT2 > 0) THEN
-           DO II = 1, INT1 + INT2
+        ! read the data of /EBCS options
+        IF (INT1 + INT2 + INT3 > 0) THEN
+           DO II = 1, INT1 + INT2 + INT3
               CALL EBCS_TAB%tab(II)%poly%read_common_data()
               CALL EBCS_TAB%tab(II)%poly%read_data()
            ENDDO
         ENDIF
+        ! array allocation : adress for parith/on option
+        ALLOCATE( EBCS_PARITHON(EBCS_TAB%nebcs) )
+        ! -----------------------------
 
         CALL READ_I_C(LACCELM,SLACCELM)
 
@@ -772,6 +800,20 @@ C
           ENDDO
         ENDIF
 c        ENDIF
+
+        ! ---------------
+        ! ebcs option : adress of FSKY array
+        IF(EBCS_TAB%nebcs_nrf>0) THEN
+            DO I=1,EBCS_TAB%nebcs
+                IF(EBCS_TAB%my_typ(I)==10) THEN
+                    MY_SIZE = EBCS_TAB%tab(I)%poly%nb_elem
+                    ALLOCATE(EBCS_PARITHON(I)%ELEM_ADRESS(4,MY_SIZE))
+                    CALL READ_I_C(EBCS_PARITHON(I)%ELEM_ADRESS,4*MY_SIZE)
+                ENDIF
+            ENDDO
+        ENDIF
+        ! ---------------
+
         CALL DECOMPRESS_I_NNZ(IGEO,SIGEO)
 
         CALL DECOMPRESS_I_NNZ(IPM, SIPM)

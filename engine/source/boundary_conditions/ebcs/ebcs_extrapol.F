@@ -51,6 +51,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "scr17_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -69,6 +70,7 @@ C-----------------------------------------------
       ENDDO
 
       DO I = 1, NEBCS
+         IF(.NOT.EBCS_TAB%need_to_compute(I)) CYCLE
          EBCS => EBCS_TAB%tab(i)%poly
          SELECT TYPE (EBCS)
            TYPE IS (t_ebcs_gradp0)

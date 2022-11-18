@@ -57,6 +57,7 @@ C-----------------------------------------------
       CLASS(t_ebcs), POINTER :: EBCS
 
       DO I=1,NEBCS
+         IF(.NOT.EBCS_TAB%need_to_compute(I)) CYCLE
          TYP = EBCS_TAB%tab(i)%poly%type
          NOD = EBCS_TAB%tab(i)%poly%nb_node
          
