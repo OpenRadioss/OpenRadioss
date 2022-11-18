@@ -268,12 +268,11 @@ C-----------------------------------------------
                ENDIF
             ENDDO
          ENDIF
-         
          IF (EBCS_TAB%tab(II)%poly%surf_id > 0) THEN
-            CALL EBCS_TAB%tab(II)%poly%set_nodes_elems(IGRSURF(JJ)%NSEG, NUMNOD, IGRSURF(JJ)%NODES)           
+            CALL EBCS_TAB%tab(II)%poly%set_nodes_elems(IGRSURF(JJ)%NSEG, NUMNOD, IGRSURF(JJ)%NODES)         
             IF (IMACH == 3) THEN
-             DO JJ = 1, EBCS_TAB%tab(II)%poly%nb_node                    
-                CALL IFRONTPLUS(EBCS_TAB%tab(II)%poly%node_list(jj), 1)  
+             DO JJ = 1, EBCS_TAB%tab(II)%poly%nb_node    
+                IF(EBCS_TAB%tab(II)%poly%type/=10) CALL IFRONTPLUS(EBCS_TAB%tab(II)%poly%node_list(jj), 1)  
                 FLAGKIN(EBCS_TAB%tab(II)%poly%node_list(jj)) = 1         
              ENDDO                                                                    
             ENDIF

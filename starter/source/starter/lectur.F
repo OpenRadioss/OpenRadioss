@@ -10064,7 +10064,7 @@ C
      D    LGAUGE ,IGAUP   ,NGAUP  ,INTBUF_TAB,IBFFLUX ,
      E    ICNDS10,ITAGND  ,IGEO   ,TAG_SKN   ,MULTIPLE_SKEW,
      F    IBFV   ,IBCSCYC ,LBCSCYC,R_SKEW    ,IPM,
-     G    SENSOR_TAB, SCEP)
+     G    SENSOR_TAB, SCEP,EBCS_TAB)
 
 C      ELSE
 C       mise a 1 de front i.e. tous les noeuds sur Proc1, poids 1
@@ -10325,7 +10325,7 @@ C--------------------------------------------
      3      IXR    ,IXUR   ,IXTG   ,IXTG1   ,T_MONVOL  ,
      4      IGRSURF,IBCL   ,ADDCNE  ,CEP     ,
      5      ILEN   ,GEO    ,IBCV   ,IBCR    ,IBFFLUX ,
-     6      ILOADP ,LLOADP ,CEL    )
+     6      ILOADP ,LLOADP ,CEL    ,EBCS_TAB)
           IF(I2NSNT>0) THEN
             IF(LCNI2G>0) ALLOCATE(CNI2(LCNI2G))
             CALL FILLCNI2(
@@ -10696,7 +10696,6 @@ C
       DEALLOCATE( FACE_ELM_S )
       DEALLOCATE( FACE_ELM_Q )
       DEALLOCATE( FACE_ELM_TG )
-
 c     stop CPU timer for ddsplit
       CALL STOPTIME(3,1)
 

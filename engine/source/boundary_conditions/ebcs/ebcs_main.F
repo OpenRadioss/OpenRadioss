@@ -40,7 +40,7 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod
 Chd|====================================================================
       SUBROUTINE EBCS_MAIN(IGRSURF,SEGVAR,VOLMON,A,V,W,X,
      .                     FSAV,FV,WA,MS,STIFN,IPARG,ELBUF_TAB,EBCS_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .                     ITAB,NALE)
+     .                     ITAB,NALE,FSKY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,6 +59,8 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
+#include      "task_c.inc"
+#include      "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -71,6 +73,7 @@ C-----------------------------------------------
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(t_ebcs_tab), TARGET, INTENT(INOUT) :: EBCS_TAB
       TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM
+      my_real, DIMENSION(8,LSKY), INTENT(INOUT) :: FSKY ! acceleration array for parith/on option
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -81,6 +84,7 @@ C   S o u r  c e   L i n e s
 C-----------------------------------------------
  
       DO I = 1, NEBCS
+         IF(.NOT.EBCS_TAB%need_to_compute(I)) CYCLE
          EBCS => EBCS_TAB%tab(i)%poly
          IF(EBCS%is_multifluid)return
          TYP = EBCS%type
@@ -97,14 +101,11 @@ C-----------------------------------------------
      .           EBCS%la, FV, MS, STIFN, IPARG, ELBUF_TAB, twf)
             end select
          ELSE IF (TYP <= 3)THEN
-C           select type (twf => EBCS_TAB%tab(i)%poly)
-C           type is (t_ebcs_tab) 
             CALL EBCS1(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
      .           EBCS%vold,EBCS%pold,EBCS%la,
      .           FV,MS,STIFN,TYP,EBCS_TAB, I)
-C           end select
          ELSE IF (TYP == 4) THEN
             select type (twf => EBCS_TAB%tab(i)%poly)
             type is (t_ebcs_vel) 
@@ -148,7 +149,7 @@ C           end select
      .             twf%node_list,NOD,twf%elem_list,twf%ielem,twf%iface,
      .             twf%ro0,twf%en0,
      .             twf%la,MS,STIFN,twf,IPARG,ELBUF_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .             ITAB, NALE)  
+     .             ITAB, NALE, EBCS_PARITHON(I)%ELEM_ADRESS,FSKY)  
             end select  
          ELSE IF (TYP == 100) THEN
             SELECT TYPE(EBCS)

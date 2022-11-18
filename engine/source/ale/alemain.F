@@ -394,7 +394,6 @@ C Part not parallel smt
 !$OMP END SINGLE
               ENDIF
             ENDIF
-            
             !------------------------------------------------!
             ! INTERFACE CONVECTIONS                          !
             !------------------------------------------------!  
@@ -413,12 +412,11 @@ C              Envoi X pour interface type 12 ?
      .                          A,V,W,X,FSAV(1,I),FV,
      .                          WA,MS,STIFN,IPARG,
      .                          ELBUF_TAB,EBCS_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .                          ITAB,ALE_CONNECTIVITY%NALE)
+     .                          ITAB,ALE_CONNECTIVITY%NALE,FSKY)
                ENDIF
                CALL MY_BARRIER
             ENDIF
             !------------------------------------------------!              
-
             IF(NSEGFLU > 0) THEN
 C Comm SPMD SEGVAR P0 -> Pi
                IF(NSPMD > 1) THEN
@@ -455,7 +453,6 @@ c
          ENDIF
          !==================================================================================   
          
-
          IF (MULTI_FVM%IS_USED) THEN
           IF(ITASK==0) CALL STARTIME(MACRO_TIMER_MULTIFVM,1)
 C     -------------------------

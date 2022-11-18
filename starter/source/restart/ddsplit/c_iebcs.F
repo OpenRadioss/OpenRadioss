@@ -90,31 +90,40 @@ C-----------------------------------------------
 
       LENGTH = 0
 
+      ! ----------------------------
+      ! loop over the ebcs
       DO I = 1, NEBCS
          TYP = EBCS_TAB%tab(i)%poly%type
          IEBCS_TYPE(I) = TYP
          NSEG = EBCS_TAB%tab(i)%poly%nb_elem
          NSEG_L = 0
-         IF (EBCS_TAB%tab(i)%poly%has_ielem .AND. allocated(EBCS_TAB%tab(i)%poly%ielem) ) THEN  !ebcs staggered allocated on proc 1 only
+         ! ---------------------   
+         IF (EBCS_TAB%tab(i)%poly%has_ielem ) THEN  
+            ! --------------------- 
+            ! loop over the element of the surface
             DO ISEG = 1, NSEG
                IELEM = EBCS_TAB%tab(i)%poly%ielem(ISEG)
                DP0=ZERO
                IF(EBCS_TAB%tab(i)%poly%has_dp0) DP0 = EBCS_TAB%tab(i)%poly%dp0(ISEG)
-               !IF (IPM(2, IX(1, IELEM)) == 151) THEN
-                  IF (CEP(IELEM)  == PROC) THEN
-                     NSEG_L = NSEG_L + 1
-                     IF(FLAG == 1) THEN
-                       IEBCS_LISTELEM_L(LENGTH + NSEG_L) = LOCALID(IELEM)
-                       IEBCS_LISTFAC_L(LENGTH + NSEG_L) = EBCS_TAB%tab(i)%poly%iface(ISEG)
+               ! --------------
+               ! if the element is on the current proc, convert the global id IELEM/iface(ISEG) to local id
+               IF (CEP(IELEM)  == PROC) THEN
+                    NSEG_L = NSEG_L + 1
+                    IF(FLAG == 1) THEN
+                       IEBCS_LISTELEM_L(LENGTH + NSEG_L) = LOCALID(IELEM) ! element id
+                       IEBCS_LISTFAC_L(LENGTH + NSEG_L) = EBCS_TAB%tab(i)%poly%iface(ISEG) ! face id
                        IEBCS_LISTDP0_L(LENGTH + NSEG_L) = DP0
-                     ENDIF
-                  ENDIF
-               !ENDIF
+                    ENDIF
+               ENDIF
+               ! --------------
             ENDDO
+            ! --------------------- 
          ENDIF
+         ! --------------------- 
          IEBCS_NELEM_L(I) = NSEG_L
          LENGTH = LENGTH + NSEG_L
       ENDDO ! I = 1, NEBCS
+      ! ----------------------------
 
       DEALLOCATE(LOCALID)
       RETURN

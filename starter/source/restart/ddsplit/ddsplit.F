@@ -791,7 +791,9 @@ C
       INTEGER, DIMENSION(:), ALLOCATABLE :: NE_LERCVOIS  !(NE_NERVOIS)
       INTEGER, DIMENSION(:), ALLOCATABLE :: NE_LESDVOIS  !(NE_NESVOIS)
       INTEGER :: II, JJ, NEBCS_FVM, IPT, ITMP
-      TYPE(t_ebcs_tab) :: EBCS_TAB_LOC
+      INTEGER :: NEBCS_NRF,OTHER_NEBCS
+      INTEGER, DIMENSION(NEBCS) :: LIST_EBCS_NRF,LIST_OTHER_EBCS
+      TYPE(t_ebcs_tab) :: EBCS_TAB_LOC,EBCS_TAB_LOC_2
       TYPE(t_connectivity_ext1) :: ee_connect_l
 C-----------------------------------------------
       TYPE(SEATBELT_REMOTE_NODES_STRUCT) ANCHOR_REMOTE_L,ANCHOR_REMOTE_SEND_L
@@ -842,7 +844,6 @@ C--------------------------------------------
       CALL F_NODLOC2(NUMNOD,P  ,NODGLOB,NODLOCAL,IGEO ,
      2               IPARG,IXS   ,IXQ,IXC    ,IXTG    ,
      3               IXT  ,IXP   ,IXR,GEO    ,NUMNOD_L)
-
 C--------------------------------------
 C count local NGROUP 
 C--------------------------------------
@@ -928,7 +929,6 @@ C--------------------------------------------
            NUMEL = MAX(NUMEL, NUMELTG)
            NUMEL_L = MAX(NUMEL_L, NUMELTG_L)
         ENDIF
-
         CALL C_VOIS(NSVOIS  ,NQVOIS , NTGVOIS, NRCVVOIS,NSNDVOIS,ILAW11 ,
      2              NSEGFL_L,IPARG  ,CEP     ,ALE_CONNECTIVITY  ,NUMEL  ,
      3              P-1     ,IXS    ,IXQ     ,IXTG,
@@ -954,23 +954,40 @@ C--------------------------------------
       ALLOCATE(IEBCS_LISTFAC_L(0))
       ALLOCATE(IEBCS_LISTDP0_L(0))
       EBCS_TAB_LOC%nebcs_fvm = 0
+      NEBCS_FVM = 0
+      NEBCS_NRF = 0
+      OTHER_NEBCS = 0
       IF (NEBCS > 0) THEN
 ! Workaround for issues with Polymorphic types with some compilers
 !$OMP CRITICAL
-         NEBCS_FVM = 0
          DO II = 1, NEBCS
             IF (EBCS_TAB%tab(II)%poly%is_multifluid) THEN
                NEBCS_FVM = NEBCS_FVM + 1
+            ELSEIF(EBCS_TAB%tab(II)%poly%type==10) THEN
+                NEBCS_NRF = NEBCS_NRF + 1
+                LIST_EBCS_NRF(NEBCS_NRF) = II
+            ELSEIF(P==1) THEN
+                OTHER_NEBCS = OTHER_NEBCS + 1
+                LIST_OTHER_EBCS(OTHER_NEBCS) = II
             ENDIF
          ENDDO
+         ! allocation of EBCS type FVM
          CALL EBCS_TAB_LOC%create(NEBCS_FVM)
          EBCS_TAB_LOC%nebcs_fvm = NEBCS_FVM
-C        COUNT
+
+         ! allocation of EBCS type nrf
+         EBCS_TAB_LOC_2%nebcs_nrf = NEBCS_NRF
+         EBCS_TAB_LOC_2%nebcs_loc = OTHER_NEBCS
+         CALL EBCS_TAB_LOC_2%create(NEBCS_NRF)
+         EBCS_TAB_LOC_2%nebcs_fvm = 0
+         ! --------------------
+         ! mode 0 : count the number of entity/element
          CALL C_IEBCS(IXS, IXQ, IXTG,
      .        NUMELS, NUMELQ, NUMELTG,
      .        IPM, NEBCS, CEP, NUMELS + NUMELQ + NUMELTG, NUMELS_L + NUMELQ_L + NUMELTG_L,
      .        P-1, IEBCS_NELEM_L, IEBCS_TYPE, IEBCS_LISTELEM_L, IEBCS_LISTFAC_L,IEBCS_LISTDP0_L,IEBCSLGTH, N2D,
      .        MULTI_FVM%IS_USED,0,EBCS_TAB)
+         ! --------------------
 
 C        ALLOCATE
          DEALLOCATE(IEBCS_LISTELEM_L)
@@ -980,18 +997,30 @@ C        ALLOCATE
          ALLOCATE(IEBCS_LISTELEM_L(IEBCSLGTH))
          ALLOCATE(IEBCS_LISTDP0_L(IEBCSLGTH))
 
-C        FILL IEBCS_LISTELEM_L and LISTFAC_L
+         ! --------------------
+         ! mode 1 : initialization
+         ! FILL IEBCS_LISTELEM_L and LISTFAC_L
          IEBCSLGTH = 0
          CALL C_IEBCS(IXS, IXQ, IXTG,
      .        NUMELS, NUMELQ, NUMELTG,
      .        IPM, NEBCS, CEP, NUMELS + NUMELQ + NUMELTG, NUMELS_L + NUMELQ_L + NUMELTG_L,
      .        P-1, IEBCS_NELEM_L, IEBCS_TYPE, IEBCS_LISTELEM_L, IEBCS_LISTFAC_L,IEBCS_LISTDP0_L,IEBCSLGTH, N2D,
      .        MULTI_FVM%IS_USED,1,EBCS_TAB)
+         ! --------------------
+
 
          NEBCS_FVM = 0
+         NEBCS_NRF = 0
          IPT = 1
+        ! --------------------
+        ! loop over the ebcs, 3 cases :
+        ! (1) multifluid ebcs : parallel 
+        ! (2) non-reflecting ebcs (/EBCS/NRF) : parallel
+        ! (3) other ebcs  : sequential --> all the elements/nodes of the ebcs are on main processor
+        ! for cases (1) & (2) : need to convert global id into local processor id
          DO II = 1, NEBCS
-
+            ! ------------
+            ! multifluid ebcs
             IF (EBCS_TAB%tab(II)%poly%is_multifluid) THEN
 
                NEBCS_FVM = NEBCS_FVM + 1
@@ -1015,9 +1044,28 @@ C        FILL IEBCS_LISTELEM_L and LISTFAC_L
                   IF(EBCS_TAB_LOC%tab(NEBCS_FVM)%poly%has_dp0)EBCS_TAB_LOC%tab(NEBCS_FVM)%poly%dp0(JJ) = IEBCS_LISTDP0_L(IPT)
                   IPT = IPT + 1
                ENDDO
-
+            ! ------------
+            ! /NRF ebcs
+            ELSEIF(EBCS_TAB%tab(II)%poly%type==10) THEN
+               NEBCS_NRF = NEBCS_NRF + 1
+               ALLOCATE(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly, source = EBCS_TAB%tab(II)%poly)   
+               IF(EBCS_TAB%tab(II)%poly%has_ielem) THEN     
+                    EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%nb_elem = IEBCS_NELEM_L(II)
+                    IF (ALLOCATED(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%iface)) THEN
+                       DEALLOCATE(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%iface)
+                    ENDIF
+                    EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%nb_elem = IEBCS_NELEM_L(II)
+                    ALLOCATE(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%iface(IEBCS_NELEM_L(II)))
+                    DO JJ = 1, IEBCS_NELEM_L(II)
+                       EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%ielem(JJ) = IEBCS_LISTELEM_L(IPT)
+                       EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%iface(JJ) = IEBCS_LISTFAC_L(IPT)
+                       IF(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%has_dp0)EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%dp0(JJ) = IEBCS_LISTDP0_L(IPT)
+                       IPT = IPT + 1
+                    ENDDO
+                ENDIF
+            ! ------------
+            ! other ebcs
             ELSEIF(EBCS_TAB%tab(II)%poly%has_ielem .and. P==1) THEN
-
                EBCS_TAB%tab(II)%poly%nb_elem = IEBCS_NELEM_L(II)
                IF (ALLOCATED(EBCS_TAB%tab(II)%poly%ielem)) THEN
                   DEALLOCATE(EBCS_TAB%tab(II)%poly%ielem)
@@ -1034,13 +1082,18 @@ C        FILL IEBCS_LISTELEM_L and LISTFAC_L
                   IF(EBCS_TAB%tab(II)%poly%has_dp0)EBCS_TAB%tab(II)%poly%dp0(JJ) = IEBCS_LISTDP0_L(IPT)
                   IPT = IPT + 1
                ENDDO
-
             ENDIF
+            ! ------------
+
          ENDDO
+
+        ! --------------------
+        ! additional computation for /NRF ebcs
+         CALL SPLIT_EBCS(P,NEBCS_NRF,LIST_EBCS_NRF,SCEL,CEP,IGRSURF,
+     .                   CEL,NODLOCAL,EBCS_TAB,EBCS_TAB_LOC_2)
+        ! --------------------
 !$OMP END CRITICAL
       ENDIF
-
-
 C--------------------------------------
 C     Multifluid law velocity
 C--------------------------------------
@@ -2072,14 +2125,19 @@ C--------------------------------------
 C IEBCS
 C--------------------------------------
       NEBCS_FVM = 0
-      CALL WRITE_I_C(NEBCS, 1)
-      CALL WRITE_I_C(EBCS_TAB_LOC%nebcs_fvm, 1)
-      CALL WRITE_I_C(MAX(0, NEBCS * ISP0 - EBCS_TAB_LOC%nebcs_fvm), 1)
+      CALL WRITE_I_C(NEBCS, 1) ! total number of /EBCS
+      CALL WRITE_I_C(EBCS_TAB_LOC%nebcs_fvm, 1) ! multifluid ebcs number
+      CALL WRITE_I_C(NEBCS_NRF, 1)  ! /NRF ebcs number
+      CALL WRITE_I_C(OTHER_NEBCS, 1) ! other ebcs
+      ! ---------------
+      ! common data 
       IF (NEBCS > 0)THEN
          CALL EBCS_TAB%write_type_data(LEN_IA, LEN_AM)
       ENDIF
+      ! ---------------
 
-!     FVM boundary conditions first
+      ! ---------------
+      ! multifluid EBCS
       DO II = 1, NEBCS
          IF (EBCS_TAB%tab(ii)%poly%is_multifluid) THEN
             NEBCS_FVM = NEBCS_FVM + 1
@@ -2087,13 +2145,33 @@ C--------------------------------------
             CALL EBCS_TAB_LOC%tab(NEBCS_FVM)%poly%write_data(LEN_IA, LEN_AM)
          ENDIF
       ENDDO
-
-
+      ! ---------------
+      ! deallocation of local multifluid ebcs structure
       CALL EBCS_TAB_LOC%destroy()
+      ! ---------------
 
-!     Other boundary conditions second
-      IF (P == 1) THEN
-         DO II = 1, NEBCS
+      ! ---------------
+      ! other ebcs
+      NEBCS_NRF = 0
+      DO II = 1, NEBCS
+        ! ---------------
+        ! NRF ebcs
+        IF(.NOT.EBCS_TAB%tab(ii)%poly%is_multifluid.AND.EBCS_TAB%tab(ii)%poly%type==10) THEN
+            NEBCS_NRF = NEBCS_NRF + 1
+            DO JJ = 1, EBCS_TAB_LOC_2%tab(ii)%poly%nb_node
+                IF( NODLOCAL(EBCS_TAB_LOC_2%tab(ii)%poly%node_list(jj))>0.AND.
+     .              NODLOCAL(EBCS_TAB_LOC_2%tab(ii)%poly%node_list(jj))<=NUMNOD ) THEN
+                    EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%node_list(JJ) =
+     .               NODLOCAL(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%node_list(JJ))                
+                ENDIF
+            ENDDO
+            IF (.NOT. EBCS_TAB%tab(ii)%poly%is_multifluid) THEN
+                CALL EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%write_common_data(LEN_IA, LEN_AM)
+                CALL EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%write_data(LEN_IA, LEN_AM)
+            ENDIF
+        ! ---------------
+        ! other ebcs
+        ELSEIF (.NOT.(EBCS_TAB%tab(ii)%poly%is_multifluid).AND.P == 1) THEN
             DO JJ = 1, EBCS_TAB%tab(ii)%poly%nb_node
                EBCS_TAB%tab(ii)%poly%node_list(jj) = NODLOCAL(EBCS_TAB%tab(ii)%poly%node_list(jj))
             ENDDO
@@ -2101,9 +2179,10 @@ C--------------------------------------
                CALL EBCS_TAB%tab(ii)%poly%write_common_data(LEN_IA, LEN_AM)
                CALL EBCS_TAB%tab(ii)%poly%write_data(LEN_IA, LEN_AM)
             ENDIF
-         ENDDO
-      ENDIF
-
+        ENDIF
+        ! ---------------
+      ENDDO
+      ! ---------------
 C--------------------------------------
 C LACCELEM (renumerote directement)
 C--------------------------------------
@@ -2477,9 +2556,11 @@ C--------------------------------------
      N      CRKNODIAD ,INTBUF_TAB,NUMELIG3D_L,KXIG3D,IXIG3D,
      O      IBFFLUX   ,NFXFLUX_L ,CEPCND  ,CELCND   ,ADDCNCND    ,
      P      CNCND     ,NS10E_L   ,ICNDS10 ,LCNCND_L ,ITAGND ,IGRSURF,
-     Q      IGRSURF_PROC )
+     Q      IGRSURF_PROC ,NEBCS_NRF, EBCS_TAB_LOC_2)
 
-
+      ! -------------------
+      CALL EBCS_TAB_LOC_2%destroy()
+      ! -------------------
       CALL COMPRESS_I_NNZ(IGEO,LEN_G)
       LEN_IA = LEN_IA + LEN_G
       CALL COMPRESS_I_NNZ(IPM,LEN_M)

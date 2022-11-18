@@ -3144,7 +3144,7 @@ C       FUNCTIONS
 C----------------------------------
         IF(NFUNCT /= 0.AND.IALE+IEULER+ITHERM+NEBCS>0) THEN
             CALL TIMFUN(FV, NPC, TF)
-            IF(NEBCS/=0) THEN
+            IF(EBCS_TAB%nebcs_loc/=0) THEN
                 !!! Need to "extrapolate values" whenever current time
                 !!! is lower than minimum defined time function or greater than
                 !!! maximum defined time function
@@ -7261,7 +7261,7 @@ C----------------------
 C  Activating valve (in/out or imposed velocity)
 C----------------------
 
-        IF(NEBCS>0)THEN
+        IF(EBCS_TAB%nebcs_loc>0)THEN
           IF (IMON>0) THEN
             CALL STARTIME(6,1)
             CALL STARTIME(2,1)
@@ -9086,7 +9086,6 @@ C===============================================================================
             ENDIF
         ENDIF
       ENDIF
-
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
