@@ -288,4 +288,9 @@ duplicate %s id %d
 ** WARNING IN LS-DYNA IMPORT
 /MESSAGE/200029/DESCRIPTION
 %s (id: %u, name: %s) : Friction card for contact is not defined, friction is set to 0
+
+/MESSAGE/200030/TITLE
+** WARNING IN LS-DYNA IMPORT
+/MESSAGE/200030/DESCRIPTION
+%s (id: %u, name: %s) : Negative FAIL parameter is not supported
 #------------------------------------------------------------------------------
