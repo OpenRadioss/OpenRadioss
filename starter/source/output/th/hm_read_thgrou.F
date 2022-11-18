@@ -148,7 +148,7 @@ C
       CHARACTER*10 VARRIV(NVARRIV),VARRIVG(NVARRIVG)
 C-----------------------------------------------
       PARAMETER (NVARN = 637,NVARS =239554 ,NVARC = 37856,NVART = 6)
-      PARAMETER (NVARP = 254,NVARR = 65,NVARUR = 12)
+      PARAMETER (NVARP = 336,NVARR = 65,NVARUR = 12)
       PARAMETER (NVARNS = 4,NVARSPH = 41)
       PARAMETER (NVARIN = 28,NVARRW = 6,NVARRB =15,NVARFX =4)
       PARAMETER (NVARFXM = 3)
@@ -946,7 +946,24 @@ C   beams
      . 'SZX_75  ','SX_76   ','SXY_76  ','SZX_76  ','SX_77   ',
      . 'SXY_77  ','SZX_77  ','SX_78   ','SXY_78  ','SZX_78  ',
      . 'SX_79   ','SXY_79  ','SZX_79  ','SX_80   ','SXY_80  ',
-     . 'SZX_80  ','SX_81   ','SXY_81  ','SZX_81  '/
+     . 'SZX_80  ','SX_81   ','SXY_81  ','SZX_81  ','EPSP    ',
+     . 'EPSP_1  ','EPSP_2  ','EPSP_3  ','EPSP_4  ','EPSP_5  ',
+     . 'EPSP_6  ','EPSP_7  ','EPSP_8  ','EPSP_9  ','EPSP_10 ',
+     . 'EPSP_11 ','EPSP_12 ','EPSP_13 ','EPSP_14 ','EPSP_15 ',
+     . 'EPSP_16 ','EPSP_17 ','EPSP_18 ','EPSP_19 ','EPSP_20 ',
+     . 'EPSP_21 ','EPSP_22 ','EPSP_23 ','EPSP_24 ','EPSP_25 ',
+     . 'EPSP_26 ','EPSP_27 ','EPSP_28 ','EPSP_29 ','EPSP_30 ',
+     . 'EPSP_31 ','EPSP_32 ','EPSP_33 ','EPSP_34 ','EPSP_35 ',
+     . 'EPSP_36 ','EPSP_37 ','EPSP_38 ','EPSP_39 ','EPSP_40 ',
+     . 'EPSP_41 ','EPSP_42 ','EPSP_43 ','EPSP_44 ','EPSP_45 ',
+     . 'EPSP_46 ','EPSP_47 ','EPSP_48 ','EPSP_49 ','EPSP_50 ',
+     . 'EPSP_51 ','EPSP_52 ','EPSP_53 ','EPSP_54 ','EPSP_55 ',
+     . 'EPSP_56 ','EPSP_57 ','EPSP_58 ','EPSP_59 ','EPSP_60 ',
+     . 'EPSP_61 ','EPSP_62 ','EPSP_63 ','EPSP_64 ','EPSP_65 ',
+     . 'EPSP_66 ','EPSP_67 ','EPSP_68 ','EPSP_69 ','EPSP_70 ',
+     . 'EPSP_71 ','EPSP_72 ','EPSP_73 ','EPSP_74 ','EPSP_75 ',
+     . 'EPSP_76 ','EPSP_77 ','EPSP_78 ','EPSP_79 ','EPSP_80 ',
+     . 'EPSP_81 '/
 C   springs
       DATA VARR/
      . 'OFF     ','FX      ','FY      ','FZ      ','MX      ',
