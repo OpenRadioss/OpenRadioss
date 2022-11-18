@@ -659,7 +659,7 @@ C
                      IPP = GRPN1
                   ENDIF
 
-                      
+                  NSET = NSET + 1
                   NCOUPLE = NCOUPLE + 1          
                   TABCOUPLEPARTS_FRIC_TMP(NIF,NCOUPLE) = IPP  
                   NCOUPLE = NCOUPLE + 1          
@@ -873,7 +873,7 @@ C
                     IPP = GRPN1
                  ENDIF
 
-
+                 NSET = NSET + 1
                  NCOUPLE = NCOUPLE + 1          
                  TABCOUPLEPARTS_FRIC_TMP(NIF,NCOUPLE) = IPP  
                  NCOUPLE = NCOUPLE + 1          
