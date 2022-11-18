@@ -71,7 +71,7 @@ C-----------------------------------------------
      .        FLAG,NNOD,MTYP,MID,NDIR,
      .        I1,I2,IADBUF,TAG_PRINT,ISENS_LOC(2),IPID,OFFC,OFFR,NB_ELEM,NODE,
      .        NB_2D_SEATBELT,COMPT_BELT_END,COMPT_FRAM,NEXT_NODE,NODE_CUR,COMPT_2D,MID_2D,NODE_LONGI,
-     .        IADBUF_2D,FUNC1,FUNC2,ISK,N1,N2,SEATBELT_ELEM_FOUND,IMOV
+     .        IADBUF_2D,FUNC1,FUNC2,ISK,N1,N2,SEATBELT_ELEM_FOUND,IMOV,IECROU
       my_real DIST2,LMIN,RHO,XK,XC,AREA,LONGI_DIRECTION(3),EDGE_DIRECTION(3),SCAL,E11,E22,G12,DET,
      .        N12,N21,NU,FSCALE1,FSCALE2,A11,A22,A12,C1,SSP,RHO0,YOUNG,FSCALET,KMAX,A1C,A2C
 C
@@ -580,6 +580,7 @@ C
         IF (CPT_MAT(MID) > 0) THEN
           XC = BUFMAT(IADBUF+70)
           XK = BUFMAT(IADBUF+64)
+          IECROU = INT(BUFMAT(IADBUF+76))
           IF (XC == ZERO) THEN
 C--         default damping is 30% of critical damping
             RHO = PM(1,MID)
@@ -599,6 +600,11 @@ C--       for 2D_seatbelt mass is applied on shell - rho set to 0 - rho is store
             PM(1,MID) = EM20
             BUFMAT(IADBUF+71) = 0.3*XC  
             BUFMAT(IADBUF+72) = 0.3*XC
+            IF (IECROU==10) THEN
+C--           specific non linear formulation for 2d seatblets
+              IECROU = 12
+              BUFMAT(IADBUF+76) = IECROU + EM01          
+            ENDIF
           ENDIF       
         ENDIF       
       ENDDO

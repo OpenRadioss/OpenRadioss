@@ -533,6 +533,12 @@ C
           X0DP_B2(I)= X02(I)                     ! cast double vers My_real
           XL02(I)=MAX(X0DP_B2(I),LMIN(I))
           DX_B2(I) = ALDP_B2(I) - X0DP_B2(I)
+C         for 2n strand - unloading curve activated only if cross point is passed
+          IF (YIELDX_B2(I) >  UPARAM(IADBUF + 125)) THEN
+            IFUNC2(I)= IPM(10 + IF3 + 1,MID(I))
+          ELSE
+            IFUNC2(I)= IFUNC(I)
+          ENDIF
         ENDDO
 C
 C--     Computation of stress of 2nd strand for sliprings
