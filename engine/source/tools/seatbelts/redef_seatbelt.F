@@ -67,12 +67,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
-     . I, K, NP2, FUND, K1, II, JECROU(3), INTERP, JPOS(MVSIZ), JFUNC,
+     . I, K, NP2, FUND, K1, II, JECROU(4), INTERP, JPOS(MVSIZ), JFUNC,
      . JLEN(MVSIZ),JAD(MVSIZ),J
       my_real
      . X1,X2,Y1,Y2,DT11,AN3Y0(MVSIZ),XN3FY0(MVSIZ),DXELA(MVSIZ),XI1,XI2,YI1,YI2,DDXT,DDXC,
      . XX(MVSIZ),YY(MVSIZ),GET_U_FUNC,DYDX(MVSIZ),DDX(MVSIZ),DVX(MVSIZ),FOLD(MVSIZ),
-     . DAMP,DAMM
+     . DAMP,DAMM,FXB,XXB,XK_TANSAV(MVSIZ),X1S,X2S
 C=======================================================================
 C     Derived from REDEF3
 C     Can be launched on a reduced number of elements (defined by INDEXA)
@@ -88,14 +88,11 @@ C
         I = INDEXA(J)
         DX(I)=DX(I)/XL0(I)
         DXOLD(I)=DXOLD(I)/XL0(I)
-        DPX(I)=DPX(I)/XL0(I)
         E(I)=E(I)/XL0(I)
-C
         FOLD(J)=FX(I)
         DDX(J)= (DX(I)-EPS_OLD(I))
         DVX(J)= (DX(I)-DXOLD(I))/ DT11
         EPS_OLD(I) = DX(I)
-C
       ENDDO
 C
       IF ((IANI/=0).AND.(FLAG==1))THEN
@@ -112,7 +109,7 @@ C-------------------------------------
 C        VECTOR INTERPOLATION (ADRESS)
 C-------------------------------------
 C
-      JECROU(1:3) = 0
+      JECROU(1:4) = 0
       INTERP = 0
 C
       DO J=LFT,LLT_LOC
@@ -124,6 +121,9 @@ C
          INTERP = 1
        ELSEIF(IECROU(I) == 11)THEN
          JECROU(3) = JECROU(3) + 1
+       ELSEIF(IECROU(I) == 12)THEN
+         JECROU(4) = JECROU(4) + 1
+         INTERP = 1
        ENDIF
       ENDDO
 C
@@ -305,6 +305,196 @@ C----       Crossing of compression/tension line - mix stiffness computed
         ENDDO
       ENDIF
 C-------------------------------------
+C        NON LINEAR ELASTIC in tension with compression and no plasticity in compression - for 2D seatblets only
+C-------------------------------------
+      IF(JECROU(4)==LLT_LOC)THEN
+        DO J=LFT,LLT_LOC
+          I = INDEXA(J)                                          
+          FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
+          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
+          AN3Y0(J)= ZERO
+          DXELA(J)=DX(I)-DPX(I)
+          XXB = 0
+C---      Tension - load curve is used
+          DO  K=2,NP2                                                       
+            K1=2*(K-2)                                                
+            X1=TF(NPF(FUND)+K1)                                       
+            X2=TF(NPF(FUND)+K1+2)                                     
+            Y1=TF(NPF(FUND)+K1+1)                                     
+            Y2=TF(NPF(FUND)+K1+3) 
+            IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN  
+              X1S = X1
+              X2S = X2
+              AN3Y0(J)=(Y2-Y1)/ (X2-X1)                     
+              XN3FY0(J)=(FXEP(I)-Y1)/AN3Y0(J) + X1   !ABS DE N3
+              EXIT     
+            ENDIF 
+          ENDDO
+C---      Extrapolation (outside of input curve points)
+          IF (AN3Y0(J)== ZERO)THEN ! 
+            X1=TF(NPF(FUND)+(NP2-2)*2)                                       
+            X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
+            Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
+            Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
+            XI1=TF(NPF(FUND))                                       
+            XI2=TF(NPF(FUND)+2)                                     
+            YI1=TF(NPF(FUND)+1)                                     
+            YI2=TF(NPF(FUND)+3) 
+            IF(FXEP(I)>Y2) THEN
+              AN3Y0(J)=(Y2-Y1)/ (X2-X1) 
+              XN3FY0(J)=(FXEP(I)-Y1)/AN3Y0(J) + X1
+              X1S = X2
+              X2S = EP20 
+            ELSEIF(FXEP(I)<YI1) THEN
+              AN3Y0(J)=(YI2-YI1)/ (XI2-XI1)
+              XN3FY0(J)=(FXEP(I)-YI1)/AN3Y0(J) + XI1 
+              X1S = -EP20
+              X2S = XI1 
+            ENDIF
+            XK_TANSAV(J)=AN3Y0(J)
+          ENDIF
+          XXB =XN3FY0(J)+DDX(J)
+          XK_TANSAV(J)=AN3Y0(J)
+          IF (FXEP(I)==YIELD(I)) DPX(I) = XX_OLD(I) - XN3FY0(J)
+C---      Next point is in another part of the curve
+          IF (XXB< X1S.OR.XXB>X2S) THEN 
+            XK_TANSAV(J)=ZERO       
+            DO  K=2,NP2                                                       
+              K1=2*(K-2)                                                
+              X1=TF(NPF(FUND)+K1)                                       
+              X2=TF(NPF(FUND)+K1+2)                                     
+              Y1=TF(NPF(FUND)+K1+1)                                     
+              Y2=TF(NPF(FUND)+K1+3)
+              IF((XXB < X2.AND.XXB >=X1))THEN  
+                XK_TANSAV(J)=(Y2-Y1)/ (X2-X1)
+                FXB = Y1 + ((Y2-Y1)/(X2-X1))*(XXB-X1)
+                AN3Y0(J)= (FXEP(I)-FXB)/ (XN3FY0(J)-XXB)
+                EXIT     
+              ENDIF 
+            ENDDO
+            IF (XK_TANSAV(J)== ZERO)THEN ! extrapolation (outside of input curve points)
+              X1=TF(NPF(FUND)+(NP2-2)*2)                                       
+              X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
+              Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
+              Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
+              XI1=TF(NPF(FUND))                                       
+              XI2=TF(NPF(FUND)+2)                                     
+              YI1=TF(NPF(FUND)+1)                                     
+              YI2=TF(NPF(FUND)+3) 
+              IF(XXB>X2) THEN
+                XK_TANSAV(J)=(Y2-Y1)/ (X2-X1) 
+                FXB = Y2 + XK_TANSAV(J)*(XXB-X2)
+              ELSEIF(XXB<XI1) THEN
+                XK_TANSAV(J)=(YI2-YI1)/ (XI2-XI1) 
+                FXB = YI1 + XK_TANSAV(J)*(XXB-XI1)
+              ENDIF
+              AN3Y0(J)= (FXEP(I)-FXB)/ (XN3FY0(J)-XXB)
+            ENDIF
+          ENDIF
+          FX(I)=FXEP(I)+AN3Y0(J)*DDX(J)
+          IF ((FXEP(I) < YIELD(I)).AND.(FX(I) > YIELD(I))) THEN
+C----       Crossing of the yield line
+            XX(J)=DPX(I) + XN3FY0(J) + DDX(J)
+          ELSE
+            XX(J)=XX_OLD(I)+DDX(J)
+          ENDIF
+        ENDDO
+      ELSEIF(JECROU(4)>0)THEN
+        DO J=LFT,LLT_LOC
+          I = INDEXA(J)
+          IF(IFUNC(I)/= 0.AND.IECROU(I)== 12)THEN                                           
+            FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
+            NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
+            AN3Y0(J)= ZERO
+            DXELA(J)=DX(I)-DPX(I)
+            XXB = 0
+C---        Tension - load curve is used
+            DO  K=2,NP2                                                       
+              K1=2*(K-2)                                                
+              X1=TF(NPF(FUND)+K1)                                       
+              X2=TF(NPF(FUND)+K1+2)                                     
+              Y1=TF(NPF(FUND)+K1+1)                                     
+              Y2=TF(NPF(FUND)+K1+3) 
+              IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN  
+                X1S = X1
+                X2S = X2
+                AN3Y0(J)=(Y2-Y1)/ (X2-X1)                     
+                XN3FY0(J)=(FXEP(I)-Y1)/AN3Y0(J) + X1   !ABS DE N3
+                EXIT     
+              ENDIF 
+            ENDDO
+C---        Extrapolation (outside of input curve points)
+            IF (AN3Y0(J)== ZERO)THEN ! 
+              X1=TF(NPF(FUND)+(NP2-2)*2)                                       
+              X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
+              Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
+              Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
+              XI1=TF(NPF(FUND))                                       
+              XI2=TF(NPF(FUND)+2)                                     
+              YI1=TF(NPF(FUND)+1)                                     
+              YI2=TF(NPF(FUND)+3) 
+              IF(FXEP(I)>Y2) THEN
+                AN3Y0(J)=(Y2-Y1)/ (X2-X1) 
+                XN3FY0(J)=(FXEP(I)-Y1)/AN3Y0(J) + X1
+                X1S = X2
+                X2S = EP20 
+              ELSEIF(FXEP(I)<YI1) THEN
+                AN3Y0(J)=(YI2-YI1)/ (XI2-XI1)
+                XN3FY0(J)=(FXEP(I)-YI1)/AN3Y0(J) + XI1 
+                X1S = -EP20
+                X2S = XI1 
+              ENDIF
+              XK_TANSAV(J)=AN3Y0(J)
+            ENDIF
+            XXB =XN3FY0(J)+DDX(J)
+            XK_TANSAV(J)=AN3Y0(J)
+            IF (FXEP(I)==YIELD(I)) DPX(I) = XX_OLD(I) - XN3FY0(J)
+C---        Next point is in another part of the curve
+            IF (XXB< X1S.OR.XXB>X2S) THEN 
+              XK_TANSAV(J)=ZERO       
+              DO  K=2,NP2                                                       
+                K1=2*(K-2)                                                
+                X1=TF(NPF(FUND)+K1)                                       
+                X2=TF(NPF(FUND)+K1+2)                                     
+                Y1=TF(NPF(FUND)+K1+1)                                     
+                Y2=TF(NPF(FUND)+K1+3)
+                IF((XXB < X2.AND.XXB >=X1))THEN  
+                  XK_TANSAV(J)=(Y2-Y1)/ (X2-X1)
+                  FXB = Y1 + ((Y2-Y1)/(X2-X1))*(XXB-X1)
+                  AN3Y0(J)= (FXEP(I)-FXB)/ (XN3FY0(J)-XXB)
+                  EXIT     
+                ENDIF 
+              ENDDO
+              IF (XK_TANSAV(J)== ZERO)THEN ! extrapolation (outside of input curve points)
+                X1=TF(NPF(FUND)+(NP2-2)*2)                                       
+                X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
+                Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
+                Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
+                XI1=TF(NPF(FUND))                                       
+                XI2=TF(NPF(FUND)+2)                                     
+                YI1=TF(NPF(FUND)+1)                                     
+                YI2=TF(NPF(FUND)+3) 
+                IF(XXB>X2) THEN
+                  XK_TANSAV(J)=(Y2-Y1)/ (X2-X1) 
+                  FXB = Y2 + XK_TANSAV(J)*(XXB-X2)
+                ELSEIF(XXB<XI1) THEN
+                  XK_TANSAV(J)=(YI2-YI1)/ (XI2-XI1) 
+                  FXB = YI1 + XK_TANSAV(J)*(XXB-XI1)
+                ENDIF
+                AN3Y0(J)= (FXEP(I)-FXB)/ (XN3FY0(J)-XXB)
+              ENDIF
+            ENDIF
+            FX(I)=FXEP(I)+AN3Y0(J)*DDX(J)
+            IF ((FXEP(I) < YIELD(I)).AND.(FX(I) > YIELD(I))) THEN
+C----         Crossing of the yield line
+              XX(J)=DPX(I) + XN3FY0(J) + DDX(J)
+            ELSE
+              XX(J)=XX_OLD(I)+DDX(J)
+            ENDIF
+          ENDIF
+        ENDDO
+      ENDIF
+C-------------------------------------
 c     VECTOR INTERPOLATION
 C-------------------------------------
       DO J=LFT,LLT_LOC
@@ -399,6 +589,46 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
           ENDIF
         ENDDO
       ENDIF
+C-------------------------------------
+C     NON LINEAR ELASTIC in tension with compression and no plasticity in compression - for 2D seatblets only
+C-------------------------------------
+      IF(JECROU(4)==LLT_LOC)THEN
+        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT_LOC,XX ,DYDX ,YY )
+        DO J=LFT,LLT_LOC
+          I = INDEXA(J)
+          IF(FX(I)> ZERO.AND.FX(I)>YIELD(I))THEN
+            POS(I) = JPOS(J)
+C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)
+            FX(I)=YY(J)
+            YIELD(I)=FX(I)
+C-- ECR variable for hardening/softening - always incremented with positive value
+            XX_OLD(I) = MAX(XX_OLD(I),ABS(XX(J)))
+            XK_TAN(I) = DYDX(J)
+          ELSE
+            XK_TAN(I) = XK_TANSAV(J)
+          ENDIF
+          FXEP(I)=FX(I)
+        ENDDO
+      ELSEIF(JECROU(4)>0)THEN
+        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT_LOC,XX ,DYDX ,YY )
+        DO J=LFT,LLT_LOC
+          I = INDEXA(J)
+          IF(IFUNC(I)/= 0.AND.IECROU(I)== 12)THEN
+            IF(FX(I)> ZERO.AND.FX(I)>YIELD(I))THEN
+              POS(I) = JPOS(J)
+C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)
+              FX(I)=YY(J)
+              YIELD(I)=FX(I)
+C-- ECR variable for hardening/softening - always incremented with positive value
+              XX_OLD(I) = MAX(XX_OLD(I),ABS(XX(J)))
+              XK_TAN(I) = DYDX(J)
+            ELSE
+              XK_TAN(I) = XK_TANSAV(J)
+            ENDIF
+            FXEP(I)=FX(I)
+          ENDIF
+        ENDDO
+      ENDIF
 C--------------------------------------------------------------------
 C     NON LINEAR DAMPING
 C--------------------------------------------------------------------
@@ -420,7 +650,6 @@ c-------------------------
         I = INDEXA(J)
         DX(I)=DX(I)*XL0(I)
         DXOLD(I)=DXOLD(I)*XL0(I)
-        DPX(I)=DPX(I)*XL0(I)
         E(I)=E(I)*XL0(I)
         XK_TAN(I) = XK_TAN(I)*FRAM_FACTOR(I)
       ENDDO
