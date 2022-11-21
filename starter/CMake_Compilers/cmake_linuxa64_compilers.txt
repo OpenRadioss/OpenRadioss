@@ -2,5 +2,5 @@
 set ( CMAKE_Fortran_COMPILER "armflang" )
 set ( CMAKE_C_COMPILER "armclang" )
 set ( CMAKE_CXX_COMPILER "armclang++" )
-set ( CMAKE_CPP_COMPILER "armflang" )
+set ( CMAKE_CPP_COMPILER "armclang++" )
 

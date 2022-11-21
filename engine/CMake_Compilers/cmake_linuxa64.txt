@@ -22,7 +22,7 @@ if ( DEFINED MPI )
   elseif ( mpiver STREQUAL "ompi")
 
       set (mpi_inc "-I/opt/openmpi/include/")
-      set (mpi_lib "-L/opt/openmpi/lib -lmpi -lmpi_mpifh" )
+      set (mpi_lib "-L/opt/openmpi/lib -lmpi -lmpi_mpifh -lmpi_usempif08" )
 
     if (mpi_os STREQUAL "1")
       
@@ -124,7 +124,7 @@ set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${wo_l
 endif()
 
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS "-march=armv8-a -static-arm-libs -ffp-contract=off -fno-unsafe-math-optimizations -fno-fast-math -fopenmp -rdynamic " )
+set (CMAKE_EXE_LINKER_FLAGS "-march=armv8-a  -ffp-contract=off -fno-unsafe-math-optimizations -fno-fast-math -fopenmp -rdynamic " )
 
 #Libraries
 set (LINK "dl ${mpi_lib} -lrt -lm -lstdc++"  )

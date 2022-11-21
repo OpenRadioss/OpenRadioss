@@ -11,7 +11,7 @@ set ( RELNAME ${arch}  )
 
 # General machine flag setting
 set ( cppmach "-DCPP_mach=CPP_p4linux964" )
-set ( cpprel  "-DCPP_rel=00" )
+set ( cpprel  "-DCPP_rel=70" )
 
 
 # Third party libraries
@@ -84,7 +84,7 @@ set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${prec
 endif()
 
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS " -march=armv8-a -nofma -D COMP_ARMFLANG=1  -ffp-contract=off -fno-unsafe-math-optimizations -fno-fast-math -O2  -fopenmp  -ffixed-line-length-none -fno-backslash      -rdynamic -armpl -static-arm-libs    -armpl -static-arm-libs  " )
+set (CMAKE_EXE_LINKER_FLAGS " -march=armv8-a -nofma -D COMP_ARMFLANG=1  -ffp-contract=off -fno-unsafe-math-optimizations -fno-fast-math -O2  -fopenmp  -ffixed-line-length-none -fno-backslash      -rdynamic -armpl     -armpl   " )
 
 #Libraries
 set (LINK "dl ${metis_lib} ${xml_lib} ${flexpipe_lib} ${reader_lib} ${flexpipe} ${Tet_mesher_lib}  -lrt  -lm -lstdc++")

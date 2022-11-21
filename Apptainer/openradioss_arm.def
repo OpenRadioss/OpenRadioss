@@ -1,0 +1,69 @@
+Bootstrap: docker
+From: arm64v8/rockylinux:9
+
+%post
+dnf group install -y "Development Tools"
+dnf install -y \
+gcc gcc-gfortran gcc-c++ make cmake perl git-lfs \
+wget git patch diffutils libxcrypt-compat \
+procps environment-modules
+
+cd /opt
+wget -q -O arm-compiler-for-linux_22.1_RHEL-8_aarch64.tar "https://developer.arm.com/-/media/Files/downloads/hpc/arm-compiler-for-linux/22-1/arm-compiler-for-linux_22.1_RHEL-8_aarch64.tar?rev=d7be1f977ef848c2873e1f2a1fb8482f&revision=d7be1f97-7ef8-48c2-873e-1f2a1fb8482f"
+tar xvf arm-compiler-for-linux_22.1_RHEL-8_aarch64.tar
+cd arm-compiler-for-linux_22.1_RHEL-8
+./arm-compiler-for-linux_22.1_RHEL-8.sh -a
+
+cd /opt
+wget -q -O arm-performance-libraries_22.1_RHEL-8_gcc-11.2.tar "https://developer.arm.com/-/media/Files/downloads/hpc/arm-performance-libraries/22-1/rhel-8/arm-performance-libraries_22.1_RHEL-8_gcc-11.2.tar?rev=2efd010a9c974ebc99b7481a398e55d5&revision=2efd010a-9c97-4ebc-99b7-481a398e55d5"
+tar xvf arm-performance-libraries_22.1_RHEL-8_gcc-11.2.tar
+cd arm-performance-libraries_22.1_RHEL-8
+./arm-performance-libraries_22.1_RHEL-8.sh -a
+
+source /etc/profile.d/modules.sh
+export MODULEPATH=/opt/arm/modulefiles:$MODULEPATH
+module load acfl
+
+
+export CC=armclang
+export CXX=armclang++
+export Fortran_COMPILER=armflang
+export FC=armflang
+cd /opt
+wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.4.tar.gz
+tar xzvf openmpi-4.1.4.tar.gz
+cd openmpi-4.1.4
+./configure --prefix=/opt/openmpi
+sed -i -e 's#wl=""#wl="-Wl,"#g' libtool
+sed -i -e 's#pic_flag=""#pic_flag=" -fPIC -DPIC"#g' libtool
+make -j
+make install
+
+cd /opt
+git lfs install
+git clone --depth 1 --branch main https://github.com/OpenRadioss/OpenRadioss.git
+cd /opt/OpenRadioss/starter
+./build_script.sh -arch=linuxa64 -nt=80
+cd /opt/OpenRadioss/engine
+./build_script.sh -arch=linuxa64 -nt=80
+./build_script.sh -arch=linuxa64 -mpi=ompi -nt=80
+cd /opt/OpenRadioss/tools/anim_to_vtk/linux64
+./build.bash
+cd /opt/OpenRadioss/tools/th_to_csv/linux64
+./build.bash
+
+cd /opt/OpenRadioss/extlib/hm_reader/linuxa64
+cp libapr-1.so libapr-1.so.0
+
+
+%environment
+export OPENRADIOSS_PATH=/opt/OpenRadioss
+export RAD_CFG_PATH=$OPENRADIOSS_PATH/hm_cfg_files
+export OMP_STACKSIZE=400m
+
+export PATH=$OPENRADIOSS_PATH/exec:$PATH
+export LD_LIBRARY_PATH=$OPENRADIOSS_PATH/extlib/hm_reader/linuxa64/:$OPENRADIOSS_PATH/extlib/h3d/lib/linuxa64/:$LD_LIBRARY_PATH
+
+export PATH=/opt/openmpi/bin:$PATH
+export LD_LIBRARY_PATH=/opt/openmpi/lib:$LD_LIBRARY_PATH
+
