@@ -93,6 +93,8 @@ C-----------------------------------------------
      . FX,FY,FZ,FF,FMIN,FMAX,WMAX,DX,DY,DZ,WORK,IMP,EINT,EKIN,IEMIN,
      . IEMAX,KEMIN,KEMAX,IETOL,IETIME,KETOL,KETIME,EI_SAV,EK_SAV
        INTEGER :: NGR,NBR_GROUP,L,ITSK
+
+       DOUBLE PRECISION LTT_DP,DT2_DP,TDELAY_DP,NEXT_CYCLE
 C=======================================================================
 C INITIALIALISATION DES COEFFICIENTS DU FILTRE
 C-----------------------------------------------
@@ -104,13 +106,18 @@ C--------------------------------
       IF (TYP == 0) THEN
 C       SENSOR - START TIME
 C--------------------------------
-        IF (TT >= TDELAY .AND. SENSOR_PTR%STATUS == 0) THEN
+        LTT_DP = TT
+        DT2_DP = DT2
+        NEXT_CYCLE = TT + DT2
+        TDELAY_DP = TDELAY
+        IF ( NEXT_CYCLE >= TDELAY_DP .AND. SENSOR_PTR%STATUS == 0) THEN
             SENSOR_PTR%STATUS = 1
-            SENSOR_PTR%TSTART = TT
+c            SENSOR_PTR%TSTART = TT
+            SENSOR_PTR%TSTART = TDELAY
           IF (ISPMD == 0) THEN
 #include "lockon.inc"
             WRITE (IOUT,'(A,I10,A,1PE12.5)')   
-     .           ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TT
+     .           ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TDELAY
 #include "lockoff.inc"
           ENDIF
         ENDIF
