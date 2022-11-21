@@ -35,7 +35,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE READ_SENSOR_DIST_SURF(SENSOR_PTR ,SENS_ID  ,
-     .           LSENSOR ,SENSOR  ,ITABM1  ,UNITAB   ,LSUBMODEL )
+     .           ITABM1  ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -67,8 +67,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
       INTEGER ,DIMENSION(NUMNOD)  ,INTENT(IN)  :: ITABM1
-      INTEGER ,DIMENSION(NSENSI)  ,INTENT(OUT) :: LSENSOR
-      my_real ,DIMENSION(NSENSR)  ,INTENT(OUT) :: SENSOR
       TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB 
@@ -139,12 +137,6 @@ c
       SENSOR_PTR%IPARAM(2) = 0           ! ISURF
       SENSOR_PTR%RPARAM(1) = DMIN
       SENSOR_PTR%RPARAM(2) = DMAX
-c---------------------------
-c     old sensor data tables
-      LSENSOR(1) = SENS_ID
-      LSENSOR(2) = SENS_TYPE
-      LSENSOR(3:NSENSI) = 0
-      SENSOR(:) = ZERO
 c------------------------------------------------------------
       WRITE(IOUT, 1000) SENS_ID,TDEL
       WRITE (IOUT,2000) NOD_ID,ID_N1,ID_N2,ID_N3,DMIN,DMAX,TMIN
