@@ -35,7 +35,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE READ_SENSOR_TEMP(
      .           SENSOR_PTR,SENS_ID  ,TITR    ,
-     .           IGRNOD    ,LSENSOR ,SENSOR   ,UNITAB   ,LSUBMODEL )
+     .           IGRNOD    ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -64,8 +64,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
-      INTEGER ,DIMENSION(NSENSI)   ,INTENT(OUT) :: LSENSOR
-      my_real ,DIMENSION(NSENSR)   ,INTENT(OUT) :: SENSOR
       CHARACTER TITR*nchartitle
       TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
@@ -136,16 +134,6 @@ c
       SENSOR_PTR%RPARAM(1) = TEMPMAX 
       SENSOR_PTR%RPARAM(2) = TEMPMIN 
       SENSOR_PTR%RPARAM(3) = TEMPAVG 
-c---------------------------
-c     old sensor data tables
-c---------------------------
-      LSENSOR(1) = SENS_ID
-      LSENSOR(2) = SENS_TYPE
-c
-      SENSOR(1)  = TDEL        ! time delay
-      SENSOR(2)  = INFINITY    ! start time
-      SENSOR(3)  = INFINITY    ! stop time
-      SENSOR(4)  = INFINITY    ! global activation time
 c------------------------------------------------------------
       WRITE (IOUT ,1000) SENS_ID,TDEL
       WRITE (IOUT ,3000) TEMPMAX,TEMPMIN,TEMPAVG,TMIN,GRNOD_ID
