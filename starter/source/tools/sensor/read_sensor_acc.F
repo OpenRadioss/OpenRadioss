@@ -35,7 +35,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE READ_SENSOR_ACC(SENSOR_PTR ,SENS_ID  ,TITR      ,
-     .           LSENSOR ,SENSOR  ,LACCELM  ,UNITAB   ,LSUBMODEL )
+     .           LACCELM  ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -63,8 +63,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
       INTEGER ,DIMENSION(3,*) ,INTENT(IN) :: LACCELM
-      INTEGER ,DIMENSION(NSENSI)  ,INTENT(OUT) :: LSENSOR
-      my_real ,DIMENSION(NSENSR)  ,INTENT(OUT) :: SENSOR
       CHARACTER TITR*nchartitle
       TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
@@ -139,13 +137,6 @@ c
         END IF
       END DO
 c
-c     old sensor struct      
-      LSENSOR(1) = SENS_ID
-      LSENSOR(2) = SENS_TYPE
-      LSENSOR(3) = NACC
-      SENSOR(1)  = TDEL
-      SENSOR(2)  = INFINITY   ! activation time
-c
       DO I = 1,NACC
        IDIR(I) = 0
        LEN  = LEN_TRIM(DIR(I))
@@ -153,16 +144,8 @@ c
        IF (DIRACC(1:1) == 'X' .OR. DIRACC(1:1) == 'x') IDIR(I) = IDIR(I)+1
        IF (DIRACC(1:1) == 'Y' .OR. DIRACC(1:1) == 'y') IDIR(I) = IDIR(I)+2
        IF (DIRACC(1:1) == 'Z' .OR. DIRACC(1:1) == 'z') IDIR(I) = IDIR(I)+4
-c
-       LSENSOR(4+(I-1)*2) = IACC(I)
-       LSENSOR(5+(I-1)*2) = IDIR(I)
-       SENSOR (3+(I-1)*3) = ACC(I)
-       SENSOR (4+(I-1)*3) = TMIN(I)
-       SENSOR (5+(I-1)*3) = INFINITY   ! time of first activation
       END DO
-      
-c
-c     New sensor struct
+c--------------------------------------------------
 c
       SENSOR_PTR%TYPE    = SENS_TYPE
       SENSOR_PTR%SENS_ID = SENS_ID

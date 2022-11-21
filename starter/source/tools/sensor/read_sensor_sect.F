@@ -35,7 +35,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE READ_SENSOR_SECT(SENSOR_PTR ,SENS_ID  ,TITR   ,
-     .           LSENSOR ,SENSOR   ,UNITAB   ,LSUBMODEL )
+     .           UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -61,8 +61,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
-      INTEGER ,DIMENSION(NSENSI)  ,INTENT(OUT) :: LSENSOR
-      my_real ,DIMENSION(NSENSR)  ,INTENT(OUT) :: SENSOR
       CHARACTER TITR*nchartitle
       TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
@@ -107,19 +105,6 @@ c--------------------------------------------------
      .              I1=SENS_ID, C1=TITR, C2=DIR)
       END IF                                       
 c--------------------------------------------------
-c
-      LSENSOR(1) = SENS_ID
-      LSENSOR(2) = SENS_TYPE
-      LSENSOR(4) = SECT_ID     ! section ID is converted to sys number in inisen()
-      LSENSOR(6) = IDIR     
-      SENSOR(1)  = TDEL
-      SENSOR(2)  = INFINITY   ! activation time
-      SENSOR(3)  = INFINITY 
-      SENSOR(4)  = FMIN     
-      SENSOR(5)  = FMAX     
-      SENSOR(6)  = TMIN     
-c
-c     New sensor struct
 c
       SENSOR_PTR%TYPE    = SENS_TYPE
       SENSOR_PTR%SENS_ID = SENS_ID

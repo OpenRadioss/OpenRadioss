@@ -35,7 +35,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE READ_SENSOR_WORK(SENSOR_PTR ,SENS_ID  ,
-     .           LSENSOR ,SENSOR  ,ITABM1  ,UNITAB   ,LSUBMODEL )
+     .           ITABM1  ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -66,8 +66,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
       INTEGER ,DIMENSION(NUMNOD)  ,INTENT(IN)  :: ITABM1
-      INTEGER ,DIMENSION(NSENSI)  ,INTENT(OUT) :: LSENSOR
-      my_real ,DIMENSION(NSENSR)  ,INTENT(OUT) :: SENSOR
       TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB 
@@ -116,25 +114,7 @@ c--------------------------------------------------
         N2 = USR2SYS(NOD2,ITABM1,MESS,NS)
         CALL ANODSET(N2, CHECK_USED)
       END IF
-c
-      LSENSOR(1)  = SENS_ID
-      LSENSOR(2)  = SENS_TYPE
-      LSENSOR(4)  = N1
-      LSENSOR(5)  = N2
-      LSENSOR(6)  = SECT_ID
-      LSENSOR(7)  = INT_ID
-      LSENSOR(8)  = 0         ! INTSUB
-      LSENSOR(9)  = RWAL_ID
-      LSENSOR(10) = RBOD_ID
-c
-      SENSOR(1) = TDEL       ! time delay
-      SENSOR(2) = INFINITY   ! activation time
-      SENSOR(3) = INFINITY   ! start time
-      SENSOR(4) = INFINITY   ! stop time
-      SENSOR(5) = TMIN       ! min activation time
-      SENSOR(6) = WMAX
-c
-c     New sensor struct
+c--------------------------------------------------
 c
       SENSOR_PTR%TYPE    = SENS_TYPE
       SENSOR_PTR%SENS_ID = SENS_ID
