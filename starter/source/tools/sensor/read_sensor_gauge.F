@@ -36,7 +36,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE READ_SENSOR_GAUGE(SENSOR_PTR ,SENS_ID  ,TITR  ,
-     .           LGAUGE   ,LSENSOR ,SENSOR   ,UNITAB   ,LSUBMODEL )
+     .           LGAUGE   ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -63,8 +63,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
       INTEGER ,DIMENSION(3,*)    ,INTENT(IN)  :: LGAUGE
-      INTEGER ,DIMENSION(NSENSI) ,INTENT(OUT) :: LSENSOR
-      my_real ,DIMENSION(NSENSR) ,INTENT(OUT) :: SENSOR
       CHARACTER TITR*nchartitle
       TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
@@ -81,6 +79,7 @@ C--------------------------------
 C     SENSOR : PRESSURE GAUGE LIST
 C=======================================================================
       IS_AVAILABLE = .FALSE.
+      SENS_TYPE = 10
 c--------------------------------------------------
 card1
       CALL HM_GET_FLOATV('Tdelay' ,TDEL  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -97,13 +96,6 @@ c--------------------------------------------------
          CALL ANCMSG(MSGID=833, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=SENS_ID,C1=TITR)
       ENDIF
 c
-      SENS_TYPE = 10
-      LSENSOR(1) = SENS_ID
-      LSENSOR(2) = SENS_TYPE
-      LSENSOR(3) = NGAU
-      SENSOR (1) = TDEL
-      SENSOR (2) = INFINITY   ! activation time
-c
       DO I=1,NGAU
         IGAU(I) = 0
         DO J = 1,NBGAUGE
@@ -117,14 +109,8 @@ c
      .                I1=SENS_ID, C1=TITR)
           EXIT
         END IF
-C
-        LSENSOR(4+(I-1)*2)= IGAU(I)
-        SENSOR(3+(I-1)*3) = PRES(I)
-        SENSOR(4+(I-1)*3) = TMIN(I)
-        SENSOR(5+(I-1)*3) = INFINITY  ! activation time
       ENDDO
-c
-c     New sensor struct
+c--------------------------------------------------
 c
       SENSOR_PTR%TYPE    = SENS_TYPE
       SENSOR_PTR%SENS_ID = SENS_ID

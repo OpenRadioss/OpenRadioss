@@ -36,7 +36,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE READ_SENSOR_DISP(SENSOR_PTR ,SENS_ID  ,
-     .           LSENSOR ,SENSOR  ,ITABM1  ,UNITAB   ,LSUBMODEL )
+     .           ITABM1  ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -67,8 +67,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
       INTEGER ,DIMENSION(NUMNOD)  ,INTENT(IN)  :: ITABM1
-      INTEGER ,DIMENSION(NSENSI)  ,INTENT(OUT) :: LSENSOR
-      my_real ,DIMENSION(NSENSR)  ,INTENT(OUT) :: SENSOR
       TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB 
@@ -110,9 +108,9 @@ c--------------------------------------------------
         CALL IFRONTPLUS(N1,P)
         CALL IFRONTPLUS(N2,P)
       ENDDO
-c
-c     New sensor struct
-c
+c--------------------------------------------------
+c     Sensor structure
+c--------------------------------------------------
       SENSOR_PTR%TYPE    = SENS_TYPE
       SENSOR_PTR%SENS_ID = SENS_ID
       SENSOR_PTR%STATUS  = 0            ! status = deactivated
