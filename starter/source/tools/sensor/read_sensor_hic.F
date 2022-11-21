@@ -36,7 +36,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE READ_SENSOR_HIC(SENSOR_PTR ,SENS_ID  ,TITR      ,
-     .           LSENSOR ,SENSOR  ,LACCELM  ,UNITAB   ,LSUBMODEL )
+     .           LACCELM  ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -64,8 +64,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
       INTEGER ,DIMENSION(3,*) ,INTENT(IN) :: LACCELM
-      INTEGER ,DIMENSION(NSENSI)  ,INTENT(OUT) :: LSENSOR
-      my_real ,DIMENSION(NSENSR)  ,INTENT(OUT) :: SENSOR
       CHARACTER (len=nchartitle) TITR
       TYPE (SENSOR_STR_)  :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
@@ -186,13 +184,6 @@ c
       SENSOR_PTR%RPARAM(2) = HIC_CRIT
       SENSOR_PTR%RPARAM(3) = GRAVITY          
       SENSOR_PTR%RPARAM(4) = Time_Unit          
-c---------------------------
-c     old sensor data tables
-c---------------------------
-      LSENSOR(1) = SENS_ID
-      LSENSOR(2) = SENS_TYPE
-      LSENSOR(3:NSENSI) = 0
-      SENSOR(:) = ZERO
 c-----------------------------------------------------------------------
       WRITE (IOUT, 1000) SENS_ID,TDEL
       WRITE (IOUT, 2000) ACC_ID,DIR(1:1),TDEL,PERIOD,HIC_CRIT,TMIN,GRAVITY

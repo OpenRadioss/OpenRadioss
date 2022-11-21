@@ -33,10 +33,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE READ_SENSOR_ENERGY(
-     .           SENSOR_PTR,SENS_ID  ,TITR    ,
-     .           IPART     ,SUBSET   ,LSENSOR ,SENSOR   ,UNITAB   ,
-     .           LSUBMODEL )
+      SUBROUTINE READ_SENSOR_ENERGY(SENSOR_PTR,SENS_ID   ,TITR     ,
+     .           IPART    ,SUBSET   ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -64,8 +62,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
       INTEGER ,DIMENSION(LIPART1,*),INTENT(IN)  :: IPART
-      INTEGER ,DIMENSION(NSENSI)   ,INTENT(OUT) :: LSENSOR
-      my_real ,DIMENSION(NSENSR)   ,INTENT(OUT) :: SENSOR
       CHARACTER TITR*nchartitle
       TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
@@ -168,7 +164,7 @@ c--------------------------------------------------
         KETOL  = ZERO
       END IF
 c---------------------------
-c     new sensor data structure
+c     sensor data structure
 c--------------------------------------------------
       NPARIS = 3
       NPARRS = 8
@@ -203,27 +199,6 @@ c
       SENSOR_PTR%RPARAM(6) = KETOL 
       SENSOR_PTR%RPARAM(7) = IETIME
       SENSOR_PTR%RPARAM(8) = KETIME
-c---------------------------
-c     old sensor data tables
-c---------------------------
-      LSENSOR(1) = SENS_ID
-      LSENSOR(2) = SENS_TYPE
-      LSENSOR(4) = PARTN
-      LSENSOR(5) = SUBN
-c
-      SENSOR(1)  = TDEL        ! time delay
-      SENSOR(2)  = INFINITY    ! start time
-      SENSOR(3)  = INFINITY    ! stop time
-      SENSOR(4)  = INFINITY    ! global activation time
-      SENSOR(5)  = TMIN        ! min time before activation
-      SENSOR(6)  = IEMIN
-      SENSOR(7)  = IEMAX
-      SENSOR(8)  = KEMIN
-      SENSOR(9)  = KEMAX
-      SENSOR(10) = IETOL
-      SENSOR(11) = KETOL
-      SENSOR(12) = IETIME
-      SENSOR(13) = KETIME
 c------------------------------------------------------------
  1000 FORMAT(
      . 5X,'    SENSOR TYPE 14: PART ENERGY             '/,

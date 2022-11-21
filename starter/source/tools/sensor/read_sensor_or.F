@@ -31,8 +31,7 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE READ_SENSOR_OR(SENSOR_PTR ,SENS_ID  ,
-     .           LSENSOR ,SENSOR   ,UNITAB   ,LSUBMODEL )
+      SUBROUTINE READ_SENSOR_OR(SENSOR_PTR ,SENS_ID  ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -56,8 +55,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
-      INTEGER ,DIMENSION(NSENSI) ,INTENT(OUT) :: LSENSOR
-      my_real ,DIMENSION(NSENSR) ,INTENT(OUT) :: SENSOR
       TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB 
@@ -72,6 +69,7 @@ C     SENSOR "AND", BASED ON SENSOR1 AND SENSOR2 state:
 c          activated when sensor1 OR sensor2 is active
 C=======================================================================
       IS_AVAILABLE = .FALSE.
+      SENS_TYPE = 5
 c--------------------------------------------------
 card1
       CALL HM_GET_FLOATV('Tdelay'   ,TDEL  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -79,15 +77,6 @@ card2
       CALL HM_GET_INTV  ('Sensor1'  ,ID1   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV  ('Sensor2'  ,ID2   ,IS_AVAILABLE,LSUBMODEL)
 c--------------------------------------------------
-      SENS_TYPE = 5
-      LSENSOR(1) = SENS_ID
-      LSENSOR(2) = SENS_TYPE
-      LSENSOR(4) = ID1        ! conversion to internal number done in inisen()
-      LSENSOR(5) = ID2        ! -//-
-      SENSOR (1) = TDEL
-      SENSOR (2) = INFINITY   ! activation time
-c--------------------------------------------------     
-c
       NPARIS = 2
       NPARRS = 0
       NVAR   = 0
