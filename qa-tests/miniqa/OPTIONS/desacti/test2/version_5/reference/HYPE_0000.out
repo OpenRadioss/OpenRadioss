@@ -2,29 +2,29 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                Altair Radioss(TM) Starter MAINLINE                 **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 1071780_12638000000_1060_0083454_10                     **
+**                                                                    **
+**                                                                    **
+**                                                                    **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2021                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48799 MB swap
+ fr-jumbo.europe.altair.com   Intel(R) Xeon(R) CPU E5-2667 v4 @ 3.20GHz (x86_64), 2182 MHz,  64316 MB RAM,      0 MB swap
   
 ************************************************************************
 
@@ -40,7 +40,7 @@ DESCRIPTION :
 -- LINE: 1                   0         0         0         0         0
 unsupported field exits
 SOLUTION :     
-    Please check input format and its consistency with Invers value from /BEGIN option.
+    Please check input format and fields description defined in the Reference Guide.
 
 WARNING ID : 100217
 ** WARNING IN INPUT OPTIONS
@@ -48,6 +48,8 @@ DESCRIPTION :
 -- BLOCK: /INTER/TYPE3/2
 -- LINE: /SURF/SEG/8
 card is missing
+SOLUTION :     
+Please check input format and fields description defined in the Reference Guide.
 
 WARNING ID : 100217
 ** WARNING IN INPUT OPTIONS
@@ -55,6 +57,8 @@ DESCRIPTION :
 -- BLOCK: /INTER/TYPE3/3
 -- LINE: /SURF/SEG/10
 card is missing
+SOLUTION :     
+Please check input format and fields description defined in the Reference Guide.
 
  -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
 
@@ -90,7 +94,7 @@ card is missing
     NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         2
     NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
     NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .      1020
-    NINTERFRIC: NUMBER OF FRICTION INTERFACES . . . . . .         0
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
     NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .         0
     NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .         0
     NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
@@ -100,7 +104,7 @@ card is missing
     NUMELX: NUMBER OF MULTIPURPOSE ELEMENTS . . . . . . .         0
     NUMELIG3D: NUMBER OF ISO-GEOMETRIC ELEMENTS . . . . .         0
     NUMSPH : NUMBER OF SMOOTH PARTICLES (SPH CELLS) . . .         0
-    NSPHBCS: NUMBER OF SPH SYMETRY CONDITIONS . . . . . .         0
+    NSPHBCS: NUMBER OF SPH SYMMETRY CONDITIONS. . . . . .         0
     NSPHIO : NUMBER OF SPH INLET/OUTLET CONDITIONS. . . .         0
 
     NFUNCT: NUMBER OF USER'S FUNCTIONS . . . . . . . . .          0
@@ -135,7 +139,6 @@ card is missing
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
@@ -176,7 +179,7 @@ card is missing
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -185,9 +188,9 @@ card is missing
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
@@ -377,6 +380,17 @@ card is missing
      PRESSURE SHIFT. . . . . . . . . . . . . .=  0.000000000000    
 
 
+     SUBMODEL SKEWS(INTERNAL)                                                            
+     --------------------------------------                                              
+     NUMBER          VECTORS                                          ORIGIN
+ 1000000001        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
+
+ 1000000002        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
+
 
 
          PROPERTY SETS (HM_READER)
@@ -397,10 +411,10 @@ ALU 2024 T1
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
      DEFAULT VALUE FOR QUADRATIC BULK. . . . 
           VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
-     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     EXCEPT IN CASE LAW 70 QA = 0.     
      DEFAULT VALUE FOR LINEAR BULK . . . . . 
           VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
-     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     EXCEPT IN CASE LAW 70  QB = 0.     
      HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
@@ -423,10 +437,10 @@ acier 1006
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
      DEFAULT VALUE FOR QUADRATIC BULK. . . . 
           VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
-     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     EXCEPT IN CASE LAW 70 QA = 0.     
      DEFAULT VALUE FOR LINEAR BULK . . . . . 
           VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
-     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     EXCEPT IN CASE LAW 70  QB = 0.     
      HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
@@ -449,10 +463,10 @@ acier 1006
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
      DEFAULT VALUE FOR QUADRATIC BULK. . . . 
           VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
-     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     EXCEPT IN CASE LAW 70 QA = 0.     
      DEFAULT VALUE FOR LINEAR BULK . . . . . 
           VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
-     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     EXCEPT IN CASE LAW 70  QB = 0.     
      HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
@@ -460,12 +474,6 @@ acier 1006
      POST PROCESSING STRAIN FLAG . . . . . .=         1
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
-
-
-
-         PROPERTY SETS
-         -------------
-
 
 
 
@@ -516,7 +524,7 @@ PART:         3,acier 1006
        904       909       914
  
  
- SURFACE:         5,HYP2V30D00_interface_1_surf_1,       231 SEGMENTS: 
+ SURFACE:         5,interface_1_surf_1,       231 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
          8         1                         0         0
@@ -752,7 +760,7 @@ PART:         3,acier 1006
        316       309                         0         0
  
  
- SURFACE:         7,HYP2V30D00_interface_1_surf_2,        15 SEGMENTS: 
+ SURFACE:         7,interface_1_surf_2,        15 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
       1019      1014                         0         0
@@ -772,7 +780,7 @@ PART:         3,acier 1006
       1119      1114                         0         0
  
  
- SURFACE:         8,HYP2V30D00_interface_2_surf_1,        30 SEGMENTS: 
+ SURFACE:         8,interface_2_surf_1,        30 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
        344       323                         0         0
@@ -807,7 +815,7 @@ PART:         3,acier 1006
        953       932                         0         0
  
  
- SURFACE:         9,HYP2V30D00_interface_2_surf_2,        15 SEGMENTS: 
+ SURFACE:         9,interface_2_surf_2,        15 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
       1019      1014                         0         0
@@ -827,7 +835,7 @@ PART:         3,acier 1006
       1119      1114                         0         0
  
  
- SURFACE:        10,HYP2V30D00_interface_3_surf_1,        45 SEGMENTS: 
+ SURFACE:        10,interface_3_surf_1,        45 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
          7        14                         0         0
@@ -877,7 +885,7 @@ PART:         3,acier 1006
        315       322                         0         0
  
  
- SURFACE:        11,HYP2V30D00_interface_3_surf_2,        30 SEGMENTS: 
+ SURFACE:        11,interface_3_surf_2,        30 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
        344       323                         0         0
@@ -912,7 +920,7 @@ PART:         3,acier 1006
        953       932                         0         0
  
  
- SURFACE:        12,HYP2V30D00_interface_4_surf_1,        89 SEGMENTS: 
+ SURFACE:        12,interface_4_surf_1,        89 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
        344       323                         0         0
@@ -1006,7 +1014,7 @@ PART:         3,acier 1006
        953       932                         0         0
  
  
- SURFACE:        14,HYP2V30D00_interface_4_surf_2,        25 SEGMENTS: 
+ SURFACE:        14,interface_4_surf_2,        25 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
        147       154                         0         0
@@ -1074,7 +1082,7 @@ PART:         3,acier 1006
       1144
  
  
- NODE GROUP:         6,HYP2V30D00_interface_1_surf_1,       172 NODES: 
+ NODE GROUP:         6,interface_1_surf_1,       172 NODES: 
  -------------------
          1         2         3         4         5         6         7         8         9        10
         11        12        13        14        15        16        17        18        19        20
@@ -1096,7 +1104,7 @@ PART:         3,acier 1006
        309       316
  
  
- NODE GROUP:        13,HYP2V30D00_interface_4_surf_1,        93 NODES: 
+ NODE GROUP:        13,interface_4_surf_1,        93 NODES: 
  -------------------
        323       324       330       337       344       345       351       358       365       372
        379       386       393       400       407       414       421       428       435       442
@@ -1148,13 +1156,13 @@ PART:         3,acier 1006
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR BROADWELL PROCESSOR
  NUMBER OF DISCONNECTED COMPONENTS FIXED FOR DOMAIN DECOMP:       3
   
   ELEMENT NUMBER =       1020
   EDGES FOUND    =       3721
   
-#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
    1         25200.             0.             0.             0.             0.             0.
    2         25200.             0.             0.             0.             0.             0.
    3         25600.             0.             0.             0.             0.             0.
@@ -1170,19 +1178,19 @@ PART:         3,acier 1006
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.   FAILURE      IEOS   
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG      TYPE   
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG      TYPE   
 
-         1         4       128         1         1         1         0         0         0         0         0         0         0         0         2         0         1
-         2         4       124       129         1         1         0         0         0         0         0         0         0         0         2         0         1
-         3         4        18       253         1         1         0         0         0         0         0         0         0         0         2         0         1
-         4         4        84       271         1         1         0         0         0         0         0         0         0         0         2         0         1
-         5         4       128       355         1         1         0         0         0         0         0         0         0         0         2         0         1
-         6         4       128       483         1         1         0         0         0         0         0         0         0         0         2         0         1
-         7         4       128       611         1         1         0         0         0         0         0         0         0         0         2         0         1
-         8         4       128       739         1         1         0         0         0         0         0         0         0         0         2         0         1
-         9         4         4       867         1         1         0         0         0         0         0         0         0         0         2         0         1
-        10         4       128       871         1         1         0         0         0         0         0         0         0         0         2         0         1
-        11         4        22       999         1         1         0         0         0         0         0         0         0         0         2         0         1
+         1         4       128         1         1         1         0         0         0         0         0         0         1         0         2         0         1
+         2         4       124       129         1         1         0         0         0         0         0         0         1         0         2         0         1
+         3         4        18       253         1         1         0         0         0         0         0         0         1         0         2         0         1
+         4         4        84       271         1         1         0         0         0         0         0         0         2         0         2         0         1
+         5         4       128       355         1         1         0         0         0         0         0         0         2         0         2         0         1
+         6         4       128       483         1         1         0         0         0         0         0         0         2         0         2         0         1
+         7         4       128       611         1         1         0         0         0         0         0         0         2         0         2         0         1
+         8         4       128       739         1         1         0         0         0         0         0         0         2         0         2         0         1
+         9         4         4       867         1         1         0         0         0         0         0         0         2         0         2         0         1
+        10         4       128       871         1         1         0         0         0         0         0         0         3         0         2         0         1
+        11         4        22       999         1         1         0         0         0         0         0         0         3         0         2         0         1
 
 
       ELEMENT ACTIVATION-DEACTIVATION   
@@ -1195,10 +1203,10 @@ PART:         3,acier 1006
 
 
 
-   INTERFACE NUMBER :         1 HYP2V30D00_interface_1
+   INTERFACE NUMBER :         1 interface_1
 
 
-    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMETRIC)
+    TYPE==5  SLIDING AND VOIDS(NON SYMMETRIC)
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -1226,10 +1234,10 @@ PART:         3,acier 1006
 
 
 
-   INTERFACE NUMBER :         2 HYP2V30D00_interface_2
+   INTERFACE NUMBER :         2 interface_2
 
 
-    TYPE.EQ.3   SLIDING AND VOIDS             
+    TYPE==3   SLIDING AND VOIDS             
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -1251,10 +1259,10 @@ PART:         3,acier 1006
 
 
 
-   INTERFACE NUMBER :         3 HYP2V30D00_interface_3
+   INTERFACE NUMBER :         3 interface_3
 
 
-    TYPE.EQ.3   SLIDING AND VOIDS             
+    TYPE==3   SLIDING AND VOIDS             
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -1276,10 +1284,10 @@ PART:         3,acier 1006
 
 
 
-   INTERFACE NUMBER :         4 HYP2V30D00_interface_4
+   INTERFACE NUMBER :         4 interface_4
 
 
-    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMETRIC)
+    TYPE==5  SLIDING AND VOIDS(NON SYMMETRIC)
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -2236,42 +2244,41 @@ PART:         3,acier 1006
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
- NUMBER OF DISCONNECTED COMPONENTS FIXED FOR DOMAIN DECOMP:       3
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR BROADWELL PROCESSOR
   
   ELEMENT NUMBER =       1020
   EDGES FOUND    =       3721
   
-#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
-   1         26000.             0.             0.             0.             0.             0.
-   2         25000.             0.             0.             0.             0.             0.
-   3         25100.             0.             0.             0.             0.             0.
-   4         25900.             0.             0.             0.             0.             0.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
+   1         25800.             0.             0.             0.             0.             0.
+   2         26000.             0.             0.             0.             0.             0.
+   3         25200.             0.             0.             0.             0.             0.
+   4         25000.             0.             0.             0.             0.             0.
   
  STATISTICS ON DECOMPOSITION WEIGHTS
  -----------------------------------
  METRIC      MINIMUM   MAXIMUM   AVERAGE   STANDARD DEVIATION
- ELEMENTS      25000     26000     25500         453
+ ELEMENTS      25000     26000     25500         412
 
 
        4-NODE 2D SOLID ELEMENT GROUPS
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.   FAILURE      IEOS   
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG      TYPE   
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG      TYPE   
 
-         1         4        11         1         1         1         0         0         0         0         0         0         0         0         2         0         1
-         2         4       128        12         1         1         0         0         0         0         0         0         0         0         2         0         1
-         3         4       128       140         1         1         0         0         0         0         0         0         0         0         2         0         1
-         4         4         3       268         1         1         0         0         0         0         0         0         0         0         2         0         1
-         5         4       128       271         1         1         0         0         0         0         0         0         0         0         2         0         1
-         6         4       128       399         1         1         0         0         0         0         0         0         0         0         2         0         1
-         7         4         4       527         1         1         0         0         0         0         0         0         0         0         2         0         1
-         8         4       128       531         1         1         0         0         0         0         0         0         0         0         2         0         1
-         9         4       122       659         1         1         0         0         0         0         0         0         0         0         2         0         1
-        10         4        90       781         1         1         0         0         0         0         0         0         0         0         2         0         1
-        11         4       128       871         1         1         0         0         0         0         0         0         0         0         2         0         1
-        12         4        22       999         1         1         0         0         0         0         0         0         0         0         2         0         1
+         1         4       102         1         1         1         0         0         0         0         0         0         1         0         2         0         1
+         2         4       128       103         1         1         0         0         0         0         0         0         1         0         2         0         1
+         3         4        40       231         1         1         0         0         0         0         0         0         1         0         2         0         1
+         4         4       128       271         1         1         0         0         0         0         0         0         2         0         2         0         1
+         5         4       128       399         1         1         0         0         0         0         0         0         2         0         2         0         1
+         6         4         2       527         1         1         0         0         0         0         0         0         2         0         2         0         1
+         7         4       128       529         1         1         0         0         0         0         0         0         2         0         2         0         1
+         8         4       128       657         1         1         0         0         0         0         0         0         2         0         2         0         1
+         9         4         4       785         1         1         0         0         0         0         0         0         2         0         2         0         1
+        10         4        82       789         1         1         0         0         0         0         0         0         2         0         2         0         1
+        11         4       128       871         1         1         0         0         0         0         0         0         3         0         2         0         1
+        12         4        22       999         1         1         0         0         0         0         0         0         3         0         2         0         1
 
 
       ELEMENT ACTIVATION-DEACTIVATION   
@@ -2284,10 +2291,10 @@ PART:         3,acier 1006
 
 
 
-   INTERFACE NUMBER :         1 HYP2V30D00_interface_1
+   INTERFACE NUMBER :         1 interface_1
 
 
-    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMETRIC)
+    TYPE==5  SLIDING AND VOIDS(NON SYMMETRIC)
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -2315,10 +2322,10 @@ PART:         3,acier 1006
 
 
 
-   INTERFACE NUMBER :         2 HYP2V30D00_interface_2
+   INTERFACE NUMBER :         2 interface_2
 
 
-    TYPE.EQ.3   SLIDING AND VOIDS             
+    TYPE==3   SLIDING AND VOIDS             
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -2340,10 +2347,10 @@ PART:         3,acier 1006
 
 
 
-   INTERFACE NUMBER :         3 HYP2V30D00_interface_3
+   INTERFACE NUMBER :         3 interface_3
 
 
-    TYPE.EQ.3   SLIDING AND VOIDS             
+    TYPE==3   SLIDING AND VOIDS             
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -2365,10 +2372,10 @@ PART:         3,acier 1006
 
 
 
-   INTERFACE NUMBER :         4 HYP2V30D00_interface_4
+   INTERFACE NUMBER :         4 interface_4
 
 
-    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMETRIC)
+    TYPE==5  SLIDING AND VOIDS(NON SYMMETRIC)
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -3334,7 +3341,7 @@ PART MASS & INERTIA
 PART :          1ALU 2024 T1
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  4.431999797892      35.51591157295     5.9914065877537E-02  35.45599750708      0.000000000000      1.181661343414      0.000000000000    
+  4.431999797892      35.51591157295     5.9914065877537E-02  35.45599750707      0.000000000000      1.181661343414      0.000000000000    
  X           Y           Z           Kin. Energy Vx         Vy         Vz
   0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
 
@@ -3399,7 +3406,7 @@ Part id,name:         3 acier 1006             Mat type:   4 Elm type: QUAD-2D
 
 
 
-TH GROUP:         2,HYP2V30D00_th_nodes,  6 VAR,    3 NODES     :
+TH GROUP:         2,th_nodes,  6 VAR,    3 NODES     :
  -------------------
 DX        DY        DZ        VX        VY        VZ        
     NODE  SKEW(OR FRAME)     NAME 
@@ -3409,15 +3416,15 @@ DX        DY        DZ        VX        VY        VZ
 
 
 
-TH GROUP:         3,HYP2V30D00_th_2Dsolid, 11 VAR,   10 QUAD      :
+TH GROUP:         3,th_2Dsolid, 11 VAR,   10 QUAD      :
  -------------------
 OFF       SX        SY        SZ        SXY       SYZ       SXZ       IE        DENS      PLAS      
 TEMP      
 QUAD        P_SPMD       NAME 
-         6         0                                         
          1         0                                         
-       271         0                                         
+         6         0                                         
        290         0                                         
+       271         0                                         
        871         0                                         
        900         0                                         
        904         0                                         
@@ -3462,14 +3469,14 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT
   4.3862083832955E-02            148
   4.3862083832955E-02            172
   4.3862110150109E-02            154
-  4.3862116729575E-02             98
   4.3862116729575E-02            101
-  4.3862116729575E-02             64
+  4.3862116729575E-02             98
   4.3862116729575E-02             83
+  4.3862116729575E-02             64
   4.3862116729575E-02             52
-  4.3862116729575E-02             62
   4.3862116729575E-02             80
-  4.3862116729576E-02            137
+  4.3862116729575E-02             62
+  4.3862116729576E-02            124
  SUMMARY OF POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS :
  -----------------------------------------------------
                                   
@@ -3479,38 +3486,35 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        131 MB
+    STARTER MEMORY USAGE        124 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
-AVERAGE NB. OF BOUNDARY NODES :   159
+
+AVERAGE NB. OF BOUNDARY NODES :   157
 STANDARD DEVIATION            :    93
- 
-AVERAGE NUMBER OF LOCAL NODES :     367
-STANDARD DEVIATION            :     116
- 
+
+AVERAGE NUMBER OF LOCAL NODES :     366
+STANDARD DEVIATION            :     114
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    1           260                   298                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    2           250                    83                     2
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    3           251                    67                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    4           259                   186                     2
- 
+    1           258                   311                     3
+    2           260                    63                     1
+    3           252                   142                     2
+    4           250                   113                     2
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
- NUMBER OF NODES................. :         567
- NUMBER OF QUAD ELEMENTS......... :         260
- TOTAL NUMBER OF NODES FOR COMM.. :         310
+ NUMBER OF NODES................. :         562
+ NUMBER OF QUAD ELEMENTS......... :         258
+ TOTAL NUMBER OF NODES FOR COMM.. :         318
  NUMBER OF INT2 SECONDARY NODES...... :           0
  NUMBER OF INT2 MAIN NODES..... :           0
  NUMBER OF CONTACT SECONDARY NODES... :           0
  NUMBER OF CONTACT MAIN NODES.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -3519,17 +3523,17 @@ STANDARD DEVIATION            :     116
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
- NUMBER OF NODES................. :         286
- NUMBER OF QUAD ELEMENTS......... :         250
- TOTAL NUMBER OF NODES FOR COMM.. :          87
+ NUMBER OF NODES................. :         296
+ NUMBER OF QUAD ELEMENTS......... :         260
+ TOTAL NUMBER OF NODES FOR COMM.. :          63
  NUMBER OF INT2 SECONDARY NODES...... :           0
  NUMBER OF INT2 MAIN NODES..... :           0
  NUMBER OF CONTACT SECONDARY NODES... :           0
  NUMBER OF CONTACT MAIN NODES.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -3538,17 +3542,17 @@ STANDARD DEVIATION            :     116
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
- NUMBER OF NODES................. :         303
- NUMBER OF QUAD ELEMENTS......... :         251
- TOTAL NUMBER OF NODES FOR COMM.. :          79
+ NUMBER OF NODES................. :         297
+ NUMBER OF QUAD ELEMENTS......... :         252
+ TOTAL NUMBER OF NODES FOR COMM.. :         149
  NUMBER OF INT2 SECONDARY NODES...... :           0
  NUMBER OF INT2 MAIN NODES..... :           0
  NUMBER OF CONTACT SECONDARY NODES... :           0
  NUMBER OF CONTACT MAIN NODES.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -3557,17 +3561,17 @@ STANDARD DEVIATION            :     116
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
- NUMBER OF NODES................. :         311
- NUMBER OF QUAD ELEMENTS......... :         259
- TOTAL NUMBER OF NODES FOR COMM.. :         194
+ NUMBER OF NODES................. :         307
+ NUMBER OF QUAD ELEMENTS......... :         250
+ TOTAL NUMBER OF NODES FOR COMM.. :         120
  NUMBER OF INT2 SECONDARY NODES...... :           0
  NUMBER OF INT2 MAIN NODES..... :           0
  NUMBER OF CONTACT SECONDARY NODES... :           0
  NUMBER OF CONTACT MAIN NODES.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -3576,7 +3580,7 @@ STANDARD DEVIATION            :     116
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
 
      RESTART FILES HYPE_0000 WRITTEN
      -------------
@@ -3587,20 +3591,20 @@ STANDARD DEVIATION            :     116
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.2999E-02   .3859E+00   .1040E+00   .7998E-02   .0000E+00   .0000E+00   .0000E+00   .0000E+00
+.0000E+00   .3126E+00   .1374E+00   .1691E-01   .2900E-04   .5597E-04   .3480E-03   .2301E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.2935E-02   .6182E+00   .1185E+00   .9394E-02   .1073E-04   .1860E-04   .1984E-03   .5960E-05
+.0000E+00   .1006E+07   .1513E+00   .1305E-01   .3291E-04   .3084E-04   .2068E-03   .1162E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2021/06/17  09:47:25
- EXECUTION COMPLETED    :      2021/06/17  09:47:26
+ EXECUTION STARTED      :      2022/11/21  11:41:08
+ EXECUTION COMPLETED    :      2022/11/21  11:41:09
   
- ELAPSED TIME...........=          0.79 s
+ ELAPSED TIME...........=          0.53 s
                                00:00:00
   
 ------------------------------------------------------------------------
@@ -3615,7 +3619,7 @@ STANDARD DEVIATION            :     116
 |            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
 ------------------------------------------------------------------------------------------------------------------------
 |                                                           |                                                          |
-|                                                           |  --- INTERNAL                               3 WARNING(S) |
+|                                                           |  --- GLOBAL UNITS                           3 WARNING(S) |
 |                                                           |       |                                                  |
 |                                                           |       |                                                  |
 |                                                           |       |---     1 WARNING ID :       100214               |
