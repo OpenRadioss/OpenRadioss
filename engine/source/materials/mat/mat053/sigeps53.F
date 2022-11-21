@@ -94,7 +94,7 @@ C SIGVXX  | NEL     | F | W | VISCOUS STRESS XX
 C SIGVYY  | NEL     | F | W | VISCOUS STRESS YY
 C ...     |         |   |   |
 C SOUNDSP | NEL     | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
-C VISCMAX | NEL     | F | W | MAXIMUN DAMPING MODULUS(NEEDED FOR TIME STEP)
+C VISCMAX | NEL     | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
 C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
@@ -363,7 +363,7 @@ C... CORRECTION
      .        (HALF)*(F11(I)+ F22(I) + F44(I)) +
      .         (F1(I) + F2(I))/S45C(I)     
            ENDIF
-C... Chek the yeil condition according to Tsay Wu.
+C... Check the yield condition according to Tsay Wu.
        F(I) = F1(I)*SIGNXX(I) + F2(I)* SIGNYY(I) + F2(I)*SIGNZZ(I)+
      . F11(I)*SIGNXX(I)**2 + F22(I)*SIGNYY(I)**2 + F22(I)*SIGNZZ(I)**2
      .+F44(I)*SIGNXY(I)**2 + F55(I)*SIGNYZ(I)**2 + F44(I)*SIGNZX(I)**2

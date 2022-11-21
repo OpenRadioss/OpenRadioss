@@ -86,7 +86,7 @@ C SIGNXX  | NEL     | F | W | NEW ELASTO PLASTIC STRESS XX
 C SIGNYY  | NEL     | F | W | NEW ELASTO PLASTIC STRESS YY
 C ...     |         |   |   |
 C SOUNDSP | NEL     | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
-C VISCMAX | NEL     | F | W | MAXIMUN DAMPING MODULUS(NEEDED FOR TIME STEP)
+C VISCMAX | NEL     | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
 C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
@@ -256,7 +256,7 @@ c          from the old stresses, thus, SIGOxx is a shifted old stress
         ENDDO            
       ENDIF 
 c------------------------------------------
-c     element lenght scale function
+c     element length scale function
 c------------------------------------------
       IF (OPTE == 1) THEN
         IFUNCE = UPARAM( 2*NRATE + 22)

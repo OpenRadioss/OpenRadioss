@@ -61,7 +61,7 @@ C---------+---------+---+---+--------------------------------------------
 C NPTOT   |  1      | I | R | NUMBER OF LAYERS OR INTEGRATION POINTS   
 C IPT     |  1      | I | R | LAYER OR INTEGRATION POINT NUMBER   
 C IFLAG   |  *      | I | R | GEOMETRICAL FLAGS   
-C NGL     | NEL     | I | R | ELEMEMT NUMBER
+C NGL     | NEL     | I | R | ELEMENT NUMBER
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY

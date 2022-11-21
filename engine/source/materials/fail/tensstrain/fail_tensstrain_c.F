@@ -131,7 +131,7 @@ C=======================================================================
 
       DAMAGE(1:NEL)=ZERO
 C-----------------------------------------------
-C!  Initialization of inintial el.length
+C!  Initialization of initial el.length
 C-----------------------------------------------
       SC_EL      = UPARAM(5)
       EL_REF     = UPARAM(6)

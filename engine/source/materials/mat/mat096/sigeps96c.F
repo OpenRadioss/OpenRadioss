@@ -325,7 +325,7 @@ c           deformations
         ENDIF
       ENDDO
 c---------------------------------
-c     PLASTIC FLOW  : FULL NEWTON ITERATONS
+c     PLASTIC FLOW  : FULL NEWTON ITERATIONS
 c---------------------------------
       DO I=1,NEL
         IF (F(I) > ZERO) THEN

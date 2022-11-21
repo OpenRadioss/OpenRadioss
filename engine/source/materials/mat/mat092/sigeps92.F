@@ -136,7 +136,7 @@ C
        AV(I,5)=EPSYZ(I)/2
        AV(I,6)=EPSZX(I)/2
       ENDDO       
-CEigenvalues needed to be calcultated in double precision
+CEigenvalues needed to be calculated in double precision
 C        for a simple precision executing
       IF (IRESP==1) THEN
         CALL VALPVECDP_V(AV,EVV,DIRPRV,NEL)

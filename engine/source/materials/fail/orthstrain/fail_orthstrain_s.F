@@ -635,7 +635,7 @@ c
             ENDIF
           ENDIF
 c		
-c         MODE ZZ Compresion		
+c         MODE ZZ Compression		
 c
           MODE  = M33C
           EPDOT = ABS(EPSP(I,ZZ))/EPSPREF

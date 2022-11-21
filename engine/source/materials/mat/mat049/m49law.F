@@ -185,7 +185,7 @@ C---    Radial return
       DO I=LFT,LLT
 C---    plastic strain increment.
         DPLA(I)=(ONE -SCALE(I))*AJ2(I)/MAX((THREE*G(I)+QH(I)),EM15)
-C---    actual yeld stress.
+C---    actual yield stress.
         YLD(I)  =YLD(I)+DPLA(I)*QH(I)
         SIG(I,1)=SCALE(I)*SIG(I,1)
         SIG(I,2)=SCALE(I)*SIG(I,2)

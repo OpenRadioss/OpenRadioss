@@ -169,7 +169,7 @@ C
        AV(6,I)=HALF*EPSZX(I)
       ENDDO       
 
-CEigenvalues needed to be calcultated in double precision
+CEigenvalues needed to be calculated in double precision
 C        for a simple precision executing
       IF (IRESP==1) THEN
         CALL VALPVECDP(AV,EVV,DIRPRV,NEL)
@@ -680,7 +680,7 @@ C
         ENDIF
 C
 !!        IF(NLOAD == 1) THEN ! 
-!!unlaoding is only quasistatic to oviod the instability i unloading
+!!unloading is only quasistatic to avoid the instability i unloading
           IF(IUNL_FOR == 3) THEN
            DO JJ=1,NE_UNLOAD
              I = INDX_UNL(JJ)

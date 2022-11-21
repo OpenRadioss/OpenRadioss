@@ -81,7 +81,7 @@ C---------------------------------------------
       NU    = UPARAM(2)
       G     = UPARAM(3)
       BULK  = UPARAM(4)
-c     Paramters of yield function/hardening law and flow potential
+c     Parameters of yield function/hardening law and flow potential
       YLD0  = UPARAM(5)
       QQ    = UPARAM(6)
       BETA  = UPARAM(7)

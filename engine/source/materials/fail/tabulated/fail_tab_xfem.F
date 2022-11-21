@@ -69,7 +69,7 @@ C NPT     |  1      | I | R | NUMBER OF LAYERS OR INTEGRATION POINTS
 C IPT     |  1      | I | R | LAYER OR INTEGRATION POINT NUMBER   
 C ISHELL  |  *      | I | R | GEOMETRICAL FLAGS   
 C TF      |  *      | F | R | FUNCTION ARRAY 
-C NGL     | NEL     | I | R | ELEMEMT NUMBER
+C NGL     | NEL     | I | R | ELEMENT NUMBER
 C SHF     | NEL     | F | R | SHEAR FACTOR
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
@@ -79,7 +79,7 @@ C SIGNXX  | NEL     | F | W | NEW ELASTO PLASTIC STRESS XX
 C SIGNYY  | NEL     | F | W | NEW ELASTO PLASTIC STRESS YY
 C ...     |         |   |   |
 C SOUNDSP | NEL     | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
-C VISCMAX | NEL     | F | W | MAXIMUN DAMPING MODULUS(NEEDED FOR TIME STEP)
+C VISCMAX | NEL     | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
 C---------+---------+---+---+--------------------------------------------
 C PLA     | NEL     | F |R/W| PLASTIC STRAIN
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
@@ -231,7 +231,7 @@ C         XX0(1)=SIGM *X1SCALE
       ENDDO
 c
       DO I=1,NEL
-c----   element lenght scale function
+c----   element length scale function
         IF (IFUN_EL > 0) THEN
            LAMBDA = UVAR(I,5) / EL_REF
            FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF) 
@@ -576,8 +576,8 @@ C---
      .       1X,'LAYER',I10)
  4900 FORMAT(1X,'CRACK ADVANCEMENT IN SHELL ELEMENT (TAB)   ',I10,
      .       1X,'LAYER',I10,':',/,' AT TIME :',1PE12.4)
- 5010 FORMAT(1X,'SHELL ELEMENT FAILIURE DUE TO THINNING (TAB)',I10)
- 5020 FORMAT(1X,'SHELL ELEMENT FAILIURE DUE TO THINNING (TAB)',I10,
+ 5010 FORMAT(1X,'SHELL ELEMENT FAILURE DUE TO THINNING (TAB)',I10)
+ 5020 FORMAT(1X,'SHELL ELEMENT FAILURE DUE TO THINNING (TAB)',I10,
      .       1X,':',/1X,'AT TIME :',1PE12.4)
  
 c-----------

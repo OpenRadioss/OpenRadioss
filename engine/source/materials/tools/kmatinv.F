@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C Computes AINV(NEL,3,3) wich is the inverse of MAT(NEL,3,3)
+C Computes AINV(NEL,3,3) which is the inverse of MAT(NEL,3,3)
 Chd|====================================================================
 Chd|  KMATINV3                      source/materials/tools/kmatinv.F
 Chd|-- called by -----------
