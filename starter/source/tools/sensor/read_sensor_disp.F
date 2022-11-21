@@ -109,8 +109,6 @@ c--------------------------------------------------
         CALL IFRONTPLUS(N2,P)
       ENDDO
 c--------------------------------------------------
-c     Sensor structure
-c--------------------------------------------------
       SENSOR_PTR%TYPE    = SENS_TYPE
       SENSOR_PTR%SENS_ID = SENS_ID
       SENSOR_PTR%STATUS  = 0            ! status = deactivated
