@@ -186,7 +186,7 @@ c    material parameters
 C	  
       IF (IAVIS>0) THEN	  
       DO  I = 1, NEL
-         !retreive previous viscous deformation gradient
+         !retrieve previous viscous deformation gradient
          FPO(I,1,1)  = UVAR(I,1) 
          FPO(I,2,2)  = UVAR(I,2) 
          FPO(I,3,3)  = UVAR(I,3) 
@@ -330,7 +330,7 @@ C
         !------------------------------------   
         !Solve F_n+1 viscous :   
         !------------------------------------  
-        !PRODMAT(A, B, C, NEL) computes C(NEL,3,3) wich is the product [C] = [A][B] 
+        !PRODMAT(A, B, C, NEL) computes C(NEL,3,3) which is the product [C] = [A][B] 
         CALL KMATINV3(FE , INVFE, NEL)       !  INVFE  = INVERSE (FE)   
         CALL PRODMAT (LB ,    FE, FEDP, NEL) !  FEDP   = Lb * FE
         CALL PRODMAT(INVFE ,FEDP, DFP , NEL) !  DFP    = INVFE  * Lb * FE

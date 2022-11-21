@@ -166,7 +166,7 @@ c-------------------------
         END IF
       ENDDO !I=1,NEL
 !------------------------------------------------    
-!             DAMMAGE      : ultimate displacement                       
+!             DAMAGE      : ultimate displacement                       
 !------------------------------------------------    
       ! IRUPT =2  = BK method -----------------
       IF (IRUPT == 2) THEN

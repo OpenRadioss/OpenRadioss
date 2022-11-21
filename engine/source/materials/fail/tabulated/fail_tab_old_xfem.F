@@ -179,7 +179,7 @@ c----
       ENDDO
 c
       DO I=1,NEL
-c----   element lenght scale function
+c----   element length scale function
         IF (IFUN_EL > 0) THEN
            LAMBDA = UVAR(I,2) / EL_REF
            FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF) 
@@ -490,8 +490,8 @@ C---
      .       1X,'LAYER',I10)
  4900 FORMAT(1X,'CRACK ADVANCEMENT IN SHELL ELEMENT (TAB)   ',I10,
      .       1X,'LAYER',I10,':',/,' AT TIME :',1PE12.4)
- 5010 FORMAT(1X,'SHELL ELEMENT FAILIURE DUE TO THINNING (TAB)',I10)
- 5020 FORMAT(1X,'SHELL ELEMENT FAILIURE DUE TO THINNING (TAB)',I10,
+ 5010 FORMAT(1X,'SHELL ELEMENT FAILURE DUE TO THINNING (TAB)',I10)
+ 5020 FORMAT(1X,'SHELL ELEMENT FAILURE DUE TO THINNING (TAB)',I10,
      .       1X,':',/1X,'AT TIME :',1PE12.4)
  
 c-----------

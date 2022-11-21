@@ -135,7 +135,7 @@ C
       SIGY = UPARAM(25) ! Initial yield stress
       QR1  = UPARAM(26) ! Voce 1 first parameter
       CR1  = UPARAM(27) ! Voce 1 second parameter
-      QR2  = UPARAM(28) ! Voce 2 fisrt parameter
+      QR2  = UPARAM(28) ! Voce 2 first parameter
       CR2  = UPARAM(29) ! Voce 2 second parameter
       ! Strain-rate computation flag
       VP   = NINT(UPARAM(30))

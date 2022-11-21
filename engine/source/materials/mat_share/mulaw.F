@@ -441,7 +441,7 @@ C---------------------------
 C 
       ELSEIF ( MTN==68 ) THEN
 C---------------------------
-C GLOBAL NONSYMETRIC ORTHOTROPIC TENSOR       
+C GLOBAL NONSYMMETRIC ORTHOTROPIC TENSOR
 C---------------------------
         CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
      2               R23 ,R31,R32,R33,
@@ -1873,7 +1873,7 @@ C   user3
               ! ----------------
             ENDIF
           ELSEIF (IRUPT == 7) THEN  
-C----- removed to ouput (H3D)          
+C----- removed to output (H3D)
           ELSEIF (IRUPT == 8) THEN                                         
 C---- Johnson cook + spalling          
               CALL FAIL_SPALLING_S(NEL ,NPAR,NVARF,NFUNC,IFUNC,
@@ -1953,7 +1953,7 @@ c  --- Biquadratic failure model
      5        DPLA     ,EPSP1    ,TSTAR    ,UVARF    ,OFF,IP   ,
      6        DFMAX    ,TDEL     ,EL_LEN   )    
           ELSEIF (IRUPT == 33. AND . MTN /= 100 .AND. MTN /= 95 ) THEN                                
-c  --- Mullins Ogden-Roxburgh dammage model                                  
+c  --- Mullins Ogden-Roxburgh damage model                                  
               CALL FAIL_MULLINS_OR_S(
      1        NEL      ,NPAR     ,NVARF    ,NPF      ,TF       ,
      2        TT       ,DT1      ,UPARAMF,NGL , 
@@ -2072,7 +2072,7 @@ c---------------------------------------------------------
       ENDIF
 c---------------------------------------------------------
       IF ( MTN==68 ) THEN
-c       orthotropic global nonsymetric tensor
+c       orthotropic global nonsymmetric tensor
         IF (JCVT == 0) THEN
 #include "vectorize.inc"
          DO I=1,NEL

@@ -94,7 +94,7 @@ C SIGVXX  | NEL0    | F | W | VISCOUS STRESS XX
 C SIGVYY  | NEL0    | F | W | VISCOUS STRESS YY
 C ...     |         |   |   |
 C SOUNDSP | NEL0    | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
-C VISCMAX | NEL0    | F | W | MAXIMUN DAMPING MODULUS(NEEDED FOR TIME STEP)
+C VISCMAX | NEL0    | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
 C---------+---------+---+---+--------------------------------------------
 C THK     | NEL0    | F |R/W| THICKNESS
 C PLA     | NEL0    | F |R/W| PLASTIC STRAIN

@@ -56,7 +56,7 @@ C! NPF     | *      | I | R | FUNCTION ARRAY
 C! NPT0    | 1      | I | R | NUMBER OF LAYERS OR INTEGRATION POINTS
 C! IPT                         CURRENT INTEGRATION POINT IN THE LAYER (FOR OUTPUT ONLY)
 C! TF      | *      | F | R | FUNCTION ARRAY
-C! NGL     | NEL    | I | R | ELEMEMT NUMBER
+C! NGL     | NEL    | I | R | ELEMENT NUMBER
 C! IPG     |        |   |   | CURRENT GAUSS POINT (in plane)
 C! ILAY    |        |   |   | CURRENT LAYER
 C! FOFF    | NEL    | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)

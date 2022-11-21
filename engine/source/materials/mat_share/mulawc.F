@@ -325,7 +325,7 @@ C
         IF(IPM(222,IMAT) > 0) IPRONY=1
       ENDDO
 C
-!     ZCFAC computation is only usefull for CZFORC3 and CZFORC3_CRK routines
+!     ZCFAC computation is only useful for CZFORC3 and CZFORC3_CRK routines
       FLAG_ZCFAC=.FALSE.
       IF( (JHBE>=21.AND.JHBE<=29).OR.(IMPL_S>0)) FLAG_ZCFAC=.TRUE.
       FLAG_ETIMP=.FALSE.
@@ -2303,7 +2303,7 @@ c------------------------------------------------
                 MOM(1:NEL,2) = MOM(1:NEL,2) + WMC(1:NEL) *SIGNYY(1:NEL)*DMG_LOC_SCALE(1:NEL)   
                 MOM(1:NEL,3) = MOM(1:NEL,3) + WMC(1:NEL) *SIGNXY(1:NEL)*DMG_LOC_SCALE(1:NEL)  
               ENDIF
-            CASE (2)  ! internal dammage model within law15         
+            CASE (2)  ! internal damage model within law15         
               FOR(1:NEL,1) = FOR(1:NEL,1) + THLY(1:NEL)*SIGDMG(1:NEL,1)
               FOR(1:NEL,2) = FOR(1:NEL,2) + THLY(1:NEL)*SIGDMG(1:NEL,2)   
               FOR(1:NEL,3) = FOR(1:NEL,3) + THLY(1:NEL)*SIGDMG(1:NEL,3)  
@@ -2345,7 +2345,7 @@ c
                         TENS(JFT:JLT,4) = SIGNYZ(JFT:JLT)*DMG_LOC_SCALE(JFT:JLT)                               
                         TENS(JFT:JLT,5) = SIGNZX(JFT:JLT)*DMG_LOC_SCALE(JFT:JLT)                 
               ENDIF       
-            CASE (2)  ! internal dammage model within law15         
+            CASE (2)  ! internal damage model within law15         
               TENS(JFT:JLT,1) = SIGDMG(JFT:JLT,1)
               TENS(JFT:JLT,2) = SIGDMG(JFT:JLT,2)   
               TENS(JFT:JLT,3) = SIGDMG(JFT:JLT,3)  

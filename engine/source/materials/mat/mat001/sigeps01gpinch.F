@@ -96,7 +96,7 @@ C-----------------------------------------------
 C
       DO I=JFT,JLT
 C         [PM] reverse engineer E and ANU from A11 and A12
-C         [PM] cant use A11/A12 since they correspond to shell (plane stress)
+C         [PM] can't use A11/A12 since they correspond to shell (plane stress)
           E(I)   = A1(I)*(ONE-NU(I)**2)
 C
 C         PA1 = C1111, C2222, C3333

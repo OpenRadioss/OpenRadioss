@@ -92,7 +92,7 @@ C SIGVXX  | NEL     | F | W | VISCOUS STRESS XX
 C SIGVYY  | NEL     | F | W | VISCOUS STRESS YY
 C ...     |         |   |   |
 C SOUNDSP | NEL     | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
-C VISCMAX | NEL     | F | W | MAXIMUN DAMPING MODULUS(NEEDED FOR TIME STEP)
+C VISCMAX | NEL     | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
 C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
@@ -610,7 +610,7 @@ C
             R  = YLD(I) / VM
 c           plastic strain increment
             DPLA = (ONE - R)*VM / MAX(G3+H(I),EM20) 
-c           actualized yeld stress with kinematic hardening
+c           actualized yield stress with kinematic hardening
             YLD(I) = MAX(YLD(I) + (ONE-FISOKIN)*DPLA*H(I), ZERO)
             R = MIN(ONE, YLD(I) / VM)
 C

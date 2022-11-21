@@ -409,7 +409,7 @@ C
           DF(1:NEL)  =  RHO0(1:NEL)/LBUF%RHO(1:NEL)
           VOL_AVG(1:NEL) = VOLN(1:NEL) - HALF*DVOL(1:NEL)
       ENDIF
-C-----due to too much returns of QA, temporaly add IRESP here   
+C-----due to too much returns of QA, temporarily add IRESP here
       IF((INCOMP/=1.OR.(JEUL+JALE)/=1).AND.JLAG/=0.AND.N2D==0.AND.JSPH==0.AND.IRESP==1
      .     .AND.IMPL_S==0.AND.ISMSTR/=1.AND.ISMSTR/=3.AND.ISMSTR/=11)THEN
 C-----due to issue w/ SP ----in srho3.F R4_AMU is calculated for SP :      
@@ -522,7 +522,7 @@ C     STRESSES DEVIATORIC/TOTAL
 C-----------------------------------
       IBPRELD = 0
       IF(IBOLTP /= 0)THEN
-        !two conditions checks, otherwise BPRELD has size 0 if IBOLTP==0 and debuger stops as it detects an index out of bounds.
+        !two conditions checks, otherwise BPRELD has size 0 if IBOLTP==0 and debugger stops as it detects an index out of bounds.
         IF(BPRELD(2*NEL+1) <= ONE .AND.BPRELD(2*NEL+1) > ZERO)IBPRELD = 1
       ENDIF
 
@@ -2078,7 +2078,7 @@ C-----------
 C-----------------------------------------------------------------  
 C  ALE/EULER  POST-TREATMENT
 C-----------------------------------------------------------------  
-      !IF(TT>=TANIM)THEN     -> becomes unconditionnal since ssp needed for flux calculation : storage recquired .
+      !IF(TT>=TANIM)THEN     -> becomes unconditional since ssp needed for flux calculation : storage required.
         IF(IPARG(7,NG)+IPARG(11,NG) > 0 ) THEN
           LBUF%SSP(1:NEL) = CXX(1:NEL)
         ENDIF

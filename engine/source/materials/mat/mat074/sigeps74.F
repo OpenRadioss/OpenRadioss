@@ -95,7 +95,7 @@ C SIGVXX  | NEL     | F | W | VISCOUS STRESS XX
 C SIGVYY  | NEL     | F | W | VISCOUS STRESS YY
 C ...     |         |   |   |
 C SOUNDSP | NEL     | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
-C VISCMAX | NEL     | F | W | MAXIMUN DAMPING MODULUS(NEEDED FOR TIME STEP)
+C VISCMAX | NEL     | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
 C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
@@ -512,7 +512,7 @@ c        P = C11(I) * (RHO(I)/RHO0(I)-ONE)
         R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
 C       plastic strain increment.
         DPLA(I)=(ONE - R)*CRI(I)/MAX(G31(I)+H(I),EM20)
-C       actual yeld stress.
+C       actual yield stress.
         YLD(I)=MAX(YLD(I)+(ONE - FISOKIN)*DPLA(I)*H(I),ZERO)
         R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
 C
@@ -868,7 +868,7 @@ c        P = C1 * (RHO(I)/RHO0(I)-ONE)
         R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
 C       plastic strain increment.
         DPLA(I)=(ONE - R)*CRI(I)/MAX(G3+H(I),EM20)
-C       actual yeld stress.
+C       actual yield stress.
         YLD(I)=MAX(YLD(I)+(ONE - FISOKIN)*DPLA(I)*H(I),ZERO)
         R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
 C

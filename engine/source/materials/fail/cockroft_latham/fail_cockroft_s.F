@@ -131,7 +131,7 @@ c!
 C-----------------------------------------------
 C...    
 C!      UVAR(I,1) contains previous equivalent strain value increment
-C!      UVAR(I,2) contains the Cockroft-Latham acumulated value
+C!      UVAR(I,2) contains the Cockroft-Latham accumulated value
 c!      UVAR(I,3) contains the previous first principal stress
 
       C0       = UPARAM(1)

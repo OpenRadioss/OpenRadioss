@@ -281,7 +281,7 @@ C
         IF(IPM(222,IMAT) > 0) IPRONY=1
       ENDDO
 C
-!     ZCFAC computation is only usefull for CZFORC3 and CZFORC3_CRK routines
+!     ZCFAC computation is only useful for CZFORC3 and CZFORC3_CRK routines
       FLAG_ZCFAC=.FALSE.
       IF( (JHBE>=21.AND.JHBE<=29).OR.(IMPL_S>0)) FLAG_ZCFAC=.TRUE.
       SCALE1(1:NEL) = ONE

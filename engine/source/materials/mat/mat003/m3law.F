@@ -194,7 +194,7 @@ C---------------------------------
         SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
         !--plastic strain increment.
         DPLA=(ONE -SCALE)*SJ2(I)/MAX(THREE*G11+QH(I),EM15) 
-        !--actual yeld stress.
+        !--actual yield stress.
         YLD(I)=YLD(I)+DPLA*QH(I)
         SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
         SIG(I,1)=SCALE*SIG(I,1)

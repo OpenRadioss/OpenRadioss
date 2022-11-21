@@ -54,7 +54,7 @@ C               This sound speed formulation may leads to global value potential
 C               recommended : Courant number <= 0.5 (dt_scale)
 C
 C Output
-C    !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multipling by element volume in aleconve.F)
+C    !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multiplying by element volume in aleconve.F)
 C    !UVAR(I,2) : density of gas
 C    !UVAR(I,3) : density of liquid
 C    !UVAR(I,4) : volumetric fraction of liquid
@@ -99,7 +99,7 @@ C        ! SIGVXX  | NEL     | F | W | VISCOUS STRESS XX
 C        ! SIGVYY  | NEL     | F | W | VISCOUS STRESS YY
 C        ! ...     |         |   |   |
 C        ! SOUNDSP | NEL     | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
-C        ! VISCMAX | NEL     | F | W | MAXIMUN DAMPING MODULUS(NEEDED FOR TIME STEP)
+C        ! VISCMAX | NEL     | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
 C        !---------+---------+---+---+--------------------------------------------
 C        ! UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C        ! OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)

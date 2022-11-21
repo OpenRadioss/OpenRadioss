@@ -346,7 +346,7 @@ c--------------
 c
           DO II = 1,NCOMP                                                  
             IEL= ELCOMP(II)                                                   
-            SVMT = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! trial shear stresss                    
+            SVMT = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! trial shear stress
             AA = RN(IEL)*(ONE-ALPHA*SIN(SYM(IEL)))
             AN = ONE/MAX(EM20,AA)
             AS   = ONE /  MAX(EM20,RS(IEL))
@@ -521,7 +521,7 @@ c
 c
           DO II = 1,NCOMP                                                  
             IEL= ELCOMP(II)                                                   
-            SVMT = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! trial shear stresss                    
+            SVMT = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! trial shear stress
             AA = RN(IEL)*(ONE-ALPHA*SIN(SYM(IEL)))
             AN = ONE/MAX(EM20,AA)
             AS   = ONE /  MAX(EM20,RS(IEL))

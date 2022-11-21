@@ -188,7 +188,7 @@ c
         ENDIF
       END DO
 c
-      ! Initialization of couter
+      ! Initialization of counter
       NINDX1   = 0  
       NINDX2   = 0  
       NINDXOFF = 0
