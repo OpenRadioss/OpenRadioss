@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n 
 C-----------------------------------------------
 C This subroutine is a 'kinematic version' of coupling interface type 18
-C It is an old and experimental version which has never been released (abandonned)
+C It is an old and experimental version which has never been released (abandoned)
 C  Principle : Structural velocity is imposing fluid velocity
 C  Starter Keyword : /INTER/TYPE18/KINE
 C-----------------------------------------------
@@ -641,7 +641,7 @@ C
       KMIN  =INTBUF_TAB%VARIABLES(17)
       KMAX  =INTBUF_TAB%VARIABLES(18)
 
-C     parrallel part after elem forces
+C     parallel part after elem forces
 C     static cutting
       NB_LOC = I_STOK / NTHREAD
       IF (JTASK == NTHREAD) THEN
@@ -1761,7 +1761,7 @@ C
 C
       ENDDO
 C---------------------------------
-C    transfering fluid force to structure nodes
+C    transferring fluid force to structure nodes
 C---------------------------------
       DO I=1,JLT
         IF(PENE(I) > ZERO)THEN
@@ -1781,7 +1781,7 @@ C
           FY4(I)=FYI(I)*H4(I)
           FZ4(I)=FZI(I)*H4(I)
 C---------------------------------
-c       transfering fluid tensorial mass to structural nodes
+c       transferring fluid tensorial mass to structural nodes
 C---------------------------------
 c
 c            | nx*nx nx*ny nx*nz |

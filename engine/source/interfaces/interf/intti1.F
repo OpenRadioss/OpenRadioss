@@ -250,7 +250,7 @@ C---
             IF (ILEV == 0.OR.ILEV == 1.OR.ILEV == 3.OR.ILEV == 27.OR.ILEV == 28) I2MSCH = 1
             IF (ILEV==25.OR.ILEV==26.OR.ILEV==27.OR.ILEV==28) I7KGLO=1 
         !       Optimization :
-        !       If NSN=0, somes variables are loaded in INTTI2F (NRTS,...)
+        !       If NSN=0, some variables are loaded in INTTI2F (NRTS,...)
         !       if the number of TYPE2 interface is important (>3000) and if the number of
         !       spmd domain is quite important (NSPMD>50), the initialisation time is important :
         !       for_array_copy_in and other initialisations represent up to 5% of total CPUTIME

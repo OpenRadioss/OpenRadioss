@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
-C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C   This experimental cut cell method is not completed, abandoned, and is not an official option.
 C
 C  X(3,*) is used for local nodes (cells) for surface nodes use IRECTL  
 C-----------------------------------------------
@@ -338,7 +338,7 @@ C================================================================
       NBF = 1+ITASK*NCANDB/NTHREAD
       NBL = (ITASK+1)*NCANDB/NTHREAD
 
-      !NCANDB bricks are present in candidates. Theses NCANDB bricks are multi-threaded. Each thread will handle ( (/CAND_B(IADF(I):IADL(I)) , CAND_B(IADF(I):IADL(I))/), I=NBF,NBL)
+      !NCANDB bricks are present in candidates. These NCANDB bricks are multi-threaded. Each thread will handle ( (/CAND_B(IADF(I):IADL(I)) , CAND_B(IADF(I):IADL(I))/), I=NBF,NBL)
 
       DO I=NBF,NBL !each thread handle its bricks (no duplicate work)
         BRICK_LIST(NIN,I)%Seg_add_LFT = IADF(I)    ! corresponding window in CAND_B(i)  : CAND_B(IADFL(I):IADL(I)) = I
@@ -449,7 +449,7 @@ C          END IF
                 !IF(J==1 .OR. J==5 .OR. J==8 .OR. J==12)THEN
                 !  ON1(1:3) = X(1:3,iN(1))
                 !  N1N2(1:3)= EDGE_LIST(NIN,K)%VECTOR(1:3)
-                !  CUTCOOR     = ONE-EM06                                      !interection on edge nodes1,5,8 ou 12 (necessary case to get a corresponding topology without risking to loose the lagrangian surface while it moves)
+                !  CUTCOOR     = ONE-EM06                                      !intserection on edge nodes1,5,8 ou 12 (necessary case to get a corresponding topology without risking to loose the lagrangian surface while it moves)
                 !  CUTCOOR2    = EM06
                 
                 
@@ -466,7 +466,7 @@ C          END IF
                 !IF(J==1 .OR. J==5 .OR. J==8 .OR. J==12)THEN
                   ON1(1:3) = X(1:3,iN(1))
                   N1N2(1:3)= EDGE_LIST(NIN,K)%VECTOR(1:3)
-                  CUTCOOR     = EM06                                     !interection on edge nodes 1,5,8 ou 12 (necessary case to get a corresponding topology without risking to loose the lagrangian surface while it moves)
+                  CUTCOOR     = EM06                                     !intserection on edge nodes 1,5,8 ou 12 (necessary case to get a corresponding topology without risking to loose the lagrangian surface while it moves)
                   POINT(1:3)  = ON1(1:3) + ZERO * N1N2(1:3)              
                   NBCUT2 = 0             
                 !ELSE
@@ -486,7 +486,7 @@ C          END IF
                 !IF(J==1 .OR. J==5 .OR. J==8 .OR. J==12)THEN
                   ON1(1:3) = X(1:3,iN(1))
                   N1N2(1:3)= EDGE_LIST(NIN,K)%VECTOR(1:3)
-                  CUTCOOR     = ONE-EM06                                     !interection with edge nodes 1,5,8 ou 12 (necessary case to get a corresponding topology without risking to loose the lagrangian surface while it moves)
+                  CUTCOOR     = ONE-EM06                                     !intserection with edge nodes 1,5,8 ou 12 (necessary case to get a corresponding topology without risking to loose the lagrangian surface while it moves)
                   POINT(1:3)  = ON1(1:3) + ONE * N1N2(1:3)              
                   NBCUT2 = 0             
                 !ELSE
@@ -521,13 +521,13 @@ C          END IF
               endif                      
 
               !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-              !If intersection with inifinite plane, we calculate coordinates on the edge : COOR = N1+ t N1N2
+              !If intersection with infinite plane, we calculate coordinates on the edge : COOR = N1+ t N1N2
               ! if t is not within [0,1] we are not on the segment but on the open entity (N1N2)\[N1N2]
               IF(NBCUT>0) THEN !if we detect intersection on current shell          
                 IF(DEJA==0)THEN !edge is not yet cut : first intersection detected
                   !print *, "nouveau point", CUTCOOR                
                   NBCUT=1
-                  EDGE_LIST(NIN,K)%CUTCOOR(1)  = CUTCOOR          ! sotrage
+                  EDGE_LIST(NIN,K)%CUTCOOR(1)  = CUTCOOR          ! storage
                   EDGE_LIST(NIN,K)%CUTSHELL(1) = IE
                 ELSEIF (DEJA==1)THEN                              ! already cut => 2nd intersection
                   OLD_CUTCOOR  = EDGE_LIST(NIN,K)%CUTCOOR(1)      ! first store, the ordering the 2 intersections
@@ -669,7 +669,7 @@ C================================================================
         N1N2(1:3)    = EDGE_LIST(NIN,IAD)%VECTOR(1:3)
         ON1(1:3)     = X(1:3,iN(1)) 
           DO K=1,NBCUT
-            !intersection coordonates
+            !intersection coordinates
             POINT(1:3)= ON1(1:3) + CUT(K) * N1N2(1:3)
             ! EDGE_LIST(NIN,IAD)%CUTPOINT(1:3) = POINT(1:3)              
            !===script HM=====!
@@ -783,7 +783,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   P r e c o n d i t i o n s
 C-----------------------------------------------
-! Precondition : Point P is on the inifinite plane generated by 3-node-shell (Z,A,B)
+! Precondition : Point P is on the infinite plane generated by 3-node-shell (Z,A,B)
 C-----------------------------------------------
 C   D e s c r i p t  i o n
 C-----------------------------------------------

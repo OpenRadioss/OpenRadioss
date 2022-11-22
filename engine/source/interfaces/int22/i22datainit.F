@@ -35,7 +35,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
-C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C   This experimental cut cell method is not completed, abandoned, and is not an official option.
 C
 C=======================================================================   
 C   I m p l i c i t   T y p e s
@@ -305,7 +305,7 @@ C=======================================================================
        Gtria(:, 2, 3) = (/1,2,4/)                      
        Gtria(:, 3, 3) = (/1,4,5/)                             
 
-       Gtria(:, 1, 4) = (/1,2,3/)  !HEXAE (2 traingles)
+       Gtria(:, 1, 4) = (/1,2,3/)  !HEXAE (2 triangles)
        Gtria(:, 2, 4) = (/1,3,4/) 
        
        Gtria(:, 1, 5) = (/1,6,5/)  !POLY4 (4 triangles)

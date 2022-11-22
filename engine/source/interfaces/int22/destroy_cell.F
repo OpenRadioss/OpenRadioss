@@ -33,7 +33,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
 C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
-C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C   This experimental cut cell method is not completed, abandoned, and is not an official option.
 C
 C Destroy a cell ICELL_target for a given cut 
 C cell IB in the cut cell buffer.

@@ -186,7 +186,7 @@ c INUTIL POUR INT 24 !!!!!!!!!!!!!!!!!
 C=======================================================================
 C 1   mise des noeuds dans les boites
 C=======================================================================
-C Note for Edge2Edge : X is no more the Radioss X Array but an extention
+C Note for Edge2Edge : X is no more the Radioss X Array but an extension
 C                      NUMNOD+SNE
 C                      It is updated at any cycle
       IF(ITASK == 0)THEN

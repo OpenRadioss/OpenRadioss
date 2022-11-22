@@ -1038,7 +1038,7 @@ C
 C
 C       IF(ACTNOR(IRM)==0 .OR. STIFM(IRM)==ZERO) CYCLE
 
-! Nod Normal should be recieved even if IRM 
+! Nod Normal should be received even if IRM 
 C is deleted
 C ISPMD may still send the edge during for contact detection
 C (i.e. ISPMD is PMAIN)
@@ -1057,7 +1057,7 @@ C         DEBUG_E2E(INT_CHECKSUM(IDS,4,1) == D_EM,JRM)
             NOD_NORMAL(2,J,IRM) = WNOD_NORMAL(2,J,IRM)
             NOD_NORMAL(3,J,IRM) = WNOD_NORMAL(3,J,IRM)
 C If the local segment is broken
-C The (secoundary) edge can still be sended by ISPMD to the processor that have
+C The (secondary) edge can still be sended by ISPMD to the processor that have
 C the main segment. 
 C In that case, the ordering of (JEDG) should be the one on the side that is not
 C broken

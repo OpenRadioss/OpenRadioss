@@ -28,7 +28,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
-C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C   This experimental cut cell method is not completed, abandoned, and is not an official option.
 C
 C  Recursive combinatory algorithm.
 C
@@ -46,7 +46,7 @@ C           potential combination. Is Updated
 C           to remove incompatibility with
 C           combination in ListFIX. Is expanded
 C           into new sublist to test new recursively
-C           new list os combiantion
+C           new list os combination
 C NBITS   : number of bits which represent the
 C           number of intersection points (on brick edges)
 C           remains UNCHANGED in the recursion process
@@ -123,13 +123,13 @@ ccc        print *, arg_ListVAR(1:arg_SizeVAR)
         COUNT      = 0
         CountFIX   = 0
         CountVAR   = 0
-        !accumulation of intersection points recquired by each combination present in the Fixed List.          
+        !accumulation of intersection points required by each combination present in the Fixed List.          
         DO I=1,SizeFIX
           pCODE    = IABS(ListFIX(I))
           ITYP     = GetPolyhedraType(pCODE)
           CountFIX = CountFIX + C_POLYH(ITYP)
         ENDDO !next I
-        !accumulation of intersection points recquired by each combination present in the Variable List.    
+        !accumulation of intersection points required by each combination present in the Variable List.    
         DO I=1,SizeVAR
           pCODE    = ListVAR(I)
           ITYP     = GetPolyhedraType(pCODE)
@@ -199,7 +199,7 @@ c          print *, "   *** EXPAND"
           !------------------------------------------------!
           ! UPDATE FIXED LIST AND VARIABLE LIST (NEW LOCAL)!
           !------------------------------------------------!         
-          !Expanding the varaible sublist & taking each combination in varaible list to add it in a new fix list.
+          !Expanding the variable sublist & taking each combination in variable list to add it in a new fix list.
           SizeLLFIX = SizeFIX + 1
           !SizeLLVAR = SizeVAR - 1 
           !SizeLLVAR_bak =  SizeLLVAR        
@@ -247,7 +247,7 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
                 DO J=1,8
                   IF( TAG_nod_tmp(J)==0)CYCLE
                   TAG_nod_fix(J) = TAG_nod_fix(J)+1
-                  IF(TAG_nod_fix(J) >= 2)GOTO 50 !already a complementary polyhjedron, the original one is incomaptible with the previous in the list, so exit                
+                  IF(TAG_nod_fix(J) >= 2)GOTO 50 !already a complementary polyhedron, the original one is incompatible with the previous in the list, so exit                
                 ENDDO
               ELSE
                 DO J=1,NNOD
@@ -258,7 +258,7 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
               ENDIF
               !this polyhedron also isolate same nodes. Check complementary polyhedron
               IF(BOOL)THEN
-                !restor TAG_nod_fix
+                !restore TAG_nod_fix
                 TAG_nod_fix(1:8) = TAG_nod_bak(1:8)       
                 !check complementary nodes
                 TAG_nod_tmp(1:8) = 1

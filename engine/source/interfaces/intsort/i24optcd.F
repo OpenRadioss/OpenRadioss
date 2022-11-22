@@ -285,7 +285,7 @@ C
                COUNT_CAND = COUNT_CAND+1
                IF(IG(IS) > NUMNOD) COUNT_CAND = COUNT_CAND + 3
              ELSE
-CC--         Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
+CC--         Count of contact connections for AMS (+ additional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
                IF(IG(IS) > NUMNOD) THEN
                  COUNT_CAND = COUNT_CAND+4
                  NS = IG(IS) - NUMNOD
@@ -423,7 +423,7 @@ c secnd in contact on this main keep candidate
                 COUNT_CAND = COUNT_CAND+1
                 IF(IG(IS) > NUMNOD) COUNT_CAND = COUNT_CAND + 3
               ELSE
-CC--         Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
+CC--         Count of contact connections for AMS (+ additional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
                 IG(IS) = NSV(CAND_N(I))
                 CAND_N(I) = -CAND_N(I)
                 L  = CAND_E(I)
@@ -474,7 +474,7 @@ c PMAX_GAP is not used here (node not in contact)
                 COUNT_CAND = COUNT_CAND+1
                 IF(IG(IS) > NUMNOD) COUNT_CAND = COUNT_CAND + 3
               ELSE
-CC--         Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
+CC--         Count of contact connections for AMS (+ additional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
                 IF(IG(IS) > NUMNOD) THEN
                   COUNT_CAND = COUNT_CAND+4
                   NS = IG(IS) - NUMNOD
@@ -590,7 +590,7 @@ c PMAX_GAP is not used here (node not in contact)
                    CT = CT + 1
                    IF(ISEDGE_FI(NIN)%P(II)==1) CT = CT+3
                  ELSE
-CC--             Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
+CC--             Count of contact connections for AMS (+ additional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
                    IF(ISEDGE_FI(NIN)%P(II)==1) THEN
                      CT = CT + 4
                      IF (IS2SE_FI(NIN)%P(1,II) > 0) THEN
@@ -731,7 +731,7 @@ c secnd in contact on this main keep candidate
                CT = CT + 1
                IF(ISEDGE_FI(NIN)%P(II)==1) CT = CT+3
              ELSE
-CC--           Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
+CC--           Count of contact connections for AMS (+ additional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
                L = CAND_E(I)
                IX1(IS)=IRECT(1,L)
                IX2(IS)=IRECT(2,L)
@@ -779,7 +779,7 @@ c PMAX_GAP is not used here (node not in contact)
                    CT = CT + 1
                    IF(ISEDGE_FI(NIN)%P(II)==1) CT = CT+3
                ELSE
-CC--             Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
+CC--             Count of contact connections for AMS (+ additional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
                    IF(ISEDGE_FI(NIN)%P(II)==1) THEN
                      CT = CT + 4
                      IF (IS2SE_FI(NIN)%P(1,II) > 0) THEN
@@ -818,7 +818,7 @@ c      write(iout,*)'i24optcd 5'
 C
 C ---------------------------------------------------------------------------
 C T24E2E TREATMENT for SMP coherency in force computation / Initialize ISPT2
-C This treatment was initialy made in I24COR3 which is too late
+C This treatment was initially made in I24COR3 which is too late
 C ---------------------------------------------------------------------------
 C Care - SPMD Treatments are made in SPMD_EXCH_I24 due to communication
 C ---------------------------------------------------------------------------

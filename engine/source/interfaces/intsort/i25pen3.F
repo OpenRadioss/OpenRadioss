@@ -455,7 +455,7 @@ C
        ENDDO
       ENDIF
 C--------------------------------------------------------
-C     Case of solids, cf symetry conditions
+C     Case of solids, cf symmetry conditions
 C--------------------------------------------------------
       DO I=1,JLT
 

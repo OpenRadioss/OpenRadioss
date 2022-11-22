@@ -557,7 +557,7 @@ C
            MSI(JLT_NEW)= MSFI(NIN)%P(NN)
            ITQ = IRTLM_FI(NIN)%P(2,NN)
            IF (ITQ>4.OR.ITQ==0) THEN
-            print *,'Intenal Error, ITQ=',ITQ
+            print *,'Internal Error, ITQ=',ITQ
             CALL ARRET(2)
            END IF
            IX1(JLT_NEW)  = IRECT(IC(1,ITQ),L)

@@ -104,7 +104,7 @@ C
 C for computing contact ply forces.
 C
            DO I=1,JLT
-C or by node segement if it needed            
+C or by node segment if it needed            
              IPLY(1,I) = 0
              IPLY(2,I) = 0
              IPLY(3,I) = 0

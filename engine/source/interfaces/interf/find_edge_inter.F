@@ -83,7 +83,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(2,24), TARGET :: EDGES_TETRA10 ! definition of edge for tetra10
         INTEGER, DIMENSION(2,4), TARGET :: EDGES_SHELL ! definition of edge for shell/quad
         INTEGER, DIMENSION(2,3), TARGET :: EDGES_TRI ! definition of edge for triangle & spring type12
-        INTEGER, DIMENSION(2,1), TARGET :: EDGES_2DELM ! definition of edge for 2d elment : truss/beam/spring
+        INTEGER, DIMENSION(2,1), TARGET :: EDGES_2DELM ! definition of edge for 2d element : truss/beam/spring
         INTEGER, DIMENSION(2,2), TARGET :: EDGES_SPRING_TYP12 ! definition of edge spring type 12
         INTEGER,DIMENSION(:,:), POINTER :: POINTER_EDGE,IX
 
@@ -456,7 +456,7 @@ C-----------------------------------------------
                         DO J=1,NB_RESULT_INTERSECT_2
                             IF(RESULT_INTERSECT_2(J)/=ISPMD+1) THEN
                                 SHOOT_STRUCT%SAVE_PROC_NB_EDGE = SHOOT_STRUCT%SAVE_PROC_NB_EDGE + 1
-                                SHOOT_STRUCT%SAVE_PROC_EDGE( SHOOT_STRUCT%SAVE_PROC_NB_EDGE ) =  RESULT_INTERSECT_2(J)    ! save the remore proc id
+                                SHOOT_STRUCT%SAVE_PROC_EDGE( SHOOT_STRUCT%SAVE_PROC_NB_EDGE ) =  RESULT_INTERSECT_2(J)    ! save the remote proc id
 
                                 DO IJK=1,2
                                     SHOOT_STRUCT%SAVE_PROC_NB_EDGE = 

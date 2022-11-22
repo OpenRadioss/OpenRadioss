@@ -80,7 +80,7 @@ C     REAL
 C=======================================================================
 C
 C------------------------------
-C     DUPPLICATED FROM I2FOMO3 - SPOTFLAG1 FORMULATION
+C     DUPLICATED FROM I2FOMO3 - SPOTFLAG1 FORMULATION
 C------------------------------
 C
       NIR=4

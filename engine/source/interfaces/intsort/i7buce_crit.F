@@ -91,7 +91,7 @@ C=======================================================================
 
       IF(NSN+NMN < NUMNOD+NUMFAKENODIGEO)THEN
 C
-!#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies 
+!#include "simd.inc" --> this loop can't be vectorized because there are some dependencies 
         DO I=NSNF,NSNL
           J=NSV(I)
           IF(STFN(I)/=ZERO) THEN
@@ -112,7 +112,7 @@ C
 
           ENDIF
         END DO
-!#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies 
+!#include "simd.inc" --> this loop can't be vectorized because there are some dependencies 
         DO I=NMNF,NMNL
           II = I+NSN
           J=MSR(I)
@@ -134,7 +134,7 @@ C
         END DO
       ELSE
 C
-!#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies 
+!#include "simd.inc" --> this loop can't be vectorized because there are some dependencies 
         DO I=NSNF,NSNL
           J=NSV(I)
           IF(STFN(I)/=ZERO) THEN
@@ -155,7 +155,7 @@ C
 
           ENDIF
         END DO
-!#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies 
+!#include "simd.inc" --> this loop can't be vectorized because there are some dependencies 
         DO I=NMNF,NMNL
           J=MSR(I)
           IF(J>0) THEN

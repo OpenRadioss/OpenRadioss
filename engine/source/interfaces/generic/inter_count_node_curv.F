@@ -84,7 +84,7 @@ C-----------------------------------------------
         TYPE(INTBUF_STRUCT_),DIMENSION(NINTER) :: INTBUF_TAB    ! interface data
         my_real, DIMENSION(3,NUMNOD), INTENT(in) :: X            !   position
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: WEIGHT !   flag for secondary nodes (1= current proc is the master proc)
-        TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   struture for interface
+        TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   structure for interface
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

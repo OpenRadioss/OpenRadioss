@@ -385,7 +385,7 @@ C
 
           IPARI(29,NIN) = 0
 C
-C         Recieve buffer ( + wait for sizes)
+C         Receive buffer ( + wait for sizes)
           IF(NSPMD > 1) THEN
             CALL SPMD_I25_SLIDE_EXCH(IBUFR    ,RBUFR      ,ISIZ(NI25)     ,RSIZ(NI25) 
      .                    ,SIZBUFR_GLOB       ,COMM_INT,COMM_REAL,COMM_SIZ

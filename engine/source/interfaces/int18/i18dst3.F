@@ -147,7 +147,7 @@ C-----------------------------------------------
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
          Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
         ELSE
-         !alrady a triangle
+         !already a triangle
          X0(I) = X3(I)
          Y0(I) = Y3(I)
          Z0(I) = Z3(I)

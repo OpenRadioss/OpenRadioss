@@ -187,7 +187,7 @@ C-----------------------------------------------
         ZMAXB = XYZM(12)
       ELSE
 ! we use the global bounding box
-! the box reduction seemed ineficient
+! the box reduction seemed inefficient
 ! at the first sorting
 ! because too many SECONDARY nodes were outside
 ! the reduced box
@@ -571,17 +571,17 @@ C=======================================================================
       DBG_type18_fvm=.false.
       if(inacti==7 .AND. DBG_type18_fvm)then
          write(*,FMT='(A)')"------------------------------------------"
-         write(*,*)"RESULT : Search Algorithm with VOXEL partitionning"
+         write(*,*)"RESULT : Search Algorithm with VOXEL partitioning"
          write(*,*)"  Number of couples =", II_STOK
          if(II_STOK>0)then
            write(*,FMT='(A,(I10))')"  --> SECONDARY Node ids: ", CAND_N(1:II_STOK)
            write(*,FMT='(A,(I10))')"  --> Local Face ids: ", CAND_E(1:II_STOK)
          endif
-         write(*,*)" S    tructure domain :"
+         write(*,*)" Structure domain :"
          write(*,FMT='(A,F30.16,A,F30.16)')" Xmin=",XMIN,"  Xmax=",XMAX
          write(*,FMT='(A,F30.16,A,F30.16)')" Ymin=",YMIN,"  Ymax=",YMAX
          write(*,FMT='(A,F30.16,A,F30.16)')" Zmin=",ZMIN,"  Zmax=",ZMAX
-         write(*,*)" Partitionning domain :"
+         write(*,*)" Partitioning domain :"
          write(*,*)"   TZINF,AAA=",TZINF,AAA
          write(*,FMT='(A,F30.16,A,F30.16)')" Xmin=",XMIN-AAA,"  Xmax=",XMAX+AAA
          write(*,FMT='(A,F30.16,A,F30.16)')" Ymin=",YMIN-AAA,"  Ymax=",YMAX+AAA

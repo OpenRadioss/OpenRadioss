@@ -433,7 +433,7 @@ C
 C
       IF (IMONM > 0) CALL STARTIME(30,1)
 C
-C     NCONT additional candidates (if all secondary nodes are alreay impacted, cf i25optcd)
+C     NCONT additional candidates (if all secondary nodes are already impacted, cf i25optcd)
       MULTIMP = IPARI(23,NIN)
       MULNSN  = INTBUF_TAB%S_CAND_N - NCONT
       CALL I25BUCE(
