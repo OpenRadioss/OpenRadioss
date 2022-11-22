@@ -86,7 +86,7 @@ SOLUTION :
     NUMELX: NUMBER OF MULTIPURPOSE ELEMENTS . . . . . . .         0
     NUMELIG3D: NUMBER OF ISO-GEOMETRIC ELEMENTS . . . . .         0
     NUMSPH : NUMBER OF SMOOTH PARTICLES (SPH CELLS) . . .         0
-    NSPHBCS: NUMBER OF SPH SYMETRY CONDITIONS . . . . . .         0
+    NSPHBCS: NUMBER OF SPH SYMMETRY CONDITIONS. . . . . .         0
     NSPHIO : NUMBER OF SPH INLET/OUTLET CONDITIONS. . . .         0
 
     NFUNCT: NUMBER OF USER'S FUNCTIONS . . . . . . . . .          8
@@ -2058,7 +2058,7 @@ Part id,name:        15 LAW 38 HYDROSTATIC L   Mat type:  38 Elm type: SOLID-HEX
                  5.000E-02                 |                 7.414E-06                 |                 5.520E-06
 
 
-    WARNING : Theses added mass estimations are valid at first cycle only.
+    WARNING : These added mass estimations are valid at first cycle only.
     Because of element deformation or contacts the added mass can increase during the run
 
 

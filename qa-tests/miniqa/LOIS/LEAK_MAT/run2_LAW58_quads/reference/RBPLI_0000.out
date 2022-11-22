@@ -73,7 +73,7 @@
     NUMELX: NUMBER OF MULTIPURPOSE ELEMENTS . . . . . . .         0
     NUMELIG3D: NUMBER OF ISO-GEOMETRIC ELEMENTS . . . . .         0
     NUMSPH : NUMBER OF SMOOTH PARTICLES (SPH CELLS) . . .         0
-    NSPHBCS: NUMBER OF SPH SYMETRY CONDITIONS . . . . . .         0
+    NSPHBCS: NUMBER OF SPH SYMMETRY CONDITIONS. . . . . .         0
     NSPHIO : NUMBER OF SPH INLET/OUTLET CONDITIONS. . . .         0
 
     NFUNCT: NUMBER OF USER'S FUNCTIONS . . . . . . . . .          2
@@ -568,7 +568,7 @@ Injector
      ABSCISSA SCALE FACTOR
           FOR TIME BASED FUNCTIONS . . . . .=  1.000000000000    
 
-     MIXTURE DEFINTION
+     MIXTURE DEFINITION
      NUMBER OF GASES . . . . . . . . . . . .=         5
 
      INITIAL CHARACTERISTICS OF MIXTURE
@@ -883,7 +883,7 @@ PART:         7,chambre3_bas
     CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
     FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
     NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLITING W/ TYPE2            3
+    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
     BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
@@ -1065,7 +1065,7 @@ PART:         7,chambre3_bas
     CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
     FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
     NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLITING W/ TYPE2            3
+    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
     BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
@@ -1584,7 +1584,7 @@ Part id,name:         7 chambre3_bas           Mat type:  58 Elm type: SHELL-(3n
                  5.000E-02                 |                 2.438E-02                 |                 1.815E-02
 
 
-    WARNING : Theses added mass estimations are valid at first cycle only.
+    WARNING : These added mass estimations are valid at first cycle only.
     Because of element deformation or contacts the added mass can increase during the run
 
 

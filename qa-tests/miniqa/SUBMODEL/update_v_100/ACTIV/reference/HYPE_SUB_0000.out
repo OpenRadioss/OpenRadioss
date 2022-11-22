@@ -66,7 +66,7 @@ DESCRIPTION :
     NUMELX: NUMBER OF MULTIPURPOSE ELEMENTS . . . . . . .         0
     NUMELIG3D: NUMBER OF ISO-GEOMETRIC ELEMENTS . . . . .         0
     NUMSPH : NUMBER OF SMOOTH PARTICLES (SPH CELLS) . . .         0
-    NSPHBCS: NUMBER OF SPH SYMETRY CONDITIONS . . . . . .         0
+    NSPHBCS: NUMBER OF SPH SYMMETRY CONDITIONS. . . . . .         0
     NSPHIO : NUMBER OF SPH INLET/OUTLET CONDITIONS. . . .         0
 
     NFUNCT: NUMBER OF USER'S FUNCTIONS . . . . . . . . .          0
@@ -1159,7 +1159,7 @@ PART:         3,acier 1006
    INTERFACE NUMBER :         1 HYP2V30D00_interface_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 
 
-    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMETRIC)
+    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMMETRIC)
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -1237,7 +1237,7 @@ PART:         3,acier 1006
    INTERFACE NUMBER :         4 HYP2V30D00_interface_4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 
 
-    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMETRIC)
+    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMMETRIC)
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -2244,7 +2244,7 @@ PART:         3,acier 1006
    INTERFACE NUMBER :         1 HYP2V30D00_interface_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 
 
-    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMETRIC)
+    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMMETRIC)
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -2322,7 +2322,7 @@ PART:         3,acier 1006
    INTERFACE NUMBER :         4 HYP2V30D00_interface_4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 
 
-    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMETRIC)
+    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMMETRIC)
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0

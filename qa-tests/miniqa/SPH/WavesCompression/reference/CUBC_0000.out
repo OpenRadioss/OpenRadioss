@@ -60,7 +60,7 @@
     NUMELTG: NUMBER OF 3D SHELL ELEMENTS (3-NODES). . . .         0
     NUMELX: NUMBER OF MULTIPURPOSE ELEMENTS . . . . . . .         0
     NUMSPH : NUMBER OF SMOOTH PARTICLES (SPH CELLS) . . .      1296
-    NSPHBCS: NUMBER OF SPH SYMETRY CONDITIONS . . . . . .         5
+    NSPHBCS: NUMBER OF SPH SYMMETRY CONDITIONS. . . . . .         5
     NSPHIO : NUMBER OF SPH INLET/OUTLET CONDITIONS. . . .         0
 
     NFUNCT: NUMBER OF USER'S FUNCTIONS. . . . . . . . . .         1
@@ -4841,36 +4841,36 @@ END OF CELL TRACEBACK
 
      RANDOM NOISE       
      ------------       
-      SPECIFIC TO SPH SYMETRY CONDITIONS 
+      SPECIFIC TO SPH SYMMETRY CONDITIONS 
       ---------------------------------- 
 
 
      CONDITION ID                                        1 symetrie z                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-          NORMAL DIRECTION TO SYMETRY PLANE                Z  
+          NORMAL DIRECTION TO SYMMETRY PLANE                Z  
           REFERENCE FRAME ID                                 1
           NODES GROUP ID FOR KINEMATIC CONDITIONS            2
           FORMULATION LEVEL                                  1
 
      CONDITION ID                                        2 symetrie x                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-          NORMAL DIRECTION TO SYMETRY PLANE                X  
+          NORMAL DIRECTION TO SYMMETRY PLANE                X  
           REFERENCE FRAME ID                                 2
           NODES GROUP ID FOR KINEMATIC CONDITIONS            5
           FORMULATION LEVEL                                  0
 
      CONDITION ID                                        3 symetrie x                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-          NORMAL DIRECTION TO SYMETRY PLANE                X  
+          NORMAL DIRECTION TO SYMMETRY PLANE                X  
           REFERENCE FRAME ID                                 3
           NODES GROUP ID FOR KINEMATIC CONDITIONS            6
           FORMULATION LEVEL                                  0
 
      CONDITION ID                                        4 symetrie y                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-          NORMAL DIRECTION TO SYMETRY PLANE                Y  
+          NORMAL DIRECTION TO SYMMETRY PLANE                Y  
           REFERENCE FRAME ID                                 4
           NODES GROUP ID FOR KINEMATIC CONDITIONS            7
           FORMULATION LEVEL                                  0
 
      CONDITION ID                                        5 symetrie y                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-          NORMAL DIRECTION TO SYMETRY PLANE                Y  
+          NORMAL DIRECTION TO SYMMETRY PLANE                Y  
           REFERENCE FRAME ID                                 5
           NODES GROUP ID FOR KINEMATIC CONDITIONS            8
           FORMULATION LEVEL                                  0

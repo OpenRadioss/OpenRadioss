@@ -770,7 +770,7 @@ $SIG{'TERM'} = 'interrupt_handler';
 if ($platform ne "NT") {
     $SIG{'HUP'} = 'interrupt_handler';
 } else {
-    # we cant debug in QA on Windoze, we can with idb ...
+    # we can't debug in QA on Windoze, we can with idb ...
     # $run_debugger =  0; 
 }
 &interrupt_handler if (0); # Just to suppress warning from perl -w.
@@ -1252,7 +1252,7 @@ if ( $paraqa < 0 ) {
             if ( $ipid >= 0 ) {
                 last;
             } elsif ( $ipid == -1 ) {
-                if ( $debug ) { print "    Outputing Group $igroup\n"; }
+                if ( $debug ) { print "    Outputting Group $igroup\n"; }
                 $groupstat[$igroup] = -2;
                 $paraecho = "$paradir/echoqa.$igroup";
                 open(PARAECHO,"<$paraecho") || die "Failed to open $paraecho: $!";
@@ -1847,7 +1847,7 @@ while (<$infile>) {
       $tmp_file_input = $fem_file;
 
    # XXXXXX Launch qa_script (starter+engine) when no engine is present in data folder (i is generated at starter time)
-   # Check for special keywork inputfromstarter
+   # Check for special keyword inputfromstarter
       $fem_file_from_starter = 0;
    } 
    elsif ( /^\s*(inputfromstarter)\s+(\S.*\S)\s*$/i ) {
@@ -2128,7 +2128,7 @@ sub go {
       if (! defined($test_already_run{$full_test_id})) {
 
         if (!scalar(keys %test_already_run)) {  
-          # We empty/create the tree at the very first test run occurence
+          # We empty/create the tree at the very first test run occurrence
           # print "TRACE Emptying folder $copy_extract_path_4_tracking\n";
           system("mkdir -p $copy_extract_path_4_tracking");      
         }
@@ -2207,7 +2207,7 @@ sub go {
     #  prepare before exec calling
  
 #
-# check for existance of the main file, abort if absent
+# check for existence of the main file, abort if absent
 #
     if (! $fem_file) {
         warn "      $fem_file file name is not defined!  Aborting the test!\n" ;
@@ -2688,7 +2688,7 @@ sub go {
 
             if (! defined($test_already_run_check_error{$full_test_id})) {
                 if (!scalar(keys %test_already_run_check_error)) {  
-                  # We empty/create the tree at the very first test run occurence
+                  # We empty/create the tree at the very first test run occurrence
                   system("mkdir -p $check_error_path_4_tracking");      
                 }
             } 
@@ -3281,7 +3281,7 @@ sub go {
             $git_opened .= " $base_extract_file$extract_suffix" ;
         } elsif ( $extract_suffix ) {
             &out_file ( "\n*****" .
-            "\n Can't ovewrite original extract file when" .
+            "\n Can't overwrite original extract file when" .
             " --extract_suffix=$extract_suffix is defined.\n" .
             " Rerun this QA on reference host first !!!\n" .
             "****\n" ) ;
@@ -3899,7 +3899,7 @@ $sec = $wday+$yday+$isdst;
 
 &fix_exname ;
 
-# change the number of failures if runing double check
+# change the number of failures if running double check
 
 if ( $running_double_check ) {
     $num_runs_good = $old_num_runs_good + $num_runs_good ;
@@ -4053,7 +4053,7 @@ if ( $num_runs_failed ) {
   }
   if ( $changelist_current > 0 && $required_example ) {
       
-      # if number failures is too big, traker is needlessly expensive
+      # if number failures is too big, tracker is needlessly expensive
       # trim the list to max 10 examples only.
       #   magic is in {0,9} - number of ',' in the list
       
@@ -4325,7 +4325,7 @@ sub fix_exname {
     $exshort =~ s/_IRIX_/I5/;
 }
 #======================================================================
-# do_file_commands executed stored 'file' comands
+# do_file_commands executed stored 'file' commands
 # the purpose is to delay test till after execution of 'go'
 #return 0 if ok, 1 if any failure detected
 sub do_file_commands {
@@ -4549,7 +4549,7 @@ sub search_4_nan {
     return 0;
 }
 #======================================================================
-# do_copy_commands executed stored 'copy' comands
+# do_copy_commands executed stored 'copy' commands
 # the purpose is to delay copy till we know that the file is really needed
 # i.e. that example will execute.
 sub do_copy_commands {
@@ -4699,7 +4699,7 @@ sub copy {
    }
    }
    system ("ls -l $source $destination") if ($debug) ;
-   # this needed for Mac (beacause it fails to open read only file)
+   # this needed for Mac (because it fails to open read only file)
    if ( $uname eq "Darwin" ) {
        system ( "chmod", "444", $destination );
    }
@@ -5729,12 +5729,12 @@ sub sensitivity_report {
         $extract_file_sens_report_basic.=$tmp_buf;
         $extract_file_sens_report_advanced.=$tmp_buf1;
     }
-    print "\n\tRecommanded extract file ($meds) :\n";
+    print "\n\tRecommended extract file ($meds) :\n";
     print $extract_file_sens;
-#    print "\tRecommanded tolerances :\n";
+#    print "\tRecommended tolerances :\n";
 #    (abs(max-min))
 #    print $tolerances;
-    print "\n\tRecommanded tolerances :\n";
+    print "\n\tRecommended tolerances :\n";
     #(max-min)/med
   # diff tolerance = perc_value/100 = abs(($max-$min)/$median)
   # QA file needs relative value, not percentage one
@@ -6684,7 +6684,7 @@ sub cleanall {
     unlink <*~> ;
 
     system ("rm -rf build-[0-9][0-9]*"); # build subdirs
-    system ("rm -rf ../Scratch_*");       # parallell run dirs
+    system ("rm -rf ../Scratch_*");       # parallel run dirs
 
     open ( RUNID, "> $run_id_file" );
     print  RUNID "done\n" ;
@@ -7201,7 +7201,7 @@ sub init_tracking {
       # Call adapter
       my $cmd_adapter = "perl $workspace/qa_rsync_adapter.pl --changelist=$changelists[$changelist_current] --execdir=$exec_tracker_path_orig --engine=$exec_tracker --branch=$ENV{'BRANCH'} --arch=$ENV{'ARCH'} --real_exe_dir=$real_exe_dir";
       &out_file("Getting binaries locally, calling : $cmd_adapter\n");    
-      if (system($cmd_adapter)) { die "ERROR Running cmd $cmd_adapter, maybe WORKSPACE variable is not defined, this path must include the adpater script"; };
+      if (system($cmd_adapter)) { die "ERROR Running cmd $cmd_adapter, maybe WORKSPACE variable is not defined, this path must include the adapter script"; };
       $executable = $exec_tracker_path_orig . "/" .$changelists[$changelist_current] . "/" . $exec_tracker ;   
 
     }
@@ -7707,7 +7707,7 @@ sub read_const_file () {
 #
 # &out_file ( "    Processing file : $qa_constants_file \n\n" );
 #
-# inintialize tolerances for extract data
+# initialize tolerances for extract data
 #
 $diff_tolerance      = 0 ;   # the default
 $diff_tolerance_orig = 0 ;   # the default
@@ -8322,7 +8322,7 @@ while ( $ARGV[$tmp] ) {
     print "\t--echo --log (adds \'-out\' or \'-log\' to arg list)\n" ;
     print "\t--fixed_tolerances, --strict\n" ;
     print "\t--extract_suffix=<suffix> \n" ;
-    print "\t--extract_from_starter=<rules file> - extract information from starter output file accroding to specific rules and put them in the RD extract file\n";
+    print "\t--extract_from_starter=<rules file> - extract information from starter output file according to specific rules and put them in the RD extract file\n";
     print "\t--overwrite_extract\n" ;
     print "\t--add_extract (for new tests)\n" ;
     print "\t--keywords=aaa,bbb,or,not,ddd,ff,or,and(RPN) aaa,-bbb\n" ;
@@ -8384,7 +8384,7 @@ while ( $ARGV[$tmp] ) {
     print "\t--no_count_timeout does not count timeout into failures counter\n" ;
     print "\t--notrack_timeout does not retrack tests identified by a timeout\n" ;
     print "\t--sensitivity_set_extract in case of sensitivity analysis : set extract file to suggested extract file\n" ;
-    print "\t--create_ref=[i] : keep additionnal files\n" ;
+    print "\t--create_ref=[i] : keep additional files\n" ;
     print "\t 1:listings only\n" ;
     print "\t 2:1+time history, abf files\n" ;
     print "\t 3:2+last anim\n" ;
@@ -8396,9 +8396,9 @@ while ( $ARGV[$tmp] ) {
     print "\t--tests_titles\n" ;
     print "\t  print TEST titles\n" ;
     print "\t--output_xtra_infos\n" ;
-    print "\t  print additionnal informations (implicit, txt files, ...)\n" ;
+    print "\t  print additional information (implicit, txt files, ...)\n" ;
     print "\t--no_check_emax disable check using emax (for both run and sensitivity)\n";
-    print "\t--real_exe_dir the way to acces the real exe, useful when binaries are local, but tracker must browse remotely (e.g. set X:/ to replace D:/ with it for the tracker)\n";
+    print "\t--real_exe_dir the way to access the real exe, useful when binaries are local, but tracker must browse remotely (e.g. set X:/ to replace D:/ with it for the tracker)\n";
     print " file QA.exec_name to change default exec storage.\n" ;
     exit ;
   }
@@ -8500,7 +8500,7 @@ sub sort_ids () {
   for my $id (@myids) {
 
     # XXXXXX Adding possibility to mix full QA and list (e.g. "1.2,8.5-8.7,14.0")
-    # Goal is to replace 14.0 entry with a range 14.1-14.408, getting model number informations in the include file directly
+    # Goal is to replace 14.0 entry with a range 14.1-14.408, getting model number information in the include file directly
     if ($enable_fullqa_replace_by_range and $id =~ /(\d+)\.0/) {
       my $id_major = $1;
       my $qafile_include_name;
@@ -8772,7 +8772,7 @@ sub my_hashofhash_writer_sorted {
       my $val=$myhash{$key2};
       # If some changes are detected while tracking (diff are not the same from one CL to another one), we want to add it into tracker file
       if ($key2 eq 'Extra_infos') {
-        # Just remove first blanck char
+        # Just remove first blank char
         if (defined $detected_changes{$key1} and $detected_changes{$key1} ne '' and defined $val and $val eq ' ') { $val = ''; }
         if (defined $detected_changes{$key1} and $detected_changes{$key1} ne '') {
             $val .= $detected_changes{$key1}."\n(in a previous run)\n! WARNING ! Job results line displays the more recent detected numerical difference";

@@ -281,7 +281,7 @@ if ($i_create_extract_starter == 1) {
       print "Extracting lines of $listing_file_starter\n";
       @extract_tab=&extract_starter($debug_print,$listing_file_starter);
 
-      # We create it only if it does not exist with a TIMEOUT line, because if it exists as is, this is because a timeout occured (XXXXXX
+      # We create it only if it does not exist with a TIMEOUT line, because if it exists as is, this is because a timeout occurred (XXXXXX
       # So we don't want to overwrite it
       my $has_timeouted = 0;
       if (-f $extract_file_name) {
@@ -489,7 +489,7 @@ if ($i_create_extract == 1 and !(defined $extract_from_starter_rules_file)) {
         $tmpout=sprintf "%5d %s %10d\n",$id++,$fields[0],$fields[1];
         push @extract_tab,$tmpout;
       }
-      # We create it only if it does not exist with a TIMEOUT line, because if it exists as is, this is because a timeout occured (XXXXXX
+      # We create it only if it does not exist with a TIMEOUT line, because if it exists as is, this is because a timeout occurred (XXXXXX
       # So we don't want to overwrite it
       my $has_timeouted = 0;
       if (-f $extract_file_name) {
@@ -954,7 +954,7 @@ sub set_vars() {
           }
         }
         # XXXXXX integrate solver run manager in RD QA
-        # We can run binaries through hwsolver tcl scrip either in one pass (non reg is done against ref.extract file)
+        # We can run binaries through hwsolver tcl script either in one pass (non reg is done against ref.extract file)
         # or in 2 passes (one std run one trhough the hwsolver script) strict non reg
         elsif ($my_arg =~ /^-starter$/ and $hwsolvermanager and $selfref_pass == 2) {
           # Remove possible previous CHECK_DATA file, because the presence generates an error with script
@@ -1450,7 +1450,7 @@ sub extract_engine() {
 
       chomp $line;
 
-      # XXXXXX Don't take into account abount 2 last columns TOTAL MASS & MASS ADDED if they exist
+      # XXXXXX Don't take into account the 2 last columns TOTAL MASS & MASS ADDED if they exist
       # This is a workaround waiting to be able to deal with the old and new format (option ? rebuild all ref ? ...)
       # If the line begins with CYCLE TIME and ends with TOTAL MASS & MASS ADDED, we set a flag to remove the last fields from the last line
       next if $line =~ /^\s*$/; # Improve loop
@@ -1485,7 +1485,7 @@ sub extract_engine() {
   if ($debug_print == 1) {
     print " --- Last line : ---\n";
     print "$last_line\n";
-    # XXXXXX Don't take into account abount 2 last columns TOTAL MASS & MASS ADDED if they exist
+    # XXXXXX Don't take into account the 2 last columns TOTAL MASS & MASS ADDED if they exist
     if ($flag_remove_fields) {
       print "NOTE: The last columns TOTAL MASS and MASS ADDED have been ignored (XXXXXX )\n";
     }
@@ -1751,7 +1751,7 @@ sub write_ctl_file() {
 }
 
 sub switch_engine_input_file_2_poff () {
-  #only $filename is used below normaly ...
+  #only $filename is used below normally ...
   my ($file_name,$number,$root)=@_;
   print "Switch engine input file to /PARITH/OFF ...\n";
   open(INP1,"$file_name");my @file=<INP1>;close(INP1);
@@ -1785,7 +1785,7 @@ sub switch_engine_input_file_2_poff () {
 }
 
 sub add_h3d_2_engine_input_file() {
-  #only $filename is used below normaly ...
+  #only $filename is used below normally ...
   my ($file_name,$number,$root)=@_;
   print "Duplicate /ANIM keywords to /H3D ...\n";
   open(INP1,"$file_name");my @file=<INP1>;close(INP1);
@@ -2173,7 +2173,7 @@ sub write_engine_input_file() {
 
     close(OUT1);
 
-    # Usefult for deguggin, keep the original and modified rad files to check for the modifications
+    # Useful for debugging, keep the original and modified rad files to check for the modifications
     # system("mkdir -p /tmp/submaxx");
     # system("cp $file_name /tmp/submaxx/".$full_test_id."_".$file_name);
     # system("cp $modif_input_en /tmp/submaxx/".$full_test_id."_".basename($file_name)."_MAINSUB");
@@ -2303,9 +2303,9 @@ sub check_sub_kw() {
     print $elem_fh "##########################\n\n";
 
     # Call the get_sub_kw.pl
-    print $elem_fh "***********************************\n";
-    print $elem_fh "*** Check SUBMODEL compatiblity ***\n";
-    print $elem_fh "***********************************\n\n";
+    print $elem_fh "************************************\n";
+    print $elem_fh "*** Check SUBMODEL compatibility ***\n";
+    print $elem_fh "************************************\n\n";
 
     print $elem_fh "### RUN get_sub_kw_list.pl script to detect possible incompatibilities:\n";
 
@@ -2314,7 +2314,7 @@ sub check_sub_kw() {
     if ($elem_fh ne "STDOUT") { close($screen_save_fh); }
   }
 
-  # # We run it only one time    
+  # We run it only one time
   system("../tools/get_sub_kw_list.pl $fem_file_path 1>tmp_out_kw 2>&1");
   open(my $fh,"tmp_out_kw");my @tmp=<$fh>;close($fh); 
   
@@ -2323,7 +2323,7 @@ sub check_sub_kw() {
 
     # Print the output of the command
     for (@tmp) {print $elem_fh $_;}
-    print $elem_fh "*** END Check SUBMODEL compatiblity ***\n\n";
+    print $elem_fh "*** END Check SUBMODEL compatibility ***\n\n";
 
     if ($elem_fh ne "STDOUT") { close($screen_save_fh); }
   }
