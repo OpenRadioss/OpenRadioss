@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
-C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C   This experimental cut cell method is not completed, abandoned, and is not an official option.
 C
 C-----------------------------------------------
 C   M o d u l e s
@@ -765,7 +765,7 @@ C--------------------------------------------------------
        !POLYGONAL CLIPPING (SCUT with projected segment)
 C-------------------------------------------------------- 
 ! Projected Segment might be non convex. In this case it is decomposed into 2 triangles (hourglass shape)
-! If projected segment is convex then it is splitted into 4 triangles (recquired for parith on)
+! If projected segment is convex then it is splitted into 4 triangles (required for parith on)
 !
         DO ICUT = 1, NBCUT                                                                                        
           SEFF(ICUT,I)              = ZERO 

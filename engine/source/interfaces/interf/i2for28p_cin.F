@@ -82,7 +82,7 @@ C     REAL
 C=======================================================================
 C
 C------------------------------
-C     DUPPLICATED FROM I2FOMO3P - SPOTFLAG1 FORMULATION
+C     DUPLICATED FROM I2FOMO3P - SPOTFLAG1 FORMULATION
 C------------------------------
 C
       I0BASE = I0

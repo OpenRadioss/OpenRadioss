@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
-C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C   This experimental cut cell method is not completed, abandoned, and is not an official option.
 C
 
 ! This subroutine is called for FSI interface 22
@@ -62,7 +62,7 @@ C
       ! @03. INIT/MULTITHREADING                                   !
       ! @04. INIT/ALLOCATION                                       !
       ! @05. RESET TAG22                                           !
-      ! @06. COMPUTE UNEXTENDED main CELL VOLUMES                !
+      ! @06. COMPUTE UNEXTENDED main CELL VOLUMES                  !
       ! @07. BUILDING BIJECTION APPLICATION for cut cells          !
       ! @08. ADJACENT BRICKS DATA IN CUT CELL BUFFER               !
       ! @09. AREA and VOLUME RATIO UPDATE for cut cells            !
@@ -73,15 +73,15 @@ C
       ! @14. FILL MATERIAL BUFFER : %bakMAT%...                    !
       ! @15. FINDING & STORING ADJACENT CELLS                      !
       ! @16. BUILD POLYGONAL TRACE FOR POLY9                       !
-      ! @17. PRE-TREATMENT FOR DBLE SECONDARY WITH BOTH V=0            !
-      ! @18. TAGGING SECONDARY CUT CELL                                !
-      ! @19. LINKING SECONDARY CELL TO A main ONE                    !
-      ! @20. LIST ALL SECONDARY CELLS LINKED TO A GIVEN main CELL    !
+      ! @17. PRE-TREATMENT FOR DBLE SECONDARY WITH BOTH V=0        !
+      ! @18. TAGGING SECONDARY CUT CELL                            !
+      ! @19. LINKING SECONDARY CELL TO A main ONE                  !
+      ! @20. LIST ALL SECONDARY CELLS LINKED TO A GIVEN main CELL  !
       ! @21. INDIRECT LINKING                                      !
       ! @22. INDIRECT LINKING                                      !
       ! @23. TAG SECONDARY CELLS WHICH ARE BASED ON FORMER main NODE !
-      ! @24. VOLUME MERGING BETWEEN SECONDARY CELL & ITS main ONE    !
-      ! @25. MATERIAL MERGING (IF main HAS TO BE DEPORTED)       !
+      ! @24. VOLUME MERGING BETWEEN SECONDARY CELL & ITS main ONE  !
+      ! @25. MATERIAL MERGING (IF main HAS TO BE DEPORTED)         !
       ! @26. DEMERGING CRITERIA                                    !
       ! @27. MATERIAL DEMERGING                                    !
       ! @28. COMPUTE VOLD_Vnew_Cell for newly cell in buffer       !
@@ -89,11 +89,11 @@ C
       ! @30. LINK SWITCHING                                        !
       ! @31. LEVEL2 NEIGHBORHOOD (FOR FLUXES & CONVECTION)         !
       ! @32. COUNT POINTS ON A GIVEN POLYHEDRON FACE               !
-      ! @33. LOCATE WHERE WAS main FOR NEXT CYCLE                !
+      ! @33. LOCATE WHERE WAS main FOR NEXT CYCLE                  !
       ! @34. SET IIAD22(1:NUMELS) = %ELBUG_TAB(NG)%TAG22(I)        !
       ! @35. SET MLW                                               !
-      ! @36. RESET OLD SECONDARY LIST CONNECTIVIY                      !
-      ! @37. SET main STRONG NODE                                !
+      ! @36. RESET OLD SECONDARY LIST CONNECTIVITY                 !
+      ! @37. SET main STRONG NODE                                  !
       ! @38. DRAW SUPERCELL CONNEXION WITH 1D TRUSSES              !
       ! @39. COMPUTE DVOL PREDICTION FOR EACH CELL                 !
       ! @40. BUILD SUPERCELL DVOL (PREDICTION)                     !
@@ -102,13 +102,13 @@ C
       ! @43. DEBUG OUTPUT                                          !
       ! @44. DEBUG - WRITE CUT CELL BUFFER                         !
       ! @45. SUPERCELL CENTERS                                     !
-      ! @46. MARK SUPER-CELL CENTERS WITH ORPHAN NODES             ! 
+      ! @46. MARK SUPER-CELL CENTERS WITH ORPHAN NODES             !
       ! @47. UNCUT CELLS + POLY 9 : CENTERS                        !
       ! @48. MARK CELL CENTERS WITH ORPHAN NODES                   !
-      ! @49. MARK FACE CENTERS WITH ORPHAN NODES                   !            
+      ! @49. MARK FACE CENTERS WITH ORPHAN NODES                   !
       ! @50. DEALLOCATE                                            !
       !------------------------------------------------------------!
-        
+
 !
 ! BUFFERS :
 !         BRICK_LIST     : BUT CELL BUFFER(NIN,IB) : NIN interface id, IB:cut cell id
@@ -721,7 +721,7 @@ c      ALLOCATE (Ntarget(NBF:NBL))
             BRICK_LIST(NIN,IB)%POLY(ICELL)%Vnew = GBUF%VOL(IDLOCB(IB)) + VOL                             
           ENDIF                               
           VOLratio = BRICK_LIST(NIN,IB)%POLY(ICELL)%Vnew / ELBUF_TAB(NGB(IB))%GBUF%VOL(IDLOCB(IB))       
-          !  THRESOLD VOLUME : Smax = O(V**(2/3)), dh= EM03 * O(V**(1/3)) => Veps = EM04*O(V) => VOLratio = Veps/V = EM04     (EM04 => dh = 0.01 % * average_edge)  
+          !  THRESHOLD VOLUME : Smax = O(V**(2/3)), dh= EM03 * O(V**(1/3)) => Veps = EM04*O(V) => VOLratio = Veps/V = EM04     (EM04 => dh = 0.01 % * average_edge) 
           IF(ABS(VOLratio) <= EM04)THEN     
              I22_DEGENERATED = 1              
           ENDIF                               
@@ -778,7 +778,7 @@ c      ALLOCATE (Ntarget(NBF:NBL))
            pPOINT(1:3)    = ZERO           
            !saving brick nodes used by remaining polyhedron (complementary one)                                                          
            DO J=1,8                        
-             IF(pWhichCellNod(J)%WhichCell/=0) CYCLE   !a tagged brick node is alredy used by a polyhedron    
+             IF(pWhichCellNod(J)%WhichCell/=0) CYCLE   !a tagged brick node is already used by a polyhedron
              pWhichCellNod(J)%WhichCell      = 9       
              MNOD                  = MNOD + 1
              pListNodID(9)%p(MNOD) = J !IXS(J+1,ID)                                                     
@@ -994,11 +994,11 @@ c      ALLOCATE (Ntarget(NBF:NBL))
               IF(IAD22 == 0)THEN
               !adjacent brick is in cut cell buffer : it also uncut
                 BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%NAdjCell         = 1
-                BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_Cell(1) = 1 !necessairly ICELLv=1                
+                BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_Cell(1) = 1 !necessarily ICELLv=1                
               ELSEIF(BRICK_LIST(NIN,IAD22)%NBCUT==0)THEN
               !adjacent brick is in cut cell buffer but is uncut
                 BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%NAdjCell         = 1
-                BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_Cell(1) = 1 !necessairly ICELLv=1    
+                BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_Cell(1) = 1 !necessarily ICELLv=1    
               ELSE
              
                 pWhichCellNodv(1:8) => BRICK_LIST(NIN,IAD22)%NODE(1:8)
@@ -1067,7 +1067,7 @@ c      ALLOCATE (Ntarget(NBF:NBL))
                   BRICK_LIST(NIN,IB)%Poly9woNodes(J,2)             = 0 
 C                  !DESTRUCTION POLYEDRE VOISIN DETECTE AU DEBUT DU PARAGRAPHE @14.
 C                  pNAdjCell(ICELL,J)  = 0
-C                  pAdjCELL(J,ICELL,1) = 0 !necessairly ICELLv=1                                                         
+C                  pAdjCELL(J,ICELL,1) = 0 !necessarily ICELLv=1                                                         
 C  non sinon cell trapped error et aussi on ne peut pas trouver de pression voisin poru le contact
                 ELSE
                   !le polyedre voisin utilise le point d'intersection le plus proche du noeud sommet => le polyedre voisin deveint systematiquement le polyedre 9. (faire dessins)
@@ -1260,7 +1260,7 @@ C              print *, "sinit22_fvm marked closure hypothesis."
             VOL      = BRICK_LIST(NIN,IB)%POLY(ICELL)%Vnew
             UNCUTVOL = BRICK_LIST(NIN,IB)%UncutVol
             RATIO    = VOL / UNCUTVOL
-            IF(ABS(RATIO)>EM04)CYCLE    !Vol=1.01e-05, UNCUTVOL=10 => ratio > EM06. So EM04 is retained.   THRESOLD VOLUME : Smax = O(V**(2/3)), dh= EM03 * O(V**(1/3)) => Veps = EM04*O(V) => ratio=Veps/V = EM04 
+            IF(ABS(RATIO)>EM04)CYCLE    !Vol=1.01e-05, UNCUTVOL=10 => ratio > EM06. So EM04 is retained.   THRESHOLD VOLUME : Smax = O(V**(2/3)), dh= EM03 * O(V**(1/3)) => Veps = EM04*O(V) => ratio=Veps/V = EM04 
             IDLOC    = MAXLOC(BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%SURF,1)
             RatioF   = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(IDLOC)%SURF / BRICK_LIST(NIN,IB)%Face_Brick(IDLOC) 
             !volume degenere
@@ -1275,7 +1275,7 @@ C              print *, "sinit22_fvm marked closure hypothesis."
                 VOLv      = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%Vnew
                 UNCUTVOLv = BRICK_LIST(NIN,IBv)%UncutVOL
                 RATIOv    = VOLv/UncutVOLv
-                !Vol=1.01e-05, UNCUTVOL=10 => ratio > EM06. So EM04 is retained.   THRESOLD VOLUME : Smax = O(V**(2/3)), dh= EM03 * O(V**(1/3)) => Veps = EM04*O(V) => ratio=Veps/V = EM04 
+                !Vol=1.01e-05, UNCUTVOL=10 => ratio > EM06. So EM04 is retained.   THRESHOLD VOLUME : Smax = O(V**(2/3)), dh= EM03 * O(V**(1/3)) => Veps = EM04*O(V) => ratio=Veps/V = EM04 
                 IF(ABS(RATIOv)>EM04  .OR. IBv>IB )CYCLE 
                   !IF( (ITASKv==ITASK.AND.IB>IBv) .OR. (ITASKv<ITASK) )THEN
                     IPOS                 = IPOS + 1
@@ -1455,7 +1455,7 @@ C              print *, "sinit22_fvm marked closure hypothesis."
             ENDDO
             sumFACE = SUM(adjMAIN_face(1:6))
             IF(sumFACE==ZERO)THEN
-c              print *, "**Waring inter22 : no main cell to link with cell from BRICK ID:",IXS(11,BRICK_LIST(NIN,IB)%ID)
+c              print *, "**Warning inter22 : no main cell to link with cell from BRICK ID:",IXS(11,BRICK_LIST(NIN,IB)%ID)
               N_UNLINKED_L(ITASK)                 = N_UNLINKED_L(ITASK) + 1
               UNLINKED_CELLS_L(ITASK,1,N_UNLINKED_L(ITASK)) = IB
               UNLINKED_CELLS_L(ITASK,2,N_UNLINKED_L(ITASK)) = ICELL 
@@ -1485,8 +1485,8 @@ c              print *, "**Waring inter22 : no main cell to link with cell from 
       
  
       !------------------------------------------------------------!
-      ! @20. LIST ALL SECONDARY CELLS LINKED TO A GIVEN main CELL    !
-      !-------------------------------------------------------- ---!
+      ! @20. LIST ALL SECONDARY CELLS LINKED TO A GIVEN main CELL  !
+      !------------------------------------------------------------!
       DO IB=NBF,NBL
         NBCUT         =  BRICK_LIST(NIN,IB)%NBCUT
         MCELL         =  BRICK_LIST(NIN,IB)%MainID
@@ -1501,7 +1501,7 @@ c              print *, "**Waring inter22 : no main cell to link with cell from 
           Iv     = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,1) 
           NGv    = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,2) 
           IDLOCv = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,3)             
-          IBv    = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,4) !necessairly different from zero because a cut cell (NBCUT>0) has all its neighbor in cut cell buffer (TZINF increased)
+          IBv    = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,4) !necessarily different from zero because a cut cell (NBCUT>0) has all its neighbor in cut cell buffer (TZINF increased)
           IFv    = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,5)        
           NADJ   = BRICK_LIST(NIN,IB)%POLY(MCELL)%FACE(J)%NAdjCell
           IF(IBv==0)CYCLE
@@ -1586,9 +1586,9 @@ c              print *, "**Waring inter22 : no main cell to link with cell from 
 
       !------------------------------------------------------------!
       ! @22. INDIRECT LINKING                                      !
-      !      UPDATE main CELL BUFFER                             !
+      !      UPDATE main CELL BUFFER                               !
       !------------------------------------------------------------!
-      !need to wait all thread finishing to link before updating their supercll volume and their buffer
+      !need to wait all thread finishing to link before updating their supercell volume and their buffer
       !-------------------!
         CALL MY_BARRIER()
       !-------------------!
@@ -1640,25 +1640,25 @@ c              print *, "**Waring inter22 : no main cell to link with cell from 
 
 
       !------------------------------------------------------------!
-      ! @23. TAG SECND CELLS WHICH ARE BASED ON FORMER main NODE !
-      !------------------------------------------------------------!       
-!      TARGET_DATA(:,:,:) = 0 !tag main cells linked to theses secnd ones.      
-!      Ntarget(NBF:NBL)   = 0 
+      ! @23. TAG SECND CELLS WHICH ARE BASED ON FORMER main NODE   !
+      !------------------------------------------------------------!
+!      TARGET_DATA(:,:,:) = 0 !tag main cells linked to these secnd ones.
+!      Ntarget(NBF:NBL)   = 0
       DO IB=NBF,NBL
         BRICK_LIST(NIN,IB)%Ntarget = 0
-        NBCUT                      =  BRICK_LIST(NIN,IB)%NBCUT        
+        NBCUT                      =  BRICK_LIST(NIN,IB)%NBCUT
         NCELL                      =  NBCUT
         ICELL                      =  0
-        pNodWasMain(1:8)         => BRICK_LIST(NIN,IB)%NODE(1:8)!%NodWasMain 
+        pNodWasMain(1:8)         => BRICK_LIST(NIN,IB)%NODE(1:8)!%NodWasMain
          pListNodID(1)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(1)%ListNodID(1:8)
-         pListNodID(2)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(2)%ListNodID(1:8) 
+         pListNodID(2)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(2)%ListNodID(1:8)
          pListNodID(3)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(3)%ListNodID(1:8)
          pListNodID(4)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(4)%ListNodID(1:8)
          pListNodID(5)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(5)%ListNodID(1:8)
-         pListNodID(6)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(6)%ListNodID(1:8) 
-         pListNodID(7)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(7)%ListNodID(1:8) 
-         pListNodID(8)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(8)%ListNodID(1:8)  
-         pListNodID(9)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(9)%ListNodID(1:8)   
+         pListNodID(6)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(6)%ListNodID(1:8)
+         pListNodID(7)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(7)%ListNodID(1:8)
+         pListNodID(8)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(8)%ListNodID(1:8)
+         pListNodID(9)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(9)%ListNodID(1:8)
         MCELL                      =  BRICK_LIST(NIN,IB)%MainID
         NTAG                       =  0   
         MAIN_TAG(:,:)            =  0
@@ -1708,12 +1708,12 @@ c        Ntarget(IB)                = NTAG ! number of secnd cell whose nodes we
         ! enumeration of the target
         !ACHTUNG : what happen if 2 secnd cells have the same main cell. Doubloon are not possible by tagging main target
       ENDDO!next IB
-      
+
       !------------------------------------------------------------!
-      ! @24. VOLUME MERGING BETWEEN SECND CELL & ITS main ONE    !
-      !      UNCONDITIONNAL                                        !
-      !      for law51 old volume need also to be merged           !      
-      !------------------------------------------------------------! 
+      ! @24. VOLUME MERGING BETWEEN SECND CELL & ITS main ONE      !
+      !      UNCONDITIONAL                                         !
+      !      for law51 old volume need also to be merged           !
+      !------------------------------------------------------------!
       !loop on intersected bricks.
       DO IB=NBF,NBL
         NCELL          =  BRICK_LIST(NIN,IB)%NBCUT  
@@ -1753,11 +1753,11 @@ c        Ntarget(IB)                = NTAG ! number of secnd cell whose nodes we
           !Volume change correspond to DDVOL=DV/DT = f(fluxes). Gird deformation influences relative material velocity ans also fluxes  
           DO ITRIMAT=1,TRIMAT                                                                                                           
             IPOS                   = 1                                                                                                  
-            K1                     = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}         
+            K1                     = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}         
             K                      = K1 * LLT_                                                                                          
             VFRAC(ITRIMAT)         = MBUF%VAR(K+IDLOCB(IB))        !backup for material merging                                         
             IPOS                   = 11                                                                                                 
-            K1                     = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}         
+            K1                     = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}         
             K                      = K1 * LLT_                                                                                          
             VAR                    = BRICK_LIST(NIN,IB)%Vnew_SCell*VFRAC(itrimat)                                                       
             MBUF%VAR(K+IDLOCB(IB)) = VAR                                                                                                
@@ -1810,7 +1810,7 @@ c        Ntarget(IB)                = NTAG ! number of secnd cell whose nodes we
             IBv    = BRICK_LIST(NIN,IB )%Adjacent_Brick(J,4)        !TARGET CELL DATA IS STORED IN EINT_L(...,IBv), RHOL, UVARL...     
           ENDIF          
           GBUFv           => ELBUF_TAB(NGv)%GBUF  
-          RATIO           =  ONE/Ntar !in the loop but avoid conditionnal tests "IF(Ntar>0)" for NBF:NBL if not applicable 
+          RATIO           =  ONE/Ntar !in the loop but avoid conditional tests "IF(Ntar>0)" for NBF:NBL if not applicable 
           ITASKv          =  BRICK_LIST(NIN,IBv)%ITASK
           IMERGEL(ITASKv) = 1
           BRICK_LIST(NIN,IBv)%IsMergeTarget = 1
@@ -1865,7 +1865,7 @@ c        Ntarget(IB)                = NTAG ! number of secnd cell whose nodes we
           !-----------------------MULTI-MATERIAL-----------------------! 
           MTN_ = IPARG(1,NGB(IB))  
           IF(MTN_==37)THEN
-            !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multipling by element volume in aleconve.F)
+            !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multiplying by element volume in aleconve.F)
             !UVAR(I,2) : density of gas
             !UVAR(I,3) : density of liquid
             !UVAR(I,4) : volumetric fraction of liquid  
@@ -1892,7 +1892,7 @@ c            print *, "merge-adding ratio uvar1="  , BRICK_LIST(NIN,IB)%bakMAT%U
             !Volume change correspond to DDVOL=DV/DT = f(fluxes). Gird deformation influences relative material velocity ans also fluxes
             DO ITRIMAT=1,TRIMAT
               IPOS               = 11
-              K                  = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS)     ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}                                             
+              K                  = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS)     ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}                                             
               VOL51(IB,ITRIMAT)  = BRICK_LIST(NIN,IB)%bakMAT%UVAR(K)         !backup for material merging                                                    
               VAR                = RATIO * VOL51(IB,ITRIMAT)
               IF(VAR/=ZERO) SuperCellVOL_L(ITASK,ITRIMAT,IBv) = SuperCellVOL_L(ITASK,ITRIMAT,IBv) + VAR
@@ -1908,7 +1908,7 @@ c            print *, "adding 3 "   , BRICK_LIST(NIN,IB)%bakMAT%UVAR(3), UVARL(I
               IF(VAR==ZERO)CYCLE
               DO IPOS = 1,NVPHAS   
                 IF(IPOS==11)CYCLE                                                !volume already treated merged during geomeetrical merging.    
-                K                     =  ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                K                     =  ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 pVAR                  => BRICK_LIST(NIN,IB)%bakMAT%UVAR(K)                                                  
                 UVARL(ITASK,IBv,K)    =  UVARL(ITASK,IBv,K) + pVAR *  VAR  
 c                 print *, "adding j "   , BRICK_LIST(NIN,IB)%bakMAT%UVAR(K) ,VAR, UVARL(ITASK,IBv,K)             
@@ -2048,7 +2048,7 @@ c                 print *, "adding j "   , BRICK_LIST(NIN,IB)%bakMAT%UVAR(K) ,VA
         
         MTN_ = IPARG(1,NGB(IB))  
         IF(MTN_==37)THEN
-          !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multipling by element volume in aleconve.F)
+          !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multiplying by element volume in aleconve.F)
           !UVAR(I,2) : density of gas
           !UVAR(I,3) : density of liquid
           !UVAR(I,4) : volumetric fraction of liquid  
@@ -2188,7 +2188,7 @@ c          print *, ""
       ! to the N=Ntar target main cells.
       NBL1 = NBL
       IF(DT1==ZERO)NBL1       = 0
-      ORIGIN_DATA(:,:,:)        = 0 !tag main cells linked to theses secnd ones.      
+      ORIGIN_DATA(:,:,:)        = 0 !tag main cells linked to these secnd ones.      
       Norigin(NBF:NBL)          = 0 
       DO IB=NBF,NBL1
         NBCUT            =  BRICK_LIST(NIN,IB)%NBCUT        
@@ -2341,7 +2341,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
         IF(Brick_list(nin,ib)%IsMergeTarget==1)THEN
        !   pause
           !!!print *, "ismergeTarget , Norigin", ixs(11,brickID), Norigin(IB), BRICK_LIST(NIN,IB)%Ntarget
-          ! This cell recieved material from a merge.it also has to be taken into account
+          ! This cell received material from a merge.it also has to be taken into account
           VolCell   = BRICK_LIST(NIN,IB)%Vold_Scell
           RHO       = VolCell* GBUF%RHO(IDLOC)
           EINT      = VolCell* GBUF%EINT(IDLOC)
@@ -2371,7 +2371,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
             DO ITRIMAT=1,TRIMAT                                         
               DO IPOS = 1 , NVPHAS                                      
                 IF(IPOS==11) CYCLE                                       
-                K               = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
+                K               = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
                 K1              = K * LLT_                             
                 UVAR(K+1)       = volSECND51(ITRIMAT) * MBUF%VAR(K1+IDLOC)                                           
               ENDDO!next IPOS                                           
@@ -2526,7 +2526,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
             !  MULTI-MATERIAL CUMULULATION  !
             !-------------------------------!           
             IF(MTN_==37)THEN
-              !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multipling by element volume in aleconve.F)
+              !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multiplying by element volume in aleconve.F)
               !UVAR(I,2) : density of gas
               !UVAR(I,3) : density of liquid
               !UVAR(I,4) : volumetric fraction of liquid  
@@ -2550,7 +2550,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
               DO ITRIMAT=1,TRIMAT
                 !get,store Volumetric Fraction
                 IPOS                 = 1
-                K1                   = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                K1                   = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 Kv                   = K1 * LLT_v
                 Vfrac(ITRIMAT)       = MBUFv%VAR(Kv+IDLOCv)
                 VolSECND51(ITRIMAT)  = Vfrac(ITRIMAT) * VOLsecnd     !submaterial volume in secnd cell 
@@ -2566,7 +2566,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
               DO ITRIMAT=1,TRIMAT
                 DO IPOS = 1 , NVPHAS
                   Ko              = ((N0PHAS + (ITRIMAT-1)*NVPHAS ))
-                  K1              = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                  K1              = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                   Kv              = K1 * LLT_v
                   IF(IPOS==11)THEN
                     UVAR(K1+1) = UVAR(K1+1) + volSECND51(ITRIMAT)                 
@@ -2589,7 +2589,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
               DO ITRIMAT=1,TRIMAT
                 !remove submaterial volume in detached secnd cell
                 IPOS                 = 11
-                K1                   = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}                                                  
+                K1                   = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}                                                  
                 Kv                   = K1 * LLT_v
                 MBUFv%VAR(Kv+IDLOCv) = MBUFv%VAR(Kv+IDLOCv) - VolSECND51(ITRIMAT)
               ENDDO!next ITRIMAT  
@@ -2619,7 +2619,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
           UVAR(5) =  UVAR(5) / VOLcell     
           !call sigeps37_single_cell before storing in MBUF%VAR              
         ELSEIF(MTN_==51)THEN
-          UVAR(1) = (UVAR(1) + IADV*UVAR_ADV(1)) / VOLcell  !sum of full volume because UVAR(1:3) are homogeneized data, not submaterial one.
+          UVAR(1) = (UVAR(1) + IADV*UVAR_ADV(1)) / VOLcell  !sum of full volume because UVAR(1:3) are homogenized data, not submaterial one.
           UVAR(2) = (UVAR(2) + IADV*UVAR_ADV(2)) / VOLcell
           UVAR(3) = (UVAR(3) + IADV*UVAR_ADV(3)) / VOLcell      
           DO ITRIMAT=1,TRIMAT
@@ -2692,26 +2692,26 @@ c          print *, "demerge-1",  MBUF%VAR((1-1)*LLT_+IDLOC) , UVAR(1)
             IF(VOLcell51(ITRIMAT)/=ZERO)THEN         
               !get,store Volumetric Fraction
               DO IPOS=1,NVPHAS
-                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 K1                 = K0 * LLT_
                 MBUF%VAR(K1+IDLOC) = UVAR(N0PHAS+(ITRIMAT-1)*NVPHAS+IPOS)  
               ENDDO
 
               IPOS=1
-                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 K1                 = K0 * LLT_
                 MBUF%VAR(K1+IDLOC) = VolCELL51(ITRIMAT)/VolCELL            
               IPOS=11
-                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 K1                 = K0 * LLT_
                 MBUF%VAR(K1+IDLOC) = VolCELL51(ITRIMAT)           
             ELSE
               IPOS=1
-                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 K1                 = K0 * LLT_
                 MBUF%VAR(K1+IDLOC) = ZERO           
               IPOS=11
-                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 K1                 = K0 * LLT_
                 MBUF%VAR(K1+IDLOC) = ZERO               
             ENDIF
@@ -2772,7 +2772,7 @@ c          print *, "demerge-1",  MBUF%VAR((1-1)*LLT_+IDLOC) , UVAR(1)
             RHO20                      =  BUFMAT(IADBUF-1+12) 
             IF(UVAR(3) == ZERO)   UVAR(3) = RHO10 
             IF(UVAR(2) == ZERO)   UVAR(2) = RHO20                                       
-              !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multipling by element volume in aleconve.F)
+              !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multiplying by element volume in aleconve.F)
               !UVAR(I,2) : density of gas
               !UVAR(I,3) : density of liquid
               !UVAR(I,4) : volumetric fraction of liquid  
@@ -3093,7 +3093,7 @@ c        print *, "check switch in brickID=", ixs(11,brick_list(nin,ib)%id)
           DO K1=1,NNODES !Nodes attached to IB
             INOD   = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%ListNodID(K1)
             FV_old = BRICK_LIST(NIN,IBv)%NODE(INOD)%WhereWasMain !FACE
-            IF (FV_old == 0)CYCLE !the node was wet by main cell : MERGE PROCESS APLLIES (see related chapter)
+            IF (FV_old == 0)CYCLE !the node was wet by main cell : MERGE PROCESS APPLIES (see related chapter)
             !OLD_M
             IF (FV_old == FV)CYCLE ! NO LINK CHANGE : this is still linked to the same direction
             !else FV_old /= FV : THERE WAS A SWITCH
@@ -3149,7 +3149,7 @@ c        print *, "check switch in brickID=", ixs(11,brick_list(nin,ib)%id)
                 INOD2  = OLD_SecndList(NIN,IBmo)%ListNodID(IC2,K2)
                 ICELL2 = BRICK_LIST(NIN,IBv2)%NODE(INOD2)%WhichCell
                 IBmCur = BRICK_LIST(NIN,IBv2)%POLY(ICELL2)%WhereIsMain(4)
-                IF(IBmCur == IB) VolSECND = VolSECND + ONE/NNODES*BRICK_LIST(NIN,IBv2)%POLY(ICELL2)%Vnew   !exemple brick 20 devient main dans cas 15.14 : le penta dans 41 a deux noeuds, si on boucle 2 fois on prend 2 fois son volume pour l'injecter dans bric 30.
+                IF(IBmCur == IB) VolSECND = VolSECND + ONE/NNODES*BRICK_LIST(NIN,IBv2)%POLY(ICELL2)%Vnew   !example brick 20 devient main dans cas 15.14 : le penta dans 41 a deux noeuds, si on boucle 2 fois on prend 2 fois son volume pour l'injecter dans bric 30.
                 VolCELL = VolCELL + ONE/NNODES*BRICK_LIST(NIN,IBv2)%POLY(ICELL2)%Vnew
               ENDDO
               if (VolSECND == ZERO)CYCLE
@@ -3218,7 +3218,7 @@ c        print *, "check switch in brickID=", ixs(11,brick_list(nin,ib)%id)
                 IADBUF                     =  IPM(7,MT) 
                 RHO10                      =  BUFMAT(IADBUF-1+11)
                 RHO20                      =  BUFMAT(IADBUF-1+12)              
-                !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multipling by element volume in aleconve.F)
+                !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multiplying by element volume in aleconve.F)
                 !UVAR(I,2) : density of gas
                 !UVAR(I,3) : density of liquid
                 !UVAR(I,4) : volumetric fraction of liquid  
@@ -3297,14 +3297,14 @@ C                print *, "link switch 1", pVAR, (pVAR * VOLD + VOLcell * pVARo)
                 DO ITRIMAT=1,TRIMAT
                   !IBm_old - volume fraction!                
                   IPOS                     = 1                                 
-                  K0                       = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
+                  K0                       = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
                   K                        = K0 * LLT_o                         
                   VFrac(ITRIMAT)           = MBUFo%VAR(K+IDLOCB(IBmo))            
                 ENDDO!next ITRIMAT 
                 
                 DO ITRIMAT=1,TRIMAT
                   IPOS                     = 11                                
-                  K0                       = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
+                  K0                       = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
                   K                        = K0 * LLT_
                   VOLcell51(ITRIMAT)       = VOLcell * VFrac(ITRIMAT)         
                   MBUF%VAR(K+IDLOCB(IBm))   = MBUF%VAR(K+IDLOCB(IBm)) + VOLcell51(ITRIMAT)        
@@ -3313,13 +3313,13 @@ C                print *, "link switch 1", pVAR, (pVAR * VOLD + VOLcell * pVARo)
                 DO ITRIMAT=1,TRIMAT
                   !IBm - volume fraction!
                   IPOS                     = 1                                 
-                  K0                       = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
+                  K0                       = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
                   K                        = K0 * LLT_                         
                   VFrac(ITRIMAT)           = MBUF%VAR(K+IDLOCB(IBm))                   
                   IF(VOLcell51(ITRIMAT)<=ZERO)CYCLE  !unplug if nothiong to add (otherwise div by zero)
                   DO IPOS = 1,NVPHAS   
                     IF(IPOS==11)CYCLE                                                  !volume already treated   
-                    K2                    =  ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                    K2                    =  ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                     K                     =  LLT_ * K2                                              
                     Ko                    =  LLT_o * K2                     
                     pVAR                  => MBUF%VAR(K+IDLOCB(IBm))  
@@ -3396,7 +3396,7 @@ C              print *, " --- set VOLD_L += VOLcell, IB, ID ", VOLcell , IBMo, i
             LLT_  = IPARG(2,NGB(IB))  
             DO ITRIMAT=1,TRIMAT                                                         
               IPOS                     = 11                                             
-              K0                       = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}                
+              K0                       = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}                
               K                        = K0 * LLT_       
               MBUF%VAR(K+IDLOCB(IB))   = MBUF%VAR(K+IDLOCB(IB)) - VOLD_L(IT,ITRIMAT,IB)
             ENDDO!next ITRIMAT      
@@ -3608,7 +3608,7 @@ ccc          endif
       ENDDO    
       
       !------------------------------------------------------------!
-      ! @36. RESET OLD SECND LIST CONNECTIVIY                      !
+      ! @36. RESET OLD SECND LIST CONNECTIVITY                     !
       !      WILL BE DEFINED IN I22_GET_PRV_DATA()                 !
       !------------------------------------------------------------!
       !RESET ONLY NON ZERO VALUES
@@ -3649,7 +3649,7 @@ ccc          endif
       IGR         = IPARI(52) !reserved GRTRUS  ---> truss group identifier
       NTRUS       = IPARI(53 )!reserved GRTRUS  ---> truss group NEL
       IF( ITASK==0 .AND. NTRUS/=0 )THEN
-        II        = 1  ! firts node of group node
+        II        = 1  ! first node of group node
         DO IB=NBF,NBL 
           MCELL = BRICK_LIST(NIN,IB)%mainID
           IF (MCELL==0              ) CYCLE
@@ -4048,7 +4048,7 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
         NNODES      = IGRNOD(IPARI(70))%NENTITY
         !!!WRITE(*,*)(ITAB(IBUFSSG(J)),J=IAD0,IAD0+NNODES-1)
         IF( ITASK==0 .AND. NNODES/=0 )THEN
-          II        = 1  ! firts node of group node
+          II        = 1  ! first node of group node
           DO IB=NBF,NBL 
             MCELL = BRICK_LIST(NIN,IB)%mainID
             IF (MCELL==0              ) CYCLE
@@ -4168,7 +4168,7 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
         NNODES      = IGRNOD(IPARI(81))%NENTITY
         !!!WRITE(*,*)(ITAB(IBUFSSG(J)),J=IAD0,IAD0+NNODES-1)
         IF( ITASK==0 .AND. NNODES/=0 )THEN
-          II        = 1  ! firts node of group node
+          II        = 1  ! first node of group node
           DO IB=NBF,NBL           
             ICELL   =  0  
             NCELL   = BRICK_LIST(NIN,IB)%NBCUT                     
@@ -4206,7 +4206,7 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
        IF(IPARI(82)/=0)THEN
          NNODES      = IGRNOD(IPARI(82))%NENTITY
          IF(NNODES==0)RETURN
-         II        = 1  ! firts node of group node
+         II        = 1  ! first node of group node
          DO IB=NBF,NBL    
            IE                    = BRICK_LIST(NIN,IB)%ID
            ICELL                 =  0     

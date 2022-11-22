@@ -410,7 +410,7 @@ C -------------------------------------------------------------
       BMINMA_FLU(6) = MIN(BMINMA_FLU(6),MINVAL(ZMINS))
 #include "lockoff.inc"
 
-      CALL MY_BARRIER ! wating for fluid local domain bounds definition (multi-threading)
+      CALL MY_BARRIER ! waiting for fluid local domain bounds definition (multi-threading)
 
       IF(ITASK==0) THEN
        BMINMA_FLU(1) = BMINMA_FLU(1)+TZINF

@@ -208,7 +208,7 @@ C -------------------------------------------------------------
      5   MX_CAND    ,EMINX(1,NME+1),ESH_T ,INTBUF_TAB%FROTS,INTBUF_TAB%KS,
      6   IDUM1      ,IDUM2	 ,IDUM3   ,NIN  	,NMESR        ,
      7   V	    )
-C IDUM1 & IDUM2 replace ISENDTO, IRCVFROM usefull for SPMD i17 pena
+C IDUM1 & IDUM2 replace ISENDTO, IRCVFROM useful for SPMD i17 pena
 C -------------------------------------------------------------
          CALL MY_BARRIER
 C -------------------------------------------------------------

@@ -98,7 +98,7 @@ C-----------------------------------------------
      .     NXX(NRTM,17),NYY(NRTM,17),NZZ(NRTM,17),BBB,
      .     XX0(NRTM,17),YY0(NRTM,17),ZZ0(NRTM,17),DN
 C --------------------------------------------------------------------- 
-C  all cordinate of segment
+C  all coordinates of segment
 C
 C initiailisation
       NINDX =0
@@ -291,7 +291,7 @@ C
 C       
 C--------------------------------------------------------
 C
-C  for update of gap when main segement is ply-xfem formulation
+C  for update of gap when main segment is ply-xfem formulation
 C           <
          DO II=1,NINDX
           I = INDX(II) 

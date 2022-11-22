@@ -753,7 +753,7 @@ C             attention si ici <=> pb parith/on
           END IF  
         END IF  
 C
-C       swith to negative value if no more kept 
+C       switch to negative value if no more kept 
         IF(IKEEP == 0) CAND_N(J)=-CAND_N(J)
       END DO
 C----------------------------------------------------------------------

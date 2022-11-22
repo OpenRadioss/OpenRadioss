@@ -327,7 +327,7 @@ c      endif
       EPS = (TWO+HALF)/HUNDRED
       UNPT   = ONE + EPS
       ZEROMT = ZERO - EPS
-C------used for high penetration case (extention criterion)      
+C------used for high penetration case (extension criterion)
       EPS2=EPS*EPS
 C------0.1%----      
       EPS = EM3
@@ -353,7 +353,7 @@ c      if (ncycle<100) write(iout,*)'JLT,ncycle=',JLT,ncycle
         N=CAND_N(I)
 c       IRTLM(1,N)>0 node previously impacted on global MAIN IRTLM(1,N)
 c          treat one contact but no new intersection
-c       IRTLM(1,N)<0 node curently impacted on global MAIN -IRTLM(1,N)
+c       IRTLM(1,N)<0 node currently impacted on global MAIN -IRTLM(1,N)
 c          treat multiple contact during one cycle
 c       IRTLM(1,N)==0 node not impacted 
         IPEN0(I)=0 

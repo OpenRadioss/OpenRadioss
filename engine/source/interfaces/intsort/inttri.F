@@ -218,7 +218,7 @@ C-----------------------------------------------
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       INTEGER, INTENT(in) :: RENUM_SIZ
-      TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   struture for interface
+      TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   structure for interface
       TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
@@ -649,7 +649,7 @@ C Fin Partie non parallele smt
 
       RETRI = 0
       ! ------------------------
-      ! new sorting algorythm     
+      ! new sorting algorithm     
       IF(ITASK==0) NEED_TO_SORT = 0
       ! find the list of interface (for the moment : type7) that needs to be sorted
       CALL INTER_CHECK_SORT( ITASK,NEED_TO_SORT,NBINTC,INTLIST,IPARI,
@@ -696,12 +696,12 @@ C Fin Partie non parallele smt
      2                       RENUM,NSNFIOLD,MULTI_FVM,H3D_DATA,SENSOR_TAB,
      3                       INTER_STRUCT,SORT_COMM ,RENUM_SIZ)
       ENDIF
-      ! end : new sorting algorythm
+      ! end : new sorting algorithm
       ! ------------------------  
 
 
       ! ------------------------
-      ! old sorting algorythm   
+      ! old sorting algorithm   
 C=======================================================================
 C     non implicit options-------
 C=======================================================================
@@ -1284,11 +1284,11 @@ C
         END IF
 C
       END IF
-      ! end : old sorting algorythm 
+      ! end : old sorting algorithm 
       ! ------------------------
 
       ! ------------------------------
-      ! new sorting algorythm 
+      ! new sorting algorithm 
       ! deallocation & wait
       CALL MY_BARRIER()
       ! ------------------------
@@ -1297,7 +1297,7 @@ C
         CALL INTER_DEALLOCATE_WAIT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,ISENDTO,
      1                                IRECVFROM,INTBUF_TAB,SENSOR_TAB,INTER_STRUCT,SORT_COMM )
       ENDIF
-      ! end : new sorting algorythm 
+      ! end : new sorting algorithm 
       ! ------------------------------
 C=======================================================================
 C

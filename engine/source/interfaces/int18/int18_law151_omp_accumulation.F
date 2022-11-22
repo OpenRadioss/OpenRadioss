@@ -34,7 +34,7 @@ Chd|====================================================================
 !       INT18_LAW151_OMP_ACCUMULATION description
 !       accumulation of force for remote nodes on the 
 !       main OpenMP thread
-!       only usefull when OMP_NUM_THREADS > 1
+!       only useful when OMP_NUM_THREADS > 1
 !       
 !       INT18_LAW151_OMP_ACCUMULATION organization :
 !           loop over the NTHREADS OpenMP task + NODFI phantom nodes 

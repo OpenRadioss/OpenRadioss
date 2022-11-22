@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER I 
 C-----------------------------------------------
 C
-      !intialization of local buffer (1:MVSIZ)
+      !initialization of local buffer (1:MVSIZ)
       DO I=1,JLT
         CAND_E_N(I) = CAND_E(INDEX(I))
         CAND_N_N(I) = CAND_N(INDEX(I))

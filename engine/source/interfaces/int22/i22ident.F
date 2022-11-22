@@ -37,7 +37,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
-C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C   This experimental cut cell method is not completed, abandoned, and is not an official option.
 C
 C Determine intersection type
 C---------local numbering of edges------------------
@@ -168,7 +168,7 @@ C=======================================================================
       NBL = (ITASK+1)*NB/NTHREAD
  
       DO I=NBF,NBL
-       !KEEP TRIPLE POINTS, INTERPRETATION OF PARTIITONING IS MADE TAKING MOST COMPLEX POLY EVEN IF THERE ARE EXPECTED REMAING INTERSECTION POINTS
+       !KEEP TRIPLE POINTS, INTERPRETATION OF PARTITIONING IS MADE TAKING MOST COMPLEX POLY EVEN IF THERE ARE EXPECTED REMAINING INTERSECTION POINTS
     !        CALL REMOVE_DOUBLE_INTP(
     ! 1                              IXS, X, ITASK, NIN, BUFBRIC,
     ! 2                              I )      

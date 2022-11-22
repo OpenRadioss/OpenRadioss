@@ -35,7 +35,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
-C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C   This experimental cut cell method is not completed, abandoned, and is not an official option.
 C
 C this subroutines update VOLN for cut cells.
 C Main cells have extended values of volume due
@@ -123,10 +123,10 @@ C-----------------------------------------------
            !---meth2:supercell dx estimated with main cell dx (minorant)
            !DELTAX(I)   = VOLM/AREAM  
             
-           !---meth3:isomorph supercell to equivlent brick(cube) 
+           !---meth3:isomorph supercell to equivalent brick(cube)
            !DELTAX(I)   = (VOLN(I))**THIRD
            
-           !---meth4:isomorph main cell only to equivlent brick(cube) 
+           !---meth4:isomorph main cell only to equivalent brick(cube)
            !DELTAX(I)   = VOLM**THIRD  
                     
            !---meth5: no specific treatment (FAST but only valid if time step scale factor <= 0.5 in engine file)

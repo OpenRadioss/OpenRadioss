@@ -48,8 +48,8 @@ Chd|====================================================================
 !                             accumulation in FORC_INT array
 !            * if NSV < 0 --> remote node
 !                             accumulation in AFI array
-!       for each secondary node, a float_to_6_float operation is perfomed
-!       in order to garantee the parith/on
+!       for each secondary node, a float_to_6_float operation is performed
+!       in order to guarantee the parith/on
 !$ENDCOMMENT
 C-----------------------------------------------
 C   M o d u l e s

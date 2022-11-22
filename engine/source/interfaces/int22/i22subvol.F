@@ -39,7 +39,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
-C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C   This experimental cut cell method is not completed, abandoned, and is not an official option.
 C
 C CThis subroutine computes coordinates of intersection points and faces area
 C-----------------------------------------------
@@ -211,9 +211,9 @@ C----------------------------------------------------------------
         BRICK_LIST(NIN,IB)%PCUT(1:9)%Vel(3)   = ZERO
         
         !--------------------------------------------------------------------------------!
-        !  1. CHECK FIRST IF AMBIGOUS COMBINATION                                        !
+        !  1. CHECK FIRST IF AMBIGUOUS COMBINATION                                       !
         !--------------------------------------------------------------------------------!
-        !bAMBIGOUS == .TRUE. => ambigous combination detected
+        !bAMBIGOUS == .TRUE. => ambiguous combination detected
         ! (code1_bis, code2_bis) is then the alternative combination
         IF(BRICK_LIST(NIN,IB)%NBCUT == 2)THEN
           SECTYPE = BRICK_LIST(NIN,IB)%SECTYPE(1)
@@ -252,9 +252,9 @@ C----------------------------------------------------------------
           ENDIF
           !CHECK SURFACE NORMAL AND SOLVE THE AMBIGUITY
           IF(.NOT.bAMBIGOUS)THEN
-            !print *, "not ambigous"
+            !print *, "not ambiguous"
           ELSE
-            !print *, "ambigous=", Cod1,Cod2
+            !print *, "ambiguous=", Cod1,Cod2
             !----------------------------------------------------------------
             !RETRIEVING LAGRANGIAN FACES & CUT PLANE NORMAL
             !----------------------------------------------------------------            
@@ -473,7 +473,7 @@ CC              print *, "inter22 : ambigus intersection not solved" ;
           !---------------------------------------------------------------- 
           !CALCUL DES COORDONNEES DES POINTS D'INTERSECTION
           !---------------------------------------------------------------- 
-          !if twice the same intersections, the 2nd one  is the biggest one choose farest intersection points 
+          !if twice the same intersections, the 2nd one is the biggest one choose farthest intersection points
           DO K=1,NTRUS  
              tagEDG   =  Gcorner(K,SECID)
             IF(tagEDG<0)THEN
@@ -1134,7 +1134,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             vF(:,3) =I22AERA(4,(/n2,a2,a3,n3/)          ,   C(1:3,Fa(3)))
             vF(:,4) =I22AERA(4,(/n1,n4,a4,a1/)          ,   C(1:3,Fa(4)))
             vF(:,5) =I22AERA(7,(/n4,n3,a3,a6,a5,a4,n4/) ,   C(1:3,Fa(5)))
-            vF(:,0) =I22AERA(6,(/a1,a4,a5,a6,a3,a2/)    ,   C(1:3,   0 ))  !TO BE UPDATED LATER IF NEEED : this is an approximation
+            vF(:,0) =I22AERA(6,(/a1,a4,a5,a6,a3,a2/)    ,   C(1:3,   0 ))  !TO BE UPDATED LATER IF NEEDED : this is an approximation
             BRICK_LIST(NIN,IB)%POLY(9)%FACE(Fa(1))%Center(1:3) = BRICK_LIST(NIN,IB)%POLY(9)%FACE(Fa(1))%Center(1:3) + ZERO    !put sum intersection point in icell 9 (will be used in sinit22_fvm.F to compute faceCenter for poly9
             BRICK_LIST(NIN,IB)%POLY(9)%FACE(Fa(2))%Center(1:3) = BRICK_LIST(NIN,IB)%POLY(9)%FACE(Fa(2))%Center(1:3) +a1+a2
             BRICK_LIST(NIN,IB)%POLY(9)%FACE(Fa(3))%Center(1:3) = BRICK_LIST(NIN,IB)%POLY(9)%FACE(Fa(3))%Center(1:3) +a2+a3             
@@ -2115,7 +2115,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
               
               ValTMP(1:3)                                = BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(1:3)
                                                                                                                                   
-              !bakup poly1                                                                                                         
+              !backup poly1                                                                                                         
               BRICK_LIST(NIN,IB)%POLY(3)%FACE(1:6)%Surf  = BRICK_LIST(NIN,IB)%POLY(1)%FACE(1:6)%Surf                                     
               BRICK_LIST(NIN,IB)%PCUT(3)%SCUT            = BRICK_LIST(NIN,IB)%PCUT(1)%SCUT                                         
               BRICK_LIST(NIN,IB)%PCUT(3)%B(1:3)          = BRICK_LIST(NIN,IB)%PCUT(1)%B(1:3)                                       

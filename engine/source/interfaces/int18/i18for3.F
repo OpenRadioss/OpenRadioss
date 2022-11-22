@@ -63,7 +63,7 @@ C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutine is computing reaction forces
 C for fluid structure interaction /INTER/TYPE18
-C It also ouputs contour and time histories.
+C It also outputs contour and time histories.
 C
 C   I=1:JLT : local loop (JLT<=128)
 C   INDEX(I) is Node id (internal)

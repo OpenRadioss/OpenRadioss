@@ -157,7 +157,7 @@ C-----------------------------------------------
                 DO I=1,NSN
                     NODE_ID = INTBUF_TAB(NIN)%NSV(I)
                     ! need to check the node_id value : for typ24 + edge to edge,
-                    ! a fameous developper introduced NODE_ID greater than the number of node NUMNOD :(
+                    ! a famous developer introduced NODE_ID greater than the number of node NUMNOD :(
                     IF(NODE_ID<=NUMNOD) SHOOT_STRUCT%SHIFT_S_NODE(NODE_ID+1) = SHOOT_STRUCT%SHIFT_S_NODE(NODE_ID+1) + 1
                 ENDDO
             ENDIF
@@ -667,7 +667,7 @@ C-----------------------------------------------
         ! --------------------------------
         ! WORKING ARRAY
         ! --------------------------------
-        ALLOCATE( SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF(NTHREAD) )    ! numner of deactivated element for  each thread
+        ALLOCATE( SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF(NTHREAD) )    ! number of deactivated element for each thread
 
         RETURN
         END SUBROUTINE INIT_NODAL_STATE

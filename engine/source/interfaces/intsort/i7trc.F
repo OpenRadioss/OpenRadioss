@@ -718,7 +718,7 @@ C
         NN = CAND_N(I)
         E  = CAND_E(I)
 
-C The symetric surface on shell elements must be kept
+C The symmetric surface on shell elements must be kept
 C On solids, the symmetric is the same
 
         ISH = MSEGTYP(E)

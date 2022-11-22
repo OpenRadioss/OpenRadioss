@@ -358,7 +358,7 @@ c     .        "  Remplissage Voxel avec shell suivantes :"
         EIZ2(NE)=MAX(1,2+MIN(NBZ,IZ2))
       END DO    
       !-------------------------------------------!
-      !  VOXEL INDEX RANGE FOR VOXEL RESETING     !
+      !  VOXEL INDEX RANGE FOR VOXEL RESETTING     !
       !-------------------------------------------!
       !pour reset des voxel   
       MIN_IX_LOC = MIN(MIN_IX,MINVAL(EIX1(NBF:NBL)))
@@ -642,7 +642,7 @@ C 3   VOXEL RESET
 C=======================================================================
  1000 CONTINUE
 
-      CALL MY_BARRIER ! All threads need to finish its work with common Voxel before reseting it.
+      CALL MY_BARRIER ! All threads need to finish its work with common Voxel before resetting it.
 
       if(itask==0.AND.ibug22_trivox==1) print *, 
      .    "  i22trivox.F:nb de candidats:" , II_STOK, ITASK

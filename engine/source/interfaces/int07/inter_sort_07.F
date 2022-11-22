@@ -110,7 +110,7 @@ C-----------------------------------------------
         TYPE(INTBUF_STRUCT_) INTBUF_TAB
         TYPE(H3D_DATABASE) :: H3D_DATA
         TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
-        TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   struture for interface
+        TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   structure for interface
         TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

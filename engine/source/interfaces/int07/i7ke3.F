@@ -807,7 +807,7 @@ C-----------------------------------------------
       INTEGER I,NS,NI,NN
 C-----------------------------------------------
 C--------------------------------------------------------
-C  Due to multi-contacts, zero initialization should be done globaly
+C  Due to multi-contacts, zero initialization should be done globally
 C--------------------------------------------------------
        IF (NSPMD>1) THEN
         DO I=1,JLT

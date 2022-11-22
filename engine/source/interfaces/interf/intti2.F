@@ -83,7 +83,7 @@ C=======================================================================
         IF (NTY == 2) THEN                                            
           IF(IPARI(5,N)>0) THEN !       check if NSN=IPARI(5,N)>0
         !       Optimization :
-        !       If IPARI(5,N)=NSN=0, somes variables are loaded in INTTI2V
+        !       If IPARI(5,N)=NSN=0, some variables are loaded in INTTI2V
         !       if the number of TYPE2 interface is important (>3000) and if the number of
         !       spmd domain is quite important (NSPMD>50), the initialisation time is important :
         !       for_array_copy_in and other initialisations represent up to 5% of total CPUTIME

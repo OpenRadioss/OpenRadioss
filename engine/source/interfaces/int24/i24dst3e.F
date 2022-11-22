@@ -249,7 +249,7 @@ c check if convex
             SZS = SZS1 + SZS2
 
             AAA = SXS*SXM+SYS*SYM+SZS*SZM
-            IF(AAA > ZERO) CYCLE ! MAIN and SECONDARY dihedral are not loocking each other
+            IF(AAA > ZERO) CYCLE ! MAIN and SECONDARY dihedral are not locking each other
 
 c           vecteur SECONDARY MAIN 
             SXSM = Y12*ZIJ - Z12*YIJ

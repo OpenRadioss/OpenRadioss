@@ -496,7 +496,7 @@ C
           ENDIF
 
 C------------------------------------------------                  
-C         Compuation of stiffness for nodal time step
+C         Computation of stiffness for nodal time step
 C------------------------------------------------
 C
           STF     = STFN(II)*(VISC + SQRT(VISC**2 + (ONE+STBRK)))**2

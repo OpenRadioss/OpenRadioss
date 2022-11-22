@@ -30,7 +30,7 @@ Chd|====================================================================
         SUBROUTINE CHECK_COARSE_GRID(NIN,MAIN_COARSE_GRID,SORT_COMM,ITIED)
 !$COMMENT
 !       CHECK_COARSE_GRID description :
-!       for a given interface, check if the currect processor needs to communicate with a remote processor
+!       for a given interface, check if the correct processor needs to communicate with a remote processor
 !
 !       CHECK_COARSE_GRID organization :
 !           loop over the processor P and :
