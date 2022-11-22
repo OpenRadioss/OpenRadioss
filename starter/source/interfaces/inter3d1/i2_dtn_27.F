@@ -306,7 +306,7 @@ C
           DWDU=ZERO 
         ENDIF
 C
-        IF(IRODDL/=0)THEN
+        IF ((IRODDL/=0).AND.(MSEGTYP2(L)==0)) THEN
 C
           AA =(XM(1)-XS(1))*(XM(1)-XS(1))+(XM(2)-XS(2))*(XM(2)-XS(2))+(XM(3)-XS(3))*(XM(3)-XS(3))
           INS = IN(I) + AA * MS(I)
@@ -381,7 +381,7 @@ C     REAL
       my_real
      .   S,T,SP,SM,TP,TM,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
      .   XSM,YSM,ZSM,XM,YM,ZM,X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,X0,Y0,Z0,XS,YS,ZS,STIFM,
-     .   STF,STR,STBRK
+     .   STF,STR,STBRK,B1,B2,B3,C1,C2,C3,DET
       my_real
      .   H(4),RX(4),RY(4),RZ(4),RM(3),RS(3),STIF, VIS
       my_real
@@ -551,17 +551,17 @@ C
  	  RZ(4)=ZERO
         END IF
 C
-C---------
+C--------- 
           CALL I2PEN_ROT27(
      .    SKEW ,TT   ,BID  ,STBRK,
      .    RS   ,RM   ,BID3 ,BID3 ,BID3 ,                        
      .    RX   ,RY   ,RZ   ,BID3 ,BID3 ,
-     .    BID3   ,BID3   ,BID3 ,BID3  ,BID  ,
-     .    BID   ,BID   ,BID   ,BID   ,BID   ,
-     .    BID   ,IROT)
+     .    BID3 ,BID3 ,BID3 ,BID3 ,DET  ,
+     .    B1   ,B2   ,B3   ,C1   ,C2   ,
+     .    C3   ,IROT)
 C
 C------------------------------------------------
-C                           
+C                         
           STF     = STFN(II)*(VISC + SQRT(VISC**2 + (ONE+STBRK)))**2
           STIFM=ZERO
 
