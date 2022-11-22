@@ -22,11 +22,11 @@ Max_Integer	9999999999
 use_reset_tolerances
 
 # Following ones can be repeated multiple times:
-# These need to be preserved for each failure (regular expresion)
+# These need to be preserved for each failure (regular expression)
 #  save                    [.]phx$
-# These need to be cleaned during --cleanup (regular expresion)
+# These need to be cleaned during --cleanup (regular expression)
 #  delete                  [.](mvw|hm|out.*)$
-# These will not trigger 'new file' message (solver specific, regular expresion)
+# These will not trigger 'new file' message (solver specific, regular expression)
 #  expectfile    ^filename$
 #  expectfile    [.](extension|extension)$
 #  expectfileext extension|extension
@@ -79,9 +79,9 @@ Scale_Factor_Delta_Vs_Emax 0.03
 # 4 names must be given (not necessarily different) or a single name
 # When there is single name then output will go to subfolder with that
 # name in the same location where input file for 'go' came in
-# occurences of string 'DATE' in this command are replaced with 6
+# occurrences of string 'DATE' in this command are replaced with 6
 # digit string built out of date: YYMMDD, 'TIME' with HHMM
-# occurences of string 'HOST' are replaced with 'hostname'
+# occurrences of string 'HOST' are replaced with 'hostname'
 # save_location Screen_DATE Ooutput_DATE Extract_DATE Save_DATE
 # save_location DATE-TIME-HOST DATE-TIME-HOST DATE-TIME-HOST DATE-TIME-HOST 
 
@@ -135,7 +135,7 @@ if precision == sp Zero_Tolerance 7.5e-7
 if strict == 1 Diff_Tolerance 1e-9
 if strict == 1 Zero_Tolerance 7.5e-9
     
-# For interger, the tolerance (Deltai_Ref) is computed from : Relative_Int_Tolerance*(max(ref value,new value))
+# For integer, the tolerance (Deltai_Ref) is computed from : Relative_Int_Tolerance*(max(ref value,new value))
 # While treating XXXXXX we figured out that there was not specific Relative_Int_Tolerance when using stric
 # So for an important number of CYCLE (e.g. 50000) a difference of 2 or 3 cycles is not seen ...
 # We decided to increase this strict specific tolerance to 1e-9*(max(ref value,new value))

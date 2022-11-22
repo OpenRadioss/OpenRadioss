@@ -104,7 +104,7 @@ SOLUTION :
     NUMELX: NUMBER OF MULTIPURPOSE ELEMENTS . . . . . . .         0
     NUMELIG3D: NUMBER OF ISO-GEOMETRIC ELEMENTS . . . . .         0
     NUMSPH : NUMBER OF SMOOTH PARTICLES (SPH CELLS) . . .         0
-    NSPHBCS: NUMBER OF SPH SYMETRY CONDITIONS . . . . . .         0
+    NSPHBCS: NUMBER OF SPH SYMMETRY CONDITIONS. . . . . .         0
     NSPHIO : NUMBER OF SPH INLET/OUTLET CONDITIONS. . . .         0
 
     NFUNCT: NUMBER OF USER'S FUNCTIONS . . . . . . . . .          1
@@ -993,7 +993,7 @@ DESCRIPTION :
     CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
     FLAGREMNODE : NOT CONSIDER NEIGHBORING  . . 
     NODES IN CASE OF ELEMENT SIZE < GAP VALUE       1
-    DE-ACTIVATION FLAG IF CONFLITING W/ TYPE2           3
+    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2           3
     GAP SCALE FACTOR. . . . . . . . . . . . .   0.000000000000    
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
@@ -1042,7 +1042,7 @@ DESCRIPTION :
     CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
     FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
     NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLITING W/ TYPE2            3
+    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
     BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
@@ -1090,7 +1090,7 @@ DESCRIPTION :
     CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
     FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
     NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLITING W/ TYPE2            3
+    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
     BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
@@ -1757,7 +1757,7 @@ DESCRIPTION :
     CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
     FLAGREMNODE : NOT CONSIDER NEIGHBORING  . . 
     NODES IN CASE OF ELEMENT SIZE < GAP VALUE       1
-    DE-ACTIVATION FLAG IF CONFLITING W/ TYPE2           3
+    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2           3
     GAP SCALE FACTOR. . . . . . . . . . . . .   0.000000000000    
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
@@ -1806,7 +1806,7 @@ DESCRIPTION :
     CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
     FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
     NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLITING W/ TYPE2            3
+    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
     BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
@@ -1854,7 +1854,7 @@ DESCRIPTION :
     CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
     FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
     NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLITING W/ TYPE2            3
+    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
     BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
@@ -2819,7 +2819,7 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT
                  5.000E-02                 |                 1.104E-04                 |                 8.222E-05
 
 
-    WARNING : Theses added mass estimations are valid at first cycle only.
+    WARNING : These added mass estimations are valid at first cycle only.
     Because of element deformation or contacts the added mass can increase during the run
 
 

@@ -11,7 +11,7 @@ unsetenv DO_QA
 ##POUR LES REELS   : %= Diff_Tolerance         et |.|= Abs_Tolerance
 ##
 
-##global tolerances are setted in QA.constants (for real small values like mass error)
+##global tolerances are set in QA.constants (for real small values like mass error)
 
 #BB 
 # il faut definir les tolerancs en tete de fichier QA.Files_ 

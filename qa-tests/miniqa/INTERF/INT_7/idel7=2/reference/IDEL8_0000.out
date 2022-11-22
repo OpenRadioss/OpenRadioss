@@ -86,7 +86,7 @@ SOLUTION :
     NUMELX: NUMBER OF MULTIPURPOSE ELEMENTS . . . . . . .         0
     NUMELIG3D: NUMBER OF ISO-GEOMETRIC ELEMENTS . . . . .         0
     NUMSPH : NUMBER OF SMOOTH PARTICLES (SPH CELLS) . . .         0
-    NSPHBCS: NUMBER OF SPH SYMETRY CONDITIONS . . . . . .         0
+    NSPHBCS: NUMBER OF SPH SYMMETRY CONDITIONS. . . . . .         0
     NSPHIO : NUMBER OF SPH INLET/OUTLET CONDITIONS. . . .         0
 
     NFUNCT: NUMBER OF USER'S FUNCTIONS . . . . . . . . .          2
@@ -471,7 +471,7 @@ DESCRIPTION :
     CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
     FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
     NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLITING W/ TYPE2            3
+    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
     BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
@@ -519,7 +519,7 @@ DESCRIPTION :
     CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
     FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
     NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLITING W/ TYPE2            3
+    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
     BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
@@ -680,7 +680,7 @@ DESCRIPTION :
     CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
     FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
     NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLITING W/ TYPE2            3
+    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
     BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
@@ -728,7 +728,7 @@ DESCRIPTION :
     CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
     FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
     NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLITING W/ TYPE2            3
+    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
     BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
@@ -1152,7 +1152,7 @@ Part id,name:         2 EURO - THORACIC SKIN   Mat type:   2 Elm type: SHELL-(3n
                  5.000E-02                 |                 4.213E-06                 |                 3.136E-06
 
 
-    WARNING : Theses added mass estimations are valid at first cycle only.
+    WARNING : These added mass estimations are valid at first cycle only.
     Because of element deformation or contacts the added mass can increase during the run
 
 
