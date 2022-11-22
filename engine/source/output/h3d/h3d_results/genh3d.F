@@ -137,7 +137,7 @@ Chd|====================================================================
      2                  PSKIDS   ,TAG_SKINS6,TF         ,NPF         ,FCONT_MAX ,
      3                  MDS_MATID,FNCONTP2 ,FTCONTP2    ,IBCL        ,ILOADP    ,
      4                  LLOADP   ,FAC      ,SENSOR_TAB  ,TAGNCONT    ,
-     5                  LOADP_HYD_INTER    ,XFRAME      ,FORC        ,AR        )
+     5                  LOADP_HYD_INTER,XFRAME,FORC     ,AR          )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -155,6 +155,7 @@ C-----------------------------------------------
       USE INOUTFILE_MOD
       USE ALE_CONNECTIVITY_MOD
       USE SENSOR_MOD
+      USE OUTMAX_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1953,7 +1954,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
 c
           IF (NSPMD > 1 ) THEN
             IF(KEYWORD == 'CONT'.OR.KEYWORD == 'PCONT/NORMAL'.OR.KEYWORD == 'PCONT/TANGENT'.OR.KEYWORD == 'FEXT'
-     .         .OR.(KEYWORD == 'CONT/MAX'.AND.NINTSTAMP==0)
+     .         .OR.(KEYWORD == 'CONT/MAX').OR.(KEYWORD == 'MAXPCONT/NORMAL') .OR.(KEYWORD == 'MAXPCONT/TANGENT')
      .         .OR.(KEYWORD == 'CONT2'.OR.KEYWORD == 'PCONT2/NORMAL'.OR.KEYWORD == 'PCONT2/TANGENT')) THEN
 
                CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
@@ -1963,10 +1964,22 @@ c
                   CALL SPMD_H3D_SUM_R_NODAL(NODGLOB,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG)
                ELSEIF(KEYWORD == 'CONT')THEN
                   CALL SPMD_H3D_SUM_R_NODAL_21(NODGLOB,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG,FCONTG)
+               ELSEIF(KEYWORD == 'CONT/MAX')THEN
+                  IF(ISPMD == 0) THEN
+                     NODAL_VECTOR_P(1:3*NUMNODG) =FCONT_MAX(1:3*NUMNODG)
+                 ENDIF
                ELSEIF(KEYWORD == 'PCONT/NORMAL')THEN    
                   CALL SPMD_H3D_SUM_R_NODAL_21(NODGLOB,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG,FNCONTG)
+               ELSEIF(KEYWORD == 'MAXPCONT/NORMAL')THEN
+                  IF(ISPMD == 0) THEN
+                     NODAL_VECTOR_P(1:3*NUMNODG) =FNCONT_MAX(1:3*NUMNODG)
+                 ENDIF
                ELSEIF(KEYWORD == 'PCONT/TANGENT')THEN  
                   CALL SPMD_H3D_SUM_R_NODAL_21(NODGLOB,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG,FTCONTG)
+               ELSEIF(KEYWORD == 'MAXPCONT/TANGENT')THEN
+                  IF(ISPMD == 0) THEN
+                     NODAL_VECTOR_P(1:3*NUMNODG) =FTCONT_MAX(1:3*NUMNODG)
+                 ENDIF
                ELSEIF(KEYWORD == 'CONT2')THEN
                   CALL SPMD_H3D_SUM_R_NODAL_21(NODGLOB,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG,FNCONT2)
                ELSEIF(KEYWORD == 'PCONT2/NORMAL')THEN    
@@ -1975,16 +1988,6 @@ c
                   CALL SPMD_H3D_SUM_R_NODAL_21(NODGLOB,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG,FTCONTP2)
                ENDIF                     
                CALL STOPTIME(MACRO_TIMER_SPMDH3D,1) 
-
-            ELSEIF(KEYWORD == 'CONT/MAX'.AND.NINTSTAMP/=0) THEN
-
-               CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-               CALL SPMD_OUTPITAB(NODE_ID,WEIGHT,NODGLOB,NODE_ID_P)
-               CALL SPMD_OUTPITAB(IS_WRITEN_NODE,WEIGHT,NODGLOB,IS_WRITEN_NODE_P)
-               IF(ISPMD == 0) THEN
-                  NODAL_VECTOR_P(1:3*NUMNODG) =FCONT_MAX(1:3*NUMNODG)
-               ENDIF 
-               CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
 
             ELSE
                CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 

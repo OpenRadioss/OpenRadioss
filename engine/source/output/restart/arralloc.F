@@ -124,6 +124,7 @@ C-----------------------------------------------
 #include      "eigcom.inc"
 #include      "inter18.inc"
 #include      "stati_c.inc"
+#include      "com09_c.inc"
 C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -1777,12 +1778,14 @@ C
            ALLOCATE(FCONTG(0,0),STAT=IERR)
          END IF
 C
+         SFCONT_MAX = 0
          IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX >0)THEN
            IF(NSPMD > 1 .AND. NINTSTAMP/=0) THEN
               IF(ISPMD == 0) THEN
                  ALLOCATE(FCONT_MAX(3*NUMNODG),STAT=IERR)
                  IF (IERR/=0) GOTO 1000
                  FCONT_MAX=ZERO
+                 SFCONT_MAX = NUMNODG
               ELSE
                  ALLOCATE(FCONT_MAX(0),STAT=IERR)
                ENDIF
@@ -1790,6 +1793,7 @@ C
                ALLOCATE(FCONT_MAX(3*NUMNOD),STAT=IERR)
                IF (IERR/=0) GOTO 1000
                FCONT_MAX=ZERO
+               SFCONT_MAX = NUMNOD
             ENDIF
          ELSE
             ALLOCATE(FCONT_MAX(0),STAT=IERR)
@@ -1804,6 +1808,32 @@ C
          ELSE
            ALLOCATE(FNCONTG(0,0),FTCONTG(0,0),STAT=IERR)
          END IF
+C
+         SPCONT_MAX = 0
+         IF(H3D_DATA%N_VECT_PCONT_MAX >0)THEN
+           IF(NSPMD > 1 .AND. NINTSTAMP/=0) THEN
+              IF(ISPMD == 0) THEN
+                 ALLOCATE(FTCONT_MAX(3*NUMNODG),FNCONT_MAX(3*NUMNODG),STAT=IERR)
+                 IF (IERR/=0) GOTO 1000
+                 FTCONT_MAX=ZERO
+                 FNCONT_MAX=ZERO
+                 SPCONT_MAX = NUMNODG
+              ELSE
+                 ALLOCATE(FNCONT_MAX(0),FTCONT_MAX(0),STAT=IERR)
+               ENDIF
+            ELSE
+               ALLOCATE(FTCONT_MAX(3*NUMNOD),FNCONT_MAX(3*NUMNOD),STAT=IERR)
+               IF (IERR/=0) GOTO 1000
+               FTCONT_MAX=ZERO
+               FNCONT_MAX=ZERO
+               SPCONT_MAX = NUMNOD
+            ENDIF
+         ELSE
+            ALLOCATE(FNCONT_MAX(0),STAT=IERR)
+            ALLOCATE(FTCONT_MAX(0),STAT=IERR)
+         END IF
+
+C 
 C
          IF(NINTSTAMP/=0.AND.(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.OR.
      .          ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0))THEN

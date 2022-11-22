@@ -137,6 +137,10 @@ c-----------------------------------------------
           NB_KEY = 2
           IF (CPT_KEY == 1) KEY3_GLOB = 'PCONT/NORMAL'
           IF (CPT_KEY == 2) KEY3_GLOB = 'PCONT/TANGENT'
+        ELSEIF (KEY3_READ == 'PCONT/TMAX') THEN
+          NB_KEY = 2
+          IF (CPT_KEY == 1) KEY3_GLOB = 'MAXPCONT/NORMAL'
+          IF (CPT_KEY == 2) KEY3_GLOB = 'MAXPCONT/TANGENT'
         ELSEIF (KEY3_READ == 'PCONT2') THEN
           NB_KEY = 2
           IF (CPT_KEY == 1) KEY3_GLOB = 'PCONT2/NORMAL'

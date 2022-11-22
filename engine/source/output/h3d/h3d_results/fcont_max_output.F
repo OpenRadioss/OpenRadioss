@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 
       IFCONTMAX = 1
-      IF(NINTSTAMP == 0 .OR.NSPMD == 1) THEN
+      IF(NINTSTAMP == 0) THEN
          DO N=1,NUMNOD
             IF(WEIGHT(N) == 1) THEN
              FNEW = CONT(1,N)**2 + CONT(2,N)**2 +CONT(3,N)**2
@@ -78,7 +78,7 @@ C-----------------------------------------------
            FCONT_TMP(2,I) = CONT(2,I) + FCONTG(2,K)
            FCONT_TMP(3,I) = CONT(3,I) + FCONTG(3,K)
          ENDDO
-
+       
          IF(NSPMD > 1 ) THEN
              CALL SPMD_H3D_SUM_R_NODAL_21(NODGLOB,FCONT_TMP,3*NUMNOD,FCONT_TMP_P,3*NUMNODG,FCONTG)
          ENDIF
@@ -94,6 +94,16 @@ C-----------------------------------------------
                   ENDIF
                ENDDO
              ENDIF
+         ELSE
+           DO N=1,NUMNOD
+             IF(WEIGHT(N) /= 1) CYCLE
+             FNEW = FCONT_TMP(1,N)**2 + FCONT_TMP(2,N)**2 +FCONT_TMP(3,N)**2
+             FOLD = FCONT_MAX(1,N)**2 + FCONT_MAX(2,N)**2 +FCONT_MAX(3,N)**2
+             FMAX = MAX(FNEW,FOLD)
+             IF(FNEW > FOLD) THEN
+                FCONT_MAX(1:3,N) = FCONT_TMP(1:3,N)   
+             ENDIF
+           ENDDO
          ENDIF
          DEALLOCATE( FCONT_TMP_P, FCONT_TMP)
        ENDIF

@@ -191,6 +191,14 @@ c-----------------------------------------------
       H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Tied Contact Pressure / Tangent'
 c-----------------------------------------------
       I = I + 1
+      H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'MAXPCONT/NORMAL'
+      H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Maximum Over Time Contact Pressure / Normal'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'MAXPCONT/TANGENT'
+      H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Maximum Over Time Contact Pressure / Tangent'
+c-----------------------------------------------
+      I = I + 1
       H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'VEL/TMAX'
       H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Max_Velocity'
       H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 

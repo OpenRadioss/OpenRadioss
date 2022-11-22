@@ -679,9 +679,10 @@ C
            ENDDO
 #include "lockoff.inc"
         ENDIF
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
+      IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
      .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
-     .   (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
+     .   (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
+     .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
 #include "lockon.inc"
            DO I=1,LLT
             FNCONT(1,IX1(I)) =FNCONT(1,IX1(I)) + FNX1(I)

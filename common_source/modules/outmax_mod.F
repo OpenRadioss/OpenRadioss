@@ -54,6 +54,8 @@ Chd|====================================================================
         integer  LMAX_NSTRA ! noda p1&p3 for 3D
 C------ used to initialize LMAX_* (for elementary only)
         integer :: NKEYMAX = 6  
+C---------Output Max contact force and pressure 
+        integer :: SFCONT_MAX, SPCONT_MAX 
 C        /VONM;/SIGEQ; /ENER ; /DAMA, /TENS/STRESS ;/TENS/STRAIN
         integer, DIMENSION(:) ,  ALLOCATABLE :: IKEYMAX 
         integer, DIMENSION(:,:) ,ALLOCATABLE :: IPART_OK 
@@ -64,5 +66,7 @@ C------ work arrays
         my_real, DIMENSION(:) , ALLOCATABLE ::   TM_PDIS,TM_PVEL
         my_real, DIMENSION(:) , ALLOCATABLE ::   TM_PNSIG,TM_PNSTRA
         my_real, DIMENSION(:) , ALLOCATABLE ::   GPSTMP,P2TMP
+C---------Output Max contact force and pressure 
+        my_real, DIMENSION(:) , ALLOCATABLE ::   FNCONT_MAX,FTCONT_MAX
 
         END MODULE OUTMAX_MOD

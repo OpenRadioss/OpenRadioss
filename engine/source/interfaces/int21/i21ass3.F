@@ -599,6 +599,7 @@ C---------------------------------
      .         .OR.(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
      .                  (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
      .                  (MANIM>=4.AND.MANIM<=15) .OR. H3D_DATA%MH3D /= 0))
+     .         .OR.H3D_DATA%N_VECT_PCONT_MAX>0
      .         .OR.ISECIN/=0)  ) RETURN
 C--------------------------------- 
       DO I=1,JLT
@@ -678,9 +679,10 @@ C
         ENDIF
 
 C---------------------------------
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
+      IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
      .        (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
-     .            (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
+     .            (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
+     .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
 #include "lockon.inc"
          DO I=1,JLT
           JG = NSVG(I)
@@ -705,9 +707,10 @@ C
 #include "lockoff.inc"
       ENDIF
 C---------------------------------
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
+      IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
      .        (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
-     .            (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
+     .            (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
+     .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
 #include "lockon.inc"
          DO I=1,JLT
           JG = NSVG(I)
