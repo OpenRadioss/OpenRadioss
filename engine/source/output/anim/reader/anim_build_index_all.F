@@ -30,12 +30,13 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
-      SUBROUTINE ANIM_BUILD_INDEX_ALL(ISPMD   ,MCHECK ,LSENSOR ,IGEO    ,GEO    )
+      SUBROUTINE ANIM_BUILD_INDEX_ALL(ISPMD   ,MCHECK ,SENSOR_TAB ,IGEO    ,GEO    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE STACK_MOD    
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,9 +52,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISPMD, MCHECK, LSENSOR(NSENSI,*), IGEO(NPROPGI,*)
+      INTEGER ISPMD, MCHECK, IGEO(NPROPGI,*)
       my_real
      .        GEO(NPROPG,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -63,12 +65,12 @@ C-----------------------------------------------
 C-------------------------------------------
       IF(ISPMD == 0.AND.MCHECK == 0) THEN
 C-----------------------
-C      ANIM/LSENSOR Initializations
+C      ANIM/SENSOR Initializations
 C-----------------------       
         IANIS0=IANISENS
         IF(IANIS0 /= 0)THEN
           DO I=1,NSENSOR
-            IF(IANIS0 == LSENSOR(1,I))IANISENS=I
+            IF( IANIS0 == SENSOR_TAB(I)%SENS_ID ) IANISENS=I
           ENDDO
         ENDIF
         DO K=1,NLSENS
@@ -76,7 +78,7 @@ C-----------------------
           IANIS0=LANISENS(K)
           IF(IANIS0 /= 0)THEN
             DO I=1,NSENSOR
-              IF(IANIS0 == LSENSOR(1,I))THEN
+              IF( IANIS0 == SENSOR_TAB(I)%SENS_ID ) THEN
                 LANISENS(K)=I
                 IOK = 1
                 EXIT
@@ -91,7 +93,7 @@ C-----------------------
 C-----------------------       
       ELSEIF(ISPMD == 0 .AND. MCHECK /= 0) THEN
 C-----------------------
-C     ANIM/LSENSOR Iniializations
+C     ANIM/SENSOR Iniializations
 C-----------------------   
          IANISENS = IANISENS_OLD
          DO K=1,IANISENS_OLD

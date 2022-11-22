@@ -690,7 +690,6 @@ C-----------------------------------------------
 #include      "couple_c.inc"
 #include      "rad2r_c.inc"
 #include      "scr24_c.inc"
-#include      "scr_usens_c.inc"
 #include      "chara_c.inc"
 #include      "bucki_c.inc"
 #include      "buckr_c.inc"
@@ -6760,8 +6759,6 @@ C===============================================================================
 
           CALL SENSOR2(SENSOR_TAB,LSENSOR,SENSOR)
 
-          ISECTOR = 0
-
           ENDIF
 
           GOTO 111
@@ -8076,8 +8073,6 @@ C implicit barrier on end do
         IF (IPARSENS/=0) FBSAV6(1:12,1:6,1:SFSAV6) = ZERO
 
         CALL SENSOR2(SENSOR_TAB,LSENSOR,SENSOR)
-
-        ISECTOR = 0
 
       ENDIF  !  NSENSOR > 0
 C========================================================================================

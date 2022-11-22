@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR
+      INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR,TYP
       my_real, DIMENSION(:), ALLOCATABLE :: HEAD,RBUF
       TYPE (SENSOR_STR_) ,POINTER :: SENSOR
 C=======================================================================
@@ -101,6 +101,25 @@ c
         END IF
 c         
         DEALLOCATE (RBUF)
+
+        TYP = SENSOR%TYPE
+        IF (TYP == 29 .OR. TYP == 30 .OR. TYP == 31)THEN
+
+            ALLOCATE(SENSOR%INTEGER_USERPARAM(NSENPARI))
+            ALLOCATE(SENSOR%FLOAT_USERPARAM(NSENPARR))
+
+            ALLOCATE(SENSOR%INTEGER_USERBUF(ISENBUF))
+            ALLOCATE(SENSOR%FLOAT_USERBUF(LSENBUF))
+
+            CALL READ_I_C(SENSOR%INTEGER_USERPARAM,NSENPARI)
+            CALL READ_I_C(SENSOR%INTEGER_USERBUF,ISENBUF)
+
+            CALL READ_DB (SENSOR%FLOAT_USERPARAM,NSENPARR)
+            CALL READ_DB (SENSOR%FLOAT_USERBUF,LSENBUF)
+
+        ENDIF
+
+
       END DO
 c
       DEALLOCATE (HEAD)

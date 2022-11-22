@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR
+      INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR,TYP
       my_real, DIMENSION(:), ALLOCATABLE :: RBUF
       TYPE (SENSOR_STR_) ,POINTER :: SENSOR
 C=======================================================================
@@ -96,6 +96,17 @@ c
         CALL WRITE_DB (RBUF,LEN)
         DEALLOCATE (RBUF)
 c
+        TYP = SENSOR%TYPE
+        IF (TYP==29.OR.TYP==30.OR.TYP==31)THEN
+          CALL WRITE_I_C(SENSOR%INTEGER_USERPARAM,NSENPARI)
+          CALL WRITE_I_C(SENSOR%INTEGER_USERBUF,ISENBUF)
+
+          CALL WRITE_DB (SENSOR%FLOAT_USERPARAM,NSENPARR)
+          CALL WRITE_DB (SENSOR%FLOAT_USERBUF,LSENBUF)
+
+        ENDIF
+
+
       END DO
 c-----------
       RETURN

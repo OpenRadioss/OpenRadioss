@@ -100,6 +100,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
+      INTEGER KSENS_CUR
+      INTEGER ISENBUF
+      INTEGER LSENBUF
+      INTEGER NSENPARI
+      INTEGER NSENPARR
+      INTEGER ISENPARI
+      INTEGER ISENPARR
+      PARAMETER (ISENBUF=20)
+      PARAMETER (LSENBUF=101)
+      PARAMETER (NSENPARI=12)
+      PARAMETER (NSENPARR=20)
+      PARAMETER (ISENPARI=3)
+      PARAMETER (ISENPARR=203)
+
       TYPE SENSOR_STR_
         INTEGER :: TYPE        !   sensor type 
         INTEGER :: SENS_ID     !   sensor ID
@@ -117,6 +131,10 @@ C-----------------------------------------------
         INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IPARAM  !  integer parameter array
         my_real ,DIMENSION(:) ,ALLOCATABLE :: RPARAM  !  real parameter array
         my_real ,DIMENSION(:) ,ALLOCATABLE :: VAR     !  internal variables array
+        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: INTEGER_USERBUF    !  Buffer to store integer variables
+        my_real ,DIMENSION(:) ,ALLOCATABLE :: FLOAT_USERBUF      !  Buffer to store user variables.
+        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: INTEGER_USERPARAM  !  Buffer to store integer variables
+        my_real ,DIMENSION(:) ,ALLOCATABLE :: FLOAT_USERPARAM    !  Buffer to store user variables.
       END TYPE SENSOR_STR_
 
 
@@ -134,3 +152,21 @@ C-----------------------------------------------
 c
 c--------------------------
       END MODULE SENSOR_MOD
+
+
+Chd|====================================================================
+Chd|  SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
+      MODULE SENSOR_VARIABLE_MOD
+C-----------------------------------------------
+         USE SENSOR_MOD
+C-----------------------------------------------
+C   m y _ r e a l
+C-----------------------------------------------
+#include      "my_real.inc"
+         TYPE (SENSOR_STR_)       ,DIMENSION(:) , ALLOCATABLE :: SENSOR_TAB       ! NSENSOR
+      END MODULE SENSOR_VARIABLE_MOD
+      
+

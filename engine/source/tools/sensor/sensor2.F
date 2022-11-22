@@ -51,7 +51,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
-#include      "scr_usens_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "userlib.inc"
@@ -225,7 +224,7 @@ C         USER SENSOR
 C--------------------------------
         ELSEIF (TYP>=29 .AND. TYP<=31) THEN
           IF (TYP == 29) THEN
-            NSENS  = LSENSOR(1,K)
+            NSENS  = SENSOR_TAB(K)%SENS_ID
             IF (USERL_AVAIL==1) THEN
               CALL ENG_USERLIB_USER_SENS(TYP,NSENS)
             ELSE
@@ -264,7 +263,7 @@ C--------------------------------
              ! ----------------
             ENDIF
           ENDIF
-          CALL USENS_SHIFT_BA(SENSOR(1,K))
+
         ENDIF
 c-----------------------------------------------------------------------
         IF (ACTI == 1) THEN

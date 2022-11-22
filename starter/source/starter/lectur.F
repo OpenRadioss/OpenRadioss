@@ -565,6 +565,7 @@ C-----------------------------------------------
       USE INIVOL_ARRAY_MOD
       USE INIVOL_INTERF_MOD
       USE SENSOR_MOD
+      USE SENSOR_VARIABLE_MOD
       USE RANDOM_MOD
       USE ALE_EBCS_MOD
       USE INVERTED_GROUP_MOD
@@ -1092,7 +1093,6 @@ c For /RANDOM --------------------------------------------------
         LOGICAL :: BOOL_ALE_TG
         INTEGER, DIMENSION(:), ALLOCATABLE :: INDX_S,INDX_Q,INDX_TG
         INTEGER, DIMENSION(:,:), ALLOCATABLE :: FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG
-      TYPE (SENSOR_STR_) ,DIMENSION(:), ALLOCATABLE :: SENSOR_TAB
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       INV_GROUP : structure ; connectivity ELEMENT -> PART
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
