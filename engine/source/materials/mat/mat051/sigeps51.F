@@ -120,7 +120,7 @@ C SIGVXX  | NEL     | F | W | VISCOUS STRESS XX
 C SIGVYY  | NEL     | F | W | VISCOUS STRESS YY
 C ...     |         |   |   |
 C SOUNDSP | NEL     | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
-C VISCMAX | NEL     | F | W | MAXIMUN DAMPING MODULUS(NEEDED FOR TIME STEP)
+C VISCMAX | NEL     | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
 C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY (see below)
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
@@ -317,7 +317,7 @@ C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C===============================================================================C
 C                                                                               C
-C     LAW51 : TRI MATERIAL LAW & OPTIONNAL HIGH EXPLOSIVE MATERIAL              C
+C     LAW51 : TRI MATERIAL LAW & OPTIONAL HIGH EXPLOSIVE MATERIAL               C
 C                                                                               C
 C      + SOLID, LIQUID, GAS, HE (IFLG==0.or.IFLG==1).and.(IEXP==0.or.IEXP==1)   C
 C      + INLET CONDITIONS (IFLG == 2)                                           C
@@ -334,7 +334,7 @@ C     |===========================================!
       VISA1  = UPARAM(1)  !1st global Viscosity coefficient : mu
       VISB1  = UPARAM(3)  !2nd vglobal iscosity coefficient : lambda    !VISB1 =(VISV1-2.VISA1)/3.
 
-      VISC1 = UPARAM(81) !law 6 paramter when law51 is defined from law6 (iform=12)
+      VISC1 = UPARAM(81) !law 6 parameter when law51 is defined from law6 (iform=12)
       VISC2 = UPARAM(82)
       VISC3 = UPARAM(83)
       VISC4 = UPARAM(84)
@@ -1490,7 +1490,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
               EINT(I)     = EIV(0,I)
               RHO(I)      = RHOV(0,I)
             ELSE
-              !IF(VEL_N(I)<=ZERO)P=P0_NRF-HALF*RHO(I)*VEL_N(I)**2 !Bernouilli
+              !IF(VEL_N(I)<=ZERO)P=P0_NRF-HALF*RHO(I)*VEL_N(I)**2 !Bernoulli
               ROC   =SQRT(RHO(I)*RHOC20)
               POLD  = -THIRD*(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))
               DP0   = (P0_NRF-P0_NRFv(I)) ! assuming rho0*g(t)*(z-zvois) = cst ; otherwise complicated: get g(t) and compute z-zvois
@@ -2907,7 +2907,7 @@ C=======================================================================
 C===========================================================C
 C  OUTPUT : UVAR(,) SUBMATERIAL OUTPUTS                     C
 C===========================================================C
-C     DC : supress this. Really dangerous, since modification of
+C     DC : suppress this. Really dangerous, since modification of
 C     volume should me followed by modification of density,
 C     energy and pressure ...
         !IF(V1 == ZERO.AND.MAS1 > ZERO)V1 = Tol51*VOLUME(I)

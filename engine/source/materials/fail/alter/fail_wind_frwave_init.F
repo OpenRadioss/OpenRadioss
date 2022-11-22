@@ -31,10 +31,10 @@ Chd|====================================================================
         USE RUPTURE_MOD
 !$COMMENT
 !       FAIL_WIND_FRWAVE_INIT description :
-!              FAIL_WIND_FRWAVE_INIT allocates and initializes the 
+!              FAIL_WIND_FRWAVE_INIT allocates and initializes the
 !              INDEX_OVER_50_CYCLES array
 !       FAIL_WIND_FRWAVE_INIT organization :
-!               - INDEX_OVER_50_CYCLES is allocated & initiliazed
+!               - INDEX_OVER_50_CYCLES is allocated & initialized
 !$ENDCOMMENT
 
 C-----------------------------------------------

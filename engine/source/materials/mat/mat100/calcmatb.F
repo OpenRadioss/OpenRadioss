@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C----------------------------------------------------------------
-C copute the left cauchy green MATB in 3 steps:
+C compute the left cauchy green MATB in 3 steps:
 C INVFPO = INVERSE (FP)
 C FE = F * INVFPO
 C MATB = FE * FET 

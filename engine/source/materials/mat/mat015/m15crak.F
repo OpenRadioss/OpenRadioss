@@ -140,11 +140,11 @@ C
           IF (SIG(I,1) > ZERO) THEN
 !   tensile fiber mode
             EF2=(SIG(I,1)/SIGT1(I))**2 + BETA(I)*(SIG(I,3)/SIGR12(I))**2
-            DAMT(I,1)=ONE ! obsolette (already initialized to 1)
+            DAMT(I,1)=ONE ! obsolete (already initialized to 1)
           ELSE
 !   compressive fiber mode
             EFC2 = (SIG(I,1)/SIGC1(I))**2
-            DAMT(I,1)=ONE ! obsolette (already initialized to 1)
+            DAMT(I,1)=ONE ! obsolete (already initialized to 1)
           ENDIF 
           IF (EF2 >= ONE .OR. EFC2 >= ONE) THEN
             DAMT(I,1) = ZEP9
@@ -167,13 +167,13 @@ C
             IF (SIG(I,2) >= ZERO) THEN
 !   tensile matrix mode
               EM22=(SIG(I,2)/SIGC2(I))**2 + (SIG(I,3)/SIGR12(I))**2 
-              DAMT(I,2)=ONE ! obsolette (already initialized to 1)
+              DAMT(I,2)=ONE ! obsolete (already initialized to 1)
             ELSE
 ! compressive matrix mode
               EMC2=(SIG(I,2)/(TWO*SIGR12(I)))**2 
      +            +(SIG(I,3)/SIGR12(I))**2 
      +            +SIG(I,2)*((SIGC2(I)/(TWO*SIGR12(I)))**2-ONE)/SIGC2(I)
-              DAMT(I,2)=ONE ! obsolette (already initialized to 1)
+              DAMT(I,2)=ONE ! obsolete (already initialized to 1)
             ENDIF
             IF (EM22 >= ONE .OR. EMC2 >= ONE) THEN
               DAMT(I,2) = ZEP9

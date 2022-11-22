@@ -90,7 +90,7 @@ C SIGNXX  | NEL    | F | W | NEW ELASTO PLASTIC STRESS XX
 C SIGNYY  | NEL    | F | W | NEW ELASTO PLASTIC STRESS YY
 C ...     |         |   |   |
 C SOUNDSP | NEL    | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
-C VISCMAX | NEL    | F | W | MAXIMUN DAMPING MODULUS(NEEDED FOR TIME STEP)
+C VISCMAX | NEL    | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
 C---------+---------+---+---+--------------------------------------------
 C THK     | NEL    | F |R/W| THICKNESS
 C PLA     | NEL    | F |R/W| PLASTIC STRAIN
@@ -920,7 +920,7 @@ c ...... Parameter d(gama)
 c ...... HK,HH---
          SIGNOR(I,4)=FISOKIN*H(I)
          SIGNOR(I,5)=(ONE-FISOKIN)*H(I)
-c ...... Deviatoric stresses shifted by midified back stress ->ksi
+c ...... Deviatoric stresses shifted by modified back stress ->ksi
          SIGNOR(I,1)=THIRD*(TWO*SIGNXX(I)-SIGNYY(I))
          SIGNOR(I,2)=THIRD*(TWO*SIGNYY(I)-SIGNXX(I))
          SIGNOR(I,3)=TWO*SIGNXY(I)

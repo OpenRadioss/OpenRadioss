@@ -144,7 +144,7 @@ C
         AV(I,5)=EPSYZ(I) * HALF
         AV(I,6)=EPSZX(I) * HALF
       ENDDO
-C         Eigenvalues needed to be calcultated in double precision
+C         Eigenvalues needed to be calculated in double precision
 C         for a simple precision executing
       IF (IRESP == 1) THEN
         CALL VALPVECDP_V(AV,EVV,DIRPRV,NEL)

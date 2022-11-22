@@ -64,7 +64,7 @@ C NPF     | *      | I | R | FUNCTION ARRAY
 C NPT0    | 1      | I | R | NUMBER OF LAYERS OR INTEGRATION POINTS
 C IPT     | 1      | I | R | LAYER OR INTEGRATION POINT NUMBER
 C TF      | *      | F | R | FUNCTION ARRAY
-C NGL     | NEL    | I | R | ELEMEMT NUMBER
+C NGL     | NEL    | I | R | ELEMENT NUMBER
 C---------+--------+---+---+-------------------------------------------
 C TIME    | 1      | F | R | CURRENT TIME
 C TIMESTEP| 1      | F | R | CURRENT TIME STEP
@@ -121,7 +121,7 @@ C-----------------------------------------------
 C Ex : ELEMENT IS OFF number if IPs due to Cockroft-Latham criteria reached P_thick
 C-----------------------------------------------
 C!      UVAR(I,1) contains previous equivalent strain value increment
-C!      UVAR(I,2) contains the Cockroft-Latham acumulated value
+C!      UVAR(I,2) contains the Cockroft-Latham accumulated value
 c!      UVAR(I,3) contains the previous first principal stress
        C0                  = UPARAM(1)
        EMA                 = UPARAM(2)

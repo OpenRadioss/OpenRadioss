@@ -743,8 +743,8 @@ C
  120    CONTINUE
       ELSEIF(JYEILD == JLT) THEN
 C------------------------------------------------------------
-C MODIFID TSIA HILL CRITERIA        
-C ----------------------------------------------------------
+C MODIFIED TSIA HILL CRITERIA
+C -----------------------------------------------------------
         DO I=JFT,JLT
            WVEC(I)= F11(I)*T1(I)*T1(I) + F22(I)*T2(I)*T2(I) +
      .              F33(I)*T3(I)*T3(I) + F12(I)*T1(I)*T2(I)
@@ -814,8 +814,8 @@ C
       
       ELSE
 C------------------------------------------------------------
-C MODIFID TSIA HILL CRITERIA     OR TSAI-WU CRITERIA   
-C ----------------------------------------------------------        
+C MODIFIED TSIA HILL CRITERIA     OR TSAI-WU CRITERIA
+C -----------------------------------------------------------
         DO I=JFT,JLT
           IF(IYEILD(I) > 0) THEN
              WVEC(I)= F11(I)*T1(I)*T1(I) + F22(I)*T2(I)*T2(I)+

@@ -73,8 +73,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NOD1,NOD2,N1,N2,NS,NPARIS,NPARRS,NVAR,SENS_TYPE,P
-      my_real :: TDEL,DMIN,DMAX
+      INTEGER :: NOD1,NOD2,N1,N2,NS,NPARIS,NPARRS,NVAR,SENS_TYPE,DFLAG,P
+      my_real :: TDEL,TMIN,DMIN,DMAX
       CHARACTER MESS*40
       LOGICAL :: IS_AVAILABLE
       DATA MESS/'SENSOR DEFINITION                       '/
@@ -95,6 +95,8 @@ card2
       CALL HM_GET_INTV  ('N2'     ,NOD2  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('Dmin'   ,DMIN  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Dmax'   ,DMAX  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('Tmin'   ,TMIN  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_INTV  ('Dflag'  ,DFLAG ,IS_AVAILABLE,LSUBMODEL)
 c--------------------------------------------------
 c     Check input data
 c--------------------------------------------------
@@ -107,17 +109,18 @@ c--------------------------------------------------
         CALL IFRONTPLUS(N2,P)
       ENDDO
 c--------------------------------------------------
-c
+c     Sensor structure
+c--------------------------------------------------
       SENSOR_PTR%TYPE    = SENS_TYPE
       SENSOR_PTR%SENS_ID = SENS_ID
       SENSOR_PTR%STATUS  = 0            ! status = deactivated
       SENSOR_PTR%TSTART  = INFINITY     ! activation time
       SENSOR_PTR%TCRIT   = INFINITY
-      SENSOR_PTR%TMIN    = ZERO         ! TMIN global
+      SENSOR_PTR%TMIN    = TMIN
       SENSOR_PTR%TDELAY  = TDEL         ! time delay before activation
-      SENSOR_PTR%VALUE   = ZERO
+      SENSOR_PTR%VALUE   = INFINITY
 
-      NPARIS = 2
+      NPARIS = 3
       NPARRS = 2
       NVAR   = 0 
 c
@@ -132,11 +135,12 @@ c
 
       SENSOR_PTR%IPARAM(1) = N1
       SENSOR_PTR%IPARAM(2) = N2
+      SENSOR_PTR%IPARAM(3) = DFLAG
       SENSOR_PTR%RPARAM(1) = DMIN
       SENSOR_PTR%RPARAM(2) = DMAX
 c------------------------------------------------------------
       WRITE(IOUT, 1000) SENS_ID,TDEL
-      WRITE(IOUT, 2000) NOD1,NOD2,DMIN,DMAX
+      WRITE(IOUT, 2000) NOD1,NOD2,DFLAG,DMIN,DMAX,TMIN
 c------------------------------------------------------------
  1000 FORMAT(
      . 5X,'    SENSOR TYPE 2: RELATIVE NODE DISTANCE  '/,
@@ -146,8 +150,10 @@ c------------------------------------------------------------
  2000 FORMAT(
      . 5X,'   NODE 1 ID . . . . . . . . . . . . . . .=',I10/
      . 5X,'   NODE 2 ID . . . . . . . . . . . . . . .=',I10/
+     . 5X,'   DEACTIVATION FLAG . . . . . . . . . . .=',I10/
      . 5X,'   MINIMAL DISPLACEMENT. . . . . . . . . .=',E12.4/
-     . 5X,'   MAXIMAL DISPLACEMENT. . . . . . . . . .=',E12.4/)
+     . 5X,'   MAXIMAL DISPLACEMENT. . . . . . . . . .=',E12.4/
+     . 5X,'   MIN TIME DURATION TO ACTIVATE . . . . .=',E12.4/)
 c-----------
       RETURN
       END

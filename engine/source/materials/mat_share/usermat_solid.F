@@ -1465,7 +1465,7 @@ c  --- Biquadratic failure model
      5        DPLA     ,EPSP1    ,TSTAR    ,UVARF    ,OFF,IP   ,
      6        DFMAX    ,TDEL     ,EL_LEN   )    
           ELSEIF (IRUPT == 33) THEN                                
-c  --- Mullins Ogden-Roxburgh dammage model                                  
+c  --- Mullins Ogden-Roxburgh damage model                                  
               CALL FAIL_MULLINS_OR_S(
      1        LLT      ,NPAR     ,NVARF    ,NPF      ,TF       ,
      2        TT       ,DT1      ,UPARAMF,NGL , 
