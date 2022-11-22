@@ -73,7 +73,7 @@ Chd|====================================================================
      6            FINT      ,FEXT        ,FOPT       ,ANIN      ,LPBY     ,         
      7            NPBY      ,NSTRF       ,RWBUF      ,NPRW      ,IXUR     ,         
      8            TANI      ,INOISE      ,BUFNOIS    ,RBY       ,NEFLSW   ,         
-     9            NNFLSW    ,CRFLSW      ,FLSW       ,LOUT      ,                   
+     9            NNFLSW    ,CRFLSW      ,FLSW       ,LOUT      ,                
      B            FSAV      ,SKEW        ,ELBUF_TAB  ,CLUSTER   ,                   
      C            VR        ,IN          ,WEIGHT     ,FCLUSTER  ,MCLUSTER ,         
      D            DD_IAD    ,DMAS        ,DINER      ,ACCELM    ,GAUGE,             
@@ -933,7 +933,7 @@ C         to avoid double points
             ENDIF
             ITHFLAG = 1
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                 IXS  ,ELBUF,WA(N2),IPARG,
+     2                 IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,                                 
      5                 PARTSAV,ACCELM,LOUT ,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
@@ -963,7 +963,7 @@ C         to avoid double points
             IFILABF = 12
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,                               
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB,                               
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  ITHGRPA,ITHBUFA,SUBSET,GEO  ,
@@ -1026,7 +1026,7 @@ C
             ENDIF
             ITHFLAG = 2
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                 IXS  ,ELBUF,WA(N2),IPARG,
+     2                 IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                 PARTSAV,ACCELM,LOUT ,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
@@ -1053,7 +1053,7 @@ C
             IFILABF = 13
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  ITHGRPB,ITHBUFB,SUBSET,GEO  ,
@@ -1118,7 +1118,7 @@ C
             ENDIF
             ITHFLAG = 3
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                 IXS  ,ELBUF,WA(N2),IPARG,
+     2                 IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                 PARTSAV,ACCELM,LOUT ,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
@@ -1146,7 +1146,7 @@ C
             IFILABF = 14
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  ITHGRPA,ITHBUFA,SUBSET,GEO  ,
@@ -1207,7 +1207,7 @@ C
             ENDIF
             ITHFLAG = 4
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                 IXS  ,ELBUF,WA(N2),IPARG,
+     2                 IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                 PARTSAV,ACCELM,LOUT ,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
@@ -1236,7 +1236,7 @@ C
             IFILABF = 15
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  ITHGRPA,ITHBUFA,SUBSET,GEO  ,
@@ -1296,7 +1296,7 @@ C
             ENDIF
             ITHFLAG = 5
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                IXS  ,ELBUF,WA(N2),IPARG,
+     2                IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,LOUT ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
@@ -1324,7 +1324,7 @@ C
             IFILABF = 16
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  ITHGRPA,ITHBUFA,SUBSET,GEO  ,
@@ -1384,7 +1384,7 @@ C
             ENDIF
             ITHFLAG = 6
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                IXS  ,ELBUF,WA(N2),IPARG,
+     2                IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,LOUT ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
@@ -1413,7 +1413,7 @@ C
             IFILABF = 17
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  ITHGRPA,ITHBUFA,SUBSET,GEO  ,
@@ -1474,7 +1474,7 @@ C
              ENDIF
             ITHFLAG = 7
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                IXS  ,ELBUF,WA(N2),IPARG,
+     2                IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,LOUT ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
@@ -1502,7 +1502,7 @@ C
             IFILABF = 18
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  ITHGRPA,ITHBUFA,SUBSET,GEO  ,
@@ -1563,7 +1563,7 @@ C
             ENDIF
             ITHFLAG = 8
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                IXS  ,ELBUF,WA(N2),IPARG,
+     2                IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,LOUT ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
@@ -1591,7 +1591,7 @@ C
             IFILABF = 19
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  ITHGRPA,ITHBUFA,SUBSET,GEO  ,
@@ -1651,7 +1651,7 @@ C
             ENDIF
             ITHFLAG = 9
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                IXS  ,ELBUF,WA(N2),IPARG,
+     2                IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,LOUT ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
@@ -1678,7 +1678,7 @@ C
             IFILABF = 20
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  ITHGRPI,ITHBUFI,SUBSET,GEO  ,
@@ -1737,7 +1737,7 @@ C
         ENDIF
         ITHFLAG = 10
         CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                IXS  ,ELBUF,WA(N2),IPARG,
+     2                IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,LOUT ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
@@ -1766,7 +1766,7 @@ C
           IFILABF = 11
           CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                IXS  ,ELBUF,WA(N2),IPARG,
-     4                FSAV ,FLSW ,SKEW,ELBUF_TAB,
+     4                FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                PARTSAV,ACCELM,LOUT ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                ITHGRP,ITHBUF,SUBSET,GEO  ,
