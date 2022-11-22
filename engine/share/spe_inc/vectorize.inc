@@ -42,12 +42,17 @@ CDIR$ IVDEP
 !$OMP SIMD
 #else
 
+#ifdef COMP_AOCC
+!$OMP SIMD
+#else
+
 #ifdef COMP_ARMFLANG
 !DIR$ IVDEP
 #else
 !DIR$ IVDEP
 #endif
 
+#endif
 #endif
 
 #elif 1

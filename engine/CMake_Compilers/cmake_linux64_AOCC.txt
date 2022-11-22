@@ -10,7 +10,7 @@
 
 # General machine flag setting
 set ( cppmach "-DCPP_mach=CPP_p4linux964" ) 
-set ( cpprel  "-DCPP_rel=80" )
+set ( cpprel  "-DCPP_rel=96" )
 
 
 # MPI
@@ -62,7 +62,7 @@ set ( RELNAME ${arch}${mpi_suf}  )
 set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
 
 #Lapack
-set (lapack_lib "${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/liblapack.a ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/librefblas.a  ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/libtmglib.a")
+set (lapack_lib "${source_directory}/../extlib/lapack-3.10.0/lib_linux64_AOCC/liblapack.a ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_AOCC/libblas.a  ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/libtmglib.a")
 
 #
 # compiler Flags
@@ -91,11 +91,7 @@ if ( NOT DEFINED WITH_LINEAR_ALGEBRA)
 set ( wo_linalg "-DWITHOUT_LINALG" )
 endif()
 
-if ( CMAKE_C_COMPILER_VERSION VERSION_GREATER 10) 
-set( portability " -fallow-argument-mismatch -g  -fallow-invalid-boz -std=legacy")
-endif()
-
-set ( opt_flag "  ${wo_linalg} -DCOMP_GFORTRAN=1 -ffp-contract=off -frounding-math -fopenmp -fno-unsafe-math-optimizations -fno-fast-math ${portability}" )
+set ( opt_flag "  ${wo_linalg} -DCOMP_AOCC -ffp-contract=off -frounding-math -fopenmp -fno-unsafe-math-optimizations -fno-fast-math -Wno-null-conversion" )
 
 if ( sanitize STREQUAL "1" )
 set( FSANITIZE "-fsanitize=address -DSANITIZE") 
@@ -117,14 +113,13 @@ else ()
 
 # Fortran
 
-
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -O3 ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -Mextend ${mpi_flag} ${ADF} " )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -O3  ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -Mextend ${mpi_flag} ${ADF} " )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -O2 ${h3d_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -O3 ${h3d_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " -O2 ${h3d_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -std=c++11  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " -O3  ${h3d_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -std=c++11  " )
 
 endif()
 

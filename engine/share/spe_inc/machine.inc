@@ -77,6 +77,9 @@ C
 #elif CPP_rel == 40
       CPUNAM='linux64 bmpi'
       ARCHTITLE='Linux 64 bits, Intel compiler, OpenMPI'
+#elif CPP_rel == 96
+      CPUNAM='linux64 AMD'
+      ARCHTITLE='Linux 64 bits, AMD AOCC compiler'
 #elif CPP_rel == 70
 #if defined(MPI)
         CPUNAM='linuxa64 ompi'

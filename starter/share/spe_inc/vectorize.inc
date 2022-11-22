@@ -38,7 +38,11 @@ C$pragma SUN pipeloop=0
 CDIR$ IVDEP
 #elif CPP_mach == CPP_p4linux964 || CPP_mach == p4win64
 
-#ifdef COMP_GFORTRAN
+#ifdef COMP_GFORTRAN 
+!$OMP SIMD
+#else
+
+#ifdef COMP_AOCC 
 !$OMP SIMD
 #else
 
@@ -48,6 +52,7 @@ CDIR$ IVDEP
 !DIR$ IVDEP
 #endif
 
+#endif
 #endif
 
 #elif 1
