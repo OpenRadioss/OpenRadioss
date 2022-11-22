@@ -1251,6 +1251,11 @@ C--------------------------------------
              CALL WRITE_DB(FCONT_MAX, 3*NUMNOD)
          ENDIF
         ENDIF
+
+        IF(H3D_DATA%N_VECT_PCONT_MAX >0)THEN
+          CALL WRITE_DB(FNCONT_MAX, 3*SPCONT_MAX)
+          CALL WRITE_DB(FTCONT_MAX, 3*SPCONT_MAX)
+        ENDIF
 C--------------------------------------
 C  Interface friction buffer (integer )
 C--------------------------------------

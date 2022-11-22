@@ -4061,9 +4061,10 @@ C--------------------------------------------------------
 
         IF(NSPMD>1)THEN
 C
-           IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0.AND.
+           IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0.AND.
      .      (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
-     .      (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN        ! comm a faire avant appel i7fcom
+     .      (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
+     .      .OR.H3D_DATA%N_VECT_PCONT_MAX >0)THEN        ! comm a faire avant appel i7fcom
             CALL SPMD_EXCH_PRESS( 
      1        IPARI          ,INTLIST ,NBINTC  ,FANI(1,NFNCA+1),
      2        FANI(1,NFTCA+1),ISLEN7 ,IRLEN7  ,IRLEN7T ,ISLEN7T        ,
@@ -4872,6 +4873,7 @@ C
 C
           LENC = 0
           IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) LENC = 3
+          IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) LENC = LENC+6
 C
           LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
           IF(IDTMINS /= 0)THEN
@@ -4881,14 +4883,16 @@ C
      2       IAD_ELEM,FR_ELEM,MSNF ,IFSUBM,SIZE ,
      3       LENR    ,FTHE , MCP,FR_LOC,NB_FR   ,
      4       MS_2D ,MCP_OFF,FORNEQS ,NFACNIT    ,
-     5       LENC ,FANI ,H3D_DATA)
+     5       LENC ,FANI ,H3D_DATA,FANI(1,NFNCA+1),
+     6       FANI(1,NFTCA+1))
           ELSE 
             CALL SPMD_EXCH_A(
      1       A       ,AR     ,STIFN,STIFR ,MS   ,
      2       IAD_ELEM,FR_ELEM,MSNF ,IFSUBM,SIZE ,
      3       LENR    ,FTHE , MCP, DMSPH,CONDN, 
      4       MS_2D,MCP_OFF,
-     5       FORNEQS ,NFACNIT,LENC ,FANI ,H3D_DATA)
+     5       FORNEQS ,NFACNIT,LENC ,FANI ,H3D_DATA,
+     6       FANI(1,NFNCA+1) ,FANI(1,NFTCA+1))
 
           ENDIF
 C
@@ -4936,7 +4940,8 @@ C
           ENDIF
 C
           LENC = 0
-          IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) LENC = LENI
+          IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) LENC = 3*LENI
+          IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) LENC = LENC+6*LENI
 
           CALL SPMD_EXCH2_A_PON(
      1     IAD_ELEM    ,FR_ELEM   ,ADSKY   ,PROCNE    ,FR_NBCC     ,
@@ -4946,8 +4951,8 @@ C
      5     FR_NBCC1    ,IADSDP_PXFEM,IADRCP_PXFEM     ,ISENDP_PXFEM,
      6     IRECVP_PXFEM,LENR1     ,LENS1   ,IADSDP_CRK,IADRCP_CRK  ,
      7     ISENDP_CRK  ,IRECVP_CRK,FSKYD   ,CRKNODIAD ,CRKSKY      ,
-     8     FORNEQSKY,NFACNIT  ,LENC        ,
-     9     FANI        ,H3D_DATA  )
+     8     FORNEQSKY   ,NFACNIT  ,LENC     , FANI     ,H3D_DATA    ,
+     9     FANI(1,NFNCA+1) ,FANI(1,NFTCA+1))
 C
         ENDIF
         IF (IMON>0) CALL STOPTIME(10,1)
@@ -8427,7 +8432,7 @@ C Regular animation
      p   KNOTLOCPC     ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6     ,IRUNN_BIS     ,
      q   TF            ,NPC            ,IPART_DYNAIN   ,FCONT_MAX      ,MDS_MATID     ,
      r   FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP         ,LLOADP        ,
-     s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           )
+     s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ) 
 C
         IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
           CALL SORTIE_ERROR(

@@ -138,6 +138,7 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE SENSOR_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE OUTMAX_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -353,14 +354,15 @@ C       Compute contact pressures from normal + tangential contact forces.
 C       Tied Contact : Inter type2
 C----------------------
       IFLAG_ANIPCONT = 0
-      IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT /=0.OR.
+      IF(((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT /=0.OR.
      .   ANIM_V(27)+H3D_DATA%N_VECT_PCONT2 /=0.)
      .    .AND.
      .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
      .  MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .  MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
      .  MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15.OR.
-     .  H3D_DATA%MH3D/=0))THEN
+     .  H3D_DATA%MH3D/=0))
+     .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
         IF(NINTSTAMP==0)THEN
           CALL ANI_PCONT(IXS ,IXC    ,IXTG    ,FASOLFR  ,X      ,
      .               FNCONT  ,FTCONT,IAD_ELEM ,FR_ELEM  ,WEIGHT ,
@@ -375,11 +377,15 @@ C----------------------
         END IF
       END IF
 
-C------------------------------------------
-C       Compute maximum contact FCONT_MAX
-C------------------------------------------
+C------------------------------------------------------
+C       Compute maximum contact force and pressure
+C----------------------------------------------------
       IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0) THEN
          CALL FCONT_MAX_OUTPUT(CONT,FCONTG,NODGLOB,FCONT_MAX,WEIGHT)
+      ENDIF 
+      IF(H3D_DATA%N_VECT_PCONT_MAX /=0) THEN
+         CALL FCONT_MAX_OUTPUT(FNCONT,FNCONTG,NODGLOB,FNCONT_MAX,WEIGHT)
+         CALL FCONT_MAX_OUTPUT(FTCONT,FTCONTG,NODGLOB,FTCONT_MAX,WEIGHT)
       ENDIF 
 
 C-----------------------------------------------

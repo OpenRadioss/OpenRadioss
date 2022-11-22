@@ -32,7 +32,8 @@ Chd|====================================================================
      2   IAD_ELEM ,FR_ELEM,MSNF ,IFSUBM,SIZE,
      3   LENR     ,FTHE   ,MCP  ,FR_LOC,NB_FR,
      4   MS_2D    , MCP_OFF,FORNEQS,NFACNIT  ,
-     5   LENC     ,FCONT   ,H3D_DATA)
+     5   LENC     ,FCONT   ,H3D_DATA,FNCONT  ,
+     6   FTCONT)
 C--------------------------------------
       USE H3D_MOD
 C-----------------------------------------------
@@ -63,8 +64,9 @@ C-----------------------------------------------
      .        NFACNIT,LENC
       my_real
      .        A(3,*),AR(3,*),STIFN(*),STIFR(*),MS(*),MSNF(*),
-     .        FTHE(*),MCP(*),MCP_OFF(*),MS_2D(*),FORNEQS(3,*),
-     .        FCONT(3,*)
+     .        FTHE(*),MCP(*),MCP_OFF(*),MS_2D(*),FORNEQS(3,*)
+      my_real  , INTENT(INOUT) :: FCONT(3,NUMNOD),FNCONT(3,NUMNOD),
+     .        FTCONT(3,NUMNOD)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -165,6 +167,17 @@ C --- /CONT/MAX output
             SBUF(SHIFT+2) = FCONT(2,NOD)
             SBUF(SHIFT+3) = FCONT(3,NOD)
             SHIFT = SHIFT+3
+          ENDIF
+
+C --- /PCONT/MAX output
+          IF(ANIM_V(26)+H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) THEN
+            SBUF(SHIFT+1) = FNCONT(1,NOD)
+            SBUF(SHIFT+2) = FNCONT(2,NOD)
+            SBUF(SHIFT+3) = FNCONT(3,NOD)
+            SBUF(SHIFT+4) = FTCONT(1,NOD)
+            SBUF(SHIFT+5) = FTCONT(2,NOD)
+            SBUF(SHIFT+6) = FTCONT(3,NOD)
+            SHIFT = SHIFT+6
           ENDIF
 
           L = L + SIZE + NFACNIT +LENC
@@ -275,6 +288,21 @@ C SAUVEGARGE VALEURS ACCEL
             SHIFT = SHIFT+3
           ENDIF
 
+         IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) THEN
+            SAV_A(SHIFT+1,J) = FNCONT(1,NOD)
+            SAV_A(SHIFT+2,J) = FNCONT(2,NOD)
+            SAV_A(SHIFT+3,J) = FNCONT(3,NOD)
+            SAV_A(SHIFT+4,J) = FTCONT(1,NOD)
+            SAV_A(SHIFT+5,J) = FTCONT(2,NOD)
+            SAV_A(SHIFT+6,J) = FTCONT(3,NOD)
+
+            FNCONT(1,NOD) = ZERO
+            FNCONT(2,NOD) = ZERO
+            FNCONT(3,NOD) = ZERO
+
+            SHIFT = SHIFT+6
+          ENDIF
+
         ENDDO
 
 
@@ -347,6 +375,16 @@ Cel test si msg necessaire a envoyer a completer par test interface
                  SHIFT = SHIFT+3
                ENDIF
 
+               IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) THEN
+                 FNCONT(1,NOD)= FNCONT(1,NOD)+ RBUF(SHIFT+1)
+                 FNCONT(2,NOD)= FNCONT(2,NOD)+ RBUF(SHIFT+2)
+                 FNCONT(3,NOD)= FNCONT(3,NOD)+ RBUF(SHIFT+3)
+                 FTCONT(1,NOD)= FTCONT(1,NOD)+ RBUF(SHIFT+4)
+                 FTCONT(2,NOD)= FTCONT(2,NOD)+ RBUF(SHIFT+5)
+                 FTCONT(3,NOD)= FTCONT(3,NOD)+ RBUF(SHIFT+6)
+                 SHIFT = SHIFT+6
+               ENDIF
+
                L = L + SIZE +NFACNIT +LENC
             END DO
          ENDIF
@@ -408,6 +446,16 @@ C --- /CONT/MAX output
              FCONT(3,NOD) = FCONT(3,NOD) + SAV_A(SHIFT+3,J)
              SHIFT = SHIFT+3
            ENDIF
+
+           IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) THEN
+              FNCONT(1,NOD)= FNCONT(1,NOD)+ SAV_A(SHIFT+1,J)
+              FNCONT(2,NOD)= FNCONT(2,NOD)+ SAV_A(SHIFT+2,J)
+              FNCONT(3,NOD)= FNCONT(3,NOD)+ SAV_A(SHIFT+3,J)
+              FTCONT(1,NOD)= FTCONT(1,NOD)+ SAV_A(SHIFT+4,J)
+              FTCONT(2,NOD)= FTCONT(2,NOD)+ SAV_A(SHIFT+5,J)
+              FTCONT(3,NOD)= FTCONT(3,NOD)+ SAV_A(SHIFT+6,J)
+              SHIFT = SHIFT+6
+            ENDIF
 
          END DO
        ENDIF
