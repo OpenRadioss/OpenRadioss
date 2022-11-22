@@ -94,7 +94,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr_usens_c.inc"
 #include      "units_c.inc"
 #include      "sysunit.inc"
 #include      "submod_c.inc"
@@ -254,8 +253,11 @@ c
      .           UNITAB      ,LSUBMODEL  )   
 c
           CASE ('USER1' ,'USER2','USER3')
+
             SENSOR_PTR%TSTART = INFINITY
-            CALL READ_SENSOR_USER(LSENSOR   ,SENSOR    ,HM_NSENS,ISEN    ,TITR,
+
+            CALL READ_SENSOR_USER( HM_NSENS,ISEN    ,TITR,
+
      .           UNITAB    ,LSUBMODEL       ,KEY       ,UNIT_ID ,SENS_ID ,
      .           SENSOR_PTR)
             SENSOR_PTR%SENS_ID = SENS_ID

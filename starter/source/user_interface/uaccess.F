@@ -20,6 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+
+Chd|====================================================================
+Chd| Functions returning my_real needs this include
+#include      "my_real.inc"
+Chd|====================================================================
+
 Chd|====================================================================
 Chd|  ST_UACCESS_DUM                source/user_interface/uaccess.F
 Chd|-- called by -----------
@@ -58,20 +64,28 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       INTEGER FUNCTION SET_U_GEO(IVAR,A)
-      USE MESSAGE_MOD
-#include      "implicit_f.inc"
-C
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
+C   M o d u l e s
+C-----------------------------------------------  
+      USE MESSAGE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr19_c.inc"
 #include      "scr17_c.inc"
 #include      "units_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
       INTEGER IVAR
       my_real
      .      A
-C
+C-----------------------------------------------
       IF(IVAR>BGEOSIZE)THEN
          CALL ANCMSG(MSGID=374,
      .               MSGTYPE=MSGERROR,
@@ -113,21 +127,33 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       INTEGER FUNCTION SET_U_PNU(IVAR,IP,K)
-      USE MESSAGE_MOD
-#include      "implicit_f.inc"
-C
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
+C   M o d u l e s
+C-----------------------------------------------  
+      USE MESSAGE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr19_c.inc"
 #include      "units_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IVAR,IP,K
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
       INTEGER KFUNC,KMAT,KPID,KTAB
       PARAMETER (KFUNC=29)
       PARAMETER (KMAT=31)
       PARAMETER (KPID=33)
       PARAMETER (KTAB=37)
-      INTEGER IVAR,IP,K
+C-----------------------------------------------
 C
       IF(K==KPID)THEN
         IF(IVAR>MAXPID)THEN
@@ -201,19 +227,29 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        GET_U_MAT                     source/user_interface/uaccess.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      my_real FUNCTION
-     .      GET_U_MAT(IVAR,IM)
-      USE MESSAGE_MOD
-#include      "implicit_f.inc"
-C
+      my_real FUNCTION GET_U_MAT(IVAR,IM)
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
+C   M o d u l e s
+C-----------------------------------------------  
+      USE MESSAGE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "r4r8_p.inc"
 #include      "scr05_c.inc"
-      INTEGER IVAR,IM,NVAR,DEPLA,IADBUF
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IVAR,IM
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER NVAR,DEPLA,IADBUF
 C=======================================================================
 C
       DEPLA = 9+(IM-1)*NPROPMI
@@ -278,25 +314,32 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        GET_U_GEO                     source/user_interface/uaccess.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      my_real FUNCTION
-     .      GET_U_GEO(IVAR,IP)
-      USE MESSAGE_MOD
-#include      "implicit_f.inc"
-C
+      my_real FUNCTION GET_U_GEO(IVAR,IP)
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
+C   M o d u l e s
+C-----------------------------------------------  
+      USE MESSAGE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "r4r8_p.inc"
-C
 #include      "scr05_c.inc"
-C
-      INTEGER IVAR,IP,NVAR,DEPLA
-      my_real
-     .      NV
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IVAR,IP
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER NVAR,DEPLA
+      my_real NV
       DOUBLE PRECISION NV2
-C
+C-----------------------------------------------
       DEPLA = 26+(IP-1)*NPROPG
       IF (IRESP==1) THEN
          CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
@@ -343,21 +386,32 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       INTEGER FUNCTION RESET_U_GEO(IVAR,IP,A)
-      USE MESSAGE_MOD
-#include      "implicit_f.inc"
-C
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
+C   M o d u l e s
+C-----------------------------------------------  
+      USE MESSAGE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "r4r8_p.inc"
-C
 #include      "scr05_c.inc"
-      INTEGER IVAR,IP,NVAR,IER,DEPLA
-      my_real
-     .      A,NV
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IVAR,IP
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER NVAR,IER,DEPLA
+      my_real A,NV
       DOUBLE PRECISION A2
+C-----------------------------------------------
 C
       IER = 0
 C
@@ -412,22 +466,32 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       INTEGER FUNCTION GET_U_PNU(IVAR,IP,K)
-      USE MESSAGE_MOD
-#include      "implicit_f.inc"
-C
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
+C   M o d u l e s
+C-----------------------------------------------  
+      USE MESSAGE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "r4r8_p.inc"
-C
 #include      "scr05_c.inc"
-      INTEGER IVAR,IP,K,NVAR,DEPLA
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IVAR,IP,K
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER NVAR,DEPLA
       DOUBLE PRECISION NV2
-      my_real
-     .      NV
-C
+      my_real NV
+C-----------------------------------------------
       DEPLA = K-1+(IP-1)*NPROPG
       IF (IRESP==1) THEN
          CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
@@ -476,15 +540,29 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       INTEGER FUNCTION GET_U_MNU(IVAR,IM,K)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
       USE MESSAGE_MOD
-C------------------------------------------
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
 #include      "implicit_f.inc"
+C------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "r4r8_p.inc"
 #include      "scr05_c.inc"
-C------------------------------------------
-      INTEGER IVAR,IM,K,KFUNC,DEPLA,NFUNC
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IVAR,IM,K
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER KFUNC,DEPLA,NFUNC
       PARAMETER (KFUNC=29)
 C=======================================================================
 C
@@ -517,13 +595,24 @@ Chd|        GET_U_P                       source/user_interface/uaccess.F
 Chd|-- calls ---------------
 Chd|====================================================================
       INTEGER FUNCTION GET_U_PID(IP)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "param_c.inc"
 #include      "r4r8_p.inc"
-C
 #include      "scr05_c.inc"
-C
-      INTEGER IP,DEPLA,NV
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IP
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER DEPLA,NV
 C---------------------------------------------------------------
 C
       DEPLA = 1+(IP-1)*NPROPGI
@@ -540,12 +629,22 @@ Chd|        GET_U_M                       source/user_interface/uaccess.F
 Chd|-- calls ---------------
 Chd|====================================================================
       INTEGER FUNCTION GET_U_MID(IM)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "param_c.inc"
-#include      "r4r8_p.inc"
-C
-#include      "scr05_c.inc"
-      INTEGER IM,DEPLA,MID
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IM
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER DEPLA,MID
 C-------------------------------------------------
       DEPLA = 1+(IM-1)*NPROPMI
       CALL GET_VAR_USER_I(11,DEPLA,MID)
@@ -564,63 +663,23 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
-#include      "scr05_c.inc"
-      INTEGER IFUNC,I,NPFI,NPFIP
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IFUNC   
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,NPFI,NPFIP
+C-----------------------------------------------
       CALL GET_VAR_USER_I(5,IFUNC,NPFI)
       CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
       GET_U_FUNC_N=(NPFIP-NPFI)/2
       RETURN
       END
-#include "my_real.inc"
-Chd|====================================================================
-Chd|  GET_U_FUNC_X                  source/user_interface/uaccess.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
-*      my_real FUNCTION GET_U_FUNC_X(IFUNC,N)
-*      USE MESSAGE_MOD
-*C-----------------------------------------------
-*C   I m p l i c i t   T y p e s
-*C-----------------------------------------------
-*#include      "implicit_f.inc"
-*#include      "r4r8_p.inc"
-*#include      "scr05_c.inc"
-*#include      "scr17_c.inc"
-*      INTEGER IFUNC,I,NPFI,NPFIP,N,NMAX
-*      my_real
-*     .    XX
-*      INTEGER GET_U_NUMFUN
-*      EXTERNAL GET_U_NUMFUN
-*      CALL GET_VAR_USER_I(5,IFUNC,NPFI)
-*      CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
-*      NMAX=(NPFIP-NPFI)/2
-*      I=NPFI+(N-1)*2
-*      IF (N>NMAX.OR.N<=0) THEN
-*        MSGIDOPT=NOM_OPT(1,INOM_OPT(20)+IFUNC)
-*        CALL FRETITL2(MSGTITROPT,
-*     .                NOM_OPT(LNOPT1-LTITR+1,INOM_OPT(20)+IFUNC),LTITR)
-*        CALL ANCMSG(MSGID=841,
-*     .              MSGTYPE=MSGERROR,
-*     .              ANMODE=ANINFO_BLIND_2,
-*     .              I1=MSGIDOPT,
-*     .              C1=MSGTITROPT,
-*     .              C2='X',
-*     .              I2=N,
-*     .              I3=NMAX)
-*      END IF
-*      IF (IRESP==1) THEN
-*          CALL GET_VAR_USER_F_SP(6,I,XX)
-*      ELSE
-*          CALL GET_VAR_USER_F(6,I,XX)
-*      ENDIF
-*      GET_U_FUNC_X=XX
-*      RETURN
-*      END
-#include "my_real.inc"
 Chd|====================================================================
 Chd|  GET_U_FUNC_Y                  source/user_interface/uaccess.F
 Chd|-- called by -----------
@@ -629,18 +688,32 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       my_real FUNCTION GET_U_FUNC_Y(IFUNC,N)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "r4r8_p.inc"
 #include      "scr05_c.inc"
-      INTEGER IFUNC,I,NPFI,NPFIP,N,NMAX
-      my_real
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IFUNC,N
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,NPFI,NPFIP,NMAX
+       my_real
      .    YY
       INTEGER GET_U_NUMFUN
       EXTERNAL GET_U_NUMFUN
+C-----------------------------------------------
       CALL GET_VAR_USER_I(5,IFUNC,NPFI)
       CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
       NMAX=(NPFIP-NPFI)/2
@@ -661,7 +734,6 @@ C-----------------------------------------------
       GET_U_FUNC_Y=YY
       RETURN
       END
-#include "my_real.inc"
 Chd|====================================================================
 Chd|  GET_U_FUNC                    source/user_interface/uaccess.F
 Chd|-- called by -----------
@@ -676,11 +748,24 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "r4r8_p.inc"
 #include      "scr05_c.inc"
-      INTEGER IFUNC,I,NPFI,NPFIP
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IFUNC
       my_real
-     .    ABC,DERI,XX,DX1,DX2,TFI,TFI1,TFI2,TFIP
+     .    DERI,XX
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,NPFI,NPFIP
+      my_real ABC,DX1,DX2,TFI,TFI1,TFI2,TFIP
+C-----------------------------------------------
+
       CALL GET_VAR_USER_I(5,IFUNC,NPFI)
       CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
       IF (IRESP==1) THEN
@@ -727,13 +812,23 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "r4r8_p.inc"
 #include      "scr05_c.inc"
-      INTEGER IFUNC,I,NPFI,NPFIP
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IFUNC
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,NPFI,NPFIP
       my_real
      .    ABC,DERI,DX1,DX2,TFI,TFI1,TFI2,TFIP,
      .    DERIMAX
-     
+C-----------------------------------------------
       GET_U_FUNC_DERI = 0    
       CALL GET_VAR_USER_I(5,IFUNC,NPFI)
       CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
@@ -763,10 +858,24 @@ Chd|-- calls ---------------
 Chd|        GET_U_MID                     source/user_interface/uaccess.F
 Chd|====================================================================
       INTEGER FUNCTION GET_U_M(MID)
-      INTEGER MID,I,GET_U_MID
-      EXTERNAL GET_U_MID
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "com04_c.inc"
-C
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER MID
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,GET_U_MID
+      EXTERNAL GET_U_MID
+C-----------------------------------------------
       GET_U_M = 0
       DO I=1,NUMMAT
         IF(GET_U_MID(I)==MID)THEN
@@ -783,10 +892,24 @@ Chd|-- calls ---------------
 Chd|        GET_U_PID                     source/user_interface/uaccess.F
 Chd|====================================================================
       INTEGER FUNCTION GET_U_P(PID)
-      INTEGER PID,I,GET_U_PID
-      EXTERNAL GET_U_PID
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "com04_c.inc"
-C
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER PID
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,GET_U_PID
+      EXTERNAL GET_U_PID
+C-----------------------------------------------
       GET_U_P = 0
       DO I=1,NUMGEO
         IF(GET_U_PID(I)==PID)THEN
@@ -796,7 +919,6 @@ C
       ENDDO
       RETURN
       END
-C
 Chd|====================================================================
 Chd|  SET_U_SENS_IPAR               source/user_interface/uaccess.F
 Chd|-- called by -----------
@@ -805,20 +927,32 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       INTEGER FUNCTION SET_U_SENS_IPAR(IVAR,VAR)
-      USE MESSAGE_MOD
-#include      "implicit_f.inc"
-C
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
+C   M o d u l e s
+C-----------------------------------------------  
+      USE MESSAGE_MOD
+      USE SENSOR_MOD
+      USE SENSOR_VARIABLE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "r4r8_p.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "units_c.inc"
-#include      "scr_usens_c.inc"
-C
-      INTEGER IVAR, NSENS,K,L, VAR,ITYP
-C
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IVAR, VAR
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER NSENS,K,L,ITYP
+C-----------------------------------------------
       NSENS = KSENS_CUR
 C
       SET_U_SENS_IPAR = -1
@@ -834,14 +968,11 @@ C
         RETURN
       ENDIF
 C
-      K = (NSENS-1)*NSENSI
-C
-      CALL  GET_VAR_USER_I(9,K+2,ITYP)
+      ITYP = SENSOR_TAB(NSENS)%TYPE
+
 C
       IF (ITYP>=29 .AND. ITYP<=31)THEN
-C
-        CALL SET_VAR_USER_I(9,K+ISENPARI+IVAR,VAR)
-C
+        SENSOR_TAB(NSENS)%INTEGER_USERPARAM(IVAR)=VAR
         SET_U_SENS_IPAR = 0
       ENDIF
 C
@@ -856,28 +987,41 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       INTEGER FUNCTION SET_U_SENS_FPAR(IVAR,VAR)
-      USE MESSAGE_MOD
-#include      "implicit_f.inc"
-C
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
+C   M o d u l e s
+C-----------------------------------------------  
+      USE MESSAGE_MOD
+      USE SENSOR_MOD
+      USE SENSOR_VARIABLE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "r4r8_p.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "units_c.inc"
-#include      "scr_usens_c.inc"
-C
 #include      "scr05_c.inc"
-C
-      INTEGER NSENS,IVAR, K,L,ITYP,DEPLA
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IVAR
       my_real
      .        VAR,NV
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER NSENS,K,L,ITYP,DEPLA
+C-----------------------------------------------
 C
       NSENS = KSENS_CUR
 C
       SET_U_SENS_FPAR = -1
       IF(IVAR>NSENPARR)THEN
+
          CALL ANCMSG(MSGID=374,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -885,21 +1029,14 @@ C
      .               I2=NSENPARR)
         SET_U_SENS_FPAR = NSENPARR
         RETURN
+
       ENDIF
 C
-      K = (NSENS-1)*NSENSI +2
-      L = (NSENS-1)*NSENSR + ISENPARR+IVAR
-      CALL GET_VAR_USER_I(9,K,ITYP)
-C
+      ITYP = SENSOR_TAB(NSENS)%TYPE
+
       IF (ITYP>=29 .AND. ITYP<=31)THEN
-C
-       IF (IRESP==1) THEN
-         CALL SET_VAR_USER_F_SP(10,L,VAR)
-       ELSE
-         CALL SET_VAR_USER_F(10,L,VAR)
-       ENDIF
-C
-       SET_U_SENS_FPAR = 0
+         SENSOR_TAB(NSENS)%FLOAT_USERPARAM(IVAR)=VAR
+         SET_U_SENS_FPAR = 0
       ENDIF
 C
       RETURN
@@ -913,19 +1050,30 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       INTEGER FUNCTION GET_U_NUMFUN(IDFUN)
-      USE MESSAGE_MOD
-#include      "implicit_f.inc"
-C
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
+C   M o d u l e s
+C-----------------------------------------------  
+      USE MESSAGE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "com04_c.inc"
 #include      "scr03_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
       INTEGER IDFUN
-C
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
       INTEGER J,ID,DEPLA
+C-----------------------------------------------
 C
       IF (CODVERS<44 .OR. INVERS<40) THEN
 C
@@ -968,15 +1116,24 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "r4r8_p.inc"
 #include      "scr05_c.inc"
 #include      "param_c.inc"
-       INTEGER I,IDSKW,ID,NSKW,DEPLA,N1,N2,N3
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+       INTEGER IDSKW,N1,N2,N3
        my_real
      .        V(*)
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+       INTEGER I,ID,NSKW,DEPLA
 C=======================================================================
-C
        DO I=1,NUMSKW
 C
         DEPLA = 4+I*LISKN
@@ -1014,15 +1171,26 @@ Chd|        RESTMOD                       share/modules1/restart_mod.F
 Chd|====================================================================
       SUBROUTINE UELT_SPMD_ADDITIONAL_NODE(NODID)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE RESTMOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "userlib.inc"
+C-----------------------------------------------  
+C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NODID,INODID,P
+      INTEGER NODID
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER INODID,P
       CHARACTER MESS*40
       INTEGER USR2SYS
       EXTERNAL USR2SYS
@@ -1043,30 +1211,33 @@ C-----------------------------------------------
       
       RETURN
       END
+
 Chd|====================================================================
 Chd|  WRITE_IOUT                    source/user_interface/uaccess.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE WRITE_IOUT(LINE,LEN1)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
 #include "implicit_f.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "units_c.inc"
 C-----------------------------------------------
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
 #ifndef ncharline
 #define ncharline 500
 #endif
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
       CHARACTER(len=ncharline)  LINE
       INTEGER LEN1
+C-----------------------------------------------
 
-      WRITE(IOUT,'(A)') LINE(1:LEN1)
-
+        WRITE(IOUT,'(A)') LINE(1:LEN1)
 
       END
 C-----------------------------------------------

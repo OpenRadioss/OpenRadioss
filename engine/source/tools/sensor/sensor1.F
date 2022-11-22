@@ -242,15 +242,6 @@ c       SENSOR NIC-Nij
 c
         CALL SENSOR_NIC(SENSOR_PTR )
 c
-c--------------------------------
-      ELSEIF(TYP > 28 .AND. TYP < 38)THEN
-c--------------------------------
-c       USER SENSORS
-c
-        CALL USENS_SHIFT_AB(SENS1)   ! TODO
-
-c        SENSOR_PTR%TSTART  = ?
-c
 c----
       ENDIF  ! TYP 
 c-----------

@@ -154,7 +154,7 @@ C=======================================================================
       ISENS  = NINT(GET_U_GEO(5,IPROP)) 
       ITYP   = NINT(GET_U_GEO(6,IPROP))
       ILOCK  = NINT(GET_U_GEO(10,IPROP))
-      TACTI  = SENSOR_TAB(ISENS)%STATUS   !GET_U_SENS(ISENS)
+      TACTI  = GET_U_SENS(ISENS)
 C
       IF (TACTI == ZERO .AND. ISENS /= ZERO) THEN
         IACT=0

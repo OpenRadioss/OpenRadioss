@@ -68,7 +68,7 @@ Chd|====================================================================
       SUBROUTINE LECTUR(ICODE   ,ISKEW ,ISKWN  ,IXTG   ,IXS   ,
      2                  IXQ     ,IXC   ,IXT    ,IXP    ,IXR   ,
      3                  ITAB    ,ITABM1,NPC    ,IPARG  ,IGRV  ,
-     4                  IBGR    ,IPARI ,LSENSOR,
+     4                  IBGR    ,IPARI ,
      5                  NPBY    ,LPBY  ,NNLINK ,LLINK  ,LINALE,
      6                  NEFLSW  ,NNFLSW,ICUT   ,INOISE ,
      7                  X       ,V     ,VR     ,MS     ,IN    ,
@@ -81,7 +81,8 @@ Chd|====================================================================
      E                  IPM     ,H3D_DATA, MULTI_FVM,FLAG_CST_AMS,
      F                  IGRPART ,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G                  IPART_DYNAIN,MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,
-     H                  MAX_DEPVAR,MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP)
+     H                  MAX_DEPVAR,MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,
+     I                  SENSOR_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -96,6 +97,7 @@ C-----------------------------------------------
       USE INTSTAMP_GLOB_MOD
       USE FVBAG_MOD
       USE CHECK_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -164,7 +166,7 @@ C-----------------------------------------------
      .   IXR(NIXR,*), IXTG(NIXTG,*),ITAB(*), ITABM1(*),
      .   ISKWN(LISKN,*), NPBY(NNPBY,*),NNLINK(*) ,LLINK(*) ,LINALE(*),
      .   ICODE(*) ,ISKEW(*),NPC(*),NEFLSW(*),NNFLSW(*),ICUT(*),
-     .   INOISE(*),IGRV(NIGRV,*),IBGR(*),LSENSOR(NSENSI,*),
+     .   INOISE(*),IGRV(NIGRV,*),IBGR(*),
      .   LPBY(*),KXSP(NISP,*),WEIGHT(*),FR_RBY2(*),
      .   FR_RL(NSPMD+2,*),
      .   IPART(*), MONVOL(*), IPART_STATE(*),IFRAME(LISKN,*),
@@ -186,6 +188,7 @@ C-----------------------------------------------
       TYPE(GROUP_)  ,DIMENSION(NGRPART) :: IGRPART
       CHARACTER MDS_LABEL(1024,MDS_NMAT)
       TYPE (STACK_PLY) :: STACK
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -876,9 +879,9 @@ C-----------------------
 C     The correct indexes in ANIM data structures wrt integration points or layers
 C     of all actual elements will be rebuilt ::
 C-----------------------
-      CALL ANIM_BUILD_INDEX_ALL(ISPMD   ,MCHECK ,LSENSOR ,IGEO    ,GEO    )
+      CALL ANIM_BUILD_INDEX_ALL(ISPMD   ,MCHECK ,SENSOR_TAB ,IGEO    ,GEO    )
 C-------------------------------------------
-C     STOP/LSENSOR
+C     STOP/SENSOR
 C-------------------------------------------
       IF(ISPMD == 0.AND.MCHECK == 0) THEN
        IF (NSTOPSENS /= 0) THEN
@@ -886,7 +889,7 @@ C-------------------------------------------
             IERR = 1
             IF(LSTOPSENS(K) /= 0) THEN
               DO I=1,NSENSOR
-               IF (LSENSOR(1,I)==LSTOPSENS(K)) THEN
+               IF (SENSOR_TAB(I)%SENS_ID == LSTOPSENS(K)) THEN
                  LSTOPSENS(K) = I
                  IERR = 0
                  EXIT
@@ -907,7 +910,7 @@ C-------------------------------------------
         ENDDO
       END IF                    !(ISPMD==0.AND.MCHECK==0)
 C-------------------------------------------
-C     STATE/LSENSOR
+C     STATE/SENSOR
 C-------------------------------------------
       IF(ISPMD == 0.AND.MCHECK == 0) THEN
        MSTATT = 0
@@ -916,7 +919,7 @@ C-------------------------------------------
             IERR = 1
             IF(LSTATSENS(K) /= 0) THEN
               DO I=1,NSENSOR
-               IF (LSENSOR(1,I)==LSTATSENS(K)) THEN
+               IF (SENSOR_TAB(I)%SENS_ID == LSTATSENS(K)) THEN
                  LSTATSENS(K) = I
                  IERR = 0
                  EXIT
@@ -939,7 +942,7 @@ C-------------------------------------------
         ENDDO
       END IF                    !(ISPMD==0.AND.MCHECK==0)
 C-------------------------------------------
-C     OUTP/LSENSOR
+C     OUTP/SENSOR
 C-------------------------------------------
       IF(ISPMD == 0.AND.MCHECK == 0) THEN
        IF (NOUTPSENS /= 0) THEN
@@ -947,7 +950,7 @@ C-------------------------------------------
             IERR = 1
             IF(LOUTPSENS(K) /= 0) THEN
               DO I=1,NSENSOR
-               IF (LSENSOR(1,I)==LOUTPSENS(K)) THEN
+               IF (SENSOR_TAB(I)%SENS_ID == LOUTPSENS(K)) THEN
                  LOUTPSENS(K) = I
                  IERR = 0
                  EXIT
@@ -968,14 +971,14 @@ C-------------------------------------------
          ENDDO
       END IF                    !(ISPMD==0.AND.MCHECK==0)
 C-------------------------------------------
-C     H3D/LSENSOR
+C     H3D/SENSOR
 C-------------------------------------------
       IF(ISPMD == 0.AND.MCHECK == 0) THEN
         DO K=1,H3D_DATA%N_SENS_H3D
          IOK = 0
           IF(H3D_DATA%LSENS_H3D(K) /= 0)THEN
            DO I=1,NSENSOR
-              IF(H3D_DATA%LSENS_H3D(K) == LSENSOR(1,I))THEN
+              IF(H3D_DATA%LSENS_H3D(K) == SENSOR_TAB(I)%SENS_ID)THEN
                 H3D_DATA%LSENS_H3D(K)=I
                IOK = 1
                EXIT
@@ -990,7 +993,7 @@ C-------------------------------------------
       ELSEIF(ISPMD == 0 .AND. MCHECK /= 0) THEN
       ENDIF                     !(ISPMD==0.AND.MCHECK==0)
 C-------------------------------------------
-C     STATE/LSENSOR
+C     STATE/SENSOR
 C-------------------------------------------
       IF(ISPMD == 0.AND.MCHECK == 0) THEN
        WRITE(IOUT,1150)DTIN,DTMX

@@ -60,7 +60,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
-#include      "scr_usens_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

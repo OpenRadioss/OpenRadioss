@@ -187,6 +187,7 @@ C-----------------------------------------------
       USE MDS_RESTART_MOD
       USE SEGVAR_MOD
       USE SCRATCHFILE_MOD
+      USE SENSOR_VARIABLE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -228,7 +229,6 @@ C-----------------------------------------------
 #include      "scr20_c.inc"
 #include      "scr23_c.inc"
 #include      "scr_fac_c.inc"
-#include      "scr_usens_c.inc"
 #include      "chrasc_c.inc"
 #include      "ascchr_c.inc"
 #include      "chara_c.inc"
@@ -333,7 +333,7 @@ C Madymo Stuff
       TYPE (H3D_DATABASE) :: H3D_DATA
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(:), ALLOCATABLE :: MATPARAM_TAB     ! NUMMAT
       TYPE(GRP_PARAM_STRUCT_) , DIMENSION(:), ALLOCATABLE :: GROUP_PARAM_TAB  ! NGROUP
-      TYPE (SENSOR_STR_)       ,DIMENSION(:) , ALLOCATABLE :: SENSOR_TAB       ! NSENSOR
+
       TYPE (PINCH)  :: PINCH_DATA
       TYPE(DRAPE_) :: DRAPE_Q4,DRAPE_T3
 C      
@@ -482,7 +482,6 @@ C------------------------------------------------------------------
       NBVELP = 6
       NRVOLU=24
       LFACLOAD =12
-      ISECTOR = 0
       NSENSI = 15
       NSENSR = 223
       LKJNI = 6
@@ -1544,7 +1543,7 @@ C------------------------------------------------
       CALL LECTUR(  ICODE ,  ISKEW ,  ISKWN ,  IXTG  ,   IXS ,
      2              IXQ ,    IXC ,    IXT ,    IXP ,     IXR ,
      3              ITAB ,   ITABM1  ,NPC,     IPARG,    IGRV ,
-     4              LGRAV ,IPARI,   LSENSOR  ,
+     4              LGRAV ,IPARI,
      5              NPBY ,   LPBY    ,ILINK,   LLINK  ,LINALE ,
      6              NEFLSW , NNFLSW , ICUT ,   IAF(IF01),
      7              X  ,     V  ,     VR  ,    MS   ,IN  ,
@@ -1557,7 +1556,8 @@ C------------------------------------------------
      E              IPM   ,H3D_DATA, MULTI_FVM,FLAG_CST_AMS,
      F              IGRPART,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G              IPART_DYNAIN,MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,
-     H              MAX_DEPVAR,MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP)
+     H              MAX_DEPVAR,MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,
+     I              SENSOR_TAB)
 
 C------------------------------------------------
 C Close & Delete scratch file
