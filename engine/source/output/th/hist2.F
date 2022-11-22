@@ -64,9 +64,9 @@ Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TH_MOD                        share/modules/th_mod.F        
 Chd|====================================================================
-      SUBROUTINE HIST2(PM      ,D         ,X        ,V        ,A        ,
-     2                 IXS     ,BUFEL     ,WA       ,IPARG    ,
-     4                 FSAV    ,FLSW      ,SKEW     ,ELBUF_TAB,CLUSTER  ,
+      SUBROUTINE HIST2(PM      ,D         ,X        ,V        ,A         ,
+     2                 IXS     ,BUFEL     ,WA       ,IPARG    ,SENSOR_TAB,
+     4                 FSAV    ,FLSW      ,SKEW     ,ELBUF_TAB,CLUSTER   ,
      5                 PARTSAV ,ACCELM    ,LOUT     ,
      6                 IPARI   ,WEIGHT    ,IPART    ,IGRSURF  ,
      7                 ITHGRP  ,ITHBUF    ,SUBSET   ,GEO      ,
@@ -74,15 +74,15 @@ Chd|====================================================================
      9                 KXSP    ,NOD2SP    ,SPBUF    ,
      B                 NPARTSAV,AR        ,VR       ,DR       ,
      D                 FSAVD   ,LRIVET    ,RIVET    ,IXP      ,
-     E                 ISKWN   ,IFRAME    ,XFRAME   ,IXC      ,IXQ      ,
-     F                 DTHIS0  ,THIS0     ,IFIL     ,NTHGRP2  ,IXTG     ,
-     G                 IGEO    ,IPM       ,FXBIPM   ,FXBDEP   ,FXBVIT   ,
-     H                 FXBACC  ,IPARTL    ,NPARTL   ,IACCP    ,NACCP    ,
+     E                 ISKWN   ,IFRAME    ,XFRAME   ,IXC      ,IXQ       ,
+     F                 DTHIS0  ,THIS0     ,IFIL     ,NTHGRP2  ,IXTG      ,
+     G                 IGEO    ,IPM       ,FXBIPM   ,FXBDEP   ,FXBVIT    ,
+     H                 FXBACC  ,IPARTL    ,NPARTL   ,IACCP    ,NACCP     ,
      I                 IPARTH  ,NPARTH    ,NVPARTH  ,
-     J                 NVSUBTH ,MONVOL    ,VOLMON   ,FR_MV    ,TEMP,INOD,
+     J                 NVSUBTH ,MONVOL    ,VOLMON   ,FR_MV    ,TEMP,INOD ,
      K                 FTHREAC ,NODREAC   ,GRESAV   ,GAUGE    ,
-     L                 IGAUP   ,NGAUP     ,ITTYP    ,WEIGHT_MD,SIZE_MES ,
-     M                 RTHBUF  ,THKE      ,STACK    ,ISPHIO   ,VSPHIO   ,
+     L                 IGAUP   ,NGAUP     ,ITTYP    ,WEIGHT_MD,SIZE_MES  ,
+     M                 RTHBUF  ,THKE      ,STACK    ,ISPHIO   ,VSPHIO    ,
      N                 ITHFLAG ,PINCH_DATA,MULTI_FVM,W)
 C-----------------------------------------------
 C   M o d u l e s
@@ -95,6 +95,7 @@ C-----------------------------------------------
       USE PINCHTYPE_MOD
       USE MULTI_FVM_MOD
       USE SEATBELT_MOD  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -159,7 +160,8 @@ C-----------------------------------------------
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE (SURF_)   , DIMENSION(NSURF) :: IGRSURF
       TYPE (PINCH) :: PINCH_DATA
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM   
+      TYPE (MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM   
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1270,7 +1272,17 @@ C-----------------------------
               ENDDO
               IF(II>0)CALL WRTDES(WA,WA,II,ITTYP,1)
             ENDIF
-          ENDIF
+c
+          ELSEIF (ITYP == 120) THEN
+C-----------------------------
+C           SENSOR
+C-----------------------------
+            CALL THSENS (SENSOR_TAB,NSENSOR,
+     .           IAD    ,IAD+NN-1 ,IADV   ,IADV+NVAR-1,ITHBUF   ,
+     .           WA     ,ITTYP    )
+C
+c----
+          ENDIF  ! ITYP
        ENDDO
 C-------------------------------------------------------
 C     SECTIONS FLUIDES
