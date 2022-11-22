@@ -55,6 +55,8 @@ C
       ARCHTITLE='Linux 64 bits, ARM compiler'
 #elif CPP_rel == 80
       ARCHTITLE='Linux 64 bits, GNU compiler'
+#elif CPP_rel == 96
+      ARCHTITLE='Linux 64 bits, AMD AOCC compiler'
 #elif 1
       ARCHTITLE='Linux 64 bits, Intel compiler'
 #endif

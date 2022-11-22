@@ -10,19 +10,19 @@ set ( RELNAME ${arch}  )
 
 
 # General machine flag setting
-set ( cppmach "-DCPP_mach=CPP_p4linux964 -DCOMP_LLVM" )
-set ( cpprel  "-DCPP_rel=80" )
+set ( cppmach "-DCPP_mach=CPP_p4linux964 -DCOMP_AOCC" )
+set ( cpprel  "-DCPP_rel=96" )
 
 
 # Third party libraries
 # ---------------------
 
 #hm_reader
-set ( reader_lib "-L${source_directory}/../extlib/hm_reader/linux64/ -lhm_reader_linux64 ${source_directory}/../extlib/hm_reader/linux64/libapr-1.so.0 /opt/rh/devtoolset-8/root/usr/lib/gcc/x86_64-redhat-linux/8/libgfortran.a"  )
+set ( reader_lib "-L${source_directory}/../extlib/hm_reader/linux64/ -lhm_reader_linux64 ${source_directory}/../extlib/hm_reader/linux64/libapr-1.so.0 "  )
 
 
 #Lapack
-set (lapack_lib "${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/liblapack.a ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/librefblas.a  ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/libtmglib.a")
+set (lapack_lib "${source_directory}/../extlib/lapack-3.10.0/lib_linux64_AOCC/liblapack.a ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_AOCC/libblas.a  ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/libtmglib.a")
 
 #metis
 set (metis_lib "${source_directory}/../extlib/metis/linux64/libmetis_linux64_gcc.a")
@@ -58,14 +58,11 @@ message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
 if ( sanitize STREQUAL "1" )
 set( FSANITIZE "-fsanitize=address -DSANITIZE") 
 endif()
-if ( CMAKE_C_COMPILER_VERSION VERSION_GREATER 10) 
-set( portability " -fallow-argument-mismatch -g  -fallow-invalid-boz -std=legacy")
-endif()
 
 if ( debug STREQUAL "1" )
 
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1  -g -O0 -ffp-contract=off -frounding-math -fopenmp -Mextend -Mbackslash ${ADF} ${portability}" )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_AOCC=1  -g -O0 -ffp-contract=off -frounding-math -fopenmp -Mextend -Mbackslash ${ADF} " )
 
 # C source files
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O0 -g -fopenmp " )
@@ -76,13 +73,13 @@ set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSAN
 else ()
 
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1  -O2 -ffp-contract=off -frounding-math -fopenmp -Mextend  -Mbackslash ${ADF} ${portability} " )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -O3  ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_AOCC=1  -O3 -ffp-contract=off -frounding-math -fopenmp -Mextend  -Mbackslash ${ADF} " )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O2 -fopenmp " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O3 -fopenmp " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O2 -fopenmp -std=c++11  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O3 -fopenmp -std=c++11  " )
 
 endif()
 

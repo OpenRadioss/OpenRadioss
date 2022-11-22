@@ -21,6 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 
+#if defined(COMP_AOCC)
+#ifndef MY_ALLOCATE 
+#define MY_ALLOCATE(A,L) ALLOCATE(A(L))
+#endif
+
+#ifndef MY_ALLOCATE2D
+#define MY_ALLOCATE2D(A,L1,L2) ALLOCATE(A(L1,L2));
+#endif
+
+#ifndef MY_ALLOCATE3D
+#define MY_ALLOCATE3D(A,L1,L2,L3) ALLOCATE(A(L1,L2,L3))
+#endif
+
+#else
+
 #if defined(COMP_LLVM)
 #ifndef MY_ALLOCATE
 #define MY_ALLOCATE(A,L)\
@@ -106,6 +121,7 @@ ALLOCATE(ARRAY(LENGTH1,LENGTH2,LENGTH3),STAT=MY_IERR);\
 IF(MY_IERR/=0) THEN;\
 CALL ANCMSG(MSGID=268,MSGTYPE=MSGERROR,ANMODE=ANSTOP,C1=#ARRAY);\
 ENDIF
+#endif
 #endif
 #endif
 #endif

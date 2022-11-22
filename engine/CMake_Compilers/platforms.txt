@@ -1,6 +1,7 @@
 
          -arch=linux64_gf                (SMP executable / Gfortran compiler / Linux X86-64)
          -arch=linux64_gf  -mpi=ompi     (OpenMPI executable / Gfortran compiler / Linux X86-64)
+         -arch=linux64_AOCC  -mpi=ompi     (OpenMPI executable / AOCC compiler / Linux X86-64)
          -arch=linux64_intel                (SMP executable / Intel compiler / Linux X86-64)
          -arch=linux64_intel  -mpi=impi     (MPI executable / Intel compiler / Linux X86-64)
          -arch=linuxa64_gf               (SMP executable / Armflang compiler / Linux ARM64)

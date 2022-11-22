@@ -20,6 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+
+#ifdef COMP_AOCC
+
+#define MY_ERROR(ARRAY,MY_IERR) CALL ERROR_ALLOC(#ARRAY, MY_IERR)
+
+#ifndef MY_ALLOCATE
+#define MY_ALLOCATE(ARRAY,LENGTH) ALLOCATE(ARRAY(LENGTH),STAT=MY_IERR); MY_ERROR(ARRAY,MY_IERR)
+#endif
+
+#ifndef MY_ALLOCATE2D
+#define MY_ALLOCATE2D(ARRAY,LENGTH1,LENGTH2) ALLOCATE(ARRAY(LENGTH1,LENGTH2),STAT=MY_IERR); MY_ERROR(ARRAY,MY_IERR)
+#endif
+
+#ifndef MY_ALLOCATE3D
+#define MY_ALLOCATE3D(ARRAY,LENGTH1,LENGTH2,LENGTH3) ALLOCATE(ARRAY(LENGTH1,LENGTH2,LENGTH3),STAT=MY_IERR); MY_ERROR(ARRAY,MY_IERR)
+#endif
+
+#else
+
 #ifdef COMP_ARMFLANG
 
 #ifndef MY_ALLOCATE
@@ -88,5 +107,6 @@ ENDIF
 
 #endif
 
+#endif
 #endif
 
