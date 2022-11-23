@@ -2,35 +2,35 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                      RADIOSS ENGINE MAINLINE                       **
+**                         OpenRadioss Engine                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
-**                                                                    **
-**                                                                    **
-**              Linux 64 bits, Intel compiler, Intel MPI              **
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** Build tag: 0742056_087sesevot__2070_0032401_10                     **
+**                Linux 64 bits, GNU compiler, OpenMPI                **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2014                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
  NUMBER OF SPMD DOMAINS           4
- NUMBER OF THREADS PER DOMAIN     1
- NUMBER OF HMPP PROCESSES         4
+ NUMBER OF THREADS PER DOMAIN     2
+ NUMBER OF HMPP PROCESSES         8
   
  COMPUTATION HARDWARE DESCRIPTION
   
  CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
-   1   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
-   2   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
-   3   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
-   4   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+   1   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   2   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   3   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   4   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -47,10 +47,8 @@
  MINIMUM TIME STEP  . . . . . . . . . . . . . . .   0.000000    
 
 
- NODAL TIME STEP SCALE FACTOR . . . . . . . . . .  0.6700000    
- NODAL MINIMUM TIME STEP. . . . . . . . . . . . .  0.1000000E-05
- MIN. TIME FLAG (1:STOP 3:INCREASE MASS). . . . .     0
-
+ NODAL TIME STEP SCALE FACTOR,  . . . . . . . . .  0.6700000    
+ NODAL MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
 
  BRICK TIME STEP SCALE FACTOR . . . . . . . . . .  0.6700000    
  BRICK MINIMUM TIME STEP. . . . . . . . . . . . .  0.4000000E-03
@@ -80,21 +78,19 @@
  AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
  MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
 
- INTERFACE TYPE 7 TIME STEP SCALE FACTOR. . . . .  0.9000000    
- INTERFACE TYPE 7 MINIMUM TIME STEP . . . . . . .   0.000000    
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.9000000    
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .   0.000000    
  MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
-
- FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
- FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
 
  PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .   -10
 
- RESTART CYCLE FREQUENCY. . . . . . . . . . . . .       5000
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .   10000000
 
  MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
 
- INVERS: INPUT DECK VERSION . . . . . . . . . . .    44
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .  2018
  ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
 
  TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
  TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .  0.1000000E-01
@@ -113,6 +109,10 @@
       TURBULENT ENERGY (FLUID).     0
       TURBULENT VISCOSITY(FLUID)    0
       VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
  VECTOR SAVED ON ANIMATION FILES (1: YES) :
       VELOCITY VECTOR . . . . .     1
       DISPLACEMENT VECTOR . . .     1
@@ -130,8 +130,8 @@
       LOWER LAYER STRESS. . . .     0
       MEMBRANE STRAIN . . . . .     0
       CURVATURE . . . . . . . .     0
-      UPPER LAYER STRAIN. . . .     1
-      LOWER LAYER STRAIN. . . .     1
+      UPPER LAYER STRAIN. . . .     0
+      LOWER LAYER STRAIN. . . .     0
  NODAL MASS SAVED ON ANIMATION FILES (1: YES) :    1
  KEEP DELETED ELEMENT (1: YES) :    0
 
@@ -140,9 +140,6 @@
  MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
 
  PARALLEL ARITHMETIC ON
-
- ALE GRID FORMULATION                    
- --------------------                    
  NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
 
  NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
@@ -163,113 +160,111 @@
 
  NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
 
- NUMBER OF ALE LINKS. . . . . . . . . . . . . . .        0
-
  NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
 
- 19/11/2014
- CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
-     0   0.000      0.1195E-02 NODE           1   0.0%   0.000       0.000       0.000       0.000       0.000    
+ 23/11/2022
+   CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
+       0   0.000      0.1195E-02 NODE           1   0.0%   0.000       0.000       0.000       0.000       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A001 WRITTEN
      ANIMATION FILE: B_POKE_9A002 WRITTEN
-    10  0.1194E-01  0.1194E-02 NODE           1  -1.0%  0.1542      0.1525E-01  0.3173E-33  0.1711       0.000    
+      10  0.1194E-01  0.1194E-02 NODE           1  -1.0%  0.1542      0.1525E-01  0.7344E-36  0.1711       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A003 WRITTEN
-    20  0.2387E-01  0.1193E-02 NODE           1  -0.3%   2.434      0.5946E-01  0.1721E-31   2.500       0.000    
+      20  0.2387E-01  0.1193E-02 NODE           1  -0.3%   2.434      0.5946E-01  0.4916E-34   2.500       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A004 WRITTEN
-    30  0.3581E-01  0.1193E-02 NODE           1  -0.2%   12.26      0.1340      0.9996E-31   12.41       0.000    
+      30  0.3581E-01  0.1193E-02 NODE           1  -0.2%   12.26      0.1340      0.1161E-32   12.41       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A005 WRITTEN
-    40  0.4774E-01  0.1193E-02 NODE           1  -0.1%   38.62      0.2391      0.5067E-30   38.90       0.000    
+      40  0.4774E-01  0.1193E-02 NODE           1  -0.1%   38.62      0.2391      0.1099E-33   38.90       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A006 WRITTEN
-    50  0.5967E-01  0.1193E-02 NODE           1  -0.1%   94.06      0.3729      0.6636E-30   94.52       0.000    
+      50  0.5967E-01  0.1193E-02 NODE           1  -0.1%   94.06      0.3729      0.9560E-32   94.52       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A007 WRITTEN
      ANIMATION FILE: B_POKE_9A008 WRITTEN
-    60  0.7160E-01  0.1193E-02 NODE           1  -0.1%   194.6      0.5358      0.2266E-29   195.3       0.000    
+      60  0.7160E-01  0.1193E-02 NODE           1  -0.1%   194.6      0.5358      0.2463E-31   195.3       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A009 WRITTEN
-    70  0.8353E-01  0.1193E-02 NODE           1  -0.1%   347.6      0.7610      0.4840E-29   348.7       0.000    
+      70  0.8353E-01  0.1193E-02 NODE           1  -0.1%   347.6      0.7610      0.2549E-29   348.7       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A010 WRITTEN
-    80  0.9546E-01  0.1193E-02 NODE           1  -0.1%   539.8       1.015      0.6587E-29   541.3       0.000    
+      80  0.9546E-01  0.1193E-02 NODE           1  -0.1%   539.8       1.015      0.5190E-30   541.3       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A011 WRITTEN
-    90  0.1074      0.1193E-02 NODE           1  -0.1%   775.4       1.269      0.1568E-28   777.6       0.000    
+      90  0.1074      0.1193E-02 NODE           1  -0.1%   775.4       1.269      0.3246E-29   777.6       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A012 WRITTEN
-   100  0.1193      0.1193E-02 NODE           1  -0.1%   1061.       1.575      0.1176E-28   1064.       0.000    
+     100  0.1193      0.1193E-02 NODE           1  -0.1%   1061.       1.575      0.1796E-29   1064.       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A013 WRITTEN
      ANIMATION FILE: B_POKE_9A014 WRITTEN
-   110  0.1313      0.1193E-02 NODE           1  -0.1%   1402.       1.898      0.5788E-29   1406.       0.000    
+     110  0.1313      0.1193E-02 NODE           1  -0.1%   1402.       1.898      0.2206E-29   1406.       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A015 WRITTEN
-   120  0.1432      0.1193E-02 NODE           1  -0.2%   1799.       2.446      0.7983E-29   1805.       0.000    
+     120  0.1432      0.1193E-02 NODE           1  -0.2%   1799.       2.446      0.4110E-29   1805.       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A016 WRITTEN
-   130  0.1551      0.1193E-02 NODE           1  -0.2%   2241.       2.763      0.5219E-29   2248.       0.000    
+     130  0.1551      0.1193E-02 NODE           1  -0.2%   2241.       2.763      0.1718E-29   2248.       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A017 WRITTEN
-   140  0.1670      0.1193E-02 NODE           1  -0.2%   2726.       3.172      0.2152E-28   2735.       0.000    
+     140  0.1670      0.1193E-02 NODE           1  -0.2%   2726.       3.172      0.2251E-29   2735.       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A018 WRITTEN
-   150  0.1790      0.1193E-02 NODE           1  -0.2%   3254.       3.716      0.7978E-29   3265.       0.000    
+     150  0.1790      0.1193E-02 NODE           1  -0.2%   3254.       3.716      0.1729E-29   3265.       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A019 WRITTEN
-   160  0.1909      0.1193E-02 NODE           1  -0.3%   3826.       4.204      0.1245E-28   3840.       0.000    
+     160  0.1909      0.1193E-02 NODE           1  -0.3%   3826.       4.204      0.1677E-28   3840.       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A020 WRITTEN
      ANIMATION FILE: B_POKE_9A021 WRITTEN
-   170  0.2029      0.1193E-02 NODE           1  -0.3%   4442.       4.695      0.1428E-28   4460.       0.000    
+     170  0.2029      0.1193E-02 NODE           1  -0.3%   4442.       4.695      0.2219E-29   4460.       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A022 WRITTEN
-   180  0.2148      0.1194E-02 NODE           1  -0.3%   5105.       5.281      0.5396E-29   5126.       0.000    
+     180  0.2148      0.1194E-02 NODE           1  -0.3%   5105.       5.281      0.1091E-29   5126.       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A023 WRITTEN
-   190  0.2267      0.1194E-02 NODE           1  -0.4%   5813.       5.885      0.2336E-28   5839.       0.000    
+     190  0.2267      0.1194E-02 NODE           1  -0.4%   5813.       5.885      0.1022E-29   5839.       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A024 WRITTEN
-   200  0.2387      0.1193E-02 NODE           1  -0.4%   6567.       6.484      0.3231E-29   6599.       0.000    
+     200  0.2387      0.1193E-02 NODE           1  -0.4%   6567.       6.484      0.6272E-29   6599.       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A025 WRITTEN
-   210  0.2506      0.1193E-02 NODE           1  -0.4%   7369.       7.142      0.3038E-28   7407.       0.000    
+     210  0.2506      0.1193E-02 NODE           1  -0.4%   7369.       7.142      0.5417E-30   7407.       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A026 WRITTEN
      ANIMATION FILE: B_POKE_9A027 WRITTEN
-   220  0.2625      0.1193E-02 NODE           1  -0.5%   8214.       7.834      0.2443E-28   8259.       0.000    
+     220  0.2625      0.1193E-02 NODE           1  -0.5%   8214.       7.834      0.1025E-28   8259.       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A028 WRITTEN
-   230  0.2745      0.1193E-02 NODE           1  -0.5%   9102.       8.556      0.1406E-28   9155.       0.000    
+     230  0.2745      0.1193E-02 NODE           1  -0.5%   9102.       8.556      0.1389E-28   9155.       0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A029 WRITTEN
-   240  0.2864      0.1193E-02 NODE           1  -0.5%  0.1003E+05   9.273      0.2601E-28  0.1009E+05   0.000    
+     240  0.2864      0.1193E-02 NODE           1  -0.5%  0.1003E+05   9.273      0.6454E-29  0.1009E+05   0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A030 WRITTEN
-   250  0.2983      0.1193E-02 NODE           1  -0.6%  0.1100E+05   10.03      0.1701E-28  0.1108E+05   0.000    
+     250  0.2983      0.1193E-02 NODE           1  -0.6%  0.1100E+05   10.03      0.6710E-29  0.1108E+05   0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A031 WRITTEN
-   260  0.3103      0.1193E-02 NODE           1  -0.6%  0.1202E+05   10.82      0.1601E-28  0.1210E+05   0.000    
+     260  0.3103      0.1193E-02 NODE           1  -0.6%  0.1202E+05   10.82      0.1574E-29  0.1210E+05   0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A032 WRITTEN
  FAILURE-1 ELEMENT #         2      LAYER #  1
- FAILURE-1 ELEMENT #         2      LAYER #  2
- FAILURE-1 ELEMENT #         2      LAYER #  3
- FAILURE-1 ELEMENT #         2      LAYER #  4
- FAILURE-1 ELEMENT #         2      LAYER #  5
+ FAILURE-1 ELEMENT #         2      LAYER #  1
+ FAILURE-1 ELEMENT #         2      LAYER #  1
+ FAILURE-1 ELEMENT #         2      LAYER #  1
+ FAILURE-1 ELEMENT #         2      LAYER #  1
      ANIMATION FILE: B_POKE_9A033 WRITTEN
-   270  0.3222      0.1193E-02 NODE           1  -0.6%  0.1303E+05   11.04      0.1282E-28  0.1312E+05   0.000    
+     270  0.3222      0.1193E-02 NODE           1  -0.6%  0.1303E+05   11.04      0.1237E-28  0.1312E+05   0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A034 WRITTEN
-   280  0.3341      0.1192E-02 NODE           1  -0.7%  0.1385E+05   11.51      0.3544E-28  0.1395E+05   0.000    
+     280  0.3341      0.1192E-02 NODE           1  -0.7%  0.1385E+05   11.51      0.6999E-29  0.1395E+05   0.000       1.680       0.000    
   TOTAL ELEMENT TENSION FAILURE, ELEMENT #           2
      ANIMATION FILE: B_POKE_9A035 WRITTEN
-   290  0.3460      0.1192E-02 NODE           1  -0.7%  0.1453E+05   12.53      0.4452E-28  0.1465E+05   0.000    
+     290  0.3460      0.1192E-02 NODE           1  -0.7%  0.1453E+05   12.53      0.5135E-30  0.1465E+05   0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A036 WRITTEN
-   300  0.3579      0.1192E-02 NODE           1  -0.7%  0.1525E+05   13.37      0.2329E-28  0.1537E+05   0.000    
+     300  0.3579      0.1192E-02 NODE           1  -0.7%  0.1525E+05   13.37      0.8221E-29  0.1537E+05   0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A037 WRITTEN
-   310  0.3699      0.1191E-02 NODE           1  -0.8%  0.1599E+05   14.23      0.3061E-28  0.1613E+05   0.000    
+     310  0.3699      0.1191E-02 NODE           1  -0.8%  0.1599E+05   14.23      0.6919E-29  0.1613E+05   0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A038 WRITTEN
      ANIMATION FILE: B_POKE_9A039 WRITTEN
-   320  0.3818      0.1191E-02 NODE           1  -0.8%  0.1676E+05   15.12      0.2336E-28  0.1691E+05   0.000    
+     320  0.3818      0.1191E-02 NODE           1  -0.8%  0.1676E+05   15.12      0.6022E-29  0.1691E+05   0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A040 WRITTEN
-   330  0.3937      0.1190E-02 NODE           1  -0.9%  0.1755E+05   16.03      0.2760E-28  0.1773E+05   0.000    
+     330  0.3937      0.1190E-02 NODE           1  -0.9%  0.1755E+05   16.03      0.1775E-29  0.1773E+05   0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A041 WRITTEN
-   340  0.4056      0.1189E-02 NODE           1  -0.9%  0.1838E+05   16.98      0.2398E-28  0.1857E+05   0.000    
+     340  0.4056      0.1189E-02 NODE           1  -0.9%  0.1838E+05   16.98      0.1176E-28  0.1857E+05   0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A042 WRITTEN
-   350  0.4175      0.1189E-02 NODE           1  -1.0%  0.1922E+05   17.94      0.3291E-28  0.1943E+05   0.000    
+     350  0.4175      0.1189E-02 NODE           1  -1.0%  0.1922E+05   17.94      0.3167E-29  0.1943E+05   0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A043 WRITTEN
-   360  0.4293      0.1188E-02 NODE           1  -1.0%  0.2008E+05   18.93      0.4005E-28  0.2031E+05   0.000    
+     360  0.4293      0.1188E-02 NODE           1  -1.0%  0.2008E+05   18.93      0.6877E-29  0.2031E+05   0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A044 WRITTEN
      ANIMATION FILE: B_POKE_9A045 WRITTEN
-   370  0.4412      0.1187E-02 NODE           1  -1.1%  0.2095E+05   19.94      0.2571E-28  0.2121E+05   0.000    
+     370  0.4412      0.1187E-02 NODE           1  -1.1%  0.2095E+05   19.94      0.3628E-29  0.2121E+05   0.000       1.680       0.000    
  FAILURE-1 ELEMENT #         1      LAYER #  1
- FAILURE-1 ELEMENT #         1      LAYER #  2
- FAILURE-1 ELEMENT #         1      LAYER #  3
- FAILURE-1 ELEMENT #         1      LAYER #  4
- FAILURE-1 ELEMENT #         1      LAYER #  5
+ FAILURE-1 ELEMENT #         1      LAYER #  1
+ FAILURE-1 ELEMENT #         1      LAYER #  1
+ FAILURE-1 ELEMENT #         1      LAYER #  1
+ FAILURE-1 ELEMENT #         1      LAYER #  1
      ANIMATION FILE: B_POKE_9A046 WRITTEN
-   380  0.4531      0.1186E-02 NODE           1  -1.1%  0.2185E+05   20.15      0.2294E-28  0.2212E+05   0.000    
+     380  0.4531      0.1186E-02 NODE           1  -1.1%  0.2185E+05   20.15      0.1187E-28  0.2212E+05   0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A047 WRITTEN
-   390  0.4649      0.1183E-02 NODE           1  -1.1%  0.2246E+05   20.82      0.2240E-28  0.2273E+05   0.000    
+     390  0.4649      0.1183E-02 NODE           1  -1.1%  0.2246E+05   20.82      0.8372E-29  0.2273E+05   0.000       1.680       0.000    
   TOTAL ELEMENT TENSION FAILURE, ELEMENT #           1
      ANIMATION FILE: B_POKE_9A048 WRITTEN
-   400  0.4822      0.2790E-02 NODE           1  -1.1%  0.2247E+05   22.25      0.2270E-28  0.2273E+05   0.000    
+     400  0.4822      0.2790E-02 NODE           1  -1.1%  0.2247E+05   22.25      0.1253E-28  0.2273E+05   0.000       1.680       0.000    
      ANIMATION FILE: B_POKE_9A049 WRITTEN
      ANIMATION FILE: B_POKE_9A050 WRITTEN
 
@@ -279,49 +274,87 @@
   
                            ** CPU USER TIME **
   
- #PROC  CONT.SORT  CONT. F   ELEMENT  KIN.COND.  INTEGR.    I/O     TASK0     ASSEMB.   RESOL  
-   1   .0000E+00 .0000E+00 .3699E-01 .7999E-02 .2999E-02 .1130E+00 .1300E-01 .0000E+00 .1930E+00
-   2   .0000E+00 .0000E+00 .1000E-02 .0000E+00 .1000E-02 .7399E-01 .1110E+00 .0000E+00 .3050E+00
-   3   .0000E+00 .0000E+00 .0000E+00 .0000E+00 .0000E+00 .7499E-01 .1240E+00 .0000E+00 .3080E+00
-   4   .0000E+00 .0000E+00 .0000E+00 .0000E+00 .0000E+00 .6799E-01 .1370E+00 .0000E+00 .3180E+00
   
-                          ** SPMD COMM. TIME **
+                        ** SUMMARY **
   
- #PROC  FORCES    RBY.FOR.  RBY.VEL.  VELOCITIES   TOTAL   % CPU
-   1   .3000E-02 .0000E+00 .0000E+00 .1000E-02 .4000E-02    2.07
-   2   .2000E-02 .0000E+00 .0000E+00 .0000E+00 .2000E-02    0.66
-   3   .9990E-03 .0000E+00 .0000E+00 .0000E+00 .9990E-03    0.32
-   4   .0000E+00 .0000E+00 .0000E+00 .0000E+00 .0000E+00    0.00
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .2138E-01 .8653E-02 .5575E-02 .1385E+00 .1889E-01 .2937E-02 .2384E+00
+   2   .6453E-02 .6564E-02 .5671E-02 .1509E+00 .5748E-01 .2899E-02 .2738E+00
+   3   .6877E-02 .7292E-02 .6233E-02 .1521E+00 .5532E-01 .3110E-02 .2799E+00
+   4   .6138E-02 .6502E-02 .5562E-02 .1495E+00 .5692E-01 .2738E-02 .2735E+00
   
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .1737E-02 .0000E+00 .0000E+00 .1917E-02 .3654E-02 .1533E+01
+   2   .1830E-02 .0000E+00 .0000E+00 .1991E-02 .3821E-02 .1396E+01
+   3   .2053E-02 .0000E+00 .0000E+00 .2071E-02 .4124E-02 .1473E+01
+   4   .1775E-02 .0000E+00 .0000E+00 .1954E-02 .3729E-02 .1364E+01
+  
+ 
                    ** CUMULATIVE CPU TIME SUMMARY **
   
  CONTACT SORTING.............: .0000E+00     0.00 % 
- CONTACT FORCES..............: .0000E+00     0.00 % 
- ELEMENT FORCES..............: .3799E-01     3.38 % 
- KINEMATIC COND..............: .7999E-02     0.71 % 
- INTEGRATION.................: .3999E-02     0.36 % 
- ASSEMBLING..................: .0000E+00     0.00 % 
- OTHERS (including I/O)......: .1074E+01    95.55 % 
- TOTAL.......................: .1124E+01   100.00 % 
+ CONTACT FORCES..............: .2649E-02     0.25 % 
+ ELEMENT FORCES..............: .4085E-01     3.83 % 
+ KINEMATIC COND..............: .2901E-01     2.72 % 
+ INTEGRATION.................: .2304E-01     2.16 % 
+ ASSEMBLING..................: .1168E-01     1.10 % 
+ OTHERS (including I/O)......: .9584E+00    89.94 % 
+ TOTAL.......................: .1066E+01   100.00 % 
   
+  
+                           ** ELAPSED TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .1425E-01 .5707E-02 .3637E-02 .9245E-01 .1210E-01 .1921E-02 .1593E+00
+   2   .3814E-02 .3921E-02 .3281E-02 .8400E-01 .3321E-01 .1724E-02 .1593E+00
+   3   .4010E-02 .4182E-02 .3521E-02 .8376E-01 .3122E-01 .1794E-02 .1592E+00
+   4   .3789E-02 .3908E-02 .3291E-02 .8368E-01 .3323E-01 .1682E-02 .1593E+00
+  
+        ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+ MIN   .3789E-02 .3908E-02 .3281E-02 .8368E-01 .1210E-01 .1682E-02 .1592E+00
+ MAX   .1425E-01 .5707E-02 .3637E-02 .9245E-01 .3323E-01 .1921E-02 .1593E+00
+ AVG   .6465E-02 .4429E-02 .3432E-02 .8597E-01 .2744E-01 .1780E-02 .1593E+00
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .1143E-02 .0000E+00 .0000E+00 .1250E-02 .2393E-02 .1502E+01
+   2   .1079E-02 .0000E+00 .0000E+00 .1176E-02 .2255E-02 .1415E+01
+   3   .1195E-02 .0000E+00 .0000E+00 .1193E-02 .2388E-02 .1500E+01
+   4   .1092E-02 .0000E+00 .0000E+00 .1175E-02 .2267E-02 .1423E+01
+  
+        FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+ MIN   .1079E-02 .0000E+00 .0000E+00 .1175E-02 .2255E-02 .1415E+01
+ MAX   .1195E-02 .0000E+00 .0000E+00 .1250E-02 .2393E-02 .1502E+01
+ AVG   .1127E-02 .0000E+00 .0000E+00 .1198E-02 .2326E-02 .1460E+01
   
                    ** MEMORY USAGE STATISTICS **
   
- TOTAL MEMORY USED .........................:      561 MB
- MAXIMUM MEMORY PER PROCESSOR...............:      141 MB
- MINIMUM MEMORY PER PROCESSOR...............:      140 MB
- AVERAGE MEMORY PER PROCESSOR...............:      140 MB
+ TOTAL MEMORY USED .........................:      228 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       57 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       57 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       57 MB
   
                    ** DISK USAGE STATISTICS **
   
- TOTAL DISK SPACE USED .....................:      425 KB
- ANIMATION/TH/OUTP SIZE ....................:       23 KB
- RESTART FILE SIZE .........................:      402 KB
+ TOTAL DISK SPACE USED .....................:          1 MB
+ ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
+ RESTART FILE SIZE .........................:          1 MB
   
- ELAPSED TIME     =          0.45 s
+                   ** COMPUTE TIME INFORMATION **
+                        ** CURRENT ENGINE **
+  
+ EXECUTION STARTED .........................:      2022/11/23  16:21:53
+ EXECUTION COMPLETED .......................:      2022/11/23  16:21:54
+  
+ ELAPSED TIME     =          0.25 s
                           0:00:00
- ESTIMATED SPEEDUP=          2.47
-  
+ ESTIMATED SPEEDUP=          4.25
 
 
 
@@ -331,3 +364,11 @@
 
      TOTAL NUMBER OF CYCLES  :     406
 
+  
+                   ** COMPUTE RUNTIME INFORMATION SUMMARY **
+  
+        STARTER RUNTIME =          0.61s (00:00:00)
+ # 001   ENGINE RUNTIME =          0.25s (00:00:00)
+ ------------------------------ 
+ STARTER+ENGINE RUNTIME =          0.86s (00:00:00)
+  

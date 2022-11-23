@@ -12,7 +12,7 @@
 **                                                                    **
 **                                                                    **
 **                                                                    **
-**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
 ** OpenRadioss Software                                               **
 ** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
@@ -24,7 +24,7 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-jumbo.europe.altair.com   Intel(R) Xeon(R) CPU E5-2667 v4 @ 3.20GHz (x86_64), 2182 MHz,  64316 MB RAM,      0 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -1156,7 +1156,7 @@ PART:         3,acier 1006
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- DOMAIN DECOMPOSITION : OPTIMIZED FOR BROADWELL PROCESSOR
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
  NUMBER OF DISCONNECTED COMPONENTS FIXED FOR DOMAIN DECOMP:       3
   
   ELEMENT NUMBER =       1020
@@ -2244,7 +2244,7 @@ PART:         3,acier 1006
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- DOMAIN DECOMPOSITION : OPTIMIZED FOR BROADWELL PROCESSOR
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
   
   ELEMENT NUMBER =       1020
   EDGES FOUND    =       3721
@@ -3486,7 +3486,7 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        124 MB
+    STARTER MEMORY USAGE        123 MB
 
 
 
@@ -3591,20 +3591,20 @@ STANDARD DEVIATION            :     114
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .3126E+00   .1374E+00   .1691E-01   .2900E-04   .5597E-04   .3480E-03   .2301E-04
+.0000E+00   .3948E+00   .2282E+00   .2073E-01   .1305E-04   .5305E-04   .3200E-03   .2801E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1006E+07   .1513E+00   .1305E-01   .3291E-04   .3084E-04   .2068E-03   .1162E-04
+.0000E+00   .1144E+07   .2482E+00   .1369E-01   .2379E-04   .2978E-04   .1852E-03   .1243E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2022/11/21  11:41:08
- EXECUTION COMPLETED    :      2022/11/21  11:41:09
+ EXECUTION STARTED      :      2022/11/23  16:22:39
+ EXECUTION COMPLETED    :      2022/11/23  16:22:39
   
- ELAPSED TIME...........=          0.53 s
+ ELAPSED TIME...........=          0.71 s
                                00:00:00
   
 ------------------------------------------------------------------------

@@ -2,29 +2,29 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                Altair Radioss(TM) Starter MAINLINE                 **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 1113238_12638000000_1060_0091553                        **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2022                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1729 MHz,  20012 MB RAM,  48725 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -40,7 +40,7 @@ DESCRIPTION :
 -- LINE: 0                  -1         0         0         0         0
 unsupported field exits
 SOLUTION :     
-    Please check input format and its consistency with Invers value from /BEGIN option.
+    Please check input format and fields description defined in the Reference Guide.
 
  -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
 
@@ -59,7 +59,7 @@ SOLUTION :
     INPUT UNIT SYSTEM  . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
 
 
-   DMAF0009/Foam materials test - 15 volume elements                /gmt/15-11-96
+ Sample model                                                                    
 
 
     CONTROL  PARAMETERS                                                                  
@@ -121,7 +121,6 @@ SOLUTION :
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
@@ -153,16 +152,16 @@ SOLUTION :
     ISTR   : DEFAULT SHELL STRAIN COMPUTATION FLAG . . . .         1
     ISHEA  : DEFAULT SHELL SHEAR COMPUTATION FLAG. . . . .         0
     INSH   : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
-    ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         1
+    ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         2
     NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
              INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
     IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
-    ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
+    ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         0
 
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -171,9 +170,9 @@ SOLUTION :
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
@@ -278,7 +277,7 @@ SOLUTION :
 
 
 
-     NASTRAN MID _       101_LAW 28 PURE COMPRESSION
+     PURE COMPRESSION
      MATERIAL NUMBER . . . . . . . . . . . .=       101
      MATERIAL LAW. . . . . . . . . . . . . .=        33
 
@@ -308,7 +307,7 @@ SOLUTION :
      STRESS 31 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
 
 
-     NASTRAN MID _       201LAW 28 PURE SHEAR
+     PURE SHEAR
      MATERIAL NUMBER . . . . . . . . . . . .=       201
      MATERIAL LAW. . . . . . . . . . . . . .=        33
 
@@ -338,7 +337,7 @@ SOLUTION :
      STRESS 31 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
 
 
-     NASTRAN MID _       301_LAW 28 HYDROSTATIC
+     HYDROSTATIC
      MATERIAL NUMBER . . . . . . . . . . . .=       301
      MATERIAL LAW. . . . . . . . . . . . . .=        33
 
@@ -368,7 +367,7 @@ SOLUTION :
      STRESS 31 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
 
 
-     NASTRAN MID _       401_LAW 33 PURE COMPRESSION
+     PURE COMPRESSION
      MATERIAL NUMBER . . . . . . . . . . . .=       401
      MATERIAL LAW. . . . . . . . . . . . . .=        33
 
@@ -398,7 +397,7 @@ SOLUTION :
      INITIAL VOLUMETRIC STRAIN. . . .. . . .=  0.000000000000    
 
 
-     NASTRAN MID _       501_LAW 28 PURE SHEAR
+     PURE SHEAR
      MATERIAL NUMBER . . . . . . . . . . . .=       501
      MATERIAL LAW. . . . . . . . . . . . . .=        33
 
@@ -428,7 +427,7 @@ SOLUTION :
      INITIAL VOLUMETRIC STRAIN. . . .. . . .=  0.000000000000    
 
 
-     NASTRAN MID _       601_LAW 28 HYDROSTATIC
+     HYDROSTATIC
      MATERIAL NUMBER . . . . . . . . . . . .=       601
      MATERIAL LAW. . . . . . . . . . . . . .=        33
 
@@ -458,7 +457,7 @@ SOLUTION :
      INITIAL VOLUMETRIC STRAIN. . . .. . . .=  0.000000000000    
 
 
-     NASTRAN MID _       701_LAW 34 PURE COMPRESSION
+     PURE COMPRESSION
      MATERIAL NUMBER . . . . . . . . . . . .=       701
      MATERIAL LAW. . . . . . . . . . . . . .=        34
 
@@ -479,7 +478,7 @@ SOLUTION :
 
 
 
-     NASTRAN MID _       801_LAW 34 PURE SHEAR
+     PURE SHEAR
      MATERIAL NUMBER . . . . . . . . . . . .=       801
      MATERIAL LAW. . . . . . . . . . . . . .=        34
 
@@ -500,7 +499,7 @@ SOLUTION :
 
 
 
-     NASTRAN MID _       901_LAW 34 HYDROSTATIC
+     HYDROSTATIC
      MATERIAL NUMBER . . . . . . . . . . . .=       901
      MATERIAL LAW. . . . . . . . . . . . . .=        34
 
@@ -521,7 +520,15 @@ SOLUTION :
 
 
 
-     NASTRAN MID _      1001_LAW 35 PURE COMPRESSION
+WARNING ID :   1220
+** WARNING ON MATERIAL LAW DATA
+DESCRIPTION :  
+   -- MATERIAL ID: 1001
+   -- MATERIAL TITLE: PURE COMPRESSION
+   STRAIN RATE  EFFECT HAS BEEN CONSIDERED, BUT THE STRAIN RATE FILTERING IS NOT ACTIVATED.
+    PLEASE USE Fsmooth=1 and DEFINE THE Fcut.
+
+     PURE COMPRESSION
      MATERIAL NUMBER . . . . . . . . . . . .=      1001
      MATERIAL LAW. . . . . . . . . . . . . .=        35
 
@@ -561,7 +568,15 @@ SOLUTION :
      STRAIN RATE FILTERING FLAG  . . . . . .=         0
      STRAIN RATE CUTTING FREQUENCY . . . . .=  0.000000000000    
 
-     NASTRAN MID _      1101_LAW 35 PURE SHEAR
+WARNING ID :   1220
+** WARNING ON MATERIAL LAW DATA
+DESCRIPTION :  
+   -- MATERIAL ID: 1101
+   -- MATERIAL TITLE: PURE SHEAR
+   STRAIN RATE  EFFECT HAS BEEN CONSIDERED, BUT THE STRAIN RATE FILTERING IS NOT ACTIVATED.
+    PLEASE USE Fsmooth=1 and DEFINE THE Fcut.
+
+     PURE SHEAR
      MATERIAL NUMBER . . . . . . . . . . . .=      1101
      MATERIAL LAW. . . . . . . . . . . . . .=        35
 
@@ -601,7 +616,15 @@ SOLUTION :
      STRAIN RATE FILTERING FLAG  . . . . . .=         0
      STRAIN RATE CUTTING FREQUENCY . . . . .=  0.000000000000    
 
-     NASTRAN MID _      1201_LAW 35 HYDROSTATIC
+WARNING ID :   1220
+** WARNING ON MATERIAL LAW DATA
+DESCRIPTION :  
+   -- MATERIAL ID: 1201
+   -- MATERIAL TITLE: HYDROSTATIC
+   STRAIN RATE  EFFECT HAS BEEN CONSIDERED, BUT THE STRAIN RATE FILTERING IS NOT ACTIVATED.
+    PLEASE USE Fsmooth=1 and DEFINE THE Fcut.
+
+     HYDROSTATIC
      MATERIAL NUMBER . . . . . . . . . . . .=      1201
      MATERIAL LAW. . . . . . . . . . . . . .=        35
 
@@ -641,7 +664,7 @@ SOLUTION :
      STRAIN RATE FILTERING FLAG  . . . . . .=         0
      STRAIN RATE CUTTING FREQUENCY . . . . .=  0.000000000000    
 
-     NASTRAN MID _      1301_LAW 38 PURE COMPRESSION
+     NCOMPRESSION
      MATERIAL NUMBER. . . . . . . . . . . . =      1301
      MATERIAL LAW . . . . . . . . . . . . . =        38
 
@@ -702,9 +725,9 @@ SOLUTION :
          4
      UNLOADING CURVES : 
          4
- 
 
-     NASTRAN MID _      1401_LAW 38 PURE SHEAR
+
+     PURE SHEAR
      MATERIAL NUMBER. . . . . . . . . . . . =      1401
      MATERIAL LAW . . . . . . . . . . . . . =        38
 
@@ -765,9 +788,9 @@ SOLUTION :
          4
      UNLOADING CURVES : 
          4
- 
 
-     NASTRAN MID _      1501_LAW 38 HYDROSTATIC
+
+     HYDROSTATIC
      MATERIAL NUMBER. . . . . . . . . . . . =      1501
      MATERIAL LAW . . . . . . . . . . . . . =        38
 
@@ -828,7 +851,7 @@ SOLUTION :
          4
      UNLOADING CURVES : 
          4
- 
+
      SKEW SYSTEM SETS                                                                    
      -------------------                                                                 
      NUMBER        N1        N2        N3          VECTORS                                          ORIGIN
@@ -1252,105 +1275,105 @@ LAW 38 HYDROSTATIC LOADING
 PART:         1,LAW 28 PURE COMPRESSION
 ----
      PROPERTY:       101,LAW 28 PURE COMPRESSION
-     MATERIAL:       101,NASTRAN MID _       101_LAW 28 PURE COMPRESSION
+     MATERIAL:       101,PURE COMPRESSION
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
 PART:         2,LAW 28 PURE SHEAR
 ----
      PROPERTY:       201,LAW 28 PURE SHEAR
-     MATERIAL:       201,NASTRAN MID _       201LAW 28 PURE SHEAR
+     MATERIAL:       201,PURE SHEAR
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
 PART:         3,LAW 28 HYDROSTATIC LOADING
 ----
      PROPERTY:       301,LAW 28 HYDROSTATIC LOADING
-     MATERIAL:       301,NASTRAN MID _       301_LAW 28 HYDROSTATIC
+     MATERIAL:       301,HYDROSTATIC
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
 PART:         4,LAW 33 PURE COMPRESSION
 ----
      PROPERTY:       401,LAW 33 PURE COMPRESSION
-     MATERIAL:       401,NASTRAN MID _       401_LAW 33 PURE COMPRESSION
+     MATERIAL:       401,PURE COMPRESSION
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
 PART:         5,LAW 33 PURE SHEAR
 ----
      PROPERTY:       501,LAW 33 PURE SHEAR
-     MATERIAL:       501,NASTRAN MID _       501_LAW 28 PURE SHEAR
+     MATERIAL:       501,PURE SHEAR
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
 PART:         6,LAW 33 HYDROSTATIC LOADING
 ----
      PROPERTY:       601,LAW 33 HYDROSTATIC LOADING
-     MATERIAL:       601,NASTRAN MID _       601_LAW 28 HYDROSTATIC
+     MATERIAL:       601,HYDROSTATIC
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
 PART:         7,LAW 34 PURE COMPRESSION
 ----
      PROPERTY:       701,LAW 34 PURE COMPRESSION
-     MATERIAL:       701,NASTRAN MID _       701_LAW 34 PURE COMPRESSION
+     MATERIAL:       701,PURE COMPRESSION
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
 PART:         8,LAW 34 PURE SHEAR
 ----
      PROPERTY:       801,LAW 34 PURE SHEAR
-     MATERIAL:       801,NASTRAN MID _       801_LAW 34 PURE SHEAR
+     MATERIAL:       801,PURE SHEAR
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
 PART:         9,LAW 34 HYDROSTATIC LOADING
 ----
      PROPERTY:       901,LAW 34 HYDROSTATIC LOADING
-     MATERIAL:       901,NASTRAN MID _       901_LAW 34 HYDROSTATIC
+     MATERIAL:       901,HYDROSTATIC
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
 PART:        10,LAW 35 PURE COMPRESSION
 ----
      PROPERTY:      1001,LAW 35 PURE COMPRESSION
-     MATERIAL:      1001,NASTRAN MID _      1001_LAW 35 PURE COMPRESSION
+     MATERIAL:      1001,PURE COMPRESSION
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
 PART:        11,LAW 35 PURE SHEAR
 ----
      PROPERTY:      1101,LAW 35 PURE SHEAR
-     MATERIAL:      1101,NASTRAN MID _      1101_LAW 35 PURE SHEAR
+     MATERIAL:      1101,PURE SHEAR
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
 PART:        12,LAW 35 HYDROSTATIC LOADING
 ----
      PROPERTY:      1201,LAW 35 HYDROSTATIC LOADING
-     MATERIAL:      1201,NASTRAN MID _      1201_LAW 35 HYDROSTATIC
+     MATERIAL:      1201,HYDROSTATIC
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
 PART:        13,LAW 38 PURE COMPRESSION
 ----
      PROPERTY:      1301,LAW 38 PURE COMPRESSION
-     MATERIAL:      1301,NASTRAN MID _      1301_LAW 38 PURE COMPRESSION
+     MATERIAL:      1301,NCOMPRESSION
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
 PART:        14,LAW 38 PURE SHEAR
 ----
      PROPERTY:      1401,LAW 38 PURE SHEAR
-     MATERIAL:      1401,NASTRAN MID _      1401_LAW 38 PURE SHEAR
+     MATERIAL:      1401,PURE SHEAR
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
 PART:        15,LAW 38 HYDROSTATIC LOADING
 ----
      PROPERTY:      1501,LAW 38 HYDROSTATIC LOADING
-     MATERIAL:      1501,NASTRAN MID _      1501_LAW 38 HYDROSTATIC
+     MATERIAL:      1501,HYDROSTATIC
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
@@ -1564,22 +1587,22 @@ PART:        15,LAW 38 HYDROSTATIC LOADING
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1        28         1         1         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         2        28         1         2         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         3        28         1         3         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         4        33         1         4         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         5        33         1         5         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         6        33         1         6         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         7        34         1         7         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         8        34         1         8         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         9        34         1         9         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-        10        35         1        10         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-        11        35         1        11         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-        12        35         1        12         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-        13        38         1        13         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-        14        38         1        14         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-        15        38         1        15         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
+         1        28         1         1         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
+         2        28         1         2         1         1         0         0         0         0         1         0         2         0         2         0         0         0         0
+         3        28         1         3         1         1         0         0         0         0         1         0         3         0         2         0         0         0         0
+         4        33         1         4         1         1         0         0         0         0         1         0         4         0         2         0         0         0         0
+         5        33         1         5         1         1         0         0         0         0         1         0         5         0         2         0         0         0         0
+         6        33         1         6         1         1         0         0         0         0         1         0         6         0         2         0         0         0         0
+         7        34         1         7         1         1         0         0         0         0         1         0         7         0         2         0         0         0         0
+         8        34         1         8         1         1         0         0         0         0         1         0         8         0         2         0         0         0         0
+         9        34         1         9         1         1         0         0         0         0         1         0         9         0         2         0         0         0         0
+        10        35         1        10         1         1         0         0         0         0         1         0        10         0         2         0         0         0         0
+        11        35         1        11         1         1         0         0         0         0         1         0        11         0         2         0         0         0         0
+        12        35         1        12         1         1         0         0         0         0         1         0        12         0         2         0         0         0         0
+        13        38         1        13         1         1         0         0         0         0         1         0        13         0         2         0         0         0         0
+        14        38         1        14         1         1         0         0         0         0         1         0        14         0         2         0         0         0         0
+        15        38         1        15         1         1         0         0         0         0         1         0        15         0         2         0         0         0         0
 
 
        RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
@@ -1854,20 +1877,20 @@ Part id,name:        15 LAW 38 HYDROSTATIC L   Mat type:  38 Elm type: SOLID-HEX
          ------------------------
 
       TIME STEP       ELEMENT NUMBER
-  7.3683447721758E-06          10001
-  7.3683447721758E-06          11001
   7.3683447721758E-06          12001
-  9.5124921964577E-06           7001
-  9.5124921964577E-06           8001
+  7.3683447721758E-06          11001
+  7.3683447721758E-06          10001
   9.5124921964577E-06           9001
-  9.5124921972504E-06           1001
-  9.5124921972504E-06           2001
-  9.5124921972504E-06           3001
-  9.5124921972504E-06           4001
-  9.5124921972504E-06           5001
-  9.5124921972504E-06           6001
-  9.5124921972504E-06          13001
+  9.5124921964577E-06           8001
+  9.5124921964577E-06           7001
   9.5124921972504E-06          14001
+  9.5124921972504E-06          13001
+  9.5124921972504E-06           2001
+  9.5124921972504E-06           1001
+  9.5124921972504E-06           6001
+  9.5124921972504E-06           5001
+  9.5124921972504E-06           4001
+  9.5124921972504E-06           3001
   9.5124921972504E-06          15001
 
 
@@ -1875,106 +1898,106 @@ Part id,name:        15 LAW 38 HYDROSTATIC L   Mat type:  38 Elm type: SOLID-HEX
          ---------------
 
       TIME STEP       NODE NUMBER
-  7.3683447721758E-06          11005
-  7.3683447721758E-06          12007
-  7.3683447721758E-06          12006
+  7.3683447721758E-06          12003
+  7.3683447721758E-06          11006
+  7.3683447721758E-06          12001
+  7.3683447721758E-06          12002
   7.3683447721758E-06          12005
   7.3683447721758E-06          12004
-  7.3683447721758E-06          12003
-  7.3683447721758E-06          12002
-  7.3683447721758E-06          12001
-  7.3683447721758E-06          11008
   7.3683447721758E-06          11007
-  7.3683447721758E-06          11006
-  7.3683447721758E-06          12008
-  7.3683447721758E-06          11004
-  7.3683447721758E-06          11003
+  7.3683447721758E-06          12006
+  7.3683447721758E-06          12007
+  7.3683447721758E-06          11008
+  7.3683447721758E-06          10003
+  7.3683447721758E-06          10008
+  7.3683447721758E-06          11005
+  7.3683447721758E-06          10006
+  7.3683447721758E-06          10007
   7.3683447721758E-06          11002
   7.3683447721758E-06          11001
-  7.3683447721758E-06          10008
-  7.3683447721758E-06          10007
-  7.3683447721758E-06          10006
+  7.3683447721758E-06          10002
+  7.3683447721758E-06          11003
+  7.3683447721758E-06          11004
+  7.3683447721758E-06          12008
   7.3683447721758E-06          10005
   7.3683447721758E-06          10004
-  7.3683447721758E-06          10003
-  7.3683447721758E-06          10002
   7.3683447721758E-06          10001
-  9.5124921964577E-06           8004
-  9.5124921964577E-06           7001
-  9.5124921964577E-06           9008
-  9.5124921964577E-06           7003
-  9.5124921964577E-06           7004
-  9.5124921964577E-06           7005
-  9.5124921964577E-06           7006
-  9.5124921964577E-06           7007
-  9.5124921964577E-06           7008
-  9.5124921964577E-06           8001
-  9.5124921964577E-06           8002
-  9.5124921964577E-06           8003
-  9.5124921964577E-06           7002
-  9.5124921964577E-06           8005
-  9.5124921964577E-06           8006
-  9.5124921964577E-06           8007
+  9.5124921964577E-06           9002
   9.5124921964577E-06           8008
   9.5124921964577E-06           9001
-  9.5124921964577E-06           9002
-  9.5124921964577E-06           9003
   9.5124921964577E-06           9004
+  9.5124921964577E-06           9003
+  9.5124921964577E-06           8006
   9.5124921964577E-06           9005
   9.5124921964577E-06           9006
+  9.5124921964577E-06           8007
+  9.5124921964577E-06           7003
+  9.5124921964577E-06           8005
+  9.5124921964577E-06           7006
+  9.5124921964577E-06           8003
+  9.5124921964577E-06           7004
+  9.5124921964577E-06           7005
+  9.5124921964577E-06           7008
+  9.5124921964577E-06           7007
+  9.5124921964577E-06           7001
+  9.5124921964577E-06           8001
+  9.5124921964577E-06           8002
+  9.5124921964577E-06           7002
+  9.5124921964577E-06           8004
   9.5124921964577E-06           9007
-  9.5124921972504E-06          15008
-  9.5124921972504E-06          13001
-  9.5124921972504E-06          14004
-  9.5124921972504E-06          13002
-  9.5124921972504E-06          13003
-  9.5124921972504E-06          13004
-  9.5124921972504E-06          13005
-  9.5124921972504E-06          13006
-  9.5124921972504E-06          13007
-  9.5124921972504E-06          13008
-  9.5124921972504E-06          14001
-  9.5124921972504E-06          14002
-  9.5124921972504E-06          14003
-  9.5124921972504E-06          15007
-  9.5124921972504E-06          14005
-  9.5124921972504E-06          14006
+  9.5124921964577E-06           9008
+  9.5124921972504E-06          15002
   9.5124921972504E-06          14007
   9.5124921972504E-06          14008
   9.5124921972504E-06          15001
-  9.5124921972504E-06          15002
-  9.5124921972504E-06          15003
   9.5124921972504E-06          15004
+  9.5124921972504E-06          15003
   9.5124921972504E-06          15005
   9.5124921972504E-06          15006
-  9.5124921972504E-06           1001
-  9.5124921972504E-06           2005
-  9.5124921972504E-06           3007
-  9.5124921972504E-06           3006
-  9.5124921972504E-06           3005
-  9.5124921972504E-06           3004
-  9.5124921972504E-06           3003
-  9.5124921972504E-06           3002
-  9.5124921972504E-06           3001
-  9.5124921972504E-06           2008
-  9.5124921972504E-06           2007
-  9.5124921972504E-06           2006
-  9.5124921972504E-06           3008
-  9.5124921972504E-06           2004
-  9.5124921972504E-06           2003
-  9.5124921972504E-06           2002
-  9.5124921972504E-06           2001
-  9.5124921972504E-06           1008
-  9.5124921972504E-06           1007
-  9.5124921972504E-06           1006
-  9.5124921972504E-06           1005
-  9.5124921972504E-06           1004
-  9.5124921972504E-06           1003
+  9.5124921972504E-06          15007
+  9.5124921972504E-06          14006
+  9.5124921972504E-06          14004
+  9.5124921972504E-06          14005
+  9.5124921972504E-06          13005
+  9.5124921972504E-06          14002
+  9.5124921972504E-06          13002
+  9.5124921972504E-06          13003
+  9.5124921972504E-06          13004
+  9.5124921972504E-06          13006
+  9.5124921972504E-06          14003
+  9.5124921972504E-06          13007
+  9.5124921972504E-06          13008
+  9.5124921972504E-06          14001
+  9.5124921972504E-06          13001
   9.5124921972504E-06           1002
+  9.5124921972504E-06           3002
   9.5124921972504E-06           6008
-  9.5124921972504E-06           5005
-  9.5124921972504E-06           6007
-  9.5124921972504E-06           6006
+  9.5124921972504E-06           2007
+  9.5124921972504E-06           2008
+  9.5124921972504E-06           3001
+  9.5124921972504E-06           3003
+  9.5124921972504E-06           2005
+  9.5124921972504E-06           3004
+  9.5124921972504E-06           3005
+  9.5124921972504E-06           3006
+  9.5124921972504E-06           2006
+  9.5124921972504E-06           2004
+  9.5124921972504E-06           1006
+  9.5124921972504E-06           2003
+  9.5124921972504E-06           1003
+  9.5124921972504E-06           1004
+  9.5124921972504E-06           1005
+  9.5124921972504E-06           1007
+  9.5124921972504E-06           3008
+  9.5124921972504E-06           1008
+  9.5124921972504E-06           2001
+  9.5124921972504E-06           2002
+  9.5124921972504E-06           3007
+  9.5124921972504E-06           4002
+  9.5124921972504E-06           4001
+  9.5124921972504E-06           6003
+  9.5124921972504E-06           4003
+  9.5124921972504E-06           5008
 
 
          NODAL TIME STEP DISTRIBUTION 
@@ -2071,34 +2094,31 @@ Part id,name:        15 LAW 38 HYDROSTATIC L   Mat type:  38 Elm type: SOLID-HEX
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        125 MB
+    STARTER MEMORY USAGE        123 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
+
 AVERAGE NB. OF BOUNDARY NODES :     0
 STANDARD DEVIATION            :     0
- 
+
 AVERAGE NUMBER OF LOCAL NODES :      30
 STANDARD DEVIATION            :      52
- 
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     1            15                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     2             0                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     3             0                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     4             0                     0                     0
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
  NUMBER OF NODES................. :         120
  NUMBER OF SOLID ELEMENTS........ :          15
  TOTAL NUMBER OF NODES FOR COMM.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -2107,13 +2127,13 @@ STANDARD DEVIATION            :      52
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
  NUMBER OF NODES................. :           0
  NUMBER OF SOLID ELEMENTS........ :           0
  TOTAL NUMBER OF NODES FOR COMM.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -2122,13 +2142,13 @@ STANDARD DEVIATION            :      52
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
  NUMBER OF NODES................. :           0
  NUMBER OF SOLID ELEMENTS........ :           0
  TOTAL NUMBER OF NODES FOR COMM.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -2137,13 +2157,13 @@ STANDARD DEVIATION            :      52
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
  NUMBER OF NODES................. :           0
  NUMBER OF SOLID ELEMENTS........ :           0
  TOTAL NUMBER OF NODES FOR COMM.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -2152,7 +2172,7 @@ STANDARD DEVIATION            :      52
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
 
      RESTART FILES DMAFNLIN_0000 WRITTEN
      -------------
@@ -2163,21 +2183,21 @@ STANDARD DEVIATION            :      52
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .7158E+00   .1503E+00   .1591E-01   .0000E+00   .0000E+00   .0000E+00   .1401E-04
+.0000E+00   .3912E+00   .1654E+00   .1532E-01   .0000E+00   .0000E+00   .0000E+00   .3093E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1650E+10   .1935E+00   .1746E-01   .0000E+00   .0000E+00   .0000E+00   .1431E-04
+.0000E+00   .1144E+07   .1820E+00   .1100E-01   .0000E+00   .0000E+00   .0000E+00   .1088E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2022/04/11  09:56:01
- EXECUTION COMPLETED    :      2022/04/11  09:56:04
+ EXECUTION STARTED      :      2022/11/23  16:21:58
+ EXECUTION COMPLETED    :      2022/11/23  16:21:59
   
- ELAPSED TIME...........=          2.52 s
-                               00:00:02
+ ELAPSED TIME...........=          0.64 s
+                               00:00:00
   
 ------------------------------------------------------------------------
 
@@ -2199,12 +2219,20 @@ STANDARD DEVIATION            :      52
 |                                                           |       |                                                  |
 |                                                           |                                                          |
 |                                                           |                                                          |
+|                                                           |  --- MATERIALS                              3 WARNING(S) |
+|                                                           |       |                                                  |
+|                                                           |       |                                                  |
+|                                                           |       |---     3 WARNING ID :         1220               |
+|                                                           |       | ** WARNING ON MATERIAL LAW DATA                  |
+|                                                           |       |                                                  |
+|                                                           |                                                          |
+|                                                           |                                                          |
 ------------------------------------------------------------------------------------------------------------------------
 
 
 
 
               0 ERROR(S)            
-              1 WARNING(S)          
+              4 WARNING(S)          
 
 

@@ -2,46 +2,68 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                     RADIOSS STARTER MAINLINE                       **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 0904382_08738000000_1060_0052710_10                     **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2018                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  49088 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
- ** WARNING : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
-  
-
-+-------------------+
-| BLOCK FREE FORMAT |
-+-------------------+
 
 
- SMAES - SECTION CIRCULAIRE (DIMENSION MAQUETTE)                                 
+************************************************************************
+* INPUT READING PROCESS
+************************************************************************
+
+WARNING ID : 100211
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /INTER/TYPE22/1
+-- LINE: /INTER/TYPE22/1
+Unsupported option /INTER/TYPE22 in format < 2018
+
+ -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
+
+
+
+
+************************************************************************
+
+
+
+    UNIT SYSTEMS DEFINITION     
+    -----------------------     
+
+                                                          MASS                LENGTH              TIME
+    WORK UNIT SYSTEM . . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+    INPUT UNIT SYSTEM  . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+
+
+ SECTION CIRCULAIRE (DIMENSION MAQUETTE)                                         
 
 
     CONTROL  PARAMETERS                                                                  
     -------------------                                                                  
 
-    IPRI  : PRINTOUT FLAG . . . . . . . . . . . . . . . .         5
+    IPRI  : PRINTOUT FLAG . . . . . . . . . . . . . . . .         0
     INVERS: MANUAL VERSION OF THIS INPUT DECK . . . . . .       130
     NSUBS:   NUMBER OF SUBSETS. . . . . . . . . . . . . .         1
     NPART:   NUMBER OF PARTS. . . . . . . . . . . . . . .         5
@@ -51,7 +73,8 @@
     NUMSKW: NUMBER OF SKEW REFERENCE FRAMES . . . . . . .         0
     NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         4
     NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
-    NUMELQ: NUMBER OF 2D SOLID ELEMENTS . . . . . . . . .         0
+    NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .         0
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
     NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .         9
     NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .         3
     NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
@@ -66,9 +89,13 @@
 
     NFUNCT: NUMBER OF USER'S FUNCTIONS . . . . . . . . .          1
     NGRAV:  NUMBER OF GRAVITY LOADS . . . . . . . . . . .         0
+    NFUNC2D:  NUMBER OF USER 2D FUNCTIONS . . . . . . . .         0
+    NINIGRV:NUMBER OF INITIAL GRAVITY LOADS . . . . . . .         0
     NCONLD: NUMBER OF CONCENTRATED LOADS. . . . . . . . .         0
     NINVEL: NUMBER OF INITIAL VELOCITIES. . . . . . . . .         0
     NPRELD: NUMBER OF PRESSURE LOADS. . . . . . . . . . .         0
+    NINIMAP1D: NUMBER OF INITIAL 1D MAPPING.. . . . . . .         0
+    NINIMAP2D: NUMBER OF INITIAL 2D MAPPING.. . . . . . .         0
     NUMBER OF ACCELEROMETERS. . . . . . . . . . . . . . .         0
     NUMBER OF SENSORS . . . . . . . . . . . . . . . . . .         0
     NUMBER OF GAUGES. . . . . . . . . . . . . . . . . . .         0
@@ -92,32 +119,18 @@
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
-    INITIAL STRESS FILE =                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+    INITIAL STRESS FILE =
                                           FLAG ISIGI. . .         0
-
-    NWALE : CHOICE OF ALE GRID VELOCITY FORMULATION . . .         0
-
-
-    ALE GRID FORMULATION                           
-    --------------------                           
-     DONEA GRID VELOCITY COMPUTATION METHOD         
-     ALPHA   : DONEA COEFFICIENT. . . . . . . . . .   0.000000000000    
-     GAMMA   : GRID VELOCITY LIMITATION FACTOR. . .   0.000000000000    
-     FscaleX : X-GRID VELOCITY SCALE FACTOR . . . .   0.000000000000    
-     FscaleY : Y-GRID VELOCITY SCALE FACTOR . . . .   0.000000000000    
-     FscaleZ : Z-GRID VELOCITY SCALE FACTOR . . . .   0.000000000000    
-     VOLMIN  : MINIMUM VOLUME FOR ELEMENT DELETION. -1.0000000000000E+30
+    ISFINT: ALE/EULER MOMENTUM INTEGRATION FORMULATION. .         3
 
 
-    ALE UPWIND PARAMETERS                   
+    ALEMUSCL                   
     ---------------------                   
-     UPWIND FOR MOMENTUM TRANSPORT . . . . .=  1.000000000000    
-     UPWIND FOR OTHER TRANSPORT. . . . . . .=  1.000000000000    
-     UPWIND FOR WETTED AREA (law 51) . . . .=  1.000000000000    
+     COMPRESSION COEFFICIENT (BETA). . . . . . . . . . . :   2.000000000000    
+     FORMULATION FLAG (IFLAG). . . . . . . . . . . . . . :          0
 
 
     N2D3D : ANALYSIS TYPE: 0=3D,1=AXISYM,2=PLANE STRAIN .         0
@@ -133,28 +146,27 @@
                                          (1:YES 0:NO). . .         0
     IUSERW : GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
     ISOLID : DEFAULT BRICK FORMULATION FLAG. . . . . . . .         1
-    ISST_S : DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
-    IPLA_S : DEFAULT SOLID STRESS PLASTICITY FLAG. . . . .         2
+    ITET4  : DEFAULT TETRA4 FORMULATION FLAG . . . . . . .         0
+    ITET10 : DEFAULT TETRA10 FORMULATION FLAG. . . . . . .         0
+    ISMSTR : DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
+    ICPRE  : DEFAULT SOLID CONSTANT PRESSURE FLAG. . . . .         0
     ISHELL : DEFAULT SHELL FORMULATION FLAG. . . . . . . .         1
     ISST   : DEFAULT SHELL SMALL STRAIN FLAG . . . . . . .         0
     ITHK   : DEFAULT SHELL THICKNESS VARIATION FLAG. . . .         0
     IPLA   : DEFAULT PLANE STRESS PLASTICITY FLAG. . . . .         0
-    ISTR   : DEFAULT SHELL STRAIN COMPUTATION FLAG . . . .         0
+    ISTR   : DEFAULT SHELL STRAIN COMPUTATION FLAG . . . .         1
     ISHEA  : DEFAULT SHELL SHEAR COMPUTATION FLAG. . . . .         0
     INSH   : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
     ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         2
     NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
              INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
-    ISTRA  : DEFAULT SOLID STRAIN COMPUTATION FLAG . . . .         2
+    IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
     ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         0
-    IALEFVM: FVM FOR ALE MOMENTUM EQUATION.  . . . . . . .         0
-    IALEFVM: FVM FOR ALE MOMENTUM EQUATION.  . . . . . . .         3
-    ISFINT : INTERNAL FORCES FROM GREEN THEOREM. . . . . .         1
 
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -163,19 +175,14 @@
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         1
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
-
-
-    UNIT SYSTEMS DEFINITION     
-    -----------------------     
-
-                                                          MASS                LENGTH              TIME
-    WORK UNIT SYSTEM . . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
-    INPUT UNIT SYSTEM  . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+ 
+     INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
+  
 
 
     LOAD CURVES
@@ -185,7 +192,7 @@
 
     LOAD CURVE ID . . . . . . . . . . . =         1
 
-    X                   Y               
+    X                     Y               
      0.000000000000        0.000000000000    
      100.0000000000       -10.00000000000    
 
@@ -196,51 +203,50 @@
 
 
 
-    FUNCTION  TRANSFORMATION 
+    MATERIAL LAWS
+    -------------
+    NUMBER OF MATERIALS. . . . . . . . . =         8
 
 
-
-     tole2024                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+     tole2024
      MATERIAL NUMBER . . . . . . . . . . . .=         2
      MATERIAL LAW. . . . . . . . . . . . . .=         1
 
+       ELASTIC MATERIAL (/MAT/LAW01)
+       -----------------------------
      INITIAL DENSITY . . . . . . . . . . . .=  122.0000000000    
-     EOS REFERENCE DENSITY . . . . . . . . .=  122.0000000000    
-
-       ELASTIC LAW                           
-       -----------                           
-
 
      YOUNG'S MODULUS . . . . . . . . . . . .=  0.6900E-01
      POISSON'S RATIO . . . . . . . . . . . .=  0.4000E+00
      SHEAR MODULUS . . . . . . . . . . . . .=  0.2464E-01
 
 
+     void
+        MATERIAL NUMBER . . . . . . . . . . . .=        10
+        MATERIAL LAW. . . . . . . . . . . . . .=         0
 
+       VOID MATERIAL                         
+       -------------                         
 
-     void                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-     MATERIAL NUMBER . . . . . . . . . . . .=        10
-     MATERIAL LAW. . . . . . . . . . . . . .=         0
 
      INITIAL DENSITY . . . . . . . . . . . .=  0.000000000000    
      YOUNG MODULUS . . . . . . . . . . . . .=  0.000000000000    
+     POISSON'S RATIO . . . . . . . . . . . .=  0.000000000000    
 
 
-
-     Linear_EOS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+     Linear_EOS
      MATERIAL NUMBER . . . . . . . . . . . .=       601
      MATERIAL LAW. . . . . . . . . . . . . .=         6
-
-     INITIAL DENSITY . . . . . . . . . . . .=  122.0000000000    
-     EOS REFERENCE DENSITY . . . . . . . . .=  122.0000000000    
 
        VISCOUS FLUID   
        --------------  
 
 
-     VISCOSITY . . . . . . . . . . . . . . .=  0.000000000000    
+     INITIAL DENSITY . . . . . . . . . . . .=  122.0000000000    
+     REFERENCE DENSITY . . . . . . . . . . .=  122.0000000000    
 
-     PSH PRESSURE SHIFT. . . . . . . . . . . .=  0.000000000000    
+     VISCOSITY . . . . . . . . . . . . . . .=  0.000000000000    
+     PSH PRESSURE SHIFT. . . . . . . . . . .=  0.000000000000    
 
      C0. . . . . . . . . . . . . . . . . . .=  100.0000000000    
      C1. . . . . . . . . . . . . . . . . . .=  25.00000000000    
@@ -249,25 +255,24 @@
      C4. . . . . . . . . . . . . . . . . . .=  0.000000000000    
      C5. . . . . . . . . . . . . . . . . . .=  0.000000000000    
      PRESSURE CUTOFF . . . . . . . . . . . .= 1.0000000000000E-20
+     INITIAL PRESSURE. . . . . . . . . . . .=  100.0000000000    
      INITIAL INTERNAL ENERGY PER UNIT VOLUME=  100.0000000000    
 
 
 
-
-     PerfectGas_EOS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+     PerfectGas_EOS
      MATERIAL NUMBER . . . . . . . . . . . .=       602
      MATERIAL LAW. . . . . . . . . . . . . .=         6
-
-     INITIAL DENSITY . . . . . . . . . . . .=  122.0000000000    
-     EOS REFERENCE DENSITY . . . . . . . . .=  122.0000000000    
 
        VISCOUS FLUID   
        --------------  
 
 
-     VISCOSITY . . . . . . . . . . . . . . .=  0.000000000000    
+     INITIAL DENSITY . . . . . . . . . . . .=  122.0000000000    
+     REFERENCE DENSITY . . . . . . . . . . .=  122.0000000000    
 
-     PSH PRESSURE SHIFT. . . . . . . . . . . .=  0.000000000000    
+     VISCOSITY . . . . . . . . . . . . . . .=  0.000000000000    
+     PSH PRESSURE SHIFT. . . . . . . . . . .=  0.000000000000    
 
      C0. . . . . . . . . . . . . . . . . . .=  0.000000000000    
      C1. . . . . . . . . . . . . . . . . . .=  0.000000000000    
@@ -276,501 +281,342 @@
      C4. . . . . . . . . . . . . . . . . . .= 0.4000000000000    
      C5. . . . . . . . . . . . . . . . . . .= 0.4000000000000    
      PRESSURE CUTOFF . . . . . . . . . . . .= 1.0000000000000E-20
+     INITIAL PRESSURE. . . . . . . . . . . .=  40.00000000000    
      INITIAL INTERNAL ENERGY PER UNIT VOLUME=  100.0000000000    
 
 
-
-
-     Linear_EOS_monomaterial                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+     Linear_EOS_monomaterial
      MATERIAL NUMBER . . . . . . . . . . . .=      5101
      MATERIAL LAW. . . . . . . . . . . . . .=        51
 
+       /MAT/LAW51 (MULTIMAT)
+       ---------------------
+
      INITIAL DENSITY . . . . . . . . . . . .=  122.0000000000    
-     EOS REFERENCE DENSITY . . . . . . . . .=  122.0000000000    
+     REFERENCE DENSITY . . . . . . . . . . .=  122.0000000000    
 
-       MULTI-MATERIAL SOLID or LIQUID or GAZ 
-       ------------------------------------------
-       SUBMATERIAL-1 SOLID ,LIQUID or GAS              
-       SUBMATERIAL-2 SOLID ,LIQUID or GAS              
-       SUBMATERIAL-3 SOLID ,LIQUID or GAS              
-
-
-     EXTERNAL PRESSURE . . . . . . . . . . .=  0.0000E+00
-     SHEAR KINEMATIC VISCOSITY . . . . . . .=  0.0000E+00
-     SPHERICAL KINEMATIC VISCOSITY . . . . .=  0.0000E+00
-
-                   SUBMAT-1 
-                   INITIAL PRESSURE :   0.1000E+03
-
-      P =C0 +C1 mu +C2 mu^2 +C3 mu^3 + (C4 + C5mu)Eint/Vo 
-
-      Y = (Y0 + B*EpsP^N)*ce*cT       
-
-          ce = (1+CC*Log(EpsDot/EPDR)) 
-          cT = (1-T*^CM)               
-          if(T>TLIM) CM=1              
-          T* = (T-T0)/(TMELT-T0)       
-
-     SUBMAT-1 VOLUME RATIO. . . . . . . . . .=  0.1000E+01
-     SUBMAT-1 reference DENSITY . . . . . . .=  0.1220E+03
-     SUBMAT-1 E0 initial ENERGY/unit volume .=  0.1000E+03
-     SUBMAT-1 Minimum PRESSURE. . . . . . . .=  0.1000E-19
-     SUBMAT-1 CO . . . . . . . . . . . . . . =  0.1000E+03
-     SUBMAT-1 C1. . . . . . . . . . . . . . .=  0.2500E+02
-     SUBMAT-1 C2. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-1 C3. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-1 C4. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-1 C5. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-1 G SHEAR MODULUS . . . . . . . .=  0.0000E+00
-     SUBMAT-1 Y YIELD STRESS. . . . . . . . .=  0.0000E+00
-     SUBMAT-1 B YIELD FACTOR. . . . . . . . .=  0.0000E+00
-     SUBMAT-1 N YIELD EXPONENT. . . . . . . .=  0.1000E+01
-     SUBMAT-1 CC     STRAIN RATE FACTOR . . .=  0.0000E+00
-     SUBMAT-1 EPDR   REFERENCE STRAIN RATE. .=  0.1000E+01
-     SUBMAT-1 CM     THERMAL EXPONENT . . . .=  0.0000E+00
-     SUBMAT-1 T0     INITIAL TEMPERATURE. . .=  0.3000E+03
-     SUBMAT-1 TMELT  MELTING TEMPERATURE. . .=  0.1000E+31
-     SUBMAT-1 TLIM   TEMPERATURE LIMIT. . . .=  0.1000E+31
-     SUBMAT-1 SPH    SPECIFIC HEAT (rho0 Cv).=  0.1000E+01
-     SUBMAT-1 MAXIMUM PLASTIC STRAIN. . . . .=  0.1000E+31
-     SUBMAT-1 MAXIMUM STRESS. . . . . . . . .=  0.1000E+31
-     SUBMAT-1 KA THERMAL CONDUCTIVITY . . . .=  0.1000E-19
-     SUBMAT-1 KB    K = KA + KB T            =  0.0000E+00
-
-                   SUBMAT-2 
-                   INITIAL PRESSURE :   0.1000E+03
-     SUBMAT-2 VOLUME RATIO. . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 reference DENSITY . . . . . . .=  0.1220E+03
-     SUBMAT-2 E0 initial ENERGY/unit volume .=  0.1000E+03
-     SUBMAT-2 Minimum PRESSURE. . . . . . . .=  0.1000E-19
-     SUBMAT-2 CO . . . . . . . . . . . . . . =  0.1000E+03
-     SUBMAT-2 C1. . . . . . . . . . . . . . .=  0.2500E+02
-     SUBMAT-2 C2. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 C3. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 C4. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 C5. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 G SHEAR MODULUS . . . . . . . .=  0.0000E+00
-     SUBMAT-2 Y YIELD STRESS. . . . . . . . .=  0.0000E+00
-     SUBMAT-2 B YIELD FACTOR. . . . . . . . .=  0.0000E+00
-     SUBMAT-2 N YIELD EXPONENT. . . . . . . .=  0.1000E+01
-     SUBMAT-2 CC     STRAIN RATE FACTOR . . .=  0.0000E+00
-     SUBMAT-2 EPDR   REFERENCE STRAIN RATE. .=  0.1000E+01
-     SUBMAT-2 CM     THERMAL EXPONENT . . . .=  0.0000E+00
-     SUBMAT-2 T0     INITIAL TEMPERATURE. . .=  0.3000E+03
-     SUBMAT-2 TMELT  MELTING TEMPERATURE. . .=  0.1000E+31
-     SUBMAT-2 TLIM   TEMPERATURE LIMIT. . . .=  0.1000E+31
-     SUBMAT-2 SPH    SPECIFIC HEAT (rho0 Cv).=  0.1000E+01
-     SUBMAT-2 MAXIMUM PLASTIC STRAIN. . . . .=  0.1000E+31
-     SUBMAT-2 MAXIMUM STRESS. . . . . . . . .=  0.1000E+31
-     SUBMAT-2 KA THERMAL CONDUCTIVITY . . . .=  0.1000E-19
-     SUBMAT-2 KB    K = KA + KB T            =  0.0000E+00
-
-                   SUBMAT-3 
-                   INITIAL PRESSURE :   0.1000E+03
-
-     SUBMAT-3 VOLUME RATIO. . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 reference DENSITY . . . . . . .=  0.1220E+03
-     SUBMAT-3 E0 initial ENERGY/unit volume .=  0.1000E+03
-     SUBMAT-3 Minimum PRESSURE. . . . . . . .=  0.1000E-19
-     SUBMAT-3 CO . . . . . . . . . . . . . . =  0.1000E+03
-     SUBMAT-3 C1. . . . . . . . . . . . . . .=  0.2500E+02
-     SUBMAT-3 C2. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 C3. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 C4. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 C5. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 G SHEAR MODULUS . . . . . . . .=  0.0000E+00
-     SUBMAT-3 Y YIELD STRESS. . . . . . . . .=  0.0000E+00
-     SUBMAT-3 B YIELD FACTOR. . . . . . . . .=  0.0000E+00
-     SUBMAT-3 N YIELD EXPONENT. . . . . . . .=  0.1000E+01
-     SUBMAT-3 CC     STRAIN RATE FACTOR . . .=  0.0000E+00
-     SUBMAT-3 EPDR   REFERENCE STRAIN RATE. .=  0.1000E+01
-     SUBMAT-3 CM     THERMAL EXPONENT . . . .=  0.0000E+00
-     SUBMAT-3 T0     INITIAL TEMPERATURE. . .=  0.3000E+03
-     SUBMAT-3 TMELT  MELTING TEMPERATURE. . .=  0.1000E+31
-     SUBMAT-3 TLIM   TEMPERATURE LIMIT. . . .=  0.1000E+31
-     SUBMAT-3 SPH    SPECIFIC HEAT (rho0 Cv).=  0.1000E+01
-     SUBMAT-3 MAXIMUM PLASTIC STRAIN. . . . .=  0.1000E+31
-     SUBMAT-3 MAXIMUM STRESS. . . . . . . . .=  0.1000E+31
-     SUBMAT-3 KA THERMAL CONDUCTIVITY . . . .=  0.1000E-19
-     SUBMAT-3 KB    K = KA + KB T            =  0.0000E+00
-
-
-     Minimum Energies                      
-     (Computed for Numerical Stability)    
-     SUBMAT-1 Minimum ENERGY. . . . . . . . .= -0.1000E+31
-     SUBMAT-2 Minimum ENERGY. . . . . . . . .= -0.1000E+31
-     SUBMAT-3 Minimum ENERGY. . . . . . . . .= -0.1000E+31
-
-
-
-
-     Linear_EOS_multimaterial                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+     FORMULATION FLAG . . . . . . . . . . . =   0
+     EXTERNAL PRESSURE. . . . . . . . . . . =  0.0000E+00
+     SHEAR KINEMATIC VISCOSITY. . . . . . . =  0.0000E+00
+     SPHERICAL KINEMATIC VISCOSITY. . . . . =  0.0000E+00
+     ____________________________________________________
+     VOLUME FRACTION - SUBMAT-1 . . . . . . =1.0000000000
+     VOLUME FRACTION - SUBMAT-2 . . . . . . =0.0000000000
+     VOLUME FRACTION - SUBMAT-3 . . . . . . =0.0000000000
+     VOLUME FRACTION - SUBMAT-4 . . . . . . =0.0000000000
+     __________________________
+     +S U B M A T E R I A L - 1
+     |
+     +----POLYNOMIAL EoS
+     |    --------------
+     |    C0 . . . . . . . . . . . . . . . .=  100.0000000000    
+     |    C1. . . . . . . . . . . . . . . . =  25.00000000000    
+     |    C2. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C3. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C4. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C5. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    E0. . . . . . . . . . . . . . . . =  100.0000000000    
+     |    RHO0. . . . . . . . . . . . . . . =  122.0000000000    
+     |    PMIN. . . . . . . . . . . . . . . = 1.0000000000000E-20
+     |    INITIAL PRESSURE (COMPUTED) . . . =  100.0000000000    
+     __________________________
+     +S U B M A T E R I A L - 2
+     |
+     +----POLYNOMIAL EoS
+     |    --------------
+     |    C0 . . . . . . . . . . . . . . . .=  100.0000000000    
+     |    C1. . . . . . . . . . . . . . . . =  25.00000000000    
+     |    C2. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C3. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C4. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C5. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    E0. . . . . . . . . . . . . . . . =  100.0000000000    
+     |    RHO0. . . . . . . . . . . . . . . =  122.0000000000    
+     |    PMIN. . . . . . . . . . . . . . . = 1.0000000000000E-20
+     |    INITIAL PRESSURE (COMPUTED) . . . =  100.0000000000    
+     __________________________
+     +S U B M A T E R I A L - 3
+     |
+     +----POLYNOMIAL EoS
+     |    --------------
+     |    C0 . . . . . . . . . . . . . . . .=  100.0000000000    
+     |    C1. . . . . . . . . . . . . . . . =  25.00000000000    
+     |    C2. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C3. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C4. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C5. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    E0. . . . . . . . . . . . . . . . =  100.0000000000    
+     |    RHO0. . . . . . . . . . . . . . . =  122.0000000000    
+     |    PMIN. . . . . . . . . . . . . . . = 1.0000000000000E-20
+     |    INITIAL PRESSURE (COMPUTED) . . . =  100.0000000000    
+     __________________________
+     +S U B M A T E R I A L - 4
+     |
+     +----JWL EoS
+     |    -------
+     |    RHO0 INITIAL DENSITY . . . . . . .=  0.0000E+00
+     |    E0   INITIAL ENERGY/UNIT VOLUME . =  0.0000E+00
+     |    PMIN MINIMUM PRESSURE. . . . . . .= -0.1000E+21
+     |    C0   INITIAL PRESSURE . . . . . . =  0.0000E+00
+     |    C1   UNREACTED BULK MODULUS . . . =  0.0000E+00
+     |    A . . . . . . . . . . . . . . . . =  0.0000E+00
+     |    B . . . . . . . . . . . . . . . . =  0.0000E+00
+     |    R1. . . . . . . . . . . . . . . . =  0.0000E+00
+     |    R2. . . . . . . . . . . . . . . . =  0.0000E+00
+     |    W . . . . . . . . . . . . . . . . =  0.0000E+00
+     |    VDET DETONATION VELOCITY. . . . . =  0.0000E+00
+     |    PCJ  PRESSURE AT C-J STATE . . . .=  0.0000E+00
+     |    VCJ  VOLUME AT C-J STATE . . . . .=  0.1000E+01
+     |    FLAG FOR BURN FRACTION METHOD . . =         0
+     Linear_EOS_multimaterial
      MATERIAL NUMBER . . . . . . . . . . . .=      5102
      MATERIAL LAW. . . . . . . . . . . . . .=        51
 
+       /MAT/LAW51 (MULTIMAT)
+       ---------------------
+
      INITIAL DENSITY . . . . . . . . . . . .=  122.0000000000    
-     EOS REFERENCE DENSITY . . . . . . . . .=  122.0000000000    
+     REFERENCE DENSITY . . . . . . . . . . .=  122.0000000000    
 
-       MULTI-MATERIAL SOLID or LIQUID or GAZ 
-       ------------------------------------------
-       SUBMATERIAL-1 SOLID ,LIQUID or GAS              
-       SUBMATERIAL-2 SOLID ,LIQUID or GAS              
-       SUBMATERIAL-3 SOLID ,LIQUID or GAS              
-
-
-     EXTERNAL PRESSURE . . . . . . . . . . .=  0.0000E+00
-     SHEAR KINEMATIC VISCOSITY . . . . . . .=  0.0000E+00
-     SPHERICAL KINEMATIC VISCOSITY . . . . .=  0.0000E+00
-
-                   SUBMAT-1 
-                   INITIAL PRESSURE :   0.1000E+03
-
-      P =C0 +C1 mu +C2 mu^2 +C3 mu^3 + (C4 + C5mu)Eint/Vo 
-
-      Y = (Y0 + B*EpsP^N)*ce*cT       
-
-          ce = (1+CC*Log(EpsDot/EPDR)) 
-          cT = (1-T*^CM)               
-          if(T>TLIM) CM=1              
-          T* = (T-T0)/(TMELT-T0)       
-
-     SUBMAT-1 VOLUME RATIO. . . . . . . . . .=  0.3333E+00
-     SUBMAT-1 reference DENSITY . . . . . . .=  0.1220E+03
-     SUBMAT-1 E0 initial ENERGY/unit volume .=  0.1000E+03
-     SUBMAT-1 Minimum PRESSURE. . . . . . . .=  0.1000E-19
-     SUBMAT-1 CO . . . . . . . . . . . . . . =  0.1000E+03
-     SUBMAT-1 C1. . . . . . . . . . . . . . .=  0.2500E+02
-     SUBMAT-1 C2. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-1 C3. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-1 C4. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-1 C5. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-1 G SHEAR MODULUS . . . . . . . .=  0.0000E+00
-     SUBMAT-1 Y YIELD STRESS. . . . . . . . .=  0.0000E+00
-     SUBMAT-1 B YIELD FACTOR. . . . . . . . .=  0.0000E+00
-     SUBMAT-1 N YIELD EXPONENT. . . . . . . .=  0.1000E+01
-     SUBMAT-1 CC     STRAIN RATE FACTOR . . .=  0.0000E+00
-     SUBMAT-1 EPDR   REFERENCE STRAIN RATE. .=  0.1000E+01
-     SUBMAT-1 CM     THERMAL EXPONENT . . . .=  0.0000E+00
-     SUBMAT-1 T0     INITIAL TEMPERATURE. . .=  0.3000E+03
-     SUBMAT-1 TMELT  MELTING TEMPERATURE. . .=  0.1000E+31
-     SUBMAT-1 TLIM   TEMPERATURE LIMIT. . . .=  0.1000E+31
-     SUBMAT-1 SPH    SPECIFIC HEAT (rho0 Cv).=  0.1000E+01
-     SUBMAT-1 MAXIMUM PLASTIC STRAIN. . . . .=  0.1000E+31
-     SUBMAT-1 MAXIMUM STRESS. . . . . . . . .=  0.1000E+31
-     SUBMAT-1 KA THERMAL CONDUCTIVITY . . . .=  0.1000E-19
-     SUBMAT-1 KB    K = KA + KB T            =  0.0000E+00
-
-                   SUBMAT-2 
-                   INITIAL PRESSURE :   0.1000E+03
-     SUBMAT-2 VOLUME RATIO. . . . . . . . . .=  0.3333E+00
-     SUBMAT-2 reference DENSITY . . . . . . .=  0.1220E+03
-     SUBMAT-2 E0 initial ENERGY/unit volume .=  0.1000E+03
-     SUBMAT-2 Minimum PRESSURE. . . . . . . .=  0.1000E-19
-     SUBMAT-2 CO . . . . . . . . . . . . . . =  0.1000E+03
-     SUBMAT-2 C1. . . . . . . . . . . . . . .=  0.2500E+02
-     SUBMAT-2 C2. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 C3. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 C4. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 C5. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 G SHEAR MODULUS . . . . . . . .=  0.0000E+00
-     SUBMAT-2 Y YIELD STRESS. . . . . . . . .=  0.0000E+00
-     SUBMAT-2 B YIELD FACTOR. . . . . . . . .=  0.0000E+00
-     SUBMAT-2 N YIELD EXPONENT. . . . . . . .=  0.1000E+01
-     SUBMAT-2 CC     STRAIN RATE FACTOR . . .=  0.0000E+00
-     SUBMAT-2 EPDR   REFERENCE STRAIN RATE. .=  0.1000E+01
-     SUBMAT-2 CM     THERMAL EXPONENT . . . .=  0.0000E+00
-     SUBMAT-2 T0     INITIAL TEMPERATURE. . .=  0.3000E+03
-     SUBMAT-2 TMELT  MELTING TEMPERATURE. . .=  0.1000E+31
-     SUBMAT-2 TLIM   TEMPERATURE LIMIT. . . .=  0.1000E+31
-     SUBMAT-2 SPH    SPECIFIC HEAT (rho0 Cv).=  0.1000E+01
-     SUBMAT-2 MAXIMUM PLASTIC STRAIN. . . . .=  0.1000E+31
-     SUBMAT-2 MAXIMUM STRESS. . . . . . . . .=  0.1000E+31
-     SUBMAT-2 KA THERMAL CONDUCTIVITY . . . .=  0.1000E-19
-     SUBMAT-2 KB    K = KA + KB T            =  0.0000E+00
-
-                   SUBMAT-3 
-                   INITIAL PRESSURE :   0.1000E+03
-
-     SUBMAT-3 VOLUME RATIO. . . . . . . . . .=  0.3333E+00
-     SUBMAT-3 reference DENSITY . . . . . . .=  0.1220E+03
-     SUBMAT-3 E0 initial ENERGY/unit volume .=  0.1000E+03
-     SUBMAT-3 Minimum PRESSURE. . . . . . . .=  0.1000E-19
-     SUBMAT-3 CO . . . . . . . . . . . . . . =  0.1000E+03
-     SUBMAT-3 C1. . . . . . . . . . . . . . .=  0.2500E+02
-     SUBMAT-3 C2. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 C3. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 C4. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 C5. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 G SHEAR MODULUS . . . . . . . .=  0.0000E+00
-     SUBMAT-3 Y YIELD STRESS. . . . . . . . .=  0.0000E+00
-     SUBMAT-3 B YIELD FACTOR. . . . . . . . .=  0.0000E+00
-     SUBMAT-3 N YIELD EXPONENT. . . . . . . .=  0.1000E+01
-     SUBMAT-3 CC     STRAIN RATE FACTOR . . .=  0.0000E+00
-     SUBMAT-3 EPDR   REFERENCE STRAIN RATE. .=  0.1000E+01
-     SUBMAT-3 CM     THERMAL EXPONENT . . . .=  0.0000E+00
-     SUBMAT-3 T0     INITIAL TEMPERATURE. . .=  0.3000E+03
-     SUBMAT-3 TMELT  MELTING TEMPERATURE. . .=  0.1000E+31
-     SUBMAT-3 TLIM   TEMPERATURE LIMIT. . . .=  0.1000E+31
-     SUBMAT-3 SPH    SPECIFIC HEAT (rho0 Cv).=  0.1000E+01
-     SUBMAT-3 MAXIMUM PLASTIC STRAIN. . . . .=  0.1000E+31
-     SUBMAT-3 MAXIMUM STRESS. . . . . . . . .=  0.1000E+31
-     SUBMAT-3 KA THERMAL CONDUCTIVITY . . . .=  0.1000E-19
-     SUBMAT-3 KB    K = KA + KB T            =  0.0000E+00
-
-
-     Minimum Energies                      
-     (Computed for Numerical Stability)    
-     SUBMAT-1 Minimum ENERGY. . . . . . . . .= -0.1000E+31
-     SUBMAT-2 Minimum ENERGY. . . . . . . . .= -0.1000E+31
-     SUBMAT-3 Minimum ENERGY. . . . . . . . .= -0.1000E+31
-
-
-
-
-     PerfectGas_EOS_monomaterial                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+     FORMULATION FLAG . . . . . . . . . . . =   0
+     EXTERNAL PRESSURE. . . . . . . . . . . =  0.0000E+00
+     SHEAR KINEMATIC VISCOSITY. . . . . . . =  0.0000E+00
+     SPHERICAL KINEMATIC VISCOSITY. . . . . =  0.0000E+00
+     ____________________________________________________
+     VOLUME FRACTION - SUBMAT-1 . . . . . . =0.3333333333
+     VOLUME FRACTION - SUBMAT-2 . . . . . . =0.3333333333
+     VOLUME FRACTION - SUBMAT-3 . . . . . . =0.3333333333
+     VOLUME FRACTION - SUBMAT-4 . . . . . . =0.0000000000
+     __________________________
+     +S U B M A T E R I A L - 1
+     |
+     +----POLYNOMIAL EoS
+     |    --------------
+     |    C0 . . . . . . . . . . . . . . . .=  100.0000000000    
+     |    C1. . . . . . . . . . . . . . . . =  25.00000000000    
+     |    C2. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C3. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C4. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C5. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    E0. . . . . . . . . . . . . . . . =  100.0000000000    
+     |    RHO0. . . . . . . . . . . . . . . =  122.0000000000    
+     |    PMIN. . . . . . . . . . . . . . . = 1.0000000000000E-20
+     |    INITIAL PRESSURE (COMPUTED) . . . =  100.0000000000    
+     __________________________
+     +S U B M A T E R I A L - 2
+     |
+     +----POLYNOMIAL EoS
+     |    --------------
+     |    C0 . . . . . . . . . . . . . . . .=  100.0000000000    
+     |    C1. . . . . . . . . . . . . . . . =  25.00000000000    
+     |    C2. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C3. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C4. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C5. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    E0. . . . . . . . . . . . . . . . =  100.0000000000    
+     |    RHO0. . . . . . . . . . . . . . . =  122.0000000000    
+     |    PMIN. . . . . . . . . . . . . . . = 1.0000000000000E-20
+     |    INITIAL PRESSURE (COMPUTED) . . . =  100.0000000000    
+     __________________________
+     +S U B M A T E R I A L - 3
+     |
+     +----POLYNOMIAL EoS
+     |    --------------
+     |    C0 . . . . . . . . . . . . . . . .=  100.0000000000    
+     |    C1. . . . . . . . . . . . . . . . =  25.00000000000    
+     |    C2. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C3. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C4. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C5. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    E0. . . . . . . . . . . . . . . . =  100.0000000000    
+     |    RHO0. . . . . . . . . . . . . . . =  122.0000000000    
+     |    PMIN. . . . . . . . . . . . . . . = 1.0000000000000E-20
+     |    INITIAL PRESSURE (COMPUTED) . . . =  100.0000000000    
+     __________________________
+     +S U B M A T E R I A L - 4
+     |
+     +----JWL EoS
+     |    -------
+     |    RHO0 INITIAL DENSITY . . . . . . .=  0.0000E+00
+     |    E0   INITIAL ENERGY/UNIT VOLUME . =  0.0000E+00
+     |    PMIN MINIMUM PRESSURE. . . . . . .= -0.1000E+21
+     |    C0   INITIAL PRESSURE . . . . . . =  0.0000E+00
+     |    C1   UNREACTED BULK MODULUS . . . =  0.0000E+00
+     |    A . . . . . . . . . . . . . . . . =  0.0000E+00
+     |    B . . . . . . . . . . . . . . . . =  0.0000E+00
+     |    R1. . . . . . . . . . . . . . . . =  0.0000E+00
+     |    R2. . . . . . . . . . . . . . . . =  0.0000E+00
+     |    W . . . . . . . . . . . . . . . . =  0.0000E+00
+     |    VDET DETONATION VELOCITY. . . . . =  0.0000E+00
+     |    PCJ  PRESSURE AT C-J STATE . . . .=  0.0000E+00
+     |    VCJ  VOLUME AT C-J STATE . . . . .=  0.1000E+01
+     |    FLAG FOR BURN FRACTION METHOD . . =         0
+     PerfectGas_EOS_monomaterial
      MATERIAL NUMBER . . . . . . . . . . . .=      5103
      MATERIAL LAW. . . . . . . . . . . . . .=        51
 
+       /MAT/LAW51 (MULTIMAT)
+       ---------------------
+
      INITIAL DENSITY . . . . . . . . . . . .=  122.0000000000    
-     EOS REFERENCE DENSITY . . . . . . . . .=  122.0000000000    
+     REFERENCE DENSITY . . . . . . . . . . .=  122.0000000000    
 
-       MULTI-MATERIAL SOLID or LIQUID or GAZ 
-       ------------------------------------------
-       SUBMATERIAL-1 SOLID ,LIQUID or GAS              
-       SUBMATERIAL-2 SOLID ,LIQUID or GAS              
-       SUBMATERIAL-3 SOLID ,LIQUID or GAS              
-
-
-     EXTERNAL PRESSURE . . . . . . . . . . .=  0.0000E+00
-     SHEAR KINEMATIC VISCOSITY . . . . . . .=  0.0000E+00
-     SPHERICAL KINEMATIC VISCOSITY . . . . .=  0.0000E+00
-
-                   SUBMAT-1 
-                   INITIAL PRESSURE :   0.4000E+02
-
-      P =C0 +C1 mu +C2 mu^2 +C3 mu^3 + (C4 + C5mu)Eint/Vo 
-
-      Y = (Y0 + B*EpsP^N)*ce*cT       
-
-          ce = (1+CC*Log(EpsDot/EPDR)) 
-          cT = (1-T*^CM)               
-          if(T>TLIM) CM=1              
-          T* = (T-T0)/(TMELT-T0)       
-
-     SUBMAT-1 VOLUME RATIO. . . . . . . . . .=  0.1000E+01
-     SUBMAT-1 reference DENSITY . . . . . . .=  0.1220E+03
-     SUBMAT-1 E0 initial ENERGY/unit volume .=  0.1000E+03
-     SUBMAT-1 Minimum PRESSURE. . . . . . . .=  0.1000E-19
-     SUBMAT-1 CO . . . . . . . . . . . . . . =  0.0000E+00
-     SUBMAT-1 C1. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-1 C2. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-1 C3. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-1 C4. . . . . . . . . . . . . . .=  0.4000E+00
-     SUBMAT-1 C5. . . . . . . . . . . . . . .=  0.4000E+00
-     SUBMAT-1 G SHEAR MODULUS . . . . . . . .=  0.0000E+00
-     SUBMAT-1 Y YIELD STRESS. . . . . . . . .=  0.0000E+00
-     SUBMAT-1 B YIELD FACTOR. . . . . . . . .=  0.0000E+00
-     SUBMAT-1 N YIELD EXPONENT. . . . . . . .=  0.1000E+01
-     SUBMAT-1 CC     STRAIN RATE FACTOR . . .=  0.0000E+00
-     SUBMAT-1 EPDR   REFERENCE STRAIN RATE. .=  0.1000E+01
-     SUBMAT-1 CM     THERMAL EXPONENT . . . .=  0.0000E+00
-     SUBMAT-1 T0     INITIAL TEMPERATURE. . .=  0.3000E+03
-     SUBMAT-1 TMELT  MELTING TEMPERATURE. . .=  0.1000E+31
-     SUBMAT-1 TLIM   TEMPERATURE LIMIT. . . .=  0.1000E+31
-     SUBMAT-1 SPH    SPECIFIC HEAT (rho0 Cv).=  0.1000E+01
-     SUBMAT-1 MAXIMUM PLASTIC STRAIN. . . . .=  0.1000E+31
-     SUBMAT-1 MAXIMUM STRESS. . . . . . . . .=  0.1000E+31
-     SUBMAT-1 KA THERMAL CONDUCTIVITY . . . .=  0.1000E-19
-     SUBMAT-1 KB    K = KA + KB T            =  0.0000E+00
-
-                   SUBMAT-2 
-                   INITIAL PRESSURE :   0.4000E+02
-     SUBMAT-2 VOLUME RATIO. . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 reference DENSITY . . . . . . .=  0.1220E+03
-     SUBMAT-2 E0 initial ENERGY/unit volume .=  0.1000E+03
-     SUBMAT-2 Minimum PRESSURE. . . . . . . .=  0.1000E-19
-     SUBMAT-2 CO . . . . . . . . . . . . . . =  0.0000E+00
-     SUBMAT-2 C1. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 C2. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 C3. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 C4. . . . . . . . . . . . . . .=  0.4000E+00
-     SUBMAT-2 C5. . . . . . . . . . . . . . .=  0.4000E+00
-     SUBMAT-2 G SHEAR MODULUS . . . . . . . .=  0.0000E+00
-     SUBMAT-2 Y YIELD STRESS. . . . . . . . .=  0.0000E+00
-     SUBMAT-2 B YIELD FACTOR. . . . . . . . .=  0.0000E+00
-     SUBMAT-2 N YIELD EXPONENT. . . . . . . .=  0.1000E+01
-     SUBMAT-2 CC     STRAIN RATE FACTOR . . .=  0.0000E+00
-     SUBMAT-2 EPDR   REFERENCE STRAIN RATE. .=  0.1000E+01
-     SUBMAT-2 CM     THERMAL EXPONENT . . . .=  0.0000E+00
-     SUBMAT-2 T0     INITIAL TEMPERATURE. . .=  0.3000E+03
-     SUBMAT-2 TMELT  MELTING TEMPERATURE. . .=  0.1000E+31
-     SUBMAT-2 TLIM   TEMPERATURE LIMIT. . . .=  0.1000E+31
-     SUBMAT-2 SPH    SPECIFIC HEAT (rho0 Cv).=  0.1000E+01
-     SUBMAT-2 MAXIMUM PLASTIC STRAIN. . . . .=  0.1000E+31
-     SUBMAT-2 MAXIMUM STRESS. . . . . . . . .=  0.1000E+31
-     SUBMAT-2 KA THERMAL CONDUCTIVITY . . . .=  0.1000E-19
-     SUBMAT-2 KB    K = KA + KB T            =  0.0000E+00
-
-                   SUBMAT-3 
-                   INITIAL PRESSURE :   0.4000E+02
-
-     SUBMAT-3 VOLUME RATIO. . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 reference DENSITY . . . . . . .=  0.1220E+03
-     SUBMAT-3 E0 initial ENERGY/unit volume .=  0.1000E+03
-     SUBMAT-3 Minimum PRESSURE. . . . . . . .=  0.1000E-19
-     SUBMAT-3 CO . . . . . . . . . . . . . . =  0.0000E+00
-     SUBMAT-3 C1. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 C2. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 C3. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 C4. . . . . . . . . . . . . . .=  0.4000E+00
-     SUBMAT-3 C5. . . . . . . . . . . . . . .=  0.4000E+00
-     SUBMAT-3 G SHEAR MODULUS . . . . . . . .=  0.0000E+00
-     SUBMAT-3 Y YIELD STRESS. . . . . . . . .=  0.0000E+00
-     SUBMAT-3 B YIELD FACTOR. . . . . . . . .=  0.0000E+00
-     SUBMAT-3 N YIELD EXPONENT. . . . . . . .=  0.1000E+01
-     SUBMAT-3 CC     STRAIN RATE FACTOR . . .=  0.0000E+00
-     SUBMAT-3 EPDR   REFERENCE STRAIN RATE. .=  0.1000E+01
-     SUBMAT-3 CM     THERMAL EXPONENT . . . .=  0.0000E+00
-     SUBMAT-3 T0     INITIAL TEMPERATURE. . .=  0.3000E+03
-     SUBMAT-3 TMELT  MELTING TEMPERATURE. . .=  0.1000E+31
-     SUBMAT-3 TLIM   TEMPERATURE LIMIT. . . .=  0.1000E+31
-     SUBMAT-3 SPH    SPECIFIC HEAT (rho0 Cv).=  0.1000E+01
-     SUBMAT-3 MAXIMUM PLASTIC STRAIN. . . . .=  0.1000E+31
-     SUBMAT-3 MAXIMUM STRESS. . . . . . . . .=  0.1000E+31
-     SUBMAT-3 KA THERMAL CONDUCTIVITY . . . .=  0.1000E-19
-     SUBMAT-3 KB    K = KA + KB T            =  0.0000E+00
-
-
-     Minimum Energies                      
-     (Computed for Numerical Stability)    
-     SUBMAT-1 Minimum ENERGY. . . . . . . . .=  0.0000E+00
-     SUBMAT-2 Minimum ENERGY. . . . . . . . .=  0.0000E+00
-     SUBMAT-3 Minimum ENERGY. . . . . . . . .=  0.0000E+00
-
-
-
-
-     PerfectGas_EOS_multimaterial                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+     FORMULATION FLAG . . . . . . . . . . . =   0
+     EXTERNAL PRESSURE. . . . . . . . . . . =  0.0000E+00
+     SHEAR KINEMATIC VISCOSITY. . . . . . . =  0.0000E+00
+     SPHERICAL KINEMATIC VISCOSITY. . . . . =  0.0000E+00
+     ____________________________________________________
+     VOLUME FRACTION - SUBMAT-1 . . . . . . =1.0000000000
+     VOLUME FRACTION - SUBMAT-2 . . . . . . =0.0000000000
+     VOLUME FRACTION - SUBMAT-3 . . . . . . =0.0000000000
+     VOLUME FRACTION - SUBMAT-4 . . . . . . =0.0000000000
+     __________________________
+     +S U B M A T E R I A L - 1
+     |
+     +----POLYNOMIAL EoS
+     |    --------------
+     |    C0 . . . . . . . . . . . . . . . .=  0.000000000000    
+     |    C1. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C2. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C3. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C4. . . . . . . . . . . . . . . . = 0.4000000000000    
+     |    C5. . . . . . . . . . . . . . . . = 0.4000000000000    
+     |    E0. . . . . . . . . . . . . . . . =  100.0000000000    
+     |    RHO0. . . . . . . . . . . . . . . =  122.0000000000    
+     |    PMIN. . . . . . . . . . . . . . . = 1.0000000000000E-20
+     |    INITIAL PRESSURE (COMPUTED) . . . =  40.00000000000    
+     __________________________
+     +S U B M A T E R I A L - 2
+     |
+     +----POLYNOMIAL EoS
+     |    --------------
+     |    C0 . . . . . . . . . . . . . . . .=  0.000000000000    
+     |    C1. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C2. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C3. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C4. . . . . . . . . . . . . . . . = 0.4000000000000    
+     |    C5. . . . . . . . . . . . . . . . = 0.4000000000000    
+     |    E0. . . . . . . . . . . . . . . . =  100.0000000000    
+     |    RHO0. . . . . . . . . . . . . . . =  122.0000000000    
+     |    PMIN. . . . . . . . . . . . . . . = 1.0000000000000E-20
+     |    INITIAL PRESSURE (COMPUTED) . . . =  40.00000000000    
+     __________________________
+     +S U B M A T E R I A L - 3
+     |
+     +----POLYNOMIAL EoS
+     |    --------------
+     |    C0 . . . . . . . . . . . . . . . .=  0.000000000000    
+     |    C1. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C2. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C3. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C4. . . . . . . . . . . . . . . . = 0.4000000000000    
+     |    C5. . . . . . . . . . . . . . . . = 0.4000000000000    
+     |    E0. . . . . . . . . . . . . . . . =  100.0000000000    
+     |    RHO0. . . . . . . . . . . . . . . =  122.0000000000    
+     |    PMIN. . . . . . . . . . . . . . . = 1.0000000000000E-20
+     |    INITIAL PRESSURE (COMPUTED) . . . =  40.00000000000    
+     __________________________
+     +S U B M A T E R I A L - 4
+     |
+     +----JWL EoS
+     |    -------
+     |    RHO0 INITIAL DENSITY . . . . . . .=  0.0000E+00
+     |    E0   INITIAL ENERGY/UNIT VOLUME . =  0.0000E+00
+     |    PMIN MINIMUM PRESSURE. . . . . . .= -0.1000E+21
+     |    C0   INITIAL PRESSURE . . . . . . =  0.0000E+00
+     |    C1   UNREACTED BULK MODULUS . . . =  0.0000E+00
+     |    A . . . . . . . . . . . . . . . . =  0.0000E+00
+     |    B . . . . . . . . . . . . . . . . =  0.0000E+00
+     |    R1. . . . . . . . . . . . . . . . =  0.0000E+00
+     |    R2. . . . . . . . . . . . . . . . =  0.0000E+00
+     |    W . . . . . . . . . . . . . . . . =  0.0000E+00
+     |    VDET DETONATION VELOCITY. . . . . =  0.0000E+00
+     |    PCJ  PRESSURE AT C-J STATE . . . .=  0.0000E+00
+     |    VCJ  VOLUME AT C-J STATE . . . . .=  0.1000E+01
+     |    FLAG FOR BURN FRACTION METHOD . . =         0
+     PerfectGas_EOS_multimaterial
      MATERIAL NUMBER . . . . . . . . . . . .=      5104
      MATERIAL LAW. . . . . . . . . . . . . .=        51
 
+       /MAT/LAW51 (MULTIMAT)
+       ---------------------
+
      INITIAL DENSITY . . . . . . . . . . . .=  122.0000000000    
-     EOS REFERENCE DENSITY . . . . . . . . .=  122.0000000000    
+     REFERENCE DENSITY . . . . . . . . . . .=  122.0000000000    
 
-       MULTI-MATERIAL SOLID or LIQUID or GAZ 
-       ------------------------------------------
-       SUBMATERIAL-1 SOLID ,LIQUID or GAS              
-       SUBMATERIAL-2 SOLID ,LIQUID or GAS              
-       SUBMATERIAL-3 SOLID ,LIQUID or GAS              
-
-
-     EXTERNAL PRESSURE . . . . . . . . . . .=  0.0000E+00
-     SHEAR KINEMATIC VISCOSITY . . . . . . .=  0.0000E+00
-     SPHERICAL KINEMATIC VISCOSITY . . . . .=  0.0000E+00
-
-                   SUBMAT-1 
-                   INITIAL PRESSURE :   0.4000E+02
-
-      P =C0 +C1 mu +C2 mu^2 +C3 mu^3 + (C4 + C5mu)Eint/Vo 
-
-      Y = (Y0 + B*EpsP^N)*ce*cT       
-
-          ce = (1+CC*Log(EpsDot/EPDR)) 
-          cT = (1-T*^CM)               
-          if(T>TLIM) CM=1              
-          T* = (T-T0)/(TMELT-T0)       
-
-     SUBMAT-1 VOLUME RATIO. . . . . . . . . .=  0.3333E+00
-     SUBMAT-1 reference DENSITY . . . . . . .=  0.1220E+03
-     SUBMAT-1 E0 initial ENERGY/unit volume .=  0.1000E+03
-     SUBMAT-1 Minimum PRESSURE. . . . . . . .=  0.1000E-19
-     SUBMAT-1 CO . . . . . . . . . . . . . . =  0.0000E+00
-     SUBMAT-1 C1. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-1 C2. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-1 C3. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-1 C4. . . . . . . . . . . . . . .=  0.4000E+00
-     SUBMAT-1 C5. . . . . . . . . . . . . . .=  0.4000E+00
-     SUBMAT-1 G SHEAR MODULUS . . . . . . . .=  0.0000E+00
-     SUBMAT-1 Y YIELD STRESS. . . . . . . . .=  0.0000E+00
-     SUBMAT-1 B YIELD FACTOR. . . . . . . . .=  0.0000E+00
-     SUBMAT-1 N YIELD EXPONENT. . . . . . . .=  0.1000E+01
-     SUBMAT-1 CC     STRAIN RATE FACTOR . . .=  0.0000E+00
-     SUBMAT-1 EPDR   REFERENCE STRAIN RATE. .=  0.1000E+01
-     SUBMAT-1 CM     THERMAL EXPONENT . . . .=  0.0000E+00
-     SUBMAT-1 T0     INITIAL TEMPERATURE. . .=  0.3000E+03
-     SUBMAT-1 TMELT  MELTING TEMPERATURE. . .=  0.1000E+31
-     SUBMAT-1 TLIM   TEMPERATURE LIMIT. . . .=  0.1000E+31
-     SUBMAT-1 SPH    SPECIFIC HEAT (rho0 Cv).=  0.1000E+01
-     SUBMAT-1 MAXIMUM PLASTIC STRAIN. . . . .=  0.1000E+31
-     SUBMAT-1 MAXIMUM STRESS. . . . . . . . .=  0.1000E+31
-     SUBMAT-1 KA THERMAL CONDUCTIVITY . . . .=  0.1000E-19
-     SUBMAT-1 KB    K = KA + KB T            =  0.0000E+00
-
-                   SUBMAT-2 
-                   INITIAL PRESSURE :   0.4000E+02
-     SUBMAT-2 VOLUME RATIO. . . . . . . . . .=  0.3333E+00
-     SUBMAT-2 reference DENSITY . . . . . . .=  0.1220E+03
-     SUBMAT-2 E0 initial ENERGY/unit volume .=  0.1000E+03
-     SUBMAT-2 Minimum PRESSURE. . . . . . . .=  0.1000E-19
-     SUBMAT-2 CO . . . . . . . . . . . . . . =  0.0000E+00
-     SUBMAT-2 C1. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 C2. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 C3. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-2 C4. . . . . . . . . . . . . . .=  0.4000E+00
-     SUBMAT-2 C5. . . . . . . . . . . . . . .=  0.4000E+00
-     SUBMAT-2 G SHEAR MODULUS . . . . . . . .=  0.0000E+00
-     SUBMAT-2 Y YIELD STRESS. . . . . . . . .=  0.0000E+00
-     SUBMAT-2 B YIELD FACTOR. . . . . . . . .=  0.0000E+00
-     SUBMAT-2 N YIELD EXPONENT. . . . . . . .=  0.1000E+01
-     SUBMAT-2 CC     STRAIN RATE FACTOR . . .=  0.0000E+00
-     SUBMAT-2 EPDR   REFERENCE STRAIN RATE. .=  0.1000E+01
-     SUBMAT-2 CM     THERMAL EXPONENT . . . .=  0.0000E+00
-     SUBMAT-2 T0     INITIAL TEMPERATURE. . .=  0.3000E+03
-     SUBMAT-2 TMELT  MELTING TEMPERATURE. . .=  0.1000E+31
-     SUBMAT-2 TLIM   TEMPERATURE LIMIT. . . .=  0.1000E+31
-     SUBMAT-2 SPH    SPECIFIC HEAT (rho0 Cv).=  0.1000E+01
-     SUBMAT-2 MAXIMUM PLASTIC STRAIN. . . . .=  0.1000E+31
-     SUBMAT-2 MAXIMUM STRESS. . . . . . . . .=  0.1000E+31
-     SUBMAT-2 KA THERMAL CONDUCTIVITY . . . .=  0.1000E-19
-     SUBMAT-2 KB    K = KA + KB T            =  0.0000E+00
-
-                   SUBMAT-3 
-                   INITIAL PRESSURE :   0.4000E+02
-
-     SUBMAT-3 VOLUME RATIO. . . . . . . . . .=  0.3333E+00
-     SUBMAT-3 reference DENSITY . . . . . . .=  0.1220E+03
-     SUBMAT-3 E0 initial ENERGY/unit volume .=  0.1000E+03
-     SUBMAT-3 Minimum PRESSURE. . . . . . . .=  0.1000E-19
-     SUBMAT-3 CO . . . . . . . . . . . . . . =  0.0000E+00
-     SUBMAT-3 C1. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 C2. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 C3. . . . . . . . . . . . . . .=  0.0000E+00
-     SUBMAT-3 C4. . . . . . . . . . . . . . .=  0.4000E+00
-     SUBMAT-3 C5. . . . . . . . . . . . . . .=  0.4000E+00
-     SUBMAT-3 G SHEAR MODULUS . . . . . . . .=  0.0000E+00
-     SUBMAT-3 Y YIELD STRESS. . . . . . . . .=  0.0000E+00
-     SUBMAT-3 B YIELD FACTOR. . . . . . . . .=  0.0000E+00
-     SUBMAT-3 N YIELD EXPONENT. . . . . . . .=  0.1000E+01
-     SUBMAT-3 CC     STRAIN RATE FACTOR . . .=  0.0000E+00
-     SUBMAT-3 EPDR   REFERENCE STRAIN RATE. .=  0.1000E+01
-     SUBMAT-3 CM     THERMAL EXPONENT . . . .=  0.0000E+00
-     SUBMAT-3 T0     INITIAL TEMPERATURE. . .=  0.3000E+03
-     SUBMAT-3 TMELT  MELTING TEMPERATURE. . .=  0.1000E+31
-     SUBMAT-3 TLIM   TEMPERATURE LIMIT. . . .=  0.1000E+31
-     SUBMAT-3 SPH    SPECIFIC HEAT (rho0 Cv).=  0.1000E+01
-     SUBMAT-3 MAXIMUM PLASTIC STRAIN. . . . .=  0.1000E+31
-     SUBMAT-3 MAXIMUM STRESS. . . . . . . . .=  0.1000E+31
-     SUBMAT-3 KA THERMAL CONDUCTIVITY . . . .=  0.1000E-19
-     SUBMAT-3 KB    K = KA + KB T            =  0.0000E+00
-
-
-     Minimum Energies                      
-     (Computed for Numerical Stability)    
-     SUBMAT-1 Minimum ENERGY. . . . . . . . .=  0.0000E+00
-     SUBMAT-2 Minimum ENERGY. . . . . . . . .=  0.0000E+00
-     SUBMAT-3 Minimum ENERGY. . . . . . . . .=  0.0000E+00
-
-
+     FORMULATION FLAG . . . . . . . . . . . =   0
+     EXTERNAL PRESSURE. . . . . . . . . . . =  0.0000E+00
+     SHEAR KINEMATIC VISCOSITY. . . . . . . =  0.0000E+00
+     SPHERICAL KINEMATIC VISCOSITY. . . . . =  0.0000E+00
+     ____________________________________________________
+     VOLUME FRACTION - SUBMAT-1 . . . . . . =0.3333333333
+     VOLUME FRACTION - SUBMAT-2 . . . . . . =0.3333333333
+     VOLUME FRACTION - SUBMAT-3 . . . . . . =0.3333333333
+     VOLUME FRACTION - SUBMAT-4 . . . . . . =0.0000000000
+     __________________________
+     +S U B M A T E R I A L - 1
+     |
+     +----POLYNOMIAL EoS
+     |    --------------
+     |    C0 . . . . . . . . . . . . . . . .=  0.000000000000    
+     |    C1. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C2. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C3. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C4. . . . . . . . . . . . . . . . = 0.4000000000000    
+     |    C5. . . . . . . . . . . . . . . . = 0.4000000000000    
+     |    E0. . . . . . . . . . . . . . . . =  100.0000000000    
+     |    RHO0. . . . . . . . . . . . . . . =  122.0000000000    
+     |    PMIN. . . . . . . . . . . . . . . = 1.0000000000000E-20
+     |    INITIAL PRESSURE (COMPUTED) . . . =  40.00000000000    
+     __________________________
+     +S U B M A T E R I A L - 2
+     |
+     +----POLYNOMIAL EoS
+     |    --------------
+     |    C0 . . . . . . . . . . . . . . . .=  0.000000000000    
+     |    C1. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C2. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C3. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C4. . . . . . . . . . . . . . . . = 0.4000000000000    
+     |    C5. . . . . . . . . . . . . . . . = 0.4000000000000    
+     |    E0. . . . . . . . . . . . . . . . =  100.0000000000    
+     |    RHO0. . . . . . . . . . . . . . . =  122.0000000000    
+     |    PMIN. . . . . . . . . . . . . . . = 1.0000000000000E-20
+     |    INITIAL PRESSURE (COMPUTED) . . . =  40.00000000000    
+     __________________________
+     +S U B M A T E R I A L - 3
+     |
+     +----POLYNOMIAL EoS
+     |    --------------
+     |    C0 . . . . . . . . . . . . . . . .=  0.000000000000    
+     |    C1. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C2. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C3. . . . . . . . . . . . . . . . =  0.000000000000    
+     |    C4. . . . . . . . . . . . . . . . = 0.4000000000000    
+     |    C5. . . . . . . . . . . . . . . . = 0.4000000000000    
+     |    E0. . . . . . . . . . . . . . . . =  100.0000000000    
+     |    RHO0. . . . . . . . . . . . . . . =  122.0000000000    
+     |    PMIN. . . . . . . . . . . . . . . = 1.0000000000000E-20
+     |    INITIAL PRESSURE (COMPUTED) . . . =  40.00000000000    
+     __________________________
+     +S U B M A T E R I A L - 4
+     |
+     +----JWL EoS
+     |    -------
+     |    RHO0 INITIAL DENSITY . . . . . . .=  0.0000E+00
+     |    E0   INITIAL ENERGY/UNIT VOLUME . =  0.0000E+00
+     |    PMIN MINIMUM PRESSURE. . . . . . .= -0.1000E+21
+     |    C0   INITIAL PRESSURE . . . . . . =  0.0000E+00
+     |    C1   UNREACTED BULK MODULUS . . . =  0.0000E+00
+     |    A . . . . . . . . . . . . . . . . =  0.0000E+00
+     |    B . . . . . . . . . . . . . . . . =  0.0000E+00
+     |    R1. . . . . . . . . . . . . . . . =  0.0000E+00
+     |    R2. . . . . . . . . . . . . . . . =  0.0000E+00
+     |    W . . . . . . . . . . . . . . . . =  0.0000E+00
+     |    VDET DETONATION VELOCITY. . . . . =  0.0000E+00
+     |    PCJ  PRESSURE AT C-J STATE . . . .=  0.0000E+00
+     |    VCJ  VOLUME AT C-J STATE . . . . .=  0.1000E+01
+     |    FLAG FOR BURN FRACTION METHOD . . =         0
          EULERIAN MATERIAL  
          -----------------  
      MATERIAL NUMBER . . . . . . . . . . . .=       601
@@ -807,94 +653,16 @@
      REDUCTION FACTOR ON BOUNDARY FLUXES . .=  0.000000000000    
 
 
+     SUBMODEL SKEWS(INTERNAL)                                                            
+     --------------------------------------                                              
+     NUMBER          VECTORS                                          ORIGIN
+ 1000000001        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
 
 
-        NODAL POINT COORDINATES                                                          
-        -----------------------                                                          
 
-        NODE                 X-ORD               Y-ORD               Z-ORD               
-
-              1          17.00000000000     -80.00000000000      0.000000000000    
-              2          27.00000000000     -80.00000000000      0.000000000000    
-              3          27.00000000000     -90.00000000000      0.000000000000    
-              4          17.00000000000     -90.00000000000      0.000000000000    
-              5          27.00000000000     -90.00000000000      10.00000000000    
-              6          27.00000000000     -80.00000000000      10.00000000000    
-              7          17.00000000000     -90.00000000000      10.00000000000    
-              8          17.00000000000     -80.00000000000      10.00000000000    
-              9          25.00000000000     -106.6443098413     -14.36277047693    
-             10          25.00000000000     -59.37827714510     -14.36277047693    
-             11          25.00000000000     -59.37821070763      24.35722952307    
-             12          25.00000000000     -106.6443390639      24.35722952307    
-             14         -43.00000000000     -80.00000000000      0.000000000000    
-             15         -43.00000000000     -90.00000000000      0.000000000000    
-             16         -43.00000000000     -90.00000000000      10.00000000000    
-             17         -43.00000000000     -80.00000000000      10.00000000000    
-             18          37.00000000000     -80.00000000000      0.000000000000    
-             19          37.00000000000     -90.00000000000      0.000000000000    
-             20          37.00000000000     -90.00000000000      10.00000000000    
-             21          37.00000000000     -80.00000000000      10.00000000000    
-             82          0.000000000000      0.000000000000      1.000000000000    
-             83          1.000000000000      0.000000000000      0.000000000000    
-             84          0.000000000000      1.000000000000      0.000000000000    
-             85          0.000000000000      0.000000000000      1.000000000000    
-             86          1.000000000000      0.000000000000      0.000000000000    
-             87          0.000000000000      1.000000000000      0.000000000000    
-             88          0.000000000000      0.000000000000      1.000000000000    
-             89          1.000000000000      0.000000000000      0.000000000000    
-             90          0.000000000000      1.000000000000      0.000000000000    
-             91          0.000000000000      0.000000000000      1.000000000000    
-             92          1.000000000000      0.000000000000      0.000000000000    
-             93          0.000000000000      1.000000000000      0.000000000000    
-             94          0.000000000000      0.000000000000      1.000000000000    
-             95          1.000000000000      0.000000000000      0.000000000000    
-             96          0.000000000000      1.000000000000      0.000000000000    
-             97          0.000000000000      0.000000000000      1.000000000000    
-             98          1.000000000000      0.000000000000      0.000000000000    
-             99          0.000000000000      1.000000000000      0.000000000000    
-            100          0.000000000000      0.000000000000      1.000000000000    
-            101          1.000000000000      0.000000000000      0.000000000000    
-            102          0.000000000000      1.000000000000      0.000000000000    
-            103          0.000000000000      0.000000000000      1.000000000000    
-            150          47.00000000000     -80.00000000000      0.000000000000    
-            151          47.00000000000     -90.00000000000      0.000000000000    
-            152          47.00000000000     -90.00000000000      10.00000000000    
-            153          47.00000000000     -80.00000000000      10.00000000000    
-            161          36.00000000000     -106.6443098413     -14.36277047693    
-            162          36.00000000000     -59.37827714510     -14.36277047693    
-            163          36.00000000000     -59.37821070763      24.35722952307    
-            164          36.00000000000     -106.6443390639      24.35722952307    
-
-
-        NODAL POINT COORDINATES                                                          
-        -----------------------                                                          
-
-        NODE                 X-ORD               Y-ORD               Z-ORD               
-
-            165          30.50000000000     -83.01128418948      4.997229523073    
-            166         -33.00000000000     -80.00000000000      0.000000000000    
-            167         -33.00000000000     -90.00000000000      0.000000000000    
-            168         -33.00000000000     -90.00000000000      10.00000000000    
-            169         -33.00000000000     -80.00000000000      10.00000000000    
-            170          7.000000000000     -80.00000000000      0.000000000000    
-            173          7.000000000000     -90.00000000000      0.000000000000    
-            176          7.000000000000     -90.00000000000      10.00000000000    
-            177          7.000000000000     -80.00000000000      10.00000000000    
-            178         -3.000000000000     -80.00000000000      0.000000000000    
-            181         -3.000000000000     -90.00000000000      0.000000000000    
-            184         -3.000000000000     -90.00000000000      10.00000000000    
-            185         -3.000000000000     -80.00000000000      10.00000000000    
-            186         -13.00000000000     -80.00000000000      0.000000000000    
-            189         -13.00000000000     -90.00000000000      0.000000000000    
-            192         -13.00000000000     -90.00000000000      10.00000000000    
-            193         -13.00000000000     -80.00000000000      10.00000000000    
-            194         -23.00000000000     -80.00000000000      0.000000000000    
-            197         -23.00000000000     -90.00000000000      0.000000000000    
-            200         -23.00000000000     -90.00000000000      10.00000000000    
-            201         -23.00000000000     -80.00000000000      10.00000000000    
-
-
-         PROPERTY SETS
+         PROPERTY SETS (HM_READER)
          -------------
 
 
@@ -902,7 +670,7 @@ Structure
      ISOTROPIC SHELL PROPERTY SET
      PROPERTY SET NUMBER . . . . . . . . . .=         2
      NUMBER OF INTEGRATION POINTS. . . . . .=         0
-     POST PROCESSING STRAIN FLAG . . . . . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
      SHELL THICKNESS . . . . . . . . . . . .= 0.1000000000000    
      SMALL STRAIN FLAG . . . . . . . . . . .=         2
      SHELL FORMULATION FLAG. . . . . . . . .=         1
@@ -925,7 +693,8 @@ Fluide
      SMALL STRAIN FLAG . . . . . . . . . . .=         4
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
-     TETRA FORMULATION FLAG . . . . .  . . .=         0
+     TETRA4 FORMULATION FLAG. . . . .  . . .=         0
+     TETRA10 FORMULATION FLAG . . . .  . . .=         0
      CONSTANT PRESSURE FLAG. . . . . . . . .=         0
      CONSTANT STRESS FLAG. . . . . . . . . .=         0
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
@@ -935,7 +704,7 @@ Fluide
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
      BRICK MINIMUM TIME STEP................=  0.000000000000    
-     POST PROCESSING STRAIN FLAG . . . . . .=         2
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
 
@@ -956,72 +725,40 @@ void.1
 
 
 
-PART:         2,Air                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+PART:         1,Surface
 ----
-     PROPERTY:         5,Fluide                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-     MATERIAL:       601,Linear_EOS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+     PROPERTY:         2,Structure
+     MATERIAL:         2,tole2024
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
-PART:         3,Air_gauche                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+PART:         6,isosurface
 ----
-     PROPERTY:         5,Fluide                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-     MATERIAL:       601,Linear_EOS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+     PROPERTY:        10,void.1
+     MATERIAL:        10,void
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
-PART:         5,Air_droite                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+PART:         2,Air
 ----
-     PROPERTY:         5,Fluide                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-     MATERIAL:       601,Linear_EOS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+     PROPERTY:         5,Fluide
+     MATERIAL:       601,Linear_EOS
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
-PART:         1,Surface                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+PART:         3,Air_gauche
 ----
-     PROPERTY:         2,Structure                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-     MATERIAL:         2,tole2024                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+     PROPERTY:         5,Fluide
+     MATERIAL:       601,Linear_EOS
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
-PART:         6,isosurface                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+PART:         5,Air_droite
 ----
-     PROPERTY:        10,void.1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-     MATERIAL:        10,void                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+     PROPERTY:         5,Fluide
+     MATERIAL:       601,Linear_EOS
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
-
-
-            SHELL ELEMENTS                                                               
-            --------------                                                               
-
-   ELEMENT   INTERNAL      MATER      PRSET      NODE1      NODE2      NODE3      NODE4            ANGLE            THICKNESS                                                     
-
-         1          1          2          2         11         10          9         12   0.000000000000       0.000000000000    
-      2036          2          2          2        163        164        161        162   0.000000000000       0.000000000000    
-      2037          3          2          2         10         11        163        162   0.000000000000       0.000000000000    
-
-
- TRIANGULAR SHELL ELEMENTS 
- ELEMENT INTERNAL   MATER   PRSET   NODE1   NODE2   NODE3
-
-
-      2002          1         10         10         82         83         84   0.000000000000    
-         0
-      2003          2         10         10         85         86         87   0.000000000000    
-         0
-      2004          3         10         10         88         89         90   0.000000000000    
-         0
-      2005          4         10         10         91         92         93   0.000000000000    
-         0
-      2006          5         10         10         94         95         96   0.000000000000    
-         0
-      2007          6         10         10         97         98         99   0.000000000000    
-         0
-      2008          7         10         10        100        101        102   0.000000000000    
-         0
-      2009          8         10         10        101        102        103   0.000000000000    
-         0
 
 
        HIERARCHICAL SUBSET ORGANIZATION
@@ -1030,217 +767,53 @@ PART:         6,isosurface
 
   
   
- SUBSET:         0,GLOBAL MODEL                            
+ SUBSET:         0,GLOBAL MODEL                                                                                                     
  ~~~~~~
   |
-  |________Part(s):         2,Air                                     
+  |________Part(s):         1,Surface                                 
+                            6,isosurface                              
+                            2,Air                                     
                             3,Air_gauche                              
                             5,Air_droite                              
-                            1,Surface                                 
-                            6,isosurface                              
-
-
-
- BRIC. GROUP:        30,ale domain                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ,     9 ELEMENTS: 
- --------------------
-        10        20        30        40        41        42        43        44        45
-
-
-
- SURFACE:        40,INTER_group_12_of_PART                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ,         3 SEGMENTS: 
- -------------------
- NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
-        11        10         9        12         3         1
-       163       164       161       162         3      2036
-        10        11       163       162         3      2037
-
-
-
- NODE GROUP:        57,BCS_group_57_of_NODE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ,         1 NODES: 
- -------------------
-       165
-
-
-
- NODE GROUP:        46,BCS_group_46_of_NODE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ,         8 NODES: 
- -------------------
-        14        15        16        17       150       151       152       153
-
-
-
- NODE GROUP:        54,BCS_group_52_of_GRNOD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ,        40 NODES: 
- -------------------
-         1         2         3         4         5         6         7         8        14        15
-        16        17        18        19        20        21       150       151       152       153
-       166       167       168       169       170       173       176       177       178       181
-       184       185       186       189       192       193       194       197       200       201
-
-
-
- NODE GROUP:        52,BCS_group_54_of_PART                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ,         8 NODES: 
- -------------------
-        18        19        20        21       150       151       152       153
-
-
-
- NODE GROUP:        53,BCS_group_53_of_NODE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ,        32 NODES: 
- -------------------
-         1         2         3         4         5         6         7         8        14        15
-        16        17       166       167       168       169       170       173       176       177
-       178       181       184       185       186       189       192       193       194       197
-       200       201
-
-
-
- NODE GROUP:        47,BCS_group_47_of_NODE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ,         4 NODES: 
- -------------------
-        18        19        20        21
-
-
-
- NODE GROUP:        51,RBODY_group_51_of_NODE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ,         8 NODES: 
- -------------------
-         9        10        11        12       161       162       163       164
-
-
-
- NODE GROUP:        58,IMPDISP_group_58_of_NODE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ,         1 NODES: 
- -------------------
-       165
-
-
-     RANDOM NOISE       
-     ------------       
 
      BOUNDARY CONDITIONS                                                                 
      -------------------                                                                 
        NODE  TRANS. ROTAT.         SKEW
 
-          1  0 1 1  0 0 0            0
-          2  0 1 1  0 0 0            0
-          3  0 1 1  0 0 0            0
-          4  0 1 1  0 0 0            0
-          5  0 1 1  0 0 0            0
-          6  0 1 1  0 0 0            0
-          7  0 1 1  0 0 0            0
-          8  0 1 1  0 0 0            0
-         14  1 1 1  0 0 0            0
-         15  1 1 1  0 0 0            0
-         16  1 1 1  0 0 0            0
-         17  1 1 1  0 0 0            0
-         18  0 1 1  0 0 0            0
-         19  0 1 1  0 0 0            0
-         20  0 1 1  0 0 0            0
-         21  0 1 1  0 0 0            0
-        150  1 1 1  0 0 0            0
-        151  1 1 1  0 0 0            0
-        152  1 1 1  0 0 0            0
-        153  1 1 1  0 0 0            0
-        165  0 1 1  1 1 1            0
-        166  0 1 1  0 0 0            0
-        167  0 1 1  0 0 0            0
-        168  0 1 1  0 0 0            0
-        169  0 1 1  0 0 0            0
-        170  0 1 1  0 0 0            0
-        173  0 1 1  0 0 0            0
-        176  0 1 1  0 0 0            0
-        177  0 1 1  0 0 0            0
-        178  0 1 1  0 0 0            0
-        181  0 1 1  0 0 0            0
-        184  0 1 1  0 0 0            0
-        185  0 1 1  0 0 0            0
-        186  0 1 1  0 0 0            0
-        189  0 1 1  0 0 0            0
-        192  0 1 1  0 0 0            0
-        193  0 1 1  0 0 0            0
-        194  0 1 1  0 0 0            0
-        197  0 1 1  0 0 0            0
-        200  0 1 1  0 0 0            0
-        201  0 1 1  0 0 0            0
 
 
-  ELEMENTS WITH NEGATIVE MAL. NUMBER ARE WALL NEIGHBOURS ELEMENTS                        
-
-
-
-
-            EIGHT NODE BRICK ELEMENTS                                                    
-            -------------------------                                                    
-
-   ELEMENT   INTERNAL     PART     MATER     PRSET
-     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
-
-        20         1         2       601         5
-         2         1         4         3         6         8         7         5
-        30         2         2       601         5
-        18         2         3        19        21         6         5        20
-        41         3         2       601         5
-         1       170       173         4         8       177       176         7
-        42         4         2       601         5
-       170       178       181       173       177       185       184       176
-        43         5         2       601         5
-       178       186       189       181       185       193       192       184
-        44         6         2       601         5
-       186       194       197       189       193       201       200       192
-        45         7         2       601         5
-       194       166       167       197       201       169       168       200
-        10         8         3       601         5
-       166        14        15       167       169        17        16       168
-        40         9         5       601         5
-       150        18        19       151       153        21        20       152
-
-
-            TEN NODE TETRA ELEMENTS
-            -----------------------
-
-   ELEMENT   INTERNAL     PART     MATER     PRSET
-     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8     NODE9    NODE10
-
-
-
-      A.L.E.  ELEMENT CONNECTIVITIES                
-      ------------------------------                
-      ELEM      ELE1      ELE2      ELE3      ELE4      ELE5      ELE6
-        20         0         0         0         0        41        30
-        30         0         0         0         0        20        40
-        41         0         0         0         0        42        20
-        42         0         0         0         0        43        41
-        43         0         0         0         0        44        42
-        44         0         0         0         0        45        43
-        45         0         0         0         0        10        44
-        10         0         0         0         0         0        45
-        40         0         0         0         0        30         0
-
-
-     IMPOSED DISPLACEMENTS   
+     IMPOSED DISPLACEMENTS    
      -------------------    
          NODE         SKEW        FRAME  DIRECTION   LOAD_CURVE       SENSOR            FSCALE                ASCALE            START_TIME                 STOP_TIME
-          165            0            0          X            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
- 
+          165            0            0          X            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20
   
- SPMD IS NOT ABLE TO CHECK FOR ELEMENT DELETION IN RADIOSS ENGINE INPUT FILE
+ SPMD IS CHECKING FOR ELEMENT DELETION IN : 
+ 9BRICKS_0001.rad                                                                                             
   
  DOMAIN DECOMPOSITION OPTIMIZED FOR ELEMENT DEACTIVATION IN /RBODY OPTIONS
  
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
+ DOMAIN DECOMPOSITION OPTIMIZED FOR ALE (1)
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+** INFO: SIMPLIFIED DOMAIN DECOMPOSITION
 
 
        8-NODE ELEMENT GROUPS
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1         6         9         1         1         1         0         1         0         0         1         0         0         0         2         0  11100011         0         0
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
+         1         6         9         1         1         1         0         1         0         0         1         0         3         0         2         0  11100011         0         1
 
 
       3D - SHELL ELEMENT GROUPS
       -------------------------
-      GROUP   MATERIAL    ELEMENT      FIRST    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE
-                   LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG
+      GROUP   MATERIAL    ELEMENT      FIRST    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE   PINCHING
+                   LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG       FLAG
 
-          2          1          3          1          3          0          2          1          0          1          0
+          2          1          3          1          3          0          2          1          1          1          0          0
 
            3D - TRIANGULAR SHELL ELEMENT GROUPS
            ------------------------------------
@@ -1254,35 +827,9 @@ PART:         6,isosurface
 
 
 
-   INTERFACE NUMBER :         1 FSI                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-      SLAVE SIDE INPUT BY BRICKS
-      MASTER SURFACE INPUT BY SEGMENTS
-
- BRICKS USED FOR FLUID DOMAIN DEFINITION
-
-        10        20        30        40        41        42        43        44        45
-
- SEGMENTS USED FOR SURFACE DEFINITION
-
-        11        10         9        12
-       163       164       161       162
-        10        11       163       162
-
-
- SLAVE SURFACE
-
- BRICKS USED FOR FLUID DOMAIN DEFINITION
-
-        10        20        30        40        41        42        43        44        45
-
-
- MASTER SURFACE
-
- SEGMENTS USED FOR SURFACE DEFINITION
-
-        11        10         9        12
-       163       164       161       162
-        10        11       163       162
+   INTERFACE NUMBER :         1 FSI
+      SECONDARY SIDE INPUT BY BRICKS
+      MAIN SURFACE INPUT BY SEGMENTS
 
 
  INTERFACE NUMBER. . . . . . . . . . . . . .         1
@@ -1293,13 +840,13 @@ PART:         6,isosurface
       ---------------------- 
 
 
-     RIGID BODY ID          1 Troncon                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+     RIGID BODY ID          1 Troncon
           PRIMARY NODE                                   165
           NUMBER OF NODES                                  8
           SURFACE LINKED TO BODY                           0
           SKEW NUMBER                                      0
-          SPHERICAL INERTIA FLAG                           0
-          REMOVE SLAVE NODES FROM RIGID WALL(IF=0)         0
+          SPHERICAL INERTIA FLAG                           2
+          REMOVE SECONDARY NODES FROM RIGID WALL(IF=0)         0
           CENTER OF MASS FLAG                              1
           ADDED MASS                                        1.0000E-20
           ADDED INERTIA                                      0.000               0.000               0.000               0.000               0.000               0.000    
@@ -1314,22 +861,25 @@ PART:         6,isosurface
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
+ DOMAIN DECOMPOSITION OPTIMIZED FOR ALE (1)
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+** INFO: SIMPLIFIED DOMAIN DECOMPOSITION
 
 
        8-NODE ELEMENT GROUPS
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1         6         9         1         1         1         0         1         0         0         1         0         0         0         2         0  11100011         0         0
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
+         1         6         9         1         1         1         0         1         0         0         1         0         3         0         2         0  11100011         0         1
 
 
       3D - SHELL ELEMENT GROUPS
       -------------------------
-      GROUP   MATERIAL    ELEMENT      FIRST    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE
-                   LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG
+      GROUP   MATERIAL    ELEMENT      FIRST    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE   PINCHING
+                   LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG       FLAG
 
-          2          1          3          1          3          0          2          1          0          1          0
+          2          1          3          1          3          0          2          1          1          1          0          0
 
            3D - TRIANGULAR SHELL ELEMENT GROUPS
            ------------------------------------
@@ -1343,35 +893,9 @@ PART:         6,isosurface
 
 
 
-   INTERFACE NUMBER :         1 FSI                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-      SLAVE SIDE INPUT BY BRICKS
-      MASTER SURFACE INPUT BY SEGMENTS
-
- BRICKS USED FOR FLUID DOMAIN DEFINITION
-
-        10        20        30        40        41        42        43        44        45
-
- SEGMENTS USED FOR SURFACE DEFINITION
-
-        11        10         9        12
-       163       164       161       162
-        10        11       163       162
-
-
- SLAVE SURFACE
-
- BRICKS USED FOR FLUID DOMAIN DEFINITION
-
-        10        20        30        40        41        42        43        44        45
-
-
- MASTER SURFACE
-
- SEGMENTS USED FOR SURFACE DEFINITION
-
-        11        10         9        12
-       163       164       161       162
-        10        11       163       162
+   INTERFACE NUMBER :         1 FSI
+      SECONDARY SIDE INPUT BY BRICKS
+      MAIN SURFACE INPUT BY SEGMENTS
 
 
  INTERFACE NUMBER. . . . . . . . . . . . . .         1
@@ -1382,13 +906,13 @@ PART:         6,isosurface
       ---------------------- 
 
 
-     RIGID BODY ID          1 Troncon                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+     RIGID BODY ID          1 Troncon
           PRIMARY NODE                                   165
           NUMBER OF NODES                                  8
           SURFACE LINKED TO BODY                           0
           SKEW NUMBER                                      0
-          SPHERICAL INERTIA FLAG                           0
-          REMOVE SLAVE NODES FROM RIGID WALL(IF=0)         0
+          SPHERICAL INERTIA FLAG                           2
+          REMOVE SECONDARY NODES FROM RIGID WALL(IF=0)         0
           CENTER OF MASS FLAG                              1
           ADDED MASS                                        1.0000E-20
           ADDED INERTIA                                      0.000               0.000               0.000               0.000               0.000               0.000    
@@ -1400,49 +924,13 @@ PART:         6,isosurface
        RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
        ----------------------------------------------
 
-       ELEMENT GROUP         2,  SIZE=       260
-       ELEMENT GROUP         3,  SIZE=       239
+       ELEMENT GROUP         2,  SIZE=       331
+       ELEMENT GROUP         3,  SIZE=       254
 
 
 
  BRICK GROUP         1 VECTORIZATION CODE =    0
  SHELL GROUP         2 VECTORIZATION CODE =    1
-
-
-         SOLID ELEMENTS TIME STEP
-         ------------------------
-
-      TIME STEP       ELEMENT NUMBER
-   22.09072203437                 20
-   22.09072203437                 30
-   22.09072203437                 41
-   22.09072203437                 42
-   22.09072203437                 43
-   22.09072203437                 44
-   22.09072203437                 45
-   22.09072203437                 10
-   22.09072203437                 40
-
-         SHELL ELEMENTS TIME STEP
-         ------------------------
-
-      TIME STEP       ELEMENT NUMBER
-   462.5386783670               2037
-   1628.136147852                  1
-   1628.136147852               2036
-
-         TRIANGULAR SHELL ELEMENTS TIME STEP
-         ------------------------
-
-      TIME STEP       ELEMENT NUMBER
-  1.0000000000000E+30           2002
-  1.0000000000000E+30           2003
-  1.0000000000000E+30           2004
-  1.0000000000000E+30           2005
-  1.0000000000000E+30           2006
-  1.0000000000000E+30           2007
-  1.0000000000000E+30           2008
-  1.0000000000000E+30           2009
 
 
       RIGID BODY INITIALIZATION 
@@ -1455,144 +943,88 @@ PART:         6,isosurface
           NEW INERTIA xx yy zz  0.5555220E+08 0.2951952E+08 0.3837532E+08
           NEW INERTIA xy yz zx -0.1164153E-09 -11.38510     0.2328306E-09
           PRINCIPAL INERTIA  55552199.53610      38375316.22023      29519516.79139    
-
-
-         NODAL TIME STEP (estimation)
-         ---------------
-
-      TIME STEP       NODE NUMBER
-   22.09072203437                177
-   22.09072203437                150
-   22.09072203437                151
-   22.09072203437                152
-   22.09072203437                153
-   22.09072203437                166
-   22.09072203437                167
-   22.09072203437                168
-   22.09072203437                169
-   22.09072203437                170
-   22.09072203437                173
-   22.09072203437                176
-   22.09072203437                201
-   22.09072203437                178
-   22.09072203437                181
-   22.09072203437                184
-   22.09072203437                185
-   22.09072203437                186
-   22.09072203437                189
-   22.09072203437                192
-   22.09072203437                193
-   22.09072203437                194
-   22.09072203437                197
-   22.09072203437                200
-   22.09072203437                  1
-   22.09072203437                  8
-   22.09072203437                 18
-   22.09072203437                 17
-   22.09072203437                 16
-   22.09072203437                 15
-   22.09072203437                 14
-   22.09072203437                 20
-   22.09072203437                 21
-   22.09072203437                 19
-   22.09072203437                  7
-   22.09072203437                  6
-   22.09072203437                  5
-   22.09072203437                  4
-   22.09072203437                  3
-   22.09072203437                  2
-   950.2919923501                165
-  1.5067093795044E+13            161
-  1.5067093795044E+13            164
-  1.5067093795044E+13             12
-  1.5067093795044E+13              9
-  1.5469743134211E+13             11
-  1.5469743134211E+13             10
-  1.5469743134211E+13            162
-  1.5469743134211E+13            163
-  1.0000000000000E+30             97
-  1.0000000000000E+30             87
-  1.0000000000000E+30             86
-  1.0000000000000E+30             88
-  1.0000000000000E+30             89
-  1.0000000000000E+30             90
-  1.0000000000000E+30             91
-  1.0000000000000E+30             92
-  1.0000000000000E+30             93
-  1.0000000000000E+30             94
-  1.0000000000000E+30             95
-  1.0000000000000E+30             96
-  1.0000000000000E+30             82
-  1.0000000000000E+30             98
-  1.0000000000000E+30             99
-  1.0000000000000E+30            100
-  1.0000000000000E+30            101
-  1.0000000000000E+30            102
-  1.0000000000000E+30            103
-  1.0000000000000E+30             85
-  1.0000000000000E+30             84
-  1.0000000000000E+30             83
-
-
-     NODAL MASSES
-     ------------
-      NODE MASS                      NODE MASS                      NODE MASS                      NODE MASS                      NODE MASS
-
-         1   30500.00000000             2   30500.00000000             3   30500.00000000             4   30500.00000000             5   30500.00000000    
-         6   30500.00000000             7   30500.00000000             8   30500.00000000             9   5581.935045826            10   6880.991045828    
-        11   6880.991045828            12   5581.935045826            14   15250.00000000            15   15250.00000000            16   15250.00000000    
-        17   15250.00000000            18   30500.00000000            19   30500.00000000            20   30500.00000000            21   30500.00000000    
-        82   0.000000000000            83   0.000000000000            84   0.000000000000            85   0.000000000000            86   0.000000000000    
-        87   0.000000000000            88   0.000000000000            89   0.000000000000            90   0.000000000000            91   0.000000000000    
-        92   0.000000000000            93   0.000000000000            94   0.000000000000            95   0.000000000000            96   0.000000000000    
-        97   0.000000000000            98   0.000000000000            99   0.000000000000           100   0.000000000000           101   0.000000000000    
-       102   0.000000000000           103   0.000000000000           150   15250.00000000           151   15250.00000000           152   15250.00000000    
-       153   15250.00000000           161   5581.935045826           162   6880.991045828           163   6880.991045828           164   5581.935045826    
-       165   49851.70436661           166   30500.00000000           167   30500.00000000           168   30500.00000000           169   30500.00000000    
-       170   30500.00000000           173   30500.00000000           176   30500.00000000           177   30500.00000000           178   30500.00000000    
-       181   30500.00000000           184   30500.00000000           185   30500.00000000           186   30500.00000000           189   30500.00000000    
-       192   30500.00000000           193   30500.00000000           194   30500.00000000           197   30500.00000000           200   30500.00000000    
-       201   30500.00000000    
+          SECONDARY NODES 
+                   9        10        11        12       161       162       163       164
 
 
 PART MASS & INERTIA
 -------------------
 
 
-PART :          2Air                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  854000.0000000      42700000.00000      384300000.0000      384300000.0000     2.9802322387695E-08  0.000000000000    -1.8626451492310E-09
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  2.000000000000     -85.00000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
-
-PART :          3Air_gauche                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  122000.0000000      6100000.000000      6100000.000000      6100000.000000      0.000000000000      0.000000000000      0.000000000000    
- X           Y           Z           Kin. Energy Vx         Vy         Vz
- -38.00000000000     -85.00000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
-
-PART :          5Air_droite                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  122000.0000000      6100000.000000      6100000.000000      6100000.000000      0.000000000000      0.000000000000      0.000000000000    
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  42.00000000000     -85.00000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
-
-PART :          1Surface                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+PART :          1Surface
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
   49851.70436661      55552199.53610      29519516.79140      38375316.22022      0.000000000000     -11.38509595022      0.000000000000    
  X           Y           Z           Kin. Energy Vx         Vy         Vz
   30.50000000000     -80.54792666603      4.997229523073      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
 
-PART :          6isosurface                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+PART :          6isosurface
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
   0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
  X           Y           Z           Kin. Energy Vx         Vy         Vz
   0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :          2Air
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+  854000.0000000      42700000.00000      384300000.0000      384300000.0000     2.9802322387695E-08  0.000000000000    -1.8626451492310E-09
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  2.000000000000     -85.00000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :          3Air_gauche
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+  122000.0000000      6100000.000000      6100000.000000      6100000.000000      0.000000000000      0.000000000000      0.000000000000    
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+ -38.00000000000     -85.00000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :          5Air_droite
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+  122000.0000000      6100000.000000      6100000.000000      6100000.000000      0.000000000000      0.000000000000      0.000000000000    
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  42.00000000000     -85.00000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+
+PART ELEMENT/MATERIAL PARAMETER REVIEW:
+-----------------------
+
+Part id,name:         1 Surface                Mat type:   1 Elm type: SHELL-4nodes           
+----
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
+       1       2       2       0       0       0
+--      hm        hf        hr        dm        dn
+    0.0100    0.0100    0.0100    0.0000    0.0000
+
+Part id,name:         6 isosurface             Mat type: VOID Elm type: SHELL-3nodes           
+----
+   Ish3n  Ismstr   Idril     NPT    ITHK   IPLAS
+       0       0       2       0       0       0
+--      hm        hf        hr        dm        dn
+    0.0000    0.0000    0.0000    0.0000    0.0000
+
+Part id,name:         2 Air                    Mat type:   6 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       4       3       1       0       0       0       0
+--      qa        qb   lamda_v      mu_v         h        dn
+    0.0000    0.0000    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:         3 Air_gauche             Mat type:   6 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       4       3       1       0       0       0       0
+--      qa        qb   lamda_v      mu_v         h        dn
+    0.0000    0.0000    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:         5 Air_droite             Mat type:   6 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       4       3       1       0       0       0       0
+--      qa        qb   lamda_v      mu_v         h        dn
+    0.0000    0.0000    0.0000    0.0000    0.1000    0.0000
+
 
 
      TOTAL MASS AND MASS CENTER
@@ -1618,58 +1050,207 @@ PART :          6isosurface
   TOTAL ADDED MASS =   0.000000000000    
 
 
-  
-  LIST OF DEACTIVATED ELEMENTS FROM RIGID BODIES
-  ----------------------------------------------
-  SHELL DEACTIVATION:           1
-  SHELL DEACTIVATION:        2036
-  SHELL DEACTIVATION:        2037
-
-
-
-TH GROUP:         1,bricks                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              , 11 VAR,    4 BRIC      :
- -------------------
-OFF       SX        SY        SZ        SXY       SYZ       SXZ       IE        DENS      PLAS      
-TEMP      
-BRIC        P_SPMD       NAME 
-        20         0 bric20                                  
-        30         0 bric30                                  
-        10         0 bric10                                  
-        40         0 bric40                                  
-
-
-
-TH GROUP:         2,node                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ,  9 VAR,    1 NODE      :
- -------------------
-DX        DY        DZ        VX        VY        VZ        AX        AY        AZ        
-    NODE  SKEW(OR FRAME)     NAME 
-         1         0                                                 
-
-
-
- TH GROUP: PART      
- ---------
-
- TH PART      :         2,Air                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ,  7 VAR:
-IE        KE        XMOM      YMOM      ZMOM      MASS      HE        
-
- TH PART      :         3,Air_gauche                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ,  7 VAR:
-IE        KE        XMOM      YMOM      ZMOM      MASS      HE        
-
- TH PART      :         5,Air_droite                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ,  7 VAR:
-IE        KE        XMOM      YMOM      ZMOM      MASS      HE        
-
- TH PART      :         1,Surface                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ,  7 VAR:
-IE        KE        XMOM      YMOM      ZMOM      MASS      HE        
-
- TH PART      :         6,isosurface                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ,  7 VAR:
-IE        KE        XMOM      YMOM      ZMOM      MASS      HE        
-
-
-
- TH GROUP: SUBSET    
- ---------
  
+
+
+         SOLID ELEMENTS TIME STEP
+         ------------------------
+
+      TIME STEP       ELEMENT NUMBER
+   22.09072203437                 10
+   22.09072203437                 20
+   22.09072203437                 30
+   22.09072203437                 40
+   22.09072203437                 41
+   22.09072203437                 42
+   22.09072203437                 43
+   22.09072203437                 44
+   22.09072203437                 45
+
+         SHELL ELEMENTS TIME STEP
+         ------------------------
+
+      TIME STEP       ELEMENT NUMBER
+   462.5386783670               2037
+   1628.136147852                  1
+   1628.136147852               2036
+
+         TRIANGULAR SHELL ELEMENTS TIME STEP
+         ------------------------
+
+      TIME STEP       ELEMENT NUMBER
+  1.0000000000000E+30           2002
+  1.0000000000000E+30           2003
+  1.0000000000000E+30           2004
+  1.0000000000000E+30           2005
+  1.0000000000000E+30           2006
+  1.0000000000000E+30           2007
+  1.0000000000000E+30           2008
+  1.0000000000000E+30           2009
+
+
+         NODAL TIME STEP (estimation)
+         ---------------
+
+      TIME STEP       NODE NUMBER
+   22.09072203437                168
+   22.09072203437                  2
+   22.09072203437                173
+   22.09072203437                170
+   22.09072203437                169
+   22.09072203437                166
+   22.09072203437                167
+   22.09072203437                177
+   22.09072203437                153
+   22.09072203437                152
+   22.09072203437                151
+   22.09072203437                176
+   22.09072203437                178
+   22.09072203437                193
+   22.09072203437                181
+   22.09072203437                200
+   22.09072203437                197
+   22.09072203437                194
+   22.09072203437                189
+   22.09072203437                192
+   22.09072203437                  1
+   22.09072203437                186
+   22.09072203437                185
+   22.09072203437                184
+   22.09072203437                150
+   22.09072203437                201
+   22.09072203437                 19
+   22.09072203437                 18
+   22.09072203437                 15
+   22.09072203437                 14
+   22.09072203437                 20
+   22.09072203437                 21
+   22.09072203437                  8
+   22.09072203437                 17
+   22.09072203437                  7
+   22.09072203437                  6
+   22.09072203437                  5
+   22.09072203437                  4
+   22.09072203437                  3
+   22.09072203437                 16
+   950.2919923501                165
+  1.5067093795044E+13            161
+  1.5067093795044E+13            164
+  1.5067093795044E+13             12
+  1.5067093795044E+13              9
+  1.5469743134211E+13             11
+  1.5469743134211E+13             10
+  1.5469743134211E+13            162
+  1.5469743134211E+13            163
+  1.0000000000000E+30             82
+  1.0000000000000E+30             89
+  1.0000000000000E+30             87
+  1.0000000000000E+30             83
+  1.0000000000000E+30             90
+  1.0000000000000E+30             91
+  1.0000000000000E+30             92
+  1.0000000000000E+30             93
+  1.0000000000000E+30             94
+  1.0000000000000E+30             95
+  1.0000000000000E+30             96
+  1.0000000000000E+30             99
+  1.0000000000000E+30             98
+  1.0000000000000E+30             88
+  1.0000000000000E+30            100
+  1.0000000000000E+30            101
+  1.0000000000000E+30            102
+  1.0000000000000E+30            103
+  1.0000000000000E+30             86
+  1.0000000000000E+30             85
+  1.0000000000000E+30             84
+  1.0000000000000E+30             97
+
+
+         NODAL TIME STEP DISTRIBUTION 
+         ----------------------------
+
+
+            % OF NODES
+                   ^
+                   |                                                            
+          56.338 --|#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+           0.000 --|#  #   #  #  #   #  #  #  #   #  #  #  #   #  #  #   #  # # 
+                    -------------------------------------------------------------> NODAL TIME STEP
+                    |                                                          |
+                 22.1                                                       950.    
+  
+  
+
+
+     INITIAL ADDED MASS ESTIMATION for /DT/NODA/CST
+     ----------------------------------------------
+
+
+            DM/M - at first cycle - scaling factor = 0.9
+                   ^
+                   |                                                            
+           0.100 --|                                                         *  
+                   |                                                            
+                   |                                                      *     
+                   |                                                   *        
+                   |                                                *           
+                   |                                             *              
+                   |                                                            
+                   |                                          *                 
+                   |                                       *                    
+                   |                                    *                       
+                   |                                 *                          
+                   |                              *                             
+                   |                                                            
+                   |                           *                                
+                   |                        *                                   
+                   |                     *                                      
+                   |                 *                                          
+                   |              *                                             
+                   |                                                            
+                   |           *                                                
+                   |        *                                                   
+                   |     *                                                      
+           0.005 --|* *                                                         
+                    -------------------------------------------------------------> TARGET TIME STEP
+                    |                                                          |
+                 19.9                                                       20.9    
+  
+  
+              DM/M at first cycle          |  Target time step - scaling factor = 0.9  |  Target time step - scaling factor = 0.67
+    -------------------------------------  |  ---------------------------------------  |  ---------------------------------------
+                 1.000E-02                 |                  20.0                     |                  14.9    
+                 2.000E-02                 |                  20.1                     |                  15.0    
+                 3.000E-02                 |                  20.2                     |                  15.0    
+                 4.000E-02                 |                  20.3                     |                  15.1    
+                 5.000E-02                 |                  20.4                     |                  15.2    
+
+
+    WARNING : These added mass estimations are valid at first cycle only.
+    Because of element deformation or contacts the added mass can increase during the run
+
+
  SUMMARY OF POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS :
  -----------------------------------------------------
                                   
@@ -1679,7 +1260,7 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE         94 MB
+    STARTER MEMORY USAGE        122 MB
 
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
@@ -1688,18 +1269,60 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE
         MEMORY USED FOR INTEGERS         5 MB 
         TOTAL MEMORY EVALUATION         10 MB 
                                             
-        RESTART FILE SIZE       420 KB
- 
+        RESTART FILE SIZE         0 MB
+
 
      RESTART FILES 9BRICKS_0000 WRITTEN
      -------------
 
+  
+------------------------------------------------------------------------
+  
+ CPU USER TIME
+ -------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .3836E+00   .1700E+00   .9882E-02   .0000E+00   .6974E-05   .6002E-04   .6020E-05
+  
+  
+ ELAPSED TIME
+ ------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .1144E+07   .1901E+00   .8528E-02   .1716E-04   .4030E-05   .2906E-04   .4628E-05
+  
+                   ** COMPUTE TIME INFORMATION **
+  
+ EXECUTION STARTED      :      2022/11/23  16:25:38
+ EXECUTION COMPLETED    :      2022/11/23  16:25:39
+  
+ ELAPSED TIME...........=          0.65 s
+                               00:00:00
+  
+------------------------------------------------------------------------
 
 
 
-     NORMAL TERMINATION                                                                  
+     TERMINATION WITH WARNING           
      ------------------                                                                  
+
+
+------------------------------------------------------------------------------------------------------------------------
+|            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
+------------------------------------------------------------------------------------------------------------------------
+|                                                           |                                                          |
+|                                                           |  --- GLOBAL UNITS                           1 WARNING(S) |
+|                                                           |       |                                                  |
+|                                                           |       |                                                  |
+|                                                           |       |---     1 WARNING ID :       100211               |
+|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
+|                                                           |       |                                                  |
+|                                                           |                                                          |
+|                                                           |                                                          |
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
               0 ERROR(S)            
-              0 WARNING(S)          
+              1 WARNING(S)          
 
 

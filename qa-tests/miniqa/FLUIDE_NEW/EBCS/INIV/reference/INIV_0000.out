@@ -2,29 +2,29 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                Altair Radioss(TM) Starter MAINLINE                 **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 1052251_12638000000_1060_0078221_10                     **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2021                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fradf-hiroshige-0.europe.altair.com   Intel(R) Core(TM) i7-4900MQ CPU @ 2.80GHz (x86_64), 2793 MHz,   7993 MB RAM,      0 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -32,6 +32,15 @@
 ************************************************************************
 * INPUT READING PROCESS
 ************************************************************************
+
+WARNING ID : 100214
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /IOFLAG
+-- LINE: 5                   0         0         0         0         0
+unsupported field exits
+SOLUTION :     
+    Please check input format and fields description defined in the Reference Guide.
 
  -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
 
@@ -41,9 +50,13 @@
 ************************************************************************
 
 
-+-------------------+
-| BLOCK FREE FORMAT |
-+-------------------+
+
+    UNIT SYSTEMS DEFINITION     
+    -----------------------     
+
+                                                          MASS                LENGTH              TIME
+    WORK UNIT SYSTEM . . . . . . ( kg , mm , ms  ) 1.0000000000000E+00 1.0000000000000E-03 1.0000000000000E-03
+    INPUT UNIT SYSTEM  . . . . . ( kg , mm , ms  ) 1.0000000000000E+00 1.0000000000000E-03 1.0000000000000E-03
 
 
                                                                                  
@@ -63,7 +76,7 @@
     NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         1
     NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
     NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .         0
-    NINTERFRIC: NUMBER OF FRICTION INTERFACES . . . . . .         0
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
     NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .         2
     NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .         0
     NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
@@ -108,7 +121,6 @@
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
@@ -132,11 +144,10 @@
      VOLMIN  : MINIMUM VOLUME FOR ELEMENT DELETION. -1.0000000000000E+30
 
 
-    ALE UPWIND PARAMETERS                   
+    ALEMUSCL                   
     ---------------------                   
-     UPWIND FOR MOMENTUM TRANSPORT . . . . .=  1.000000000000    
-     UPWIND FOR OTHER TRANSPORT. . . . . . .=  1.000000000000    
-
+     COMPRESSION COEFFICIENT (BETA). . . . . . . . . . . :   2.000000000000    
+     FORMULATION FLAG (IFLAG). . . . . . . . . . . . . . :          0
 
 
     N2D3D : ANALYSIS TYPE: 0=3D,1=AXISYM,2=PLANE STRAIN .         0
@@ -173,7 +184,7 @@
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -182,9 +193,9 @@
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
@@ -193,14 +204,6 @@
  
      INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
   
-
-
-    UNIT SYSTEMS DEFINITION     
-    -----------------------     
-
-                                                          MASS                LENGTH              TIME
-    WORK UNIT SYSTEM . . . . . . ( kg , mm , ms  ) 1.0000000000000E+00 1.0000000000000E-03 1.0000000000000E-03
-    INPUT UNIT SYSTEM  . . . . . ( kg , mm , ms  ) 1.0000000000000E+00 1.0000000000000E-03 1.0000000000000E-03
 
 
     LOAD CURVES
@@ -256,7 +259,7 @@
 
      EQUATION OF STATE 
      Conversion of Mat Law 6 in RADIOSS 2018 or greater
-     MATERIAL NUMBER . . . . . . . . . . . .=         1
+     MATERIAL ID  . . . . . . . . . . . .=         1
 
        POLYNOMIAL EOS     
        --------------     
@@ -268,7 +271,7 @@
      C4. . . . . . . . . . . . . . . . . . . .= 0.4000000000000    
      C5. . . . . . . . . . . . . . . . . . . .= 0.4000000000000    
      INITIAL INTERNAL ENERGY PER UNIT VOLUME .=  253312.5000000    
-     INITIAL PRESSURE. . . . . . . . . . . . .=  0.000000000000    
+     INITIAL PRESSURE. . . . . . . . . . . . .= -101325.0000000    
      INITIAL DENSITY . . . . . . . . . . . . .=  1.200000000000    
      REFERENCE DENSITY . . . . . . . . . . . .=  1.200000000000    
      PRESSURE SHIFT. . . . . . . . . . . . . .=  101325.0000000    
@@ -278,7 +281,7 @@
 
      EQUATION OF STATE 
      Conversion of Mat Law 6 in RADIOSS 2018 or greater
-     MATERIAL NUMBER . . . . . . . . . . . .=         2
+     MATERIAL ID  . . . . . . . . . . . .=         2
 
        POLYNOMIAL EOS     
        --------------     
@@ -290,7 +293,7 @@
      C4. . . . . . . . . . . . . . . . . . . .= 0.4000000000000    
      C5. . . . . . . . . . . . . . . . . . . .= 0.4000000000000    
      INITIAL INTERNAL ENERGY PER UNIT VOLUME .=  253312.5000000    
-     INITIAL PRESSURE. . . . . . . . . . . . .=  0.000000000000    
+     INITIAL PRESSURE. . . . . . . . . . . . .= -101325.0000000    
      INITIAL DENSITY . . . . . . . . . . . . .=  1.200000000000    
      REFERENCE DENSITY . . . . . . . . . . . .=  1.200000000000    
      PRESSURE SHIFT. . . . . . . . . . . . . .=  101325.0000000    
@@ -327,6 +330,13 @@
              14          1.000000000000      0.000000000000      3.000000000000    
              15          1.000000000000      1.000000000000      3.000000000000    
              16          0.000000000000      1.000000000000      3.000000000000    
+     SUBMODEL SKEWS(INTERNAL)                                                            
+     --------------------------------------                                              
+     NUMBER          VECTORS                                          ORIGIN
+ 1000000001        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
+
 
 
          PROPERTY SETS (HM_READER)
@@ -348,12 +358,6 @@ GENE
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
      BRICK MINIMUM TIME STEP................=
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
-
-
-
-         PROPERTY SETS
-         -------------
-
 
 
 
@@ -411,10 +415,6 @@ PART:         3,Solid part 3
          5         6         7         8         9        10        11        12        13        14
         15        16
 
-
-     RANDOM NOISE       
-     ------------       
-
      BOUNDARY CONDITIONS                                                                 
      -------------------                                                                 
      NODE  TRANS. ROTAT. GRID   LAGRA.       SKEW                                        
@@ -461,42 +461,18 @@ PART:         3,Solid part 3
        A.L.E.  NODAL CONNECTIVITIES  
        ----------------------------  
       NODE TRA ROT GRI LAG      NODE
-           5           1           1           0           0           0
-           0           0           0           0           0           0
-           0           6           8           9
-           6           1           1           0           0           0
-           0           0           0           0           0           0
-           0           5           7          10
-           7           1           1           0           0           0
-           0           0           0           0           0           0
-           0           6           8          11
-           8           1           1           0           0           0
-           0           0           0           0           0           0
-           0           5           7          12
-           9           1           1           0           0           0
-           0           0           0           0           0           0
-           0           5          10          12          13
-          10           1           1           0           0           0
-           0           0           0           0           0           0
-           0           6           9          11          14
-          11           1           1           0           0           0
-           0           0           0           0           0           0
-           0           7          10          12          15
-          12           1           1           0           0           0
-           0           0           0           0           0           0
-           0           8           9          11          16
-          13           1           1           0           0           0
-           0           0           0           0           0           0
-           0           9          14          16
-          14           1           1           0           0           0
-           0           0           0           0           0           0
-           0          10          13          15
-          15           1           1           0           0           0
-           0           0           0           0           0           0
-           0          11          14
-          16           1           1           0           0           0
-           0           0           0           0           0           0
-           0          12          13
+           5           1           1           0           0           0           0           0           0           0           0           0           0           6           8           9
+           6           1           1           0           0           0           0           0           0           0           0           0           0           5           7          10
+           7           1           1           0           0           0           0           0           0           0           0           0           0           6           8          11
+           8           1           1           0           0           0           0           0           0           0           0           0           0           5           7          12
+           9           1           1           0           0           0           0           0           0           0           0           0           0           5          10          12          13
+          10           1           1           0           0           0           0           0           0           0           0           0           0           6           9          11          14
+          11           1           1           0           0           0           0           0           0           0           0           0           0           7          10          12          15
+          12           1           1           0           0           0           0           0           0           0           0           0           0           8           9          11          16
+          13           1           1           0           0           0           0           0           0           0           0           0           0           9          14          16
+          14           1           1           0           0           0           0           0           0           0           0           0           0          10          13          15
+          15           1           1           0           0           0           0           0           0           0           0           0           0          11          14
+          16           1           1           0           0           0           0           0           0           0           0           0           0          12          13
 
 
       A.L.E.  ELEMENT CONNECTIVITIES                
@@ -548,6 +524,18 @@ INITIAL VELOCITY  EBCS NUMBER  . . . . . :       2 OUTLET
     SOUND SPEED . . . . . . . . . . . . . . .     0.343800E+03
     CHARACTERISTIC LENGTH . . . . . . . . . .     0.270000E+01
 
+
+
+ELEMENTARY BCS         1 SURFACE          1
+-----------------------------------------
+ SEGMENT     ELT      FACE      SEGINDX  
+         1         2         1        -1
+
+
+ELEMENTARY BCS         2 SURFACE          2
+-----------------------------------------
+ SEGMENT     ELT      FACE      SEGINDX  
+         1         3         3         2
   
  SPMD IS CHECKING FOR ELEMENT DELETION IN : 
  INIV_0001.rad                                                                                                
@@ -561,7 +549,7 @@ INITIAL VELOCITY  EBCS NUMBER  . . . . . :       2 OUTLET
   ELEMENT NUMBER =          2
   EDGES FOUND    =          1
   
-#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
    1             0.             0.             0.             0.             0.             0.
    2           157.             0.             0.             0.             0.             0.
    3             0.             0.             0.             0.             0.             0.
@@ -577,9 +565,9 @@ INITIAL VELOCITY  EBCS NUMBER  . . . . . :       2 OUTLET
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1         6         1         1         1         1         1         0         0         0         1         0         0         0         1         0        11         0         1
-         2         6         1         2         1         1         1         0         0         0         1         0         0         0         1         0        11         0         1
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
+         1         6         1         1         1         1         1         0         0         0         1         0         1         0         1         0        11         0         1
+         2         6         1         2         1         1         1         0         0         0         1         0         2         0         1         0        11         0         1
 
 
        RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
@@ -590,69 +578,6 @@ INITIAL VELOCITY  EBCS NUMBER  . . . . . :       2 OUTLET
 
  BRICK GROUP         1 VECTORIZATION CODE =    0
  BRICK GROUP         2 VECTORIZATION CODE =    0
-
-
-         SOLID ELEMENTS TIME STEP
-         ------------------------
-
-      TIME STEP       ELEMENT NUMBER
-  2.5650513532429E-03              2
-  2.5650513532429E-03              3
-
-
-         NODAL TIME STEP (estimation)
-         ---------------
-
-      TIME STEP       NODE NUMBER
-  2.5650513532429E-03              5
-  2.5650513532429E-03              6
-  2.5650513532429E-03              7
-  2.5650513532429E-03              8
-  2.5650513532429E-03              9
-  2.5650513532429E-03             10
-  2.5650513532429E-03             11
-  2.5650513532429E-03             12
-  2.5650513532429E-03             13
-  2.5650513532429E-03             14
-  2.5650513532429E-03             15
-  2.5650513532429E-03             16
-
-
-         NODAL TIME STEP DISTRIBUTION 
-         ----------------------------
-
-
-            % OF NODES
-                   ^
-                   |                                                            
-         100.000 --|                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-                   |                            #                               
-           0.000 --|#                           #                             # 
-                    -------------------------------------------------------------> NODAL TIME STEP
-                    |                                                          |
-                2.565E-03                                                  2.565E-03
-  
-  
 
 
      NODAL MASSES
@@ -786,6 +711,69 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT
  ---------
 
 
+         SOLID ELEMENTS TIME STEP
+         ------------------------
+
+      TIME STEP       ELEMENT NUMBER
+  2.5650513532429E-03              2
+  2.5650513532429E-03              3
+
+
+         NODAL TIME STEP (estimation)
+         ---------------
+
+      TIME STEP       NODE NUMBER
+  2.5650513532429E-03             12
+  2.5650513532429E-03              6
+  2.5650513532429E-03             15
+  2.5650513532429E-03             14
+  2.5650513532429E-03             13
+  2.5650513532429E-03             10
+  2.5650513532429E-03             11
+  2.5650513532429E-03              5
+  2.5650513532429E-03              9
+  2.5650513532429E-03              8
+  2.5650513532429E-03              7
+  2.5650513532429E-03             16
+
+
+         NODAL TIME STEP DISTRIBUTION 
+         ----------------------------
+
+
+            % OF NODES
+                   ^
+                   |                                                            
+         100.000 --|                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+           0.000 --|#                           #                             # 
+                    -------------------------------------------------------------> NODAL TIME STEP
+                    |                                                          |
+                2.565E-03                                                  2.565E-03
+  
+  
+
+
      INITIAL ADDED MASS ESTIMATION for /DT/NODA/CST
      ----------------------------------------------
 
@@ -843,34 +831,31 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        236 MB
+    STARTER MEMORY USAGE        122 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
+
 AVERAGE NB. OF BOUNDARY NODES :     6
 STANDARD DEVIATION            :     3
- 
+
 AVERAGE NUMBER OF LOCAL NODES :       6
 STANDARD DEVIATION            :       3
- 
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     1             0                     8                     2
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     2             1                     8                     2
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     3             0                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     4             1                     8                     2
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
  NUMBER OF NODES................. :           8
  NUMBER OF SOLID ELEMENTS........ :           0
  TOTAL NUMBER OF NODES FOR COMM.. :           8
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -879,13 +864,13 @@ STANDARD DEVIATION            :       3
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
  NUMBER OF NODES................. :           8
  NUMBER OF SOLID ELEMENTS........ :           1
  TOTAL NUMBER OF NODES FOR COMM.. :           8
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -894,13 +879,13 @@ STANDARD DEVIATION            :       3
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
  NUMBER OF NODES................. :           0
  NUMBER OF SOLID ELEMENTS........ :           0
  TOTAL NUMBER OF NODES FOR COMM.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -909,13 +894,13 @@ STANDARD DEVIATION            :       3
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
  NUMBER OF NODES................. :           8
  NUMBER OF SOLID ELEMENTS........ :           1
  TOTAL NUMBER OF NODES FOR COMM.. :           8
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -924,7 +909,7 @@ STANDARD DEVIATION            :       3
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
 
      RESTART FILES INIV_0000 WRITTEN
      -------------
@@ -935,29 +920,48 @@ STANDARD DEVIATION            :       3
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1950E+00   .1160E+00   .7998E-02   .0000E+00   .0000E+00   .0000E+00   .0000E+00
+.0000E+00   .3896E+00   .1420E+00   .3343E-01   .0000E+00   .0000E+00   .0000E+00   .2706E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.4449E-03   .2339E+01   .1235E+00   .9824E-02   .0000E+00   .0000E+00   .0000E+00   .6676E-05
+.0000E+00   .1144E+07   .1570E+00   .2162E-01   .0000E+00   .0000E+00   .0000E+00   .9773E-05
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2021/01/27  16:50:35
- EXECUTION COMPLETED    :      2021/01/27  16:50:38
+ EXECUTION STARTED      :      2022/11/23  16:23:54
+ EXECUTION COMPLETED    :      2022/11/23  16:23:54
   
- ELAPSED TIME...........=          2.52 s
-                               00:00:02
+ ELAPSED TIME...........=          0.62 s
+                               00:00:00
   
 ------------------------------------------------------------------------
 
 
 
-     NORMAL TERMINATION                                                                  
+     TERMINATION WITH WARNING           
      ------------------                                                                  
+
+
+------------------------------------------------------------------------------------------------------------------------
+|            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
+------------------------------------------------------------------------------------------------------------------------
+|                                                           |                                                          |
+|                                                           |  --- GLOBAL UNITS                           1 WARNING(S) |
+|                                                           |       |                                                  |
+|                                                           |       |                                                  |
+|                                                           |       |---     1 WARNING ID :       100214               |
+|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
+|                                                           |       |                                                  |
+|                                                           |                                                          |
+|                                                           |                                                          |
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
               0 ERROR(S)            
-              0 WARNING(S)          
+              1 WARNING(S)          
 
 

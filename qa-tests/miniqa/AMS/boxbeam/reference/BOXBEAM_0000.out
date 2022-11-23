@@ -2,42 +2,76 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                     RADIOSS STARTER MAINLINE                       **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
-**                                                                    **
-**                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** Build tag: 0742056_087sesevot__1060_0032401_10                     **
+**                    Linux 64 bits, GNU compiler                     **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2014                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
-WARNING ID :          707
-** WARNING : MULTIPLE DEFINITIONS OF SPMD DOMAIN NUMBER
-DESCRIPTION :  
-   COMMAND LINE OPTION -nspmd OVERRIDES THE CARD /SPMD
- ** WARNING : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
-  
 
-+-------------------+
-| BLOCK FREE FORMAT |
-+-------------------+
+************************************************************************
+* INPUT READING PROCESS
+************************************************************************
+
+WARNING ID : 100214
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /IOFLAG
+-- LINE: 3         0         0         0         0         0                                       0
+unsupported field exits
+SOLUTION :     
+    Please check input format and fields description defined in the Reference Guide.
+
+WARNING ID : 100214
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /ANALY
+-- LINE: 0         0         0         0
+unsupported field exits
+SOLUTION :     
+    Please check input format and fields description defined in the Reference Guide.
+
+ -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
+
+
+
+
+************************************************************************
+
+
+
+    UNIT SYSTEMS DEFINITION     
+    -----------------------     
+
+                                                          MASS                LENGTH              TIME
+    WORK UNIT SYSTEM . . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+    INPUT UNIT SYSTEM  . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+
+
+    ADVANCED MASS SCALING:                           
+    ---------------------                            
+
+    SELECTIVE MASS SCALING APPLIED TO ALL PARTS
 
 
  box beam                                                                        
@@ -56,7 +90,8 @@ DESCRIPTION :
     NUMSKW: NUMBER OF SKEW REFERENCE FRAMES . . . . . . .         0
     NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         4
     NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
-    NUMELQ: NUMBER OF 2D SOLID ELEMENTS . . . . . . . . .         0
+    NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .         0
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
     NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .         0
     NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .       897
     NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
@@ -64,15 +99,20 @@ DESCRIPTION :
     NUMELR: NUMBER OF 3D SPRING ELEMENTS. . . . . . . . .         0
     NUMELTG: NUMBER OF 3D SHELL ELEMENTS (3-NODES). . . .         0
     NUMELX: NUMBER OF MULTIPURPOSE ELEMENTS . . . . . . .         0
+    NUMELIG3D: NUMBER OF ISO-GEOMETRIC ELEMENTS . . . . .         0
     NUMSPH : NUMBER OF SMOOTH PARTICLES (SPH CELLS) . . .         0
     NSPHBCS: NUMBER OF SPH SYMMETRY CONDITIONS. . . . . .         0
     NSPHIO : NUMBER OF SPH INLET/OUTLET CONDITIONS. . . .         0
 
-    NFUNCT: NUMBER OF USER'S FUNCTIONS. . . . . . . . . .         1
+    NFUNCT: NUMBER OF USER'S FUNCTIONS . . . . . . . . .          1
     NGRAV:  NUMBER OF GRAVITY LOADS . . . . . . . . . . .         0
+    NFUNC2D:  NUMBER OF USER 2D FUNCTIONS . . . . . . . .         0
+    NINIGRV:NUMBER OF INITIAL GRAVITY LOADS . . . . . . .         0
     NCONLD: NUMBER OF CONCENTRATED LOADS. . . . . . . . .         0
     NINVEL: NUMBER OF INITIAL VELOCITIES. . . . . . . . .         0
     NPRELD: NUMBER OF PRESSURE LOADS. . . . . . . . . . .         0
+    NINIMAP1D: NUMBER OF INITIAL 1D MAPPING.. . . . . . .         0
+    NINIMAP2D: NUMBER OF INITIAL 2D MAPPING.. . . . . . .         0
     NUMBER OF ACCELEROMETERS. . . . . . . . . . . . . . .         0
     NUMBER OF SENSORS . . . . . . . . . . . . . . . . . .         0
     NUMBER OF GAUGES. . . . . . . . . . . . . . . . . . .         0
@@ -88,7 +128,7 @@ DESCRIPTION :
     NRIVET: NUMBER OF RIVETS OR SPOT WELDS. . . . . . . .         0
     NSECT : NUMBER OF SECTIONS SAVED (TIME HISTORY PLOTS)         0
     NJOINT: NUMBER OF JOINTS. . . . . . . . . . . . . . .         0
-    NACTIV: NUMBER OF ELEMENT DESACTIVATION GROUPS. . . .         0
+    NACTIV: NUMBER OF ELEMENT DEACTIVATION GROUPS . . . .         0
     NDAMP:  NUMBER OF RAYLEIGH DAMPING GROUPS . . . . . .         0
     NGJOINT: NUMBER OF GEAR TYPE JOINTS . . . . . . . . .         0
     NUMMPC: NUMBER OF MULTI-POINT CONSTRAINTS . . . . . .         0
@@ -96,11 +136,10 @@ DESCRIPTION :
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
-    INITIAL STRESS FILE =                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+    INITIAL STRESS FILE =
                                           FLAG ISIGI. . .         0
 
 
@@ -110,61 +149,53 @@ DESCRIPTION :
     ANALYSIS OPTIONS
     ----------------
 
-    INTEG8: 8 GAUSS POINT CONDENSED INTEGRATION . . . . .         0
-    IPARITH: PARALLEL ARITHMETIC FLAG (2 OFF, 1 0N) . . .         1
-    ISUB  : (OLD) SUBCYCLING (1:YES 0:NO) . . . . . . . .         0
-    MSHSUB: MEMORY ALLOCATION FOR (NEW) SHELLS SUBCYCLING
-                                        (1:YES 0:NO). . .         0
-    IUSERW: GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
-    ISOLID: DEFAULT BRICK FORMULATION FLAG. . . . . . . .         1
-    ISST_S: DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
-    IPLA_S: DEFAULT SOLID STRESS PLASTICITY FLAG. . . . .         2
-    ISHELL: DEFAULT SHELL FORMULATION FLAG. . . . . . . .         1
-    ISST  : DEFAULT SHELL SMALL STRAIN FLAG . . . . . . .         0
-    ITHK  : DEFAULT SHELL THICKNESS VARIATION FLAG. . . .         0
-    IPLA  : DEFAULT PLANE STRESS PLASTICITY FLAG. . . . .         0
-    ISTR  : DEFAULT SHELL STRAIN COMPUTATION FLAG . . . .         0
-    ISHEA : DEFAULT SHELL SHEAR COMPUTATION FLAG. . . . .         0
-    INSH  : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
-    ISH3N : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         2
-    NPTS  : SHELL PROPERTIES DEFAULT NUMBER OF           
-            INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
-    ISTRA : DEFAULT SOLID STRAIN COMPUTATION FLAG . . . .         2
-
-    ISHFRAM:LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
+    INTEG8 : 8 GAUSS POINT CONDENSED INTEGRATION . . . . .         0
+    IPARITH: PARALLEL ARITHMETIC FLAG (2 OFF, 1 0N). . . .         1
+    ISUB   : (OLD) SUBCYCLING (1:YES 0:NO) . . . . . . . .         0
+    MSHSUB : MEMORY ALLOCATION FOR (NEW) SHELLS SUBCYCLING
+                                         (1:YES 0:NO). . .         0
+    IUSERW : GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
+    ISOLID : DEFAULT BRICK FORMULATION FLAG. . . . . . . .         1
+    ITET4  : DEFAULT TETRA4 FORMULATION FLAG . . . . . . .         0
+    ITET10 : DEFAULT TETRA10 FORMULATION FLAG. . . . . . .         0
+    ISMSTR : DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
+    ICPRE  : DEFAULT SOLID CONSTANT PRESSURE FLAG. . . . .         0
+    ISHELL : DEFAULT SHELL FORMULATION FLAG. . . . . . . .         1
+    ISST   : DEFAULT SHELL SMALL STRAIN FLAG . . . . . . .         0
+    ITHK   : DEFAULT SHELL THICKNESS VARIATION FLAG. . . .         0
+    IPLA   : DEFAULT PLANE STRESS PLASTICITY FLAG. . . . .         0
+    ISTR   : DEFAULT SHELL STRAIN COMPUTATION FLAG . . . .         1
+    ISHEA  : DEFAULT SHELL SHEAR COMPUTATION FLAG. . . . .         0
+    INSH   : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
+    ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         2
+    NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
+             INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
+    IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
+    ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
 
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
-
-    ADVANCED MASS SCALING:                           
-    ---------------------                            
-    PARTS GROUP FOR ADVANCED MASS SCALING . . . . . .
-    (0 : SELECTIVE MASS SCALING APPLIES TO ALL PARTS)         0
-
-
 
 
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
-
-
-    UNIT SYSTEMS DEFINITION     
-    -----------------------     
-
-                                                          MASS                LENGTH              TIME
-    WORK UNIT SYSTEM . . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
-    INPUT UNIT SYSTEM  . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+ 
+    INFO : NUMBER OF SPMD DOMAIN AND THREADS DEFINED IN COMMAND LINE
+           /SPMD CARD PARAMETER ARE IGNORED
+ 
+     INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
+  
 
 
     LOAD CURVES
@@ -174,7 +205,7 @@ DESCRIPTION :
 
     LOAD CURVE ID . . . . . . . . . . . =         1
 
-    X                   Y               
+    X                     Y               
     -10000.00000000        1.000000000000    
      0.000000000000        1.000000000000    
      10000.00000000        1.000000000000    
@@ -186,20 +217,22 @@ DESCRIPTION :
 
 
 
-    FUNCTION  TRANSFORMATION 
+    MATERIAL LAWS
+    -------------
+    NUMBER OF MATERIALS. . . . . . . . . =         1
 
 
 
-     NASTRAN_MID_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+
+     NASTRAN_MID_2
      MATERIAL NUMBER . . . . . . . . . . . .=         2
-     MATERIAL LAW. . . . . . . . . . . . . .=         2
-
-     INITIAL DENSITY . . . . . . . . . . . .= 7.7999997900000E-03
-     EOS REFERENCE DENSITY . . . . . . . . .= 7.7999997900000E-03
+     MATERIAL LAW. . . . . . . . . . . . . .=         PLAS_JOHNS
 
        ELASTIC PLASTIC LAW                   
        -------------------                   
 
+
+     INITIAL DENSITY . . . . . . . . . . . .= 7.7999997900000E-03
 
      YOUNG'S MODULUS . . . . . . . . . . . .=  210000.0000000    
      POISSON'S RATIO . . . . . . . . . . . .= 0.3000000120000    
@@ -210,25 +243,32 @@ DESCRIPTION :
      YIELD COEFFICIENT A . . . . . . . . . .=  206.0000000000    
      YIELD COEFFICIENT B . . . . . . . . . .=  450.0000000000    
      YIELD COEFFICIENT N . . . . . . . . . .= 0.5000000000000    
-     EPS-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+30
-     SIG-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+30
-     ISO-KINEMATIC HARDENNING FACTOR. . . . =  0.000000000000    
+     EPS-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+20
+     SIG-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+20
+     ISO-KINEMATIC HARDENING FACTOR. . . . .=  0.000000000000    
 
 
      STRAIN RATE COEFFICIENT CC. . . . . . .=  0.000000000000    
      REFERENCE STRAIN RATE . . . . . . . . .=  1.000000000000    
      FLAG FOR STRAIN RATE ON SIG-MAX . . . .=         1
      SMOOTH STRAIN RATE OPTION . . . . . . .=         1
-     STRAIN RATE CUTTING FREQUENCY . . . . .= 1.0000000000000E+30
+     STRAIN RATE CUTTING FREQUENCY . . . . .= 1.0000000000000E+20
      TEMPERATURE EXPONENT. . . . . . . . . .=  1.000000000000    
-     MELTING TEMPERATURE K . . . . . . . . .= 1.0000000000000E+30
+     MELTING TEMPERATURE K . . . . . . . . .= 1.0000000000000E+20
      SPECIFIC HEAT Rho*Cp. . . . . . . . . .=  0.000000000000    
      INITIAL TEMPERATURE K . . . . . . . . .=  298.0000000000    
 
 
+     SUBMODEL SKEWS(INTERNAL)                                                            
+     --------------------------------------                                              
+     NUMBER          VECTORS                                          ORIGIN
+ 1000000001        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
 
 
-         PROPERTY SETS
+
+         PROPERTY SETS (HM_READER)
          -------------
 
 
@@ -236,7 +276,7 @@ SHELL2
      ISOTROPIC SHELL PROPERTY SET
      PROPERTY SET NUMBER . . . . . . . . . .=         2
      NUMBER OF INTEGRATION POINTS. . . . . .=         5
-     POST PROCESSING STRAIN FLAG . . . . . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
      SHELL THICKNESS . . . . . . . . . . . .= 0.9139999750000    
      SMALL STRAIN FLAG . . . . . . . . . . .=         2
      SHELL FORMULATION FLAG. . . . . . . . .=         1
@@ -246,6 +286,7 @@ SHELL2
      SHELL HOURGLASS ROTATIONAL DAMPING. . .= 1.0000000000000E-02
      SHELL MEMBRANE DAMPING. . . . . . . . .=  0.000000000000    
      SHEAR AREA REDUCTION FACTOR . . . . . .= 0.8333333333333    
+     % OF INTEG POINT THICKNESS TO FAIL. . .=  0.000000000000    
      SHEAR FORMULATION FLAG. . . . . . . . .=         0
      THICKNESS VARIATION FLAG. . . . . . . .=         0
      PLASTICITY FORMULATION FLAG . . . . . .=         0
@@ -258,17 +299,17 @@ SHELL2
 
 
 
-PART:         1,SHELL2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+PART:         1,SHELL2
 ----
-     PROPERTY:         2,SHELL2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-     MATERIAL:         2,NASTRAN_MID_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+     PROPERTY:         2,SHELL2
+     MATERIAL:         2,NASTRAN_MID_2
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
-PART:         2,SHELL_897                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+PART:         2,SHELL_897
 ----
-     PROPERTY:         2,SHELL2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-     MATERIAL:         2,NASTRAN_MID_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+     PROPERTY:         2,SHELL2
+     MATERIAL:         2,NASTRAN_MID_2
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
@@ -279,15 +320,14 @@ PART:         2,SHELL_897
 
   
   
- SUBSET:         0,GLOBAL MODEL                            
+ SUBSET:         0,GLOBAL MODEL                                                                                                     
  ~~~~~~
   |
   |________Part(s):         1,SHELL2                                  
                             2,SHELL_897                               
-
-
-
- SHEL. GROUP:         1,auto_surf_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ,   868 ELEMENTS: 
+ 
+ 
+ SHEL. GROUP:         1,auto_surf_1,   868 ELEMENTS: 
  --------------------
          7         8         9        10        11        12        13        14        15        16
         17        18        19        20        21        22        23        24        25        26
@@ -376,10 +416,9 @@ PART:         2,SHELL_897
        861       862       863       864       865       866       867       868       869       870
        871       872       873       874       875       876       877       878       879       880
        881       882       883       884       885       886       887       888
-
-
-
- SHEL. GROUP:         2,auto_surf_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ,   868 ELEMENTS: 
+ 
+ 
+ SHEL. GROUP:         2,auto_surf_2,   868 ELEMENTS: 
  --------------------
          7         8         9        10        11        12        13        14        15        16
         17        18        19        20        21        22        23        24        25        26
@@ -468,10 +507,9 @@ PART:         2,SHELL_897
        861       862       863       864       865       866       867       868       869       870
        871       872       873       874       875       876       877       878       879       880
        881       882       883       884       885       886       887       888
-
-
-
- SURFACE:         1,auto_surf_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ,       868 SEGMENTS: 
+ 
+ 
+ SURFACE:         1,auto_surf_2,       868 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
          8         9        16        15         3         7
@@ -1342,17 +1380,15 @@ PART:         2,SHELL_897
        956       957       965       964         3       886
        957       958       966       965         3       887
        958       959       967       966         3       888
-
-
-
- SURFACE:         4,New SURF 2 _parts_subsubgroup_                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ,         1 SEGMENTS: 
+ 
+ 
+ SURFACE:         4,New SURF 2 _parts_subsubgroup_,         1 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
        987       988       989       990         3       897
-
-
-
- NODE GROUP:         1,symx                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ,        64 NODES: 
+ 
+ 
+ NODE GROUP:         1,symx,        64 NODES: 
  -------------------
        471       479       487       495       503       511       519       527       535       543
        551       559       567       575       583       591       599       607       615       623
@@ -1361,10 +1397,9 @@ PART:         2,SHELL_897
        791       799       807       815       823       831       839       847       855       863
        871       879       887       895       903       911       919       927       935       943
        951       959       967       975
-
-
-
- NODE GROUP:         2,symy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ,        64 NODES: 
+ 
+ 
+ NODE GROUP:         2,symy,        64 NODES: 
  -------------------
          8        15        22        29        36        43        50        57        64        71
         78        85        92        99       106       113       120       127       134       141
@@ -1373,23 +1408,9 @@ PART:         2,SHELL_897
        288       295       302       309       316       323       330       337       344       351
        358       365       372       379       386       393       400       407       414       421
        428       435       442       449
-
-
-
- NODE GROUP:         9,New GRNOD 8 _nodes_subsubgroup_                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ,        15 NODES: 
- -------------------
-         1         2         3         4         5         6         7       456       457       458
-       459       460       461       462       463
-
-
-
- NODE GROUP:        18,New GRNOD 16 _parts_subsubgroup_                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ,         4 NODES: 
- -------------------
-       987       988       989       990
-
-
-
- NODE GROUP:         5,auto_surf_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ,       945 NODES: 
+ 
+ 
+ NODE GROUP:         5,auto_surf_1,       945 NODES: 
  -------------------
          8         9        10        11        12        13        14        15        16        17
         18        19        20        21        22        23        24        25        26        27
@@ -1486,10 +1507,26 @@ PART:         2,SHELL_897
        943       944       945       946       947       948       949       950       951       952
        953       954       955       956       957       958       959       960       961       962
        963       964       965       966       967
-
-
-
- NODE GROUP:        15,New GRNOD 13 _parts_subsubgroup_                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ,       975 NODES: 
+ 
+ 
+ NODE GROUP:         6,fixed_slave,        15 NODES: 
+ -------------------
+         1         2         3         4         5         6         7       456       457       458
+       459       460       461       462       463
+ 
+ 
+ NODE GROUP:         9,New GRNOD 8 _nodes_subsubgroup_,        15 NODES: 
+ -------------------
+         1         2         3         4         5         6         7       456       457       458
+       459       460       461       462       463
+ 
+ 
+ NODE GROUP:        12,New GRNOD 10 _parts_subsubgroup_,         4 NODES: 
+ -------------------
+       987       988       989       990
+ 
+ 
+ NODE GROUP:        15,New GRNOD 13 _parts_subsubgroup_,       975 NODES: 
  -------------------
          1         2         3         4         5         6         7         8         9        10
         11        12        13        14        15        16        17        18        19        20
@@ -1589,19 +1626,11 @@ PART:         2,SHELL_897
        951       952       953       954       955       956       957       958       959       960
        961       962       963       964       965       966       967       968       969       970
        971       972       973       974       975
-
-
-
- NODE GROUP:        12,New GRNOD 10 _parts_subsubgroup_                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ,         4 NODES: 
+ 
+ 
+ NODE GROUP:        18,New GRNOD 16 _parts_subsubgroup_,         4 NODES: 
  -------------------
        987       988       989       990
-
-
-
- NODE GROUP:         6,fixed_slave                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ,        15 NODES: 
- -------------------
-         1         2         3         4         5         6         7       456       457       458
-       459       460       461       462       463
 
 
      RANDOM NOISE       
@@ -1764,79 +1793,85 @@ PART:         2,SHELL_897
 
      IMPOSED VELOCITIES    
      -------------------    
-         NODE         SKEW        FRAME  DIRECTION   LOAD_CURVE       SENSOR            FSCALE                ASCALE            START_TIME                 STOP_TIME             COORDINATE SYSTEM
-          987            0            0          Z            1            0   -13.30000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          988            0            0          Z            1            0   -13.30000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          989            0            0          Z            1            0   -13.30000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          990            0            0          Z            1            0   -13.30000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
- 
+         NODE         SKEW        FRAME  DIRECTION   LOAD_CURVE       SENSOR            FSCALE                ASCALE            START_TIME                 STOP_TIME         COORDINATE SYSTEM
+          987            0            0          Z            1            0   -13.30000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          988            0            0          Z            1            0   -13.30000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          989            0            0          Z            1            0   -13.30000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          990            0            0          Z            1            0   -13.30000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
   
- SPMD IS NOT ABLE TO CHECK FOR ELEMENT DELETION IN RADIOSS ENGINE INPUT FILE
+ SPMD IS CHECKING FOR ELEMENT DELETION IN : 
+ BOXBEAM_0001.rad                                                                                             
  
- DOMAIN DECOMPOSITION USING MULTILEVEL KWAY FOR IMPLICIT
+ DOMAIN DECOMPOSITION USING MULTILEVEL KWAY FOR IMPLICIT AND AMS
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+ NUMBER OF DISCONNECTED COMPONENTS FIXED FOR DOMAIN DECOMP:       2
   
   ELEMENT NUMBER =        897
-  EDGES FOUND    =       3352
+  EDGES FOUND    =       3353
   
-#PROC    ELEMENT W.    CONT NOD W.    CONT ELT W.        INT2 W.         DOF W.
-   1         28125.             0.             0.             0.          7478.
-   2         28000.             0.             0.             0.          7268.
-   3         28000.             0.             0.             0.          7200.
-   4         28000.             0.             0.             0.          7426.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.         DOF W.
+   1         32996.             0.             0.             0.             0.           766.
+   2         33288.             0.             0.             0.             0.           754.
+   3         32558.             0.             0.             0.             0.           768.
+   4         32120.             0.             0.             0.             0.           724.
   
+ STATISTICS ON DECOMPOSITION WEIGHTS
+ -----------------------------------
+ METRIC      MINIMUM   MAXIMUM   AVERAGE   STANDARD DEVIATION
+ ELEMENTS      32120     33288     32741         443
+ AMS MATRIX      724       768       753          18
 
 
       3D - SHELL ELEMENT GROUPS
       -------------------------
-      GROUP   MATERIAL    ELEMENT      FIRST     BUFFER    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE
-                   LAW     NUMBER    ELEMENT    ADDRESS       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG
-          1          2        128          1          1          3          5          2          1          0          1          0
-          2          2         97        129       9601          3          5          2          1          0          1          0
-          3          2        128        226      16876          3          5          2          1          0          1          0
-          4          2         96        354      26476          3          5          2          1          0          1          0
-          5          2        128        450      33676          3          5          2          1          0          1          0
-          6          2         96        578      43276          3          5          2          1          0          1          0
-          7          2        128        674      50476          3          5          2          1          0          1          0
-          8          2         96        802      60076          3          5          2          1          0          1          0
+      GROUP   MATERIAL    ELEMENT      FIRST    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE   PINCHING
+                   LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG       FLAG
 
-      BUFFER LENGTH :      67275
+          1          2        128          1          3          5          2          1          1          1          0          0
+          2          2         98        129          3          5          2          1          1          1          0          0
+          3          2        128        227          3          5          2          1          1          1          0          0
+          4          2        100        355          3          5          2          1          1          1          0          0
+          5          2        128        455          3          5          2          1          1          1          0          0
+          6          2         95        583          3          5          2          1          1          1          0          0
+          7          2        128        678          3          5          2          1          1          1          0          0
+          8          2         92        806          3          5          2          1          1          1          0          0
 
     INTERFACES               
   --------------             
 
 
 
-   INTERFACE NUMBER :         2 auto                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+   INTERFACE NUMBER :         2 auto
 
 
-    TYPE.EQ.7   PARALLEL/AUTO IMPACTING           
+    TYPE==7   PARALLEL/AUTO IMPACTING           
 
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       SLAVE NODE  (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       MASTER NODE (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
-    VARIABLE GAP FLAG . . . . . . . . . . . .     0
-    MINIMUM GAP . . . . . . . . . . . . . . .   0.000000000000    
-    %MESHSIZE TAKEN INTO ACCOUNT FOR  . . . . 
-    CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
-    FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
-    NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            0
-    START TIME. . . . . . . . . . . . . . . .   0.000000000000    
-    STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
-    DE-ACTIVATION OF INITIAL PENETRATIONS . .          0
-    MAXIMAL INITIAL PENETRATION FACTOR. . . .   0.000000000000    
-    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
-    FRICTION CRITICAL DAMPING FACTOR. . . . .   0.000000000000    
-    QUADRATIC DAMPING FLAG. . . . . . . . . .     0
-    FORMULATION LEVEL . . . . . . . . . . . .     0
-    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . .     4
+
+    BOUND. COND. DELETED AFTER IMPACT . . . . . IN X DIR       0
+       SECONDARY NODE  (1:YES 0:NO)                Y DIR       0
+                                                   Z DIR       0
+    STIFFNESS FACTOR. . . . . . . . . . . . . .   1.000000000000    
+    VARIABLE GAP FLAG . . . . . . . . . . . . .             1000
+    MINIMUM GAP . . . . . . . . . . . . . . . .   0.000000000000    
+    %MESHSIZE TAKEN INTO ACCOUNT FOR            
+    CALCULATION OF MAXIMUM GAP(IGAP = 3). . . .   0.000000000000    
+    FLAGREMNODE : NOT CONSIDER NEIGHBORING      
+    NODES IN CASE OF ELEMENT SIZE < GAP VALUE .                1
+    DE-ACTIVATION FLAG IF CONFLICT W/ TYPE2 . .                3
+    START TIME. . . . . . . . . . . . . . . . .   0.000000000000    
+    STOP TIME . . . . . . . . . . . . . . . . .  1.0000000000000E+30
+    BUCKET FACTOR . . . . . . . . . . . . . . .  0.2000000029802    
+    DE-ACTIVATION OF INITIAL PENETRATIONS . . .             1000
+    MAXIMUM INITIAL PENETRATION FACTOR. . . . .   0.000000000000    
+    CRITICAL DAMPING FACTOR . . . . . . . . . .  5.0000000000000E-02
+    FRICTION CRITICAL DAMPING FACTOR. . . . . .   0.000000000000    
+    QUADRATIC DAMPING FLAG. . . . . . . . . . .                0
+    FORMULATION LEVEL . . . . . . . . . . . . .                0
+    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . .                4
+
+    DELETION FLAG ON FAILURE OF MAIN ELEMENT (1:YES-ALL/2:YES-ANY) :  1000
 
     FRICTION FORMULATION: TOTAL (VISCOUS) FORMULATION
     FRICTION FILTERING FLAG. . . . . . . . .          0
@@ -1845,43 +1880,43 @@ PART:         2,SHELL_897
     FRICTION MODEL 0 (Coulomb Law) :
       FRICTION COEFFICIENT . . . . . . . . .   0.000000000000    
 
-      SLAVE SURFACE INPUT BY NODES
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY NODES
+      MAIN SURFACE INPUT BY SEGMENTS
 
     INTERFACES               
   --------------             
 
 
 
-   INTERFACE NUMBER :         3 impacteur                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+   INTERFACE NUMBER :         3 impacteur
 
 
-    TYPE.EQ.7   PARALLEL/AUTO IMPACTING           
+    TYPE==7   PARALLEL/AUTO IMPACTING           
 
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       SLAVE NODE  (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       MASTER NODE (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
-    VARIABLE GAP FLAG . . . . . . . . . . . .     0
-    MINIMUM GAP . . . . . . . . . . . . . . .   1.000000000000    
-    %MESHSIZE TAKEN INTO ACCOUNT FOR  . . . . 
-    CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
-    FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
-    NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            0
-    START TIME. . . . . . . . . . . . . . . .   0.000000000000    
-    STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
-    DE-ACTIVATION OF INITIAL PENETRATIONS . .          0
-    MAXIMAL INITIAL PENETRATION FACTOR. . . .   0.000000000000    
-    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
-    FRICTION CRITICAL DAMPING FACTOR. . . . .   0.000000000000    
-    QUADRATIC DAMPING FLAG. . . . . . . . . .     0
-    FORMULATION LEVEL . . . . . . . . . . . .     0
-    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . .     4
+
+    BOUND. COND. DELETED AFTER IMPACT . . . . . IN X DIR       0
+       SECONDARY NODE  (1:YES 0:NO)                Y DIR       0
+                                                   Z DIR       0
+    STIFFNESS FACTOR. . . . . . . . . . . . . .   1.000000000000    
+    VARIABLE GAP FLAG . . . . . . . . . . . . .             1000
+    MINIMUM GAP . . . . . . . . . . . . . . . .   1.000000000000    
+    %MESHSIZE TAKEN INTO ACCOUNT FOR            
+    CALCULATION OF MAXIMUM GAP(IGAP = 3). . . .   0.000000000000    
+    FLAGREMNODE : NOT CONSIDER NEIGHBORING      
+    NODES IN CASE OF ELEMENT SIZE < GAP VALUE .                1
+    DE-ACTIVATION FLAG IF CONFLICT W/ TYPE2 . .                3
+    START TIME. . . . . . . . . . . . . . . . .   0.000000000000    
+    STOP TIME . . . . . . . . . . . . . . . . .  1.0000000000000E+30
+    BUCKET FACTOR . . . . . . . . . . . . . . .  0.2000000029802    
+    DE-ACTIVATION OF INITIAL PENETRATIONS . . .             1000
+    MAXIMUM INITIAL PENETRATION FACTOR. . . . .   0.000000000000    
+    CRITICAL DAMPING FACTOR . . . . . . . . . .  5.0000000000000E-02
+    FRICTION CRITICAL DAMPING FACTOR. . . . . .   0.000000000000    
+    QUADRATIC DAMPING FLAG. . . . . . . . . . .                0
+    FORMULATION LEVEL . . . . . . . . . . . . .                0
+    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . .                4
+
+    DELETION FLAG ON FAILURE OF MAIN ELEMENT (1:YES-ALL/2:YES-ANY) :  1000
 
     FRICTION FORMULATION: TOTAL (VISCOUS) FORMULATION
     FRICTION FILTERING FLAG. . . . . . . . .          0
@@ -1890,8 +1925,8 @@ PART:         2,SHELL_897
     FRICTION MODEL 0 (Coulomb Law) :
       FRICTION COEFFICIENT . . . . . . . . .   0.000000000000    
 
-      SLAVE SURFACE INPUT BY NODES
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY NODES
+      MAIN SURFACE INPUT BY SEGMENTS
 
  NODES USED FOR SURFACE DEFINITION
 
@@ -2968,7 +3003,7 @@ PART:         2,SHELL_897
        987       988       989       990
 
 
- SLAVE SURFACE
+ SECONDARY SURFACE
 
  NODES USED FOR SURFACE DEFINITION
 
@@ -3069,7 +3104,7 @@ PART:         2,SHELL_897
        963       964       965       966       967
 
 
- MASTER SURFACE
+ MAIN SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -3943,7 +3978,7 @@ PART:         2,SHELL_897
        958       959       967       966
 
 
- SLAVE SURFACE
+ SECONDARY SURFACE
 
  NODES USED FOR SURFACE DEFINITION
 
@@ -4047,7 +4082,7 @@ PART:         2,SHELL_897
        971       972       973       974       975
 
 
- MASTER SURFACE
+ MAIN SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -4061,94 +4096,98 @@ PART:         2,SHELL_897
   POSSIBLE IMPACT NUMBER:           0  (<=           1 *NSN)
 
 
-    IMPACT CANDIDATES
-  MASTER        SLAVE  NODES 
-   NODE 
-
-
  INTERFACE NUMBER. . . . . . . . . . . . . .         3
  INTERFACE TYPE. . . . . . . . . . . . . . .     7
 
   POSSIBLE IMPACT NUMBER:         105  (<=           1 *NSN)
-
-
-    IMPACT CANDIDATES
-  MASTER        SLAVE  NODES 
-   NODE 
-       451       987       988       989       990
-       453       987       988       989       990
-       968       987       988       989       990
-       971       987       988       989       990
-       975       987       988       989       990
  
  --------------------------------------
  NEW DOMAIN DECOMPOSITION FOR OPTIMIZATION
  --------------------------------------
  
- DOMAIN DECOMPOSITION USING MULTILEVEL KWAY FOR IMPLICIT
+ DOMAIN DECOMPOSITION USING MULTILEVEL KWAY FOR IMPLICIT AND AMS
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
   
   ELEMENT NUMBER =        897
-  EDGES FOUND    =       3353
+  EDGES FOUND    =       3450
   
-#PROC    ELEMENT W.    CONT NOD W.    CONT ELT W.        INT2 W.         DOF W.
-   1         46500.         11955.             0.             0.         44640.
-   2         10500.          2626.             0.             0.         10080.
-   3          7125.          1840.             1.             0.          6840.
-   4         48000.         12271.             0.             0.         46080.
+** INFO: DECOMPOSITION UNBALANCING DETECTED
+ DOMAINS:    4  MIN/MAX/AVERAGE:      2190    115632     32741
+ REVERT TO RECURSIVE BISSECTION
+** INFO: DECOMPOSITION UNBALANCING DETECTED
+ DOMAINS:    4  MIN/MAX/AVERAGE:      1460    124538     32741
+RETRY KWAY WITH NCOND =    4
+** INFO: DECOMPOSITION UNBALANCING DETECTED
+ DOMAINS:    4  MIN/MAX/AVERAGE:         0    119574     32741
+** INFO: DECOMPOSITION UNBALANCING DETECTED
+ DOMAINS:    4  MIN/MAX/AVERAGE:      1752    125560     32741
+RETRY KWAY WITH NCOND =    3
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.         DOF W.
+   1         33142.           486.           259.             0.             0.          1848.
+   2         32850.           481.           259.           125.             0.          1851.
+   3         33142.           487.           260.             0.             0.          1849.
+   4         31828.           466.           246.             0.             0.          1788.
   
+ STATISTICS ON DECOMPOSITION WEIGHTS
+ -----------------------------------
+ METRIC      MINIMUM   MAXIMUM   AVERAGE   STANDARD DEVIATION
+ ELEMENTS      31828     33142     32741         540
+ SECO. NODES     466       487       480           8
+ MAIN NODES     246       260       256           6
+ CONT. CAND.       0       125        31          54
+ AMS MATRIX     1788      1851      1834          27
 
 
       3D - SHELL ELEMENT GROUPS
       -------------------------
-      GROUP   MATERIAL    ELEMENT      FIRST     BUFFER    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE
-                   LAW     NUMBER    ELEMENT    ADDRESS       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG
-          1          2        128          1          1          3          5          2          1          0          1          0
-          2          2        128        129       9601          3          5          2          1          0          1          0
-          3          2        116        257      19201          3          5          2          1          0          1          0
-          4          2         84        373      27901          3          5          2          1          0          1          0
-          5          2         57        457      34201          3          5          2          1          0          1          0
-          6          2        128        514      38476          3          5          2          1          0          1          0
-          7          2        128        642      48076          3          5          2          1          0          1          0
-          8          2        128        770      57676          3          5          2          1          0          1          0
+      GROUP   MATERIAL    ELEMENT      FIRST    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE   PINCHING
+                   LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG       FLAG
 
-      BUFFER LENGTH :      67275
+          1          2        128          1          3          5          2          1          1          1          0          0
+          2          2         99        129          3          5          2          1          1          1          0          0
+          3          2        128        228          3          5          2          1          1          1          0          0
+          4          2         97        356          3          5          2          1          1          1          0          0
+          5          2        128        453          3          5          2          1          1          1          0          0
+          6          2         99        581          3          5          2          1          1          1          0          0
+          7          2        128        680          3          5          2          1          1          1          0          0
+          8          2         90        808          3          5          2          1          1          1          0          0
 
     INTERFACES               
   --------------             
 
 
 
-   INTERFACE NUMBER :         2 auto                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+   INTERFACE NUMBER :         2 auto
 
 
-    TYPE.EQ.7   PARALLEL/AUTO IMPACTING           
+    TYPE==7   PARALLEL/AUTO IMPACTING           
 
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       SLAVE NODE  (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       MASTER NODE (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
-    VARIABLE GAP FLAG . . . . . . . . . . . .     0
-    MINIMUM GAP . . . . . . . . . . . . . . .   0.000000000000    
-    %MESHSIZE TAKEN INTO ACCOUNT FOR  . . . . 
-    CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
-    FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
-    NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            0
-    START TIME. . . . . . . . . . . . . . . .   0.000000000000    
-    STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
-    DE-ACTIVATION OF INITIAL PENETRATIONS . .          0
-    MAXIMAL INITIAL PENETRATION FACTOR. . . .   0.000000000000    
-    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
-    FRICTION CRITICAL DAMPING FACTOR. . . . .   0.000000000000    
-    QUADRATIC DAMPING FLAG. . . . . . . . . .     0
-    FORMULATION LEVEL . . . . . . . . . . . .     0
-    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . .     4
+
+    BOUND. COND. DELETED AFTER IMPACT . . . . . IN X DIR       0
+       SECONDARY NODE  (1:YES 0:NO)                Y DIR       0
+                                                   Z DIR       0
+    STIFFNESS FACTOR. . . . . . . . . . . . . .   1.000000000000    
+    VARIABLE GAP FLAG . . . . . . . . . . . . .             1000
+    MINIMUM GAP . . . . . . . . . . . . . . . .   0.000000000000    
+    %MESHSIZE TAKEN INTO ACCOUNT FOR            
+    CALCULATION OF MAXIMUM GAP(IGAP = 3). . . .   0.000000000000    
+    FLAGREMNODE : NOT CONSIDER NEIGHBORING      
+    NODES IN CASE OF ELEMENT SIZE < GAP VALUE .                1
+    DE-ACTIVATION FLAG IF CONFLICT W/ TYPE2 . .                3
+    START TIME. . . . . . . . . . . . . . . . .   0.000000000000    
+    STOP TIME . . . . . . . . . . . . . . . . .  1.0000000000000E+30
+    BUCKET FACTOR . . . . . . . . . . . . . . .  0.2000000029802    
+    DE-ACTIVATION OF INITIAL PENETRATIONS . . .             1000
+    MAXIMUM INITIAL PENETRATION FACTOR. . . . .   0.000000000000    
+    CRITICAL DAMPING FACTOR . . . . . . . . . .  5.0000000000000E-02
+    FRICTION CRITICAL DAMPING FACTOR. . . . . .   0.000000000000    
+    QUADRATIC DAMPING FLAG. . . . . . . . . . .                0
+    FORMULATION LEVEL . . . . . . . . . . . . .                0
+    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . .                4
+
+    DELETION FLAG ON FAILURE OF MAIN ELEMENT (1:YES-ALL/2:YES-ANY) :  1000
 
     FRICTION FORMULATION: TOTAL (VISCOUS) FORMULATION
     FRICTION FILTERING FLAG. . . . . . . . .          0
@@ -4157,43 +4196,43 @@ PART:         2,SHELL_897
     FRICTION MODEL 0 (Coulomb Law) :
       FRICTION COEFFICIENT . . . . . . . . .   0.000000000000    
 
-      SLAVE SURFACE INPUT BY NODES
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY NODES
+      MAIN SURFACE INPUT BY SEGMENTS
 
     INTERFACES               
   --------------             
 
 
 
-   INTERFACE NUMBER :         3 impacteur                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+   INTERFACE NUMBER :         3 impacteur
 
 
-    TYPE.EQ.7   PARALLEL/AUTO IMPACTING           
+    TYPE==7   PARALLEL/AUTO IMPACTING           
 
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       SLAVE NODE  (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       MASTER NODE (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
-    VARIABLE GAP FLAG . . . . . . . . . . . .     0
-    MINIMUM GAP . . . . . . . . . . . . . . .   1.000000000000    
-    %MESHSIZE TAKEN INTO ACCOUNT FOR  . . . . 
-    CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
-    FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
-    NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            0
-    START TIME. . . . . . . . . . . . . . . .   0.000000000000    
-    STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
-    DE-ACTIVATION OF INITIAL PENETRATIONS . .          0
-    MAXIMAL INITIAL PENETRATION FACTOR. . . .   0.000000000000    
-    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
-    FRICTION CRITICAL DAMPING FACTOR. . . . .   0.000000000000    
-    QUADRATIC DAMPING FLAG. . . . . . . . . .     0
-    FORMULATION LEVEL . . . . . . . . . . . .     0
-    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . .     4
+
+    BOUND. COND. DELETED AFTER IMPACT . . . . . IN X DIR       0
+       SECONDARY NODE  (1:YES 0:NO)                Y DIR       0
+                                                   Z DIR       0
+    STIFFNESS FACTOR. . . . . . . . . . . . . .   1.000000000000    
+    VARIABLE GAP FLAG . . . . . . . . . . . . .             1000
+    MINIMUM GAP . . . . . . . . . . . . . . . .   1.000000000000    
+    %MESHSIZE TAKEN INTO ACCOUNT FOR            
+    CALCULATION OF MAXIMUM GAP(IGAP = 3). . . .   0.000000000000    
+    FLAGREMNODE : NOT CONSIDER NEIGHBORING      
+    NODES IN CASE OF ELEMENT SIZE < GAP VALUE .                1
+    DE-ACTIVATION FLAG IF CONFLICT W/ TYPE2 . .                3
+    START TIME. . . . . . . . . . . . . . . . .   0.000000000000    
+    STOP TIME . . . . . . . . . . . . . . . . .  1.0000000000000E+30
+    BUCKET FACTOR . . . . . . . . . . . . . . .  0.2000000029802    
+    DE-ACTIVATION OF INITIAL PENETRATIONS . . .             1000
+    MAXIMUM INITIAL PENETRATION FACTOR. . . . .   0.000000000000    
+    CRITICAL DAMPING FACTOR . . . . . . . . . .  5.0000000000000E-02
+    FRICTION CRITICAL DAMPING FACTOR. . . . . .   0.000000000000    
+    QUADRATIC DAMPING FLAG. . . . . . . . . . .                0
+    FORMULATION LEVEL . . . . . . . . . . . . .                0
+    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . .                4
+
+    DELETION FLAG ON FAILURE OF MAIN ELEMENT (1:YES-ALL/2:YES-ANY) :  1000
 
     FRICTION FORMULATION: TOTAL (VISCOUS) FORMULATION
     FRICTION FILTERING FLAG. . . . . . . . .          0
@@ -4202,8 +4241,8 @@ PART:         2,SHELL_897
     FRICTION MODEL 0 (Coulomb Law) :
       FRICTION COEFFICIENT . . . . . . . . .   0.000000000000    
 
-      SLAVE SURFACE INPUT BY NODES
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY NODES
+      MAIN SURFACE INPUT BY SEGMENTS
 
  NODES USED FOR SURFACE DEFINITION
 
@@ -5280,7 +5319,7 @@ PART:         2,SHELL_897
        987       988       989       990
 
 
- SLAVE SURFACE
+ SECONDARY SURFACE
 
  NODES USED FOR SURFACE DEFINITION
 
@@ -5381,7 +5420,7 @@ PART:         2,SHELL_897
        963       964       965       966       967
 
 
- MASTER SURFACE
+ MAIN SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -6255,7 +6294,7 @@ PART:         2,SHELL_897
        958       959       967       966
 
 
- SLAVE SURFACE
+ SECONDARY SURFACE
 
  NODES USED FOR SURFACE DEFINITION
 
@@ -6359,7 +6398,7 @@ PART:         2,SHELL_897
        971       972       973       974       975
 
 
- MASTER SURFACE
+ MAIN SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -6374,7 +6413,7 @@ PART:         2,SHELL_897
 
 
     IMPACT CANDIDATES
-  MASTER        SLAVE  NODES 
+   SECONDARY        MAIN SEGMENT NODES 
    NODE 
 
 
@@ -6385,7 +6424,7 @@ PART:         2,SHELL_897
 
 
     IMPACT CANDIDATES
-  MASTER        SLAVE  NODES 
+   SECONDARY        MAIN SEGMENT NODES 
    NODE 
        451       987       988       989       990
        453       987       988       989       990
@@ -6393,13 +6432,26 @@ PART:         2,SHELL_897
        971       987       988       989       990
        975       987       988       989       990
 
-WARNING ID :          343
-** WARNING : INITIAL PENETRATIONS IN INTERFACE
+WARNING ID :    343
+** WARNING: INITIAL PENETRATIONS IN INTERFACE
 DESCRIPTION :  
-   -- INTERFACE ID : 3
-   -- INTERFACE TYPE : impacteur
+   -- INTERFACE ID: 3
+   -- INTERFACE TYPE: impacteur
    THERE ARE 5 INITIAL PENETRATIONS
    ( CONCERNING 5 NODES )
+
+
+       RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
+       ----------------------------------------------
+
+       ELEMENT GROUP         1,  SIZE=     13534
+       ELEMENT GROUP         2,  SIZE=     10518
+       ELEMENT GROUP         3,  SIZE=     13534
+       ELEMENT GROUP         4,  SIZE=     10310
+       ELEMENT GROUP         5,  SIZE=     13534
+       ELEMENT GROUP         6,  SIZE=     10518
+       ELEMENT GROUP         7,  SIZE=     13534
+       ELEMENT GROUP         8,  SIZE=      9582
 
 
 
@@ -6411,137 +6463,6 @@ DESCRIPTION :
  SHELL GROUP         6 VECTORIZATION CODE =    0
  SHELL GROUP         7 VECTORIZATION CODE =    0
  SHELL GROUP         8 VECTORIZATION CODE =    0
-
-         SHELL ELEMENTS TIME STEP
-         ------------------------
-
-      TIME STEP       ELEMENT NUMBER
-  6.1079375631717E-04            642
-  6.1079376052412E-04            641
-  6.1086682990308E-04            193
-  6.1088178679651E-04            244
-  6.1088179182120E-04            245
-  6.1088473092710E-04            241
-  6.1089835896329E-04            194
-  6.1089836456887E-04            195
-  6.1090699982373E-04             97
-  6.1090880935070E-04            647
-  6.1090882021202E-04            646
-  6.1093914551030E-04              1
-  6.1093914551622E-04              2
-  6.1093932026875E-04             73
-  6.1093932758958E-04             74
-  6.1094172789129E-04            644
-  6.1094175269475E-04            643
-  6.1094487835169E-04            838
-  6.1094487901536E-04            839
-  6.1094680922943E-04            776
-
-
-         NODAL TIME STEP (estimation)
-         ---------------
-
-      TIME STEP       NODE NUMBER
-  5.8319335610212E-04            348
-  5.8319384675522E-04             36
-  5.8320828778165E-04              1
-  5.8322756057542E-04            849
-  5.8323112929206E-04            463
-  5.8323242440783E-04             92
-  5.8323244390994E-04            349
-  5.8323281858002E-04            583
-  5.8323395154653E-04            288
-  5.8324070983323E-04             71
-  5.8324257791838E-04            453
-  5.8324297249623E-04            515
-  5.8324758551258E-04            623
-  5.8324884046931E-04            722
-  5.8325401253852E-04            289
-  5.8325700519559E-04            291
-  5.8325881457402E-04             29
-  5.8326041326615E-04            290
-  5.8326195571164E-04            397
-  5.8326336096159E-04            462
-  5.8326355908019E-04            575
-  5.8326868278801E-04            227
-  5.8327024357970E-04            485
-  5.8327246019445E-04            292
-  5.8327340720529E-04            347
-  5.8327504286367E-04            848
-  5.8327573934885E-04            283
-  5.8327634400015E-04            393
-  5.8327664765995E-04            724
-  5.8327669050750E-04            782
-  5.8327681650554E-04             85
-  5.8327695273172E-04            493
-  5.8327754970094E-04            340
-  5.8327943345223E-04            341
-  5.8328021117886E-04            906
-  5.8328023261418E-04             88
-  5.8328133028246E-04             93
-  5.8328137973404E-04            454
-  5.8328215726282E-04             78
-  5.8328341793775E-04             21
-  5.8328345893396E-04            285
-  5.8328385489651E-04            787
-  5.8328521306596E-04            588
-  5.8328547920069E-04            406
-  5.8328611698360E-04            394
-  5.8328713138014E-04              8
-  5.8328775901021E-04            120
-  5.8328913039211E-04            118
-  5.8328981678463E-04            234
-  5.8329063211466E-04            858
-  5.8329249472318E-04            332
-  5.8329270334334E-04            785
-  5.8329293775539E-04            857
-  5.8329307501793E-04            114
-  5.8329325955844E-04            786
-  5.8329337309102E-04            783
-  5.8329421910771E-04            282
-  5.8329512808438E-04              2
-  5.8329546868667E-04            142
-  5.8329573590789E-04            237
-  5.8329679632855E-04            850
-  5.8329698400788E-04            622
-  5.8329757463610E-04            113
-  5.8329801379948E-04            265
-  5.8329802133028E-04            359
-  5.8329813700979E-04            972
-  5.8329863448913E-04            716
-  5.8329940983867E-04             20
-  5.8329951142159E-04            747
-  5.8329961890288E-04            973
-  5.8329965767611E-04            611
-  5.8330002755711E-04             41
-  5.8330018567870E-04            779
-  5.8330028638634E-04            376
-  5.8330055574407E-04            712
-  5.8330059240380E-04            115
-  5.8330066951495E-04            238
-  5.8330143030660E-04            358
-  5.8330161917259E-04            595
-  5.8330170646440E-04            698
-  5.8330177198791E-04            403
-  5.8330193760841E-04            228
-  5.8330194799914E-04            229
-  5.8330207897096E-04            567
-  5.8330223414377E-04            970
-  5.8330310054249E-04            236
-  5.8330347532078E-04             72
-  5.8330353027061E-04            739
-  5.8330440634050E-04             81
-  5.8330460773209E-04            596
-  5.8330498032199E-04            413
-  5.8330509603973E-04            725
-  5.8330510348746E-04            262
-  5.8330516544331E-04            784
-  5.8330526949010E-04            774
-  5.8330533128010E-04            594
-  5.8330559133118E-04            619
-  5.8330603803258E-04            344
-  5.8330605320703E-04            284
-  5.8330638330183E-04             87
 
 
      NODAL MASSES
@@ -6750,19 +6671,38 @@ PART MASS & INERTIA
 -------------------
 
 
-PART :          1SHELL2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+PART :          1SHELL2
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  64.32922881348      223405.7375789      225675.5352274      6964.903566724      1905.718944861     0.2010922952904    -0.1183603742102    
+  64.32922881348      223405.7375789      225675.5352274      6964.903566724      1905.718944861     0.2010922953050    -0.1183603739919    
  X           Y           Z           Kin. Energy Vx         Vy         Vz
   18.14279408597      14.96785589365      101.5000244248      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
 
-PART :          2SHELL_897                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+PART :          2SHELL_897
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
   71.29213237022      257447.6841712      257450.8486913      435679.9379591      1.437781209797     0.8048832764642    -0.4410190927936    
  X           Y           Z           Kin. Energy Vx         Vy         Vz
 -3.6863710339397E-04-7.7870182116158E-04  204.0001626740      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+
+PART ELEMENT/MATERIAL PARAMETER REVIEW:
+-----------------------
+
+Part id,name:         1 SHELL2                 Mat type:   2 Elm type: SHELL-4nodes           
+----
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
+       1       2       2       5       0       0
+--      hm        hf        hr        dm        dn
+    0.0100    0.0100    0.0100    0.0000    0.0000
+
+Part id,name:         2 SHELL_897              Mat type:   2 Elm type: SHELL-4nodes           
+----
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
+       1       2       2       5       0       0
+--      hm        hf        hr        dm        dn
+    0.0100    0.0100    0.0100    0.0000    0.0000
+
 
 
      TOTAL MASS AND MASS CENTER
@@ -6780,7 +6720,7 @@ PART :          2SHELL_897
 
 
       ADDED NODAL NON-STRUCTURAL MASSES 
-     --------------------
+     -----------------------------------
 
 
 
@@ -6791,7 +6731,7 @@ PART :          2SHELL_897
 
 
 
- TH GROUP:         3,Wall                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ,  6 VAR    1INTER     :
+ TH GROUP:         3,Wall,  6 VAR    1INTER     :
  -------------------
 FNX       FNY       FNZ       FTX       FTY       FTZ       
     INTER             NAME 
@@ -6802,13 +6742,232 @@ FNX       FNY       FNZ       FTX       FTY       FTZ
  TH GROUP: PART      
  ---------
 
- TH PART      :         1,SHELL2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ,  7 VAR:
-IE        KE        XMOM      YMOM      ZMOM      MASS      HE        
+ TH PART      :         1,SHELL2,  8 VAR:
+IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT      
 
 
 
  TH GROUP: SUBSET    
  ---------
+ 
+
+         SHELL ELEMENTS TIME STEP
+         ------------------------
+
+      TIME STEP       ELEMENT NUMBER
+  6.1079375631717E-04            642
+  6.1079376052412E-04            641
+  6.1086682990308E-04            193
+  6.1088178679651E-04            244
+  6.1088179182120E-04            245
+  6.1088473092710E-04            241
+  6.1089835896329E-04            194
+  6.1089836456887E-04            195
+  6.1090699982373E-04             97
+  6.1090880935070E-04            647
+  6.1090882021202E-04            646
+  6.1093914551030E-04              1
+  6.1093914551622E-04              2
+  6.1093932026875E-04             73
+  6.1093932758958E-04             74
+  6.1094172789129E-04            644
+  6.1094175269475E-04            643
+  6.1094487835169E-04            838
+  6.1094487901536E-04            839
+  6.1094680922943E-04            776
+
+
+         NODAL TIME STEP (estimation)
+         ---------------
+
+      TIME STEP       NODE NUMBER
+  5.8319335610212E-04            348
+  5.8319384675522E-04             36
+  5.8320828778165E-04              1
+  5.8322756057542E-04            849
+  5.8323112929206E-04            463
+  5.8323242440783E-04             92
+  5.8323244390994E-04            349
+  5.8323281858002E-04            583
+  5.8323395154653E-04            288
+  5.8324070983323E-04             71
+  5.8324257791838E-04            453
+  5.8324297249623E-04            515
+  5.8324758551258E-04            623
+  5.8324884046931E-04            722
+  5.8325401253852E-04            289
+  5.8325700519559E-04            291
+  5.8325881457402E-04             29
+  5.8326041326615E-04            290
+  5.8326195571164E-04            397
+  5.8326336096159E-04            462
+  5.8326355908019E-04            575
+  5.8326868278801E-04            227
+  5.8327024357970E-04            485
+  5.8327246019445E-04            292
+  5.8327340720529E-04            347
+  5.8327504286367E-04            848
+  5.8327573934885E-04            283
+  5.8327634400015E-04            393
+  5.8327664765995E-04            724
+  5.8327669050750E-04            782
+  5.8327681650554E-04             85
+  5.8327695273172E-04            493
+  5.8327754970094E-04            340
+  5.8327943345223E-04            341
+  5.8328021117886E-04            906
+  5.8328023261418E-04             88
+  5.8328133028246E-04             93
+  5.8328137973404E-04            454
+  5.8328215726282E-04             78
+  5.8328341793775E-04             21
+  5.8328345893396E-04            285
+  5.8328385489651E-04            787
+  5.8328521306596E-04            588
+  5.8328547920069E-04            406
+  5.8328611698360E-04            394
+  5.8328713138014E-04              8
+  5.8328775901021E-04            120
+  5.8328913039211E-04            118
+  5.8328981678463E-04            234
+  5.8329063211466E-04            858
+  5.8329249472318E-04            332
+  5.8329270334334E-04            785
+  5.8329293775539E-04            857
+  5.8329307501793E-04            114
+  5.8329325955844E-04            786
+  5.8329337309102E-04            783
+  5.8329421910771E-04            282
+  5.8329512808438E-04              2
+  5.8329546868667E-04            142
+  5.8329573590789E-04            237
+  5.8329679632855E-04            850
+  5.8329698400788E-04            622
+  5.8329757463610E-04            113
+  5.8329801379948E-04            265
+  5.8329802133028E-04            359
+  5.8329813700979E-04            972
+  5.8329863448913E-04            716
+  5.8329940983867E-04             20
+  5.8329951142159E-04            747
+  5.8329961890288E-04            973
+  5.8329965767611E-04            611
+  5.8330002755711E-04             41
+  5.8330018567870E-04            779
+  5.8330028638634E-04            376
+  5.8330055574407E-04            712
+  5.8330059240380E-04            115
+  5.8330066951495E-04            238
+  5.8330143030660E-04            358
+  5.8330161917259E-04            595
+  5.8330170646440E-04            698
+  5.8330177198791E-04            403
+  5.8330193760841E-04            228
+  5.8330194799914E-04            229
+  5.8330207897096E-04            567
+  5.8330223414377E-04            970
+  5.8330310054249E-04            236
+  5.8330347532078E-04             72
+  5.8330353027061E-04            739
+  5.8330440634050E-04             81
+  5.8330460773209E-04            596
+  5.8330498032199E-04            413
+  5.8330509603973E-04            725
+  5.8330510348746E-04            262
+  5.8330516544331E-04            784
+  5.8330526949010E-04            774
+  5.8330533128010E-04            594
+  5.8330559133118E-04            619
+  5.8330603803258E-04            344
+  5.8330605320703E-04            284
+  5.8330638330183E-04             87
+
+
+         NODAL TIME STEP DISTRIBUTION 
+         ----------------------------
+
+
+            % OF NODES
+                   ^
+                   |                                                            
+          11.236 --|                                                     #      
+                   |                                                     #      
+                   |                                                     #      
+                   |                                                     #  #   
+                   |                                                     #  #   
+                   |                                           #  #  #   #  #   
+                   |                                           #  #  #   #  #   
+                   |                                       #   #  #  #   #  #   
+                   |                                       #   #  #  #   #  #   
+                   |                                       #   #  #  #   #  #   
+                   |                                       #   #  #  #   #  #   
+                   |                                 #     #   #  #  #   #  #   
+                   |                                 #  #  #   #  #  #   #  #   
+                   |                                 #  #  #   #  #  #   #  #   
+                   |                              #  #  #  #   #  #  #   #  #   
+                   |                              #  #  #  #   #  #  #   #  #   
+                   |                              #  #  #  #   #  #  #   #  #   
+                   |                              #  #  #  #   #  #  #   #  #   
+                   |                          #   #  #  #  #   #  #  #   #  #   
+                   |                       #  #   #  #  #  #   #  #  #   #  #   
+                   |                       #  #   #  #  #  #   #  #  #   #  #   
+                   |                       #  #   #  #  #  #   #  #  #   #  #   
+           0.000 --|#  #   #  #  #   #  #  #  #   #  #  #  #   #  #  #   #  # # 
+                    -------------------------------------------------------------> NODAL TIME STEP
+                    |                                                          |
+                5.832E-04                                                  5.834E-04
+  
+  
+
+
+     INITIAL ADDED MASS ESTIMATION for /DT/NODA/CST
+     ----------------------------------------------
+
+
+            DM/M - at first cycle - scaling factor = 0.9
+                   ^
+                   |                                                            
+           0.100 --|                                                          * 
+                   |                                                            
+                   |                                                       *    
+                   |                                                    *       
+                   |                                                 *          
+                   |                                              *             
+                   |                                                            
+                   |                                          *                 
+                   |                                       *                    
+                   |                                    *                       
+                   |                                 *                          
+                   |                              *                             
+                   |                                                            
+                   |                           *                                
+                   |                        *                                   
+                   |                     *                                      
+                   |                  *                                         
+                   |               *                                            
+                   |                                                            
+                   |           *                                                
+                   |        *                                                   
+                   |     *                                                      
+           0.005 --|* *                                                         
+                    -------------------------------------------------------------> TARGET TIME STEP
+                    |                                                          |
+                5.278E-04                                                  5.777E-04
+  
+  
+              DM/M at first cycle          |  Target time step - scaling factor = 0.9  |  Target time step - scaling factor = 0.67
+    -------------------------------------  |  ---------------------------------------  |  ---------------------------------------
+                 1.000E-02                 |                 5.305E-04                 |                 3.950E-04
+                 2.000E-02                 |                 5.360E-04                 |                 3.990E-04
+                 3.000E-02                 |                 5.414E-04                 |                 4.030E-04
+                 4.000E-02                 |                 5.467E-04                 |                 4.070E-04
+                 5.000E-02                 |                 5.520E-04                 |                 4.109E-04
+
+
+    WARNING : These added mass estimations are valid at first cycle only.
+    Because of element deformation or contacts the added mass can increase during the run
+
+
  SUMMARY OF POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS :
  -----------------------------------------------------
                                   
@@ -6818,41 +6977,38 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE         71 MB
+    STARTER MEMORY USAGE        123 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
-AVERAGE NB. OF BOUNDARY NODES :    24
-STANDARD DEVIATION            :     8
- 
-AVERAGE NUMBER OF LOCAL NODES :     257
-STANDARD DEVIATION            :     165
- 
-AVERAGE NB. OF CONTACT NODES(SLAVE/MASTER) :     504 /      249
-STANDARD DEVIATION                         :     332 /      165
- 
+
+AVERAGE NB. OF BOUNDARY NODES :    30
+STANDARD DEVIATION            :    10
+
+AVERAGE NUMBER OF LOCAL NODES :     260
+STANDARD DEVIATION            :       6
+
+AVERAGE NB. OF CONTACT NODES(SECONDARY/MAIN) :     510 /      252
+STANDARD DEVIATION                         :      17 /       13
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    1           372                    33                     2
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    2            84                    15                     1
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    3            57                    30                     2
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    4           384                    18                     1
- 
+    1           227                    40                     2
+    2           225                    20                     1
+    3           227                    39                     2
+    4           218                    19                     1
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
- NUMBER OF NODES................. :         415
- NUMBER OF 4-N SHELL ELEMENTS.... :         372
- TOTAL NUMBER OF NODES FOR COMM.. :          33
- NUMBER OF INT2 SLAVE NODES...... :           0
- NUMBER OF INT2 MASTER NODES..... :           0
- NUMBER OF CONTACT SLAVE NODES... :         830
- NUMBER OF CONTACT MASTER NODES.. :         415
- 
+ NUMBER OF NODES................. :         263
+ NUMBER OF 4-N SHELL ELEMENTS.... :         227
+ TOTAL NUMBER OF NODES FOR COMM.. :          40
+ NUMBER OF INT2 SECONDARY NODES...... :           0
+ NUMBER OF INT2 MAIN NODES..... :           0
+ NUMBER OF CONTACT SECONDARY NODES... :         526
+ NUMBER OF CONTACT MAIN NODES.. :         263
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -6860,18 +7016,18 @@ STANDARD DEVIATION                         :     332 /      165
         MEMORY USED FOR INTEGERS         5 MB 
         TOTAL MEMORY EVALUATION         10 MB 
                                             
-        RESTART FILE SIZE       502KB
- 
+        RESTART FILE SIZE         0 MB
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
- NUMBER OF NODES................. :         105
- NUMBER OF 4-N SHELL ELEMENTS.... :          84
- TOTAL NUMBER OF NODES FOR COMM.. :          15
- NUMBER OF INT2 SLAVE NODES...... :           0
- NUMBER OF INT2 MASTER NODES..... :           0
- NUMBER OF CONTACT SLAVE NODES... :         195
- NUMBER OF CONTACT MASTER NODES.. :          90
- 
+ NUMBER OF NODES................. :         262
+ NUMBER OF 4-N SHELL ELEMENTS.... :         225
+ TOTAL NUMBER OF NODES FOR COMM.. :          20
+ NUMBER OF INT2 SECONDARY NODES...... :           0
+ NUMBER OF INT2 MAIN NODES..... :           0
+ NUMBER OF CONTACT SECONDARY NODES... :         501
+ NUMBER OF CONTACT MAIN NODES.. :         247
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -6879,18 +7035,18 @@ STANDARD DEVIATION                         :     332 /      165
         MEMORY USED FOR INTEGERS         5 MB 
         TOTAL MEMORY EVALUATION         10 MB 
                                             
-        RESTART FILE SIZE       176KB
- 
+        RESTART FILE SIZE         0 MB
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
- NUMBER OF NODES................. :          79
- NUMBER OF 4-N SHELL ELEMENTS.... :          57
- TOTAL NUMBER OF NODES FOR COMM.. :          30
- NUMBER OF INT2 SLAVE NODES...... :           0
- NUMBER OF INT2 MASTER NODES..... :           0
- NUMBER OF CONTACT SLAVE NODES... :         150
- NUMBER OF CONTACT MASTER NODES.. :          79
- 
+ NUMBER OF NODES................. :         263
+ NUMBER OF 4-N SHELL ELEMENTS.... :         227
+ TOTAL NUMBER OF NODES FOR COMM.. :          39
+ NUMBER OF INT2 SECONDARY NODES...... :           0
+ NUMBER OF INT2 MAIN NODES..... :           0
+ NUMBER OF CONTACT SECONDARY NODES... :         526
+ NUMBER OF CONTACT MAIN NODES.. :         263
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -6898,18 +7054,18 @@ STANDARD DEVIATION                         :     332 /      165
         MEMORY USED FOR INTEGERS         5 MB 
         TOTAL MEMORY EVALUATION         10 MB 
                                             
-        RESTART FILE SIZE       181KB
- 
+        RESTART FILE SIZE         0 MB
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
- NUMBER OF NODES................. :         428
- NUMBER OF 4-N SHELL ELEMENTS.... :         384
- TOTAL NUMBER OF NODES FOR COMM.. :          18
- NUMBER OF INT2 SLAVE NODES...... :           0
- NUMBER OF INT2 MASTER NODES..... :           0
- NUMBER OF CONTACT SLAVE NODES... :         841
- NUMBER OF CONTACT MASTER NODES.. :         413
- 
+ NUMBER OF NODES................. :         250
+ NUMBER OF 4-N SHELL ELEMENTS.... :         218
+ TOTAL NUMBER OF NODES FOR COMM.. :          19
+ NUMBER OF INT2 SECONDARY NODES...... :           0
+ NUMBER OF INT2 MAIN NODES..... :           0
+ NUMBER OF CONTACT SECONDARY NODES... :         485
+ NUMBER OF CONTACT MAIN NODES.. :         233
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -6917,18 +7073,68 @@ STANDARD DEVIATION                         :     332 /      165
         MEMORY USED FOR INTEGERS         5 MB 
         TOTAL MEMORY EVALUATION         10 MB 
                                             
-        RESTART FILE SIZE       490KB
- 
+        RESTART FILE SIZE         0 MB
+
 
      RESTART FILES BOXBEAM_0000 WRITTEN
      -------------
 
+  
+------------------------------------------------------------------------
+  
+ CPU USER TIME
+ -------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .3888E+00   .2380E+00   .1841E-01   .8106E-04   .2599E-04   .8230E-03   .2795E-04
+  
+  
+ ELAPSED TIME
+ ------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .1144E+07   .2604E+00   .1433E-01   .9672E-04   .2177E-04   .5932E-03   .1195E-04
+  
+                   ** COMPUTE TIME INFORMATION **
+  
+ EXECUTION STARTED      :      2022/11/23  16:25:00
+ EXECUTION COMPLETED    :      2022/11/23  16:25:01
+  
+ ELAPSED TIME...........=          0.72 s
+                               00:00:00
+  
+------------------------------------------------------------------------
 
 
 
      TERMINATION WITH WARNING           
      ------------------                                                                  
-          0 ERROR(S)            
-          2 WARNING(S)          
+
+
+------------------------------------------------------------------------------------------------------------------------
+|            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
+------------------------------------------------------------------------------------------------------------------------
+|                                                           |                                                          |
+|                                                           |  --- GLOBAL UNITS                           2 WARNING(S) |
+|                                                           |       |                                                  |
+|                                                           |       |                                                  |
+|                                                           |       |---     2 WARNING ID :       100214               |
+|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
+|                                                           |       |                                                  |
+|                                                           |                                                          |
+|                                                           |                                                          |
+|                                                           |  --- INTERFACES                             1 WARNING(S) |
+|                                                           |       |                                                  |
+|                                                           |       |                                                  |
+|                                                           |       |---     1 WARNING ID :          343               |
+|                                                           |       | ** WARNING: INITIAL PENETRATIONS IN INTERFACE    |
+|                                                           |       |                                                  |
+|                                                           |                                                          |
+|                                                           |                                                          |
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+              0 ERROR(S)            
+              3 WARNING(S)          
 
 

@@ -2,29 +2,29 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                Altair Radioss(TM) Starter MAINLINE                 **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 1034665_12638000000_1060_0074110_10                     **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2020                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 3326 MHz,  19924 MB RAM,  48893 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -32,6 +32,15 @@
 ************************************************************************
 * INPUT READING PROCESS
 ************************************************************************
+
+WARNING ID : 100214
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /IOFLAG
+-- LINE: 0                   0         0         0         0         0
+unsupported field exits
+SOLUTION :     
+    Please check input format and fields description defined in the Reference Guide.
 
  -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
 
@@ -41,9 +50,13 @@
 ************************************************************************
 
 
-+-------------------+
-| BLOCK FREE FORMAT |
-+-------------------+
+
+    UNIT SYSTEMS DEFINITION     
+    -----------------------     
+
+                                                          MASS                LENGTH              TIME
+    WORK UNIT SYSTEM . . . . . . ( kg , mm , ms  ) 1.0000000000000E+00 1.0000000000000E-03 1.0000000000000E-03
+    INPUT UNIT SYSTEM  . . . . . ( kg , mm , ms  ) 1.0000000000000E+00 1.0000000000000E-03 1.0000000000000E-03
 
 
  UNKNOW                                                                          
@@ -63,7 +76,7 @@
     NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         2
     NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
     NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .         0
-    NINTERFRIC: NUMBER OF FRICTION INTERFACES . . . . . .         0
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
     NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .         0
     NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .         1
     NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
@@ -84,6 +97,7 @@
     NINVEL: NUMBER OF INITIAL VELOCITIES. . . . . . . . .         0
     NPRELD: NUMBER OF PRESSURE LOADS. . . . . . . . . . .         0
     NINIMAP1D: NUMBER OF INITIAL 1D MAPPING.. . . . . . .         0
+    NINIMAP2D: NUMBER OF INITIAL 2D MAPPING.. . . . . . .         0
     NUMBER OF ACCELEROMETERS. . . . . . . . . . . . . . .         0
     NUMBER OF SENSORS . . . . . . . . . . . . . . . . . .         0
     NUMBER OF GAUGES. . . . . . . . . . . . . . . . . . .         0
@@ -107,7 +121,6 @@
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
@@ -139,16 +152,16 @@
     ISTR   : DEFAULT SHELL STRAIN COMPUTATION FLAG . . . .         1
     ISHEA  : DEFAULT SHELL SHEAR COMPUTATION FLAG. . . . .         0
     INSH   : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
-    ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         1
+    ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         2
     NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
              INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
-    ISTRA  : DEFAULT SOLID STRAIN COMPUTATION FLAG . . . .         1
-    ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
+    IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
+    ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         0
 
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -157,25 +170,14 @@
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
-    INFO : NUMBER OF SPMD DOMAIN AND THREADS DEFINED IN COMMAND LINE
-           /SPMD CARD PARAMETER ARE IGNORED
- 
      INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
   
-
-
-    UNIT SYSTEMS DEFINITION     
-    -----------------------     
-
-                                                          MASS                LENGTH              TIME
-    WORK UNIT SYSTEM . . . . . . ( kg , mm , ms  ) 1.0000000000000E+00 1.0000000000000E-03 1.0000000000000E-03
-    INPUT UNIT SYSTEM  . . . . . ( kg , mm , ms  ) 1.0000000000000E+00 1.0000000000000E-03 1.0000000000000E-03
 
 
     LOAD CURVES
@@ -803,7 +805,7 @@
 
 
 
-     Al2024_T351_CLAD_typ_tens_fail_ONERA_
+     Mat 2
      MATERIAL NUMBER. . . . . . . . . . . . =         2
      MATERIAL LAW . . . . . . . . . . . . . =        66
 
@@ -821,7 +823,7 @@
      SMOOTH STRAIN RATE OPTION . . . . . . . .=         0
      STRAIN RATE CUTTING FREQUENCY . . . . . .= 1.0000000000000E+30
 
-     STRAIN RATE FORMALATION OPTION  . . . . .=         1
+     STRAIN RATE FORMULATION OPTION  . . . . .=         1
 
      COMPRESSION YIELD STRESS FUNCTION NUMBER.=         4
      YIELD SCALE FACTOR. . . . . . . . . . . .=  1.000000000000    
@@ -835,7 +837,7 @@
      OPTIONAL INITIAL YIELD STRESS . . . . . .=  0.000000000000    
 
 
-     SPECT_press
+     Mat 3
      MATERIAL NUMBER. . . . . . . . . . . . . . . =         3
      MATERIAL LAW . . . . . . . . . . . . . . . . =        76
 
@@ -859,20 +861,30 @@
      PLASTIC POISSON RATIO FUNCTION NUMBER . . .  =         0
      YIELD SCALE FACTOR. . . . . . . . . . . . .  =  1.000000000000    
      SMOOTH STRAIN RATE OPTION. . . . . . . . . . =         0
-     STRAIN RATE CUTTING FREQUENCY . . . . . . . .= 1.0000000200409E+20
+     STRAIN RATE CUTTING FREQUENCY . . . . . . . .= 0.5000000000000    
 
      FAILURE PLASTIC STRAIN  . . . . . . . . . . .= 1.0000000200409E+20
      RUPTURE PLASTIC STRAIN. . . . . . . . . . . .= 2.0000000400818E+20
-     CRITICAL DAMAGE. . . .. . . . . . . . . . . .=  0.000000000000    
      DAMAGE  FUNCTION NUMBER . . . . . . . . . .  =         0
      DAMAGE SCALE FACTOR. . . . . . . . . . . . . =  1.000000000000    
      FORMULATION FLAG . . . . . . . . . . . . .   =         0
             = 0  No associated formulation  
             = 1  VonMises associated formulation     
       YIELD SURFACE FLAG . . . . . . . . . . . . .=         0
-           = 0 Yeild surface is linear in the Vonmises 
-           = 1 Yeild surface is quadratic in the Vonmises
+           = 0 Yield surface is linear in the Vonmises 
+           = 1 Yield surface is quadratic in the Vonmises
      CONVEXITY CONDITION . . .  . . . .  . . .  . =         1
+
+     SUBMODEL SKEWS(INTERNAL)                                                            
+     --------------------------------------                                              
+     NUMBER          VECTORS                                          ORIGIN
+ 1000000001        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
+
+ 1000000002        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
 
 
 
@@ -880,7 +892,7 @@
          -------------
 
 
-8-int-point_elem                        
+Shell                                   
      ISOTROPIC SHELL PROPERTY SET
      PROPERTY SET NUMBER . . . . . . . . . .=         2
      NUMBER OF INTEGRATION POINTS. . . . . .=         1
@@ -902,12 +914,6 @@
 
 
 
-         PROPERTY SETS
-         -------------
-
-
-
-
        PARTS
        -----
 
@@ -915,15 +921,15 @@
 
 PART:         2,SPECT
 ----
-     PROPERTY:         2,8-int-point_elem
-     MATERIAL:         3,SPECT_press
+     PROPERTY:         2,Shell
+     MATERIAL:         3,Mat 3
      SUBSET  :         1
  VIRT. THICKN:  0.000000000000    
 
 PART:         3,SPEC
 ----
-     PROPERTY:         2,8-int-point_elem
-     MATERIAL:         2,Al2024_T351_CLAD_typ_tens_fail_ONERA_
+     PROPERTY:         2,Shell
+     MATERIAL:         2,Mat 2
      SUBSET  :         1
  VIRT. THICKN:  0.000000000000    
 
@@ -943,10 +949,6 @@ PART:         3,SPEC
             |
             |________Part(s):         2,SPECT                                   
                                       3,SPEC                                    
-
-
-     RANDOM NOISE       
-     ------------       
 
      BOUNDARY CONDITIONS                                                                 
      -------------------                                                                 
@@ -980,11 +982,74 @@ PART:         3,SPEC
        RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
        ----------------------------------------------
 
-       ELEMENT GROUP         1,  SIZE=       232
+       ELEMENT GROUP         1,  SIZE=       262
 
 
 
  SHELL GROUP         1 VECTORIZATION CODE =    0
+
+
+PART MASS & INERTIA
+-------------------
+
+
+PART :          2SPECT
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+  0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :          3SPEC
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 0.2100000000000      1.068958333333      5.990833333333      6.318958333333      0.000000000000      0.000000000000      0.000000000000    
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      1.250000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+
+PART ELEMENT/MATERIAL PARAMETER REVIEW:
+-----------------------
+
+Part id,name:         2 SPECT                  Mat type:  76 Elm type: SHELL-4nodes           
+----
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
+       4       4       2       1       1       0
+--      hm        hf        hr        dm        dn
+    0.0100    0.0100    0.0100    0.0000    0.0000
+
+Part id,name:         3 SPEC                   Mat type:  66 Elm type: SHELL-4nodes           
+----
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
+       4       4       2       1       1       0
+--      hm        hf        hr        dm        dn
+    0.0100    0.0100    0.0100    0.0000    0.0000
+
+
+
+     TOTAL MASS AND MASS CENTER
+     --------------------------
+                     MASS                    X                    Y                    Z
+
+      0.2100000000000       5.000000000000       1.250000000000       0.000000000000    
+
+
+     TOTAL INERTIA
+     -------------
+                      IXX                  IYY                  IZZ                  IXY                  IYZ                  IZX
+       1.068958333333       5.990833333333       6.318958333333       0.000000000000       0.000000000000       0.000000000000    
+
+
+
+      ADDED NODAL NON-STRUCTURAL MASSES 
+     -----------------------------------
+
+
+
+
+  TOTAL ADDED MASS =   0.000000000000    
+
+
 
          SHELL ELEMENTS TIME STEP
          ------------------------
@@ -1038,69 +1103,6 @@ PART:         3,SPEC
                 7.020E-04                                                  7.020E-04
   
   
-
-
-PART MASS & INERTIA
--------------------
-
-
-PART :          2SPECT
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
-
-PART :          3SPEC
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 0.2100000000000      1.068958333333      5.990833333333      6.318958333333      0.000000000000      0.000000000000      0.000000000000    
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  5.000000000000      1.250000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
-
-
-PART ELEMENT/MATERIAL PARAMETER REVIEW:
------------------------
-
-Part id,name:         2 SPECT                  Mat type:  76 Elm type: SHELL-4nodes           
-----
-  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
-       4       4       0       1       1       0
---      hm        hf        hr        dm        dn
-    0.0100    0.0100    0.0100    0.0000    0.0000
-
-Part id,name:         3 SPEC                   Mat type:  66 Elm type: SHELL-4nodes           
-----
-  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
-       4       4       0       1       1       0
---      hm        hf        hr        dm        dn
-    0.0100    0.0100    0.0100    0.0000    0.0000
-
-
-
-     TOTAL MASS AND MASS CENTER
-     --------------------------
-                     MASS                    X                    Y                    Z
-
-      0.2100000000000       5.000000000000       1.250000000000       0.000000000000    
-
-
-     TOTAL INERTIA
-     -------------
-                      IXX                  IYY                  IZZ                  IXY                  IYZ                  IZX
-       1.068958333333       5.990833333333       6.318958333333       0.000000000000       0.000000000000       0.000000000000    
-
-
-
-      ADDED NODAL NON-STRUCTURAL MASSES 
-     -----------------------------------
-
-
-
-
-  TOTAL ADDED MASS =   0.000000000000    
-
-
 
 
      INITIAL ADDED MASS ESTIMATION for /DT/NODA/CST
@@ -1160,34 +1162,31 @@ Part id,name:         3 SPEC                   Mat type:  66 Elm type: SHELL-4no
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        230 MB
+    STARTER MEMORY USAGE        122 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
+
 AVERAGE NB. OF BOUNDARY NODES :     0
 STANDARD DEVIATION            :     0
- 
+
 AVERAGE NUMBER OF LOCAL NODES :       1
 STANDARD DEVIATION            :       2
- 
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     1             1                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     2             0                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     3             0                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     4             0                     0                     0
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
  NUMBER OF NODES................. :           4
  NUMBER OF 4-N SHELL ELEMENTS.... :           1
  TOTAL NUMBER OF NODES FOR COMM.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -1196,13 +1195,13 @@ STANDARD DEVIATION            :       2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
  NUMBER OF NODES................. :           0
  NUMBER OF 4-N SHELL ELEMENTS.... :           0
  TOTAL NUMBER OF NODES FOR COMM.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -1211,13 +1210,13 @@ STANDARD DEVIATION            :       2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
  NUMBER OF NODES................. :           0
  NUMBER OF 4-N SHELL ELEMENTS.... :           0
  TOTAL NUMBER OF NODES FOR COMM.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -1226,13 +1225,13 @@ STANDARD DEVIATION            :       2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
  NUMBER OF NODES................. :           0
  NUMBER OF 4-N SHELL ELEMENTS.... :           0
  TOTAL NUMBER OF NODES FOR COMM.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -1241,7 +1240,7 @@ STANDARD DEVIATION            :       2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
 
      RESTART FILES COMP_0000 WRITTEN
      -------------
@@ -1252,29 +1251,48 @@ STANDARD DEVIATION            :       2
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .3249E+00   .9599E-01   .4999E-02   .0000E+00   .0000E+00   .0000E+00   .0000E+00
+.0000E+00   .4057E+00   .1677E+00   .2044E-01   .0000E+00   .0000E+00   .0000E+00   .2992E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.2527E-02   .5978E+00   .1128E+00   .6850E-02   .0000E+00   .0000E+00   .0000E+00   .5007E-05
+.0000E+00   .1144E+07   .1844E+00   .1563E-01   .0000E+00   .0000E+00   .0000E+00   .1247E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2020/09/25  16:53:29
- EXECUTION COMPLETED    :      2020/09/25  16:53:30
+ EXECUTION STARTED      :      2022/11/23  16:22:22
+ EXECUTION COMPLETED    :      2022/11/23  16:22:23
   
- ELAPSED TIME...........=          0.76 s
+ ELAPSED TIME...........=          0.66 s
                                00:00:00
   
 ------------------------------------------------------------------------
 
 
 
-     NORMAL TERMINATION                                                                  
+     TERMINATION WITH WARNING           
      ------------------                                                                  
+
+
+------------------------------------------------------------------------------------------------------------------------
+|            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
+------------------------------------------------------------------------------------------------------------------------
+|                                                           |                                                          |
+|                                                           |  --- GLOBAL UNITS                           1 WARNING(S) |
+|                                                           |       |                                                  |
+|                                                           |       |                                                  |
+|                                                           |       |---     1 WARNING ID :       100214               |
+|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
+|                                                           |       |                                                  |
+|                                                           |                                                          |
+|                                                           |                                                          |
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
               0 ERROR(S)            
-              0 WARNING(S)          
+              1 WARNING(S)          
 
 

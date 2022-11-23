@@ -2,35 +2,35 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                      RADIOSS ENGINE MAINLINE                       **
+**                         OpenRadioss Engine                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
-**                                                                    **
-**                                                                    **
-**              Linux 64 bits, Intel compiler, Intel MPI              **
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** Build tag: 0742056_087sesevot__2070_0032401_10                     **
+**                Linux 64 bits, GNU compiler, OpenMPI                **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2014                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
  NUMBER OF SPMD DOMAINS           4
- NUMBER OF THREADS PER DOMAIN     1
- NUMBER OF HMPP PROCESSES         4
+ NUMBER OF THREADS PER DOMAIN     2
+ NUMBER OF HMPP PROCESSES         8
   
  COMPUTATION HARDWARE DESCRIPTION
   
  CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
-   1   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
-   2   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
-   3   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
-   4   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+   1   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   2   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   3   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   4   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -40,7 +40,7 @@
 
  FINAL TIME . . . . . . . . . . . . . . . . . . .  0.2551000E-01
 
- TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.2538100E-02
+ TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.2538000E-02
 
  TIME STEP SCALE FACTOR . . . . . . . . . . . . .  0.9000000    
 
@@ -75,21 +75,19 @@
  AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
  MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
 
- INTERFACE TYPE 7 TIME STEP SCALE FACTOR. . . . .  0.9000000    
- INTERFACE TYPE 7 MINIMUM TIME STEP . . . . . . .   0.000000    
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.9000000    
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .   0.000000    
  MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
-
- FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
- FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
 
  PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .    -1
 
- RESTART CYCLE FREQUENCY. . . . . . . . . . . . .       5000
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .   10000000
 
  MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
 
- INVERS: INPUT DECK VERSION . . . . . . . . . . .    41
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .  2017
  ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
 
  TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
  TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .  0.5000000E-02
@@ -108,6 +106,10 @@
       TURBULENT ENERGY (FLUID).     0
       TURBULENT VISCOSITY(FLUID)    0
       VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
  VECTOR SAVED ON ANIMATION FILES (1: YES) :
       VELOCITY VECTOR . . . . .     1
       DISPLACEMENT VECTOR . . .     0
@@ -119,7 +121,7 @@
       ROTATIONAL VELOCITY VECTOR    0
       CONTACT PRESSURE (VECTORS)    0
  SHELL TENSOR SAVED ON ANIMATION FILES (1: YES) :
-      MEMBRANE STRESS . . . . .     1
+      MEMBRANE STRESS . . . . .     0
       BENDING STRESS(MOMENT/T^2)    0
       UPPER LAYER STRESS. . . .     0
       LOWER LAYER STRESS. . . .     0
@@ -135,9 +137,6 @@
  MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
 
  PARALLEL ARITHMETIC ON
-
- ALE GRID FORMULATION                    
- --------------------                    
  NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
 
  NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
@@ -158,47 +157,45 @@
 
  NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
 
- NUMBER OF ALE LINKS. . . . . . . . . . . . . . .        0
-
  NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
 
- 19/11/2014
- CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
-     0   0.000      0.8767E-03 SHELL        106   0.0%   0.000       0.000       0.000       0.000       0.000    
+ 23/11/2022
+   CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
+       0   0.000      0.8767E-03 SHELL        106   0.0%   0.000       0.000       0.000       0.000       0.000      0.1608       0.000    
      ANIMATION FILE: ACCELEROA001 WRITTEN
-     1  0.8767E-03  0.8767E-03 SHELL        106   0.9%  0.3476E-02  0.4995E-01  0.7459E-34  0.5293E-01   0.000    
-     2  0.1753E-02  0.8767E-03 SHELL        106   0.9%  0.8004E-02  0.5393E-01  0.5459E-33  0.6136E-01   0.000    
-     3  0.2630E-02  0.8767E-03 SHELL        106   0.7%  0.1161E-01  0.5976E-01  0.2363E-32  0.7085E-01   0.000    
-     4  0.3507E-02  0.8767E-03 SHELL        106   0.7%  0.1498E-01  0.6473E-01  0.9624E-32  0.7919E-01   0.000    
-     5  0.4384E-02  0.8767E-03 SHELL        106   0.6%  0.1809E-01  0.6905E-01  0.2096E-31  0.8661E-01   0.000    
-     6  0.5260E-02  0.8767E-03 SHELL        106   0.5%  0.2092E-01  0.7338E-01  0.3139E-31  0.9383E-01   0.000    
+       1  0.8767E-03  0.8767E-03 SHELL        106   0.9%  0.3476E-02  0.4995E-01  0.7459E-34  0.5293E-01   0.000      0.1608       0.000    
+       2  0.1753E-02  0.8767E-03 SHELL        106   0.9%  0.8004E-02  0.5393E-01  0.5459E-33  0.6136E-01   0.000      0.1608       0.000    
+       3  0.2630E-02  0.8767E-03 SHELL        106   0.7%  0.1161E-01  0.5976E-01  0.2363E-32  0.7085E-01   0.000      0.1608       0.000    
+       4  0.3507E-02  0.8767E-03 SHELL        106   0.7%  0.1498E-01  0.6473E-01  0.9624E-32  0.7919E-01   0.000      0.1608       0.000    
+       5  0.4384E-02  0.8767E-03 SHELL        106   0.6%  0.1809E-01  0.6905E-01  0.2096E-31  0.8661E-01   0.000      0.1608       0.000    
+       6  0.5260E-02  0.8767E-03 SHELL        106   0.5%  0.2092E-01  0.7338E-01  0.3139E-31  0.9383E-01   0.000      0.1608       0.000    
      ANIMATION FILE: ACCELEROA002 WRITTEN
-     7  0.6137E-02  0.8767E-03 SHELL        109   0.5%  0.2422E-01  0.7707E-01  0.4155E-31  0.1008       0.000    
-     8  0.7014E-02  0.8767E-03 SHELL        127   0.5%  0.2787E-01  0.8006E-01  0.4920E-31  0.1074       0.000    
-     9  0.7891E-02  0.8765E-03 SHELL        109   0.4%  0.3065E-01  0.8347E-01  0.4874E-31  0.1136       0.000    
-    10  0.8767E-02  0.8761E-03 SHELL        127   0.4%  0.3332E-01  0.8693E-01  0.3772E-31  0.1198       0.000    
-    11  0.9643E-02  0.8755E-03 SHELL        109   0.4%  0.3618E-01  0.8999E-01  0.2234E-31  0.1257       0.000    
-    12  0.1052E-01  0.8751E-03 SHELL        109   0.3%  0.3870E-01  0.9315E-01  0.1500E-31  0.1314       0.000    
+       7  0.6137E-02  0.8767E-03 SHELL        109   0.5%  0.2422E-01  0.7707E-01  0.4155E-31  0.1008       0.000      0.1608       0.000    
+       8  0.7014E-02  0.8767E-03 SHELL        127   0.5%  0.2787E-01  0.8006E-01  0.4920E-31  0.1074       0.000      0.1608       0.000    
+       9  0.7891E-02  0.8765E-03 SHELL        109   0.4%  0.3065E-01  0.8347E-01  0.4874E-31  0.1136       0.000      0.1608       0.000    
+      10  0.8767E-02  0.8761E-03 SHELL        127   0.4%  0.3332E-01  0.8693E-01  0.3772E-31  0.1198       0.000      0.1608       0.000    
+      11  0.9643E-02  0.8755E-03 SHELL        109   0.4%  0.3618E-01  0.8999E-01  0.2234E-31  0.1257       0.000      0.1608       0.000    
+      12  0.1052E-01  0.8751E-03 SHELL        109   0.3%  0.3870E-01  0.9315E-01  0.1500E-31  0.1314       0.000      0.1608       0.000    
      ANIMATION FILE: ACCELEROA003 WRITTEN
-    13  0.1139E-01  0.8748E-03 SHELL        111   0.3%  0.4139E-01  0.9660E-01  0.1970E-31  0.1376       0.000    
-    14  0.1227E-01  0.8747E-03 SHELL        111   0.3%  0.4465E-01  0.1004      0.2754E-31  0.1446       0.000    
-    15  0.1314E-01  0.8743E-03 SHELL        110   0.3%  0.4797E-01  0.1045      0.2975E-31  0.1521       0.000    
-    16  0.1402E-01  0.8742E-03 SHELL        109   0.3%  0.5115E-01  0.1083      0.2681E-31  0.1589       0.000    
-    17  0.1489E-01  0.8739E-03 SHELL        109   0.2%  0.5330E-01  0.1120      0.2295E-31  0.1649       0.000    
-    18  0.1577E-01  0.8740E-03 SHELL        127   0.2%  0.5626E-01  0.1145      0.1952E-31  0.1704       0.000    
+      13  0.1139E-01  0.8748E-03 SHELL        111   0.3%  0.4139E-01  0.9660E-01  0.1970E-31  0.1376       0.000      0.1608       0.000    
+      14  0.1227E-01  0.8747E-03 SHELL        111   0.3%  0.4465E-01  0.1004      0.2754E-31  0.1446       0.000      0.1608       0.000    
+      15  0.1314E-01  0.8743E-03 SHELL        110   0.3%  0.4797E-01  0.1045      0.2975E-31  0.1521       0.000      0.1608       0.000    
+      16  0.1402E-01  0.8742E-03 SHELL        109   0.3%  0.5115E-01  0.1083      0.2681E-31  0.1589       0.000      0.1608       0.000    
+      17  0.1489E-01  0.8739E-03 SHELL        109   0.2%  0.5330E-01  0.1120      0.2295E-31  0.1649       0.000      0.1608       0.000    
+      18  0.1577E-01  0.8740E-03 SHELL        127   0.2%  0.5626E-01  0.1145      0.1952E-31  0.1704       0.000      0.1608       0.000    
      ANIMATION FILE: ACCELEROA004 WRITTEN
-    19  0.1664E-01  0.8742E-03 SHELL        102   0.2%  0.5948E-01  0.1166      0.1633E-31  0.1757       0.000    
-    20  0.1751E-01  0.8741E-03 SHELL        102   0.2%  0.6255E-01  0.1190      0.1475E-31  0.1812       0.000    
-    21  0.1839E-01  0.8743E-03 SHELL        102   0.2%  0.6510E-01  0.1221      0.1879E-31  0.1868       0.000    
-    22  0.1926E-01  0.8744E-03 SHELL         94   0.2%  0.6786E-01  0.1250      0.2921E-31  0.1925       0.000    
-    23  0.2014E-01  0.8745E-03 SHELL         88   0.2%  0.7066E-01  0.1275      0.3834E-31  0.1979       0.000    
+      19  0.1664E-01  0.8742E-03 SHELL        102   0.2%  0.5948E-01  0.1166      0.1633E-31  0.1757       0.000      0.1608       0.000    
+      20  0.1751E-01  0.8741E-03 SHELL        102   0.2%  0.6255E-01  0.1190      0.1475E-31  0.1812       0.000      0.1608       0.000    
+      21  0.1839E-01  0.8743E-03 SHELL        102   0.2%  0.6510E-01  0.1221      0.1879E-31  0.1868       0.000      0.1608       0.000    
+      22  0.1926E-01  0.8744E-03 SHELL         94   0.2%  0.6786E-01  0.1250      0.2921E-31  0.1925       0.000      0.1608       0.000    
+      23  0.2014E-01  0.8745E-03 SHELL         88   0.2%  0.7066E-01  0.1275      0.3834E-31  0.1979       0.000      0.1608       0.000    
      ANIMATION FILE: ACCELEROA005 WRITTEN
-    24  0.2101E-01  0.8746E-03 SHELL         88   0.2%  0.7418E-01  0.1290      0.3740E-31  0.2028       0.000    
-    25  0.2189E-01  0.8746E-03 SHELL         90   0.2%  0.7768E-01  0.1307      0.2727E-31  0.2079       0.000    
-    26  0.2276E-01  0.8744E-03 SHELL        121   0.2%  0.8037E-01  0.1338      0.2007E-31  0.2138       0.000    
-    27  0.2363E-01  0.8744E-03 SHELL        111   0.2%  0.8251E-01  0.1380      0.2519E-31  0.2202       0.000    
-    28  0.2451E-01  0.8747E-03 SHELL         80   0.1%  0.8488E-01  0.1421      0.4301E-25  0.2267       0.000    
-    29  0.2538E-01  0.8747E-03 SHELL         70   0.2%  0.8815E-01  0.1456      0.7016E-17  0.2333       0.000    
+      24  0.2101E-01  0.8746E-03 SHELL         88   0.2%  0.7418E-01  0.1290      0.3740E-31  0.2028       0.000      0.1608       0.000    
+      25  0.2189E-01  0.8746E-03 SHELL         90   0.2%  0.7768E-01  0.1307      0.2727E-31  0.2079       0.000      0.1608       0.000    
+      26  0.2276E-01  0.8744E-03 SHELL        121   0.2%  0.8037E-01  0.1338      0.2007E-31  0.2138       0.000      0.1608       0.000    
+      27  0.2363E-01  0.8744E-03 SHELL        111   0.2%  0.8251E-01  0.1380      0.2519E-31  0.2202       0.000      0.1608       0.000    
+      28  0.2451E-01  0.8747E-03 SHELL         80   0.1%  0.8488E-01  0.1421      0.4301E-25  0.2267       0.000      0.1608       0.000    
+      29  0.2538E-01  0.8747E-03 SHELL         70   0.2%  0.8815E-01  0.1456      0.7016E-17  0.2333       0.000      0.1608       0.000    
      ANIMATION FILE: ACCELEROA006 WRITTEN
 
      RESTART FILES: ACCELERO_0001_[0001-0004].rst WRITTEN
@@ -207,49 +204,87 @@
   
                            ** CPU USER TIME **
   
- #PROC  CONT.SORT  CONT. F   ELEMENT  KIN.COND.  INTEGR.    I/O     TASK0     ASSEMB.   RESOL  
-   1   .0000E+00 .0000E+00 .9998E-02 .2000E-02 .0000E+00 .2299E-01 .1300E-01 .0000E+00 .5099E-01
-   2   .0000E+00 .0000E+00 .1300E-01 .0000E+00 .0000E+00 .1700E-01 .2999E-02 .0000E+00 .1550E+00
-   3   .0000E+00 .0000E+00 .9998E-02 .0000E+00 .0000E+00 .2500E-01 .6998E-02 .0000E+00 .1500E+00
-   4   .0000E+00 .0000E+00 .1200E-01 .0000E+00 .1000E-02 .2499E-01 .8000E-02 .0000E+00 .1590E+00
   
-                          ** SPMD COMM. TIME **
+                        ** SUMMARY **
   
- #PROC  FORCES    RBY.FOR.  RBY.VEL.  VELOCITIES   TOTAL   % CPU
-   1   .0000E+00 .2000E-02 .0000E+00 .0000E+00 .2000E-02    3.92
-   2   .1100E-01 .0000E+00 .0000E+00 .0000E+00 .1100E-01    7.10
-   3   .4999E-02 .0000E+00 .0000E+00 .0000E+00 .4999E-02    3.33
-   4   .1000E-02 .0000E+00 .0000E+00 .0000E+00 .1000E-02    0.63
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .2756E-02 .1434E-02 .4260E-03 .1884E-01 .1229E-02 .2490E-03 .3760E-01
+   2   .3358E-02 .1843E-02 .5530E-03 .1831E-01 .1715E-02 .2980E-03 .4272E-01
+   3   .3683E-02 .1825E-02 .4960E-03 .2060E-01 .2165E-02 .3030E-03 .4098E-01
+   4   .3517E-02 .2807E-02 .5190E-03 .1922E-01 .2243E-02 .2820E-03 .4382E-01
   
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .7390E-03 .2590E-03 .0000E+00 .1380E-03 .1136E-02 .3021E+01
+   2   .3064E-02 .4750E-03 .0000E+00 .1960E-03 .3735E-02 .8744E+01
+   3   .2323E-02 .2680E-03 .0000E+00 .1960E-03 .2787E-02 .6801E+01
+   4   .2741E-02 .1314E-02 .0000E+00 .1980E-03 .4253E-02 .9707E+01
+  
+ 
                    ** CUMULATIVE CPU TIME SUMMARY **
   
  CONTACT SORTING.............: .0000E+00     0.00 % 
- CONTACT FORCES..............: .0000E+00     0.00 % 
- ELEMENT FORCES..............: .4499E-01     8.74 % 
- KINEMATIC COND..............: .2000E-02     0.39 % 
- INTEGRATION.................: .1000E-02     0.19 % 
- ASSEMBLING..................: .0000E+00     0.00 % 
- OTHERS (including I/O)......: .4669E+00    90.68 % 
- TOTAL.......................: .5149E+00   100.00 % 
+ CONTACT FORCES..............: .2040E-03     0.12 % 
+ ELEMENT FORCES..............: .1331E-01     8.06 % 
+ KINEMATIC COND..............: .7909E-02     4.79 % 
+ INTEGRATION.................: .1994E-02     1.21 % 
+ ASSEMBLING..................: .1132E-02     0.69 % 
+ OTHERS (including I/O)......: .1406E+00    85.13 % 
+ TOTAL.......................: .1651E+00   100.00 % 
   
+  
+                           ** ELAPSED TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .1935E-02 .9089E-03 .2712E-03 .1354E-01 .8450E-03 .1597E-03 .2867E-01
+   2   .2196E-02 .1127E-02 .3328E-03 .1087E-01 .1017E-02 .1815E-03 .2868E-01
+   3   .1948E-02 .1023E-02 .2726E-03 .1236E-01 .1246E-02 .1654E-03 .2801E-01
+   4   .2232E-02 .1791E-02 .3202E-03 .1032E-01 .1408E-02 .1781E-03 .2864E-01
+  
+        ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+ MIN   .1935E-02 .9089E-03 .2712E-03 .1032E-01 .8450E-03 .1597E-03 .2801E-01
+ MAX   .2232E-02 .1791E-02 .3328E-03 .1354E-01 .1408E-02 .1815E-03 .2868E-01
+ AVG   .2078E-02 .1213E-02 .2992E-03 .1177E-01 .1129E-02 .1712E-03 .2850E-01
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .5655E-03 .1663E-03 .0000E+00 .1057E-03 .8375E-03 .2921E+01
+   2   .2024E-02 .2648E-03 .0000E+00 .1264E-03 .2416E-02 .8423E+01
+   3   .1342E-02 .1444E-03 .0000E+00 .1055E-03 .1592E-02 .5682E+01
+   4   .1637E-02 .8409E-03 .0000E+00 .1201E-03 .2598E-02 .9069E+01
+  
+        FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+ MIN   .5655E-03 .1444E-03 .0000E+00 .1055E-03 .8375E-03 .2921E+01
+ MAX   .2024E-02 .8409E-03 .0000E+00 .1264E-03 .2598E-02 .9069E+01
+ AVG   .1392E-02 .3541E-03 .0000E+00 .1144E-03 .1861E-02 .6524E+01
   
                    ** MEMORY USAGE STATISTICS **
   
- TOTAL MEMORY USED .........................:      561 MB
- MAXIMUM MEMORY PER PROCESSOR...............:      141 MB
- MINIMUM MEMORY PER PROCESSOR...............:      140 MB
- AVERAGE MEMORY PER PROCESSOR...............:      140 MB
+ TOTAL MEMORY USED .........................:      228 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       57 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       57 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       57 MB
   
                    ** DISK USAGE STATISTICS **
   
- TOTAL DISK SPACE USED .....................:      619 KB
- ANIMATION/TH/OUTP SIZE ....................:        5 KB
- RESTART FILE SIZE .........................:      614 KB
+ TOTAL DISK SPACE USED .....................:          1 MB
+ ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
+ RESTART FILE SIZE .........................:          1 MB
   
- ELAPSED TIME     =          0.22 s
+                   ** COMPUTE TIME INFORMATION **
+                        ** CURRENT ENGINE **
+  
+ EXECUTION STARTED .........................:      2022/11/23  16:20:47
+ EXECUTION COMPLETED .......................:      2022/11/23  16:20:47
+  
+ ELAPSED TIME     =          0.11 s
                           0:00:00
- ESTIMATED SPEEDUP=          2.32
-  
+ ESTIMATED SPEEDUP=          1.44
 
 
 
@@ -259,3 +294,11 @@
 
      TOTAL NUMBER OF CYCLES  :      30
 
+  
+                   ** COMPUTE RUNTIME INFORMATION SUMMARY **
+  
+        STARTER RUNTIME =          0.70s (00:00:00)
+ # 001   ENGINE RUNTIME =          0.11s (00:00:00)
+ ------------------------------ 
+ STARTER+ENGINE RUNTIME =          0.82s (00:00:00)
+  

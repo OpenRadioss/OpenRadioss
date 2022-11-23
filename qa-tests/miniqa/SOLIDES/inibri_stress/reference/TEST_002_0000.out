@@ -2,29 +2,29 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                Altair Radioss(TM) Starter MAINLINE                 **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 1100558_12638000000_1060_0087701_10                     **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2022                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  48983 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -40,7 +40,7 @@ DESCRIPTION :
 -- LINE: 0                   0         0         0         0         0
 unsupported field exits
 SOLUTION :     
-    Please check input format and its consistency with Invers value from /BEGIN option.
+    Please check input format and fields description defined in the Reference Guide.
 
  -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
 
@@ -121,7 +121,6 @@ SOLUTION :
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
@@ -162,7 +161,7 @@ SOLUTION :
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -171,9 +170,9 @@ SOLUTION :
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
@@ -289,6 +288,13 @@ SOLUTION :
                                                  0.0000000       1.0000000       0.0000000
                                                  0.0000000       0.0000000       1.0000000
 
+     SUBMODEL SKEWS(INTERNAL)                                                            
+     --------------------------------------                                              
+     NUMBER          VECTORS                                          ORIGIN
+ 1000000001        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
+
 
 
          PROPERTY SETS (HM_READER)
@@ -309,10 +315,10 @@ SECTION_SOLID_25
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
      DEFAULT VALUE FOR QUADRATIC BULK. . . . 
           VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
-     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     EXCEPT IN CASE LAW 70 QA = 0.     
      DEFAULT VALUE FOR LINEAR BULK . . . . . 
           VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
-     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     EXCEPT IN CASE LAW 70  QB = 0.     
      HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
@@ -320,12 +326,6 @@ SECTION_SOLID_25
      POST PROCESSING STRAIN FLAG . . . . . .=         1
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
-
-
-
-         PROPERTY SETS
-         -------------
-
 
 
 
@@ -367,8 +367,8 @@ PART:        25,mutter
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1        36         1         1         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
+         1        36         1         1         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
 
     INTERFACES               
   --------------             
@@ -378,7 +378,7 @@ PART:        25,mutter
    INTERFACE NUMBER :         1 All
 
 
-    TYPE.EQ.11   EDGE to EDGE AUTO IMPACTING    
+    TYPE==11   EDGE to EDGE AUTO IMPACTING    
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        SECONDARY NODE  (1:YES 0:NO)          Y DIR  0
@@ -434,8 +434,8 @@ PART:        25,mutter
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1        36         1         1         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
+         1        36         1         1         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
 
     INTERFACES               
   --------------             
@@ -445,7 +445,7 @@ PART:        25,mutter
    INTERFACE NUMBER :         1 All
 
 
-    TYPE.EQ.11   EDGE to EDGE AUTO IMPACTING    
+    TYPE==11   EDGE to EDGE AUTO IMPACTING    
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        SECONDARY NODE  (1:YES 0:NO)          Y DIR  0
@@ -557,14 +557,14 @@ Part id,name:        25 mutter                 Mat type:  36 Elm type: SOLID-HEX
          ---------------
 
       TIME STEP       NODE NUMBER
-  3.9628912543745E-07          33093
-  3.9628912543745E-07          33094
-  3.9628912543745E-07          33095
-  3.9628912543745E-07          33098
-  3.9628912543745E-07          33158
   3.9628912543745E-07          33159
-  3.9628912543745E-07          33160
+  3.9628912543745E-07          33094
   3.9628912543745E-07          33163
+  3.9628912543745E-07          33093
+  3.9628912543745E-07          33160
+  3.9628912543745E-07          33158
+  3.9628912543745E-07          33098
+  3.9628912543745E-07          33095
   1.0000000000000E+30          33855
   1.0000000000000E+30          33856
   1.0000000000000E+30          33857
@@ -667,31 +667,28 @@ Part id,name:        25 mutter                 Mat type:  36 Elm type: SOLID-HEX
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        124 MB
+    STARTER MEMORY USAGE        122 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
+
 AVERAGE NB. OF BOUNDARY NODES :     0
 STANDARD DEVIATION            :     0
- 
+
 AVERAGE NUMBER OF LOCAL NODES :       4
 STANDARD DEVIATION            :       6
- 
+
 AVERAGE NB. OF CONTACT NODES(SECONDARY/MAIN) :       2 /        2
 STANDARD DEVIATION                         :       3 /        3
- 
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     1             1                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     2             0                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     3             0                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     4             0                     0                     0
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
  NUMBER OF NODES................. :          14
@@ -701,7 +698,7 @@ STANDARD DEVIATION                         :       3 /        3
  NUMBER OF INT2 MAIN NODES..... :           0
  NUMBER OF CONTACT SECONDARY NODES... :           8
  NUMBER OF CONTACT MAIN NODES.. :           8
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -710,7 +707,7 @@ STANDARD DEVIATION                         :       3 /        3
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
  NUMBER OF NODES................. :           0
@@ -720,7 +717,7 @@ STANDARD DEVIATION                         :       3 /        3
  NUMBER OF INT2 MAIN NODES..... :           0
  NUMBER OF CONTACT SECONDARY NODES... :           0
  NUMBER OF CONTACT MAIN NODES.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -729,7 +726,7 @@ STANDARD DEVIATION                         :       3 /        3
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
  NUMBER OF NODES................. :           0
@@ -739,7 +736,7 @@ STANDARD DEVIATION                         :       3 /        3
  NUMBER OF INT2 MAIN NODES..... :           0
  NUMBER OF CONTACT SECONDARY NODES... :           0
  NUMBER OF CONTACT MAIN NODES.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -748,7 +745,7 @@ STANDARD DEVIATION                         :       3 /        3
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
  NUMBER OF NODES................. :           0
@@ -758,7 +755,7 @@ STANDARD DEVIATION                         :       3 /        3
  NUMBER OF INT2 MAIN NODES..... :           0
  NUMBER OF CONTACT SECONDARY NODES... :           0
  NUMBER OF CONTACT MAIN NODES.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -767,7 +764,7 @@ STANDARD DEVIATION                         :       3 /        3
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
 
      RESTART FILES TEST_002_0000 WRITTEN
      -------------
@@ -778,20 +775,20 @@ STANDARD DEVIATION                         :       3 /        3
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .3590E+00   .1439E+00   .1238E-01   .2503E-04   .5299E-04   .1069E-03   .1401E-04
+.0000E+00   .3654E+00   .1485E+00   .1664E-01   .4095E-04   .1091E-04   .1140E-03   .4292E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.6061E-03   .6175E+00   .1819E+00   .1583E-01   .2694E-04   .8059E-04   .1619E-03   .1526E-04
+.0000E+00   .1144E+07   .1604E+00   .1457E-01   .1923E-04   .1235E-04   .1051E-03   .1290E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2022/01/04  16:23:31
- EXECUTION COMPLETED    :      2022/01/04  16:23:32
+ EXECUTION STARTED      :      2022/11/23  16:23:16
+ EXECUTION COMPLETED    :      2022/11/23  16:23:16
   
- ELAPSED TIME...........=          0.95 s
+ ELAPSED TIME...........=          0.60 s
                                00:00:00
   
 ------------------------------------------------------------------------
@@ -806,7 +803,7 @@ STANDARD DEVIATION                         :       3 /        3
 |            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
 ------------------------------------------------------------------------------------------------------------------------
 |                                                           |                                                          |
-|                                                           |  --- INTERNAL                               1 WARNING(S) |
+|                                                           |  --- GLOBAL UNITS                           1 WARNING(S) |
 |                                                           |       |                                                  |
 |                                                           |       |                                                  |
 |                                                           |       |---     1 WARNING ID :       100214               |

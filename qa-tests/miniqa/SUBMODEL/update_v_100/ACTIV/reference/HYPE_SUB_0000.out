@@ -2,42 +2,91 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                     RADIOSS STARTER MAINLINE                       **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 0888869_08738000000_1060_0050847_10                     **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2017                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  49151 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
-WARNING ID :          707
-** WARNING : MULTIPLE DEFINITIONS OF SPMD DOMAIN NUMBER
-DESCRIPTION :  
-   COMMAND LINE OPTION -nspmd OVERRIDES THE CARD /SPMD
- ** WARNING : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
-  
 
-+-------------------+
-| BLOCK FREE FORMAT |
-+-------------------+
+************************************************************************
+* INPUT READING PROCESS
+************************************************************************
+
+WARNING ID : 100214
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /IOFLAG
+-- LINE: 1         0         0         0         0         0                                       0
+unsupported field exits
+SOLUTION :     
+    Please check input format and fields description defined in the Reference Guide.
+
+WARNING ID : 100214
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /ANALY
+-- LINE: 2         0         0         0
+unsupported field exits
+SOLUTION :     
+    Please check input format and fields description defined in the Reference Guide.
+
+WARNING ID : 100211
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /SENSOR/TIME/2
+-- LINE: /SENSOR/TIME/2
+Unsupported option /SENSOR/TIME in format < 110
+
+WARNING ID : 100211
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /SENSOR/SENS/3
+-- LINE: /SENSOR/SENS/3
+Unsupported option /SENSOR/SENS in format < 110
+
+WARNING ID : 100211
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /SENSOR/TIME/5
+-- LINE: /SENSOR/TIME/5
+Unsupported option /SENSOR/TIME in format < 110
+
+ -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
+
+
+
+
+************************************************************************
+
+
+
+    UNIT SYSTEMS DEFINITION     
+    -----------------------     
+
+                                                          MASS                LENGTH              TIME
+    WORK UNIT SYSTEM . . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+    INPUT UNIT SYSTEM  . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
 
 
  HYP2V21  SPHERE IMPACT V=2500 M/S                                               
@@ -56,7 +105,8 @@ DESCRIPTION :
     NUMSKW: NUMBER OF SKEW REFERENCE FRAMES . . . . . . .         0
     NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         2
     NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
-    NUMELQ: NUMBER OF 2D SOLID ELEMENTS . . . . . . . . .      1020
+    NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .      1020
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
     NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .         0
     NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .         0
     NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
@@ -71,9 +121,13 @@ DESCRIPTION :
 
     NFUNCT: NUMBER OF USER'S FUNCTIONS . . . . . . . . .          0
     NGRAV:  NUMBER OF GRAVITY LOADS . . . . . . . . . . .         0
+    NFUNC2D:  NUMBER OF USER 2D FUNCTIONS . . . . . . . .         0
+    NINIGRV:NUMBER OF INITIAL GRAVITY LOADS . . . . . . .         0
     NCONLD: NUMBER OF CONCENTRATED LOADS. . . . . . . . .         0
     NINVEL: NUMBER OF INITIAL VELOCITIES. . . . . . . . .         1
     NPRELD: NUMBER OF PRESSURE LOADS. . . . . . . . . . .         0
+    NINIMAP1D: NUMBER OF INITIAL 1D MAPPING.. . . . . . .         0
+    NINIMAP2D: NUMBER OF INITIAL 2D MAPPING.. . . . . . .         0
     NUMBER OF ACCELEROMETERS. . . . . . . . . . . . . . .         0
     NUMBER OF SENSORS . . . . . . . . . . . . . . . . . .         3
     NUMBER OF GAUGES. . . . . . . . . . . . . . . . . . .         0
@@ -97,11 +151,10 @@ DESCRIPTION :
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
-    INITIAL STRESS FILE =                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+    INITIAL STRESS FILE =
                                           FLAG ISIGI. . .         0
 
 
@@ -118,26 +171,27 @@ DESCRIPTION :
                                          (1:YES 0:NO). . .         0
     IUSERW : GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
     ISOLID : DEFAULT BRICK FORMULATION FLAG. . . . . . . .         2
-    ISST_S : DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
-    IPLA_S : DEFAULT SOLID STRESS PLASTICITY FLAG. . . . .         2
+    ITET4  : DEFAULT TETRA4 FORMULATION FLAG . . . . . . .      1000
+    ITET10 : DEFAULT TETRA10 FORMULATION FLAG. . . . . . .      1000
+    ISMSTR : DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
+    ICPRE  : DEFAULT SOLID CONSTANT PRESSURE FLAG. . . . .         0
     ISHELL : DEFAULT SHELL FORMULATION FLAG. . . . . . . .         1
     ISST   : DEFAULT SHELL SMALL STRAIN FLAG . . . . . . .         0
     ITHK   : DEFAULT SHELL THICKNESS VARIATION FLAG. . . .         0
     IPLA   : DEFAULT PLANE STRESS PLASTICITY FLAG. . . . .         0
-    ISTR   : DEFAULT SHELL STRAIN COMPUTATION FLAG . . . .         0
+    ISTR   : DEFAULT SHELL STRAIN COMPUTATION FLAG . . . .         1
     ISHEA  : DEFAULT SHELL SHEAR COMPUTATION FLAG. . . . .         0
     INSH   : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
     ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         1
     NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
              INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
-    ISTRA  : DEFAULT SOLID STRAIN COMPUTATION FLAG . . . .         2
+    IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
     ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
-    IALEFVM: FVM FOR ALE MOMENTUM EQUATION.  . . . . . . .         0
 
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -146,43 +200,47 @@ DESCRIPTION :
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
+ 
+    INFO : NUMBER OF SPMD DOMAIN AND THREADS DEFINED IN COMMAND LINE
+           /SPMD CARD PARAMETER ARE IGNORED
+ 
+     INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
+  
 
 
-    UNIT SYSTEMS DEFINITION     
-    -----------------------     
+    MATERIAL LAWS
+    -------------
+    NUMBER OF MATERIALS. . . . . . . . . =         3
 
-                                                          MASS                LENGTH              TIME
-    WORK UNIT SYSTEM . . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
-    INPUT UNIT SYSTEM  . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
-
-
-     ALU 2024 T1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-     MATERIAL NUMBER . . . . . . . . . . . .=         1
-     MATERIAL LAW. . . . . . . . . . . . . .=         4
-
-     INITIAL DENSITY . . . . . . . . . . . .=  2.770000000000    
-     EOS REFERENCE DENSITY . . . . . . . . .=  2.770000000000    
 
        JOHNSON COOK LAW    
        ----------------    
 
 
+
+     ALU 2024 T1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+        MATERIAL NUMBER . . . . . . . . . . . .=         1
+        MATERIAL LAW. . . . . . . . . . . . . .=         4
+
+       INITIAL DENSITY . . . . . . . . . . . .=  2.770000000000    
+       REFERENCE DENSITY . . . . . . . . . . .=  2.770000000000    
+
      YOUNG'S MODULUS . . . . . . . . . . . .= 0.7400000000000    
      POISSON'S RATIO . . . . . . . . . . . .= 0.3400000000000    
      SHEAR MODULUS . . . . . . . . . . . . .= 0.2761194029851    
-     BULK  MODULUS . . . . . . . . . . . . .= 0.7708333333333    
+     BULK  MODULUS . . . . . . . . . . . . .= 0.7900000000000    
 
 
      YIELD COEFFICIENT CA. . . . . . . . . .= 2.6500000000000E-03
      YIELD COEFFICIENT CB. . . . . . . . . .= 4.2600000000000E-03
      YIELD COEFFICIENT CN. . . . . . . . . .= 0.3400000000000    
-     EPS-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+30
-     SIG-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+30
+     EPS-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+20
+     SIG-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+20
 
 
      PRESSURE CUTOFF . . . . . . . . . . . .=-5.0000000000000E-03
@@ -191,90 +249,15 @@ DESCRIPTION :
      REFERENCE STRAIN RATE . . . . . . . . .= 1.0000000000000E-06
      TEMPERATURE EXPONENT. . . . . . . . . .=  1.000000000000    
      MELTING TEMPERATURE DEGREE K. . . . . .=  1075.000000000    
-     THETA-MAX . . . . . . . . . . . . . . .= 1.0000000000000E+30
+     THETA-MAX . . . . . . . . . . . . . . .= 1.0000000000000E+20
      SPECIFIC HEAT . . . . . . . . . . . . .= 2.4800000000000E-05
+     ROOM TEMPERATURE . . . . . . . . . . . =  300.0000000000    
 
 
-
-
-     acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-     MATERIAL NUMBER . . . . . . . . . . . .=         2
-     MATERIAL LAW. . . . . . . . . . . . . .=         4
-
-     INITIAL DENSITY . . . . . . . . . . . .=  7.890000000000    
-     EOS REFERENCE DENSITY . . . . . . . . .=  7.890000000000    
-
-       JOHNSON COOK LAW    
-       ----------------    
-
-
-     YOUNG'S MODULUS . . . . . . . . . . . .=  2.100000000000    
-     POISSON'S RATIO . . . . . . . . . . . .= 0.3000000000000    
-     SHEAR MODULUS . . . . . . . . . . . . .= 0.8076923076923    
-     BULK  MODULUS . . . . . . . . . . . . .=  1.750000000000    
-
-
-     YIELD COEFFICIENT CA. . . . . . . . . .= 3.5000000000000E-03
-     YIELD COEFFICIENT CB. . . . . . . . . .= 2.7500000000000E-03
-     YIELD COEFFICIENT CN. . . . . . . . . .= 0.3600000000000    
-     EPS-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+30
-     SIG-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+30
-
-
-     PRESSURE CUTOFF . . . . . . . . . . . .=-1.5000000000000E-02
-
-     STRAIN RATE COEFFICIENT CC. . . . . . .= 2.2000000000000E-02
-     REFERENCE STRAIN RATE . . . . . . . . .= 1.0000000000000E-06
-     TEMPERATURE EXPONENT. . . . . . . . . .=  1.000000000000    
-     MELTING TEMPERATURE DEGREE K. . . . . .=  1811.000000000    
-     THETA-MAX . . . . . . . . . . . . . . .=  2000.000000000    
-     SPECIFIC HEAT . . . . . . . . . . . . .= 3.5700000000000E-05
-
-
-
-
-     acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-     MATERIAL NUMBER . . . . . . . . . . . .=         3
-     MATERIAL LAW. . . . . . . . . . . . . .=         4
-
-     INITIAL DENSITY . . . . . . . . . . . .=  7.890000000000    
-     EOS REFERENCE DENSITY . . . . . . . . .=  7.890000000000    
-
-       JOHNSON COOK LAW    
-       ----------------    
-
-
-     YOUNG'S MODULUS . . . . . . . . . . . .=  2.100000000000    
-     POISSON'S RATIO . . . . . . . . . . . .= 0.3000000000000    
-     SHEAR MODULUS . . . . . . . . . . . . .= 0.8076923076923    
-     BULK  MODULUS . . . . . . . . . . . . .=  1.750000000000    
-
-
-     YIELD COEFFICIENT CA. . . . . . . . . .= 3.5000000000000E-03
-     YIELD COEFFICIENT CB. . . . . . . . . .= 2.7500000000000E-03
-     YIELD COEFFICIENT CN. . . . . . . . . .= 0.3600000000000    
-     EPS-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+30
-     SIG-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+30
-
-
-     PRESSURE CUTOFF . . . . . . . . . . . .=-1.5000000000000E-02
-
-     STRAIN RATE COEFFICIENT CC. . . . . . .= 2.2000000000000E-02
-     REFERENCE STRAIN RATE . . . . . . . . .= 1.0000000000000E-06
-     TEMPERATURE EXPONENT. . . . . . . . . .=  1.000000000000    
-     MELTING TEMPERATURE DEGREE K. . . . . .=  1811.000000000    
-     THETA-MAX . . . . . . . . . . . . . . .=  2000.000000000    
-     SPECIFIC HEAT . . . . . . . . . . . . .= 3.5700000000000E-05
-
-
-
-
-     EQUATION OF STATE 
-     ALU 2024 T1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-     MATERIAL NUMBER . . . . . . . . . . . .=         1
-
-       POLYNOMIAL EOS     
-       --------------     
+       POLYNOMIAL EOS                       
+       --------------                       
+         INPUT 100 IS OBSOLETE              
+         IT CAN BE ERASED BY /EOS CARD      
 
      C0. . . . . . . . . . . . . . . . . . . .=  0.000000000000    
      C1. . . . . . . . . . . . . . . . . . . .= 0.7900000000000    
@@ -287,14 +270,46 @@ DESCRIPTION :
      PRESSURE SHIFT. . . . . . . . . . . . . .=  0.000000000000    
 
 
+       JOHNSON COOK LAW    
+       ----------------    
 
 
-     EQUATION OF STATE 
+
      acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-     MATERIAL NUMBER . . . . . . . . . . . .=         2
+        MATERIAL NUMBER . . . . . . . . . . . .=         2
+        MATERIAL LAW. . . . . . . . . . . . . .=         4
 
-       POLYNOMIAL EOS     
-       --------------     
+       INITIAL DENSITY . . . . . . . . . . . .=  7.890000000000    
+       REFERENCE DENSITY . . . . . . . . . . .=  7.890000000000    
+
+     YOUNG'S MODULUS . . . . . . . . . . . .=  2.100000000000    
+     POISSON'S RATIO . . . . . . . . . . . .= 0.3000000000000    
+     SHEAR MODULUS . . . . . . . . . . . . .= 0.8076923076923    
+     BULK  MODULUS . . . . . . . . . . . . .=  1.690000000000    
+
+
+     YIELD COEFFICIENT CA. . . . . . . . . .= 3.5000000000000E-03
+     YIELD COEFFICIENT CB. . . . . . . . . .= 2.7500000000000E-03
+     YIELD COEFFICIENT CN. . . . . . . . . .= 0.3600000000000    
+     EPS-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+20
+     SIG-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+20
+
+
+     PRESSURE CUTOFF . . . . . . . . . . . .=-1.5000000000000E-02
+
+     STRAIN RATE COEFFICIENT CC. . . . . . .= 2.2000000000000E-02
+     REFERENCE STRAIN RATE . . . . . . . . .= 1.0000000000000E-06
+     TEMPERATURE EXPONENT. . . . . . . . . .=  1.000000000000    
+     MELTING TEMPERATURE DEGREE K. . . . . .=  1811.000000000    
+     THETA-MAX . . . . . . . . . . . . . . .=  2000.000000000    
+     SPECIFIC HEAT . . . . . . . . . . . . .= 3.5700000000000E-05
+     ROOM TEMPERATURE . . . . . . . . . . . =  300.0000000000    
+
+
+       POLYNOMIAL EOS                       
+       --------------                       
+         INPUT 100 IS OBSOLETE              
+         IT CAN BE ERASED BY /EOS CARD      
 
      C0. . . . . . . . . . . . . . . . . . . .=  0.000000000000    
      C1. . . . . . . . . . . . . . . . . . . .=  1.690000000000    
@@ -307,14 +322,46 @@ DESCRIPTION :
      PRESSURE SHIFT. . . . . . . . . . . . . .=  0.000000000000    
 
 
+       JOHNSON COOK LAW    
+       ----------------    
 
 
-     EQUATION OF STATE 
+
      acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-     MATERIAL NUMBER . . . . . . . . . . . .=         3
+        MATERIAL NUMBER . . . . . . . . . . . .=         3
+        MATERIAL LAW. . . . . . . . . . . . . .=         4
 
-       POLYNOMIAL EOS     
-       --------------     
+       INITIAL DENSITY . . . . . . . . . . . .=  7.890000000000    
+       REFERENCE DENSITY . . . . . . . . . . .=  7.890000000000    
+
+     YOUNG'S MODULUS . . . . . . . . . . . .=  2.100000000000    
+     POISSON'S RATIO . . . . . . . . . . . .= 0.3000000000000    
+     SHEAR MODULUS . . . . . . . . . . . . .= 0.8076923076923    
+     BULK  MODULUS . . . . . . . . . . . . .=  1.690000000000    
+
+
+     YIELD COEFFICIENT CA. . . . . . . . . .= 3.5000000000000E-03
+     YIELD COEFFICIENT CB. . . . . . . . . .= 2.7500000000000E-03
+     YIELD COEFFICIENT CN. . . . . . . . . .= 0.3600000000000    
+     EPS-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+20
+     SIG-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+20
+
+
+     PRESSURE CUTOFF . . . . . . . . . . . .=-1.5000000000000E-02
+
+     STRAIN RATE COEFFICIENT CC. . . . . . .= 2.2000000000000E-02
+     REFERENCE STRAIN RATE . . . . . . . . .= 1.0000000000000E-06
+     TEMPERATURE EXPONENT. . . . . . . . . .=  1.000000000000    
+     MELTING TEMPERATURE DEGREE K. . . . . .=  1811.000000000    
+     THETA-MAX . . . . . . . . . . . . . . .=  2000.000000000    
+     SPECIFIC HEAT . . . . . . . . . . . . .= 3.5700000000000E-05
+     ROOM TEMPERATURE . . . . . . . . . . . =  300.0000000000    
+
+
+       POLYNOMIAL EOS                       
+       --------------                       
+         INPUT 100 IS OBSOLETE              
+         IT CAN BE ERASED BY /EOS CARD      
 
      C0. . . . . . . . . . . . . . . . . . . .=  0.000000000000    
      C1. . . . . . . . . . . . . . . . . . . .=  1.690000000000    
@@ -327,9 +374,20 @@ DESCRIPTION :
      PRESSURE SHIFT. . . . . . . . . . . . . .=  0.000000000000    
 
 
+     SUBMODEL SKEWS(INTERNAL)                                                            
+     --------------------------------------                                              
+     NUMBER          VECTORS                                          ORIGIN
+ 1000000001        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
+
+ 1000000002        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
 
 
-         PROPERTY SETS
+
+         PROPERTY SETS (HM_READER)
          -------------
 
 
@@ -340,21 +398,22 @@ ALU 2024 T1
      SMALL STRAIN FLAG . . . . . . . . . . .=         4
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
-     TETRA FORMULATION FLAG . . . . .  . . .=         0
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
      CONSTANT PRESSURE FLAG. . . . . . . . .=         0
      CONSTANT STRESS FLAG. . . . . . . . . .=         0
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
      DEFAULT VALUE FOR QUADRATIC BULK. . . . 
           VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
-     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     EXCEPT IN CASE LAW 70 QA = 0.     
      DEFAULT VALUE FOR LINEAR BULK . . . . . 
           VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
-     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     EXCEPT IN CASE LAW 70  QB = 0.     
      HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
      BRICK MINIMUM TIME STEP................=  0.000000000000    
-     POST PROCESSING STRAIN FLAG . . . . . .=         2
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
 
@@ -365,21 +424,22 @@ acier 1006
      SMALL STRAIN FLAG . . . . . . . . . . .=         4
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
-     TETRA FORMULATION FLAG . . . . .  . . .=         0
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
      CONSTANT PRESSURE FLAG. . . . . . . . .=         0
      CONSTANT STRESS FLAG. . . . . . . . . .=         0
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
      DEFAULT VALUE FOR QUADRATIC BULK. . . . 
           VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
-     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     EXCEPT IN CASE LAW 70 QA = 0.     
      DEFAULT VALUE FOR LINEAR BULK . . . . . 
           VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
-     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     EXCEPT IN CASE LAW 70  QB = 0.     
      HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
      BRICK MINIMUM TIME STEP................=  0.000000000000    
-     POST PROCESSING STRAIN FLAG . . . . . .=         2
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
 
@@ -390,21 +450,22 @@ acier 1006
      SMALL STRAIN FLAG . . . . . . . . . . .=         4
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
-     TETRA FORMULATION FLAG . . . . .  . . .=         0
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
      CONSTANT PRESSURE FLAG. . . . . . . . .=         0
      CONSTANT STRESS FLAG. . . . . . . . . .=         0
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
      DEFAULT VALUE FOR QUADRATIC BULK. . . . 
           VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
-     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     EXCEPT IN CASE LAW 70 QA = 0.     
      DEFAULT VALUE FOR LINEAR BULK . . . . . 
           VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
-     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     EXCEPT IN CASE LAW 70  QB = 0.     
      HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
      BRICK MINIMUM TIME STEP................=  0.000000000000    
-     POST PROCESSING STRAIN FLAG . . . . . .=         2
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
 
@@ -415,24 +476,24 @@ acier 1006
 
 
 
-PART:         1,ALU 2024 T1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+PART:         1,ALU 2024 T1
 ----
-     PROPERTY:         1,ALU 2024 T1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-     MATERIAL:         1,ALU 2024 T1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+     PROPERTY:         1,ALU 2024 T1
+     MATERIAL:         1,ALU 2024 T1
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
-PART:         2,acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+PART:         2,acier 1006
 ----
-     PROPERTY:         2,acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-     MATERIAL:         2,acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+     PROPERTY:         2,acier 1006
+     MATERIAL:         2,acier 1006
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
-PART:         3,acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+PART:         3,acier 1006
 ----
-     PROPERTY:         3,acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-     MATERIAL:         3,acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+     PROPERTY:         3,acier 1006
+     MATERIAL:         3,acier 1006
      SUBSET  :         0
  VIRT. THICKN:  0.000000000000    
 
@@ -443,7 +504,7 @@ PART:         3,acier 1006
 
   
   
- SUBSET:         0,GLOBAL MODEL                            
+ SUBSET:         0,GLOBAL MODEL                                                                                                     
  ~~~~~~
   |
   |________Part(s):         1,ALU 2024 T1                             
@@ -452,13 +513,12 @@ PART:         3,acier 1006
 
 
 
- QUAD GROUP:        18,quad                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ,     3 ELEMENTS: 
+ QUAD GROUP:        18,quad,     3 ELEMENTS: 
  --------------------
        904       909       914
-
-
-
- SURFACE:         5,HYP2V30D00_interface_1_surf_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ,       231 SEGMENTS: 
+ 
+ 
+ SURFACE:         5,HYP2V30D00_interface_1_surf_1,       231 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
          8         1                         0         0
@@ -692,10 +752,9 @@ PART:         3,acier 1006
        302       295                         0         0
        309       302                         0         0
        316       309                         0         0
-
-
-
- SURFACE:         7,HYP2V30D00_interface_1_surf_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ,        15 SEGMENTS: 
+ 
+ 
+ SURFACE:         7,HYP2V30D00_interface_1_surf_2,        15 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
       1019      1014                         0         0
@@ -713,10 +772,9 @@ PART:         3,acier 1006
       1109      1104                         0         0
       1114      1109                         0         0
       1119      1114                         0         0
-
-
-
- SURFACE:         8,HYP2V30D00_interface_2_surf_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ,        30 SEGMENTS: 
+ 
+ 
+ SURFACE:         8,HYP2V30D00_interface_2_surf_1,        30 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
        344       323                         0         0
@@ -749,10 +807,9 @@ PART:         3,acier 1006
        911       890                         0         0
        932       911                         0         0
        953       932                         0         0
-
-
-
- SURFACE:         9,HYP2V30D00_interface_2_surf_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ,        15 SEGMENTS: 
+ 
+ 
+ SURFACE:         9,HYP2V30D00_interface_2_surf_2,        15 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
       1019      1014                         0         0
@@ -770,10 +827,9 @@ PART:         3,acier 1006
       1109      1104                         0         0
       1114      1109                         0         0
       1119      1114                         0         0
-
-
-
- SURFACE:        10,HYP2V30D00_interface_3_surf_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ,        45 SEGMENTS: 
+ 
+ 
+ SURFACE:        10,HYP2V30D00_interface_3_surf_1,        45 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
          7        14                         0         0
@@ -821,10 +877,9 @@ PART:         3,acier 1006
        301       308                         0         0
        308       315                         0         0
        315       322                         0         0
-
-
-
- SURFACE:        11,HYP2V30D00_interface_3_surf_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ,        30 SEGMENTS: 
+ 
+ 
+ SURFACE:        11,HYP2V30D00_interface_3_surf_2,        30 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
        344       323                         0         0
@@ -857,10 +912,9 @@ PART:         3,acier 1006
        911       890                         0         0
        932       911                         0         0
        953       932                         0         0
-
-
-
- SURFACE:        12,HYP2V30D00_interface_4_surf_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ,        89 SEGMENTS: 
+ 
+ 
+ SURFACE:        12,HYP2V30D00_interface_4_surf_1,        89 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
        344       323                         0         0
@@ -952,10 +1006,9 @@ PART:         3,acier 1006
        939       918                         0         0
        946       925                         0         0
        953       932                         0         0
-
-
-
- SURFACE:        14,HYP2V30D00_interface_4_surf_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ,        25 SEGMENTS: 
+ 
+ 
+ SURFACE:        14,HYP2V30D00_interface_4_surf_2,        25 SEGMENTS: 
  -------------------
  NODE 1  NODE 2  NODE 3  NODE 4  ELTYP  ELEMENT
        147       154                         0         0
@@ -983,28 +1036,25 @@ PART:         3,acier 1006
        301       308                         0         0
        308       315                         0         0
        315       322                         0         0
-
-
-
- NODE GROUP:         2,HYP2V21D00_bcs1_010_000                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ,        49 NODES: 
+ 
+ 
+ NODE GROUP:         2,HYP2V21D00_bcs1_010_000,        49 NODES: 
  -------------------
          1         2         3         4         5         6         7       323       324       325
        326       327       328       329       330       331       332       333       334       335
        336       337       338       339       340       341       342       343       974       975
        976       977       978       979      1010      1011      1012      1013      1014      1065
       1071      1077      1083      1089      1140      1141      1142      1143      1144
-
-
-
- NODE GROUP:         3,HYP2V21D00_bcs2_011_000                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ,        28 NODES: 
+ 
+ 
+ NODE GROUP:         3,HYP2V21D00_bcs2_011_000,        28 NODES: 
  -------------------
        316       317       318       319       320       321       322       953       954       955
        956       957       958       959       960       961       962       963       964       965
        966       967       968       969       970       971       972       973
-
-
-
- NODE GROUP:         4,HYP2V21D00_inivel_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ,       171 NODES: 
+ 
+ 
+ NODE GROUP:         4,HYP2V21D00_inivel_1,       171 NODES: 
  -------------------
        974       975       976       977       978       979       980       981       982       983
        984       985       986       987       988       989       990       991       992       993
@@ -1024,10 +1074,9 @@ PART:         3,acier 1006
       1124      1125      1126      1127      1128      1129      1130      1131      1132      1133
       1134      1135      1136      1137      1138      1139      1140      1141      1142      1143
       1144
-
-
-
- NODE GROUP:         6,HYP2V30D00_interface_1_surf_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ,       172 NODES: 
+ 
+ 
+ NODE GROUP:         6,HYP2V30D00_interface_1_surf_1,       172 NODES: 
  -------------------
          1         2         3         4         5         6         7         8         9        10
         11        12        13        14        15        16        17        18        19        20
@@ -1047,10 +1096,9 @@ PART:         3,acier 1006
        169       176       183       190       197       204       211       218       225       232
        239       246       253       260       267       274       281       288       295       302
        309       316
-
-
-
- NODE GROUP:        13,HYP2V30D00_interface_4_surf_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ,        93 NODES: 
+ 
+ 
+ NODE GROUP:        13,HYP2V30D00_interface_4_surf_1,        93 NODES: 
  -------------------
        323       324       330       337       344       345       351       358       365       372
        379       386       393       400       407       414       421       428       435       442
@@ -1063,10 +1111,6 @@ PART:         3,acier 1006
        869       876       883       890       897       904       911       918       925       932
        939       946       953
 
-
-     RANDOM NOISE       
-     ------------       
-
      BOUNDARY CONDITIONS                                                                 
      -------------------                                                                 
        NODE  TRANS. ROTAT.         SKEW
@@ -1077,44 +1121,37 @@ PART:         3,acier 1006
           SENSORS
           -------
 
- SENSOR NUMBER. . . . . . . . . . . . .         2
- TIME DELAY BEFORE ACTIVATION . . . . . 0.5000000000000    
- TYPE 0 SENSOR : START TIME
+         SENSOR TYPE 0: TIME DELAY            
+         --------------------                 
+     SENSOR ID. . . . . . . . . . . . . . . . .=         2
+     TIME DELAY BEFORE ACTIVATION . . . . . . .=  0.5000E+00
 
+         SENSOR TYPE 3: SENSOR ACTIVATION       
+         --------------------------------       
+     SENSOR ID. . . . . . . . . . . . . . . . .=         3
+     TIME DELAY BEFORE ACTIVATION . . . . . . .=  0.5000E+00
+        ACTIVATION SENSORID . . . . . . . . . .=         2
+        DEACTIVATION SENSOR ID. . . . . . . . .=         0
 
-
-
-          SENSORS
-          -------
-
- SENSOR NUMBER. . . . . . . . . . . . .         3
- TYPE 3 SENSOR : SENSOR ACTIVATION
-
- MINIMUM ACTIVATION DURATION. . . . . . 0.5000000000000    
- ACTIVATION SENSOR. . . . . . . . . . .         2
- DEACTIVATION SENSOR. . . . . . . . . .         0
-
-
-
-          SENSORS
-          -------
-
- SENSOR NUMBER. . . . . . . . . . . . .         5
- TIME DELAY BEFORE ACTIVATION . . . . . 0.5000000000000    
- TYPE 0 SENSOR : START TIME
+         SENSOR TYPE 0: TIME DELAY            
+         --------------------                 
+     SENSOR ID. . . . . . . . . . . . . . . . .=         5
+     TIME DELAY BEFORE ACTIVATION . . . . . . .=  0.5000E+00
 
   
- SPMD IS NOT ABLE TO CHECK FOR ELEMENT DELETION IN RADIOSS ENGINE INPUT FILE
+ SPMD IS CHECKING FOR ELEMENT DELETION IN : 
+ HYPE_SUB_0001.rad                                                                                            
  
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
  NUMBER OF DISCONNECTED COMPONENTS FIXED FOR DOMAIN DECOMP:       3
   
   ELEMENT NUMBER =       1020
   EDGES FOUND    =       3721
   
-#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
    1         25200.             0.             0.             0.             0.             0.
    2         25200.             0.             0.             0.             0.             0.
    3         25600.             0.             0.             0.             0.             0.
@@ -1130,25 +1167,24 @@ PART:         3,acier 1006
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.   FAILURE      IEOS   
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG      TYPE   
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG      TYPE   
 
-         1         4       128         1         1         1         0         0         0         0         0         0         0         0         2         0         1
-         2         4       124       129         1         1         0         0         0         0         0         0         0         0         2         0         1
-         3         4        18       253         1         1         0         0         0         0         0         0         0         0         2         0         1
-         4         4        84       271         1         1         0         0         0         0         0         0         0         0         2         0         1
-         5         4       128       355         1         1         0         0         0         0         0         0         0         0         2         0         1
-         6         4       128       483         1         1         0         0         0         0         0         0         0         0         2         0         1
-         7         4       128       611         1         1         0         0         0         0         0         0         0         0         2         0         1
-         8         4       128       739         1         1         0         0         0         0         0         0         0         0         2         0         1
-         9         4         4       867         1         1         0         0         0         0         0         0         0         0         2         0         1
-        10         4       128       871         1         1         0         0         0         0         0         0         0         0         2         0         1
-        11         4        22       999         1         1         0         0         0         0         0         0         0         0         2         0         1
+         1         4       128         1         1         1         0         0         0         0         0         0         1         0         2         0         1
+         2         4       124       129         1         1         0         0         0         0         0         0         1         0         2         0         1
+         3         4        18       253         1         1         0         0         0         0         0         0         1         0         2         0         1
+         4         4        84       271         1         1         0         0         0         0         0         0         2         0         2         0         1
+         5         4       128       355         1         1         0         0         0         0         0         0         2         0         2         0         1
+         6         4       128       483         1         1         0         0         0         0         0         0         2         0         2         0         1
+         7         4       128       611         1         1         0         0         0         0         0         0         2         0         2         0         1
+         8         4       128       739         1         1         0         0         0         0         0         0         2         0         2         0         1
+         9         4         4       867         1         1         0         0         0         0         0         0         2         0         2         0         1
+        10         4       128       871         1         1         0         0         0         0         0         0         3         0         2         0         1
+        11         4        22       999         1         1         0         0         0         0         0         0         3         0         2         0         1
 
 
       ELEMENT ACTIVATION-DEACTIVATION   
       -------------------------------   
-      OPTION-NB     SENSOR   BRICK-GR    QUAD-GR   SHELL-GR   TRUSS-GR    BEAM-GR  SPRING-GR    SH3N-GR  FORM-FLAG       START-TIME
-
+      OPTION-NB     SENSOR   BRICK-GR    QUAD-GR   SHELL-GR   TRUSS-GR    BEAM-GR  SPRING-GR    SH3N-GR  FORM-FLAG   START-TIME            STOP-TIME
            4          3          0         18          0          0          0          0          0          1
 
     INTERFACES               
@@ -1156,10 +1192,10 @@ PART:         3,acier 1006
 
 
 
-   INTERFACE NUMBER :         1 HYP2V30D00_interface_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+   INTERFACE NUMBER :         1 HYP2V30D00_interface_1
 
 
-    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMMETRIC)
+    TYPE==5  SLIDING AND VOIDS(NON SYMMETRIC)
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -1168,7 +1204,8 @@ PART:         3,acier 1006
     INITIAL GAP . . . . . . . . . . . . . . .   0.000000000000    
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    MASTER SURFACE REORDERING FLAG. . . . . . 0
+    MAIN SURFACE REORDERING FLAG. . . . . . 0
+    TANGENTIAL PRESSURE LIMIT. . .. . . . . .  1.0000000000000E+30
 
     DE-ACTIVATION OF INITIAL PENETRATIONS . .          0
 
@@ -1178,18 +1215,18 @@ PART:         3,acier 1006
     FRICTION MODEL 0 (Coulomb Law) :
       FRICTION COEFFICIENT . . . . . . . . .   0.000000000000    
 
-      SLAVE SURFACE INPUT BY NODES
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY NODES
+      MAIN SURFACE INPUT BY SEGMENTS
 
     INTERFACES               
   --------------             
 
 
 
-   INTERFACE NUMBER :         2 HYP2V30D00_interface_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+   INTERFACE NUMBER :         2 HYP2V30D00_interface_2
 
 
-    TYPE.EQ.3   SLIDING AND VOIDS             
+    TYPE==3   SLIDING AND VOIDS             
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -1199,21 +1236,22 @@ PART:         3,acier 1006
     INITIAL GAP . . . . . . . . . . . . . . .   0.000000000000    
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    SLAVE SURFACE REORDERING FLAG . . . . . . 0
-    MASTER SURFACE REORDERING FLAG. . . . . . 0
+    SECONDARY SURFACE REORDERING FLAG . . . . . . 0
+    MAIN SURFACE REORDERING FLAG. . . . . . 0
+    TANGENTIAL PRESSURE LIMIT. . .. . . . . .  1.0000000000000E+30
 
-      SLAVE SURFACE INPUT BY SEGMENTS
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY SEGMENTS
+      MAIN SURFACE INPUT BY SEGMENTS
 
     INTERFACES               
   --------------             
 
 
 
-   INTERFACE NUMBER :         3 HYP2V30D00_interface_3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+   INTERFACE NUMBER :         3 HYP2V30D00_interface_3
 
 
-    TYPE.EQ.3   SLIDING AND VOIDS             
+    TYPE==3   SLIDING AND VOIDS             
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -1223,21 +1261,22 @@ PART:         3,acier 1006
     INITIAL GAP . . . . . . . . . . . . . . .   0.000000000000    
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    SLAVE SURFACE REORDERING FLAG . . . . . . 0
-    MASTER SURFACE REORDERING FLAG. . . . . . 0
+    SECONDARY SURFACE REORDERING FLAG . . . . . . 0
+    MAIN SURFACE REORDERING FLAG. . . . . . 0
+    TANGENTIAL PRESSURE LIMIT. . .. . . . . .  1.0000000000000E+30
 
-      SLAVE SURFACE INPUT BY SEGMENTS
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY SEGMENTS
+      MAIN SURFACE INPUT BY SEGMENTS
 
     INTERFACES               
   --------------             
 
 
 
-   INTERFACE NUMBER :         4 HYP2V30D00_interface_4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+   INTERFACE NUMBER :         4 HYP2V30D00_interface_4
 
 
-    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMMETRIC)
+    TYPE==5  SLIDING AND VOIDS(NON SYMMETRIC)
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -1246,7 +1285,8 @@ PART:         3,acier 1006
     INITIAL GAP . . . . . . . . . . . . . . .   0.000000000000    
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    MASTER SURFACE REORDERING FLAG. . . . . . 0
+    MAIN SURFACE REORDERING FLAG. . . . . . 0
+    TANGENTIAL PRESSURE LIMIT. . .. . . . . .  1.0000000000000E+30
 
     DE-ACTIVATION OF INITIAL PENETRATIONS . .          0
 
@@ -1256,8 +1296,8 @@ PART:         3,acier 1006
     FRICTION MODEL 0 (Coulomb Law) :
       FRICTION COEFFICIENT . . . . . . . . .   0.000000000000    
 
-      SLAVE SURFACE INPUT BY NODES
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY NODES
+      MAIN SURFACE INPUT BY SEGMENTS
 
  NODES USED FOR SURFACE DEFINITION
 
@@ -1472,7 +1512,7 @@ PART:         3,acier 1006
        315       322
 
 
- SLAVE SURFACE
+ SECONDARY SURFACE
 
  NODES USED FOR SURFACE DEFINITION
 
@@ -1496,7 +1536,7 @@ PART:         3,acier 1006
        309       316
 
 
- MASTER SURFACE
+ MAIN SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -1517,7 +1557,7 @@ PART:         3,acier 1006
       1119      1114
 
 
- SLAVE SURFACE
+ SECONDARY SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -1553,7 +1593,7 @@ PART:         3,acier 1006
        953       932
 
 
- MASTER SURFACE
+ MAIN SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -1574,7 +1614,7 @@ PART:         3,acier 1006
       1119      1114
 
 
- SLAVE SURFACE
+ SECONDARY SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -1625,7 +1665,7 @@ PART:         3,acier 1006
        315       322
 
 
- MASTER SURFACE
+ MAIN SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -1661,7 +1701,7 @@ PART:         3,acier 1006
        953       932
 
 
- SLAVE SURFACE
+ SECONDARY SURFACE
 
  NODES USED FOR SURFACE DEFINITION
 
@@ -1677,7 +1717,7 @@ PART:         3,acier 1006
        939       946       953
 
 
- MASTER SURFACE
+ MAIN SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -1708,32 +1748,32 @@ PART:         3,acier 1006
        315       322
 
 
-     INTERFACE NUMBER. . . . . . . . . . . . . . .       1
-     SLIDE LINE TYPE . . . . . . . . . . . . . . .    5
-     NUMBER OF SLAVE  SEGMENTS . . . . . . . . . .    0
-     NUMBER OF MASTER SEGMENTS . . . . . . . . . .   15
-     NUMBER OF SLAVE  NODES. . . . . . . . . . . .  172
-     NUMBER OF MASTER NODES. . . . . . . . . . . .   16
+     INTERFACE NUMBER. . . . . . . . . . . . . .       1
+     SLIDE LINE TYPE . . . . . . . . . . . . . .    5
+     NUMBER OF SECONDARY  SEGMENTS . . . . . . .    0
+     NUMBER OF MAIN SEGMENTS . . . . . . . . . .   15
+     NUMBER OF SECONDARY  NODES. . . . . . . . .  172
+     NUMBER OF MAIN NODES. . . . . . . . . . . .   16
 
- NODE NUMBERING OF MASTER SEGMENT    1 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    2 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    3 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    4 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    5 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    6 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    7 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    8 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    9 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   10 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   11 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   12 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   13 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   14 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   15 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    1 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    2 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    3 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    4 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    5 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    6 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    7 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    8 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    9 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   10 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   11 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   12 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   13 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   14 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   15 OF INTERFACE         1 REVERSED
 
 
- SLAVE   NEAREST  NEAREST  MASTER   S 
- NODE    MASTER   SEGMENT  NODES 
+ SECONDARY   NEAREST  NEAREST  MAIN   S 
+ NODE    MAIN   SEGMENT  NODES 
          1      1014         1      1014      1019 -1.000000000000    
          2      1014         1      1014      1019
          3      1014         1      1014      1019
@@ -1908,32 +1948,32 @@ PART:         3,acier 1006
        316      1059        10      1059      1064
 
 
-     INTERFACE NUMBER. . . . . . . . . . . . . . .       2
-     SLIDE LINE TYPE . . . . . . . . . . . . . . .    3
-     NUMBER OF SLAVE  SEGMENTS . . . . . . . . . .   30
-     NUMBER OF MASTER SEGMENTS . . . . . . . . . .   15
-     NUMBER OF SLAVE  NODES. . . . . . . . . . . .   31
-     NUMBER OF MASTER NODES. . . . . . . . . . . .   16
+     INTERFACE NUMBER. . . . . . . . . . . . . .       2
+     SLIDE LINE TYPE . . . . . . . . . . . . . .    3
+     NUMBER OF SECONDARY  SEGMENTS . . . . . . .   30
+     NUMBER OF MAIN SEGMENTS . . . . . . . . . .   15
+     NUMBER OF SECONDARY  NODES. . . . . . . . .   31
+     NUMBER OF MAIN NODES. . . . . . . . . . . .   16
 
- NODE NUMBERING OF MASTER SEGMENT    1 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    2 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    3 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    4 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    5 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    6 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    7 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    8 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    9 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   10 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   11 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   12 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   13 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   14 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   15 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    1 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    2 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    3 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    4 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    5 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    6 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    7 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    8 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    9 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   10 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   11 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   12 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   13 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   14 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   15 OF INTERFACE         2 REVERSED
 
 
- SLAVE   NEAREST  NEAREST  MASTER   S 
- NODE    MASTER   SEGMENT  NODES 
+ SECONDARY   NEAREST  NEAREST  MAIN   S 
+ NODE    MAIN   SEGMENT  NODES 
        323      1014         1      1014      1019
        344      1014         1      1014      1019
        365      1019         1      1014      1019
@@ -1967,8 +2007,8 @@ PART:         3,acier 1006
        953      1049         8      1049      1054
 
 
- MASTER  NEAREST  NEAREST  SLAVE    S 
- NODE    SLAVE    SEGMENT  NODES 
+ MAIN  NEAREST  NEAREST  SECONDARY    S 
+ NODE    SECONDARY    SEGMENT  NODES 
       1014       323         1       344       323
       1019       344         2       365       344
       1024       386         3       386       365
@@ -1987,17 +2027,17 @@ PART:         3,acier 1006
       1119       449         7       470       449
 
 
-     INTERFACE NUMBER. . . . . . . . . . . . . . .       3
-     SLIDE LINE TYPE . . . . . . . . . . . . . . .    3
-     NUMBER OF SLAVE  SEGMENTS . . . . . . . . . .   45
-     NUMBER OF MASTER SEGMENTS . . . . . . . . . .   30
-     NUMBER OF SLAVE  NODES. . . . . . . . . . . .   46
-     NUMBER OF MASTER NODES. . . . . . . . . . . .   31
+     INTERFACE NUMBER. . . . . . . . . . . . . .       3
+     SLIDE LINE TYPE . . . . . . . . . . . . . .    3
+     NUMBER OF SECONDARY  SEGMENTS . . . . . . .   45
+     NUMBER OF MAIN SEGMENTS . . . . . . . . . .   30
+     NUMBER OF SECONDARY  NODES. . . . . . . . .   46
+     NUMBER OF MAIN NODES. . . . . . . . . . . .   31
 
 
 
- SLAVE   NEAREST  NEAREST  MASTER   S 
- NODE    MASTER   SEGMENT  NODES 
+ SECONDARY   NEAREST  NEAREST  MAIN   S 
+ NODE    MAIN   SEGMENT  NODES 
          7       323         1       344       323
         14       344         1       344       323
         21       344         2       365       344
@@ -2046,8 +2086,8 @@ PART:         3,acier 1006
        322       953        30       953       932
 
 
- MASTER  NEAREST  NEAREST  SLAVE    S 
- NODE    SLAVE    SEGMENT  NODES 
+ MAIN  NEAREST  NEAREST  SECONDARY    S 
+ NODE    SECONDARY    SEGMENT  NODES 
        323         7         1         7        14
        344        14         2        14        21
        365        28         4        28        35
@@ -2081,17 +2121,17 @@ PART:         3,acier 1006
        953       322        45       315       322
 
 
-     INTERFACE NUMBER. . . . . . . . . . . . . . .       4
-     SLIDE LINE TYPE . . . . . . . . . . . . . . .    5
-     NUMBER OF SLAVE  SEGMENTS . . . . . . . . . .    0
-     NUMBER OF MASTER SEGMENTS . . . . . . . . . .   25
-     NUMBER OF SLAVE  NODES. . . . . . . . . . . .   93
-     NUMBER OF MASTER NODES. . . . . . . . . . . .   26
+     INTERFACE NUMBER. . . . . . . . . . . . . .       4
+     SLIDE LINE TYPE . . . . . . . . . . . . . .    5
+     NUMBER OF SECONDARY  SEGMENTS . . . . . . .    0
+     NUMBER OF MAIN SEGMENTS . . . . . . . . . .   25
+     NUMBER OF SECONDARY  NODES. . . . . . . . .   93
+     NUMBER OF MAIN NODES. . . . . . . . . . . .   26
 
 
 
- SLAVE   NEAREST  NEAREST  MASTER   S 
- NODE    MASTER   SEGMENT  NODES 
+ SECONDARY   NEAREST  NEAREST  MAIN   S 
+ NODE    MAIN   SEGMENT  NODES 
        323       147         1       147       154
        324       147         1       147       154
        330       147         1       147       154
@@ -2193,47 +2233,46 @@ PART:         3,acier 1006
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- NUMBER OF DISCONNECTED COMPONENTS FIXED FOR DOMAIN DECOMP:       3
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
   
   ELEMENT NUMBER =       1020
   EDGES FOUND    =       3721
   
-#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
-   1         26000.             0.             0.             0.             0.             0.
-   2         25000.             0.             0.             0.             0.             0.
-   3         25100.             0.             0.             0.             0.             0.
-   4         25900.             0.             0.             0.             0.             0.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
+   1         25800.             0.             0.             0.             0.             0.
+   2         26000.             0.             0.             0.             0.             0.
+   3         25200.             0.             0.             0.             0.             0.
+   4         25000.             0.             0.             0.             0.             0.
   
  STATISTICS ON DECOMPOSITION WEIGHTS
  -----------------------------------
  METRIC      MINIMUM   MAXIMUM   AVERAGE   STANDARD DEVIATION
- ELEMENTS      25000     26000     25500         453
+ ELEMENTS      25000     26000     25500         412
 
 
        4-NODE 2D SOLID ELEMENT GROUPS
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.   FAILURE      IEOS   
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG      TYPE   
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG      TYPE   
 
-         1         4        11         1         1         1         0         0         0         0         0         0         0         0         2         0         1
-         2         4       128        12         1         1         0         0         0         0         0         0         0         0         2         0         1
-         3         4       128       140         1         1         0         0         0         0         0         0         0         0         2         0         1
-         4         4         3       268         1         1         0         0         0         0         0         0         0         0         2         0         1
-         5         4       128       271         1         1         0         0         0         0         0         0         0         0         2         0         1
-         6         4       128       399         1         1         0         0         0         0         0         0         0         0         2         0         1
-         7         4         4       527         1         1         0         0         0         0         0         0         0         0         2         0         1
-         8         4       128       531         1         1         0         0         0         0         0         0         0         0         2         0         1
-         9         4       122       659         1         1         0         0         0         0         0         0         0         0         2         0         1
-        10         4        90       781         1         1         0         0         0         0         0         0         0         0         2         0         1
-        11         4       128       871         1         1         0         0         0         0         0         0         0         0         2         0         1
-        12         4        22       999         1         1         0         0         0         0         0         0         0         0         2         0         1
+         1         4       102         1         1         1         0         0         0         0         0         0         1         0         2         0         1
+         2         4       128       103         1         1         0         0         0         0         0         0         1         0         2         0         1
+         3         4        40       231         1         1         0         0         0         0         0         0         1         0         2         0         1
+         4         4       128       271         1         1         0         0         0         0         0         0         2         0         2         0         1
+         5         4       128       399         1         1         0         0         0         0         0         0         2         0         2         0         1
+         6         4         2       527         1         1         0         0         0         0         0         0         2         0         2         0         1
+         7         4       128       529         1         1         0         0         0         0         0         0         2         0         2         0         1
+         8         4       128       657         1         1         0         0         0         0         0         0         2         0         2         0         1
+         9         4         4       785         1         1         0         0         0         0         0         0         2         0         2         0         1
+        10         4        82       789         1         1         0         0         0         0         0         0         2         0         2         0         1
+        11         4       128       871         1         1         0         0         0         0         0         0         3         0         2         0         1
+        12         4        22       999         1         1         0         0         0         0         0         0         3         0         2         0         1
 
 
       ELEMENT ACTIVATION-DEACTIVATION   
       -------------------------------   
-      OPTION-NB     SENSOR   BRICK-GR    QUAD-GR   SHELL-GR   TRUSS-GR    BEAM-GR  SPRING-GR    SH3N-GR  FORM-FLAG       START-TIME
-
+      OPTION-NB     SENSOR   BRICK-GR    QUAD-GR   SHELL-GR   TRUSS-GR    BEAM-GR  SPRING-GR    SH3N-GR  FORM-FLAG   START-TIME            STOP-TIME
            4          3          0         18          0          0          0          0          0          1
 
     INTERFACES               
@@ -2241,10 +2280,10 @@ PART:         3,acier 1006
 
 
 
-   INTERFACE NUMBER :         1 HYP2V30D00_interface_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+   INTERFACE NUMBER :         1 HYP2V30D00_interface_1
 
 
-    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMMETRIC)
+    TYPE==5  SLIDING AND VOIDS(NON SYMMETRIC)
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -2253,7 +2292,8 @@ PART:         3,acier 1006
     INITIAL GAP . . . . . . . . . . . . . . .   0.000000000000    
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    MASTER SURFACE REORDERING FLAG. . . . . . 0
+    MAIN SURFACE REORDERING FLAG. . . . . . 0
+    TANGENTIAL PRESSURE LIMIT. . .. . . . . .  1.0000000000000E+30
 
     DE-ACTIVATION OF INITIAL PENETRATIONS . .          0
 
@@ -2263,18 +2303,18 @@ PART:         3,acier 1006
     FRICTION MODEL 0 (Coulomb Law) :
       FRICTION COEFFICIENT . . . . . . . . .   0.000000000000    
 
-      SLAVE SURFACE INPUT BY NODES
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY NODES
+      MAIN SURFACE INPUT BY SEGMENTS
 
     INTERFACES               
   --------------             
 
 
 
-   INTERFACE NUMBER :         2 HYP2V30D00_interface_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+   INTERFACE NUMBER :         2 HYP2V30D00_interface_2
 
 
-    TYPE.EQ.3   SLIDING AND VOIDS             
+    TYPE==3   SLIDING AND VOIDS             
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -2284,21 +2324,22 @@ PART:         3,acier 1006
     INITIAL GAP . . . . . . . . . . . . . . .   0.000000000000    
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    SLAVE SURFACE REORDERING FLAG . . . . . . 0
-    MASTER SURFACE REORDERING FLAG. . . . . . 0
+    SECONDARY SURFACE REORDERING FLAG . . . . . . 0
+    MAIN SURFACE REORDERING FLAG. . . . . . 0
+    TANGENTIAL PRESSURE LIMIT. . .. . . . . .  1.0000000000000E+30
 
-      SLAVE SURFACE INPUT BY SEGMENTS
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY SEGMENTS
+      MAIN SURFACE INPUT BY SEGMENTS
 
     INTERFACES               
   --------------             
 
 
 
-   INTERFACE NUMBER :         3 HYP2V30D00_interface_3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+   INTERFACE NUMBER :         3 HYP2V30D00_interface_3
 
 
-    TYPE.EQ.3   SLIDING AND VOIDS             
+    TYPE==3   SLIDING AND VOIDS             
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -2308,21 +2349,22 @@ PART:         3,acier 1006
     INITIAL GAP . . . . . . . . . . . . . . .   0.000000000000    
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    SLAVE SURFACE REORDERING FLAG . . . . . . 0
-    MASTER SURFACE REORDERING FLAG. . . . . . 0
+    SECONDARY SURFACE REORDERING FLAG . . . . . . 0
+    MAIN SURFACE REORDERING FLAG. . . . . . 0
+    TANGENTIAL PRESSURE LIMIT. . .. . . . . .  1.0000000000000E+30
 
-      SLAVE SURFACE INPUT BY SEGMENTS
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY SEGMENTS
+      MAIN SURFACE INPUT BY SEGMENTS
 
     INTERFACES               
   --------------             
 
 
 
-   INTERFACE NUMBER :         4 HYP2V30D00_interface_4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+   INTERFACE NUMBER :         4 HYP2V30D00_interface_4
 
 
-    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMMETRIC)
+    TYPE==5  SLIDING AND VOIDS(NON SYMMETRIC)
 
     BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
        (1:YES 0:NO)                      Y DIR  0
@@ -2331,7 +2373,8 @@ PART:         3,acier 1006
     INITIAL GAP . . . . . . . . . . . . . . .   0.000000000000    
     START TIME. . . . . . . . . . . . . . . .   0.000000000000    
     STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    MASTER SURFACE REORDERING FLAG. . . . . . 0
+    MAIN SURFACE REORDERING FLAG. . . . . . 0
+    TANGENTIAL PRESSURE LIMIT. . .. . . . . .  1.0000000000000E+30
 
     DE-ACTIVATION OF INITIAL PENETRATIONS . .          0
 
@@ -2341,8 +2384,8 @@ PART:         3,acier 1006
     FRICTION MODEL 0 (Coulomb Law) :
       FRICTION COEFFICIENT . . . . . . . . .   0.000000000000    
 
-      SLAVE SURFACE INPUT BY NODES
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY NODES
+      MAIN SURFACE INPUT BY SEGMENTS
 
  NODES USED FOR SURFACE DEFINITION
 
@@ -2557,7 +2600,7 @@ PART:         3,acier 1006
        315       322
 
 
- SLAVE SURFACE
+ SECONDARY SURFACE
 
  NODES USED FOR SURFACE DEFINITION
 
@@ -2581,7 +2624,7 @@ PART:         3,acier 1006
        309       316
 
 
- MASTER SURFACE
+ MAIN SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -2602,7 +2645,7 @@ PART:         3,acier 1006
       1119      1114
 
 
- SLAVE SURFACE
+ SECONDARY SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -2638,7 +2681,7 @@ PART:         3,acier 1006
        953       932
 
 
- MASTER SURFACE
+ MAIN SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -2659,7 +2702,7 @@ PART:         3,acier 1006
       1119      1114
 
 
- SLAVE SURFACE
+ SECONDARY SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -2710,7 +2753,7 @@ PART:         3,acier 1006
        315       322
 
 
- MASTER SURFACE
+ MAIN SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -2746,7 +2789,7 @@ PART:         3,acier 1006
        953       932
 
 
- SLAVE SURFACE
+ SECONDARY SURFACE
 
  NODES USED FOR SURFACE DEFINITION
 
@@ -2762,7 +2805,7 @@ PART:         3,acier 1006
        939       946       953
 
 
- MASTER SURFACE
+ MAIN SURFACE
 
  SEGMENTS USED FOR SURFACE DEFINITION
 
@@ -2793,32 +2836,32 @@ PART:         3,acier 1006
        315       322
 
 
-     INTERFACE NUMBER. . . . . . . . . . . . . . .       1
-     SLIDE LINE TYPE . . . . . . . . . . . . . . .    5
-     NUMBER OF SLAVE  SEGMENTS . . . . . . . . . .    0
-     NUMBER OF MASTER SEGMENTS . . . . . . . . . .   15
-     NUMBER OF SLAVE  NODES. . . . . . . . . . . .  172
-     NUMBER OF MASTER NODES. . . . . . . . . . . .   16
+     INTERFACE NUMBER. . . . . . . . . . . . . .       1
+     SLIDE LINE TYPE . . . . . . . . . . . . . .    5
+     NUMBER OF SECONDARY  SEGMENTS . . . . . . .    0
+     NUMBER OF MAIN SEGMENTS . . . . . . . . . .   15
+     NUMBER OF SECONDARY  NODES. . . . . . . . .  172
+     NUMBER OF MAIN NODES. . . . . . . . . . . .   16
 
- NODE NUMBERING OF MASTER SEGMENT    1 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    2 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    3 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    4 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    5 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    6 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    7 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    8 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    9 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   10 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   11 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   12 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   13 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   14 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   15 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    1 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    2 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    3 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    4 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    5 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    6 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    7 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    8 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    9 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   10 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   11 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   12 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   13 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   14 OF INTERFACE         1 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   15 OF INTERFACE         1 REVERSED
 
 
- SLAVE   NEAREST  NEAREST  MASTER   S 
- NODE    MASTER   SEGMENT  NODES 
+ SECONDARY   NEAREST  NEAREST  MAIN   S 
+ NODE    MAIN   SEGMENT  NODES 
          1      1014         1      1014      1019 -1.000000000000    
          2      1014         1      1014      1019
          3      1014         1      1014      1019
@@ -2993,32 +3036,32 @@ PART:         3,acier 1006
        316      1059        10      1059      1064
 
 
-     INTERFACE NUMBER. . . . . . . . . . . . . . .       2
-     SLIDE LINE TYPE . . . . . . . . . . . . . . .    3
-     NUMBER OF SLAVE  SEGMENTS . . . . . . . . . .   30
-     NUMBER OF MASTER SEGMENTS . . . . . . . . . .   15
-     NUMBER OF SLAVE  NODES. . . . . . . . . . . .   31
-     NUMBER OF MASTER NODES. . . . . . . . . . . .   16
+     INTERFACE NUMBER. . . . . . . . . . . . . .       2
+     SLIDE LINE TYPE . . . . . . . . . . . . . .    3
+     NUMBER OF SECONDARY  SEGMENTS . . . . . . .   30
+     NUMBER OF MAIN SEGMENTS . . . . . . . . . .   15
+     NUMBER OF SECONDARY  NODES. . . . . . . . .   31
+     NUMBER OF MAIN NODES. . . . . . . . . . . .   16
 
- NODE NUMBERING OF MASTER SEGMENT    1 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    2 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    3 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    4 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    5 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    6 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    7 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    8 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT    9 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   10 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   11 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   12 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   13 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   14 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MASTER SEGMENT   15 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    1 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    2 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    3 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    4 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    5 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    6 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    7 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    8 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT    9 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   10 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   11 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   12 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   13 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   14 OF INTERFACE         2 REVERSED
+ NODE NUMBERING OF MAIN SEGMENT   15 OF INTERFACE         2 REVERSED
 
 
- SLAVE   NEAREST  NEAREST  MASTER   S 
- NODE    MASTER   SEGMENT  NODES 
+ SECONDARY   NEAREST  NEAREST  MAIN   S 
+ NODE    MAIN   SEGMENT  NODES 
        323      1014         1      1014      1019
        344      1014         1      1014      1019
        365      1019         1      1014      1019
@@ -3052,8 +3095,8 @@ PART:         3,acier 1006
        953      1049         8      1049      1054
 
 
- MASTER  NEAREST  NEAREST  SLAVE    S 
- NODE    SLAVE    SEGMENT  NODES 
+ MAIN  NEAREST  NEAREST  SECONDARY    S 
+ NODE    SECONDARY    SEGMENT  NODES 
       1014       323         1       344       323
       1019       344         2       365       344
       1024       386         3       386       365
@@ -3072,17 +3115,17 @@ PART:         3,acier 1006
       1119       449         7       470       449
 
 
-     INTERFACE NUMBER. . . . . . . . . . . . . . .       3
-     SLIDE LINE TYPE . . . . . . . . . . . . . . .    3
-     NUMBER OF SLAVE  SEGMENTS . . . . . . . . . .   45
-     NUMBER OF MASTER SEGMENTS . . . . . . . . . .   30
-     NUMBER OF SLAVE  NODES. . . . . . . . . . . .   46
-     NUMBER OF MASTER NODES. . . . . . . . . . . .   31
+     INTERFACE NUMBER. . . . . . . . . . . . . .       3
+     SLIDE LINE TYPE . . . . . . . . . . . . . .    3
+     NUMBER OF SECONDARY  SEGMENTS . . . . . . .   45
+     NUMBER OF MAIN SEGMENTS . . . . . . . . . .   30
+     NUMBER OF SECONDARY  NODES. . . . . . . . .   46
+     NUMBER OF MAIN NODES. . . . . . . . . . . .   31
 
 
 
- SLAVE   NEAREST  NEAREST  MASTER   S 
- NODE    MASTER   SEGMENT  NODES 
+ SECONDARY   NEAREST  NEAREST  MAIN   S 
+ NODE    MAIN   SEGMENT  NODES 
          7       323         1       344       323
         14       344         1       344       323
         21       344         2       365       344
@@ -3131,8 +3174,8 @@ PART:         3,acier 1006
        322       953        30       953       932
 
 
- MASTER  NEAREST  NEAREST  SLAVE    S 
- NODE    SLAVE    SEGMENT  NODES 
+ MAIN  NEAREST  NEAREST  SECONDARY    S 
+ NODE    SECONDARY    SEGMENT  NODES 
        323         7         1         7        14
        344        14         2        14        21
        365        28         4        28        35
@@ -3166,17 +3209,17 @@ PART:         3,acier 1006
        953       322        45       315       322
 
 
-     INTERFACE NUMBER. . . . . . . . . . . . . . .       4
-     SLIDE LINE TYPE . . . . . . . . . . . . . . .    5
-     NUMBER OF SLAVE  SEGMENTS . . . . . . . . . .    0
-     NUMBER OF MASTER SEGMENTS . . . . . . . . . .   25
-     NUMBER OF SLAVE  NODES. . . . . . . . . . . .   93
-     NUMBER OF MASTER NODES. . . . . . . . . . . .   26
+     INTERFACE NUMBER. . . . . . . . . . . . . .       4
+     SLIDE LINE TYPE . . . . . . . . . . . . . .    5
+     NUMBER OF SECONDARY  SEGMENTS . . . . . . .    0
+     NUMBER OF MAIN SEGMENTS . . . . . . . . . .   25
+     NUMBER OF SECONDARY  NODES. . . . . . . . .   93
+     NUMBER OF MAIN NODES. . . . . . . . . . . .   26
 
 
 
- SLAVE   NEAREST  NEAREST  MASTER   S 
- NODE    MASTER   SEGMENT  NODES 
+ SECONDARY   NEAREST  NEAREST  MAIN   S 
+ NODE    MAIN   SEGMENT  NODES 
        323       147         1       147       154
        324       147         1       147       154
        330       147         1       147       154
@@ -3280,162 +3323,50 @@ PART:         3,acier 1006
 
 
 
-         SOLID ELEMENTS TIME STEP
-         ------------------------
-
-      TIME STEP       ELEMENT NUMBER
-  4.3861991721818E-02            167
-  4.3862004880276E-02            155
-  4.3862011459853E-02            149
-  4.3862011459853E-02            173
-  4.3862024618320E-02            161
-  4.3862031197368E-02            179
-  4.3862031198098E-02            143
-  4.3862044356632E-02            178
-  4.3862064094679E-02            176
-  4.3862083832955E-02            148
-  4.3862083832955E-02            172
-  4.3862110150109E-02            154
-  4.3862116729575E-02             98
-  4.3862116729575E-02            101
-  4.3862116729575E-02             64
-  4.3862116729575E-02             83
-  4.3862116729575E-02             52
-  4.3862116729575E-02             62
-  4.3862116729575E-02             80
-  4.3862116729576E-02            137
-
-
-         NODAL TIME STEP (estimation)
-         ---------------
-
-      TIME STEP       NODE NUMBER
-  1.0000000000000E+30            761
-  1.0000000000000E+30            768
-  1.0000000000000E+30            767
-  1.0000000000000E+30            766
-  1.0000000000000E+30            765
-  1.0000000000000E+30            764
-  1.0000000000000E+30            763
-  1.0000000000000E+30            762
-  1.0000000000000E+30            769
-  1.0000000000000E+30            760
-  1.0000000000000E+30            759
-  1.0000000000000E+30            758
-  1.0000000000000E+30            757
-  1.0000000000000E+30            756
-  1.0000000000000E+30            755
-  1.0000000000000E+30            754
-  1.0000000000000E+30            753
-  1.0000000000000E+30            752
-  1.0000000000000E+30            779
-  1.0000000000000E+30            786
-  1.0000000000000E+30            785
-  1.0000000000000E+30            784
-  1.0000000000000E+30            783
-  1.0000000000000E+30            782
-  1.0000000000000E+30            781
-  1.0000000000000E+30            780
-  1.0000000000000E+30            770
-  1.0000000000000E+30            778
-  1.0000000000000E+30            777
-  1.0000000000000E+30            776
-  1.0000000000000E+30            775
-  1.0000000000000E+30            774
-  1.0000000000000E+30            773
-  1.0000000000000E+30            772
-  1.0000000000000E+30            771
-  1.0000000000000E+30            787
-  1.0000000000000E+30            725
-  1.0000000000000E+30            732
-  1.0000000000000E+30            731
-  1.0000000000000E+30            730
-  1.0000000000000E+30            729
-  1.0000000000000E+30            728
-  1.0000000000000E+30            727
-  1.0000000000000E+30            726
-  1.0000000000000E+30            733
-  1.0000000000000E+30            724
-  1.0000000000000E+30            723
-  1.0000000000000E+30            722
-  1.0000000000000E+30            721
-  1.0000000000000E+30            720
-  1.0000000000000E+30            719
-  1.0000000000000E+30            718
-  1.0000000000000E+30            717
-  1.0000000000000E+30            751
-  1.0000000000000E+30            743
-  1.0000000000000E+30            750
-  1.0000000000000E+30            749
-  1.0000000000000E+30            748
-  1.0000000000000E+30            747
-  1.0000000000000E+30            746
-  1.0000000000000E+30            745
-  1.0000000000000E+30            744
-  1.0000000000000E+30            734
-  1.0000000000000E+30            742
-  1.0000000000000E+30            741
-  1.0000000000000E+30            740
-  1.0000000000000E+30            739
-  1.0000000000000E+30            738
-  1.0000000000000E+30            737
-  1.0000000000000E+30            736
-  1.0000000000000E+30            735
-  1.0000000000000E+30            716
-  1.0000000000000E+30            833
-  1.0000000000000E+30            840
-  1.0000000000000E+30            839
-  1.0000000000000E+30            838
-  1.0000000000000E+30            837
-  1.0000000000000E+30            836
-  1.0000000000000E+30            835
-  1.0000000000000E+30            834
-  1.0000000000000E+30            841
-  1.0000000000000E+30            832
-  1.0000000000000E+30            831
-  1.0000000000000E+30            830
-  1.0000000000000E+30            829
-  1.0000000000000E+30            828
-  1.0000000000000E+30            827
-  1.0000000000000E+30            826
-  1.0000000000000E+30            825
-  1.0000000000000E+30            824
-  1.0000000000000E+30            851
-  1.0000000000000E+30            858
-  1.0000000000000E+30            857
-  1.0000000000000E+30            856
-  1.0000000000000E+30            855
-  1.0000000000000E+30            854
-  1.0000000000000E+30            853
-  1.0000000000000E+30            852
-  1.0000000000000E+30            842
-  1.0000000000000E+30            850
-
-
 PART MASS & INERTIA
 -------------------
 
 
-PART :          1ALU 2024 T1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+PART :          1ALU 2024 T1
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+  2.215999935367      11.85272671854     2.9957034415817E-02  11.82276968413      0.000000000000     0.4431999596555      0.000000000000    
  X           Y           Z           Kin. Energy Vx         Vy         Vz
   0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
 
-PART :          2acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+PART :          2acier 1006
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+  40.08120000000      354.3100071965      140.3766021965      213.9334050000      0.000000000000      147.0980039974      0.000000000000    
  X           Y           Z           Kin. Energy Vx         Vy         Vz
   0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
 
-PART :          3acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+PART :          3acier 1006
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+  8.917585973438      9.669293288416      8.056125424330      1.613167864086      0.000000000000     -2.726497037981      0.000000000000    
  X           Y           Z           Kin. Energy Vx         Vy         Vz
-  0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+  0.000000000000      0.000000000000      0.000000000000     0.2786745616699      0.000000000000      0.000000000000    -0.2500000000000    
+
+
+PART ELEMENT/MATERIAL PARAMETER REVIEW:
+-----------------------
+
+Part id,name:         1 ALU 2024 T1            Mat type:   4 Elm type: QUAD-2D                
+----
+   Isolid  Iframe N2D(1:ASY;2:STR-PLANE)
+       0       1       2
+
+Part id,name:         2 acier 1006             Mat type:   4 Elm type: QUAD-2D                
+----
+   Isolid  Iframe N2D(1:ASY;2:STR-PLANE)
+       0       1       2
+
+Part id,name:         3 acier 1006             Mat type:   4 Elm type: QUAD-2D                
+----
+   Isolid  Iframe N2D(1:ASY;2:STR-PLANE)
+       0       1       2
+
 
 
      TOTAL MASS AND MASS CENTER
@@ -3464,7 +3395,7 @@ PART :          3acier 1006
 
 
 
-TH GROUP:         2,HYP2V30D00_th_nodes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ,  6 VAR,    3 NODES     :
+TH GROUP:         2,HYP2V30D00_th_nodes,  6 VAR,    3 NODES     :
  -------------------
 DX        DY        DZ        VX        VY        VZ        
     NODE  SKEW(OR FRAME)     NAME 
@@ -3474,15 +3405,15 @@ DX        DY        DZ        VX        VY        VZ
 
 
 
-TH GROUP:         3,HYP2V30D00_th_2Dsolid                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               , 11 VAR,   10 QUAD      :
+TH GROUP:         3,HYP2V30D00_th_2Dsolid, 11 VAR,   10 QUAD      :
  -------------------
 OFF       SX        SY        SZ        SXY       SYZ       SXZ       IE        DENS      PLAS      
 TEMP      
 QUAD        P_SPMD       NAME 
-         6         0                                         
          1         0                                         
-       271         0                                         
+         6         0                                         
        290         0                                         
+       271         0                                         
        871         0                                         
        900         0                                         
        904         0                                         
@@ -3495,20 +3426,189 @@ QUAD        P_SPMD       NAME
  TH GROUP: PART      
  ---------
 
- TH PART      :         1,ALU 2024 T1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ,  7 VAR:
-IE        KE        XMOM      YMOM      ZMOM      MASS      HE        
+ TH PART      :         1,ALU 2024 T1,  8 VAR:
+IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT      
 
- TH PART      :         2,acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ,  7 VAR:
-IE        KE        XMOM      YMOM      ZMOM      MASS      HE        
+ TH PART      :         2,acier 1006,  8 VAR:
+IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT      
 
- TH PART      :         3,acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ,  7 VAR:
-IE        KE        XMOM      YMOM      ZMOM      MASS      HE        
+ TH PART      :         3,acier 1006,  8 VAR:
+IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT      
 
 
 
  TH GROUP: SUBSET    
  ---------
  
+
+
+         SOLID ELEMENTS TIME STEP
+         ------------------------
+
+      TIME STEP       ELEMENT NUMBER
+  4.3861991721818E-02            167
+  4.3862004880276E-02            155
+  4.3862011459853E-02            149
+  4.3862011459853E-02            173
+  4.3862024618320E-02            161
+  4.3862031197368E-02            179
+  4.3862031198098E-02            143
+  4.3862044356632E-02            178
+  4.3862064094679E-02            176
+  4.3862083832955E-02            148
+  4.3862083832955E-02            172
+  4.3862110150109E-02            154
+  4.3862116729575E-02            101
+  4.3862116729575E-02             98
+  4.3862116729575E-02             83
+  4.3862116729575E-02             64
+  4.3862116729575E-02             52
+  4.3862116729575E-02             80
+  4.3862116729575E-02             62
+  4.3862116729576E-02            124
+
+
+         NODAL TIME STEP (estimation)
+         ---------------
+
+      TIME STEP       NODE NUMBER
+  1.0000000000000E+30            762
+  1.0000000000000E+30              2
+  1.0000000000000E+30            767
+  1.0000000000000E+30            766
+  1.0000000000000E+30            765
+  1.0000000000000E+30            764
+  1.0000000000000E+30            763
+  1.0000000000000E+30            760
+  1.0000000000000E+30            761
+  1.0000000000000E+30            769
+  1.0000000000000E+30            759
+  1.0000000000000E+30            758
+  1.0000000000000E+30            757
+  1.0000000000000E+30            756
+  1.0000000000000E+30            755
+  1.0000000000000E+30            768
+  1.0000000000000E+30            771
+  1.0000000000000E+30            770
+  1.0000000000000E+30            780
+  1.0000000000000E+30            772
+  1.0000000000000E+30            785
+  1.0000000000000E+30            784
+  1.0000000000000E+30            783
+  1.0000000000000E+30            782
+  1.0000000000000E+30            781
+  1.0000000000000E+30            778
+  1.0000000000000E+30            779
+  1.0000000000000E+30            753
+  1.0000000000000E+30            777
+  1.0000000000000E+30            776
+  1.0000000000000E+30            775
+  1.0000000000000E+30            774
+  1.0000000000000E+30            773
+  1.0000000000000E+30            754
+  1.0000000000000E+30            751
+  1.0000000000000E+30            752
+  1.0000000000000E+30            726
+  1.0000000000000E+30            750
+  1.0000000000000E+30            731
+  1.0000000000000E+30            730
+  1.0000000000000E+30            729
+  1.0000000000000E+30            728
+  1.0000000000000E+30            727
+  1.0000000000000E+30            724
+  1.0000000000000E+30            725
+  1.0000000000000E+30            733
+  1.0000000000000E+30            723
+  1.0000000000000E+30            722
+  1.0000000000000E+30            721
+  1.0000000000000E+30            720
+  1.0000000000000E+30            719
+  1.0000000000000E+30            732
+  1.0000000000000E+30            735
+  1.0000000000000E+30            734
+  1.0000000000000E+30            744
+  1.0000000000000E+30            736
+  1.0000000000000E+30            749
+  1.0000000000000E+30            748
+  1.0000000000000E+30            747
+  1.0000000000000E+30            746
+  1.0000000000000E+30            745
+  1.0000000000000E+30            742
+  1.0000000000000E+30            743
+  1.0000000000000E+30            787
+  1.0000000000000E+30            741
+  1.0000000000000E+30            740
+  1.0000000000000E+30            739
+  1.0000000000000E+30            738
+  1.0000000000000E+30            737
+  1.0000000000000E+30            786
+  1.0000000000000E+30            789
+  1.0000000000000E+30            788
+  1.0000000000000E+30            834
+  1.0000000000000E+30            790
+  1.0000000000000E+30            839
+  1.0000000000000E+30            838
+  1.0000000000000E+30            837
+  1.0000000000000E+30            836
+  1.0000000000000E+30            835
+  1.0000000000000E+30            832
+  1.0000000000000E+30            833
+  1.0000000000000E+30            841
+  1.0000000000000E+30            831
+  1.0000000000000E+30            830
+  1.0000000000000E+30            829
+  1.0000000000000E+30            828
+  1.0000000000000E+30            827
+  1.0000000000000E+30            840
+  1.0000000000000E+30            843
+  1.0000000000000E+30            842
+  1.0000000000000E+30            852
+  1.0000000000000E+30            844
+  1.0000000000000E+30            857
+  1.0000000000000E+30            856
+  1.0000000000000E+30            855
+  1.0000000000000E+30            854
+  1.0000000000000E+30            853
+  1.0000000000000E+30            850
+  1.0000000000000E+30            851
+  1.0000000000000E+30            825
+
+
+         NODAL TIME STEP DISTRIBUTION 
+         ----------------------------
+
+
+            % OF NODES
+                   ^
+                   |                                                            
+         100.000 --|                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+                   |                                                         #  
+           0.000 --|                                                         ## 
+                    -------------------------------------------------------------> NODAL TIME STEP
+                    |                                                          |
+                1.000E+20                                                  1.000E+30
+  
+  
  SUMMARY OF POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS :
  -----------------------------------------------------
                                   
@@ -3518,38 +3618,35 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE         87 MB
+    STARTER MEMORY USAGE        124 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
-AVERAGE NB. OF BOUNDARY NODES :   159
+
+AVERAGE NB. OF BOUNDARY NODES :   157
 STANDARD DEVIATION            :    93
- 
-AVERAGE NUMBER OF LOCAL NODES :     367
-STANDARD DEVIATION            :     116
- 
+
+AVERAGE NUMBER OF LOCAL NODES :     366
+STANDARD DEVIATION            :     114
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    1           260                   298                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    2           250                    83                     2
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    3           251                    67                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    4           259                   186                     2
- 
+    1           258                   311                     3
+    2           260                    63                     1
+    3           252                   142                     2
+    4           250                   113                     2
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
- NUMBER OF NODES................. :         567
- NUMBER OF QUAD ELEMENTS......... :         260
- TOTAL NUMBER OF NODES FOR COMM.. :         310
- NUMBER OF INT2 SLAVE NODES...... :           0
- NUMBER OF INT2 MASTER NODES..... :           0
- NUMBER OF CONTACT SLAVE NODES... :           0
- NUMBER OF CONTACT MASTER NODES.. :           0
- 
+ NUMBER OF NODES................. :         562
+ NUMBER OF QUAD ELEMENTS......... :         258
+ TOTAL NUMBER OF NODES FOR COMM.. :         318
+ NUMBER OF INT2 SECONDARY NODES...... :           0
+ NUMBER OF INT2 MAIN NODES..... :           0
+ NUMBER OF CONTACT SECONDARY NODES... :           0
+ NUMBER OF CONTACT MAIN NODES.. :           0
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -3557,18 +3654,18 @@ STANDARD DEVIATION            :     116
         MEMORY USED FOR INTEGERS         5 MB 
         TOTAL MEMORY EVALUATION         10 MB 
                                             
-        RESTART FILE SIZE       336KB
- 
+        RESTART FILE SIZE         0 MB
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
- NUMBER OF NODES................. :         286
- NUMBER OF QUAD ELEMENTS......... :         250
- TOTAL NUMBER OF NODES FOR COMM.. :          87
- NUMBER OF INT2 SLAVE NODES...... :           0
- NUMBER OF INT2 MASTER NODES..... :           0
- NUMBER OF CONTACT SLAVE NODES... :           0
- NUMBER OF CONTACT MASTER NODES.. :           0
- 
+ NUMBER OF NODES................. :         296
+ NUMBER OF QUAD ELEMENTS......... :         260
+ TOTAL NUMBER OF NODES FOR COMM.. :          63
+ NUMBER OF INT2 SECONDARY NODES...... :           0
+ NUMBER OF INT2 MAIN NODES..... :           0
+ NUMBER OF CONTACT SECONDARY NODES... :           0
+ NUMBER OF CONTACT MAIN NODES.. :           0
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -3576,18 +3673,18 @@ STANDARD DEVIATION            :     116
         MEMORY USED FOR INTEGERS         5 MB 
         TOTAL MEMORY EVALUATION         10 MB 
                                             
-        RESTART FILE SIZE       259KB
- 
+        RESTART FILE SIZE         0 MB
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
- NUMBER OF NODES................. :         303
- NUMBER OF QUAD ELEMENTS......... :         251
- TOTAL NUMBER OF NODES FOR COMM.. :          79
- NUMBER OF INT2 SLAVE NODES...... :           0
- NUMBER OF INT2 MASTER NODES..... :           0
- NUMBER OF CONTACT SLAVE NODES... :           0
- NUMBER OF CONTACT MASTER NODES.. :           0
- 
+ NUMBER OF NODES................. :         297
+ NUMBER OF QUAD ELEMENTS......... :         252
+ TOTAL NUMBER OF NODES FOR COMM.. :         149
+ NUMBER OF INT2 SECONDARY NODES...... :           0
+ NUMBER OF INT2 MAIN NODES..... :           0
+ NUMBER OF CONTACT SECONDARY NODES... :           0
+ NUMBER OF CONTACT MAIN NODES.. :           0
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -3595,18 +3692,18 @@ STANDARD DEVIATION            :     116
         MEMORY USED FOR INTEGERS         5 MB 
         TOTAL MEMORY EVALUATION         10 MB 
                                             
-        RESTART FILE SIZE       265KB
- 
+        RESTART FILE SIZE         0 MB
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
- NUMBER OF NODES................. :         311
- NUMBER OF QUAD ELEMENTS......... :         259
- TOTAL NUMBER OF NODES FOR COMM.. :         194
- NUMBER OF INT2 SLAVE NODES...... :           0
- NUMBER OF INT2 MASTER NODES..... :           0
- NUMBER OF CONTACT SLAVE NODES... :           0
- NUMBER OF CONTACT MASTER NODES.. :           0
- 
+ NUMBER OF NODES................. :         307
+ NUMBER OF QUAD ELEMENTS......... :         250
+ TOTAL NUMBER OF NODES FOR COMM.. :         120
+ NUMBER OF INT2 SECONDARY NODES...... :           0
+ NUMBER OF INT2 MAIN NODES..... :           0
+ NUMBER OF CONTACT SECONDARY NODES... :           0
+ NUMBER OF CONTACT MAIN NODES.. :           0
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -3614,12 +3711,35 @@ STANDARD DEVIATION            :     116
         MEMORY USED FOR INTEGERS         5 MB 
         TOTAL MEMORY EVALUATION         10 MB 
                                             
-        RESTART FILE SIZE       267KB
- 
+        RESTART FILE SIZE         0 MB
+
 
      RESTART FILES HYPE_SUB_0000 WRITTEN
      -------------
 
+  
+------------------------------------------------------------------------
+  
+ CPU USER TIME
+ -------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .4176E+00   .1774E+00   .1966E-01   .6497E-04   .5805E-04   .8297E-04   .2694E-04
+  
+  
+ ELAPSED TIME
+ ------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .1144E+07   .1942E+00   .1474E-01   .3127E-04   .3473E-04   .1782E-03   .1199E-04
+  
+                   ** COMPUTE TIME INFORMATION **
+  
+ EXECUTION STARTED      :      2022/11/23  16:23:43
+ EXECUTION COMPLETED    :      2022/11/23  16:23:43
+  
+ ELAPSED TIME...........=          0.69 s
+                               00:00:00
+  
+------------------------------------------------------------------------
 
 
 
@@ -3631,11 +3751,14 @@ STANDARD DEVIATION            :     116
 |            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
 ------------------------------------------------------------------------------------------------------------------------
 |                                                           |                                                          |
-|                                                           |  --- INTERNAL                               1 WARNING(S) |
+|                                                           |  --- GLOBAL UNITS                           5 WARNING(S) |
 |                                                           |       |                                                  |
 |                                                           |       |                                                  |
-|                                                           |       |---     1 WARNING ID :          707               |
-|                                                           |       | ** WARNING : MULTIPLE DEFINITIONS OF SPMD DOMAIN |
+|                                                           |       |---     3 WARNING ID :       100211               |
+|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
+|                                                           |       |                                                  |
+|                                                           |       |---     2 WARNING ID :       100214               |
+|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
 |                                                           |       |                                                  |
 |                                                           |                                                          |
 |                                                           |                                                          |
@@ -3645,6 +3768,6 @@ STANDARD DEVIATION            :     116
 
 
               0 ERROR(S)            
-              1 WARNING(S)          
+              5 WARNING(S)          
 
 

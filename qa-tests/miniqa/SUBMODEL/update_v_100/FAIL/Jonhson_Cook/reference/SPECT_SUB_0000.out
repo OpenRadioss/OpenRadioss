@@ -2,50 +2,73 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                Altair Radioss(TM) Starter MAINLINE                 **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 0965161_12638000000_1060_0061683_10                     **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2019                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  49092 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
-*
-*     PARAMETERS
-*     ----------
-*
-* GLOBAL PARAMETERS
-*
-*
+
+
 ************************************************************************
-* LOCAL PARAMETERS
-*
-*
+* INPUT READING PROCESS
 ************************************************************************
 
-+-------------------+
-| BLOCK FREE FORMAT |
-+-------------------+
+WARNING ID : 100214
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /IOFLAG
+-- LINE: 0         0         0         0         0         0                                       0
+unsupported field exits
+SOLUTION :     
+    Please check input format and fields description defined in the Reference Guide.
+
+WARNING ID : 100214
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /ANALY
+-- LINE: 0         0         0         0
+unsupported field exits
+SOLUTION :     
+    Please check input format and fields description defined in the Reference Guide.
+
+ -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
 
 
- HL10 - 1X1- 1 m/s                                                               
+
+
+************************************************************************
+
+
+
+    UNIT SYSTEMS DEFINITION     
+    -----------------------     
+
+                                                          MASS                LENGTH              TIME
+    WORK UNIT SYSTEM . . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+    INPUT UNIT SYSTEM  . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+
+
+ Sample                                                                          
 
 
     CONTROL  PARAMETERS                                                                  
@@ -62,7 +85,7 @@
     NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         4
     NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
     NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .         0
-    NINTERFRIC: NUMBER OF FRICTION INTERFACES . . . . . .         0
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
     NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .         0
     NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .         1
     NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
@@ -83,6 +106,7 @@
     NINVEL: NUMBER OF INITIAL VELOCITIES. . . . . . . . .         0
     NPRELD: NUMBER OF PRESSURE LOADS. . . . . . . . . . .         0
     NINIMAP1D: NUMBER OF INITIAL 1D MAPPING.. . . . . . .         0
+    NINIMAP2D: NUMBER OF INITIAL 2D MAPPING.. . . . . . .         0
     NUMBER OF ACCELEROMETERS. . . . . . . . . . . . . . .         0
     NUMBER OF SENSORS . . . . . . . . . . . . . . . . . .         0
     NUMBER OF GAUGES. . . . . . . . . . . . . . . . . . .         0
@@ -106,11 +130,10 @@
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
-    INITIAL STRESS FILE =                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+    INITIAL STRESS FILE =
                                           FLAG ISIGI. . .         0
 
 
@@ -129,8 +152,8 @@
     ISOLID : DEFAULT BRICK FORMULATION FLAG. . . . . . . .         1
     ITET4  : DEFAULT TETRA4 FORMULATION FLAG . . . . . . .      1000
     ITET10 : DEFAULT TETRA10 FORMULATION FLAG. . . . . . .      1000
-    ISST_S : DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
-    IPLA_S : DEFAULT SOLID STRESS PLASTICITY FLAG. . . . .         2
+    ISMSTR : DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
+    ICPRE  : DEFAULT SOLID CONSTANT PRESSURE FLAG. . . . .         0
     ISHELL : DEFAULT SHELL FORMULATION FLAG. . . . . . . .         1
     ISST   : DEFAULT SHELL SMALL STRAIN FLAG . . . . . . .         0
     ITHK   : DEFAULT SHELL THICKNESS VARIATION FLAG. . . .         0
@@ -141,13 +164,13 @@
     ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         1
     NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
              INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
-    ISTRA  : DEFAULT SOLID STRAIN COMPUTATION FLAG . . . .         1
+    IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
     ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
 
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -156,9 +179,9 @@
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
@@ -169,14 +192,6 @@
   
 
 
-    UNIT SYSTEMS DEFINITION     
-    -----------------------     
-
-                                                          MASS                LENGTH              TIME
-    WORK UNIT SYSTEM . . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
-    INPUT UNIT SYSTEM  . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
-
-
     LOAD CURVES
     -----------
     NUMBER OF LOAD CURVES. . . . . . . . =        10
@@ -184,7 +199,7 @@
 
     LOAD CURVE ID . . . . . . . . . . . =         1
 
-    X                   Y               
+    X                     Y               
      0.000000000000        0.000000000000    
     2.0000000000000E-02    0.000000000000    
      1.020000000000        5.000000000000    
@@ -192,7 +207,7 @@
 
     LOAD CURVE ID . . . . . . . . . . . =         5
 
-    X                   Y               
+    X                     Y               
     -100.0000000000        1.000000000000    
      0.000000000000        1.000000000000    
      50.01983640000        1.000000000000    
@@ -289,20 +304,20 @@
 
     LOAD CURVE ID . . . . . . . . . . . =         6
 
-    X                   Y               
+    X                     Y               
      0.000000000000        3113.000000000    
      10.00000000000        3113.000000000    
 
     LOAD CURVE ID . . . . . . . . . . . =         7
 
-    X                   Y               
+    X                     Y               
      0.000000000000        0.000000000000    
      1.000000000000        1.000000000000    
      10.00000000000        10.00000000000    
 
     LOAD CURVE ID . . . . . . . . . . . =        14
 
-    X                   Y               
+    X                     Y               
      42.01187900000        1.000000000000    
      82.14524840000        1.000000000000    
      119.4429470000       0.9763873820000    
@@ -555,7 +570,7 @@
 
     LOAD CURVE ID . . . . . . . . . . . =        15
 
-    X                   Y               
+    X                     Y               
      0.000000000000        0.000000000000    
     2.0000000000000E-02    0.000000000000    
      1.020000000000        5.000000000000    
@@ -563,7 +578,7 @@
 
     LOAD CURVE ID . . . . . . . . . . . =        17
 
-    X                   Y               
+    X                     Y               
      0.000000000000        376.3157890000    
     2.0000000000000E-03    382.5652650000    
     4.0000000000000E-03    388.6313630000    
@@ -642,7 +657,7 @@
 
     LOAD CURVE ID . . . . . . . . . . . =        18
 
-    X                   Y               
+    X                     Y               
      0.000000000000        357.8947370000    
     2.0000000000000E-03    367.3023930000    
     4.0000000000000E-03    375.9294540000    
@@ -748,13 +763,13 @@
 
     LOAD CURVE ID . . . . . . . . . . . =        20
 
-    X                   Y               
+    X                     Y               
      0.000000000000        3113.000000000    
      10.00000000000        3113.000000000    
 
     LOAD CURVE ID . . . . . . . . . . . =        21
 
-    X                   Y               
+    X                     Y               
      0.000000000000        0.000000000000    
      1.000000000000        1.000000000000    
      10.00000000000        10.00000000000    
@@ -766,28 +781,30 @@
 
 
 
-    FUNCTION  TRANSFORMATION 
+    MATERIAL LAWS
+    -------------
+    NUMBER OF MATERIALS. . . . . . . . . =         1
 
 
 
-     SPECT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-     MATERIAL NUMBER . . . . . . . . . . . .=         4
-     MATERIAL LAW. . . . . . . . . . . . . .=         2
-
-     INITIAL DENSITY . . . . . . . . . . . .= 2.8000000000000E-03
-     EOS REFERENCE DENSITY . . . . . . . . .= 2.8000000000000E-03
-
-
-WARNING ID :  1220
-** INFO ON MATERIAL LAW DATA
+WARNING ID :   1220
+** WARNING ON MATERIAL LAW DATA
 DESCRIPTION :  
-   -- MATERIAL ID : 4
-   -- MATERIAL TITLE : SPECT
+   -- MATERIAL ID: 4
+   -- MATERIAL TITLE: SPECT
    STRAIN RATE  EFFECT HAS BEEN CONSIDERED, BUT THE STRAIN RATE FILTERING IS NOT ACTIVATED.
     PLEASE USE Fsmooth=1 and DEFINE THE Fcut.
+
+
+     SPECT
+     MATERIAL NUMBER . . . . . . . . . . . .=         4
+     MATERIAL LAW. . . . . . . . . . . . . .=         PLAS_JOHNS
+
        ELASTIC PLASTIC LAW                   
        -------------------                   
 
+
+     INITIAL DENSITY . . . . . . . . . . . .= 2.8000000000000E-03
 
      YOUNG'S MODULUS . . . . . . . . . . . .=  71000.00000000    
      POISSON'S RATIO . . . . . . . . . . . .= 0.3300000000000    
@@ -798,8 +815,8 @@ DESCRIPTION :
      YIELD COEFFICIENT A . . . . . . . . . .=  479.0000000000    
      YIELD COEFFICIENT B . . . . . . . . . .=  322.0000000000    
      YIELD COEFFICIENT N . . . . . . . . . .= 0.4100000000000    
-     EPS-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+30
-     SIG-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+30
+     EPS-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+20
+     SIG-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+20
      ISO-KINEMATIC HARDENING FACTOR. . . . .=  0.000000000000    
 
 
@@ -807,17 +824,18 @@ DESCRIPTION :
      REFERENCE STRAIN RATE . . . . . . . . .= 1.0000000000000E-03
      FLAG FOR STRAIN RATE ON SIG-MAX . . . .=         1
      SMOOTH STRAIN RATE OPTION . . . . . . .=         1
-     STRAIN RATE CUTTING FREQUENCY . . . . .= 1.0000000000000E+30
+     STRAIN RATE CUTTING FREQUENCY . . . . .= 1.0000000000000E+20
      TEMPERATURE EXPONENT. . . . . . . . . .=  1.000000000000    
-     MELTING TEMPERATURE K . . . . . . . . .= 1.0000000000000E+30
+     MELTING TEMPERATURE K . . . . . . . . .= 1.0000000000000E+20
      SPECIFIC HEAT Rho*Cp. . . . . . . . . .=  2.450000000000    
      INITIAL TEMPERATURE K . . . . . . . . .=  298.0000000000    
 
 
 
 
-     MATERIAL NUMBER . . . . . . . . . . . .=         4
-     FAILURE MODEL  . . . . . . . . . . . . =         1
+     MAT_ID . . . . . . . . . . . . . . .=         4
+     FAILURE MODEL. . . . . . . . . . . .=         1
+     FAIL_ID. . . . . . . . . . . . . . .=         0
 
        JOHNSON COOK DAMAGE PARAMETER         
        -----------------------------         
@@ -831,11 +849,11 @@ DESCRIPTION :
         STRESS TENSOR IN SHELL LAYER SET TO ZERO AFTER FAILURE
         DEVIATORIC STRESS IN SOLID WILL VANISH AFTER FAILURE
 
-WARNING ID :   831
+WARNING ID :    831
 ** WARNING JOHNSON FAILURE MODEL
 DESCRIPTION :  
-   -- MATERIAL ID : 4
-   D3 SHOULD NORMALLY BE NEGATIVE :
+   -- MATERIAL ID: 4
+   D3 SHOULD NORMALLY BE NEGATIVE:
    FAILURE STRAIN INCREASES WITH HYDROSTATIC COMPRESSION
      SUBMODEL SKEWS(INTERNAL)                                                            
      --------------------------------------                                              
@@ -844,21 +862,25 @@ DESCRIPTION :
                    0.0000000       1.0000000       0.0000000
                    0.0000000       0.0000000       1.0000000
 
+ 1000000002        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
 
 
-         PROPERTY SETS
+
+         PROPERTY SETS (HM_READER)
          -------------
 
 
+8-int-point_elem                        
 
-WARNING ID :   680
+WARNING ID :    680
 ** WARNING FOR 3-NODE SHELL FORMULATION
 DESCRIPTION :  
-   -- PROPERTY ID : 4
-   -- PROPERTY TITLE : 8-int-point_elem
-   3-NODE SHELL FORMULATION IS :
+   -- PROPERTY ID: 4
+   -- PROPERTY TITLE: 8-int-point_elem
+   3-NODE SHELL FORMULATION IS:
    C0 FORMULATION WITHOUT IMPROVED FORMULATION FOR LARGE ROTATIONAL BODY MOTION
-8-int-point_elem                        
      ISOTROPIC SHELL PROPERTY SET
      PROPERTY SET NUMBER . . . . . . . . . .=         4
      NUMBER OF INTEGRATION POINTS. . . . . .=         3
@@ -885,10 +907,10 @@ DESCRIPTION :
 
 
 
-PART:         2,SPECT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+PART:         2,SPECT
 ----
-     PROPERTY:         4,8-int-point_elem                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-     MATERIAL:         4,SPECT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+     PROPERTY:         4,8-int-point_elem
+     MATERIAL:         4,SPECT
      SUBSET  :         1
  VIRT. THICKN:  0.000000000000    
 
@@ -912,24 +934,20 @@ PART:         2,SPECT
                 |
                 |_____Part(s):         2,SPECT                                   
 
-
-     RANDOM NOISE       
-     ------------       
-
      BOUNDARY CONDITIONS                                                                 
      -------------------                                                                 
        NODE  TRANS. ROTAT.         SKEW
 
 
 
-     IMPOSED DISPLACEMENTS   
+     IMPOSED DISPLACEMENTS    
      -------------------    
          NODE         SKEW        FRAME  DIRECTION   LOAD_CURVE       SENSOR            FSCALE                ASCALE            START_TIME                 STOP_TIME
-        89378   1000000001            0          X           21            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30                         0
-       102508   1000000001            0          X           21            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30                         0
- 
+        89378   1000000001            0          X           21            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20
+       102508   1000000001            0          X           21            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20
   
- SPMD IS NOT ABLE TO CHECK FOR ELEMENT DELETION IN RADIOSS ENGINE INPUT FILE
+ SPMD IS CHECKING FOR ELEMENT DELETION IN : 
+ SPECT_SUB_0001.rad                                                                                           
  
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
@@ -939,144 +957,44 @@ PART:         2,SPECT
 
       3D - SHELL ELEMENT GROUPS
       -------------------------
-      GROUP   MATERIAL    ELEMENT      FIRST    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE
-                   LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG
+      GROUP   MATERIAL    ELEMENT      FIRST    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE   PINCHING
+                   LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG       FLAG
 
-          1          2          1          1          3          3          4          1          1          4          1
+          1          2          1          1          3          3          4          1          1          4          1          0
 
 
        RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
        ----------------------------------------------
 
-       ELEMENT GROUP         1,  SIZE=       288
+       ELEMENT GROUP         1,  SIZE=       328
 
 
 
  SHELL GROUP         1 VECTORIZATION CODE =    0
-
-         SHELL ELEMENTS TIME STEP
-         ------------------------
-
-      TIME STEP       ELEMENT NUMBER
-  9.9293277363462E-05        1000000
-
-
-         NODAL TIME STEP (estimation)
-         ---------------
-
-      TIME STEP       NODE NUMBER
-  1.3239021110152E-04          86778
-  1.3239021110152E-04          89378
-  1.3239021110152E-04          99933
-  1.3239021110152E-04         102508
-  1.0000000000000E+30          86461
-  1.0000000000000E+30          86451
-  1.0000000000000E+30          86452
-  1.0000000000000E+30          86455
-  1.0000000000000E+30          86457
-  1.0000000000000E+30          86448
-  1.0000000000000E+30          86465
-  1.0000000000000E+30          86468
-  1.0000000000000E+30          86469
-  1.0000000000000E+30          86471
-  1.0000000000000E+30          86472
-  1.0000000000000E+30          86473
-  1.0000000000000E+30          86475
-  1.0000000000000E+30          86476
-  1.0000000000000E+30          86477
-  1.0000000000000E+30          86480
-  1.0000000000000E+30          86447
-  1.0000000000000E+30          86443
-  1.0000000000000E+30          86441
-  1.0000000000000E+30          86440
-  1.0000000000000E+30          86439
-  1.0000000000000E+30          86437
-  1.0000000000000E+30          86436
-  1.0000000000000E+30          86435
-  1.0000000000000E+30          86431
-  1.0000000000000E+30          86429
-  1.0000000000000E+30          86428
-  1.0000000000000E+30          86427
-  1.0000000000000E+30          86425
-  1.0000000000000E+30          86424
-  1.0000000000000E+30          86423
-  1.0000000000000E+30          86504
-  1.0000000000000E+30          86543
-  1.0000000000000E+30          86539
-  1.0000000000000E+30          86537
-  1.0000000000000E+30          86536
-  1.0000000000000E+30          86535
-  1.0000000000000E+30          86533
-  1.0000000000000E+30          86532
-  1.0000000000000E+30          86531
-  1.0000000000000E+30          86525
-  1.0000000000000E+30          86521
-  1.0000000000000E+30          86512
-  1.0000000000000E+30          86511
-  1.0000000000000E+30          86508
-  1.0000000000000E+30          86507
-  1.0000000000000E+30          86481
-  1.0000000000000E+30          86501
-  1.0000000000000E+30          86500
-  1.0000000000000E+30          86499
-  1.0000000000000E+30          86497
-  1.0000000000000E+30          86496
-  1.0000000000000E+30          86495
-  1.0000000000000E+30          86493
-  1.0000000000000E+30          86492
-  1.0000000000000E+30          86489
-  1.0000000000000E+30          86488
-  1.0000000000000E+30          86487
-  1.0000000000000E+30          86485
-  1.0000000000000E+30          86484
-  1.0000000000000E+30          86483
-  1.0000000000000E+30          86544
-  1.0000000000000E+30          86325
-  1.0000000000000E+30          86356
-  1.0000000000000E+30          86355
-  1.0000000000000E+30          86353
-  1.0000000000000E+30          86352
-  1.0000000000000E+30          86351
-  1.0000000000000E+30          86349
-  1.0000000000000E+30          86348
-  1.0000000000000E+30          86347
-  1.0000000000000E+30          86343
-  1.0000000000000E+30          86339
-  1.0000000000000E+30          86333
-  1.0000000000000E+30          86332
-  1.0000000000000E+30          86329
-  1.0000000000000E+30          86328
-  1.0000000000000E+30          86359
-  1.0000000000000E+30          86323
-  1.0000000000000E+30          86321
-  1.0000000000000E+30          86320
-  1.0000000000000E+30          86319
-  1.0000000000000E+30          86317
-  1.0000000000000E+30          86316
-  1.0000000000000E+30          86313
-  1.0000000000000E+30          86311
-  1.0000000000000E+30          86309
-  1.0000000000000E+30          86308
-  1.0000000000000E+30          86307
-  1.0000000000000E+30          86305
-  1.0000000000000E+30          86304
-  1.0000000000000E+30          86301
-  1.0000000000000E+30          86419
-  1.0000000000000E+30          86383
-  1.0000000000000E+30          86417
-  1.0000000000000E+30          86416
 
 
 PART MASS & INERTIA
 -------------------
 
 
-PART :          2SPECT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+PART :          2SPECT
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
  1.4000000000000E-02 9.8194444444437E-03 0.3598194444444     0.3589444444444     3.3306690738755E-16  0.000000000000     3.4694469519536E-18
  X           Y           Z           Kin. Energy Vx         Vy         Vz
   5.000000000000      12.50000000000     0.2500000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+
+PART ELEMENT/MATERIAL PARAMETER REVIEW:
+-----------------------
+
+Part id,name:         2 SPECT                  Mat type:   2 Elm type: SHELL-4nodes           
+----
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
+       4       4       2       3       1       1
+--      hm        hf        hr        dm        dn
+    0.0100    0.0100    0.0100    0.0000    0.0000
+
 
 
      TOTAL MASS AND MASS CENTER
@@ -1102,6 +1020,205 @@ PART :          2SPECT
   TOTAL ADDED MASS =   0.000000000000    
 
 
+
+         SHELL ELEMENTS TIME STEP
+         ------------------------
+
+      TIME STEP       ELEMENT NUMBER
+  9.9293277363462E-05        1000000
+
+
+         NODAL TIME STEP (estimation)
+         ---------------
+
+      TIME STEP       NODE NUMBER
+  1.3239021110152E-04          86778
+  1.3239021110152E-04          89378
+  1.3239021110152E-04          99933
+  1.3239021110152E-04         102508
+  1.0000000000000E+30          86461
+  1.0000000000000E+30          86452
+  1.0000000000000E+30          86455
+  1.0000000000000E+30          86457
+  1.0000000000000E+30          86468
+  1.0000000000000E+30          86465
+  1.0000000000000E+30          86451
+  1.0000000000000E+30          86469
+  1.0000000000000E+30          86471
+  1.0000000000000E+30          86472
+  1.0000000000000E+30          86473
+  1.0000000000000E+30          86475
+  1.0000000000000E+30          86476
+  1.0000000000000E+30          20178
+  1.0000000000000E+30          86447
+  1.0000000000000E+30          86435
+  1.0000000000000E+30          86480
+  1.0000000000000E+30          86427
+  1.0000000000000E+30          86428
+  1.0000000000000E+30          86429
+  1.0000000000000E+30          86431
+  1.0000000000000E+30          86437
+  1.0000000000000E+30          86436
+  1.0000000000000E+30          86448
+  1.0000000000000E+30          86439
+  1.0000000000000E+30          86440
+  1.0000000000000E+30          86441
+  1.0000000000000E+30          86443
+  1.0000000000000E+30          86477
+  1.0000000000000E+30          86485
+  1.0000000000000E+30          86481
+  1.0000000000000E+30          86531
+  1.0000000000000E+30          86484
+  1.0000000000000E+30          86511
+  1.0000000000000E+30          86512
+  1.0000000000000E+30          86521
+  1.0000000000000E+30          86525
+  1.0000000000000E+30          86533
+  1.0000000000000E+30          86532
+  1.0000000000000E+30          86507
+  1.0000000000000E+30          86535
+  1.0000000000000E+30          86536
+  1.0000000000000E+30          86537
+  1.0000000000000E+30          86539
+  1.0000000000000E+30          86508
+  1.0000000000000E+30          86504
+  1.0000000000000E+30          86492
+  1.0000000000000E+30          86501
+  1.0000000000000E+30          86424
+  1.0000000000000E+30          86487
+  1.0000000000000E+30          86488
+  1.0000000000000E+30          86489
+  1.0000000000000E+30          86495
+  1.0000000000000E+30          86493
+  1.0000000000000E+30          86483
+  1.0000000000000E+30          86496
+  1.0000000000000E+30          86497
+  1.0000000000000E+30          86499
+  1.0000000000000E+30          86500
+  1.0000000000000E+30          86425
+  1.0000000000000E+30          86417
+  1.0000000000000E+30          86347
+  1.0000000000000E+30          86419
+  1.0000000000000E+30          86332
+  1.0000000000000E+30          86333
+  1.0000000000000E+30          86339
+  1.0000000000000E+30          86343
+  1.0000000000000E+30          86349
+  1.0000000000000E+30          86348
+  1.0000000000000E+30          86328
+  1.0000000000000E+30          86351
+  1.0000000000000E+30          86352
+  1.0000000000000E+30          86353
+  1.0000000000000E+30          86355
+  1.0000000000000E+30          86329
+  1.0000000000000E+30          86325
+  1.0000000000000E+30          86311
+  1.0000000000000E+30          86323
+  1.0000000000000E+30          86305
+  1.0000000000000E+30          86307
+  1.0000000000000E+30          86308
+  1.0000000000000E+30          86309
+  1.0000000000000E+30          86316
+  1.0000000000000E+30          86313
+  1.0000000000000E+30          86359
+  1.0000000000000E+30          86317
+  1.0000000000000E+30          86319
+  1.0000000000000E+30          86320
+  1.0000000000000E+30          86321
+  1.0000000000000E+30          86356
+  1.0000000000000E+30          86361
+  1.0000000000000E+30          86360
+  1.0000000000000E+30          86405
+  1.0000000000000E+30          86363
+  1.0000000000000E+30          86388
+  1.0000000000000E+30          86389
+
+
+         NODAL TIME STEP DISTRIBUTION 
+         ----------------------------
+
+
+            % OF NODES
+                   ^
+                   |                                                            
+           0.803 --|                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+           0.000 --|#                           #                            #  
+                    -------------------------------------------------------------> NODAL TIME STEP
+                    |                                                          |
+                1.324E-04                                                  1.324E-04
+  
+  
+
+
+     INITIAL ADDED MASS ESTIMATION for /DT/NODA/CST
+     ----------------------------------------------
+
+
+            DM/M - at first cycle - scaling factor = 0.9
+                   ^
+                   |                                                            
+           0.100 --|                                                          * 
+                   |                                                            
+                   |                                                      *     
+                   |                                                   *        
+                   |                                                *           
+                   |                                             *              
+                   |                                                            
+                   |                                          *                 
+                   |                                       *                    
+                   |                                    *                       
+                   |                                 *                          
+                   |                              *                             
+                   |                                                            
+                   |                           *                                
+                   |                        *                                   
+                   |                     *                                      
+                   |                 *                                          
+                   |              *                                             
+                   |                                                            
+                   |           *                                                
+                   |        *                                                   
+                   |     *                                                      
+           0.005 --|* *                                                         
+                    -------------------------------------------------------------> TARGET TIME STEP
+                    |                                                          |
+                1.194E-04                                                  1.250E-04
+  
+  
+              DM/M at first cycle          |  Target time step - scaling factor = 0.9  |  Target time step - scaling factor = 0.67
+    -------------------------------------  |  ---------------------------------------  |  ---------------------------------------
+                 1.000E-02                 |                 1.197E-04                 |                 8.914E-05
+                 2.000E-02                 |                 1.203E-04                 |                 8.958E-05
+                 3.000E-02                 |                 1.209E-04                 |                 9.002E-05
+                 4.000E-02                 |                 1.215E-04                 |                 9.046E-05
+                 5.000E-02                 |                 1.221E-04                 |                 9.089E-05
+
+
+    WARNING : These added mass estimations are valid at first cycle only.
+    Because of element deformation or contacts the added mass can increase during the run
+
+
  SUMMARY OF POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS :
  -----------------------------------------------------
                                   
@@ -1111,34 +1228,31 @@ PART :          2SPECT
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        106 MB
+    STARTER MEMORY USAGE        122 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
+
 AVERAGE NB. OF BOUNDARY NODES :     0
 STANDARD DEVIATION            :     0
- 
+
 AVERAGE NUMBER OF LOCAL NODES :     125
 STANDARD DEVIATION            :       2
- 
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     1             1                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     2             0                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     3             0                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     4             0                     0                     0
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
  NUMBER OF NODES................. :         128
  NUMBER OF 4-N SHELL ELEMENTS.... :           1
  TOTAL NUMBER OF NODES FOR COMM.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -1147,13 +1261,13 @@ STANDARD DEVIATION            :       2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
  NUMBER OF NODES................. :         124
  NUMBER OF 4-N SHELL ELEMENTS.... :           0
  TOTAL NUMBER OF NODES FOR COMM.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -1162,13 +1276,13 @@ STANDARD DEVIATION            :       2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
  NUMBER OF NODES................. :         123
  NUMBER OF 4-N SHELL ELEMENTS.... :           0
  TOTAL NUMBER OF NODES FOR COMM.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -1177,13 +1291,13 @@ STANDARD DEVIATION            :       2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
  NUMBER OF NODES................. :         123
  NUMBER OF 4-N SHELL ELEMENTS.... :           0
  TOTAL NUMBER OF NODES FOR COMM.. :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -1192,11 +1306,34 @@ STANDARD DEVIATION            :       2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
 
      RESTART FILES SPECT_SUB_0000 WRITTEN
      -------------
 
+  
+------------------------------------------------------------------------
+  
+ CPU USER TIME
+ -------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .3687E+00   .1414E+00   .1782E-01   .0000E+00   .0000E+00   .0000E+00   .2605E-04
+  
+  
+ ELAPSED TIME
+ ------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .1144E+07   .1613E+00   .1246E-01   .0000E+00   .0000E+00   .0000E+00   .1265E-04
+  
+                   ** COMPUTE TIME INFORMATION **
+  
+ EXECUTION STARTED      :      2022/11/23  16:23:48
+ EXECUTION COMPLETED    :      2022/11/23  16:23:49
+  
+ ELAPSED TIME...........=          0.61 s
+                               00:00:00
+  
+------------------------------------------------------------------------
 
 
 
@@ -1208,6 +1345,14 @@ STANDARD DEVIATION            :       2
 |            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
 ------------------------------------------------------------------------------------------------------------------------
 |                                                           |                                                          |
+|                                                           |  --- GLOBAL UNITS                           2 WARNING(S) |
+|                                                           |       |                                                  |
+|                                                           |       |                                                  |
+|                                                           |       |---     2 WARNING ID :       100214               |
+|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
+|                                                           |       |                                                  |
+|                                                           |                                                          |
+|                                                           |                                                          |
 |                                                           |  --- MATERIALS                              2 WARNING(S) |
 |                                                           |       |                                                  |
 |                                                           |       |                                                  |
@@ -1215,7 +1360,7 @@ STANDARD DEVIATION            :       2
 |                                                           |       | ** WARNING JOHNSON FAILURE MODEL                 |
 |                                                           |       |                                                  |
 |                                                           |       |---     1 WARNING ID :         1220               |
-|                                                           |       | ** INFO ON MATERIAL LAW DATA                     |
+|                                                           |       | ** WARNING ON MATERIAL LAW DATA                  |
 |                                                           |       |                                                  |
 |                                                           |                                                          |
 |                                                           |                                                          |
@@ -1233,6 +1378,6 @@ STANDARD DEVIATION            :       2
 
 
               0 ERROR(S)            
-              3 WARNING(S)          
+              5 WARNING(S)          
 
 

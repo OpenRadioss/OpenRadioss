@@ -2,29 +2,29 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                Altair Radioss(TM) Starter MAINLINE                 **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 1109758_12638000000_1060_0090518                        **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2022                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  48810 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -32,15 +32,6 @@
 ************************************************************************
 * INPUT READING PROCESS
 ************************************************************************
-
-WARNING ID : 100214
-** WARNING IN INPUT OPTIONS
-DESCRIPTION :  
--- BLOCK: /ANALY
--- LINE: 0         0         0         0
-unsupported field exits
-SOLUTION :     
-    Please check input format and its consistency with Invers value from /BEGIN option.
 
  -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
 
@@ -66,7 +57,7 @@ SOLUTION :
     -------------------                                                                  
 
     IPRI  : PRINTOUT FLAG . . . . . . . . . . . . . . . .         0
-    INVERS: MANUAL VERSION OF THIS INPUT DECK . . . . . .        51
+    INVERS: MANUAL VERSION OF THIS INPUT DECK . . . . . .      2022
     NSUBS:   NUMBER OF SUBSETS. . . . . . . . . . . . . .         1
     NPART:   NUMBER OF PARTS. . . . . . . . . . . . . . .         1
     NUMMAT: NUMBER OF MATERIALS . . . . . . . . . . . . .         1
@@ -121,15 +112,11 @@ SOLUTION :
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
     INITIAL STRESS FILE =
                                           FLAG ISIGI. . .         0
-    REFERENCE METRIC FILE =fileRS0                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-                                          FLAG IREFSTA. .         1
-                               NUMBER OF STEPS , NITRS. .      1000
 
 
     N2D3D : ANALYSIS TYPE: 0=3D,1=AXISYM,2=PLANE STRAIN .         0
@@ -160,12 +147,12 @@ SOLUTION :
     NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
              INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
     IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
-    ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
+    ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         0
 
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -174,9 +161,9 @@ SOLUTION :
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
@@ -337,7 +324,7 @@ PART:         1,mousse
   ELEMENT NUMBER =       1000
   EDGES FOUND    =       2700
   
-#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
    1         50430.             0.             0.             0.             0.             0.
    2         50430.             0.             0.             0.             0.             0.
    3         52070.             0.             0.             0.             0.             0.
@@ -353,20 +340,23 @@ PART:         1,mousse
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1        42       128         1         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         2        42       118       129         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         3        42       128       247         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         4        42       118       375         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         5        42       128       493         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         6        42       126       621         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         7        42       128       747         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         8        42       126       875         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
+         1        42       128         1         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
+         2        42       118       129         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
+         3        42       128       247         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
+         4        42       118       375         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
+         5        42       128       493         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
+         6        42       126       621         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
+         7        42       128       747         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
+         8        42       126       875         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
 
 
-         REFERENCE STATE (REFSTA)  
-         ------------------------  
+         REFERENCE STATE (XREF)  
+         ----------------------  
 
+     refsta                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+     NUMBER OF ITERATIONS. . . . . . =      1000
+     PART ID . . . . . . . . . . . . =         1
      NUMBER OF NODES . . . . . . . . =      1331
 
 
@@ -439,132 +429,132 @@ Part id,name:         1 mousse                 Mat type:  42 Elm type: SOLID-HEX
          ------------------------
 
       TIME STEP       ELEMENT NUMBER
-  0.5106027910581               1035
-  0.5106027910581               1062
-  0.5106027910581               1010
-  0.5106027910581               1082
-  0.5106027910581               1092
-  0.5106027910581               1029
-  0.5106027910581               1031
-  0.5106027910581               1052
-  0.5106027910581               1003
-  0.5106027910581               1064
-  0.5106027910581               1006
-  0.5106027910581               1014
-  0.5106027910581               1034
-  0.5106027910581               1095
-  0.5106027910581               1046
-  0.5106027910581               1067
-  0.5106027910581               1002
-  0.5106027910581               1004
-  0.5106027910581               1061
-  0.5106027910581               1012
+  0.1090380345336               1035
+  0.1090380345336               1062
+  0.1090380345336               1010
+  0.1090380345336               1082
+  0.1090380345336               1092
+  0.1090380345336               1029
+  0.1090380345336               1067
+  0.1090380345336               1031
+  0.1090380345336               1003
+  0.1090380345336               1095
+  0.1090380345336               1034
+  0.1090380345336               1096
+  0.1090380345336               1002
+  0.1090380345336               1004
+  0.1090380345336               1094
+  0.1090380345336               1006
+  0.1090380345336               1071
+  0.1090380345336               1014
+  0.1090380345336               1016
+  0.1090380345336               1052
 
 
          NODAL TIME STEP (estimation)
          ---------------
 
       TIME STEP       NODE NUMBER
-  0.5106027910581               1219
-  0.5106027910581               1215
-  0.5106027910581               1260
-  0.5106027910581               1261
-  0.5106027910581               1297
-  0.5106027910581               1218
-  0.5106027910581               1296
-  0.5106027910581               1098
-  0.5106027910581               1237
-  0.5106027910581               1282
-  0.5106027910581               1281
-  0.5106027910581               1222
-  0.5106027910581               1300
-  0.5106027910581               1233
-  0.5106027910581               1217
-  0.5106027910581               1216
-  0.5106027910581               1213
-  0.5106027910581               1258
-  0.5106027910581               1255
-  0.5106027910581               1236
-  0.5106027910581               1248
-  0.5106027910581               1299
-  0.5106027910581               1259
-  0.5106027910581               1295
-  0.5106027910581               1251
-  0.5106027910581               1271
-  0.5106027910581               1140
-  0.5106027910581               1285
-  0.5106027910581               1134
-  0.5106027910581               1254
-  0.5106027910581               1275
-  0.5106027910581               1234
-  0.5106027910581               1097
-  0.5106027910581               1320
-  0.5106027910581               1225
-  0.5106027910581               1094
-  0.5106027910581               1176
-  0.5106027910581               1175
-  0.5106027910581               1096
-  0.5106027910581               1221
-  0.5106027910581               1179
-  0.5106027910581               1328
-  0.5106027910581               1101
-  0.5106027910581               1228
-  0.5106027910581               1257
-  0.5106027910581               1154
-  0.5106027910581               1214
-  0.5106027910581               1212
-  0.5106027910581               1130
-  0.5106027910581               1252
-  0.5106027910581               1208
-  0.5106027910581               1127
-  0.5106027910581               1207
-  0.5106027910581               1131
-  0.5106027910581               1232
-  0.5106027910581               1249
-  0.5106027910581               1198
-  0.5106027910581               1224
-  0.5106027910581               1133
-  0.5106027910581               1151
-  0.5106027910581               1199
-  0.5106027910581               1137
-  0.5106027910581               1138
-  0.5106027910581               1139
-  0.5106027910581               1201
-  0.5106027910581               1202
-  0.5106027910581               1227
-  0.5106027910581               1203
-  0.5106027910581               1231
-  0.5106027910581               1209
-  0.5106027910581               1321
-  0.5106027910581               1111
-  0.5106027910581               1110
-  0.5106027910581               1322
-  0.5106027910581               1183
-  0.5106027910581               1107
-  0.5106027910581               1106
-  0.5106027910581               1182
-  0.5106027910581               1104
-  0.5106027910581               1301
-  0.5106027910581               1112
-  0.5106027910581               1303
-  0.5106027910581               1304
-  0.5106027910581               1319
-  0.5106027910581               1180
-  0.5106027910581               1100
-  0.5106027910581               1095
-  0.5106027910581               1093
-  0.5106027910581               1092
-  0.5106027910581               1091
-  0.5106027910581               1178
-  0.5106027910581               1164
-  0.5106027910581               1330
-  0.5106027910581               1158
-  0.5106027910581               1159
-  0.5106027910581               1160
-  0.5106027910581               1161
-  0.5106027910581               1329
-  0.5106027910581               1272
-  0.5106027910581               1163
+  0.1090380345336               1219
+  0.1090380345336               1215
+  0.1090380345336               1218
+  0.1090380345336               1222
+  0.1090380345336               1260
+  0.1090380345336               1297
+  0.1090380345336               1261
+  0.1090380345336               1282
+  0.1090380345336               1281
+  0.1090380345336               1296
+  0.1090380345336               1255
+  0.1090380345336               1216
+  0.1090380345336               1098
+  0.1090380345336               1300
+  0.1090380345336               1217
+  0.1090380345336               1213
+  0.1090380345336               1251
+  0.1090380345336               1140
+  0.1090380345336               1285
+  0.1090380345336               1328
+  0.1090380345336               1254
+  0.1090380345336               1161
+  0.1090380345336               1258
+  0.1090380345336               1237
+  0.1090380345336               1225
+  0.1090380345336               1094
+  0.1090380345336               1234
+  0.1090380345336               1320
+  0.1090380345336               1228
+  0.1090380345336               1101
+  0.1090380345336               1233
+  0.1090380345336               1160
+  0.1090380345336               1176
+  0.1090380345336               1259
+  0.1090380345336               1280
+  0.1090380345336               1279
+  0.1090380345336               1252
+  0.1090380345336               1221
+  0.1090380345336               1275
+  0.1090380345336               1322
+  0.1090380345336               1179
+  0.1090380345336               1271
+  0.1090380345336               1227
+  0.1090380345336               1319
+  0.1090380345336               1257
+  0.1090380345336               1164
+  0.1090380345336               1174
+  0.1090380345336               1175
+  0.1090380345336               1236
+  0.1090380345336               1212
+  0.1090380345336               1207
+  0.1090380345336               1096
+  0.1090380345336               1299
+  0.1090380345336               1231
+  0.1090380345336               1116
+  0.1090380345336               1295
+  0.1090380345336               1092
+  0.1090380345336               1095
+  0.1090380345336               1214
+  0.1090380345336               1301
+  0.1090380345336               1134
+  0.1090380345336               1113
+  0.1090380345336               1248
+  0.1090380345336               1137
+  0.1090380345336               1139
+  0.1090380345336               1097
+  0.1090380345336               1232
+  0.1090380345336               1209
+  0.1090380345336               1224
+  0.1090380345336               1199
+  0.1090380345336               1183
+  0.1090380345336               1249
+  0.1090380345336               1154
+  0.1090380345336               1103
+  0.1090380345336               1178
+  0.1090380345336               1127
+  0.1090380345336               1115
+  0.1090380345336               1304
+  0.1090380345336               1112
+  0.1090380345336               1107
+  0.1090380345336               1100
+  0.1090380345336               1180
+  0.1090380345336               1321
+  0.1090380345336               1323
+  0.1090380345336               1093
+  0.1090380345336               1329
+  0.1090380345336               1330
+  0.1090380345336               1128
+  0.1090380345336               1130
+  0.1090380345336               1159
+  0.1090380345336               1138
+  0.1090380345336               1151
+  0.1090380345336               1284
+  0.1090380345336               1272
+  0.1090380345336               1163
+  0.1090380345336               1104
+  0.1090380345336               1091
+  0.1090380345336               1182
+  0.1090380345336               1158
+  0.1090380345336               1150
 
 
          NODAL TIME STEP DISTRIBUTION 
@@ -574,7 +564,7 @@ Part id,name:         1 mousse                 Mat type:  42 Elm type: SOLID-HEX
             % OF NODES
                    ^
                    |                                                            
-          99.925 --|                            #                               
+          99.850 --|                            #                               
                    |                            #                               
                    |                            #                               
                    |                            #                               
@@ -599,7 +589,7 @@ Part id,name:         1 mousse                 Mat type:  42 Elm type: SOLID-HEX
            0.000 --|#                           #                             # 
                     -------------------------------------------------------------> NODAL TIME STEP
                     |                                                          |
-                0.511                                                      0.511    
+                0.109                                                      0.109    
   
   
 
@@ -636,16 +626,16 @@ Part id,name:         1 mousse                 Mat type:  42 Elm type: SOLID-HEX
            0.005 --|* *                                                         
                     -------------------------------------------------------------> TARGET TIME STEP
                     |                                                          |
-                0.461                                                      0.482    
+                9.838E-02                                                  0.103    
   
   
               DM/M at first cycle          |  Target time step - scaling factor = 0.9  |  Target time step - scaling factor = 0.67
     -------------------------------------  |  ---------------------------------------  |  ---------------------------------------
-                 1.000E-02                 |                 0.462                     |                 0.344    
-                 2.000E-02                 |                 0.464                     |                 0.346    
-                 3.000E-02                 |                 0.466                     |                 0.347    
-                 4.000E-02                 |                 0.469                     |                 0.349    
-                 5.000E-02                 |                 0.471                     |                 0.351    
+                 1.000E-02                 |                 9.862E-02                 |                 7.342E-02
+                 2.000E-02                 |                 9.911E-02                 |                 7.378E-02
+                 3.000E-02                 |                 9.960E-02                 |                 7.414E-02
+                 4.000E-02                 |                 0.100                     |                 7.450E-02
+                 5.000E-02                 |                 0.101                     |                 7.486E-02
 
 
     WARNING : These added mass estimations are valid at first cycle only.
@@ -661,34 +651,31 @@ Part id,name:         1 mousse                 Mat type:  42 Elm type: SOLID-HEX
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        124 MB
+    STARTER MEMORY USAGE        122 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
+
 AVERAGE NB. OF BOUNDARY NODES :   146
 STANDARD DEVIATION            :     3
- 
+
 AVERAGE NUMBER OF LOCAL NODES :     409
 STANDARD DEVIATION            :       3
- 
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     1           246                   144                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     2           246                   151                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     3           254                   143                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     4           254                   146                     3
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
  NUMBER OF NODES................. :         407
  NUMBER OF SOLID ELEMENTS........ :         246
  TOTAL NUMBER OF NODES FOR COMM.. :         164
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -697,13 +684,13 @@ STANDARD DEVIATION            :       3
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
  NUMBER OF NODES................. :         405
  NUMBER OF SOLID ELEMENTS........ :         246
  TOTAL NUMBER OF NODES FOR COMM.. :         173
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -712,13 +699,13 @@ STANDARD DEVIATION            :       3
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
  NUMBER OF NODES................. :         413
  NUMBER OF SOLID ELEMENTS........ :         254
  TOTAL NUMBER OF NODES FOR COMM.. :         166
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -727,13 +714,13 @@ STANDARD DEVIATION            :       3
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
  NUMBER OF NODES................. :         412
  NUMBER OF SOLID ELEMENTS........ :         254
  TOTAL NUMBER OF NODES FOR COMM.. :         167
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -742,7 +729,7 @@ STANDARD DEVIATION            :       3
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
 
      RESTART FILES FILE_0000 WRITTEN
      -------------
@@ -753,48 +740,29 @@ STANDARD DEVIATION            :       3
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .6488E+00   .1384E+01   .1454E-01   .0000E+00   .0000E+00   .0000E+00   .1526E-04
+.0000E+00   .3709E+00   .2874E+01   .1350E-01   .0000E+00   .0000E+00   .0000E+00   .2217E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1647E+10   .1403E+01   .2391E-01   .0000E+00   .0000E+00   .0000E+00   .9060E-05
+.0000E+00   .1144E+07   .2891E+01   .1066E-01   .0000E+00   .0000E+00   .0000E+00   .7639E-05
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2022/03/16  15:14:01
- EXECUTION COMPLETED    :      2022/03/16  15:14:05
+ EXECUTION STARTED      :      2022/11/23  16:22:44
+ EXECUTION COMPLETED    :      2022/11/23  16:22:47
   
- ELAPSED TIME...........=          3.83 s
+ ELAPSED TIME...........=          3.34 s
                                00:00:03
   
 ------------------------------------------------------------------------
 
 
 
-     TERMINATION WITH WARNING           
+     NORMAL TERMINATION                                                                  
      ------------------                                                                  
-
-
-------------------------------------------------------------------------------------------------------------------------
-|            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
-------------------------------------------------------------------------------------------------------------------------
-|                                                           |                                                          |
-|                                                           |  --- GLOBAL UNITS                           1 WARNING(S) |
-|                                                           |       |                                                  |
-|                                                           |       |                                                  |
-|                                                           |       |---     1 WARNING ID :       100214               |
-|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
-|                                                           |       |                                                  |
-|                                                           |                                                          |
-|                                                           |                                                          |
-------------------------------------------------------------------------------------------------------------------------
-
-
-
-
               0 ERROR(S)            
-              1 WARNING(S)          
+              0 WARNING(S)          
 
 

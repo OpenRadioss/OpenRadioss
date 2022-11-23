@@ -2,29 +2,29 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                Altair Radioss(TM) Starter MAINLINE                 **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 1072339_12638000000_1060_0083627_10                     **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2021                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48969 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -40,7 +40,7 @@ DESCRIPTION :
 -- LINE: 0                   0         0         0         0         0
 unsupported field exits
 SOLUTION :     
-    Please check input format and its consistency with Invers value from /BEGIN option.
+    Please check input format and fields description defined in the Reference Guide.
 
  -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
 
@@ -76,7 +76,7 @@ SOLUTION :
     NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         3
     NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
     NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .         0
-    NINTERFRIC: NUMBER OF FRICTION INTERFACES . . . . . .         0
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
     NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .         0
     NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .       768
     NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
@@ -121,7 +121,6 @@ SOLUTION :
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
@@ -162,7 +161,7 @@ SOLUTION :
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -171,9 +170,9 @@ SOLUTION :
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
@@ -300,6 +299,13 @@ SOLUTION :
      INITIAL TEMPERATURE K . . . . . . . . .=  298.0000000000    
 
 
+     SUBMODEL SKEWS(INTERNAL)                                                            
+     --------------------------------------                                              
+     NUMBER          VECTORS                                          ORIGIN
+ 1000000001        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
+
 
 
          PROPERTY SETS (HM_READER)
@@ -368,12 +374,6 @@ PID 3
 
 
 
-         PROPERTY SETS
-         -------------
-
-
-
-
        PARTS
        -----
 
@@ -430,7 +430,7 @@ PART:         3,PID 3
   ELEMENT NUMBER =        768
   EDGES FOUND    =       2882
   
-#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
    1         17856.             0.             0.             0.             0.             0.
    2         17670.             0.             0.             0.             0.             0.
    3         17856.             0.             0.             0.             0.             0.
@@ -444,7 +444,7 @@ PART:         3,PID 3
 WARNING ID :   1912
 ** WARNING IN SHELL PROPERTY
 DESCRIPTION :  
-   GLOBAL INTEGRATION FORMULATION (NPT = 0) IS NO MORE USED FOR CERTAIN LAWS,
+   GLOBAL INTEGRATION FORMULATION (NPT = 0) IS NOT SUPPORTED FOR THE FOLLOWING LAWS,
    SWITCHING AUTOMATICALLY TO NUMERICAL INTEGRATION NPT= 3.
    -- PROPERTY ID=1         
    -- PROPERTY TITLE: PID 1
@@ -479,18 +479,18 @@ DESCRIPTION :
        RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
        ----------------------------------------------
 
-       ELEMENT GROUP         1,  SIZE=      3841
-       ELEMENT GROUP         2,  SIZE=      3537
-       ELEMENT GROUP         3,  SIZE=      3841
-       ELEMENT GROUP         4,  SIZE=      4145
-       ELEMENT GROUP         5,  SIZE=      7489
-       ELEMENT GROUP         6,  SIZE=      7337
-       ELEMENT GROUP         7,  SIZE=      7489
-       ELEMENT GROUP         8,  SIZE=      7641
-       ELEMENT GROUP         9,  SIZE=      3841
-       ELEMENT GROUP        10,  SIZE=      4145
-       ELEMENT GROUP        11,  SIZE=      3841
-       ELEMENT GROUP        12,  SIZE=      3537
+       ELEMENT GROUP         1,  SIZE=      3818
+       ELEMENT GROUP         2,  SIZE=      3518
+       ELEMENT GROUP         3,  SIZE=      3818
+       ELEMENT GROUP         4,  SIZE=      4118
+       ELEMENT GROUP         5,  SIZE=      7418
+       ELEMENT GROUP         6,  SIZE=      7268
+       ELEMENT GROUP         7,  SIZE=      7418
+       ELEMENT GROUP         8,  SIZE=      7568
+       ELEMENT GROUP         9,  SIZE=      3818
+       ELEMENT GROUP        10,  SIZE=      4118
+       ELEMENT GROUP        11,  SIZE=      3818
+       ELEMENT GROUP        12,  SIZE=      3518
 
 
 
@@ -540,21 +540,21 @@ PART ELEMENT/MATERIAL PARAMETER REVIEW:
 Part id,name:         1 PID 1                  Mat type:   2 Elm type: SHELL-4nodes           
 ----
   Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
-       1       2       0       3       0       0
+       1       2       2       3       0       0
 --      hm        hf        hr        dm        dn
     0.0100    0.0100    0.0000    0.0000    0.0000
 
 Part id,name:         2 PID 2                  Mat type:   2 Elm type: SHELL-4nodes           
 ----
   Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
-       1       2       0       3       0       0
+       1       2       2       3       0       0
 --      hm        hf        hr        dm        dn
     0.0100    0.0100    0.0000    0.0000    0.0000
 
 Part id,name:         3 PID 3                  Mat type:   2 Elm type: SHELL-4nodes           
 ----
   Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
-       1       2       0       3       0       0
+       1       2       2       3       0       0
 --      hm        hf        hr        dm        dn
     0.0100    0.0100    0.0000    0.0000    0.0000
 
@@ -588,132 +588,132 @@ Part id,name:         3 PID 3                  Mat type:   2 Elm type: SHELL-4no
          ------------------------
 
       TIME STEP       ELEMENT NUMBER
-  1.9906731938571E-03            361
-  1.9906731938571E-03            314
-  1.9906731938571E-03            315
-  1.9906731938571E-03            316
-  1.9906731938571E-03            317
-  1.9906731938571E-03            318
-  1.9906731938571E-03            319
   1.9906731938571E-03            320
-  1.9906731938571E-03            321
-  1.9906731938571E-03            322
+  1.9906731938571E-03              2
   1.9906731938571E-03            323
+  1.9906731938571E-03            322
+  1.9906731938571E-03            321
+  1.9906731938571E-03            319
+  1.9906731938571E-03            361
+  1.9906731938571E-03            318
+  1.9906731938571E-03            317
+  1.9906731938571E-03            316
   1.9906731938571E-03            324
-  1.9906731938571E-03            313
   1.9906731938571E-03            362
-  1.9906731938571E-03            363
-  1.9906731938571E-03            364
-  1.9906731938571E-03            365
-  1.9906731938571E-03            366
-  1.9906731938571E-03            367
   1.9906731938571E-03            368
+  1.9906731938571E-03            363
+  1.9906731938571E-03            371
+  1.9906731938571E-03            370
+  1.9906731938571E-03            369
+  1.9906731938571E-03            367
+  1.9906731938571E-03            314
+  1.9906731938571E-03            366
 
 
          NODAL TIME STEP (estimation)
          ---------------
 
       TIME STEP       NODE NUMBER
-  1.4896834071786E-03            530
-  1.4896834071786E-03            430
-  1.4896834071786E-03            429
-  1.4896834071786E-03            428
-  1.4896834071786E-03            427
-  1.4896834071786E-03            426
-  1.4896834071786E-03            425
-  1.4896834071786E-03            424
-  1.4896834071786E-03            423
-  1.4896834071786E-03            422
-  1.4896834071786E-03            421
-  1.4896834071786E-03            420
-  1.4896834071786E-03            419
-  1.4896834071786E-03            532
-  1.4896834071786E-03            531
-  1.4896834071786E-03            431
-  1.4896834071786E-03            529
-  1.4896834071786E-03            528
-  1.4896834071786E-03            527
-  1.4896834071786E-03            526
-  1.4896834071786E-03            525
-  1.4896834071786E-03            524
-  1.4896834071786E-03            523
-  1.4896834071786E-03            522
-  1.4896834071786E-03            521
-  1.4896834071786E-03            520
-  1.4896834071786E-03            519
-  1.4896834071786E-03            518
-  1.4896834071786E-03            318
-  1.4896834071786E-03            319
-  1.4896834071786E-03            320
-  1.4896834071786E-03            321
-  1.4896834071786E-03            282
-  1.4896834071786E-03            569
-  1.4896834071786E-03            570
-  1.4896834071786E-03            571
-  1.4896834071786E-03            572
-  1.4896834071786E-03            573
-  1.4896834071786E-03            574
-  1.4896834071786E-03            575
-  1.4896834071786E-03            576
-  1.4896834071786E-03            577
-  1.4896834071786E-03            578
-  1.4896834071786E-03            579
-  1.4896834071786E-03            580
-  1.4896834071786E-03            581
-  1.4896834071786E-03            582
-  1.4896834071786E-03            432
   1.4896834071786E-03            281
-  1.4896834071786E-03            280
+  1.4896834071786E-03            425
+  1.4896834071786E-03            527
+  1.4896834071786E-03            528
+  1.4896834071786E-03            282
   1.4896834071786E-03            279
+  1.4896834071786E-03            280
+  1.4896834071786E-03            525
   1.4896834071786E-03            278
   1.4896834071786E-03            277
   1.4896834071786E-03            276
-  1.4896834071786E-03            275
+  1.4896834071786E-03            526
+  1.4896834071786E-03            524
+  1.4896834071786E-03            318
+  1.4896834071786E-03            523
+  1.4896834071786E-03            321
+  1.4896834071786E-03            320
+  1.4896834071786E-03            319
+  1.4896834071786E-03            519
+  1.4896834071786E-03            518
   1.4896834071786E-03            274
+  1.4896834071786E-03            520
+  1.4896834071786E-03            521
+  1.4896834071786E-03            522
+  1.4896834071786E-03            275
   1.4896834071786E-03            273
+  1.4896834071786E-03            575
   1.4896834071786E-03            272
+  1.4896834071786E-03            572
+  1.4896834071786E-03            573
+  1.4896834071786E-03            574
+  1.4896834071786E-03            577
+  1.4896834071786E-03            576
+  1.4896834071786E-03            570
+  1.4896834071786E-03            578
+  1.4896834071786E-03            579
+  1.4896834071786E-03            580
+  1.4896834071786E-03            571
+  1.4896834071786E-03            569
+  1.4896834071786E-03            268
+  1.4896834071786E-03            568
   1.4896834071786E-03            271
   1.4896834071786E-03            270
   1.4896834071786E-03            269
-  1.4896834071786E-03            268
-  1.4896834071786E-03            568
+  1.4896834071786E-03            530
+  1.4896834071786E-03            529
+  1.4896834071786E-03            323
+  1.4896834071786E-03            531
+  1.4896834071786E-03            532
+  1.4896834071786E-03            426
+  1.4896834071786E-03            322
+  1.4896834071786E-03            325
+  1.4896834071786E-03            324
+  1.4896834071786E-03            378
+  1.4896834071786E-03            326
+  1.4896834071786E-03            381
+  1.4896834071786E-03            380
+  1.4896834071786E-03            379
+  1.4896834071786E-03            376
+  1.4896834071786E-03            377
+  1.4896834071786E-03            432
+  1.4896834071786E-03            375
+  1.4896834071786E-03            374
+  1.4896834071786E-03            373
+  1.4896834071786E-03            382
+  1.4896834071786E-03            431
+  1.4896834071786E-03            421
+  1.4896834071786E-03            430
+  1.4896834071786E-03            424
+  1.4896834071786E-03            423
+  1.4896834071786E-03            422
+  1.4896834071786E-03            419
+  1.4896834071786E-03            420
   1.4896834071786E-03            371
-  1.4896834071786E-03            475
-  1.4896834071786E-03            476
-  1.4896834071786E-03            477
-  1.4896834071786E-03            478
-  1.4896834071786E-03            479
+  1.4896834071786E-03            418
+  1.4896834071786E-03            428
+  1.4896834071786E-03            429
+  1.4896834071786E-03            372
+  1.4896834071786E-03            370
+  1.4896834071786E-03            332
+  1.4896834071786E-03            369
   1.4896834071786E-03            480
   1.4896834071786E-03            481
   1.4896834071786E-03            482
-  1.4896834071786E-03            368
-  1.4896834071786E-03            369
-  1.4896834071786E-03            370
-  1.4896834071786E-03            474
-  1.4896834071786E-03            372
-  1.4896834071786E-03            373
-  1.4896834071786E-03            374
-  1.4896834071786E-03            375
-  1.4896834071786E-03            376
-  1.4896834071786E-03            377
-  1.4896834071786E-03            378
-  1.4896834071786E-03            379
-  1.4896834071786E-03            380
-  1.4896834071786E-03            381
-  1.4896834071786E-03            382
-  1.4896834071786E-03            322
-  1.4896834071786E-03            323
-  1.4896834071786E-03            332
-  1.4896834071786E-03            331
   1.4896834071786E-03            330
+  1.4896834071786E-03            331
+  1.4896834071786E-03            478
   1.4896834071786E-03            329
   1.4896834071786E-03            328
   1.4896834071786E-03            327
-  1.4896834071786E-03            326
-  1.4896834071786E-03            325
-  1.4896834071786E-03            324
-  1.4896834071786E-03            418
+  1.4896834071786E-03            479
+  1.4896834071786E-03            477
+  1.4896834071786E-03            470
+  1.4896834071786E-03            476
+  1.4896834071786E-03            368
   1.4896834071786E-03            468
+  1.4896834071786E-03            469
+  1.4896834071786E-03            472
+  1.4896834071786E-03            471
+  1.4896834071786E-03            582
 
 
          NODAL TIME STEP DISTRIBUTION 
@@ -760,7 +760,7 @@ Part id,name:         3 PID 3                  Mat type:   2 Elm type: SHELL-4no
             DM/M - at first cycle - scaling factor = 0.9
                    ^
                    |                                                            
-           0.100 --|                                                          * 
+           0.100 --|                                                         *  
                    |                                                            
                    |                                                        *   
                    |                                                     *      
@@ -810,34 +810,31 @@ Part id,name:         3 PID 3                  Mat type:   2 Elm type: SHELL-4no
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        130 MB
+    STARTER MEMORY USAGE        122 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
+
 AVERAGE NB. OF BOUNDARY NODES :    27
 STANDARD DEVIATION            :    10
- 
+
 AVERAGE NUMBER OF LOCAL NODES :     226
 STANDARD DEVIATION            :       1
- 
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     1           192                    17                     1
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     2           190                    36                     2
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     3           192                    17                     1
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     4           194                    36                     2
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
  NUMBER OF NODES................. :         226
  NUMBER OF 4-N SHELL ELEMENTS.... :         192
  TOTAL NUMBER OF NODES FOR COMM.. :          17
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -846,13 +843,13 @@ STANDARD DEVIATION            :       1
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
  NUMBER OF NODES................. :         224
  NUMBER OF 4-N SHELL ELEMENTS.... :         190
  TOTAL NUMBER OF NODES FOR COMM.. :          36
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -861,13 +858,13 @@ STANDARD DEVIATION            :       1
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
  NUMBER OF NODES................. :         225
  NUMBER OF 4-N SHELL ELEMENTS.... :         192
  TOTAL NUMBER OF NODES FOR COMM.. :          17
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -876,13 +873,13 @@ STANDARD DEVIATION            :       1
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
  NUMBER OF NODES................. :         228
  NUMBER OF 4-N SHELL ELEMENTS.... :         194
  TOTAL NUMBER OF NODES FOR COMM.. :          36
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -891,7 +888,7 @@ STANDARD DEVIATION            :       1
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
 
      RESTART FILES CRA2V44_0000 WRITTEN
      -------------
@@ -902,20 +899,20 @@ STANDARD DEVIATION            :       1
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .4809E+00   .1110E+00   .6999E-02   .0000E+00   .0000E+00   .0000E+00   .0000E+00
+.0000E+00   .4012E+00   .1463E+00   .1972E-01   .0000E+00   .0000E+00   .0000E+00   .2891E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.2210E-03   .6550E+00   .1221E+00   .9333E-02   .0000E+00   .0000E+00   .0000E+00   .3815E-05
+.0000E+00   .1144E+07   .1642E+00   .1331E-01   .0000E+00   .0000E+00   .0000E+00   .1150E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2021/06/22  12:36:04
- EXECUTION COMPLETED    :      2021/06/22  12:36:05
+ EXECUTION STARTED      :      2022/11/23  16:23:09
+ EXECUTION COMPLETED    :      2022/11/23  16:23:10
   
- ELAPSED TIME...........=          0.83 s
+ ELAPSED TIME...........=          0.64 s
                                00:00:00
   
 ------------------------------------------------------------------------
@@ -930,7 +927,7 @@ STANDARD DEVIATION            :       1
 |            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
 ------------------------------------------------------------------------------------------------------------------------
 |                                                           |                                                          |
-|                                                           |  --- INTERNAL                               1 WARNING(S) |
+|                                                           |  --- GLOBAL UNITS                           1 WARNING(S) |
 |                                                           |       |                                                  |
 |                                                           |       |                                                  |
 |                                                           |       |---     1 WARNING ID :       100214               |

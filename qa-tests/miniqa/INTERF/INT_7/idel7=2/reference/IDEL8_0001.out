@@ -2,35 +2,35 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                 Altair Radioss(TM) Engine MAINLINE                 **
+**                         OpenRadioss Engine                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**              Linux 64 bits, Intel compiler, Intel MPI              **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                Linux 64 bits, GNU compiler, OpenMPI                **
 **                                                                    **
-** Build tag: 1072339_12638000000_2070_0083627_10                     **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2021                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
  NUMBER OF SPMD DOMAINS           4
- NUMBER OF THREADS PER DOMAIN     1
- NUMBER OF HMPP PROCESSES         4
+ NUMBER OF THREADS PER DOMAIN     2
+ NUMBER OF HMPP PROCESSES         8
   
  COMPUTATION HARDWARE DESCRIPTION
   
  CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
-   1   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 3326 MHz,  19924 MB RAM,  48969 MB swap
-   2   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 3326 MHz,  19924 MB RAM,  48969 MB swap
-   3   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 3326 MHz,  19924 MB RAM,  48969 MB swap
-   4   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 3326 MHz,  19924 MB RAM,  48969 MB swap
+   1   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   2   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   3   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   4   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -85,10 +85,6 @@
     3:INCREASE MASS, ORIGINAL FORMULATION . . . . 
     8:INCREASE MASS, IMPROVED FORMULATION . . . . 
 
-
- FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .   0.000000    
- FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
- FVMBAG TIME STEP FLAG. . . . . . . . . . . . . .     1
 
  PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .   -50
 
@@ -172,14 +168,8 @@
 
 
  RIGID BODY:      450 SET ON
-  BRICK DEACTIVATION:          15
-  BRICK DEACTIVATION:          16
-  BRICK DEACTIVATION:          17
   BRICK DEACTIVATION:          18
-  BRICK DEACTIVATION:          21
-  BRICK DEACTIVATION:          22
   BRICK DEACTIVATION:          13
-  BRICK DEACTIVATION:          14
   BRICK DEACTIVATION:          19
   BRICK DEACTIVATION:          20
   BRICK DEACTIVATION:          23
@@ -190,46 +180,52 @@
   BRICK DEACTIVATION:           8
   BRICK DEACTIVATION:          11
   BRICK DEACTIVATION:          12
+  BRICK DEACTIVATION:          15
+  BRICK DEACTIVATION:          16
+  BRICK DEACTIVATION:          17
+  BRICK DEACTIVATION:          21
+  BRICK DEACTIVATION:          22
+  BRICK DEACTIVATION:          14
   BRICK DEACTIVATION:           3
   BRICK DEACTIVATION:           4
   BRICK DEACTIVATION:           5
   BRICK DEACTIVATION:           6
   BRICK DEACTIVATION:           9
   BRICK DEACTIVATION:          10
- 22/06/2021
- CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
-     0   0.000      0.3939E-04 SHELL        348   0.0%   0.000       69.08       0.000       0.000       0.000    
+ 23/11/2022
+   CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
+       0   0.000      0.3939E-04 SHELL        348   0.0%   0.000       69.08       0.000       0.000       0.000      0.5390E-03   0.000    
      ANIMATION FILE: IDEL8A001 WRITTEN
-    50  0.1622E-02  0.3939E-04 SHELL        331   0.7%   5.128       61.11       3.345       0.000       0.000    
-   100  0.3349E-02  0.3939E-04 SHELL        348  -0.5%   12.08       54.89       1.748       0.000       0.000    
-   150  0.5318E-02  0.3936E-04 SHELL        331  -2.5%   23.92       40.09       3.331       0.000       0.000    
-   200  0.7287E-02  0.3938E-04 SHELL        336  -4.9%   30.13       31.64       3.940       0.000       0.000    
-   250  0.9256E-02  0.3938E-04 SHELL        336  -5.9%   27.04       32.60       5.374       0.000       0.000    
+      50  0.1622E-02  0.3939E-04 SHELL        331   0.7%   5.128       61.11       3.345       0.000       0.000      0.5390E-03   0.000    
+     100  0.3349E-02  0.3939E-04 SHELL        348  -0.5%   12.08       54.89       1.748       0.000       0.000      0.5390E-03   0.000    
+     150  0.5318E-02  0.3936E-04 SHELL        331  -2.5%   23.92       40.09       3.331       0.000       0.000      0.5390E-03   0.000    
+     200  0.7287E-02  0.3938E-04 SHELL        336  -4.9%   30.13       31.64       3.940       0.000       0.000      0.5390E-03   0.000    
+     250  0.9256E-02  0.3938E-04 SHELL        336  -5.9%   27.04       32.60       5.374       0.000       0.000      0.5390E-03   0.000    
      ANIMATION FILE: IDEL8A002 WRITTEN
-   300  0.1123E-01  0.3936E-04 SHELL        348  -6.8%   19.50       37.44       7.471       0.000       0.000    
-   350  0.1282E-01  0.2245E-04 NODE         128  -9.0%   15.88       39.35       7.662       0.000       0.000    
-   400  0.1459E-01  0.3523E-04 SHELL        336  -9.9%   11.61       42.36       8.288       0.000       0.000    
-   450  0.1638E-01  0.3936E-04 SHELL        336 -10.9%   10.95       43.30       7.277       0.000       0.000    
-   500  0.1828E-01  0.3936E-04 SHELL        331 -12.0%   12.11       42.25       6.398       0.000       0.000    
-   550  0.2024E-01  0.3936E-04 SHELL        331 -13.2%   13.38       40.22       6.380       0.000       0.000    
+     300  0.1123E-01  0.3936E-04 SHELL        348  -6.8%   19.50       37.44       7.471       0.000       0.000      0.5390E-03   0.000    
+     350  0.1282E-01  0.2245E-04 NODE         128  -9.0%   15.88       39.35       7.661       0.000       0.000      0.5390E-03   0.000    
+     400  0.1459E-01  0.3523E-04 SHELL        336  -9.9%   11.61       42.36       8.288       0.000       0.000      0.5390E-03   0.000    
+     450  0.1638E-01  0.3936E-04 SHELL        336 -10.9%   10.95       43.30       7.276       0.000       0.000      0.5390E-03   0.000    
+     500  0.1828E-01  0.3936E-04 SHELL        331 -12.0%   12.11       42.24       6.401       0.000       0.000      0.5390E-03   0.000    
+     550  0.2024E-01  0.3936E-04 SHELL        331 -13.2%   13.38       40.22       6.380       0.000       0.000      0.5390E-03   0.000    
      ANIMATION FILE: IDEL8A003 WRITTEN
-   600  0.2221E-01  0.3937E-04 SHELL        331 -14.0%   13.39       39.61       6.385       0.000       0.000    
-   650  0.2418E-01  0.3937E-04 SHELL        331 -14.8%   12.96       39.51       6.426       0.000       0.000    
-   700  0.2615E-01  0.3939E-04 SHELL        331 -15.9%   13.40       38.14       6.571       0.000       0.000    
-   750  0.2812E-01  0.3938E-04 SHELL        339 -16.8%   13.90       37.27       6.326       0.000       0.000    
-   800  0.3008E-01  0.3937E-04 SHELL        331 -17.6%   13.83       36.71       6.359       0.000       0.000    
+     600  0.2221E-01  0.3937E-04 SHELL        331 -14.0%   13.39       39.62       6.384       0.000       0.000      0.5390E-03   0.000    
+     650  0.2418E-01  0.3937E-04 SHELL        331 -14.8%   12.96       39.51       6.427       0.000       0.000      0.5390E-03   0.000    
+     700  0.2615E-01  0.3939E-04 SHELL        331 -15.9%   13.40       38.14       6.570       0.000       0.000      0.5390E-03   0.000    
+     750  0.2812E-01  0.3938E-04 SHELL        339 -16.8%   13.90       37.27       6.325       0.000       0.000      0.5390E-03   0.000    
+     800  0.3008E-01  0.3937E-04 SHELL        331 -17.6%   13.83       36.72       6.359       0.000       0.000      0.5390E-03   0.000    
      ANIMATION FILE: IDEL8A004 WRITTEN
-   850  0.3205E-01  0.3940E-04 SHELL        339 -18.0%   13.82       36.50       6.309       0.000       0.000    
-   900  0.3402E-01  0.3934E-04 SHELL        331 -18.7%   13.25       36.20       6.732       0.000       0.000    
-   950  0.3599E-01  0.3937E-04 SHELL        348 -19.5%   13.07       35.43       7.108       0.000       0.000    
-  1000  0.3796E-01  0.3937E-04 SHELL        331 -20.3%   13.92       34.35       6.804       0.000       0.000    
-  1050  0.3993E-01  0.3936E-04 SHELL        331 -20.8%   14.54       33.41       6.743       0.000       0.000    
+     850  0.3205E-01  0.3940E-04 SHELL        339 -18.0%   13.82       36.50       6.308       0.000       0.000      0.5390E-03   0.000    
+     900  0.3402E-01  0.3934E-04 SHELL        331 -18.7%   13.25       36.20       6.732       0.000       0.000      0.5390E-03   0.000    
+     950  0.3599E-01  0.3937E-04 SHELL        348 -19.5%   13.07       35.43       7.108       0.000       0.000      0.5390E-03   0.000    
+    1000  0.3796E-01  0.3937E-04 SHELL        331 -20.3%   13.92       34.35       6.803       0.000       0.000      0.5390E-03   0.000    
+    1050  0.3993E-01  0.3936E-04 SHELL        331 -20.8%   14.54       33.41       6.742       0.000       0.000      0.5390E-03   0.000    
      ANIMATION FILE: IDEL8A005 WRITTEN
-  1100  0.4190E-01  0.3938E-04 SHELL        339 -21.5%   14.62       32.73       6.881       0.000       0.000    
-  1150  0.4386E-01  0.3936E-04 SHELL        331 -22.2%   14.90       31.99       6.888       0.000       0.000    
-  1200  0.4583E-01  0.3936E-04 SHELL        348 -22.9%   15.18       31.31       6.801       0.000       0.000    
-  1250  0.4780E-01  0.3937E-04 SHELL        336 -23.4%   15.13       31.33       6.447       0.000       0.000    
-  1300  0.4977E-01  0.3938E-04 SHELL        336 -23.8%   14.20       31.75       6.656       0.000       0.000    
+    1100  0.4190E-01  0.3938E-04 SHELL        339 -21.5%   14.62       32.73       6.881       0.000       0.000      0.5390E-03   0.000    
+    1150  0.4386E-01  0.3936E-04 SHELL        331 -22.2%   14.90       31.99       6.889       0.000       0.000      0.5390E-03   0.000    
+    1200  0.4583E-01  0.3936E-04 SHELL        348 -22.9%   15.18       31.31       6.801       0.000       0.000      0.5390E-03   0.000    
+    1250  0.4780E-01  0.3937E-04 SHELL        336 -23.4%   15.13       31.33       6.446       0.000       0.000      0.5390E-03   0.000    
+    1300  0.4977E-01  0.3938E-04 SHELL        336 -23.8%   14.20       31.75       6.656       0.000       0.000      0.5390E-03   0.000    
 
      RESTART FILES: IDEL8_0001_[0001-0004].rst WRITTEN
      -------------
@@ -242,30 +238,30 @@
                         ** SUMMARY **
   
  #PROC  CONTSORT  CONTFOR   ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
-   1   .3199E-01 .2499E-01 .1010E+00 .2200E-01 .1100E-01 .2800E-01 .2600E-01 .1200E-01 .3080E+00
-   2   .2699E-01 .3099E-01 .1100E+00 .2900E-01 .4999E-02 .2400E-01 .1600E-01 .9999E-02 .5089E+00
-   3   .4800E-01 .2499E-01 .1210E+00 .1700E-01 .4000E-02 .2800E-01 .2000E-01 .7997E-02 .5049E+00
-   4   .3799E-01 .1500E-01 .1100E+00 .2600E-01 .1000E-02 .3200E-01 .2100E-01 .6998E-02 .4999E+00
+   1   .9915E-01 .3716E-01 .1953E+00 .7569E-01 .2361E-01 .9258E-01 .6505E-01 .1739E-01 .8423E+00
+   2   .1167E+00 .3769E-01 .1856E+00 .7300E-01 .2230E-01 .8453E-01 .6780E-01 .1670E-01 .8439E+00
+   3   .1222E+00 .5176E-01 .1819E+00 .7433E-01 .2348E-01 .8436E-01 .6759E-01 .1687E-01 .8440E+00
+   4   .1279E+00 .4593E-01 .1833E+00 .7390E-01 .2314E-01 .7957E-01 .6872E-01 .1562E-01 .8415E+00
   
                  ** SPMD COM. TIME **
   
  #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
-   1   .2800E-01 .5999E-02 .0000E+00 .4997E-02 .3899E-01 .1266E+02
-   2   .3500E-01 .4999E-02 .0000E+00 .1500E-01 .5499E-01 .1081E+02
-   3   .2300E-01 .5999E-02 .0000E+00 .3000E-02 .3200E-01 .6337E+01
-   4   .3700E-01 .7998E-02 .0000E+00 .4000E-02 .4899E-01 .9800E+01
+   1   .6556E-01 .1793E-01 .0000E+00 .1434E-01 .9782E-01 .1161E+02
+   2   .7880E-01 .1834E-01 .0000E+00 .1547E-01 .1126E+00 .1334E+02
+   3   .6356E-01 .1766E-01 .0000E+00 .7476E-02 .8870E-01 .1051E+02
+   4   .7239E-01 .1843E-01 .0000E+00 .7122E-02 .9794E-01 .1164E+02
   
  
                    ** CUMULATIVE CPU TIME SUMMARY **
   
- CONTACT SORTING.............: .1450E+00     7.96 % 
- CONTACT FORCES..............: .9598E-01     5.27 % 
- ELEMENT FORCES..............: .4419E+00    24.26 % 
- KINEMATIC COND..............: .9399E-01     5.16 % 
- INTEGRATION.................: .2100E-01     1.15 % 
- ASSEMBLING..................: .3699E-01     2.03 % 
- OTHERS (including I/O)......: .9869E+00    54.17 % 
- TOTAL.......................: .1822E+01   100.00 % 
+ CONTACT SORTING.............: .4660E+00    13.82 % 
+ CONTACT FORCES..............: .1725E+00     5.12 % 
+ ELEMENT FORCES..............: .7461E+00    22.13 % 
+ KINEMATIC COND..............: .2969E+00     8.81 % 
+ INTEGRATION.................: .9253E-01     2.74 % 
+ ASSEMBLING..................: .6658E-01     1.97 % 
+ OTHERS (including I/O)......: .1531E+01    45.41 % 
+ TOTAL.......................: .3372E+01   100.00 % 
   
   
                            ** ELAPSED TIME **
@@ -274,35 +270,35 @@
                         ** SUMMARY **
   
  #PROC  CONTSORT  CONTFOR   ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
-   1   .1297E+00 .2244E-01 .2321E+00 .2306E-01 .7831E-02 .9180E-01 .2615E-01 .8520E-02 .5979E+00
-   2   .1321E+00 .2050E-01 .2324E+00 .2259E-01 .7826E-02 .8459E-01 .2650E-01 .8003E-02 .7907E+00
-   3   .1375E+00 .2113E-01 .2297E+00 .2255E-01 .7737E-02 .8428E-01 .2758E-01 .8085E-02 .7907E+00
-   4   .1392E+00 .2012E-01 .2248E+00 .2244E-01 .7646E-02 .8618E-01 .2622E-01 .8178E-02 .7907E+00
+   1   .5837E-01 .2170E-01 .1119E+00 .4361E-01 .1367E-01 .5676E-01 .3737E-01 .1007E-01 .4899E+00
+   2   .6751E-01 .2189E-01 .1068E+00 .4241E-01 .1300E-01 .5105E-01 .3922E-01 .9764E-02 .4906E+00
+   3   .7068E-01 .2991E-01 .1055E+00 .4299E-01 .1361E-01 .5056E-01 .3919E-01 .9871E-02 .4902E+00
+   4   .7463E-01 .2653E-01 .1058E+00 .4277E-01 .1346E-01 .4783E-01 .3977E-01 .9059E-02 .4906E+00
   
         CONTSORT  CONTFOR   ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
- MIN   .1297E+00 .2012E-01 .2248E+00 .2244E-01 .7646E-02 .8428E-01 .2615E-01 .8003E-02 .5979E+00
- MAX   .1392E+00 .2244E-01 .2324E+00 .2306E-01 .7831E-02 .9180E-01 .2758E-01 .8520E-02 .7907E+00
- AVG   .1346E+00 .2105E-01 .2298E+00 .2266E-01 .7760E-02 .8671E-01 .2661E-01 .8196E-02 .7425E+00
+ MIN   .5837E-01 .2170E-01 .1055E+00 .4241E-01 .1300E-01 .4783E-01 .3737E-01 .9059E-02 .4899E+00
+ MAX   .7463E-01 .2991E-01 .1119E+00 .4361E-01 .1367E-01 .5676E-01 .3977E-01 .1007E-01 .4906E+00
+ AVG   .6780E-01 .2501E-01 .1075E+00 .4294E-01 .1344E-01 .5155E-01 .3889E-01 .9692E-02 .4903E+00
   
                  ** SPMD COM. TIME **
   
  #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
-   1   .2589E-01 .6495E-02 .0000E+00 .5972E-02 .3836E-01 .6415E+01
-   2   .2797E-01 .5985E-02 .0000E+00 .1170E-01 .4566E-01 .5775E+01
-   3   .3039E-01 .6341E-02 .0000E+00 .5842E-02 .4257E-01 .5385E+01
-   4   .3667E-01 .6433E-02 .0000E+00 .3373E-02 .4648E-01 .5879E+01
+   1   .3802E-01 .1042E-01 .0000E+00 .8522E-02 .5696E-01 .1163E+02
+   2   .4605E-01 .1068E-01 .0000E+00 .9077E-02 .6581E-01 .1341E+02
+   3   .3691E-01 .1044E-01 .0000E+00 .4392E-02 .5174E-01 .1056E+02
+   4   .4175E-01 .1069E-01 .0000E+00 .4227E-02 .5667E-01 .1155E+02
   
         FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
- MIN   .2589E-01 .5985E-02 .0000E+00 .3373E-02 .3836E-01 .5385E+01
- MAX   .3667E-01 .6495E-02 .0000E+00 .1170E-01 .4648E-01 .6415E+01
- AVG   .3023E-01 .6314E-02 .0000E+00 .6722E-02 .4327E-01 .5863E+01
+ MIN   .3691E-01 .1042E-01 .0000E+00 .4227E-02 .5174E-01 .1056E+02
+ MAX   .4605E-01 .1069E-01 .0000E+00 .9077E-02 .6581E-01 .1341E+02
+ AVG   .4069E-01 .1055E-01 .0000E+00 .6555E-02 .5780E-01 .1179E+02
   
                    ** MEMORY USAGE STATISTICS **
   
- TOTAL MEMORY USED .........................:      269 MB
- MAXIMUM MEMORY PER PROCESSOR...............:       68 MB
- MINIMUM MEMORY PER PROCESSOR...............:       66 MB
- AVERAGE MEMORY PER PROCESSOR...............:       67 MB
+ TOTAL MEMORY USED .........................:      232 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       58 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       58 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       58 MB
   
                    ** DISK USAGE STATISTICS **
   
@@ -313,12 +309,12 @@
                    ** COMPUTE TIME INFORMATION **
                         ** CURRENT ENGINE **
   
- EXECUTION STARTED .........................:      2021/06/22  12:35:21
- EXECUTION COMPLETED .......................:      2021/06/22  12:35:21
+ EXECUTION STARTED .........................:      2022/11/23  16:21:14
+ EXECUTION COMPLETED .......................:      2022/11/23  16:21:15
   
- ELAPSED TIME     =          1.17 s
-                          0:00:01
- ESTIMATED SPEEDUP=          1.55
+ ELAPSED TIME     =          0.59 s
+                          0:00:00
+ ESTIMATED SPEEDUP=          5.68
 
 
 
@@ -331,8 +327,8 @@
   
                    ** COMPUTE RUNTIME INFORMATION SUMMARY **
   
-        STARTER RUNTIME =          1.37s (00:00:01)
- # 001   ENGINE RUNTIME =          1.17s (00:00:01)
+        STARTER RUNTIME =          0.68s (00:00:00)
+ # 001   ENGINE RUNTIME =          0.59s (00:00:00)
  ------------------------------ 
- STARTER+ENGINE RUNTIME =          2.55s (00:00:02)
+ STARTER+ENGINE RUNTIME =          1.27s (00:00:01)
   

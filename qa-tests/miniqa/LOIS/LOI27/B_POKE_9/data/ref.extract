@@ -1,13 +1,13 @@
     1 Start                    0
-    2 CYCLE	400                 
-    3 TIME	0.4822              
-    4 TSTEP	0.00279             
-    5 ELEMENT	0                   
-    6 ELTID	1                   
-    7 ERROR	-1.1                
-    8 IENERGY	22470               
-    9 KENERGYT	22.25               
-   10 KENERGYR	1.659e-29           
-   11 EXTWORK	22730               
-   12 MASERR	0                   
+    2 CYCLE	       400
+    3 TIME	 4.8220e-01
+    4 TSTEP	 2.7900e-03
+    5 ELEMENT	0
+    6 ELTID	         1
+    7 ERROR	 -1.1
+    8 IENERGY	 2.2470e+04 2.2730e+04
+    9 KENERGYT	 2.2250e+01 2.2730e+04
+   10 KENERGYR	 1.2530e-29 2.2730e+04
+   11 EXTWORK	 2.2730e+04 2.2730e+04
+   12 MASERR	0.000
    13 Stop                    0
