@@ -122,7 +122,7 @@ C-----------------------------------------------
             ENDIF
 c           outgoing volume flux (estimation)
             ALPHI  = ALPHI  + FF(K)
-c           intial outgoing flux
+c           initial outgoing flux
             PHI0 = PHI0 + FLUX(K,II) 
           ENDIF
         ENDDO

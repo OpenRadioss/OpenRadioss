@@ -90,7 +90,7 @@ C----------------------------
 C     DIRECTION LIBRE
 C----------------------------
         !   --------------------
-        !   initializaton
+        !   initialization
         NA=CYL_JOIN(N_JOINT)%MAIN_NODE(1) !NOD(1)
         NB=CYL_JOIN(N_JOINT)%MAIN_NODE(2) !NOD(2)
 
@@ -260,7 +260,7 @@ C----------------------------
         !   --------------------
         CALL MY_BARRIER
         !   --------------------
-        !   load *_GOBAL global variables into a local one
+        !   load *_GLOBAL global variables into a local one
         MASSE = MASSE_GLOBAL
         XCDG = XCDG_GLOBAL
         YCDG = YCDG_GLOBAL

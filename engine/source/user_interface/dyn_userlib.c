@@ -601,7 +601,7 @@ void _FCALL DYN_USERLIB_INIT (char * libname, int *size, int * userlib_avail, in
      if (err==0)*userlib_avail = 1;
      
     }else{
-/*        printf("load unsuccessfull\n");*/
+/*        printf("load unsuccessful\n");*/
     }
 }
 

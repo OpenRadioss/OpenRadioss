@@ -162,7 +162,7 @@ Chd|====================================================================
       MODULE SENSOR_MOD
 !$COMMENT
 !       SENSOR_MOD :
-!              create the structur for the sensor energy
+!              create the structure for the sensor energy
 !               * SUB_SENSOR_TYPE & SENSOR_TYPE : structure for the parith/on accumulation
 !               * SENSOR_GROUP : structure for the element group
 !               * SENSOR_COMM  : structuer for the mpi communication
@@ -213,7 +213,7 @@ c
       TYPE SENSOR_GROUP
         INTEGER :: NUM_PART     !   number of part per element group
         INTEGER, DIMENSION(:,:), ALLOCATABLE :: PART   !   size = (num_part,3)
-!       structur of SENS_GROUP%PART :
+!       structure of SENS_GROUP%PART :
 !       (1:num_part,1): id of the part
 !       (1:num_part,2): type of energy sensor (1=part / 2=subset)
 !       (1:num_part,3): sensor linked to the current part
@@ -227,9 +227,9 @@ c
         INTEGER, DIMENSION(:), ALLOCATABLE :: ID_SENS   !   id of the sensor
       END TYPE SENSOR_COMM
       ! -----------------------------------
-      type(sensor_comm) :: COMM_SENS14 ! struture for mpi communication : sensor typ14
-      type(sensor_comm) :: COMM_SENS16 ! struture for mpi communication : sensor typ16
-      type(sensor_comm) :: COMM_SENS17 ! struture for mpi communication : sensor typ17 --> sensor temperature
+      type(sensor_comm) :: COMM_SENS14 ! structure for mpi communication : sensor typ14
+      type(sensor_comm) :: COMM_SENS16 ! structure for mpi communication : sensor typ16
+      type(sensor_comm) :: COMM_SENS17 ! structure for mpi communication : sensor typ17 --> sensor temperature
       type(sensor_type), DIMENSION(:), ALLOCATABLE :: SENSOR_STRUCT     !   structure of energy sensor
       type(sensor_group), DIMENSION(:), ALLOCATABLE :: SENS_GROUP       !   structure of energy sensor
       INTEGER :: NGR_SENSOR

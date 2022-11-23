@@ -237,11 +237,11 @@ C
 C      
       CALL MY_BARRIER
 C-----------------------------
-C       SPMD EXCAHNGE
+C       SPMD EXCHANGE
 C-----------------------------
       IF (NSPMD > 1) THEN
 C
-C PArt not parallel smt
+C Part not parallel smt
 C
 !$OMP SINGLE
         CALL SPMD_E1VOIS(PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,

@@ -68,8 +68,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: MODE
       ! MODE 0 =>  ISEND sizes
       ! MODE 1 =>  ISEND buffer
-      ! MODE 2 =>  Recieve the sizes 
-      ! MODE 3 =>  Recieve the messages
+      ! MODE 2 =>  Receive the sizes 
+      ! MODE 3 =>  Receive the messages
       ! MODE 4 =>  Deallocate Recv buffer
       ! MODE 5 =>  Deallocate Send buffer 
       INTEGER, INTENT(IN) :: NIN ! Interface number
@@ -254,7 +254,7 @@ Chd|====================================================================
      3                             FR_NOR, IAD_FRNOR, NB_SLID   ,ITAB, H3D_DATA,
      4                             INTFRIC,FLAGREMN , LREMNORMAX,NRTM,IVIS2 )
 c
-c -  Nodes in IREM are not necessarly from their PMAIN processor.
+c -  Nodes in IREM are not necessarily from their PMAIN processor.
 c -  IREM is reordered according to ITAB for each PMAIN 
 c        INDX_FOR_P(0) = positions in IREM of the sliding secnd nodes that
 c                        have 0 as PMAIN
@@ -278,7 +278,7 @@ c    (present in XREM and old TMP%*FI strucutre), then the values in *FI structu
 c    are replaced by the values coming from [XI]REM. 
 c
 c  Example using NSPMD = 4. 
-c  proc P3 recieved some incoming sliding nodes from P0 P1 & P2, and 
+c  proc P3 received some incoming sliding nodes from P0 P1 & P2, and 
 c  store the secnds nodes that have P0 as PMAIN:
 c     - The node with UID 500 is sliding from P1 to P3 and has P0 as PMAIN 
 c        This node is a new (was not included in the old *FI structures).  
@@ -492,7 +492,7 @@ C
       ! voir avec  ce qu'il faut faire dans ce cas
         NN = 0
         NSNR_OLD = NSNFI(NIN)%P(P)
-        NSNR_NEW = SINDEX(P) ! NSNR from XREM, we don't know yet if they are already knwon 
+        NSNR_NEW = SINDEX(P) ! NSNR from XREM, we don't know yet if they are already known
         NSNFI(NIN)%P(P) = NSNR_NEW + NSNR_OLD 
 
         IF(NSNR_OLD +  NSNR_NEW > 0) THEN
@@ -572,7 +572,7 @@ C
               END IF
             ELSEIF (ID_NEW == ID_OLD .AND. PNEW <= NSNR_NEW .AND. POLD <= NSNR_OLD) THEN
               ! In the case the secnd sliding from another processor
-              ! is knwon already on this processor, then we keep the new values
+              ! is known already on this processor, then we keep the new values
               ! in IREM and XREM
               NSNFI(NIN)%P(P) =  NSNFI(NIN)%P(P) - 1
               INDEX(IDEB_OLD+POLD) = IX + IDEB_NEW
@@ -588,7 +588,7 @@ C
 
 
 C ========================================================
-C If a secnd is already known, update local strcuture here
+C If a secnd is already known, update local structure here
 C Or in ELSEIF(I == 0) THEN blocks below
 C ========================================================
           DO J = 1,NBLOCAL
@@ -601,7 +601,7 @@ C ========================================================
           ENDDO
 
 C ========================================================
-C If a secnd is already known, update local strcuture here
+C If a secnd is already known, update local structure here
 C ========================================================
 
 
@@ -616,7 +616,7 @@ C =============================================================
             I = IAUX(J)
             K = IDEB_NEW+J-NBLOCAL
             IF(I > 0 )THEN
-              ! IAUX > 0 => Pointer to  secnds already in FI strcuture
+              ! IAUX > 0 => Pointer to  secnds already in FI structure
               L = IDEB_OLD+I
               XFI(NIN)%P(1,K)     = TMP%XFI%P(1,L)
               XFI(NIN)%P(2,K)     = TMP%XFI%P(2,L)

@@ -70,7 +70,7 @@ C-----------------------------------------------
      .        I,J,K,N,M,EP,L,IGTYP,NNOD,K1,IHBE,EP1,IAD0,NPT,IDRIL
       my_real
      .   IOF
-C--------NROW(NUMNOD) : number of connnected nodes (sym)
+C--------NROW(NUMNOD) : number of connected nodes (sym)
 C----6---------------------------------------------------------------7---------8
       DO 100 NG=1,NGROUP
        IF (IPARG(8,NG)/=1) THEN
@@ -369,7 +369,7 @@ C-----------------------------------------------
      .        I,J,K,N,M,EP,L,IGTYP,NNOD,K1,IHBE,NK,EP1,IAD0
       my_real
      .  IOF
-C--------NROW(NUMNOD) : number of connnected nodes (non sym)
+C--------NROW(NUMNOD) : number of connected nodes (non sym)
 C----6---------------------------------------------------------------7---------8
       DO 100 NG=1,NGROUP
        IF (IPARG(8,NG)/=1) THEN
@@ -1009,7 +1009,7 @@ C-----------------------------------------------
      .        I,J,K,N,M,EP,L,IGTYP,NNOD,K1,IHBE,NK,NK1,EP1,IAD0
       my_real
      .   IOF
-C--------NROW(NUMNOD) : number of connnected nodes (non sym)
+C--------NROW(NUMNOD) : number of connected nodes (non sym)
 C----6---------------------------------------------------------------7---------8
       DO 100 NG=1,NGROUP
        IF (IPARG(8,NG)/=1) THEN
@@ -1359,7 +1359,7 @@ C-----------------------------------------------
      .        I,J,K,N,M,EP,L,IGTYP,NNOD,K1,IHBE,NK,NJ,EP1,IAD0
       my_real
      .  IOF
-C--------NROW(NUMNOD) : number of connnected nodes (non sym)
+C--------NROW(NUMNOD) : number of connected nodes (non sym)
 C----6---------------------------------------------------------------7---------8
       DO 100 NG=1,NGROUP
        IF (IPARG(8,NG)/=1) THEN
@@ -1892,7 +1892,7 @@ C
        M = NPRW(N)
        IF (M>0) NDOF(M)=NDOFI
       ENDDO
-C--------temporaly to avoid issue w/ contact +spmd
+C--------temporarily to avoid issue w/ contact +spmd
       IF (NSPMD > 1 .AND.NINTER > 0) THEN
        DO I=1,NRBE3
         N=IRBE3(3,I)
@@ -3292,7 +3292,7 @@ C-----------------------------------------------
       DO N =1,NUMNOD
        INLOC(N)=0
       ENDDO
-c-----2. pepare icol for secnd nodes using ikine;
+c-----2. prepare icol for secnd nodes using ikine;
       CALL DIM_KINE_P(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
      2    SENSOR    ,IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,

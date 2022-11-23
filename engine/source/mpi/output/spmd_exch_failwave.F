@@ -172,7 +172,7 @@ C=======================================================================
       LOC_PROC = ISPMD + 1
 
 C--------------------------------------------------------------------
-C 1. SEND MAXLEV (Stacked informations to the others)
+C 1. SEND MAXLEV (Stacked information to the others)
 C--------------------------------------------------------------------
       SIZ = FAILWAVE%FWAVE_IAD(NSPMD+1)-FAILWAVE%FWAVE_IAD(1)
       ALLOCATE(RBUFI(SIZ))
@@ -225,7 +225,7 @@ c--------------------------------------------------------------------
         ENDIF
       ENDDO
 c--------------------------------------------------------------------
-c     Receive buffer & compute recieve_size
+c     Receive buffer & compute receive_size
 c-------------------------------------------------------------------
       RECV_SIZ(1:NSPMD)=0
 
@@ -255,7 +255,7 @@ c-------------------------------------------------------------------
 
 
 C---------------------------------------------------------------
-C Prepare & send Stacked informations
+C Prepare & send Stacked information
 C ---------------------------------------------------------------
       IAD_SEND(1)=1
       IAD_RECV(1)=1
@@ -321,7 +321,7 @@ C            print*,'isend=',L
 
 C wait & unstack
 c--------------------------------------------------------------------
-c     Receive buffer & compute recieve_size
+c     Receive buffer & compute receive_size
 c-------------------------------------------------------------------
       RECV_SIZ(1:NSPMD)=0
 

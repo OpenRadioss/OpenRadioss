@@ -151,7 +151,7 @@ C
          YYMOM = VR(2,M)*IN(M)
          ZZMOM = VR(3,M)*IN(M)
        ELSEIF(N2D==1) THEN
-C        ANALYSE 2D : Axisymetry
+C        ANALYSE 2D : Axisymmetry
          XMOM = ZERO
          YMOM = V(2,M)*MS(M)
          ZMOM = V(3,M)*MS(M)
@@ -268,7 +268,7 @@ c     .        -(X(2,N)-X(2,M))*V(1,N)*MS(N)
 C
         ENDDO
        ELSEIF(N2D==1) THEN
-C        ANALYSE 2D : Axisymetry
+C        ANALYSE 2D : Axisymmetry
         DO I=1,NSN
           N = LPBY(I)
           IF(ITAG(NUMNOD+N) > 0.AND.WEIGHT(N) == 1)THEN
@@ -318,7 +318,7 @@ C
 C
         ENDDO
        ELSEIF(N2D==2) THEN
-C        ANALYSE 2D : Plane symetry
+C        ANALYSE 2D : Plane symmetry
         DO I=1,NSN
           N = LPBY(I)
           IF(ITAG(NUMNOD+N) > 0.AND.WEIGHT(N) == 1)THEN

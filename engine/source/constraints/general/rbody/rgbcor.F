@@ -68,7 +68,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   VI(3),VG(3),DT05,MAS,WEWE2
-C to keep enough acuracy in single precision
+C to keep enough accuracy in single precision
       DOUBLE PRECISION
      .   ENROTT,ENCINT,XMASST,XMOMTT,YMOMTT,ZMOMTT,
      .   ENCIN2T,ENROT2T
@@ -595,7 +595,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   VI(3),VG(3),DT05,MAS,WEWE2,WROT,WROT2,WTRA2
-C to keep enough acuracy in single precision
+C to keep enough accuracy in single precision
       DOUBLE PRECISION
      .   ENROTT,ENCINT,XMASST,XMOMTT,YMOMTT,ZMOMTT,
      .   ENCIN2T,ENROT2T

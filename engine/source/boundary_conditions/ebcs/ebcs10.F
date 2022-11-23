@@ -309,7 +309,7 @@ C-----------------------------------------------
               SEGVAR%PHASE_ALPHA(1:4,KSEG) = PHASE_ALPHA(1:4)
             ENDIF
             
-           !expand pressure loading to segement nodes
+           !expand pressure loading to segment nodes
            DO KK=1,NPT
              LA(1,NN(KK)) = LA(1,NN(KK)) -  PP*SURF*XN*FAC1
              LA(2,NN(KK)) = LA(2,NN(KK)) -  PP*SURF*YN*FAC1

@@ -335,7 +335,7 @@ C
           FAC  = VEL(1,N)
           YC(II)  = YC(II) * FAC
           FACX   = VEL(5,N)
-C IBFV(7,N):1 V;2 D ;0 A ; explict YC=A;implicit YC=D;
+C IBFV(7,N):1 V;2 D ;0 A ; explicit YC=A;implicit YC=D;
           IF(IBFV(7,N)<2) YC(II)  = YC(II) / FACX
           IF(IBFV(7,N)==0) YC(II)  = YC(II) / FACX
           VL(N) = YC(II)
@@ -2207,7 +2207,7 @@ C     REAL
 C IBFV(7,N):1 V;2 D ;0 A ;
 C-------------------------------
 C  calculate average value (Fint(t+dt)+Fint(t)) for W_ext compute stored at VEL(4,N)
-C---Fint(t) has been calculated and stored at begining of imp_solv(even t+dt) ; input A,AR : residual
+C---Fint(t) has been calculated and stored at beginning of imp_solv(even t+dt) ; input A,AR : residual
 C-----------------------------------------------
       IDEB = 0
 C
@@ -2357,7 +2357,7 @@ C-----------------------------------------------
 C--------LJ()=1,6----- LJ<0
 C-1) impose disp in global system
 C-2) change CDT,CDR and call BC1 for [K] update
-C-3) when there is conflit, change FV or BCS global dir(UD will be updated in FVBC_IMPL)
+C-3) when there is conflict, change FV or BCS global dir(UD will be updated in FVBC_IMPL)
 C-4) adding FVBC_IMPD in RECUKIN as FV_IMP is called several times
 C  if treated before
        DO N = 1,NFXVEL
@@ -2429,7 +2429,7 @@ C---------look for another Ud in LJ()<0
             N1 = ITAG(N)
             J11 = IBFV(2,N1)
             J1_1 = -LJ(N1)
-C-----suppose ICT =(1,2,4) otherwise starter does not passs
+C-----suppose ICT =(1,2,4) otherwise starter does not pass
            CALL GETBCL_J(ICTR ,ISK   ,SKEW  ,JBC    ,J    )
            CALL FVBC_COMPA2(J1  ,J1_1 ,JBC ,IFIX(IDDL(I)+1) )
 C---------
@@ -2520,7 +2520,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C-1) impose disp in global system
 C-2) change CDT,CDR and call BC1 for [K] update
-C-3) when there is conflit, change FV or BCS global dir
+C-3) when there is conflict, change FV or BCS global dir
 C-4) adding FVBC_IMPD in RECUKIN as FV_IMP is called several times
       INTEGER N, I, ISK, J, L, K1, K2, K3, K,II,N1,
      .        IFM, J2,J3,I1,J1,ND,NUD,ITAG(NFXVEL),ICTR,
@@ -2579,7 +2579,7 @@ C -------error out
                  WRITE(ISTDO,'(A,I4)')
      +            ' ** ERROR IN IMPVEL(OR IMPDISP) IN SKEW:',ISK
             END IF
-C--------starter done aleady  CALL FVBC_COMP1(J,J11,ICTR)
+C--------starter done already  CALL FVBC_COMP1(J,J11,ICTR)
             IF (J>3) THEN
              CALL RECU_UL(ISK,IFM,SKEW,XFRAME,J,J1,UDL,RD(1,I),N)
              CALL RECU_UL(ISK,IFM,SKEW,XFRAME,J11,J1_1,UDL,RD(1,I),N1)
@@ -2590,7 +2590,7 @@ C--------starter done aleady  CALL FVBC_COMP1(J,J11,ICTR)
 C--------calculate Ud in global system (only SKEW is available w/ BCS
             CALL UDL2_UG(SKEW(1,ISK),UDL,UDG)
 C----------compatibility FV-BCS-(condensation components)----- ;
-C-----suppose ICT =(1,2,4) otherwise starter does not passs
+C-----suppose ICT =(1,2,4) otherwise starter does not pass
             CALL GETBCL_J(ICTR ,ISK   ,SKEW  ,JBC    ,J    )
             CALL FVBC_COMPA2(J1  ,J1_1 ,JBC ,IFIX(IDDL(I)+1) )
 C----------update 2 ud J1,J1_1 first ;
@@ -3468,7 +3468,7 @@ C--------------error out
              WRITE(ISTDO,'(A,I4)')
      .        ' ** ERROR IN IMPVEL(OR IMPDISP) IN SKEW:',ISK
             END IF
-C--------starter done aleady  CALL FVBC_COMP1(J,J11,ICTR)
+C--------starter done already  CALL FVBC_COMP1(J,J11,ICTR)
             IF (J>3) THEN
              CALL RECU_UL(ISK,IFM,SKEW,XFRAME,J,J1,UDL,RD(1,I),N)
              CALL RECU_UL(ISK,IFM,SKEW,XFRAME,J11,J1_1,UDL,RD(1,I),N1)
@@ -3479,7 +3479,7 @@ C--------starter done aleady  CALL FVBC_COMP1(J,J11,ICTR)
 C--------calculate Ud in global system (only SKEW is available w/ BCS
             CALL UDL2_UG(SKEW(1,ISK),UDL,UDG)
 C----------compatibility FV-BCS-(condensation components)----- ;
-C-----suppose ICT =(1,2,4) otherwise starter does not passs
+C-----suppose ICT =(1,2,4) otherwise starter does not pass
             CALL GETBCL_J(ICTR ,ISK   ,SKEW  ,JBC    ,J    )
             CALL FVBC_COMPA2(J1  ,J1_1 ,JBC ,IFIX(IDDL(I)+1) )
 C----------update 2 ud J1,J1_1 ;
@@ -3534,7 +3534,7 @@ C----------update ud
 C
       RETURN
       END
-C-------definitively, using different system (nodal) seting [K] makes coding more simple
+C-------definitively, using different system (nodal) setting [K] makes coding more simple
 C-----will do in V12, should:
 C-1). create ITSKEW(inode),IRSKEW(inode)
 C-2). change [K] to each nodal system once assemblage elementary
@@ -3816,7 +3816,7 @@ C--------------error out
              WRITE(ISTDO,'(A,I4)')
      .        ' ** ERROR IN IMPVEL(OR IMPDISP) IN SKEW:',ISK
             END IF
-C--------starter done aleady  CALL FVBC_COMP1(J,J11,ICTR)
+C--------starter done already  CALL FVBC_COMP1(J,J11,ICTR)
             IF (J>3) THEN
              CALL RECU_UL(ISK,IFM,SKEW,XFRAME,J,J1,UDL,RD(1,I),N)
              CALL RECU_UL(ISK,IFM,SKEW,XFRAME,J11,J1_1,UDL,RD(1,I),N1)
@@ -3827,7 +3827,7 @@ C--------starter done aleady  CALL FVBC_COMP1(J,J11,ICTR)
 C--------calculate Ud in global system (only SKEW is available w/ BCS
             CALL UDL2_UG(SKEW(1,ISK),UDL,UDG)
 C----------compatibility FV-BCS-(condensation components)----- ;
-C-----suppose ICT =(1,2,4) otherwise starter does not passs
+C-----suppose ICT =(1,2,4) otherwise starter does not pass
             CALL GETBCL_J(ICTR ,ISK   ,SKEW  ,JBC    ,J    )
             CALL FVBC_COMPA2(J1  ,J1_1 ,JBC ,IFIX )
 C----------update 2 ud J1,J1_1 ;

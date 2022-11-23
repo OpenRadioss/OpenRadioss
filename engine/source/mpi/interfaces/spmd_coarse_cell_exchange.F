@@ -173,7 +173,7 @@ C-----------------------------------------------
         ENDIF
         !   -------------------------
         !   MODE=2 : - wait the previous comm
-        !            - check if curent proc and remote proc need to communicate
+        !            - check if current proc and remote proc need to communicate
         IF(MODE==2) THEN
             DO KK=1,NB_REQUEST_COARSE_CELL
                 CALL MPI_WAIT(ARRAY_REQUEST_COARSE_CELL(KK),STATUS,IERROR)  

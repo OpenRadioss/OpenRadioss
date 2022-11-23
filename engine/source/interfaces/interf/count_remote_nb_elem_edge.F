@@ -38,8 +38,8 @@ Chd|====================================================================
 !           loop over the 2 or 4 nodes:
 !           - convert the global id to local id
 !           - check if a element is associated to the list of node (2 or 4 nodes)
-!           - if it's true, send to the remote processor "you need to deactive the nodes
-!             from your interface!"
+!           - if it's true, send to the remote processor "you need to deactivate
+!             the nodes from your interface!"
 !$ENDCOMMENT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

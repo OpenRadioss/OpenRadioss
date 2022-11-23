@@ -124,13 +124,13 @@ C-----------------------------------------------
 !              1     NSNFI(1)%P(1)       NSNFI(1)%P(1)+NSNFI(1)%P(3)
 !              
 !                          
-!       lenght for the nth proc = SUM( NSNFI%P(n) ) for all NINTER interfaces
-!       total lenght the nth proc = SUM( NSNFI%P( 1-->NSPMD ) ) for all NINTER interfaces
+!       length for the nth proc = SUM( NSNFI%P(n) ) for all NINTER interfaces
+!       total length the nth proc = SUM( NSNFI%P( 1-->NSPMD ) ) for all NINTER interfaces
 !
 !
 !       to initialize the buffer, the I_STOCK candidate nodes are scanned
 !       if a candidate node is a remote node (--> CAND_N > NSN) AND its CAND_F value
-!       is non-zero, then this node must be transmited to the SI proc
+!       is non-zero, then this node must be transmitted to the SI proc
 !       for a remote node, CAND_N = NSN + SUM( NSNFI(NIN)%P(p)) + ii
 !       ii is the local index of the node
 !       --> so ii = CAND_N - NSN - SUM( NSNFI(NIN)%P(p)) is sent to the local proc SI
@@ -144,8 +144,8 @@ C-----------------------------------------------
 !              <----------->   <------->   <--------->
 !              |   |   |   | * |   |  |  * |  |        |* ...
 !       inter :  8   10  11       1  ...
-!       lenght for the nth proc = SUM( NSNSI%P(n) ) for all NINTER interfaces
-!       total lenght the nth proc = SUM( NSNSI%P( 1-->NSPMD ) ) for all NINTER interfaces
+!       length for the nth proc = SUM( NSNSI%P(n) ) for all NINTER interfaces
+!       total length the nth proc = SUM( NSNSI%P( 1-->NSPMD ) ) for all NINTER interfaces
 !
 !
 

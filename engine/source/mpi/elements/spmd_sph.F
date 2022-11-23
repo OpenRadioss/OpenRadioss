@@ -1728,7 +1728,7 @@ c tratment of remote neighbours (locals done in sponof2)
 
       LOC_PROC = ISPMD+1
 c
-C TAG_SPH set to 1 in sponof2 if remote neighbourg
+C TAG_SPH set to 1 in sponof2 if remote neighbour
 C send TAG_SPH
       IDEB = 1
       DO P = 1, NSPMD

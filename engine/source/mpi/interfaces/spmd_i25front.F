@@ -793,7 +793,7 @@ C           CALL FLUSH(6)
 C           WRITE(6,*) "Go into wait"
             CALL FLUSH(6)
             CALL MPI_WAITANY(NSPMD,BUFFERS(NI25)%RECV_RQ,P,MPI_STATUS_IGNORE,IERROR)
-C           WRITE(6,*) "RECIEVE FROM",P-1
+C           WRITE(6,*) "RECEIVE FROM",P-1
             L0 = (BUFFERS(NI25)%IAD_RECV(P) - 1)*NB_VALUES 
             IBEGIN = 0
             IF( P > 1) THEN
@@ -926,7 +926,7 @@ C debug mode
 #endif
 
 
-C --------------- Free Send rquest SEND wait 
+C --------------- Free Send request SEND wait
       DO NI25=1,NINTER25
         N = INTLIST25(NI25)
         IEDGE = IPARI(58,N)

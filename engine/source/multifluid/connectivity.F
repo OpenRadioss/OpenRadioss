@@ -34,9 +34,9 @@ C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
 C     Builds array KVOIS that contains the number kface2 of
-C     the face by which an element J is a neighboor of an 
+C     the face by which an element J is a neighbor of an 
 C     element I of tab IVOIS.
-C     If I is an element and KFACE a face number, if J the neighboor
+C     If I is an element and KFACE a face number, if J the neighbor
 C     of I by face KFACE, that is to say J = IVOIS (KFACE, I)
 C     then, KFACE2 is such that I = IVOIS (KFACE2, J)
 C-----------------------------------------------

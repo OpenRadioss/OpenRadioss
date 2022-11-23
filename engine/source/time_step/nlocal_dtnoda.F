@@ -137,13 +137,13 @@ C
           DT2T = MIN(DT2T,DTNOD)
         ENDIF
 C       
-        ! Reseting non-local nodal stiffness
+        ! Resetting non-local nodal stiffness
         DO N = NODFT,NODLT
           ! Position of the first additional dof
           NPOS = NLOC_DMG%POSI(N)
           ! Number of additional degrees of freedom
           NDDL = NLOC_DMG%POSI(N+1) - NPOS
-          ! Reseting nodal stiffness
+          ! Resetting nodal stiffness
           STIFN(NPOS:NPOS+NDDL-1) = EM20
         ENDDO
 C

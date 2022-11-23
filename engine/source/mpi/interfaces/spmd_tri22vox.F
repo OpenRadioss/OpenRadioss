@@ -237,7 +237,7 @@ C=======================================================================
           NBOX(P) = NB_
           !NSHELR = NB_
          !-------------------------------------------!
-         !     Message Lenght for Sending            !
+         !     Message Length for Sending            !
          !-------------------------------------------!
           MSGTYP = MSGOFF3 
           CALL MPI_ISEND(NBOX(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,

@@ -38,13 +38,13 @@ Chd|====================================================================
      .                  A,    LGAUGE , GAUGE , NNT   ,FEXT   , NSKIP,
      .                  H3D_DATA     ) 
 C
-C Boardcast data from PMAIN to other processors
-C Arrays sended:
+C Broadcast data from PMAIN to other processors
+C Arrays sent:
 C - GGG, GGA
 C - AAA
 C - XXXA
 C - IVOLU(49) (number of volumes, needed to switch to UP 
-C - RVOLU, RBAGJET, IBAGHOL(1,:) boardcasted if switch to UP
+C - RVOLU, RBAGJET, IBAGHOL(1,:) broadcasted if switch to UP
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -175,7 +175,7 @@ C----------------------------
 C POSITION FOR VISUALISATION
 C----------------------------
       IF( FVSPMD(IFV)%NNA_L_GLOB > 0) THEN
-      ! The BCAST is necessery if at least one proc. has NNA_L > 0
+      ! The BCAST is necessary if at least one proc. has NNA_L > 0
         IF(NSPMD > 1 .AND. FVSPMD(IFV)%RANK > -1 )THEN
      
           CALL SPMD_RBCAST_SUBCOMM(XXXA,3*NNA,0,

@@ -389,7 +389,7 @@ C-----------------------------------------------
       !   interface type22 (cut cell method)                 !
       !======================================================!
       IF(INT22 > 0)THEN
-      print *, "**inter22, CURRENLTY EULERIAN ONLY"
+      print *, "**inter22, CURRENTLY EULERIAN ONLY"
       stop 2204
         NIN   = 1
         DO I=LFT,LLT

@@ -88,7 +88,7 @@ C-----------------------------------------------
             MSGTYP=MSGOFF
 
             IF(RLEN > 0 ) THEN
-              ! Even though Recieve of length = 0 can cost nothing
+              ! Even though Receive of length = 0 can cost nothing
               ! SRBUF(LRECV+1) must exist
               CALL MPI_RECV(SRBUF(LRECV+1),RLEN,MPI_INTEGER,
      .                    IT_SPMD(I),MSGTYP,

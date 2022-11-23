@@ -118,7 +118,7 @@ C----------------------------------------
       IMP_INT=0
       ISPRN = 1
 C      INTP_C = 0
-C -----after debuging on int24 spmd, change defaut to INTP_C=1 (INTP_C=0 suppressed good for maintenance)      
+C -----after debugging on int24 spmd, change defaut to INTP_C=1 (INTP_C=0 suppressed good for maintenance)
       INTP_C = 1
       L_BFGS = 0
 C      IRREF = 0
@@ -370,7 +370,7 @@ C----------------------------
            IF ((NDTFIX+NJ)>100) THEN
             NJ = 100-NDTFIX
             WRITE(ISTDO,*) 
-     .       ' ** WARNING ** : MAXMUM 100 FIX POINTS PERMITTED '
+     .       ' ** WARNING ** : MAXIMUM 100 FIX POINTS PERMITTED '
            ENDIF
            READ(IUSC2,*,ERR=9990,END=9990)(DTIMPF(NDTFIX+J),J=1,NJ)
            KK=KK+1

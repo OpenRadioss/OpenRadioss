@@ -123,7 +123,7 @@ C Proc sends the same BUFS to everybody
       IDEB = 0
       IOFF = 0
       LEN = 0
-C Proc recieve only if IRECV(I) > 0
+C Proc receive only if IRECV(I) > 0
 C
       DO I = 1, NSPMD
         SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))

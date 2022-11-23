@@ -540,7 +540,7 @@ C---
 	  NN = JT(J,N)*WEIGHT(NS)
 	  FNS(J) = A(J,NS)*NN
 	ENDDO
-C---not to add supplementary mass globaly	
+C---not to add supplementary mass globally	
         CALL MFAC_RBE3(FDSTNB,MDSTNB,NML  ,IROTG,SFD ,SMD)
         DO I=1,NML
          K = IADMP(IAD+I)

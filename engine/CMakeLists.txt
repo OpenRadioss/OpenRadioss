@@ -12,7 +12,7 @@ project (Radioss_Engine)
 
 
 
-# Languace settings & Compiler Settings
+# Language settings & Compiler Settings
 # -------------------------------------
 enable_language (Fortran)
 enable_language (C)
@@ -145,7 +145,7 @@ if (NOT DEFINED arch)
 endif ()
 
 if ( NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CMake_Compilers${cdir}/cmake_${arch}.txt )
-   message(STATUS "CMake_Compilers${cdir}/cmake_${arch}.txt  file not fount ")
+   message(STATUS "CMake_Compilers${cdir}/cmake_${arch}.txt  file not found ")
    set (arch "none")
 endif ( NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CMake_Compilers${cdir}/cmake_${arch}.txt )
 

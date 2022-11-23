@@ -83,9 +83,9 @@ C-----------------------------------------------
 !       SPMD_SD_SKW organization :
 !       - initialize the SBUF buffer with the local SKEW value
 !       - initialize the displacement and the total number of 
-!         recevied SKEW
+!         received SKEW
 !       - ALLGATHERV comm
-!       - fill the SKEW array with the recevied RBUFF buffer
+!       - fill the SKEW array with the received RBUFF buffer
 !
 !       proc 1 :
 !               SBUF :   1 | 4 | 100          (--> 3 values)
@@ -122,7 +122,7 @@ C-----------------------------------------------
                 SBUF(10+(K-1)*10) = N+1
         END DO
 
-!       displacement, number of sent value and total number of recevied values
+!       displacement, number of sent value and total number of received values
         SENDCOUNT = K*10
         DIPSPL(1)=0
         TOTAL_RECV = RECVCOUNT(1)
@@ -212,9 +212,9 @@ C-----------------------------------------------
 !       SPMD_SD_SKW_ANIM organization :
 !       - initialize the SBUF buffer with the local SKEW value
 !       - initialize the displacement and the total number of 
-!         recevied SKEW
+!         received SKEW
 !       - ALLGATHER comm on 0 proc
-!       - fill the SKEW array with the recevied RBUFF buffer
+!       - fill the SKEW array with the received RBUFF buffer
 !
 !       proc 1 :
 !               SBUF :   1 | 4 | 100          (--> 3 values)
@@ -253,7 +253,7 @@ C-----------------------------------------------
                 IF(ISKWP(N+1)/=0) RECVCOUNT(ABS(ISKWP(N+1))) = RECVCOUNT(ABS(ISKWP(N+1))) + 10
         END DO
 
-!       displacement, number of sent value and total number of recevied values
+!       displacement, number of sent value and total number of received values
         SENDCOUNT = K*10
         DIPSPL(1)=0
         TOTAL_RECV = RECVCOUNT(1)

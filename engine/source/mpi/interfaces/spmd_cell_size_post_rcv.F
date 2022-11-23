@@ -111,7 +111,7 @@ C-----------------------------------------------
                                 NEED_TO_RCV = .FALSE.
                             ENDIF
                         ENDIF
-                        IF(ITIED/=0) NEED_TO_RCV = .TRUE.    ! itied option : force the exchnage
+                        IF(ITIED/=0) NEED_TO_RCV = .TRUE.    ! itied option : force the exchange
                         IF(NEED_TO_RCV) THEN
                             MSGTYP = MSGOFF3 
                             SORT_COMM(NIN)%NBRECV_NB=SORT_COMM(NIN)%NBRECV_NB+1

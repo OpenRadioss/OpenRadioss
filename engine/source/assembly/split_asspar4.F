@@ -117,7 +117,7 @@ C-----------------------------------------------
                                                 LAST(ITHREAD)= ITHREAD*NUMNOD/NTHREADS
                                         ENDDO
                                 ELSE             
-                                        !       splitting succes : force the last bound                    
+                                        !       splitting success : force the last bound                    
                                         ITHREAD = NTHREADS
                                         LAST(ITHREAD) = NUMNOD
                                         SUM_NC_THREAD(ITHREAD) = SUM_NC

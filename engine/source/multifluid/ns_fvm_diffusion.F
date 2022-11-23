@@ -122,7 +122,7 @@ c-----------------------------------------------
 
 !     ebcs / fluxout and ebcs / inlet : newman boundary conditions
       if (ebcs_tab%nebcs_fvm > 0) then
-!     flag_outlet = 0 for standard dirichlet condition: u_boudary = 0 un Euler, or w_grid in ALE. Rhs needs be modified
+!     flag_outlet = 0 for standard dirichlet condition: u_boundary = 0 un Euler, or w_grid in ALE. Rhs needs be modified
 !     flag_outlet = -1 for newman boundary condition
 !     flag_outlet = iebcs for dirichlet boundary condition, value of velocity is then taken as the one given in the inlet card.
          if (.not. diffusion%outlet_flagged) then

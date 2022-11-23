@@ -46,7 +46,7 @@ Chd|====================================================================
 !                  secondary nodes must be sorted according to theirs global IDs (for parith/on purpose)
 !       SPMD_CELL_SIZE_EXCHANGE organization :
 !       loop over the cells of the remote proc and :
-!           * check if 1 or several secondary nodes are in the currect remote proc & send the number of secondary nodes to the remote proc           
+!           * check if 1 or several secondary nodes are in the correct remote proc & send the number of secondary nodes to the remote proc           
 !           * if yes: - save the ID of the secondary nodes
 !                     - sort the ID according to the global secondary node ID (parith/on)!                     
 !                     - fill the buffer with the data of the secondary nodes (position/velocity...)                  

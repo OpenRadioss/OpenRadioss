@@ -120,7 +120,7 @@ C-----------------------------------------------
         ENDDO
       ELSE
         DO I=LFT,LLT
-          IF(TAG22(I)==ZERO) VTOT(I) = VTOT(I) + DELTA(I)  !can be optimized later (conditionnal test is currently within the loop)
+          IF(TAG22(I)==ZERO) VTOT(I) = VTOT(I) + DELTA(I)  !can be optimized later (conditional test is currently within the loop)
         ENDDO     
       ENDIF
 

@@ -290,7 +290,7 @@ C=======================================================================
       NSIZESUB=NLOC_DMG%NNOD
       SIZEA = NLOC_DMG%L_NLOC
 C-------------------------------
-C 1. SEND & RECIEVE Buffer size
+C 1. SEND & RECEIVE Buffer size
 C-------------------------------
       SIZ = NLOC_DMG%IAD_SIZE(NSPMD+1)-NLOC_DMG%IAD_SIZE(1)
       ALLOCATE(RECV_BUF(SIZ))
@@ -346,7 +346,7 @@ c--------------------------------------------------------------------
           ENDIF
       ENDDO
 c--------------------------------------------------------------------
-c     Receive buffer & compute recieve_size
+c     Receive buffer & compute receive_size
 c-------------------------------------------------------------------
       K=1
       DO I = 1, NSPMD
@@ -468,7 +468,7 @@ C=======================================================================
       NSIZESUB=NLOC_DMG%NNOD
       SIZEA = NLOC_DMG%L_NLOC
 C-------------------------------
-C 1. SEND & RECIEVE Buffer size
+C 1. SEND & RECEIVE Buffer size
 C-------------------------------
       SIZ_S = NLOC_DMG%FR_NBCC(1,NSPMD+1)
       SIZ_R = NLOC_DMG%FR_NBCC(2,NSPMD+1)
@@ -530,7 +530,7 @@ c--------------------------------------------------------------------
           ENDIF
       ENDDO
 c--------------------------------------------------------------------
-c     Receive buffer & compute recieve_size
+c     Receive buffer & compute receive_size
 c-------------------------------------------------------------------
       K=1
       DO I = 1, NSPMD

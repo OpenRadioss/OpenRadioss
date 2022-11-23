@@ -1862,7 +1862,7 @@ C-----------------------
            I_SUPG_ON_OFF   = 1
          ELSE
            IF(N2D==1)THEN
-           !axisymetric case
+           !axisymmetric case
              UPWM          = 0
              UPW_UPDATE    = 0
            ELSE

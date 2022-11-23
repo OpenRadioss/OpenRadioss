@@ -39,12 +39,12 @@ Chd|====================================================================
      .                                          ADDCNEL,CNEL,TAG_NODE,TAG_ELEM )
 !$COMMENT
 !       SPMD_EXCH_DELETED_SURF_EDGE description
-!           exchange of edge/surface that need to be deactivate
+!           exchange of edge/surface that need to be deactivated
 !       SPMD_EXCH_DELETED_SURF_EDGE organization 
 !           step 1 : exchange the number of edge and surface
 !           step 2 : allocation of buffer
 !           step 3 : exchange the list of edge and surface
-!           step 4 : deactive the edge/surface
+!           step 4 : deactivate the edge/surface
 !$ENDCOMMENT
         USE ARRAY_MOD
         USE SHOOTING_NODE_MOD
@@ -159,7 +159,7 @@ C-----------------------------------------------
         ! ----------------
 
         ! ----------------
-        ! recieve the data : "number of 4 nodes defining a surface + number of 2 nodes def. an edge"
+        ! receive the data : "number of 4 nodes defining a surface + number of 2 nodes def. an edge"
         RECV_NB = 0        
         DO I=1,NSPMD
             FRONTIER_ELM = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
@@ -201,7 +201,7 @@ C-----------------------------------------------
         ! ----------------
 
         ! ----------------
-        ! recieve the data : "list of 4 nodes defining a surface + 2 nodes def. an edge"
+        ! receive the data : "list of 4 nodes defining a surface + 2 nodes def. an edge"
         RECV_SURF_NB = 0
         INDEX_BUFFER_R_2(1:NSPMD) = 0
         REMOTE_SURF_PER_PROC_2(1:2,1:NSPMD) = 0

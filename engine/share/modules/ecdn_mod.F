@@ -43,7 +43,7 @@ C=======================================================================
         integer, DIMENSION(:) , POINTER ::  ICNDS10   !  3*NS10E 
 C-- :ND, 2:N1, 3:N2	; ND <0 : degenerated  
 C=======================================================================
-c DEFINE ARRAYS (float arrays) : intenal arrays :restarter
+c DEFINE ARRAYS (float arrays) : internal arrays :restarter
 C=======================================================================
         integer, DIMENSION(:) , POINTER ::  IAD_CNDM,FR_CNDM   !  edge node on the front 
         integer, DIMENSION(:) , POINTER ::  IAD_CNDM1,FR_CNDM1   !  edge node on the front 

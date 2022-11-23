@@ -257,7 +257,7 @@ C     Intermediate wave speed
             VII(3) = RHOII * VYII
             VII(4) = RHOII * VZII
             VII(5) = EINTII + HALF * RHOII * VELII2
-!     Normal physical flux curent element
+!     Normal physical flux current element
             FII(1) = VII(1) * NORMAL_VELII
             FII(2) = VII(2) * NORMAL_VELII + PII * NX
             FII(3) = VII(3) * NORMAL_VELII + PII * NY
@@ -291,7 +291,7 @@ C
             VII(3) = RHOII * VYII
             VII(4) = RHOII * VZII
             VII(5) = EINTII + HALF * RHOII * VELII2
-!     Normal physical flux curent element
+!     Normal physical flux current element
             FII(1) = VII(1) * NORMAL_VELII
             FII(2) = VII(2) * NORMAL_VELII + PII * NX
             FII(3) = VII(3) * NORMAL_VELII + PII * NY
@@ -346,7 +346,7 @@ C     Submaterial fluxes
             VII(3) = RHOJJ * VYJJ
             VII(4) = RHOJJ * VZJJ
             VII(5) = EINTJJ + HALF * RHOJJ * VELJJ2
-!     Normal physical flux curent element
+!     Normal physical flux current element
             FII(1) = VII(1) * NORMAL_VELJJ
             FII(2) = VII(2) * NORMAL_VELJJ + P_JJ * NX
             FII(3) = VII(3) * NORMAL_VELJJ + P_JJ * NY
@@ -399,7 +399,7 @@ C     Submaterial fluxes
             VII(3) = RHOJJ * VYJJ
             VII(4) = RHOJJ * VZJJ
             VII(5) = EINTJJ + HALF * RHOJJ * VELJJ2
-!     Normal physical flux curent element
+!     Normal physical flux current element
             FII(1) = VII(1) * NORMAL_VELJJ
             FII(2) = VII(2) * NORMAL_VELJJ + P_JJ * NX
             FII(3) = VII(3) * NORMAL_VELJJ + P_JJ * NY

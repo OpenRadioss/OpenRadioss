@@ -235,7 +235,7 @@ C----------------|  sym       | GG(L_SUBKT) |
       END TYPE L_KTBUFGM_
 
       TYPE KTBUF_STRUCT_
-C------the following interger arguments are not necessary for the moment
+C------the following integer arguments are not necessary for the moment
 c        integer     :: MLAW           !  1
 c        integer     :: NEL            !  2
 c        integer     :: NPTR           !  3

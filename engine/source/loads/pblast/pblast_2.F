@@ -179,7 +179,7 @@ C-----------------------------------------------
         N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)                                                                                                                                                             
                                                                                                                                                                                                       
         IF(N4==0 .OR. N3==N4 )THEN                                                                                                                                                                    
-          !3 NODE SEGEMENT                                                                                                                                                                            
+          !3 NODE SEGMENT                                                                                                                                                                            
           PBLAST_TAB(IL)%NPt(I)   = THREE  
           NPT = THREE                                                                                                                                                                          
           !Segment Zentrum                                                                                                                                                                            
@@ -194,7 +194,7 @@ C-----------------------------------------------
           NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))                                                                                                              
           NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                                                                                                                                                              
         ELSE                                                                                                                                                                                          
-          !4 NODE SEGEMENT                                                                                                                                                                            
+          !4 NODE SEGMENT                                                                                                                                                                            
           PBLAST_TAB(IL)%NPt(I)   = FOUR  
           NPT = FOUR                                                                                                                                                                           
           !Segment Zentrum                                                                                                                                                                            
@@ -375,7 +375,7 @@ C-----------------------------------------------
             T_A = bound1 + LAMBDA*(bound2-bound1)                                                                                                                                                     
           ENDIF                                                                                                                                                                                       
                                                                                                                                                                                                       
-          !swtich from normalized values.      ( Pressure are not scaled by W13 in tables )                                                                                                           
+          !switch from normalized values.      ( Pressure are not scaled by W13 in tables )                                                                                                           
           I_inci  = I_inci * W13                                                                                                                                                                      
           I_inci_ = I_inci_* W13                                                                                                                                                                      
           I_refl  = I_refl * W13                                                                                                                                                                      

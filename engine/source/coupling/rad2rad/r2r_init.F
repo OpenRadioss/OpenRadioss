@@ -222,7 +222,7 @@ C------	determination of the type of the interface
 	   SIZE_TAG_RBY = SIZE_TAG_RBY + NNG
 	ENDIF
 
-C--------------Reset of weight2 for dupplicated nodes--------        
+C--------------Reset of weight2 for duplicated nodes--------        
         IF ((TYPLNK(IEX)==5).AND.(MAIN_SIDE==1)) THEN
            DO NN=1,NNG
              N = IGRNOD(IDG)%ENTITY(NN)

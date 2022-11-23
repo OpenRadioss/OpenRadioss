@@ -94,7 +94,7 @@ C not free, both segments are local to the SPMD domain
               S1 = STIFM(IRM)
               S2 = STIFM(JRM)
             ELSEIF(IRM < 0 .AND. JRM > 0) THEN
-C if IRM is negative, thant JRM must be zero
+C if IRM is negative, then JRM must be zero
 C because split_interface
               ASSERT(.FALSE.)
 C edge at the boundary of spmd domains

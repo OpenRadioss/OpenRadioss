@@ -830,7 +830,7 @@ C               IRTLM(2,NSN) in TYPE24
               END DO          
               ISHIFT = ISHIFT + 3
 C---pay attention in i24sto.F IREM(I24IREMP+3,N-NSN) is used, 
-C----change the shift value when new tabel was added like I24_ICONT_I           
+C----change the shift value when new table was added like I24_ICONT_I           
               IF (ILEV==2) THEN  
                 L2 = 0                
 #include      "vectorize.inc"       
@@ -878,7 +878,7 @@ C               IRTLM(3,I) == local n    of the impacted segment is shared but o
               END DO          
               ISHIFT = ISHIFT + 6
 C---pay attention in i25sto.F IREM(I24IREMP+4,N-NSN) is used, 
-C----change the shift value when new tabel was added like IRTLM(3*(I-1)+2)              
+C----change the shift value when new table was added like IRTLM(3*(I-1)+2)              
               IF (ILEV==2) THEN  
                 L2 = 0                
 #include      "vectorize.inc"       

@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C.../INTER22/
 
       COMMON /INTER22_i/  
-     . NSUB22         ! Number of layer or number of effective Sides (2),one of them can be a disjoint union od several topologies
+     . NSUB22         ! Number of layer or number of effective Sides (2),one of them can be a disjoint union of several topologies
      .,IOUTP22        ! flag for debug output : -1 no output, 0: output from i22datainit.F
      .,INT22          ! Number of defined interfaces /INTER/TYPE22
      .,I22LEN         ! Buffer Size for intersected bricks

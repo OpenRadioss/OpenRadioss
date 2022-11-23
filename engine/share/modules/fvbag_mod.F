@@ -163,11 +163,11 @@ C-----------------------------------------------
       ! Then use it when airbag buffer are allocated (restart file is read after FREEFORM subroutine)
       TYPE FVMBAG_INPUT_OPTIONS_
         INTEGER ID_BAG        ! airbag identifier
-        INTEGER L_TYPE        ! charactersitic length option
+        INTEGER L_TYPE        ! characteristic length option
         INTEGER ID_DT_OPTION  !/DT/FVMBAG/[ID_DT_OPTION]
         my_real CFL_COEF
         my_real DTMIN        
-        my_real LAMBDA        ! 3rd paramter of /DT/FVMBAG option
+        my_real LAMBDA        ! 3rd parameter of /DT/FVMBAG option
       END TYPE FVMBAG_INPUT_OPTIONS_
             
 C-----------------------------------------------

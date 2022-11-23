@@ -220,7 +220,7 @@ C-----------------------------------------------
       ENDDO
 
       
-      ! Find the mimimum value of VAL and the processor that has it
+      ! Find the minimum value of VAL and the processor that has it
       PMIN = 1
       VAL = MY_STRUCT%BUFFER_VAL(1) 
       DO P=2,NSPMD

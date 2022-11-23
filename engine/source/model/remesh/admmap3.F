@@ -130,7 +130,7 @@ C
         I1	  = M-NFT1
         GBUFT => ELBUF_TAB(NG1)%GBUF
 !
-        DO K=1,8  ! lenght max of GBUF%G_STRA = 8
+        DO K=1,8  ! length max of GBUF%G_STRA = 8
           KK(K)  = NEL *(K-1)
           KK1(K) = NEL1*(K-1)
         ENDDO
@@ -247,7 +247,7 @@ c---------------------------------------------------
       GBUFT => ELBUF_TAB(NG1)%GBUF
       I1 = M-NFT1
 !
-      DO K=1,8  ! lenght max of GBUF%G_STRA = 8
+      DO K=1,8  ! length max of GBUF%G_STRA = 8
         KK(K)  = NEL *(K-1)
         KK1(K) = NEL1*(K-1)
       ENDDO

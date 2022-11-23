@@ -104,7 +104,7 @@ C-----------------------------------------------
          DO KK = 1, NV46
             VOIS_ID = ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1)
             IF (VOIS_ID > 0) THEN
-               !!! Value of the target function in the current neighboor
+               !!! Value of the target function in the current neighbor
                VALL = VOLUME_FRACTION(ITRIMAT,VOIS_ID)
                YL = ELCENTER(2, VOIS_ID) ; ZL = ELCENTER(3, VOIS_ID)
             ELSE

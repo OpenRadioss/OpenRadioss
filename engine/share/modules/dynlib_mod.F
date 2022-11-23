@@ -34,7 +34,7 @@ Chd|====================================================================
 !       DYNLIB_MOD :
 !           * define a structure DLIB_STRUCT in order to manage the user routine calls :
 !               * up to 100 user routines (--> NBR_DLIB variable)
-!               * DLIB_NAME_LEN : maximal user routine name lenght
+!               * DLIB_NAME_LEN : maximal user routine name length
 !               * DLIB_NAME : name of the user routine
 !               * DLIB_BOOL : boolean : true = user routine available
 !           * initialize the DLIB_STRUCT structure
