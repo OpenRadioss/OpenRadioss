@@ -2,37 +2,84 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                     RADIOSS STARTER MAINLINE                       **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 0917839_12638000000_1060_0055168_10                     **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2018                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 3059 MHz,  19924 MB RAM,  49057 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
- ** WARNING : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
-  
 
-+-------------------+
-| BLOCK FREE FORMAT |
-+-------------------+
+
+************************************************************************
+* INPUT READING PROCESS
+************************************************************************
+
+WARNING ID : 100211
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /AMS
+-- LINE: /AMS
+Unsupported option /AMS in format < 100
+
+WARNING ID : 100214
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /IOFLAG
+-- LINE: 0         0         0         0         0         0                                       0
+unsupported field exits
+SOLUTION :     
+    Please check input format and fields description defined in the Reference Guide.
+
+WARNING ID : 100214
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /ANALY
+-- LINE: 0         0         0         0
+unsupported field exits
+SOLUTION :     
+    Please check input format and fields description defined in the Reference Guide.
+
+ -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
+
+
+
+
+************************************************************************
+
+
+
+    UNIT SYSTEMS DEFINITION     
+    -----------------------     
+
+                                                          MASS                LENGTH              TIME
+    WORK UNIT SYSTEM . . . . . . ( Mg , mm , s   ) 1.0000000000000E+03 1.0000000000000E-03 1.0000000000000E+00
+    INPUT UNIT SYSTEM  . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+03 1.0000000000000E-03 1.0000000000000E+00
+
+
+    ADVANCED MASS SCALING:                           
+    ---------------------                            
+
+    AUTOMATIC ELEMENT SELECTION ENABLED (/DT/CST_AMS DETECTED IN ENGINE INPUT FILE)
+    TIME STEP CRITERIA FOR AMS ACTIVATION. . . . . .  . . . 4.2857142857143E-07
 
 
  Original                                                                        
@@ -51,7 +98,8 @@
     NUMSKW: NUMBER OF SKEW REFERENCE FRAMES . . . . . . .         0
     NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         2
     NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
-    NUMELQ: NUMBER OF 2D SOLID ELEMENTS . . . . . . . . .         0
+    NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .         0
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
     NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .         0
     NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .       322
     NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
@@ -66,10 +114,13 @@
 
     NFUNCT: NUMBER OF USER'S FUNCTIONS . . . . . . . . .          3
     NGRAV:  NUMBER OF GRAVITY LOADS . . . . . . . . . . .         0
-    NINIGRV:NUMBER OF GRAVITY LOADS . . . . . . . . . . .         0
+    NFUNC2D:  NUMBER OF USER 2D FUNCTIONS . . . . . . . .         0
+    NINIGRV:NUMBER OF INITIAL GRAVITY LOADS . . . . . . .         0
     NCONLD: NUMBER OF CONCENTRATED LOADS. . . . . . . . .         0
     NINVEL: NUMBER OF INITIAL VELOCITIES. . . . . . . . .         0
     NPRELD: NUMBER OF PRESSURE LOADS. . . . . . . . . . .         0
+    NINIMAP1D: NUMBER OF INITIAL 1D MAPPING.. . . . . . .         0
+    NINIMAP2D: NUMBER OF INITIAL 2D MAPPING.. . . . . . .         0
     NUMBER OF ACCELEROMETERS. . . . . . . . . . . . . . .         0
     NUMBER OF SENSORS . . . . . . . . . . . . . . . . . .         0
     NUMBER OF GAUGES. . . . . . . . . . . . . . . . . . .         0
@@ -93,11 +144,10 @@
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
-    INITIAL STRESS FILE =                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+    INITIAL STRESS FILE =
                                           FLAG ISIGI. . .         0
 
 
@@ -114,8 +164,10 @@
                                          (1:YES 0:NO). . .         0
     IUSERW : GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
     ISOLID : DEFAULT BRICK FORMULATION FLAG. . . . . . . .         1
-    ISST_S : DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
-    IPLA_S : DEFAULT SOLID STRESS PLASTICITY FLAG. . . . .         2
+    ITET4  : DEFAULT TETRA4 FORMULATION FLAG . . . . . . .      1000
+    ITET10 : DEFAULT TETRA10 FORMULATION FLAG. . . . . . .      1000
+    ISMSTR : DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
+    ICPRE  : DEFAULT SOLID CONSTANT PRESSURE FLAG. . . . .         0
     ISHELL : DEFAULT SHELL FORMULATION FLAG. . . . . . . .         1
     ISST   : DEFAULT SHELL SMALL STRAIN FLAG . . . . . . .         0
     ITHK   : DEFAULT SHELL THICKNESS VARIATION FLAG. . . .         0
@@ -126,46 +178,29 @@
     ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         2
     NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
              INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
-    ISTRA  : DEFAULT SOLID STRAIN COMPUTATION FLAG . . . .         1
+    IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
     ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         0
-    IALEFVM: FVM FOR ALE MOMENTUM EQUATION.  . . . . . . .         0
 
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
 
 
-    ADVANCED MASS SCALING:                           
-    ---------------------                            
-
-WARNING ID :         1570
-** WARNING FOR AMS SELECTION
-DESCRIPTION :  
-   ENGINE INPUT FILE tstpeel_AUTOPART_0001.rad or tstpeel_AUTOPARTD01 NOT FOUND -> AUTOMATIC ELEMENT ACTIVATION CAN NOT BE CHECKED
-
-    SELECTIVE MASS SCALING APPLIED TO ALL PARTS
-
-
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
-
-
-    UNIT SYSTEMS DEFINITION     
-    -----------------------     
-
-                                                          MASS                LENGTH              TIME
-    WORK UNIT SYSTEM . . . . . . ( Mg , mm , s   ) 1.0000000000000E+03 1.0000000000000E-03 1.0000000000000E+00
-    INPUT UNIT SYSTEM  . . . . . ( Mg , mm , s   ) 1.0000000000000E+03 1.0000000000000E-03 1.0000000000000E+00
+ 
+     INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
+  
 
 
     LOAD CURVES
@@ -175,13 +210,13 @@ DESCRIPTION :
 
     LOAD CURVE ID . . . . . . . . . . . =         1
 
-    X                   Y               
+    X                     Y               
      0.000000000000        0.000000000000    
     0.1000000000000        100.0000000000    
 
     LOAD CURVE ID . . . . . . . . . . . =         2
 
-    X                   Y               
+    X                     Y               
     -250.0000000000       -2000.000000000    
    -0.2500000000000       -2000.000000000    
      0.000000000000        0.000000000000    
@@ -190,7 +225,7 @@ DESCRIPTION :
 
     LOAD CURVE ID . . . . . . . . . . . =         3
 
-    X                   Y               
+    X                     Y               
     -250.0000000000       -6000.000000000    
    -0.2500000000000       -6000.000000000    
      0.000000000000        0.000000000000    
@@ -204,20 +239,22 @@ DESCRIPTION :
 
 
 
-    FUNCTION  TRANSFORMATION 
+    MATERIAL LAWS
+    -------------
+    NUMBER OF MATERIALS. . . . . . . . . =         1
 
 
 
-     Steel_001                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+
+     Steel_001
      MATERIAL NUMBER . . . . . . . . . . . .=         1
-     MATERIAL LAW. . . . . . . . . . . . . .=         2
-
-     INITIAL DENSITY . . . . . . . . . . . .= 7.8000000000000E-09
-     EOS REFERENCE DENSITY . . . . . . . . .= 7.8000000000000E-09
+     MATERIAL LAW. . . . . . . . . . . . . .=         PLAS_JOHNS
 
        ELASTIC PLASTIC LAW                   
        -------------------                   
 
+
+     INITIAL DENSITY . . . . . . . . . . . .= 7.8000000000000E-09
 
      YOUNG'S MODULUS . . . . . . . . . . . .=  210000.0000000    
      POISSON'S RATIO . . . . . . . . . . . .= 0.3000000000000    
@@ -228,8 +265,8 @@ DESCRIPTION :
      YIELD COEFFICIENT A . . . . . . . . . .=  270.0000000000    
      YIELD COEFFICIENT B . . . . . . . . . .=  350.0000000000    
      YIELD COEFFICIENT N . . . . . . . . . .= 0.5900000000000    
-     EPS-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+30
-     SIG-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+30
+     EPS-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+20
+     SIG-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+20
      ISO-KINEMATIC HARDENING FACTOR. . . . .=  0.000000000000    
 
 
@@ -237,16 +274,16 @@ DESCRIPTION :
      REFERENCE STRAIN RATE . . . . . . . . .=  1.000000000000    
      FLAG FOR STRAIN RATE ON SIG-MAX . . . .=         1
      SMOOTH STRAIN RATE OPTION . . . . . . .=         1
-     STRAIN RATE CUTTING FREQUENCY . . . . .= 1.0000000000000E+30
+     STRAIN RATE CUTTING FREQUENCY . . . . .= 1.0000000000000E+20
      TEMPERATURE EXPONENT. . . . . . . . . .=  1.000000000000    
-     MELTING TEMPERATURE K . . . . . . . . .= 1.0000000000000E+30
+     MELTING TEMPERATURE K . . . . . . . . .= 1.0000000000000E+20
      SPECIFIC HEAT Rho*Cp. . . . . . . . . .=  0.000000000000    
      INITIAL TEMPERATURE K . . . . . . . . .=  298.0000000000    
 
 
 
 
-         PROPERTY SETS
+         PROPERTY SETS (HM_READER)
          -------------
 
 
@@ -260,7 +297,8 @@ Shell_5mm
      SHELL FORMULATION FLAG. . . . . . . . .=        24
      3NODE SHELL FORMULATION FLAG. . . . . .=         2
      DRILLING D.O.F. FLAG  . . . . . . . . .=         0
-     SHELL MEMBRANE DAMPING. . . . . . . . .= 1.5000000000000E-02
+     PINCHING D.O.F. FLAG  . . . . . . . . .=         0
+     SHELL MEMBRANE DAMPING. . . . . . . . .=  0.000000000000    
      SHELL NUMERICAL DAMPING . . . . . . . .= 1.5000000000000E-02
      SHEAR AREA REDUCTION FACTOR . . . . . .= 0.8333333333333    
      % OF INTEG POINT THICKNESS TO FAIL. . .=  0.000000000000    
@@ -278,7 +316,7 @@ SPOTWELD_WITH_RUPTURE
      SENSOR NUMBER (0:NOT USED). . . . . . .=         0
      SENSOR FLAG (0:ACTIV 1:DEACT 2:BOTH). .=         0
      FAILURE FLAG (0:UNCOUPLED 1:COUPLED). .=         0
-     FAILURE CRITERIUM (DISPL/FORCE/ENERGY).=         0
+     FAILURE CRITERION (DISPL/FORCE/ENERGY).=         0
            1:DISPLACEMENT  2:FORCE  3:ENERGY 
      UNIT LENGTH FLAG. . . . . . . . . . . .=         0
      IF=1 UNIT LENGTH MASS,STIFFNESS AND INPUT
@@ -471,43 +509,43 @@ SPOTWELD_WITH_RUPTURE
 
 
 
-PART:         9,SHELL_5mm_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+PART:         9,SHELL_5mm_1
 ----
-     PROPERTY:         1,Shell_5mm                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-     MATERIAL:         1,Steel_001                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+     PROPERTY:         1,Shell_5mm
+     MATERIAL:         1,Steel_001
      SUBSET  :         7
  VIRT. THICKN:  0.000000000000    
 
-PART:        10,SHELL_5mm_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+PART:        10,SHELL_5mm_2
 ----
-     PROPERTY:         1,Shell_5mm                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-     MATERIAL:         1,Steel_001                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+     PROPERTY:         1,Shell_5mm
+     MATERIAL:         1,Steel_001
      SUBSET  :         7
  VIRT. THICKN:  0.000000000000    
 
-PART:        11,E_SPOTWELD_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+PART:        11,E_SPOTWELD_1
 ----
-     PROPERTY:         2,SPOTWELD_WITH_RUPTURE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+     PROPERTY:         2,SPOTWELD_WITH_RUPTURE
      SUBSET  :         7
  VIRT. THICKN:  0.000000000000    
 
-PART:        12,SHELL_5mm_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+PART:        12,SHELL_5mm_1
 ----
-     PROPERTY:         1,Shell_5mm                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-     MATERIAL:         1,Steel_001                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+     PROPERTY:         1,Shell_5mm
+     MATERIAL:         1,Steel_001
      SUBSET  :         7
  VIRT. THICKN:  0.000000000000    
 
  SPRING ELEMENTS
  ---------------
-    LOC-EL     GLO-EL       GEOM      NODE1      NODE2    (NODE3)
-         1        339          2       1175       1176
-         2        340          2       1177       1178
-         3        341          2       1179       1180
-         4        342          2       1181       1182
-         5        343          2       1183       1184
-         6        344          2       1185       1186
-         7        345          2       1187       1188
+    LOC-EL     GLO-EL       GEOM      NODE1      NODE2    (NODE3)                                    (MAT_ID)     (SKEW)
+         1        339          2       1175       1176                                                                   
+         2        340          2       1177       1178                                                                   
+         3        341          2       1179       1180                                                                   
+         4        342          2       1181       1182                                                                   
+         5        343          2       1183       1184                                                                   
+         6        344          2       1185       1186                                                                   
+         7        345          2       1187       1188                                                                   
 
 
        HIERARCHICAL SUBSET ORGANIZATION
@@ -516,15 +554,15 @@ PART:        12,SHELL_5mm_1
 
   
   
- SUBSET:         0,GLOBAL MODEL                            
+ SUBSET:         0,GLOBAL MODEL                                                                                                     
  ~~~~~~
   |         
   |         
-  |________SUBSET:         5,Common node                             
+  |________SUBSET:         5,Common node                                                                                            
   |        ~~~~~~
   |         
   |         
-  |________SUBSET:         7,Tied contact shifted                    
+  |________SUBSET:         7,Tied contact shifted                                                                                   
            ~~~~~~
             |
             |________Part(s):         9,SHELL_5mm_1                             
@@ -532,54 +570,51 @@ PART:        12,SHELL_5mm_1
                                      11,E_SPOTWELD_1                            
                                      12,SHELL_5mm_1                             
 
-
-     RANDOM NOISE       
-     ------------       
-
      BOUNDARY CONDITIONS                                                                 
      -------------------                                                                 
        NODE  TRANS. ROTAT.         SKEW
 
 
 
-     IMPOSED DISPLACEMENTS   
+     IMPOSED DISPLACEMENTS    
      -------------------    
          NODE         SKEW        FRAME  DIRECTION   LOAD_CURVE       SENSOR            FSCALE                ASCALE            START_TIME                 STOP_TIME
-          790            0            0          X            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
- 
+          790            0            0          X            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20
   
- SPMD IS NOT ABLE TO CHECK FOR ELEMENT DELETION IN RADIOSS ENGINE INPUT FILE
+ SPMD IS CHECKING FOR ELEMENT DELETION IN : 
+ tstpeel_AUTOPART_0001.rad                                                                                    
  
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY FOR IMPLICIT AND AMS
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
  NUMBER OF DISCONNECTED COMPONENTS FIXED FOR DOMAIN DECOMP:       9
   
   ELEMENT NUMBER =        329
   EDGES FOUND    =       1120
   
-#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.        INT2 W.         DOF W.
-   1         12201.             0.             0.             0.             0.           309.
-   2         11886.             0.             0.             0.             0.           300.
-   3         12320.             0.             0.             0.             0.           308.
-   4         11907.             0.             0.             0.             0.           303.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.         DOF W.
+   1         13695.             0.             0.             0.             0.           309.
+   2         12870.             0.             0.             0.             0.           294.
+   3         13835.             0.             0.             0.             0.           311.
+   4         13710.             0.             0.             0.             0.           306.
   
  STATISTICS ON DECOMPOSITION WEIGHTS
  -----------------------------------
  METRIC      MINIMUM   MAXIMUM   AVERAGE   STANDARD DEVIATION
- ELEMENTS      11886     12320     12079         187
- AMS MATRIX      300       309       305           4
+ ELEMENTS      12870     13835     13528         383
+ AMS MATRIX      294       311       305           7
 
 
       3D - SHELL ELEMENT GROUPS
       -------------------------
-      GROUP   MATERIAL    ELEMENT      FIRST    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE
-                   LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG
+      GROUP   MATERIAL    ELEMENT      FIRST    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE   PINCHING
+                   LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG       FLAG
 
-          1          2         83          1          3          5          2          1          1         23          0
-          2          2         78         84          3          5          2          1          1         23          0
-          3          2         80        162          3          5          2          1          1         23          0
-          4          2         81        242          3          5          2          1          1         23          0
+          1          2         83          1          3          5          2          1          1         23          0          0
+          2          2         78         84          3          5          2          1          1         23          0          0
+          3          2         83        162          3          5          2          1          1         23          0          0
+          4          2         78        245          3          5          2          1          1         23          0          0
 
 
       3D - SPRING ELEMENT GROUPS
@@ -587,55 +622,52 @@ PART:        12,SHELL_5mm_1
       GROUP     SPRING    ELEMENT      FIRST    ELEMENT
                   TYPE     NUMBER    ELEMENT       TYPE
 
-          5         13          3          1          6
-          6         13          4          4          6
+          5         13          1          1          6
+          6         13          6          2          6
 
     INTERFACES               
   --------------             
 
 
 
-   INTERFACE NUMBER :         5 All                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+   INTERFACE NUMBER :         5 All
 
 
-    TYPE.EQ.7   PARALLEL/AUTO IMPACTING           
+    TYPE==7   PARALLEL/AUTO IMPACTING           
 
 
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       SLAVE NODE  (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       MASTER NODE (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
-    STIFFNESS FORMULATION. .  . . . . . . . .    4
- 2,3,4,5 : STIFFNESS IS COMPUTED FROM STIFFNESS ON MASTER SIDE
-                                 AND STIFFNESS AT SLAVE NODES
-    1000 : STIFFNESS IS COMPUTED FROM STIFFNESS ON MASTER SIDE
-    MINIMUM STIFFNESS. . . .  . . . . . . . .   0.000000000000    
-    MAXIMUM STIFFNESS. . . .  . . . . . . . .  1.0000000000000E+30
-    FRICTION FACTOR . . . . . . . . . . . . .  0.2000000000000    
-    VARIABLE GAP FLAG . . . . . . . . . . . .     1
-    MINIMUM GAP . . . . . . . . . . . . . . .   0.000000000000    
-    MAXIMUM GAP (= 0. <=> NO MAXIMUM GAP) . .  1.0000000000000E+30
-    %MESHSIZE TAKEN INTO ACCOUNT FOR  . . . . 
-    CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
-    FLAGREMNODE : NOT CONSIDER NEIGHBORING  . . 
-    NODES IN CASE OF ELEMENT SIZE < GAP VALUE       1
-    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2           3
-    GAP SCALE FACTOR. . . . . . . . . . . . .   0.000000000000    
-    START TIME. . . . . . . . . . . . . . . .   0.000000000000    
-    STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
-    DE-ACTIVATION OF INITIAL PENETRATIONS . .          6
-    MAXIMAL INITIAL PENETRATION FACTOR. . . .   0.000000000000    
-    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
-    FRICTION CRITICAL DAMPING FACTOR. . . . .   1.000000000000    
-    QUADRATIC DAMPING FLAG. . . . . . . . . .     0
-    FORMULATION LEVEL . . . . . . . . . . . .     0
-    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . .     4
+    BOUND. COND. DELETED AFTER IMPACT . . . . . IN X DIR       0
+       SECONDARY NODE  (1:YES 0:NO)                Y DIR       0
+                                                   Z DIR       0
+    STIFFNESS FACTOR. . . . . . . . . . . . . .   1.000000000000    
+    STIFFNESS FORMULATION. .  . . . . . . . . .                4
+ 2,3,4,5 : STIFFNESS IS COMPUTED FROM STIFFNESS ON MAIN SIDE
+                            AND STIFFNESS AT SECONDARY NODES
+    1000 : STIFFNESS IS COMPUTED FROM STIFFNESS ON MAIN SIDE
+    MINIMUM STIFFNESS. . . .  . . . . . . . . .   0.000000000000    
+    MAXIMUM STIFFNESS. . . .  . . . . . . . . .  1.0000000000000E+30
+    FRICTION FACTOR . . . . . . . . . . . . . .  0.2000000000000    
+    VARIABLE GAP FLAG . . . . . . . . . . . . .                1
+    MINIMUM GAP . . . . . . . . . . . . . . . .   0.000000000000    
+    MAXIMUM GAP (= 0. <=> NO MAXIMUM GAP) . . .  1.0000000000000E+30
+    %MESHSIZE TAKEN INTO ACCOUNT FOR            
+    CALCULATION OF MAXIMUM GAP(IGAP = 3). . . .   0.000000000000    
+    FLAGREMNODE : NOT CONSIDER NEIGHBORING      
+    NODES IN CASE OF ELEMENT SIZE < GAP VALUE .                1
+    DE-ACTIVATION FLAG IF CONFLICT W/ TYPE2 . .                3
+    GAP SCALE FACTOR. . . . . . . . . . . . . .   0.000000000000    
+    START TIME. . . . . . . . . . . . . . . . .   0.000000000000    
+    STOP TIME . . . . . . . . . . . . . . . . .  1.0000000000000E+30
+    BUCKET FACTOR . . . . . . . . . . . . . . .  0.2000000029802    
+    DE-ACTIVATION OF INITIAL PENETRATIONS . . .                6
+    MAXIMUM INITIAL PENETRATION FACTOR. . . . .   0.000000000000    
+    CRITICAL DAMPING FACTOR . . . . . . . . . .  5.0000000000000E-02
+    FRICTION CRITICAL DAMPING FACTOR. . . . . .   1.000000000000    
+    QUADRATIC DAMPING FLAG. . . . . . . . . . .                0
+    FORMULATION LEVEL . . . . . . . . . . . . .                0
+    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . .                4
 
-    DELETION FLAG ON FAILURE OF MASTER ELEMENT (1:YES-ALL/2:YES-ANY) :  1000
+    DELETION FLAG ON FAILURE OF MAIN ELEMENT (1:YES-ALL/2:YES-ANY) :  1000
 
     FRICTION FORMULATION: TOTAL (VISCOUS) FORMULATION
     FRICTION FILTERING FLAG. . . . . . . . .          0
@@ -644,18 +676,18 @@ PART:        12,SHELL_5mm_1
     FRICTION MODEL 0 (Coulomb Law) :
       FRICTION COEFFICIENT . . . . . . . . .  0.2000000000000    
 
-      SLAVE SURFACE INPUT BY NODES
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY NODES
+      MAIN SURFACE INPUT BY SEGMENTS
 
     INTERFACES               
   --------------             
 
 
 
-   INTERFACE NUMBER :         6 CONNECTION                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+   INTERFACE NUMBER :         6 CONNECTION
 
 
-    TYPE.EQ.2   TIED SLIDING                  
+    TYPE==2   TIED SLIDING                  
 
     FORMULATION LEVEL . . . . . . . . . . . .    28
     HIERARCHICAL SOLVING LEVEL. . . . . . . .     0
@@ -663,28 +695,28 @@ PART:        12,SHELL_5mm_1
     SEARCH DISTANCE . . . . . . . . . . . . .   0.000000000000    
     STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
     STIFFNESS FORMULATION . . . . . . . . . . 2
- 1       : STIFFNESS IS COMPUTED ON MASTER SEGMENT
- 2,3,4,5 : STIFFNESS IS COMPUTED FROM MASTER SEGMENT
-                                 AND SLAVE NODE
+ 1       : STIFFNESS IS COMPUTED ON MAIN SEGMENT
+ 2,3,4,5 : STIFFNESS IS COMPUTED FROM MAIN SEGMENT
+                                 AND SECONDARY NODE
     CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
     IGNORE FLAG . . . . . . . . . . . . . . .  1000
 
     PROJECTION FLAG . . . . . . . . . . . . . 1
 
-    DELETION FLAG CASE FAILURE OF MASTER ELEMENT SET TO  1000
+    DELETION FLAG CASE FAILURE OF MAIN ELEMENT SET TO  1000
 
-      SLAVE SURFACE INPUT BY NODES
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY NODES
+      MAIN SURFACE INPUT BY SEGMENTS
 
     INTERFACES               
   --------------             
 
 
 
-   INTERFACE NUMBER :         7 CONNECTION                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+   INTERFACE NUMBER :         7 CONNECTION
 
 
-    TYPE.EQ.2   TIED SLIDING                  
+    TYPE==2   TIED SLIDING                  
 
     FORMULATION LEVEL . . . . . . . . . . . .    28
     HIERARCHICAL SOLVING LEVEL. . . . . . . .     0
@@ -692,18 +724,18 @@ PART:        12,SHELL_5mm_1
     SEARCH DISTANCE . . . . . . . . . . . . .   0.000000000000    
     STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
     STIFFNESS FORMULATION . . . . . . . . . . 2
- 1       : STIFFNESS IS COMPUTED ON MASTER SEGMENT
- 2,3,4,5 : STIFFNESS IS COMPUTED FROM MASTER SEGMENT
-                                 AND SLAVE NODE
+ 1       : STIFFNESS IS COMPUTED ON MAIN SEGMENT
+ 2,3,4,5 : STIFFNESS IS COMPUTED FROM MAIN SEGMENT
+                                 AND SECONDARY NODE
     CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
     IGNORE FLAG . . . . . . . . . . . . . . .  1000
 
     PROJECTION FLAG . . . . . . . . . . . . . 1
 
-    DELETION FLAG CASE FAILURE OF MASTER ELEMENT SET TO  1000
+    DELETION FLAG CASE FAILURE OF MAIN ELEMENT SET TO  1000
 
-      SLAVE SURFACE INPUT BY NODES
-      MASTER SURFACE INPUT BY SEGMENTS
+      SECONDARY SURFACE INPUT BY NODES
+      MAIN SURFACE INPUT BY SEGMENTS
 
 
  INTERFACE NUMBER. . . . . . . . . . . . . .         5
@@ -718,29 +750,21 @@ PART:        12,SHELL_5mm_1
 
 
 
-   SLAVE  NEAREST        MASTER NODES            SLAVE 
-   NODE   SEGMENT                                     S      T     DIST
-
-
  INTERFACE NUMBER. . . . . . . . . . . . . .         7
  INTERFACE TYPE. . . . . . . . . . . . . . .     2
 
-
-
-   SLAVE  NEAREST        MASTER NODES            SLAVE 
-   NODE   SEGMENT                                     S      T     DIST
 
       RIGID BODY DEFINITIONS 
       ---------------------- 
 
 
-     RIGID BODY ID          5 top_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+     RIGID BODY ID          5 top_1
           PRIMARY NODE                                   789
           NUMBER OF NODES                                  8
           SURFACE LINKED TO BODY                           0
           SKEW NUMBER                                      0
-          SPHERICAL INERTIA FLAG                           0
-          REMOVE SLAVE NODES FROM RIGID WALL(IF=0)         0
+          SPHERICAL INERTIA FLAG                           2
+          REMOVE SECONDARY NODES FROM RIGID WALL(IF=0)         0
           CENTER OF MASS FLAG                              1
           ADDED MASS                                         0.000    
           ADDED INERTIA                                      0.000               0.000               0.000               0.000               0.000               0.000    
@@ -750,237 +774,13 @@ PART:        12,SHELL_5mm_1
           SECONDARY NODES 
                  793       794       977       978       979       980       981       982
 
-     RIGID BODY ID          6 top_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+     RIGID BODY ID          6 top_2
           PRIMARY NODE                                   790
           NUMBER OF NODES                                  8
           SURFACE LINKED TO BODY                           0
           SKEW NUMBER                                      0
-          SPHERICAL INERTIA FLAG                           0
-          REMOVE SLAVE NODES FROM RIGID WALL(IF=0)         0
-          CENTER OF MASS FLAG                              1
-          ADDED MASS                                         0.000    
-          ADDED INERTIA                                      0.000               0.000               0.000               0.000               0.000               0.000    
-
-          NO AMS EXPANSION OVERALL THE RBODY      
-
-          SECONDARY NODES 
-                 985       986      1169      1170      1171      1172      1173      1174
- 
- --------------------------------------
- NEW DOMAIN DECOMPOSITION FOR OPTIMIZATION
- --------------------------------------
- 
- DOMAIN DECOMPOSITION USING MULTILEVEL KWAY FOR IMPLICIT AND AMS
- ------------------------------------------
- DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
-  
-  ELEMENT NUMBER =        329
-  EDGES FOUND    =       1179
-  
-#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.        INT2 W.         DOF W.
-   1         12040.           112.           112.            64.             0.           822.
-   2         12187.           105.           105.            74.             0.           800.
-   3         11893.           112.           112.            66.             0.           833.
-   4         12194.           105.           105.            76.             0.           815.
-  
- STATISTICS ON DECOMPOSITION WEIGHTS
- -----------------------------------
- METRIC      MINIMUM   MAXIMUM   AVERAGE   STANDARD DEVIATION
- ELEMENTS      11893     12194     12079         123
- SLAVE NODES     105       112       109           4
- MAST. NODES     105       112       109           4
- CONT. CAND.      64        76        70           5
- AMS MATRIX      800       833       818          12
-
-
-      3D - SHELL ELEMENT GROUPS
-      -------------------------
-      GROUP   MATERIAL    ELEMENT      FIRST    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE
-                   LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG
-
-          1          2         80          1          3          5          2          1          1         23          0
-          2          2         81         81          3          5          2          1          1         23          0
-          3          2         79        162          3          5          2          1          1         23          0
-          4          2         82        241          3          5          2          1          1         23          0
-
-
-      3D - SPRING ELEMENT GROUPS
-      -------------------------
-      GROUP     SPRING    ELEMENT      FIRST    ELEMENT
-                  TYPE     NUMBER    ELEMENT       TYPE
-
-          5         13          2          1          6
-          6         13          2          3          6
-          7         13          2          5          6
-          8         13          1          7          6
-
-    INTERFACES               
-  --------------             
-
-
-
-   INTERFACE NUMBER :         5 All                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-
-
-    TYPE.EQ.7   PARALLEL/AUTO IMPACTING           
-
-
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       SLAVE NODE  (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       MASTER NODE (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
-    STIFFNESS FORMULATION. .  . . . . . . . .    4
- 2,3,4,5 : STIFFNESS IS COMPUTED FROM STIFFNESS ON MASTER SIDE
-                                 AND STIFFNESS AT SLAVE NODES
-    1000 : STIFFNESS IS COMPUTED FROM STIFFNESS ON MASTER SIDE
-    MINIMUM STIFFNESS. . . .  . . . . . . . .   0.000000000000    
-    MAXIMUM STIFFNESS. . . .  . . . . . . . .  1.0000000000000E+30
-    FRICTION FACTOR . . . . . . . . . . . . .  0.2000000000000    
-    VARIABLE GAP FLAG . . . . . . . . . . . .     1
-    MINIMUM GAP . . . . . . . . . . . . . . .   0.000000000000    
-    MAXIMUM GAP (= 0. <=> NO MAXIMUM GAP) . .  1.0000000000000E+30
-    %MESHSIZE TAKEN INTO ACCOUNT FOR  . . . . 
-    CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
-    FLAGREMNODE : NOT CONSIDER NEIGHBORING  . . 
-    NODES IN CASE OF ELEMENT SIZE < GAP VALUE       1
-    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2           3
-    GAP SCALE FACTOR. . . . . . . . . . . . .   0.000000000000    
-    START TIME. . . . . . . . . . . . . . . .   0.000000000000    
-    STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
-    DE-ACTIVATION OF INITIAL PENETRATIONS . .          6
-    MAXIMAL INITIAL PENETRATION FACTOR. . . .   0.000000000000    
-    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
-    FRICTION CRITICAL DAMPING FACTOR. . . . .   1.000000000000    
-    QUADRATIC DAMPING FLAG. . . . . . . . . .     0
-    FORMULATION LEVEL . . . . . . . . . . . .     0
-    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . .     4
-
-    DELETION FLAG ON FAILURE OF MASTER ELEMENT (1:YES-ALL/2:YES-ANY) :  1000
-
-    FRICTION FORMULATION: TOTAL (VISCOUS) FORMULATION
-    FRICTION FILTERING FLAG. . . . . . . . .          0
-    FILTERING FACTOR . . . . . . . . . . . .   0.000000000000    
-
-    FRICTION MODEL 0 (Coulomb Law) :
-      FRICTION COEFFICIENT . . . . . . . . .  0.2000000000000    
-
-      SLAVE SURFACE INPUT BY NODES
-      MASTER SURFACE INPUT BY SEGMENTS
-
-    INTERFACES               
-  --------------             
-
-
-
-   INTERFACE NUMBER :         6 CONNECTION                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-
-
-    TYPE.EQ.2   TIED SLIDING                  
-
-    FORMULATION LEVEL . . . . . . . . . . . .    28
-    HIERARCHICAL SOLVING LEVEL. . . . . . . .     0
-    SEARCH FORMULATION. . . . . . . . . . . .     2
-    SEARCH DISTANCE . . . . . . . . . . . . .   0.000000000000    
-    STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
-    STIFFNESS FORMULATION . . . . . . . . . . 2
- 1       : STIFFNESS IS COMPUTED ON MASTER SEGMENT
- 2,3,4,5 : STIFFNESS IS COMPUTED FROM MASTER SEGMENT
-                                 AND SLAVE NODE
-    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
-    IGNORE FLAG . . . . . . . . . . . . . . .  1000
-
-    PROJECTION FLAG . . . . . . . . . . . . . 1
-
-    DELETION FLAG CASE FAILURE OF MASTER ELEMENT SET TO  1000
-
-      SLAVE SURFACE INPUT BY NODES
-      MASTER SURFACE INPUT BY SEGMENTS
-
-    INTERFACES               
-  --------------             
-
-
-
-   INTERFACE NUMBER :         7 CONNECTION                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-
-
-    TYPE.EQ.2   TIED SLIDING                  
-
-    FORMULATION LEVEL . . . . . . . . . . . .    28
-    HIERARCHICAL SOLVING LEVEL. . . . . . . .     0
-    SEARCH FORMULATION. . . . . . . . . . . .     2
-    SEARCH DISTANCE . . . . . . . . . . . . .   0.000000000000    
-    STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
-    STIFFNESS FORMULATION . . . . . . . . . . 2
- 1       : STIFFNESS IS COMPUTED ON MASTER SEGMENT
- 2,3,4,5 : STIFFNESS IS COMPUTED FROM MASTER SEGMENT
-                                 AND SLAVE NODE
-    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
-    IGNORE FLAG . . . . . . . . . . . . . . .  1000
-
-    PROJECTION FLAG . . . . . . . . . . . . . 1
-
-    DELETION FLAG CASE FAILURE OF MASTER ELEMENT SET TO  1000
-
-      SLAVE SURFACE INPUT BY NODES
-      MASTER SURFACE INPUT BY SEGMENTS
-
-
- INTERFACE NUMBER. . . . . . . . . . . . . .         5
- INTERFACE TYPE. . . . . . . . . . . . . . .     7
-
-  GAP MIN =   1.170000000000    
-  POSSIBLE IMPACT NUMBER:         280  (<=           1 *NSN)
-
-
- INTERFACE NUMBER. . . . . . . . . . . . . .         6
- INTERFACE TYPE. . . . . . . . . . . . . . .     2
-
-
-
-   SLAVE  NEAREST        MASTER NODES            SLAVE 
-   NODE   SEGMENT                                     S      T     DIST
-
-
- INTERFACE NUMBER. . . . . . . . . . . . . .         7
- INTERFACE TYPE. . . . . . . . . . . . . . .     2
-
-
-
-   SLAVE  NEAREST        MASTER NODES            SLAVE 
-   NODE   SEGMENT                                     S      T     DIST
-
-      RIGID BODY DEFINITIONS 
-      ---------------------- 
-
-
-     RIGID BODY ID          5 top_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-          PRIMARY NODE                                   789
-          NUMBER OF NODES                                  8
-          SURFACE LINKED TO BODY                           0
-          SKEW NUMBER                                      0
-          SPHERICAL INERTIA FLAG                           0
-          REMOVE SLAVE NODES FROM RIGID WALL(IF=0)         0
-          CENTER OF MASS FLAG                              1
-          ADDED MASS                                         0.000    
-          ADDED INERTIA                                      0.000               0.000               0.000               0.000               0.000               0.000    
-
-          NO AMS EXPANSION OVERALL THE RBODY      
-
-          SECONDARY NODES 
-                 793       794       977       978       979       980       981       982
-
-     RIGID BODY ID          6 top_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-          PRIMARY NODE                                   790
-          NUMBER OF NODES                                  8
-          SURFACE LINKED TO BODY                           0
-          SKEW NUMBER                                      0
-          SPHERICAL INERTIA FLAG                           0
-          REMOVE SLAVE NODES FROM RIGID WALL(IF=0)         0
+          SPHERICAL INERTIA FLAG                           2
+          REMOVE SECONDARY NODES FROM RIGID WALL(IF=0)         0
           CENTER OF MASS FLAG                              1
           ADDED MASS                                         0.000    
           ADDED INERTIA                                      0.000               0.000               0.000               0.000               0.000               0.000    
@@ -994,14 +794,12 @@ PART:        12,SHELL_5mm_1
        RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
        ----------------------------------------------
 
-       ELEMENT GROUP         1,  SIZE=      8735
-       ELEMENT GROUP         2,  SIZE=      8842
-       ELEMENT GROUP         3,  SIZE=      8628
-       ELEMENT GROUP         4,  SIZE=      8949
-       ELEMENT GROUP         5,  SIZE=       264
-       ELEMENT GROUP         6,  SIZE=       264
-       ELEMENT GROUP         7,  SIZE=       264
-       ELEMENT GROUP         8,  SIZE=       176
+       ELEMENT GROUP         1,  SIZE=      9435
+       ELEMENT GROUP         2,  SIZE=      8880
+       ELEMENT GROUP         3,  SIZE=      9435
+       ELEMENT GROUP         4,  SIZE=      8880
+       ELEMENT GROUP         5,  SIZE=       227
+       ELEMENT GROUP         6,  SIZE=       732
 
 
 
@@ -1009,6 +807,14 @@ PART:        12,SHELL_5mm_1
  SHELL GROUP         2 VECTORIZATION CODE =    0
  SHELL GROUP         3 VECTORIZATION CODE =    0
  SHELL GROUP         4 VECTORIZATION CODE =    0
+
+  ** INFO: SPRING ELEMENT:       339
+ GLOBAL Y AXIS AND SPRING AXIS ARE USED TO DEFINE SPRING FRAME
+
+
+  ** INFO: SPRING ELEMENT:       340
+ GLOBAL Y AXIS AND SPRING AXIS ARE USED TO DEFINE SPRING FRAME
+
 
   ** INFO: SPRING ELEMENT:       341
  GLOBAL Y AXIS AND SPRING AXIS ARE USED TO DEFINE SPRING FRAME
@@ -1018,11 +824,7 @@ PART:        12,SHELL_5mm_1
  GLOBAL Y AXIS AND SPRING AXIS ARE USED TO DEFINE SPRING FRAME
 
 
-  ** INFO: SPRING ELEMENT:       339
- GLOBAL Y AXIS AND SPRING AXIS ARE USED TO DEFINE SPRING FRAME
-
-
-  ** INFO: SPRING ELEMENT:       340
+  ** INFO: SPRING ELEMENT:       343
  GLOBAL Y AXIS AND SPRING AXIS ARE USED TO DEFINE SPRING FRAME
 
 
@@ -1034,9 +836,504 @@ PART:        12,SHELL_5mm_1
  GLOBAL Y AXIS AND SPRING AXIS ARE USED TO DEFINE SPRING FRAME
 
 
+
+         AUTOMATIC SELECTION OF ELEMENTS FOR AMS
+         ---------------------------------------
+
+  NO ELEMENTS SELECTED FOR AMS ACTIVATION
+
+
+      RIGID BODY INITIALIZATION 
+      ------------------------- 
+
+     RIGID BODY ID         5
+          PRIMARY NODE                789
+          NEW X,Y,Z            -0.5000000E-01 -81.00000      1.755000    
+          NEW MASS              0.9186003E-06
+          NEW INERTIA xx yy zz  0.1173563E-03 0.2306313E-05 0.1173563E-03
+          NEW INERTIA xy yz zx -0.6465219E-37 0.8205891E-33 0.2830700E-38
+          PRINCIPAL INERTIA 1.1735631895281E-04 1.1735631895281E-04 2.3063134447368E-06
+          SECONDARY NODES 
+                 793       794       977       978       979       980       981       982
+
+
+      RIGID BODY INITIALIZATION 
+      ------------------------- 
+
+     RIGID BODY ID         6
+          PRIMARY NODE                790
+          NEW X,Y,Z              171.7100     -81.00000      1.755000    
+          NEW MASS              0.9186003E-06
+          NEW INERTIA xx yy zz  0.1173563E-03 0.2306313E-05 0.1173563E-03
+          NEW INERTIA xy yz zx  0.1805559E-34-0.8164043E-33-0.5693684E-35
+          PRINCIPAL INERTIA 1.1735631895280E-04 1.1735631895280E-04 2.3063134447368E-06
+          SECONDARY NODES 
+                 985       986      1169      1170      1171      1172      1173      1174
+
+
+PART MASS & INERTIA
+-------------------
+
+
+PART :          9SHELL_5mm_1
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 4.0379921224487E-05 9.3852079486809E-03 3.6726289613953E-02 3.7557254921758E-02-1.4322701080705E-09 1.3422533570728E-10-6.5545021763270E-03
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  53.97998311323     -80.99999918290      6.955473484534      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :         10SHELL_5mm_2
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 4.0379921224487E-05 8.6472988951422E-03 3.5988380560414E-02 3.7557254921759E-02-1.4322698582703E-09 1.4994729069517E-10 5.8396943990658E-03
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  117.6800238868     -81.00000081710      6.388372721440      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :         11E_SPOTWELD_1
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 1.4000000000000E-06 1.7931428571436E-04 1.4564521756450E-05 1.7987880747066E-04-1.7347234759768E-18 1.0872342783019E-10  0.000000000000    
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  85.83000350000     -83.12857142857      22.78383922571      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :         12SHELL_5mm_1
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.8242790551495E-06 5.5663004490465E-04 2.0404233638622E-04 3.6039021548691E-04-1.1401029426095E-11-2.6209504878916E-10-1.4541259446996E-05
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  85.83000350000     -81.00000000000      22.78383743750      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+
+PART ELEMENT/MATERIAL PARAMETER REVIEW:
+-----------------------
+
+Part id,name:         9 SHELL_5mm_1            Mat type:   2 Elm type: SHELL-4nodes           
+----
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
+      24       2       2       5       1       1
+--      hm        hf        hr        dm        dn
+    0.0000    0.0000    0.0000    0.0000    0.0150
+
+Part id,name:        10 SHELL_5mm_2            Mat type:   2 Elm type: SHELL-4nodes           
+----
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
+      24       2       2       5       1       1
+--      hm        hf        hr        dm        dn
+    0.0000    0.0000    0.0000    0.0000    0.0150
+
+Part id,name:        11 E_SPOTWELD_1                         Elm type: SPRING                 
+----
+Spring type:   13
+
+Part id,name:        12 SHELL_5mm_1            Mat type:   2 Elm type: SHELL-4nodes           
+----
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
+      24       2       2       5       1       1
+--      hm        hf        hr        dm        dn
+    0.0000    0.0000    0.0000    0.0000    0.0150
+
+
+
+     TOTAL MASS AND MASS CENTER
+     --------------------------
+                     MASS                    X                    Y                    Z
+
+      8.4984121504124E-05   85.83000350000      -81.03506537395       7.472793001510    
+
+
+     TOTAL INERTIA
+     -------------
+                      IXX                  IYY                  IZZ                  IXY                  IYZ                  IZX
+      1.9823271457036E-02  0.1559065648215      0.1575857236690     -7.7419493038633E-10  4.5627029838104E-05 -9.7144514654701E-17
+
+
+
+      ADDED NODAL NON-STRUCTURAL MASSES 
+     -----------------------------------
+
+
+
+
+  TOTAL ADDED MASS =   0.000000000000    
+
+
+ 
+ --------------------------------------
+ NEW DOMAIN DECOMPOSITION FOR OPTIMIZATION
+ --------------------------------------
+ 
+ DOMAIN DECOMPOSITION USING MULTILEVEL KWAY FOR IMPLICIT AND AMS
+ ------------------------------------------
+ DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+  
+  ELEMENT NUMBER =        329
+  EDGES FOUND    =       1179
+  
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.         DOF W.
+   1         12985.           111.           111.            60.             0.             0.
+   2         13530.           103.           103.            74.             0.             0.
+   3         13645.           113.           113.            78.             0.             0.
+   4         13950.           107.           107.            68.             0.             0.
+  
+ STATISTICS ON DECOMPOSITION WEIGHTS
+ -----------------------------------
+ METRIC      MINIMUM   MAXIMUM   AVERAGE   STANDARD DEVIATION
+ ELEMENTS      12985     13950     13528         349
+ SECO. NODES     103       113       109           4
+ MAIN NODES     103       113       109           4
+ CONT. CAND.      60        78        70           7
+ AMS MATRIX        0         0         0           0
+
+
+      3D - SHELL ELEMENT GROUPS
+      -------------------------
+      GROUP   MATERIAL    ELEMENT      FIRST    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE   PINCHING
+                   LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG       FLAG
+
+          1          2         77          1          3          5          2          1          1         23          0          0
+          2          2         82         78          3          5          2          1          1         23          0          0
+          3          2         81        160          3          5          2          1          1         23          0          0
+          4          2         82        241          3          5          2          1          1         23          0          0
+
+
+      3D - SPRING ELEMENT GROUPS
+      -------------------------
+      GROUP     SPRING    ELEMENT      FIRST    ELEMENT
+                  TYPE     NUMBER    ELEMENT       TYPE
+
+          5         13          2          1          6
+          6         13          2          3          6
+          7         13          3          5          6
+
+    INTERFACES               
+  --------------             
+
+
+
+   INTERFACE NUMBER :         5 All
+
+
+    TYPE==7   PARALLEL/AUTO IMPACTING           
+
+
+    BOUND. COND. DELETED AFTER IMPACT . . . . . IN X DIR       0
+       SECONDARY NODE  (1:YES 0:NO)                Y DIR       0
+                                                   Z DIR       0
+    STIFFNESS FACTOR. . . . . . . . . . . . . .   1.000000000000    
+    STIFFNESS FORMULATION. .  . . . . . . . . .                4
+ 2,3,4,5 : STIFFNESS IS COMPUTED FROM STIFFNESS ON MAIN SIDE
+                            AND STIFFNESS AT SECONDARY NODES
+    1000 : STIFFNESS IS COMPUTED FROM STIFFNESS ON MAIN SIDE
+    MINIMUM STIFFNESS. . . .  . . . . . . . . .   0.000000000000    
+    MAXIMUM STIFFNESS. . . .  . . . . . . . . .  1.0000000000000E+30
+    FRICTION FACTOR . . . . . . . . . . . . . .  0.2000000000000    
+    VARIABLE GAP FLAG . . . . . . . . . . . . .                1
+    MINIMUM GAP . . . . . . . . . . . . . . . .   0.000000000000    
+    MAXIMUM GAP (= 0. <=> NO MAXIMUM GAP) . . .  1.0000000000000E+30
+    %MESHSIZE TAKEN INTO ACCOUNT FOR            
+    CALCULATION OF MAXIMUM GAP(IGAP = 3). . . .   0.000000000000    
+    FLAGREMNODE : NOT CONSIDER NEIGHBORING      
+    NODES IN CASE OF ELEMENT SIZE < GAP VALUE .                1
+    DE-ACTIVATION FLAG IF CONFLICT W/ TYPE2 . .                3
+    GAP SCALE FACTOR. . . . . . . . . . . . . .   0.000000000000    
+    START TIME. . . . . . . . . . . . . . . . .   0.000000000000    
+    STOP TIME . . . . . . . . . . . . . . . . .  1.0000000000000E+30
+    BUCKET FACTOR . . . . . . . . . . . . . . .  0.2000000029802    
+    DE-ACTIVATION OF INITIAL PENETRATIONS . . .                6
+    MAXIMUM INITIAL PENETRATION FACTOR. . . . .   0.000000000000    
+    CRITICAL DAMPING FACTOR . . . . . . . . . .  5.0000000000000E-02
+    FRICTION CRITICAL DAMPING FACTOR. . . . . .   1.000000000000    
+    QUADRATIC DAMPING FLAG. . . . . . . . . . .                0
+    FORMULATION LEVEL . . . . . . . . . . . . .                0
+    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . .                4
+
+    DELETION FLAG ON FAILURE OF MAIN ELEMENT (1:YES-ALL/2:YES-ANY) :  1000
+
+    FRICTION FORMULATION: TOTAL (VISCOUS) FORMULATION
+    FRICTION FILTERING FLAG. . . . . . . . .          0
+    FILTERING FACTOR . . . . . . . . . . . .   0.000000000000    
+
+    FRICTION MODEL 0 (Coulomb Law) :
+      FRICTION COEFFICIENT . . . . . . . . .  0.2000000000000    
+
+      SECONDARY SURFACE INPUT BY NODES
+      MAIN SURFACE INPUT BY SEGMENTS
+
+    INTERFACES               
+  --------------             
+
+
+
+   INTERFACE NUMBER :         6 CONNECTION
+
+
+    TYPE==2   TIED SLIDING                  
+
+    FORMULATION LEVEL . . . . . . . . . . . .    28
+    HIERARCHICAL SOLVING LEVEL. . . . . . . .     0
+    SEARCH FORMULATION. . . . . . . . . . . .     2
+    SEARCH DISTANCE . . . . . . . . . . . . .   0.000000000000    
+    STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
+    STIFFNESS FORMULATION . . . . . . . . . . 2
+ 1       : STIFFNESS IS COMPUTED ON MAIN SEGMENT
+ 2,3,4,5 : STIFFNESS IS COMPUTED FROM MAIN SEGMENT
+                                 AND SECONDARY NODE
+    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
+    IGNORE FLAG . . . . . . . . . . . . . . .  1000
+
+    PROJECTION FLAG . . . . . . . . . . . . . 1
+
+    DELETION FLAG CASE FAILURE OF MAIN ELEMENT SET TO  1000
+
+      SECONDARY SURFACE INPUT BY NODES
+      MAIN SURFACE INPUT BY SEGMENTS
+
+    INTERFACES               
+  --------------             
+
+
+
+   INTERFACE NUMBER :         7 CONNECTION
+
+
+    TYPE==2   TIED SLIDING                  
+
+    FORMULATION LEVEL . . . . . . . . . . . .    28
+    HIERARCHICAL SOLVING LEVEL. . . . . . . .     0
+    SEARCH FORMULATION. . . . . . . . . . . .     2
+    SEARCH DISTANCE . . . . . . . . . . . . .   0.000000000000    
+    STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
+    STIFFNESS FORMULATION . . . . . . . . . . 2
+ 1       : STIFFNESS IS COMPUTED ON MAIN SEGMENT
+ 2,3,4,5 : STIFFNESS IS COMPUTED FROM MAIN SEGMENT
+                                 AND SECONDARY NODE
+    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
+    IGNORE FLAG . . . . . . . . . . . . . . .  1000
+
+    PROJECTION FLAG . . . . . . . . . . . . . 1
+
+    DELETION FLAG CASE FAILURE OF MAIN ELEMENT SET TO  1000
+
+      SECONDARY SURFACE INPUT BY NODES
+      MAIN SURFACE INPUT BY SEGMENTS
+
+
+ INTERFACE NUMBER. . . . . . . . . . . . . .         5
+ INTERFACE TYPE. . . . . . . . . . . . . . .     7
+
+  GAP MIN =   1.170000000000    
+  POSSIBLE IMPACT NUMBER:         280  (<=           1 *NSN)
+
+
+ INTERFACE NUMBER. . . . . . . . . . . . . .         6
+ INTERFACE TYPE. . . . . . . . . . . . . . .     2
+
+
+
+ INTERFACE NUMBER. . . . . . . . . . . . . .         7
+ INTERFACE TYPE. . . . . . . . . . . . . . .     2
+
+
+      RIGID BODY DEFINITIONS 
+      ---------------------- 
+
+
+     RIGID BODY ID          5 top_1
+          PRIMARY NODE                                   789
+          NUMBER OF NODES                                  8
+          SURFACE LINKED TO BODY                           0
+          SKEW NUMBER                                      0
+          SPHERICAL INERTIA FLAG                           2
+          REMOVE SECONDARY NODES FROM RIGID WALL(IF=0)         0
+          CENTER OF MASS FLAG                              1
+          ADDED MASS                                         0.000    
+          ADDED INERTIA                                      0.000               0.000               0.000               0.000               0.000               0.000    
+
+          NO AMS EXPANSION OVERALL THE RBODY      
+
+          SECONDARY NODES 
+                 793       794       977       978       979       980       981       982
+
+     RIGID BODY ID          6 top_2
+          PRIMARY NODE                                   790
+          NUMBER OF NODES                                  8
+          SURFACE LINKED TO BODY                           0
+          SKEW NUMBER                                      0
+          SPHERICAL INERTIA FLAG                           2
+          REMOVE SECONDARY NODES FROM RIGID WALL(IF=0)         0
+          CENTER OF MASS FLAG                              1
+          ADDED MASS                                         0.000    
+          ADDED INERTIA                                      0.000               0.000               0.000               0.000               0.000               0.000    
+
+          NO AMS EXPANSION OVERALL THE RBODY      
+
+          SECONDARY NODES 
+                 985       986      1169      1170      1171      1172      1173      1174
+
+
+       RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
+       ----------------------------------------------
+
+       ELEMENT GROUP         1,  SIZE=      8692
+       ELEMENT GROUP         2,  SIZE=      9242
+       ELEMENT GROUP         3,  SIZE=      9132
+       ELEMENT GROUP         4,  SIZE=      9242
+       ELEMENT GROUP         5,  SIZE=       326
+       ELEMENT GROUP         6,  SIZE=       326
+       ELEMENT GROUP         7,  SIZE=       426
+
+
+
+ SHELL GROUP         1 VECTORIZATION CODE =    0
+ SHELL GROUP         2 VECTORIZATION CODE =    0
+ SHELL GROUP         3 VECTORIZATION CODE =    0
+ SHELL GROUP         4 VECTORIZATION CODE =    0
+
+  ** INFO: SPRING ELEMENT:       339
+ GLOBAL Y AXIS AND SPRING AXIS ARE USED TO DEFINE SPRING FRAME
+
+
+  ** INFO: SPRING ELEMENT:       340
+ GLOBAL Y AXIS AND SPRING AXIS ARE USED TO DEFINE SPRING FRAME
+
+
+  ** INFO: SPRING ELEMENT:       341
+ GLOBAL Y AXIS AND SPRING AXIS ARE USED TO DEFINE SPRING FRAME
+
+
+  ** INFO: SPRING ELEMENT:       342
+ GLOBAL Y AXIS AND SPRING AXIS ARE USED TO DEFINE SPRING FRAME
+
+
   ** INFO: SPRING ELEMENT:       343
  GLOBAL Y AXIS AND SPRING AXIS ARE USED TO DEFINE SPRING FRAME
 
+
+  ** INFO: SPRING ELEMENT:       344
+ GLOBAL Y AXIS AND SPRING AXIS ARE USED TO DEFINE SPRING FRAME
+
+
+  ** INFO: SPRING ELEMENT:       345
+ GLOBAL Y AXIS AND SPRING AXIS ARE USED TO DEFINE SPRING FRAME
+
+
+
+      RIGID BODY INITIALIZATION 
+      ------------------------- 
+
+     RIGID BODY ID         5
+          PRIMARY NODE                789
+          NEW X,Y,Z            -0.5000000E-01 -81.00000      1.755000    
+          NEW MASS              0.9186003E-06
+          NEW INERTIA xx yy zz  0.1173563E-03 0.2306313E-05 0.1173563E-03
+          NEW INERTIA xy yz zx -0.6465219E-37 0.4137740E-35 0.2830656E-38
+          PRINCIPAL INERTIA 1.1735631895281E-04 1.1735631895281E-04 2.3063134447368E-06
+          SECONDARY NODES 
+                 793       794       977       978       979       980       981       982
+
+
+      RIGID BODY INITIALIZATION 
+      ------------------------- 
+
+     RIGID BODY ID         6
+          PRIMARY NODE                790
+          NEW X,Y,Z              171.7100     -81.00000      1.755000    
+          NEW MASS              0.9186003E-06
+          NEW INERTIA xx yy zz  0.1173563E-03 0.2306313E-05 0.1173563E-03
+          NEW INERTIA xy yz zx  0.6018531E-35 0.4701977E-37-0.5797183E-35
+          PRINCIPAL INERTIA 1.1735631895280E-04 1.1735631895280E-04 2.3063134447368E-06
+          SECONDARY NODES 
+                 985       986      1169      1170      1171      1172      1173      1174
+
+
+PART MASS & INERTIA
+-------------------
+
+
+PART :          9SHELL_5mm_1
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 4.0379921224487E-05 9.3852079486809E-03 3.6726289613953E-02 3.7557254921758E-02-1.4322699970482E-09 1.3422533917673E-10-6.5545021763270E-03
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  53.97998311323     -80.99999918290      6.955473484534      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :         10SHELL_5mm_2
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 4.0379921224487E-05 8.6472988951419E-03 3.5988380560414E-02 3.7557254921759E-02-1.4322700803149E-09 1.4994729416462E-10 5.8396943990657E-03
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  117.6800238868     -81.00000081710      6.388372721440      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :         11E_SPOTWELD_1
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 1.4000000000000E-06 1.7931428571436E-04 1.4564521756450E-05 1.7987880747066E-04-1.7347234759768E-18 1.0872342783019E-10  0.000000000000    
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  85.83000350000     -83.12857142857      22.78383922571      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :         12SHELL_5mm_1
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.8242790551495E-06 5.5663004490464E-04 2.0404233638620E-04 3.6039021548690E-04-1.1401043303882E-11-2.6209504705443E-10-1.4541259446996E-05
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  85.83000350000     -81.00000000000      22.78383743750      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+
+PART ELEMENT/MATERIAL PARAMETER REVIEW:
+-----------------------
+
+Part id,name:         9 SHELL_5mm_1            Mat type:   2 Elm type: SHELL-4nodes           
+----
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
+      24       2       2       5       1       1
+--      hm        hf        hr        dm        dn
+    0.0000    0.0000    0.0000    0.0000    0.0150
+
+Part id,name:        10 SHELL_5mm_2            Mat type:   2 Elm type: SHELL-4nodes           
+----
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
+      24       2       2       5       1       1
+--      hm        hf        hr        dm        dn
+    0.0000    0.0000    0.0000    0.0000    0.0150
+
+Part id,name:        11 E_SPOTWELD_1                         Elm type: SPRING                 
+----
+Spring type:   13
+
+Part id,name:        12 SHELL_5mm_1            Mat type:   2 Elm type: SHELL-4nodes           
+----
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
+      24       2       2       5       1       1
+--      hm        hf        hr        dm        dn
+    0.0000    0.0000    0.0000    0.0000    0.0150
+
+
+
+     TOTAL MASS AND MASS CENTER
+     --------------------------
+                     MASS                    X                    Y                    Z
+
+      8.4984121504124E-05   85.83000350000      -81.03506537395       7.472793001510    
+
+
+     TOTAL INERTIA
+     -------------
+                      IXX                  IYY                  IZZ                  IXY                  IYZ                  IZX
+      1.9823271457036E-02  0.1559065648215      0.1575857236690     -7.7419493038633E-10  4.5627029838104E-05 -9.7144514654701E-17
+
+
+
+      ADDED NODAL NON-STRUCTURAL MASSES 
+     -----------------------------------
+
+
+
+
+  TOTAL ADDED MASS =   0.000000000000    
+
+
+ 
 
          SHELL ELEMENTS TIME STEP
          ------------------------
@@ -1056,48 +1353,24 @@ PART:        12,SHELL_5mm_1
   7.5169192107204E-07            679
   7.5169198411097E-07            818
   7.5169215879083E-07            819
-  8.8240302206651E-07            680
   8.8240302206651E-07            841
+  8.8240302206651E-07            680
   8.8240316006916E-07            681
   8.8240316006916E-07            842
-  8.8240321540026E-07            666
   8.8240321540026E-07            827
+  8.8240321540026E-07            666
 
          SPRING ELEMENTS TIME STEP
          ------------------------
 
       TIME STEP       ELEMENT NUMBER
-  5.8689348911028E-07            341
-  5.8689348911028E-07            342
   5.8689348911028E-07            339
   5.8689348911028E-07            340
+  5.8689348911028E-07            341
+  5.8689348911028E-07            342
+  5.8689348911028E-07            343
   5.8689348911028E-07            344
   5.8689348911028E-07            345
-  5.8689348911028E-07            343
-
-
-      RIGID BODY INITIALIZATION 
-      ------------------------- 
-
-     RIGID BODY ID         5
-          PRIMARY NODE                789
-          NEW X,Y,Z            -0.5000000E-01 -81.00000      1.755000    
-          NEW MASS              0.9186003E-06
-          NEW INERTIA xx yy zz  0.1173563E-03 0.2306313E-05 0.1173563E-03
-          NEW INERTIA xy yz zx -0.6465219E-37 0.8205891E-33 0.2830700E-38
-          PRINCIPAL INERTIA 1.1735631895281E-04 1.1735631895281E-04 2.3063134447368E-06
-
-
-      RIGID BODY INITIALIZATION 
-      ------------------------- 
-
-     RIGID BODY ID         6
-          PRIMARY NODE                790
-          NEW X,Y,Z              171.7100     -81.00000      1.755000    
-          NEW MASS              0.9186003E-06
-          NEW INERTIA xx yy zz  0.1173563E-03 0.2306313E-05 0.1173563E-03
-          NEW INERTIA xy yz zx  0.1805559E-34-0.8164043E-33-0.5693684E-35
-          PRINCIPAL INERTIA 1.1735631895280E-04 1.1735631895280E-04 2.3063134447368E-06
 
 
          NODAL TIME STEP (estimation)
@@ -1106,20 +1379,38 @@ PART:        12,SHELL_5mm_1
       TIME STEP       NODE NUMBER
   1.2255839615622E-07            790
   1.2255839615622E-07            789
-  5.8689348911028E-07           1187
-  5.8689348911028E-07           1185
-  5.8689348911028E-07           1184
-  5.8689348911028E-07           1183
-  5.8689348911028E-07           1182
-  5.8689348911028E-07           1181
-  5.8689348911028E-07           1180
-  5.8689348911028E-07           1179
-  5.8689348911028E-07           1178
-  5.8689348911028E-07           1177
-  5.8689348911028E-07           1176
-  5.8689348911028E-07           1175
-  5.8689348911028E-07           1186
-  5.8689348911028E-07           1188
+  5.9034304798405E-07            823
+  5.9034331070601E-07            824
+  5.9034336695264E-07           1015
+  5.9034348384942E-07           1016
+  5.9034357342746E-07            825
+  5.9034360074617E-07           1017
+  5.9034371764291E-07           1018
+  5.9034383614841E-07            826
+  6.0347179706165E-07            822
+  6.0347227568065E-07           1014
+  6.0347284845828E-07           1019
+  6.0347314869898E-07            827
+  6.1313577888970E-07            815
+  6.1313603683694E-07            816
+  6.1313605368110E-07           1023
+  6.1313616066412E-07           1024
+  6.1313626764711E-07           1025
+  6.1313629478364E-07            817
+  6.1313637463007E-07           1026
+  6.1313655272980E-07            818
+  6.1751747307754E-07            821
+  6.1751805019422E-07           1013
+  6.1751873673611E-07           1020
+  6.1751916104255E-07            828
+  6.2672573106651E-07            814
+  6.2672616725890E-07           1022
+  6.2672668620145E-07           1027
+  6.2672705614019E-07            819
+  6.4126148501174E-07            813
+  6.4126201879339E-07           1021
+  6.4126263556610E-07           1028
+  6.4126313802392E-07            820
   7.7875906630072E-07            837
   7.7875914184032E-07            838
   7.7875914730671E-07            829
@@ -1152,38 +1443,22 @@ PART:        12,SHELL_5mm_1
   7.7876022364018E-07           1012
   7.7876022910689E-07           1003
   7.7876030464642E-07           1004
-  8.4175906473386E-07           1013
-  8.4175906473386E-07            821
-  8.4175913055696E-07            822
-  8.4175913055696E-07           1014
-  8.4175926220311E-07           1015
-  8.4175926220311E-07            823
   8.4175929527000E-07            792
   8.4175929527000E-07            984
-  8.4175936109312E-07            799
   8.4175936109312E-07            991
-  8.4175939384923E-07            824
-  8.4175939384923E-07           1016
-  8.4175949273931E-07            800
+  8.4175936109312E-07            799
   8.4175949273931E-07            992
-  8.4175952549531E-07            825
-  8.4175952549531E-07           1017
-  8.4175962438547E-07            993
+  8.4175949273931E-07            800
   8.4175962438547E-07            801
-  8.4175965714135E-07           1018
-  8.4175965714136E-07            826
+  8.4175962438547E-07            993
   8.4175975603159E-07            802
   8.4175975603159E-07            994
-  8.4175978878736E-07           1019
-  8.4175978878736E-07            827
-  8.4175985461035E-07            828
-  8.4175985461035E-07           1020
-  8.4175988767767E-07            803
   8.4175988767767E-07            995
+  8.4175988767767E-07            803
   8.4176001932372E-07            996
   8.4176001932372E-07            804
-  8.4176008514673E-07            983
   8.4176008514673E-07            791
+  8.4176008514673E-07            983
   8.5523666203017E-07            988
   8.5523666203017E-07            796
   8.5523670394118E-07           1042
@@ -1198,71 +1473,97 @@ PART:        12,SHELL_5mm_1
   8.5523703923260E-07           1038
   8.5523712305651E-07            845
   8.5523712305651E-07           1037
-  8.5523716496856E-07            989
   8.5523716496856E-07            797
+  8.5523716496856E-07            989
   8.6558162039846E-07            798
   8.6558162039846E-07            990
-  8.6558177126740E-07           1051
-  8.6558177126741E-07            859
 
 
-PART MASS & INERTIA
--------------------
+         NODAL TIME STEP DISTRIBUTION 
+         ----------------------------
 
 
-PART :          9SHELL_5mm_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 4.0379921224487E-05 9.3852079486806E-03 3.6726289613953E-02 3.7557254921758E-02-1.4322701913372E-09 1.3422531142115E-10-6.5545021763270E-03
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  53.97998311323     -80.99999918290      6.955473484534      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
-
-PART :         10SHELL_5mm_2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 4.0379921224487E-05 8.6472988951420E-03 3.5988380560414E-02 3.7557254921759E-02-1.4322701358260E-09 1.4994729416462E-10 5.8396943990657E-03
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  117.6800238868     -81.00000081710      6.388372721440      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
-
-PART :         11E_SPOTWELD_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 1.4000000000000E-06 1.7931428571435E-04 1.4564521756449E-05 1.7987880747066E-04  0.000000000000     1.0872342869755E-10  0.000000000000    
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  85.83000350000     -83.12857142857      22.78383922571      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
-
-PART :         12SHELL_5mm_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 2.8242790551495E-06 5.5663004490464E-04 2.0404233638620E-04 3.6039021548689E-04-1.1401043303882E-11-2.6209504705443E-10-1.4541259446996E-05
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  85.83000350000     -81.00000000000      22.78383743750      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
-
-
-     TOTAL MASS AND MASS CENTER
-     --------------------------
-                     MASS                    X                    Y                    Z
-
-      8.4984121504124E-05   85.83000350000      -81.03506537395       7.472793001510    
+            % OF NODES
+                   ^
+                   |                                                            
+          47.074 --|                                                            
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+                   |#                                                           
+           0.000 --|#  #   #  #  #   #  #  #  #   #  #  #  #   #  #  #   #  ##  
+                    -------------------------------------------------------------> NODAL TIME STEP
+                    |                                                          |
+                1.226E-07                                                  8.118E+06
+  
+  
 
 
-     TOTAL INERTIA
-     -------------
-                      IXX                  IYY                  IZZ                  IXY                  IYZ                  IZX
-      1.9823271457036E-02  0.1559065648215      0.1575857236690     -7.7419493038633E-10  4.5627029838104E-05 -9.7144514654701E-17
+     INITIAL ADDED MASS ESTIMATION for /DT/NODA/CST
+     ----------------------------------------------
 
 
+            DM/M - at first cycle - scaling factor = 0.9
+                   ^
+                   |                                                            
+           0.100 --|                                                          * 
+                   |                                                            
+                   |                                                       *    
+                   |                                                     *      
+                   |                                                   *        
+                   |                                                 *          
+                   |                                                            
+                   |                                               *            
+                   |                                             *              
+                   |                                          *                 
+                   |                                       *                    
+                   |                                    *                       
+                   |                                                            
+                   |                                *                           
+                   |                             *                              
+                   |                         *                                  
+                   |                      *                                     
+                   |                  *                                         
+                   |                                                            
+                   |               *                                            
+                   |           *                                                
+                   |       *                                                    
+           0.005 --|*  *                                                        
+                    -------------------------------------------------------------> TARGET TIME STEP
+                    |                                                          |
+                5.598E-07                                                  7.490E-07
+  
+  
+              DM/M at first cycle          |  Target time step - scaling factor = 0.9  |  Target time step - scaling factor = 0.67
+    -------------------------------------  |  ---------------------------------------  |  ---------------------------------------
+                 1.000E-02                 |                 5.742E-07                 |                 4.274E-07
+                 2.000E-02                 |                 5.992E-07                 |                 4.461E-07
+                 3.000E-02                 |                 6.230E-07                 |                 4.638E-07
+                 4.000E-02                 |                 6.459E-07                 |                 4.809E-07
+                 5.000E-02                 |                 6.681E-07                 |                 4.974E-07
 
-      ADDED NODAL NON-STRUCTURAL MASSES 
-     -----------------------------------
+
+    WARNING : These added mass estimations are valid at first cycle only.
+    Because of element deformation or contacts the added mass can increase during the run
 
 
-
-
-  TOTAL ADDED MASS =   0.000000000000    
-
-
- 
  SUMMARY OF POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS :
  -----------------------------------------------------
                                   
@@ -1272,45 +1573,45 @@ PART :         12SHELL_5mm_1
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE         95 MB
+    STARTER MEMORY USAGE        122 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
-AVERAGE NB. OF BOUNDARY NODES :    32
-STANDARD DEVIATION            :     3
- 
-AVERAGE NUMBER OF LOCAL NODES :     214
-STANDARD DEVIATION            :       3
- 
-AVERAGE NB. OF CONTACT NODES(SLAVE/MASTER) :     113 /      111
-STANDARD DEVIATION                         :       3 /        4
- 
+
+AVERAGE NB. OF BOUNDARY NODES :    30
+STANDARD DEVIATION            :     2
+
+AVERAGE NUMBER OF LOCAL NODES :     212
+STANDARD DEVIATION            :       4
+
+AVERAGE NB. OF CONTACT NODES(SECONDARY/MAIN) :     112 /      111
+STANDARD DEVIATION                         :       3 /        2
+
+AVERAGE NB. OF INT2 NODES(SECONDARY/MAIN):       4 /       14
+STANDARD DEVIATION                     :       2 /        5
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    1            82                    32                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    2            83                    30                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    3            81                    28                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    4            83                    37                     3
- 
+    1            79                    26                     2
+    2            82                    32                     3
+    3            83                    31                     3
+    4            85                    32                     2
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
- NUMBER OF NODES................. :         219
- NUMBER OF 4-N SHELL ELEMENTS.... :          80
+ NUMBER OF NODES................. :         212
+ NUMBER OF 4-N SHELL ELEMENTS.... :          77
  NUMBER OF SPRING ELEMENTS....... :           2
- TOTAL NUMBER OF NODES FOR COMM.. :          43
+ TOTAL NUMBER OF NODES FOR COMM.. :          29
  NUMBER OF RIGID BODY COMPONENTS. :           1
  NUMBER OF R.B.M. NODES FOR COMM. :           0
- NUMBER OF SLAVE RIGID BODY NODES :           8
- NUMBER OF INT2 SLAVE NODES...... :           4
- NUMBER OF INT2 MASTER NODES..... :          17
- NUMBER OF CONTACT SLAVE NODES... :         117
- NUMBER OF CONTACT MASTER NODES.. :         117
- 
+ NUMBER OF SECONDARY RIGID BODY NODES :           8
+ NUMBER OF INT2 SECONDARY NODES...... :           4
+ NUMBER OF INT2 MAIN NODES..... :          14
+ NUMBER OF CONTACT SECONDARY NODES... :         110
+ NUMBER OF CONTACT MAIN NODES.. :         110
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -1319,21 +1620,21 @@ STANDARD DEVIATION                         :       3 /        4
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
- NUMBER OF NODES................. :         210
- NUMBER OF 4-N SHELL ELEMENTS.... :          81
- NUMBER OF SPRING ELEMENTS....... :           2
+ NUMBER OF NODES................. :         206
+ NUMBER OF 4-N SHELL ELEMENTS.... :          82
+ NUMBER OF SPRING ELEMENTS....... :           0
  TOTAL NUMBER OF NODES FOR COMM.. :          37
  NUMBER OF RIGID BODY COMPONENTS. :           0
  NUMBER OF R.B.M. NODES FOR COMM. :           0
- NUMBER OF SLAVE RIGID BODY NODES :           0
- NUMBER OF INT2 SLAVE NODES...... :           4
- NUMBER OF INT2 MASTER NODES..... :          14
- NUMBER OF CONTACT SLAVE NODES... :         109
- NUMBER OF CONTACT MASTER NODES.. :         109
- 
+ NUMBER OF SECONDARY RIGID BODY NODES :           0
+ NUMBER OF INT2 SECONDARY NODES...... :           0
+ NUMBER OF INT2 MAIN NODES..... :           6
+ NUMBER OF CONTACT SECONDARY NODES... :         109
+ NUMBER OF CONTACT MAIN NODES.. :         109
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -1342,21 +1643,21 @@ STANDARD DEVIATION                         :       3 /        4
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
- NUMBER OF NODES................. :         214
- NUMBER OF 4-N SHELL ELEMENTS.... :          79
+ NUMBER OF NODES................. :         218
+ NUMBER OF 4-N SHELL ELEMENTS.... :          81
  NUMBER OF SPRING ELEMENTS....... :           2
  TOTAL NUMBER OF NODES FOR COMM.. :          36
  NUMBER OF RIGID BODY COMPONENTS. :           1
  NUMBER OF R.B.M. NODES FOR COMM. :           0
- NUMBER OF SLAVE RIGID BODY NODES :           8
- NUMBER OF INT2 SLAVE NODES...... :           4
- NUMBER OF INT2 MASTER NODES..... :          16
- NUMBER OF CONTACT SLAVE NODES... :         113
- NUMBER OF CONTACT MASTER NODES.. :         113
- 
+ NUMBER OF SECONDARY RIGID BODY NODES :           8
+ NUMBER OF INT2 SECONDARY NODES...... :           4
+ NUMBER OF INT2 MAIN NODES..... :          18
+ NUMBER OF CONTACT SECONDARY NODES... :         117
+ NUMBER OF CONTACT MAIN NODES.. :         115
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -1365,21 +1666,21 @@ STANDARD DEVIATION                         :       3 /        4
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
- NUMBER OF NODES................. :         212
+ NUMBER OF NODES................. :         213
  NUMBER OF 4-N SHELL ELEMENTS.... :          82
- NUMBER OF SPRING ELEMENTS....... :           1
- TOTAL NUMBER OF NODES FOR COMM.. :          48
+ NUMBER OF SPRING ELEMENTS....... :           3
+ TOTAL NUMBER OF NODES FOR COMM.. :          34
  NUMBER OF RIGID BODY COMPONENTS. :           0
  NUMBER OF R.B.M. NODES FOR COMM. :           0
- NUMBER OF SLAVE RIGID BODY NODES :           0
- NUMBER OF INT2 SLAVE NODES...... :           2
- NUMBER OF INT2 MASTER NODES..... :          19
- NUMBER OF CONTACT SLAVE NODES... :         114
- NUMBER OF CONTACT MASTER NODES.. :         105
- 
+ NUMBER OF SECONDARY RIGID BODY NODES :           0
+ NUMBER OF INT2 SECONDARY NODES...... :           6
+ NUMBER OF INT2 MAIN NODES..... :          17
+ NUMBER OF CONTACT SECONDARY NODES... :         111
+ NUMBER OF CONTACT MAIN NODES.. :         111
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -1388,11 +1689,34 @@ STANDARD DEVIATION                         :       3 /        4
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
 
      RESTART FILES tstpeel_AUTOPART_0000 WRITTEN
      -------------
 
+  
+------------------------------------------------------------------------
+  
+ CPU USER TIME
+ -------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .3873E+00   .1975E+00   .1761E-01   .1401E-03   .4900E-04   .4657E-02   .2795E-04
+  
+  
+ ELAPSED TIME
+ ------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .1144E+07   .2214E+00   .9857E-02   .7413E-04   .2773E-04   .2519E-02   .1089E-04
+  
+                   ** COMPUTE TIME INFORMATION **
+  
+ EXECUTION STARTED      :      2022/11/23  16:25:42
+ EXECUTION COMPLETED    :      2022/11/23  16:25:42
+  
+ ELAPSED TIME...........=          0.67 s
+                               00:00:00
+  
+------------------------------------------------------------------------
 
 
 
@@ -1404,11 +1728,14 @@ STANDARD DEVIATION                         :       3 /        4
 |            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
 ------------------------------------------------------------------------------------------------------------------------
 |                                                           |                                                          |
-|                                                           |  --- INTERNAL                               1 WARNING(S) |
+|                                                           |  --- GLOBAL UNITS                           3 WARNING(S) |
 |                                                           |       |                                                  |
 |                                                           |       |                                                  |
-|                                                           |       |---     1 WARNING ID :         1570               |
-|                                                           |       | ** WARNING FOR AMS SELECTION                     |
+|                                                           |       |---     1 WARNING ID :       100211               |
+|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
+|                                                           |       |                                                  |
+|                                                           |       |---     2 WARNING ID :       100214               |
+|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
 |                                                           |       |                                                  |
 |                                                           |                                                          |
 |                                                           |                                                          |
@@ -1418,6 +1745,6 @@ STANDARD DEVIATION                         :       3 /        4
 
 
               0 ERROR(S)            
-              1 WARNING(S)          
+              3 WARNING(S)          
 
 

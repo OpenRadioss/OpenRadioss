@@ -2,37 +2,70 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                     RADIOSS STARTER MAINLINE                       **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
-**                                                                    **
-**                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** Build tag: 0742056_087sesevot__1060_0032401_10                     **
+**                    Linux 64 bits, GNU compiler                     **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2014                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
- ** WARNING : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
-  
 
-+-------------------+
-| BLOCK FREE FORMAT |
-+-------------------+
+
+************************************************************************
+* INPUT READING PROCESS
+************************************************************************
+
+WARNING ID : 100214
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /IOFLAG
+-- LINE: 5         0         0         0         0         0                                       0
+unsupported field exits
+SOLUTION :     
+    Please check input format and fields description defined in the Reference Guide.
+
+WARNING ID : 100214
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /ANALY
+-- LINE: 0         0         0         0
+unsupported field exits
+SOLUTION :     
+    Please check input format and fields description defined in the Reference Guide.
+
+ -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
+
+
+
+
+************************************************************************
+
+
+
+    UNIT SYSTEMS DEFINITION     
+    -----------------------     
+
+                                                          MASS                LENGTH              TIME
+    WORK UNIT SYSTEM . . . . . . ( Mg , mm , s   ) 1.0000000000000E+03 1.0000000000000E-03 1.0000000000000E+00
+    INPUT UNIT SYSTEM  . . . . . ( Mg , mm , s   ) 1.0000000000000E+03 1.0000000000000E-03 1.0000000000000E+00
 
 
  box beam                                                                        
@@ -51,7 +84,8 @@
     NUMSKW: NUMBER OF SKEW REFERENCE FRAMES . . . . . . .         0
     NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         2
     NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
-    NUMELQ: NUMBER OF 2D SOLID ELEMENTS . . . . . . . . .         0
+    NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .         0
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
     NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .       512
     NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .         0
     NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
@@ -59,15 +93,20 @@
     NUMELR: NUMBER OF 3D SPRING ELEMENTS. . . . . . . . .         0
     NUMELTG: NUMBER OF 3D SHELL ELEMENTS (3-NODES). . . .         0
     NUMELX: NUMBER OF MULTIPURPOSE ELEMENTS . . . . . . .         0
+    NUMELIG3D: NUMBER OF ISO-GEOMETRIC ELEMENTS . . . . .         0
     NUMSPH : NUMBER OF SMOOTH PARTICLES (SPH CELLS) . . .         0
     NSPHBCS: NUMBER OF SPH SYMMETRY CONDITIONS. . . . . .         0
     NSPHIO : NUMBER OF SPH INLET/OUTLET CONDITIONS. . . .         0
 
-    NFUNCT: NUMBER OF USER'S FUNCTIONS. . . . . . . . . .         1
+    NFUNCT: NUMBER OF USER'S FUNCTIONS . . . . . . . . .          1
     NGRAV:  NUMBER OF GRAVITY LOADS . . . . . . . . . . .         0
+    NFUNC2D:  NUMBER OF USER 2D FUNCTIONS . . . . . . . .         0
+    NINIGRV:NUMBER OF INITIAL GRAVITY LOADS . . . . . . .         0
     NCONLD: NUMBER OF CONCENTRATED LOADS. . . . . . . . .         0
     NINVEL: NUMBER OF INITIAL VELOCITIES. . . . . . . . .         0
     NPRELD: NUMBER OF PRESSURE LOADS. . . . . . . . . . .         0
+    NINIMAP1D: NUMBER OF INITIAL 1D MAPPING.. . . . . . .         0
+    NINIMAP2D: NUMBER OF INITIAL 2D MAPPING.. . . . . . .         0
     NUMBER OF ACCELEROMETERS. . . . . . . . . . . . . . .         0
     NUMBER OF SENSORS . . . . . . . . . . . . . . . . . .         0
     NUMBER OF GAUGES. . . . . . . . . . . . . . . . . . .         0
@@ -83,7 +122,7 @@
     NRIVET: NUMBER OF RIVETS OR SPOT WELDS. . . . . . . .         0
     NSECT : NUMBER OF SECTIONS SAVED (TIME HISTORY PLOTS)         0
     NJOINT: NUMBER OF JOINTS. . . . . . . . . . . . . . .         0
-    NACTIV: NUMBER OF ELEMENT DESACTIVATION GROUPS. . . .         0
+    NACTIV: NUMBER OF ELEMENT DEACTIVATION GROUPS . . . .         0
     NDAMP:  NUMBER OF RAYLEIGH DAMPING GROUPS . . . . . .         0
     NGJOINT: NUMBER OF GEAR TYPE JOINTS . . . . . . . . .         0
     NUMMPC: NUMBER OF MULTI-POINT CONSTRAINTS . . . . . .         0
@@ -91,11 +130,10 @@
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
-    INITIAL STRESS FILE =                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+    INITIAL STRESS FILE =
                                           FLAG ISIGI. . .         0
 
 
@@ -105,33 +143,34 @@
     ANALYSIS OPTIONS
     ----------------
 
-    INTEG8: 8 GAUSS POINT CONDENSED INTEGRATION . . . . .         0
-    IPARITH: PARALLEL ARITHMETIC FLAG (2 OFF, 1 0N) . . .         1
-    ISUB  : (OLD) SUBCYCLING (1:YES 0:NO) . . . . . . . .         0
-    MSHSUB: MEMORY ALLOCATION FOR (NEW) SHELLS SUBCYCLING
-                                        (1:YES 0:NO). . .         0
-    IUSERW: GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
-    ISOLID: DEFAULT BRICK FORMULATION FLAG. . . . . . . .         1
-    ISST_S: DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
-    IPLA_S: DEFAULT SOLID STRESS PLASTICITY FLAG. . . . .         2
-    ISHELL: DEFAULT SHELL FORMULATION FLAG. . . . . . . .         1
-    ISST  : DEFAULT SHELL SMALL STRAIN FLAG . . . . . . .         0
-    ITHK  : DEFAULT SHELL THICKNESS VARIATION FLAG. . . .         0
-    IPLA  : DEFAULT PLANE STRESS PLASTICITY FLAG. . . . .         0
-    ISTR  : DEFAULT SHELL STRAIN COMPUTATION FLAG . . . .         0
-    ISHEA : DEFAULT SHELL SHEAR COMPUTATION FLAG. . . . .         0
-    INSH  : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
-    ISH3N : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         1
-    NPTS  : SHELL PROPERTIES DEFAULT NUMBER OF           
-            INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
-    ISTRA : DEFAULT SOLID STRAIN COMPUTATION FLAG . . . .         2
-
-    ISHFRAM:LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
+    INTEG8 : 8 GAUSS POINT CONDENSED INTEGRATION . . . . .         0
+    IPARITH: PARALLEL ARITHMETIC FLAG (2 OFF, 1 0N). . . .         1
+    ISUB   : (OLD) SUBCYCLING (1:YES 0:NO) . . . . . . . .         0
+    MSHSUB : MEMORY ALLOCATION FOR (NEW) SHELLS SUBCYCLING
+                                         (1:YES 0:NO). . .         0
+    IUSERW : GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
+    ISOLID : DEFAULT BRICK FORMULATION FLAG. . . . . . . .         1
+    ITET4  : DEFAULT TETRA4 FORMULATION FLAG . . . . . . .         0
+    ITET10 : DEFAULT TETRA10 FORMULATION FLAG. . . . . . .         0
+    ISMSTR : DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
+    ICPRE  : DEFAULT SOLID CONSTANT PRESSURE FLAG. . . . .         0
+    ISHELL : DEFAULT SHELL FORMULATION FLAG. . . . . . . .         1
+    ISST   : DEFAULT SHELL SMALL STRAIN FLAG . . . . . . .         0
+    ITHK   : DEFAULT SHELL THICKNESS VARIATION FLAG. . . .         0
+    IPLA   : DEFAULT PLANE STRESS PLASTICITY FLAG. . . . .         0
+    ISTR   : DEFAULT SHELL STRAIN COMPUTATION FLAG . . . .         1
+    ISHEA  : DEFAULT SHELL SHEAR COMPUTATION FLAG. . . . .         0
+    INSH   : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
+    ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         1
+    NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
+             INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
+    IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
+    ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
 
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -140,19 +179,14 @@
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
-
-
-    UNIT SYSTEMS DEFINITION     
-    -----------------------     
-
-                                                          MASS                LENGTH              TIME
-    WORK UNIT SYSTEM . . . . . . ( Mg , mm , s   ) 1.0000000000000E+03 1.0000000000000E-03 1.0000000000000E+00
-    INPUT UNIT SYSTEM  . . . . . ( Mg , mm , s   ) 1.0000000000000E+03 1.0000000000000E-03 1.0000000000000E+00
+ 
+     INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
+  
 
 
     LOAD CURVES
@@ -162,7 +196,7 @@
 
     LOAD CURVE ID . . . . . . . . . . . =         1
 
-    X                   Y               
+    X                     Y               
      0.000000000000        0.000000000000    
      100.0000000000        5.000000000000    
 
@@ -173,20 +207,22 @@
 
 
 
-    FUNCTION  TRANSFORMATION 
+    MATERIAL LAWS
+    -------------
+    NUMBER OF MATERIALS. . . . . . . . . =         3
 
 
 
-     STEEL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+
+     STEEL
      MATERIAL NUMBER . . . . . . . . . . . .=         1
-     MATERIAL LAW. . . . . . . . . . . . . .=         2
-
-     INITIAL DENSITY . . . . . . . . . . . .= 0.7800000000000    
-     EOS REFERENCE DENSITY . . . . . . . . .= 0.7800000000000    
+     MATERIAL LAW. . . . . . . . . . . . . .=         PLAS_JOHNS
 
        ELASTIC PLASTIC LAW                   
        -------------------                   
 
+
+     INITIAL DENSITY . . . . . . . . . . . .= 0.7800000000000    
 
      YOUNG'S MODULUS . . . . . . . . . . . .=  210000.0000000    
      POISSON'S RATIO . . . . . . . . . . . .= 0.3000000000000    
@@ -197,47 +233,47 @@
      YIELD COEFFICIENT A . . . . . . . . . .=  206.0000000000    
      YIELD COEFFICIENT B . . . . . . . . . .=  450.0000000000    
      YIELD COEFFICIENT N . . . . . . . . . .= 0.5000000000000    
-     EPS-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+30
-     SIG-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+30
-     ISO-KINEMATIC HARDENNING FACTOR. . . . =  0.000000000000    
+     EPS-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+20
+     SIG-MAX . . . . . . . . . . . . . . . .= 1.0000000000000E+20
+     ISO-KINEMATIC HARDENING FACTOR. . . . .=  0.000000000000    
 
 
      STRAIN RATE COEFFICIENT CC. . . . . . .=  0.000000000000    
      REFERENCE STRAIN RATE . . . . . . . . .=  1.000000000000    
      FLAG FOR STRAIN RATE ON SIG-MAX . . . .=         1
      SMOOTH STRAIN RATE OPTION . . . . . . .=         1
-     STRAIN RATE CUTTING FREQUENCY . . . . .= 1.0000000000000E+30
+     STRAIN RATE CUTTING FREQUENCY . . . . .= 1.0000000000000E+20
      TEMPERATURE EXPONENT. . . . . . . . . .=  1.000000000000    
-     MELTING TEMPERATURE K . . . . . . . . .= 1.0000000000000E+30
+     MELTING TEMPERATURE K . . . . . . . . .= 1.0000000000000E+20
      SPECIFIC HEAT Rho*Cp. . . . . . . . . .=  0.000000000000    
      INITIAL TEMPERATURE K . . . . . . . . .=  298.0000000000    
 
 
 
+     STEEL
+     MATERIAL NUMBER. . . . . . . . . . . . =         2
+     MATERIAL LAW . . . . . . . . . . . . . =        13
 
-     STEEL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-     MATERIAL NUMBER . . . . . . . . . . . .=         2
-     MATERIAL LAW. . . . . . . . . . . . . .=        13
+       RIGID LAW                           
+       ---------                           
+     INITIAL DENSITY    . . . . . . . . . . = 0.7800000000000    
 
-     INITIAL DENSITY . . . . . . . . . . . .= 0.7800000000000    
-     EOS REFERENCE DENSITY . . . . . . . . .= 0.7800000000000    
-
-       RIGID LAW                           ,/       -----------                           
-
-
-     YOUNG'S MODULUS . . . . . . . . . . . .=  0.2100E+06
-     POISSON'S RATIO . . . . . . . . . . . .=  0.3000E+00
+     YOUNG MODULUS . . . . . . . . . . . . .=  0.2100E+06
+     POISSON RATIO . . . . . . . . . . . . .=  0.3000E+00
      SHEAR MODULUS . . . . . . . . . . . . .=  0.8077E+05
 
 
+     
+        MATERIAL NUMBER . . . . . . . . . . . .=         3
+        MATERIAL LAW. . . . . . . . . . . . . .=         0
+
+       VOID MATERIAL                         
+       -------------                         
 
 
-     /NODE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-     MATERIAL NUMBER . . . . . . . . . . . .=         3
-     MATERIAL LAW. . . . . . . . . . . . . .=         0
-
-     INITIAL DENSITY . . . . . . . . . . . .=  1.000000000000    
-     YOUNG MODULUS . . . . . . . . . . . . .=  30.00000000000    
+     INITIAL DENSITY . . . . . . . . . . . .=  0.000000000000    
+     YOUNG MODULUS . . . . . . . . . . . . .=  0.000000000000    
+     POISSON'S RATIO . . . . . . . . . . . .=  0.000000000000    
 
 
 
@@ -1076,9 +1112,16 @@
             730          13.12500000000      28.12500000000      7.500000000000    
             731          15.00000000000      15.00000000000      1.875000000000    
             732          13.12500000000      1.875000000000      22.50000000000    
+     SUBMODEL SKEWS(INTERNAL)                                                            
+     --------------------------------------                                              
+     NUMBER          VECTORS                                          ORIGIN
+ 1000000001        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
 
 
-         PROPERTY SETS
+
+         PROPERTY SETS (HM_READER)
          -------------
 
 
@@ -1089,7 +1132,8 @@ SOLID1
      SMALL STRAIN FLAG . . . . . . . . . . .=         4
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         2
-     TETRA FORMULATION FLAG . . . . .  . . .=         0
+     TETRA4 FORMULATION FLAG. . . . .  . . .=         0
+     TETRA10 FORMULATION FLAG . . . .  . . .=         0
      CONSTANT PRESSURE FLAG. . . . . . . . .=         0
      CONSTANT STRESS FLAG. . . . . . . . . .=         0
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
@@ -1099,7 +1143,7 @@ SOLID1
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
      BRICK MINIMUM TIME STEP................=  0.000000000000    
-     POST PROCESSING STRAIN FLAG . . . . . .=         2
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
 
@@ -1110,31 +1154,31 @@ SOLID1
 
 
 
-PART:         1,BRICK1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+PART:         1,BRICK1
 ----
-     PROPERTY:         1,SOLID1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-     MATERIAL:         1,STEEL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+     PROPERTY:         1,SOLID1
+     MATERIAL:         1,STEEL
      SUBSET  :         3
  VIRT. THICKN:  0.000000000000    
 
-PART:         2,New Part 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+PART:         2,New Part 1
 ----
-     PROPERTY:         1,SOLID1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-     MATERIAL:         2,STEEL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+     PROPERTY:         1,SOLID1
+     MATERIAL:         2,STEEL
      SUBSET  :         3
  VIRT. THICKN:  0.000000000000    
 
-PART:         4,New Part 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+PART:         4,New Part 2
 ----
-     PROPERTY:         1,SOLID1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-     MATERIAL:         2,STEEL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+     PROPERTY:         1,SOLID1
+     MATERIAL:         2,STEEL
      SUBSET  :         3
  VIRT. THICKN:  0.000000000000    
 
-PART:         5,New Part 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+PART:         5,New Part 3
 ----
-     PROPERTY:         1,SOLID1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-     MATERIAL:         2,STEEL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+     PROPERTY:         1,SOLID1
+     MATERIAL:         2,STEEL
      SUBSET  :         3
  VIRT. THICKN:  0.000000000000    
 
@@ -1145,21 +1189,29 @@ PART:         5,New Part 3
 
   
   
- SUBSET:         0,GLOBAL MODEL                            
+ SUBSET:         0,GLOBAL MODEL                                                                                                     
  ~~~~~~
   |         
   |         
-  |________SUBSET:         3,New_physical_part                       
+  |________SUBSET:         3,New_physical_part                                                                                      
            ~~~~~~
             |
             |________Part(s):         1,BRICK1                                  
                                       2,New Part 1                              
                                       4,New Part 2                              
                                       5,New Part 3                              
-
-
-
- NODE GROUP:         2,BCS_group_2_of_NODE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ,        73 NODES: 
+ 
+ 
+ NODE GROUP:         1,BCS_group_1_of_NODE,        45 NODES: 
+ -------------------
+         6         7        17        19        20        26        44        45        47        48
+        69        73        75        99       102       142       143       145       146       183
+       185       190       191       193       194       197       223       225       226       267
+       269       273       275       334       345       346       351       443       446       493
+       501       503       506       551       555
+ 
+ 
+ NODE GROUP:         2,BCS_group_2_of_NODE,        73 NODES: 
  -------------------
          5         6         7         8        17        19        20        26        41        42
         44        45        47        48        51        69        71        73        75        96
@@ -1169,30 +1221,15 @@ PART:         5,New Part 3
        281       333       334       339       340       345       346       351       352       440
        443       446       449       491       493       501       503       506       508       550
        551       553       555
-
-
-
- NODE GROUP:         3,IMPVEL_group_3_of_NODE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ,        44 NODES: 
+ 
+ 
+ NODE GROUP:         3,IMPVEL_group_3_of_NODE,        44 NODES: 
  -------------------
          1         2         3         4         9        10        14        28        29        31
         35        37        38       126       127       129       130       133       135       136
        150       151       152       154       155       156       170       171       172       234
        236       240       248       252       254       426       429       435       450       452
        455       457       475       477
-
-
-
- NODE GROUP:         1,BCS_group_1_of_NODE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ,        45 NODES: 
- -------------------
-         6         7        17        19        20        26        44        45        47        48
-        69        73        75        99       102       142       143       145       146       183
-       185       190       191       193       194       197       223       225       226       267
-       269       273       275       334       345       346       351       443       446       493
-       501       503       506       551       555
-
-
-     RANDOM NOISE       
-     ------------       
 
      BOUNDARY CONDITIONS                                                                 
      -------------------                                                                 
@@ -1360,12 +1397,20 @@ PART:         5,New Part 3
        593       667       641       401       400       639       424       118
         90        16         1         1         1
        667       509       353       641       639       350       117       424
+        91       465         2         2         1
+        50       279       498       187       278       592       668       497
         92        17         1         1         1
        279       105       340       498       592       401       633       668
+        93       466         2         2         1
+       187       498       189        18       497       668       499       188
         94        18         1         1         1
        498       340        71       189       668       633       341       499
+        95       467         2         2         1
+       278       592       668       497       103       399       631       337
         96        19         1         1         1
        592       401       633       668       399       118       420       631
+        97       468         2         2         1
+       497       668       499       188       337       631       338        70
         98        20         1         1         1
        668       633       341       499       631       420       115       338
         99        21         1         1         1
@@ -1416,18 +1461,10 @@ PART:         5,New Part 3
        625       671       661       416       329       548       372       113
        122        44         1         1         1
        671       549       373       661       548       222        80       372
+       123       469         2         2         1
+       103       399       631       337       325       623       672       531
        124        45         1         1         1
        399       118       420       631       623       416       653       672
-       126        46         1         1         1
-       631       420       115       338       672       653       365       533
-       128        47         1         1         1
-       623       416       653       672       326       113       364       532
-       130        48         1         1         1
-       672       653       365       533       532       364        78       212
-       131        49         1         1         1
-       118       424       664       420       416       661       673       653
-       132        50         1         1         1
-       424       117       377       664       661       373       569       673
 
 
             EIGHT NODE BRICK ELEMENTS                                                    
@@ -1436,6 +1473,22 @@ PART:         5,New Part 3
    ELEMENT   INTERNAL     PART     MATER     PRSET
      NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
 
+       125       470         2         2         1
+       337       631       338        70       531       672       533       211
+       126        46         1         1         1
+       631       420       115       338       672       653       365       533
+       127       471         2         2         1
+       325       623       672       531        66       326       532       210
+       128        47         1         1         1
+       623       416       653       672       326       113       364       532
+       129       472         2         2         1
+       531       672       533       211       210       532       212        23
+       130        48         1         1         1
+       672       653       365       533       532       364        78       212
+       131        49         1         1         1
+       118       424       664       420       416       661       673       653
+       132        50         1         1         1
+       424       117       377       664       661       373       569       673
        133        51         1         1         1
        420       664       375       115       653       673       566       365
        134        52         1         1         1
@@ -1520,6 +1573,14 @@ PART:         5,New Part 3
        350       638       425       117       549       678       660       373
        174        92         1         1         1
        638       397       119       425       678       621       414       660
+
+
+            EIGHT NODE BRICK ELEMENTS                                                    
+            -------------------------                                                    
+
+   ELEMENT   INTERNAL     PART     MATER     PRSET
+     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
+
        175        93         1         1         1
        221       545       678       549        25       219       546       222
        176        94         1         1         1
@@ -1536,14 +1597,6 @@ PART:         5,New Part 3
        397       588       396       119       621       679       619       414
        182       100         1         1         1
        588       270       100       396       679       482       319       619
-
-
-            EIGHT NODE BRICK ELEMENTS                                                    
-            -------------------------                                                    
-
-   ELEMENT   INTERNAL     PART     MATER     PRSET
-     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
-
        183       101         1         1         1
        322       483       679       621        65       177       484       323
        184       102         1         1         1
@@ -1584,12 +1637,16 @@ PART:         5,New Part 3
        657       681       541       369       368       540       217        79
        202       120         1         1         1
        681       539       216       541       540       215        24       217
+       203       473         2         2         1
+        18       189       496       186       188       499       682       495
        204       121         1         1         1
        189        71       339       496       499       341       632       682
        205       122         1         1         1
        186       496       263        42       495       682       584       262
        206       123         1         1         1
        496       339        96       263       682       632       392       584
+       207       474         2         2         1
+       188       499       682       495        70       338       630       336
        208       124         1         1         1
        499       341       632       682       338       115       421       630
        209       125         1         1         1
@@ -1624,6 +1681,14 @@ PART:         5,New Part 3
        262       584       684       439        95       391       582       259
        224       140         1         1         1
        584       392       583       684       391       120       390       582
+
+
+            EIGHT NODE BRICK ELEMENTS                                                    
+            -------------------------                                                    
+
+   ELEMENT   INTERNAL     PART     MATER     PRSET
+     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
+
        225       141         1         1         1
        439       684       438       138       259       582       258        40
        226       142         1         1         1
@@ -1644,20 +1709,16 @@ PART:         5,New Part 3
        583       685       490       260       390       626       330        94
        234       150         1         1         1
        685       494       184       490       626       332        68       330
-
-
-            EIGHT NODE BRICK ELEMENTS                                                    
-            -------------------------                                                    
-
-   ELEMENT   INTERNAL     PART     MATER     PRSET
-     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
-
+       235       475         2         2         1
+        70       338       630       336       211       533       686       529
        236       151         1         1         1
        338       115       421       630       533       365       652       686
        237       152         1         1         1
        336       630       391        95       529       686       605       298
        238       153         1         1         1
        630       421       120       391       686       652       406       605
+       239       476         2         2         1
+       211       533       686       529        23       212       530       209
        240       154         1         1         1
        533       365       652       686       212        78       363       530
        241       155         1         1         1
@@ -1728,6 +1789,14 @@ PART:         5,New Part 3
        552       690       629       335       374       663       419       114
        274       188         1         1         1
        690       636       395       629       663       423       121       419
+
+
+            EIGHT NODE BRICK ELEMENTS                                                    
+            -------------------------                                                    
+
+   ELEMENT   INTERNAL     PART     MATER     PRSET
+     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
+
        275       189         1         1         1
         73       193       501       345       347       504       691       636
        276       190         1         1         1
@@ -1752,14 +1821,6 @@ PART:         5,New Part 3
        185       493       183        17       494       692       492       184
        286       200         1         1         1
        493       267        44       183       692       586       266       492
-
-
-            EIGHT NODE BRICK ELEMENTS                                                    
-            -------------------------                                                    
-
-   ELEMENT   INTERNAL     PART     MATER     PRSET
-     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
-
        287       201         1         1         1
        335       629       692       494       114       419       627       332
        288       202         1         1         1
@@ -1836,6 +1897,14 @@ PART:         5,New Part 3
        121       394       585       393       410       613       697       611
        324       238         1         1         1
        394        98       265       585       613       310       473       697
+
+
+            EIGHT NODE BRICK ELEMENTS                                                    
+            -------------------------                                                    
+
+   ELEMENT   INTERNAL     PART     MATER     PRSET
+     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
+
        325       239         1         1         1
        393       585       264        97       611       697       472       307
        326       240         1         1         1
@@ -1860,14 +1929,6 @@ PART:         5,New Part 3
        178       486       698       485        39       257       581       256
        336       250         1         1         1
        486       327       624       698       257        93       389       581
-
-
-            EIGHT NODE BRICK ELEMENTS                                                    
-            -------------------------                                                    
-
-   ELEMENT   INTERNAL     PART     MATER     PRSET
-     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
-
        337       251         1         1         1
        485       698       622       324       256       581       388        92
        338       252         1         1         1
@@ -1944,6 +2005,14 @@ PART:         5,New Part 3
        389       617       412       122       580       703       615       387
        374       288         1         1         1
        617       317       111       412       703       479       314       615
+
+
+            EIGHT NODE BRICK ELEMENTS                                                    
+            -------------------------                                                    
+
+   ELEMENT   INTERNAL     PART     MATER     PRSET
+     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
+
        375       289         1         1         1
        255       478       703       580        38       171       477       254
        376       290         1         1         1
@@ -1968,14 +2037,6 @@ PART:         5,New Part 3
        458       704       459       157       155       457       156        10
        386       300         1         1         1
        704       599       290       459       457       289        54       156
-
-
-            EIGHT NODE BRICK ELEMENTS                                                    
-            -------------------------                                                    
-
-   ELEMENT   INTERNAL     PART     MATER     PRSET
-     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
-
        387       301         1         1         1
        122       412       644       404       387       615       705       599
        388       302         1         1         1
@@ -1984,6 +2045,14 @@ PART:         5,New Part 3
        404       644       355       107       599       705       514       290
        390       304         1         1         1
        644       357        76       355       705       517       202       514
+       391       477         5         2         1
+       387       615       705       599        91       313       513       289
+       392       478         5         2         1
+       615       314       517       705       313        62       201       513
+       393       479         5         2         1
+       599       705       514       290       289       513       199        54
+       394       480         5         2         1
+       705       517       202       514       513       201        21       199
        395       305         1         1         1
         25       219       546       222       218       542       706       544
        396       306         1         1         1
@@ -2006,12 +2075,16 @@ PART:         5,New Part 3
        177        15       176       484       481       174       480       707
        405       315         1         1         1
        323       484       320       112       620       707       618       415
+       406       481         4         2         1
+       484       176        64       320       707       480       318       618
        407       316         1         1         1
        321       481       707       620        90       251       578       386
        408       317         1         1         1
        481       174       480       707       251        36       250       578
        409       318         1         1         1
        620       707       618       415       386       578       385       123
+       410       482         4         2         1
+       707       480       318       618       578       250        89       385
        411       319         1         1         1
         80       371       567       232       370       659       708       561
        412       320         1         1         1
@@ -2030,12 +2103,28 @@ PART:         5,New Part 3
        708       654       366       560       645       408       109       356
        419       327         1         1         1
        112       320       540       368       415       618       709       654
+       420       483         4         2         1
+       320        64       215       540       618       318       535       709
        421       328         1         1         1
        368       540       217        79       654       709       536       366
+       422       484         4         2         1
+       540       215        24       217       709       535       213       536
        423       329         1         1         1
        415       618       709       654       123       385       609       408
+       424       485         4         2         1
+       618       318       535       709       385        89       304       609
+
+
+            EIGHT NODE BRICK ELEMENTS                                                    
+            -------------------------                                                    
+
+   ELEMENT   INTERNAL     PART     MATER     PRSET
+     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
+
        425       330         1         1         1
        654       709       536       366       408       609       305       109
+       426       486         4         2         1
+       709       535       213       536       609       304        59       305
        427       331         1         1         1
         63       315       616       317       173       476       710       479
        428       332         1         1         1
@@ -2058,12 +2147,16 @@ PART:         5,New Part 3
        251        36       250       578       434       134       433       711
        437       341         1         1         1
        386       578       385       123       577       711       576       384
+       438       487         4         2         1
+       578       250        89       385       711       433       247       576
        439       342         1         1         1
        249       434       711       577        35       133       432       248
        440       343         1         1         1
        434       134       433       711       133         3       132       432
        441       344         1         1         1
        577       711       576       384       248       432       246        88
+       442       488         4         2         1
+       711       433       247       576       432       132        34       246
        443       345         1         1         1
        111       413       645       357       314       614       712       517
        444       346         1         1         1
@@ -2072,22 +2165,30 @@ PART:         5,New Part 3
        357       645       356        76       517       712       516       202
        446       348         1         1         1
        645       408       109       356       712       607       302       516
+       447       489         5         2         1
+       314       614       712       517        62       312       515       201
+       448       490         5         2         1
+       614       384       607       712       312        88       301       515
+       449       491         5         2         1
+       517       712       516       202       201       515       200        21
+       450       492         5         2         1
+       712       607       302       516       515       301        58       200
        451       349         1         1         1
        123       385       609       408       384       576       713       607
+       452       493         4         2         1
+       385        89       304       609       576       247       468       713
        453       350         1         1         1
        408       609       305       109       607       713       469       302
-
-
-            EIGHT NODE BRICK ELEMENTS                                                    
-            -------------------------                                                    
-
-   ELEMENT   INTERNAL     PART     MATER     PRSET
-     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
-
+       454       494         4         2         1
+       609       304        59       305       713       468       165       469
        455       351         1         1         1
        384       576       713       607        88       246       467       301
+       456       495         4         2         1
+       576       247       468       713       246        34       163       467
        457       352         1         1         1
        607       713       469       302       301       467       164        58
+       458       496         4         2         1
+       713       468       165       469       467       163        12       164
        459       353         1         1         1
         23       212       530       209       208       528       714       526
        460       354         1         1         1
@@ -2120,6 +2221,14 @@ PART:         5,New Part 3
        651       715       646       407       405       642       402       124
        474       368         1         1         1
        715       558       358       646       642       354       106       402
+
+
+            EIGHT NODE BRICK ELEMENTS                                                    
+            -------------------------                                                    
+
+   ELEMENT   INTERNAL     PART     MATER     PRSET
+     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
+
        475       369         1         1         1
         57       299       464       161       297       604       716       461
        476       370         1         1         1
@@ -2176,6 +2285,14 @@ PART:         5,New Part 3
        405       642       402       124       598       719       594       378
        502       396         1         1         1
        642       354       106       402       719       512       284       594
+       503       497         5         2         1
+       290       514       719       598        54       199       510       288
+       504       498         5         2         1
+       514       202       512       719       199        21       198       510
+       505       499         5         2         1
+       598       719       594       378       288       510       282        82
+       506       500         5         2         1
+       719       512       284       594       510       198        52       282
        507       397         1         1         1
         84       380       572       239       237       571       720       428
        508       398         1         1         1
@@ -2184,14 +2301,6 @@ PART:         5,New Part 3
        239       572       238        30       428       720       427       128
        510       400         1         1         1
        572       379        83       238       720       570       235       427
-
-
-            EIGHT NODE BRICK ELEMENTS                                                    
-            -------------------------                                                    
-
-   ELEMENT   INTERNAL     PART     MATER     PRSET
-     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
-
        511       401         1         1         1
        237       571       720       428        29       236       426       127
        512       402         1         1         1
@@ -2220,6 +2329,14 @@ PART:         5,New Part 3
         27       231       563       229       228       560       722       558
        524       414         1         1         1
        231        79       367       563       560       366       655       722
+
+
+            EIGHT NODE BRICK ELEMENTS                                                    
+            -------------------------                                                    
+
+   ELEMENT   INTERNAL     PART     MATER     PRSET
+     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
+
        525       415         1         1         1
        229       563       360        77       558       722       647       358
        526       416         1         1         1
@@ -2234,12 +2351,20 @@ PART:         5,New Part 3
        722       655       411       647       643       409       125       403
        531       421         1         1         1
         79       217       538       367       366       536       723       655
+       532       501         4         2         1
+       217        24       214       538       536       213       534       723
        533       422         1         1         1
        367       538       311       110       655       723       612       411
+       534       502         4         2         1
+       538       214        61       311       723       534       309       612
        535       423         1         1         1
        366       536       723       655       109       305       608       409
+       536       503         4         2         1
+       536       213       534       723       305        59       303       608
        537       424         1         1         1
        655       723       612       411       409       608       383       125
+       538       504         4         2         1
+       723       534       309       612       608       303        87       383
        539       425         1         1         1
         77       360       524       207       358       647       724       520
        540       426         1         1         1
@@ -2280,18 +2405,38 @@ PART:         5,New Part 3
        354       643       403       106       512       726       595       284
        558       444         1         1         1
        643       409       125       403       726       606       381       595
+       559       505         5         2         1
+       202       516       726       512        21       200       511       198
+       560       506         5         2         1
+       516       302       606       726       200        58       300       511
+       561       507         5         2         1
+       512       726       595       284       198       511       283        52
+       562       508         5         2         1
+       726       606       381       595       511       300        85       283
        563       445         1         1         1
        109       305       608       409       302       469       727       606
+       564       509         4         2         1
+       305        59       303       608       469       165       466       727
        565       446         1         1         1
        409       608       383       125       606       727       574       381
+       566       510         4         2         1
+       608       303        87       383       727       466       243       574
        567       447         1         1         1
        302       469       727       606        58       164       465       300
+       568       511         4         2         1
+       469       165       466       727       164        12       162       465
        569       448         1         1         1
        606       727       574       381       300       465       242        85
+       570       512         4         2         1
+       727       466       243       574       465       162        32       242
        571       449         1         1         1
        106       403       597       287       284       595       728       454
        572       450         1         1         1
        403       125       382       597       595       381       573       728
+       573       451         1         1         1
+       287       597       286        53       454       728       453       153
+       574       452         1         1         1
+       597       382        86       286       728       573       241       453
 
 
             EIGHT NODE BRICK ELEMENTS                                                    
@@ -2300,10 +2445,6 @@ PART:         5,New Part 3
    ELEMENT   INTERNAL     PART     MATER     PRSET
      NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
 
-       573       451         1         1         1
-       287       597       286        53       454       728       453       153
-       574       452         1         1         1
-       597       382        86       286       728       573       241       453
        575       453         1         1         1
        284       595       728       454        52       283       452       152
        576       454         1         1         1
@@ -2328,110 +2469,6 @@ PART:         5,New Part 3
        573       729       430       241       240       429       129        31
        586       464         1         1         1
        729       431       131       430       429       130         2       129
-        91       465         2         2         1
-        50       279       498       187       278       592       668       497
-        93       466         2         2         1
-       187       498       189        18       497       668       499       188
-        95       467         2         2         1
-       278       592       668       497       103       399       631       337
-        97       468         2         2         1
-       497       668       499       188       337       631       338        70
-       123       469         2         2         1
-       103       399       631       337       325       623       672       531
-       125       470         2         2         1
-       337       631       338        70       531       672       533       211
-       127       471         2         2         1
-       325       623       672       531        66       326       532       210
-       129       472         2         2         1
-       531       672       533       211       210       532       212        23
-       203       473         2         2         1
-        18       189       496       186       188       499       682       495
-       207       474         2         2         1
-       188       499       682       495        70       338       630       336
-       235       475         2         2         1
-        70       338       630       336       211       533       686       529
-       239       476         2         2         1
-       211       533       686       529        23       212       530       209
-       406       477         4         2         1
-       484       176        64       320       707       480       318       618
-       410       478         4         2         1
-       707       480       318       618       578       250        89       385
-       420       479         4         2         1
-       320        64       215       540       618       318       535       709
-       422       480         4         2         1
-       540       215        24       217       709       535       213       536
-       424       481         4         2         1
-       618       318       535       709       385        89       304       609
-       426       482         4         2         1
-       709       535       213       536       609       304        59       305
-       438       483         4         2         1
-       578       250        89       385       711       433       247       576
-       442       484         4         2         1
-       711       433       247       576       432       132        34       246
-       452       485         4         2         1
-       385        89       304       609       576       247       468       713
-       454       486         4         2         1
-       609       304        59       305       713       468       165       469
-       456       487         4         2         1
-       576       247       468       713       246        34       163       467
-       458       488         4         2         1
-       713       468       165       469       467       163        12       164
-       532       489         4         2         1
-       217        24       214       538       536       213       534       723
-       534       490         4         2         1
-       538       214        61       311       723       534       309       612
-       536       491         4         2         1
-       536       213       534       723       305        59       303       608
-       538       492         4         2         1
-       723       534       309       612       608       303        87       383
-       564       493         4         2         1
-       305        59       303       608       469       165       466       727
-       566       494         4         2         1
-       608       303        87       383       727       466       243       574
-       568       495         4         2         1
-       469       165       466       727       164        12       162       465
-       570       496         4         2         1
-       727       466       243       574       465       162        32       242
-       391       497         5         2         1
-       387       615       705       599        91       313       513       289
-       392       498         5         2         1
-       615       314       517       705       313        62       201       513
-       393       499         5         2         1
-       599       705       514       290       289       513       199        54
-       394       500         5         2         1
-       705       517       202       514       513       201        21       199
-
-
-            EIGHT NODE BRICK ELEMENTS                                                    
-            -------------------------                                                    
-
-   ELEMENT   INTERNAL     PART     MATER     PRSET
-     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
-
-       447       501         5         2         1
-       314       614       712       517        62       312       515       201
-       448       502         5         2         1
-       614       384       607       712       312        88       301       515
-       449       503         5         2         1
-       517       712       516       202       201       515       200        21
-       450       504         5         2         1
-       712       607       302       516       515       301        58       200
-       503       505         5         2         1
-       290       514       719       598        54       199       510       288
-       504       506         5         2         1
-       514       202       512       719       199        21       198       510
-       505       507         5         2         1
-       598       719       594       378       288       510       282        82
-       506       508         5         2         1
-       719       512       284       594       510       198        52       282
-       559       509         5         2         1
-       202       516       726       512        21       200       511       198
-       560       510         5         2         1
-       516       302       606       726       200        58       300       511
-       561       511         5         2         1
-       512       726       595       284       198       511       283        52
-       562       512         5         2         1
-       726       606       381       595       511       300        85       283
 
 
             TEN NODE TETRA ELEMENTS
@@ -2444,83 +2481,94 @@ PART:         5,New Part 3
 
      IMPOSED VELOCITIES    
      -------------------    
-         NODE         SKEW        FRAME  DIRECTION   LOAD_CURVE       SENSOR            FSCALE                ASCALE            START_TIME                 STOP_TIME             COORDINATE SYSTEM
-            1            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-            2            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-            3            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-            4            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-            9            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-           10            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-           14            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-           28            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-           29            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-           31            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-           35            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-           37            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-           38            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          126            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          127            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          129            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          130            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          133            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          135            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          136            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          150            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          151            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          152            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          154            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          155            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          156            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          170            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          171            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          172            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          234            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          236            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          240            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          248            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          252            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          254            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          426            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          429            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          435            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          450            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          452            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          455            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          457            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          475            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
-          477            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
- 
+         NODE         SKEW        FRAME  DIRECTION   LOAD_CURVE       SENSOR            FSCALE                ASCALE            START_TIME                 STOP_TIME         COORDINATE SYSTEM
+            1            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+            2            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+            3            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+            4            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+            9            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+           10            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+           14            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+           28            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+           29            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+           31            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+           35            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+           37            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+           38            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          126            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          127            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          129            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          130            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          133            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          135            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          136            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          150            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          151            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          152            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          154            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          155            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          156            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          170            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          171            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          172            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          234            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          236            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          240            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          248            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          252            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          254            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          426            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          429            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          435            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          450            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          452            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          455            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          457            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          475            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+          477            0            0          Z            1            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
   
- SPMD IS NOT ABLE TO CHECK FOR ELEMENT DELETION IN RADIOSS ENGINE INPUT FILE
+ SPMD IS CHECKING FOR ELEMENT DELETION IN : 
+ MODELE_0001.rad                                                                                              
  
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+** INFO: SIMPLIFIED DOMAIN DECOMPOSITION
   
   ELEMENT NUMBER =        512
-  EDGES FOUND    =       5068
+  EDGES FOUND    =       1344
   
-#PROC    ELEMENT W.    CONT NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
-   1         18048.             0.             0.             0.             0.
-   2         18048.             0.             0.             0.             0.
-   3         18048.             0.             0.             0.             0.
-   4         18048.             0.             0.             0.             0.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
+   1         18288.             0.             0.             0.             0.             0.
+   2         18288.             0.             0.             0.             0.             0.
+   3         18576.             0.             0.             0.             0.             0.
+   4         18576.             0.             0.             0.             0.             0.
   
+ STATISTICS ON DECOMPOSITION WEIGHTS
+ -----------------------------------
+ METRIC      MINIMUM   MAXIMUM   AVERAGE   STANDARD DEVIATION
+ ELEMENTS      18288     18576     18432         144
 
 
        8-NODE ELEMENT GROUPS
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1         2       106         1         1         1         0         0         0         0         1         0        19         0         2         0         0         0         0
-         2         2       123       107         1         1         0         0         0         0         1         0        19         0         2         0         0         0         0
-         3         2       118       230         1         1         0         0         0         0         1         0        19         0         2         0         0         0         0
-         4         2       117       348         1         1         0         0         0         0         1         0        19         0         2         0         0         0         0
-         5        13        22       465         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         6        13         5       487         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         7        13        10       492         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
-         8        13        11       502         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
+         1         2       114         1         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
+         2         2       104       115         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
+         3         2       117       219         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
+         4         2       128       336         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
+         5         2         1       464         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
+         6        13        13       465         1         1         0         0         0         0         1         0         2         0         2         0         0         0         0
+         7        13        23       478         1         1         0         0         0         0         1         0         2         0         2         0         0         0         0
+         8        13        12       501         1         1         0         0         0         0         1         0         2         0         2         0         0         0         0
+
+
+       RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
+       ----------------------------------------------
+
 
 
 
@@ -2528,138 +2576,7 @@ PART:         5,New Part 3
  BRICK GROUP         2 VECTORIZATION CODE =    0
  BRICK GROUP         3 VECTORIZATION CODE =    0
  BRICK GROUP         4 VECTORIZATION CODE =    0
-
-
-         SOLID ELEMENTS TIME STEP
-         ------------------------
-
-      TIME STEP       ELEMENT NUMBER
-  5.9253756310789E-03            347
-  5.9253756310789E-03            364
-  5.9253756310789E-03            363
-  5.9253756310789E-03            360
-  5.9253756310789E-03            359
-  5.9253756310789E-03            358
-  5.9253756310789E-03            357
-  5.9253756310789E-03            356
-  5.9253756310789E-03            355
-  5.9253756310789E-03            354
-  5.9253756310789E-03            352
-  5.9253756310789E-03            351
-  5.9253756310789E-03            350
-  5.9253756310789E-03            348
-  5.9253756310789E-03            365
-  5.9253756310789E-03            346
-  5.9253756310789E-03            345
-  5.9253756310789E-03            344
-  5.9253756310789E-03            343
-  5.9253756310789E-03            342
-
-
-         NODAL TIME STEP (estimation)
-         ---------------
-
-      TIME STEP       NODE NUMBER
-  5.9253756310789E-03            504
-  5.9253756310789E-03            228
-  5.9253756310789E-03            227
-  5.9253756310789E-03            479
-  5.9253756310789E-03            222
-  5.9253756310789E-03            489
-  5.9253756310789E-03            494
-  5.9253756310789E-03            207
-  5.9253756310789E-03            229
-  5.9253756310789E-03            509
-  5.9253756310789E-03            520
-  5.9253756310789E-03            522
-  5.9253756310789E-03            524
-  5.9253756310789E-03            525
-  5.9253756310789E-03            528
-  5.9253756310789E-03            541
-  5.9253756310789E-03            544
-  5.9253756310789E-03            546
-  5.9253756310789E-03            230
-  5.9253756310789E-03            231
-  5.9253756310789E-03            232
-  5.9253756310789E-03            233
-  5.9253756310789E-03            474
-  5.9253756310789E-03            464
-  5.9253756310789E-03            459
-  5.9253756310789E-03            454
-  5.9253756310789E-03            425
-  5.9253756310789E-03            424
-  5.9253756310789E-03            423
-  5.9253756310789E-03            422
-  5.9253756310789E-03            421
-  5.9253756310789E-03            420
-  5.9253756310789E-03            419
-  5.9253756310789E-03            418
-  5.9253756310789E-03            417
-  5.9253756310789E-03            579
-  5.9253756310789E-03            569
-  5.9253756310789E-03            570
-  5.9253756310789E-03            571
-  5.9253756310789E-03            572
-  5.9253756310789E-03            573
-  5.9253756310789E-03            575
-  5.9253756310789E-03            577
-  5.9253756310789E-03            568
-  5.9253756310789E-03            580
-  5.9253756310789E-03            581
-  5.9253756310789E-03            582
-  5.9253756310789E-03            583
-  5.9253756310789E-03            584
-  5.9253756310789E-03            585
-  5.9253756310789E-03            586
-  5.9253756310789E-03            587
-  5.9253756310789E-03            355
-  5.9253756310789E-03            567
-  5.9253756310789E-03            566
-  5.9253756310789E-03            565
-  5.9253756310789E-03            564
-  5.9253756310789E-03            563
-  5.9253756310789E-03            562
-  5.9253756310789E-03            561
-  5.9253756310789E-03            560
-  5.9253756310789E-03            559
-  5.9253756310789E-03            558
-  5.9253756310789E-03            557
-  5.9253756310789E-03            556
-  5.9253756310789E-03            554
-  5.9253756310789E-03            552
-  5.9253756310789E-03            549
-  5.9253756310789E-03            548
-  5.9253756310789E-03            588
-  5.9253756310789E-03            373
-  5.9253756310789E-03            368
-  5.9253756310789E-03            369
-  5.9253756310789E-03            335
-  5.9253756310789E-03            370
-  5.9253756310789E-03            371
-  5.9253756310789E-03            332
-  5.9253756310789E-03            372
-  5.9253756310789E-03            367
-  5.9253756310789E-03            329
-  5.9253756310789E-03            374
-  5.9253756310789E-03            375
-  5.9253756310789E-03            376
-  5.9253756310789E-03            377
-  5.9253756310789E-03            379
-  5.9253756310789E-03            323
-  5.9253756310789E-03            380
-  5.9253756310789E-03            382
-  5.9253756310789E-03            366
-  5.9253756310789E-03            365
-  5.9253756310789E-03            341
-  5.9253756310789E-03            364
-  5.9253756310789E-03            363
-  5.9253756310789E-03            344
-  5.9253756310789E-03            362
-  5.9253756310789E-03            361
-  5.9253756310789E-03            347
-  5.9253756310789E-03            360
-  5.9253756310789E-03            359
-  5.9253756310789E-03            350
+ BRICK GROUP         5 VECTORIZATION CODE =    0
 
 
      NODAL MASSES
@@ -2819,33 +2736,66 @@ PART MASS & INERTIA
 -------------------
 
 
-PART :          1BRICK1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+PART :          1BRICK1
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
   19085.62500000      2787534.800562      2982545.553273      2960266.018572     -8656.506768588     -132081.5387594      6063.543911638    
  X           Y           Z           Kin. Energy Vx         Vy         Vz
   15.12931034483      14.77370689655      15.58189655172      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
 
-PART :          2New Part 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+PART :          2New Part 1
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
   493.5937500000      12147.03369141      16774.47509766      8098.022460937     3.6379788070917E-12 3.6379788070917E-12 2.9103830456734E-11
  X           Y           Z           Kin. Energy Vx         Vy         Vz
   13.12500000000      1.875000000000      22.50000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
 
-PART :          4New Part 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+PART :          4New Part 2
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
   822.6562500000      20245.05615234      43382.26318359      28921.50878906     1.1641532182693E-10 5.8207660913467E-11 2.9103830456734E-11
  X           Y           Z           Kin. Energy Vx         Vy         Vz
   13.12500000000      28.12500000000      7.500000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
 
-PART :          5New Part 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+PART :          5New Part 3
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
   658.1250000000      16196.04492188      16196.04492188      27764.64843750    -2.9103830456734E-11-3.6379788070917E-12-3.6379788070917E-12
  X           Y           Z           Kin. Energy Vx         Vy         Vz
   15.00000000000      15.00000000000      1.875000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+
+PART ELEMENT/MATERIAL PARAMETER REVIEW:
+-----------------------
+
+Part id,name:         1 BRICK1                 Mat type:   2 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       4       3       2       0       0       0       0
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:         2 New Part 1             Mat type:  13 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       4       3       2       0       0       0       0
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:         4 New Part 2             Mat type:  13 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       4       3       2       0       0       0       0
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:         5 New Part 3             Mat type:  13 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       4       3       2       0       0       0       0
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
 
 
      TOTAL MASS AND MASS CENTER
@@ -2863,7 +2813,7 @@ PART :          5New Part 3
 
 
       ADDED NODAL NON-STRUCTURAL MASSES 
-     --------------------
+     -----------------------------------
 
 
 
@@ -2873,10 +2823,21 @@ PART :          5New Part 3
 
 
      RIGID BODY ID         1
-     NUMBER OF SLAVE NODE        60
+     NUMBER OF SECONDARY NODE        50
+          NEW X,Y,Z              15.00000      15.00000      2.500000    
+          NEW MASS               1542.480    
+          SECONDARY NODES 
+                  21        52        54        58        62        82        85        88        91       198
+                 199       200       201       202       282       283       284       288       289       290
+                 300       301       302       312       313       314       378       381       384       387
+                 510       511       512       513       514       515       516       517       594       595
+                 598       599       606       607       614       615       705       712       719       726
+
+     RIGID BODY ID         2
+     NUMBER OF SECONDARY NODE        60
           NEW X,Y,Z              13.12500      27.50000      8.333333    
           NEW MASS               1665.879    
-          SLAVE NODES 
+          SECONDARY NODES 
                   12        24        32        34        59        61        64        87        89       132
                  162       163       164       165       176       213       214       215       217       242
                  243       246       247       250       303       304       305       309       311       318
@@ -2884,22 +2845,11 @@ PART :          5New Part 3
                  480       484       534       535       536       538       540       574       576       578
                  608       609       612       618       707       709       711       713       723       727
 
-     RIGID BODY ID         2
-     NUMBER OF SLAVE NODE        50
-          NEW X,Y,Z              15.00000      15.00000      2.500000    
-          NEW MASS               1542.480    
-          SLAVE NODES 
-                  21        52        54        58        62        82        85        88        91       198
-                 199       200       201       202       282       283       284       288       289       290
-                 300       301       302       312       313       314       378       381       384       387
-                 510       511       512       513       514       515       516       517       594       595
-                 598       599       606       607       614       615       705       712       719       726
-
      RIGID BODY ID         3
-     NUMBER OF SLAVE NODE        40
+     NUMBER OF SECONDARY NODE        40
           NEW X,Y,Z              13.12500      2.500000      21.66667    
           NEW MASS               1110.586    
-          SLAVE NODES 
+          SECONDARY NODES 
                   18        23        50        66        70       103       186       187       188       189
                  209       210       211       212       278       279       325       326       336       337
                  338       399       495       496       497       498       499       529       530       531
@@ -2917,6 +2867,225 @@ PART :          5New Part 3
 
  TH GROUP: SUBSET    
  ---------
+
+
+         SOLID ELEMENTS TIME STEP
+         ------------------------
+
+      TIME STEP       ELEMENT NUMBER
+  5.9253756310789E-03            333
+  5.9253756310789E-03            122
+  5.9253756310789E-03            265
+  5.9253756310789E-03            266
+  5.9253756310789E-03            331
+  5.9253756310789E-03            332
+  5.9253756310789E-03            334
+  5.9253756310789E-03            263
+  5.9253756310789E-03            347
+  5.9253756310789E-03            348
+  5.9253756310789E-03            349
+  5.9253756310789E-03            350
+  5.9253756310789E-03            264
+  5.9253756310789E-03            261
+  5.9253756310789E-03            262
+  5.9253756310789E-03            254
+  5.9253756310789E-03            260
+  5.9253756310789E-03            250
+  5.9253756310789E-03            251
+  5.9253756310789E-03            252
+
+
+         NODAL TIME STEP (estimation)
+         ---------------
+
+      TIME STEP       NODE NUMBER
+  5.9253756310789E-03            207
+  5.9253756310789E-03            366
+  5.9253756310789E-03            227
+  5.9253756310789E-03            479
+  5.9253756310789E-03            222
+  5.9253756310789E-03            489
+  5.9253756310789E-03            494
+  5.9253756310789E-03            509
+  5.9253756310789E-03            504
+  5.9253756310789E-03            229
+  5.9253756310789E-03            520
+  5.9253756310789E-03            522
+  5.9253756310789E-03            524
+  5.9253756310789E-03            525
+  5.9253756310789E-03            528
+  5.9253756310789E-03            228
+  5.9253756310789E-03            230
+  5.9253756310789E-03            424
+  5.9253756310789E-03            231
+  5.9253756310789E-03            419
+  5.9253756310789E-03            420
+  5.9253756310789E-03            421
+  5.9253756310789E-03            422
+  5.9253756310789E-03            423
+  5.9253756310789E-03            454
+  5.9253756310789E-03            425
+  5.9253756310789E-03            544
+  5.9253756310789E-03            459
+  5.9253756310789E-03            464
+  5.9253756310789E-03            474
+  5.9253756310789E-03            233
+  5.9253756310789E-03            232
+  5.9253756310789E-03            541
+  5.9253756310789E-03            357
+  5.9253756310789E-03            546
+  5.9253756310789E-03            579
+  5.9253756310789E-03            549
+  5.9253756310789E-03            571
+  5.9253756310789E-03            572
+  5.9253756310789E-03            573
+  5.9253756310789E-03            575
+  5.9253756310789E-03            577
+  5.9253756310789E-03            581
+  5.9253756310789E-03            580
+  5.9253756310789E-03            569
+  5.9253756310789E-03            582
+  5.9253756310789E-03            583
+  5.9253756310789E-03            584
+  5.9253756310789E-03            585
+  5.9253756310789E-03            586
+  5.9253756310789E-03            570
+  5.9253756310789E-03            568
+  5.9253756310789E-03            559
+  5.9253756310789E-03            567
+  5.9253756310789E-03            552
+  5.9253756310789E-03            554
+  5.9253756310789E-03            556
+  5.9253756310789E-03            557
+  5.9253756310789E-03            558
+  5.9253756310789E-03            561
+  5.9253756310789E-03            560
+  5.9253756310789E-03            417
+  5.9253756310789E-03            562
+  5.9253756310789E-03            563
+  5.9253756310789E-03            564
+  5.9253756310789E-03            565
+  5.9253756310789E-03            566
+  5.9253756310789E-03            418
+  5.9253756310789E-03            416
+  5.9253756310789E-03            287
+  5.9253756310789E-03            332
+  5.9253756310789E-03            415
+  5.9253756310789E-03            369
+  5.9253756310789E-03            370
+  5.9253756310789E-03            335
+  5.9253756310789E-03            371
+  5.9253756310789E-03            372
+  5.9253756310789E-03            374
+  5.9253756310789E-03            373
+  5.9253756310789E-03            367
+  5.9253756310789E-03            329
+  5.9253756310789E-03            375
+  5.9253756310789E-03            376
+  5.9253756310789E-03            377
+  5.9253756310789E-03            379
+  5.9253756310789E-03            368
+  5.9253756310789E-03            341
+  5.9253756310789E-03            350
+  5.9253756310789E-03            365
+  5.9253756310789E-03            355
+  5.9253756310789E-03            354
+  5.9253756310789E-03            353
+  5.9253756310789E-03            358
+  5.9253756310789E-03            359
+  5.9253756310789E-03            361
+  5.9253756310789E-03            360
+  5.9253756310789E-03            323
+  5.9253756310789E-03            347
+  5.9253756310789E-03            362
+  5.9253756310789E-03            363
+
+
+         NODAL TIME STEP DISTRIBUTION 
+         ----------------------------
+
+
+            % OF NODES
+                   ^
+                   |                                                            
+          41.120 --|                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+           0.000 --|#                           #                            #  
+                    -------------------------------------------------------------> NODAL TIME STEP
+                    |                                                          |
+                5.925E-03                                                  5.925E-03
+  
+  
+
+
+     INITIAL ADDED MASS ESTIMATION for /DT/NODA/CST
+     ----------------------------------------------
+
+
+            DM/M - at first cycle - scaling factor = 0.9
+                   ^
+                   |                                                            
+           0.100 --|                                                          * 
+                   |                                                            
+                   |                                                      *     
+                   |                                                   *        
+                   |                                                *           
+                   |                                             *              
+                   |                                                            
+                   |                                          *                 
+                   |                                       *                    
+                   |                                    *                       
+                   |                                 *                          
+                   |                              *                             
+                   |                                                            
+                   |                           *                                
+                   |                        *                                   
+                   |                     *                                      
+                   |                 *                                          
+                   |              *                                             
+                   |                                                            
+                   |           *                                                
+                   |        *                                                   
+                   |     *                                                      
+           0.005 --|* *                                                         
+                    -------------------------------------------------------------> TARGET TIME STEP
+                    |                                                          |
+                5.350E-03                                                  5.658E-03
+  
+  
+              DM/M at first cycle          |  Target time step - scaling factor = 0.9  |  Target time step - scaling factor = 0.67
+    -------------------------------------  |  ---------------------------------------  |  ---------------------------------------
+                 1.000E-02                 |                 5.366E-03                 |                 3.995E-03
+                 2.000E-02                 |                 5.400E-03                 |                 4.020E-03
+                 3.000E-02                 |                 5.433E-03                 |                 4.044E-03
+                 4.000E-02                 |                 5.465E-03                 |                 4.069E-03
+                 5.000E-02                 |                 5.498E-03                 |                 4.093E-03
+
+
+    WARNING : These added mass estimations are valid at first cycle only.
+    Because of element deformation or contacts the added mass can increase during the run
+
+
  SUMMARY OF POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS :
  -----------------------------------------------------
                                   
@@ -2926,34 +3095,31 @@ PART :          5New Part 3
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE         71 MB
+    STARTER MEMORY USAGE        123 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
-AVERAGE NB. OF BOUNDARY NODES :   134
-STANDARD DEVIATION            :     6
- 
-AVERAGE NUMBER OF LOCAL NODES :     255
+
+AVERAGE NB. OF BOUNDARY NODES :    99
+STANDARD DEVIATION            :     5
+
+AVERAGE NUMBER OF LOCAL NODES :     235
 STANDARD DEVIATION            :       2
- 
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    1           128                   126                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    2           128                   140                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    3           128                   132                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    4           128                   139                     3
- 
+    1           127                   107                     3
+    2           127                    97                     3
+    3           129                    94                     3
+    4           129                    96                     3
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
- NUMBER OF NODES................. :         255
- NUMBER OF SOLID ELEMENTS........ :         128
- TOTAL NUMBER OF NODES FOR COMM.. :         154
- 
+ NUMBER OF NODES................. :         239
+ NUMBER OF SOLID ELEMENTS........ :         127
+ TOTAL NUMBER OF NODES FOR COMM.. :         127
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -2961,14 +3127,14 @@ STANDARD DEVIATION            :       2
         MEMORY USED FOR INTEGERS         5 MB 
         TOTAL MEMORY EVALUATION         10 MB 
                                             
-        RESTART FILE SIZE       174KB
- 
+        RESTART FILE SIZE         0 MB
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
- NUMBER OF NODES................. :         253
- NUMBER OF SOLID ELEMENTS........ :         128
- TOTAL NUMBER OF NODES FOR COMM.. :         172
- 
+ NUMBER OF NODES................. :         234
+ NUMBER OF SOLID ELEMENTS........ :         127
+ TOTAL NUMBER OF NODES FOR COMM.. :         115
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -2976,14 +3142,14 @@ STANDARD DEVIATION            :       2
         MEMORY USED FOR INTEGERS         5 MB 
         TOTAL MEMORY EVALUATION         10 MB 
                                             
-        RESTART FILE SIZE       156KB
- 
+        RESTART FILE SIZE         0 MB
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
- NUMBER OF NODES................. :         253
- NUMBER OF SOLID ELEMENTS........ :         128
- TOTAL NUMBER OF NODES FOR COMM.. :         163
- 
+ NUMBER OF NODES................. :         234
+ NUMBER OF SOLID ELEMENTS........ :         129
+ TOTAL NUMBER OF NODES FOR COMM.. :         114
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -2991,14 +3157,14 @@ STANDARD DEVIATION            :       2
         MEMORY USED FOR INTEGERS         5 MB 
         TOTAL MEMORY EVALUATION         10 MB 
                                             
-        RESTART FILE SIZE       156KB
- 
+        RESTART FILE SIZE         0 MB
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
- NUMBER OF NODES................. :         259
- NUMBER OF SOLID ELEMENTS........ :         128
- TOTAL NUMBER OF NODES FOR COMM.. :         167
- 
+ NUMBER OF NODES................. :         234
+ NUMBER OF SOLID ELEMENTS........ :         129
+ TOTAL NUMBER OF NODES FOR COMM.. :         112
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -3006,18 +3172,60 @@ STANDARD DEVIATION            :       2
         MEMORY USED FOR INTEGERS         5 MB 
         TOTAL MEMORY EVALUATION         10 MB 
                                             
-        RESTART FILE SIZE       157KB
- 
+        RESTART FILE SIZE         0 MB
+
 
      RESTART FILES MODELE_0000 WRITTEN
      -------------
 
+  
+------------------------------------------------------------------------
+  
+ CPU USER TIME
+ -------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .3832E+00   .1510E+00   .2183E-01   .0000E+00   .0000E+00   .0000E+00   .3088E-04
+  
+  
+ ELAPSED TIME
+ ------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .1144E+07   .1689E+00   .1243E-01   .0000E+00   .0000E+00   .0000E+00   .1014E-04
+  
+                   ** COMPUTE TIME INFORMATION **
+  
+ EXECUTION STARTED      :      2022/11/23  16:21:38
+ EXECUTION COMPLETED    :      2022/11/23  16:21:39
+  
+ ELAPSED TIME...........=          0.62 s
+                               00:00:00
+  
+------------------------------------------------------------------------
 
 
 
-     NORMAL TERMINATION                                                                  
+     TERMINATION WITH WARNING           
      ------------------                                                                  
-          0 ERROR(S)            
-          0 WARNING(S)          
+
+
+------------------------------------------------------------------------------------------------------------------------
+|            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
+------------------------------------------------------------------------------------------------------------------------
+|                                                           |                                                          |
+|                                                           |  --- GLOBAL UNITS                           2 WARNING(S) |
+|                                                           |       |                                                  |
+|                                                           |       |                                                  |
+|                                                           |       |---     2 WARNING ID :       100214               |
+|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
+|                                                           |       |                                                  |
+|                                                           |                                                          |
+|                                                           |                                                          |
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+              0 ERROR(S)            
+              2 WARNING(S)          
 
 

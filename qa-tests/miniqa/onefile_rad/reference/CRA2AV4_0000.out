@@ -2,29 +2,29 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                Altair Radioss(TM) Starter MAINLINE                 **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 1072339_12638000000_1060_0083627_10                     **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2021                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48969 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -32,15 +32,6 @@
 ************************************************************************
 * INPUT READING PROCESS
 ************************************************************************
-
-WARNING ID : 100214
-** WARNING IN INPUT OPTIONS
-DESCRIPTION :  
--- BLOCK: /ANALY
--- LINE: 0         0         0         0
-unsupported field exits
-SOLUTION :     
-    Please check input format and its consistency with Invers value from /BEGIN option.
 
  -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
 
@@ -55,8 +46,8 @@ SOLUTION :
     -----------------------     
 
                                                           MASS                LENGTH              TIME
-    WORK UNIT SYSTEM . . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
-    INPUT UNIT SYSTEM  . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+    WORK UNIT SYSTEM . . . . . . ( g  , mm , ms  ) 1.0000000000000E-03 1.0000000000000E-03 1.0000000000000E-03
+    INPUT UNIT SYSTEM  . . . . . ( g  , mm , ms  ) 1.0000000000000E-03 1.0000000000000E-03 1.0000000000000E-03
 
 
  CRA2V21                                                                         
@@ -66,7 +57,7 @@ SOLUTION :
     -------------------                                                                  
 
     IPRI  : PRINTOUT FLAG . . . . . . . . . . . . . . . .         0
-    INVERS: MANUAL VERSION OF THIS INPUT DECK . . . . . .        51
+    INVERS: MANUAL VERSION OF THIS INPUT DECK . . . . . .      2022
     NSUBS:   NUMBER OF SUBSETS. . . . . . . . . . . . . .         1
     NPART:   NUMBER OF PARTS. . . . . . . . . . . . . . .         3
     NUMMAT: NUMBER OF MATERIALS . . . . . . . . . . . . .         3
@@ -76,7 +67,7 @@ SOLUTION :
     NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         2
     NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
     NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .         0
-    NINTERFRIC: NUMBER OF FRICTION INTERFACES . . . . . .         0
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
     NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .         0
     NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .       768
     NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
@@ -121,7 +112,6 @@ SOLUTION :
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
@@ -162,7 +152,7 @@ SOLUTION :
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -171,9 +161,9 @@ SOLUTION :
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
@@ -297,6 +287,13 @@ SOLUTION :
      INITIAL TEMPERATURE K . . . . . . . . .=  298.0000000000    
 
 
+     SUBMODEL SKEWS(INTERNAL)                                                            
+     --------------------------------------                                              
+     NUMBER          VECTORS                                          ORIGIN
+ 1000000001        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
+
 
 
          PROPERTY SETS (HM_READER)
@@ -365,12 +362,6 @@ PID 3
 
 
 
-         PROPERTY SETS
-         -------------
-
-
-
-
        PARTS
        -----
 
@@ -426,7 +417,7 @@ PART:         3,PID 3
   ELEMENT NUMBER =        768
   EDGES FOUND    =       2882
   
-#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
    1         17856.             0.             0.             0.             0.             0.
    2         17670.             0.             0.             0.             0.             0.
    3         17856.             0.             0.             0.             0.             0.
@@ -440,7 +431,7 @@ PART:         3,PID 3
 WARNING ID :   1912
 ** WARNING IN SHELL PROPERTY
 DESCRIPTION :  
-   GLOBAL INTEGRATION FORMULATION (NPT = 0) IS NO MORE USED FOR CERTAIN LAWS,
+   GLOBAL INTEGRATION FORMULATION (NPT = 0) IS NOT SUPPORTED FOR THE FOLLOWING LAWS,
    SWITCHING AUTOMATICALLY TO NUMERICAL INTEGRATION NPT= 3.
    -- PROPERTY ID=1         
    -- PROPERTY TITLE: PID 1
@@ -479,33 +470,30 @@ DESCRIPTION :
    INTERFACE NUMBER :         1 rby
 
 
-    TYPE.EQ.7   PARALLEL/AUTO IMPACTING           
+    TYPE==7   PARALLEL/AUTO IMPACTING           
 
 
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       SECONDARY NODE  (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       MAIN NODE (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
-    VARIABLE GAP FLAG . . . . . . . . . . . .  1000
-    MINIMUM GAP . . . . . . . . . . . . . . .   0.000000000000    
-    %MESHSIZE TAKEN INTO ACCOUNT FOR  . . . . 
-    CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
-    FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
-    NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
-    START TIME. . . . . . . . . . . . . . . .   0.000000000000    
-    STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
-    DE-ACTIVATION OF INITIAL PENETRATIONS . .       1000
-    MAXIMAL INITIAL PENETRATION FACTOR. . . .   0.000000000000    
-    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
-    FRICTION CRITICAL DAMPING FACTOR. . . . .   0.000000000000    
-    QUADRATIC DAMPING FLAG. . . . . . . . . .     0
-    FORMULATION LEVEL . . . . . . . . . . . .     0
-    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . .     4
+    BOUND. COND. DELETED AFTER IMPACT . . . . . IN X DIR       0
+       SECONDARY NODE  (1:YES 0:NO)                Y DIR       0
+                                                   Z DIR       0
+    STIFFNESS FACTOR. . . . . . . . . . . . . .   1.000000000000    
+    VARIABLE GAP FLAG . . . . . . . . . . . . .             1000
+    MINIMUM GAP . . . . . . . . . . . . . . . .   0.000000000000    
+    %MESHSIZE TAKEN INTO ACCOUNT FOR            
+    CALCULATION OF MAXIMUM GAP(IGAP = 3). . . .   0.000000000000    
+    FLAGREMNODE : NOT CONSIDER NEIGHBORING      
+    NODES IN CASE OF ELEMENT SIZE < GAP VALUE .                1
+    DE-ACTIVATION FLAG IF CONFLICT W/ TYPE2 . .                3
+    START TIME. . . . . . . . . . . . . . . . .   0.000000000000    
+    STOP TIME . . . . . . . . . . . . . . . . .  1.0000000000000E+30
+    BUCKET FACTOR . . . . . . . . . . . . . . .  0.2000000029802    
+    DE-ACTIVATION OF INITIAL PENETRATIONS . . .             1000
+    MAXIMUM INITIAL PENETRATION FACTOR. . . . .   0.000000000000    
+    CRITICAL DAMPING FACTOR . . . . . . . . . .  5.0000000000000E-02
+    FRICTION CRITICAL DAMPING FACTOR. . . . . .   0.000000000000    
+    QUADRATIC DAMPING FLAG. . . . . . . . . . .                0
+    FORMULATION LEVEL . . . . . . . . . . . . .                0
+    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . .                4
 
     DELETION FLAG ON FAILURE OF MAIN ELEMENT (1:YES-ALL/2:YES-ANY) :  1000
 
@@ -610,7 +598,7 @@ DESCRIPTION :
   ELEMENT NUMBER =        768
   EDGES FOUND    =       2882
   
-#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
    1         17484.           212.           212.             0.             0.             0.
    2         18135.           233.           233.             0.             0.             0.
    3         17856.           230.           230.             0.             0.             0.
@@ -626,7 +614,7 @@ DESCRIPTION :
 WARNING ID :   1912
 ** WARNING IN SHELL PROPERTY
 DESCRIPTION :  
-   GLOBAL INTEGRATION FORMULATION (NPT = 0) IS NO MORE USED FOR CERTAIN LAWS,
+   GLOBAL INTEGRATION FORMULATION (NPT = 0) IS NOT SUPPORTED FOR THE FOLLOWING LAWS,
    SWITCHING AUTOMATICALLY TO NUMERICAL INTEGRATION NPT= 3.
    -- PROPERTY ID=1         
    -- PROPERTY TITLE: PID 1
@@ -665,33 +653,30 @@ DESCRIPTION :
    INTERFACE NUMBER :         1 rby
 
 
-    TYPE.EQ.7   PARALLEL/AUTO IMPACTING           
+    TYPE==7   PARALLEL/AUTO IMPACTING           
 
 
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       SECONDARY NODE  (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       MAIN NODE (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
-    VARIABLE GAP FLAG . . . . . . . . . . . .  1000
-    MINIMUM GAP . . . . . . . . . . . . . . .   0.000000000000    
-    %MESHSIZE TAKEN INTO ACCOUNT FOR  . . . . 
-    CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
-    FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
-    NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
-    START TIME. . . . . . . . . . . . . . . .   0.000000000000    
-    STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
-    DE-ACTIVATION OF INITIAL PENETRATIONS . .       1000
-    MAXIMAL INITIAL PENETRATION FACTOR. . . .   0.000000000000    
-    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
-    FRICTION CRITICAL DAMPING FACTOR. . . . .   0.000000000000    
-    QUADRATIC DAMPING FLAG. . . . . . . . . .     0
-    FORMULATION LEVEL . . . . . . . . . . . .     0
-    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . .     4
+    BOUND. COND. DELETED AFTER IMPACT . . . . . IN X DIR       0
+       SECONDARY NODE  (1:YES 0:NO)                Y DIR       0
+                                                   Z DIR       0
+    STIFFNESS FACTOR. . . . . . . . . . . . . .   1.000000000000    
+    VARIABLE GAP FLAG . . . . . . . . . . . . .             1000
+    MINIMUM GAP . . . . . . . . . . . . . . . .   0.000000000000    
+    %MESHSIZE TAKEN INTO ACCOUNT FOR            
+    CALCULATION OF MAXIMUM GAP(IGAP = 3). . . .   0.000000000000    
+    FLAGREMNODE : NOT CONSIDER NEIGHBORING      
+    NODES IN CASE OF ELEMENT SIZE < GAP VALUE .                1
+    DE-ACTIVATION FLAG IF CONFLICT W/ TYPE2 . .                3
+    START TIME. . . . . . . . . . . . . . . . .   0.000000000000    
+    STOP TIME . . . . . . . . . . . . . . . . .  1.0000000000000E+30
+    BUCKET FACTOR . . . . . . . . . . . . . . .  0.2000000029802    
+    DE-ACTIVATION OF INITIAL PENETRATIONS . . .             1000
+    MAXIMUM INITIAL PENETRATION FACTOR. . . . .   0.000000000000    
+    CRITICAL DAMPING FACTOR . . . . . . . . . .  5.0000000000000E-02
+    FRICTION CRITICAL DAMPING FACTOR. . . . . .   0.000000000000    
+    QUADRATIC DAMPING FLAG. . . . . . . . . . .                0
+    FORMULATION LEVEL . . . . . . . . . . . . .                0
+    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . .                4
 
     DELETION FLAG ON FAILURE OF MAIN ELEMENT (1:YES-ALL/2:YES-ANY) :  1000
 
@@ -788,18 +773,18 @@ DESCRIPTION :
        RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
        ----------------------------------------------
 
-       ELEMENT GROUP         1,  SIZE=      4753
-       ELEMENT GROUP         2,  SIZE=      3537
-       ELEMENT GROUP         3,  SIZE=      3841
-       ELEMENT GROUP         4,  SIZE=      3233
-       ELEMENT GROUP         5,  SIZE=      7185
-       ELEMENT GROUP         6,  SIZE=      7717
-       ELEMENT GROUP         7,  SIZE=      7489
-       ELEMENT GROUP         8,  SIZE=      7565
-       ELEMENT GROUP         9,  SIZE=      2929
-       ELEMENT GROUP        10,  SIZE=      4145
-       ELEMENT GROUP        11,  SIZE=      3841
-       ELEMENT GROUP        12,  SIZE=      4449
+       ELEMENT GROUP         1,  SIZE=      4718
+       ELEMENT GROUP         2,  SIZE=      3518
+       ELEMENT GROUP         3,  SIZE=      3818
+       ELEMENT GROUP         4,  SIZE=      3218
+       ELEMENT GROUP         5,  SIZE=      7118
+       ELEMENT GROUP         6,  SIZE=      7643
+       ELEMENT GROUP         7,  SIZE=      7418
+       ELEMENT GROUP         8,  SIZE=      7493
+       ELEMENT GROUP         9,  SIZE=      2918
+       ELEMENT GROUP        10,  SIZE=      4118
+       ELEMENT GROUP        11,  SIZE=      3818
+       ELEMENT GROUP        12,  SIZE=      4418
 
 
 
@@ -866,21 +851,21 @@ PART ELEMENT/MATERIAL PARAMETER REVIEW:
 Part id,name:         1 PID 1                  Mat type:   2 Elm type: SHELL-4nodes           
 ----
   Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
-       1       2       0       3       0       0
+       1       2       2       3       0       0
 --      hm        hf        hr        dm        dn
     0.0100    0.0100    0.0000    0.0000    0.0000
 
 Part id,name:         2 PID 2                  Mat type:   2 Elm type: SHELL-4nodes           
 ----
   Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
-       1       2       0       3       0       0
+       1       2       2       3       0       0
 --      hm        hf        hr        dm        dn
     0.0100    0.0100    0.0000    0.0000    0.0000
 
 Part id,name:         3 PID 3                  Mat type:   2 Elm type: SHELL-4nodes           
 ----
   Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
-       1       2       0       3       0       0
+       1       2       2       3       0       0
 --      hm        hf        hr        dm        dn
     0.0100    0.0100    0.0000    0.0000    0.0000
 
@@ -969,26 +954,26 @@ CRA2AD00_section_1
          ------------------------
 
       TIME STEP       ELEMENT NUMBER
-  1.9906732442539E-03            352
-  1.9906732442539E-03            305
-  1.9906732442539E-03            306
-  1.9906732442539E-03            307
-  1.9906732442539E-03            308
-  1.9906732442539E-03            309
-  1.9906732442539E-03            310
   1.9906732442539E-03            311
-  1.9906732442539E-03            312
-  1.9906732442539E-03            349
+  1.9906732442539E-03             71
   1.9906732442539E-03            350
+  1.9906732442539E-03            349
+  1.9906732442539E-03            312
+  1.9906732442539E-03            310
+  1.9906732442539E-03            352
+  1.9906732442539E-03            309
+  1.9906732442539E-03            308
+  1.9906732442539E-03            307
   1.9906732442539E-03            351
-  1.9906732442539E-03            304
   1.9906732442539E-03            353
-  1.9906732442539E-03            354
-  1.9906732442539E-03            355
-  1.9906732442539E-03            356
-  1.9906732442539E-03            357
-  1.9906732442539E-03            358
   1.9906732442539E-03            359
+  1.9906732442539E-03            354
+  1.9906732442539E-03            398
+  1.9906732442539E-03            397
+  1.9906732442539E-03            360
+  1.9906732442539E-03            358
+  1.9906732442539E-03            305
+  1.9906732442539E-03            357
 
 
          NODAL TIME STEP (estimation)
@@ -996,103 +981,103 @@ CRA2AD00_section_1
 
       TIME STEP       NODE NUMBER
   7.3062626339642E-04            851
-  1.4896834498032E-03            377
-  1.4896834498032E-03            378
-  1.4896834498032E-03            331
-  1.4896834498032E-03            332
-  1.4896834498032E-03            368
-  1.4896834498032E-03            369
+  1.4896834498032E-03            372
+  1.4896834498032E-03            375
+  1.4896834498032E-03            374
+  1.4896834498032E-03            373
   1.4896834498032E-03            370
   1.4896834498032E-03            371
-  1.4896834498032E-03            372
-  1.4896834498032E-03            373
-  1.4896834498032E-03            374
-  1.4896834498032E-03            375
+  1.4896834498032E-03            377
+  1.4896834498032E-03            369
+  1.4896834498032E-03            368
+  1.4896834498032E-03            332
   1.4896834498032E-03            376
-  1.4896834498032E-03            330
+  1.4896834498032E-03            378
+  1.4896834498032E-03            420
   1.4896834498032E-03            379
-  1.4896834498032E-03            380
-  1.4896834498032E-03            381
-  1.4896834498032E-03            382
+  1.4896834498032E-03            423
+  1.4896834498032E-03            422
+  1.4896834498032E-03            421
   1.4896834498032E-03            418
   1.4896834498032E-03            419
-  1.4896834498032E-03            420
-  1.4896834498032E-03            421
-  1.4896834498032E-03            422
-  1.4896834498032E-03            423
-  1.4896834498032E-03            424
+  1.4896834498032E-03            330
+  1.4896834498032E-03            382
+  1.4896834498032E-03            381
+  1.4896834498032E-03            380
+  1.4896834498032E-03            331
+  1.4896834498032E-03            328
   1.4896834498032E-03            329
-  1.4896834498032E-03            425
-  1.4896834498032E-03            280
-  1.4896834498032E-03            269
-  1.4896834498032E-03            270
-  1.4896834498032E-03            271
-  1.4896834498032E-03            272
+  1.4896834498032E-03            275
+  1.4896834498032E-03            327
+  1.4896834498032E-03            278
+  1.4896834498032E-03            277
+  1.4896834498032E-03            276
   1.4896834498032E-03            273
   1.4896834498032E-03            274
-  1.4896834498032E-03            275
-  1.4896834498032E-03            276
-  1.4896834498032E-03            277
-  1.4896834498032E-03            278
+  1.4896834498032E-03            280
+  1.4896834498032E-03            272
+  1.4896834498032E-03            271
+  1.4896834498032E-03            270
   1.4896834498032E-03            279
-  1.4896834498032E-03            328
   1.4896834498032E-03            281
+  1.4896834498032E-03            323
   1.4896834498032E-03            282
-  1.4896834498032E-03            318
-  1.4896834498032E-03            319
-  1.4896834498032E-03            320
+  1.4896834498032E-03            326
+  1.4896834498032E-03            325
+  1.4896834498032E-03            324
   1.4896834498032E-03            321
   1.4896834498032E-03            322
-  1.4896834498032E-03            323
-  1.4896834498032E-03            324
-  1.4896834498032E-03            325
-  1.4896834498032E-03            326
-  1.4896834498032E-03            327
-  1.4896834498032E-03            268
-  1.4896834498032E-03            570
-  1.4896834498032E-03            524
-  1.4896834498032E-03            525
-  1.4896834498032E-03            526
-  1.4896834498032E-03            527
-  1.4896834498032E-03            528
+  1.4896834498032E-03            425
+  1.4896834498032E-03            320
+  1.4896834498032E-03            319
+  1.4896834498032E-03            318
+  1.4896834498032E-03            424
+  1.4896834498032E-03            427
+  1.4896834498032E-03            531
+  1.4896834498032E-03            428
+  1.4896834498032E-03            569
+  1.4896834498032E-03            568
+  1.4896834498032E-03            532
   1.4896834498032E-03            529
   1.4896834498032E-03            530
-  1.4896834498032E-03            531
-  1.4896834498032E-03            532
-  1.4896834498032E-03            568
-  1.4896834498032E-03            569
-  1.4896834498032E-03            523
   1.4896834498032E-03            571
+  1.4896834498032E-03            528
+  1.4896834498032E-03            527
+  1.4896834498032E-03            526
+  1.4896834498032E-03            570
   1.4896834498032E-03            572
+  1.4896834498032E-03            579
   1.4896834498032E-03            573
-  1.4896834498032E-03            574
-  1.4896834498032E-03            575
-  1.4896834498032E-03            576
+  1.4896834498032E-03            582
+  1.4896834498032E-03            581
+  1.4896834498032E-03            580
   1.4896834498032E-03            577
   1.4896834498032E-03            578
-  1.4896834498032E-03            579
-  1.4896834498032E-03            580
-  1.4896834498032E-03            581
-  1.4896834498032E-03            582
-  1.4896834498032E-03            427
-  1.4896834498032E-03            474
-  1.4896834498032E-03            428
-  1.4896834498032E-03            429
-  1.4896834498032E-03            430
-  1.4896834498032E-03            431
+  1.4896834498032E-03            524
+  1.4896834498032E-03            576
+  1.4896834498032E-03            575
+  1.4896834498032E-03            574
+  1.4896834498032E-03            525
+  1.4896834498032E-03            522
+  1.4896834498032E-03            523
+  1.4896834498032E-03            469
+  1.4896834498032E-03            521
+  1.4896834498032E-03            472
+  1.4896834498032E-03            471
+  1.4896834498032E-03            470
   1.4896834498032E-03            432
   1.4896834498032E-03            468
-  1.4896834498032E-03            469
-  1.4896834498032E-03            470
-  1.4896834498032E-03            471
-  1.4896834498032E-03            472
+  1.4896834498032E-03            474
+  1.4896834498032E-03            431
+  1.4896834498032E-03            430
+  1.4896834498032E-03            429
   1.4896834498032E-03            473
-  1.4896834498032E-03            522
   1.4896834498032E-03            475
+  1.4896834498032E-03            482
   1.4896834498032E-03            476
-  1.4896834498032E-03            477
-  1.4896834498032E-03            478
-  1.4896834498032E-03            479
+  1.4896834498032E-03            520
+  1.4896834498032E-03            519
+  1.4896834498032E-03            518
   1.4896834498032E-03            480
   1.4896834498032E-03            481
 
@@ -1230,31 +1215,28 @@ DESCRIPTION :
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        131 MB
+    STARTER MEMORY USAGE        123 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
+
 AVERAGE NB. OF BOUNDARY NODES :    29
 STANDARD DEVIATION            :    11
- 
+
 AVERAGE NUMBER OF LOCAL NODES :     227
 STANDARD DEVIATION            :       7
- 
+
 AVERAGE NB. OF CONTACT NODES(SECONDARY/MAIN) :     223 /      223
 STANDARD DEVIATION                         :       2 /        2
- 
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     1           188                    40                     2
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     2           195                    19                     1
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     3           192                    17                     1
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     4           193                    38                     2
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
  NUMBER OF NODES................. :         220
@@ -1267,7 +1249,7 @@ STANDARD DEVIATION                         :       2 /        2
  NUMBER OF INT2 MAIN NODES..... :           0
  NUMBER OF CONTACT SECONDARY NODES... :         220
  NUMBER OF CONTACT MAIN NODES.. :         220
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -1276,7 +1258,7 @@ STANDARD DEVIATION                         :       2 /        2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
  NUMBER OF NODES................. :         225
@@ -1289,7 +1271,7 @@ STANDARD DEVIATION                         :       2 /        2
  NUMBER OF INT2 MAIN NODES..... :           0
  NUMBER OF CONTACT SECONDARY NODES... :         225
  NUMBER OF CONTACT MAIN NODES.. :         225
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -1298,7 +1280,7 @@ STANDARD DEVIATION                         :       2 /        2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
  NUMBER OF NODES................. :         239
@@ -1311,7 +1293,7 @@ STANDARD DEVIATION                         :       2 /        2
  NUMBER OF INT2 MAIN NODES..... :           0
  NUMBER OF CONTACT SECONDARY NODES... :         221
  NUMBER OF CONTACT MAIN NODES.. :         221
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -1320,7 +1302,7 @@ STANDARD DEVIATION                         :       2 /        2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
  NUMBER OF NODES................. :         224
@@ -1333,7 +1315,7 @@ STANDARD DEVIATION                         :       2 /        2
  NUMBER OF INT2 MAIN NODES..... :           0
  NUMBER OF CONTACT SECONDARY NODES... :         224
  NUMBER OF CONTACT MAIN NODES.. :         224
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -1342,7 +1324,7 @@ STANDARD DEVIATION                         :       2 /        2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
 
      RESTART FILES CRA2AV4_0000 WRITTEN
      -------------
@@ -1353,20 +1335,20 @@ STANDARD DEVIATION                         :       2 /        2
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .4919E+00   .1270E+00   .6999E-02   .0000E+00   .0000E+00   .0000E+00   .0000E+00
+.0000E+00   .3752E+00   .1729E+00   .2080E-01   .1300E-03   .1997E-04   .4420E-03   .2897E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.1069E-02   .6719E+00   .1405E+00   .1076E-01   .5317E-04   .9298E-05   .2699E-03   .3815E-05
+.0000E+00   .1144E+07   .1957E+00   .1376E-01   .6900E-04   .1506E-04   .3304E-03   .1322E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2021/06/22  12:35:54
- EXECUTION COMPLETED    :      2021/06/22  12:35:55
+ EXECUTION STARTED      :      2022/11/23  16:22:25
+ EXECUTION COMPLETED    :      2022/11/23  16:22:26
   
- ELAPSED TIME...........=          0.87 s
+ ELAPSED TIME...........=          0.64 s
                                00:00:00
   
 ------------------------------------------------------------------------
@@ -1380,14 +1362,6 @@ STANDARD DEVIATION                         :       2 /        2
 ------------------------------------------------------------------------------------------------------------------------
 |            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
 ------------------------------------------------------------------------------------------------------------------------
-|                                                           |                                                          |
-|                                                           |  --- INTERNAL                               1 WARNING(S) |
-|                                                           |       |                                                  |
-|                                                           |       |                                                  |
-|                                                           |       |---     1 WARNING ID :       100214               |
-|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
-|                                                           |       |                                                  |
-|                                                           |                                                          |
 |                                                           |                                                          |
 |                                                           |  --- ELEM/PROP/MAT COMPATIBILITY            2 WARNING(S) |
 |                                                           |       |                                                  |
@@ -1414,6 +1388,6 @@ STANDARD DEVIATION                         :       2 /        2
 
 
               0 ERROR(S)            
-              7 WARNING(S)          
+              6 WARNING(S)          
 
 

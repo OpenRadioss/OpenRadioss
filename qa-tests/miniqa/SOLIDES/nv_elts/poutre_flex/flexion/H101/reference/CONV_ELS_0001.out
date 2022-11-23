@@ -2,35 +2,35 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                      RADIOSS ENGINE MAINLINE                       **
+**                         OpenRadioss Engine                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
-**                                                                    **
-**                                                                    **
-**              Linux 64 bits, Intel compiler, Intel MPI              **
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** Build tag: 0742056_087sesevot__2070_0032401_10                     **
+**                Linux 64 bits, GNU compiler, OpenMPI                **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2014                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
  NUMBER OF SPMD DOMAINS           4
- NUMBER OF THREADS PER DOMAIN     1
- NUMBER OF HMPP PROCESSES         4
+ NUMBER OF THREADS PER DOMAIN     2
+ NUMBER OF HMPP PROCESSES         8
   
  COMPUTATION HARDWARE DESCRIPTION
   
  CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
-   1   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
-   2   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
-   3   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
-   4   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+   1   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   2   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   3   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   4   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -75,12 +75,9 @@
  AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
  MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
 
- INTERFACE TYPE 7 TIME STEP SCALE FACTOR. . . . .  0.9000000    
- INTERFACE TYPE 7 MINIMUM TIME STEP . . . . . . .   0.000000    
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.9000000    
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .   0.000000    
  MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
-
- FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
- FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
 
  PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .  -100
 
@@ -88,8 +85,9 @@
 
  MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
 
- INVERS: INPUT DECK VERSION . . . . . . . . . . .    41
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .  2019
  ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
 
  TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
  TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .  0.1000000E-02
@@ -108,6 +106,10 @@
       TURBULENT ENERGY (FLUID).     0
       TURBULENT VISCOSITY(FLUID)    0
       VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
  VECTOR SAVED ON ANIMATION FILES (1: YES) :
       VELOCITY VECTOR . . . . .     1
       DISPLACEMENT VECTOR . . .     0
@@ -135,9 +137,6 @@
  MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
 
  PARALLEL ARITHMETIC ON
-
- ALE GRID FORMULATION                    
- --------------------                    
  NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
 
  NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
@@ -158,23 +157,21 @@
 
  NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
 
- NUMBER OF ALE LINKS. . . . . . . . . . . . . . .        0
-
  NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
 
- 19/11/2014
- CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
-     0   0.000      0.2367E-05 SOLID        925   0.0%   0.000       0.000       0.000       0.000       0.000    
+ 23/11/2022
+   CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
+       0   0.000      0.2367E-05 SOLID        924   0.0%   0.000       0.000       0.000       0.000       0.000      0.1762       0.000    
      ANIMATION FILE: CONV_ELSA001 WRITTEN
-   100  0.2367E-03  0.2367E-05 SOLID        877 -17.1%   433.5      0.3273E+05   1335.      0.4162E+05   0.000    
-   200  0.4734E-03  0.2367E-05 SOLID        895 -23.2%   1259.      0.1099E+06   3088.      0.1488E+06   0.000    
-   300  0.7100E-03  0.2365E-05 SOLID        875 -26.6%   2470.      0.2140E+06   4442.      0.3011E+06   0.000    
-   400  0.9464E-03  0.2362E-05 SOLID        875 -28.4%   6255.      0.3298E+06   5039.      0.4764E+06   0.000    
+     100  0.2367E-03  0.2367E-05 SOLID        877 -17.1%   433.5      0.3273E+05   1335.      0.4162E+05   0.000      0.1762       0.000    
+     200  0.4734E-03  0.2367E-05 SOLID        895 -23.2%   1259.      0.1099E+06   3088.      0.1488E+06   0.000      0.1762       0.000    
+     300  0.7100E-03  0.2365E-05 SOLID        875 -26.6%   2471.      0.2140E+06   4442.      0.3011E+06   0.000      0.1762       0.000    
+     400  0.9464E-03  0.2362E-05 SOLID        935 -28.4%   6255.      0.3298E+06   5039.      0.4764E+06   0.000      0.1762       0.000    
      ANIMATION FILE: CONV_ELSA002 WRITTEN
-   500  0.1182E-02  0.2360E-05 SOLID        875 -29.4%  0.1610E+05  0.4416E+06   5025.      0.6558E+06   0.000    
-   600  0.1418E-02  0.2360E-05 SOLID        873 -30.7%  0.2825E+05  0.5402E+06   4790.      0.8271E+06   0.000    
-   700  0.1654E-02  0.2361E-05 SOLID        873 -33.0%  0.3001E+05  0.6247E+06   4234.      0.9842E+06   0.000    
-   800  0.1891E-02  0.2362E-05 SOLID        891 -36.2%  0.2407E+05  0.6909E+06   3301.      0.1126E+07   0.000    
+     500  0.1182E-02  0.2360E-05 SOLID        875 -29.4%  0.1610E+05  0.4416E+06   5025.      0.6558E+06   0.000      0.1762       0.000    
+     600  0.1418E-02  0.2360E-05 SOLID        933 -30.7%  0.2825E+05  0.5402E+06   4790.      0.8271E+06   0.000      0.1762       0.000    
+     700  0.1654E-02  0.2361E-05 SOLID        873 -33.0%  0.3001E+05  0.6247E+06   4234.      0.9842E+06   0.000      0.1762       0.000    
+     800  0.1891E-02  0.2362E-05 SOLID        911 -36.2%  0.2407E+05  0.6909E+06   3301.      0.1126E+07   0.000      0.1762       0.000    
 
      RESTART FILES: CONV_ELS_0001_[0001-0004].rst WRITTEN
      -------------
@@ -183,49 +180,87 @@
   
                            ** CPU USER TIME **
   
- #PROC  CONT.SORT  CONT. F   ELEMENT  KIN.COND.  INTEGR.    I/O     TASK0     ASSEMB.   RESOL  
-   1   .0000E+00 .0000E+00 .5199E-01 .9999E-02 .9990E-03 .1300E-01 .1740E+00 .5999E-02 .2870E+00
-   2   .0000E+00 .0000E+00 .2400E-01 .2000E-02 .2000E-02 .3000E-01 .4199E-01 .0000E+00 .4459E+00
-   3   .0000E+00 .0000E+00 .1100E-01 .0000E+00 .0000E+00 .2399E-01 .6199E-01 .0000E+00 .4339E+00
-   4   .0000E+00 .0000E+00 .0000E+00 .0000E+00 .0000E+00 .1600E-01 .2020E+00 .0000E+00 .4319E+00
   
-                          ** SPMD COMM. TIME **
+                        ** SUMMARY **
   
- #PROC  FORCES    RBY.FOR.  RBY.VEL.  VELOCITIES   TOTAL   % CPU
-   1   .1900E-01 .1999E-02 .0000E+00 .1000E-02 .2200E-01    7.67
-   2   .1920E+00 .0000E+00 .0000E+00 .0000E+00 .1920E+00   43.05
-   3   .1860E+00 .0000E+00 .0000E+00 .0000E+00 .1860E+00   42.86
-   4   .9498E-01 .0000E+00 .0000E+00 .0000E+00 .9498E-01   21.99
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .7447E-01 .3316E-01 .1314E-01 .4949E-01 .4580E-01 .8765E-02 .3450E+00
+   2   .7696E-01 .4392E-01 .1375E-01 .4444E-01 .3622E-01 .8852E-02 .3155E+00
+   3   .6313E-01 .3029E-01 .1210E-01 .4322E-01 .5796E-01 .7607E-02 .3240E+00
+   4   .6896E-01 .3482E-01 .1269E-01 .4350E-01 .6632E-01 .7799E-02 .3244E+00
   
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .3932E-01 .3120E-02 .0000E+00 .3823E-02 .4627E-01 .1341E+02
+   2   .1454E-01 .1976E-02 .0000E+00 .3973E-02 .2049E-01 .6495E+01
+   3   .3742E-01 .2906E-02 .0000E+00 .3665E-02 .4399E-01 .1358E+02
+   4   .1235E-01 .1952E-02 .0000E+00 .3846E-02 .1814E-01 .5592E+01
+  
+ 
                    ** CUMULATIVE CPU TIME SUMMARY **
   
  CONTACT SORTING.............: .0000E+00     0.00 % 
- CONTACT FORCES..............: .0000E+00     0.00 % 
- ELEMENT FORCES..............: .8699E-01     5.44 % 
- KINEMATIC COND..............: .1200E-01     0.75 % 
- INTEGRATION.................: .2999E-02     0.19 % 
- ASSEMBLING..................: .5999E-02     0.38 % 
- OTHERS (including I/O)......: .1491E+01    93.25 % 
- TOTAL.......................: .1599E+01   100.00 % 
+ CONTACT FORCES..............: .5311E-02     0.41 % 
+ ELEMENT FORCES..............: .2835E+00    21.66 % 
+ KINEMATIC COND..............: .1422E+00    10.86 % 
+ INTEGRATION.................: .5168E-01     3.95 % 
+ ASSEMBLING..................: .3302E-01     2.52 % 
+ OTHERS (including I/O)......: .7932E+00    60.60 % 
+ TOTAL.......................: .1309E+01   100.00 % 
   
+  
+                           ** ELAPSED TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .4298E-01 .1917E-01 .7467E-02 .3137E-01 .2571E-01 .4941E-02 .2022E+00
+   2   .4871E-01 .2759E-01 .8661E-02 .2902E-01 .2267E-01 .5575E-02 .2022E+00
+   3   .3880E-01 .1867E-01 .7422E-02 .2778E-01 .3503E-01 .4701E-02 .2021E+00
+   4   .4249E-01 .2150E-01 .7850E-02 .2775E-01 .4074E-01 .4833E-02 .2022E+00
+  
+        ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+ MIN   .3880E-01 .1867E-01 .7422E-02 .2775E-01 .2267E-01 .4701E-02 .2021E+00
+ MAX   .4871E-01 .2759E-01 .8661E-02 .3137E-01 .4074E-01 .5575E-02 .2022E+00
+ AVG   .4325E-01 .2173E-01 .7850E-02 .2898E-01 .3104E-01 .5012E-02 .2022E+00
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .2204E-01 .1218E-02 .0000E+00 .2259E-02 .2552E-01 .1262E+02
+   2   .9195E-02 .1199E-02 .0000E+00 .2511E-02 .1291E-01 .6383E+01
+   3   .2297E-01 .1277E-02 .0000E+00 .2302E-02 .2655E-01 .1314E+02
+   4   .7849E-02 .1209E-02 .0000E+00 .2406E-02 .1146E-01 .5671E+01
+  
+        FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+ MIN   .7849E-02 .1199E-02 .0000E+00 .2259E-02 .1146E-01 .5671E+01
+ MAX   .2297E-01 .1277E-02 .0000E+00 .2511E-02 .2655E-01 .1314E+02
+ AVG   .1551E-01 .1226E-02 .0000E+00 .2370E-02 .1911E-01 .9452E+01
   
                    ** MEMORY USAGE STATISTICS **
   
- TOTAL MEMORY USED .........................:      561 MB
- MAXIMUM MEMORY PER PROCESSOR...............:      141 MB
- MINIMUM MEMORY PER PROCESSOR...............:      140 MB
- AVERAGE MEMORY PER PROCESSOR...............:      140 MB
+ TOTAL MEMORY USED .........................:      228 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       57 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       57 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       57 MB
   
                    ** DISK USAGE STATISTICS **
   
- TOTAL DISK SPACE USED .....................:      705 KB
- ANIMATION/TH/OUTP SIZE ....................:       44 KB
- RESTART FILE SIZE .........................:      661 KB
+ TOTAL DISK SPACE USED .....................:          1 MB
+ ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
+ RESTART FILE SIZE .........................:          1 MB
   
- ELAPSED TIME     =          0.56 s
+                   ** COMPUTE TIME INFORMATION **
+                        ** CURRENT ENGINE **
+  
+ EXECUTION STARTED .........................:      2022/11/23  16:23:23
+ EXECUTION COMPLETED .......................:      2022/11/23  16:23:24
+  
+ ELAPSED TIME     =          0.29 s
                           0:00:00
- ESTIMATED SPEEDUP=          2.84
-  
+ ESTIMATED SPEEDUP=          4.44
 
 
 
@@ -235,3 +270,11 @@
 
      TOTAL NUMBER OF CYCLES  :     848
 
+  
+                   ** COMPUTE RUNTIME INFORMATION SUMMARY **
+  
+        STARTER RUNTIME =          0.61s (00:00:00)
+ # 001   ENGINE RUNTIME =          0.29s (00:00:00)
+ ------------------------------ 
+ STARTER+ENGINE RUNTIME =          0.90s (00:00:00)
+  

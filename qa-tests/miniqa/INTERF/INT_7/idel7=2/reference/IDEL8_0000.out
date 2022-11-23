@@ -2,29 +2,29 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                Altair Radioss(TM) Starter MAINLINE                 **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 1072339_12638000000_1060_0083627_10                     **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2021                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 3326 MHz,  19924 MB RAM,  48969 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -32,15 +32,6 @@
 ************************************************************************
 * INPUT READING PROCESS
 ************************************************************************
-
-WARNING ID : 100214
-** WARNING IN INPUT OPTIONS
-DESCRIPTION :  
--- BLOCK: /IOFLAG
--- LINE: 0                  -1         1         0         0         0
-unsupported field exits
-SOLUTION :     
-    Please check input format and its consistency with Invers value from /BEGIN option.
 
  -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
 
@@ -55,11 +46,11 @@ SOLUTION :
     -----------------------     
 
                                                           MASS                LENGTH              TIME
-    WORK UNIT SYSTEM . . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
-    INPUT UNIT SYSTEM  . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+    WORK UNIT SYSTEM . . . . . . ( kg , mm , s   ) 1.0000000000000E+00 1.0000000000000E-03 1.0000000000000E+00
+    INPUT UNIT SYSTEM  . . . . . ( kg , mm , s   ) 1.0000000000000E+00 1.0000000000000E-03 1.0000000000000E+00
 
 
- IDEL7   OPTIMA/TSTIDEL7-le  8:07:2003 a 14h 07mn.    Utilisateur: e179637       
+ IDEL7                                                                           
 
 
     CONTROL  PARAMETERS                                                                  
@@ -76,7 +67,7 @@ SOLUTION :
     NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         0
     NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
     NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .         0
-    NINTERFRIC: NUMBER OF FRICTION INTERFACES . . . . . .         0
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
     NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .        24
     NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .       350
     NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
@@ -121,7 +112,6 @@ SOLUTION :
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
@@ -153,16 +143,16 @@ SOLUTION :
     ISTR   : DEFAULT SHELL STRAIN COMPUTATION FLAG . . . .         1
     ISHEA  : DEFAULT SHELL SHEAR COMPUTATION FLAG. . . . .         0
     INSH   : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
-    ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         1
+    ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         2
     NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
              INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
     IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
-    ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
+    ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         0
 
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -171,9 +161,9 @@ SOLUTION :
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
@@ -224,7 +214,7 @@ SOLUTION :
     NUMBER OF MATERIALS. . . . . . . . . =         2
 
 
-     EURO - PVC BALLAST - LOI 1
+     Elastic
      MATERIAL NUMBER . . . . . . . . . . . .=         1
      MATERIAL LAW. . . . . . . . . . . . . .=         1
 
@@ -239,7 +229,7 @@ SOLUTION :
 
 
 
-     EURO - VINYL - LOI 2
+     Plastic
      MATERIAL NUMBER . . . . . . . . . . . .=         2
      MATERIAL LAW. . . . . . . . . . . . . .=         PLAS_JOHNS
 
@@ -274,13 +264,20 @@ SOLUTION :
      INITIAL TEMPERATURE K . . . . . . . . .=  298.0000000000    
 
 
+     SUBMODEL SKEWS(INTERNAL)                                                            
+     --------------------------------------                                              
+     NUMBER          VECTORS                                          ORIGIN
+ 1000000001        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
+
 
 
          PROPERTY SETS (HM_READER)
          -------------
 
 
-EURO - THORACIC BALLAST - EXT.          
+Solid                                   
      STANDARD SOLID PROPERTY SET
      PROPERTY SET NUMBER . . . . . . . . . .=         1
      SOLID FORMULATION FLAG. . . . . . . . .=         2
@@ -302,7 +299,7 @@ EURO - THORACIC BALLAST - EXT.
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
 
-EURO - THORACIC SKIN                    
+Shell                                   
      ISOTROPIC SHELL PROPERTY SET
      PROPERTY SET NUMBER . . . . . . . . . .=         2
      NUMBER OF INTEGRATION POINTS. . . . . .=         0
@@ -310,7 +307,7 @@ EURO - THORACIC SKIN
      SHELL THICKNESS . . . . . . . . . . . .=  3.000000000000    
      SMALL STRAIN FLAG . . . . . . . . . . .=         2
      SHELL FORMULATION FLAG. . . . . . . . .=         3
-     3NODE SHELL FORMULATION FLAG. . . . . .=         1
+     3NODE SHELL FORMULATION FLAG. . . . . .=         2
      SHELL HOURGLASS MEMBRANE DAMPING. . . .= 0.5000000000000    
      SHELL HOURGLASS FLEXURAL DAMPING. . . .= 0.5000000000000    
      SHELL HOURGLASS ROTATIONAL DAMPING. . .= 0.5000000000000    
@@ -324,28 +321,22 @@ EURO - THORACIC SKIN
 
 
 
-         PROPERTY SETS
-         -------------
-
-
-
-
        PARTS
        -----
 
 
 
-PART:         1,EURO - THORACIC BALLAST - EXT.
+PART:         1,Part_1
 ----
-     PROPERTY:         1,EURO - THORACIC BALLAST - EXT.
-     MATERIAL:         1,EURO - PVC BALLAST - LOI 1
+     PROPERTY:         1,Solid
+     MATERIAL:         1,Elastic
      SUBSET  :         1
  VIRT. THICKN:  0.000000000000    
 
-PART:         2,EURO - THORACIC SKIN
+PART:         2,Part_2
 ----
-     PROPERTY:         2,EURO - THORACIC SKIN
-     MATERIAL:         2,EURO - VINYL - LOI 2
+     PROPERTY:         2,Shell
+     MATERIAL:         2,Plastic
      SUBSET  :         2
  VIRT. THICKN:  0.000000000000    
 
@@ -360,16 +351,16 @@ PART:         2,EURO - THORACIC SKIN
  ~~~~~~
   |         
   |         
-  |________SUBSET:         1,EURO - THORACIC BALLAST - EXT.                                                                         
+  |________SUBSET:         1,Subset 1                                                                                               
   |        ~~~~~~
   |         |
-  |         |________Part(s):         1,EURO - THORACIC BALLAST - EXT.          
+  |         |________Part(s):         1,Part_1                                  
   |         
   |         
-  |________SUBSET:         2,EURO - THORACIC SKIN                                                                                   
+  |________SUBSET:         2,Subset 2                                                                                               
            ~~~~~~
             |
-            |________Part(s):         2,EURO - THORACIC SKIN                    
+            |________Part(s):         2,Part_2                                  
   
  SPMD IS CHECKING FOR ELEMENT DELETION IN : 
  IDEL8_0001.rad                                                                                               
@@ -385,7 +376,7 @@ PART:         2,EURO - THORACIC SKIN
   ELEMENT NUMBER =        382
   EDGES FOUND    =       1442
   
-#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.        INT2 W.     ELT DEL W.    KIN COND W.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.     ELT DEL W.    KIN COND W.
    1          8331.             0.             0.             0.             0.             6.             0.
    2          8437.             0.             0.             0.             0.             6.             0.
    3          8251.             0.             0.             0.             0.             6.             0.
@@ -402,19 +393,19 @@ PART:         2,EURO - THORACIC SKIN
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1         1         6         1         1         1         0         0         0         0         0         0         0         0         2         0         0         0         0
-         2         1         6         7         1         1         0         0         0         0         0         0         0         0         2         0         0         0         0
-         3         1         6        13         1         1         0         0         0         0         0         0         0         0         2         0         0         0         0
-         4         1         6        19         1         1         0         0         0         0         0         0         0         0         2         0         0         0         0
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
+         1         1         6         1         1         1         0         0         0         0         0         0         1         0         2         0         0         0         0
+         2         1         6         7         1         1         0         0         0         0         0         0         1         0         2         0         0         0         0
+         3         1         6        13         1         1         0         0         0         0         0         0         1         0         2         0         0         0         0
+         4         1         6        19         1         1         0         0         0         0         0         0         1         0         2         0         0         0         0
 
 WARNING ID :   1912
 ** WARNING IN SHELL PROPERTY
 DESCRIPTION :  
-   GLOBAL INTEGRATION FORMULATION (NPT = 0) IS NO MORE USED FOR CERTAIN LAWS,
+   GLOBAL INTEGRATION FORMULATION (NPT = 0) IS NOT SUPPORTED FOR THE FOLLOWING LAWS,
    SWITCHING AUTOMATICALLY TO NUMERICAL INTEGRATION NPT= 3.
    -- PROPERTY ID=2         
-   -- PROPERTY TITLE: EURO - THORACIC SKIN
+   -- PROPERTY TITLE: Shell
    LAW TYPE: 2         
 
 
@@ -431,10 +422,10 @@ DESCRIPTION :
 WARNING ID :   1912
 ** WARNING IN SHELL PROPERTY
 DESCRIPTION :  
-   GLOBAL INTEGRATION FORMULATION (NPT = 0) IS NO MORE USED FOR CERTAIN LAWS,
+   GLOBAL INTEGRATION FORMULATION (NPT = 0) IS NOT SUPPORTED FOR THE FOLLOWING LAWS,
    SWITCHING AUTOMATICALLY TO NUMERICAL INTEGRATION NPT= 3.
    -- PROPERTY ID=2         
-   -- PROPERTY TITLE: EURO - THORACIC SKIN
+   -- PROPERTY TITLE: Shell
    LAW TYPE: 2         
 
            3D - TRIANGULAR SHELL ELEMENT GROUPS
@@ -452,36 +443,33 @@ DESCRIPTION :
 
 
 
-   INTERFACE NUMBER :         1 Interface de contact
+   INTERFACE NUMBER :         1 Contact 1
 
 
-    TYPE.EQ.7   PARALLEL/AUTO IMPACTING           
+    TYPE==7   PARALLEL/AUTO IMPACTING           
 
 
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       SECONDARY NODE  (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       MAIN NODE (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    STIFFNESS FACTOR. . . . . . . . . . . . .  1.0000000000000E-02
-    VARIABLE GAP FLAG . . . . . . . . . . . .  1000
-    MINIMUM GAP . . . . . . . . . . . . . . .   1.500000000000    
-    %MESHSIZE TAKEN INTO ACCOUNT FOR  . . . . 
-    CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
-    FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
-    NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
-    START TIME. . . . . . . . . . . . . . . .   0.000000000000    
-    STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
-    DE-ACTIVATION OF INITIAL PENETRATIONS . .          1
-    MAXIMAL INITIAL PENETRATION FACTOR. . . .   0.000000000000    
-    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
-    FRICTION CRITICAL DAMPING FACTOR. . . . .   1.000000000000    
-    QUADRATIC DAMPING FLAG. . . . . . . . . .     0
-    FORMULATION LEVEL . . . . . . . . . . . .     0
-    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . .     4
+    BOUND. COND. DELETED AFTER IMPACT . . . . . IN X DIR       0
+       SECONDARY NODE  (1:YES 0:NO)                Y DIR       0
+                                                   Z DIR       0
+    STIFFNESS FACTOR. . . . . . . . . . . . . .  1.0000000000000E-02
+    VARIABLE GAP FLAG . . . . . . . . . . . . .             1000
+    MINIMUM GAP . . . . . . . . . . . . . . . .   1.500000000000    
+    %MESHSIZE TAKEN INTO ACCOUNT FOR            
+    CALCULATION OF MAXIMUM GAP(IGAP = 3). . . .   0.000000000000    
+    FLAGREMNODE : NOT CONSIDER NEIGHBORING      
+    NODES IN CASE OF ELEMENT SIZE < GAP VALUE .                1
+    DE-ACTIVATION FLAG IF CONFLICT W/ TYPE2 . .                3
+    START TIME. . . . . . . . . . . . . . . . .   0.000000000000    
+    STOP TIME . . . . . . . . . . . . . . . . .  1.0000000000000E+30
+    BUCKET FACTOR . . . . . . . . . . . . . . .  0.2000000029802    
+    DE-ACTIVATION OF INITIAL PENETRATIONS . . .                1
+    MAXIMUM INITIAL PENETRATION FACTOR. . . . .   0.000000000000    
+    CRITICAL DAMPING FACTOR . . . . . . . . . .  5.0000000000000E-02
+    FRICTION CRITICAL DAMPING FACTOR. . . . . .   1.000000000000    
+    QUADRATIC DAMPING FLAG. . . . . . . . . . .                0
+    FORMULATION LEVEL . . . . . . . . . . . . .                0
+    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . .                4
 
     DELETION FLAG ON FAILURE OF MAIN ELEMENT (1:YES-ALL/2:YES-ANY) :     2
 
@@ -500,36 +488,33 @@ DESCRIPTION :
 
 
 
-   INTERFACE NUMBER :         2 Interface de contact - SYM
+   INTERFACE NUMBER :         2 Contact 2
 
 
-    TYPE.EQ.7   PARALLEL/AUTO IMPACTING           
+    TYPE==7   PARALLEL/AUTO IMPACTING           
 
 
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       SECONDARY NODE  (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       MAIN NODE (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
-    VARIABLE GAP FLAG . . . . . . . . . . . .  1000
-    MINIMUM GAP . . . . . . . . . . . . . . .   1.500000000000    
-    %MESHSIZE TAKEN INTO ACCOUNT FOR  . . . . 
-    CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
-    FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
-    NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
-    START TIME. . . . . . . . . . . . . . . .   0.000000000000    
-    STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
-    DE-ACTIVATION OF INITIAL PENETRATIONS . .          1
-    MAXIMAL INITIAL PENETRATION FACTOR. . . .   0.000000000000    
-    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
-    FRICTION CRITICAL DAMPING FACTOR. . . . .   1.000000000000    
-    QUADRATIC DAMPING FLAG. . . . . . . . . .     0
-    FORMULATION LEVEL . . . . . . . . . . . .     0
-    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . .     4
+    BOUND. COND. DELETED AFTER IMPACT . . . . . IN X DIR       0
+       SECONDARY NODE  (1:YES 0:NO)                Y DIR       0
+                                                   Z DIR       0
+    STIFFNESS FACTOR. . . . . . . . . . . . . .   1.000000000000    
+    VARIABLE GAP FLAG . . . . . . . . . . . . .             1000
+    MINIMUM GAP . . . . . . . . . . . . . . . .   1.500000000000    
+    %MESHSIZE TAKEN INTO ACCOUNT FOR            
+    CALCULATION OF MAXIMUM GAP(IGAP = 3). . . .   0.000000000000    
+    FLAGREMNODE : NOT CONSIDER NEIGHBORING      
+    NODES IN CASE OF ELEMENT SIZE < GAP VALUE .                1
+    DE-ACTIVATION FLAG IF CONFLICT W/ TYPE2 . .                3
+    START TIME. . . . . . . . . . . . . . . . .   0.000000000000    
+    STOP TIME . . . . . . . . . . . . . . . . .  1.0000000000000E+30
+    BUCKET FACTOR . . . . . . . . . . . . . . .  0.2000000029802    
+    DE-ACTIVATION OF INITIAL PENETRATIONS . . .                1
+    MAXIMUM INITIAL PENETRATION FACTOR. . . . .   0.000000000000    
+    CRITICAL DAMPING FACTOR . . . . . . . . . .  5.0000000000000E-02
+    FRICTION CRITICAL DAMPING FACTOR. . . . . .   1.000000000000    
+    QUADRATIC DAMPING FLAG. . . . . . . . . . .                0
+    FORMULATION LEVEL . . . . . . . . . . . . .                0
+    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . .                4
 
     DELETION FLAG ON FAILURE OF MAIN ELEMENT (1:YES-ALL/2:YES-ANY) :     2
 
@@ -589,21 +574,21 @@ DESCRIPTION :
  DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
   
   ELEMENT NUMBER =        382
-  EDGES FOUND    =       1482
+  EDGES FOUND    =       1474
   
-#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.        INT2 W.     ELT DEL W.    KIN COND W.
-   1          8344.           108.           108.           149.             0.             6.             0.
-   2          8437.           123.           123.           160.             0.             6.             0.
-   3          8437.           121.           121.           156.             0.             6.             0.
-   4          7972.           117.           117.           117.             0.             6.             0.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.     ELT DEL W.    KIN COND W.
+   1          8437.           120.           120.           160.             0.             6.             0.
+   2          8450.           114.           114.           129.             0.             6.             0.
+   3          7879.           116.           116.           135.             0.             6.             0.
+   4          8424.           119.           119.           158.             0.             6.             0.
   
  STATISTICS ON DECOMPOSITION WEIGHTS
  -----------------------------------
  METRIC      MINIMUM   MAXIMUM   AVERAGE   STANDARD DEVIATION
- ELEMENTS       7972      8437      8298         192
- SECO. NODES     108       123       117           6
- MAIN NODES     108       123       117           6
- CONT. CAND.     117       160       146          17
+ ELEMENTS       7879      8450      8298         242
+ SECO. NODES     114       120       117           2
+ MAIN NODES     114       120       117           2
+ CONT. CAND.     129       160       146          14
  ELT. DEL.         6         6         6           0
 
 
@@ -611,19 +596,19 @@ DESCRIPTION :
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1         1         6         1         1         1         0         0         0         0         0         0         0         0         2         0         0         0         0
-         2         1         6         7         1         1         0         0         0         0         0         0         0         0         2         0         0         0         0
-         3         1         6        13         1         1         0         0         0         0         0         0         0         0         2         0         0         0         0
-         4         1         6        19         1         1         0         0         0         0         0         0         0         0         2         0         0         0         0
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
+         1         1         6         1         1         1         0         0         0         0         0         0         1         0         2         0         0         0         0
+         2         1         6         7         1         1         0         0         0         0         0         0         1         0         2         0         0         0         0
+         3         1         6        13         1         1         0         0         0         0         0         0         1         0         2         0         0         0         0
+         4         1         6        19         1         1         0         0         0         0         0         0         1         0         2         0         0         0         0
 
 WARNING ID :   1912
 ** WARNING IN SHELL PROPERTY
 DESCRIPTION :  
-   GLOBAL INTEGRATION FORMULATION (NPT = 0) IS NO MORE USED FOR CERTAIN LAWS,
+   GLOBAL INTEGRATION FORMULATION (NPT = 0) IS NOT SUPPORTED FOR THE FOLLOWING LAWS,
    SWITCHING AUTOMATICALLY TO NUMERICAL INTEGRATION NPT= 3.
    -- PROPERTY ID=2         
-   -- PROPERTY TITLE: EURO - THORACIC SKIN
+   -- PROPERTY TITLE: Shell
    LAW TYPE: 2         
 
 
@@ -632,18 +617,18 @@ DESCRIPTION :
       GROUP   MATERIAL    ELEMENT      FIRST    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE   PINCHING
                    LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG       FLAG
 
-          5          2         88          1          3          3          2          1          1          2          0          0
-          6          2         89         89          3          3          2          1          1          2          0          0
-          7          2         89        178          3          3          2          1          1          2          0          0
-          8          2         84        267          3          3          2          1          1          2          0          0
+          5          2         89          1          3          3          2          1          1          2          0          0
+          6          2         90         90          3          3          2          1          1          2          0          0
+          7          2         83        180          3          3          2          1          1          2          0          0
+          8          2         88        263          3          3          2          1          1          2          0          0
 
 WARNING ID :   1912
 ** WARNING IN SHELL PROPERTY
 DESCRIPTION :  
-   GLOBAL INTEGRATION FORMULATION (NPT = 0) IS NO MORE USED FOR CERTAIN LAWS,
+   GLOBAL INTEGRATION FORMULATION (NPT = 0) IS NOT SUPPORTED FOR THE FOLLOWING LAWS,
    SWITCHING AUTOMATICALLY TO NUMERICAL INTEGRATION NPT= 3.
    -- PROPERTY ID=2         
-   -- PROPERTY TITLE: EURO - THORACIC SKIN
+   -- PROPERTY TITLE: Shell
    LAW TYPE: 2         
 
            3D - TRIANGULAR SHELL ELEMENT GROUPS
@@ -652,45 +637,42 @@ DESCRIPTION :
                    LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG
 
           9          2          2          1          7          3          2          1          1          0
-         10          2          2          3          7          3          2          1          1          0
-         11          2          2          5          7          3          2          1          1          0
-         12          2          2          7          7          3          2          1          1          0
+         10          2          1          3          7          3          2          1          1          0
+         11          2          2          4          7          3          2          1          1          0
+         12          2          3          6          7          3          2          1          1          0
 
     INTERFACES               
   --------------             
 
 
 
-   INTERFACE NUMBER :         1 Interface de contact
+   INTERFACE NUMBER :         1 Contact 1
 
 
-    TYPE.EQ.7   PARALLEL/AUTO IMPACTING           
+    TYPE==7   PARALLEL/AUTO IMPACTING           
 
 
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       SECONDARY NODE  (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       MAIN NODE (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    STIFFNESS FACTOR. . . . . . . . . . . . .  1.0000000000000E-02
-    VARIABLE GAP FLAG . . . . . . . . . . . .  1000
-    MINIMUM GAP . . . . . . . . . . . . . . .   1.500000000000    
-    %MESHSIZE TAKEN INTO ACCOUNT FOR  . . . . 
-    CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
-    FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
-    NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
-    START TIME. . . . . . . . . . . . . . . .   0.000000000000    
-    STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
-    DE-ACTIVATION OF INITIAL PENETRATIONS . .          1
-    MAXIMAL INITIAL PENETRATION FACTOR. . . .   0.000000000000    
-    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
-    FRICTION CRITICAL DAMPING FACTOR. . . . .   1.000000000000    
-    QUADRATIC DAMPING FLAG. . . . . . . . . .     0
-    FORMULATION LEVEL . . . . . . . . . . . .     0
-    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . .     4
+    BOUND. COND. DELETED AFTER IMPACT . . . . . IN X DIR       0
+       SECONDARY NODE  (1:YES 0:NO)                Y DIR       0
+                                                   Z DIR       0
+    STIFFNESS FACTOR. . . . . . . . . . . . . .  1.0000000000000E-02
+    VARIABLE GAP FLAG . . . . . . . . . . . . .             1000
+    MINIMUM GAP . . . . . . . . . . . . . . . .   1.500000000000    
+    %MESHSIZE TAKEN INTO ACCOUNT FOR            
+    CALCULATION OF MAXIMUM GAP(IGAP = 3). . . .   0.000000000000    
+    FLAGREMNODE : NOT CONSIDER NEIGHBORING      
+    NODES IN CASE OF ELEMENT SIZE < GAP VALUE .                1
+    DE-ACTIVATION FLAG IF CONFLICT W/ TYPE2 . .                3
+    START TIME. . . . . . . . . . . . . . . . .   0.000000000000    
+    STOP TIME . . . . . . . . . . . . . . . . .  1.0000000000000E+30
+    BUCKET FACTOR . . . . . . . . . . . . . . .  0.2000000029802    
+    DE-ACTIVATION OF INITIAL PENETRATIONS . . .                1
+    MAXIMUM INITIAL PENETRATION FACTOR. . . . .   0.000000000000    
+    CRITICAL DAMPING FACTOR . . . . . . . . . .  5.0000000000000E-02
+    FRICTION CRITICAL DAMPING FACTOR. . . . . .   1.000000000000    
+    QUADRATIC DAMPING FLAG. . . . . . . . . . .                0
+    FORMULATION LEVEL . . . . . . . . . . . . .                0
+    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . .                4
 
     DELETION FLAG ON FAILURE OF MAIN ELEMENT (1:YES-ALL/2:YES-ANY) :     2
 
@@ -709,36 +691,33 @@ DESCRIPTION :
 
 
 
-   INTERFACE NUMBER :         2 Interface de contact - SYM
+   INTERFACE NUMBER :         2 Contact 2
 
 
-    TYPE.EQ.7   PARALLEL/AUTO IMPACTING           
+    TYPE==7   PARALLEL/AUTO IMPACTING           
 
 
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       SECONDARY NODE  (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    BOUND. COND. DELETED AFTER IMPACT IN X DIR  0
-       MAIN NODE (1:YES 0:NO)          Y DIR  0
-                                         Z DIR  0
-    STIFFNESS FACTOR. . . . . . . . . . . . .   1.000000000000    
-    VARIABLE GAP FLAG . . . . . . . . . . . .  1000
-    MINIMUM GAP . . . . . . . . . . . . . . .   1.500000000000    
-    %MESHSIZE TAKEN INTO ACCOUNT FOR  . . . . 
-    CALCULATION OF MAXIMUM GAP(IGAP = 3). . .   0.000000000000    
-    FLAGREMNODE : NOT CONSIDER NEIGHBORING  . 
-    NODES IN CASE OF ELEMENT SIZE < GAP VALUE     1
-    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2            3
-    START TIME. . . . . . . . . . . . . . . .   0.000000000000    
-    STOP TIME . . . . . . . . . . . . . . . .  1.0000000000000E+30
-    BUCKET FACTOR . . . . . . . . . . . . . .  0.2000000029802    
-    DE-ACTIVATION OF INITIAL PENETRATIONS . .          1
-    MAXIMAL INITIAL PENETRATION FACTOR. . . .   0.000000000000    
-    CRITICAL DAMPING FACTOR . . . . . . . . .  5.0000000000000E-02
-    FRICTION CRITICAL DAMPING FACTOR. . . . .   1.000000000000    
-    QUADRATIC DAMPING FLAG. . . . . . . . . .     0
-    FORMULATION LEVEL . . . . . . . . . . . .     0
-    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . .     4
+    BOUND. COND. DELETED AFTER IMPACT . . . . . IN X DIR       0
+       SECONDARY NODE  (1:YES 0:NO)                Y DIR       0
+                                                   Z DIR       0
+    STIFFNESS FACTOR. . . . . . . . . . . . . .   1.000000000000    
+    VARIABLE GAP FLAG . . . . . . . . . . . . .             1000
+    MINIMUM GAP . . . . . . . . . . . . . . . .   1.500000000000    
+    %MESHSIZE TAKEN INTO ACCOUNT FOR            
+    CALCULATION OF MAXIMUM GAP(IGAP = 3). . . .   0.000000000000    
+    FLAGREMNODE : NOT CONSIDER NEIGHBORING      
+    NODES IN CASE OF ELEMENT SIZE < GAP VALUE .                1
+    DE-ACTIVATION FLAG IF CONFLICT W/ TYPE2 . .                3
+    START TIME. . . . . . . . . . . . . . . . .   0.000000000000    
+    STOP TIME . . . . . . . . . . . . . . . . .  1.0000000000000E+30
+    BUCKET FACTOR . . . . . . . . . . . . . . .  0.2000000029802    
+    DE-ACTIVATION OF INITIAL PENETRATIONS . . .                1
+    MAXIMUM INITIAL PENETRATION FACTOR. . . . .   0.000000000000    
+    CRITICAL DAMPING FACTOR . . . . . . . . . .  5.0000000000000E-02
+    FRICTION CRITICAL DAMPING FACTOR. . . . . .   1.000000000000    
+    QUADRATIC DAMPING FLAG. . . . . . . . . . .                0
+    FORMULATION LEVEL . . . . . . . . . . . . .                0
+    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . .                4
 
     DELETION FLAG ON FAILURE OF MAIN ELEMENT (1:YES-ALL/2:YES-ANY) :     2
 
@@ -792,18 +771,18 @@ DESCRIPTION :
        RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
        ----------------------------------------------
 
-       ELEMENT GROUP         5,  SIZE=      6881
-       ELEMENT GROUP         6,  SIZE=      6957
-       ELEMENT GROUP         7,  SIZE=      6957
-       ELEMENT GROUP         8,  SIZE=      6577
-       ELEMENT GROUP         9,  SIZE=       335
-       ELEMENT GROUP        10,  SIZE=       335
-       ELEMENT GROUP        11,  SIZE=       335
-       ELEMENT GROUP        12,  SIZE=       335
+       ELEMENT GROUP         5,  SIZE=      6893
+       ELEMENT GROUP         6,  SIZE=      6968
+       ELEMENT GROUP         7,  SIZE=      6443
+       ELEMENT GROUP         8,  SIZE=      6818
+       ELEMENT GROUP         9,  SIZE=       358
+       ELEMENT GROUP        10,  SIZE=       288
+       ELEMENT GROUP        11,  SIZE=       358
+       ELEMENT GROUP        12,  SIZE=       428
 
 
 
- BRICK GROUP         1 VECTORIZATION CODE =  162
+ BRICK GROUP         1 VECTORIZATION CODE =   34
  BRICK GROUP         2 VECTORIZATION CODE =  162
  BRICK GROUP         3 VECTORIZATION CODE =  162
  BRICK GROUP         4 VECTORIZATION CODE =  162
@@ -841,17 +820,17 @@ PART MASS & INERTIA
 -------------------
 
 
-PART :          1EURO - THORACIC BALLAST - EXT.
+PART :          1Part_1
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 1.3816369914125E-04 0.5228427176184     0.3424432295744     0.2901985136555    -5.0158823088964E-04-9.8432882371924E-04-0.1215119475955    
+ 1.3816369914125E-04 0.5228427176184     0.3424432295741     0.2901985136554    -5.0158823091806E-04-9.8432882372990E-04-0.1215119475955    
  X           Y           Z           Kin. Energy Vx         Vy         Vz
   1494.043311412     -344.8244047047      590.4494772610      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
 
-PART :          2EURO - THORACIC SKIN
+PART :          2Part_2
 ----
  Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 4.0079889100579E-04  11.50118061846      9.976049879054      9.166490681958     7.0103134671626E-03 4.0628262180917E-02-0.9918510700181    
+ 4.0079889100579E-04  11.50118061846      9.976049879054      9.166490681959     7.0103134670489E-03 4.0628262180860E-02-0.9918510700183    
  X           Y           Z           Kin. Energy Vx         Vy         Vz
   1386.032382233     -345.0981890541      647.4648047880      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
 
@@ -859,17 +838,17 @@ PART :          2EURO - THORACIC SKIN
 PART ELEMENT/MATERIAL PARAMETER REVIEW:
 -----------------------
 
-Part id,name:         1 EURO - THORACIC BALL   Mat type:   1 Elm type: SOLID-HEXA             
+Part id,name:         1 Part_1                 Mat type:   1 Elm type: SOLID-HEXA             
 ----
   Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
        0       2       3       1       0       0       0       0
 --      qa        qb   lamda_v      mu_v         h        dn
     1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
 
-Part id,name:         2 EURO - THORACIC SKIN   Mat type:   2 Elm type: SHELL-(3nodes+4nodes)  
+Part id,name:         2 Part_2                 Mat type:   2 Elm type: SHELL-(3nodes+4nodes)  
 ----
   Ishell   Ish3n  Ismstr   Idril     NPT    ITHK   IPLAS
-       3       1       2       0       3       0       0
+       3       2       2       2       3       0       0
 --      hm        hf        hr        dm        dn
     0.5000    0.5000    0.5000    0.0000    0.0000
 
@@ -947,7 +926,7 @@ Part id,name:         2 EURO - THORACIC SKIN   Mat type:   2 Elm type: SHELL-(3n
   5.3438327344504E-05            354
   8.2138204237407E-05            340
   8.2138371050292E-05            347
-  8.2138371055021E-05            343
+  8.2138371055022E-05            343
   8.2166413140168E-05            335
   8.2166415299169E-05            332
 
@@ -1169,46 +1148,43 @@ Part id,name:         2 EURO - THORACIC SKIN   Mat type:   2 Elm type: SHELL-(3n
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        130 MB
+    STARTER MEMORY USAGE        122 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
-AVERAGE NB. OF BOUNDARY NODES :    47
-STANDARD DEVIATION            :     4
- 
-AVERAGE NUMBER OF LOCAL NODES :     137
-STANDARD DEVIATION            :       2
- 
-AVERAGE NB. OF CONTACT NODES(SECONDARY/MAIN) :     134 /      134
-STANDARD DEVIATION                         :       2 /        2
- 
+
+AVERAGE NB. OF BOUNDARY NODES :    51
+STANDARD DEVIATION            :    11
+
+AVERAGE NUMBER OF LOCAL NODES :     139
+STANDARD DEVIATION            :       5
+
+AVERAGE NB. OF CONTACT NODES(SECONDARY/MAIN) :     136 /      136
+STANDARD DEVIATION                         :       5 /        5
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    1            96                    51                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    2            97                    46                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    3            97                    48                     3
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    4            92                    41                     3
- 
+    1            97                    47                     3
+    2            97                    68                     3
+    3            91                    39                     3
+    4            97                    49                     3
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
- NUMBER OF NODES................. :         136
+ NUMBER OF NODES................. :         139
  NUMBER OF SOLID ELEMENTS........ :           6
- NUMBER OF 4-N SHELL ELEMENTS.... :          88
+ NUMBER OF 4-N SHELL ELEMENTS.... :          89
  NUMBER OF 3-N SHELL ELEMENTS.... :           2
- TOTAL NUMBER OF NODES FOR COMM.. :          61
+ TOTAL NUMBER OF NODES FOR COMM.. :          53
  NUMBER OF RIGID BODY COMPONENTS. :           1
  NUMBER OF R.B.M. NODES FOR COMM. :           3
- NUMBER OF SECONDARY RIGID BODY NODES :          24
+ NUMBER OF SECONDARY RIGID BODY NODES :          26
  NUMBER OF INT2 SECONDARY NODES...... :           0
  NUMBER OF INT2 MAIN NODES..... :           0
- NUMBER OF CONTACT SECONDARY NODES... :         133
- NUMBER OF CONTACT MAIN NODES.. :         133
- 
+ NUMBER OF CONTACT SECONDARY NODES... :         137
+ NUMBER OF CONTACT MAIN NODES.. :         137
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -1217,22 +1193,22 @@ STANDARD DEVIATION                         :       2 /        2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
- NUMBER OF NODES................. :         139
+ NUMBER OF NODES................. :         147
  NUMBER OF SOLID ELEMENTS........ :           6
- NUMBER OF 4-N SHELL ELEMENTS.... :          89
- NUMBER OF 3-N SHELL ELEMENTS.... :           2
- TOTAL NUMBER OF NODES FOR COMM.. :          54
+ NUMBER OF 4-N SHELL ELEMENTS.... :          90
+ NUMBER OF 3-N SHELL ELEMENTS.... :           1
+ TOTAL NUMBER OF NODES FOR COMM.. :          77
  NUMBER OF RIGID BODY COMPONENTS. :           1
  NUMBER OF R.B.M. NODES FOR COMM. :           3
- NUMBER OF SECONDARY RIGID BODY NODES :          24
+ NUMBER OF SECONDARY RIGID BODY NODES :          26
  NUMBER OF INT2 SECONDARY NODES...... :           0
  NUMBER OF INT2 MAIN NODES..... :           0
- NUMBER OF CONTACT SECONDARY NODES... :         136
- NUMBER OF CONTACT MAIN NODES.. :         136
- 
+ NUMBER OF CONTACT SECONDARY NODES... :         143
+ NUMBER OF CONTACT MAIN NODES.. :         142
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -1241,22 +1217,22 @@ STANDARD DEVIATION                         :       2 /        2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
- NUMBER OF NODES................. :         139
+ NUMBER OF NODES................. :         132
  NUMBER OF SOLID ELEMENTS........ :           6
- NUMBER OF 4-N SHELL ELEMENTS.... :          89
+ NUMBER OF 4-N SHELL ELEMENTS.... :          83
  NUMBER OF 3-N SHELL ELEMENTS.... :           2
- TOTAL NUMBER OF NODES FOR COMM.. :          58
+ TOTAL NUMBER OF NODES FOR COMM.. :          46
  NUMBER OF RIGID BODY COMPONENTS. :           1
  NUMBER OF R.B.M. NODES FOR COMM. :           3
  NUMBER OF SECONDARY RIGID BODY NODES :          24
  NUMBER OF INT2 SECONDARY NODES...... :           0
  NUMBER OF INT2 MAIN NODES..... :           0
- NUMBER OF CONTACT SECONDARY NODES... :         136
- NUMBER OF CONTACT MAIN NODES.. :         136
- 
+ NUMBER OF CONTACT SECONDARY NODES... :         129
+ NUMBER OF CONTACT MAIN NODES.. :         129
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -1265,22 +1241,22 @@ STANDARD DEVIATION                         :       2 /        2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
- NUMBER OF NODES................. :         134
+ NUMBER OF NODES................. :         138
  NUMBER OF SOLID ELEMENTS........ :           6
- NUMBER OF 4-N SHELL ELEMENTS.... :          84
- NUMBER OF 3-N SHELL ELEMENTS.... :           2
- TOTAL NUMBER OF NODES FOR COMM.. :          49
+ NUMBER OF 4-N SHELL ELEMENTS.... :          88
+ NUMBER OF 3-N SHELL ELEMENTS.... :           3
+ TOTAL NUMBER OF NODES FOR COMM.. :          58
  NUMBER OF RIGID BODY COMPONENTS. :           1
  NUMBER OF R.B.M. NODES FOR COMM. :           3
  NUMBER OF SECONDARY RIGID BODY NODES :          24
  NUMBER OF INT2 SECONDARY NODES...... :           0
  NUMBER OF INT2 MAIN NODES..... :           0
- NUMBER OF CONTACT SECONDARY NODES... :         131
- NUMBER OF CONTACT MAIN NODES.. :         131
- 
+ NUMBER OF CONTACT SECONDARY NODES... :         135
+ NUMBER OF CONTACT MAIN NODES.. :         135
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -1289,7 +1265,7 @@ STANDARD DEVIATION                         :       2 /        2
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
 
      RESTART FILES IDEL8_0000 WRITTEN
      -------------
@@ -1300,21 +1276,21 @@ STANDARD DEVIATION                         :       2 /        2
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .4619E+00   .1460E+00   .6999E-02   .0000E+00   .0000E+00   .0000E+00   .0000E+00
+.0000E+00   .3831E+00   .2068E+00   .1687E-01   .1320E-03   .2795E-04   .5490E-03   .2801E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.7710E-03   .1126E+01   .1872E+00   .1023E-01   .4721E-04   .1311E-04   .2789E-03   .4053E-05
+.0000E+00   .1144E+07   .2285E+00   .1296E-01   .6877E-04   .1649E-04   .3225E-03   .1259E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2021/06/22  12:35:18
- EXECUTION COMPLETED    :      2021/06/22  12:35:19
+ EXECUTION STARTED      :      2022/11/23  16:21:13
+ EXECUTION COMPLETED    :      2022/11/23  16:21:14
   
- ELAPSED TIME...........=          1.37 s
-                               00:00:01
+ ELAPSED TIME...........=          0.68 s
+                               00:00:00
   
 ------------------------------------------------------------------------
 
@@ -1327,14 +1303,6 @@ STANDARD DEVIATION                         :       2 /        2
 ------------------------------------------------------------------------------------------------------------------------
 |            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
 ------------------------------------------------------------------------------------------------------------------------
-|                                                           |                                                          |
-|                                                           |  --- INTERNAL                               1 WARNING(S) |
-|                                                           |       |                                                  |
-|                                                           |       |                                                  |
-|                                                           |       |---     1 WARNING ID :       100214               |
-|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
-|                                                           |       |                                                  |
-|                                                           |                                                          |
 |                                                           |                                                          |
 |                                                           |  --- ELEM/PROP/MAT COMPATIBILITY            4 WARNING(S) |
 |                                                           |       |                                                  |
@@ -1350,6 +1318,6 @@ STANDARD DEVIATION                         :       2 /        2
 
 
               0 ERROR(S)            
-              5 WARNING(S)          
+              4 WARNING(S)          
 
 

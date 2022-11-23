@@ -2,29 +2,29 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                Altair Radioss(TM) Starter MAINLINE                 **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 1039169_12638000000_1060_0075242_10                     **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2020                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 3326 MHz,  19924 MB RAM,  49124 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -32,6 +32,15 @@
 ************************************************************************
 * INPUT READING PROCESS
 ************************************************************************
+
+WARNING ID : 100214
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /IOFLAG
+-- LINE: 5                   0         0         0         0         0
+unsupported field exits
+SOLUTION :     
+    Please check input format and fields description defined in the Reference Guide.
 
  -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
 
@@ -41,9 +50,13 @@
 ************************************************************************
 
 
-+-------------------+
-| BLOCK FREE FORMAT |
-+-------------------+
+
+    UNIT SYSTEMS DEFINITION     
+    -----------------------     
+
+                                                          MASS                LENGTH              TIME
+    WORK UNIT SYSTEM . . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+    INPUT UNIT SYSTEM  . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
 
 
  Spherical Joint                                                                 
@@ -63,7 +76,7 @@
     NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         1
     NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
     NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .         0
-    NINTERFRIC: NUMBER OF FRICTION INTERFACES . . . . . .         0
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
     NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .         2
     NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .         0
     NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
@@ -108,7 +121,6 @@
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
@@ -143,13 +155,13 @@
     ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         1
     NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
              INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
-    ISTRA  : DEFAULT SOLID STRAIN COMPUTATION FLAG . . . .         1
+    IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
     ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
 
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -158,22 +170,14 @@
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
      INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
   
-
-
-    UNIT SYSTEMS DEFINITION     
-    -----------------------     
-
-                                                          MASS                LENGTH              TIME
-    WORK UNIT SYSTEM . . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
-    INPUT UNIT SYSTEM  . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
 
 
     LOAD CURVES
@@ -345,10 +349,10 @@ BOULES
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
      DEFAULT VALUE FOR QUADRATIC BULK. . . . 
           VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
-     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     EXCEPT IN CASE LAW 70 QA = 0.     
      DEFAULT VALUE FOR LINEAR BULK . . . . . 
           VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
-     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     EXCEPT IN CASE LAW 70  QB = 0.     
      HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
@@ -356,12 +360,6 @@ BOULES
      POST PROCESSING STRAIN FLAG . . . . . .=         1
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
-
-
-
-         PROPERTY SETS
-         -------------
-
 
 
 
@@ -412,6 +410,11 @@ PART:         2,BOULES
          6
  
  
+ NODE GROUP:         7,master_rbs,         2 NODES: 
+ -------------------
+         5         6
+ 
+ 
  NODE GROUP:         8,NULL,         9 NODES: 
  -------------------
          1        11        12        13        14        21        22        23        24
@@ -420,15 +423,6 @@ PART:         2,BOULES
  NODE GROUP:         9,NULL,         9 NODES: 
  -------------------
          2        51        52        53        54        61        62        63        64
- 
- 
- NODE GROUP:         7,master_rbs,         2 NODES: 
- -------------------
-         5         6
-
-
-     RANDOM NOISE       
-     ------------       
 
      BOUNDARY CONDITIONS                                                                 
      -------------------                                                                 
@@ -494,8 +488,8 @@ PART:         2,BOULES
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1         2         2         1         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
+         1         2         2         1         1         1         0         0         0         0         1         0         1         0         2         0         0         0         0
 
 
       3D - SPRING ELEMENT GROUPS
@@ -541,26 +535,11 @@ PART:         2,BOULES
        RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
        ----------------------------------------------
 
-       ELEMENT GROUP         2,  SIZE=       163
+       ELEMENT GROUP         2,  SIZE=       187
 
 
 
  BRICK GROUP         1 VECTORIZATION CODE =    0
-
-
-         SOLID ELEMENTS TIME STEP
-         ------------------------
-
-      TIME STEP       ELEMENT NUMBER
-  3.1602002409012E-03             10
-  3.1602002409012E-03             20
-
-         SPRING ELEMENTS TIME STEP
-         ------------------------
-
-      TIME STEP       ELEMENT NUMBER
-
-   Info : spring TYPE45 (KJOINT2) time step is evaluated at the beginning of the engine
 
 
       RIGID BODY INITIALIZATION 
@@ -599,70 +578,6 @@ PART:         2,BOULES
                                                                                                       0.0000000       1.0000000       0.0000000
                                                                                                       0.0000000       0.0000000       1.0000000
 
-
-
-         NODAL TIME STEP (estimation)
-         ---------------
-
-      TIME STEP       NODE NUMBER
-  1.5559750377529E-03              5
-  2.5802926917364E-03              6
-  1.0000000000000E+30             24
-  1.0000000000000E+30             64
-  1.0000000000000E+30             63
-  1.0000000000000E+30             62
-  1.0000000000000E+30             61
-  1.0000000000000E+30             54
-  1.0000000000000E+30             53
-  1.0000000000000E+30             52
-  1.0000000000000E+30             51
-  1.0000000000000E+30              0
-  1.0000000000000E+30             23
-  1.0000000000000E+30             22
-  1.0000000000000E+30             21
-  1.0000000000000E+30             14
-  1.0000000000000E+30             13
-  1.0000000000000E+30             12
-  1.0000000000000E+30             11
-  1.0000000000000E+30              2
-  1.0000000000000E+30              1
-
-
-         NODAL TIME STEP DISTRIBUTION 
-         ----------------------------
-
-
-            % OF NODES
-                   ^
-                   |                                                            
-           4.762 --|#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-                   |#                                                       #   
-           0.000 --|#  #   #  #  #   #  #  #  #   #  #  #  #   #  #  #   #  # # 
-                    -------------------------------------------------------------> NODAL TIME STEP
-                    |                                                          |
-                1.556E-03                                                  2.580E-03
-  
-  
 
 
      NODAL MASSES
@@ -740,10 +655,10 @@ Part id,name:         2 BOULES                 Mat type:   2 Elm type: SOLID-HEX
 
 
 
-TH GROUP:         4,th_spring, 14 VAR,    1 SPRING    :
+TH GROUP:         4,th_spring, 15 VAR,    1 SPRING    :
  -------------------
 OFF       FX        FY        FZ        MX        MY        MZ        LX        LY        LZ        
-RX        RY        RZ        IE        
+RX        RY        RZ        IE        LENGTH    
 SPRING      P_SPMD       NAME 
         30         0 spring                                  
 
@@ -783,6 +698,85 @@ FX        FY        FZ        MX        MY        MZ        RX        RY        
 
  TH GROUP: SUBSET    
  ---------
+
+
+         SOLID ELEMENTS TIME STEP
+         ------------------------
+
+      TIME STEP       ELEMENT NUMBER
+  3.1602002409012E-03             10
+  3.1602002409012E-03             20
+
+         SPRING ELEMENTS TIME STEP
+         ------------------------
+
+      TIME STEP       ELEMENT NUMBER
+
+   Info : spring TYPE45 (KJOINT2) time step is evaluated at the beginning of the engine
+
+
+         NODAL TIME STEP (estimation)
+         ---------------
+
+      TIME STEP       NODE NUMBER
+  1.5559750377529E-03              5
+  2.5802926917364E-03              6
+  1.0000000000000E+30             54
+  1.0000000000000E+30              1
+  1.0000000000000E+30             52
+  1.0000000000000E+30             53
+  1.0000000000000E+30             62
+  1.0000000000000E+30             61
+  1.0000000000000E+30             24
+  1.0000000000000E+30             63
+  1.0000000000000E+30             51
+  1.0000000000000E+30             22
+  1.0000000000000E+30             23
+  1.0000000000000E+30              0
+  1.0000000000000E+30             21
+  1.0000000000000E+30             14
+  1.0000000000000E+30             13
+  1.0000000000000E+30             12
+  1.0000000000000E+30             11
+  1.0000000000000E+30              2
+  1.0000000000000E+30             64
+
+
+         NODAL TIME STEP DISTRIBUTION 
+         ----------------------------
+
+
+            % OF NODES
+                   ^
+                   |                                                            
+           4.762 --|#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+           0.000 --|#  #   #  #  #   #  #  #  #   #  #  #  #   #  #  #   #  # # 
+                    -------------------------------------------------------------> NODAL TIME STEP
+                    |                                                          |
+                1.556E-03                                                  2.580E-03
+  
+  
 
 
      INITIAL ADDED MASS ESTIMATION for /DT/NODA/CST
@@ -842,28 +836,25 @@ FX        FY        FZ        MX        MY        MZ        RX        RY        
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        231 MB
+    STARTER MEMORY USAGE        122 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
+
 AVERAGE NB. OF BOUNDARY NODES :     0
 STANDARD DEVIATION            :     0
- 
+
 AVERAGE NUMBER OF LOCAL NODES :       5
 STANDARD DEVIATION            :       9
- 
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     1             3                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     2             0                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     3             0                     0                     0
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     4             0                     0                     0
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
  NUMBER OF NODES................. :          21
@@ -873,7 +864,7 @@ STANDARD DEVIATION            :       9
  NUMBER OF RIGID BODY COMPONENTS. :           2
  NUMBER OF R.B.M. NODES FOR COMM. :           0
  NUMBER OF SECONDARY RIGID BODY NODES :          18
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -882,7 +873,7 @@ STANDARD DEVIATION            :       9
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
  NUMBER OF NODES................. :           0
@@ -892,7 +883,7 @@ STANDARD DEVIATION            :       9
  NUMBER OF RIGID BODY COMPONENTS. :           0
  NUMBER OF R.B.M. NODES FOR COMM. :           0
  NUMBER OF SECONDARY RIGID BODY NODES :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -901,7 +892,7 @@ STANDARD DEVIATION            :       9
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
  NUMBER OF NODES................. :           0
@@ -911,7 +902,7 @@ STANDARD DEVIATION            :       9
  NUMBER OF RIGID BODY COMPONENTS. :           0
  NUMBER OF R.B.M. NODES FOR COMM. :           0
  NUMBER OF SECONDARY RIGID BODY NODES :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -920,7 +911,7 @@ STANDARD DEVIATION            :       9
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
  NUMBER OF NODES................. :           0
@@ -930,7 +921,7 @@ STANDARD DEVIATION            :       9
  NUMBER OF RIGID BODY COMPONENTS. :           0
  NUMBER OF R.B.M. NODES FOR COMM. :           0
  NUMBER OF SECONDARY RIGID BODY NODES :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -939,7 +930,7 @@ STANDARD DEVIATION            :       9
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
 
      RESTART FILES JOINT_0000 WRITTEN
      -------------
@@ -950,29 +941,48 @@ STANDARD DEVIATION            :       9
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.1000E-02   .3329E+00   .8999E-01   .5999E-02   .0000E+00   .0000E+00   .0000E+00   .0000E+00
+.0000E+00   .3631E+00   .1684E+00   .2049E-01   .0000E+00   .0000E+00   .0000E+00   .2700E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.1208E-02   .6266E+00   .1135E+00   .9562E-02   .0000E+00   .0000E+00   .0000E+00   .5960E-05
+.0000E+00   .1144E+07   .1872E+00   .1088E-01   .0000E+00   .0000E+00   .0000E+00   .1051E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2020/10/30  17:53:27
- EXECUTION COMPLETED    :      2020/10/30  17:53:28
+ EXECUTION STARTED      :      2022/11/23  16:23:05
+ EXECUTION COMPLETED    :      2022/11/23  16:23:05
   
- ELAPSED TIME...........=          0.80 s
+ ELAPSED TIME...........=          0.63 s
                                00:00:00
   
 ------------------------------------------------------------------------
 
 
 
-     NORMAL TERMINATION                                                                  
+     TERMINATION WITH WARNING           
      ------------------                                                                  
+
+
+------------------------------------------------------------------------------------------------------------------------
+|            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
+------------------------------------------------------------------------------------------------------------------------
+|                                                           |                                                          |
+|                                                           |  --- GLOBAL UNITS                           1 WARNING(S) |
+|                                                           |       |                                                  |
+|                                                           |       |                                                  |
+|                                                           |       |---     1 WARNING ID :       100214               |
+|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
+|                                                           |       |                                                  |
+|                                                           |                                                          |
+|                                                           |                                                          |
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
               0 ERROR(S)            
-              0 WARNING(S)          
+              1 WARNING(S)          
 
 

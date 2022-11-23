@@ -2,29 +2,29 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                Altair Radioss(TM) Starter MAINLINE                 **
+**                        OpenRadioss Starter                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
 **                                                                    **
 **                                                                    **
-**                   Linux 64 bits, Intel compiler                    **
 **                                                                    **
-**                           BETA_VERSION                             **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
-** Build tag: 1067165_12638000000_1060_0082101_10                     **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2021                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
   
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 3326 MHz,  19924 MB RAM,  48873 MB swap
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -39,6 +39,8 @@ DESCRIPTION :
 -- BLOCK: /IOFLAG
 -- LINE: 0                   0         0         0         0         0
 unsupported field exits
+SOLUTION :     
+    Please check input format and fields description defined in the Reference Guide.
 
  -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
 
@@ -74,7 +76,7 @@ unsupported field exits
     NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         1
     NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
     NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .         0
-    NINTERFRIC: NUMBER OF FRICTION INTERFACES . . . . . .         0
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
     NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .       110
     NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .         0
     NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
@@ -119,7 +121,6 @@ unsupported field exits
     NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
     NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
     NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
-    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
     NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
     NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
     NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
@@ -160,7 +161,7 @@ unsupported field exits
 
     LAGRANGE MULTIPLIER OPTIONS
     ---------------------------
-    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+    LAGM_TOL:CONVERGENCE CRITERION. . . . . . . . . . . . 1.0000000000000E-11
 
 
     NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
@@ -169,9 +170,9 @@ unsupported field exits
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
@@ -215,6 +216,13 @@ unsupported field exits
      SHEAR MODULUS . . . . . . . . . . . . .=  0.8000E+07
 
 
+     SUBMODEL SKEWS(INTERNAL)                                                            
+     --------------------------------------                                              
+     NUMBER          VECTORS                                          ORIGIN
+ 1000000001        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
+
 
 
          PROPERTY SETS (HM_READER)
@@ -235,10 +243,10 @@ s1
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
      DEFAULT VALUE FOR QUADRATIC BULK. . . . 
           VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
-     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     EXCEPT IN CASE LAW 70 QA = 0.     
      DEFAULT VALUE FOR LINEAR BULK . . . . . 
           VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
-     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     EXCEPT IN CASE LAW 70  QB = 0.     
      HOURGLASS VISCOSITY . . . . . . . . . .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
@@ -261,10 +269,10 @@ s2
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
      DEFAULT VALUE FOR QUADRATIC BULK. . . . 
           VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
-     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     EXCEPT IN CASE LAW 70 QA = 0.     
      DEFAULT VALUE FOR LINEAR BULK . . . . . 
           VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
-     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     EXCEPT IN CASE LAW 70  QB = 0.     
      HOURGLASS VISCOSITY . . . . . . . . . .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
@@ -287,10 +295,10 @@ s3
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
      DEFAULT VALUE FOR QUADRATIC BULK. . . . 
           VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
-     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     EXCEPT IN CASE LAW 70 QA = 0.     
      DEFAULT VALUE FOR LINEAR BULK . . . . . 
           VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
-     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     EXCEPT IN CASE LAW 70  QB = 0.     
      HOURGLASS VISCOSITY . . . . . . . . . .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
@@ -313,10 +321,10 @@ s4
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
      DEFAULT VALUE FOR QUADRATIC BULK. . . . 
           VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
-     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     EXCEPT IN CASE LAW 70 QA = 0.     
      DEFAULT VALUE FOR LINEAR BULK . . . . . 
           VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
-     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     EXCEPT IN CASE LAW 70  QB = 0.     
      HOURGLASS VISCOSITY . . . . . . . . . .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
@@ -339,10 +347,10 @@ s5
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
      DEFAULT VALUE FOR QUADRATIC BULK. . . . 
           VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
-     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     EXCEPT IN CASE LAW 70 QA = 0.     
      DEFAULT VALUE FOR LINEAR BULK . . . . . 
           VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
-     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     EXCEPT IN CASE LAW 70  QB = 0.     
      HOURGLASS VISCOSITY . . . . . . . . . .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
@@ -365,10 +373,10 @@ s6
      HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
      DEFAULT VALUE FOR QUADRATIC BULK. . . . 
           VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
-     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     EXCEPT IN CASE LAW 70 QA = 0.     
      DEFAULT VALUE FOR LINEAR BULK . . . . . 
           VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
-     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     EXCEPT IN CASE LAW 70  QB = 0.     
      HOURGLASS VISCOSITY . . . . . . . . . .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
@@ -376,12 +384,6 @@ s6
      POST PROCESSING STRAIN FLAG . . . . . .=         1
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         8
-
-
-
-         PROPERTY SETS
-         -------------
-
 
 
 
@@ -478,7 +480,7 @@ PART:        20,s6
   ELEMENT NUMBER =        110
   EDGES FOUND    =        175
   
-#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
+#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
    1         14418.             0.             0.             0.             0.             0.
    2         14952.             0.             0.             0.             0.             0.
    3         14952.             0.             0.             0.             0.             0.
@@ -494,16 +496,16 @@ PART:        20,s6
        ---------------------
 
      GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1         1         1         1         1         8         0         0         0         0        17         0         0         0         2         0         0         0         0
-         2         1         2         2         1         8         0         0         0         0        17         0         0         0         2         0         0         0         0
-         3         1         2         4         1         8         0         0         0         0        17         0         0         0         2         0         0         0         0
-         4         1         5         6         1         8         0         0         0         0        17         0         0         0         2         0         0         0         0
-         5         1         2        11         1         8         0         0         0         0        17         0         0         0         2         0         0         0         0
-         6         1        18        13         1         8         0         0         0         0        17         0         0         0         2         0         0         0         0
-         7         1        25        31         1         8         0         0         0         0        17         0         0         0         2         0         0         0         0
-         8         1        28        56         1         8         0         0         0         0        17         0         0         0         2         0         0         0         0
-         9         1        27        84         1         8         0         0         0         0        17         0         0         0         2         0         0         0         0
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
+         1         1         1         1         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
+         2         1         2         2         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
+         3         1         2         4         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
+         4         1         5         6         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
+         5         1         2        11         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
+         6         1        18        13         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
+         7         1        25        31         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
+         8         1        28        56         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
+         9         1        27        84         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
 
 MESSAGE ID :   1575
 ** WARNING IN PROPERTY DEFINITION
@@ -830,25 +832,25 @@ Part id,name:        20 s6                     Mat type:   1 Elm type: SOLID-HEX
          ------------------------
 
       TIME STEP       ELEMENT NUMBER
-  2.6303087336062E-06            912
-  2.6303087336062E-06            937
-  2.6303087336062E-06            936
-  2.6303087336062E-06            935
-  2.6303087336062E-06            934
+  2.6303087336062E-06            918
+  2.6303087336062E-06            931
+  2.6303087336062E-06            915
+  2.6303087336062E-06            916
+  2.6303087336062E-06            917
   2.6303087336062E-06            933
   2.6303087336062E-06            932
-  2.6303087336062E-06            918
-  2.6303087336062E-06            917
-  2.6303087336062E-06            916
-  2.6303087336062E-06            915
-  2.6303087336062E-06            914
   2.6303087336062E-06            913
-  2.6303087336062E-06            938
+  2.6303087336062E-06            934
+  2.6303087336062E-06            935
+  2.6303087336062E-06            936
+  2.6303087336062E-06            914
   2.6303087336062E-06            898
+  2.6303087336062E-06            912
+  2.6303087336062E-06            878
   2.6303087336062E-06            897
-  2.6303087336062E-06            896
-  2.6303087336062E-06            895
-  2.6303087336062E-06            894
+  2.6303087336062E-06            875
+  2.6303087336062E-06            876
+  2.6303087336062E-06            877
   2.6303087336062E-06            893
 
 
@@ -858,104 +860,104 @@ Part id,name:        20 s6                     Mat type:   1 Elm type: SOLID-HEX
       TIME STEP       NODE NUMBER
   1.3736339363579E-06           1462
   2.6303087336062E-06           1986
-  2.6303087336062E-06           1994
-  2.6303087336062E-06           1993
+  2.6303087336062E-06           1954
   2.6303087336062E-06           1992
   2.6303087336062E-06           1991
   2.6303087336062E-06           1990
   2.6303087336062E-06           1989
   2.6303087336062E-06           1988
   2.6303087336062E-06           1987
-  2.6303087336062E-06           1995
   2.6303087336062E-06           1985
+  2.6303087336062E-06           1994
   2.6303087336062E-06           1984
   2.6303087336062E-06           1983
   2.6303087336062E-06           1982
   2.6303087336062E-06           1981
   2.6303087336062E-06           1980
-  2.6303087336062E-06           2097
+  2.6303087336062E-06           2096
   2.6303087336062E-06           1978
-  2.6303087336062E-06           1977
-  2.6303087336062E-06           1976
+  2.6303087336062E-06           1993
+  2.6303087336062E-06           1996
   2.6303087336062E-06           2005
-  2.6303087336062E-06           2013
-  2.6303087336062E-06           2012
+  2.6303087336062E-06           1976
   2.6303087336062E-06           2011
   2.6303087336062E-06           2010
   2.6303087336062E-06           2009
   2.6303087336062E-06           2008
   2.6303087336062E-06           2007
   2.6303087336062E-06           2006
-  2.6303087336062E-06           1996
-  2.6303087336062E-06           2004
   2.6303087336062E-06           2003
+  2.6303087336062E-06           2004
+  2.6303087336062E-06           1995
   2.6303087336062E-06           2002
   2.6303087336062E-06           2001
-  2.6303087336062E-06           2096
+  2.6303087336062E-06           2095
   2.6303087336062E-06           1999
   2.6303087336062E-06           1998
   2.6303087336062E-06           1997
-  2.6303087336062E-06           2014
-  2.6303087336062E-06           1947
-  2.6303087336062E-06           1955
-  2.6303087336062E-06           1954
+  2.6303087336062E-06           1977
+  2.6303087336062E-06           1974
+  2.6303087336062E-06           1948
+  2.6303087336062E-06           2013
+  2.6303087336062E-06           2098
   2.6303087336062E-06           1953
   2.6303087336062E-06           1952
   2.6303087336062E-06           1951
   2.6303087336062E-06           1950
   2.6303087336062E-06           1949
-  2.6303087336062E-06           1948
-  2.6303087336062E-06           1956
   2.6303087336062E-06           1946
+  2.6303087336062E-06           1947
+  2.6303087336062E-06           1956
   2.6303087336062E-06           1945
   2.6303087336062E-06           1944
   2.6303087336062E-06           1943
   2.6303087336062E-06           1942
   2.6303087336062E-06           1941
   2.6303087336062E-06           1940
-  2.6303087336062E-06           1939
-  2.6303087336062E-06           1975
-  2.6303087336062E-06           1966
-  2.6303087336062E-06           1974
+  2.6303087336062E-06           1955
+  2.6303087336062E-06           1957
+  2.6303087336062E-06           1967
+  2.6303087336062E-06           2097
   2.6303087336062E-06           1973
   2.6303087336062E-06           1972
   2.6303087336062E-06           1971
   2.6303087336062E-06           1970
   2.6303087336062E-06           1969
   2.6303087336062E-06           1968
-  2.6303087336062E-06           1967
-  2.6303087336062E-06           1957
   2.6303087336062E-06           1965
+  2.6303087336062E-06           1966
+  2.6303087336062E-06           1975
   2.6303087336062E-06           1964
   2.6303087336062E-06           1963
   2.6303087336062E-06           1962
   2.6303087336062E-06           1961
   2.6303087336062E-06           1960
   2.6303087336062E-06           1959
-  2.6303087336062E-06           2098
-  2.6303087336062E-06           1938
-  2.6303087336062E-06           2093
-  2.6303087336062E-06           2071
-  2.6303087336062E-06           2070
+  2.6303087336062E-06           2012
+  2.6303087336062E-06           2015
+  2.6303087336062E-06           2014
+  2.6303087336062E-06           2092
+  2.6303087336062E-06           2016
   2.6303087336062E-06           2069
   2.6303087336062E-06           2068
   2.6303087336062E-06           2067
   2.6303087336062E-06           2066
   2.6303087336062E-06           2065
   2.6303087336062E-06           2064
-  2.6303087336062E-06           2072
-  2.6303087336062E-06           2094
   2.6303087336062E-06           2061
+  2.6303087336062E-06           2093
+  2.6303087336062E-06           2071
   2.6303087336062E-06           2060
   2.6303087336062E-06           2059
   2.6303087336062E-06           2058
   2.6303087336062E-06           2057
   2.6303087336062E-06           2056
   2.6303087336062E-06           2055
-  2.6303087336062E-06           2054
-  2.6303087336062E-06           2053
+  2.6303087336062E-06           2070
+  2.6303087336062E-06           2072
   2.6303087336062E-06           2082
-  2.6303087336062E-06           2090
+  2.6303087336062E-06           2073
+  2.6303087336062E-06           2088
 
 
          NODAL TIME STEP DISTRIBUTION 
@@ -1052,28 +1054,25 @@ Part id,name:        20 s6                     Mat type:   1 Elm type: SOLID-HEX
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        127 MB
+    STARTER MEMORY USAGE        123 MB
 
- 
- 
+
+
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
- 
+
 AVERAGE NB. OF BOUNDARY NODES :    14
 STANDARD DEVIATION            :     6
- 
+
 AVERAGE NUMBER OF LOCAL NODES :      93
 STANDARD DEVIATION            :      18
- 
+
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     1            27                    18                     2
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     2            28                     6                     1
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     3            28                    10                     1
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
     4            27                    22                     2
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
  NUMBER OF NODES................. :          88
@@ -1082,7 +1081,7 @@ STANDARD DEVIATION            :      18
  NUMBER OF RIGID BODY COMPONENTS. :           0
  NUMBER OF R.B.M. NODES FOR COMM. :           0
  NUMBER OF SECONDARY RIGID BODY NODES :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
      --------------------------------------------------------
@@ -1091,7 +1090,7 @@ STANDARD DEVIATION            :      18
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
  NUMBER OF NODES................. :         123
@@ -1100,7 +1099,7 @@ STANDARD DEVIATION            :      18
  NUMBER OF RIGID BODY COMPONENTS. :           5
  NUMBER OF R.B.M. NODES FOR COMM. :           0
  NUMBER OF SECONDARY RIGID BODY NODES :          22
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
      --------------------------------------------------------
@@ -1109,7 +1108,7 @@ STANDARD DEVIATION            :      18
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
  ----------------------------------------------------
  NUMBER OF NODES................. :          82
@@ -1118,7 +1117,7 @@ STANDARD DEVIATION            :      18
  NUMBER OF RIGID BODY COMPONENTS. :           1
  NUMBER OF R.B.M. NODES FOR COMM. :           0
  NUMBER OF SECONDARY RIGID BODY NODES :          10
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
      --------------------------------------------------------
@@ -1127,7 +1126,7 @@ STANDARD DEVIATION            :      18
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
  ----------------------------------------------------
  NUMBER OF NODES................. :          79
@@ -1136,7 +1135,7 @@ STANDARD DEVIATION            :      18
  NUMBER OF RIGID BODY COMPONENTS. :           0
  NUMBER OF R.B.M. NODES FOR COMM. :           0
  NUMBER OF SECONDARY RIGID BODY NODES :           0
- 
+
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
@@ -1145,7 +1144,7 @@ STANDARD DEVIATION            :      18
         TOTAL MEMORY EVALUATION         10 MB 
                                             
         RESTART FILE SIZE         0 MB
- 
+
 
      RESTART FILES CONV_ELS_0000 WRITTEN
      -------------
@@ -1156,21 +1155,21 @@ STANDARD DEVIATION            :      18
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.1000E-02   .4309E+00   .8599E-01   .1200E-01   .0000E+00   .0000E+00   .0000E+00   .0000E+00
+.0000E+00   .3922E+00   .1378E+00   .1900E-01   .0000E+00   .0000E+00   .0000E+00   .2992E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.9830E-03   .8223E+00   .9834E-01   .1401E-01   .0000E+00   .0000E+00   .0000E+00   .5960E-05
+.0000E+00   .1144E+07   .1586E+00   .1239E-01   .0000E+00   .0000E+00   .0000E+00   .1024E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2021/05/10  17:10:47
- EXECUTION COMPLETED    :      2021/05/10  17:10:48
+ EXECUTION STARTED      :      2022/11/23  16:23:30
+ EXECUTION COMPLETED    :      2022/11/23  16:23:31
   
- ELAPSED TIME...........=          1.15 s
-                               00:00:01
+ ELAPSED TIME...........=          0.62 s
+                               00:00:00
   
 ------------------------------------------------------------------------
 
@@ -1184,7 +1183,7 @@ STANDARD DEVIATION            :      18
 |            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
 ------------------------------------------------------------------------------------------------------------------------
 |                                                           |                                                          |
-|                                                           |  --- INTERNAL                               1 WARNING(S) |
+|                                                           |  --- GLOBAL UNITS                           1 WARNING(S) |
 |                                                           |       |                                                  |
 |                                                           |       |                                                  |
 |                                                           |       |---     1 WARNING ID :       100214               |

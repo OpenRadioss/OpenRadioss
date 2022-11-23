@@ -2,35 +2,35 @@
 ************************************************************************
 **                                                                    **
 **                                                                    **
-**                      RADIOSS ENGINE MAINLINE                       **
+**                         OpenRadioss Engine                         **
 **                                                                    **
 **            Non-linear Finite Element Analysis Software             **
-**                   from Altair Engineering, Inc.                    **
-**                                                                    **
-**                                                                    **
-**              Linux 64 bits, Intel compiler, Intel MPI              **
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** Build tag: 0742056_087sesevot__2070_0032401_10                     **
+**                Linux 64 bits, GNU compiler, OpenMPI                **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
-**  COPYRIGHT (C) 1986-2014                 Altair Engineering, Inc.  **
-** All Rights Reserved.  Copyright notice does not imply publication. **
-** Contains trade secrets of Altair Engineering Inc.                  **
-** Decompilation or disassembly of this software strictly prohibited. **
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
 ************************************************************************
  
  NUMBER OF SPMD DOMAINS           4
- NUMBER OF THREADS PER DOMAIN     1
- NUMBER OF HMPP PROCESSES         4
+ NUMBER OF THREADS PER DOMAIN     2
+ NUMBER OF HMPP PROCESSES         8
   
  COMPUTATION HARDWARE DESCRIPTION
   
  CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
-   1   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
-   2   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
-   3   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
-   4   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+   1   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   2   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   3   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   4   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 
@@ -75,21 +75,19 @@
  AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
  MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
 
- INTERFACE TYPE 7 TIME STEP SCALE FACTOR. . . . .  0.1000000E-01
- INTERFACE TYPE 7 MINIMUM TIME STEP . . . . . . .   0.000000    
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.1000000E-01
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .   0.000000    
  MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
-
- FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.1000000E-01
- FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
 
  PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . . -1000
 
- RESTART CYCLE FREQUENCY. . . . . . . . . . . . .       5000
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .   10000000
 
  MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
 
  INVERS: INPUT DECK VERSION . . . . . . . . . . .    41
  ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
 
  TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
  TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .  0.8000000    
@@ -108,6 +106,10 @@
       TURBULENT ENERGY (FLUID).     0
       TURBULENT VISCOSITY(FLUID)    0
       VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
  VECTOR SAVED ON ANIMATION FILES (1: YES) :
       VELOCITY VECTOR . . . . .     0
       DISPLACEMENT VECTOR . . .     0
@@ -135,9 +137,6 @@
  MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
 
  PARALLEL ARITHMETIC ON
-
- ALE GRID FORMULATION                    
- --------------------                    
  NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
 
  NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
@@ -158,81 +157,55 @@
 
  NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
 
- NUMBER OF ALE LINKS. . . . . . . . . . . . . . .        0
-
  NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
 
- 19/11/2014
- CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
-     0   0.000      0.9539E-03 SPRIN          1   0.0%   0.000       0.000       0.000       0.000       0.000    
+ 23/11/2022
+   CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
+       0   0.000      0.9539E-03 SPRIN          1   0.0%   0.000       0.000       0.000       0.000       0.000       4.550       0.000    
      ANIMATION FILE: R01CV3A001 WRITTEN
-  1000  0.4743      0.2556E-03 SPRIN          1   0.0%   1091.       464.3       87.91       1643.       0.000    
-  2000  0.6847      0.1792E-03 SPRIN          1   0.0%   2104.       480.3      0.4524E-01   2584.       0.000    
+    1000  0.4743      0.2556E-03 SPRIN          1  -0.0%   1091.       464.3       87.91       1643.       0.000       4.550       0.000    
+    2000  0.6847      0.1792E-03 SPRIN          1  -0.0%   2104.       480.3      0.4524E-01   2584.       0.000       4.550       0.000    
      ANIMATION FILE: R01CV3A002 WRITTEN
-  3000  0.8458      0.1463E-03 SPRIN          1   0.0%   2893.       514.7       6.703       3414.       0.000    
-  4000  0.9814      0.1262E-03 SPRIN          1   0.0%   3633.       480.8       63.34       4177.       0.000    
-
-     RESTART FILES: R01CV3_0001_[0001-0004].rst WRITTEN
-     -------------
-
-  5000   1.111      0.1391E-03 SPRIN          1   0.0%   3403.       496.2       6.716       3906.       0.000    
-  6000   1.263      0.1667E-03 SPRIN          1   0.0%   2930.       512.8       14.45       3458.       0.000    
-  7000   1.453      0.2200E-03 SPRIN          1   0.0%   2517.       456.5       56.12       3029.       0.000    
+    3000  0.8458      0.1463E-03 SPRIN          1  -0.0%   2893.       514.7       6.703       3414.       0.000       4.550       0.000    
+    4000  0.9814      0.1262E-03 SPRIN          1  -0.0%   3633.       480.8       63.34       4177.       0.000       4.550       0.000    
+    5000   1.111      0.1391E-03 SPRIN          1  -0.0%   3403.       496.2       6.716       3906.       0.000       4.550       0.000    
+    6000   1.263      0.1667E-03 SPRIN          1  -0.0%   2930.       512.8       14.45       3458.       0.000       4.550       0.000    
+    7000   1.453      0.2200E-03 SPRIN          1  -0.0%   2517.       456.5       56.12       3029.       0.000       4.550       0.000    
      ANIMATION FILE: R01CV3A003 WRITTEN
-  8000   1.748      0.4475E-03 SPRIN          1   0.0%   2082.       456.2       58.15       2596.       0.000    
-  9000   2.359      0.3290E-03 SPRIN          1   0.0%   2664.       462.2       324.6       3451.       0.000    
+    8000   1.748      0.4475E-03 SPRIN          1  -0.0%   2082.       456.2       58.15       2596.       0.000       4.550       0.000    
+    9000   2.359      0.3290E-03 SPRIN          1  -0.0%   2664.       462.2       324.6       3451.       0.000       4.550       0.000    
      ANIMATION FILE: R01CV3A004 WRITTEN
-
-     RESTART FILES: R01CV3_0001_[0001-0004].rst WRITTEN
-     -------------
-
- 10000   2.608      0.2014E-03 SPRIN          1   0.0%   3871.       528.9       39.97       4440.       0.000    
- 11000   2.785      0.1579E-03 SPRIN          1   0.0%   4496.       716.4       87.03       5299.       0.000    
- 12000   2.929      0.1326E-03 SPRIN          1   0.0%   5437.       541.8       87.98       6067.       0.000    
- 13000   3.056      0.1297E-03 SPRIN          1   0.0%   5636.       505.9       114.2       6256.       0.000    
- 14000   3.195      0.1492E-03 SPRIN          1   0.0%   5161.       562.9       60.30       5784.       0.000    
+   10000   2.608      0.2014E-03 SPRIN          1  -0.0%   3871.       528.9       39.97       4440.       0.000       4.550       0.000    
+   11000   2.785      0.1579E-03 SPRIN          1  -0.0%   4496.       716.4       87.03       5299.       0.000       4.550       0.000    
+   12000   2.929      0.1326E-03 SPRIN          1  -0.0%   5437.       541.8       87.98       6067.       0.000       4.550       0.000    
+   13000   3.056      0.1297E-03 SPRIN          1  -0.0%   5636.       505.9       114.2       6256.       0.000       4.550       0.000    
+   14000   3.195      0.1492E-03 SPRIN          1  -0.0%   5161.       562.9       60.30       5784.       0.000       4.550       0.000    
      ANIMATION FILE: R01CV3A005 WRITTEN
-
-     RESTART FILES: R01CV3_0001_[0001-0004].rst WRITTEN
-     -------------
-
- 15000   3.358      0.1785E-03 SPRIN          1   0.0%   4934.       464.3       18.74       5418.       0.000    
- 16000   3.565      0.2500E-03 SPRIN          1   0.0%   4334.       489.0       239.5       5062.       0.000    
- 17000   3.953      0.6741E-03 SPRIN          1   0.0%   3974.       458.0      0.4186       4433.       0.000    
+   15000   3.358      0.1785E-03 SPRIN          1  -0.0%   4934.       464.3       18.74       5418.       0.000       4.550       0.000    
+   16000   3.565      0.2500E-03 SPRIN          1  -0.0%   4334.       489.0       239.5       5062.       0.000       4.550       0.000    
+   17000   3.953      0.6741E-03 SPRIN          1  -0.0%   3974.       458.0      0.4186       4433.       0.000       4.550       0.000    
      ANIMATION FILE: R01CV3A006 WRITTEN
- 18000   4.425      0.2795E-03 SPRIN          1   0.0%   4889.       455.3       452.3       5797.       0.000    
- 19000   4.649      0.1885E-03 SPRIN          1   0.0%   6117.       541.7       98.35       6757.       0.000    
+   18000   4.425      0.2795E-03 SPRIN          1  -0.0%   4889.       455.3       452.3       5797.       0.000       4.550       0.000    
+   19000   4.649      0.1885E-03 SPRIN          1  -0.0%   6117.       541.7       98.35       6757.       0.000       4.550       0.000    
      ANIMATION FILE: R01CV3A007 WRITTEN
-
-     RESTART FILES: R01CV3_0001_[0001-0004].rst WRITTEN
-     -------------
-
- 20000   4.818      0.1514E-03 SPRIN          1   0.0%   6592.       814.8       180.7       7587.       0.000    
- 21000   4.957      0.1283E-03 SPRIN          1   0.0%   7706.       607.8       19.90       8333.       0.000    
- 22000   5.083      0.1325E-03 SPRIN          1   0.0%   7418.       497.2       375.0       8290.       0.000    
- 23000   5.226      0.1529E-03 SPRIN          1   0.0%   7220.       567.2       8.571       7796.       0.000    
- 24000   5.391      0.1805E-03 SPRIN          1   0.0%   6829.       510.5       33.82       7373.       0.000    
-
-     RESTART FILES: R01CV3_0001_[0001-0004].rst WRITTEN
-     -------------
-
- 25000   5.596      0.2419E-03 SPRIN          1   0.0%   6354.       510.2       349.5       7214.       0.000    
+   20000   4.818      0.1514E-03 SPRIN          1  -0.0%   6592.       814.8       180.7       7587.       0.000       4.550       0.000    
+   21000   4.957      0.1283E-03 SPRIN          1  -0.0%   7706.       607.8       19.90       8333.       0.000       4.550       0.000    
+   22000   5.083      0.1325E-03 SPRIN          1  -0.0%   7418.       497.2       375.0       8290.       0.000       4.550       0.000    
+   23000   5.226      0.1529E-03 SPRIN          1  -0.0%   7220.       567.2       8.571       7796.       0.000       4.550       0.000    
+   24000   5.391      0.1805E-03 SPRIN          1  -0.0%   6829.       510.5       33.82       7373.       0.000       4.550       0.000    
+   25000   5.596      0.2419E-03 SPRIN          1  -0.0%   6354.       510.2       349.5       7214.       0.000       4.550       0.000    
      ANIMATION FILE: R01CV3A008 WRITTEN
- 26000   6.013      0.9539E-03 SPRIN          1   0.0%   5929.       534.7       122.7       6587.       0.000    
+   26000   6.013      0.9539E-03 SPRIN          1  -0.0%   5929.       534.7       122.7       6587.       0.000       4.550       0.000    
      ANIMATION FILE: R01CV3A009 WRITTEN
- 27000   6.482      0.2531E-03 SPRIN          1   0.0%   6994.       519.7       116.0       7630.       0.000    
- 28000   6.688      0.1743E-03 SPRIN          1   0.0%   8055.       556.6       38.76       8651.       0.000    
- 29000   6.844      0.1413E-03 SPRIN          1   0.0%   8945.       474.6       17.82       9438.       0.000    
-
-     RESTART FILES: R01CV3_0001_[0001-0004].rst WRITTEN
-     -------------
-
- 30000   6.976      0.1233E-03 SPRIN          1   0.0%   9605.       465.5       53.28      0.1012E+05   0.000    
- 31000   7.102      0.1340E-03 SPRIN          1   0.0%   9425.       467.7       4.547       9897.       0.000    
+   27000   6.482      0.2531E-03 SPRIN          1  -0.0%   6994.       519.7       116.0       7630.       0.000       4.550       0.000    
+   28000   6.688      0.1743E-03 SPRIN          1  -0.0%   8055.       556.6       38.76       8651.       0.000       4.550       0.000    
+   29000   6.844      0.1413E-03 SPRIN          1  -0.0%   8945.       474.6       17.82       9438.       0.000       4.550       0.000    
+   30000   6.976      0.1233E-03 SPRIN          1  -0.0%   9605.       465.5       53.28      0.1012E+05   0.000       4.550       0.000    
+   31000   7.102      0.1340E-03 SPRIN          1  -0.0%   9425.       467.7       4.547       9897.       0.000       4.550       0.000    
      ANIMATION FILE: R01CV3A010 WRITTEN
- 32000   7.247      0.1594E-03 SPRIN          1   0.0%   8949.       482.0       28.96       9460.       0.000    
- 33000   7.429      0.2122E-03 SPRIN          1   0.0%   8443.       583.2       18.65       9045.       0.000    
- 34000   7.716      0.4354E-03 SPRIN          1   0.0%   8084.       495.0       20.30       8599.       0.000    
+   32000   7.247      0.1594E-03 SPRIN          1  -0.0%   8949.       482.0       28.96       9460.       0.000       4.550       0.000    
+   33000   7.429      0.2122E-03 SPRIN          1  -0.0%   8443.       583.2       18.65       9045.       0.000       4.550       0.000    
+   34000   7.716      0.4354E-03 SPRIN          1  -0.0%   8084.       495.0       20.30       8599.       0.000       4.550       0.000    
 
      RESTART FILES: R01CV3_0001_[0001-0004].rst WRITTEN
      -------------
@@ -241,49 +214,87 @@
   
                            ** CPU USER TIME **
   
- #PROC  CONT.SORT  CONT. F   ELEMENT  KIN.COND.  INTEGR.    I/O     TASK0     ASSEMB.   RESOL  
-   1   .0000E+00 .2000E-02 .2240E+00 .6899E-01 .5599E-01 .8138E+00 .1197E+01 .1699E-01 .2602E+01
-   2   .0000E+00 .9999E-03 .7997E-02 .7999E-02 .6998E-02 .1669E+01 .7818E+00 .1999E-02 .2608E+01
-   3   .0000E+00 .1000E-02 .1800E-01 .1199E-01 .1100E-01 .6579E+00 .1720E+01 .5999E-02 .2587E+01
-   4   .0000E+00 .0000E+00 .7995E-02 .1100E-01 .1200E-01 .7578E+00 .1681E+01 .1000E-02 .2636E+01
   
-                          ** SPMD COMM. TIME **
+                        ** SUMMARY **
   
- #PROC  FORCES    RBY.FOR.  RBY.VEL.  VELOCITIES   TOTAL   % CPU
-   1   .1300E-01 .0000E+00 .0000E+00 .2899E-01 .4199E-01    1.61
-   2   .3999E-02 .0000E+00 .0000E+00 .1000E-02 .5000E-02    0.19
-   3   .3000E-02 .0000E+00 .0000E+00 .7999E-02 .1100E-01    0.43
-   4   .2000E-02 .0000E+00 .0000E+00 .5998E-02 .7998E-02    0.30
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .6474E+00 .5977E+00 .3985E+00 .1180E+01 .1131E+01 .2082E+00 .6369E+01
+   2   .4339E+00 .4672E+00 .3949E+00 .1117E+01 .1639E+01 .2036E+00 .6590E+01
+   3   .4337E+00 .4686E+00 .3980E+00 .1102E+01 .1619E+01 .2092E+00 .6569E+01
+   4   .4289E+00 .4647E+00 .3983E+00 .1110E+01 .1695E+01 .1983E+00 .6623E+01
   
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .1184E+00 .0000E+00 .0000E+00 .1327E+00 .2511E+00 .3943E+01
+   2   .1191E+00 .0000E+00 .0000E+00 .1313E+00 .2504E+00 .3800E+01
+   3   .1259E+00 .0000E+00 .0000E+00 .1313E+00 .2572E+00 .3916E+01
+   4   .1228E+00 .0000E+00 .0000E+00 .1277E+00 .2506E+00 .3783E+01
+  
+ 
                    ** CUMULATIVE CPU TIME SUMMARY **
   
  CONTACT SORTING.............: .0000E+00     0.00 % 
- CONTACT FORCES..............: .4000E-02     0.04 % 
- ELEMENT FORCES..............: .2580E+00     2.47 % 
- KINEMATIC COND..............: .9998E-01     0.96 % 
- INTEGRATION.................: .8598E-01     0.82 % 
- ASSEMBLING..................: .2599E-01     0.25 % 
- OTHERS (including I/O)......: .9958E+01    95.46 % 
- TOTAL.......................: .1043E+02   100.00 % 
+ CONTACT FORCES..............: .1842E+00     0.70 % 
+ ELEMENT FORCES..............: .1944E+01     7.43 % 
+ KINEMATIC COND..............: .1998E+01     7.64 % 
+ INTEGRATION.................: .1590E+01     6.08 % 
+ ASSEMBLING..................: .8193E+00     3.13 % 
+ OTHERS (including I/O)......: .1962E+02    75.01 % 
+ TOTAL.......................: .2615E+02   100.00 % 
   
+  
+                           ** ELAPSED TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .4319E+00 .4001E+00 .2645E+00 .7971E+00 .7554E+00 .1393E+00 .4229E+01
+   2   .2830E+00 .3045E+00 .2547E+00 .7236E+00 .1058E+01 .1320E+00 .4232E+01
+   3   .2821E+00 .3034E+00 .2614E+00 .7173E+00 .1049E+01 .1351E+00 .4230E+01
+   4   .2775E+00 .2990E+00 .2570E+00 .7181E+00 .1090E+01 .1280E+00 .4232E+01
+  
+        ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+ MIN   .2775E+00 .2990E+00 .2547E+00 .7173E+00 .7554E+00 .1280E+00 .4229E+01
+ MAX   .4319E+00 .4001E+00 .2645E+00 .7971E+00 .1090E+01 .1393E+00 .4232E+01
+ AVG   .3186E+00 .3267E+00 .2594E+00 .7390E+00 .9880E+00 .1336E+00 .4231E+01
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .7858E-01 .0000E+00 .0000E+00 .8866E-01 .1672E+00 .3955E+01
+   2   .7754E-01 .0000E+00 .0000E+00 .8603E-01 .1636E+00 .3865E+01
+   3   .8183E-01 .0000E+00 .0000E+00 .8574E-01 .1676E+00 .3961E+01
+   4   .7913E-01 .0000E+00 .0000E+00 .8287E-01 .1620E+00 .3828E+01
+  
+        FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+ MIN   .7754E-01 .0000E+00 .0000E+00 .8287E-01 .1620E+00 .3828E+01
+ MAX   .8183E-01 .0000E+00 .0000E+00 .8866E-01 .1676E+00 .3961E+01
+ AVG   .7927E-01 .0000E+00 .0000E+00 .8583E-01 .1651E+00 .3902E+01
   
                    ** MEMORY USAGE STATISTICS **
   
- TOTAL MEMORY USED .........................:      560 MB
- MAXIMUM MEMORY PER PROCESSOR...............:      140 MB
- MINIMUM MEMORY PER PROCESSOR...............:      140 MB
- AVERAGE MEMORY PER PROCESSOR...............:      140 MB
+ TOTAL MEMORY USED .........................:      228 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       57 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       57 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       57 MB
   
                    ** DISK USAGE STATISTICS **
   
- TOTAL DISK SPACE USED .....................:     1799 KB
- ANIMATION/TH/OUTP SIZE ....................:     1469 KB
- RESTART FILE SIZE .........................:      330 KB
+ TOTAL DISK SPACE USED .....................:          2 MB
+ ANIMATION/H3D/TH/OUTP SIZE ................:          1 MB
+ RESTART FILE SIZE .........................:          1 MB
   
- ELAPSED TIME     =          3.71 s
-                          0:00:03
- ESTIMATED SPEEDUP=          2.81
+                   ** COMPUTE TIME INFORMATION **
+                        ** CURRENT ENGINE **
   
+ EXECUTION STARTED .........................:      2022/11/23  16:24:43
+ EXECUTION COMPLETED .......................:      2022/11/23  16:24:48
+  
+ ELAPSED TIME     =          4.32 s
+                          0:00:04
+ ESTIMATED SPEEDUP=          6.06
 
 
 
@@ -293,3 +304,11 @@
 
      TOTAL NUMBER OF CYCLES  :   34399
 
+  
+                   ** COMPUTE RUNTIME INFORMATION SUMMARY **
+  
+        STARTER RUNTIME =          0.61s (00:00:00)
+ # 001   ENGINE RUNTIME =          4.32s (00:00:04)
+ ------------------------------ 
+ STARTER+ENGINE RUNTIME =          4.93s (00:00:04)
+  

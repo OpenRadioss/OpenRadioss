@@ -1,0 +1,455 @@
+ mapSimple_0001.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                         OpenRadioss Engine                         **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+**                Linux 64 bits, GNU compiler, OpenMPI                **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
+************************************************************************
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
+************************************************************************
+ 
+ NUMBER OF SPMD DOMAINS           4
+ NUMBER OF THREADS PER DOMAIN     2
+ NUMBER OF HMPP PROCESSES         8
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+   1   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   2   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   3   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   4   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+  
+************************************************************************
+
+
+ mapSimpleD01Map Simple                                                          
+
+
+ FINAL TIME . . . . . . . . . . . . . . . . . . .   25.00000    
+
+ TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.1000000E-02
+
+ TIME STEP SCALE FACTOR . . . . . . . . . . . . .  0.9000000    
+
+ MINIMUM TIME STEP  . . . . . . . . . . . . . . .   0.000000    
+
+
+ NODAL TIME STEP SCALE FACTOR,  . . . . . . . . .  0.9000000    
+ NODAL MINIMUM TIME STEP. . . . . . . . . . . . .  0.2000000E-02
+ MIN. TIME FLAG . . . . . . . . . . . . . . . . .     8
+    1:STOP. . . . . . . . . . . . . . . . . . . . 
+    3:INCREASE MASS, ORIGINAL FORMULATION . . . . 
+    8:INCREASE MASS, IMPROVED FORMULATION . . . . 
+
+
+ BRICK TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ BRICK MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE BRICK)     0
+
+ QUAD TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ QUAD MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE QUAD).     0
+
+ SHELL TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ SHELL MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE, 3:SMALL STRAIN)    0
+
+ TRUSS TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ TRUSS MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ BEAM TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ BEAM MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ SPRING TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ SPRING MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ AIRBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
+
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.9000000    
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
+
+ PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .  -100
+
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .     100000
+
+ MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
+
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .   120
+ ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
+
+ TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
+ TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .  0.5000000    
+ SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
+ TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
+
+ VARIABLE SAVED ON ANIMATION FILES (1: YES) :
+      PLASTIC STRAIN. . . . . .     0
+      DENSITY     (SOLID ONLY).     0
+      SPECIFIC ENERGY . . . . .     0
+      HOURGLASS ENERGY. . . . .     0
+      TEMPERATURE (SOLID ONLY).     0
+      THICKNESS   (SHELL ONLY).     0
+      PRESSURE    (SOLID ONLY).     0
+      VON MISES . . . . . . . .     1
+      TURBULENT ENERGY (FLUID).     0
+      TURBULENT VISCOSITY(FLUID)    0
+      VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
+ VECTOR SAVED ON ANIMATION FILES (1: YES) :
+      VELOCITY VECTOR . . . . .     0
+      DISPLACEMENT VECTOR . . .     0
+      ACCELERATION VECTOR . . .     0
+      CONTACT FORCES. . . . . .     0
+      INTERNAL FORCES . . . . .     0
+      EXTERNAL FORCES . . . . .     0
+      SECTION RBY RWALL FORCES.     0
+      ROTATIONAL VELOCITY VECTOR    0
+      CONTACT PRESSURE (VECTORS)    0
+ SHELL TENSOR SAVED ON ANIMATION FILES (1: YES) :
+      MEMBRANE STRESS . . . . .     0
+      BENDING STRESS(MOMENT/T^2)    0
+      UPPER LAYER STRESS. . . .     0
+      LOWER LAYER STRESS. . . .     0
+      MEMBRANE STRAIN . . . . .     0
+      CURVATURE . . . . . . . .     0
+      UPPER LAYER STRAIN. . . .     0
+      LOWER LAYER STRAIN. . . .     0
+ NODAL MASS SAVED ON ANIMATION FILES (1: YES) :    0
+ KEEP DELETED ELEMENT (1: YES) :    0
+
+
+ INITIAL TIME STEP. . . . . . . . . . . . . . . .  0.2000000E-02
+ MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.2000000E-02
+
+ PARALLEL ARITHMETIC ON
+ NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
+
+ NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
+
+ NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
+
+ 23/11/2022
+   CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
+       0   0.000      0.2000E-02 NODE        5394   0.0%   0.000       0.000       0.000       0.000      0.2600E-01   21.41      0.5427    
+     ANIMATION FILE: mapSimpleA001 WRITTEN
+     100  0.2000      0.2000E-02 NODE        5661   0.0%   4.761       11.61      0.2795E-03   16.37      0.2613E-01   21.42      0.5453    
+     200  0.4000      0.2000E-02 NODE        5661  -0.0%   58.28       104.4      0.3443E-03   162.7      0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA002 WRITTEN
+     300  0.6000      0.2000E-02 NODE        5661  -0.0%   267.3       289.3      0.4293E-02   556.7      0.2613E-01   21.42      0.5453    
+     400  0.8000      0.2000E-02 NODE        5661  -0.0%   802.0       565.4      0.4968E-02   1367.      0.2613E-01   21.42      0.5453    
+     500   1.000      0.2000E-02 NODE        5661  -0.5%   1895.       736.7      0.5255E-02   2644.      0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA003 WRITTEN
+     600   1.200      0.2000E-02 NODE        5661  -0.0%   3974.       930.8      0.1070E-01   4905.      0.2613E-01   21.42      0.5453    
+     700   1.400      0.2000E-02 NODE        5661  -0.0%   7352.       1383.      0.8645E-02   8735.      0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA004 WRITTEN
+     800   1.600      0.2000E-02 NODE        5661  -0.0%  0.1246E+05   1920.      0.2078E-01  0.1438E+05  0.2613E-01   21.42      0.5453    
+     900   1.800      0.2000E-02 NODE        5661  -0.0%  0.1978E+05   2538.      0.2501E-01  0.2231E+05  0.2613E-01   21.42      0.5453    
+    1000   2.000      0.2000E-02 NODE        5661  -0.0%  0.2984E+05   2875.      0.2062E-01  0.3273E+05  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA005 WRITTEN
+    1100   2.200      0.2000E-02 NODE        5661  -0.0%  0.4367E+05   3233.      0.3625E-01  0.4690E+05  0.2613E-01   21.42      0.5453    
+    1200   2.400      0.2000E-02 NODE        5661  -0.0%  0.6161E+05   4001.      0.3488E-01  0.6561E+05  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA006 WRITTEN
+    1300   2.600      0.2000E-02 NODE        5661  -0.0%  0.8434E+05   4837.      0.4825E-01  0.8918E+05  0.2613E-01   21.42      0.5453    
+    1400   2.800      0.2000E-02 NODE        5661  -0.0%  0.1126E+06   5736.      0.7474E-01  0.1183E+06  0.2613E-01   21.42      0.5453    
+    1500   3.000      0.2000E-02 NODE        5661  -0.0%  0.1471E+06   6205.      0.7182E-01  0.1533E+06  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA007 WRITTEN
+    1600   3.200      0.2000E-02 NODE        5661  -0.0%  0.1895E+06   6693.      0.1044      0.1962E+06  0.2613E-01   21.42      0.5453    
+    1700   3.400      0.2000E-02 NODE        5661  -0.0%  0.2400E+06   7701.      0.1439      0.2477E+06  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA008 WRITTEN
+    1800   3.600      0.2000E-02 NODE        5661  -0.0%  0.2993E+06   8754.      0.2123      0.3080E+06  0.2613E-01   21.42      0.5453    
+    1900   3.800      0.2000E-02 NODE        5661  -0.0%  0.3683E+06   9847.      0.3266      0.3781E+06  0.2613E-01   21.42      0.5453    
+    2000   4.000      0.2000E-02 NODE        5661  -0.0%  0.4479E+06  0.1040E+05  0.4530      0.4583E+06  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA009 WRITTEN
+    2100   4.200      0.2000E-02 NODE        5661  -0.0%  0.5401E+06  0.1097E+05  0.6814      0.5511E+06  0.2613E-01   21.42      0.5453    
+    2200   4.400      0.2000E-02 NODE        5661  -0.0%  0.6448E+06  0.1212E+05   1.028      0.6569E+06  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA010 WRITTEN
+    2300   4.600      0.2000E-02 NODE        5661  -0.0%  0.7627E+06  0.1329E+05   1.537      0.7760E+06  0.2613E-01   21.42      0.5453    
+    2400   4.800      0.2000E-02 NODE        5661  -0.0%  0.8947E+06  0.1447E+05   2.262      0.9092E+06  0.2613E-01   21.42      0.5453    
+    2500   5.000      0.2000E-02 NODE        5661  -0.0%  0.1042E+07  0.1505E+05   3.249      0.1057E+07  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA011 WRITTEN
+    2600   5.200      0.2000E-02 NODE        5661  -0.0%  0.1206E+07  0.1565E+05   4.676      0.1221E+07  0.2613E-01   21.42      0.5453    
+    2700   5.400      0.2000E-02 NODE        5661  -0.0%  0.1387E+07  0.1683E+05   6.628      0.1403E+07  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA012 WRITTEN
+    2800   5.600      0.2000E-02 NODE        5661  -0.0%  0.1584E+07  0.1800E+05   9.250      0.1602E+07  0.2613E-01   21.42      0.5453    
+    2900   5.800      0.2000E-02 NODE        5661  -0.0%  0.1800E+07  0.1915E+05   12.75      0.1819E+07  0.2613E-01   21.42      0.5453    
+    3000   6.000      0.2000E-02 NODE        5661  -0.0%  0.2034E+07  0.1970E+05   17.28      0.2054E+07  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA013 WRITTEN
+    3100   6.200      0.2000E-02 NODE        5661  -0.0%  0.2289E+07  0.2027E+05   23.15      0.2310E+07  0.2613E-01   21.42      0.5453    
+    3200   6.400      0.2000E-02 NODE        5661  -0.0%  0.2564E+07  0.2136E+05   30.61      0.2585E+07  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA014 WRITTEN
+    3300   6.600      0.2000E-02 NODE        5661  -0.0%  0.2858E+07  0.2242E+05   39.93      0.2881E+07  0.2613E-01   21.42      0.5453    
+    3400   6.800      0.2000E-02 NODE        5661  -0.0%  0.3173E+07  0.2342E+05   51.45      0.3197E+07  0.2613E-01   21.42      0.5453    
+    3500   7.000      0.2000E-02 NODE        5661  -0.0%  0.3509E+07  0.2390E+05   65.46      0.3533E+07  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA015 WRITTEN
+    3600   7.200      0.2000E-02 NODE        5661  -0.0%  0.3866E+07  0.2438E+05   82.25      0.3891E+07  0.2613E-01   21.42      0.5453    
+    3700   7.400      0.2000E-02 NODE        5661  -0.0%  0.4245E+07  0.2528E+05   102.1      0.4270E+07  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA016 WRITTEN
+    3800   7.600      0.2000E-02 NODE        5661  -0.0%  0.4644E+07  0.2612E+05   125.4      0.4670E+07  0.2613E-01   21.42      0.5453    
+    3900   7.800      0.2000E-02 NODE        5661  -0.0%  0.5064E+07  0.2688E+05   152.1      0.5091E+07  0.2613E-01   21.42      0.5453    
+    4000   8.000      0.2000E-02 NODE        5661  -0.0%  0.5505E+07  0.2723E+05   182.4      0.5532E+07  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA017 WRITTEN
+    4100   8.200      0.2000E-02 NODE        5661  -0.0%  0.5967E+07  0.2758E+05   216.5      0.5995E+07  0.2613E-01   21.42      0.5453    
+    4200   8.400      0.2000E-02 NODE        5661   0.0%  0.6449E+07  0.2820E+05   254.2      0.6477E+07  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA018 WRITTEN
+    4300   8.600      0.2000E-02 NODE        5661   0.0%  0.6950E+07  0.2873E+05   295.3      0.6979E+07  0.2613E-01   21.42      0.5453    
+    4400   8.800      0.2000E-02 NODE        5661   0.0%  0.7470E+07  0.2919E+05   339.7      0.7499E+07  0.2613E-01   21.42      0.5453    
+    4500   9.000      0.2000E-02 NODE        5661   0.0%  0.8008E+07  0.2937E+05   387.0      0.8037E+07  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA019 WRITTEN
+    4600   9.200      0.2000E-02 NODE        5661   0.0%  0.8564E+07  0.2955E+05   436.9      0.8594E+07  0.2613E-01   21.42      0.5453    
+    4700   9.400      0.2000E-02 NODE        5661   0.0%  0.9136E+07  0.2983E+05   488.9      0.9167E+07  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA020 WRITTEN
+    4800   9.600      0.2000E-02 NODE        5661   0.0%  0.9724E+07  0.3001E+05   542.6      0.9754E+07  0.2613E-01   21.42      0.5453    
+    4900   9.800      0.2000E-02 NODE        5661   0.0%  0.1033E+08  0.3011E+05   597.7      0.1036E+08  0.2613E-01   21.42      0.5453    
+    5000   10.00      0.2000E-02 NODE        5661   0.0%  0.1094E+08  0.3011E+05   654.0      0.1097E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA021 WRITTEN
+    5100   10.20      0.2000E-02 NODE        5661   0.0%  0.1157E+08  0.3011E+05   711.2      0.1160E+08  0.2613E-01   21.42      0.5453    
+    5200   10.40      0.2000E-02 NODE        5661   0.0%  0.1221E+08  0.3001E+05   769.4      0.1224E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA022 WRITTEN
+    5300   10.60      0.2000E-02 NODE        5661   0.0%  0.1285E+08  0.2983E+05   828.4      0.1288E+08  0.2613E-01   21.42      0.5453    
+    5400   10.80      0.2000E-02 NODE        5661   0.0%  0.1351E+08  0.2955E+05   888.3      0.1354E+08  0.2613E-01   21.42      0.5453    
+   CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
+    5500   11.00      0.2000E-02 NODE        5661   0.0%  0.1417E+08  0.2937E+05   949.0      0.1420E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA023 WRITTEN
+    5600   11.20      0.2000E-02 NODE        5661   0.0%  0.1484E+08  0.2919E+05   1010.      0.1487E+08  0.2613E-01   21.42      0.5453    
+    5700   11.40      0.2000E-02 NODE        5661   0.0%  0.1551E+08  0.2873E+05   1072.      0.1554E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA024 WRITTEN
+    5800   11.60      0.2000E-02 NODE        5661   0.0%  0.1618E+08  0.2820E+05   1134.      0.1621E+08  0.2613E-01   21.42      0.5453    
+    5900   11.80      0.2000E-02 NODE        5661   0.0%  0.1685E+08  0.2758E+05   1195.      0.1688E+08  0.2613E-01   21.42      0.5453    
+    6000   12.00      0.2000E-02 NODE        5661   0.0%  0.1752E+08  0.2723E+05   1257.      0.1755E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA025 WRITTEN
+    6100   12.20      0.2000E-02 NODE        5661   0.0%  0.1818E+08  0.2688E+05   1318.      0.1821E+08  0.2613E-01   21.42      0.5453    
+    6200   12.40      0.2000E-02 NODE        5661   0.0%  0.1884E+08  0.2612E+05   1380.      0.1887E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA026 WRITTEN
+    6300   12.60      0.2000E-02 NODE        5661   0.0%  0.1950E+08  0.2528E+05   1444.      0.1953E+08  0.2613E-01   21.42      0.5453    
+    6400   12.80      0.2000E-02 NODE        5661   0.0%  0.2015E+08  0.2438E+05   1510.      0.2017E+08  0.2613E-01   21.42      0.5453    
+    6500   13.00      0.2000E-02 NODE        5661   0.0%  0.2078E+08  0.2390E+05   1579.      0.2081E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA027 WRITTEN
+    6600   13.20      0.2000E-02 NODE        5661   0.0%  0.2141E+08  0.2342E+05   1651.      0.2143E+08  0.2613E-01   21.42      0.5453    
+    6700   13.40      0.2000E-02 NODE        5661   0.0%  0.2202E+08  0.2242E+05   1725.      0.2205E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA028 WRITTEN
+    6800   13.60      0.2000E-02 NODE        5661   0.0%  0.2262E+08  0.2136E+05   1800.      0.2265E+08  0.2613E-01   21.42      0.5453    
+    6900   13.80      0.2000E-02 NODE        5661   0.0%  0.2321E+08  0.2027E+05   1873.      0.2323E+08  0.2613E-01   21.42      0.5453    
+    7000   14.00      0.2000E-02 NODE        5661   0.0%  0.2378E+08  0.1970E+05   1944.      0.2380E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA029 WRITTEN
+    7100   14.20      0.2000E-02 NODE        5661   0.0%  0.2433E+08  0.1915E+05   2011.      0.2436E+08  0.2613E-01   21.42      0.5453    
+    7200   14.40      0.2000E-02 NODE        5661   0.0%  0.2487E+08  0.1800E+05   2073.      0.2489E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA030 WRITTEN
+    7300   14.60      0.2000E-02 NODE        5661   0.0%  0.2539E+08  0.1683E+05   2131.      0.2541E+08  0.2613E-01   21.42      0.5453    
+    7400   14.80      0.2000E-02 NODE        5661   0.0%  0.2589E+08  0.1565E+05   2187.      0.2590E+08  0.2613E-01   21.42      0.5453    
+    7500   15.00      0.2000E-02 NODE        5661   0.0%  0.2637E+08  0.1505E+05   2243.      0.2638E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA031 WRITTEN
+    7600   15.20      0.2000E-02 NODE        5661   0.0%  0.2682E+08  0.1447E+05   2299.      0.2684E+08  0.2613E-01   21.42      0.5453    
+    7700   15.40      0.2000E-02 NODE        5661   0.0%  0.2726E+08  0.1329E+05   2354.      0.2728E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA032 WRITTEN
+    7800   15.60      0.2000E-02 NODE        5661   0.0%  0.2768E+08  0.1212E+05   2408.      0.2769E+08  0.2613E-01   21.42      0.5453    
+    7900   15.80      0.2000E-02 NODE        5661   0.0%  0.2808E+08  0.1097E+05   2458.      0.2809E+08  0.2613E-01   21.42      0.5453    
+    8000   16.00      0.2000E-02 NODE        5661   0.0%  0.2845E+08  0.1040E+05   2502.      0.2847E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA033 WRITTEN
+    8100   16.20      0.2000E-02 NODE        5661   0.0%  0.2881E+08   9847.       2540.      0.2882E+08  0.2613E-01   21.42      0.5453    
+    8200   16.40      0.2000E-02 NODE        5661   0.0%  0.2914E+08   8754.       2571.      0.2915E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA034 WRITTEN
+    8300   16.60      0.2000E-02 NODE        5661   0.0%  0.2945E+08   7701.       2594.      0.2946E+08  0.2613E-01   21.42      0.5453    
+    8400   16.80      0.2000E-02 NODE        5661   0.0%  0.2974E+08   6693.       2610.      0.2975E+08  0.2613E-01   21.42      0.5453    
+    8500   17.00      0.2000E-02 NODE        5661   0.0%  0.3002E+08   6205.       2619.      0.3003E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA035 WRITTEN
+    8600   17.20      0.2000E-02 NODE        5661   0.0%  0.3027E+08   5736.       2622.      0.3028E+08  0.2613E-01   21.42      0.5453    
+    8700   17.40      0.2000E-02 NODE        5661   0.0%  0.3050E+08   4837.       2617.      0.3051E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA036 WRITTEN
+    8800   17.60      0.2000E-02 NODE        5661   0.0%  0.3071E+08   4001.       2608.      0.3072E+08  0.2613E-01   21.42      0.5453    
+    8900   17.80      0.2000E-02 NODE        5661   0.0%  0.3091E+08   3233.       2594.      0.3091E+08  0.2613E-01   21.42      0.5453    
+    9000   18.00      0.2000E-02 NODE        5661   0.0%  0.3109E+08   2875.       2578.      0.3109E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA037 WRITTEN
+    9100   18.20      0.2000E-02 NODE        5661   0.0%  0.3124E+08   2538.       2560.      0.3125E+08  0.2613E-01   21.42      0.5453    
+    9200   18.40      0.2000E-02 NODE        5661   0.0%  0.3138E+08   1920.       2539.      0.3138E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA038 WRITTEN
+    9300   18.60      0.2000E-02 NODE        5661   0.0%  0.3150E+08   1383.       2519.      0.3151E+08  0.2613E-01   21.42      0.5453    
+    9400   18.80      0.2000E-02 NODE        5661   0.0%  0.3161E+08   930.8       2498.      0.3161E+08  0.2613E-01   21.42      0.5453    
+    9500   19.00      0.2000E-02 NODE        5661   0.0%  0.3170E+08   736.7       2477.      0.3170E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA039 WRITTEN
+    9600   19.20      0.2000E-02 NODE        5661   0.0%  0.3177E+08   565.4       2457.      0.3177E+08  0.2613E-01   21.42      0.5453    
+    9700   19.40      0.2000E-02 NODE        5661   0.0%  0.3183E+08   289.3       2438.      0.3183E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA040 WRITTEN
+    9800   19.60      0.2000E-02 NODE        5661   0.0%  0.3187E+08   104.4       2420.      0.3187E+08  0.2613E-01   21.42      0.5453    
+    9900   19.80      0.2000E-02 NODE        5661   0.0%  0.3189E+08   11.57       2404.      0.3189E+08  0.2613E-01   21.42      0.5453    
+   10000   20.00      0.2000E-02 NODE        5661   0.0%  0.3190E+08   2.892       2391.      0.3190E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA041 WRITTEN
+   10100   20.20      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2380.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   10200   20.40      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2371.      0.3190E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA042 WRITTEN
+   10300   20.60      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2365.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   10400   20.80      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2361.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   10500   21.00      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2358.      0.3190E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA043 WRITTEN
+   10600   21.20      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2353.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   10700   21.40      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2345.      0.3190E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA044 WRITTEN
+   10800   21.60      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2334.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   10900   21.80      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2319.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
+   11000   22.00      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2305.      0.3190E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA045 WRITTEN
+   11100   22.20      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2293.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   11200   22.40      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2288.      0.3190E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA046 WRITTEN
+   11300   22.60      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2291.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   11400   22.80      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2306.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   11500   23.00      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2331.      0.3190E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA047 WRITTEN
+   11600   23.20      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2363.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   11700   23.40      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2400.      0.3190E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA048 WRITTEN
+   11800   23.60      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2435.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   11900   23.80      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2464.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   12000   24.00      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2482.      0.3190E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA049 WRITTEN
+   12100   24.20      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2485.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   12200   24.40      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2474.      0.3190E+08  0.2613E-01   21.42      0.5453    
+     ANIMATION FILE: mapSimpleA050 WRITTEN
+   12300   24.60      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2450.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   12400   24.80      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2418.      0.3190E+08  0.2613E-01   21.42      0.5453    
+   12500   25.00      0.2000E-02 NODE        5661   0.0%  0.3190E+08  0.1090E-24   2385.      0.3190E+08  0.2613E-01   21.42      0.5453    
+
+     RESTART FILES: mapSimple_0001_[0001-0004].rst WRITTEN
+     -------------
+
+     ANIMATION FILE: mapSimpleA051 WRITTEN
+  
+                           ** CPU USER TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .1544E+02 .2949E+01 .9179E+00 .1956E+01 .3707E+01 .7261E+00 .2559E+02
+   2   .1544E+02 .2894E+01 .9451E+00 .2444E+01 .3551E+01 .7207E+00 .2641E+02
+   3   .1523E+02 .2436E+00 .9034E+00 .4948E+01 .1574E+01 .7357E+00 .2648E+02
+   4   .1538E+02 .2416E+00 .9409E+00 .4894E+01 .1631E+01 .7312E+00 .2647E+02
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .4614E+00 .0000E+00 .0000E+00 .7165E-01 .5330E+00 .2083E+01
+   2   .7849E+00 .0000E+00 .0000E+00 .6878E-01 .8537E+00 .3232E+01
+   3   .6272E+00 .0000E+00 .0000E+00 .6368E-01 .6908E+00 .2609E+01
+   4   .4988E+00 .0000E+00 .0000E+00 .6641E-01 .5652E+00 .2135E+01
+  
+ 
+                   ** CUMULATIVE CPU TIME SUMMARY **
+  
+ CONTACT SORTING.............: .0000E+00     0.00 % 
+ CONTACT FORCES..............: .8560E-01     0.08 % 
+ ELEMENT FORCES..............: .6149E+02    58.58 % 
+ KINEMATIC COND..............: .6328E+01     6.03 % 
+ INTEGRATION.................: .3707E+01     3.53 % 
+ ASSEMBLING..................: .2914E+01     2.78 % 
+ OTHERS (including I/O)......: .3044E+02    29.00 % 
+ TOTAL.......................: .1050E+03   100.00 % 
+  
+  
+                           ** ELAPSED TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .8005E+01 .1553E+01 .4870E+00 .1800E+01 .1939E+01 .3770E+00 .1405E+02
+   2   .7967E+01 .1523E+01 .4980E+00 .1678E+01 .1857E+01 .3734E+00 .1405E+02
+   3   .7833E+01 .1282E+00 .4747E+00 .2993E+01 .8086E+00 .3804E+00 .1405E+02
+   4   .7908E+01 .1274E+00 .4958E+00 .2966E+01 .8373E+00 .3785E+00 .1405E+02
+  
+        ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+ MIN   .7833E+01 .1274E+00 .4747E+00 .1678E+01 .8086E+00 .3734E+00 .1405E+02
+ MAX   .8005E+01 .1553E+01 .4980E+00 .2993E+01 .1939E+01 .3804E+00 .1405E+02
+ AVG   .7928E+01 .8329E+00 .4889E+00 .2359E+01 .1360E+01 .3773E+00 .1405E+02
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .2397E+00 .0000E+00 .0000E+00 .3952E-01 .2792E+00 .1987E+01
+   2   .4025E+00 .0000E+00 .0000E+00 .3770E-01 .4402E+00 .3133E+01
+   3   .3220E+00 .0000E+00 .0000E+00 .3454E-01 .3565E+00 .2537E+01
+   4   .2565E+00 .0000E+00 .0000E+00 .3643E-01 .2930E+00 .2085E+01
+  
+        FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+ MIN   .2397E+00 .0000E+00 .0000E+00 .3454E-01 .2792E+00 .1987E+01
+ MAX   .4025E+00 .0000E+00 .0000E+00 .3952E-01 .4402E+00 .3133E+01
+ AVG   .3052E+00 .0000E+00 .0000E+00 .3705E-01 .3422E+00 .2436E+01
+  
+                   ** MEMORY USAGE STATISTICS **
+  
+ TOTAL MEMORY USED .........................:      241 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       61 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       60 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       60 MB
+  
+                   ** DISK USAGE STATISTICS **
+  
+ TOTAL DISK SPACE USED .....................:         28 MB
+ ANIMATION/H3D/TH/OUTP SIZE ................:         22 MB
+ RESTART FILE SIZE .........................:          6 MB
+  
+                   ** COMPUTE TIME INFORMATION **
+                        ** CURRENT ENGINE **
+  
+ EXECUTION STARTED .........................:      2022/11/23  16:25:11
+ EXECUTION COMPLETED .......................:      2022/11/23  16:25:25
+  
+ ELAPSED TIME     =         14.18 s
+                          0:00:14
+ ESTIMATED SPEEDUP=          7.40
+
+
+
+     NORMAL TERMINATION      
+
+
+
+     TOTAL NUMBER OF CYCLES  :   12502
+
+  
+                   ** COMPUTE RUNTIME INFORMATION SUMMARY **
+  
+        STARTER RUNTIME =          0.84s (00:00:00)
+ # 001   ENGINE RUNTIME =         14.18s (00:00:14)
+ ------------------------------ 
+ STARTER+ENGINE RUNTIME =         15.02s (00:00:15)
+  
