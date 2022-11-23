@@ -144,6 +144,12 @@ set (F_O3_AXSSE3 "/Qaxsse3   /Qopenmp  /O3  /fp:precise /Qftz /Qimf-use-svml:tru
 
 set (C_BASIC "${cppmach} ${cpprel}")
 
+# ieee.c
+set_source_files_properties( ${source_directory}/source/output/tools/ieee.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
+# rad2rad_c.c 
+set_source_files_properties( ${source_directory}/source/coupling/rad2rad/rad2rad_c.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
+
+
 if ( debug STREQUAL "0" )
 
 
@@ -210,8 +216,6 @@ set_source_files_properties( ${source_directory}/source/interfaces/intsort/i25pe
 # spmd_i7tool.F
 set_source_files_properties( ${source_directory}/source/mpi/interfaces/spmd_i7tool.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
 
-# ieee.c
-set_source_files_properties( ${source_directory}/source/output/tools/ieee.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
 
 # fvm airbags           
 set_source_files_properties( ${source_directory}/source/airbag/fv_up_switch.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
