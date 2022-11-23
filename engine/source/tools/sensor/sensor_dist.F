@@ -59,9 +59,10 @@ C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
       INTEGER :: N1,N2,ICRIT,DFLAG,IFLAG,ACTI
-      my_real :: DX,DY,DZ,DD,DMIN,DMAX,TMIN,TDELAY,INFINITY
+      my_real :: DX,DY,DZ,DD,DMIN,DMAX,TSTART,TMIN,TDELAY,INFINITY
       PARAMETER (INFINITY = 1.0E20)
 C=======================================================================
+      TSTART  = SENSOR%TSTART
       TDELAY = SENSOR%TDELAY
       TMIN   = SENSOR%TMIN
 c      
@@ -99,16 +100,15 @@ c----------------------------------------------------------------
           IF (ICRIT == 0) THEN
             SENSOR%TCRIT = INFINITY
           ELSE IF (ICRIT == 1 .and. SENSOR%TCRIT == INFINITY) THEN
-            SENSOR%TCRIT = MIN(SENSOR%TCRIT, TT)
+            SENSOR%TCRIT = TT
           END IF
         END IF
-        IF (SENSOR%TSTART == INFINITY .and. SENSOR%TCRIT < INFINITY) THEN
-          SENSOR%TSTART = SENSOR%TCRIT + TMIN + TDELAY      
-        END IF
-        IF (SENSOR%TSTART <= TT) THEN   
+        IF (SENSOR%TCRIT == INFINITY) TSTART = SENSOR%TCRIT + TMIN + TDELAY      
+        IF (TSTART <= TT) THEN   
           ! sensor activation
           ACTI = 1
           SENSOR%STATUS = 1
+          SENSOR%TSTART = TSTART
           SENSOR%VALUE = INFINITY
         END IF 
       END IF 
@@ -116,7 +116,7 @@ c
       IF (DFLAG == 1 .and. SENSOR%STATUS == 1) THEN
           IF (SENSOR%VALUE + TMIN > TT) THEN
             IF (ICRIT == 0 .and. SENSOR%VALUE == INFINITY) THEN
-              SENSOR%VALUE = MIN(SENSOR%VALUE, TT)
+              SENSOR%VALUE = TT
             ELSE IF (ICRIT > 0) THEN
               SENSOR%VALUE = INFINITY
             END IF

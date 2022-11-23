@@ -122,75 +122,79 @@ c
       XSENS(12) = XSENS(6)
 c
 c-----------------------
-c       Force in Section
+c     Force in Section
 c
-        IN = SECT_ID
-        IF (IN > 0) THEN
-          ISECT = TABS(IN+1) - TABS(IN)
-          FX = FX + FBSAV6(10,1,ISECT)+FBSAV6(10,2,ISECT)+
-     +              FBSAV6(10,3,ISECT)+FBSAV6(10,4,ISECT)+
-     +              FBSAV6(10,5,ISECT)+FBSAV6(10,6,ISECT)
-          FY = FY + FBSAV6(11,1,ISECT)+FBSAV6(11,2,ISECT)+
-     +              FBSAV6(11,3,ISECT)+FBSAV6(11,4,ISECT)+
-     +              FBSAV6(11,5,ISECT)+FBSAV6(11,6,ISECT)
-          FZ = FZ + FBSAV6(12,1,ISECT)+FBSAV6(12,2,ISECT)+
-     +              FBSAV6(12,3,ISECT)+FBSAV6(12,4,ISECT)+
-     +              FBSAV6(12,5,ISECT)+FBSAV6(12,6,ISECT)
-          SENSOR%VAR(1) = SENSOR%VAR(1) + ABS(FX*DX) + ABS(FY*DY) + ABS(FZ*DZ)
-        ENDIF
-c       Force in Interface
-        IN = INT_ID
-        INTER = IN
-        IF (IN > NINTER) INTER = SUB_ID
-        IF (INTER > 0) THEN
-          INTER = TABS(NSECT+IN+1) - TABS(NSECT+IN)
-          FX = FX + FBSAV6(1,1,INTER)+FBSAV6(1,2,INTER)+
-     +              FBSAV6(1,3,INTER)+FBSAV6(1,4,INTER)+
-     +              FBSAV6(1,5,INTER)+FBSAV6(1,6,INTER)
-          FY = FY + FBSAV6(2,1,INTER)+FBSAV6(2,2,INTER)+
-     +              FBSAV6(2,3,INTER)+FBSAV6(2,4,INTER)+
-     +              FBSAV6(2,5,INTER)+FBSAV6(2,6,INTER)
-          FZ = FZ + FBSAV6(3,1,INTER)+FBSAV6(3,2,INTER)+
-     +              FBSAV6(3,3,INTER)+FBSAV6(3,4,INTER)+
-     +              FBSAV6(3,5,INTER)+FBSAV6(3,6,INTER)
-          SENSOR%VAR(2) = SENSOR%VAR(2) + ABS(FX*DX) + ABS(FY*DY) + ABS(FZ*DZ)
-        ENDIF
-
-
-c       Force in Rwall
-        IN = RWAL_ID
-        IF (IN > 0) THEN
-          IRWAL = TABS(IN+NSECT+NINTER+NINTSUB+1)
-     .          - TABS(IN+NSECT+NINTER+NINTSUB)
-          FX = FX + FBSAV6(1,1,IRWAL)+FBSAV6(1,2,IRWAL)+
-     +              FBSAV6(1,3,IRWAL)+FBSAV6(1,4,IRWAL)+
-     +              FBSAV6(1,5,IRWAL)+FBSAV6(1,6,IRWAL)
-          FY = FY + FBSAV6(2,1,IRWAL)+FBSAV6(2,2,IRWAL)+
-     +              FBSAV6(2,3,IRWAL)+FBSAV6(2,4,IRWAL)+
-     +              FBSAV6(2,5,IRWAL)+FBSAV6(2,6,IRWAL)
-          FZ = FZ + FBSAV6(3,1,IRWAL)+FBSAV6(3,2,IRWAL)+
-     +              FBSAV6(3,3,IRWAL)+FBSAV6(3,4,IRWAL)+
-     +              FBSAV6(3,5,IRWAL)+FBSAV6(3,6,IRWAL)
-          SENSOR%VAR(3) = SENSOR%VAR(3) + ABS(FX*DX) + ABS(FY*DY) + ABS(FZ*DZ)
-        ENDIF
-c       Force in Rbody
-        IN  = RBOD_ID
-        IF (IN > 0) THEN
-          IRBOD = TABS(IN+NSECT+NINTER+NINTSUB+NRWALL+1)
-     .          - TABS(IN+NSECT+NINTER+NINTSUB+NRWALL)
-          FX = FX + FBSAV6(1,1,IRBOD)+FBSAV6(1,2,IRBOD)+
-     +              FBSAV6(1,3,IRBOD)+FBSAV6(1,4,IRBOD)+
-     +              FBSAV6(1,5,IRBOD)+FBSAV6(1,6,IRBOD)
-          FY = FY + FBSAV6(2,1,IRBOD)+FBSAV6(2,2,IRBOD)+
-     +              FBSAV6(2,3,IRBOD)+FBSAV6(2,4,IRBOD)+
-     +              FBSAV6(2,5,IRBOD)+FBSAV6(2,6,IRBOD)
-          FZ = FZ + FBSAV6(3,1,IRBOD)+FBSAV6(3,2,IRBOD)+
-     +              FBSAV6(3,3,IRBOD)+FBSAV6(3,4,IRBOD)+
-     +              FBSAV6(3,5,IRBOD)+FBSAV6(3,6,IRBOD)
-          SENSOR%VAR(4) = SENSOR%VAR(4) + ABS(FX*DX) + ABS(FY*DY) + ABS(FZ*DZ)
-        ENDIF
+      IN = SECT_ID
+      IF (IN > 0) THEN
+        ISECT = TABS(IN+1) - TABS(IN)
+        FX = FX + FBSAV6(10,1,ISECT) + FBSAV6(10,2,ISECT)
+     .          + FBSAV6(10,3,ISECT) + FBSAV6(10,4,ISECT)
+     .          + FBSAV6(10,5,ISECT) + FBSAV6(10,6,ISECT)
+        FY = FY + FBSAV6(11,1,ISECT) + FBSAV6(11,2,ISECT)
+     .          + FBSAV6(11,3,ISECT) + FBSAV6(11,4,ISECT)
+     .          + FBSAV6(11,5,ISECT) + FBSAV6(11,6,ISECT)
+        FZ = FZ + FBSAV6(12,1,ISECT) + FBSAV6(12,2,ISECT)
+     .          + FBSAV6(12,3,ISECT) + FBSAV6(12,4,ISECT)
+     .          + FBSAV6(12,5,ISECT) + FBSAV6(12,6,ISECT)
+        SENSOR%VAR(1) = SENSOR%VAR(1) + ABS(FX*DX) + ABS(FY*DY) + ABS(FZ*DZ)
+      ENDIF
+c
+c     Force in Interface
+c
+      IN = INT_ID
+      INTER = IN
+      IF (IN > NINTER) INTER = SUB_ID
+      IF (INTER > 0) THEN
+        INTER = TABS(NSECT+IN+1) - TABS(NSECT+IN)
+        FX = FX + FBSAV6(1,1,INTER) + FBSAV6(1,2,INTER)
+     .          + FBSAV6(1,3,INTER) + FBSAV6(1,4,INTER)
+     .          + FBSAV6(1,5,INTER) + FBSAV6(1,6,INTER)
+        FY = FY + FBSAV6(2,1,INTER) + FBSAV6(2,2,INTER)
+     .          + FBSAV6(2,3,INTER) + FBSAV6(2,4,INTER)
+     .          + FBSAV6(2,5,INTER) + FBSAV6(2,6,INTER)
+        FZ = FZ + FBSAV6(3,1,INTER) + FBSAV6(3,2,INTER)
+     .          + FBSAV6(3,3,INTER) + FBSAV6(3,4,INTER)
+     .          + FBSAV6(3,5,INTER) + FBSAV6(3,6,INTER)
+        SENSOR%VAR(2) = SENSOR%VAR(2) + ABS(FX*DX) + ABS(FY*DY) + ABS(FZ*DZ)
+      ENDIF
+c
+c     Force in Rwall
+c
+      IN = RWAL_ID
+      IF (IN > 0) THEN
+        IRWAL = TABS(IN+NSECT+NINTER+NINTSUB+1)
+     .        - TABS(IN+NSECT+NINTER+NINTSUB)
+        FX = FX + FBSAV6(1,1,IRWAL) + FBSAV6(1,2,IRWAL)
+     .          + FBSAV6(1,3,IRWAL) + FBSAV6(1,4,IRWAL)
+     .          + FBSAV6(1,5,IRWAL) + FBSAV6(1,6,IRWAL)
+        FY = FY + FBSAV6(2,1,IRWAL) + FBSAV6(2,2,IRWAL)
+     .          + FBSAV6(2,3,IRWAL) + FBSAV6(2,4,IRWAL)
+     .          + FBSAV6(2,5,IRWAL) + FBSAV6(2,6,IRWAL)
+        FZ = FZ + FBSAV6(3,1,IRWAL) + FBSAV6(3,2,IRWAL)
+     .          + FBSAV6(3,3,IRWAL) + FBSAV6(3,4,IRWAL)
+     .          + FBSAV6(3,5,IRWAL) + FBSAV6(3,6,IRWAL)
+        SENSOR%VAR(3) = SENSOR%VAR(3) + ABS(FX*DX) + ABS(FY*DY) + ABS(FZ*DZ)
+      ENDIF
+c
+c     Force in Rbody
+c
+      IN  = RBOD_ID
+      IF (IN > 0) THEN
+        IRBOD = TABS(IN+NSECT+NINTER+NINTSUB+NRWALL+1)
+     .        - TABS(IN+NSECT+NINTER+NINTSUB+NRWALL)
+        FX = FX + FBSAV6(1,1,IRBOD) + FBSAV6(1,2,IRBOD)
+     .          + FBSAV6(1,3,IRBOD) + FBSAV6(1,4,IRBOD)
+     .          + FBSAV6(1,5,IRBOD) + FBSAV6(1,6,IRBOD)
+        FY = FY + FBSAV6(2,1,IRBOD) + FBSAV6(2,2,IRBOD)
+     .          + FBSAV6(2,3,IRBOD) + FBSAV6(2,4,IRBOD)
+     .          + FBSAV6(2,5,IRBOD) + FBSAV6(2,6,IRBOD)
+        FZ = FZ + FBSAV6(3,1,IRBOD) + FBSAV6(3,2,IRBOD)
+     .          + FBSAV6(3,3,IRBOD) + FBSAV6(3,4,IRBOD)
+     .          + FBSAV6(3,5,IRBOD) + FBSAV6(3,6,IRBOD)
+        SENSOR%VAR(4) = SENSOR%VAR(4) + ABS(FX*DX) + ABS(FY*DY) + ABS(FZ*DZ)
+      ENDIF
 c----------------------------------------------------------------
-      WORK = SENSOR%VAR(1) + SENSOR%VAR(2) +SENSOR%VAR(3) + SENSOR%VAR(4)
+      WORK = SENSOR%VAR(1) + SENSOR%VAR(2) + SENSOR%VAR(3) + SENSOR%VAR(4)
       IF (WORK > WMAX) ICRIT = 1
 c----------------------------------------------------------------
 c     check activation status

@@ -62,11 +62,12 @@ C Local Variables
 C----------------------------------------------------------
       INTEGER I,SECT_ID,IDIR,ICRIT,ISECT,IAD,IFLAG
 c
-      my_real :: FMIN,FMAX,FX,FY,FZ,FF,TMIN,TDELAY,INFINITY
+      my_real :: FMIN,FMAX,FX,FY,FZ,FF,TSTART,TMIN,TDELAY,INFINITY
       PARAMETER (INFINITY = 1.0E20)
 C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
 c
+      TSTART  = SENSOR%TSTART
       TMIN    = SENSOR%TMIN
       TDELAY  = SENSOR%TDELAY
 c
@@ -80,143 +81,151 @@ c
       IAD   = NINTER + NRWALL + NRBODY + SECT_ID        
       ISECT = TABS(SECT_ID+1) - TABS(SECT_ID)
 c
-        IF (IDIR == 1) THEN  ! FN                       
-          IF (IPARSENS==0) THEN !         Parith/Off
-            FX = FSAV(1,IAD)              
-            FY = FSAV(2,IAD)                          
-            FZ = FSAV(3,IAD)                          
-          ELSE               !         Parith/on
-            FX = FBSAV6(1,1,ISECT)+FBSAV6(1,2,ISECT)
-     .         + FBSAV6(1,3,ISECT)+FBSAV6(1,4,ISECT)
-     .         + FBSAV6(1,5,ISECT)+FBSAV6(1,6,ISECT)
-            FY = FBSAV6(2,1,ISECT)+FBSAV6(2,2,ISECT)
-     .         + FBSAV6(2,3,ISECT)+FBSAV6(2,4,ISECT)
-     .         + FBSAV6(2,5,ISECT)+FBSAV6(2,6,ISECT)
-            FZ = FBSAV6(3,1,ISECT)+FBSAV6(3,2,ISECT)
-     .         + FBSAV6(3,3,ISECT)+FBSAV6(3,4,ISECT)
-     .         + FBSAV6(3,5,ISECT)+FBSAV6(3,6,ISECT)
-          ENDIF
-        ELSEIF (IDIR == 2) THEN  ! FT
-          IF (IPARSENS==0) THEN !         Parith/Of
-           FX = FSAV(4,IAD)                          
-           FY = FSAV(5,IAD)                          
-           FZ = FSAV(6,IAD)                          
-          ELSE               !         Parith/on
-            FX = FBSAV6(4,1,ISECT)+FBSAV6(4,2,ISECT)
-     .         + FBSAV6(4,3,ISECT)+FBSAV6(4,4,ISECT)
-     .         + FBSAV6(4,5,ISECT)+FBSAV6(4,6,ISECT)
-            FY = FBSAV6(5,1,ISECT)+FBSAV6(5,2,ISECT)
-     .         + FBSAV6(5,3,ISECT)+FBSAV6(5,4,ISECT)
-     .         + FBSAV6(5,5,ISECT)+FBSAV6(5,6,ISECT)
-            FZ = FBSAV6(6,1,ISECT)+FBSAV6(6,2,ISECT)
-     .         + FBSAV6(6,3,ISECT)+FBSAV6(6,4,ISECT)
-     .         + FBSAV6(6,5,ISECT)+FBSAV6(6,6,ISECT)
-          ENDIF
-        ELSEIF (IDIR == 3) THEN  ! TF
-          IF (IPARSENS==0) THEN !         Parith/Off  
-           FX = FSAV(34,IAD)                         
-           FY = FSAV(35,IAD)                         
-           FZ = FSAV(36,IAD)
-          ELSE               !         Parith/on
-            FX = FBSAV6(10,1,ISECT)+FBSAV6(10,2,ISECT)
-     .         + FBSAV6(10,3,ISECT)+FBSAV6(10,4,ISECT)
-     .         + FBSAV6(10,5,ISECT)+FBSAV6(10,6,ISECT)
-            FY = FBSAV6(11,1,ISECT)+FBSAV6(11,2,ISECT)
-     .         + FBSAV6(11,3,ISECT)+FBSAV6(11,4,ISECT)
-     .         + FBSAV6(11,5,ISECT)+FBSAV6(11,6,ISECT)
-            FZ = FBSAV6(12,1,ISECT)+FBSAV6(12,2,ISECT)
-     .         + FBSAV6(12,3,ISECT)+FBSAV6(12,4,ISECT)
-     .         + FBSAV6(12,5,ISECT)+FBSAV6(12,6,ISECT)
-          ENDIF  
-        ELSEIF (IDIR == 4) THEN  !  TM
-          IF (IPARSENS==0) THEN !         Parith/Off  
-           FX = FSAV(31,IAD)                         
-           FY = FSAV(32,IAD)                         
-           FZ = FSAV(33,IAD)
-          ELSE               !         Parith/on
-           FX = FBSAV6(7,1,ISECT)+FBSAV6(7,2,ISECT)
-     .        + FBSAV6(7,3,ISECT)+FBSAV6(7,4,ISECT)
-     .        + FBSAV6(7,5,ISECT)+FBSAV6(7,6,ISECT)
-           FY = FBSAV6(8,1,ISECT)+FBSAV6(8,2,ISECT)
-     .        + FBSAV6(8,3,ISECT)+FBSAV6(8,4,ISECT)
-     .        + FBSAV6(8,5,ISECT)+FBSAV6(8,6,ISECT)
-           FZ = FBSAV6(9,1,ISECT)+FBSAV6(9,2,ISECT)
-     .        + FBSAV6(9,3,ISECT)+FBSAV6(9,4,ISECT)
-     .        + FBSAV6(9,5,ISECT)+FBSAV6(9,6,ISECT)
-          ENDIF  
-        ELSEIF (IDIR == 5) THEN  !  FX
-          IF (IPARSENS==0) THEN !         Parith/Off
-              FF = FSAV(34,IAD)
-          ELSE                  !         Parith/on
-            FF = FBSAV6(10,1,ISECT)+FBSAV6(10,2,ISECT)
-     .         + FBSAV6(10,3,ISECT)+FBSAV6(10,4,ISECT)
-     .         + FBSAV6(10,5,ISECT)+FBSAV6(10,6,ISECT)
-          ENDIF
-        ELSEIF (IDIR == 6) THEN  !  FY
-          IF (IPARSENS==0) THEN!         Parith/Off
-            FF = FSAV(35,IAD)
-          ELSE                  !         Parith/on
-            FF = FBSAV6(11,1,ISECT)+FBSAV6(11,2,ISECT)
-     .         + FBSAV6(11,3,ISECT)+FBSAV6(11,4,ISECT)
-     .         + FBSAV6(11,5,ISECT)+FBSAV6(11,6,ISECT)
-          ENDIF                         
-        ELSEIF (IDIR == 7) THEN  !  FZ
-          IF (IPARSENS==0) THEN  !         Parith/Off
-            FF = FSAV(36,IAD)
-          ELSE                  !         Parith/on
-            FF = FBSAV6(12,1,ISECT)+FBSAV6(12,2,ISECT)
-     .         + FBSAV6(12,3,ISECT)+FBSAV6(12,4,ISECT)
-     .         + FBSAV6(12,5,ISECT)+FBSAV6(12,6,ISECT)
-          ENDIF                          
-        ELSEIF (IDIR == 8) THEN  !  MX
-          IF (IPARSENS==0) THEN!         Parith/Off
-            FF = FSAV(31,IAD)
-          ELSE                  !         Parith/on
-            FF = FBSAV6(7,1,ISECT)+FBSAV6(7,2,ISECT)
-     .         + FBSAV6(7,3,ISECT)+FBSAV6(7,4,ISECT)
-     .         + FBSAV6(7,5,ISECT)+FBSAV6(7,6,ISECT)
-          ENDIF                          
-        ELSEIF (IDIR == 9) THEN  !  MY
-          IF (IPARSENS==0) THEN!         Parith/Off
-            FF = FSAV(32,IAD)
-          ELSE                  !         Parith/on
-            FF = FBSAV6(8,1,ISECT)+FBSAV6(8,2,ISECT)
-     .         + FBSAV6(8,3,ISECT)+FBSAV6(8,4,ISECT)
-     .         + FBSAV6(8,5,ISECT)+FBSAV6(8,6,ISECT)
-          ENDIF                           
-        ELSEIF (IDIR == 10) THEN  !  MZ
-          IF (IPARSENS==0) THEN        ! Parith/Off
-            FF = FSAV(33,IAD)
-          ELSE                        ! Parith/on
-            FF = FBSAV6(9,1,ISECT)+FBSAV6(9,2,ISECT)
-     .         + FBSAV6(9,3,ISECT)+FBSAV6(9,4,ISECT)
-     .         + FBSAV6(9,5,ISECT)+FBSAV6(9,6,ISECT)
-           ENDIF                          
-        ENDIF 
+      IF (IDIR == 1) THEN      ! normal force                    
+        IF (IPARSENS==0) THEN  ! Parith/Off
+          FX = FSAV(1,IAD)              
+          FY = FSAV(2,IAD)                          
+          FZ = FSAV(3,IAD)                          
+        ELSE               !         Parith/on
+          FX = FBSAV6(1,1,ISECT)+FBSAV6(1,2,ISECT)
+     .       + FBSAV6(1,3,ISECT)+FBSAV6(1,4,ISECT)
+     .       + FBSAV6(1,5,ISECT)+FBSAV6(1,6,ISECT)
+          FY = FBSAV6(2,1,ISECT)+FBSAV6(2,2,ISECT)
+     .       + FBSAV6(2,3,ISECT)+FBSAV6(2,4,ISECT)
+     .       + FBSAV6(2,5,ISECT)+FBSAV6(2,6,ISECT)
+          FZ = FBSAV6(3,1,ISECT)+FBSAV6(3,2,ISECT)
+     .       + FBSAV6(3,3,ISECT)+FBSAV6(3,4,ISECT)
+     .       + FBSAV6(3,5,ISECT)+FBSAV6(3,6,ISECT)
+        ENDIF
+      ELSEIF (IDIR == 2) THEN  ! tangent force
+        IF (IPARSENS==0) THEN  ! Parith/Of
+         FX = FSAV(4,IAD)                          
+         FY = FSAV(5,IAD)                          
+         FZ = FSAV(6,IAD)                          
+        ELSE               !         Parith/on
+          FX = FBSAV6(4,1,ISECT)+FBSAV6(4,2,ISECT)
+     .       + FBSAV6(4,3,ISECT)+FBSAV6(4,4,ISECT)
+     .       + FBSAV6(4,5,ISECT)+FBSAV6(4,6,ISECT)
+          FY = FBSAV6(5,1,ISECT)+FBSAV6(5,2,ISECT)
+     .       + FBSAV6(5,3,ISECT)+FBSAV6(5,4,ISECT)
+     .       + FBSAV6(5,5,ISECT)+FBSAV6(5,6,ISECT)
+          FZ = FBSAV6(6,1,ISECT)+FBSAV6(6,2,ISECT)
+     .       + FBSAV6(6,3,ISECT)+FBSAV6(6,4,ISECT)
+     .       + FBSAV6(6,5,ISECT)+FBSAV6(6,6,ISECT)
+        ENDIF
+      ELSEIF (IDIR == 3) THEN  ! Total force
+        IF (IPARSENS==0) THEN  ! Parith/Off  
+         FX = FSAV(34,IAD)                         
+         FY = FSAV(35,IAD)                         
+         FZ = FSAV(36,IAD)
+        ELSE               !         Parith/on
+          FX = FBSAV6(10,1,ISECT)+FBSAV6(10,2,ISECT)
+     .       + FBSAV6(10,3,ISECT)+FBSAV6(10,4,ISECT)
+     .       + FBSAV6(10,5,ISECT)+FBSAV6(10,6,ISECT)
+          FY = FBSAV6(11,1,ISECT)+FBSAV6(11,2,ISECT)
+     .       + FBSAV6(11,3,ISECT)+FBSAV6(11,4,ISECT)
+     .       + FBSAV6(11,5,ISECT)+FBSAV6(11,6,ISECT)
+          FZ = FBSAV6(12,1,ISECT)+FBSAV6(12,2,ISECT)
+     .       + FBSAV6(12,3,ISECT)+FBSAV6(12,4,ISECT)
+     .       + FBSAV6(12,5,ISECT)+FBSAV6(12,6,ISECT)
+        ENDIF  
+      ELSEIF (IDIR == 4) THEN  !  Total moment
+        IF (IPARSENS==0) THEN  !  Parith/Off  
+         FX = FSAV(31,IAD)                         
+         FY = FSAV(32,IAD)                         
+         FZ = FSAV(33,IAD)
+        ELSE               !         Parith/on
+         FX = FBSAV6(7,1,ISECT)+FBSAV6(7,2,ISECT)
+     .      + FBSAV6(7,3,ISECT)+FBSAV6(7,4,ISECT)
+     .      + FBSAV6(7,5,ISECT)+FBSAV6(7,6,ISECT)
+         FY = FBSAV6(8,1,ISECT)+FBSAV6(8,2,ISECT)
+     .      + FBSAV6(8,3,ISECT)+FBSAV6(8,4,ISECT)
+     .      + FBSAV6(8,5,ISECT)+FBSAV6(8,6,ISECT)
+         FZ = FBSAV6(9,1,ISECT)+FBSAV6(9,2,ISECT)
+     .      + FBSAV6(9,3,ISECT)+FBSAV6(9,4,ISECT)
+     .      + FBSAV6(9,5,ISECT)+FBSAV6(9,6,ISECT)
+        ENDIF  
+      ELSEIF (IDIR == 5) THEN  !  FX
+        IF (IPARSENS==0) THEN !         Parith/Off
+          FF = FSAV(1,IAD) + FSAV(4,IAD)
+        ELSE                  !         Parith/on
+          FF = FBSAV6(1,1,ISECT)+FBSAV6(1,2,ISECT)
+     .       + FBSAV6(1,3,ISECT)+FBSAV6(1,4,ISECT)
+     .       + FBSAV6(1,5,ISECT)+FBSAV6(1,6,ISECT)
+     .       + FBSAV6(4,1,ISECT)+FBSAV6(4,2,ISECT)
+     .       + FBSAV6(4,3,ISECT)+FBSAV6(4,4,ISECT)
+     .       + FBSAV6(4,5,ISECT)+FBSAV6(4,6,ISECT)
+        ENDIF
+      ELSEIF (IDIR == 6) THEN  !  FY
+        IF (IPARSENS==0) THEN!         Parith/Off
+          FF = FSAV(2,IAD) + FSAV(5,IAD)
+        ELSE                  !         Parith/on
+          FF = FBSAV6(2,1,ISECT)+FBSAV6(2,2,ISECT)
+     .       + FBSAV6(2,3,ISECT)+FBSAV6(2,4,ISECT)
+     .       + FBSAV6(2,5,ISECT)+FBSAV6(2,6,ISECT)
+     .       + FBSAV6(5,1,ISECT)+FBSAV6(5,2,ISECT)
+     .       + FBSAV6(5,3,ISECT)+FBSAV6(5,4,ISECT)
+     .       + FBSAV6(5,5,ISECT)+FBSAV6(5,6,ISECT)
+        ENDIF                         
+      ELSEIF (IDIR == 7) THEN  !  FZ
+        IF (IPARSENS==0) THEN  !         Parith/Off
+          FF = FSAV(3,IAD) + FSAV(6,IAD)
+        ELSE                  !         Parith/on
+          FF = FBSAV6(3,1,ISECT)+FBSAV6(3,2,ISECT)
+     .       + FBSAV6(3,3,ISECT)+FBSAV6(3,4,ISECT)
+     .       + FBSAV6(3,5,ISECT)+FBSAV6(3,6,ISECT)
+     .       + FBSAV6(6,1,ISECT)+FBSAV6(6,2,ISECT)
+     .       + FBSAV6(6,3,ISECT)+FBSAV6(6,4,ISECT)
+     .       + FBSAV6(6,5,ISECT)+FBSAV6(6,6,ISECT)
+        ENDIF                          
+      ELSEIF (IDIR == 8) THEN  !  MX
+        IF (IPARSENS==0) THEN!         Parith/Off
+          FF = FSAV(31,IAD)
+        ELSE                  !         Parith/on
+          FF = FBSAV6(7,1,ISECT)+FBSAV6(7,2,ISECT)
+     .       + FBSAV6(7,3,ISECT)+FBSAV6(7,4,ISECT)
+     .       + FBSAV6(7,5,ISECT)+FBSAV6(7,6,ISECT)
+        ENDIF                          
+      ELSEIF (IDIR == 9) THEN  !  MY
+        IF (IPARSENS==0) THEN!         Parith/Off
+          FF = FSAV(32,IAD)
+        ELSE                  !         Parith/on
+          FF = FBSAV6(8,1,ISECT)+FBSAV6(8,2,ISECT)
+     .       + FBSAV6(8,3,ISECT)+FBSAV6(8,4,ISECT)
+     .       + FBSAV6(8,5,ISECT)+FBSAV6(8,6,ISECT)
+        ENDIF                           
+      ELSEIF (IDIR == 10) THEN  !  MZ
+        IF (IPARSENS==0) THEN        ! Parith/Off
+          FF = FSAV(33,IAD)
+        ELSE                        ! Parith/on
+          FF = FBSAV6(9,1,ISECT)+FBSAV6(9,2,ISECT)
+     .       + FBSAV6(9,3,ISECT)+FBSAV6(9,4,ISECT)
+     .       + FBSAV6(9,5,ISECT)+FBSAV6(9,6,ISECT)
+         ENDIF                          
+      ENDIF 
 c
-        IF (IDIR < 5) FF = SQRT(FX*FX + FY*FY + FZ*FZ)  
-        IF (FF < FMIN) THEN
-          ICRIT = 1
-          IFLAG = 1
-        ELSE IF (FF > FMAX) THEN
-          ICRIT = 1
-          IFLAG = 2
-        END IF
+      IF (IDIR < 5) FF = SQRT(FX*FX + FY*FY + FZ*FZ)  
+c
+      IF (FF < FMIN) THEN
+        ICRIT = 1
+        IFLAG = 1
+      ELSE IF (FF > FMAX) THEN
+        ICRIT = 1
+        IFLAG = 2
+      END IF
 c----------------------------------------------------------------
 c     check activation status
-c----------------------------------------------------------------
       IF (SENSOR%TCRIT + TMIN > TT) THEN
         IF (ICRIT == 0) THEN
           SENSOR%TCRIT = INFINITY
         ELSE IF (SENSOR%TCRIT == INFINITY) THEN
-          SENSOR%TCRIT = MIN(SENSOR%TCRIT, TT)
+          SENSOR%TCRIT = TT
         END IF
       END IF
-      IF (SENSOR%TSTART == INFINITY .and. SENSOR%TCRIT < INFINITY) THEN
-        SENSOR%TSTART = SENSOR%TCRIT + TMIN + TDELAY      
-      END IF
-      IF (SENSOR%TSTART <= TT) THEN   ! sensor activation
+      IF (SENSOR%TCRIT < INFINITY) TSTART = SENSOR%TCRIT + TMIN + TDELAY
+      IF (TSTART <= TT) THEN   ! sensor activation
         SENSOR%STATUS = 1
+        SENSOR%TSTART = TSTART
       END IF
 c-----------------------------------------------------------------------      
       IF (SENSOR%STATUS == 1 .and. ISPMD == 0) THEN
@@ -231,7 +240,7 @@ c-----------------------------------------------------------------------
 #include "lockoff.inc"
       ENDIF
 c-----------------------------------------------------------------------      
-1100  FORMAT(' SECTION SENSOR NUMBER ',I10,' ,ACTIVATED AT TIME ',1PE12.5)
+1100  FORMAT(' SENSOR (SECTION) NUMBER ',I10,' ,ACTIVATED AT TIME ',1PE12.5)
 1300  FORMAT('      TARGET MIN FORCE = ',1PE12.5,/
      .       '      CURRENT FORCE AFTER TMIN and TDELAY = ',1PE12.5)
 1400  FORMAT('      TARGET MAX FORCE = ',1PE12.5,/
