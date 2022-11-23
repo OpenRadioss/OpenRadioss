@@ -262,12 +262,12 @@ C-------ivers date------------
        CALL WRITE_C_C(ITITLE,80)
        CALL EOR_C(80)
       ENDIF
-C-------HIERARCHIE INFO------------
-      IWA(1)=1      
-      IWA(2)=1      
-      IWA(3)=1      
-      IWA(4)=1      
-      IWA(5)=1      
+C-------HIERARCHY INFO------------
+      IWA(1)=1
+      IWA(2)=1
+      IWA(3)=1
+      IWA(4)=1
+      IWA(5)=1
       IWA(6)=1
       CALL WRTDES(IWA,IWA,6,ITFORM,0)
 C 1 VARIABLE GLOBALE
@@ -354,7 +354,7 @@ C-------GEO DESCRIPTION------------
        CALL WRITE_C_C(ITIT40,40)
        CALL EOR_C(44)
       ENDIF
-C-------HIERARCHIE DESCRIPTION------------
+C-------HIERARCHY DESCRIPTION------------
       CH40=ROOTNAM
       READ(CH40,'(10A4)')TIT40
       DO I=1,40

@@ -68,7 +68,7 @@ C-----------------------------------------------
 C  This subrouting is reading updated coefficient eta1 eta2 eta3
 C  initially defined with starter card /UPWIND or from previous run
 C  with engine card /UPWIND
-C  Additionnal details
+C  Additional details
          ! UPWSM2 : READ HERE BUT UPDATED IN LECTUR.F FOR ALE PRINTOUT UPWSM=UPWSM2
          ! UPWMG  : READ HERE BUT UPDATED IN LECTUR.F FOR ALE PRINTOUT PM(15,IMAT)=UPWMG2                                 
          ! UPWOG  : READ HERE BUT UPDATED IN LECTUR.F FOR ALE PRINTOUT PM(16,IMAT)=UPWOG2

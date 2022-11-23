@@ -55,7 +55,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C--- DIAG_M->[D]^-1, LT_M  stricly upper in c.r.s. format
+C--- DIAG_M->[D]^-1, LT_M  strictly upper in c.r.s. format
       INTEGER I,J,K,M,N,NC(NDDL),JM(MAXC,NDDL),I1
       my_real
      .   PSR,TOL,MJ(MAXA),A(MAXA,MAXC)

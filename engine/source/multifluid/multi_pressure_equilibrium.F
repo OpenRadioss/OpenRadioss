@@ -491,7 +491,7 @@ C     P1 - P = 0
 C     ...
 C     PN - P = 0
 C     With unknowns P, EINT1, EINT2, ..., EINT_N
-C     Initial guess for P is the relaxed pressure comming from the 
+C     Initial guess for P is the relaxed pressure coming from the
 C     Previous iterative system
 C     Initial guesses for submaterial internal energy also come 
 C     from the previous system

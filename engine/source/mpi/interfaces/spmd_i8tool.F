@@ -728,7 +728,7 @@ C
           ! the main face has changed on the local proc
           ! or is not on the local proc
           ! current proc not in charge of the face
-          ! in the follwing cases
+          ! in the following cases
             IF(HAS_MOVED_ON_REMOTE == 0) THEN
           ! the main face has not changed on the remote proc.
               IRTL(K) =  0			  

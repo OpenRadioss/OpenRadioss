@@ -155,7 +155,7 @@ C---
       NPTS  = ELBUF_TAB(NG)%NPTS
       NPTT  = ELBUF_TAB(NG)%NPTT
 !
-      DO K=1,12  ! lenght max of GBUF%G_HOURG = 12
+      DO K=1,12  ! length max of GBUF%G_HOURG = 12
         KK(K)  = NEL *(K-1)
       ENDDO
 !
@@ -170,7 +170,7 @@ c----------------------------------------------
         I1	 = M-NFT1
         GBUFT => ELBUF_TAB(NG1)%GBUF
 !
-        DO K=1,12  ! lenght max of GBUF%G_HOURG = 12
+        DO K=1,12  ! length max of GBUF%G_HOURG = 12
           KK1(K) = NEL1*(K-1)
         ENDDO
 !

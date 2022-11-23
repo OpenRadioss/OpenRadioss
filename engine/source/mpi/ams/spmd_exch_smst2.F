@@ -115,10 +115,10 @@ C     REAL
 !       --> one must build NSNSI and NSVSI one each process/domain
 !           using NSNFI and NSVFI arrays located on the others domain
 !
-!       1srt comm : building of NSNSI array (for ispmd domain) with NSNFI array (located on p domain, p/=ispmd) 
-!       2rd comm : building of NSVSI array (for ispmd domain) with NSVFI array (located on p domain, p/=ispmd) !      
+!       1st comm : building of NSNSI array (for ispmd domain) with NSNFI array (located on p domain, p/=ispmd)
+!       2nd comm : building of NSVSI array (for ispmd domain) with NSVFI array (located on p domain, p/=ispmd) !
 !       3rd comm  : comm of tag array (each ispmd domain sends NSNSI values of tag arrays to p domain) 
-!       chek the value of tag : if tag = -1, cand_a/e are deleted   
+!       check the value of tag : if tag = -1, cand_a/e are deleted   
 !       -----------------------------------------------
         IF(NSPMD == 1)RETURN
          
@@ -227,7 +227,7 @@ C     REAL
              ENDDO
             ENDIF
             ! -----------------
-            ! Recieved MPI comm
+            ! Received MPI comm
             DO P=1, NSPMD
               SIZ=IADR(P+1)-IADR(P)
               IF (SIZ > 0) THEN
@@ -266,7 +266,7 @@ C     REAL
               ENDIF ! ENDIF P/= LOC_PROC
             ENDDO  ! DO P=1, NSPMD
             ! -----------------
-            ! Recieve
+            ! Receive
             L=0
             IDEBR = 0                
 
@@ -357,7 +357,7 @@ C     REAL
              ENDIF
             ENDIF 
             ! -----------------
-            ! Recieved MPI comm
+            ! Received MPI comm
             DO P=1, NSPMD
               SIZ=IADR(P+1)-IADR(P)
               IF (SIZ > 0) THEN
@@ -472,7 +472,7 @@ C     REAL
               ENDIF
             ENDDO
         ! -----------------------
-            ! Chek the value of tag and elimination of cand_a/e if tag = -1
+            ! Check the value of tag and elimination of cand_a/e if tag = -1
             DO NI=1,NBINTC
 	      NIN = INTLIST(NI)
               NTY = IPARI(7,NIN)

@@ -312,7 +312,7 @@ C     Global fluxes
                   VII(3) = RHOII * VYII
                   VII(4) = RHOII * VZII
                   VII(5) = MULTI_FVM%EINT(I) + HALF * RHOII * VELII2
-C     Normal physical flux curent element
+C     Normal physical flux current element
                   FII(1) = VII(1) * NORMAL_VELII
                   FII(2) = VII(2) * NORMAL_VELII + PII * NX
                   FII(3) = VII(3) * NORMAL_VELII + PII * NY
@@ -350,7 +350,7 @@ C     Global fluxes
                   VII(3) = RHOII * VYII
                   VII(4) = RHOII * VZII
                   VII(5) = MULTI_FVM%EINT(I) + HALF * RHOII * VELII2
-C     Normal physical flux curent element
+C     Normal physical flux current element
                   FII(1) = VII(1) * NORMAL_VELII
                   FII(2) = VII(2) * NORMAL_VELII + PII * NX
                   FII(3) = VII(3) * NORMAL_VELII + PII * NY
@@ -409,7 +409,7 @@ C     Global fluxes
                   VII(3) = RHOJJ * VYJJ
                   VII(4) = RHOJJ * VZJJ
                   VII(5) = MULTI_FVM%EINT(J) + HALF * RHOJJ * VELJJ2
-C     Normal physical flux curent element
+C     Normal physical flux current element
                   FII(1) = VII(1) * NORMAL_VELJJ
                   FII(2) = VII(2) * NORMAL_VELJJ + PJJ * NX
                   FII(3) = VII(3) * NORMAL_VELJJ + PJJ * NY
@@ -471,7 +471,7 @@ C     Global fluxes
                   VII(3) = RHOJJ * VYJJ
                   VII(4) = RHOJJ * VZJJ
                   VII(5) = MULTI_FVM%EINT(J) + HALF * RHOJJ * VELJJ2
-C     Normal physical flux curent element
+C     Normal physical flux current element
                   FII(1) = VII(1) * NORMAL_VELJJ
                   FII(2) = VII(2) * NORMAL_VELJJ + PJJ * NX
                   FII(3) = VII(3) * NORMAL_VELJJ + PJJ * NY

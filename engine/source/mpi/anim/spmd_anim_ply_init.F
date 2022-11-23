@@ -83,7 +83,7 @@ C a conversion array from Global Node ID to Internal PLYNOD ID
 
       DO I=1,NPLYMAX
         IF (ISPMD==0)THEN
-C PROC 0, RECIEVE NODES NUM for each ply
+C PROC 0, RECEIVE NODES NUM for each ply
            DO P=2,NSPMD
               ITAG=MSGOFF
               CALL MPI_RECV(RECSZ,1, MPI_INTEGER, IT_SPMD(P),

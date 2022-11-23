@@ -35,7 +35,7 @@ Chd|====================================================================
      .                           N4_VOIS, ITAB, NV46, ITRIMAT, SEGVAR)
 C-----------------------------------------------
 C   D e s c r i p t i o n
-C   This subroutines performs the followind steps: 
+C   This subroutines performs the following steps: 
 C     1 - compute a gradient for volumicfraction ALPH
 C         (calls GRADIENT_RECONSTRUCTION)
 C     2 - reconstruct a value for volumic fraction on each edge of the mesh
@@ -119,11 +119,11 @@ C-----------------------------------------------
          IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
          !!! Element centroid
          XK = ELCENTER(1, II) ; YK = ELCENTER(2, II) ; ZK = ELCENTER(3, II) 
-         !!! Neighboors
+         !!! Neighbors
          DO KK = 1, NV46
             !!! Only for outgoing fluxes
             IF (FLUX(KK, II) > ZERO) THEN
-               !!! Storing neighboor indexes
+               !!! Storing neighbor indexes
                NEIGHBOOR_LIST(KK) = ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1)
                FACE_NEIGHBOOR(KK) = KK
                IF (NEIGHBOOR_LIST(KK) <= 0) THEN

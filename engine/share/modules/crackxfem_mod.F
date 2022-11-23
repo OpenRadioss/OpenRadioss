@@ -211,8 +211,8 @@ C
          INTEGER  CRKNUMNODS                                ! Number of nodes for each level (activ layer)
          INTEGER, DIMENSION(:), ALLOCATABLE :: NODES        ! Nod ID for each level
          INTEGER, DIMENSION(:), ALLOCATABLE :: CRKNODID     ! New Nod ID for Animation writing
-         INTEGER, DIMENSION(:), ALLOCATABLE :: XFENODES     ! Nod ID for each level ( nodes conected to KNOD2ELC )
-         INTEGER, DIMENSION(:), ALLOCATABLE :: XFECRKNODID  ! New Nod ID for Animation writing ( nodes conected to KNOD2ELC )
+         INTEGER, DIMENSION(:), ALLOCATABLE :: XFENODES     ! Nod ID for each level ( nodes connected to KNOD2ELC )
+         INTEGER, DIMENSION(:), ALLOCATABLE :: XFECRKNODID  ! New Nod ID for Animation writing ( nodes connected to KNOD2ELC )
          INTEGER, DIMENSION(:), ALLOCATABLE :: NOD2IAD      ! for ANIM only 
       END TYPE XFEM_NODES_
 

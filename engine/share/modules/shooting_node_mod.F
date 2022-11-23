@@ -90,20 +90,20 @@ C-----------------------------------------------
             INTEGER, DIMENSION(:), ALLOCATABLE :: GLOBAL_ELEM_INDEX     ! list of deactivated element
 
             INTEGER :: S_SAVE_SURFACE   ! size of SAVE_SURFACE array
-            INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_SURFACE ! list of deativated surface
-            INTEGER :: SAVE_SURFACE_NB ! numner of deactivated surface
+            INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_SURFACE ! list of deactivated surface
+            INTEGER :: SAVE_SURFACE_NB ! number of deactivated surface
 
             INTEGER :: S_SAVE_PROC   ! size of SAVE_PROC array
-            INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_PROC ! list of processor with a deativated surface
+            INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_PROC ! list of processor with a deactivated surface
             INTEGER :: SAVE_PROC_NB ! number of processor + the 4 nodes associated to the surfaces
 
             INTEGER :: S_SAVE_M_EDGE,S_SAVE_S_EDGE   ! size of SAVE_M_EDGE & SAVE_S_EDGE array
-            INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_M_EDGE ! list of deativated edge : main node
-            INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_S_EDGE ! list of deativated edge : secondary node
+            INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_M_EDGE ! list of deactivated edge : main node
+            INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_S_EDGE ! list of deactivated edge : secondary node
             INTEGER :: SAVE_M_EDGE_NB,SAVE_S_EDGE_NB ! number of deactivated edge
 
             INTEGER :: S_SAVE_PROC_EDGE   ! size of SAVE_PROC_EDGE array
-            INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_PROC_EDGE ! list of processor with a deativated edge
+            INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_PROC_EDGE ! list of processor with a deactivated edge
             INTEGER :: SAVE_PROC_NB_EDGE ! number of processor + the 4 nodes associated to the surfaces
 
 

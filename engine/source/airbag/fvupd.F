@@ -1012,7 +1012,7 @@ C
           IDPOLH(NPOLH)=IDPOLH_OLD(I)
           IF (DT1 /= ZERO) THEN
 C     In case of initial engine merging, time step HAS TO be same as the one that would have
-C     been calculated if mergind had occured during starter
+C     been calculated if mergind had occurred during starter
              IBPOLH(NPOLH)=0
           ENDIF
           DTPOLH(NPOLH)=EP30

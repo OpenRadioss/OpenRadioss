@@ -356,7 +356,7 @@ C-----------------------------------------------
           INTEGER, DIMENSION(:), ALLOCATABLE :: PART_LIST
       END TYPE H3D_INPUT
 C-----------------------------------------------
-C   H3D_PARTS : LIST OF OUTPUTED PARTS
+C   H3D_PARTS : LIST OF OUTPUTTED PARTS
 C-----------------------------------------------
       TYPE H3D_PART_LIST
           INTEGER NB_PART

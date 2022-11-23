@@ -448,8 +448,8 @@ C               2/ This Edge is impacting, eg fictive node has IRTLM not NULL
 C
 C     Note for Parallelism - at this Stage Remote nodes & nodes on Marter processor are merged.
 C     Fictive nodes (& secnd surface IRTS) are only affected to 1 SPMD Domain. They can only be
-C     either Local or remote (not neighbourg in term of SPMD domain).
-C     One can start to merge here and spred the info to the neighboug domains.
+C     either Local or remote (not neighbour in term of SPMD domain).
+C     One can start to merge here and spread the info to the neighboug domains.
       IF(INT24E2EUSE == 1)THEN
          DO NI=1,NBINTC
 	    NIN = INTLIST(NI)
@@ -889,7 +889,7 @@ C--------------keep  STIF_OLDFI(NIN)%P(1,
                     IRTLM_FI(NIN)%P(1,IDEB(NIN)+K)=BBUFR(IADR(P)+L)
                     IRTLM_FI(NIN)%P(2,IDEB(NIN)+K)=BBUFR(IADR(P)+L+1)
                     TIME_SFI(NIN)%P(IDEB(NIN)+K)=BBUFR(IADR(P)+L+2)
-C Same initialiation than in i24optcd :
+C Same initialization than in i24optcd :
 C           copy SECND_FRFI(1,2,3) into SECND_FRFI(4,5,6) & Flush SECND_FRFI to zero
                     SECND_FRFI(NIN)%P(1,IDEB(NIN)+K)=ZERO
                     SECND_FRFI(NIN)%P(2,IDEB(NIN)+K)=ZERO
@@ -912,7 +912,7 @@ C           copy SECND_FRFI(1,2,3) into SECND_FRFI(4,5,6) & Flush SECND_FRFI to 
                     IRTLM_FI(NIN)%P(1,IDEB(NIN)+K)=BBUFR(IADR(P)+L)
                     IRTLM_FI(NIN)%P(2,IDEB(NIN)+K)=BBUFR(IADR(P)+L+1)
                     TIME_SFI(NIN)%P(IDEB(NIN)+K)=BBUFR(IADR(P)+L+2)
-C Same initialiation than in i24optcd :
+C Same initialization than in i24optcd :
 C           copy SECND_FRFI(1,2,3) into SECND_FRFI(4,5,6) & Flush SECND_FRFI to zero
                     SECND_FRFI(NIN)%P(1,IDEB(NIN)+K)=ZERO
                     SECND_FRFI(NIN)%P(2,IDEB(NIN)+K)=ZERO

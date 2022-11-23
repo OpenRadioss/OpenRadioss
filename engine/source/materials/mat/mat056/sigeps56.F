@@ -377,7 +377,7 @@ C
 C---  PRESSURE DEPENDENT YIELD FUNCTION FACTOR
       IF (IPFLAG==NEL.AND.(IMACH/=3.OR.IPARIT==0)) THEN
 C------- to optimize in SPMD & PARIT/ON case add a global flag 
-C        in a case of homogenuous element groups (to do if needed)
+C        in a case of homogeneous element groups (to do if needed)
         DO I=1,NEL
           IPOSP(I) = NINT(UVAR(I,NRATE+5))
           IADP(I)  = NPF(IFUNC(PFUN)) / 2 + 1

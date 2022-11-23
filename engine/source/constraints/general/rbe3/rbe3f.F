@@ -337,7 +337,7 @@ C======================================================================|
            MSS(J) = MS(NS)*NN/3
            STN(J) = STIFN(NS)*NN
           ENDDO
-C---not to add supplementary mass globaly
+C---not to add supplementary mass globally
          IF (IMOD <=3) THEN
            CALL MFAC_RBE3(FDSTNB,MDSTNB,NML  ,IROTG,SFD ,SMD)
            DO I=1,NML
@@ -894,7 +894,7 @@ C
        ENDDO
       ENDIF
 C-------attention now for ANIM, ADM contains MS(NS), 
-C-------output only when real added mass hapened: debug usage 
+C-------output only when real added mass happened: debug usage 
       IF (DMAS0>EM10) THEN
       IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0) THEN
 #include    "vectorize.inc"

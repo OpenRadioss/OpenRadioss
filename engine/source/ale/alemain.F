@@ -313,7 +313,7 @@ C  IOUTPRT (assembly report)
       !--------------------------------------------------------
       ! F L U I D E
       !       ALE SUB-CYCLING PREPARATION
-      !       IALESUB=1 LEGACY IMPLMENTATION, NOT PARALLEL, DELETED IN V11
+      !       IALESUB=1 LEGACY IMPLEMENTATION, NOT PARALLEL, DELETED IN V11
       !       IALESUB=2 PARALLEL IMPLMEMENTATION IN 2002
       !--------------------------------------------------------
       IF(IALESUB /= 0) CALL MY_BARRIER    
@@ -440,7 +440,7 @@ c
          ! SUPERCELLS MANAGEMENT + VELOCITY INTERPOLATION !
          !------------------------------------------------!         
          IF(INT22>0)THEN 
-           NIN     = 1 !temporary (max 1 inteface) !!!interface number                     
+           NIN     = 1 !temporary (max 1 interface) !!!interface number                     
            IAD22   = IPARI(NPARI*(NIN-1)+39)                                   
            NBRIC_L = IGRBRIC(IPARI(NPARI*(NIN-1)+45))%NENTITY
 
@@ -715,7 +715,7 @@ C
          !---------------------------------------------          
           IF(IALEFVM > 0) THEN
             !GRAVITY INIT
-            ! VERTEX(4,1:NUMNOD) = ZERO  !-> not needed, nodes remain the same ones and VERTEX is initialized on allcoation
+            ! VERTEX(4,1:NUMNOD) = ZERO  !-> not needed, nodes remain the same ones and VERTEX is initialized on allocation
             CALL ALEFVM_GRAV_INIT(
      1                           AGRAV, IGRV    , LGRAV, SENSOR_TAB,
      2                           IXS  , ITASK   , NPC  , TF    , SKEW   ,
@@ -729,13 +729,13 @@ C
          !---------------------------------------------
          ! TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
          !---------------------------------------------
-c non parralel SMP section (SPMD communications in S4ALESFEM)
+c non parallel SMP section (SPMD communications in S4ALESFEM)
 !$OMP SINGLE
           IF(ISFEM >= 1) THEN
             CALL S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,VARNOD,PM,
      .                     IAD_ELEM,FR_ELEM)
           ENDIF
-c end non parralel SMP section
+c end non parallel SMP section
 !$OMP END SINGLE
 
          !---------------------------------------------
@@ -864,7 +864,7 @@ C
          !---------------------------------------------
          ! ELEMENTS : LAW==11
          !---------------------------------------------
-          CALL MY_BARRIER !wait for ajacent elems
+          CALL MY_BARRIER !wait for adjacent elems
           IF (ILAW11 /= 0) THEN            !LAW11 ou LAW51 IN/OUT
             IF(NSPMD > 1) THEN
              ! SPMD COMMUNICATION VOISINS LOI11

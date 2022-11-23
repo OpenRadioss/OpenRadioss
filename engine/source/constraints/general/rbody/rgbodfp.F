@@ -350,7 +350,7 @@ C      ajout des termes [Iglobal] vr ^ vr
           WA3=RBY(23)*VR(1,M)+RBY(24)*VR(2,M)+RBY(25)*VR(3,M)
 C
        ELSEIF(N2D==1) THEN
-C        ANALYSE 2D : Axisymetry  
+C        ANALYSE 2D : Axisymmetry  
 C             I= A 0 0
 C                0 A 0
 C                0 0 B 

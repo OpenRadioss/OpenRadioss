@@ -513,7 +513,7 @@ C noeud generant une force
                   ENDDO
                  ENDIF
 C
-C --- inteface type 7 + la thermique
+C --- interface type 7 + la thermique
 C
                 ELSE
                  IF(NODADT_THERM ==1) THEN
@@ -1041,7 +1041,7 @@ C                 L0 = L
                       DO N = 1, NB
                         DEBUG_E2E(LEDGE_FIE(NIN)%P(E_GLOBAL_ID,IDEB+N) == D_ES,IDEB)
                         IF(NSVFIE(NIN)%P(IDEB+N)<0)THEN
-C Node generat  ing the force                        
+C Node generating the force
                           NOD = -NSVFIE(NIN)%P(IDEB+N)
                           NSVFIE(NIN)%P(IDEB+N)=NOD
                           IF(IDEBI<=NISKYFIE(NIN)) THEN

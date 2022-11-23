@@ -374,7 +374,7 @@ C------------------------------------------------------------------
 #include      "machine.inc"
 C=======================================================================
 C------------------------------------------------
-C     Init Timer (from begining of radioss2 (reading timer)
+C     Init Timer (from beginning of radioss2 (reading timer)
 C------------------------------------------------    
       ISTDO=6
       CALL INI_MSG()
@@ -839,7 +839,7 @@ C
        TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN)
        !    ---------------------------------
 C
-C restart file writen with binary format ieee
+C restart file written with binary format ieee
 C
       DO I=1,LEN_TMP_NAME
         IFILNAM(I)=ICHAR(TMP_NAME(I:I))
@@ -1610,7 +1610,7 @@ C------------------------------------------------
 C     ABF file check if external abf program available & initpipes 
 C------------------------------------------------
 C
-C number of writen abf_files .abf, _a.abf .....
+C number of written abf_files .abf, _a.abf .....
       IF (ISPMD==0) THEN
 C
       NB_OF_FILES = 1

@@ -195,7 +195,7 @@ C-----------------------------------------------
 C   C O M M E N T S
 C-----------------------------------------------
 C   NEL : number of triangles (external surface only)
-C  NELT : number of traingles (both internal & external surfaces)
+C  NELT : number of triangles (both internal & external surfaces)
 C   NNS : number of nodes of TETRA mesh
 C   NNA : number of 'additional' nodes
 C   NNT : total number of nodes
@@ -330,7 +330,7 @@ C-----------------------------------------------
                      DOT_PROD = NX * NNX + NY * NNY + NZ * NNZ
 !     EXTERNAL (IEL > 0) OR INTERNAL (IEL < 0) SURFACE ELEMENT
                      IF (IEL < 0) THEN
-!     INTERNAL, THERE IS A POTENTIAL NEIGHBOOR
+!     INTERNAL, THERE IS A POTENTIAL NEIGHBOR
                         IEL = -IEL
                         I1 = IFVTRI(5, KK)
                         I2 = IFVTRI(6, KK)
@@ -780,7 +780,7 @@ C----------------------
                   UU = NX * UX1 + NY * UY1 + NZ * UZ1
                   RHO2 = RHO1
                   IF (P1 < PEXT) UU = ZERO
-!     BERNOUILLI
+!     BERNOULLI
                ELSEIF ((ITVENT == 2 .AND. P1 > ZERO) .OR. (ITVENT == 4 .AND. P1 >= PEXT)) THEN
                   VV = NX * UX1 + NY * UY1 + NZ * UZ1
                   VV = MAX(VV, ZERO)
@@ -808,7 +808,7 @@ C----------------------
                   ELSE
                      RHO2 = RHO1
                   ENDIF
-!     BERNOUILLI WITH FLOW-IN
+!     BERNOULLI WITH FLOW-IN
                ELSEIF (ITVENT == 4 .AND. P1 < PEXT) THEN
                   GAMAI = RVOLU(1)
                   RHOI = RVOLU(62)
@@ -1117,7 +1117,7 @@ C---------------------------------------------------
                    !--------!-------------------------------------------------------------------!
                    ! VALUE  !   DESCRIPTION                                                     !
       !------------!--------!-------------------------------------------------------------------!
-      !            ! 0,1    !    Constant (Starter minimum characteritic length)                !
+      !            ! 0,1    !    Constant (Starter minimum characteristic length)               !
       !  L_TYPE    !  2     !    VOLUME^1/3 at current time                                     !
       !            !  3     !    VOLUME / SMAX at current time                                  !
       !------------!--------!-------------------------------------------------------------------!
@@ -1306,7 +1306,7 @@ C
          ENDIF
       ENDDO
       
-      !optionnal time step growth limitor (/DT/FVMBAG/2, 3rd parameter)
+      !optional time step growth limitor (/DT/FVMBAG/2, 3rd parameter)
       IF(NCYCLE > 0  .AND.  IDT_FVMBAG == 2)THEN
         LAMBDA = FVDATA(IFV)%LAMBDA
         IF(LAMBDA > ZERO)THEN

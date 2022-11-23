@@ -20,8 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C generic module intented to pack information needed for asynchronous communications
-C where send and recieved are not done in the same routine
+C generic module intended to pack information needed for asynchronous communications
+C where send and received are not done in the same routine
 Chd|====================================================================
 Chd|  MPI_COMMOD                    share/modules/mpi_comm_mod.F  
 Chd|-- called by -----------

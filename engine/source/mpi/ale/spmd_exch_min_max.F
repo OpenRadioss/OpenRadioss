@@ -122,7 +122,7 @@ C -----------------
        ENDDO
 
 C ------------
-C END RECIEVE
+C END RECEIVE
 C ------------
        L=1
        DO P=1,NSPMD 

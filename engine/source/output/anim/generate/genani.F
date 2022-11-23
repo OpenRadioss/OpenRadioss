@@ -3317,12 +3317,12 @@ C-----------------------------------------------
         IF(ANIM_V(18)==1) CALL ANI_TXT('Reaction Moments',16)
         IF(ANIM_V(19)==1) CALL ANI_TXT('Cluster Forces',16)
         IF(ANIM_V(20)==1) CALL ANI_TXT('Cluster Moments',16)
-        IF(ANIM_V(21)==1) CALL ANI_TXT('inter22 - Centroid Velocity',27)       !inter22  
-        IF(ANIM_V(22)==1) CALL ANI_TXT('inter22 - Faces Velocity',24)          !inter22                
-        IF(ANIM_V(23)==1) CALL ANI_TXT('inter22 - Centroid Momentum Density',35)        !inter22         
-        IF(ANIM_V(24)==1) CALL ANI_TXT('inter22 - Faces Pressure Froces',31) !inter22                 
-        IF(ANIM_V(25)==1) CALL ANI_TXT('inter22 - Centroid Internal Force',33) !inter22  
-        IF(ANIM_V(26)==1) CALL ANI_TXT('Maximum Contact Forces Over Time',32)   
+        IF(ANIM_V(21)==1) CALL ANI_TXT('inter22 - Centroid Velocity',27)          !inter22
+        IF(ANIM_V(22)==1) CALL ANI_TXT('inter22 - Faces Velocity',24)             !inter22
+        IF(ANIM_V(23)==1) CALL ANI_TXT('inter22 - Centroid Momentum Density',35)  !inter22
+        IF(ANIM_V(24)==1) CALL ANI_TXT('inter22 - Faces Pressure Forces',31)      !inter22
+        IF(ANIM_V(25)==1) CALL ANI_TXT('inter22 - Centroid Internal Force',33)    !inter22
+        IF(ANIM_V(26)==1) CALL ANI_TXT('Maximum Contact Forces Over Time',32)
         IF(ANIM_V(27)==1) THEN
           CALL ANI_TXT('Tied Contact Pressure / Normal',30)
           CALL ANI_TXT('Tied Contact Pressure / Tangent',31)
@@ -3545,7 +3545,7 @@ c       interface 22, centroid rho.vel
       ENDIF 
       
       IF (ANIM_V(24) == 1) THEN
-c       interface 22 / internal froces
+c       interface 22 / internal forces
         CALL VELVECZ22(ELBUF_TAB,IPARG ,IPARI ,IGRNOD ,   X,
      .                 IXS      ,IXQ   ,ITAB  ,2      )
       ENDIF    
@@ -4568,11 +4568,11 @@ C-----------------------------------------------
         IF(ANIM_SE(4951)==1)CALL ANI_TXT('Velocity ABS',12) 
         
         IF(ANIM_SE(4952)==1)CALL ANI_TXT('Internal Force X  ',18)
-        IF(ANIM_SE(4953)==1)CALL ANI_TXT('Internal Froce Y  ',18)
+        IF(ANIM_SE(4953)==1)CALL ANI_TXT('Internal Force Y  ',18)
         IF(ANIM_SE(4954)==1)CALL ANI_TXT('Internal Force Z  ',18)
         IF(ANIM_SE(4955)==1)CALL ANI_TXT('Internal Force XY ',18)
-        IF(ANIM_SE(4956)==1)CALL ANI_TXT('Internal Froce YZ ',18)
-        IF(ANIM_SE(4957)==1)CALL ANI_TXT('Internal Force XY ',18)                                             
+        IF(ANIM_SE(4956)==1)CALL ANI_TXT('Internal Force YZ ',18)
+        IF(ANIM_SE(4957)==1)CALL ANI_TXT('Internal Force XY ',18)
         IF(ANIM_SE(4958)==1)CALL ANI_TXT('Internal Force ABS',18)
 C
         IF(ANIM_SE(4959)==1)CALL ANI_TXT('AMS selection',13)         

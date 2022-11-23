@@ -5719,14 +5719,14 @@ c  I   DIAG_M(NDDL),LT_M(NNZ)-
 c  I   IADI(NDDLI+1),JDII(NNZI)-indices of local [K_i] of contact spring
 c  I   ITOK(NDDLI),DIAG_I(NDDL),LT_I(NNZ)- indice from local to glocal [K]
 c  I   NSREM ,NSL        -remote SECONDARY and local communated SECONDARY node number (due to // contact)
-c  I   U(NDDL),F(NDDL)   - U not avalable, F-> force Residual {Fext}-{Fint}
+c  I   U(NDDL),F(NDDL)   - U not available, F-> force Residual {Fext}-{Fint}
 c  I   IT                -nonlinear iteration number
 c  I   D,DR(3,NUMNOD)    -nodal displacement and rotation
 c  I   IFLAG             -print-out options ,see below
-c  I   W_DDL             -flag of phisical presence of the boundary dof of diff. domaines //
+c  I   W_DDL             -flag of physical presence of the boundary dof of diff. domains //
 c  I   FEXT,MEXT(3,NUMNOD)- external nodal forces and moments
 c  I   FINT,MINT(3,NUMNOD)- internal nodal forces and moments
-c  I   R01                -force residul norm
+c  I   R01                -force residual norm
 c  I   Ndeb               begin of debugging No of cycle.
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -7331,7 +7331,7 @@ C
         END IF
 C---------rebound----        
         IF (NCONT0>0 .AND.N_MAX(N)==0) THEN
-C------fisrt one will keep negative IN1CON till converging         
+C------first one will keep negative IN1CON till converging         
          IF (NCYCLE == IN1CON) THEN
           NREBOU=1
          ELSE
@@ -8328,7 +8328,7 @@ C--------exclude the node w/all translational fixed
       END IF 
        IF (ITTOFF>0 .AND.NCYCLE==1) THEN
         write(iout,*)
-        write(iout,*)'Segement served as Reference are the following nodes:'
+        write(iout,*)'Segment served as Reference are the following nodes:'
 		if (IRIG_M>1) THEN
           if (E_REF(1)>0) write(iout,*) 'NODE_ref 1 :',itab(E_REF(1))
           if (E_REF(2)>0) write(iout,*) 'NODE_ref 2 :',itab(E_REF(2))

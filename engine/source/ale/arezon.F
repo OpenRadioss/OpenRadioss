@@ -174,8 +174,8 @@ C     ALE ON / OFF
             PHI(J) = VAR(I)
           ENDDO  
         !----------------------------!
-        !        DEFUALT             !
-        !----------------------------!                                                
+        !        DEFAULT             !
+        !----------------------------!
         ELSE
           DO I=LFT,LLT
             J=I+NFT

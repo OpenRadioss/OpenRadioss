@@ -118,7 +118,7 @@ C-----------------------------------------------
           NN=IRECT(JJ,L)
           IY(JJ)=NN
          ENDDO
-         !parametric ccordinates on main face
+         !parametric coordinates on main face
          SSS=CRST(1,II)
          TTT=CRST(2,II)
          !normal

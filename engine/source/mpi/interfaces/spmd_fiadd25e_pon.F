@@ -145,7 +145,7 @@ C#endif
       ENDDO
       
       IF(INTTH /= 0 ) THEN
-       ! THERMAL ANALYSIS + TYPE25 not avaiable yet
+       ! THERMAL ANALYSIS + TYPE25 not available yet
        ASSERT(.FALSE.)
 C        NISKY = NISKY_SAV
 C        DO I = 1, NB

@@ -239,7 +239,7 @@ C-----------------------------------------------
         N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)                                                                                                                                                            
                                                                                                                                                                                                      
         IF(N4==0 .OR. N3==N4 )THEN                                                                                                                                                                   
-          !3 NODE SEGEMENT                                                                                                                                                                           
+          !3 NODE SEGMENT                                                                                                                                                                           
           PBLAST_TAB(IL)%NPt(I) = THREE  
           NPT = THREE                                                                                                                                                                         
           !Segment Zentrum                                                                                                                                                                           
@@ -254,7 +254,7 @@ C-----------------------------------------------
           NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))                                                                                                             
           NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                                                                                                                                                             
         ELSE                                                                                                                                                                                         
-          !4 NODE SEGEMENT                                                                                                                                                                           
+          !4 NODE SEGMENT                                                                                                                                                                           
           PBLAST_TAB(IL)%NPt(I) = FOUR  
           NPT = FOUR                                                                                                                                                                          
           !Segment Zentrum                                                                                                                                                                           
@@ -469,7 +469,7 @@ C-----------------------------------------------
               WRITE(IOUT,*)                                                                                                                                                                          
      .         ' ** WARNING : SCALED HEIGHT OF CHARGE IS ABOVE THE RANGE, FIGURE 2-9, CURVE=',10,' HC=',ZC/FAC_UNIT                                                                                  
               WRITE(ISTDO,*)                                                                                                                                                                         
-     .         ' ** WARNING : SCALED HEIGHT OF CHARGE IS ABOCE THE RANGE, FIGURE 2-9, CURVE=',10,' HC=',ZC/FAC_UNIT                                                                                  
+     .         ' ** WARNING : SCALED HEIGHT OF CHARGE IS ABOVE THE RANGE, FIGURE 2-9, CURVE=',10,' HC=',ZC/FAC_UNIT                                                                                  
           else                                                                                                                                                                                       
             idx2=idx1+1                                                                                                                                                                              
             calculate=.true.                                                                                                                                                                         
@@ -559,7 +559,7 @@ C-----------------------------------------------
            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
            DT_0 = exp(LogRes*log10_)                                                                                                                                                                 
 
-           !swtich from normalized values.       Pressure are not scaled by W13 in abacuses                                                                                                          
+           !switch from normalized values.       Pressure are not scaled by W13 in abacuses                                                                                                          
            P_inci = Pra                                                                                                                                                                              
            P_refl = Pra_refl                                                                                                                                                                         
            I_inci = Ira                                                                                                                                                                              

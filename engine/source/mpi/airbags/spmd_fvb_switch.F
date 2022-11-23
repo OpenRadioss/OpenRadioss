@@ -29,8 +29,8 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|====================================================================
       SUBROUTINE SPMD_FVB_SWITCH(MONVOL)
-C  Boardcast the information that a type 8 fvmbag has switched to type 7 UP monvol
-C  To avoid deadlock, all processor must know which FVMBAGs have swiched
+C  Broadcast the information that a type 8 fvmbag has switched to type 7 UP monvol
+C  To avoid deadlock, all processor must know which FVMBAGs have switched
 C  to UP
 C-----------------------------------------------
 C   M o d u l e s 

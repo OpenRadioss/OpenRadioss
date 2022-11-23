@@ -373,7 +373,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
+C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
       INTEGER I,J,K,M,N,NC,MAX_L,IERR,I_CHK,IER1,
      .        JM(NUMNOD+1)
       INTEGER, DIMENSION(:),ALLOCATABLE :: IADA, JDIA

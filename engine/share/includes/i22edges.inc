@@ -37,7 +37,7 @@ C.../I22EDGES/
       LOGICAL, DIMENSION(8,6)   :: IsNodeOnFace            !tell if brick node is on a given face
       INTEGER, DIMENSION(8,3)   :: iFacesFromNode          !from a node 1:8 gives 3 connected faces
       INTEGER, DIMENSION(6,8)   :: iGetEdge                !from a node and a face, gives the normal edge
-      INTEGER, DIMENSION(6,8)   :: iGetOppositeNode        !idem with opposite note instread of edge number
+      INTEGER, DIMENSION(6,8)   :: iGetOppositeNode        !idem with opposite note instead of edge number
       INTEGER, DIMENSION(6,8,2) :: IGetTransvNodes         !from face and node, provides 2 other transverse nodes
       INTEGER, DIMENSION(6,4)   :: iGetEdgesFromFace       !from a face_id provides all edge_ids composing the face
       INTEGER, DIMENSION(6,4)   :: iNormalEdgesList        !from a face_id provides all edge_ids normal to the face.    

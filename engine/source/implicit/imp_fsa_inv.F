@@ -108,7 +108,7 @@ C-----------------------------------------------
 C------define sparse static pattern:----
       NNZM = 0
       IADM(1)=1
-C-------symetry firstly---
+C-------symmetry firstly---
       IF (MOD(IOPT,2)>0) THEN
 C-------pre-filtrage----
        DO I=1,NDDL
@@ -655,7 +655,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
+C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
       INTEGER I,J,K,M,N,NC,IADA(MAXC+1),JDIA(MAX_A),JM(MAXC+1)
       INTEGER MAX_L,IERR,I_CHK
       my_real
@@ -996,7 +996,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
+C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
       INTEGER I,J,K,M,N,NC,IERR
       INTEGER MAX_L,I_CHK
       INTEGER, DIMENSION(:),ALLOCATABLE :: IADA,JDIA,JM
@@ -1103,7 +1103,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
+C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
       INTEGER I,J,K,M,N,NC,IADA(MAXC+1),JDIA(MAX_A),JM(MAXC+1)
       INTEGER MAX_L,IERR,I_CHK
       my_real
@@ -1452,7 +1452,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
+C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
       INTEGER I,J,K,M,N,NC,MAX_L,IERR,I_CHK,IER1,
      .        JM(MAXC+1)
       my_real
@@ -1581,7 +1581,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
+C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
       INTEGER I,J,K,M,N,NC,MAX_L,IERR,I_CHK,IER1,
      .        JM(MAXC+1)
       my_real
@@ -1745,7 +1745,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
+C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
       INTEGER J,K,M,N,MAX_L,IERR,IER1,IADA(NC+1),JM(NC)
 c     .        IADA(NC+1),JDIA(MAX_A),JM(NC)
 c      my_real
@@ -1846,7 +1846,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
+C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
       INTEGER I,J,K,M,N,NC,MAX_L,IERR,I_CHK,IER1,
      .        ITSK,F_DDL,L_DDL,N1
       my_real
@@ -1938,7 +1938,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
+C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
       INTEGER I,J,K,M,N,NC,MAX_L,IERR,I_CHK,IER1,
      .        ITSK,F_DDL,L_DDL,N1
       my_real

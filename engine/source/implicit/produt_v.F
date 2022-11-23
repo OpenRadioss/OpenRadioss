@@ -370,7 +370,7 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-C-------------produit {w}=[K]{v} using only trangle-upper----
+C-------------produce {w}=[K]{v} using only upper-triangle----
 Chd|====================================================================
 Chd|  MAV_LT                        source/implicit/produt_v.F    
 Chd|-- called by -----------
@@ -485,7 +485,7 @@ C
 C--------------------------------------------
       RETURN
       END
-C-------------produit {w}=[LT_K]{v}+[LT_I]{v} using only trangle-upper----
+C-------------produce {w}=[LT_K]{v}+[LT_I]{v} using only upper-triangle----
 Chd|====================================================================
 Chd|  MAV_LT2                       source/implicit/produt_v.F    
 Chd|-- called by -----------
@@ -597,7 +597,7 @@ C  ------LT_I
 C--------------------------------------------
       RETURN
       END
-C------spmd----produit {w}=[LT_K]{v}+[LT_I]{v} using only trangle-upper----
+C------spmd----produce {w}=[LT_K]{v}+[LT_I]{v} using only upper-triangle----
 Chd|====================================================================
 Chd|  MAV_LTP                       source/implicit/produt_v.F    
 Chd|-- called by -----------
@@ -1216,7 +1216,7 @@ C------for int24 + Istif=6
              IGSTI =IPARI(34,N)
              NREBOU=IPARI(53,N)
              IF (ITY==24.AND.IGSTI==6.AND.NREBOU<0) THEN
-C---------divergence supprime the treatement , line-serach doesn't change stif            
+C---------divergence removes the treatment , line-search doesn't change stif
               IF (IMCONV<-1) THEN
                IPARI(53,N) = -NREBOU
               ELSEIF (IMCONV>=0) THEN
@@ -1240,7 +1240,7 @@ c           CALL CP_INTBUF(BUFIN_C,INBUF_C ,BUFIN,INBUF ,IPARI )
 C--------------------------------------------
       RETURN
       END
-C-------------produit {w}=[K]{v} using only trangle-upper----
+C-------------produce {w}=[K]{v} using only upper-triangle----
 Chd|====================================================================
 Chd|  MAV_LT_H                      source/implicit/produt_v.F    
 Chd|-- called by -----------
@@ -1301,7 +1301,7 @@ C---------------------
 C--------------------------------------------
       RETURN
       END
-C------Hybrid----produit {w}=[LT_K]{v}+[LT_I]{v} using only trangle-upper----
+C------Hybrid----produce {w}=[LT_K]{v}+[LT_I]{v} using only upper-triangle----
 Chd|====================================================================
 Chd|  MAV_LTH0                      source/implicit/produt_v.F    
 Chd|-- called by -----------
@@ -1454,7 +1454,7 @@ C
 C--------------------------------------------
       RETURN
       END
-C------Hybrid----produit {w}=[LT_K]{v}+[LT_I]{v} using only trangle-upper----
+C------Hybrid----produce {w}=[LT_K]{v}+[LT_I]{v} using only upper-triangle----
 Chd|====================================================================
 Chd|  MAV_LTH                       source/implicit/produt_v.F    
 Chd|-- called by -----------

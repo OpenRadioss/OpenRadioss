@@ -429,7 +429,7 @@ c      CALL MY_BARRIER
 C---------------------
        IF (IMCONV==0) THEN
          IDIV=0
-C-------initie line-serach------------
+C-------start line-search------------
         IF (ILINE_S/=1) THEN
          LS(1)=ONE
          LS(2)=ZERO
@@ -861,7 +861,7 @@ C       IF (ERR<=TOL) THEN
        ELSEIF ((N_LIM /= 1.OR.ISPRB /= 0).AND.UR<MIN(EM05,TOL).AND.RR<EM01) THEN
        IMCONV=1
        ELSEIF (IMCONV<0) THEN
-C--------line-serach-----
+C--------line-search-----
        ELSE
         IMCONV=0
 C------divergence-----------

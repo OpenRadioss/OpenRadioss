@@ -347,7 +347,7 @@ C-------------------------------------------------------------
           Y3           = X(2,IXQ(4,II))
           Y4           = X(2,IXQ(5,II))
           ZZ           = HALF * (ABS(Z1 - Z3) + ABS(Z2 - Z4))
-          DE           = DFI * DT2 / ZZ      !waring DFI is zero : need to be validated, may be wrong
+          DE           = DFI * DT2 / ZZ      !warning DFI is zero : need to be validated, may be wrong
           GBUF%EINT(I) = GBUF%EINT(I) + DE
           TFEXT        = TFEXT + DE * VOL
           EXIT !and return

@@ -1836,7 +1836,7 @@ C A(N,N)      EIGENWERTPROBLEM
 C N           DIMENSION OF A
 C EW(N)       EIGENVALUES
 C EV(N,N)     EIGENVEKTORS
-C NROT        NUMBER OF ROTAIONS
+C NROT        NUMBER OF ROTATIONS
 C MAXA        MAXIMUM ELEMENT OF A
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3231,7 +3231,7 @@ C
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG = 1, NGROUP
             NG = IGROUC(IG)
-C---------temporaly used to avoid pass KTBUF_STR everywhere
+C---------temporarily used to avoid pass KTBUF_STR everywhere
             NG_IMP = NG
 c            IF(NGDONE>NGROUP) GOTO 250
 c            NGDONE = NG + 1

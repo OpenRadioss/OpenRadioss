@@ -458,7 +458,7 @@ C=======================================================================
         !     CUT CELL (INTER22)     !
         !----------------------------!
         !TREAT FIRST POLYHEDRA FROM CUT CELL BUFFER
-        !ELMENTARY BUFFER IS ALSO UPDATED AND USED LATER
+        !ELEMENTARY BUFFER IS ALSO UPDATED AND USED LATER
         !TO TREAT USUAL BRICK ELEMS WHILE DEALING WITH ADJACENT VALUES      
         IF(INT22 > 0)THEN
           NF1=NFT+1+(NM-1)*NUMELS

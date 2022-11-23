@@ -184,7 +184,7 @@ C-----------------------------------------------
 C   C o m m e n t s
 C-----------------------------------------------
 C   NEL : number of triangles (external surface only)
-C  NELT : number of traingles (both internal & external surfaces)
+C  NELT : number of triangles (both internal & external surfaces)
 C   NNS : number of nodes of TETRA mesh
 C   NNA : number of 'additional' nodes
 C   NNT : total number of nodes
@@ -773,7 +773,7 @@ C----------------
                IF(IEL > 0)THEN
                  IF(ITAGEL(IEL) > 0)boolTAGEL = .TRUE.
                ENDIF
-               ! IF (JEL > 0.OR.(JEL < 0.AND.ITAGEL(IEL) > 0)) THEN debuger issue in case of IEL=0 (out of bounds)
+               ! IF (JEL > 0.OR.(JEL < 0.AND.ITAGEL(IEL) > 0)) THEN debugger issue in case of IEL=0 (out of bounds)
                IF (JEL > 0.OR.(JEL < 0.AND.boolTAGEL)) THEN
                   II=I
                   NRX=NORM(1,IEL)
@@ -798,7 +798,7 @@ C----------------
                      IF(FAC < 0) II=NV
                   ENDIF
 C--------------------------------------------
-C Triangle on airbag enveloppe
+C Triangle on airbag envelope
 C internal triangle is an injector
 C--------------------------------------------
                   IF (ITAGEL(IEL) > 0) THEN
@@ -854,7 +854,7 @@ C LOCAL VELOCITY
                         UU=NX*UX1+NY*UY1+NZ*UZ1
                         RHO2=RHO1
                         IF(P1 < PEXT) UU=ZERO
-C BERNOUILLI
+C BERNOULLI
                      ELSEIF ((ITVENT==2.AND.P1>ZERO).OR.(ITVENT==4.AND.P1>=PEXT)) THEN
                         VV=NX*UX1+NY*UY1+NZ*UZ1
                         VV=MAX(VV,ZERO)
@@ -882,7 +882,7 @@ C CHEMKIN
                         ELSE
                           RHO2=RHO1
                         ENDIF
-C BERNOUILLI with flow-in
+C BERNOULLI with flow-in
                      ELSEIF (ITVENT==4.AND.P1<PEXT) THEN
                         GAMAI=RVOLU(1)
                         RHOI=RVOLU(62)
@@ -1194,7 +1194,7 @@ C---------------------------------------------------
                    !--------!-------------------------------------------------------------------!
                    ! VALUE  !   DESCRIPTION                                                     !
       !------------!--------!-------------------------------------------------------------------!
-      !            ! 0,1    !    Constant (Starter minimum characteritic length)                !
+      !            ! 0,1    !    Constant (Starter minimum characteristic length)                !
       !  L_TYPE    !  2     !    VOLUME^1/3 at current time                                     !
       !            !  3     !    VOLUME / SMAX at current time                                  !
       !------------!--------!-------------------------------------------------------------------!
@@ -1359,7 +1359,7 @@ C---------------------------------------------------
                         AREA=PAREA(KK)
                         IEL1=IFVTRI(5, KK)
                         IEL2=IFVTRI(6, KK)
-                        IF(IEL2==0)IEL2=I !bounday surface
+                        IF(IEL2==0)IEL2=I !boundary surface
                         IF(IEL1==0)IEL1=I
                         VMAT(1) = HALF*(PU(1,IEL1)+PU(1,IEL2))
                         VMAT(2) = HALF*(PU(2,IEL1)+PU(2,IEL2))
@@ -1406,7 +1406,7 @@ C---------------------------------------------------
          ENDIF
       ENDDO
       
-      !optionnal time step growth limitor (/DT/FVMBAG/2, lambda parameter)
+      !optional time step growth limitor (/DT/FVMBAG/2, lambda parameter)
       IF(NCYCLE > 0 .AND. IDT_FVMBAG == 2)THEN
         PARAM_LAMBDA =  FVDATA(IFV)%LAMBDA
         IF(PARAM_LAMBDA > ZERO)THEN
@@ -1487,7 +1487,7 @@ C
                        DE(I)=DE(I)-PP*VEL(IEL)*AOUT
                      ENDIF
                   ENDIF
-C Triangle on the airbag enveloppe
+C Triangle on the airbag envelope
                   PP=PPOLH(I)+QVISC(I)
                   FEL(IEL)=FEL(IEL)+PP*AREA
                   DQ(1,I)=DQ(1,I)-PP*AREA*NX
@@ -2030,7 +2030,7 @@ C Hexahedron or Tetrahedron
 
 
 C---------------------------------------------------
-C Potential openning of vent holes
+C Potential opening of vent holes
 C---------------------------------------------------
       DO IVENT=1,NVENT
          AREA_VENT(IVENT)=ZERO

@@ -107,7 +107,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: KINET ! k energy 
         INTEGER, DIMENSION(NODNX_SMS_SIZ), INTENT(in) :: NODNX_SMS ! SMS array
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(in) :: INTBUF_TAB
-        TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   struture for interface
+        TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   structure for interface
         TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -254,7 +254,7 @@ C-----------------------------------------------
                 SORT_COMM(NIN)%SEND_SIZE_CELL(I) = 0
                 IF(ISENDTO(NIN,ID_PROC)>0) THEN    !   nsn of proc ID_PROC >0
                     SORT_COMM(NIN)%SEND_SIZE_CELL(I) = SORT_COMM(NIN)%SIZE_CELL_LIST(1)
-                    !   if current proc and remote proc don't need to communicate, skeep the comm
+                    !   if current proc and remote proc don't need to communicate, skip the comm
                     IF(SORT_COMM(NIN)%PROC_NUMBER>NSPMD/2) THEN
                         IF(.NOT.SORT_COMM(NIN)%KEEP_PROC(I)) THEN
                             SORT_COMM(NIN)%SEND_SIZE_CELL(I) = 0

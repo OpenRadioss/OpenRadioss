@@ -65,7 +65,7 @@ C-----------------------------------------------
 
       ADD = ADD + LEN/INTSIZE
       SIZ_I = SIZ_I - LEN
-C wait for acknoledge
+C wait for acknowledge
 
       CALL MPI_RECV(A,0,MPI_BYTE,IT_SPMD(ISPMD+1),MSGTAG,
      .              MPI_COMM_WORLD,status,ierror)

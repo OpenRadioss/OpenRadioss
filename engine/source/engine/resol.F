@@ -624,7 +624,7 @@ C-----------------------------------------------
       USE TIME_MOD
       USE PINCHTYPE_MOD
       USE CHECK_MOD
-      USE ACCELERATION_DP_MOD   !   --> only usefull for SP+parith/off
+      USE ACCELERATION_DP_MOD   !   --> only useful for SP+parith/off
       USE ALE_CONNECTIVITY_MOD
       USE DYNLIB_MOD
       USE MONVOL_STRUCT_MOD
@@ -897,7 +897,7 @@ c
       TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
       TYPE(T_DIFFUSION), INTENT(INOUT) :: DIFFUSION
       TYPE(t_segvar) :: SEGVAR
-      TYPE(inter_struct_type), DIMENSION(:), ALLOCATABLE :: INTER_STRUCT   !   struture for interface
+      TYPE(inter_struct_type), DIMENSION(:), ALLOCATABLE :: INTER_STRUCT   !   structure for interface
       TYPE(sorting_comm_type), DIMENSION(:), ALLOCATABLE :: SORT_COMM   ! structure for interface sorting comm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1187,9 +1187,9 @@ C-------------------------------------------------------------------------------
 !                      index of sent SKEW
 !       RECVCOUNT : integer ; dimension=NSPMD
 !                   number of received SKEW
-!       NODFT_ASSPAR : interger ; dimension=NTHREADS
+!       NODFT_ASSPAR : integer ; dimension=NTHREADS
 !                      lower bound for asspar4 splitting
-!       NODLT_ASSPAR : interger ; dimension=NTHREADS
+!       NODLT_ASSPAR : integer ; dimension=NTHREADS
 !                      upper bound for asspar4 splitting
 !       TT_DOUBLE : real(kind8)
 !                   current time in double precision --> with simple precision version,
@@ -1525,7 +1525,7 @@ C is not available iparit = 0
              ELSE
                ALLOCATE(PLY(0),PLYSKY(0))
              ENDIF
-C for inteface type 24 + pxfem  
+C for interface type 24 + pxfem  
              IF(INTPLYXFEM > 0 ) THEN
                  IF(IPARIT /= 0 ) THEN
                    ALLOCATE(PLYSKYI)
@@ -2047,7 +2047,7 @@ C===============================================================================
 
 C     End Initialisations //
        IF(NADMESH/=0.AND.IDEL7NG>=1) IDEL7NOK = 0
-C     THERMAL TIME STEP : we don't check imcompatible kinematic conditions anymore
+C     THERMAL TIME STEP : we don't check incompatible kinematic conditions anymore
 c      we constraint all DDLs
        IF(IDT_THERM == 1) THEN
           CALL BCSDTTH_COPY(ICODT, ICODR, ICODT0, ICODR0 ,1 )
@@ -4262,7 +4262,7 @@ C
         !
         ! After this call DT2R and MIN_TAB are unchanged
         ! The minimum value of DT2R and the corresponding MIN_TAB
-        ! Will be recieved after a call to  MPI_MIN_REAL_END
+        ! Will be received after a call to  MPI_MIN_REAL_END
       ENDIF
 
       IF(ISHSUB==0)THEN
@@ -6006,7 +6006,7 @@ C     IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
       DINER = DINER + DINERT
       IF(IDT_THERM == 1)THEN    
         IF(DT2TT<=DT2T)THEN
-C---------Check remaing time for end simulation and correct time step----
+C---------Check remaining time for end simulation and correct time step----
 C------------Need to stop computation at Tstop for /DT/THERM----------
 
           TREST=MAX(TSTOP-TT,ZERO)
@@ -9112,7 +9112,7 @@ C===============================================================================
 
        IF (INT24USE == 1)THEN
 C E2E Fictive Node Position, Velocity, Mass
-C Usefull to do it before send back to Remote nodes, E2E Fictive node position,
+C Useful to do it before send back to Remote nodes, E2E Fictive node position,
 C mass & velocity
          CALL  I24E2E_FICTIVE_NODES_UPDATE(INTLIST,NBINTC,IPARI,INTBUF_TAB,
      *                                     X,V,MS,ITAB)
@@ -9198,7 +9198,7 @@ C
           
          IF (INT24USE == 1)THEN
 C E2E Fictive Node Position, Velocity, Mass
-C Usefull to do it before send back to Remote nodes, E2E Fictive node position,
+C Useful to do it before send back to Remote nodes, E2E Fictive node position,
 C mass & velocity
            CALL  I24E2E_FICTIVE_NODES_UPDATE(INTLIST,NBINTC,IPARI,INTBUF_TAB,
      *                                       X,V,MS,ITAB)
@@ -9373,7 +9373,7 @@ C-----------------------
 C termination wait if  dt < 0
        IF (INT24USE == 1)THEN
 C E2E Fictive Node Position, Velocity, Mass
-C Usefull to do it before send back to Remote nodes, E2E Fictive node position,
+C Useful to do it before send back to Remote nodes, E2E Fictive node position,
 C mass & velocity
          CALL  I24E2E_FICTIVE_NODES_UPDATE(INTLIST,NBINTC,IPARI,INTBUF_TAB,
      *                                     X,V,MS,ITAB)
@@ -9460,7 +9460,7 @@ C
      .       .AND.WMCHECK==0)THEN
        IF (INT24USE == 1)THEN
 C E2E Fictive Node Position, Velocity, Mass
-C Usefull to do it before send back to Remote nodes, E2E Fictive node position,
+C Useful to do it before send back to Remote nodes, E2E Fictive node position,
 C mass & velocity
          CALL  I24E2E_FICTIVE_NODES_UPDATE(INTLIST,NBINTC,IPARI,INTBUF_TAB,
      *                                     X,V,MS,ITAB)
@@ -9597,7 +9597,7 @@ C
           IF(WMCHECK==1.AND.NCYCLE/=1)THEN
        IF (INT24USE == 1)THEN
 C E2E Fictive Node Position, Velocity, Mass
-C Usefull to do it before send back to Remote nodes, E2E Fictive node position,
+C Useful to do it before send back to Remote nodes, E2E Fictive node position,
 C mass & velocity
          CALL  I24E2E_FICTIVE_NODES_UPDATE(INTLIST,NBINTC,IPARI,INTBUF_TAB,
      *                                     X,V,MS,ITAB)
