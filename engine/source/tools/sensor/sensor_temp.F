@@ -65,7 +65,7 @@ C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
       INTEGER :: I,IGN,ICRIT,TFLAG
-      my_real :: TDELAY,TMIN,TEMP_MAX,TEMP_MIN,TEMP_AVG,INFINITY
+      my_real :: TSTART,TDELAY,TMIN,TEMP_MAX,TEMP_MIN,TEMP_AVG,INFINITY
       PARAMETER (INFINITY = 1.0E20)
 c----------------------------------------------------------
 c     SENSOR%VAR(1)   = TEMP_MAX
@@ -81,6 +81,7 @@ C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
 c
       IF (TT == ZERO) SENSOR%VAR(2) = EP20   ! initialize Temp min
+      TSTART   = SENSOR%TSTART
       TDELAY   = SENSOR%TDELAY
       TMIN     = SENSOR%TMIN
       IGN      = SENSOR%IPARAM(1)
@@ -107,14 +108,13 @@ c----------------------------------------------------------------
         IF (ICRIT == 0) THEN
           SENSOR%TCRIT = INFINITY
         ELSE IF (SENSOR%TCRIT == INFINITY) THEN
-          SENSOR%TCRIT = MIN(SENSOR%TCRIT, TT)
+          SENSOR%TCRIT = TT
         END IF
       END IF
-      IF (SENSOR%TSTART == INFINITY .and. SENSOR%TCRIT < INFINITY) THEN
-        SENSOR%TSTART = SENSOR%TCRIT + TMIN + TDELAY      
-      END IF
-      IF (SENSOR%TSTART <= TT) THEN   ! sensor activation
+      TSTART = SENSOR%TCRIT + TMIN + TDELAY      
+      IF (TSTART <= TT) THEN   ! sensor activation
         SENSOR%STATUS = 1
+        SENSOR%TSTART = TSTART
       END IF
 c-----------------------------------------------------------------------      
       IF (SENSOR%STATUS == 1 .and. ISPMD == 0) THEN

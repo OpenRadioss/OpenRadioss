@@ -65,6 +65,7 @@ c
 C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
 c
+      TSTART  = SENSOR%TSTART
       TDELAY = SENSOR%TDELAY
       NODE   = SENSOR%IPARAM(1)
       VEL    = SENSOR%RPARAM(1)
@@ -99,14 +100,13 @@ c----------------------------------------------------------------
         IF (ICRIT == 0) THEN
           SENSOR%TCRIT = INFINITY
         ELSE IF (SENSOR%TCRIT == INFINITY) THEN
-          SENSOR%TCRIT = MIN(SENSOR%TCRIT, TT)
+          SENSOR%TCRIT = TT
         END IF
       END IF
-      IF (SENSOR%TSTART == INFINITY .and. SENSOR%TCRIT < INFINITY) THEN
-        SENSOR%TSTART = SENSOR%TCRIT + TMIN + TDELAY      
-      END IF
-      IF (SENSOR%TSTART <= TT) THEN   ! sensor activation
+      IF (SENSOR%TCRIT < INFINITY) TSTART = SENSOR%TCRIT + TMIN + TDELAY
+      IF (TSTART <= TT) THEN   ! sensor activation
         SENSOR%STATUS = 1
+        SENSOR%TSTART = TSTART
       END IF
 c-----------------------------------------------------------------------      
       IF (SENSOR%STATUS == 1 .and. ISPMD == 0) THEN

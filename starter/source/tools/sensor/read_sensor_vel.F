@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NOD1,NS,NNOD,NPARIS,NPARRS,NVAR,SENS_TYPE
-      my_real :: TDEL,VMAX,FREQ
+      my_real :: TDEL,TMIN,VMAX,FREQ
       CHARACTER MESS*40
       LOGICAL :: IS_AVAILABLE
       DATA MESS/'SENSOR DEFINITION                       '/
@@ -86,6 +86,7 @@ C     SENSOR BASED ON NODAL VELOCITY
 C=======================================================================
       IS_AVAILABLE = .FALSE.
       SENS_TYPE    = 9
+      TMIN = ZERO
 c--------------------------------------------------
 card1
       CALL HM_GET_FLOATV('Tdelay'     ,TDEL  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -105,7 +106,7 @@ c
       SENSOR_PTR%STATUS  = 0            ! status = deactivated
       SENSOR_PTR%TSTART  = INFINITY
       SENSOR_PTR%TCRIT   = INFINITY
-      SENSOR_PTR%TMIN    = ZERO         ! TMIN global
+      SENSOR_PTR%TMIN    = TMIN
       SENSOR_PTR%TDELAY  = TDEL         ! time delay before activation
       SENSOR_PTR%VALUE   = ZERO
 
