@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NINDX,INST,DINIT
+      INTEGER I,J,NINDX,INST,DINIT,IFORM
       INTEGER, DIMENSION(MVSIZ) :: INDX
       my_real
      .   C1     ,C2     ,C3     ,C4     ,C5     ,C6     ,
@@ -91,7 +91,8 @@ C-----------------------------------------------
      .   LAMBDA ,DYDX   ,FAC(NEL),DC(NEL),P      ,SVM    ,
      .   TRIAX  ,COS3THETA,LODEP ,EPSFAIL,E12    ,S1     ,
      .   S2     ,Q      ,EMAJ    ,EMIN   ,BETA   ,ALPHA  ,
-     .   EQUA1  ,EQUA2  ,E1      ,EPS_C  ,DINST(NEL)
+     .   EQUA1  ,EQUA2  ,E1      ,EPS_C  ,DINST(NEL),EPFMIN,
+     .   DELTA  ,DENOM
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=======================================================================
@@ -102,6 +103,7 @@ C-----------------------------------------------
       C4        = UPARAM(4) 
       C5        = UPARAM(5)
       C6        = UPARAM(6)
+      IFORM     = NINT(UPARAM(7))
       DINIT     = NINT(UPARAM(8))
       DAM_SF    = UPARAM(9)
       MAX_DAM   = UPARAM(10)
@@ -110,6 +112,7 @@ C-----------------------------------------------
       SOFTEXP   = UPARAM(13) 
       REF_LEN   = UPARAM(14) 
       REG_SCALE = UPARAM(15) 
+      EPFMIN    = UPARAM(16)
 c
       ! Set flag for stress softening
       IF (INST > 0) DMG_FLAG = 1
@@ -169,12 +172,13 @@ c
             EPSFAIL = C1 + C2*TRIAX + C3*LODEP + C4*(TRIAX**2) + 
      .                C5*(LODEP**2) + C6*TRIAX*LODEP
             EPSFAIL = EPSFAIL*FAC(I)
+            EPSFAIL = MAX(EPFMIN,EPSFAIL)
             ! Estimation of the damage variable value
             DFMAX(I) = PLA(I)/MAX(EPSFAIL,EM6)
             DFMAX(I) = DFMAX(I)*DAM_SF
             DFMAX(I) = MIN(MAX_DAM,DFMAX(I))
             ! Computation of instability curve and stress softening
-            IF (INST > 0) THEN
+            IF (INST > 0 .AND. TRIAX > EM10) THEN
               ! Computation of the principal strain ratio
               ALPHA = (TWO*BETA + ONE)/(TWO + BETA)
               ! Computation of the effective plastic strain
@@ -182,6 +186,7 @@ c
               EQUA2 = FOUR - THREE*ALPHA - THREE*ALPHA**2 + FOUR*ALPHA
               E1    = (TWO*(TWO-ALPHA)*EQUA1/MAX(EQUA2,EM20))*N_VAL
               EPS_C = E1*SQRT(FOUR*THIRD*(ONE + BETA + BETA**2))
+              EPS_C = EPS_C*FAC(I)
               ! Update instability criterion
               DINST(I)  = PLA(I)/MAX(EPS_C,EM20)
               DINST(I)  = MIN(DINST(I),ONE)
@@ -228,6 +233,7 @@ c
           EPSFAIL = C1 + C2*TRIAX + C3*LODEP + C4*(TRIAX**2) + 
      .              C5*(LODEP**2) + C6*TRIAX*LODEP
           EPSFAIL = EPSFAIL*FAC(I)
+          EPSFAIL = MAX(EPFMIN,EPSFAIL)
 c
           ! Computation of the damage variable update 
           DFMAX(I) = DFMAX(I) + DPLA(I)/MAX(EPSFAIL,EM20)
@@ -236,16 +242,12 @@ c
           ! Computation of instability curve and stress softening
           IF (INST > 0) THEN
             ! If the instability has not been reached
-            IF (DINST(I) < ONE) THEN 
-              ! Principal strains computation
-              E12   = HALF*EPSXY(I)
-              S1    = HALF*(EPSXX(I) + EPSYY(I))
-              S2    = HALF*(EPSXX(I) - EPSYY(I))
-              Q     = SQRT(S2**2 + E12**2)
-              EMAJ  = S1 + Q
-              EMIN  = S1 - Q
-              ! Computation of the principal strains ratio BETA
-              BETA  = EMIN/MAX(EMAJ,EM20)
+            IF (DINST(I) < ONE .AND. TRIAX > EM10) THEN 
+              ! Computation of the principal strains ratio BETA from stress triaxiality
+              DELTA = THREE*(TRIAX**2)*(FOUR - NINE*(TRIAX**2))
+              DENOM = TWO*(THREE*(TRIAX**2)-ONE)
+              DENOM = SIGN(MAX(ABS(DENOM),EM20),DENOM)
+              BETA  = ((TWO - THREE*(TRIAX**2))-SQRT(DELTA))/DENOM
               BETA  = MAX(-ONE,BETA)
               BETA  = MIN( ONE,BETA)
               ! Computation of the principal stress ratio
@@ -255,8 +257,13 @@ c
               EQUA2 = FOUR - THREE*ALPHA - THREE*ALPHA**2 + FOUR*ALPHA
               E1    = (TWO*(TWO-ALPHA)*EQUA1/MAX(EQUA2,EM20))*N_VAL
               EPS_C = E1*SQRT(FOUR*THIRD*(ONE + BETA + BETA**2))
+              EPS_C = EPS_C*FAC(I)
               ! Update instability criterion
-              DINST(I)  = DINST(I) + DPLA(I)/MAX(EPS_C,EM20)
+              IF (IFORM == 2) THEN 
+                DINST(I) = MAX(DINST(I),PLA(I)/MAX(EPS_C,EM20))
+              ELSE 
+                DINST(I) = DINST(I) + DPLA(I)/MAX(EPS_C,EM20)
+              ENDIF
               DINST(I)  = MIN(DINST(I),ONE)
               UVAR(I,2) = DINST(I) 
               ! Test if the instability curve is reached
@@ -265,16 +272,6 @@ c
                 UVAR(I,1) = DC(I)
               ENDIF
             ENDIF  
-            ! Computation of the damage scale factor 
-            IF (DFMAX(I) >= DC(I)) THEN 
-              IF (DC(I) < ONE) THEN 
-                DMG_SCALE(I) = ONE - ((DFMAX(I)-DC(I))/MAX(ONE-DC(I),EM20))**SOFTEXP
-              ELSE
-                DMG_SCALE(I) = ZERO
-              ENDIF
-            ELSE
-              DMG_SCALE(I) = ONE
-            ENDIF
           ENDIF
 c              
           ! Check element failure    
@@ -284,7 +281,25 @@ c
             INDX(NINDX) = I
           ENDIF
         ENDIF
-       ENDDO
+      ENDDO
+c
+      !====================================================================
+      ! - UPDATE DAMAGE SCALE FACTOR FOR NECKING INSTABILITY
+      !====================================================================
+      IF (INST > 0) THEN
+        DO I = 1,NEL 
+          ! Computation of the damage scale factor 
+          IF (DFMAX(I) >= DC(I)) THEN 
+            IF (DC(I) < ONE) THEN 
+              DMG_SCALE(I) = ONE - ((DFMAX(I)-DC(I))/MAX(ONE-DC(I),EM20))**SOFTEXP
+            ELSE
+              DMG_SCALE(I) = ZERO
+            ENDIF
+          ELSE
+            DMG_SCALE(I) = ONE
+          ENDIF
+        ENDDO
+      ENDIF
 c
       !====================================================================
       ! - PRINTOUT DATA ABOUT FAILED ELEMENTS
