@@ -592,7 +592,7 @@ c---
               CALL HM_READ_FAIL_SYAZWAN(
      .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
      .             MAXFUNC  ,NFUNC    ,UNITAB         ,MAT_ID    ,FAIL_ID  ,
-     .             LSUBMODEL)
+     .             TITR     ,LSUBMODEL)
 c
 c--------------------------------------------      
             END SELECT
