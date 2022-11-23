@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C new subroutine for simplified flow (euler euqation
-C can be used alos for Navier stocks equation
+C can be used also for Navier stocks equation
 Chd|====================================================================
 Chd|  FFINT3                        source/elements/solid/solide/ffint3.F
 Chd|-- called by -----------

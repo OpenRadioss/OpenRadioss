@@ -80,7 +80,7 @@ c  I   VF(3,4,NEL),VM(2,4,NEL) - internal forces&moment (5dofs) in local system
 c                       for plate element(coplaner), symmetry terms in 1,3,
 c                       anti-symmetry terms in 2,4
 c  I   PLAT(NEL)       - plate element (logic)
-C  O   Fij(NEL),Mij(NEL) - final internal forces (6dofs) in gloabl system (j=1,4)
+C  O   Fij(NEL),Mij(NEL) - final internal forces (6dofs) in global system (j=1,4)
 C  I   COREL,DI,DB,Z1   - parameters for projections
 c  I   IDRIL           - Drilling dof flag
 C-----------------------------------------------

@@ -168,7 +168,7 @@ C------M1C3: 33,34,44 ------
         DS1(EP) = CS1(EP)-HS1(EP)
         QS1(EP) = CS1(EP)+HS1(EP)
        ENDDO
-C---------non constant part are added directely : KcH1=SISJ/3 KC1;
+C---------non constant part is added directly : KcH1=SISJ/3 KC1;
        DO I=1,2
        DO J=I,2
         DO EP=JFT,JLT

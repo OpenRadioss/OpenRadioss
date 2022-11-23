@@ -202,7 +202,7 @@ C
      .   AF(3,*), FFSKY(3,*),DF(3,*),WF(3,*),MSF(*),AFGLOB(3,*),
      .   POR(*),VOLN(MVSIZ), CONDN(*),CONDNSKY(*)
 C
-      my_real :: BUFVOIS(6,*) ! Neighbourg element numbers (ALE/CFD)
+      my_real :: BUFVOIS(6,*) ! Neighbour element numbers (ALE/CFD)
       my_real :: MSNF(*),AR(*),VR(3,*),IN(*),FR_WAVE(*),DR(3,*),QMV(12,*)
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB

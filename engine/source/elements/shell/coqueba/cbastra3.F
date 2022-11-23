@@ -115,7 +115,7 @@ C
 C		 
          GSTRWPG(I)=GSTRWPG(I)+WXY(I)* DT1C(I)
         ENDDO
-C----- use ISTRAIN temporaly for KXX.. cumulated       
+C----- use ISTRAIN temporarily for KXX.. cumulated
         DO I=JFT,JLT
          F_DEF(I,6) = GSTRPG(I,6)
          F_DEF(I,7) = GSTRPG(I,7)

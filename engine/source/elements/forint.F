@@ -211,7 +211,7 @@ C-----------------------------------------------
       my_real
      .   BID,QMVBID
       my_real
-     .   VOLN(MVSIZ)  !local array to get rid of equivalence statments
+     .   VOLN(MVSIZ)  !local array to get rid of equivalence statements
       my_real,
      .   ALLOCATABLE, DIMENSION(:,:) :: FX,FY,FZ,MX,MY,MZ
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -276,7 +276,7 @@ c------------------------
       DO IG = 1, NGROUNC
         NG = IGROUNC(IG)         
         NGR_SENSOR = NG   
-C       temporaly used to avoid pass KTBUF_STR everywhere              
+C       temporarily used to avoid pass KTBUF_STR everywhere
         NG_IMP = NG
 
         IF (IPARG(8,NG)==1) GOTO 250                                 

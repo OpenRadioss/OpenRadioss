@@ -455,12 +455,12 @@ C
           BETA = MIN(ONE,SQRT((FFM**2)/FT))
 C
           IF (ICOMB <= 1) THEN
-C-    stopping displacment/ angle
+C-    stopping displacement/ angle
 	    IF ((DX(I)>0).AND.(DXMA>0)) DELTAX = MAX(ZERO,DX(I)-DXMA)
             IF ((DX(I)<0).AND.(DXMI<0)) DELTAX = MIN(ZERO,DX(I)-DXMI)
 	    IF (ABS(DELTAX)>EM20) BETA = ONE
           ELSE
-C-    combined stopping displacment/ angle
+C-    combined stopping displacement/ angle
             RADIUS = HALF*(DXMA-DXMI)
             IF ((DEQ(I)>0).AND.(RADIUS>0)) DELTAX = MAX(ZERO,DEQ(I)-RADIUS)
             FR = FRP(I)

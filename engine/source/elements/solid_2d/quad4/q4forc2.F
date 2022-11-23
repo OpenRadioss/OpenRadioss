@@ -124,7 +124,7 @@ c FUNCTION: Internal force computation of fully-integrated 2D Quad4 element
 c ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
 c TYPE NAME                FUNCTION
 c  I   PM ,GEO             Material and geometrical property data
-c  I   IC(7,NUM_QUAD)      connectivity and mid,pid interger data
+c  I   IC(7,NUM_QUAD)      connectivity and mid,pid integer data
 c  I   X(3,NUMNOD)         co-ordinate 
 c  IO  A(3,NUMNOD)         nodal internal force
 c  I   V(3,NUMNOD)         nodal velocity
@@ -139,7 +139,7 @@ c  IO  PARTSAV()           output use per part
 c  IO  DT2T                smallest elementary time step
 c  O   NELTST,ITYPTST      element type (property type for spring) which determine DT2T
 c  IO  STIFN(NUMNOD)       nodal stiffness to calcul nodal time step
-c  IO  EANI()              anim outpout vector
+c  IO  EANI()              anim output vector
 c  I   IPARTQ()            quad element group data (output)
 c  I   NEL                 nb of quad element in this group
 c  I   IADQ(),FSKY()       work arrays for special option of internal force assemlage   
@@ -181,7 +181,7 @@ C     NODAL COORDINATES (t+dt)
 C     NODAL VELOCITIES (t+dt/2)
 C     DIFFERENCES OF "Y", "Z"
 C     SUMMERIES OF "Y"
-C     AREA, VOLUME/(THICKNESS .OR. 2*PI), CHARATERISTIC LENGTH
+C     AREA, VOLUME/(THICKNESS .OR. 2*PI), CHARACTERISTIC LENGTH
 C     TRANSFORMATION MATRIX [R] FOR CO-ROTATIONAL CASE
 C     {X}=[R]{X'} <=> {X'}=T([R]){X}
       my_real
@@ -203,7 +203,7 @@ C     {X}=[R]{X'} <=> {X'}=T([R]){X}
      +    R31(MVSIZ),R32(MVSIZ),R33(MVSIZ)
 C
 C     USED WITH ALE OR EULER
-C     VISCOUS PRESSURE (SPHERICAL, POSSITIVE IF PRESSURE, OUTPUT OF "MMAIN")
+C     VISCOUS PRESSURE (SPHERICAL, POSITIVE IF PRESSURE, OUTPUT OF "MMAIN")
 C     SHAPE DERIVATIVES (dNi/dY, dNi/dZ) AT CENTER
 C     Ni/r AT CENTER
 C     SHAPE DERIVATIVES (dNi/dY, dNi/dZ) AT INTEGRATION POINT
@@ -408,7 +408,7 @@ C     COMPUTE AREA & VOLUME
      2            Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      3            Y234,Y124)
 C
-C     COMPUTE CHARATERISTIC LENGTH OF EACH ELEMENT FOR DETERMING TIME STEP 
+C     COMPUTE CHARACTERISTIC LENGTH OF EACH ELEMENT FOR DETERMINING TIME STEP 
       CALL QDLEN2(Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,AIRE,DELTAX,IPARG(63,NG))
 C
 C     COMPUTE SHAPE DERIVATIVES AT ELEMENT CENTER
@@ -484,7 +484,7 @@ C       MODIFY INITIAL VOLUME & INTERNAL ENERGY DENSITY
      7               LBUF%EINT,DSV,ICPG,FAC)
 C
 C
-C       COMPUTE ADITIONAL VOLUME CHANGE & MODIFY CURRENT DENSITY
+C       COMPUTE ADDITIONAL VOLUME CHANGE & MODIFY CURRENT DENSITY
 C       DVOL = (RHO*VOL-RHO0*VOL0')/RHO = RHO0*(VOL0-VOL0')/RHO
 C       RHO' = RHO0*VOL0'/VOL
         CALL QLAGR2(PM,LBUF%VOL,LBUF%RHO,LBUF%EINT,VOLN,DVOL,MAT)

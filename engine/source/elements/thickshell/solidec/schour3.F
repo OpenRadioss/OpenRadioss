@@ -416,7 +416,7 @@ C
         F38(I) =F38(I)-G81(I)*NFHZ1(I)-G82(I)*NFHZ2(I)
      .                -G83(I)*NFHZ3(I)-G84(I)*NFHZ4(I)
       ENDDO
-      !----hourglass energie est inclued in interal energie------
+      !----hourglass energy is included in internal energy------
       DO I=LFT,LLT
         EINT(I)= EINT(I)+DT1*(
      .   NFHX1(I)*HGX1(I) + NFHZ1(I)*HGZ1(I) + 
@@ -678,7 +678,7 @@ C   -----------FHOUR(1-11,I):XE1,ZE1,YK2,ZK2,XE3,YK3,ZK3,ZE3,XE4,YK4,Z4-------
        FHOUR(I,9) =  OFF(I)*FHOUR(I,9)  +  DH_XE4
        FHOUR(I,10) = OFF(I)*FHOUR(I,10) +  DH_YK4
        FHOUR(I,11) = OFF(I)*FHOUR(I,11) +  DH_Z4
-C------   SIGY(I) : now min(sigy(ip)) and =sigy(e_plas=0) at begining in law2   
+C------   SIGY(I) : now min(sigy(ip)) and =sigy(e_plas=0) at beginning in law2   
        IF (SIGY(I)<ZEP9EP30) THEN
         SE  =(ONE-NU(I))*FHOUR(I,5)
         SK  =(ONE-NU(I))*FHOUR(I,6)
@@ -717,7 +717,7 @@ c        SVM2 = SQRT(MM(I,2)+COEF*(SVMR+MIN(SVM,-SVM)))
           FACM = ZERO
           FHOUR(I,12) = SVM2
         ENDIF
-C------bending behavious : 
+C------bending behaviours :
          SE  =FHOUR(I,9)*FHOUR(I,9)
          SK  =FHOUR(I,10)*FHOUR(I,10)
          SR1 = (ONE +NU(I)*NU(I))*(SE+SK)
@@ -853,7 +853,7 @@ C
         F38(I) =F38(I)-G81(I)*NFHZ1(I)-G82(I)*NFHZ2(I)
      .                -G83(I)*NFHZ3(I)-G84(I)*NFHZ4(I)
       ENDDO
-      !----hourglass energie est inclued in interal energie------
+      !----hourglass energy is included in internal energy------
       DO I=LFT,LLT
         EINT(I)= EINT(I)+DT1*(
      .   NFHX1(I)*HGX1(I) + NFHZ1(I)*HGZ1(I) + 

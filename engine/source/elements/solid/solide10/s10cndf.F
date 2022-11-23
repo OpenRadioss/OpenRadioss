@@ -1203,7 +1203,7 @@ C-----------------------------------------------
 C=======================================================================
 C---- for /CHKPT and restart : just affect output in ecrit
        IF (MCHECK>0.OR.IRUN>1) THEN
-C---- can't do it precisily unless to storer MASI2ND0
+C---- can't do it precisely unless to store MASI2ND0
         IF (NKEND<0.OR.IRUN>1) THEN
           DMAS2 = MSI20
           NKEND =IABS(NKEND)
@@ -1224,7 +1224,7 @@ C
            NS = IABS(ICNDS10(1,I))
            IF (WEIGHT(NS)/=0) MASND = MASND + MS(NS)
          ENDDO
-C---due to the part w/ weigth(ns)=0; DMSI2 in itet2_c.inc for restart
+C---due to the part w/ weight(ns)=0; DMSI2 in itet2_c.inc for restart
         IF (TT==ZERO) THEN      
          DMSI2 = MASND-MS_ND-DMAS2
          DMSI2 = MAX(ZERO,DMSI2)

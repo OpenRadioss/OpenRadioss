@@ -344,7 +344,7 @@ C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un)
 C
       IF(JALE+JLAG/=0)THEN
        IF (ISMSTR /= 11) THEN
-C!!!!!!add excetion also for ismstr10+offg>un       
+C!!!!!!also add exception for ismstr10+offg>un
         CALL S4DERI3(OFF,VOLN,NGL,DELTAX,MXT,
      .   XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4,
      .   ZD1, ZD2, ZD3, ZD4, PX1, PX2, PX3, PX4,

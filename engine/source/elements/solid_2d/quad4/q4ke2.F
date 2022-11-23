@@ -84,7 +84,7 @@ c FUNCTION: elemental stiffness of Q4 element
 c ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
 c TYPE NAME                FUNCTION
 c  I   PM(),GEO()          material and geometrical property data
-c  I   IXQ(7,NUM_QUAD)     connectivity and mid,pid interger data
+c  I   IXQ(7,NUM_QUAD)     connectivity and mid,pid integer data
 c  I   X(3,NUMNOD)         coordinates
 c  I   NEL                 number of quad element in this group
 c  I   ICP                 flag for constant pressure

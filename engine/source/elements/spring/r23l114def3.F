@@ -499,7 +499,7 @@ C---------------------
 C       MATERIAL FLOW COMPUTATION FOR SLIPRING/RETRACTOR
 C---------------------
 C
-C-      Computation of lenght of 2nd strand 
+C-      Computation of length of 2nd strand
         DO J=1,COMPT2
           I = INDEX_SLIP(J)
           STRD = SLIPRING_STRAND(I)   

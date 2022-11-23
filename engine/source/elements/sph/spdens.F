@@ -102,7 +102,7 @@ C-------------------------------------------
        WA(7,N)=ZERO
        WA(8,N)=ZERO
        WA(9,N)=ZERO    
-C      characteristic lenght = diameter.
+C      characteristic length = diameter.
        WA(11,N)=SPBUF(1,N)
        WA(12,N)=ZERO
       ENDDO
@@ -375,7 +375,7 @@ C       for artificial viscosity computation :
 C------
 C      for stability computation into material routines:
        WA(12,N)=MUMAX
-C      characteristic lenght = diameter.
+C      characteristic length = diameter.
        WA(11,N)=SPBUF(1,N)
 C------
 C      actual density:

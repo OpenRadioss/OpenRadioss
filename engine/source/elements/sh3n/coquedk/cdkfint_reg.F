@@ -187,9 +187,9 @@ c
 c
         DO K = 1,NDNOD
           DO I = 1,NEL
-            ! Reseting non-local forces
+            ! Resetting non-local forces
             FNLTH(I,K) = ZERO
-            ! Reseting non-local nodal stiffness
+            ! Resetting non-local nodal stiffness
             IF (NODADT > 0) THEN
               STIFNLTH(I,K) = EM20
             ENDIF

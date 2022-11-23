@@ -2035,7 +2035,7 @@ C-------------FLEXION------------------------
              VGLAS(I,10)=VGLAS(I,10)-EH2*DGLAS(I,10)
           ENDIF 
       END DO !I=JFT,JLT
-C-----taking into accound failing in the layers(law25 first)----
+C-----taking into account failing in the layers(law25 first)----
        NPT1=MIN(8,NPT)
        FACM = ZEP85  +ZEP015*(NPT1-2)
        FACF = ZEP7 +ZEP015*(NPT1-2)
@@ -2166,7 +2166,7 @@ C-------------FLEXION------------------------
              VGLAS(I,16)=VGLAS(I,16)-EH1*DGLAS(I,16)
           ENDIF 
       END DO !I=JFT,JLT
-C-----taking into accound failing in the layers(law25 first)----
+C-----taking into account failing in the layers(law25 first)----
        NPT1=MIN(8,NPT)
        FACM = ZEP85  +ZEP015*(NPT1-2)
        FACF = ZEP7 +ZEP015*(NPT1-2)
