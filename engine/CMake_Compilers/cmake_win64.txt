@@ -213,11 +213,12 @@ set_source_files_properties( ${source_directory}/source/mpi/interfaces/spmd_i7to
 # ieee.c
 set_source_files_properties( ${source_directory}/source/output/tools/ieee.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
 
-# fv_up_switch.F
+# fvm airbags           
 set_source_files_properties( ${source_directory}/source/airbag/fv_up_switch.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
-
-# fvbag.F
 set_source_files_properties( ${source_directory}/source/airbag/fvbag.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
+set_source_files_properties( ${source_directory}/source/airbag/fvbag0.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
+set_source_files_properties( ${source_directory}/source/airbag/fvbag1.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
+set_source_files_properties( ${source_directory}/source/airbag/fvbag2.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
 
 endif()
 

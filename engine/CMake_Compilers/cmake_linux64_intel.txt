@@ -113,6 +113,7 @@ set (C_BASIC "${cppmach} ${cpprel}")
 
 if ( debug STREQUAL "0" )
 
+
 # outp_c_s.F
 set_source_files_properties( ${source_directory}/source/sty/outp_c_s.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
 
@@ -220,6 +221,13 @@ set_source_files_properties( ${source_directory}/source/coupling/rad2rad/rad2rad
 
 # ieee.c
 set_source_files_properties( ${source_directory}/source/output/tools/ieee.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
+
+# fvm airbags           
+set_source_files_properties( ${source_directory}/source/airbag/fv_up_switch.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
+set_source_files_properties( ${source_directory}/source/airbag/fvbag.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
+set_source_files_properties( ${source_directory}/source/airbag/fvbag0.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
+set_source_files_properties( ${source_directory}/source/airbag/fvbag1.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
+set_source_files_properties( ${source_directory}/source/airbag/fvbag2.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
 
 endif()
 
