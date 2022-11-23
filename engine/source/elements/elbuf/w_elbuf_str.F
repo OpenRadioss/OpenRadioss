@@ -244,7 +244,7 @@ c
               RBUF_L(L_REL+1) = LY_OFF
                    L_REL = L_REL+1
 c
-c          print*,'    layer var lenghts: l_rel=',l_rel
+c          print*,'    layer var lengths: l_rel=',l_rel
 c-------      write local variable lengths (BUFLY%NVAR_LOC = 48)
 c
               L_OFF    = BUFLY%L_OFF    
@@ -1252,7 +1252,7 @@ c---
            RBUF_L(L_REL+1) =  G_TM_STRA
              L_REL = L_REL + 1
 c
-c          print*,'    global lenghts=',l_rel
+c          print*,'    global lengths=',l_rel
           sum = l_rel
 c
 c         ! write global variables for each element

@@ -240,7 +240,7 @@ C-----------
               END IF
             END DO
 C----------------------------------
-C           Eigenvalues needed to be calcultated in double precision
+C           Eigenvalues needed to be calculated in double precision
 C           for a simple precision executing
             SIZE=KWASPH
 c           IF (IRESP==1) THEN
@@ -299,7 +299,7 @@ C----------------------------------
           END IF
         ENDDO
 C----------------------------------
-C       Eigenvalues needed to be calcultated in double precision
+C       Eigenvalues needed to be calculated in double precision
 C       for a simple precision executing
         SIZE=10
 c       IF (IRESP==1) THEN

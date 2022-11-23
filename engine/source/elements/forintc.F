@@ -229,7 +229,7 @@ C
 C     Debranchement loi 151
                CYCLE
             ENDIF
-C---------temporaly used to avoid pass KTBUF_STR everywhere
+C---------temporarily used to avoid pass KTBUF_STR everywhere
             NG_IMP = NG
             IF(IPARG(8,NG)==1)GOTO 250
             ITY   =IPARG(5,NG)

@@ -488,7 +488,7 @@ C
               IF(FXEP(I)>Y2)AN3Y0(I)=(Y2-Y1)/ (X2-X1) 
               IF(FXEP(I)<YI1)AN3Y0(I)=(YI2-YI1)/ (XI2-XI1)
             ENDIF
-C----       Crossing of compresion/tension line - mix stiffness computed
+C----       Crossing of compression/tension line - mix stiffness computed
             IF ((DXELA(I) < ZERO).AND.(ABS(DDX(I)) > ZERO)) THEN
               DDXT = -FXEP(I)/AN3Y0(I)
               DDXC = DDX(I) - DDXT
@@ -538,7 +538,7 @@ C
               IF(FXEP(I)>Y2)AN3Y0(I)=(Y2-Y1)/ (X2-X1) 
               IF(FXEP(I)<YI1)AN3Y0(I)=(YI2-YI1)/ (XI2-XI1)
             ENDIF
-C----       Crossing of compresion/tension line - mix stiffness computed
+C----       Crossing of compression/tension line - mix stiffness computed
             IF ((DXELA(I) < ZERO).AND.(ABS(DDX(I)) > ZERO)) THEN
               DDXT = -FXEP(I)/AN3Y0(I)
               DDXC = DDX(I) - DDXT
@@ -563,7 +563,7 @@ C-------------------------------------
           DXELA(I)=DX(I)-DPX(I)
           AN3Y0(I)= XK(I)
           IF ((DXELA(I) >= ZERO).OR.(FXEP(I) >= ZERO)) THEN
-C----       Crossing of compresion/tension line - mix stiffness computed
+C----       Crossing of compression/tension line - mix stiffness computed
             IF ((DXELA(I) < ZERO).AND.(ABS(DDX(I)) > ZERO)) THEN
               DDXT = -FXEP(I)/AN3Y0(I)
               DDXC = DDX(I) - DDXT
@@ -581,7 +581,7 @@ C----       Crossing of compresion/tension line - mix stiffness computed
             DXELA(I)=DX(I)-DPX(I)
             IF ((DXELA(I) >= ZERO).OR.(FXEP(I) >= ZERO)) THEN
               AN3Y0(I)= XK(I)
-C----       Crossing of compresion/tension line - mix stiffness computed
+C----       Crossing of compression/tension line - mix stiffness computed
               IF ((DXELA(I) < ZERO).AND.(ABS(DDX(I)) > ZERO)) THEN
                 DDXT = -FXEP(I)/AN3Y0(I)
                 DDXC = DDX(I) - DDXT

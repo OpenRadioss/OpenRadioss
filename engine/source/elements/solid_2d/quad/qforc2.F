@@ -128,7 +128,7 @@ c ARGUMENTS:  (I: input, O: output, IO: input * output, W: workspace)
 c
 c TYPE NAME                FUNCTION
 c  I   PM ,GEO             Material and geometrical property data
-c  I   IC(7,NUM_QUAD)      connectivity and mid,pid interger data
+c  I   IC(7,NUM_QUAD)      connectivity and mid,pid integer data
 c  I   X(3,NUMNOD)         co-ordinate 
 c  IO  A(3,NUMNOD)         nodal internal force
 c  I   V(3,NUMNOD)         nodal velocity
@@ -144,7 +144,7 @@ c  IO  PARTSAV()           output use per part
 c  IO  DT2T                smallest elementary time step
 c  O   NELTST,ITYPTST      element type (property type for spring) which determine DT2T
 c  IO  STIFN(NUMNOD)       nodal stiffness to calcul nodal time step
-c  IO  EANI()              anim outpout vector
+c  IO  EANI()              anim output vector
 c  I   IPARTQ()            quad element group data (output)
 c  I   NEL                 nb of quad element in this group
 c  I   IADQ() ,FSKY()      work arrays for special option of internal force assemlage   
@@ -265,7 +265,7 @@ C       JCVT/=0 => JLAG/=0
 c
       IF (JLAG/=0) THEN
 C--------------
-C      LAGRANGE, VOLUME and Charateristic length (for DT) compute
+C      LAGRANGE, VOLUME and CHARACTERISTIC length (for DT) compute
 C--------------
         CALL QVOLU2(GBUF%OFF,AIRE,VOLN,NGL,
      .              Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,

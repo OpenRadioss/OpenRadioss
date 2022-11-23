@@ -342,8 +342,8 @@ C
      .             X1G      ,X2G      ,X3G      ,Y1G      ,Y2G      ,
      .             Y3G      ,Z1G      ,Z2G      ,Z3G      ,XDP      )
 C
-C------Change local system (objective) but only for strain,stress computes 
-C------to avoid many modifs especially complicated treatements like free shear locking   
+C------Change local system (objective) but only for strain,stress computes
+C------to avoid many modifs especially complicated treatments like free shear locking
 c
       CALL C3EVEC3(ELBUF_STR,DIR_A    ,DIR_B   ,JFT      ,JLT      , 
      .             IREP     ,E1X0     ,E1Y0    ,E1Z0     ,E2X0     , 

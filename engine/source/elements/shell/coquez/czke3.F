@@ -108,7 +108,7 @@ c  I   NCYCLE        - cycle(increment) number
 c  I   ISTRAIN       - total strain output flag
 c  I   IPLA          -  radial return plasticity compute option
 c  I   PM ,GEO       - Material and geometrical property data
-c  I   IXC(NIXC,NEL) - connectivity and mid,pid interger data
+c  I   IXC(NIXC,NEL) - connectivity and mid,pid integer data
 c  I   BUFMAT()      - internal material data
 c  I   INDXOF(NEL)   - deleted element flag (not used in this subroutine)
 c  I   ETAG(NEL)     - activating element flag for Eigenvalue analysis
@@ -122,7 +122,7 @@ c  I   THKE          - initial thickness
 c  I   ISMSTR        - small strain flag
 c  I   IKGEO  ,      - geometrical stiffness matrix including (if >0)
 c  I   X(3,NUMNOD)         co-ordinate 
-c  I   IPM ,IGEO     - Material and geometrical property interger data 
+c  I   IPM ,IGEO     - Material and geometrical property integer data 
 c  I   IEXPAN        - thermo flag used in materials
 c  I   IPARG(NG)           element group data
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--

@@ -47,7 +47,7 @@ C IXR      | 5*NEL   | I | R | SPRING CONNECTIVITY
 C                            | IXR(1,I) IPROP
 C                            | IXR(2,I) NODE 1 ID
 C                            | IXR(3,I) NODE 2 ID
-C                            | IXR(4,I) OPTIONNAL NODE 3 ID
+C                            | IXR(4,I) OPTIONAL NODE 3 ID
 C                            | IXR(5,I) Material ID
 C                            | IXR(6,I) SPRING ID
 C-----------------------------------------------

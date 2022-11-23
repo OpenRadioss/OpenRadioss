@@ -3475,11 +3475,11 @@ C
        AJI6(I)=DETT(I)*JAC_34_16(I)
        AJI9(I)=DETT(I)*JAC_15_24(I)
       ENDDO
-C---------not foget this for Ismstr11 and R,S,T
+C---------don't forget this for Ismstr11 and R,S,T
 c      DO I=LFT,LLT
 c       IF (IDEG(I)==0) DELTAX(I)=MIN(DELTAX(I),HUNDRED28*DET(I)*SMAX(I))
 c      ENDDO
-C------ ISMSTR =10       
+C------ ISMSTR =10
       ELSE
       DO I=LFT,LLT
        AJI1(I)=JAC_I(1,I)

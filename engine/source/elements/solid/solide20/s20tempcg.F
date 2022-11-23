@@ -52,7 +52,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
 C     REAL  
-C ---  tempurature on integration point
+C ---  temperature on integration point
        DO I=JFT,JLT 
          TEMPEL(I) = ZERO 
         DO J=1,NPE                                                  

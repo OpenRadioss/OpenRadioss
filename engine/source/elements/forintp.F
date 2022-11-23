@@ -174,7 +174,7 @@ C-----------------------------------------------
      .   OFF,DTX,DT05,RHOI,VI,
      .   PHI1,PHI2,PHI3,PHI4,PHI5,PHI6,PHI7,PHI8,
      .   KSI, ETA, ZETA,
-     .   VOLN(MVSIZ)  !local array to get rid of equivalence statments       
+     .   VOLN(MVSIZ)  !local array to get rid of equivalence statements
 C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------

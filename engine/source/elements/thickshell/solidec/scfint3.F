@@ -152,7 +152,7 @@ C   +++ non constante part------------
         SX1(I)= ZI*SX0(I)
         NU1(I) = NU(I)/(ONE -NU(I))
       ENDDO
-C---- asymetric part of gama------------
+C---- asymmetric part of gama------------
       DO I=LFT,LLT
 C   ---- I =1--------------
         XH1I =-RY1(I)*PX1H1(I)
@@ -219,7 +219,7 @@ C   ---- I =4--------------
         F34(I)=F34(I)+FINT
         F36(I)=F36(I)-FINT
       ENDDO
-C---- symetric part of gama------------
+C---- symmetric part of gama------------
 C 1 1 -1 -1 -1 -1 1 1
 C 1 -1 -1 1 -1 1 1 -1
       DO I=LFT,LLT

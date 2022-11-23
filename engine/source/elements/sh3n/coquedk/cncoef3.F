@@ -689,7 +689,7 @@ C-----------
                       HMFOR(I,6)=HMFOR(I,6)+WM*HMORLY(I,2)
                     ENDDO
                   ENDDO 
-C----------HM is caculated as mean value not need be modified when IPOS >0 (HF supposed the same)            
+C----------HM is calculated as mean value not need be modified when IPOS >0 (HF supposed the same)
                 ELSEIF(IGTYP == 11 .OR. IGTYP == 17) THEN
 C             
                   DO J=1,NPT

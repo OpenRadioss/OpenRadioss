@@ -597,7 +597,7 @@ C
         F34(I) =-(-HQ13P+HQ24P+FF)
         F36(I) =-(-HQ13P+HQ24N-FF)
       ENDDO
-      !----hourglass energie est inclued in interal energie------
+      !----hourglass energy is included in internal energy------
       IF(JLAG==1)THEN
        DO I=LFT,LLT
         EINT(I)= EINT(I)+DT05*(
@@ -1464,7 +1464,7 @@ C
         F34(I) =-(-HQ13P+HQ24P+FF)
         F36(I) =-(-HQ13P+HQ24N-FF)
       ENDDO
-      !----hourglass energie est inclued in interal energie------
+      !----hourglass energy is included in internal energy------
       IF(JLAG==1)THEN
        DO I=LFT,LLT
         EINT(I)= EINT(I)+DT05*(
