@@ -330,12 +330,14 @@ c-----------------
           WRITE(IOUT,1300)
           WRITE(IOUT,1400) YMC,ANUC,FC,FT,FB,F2D,S0,HT,DSUP1,EPSMAX
           WRITE(IOUT,1500) VKY,RT,RC,ROK,RO0,ETC,HBP,HV0,EPS0,HVFAC,
-     .                     ALI,ALF,VMAX,YMS,Y0S,ETS,ARM1,ARM2,ARM3
+     .                     ALI,ALF,VMAX,YMS,Y0S,ETS,ARM1,ARM2,ARM3,
+     .                     AA,BC,BT,CC 
         ELSE
           WRITE(IOUT,1301)
           WRITE(IOUT,1400) YMC,ANUC,FC,FT,FB,F2D,S0,HT,DSUP1,EPSMAX
           WRITE(IOUT,1600) VKY,RT,RC,ROK,RO0,ETC,HBP,HV0,ALI,ALF,VMAX,
-     .                     YMS,Y0S,ETS,ARM1,ARM2,ARM3
+     .                     YMS,Y0S,ETS,ARM1,ARM2,ARM3,
+     .                     AA,BC,BT,CC 
         ENDIF
       ENDIF     
 C-----------------
@@ -388,7 +390,11 @@ C-----------------
      & 5X,'ETS   TANGENT MODULUS . . . . . . . . . . =',E12.4/,
      & 5X,'ARM1  PERCENTAGE OF REINFORCEMENT DIR 1 . =',E12.4/,
      & 5X,'ARM2  PERCENTAGE OF REINFORCEMENT DIR 2 . =',E12.4/,
-     & 5X,'ARM3  PERCENTAGE OF REINFORCEMENT DIR 3 . =',E12.4/)
+     & 5X,'ARM3  PERCENTAGE OF REINFORCEMENT DIR 3 . =',E12.4/,
+     & 5X,'PARAMETER A  FOR OTTOSEN SURFACE. . . . . =',E12.4/,
+     & 5X,'PARAMETER BC FOR OTTOSEN SURFACE. . . . . =',E12.4/,    
+     & 5X,'PARAMETER BT FOR OTTOSEN SURFACE. . . . . =',E12.4/,    
+     & 5X,'PARAMETER C  FOR OTTOSEN SURFACE. . . . . =',E12.4)
  1600 FORMAT(
      & 5X,'KY    INITIAL HARDENING PARAMETER . . . . =',E12.4/,
      & 5X,'RT    FAILURE/PLASTIC TRANSITION PRES . . =',E12.4/,
@@ -407,7 +413,11 @@ C-----------------
      & 5X,'ETS   TANGENT MODULUS . . . . . . . . . . =',E12.4/,
      & 5X,'ARM1  PERCENTAGE OF REINFORCEMENT DIR 1 . =',E12.4/,
      & 5X,'ARM2  PERCENTAGE OF REINFORCEMENT DIR 2 . =',E12.4/,
-     & 5X,'ARM3  PERCENTAGE OF REINFORCEMENT DIR 3 . =',E12.4/)
+     & 5X,'ARM3  PERCENTAGE OF REINFORCEMENT DIR 3 . =',E12.4/,
+     & 5X,'PARAMETER A  FOR OTTOSEN SURFACE. . . . . =',E12.4/,
+     & 5X,'PARAMETER BC FOR OTTOSEN SURFACE. . . . . =',E12.4/,    
+     & 5X,'PARAMETER BT FOR OTTOSEN SURFACE. . . . . =',E12.4/,    
+     & 5X,'PARAMETER C  FOR OTTOSEN SURFACE. . . . . =',E12.4)
 C-----------------
       RETURN
       END
