@@ -189,7 +189,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ISENS
-      INTEGER J,K,ID,ITYP
 C=======================================================================
       GET_U_SENS_ID = 0
 
@@ -197,7 +196,7 @@ C=======================================================================
         RETURN
       ENDIF
 
-      GET_U_SENS_ID = SENSOR_TAB(J)%SENS_ID
+      GET_U_SENS_ID = SENSOR_TAB(ISENS)%SENS_ID
 C---
       RETURN
       END
