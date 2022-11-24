@@ -6703,7 +6703,7 @@ C
           IF(IMONM > 0) CALL STOPTIME(40,1)
         ENDIF
 C--------------------
-C       SENSOR // 
+C       SENSOR //  IN IMPLICIT
 C-----------------------------------------------
 C       Exchange FBSAV6 if sensor 6/12 activated 
 C-----------------------------------------------
@@ -6738,32 +6738,22 @@ c
      .                   GAUGE     ,IGAUP   ,NGAUP    ,PARTSAV2,LSENSOR ,
      .                   SENSOR    )
           ENDIF      
-C========================================================================================
-C                                     PARALLEL SECTION (SMP)
-C========================================================================================
-          NN1 = NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG+NFXBODY+1
-
-!$OMP PARALLEL DO PRIVATE(K)
-
-          DO K=1,NSENSOR
-            CALL SENSOR1(SENSOR_TAB(K),SENSOR(1,K) ,XSENS(1,K) ,
-     .        X         ,V            ,A           ,IPARI      ,NPRW       ,
-     .        FSAV      ,GAUGE        ,SFSAV6      ,TABSENSOR  ,FBSAV6     ,
-     .        STABSEN   ,IPARSENS     ,K           ,PARTSAV2   ,
-     .        SUBSETS   ,ACCELM       ,IGRSURF     ,IGRNOD     )
-          ENDDO 
-
-!$OMP     END PARALLEL DO
-
-          IF (IPARSEN S/= 0) FBSAV6(1:12,1:6,1:SFSAV6) = ZERO
-
+c
+          ! check activation condition of base sensors
+          CALL SENSOR_BASE(SENSOR_TAB,
+     .         XSENS     ,IPARSENS  ,TABSENSOR ,STABSEN   ,IPARI     ,
+     .         SFSAV6    ,FSAV      ,FBSAV6    ,PARTSAV2  ,GAUGE     ,
+     .         X         ,V         ,A         ,ACCELM    ,NPRW      ,
+     .         SUBSETS   ,IGRSURF   ,IGRNOD    )
+c
+          ! check activation condition of logical sensors hierarchy
           CALL SENSOR2(SENSOR_TAB,LSENSOR,SENSOR)
 
-          ENDIF
+        ENDIF
 
-          GOTO 111
+        GOTO 111
 
-        ENDIF  ! NSENSOR > 0 .AND. INCONV == 1
+      ENDIF
 C-----------------------------
 C       Non pure thermal case 
 C-----------------------------
@@ -8014,7 +8004,7 @@ C===============================================================================
 C------------------------------------------
 C       SYNCHRONISATION:  A  V  (POUR SORTIES)
 C------------------------------------------
-C       SENSOR
+C       SENSORS 
 C-- // --------------
 C-----------------------------------------------
 C   Exchange FBSAV6 if sensor 6/12 activated 
@@ -8051,27 +8041,15 @@ c
      .                 GAUGE     ,IGAUP   ,NGAUP    ,PARTSAV2  ,LSENSOR   ,
      .                 SENSOR    ) 
         ENDIF
-       
-C========================================================================================
-C                                     PARALLEL SECTION (SMP)
-C========================================================================================
-
-        NN1 = NINTER+NRWALL+NRBODY+NSECT+NJOINT
-     .         +NVOLU+NRBAG+NFXBODY+1
-!$OMP   PARALLEL DO PRIVATE(K)
-        DO K=1,NSENSOR
-          CALL SENSOR1(SENSOR_TAB(K),SENSOR(1,K) ,XSENS(1,K) ,
-     .      X         ,V            ,A           ,IPARI      ,NPRW       ,
-     .      FSAV      ,GAUGE        ,SFSAV6      ,TABSENSOR  ,FBSAV6     ,
-     .      STABSEN   ,IPARSENS     ,K           ,PARTSAV2   ,
-     .      SUBSETS   ,ACCELM       ,IGRSURF     ,IGRNOD     )
-        ENDDO
-
-C implicit barrier on end do
-!$OMP   END PARALLEL DO
-
-        IF (IPARSENS/=0) FBSAV6(1:12,1:6,1:SFSAV6) = ZERO
-
+c       
+        ! check activation condition of base sensors
+        CALL SENSOR_BASE(SENSOR_TAB,
+     .       XSENS     ,IPARSENS  ,TABSENSOR ,STABSEN   ,IPARI     ,
+     .       SFSAV6    ,FSAV      ,FBSAV6    ,PARTSAV2  ,GAUGE     ,
+     .       X         ,V         ,A         ,ACCELM    ,NPRW      ,
+     .       SUBSETS   ,IGRSURF   ,IGRNOD    )
+c       
+        ! check activation condition of logical sensor hierarchy
         CALL SENSOR2(SENSOR_TAB,LSENSOR,SENSOR)
 
       ENDIF  !  NSENSOR > 0
