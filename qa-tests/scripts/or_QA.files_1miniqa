@@ -429,10 +429,10 @@ input	../miniqa/LOIS/LOI68/cisaillement/test1/input_51/data/CISA12_0000.rad
 execute -starter
 input	../miniqa/LOIS/LOI68/cisaillement/test1/input_51/data/CISA12_0001.rad
 extract	../miniqa/LOIS/LOI68/cisaillement/test1/input_51/data/ref.extract
-local	IENERGY     Diff_Tolerance	0.0025
+local	IENERGY     Diff_Tolerance	0.0029
 local	KENERGYT	Abs_Tolerance	0.0002
 local	KENERGYR	Abs_Tolerance	8.0e-05
-local	EXTWORK	Diff_Tolerance	0.002
+local	EXTWORK	Diff_Tolerance	0.032
 if precision == sp local IENERGY Diff_Tolerance 0.007
 if precision == sp local KENERGYT Diff_Tolerance 0.0265
 if precision == sp local EXTWORK Diff_Tolerance 0.007
