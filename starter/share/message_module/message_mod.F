@@ -1152,7 +1152,6 @@ Chd|        ELEGROR                       source/groups/elegror.F
 Chd|        ELEGROR_SEATBELT              source/groups/elegror_seatbelt.F
 Chd|        GET_SKEW                      source/elements/joint/rjoint/rini33.F
 Chd|        GET_SKEW45                    source/elements/joint/rjoint/rini45.F
-Chd|        GET_U_FUNC_X                  source/user_interface/uaccess.F
 Chd|        GET_U_FUNC_Y                  source/user_interface/uaccess.F
 Chd|        GET_U_GEO                     source/user_interface/uaccess.F
 Chd|        GET_U_MAT                     source/user_interface/uaccess.F

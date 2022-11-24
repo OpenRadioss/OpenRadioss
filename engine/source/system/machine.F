@@ -241,7 +241,6 @@ Chd|        TELESC                        source/constraints/general/cyl_joint/t
 Chd|        UPDATE_STRUCT_INT21           source/interfaces/int21/update_struct_int21.F
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|        WRITE_CUT_CELL_BUFFER         source/interfaces/int22/write_cut_cell_buffer.F
-Chd|        SET_U_SENS_MAXVALUE           source/user_interface/usensor.F
 Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|====================================================================

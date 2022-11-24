@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        ENG_USERLIB_USER_SENS         source/user_interface/dyn_userlib.c
-Chd|        USENS_SHIFT_BA                source/user_interface/usensor.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================

@@ -27,6 +27,7 @@ Chd|        AIRBAGA                       source/airbag/airbag1.F
 Chd|        AIRBAGA1                      source/airbag/airbaga1.F      
 Chd|        ALEFVM_GRAV_INIT              source/ale/alefvm/alefvm_grav_init.F
 Chd|        ALEMAIN                       source/ale/alemain.F          
+Chd|        ANIM_BUILD_INDEX_ALL          source/output/anim/reader/anim_build_index_all.F
 Chd|        BOLTST                        source/elements/solid/solide/boltst.F
 Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
 Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
@@ -81,6 +82,7 @@ Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
 Chd|        INTFOP8                       source/interfaces/interf/intfop8.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
+Chd|        LECTUR                        source/input/lectur.F         
 Chd|        LOAD_PRESSURE                 source/loads/general/load_pressure/load_pressure.F
 Chd|        MATERIAL_FLOW                 source/tools/seatbelts/material_flow.F
 Chd|        MONVOL0                       source/airbag/monvol0.F       
@@ -153,10 +155,25 @@ Chd|        SPMD_IFRONT                   source/mpi/interfaces/spmd_ifront.F
 Chd|        SPMD_IFRONT_STAMP             source/mpi/interfaces/send_cand.F
 Chd|        SPMD_SAVEFI                   source/mpi/interfaces/spmd_i7tool.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
+Chd|        USENS_SHIFT_AB                source/user_interface/usensor.F
+Chd|        USENS_SHIFT_BA                source/user_interface/usensor.F
 Chd|        VOLPRE                        source/airbag/volpres.F       
 Chd|        VOLPREP                       source/airbag/volpresp.F      
 Chd|        WRITE_SENSOR_TAB              source/output/restart/write_sensor_tab.F
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
+Chd|        GET_U_NUMSENS                 source/user_interface/usensor.F
+Chd|        GET_U_SENS                    source/user_interface/usensor.F
+Chd|        GET_U_SENS_ACTI               source/user_interface/usensor.F
+Chd|        GET_U_SENS_DELAY              source/user_interface/usensor.F
+Chd|        GET_U_SENS_FPAR               source/user_interface/usensor.F
+Chd|        GET_U_SENS_ID                 source/user_interface/usensor.F
+Chd|        GET_U_SENS_IPAR               source/user_interface/usensor.F
+Chd|        GET_U_SENS_VALUE              source/user_interface/usensor.F
+Chd|        SET_U_SENS_ACTI               source/user_interface/usensor.F
+Chd|        SET_U_SENS_DEACTI             source/user_interface/usensor.F
+Chd|        SET_U_SENS_MAXVALUE           source/user_interface/usensor.F
+Chd|        SET_U_SENS_VALUE              source/user_interface/usensor.F
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE SENSOR_MOD
@@ -257,9 +274,25 @@ c
 
 
 Chd|====================================================================
-Chd|  SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|  SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|-- called by -----------
+Chd|        RADIOSS2                      source/engine/radioss2.F      
+Chd|        USENS_SHIFT_AB                source/user_interface/usensor.F
+Chd|        USENS_SHIFT_BA                source/user_interface/usensor.F
+Chd|        GET_U_NUMSENS                 source/user_interface/usensor.F
+Chd|        GET_U_SENS                    source/user_interface/usensor.F
+Chd|        GET_U_SENS_ACTI               source/user_interface/usensor.F
+Chd|        GET_U_SENS_DELAY              source/user_interface/usensor.F
+Chd|        GET_U_SENS_FPAR               source/user_interface/usensor.F
+Chd|        GET_U_SENS_ID                 source/user_interface/usensor.F
+Chd|        GET_U_SENS_IPAR               source/user_interface/usensor.F
+Chd|        GET_U_SENS_VALUE              source/user_interface/usensor.F
+Chd|        SET_U_SENS_ACTI               source/user_interface/usensor.F
+Chd|        SET_U_SENS_DEACTI             source/user_interface/usensor.F
+Chd|        SET_U_SENS_MAXVALUE           source/user_interface/usensor.F
+Chd|        SET_U_SENS_VALUE              source/user_interface/usensor.F
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       MODULE SENSOR_VARIABLE_MOD
 C-----------------------------------------------

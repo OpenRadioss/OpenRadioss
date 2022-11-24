@@ -1726,7 +1726,6 @@ Chd|        TINIT3                        source/elements/truss/tinit3.F
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|        WRITE_I_C_DEBUG               source/output/tools/write_debug.F
 Chd|        XINIT3                        source/elements/xelem/xinit3.F
-Chd|        GET_U_FUNC_X                  source/user_interface/uaccess.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FRETITL2(TITR,IASC,L)

@@ -37,8 +37,9 @@ C---------+---------+---+---+--------------------------------------------
 Chd|====================================================================
 Chd|  USENS_SHIFT_AB                source/user_interface/usensor.F
 Chd|-- called by -----------
-Chd|        SENSOR1                       source/tools/sensor/sensor1.F 
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE USENS_SHIFT_AB(SENSOR)
 C-----------------------------------------------
@@ -77,8 +78,9 @@ C---
 Chd|====================================================================
 Chd|  USENS_SHIFT_BA                source/user_interface/usensor.F
 Chd|-- called by -----------
-Chd|        SENSOR2                       source/tools/sensor/sensor2.F 
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE USENS_SHIFT_BA(SENSOR)
 C-----------------------------------------------
@@ -114,6 +116,8 @@ Chd|  GET_U_NUMSENS                 source/user_interface/usensor.F
 Chd|-- called by -----------
 Chd|        CSENS3                        source/elements/shell/coque/csens3.F
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|====================================================================
       INTEGER FUNCTION GET_U_NUMSENS(IDSENS)
 C-----------------------------------------------
@@ -163,6 +167,8 @@ Chd|====================================================================
 Chd|  GET_U_SENS_ID                 source/user_interface/usensor.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|====================================================================
       INTEGER FUNCTION GET_U_SENS_ID(ISENS)
 C-----------------------------------------------
@@ -202,6 +208,8 @@ Chd|        FORCE                         source/loads/general/force.F
 Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
 Chd|        IMP_KPRES                     source/implicit/imp_glob_k.F  
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|====================================================================
       INTEGER FUNCTION SET_U_SENS_VALUE(NSENS,IVAR,VAR)
 C-----------------------------------------------
@@ -257,6 +265,8 @@ Chd|        FORCE                         source/loads/general/force.F
 Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
 Chd|        IMP_KPRES                     source/implicit/imp_glob_k.F  
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|====================================================================
       INTEGER FUNCTION GET_U_SENS_VALUE(NSENS, IVAR, VAR)
 C-----------------------------------------------
@@ -309,6 +319,8 @@ Chd|  SET_U_SENS_MAXVALUE           source/user_interface/usensor.F
 Chd|-- called by -----------
 Chd|        CSENS3                        source/elements/shell/coque/csens3.F
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|====================================================================
       INTEGER FUNCTION SET_U_SENS_MAXVALUE(NSENS,IVAR,VAR)
 C-----------------------------------------------
@@ -356,6 +368,8 @@ Chd|====================================================================
 Chd|  GET_U_SENS_FPAR               source/user_interface/usensor.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|====================================================================
       INTEGER FUNCTION GET_U_SENS_FPAR(NSENS,IVAR,VAR)
 C-----------------------------------------------
@@ -407,6 +421,8 @@ Chd|====================================================================
 Chd|  GET_U_SENS_IPAR               source/user_interface/usensor.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|====================================================================
       INTEGER FUNCTION GET_U_SENS_IPAR(NSENS,IVAR,VAR)
 C-----------------------------------------------
@@ -457,6 +473,8 @@ Chd|====================================================================
 Chd|  SET_U_SENS_ACTI               source/user_interface/usensor.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|====================================================================
       INTEGER FUNCTION SET_U_SENS_ACTI(NSENS)
 C-----------------------------------------------
@@ -507,6 +525,8 @@ Chd|====================================================================
 Chd|  SET_U_SENS_DEACTI             source/user_interface/usensor.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|====================================================================
       INTEGER FUNCTION SET_U_SENS_DEACTI(NSENS)
 C-----------------------------------------------
@@ -550,6 +570,8 @@ Chd|====================================================================
 Chd|  GET_U_SENS_ACTI               source/user_interface/usensor.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|====================================================================
       my_real FUNCTION GET_U_SENS_ACTI(NSENS)
 C-----------------------------------------------
@@ -602,6 +624,8 @@ Chd|  GET_U_SENS                    source/user_interface/usensor.F
 Chd|-- called by -----------
 Chd|        RUSER32                       source/elements/spring/ruser32.F
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|====================================================================
       my_real FUNCTION GET_U_SENS(USENS)
 C-----------------------------------------------
@@ -664,6 +688,8 @@ Chd|====================================================================
 Chd|  GET_U_SENS_DELAY              source/user_interface/usensor.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|====================================================================
       my_real FUNCTION GET_U_SENS_DELAY(NSENS)
 C-----------------------------------------------

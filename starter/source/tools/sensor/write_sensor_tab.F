@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
       SUBROUTINE WRITE_SENSOR_TAB(SENSOR_TAB,NSENSOR,NODLOCAL,LEN_AM)

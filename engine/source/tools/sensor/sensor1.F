@@ -39,7 +39,6 @@ Chd|        SENSOR_SECTION                source/tools/sensor/sensor_section.F
 Chd|        SENSOR_TEMP                   source/tools/sensor/sensor_temp.F
 Chd|        SENSOR_VEL                    source/tools/sensor/sensor_vel.F
 Chd|        SENSOR_WORK                   source/tools/sensor/sensor_work.F
-Chd|        USENS_SHIFT_AB                source/user_interface/usensor.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================

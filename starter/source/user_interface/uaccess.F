@@ -21,10 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 
-Chd|====================================================================
-Chd| Functions returning my_real needs this include
 #include      "my_real.inc"
-Chd|====================================================================
 
 Chd|====================================================================
 Chd|  ST_UACCESS_DUM                source/user_interface/uaccess.F
@@ -221,10 +218,8 @@ Chd|====================================================================
 Chd|  GET_U_MAT                     source/user_interface/uaccess.F
 Chd|-- called by -----------
 Chd|        RINI36                        source/properties/spring/hm_read_prop36.F
-Chd|        GET_U_MAT                     source/user_interface/uaccess.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        GET_U_MAT                     source/user_interface/uaccess.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       my_real FUNCTION GET_U_MAT(IVAR,IM)
@@ -308,10 +303,8 @@ Chd|        SPGRTAILS                     source/elements/sph/spgrtails.F
 Chd|        SPINIH                        source/elements/sph/spinih.F  
 Chd|        SPINIT3                       source/elements/sph/spinit3.F 
 Chd|        XINI28                        source/elements/xelem/xini28.F
-Chd|        GET_U_GEO                     source/user_interface/uaccess.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        GET_U_GEO                     source/user_interface/uaccess.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       my_real FUNCTION GET_U_GEO(IVAR,IP)
@@ -925,6 +918,8 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
+Chd|        SENSOR_VARIABLE_MOD           share/modules1/sensor_mod.F   
 Chd|====================================================================
       INTEGER FUNCTION SET_U_SENS_IPAR(IVAR,VAR)
 C-----------------------------------------------
@@ -985,6 +980,8 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
+Chd|        SENSOR_VARIABLE_MOD           share/modules1/sensor_mod.F   
 Chd|====================================================================
       INTEGER FUNCTION SET_U_SENS_FPAR(IVAR,VAR)
 C-----------------------------------------------

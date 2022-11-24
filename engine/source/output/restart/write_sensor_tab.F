@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|        WRITE_DB                      source/output/tools/write_db.F
+Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE WRITE_SENSOR_TAB(SENSOR_TAB,NSENSOR)

@@ -85,7 +85,10 @@ Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_drive
 Chd|        ST_QAPRINT_MODEL_TOOLS        source/output/qaprint/st_qaprint_model_tools.F
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|        WRITE_SENSOR_TAB              source/tools/sensor/write_sensor_tab.F
+Chd|        SET_U_SENS_FPAR               source/user_interface/uaccess.F
+Chd|        SET_U_SENS_IPAR               source/user_interface/uaccess.F
 Chd|        SET_U_SENS_SPMD_NODE_LIST     source/tools/sensor/set_u_sens_spmd_node_list.F
+Chd|        SENSOR_VARIABLE_MOD           share/modules1/sensor_mod.F   
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE SENSOR_MOD
@@ -155,9 +158,13 @@ c--------------------------
 
 
 Chd|====================================================================
-Chd|  SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|  SENSOR_VARIABLE_MOD           share/modules1/sensor_mod.F   
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        SET_U_SENS_FPAR               source/user_interface/uaccess.F
+Chd|        SET_U_SENS_IPAR               source/user_interface/uaccess.F
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
       MODULE SENSOR_VARIABLE_MOD
 C-----------------------------------------------

@@ -489,6 +489,7 @@ Chd|        REORDER_MOD                   share/modules1/reorder_mod.F
 Chd|        RESTMOD                       share/modules1/restart_mod.F  
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
+Chd|        SENSOR_VARIABLE_MOD           share/modules1/sensor_mod.F   
 Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SET_MOD                       share/modules1/set_mod.F      
 Chd|        SKEW_MOD                      share/modules1/skew_mod.F     

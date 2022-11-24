@@ -62,6 +62,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================

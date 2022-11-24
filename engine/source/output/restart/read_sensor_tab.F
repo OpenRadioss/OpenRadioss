@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
+Chd|        READ_I_C                      source/output/tools/sortie_c.c
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE READ_SENSOR_TAB(SENSOR_TAB,NSENSOR)

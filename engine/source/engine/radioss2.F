@@ -140,6 +140,7 @@ Chd|        RESTMOD                       share/modules/restart_mod.F
 Chd|        SCRATCHFILE_MOD               share/modules/scratchfiles_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|        SOLTOSPH_MOD                  share/modules/soltosph_mod.F  
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F

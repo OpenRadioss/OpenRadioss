@@ -197,6 +197,7 @@ Chd|        HM_READ_FAIL_INIEVO           source/materials/fail/inievo/hm_read_f
 Chd|        HM_READ_FAIL_JOHNSON          source/materials/fail/johnson_cook/hm_read_fail_johnson.F
 Chd|        HM_READ_FAIL_ORTHBIQUAD       source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
 Chd|        HM_READ_FAIL_SPALLING         source/materials/fail/spalling/hm_read_fail_spalling.F
+Chd|        HM_READ_FAIL_SYAZWAN          source/materials/fail/syazwan/hm_read_fail_syazwan.F
 Chd|        HM_READ_FAIL_TAB1             source/materials/fail/tabulated/hm_read_fail_tab1.F
 Chd|        HM_READ_FAIL_TAB_OLD          source/materials/fail/tabulated/hm_read_fail_tab_old.F
 Chd|        HM_READ_FAIL_TBUTCHER         source/materials/fail/tuler_butcher/hm_read_fail_tbutcher.F
@@ -802,7 +803,6 @@ Chd|        XINIT3                        source/elements/xelem/xinit3.F
 Chd|        YCTRL                         source/initial_conditions/inista/yctrl.F
 Chd|        GET_SKEW                      source/elements/joint/rjoint/rini33.F
 Chd|        GET_SKEW45                    source/elements/joint/rjoint/rini45.F
-Chd|        GET_U_FUNC_X                  source/user_interface/uaccess.F
 Chd|        GET_U_FUNC_Y                  source/user_interface/uaccess.F
 Chd|        GET_U_GEO                     source/user_interface/uaccess.F
 Chd|        GET_U_MAT                     source/user_interface/uaccess.F
