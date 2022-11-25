@@ -104,8 +104,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, I1, I2,PID,N,ID,IDS,J,STAT,MID,IAD,NNOD,IGS
-      INTEGER INDEX_PART,OFF_DEF(NSUBMOD),OFF_EL(NSUBMOD),
-     .        OFF_PART(NSUBMOD)
+      INTEGER INDEX_PART
       INTEGER TABIDS(NUMELX)
       CHARACTER MESS*40
       my_real
@@ -117,14 +116,6 @@ C-----------------------------------------------
       INTEGER NODGRNR5
       DATA MESS /'MULTI-PURPOSE ELEMENTS DEFINITION       '/
 C=======================================================================
-C--------------------------------------------------
-C      HM OFFSETS IDs
-C--------------------------------------------------
-      DO I=1,NSUBMOD
-        OFF_DEF(I) = LSUBMODEL(I)%OFF_DEF
-        OFF_EL(I) = LSUBMODEL(I)%OFF_EL
-        OFF_PART(I) = LSUBMODEL(I)%OFF_PART
-      ENDDO
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
@@ -151,14 +142,6 @@ C--------------------------------------------------
 
       IAD =1
       DO N=1,NUMELX
-C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-        IF(SUB_XELEM(N) /= 0)THEN
-          IF(IPARTX(N) /= 0) IPARTX(N) = IPARTX(N) + OFF_PART(SUB_XELEM(N)) 
-          IF(IDEX(N) /= 0) IDEX(N) = IDEX(N) + OFF_EL(SUB_XELEM(N)) 
-          IF(IDGU(N) /= 0) IDGU(N) = IDGU(N) + OFF_DEF(SUB_XELEM(N))
-        ENDIF
 
 C--------------------------------------------------
 C      INTERNAL PART ID

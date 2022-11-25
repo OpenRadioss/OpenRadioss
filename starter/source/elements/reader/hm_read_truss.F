@@ -94,8 +94,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, I1, I2, MID, PID,MT,IPID,ID,IDS,J,N,JC,STAT
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,CPT,
-     .        INDEX_PART,OFF_DEF(NSUBMOD),OFF_NOD(NSUBMOD),
-     .        OFF_EL(NSUBMOD),OFF_PART(NSUBMOD)
+     .        INDEX_PART
       CHARACTER MESS*40, MESS2*40
       my_real
      .   BID 
@@ -109,15 +108,6 @@ C
       DATA MESS/'3D TRUSS ELEMENTS DEFINITION            '/
       DATA MESS2/'3D TRUSS ELEMENTS SELECTION FOR TH PLOT '/
 C=======================================================================
-C--------------------------------------------------
-C      HM OFFSETS IDs
-C--------------------------------------------------
-      DO I=1,NSUBMOD
-        OFF_DEF(I) = LSUBMODEL(I)%OFF_DEF
-        OFF_NOD(I) = LSUBMODEL(I)%OFF_NOD
-        OFF_EL(I) = LSUBMODEL(I)%OFF_EL
-        OFF_PART(I) = LSUBMODEL(I)%OFF_PART
-      ENDDO
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
@@ -136,17 +126,7 @@ C      FILL OTHER STRUCTURES + CHECKS
 C--------------------------------------------------
         I=0
         DO N=1,NUMELT
-          I = I + 1 
-C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-          IF(SUB_TRUSS(I) /= 0)THEN
-            IF(IPARTT(I) /= 0) IPARTT(I) = IPARTT(I) + OFF_PART(SUB_TRUSS(I)) 
-            IF(IXT(NIXT,I) /= 0) IXT(NIXT,I) = IXT(NIXT,I) + OFF_EL(SUB_TRUSS(I))
-            DO J=2,3
-              IF(IXT(J,I) /= 0) IXT(J,I) = IXT(J,I) + OFF_NOD(SUB_TRUSS(I))
-            ENDDO
-          ENDIF
+          I = I + 1
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------

@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NBFAILTAB,SUBMODEL_INDEX,OFFSET,ISFIRST,IS_CONVERT
+      INTEGER I,NBFAILTAB,OFFSET,ISFIRST,IS_CONVERT
       CHARACTER KEY*ncharline
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -87,10 +87,7 @@ C=======================================================================
         KEY  = ''
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          KEYWORD2    = KEY )
-
-        CALL CPP_GET_SUBMODEL_INDEX(SUBMODEL_INDEX)
         OFFSET = 0
-        IF(SUBMODEL_INDEX /=0) OFFSET = LSUBMODEL(SUBMODEL_INDEX)%OFF_DEF
         IF ((KEY /= 'TAB1').AND.(KEY /= 'TAB2')) THEN
           CALL CPP_CONVERT_FAIL_TAB(TABLE_MAXID,FAIL_MAXID,OFFSET,ISFIRST)
           IS_CONVERT = 1

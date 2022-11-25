@@ -103,8 +103,7 @@ C-----------------------------------------------
       INTEGER I, I1, I2,PID,N,ID,IDS,J,IPID,JC,STAT,IMID,IGTYP,MID
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
       INTEGER FLAG_KJ(NUMELR),IKJ_TMP(3,NUMELR),NUMEL_KJ,CPT,
-     .        INDEX_PART,OFF_DEF(NSUBMOD),OFF_NOD(NSUBMOD),OFF_EL(NSUBMOD),
-     .        OFF_PART(NSUBMOD)
+     .        INDEX_PART
       CHARACTER MESS*40, MESS2*40, CHAR_MAT*11, CHAR_SKEW*11
       my_real
      .   BID 
@@ -117,15 +116,6 @@ C-----------------------------------------------
       DATA MESS /'3D SPRING ELEMENTS DEFINITION           '/
       DATA MESS2/'3D SPRING ELEMENTS SELECTION FOR TH PLOT'/
 C=======================================================================
-C--------------------------------------------------
-C      HM OFFSETS IDs
-C--------------------------------------------------
-      DO I=1,NSUBMOD
-        OFF_DEF(I) = LSUBMODEL(I)%OFF_DEF
-        OFF_NOD(I) = LSUBMODEL(I)%OFF_NOD
-        OFF_EL(I) = LSUBMODEL(I)%OFF_EL
-        OFF_PART(I) = LSUBMODEL(I)%OFF_PART
-      ENDDO
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
@@ -152,20 +142,6 @@ C--------------------------------------------------
 C	
         DO N=1,NUMELR
           I = I + 1
-C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-          IF(SUB_SPRING(I) /= 0)THEN
-            IF(IPARTR(I) /= 0) IPARTR(I) = IPARTR(I) + OFF_PART(SUB_SPRING(I)) 
-            IF(IXR(NIXR,I) /= 0) IXR(NIXR,I) = IXR(NIXR,I) + OFF_EL(SUB_SPRING(I))
-            DO J=2,4
-              IF(IXR(J,I) /= 0) IXR(J,I) = IXR(J,I) + OFF_NOD(SUB_SPRING(I))
-            ENDDO
-            DO J=1,3
-              IF(IXR_KJ(J,I) /= 0) IXR_KJ(J,I) = IXR_KJ(J,I) + OFF_NOD(SUB_SPRING(I))
-            ENDDO
-            IF(SKEWID(I) > 0) SKEWID(I)=SKEWID(I)+OFF_DEF(SUB_SPRING(I))
-          ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------

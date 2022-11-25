@@ -104,9 +104,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, I1, I2, ID,IDS,IPID,MT,N,MID,PID,UID,NDEGEN,JC,STAT,
-     .   IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,ISHXFEM,IOUTN,IERROR,INDEX_PART,
-     .   OFF_DEF(NSUBMOD),OFF_NOD(NSUBMOD),OFF_EL(NSUBMOD),
-     .   OFF_PART(NSUBMOD)
+     .   IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,ISHXFEM,IOUTN,IERROR,INDEX_PART
       CHARACTER MESS*40, MESS2*40,TITR*nchartitle
       my_real
      .   BID,FAC_L
@@ -119,15 +117,6 @@ C-----------------------------------------------
       DATA MESS/'2D QUAD ELEMENTS DEFINITION            '/
       DATA MESS2/'2D QUAD ELEMENTS SELECTION FOR TH PLOT '/
 C=======================================================================
-C--------------------------------------------------
-C      HM OFFSETS IDs
-C--------------------------------------------------
-      DO I=1,NSUBMOD
-        OFF_DEF(I) = LSUBMODEL(I)%OFF_DEF
-        OFF_NOD(I) = LSUBMODEL(I)%OFF_NOD
-        OFF_EL(I) = LSUBMODEL(I)%OFF_EL
-        OFF_PART(I) = LSUBMODEL(I)%OFF_PART
-      ENDDO
 C--------------------------------------------------
 C      ALLOCS & INITS
 c      use NUMELQ IN PLACE OF NUMELC ( NBADMESH routine is modifying NUMELC )
@@ -157,12 +146,6 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_QUAD(I) /= 0)THEN
-          IF(IPARTQ(I) /= 0) IPARTQ(I) = IPARTQ(I) + OFF_PART(SUB_QUAD(I)) 
-          IF(IXQ(NIXQ,I) /= 0) IXQ(NIXQ,I) = IXQ(NIXQ,I) + OFF_EL(SUB_QUAD(I))
-          DO J=2,5
-            IF(IXQ(J,I) /= 0) IXQ(J,I) = IXQ(J,I) + OFF_NOD(SUB_QUAD(I))
-          ENDDO
-          IF(UID_QUAD(I) /= 0) UID_QUAD(I) = UID_QUAD(I) + OFF_DEF(SUB_QUAD(I))
           IF(UID_QUAD(I) == 0 .AND. LSUBMODEL(SUB_QUAD(I))%UID /= 0) 
      .         UID_QUAD(I) = LSUBMODEL(SUB_QUAD(I))%UID
         ENDIF

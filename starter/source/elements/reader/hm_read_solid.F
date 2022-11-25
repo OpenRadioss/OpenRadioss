@@ -107,9 +107,7 @@ C-----------------------------------------------
       INTEGER I, J, MT, MLAW, JTUR, I1, I2, INEW,I10,I20,I16
       INTEGER IC,IC1,IC2,IC3,IC4,IPID,ID,IDS,N,JC,NSPHDIR,STAT
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,NUMELS_READ,
-     .        IOUTN, IERROR, INDEX_PART,OFF_DEF(NSUBMOD),
-     .        OFF_NOD(NSUBMOD),OFF_EL(NSUBMOD),
-     .        OFF_PART(NSUBMOD)
+     .        IOUTN, IERROR, INDEX_PART
       my_real
      .   BID 
       CHARACTER MESS*40, MESS2*40
@@ -122,15 +120,6 @@ C
       DATA MESS/'3D SOLID ELEMENTS DEFINITION            '/
       DATA MESS2/'3D SOLID ELEMENTS SELECTION FOR TH PLOT '/
 C=======================================================================
-C--------------------------------------------------
-C      HM OFFSETS IDs
-C--------------------------------------------------
-      DO I=1,NSUBMOD
-        OFF_DEF(I) = LSUBMODEL(I)%OFF_DEF
-        OFF_NOD(I) = LSUBMODEL(I)%OFF_NOD
-        OFF_EL(I) = LSUBMODEL(I)%OFF_EL
-        OFF_PART(I) = LSUBMODEL(I)%OFF_PART
-      ENDDO
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
@@ -170,16 +159,6 @@ C--------------------------------------------------
           ISOLNOD(I)=8
         ENDIF
 C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-        IF(SUB_SOL(I) /= 0)THEN
-          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
-          IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
-          DO J=2,9
-            IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
-          ENDDO
-        ENDIF
-C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
         IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN  
@@ -217,16 +196,6 @@ C--------------------------------------------------
       INDEX_PART = 1
       DO N=1,NUMTETRA4
         I = I + 1
-C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-        IF(SUB_SOL(I) /= 0)THEN
-          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
-          IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
-          DO J=2,5
-            IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
-          ENDDO
-        ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
@@ -274,16 +243,6 @@ C--------------------------------------------------
       DO N=1,NUMPENTA6
         I = I + 1
 C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-        IF(SUB_SOL(I) /= 0)THEN
-          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
-          IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
-          DO J=2,7
-            IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
-          ENDDO
-        ENDIF
-C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
         IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN  
@@ -329,19 +288,6 @@ C--------------------------------------------------
       DO N=1,NUMELS10
         I = I + 1
         I10 = I10 + 1
-C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-        IF(SUB_SOL(I) /= 0)THEN
-          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
-          IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
-          DO J=2,5
-            IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
-          ENDDO
-          DO J=1,6
-            IF(IXS10(J,I10) /= 0) IXS10(J,I10) = IXS10(J,I10) + OFF_NOD(SUB_SOL(I))
-          ENDDO
-        ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
@@ -399,19 +345,6 @@ C--------------------------------------------------
         I = I + 1
         I20 = I20 + 1
 C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-        IF(SUB_SOL(I) /= 0)THEN
-          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
-          IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
-          DO J=2,9
-            IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
-          ENDDO
-          DO J=1,12
-            IF(IXS20(J,I20) /= 0) IXS20(J,I20) = IXS20(J,I20) + OFF_NOD(SUB_SOL(I))
-          ENDDO
-        ENDIF
-C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
         IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN  
@@ -459,19 +392,6 @@ C--------------------------------------------------
       DO N=1,NUMELS16
         I = I + 1
         I16 = I16 + 1
-C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-        IF(SUB_SOL(I) /= 0)THEN
-          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
-          IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
-          DO J=2,9
-            IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
-          ENDDO
-          DO J=1,8
-            IF(IXS16(J,I16) /= 0) IXS16(J,I16) = IXS16(J,I16) + OFF_NOD(SUB_SOL(I))
-          ENDDO
-        ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
@@ -922,8 +842,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, IT, NT
       INTEGER IPID,ID,IDS,N,NSPHDIR,STAT
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,INDEX_PART,OFF_DEF(NSUBMOD),
-     .        OFF_NOD(NSUBMOD),OFF_EL(NSUBMOD),OFF_PART(NSUBMOD)
+      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,INDEX_PART
       my_real
      .   BID 
       CHARACTER MESS*40
@@ -938,15 +857,6 @@ C
 C=======================================================================
         NSPHSOL=0
 C
-C--------------------------------------------------
-C      HM OFFSETS IDs
-C--------------------------------------------------
-      DO I=1,NSUBMOD
-        OFF_DEF(I) = LSUBMODEL(I)%OFF_DEF
-        OFF_NOD(I) = LSUBMODEL(I)%OFF_NOD
-        OFF_EL(I) = LSUBMODEL(I)%OFF_EL
-        OFF_PART(I) = LSUBMODEL(I)%OFF_PART
-      ENDDO
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
@@ -965,16 +875,6 @@ C--------------------------------------------------
 C      NSPHSOL NSPHDIR CALCULATION + CHECKS
 C--------------------------------------------------
       DO I=1,NUMBRICK
-C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-        IF(SUB_SOL(I) /= 0)THEN
-          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
-          IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
-          DO J=2,9
-            IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
-          ENDDO
-        ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
@@ -1018,16 +918,6 @@ C      NSPHSOL NSPHDIR CALCULATION + CHECKS
 C--------------------------------------------------
         DO I=NUMBRICK+1,NUMBRICK+NUMTETRA4
 C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-          IF(SUB_SOL(I) /= 0)THEN
-            IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
-            IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
-            DO J=2,5
-              IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
-            ENDDO
-          ENDIF
-C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
           IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN  
@@ -1057,16 +947,6 @@ C--------------------------------------------------
 C      NSPHSOL NSPHDIR CALCULATION + CHECKS
 C--------------------------------------------------
         DO I=NUMBRICK+NUMTETRA4+1,NUMBRICK+NUMTETRA4+NUMPENTA6
-C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-          IF(SUB_SOL(I) /= 0)THEN
-            IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
-            IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
-            DO J=2,7
-              IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
-            ENDDO
-          ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------

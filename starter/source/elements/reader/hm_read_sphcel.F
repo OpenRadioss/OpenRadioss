@@ -108,9 +108,7 @@ C-----------------------------------------------
      .        NOD2SP(*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        ITAB(*),ITABM1(*),IPART(LIPART1,*),IPARTSP(*),
      .        RESERVEP(NBPARTINLET), IXS(NIXS,*), IPARTS(*), ISOLNOD(*),
-     .        SPH2SOL(*), SOL2SPH(2,*), IRST(3,NSPHSOL),SOL2SPH_TYP(*),
-     .        OFF_DEF(NSUBMOD),OFF_NOD(NSUBMOD),OFF_EL(NSUBMOD),
-     .        OFF_PART(NSUBMOD)
+     .        SPH2SOL(*), SOL2SPH(2,*), IRST(3,NSPHSOL),SOL2SPH_TYP(*)
 C     REAL
       my_real
      .        X(3,*)
@@ -149,14 +147,6 @@ C-----------------------------------------------
       DATA MESS /'SPH CONNECTIVITIES DEFINITION           '/
 C-----------------------------------------------
 C--------------------------------------------------
-C      HM OFFSETS IDs
-C--------------------------------------------------
-      DO I=1,NSUBMOD
-        OFF_DEF(I) = LSUBMODEL(I)%OFF_DEF
-        OFF_NOD(I) = LSUBMODEL(I)%OFF_NOD
-        OFF_EL(I) = LSUBMODEL(I)%OFF_EL
-        OFF_PART(I) = LSUBMODEL(I)%OFF_PART
-      ENDDO
 C--------------------------------------------------
 C      ALLOCS & INITS
 c      use NUMELQ IN PLACE OF NUMELC ( NBADMESH routine is modifying NUMELC )
@@ -181,16 +171,6 @@ C--------------------------------------------------
 C      FILL OTHER STRUCTURES + CHECKS
 C--------------------------------------------------
       DO I=1,NSPHCEL
-C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-        IF(SUB_SPH(I) /= 0)THEN
-          IF(IPARTSP(I) /= 0) IPARTSP(I) = IPARTSP(I) + OFF_PART(SUB_SPH(I)) 
-          IF(KXSP(NISP,I) /= 0) KXSP(NISP,I) = KXSP(NISP,I) + OFF_EL(SUB_SPH(I))
-
-          IF(KXSP(3,I) /= 0) KXSP(3,I) = KXSP(3,I) + OFF_NOD(SUB_SPH(I))
-
-        ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------

@@ -540,28 +540,6 @@ C--------------------------------------------------
       CALL CPP_GET_INTV(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),IVAL,SUB_ID,C_IS_AVAILABLE,VALUE_TYPE)
       IS_AVAILABLE = C_IS_AVAILABLE
 C--------------------------------------------------
-C      ID OFFSETS FOR //SUBMODEL 
-C--------------------------------------------------
-      IF(SUB_ID /= 0 .AND. IVAL /= 0)THEN
-        IF(VALUE_TYPE == 1)THEN
-          IVAL = IVAL + LSUBMODEL(SUB_ID)%OFF_EL
-        ELSEIF(VALUE_TYPE == 2)THEN
-          IVAL = IVAL + LSUBMODEL(SUB_ID)%OFF_NOD
-        ELSEIF(VALUE_TYPE == 3)THEN
-          IVAL = IVAL + LSUBMODEL(SUB_ID)%OFF_PART
-        ELSEIF(VALUE_TYPE == 4)THEN
-          IVAL = IVAL + LSUBMODEL(SUB_ID)%OFF_MAT
-        ELSEIF(VALUE_TYPE == 5)THEN
-          IVAL = IVAL + LSUBMODEL(SUB_ID)%OFF_PROP
-        ELSEIF(VALUE_TYPE == 6)THEN
-c          IVAL = IVAL + LSUBMODEL(SUB_ID)%OFF_SUBMOD
-          IVAL = IVAL + LSUBMODEL(SUB_ID)%OFF_DEF
-        ELSEIF(VALUE_TYPE == 7)THEN
-          IVAL = IVAL + LSUBMODEL(SUB_ID)%OFF_DEF
-        ENDIF
-      ENDIF
-c      print *,'int value=',NAME(1:LEN_TRIM(NAME)),IVAL,IS_AVAILABLE
-C--------------------------------------------------
       RETURN
 C
       END

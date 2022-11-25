@@ -106,46 +106,7 @@ C--------------------------------------------------
         DO I=1,NBOPTION
           CALL CPP_OPTION_READ(OPTION_ID,UNIT_ID,SUBMODEL_INDEX,KEYWORD,S_KEYWORD,
      .                      TITR,S_TITR,OFFSET_CATEGORY,MY_POSITION) 
-C--------------------------------------------------
-C      ID OFFSETS FOR //SUBMODEL 
-C--------------------------------------------------
-          IF(SUBMODEL_INDEX /= 0 .AND. OPTION_ID /= 0)THEN
-            IF(OFFSET_CATEGORY == 1)THEN
-              OPTION_ID = OPTION_ID + LSUBMODEL(SUBMODEL_INDEX)%OFF_EL
-            ELSEIF(OFFSET_CATEGORY == 2)THEN
-              OPTION_ID = OPTION_ID + LSUBMODEL(SUBMODEL_INDEX)%OFF_NOD
-            ELSEIF(OFFSET_CATEGORY == 3)THEN
-              OPTION_ID = OPTION_ID + LSUBMODEL(SUBMODEL_INDEX)%OFF_PART
-            ELSEIF(OFFSET_CATEGORY == 4)THEN
-              OPTION_ID = OPTION_ID + LSUBMODEL(SUBMODEL_INDEX)%OFF_MAT
-            ELSEIF(OFFSET_CATEGORY == 5)THEN
-              OPTION_ID = OPTION_ID + LSUBMODEL(SUBMODEL_INDEX)%OFF_PROP
-            ELSEIF(OFFSET_CATEGORY == 6)THEN
-c a prendre en compte qd dispo
-c            OPTION_ID = OPTION_ID + LSUBMODEL(SUBMODEL_INDEX)%OFF_SUBMOD
-              OPTION_ID = OPTION_ID + LSUBMODEL(SUBMODEL_INDEX)%OFF_DEF
-            ELSEIF(OFFSET_CATEGORY == 7)THEN
-              OPTION_ID = OPTION_ID + LSUBMODEL(SUBMODEL_INDEX)%OFF_DEF
-            ELSE
-              OPTION_ID = OPTION_ID + LSUBMODEL(SUBMODEL_INDEX)%OFF_DEF
-            ENDIF
-          ENDIF
           IF (OPTION_ID > IDMAX) IDMAX = OPTION_ID
-        ENDDO
-      ELSE
-        DO I=1,NSUBMOD
-          OFF_EL   = LSUBMODEL(I)%OFF_EL
-          IF (OFF_EL > IDMAX)   IDMAX = OFF_EL
-          OFF_NOD  = LSUBMODEL(I)%OFF_NOD
-          IF (OFF_NOD > IDMAX)  IDMAX = OFF_NOD
-          OFF_PART = LSUBMODEL(I)%OFF_PART
-          IF (OFF_PART > IDMAX) IDMAX = OFF_PART
-          OFF_MAT  = LSUBMODEL(I)%OFF_MAT
-          IF (OFF_MAT > IDMAX)  IDMAX = OFF_MAT
-          OFF_PROP = LSUBMODEL(I)%OFF_PROP
-          IF (OFF_PROP > IDMAX) IDMAX = OFF_PROP
-          OFF_DEF  = LSUBMODEL(I)%OFF_DEF
-          IF (OFF_DEF > IDMAX)  IDMAX = OFF_DEF
         ENDDO
       ENDIF
 C--------------------------------------------------

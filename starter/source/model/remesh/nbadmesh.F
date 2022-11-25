@@ -80,8 +80,7 @@ C-----------------------------------------------
       INTEGER IPART(4,NPART),
      .        N,IP,ID,I,J,NLEV,NMUL,STAT,INDEX_PART,NPART_ADM
       INTEGER USR2SYS,NUMNUSR1,IDS,NI,NJ,NK,NL,K,L,P,Q,QQ,
-     .        NN,OFF_DEF(NSUBMOD),OFF_NOD(NSUBMOD),OFF_EL(NSUBMOD),
-     .        UID,IP0,ID_IP
+     .        NN,UID,IP0,ID_IP
 C     REAL
       CHARACTER MESS*40,TITR*nchartitle,KEY*ncharkey
       INTEGER , DIMENSION(:), ALLOCATABLE :: IPARTC, SHELL_ID
@@ -212,15 +211,6 @@ C
           ENDDO
 
       ENDDO
-
-C--------------------------------------------------
-C      HM OFFSETS IDs
-C--------------------------------------------------
-      DO I=1,NSUBMOD
-        OFF_DEF(I) = LSUBMODEL(I)%OFF_DEF
-        OFF_NOD(I) = LSUBMODEL(I)%OFF_NOD
-        OFF_EL(I) = LSUBMODEL(I)%OFF_EL
-      ENDDO
 C--------------------------------------
 C     nb shells and 3-node shells + nb nodes estimation (NUMNUSR < ...)
 C---------------  
@@ -252,16 +242,6 @@ C--------------------------------------------------
       IP = 0 
       IP0 = 0 
       DO I=1,NUMELC
-C--------------------------------------------------
-C      SUBMODEL OFFSET
-C-------------------------------------------------
-        IF(SUBID_SHELL(I) /= 0)THEN
-          IF(IPARTC(I) /= 0) IPARTC(I) = IPARTC(I) + OFF_DEF(SUBID_SHELL(I))
-          IF(IXC(NIXC,I) /= 0) IXC(NIXC,I) = IXC(NIXC,I) + OFF_EL(SUBID_SHELL(I))
-          DO J=2,5
-            IF(IXC(J,I) /= 0) IXC(J,I) = IXC(J,I) + OFF_NOD(SUBID_SHELL(I))
-          ENDDO
-        ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
@@ -317,16 +297,6 @@ C--------------------------------------------------
       IP0 = 0  
       DO I=1,NUMELTG
 C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-        IF(SUBID_SH3N(I) /= 0)THEN
-          IF(IPARTTG(I) /= 0) IPARTTG(I) = IPARTTG(I) + OFF_DEF(SUBID_SH3N(I))
-          IF(IXTG(NIXTG,I) /= 0) IXTG(NIXTG,I) = IXTG(NIXTG,I) + OFF_EL(SUBID_SH3N(I))
-          DO J=2,4
-            IF(IXTG(J,I) /= 0) IXTG(J,I) = IXTG(J,I) + OFF_NOD(SUBID_SH3N(I))
-          ENDDO
-        ENDIF
-C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
         IF( IPARTTG(I) /= IP0)THEN
@@ -371,12 +341,6 @@ C--------------------------------------------------
 C      CHECKS NODES & CNODES IDs
 C--------------------------------------------------  
       DO I=1,NUMNUSR
-C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-        IF(SUBID_NODES(I) /= 0)THEN
-          IF(ITAB(I) /= 0) ITAB(I) = ITAB(I) + OFF_NOD(SUBID_NODES(I))
-        ENDIF
 	IF (ITAB(I) > ID_LIMIT_ADMESH
      .        .AND. (ITAB(I) <  IDFT_NODE_AUTO.OR.
      .               ITAB(I) >= IDLT_NODE_AUTO)) THEN

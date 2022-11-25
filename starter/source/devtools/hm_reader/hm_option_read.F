@@ -89,33 +89,8 @@ C--------------------------------------------------
       CALL CPP_OPTION_READ(ID,UID,SUB_INDEX,KEYWORD,S_KEYWORD,TITR_TMP,S_TITR_TMP,OFFSET_CATEGORY,POS)
 C--------------------------------------------------
       TITR(1:S_TITR_TMP) = TITR_TMP(1:S_TITR_TMP)
-C--------------------------------------------------
-C      ID OFFSETS FOR //SUBMODEL 
-C--------------------------------------------------
-      IF(SUB_INDEX /= 0 .AND. ID /= 0)THEN
-        IF(OFFSET_CATEGORY == 1)THEN
-          ID = ID + LSUBMODEL(SUB_INDEX)%OFF_EL
-        ELSEIF(OFFSET_CATEGORY == 2)THEN
-          ID = ID + LSUBMODEL(SUB_INDEX)%OFF_NOD
-        ELSEIF(OFFSET_CATEGORY == 3)THEN
-          ID = ID + LSUBMODEL(SUB_INDEX)%OFF_PART
-        ELSEIF(OFFSET_CATEGORY == 4)THEN
-          ID = ID + LSUBMODEL(SUB_INDEX)%OFF_MAT
-        ELSEIF(OFFSET_CATEGORY == 5)THEN
-          ID = ID + LSUBMODEL(SUB_INDEX)%OFF_PROP
-        ELSEIF(OFFSET_CATEGORY == 6)THEN
-c a prendre en compte qd dispo
-c          ID = ID + LSUBMODEL(SUB_INDEX)%OFF_SUBMOD
-          ID = ID + LSUBMODEL(SUB_INDEX)%OFF_DEF
-        ELSEIF(OFFSET_CATEGORY == 7)THEN
-          ID = ID + LSUBMODEL(SUB_INDEX)%OFF_DEF
-        ELSE
-          ID = ID + LSUBMODEL(SUB_INDEX)%OFF_DEF
-        ENDIF
-      ENDIF
-      IF(SUB_INDEX /= 0 .AND. UID /= 0)THEN
-        UID = UID + LSUBMODEL(SUB_INDEX)%OFF_DEF
-      ELSEIF(SUB_INDEX /= 0 )THEN
+
+      IF(SUB_INDEX /= 0 )THEN
         IF(LSUBMODEL(SUB_INDEX)%UID /= 0)THEN
           UID = LSUBMODEL(SUB_INDEX)%UID
         ENDIF
