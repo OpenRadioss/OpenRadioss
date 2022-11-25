@@ -86,6 +86,7 @@ C--------------------------------
          NNP=IPOLY(2,I)
          NHOL=0
          ALLOCATE(PNODES(2,NNP), PSEG(2,NNP),PTRI(3,2*NNP),PHOLES(2,1))
+         PTRI(1:3,1:2*NNP) = 0
 C
 C Coordonnees des sommets dans le plan du polygone
          NX=RPOLY(2,I)
@@ -124,6 +125,7 @@ C
          PSEG(2,NNP)=1
          NSEG=NNP
 C
+         NELP = 0
          CALL C_TRICALL(PNODES, PSEG, PHOLES, PTRI, NNP,
      .                  NSEG,   NHOL, NELP  )
 CFA         IF(NELP > NNP) THEN
