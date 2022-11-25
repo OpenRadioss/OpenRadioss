@@ -2848,8 +2848,8 @@ C
          NNP=IPOLY_F(2,I)
          NHOL=0
          IF (IPOLY_F(1,I) == 2) NHOL=IPOLY_F(6+NNP+1,I)
-         ALLOCATE(PNODES(2,NNP), PSEG(2,NNP), PHOLES(2,NHOL),
-     .            PTRI(3,NNP), REDIR(NNP))   
+         ALLOCATE(PNODES(2,NNP), PSEG(2,NNP), PHOLES(2,NHOL),PTRI(3,NNP), REDIR(NNP)) 
+         PTRI(1:3,1:NNP) = 0       
 C
          DO J=1,NNP
             IF (IPOLY_F(6+J,I) > 0) THEN
@@ -2974,8 +2974,8 @@ C
             DEALLOCATE(ADR)
          ENDIF
 C
-         CALL C_TRICALL(PNODES, PSEG, PHOLES, PTRI, NNP,
-     .                  NSEG,   NHOL, NELP  )
+         NELP = 0
+         CALL C_TRICALL(PNODES, PSEG, PHOLES, PTRI, NNP, NSEG, NHOL, NELP)
 C
          FVDATA(IFV)%IFVTADR(NPOLY)=NNTR+1
 C avoid bug with PGI => comp O1
