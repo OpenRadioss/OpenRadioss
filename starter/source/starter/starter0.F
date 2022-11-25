@@ -662,6 +662,7 @@ C------------------------------------------------
       IF (GOT_INPUT == 1 .AND. IS_DYNA == 0)THEN
         CALL STARTIME(16,1)
         CALL CPP_BUILD_MODEL(FNAME,LFNAME,EDI_RES)
+        CALL CPP_APPLY_SUBMODEL_OFFSETS()
         CALL STOPTIME(16,1)
       ENDIF
 C-------------------------------------------------------------------

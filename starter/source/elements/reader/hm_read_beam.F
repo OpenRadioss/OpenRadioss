@@ -93,8 +93,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, I1, I2, MID, PID,MT,IPID,ID,IDS,J,N,JC,STAT
-      INTEGER CPT,INDEX_PART,OFF_DEF(NSUBMOD),OFF_NOD(NSUBMOD),OFF_EL(NSUBMOD),
-     .        OFF_PART(NSUBMOD)
+      INTEGER CPT,INDEX_PART
       CHARACTER MESS*40, MESS2*40
       my_real
      .   BID 
@@ -108,15 +107,6 @@ C-----------------------------------------------
       DATA MESS /'3D BEAM ELEMENTS DEFINITION             '/
       DATA MESS2/'3D BEAM ELEMENTS SELECTION FOR TH PLOT  '/
 C=======================================================================
-C--------------------------------------------------
-C      HM OFFSETS IDs
-C--------------------------------------------------
-      DO I=1,NSUBMOD
-        OFF_DEF(I) = LSUBMODEL(I)%OFF_DEF
-        OFF_NOD(I) = LSUBMODEL(I)%OFF_NOD
-        OFF_EL(I) = LSUBMODEL(I)%OFF_EL
-        OFF_PART(I) = LSUBMODEL(I)%OFF_PART
-      ENDDO
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
@@ -133,17 +123,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      FILL OTHER STRUCTURES + CHECKS
 C--------------------------------------------------
-      DO I=1,NUMELP  
-C--------------------------------------------------
-C      SUBMODEL OFFSET
-C--------------------------------------------------
-        IF(SUB_BEAM(I) /= 0)THEN
-          IF(IPARTP(I) /= 0) IPARTP(I) = IPARTP(I) + OFF_PART(SUB_BEAM(I)) 
-          IF(IXP(NIXP,I) /= 0) IXP(NIXP,I) = IXP(NIXP,I) + OFF_EL(SUB_BEAM(I))
-          DO J=2,5
-            IF(IXP(J,I) /= 0) IXP(J,I) = IXP(J,I) + OFF_NOD(SUB_BEAM(I))
-          ENDDO
-        ENDIF
+      DO I=1,NUMELP 
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------

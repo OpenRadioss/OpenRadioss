@@ -110,8 +110,7 @@ C-----------------------------------------------
       INTEGER N,M,I,J,J1,NN, IOUTN, IERROR, STAT
       INTEGER NUMNUSR,NUMNUSR1,NUMNAUX,KSPHRES,NUMNUSR2
       INTEGER CHID, CNT1, CNT2, UID, IFLAGUNIT, ID
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,OFF_NOD(NSUBMOD),
-     .        OFF_DEF(NSUBMOD)
+      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
       my_real
      .    X1,X2,X3,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,FAC_L,
      .    W
@@ -136,13 +135,6 @@ C=======================================================================
       XMAX =-EP20
       YMAX =-EP20
       ZMAX =-EP20
-C--------------------------------------------------
-C      HM OFFSETS IDs
-C--------------------------------------------------
-      DO I=1,NSUBMOD
-        OFF_NOD(I) = LSUBMODEL(I)%OFF_NOD
-        OFF_DEF(I) = LSUBMODEL(I)%OFF_DEF
-      ENDDO
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
@@ -188,8 +180,6 @@ C---------------------------------------------------
 C        SUBMODEL OFFSET
 C---------------------------------------------------
           IF(SUB_NOD(N) /= 0)THEN
-            IF(ITAB(N) /= 0) ITAB(N) = ITAB(N) + OFF_NOD(SUB_NOD(N))
-            IF(UID_NOD(N) /= 0) UID_NOD(N) = UID_NOD(N) + OFF_DEF(SUB_NOD(N))
             IF(UID_NOD(N) == 0 .AND. LSUBMODEL(SUB_NOD(N))%UID /= 0) 
      .        UID_NOD(N) = LSUBMODEL(SUB_NOD(N))%UID
           ENDIF
@@ -257,8 +247,6 @@ C---------------------------------------------------
 C        SUBMODEL OFFSET
 C---------------------------------------------------
           IF(SUB_NOD(N) /= 0)THEN
-            IF(ITAB_TMP(N) /= 0) ITAB_TMP(N) = ITAB_TMP(N) + OFF_NOD(SUB_NOD(N))
-            IF(UID_NOD(N) /= 0) UID_NOD(N) = UID_NOD(N) + OFF_DEF(SUB_NOD(N))
             IF(UID_NOD(N) == 0 .AND. LSUBMODEL(SUB_NOD(N))%UID /= 0) 
      .        UID_NOD(N) = LSUBMODEL(SUB_NOD(N))%UID
           ENDIF
@@ -352,8 +340,6 @@ C---------------------------------------------------
 C        SUBMODEL OFFSET
 C---------------------------------------------------
           IF(SUB_NOD(I) /= 0)THEN
-            IF(ITAB_TMP(I) /= 0) ITAB_TMP(I) = ITAB_TMP(I) + OFF_NOD(SUB_NOD(I))
-            IF(UID_NOD(I) /= 0) UID_NOD(I) = UID_NOD(I) + OFF_DEF(SUB_NOD(I))
             IF(UID_NOD(I) == 0 .AND. LSUBMODEL(SUB_NOD(I))%UID /= 0) 
      .        UID_NOD(I) = LSUBMODEL(SUB_NOD(I))%UID
           ENDIF

@@ -123,8 +123,7 @@ C-----------------------------------------------
       my_real
      .   BID,FAC_L
       INTEGER I, J, I1, I2, ID,IDS,IPID,MT,N,MID,PID,UID,JC,STAT,IPARTTG_TMP
-      INTEGER INDEX_PART,OFF_DEF(NSUBMOD),OFF_NOD(NSUBMOD),OFF_EL(NSUBMOD),
-     .        OFF_PART(NSUBMOD)
+      INTEGER INDEX_PART
       CHARACTER*40 MESS
       DATA MESS /'3D TRIANGULAR SHELL ELEMENT DEFINITION '/
       INTEGER ISH3N,KK,IFLAGUNIT
@@ -137,15 +136,6 @@ C-----------------------------------------------
       INTEGER USR2SYS
       INTEGER NINTRN
 C=======================================================================
-C--------------------------------------------------
-C      HM OFFSETS IDs
-C--------------------------------------------------
-      DO I=1,NSUBMOD
-        OFF_DEF(I) = LSUBMODEL(I)%OFF_DEF
-        OFF_NOD(I) = LSUBMODEL(I)%OFF_NOD
-        OFF_EL(I) = LSUBMODEL(I)%OFF_EL
-        OFF_PART(I) = LSUBMODEL(I)%OFF_PART
-      ENDDO
 C--------------------------------------------------
 C      ALLOCS & INITS
 c      use NUMELTG0 IN PLACE OF NUMELTG ( NBADMESH routine is modifying NUMELTG )
@@ -195,9 +185,6 @@ C--------------------------------------------------
       DO WHILE (KK <= 6)       
         DO N=1,NUMELTG0 
           IPARTTG_TMP = TMP_IPARTTG(N)
-          IF(SUB_SH3N(N) /= 0)THEN
-            IF(TMP_IPARTTG(N) /= 0) IPARTTG_TMP = TMP_IPARTTG(N) + OFF_PART(SUB_SH3N(N)) 
-          ENDIF
 
           IF( IPART(4,INDEX_PART) /= IPARTTG_TMP)THEN  
             DO J=1,NPART                            
@@ -223,12 +210,6 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
             IF(SUB_SH3N(N) /= 0)THEN
-              IF(IPARTTG(I) /= 0) IPARTTG(I) = IPARTTG(I) + OFF_PART(SUB_SH3N(N)) 
-              IF(IXTG(NIXTG,I) /= 0) IXTG(NIXTG,I) = IXTG(NIXTG,I) + OFF_EL(SUB_SH3N(N))
-              DO J=2,4
-                IF(IXTG(J,I) /= 0) IXTG(J,I) = IXTG(J,I) + OFF_NOD(SUB_SH3N(N))
-              ENDDO
-              IF(UID_SH3N(N) /= 0) UID_SH3N(N) = UID_SH3N(N) + OFF_DEF(SUB_SH3N(N))
               IF(UID_SH3N(N) == 0 .AND. LSUBMODEL(SUB_SH3N(N))%UID /= 0) 
      .             UID_SH3N(N) = LSUBMODEL(SUB_SH3N(N))%UID
             ENDIF
