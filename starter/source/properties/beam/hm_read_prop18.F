@@ -186,8 +186,15 @@ C--------------------------------------------------
 C
           IF (INTR == 0)  INTR = 2
           IF (INTS == 0)  INTS = 2
-          IF (L1 == ZERO) L1 = ONE
-          IF (L2 == ZERO) L2 = ONE
+          IF (L1 == ZERO) THEN
+          CALL ANCMSG(MSGID=2092,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=IG,
+     .              C1=IDTITL)
+          ENDIF
+
+          IF (L2 == ZERO.AND. L1> ZERO) L2 = L1
           IF (L3 == ZERO) L3 = ONE
           IF (L4 == ZERO) L4 = ONE
           IF (L5 == ZERO) L5 = ONE
@@ -229,7 +236,7 @@ C---  rotation dof
         GEO(11)= 1.1-IR2Z      
 C---
         IF(.NOT. IS_ENCRYPTED)THEN
-          WRITE(IOUT,1000)IG,ISS,IR1X,IR1Y,IR1Z,IR2X,IR2Y,IR2Z,DM,DR,ISECT,NIP
+          WRITE(IOUT,1000)IG,ISS,IR1X,IR1Y,IR1Z,IR2X,IR2Y,IR2Z,DM,DR,ISECT,L1,L2,NIP
           DO IP=1,NIP
             WRITE(IOUT,1010) IP,Y0+GEO(IPY+IP),Z0+GEO(IPZ+IP),
      .                   GEO(IPA+IP)
@@ -282,6 +289,8 @@ C---
      & 5X,'BEAM STRUCTURAL MEMBRANE DAMPING. . . .=',1PG20.13/,
      & 5X,'BEAM STRUCTURAL FLEXURAL DAMPING. . . .=',1PG20.13/,
      & 5X,'SECTION TYPE. . . . . . . . . . . . . .=',I10/,
+     & 5X,'FIRST SIZE OF SECTION L1. . . . . . . .=',1PG20.13/,
+     & 5X,'SECOND SIZE OF SECTION L2 . . . . . . .=',1PG20.13/,   
      & 5X,'NUMBER OF INTEGRATION POINTS. . . . . .=',I10//,
      & 5X,'INTEGRATION POINTS:'/)
  1010 FORMAT(     
