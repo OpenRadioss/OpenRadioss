@@ -298,8 +298,8 @@ Chd|        SEND_FBUFDP_C                 source/coupling/rad2rad/rad2rad_c.c
 Chd|        SEND_FBUF_C                   source/coupling/rad2rad/rad2rad_c.c
 Chd|        SEND_IBUF_C                   source/coupling/rad2rad/rad2rad_c.c
 Chd|        SENSOR0                       source/tools/sensor/sensor0.F 
-Chd|        SENSOR1                       source/tools/sensor/sensor1.F 
 Chd|        SENSOR2                       source/tools/sensor/sensor2.F 
+Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
 Chd|        SENSOR_DIST_SURF0             source/tools/sensor/sensor_dist_surf0.F
 Chd|        SENSOR_ENER_SAV               source/tools/sensor/sensor_ener_sav.F
 Chd|        SENSOR_INIT                   source/tools/sensor/sensor_init.F

@@ -119,6 +119,7 @@ Chd|        SENSOR0                       source/tools/sensor/sensor0.F
 Chd|        SENSOR1                       source/tools/sensor/sensor1.F 
 Chd|        SENSOR2                       source/tools/sensor/sensor2.F 
 Chd|        SENSOR_ACC                    source/tools/sensor/sensor_acc.F
+Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
 Chd|        SENSOR_CONTACT                source/tools/sensor/sensor_contact.F
 Chd|        SENSOR_DIST                   source/tools/sensor/sensor_dist.F
 Chd|        SENSOR_DIST_SURF              source/tools/sensor/sensor_dist_surf.F
@@ -137,6 +138,7 @@ Chd|        SENSOR_SECTION                source/tools/sensor/sensor_section.F
 Chd|        SENSOR_SORT                   source/tools/sensor/sensor_sort.F
 Chd|        SENSOR_TEMP                   source/tools/sensor/sensor_temp.F
 Chd|        SENSOR_TEMP0                  source/tools/sensor/sensor_temp0.F
+Chd|        SENSOR_TIME                   source/tools/sensor/sensor_time.F
 Chd|        SENSOR_VEL                    source/tools/sensor/sensor_vel.F
 Chd|        SENSOR_WORK                   source/tools/sensor/sensor_work.F
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F

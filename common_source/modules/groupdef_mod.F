@@ -554,6 +554,7 @@ Chd|        S10CNIDAMP                    engine/source/elements/solid/solide10/
 Chd|        S10CNISTAT                    engine/source/elements/solid/solide10/s10cndf.F
 Chd|        SENSOR0                       engine/source/tools/sensor/sensor0.F
 Chd|        SENSOR1                       engine/source/tools/sensor/sensor1.F
+Chd|        SENSOR_BASE                   engine/source/tools/sensor/sensor_base.F
 Chd|        SENSOR_DIST_SURF              engine/source/tools/sensor/sensor_dist_surf.F
 Chd|        SENSOR_DIST_SURF0             engine/source/tools/sensor/sensor_dist_surf0.F
 Chd|        SENSOR_ENERGY                 engine/source/tools/sensor/sensor_energy.F

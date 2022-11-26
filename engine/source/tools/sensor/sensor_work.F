@@ -25,6 +25,7 @@ Chd|====================================================================
 Chd|  SENSOR_WORK                   source/tools/sensor/sensor_work.F
 Chd|-- called by -----------
 Chd|        SENSOR1                       source/tools/sensor/sensor1.F 
+Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
 Chd|-- calls ---------------
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================

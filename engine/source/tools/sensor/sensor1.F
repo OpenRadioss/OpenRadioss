@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SENSOR1                       source/tools/sensor/sensor1.F 
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        SENSOR_ACC                    source/tools/sensor/sensor_acc.F
 Chd|        SENSOR_CONTACT                source/tools/sensor/sensor_contact.F

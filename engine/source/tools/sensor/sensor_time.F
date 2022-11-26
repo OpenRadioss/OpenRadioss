@@ -22,11 +22,10 @@ Copyright>        software under a commercial license.  ConTSTART Altair to disc
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C=======================================================================
 Chd|====================================================================
-Chd|  SENSOR_TIME                 source/tools/sensor/sensor_time.F
+Chd|  SENSOR_TIME                   source/tools/sensor/sensor_time.F
 Chd|-- called by -----------
-Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F 
+Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
 Chd|-- calls ---------------
-Chd|        BUTTERWORTH                   source/tools/univ/butterworth.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SENSOR_TIME(SENSOR)
