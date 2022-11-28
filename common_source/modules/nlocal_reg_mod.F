@@ -133,9 +133,9 @@ c
         integer, DIMENSION(:)   , ALLOCATABLE :: ADDCNE   ! (0:NNOD+1) Addresses of non-local nodes in the FSKY vector
         integer, DIMENSION(:)   , ALLOCATABLE :: CNE      ! ADDCNE(NNOD+1)-1 Element attached to nodes in the FSKY vector
         integer, DIMENSION(:)   , ALLOCATABLE :: PROCNE   ! LCNE_NL Number of the processor on which the element is located
-        integer, DIMENSION(:,:) , ALLOCATABLE :: IADS     ! Adresses sky for solids non-local elements
-        integer, DIMENSION(:,:) , ALLOCATABLE :: IADC     ! Adresses sky for shells non-local elements
-        integer, DIMENSION(:,:) , ALLOCATABLE :: IADTG    ! Adresses sky for triangle shells non-local elements
+        integer, DIMENSION(:,:) , ALLOCATABLE :: IADS     ! Addresses sky for solids non-local elements
+        integer, DIMENSION(:,:) , ALLOCATABLE :: IADC     ! Addresses sky for shells non-local elements
+        integer, DIMENSION(:,:) , ALLOCATABLE :: IADTG    ! Addresses sky for triangle shells non-local elements
         my_real, DIMENSION(:)   , ALLOCATABLE :: MASS     ! (L_NLOC)  Non-local mass
         my_real, DIMENSION(:)   , ALLOCATABLE :: MASS0    ! (L_NLOC)  Non-local mass initial
         my_real, DIMENSION(:,:) , ALLOCATABLE :: FNL      ! (L_NLOC,NTHREAD)  Non-local force/accelerations
@@ -151,7 +151,7 @@ c
         integer, DIMENSION(:)   , ALLOCATABLE :: FR_ELEM  ! (TOTAL_NODES) Non-local FR_ELEM vector for SPMD boundaries
 C       SPMD PON BOUNDARIES
         integer, DIMENSION(:)   , ALLOCATABLE :: ISENDSP  ! Skyline PON Send index
-        integer, DIMENSION(:)   , ALLOCATABLE :: IRECSP   ! Skyline PON Recieve index
+        integer, DIMENSION(:)   , ALLOCATABLE :: IRECSP   ! Skyline PON Receive index
 
 ! --------------------------------   
 !       communication for parith/on 

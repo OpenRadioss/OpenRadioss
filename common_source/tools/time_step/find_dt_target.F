@@ -89,7 +89,7 @@ C
         ENDIF 
         SUMK = SUMK + STIFN(N)
         SUMM = SUMM + MS(N)
-C-- If thresold are not crossed target dt values must be computed for the last node
+C-- If threshold are not crossed target dt values must be computed for the last node
         IF (I==NNOD) THEN
           DO K=COMPT,NVAL
             TARGET_DT_TAB(K) = DTSCA*SQRT(TWO*(TOTMAS*SEUIL+SUMM)/MAX(EM20,SUMK))

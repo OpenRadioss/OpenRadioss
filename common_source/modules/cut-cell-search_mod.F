@@ -265,7 +265,7 @@ C-----------------------------------------------
       INTEGER :: IBUG22_flux
       
       !###########################################!
-      !### OUTPUT : INTER22 ADDITIONNAL FLUXES  ##!
+      !### OUTPUT : INTER22 ADDITIONAL FLUXES   ##!
       !###########################################!
       INTEGER :: IBUG22_flux22
       

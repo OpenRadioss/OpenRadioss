@@ -111,8 +111,8 @@ int comp (int a,int b)
 
 /* ----------------------------------------------------------------------------
     tupl_compare : compare 2 surfaces with their Element ID
-                   each surface is discribed with a TUPL containing the values 
-                   comparision take cares on the surface 4 nodes only
+                   each surface is described with a TUPL containing the values 
+                   comparison take cares on the surface 4 nodes only
    ----------------------------------------------------------------------------
     STUPL lhs : lef had side surface Tuple
     STUPL rhs : right hnd side surface tuple
@@ -136,8 +136,8 @@ int tupl_compare( STUPL lhs, STUPL rhs  ){
 
 /* ----------------------------------------------------------------------------
     tupl_compare_surf : compare 2 surfaces with their nodeID + EltID
-                   each surface is discribed with a TUPL containing the values 
-                   comparision take cares on the surface 4 nodes only
+                   each surface is described with a TUPL containing the values 
+                   comparison take cares on the surface 4 nodes only
    ----------------------------------------------------------------------------
     STUPL lhs : lef had side surface Tuple
     STUPL rhs : right hnd side surface tuple
@@ -185,8 +185,8 @@ int tupl_compare_surf( STUPL lhs, STUPL rhs  ){
 
 /* ----------------------------------------------------------------------------
     tupl_compare : compare 2 lines with their Node + Element ID
-                   each surface is discribed with a TUPL containing the values 
-                   comparision take cares on the surface 4 nodes only
+                   each surface is described with a TUPL containing the values 
+                   comparison take cares on the surface 4 nodes only
    ----------------------------------------------------------------------------
     STUPL lhs : lef hand side line Tuple
     STUPL rhs : right hand side line tuple

@@ -609,7 +609,7 @@ c=======================================================================
 C=======================================================================
       TYPE SUBSET_
         INTEGER   :: ID       ! - SUBSET identifier
-        INTEGER   :: LEVEL    ! - Hierachy level
+        INTEGER   :: LEVEL    ! - Hierarchy level
         INTEGER   :: TH_FLAG  ! - TIME HISTORY flag
         INTEGER   :: PARENT   ! - SUBSET PARENT
         INTEGER   :: NCHILD   ! - SUBSETS number of childs
@@ -641,7 +641,7 @@ C-----------------------------------------------------------------------
         INTEGER, DIMENSION(:),ALLOCATABLE :: ENTITY   ! -Entity identifier (node, element or part)
         INTEGER   :: GRTYPE ! TYPE ( 0-NOEUDS, 1-BRIC, 2-QUAD,   3-SHELL_4N,
 !                                    4-TRUSS,  5-BEAM, 6-SPRINGS,7-SHELL_3N )
-!!                   GRTYPE --- > OBSOLETTE
+!!                   GRTYPE --- > OBSOLETE
         INTEGER   :: SORTED ! FLAG for sorted/unsorted nodes
 !                    = 0 ! sorted
 !                    = 1 ! unsorted
@@ -650,13 +650,13 @@ C-----------------------------------------------------------------------
 !                                 = 1 FOR /GRNOD/NOD
 !                                 = 2 FOR /GRNOD/GNROD
 !                                 = 0 ALL THE REST
-!  For elemen( (part) group:
+!  For element (part) group:
 !                                 = 1 ELEM
 !                                 = 2 GRELEM
 !                                 = 3 SUBSET,PART,MAT,PROP
 !                                 = 4 BOX,GENE
 !                                 = 5 SUBMOD
-        INTEGER   :: LEVEL ! Hierachy level
+        INTEGER   :: LEVEL ! Hierarchy level
 !                             (FLAG 'SUBLEVEL DONE' FOR GROUPS OF GROUPS)
 !                            = 0 ---> not yet initialized
 !                            = 1 ---> done
@@ -694,7 +694,7 @@ C-----------------------------------------------------------------------
 !                                 (computed in Radioss Engine, when receiving Datas from MaDyMo).
 !                                 ID MaDyMo - for entity type which impose surface movement:
 !                                 No systeme MaDyMo for entity type which impose surface movement
-        INTEGER   :: IAD_BUFR   ! Analitical Surfaces address (reals BUFSF - temp)
+        INTEGER   :: IAD_BUFR   ! Analytical Surfaces address (reals BUFSF - temp)
         INTEGER   :: NB_MADYMO  ! No de l'entite qui impose le mvt de la surface.
 !                                --> No systeme Radioss ou MaDyMO.
         INTEGER   :: TYPE_MADYMO  ! Entity type which impose surface movement.

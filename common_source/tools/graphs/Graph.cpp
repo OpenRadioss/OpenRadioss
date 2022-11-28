@@ -38,7 +38,7 @@ Graph::Graph(const int& npt, const int& nconnect, const vector<int>& connect_lis
     m_adj_list.at(i).erase(iter, m_adj_list.at(i).end());
     m_degree.at(i) = m_adj_list.at(i).size();
   }
-  // Number of connected components and paths through each connected componenets
+  // Number of connected components and paths through each connected components
 }
 
 // DFS

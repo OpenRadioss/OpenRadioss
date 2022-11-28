@@ -249,7 +249,7 @@ Chd|====================================================================
       INTEGER :: IEBCSLGTH
       INTEGER :: NBMAT
       LOGICAL :: IS_USED                  !card /MAT/LAW151 used in input file
-      LOGICAL :: IS_ASSOCIATED_TO_A_PART  !card /MAT/LAW151 can be used in input file but not necessarly associated to a given PART
+      LOGICAL :: IS_ASSOCIATED_TO_A_PART  !card /MAT/LAW151 can be used in input file but not necessarily associated to a given PART
       LOGICAL :: ARE_ALL_PARTS_151        !check if all PART are associated with law151 (otherwise mixed scheme)
       LOGICAL :: IS_RESTART
       INTEGER :: MUSCL
@@ -266,7 +266,7 @@ C     Compression coefficient for phase advection
       my_real, DIMENSION(:, :), ALLOCATABLE :: BFRAC
       INTEGER, POINTER, DIMENSION(:) :: pCNEL, pADDCNEL, pADDTMPL
 
-      ! Indicates wether we run in 3D (SYM = 0), or 2D (SYM = 1 planar case, SYM = 2 cylindrical case)
+      ! Indicates whether we run in 3D (SYM = 0), or 2D (SYM = 1 planar case, SYM = 2 cylindrical case)
       INTEGER :: SYM
       ! Low mach options for WATER / AIR applications
       LOGICAL :: LOWMACH_OPT

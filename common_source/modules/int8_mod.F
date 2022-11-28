@@ -70,7 +70,7 @@ C       integer, DIMENSION(:) , POINTER ::  NEW_MAIN_UID
         integer ::  NUMLOC  
         !User ID of the main node :
         integer ::  UID
-        ! number of time the inteface main has to be
+        ! number of time the interface main has to be
         ! sent and received                                
         integer  ::  NBCOM !  
         !List (of size NBCOM) of processors that share the main

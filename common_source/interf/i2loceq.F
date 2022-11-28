@@ -301,7 +301,7 @@ C
         MYX = RSY(1)*FMX(1)+RSY(2)*FMX(2)+RSY(3)*FMX(3)+RSY(4)*FMX(4)+(ONE-ALPHA)*MZS
         MZZ = MXY - MYX
 C
-C       RQ : BETAX = BETAY = 1 in standard situation - moment mz must be tranfered either only by FXX or FXX if swicth to 1D formulation
+C       RQ : BETAX = BETAY = 1 in standard situation - moment mz must be transferred either only by FXX or FXX if switch to 1D formulation
 C       standard situation  -> FXX = -MYX/RYY and FYY = MXY/RXX
 C       1D formulation in X -> FXX = 0 and FYY = MZ / RXX
 C       1D formulation in Y -> FYY = 0 and FXX = MZ / RYY
@@ -324,7 +324,7 @@ C
 c
 c---    Moments Mx, MY
 C
-C       RQ : BETAX = BETAY = 1 in standard situation - used to impose that mx=0 or my=0 if swicth to 1D formulation
+C       RQ : BETAX = BETAY = 1 in standard situation - used to impose that mx=0 or my=0 if switch to 1D formulation
 c
         MYZ = RSY(1)*FMZ(1)+RSY(2)*FMZ(2)+RSY(3)*FMZ(3)+RSY(4)*FMZ(4)
         MZY = RSZ(1)*FMY(1)+RSZ(2)*FMY(2)+RSZ(3)*FMY(3)+RSZ(4)*FMY(4)
@@ -370,7 +370,7 @@ C
         MYX = RSY(1)*FMX(1)+RSY(2)*FMX(2)+RSY(3)*FMX(3)+(ONE-ALPHA)*MZS
         MZZ = MXY - MYX
 C
-C       RQ : BETAX = BETAY = 1 in standard situation - moment mz must be tranfered either only by FXX or FXX if swicth to 1D formulation
+C       RQ : BETAX = BETAY = 1 in standard situation - moment mz must be transferred either only by FXX or FXX if switch to 1D formulation
 C       standard situation  -> FXX = -MYX/RYY and FYY = MXY/RXX
 C       1D formulation in X -> FXX = 0 and FYY = MZ / RXX
 C       1D formulation in Y -> FYY = 0 and FXX = MZ / RYY
@@ -391,7 +391,7 @@ C
 c
 c---    Moments Mx, MY
 C
-C       RQ : BETAX = BETAY = 1 in standard situation - used to impose that mx=0 or my=0 if swicth to 1D formulation
+C       RQ : BETAX = BETAY = 1 in standard situation - used to impose that mx=0 or my=0 if switch to 1D formulation
 c
         MX=BETAX*(MX+(TWO*RSZ(1)-RSZ(2)-RSZ(3))*FYY - MXS)
         MY=BETAY*(MY+(TWO*RSZ(3)-RSZ(1)-RSZ(2))*FXX - MYS)

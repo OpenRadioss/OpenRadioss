@@ -147,7 +147,7 @@ C     Get possible defined env variable QAKEY
       subroutine qagetqakeyenv ()
 #include "implicit_f.inc"
         integer QAKEY_ENV_len, QAKEY_ENV_status, QAKEY_SPECIFIC_len, QAKEY_SPECIFIC_status, i, j, k
-C       lentgth is (64 chars + 1 comma)*16 occurence - last comma (no comma at the end) = 1039
+C       length is (64 chars + 1 comma)*16 occurrence - last comma (no comma at the end) = 1039
         character(LEN=1039)  QAKEY_ENV, QAKEY_SPECIFIC
         character(64) temp_qakey
         integer QAPRINT_LIMIT_ENV_len, QAPRINT_LIMIT_ENV_status
@@ -489,7 +489,7 @@ C       If the value (double precision) variable is 0.0 we consider using the id
 !>    @purpose 
 !>      close QA extract file
 !>    @ingroup utl_qa 
-!>    Care when routine is called from Fortan (because of binding)
+!>    Care when routine is called from Fortran (because of binding)
       subroutine qaclose ( ) bind ( C, name="qaclose_" )
 #include "implicit_f.inc"
       integer i

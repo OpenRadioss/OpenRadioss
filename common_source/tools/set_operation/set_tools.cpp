@@ -41,7 +41,7 @@ extern "C" {
 
 
 /* -----------------------------------------------------------------------------------------------------
-    remove_duplicates : removes dupplicates in a sorted array
+    remove_duplicates : removes duplicates in a sorted array
    -----------------------------------------------------------------------------------------------------
     int * array1      : input/output - array
     int * size        : input  - size of array
@@ -118,7 +118,7 @@ extern "C" {
   }
 
 /* -----------------------------------------------------------------------------------------------------
-    difference_2_sorted_sets : defference of 2 sets of sorted arrays.
+    difference_2_sorted_sets : difference of 2 sets of sorted arrays.
     Does array1-array2 : Removes all members of array2 in array1
     The Arrays shall not contain 2 time same entity
     The result arrays must be already allocated & big enough, result_size is the size of the nex set.
