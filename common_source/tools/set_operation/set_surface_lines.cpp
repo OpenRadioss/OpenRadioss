@@ -40,8 +40,8 @@
 #define delete_line_            DELETE_LINE
 #define intersect_line_         INTERSECT_LINE
 
-#define surf_remove_dupplicates_   SURF_REMOVE_DUPPLICATES
-#define line_remove_dupplicates_   LINE_REMOVE_DUPPLICATES
+#define surf_remove_duplicates_   SURF_REMOVE_DUPLICATES
+#define line_remove_duplicates_   LINE_REMOVE_DUPLICATES
 
 #endif
 
@@ -445,7 +445,7 @@ void intersect_surface_(int * s1_nd1, int * s1_nd2, int * s1_nd3, int* s1_nd4,in
 
 
 /* ----------------------------------------------------------------------------
-    surf_remove_dupplicates : Remove dupplicates in sorted lines
+    surf_remove_duplicates : Remove duplicates in sorted lines
    ----------------------------------------------------------------------------
    INPUT/OUTPUT
      s1_nd1 - s1_nd4 : surface - 4 nodes
@@ -454,7 +454,7 @@ void intersect_surface_(int * s1_nd1, int * s1_nd2, int * s1_nd3, int* s1_nd4,in
      s1_nmemb        : surface - number of surface segments.
    ----------------------------------------------------------------------------
 */
-   void surf_remove_dupplicates_(int * s1_nd1, int * s1_nd2, int * s1_nd3, int* s1_nd4,int * s1_eltyp,int * s1_elid,int *size,int * new_size)
+   void surf_remove_duplicates_(int * s1_nd1, int * s1_nd2, int * s1_nd3, int* s1_nd4,int * s1_eltyp,int * s1_elid,int *size,int * new_size)
 {
   int sz=1 ;
   int i=1;
@@ -663,7 +663,7 @@ void _FCALL intersect_line_(int * s1_nd1, int * s1_nd2, int * s1_eltyp,int * s1_
 }
 
 /* ----------------------------------------------------------------------------
-    surf_remove_dupplicates : Remove dupplicates in sorted lines
+    surf_remove_duplicates : Remove duplicates in sorted lines
    ----------------------------------------------------------------------------
    INPUT/OUTPUT
      s1_nd1 - s1_nd4 : surface - 4 nodes
@@ -672,7 +672,7 @@ void _FCALL intersect_line_(int * s1_nd1, int * s1_nd2, int * s1_eltyp,int * s1_
      s1_nmemb        : surface - number of surface segments.
    ----------------------------------------------------------------------------
 */
-   void line_remove_dupplicates_(int * l1_nd1, int * l1_nd2,int * l1_eltyp,int * l1_elid,int *size,int * new_size)
+   void line_remove_duplicates_(int * l1_nd1, int * l1_nd2,int * l1_eltyp,int * l1_elid,int *size,int * new_size)
 {
   int sz=1 ;
   int i=1;
@@ -902,7 +902,7 @@ int main()
     int l5_eltyp[7]={3,3,3,3,3,3,3};
     int  l5_elid[7]={1,2,3,3,4,5,6};
     int  l5_nmemb = 7;
-    line_remove_dupplicates_(l5_nd1, l5_nd2,l5_eltyp,l5_elid,&l5_nmemb,&ns);
+    line_remove_duplicates_(l5_nd1, l5_nd2,l5_eltyp,l5_elid,&l5_nmemb,&ns);
 
     cout << "New Size :" << ns << "\n";
     for (int i=0;i<ns;i++){
