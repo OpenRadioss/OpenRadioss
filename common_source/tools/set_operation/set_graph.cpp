@@ -58,7 +58,7 @@ class set_graph
     //   ----------------------------------------------------------------------------
     {
 
-      if (*check < 0) return;                                                 // Error occured do not continue
+      if (*check < 0) return;                                                 // Error occurred do not continue
 
       auto edge = set_gr.begin()+set_id-1;   
       if (edge -> color > 0) return;                                          // Current set appears already in list
@@ -76,7 +76,7 @@ class set_graph
          // cout << "curr_tree= "<< edge->closed_tree_check  <<  " cur_set= " << set_id << " new_set= " <<  new_set << endl;
          recur_graph(new_set, dependancy_list, current_tree,check );
 
-         if (*check < 0) return;                                              // Error occured do not continue
+         if (*check < 0) return;                                              // Error occurred do not continue
       }
 
 
@@ -95,7 +95,7 @@ class set_graph
     //  ---------------------------------------------------------------------------------
     //  init_edge
     //  Create the Graph
-    //  Add a SET with its dependancies
+    //  Add a SET with its dependencies
     //  ---------------------------------------------------------------------------------
     //  INPUT
     //    edge            : the SET user ID
@@ -124,7 +124,7 @@ class set_graph
     void dependancy_sort(int * dependancy_list, int * check)
     //  ---------------------------------------------------------------------------------
     //  dependancy_sort
-    //  Sorting according to the dependancies - Used for SET of SETs 
+    //  Sorting according to the dependencies - Used for SET of SETs 
     //  when a SET depends from another SET : ensure Child SET is before.
     //  ---------------------------------------------------------------------------------
     //  INPUT
@@ -146,7 +146,7 @@ class set_graph
 
          }else { 
                  recur_graph(edg_id, dependancy_list, edg_id ,check); 
-                  if (*check < 0) return;                                            // Error occured do not continue
+                  if (*check < 0) return;                                            // Error occurred do not continue
          }
       }
     }
@@ -199,7 +199,7 @@ extern "C"
     //  INPUT
     //   set_id    : Integer internal SET ID : must be set between 1 & nsets
     //   set_list  : list of child SETs : all child Sets must be existing internal SETid
-    //   list_size : number of Child SET (size of list bellow)
+    //   list_size : number of Child SET (size of list below)
     //  OUTPUT
     //   ----------------------------------------------------------------------------
 
@@ -268,7 +268,7 @@ set_graph my_set_graph;
  my_set_graph.dependancy_sort(list,&check);
  
  if (check < 0){
- cout << endl << "error - SET " << -check << " has circular dependancy" << endl; 
+ cout << endl << "error - SET " << -check << " has circular dependency" << endl; 
 }
 
  cout << "-------------------" << endl << endl ;

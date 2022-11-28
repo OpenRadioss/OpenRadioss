@@ -296,8 +296,8 @@ C-----------------------------------------------
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)    
         CASE(15)
          !--------------------------------------------------!
-         !         JWL EOS (inernal use, no /EOS/JWL so far)!
-         !--------------------------------------------------!          
+         !        JWL EOS (internal use, no /EOS/JWL so far)!
+         !--------------------------------------------------!
           CALL JWL(
      1                  IFLAG ,NEL  ,PM   ,OFF  , EINT ,MU  ,MU2, 
      2                  ESPE  ,DVOL ,DF   ,VNEW , MAT  ,PSH ,

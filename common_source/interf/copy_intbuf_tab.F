@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER I,SIZ,OLD_SIZ
 C=======================================================================
 
-! re-set to old sizes and reallocate only arrays that have potentialy size 
+! re-set to old sizes and reallocate only arrays that have potential size
 ! changes with MULTIMP, other sizes should not have been modified
       
         SIZ = INTBUF_TAB%S_CAND_E
@@ -1093,7 +1093,7 @@ C=======================================================================
 
       DO NI= 1, NINTER
 
-! inintialize INTERGER sizes and arrays for INTBUF_TAB_CP
+! uninitialize INTEGER sizes and arrays for INTBUF_TAB_CP
         SIZ = INTBUF_TAB(NI)%S_IRECTS
         INTBUF_TAB_C(NI)%S_IRECTS = SIZ
         ALLOCATE(INTBUF_TAB_C(NI)%IRECTS(SIZ))
@@ -1386,7 +1386,7 @@ C=======================================================================
         INTBUF_TAB_C(NI)%S_FACNRTS = SIZ
         ALLOCATE(INTBUF_TAB_C(NI)%FACNRTS(SIZ))
 
-! inintialize REAL sizes and arrays for INTBUF_TAB_CP
+! uninitialize REAL sizes and arrays for INTBUF_TAB_CP
 
         SIZ = INTBUF_TAB(NI)%S_STFAC
         INTBUF_TAB_C(NI)%S_STFAC = SIZ

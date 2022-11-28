@@ -644,7 +644,7 @@ C---- ige
 C---- INTER FRICTION PARTS
         integer ::   S_IPARTFRICS!  NSN       :IPARTFRICS : number of part of secnd nodes 
         integer ::   S_IPARTFRICM!  NRTM      :IPARTFRICM : number of part of main segments
-        integer ::   S_IPARTFRIC_E!  NEDGE    :IPARTFRIC_E : number of part of egde int25
+        integer ::   S_IPARTFRIC_E!  NEDGE    :IPARTFRIC_E : number of part of edge int25
 C       Orthotropic friction 
         integer ::   S_IREP_FRICM !  NRTM      :IREP_FRIC : Orthotropic system formulation flag for reference vector for friction (same as IORTH/IREP for prop) 
 C---- Irem Gap option for inter type25

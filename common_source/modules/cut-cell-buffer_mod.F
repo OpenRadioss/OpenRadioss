@@ -71,7 +71,7 @@ Chd|====================================================================
       END TYPE 
 
       TYPE LIST_ADJ
-        INTEGER                              :: Num                     !number of adjacent elments (level2)
+        INTEGER                              :: Num                     !number of adjacent elements (level2)
         INTEGER                              :: Num_inv(48)             !to define bijection with adjacent cut cell
         INTEGER                              :: IV(48)                  !internal ID
         INTEGER                              :: IB(48)                  !cut cell id

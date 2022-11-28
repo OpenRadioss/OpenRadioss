@@ -5,7 +5,7 @@ set_tools.cpp
 
 remove_duplicates ( int * array, int * size, int *new_size)
    -------------------------------------------------------------------------------------
-    remove_duplicates : removes dupplicates in a sorted array - result is in same array
+    remove_duplicates : removes duplicates in a sorted array - result is in same array
    -------------------------------------------------------------------------------------
     int * array1      : input/output - array
     int * size        : input  - size of array
@@ -52,7 +52,7 @@ difference_2_sorted_sets(int * array1, int * array1_size,
                          int * array2, int * array2_size,
                          int * result, int * result_size )
    -----------------------------------------------------------------------------------------------------
-    difference_2_sorted_sets : defference of 2 sets of sorted arrays.
+    difference_2_sorted_sets : difference of 2 sets of sorted arrays.
     Does array1-array2 : Removes all members of array2 in array1
     The Arrays shall not contain 2 time same entity
     The result arrays must be already allocated & big enough, result_size is the size of the nex set.
@@ -253,17 +253,17 @@ quicksort.F
    -----------------------------------------------------------------------------------------------------
    my_real A  : in/output - Array to sort
    int IDX(*) : in/output - INDEX result
-   int FIRST  : input - First occucence of A to sort
-   int LAST   : input - Last occurence of A to sort
+   int FIRST  : input - First occurrence of A to sort
+   int LAST   : input - Last occurrence of A to sort
 
 
 trirap.F
 --------
    TRIRAP(N,TAB,N2)
    -----------------------------------------------------------------------------------------------------
-   Another quicksort implemtation
+   Another quicksort implementation
    -----------------------------------------------------------------------------------------------------
-   int N      : input - First occucence of A to sort
+   int N      : input - First occurrence of A to sort
    my_real A  : in/output - Array to sort
-   int N2     : input - Last occurence of A to sort
+   int N2     : input - Last occurrence of A to sort
 

@@ -123,7 +123,7 @@ C-----------------------------------------------------------------------
         INTEGER   :: NSEG             ! SET surface segments
         INTEGER   :: NSEG_1D          ! SET line/edge segments
 !==============================================================
-!        INTEGER   :: LEVEL ! Hierachy level
+!        INTEGER   :: LEVEL ! Hierarchy level
 !                             (FLAG 'SUBLEVEL DONE' FOR SET OF SET)
 !                            = 0 ---> not yet initialized
 !                            = 1 ---> done
