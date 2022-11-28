@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)   ::UNITAB 
       INTEGER,INTENT(IN)             ::ID,FAIL_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -86,8 +86,7 @@ C-----------------------------------------------
       INTEGER ISHELL ,ISOLID
       my_real 
      .    SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,
-     .    PN12,PP12,PN22,
-     .    TMAX
+     .    PN12,PP12,PN22,TMAX,FCUT
       LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
 C--------------------------------------------------
 C   S o u r c e   L i n e s
@@ -109,6 +108,8 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV    ('Tau_max'      ,TMAX     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV      ('Ifail_sh'     ,ISHELL   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV      ('Ifail_so'     ,ISOLID   ,IS_AVAILABLE,LSUBMODEL)
+
+      CALL HM_GET_FLOATV    ('Fcut'         ,FCUT     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       
       IF (SIGT1 == ZERO) SIGT1 = EP30
       IF (SIGT2 == ZERO) SIGT2 = EP30
@@ -117,7 +118,8 @@ C--------------------------------------------------
       IF (SIGC2 == ZERO) SIGC2 = EP30
       IF(TMAX == ZERO) TMAX=EP30
       IF(ISHELL == 0) ISHELL = 1 
-      IF(ISOLID == 0) ISOLID = 1              
+      IF(ISOLID == 0) ISOLID = 1   
+      FCUT = MAX(ZERO,FCUT)           
 C  
       UPARAM(1) = SIGT1
       UPARAM(2) = SIGT2
@@ -129,16 +131,17 @@ C
       UPARAM(8) = PN22
       UPARAM(9) = TMAX
       UPARAM(10) = ISHELL
-      UPARAM(11) = ISOLID      
+      UPARAM(11) = ISOLID  
+      UPARAM(12) = FCUT    
 C
-      NUPARAM = 11
-      NUVAR   = 8
+      NUPARAM = 12
+      NUVAR   = 14
       NFUNC   = 0
 C
       IF(IS_ENCRYPTED)THEN
       
       ELSE
-       WRITE(IOUT, 1000)SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,PP12,PN12,PN22,TMAX     
+       WRITE(IOUT, 1000)SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,PP12,PN12,PN22,TMAX,FCUT  
        IF(ISHELL==1)THEN
         WRITE(IOUT, 1100)
        ELSEIF(ISHELL==2)THEN
@@ -157,7 +160,8 @@ c-----------
      & 5X,'Failure envelop parameter in direction 12 (-) . =',E12.4/
      & 5X,'Failure envelop parameter in direction 12 (+) . =',E12.4/
      & 5X,'Failure envelop parameter in direction 22 (-) . =',E12.4/     
-     & 5X,' Relaxation time . . . . . . . . . . . . .  =',E12.4/)  
+     & 5X,' Relaxation time . . . . . . . . . . . . .  =',E12.4/
+     & 5X,'Stress tensor filtering frequency . . . . . =',E12.4/)
  1100 FORMAT(
      & 5X,'  SHELL IS DELETED IF CRITERIA IS REACHED FOR ONE LAYER ') 
  1200 FORMAT(

@@ -33,7 +33,7 @@ Chd|====================================================================
      2     TIME      ,NGL       ,IPG       ,ILAY      ,IPT       ,                          
      3     SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,  
      4     OFF       ,FOFF      ,PTHKF     ,DMG_FLAG  ,DMG_SCALE ,
-     5     DFMAX     ,TDEL      )                               
+     5     DFMAX     ,TDEL      ,TIMESTEP  )                               
 C-----------------------------------------------
 C    modified Puck model ------
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
-      my_real ,INTENT(IN) :: TIME
+      my_real ,INTENT(IN) :: TIME,TIMESTEP
       my_real ,DIMENSION(NEL) ,INTENT(IN)    :: OFF,
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
       my_real,DIMENSION(NUPARAM) ,INTENT(IN) :: UPARAM
@@ -93,10 +93,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,NINDX,IFAIL_SH
+      INTEGER :: I,J,NINDX,IFAIL_SH,FSMOOTH
       INTEGER ,DIMENSION(NEL) :: INDX
       my_real :: SIGT1,SIGT2, SIGC1,SIGC2,FSIG12,F1,FA,FB,FC,
-     .           PN12,PP12,PN22,FAC,TMAX,DAMMX
+     .           PN12,PP12,PN22,FAC,TMAX,DAMMX,FCUT,ASRATE,
+     .           SXX(NEL),SYY(NEL),SXY(NEL)
 C=======================================================================
       SIGT1  = UPARAM(1)
       SIGT2  = UPARAM(2)
@@ -108,6 +109,14 @@ C=======================================================================
       PN22   = UPARAM(8)
       TMAX   = UPARAM(9)
       IFAIL_SH = INT(UPARAM(10)) 
+      FCUT   = UPARAM(12)
+      IF (FCUT > ZERO) THEN
+        FSMOOTH = 1 
+        ASRATE = TWO*PI*FCUT*TIMESTEP
+        ASRATE = ASRATE/(ONE+ASRATE)
+      ELSE
+        FSMOOTH = 0
+      ENDIF
 c
       IF (IFAIL_SH == 1) THEN
         PTHKF = EM06
@@ -117,6 +126,20 @@ c
 c
       DMG_FLAG = 1               
       NINDX    = 0 
+      IF (FSMOOTH > 0) THEN 
+        DO I = 1,NEL
+          SXX(I) = ASRATE*SIGNXX(I) + (ONE - ASRATE)*UVAR(I,2)
+          SYY(I) = ASRATE*SIGNYY(I) + (ONE - ASRATE)*UVAR(I,3)
+          SXY(I) = ASRATE*SIGNXY(I) + (ONE - ASRATE)*UVAR(I,4)
+          UVAR(I,2) = SXX(I)
+          UVAR(I,3) = SYY(I)
+          UVAR(I,4) = SXY(I)
+        ENDDO
+      ELSE
+        SXX(I) = SIGNXX(I)
+        SYY(I) = SIGNYY(I)
+        SXY(I) = SIGNXY(I)
+      ENDIF
 c-------------------------------
       DO I=1,NEL
         IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
@@ -129,26 +152,26 @@ C
 c
 c           fiber criteria
 c
-            IF (SIGNXX(I) >= ZERO) THEN
-              F1 = SIGNXX(I)/SIGT1
+            IF (SXX(I) >= ZERO) THEN
+              F1 = SXX(I)/SIGT1
             ELSE
-              F1 = -SIGNXX(I)/SIGC1
+              F1 = -SXX(I)/SIGC1
             ENDIF
 c
 c           matrix criteria                                      
 c                                                                
-            IF (SIGNYY(I) >= ZERO) THEN
+            IF (SYY(I) >= ZERO) THEN
               FAC = ONE - PP12*SIGT2/FSIG12
-              FAC = FAC*SIGNYY(I)/SIGT2
-              FA  = SQRT((SIGNXY(I)/FSIG12)**2 + FAC*FAC) 
-     .            + PP12*SIGNYY(I)/FSIG12
+              FAC = FAC*SYY(I)/SIGT2
+              FA  = SQRT((SXY(I)/FSIG12)**2 + FAC*FAC) 
+     .            + PP12*SYY(I)/FSIG12
              ELSE
               FAC = HALF/(ONE + PN22)/FSIG12
-              FC  = (SIGNXY(I)*FAC)**2 + (SIGNYY(I)/SIGC2)**2
-              FC  =-FC*SIGC2/SIGNYY(I)
+              FC  = (SXY(I)*FAC)**2 + (SYY(I)/SIGC2)**2
+              FC  =-FC*SIGC2/SYY(I)
             ENDIF
-            FB = SQRT(SIGNXY(I)**2 + (PN12*SIGNYY(I))**2 ) 
-     .                             + PN12*SIGNYY(I)
+            FB = SQRT(SXY(I)**2 + (PN12*SYY(I))**2 ) 
+     .                             + PN12*SYY(I)
             FB = FB/FSIG12
 C
             DAMMX    = MIN(ONE,MAX(F1,FA,FB,FC))
