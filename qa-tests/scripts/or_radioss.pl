@@ -369,7 +369,7 @@ if ($i_create_extract == 1 and !(defined $extract_from_starter_rules_file)) {
                   or $_ =~ /IMPLICIT COMPUTATION TERMINATED WITH/
                   or $_ =~ /TOTAL LANCZOS ITERATION/
                   or $_ =~ /NOT AVAILABLE/
-                  or $_ =~ /DIRECT SOLVER TERMINED WITH RELATIVE/
+                  or $_ =~ /DIRECT SOLVER TERMINATED WITH RELATIVE/
                   or $_ =~ /NUMBER  CRITICAL LOAD/
                   or $_ =~ /NOT AVAILABLE IN SINGLE PRECISION VERSION/
                   or $_ =~ /SIMPLE PRECISION IS NOT COMPATIBLE WITH/} @out;
@@ -453,7 +453,7 @@ if ($i_create_extract == 1 and !(defined $extract_from_starter_rules_file)) {
 #  grep "TOTAL C.G. ITERATION" $nom_lis >> tempo
 #  grep "IMPLICIT COMPUTATION TERMINATED WITH" $nom_lis | awk '{gsub("NONLINEAR ","");print;}' >> tempo
 #  grep "TOTAL LANCZOS ITERATION" $nom_lis >> tempo
-#  grep "DIRECT SOLVER TERMINED WITH RELATIVE" $nom_lis >> tempo
+#  grep "DIRECT SOLVER TERMINATED WITH RELATIVE" $nom_lis >> tempo
 #  # Les AUTRES CAS :
 #  ## CAS IMPLICITE/linear/BUCKLING/PLABUCK/* : nom_lis=BOXBEAMF
 #  awk '/NUMBER  CRITICAL LOAD/{i_pri=1} {if (i_pri==1){i_lig++};if (i_pri==1 && i_lig<=20) {print}}' $nom_lis >> results4qa
@@ -1574,7 +1574,7 @@ sub extract_engine() {
     $tmpout=sprintf "%5d %s %20.13g\n",$id++,"REL_RES_NORM",$flds[1];
     push @extract_tab,$tmpout;}
 ## ---
-  @xtra_infos=map { if (/=[\s]*([\S]*)/) { $1 }} grep {$_ =~ /DIRECT SOLVER TERMINED WITH RELATIVE/} @listing;
+  @xtra_infos=map { if (/=[\s]*([\S]*)/) { $1 }} grep {$_ =~ /DIRECT SOLVER TERMINATED WITH RELATIVE/} @listing;
   if ($#xtra_infos >= 0) {
     $tmpout=sprintf "%5d %s %20.13g\n",$id++,"DIRECT_SOLV_R",$xtra_infos[-1];
     push @extract_tab,$tmpout;}
