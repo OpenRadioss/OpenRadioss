@@ -97,7 +97,7 @@ C-----------------------------------------------
       INTEGER I,J,K,N,NRB,KPRI,KROT,NNOD,NOSYS,ITYPE,ID,ISK,IGR,IGRS,NBVEL,
      .        UID,IFLAGUNIT,NODID,NODID1,SUB_INDEX,IDIR,
      .        IDGRBRICK, IDGRQUAD, IDGRSH3N, IDGRBRICK_LOC, IDGRQUAD_LOC, IDGRSH3N_LOC,
-     .        IAD1, IAD2,NODE,NL,JREC,NOD_COUNT,IAD,NODINIVEL,CPT,XYZSIZE
+     .        IAD1, IAD2,NODE,NL,JREC,NOD_COUNT,IAD,NODINIVEL,CPT,XYZSIZE,SUB_ID
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IFRA,IFM,IUN,JJ,K1,K2,K3,INOD,NB_NODES,
      .        ID_NODE,IOK
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNO_RBY
@@ -149,6 +149,7 @@ C--------------------------------------------------
      .                       OPTION_ID = ID,
      .                       UNIT_ID = UID,
      .                       SUBMODEL_INDEX = SUB_INDEX,
+     .                       SUBMODEL_ID = SUB_ID,
      .                       OPTION_TITR = TITR,
      .                       KEYWORD2 = KEY)
 C
@@ -228,7 +229,8 @@ C--------------------------------------------------
           CALL HM_GET_FLOATV('vector_X',VL1,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('vector_Y',VL2,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('vector_Z',VL3,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV('rad_rotational_velocity',VRA,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('rad_rotational_velocity',VRA,IS_AVAILABLE,LSUBMODEL,UNITAB)                                                 
+          IF(IFRA == 0 .AND. SUB_INDEX  /=  0) CALL SUBROTVECT(VL1,VL2,VL3,RTRANS,SUB_ID,LSUBMODEL)    
 C
 C  UTILISER LEN_TRIM A LA PLACE DE XYZSIZE : XYZ(1:LEN_TRIM(XYZ))
 C
