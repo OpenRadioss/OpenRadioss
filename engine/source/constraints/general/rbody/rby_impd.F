@@ -32,7 +32,7 @@ Chd|        RBY_IMRD                      source/constraints/general/rbody/rby_i
 Chd|====================================================================
       SUBROUTINE RBY_IMPD(NRBYAC,IRBYAC,X  ,RBY,LPBY,
      1                   NPBY,SKEW,ISKEW,ITAB,WEIGHT,
-     2                   MS ,IN  ,SENSOR,NDOF ,D   ,
+     2                   MS ,IN   ,NDOF ,D   ,
      3                   DR ,IXR )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -52,7 +52,7 @@ C-----------------------------------------------
       INTEGER NDOF(*),NRBYAC,IRBYAC(*),IXR(*)
 C     REAL
       my_real
-     .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*), SENSOR(NSENSR,*),
+     .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*),
      .   IN(*),MS(*),D(3,*), DR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -90,7 +90,7 @@ C-----------------------------------------------
       IF (NUMELR>0) THEN
        CALL RBY_IMRD(NRBYAC,IRBYAC,X  ,RBY,LPBY,
      1               NPBY,SKEW,ISKEW,ITAB,WEIGHT,
-     2               MS ,IN  ,SENSOR,NDOF ,D   ,
+     2               MS ,IN   ,NDOF ,D   ,
      3               DR ,IXR )
       ENDIF
 
@@ -214,7 +214,7 @@ Chd|        RBY_IMP4                      source/constraints/general/rbody/rby_i
 Chd|====================================================================
       SUBROUTINE RBY_IMRD(NRBYAC,IRBYAC,X  ,RBY,LPBY,
      1                   NPBY,SKEW,ISKEW,ITAB,WEIGHT,
-     2                   MS ,IN  ,SENSOR,NDOF ,D   ,
+     2                   MS ,IN  ,NDOF ,D   ,
      3                   DR ,IXR )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -233,7 +233,7 @@ C-----------------------------------------------
       INTEGER NDOF(*),NRBYAC,IRBYAC(*),IXR(NIXR,*)
 C     REAL
       my_real
-     .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*), SENSOR(NSENSR,*),
+     .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*),
      .   IN(*),MS(*),D(3,*), DR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

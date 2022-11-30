@@ -31,7 +31,7 @@ Chd|        ENG_USERLIB_USER_SENS         source/user_interface/dyn_userlib.c
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SENSOR2(SENSOR_TAB,LSENSOR,SENSOR)
+      SUBROUTINE SENSOR_LOGICAL(SENSOR_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,14 +56,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LSENSOR(NSENSI,*)
-C     REAL
-      my_real SENSOR(NSENSR,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: K,IS1,IS2,TYP,OLD_TYP,NSENS,ACTI,TYP1,TYP2,STATUS1,STATUS2
+      INTEGER :: K,IS1,IS2,TYP,NSENS,ACTI,TYP1,TYP2,STATUS1,STATUS2
       my_real :: TDELAY,TSTART,TSTART1,TSTART2,TSTOPS,INFINITY
       CHARACTER OPTION*256
       INTEGER SIZE
@@ -75,9 +72,8 @@ C-----------------------------------------------
        ACTI = 0
 c      initialisation de TSTART a TT pour ecriture finale si ACTI=1
        TSTART = TT
-       OLD_TYP = LSENSOR(2,K)
-       TYP     = SENSOR_TAB(K)%TYPE
-       IF (TYP <= 0 .and. OLD_TYP > 28) TYP = OLD_TYP
+       TYP    = SENSOR_TAB(K)%TYPE
+
 c      !----------------------------------------------!
        IF (TYP == 3) THEN
 C--------------------------------
@@ -203,7 +199,6 @@ C--------------------------------
                 SENSOR_TAB(K)%STATUS = 1
               END IF
             ENDIF
-
           ELSE
             TSTART1 = SENSOR_TAB(IS1)%TSTART
             IF (TT >= TSTART1) THEN
@@ -218,51 +213,6 @@ C--------------------------------
               ENDIF
             ENDIF
           ENDIF
-C--------------------------------
-C         USER SENSOR
-C--------------------------------
-        ELSEIF (TYP>=29 .AND. TYP<=31) THEN
-          IF (TYP == 29) THEN
-            NSENS  = SENSOR_TAB(K)%SENS_ID
-            IF (USERL_AVAIL==1) THEN
-              CALL ENG_USERLIB_USER_SENS(TYP,NSENS)
-            ELSE
-              ! ----------------
-              ! ERROR to be printed & exit
-              OPTION='USER SENSOR'
-              SIZE=LEN_TRIM(OPTION)
-              CALL ANCMSG(MSGID=257,C1=OPTION(1:SIZE),ANMODE=ANINFO)
-              CALL ARRET(2)
-             ! ----------------
-            ENDIF
-          ELSEIF (TYP == 30) THEN
-            NSENS  = LSENSOR(1,K)
-            IF (USERL_AVAIL==1) THEN
-              CALL ENG_USERLIB_USER_SENS(TYP,NSENS)
-            ELSE
-              ! ----------------
-              ! ERROR to be printed & exit
-              OPTION='USER SENSOR'
-              SIZE=LEN_TRIM(OPTION)
-              CALL ANCMSG(MSGID=257,C1=OPTION(1:SIZE),ANMODE=ANINFO)
-              CALL ARRET(2)
-             ! ----------------
-            ENDIF
-          ELSEIF (TYP == 31) THEN
-            NSENS  = LSENSOR(1,K)
-            IF (USERL_AVAIL==1) THEN
-              CALL ENG_USERLIB_USER_SENS(TYP,NSENS)
-            ELSE
-              ! ----------------
-              ! ERROR to be printed & exit
-              OPTION='USER SENSOR'
-              SIZE=LEN_TRIM(OPTION)
-              CALL ANCMSG(MSGID=257,C1=OPTION(1:SIZE),ANMODE=ANINFO)
-              CALL ARRET(2)
-             ! ----------------
-            ENDIF
-          ENDIF
-
         ENDIF
 c-----------------------------------------------------------------------
         IF (ACTI == 1) THEN

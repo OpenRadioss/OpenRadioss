@@ -46,7 +46,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_SOL_INIT(
-     1    GEO       ,NPBY      ,LPBY      ,ITAB      ,SENSOR    ,
+     1    GEO       ,NPBY      ,LPBY      ,ITAB      ,
      2    IPARI     ,IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS10     ,
      5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,     
@@ -105,7 +105,7 @@ C-----------------------------------------------
      .   IRBE2(*),LRBE2(*),IBFV(*),NUM_IMP1(*),NUM_IMPL(NINTER,NTHREAD)
 C     REAL
       my_real
-     .   GEO(NPROPG,*),SENSOR(NSENSR,*),ELBUF(*),VEL(*),X(*),DMCP(*)
+     .   GEO(NPROPG,*),ELBUF(*),VEL(*),X(*),DMCP(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -173,13 +173,13 @@ c
           I_IMP => IMPBUF_TAB%I_IMP
           IRBYAC => IMPBUF_TAB%IRBYAC
           NSC => IMPBUF_TAB%NSC
-		  NSC = 0
+		        NSC = 0
           IINT2 => IMPBUF_TAB%IINT2
           NKUD => IMPBUF_TAB%NKUD
           IMONV => IMPBUF_TAB%IMONV
           CALL DIM_GLOB_K(
      1    GEO       ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
-     2    SENSOR    ,IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
+     2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
      3    IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS10     ,
      5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,NDOF      ,

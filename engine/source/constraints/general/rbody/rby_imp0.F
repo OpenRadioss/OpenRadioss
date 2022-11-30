@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE RBY_IMP0(X     ,RBY   ,LPBY  ,NPBY  ,SKEW  ,
      1                    NRBYAC,IRBYAC,NSC   ,ISIJ  ,NMC   ,
      2                    IMIJ  ,NSS   ,ISS   ,ISKEW ,ITAB  ,
-     3                    WEIGHT,MS    ,IN    ,SENSOR,
+     3                    WEIGHT,MS    ,IN    ,
      4                    NDDL  ,IADK  ,JDIK  ,DIAG_K ,
      5                    LT_K  ,NDOF  ,IDDL  ,IKC    ,B     )
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C-----------------------------------------------
      .        NMC,IMIJ(*)
 C     REAL
       my_real
-     .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*), SENSOR(NSENSR,*),
+     .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*),
      .   IN(*),MS(*),DIAG_K(*),LT_K(*),B(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -94,7 +94,7 @@ Chd|        RBY_IMP1                      source/constraints/general/rbody/rby_i
 Chd|====================================================================
       SUBROUTINE RBY_IMPI(X     ,RBY   ,LPBY  ,NPBY  ,SKEW  ,
      1                    NRBYAC,IRBYAC,NSS   ,ISS   ,ISKEW ,
-     2                    ITAB  ,WEIGHT,MS    ,IN    ,SENSOR,
+     2                    ITAB  ,WEIGHT,MS    ,IN    ,
      3                    NDDL  ,IADK  ,JDIK  ,DIAG_K ,
      4                    LT_K  ,NDOF  ,IDDL  ,IKC    ,B     )
 C-----------------------------------------------
@@ -115,7 +115,7 @@ C-----------------------------------------------
      .        IDDL(*),IKC(*),NSS(*) ,ISS(*)
 C     REAL
       my_real
-     .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*), SENSOR(NSENSR,*),
+     .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*),
      .   IN(*),MS(*),DIAG_K(*),LT_K(*),B(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

@@ -1698,7 +1698,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|====================================================================
       SUBROUTINE DIM_KINE_P(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
-     2    SENSOR    ,IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
+     2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
      3    NDOF      ,NSI2      ,NSRB      ,NKINE     ,
      7    INLOC     ,IRBE3     ,IRBE2     ,LRBE2     ,NKINM     ,
      8    INTBUF_TAB )
@@ -1731,9 +1731,6 @@ C-----------------------------------------------
      .        NDOF(*),NKINE,INLOC(*),IGEO(*),IRBE3(NRBE3L,*),
      .        IRBE2(NRBE2L,*),LRBE2(*),NKINM
 C     REAL
-      my_real
-     .   SENSOR(NSENSR,*)
-
       TYPE (INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1824,7 +1821,7 @@ Chd|        INTAB                         source/implicit/ind_glob_k.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_NDOF_I(
-     1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,SENSOR    ,
+     1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
      2    IRBYAC    ,NDOF      ,NSRB      ,IPARI     ,
      3    NINT2     ,IINT2     ,NSI2      ,NPRW      ,IRBE3     ,
      4    IRBE2     ,NSRB2     ,FR_ELEM   ,IAD_ELEM  ,INTBUF_TAB)
@@ -1856,9 +1853,6 @@ C-----------------------------------------------
       INTEGER NSRB,NDOF(*),NPRW(*),IRBE3(NRBE3L,*),IRBE2(NRBE2L,*),
      .        NSRB2,FR_ELEM(*),IAD_ELEM(2,*)
 C     REAL
-      my_real
-     .   SENSOR(NSENSR,*)
-
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
 C   External function
@@ -1878,7 +1872,7 @@ C-----------------------------------------------
        CALL I2_PREM(IPARI,K,NINT2,IINT2,NSI2)
       ENDDO 
 C------rigid body main------------- 
-      CALL RBYAC_IMP(NPBY,ITAB,SENSOR,NRBYAC,IRBYAC,NSRB)
+      CALL RBYAC_IMP(NPBY,ITAB,NRBYAC,IRBYAC,NSRB)
       DO I=1,NRBYAC
        N=IRBYAC(I)
        M=NPBY(1,N)
@@ -3234,7 +3228,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|====================================================================
       SUBROUTINE DIM_KINMAX(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
-     2    SENSOR    ,IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
+     2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
      3    INTBUF_TAB,IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS10     ,
      5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,NDOF      ,     
@@ -3279,8 +3273,7 @@ C-----------------------------------------------
      .   INLOC(*),NKMAX,NSS,NSIJ,NMIJ,NSS2,NSIJ2,NMIJ2,NSS3,
      .   IRBE2(*),LRBE2(*),NSB2
 C     REAL
-      my_real
-     .   SENSOR(NSENSR,*),ELBUF(*)
+      my_real ELBUF(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -3295,7 +3288,7 @@ C-----------------------------------------------
 c-----2. prepare icol for secnd nodes using ikine;
       CALL DIM_KINE_P(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
-     2    SENSOR    ,IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
+     2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
      3    NDOF      ,NSI2      ,NSRB      ,NKINE     ,
      7    INLOC     ,IRBE3     ,IRBE2     ,LRBE2     ,LNK       ,
      8    INTBUF_TAB       )
@@ -3427,7 +3420,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|====================================================================
       SUBROUTINE DIM_GLOB_K(
      1    GEO       ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
-     2    SENSOR    ,IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
+     2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
      3    IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS10     ,
      5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,NDOF      ,     
@@ -3480,7 +3473,7 @@ C-----------------------------------------------
      .   IRBE2(*),LRBE2(*),IBFV(*)
 C     REAL
       my_real
-     .   GEO(NPROPG,*),SENSOR(NSENSR,*),ELBUF(*),VEL(*)
+     .   GEO(NPROPG,*),ELBUF(*),VEL(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -3508,7 +3501,7 @@ c-----1. calcule NNMAX,NDOF;
        NDOF(N)=0
       ENDDO
       CALL DIM_NDOF_I(
-     1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,SENSOR    ,
+     1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
      2    IRBYAC    ,NDOF      ,NSRB      ,IPARI     ,
      3    NINT2     ,IINT2     ,NSI2      ,NPRW      ,IRBE3     ,
      4    IRBE2     ,NSRB2     ,FR_ELEM   ,IAD_ELEM  ,INTBUF_TAB  )
@@ -3572,7 +3565,7 @@ C
 C
       CALL DIM_KINMAX(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
-     2    SENSOR    ,IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
+     2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
      3    INTBUF_TAB,IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS10     ,
      5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,NDOF      ,     

@@ -41,7 +41,7 @@ Chd|====================================================================
      .                     IXS    , IXQ     , IXC    , IXT    , IXP   ,
      .                     IXR    , IXTG    , IXTG1  , IXUR   , IPARG ,
      .                     TF     , NPC     , FR_WAVE, W16    , BUFMAT,
-     .                     THKE   , BUFGEO  , LSENSOR, SENSOR , RBY   ,
+     .                     THKE   , BUFGEO  , RBY   ,
      .                     SKEW   , X       , WA     , IDDL   , NDOF  ,
      .                     IADK   , JDIK    , ICODT  , ICODR  , ISKEW ,
      .                     IBFV   , VEL     , LPBY   , NPBY   , ITAB  ,
@@ -80,7 +80,7 @@ C-----------------------------------------------
       INTEGER NDDL0, NNZK0, LSIZE(*), IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IXS(*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*),
      .        IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*),
-     .        IXTG1(4,*), IXUR(*), IPARG(NPARG,*), LSENSOR(NSENSI,*),
+     .        IXTG1(4,*), IXUR(*), IPARG(NPARG,*),
      .        NPC(*), IDDL(*), NDOF(*), IADK(*),JDIK(*),
      .        ICODT(*), ICODR(*), ISKEW(*), IBFV(NIFV,*),
      .        LPBY(*), NPBY(NNPBY,*), ITAB(*),
@@ -92,7 +92,7 @@ C-----------------------------------------------
       my_real
      .        DIAG_K(*), LT_K(*), PM(NPROPM,*), GEO(NPROPG,*),
      .        ELBUF(*), TF(*), W16(*), BUFMAT(*),
-     .        THKE(*), BUFGEO(*), SENSOR(NSENSR,*), RBY(*),
+     .        THKE(*), BUFGEO(*),RBY(*),
      .        SKEW(LSKEW,*), X(3,*), WA(*), VEL(LFXVELR,*), MS(*),
      .        IN(*), D_IMP(3,*), LB(*), FR_WAVE(*),FRBE3(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -159,7 +159,7 @@ C
      3   IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS(L1)   ,
      4   IXS(L2)   ,IXS(L3)   ,IPARG     ,TF        ,NPC       ,
      5   FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
-     6   LSENSOR   ,SENSOR    ,RBY       ,SKEW      ,X         ,
+     6   RBY       ,SKEW      ,X         ,
      7   WA        ,IDDL      ,NDOF      ,DIAG_K    ,LT_K      ,
      8   IADK      ,JDIK      ,IKG       ,ETAG      ,ELBUF_TAB ,
      9   STACK     ,DRAPE_Q4, DRAPE_T3        )
@@ -169,7 +169,7 @@ C    /---------------/
 C    /---------------/
       CALL UPD_GLOB_K(
      1   ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
-     2   TF        ,VEL       ,SENSOR    ,LSENSOR   ,RBID      ,
+     2   TF        ,VEL       ,RBID      ,
      3   RBY       ,X         ,SKEW      ,LPBY      ,NPBY      ,
      4   ITAB      ,WEIGHT    ,MS        ,IN        ,NRBYAC    ,
      5   IRBYAC    ,NSC       ,IKINW(LI1),NMC       ,IKINW(LI2),

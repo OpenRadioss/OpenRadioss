@@ -54,7 +54,7 @@ Chd|====================================================================
      3    IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS10     ,
      4    IXS20     ,IXS16     ,IPARG     ,TF        ,NPC       ,
      5    FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
-     6    LSENSOR   ,SENSOR    ,RBY       ,SKEW      ,X         ,
+     6    RBY       ,SKEW      ,X         ,
      7    WA        ,IDDL      ,NDOF      ,K_DIAG    ,K_LT      ,
      8    IADK      ,JDIK      ,IKGEO     ,ETAG      ,ELBUF_TAB ,
      9    STACK     ,DRAPE_Q4, DRAPE_T3        )
@@ -101,13 +101,13 @@ C-----------------------------------------------
      .   IPM(NPROPMI,*),IGEO(NPROPGI,*),IKGEO
       INTEGER IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*),
      .   IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),
-     .   NPC(*), IPARG(NPARG,*),LSENSOR(NSENSI,*),
+     .   NPC(*), IPARG(NPARG,*),
      .   IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG1(4,*), ETAG(*)
 C     REAL
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*) ,TF(*) ,
      .   FR_WAVE(*) ,ELBUF(*) ,THKE(*),RBY(*),SKEW(LSKEW,*),
-     .   SENSOR(NSENSR,*),BUFGEO(*),W16(*),X(3,*),WA(*)
+     .   BUFGEO(*),W16(*),X(3,*),WA(*)
       my_real
      .   K_DIAG(*) ,K_LT(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -2017,10 +2017,14 @@ Chd|        GET_U_SENS_VALUE              source/user_interface/usensor.F
 Chd|        SET_U_SENS_VALUE              source/user_interface/usensor.F
 Chd|====================================================================
       SUBROUTINE IMP_KPRES(IB    ,FAC    ,NPC   ,TF    ,X     ,
-     2                     SKEW  ,SENSOR,LSENSOR,WEIGHT,IADC  ,
+     2                     SKEW  ,SENSOR_TAB,WEIGHT,IADC  ,
      3                     IDDL  ,NDOF   ,IADK  ,JDIK  ,K_DIAG,
      4                     K_LT  )
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
+C-----------------------------------------------  
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -2047,13 +2051,14 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*),IB(NIBCLD,*),LSENSOR(NSENSI,*)
+      INTEGER NPC(*),IB(NIBCLD,*)
       INTEGER WEIGHT(*), IADC(4,*)
       INTEGER IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
 C     REAL
       my_real
-     .   FAC(LFACCLD,*), TF(*), X(3,*), SKEW(LSKEW,*), SENSOR(NSENSR,*),
+     .   FAC(LFACCLD,*), TF(*), X(3,*), SKEW(LSKEW,*),
      .   K_DIAG(*) ,K_LT(*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2081,15 +2086,12 @@ C       IF (NBUCK>0) SCALN=-ONE
         ISENS=0
         XSENS = ONE
         DO K=1,NSENSOR
-         IF(IB(6,NL)==LSENSOR(1,K))ISENS=K
+         IF(IB(6,NL)==SENSOR_TAB(K)%SENS_ID) ISENS=K
         ENDDO
         IF(ISENS==0)THEN
           TS=TT
-        ELSEIF (LSENSOR(4,ISENS)==753096514 .AND. TT /= ZERO) THEN
-         IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)
-         IERR = GET_U_SENS_VALUE(ISENS,2,XSENS)
         ELSE
-          TS = TT-SENSOR(2,ISENS)
+          TS = TT-SENSOR_TAB(ISENS)%TSTART
           IF(TS < ZERO) CYCLE
         ENDIF
 C
@@ -2132,15 +2134,12 @@ C
        ISENS=0
        XSENS = ONE
        DO K=1,NSENSOR
-         IF(IB(6,NL)==LSENSOR(1,K))ISENS=K
+         IF(IB(6,NL)==SENSOR_TAB(K)%SENS_ID) ISENS=K
        ENDDO
        IF(ISENS==0)THEN
           TS=TT
-       ELSEIF (LSENSOR(4,ISENS)==753096514 .AND. TT /= ZERO) THEN
-         IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)
-         IERR = GET_U_SENS_VALUE(ISENS,2,XSENS)
        ELSE
-          TS = TT-SENSOR(2,ISENS)
+          TS = TT-SENSOR_TAB(ISENS)%TSTART
           IF(TS < ZERO) GOTO 10
        ENDIF
 C
@@ -2943,7 +2942,7 @@ Chd|====================================================================
      3    IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS10     ,
      4    IXS20     ,IXS16     ,IPARG     ,TF        ,NPC       ,
      5    FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
-     6    LSENSOR   ,SENSOR    ,RBY       ,SKEW      ,X         ,
+     6    RBY       ,SKEW      ,X         ,
      7    WA        ,IDDL      ,NDOF      ,K_DIAG    ,K_LT      ,
      8    IADK      ,JDIK      ,IKGEO     ,ETAG      ,ITASK0    ,
      9    ELBUF_TAB ,STACK     ,DRAPE_Q4, DRAPE_T3    )
@@ -2980,13 +2979,13 @@ C-----------------------------------------------
      .   IPM(NPROPMI,*),IGEO(NPROPGI,*),IKGEO,ITASK0
       INTEGER IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*),
      .   IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),
-     .   NPC(*), IPARG(NPARG,*),LSENSOR(NSENSI,*),
+     .   NPC(*), IPARG(NPARG,*),
      .   IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG1(4,*), ETAG(*)
 C     REAL
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*) ,TF(*) ,
      .   FR_WAVE(*) ,ELBUF(*) ,THKE(*),RBY(*),SKEW(LSKEW,*),
-     .   SENSOR(NSENSR,*),BUFGEO(*),W16(*),X(3,*),WA(*)
+     .   BUFGEO(*),W16(*),X(3,*),WA(*)
       my_real
      .   K_DIAG(*) ,K_LT(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -3018,7 +3017,7 @@ c
      3    IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS10     ,
      4    IXS20     ,IXS16     ,IPARG     ,TF        ,NPC       ,
      5    FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
-     6    LSENSOR   ,SENSOR    ,RBY       ,SKEW      ,X         ,
+     6    RBY       ,SKEW      ,X         ,
      7    WA        ,IDDL      ,NDOF      ,K_DIAG    ,K_LT      ,
      8    IADK      ,JDIK      ,IKGEO     ,ETAG      ,ITASK     ,
      9    ELBUF_TAB ,IGROUC    ,IPRMES_EL ,STACK     ,DRAPE_Q4, DRAPE_T3   )
@@ -3152,7 +3151,7 @@ Chd|====================================================================
      3    IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS10     ,
      4    IXS20     ,IXS16     ,IPARG     ,TF        ,NPC       ,
      5    FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
-     6    LSENSOR   ,SENSOR    ,RBY       ,SKEW      ,X         ,
+     6    RBY       ,SKEW      ,X         ,
      7    WA        ,IDDL      ,NDOF      ,K_DIAG    ,K_LT      ,
      8    IADK      ,JDIK      ,IKGEO     ,ETAG      ,ITASK     ,
      9    ELBUF_TAB ,IGROUC    ,IPRMES_EL ,STACK     ,DRAPE_Q4, DRAPE_T3    )
@@ -3199,14 +3198,14 @@ C-----------------------------------------------
      .   IPM(NPROPMI,*),IGEO(NPROPGI,*),IKGEO,ITASK,IGROUC(NGROUP)
       INTEGER IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*),
      .   IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),
-     .   NPC(*), IPARG(NPARG,*),LSENSOR(NSENSI,*),
+     .   NPC(*), IPARG(NPARG,*),
      .   IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG1(4,*), ETAG(*),
      .   IPRMES_EL(*)
 C     REAL
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*) ,TF(*) ,
      .   FR_WAVE(*) ,ELBUF(*) ,THKE(*),RBY(*),SKEW(LSKEW,*),
-     .   SENSOR(NSENSR,*),BUFGEO(*),W16(*),X(3,*),WA(*)
+     .   BUFGEO(*),W16(*),X(3,*),WA(*)
       my_real
      .   K_DIAG(*) ,K_LT(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB

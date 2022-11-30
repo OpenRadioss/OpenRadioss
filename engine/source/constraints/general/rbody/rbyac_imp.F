@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        DIM_NDOF_I                    source/implicit/ind_glob_k.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE RBYAC_IMP(NPBY,ITAB,SENSOR,NRBYAC,IRBYAC,NSMAX)
+      SUBROUTINE RBYAC_IMP(NPBY,ITAB,NRBYAC,IRBYAC,NSMAX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,8 +42,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPBY(NNPBY,*),ITAB(*),NRBYAC,IRBYAC(*),NSMAX
 C     REAL
-      my_real
-     .   SENSOR(NSENSR,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

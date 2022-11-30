@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
-      SUBROUTINE INISEN(SENSOR_TAB, LSENSOR,IPARI ,NOM_OPT,PTR_NOPT_RWALL,
+      SUBROUTINE INISEN(SENSOR_TAB, IPARI ,NOM_OPT,PTR_NOPT_RWALL,
      .                  PTR_NOPT_SECT,NBR_SENS,IPARSENS,PTR_NOPT_INTER,
      .                  IXR    ,R_SKEW   )
 C-----------------------------------------------
@@ -44,17 +44,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr03_c.inc"
 #include      "scr17_c.inc"
-#include      "units_c.inc"
 #include      "warn_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LSENSOR(NSENSI,NSENSOR),IPARI(NPARI,NINTER)
+      INTEGER IPARI(NPARI,NINTER)
       INTEGER NOM_OPT(LNOPT1,*),PTR_NOPT_RWALL,PTR_NOPT_SECT,
      .        PTR_NOPT_INTER
       INTEGER ,DIMENSION(NUMELR)      :: R_SKEW
@@ -93,8 +90,6 @@ C-------------------------------------
           ENDIF
           SENSOR_TAB(K)%IPARAM(1) = IS1
           SENSOR_TAB(K)%IPARAM(2) = IS2
-          LSENSOR(4,K)=IS1
-          LSENSOR(5,K)=IS2
 c
         ELSEIF (SENS_TYPE == 4 .OR. SENS_TYPE == 5) THEN
 C-------------------------------------
@@ -118,8 +113,6 @@ C-------------------------------------
           ENDIF
           SENSOR_TAB(K)%IPARAM(1) = IS1
           SENSOR_TAB(K)%IPARAM(2) = IS2
-          LSENSOR(4,K)=IS1
-          LSENSOR(5,K)=IS2
 c
         ELSEIF (SENS_TYPE == 6) THEN
 C-------------------------------------
@@ -149,7 +142,6 @@ C-------------------------------------
      .                  I2=SENSOR_TAB(K)%IPARAM(1),C2='INTERFACE')
           ENDIF
           SENSOR_TAB(K)%IPARAM(1) = IN
-          LSENSOR(4,K)=IN
 c
         ELSEIF (SENS_TYPE == 7) THEN
 C-------------------------------------
@@ -165,7 +157,6 @@ C-------------------------------------
      .                  I2=SENSOR_TAB(K)%IPARAM(1),C2='RIGID WALL')
           ENDIF
           SENSOR_TAB(K)%IPARAM(1) = IN
-          LSENSOR(4,K)=IN
 c
         ELSEIF (SENS_TYPE == 8)THEN
 C-------------------------------------
@@ -181,7 +172,6 @@ C-------------------------------------
      .                  I2=SENSOR_TAB(K)%IPARAM(1),C2='SENSOR')
           ENDIF
           SENSOR_TAB(K)%IPARAM(1) = IS1
-          LSENSOR(4,K)=IS1
 c
         ELSEIF (SENS_TYPE == 11)THEN
 C-------------------------------------
@@ -197,7 +187,6 @@ C-------------------------------------
      .                   I2=SENSOR_TAB(K)%IPARAM(1),C2='RIGID BODY')
           ENDIF
           SENSOR_TAB(K)%IPARAM(1) = IN
-          LSENSOR(4,K)=IN
 c
         ELSEIF (SENS_TYPE == 12)THEN
 C-------------------------------------
@@ -213,7 +202,6 @@ C-------------------------------------
      .                   I2=SENSOR_TAB(K)%IPARAM(1),C2='SECTION')
           ENDIF
           SENSOR_TAB(K)%IPARAM(1) = IN
-          LSENSOR(4,K)=IN
 c---
         ELSEIF (SENS_TYPE == 13) THEN
 C-------------------------------------
@@ -225,7 +213,6 @@ c         ID section
             IF (NOM_OPT(1,PTR_NOPT_SECT +I) == SENSOR_TAB(K)%IPARAM(3)) IN=I
           ENDDO
           SENSOR_TAB(K)%IPARAM(3) = IN
-          LSENSOR(6,K)=IN
 c
 c         ID INTERFACE
           IN = 0
@@ -241,13 +228,11 @@ c         ID INTERFACE
                  IF (IPARI(15,J) == NOM_OPT(2,PTR_NOPT_INTER+I))THEN
                    IN = I + NINTER
                    SENSOR_TAB(K)%IPARAM(5) = J
-                   LSENSOR(8,K)=IN
                  ENDIF
               ENDDO
             ENDIF
           ENDDO
           SENSOR_TAB(K)%IPARAM(4) = IN
-          LSENSOR(7,K)=IN
 c
 c         ID RWALL
           IN = 0
@@ -255,7 +240,6 @@ c         ID RWALL
             IF (NOM_OPT(1,PTR_NOPT_RWALL+I) == SENSOR_TAB(K)%IPARAM(6)) IN=I
           ENDDO
           SENSOR_TAB(K)%IPARAM(6) = IN
-          LSENSOR(9,K)=IN
 c
 c         ID RBODY
           IN = 0
@@ -263,7 +247,6 @@ c         ID RBODY
             IF (NOM_OPT(1,I) == SENSOR_TAB(K)%IPARAM(7)) IN=I
           ENDDO
           SENSOR_TAB(K)%IPARAM(7) = IN
-          LSENSOR(10,K)=IN
 c
           IF (SENSOR_TAB(K)%IPARAM(3) == 0 .and. SENSOR_TAB(K)%IPARAM(4) == 0 .and. 
      .        SENSOR_TAB(K)%IPARAM(5) == 0 .and. SENSOR_TAB(K)%IPARAM(6) == 0 .and. 

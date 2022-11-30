@@ -31,9 +31,13 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|====================================================================
       SUBROUTINE CFIELD_IMP(ICFIELD  ,FAC   ,NPC   ,TF    ,A ,
      2                  V     ,X     ,XFRAME  ,MS,TFEXTT,
-     3                      SENSOR,LSENSOR,WEIGHT,IFRAME,
+     3                  SENSOR_TAB,WEIGHT,IFRAME,
      4                  IB,ITASK,
      5                  NRBYAC,IRBYAC,NPBY  ,RBY,ISKN   )
+C-----------------------------------------------  
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,13 +58,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*)
-      INTEGER ICFIELD(SIZFIELD,*),IB(*),LSENSOR(NSENSI,*)
+      INTEGER ICFIELD(SIZFIELD,*),IB(*)
       INTEGER WEIGHT(*),ITASK,NRBYAC,IRBYAC(*),NPBY(NNPBY,*),
      .        IFRAME(LISKN,*),ISKN(LISKN,*)
 C     REAL
       my_real
      .   FAC(LFACLOAD,*), TF(*), A(3,*), V(3,*), MS(*),
-     .   X(3,*), XFRAME(NXFRAME,*), SENSOR(NSENSR,*),TFEXTT, RBY(NRBY,*)
+     .   X(3,*), XFRAME(NXFRAME,*),TFEXTT, RBY(NRBY,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -121,7 +126,7 @@ C
       IF(ISENS==0)THEN
           TS=TT
       ELSE
-          TS = TT-SENSOR(2,ISENS)
+          TS = TT-SENSOR_TAB(ISENS)%TSTART
           IF(TS<0.0)RETURN
       ENDIF
 C

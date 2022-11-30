@@ -30,12 +30,13 @@ Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE FORCEFINGEO(IBFV  ,NPC    ,TF     ,A     ,V    ,X     ,
-     2                       VEL   ,SENSOR ,LSENSOR,FSKY  ,FEXT ,ITABM1,
+     2                       VEL   ,SENSOR_TAB,FSKY  ,FEXT ,ITABM1,
      3                       H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD 
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,13 +62,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IBFV(NIFV,*), NPC(*), LSENSOR(NSENSI,*)
+      INTEGER IBFV(NIFV,*), NPC(*)
       INTEGER ITABM1(*)
-      my_real 
-     .   TF(*), A(3,*), V(3,*), X(3,*),
-     .   VEL(LFXVELR,*), SENSOR(NSENSR,*),
-     .   FSKY(8,LSKY),FEXT(3,*)
+      my_real TF(*), A(3,*), V(3,*), X(3,*),
+     .   VEL(LFXVELR,*),FSKY(8,LSKY),FEXT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -103,12 +103,12 @@ c        N2 = SYSFUS2(N2,ITABM1,NUMNOD)
 C
         ISENS=0
         DO K=1,NSENSOR
-          IF(IBFV(4,N)==LSENSOR(1,K))ISENS=K
+          IF(IBFV(4,N)==SENSOR_TAB(K)%SENS_ID) ISENS=K
         ENDDO
         IF(ISENS==0)THEN
            TS=TT
         ELSE
-           TS = TT-SENSOR(2,ISENS)
+           TS = TT-SENSOR_TAB(ISENS)%TSTART
            IF(TS < ZERO) CYCLE
         ENDIF
 C

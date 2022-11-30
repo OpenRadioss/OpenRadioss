@@ -189,7 +189,7 @@ C
      2  IXUR   ,IXTG     ,IXS          ,IXQ    ,IXC    ,IXT    ,IXP    ,IXR    ,
      3          ITAB     ,ITABM1     ,IFILL  ,
      4  IMS    ,NPC      ,IBCL       ,MATPARAM_TAB   ,GROUP_PARAM_TAB,
-     5  IBFV   ,IECRAN   ,ILAS       ,LACCELM,LSENSOR,NNLINK ,LNLINK ,
+     5  IBFV   ,IECRAN   ,ILAS       ,LACCELM,NNLINK ,LNLINK ,
      6  IUSER  ,IPARG    ,DD_IAD     ,IGRV   ,IEXLNK ,KINET  ,
      7  IPARI  ,          NPRW       ,ICONX  ,NPBY   ,
      8  LPBY   ,LRIVET   ,NSTRF      ,LJOINT ,NODPOR, MONVOL ,ITHGRP,IAD_ELEM,
@@ -200,7 +200,7 @@ C
      D  IN     ,PM       ,SKEW       ,GEO    ,EANI   ,BUFMAT ,BUFGEO ,BUFSF  ,
      E  W      ,VEUL     ,FILL       ,DFILL  ,ALPH   ,WB     ,DSAVE  ,ASAVE  ,
      .  MSNF   ,
-     F  TF     ,FORC     ,VEL          ,FSAV   ,FZERO  ,XLAS   ,ACCELM ,SENSOR ,
+     F  TF     ,FORC     ,VEL          ,FSAV   ,FZERO  ,XLAS   ,ACCELM ,
      G  GRAV   ,FR_WAVE  ,FAILWAVE   ,PARTS0 ,USER   ,ELBUF  ,RWBUF  ,SENSOR_TAB,
      H  RWSAV  ,RBY        ,RIVET  ,SECBUF ,VOLMON ,LAMBDA ,
      I  WA     ,FV       ,A          ,AR     ,STIFN  ,STIFR  ,PARTSAV,FSKY

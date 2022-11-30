@@ -218,7 +218,7 @@ C   -------- Tailles des tableaux entiers --------
       TABVINT(82)  = SILAS
       TABVINT(83)  = SIEBCS
       TABVINT(84)  = SLACCELM
-      TABVINT(85)  = SLSENSOR
+      TABVINT(85)  = 0
       TABVINT(86)  = SNNLINK
       TABVINT(87)  = SLNLINK
       TABVINT(88)  = SIUSER
@@ -343,7 +343,7 @@ C
       TABVINT(207) = SXLAS
       TABVINT(208) = SREBCS
       TABVINT(209) = SACCELM
-      TABVINT(210) = SSENSOR
+      TABVINT(210) = 0
       TABVINT(211) = SFBVEL
       TABVINT(212) = SGRAV
       TABVINT(213) = SFR_WAVE
