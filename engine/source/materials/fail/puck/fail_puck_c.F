@@ -136,9 +136,11 @@ c
           UVAR(I,4) = SXY(I)
         ENDDO
       ELSE
-        SXX(I) = SIGNXX(I)
-        SYY(I) = SIGNYY(I)
-        SXY(I) = SIGNXY(I)
+        DO I = 1,NEL
+          SXX(I) = SIGNXX(I)
+          SYY(I) = SIGNYY(I)
+          SXY(I) = SIGNXY(I)
+        ENDDO
       ENDIF
 c-------------------------------
       DO I=1,NEL
