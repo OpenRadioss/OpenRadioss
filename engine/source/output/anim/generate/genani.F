@@ -2034,7 +2034,7 @@ C-----------------------------------------------
         IF(ANIM_CE(2153)==1) CALL ANI_TXT('FVMBAG - Gama',13)
         IF(ANIM_CE(2154)==1)
      .     CALL ANI_TXT('FVMBAG - Visu Polyhedra',23)
-        IF(ANIM_CE(2155)==1) CALL ANI_TXT('%Thinning',9)
+        IF(ANIM_CE(2155)==1) CALL ANI_TXT('Thinning Percentage',19)
         IF(ANIM_CE(2156)==1)
      .    CALL ANI_TXT('Estimated Error on Thickness',28)
          DO I=2240,10139
