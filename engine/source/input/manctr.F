@@ -31,12 +31,13 @@ Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|====================================================================
-      SUBROUTINE MANCTR(SENSOR,H3D_DATA)
+      SUBROUTINE MANCTR(SENSOR_TAB,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD         
       USE INOUTFILE_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,6 +46,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "units_c.inc"
@@ -61,9 +63,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .     SENSOR(NSENSR,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -122,7 +123,7 @@ C-----------------------------
 C     SENSOR 
 C-----------------------------
        IF(IANISENS>0)THEN
-        IF(TT>SENSOR(2,IANISENS))THEN
+        IF (TT > SENSOR_TAB(IANISENS)%TSTART) THEN
 C         ACTIVATION
           IANISENS=-IANISENS
           TANIMSENS=TT+DTANISENS
@@ -130,10 +131,10 @@ C         ACTIVATION
           MDESS=MDESS+MANIM
         ENDIF
        ELSEIF(IANISENS<0)THEN
-        IF(TT<SENSOR(2,-IANISENS))THEN
+        IF(TT < SENSOR_TAB(-IANISENS)%TSTART) THEN
 C         DEACTIVATION
           IANISENS=-IANISENS
-        ELSEIF(TT>TANIMSENS)THEN
+        ELSEIF (TT > TANIMSENS) THEN
 C         ACTIF
           TANIMSENS=TANIMSENS+DTANISENS
           MANIM=4
@@ -144,14 +145,14 @@ C         ACTIF
        IF(NLSENS>0)THEN
          DO I=1,NLSENS
            IF(LANISENS(I)>0)THEN
-             IF(TT>SENSOR(2,LANISENS(I)))THEN
+             IF (TT > SENSOR_TAB(LANISENS(I))%TSTART) THEN
 C           ACTIVATION
                LANISENS(I)=-LANISENS(I)
                MANIM=4
                MDESS=MDESS+MANIM
              ENDIF
            ELSEIF(LANISENS(I)<0)THEN
-             IF(TT<SENSOR(2,-LANISENS(I)))THEN
+             IF (TT < SENSOR_TAB(-LANISENS(I))%TSTART) THEN
 C           DEACTIVATION
                LANISENS(I)=-LANISENS(I)
              ENDIF
@@ -161,13 +162,13 @@ C           DEACTIVATION
        IF(H3D_DATA%N_SENS_H3D>0)THEN
          DO I=1,H3D_DATA%N_SENS_H3D
            IF(H3D_DATA%LSENS_H3D(I)>0)THEN
-             IF(TT>SENSOR(2,H3D_DATA%LSENS_H3D(I)))THEN
+             IF (TT > SENSOR_TAB(H3D_DATA%LSENS_H3D(I))%TSTART) THEN
 C           ACTIVATION
                H3D_DATA%LSENS_H3D(I)=-H3D_DATA%LSENS_H3D(I)
                H3D_DATA%MH3D=1
              ENDIF
-           ELSEIF(H3D_DATA%LSENS_H3D(I)<0)THEN
-             IF(TT<SENSOR(2,-H3D_DATA%LSENS_H3D(I)))THEN
+           ELSEIF (H3D_DATA%LSENS_H3D(I)<0) THEN
+             IF (TT < SENSOR_TAB(-H3D_DATA%LSENS_H3D(I))%TSTART) THEN
 C           DEACTIVATION
                H3D_DATA%LSENS_H3D(I)=-H3D_DATA%LSENS_H3D(I)
              ENDIF

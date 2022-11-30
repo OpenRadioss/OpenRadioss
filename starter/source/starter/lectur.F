@@ -4806,32 +4806,17 @@ C--------------------------------------------
       ERR_MSG='SENSORS'
       ERR_CATEGORY='SENSORS'
 c
-      SSENSOR = NSENSR * NSENSOR
-      SLSENSOR= NSENSI * NSENSOR
-      ALLOCATE (LSENSOR(SLSENSOR) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='LSENSOR')
-      ALLOCATE (SENSOR(SSENSOR)    ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SSENSOR')
-      IF (NSENSOR > 0) THEN
-        LSENSOR(:) = 0
-        SENSOR(:)  = ZERO
-      END IF
-      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      CALL SAV_BUF_POINT(LSENSOR, 9)
-      CALL SAV_BUF_POINT(SENSOR ,10)
       ! -------------
       ! size initialization for user sensor
       CALL SENSOR_USER_INIT()
       ! -------------
       ALLOCATE( SENSOR_TAB(NSENSOR) )
-      SENSOR_TAB(1:NSENSOR)%TYPE = -1
 c
       IF (NSENSOR > 0) THEN
         CALL HM_READ_SENSORS(
-     .       SENSOR_TAB,LSENSOR  ,SENSOR   ,LACCELM  ,ITABM1    ,
-     .       IPART     ,LGAUGE   ,SUBSETS  ,NSETS    ,IGRSURF   ,
-     .       IGRNOD    ,BUFSF    ,SKEW     ,ISKWN    ,UNITAB   ,
-     .       LSUBMODEL ,HM_NSENSOR)
+     .       SENSOR_TAB,LACCELM  ,ITABM1    ,IPART     ,LGAUGE    ,
+     .       SUBSETS   ,NSETS    ,IGRSURF   ,IGRNOD    ,BUFSF     ,
+     .       SKEW      ,ISKWN    ,UNITAB    ,LSUBMODEL ,HM_NSENSOR)
         ! -----------------
         ! check if a user sensor is used with a list of node
         ! convert the list of User node ID into Local node ID
@@ -9002,7 +8987,7 @@ C--------------------------------------------
 C     INIT DES SENSORS (REMPLACEMENT DES NOS EXTERNES PAR LES NOS SYSTEMES)
 C--------------------------------------------
       IF (NSENSOR > 0) THEN
-        CALL INISEN(SENSOR_TAB ,LSENSOR,IPARI,NOM_OPT,INOM_OPT(5),
+        CALL INISEN(SENSOR_TAB ,IPARI,NOM_OPT,INOM_OPT(5),
      .              INOM_OPT(8),SFSAV6,IPARSENS,INOM_OPT(4),
      .              IXR        ,R_SKEW     )
         IF(IPARSENS/=0) THEN
@@ -10587,7 +10572,7 @@ c
      8         ITAB         ,ITABM1      ,GJBUFI         ,ALE_CONNECTIVITY%NALE   ,
      9         ALE_CONNECTIVITY,
      A         KXX          ,IXX         ,IBCL           ,IBFV        ,
-     B         ILAS         ,LACCELM     ,LSENSOR        ,NNLINK      ,LNLINK     ,    
+     B         ILAS         ,LACCELM     ,NNLINK         ,LNLINK      ,    
      C         IPARG        ,IGRV        ,LGRAV          ,IBVEL       ,LBVEL      ,    
      D         IACTIV       ,FACTIV      ,KINET          ,IPARI       ,NPRW       ,              
      E         LPRW         ,ICONX       ,NPBY           ,    
@@ -10600,11 +10585,11 @@ c
      L         RBMPC        ,GJBUFR      ,W              ,VEUL        ,FILL       ,    
      M         DFILL        ,WB          ,DSAVE          ,ASAVE       ,MSNF       ,    
      N         SPBUF        ,FORC        ,VEL            ,FSAV        ,FZERO      ,    
-     O         XLAS         ,ACCELM      ,SENSOR         ,FBVEL       ,GRAV       ,    
+     O         XLAS         ,ACCELM      ,FBVEL          ,GRAV       ,    
      P         FR_WAVE      ,FAILWAVE    ,PARTS0         ,USER        ,ELBUF      ,                
      Q         RWBUF        ,RWSAV       ,RBY            ,RIVET       ,    
      R         SECBUF       ,VOLMON      ,RCONX          ,NLOC_DMG    ,                             
-     S         FVMAIN     ,LIBAGALE    ,LENTHG         ,LBUFMAT     ,LBUFGEO    ,
+     S         FVMAIN       ,LIBAGALE    ,LENTHG         ,LBUFMAT     ,LBUFGEO    ,
      T         LBUFSF       ,SXLAS                       ,LNOM_OPT    ,SILAS      ,    
      U         LENVOLU                   ,NPTS           ,CNE         ,LCNE       ,    
      V         ADDCNE       ,CNI2        ,LCNI2G         ,ADDCNI2     ,CEPI2      ,    

@@ -37,10 +37,9 @@ Chd|        SPMD_SUMAX                    source/mpi/generic/spmd_sumax.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SENSOR0(SENSOR_TAB,IPARI  ,NPRW   ,ISENSP  ,NSENSP    ,
+      SUBROUTINE SENSOR_SPMD(SENSOR_TAB,IPARI  ,NPRW   ,ISENSP  ,NSENSP    ,
      .                   XSENS     ,X      ,ACCELM ,IACCP   ,NACCP     ,
-     .                   GAUGE     ,IGAUP  ,NGAUP  ,PARTSAV2,LSENSOR   ,
-     .                   SENSOR    )
+     .                   GAUGE     ,IGAUP  ,NGAUP  ,PARTSAV2)
 C-----------------------------------------------
 C   SPMD sensor update routine
 C-----------------------------------------------
@@ -63,11 +62,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,NINTER),LSENSOR(NSENSI,*),
+      INTEGER IPARI(NPARI,NINTER),
      .        NPRW(*), ISENSP(2,*), NSENSP(*), IACCP(*), NACCP(*),
      .        IGAUP(*), NGAUP(*)
-      my_real
-     .        SENSOR(NSENSR,*), XSENS(12,*), X(3,*),
+      my_real XSENS(12,*), X(3,*),
      .        ACCELM(LLACCELM,*), GAUGE(LLGAUGE,*),PARTSAV2(2,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
@@ -295,61 +293,7 @@ Cel il faut corrige la reduction et l'affecter au ipari/nprw
            NPRW(N5) = MIN(IBUF(LEN),1)
          ENDIF
         ENDDO
-       ENDIF
-c-----------------------------------------------------------------------
-c      User sensor
-c-----------------------------------------------------------------------
-C
-       IF (ISENSUSR == 1) THEN
-C
-C TSTART : Logique B -> A
-C
-         LEN = 0
-         DO K=1,NSENSOR
-           TYP = LSENSOR(2,K)
-           IF (TYP == 29.OR.TYP == 30.OR.TYP == 31)THEN
-             LEN = LEN + 1
-             RBUF(LEN) = SENSOR(ISENBUF+LSENBUF,K)
-           ENDIF
-         ENDDO
-C
-         CALL SPMD_ALL_DMIN(RBUF,LEN)
-C
-         DO K=1,NSENSOR
-           TYP = LSENSOR(2,K)
-           IF(TYP == 29.OR.TYP == 30.OR.TYP == 31)THEN
-             LEN = LEN + 1
-             SENSOR(ISENBUF+LSENBUF,K) = RBUF(LEN)
-           ENDIF
-         ENDDO
-C
-C RESTE BUFFER : Logique A -> B
-C
-         LEN = 0
-         DO K=1,NSENSOR
-           TYP = LSENSOR(2,K)
-           IF(TYP == 29.OR.TYP == 30.OR.TYP == 31)THEN
-              DO I = 1, LSENBUF-1
-                RBUF(LEN+I) = SENSOR(ISENBUF+I,K)
-             ENDDO
-             LEN = LEN + LSENBUF-1
-           ENDIF
-         ENDDO
-C
-         LEN1 = 25
-         CALL SPMD_SUMAX(RBUF,LEN1,LEN)
-         CALL SPMD_RBCAST(RBUF,RBUF,LEN,1,0,2)
-C
-         LEN = 0
-         DO K=1,NSENSOR
-           TYP = LSENSOR(2,K)
-           IF(TYP == 29.OR.TYP == 30.OR.TYP == 31)THEN
-             DO I = 1, LSENBUF-1
-               SENSOR(ISENBUF+I,K) = RBUF(LEN+I)
-             ENDDO
-             LEN = LEN + LSENBUF-1
-           ENDIF
-         ENDDO
+
        ENDIF
 C------------
        RETURN

@@ -493,7 +493,7 @@ Chd|====================================================================
      2  IXUR   ,IXTG   ,IXS     ,IXQ    ,IXC    ,IXT    ,IXP    ,IXR    ,
      3          ITAB   ,ITABM1  ,IFILL  ,
      4  IMS    ,NPC    ,IBCL    ,MATPARAM_TAB   ,GROUP_PARAM_TAB,
-     5  IBFV   ,IDUM   ,LAS     ,LACCELM,LSENSOR,NNLINK ,LNLINK ,
+     5  IBFV   ,IDUM   ,LAS     ,LACCELM,NNLINK ,LNLINK ,
      6  IUSER  ,IPARG  ,DD_IAD  ,IGRV   ,IEXLNK ,KINET  ,
      7  IPARI  ,        NPRW    ,ICONX  ,NPBY   ,
      8  LPBY   ,LRIVET ,NSTRF   ,LJOINT ,NODPOR ,MONVOL ,ITHGRP,IAD_ELEM,
@@ -504,7 +504,7 @@ Chd|====================================================================
      D  IN     ,PM     ,SKEW    ,GEO    ,EANI   ,BUFMAT ,BUFGEO ,BUFSF  ,
      E  W      ,VEUL   ,FILL    ,DFILL  ,ALPH   ,WB     ,DSAVE  ,ASAVE  ,
      .  MSNF   ,
-     F  TF     ,FORC   ,VEL     ,FSAV   ,FZERO  ,XLAS   ,ACCELM ,SENSOR ,
+     F  TF     ,FORC   ,VEL     ,FSAV   ,FZERO  ,XLAS   ,ACCELM ,
      G  AGRV   ,FR_WAVE,FAILWAVE,PARTS0 ,USER   ,ELBUF  ,RWBUF  ,SENSOR_TAB,
      H  RWSAV  ,RBY     ,RIVET  ,SECBUF ,VOLMON ,LAMBDA ,
      I  WA     ,FV     ,A       ,AR     ,STIFN  ,STIFR  ,PARTSAV,FSKY
@@ -748,8 +748,7 @@ C-----------------------------------------------
      .   LRIVET(*), NSTRF(*), LJOINT(*), ICODT(*), ICODR(*), ILINK(*),
      .   LLINK(*), LINALE(*), NEFLSW(*), NNFLSW(*),
      .   NODPOR(*),ICUT(*) , INOISE(*),MONVOL(*),
-     .   ADSKY(*),IADS(*),LACCELM(3,*),LSENSOR(NSENSI,*),
-     .   DD_IAD(NSPMD+1,*),FR_ELEM(*),
+     .   ADSKY(*),IADS(*),LACCELM(3,*),DD_IAD(NSPMD+1,*),FR_ELEM(*),
      .   IAD_ELEM(2,*),IAD_RBY(*),FR_RBY(*),NNLINK(10,*),LNLINK(*),
      .   IAF(*),ITHGRP(*),IGRV(*),WEIGHT(*),MAIN_PROC(*),WEIGHT_MD(*),
      .   KXX(NIXX,*),IXX(*),IEXLNK(NR2R,*),ITABM1(*),IUSER(*),
@@ -815,7 +814,7 @@ c     .   X(3,*)    ,D(3,*)      ,V(3,*)   ,VR(3,*),DAMP(*),
      .   R(3,*)    ,CRFLSW(*),FLSW(*),
      .   FANI(3,*) ,UWA(*)    ,PARTSAV(*)    ,STIFN(*) ,STIFR(*),
      .   DSAVE(3,*),ASAVE(3,*),XCUT(*)   ,ANIN(*)    ,BUFNOIS(*),
-     .   FSKY(8,*),DR(3,*),ACCELM(LLACCELM,*),SENSOR(NSENSR,*),
+     .   FSKY(8,*),DR(3,*),ACCELM(LLACCELM,*),
      .   TANI(*),VOLMON(*),EANI(*),AGRV(*), THKE(*), BUFSF(*),AF(*),
      .   SECBUF(*),SECFCUM(7,NUMNOD,NSECT),LAMBDA(*), 
      .   FR_WAVE(*),PARTS0(*),BUFGEO(*),
@@ -2677,7 +2676,7 @@ C----------------------------------
           L2 = L1+6*NUMELS10
           L3 = L2+12*NUMELS20
           CALL IMP_SOL_INIT(
-     1    GEO       ,NPBY      ,LPBY      ,ITAB      ,SENSOR    ,
+     1    GEO       ,NPBY      ,LPBY      ,ITAB      ,
      2    IPARI     ,IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS(L1)   ,
      5    IXS(L2)   ,IXS(L3)   ,IXUR      ,IPARG     ,     
@@ -2720,7 +2719,7 @@ C------ one routine for EIG
          CALL IMP_EIGSOL(
      1                   EIGIPM      , EIGRPM      , MS        ,IN         , EIGIBUF   ,
      2                   X           ,IXTG1        ,TF         , NPC       , FR_WAVE   ,
-     3                   W16         ,LSENSOR      , SENSOR    , WA        ,
+     3                   W16         , WA        ,
      4                   ICODT       , ICODR       , ISKEW     ,IBFV       , VEL       ,
      4                   V           , A           , ELBUF    , IXS       , IXQ     ,
      5                   IXC         , IXT         , IXP      , IXR       , IXTG    ,
@@ -2810,8 +2809,6 @@ C-------------------------------
         CALL SAV_BUF_POINT(BUFGEO,4)
         CALL SAV_BUF_POINT(NPC,5)
         CALL SAV_BUF_POINT(TF,6)
-        CALL SAV_BUF_POINT(LSENSOR,7)
-        CALL SAV_BUF_POINT(SENSOR,8)
         CALL SAV_BUF_POINT(ISKWN,9)
         CALL SAV_BUF_POINT(SKEW,10)
         CALL SAV_BUF_POINT(LACCELM,11)
@@ -2926,12 +2923,12 @@ C-----------------------------------------------
       IF(IMON>0) CALL STARTIME(6,1)
       IF(IMONM > 0) CALL STARTIME(47,1)
 C
-      CALL MANCTR(SENSOR,H3D_DATA)
+      CALL MANCTR(SENSOR_TAB,H3D_DATA)
 C----------------------------
 C       MOVING SKEW  [MONO THREAD]
 C----------------------------------
        IF(NUMSKW/=0) CALL NEWSKW(SKEW    ,ISKWN        ,X           ,ISKWP_L  ,NSKWP,
-     1                             NUMSKW_L,NUMSKW_L_SEND,ISKWP_L_SEND,RECVCOUNT,ISKWP)
+     1                           NUMSKW_L,NUMSKW_L_SEND,ISKWP_L_SEND,RECVCOUNT,ISKWP)
 C----------------------------------
         ECONT=ZERO
         EDAMP=ZERO
@@ -3189,14 +3186,14 @@ C-------------------------------------------------------------------
         IF (IMONM > 0) CALL STARTIME(41,1)
           CALL FORCE(IBCL   ,FORC    ,NPC    ,TF      ,A         ,
      2               V      ,X       ,SKEW   ,AR      ,VR        ,
-     3               SENSOR ,LSENSOR ,WEIGHT ,TFEXC   ,IADS(I87J),
+     3               SENSOR_TAB ,WEIGHT ,TFEXC   ,IADS(I87J),
      4               FSKY   , FSKY   ,FEXT   ,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC)
 C
         IF (NPINCH > 0) THEN
           CALL FORCEPINCH(IBCL   ,FORC    ,NPC    ,TF      ,A         ,
      2                    V      ,X       ,SKEW   ,AR      ,VR        ,
-     3                    SENSOR ,LSENSOR ,WEIGHT ,TFEXC   ,IADS(I87J),
+     3                    SENSOR_TAB ,WEIGHT ,TFEXC   ,IADS(I87J),
      4                    FSKY   , FSKY   ,FEXT   ,H3D_DATA,
      5                    PINCH_DATA%APINCH, PINCH_DATA%VPINCH)  
         ENDIF
@@ -3213,7 +3210,7 @@ C
             IF(IMONM > 0) CALL STARTIME(44,1)
           ENDIF
           CALL FORCEFINGEO(IBFV ,NPC    ,TF      ,A    ,V    ,X     ,
-     2                     VEL  ,SENSOR ,LSENSOR ,FSKY ,FEXT ,ITABM1,
+     2                     VEL  ,SENSOR_TAB ,FSKY ,FEXT ,ITABM1,
      3                     H3D_DATA)
           IF(IMON>0) THEN
             IF(IMONM > 0) CALL STOPTIME(44,1)
@@ -6741,10 +6738,9 @@ c
           ENDIF
           ! -------------------------------
           IF (NSPMD > 1) THEN
-            CALL SENSOR0(SENSOR_TAB,IPARI   ,NPRW     ,ISENSP  ,NSENSP  ,
+            CALL SENSOR_SPMD(SENSOR_TAB,IPARI   ,NPRW     ,ISENSP  ,NSENSP  ,
      .                   XSENS     ,X       ,ACCELM   ,IACCP   ,NACCP   ,
-     .                   GAUGE     ,IGAUP   ,NGAUP    ,PARTSAV2,LSENSOR ,
-     .                   SENSOR    )
+     .                   GAUGE     ,IGAUP   ,NGAUP    ,PARTSAV2)
           ENDIF      
 c
           ! check activation condition of base sensors
@@ -6755,7 +6751,7 @@ c
      .         SUBSETS   ,IGRSURF   ,IGRNOD    )
 c
           ! check activation condition of logical sensors hierarchy
-          CALL SENSOR2(SENSOR_TAB,LSENSOR,SENSOR)
+          CALL SENSOR_LOGICAL(SENSOR_TAB)
 
         ENDIF
 
@@ -8044,10 +8040,9 @@ c
         ENDIF
 
         IF (NSPMD > 1) THEN
-          CALL SENSOR0(SENSOR_TAB,IPARI   ,NPRW     ,ISENSP    ,NSENSP    ,
+          CALL SENSOR_SPMD(SENSOR_TAB,IPARI   ,NPRW     ,ISENSP    ,NSENSP    ,
      .                 XSENS     ,X       ,ACCELM   ,IACCP     ,NACCP     ,
-     .                 GAUGE     ,IGAUP   ,NGAUP    ,PARTSAV2  ,LSENSOR   ,
-     .                 SENSOR    ) 
+     .                 GAUGE     ,IGAUP   ,NGAUP    ,PARTSAV2  ) 
         ENDIF
 c       
         ! check activation condition of base sensors
@@ -8058,7 +8053,7 @@ c
      .       SUBSETS   ,IGRSURF   ,IGRNOD    )
 c       
         ! check activation condition of logical sensor hierarchy
-        CALL SENSOR2(SENSOR_TAB,LSENSOR,SENSOR)
+        CALL SENSOR_LOGICAL(SENSOR_TAB)
 
       ENDIF  !  NSENSOR > 0
 C========================================================================================
@@ -8574,13 +8569,13 @@ C===============================================================================
          CALL IMP_CHKM(
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXUR   ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
-     3  NPC    ,IBCL   ,IBFV   ,LSENSOR,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
+     3  NPC    ,IBCL   ,IBFV   ,SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
      4  IPARI  ,INTBUF_TAB,NPRW   ,ICONX  ,NPBY,LPBY   ,LRIVET ,
      5  NSTRF  ,LJOINT ,ICODT  ,ICODR  ,ISKY  ,ADSKY,IADS(I87J),
      6  ILINK  ,LLINK  ,WEIGHT         ,ITASK ,IBVEL  ,LBVEL  ,FBVEL  ,
      7  X      ,D      ,V      ,VR     ,DR     ,THKE   ,DAMP   ,MS     ,
      8  IN     ,PM     ,SKEW   ,GEO    ,EANI   ,BUFMAT ,BUFGEO ,BUFSF  ,
-     9  TF     ,FORC   ,VEL    ,FSAV   ,SENSOR ,AGRV   ,FR_WAVE,PARTS0 ,
+     9  TF     ,FORC   ,VEL    ,FSAV   ,AGRV   ,FR_WAVE,PARTS0 ,
      A  USER   ,ELBUF  ,RBY   ,RIVET,FR_ELEM,IAD_ELEM,
      B  WA     ,     A      ,AR     ,STIFN  ,STIFR  ,PARTSAV,FSKY   ,
      C  FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,FSKYM  ,IGEO   ,IPM    ,
@@ -8605,13 +8600,13 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
         CALL IMP_SOLV(
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXUR   ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
-     3  NPC    ,IBCL   ,IBFV   ,LSENSOR,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
+     3  NPC    ,IBCL   ,IBFV   ,SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
      4  IPARI  ,INTBUF_TAB,NPRW   ,ICONX  ,NPBY,LPBY   ,LRIVET ,
      5  NSTRF  ,LJOINT ,ICODT  ,ICODR  ,ISKY  ,ADSKY,IADS(I87J),
      6  ILINK  ,LLINK  ,WEIGHT         ,ITASK ,IBVEL  ,LBVEL  ,FBVEL  ,
      7  X      ,D      ,V      ,VR     ,DR     ,THKE   ,DAMP   ,MS     ,
      8  IN     ,PM     ,SKEW   ,GEO    ,EANI   ,BUFMAT ,BUFGEO ,BUFSF  ,
-     9  TF     ,FORC   ,VEL    ,FSAV   ,SENSOR ,AGRV   ,FR_WAVE,PARTS0 ,
+     9  TF     ,FORC   ,VEL    ,FSAV   ,AGRV   ,FR_WAVE,PARTS0 ,
      A  USER   ,ELBUF  ,RBY   ,RIVET,FR_ELEM,IAD_ELEM,
      B  WA     ,A      ,AR     ,STIFN  ,STIFR  ,PARTSAV,FSKY   ,
      C  FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,FSKYM  ,IGEO   ,IPM    ,
@@ -8646,7 +8641,7 @@ C
      3 IXS,            IXQ,             IXC,       IXT,            IXP,
      4 IXR,            IXTG,            IXTG1,     IXUR,           IPARG,
      5 TF,             NPC,             FR_WAVE,   W16,            BUFMAT,
-     6 THKE,           BUFGEO,          LSENSOR,   SENSOR,         RBY,
+     6 THKE,           BUFGEO,          SENSOR_TAB,RBY,
      7 SKEW,           WA,                ICODT,   ICODR,         ISKEW,          
      9 IBFV,           VEL,             LPBY,      NPBY,           ITAB,
      A WEIGHT,         MS,              IN,        IPARI,     INTBUF_TAB,

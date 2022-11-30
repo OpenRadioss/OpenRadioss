@@ -545,8 +545,6 @@ C--------------------------------------
 
         CALL WRITE_I_C(LGAUGE,3*NBGAUGE)
 
-        CALL WRITE_I_C(LSENSOR,SLSENSOR)
-
         CALL WRITE_I_C(NNLINK,SNNLINK)
 
         CALL WRITE_I_C(LNLINK,SLNLINK)
@@ -1098,8 +1096,6 @@ C--------------------------------------
 
          CALL WRITE_DB(GAUGE,LLGAUGE*NBGAUGE)
 
-         CALL WRITE_DB(SENSOR,SSENSOR)
-
          CALL WRITE_SENSOR_TAB(SENSOR_TAB,NSENSOR)
 
          CALL WRITE_DB(FBVEL,SFBVEL)
@@ -1347,7 +1343,7 @@ C
 c        CALL WRITE_DB(RTHBUF,SRTHBUF)
 C--------------------------------------
 C--------------------------------------
-C  LSENSOR
+C 
       CALL WRITE_I_C(LSTOPSENS,NSTOPSENS)
       CALL WRITE_I_C(LSTATSENS,NSTATSENS)
       CALL WRITE_I_C(LOUTPSENS,NOUTPSENS)

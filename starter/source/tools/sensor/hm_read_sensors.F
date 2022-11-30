@@ -60,10 +60,9 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|        SURF_MOD                      share/modules1/surf_mod.F     
 Chd|====================================================================
       SUBROUTINE HM_READ_SENSORS(
-     .           SENSOR_TAB,LSENSOR   ,SENSOR    ,LACCELM   ,ITABM1    ,
-     .           IPART     ,LGAUGE    ,SUBSET    ,NSETS     ,IGRSURF   ,
-     .           IGRNOD    ,BUFSF     ,SKEW      ,ISKWN     ,UNITAB   ,
-     .           LSUBMODEL ,HM_NSENS  )
+     .           SENSOR_TAB,LACCELM   ,ITABM1    ,IPART     ,LGAUGE    ,
+     .           SUBSET    ,NSETS     ,IGRSURF   ,IGRNOD    ,BUFSF     ,
+     .           SKEW      ,ISKWN     ,UNITAB    ,LSUBMODEL ,HM_NSENS  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -80,24 +79,15 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-#include      "analyse_name.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "warn_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "scr15_c.inc"
 #include      "scr17_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "sysunit.inc"
 #include      "submod_c.inc"
-#include      "userlib.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -107,8 +97,6 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(3,*) ,INTENT(IN) :: LACCELM,LGAUGE
       INTEGER ,DIMENSION(LISKN,*)   ,INTENT(IN) :: ISKWN
       INTEGER ,DIMENSION(LIPART1,*) ,INTENT(IN) :: IPART
-      INTEGER ,DIMENSION(NSENSI,*)  ,INTENT(INOUT) :: LSENSOR
-      my_real ,DIMENSION(NSENSR,*)  ,INTENT(INOUT) :: SENSOR
       my_real ,DIMENSION(LSKEW,*) :: SKEW
       my_real ,DIMENSION(*)       :: BUFSF
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
@@ -117,7 +105,6 @@ C-----------------------------------------------
       TYPE (SUBSET_)     ,DIMENSION(NSUBS)     :: SUBSET
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (UNIT_TYPE_)  ,INTENT(IN) ::UNITAB 
-      TARGET :: LSENSOR,SENSOR
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -256,9 +243,8 @@ c
 
             SENSOR_PTR%TSTART = INFINITY
 
-            CALL READ_SENSOR_USER( HM_NSENS,ISEN    ,TITR,
-
-     .           UNITAB    ,LSUBMODEL       ,KEY       ,UNIT_ID ,SENS_ID ,
+            CALL READ_SENSOR_USER(HM_NSENS ,ISEN    ,TITR,
+     .           UNITAB    ,LSUBMODEL      ,KEY     ,UNIT_ID ,SENS_ID ,
      .           SENSOR_PTR)
             SENSOR_PTR%SENS_ID = SENS_ID
 c---

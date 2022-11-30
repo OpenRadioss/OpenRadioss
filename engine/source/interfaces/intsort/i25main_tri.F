@@ -178,20 +178,6 @@ C
 C
       NSNROLD = IPARI(24,NIN)
 C
-c     STARTT=INTBUF_TAB%VARIABLES(3)
-c     STOPT =INTBUF_TAB%VARIABLES(11)
-c     IF(STARTT>TT) RETURN
-c     IF(TT>STOPT)  RETURN
-C
-C     Look if interface is activated 
-C     ISENS = IPARI(64,NIN)  
-C     IF(ISENS/=0)  THEN         ! Interface activated by sensor
-C        TS = SENSOR(2,ISENS)
-C     ELSE
-C        TS = TT
-C     ENDIF
-C     IF(TT<TS) RETURN
-C
       ISENS = IPARI(64,NIN)  
       IF(ISENS == 0) THEN
          STOPT =INTBUF_TAB%VARIABLES(11)

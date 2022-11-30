@@ -51,7 +51,7 @@ Chd|        IMP_FVBCL                     share/modules/impbufdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPD_GLOB_K(ICODT ,ICODR ,ISKEW ,IBFV    ,NPC    ,
-     1                      TF    ,VEL   ,SENSOR ,LSENSOR,XFRAME ,
+     1                      TF    ,VEL   ,XFRAME ,
      2                      RBY   ,X     ,SKEW   ,LPBY   ,NPBY   ,
      3                      ITAB  ,WEIGHT,MS     ,IN     ,NRBYAC ,
      4                      IRBYAC,NSC   ,ISIJ   ,NMC    ,IMIJ   ,
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*),IBFV(NIFV,*),LSENSOR(NSENSI,*),
+      INTEGER NPC(*),IBFV(NIFV,*),
      .        ICODT(*),ICODR(*),ISKEW(*),NSC(*),ISIJ(*),
      .        NMC,IMIJ(*),NSS(*),ISS(*),NINT2 ,IINT2(*),NT_RW,
      .        NSC2(*),ISIJ2(*),NSS2(*),ISS2(*),NKUD(*) ,IKUD(*),
@@ -97,7 +97,7 @@ C-----------------------------------------------
       my_real
      .   RBY(NRBY,*) ,X(3,*) ,SKEW(*),IN(*),MS(*)
       my_real
-     .  TF(*),VEL(LFXVELR,*),UD(3,*),SENSOR(NSENSR,*),DIAG_K(*),LT_K(*),
+     .  TF(*),VEL(LFXVELR,*),UD(3,*),DIAG_K(*),LT_K(*),
      .  B(*) ,BKUD(*),RD(3,*),XFRAME(NXFRAME,*),FRBE3(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -138,7 +138,7 @@ c
        CALL RBY_IMP0(X     ,RBY   ,LPBY  ,NPBY  ,SKEW  ,
      1               NRBYAC,IRBYAC,NSC   ,ISIJ  ,NMC   ,
      2               IMIJ  ,NSS   ,ISS   ,ISKEW ,ITAB  ,
-     3               WEIGHT,MS    ,IN    ,SENSOR,
+     3               WEIGHT,MS    ,IN    ,
      4               NDDL  ,IADK  ,JDIK  ,DIAG_K,
      5               LT_K  ,NDOF  ,IDDL  ,IKC   ,B     )
       ENDIF
@@ -469,7 +469,7 @@ Chd|        RBY_IMPI                      source/constraints/general/rbody/rby_i
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPD_INT_K(ICODT  ,ICODR ,ISKEW ,IBFV    ,NPC    ,
-     1                      TF    ,VEL   ,SENSOR ,LSENSOR,XFRAME ,
+     1                      TF    ,VEL   ,XFRAME ,
      2                      RBY   ,X     ,SKEW   ,LPBY   ,NPBY  ,
      3                      ITAB  ,WEIGHT,MS     ,IN     ,NRBYAC,
      4                      IRBYAC,NSS   ,ISS    ,IPARI  ,INTBUF_TAB,
@@ -501,7 +501,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*),IBFV(NIFV,*),LSENSOR(NSENSI,*),LUJ(*),
+      INTEGER NPC(*),IBFV(NIFV,*),LUJ(*),
      .        ICODT(*),ICODR(*),ISKEW(*),ITOK(*),NDDL,NT_RW
       INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ITAB(*),
      .        IPARI(NPARI,*), NRBYAC,IRBYAC(*),
@@ -513,7 +513,7 @@ C-----------------------------------------------
       my_real
      .   RBY(NRBY,*) ,X(3,*) ,SKEW(*),IN(*),MS(*)
       my_real
-     .  TF(*), VEL(LFXVELR,*),SENSOR(NSENSR,*),DIAG_K(*),LT_K(*),
+     .  TF(*), VEL(LFXVELR,*),DIAG_K(*),LT_K(*),
      .  DIAG_I(*),LT_I(*),LB(*),UD(3,*),XFRAME(NXFRAME,*),FRBE3(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -575,7 +575,7 @@ C-----RIGID BODIES-------
       IF(NRBYAC>0)THEN
        CALL RBY_IMPI(X     ,RBY   ,LPBY  ,NPBY  ,SKEW  ,
      1               NRBYAC,IRBYAC,NSS   ,ISS   ,ISKEW ,
-     2               ITAB  ,WEIGHT,MS    ,IN    ,SENSOR,
+     2               ITAB  ,WEIGHT,MS    ,IN    ,
      3               NDDLI ,IADI ,JDII   ,DIAG_I,
      4               LT_I  ,NDOFI ,IDDLI ,IIC   ,LB0   )
       ENDIF
@@ -951,8 +951,8 @@ Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE RER02(RBY   ,LPBY  ,NPBY  ,SKEW  ,ISKEW ,
-     1                   ITAB  ,WEIGHT,MS    ,IN    ,SENSOR,
-     2                   IBFV  ,VEL   ,LSENSOR,ICODT,ICODR ,
+     1                   ITAB  ,WEIGHT,MS    ,IN    ,
+     2                   IBFV  ,VEL   ,ICODT,ICODR ,
      3                   NRBYAC,IRBYAC,NINT2 ,IINT2 ,IPARI ,
      4                   INTBUF_TAB    ,NDOF  ,D     ,DR    ,
      5                   X     ,XFRAME,LJ    ,IXR   ,IXC   ,
@@ -983,7 +983,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IBFV(NIFV,*),LSENSOR(NSENSI,*),LJ(*)
+      INTEGER IBFV(NIFV,*),LJ(*)
       INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ITAB(*),
      .        IPARI(NPARI,*), ISKEW(*),
      .        NRBYAC,IRBYAC(*),NINT2 ,IINT2(*),IXR(*)
@@ -993,7 +993,7 @@ C-----------------------------------------------
       INTEGER NDDL,IADK(*),JDIK(*),IDDL(*),IKC(*) ,INLOC(*),
      .        NUM_IMP(*),NS_IMP(*),NE_IMP(*),INDEX2(*),W_DDL(*)
       my_real
-     .   RBY(NRBY,*) ,SKEW(*),IN(*),MS(*),SENSOR(NSENSR,*),
+     .   RBY(NRBY,*) ,SKEW(*),IN(*),MS(*),
      .   VEL(LFXVELR,*), XFRAME(NXFRAME,*),FRBE3(*),X_C(*)
       my_real
      .  X(3,*),D(3,*),DR(3,*),DIAG_K(*),LT_K(*),A(3,*),AR(3,*),R02
@@ -1032,8 +1032,8 @@ C-------D=0 for free dof------------
 C
        IF(IMP_LR > 0)THEN
          CALL RECUKIN(RBY   ,LPBY  ,NPBY  ,SKEW  ,ISKEW ,
-     1                ITAB  ,WEIGHT,MS    ,IN    ,SENSOR,
-     2                IBFV  ,VEL   ,LSENSOR,ICODT,ICODR ,
+     1                ITAB  ,WEIGHT,MS    ,IN    ,
+     2                IBFV  ,VEL   ,ICODT,ICODR ,
      3                NRBYAC,IRBYAC,NINT2 ,IINT2 ,IPARI ,
      4                INTBUF_TAB,NDOF  ,A     ,AR    ,
      5                X_C   ,XFRAME,LJ    ,IXR   ,IXC   ,
@@ -1041,8 +1041,8 @@ C
      7                FRBE3 ,IRBE2 ,LRBE2 )
        ELSE
          CALL RECUKIN(RBY   ,LPBY  ,NPBY  ,SKEW  ,ISKEW ,
-     1                ITAB  ,WEIGHT,MS    ,IN    ,SENSOR,
-     2                IBFV  ,VEL   ,LSENSOR,ICODT,ICODR ,
+     1                ITAB  ,WEIGHT,MS    ,IN    ,
+     2                IBFV  ,VEL   ,ICODT,ICODR ,
      3                NRBYAC,IRBYAC,NINT2 ,IINT2 ,IPARI ,
      4                INTBUF_TAB ,NDOF  ,A     ,AR    ,
      5                X     ,XFRAME,LJ    ,IXR   ,IXC   ,

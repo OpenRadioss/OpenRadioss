@@ -70,7 +70,7 @@ Chd|====================================================================
      3                    IXS         , IXQ         , IXC      , IXT      , IXP       ,
      4                    IXR         , IXTG        , IXTG1    , IXUR     , IPARG     ,
      5                    TF          , NPC         , FR_WAVE  , W16      , BUFMAT    ,
-     6                    THKE        , BUFGEO      , LSENSOR  , SENSOR   , RBY       ,
+     6                    THKE        , BUFGEO      ,SENSOR_TAB, RBY       ,
      7                    SKEW        , WA          ,ICODT     , ICODR    , ISKEW     ,
      9                    IBFV        , VEL         , LPBY     , NPBY     , ITAB      ,
      A                    WEIGHT      , MS          , IN       ,IPARI    , INTBUF_TAB ,  
@@ -116,6 +116,7 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE ALE_CONNECTIVITY_MOD
       USE IMPBUFDEF_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -149,7 +150,7 @@ C-----------------------------------------------
       INTEGER NDDL0, NNZK0,  IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IXS(*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*),
      .        IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),INDX_CRK(*),   
-     .        IXTG1(4,*), IXUR(*), IPARG(NPARG,*), LSENSOR(NSENSI,*),
+     .        IXTG1(4,*), IXUR(*), IPARG(NPARG,*),
      .        NPC(*), ICODT(*), ICODR(*), ISKEW(*), IBFV(NIFV,*),
      .        LPBY(*), NPBY(NNPBY,*), ITAB(*),
      .        WEIGHT(*),IPARI(NPARI,*),ITASK, ICUT(*), NSTRF(*), NPRW(*),
@@ -169,7 +170,7 @@ C-----------------------------------------------
       my_real
      .        PM(NPROPM,*), GEO(NPROPG,*),
      .        ELBUF(*), TF(*), W16(*), BUFMAT(*),
-     .        THKE(*), BUFGEO(*), SENSOR(NSENSR,*), RBY(*),
+     .        THKE(*), BUFGEO(*),RBY(*),
      .        SKEW(LSKEW,*),  WA(*), VEL(LFXVELR,*), MS(*),
      .        IN(*),FR_WAVE(*), CONT(3,*),
      .        XCUT(*), FINT(*), FEXT(3,*), FOPT(6,*), ANIN(*), RWBUF(*),
@@ -201,6 +202,7 @@ C-----------------------------------------------
       TYPE(DRAPE_)    :: DRAPE_Q4, DRAPE_T3
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (IMPBUF_STRUCT_) ,TARGET :: IMPBUF_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -347,8 +349,8 @@ citask0citask0      END IF !(ITASK == 0) THEN
 citask0       IF (ITASK == 0) THEN
 
         IF(NFXVEL/=0) THEN
-          CALL FV_IMP(IBFV  ,NPC    ,TF     ,VEL   ,SENSOR,
-     1               LSENSOR,D_IMP  ,DR_IMP ,IKC   ,IDDL  ,
+          CALL FV_IMP(IBFV  ,NPC    ,TF     ,VEL   ,SENSOR_TAB,
+     1                D_IMP  ,DR_IMP ,IKC   ,IDDL  ,
      2                SKEW  ,IFRAME ,XFRAME ,V     ,VR    ,
      3                X     ,DIRUL  ,NDOF   ,A     ,AR    )
         ENDIF
@@ -382,7 +384,7 @@ C    /---------------/
      3   IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS(L1)   ,
      4   IXS(L2)   ,IXS(L3)   ,IPARG     ,TF        ,NPC       ,
      5   FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
-     6   LSENSOR   ,SENSOR    ,RBY       ,SKEW      ,X         ,
+     6   RBY       ,SKEW      ,X         ,
      7   WA        ,IDDL      ,NDOF      ,DIAG_K    ,LT_K      ,
      8   IADK      ,JDIK      ,IKG       ,IBID      ,ITASK     ,
      9   ELBUF_TAB ,STACK     ,DRAPE_Q4, DRAPE_T3    )
@@ -394,7 +396,7 @@ citask0       IF (ITASK == 0) THEN
 
        CALL UPD_GLOB_K(
      1   ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
-     2   TF        ,VEL       ,SENSOR    ,LSENSOR   ,XFRAME    ,
+     2   TF        ,VEL       ,XFRAME    ,
      3   RBY       ,X         ,SKEW      ,LPBY      ,NPBY      ,
      4   ITAB      ,WEIGHT    ,MS        ,IN        ,NRBYAC    ,
      5   IRBYAC    ,NSC       ,IKINW(LI1),NMC       ,IKINW(LI2),
@@ -446,7 +448,7 @@ C    /---------------/
      3   IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS(L1)   ,
      4   IXS(L2)   ,IXS(L3)   ,IPARG     ,TF        ,NPC       ,
      5   FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
-     6   LSENSOR   ,SENSOR    ,RBY       ,SKEW      ,X         ,
+     6   RBY       ,SKEW      ,X         ,
      7   WA        ,IDDL      ,NDOF      ,DIAG_KG   ,LT_KG     ,
      8   IADK      ,JDIK      ,IKG       ,IBID      ,ITASK     ,
      9   ELBUF_TAB ,STACK     ,DRAPE_Q4, DRAPE_T3      )
@@ -459,13 +461,13 @@ citask0      IF (ITASK == 0) THEN
 C--------include load-stiffness matrix-in Kg---------
       IF (IKPRES>0) THEN
          CALL IMP_KPRES(IBCL  ,FORC   ,NPC   ,TF    ,X     ,
-     2                  SKEW  ,SENSOR,LSENSOR,WEIGHT,IBID  ,
+     2                  SKEW  ,SENSOR_TAB,WEIGHT,IBID  ,
      3                  IDDL  ,NDOF   ,IADK  ,JDIK  ,DIAG_KG,
      4                  LT_KG )
       END IF
       CALL UPD_GLOB_K(
      1   ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
-     2   TF        ,VEL       ,SENSOR    ,LSENSOR   ,XFRAME    ,
+     2   TF        ,VEL       ,XFRAME    ,
      3   RBY       ,X         ,SKEW      ,LPBY      ,NPBY      ,
      4   ITAB      ,WEIGHT    ,MS        ,IN        ,NRBYAC    ,
      5   IRBYAC    ,NSC       ,IKINW(LI1),NMC       ,IKINW(LI2),
@@ -795,8 +797,8 @@ C
      .                D,    DR,   INLOC)
 C
          CALL RECUKIN(RBY,    LPBY,   NPBY,    SKEW,  ISKEW,
-     .                ITAB,   WEIGHT, MS,      IN,    SENSOR,
-     .                IBFV,   VEL,    LSENSOR, ICODT  , ICODR,
+     .                ITAB,   WEIGHT, MS,      IN,
+     .                IBFV,   VEL,    ICODT  , ICODR,
      .                NRBYAC, IRBYAC, NINT2,   IINT2, IPARI,
      .                INTBUF_TAB    , NDOF,    D,     DR,
      .                X    ,  XFRAME , DIRUL,  IXR    ,IXC  ,

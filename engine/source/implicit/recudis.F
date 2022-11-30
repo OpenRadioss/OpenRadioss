@@ -95,8 +95,8 @@ Chd|        IMP_FVBCL                     share/modules/impbufdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE RECUKIN(RBY   ,LPBY  ,NPBY  ,SKEW  ,ISKEW ,
-     1                   ITAB  ,WEIGHT,MS    ,IN    ,SENSOR,
-     2                   IBFV  ,VEL   ,LSENSOR,ICODT,ICODR ,
+     1                   ITAB  ,WEIGHT,MS    ,IN    ,
+     2                   IBFV  ,VEL   ,ICODT,ICODR ,
      3                   NRBYAC,IRBYAC,NINT2 ,IINT2 ,IPARI ,
      4                   INTBUF_TAB   ,NDOF  ,D     ,DR    ,
      5                   X     ,XFRAME,LJ    ,IXR   ,IXC   ,
@@ -123,7 +123,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IBFV(NIFV,*),LSENSOR(NSENSI,*),LJ(*)
+      INTEGER IBFV(NIFV,*),LJ(*)
       INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ITAB(*),
      .        IPARI(NPARI,*), ISKEW(*),
      .        NRBYAC,IRBYAC(*),NINT2 ,IINT2(*),IXR(*)
@@ -131,7 +131,7 @@ C-----------------------------------------------
      .         SH4TREE(*), SH3TREE(*),IRBE3(NRBE3L,*),LRBE3(*),
      .         IRBE2(*),LRBE2(*)
       my_real
-     .   RBY(NRBY,*) ,SKEW(*),IN(*),MS(*),SENSOR(NSENSR,*),
+     .   RBY(NRBY,*) ,SKEW(*),IN(*),MS(*),
      .   VEL(LFXVELR,*), XFRAME(NXFRAME,*),FRBE3(*)
       my_real
      .  X(3,*),D(3,*),DR(3,*)
@@ -165,7 +165,7 @@ C-------local FV-BCS coupling might modify global dirs due to unconsisting
       ENDIF
       IF(NRBYAC>0)THEN
        CALL RBY_IMPD(NRBYAC,IRBYAC,X    ,RBY,LPBY,NPBY,SKEW,
-     1              ISKEW,ITAB,WEIGHT,MS ,IN  ,SENSOR,
+     1              ISKEW,ITAB,WEIGHT,MS ,IN  ,
      2              NDOF  ,D    ,DR   ,IXR  )
       ENDIF
       IF(NRBE3>0)THEN

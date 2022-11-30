@@ -207,10 +207,14 @@ Chd|        DINTERI                       source/constraints/general/impvel/fv_i
 Chd|        FVL_MODIF                     source/constraints/general/impvel/fv_imp0.F
 Chd|        VELROT                        source/constraints/general/rbe2/rbe2v.F
 Chd|====================================================================
-      SUBROUTINE FV_IMP(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR,
-     1                  LSENSOR,UD    ,RD   ,IFIX  ,IDDL  ,
+      SUBROUTINE FV_IMP(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR_TAB,
+     1                  UD    ,RD   ,IFIX  ,IDDL  ,
      2                  SKEW   ,IFRAME,XFRAME,V    ,VR    ,
      3                  X      ,LJ    ,NDOF  ,A    ,AR    )
+C-----------------------------------------------  
+C   M o d u l e s
+C-----------------------------------------------  
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -229,14 +233,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*),IBFV(NIFV,*),LSENSOR(NSENSI,*),
+      INTEGER NPC(*),IBFV(NIFV,*),
      .        IFIX(*),IDDL(*),IFRAME(LISKN,*),LJ(*),NDDL,
      .        NDOF(*)
 C     REAL
       my_real
-     .  TF(*), VEL(LFXVELR,*), UD(3,*), SENSOR(NSENSR,*),
+     .  TF(*), VEL(LFXVELR,*), UD(3,*),
      .  SKEW(LSKEW,*),RD(3,*),V(3,*),VR(3,*),
      .  X(3,*),XFRAME(NXFRAME,*),A(3,*),AR(3,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -272,12 +277,12 @@ C
             IF(NDOF(I)==0) GOTO 10
             ISENS=0
             DO K=1,NSENSOR
-              IF(IBFV(4,N)==LSENSOR(1,K))ISENS=K
+              IF(IBFV(4,N)== SENSOR_TAB(K)%SENS_ID) ISENS=K
             ENDDO
             IF(ISENS==0)THEN
               TS=TT
             ELSE
-              TS = TT-SENSOR(2,ISENS)
+              TS = TT - SENSOR_TAB(ISENS)%TSTART
               IF(TS<ZERO)GOTO 10
             ENDIF
             IC = IC + 1
@@ -1769,8 +1774,8 @@ Chd|-- calls ---------------
 Chd|        DINTERA                       source/constraints/general/impvel/fv_imp0.F
 Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
 Chd|====================================================================
-      SUBROUTINE WFV_IMP(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR,
-     1                  LSENSOR,UD     ,RD   ,IFIX  ,IDDL  ,
+      SUBROUTINE WFV_IMP(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR_TAB,
+     1                  UD     ,RD   ,IFIX  ,IDDL  ,
      2                  SKEW   ,IFRAME ,XFRAME,A    ,AR    ,
      3                  X      ,NDOF  ,MS   ,IN    ,WEIGHT ,
      4                  RBY    ,DW    )
@@ -1778,6 +1783,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE IMP_DYNA
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1798,13 +1804,14 @@ Ctmp+1
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*),IBFV(NIFV,*),LSENSOR(NSENSI,*),
+      INTEGER NPC(*),IBFV(NIFV,*),
      .        IFIX(*),IDDL(*),IFRAME(LISKN,*),NDOF(*),WEIGHT(*)
 C     REAL
       my_real
-     .  TF(*), VEL(LFXVELR,*), UD(3,*), SENSOR(NSENSR,*),
+     .  TF(*), VEL(LFXVELR,*), UD(3,*),
      .  SKEW(LSKEW,*),RD(3,*),A(3,*),AR(3,*),IN(*),
      .  X(3,*),XFRAME(NXFRAME,*),DW,MS(*),RBY(NRBY,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1843,12 +1850,12 @@ C
             IF(NDOF(I)==0) GOTO 10
             ISENS=0
             DO K=1,NSENSOR
-              IF(IBFV(4,N)==LSENSOR(1,K))ISENS=K
+              IF(IBFV(4,N)==SENSOR_TAB(K)%SENS_ID) ISENS=K
             ENDDO
             IF(ISENS==0)THEN
               TS=TT
             ELSE
-              TS = TT-SENSOR(2,ISENS)
+              TS = TT-SENSOR_TAB(ISENS)%TSTART
               IF(TS<ZERO)GOTO 10
             ENDIF
             IC = IC + 1
@@ -2157,8 +2164,8 @@ Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
 Chd|====================================================================
-      SUBROUTINE FV_FINT0(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR,
-     1                   LSENSOR,UD     ,RD   ,IFIX  ,IDDL  ,
+      SUBROUTINE FV_FINT0(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR_TAB,
+     1                   UD     ,RD   ,IFIX  ,IDDL  ,
      2                   SKEW   ,IFRAME ,XFRAME,A    ,AR    ,
      3                   X      ,NDOF  ,MS   ,IN    ,WEIGHT ,
      4                   RBY    )
@@ -2166,6 +2173,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE IMP_DYNA
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2185,13 +2193,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*),IBFV(NIFV,*),LSENSOR(NSENSI,*),
+      INTEGER NPC(*),IBFV(NIFV,*),
      .        IFIX(*),IDDL(*),IFRAME(LISKN,*),NDOF(*),WEIGHT(*)
 C     REAL
       my_real
-     .  TF(*), VEL(LFXVELR,*), UD(3,*), SENSOR(NSENSR,*),
+     .  TF(*), VEL(LFXVELR,*), UD(3,*),
      .  SKEW(LSKEW,*),RD(3,*),A(3,*),AR(3,*),IN(*),
      .  X(3,*),XFRAME(NXFRAME,*),DW,MS(*),RBY(NRBY,*)
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2225,12 +2234,12 @@ C
             IF(NDOF(I)==0) GOTO 10
             ISENS=0
             DO K=1,NSENSOR
-              IF(IBFV(4,N)==LSENSOR(1,K))ISENS=K
+              IF(IBFV(4,N)==SENSOR_TAB(K)%SENS_ID) ISENS=K
             ENDDO
             IF(ISENS==0)THEN
               TS=TT
             ELSE
-              TS = TT-SENSOR(2,ISENS)
+              TS = TT-SENSOR_TAB(ISENS)%TSTART
               IF(TS<ZERO)GOTO 10
             ENDIF
             IC = IC + 1
