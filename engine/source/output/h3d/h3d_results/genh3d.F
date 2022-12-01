@@ -330,7 +330,7 @@ C-----------------------------------------------
       INTEGER IFLAG1D,NNNSRG,NNN,BUF
       INTEGER NANIMONED_L,IUS,NANIM3D_L
       INTEGER ISPH3D,M4,N0
-      INTEGER SBUFSPM,SBUFRECVM,SBUFSPO,SPORBY,N_OUTP_DATA,LEN_H3DTITLE
+      INTEGER SBUFSPM,SBUFRECVM,SBUFSPO,SPORBY,N_OUTP_DATA,LEN_H3DTITLE,N_H3D_PART_LIST
       my_real
      .   CDG(3),XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX, SCALE,
      .   RVAL
@@ -1862,6 +1862,7 @@ c-----
           INFO2 = H3D_DATA%OUTPUT_LIST(I)%INFO2
           KEYWORD = H3D_DATA%OUTPUT_LIST(I)%KEYWORD
           N_OUTP_DATA = H3D_DATA%OUTPUT_LIST(I)%N_OUTP
+          N_H3D_PART_LIST = H3D_DATA%OUTPUT_LIST(I)%N_H3D_PART_LIST
           INTERSKID = 0
           IF(KEYWORD == 'SKID_LINE')THEN
             DO NI=1,NINTER
@@ -1889,7 +1890,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                     NPBY     ,RBY           ,INTERSKID     ,H3D_DATA%N_SCAL_SKID,PSKIDS,
      .                     NODGLOB  ,ITYSKID       ,IPARTSP       ,IPARTR       ,IPARTP    , 
      .                     IPARTT   ,IPARTS        ,IPARTQ        ,KXSP         ,IXR       ,
-     .                     IXP      ,IXT           )
+     .                     IXP      ,IXT           ,N_H3D_PART_LIST)
 
 c
           IF (NSPMD > 1 ) THEN
@@ -1934,6 +1935,7 @@ c
           INFO2 = H3D_DATA%OUTPUT_LIST(I)%INFO2
           N_OUTP_DATA = H3D_DATA%OUTPUT_LIST(I)%N_OUTP
           KEYWORD = H3D_DATA%OUTPUT_LIST(I)%KEYWORD
+          N_H3D_PART_LIST = H3D_DATA%OUTPUT_LIST(I)%N_H3D_PART_LIST
 c          IF(ISPMD == 0) print *,'nodal vector',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1',INFO1,'INFO2',INFO2
 
 c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
@@ -1950,7 +1952,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                   IPARI   , IGRNOD  , WEIGHT , NODGLOB   ,FCONT_MAX ,
      .                   FNCONTP2, FTCONTP2, AR     , IPARTSP   ,IPARTR    ,
      .                   IPARTP  , IPARTT  , IPARTS , IPARTQ    ,KXSP      ,
-     .                   IXR     , IXP     , IXT    )
+     .                   IXR     , IXP     , IXT    , N_H3D_PART_LIST)
 
 c
           IF (NSPMD > 1 ) THEN
@@ -2024,6 +2026,7 @@ c
           INFO2 = H3D_DATA%OUTPUT_LIST(I)%INFO2
           N_OUTP_DATA = H3D_DATA%OUTPUT_LIST(I)%N_OUTP
           KEYWORD = H3D_DATA%OUTPUT_LIST(I)%KEYWORD
+          N_H3D_PART_LIST = H3D_DATA%OUTPUT_LIST(I)%N_H3D_PART_LIST
 c          IF(ISPMD == 0) print *,'nodal tensor',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1',INFO1,'INFO2',INFO2
 
 c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
@@ -2037,7 +2040,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                   BUFMAT   ,IXS10      ,IXS16      ,IXS20   ,IXT      ,
      .                   IXP      ,IXR        ,IAD_ELEM   ,FR_ELEM ,WEIGHT   , 
      .                   IPARTSP  ,IPARTR     ,IPARTP     ,IPARTT  ,IPARTS   , 
-     .                   IPARTQ   ,KXSP       )
+     .                   IPARTQ   ,KXSP       ,N_H3D_PART_LIST)
 
 c
           IF (NSPMD > 1 ) THEN

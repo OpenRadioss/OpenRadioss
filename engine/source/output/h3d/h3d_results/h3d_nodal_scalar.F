@@ -46,7 +46,7 @@ Chd|====================================================================
      .                  NPBY      ,RBY          ,INTERSKID       ,NINTERSKID,PSKIDS ,
      .                  NODGLOB   ,ITYSKID      ,IPARTSP         ,IPARTR   ,IPARTP  , 
      .                  IPARTT    ,IPARTS       ,IPARTQ          ,KXSP     ,IXR     ,
-     .                  IXP       ,IXT          ) 
+     .                  IXP       ,IXT          ,N_H3D_PART_LIST ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -98,6 +98,7 @@ C-----------------------------------------------
       CHARACTER*ncharline KEYWORD
       TYPE (H3D_DATABASE) :: H3D_DATA
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      INTEGER ,INTENT(IN) :: N_H3D_PART_LIST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -117,67 +118,71 @@ c
         IS_WRITTEN_NODE(I) = 0
       ENDDO
 C
-      DO I=1,NUMSPH
-        IF ( H3D_PART(IPARTSP(I)) == 1) THEN
-          IF(KXSP(2,I) > 0 )IOK_PART(KXSP(2,I)) = 1
-        ENDIF
-      ENDDO
-c
-      DO I=1,NUMELR
-        IF ( H3D_PART(IPARTR(I)) == 1) THEN
-          DO J=2,4
-            IF(IXR(J,I) > 0 )IOK_PART(IXR(J,I)) = 1
-          ENDDO
-        ENDIF
-      ENDDO
-c
-      DO I=1,NUMELP
-        IF ( H3D_PART(IPARTP(I)) == 1) THEN
-          DO J=2,4
-            IF(IXP(J,I) > 0 )IOK_PART(IXP(J,I)) = 1
-          ENDDO
-        ENDIF
-      ENDDO
-c
-      DO I=1,NUMELT
-        IF ( H3D_PART(IPARTT(I)) == 1) THEN
-          DO J=2,4
-            IF(IXT(J,I) > 0 )IOK_PART(IXT(J,I)) = 1
-          ENDDO
-        ENDIF
-      ENDDO
-c
-      DO I=1,NUMELC
-        IF ( H3D_PART(IPARTC(I)) == 1) THEN
-          DO J=2,5
-            IF(IXC(J,I) > 0 )IOK_PART(IXC(J,I)) = 1
-          ENDDO
-        ENDIF
-      ENDDO
-c
-      DO I=1,NUMELTG
-        IF ( H3D_PART(IPARTTG(I)) == 1) THEN
-          DO J=2,4
-            IF(IXTG(J,I) > 0 )IOK_PART(IXTG(J,I)) = 1
-          ENDDO
-        ENDIF
-      ENDDO
-c
-      DO I=1,NUMELS
-        IF ( H3D_PART(IPARTS(I)) == 1) THEN
-          DO J=2,9
-            IF(IXS(J,I) > 0 )IOK_PART(IXS(J,I)) = 1
-          ENDDO
-        ENDIF
-      ENDDO
-c
-      DO I=1,NUMELQ
-        IF ( H3D_PART(IPARTQ(I)) == 1) THEN
-          DO J=2,5
-            IF(IXQ(J,I) > 0 )IOK_PART(IXQ(J,I)) = 1
-          ENDDO
-        ENDIF
-      ENDDO
+      IF(N_H3D_PART_LIST .NE. 0)THEN
+        DO I=1,NUMSPH
+          IF ( H3D_PART(IPARTSP(I)) == 1) THEN
+            IF(KXSP(2,I) > 0 )IOK_PART(KXSP(2,I)) = 1
+          ENDIF
+        ENDDO
+c      
+        DO I=1,NUMELR
+          IF ( H3D_PART(IPARTR(I)) == 1) THEN
+            DO J=2,4
+              IF(IXR(J,I) > 0 )IOK_PART(IXR(J,I)) = 1
+            ENDDO
+          ENDIF
+        ENDDO
+c      
+        DO I=1,NUMELP
+          IF ( H3D_PART(IPARTP(I)) == 1) THEN
+            DO J=2,4
+              IF(IXP(J,I) > 0 )IOK_PART(IXP(J,I)) = 1
+            ENDDO
+          ENDIF
+        ENDDO
+c      
+        DO I=1,NUMELT
+          IF ( H3D_PART(IPARTT(I)) == 1) THEN
+            DO J=2,4
+              IF(IXT(J,I) > 0 )IOK_PART(IXT(J,I)) = 1
+            ENDDO
+          ENDIF
+        ENDDO
+c      
+        DO I=1,NUMELC
+          IF ( H3D_PART(IPARTC(I)) == 1) THEN
+            DO J=2,5
+              IF(IXC(J,I) > 0 )IOK_PART(IXC(J,I)) = 1
+            ENDDO
+          ENDIF
+        ENDDO
+c      
+        DO I=1,NUMELTG
+          IF ( H3D_PART(IPARTTG(I)) == 1) THEN
+            DO J=2,4
+              IF(IXTG(J,I) > 0 )IOK_PART(IXTG(J,I)) = 1
+            ENDDO
+          ENDIF
+        ENDDO
+c      
+        DO I=1,NUMELS
+          IF ( H3D_PART(IPARTS(I)) == 1) THEN
+            DO J=2,9
+              IF(IXS(J,I) > 0 )IOK_PART(IXS(J,I)) = 1
+            ENDDO
+          ENDIF
+        ENDDO
+c      
+        DO I=1,NUMELQ
+          IF ( H3D_PART(IPARTQ(I)) == 1) THEN
+            DO J=2,5
+              IF(IXQ(J,I) > 0 )IOK_PART(IXQ(J,I)) = 1
+            ENDDO
+          ENDIF
+        ENDDO
+      ELSE
+        IOK_PART(1:NUMNOD) = 1
+      ENDIF
 C
 C--------------------------------------------------
       IF(KEYWORD == 'DT' .OR. KEYWORD == 'DMASS' .OR. KEYWORD == 'DINER')THEN 
