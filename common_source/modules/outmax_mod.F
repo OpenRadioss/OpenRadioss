@@ -28,6 +28,7 @@ Chd|        INI_H3DTMAX_ENGINE            starter/source/starter/contrl.F
 Chd|        INI_OUTMAX_AUTO               starter/source/elements/elbuf_init/ini_outmax_auto.F
 Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
 Chd|        W_OUTMAXN                     starter/source/restart/ddsplit/w_outmaxn.F
+Chd|        GENH3D                        engine/source/output/h3d/h3d_results/genh3d.F
 Chd|        H3D_NODAL_TENSOR              engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
 Chd|        H3D_NODAL_VECTOR              engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
 Chd|        INI_TMAX                      engine/source/output/ini_outmax.F
@@ -35,6 +36,7 @@ Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|        RESOL_INIT                    engine/source/engine/resol_init.F
 Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
+Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
 Chd|        UPD_TMAX                      engine/source/output/upd_outmax.F
 Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F

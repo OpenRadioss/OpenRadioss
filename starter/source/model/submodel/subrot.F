@@ -27,6 +27,7 @@ Chd|        HM_PROP_READ21                source/properties/thickshell/hm_read_p
 Chd|        HM_READ_FRICTION_ORIENTATIONS source/interfaces/friction/reader/hm_read_friction_orientations.F
 Chd|        HM_READ_FRM                   source/tools/skew/hm_read_frm.F
 Chd|        HM_READ_INISTATE_D00          source/elements/initia/hm_read_inistate_d00.F
+Chd|        HM_READ_INIVEL                source/initial_conditions/general/inivel/hm_read_inivel.F
 Chd|        HM_READ_PROP06                source/properties/solid/hm_read_prop06.F
 Chd|        HM_READ_PROP09                source/properties/shell/hm_read_prop09.F
 Chd|        HM_READ_PROP10                source/properties/shell/hm_read_prop10.F
