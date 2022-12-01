@@ -80,7 +80,7 @@ C-----------------------------------------------
      .   L_DAM,L_DSUM,L_DGLO,L_EPE,L_EPC,L_XST,L_SSP,L_Z,L_FRAC,L_VISC,
      .   L_THK,L_FOR,L_MOM,L_SMSTR,L_BFRAC,L_DMG,LF_DAM,LF_DAMMX,LF_TDEL,
      .   LF_INDX,LF_OFF,L_FORTH,L_EINTTH,L_SEQ,L_SIGPLY,L_FAC_YLD,L_ABURN,
-     .   L_MU,L_PLANL,L_EPSDNL,L_DMGSCL,L_TSAIWU
+     .   L_MU,L_PLANL,L_EPSDNL,L_DMGSCL,L_TSAIWU,LF_DAMINI
       TYPE(BUF_LAY_)  , POINTER :: BUFLY
       TYPE(L_BUFEL_)  , POINTER :: LBUF
       TYPE(G_BUFEL_)  , POINTER :: GBUFS,GBUFT
@@ -447,6 +447,10 @@ c
                    LF_DAMMX = FLOCS%LF_DAMMX 
                    FLOCT%LF_DAMMX = LF_DAMMX   
                    FLOCT%DAMMX(1:NEL*LF_DAMMX) = FLOCS%DAMMX(1:NEL*LF_DAMMX) 
+c
+                   LF_DAMINI = FLOCS%LF_DAMINI 
+                   FLOCT%LF_DAMINI = LF_DAMINI
+                   FLOCT%DAMINI(1:NEL*LF_DAMINI) = FLOCS%DAMINI(1:NEL*LF_DAMINI) 
 c
                    LF_TDEL = FLOCS%LF_TDEL 
                    FLOCT%LF_TDEL = LF_TDEL  

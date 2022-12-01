@@ -38,7 +38,7 @@ Chd|====================================================================
      4     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,            
      5     PLA      ,TEMP     ,SIGY     ,FOFF     ,DFMAX    ,
      6     TDELE    ,IPT      ,IPG      ,DMG_FLAG ,DMG_SCALE,
-     7     PTHKF    )   
+     7     PTHKF    ,DAMINI   )   
 C---------+---------+---+---+--------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
@@ -74,7 +74,7 @@ C-----------------------------------------------
      .        SIGY(NEL)
       my_real, INTENT(INOUT) :: 
      .        UVAR(NEL,NUVAR),DFMAX(NEL),TDELE(NEL),
-     .        DMG_SCALE(NEL),PTHKF
+     .        DMG_SCALE(NEL),PTHKF,DAMINI(NEL)
       TYPE (TTABLE), INTENT(IN), DIMENSION(NTABLE) :: TABLE 
 C!-----------------------------------------------
 C!   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -432,9 +432,12 @@ c
       !====================================================================
       ! Positive stress triaxiality bounded plastic strain
       UVAR(1:NEL,2) = EPSMOD(1:NEL)
+      DAMINI(1:NEL) = ZERO
       DO J = 1,NINIEVO
         ! Checking element failure and recovering user variable
         DO I=1,NEL
+          ! Damage initiation output
+          DAMINI(I) = MAX(DMGINI(I,J),DAMINI(I))
           ! Initiation damage
           UVAR(I,3+(J-1)*3) = DMGINI(I,J)
           ! Evolution damage

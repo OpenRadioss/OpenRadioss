@@ -304,7 +304,7 @@ C--------------------------------------------
       TYPE(BUF_FAIL_) ,POINTER :: FBUF
       TYPE(BUF_VISC_) ,POINTER :: VBUF
       my_real,
-     .  DIMENSION(:), POINTER  :: UVARF,DFMAX,TDEL 
+     .  DIMENSION(:), POINTER  :: UVARF,DFMAX,TDEL,DAMINI
 c     Bolt Preloading
       INTEGER IBOLTP, NBPRELD
       my_real, 
@@ -1660,7 +1660,8 @@ c----
           UVARF => FBUF%FLOC(IR)%VAR  
           IRUPT  = FBUF%FLOC(IR)%ILAWF 
           NVARF  = FBUF%FLOC(IR)%NVAR 
-          DFMAX => FBUF%FLOC(IR)%DAMMX  
+          DFMAX => FBUF%FLOC(IR)%DAMMX 
+          DAMINI => FBUF%FLOC(IR)%DAMINI 
           TDEL  => FBUF%FLOC(IR)%TDEL  
           NPARAM = IPM(112 + IP, MAT(1)) 
           IADBUF = IPM(114 + IP ,MAT(1))  
@@ -1945,7 +1946,7 @@ C---- Inievo failure model
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
      6          EL_PLA   ,TEMPEL   ,SIGY     ,OFF      ,DFMAX    ,
      7          TDEL     ,DMG_SCALE,GBUF%UELR,IPG      ,NPG      ,
-     8          LBUF%OFF )
+     8          LBUF%OFF ,DAMINI   )
 c---------
           ENDIF ! IRUPT 
 c

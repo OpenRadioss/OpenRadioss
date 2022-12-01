@@ -424,6 +424,7 @@ C
         INTEGER ::   NUVAR 
         INTEGER ::   LF_DAM
         INTEGER ::   LF_DAMMX  
+        INTEGER ::   LF_DAMINI
         INTEGER ::   LF_TDEL  
         INTEGER ::   LF_INDX 
         INTEGER ::   LF_OFF

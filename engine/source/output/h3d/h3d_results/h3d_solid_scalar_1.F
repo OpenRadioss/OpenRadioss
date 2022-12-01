@@ -125,7 +125,7 @@ C-----------------------------------------------
      .   CUMUL(3),VX,VY,VZ,NX,NY,NZ,SURF,TMP_2(MVSIZ,3)
       my_real
      .   G1(MVSIZ,3),G2(MVSIZ,3),G3(MVSIZ,3),VOLN(MVSIZ),AREAM(MVSIZ),
-     .   RHO0,DET(MVSIZ),EZZ(MVSIZ)
+     .   RHO0,DET(MVSIZ),EZZ(MVSIZ),MAXDAMINI
       INTEGER I,I1,II,J,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
      .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
      .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
@@ -1412,6 +1412,71 @@ c
                     ENDIF                                                 
                   ENDIF 
                 ENDIF  
+C-------------------------------------------------- 
+              ELSEIF (KEYWORD == 'DAMINI') THEN
+C--------------------------------------------------
+                ! Resetting values
+                DO I=1,NEL                                          
+                  VALUE(I) = ZERO                                      
+                ENDDO 
+c ILAYER=NULL IR=NULL IS=NULL IT=NULL
+                IF ( ILAY == -1 .AND. IR == -1 .AND. IS == -1 .AND. IT == -1) THEN 
+                  DO IL=1,NLAY 
+                    NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL
+                    DO IS=1,NPTS
+                      DO IT=1,NPTT
+                        DO IIR=1,NPTR
+                          FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IIR,IS,IT)
+                          DO I=1,NEL
+                            MAXDAMINI = ZERO
+                            DO IR=1,NFAIL 
+                              IF (FBUF%FLOC(IR)%LF_DAMINI > 0) THEN  
+                                MAXDAMINI = MAX(MAXDAMINI,FBUF%FLOC(IR)%DAMINI(I))
+                              ENDIF
+                            ENDDO
+                            VALUE(I) = VALUE(I) + MAXDAMINI/(NPTS*NPTR*NPTT*NLAY)
+                            IS_WRITTEN_VALUE(I) = 1
+                          ENDDO 
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDDO 
+c ILAYER=NULL IR= IS= IT=
+                ELSEIF ( ILAY == -1 .AND. IR >= 0 .AND. IR <= NPTR .AND. 
+     .                   IS >= 0 .AND.  IS <= NPTS .AND. IT >= 0 .AND. IT <= NPTT) THEN 
+                  IIR = IR
+                  IF (IIR <= NPTR .AND. IS <= NPTS .AND. IT <= NPTT) THEN
+                    DO IL=1,NLAY   
+                      NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL
+                      FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IIR,IS,IT)
+                      DO I=1,NEL     
+                        MAXDAMINI = ZERO
+                        DO IR=1,NFAIL
+                          IF (FBUF%FLOC(IR)%LF_DAMINI > 0) THEN 
+                            MAXDAMINI = MAX(MAXDAMINI,FBUF%FLOC(IR)%DAMINI(I))
+                          ENDIF
+                        ENDDO
+                        VALUE(I) = VALUE(I) + MAXDAMINI/NLAY
+                        IS_WRITTEN_VALUE(I) = 1
+                      ENDDO
+                    ENDDO
+                  ENDIF 
+c ILAYER= IR= IS= IT=
+                ELSEIF ( ILAY > 0 .AND. ILAY <= NLAY .AND. IR >= 0 .AND. IR <= NPTR .AND. 
+     .                   IS >= 0 .AND.  IS <= NPTS) THEN
+                  NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL
+                  FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)
+                  DO I=1,NEL
+                    MAXDAMINI = ZERO
+                    DO IIR=1,NFAIL
+                      IF (FBUF%FLOC(IIR)%LF_DAMINI > 0) THEN
+                        MAXDAMINI = MAX(MAXDAMINI,FBUF%FLOC(IIR)%DAMINI(I))
+                      ENDIF
+                    ENDDO
+                    VALUE(I) = MAXDAMINI
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO
+                ENDIF   
 C--------------------------------------------------                
               ELSEIF(KEYWORD == 'TDEL') THEN
 C-------------------------------------------------- 

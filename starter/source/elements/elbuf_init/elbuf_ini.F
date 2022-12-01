@@ -578,6 +578,11 @@ c
                   FLOC%DAMMX = ZERO
                   LFAIL = LFAIL + FLOC%LF_DAMMX*NEL + 1 
 c
+                  FLOC%LF_DAMINI = FAIL_TAG(IRUPT)%LF_DAMINI                        
+                  MY_ALLOCATE(FLOC%DAMINI,FLOC%LF_DAMINI*NEL) 
+                  FLOC%DAMINI = ZERO
+                  LFAIL = LFAIL + FLOC%LF_DAMINI*NEL + 1 
+c
                   FLOC%LF_TDEL  = FAIL_TAG(IRUPT)%LF_TDEL                        
                   MY_ALLOCATE(FLOC%TDEL,FLOC%LF_TDEL*NEL)
                   FLOC%TDEL = ZERO                                                               
@@ -1226,6 +1231,11 @@ c
                   MY_ALLOCATE(FLOC%DAMMX,FLOC%LF_DAMMX*NEL) 
                   FLOC%DAMMX = ZERO
                   LFAIL = LFAIL + FLOC%LF_DAMMX*NEL + 1 
+c
+                  FLOC%LF_DAMINI = FAIL_TAG(IRUPT)%LF_DAMINI                      
+                  MY_ALLOCATE(FLOC%DAMINI,FLOC%LF_DAMINI*NEL) 
+                  FLOC%DAMINI = ZERO
+                  LFAIL = LFAIL + FLOC%LF_DAMINI*NEL + 1 
 c
                   FLOC%LF_TDEL  = FAIL_TAG(IRUPT)%LF_TDEL                        
                   MY_ALLOCATE(FLOC%TDEL,FLOC%LF_TDEL*NEL)

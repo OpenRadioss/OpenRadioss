@@ -87,7 +87,7 @@ C-----------------------------------------------
      .   L_SEQ,L_SIGPLY,L_JAC_I,L_FAC_YLD,L_ABURN,L_MU,L_PLANL,L_EPSDNL,
      .   L_DMGSCL,L_TSAIWU,L_PIJ,L_VOL0DP,L_DPR
       INTEGER  ! failure variables
-     .   LF_DAM,LF_DAMMX,LF_TDEL,LF_INDX,LF_OFF
+     .   LF_DAM,LF_DAMMX,LF_DAMINI,LF_TDEL,LF_INDX,LF_OFF
       INTEGER sum
       my_real,
      .   ALLOCATABLE, DIMENSION (:)  :: RBUF_L
@@ -682,6 +682,7 @@ c
                     NUVAR = FLOC%NVAR
                     LF_DAM  = FLOC%LF_DAM
                     LF_DAMMX= FLOC%LF_DAMMX
+                    LF_DAMINI = FLOC%LF_DAMINI
                     LF_TDEL = FLOC%LF_TDEL
                     LF_INDX = FLOC%LF_INDX
                     LF_OFF  = FLOC%LF_OFF
@@ -693,6 +694,8 @@ c
                     RBUF_L(L_REL+1)=LF_DAM
                       L_REL = L_REL+1
                     RBUF_L(L_REL+1)=LF_DAMMX
+                      L_REL = L_REL+1
+                    RBUF_L(L_REL+1)=LF_DAMINI
                       L_REL = L_REL+1
                     RBUF_L(L_REL+1)=LF_TDEL
                       L_REL = L_REL+1
@@ -710,6 +713,9 @@ c
                     RBUF_L(L_REL+1:L_REL+NEL*LF_DAMMX)
      .                                           = FLOC%DAMMX(1:NEL*LF_DAMMX)
                       L_REL = L_REL+NEL*LF_DAMMX
+                    RBUF_L(L_REL+1:L_REL+NEL*LF_DAMINI)
+     .                                           = FLOC%DAMINI(1:NEL*LF_DAMINI)
+                      L_REL = L_REL+NEL*LF_DAMINI
                     RBUF_L(L_REL+1:L_REL+NEL*LF_TDEL)
      .                                           = FLOC%TDEL(1:NEL*LF_TDEL)
                       L_REL = L_REL + NEL*LF_TDEL

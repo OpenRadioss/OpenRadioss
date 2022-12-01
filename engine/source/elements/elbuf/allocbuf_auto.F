@@ -87,7 +87,7 @@ C-----------------------------------------------
      .   L_SEQ,L_SIGPLY,L_JAC_I,L_FAC_YLD,L_ABURN,L_MU,L_PLANL,L_EPSDNL,
      .   L_DMGSCL,L_PIJ,L_VOL0DP,L_TSAIWU
        INTEGER  ! failure variables
-     .   LF_DAM,LF_DAMMX,LF_TDEL,LF_INDX,LF_OFF
+     .   LF_DAM,LF_DAMMX,LF_DAMINI,LF_TDEL,LF_INDX,LF_OFF
       my_real, 
      .  ALLOCATABLE, DIMENSION(:)  :: RBUF
 
@@ -839,7 +839,11 @@ c-------------------------------
 
                 LF_DAMMX = RBUF(IAD+1)                                        
                 IAD = IAD+1                                                
-                FLOC%LF_DAMMX = LF_DAMMX       
+                FLOC%LF_DAMMX = LF_DAMMX     
+
+                LF_DAMINI = RBUF(IAD+1)                                        
+                IAD = IAD+1                                                
+                FLOC%LF_DAMINI = LF_DAMINI
 
                 LF_TDEL = RBUF(IAD+1)                                        
                 IAD = IAD+1                                                
@@ -864,6 +868,10 @@ c-------------------------------
                 ALLOCATE(FLOC%DAMMX(NEL*LF_DAMMX), STAT=ERR)                    
                 FLOC%DAMMX(1:NEL*LF_DAMMX) = RBUF(IAD+1:IAD+NEL*LF_DAMMX)                        
                 IAD = IAD + NEL*LF_DAMMX     
+
+                ALLOCATE(FLOC%DAMINI(NEL*LF_DAMINI), STAT=ERR)                    
+                FLOC%DAMINI(1:NEL*LF_DAMINI) = RBUF(IAD+1:IAD+NEL*LF_DAMINI)                        
+                IAD = IAD + NEL*LF_DAMINI 
 
                 ALLOCATE(FLOC%TDEL(NEL*LF_TDEL), STAT=ERR)                    
                 FLOC%TDEL(1:NEL*LF_TDEL) = RBUF(IAD+1:IAD+NEL*LF_TDEL)                        
