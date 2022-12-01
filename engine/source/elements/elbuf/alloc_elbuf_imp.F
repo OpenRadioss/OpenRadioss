@@ -79,7 +79,7 @@ C-----------------------------------------------
      .   L_THK,L_FOR,L_MOM,L_SMSTR,L_BFRAC,L_DMG,L_FORTH,L_EINTTH,L_SEQ,
      .   L_SIGPLY,L_FAC_YLD,L_ABURN,L_MU
       INTEGER  ! failure variables
-     .   LF_DAM,LF_DAMMX,LF_TDEL,LF_INDX,LF_OFF
+     .   LF_DAM,LF_DAMMX,LF_DAMINI,LF_TDEL,LF_INDX,LF_OFF
       TYPE(BUF_LAY_)  , POINTER :: BUFLY,BUFLY_IMP
       TYPE(G_BUFEL_)  , POINTER :: GBUF
       TYPE(L_BUFEL_)  , POINTER :: LBUF
@@ -367,6 +367,8 @@ c-------------------------------
      .            ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(K)%LF_DAM 
                  LF_DAMMX=
      .            ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(K)%LF_DAMMX 
+                 LF_DAMINI=
+     .            ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(K)%LF_DAMINI
                  LF_TDEL=
      .            ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(K)%LF_TDEL 
                  LF_INDX=
@@ -378,6 +380,7 @@ c-------------------------------
                  ALLOCATE(FLOC%VAR(NEL*NUVAR), STAT=ERR)  
                  ALLOCATE(FLOC%DAM(NEL*LF_DAM), STAT=ERR)  
                  ALLOCATE(FLOC%DAMMX(NEL*LF_DAMMX), STAT=ERR)  
+                 ALLOCATE(FLOC%DAMINI(NEL*LF_DAMINI), STAT=ERR)
                  ALLOCATE(FLOC%TDEL(NEL*LF_TDEL), STAT=ERR)  
                  ALLOCATE(FLOC%INDX(NEL*LF_INDX), STAT=ERR)  
                  ALLOCATE(FLOC%OFF(NEL*LF_OFF)  , STAT=ERR)  

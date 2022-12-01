@@ -237,7 +237,7 @@ c----
       INTEGER, DIMENSION(:) ,POINTER  :: FLD_IDX,FOFF,OFFLY,ITABLE,VARTMP
       my_real, DIMENSION(:) ,POINTER  :: UVAR,UVARF,UELR,UELR1,DAM,
      .   DFMAX,TDEL ,OFFL,UVARV,UPARAM,UPARAMF,EPS1,EPS2,DEPS1,DEPS2,
-     .   DIRDMG,DIR_ORTH,ZZ,THLY
+     .   DIRDMG,DIR_ORTH,ZZ,THLY,DAMINI
 c----
       LOGICAL :: LOGICAL_USERL_AVAIL
       LOGICAL :: FLAG_EPS,FLAG_EPSP,FLAG_ZCFAC
@@ -1267,6 +1267,7 @@ c---
               IRUPT  =  FBUF%FLOC(IFL)%ILAWF                                
               DAM    => FBUF%FLOC(IFL)%DAM
               DFMAX  => FBUF%FLOC(IFL)%DAMMX 
+              DAMINI => FBUF%FLOC(IFL)%DAMINI
               TDEL   => FBUF%FLOC(IFL)%TDEL   
               FLD_IDX=> FBUF%FLOC(IFL)%INDX
               FOFF   => FBUF%FLOC(IFL)%OFF
@@ -1720,7 +1721,7 @@ c
      4            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,              
      5            EL_PLA   ,EL_TEMP  ,SIGY     ,FOFF     ,DFMAX    ,
      6            TDEL     ,IPT      ,IPG      ,DMG_FLAG ,DMG_LOC_SCALE,
-     7            PTHKF(ILAYER,IFL))
+     7            PTHKF(ILAYER,IFL)  ,DAMINI   )
 c
               CASE (43)     !    Syazwan failure model
 c

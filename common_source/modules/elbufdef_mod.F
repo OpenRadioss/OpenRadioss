@@ -1072,6 +1072,7 @@ c-------  layer variables
         integer  NVAR
         integer  LF_DAM
         integer  LF_DAMMX
+        integer  LF_DAMINI
         integer  LF_TDEL
         integer  LF_INDX
         integer  LF_OFF
@@ -1080,6 +1081,7 @@ c-------  layer variables
         my_real, DIMENSION(:)  , POINTER ::  DAM
         my_real, DIMENSION(:)  , POINTER ::  VAR 
         my_real, DIMENSION(:)  , POINTER ::  DAMMX 
+        my_real, DIMENSION(:)  , POINTER ::  DAMINI
         my_real, DIMENSION(:)  , POINTER ::  TDEL
       END TYPE FAIL_LOC_
 

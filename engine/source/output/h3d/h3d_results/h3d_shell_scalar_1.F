@@ -108,7 +108,7 @@ C-----------------------------------------------
      .        NINTY,VONM2,S1,S2,S12,DMGMX,A1,A2,A3,A4,DIR1_1,DIR1_2,AA,BB,V1,V2,V3,X21,X32,X34,
      .        X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,VR,VS,X31,Y31,Z31,E11,E12,E13,E21,E22,E23,SUM_,AREA,X2L,
      .        E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,S_X,S_Y,S_Z,RHO0(MVSIZ),THK0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3,A0,
-     .        RINDX,VFRAC(MVSIZ,1:21),TMP(3,3),CUMUL(3),VX,VY,VZ,SURF,NX,NY,NZ,PHI,ERR,PRES(MVSIZ),VEL(0:3)
+     .        RINDX,VFRAC(MVSIZ,1:21),TMP(3,3),CUMUL(3),VX,VY,VZ,SURF,NX,NY,NZ,PHI,ERR,PRES(MVSIZ),VEL(0:3),MAXDAMINI
       INTEGER I,I1,II,J,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
      .        IR,IS,IT,IL,MLW, NUVAR,NFAIL,
      .        N,K,K1,K2,JTURB,
@@ -2900,6 +2900,199 @@ c
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO              
 c
+                ENDIF
+              ENDIF
+C--------------------------------------------------
+            ELSEIF (KEYWORD == 'DAMINI') THEN 
+C--------------------------------------------------
+              IF (IFAILURE > 0) THEN
+c
+                ! Resetting values
+                DO I = 1,NEL
+                  VALUE(I) = ZERO
+                ENDDO
+c
+c IPLY=NULL ILAYER=NULL NPT=NULL
+                IF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN  
+                  IF (NLAY > 1) THEN    
+                    DO I=1,NEL   
+                      DO N = 1,NLAY
+                        NPTT = ELBUF_TAB(NG)%BUFLY(N)%NPTT
+                        DO IT = 1,NPTT
+                          DO IR = 1,NPTR     
+                            DO IS = 1,NPTS     
+                              FBUF => ELBUF_TAB(NG)%BUFLY(N)%FAIL(IR,IS,IT)
+                              MAXDAMINI = ZERO
+                              DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(N)%NFAIL
+                                IF (FBUF%FLOC(IFAIL)%LF_DAMINI > 0) THEN
+                                  MAXDAMINI = MAX(MAXDAMINI,FBUF%FLOC(IFAIL)%DAMINI(I))
+                                ENDIF
+                              ENDDO
+                              VALUE(I) = VALUE(I) + MAXDAMINI/(NPTT*NPTR*NPTS)
+                           ENDDO
+                         ENDDO  
+                       ENDDO  !  DO IT = 1,NPTT
+                      ENDDO   !  N=1,NLAY 
+                      VALUE(I) = VALUE(I) / NLAY
+                      IS_WRITTEN_VALUE(I) = 1  
+                    ENDDO                                                                     
+                  ELSEIF (MPT > 0) THEN  ! NLAY = 1   
+                    NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
+                    DO I = 1,NEL
+                      DO IT = 1,NPTT
+                        DO IR = 1,NPTR 
+                          DO IS = 1,NPTS    
+                            FBUF => ELBUF_TAB(NG)%BUFLY(1)%FAIL(IR,IS,IT)
+                            MAXDAMINI = ZERO      
+                            DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(1)%NFAIL
+                              IF (FBUF%FLOC(IFAIL)%LF_DAMINI > 0) THEN
+                                MAXDAMINI = MAX(MAXDAMINI,FBUF%FLOC(IFAIL)%DAMINI(I))
+                              ENDIF
+                            ENDDO
+                            VALUE(I) = VALUE(I) + MAXDAMINI/(NPTT*NPTR*NPTS)
+                          ENDDO
+                        ENDDO
+                      ENDDO
+                      IS_WRITTEN_VALUE(I) = 1
+                    ENDDO
+                  ENDIF  
+c PLY=IPLY NPT=IPT   
+                ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN
+                  DO J=1,NLAY
+                    NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
+                    ID_PLY = 0
+                    IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+                      ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                    ELSEIF (IGTYP == 52) THEN
+                      ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                    ENDIF 
+                    IF (ID_PLY == IPLY) THEN
+                      IF (IPT <= NPTT) THEN
+                        DO I = 1,NEL  
+                          DO IR = 1,NPTR  
+                            DO IS = 1,NPTS 
+                              FBUF => ELBUF_TAB(NG)%BUFLY(J)%FAIL(IR,IS,IPT)
+                              MAXDAMINI = ZERO
+                              DO IFAIL = 1, ELBUF_TAB(NG)%BUFLY(J)%NFAIL 
+                                IF (FBUF%FLOC(IFAIL)%LF_DAMINI > 0) THEN
+                                  MAXDAMINI = MAX(MAXDAMINI,FBUF%FLOC(IFAIL)%DAMINI(I))
+                                ENDIF
+                              ENDDO
+                              VALUE(I) = VALUE(I) + MAXDAMINI/(NPTR*NPTS)
+                            ENDDO
+                          ENDDO
+                          IS_WRITTEN_VALUE(I) = 1
+                        ENDDO
+                      ENDIF
+                    ENDIF
+                  ENDDO
+c PLY=IPLY NPT=-1
+                ELSEIF ( IPLY > 0 .AND. IPT == -1 ) THEN
+                  DO J = 1,NLAY
+                    NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
+                    ID_PLY = 0
+                    IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+                      ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                    ELSEIF (IGTYP == 52) THEN
+                      ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                    ENDIF 
+                    IF (ID_PLY == IPLY) THEN
+                      DO I = 1,NEL
+                        DO IR = 1,NPTR
+                          DO IS = 1,NPTS
+                            DO IT = 1,NPTT
+                              FBUF => ELBUF_TAB(NG)%BUFLY(J)%FAIL(IR,IS,IT)
+                              MAXDAMINI = ZERO
+                              DO IFAIL = 1, ELBUF_TAB(NG)%BUFLY(J)%NFAIL
+                                IF (FBUF%FLOC(IFAIL)%LF_DAMINI > 0) THEN
+                                  MAXDAMINI = MAX(MAXDAMINI,FBUF%FLOC(IFAIL)%DAMINI(I))
+                                ENDIF
+                              ENDDO
+                              VALUE(I) = VALUE(I) + MAXDAMINI/(NPTR*NPTS*NPTT)
+                            ENDDO
+                          ENDDO
+                        ENDDO 
+                        IS_WRITTEN_VALUE(I) = 1
+                      ENDDO 
+                    ENDIF
+                  ENDDO
+c ILAYER=ILAY NPT=IPT 
+                ELSEIF (ILAY <= NLAY .AND. ILAY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN  
+                  IF (IGTYP == 51 .OR. IGTYP == 52) THEN 
+                    DO I=1,NEL  
+                      DO IR = 1,NPTR
+                        DO IS = 1,NPTS
+                          FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IPT)
+                          MAXDAMINI = ZERO     
+                          DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL
+                            IF (FBUF%FLOC(IFAIL)%LF_DAMINI > 0) THEN
+                              MAXDAMINI = MAX(MAXDAMINI,FBUF%FLOC(IFAIL)%DAMINI(I))
+                            ENDIF
+                          ENDDO
+                          VALUE(I) = VALUE(I) + MAXDAMINI/(NPTR*NPTS)
+                          IS_WRITTEN_VALUE(I) = 1
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDIF
+c ILAYER=IL NPT=NULL
+                ELSEIF ( ILAY <= NLAY .AND. ILAY > 0) THEN
+                  IPT = 1
+                  IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN 
+                    DO I=1,NEL
+                      DO IR = 1,NPTR
+                        DO IS = 1,NPTS
+                          FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,1)
+                          MAXDAMINI = ZERO      
+                          DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL
+                            IF (FBUF%FLOC(IFAIL)%LF_DAMINI > 0) THEN                
+                             MAXDAMINI = MAX(MAXDAMINI,FBUF%FLOC(IFAIL)%DAMINI(I))
+                            ENDIF
+                          ENDDO  
+                          VALUE(I) = VALUE(I) + MAXDAMINI/(NPTR*NPTS)      
+                        ENDDO
+                      ENDDO  
+                      IS_WRITTEN_VALUE(I) = 1          
+                    ENDDO     !  I=1,NEL
+                  ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN          
+                    NPTT = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
+                    DO I=1,NEL          
+                      DO IT = 1,NPTT
+                        DO IR = 1,NPTR            
+                         DO IS = 1,NPTS             
+                           FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)  
+                            MAXDAMINI = ZERO            
+                            DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL    
+                              IF (FBUF%FLOC(IFAIL)%LF_DAMINI > 0) THEN                     
+                               MAXDAMINI = MAX(MAXDAMINI,FBUF%FLOC(IFAIL)%DAMINI(I))
+                              ENDIF
+                            ENDDO    
+                            VALUE(I) = VALUE(I) + MAXDAMINI/(NPTT*NPTR*NPTS)
+                          ENDDO
+                        ENDDO            
+                      ENDDO  !  DO IT = 1,NPTT
+                      IS_WRITTEN_VALUE(I) = 1
+                    ENDDO     !  I=1,NEL
+                  ENDIF
+c NPT=IPT
+                ELSEIF ( IPT <= NPT .AND. IPT > 0) THEN
+                  IF (IGTYP == 1 .OR. IGTYP == 9 ) THEN 
+                    DO I=1,NEL       
+                      DO IR = 1,NPTR          
+                        DO IS = 1,NPTS          
+                          FBUF => ELBUF_TAB(NG)%BUFLY(1)%FAIL(IR,IS,IPT)   
+                          MAXDAMINI = ZERO                    
+                          DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(1)%NFAIL   
+                            IF (FBUF%FLOC(IFAIL)%LF_DAMINI > 0) THEN       
+                             MAXDAMINI = MAX(MAXDAMINI,FBUF%FLOC(IFAIL)%DAMINI(I))
+                            ENDIF
+                          ENDDO
+                          VALUE(I) = VALUE(I) + MAXDAMINI/(NPTR*NPTS)
+                          IS_WRITTEN_VALUE(I) = 1           
+                        ENDDO
+                      ENDDO          
+                    ENDDO     !  I=1,NEL
+                  ENDIF
                 ENDIF
               ENDIF
 C--------------------------------------------------

@@ -216,7 +216,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL), TARGET  :: LE_MAX
 C----
       my_real, DIMENSION(:), POINTER  :: UPARAM,UPARAMF,UVARF,DFMAX,TDEL,EL_TEMP, 
-     .                                   YLDFAC,DAM,EL_LEN,DMG_SCALE,EL_PLA
+     .                                   YLDFAC,DAM,EL_LEN,DMG_SCALE,EL_PLA,DAMINI
       TYPE(ULAWINTBUF)                :: USERBUF
       TYPE(L_BUFEL_)  ,POINTER        :: LBUF, LBUF1, LBUF2    
       TYPE(G_BUFEL_)  ,POINTER        :: GBUF      
@@ -1243,7 +1243,8 @@ c----
           UVARF   => FBUF%FLOC(IR)%VAR     
           IRUPT    = FBUF%FLOC(IR)%ILAWF   
           NVARF    = FBUF%FLOC(IR)%NVAR    
-          DFMAX   => FBUF%FLOC(IR)%DAMMX   
+          DFMAX   => FBUF%FLOC(IR)%DAMMX  
+          DAMINI  => FBUF%FLOC(IR)%DAMINI    
           TDEL    => FBUF%FLOC(IR)%TDEL   
           NPAR    =  IPM(112+IP, MX)   
           IADBUF  =  IPM(114+IP ,MX)
@@ -1546,7 +1547,7 @@ C---- Inievo failure model
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
      6          EL_PLA   ,EL_TEMP  ,SIGY     ,OFF      ,DFMAX    ,
      7          TDEL     ,DMG_SCALE,GBUF%UELR,IPG      ,NPG      ,
-     8          LBUF%OFF )   
+     8          LBUF%OFF ,DAMINI   )   
 c             
           ENDIF
         ENDDO ! IR = 1,NFAIL

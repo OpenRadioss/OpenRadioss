@@ -587,6 +587,7 @@ c---
      .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
      .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID   ,MAT_ID   ,
      .             TABLE    ,TITR     ,LSUBMODEL)
+                   FAIL_TAG(IRUP)%LF_DAMINI = 1
 c---
             CASE(43)
               CALL HM_READ_FAIL_SYAZWAN(

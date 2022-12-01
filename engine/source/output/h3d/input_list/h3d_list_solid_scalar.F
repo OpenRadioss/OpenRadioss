@@ -364,6 +364,18 @@ c-----------------------------------------------
      .'Damage variable for coupled damage models'
 c-----------------------------------------------
       I = I + 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'DAMINI'
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_IR  = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_IR_ALL  = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_IS  = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_IS_ALL  = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_IT  = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_IT_ALL  = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Damage initiation'
+      H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = 
+     .'Damage initiation'
+c-----------------------------------------------
+      I = I + 1
       H3D_KEYWORD_SOLID_SCALAR(I)%KEY3   = 'TSAIWU'
       H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Tsai-Wu Criterion'
 c-----------------------------------------------
