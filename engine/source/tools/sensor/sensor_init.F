@@ -125,7 +125,7 @@ c
         !   count the number of sensors by type
         DO K=1,NSENSOR
             TYP = SENSOR_TAB(K)%TYPE
-            !   --------------------    
+            !   -------------------- 
             IF (TYP==14) THEN
                 !   sensor energy
                 ENERGY_SENSOR = ENERGY_SENSOR + 1
@@ -391,6 +391,24 @@ c
             COMM_SENS17%BUFFER_SIZE_MEAN    = SIZE_COMM17_MEAN
         ENDIF
         !   ---------------------
-c-------------
+
+C ---------------------------------------------------------------------
+C Play Sensors which could be active at TT=0
+c----------------------------------------------------------------------
+        IF (NSENSOR > 0 ) THEN
+           DO I=1,NSENSOR
+               ! Time Sensor if TT=0
+               TYP    = SENSOR_TAB(I)%TYPE
+               IF (TYP == 0) THEN 
+                 CALL SENSOR_TIME(SENSOR_TAB(I))
+               ENDIF
+           ENDDO
+     
+           ! Logical Sensors can be active at TT=0
+           CALL SENSOR_LOGICAL(SENSOR_TAB)
+        ELSE
+           LOGICAL_SENSOR_COUNT=0
+        ENDIF
+
         RETURN
         END SUBROUTINE SENSOR_INIT

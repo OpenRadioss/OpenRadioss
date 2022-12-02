@@ -12,10 +12,10 @@
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
+**                                                                    **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 1986-2023 Altair Engineering, Inc.                   **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -24,7 +24,7 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+ fr-jumbo.europe.altair.com   Intel(R) Xeon(R) CPU E5-2667 v4 @ 3.20GHz (x86_64), 1200 MHz,  64316 MB RAM,      0 MB swap
   
 ************************************************************************
 
@@ -50,27 +50,6 @@ DESCRIPTION :
 unsupported field exits
 SOLUTION :     
     Please check input format and fields description defined in the Reference Guide.
-
-WARNING ID : 100211
-** WARNING IN INPUT OPTIONS
-DESCRIPTION :  
--- BLOCK: /SENSOR/TIME/2
--- LINE: /SENSOR/TIME/2
-Unsupported option /SENSOR/TIME in format < 110
-
-WARNING ID : 100211
-** WARNING IN INPUT OPTIONS
-DESCRIPTION :  
--- BLOCK: /SENSOR/SENS/3
--- LINE: /SENSOR/SENS/3
-Unsupported option /SENSOR/SENS in format < 110
-
-WARNING ID : 100211
-** WARNING IN INPUT OPTIONS
-DESCRIPTION :  
--- BLOCK: /SENSOR/TIME/5
--- LINE: /SENSOR/TIME/5
-Unsupported option /SENSOR/TIME in format < 110
 
  -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
 
@@ -200,17 +179,14 @@ Unsupported option /SENSOR/TIME in format < 110
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
     INFO : NUMBER OF SPMD DOMAIN AND THREADS DEFINED IN COMMAND LINE
            /SPMD CARD PARAMETER ARE IGNORED
- 
-     INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
-  
 
 
     MATERIAL LAWS
@@ -1145,7 +1121,7 @@ PART:         3,acier 1006
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR BROADWELL PROCESSOR
  NUMBER OF DISCONNECTED COMPONENTS FIXED FOR DOMAIN DECOMP:       3
   
   ELEMENT NUMBER =       1020
@@ -2233,7 +2209,7 @@ PART:         3,acier 1006
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR BROADWELL PROCESSOR
   
   ELEMENT NUMBER =       1020
   EDGES FOUND    =       3721
@@ -3618,7 +3594,7 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        124 MB
+    STARTER MEMORY USAGE        123 MB
 
 
 
@@ -3723,20 +3699,20 @@ STANDARD DEVIATION            :     114
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .4176E+00   .1774E+00   .1966E-01   .6497E-04   .5805E-04   .8297E-04   .2694E-04
+.0000E+00   .3103E+00   .1436E+00   .8228E-02   .9000E-05   .5037E-05   .5990E-05   .7987E-05
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1144E+07   .1942E+00   .1474E-01   .3127E-04   .3473E-04   .1782E-03   .1199E-04
+.0000E+00   .9679E+05   .1587E+00   .1295E-01   .1248E-04   .1538E-04   .1586E-03   .8173E-05
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2022/11/23  16:23:43
- EXECUTION COMPLETED    :      2022/11/23  16:23:43
+ EXECUTION STARTED      :      2023/02/01  17:37:47
+ EXECUTION COMPLETED    :      2023/02/01  17:37:47
   
- ELAPSED TIME...........=          0.69 s
+ ELAPSED TIME...........=          0.54 s
                                00:00:00
   
 ------------------------------------------------------------------------
@@ -3751,11 +3727,8 @@ STANDARD DEVIATION            :     114
 |            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
 ------------------------------------------------------------------------------------------------------------------------
 |                                                           |                                                          |
-|                                                           |  --- GLOBAL UNITS                           5 WARNING(S) |
+|                                                           |  --- GLOBAL UNITS                           2 WARNING(S) |
 |                                                           |       |                                                  |
-|                                                           |       |                                                  |
-|                                                           |       |---     3 WARNING ID :       100211               |
-|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
 |                                                           |       |                                                  |
 |                                                           |       |---     2 WARNING ID :       100214               |
 |                                                           |       | ** WARNING IN INPUT OPTIONS                      |
@@ -3768,6 +3741,6 @@ STANDARD DEVIATION            :     114
 
 
               0 ERROR(S)            
-              5 WARNING(S)          
+              2 WARNING(S)          
 
 

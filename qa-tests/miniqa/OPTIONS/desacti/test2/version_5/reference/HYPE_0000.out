@@ -12,10 +12,10 @@
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
+**                                                                    **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 1986-2023 Altair Engineering, Inc.                   **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -24,7 +24,7 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+ fr-jumbo.europe.altair.com   Intel(R) Xeon(R) CPU E5-2667 v4 @ 3.20GHz (x86_64), 1800 MHz,  64316 MB RAM,      0 MB swap
   
 ************************************************************************
 
@@ -188,17 +188,14 @@ Please check input format and fields description defined in the Reference Guide.
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
     INFO : NUMBER OF SPMD DOMAIN AND THREADS DEFINED IN COMMAND LINE
            /SPMD CARD PARAMETER ARE IGNORED
- 
-     INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
-  
 
 
     MATERIAL LAWS
@@ -1156,7 +1153,7 @@ PART:         3,acier 1006
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR BROADWELL PROCESSOR
  NUMBER OF DISCONNECTED COMPONENTS FIXED FOR DOMAIN DECOMP:       3
   
   ELEMENT NUMBER =       1020
@@ -2244,7 +2241,7 @@ PART:         3,acier 1006
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR BROADWELL PROCESSOR
   
   ELEMENT NUMBER =       1020
   EDGES FOUND    =       3721
@@ -3591,20 +3588,20 @@ STANDARD DEVIATION            :     114
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .3948E+00   .2282E+00   .2073E-01   .1305E-04   .5305E-04   .3200E-03   .2801E-04
+.0000E+00   .2955E+00   .1400E+00   .1017E-01   .9000E-05   .2402E-04   .1270E-03   .1001E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1144E+07   .2482E+00   .1369E-01   .2379E-04   .2978E-04   .1852E-03   .1243E-04
+.0000E+00   .9681E+05   .1542E+00   .1184E-01   .1106E-04   .2423E-04   .1286E-03   .7403E-05
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2022/11/23  16:22:39
- EXECUTION COMPLETED    :      2022/11/23  16:22:39
+ EXECUTION STARTED      :      2023/02/01  17:38:10
+ EXECUTION COMPLETED    :      2023/02/01  17:38:11
   
- ELAPSED TIME...........=          0.71 s
+ ELAPSED TIME...........=          0.51 s
                                00:00:00
   
 ------------------------------------------------------------------------

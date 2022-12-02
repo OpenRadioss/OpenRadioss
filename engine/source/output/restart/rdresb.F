@@ -1024,7 +1024,9 @@ C--------------------------------------
 
         CALL READ_DB(GAUGE,LLGAUGE*NBGAUGE)
 
-        CALL READ_SENSOR_TAB(SENSOR_TAB,NSENSOR)
+        IF(NSENSOR > 0)THEN
+          CALL READ_SENSOR_TAB(SENSOR_TAB,NSENSOR)
+        ENDIF
 
         CALL READ_DB(FBVEL,SFBVEL)
 

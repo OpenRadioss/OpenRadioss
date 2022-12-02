@@ -415,8 +415,7 @@ C---------RBE2----
           R3SIZE = 0
           R2SIZE = 0
         ENDIF
-c       sensor sorting
-        CALL SENSOR_SORT(SENSOR_TAB ,INDEX_SENSOR)
+
 c        
 C Initialisation IRBE2
         CALL RBE2_INIT(IRBE2   ,LRBE2   ,NMRBE2 ,FR_RBE2 ,FR_RBE2M,NFR)
