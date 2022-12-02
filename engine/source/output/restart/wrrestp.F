@@ -1096,7 +1096,9 @@ C--------------------------------------
 
          CALL WRITE_DB(GAUGE,LLGAUGE*NBGAUGE)
 
-         CALL WRITE_SENSOR_TAB(SENSOR_TAB,NSENSOR)
+         IF(NSENSOR > 0)THEN
+            CALL WRITE_SENSOR_TAB(SENSOR_TAB,NSENSOR)
+         ENDIF
 
          CALL WRITE_DB(FBVEL,SFBVEL)
 

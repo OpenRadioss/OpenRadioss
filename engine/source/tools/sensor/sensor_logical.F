@@ -30,6 +30,13 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE SENSOR_LOGICAL(SENSOR_TAB)
 C-----------------------------------------------
+C   M a c r o s 
+C-----------------------------------------------
+#define SENS_SENS 3
+#define SENS_AND  4
+#define SENS_OR   5 
+#define SENS_NOT  8
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SENSOR_MOD
@@ -57,176 +64,33 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: K,IS1,IS2,TYP,NSENS,ACTI,TYP1,TYP2,STATUS1,STATUS2
-      my_real :: TDELAY,TSTART,TSTART1,TSTART2,TSTOPS,INFINITY
-      CHARACTER OPTION*256
-      INTEGER SIZE
-      PARAMETER (INFINITY = 1.0E20)
+      INTEGER :: I,K,TYP
 C=======================================================================
-C INITIALIALISATION DES COEFFICIENTS DU FILTRE
-C-----------------------------------------------
-      DO K = 1, NSENSOR
-       ACTI = 0
-c      initialisation de TSTART a TT pour ecriture finale si ACTI=1
-       TSTART = TT
-       TYP    = SENSOR_TAB(K)%TYPE
+      DO I = 1, LOGICAL_SENSOR_COUNT
 
-c      !----------------------------------------------!
-       IF (TYP == 3) THEN
+         K = LOGICAL_SENSORS_LIST(I)
+         TYP     = SENSOR_TAB(K)%TYPE
 C--------------------------------
-C         /SENSOR/SENS :  OFF/ON/OFF
-C--------------------------------
-          NSENS   = SENSOR_TAB(K)%SENS_ID
-          IS1     = SENSOR_TAB(K)%IPARAM(1)
-          IS2     = SENSOR_TAB(K)%IPARAM(2)
-          TSTART  = SENSOR_TAB(K)%TSTART
-          TDELAY  = SENSOR_TAB(K)%TDELAY
-          TSTOPS  = INFINITY
+         SELECT CASE(TYP)
+
+         CASE (SENS_SENS) 
+
+                         CALL SENSOR_SENS(SENSOR_TAB,K)
+
+         CASE (SENS_AND) 
+
+                         CALL SENSOR_AND(SENSOR_TAB,K)
 c
-          TYP1    = SENSOR_TAB(IS1)%TYPE
-          TSTART1 = SENSOR_TAB(IS1)%TSTART
-          STATUS1 = SENSOR_TAB(IS1)%STATUS
-          IF (STATUS1 == 0) THEN
-            TSTART1 = INFINITY
-          END IF
-          IF (TT >= TSTART1) THEN
-            IF (TSTART /= TSTART1) ACTI = 1
-            TSTART = TSTART1
-            SENSOR_TAB(K)%TSTART = TSTART
-          ENDIF
-          IF (TSTART + TDELAY < TT) THEN
-            IF (IS2 == 0) THEN
-              TSTOPS = TT
-            ELSE
-              TSTOPS = SENSOR_TAB(IS2)%TSTART
-              IF (SENSOR_TAB(IS2)%STATUS == 0) THEN
-                TSTOPS = INFINITY
-              ENDIF
-            ENDIF
-            IF (TSTOPS <= TT) THEN
-              SENSOR_TAB(K)%TSTART = INFINITY
-              SENSOR_TAB(K)%STATUS = 0
-              ACTI = ACTI + 2
-            ENDIF
-          ENDIF
+         CASE (SENS_OR)
+
+                         CALL SENSOR_OR(SENSOR_TAB,K)
 c
-        ELSEIF (TYP == 4) THEN
-C--------------------------------
-C         SENSOR AND
-C--------------------------------
-          NSENS   = SENSOR_TAB(K)%SENS_ID
-          IS1     = SENSOR_TAB(K)%IPARAM(1)
-          IS2     = SENSOR_TAB(K)%IPARAM(2)
-          TYP1    = SENSOR_TAB(IS1)%TYPE
-          TYP2    = SENSOR_TAB(IS2)%TYPE
-          TSTART1 = SENSOR_TAB(IS1)%TSTART
-          TSTART2 = SENSOR_TAB(IS2)%TSTART
-          STATUS1 = SENSOR_TAB(IS1)%STATUS
-          STATUS2 = SENSOR_TAB(IS2)%STATUS
-          IF (STATUS1 == 0) THEN
-             TSTART1 = INFINITY
-          ELSE
-             TSTART1 = ZERO
-          END IF
-          IF (STATUS2 == 0) THEN
-             TSTART2 = INFINITY
-          ELSE
-             TSTART2 = ZERO
-          END IF
-          IF (SENSOR_TAB(K)%STATUS == 0 .AND. TT >= MAX(TSTART1,TSTART2)) THEN
-            ACTI = 1
-            SENSOR_TAB(K)%TSTART = TT
-            SENSOR_TAB(K)%STATUS = 1
-          ELSEIF (SENSOR_TAB(K)%STATUS == 1 .AND. TT < MAX(TSTART1,TSTART2)) THEN
-            ACTI = 2
-            SENSOR_TAB(K)%TSTART = INFINITY
-            SENSOR_TAB(K)%STATUS = 0
-          ENDIF
-c
-        ELSEIF (TYP == 5) THEN
-C--------------------------------
-C         SENSOR OR
-C--------------------------------
-          NSENS   = SENSOR_TAB(K)%SENS_ID
-          IS1     = SENSOR_TAB(K)%IPARAM(1)
-          IS2     = SENSOR_TAB(K)%IPARAM(2)
-          TYP1    = SENSOR_TAB(IS1)%TYPE
-          TYP2    = SENSOR_TAB(IS2)%TYPE
-          TSTART1 = SENSOR_TAB(IS1)%TSTART
-          TSTART2 = SENSOR_TAB(IS2)%TSTART
-          STATUS1 = SENSOR_TAB(IS1)%STATUS
-          STATUS2 = SENSOR_TAB(IS2)%STATUS
-          IF (SENSOR_TAB(K)%STATUS == 0) THEN
-            IF (STATUS1 == 0) THEN
-              TSTART1 = INFINITY
-            END IF
-            IF (STATUS2 == 0) THEN
-               TSTART2 = INFINITY
-            END IF
-            IF (TT >= MIN(TSTART1,TSTART2)) THEN
-                ACTI = 1
-                SENSOR_TAB(K)%TSTART = TT
-                SENSOR_TAB(K)%STATUS = 1
-            ENDIF
-          ELSE IF (SENSOR_TAB(K)%STATUS == 1 .and. TT < TSTART1 .and. TT < TSTART2) THEN
-            ACTI = 2
-            SENSOR_TAB(K)%TSTART = INFINITY          
-            SENSOR_TAB(K)%STATUS = 0
-          ENDIF
-c
-        ELSEIF (TYP == 8) THEN
-C--------------------------------
-C         SENSOR NOT
-C--------------------------------
-          NSENS   = SENSOR_TAB(K)%SENS_ID
-          IS1     = SENSOR_TAB(K)%IPARAM(1)
-          TYP1    = SENSOR_TAB(IS1)%TYPE
-          IF (TYP1 == 0 .or. TYP1==3 .OR. TYP1==4 .OR.    
-     .        TYP1 == 5 .OR. TYP1==8 .OR. TYP1==9) THEN                                          
-            IF (SENSOR_TAB(IS1)%STATUS == 1) THEN
-              IF (SENSOR_TAB(K)%STATUS == 1) THEN
-                ACTI = 2
-                SENSOR_TAB(K)%TSTART = INFINITY
-                SENSOR_TAB(K)%STATUS = 0
-              END IF
-            ELSE
-              IF (SENSOR_TAB(K)%STATUS == 0) THEN
-                ACTI = 1
-                SENSOR_TAB(K)%TSTART = TT
-                SENSOR_TAB(K)%STATUS = 1
-              END IF
-            ENDIF
-          ELSE
-            TSTART1 = SENSOR_TAB(IS1)%TSTART
-            IF (TT >= TSTART1) THEN
-              IF (SENSOR_TAB(K)%STATUS == 1) ACTI = 2
-              SENSOR_TAB(K)%TSTART = INFINITY
-              SENSOR_TAB(K)%STATUS = 0
-            ELSE
-              IF (SENSOR_TAB(K)%STATUS == 0) THEN
-                ACTI = 1
-                SENSOR_TAB(K)%TSTART = TT
-                SENSOR_TAB(K)%STATUS = 1
-              ENDIF
-            ENDIF
-          ENDIF
-        ENDIF
-c-----------------------------------------------------------------------
-        IF (ACTI == 1) THEN
-#include "lockon.inc"
-           IF (ISPMD == 0)
-     .       WRITE (IOUT,'(A,I10,A,1PE12.5)')   
-     .   ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TSTART
-#include "lockoff.inc"
-       ELSEIF (ACTI == 2) THEN
-#include "lockon.inc"
-           IF (ISPMD == 0)
-     .       WRITE (IOUT,'(A,I10,A,1PE12.5)')   
-     .   ' SENSOR NUMBER ',NSENS,' DEACTIVATED AT TIME ',TT
-#include "lockoff.inc"
-        ENDIF
-c-----------------------------------------------------------------------
-       ENDDO ! K = 1, NSENSOR
+         CASE (SENS_NOT)
+
+                         CALL SENSOR_NOT(SENSOR_TAB,K)
+         END SELECT
+C-----------------------------------------------------------------------
+       ENDDO
 C-----------
       RETURN
       END

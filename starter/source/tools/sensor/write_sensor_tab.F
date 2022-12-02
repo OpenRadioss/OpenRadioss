@@ -139,6 +139,10 @@ c
         ENDIF
 c
       END DO
+C Write Logical sensor index array
+      CALL WRITE_I_C(LOGICAL_SENSOR_COUNT,1)
+      CALL WRITE_I_C(LOGICAL_SENSORS_LIST,LOGICAL_SENSOR_COUNT)
+
 c-----------
       RETURN
       END

@@ -1924,6 +1924,30 @@ c  Equivalent nodal force
        ALLOCATE( SORT_COMM(NINTER) )
        CALL INTER_STRUCT_INIT(INTER_STRUCT,SORT_COMM)
        
+
+
+C========================================================================================
+C Initialize SENSORS & communication buffers.
+C Play Time & Logical sensors.
+
+
+       K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
+       K2=K1+NUMELS
+       K3=K2+NUMELQ
+       K4=K3+NUMELC
+       K5=K4+NUMELT
+       K6=K5+NUMELP
+       K7=K6+NUMELR
+       K8=K7+NUMELUR
+       K9=K8+NUMELTG
+       K10=K9+NUMELX
+       K11=K10+NUMSPH
+       K12=K11+NUMELIG3D
+
+       CALL SENSOR_INIT(SUBSETS,IPARG,NGROUC,
+     1                  IPART(K3),IPART(K8),IPART(K1),IPART(K2),IPART(K4),
+     2                  IPART(K5) ,IPART(K6),SENSOR_TAB)
+
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
@@ -2012,25 +2036,6 @@ C
 C========================================================================================
 C                                  NON PARALLEL SECTION (SMP)
 C========================================================================================
-
-        K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
-        K2=K1+NUMELS
-        K3=K2+NUMELQ
-        K4=K3+NUMELC
-        K5=K4+NUMELT
-        K6=K5+NUMELP
-        K7=K6+NUMELR
-        K8=K7+NUMELUR
-        K9=K8+NUMELTG
-        K10=K9+NUMELX
-        K11=K10+NUMSPH
-        K12=K11+NUMELIG3D
-
-       CALL SENSOR_INIT(SUBSETS,IPARG,NGROUC,
-     1                  IPART(K3),IPART(K8),IPART(K1),IPART(K2),IPART(K4),
-     2                  IPART(K5) ,IPART(K6),SENSOR_TAB)
-
-
        CALL SPLIT_ASSPAR4(ADSKY,NUMNOD,NTHREAD,NODFT_ASSPAR,NODLT_ASSPAR,SADSKY)
 
        ! Allocation & initialization of /INT18 + LAW151

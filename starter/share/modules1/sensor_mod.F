@@ -155,6 +155,8 @@ C-----------------------------------------------
 
       TYPE(SENSOR_USER_STRUCT_) :: SENSOR_USER_STRUCT
 c
+      INTEGER LOGICAL_SENSOR_COUNT
+      INTEGER, DIMENSION(:),ALLOCATABLE :: LOGICAL_SENSORS_LIST
 c--------------------------
       END MODULE SENSOR_MOD
 
@@ -176,6 +178,8 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
          TYPE (SENSOR_STR_)       ,DIMENSION(:) , ALLOCATABLE :: SENSOR_TAB       ! NSENSOR
+
+         ! Logical sensors : and, or,not,sens sorted list
       END MODULE SENSOR_VARIABLE_MOD
       
 

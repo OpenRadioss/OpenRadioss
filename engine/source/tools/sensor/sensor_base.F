@@ -118,7 +118,7 @@ C       SENSOR - TIME
 C--------------------------------
         IF (TYP == 0) THEN
 
-        CALL SENSOR_TIME(SENSOR_TAB(ISENS))
+          CALL SENSOR_TIME(SENSOR_TAB(ISENS))
 
 C--------------------------------
 C       SENSOR - ACCELEROMETER
@@ -134,24 +134,6 @@ C--------------------------------
 c
           CALL SENSOR_DIST(SENSOR_TAB(ISENS) ,X    ,XSENS(1,ISENS))
 c
-C--------------------------------
-C       SENSOR - SENS, AND, NOT
-C--------------------------------
-        ELSEIF (TYP == 3 .OR. TYP == 4 .OR. TYP == 8) THEN
-          IF (TT > = SENSOR_TAB(ISENS)%TSTART) THEN
-            SENSOR_TAB(ISENS)%STATUS = 1
-          ELSE
-            SENSOR_TAB(ISENS)%STATUS = 0
-          ENDIF
-C--------------------------------
-C       SENSOR "OR"
-C--------------------------------
-        ELSEIF (TYP == 5) THEN
-          IF (TT >= SENSOR_TAB(ISENS)%TSTART) THEN
-            SENSOR_TAB(ISENS)%STATUS = 1
-          ELSE
-            SENSOR_TAB(ISENS)%STATUS = 0
-          ENDIF
 C--------------------------------
 C       SENSOR - CONTACT
 C--------------------------------
