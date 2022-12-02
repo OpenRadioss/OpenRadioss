@@ -146,13 +146,14 @@ C======================================================================-
       IS_ID_LINE   = .FALSE.
 C      
       DO I=0,MAXFAIL
-        FAIL_TAG(I)%NUVAR    = 0
-        FAIL_TAG(I)%LF_DAM   = 0
-        FAIL_TAG(I)%LF_DAMMX = 1
-        FAIL_TAG(I)%LF_TDEL  = 1
-        FAIL_TAG(I)%LF_INDX  = 0
-        FAIL_TAG(I)%LF_OFF   = 1
-        FAIL_TAG(I)%LF_DIR   = 0
+        FAIL_TAG(I)%NUVAR     = 0
+        FAIL_TAG(I)%LF_DAM    = 0
+        FAIL_TAG(I)%LF_DAMMX  = 1
+        FAIL_TAG(I)%LF_DAMINI = 0
+        FAIL_TAG(I)%LF_TDEL   = 1
+        FAIL_TAG(I)%LF_INDX   = 0
+        FAIL_TAG(I)%LF_OFF    = 1
+        FAIL_TAG(I)%LF_DIR    = 0
       ENDDO
 c
       IPM(220, 1:NUMMAT-1) = 0
