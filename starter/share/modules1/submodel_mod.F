@@ -86,6 +86,7 @@ Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_a
 Chd|        HM_GET_MAX_ID                 source/devtools/hm_reader/hm_get_max_id.F
 Chd|        HM_GROGRO                     source/groups/hm_grogro.F     
 Chd|        HM_GROGRONOD                  source/groups/hm_grogronod.F  
+Chd|        HM_GROUP_IS_USED              source/devtools/hm_reader/hm_group_is_used.F
 Chd|        HM_LECGRE                     source/groups/hm_lecgre.F     
 Chd|        HM_LECGRN                     source/groups/hm_lecgrn.F     
 Chd|        HM_LINENGR                    source/groups/hm_linengr.F    

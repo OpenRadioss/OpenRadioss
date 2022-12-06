@@ -21,8 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  HM_GROUP_IS_USED          source/devtools/hm_reader/hm_group_is_used.F
+Chd|  HM_GROUP_IS_USED              source/devtools/hm_reader/hm_group_is_used.F
 Chd|-- called by -----------
+Chd|        FILL_IGR                      source/model/sets/fill_igr.F  
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 

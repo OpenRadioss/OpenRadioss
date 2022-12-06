@@ -241,6 +241,7 @@ Chd|        HM_GET_STRING                 source/devtools/hm_reader/hm_get_strin
 Chd|        HM_GET_STRING_INDEX           source/devtools/hm_reader/hm_get_string_index.F
 Chd|        HM_GROGRO                     source/groups/hm_grogro.F     
 Chd|        HM_GROGRONOD                  source/groups/hm_grogronod.F  
+Chd|        HM_GROUP_IS_USED              source/devtools/hm_reader/hm_group_is_used.F
 Chd|        HM_LECGRE                     source/groups/hm_lecgre.F     
 Chd|        HM_LECGRN                     source/groups/hm_lecgrn.F     
 Chd|        HM_LINENGR                    source/groups/hm_linengr.F    
