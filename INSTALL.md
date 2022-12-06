@@ -59,7 +59,7 @@ Set the following environment variables:
         export PATH=$OPENRADIOSS_PATH/extlib/intelOneAPI_runtime/win64:$PATH
 
 Cygwin is translating PATH variable into DOS path to execute OpenRadioss, but not other variables.
-To be understand by OpenRadioss, some variables need specific syntax understood by cygwin & DOS.
+Some variables need specific syntax understood by cygwin & DOS.
 
         export OPENRADIOSS_PATH=[Path to OpenRadioss root directory / Cygwin Style]
         export RAD_CFG_PATH=[Path to OpenRadioss root directory / mixed DOS/Cygwin Style]/hm_cfg_files
