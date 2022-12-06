@@ -176,9 +176,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      ID OFFSETS FOR //SUBMODEL 
 C--------------------------------------------------
-        IF(SUB_ID /= 0 .AND. UID /= 0)THEN
-          UID = UID + LSUBMODEL(SUB_ID)%OFF_DEF
-        ELSEIF(SUB_ID /= 0 )THEN
+        IF(SUB_ID /= 0 .AND. UID == 0)THEN
           IF(LSUBMODEL(SUB_ID)%UID /= 0)THEN
             UID = LSUBMODEL(SUB_ID)%UID
           ENDIF
