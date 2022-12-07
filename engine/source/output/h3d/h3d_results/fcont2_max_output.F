@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  FCONT_MAX_OUTPUT              source/output/h3d/h3d_results/fcont_max_output.F
+Chd|  FCONT2_MAX_OUTPUT              source/output/h3d/h3d_results/fcont2_max_output.F
 Chd|-- called by -----------
 Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
 Chd|-- calls ---------------
-Chd|        SPMD_H3D_SUM_R_NODAL_21       source/output/h3d/spmd/spmd_h3d_gather_r_node.F
+Chd|        
 Chd|====================================================================
-      SUBROUTINE FCONT_MAX_OUTPUT(CONT,FCONTG,NODGLOB,FCONT_MAX,WEIGHT)
+      SUBROUTINE FCONT2_MAX_OUTPUT(FCONT,FCONT_MAX,WEIGHT)
 C-----------------------------s------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,73 +39,32 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr06_c.inc"
-#include      "spmd_c.inc"
-#include      "intstamp_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NODGLOB(*),WEIGHT(*)
-      my_real
-     .   CONT(3,*),FCONTG(3,*),FCONT_MAX(3,*)
+      INTEGER , INTENT(IN) ::  WEIGHT(NUMNOD)
+      my_real , INTENT(INOUT) :: 
+     .   FCONT(3,NUMNOD),FCONT_MAX(3,NUMNOD)
+C-----------------------------------------------
+C   L o c a l  V a r i a b l e s
+C-----------------------------------------------
       my_real  FOLD, FNEW, FMAX
       INTEGER I,K,N  
-      my_real
-     .       , DIMENSION(:,:), ALLOCATABLE :: FCONT_TMP,FCONT_TMP_P
 C-----------------------------------------------
 
-      IF(NINTSTAMP == 0) THEN
-         DO N=1,NUMNOD
-            IF(WEIGHT(N) == 1) THEN
-             FNEW = CONT(1,N)**2 + CONT(2,N)**2 +CONT(3,N)**2
+      DO N=1,NUMNOD
+         IF(WEIGHT(N) == 1) THEN
+             FNEW = FCONT(1,N)**2 + FCONT(2,N)**2 + FCONT(3,N)**2
              FOLD = FCONT_MAX(1,N)**2 + FCONT_MAX(2,N)**2 +FCONT_MAX(3,N)**2
              FMAX = MAX(FNEW,FOLD)
              IF(FNEW > FOLD) THEN
-                FCONT_MAX(1:3,N) = CONT(1:3,N)   
+                FCONT_MAX(1:3,N) = FCONT(1:3,N)   
              ENDIF
-            ELSE
-             CONT(1:3,N) =  ZERO
-            ENDIF
-         ENDDO
-      ELSE
+          ELSE
+             FCONT(1:3,N) =  ZERO
+          ENDIF
+       ENDDO
 
-         ALLOCATE(FCONT_TMP(3,NUMNOD)) 
-         ALLOCATE(FCONT_TMP_P(3,NUMNODG)) 
-
-         DO I=1,NUMNOD
-           K=NODGLOB(I)
-           FCONT_TMP(1,I) = CONT(1,I) + FCONTG(1,K)
-           FCONT_TMP(2,I) = CONT(2,I) + FCONTG(2,K)
-           FCONT_TMP(3,I) = CONT(3,I) + FCONTG(3,K)
-         ENDDO
-       
-         IF(NSPMD > 1 ) THEN
-             CALL SPMD_H3D_SUM_R_NODAL_21(NODGLOB,FCONT_TMP,3*NUMNOD,FCONT_TMP_P,3*NUMNODG,FCONTG)
-         ENDIF
-
-         IF(NSPMD > 1) THEN
-            IF(ISPMD == 0 ) THEN
-               DO N=1,NUMNODG
-                  FNEW = FCONT_TMP_P(1,N)**2 + FCONT_TMP_P(2,N)**2 +FCONT_TMP_P(3,N)**2
-                  FOLD = FCONT_MAX(1,N)**2 + FCONT_MAX(2,N)**2 +FCONT_MAX(3,N)**2
-                  FMAX = MAX(FNEW,FOLD)
-                  IF(FNEW > FOLD) THEN
-                     FCONT_MAX(1:3,N) = FCONT_TMP_P(1:3,N)   
-                  ENDIF
-               ENDDO
-             ENDIF
-         ELSE
-           DO N=1,NUMNOD
-             IF(WEIGHT(N) /= 1) CYCLE
-             FNEW = FCONT_TMP(1,N)**2 + FCONT_TMP(2,N)**2 +FCONT_TMP(3,N)**2
-             FOLD = FCONT_MAX(1,N)**2 + FCONT_MAX(2,N)**2 +FCONT_MAX(3,N)**2
-             FMAX = MAX(FNEW,FOLD)
-             IF(FNEW > FOLD) THEN
-                FCONT_MAX(1:3,N) = FCONT_TMP(1:3,N)   
-             ENDIF
-           ENDDO
-         ENDIF
-         DEALLOCATE( FCONT_TMP_P, FCONT_TMP)
-       ENDIF
  
        RETURN
        END 
