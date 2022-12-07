@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MATPARAM_DEF_MOD
       USE DRAPE_MOD
+      USE QA_OUT_MOD
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -255,10 +256,16 @@ C
 C
       
 
-        NB_NODES = 4 ! 8 nodes for solids
-        LDIM = 9 ! fist dimension of INUM
-        OFFSET = 3 ! nodes starts at INUM(4,I)
-        CALL CPP_REORDER_ELEMENTS(NEL, NSPMD, NB_NODES, OFFSET, LDIM , CEP(NFT+1), INUM, INDEX)
+
+        IF(DOQA .NE. 0 .OR. NADMESH /=0) THEN
+          MODE=0
+          CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
+        ELSE
+          NB_NODES = 4 ! 8 nodes for solids
+          LDIM = 9 ! fist dimension of INUM
+          OFFSET = 3 ! nodes starts at INUM(4,I)
+          CALL CPP_REORDER_ELEMENTS(NEL, NSPMD, NB_NODES, OFFSET, LDIM , CEP(NFT+1), INUM, INDEX)
+        ENDIF
 
 
         DO I = 1, NEL
