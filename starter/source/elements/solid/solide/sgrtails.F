@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE INIVOL_DEF_MOD
       USE INIVOL_ARRAY_MOD
+      USE QA_OUT_MOD
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -209,11 +210,16 @@ C
           ENDDO
         END IF
       
+        IF(DOQA .NE. 0) THEN
+          MODE=0
+          CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
+        ELSE
+          NB_NODES = 8 ! 8 nodes for solids
+          LDIM = 16 ! fist dimension of INUM
+          OFFSET = 2 ! nodes starts at INUM(3,I)
+          CALL CPP_REORDER_ELEMENTS(NEL, NSPMD, NB_NODES, OFFSET, LDIM , CEP(NFT+1), INUM, INDEX)
+        ENDIF
 
-        NB_NODES = 8 ! 8 nodes for solids
-        LDIM = 16 ! fist dimension of INUM
-        OFFSET = 2 ! nodes starts at INUM(3,I)
-        CALL CPP_REORDER_ELEMENTS(NEL, NSPMD, NB_NODES, OFFSET, LDIM , CEP(NFT+1), INUM, INDEX)
         DO I = 1, NEL
           PERMUTATION%SOLID(I+NFT)=INDEXS2(INDEX(I)+NFT)
           IPARTS(I+NFT)=INUM(1,INDEX(I))
@@ -1419,7 +1425,7 @@ C thermal material expansion
      .    IPARG(49,NGROUP)= 1  
           IPARG(52,NGROUP)= JSMS
 C
-C   - initial volume franction -
+C   - initial volume fraction -
 C
           IPARG(53,NGROUP) = 0
           lFOUND=.FALSE.
