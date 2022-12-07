@@ -37,16 +37,16 @@ Set the following environment variables:
         set PATH=%OPENRADIOSS_PATH%\extlib\intelOneAPI_runtime\win64;%PATH%
 
 *  If OpenRadioss was build from the Source code, use the Intel Runtime from the used compiler. 
-   The IntelOneAPI compiler installed and used for building the binaries could be more recent than the one used for building the Releases.
+   The Intel oneAPI compiler installed and used for building the binaries could be more recent than the one used for building the Releases.
    In this case the Runtimes may not be not compatible.
 
    In a typical installation, OneAPI variables are load with following command : 
 
         call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
 
-### Environment variables settings under Windows cygwin shell
+### Environment variables settings under Windows Cygwin shell
 
-* If OpenRadioss was build from Source code, load the Intel OneAPI variables prior to launch cygwin. This will load the appropriate 
+* If OpenRadioss was build from Source code, load the Intel oneAPI variables prior to launch Cygwin. This will load the appropriate 
   Runtime libraries.
 
         call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
@@ -54,29 +54,22 @@ Set the following environment variables:
         bash --login -i
 
 * If OpenRadioss was downloaded from GitHub Releases, 
-  Add the runtime libraries to PATH in Cygwin.
-
-        export PATH=$OPENRADIOSS_PATH/extlib/intelOneAPI_runtime/win64:$PATH
-
-Cygwin is translating PATH variable into DOS path to execute OpenRadioss, but not other variables.
-To be understand by OpenRadioss, some variables need specific syntax understood by cygwin & DOS.
-
-        export OPENRADIOSS_PATH=[Path to OpenRadioss root directory / Cygwin Style]
-        export RAD_CFG_PATH=[Path to OpenRadioss root directory / mixed DOS/Cygwin Style]/hm_cfg_files
-        export RAD_H3D_PATH=[Path to OpenRadioss root directory / mixed DOS/Cygwin Style]/extlib/h3d/lib/win64
-        export KMP_STACKSIZE=400m
-        export PATH=$OPENRADIOSS_PATH/extlib/hm_reader/win64:$OPENRADIOSS_PATH/extlib/h3d/lib/win64:$PATH
-
-Example : If OpenRadioss is placed in C:\OpenRadioss
+ 
+Cygwin is translating `PATH` variable into DOS path to execute OpenRadioss, but not other variables.
+Considering that the OpenRadioss directory is placed in `C:\OpenRadioss`, then variables should be:
 
         export OPENRADIOSS_PATH=/cygdrive/c/OpenRadioss
-        export RAD_CFG_PATH=c:/OpenRadioss/hm_cfg_files
-        export KMP_STACKSIZE=400m
         export PATH=$OPENRADIOSS_PATH/extlib/hm_reader/win64:$OPENRADIOSS_PATH/extlib/h3d/lib/win64:$PATH
+        export PATH=$OPENRADIOSS_PATH/extlib/intelOneAPI_runtime/win64:$PATH
+        export RAD_CFG_PATH=c:/OpenRadioss/hm_cfg_files
+        export RAD_H3D_PATH=c:/OpenRadioss/extlib/h3d/lib/win64
+        export KMP_STACKSIZE=400m
 
 
+Note that variables `RAD_CFG_PATH` and `RAD_H3D_PATH` start with `c:` unlike the `PATH` that starts with `/cygdrive/c`.
 
-## Runing OpenRadioss
+
+## Running OpenRadioss
 
 
 ### Running OpenRadioss without MPI (OpenMP only)
