@@ -4892,7 +4892,7 @@ C
      3       LENR    ,FTHE , MCP, DMSPH,CONDN, 
      4       MS_2D,MCP_OFF,
      5       FORNEQS ,NFACNIT,LENC ,FANI ,H3D_DATA,
-     6       FANI(1,NFNCA+1) ,FANI(1,NFTCA+1))
+     6       FANI(1,NFNCA+1) ,FANI(1,NFTCA+1) )
 
           ENDIF
 C
@@ -4952,7 +4952,7 @@ C
      6     IRECVP_PXFEM,LENR1     ,LENS1   ,IADSDP_CRK,IADRCP_CRK  ,
      7     ISENDP_CRK  ,IRECVP_CRK,FSKYD   ,CRKNODIAD ,CRKSKY      ,
      8     FORNEQSKY   ,NFACNIT  ,LENC     , FANI     ,H3D_DATA    ,
-     9     FANI(1,NFNCA+1) ,FANI(1,NFTCA+1))
+     9     FANI(1,NFNCA+1),FANI(1,NFTCA+1) )
 C
         ENDIF
         IF (IMON>0) CALL STOPTIME(10,1)
@@ -5531,7 +5531,7 @@ C===============================================================================
      7         NATIV_SMS,DMINT2,ANIN(NDAMA2+1),NB_FRI2M ,FR_LOCI2M,
      8         DT2T  ,NELTST ,ITYPTST   ,INTBUF_TAB     ,TEMP     ,MCP   ,
      9         FTHE  ,CONDN  ,
-     A         H3D_DATA,T2FAC_SMS,FANI(1,NFNCA2+1),FANI(1,NFTCA2+1))
+     A         H3D_DATA,T2FAC_SMS,FANI(1,NFNCA2+1),FANI(1,NFTCA2+1)) 
           ENDDO
           IF (IMONM > 0) CALL STOPTIME(28,1)
           IF (IMON>0) THEN

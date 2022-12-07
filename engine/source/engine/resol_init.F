@@ -188,6 +188,7 @@ C-----------------------------------------------
 #include      "scr02_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
+#include      "scr06_c.inc"
 #include      "scr07_c.inc"
 #include      "scr12_c.inc"
 #include      "scr14_c.inc"
@@ -552,6 +553,12 @@ C
             DT2OLD= MIN(DT2OLD,DTIN/ONEP1)
           ENDIF
         ENDIF
+        IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX >0) IFCONTMAX=1
+        IF(H3D_DATA%N_VECT_PCONT_MAX >0) IFCONTPMAX=1
+        IF(H3D_DATA%N_VECT_CONT2_MAX >0) IFCONT2MAX=1
+        IF(H3D_DATA%N_VECT_PCONT2_MAX >0) IFCONTP2MAX=1
+        IF(H3D_DATA%N_VECT_CONT2_MIN >0) IFCONT2MIN=1
+        IF(H3D_DATA%N_VECT_PCONT2_MIN >0) IFCONTP2MIN=1
 C------------------------
 C      PARAL. ARITH.
 C------------------------

@@ -31,7 +31,10 @@ Chd|====================================================================
      1   A    ,AR     ,MS    ,IN     ,STIFN,
      2   STIFR,FR_I2M,IAD_I2M,LCOMI2M,ISIZE,
      3   NB_FRI2M,FR_LOCI2M,TAGNOD,INTTH2,FTHE,
-     4   CONDN)
+     4   CONDN,FNCONT ,FNCONTP,FTCONTP,H3D_DATA)
+C-----------------------------------------------
+       USE H3D_MOD
+C-----------------------------------------------
 C realise le cumul des acc et masses aux noeuds main d'int2
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -60,23 +63,36 @@ C-----------------------------------------------
       my_real
      .        A(3,*), AR(3,*), MS(*), IN(*),
      .        STIFN(*), STIFR(*),FTHE(*),CONDN(*)
+      my_real , INTENT(INOUT) :: FNCONT(3,NUMNOD),
+     .      FNCONTP(3,NUMNOD),FTCONTP(3,NUMNOD)
+      TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,LOC_PROC,NOD,I,J,L,IDEB,IAD,LEN,P,
-     .        NBINDEX,INDEX,MSGOFF,SIZ,IERROR,
-     .        STATUS(MPI_STATUS_SIZE),
+     .        NBINDEX,INDEX,MSGOFF,SIZ,IERROR,ISIZE2,
+     .        LENSAV,STATUS(MPI_STATUS_SIZE),
      .        REQ_S(NSPMD),REQ_R(NSPMD),INDEXI(NSPMD)
       DATA MSGOFF/118/
-      my_real
-     .        SBUF(LCOMI2M*ISIZE), RBUF(LCOMI2M*ISIZE)
+      my_real,
+     .  DIMENSION (:),ALLOCATABLE :: SBUF,RBUF
       my_real,
      .   DIMENSION(:,:),ALLOCATABLE :: SAV_ACC
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      ALLOCATE (SAV_ACC(ISIZE,NB_FRI2M))
+      ISIZE2=ISIZE
+      IF (H3D_DATA%N_VECT_CONT2_MAX > 0.OR.H3D_DATA%N_VECT_CONT2_MIN > 0) THEN
+         ISIZE2 = ISIZE + 3
+      ENDIF
+      IF (H3D_DATA%N_VECT_PCONT2_MAX > 0.OR.H3D_DATA%N_VECT_PCONT2_MIN > 0) THEN
+         ISIZE2 = ISIZE2 + 6
+      ENDIF 
+      ALLOCATE(SBUF(LCOMI2M*ISIZE2))    
+      ALLOCATE(RBUF(LCOMI2M*ISIZE2)) 
+      ALLOCATE (SAV_ACC(ISIZE2,NB_FRI2M))
+C
       LOC_PROC = ISPMD + 1
 C
       IDEB = 1
@@ -84,7 +100,7 @@ C
       DO I = 1, NSPMD
         LEN = IAD_I2M(I+1)-IAD_I2M(I)
         IF(LEN>0) THEN
-          SIZ = LEN*ISIZE
+          SIZ = LEN*ISIZE2
           L=L+1
           INDEXI(L)=I
           MSGTYP = MSGOFF
@@ -197,13 +213,39 @@ C
           ENDDO
          ENDIF
         ENDIF
+C
+       IF (H3D_DATA%N_VECT_CONT2_MAX > 0.OR.H3D_DATA%N_VECT_CONT2_MIN > 0) THEN
+#include      "vectorize.inc"
+          DO J = 1, LEN
+            NOD = FR_I2M(IAD+J)
+            SBUF(IDEB)   = FNCONT(1,NOD)*TAGNOD(NOD)
+            SBUF(IDEB+1) = FNCONT(2,NOD)*TAGNOD(NOD)
+            SBUF(IDEB+2) = FNCONT(3,NOD)*TAGNOD(NOD)
+            IDEB = IDEB + 3
+          ENDDO
+       ENDIF
+       IF (H3D_DATA%N_VECT_PCONT2_MAX > 0.OR.H3D_DATA%N_VECT_PCONT2_MIN > 0) THEN
+#include      "vectorize.inc"
+          DO J = 1, LEN
+            NOD = FR_I2M(IAD+J)
+            SBUF(IDEB)   = FNCONTP(1,NOD)*TAGNOD(NOD)
+            SBUF(IDEB+1) = FNCONTP(2,NOD)*TAGNOD(NOD)
+            SBUF(IDEB+2) = FNCONTP(3,NOD)*TAGNOD(NOD)
+            SBUF(IDEB+3) = FTCONTP(1,NOD)*TAGNOD(NOD)
+            SBUF(IDEB+4) = FTCONTP(2,NOD)*TAGNOD(NOD)
+            SBUF(IDEB+5) = FTCONTP(3,NOD)*TAGNOD(NOD)
+            IDEB = IDEB + 6
+          ENDDO
+       ENDIF 
+C 
+
       ENDDO
 C
       IDEB = 1
       DO L=1,NBINDEX
         I = INDEXI(L)
         LEN = IAD_I2M(I+1)-IAD_I2M(I)
-        SIZ = LEN*ISIZE
+        SIZ = LEN*ISIZE2
         MSGTYP = MSGOFF
         CALL MPI_ISEND(
      S    SBUF(IDEB),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -233,7 +275,9 @@ C
             FTHE(NOD) = ZERO
             CONDN(NOD) = ZERO
           END IF
+C
          ENDDO
+         LENSAV = 7 
 
         ELSE
          DO I=1,NB_FRI2M
@@ -265,6 +309,7 @@ C
             CONDN(NOD) = ZERO
           END IF
          ENDDO
+         LENSAV = 12
 C
         ENDIF
        ELSE
@@ -286,8 +331,9 @@ C
             STIFN(NOD) = ZERO
             FTHE(NOD) = ZERO
           END IF
+C
          ENDDO
-
+         LENSAV = 6
         ELSE
          DO I=1,NB_FRI2M
           NOD = FR_LOCI2M(I)
@@ -315,7 +361,9 @@ C
             STIFR(NOD) = ZERO
             FTHE(NOD) = ZERO
           END IF
+C
          ENDDO
+          LENSAV = 11
 C
         ENDIF
        ENDIF
@@ -337,7 +385,9 @@ C
             MS(NOD) = ZERO
             STIFN(NOD) = ZERO
           END IF
+C
         ENDDO
+        LENSAV = 5
 
        ELSE
         DO I=1,NB_FRI2M
@@ -364,8 +414,47 @@ C
             STIFN(NOD) = ZERO
             STIFR(NOD) = ZERO
           END IF
-        ENDDO
 C
+        ENDDO
+        LENSAV = 10
+C
+       ENDIF
+C
+       IF (H3D_DATA%N_VECT_CONT2_MAX > 0) THEN
+         DO I=1,NB_FRI2M
+           NOD = FR_LOCI2M(I)
+           SAV_ACC(LENSAV+1,I)=FNCONT(1,NOD)*TAGNOD(NOD)
+           SAV_ACC(LENSAV+2,I)=FNCONT(2,NOD)*TAGNOD(NOD)
+           SAV_ACC(LENSAV+3,I)=FNCONT(3,NOD)*TAGNOD(NOD)
+C
+           IF(TAGNOD(NOD)==1)THEN
+             FNCONT(1,NOD) = ZERO
+             FNCONT(2,NOD) = ZERO
+             FNCONT(3,NOD) = ZERO
+           END IF
+C
+          ENDDO
+          LENSAV = LENSAV+3
+       ENDIF
+       IF (H3D_DATA%N_VECT_PCONT2_MAX > 0) THEN
+         DO I=1,NB_FRI2M
+           NOD = FR_LOCI2M(I)
+           SAV_ACC(LENSAV+1,I)=FNCONTP(1,NOD)*TAGNOD(NOD)
+           SAV_ACC(LENSAV+2,I)=FNCONTP(2,NOD)*TAGNOD(NOD)
+           SAV_ACC(LENSAV+3,I)=FNCONTP(3,NOD)*TAGNOD(NOD)
+           SAV_ACC(LENSAV+4,I)=FTCONTP(1,NOD)*TAGNOD(NOD)
+           SAV_ACC(LENSAV+5,I)=FTCONTP(2,NOD)*TAGNOD(NOD)
+           SAV_ACC(LENSAV+6,I)=FTCONTP(3,NOD)*TAGNOD(NOD)
+C
+           IF(TAGNOD(NOD)==1)THEN
+             FNCONTP(1,NOD) = ZERO
+             FNCONTP(2,NOD) = ZERO
+             FNCONTP(3,NOD) = ZERO
+             FTCONTP(1,NOD) = ZERO
+             FTCONTP(2,NOD) = ZERO
+             FTCONTP(3,NOD) = ZERO
+           END IF
+         ENDDO
        ENDIF
 C
       ENDIF
@@ -376,7 +465,7 @@ C
         LEN= IAD_I2M(P+1)-IAD_I2M(P)
         IF(LEN>0) THEN
           L=L+1
-          IDEB = 1+(IAD_I2M(P)-1)*ISIZE
+          IDEB = 1+(IAD_I2M(P)-1)*ISIZE2
           IAD = IAD_I2M(P)-1
           CALL MPI_WAIT(REQ_R(L),STATUS,IERROR)
           IF(INTTH2 == 1) THEN 
@@ -476,6 +565,31 @@ C
           ENDIF
          ENDIF
         ENDIF
+C
+       IF (H3D_DATA%N_VECT_CONT2_MAX > 0) THEN
+#include      "vectorize.inc"
+          DO J = 1, LEN
+            NOD = FR_I2M(IAD+J)
+            FNCONT(1,NOD)   = FNCONT(1,NOD) + RBUF(IDEB)
+            FNCONT(2,NOD)   = FNCONT(2,NOD) + RBUF(IDEB+1)
+            FNCONT(3,NOD)   = FNCONT(3,NOD) + RBUF(IDEB+2)
+            IDEB = IDEB + 3
+          ENDDO
+       ENDIF
+       IF (H3D_DATA%N_VECT_PCONT2_MAX > 0) THEN
+#include      "vectorize.inc"
+          DO J = 1, LEN
+            NOD = FR_I2M(IAD+J)
+            FNCONTP(1,NOD)   = FNCONTP(1,NOD) + RBUF(IDEB)
+            FNCONTP(2,NOD)   = FNCONTP(2,NOD) + RBUF(IDEB+1)
+            FNCONTP(3,NOD)   = FNCONTP(3,NOD) + RBUF(IDEB+2)
+            FTCONTP(1,NOD)   = FTCONTP(1,NOD) + RBUF(IDEB+3)
+            FTCONTP(2,NOD)   = FTCONTP(2,NOD) + RBUF(IDEB+4)
+            FTCONTP(3,NOD)   = FTCONTP(3,NOD) + RBUF(IDEB+5)
+            IDEB = IDEB + 6
+          ENDDO
+       ENDIF 
+C
        ELSE
         IF(INTTH2 == 1) THEN 
          IF (IDT_THERM== 1) THEN
@@ -490,6 +604,7 @@ C
             FTHE(NOD)  = FTHE(NOD) +SAV_ACC(6,J)
             CONDN(NOD) = CONDN(NOD) +SAV_ACC(7,J)
            ENDDO
+           LENSAV = 7
           ELSE
             DO J=1,NB_FRI2M
               NOD=FR_LOCI2M(J)
@@ -506,6 +621,7 @@ C
               FTHE(NOD)  = FTHE(NOD) +SAV_ACC(11,J)
               CONDN(NOD)  = CONDN(NOD)+SAV_ACC(12,J)
             ENDDO
+            LENSAV = 12
           ENDIF
          ELSE
           IF(IRODDL==0)THEN
@@ -518,6 +634,7 @@ C
             STIFN(NOD) = STIFN(NOD)+SAV_ACC(5,J)
             FTHE(NOD)  = FTHE(NOD) +SAV_ACC(6,J)
            ENDDO
+           LENSAV = 6
           ELSE
             DO J=1,NB_FRI2M
               NOD=FR_LOCI2M(J)
@@ -533,6 +650,7 @@ C
               STIFR(NOD) = STIFR(NOD)+SAV_ACC(10,J)
               FTHE(NOD)  = FTHE(NOD) +SAV_ACC(11,J)
             ENDDO
+            LENSAV = 11
           ENDIF
          ENDIF
         ELSE
@@ -545,6 +663,7 @@ C
             MS(NOD)    = MS(NOD)  + SAV_ACC(4,J)
             STIFN(NOD) = STIFN(NOD)+SAV_ACC(5,J)
            ENDDO
+           LENSAV = 5
          ELSE
             DO J=1,NB_FRI2M
               NOD=FR_LOCI2M(J)
@@ -559,15 +678,44 @@ C
               STIFN(NOD) = STIFN(NOD)+SAV_ACC(9,J)
               STIFR(NOD) = STIFR(NOD)+SAV_ACC(10,J)
             ENDDO
+            LENSAV = 10
          ENDIF
         ENDIF
+C
+        IF (H3D_DATA%N_VECT_CONT2_MAX > 0) THEN
+           DO J=1,NB_FRI2M
+            NOD=FR_LOCI2M(J)
+            FNCONT(1,NOD)   = FNCONT(1,NOD) + SAV_ACC(LENSAV+1,J)
+            FNCONT(2,NOD)   = FNCONT(2,NOD) + SAV_ACC(LENSAV+2,J)
+            FNCONT(3,NOD)   = FNCONT(3,NOD) + SAV_ACC(LENSAV+3,J)
+            IDEB = IDEB + 3
+          ENDDO
+          LENSAV = LENSAV +3
+        ENDIF
+        IF (H3D_DATA%N_VECT_PCONT2_MAX > 0) THEN
+           DO J=1,NB_FRI2M
+            NOD=FR_LOCI2M(J)
+            FNCONTP(1,NOD)   = FNCONTP(1,NOD) + SAV_ACC(LENSAV+1,J)
+            FNCONTP(2,NOD)   = FNCONTP(2,NOD) + SAV_ACC(LENSAV+2,J)
+            FNCONTP(3,NOD)   = FNCONTP(3,NOD) + SAV_ACC(LENSAV+3,J)
+            FTCONTP(1,NOD)   = FTCONTP(1,NOD) + SAV_ACC(LENSAV+4,J)
+            FTCONTP(2,NOD)   = FTCONTP(2,NOD) + SAV_ACC(LENSAV+5,J)
+            FTCONTP(3,NOD)   = FTCONTP(3,NOD) + SAV_ACC(LENSAV+6,J)
+          ENDDO
+        ENDIF 
+C
+
+
        ENDIF
+
       ENDDO
 C
       DO L=1,NBINDEX
         CALL MPI_WAITANY(NBINDEX,REQ_S,INDEX,STATUS,IERROR)
       ENDDO
       DEALLOCATE(SAV_ACC)
+      DEALLOCATE(RBUF)
+      DEALLOCATE(SBUF)
 C
 #endif
       RETURN
