@@ -44,7 +44,7 @@ Chd|====================================================================
      2       EADD   ,ND     ,NELS   ,IPARTS  ,DD_IAD  ,
      3       IDX    ,ISOLNOD,LB_MAX ,INUM    ,INDEX   ,
      4       CEP    ,ITR1   ,IXS10  ,IGRSURF ,IGRBRIC ,
-     5       IXS20  ,IXS16  ,IGEO    ,
+     5       IXS20  ,IXS16  ,IGEO    , IDDLEVEL,
      6       IPM    ,NOD2ELS,ISOLOFF,ISOLNOD1,
      7       TAGPRT_SMS,INIVOL,SPH2SOL ,SOL2SPH,SOL2SPH_TYP,
      8       IFLAG_BPRELOAD,CLUSTERS,MATPARAM_TAB,RNOISE)
@@ -115,6 +115,7 @@ C-----------------------------------------------
      .        NOD2ELS(*), ISOLOFF(*),ISOLNOD1(*),
      .        TAGPRT_SMS(*),SPH2SOL(*),
      .        SOL2SPH(2,*),SOL2SPH_TYP(*),IFLAG_BPRELOAD(*)
+      INTEGER, INTENT(IN) :: IDDLEVEL
       TYPE(MATPARAM_STRUCT_) , TARGET, DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM_TAB
       MY_REAL  PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO), RNOISE(NPERTURB,NUMELS)
 C-----------------------------------------------
@@ -211,7 +212,7 @@ C
           ENDDO
         END IF
       
-        IF(DOQA .NE. 0) THEN
+        IF(DOQA .NE. 0 .OR. IDDLEVEL == 0) THEN
           MODE=0
           CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
         ELSE

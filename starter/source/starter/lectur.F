@@ -5770,7 +5770,7 @@ C
      2       EADD     ,ND       ,BID13    ,IPARTS   ,DD_TMP(IDX),
      3       IDX      ,EANI     ,LB_MAX   ,INUM     ,INDEX1   ,
      4       CEP(OFF) ,ITRI1    ,IXS10    ,IGRSURF  ,IGRBRIC  ,
-     5       IXS20    ,IXS16    ,IGEO     ,
+     5       IXS20    ,IXS16    ,IGEO     ,IDDLEVEL,
      6       IPM      ,NOD2ELS  ,ISOLOFF  ,ISOLNOD  ,
      7       TAGPRT_SMS,USER_INIVOL  ,SPH2SOL  ,SOL2SPH  ,SOL2SPH_TYP,
      8       IFLAG_BPRELOAD, CLUSTERS ,MATPARAM_TAB ,RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)))
@@ -5905,7 +5905,7 @@ C
      6        IPART    ,SH4TREE  ,NOD2ELC  ,ISHEOFF ,
      7        SH4TRIM  ,TAGPRT_SMS, LGAUGE,IWORKSH    ,
      8        STACK    ,DRAPE   ,RNOISE  ,MATPARAM_TAB,
-     9        SH4ANG)
+     9        SH4ANG, IDDLEVEL)
          OFF = OFF + NUMELC
 
          DO I=1,NUMELC
