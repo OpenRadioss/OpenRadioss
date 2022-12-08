@@ -32,7 +32,7 @@ Chd|====================================================================
       SUBROUTINE I2_DTN_27(X,INTBUF_TAB,IPARI,STIFN,MS,IN,N,NSN)
 C-----------------------------------------------
 C   M o d u l e s
-C----------------------------------------------- 
+C-----------------------------------------------
       USE INTBUFDEF_MOD
 C=======================================================================
 C   I m p l i c i t   T y p e s
@@ -62,15 +62,15 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NI,NINDXC,NINDXP
 C=======================================================================
-      NINDXC = 0     
-      NINDXP = 0     
-C----------------          
+      NINDXC = 0
+      NINDXP = 0
+C----------------
       DO I=1,NSN
-        IF (INTBUF_TAB(N)%IRUPT(I) == 0) THEN     
-          NINDXC = NINDXC + 1             
-        ELSE                        
-          NINDXP = NINDXP + 1          
-        ENDIF                       
+        IF (INTBUF_TAB(N)%IRUPT(I) == 0) THEN
+          NINDXC = NINDXC + 1
+        ELSE
+          NINDXP = NINDXP + 1
+        ENDIF
       ENDDO
 c-----------
       IF (NINDXC > 0) THEN
@@ -83,7 +83,7 @@ c-----------
         CALL I2_DTN_27_PEN(X,INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%CSTS,INTBUF_TAB(N)%NSV,INTBUF_TAB(N)%IRTLM,
      .                     IPARI(1,N),INTBUF_TAB(N)%MSEGTYP2,STIFN,STIFN(NUMNOD+1),INTBUF_TAB(N)%SPENALTY,
      .                     INTBUF_TAB(N)%STFR_PENALTY,INTBUF_TAB(N)%VARIABLES(14),IN,INTBUF_TAB(N)%IRUPT)
-      ENDIF	    
+      ENDIF
 C-----------
       RETURN
       END
@@ -102,7 +102,7 @@ Chd|====================================================================
      2                         MS, IN, IRUPT)
 C-----------------------------------------------
 C   M o d u l e s
-C----------------------------------------------- 
+C-----------------------------------------------
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -146,9 +146,9 @@ C
         I = NSV(II)
         L = IRTL(II)
 C
-        IX1 = IRECT(1,L)                                       
-        IX2 = IRECT(2,L)                                       
-        IX3 = IRECT(3,L)                                       
+        IX1 = IRECT(1,L)
+        IX2 = IRECT(2,L)
+        IX3 = IRECT(3,L)
         IX4 = IRECT(4,L)
 C
         IF (IX3 == IX4) THEN
@@ -165,49 +165,49 @@ C--        Shape functions of triangles
         ELSE
 C--        Shape functions of quadrangles
            NIR = 4
-           SS=CRST(1,II)                                    
+           SS=CRST(1,II)
            ST=CRST(2,II)
-           SP=ONE + SS                                       
-           SM=ONE - SS                                       
-           TP=FOURTH*(ONE + ST)                               
-           TM=FOURTH*(ONE - ST)                               
-           H(1)=TM*SM                                       
-           H(2)=TM*SP                                       
-           H(3)=TP*SP                                       
+           SP=ONE + SS
+           SM=ONE - SS
+           TP=FOURTH*(ONE + ST)
+           TM=FOURTH*(ONE - ST)
+           H(1)=TM*SM
+           H(2)=TM*SP
+           H(3)=TP*SP
            H(4)=TP*SM
 
 C          Additional form functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
-           SS=CSTS_BIS(1,II)                                    
+           SS=CSTS_BIS(1,II)
            ST=CSTS_BIS(2,II)
-           SP=ONE + SS                                       
-           SM=ONE - SS                                       
-           TP=FOURTH*(ONE + ST)                               
-           TM=FOURTH*(ONE - ST)                               
-           H2(1)=TM*SM                                       
-           H2(2)=TM*SP                                       
-           H2(3)=TP*SP                                       
-           H2(4)=TP*SM  
+           SP=ONE + SS
+           SM=ONE - SS
+           TP=FOURTH*(ONE + ST)
+           TM=FOURTH*(ONE - ST)
+           H2(1)=TM*SM
+           H2(2)=TM*SP
+           H2(3)=TP*SP
+           H2(4)=TP*SM
         ENDIF
 C
         IF (MSEGTYP2(L)==0) THEN
 C---- rep local facette main
-C  
-            X1  = X(1,IX1)                                       
-            Y1  = X(2,IX1)                                          
-            Z1  = X(3,IX1)                                          
-            X2  = X(1,IX2)					     
-            Y2  = X(2,IX2)					     
-            Z2  = X(3,IX2)					     
-            X3  = X(1,IX3)					     
-            Y3  = X(2,IX3)					     
-            Z3  = X(3,IX3)					     
-            X4  = X(1,IX4)					     
-            Y4  = X(2,IX4)					     
-            Z4  = X(3,IX4)					     
-            XS(1)  = X(1,I)                                          
-            XS(2)  = X(2,I)                                         
-            XS(3)  = X(3,I)                                        
-C								
+C
+            X1  = X(1,IX1)
+            Y1  = X(2,IX1)
+            Z1  = X(3,IX1)
+            X2  = X(1,IX2)
+            Y2  = X(2,IX2)
+            Z2  = X(3,IX2)
+            X3  = X(1,IX3)
+            Y3  = X(2,IX3)
+            Z3  = X(3,IX3)
+            X4  = X(1,IX4)
+            Y4  = X(2,IX4)
+            Z4  = X(3,IX4)
+            XS(1)  = X(1,I)
+            XS(2)  = X(2,I)
+            XS(3)  = X(3,I)
+C
             CALL I2REP(X1     ,X2     ,X3     ,X4     ,
      .               Y1     ,Y2     ,Y3     ,Y4     ,
      .               Z1     ,Z2     ,Z3     ,Z4     ,
@@ -215,14 +215,14 @@ C
      .               E2X    ,E2Y    ,E2Z    ,
      .               E3X    ,E3Y    ,E3Z    ,NIR)
 
-C                 
+C
             IF (NIR == 4) THEN
               FAC_TRIANG = ONE
               X0  = FOURTH*(X1 + X2 + X3 + X4)
               Y0  = FOURTH*(Y1 + Y2 + Y3 + Y4)
               Z0  = FOURTH*(Z1 + Z2 + Z3 + Z4)
             ELSE
-              FAC_TRIANG = ZERO                                       
+              FAC_TRIANG = ZERO
               X0  = THIRD*(X1 + X2 + X3)
               Y0  = THIRD*(Y1 + Y2 + Y3)
               Z0  = THIRD*(Z1 + Z2 + Z3)
@@ -231,30 +231,30 @@ C
             XS(1) = XS(1) - X0
             XS(2) = XS(2) - Y0
             XS(3) = XS(3) - Z0
-C                                      
-            X1 = X1 - X0                                              
-            Y1 = Y1 - Y0                                              
-            Z1 = Z1 - Z0                                              
-            X2 = X2 - X0                                              
-            Y2 = Y2 - Y0                                              
-            Z2 = Z2 - Z0                                              
-            X3 = X3 - X0                                              
-            Y3 = Y3 - Y0                                              
-            Z3 = Z3 - Z0                                              
-            X4 = X4 - X0                                              
-            Y4 = Y4 - Y0                                              
+C
+            X1 = X1 - X0
+            Y1 = Y1 - Y0
+            Z1 = Z1 - Z0
+            X2 = X2 - X0
+            Y2 = Y2 - Y0
+            Z2 = Z2 - Z0
+            X3 = X3 - X0
+            Y3 = Y3 - Y0
+            Z3 = Z3 - Z0
+            X4 = X4 - X0
+            Y4 = Y4 - Y0
             Z4 = Z4 - Z0
 C
             IF (NIR==3) THEN
-              X4 = ZERO                                             
-              Y4 = ZERO                                               
-              Z4 = ZERO 
+              X4 = ZERO
+              Y4 = ZERO
+              Z4 = ZERO
             END IF
 C
             XM(1) = X1*H(1) + X2*H(2) + X3*H(3) + X4*H(4)
             XM(2) = Y1*H(1) + Y2*H(2) + Y3*H(3) + Y4*H(4)
             XM(3) = Z1*H(1) + Z2*H(2) + Z3*H(3) + Z4*H(4)
-                                                
+
 C---- computation of local coordinates
 C
             RS(1) = XS(1)*E1X + XS(2)*E1Y + XS(3)*E1Z
@@ -265,45 +265,45 @@ C
             RM(2) = XM(1)*E2X + XM(2)*E2Y + XM(3)*E2Z
             RM(3) = XM(1)*E3X + XM(2)*E3Y + XM(3)*E3Z
 c
-            RX(1) = E1X*X1 + E1Y*Y1 + E1Z*Z1        
-            RY(1) = E2X*X1 + E2Y*Y1 + E2Z*Z1         
-            RZ(1) = E3X*X1 + E3Y*Y1 + E3Z*Z1         
-            RX(2) = E1X*X2 + E1Y*Y2 + E1Z*Z2         
-            RY(2) = E2X*X2 + E2Y*Y2 + E2Z*Z2         
-            RZ(2) = E3X*X2 + E3Y*Y2 + E3Z*Z2         
-            RX(3) = E1X*X3 + E1Y*Y3 + E1Z*Z3         
-            RY(3) = E2X*X3 + E2Y*Y3 + E2Z*Z3         
-            RZ(3) = E3X*X3 + E3Y*Y3 + E3Z*Z3         
-            RX(4) = E1X*X4 + E1Y*Y4 + E1Z*Z4         
-            RY(4) = E2X*X4 + E2Y*Y4 + E2Z*Z4         
+            RX(1) = E1X*X1 + E1Y*Y1 + E1Z*Z1
+            RY(1) = E2X*X1 + E2Y*Y1 + E2Z*Z1
+            RZ(1) = E3X*X1 + E3Y*Y1 + E3Z*Z1
+            RX(2) = E1X*X2 + E1Y*Y2 + E1Z*Z2
+            RY(2) = E2X*X2 + E2Y*Y2 + E2Z*Z2
+            RZ(2) = E3X*X2 + E3Y*Y2 + E3Z*Z2
+            RX(3) = E1X*X3 + E1Y*Y3 + E1Z*Z3
+            RY(3) = E2X*X3 + E2Y*Y3 + E2Z*Z3
+            RZ(3) = E3X*X3 + E3Y*Y3 + E3Z*Z3
+            RX(4) = E1X*X4 + E1Y*Y4 + E1Z*Z4
+            RY(4) = E2X*X4 + E2Y*Y4 + E2Z*Z4
             RZ(4) = E3X*X4 + E3Y*Y4 + E3Z*Z4
 C
 C---- computation of kinematic parameters and stbrk - local coordinates
             CALL I2CIN_ROT27(STBRK,RS,RM,RX(1),RY(1),RZ(1),RX(2),RY(2),RZ(2),RX(3),RY(3),RZ(3),
      .                       RX(4),RY(4),RZ(4),BID9,DWDU,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
-     .                       NIR,BETAX,BETAY)                                
-C               
+     .                       NIR,BETAX,BETAY)
+C
 C---- update main forces (moment balance) - local coordinates RX
-          IF (IRODDL==1) THEN             
+          IF (IRODDL==1) THEN
 C--
-              CALL I2LOCEQ_27(NIR    ,RS     ,RX     ,RY     ,RZ      ,    
+              CALL I2LOCEQ_27(NIR    ,RS     ,RX     ,RY     ,RZ      ,
      .                        BID4   ,BID4   ,BID4   ,H      ,STIFM   ,
      .                        BID4   ,BID4   ,BID4   ,STIFMR ,BETAX   ,
      .                        BETAY)
           ELSE
 C--           moment balance
-              CALL I2LOCEQ_27(NIR    ,RS     ,RX     ,RY     ,RZ      ,    
+              CALL I2LOCEQ_27(NIR    ,RS     ,RX     ,RY     ,RZ      ,
      .                        BID4   ,BID4   ,BID4   ,H      ,STIFM   ,
      .                        BID4   ,BID4   ,BID4   ,STIFMR ,BETAX   ,
      .                        BETAY)
               STIFMR = ZERO
           ENDIF
-C               
+C
         ELSE
           STIFM=ZERO
           STBRK=ZERO
           STIFMR=ZERO
-          DWDU=ZERO 
+          DWDU=ZERO
         ENDIF
 C
         IF ((IRODDL/=0).AND.(MSEGTYP2(L)==0)) THEN
@@ -338,7 +338,7 @@ C
         END IF
 C
       ENDDO
-C	    
+C
 C-----------
       RETURN
       END
@@ -385,12 +385,12 @@ C     REAL
       my_real
      .   H(4),RX(4),RY(4),RZ(4),RM(3),RS(3),STIF, VIS
       my_real
-     .   LEN2,FAC_TRIANG,IROT,SKEW(9),TT,BID,BID3(3)  
+     .   LEN2,FAC_TRIANG,IROT,SKEW(9),TT,BID,BID3(4)
 C=======================================================================
       NSN    = IPARI(5)
 C
       BID = ZERO
-      BID3(1:3)=ZERO
+      BID3(1:4)=ZERO
       TT = ZERO
 C
       DO II=1,NSN
@@ -398,9 +398,9 @@ C
         I = NSV(II)
         L = IRTL(II)
 C
-        IX1 = IRECT(1,L)                                       
-        IX2 = IRECT(2,L)                                       
-        IX3 = IRECT(3,L)                                       
+        IX1 = IRECT(1,L)
+        IX2 = IRECT(2,L)
+        IX3 = IRECT(3,L)
         IX4 = IRECT(4,L)
 C
         IF (I > 0) THEN
@@ -408,9 +408,9 @@ C
           T = CRST(2,II)
           L = IRTL(II)
 C
-          IX1 = IRECT(1,L)                                       
-          IX2 = IRECT(2,L)                                       
-          IX3 = IRECT(3,L)                                       
+          IX1 = IRECT(1,L)
+          IX2 = IRECT(2,L)
+          IX3 = IRECT(3,L)
           IX4 = IRECT(4,L)
 C
           IROT = ZERO
@@ -431,35 +431,35 @@ C--         Shape functions of triangles
           ELSE
 C--         Shape functions of quadrangles
             NIR = 4
-            SP=ONE + S                                       
-            SM=ONE - S                                       
-            TP=FOURTH*(ONE + T)                               
-            TM=FOURTH*(ONE - T)                               
-            H(1)=TM*SM                                       
-            H(2)=TM*SP                                       
-            H(3)=TP*SP                                       
-            H(4)=TP*SM 
+            SP=ONE + S
+            SM=ONE - S
+            TP=FOURTH*(ONE + T)
+            TM=FOURTH*(ONE - T)
+            H(1)=TM*SM
+            H(2)=TM*SP
+            H(3)=TP*SP
+            H(4)=TP*SM
           ENDIF
 
-C------------------------------------------------                  
+C------------------------------------------------
 C         rep local facette main
-C------------------------------------------------   
-          X1  = X(1,IX1)                                       
-          Y1  = X(2,IX1)                                          
-          Z1  = X(3,IX1)                                          
-          X2  = X(1,IX2)					     
-          Y2  = X(2,IX2)					     
-          Z2  = X(3,IX2)					     
-          X3  = X(1,IX3)					     
-          Y3  = X(2,IX3)					     
-          Z3  = X(3,IX3)					     
-          X4  = X(1,IX4)					     
-          Y4  = X(2,IX4)					     
-          Z4  = X(3,IX4)					     
-          XS  = X(1,I)                                          
-          YS  = X(2,I)                                         
-          ZS  = X(3,I)                                           
-							
+C------------------------------------------------
+          X1  = X(1,IX1)
+          Y1  = X(2,IX1)
+          Z1  = X(3,IX1)
+          X2  = X(1,IX2)
+          Y2  = X(2,IX2)
+          Z2  = X(3,IX2)
+          X3  = X(1,IX3)
+          Y3  = X(2,IX3)
+          Z3  = X(3,IX3)
+          X4  = X(1,IX4)
+          Y4  = X(2,IX4)
+          Z4  = X(3,IX4)
+          XS  = X(1,I)
+          YS  = X(2,I)
+          ZS  = X(3,I)
+
 C---------------------
           CALL I2REP(X1     ,X2     ,X3     ,X4     ,
      .               Y1     ,Y2     ,Y3     ,Y4     ,
@@ -467,7 +467,7 @@ C---------------------
      .               E1X    ,E1Y    ,E1Z    ,
      .               E2X    ,E2Y    ,E2Z    ,
      .               E3X    ,E3Y    ,E3Z    ,NIR    )
-C------------------------------------------------                  
+C------------------------------------------------
         IF (NIR == 4) THEN
           FAC_TRIANG = ONE
 C
@@ -490,7 +490,7 @@ C
 C
         ELSE
           FAC_TRIANG = ZERO
-C                                       
+C
           X0  = (X1 + X2 + X3)/NIR
           Y0  = (Y1 + Y2 + Y3)/NIR
           Z0  = (Z1 + Z2 + Z3)/NIR
@@ -508,19 +508,19 @@ C
           XSM = XS - XM
           YSM = YS - YM
           ZSM = ZS - ZM
-        ENDIF  
-C                                    
-        X1 = X1 - X0                                              
-        Y1 = Y1 - Y0                                              
-        Z1 = Z1 - Z0                                              
-        X2 = X2 - X0                                              
-        Y2 = Y2 - Y0                                              
-        Z2 = Z2 - Z0                                              
-        X3 = X3 - X0                                              
-        Y3 = Y3 - Y0                                              
-        Z3 = Z3 - Z0                                              
-        X4 = X4 - X0                                              
-        Y4 = Y4 - Y0                                              
+        ENDIF
+C
+        X1 = X1 - X0
+        Y1 = Y1 - Y0
+        Z1 = Z1 - Z0
+        X2 = X2 - X0
+        Y2 = Y2 - Y0
+        Z2 = Z2 - Z0
+        X3 = X3 - X0
+        Y3 = Y3 - Y0
+        Z3 = Z3 - Z0
+        X4 = X4 - X0
+        Y4 = Y4 - Y0
         Z4 = Z4 - Z0
 C
 c       global -> local
@@ -532,36 +532,36 @@ c
         RM(2) = XM*E2X + YM*E2Y + ZM*E2Z
         RM(3) = XM*E3X + YM*E3Y + ZM*E3Z
 c
-        RX(1) = E1X*X1 + E1Y*Y1 + E1Z*Z1        
-        RY(1) = E2X*X1 + E2Y*Y1 + E2Z*Z1         
-        RZ(1) = E3X*X1 + E3Y*Y1 + E3Z*Z1         
-        RX(2) = E1X*X2 + E1Y*Y2 + E1Z*Z2         
-        RY(2) = E2X*X2 + E2Y*Y2 + E2Z*Z2         
-        RZ(2) = E3X*X2 + E3Y*Y2 + E3Z*Z2         
-        RX(3) = E1X*X3 + E1Y*Y3 + E1Z*Z3         
-        RY(3) = E2X*X3 + E2Y*Y3 + E2Z*Z3         
-        RZ(3) = E3X*X3 + E3Y*Y3 + E3Z*Z3         
-        RX(4) = E1X*X4 + E1Y*Y4 + E1Z*Z4         
-        RY(4) = E2X*X4 + E2Y*Y4 + E2Z*Z4         
-        RZ(4) = E3X*X4 + E3Y*Y4 + E3Z*Z4         
+        RX(1) = E1X*X1 + E1Y*Y1 + E1Z*Z1
+        RY(1) = E2X*X1 + E2Y*Y1 + E2Z*Z1
+        RZ(1) = E3X*X1 + E3Y*Y1 + E3Z*Z1
+        RX(2) = E1X*X2 + E1Y*Y2 + E1Z*Z2
+        RY(2) = E2X*X2 + E2Y*Y2 + E2Z*Z2
+        RZ(2) = E3X*X2 + E3Y*Y2 + E3Z*Z2
+        RX(3) = E1X*X3 + E1Y*Y3 + E1Z*Z3
+        RY(3) = E2X*X3 + E2Y*Y3 + E2Z*Z3
+        RZ(3) = E3X*X3 + E3Y*Y3 + E3Z*Z3
+        RX(4) = E1X*X4 + E1Y*Y4 + E1Z*Z4
+        RY(4) = E2X*X4 + E2Y*Y4 + E2Z*Z4
+        RZ(4) = E3X*X4 + E3Y*Y4 + E3Z*Z4
 C
         IF (NIR==3) THEN
- 	  RX(4)=ZERO
- 	  RY(4)=ZERO
- 	  RZ(4)=ZERO
+          RX(4)=ZERO
+          RY(4)=ZERO
+          RZ(4)=ZERO
         END IF
 C
-C--------- 
+C---------
           CALL I2PEN_ROT27(
      .    SKEW ,TT   ,BID  ,STBRK,
-     .    RS   ,RM   ,BID3 ,BID3 ,BID3 ,                        
+     .    RS   ,RM   ,BID3 ,BID3 ,BID3 ,
      .    RX   ,RY   ,RZ   ,BID3 ,BID3 ,
      .    BID3 ,BID3 ,BID3 ,BID3 ,DET  ,
      .    B1   ,B2   ,B3   ,C1   ,C2   ,
      .    C3   ,IROT)
 C
 C------------------------------------------------
-C                         
+C
           STF     = STFN(II)*(VISC + SQRT(VISC**2 + (ONE+STBRK)))**2
           STIFM=ZERO
 
@@ -569,9 +569,9 @@ C------------------------------------------------
 C
           IF (IROT > ZERO) THEN
 C
-C--   Secnd node shell of  spring 
+C--   Secnd node shell of  spring
 C
-            LEN2 = XSM**2+YSM**2+ZSM**2  
+            LEN2 = XSM**2+YSM**2+ZSM**2
             STR = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + ONE))**2
 C
           ELSE
@@ -579,8 +579,8 @@ C
 C--   Secnd node of solids
 C
             STR = ZERO
-c           update main forces (moment balance)  
-            CALL I2LOCEQ( NIR    ,RS     ,RX     ,RY     ,RZ      ,    
+c           update main forces (moment balance)
+            CALL I2LOCEQ( NIR    ,RS     ,RX     ,RY     ,RZ      ,
      .                  BID3   ,BID3   ,BID3    ,H(1) ,STIFM)
 C
           ENDIF
