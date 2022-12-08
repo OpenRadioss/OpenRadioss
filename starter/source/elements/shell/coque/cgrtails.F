@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        FRETITL2                      source/starter/freform.F      
+Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        ZEROIN                        source/system/zeroin.F        
 Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
