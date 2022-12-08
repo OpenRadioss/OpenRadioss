@@ -47,7 +47,7 @@ Chd|====================================================================
      6       IPART  ,SH4TREE ,NOD2ELC   ,ISHEOFF ,
      7       SH4TRIM ,TAGPRT_SMS,LGAUGE  ,IWORKSH ,
      8       STACK   ,DRAPE    ,RNOISE  ,MATPARAM_TAB,
-     9       SH4ANG)
+     9       SH4ANG, IDDLEVEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -120,7 +120,7 @@ C-----------------------------------------------
      .    IPM(NPROPMI,*), IPART(LIPART1,*), SH4TREE(KSH4TREE,*), 
      .    ISHEOFF(*),MINDEXC(NUMELC), TAGPRT_SMS(*),LGAUGE(3,*),
      .    NOD2ELC(*),IWORKSH(3,*)
-C     REAL OU REAL*8
+      INTEGER, INTENT(IN) :: IDDLEVEL
       MY_REAL
      .    PM(NPROPM,*), GEO(NPROPG,*), XNUM(*),THK(*),RNOISE(NPERTURB,*),
      .    SH4ANG(*)
@@ -258,7 +258,7 @@ C
       
 
 
-        IF(DOQA .NE. 0 .OR. NADMESH /=0) THEN
+        IF(DOQA .NE. 0 .OR. NADMESH /=0 .OR. IDDLEVEL == 0) THEN
           MODE=0
           CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
         ELSE
