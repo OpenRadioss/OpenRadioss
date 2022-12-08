@@ -413,13 +413,13 @@ C
           IX3 = IRECT(3,L)                                       
           IX4 = IRECT(4,L)
 C
-          IF ((MSEGTYP2(L)==1).AND.(IN(I)>EM20)) THEN
+          IROT = ZERO
+          IF(IRODDL > 0) THEN
+            IF ((MSEGTYP2(L)==1).AND.(IN(I)>EM20)) THEN
 C-- shell main segment --
-            IROT = ONE
-          ELSE
-C-- solid main segment --
-            IROT = ZERO
-          ENDIF 
+              IROT = ONE
+            ENDIF
+          ENDIF
 C
           IF (IX3 == IX4) THEN
 C--         Shape functions of triangles
