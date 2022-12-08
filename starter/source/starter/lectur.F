@@ -9840,6 +9840,8 @@ C     Mass and inertia are not modified - a specific array is used
       IF (IRODDL==1) THEN
         ALLOCATE(IN_B(NUMNOD),STAT=stat)
         IN_B(1:NUMNOD)=IN(1:NUMNOD)
+      ELSE
+        ALLOCATE(IN_B(1))
       ENDIF
 C
       IF (NS10E>0.AND.N2D==0) CALL STIFN0_ND(ICNDS10,STIFFN)
@@ -9888,7 +9890,7 @@ C--------------------------------------------
       DEALLOCATE (STIFINT)
       DEALLOCATE (STIFINTR)
       DEALLOCATE (MS_B)
-      IF (IRODDL==1) DEALLOCATE (IN_B)
+      DEALLOCATE (IN_B)
       DEALLOCATE (DTELEM)
       CALL TRACE_OUT1()
 C--------------------------------------------
