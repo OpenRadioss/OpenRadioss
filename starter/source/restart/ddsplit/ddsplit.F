@@ -293,7 +293,7 @@ Chd|====================================================================
      a   NTHWA        ,NAIRWA       ,NMNT           ,L_MUL_LAG1   ,L_MUL_LAG   ,
      b   LWASPIO      ,IPARTSP      ,ISPCOND        ,PM1SPH       ,
      c   WMA          ,
-     d   EIGIPM       ,EIGIBUF      ,EIGRPM         ,PGRAPH       ,DSMEMORY    ,
+     d   EIGIPM       ,EIGIBUF      ,EIGRPM         ,
      e   IFLOW        ,RFLOW        ,MEMFLOW        ,IEXLNK       ,FASOLFR     ,
      f   ITHGRPA      ,ITHGRPB      ,ITHGRPC        ,ITHGRPD      ,ITHGRPE     ,
      g   ITHGRPF      ,ITHGRPG      ,ITHGRPH        ,ITHGRPI      ,ITHBUFA     ,
@@ -505,7 +505,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) ::  KLOADPINTER(NINTER+1)  ,LOADPINTER(S_LOADPINTER)
       my_real , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER ) 
       INTEGER NOM_OPT(LNOPT1,*)
-      INTEGER(KIND=8) :: DSMEMORY(*), MEMFLOW(*)
+      INTEGER(KIND=8) :: MEMFLOW(*)
       INTEGER, DIMENSION(2,NPART), INTENT(IN) :: POIN_PART_SHELL,POIN_PART_TRI
       INTEGER, DIMENSION(2,NPART,7), INTENT(IN) :: POIN_PART_SOL
       INTEGER :: NBR_TH_MONVOL ! number of /TH/MONV
@@ -542,7 +542,6 @@ C-----------------------------------------------
      .       RTHBUF(*),KNOT(*),WIGE(*),TAB_UMP(7,TAILLE),
      .       KNOTLOCPC(*),KNOTLOCEL(*)
       DOUBLE PRECISION, DIMENSION(12,6,SFSAV6) :: FBSAV6
-      TYPE (PRGRAPH) :: PGRAPH
       TYPE (INTSTAMP_DATA) INTSTAMP(*)
       TYPE (TTABLE) TABLE(*)
       TYPE (INTBUF_STRUCT_) INTBUF_TAB(*)

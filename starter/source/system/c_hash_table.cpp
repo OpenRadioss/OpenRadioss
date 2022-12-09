@@ -39,7 +39,7 @@ extern "C" {
     }
     void c_delete_hash_(int *map)
     {
-     if(*map > umaps.size() || *map <= 0)
+     if(*map >= umaps.size() || *map < 0)
      {
 
      } else
