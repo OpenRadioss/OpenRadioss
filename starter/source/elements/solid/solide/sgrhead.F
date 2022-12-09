@@ -353,7 +353,7 @@ Clef 7---------------------------------
         ISVIS     = MY_SHIFTL(ISVIS,15) 
         IBOLTP    = MY_SHIFTL(IBOLTP,16)
         ITET10    = MY_SHIFTL(ITET10,17)
-        NLOC_FAIL = MY_SHIFTL(ITET10,19)
+        NLOC_FAIL = MY_SHIFTL(NLOC_FAIL,19)
 C       next  = MY_SHIFTL(next,21)
         ITRI(7,I)=IEOS+IVISC+NUVAR+ISVIS+IBOLTP+ITET10+NLOC_FAIL
 c        
