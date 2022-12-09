@@ -98,10 +98,9 @@ endif()
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # Specific set of compilation flag
-
 set (F_O0_compiler_flags " -O0 ${precision_flag} -DMETIS5 ${cppmach} ${cpprel}  -ffixed-line-length-none ${portability}")
-
-
+if ( debug STREQUAL "0" )
 #inimsg.F
 set_source_files_properties( ${source_directory}/source/output/message/inimsg.F PROPERTIES COMPILE_FLAGS ${F_O0_compiler_flags} )
+endif()
 
