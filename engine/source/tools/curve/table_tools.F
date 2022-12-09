@@ -495,8 +495,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(TTABLE_XY), POINTER :: TY
-      INTEGER NDIM, K, NXK(4), I, IPOS(4), IB(2,2,2,2), 
-     .        IP,IN,IM,IL,P,N,M,L,N1,N12,N123
+      INTEGER NDIM, I,K,IP,IN,IM,IL,P,N,M,L,N1,N12,N123
+      INTEGER NXK(4),IPOS(4)
+      INTEGER IB(2,2,2,2)
       my_real 
      .       DX1,DX2,R(4),UNR(4)
 C-----------------------------------------------
@@ -507,18 +508,22 @@ C-----------------------------------------------
         CALL ARRET(2)
       END IF
 C-----
+      IPOS(1:NDIM)= 1
+      R(1:NDIM) = ONE
+c
       DO K=1,NDIM
-
-        NXK(K)=SIZE(TABLE%X(K)%VALUES)
+        NXK(K) = SIZE(TABLE%X(K)%VALUES)
         DO I=2,NXK(K)
-         DX2 = TABLE%X(K)%VALUES(I) - XX(K)
-         IF(DX2>=ZERO.OR.I==NXK(K))THEN
-           IPOS(K)=I-1
-           R(K)   =(TABLE%X(K)%VALUES(I)-XX(K))/
-     .             (TABLE%X(K)%VALUES(I)-TABLE%X(K)%VALUES(I-1))
-           EXIT
-         ENDIF
+          DX2 = TABLE%X(K)%VALUES(I) - XX(K)
+          IF (DX2>=ZERO .OR. I==NXK(K)) THEN
+            IPOS(K)=I-1
+            R(K)   =(TABLE%X(K)%VALUES(I)-XX(K))/
+     .              (TABLE%X(K)%VALUES(I)-TABLE%X(K)%VALUES(I-1))
+            EXIT
+          ENDIF
         END DO
+
+        UNR(K) = ONE - R(K)
 
       END DO
 C-----
@@ -544,54 +549,40 @@ C-----
           END DO
         END DO
 C
-        DO K=1,4
-          UNR(K)=ONE-R(K)
-        END DO
-C
-        YY=  R(4)*(   R(3)*(  R(2)*(   R(1)*TY%VALUES(IB(1,1,1,1))
-     .                             +UNR(1)*TY%VALUES(IB(2,1,1,1)))
-     .                     +UNR(2)*(   R(1)*TY%VALUES(IB(1,2,1,1))
-     .                            +UNR(1)*TY%VALUES(IB(2,2,1,1))))
-     .             +UNR(3)*(  R(2)*(   R(1)*TY%VALUES(IB(1,1,2,1))
-     .                             +UNR(1)*TY%VALUES(IB(2,1,2,1)))
-     .                     +UNR(2)*(   R(1)*TY%VALUES(IB(1,2,2,1))
-     .                            +UNR(1)*TY%VALUES(IB(2,2,2,1)))))
-     .    +UNR(4)*(   R(3)*(  R(2)*(   R(1)*TY%VALUES(IB(1,1,1,2))
-     .                             +UNR(1)*TY%VALUES(IB(2,1,1,2)))
-     .                     +UNR(2)*(   R(1)*TY%VALUES(IB(1,2,1,2))
-     .                            +UNR(1)*TY%VALUES(IB(2,2,1,2))))
-     .             +UNR(3)*(  R(2)*(   R(1)*TY%VALUES(IB(1,1,2,2))
-     .                             +UNR(1)*TY%VALUES(IB(2,1,2,2)))
-     .                     +UNR(2)*(   R(1)*TY%VALUES(IB(1,2,2,2))
-     .                            +UNR(1)*TY%VALUES(IB(2,2,2,2)))))
+        YY = R(4) * (R(3)*(R(2) * (R(1)*TY%VALUES(IB(1,1,1,1)) + UNR(1)*TY%VALUES(IB(2,1,1,1)))
+     .                 + UNR(2) * (R(1)*TY%VALUES(IB(1,2,1,1)) + UNR(1)*TY%VALUES(IB(2,2,1,1))))
+     .            +UNR(3)*(R(2) * (R(1)*TY%VALUES(IB(1,1,2,1)) + UNR(1)*TY%VALUES(IB(2,1,2,1)))
+     .                 + UNR(2) * (R(1)*TY%VALUES(IB(1,2,2,1)) + UNR(1)*TY%VALUES(IB(2,2,2,1)))))
+     .     +UNR(4) *(R(3)*(R(2) * (R(1)*TY%VALUES(IB(1,1,1,2)) + UNR(1)*TY%VALUES(IB(2,1,1,2)))
+     .                  +UNR(2) * (R(1)*TY%VALUES(IB(1,2,1,2)) + UNR(1)*TY%VALUES(IB(2,2,1,2))))
+     .            +UNR(3)*(R(2) * (R(1)*TY%VALUES(IB(1,1,2,2)) + UNR(1)*TY%VALUES(IB(2,1,2,2)))
+     .                  +UNR(2) * (R(1)*TY%VALUES(IB(1,2,2,2)) + UNR(1)*TY%VALUES(IB(2,2,2,2)))))
 C-----
        CASE(3)
 
-        N1  =NXK(1)
-        N12 =NXK(1)*NXK(2)
+        N1  = NXK(1)
+        N12 = NXK(1)*NXK(2)
         DO N=0,1
-          IN=N12*(IPOS(3)-1+N)
+          IN = N12*(IPOS(3)-1+N)
           DO M=0,1
-            IM=N1*(IPOS(2)-1+M)
+            IM = N1*(IPOS(2)-1+M)
             DO L=0,1
-              IL=IPOS(1)+L
-              IB(L+1,M+1,N+1,1)=IN+IM+IL
+              IL = IPOS(1)+L
+              IB(L+1,M+1,N+1,1) = IN+IM+IL
             END DO
           END DO
         END DO
+c        
+        IF (R(2) == ONE) THEN   ! case when second variable has only one value
+          YY = R(3)   * (R(1)*TY%VALUES(IB(1,1,1,1)) + UNR(1)*TY%VALUES(IB(2,1,1,1)))
+     .       + UNR(3) * (R(1)*TY%VALUES(IB(1,1,2,1)) + UNR(1)*TY%VALUES(IB(2,1,2,1)))
+        ELSE
 C
-        DO K=1,3
-          UNR(K)=ONE-R(K)
-        END DO
-C
-        YY=R(3)  *(   R(2)*(   R(1)*TY%VALUES(IB(1,1,1,1))
-     .                      +UNR(1)*TY%VALUES(IB(2,1,1,1)))
-     .             +UNR(2)*(   R(1)*TY%VALUES(IB(1,2,1,1))
-     .                      +UNR(1)*TY%VALUES(IB(2,2,1,1))))
-     .    +UNR(3)*(   R(2)*(   R(1)*TY%VALUES(IB(1,1,2,1))
-     .                      +UNR(1)*TY%VALUES(IB(2,1,2,1)))
-     .             +UNR(2)*(   R(1)*TY%VALUES(IB(1,2,2,1))
-     .                      +UNR(1)*TY%VALUES(IB(2,2,2,1))))
+          YY = R(3) *(R(2) * (R(1)*TY%VALUES(IB(1,1,1,1)) + UNR(1)*TY%VALUES(IB(2,1,1,1)))
+     .             +UNR(2) * (R(1)*TY%VALUES(IB(1,2,1,1)) + UNR(1)*TY%VALUES(IB(2,2,1,1))))
+     .     + UNR(3) *(R(2) * (R(1)*TY%VALUES(IB(1,1,2,1)) + UNR(1)*TY%VALUES(IB(2,1,2,1)))
+     .             +UNR(2) * (R(1)*TY%VALUES(IB(1,2,2,1)) + UNR(1)*TY%VALUES(IB(2,2,2,1))))
+        END IF
 C-----
        CASE(2)
 
@@ -604,24 +595,14 @@ C-----
           END DO
         END DO
 C
-        DO K=1,2
-          UNR(K)=ONE-R(K)
-        END DO
-C
-        YY=(   R(2)*(   R(1)*TY%VALUES(IB(1,1,1,1))
-     .              +UNR(1)*TY%VALUES(IB(2,1,1,1)))
-     .      +UNR(2)*(   R(1)*TY%VALUES(IB(1,2,1,1))
-     .             +UNR(1)*TY%VALUES(IB(2,2,1,1))))
+        YY = (R(2)*(R(1)*TY%VALUES(IB(1,1,1,1)) + UNR(1)*TY%VALUES(IB(2,1,1,1)))
+     .     +UNR(2)*(R(1)*TY%VALUES(IB(1,2,1,1)) + UNR(1)*TY%VALUES(IB(2,2,1,1))))
 
 C-----
        CASE(1)
 
-        DO K=1,2
-          UNR(K)=ONE-R(K)
-        END DO
 C
-        YY=R(1)*TY%VALUES(IPOS(1))
-     .    +UNR(1)*TY%VALUES(IPOS(1)+1)
+        YY = R(1) * TY%VALUES(IPOS(1)) + UNR(1) * TY%VALUES(IPOS(1)+1)
 
 C-----
       END SELECT
