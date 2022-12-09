@@ -110,4 +110,3 @@ set_source_files_properties( ${source_directory}/source/elements/sph/nbsph.F PRO
 set_source_files_properties( ${source_directory}/source/starter/lectur.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
 endif()
 
-

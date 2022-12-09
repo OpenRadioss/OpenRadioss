@@ -655,7 +655,10 @@ C-------------------------------------------------------------------
 C Runnumber is taken from input name or previous treatments
       IRUN = RUNN
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
+      ALLOCATE(LSUBMODEL(LSUBMOD))
       CALL FREFORM(MULTI_FVM,LSUBMODEL,ISUB_HIERARCHY,TRALL_MAXVAL,DETONATORS)
+      IF(ALLOCATED(LSUBMODEL)) DEALLOCATE(LSUBMODEL)
+
 C------------------------------------------------
 C Build model in memory (Radioss format)
 C------------------------------------------------
@@ -737,10 +740,8 @@ C-------------------------------------------------------------------
 c Count number of translated shell elements
       NB_SEATBELT_SHELLS = 0
       CALL HM_COUNT_2D_ELEMENT_SEATBELT(NB_SEATBELT_SHELLS,LSUBMODEL)
-      IF(NB_SEATBELT_SHELLS > 0)  THEN
-        ALLOCATE (SEATBELT_CONVERTED_ELEMENTS(3,NB_SEATBELT_SHELLS),STAT=stat)
-        SEATBELT_CONVERTED_ELEMENTS(1:3,1:NB_SEATBELT_SHELLS) = 0
-      ENDIF
+      ALLOCATE (SEATBELT_CONVERTED_ELEMENTS(3,NB_SEATBELT_SHELLS),STAT=stat)
+      SEATBELT_CONVERTED_ELEMENTS(1:3,1:NB_SEATBELT_SHELLS) = 0
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SEATBELT_CONVERTED_ELEMENTS')

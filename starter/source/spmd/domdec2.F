@@ -2816,7 +2816,7 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE  DDPRINT(DDSTAT, DSMEMORY, MEMFLOW)
+      SUBROUTINE  DDPRINT(DDSTAT,  MEMFLOW)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2835,7 +2835,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER DDSTAT(50,*)
-      INTEGER(KIND=8) :: DSMEMORY(7,*), MEMFLOW(2,*)
+      INTEGER(KIND=8) :: MEMFLOW(2,*)
 C DDSTAT
 C 1 : NUMNOD Local
 C 2 : NELEM Local

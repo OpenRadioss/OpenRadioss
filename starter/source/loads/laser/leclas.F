@@ -74,13 +74,13 @@ C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
       CALL PRELECLAS(SILAS,SXLAS,LSUBMODEL)  
-      IF(NLASER == 0)RETURN
-      WRITE(ISTDO,'(A)')TITRE(49)      
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF(.NOT.ALLOCATED(ILAS))ALLOCATE (ILAS(SILAS)    ,STAT=stat)  
       IF(.NOT.ALLOCATED(XLAS))ALLOCATE (XLAS(SXLAS)    ,STAT=stat)       
+      IF(NLASER == 0)RETURN
+      WRITE(ISTDO,'(A)')TITRE(49)      
       IF (SILAS > 0) ILAS = 0              
       IF (SXLAS > 0) XLAS = ZERO            
 C-----------------------------------------------
