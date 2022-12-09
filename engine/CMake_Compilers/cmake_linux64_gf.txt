@@ -169,7 +169,7 @@ endif()
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # Specific set of compilation flag
-if ( NOT debug STREQUAL "1" )
+if ( debug STREQUAL "0" )
 
 set (F_O0_compiler_flags " -O0 ${opt_flag} ${portability} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ")
 set (F_O1_compiler_flags " -O1 ${opt_flag} ${portability} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ")

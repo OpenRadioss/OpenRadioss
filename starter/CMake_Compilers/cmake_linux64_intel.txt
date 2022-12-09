@@ -101,12 +101,13 @@ set (LINK "dl ${xml_lib} ${flexpipe_lib} ${metis} ${reader_lib}  ${MKL_lib}  ${f
 set (F_O0_compiler_flags " ${precision_flag} ${cppmach} ${cpprel}  -axsse3  -extend-source -O0  -ftz -qopenmp -fp-model precise")
 set (F_O1_compiler_flags " ${precision_flag} ${cppmach} ${cpprel}  -axsse3  -extend-source -O1  -ftz -qopenmp -fp-model precise")
 
-
+if ( debug STREQUAL "0" )
+# flags for optimized binary
 #nbsph.F
 set_source_files_properties( ${source_directory}/source/elements/sph/nbsph.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
 
 #lectur.F
 set_source_files_properties( ${source_directory}/source/starter/lectur.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
-
+endif()
 
 
