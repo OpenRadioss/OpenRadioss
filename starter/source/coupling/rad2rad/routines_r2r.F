@@ -344,6 +344,7 @@ Chd|        HM_READ_THGRKI                source/output/th/hm_read_thgrki.F
 Chd|        HM_READ_THGRKI_RBODY          source/output/th/hm_read_thgrki_rbody.F
 Chd|        HM_READ_THGRPA                source/output/th/hm_read_thgrpa.F
 Chd|        HM_READ_THGRPA_SUB            source/output/th/hm_read_thgrpa.F
+Chd|        HM_READ_THGRSENS              source/output/th/hm_read_thgrsens.F
 Chd|        HM_READ_THGRSURF              source/output/th/hm_read_thgrsurf.F
 Chd|        HM_THGRKI_VENT                source/output/th/hm_thgrki_vent.F
 Chd|        R2R_LISTCNT                   source/coupling/rad2rad/routines_r2r.F

@@ -50,6 +50,8 @@ Chd|        HM_READ_PFLUID                source/loads/general/pfluid/hm_read_pf
 Chd|        HM_READ_PRELOAD               source/loads/general/preload/hm_read_preload.F
 Chd|        HM_READ_RBODY                 source/constraints/general/rbody/hm_read_rbody.F
 Chd|        HM_READ_SENSORS               source/tools/sensor/hm_read_sensors.F
+Chd|        HM_READ_THGROU                source/output/th/hm_read_thgrou.F
+Chd|        HM_READ_THGRSENS              source/output/th/hm_read_thgrsens.F
 Chd|        INIEBCS                       source/boundary_conditions/ebcs/iniebcs.F
 Chd|        INIPARSEN                     source/tools/sensor/iniparsen.F
 Chd|        INISEN                        source/tools/sensor/inisen.F  

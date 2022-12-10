@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        HIST2                         source/output/th/hist2.F      
 Chd|-- calls ---------------
 Chd|        WRTDES                        source/output/th/wrtdes.F     
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE THSENS(SENSOR_TAB,NSENSOR ,
      .           J1   ,J2   ,L1   ,L2   ,ITHBUF,

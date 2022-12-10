@@ -30,6 +30,7 @@ Chd|        HM_READ_THGRKI                source/output/th/hm_read_thgrki.F
 Chd|        HM_READ_THGRKI_RBODY          source/output/th/hm_read_thgrki_rbody.F
 Chd|        HM_READ_THGRNE                source/output/th/hm_read_thgrne.F
 Chd|        HM_READ_THGRNS                source/output/th/hm_read_thgrns.F
+Chd|        HM_READ_THGRSENS              source/output/th/hm_read_thgrsens.F
 Chd|        HM_READ_THGRSURF              source/output/th/hm_read_thgrsurf.F
 Chd|        HM_THGRKI_VENT                source/output/th/hm_thgrki_vent.F
 Chd|        I11NINTDD                     source/spmd/domain_decomposition/grid2mat.F

@@ -235,6 +235,7 @@ Chd|        HM_READ_SURF                  starter/source/groups/hm_read_surf.F
 Chd|        HM_READ_SURFSURF              starter/source/groups/hm_read_surfsurf.F
 Chd|        HM_READ_THGROU                starter/source/output/th/hm_read_thgrou.F
 Chd|        HM_READ_THGRPA_SUB            starter/source/output/th/hm_read_thgrpa.F
+Chd|        HM_READ_THGRSENS              starter/source/output/th/hm_read_thgrsens.F
 Chd|        HM_READ_THGRSURF              starter/source/output/th/hm_read_thgrsurf.F
 Chd|        HM_READ_THPART                starter/source/output/thpart/hm_read_thpart.F
 Chd|        HM_READ_XELEM                 starter/source/elements/reader/hm_read_xelem.F

@@ -67,6 +67,7 @@ Chd|        GRAVIT_FVM_FEM                source/loads/general/grav/gravit_fvm_f
 Chd|        H3D_PRE_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_skin_scalar.F
 Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin_scalar.F
 Chd|        H3D_SKIN_VECTOR               source/output/h3d/h3d_results/h3d_skin_vector.F
+Chd|        HIST2                         source/output/th/hist2.F      
 Chd|        I21_ICRIT                     source/interfaces/intsort/i21_icrit.F
 Chd|        I25COMP_1                     source/interfaces/int25/i25comp_1.F
 Chd|        I25MAIND_2                    source/interfaces/int25/i25maind_2.F
@@ -157,6 +158,7 @@ Chd|        SPMD_IFRONT                   source/mpi/interfaces/spmd_ifront.F
 Chd|        SPMD_IFRONT_STAMP             source/mpi/interfaces/send_cand.F
 Chd|        SPMD_SAVEFI                   source/mpi/interfaces/spmd_i7tool.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
+Chd|        THSENS                        source/output/th/thsens.F     
 Chd|        USENS_SHIFT_AB                source/user_interface/usensor.F
 Chd|        USENS_SHIFT_BA                source/user_interface/usensor.F
 Chd|        VOLPRE                        source/airbag/volpres.F       

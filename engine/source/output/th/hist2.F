@@ -48,6 +48,7 @@ Chd|        THPOUT                        source/output/th/thpout.F
 Chd|        THQUAD                        source/output/th/thquad.F     
 Chd|        THRES                         source/output/th/thres.F      
 Chd|        THRNUR                        source/output/th/thrnur.F     
+Chd|        THSENS                        source/output/th/thsens.F     
 Chd|        THSOL                         source/output/th/thsol.F      
 Chd|        THSPH                         source/output/th/thsph.F      
 Chd|        THSURF                        source/output/th/thsurf.F     
@@ -61,6 +62,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TH_MOD                        share/modules/th_mod.F        
 Chd|====================================================================

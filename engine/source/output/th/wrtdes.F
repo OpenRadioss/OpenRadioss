@@ -32,6 +32,7 @@ Chd|        THCLUSTER                     source/output/th/thcluster.F
 Chd|        THFXMOD                       source/output/th/thfxmod.F    
 Chd|        THKIN                         source/output/th/thkin.F      
 Chd|        THMONV                        source/output/th/thmonv.F     
+Chd|        THSENS                        source/output/th/thsens.F     
 Chd|        THSURF                        source/output/th/thsurf.F     
 Chd|        WRITE_TH                      source/output/th/write_th.F   
 Chd|        WRTDES0                       source/output/th/wrtdes0.F    
