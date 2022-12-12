@@ -317,7 +317,7 @@ C-----------------------------------------------
             ! IMODEL : flag for blast model
             !---1:Friedlander
             !---2:modified Friedlander
-            IF(IMODEL <= 0 .OR. IMODEL > 2)IMODEL=1
+            IF(IMODEL <= 0 .OR. IMODEL > 2)IMODEL=2
 
             IF(IZ_UPDATE /= 1)IZ_UPDATE=0 !0:update scaled distance  
             !     0:do not update scaled distance  
