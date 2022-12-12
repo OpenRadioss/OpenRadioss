@@ -71,8 +71,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN)    :: ITYP,NVARE,NVARG,LITHBUFMX,NVALL
-      INTEGER ,INTENT(OUT)   :: IFI,IAD,NSNE
-      INTEGER ,INTENT(INOUT) :: IGS,NVARABF
+      INTEGER ,INTENT(OUT)   :: NSNE
+      INTEGER ,INTENT(INOUT) :: IFI,IAD,IGS,NVARABF
       INTEGER ,DIMENSION(NITHGR)    ,INTENT(INOUT) :: ITHGRP
       INTEGER ,DIMENSION(18,NVARG)  ,INTENT(IN)    :: IVARG
       INTEGER ,DIMENSION(SITHVAR)   ,INTENT(OUT)   :: ITHVAR
