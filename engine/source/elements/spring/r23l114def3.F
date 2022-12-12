@@ -154,7 +154,7 @@ C     REAL
      .     RYAV, RZAV,DEN, C, CP, EXYP,
      .     X21PHI, Y21PHI, Z21PHI, VX21PHI, VY21PHI, VZ21PHI,
      .     RYAV1, RZAV1, RYAV1P, RZAV1P,ASRATE,NORM,GAP,LMIN_B2(MVSIZ),
-     .     EB(MVSIZ),DXOLDB(MVSIZ),XKP_B2(MVSIZ),DX_B2(MVSIZ)
+     .     EB(MVSIZ),DXOLDB(MVSIZ),XKP_B2(MVSIZ),DX_B2(MVSIZ),A1
       DOUBLE PRECISION X0DP(MVSIZ),X0DP_B2(MVSIZ),EX2DP(MVSIZ),EY2DP(MVSIZ),EZ2DP(MVSIZ),
      .                 ALDP_B2(MVSIZ)
       my_real ,DIMENSION(:), POINTER :: COORD_OLD
@@ -552,6 +552,12 @@ C--     Computation of stress of 2nd strand for sliprings
      .                      IECROU  ,IFUNC  ,IFUNC2 ,XX_OLD_B2,FX_MAX ,
      .                      XK_COMP ,COMPT2 ,INDEX_SLIP ,FLAG ,XKP_B2 ,  
      .                      EPS_OLD_B2,FRAM_FACTOR)
+C
+        DO J=1,COMPT2
+          I = INDEX_SLIP(J)
+          IF (ALDP(I) > ALDP_B2(I)) XKP_B2(I) = XKP(I)
+          IF (ALDP_B2(I) > ALDP(I)) XKP(I) = XKP_B2(I)
+        ENDDO
 
 C--     Computation of material flow for slipring and retractor
         CALL MATERIAL_FLOW(DFS,DFS_OLD,ALDP,SLIPRING_STRAND,XKP,
