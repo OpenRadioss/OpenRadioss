@@ -451,7 +451,7 @@ C  Main solids : build tables for deleted edges for each NRTM
 C     Use tabs of N2S : edge is deactivated if 1 node is deactivated
 C--------------------------------------------------------------------
 
-        IF(SOL_EDGE > 0 ) THEN
+        IF(SOL_EDGE > 0 .AND. IPARI(63,N) == 2) THEN
 
            MAX_INSERTED_EDG = 0
            DO I=1,NUMNOD
@@ -584,7 +584,7 @@ C          Do not add nodes already stored w/IREM_GAP
             ENDIF
 C  
                                
-            IF(JJJ + MAX_INSERTED_EDG > SIZE_INSERTED_EDG) THEN
+            IF(JJJ + MAX_INSERTED_EDG*MAX_INSERTED_I2  > SIZE_INSERTED_EDG) THEN
 C extend INSERTED_EDG if needed
                OLDSIZE = SIZE_INSERTED_EDG
                SIZE_INSERTED_EDG = SIZE_INSERTED_EDG  + MAX(NEDGE,MAX_INSERTED_EDG)
