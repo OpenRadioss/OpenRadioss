@@ -207,8 +207,8 @@ void readRadiossAnim(char *fileName)
     float *vectValA=nullptr;                   // vect val array of 3*nbVect*nbNodes
     char **tTextA=nullptr;                     // tensor name array of nbTens
     float *tensValA=nullptr;                   // tens value array of 3*nbTens*nbElt
-    float *nMassA, *eMassA=nullptr;            // nbNodes, nbElt, nodal, elt mass
-    int *nodNumA, *elNumA=nullptr;             // nbNodes, nbElt, intern node/elt nb
+    float *nMassA=nullptr, *eMassA=nullptr;    // nbNodes, nbElt, nodal, elt mass
+    int *nodNumA=nullptr, *elNumA=nullptr;     // nbNodes, nbElt, intern node/elt nb
 
     // 1D geometry
     int nbElts1D=0;             // number of 2nodes elements
