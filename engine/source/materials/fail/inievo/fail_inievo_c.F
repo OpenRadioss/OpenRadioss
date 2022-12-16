@@ -223,7 +223,7 @@ c
           DEV_PR(I,1) = DEV_PR(I,2)
           DEV_PR(I,2) = R_INTER
         ENDIF     
-        ALPHA(I) = DEV_PR(I,3)/MAX(DEV_PR(I,1),EM20)      
+        ALPHA(I) = DEV_PR(I,2)/SIGN(MAX(ABS(DEV_PR(I,1)),EM20),DEV_PR(I,1))
       ENDDO
 c    
       !====================================================================
@@ -289,14 +289,14 @@ c
           CASE(3)
             IF (NINT(INI_P1(J))>0) THEN  
               DO I = 1,NEL
-                IF ((DPLA(I) > ZERO).AND.(DMGINI(I,J)<ONE).AND.(FOFF(I) /= 0)) THEN 
+                IF (((EPSMOD(I)-UVAR(I,2)) > ZERO).AND.(DMGINI(I,J)<ONE).AND.(FOFF(I) /= 0)) THEN 
                   DMGINI(I,J) = DMGINI(I,J) + (EPSMOD(I)-UVAR(I,2))/MAX(EPSF(I),EM20)
                   DMGINI(I,J) = MIN(DMGINI(I,J),ONE)
                 ENDIF
               ENDDO
             ELSE
               DO I = 1,NEL
-                IF ((DPLA(I) > ZERO).AND.(DMGINI(I,J)<ONE).AND.(FOFF(I) /= 0)) THEN 
+                IF (((EPSMOD(I)-UVAR(I,2)) > ZERO).AND.(DMGINI(I,J)<ONE).AND.(FOFF(I) /= 0)) THEN 
                   DMGINI(I,J) = MAX(DMGINI(I,J),EPSMOD(I)/MAX(EPSF(I),EM20))
                   DMGINI(I,J) = MIN(DMGINI(I,J),ONE)
                 ENDIF
