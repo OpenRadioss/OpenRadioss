@@ -236,7 +236,9 @@ C---  rotation dof
         GEO(11)= 1.1-IR2Z      
 C---
         IF(.NOT. IS_ENCRYPTED)THEN
-          WRITE(IOUT,1000)IG,ISS,IR1X,IR1Y,IR1Z,IR2X,IR2Y,IR2Z,DM,DR,ISECT,L1,L2,NIP
+          WRITE(IOUT,1000)IG,ISS,IR1X,IR1Y,IR1Z,IR2X,IR2Y,IR2Z,DM,DR,ISECT,L1
+          IF(ISECT==1.OR.ISECT==3)WRITE(IOUT,1002)L2
+          WRITE(IOUT,1003)NIP
           DO IP=1,NIP
             WRITE(IOUT,1010) IP,Y0+GEO(IPY+IP),Z0+GEO(IPZ+IP),
      .                   GEO(IPA+IP)
@@ -289,10 +291,12 @@ C---
      & 5X,'BEAM STRUCTURAL MEMBRANE DAMPING. . . .=',1PG20.13/,
      & 5X,'BEAM STRUCTURAL FLEXURAL DAMPING. . . .=',1PG20.13/,
      & 5X,'SECTION TYPE. . . . . . . . . . . . . .=',I10/,
-     & 5X,'FIRST SIZE OF SECTION L1. . . . . . . .=',1PG20.13/,
-     & 5X,'SECOND SIZE OF SECTION L2 . . . . . . .=',1PG20.13/,   
+     & 5X,'FIRST SIZE OF SECTION L1. . . . . . . .=',1PG20.13)
+ 1002 FORMAT(   
+     & 5X,'SECOND SIZE OF SECTION L2 . . . . . . .=',1PG20.13) 
+ 1003 FORMAT(    
      & 5X,'NUMBER OF INTEGRATION POINTS. . . . . .=',I10//,
-     & 5X,'INTEGRATION POINTS:'/)
+     & 5X,'INTEGRATION POINTS:')
  1010 FORMAT(     
      & 5X,'POINT NO: . . . . . . . . . . . . . =',I10/,
      & 8X,'LOCAL Y POSITION. . . . . . . . . . =',1PG20.13/,
