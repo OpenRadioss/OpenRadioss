@@ -26,6 +26,7 @@ Chd|  SPMD_EXCH_A_INT2_PON          source/mpi/forces/spmd_exch_a_int2_pon.F
 Chd|-- called by -----------
 Chd|        INTTI1                        source/interfaces/interf/intti1.F
 Chd|-- calls ---------------
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE SPMD_EXCH_A_INT2_PON(
      1   FR_I2M ,IAD_I2M,ADDCNI2 ,PROCNI2 ,FR_NBCCI2,
