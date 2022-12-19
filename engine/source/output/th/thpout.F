@@ -116,9 +116,7 @@ C
                             K=ITHBUF(IH)
                             IP=ITHBUF(IH+NN)
                             PID = IXP(5,NFT+I) 
-                            !IF (IGTYP == 3) AREA = GEO(1,PID) 
-                            AREA = GBUF%AREA(I)
-                            !AREAPT(I) = GEO(IPA+IPT,PID)    
+                            IF (IGTYP == 3) AREA = GEO(1,PID)   
                             IF(IGTYP == 18 ) THEN
                               AREA = ZERO
                               DO IPT = 1, NPT
