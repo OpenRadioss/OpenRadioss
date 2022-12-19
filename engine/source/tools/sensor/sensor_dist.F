@@ -103,13 +103,13 @@ c----------------------------------------------------------------
             SENSOR%TCRIT = TT
           END IF
         END IF
-        IF (SENSOR%TCRIT == INFINITY) TSTART = SENSOR%TCRIT + TMIN + TDELAY      
+        TSTART = SENSOR%TCRIT + TMIN + TDELAY      
         IF (TSTART <= TT) THEN   
           ! sensor activation
           ACTI = 1
           SENSOR%STATUS = 1
           SENSOR%TSTART = TSTART
-          SENSOR%VALUE = INFINITY
+          SENSOR%VALUE  = INFINITY
         END IF 
       END IF 
 c
