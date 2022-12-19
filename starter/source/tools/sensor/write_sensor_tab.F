@@ -77,7 +77,7 @@ c       update node system N° after renumbering for sensors using nodes
           END IF
           LTEMP(1) = N1
           LTEMP(2) = N2
-        ELSE IF (TYP == 16) THEN  ! /sens/dist_surf
+        ELSE IF (TYP == 15) THEN  ! /sens/dist_surf
           LTEMP(1) = NODLOCAL(SENSOR%IPARAM(1))
           IF (SENSOR%IPARAM(2) == 0) THEN
             LTEMP(3) = NODLOCAL(SENSOR%IPARAM(3))

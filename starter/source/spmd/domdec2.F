@@ -174,7 +174,7 @@ C-----------------------------------------------------
             ! dist-surf sensor : for plane defined by 3 nodes, 
             !                    add the 3 nodes and the reference node
             !                    on all spmd processors
-            IF (SENSOR_TAB(ISENS)%TYPE==16) THEN
+            IF (SENSOR_TAB(ISENS)%TYPE==15) THEN
                 ! -------------
                 ! reference node : %IPARAM(1)
                 N1 = SENSOR_TAB(ISENS)%IPARAM(1)
