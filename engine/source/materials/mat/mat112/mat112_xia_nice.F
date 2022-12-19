@@ -790,7 +790,9 @@ c
           DSIGY5_DP(1:NEL)= DSIGY5_DP(1:NEL) * YSCALE5
           VARTMP(1:NEL,5) = IPOS(1:NEL,1)          
           ! Yield function value update
-          DO I = 1,NEL
+#include "vectorize.inc" 
+          DO II=1,NINDX 
+            I = INDEX(II)
             GAM1(I) = (N1(1)*SIGNXX(I)+N1(2)*SIGNYY(I))/SIGY1(I)
             GAM2(I) = (N2(1)*SIGNXX(I)+N2(2)*SIGNYY(I))/SIGY2(I)
             GAM3(I) = N3*SIGNXY(I)/SIGY3(I)
@@ -814,7 +816,9 @@ c
           DSIGYO_DP(1:NEL)= DSIGYO_DP(1:NEL) * YSCALEC
           VARTMP(1:NEL,6) = IPOS(1:NEL,1)
           ! Yield function value update
-          DO I = 1,NEL
+#include "vectorize.inc" 
+          DO II=1,NINDX2 
+            I = INDEX2(II)
             THETA(I) = - SIGNZZ(I) - SIGYO(I)
           ENDDO        
         ENDIF
@@ -830,7 +834,9 @@ c
           DSIGYS_DP(1:NEL)= DSIGYS_DP(1:NEL) * YSCALES
           VARTMP(1:NEL,7) = IPOS(1:NEL,1)
           ! Yield function value update
-          DO I = 1,NEL
+#include "vectorize.inc" 
+          DO II=1,NINDX3
+            I = INDEX3(II)
             PSI(I) = (SQRT(SIGNYZ(I)**2 + SIGNZX(I)**2)/SIGYS(I)) - ONE
           ENDDO
         ENDIF
@@ -839,9 +845,9 @@ c
       ! Storing new values
       DO I=1,NEL
         ! USR Outputs
-        UVAR(I,1)  = PHI(I)              ! In-plane yield function
-        UVAR(I,2)  = THETA(I)            ! Out-of-plane yield function
-        UVAR(I,3)  = PSI(I)              ! Transverse shear yield function
+        UVAR(I,1)  = ZERO ! Reset in-plane yield function value
+        UVAR(I,2)  = ZERO ! Reset out-of-plane yield function value
+        UVAR(I,3)  = ZERO ! Reset transverse shear yield function value
         ! Plastic strain
         PLA(I,1)   = SQRT(PLA(I,2)**2 + PLA(I,3)**2 + PLA(I,4)**2)        
         DPLA(I)    = (PLA(I,2)/(MAX(SQRT(PLA(I,2)**2 + PLA(I,3)**2 + PLA(I,4)**2),EM20)))*DPLA2(I) +
@@ -875,6 +881,27 @@ c
         SIGY(I)    = SQRT(KHI1(I)*SIGY1(I)**2 + KHI2(I)*SIGY2(I)**2 + KHI4(I)*SIGY4(I)**2 + 
      .                    KHI5(I)*SIGY5(I)**2 + TWO*KHI3(I)*SIGY3(I)**2 + SIGYO(I)**2
      .                    + TWO*SIGYS(I)**2)
+      ENDDO
+c
+      ! Save in-plane yield function remaining value
+#include "vectorize.inc" 
+      DO II=1,NINDX                                              
+        I = INDEX(II)
+        UVAR(I,1) = PHI(I) 
+      ENDDO
+c
+      ! Save out-of-plane yield function remaining value
+#include "vectorize.inc" 
+      DO II=1,NINDX2                                            
+        I = INDEX2(II)
+        UVAR(I,2) = THETA(I) 
+      ENDDO
+c
+      ! Save transverse shear yield function remaining value
+#include "vectorize.inc" 
+      DO II=1,NINDX3                                            
+        I = INDEX3(II)
+        UVAR(I,3) = PSI(I) 
       ENDDO
 c
       END

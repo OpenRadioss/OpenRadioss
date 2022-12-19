@@ -580,7 +580,9 @@ c
             DSIGY5_DP(1:NEL)= DSIGY5_DP(1:NEL) * YSCALE5
             VARTMP(1:NEL,5) = IPOS(1:NEL,1)          
             ! Yield function value update
-            DO I = 1,NEL
+#include "vectorize.inc" 
+            DO II=1,NINDX 
+              I = INDEX(II)
               GAM1(I) = (N1(1)*SIGNXX(I)+N1(2)*SIGNYY(I))/SIGY1(I)
               GAM2(I) = (N2(1)*SIGNXX(I)+N2(2)*SIGNYY(I))/SIGY2(I)
               GAM3(I) = N3*SIGNXY(I)/SIGY3(I)
@@ -694,7 +696,9 @@ c
             DSIGYO_DP(1:NEL)= DSIGYO_DP(1:NEL) * YSCALEC
             VARTMP(1:NEL,6) = IPOS(1:NEL,1)
             ! Yield function value update
-            DO I = 1,NEL
+#include "vectorize.inc" 
+            DO II=1,NINDX2 
+              I = INDEX2(II)
               THETA(I) = - SIGNZZ(I) - SIGYO(I)
             ENDDO        
           ENDIF
@@ -801,7 +805,9 @@ c
             DSIGYS_DP(1:NEL)= DSIGYS_DP(1:NEL) * YSCALES
             VARTMP(1:NEL,7) = IPOS(1:NEL,1)
             ! Yield function value update
-            DO I = 1,NEL
+#include "vectorize.inc" 
+            DO II=1,NINDX3 
+              I = INDEX3(II)
               PSI(I) = (SQRT(SIGNYZ(I)**2 + SIGNZX(I)**2)/SIGYS(I)) - ONE
             ENDDO
           ENDIF
