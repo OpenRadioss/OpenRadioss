@@ -772,7 +772,7 @@ C-----------------------------------------------
 
        IF (ERRN == 6)THEN
          WRITE(6,'(A)') ' '
-         WRITE(6,'(A)') '*** ERROR : No input deck set. Use -input [Starter input file] '
+         WRITE(6,'(A)') '*** ERROR : No input deck set. Use -input [Engine input file] '
        ENDIF
 
        WRITE(6,'(A)') ' '
@@ -784,11 +784,11 @@ C-----------------------------------------------
        WRITE(6,'(A,A)') '  -version      / -v                  : ',
      *                  'Print RADIOSS release information'
        WRITE(6,'(A,A)') '  -input [FILE] / -i [FILE]           : ',
-     *                  'Set RADIOSS Starter input file'
+     *                  'Set RADIOSS Engine input file'
        WRITE(6,'(A,A)') '  -nthread [INTEGER] / -nt [INTEGER]  : ',
      *                  'Set Number of SMP threads per SPMD domain'
-       WRITE(6,'(A,A)') '  -gpuid [INTEGER]                    : ',
-     *                  'Set GPU device number'
+C       WRITE(6,'(A,A)') '  -gpuid [INTEGER]                    : ',
+C    *                  'Set GPU device number'
        WRITE(6,'(A,A)') '  -notrap                             : ',
      *                  'Disable error trapping'
        WRITE(6,'(A,A)') '  -norst                              : ',
