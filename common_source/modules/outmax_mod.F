@@ -58,7 +58,6 @@ C------ used to initialize LMAX_* (for elementary only)
         integer :: NKEYMAX = 6  
 C---------Output Max contact force and pressure 
         integer :: SFCONT_MAX, SPCONT_MAX 
-        integer :: IFCONTMAX,IFCONTPMAX, IFCONT2MAX,IFCONTP2MAX,IFCONT2MIN,IFCONTP2MIN
 C        /VONM;/SIGEQ; /ENER ; /DAMA, /TENS/STRESS ;/TENS/STRAIN
         integer, DIMENSION(:) ,  ALLOCATABLE :: IKEYMAX 
         integer, DIMENSION(:,:) ,ALLOCATABLE :: IPART_OK 
@@ -71,7 +70,5 @@ C------ work arrays
         my_real, DIMENSION(:) , ALLOCATABLE ::   GPSTMP,P2TMP
 C---------Output Max contact force and pressure 
         my_real, DIMENSION(:) , ALLOCATABLE ::   FNCONT_MAX,FTCONT_MAX
-        my_real, DIMENSION(:) , ALLOCATABLE ::   FCONT2_MAX,FNCONT2_MAX,FTCONT2_MAX
-        my_real, DIMENSION(:) , ALLOCATABLE ::   FCONT2_MIN,FNCONT2_MIN,FTCONT2_MIN
 
         END MODULE OUTMAX_MOD

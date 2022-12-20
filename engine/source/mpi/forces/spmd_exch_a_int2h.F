@@ -30,11 +30,7 @@ Chd|====================================================================
       SUBROUTINE SPMD_EXCH_A_INT2H(
      1   A    ,AR     ,MS    ,IN     ,STIFN,
      2   STIFR,FR_I2M,IAD_I2M,LCOMI2M,ISIZE,
-     3   TAGNOD,INTTH2,FTHE,CONDN,FNCONT  ,
-     4   FNCONTP,FTCONTP,H3D_DATA )
-C-----------------------------------------------
-       USE H3D_MOD
-C-----------------------------------------------
+     3   TAGNOD,INTTH2,FTHE,CONDN)
 C realise le cumul des acc et masses aux noeuds main d'int2,
 C cas ou il existe une hierarchie d'interfaces ds le modele
 C-----------------------------------------------
@@ -64,41 +60,28 @@ C-----------------------------------------------
       my_real
      .        A(3,*), AR(3,*), MS(*), IN(*),
      .        STIFN(*), STIFR(*),FTHE(*),CONDN(*)
-      my_real , INTENT(INOUT) :: FNCONT(3,NUMNOD),
-     .      FNCONTP(3,NUMNOD),FTCONTP(3,NUMNOD)
-      TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,LOC_PROC,NOD,I,J,L,IDEB,IAD,LEN,
-     .        NBINDEX,INDEX,MSGOFF,SIZ,IERROR,ISIZE2,
+     .        NBINDEX,INDEX,MSGOFF,SIZ,IERROR,
      .        STATUS(MPI_STATUS_SIZE),
      .        REQ_S(NSPMD),REQ_R(NSPMD),INDEXI(NSPMD)
       DATA MSGOFF/119/
-      my_real,
-     .  DIMENSION (:),ALLOCATABLE :: SBUF,RBUF
+      my_real
+     .        SBUF(LCOMI2M*ISIZE), RBUF(LCOMI2M*ISIZE)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
-C
-      ISIZE2=ISIZE
-      IF (H3D_DATA%N_VECT_CONT2_MAX > 0.OR.H3D_DATA%N_VECT_CONT2_MIN > 0) THEN
-         ISIZE2 = ISIZE2 + 3
-      ENDIF
-      IF (H3D_DATA%N_VECT_PCONT2_MAX > 0.OR.H3D_DATA%N_VECT_PCONT2_MIN > 0) THEN
-         ISIZE2 = ISIZE2 + 6
-      ENDIF 
-      ALLOCATE(SBUF(LCOMI2M*ISIZE2))    
-      ALLOCATE(RBUF(LCOMI2M*ISIZE2))  
 C
       IDEB = 1
       L = 0
       DO I = 1, NSPMD
         LEN = IAD_I2M(I+1)-IAD_I2M(I)
         IF(LEN>0) THEN
-          SIZ = LEN*ISIZE2
+          SIZ = LEN*ISIZE
           L=L+1
           INDEXI(L)=I
           MSGTYP = MSGOFF
@@ -211,38 +194,13 @@ C
           ENDDO
          ENDIF
         ENDIF
-C
-       IF (H3D_DATA%N_VECT_CONT2_MAX > 0.OR.H3D_DATA%N_VECT_CONT2_MIN > 0) THEN
-#include      "vectorize.inc"
-          DO J = 1, LEN
-            NOD = FR_I2M(IAD+J)
-            SBUF(IDEB)   = FNCONT(1,NOD)
-            SBUF(IDEB+1) = FNCONT(2,NOD)
-            SBUF(IDEB+2) = FNCONT(3,NOD)
-            IDEB = IDEB + 3
-          ENDDO
-       ENDIF
-       IF (H3D_DATA%N_VECT_PCONT2_MAX > 0.OR.H3D_DATA%N_VECT_PCONT2_MIN > 0) THEN
-#include      "vectorize.inc"
-          DO J = 1, LEN
-            NOD = FR_I2M(IAD+J)
-            SBUF(IDEB)   = FNCONTP(1,NOD)
-            SBUF(IDEB+1) = FNCONTP(2,NOD)
-            SBUF(IDEB+2) = FNCONTP(3,NOD)
-            SBUF(IDEB+3) = FTCONTP(1,NOD)
-            SBUF(IDEB+4) = FTCONTP(2,NOD)
-            SBUF(IDEB+5) = FTCONTP(3,NOD)
-            IDEB = IDEB + 6
-          ENDDO
-       ENDIF 
-C 
       ENDDO
 C
       IDEB = 1
       DO L=1,NBINDEX
         I = INDEXI(L)
         LEN = IAD_I2M(I+1)-IAD_I2M(I)
-        SIZ = LEN*ISIZE2
+        SIZ = LEN*ISIZE
         MSGTYP = MSGOFF
         CALL MPI_ISEND(
      S    SBUF(IDEB),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -253,7 +211,7 @@ C
       DO L=1,NBINDEX
         CALL MPI_WAITANY(NBINDEX,REQ_R,INDEX,STATUS,IERROR)
         I = INDEXI(INDEX)
-        IDEB = 1+(IAD_I2M(I)-1)*ISIZE2
+        IDEB = 1+(IAD_I2M(I)-1)*ISIZE
         LEN = IAD_I2M(I+1)-IAD_I2M(I)
         IAD = IAD_I2M(I)-1
         IF(INTTH2 == 1) THEN 
@@ -352,39 +310,11 @@ C
           END DO
          END IF
        ENDIF
-C
-       IF (H3D_DATA%N_VECT_CONT2_MAX > 0.OR.H3D_DATA%N_VECT_CONT2_MIN > 0) THEN
-#include      "vectorize.inc"
-          DO J = 1, LEN
-            NOD = FR_I2M(IAD+J)
-            FNCONT(1,NOD)   = FNCONT(1,NOD) + RBUF(IDEB)
-            FNCONT(2,NOD)   = FNCONT(2,NOD) + RBUF(IDEB+1)
-            FNCONT(3,NOD)   = FNCONT(3,NOD) + RBUF(IDEB+2)
-            IDEB = IDEB + 3
-          ENDDO
-       ENDIF
-       IF (H3D_DATA%N_VECT_PCONT2_MAX > 0.OR.H3D_DATA%N_VECT_PCONT2_MIN > 0) THEN
-#include      "vectorize.inc"
-          DO J = 1, LEN
-            NOD = FR_I2M(IAD+J)
-            FNCONTP(1,NOD)   = FNCONTP(1,NOD) + RBUF(IDEB)
-            FNCONTP(2,NOD)   = FNCONTP(2,NOD) + RBUF(IDEB+1)
-            FNCONTP(3,NOD)   = FNCONTP(3,NOD) + RBUF(IDEB+2)
-            FTCONTP(1,NOD)   = FTCONTP(1,NOD) + RBUF(IDEB+3)
-            FTCONTP(2,NOD)   = FTCONTP(2,NOD) + RBUF(IDEB+4)
-            FTCONTP(3,NOD)   = FTCONTP(3,NOD) + RBUF(IDEB+5)
-            IDEB = IDEB + 6
-          ENDDO
-       ENDIF 
-C
       ENDDO
 C
       DO L=1,NBINDEX
         CALL MPI_WAITANY(NBINDEX,REQ_S,INDEX,STATUS,IERROR)
       ENDDO
-C
-      DEALLOCATE(RBUF)
-      DEALLOCATE(SBUF)
 C
 #endif
       RETURN

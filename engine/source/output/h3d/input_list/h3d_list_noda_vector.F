@@ -178,19 +178,9 @@ c-----------------------------------------------
       H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'inter22 - Centroid Internal Force'
 c-----------------------------------------------
       I = I + 1
-      H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'CONT/TMAX'
+      H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'CONT/MAX'
       H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Maximum Contact Forces Over time'
       H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 'Node contact force (Maximum over time)'
-c-----------------------------------------------
-      I = I + 1
-      H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'CONT2/TMAX'
-      H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Maximum Tied Contact Forces Over time'
-      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 'Node contact force (Maximum over time)'
-c-----------------------------------------------
-      I = I + 1
-      H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'CONT2/TMIN'
-      H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Minimum Tied Contact Forces Over time'
-      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 'Node contact force (Minimum over time)'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'PCONT2/NORMAL'
@@ -207,22 +197,6 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'MAXPCONT/TANGENT'
       H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Maximum Over Time Contact Pressure / Tangent'
-c-----------------------------------------------
-      I = I + 1
-      H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'MAXPCONT2/NORMAL'
-      H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Maximum Over Time Tied Contact Pressure / Normal'
-c-----------------------------------------------
-      I = I + 1
-      H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'MAXPCONT2/TANGENT'
-      H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Maximum Over Time Tied Contact Pressure / Tangent'
-c-----------------------------------------------
-      I = I + 1
-      H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'MINPCONT2/NORMAL'
-      H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Minimum Over Time Tied Contact Pressure / Normal'
-c-----------------------------------------------
-      I = I + 1
-      H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'MINPCONT2/TANGENT'
-      H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Minimum Over Time Tied Contact Pressure / Tangent'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'VEL/TMAX'
