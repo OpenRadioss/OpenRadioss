@@ -2215,7 +2215,8 @@ c
      4            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,              
      5            EL_PLA   ,EL_TEMP  ,SIGY     ,FOFF     ,DFMAX    ,
      6            TDEL     ,IPT      ,IPG      ,DMG_FLAG ,DMG_LOC_SCALE,
-     7            PTHKF(ILAYER,IFL)  ,DAMINI   )
+     7            PTHKF(ILAYER,IFL)  ,DAMINI   ,AREA     ,INLOC    ,
+     8            NPG      )
 c
               CASE (43)     !    Syazwan failure model
 c
