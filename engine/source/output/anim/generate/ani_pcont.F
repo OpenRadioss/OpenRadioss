@@ -71,8 +71,7 @@ C-----------------------------------------------
      .     AREA, 
      .     X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
      .     X31,Y31,Z31,X42,Y42,Z42,X32,Y32,Z32,E3X,E3Y,E3Z,
-     .     FS2, FS3, FT2, FT3, E, F, G, RAYON,AY1,AY2,AY3,AY4,
-     .     AREAINV
+     .     FS2, FS3, FT2, FT3, E, F, G, RAYON,AY1,AY2,AY3,AY4
       INTEGER FACES(4,6),LINES(2,4),FACES10(3,24)
        my_real, DIMENSION(:), ALLOCATABLE ::  NODAREA
 C     REAL
@@ -403,13 +402,13 @@ C
              CONTT(2,N)=ZERO
              CONTT(3,N)=ZERO
            ELSE
-             AREAINV = ONE/MAX(EM30,NODAREA(N))
-             CONTN(1,N)=AREAINV*CONTN(1,N)
-             CONTN(2,N)=AREAINV*CONTN(2,N)
-             CONTN(3,N)=AREAINV*CONTN(3,N)
-             CONTT(1,N)=AREAINV*CONTT(1,N)
-             CONTT(2,N)=AREAINV*CONTT(2,N)
-             CONTT(3,N)=AREAINV*CONTT(3,N)
+             NODAREA(N)=ONE/MAX(EM30,NODAREA(N))
+             CONTN(1,N)=NODAREA(N)*CONTN(1,N)
+             CONTN(2,N)=NODAREA(N)*CONTN(2,N)
+             CONTN(3,N)=NODAREA(N)*CONTN(3,N)
+             CONTT(1,N)=NODAREA(N)*CONTT(1,N)
+             CONTT(2,N)=NODAREA(N)*CONTT(2,N)
+             CONTT(3,N)=NODAREA(N)*CONTT(3,N)
            ENDIF
          END DO
        ENDIF
@@ -424,13 +423,13 @@ C
              FTCONTP2(2,N)=ZERO
              FTCONTP2(3,N)=ZERO
            ELSE
-             AREAINV = ONE/MAX(EM30,NODAREA(N))
-             FNCONTP2(1,N)=AREAINV*FNCONTP2(1,N)
-             FNCONTP2(2,N)=AREAINV*FNCONTP2(2,N)
-             FNCONTP2(3,N)=AREAINV*FNCONTP2(3,N)
-             FTCONTP2(1,N)=AREAINV*FTCONTP2(1,N)
-             FTCONTP2(2,N)=AREAINV*FTCONTP2(2,N)
-             FTCONTP2(3,N)=AREAINV*FTCONTP2(3,N)
+             NODAREA(N)=ONE/MAX(EM30,NODAREA(N))
+             FNCONTP2(1,N)=NODAREA(N)*FNCONTP2(1,N)
+             FNCONTP2(2,N)=NODAREA(N)*FNCONTP2(2,N)
+             FNCONTP2(3,N)=NODAREA(N)*FNCONTP2(3,N)
+             FTCONTP2(1,N)=NODAREA(N)*FTCONTP2(1,N)
+             FTCONTP2(2,N)=NODAREA(N)*FTCONTP2(2,N)
+             FTCONTP2(3,N)=NODAREA(N)*FTCONTP2(3,N)
            ENDIF
          END DO
        ENDIF
@@ -776,13 +775,13 @@ C
              FTCONTP2(2,N)=ZERO
              FTCONTP2(3,N)=ZERO
            ELSE
-             TMP=ONE/MAX(EM30,NODAREA(N))
-             FNCONTP2(1,N)=TMP*FNCONTP2(1,N)
-             FNCONTP2(2,N)=TMP*FNCONTP2(2,N)
-             FNCONTP2(3,N)=TMP*FNCONTP2(3,N)
-             FTCONTP2(1,N)=TMP*FTCONTP2(1,N)
-             FTCONTP2(2,N)=TMP*FTCONTP2(2,N)
-             FTCONTP2(3,N)=TMP*FTCONTP2(3,N)
+             NODAREA(N)=ONE/MAX(EM30,NODAREA(N))
+             FNCONTP2(1,N)=NODAREA(N)*FNCONTP2(1,N)
+             FNCONTP2(2,N)=NODAREA(N)*FNCONTP2(2,N)
+             FNCONTP2(3,N)=NODAREA(N)*FNCONTP2(3,N)
+             FTCONTP2(1,N)=NODAREA(N)*FTCONTP2(1,N)
+             FTCONTP2(2,N)=NODAREA(N)*FTCONTP2(2,N)
+             FTCONTP2(3,N)=NODAREA(N)*FTCONTP2(3,N)
            ENDIF
          END DO
        ENDIF

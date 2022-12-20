@@ -145,14 +145,6 @@ c-----------------------------------------------
           NB_KEY = 2
           IF (CPT_KEY == 1) KEY3_GLOB = 'PCONT2/NORMAL'
           IF (CPT_KEY == 2) KEY3_GLOB = 'PCONT2/TANGENT'
-        ELSEIF (KEY3_READ == 'PCONT2/TMAX') THEN
-          NB_KEY = 2
-          IF (CPT_KEY == 1) KEY3_GLOB = 'MAXPCONT2/NORMAL'
-          IF (CPT_KEY == 2) KEY3_GLOB = 'MAXPCONT2/TANGENT'
-        ELSEIF (KEY3_READ == 'PCONT2/TMIN') THEN
-          NB_KEY = 2
-          IF (CPT_KEY == 1) KEY3_GLOB = 'MINPCONT2/NORMAL'
-          IF (CPT_KEY == 2) KEY3_GLOB = 'MINPCONT2/TANGENT'
         ELSEIF (KEY3_READ == 'DAMA2') THEN
           NB_KEY = 2
           IF (CPT_KEY == 1) KEY3_GLOB = 'DAMA2/NORMAL'
