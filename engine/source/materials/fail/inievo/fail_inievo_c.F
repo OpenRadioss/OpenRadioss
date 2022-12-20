@@ -38,10 +38,11 @@ Chd|====================================================================
      4     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,            
      5     PLA      ,TEMP     ,SIGY     ,FOFF     ,DFMAX    ,
      6     TDELE    ,IPT      ,IPG      ,DMG_FLAG ,DMG_SCALE,
-     7     PTHKF    ,DAMINI   )   
+     7     PTHKF    ,DAMINI   ,AREA     ,INLOC    ,NPG      )   
 C---------+---------+---+---+--------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,11 +60,13 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "scr18_c.inc"
 #include      "tabsiz_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: 
-     .        NEL,NUPARAM,NUVAR,NGL(NEL),IPT,IPG
+     .        NEL,NUPARAM,NUVAR,NGL(NEL),IPT,IPG,
+     .        INLOC,NPG
       INTEGER, INTENT(INOUT) :: 
      .        DMG_FLAG,FOFF(NEL)
       my_real, INTENT(IN) :: 
@@ -71,7 +74,7 @@ C-----------------------------------------------
      .        DPLA(NEL),EPSP(NEL),TEMP(NEL),
      .        SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
      .        SIGNYZ(NEL),SIGNZX(NEL),PLA(NEL),
-     .        SIGY(NEL)
+     .        SIGY(NEL),AREA(NEL)
       my_real, INTENT(INOUT) :: 
      .        UVAR(NEL,NUVAR),DFMAX(NEL),TDELE(NEL),
      .        DMG_SCALE(NEL),PTHKF,DAMINI(NEL)
@@ -88,9 +91,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,INDX(NEL),NINDX,FAILIP,IPOS(NEL,2),
-     .        NROT(NEL),NINIEVO,ISHEAR
+     .        NROT(NEL),NINIEVO,ISHEAR,ILEN
       INTEGER, DIMENSION(:), ALLOCATABLE :: 
-     .        INITYPE,EVOTYPE,EVOSHAP,COMPTYP,TAB_ID,TAB_EL      
+     .        INITYPE,EVOTYPE,EVOSHAP,COMPTYP,TAB_ID,
+     .        TAB_EL,FCRIT            
       my_real, DIMENSION(:), ALLOCATABLE :: 
      .        SR_REF,FSCALE,INI_P1,EL_REF,ELSCAL,
      .        DISP,ENER,ALPHA2
@@ -111,38 +115,69 @@ C!--------------------------------------------------------------
       ! Recovering failure criterion parameters
       NINIEVO = UPARAM(1)
       ISHEAR  = INT(UPARAM(2))
-      PTHKF   = UPARAM(4)
-      ALLOCATE(INITYPE(NINIEVO),EVOTYPE(NINIEVO),EVOSHAP(NINIEVO),COMPTYP(NINIEVO))
-      ALLOCATE(TAB_ID(NINIEVO) ,SR_REF(NINIEVO) ,FSCALE(NINIEVO) ,INI_P1(NINIEVO))
-      ALLOCATE(TAB_EL(NINIEVO) ,EL_REF(NINIEVO) ,ELSCAL(NINIEVO) )
-      ALLOCATE(DISP(NINIEVO)   ,ENER(NINIEVO)   ,ALPHA2(NINIEVO) )      
+      ILEN    = INT(UPARAM(3))
+      IF (INLOC > 0) ILEN = 1
+      PTHKF   = UPARAM(5)
+      MY_ALLOCATE(INITYPE,NINIEVO)
+      MY_ALLOCATE(EVOTYPE,NINIEVO)
+      MY_ALLOCATE(EVOSHAP,NINIEVO)
+      MY_ALLOCATE(COMPTYP,NINIEVO)
+      MY_ALLOCATE(TAB_ID ,NINIEVO)
+      MY_ALLOCATE(SR_REF ,NINIEVO)
+      MY_ALLOCATE(FSCALE ,NINIEVO)
+      MY_ALLOCATE(INI_P1 ,NINIEVO)
+      MY_ALLOCATE(TAB_EL ,NINIEVO)
+      MY_ALLOCATE(EL_REF ,NINIEVO)
+      MY_ALLOCATE(ELSCAL ,NINIEVO)
+      MY_ALLOCATE(DISP   ,NINIEVO)
+      MY_ALLOCATE(ENER   ,NINIEVO)
+      MY_ALLOCATE(ALPHA2 ,NINIEVO)   
       DO J = 1,NINIEVO
-        INITYPE(J) = UPARAM(5  + 14*(J-1))
-        EVOTYPE(J) = UPARAM(6  + 14*(J-1))
-        EVOSHAP(J) = UPARAM(7  + 14*(J-1))
-        COMPTYP(J) = UPARAM(8  + 14*(J-1))
-        TAB_ID(J)  = NINT(UPARAM(9 + 14*(J-1)))
-        SR_REF(J)  = UPARAM(10 + 14*(J-1))
-        FSCALE(J)  = UPARAM(11 + 14*(J-1))
-        INI_P1(J)  = UPARAM(12 + 14*(J-1))
-        TAB_EL(J)  = NINT(UPARAM(13 + 14*(J-1)))
-        EL_REF(J)  = UPARAM(14 + 14*(J-1))
-        ELSCAL(J)  = UPARAM(15 + 14*(J-1)) 
-        DISP(J)    = UPARAM(16 + 14*(J-1))
-        ALPHA2(J)  = UPARAM(17 + 14*(J-1))
-        ENER(J)    = UPARAM(18 + 14*(J-1))
+        INITYPE(J) = UPARAM(6  + 14*(J-1))
+        EVOTYPE(J) = UPARAM(7  + 14*(J-1))
+        EVOSHAP(J) = UPARAM(8  + 14*(J-1))
+        COMPTYP(J) = UPARAM(9  + 14*(J-1))
+        TAB_ID(J)  = NINT(UPARAM(10 + 14*(J-1)))
+        SR_REF(J)  = UPARAM(11 + 14*(J-1))
+        FSCALE(J)  = UPARAM(12 + 14*(J-1))
+        INI_P1(J)  = UPARAM(13 + 14*(J-1))
+        TAB_EL(J)  = NINT(UPARAM(14 + 14*(J-1)))
+        EL_REF(J)  = UPARAM(15 + 14*(J-1))
+        ELSCAL(J)  = UPARAM(16 + 14*(J-1)) 
+        DISP(J)    = UPARAM(17 + 14*(J-1))
+        ALPHA2(J)  = UPARAM(18 + 14*(J-1))
+        ENER(J)    = UPARAM(19 + 14*(J-1))
       ENDDO  
 c
       ! Set flag for stress softening
       DMG_FLAG = 1
 c
-      ! At initial time, save the element size 
-      IF (UVAR(1,1) == ZERO) UVAR(1:NEL,1) = ALDT(1:NEL)
+      ! Element characteristic length computation 
+      !  -> Initial values 
+      IF (UVAR(1,1) == ZERO) THEN 
+        ! -> Critical timestep formulation
+        IF (ILEN == 1) THEN 
+          UVAR(1:NEL,1) = ALDT(1:NEL)
+        ! -> Geometric formulation
+        ELSE
+          DO I = 1,NEL
+            UVAR(I,1) = SQRT(NPG*AREA(I))
+          ENDDO
+        ENDIF
+      ENDIF
+      !  -> Current geometric formulation
+      IF (ILEN == 2) THEN 
+        DO I = 1,NEL
+          UVAR(I,1) = SQRT(NPG*AREA(I))
+        ENDDO  
+      ENDIF    
       L0(1:NEL) = UVAR(1:NEL,1)
       ! Positive stress triaxiality bounded plastic strain
       EPSMOD(1:NEL) = UVAR(1:NEL,2)
       ! Damage initiation and evolution variable
-      ALLOCATE(DMGINI(NEL,NINIEVO),DMGEVO(NEL,NINIEVO))
+      MY_ALLOCATE2D(DMGINI,NEL,NINIEVO)
+      MY_ALLOCATE2D(DMGEVO,NEL,NINIEVO)
+      MY_ALLOCATE(FCRIT,NEL)
       DO J = 1,NINIEVO
         DO I=1,NEL
           ! Initiation damage
@@ -151,6 +186,8 @@ c
           DMGEVO(I,J) = UVAR(I,4+(J-1)*3)
         ENDDO
       ENDDO
+      ! Criterion number leading to element deletion
+      FCRIT(1:NEL) = 0
 c      
       !====================================================================
       ! - LOOP OVER THE ELEMENT TO COMPUTE THE STRESS STATE QUANTITIES
@@ -332,6 +369,7 @@ c
      .               (FOFF(I) /= 0).AND.(DMGEVO(I,J)<ONE)) THEN  
                     DMGEVO(I,J) = DMGEVO(I,J) + L0(I)*DPLA(I)/DISP(J)
                     DMGEVO(I,J) = MIN(ONE,DMGEVO(I,J))
+                    IF (DMGEVO(I,J) >= ONE) FCRIT(I) = J
                   ENDIF
                 ENDDO
               ! Exponential shape
@@ -346,6 +384,7 @@ c
      .                                           DPLA(I)*L0(I)/DISP(J)
                     IF (DMGEVO(I,J) > 0.999D0) DMGEVO(I,J) = ONE
                     DMGEVO(I,J) = MIN(ONE,DMGEVO(I,J))
+                    IF (DMGEVO(I,J) >= ONE) FCRIT(I) = J
                   ENDIF
                 ENDDO
             END SELECT
@@ -361,6 +400,7 @@ c
                     YLD0 = UVAR(I,5+(J-1)*3)
                     DMGEVO(I,J) = DMGEVO(I,J) + DPLA(I)*L0(I)*YLD0/(TWO*ENER(J))
                     DMGEVO(I,J) = MIN(ONE,DMGEVO(I,J))
+                    IF (DMGEVO(I,J) >= ONE) FCRIT(I) = J
                   ENDIF
                 ENDDO
               ! Exponential shape
@@ -372,6 +412,7 @@ c
                     DMGEVO(I,J) = ONE - EXP(-(UVAR(I,5+(J-1)*3))/ENER(J))
                     IF (DMGEVO(I,J) > 0.999D0) DMGEVO(I,J) = ONE
                     DMGEVO(I,J) = MIN(ONE,DMGEVO(I,J))
+                    IF (DMGEVO(I,J) >= ONE) FCRIT(I) = J
                   ENDIF
                 ENDDO
               END SELECT
@@ -382,6 +423,7 @@ c
      .           (FOFF(I) /= 0).AND.(DMGEVO(I,J)<ONE)) THEN  
                 DMGEVO(I,J) = DMGINI(I,J)
                 DMGEVO(I,J) = MIN(ONE,DMGEVO(I,J))
+                IF (DMGEVO(I,J) >= ONE) FCRIT(I) = J
               ENDIF
             ENDDO
         END SELECT
@@ -445,7 +487,22 @@ c
         ENDDO
       ENDDO
 c
-      ! Table deallocation
+      !====================================================================
+      ! - PRINTOUT DATA ABOUT FAILED ELEMENTS
+      !====================================================================
+      IF (NINDX > 0) THEN        
+        DO J=1,NINDX             
+          I = INDX(J)         
+#include "lockon.inc"         
+          WRITE(IOUT, 1000) NGL(I),FCRIT(I),IPG,IPT,TIME
+          WRITE(ISTDO,1000) NGL(I),FCRIT(I),IPG,IPT,TIME
+#include "lockoff.inc" 
+        END DO                   
+      END IF       
+c
+      !====================================================================
+      ! - TABLES DEALLOCATION
+      !====================================================================
       IF (ALLOCATED(INITYPE)) DEALLOCATE(INITYPE)
       IF (ALLOCATED(EVOTYPE)) DEALLOCATE(EVOTYPE)
       IF (ALLOCATED(EVOSHAP)) DEALLOCATE(EVOSHAP)
@@ -460,22 +517,12 @@ c
       IF (ALLOCATED(DISP))    DEALLOCATE(DISP)
       IF (ALLOCATED(ENER))    DEALLOCATE(ENER)
       IF (ALLOCATED(ALPHA2))  DEALLOCATE(ALPHA2)
-c
-      !====================================================================
-      ! - PRINTOUT DATA ABOUT FAILED ELEMENTS
-      !====================================================================
-      IF (NINDX > 0) THEN        
-        DO J=1,NINDX             
-          I = INDX(J)         
-#include "lockon.inc"         
-          WRITE(IOUT, 1000) NGL(I),IPG,IPT,TIME
-          WRITE(ISTDO,1000) NGL(I),IPG,IPT,TIME
-#include "lockoff.inc" 
-        END DO                   
-      END IF       
+      IF (ALLOCATED(DMGINI))  DEALLOCATE(DMGINI)
+      IF (ALLOCATED(DMGEVO))  DEALLOCATE(DMGEVO)
+      IF (ALLOCATED(FCRIT))   DEALLOCATE(FCRIT)
 c------------------------
- 1000 FORMAT(1X,'FOR SHELL ELEMENT NUMBER el#',I10,
-     .          ' FAILURE (INIEVO) AT GAUSS POINT ',I3,' LAYER ',I3,
-     .          ' AT TIME :',1PE12.4)
+ 1000 FORMAT(1X,'FOR SHELL ELEMENT NUMBER ',I10,
+     .          ' FAILURE (INIEVO) WITH CRITERION NUMBER ',I3,
+     .          ' AT GAUSS POINT ',I3,' LAYER ',I3,' AT TIME :',1PE12.4)
 c
       END
