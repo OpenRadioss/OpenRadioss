@@ -416,9 +416,11 @@ Chd|====================================================================
       
       integer :: ii
       if (allocated(this%tab)) then
-         do ii = 1, this%nebcs
-            call this%tab(ii)%poly%ebcs_destroy()
-         enddo
+C this is not useful and it causes a bug with Intel OneAPI 2023
+c        do ii = 1, this%nebcs
+c           call this%tab(ii)%poly%ebcs_destroy()
+c        enddo
+C All allocatable subobjects are deallocated here:  
          deallocate(this%tab)
       endif
       end subroutine destroy
