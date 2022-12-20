@@ -92,10 +92,10 @@ endif()
 set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${opt_flag} ${precision_flag} ${Fortran} ${mpi_flag} ${MUMPS_flags}  ${cppmach} ${cpprel}" )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${optc_flag} ${h3d_inc} ${precision_flag} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} -O2 -std=c90" )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${optc_flag} ${h3d_inc} ${precision_flag} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} -O2 " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${optc_flag}  ${h3d_inc} ${precision_flag} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} -O2  -std=c++11" )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${optc_flag}  ${h3d_inc} ${precision_flag} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} -O2  -std=c++11 " )
 
 # Linking flags
 set (CMAKE_EXE_LINKER_FLAGS " -static-intel -rdynamic -qopenmp -qopenmp-link=static" )
@@ -111,12 +111,16 @@ set (F_O1_AXSSE3 " -O1 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_fl
 set (F_O2_AXSSE3 " -O2 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${MUMPS_flags} ${mpi_flag} ${cppmach} ${cpprel}")
 set (F_O3_AXSSE3 " -O3 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${MUMPS_flags} ${mpi_flag} ${cppmach} ${cpprel}")
 
-set (C_BASIC "${cppmach} ${cpprel}")
 # rad2rad_c.c 
+set (C_BASIC "${cppmach} ${cpprel}" )
 set_source_files_properties( ${source_directory}/source/coupling/rad2rad/rad2rad_c.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
+set_source_files_properties( ${source_directory}//source/output/tools/sortie_c.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
 
+set (C_BASIC "${cppmach} ${cpprel} -std=c90" )
 # ieee.c
 set_source_files_properties( ${source_directory}/source/output/tools/ieee.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
+set_source_files_properties( ${source_directory}/source/coupling/rad2rad/sys_pipes_c.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
+
 
 
 if ( debug STREQUAL "0" )
