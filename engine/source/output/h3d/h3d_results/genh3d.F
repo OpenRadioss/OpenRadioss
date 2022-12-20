@@ -58,6 +58,7 @@ Chd|        H3D_SHELL_TENSOR              source/output/h3d/h3d_results/h3d_shel
 Chd|        H3D_SHELL_VECTOR              source/output/h3d/h3d_results/h3d_shell_vector.F
 Chd|        H3D_SKIN_IXSKIN               source/output/h3d/h3d_results/h3d_skin_ixskin.F
 Chd|        H3D_SKIN_OFF                  source/output/h3d/h3d_results/h3d_skin_off.F
+Chd|        H3D_SKIN_PRE_MAP              source/output/h3d/h3d_results/h3d_skin_pre_map.F
 Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin_scalar.F
 Chd|        H3D_SKIN_TENSOR               source/output/h3d/h3d_results/h3d_skin_tensor.F
 Chd|        H3D_SKIN_VECTOR               source/output/h3d/h3d_results/h3d_skin_vector.F
@@ -91,6 +92,7 @@ Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

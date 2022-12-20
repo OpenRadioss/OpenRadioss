@@ -31,6 +31,7 @@ Chd|        H3D_PRE_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_skin
 Chd|        H3D_SOL_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
@@ -364,6 +365,7 @@ Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
+Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        PBLAST_MOD                    ../common_source/modules/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F

@@ -73,6 +73,7 @@ Chd|        H3D_LIST_SPH_TENSOR           source/output/h3d/input_list/h3d_list_
 Chd|        H3D_SKIN_DIM                  source/output/h3d/h3d_results/h3d_skin_ixskin.F
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

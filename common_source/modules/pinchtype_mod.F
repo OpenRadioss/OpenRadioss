@@ -43,6 +43,7 @@ Chd|        FORINTC                       engine/source/elements/forintc.F
 Chd|        H3D_PRE_SKIN_IXSKIN           engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
 Chd|        H3D_PRE_SKIN_SCALAR           engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
 Chd|        H3D_SKIN_PRE_DIM              engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+Chd|        H3D_SKIN_PRE_MAP              engine/source/output/h3d/h3d_results/h3d_skin_pre_map.F
 Chd|        H3D_SKIN_VECTOR               engine/source/output/h3d/h3d_results/h3d_skin_vector.F
 Chd|        HIST2                         engine/source/output/th/hist2.F
 Chd|        I25ASS0                       engine/source/interfaces/int25/i25ass3.F

@@ -21,8 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-      SUBROUTINE H3D_SKIN_PRE_MAP(IB     ,ILOADP    ,LLOADP ,IMAPSKP)
+Chd|  H3D_SKIN_PRE_MAP              source/output/h3d/h3d_results/h3d_skin_pre_map.F
+Chd|-- called by -----------
+Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
+Chd|-- calls ---------------
+Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
+Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|====================================================================
+      SUBROUTINE H3D_SKIN_PRE_MAP(IB     ,ILOADP    ,LLOADP ,IMAPSKP)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
