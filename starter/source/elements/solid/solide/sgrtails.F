@@ -1414,7 +1414,7 @@ C reperage groupe/processeur
           ELSE
             IPARG(41,NGROUP)=ITET4
           ENDIF
-          IF(MLN/=24.AND.MLN/=25.AND.MLN<28)THEN
+          IF(MLN/=25.AND.MLN<28)THEN
           IPARG(44,NGROUP)= ISTRAIN
           ELSEIF(MLN>=28)THEN
            ISTRAIN=2
