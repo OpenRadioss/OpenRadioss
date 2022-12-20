@@ -396,7 +396,7 @@ C Case /INIBRIS/STRS_FGLO missed
      .         (ISTRAIN == 1 .AND. 
      .         (MTN==1  .OR. MTN==2  .OR. MTN==3    .OR. MTN==4  .OR. 
      .          MTN==6  .OR. MTN==10 .OR. MTN==21   .OR. MTN==22 .OR.
-     .          MTN==23))) THEN
+     .          MTN==23 .OR. MTN==24))) THEN
               IDEF = 1
           ENDIF
 c
