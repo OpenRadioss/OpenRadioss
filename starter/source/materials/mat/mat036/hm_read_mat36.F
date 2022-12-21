@@ -143,6 +143,16 @@ Card3
       CALL HM_GET_FLOATV('MAT_EFIB'     ,EINF    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_C'        ,CE      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 C-----------------------------------------------
+      ! Poisson's ratio check
+      IF (NU < ZERO .OR. NU >= HALF) THEN
+        CALL ANCMSG(MSGID=49,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO_BLIND_2,
+     .              R1=NU,
+     .              I1=ID,
+     .              C1=TITR)
+      ENDIF
+c
       IF(NRATE > 100)THEN
         CALL ANCMSG(MSGID=215, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .               I1=36,
