@@ -40,7 +40,7 @@ using std::cout;
 #define htobe64(x) htonll(x)
 
 #else
-    
+
 #include <arpa/inet.h>
 
 #endif
@@ -57,54 +57,62 @@ using std::cout;
 
 #define MAX_CAR 81
 
-
-inline void SWAP_MANY2BYTES(uint16_t * intPtr, size_t number)                     
-{                                                       
-    for (size_t ptrIndex = 0; ptrIndex < (number); ptrIndex++) 
-    { 
-       intPtr[ptrIndex] = htons((intPtr[ptrIndex]));               
-    } 
+inline void SWAP_MANY2BYTES(uint16_t *intPtr, size_t number)
+{
+    for (size_t ptrIndex = 0; ptrIndex < (number); ptrIndex++)
+    {
+        intPtr[ptrIndex] = htons((intPtr[ptrIndex]));
+    }
 }
 
-inline void SWAP_MANY4BYTES(int * intPtr,size_t number)                     
-    {                                                       
-        for (size_t ptrIndex = 0; ptrIndex < (number); ptrIndex++) 
-        { 
-          intPtr[ptrIndex] =  ntohl((intPtr[ptrIndex]));               
-        } 
+inline void SWAP_MANY4BYTES(int *intPtr, size_t number)
+{
+    for (size_t ptrIndex = 0; ptrIndex < (number); ptrIndex++)
+    {
+        intPtr[ptrIndex] = ntohl((intPtr[ptrIndex]));
     }
+}
 
-inline void SWAP_MANY8BYTES(double *intPtr, size_t number)                     
-{                                                       
-    for (size_t ptrIndex = 0; ptrIndex < (number); ptrIndex++) 
+inline void SWAP_MANY8BYTES(double *intPtr, size_t number)
+{
+    for (size_t ptrIndex = 0; ptrIndex < (number); ptrIndex++)
     {
         intPtr[ptrIndex] = htobe64(intPtr[ptrIndex]);
     }
-
 }
 
-inline void SWAP_BYTESINDATA(void * itemList, size_t itemCount, size_t sizeOfItem) 
-{                                                      
-    uint16_t *uint16_tCopy;                                  
-    int *intCopy;                                      
-    double *doubleCopy;                                
-    switch ((sizeOfItem))                              
-    {                                                  
-    case 1:                                            
-        break;                                         
-    case 2:                                            
-        uint16_tCopy = (uint16_t *)(itemList);               
-        SWAP_MANY2BYTES(uint16_tCopy, (itemCount));       
-        break;                                         
-    case 4:                                            
-        intCopy = (int *)(itemList);                   
-        SWAP_MANY4BYTES(intCopy, (itemCount));         
-        break;                                         
-    case 8:                                            
-        doubleCopy = (double *)(itemList);             
-        SWAP_MANY8BYTES(doubleCopy, (itemCount));      
-        break;                                         
-    }                                                  
+inline void SWAP_BYTESINDATA(void *itemList, size_t itemCount, size_t sizeOfItem)
+{
+    uint16_t *uint16_tCopy;
+    int *intCopy;
+    double *doubleCopy;
+    switch ((sizeOfItem))
+    {
+    case 1:
+        break;
+    case 2:
+        uint16_tCopy = (uint16_t *)(itemList);
+        SWAP_MANY2BYTES(uint16_tCopy, (itemCount));
+        break;
+    case 4:
+        intCopy = (int *)(itemList);
+        SWAP_MANY4BYTES(intCopy, (itemCount));
+        break;
+    case 8:
+        doubleCopy = (double *)(itemList);
+        SWAP_MANY8BYTES(doubleCopy, (itemCount));
+        break;
+    }
+}
+
+template <class T>
+inline void freeStarStar(T **c, const int &n)
+{
+    for (int i = 0; i < n; ++i)
+    {
+        free(c[i]);
+    }
+    free(c);
 }
 
 // ****************************************
@@ -115,11 +123,12 @@ int Ufread(void *pchar, size_t sizeOfItem,
            FILE *OpenedFile,
            bool text = false)
 {
-    int ret = fread(pchar, sizeOfItem,numItems,OpenedFile);
+    int ret = fread(pchar, sizeOfItem, numItems, OpenedFile);
 
     if (ret < 0)
     {
-        cout << "Error in reading file" << "\n";
+        cout << "Error in reading file"
+             << "\n";
     }
 #if (__NUTC__ || LINUX || WIN32) // Swap bytes
     SWAP_BYTESINDATA(pchar, numItems, sizeOfItem);
@@ -128,7 +137,6 @@ int Ufread(void *pchar, size_t sizeOfItem,
         ((char *)pchar)[sizeOfItem * numItems] = '\0';
     return ret;
 }
-
 
 #define FASTMAGI10 0x542c
 // used to convert a uint16_t to a float
@@ -167,127 +175,127 @@ void readRadiossAnim(char *fileName)
     float a_time;  // state time
 
     // 3D GEOMETRY
-    int nbElts3D=0;             // number of 8nodes elements
-    int nbParts3D=0;            // number of parts
-    int nbEFunc3D=0;            // number of element scalar values
-    int nbTens3D=0;             // number of tensors
-    int *connect3DA=nullptr;    // connectivity array of 8  nbElts3D
-    Boolean *delElt3DA=nullptr; // are the elements deleted or not, array of nbElts3D
-    int *defPart3DA=nullptr;    // part definition: array of nbParts3D
-    char **pText3DA=nullptr;    // part name: array of nbParts3D
-    char **fText3DA=nullptr;    // array of scalar name: nbEFunc3D
-    float *eFunc3DA=nullptr;    // scalar value per element array of nbEFunc3D*nbElts3D
-    char **tText3DA=nullptr;    // tensor name array of nbTens3D
-    float *tensVal3DA=nullptr;  // tens value array of 6*nbTens3D*nbElt3D
-    float *eMass3DA=nullptr;    // nbElt3D, elt mass
-    int *elNum3DA=nullptr;      // nbElt3D, intern elt numbering
+    int nbElts3D = 0;             // number of 8nodes elements
+    int nbParts3D = 0;            // number of parts
+    int nbEFunc3D = 0;            // number of element scalar values
+    int nbTens3D = 0;             // number of tensors
+    int *connect3DA = nullptr;    // connectivity array of 8  nbElts3D
+    Boolean *delElt3DA = nullptr; // are the elements deleted or not, array of nbElts3D
+    int *defPart3DA = nullptr;    // part definition: array of nbParts3D
+    char **pText3DA = nullptr;    // part name: array of nbParts3D
+    char **fText3DA = nullptr;    // array of scalar name: nbEFunc3D
+    float *eFunc3DA = nullptr;    // scalar value per element array of nbEFunc3D*nbElts3D
+    char **tText3DA = nullptr;    // tensor name array of nbTens3D
+    float *tensVal3DA = nullptr;  // tens value array of 6*nbTens3D*nbElt3D
+    float *eMass3DA = nullptr;    // nbElt3D, elt mass
+    int *elNum3DA = nullptr;      // nbElt3D, intern elt numbering
 
     // 2D GEOMETRY
-    int nbFacets=0;                    // number of 4nodes elements
-    int nbNodes=0;                     // total number of nodes
-    int nbParts=0;                     // number of parts
-    int nbFunc=0;                      // number of nodal scalar values
-    int nbEFunc=0;                     // number of element scalar values
-    int nbVect=0;                      // number of vectors
-    int nbTens=0;                      // number of tensors
-    int nbSkew=0;                      // number of skews
-    uint16_t *skewShortValA=nullptr;              // array of the skew values defined in uint16_t * 3000 ;
-    float *skewValA=nullptr;                   // array of the skew values for each elt
-    float *coorA=nullptr;                      // coordinates array of 3*nbNodes
-    int *connectA=nullptr;                     // connectivity array of 4 * nbFacets
-    char *delEltA=nullptr;                     // are the elements deleted or not, array of nbFacets
-    int *defPartA=nullptr;                     // part definition: array of nbParts
-    char **pTextA=nullptr;                     // part name: array of nbParts
-    uint16_t *normShortA=nullptr;              // facet normal in uint16_t : array of 3*nbNodes
-    float *normFloatA=nullptr;                 // facet normal in float : array of 3*nbNodes
-    char **fTextA=nullptr;                     // array of scalar name: nbFunc+nbEFunc
-    float *funcA=nullptr;                      // scalar value per node array of nbFunc*nbNodes
-    float *eFuncA=nullptr;                     // scalar value per element array of nbEFunc*nbFacets
-    char **vTextA=nullptr;                     // vect name array of nbVect
-    float *vectValA=nullptr;                   // vect val array of 3*nbVect*nbNodes
-    char **tTextA=nullptr;                     // tensor name array of nbTens
-    float *tensValA=nullptr;                   // tens value array of 3*nbTens*nbElt
-    float *nMassA=nullptr, *eMassA=nullptr;    // nbNodes, nbElt, nodal, elt mass
-    int *nodNumA=nullptr, *elNumA=nullptr;     // nbNodes, nbElt, intern node/elt nb
+    int nbFacets = 0;                           // number of 4nodes elements
+    int nbNodes = 0;                            // total number of nodes
+    int nbParts = 0;                            // number of parts
+    int nbFunc = 0;                             // number of nodal scalar values
+    int nbEFunc = 0;                            // number of element scalar values
+    int nbVect = 0;                             // number of vectors
+    int nbTens = 0;                             // number of tensors
+    int nbSkew = 0;                             // number of skews
+    uint16_t *skewShortValA = nullptr;          // array of the skew values defined in uint16_t * 3000 ;
+    float *skewValA = nullptr;                  // array of the skew values for each elt
+    float *coorA = nullptr;                     // coordinates array of 3*nbNodes
+    int *connectA = nullptr;                    // connectivity array of 4 * nbFacets
+    char *delEltA = nullptr;                    // are the elements deleted or not, array of nbFacets
+    int *defPartA = nullptr;                    // part definition: array of nbParts
+    char **pTextA = nullptr;                    // part name: array of nbParts
+    uint16_t *normShortA = nullptr;             // facet normal in uint16_t : array of 3*nbNodes
+    float *normFloatA = nullptr;                // facet normal in float : array of 3*nbNodes
+    char **fTextA = nullptr;                    // array of scalar name: nbFunc+nbEFunc
+    float *funcA = nullptr;                     // scalar value per node array of nbFunc*nbNodes
+    float *eFuncA = nullptr;                    // scalar value per element array of nbEFunc*nbFacets
+    char **vTextA = nullptr;                    // vect name array of nbVect
+    float *vectValA = nullptr;                  // vect val array of 3*nbVect*nbNodes
+    char **tTextA = nullptr;                    // tensor name array of nbTens
+    float *tensValA = nullptr;                  // tens value array of 3*nbTens*nbElt
+    float *nMassA = nullptr, *eMassA = nullptr; // nbNodes, nbElt, nodal, elt mass
+    int *nodNumA = nullptr, *elNumA = nullptr;  // nbNodes, nbElt, intern node/elt nb
 
     // 1D geometry
-    int nbElts1D=0;             // number of 2nodes elements
-    int nbParts1D=0;            // number of parts
-    int nbEFunc1D=0;            // number of lin. elt scalar values
-    int nbTors1D=0;             // number of torseur values
-    int isSkew1D=0;             // number of skews
-    int *connect1DA=nullptr;    // element connectivity array
-    Boolean *delElt1DA=nullptr; // delEltA indicates which elts are deleted or not
-    int *defPart1DA=nullptr;    // parts definition: array
-    char **pText1DA=nullptr;    // part names array
-    char **fText1DA=nullptr;    // array of scalar function names
-    float *eFunc1DA=nullptr;    // array of element scalar values
-    char **tText1DA=nullptr;    // array of tensor names
-    float *torsVal1DA=nullptr;  // read the array of 3 forces, 3 moments torsor values for each elt
-    int *elt2Skew1DA=nullptr;   // array of the skew number for each elt
-    float *eMass1DA=nullptr;    // mass :elementar mass
-    int *elNum1DA=nullptr;      // element numbering
+    int nbElts1D = 0;             // number of 2nodes elements
+    int nbParts1D = 0;            // number of parts
+    int nbEFunc1D = 0;            // number of lin. elt scalar values
+    int nbTors1D = 0;             // number of torseur values
+    int isSkew1D = 0;             // number of skews
+    int *connect1DA = nullptr;    // element connectivity array
+    Boolean *delElt1DA = nullptr; // delEltA indicates which elts are deleted or not
+    int *defPart1DA = nullptr;    // parts definition: array
+    char **pText1DA = nullptr;    // part names array
+    char **fText1DA = nullptr;    // array of scalar function names
+    float *eFunc1DA = nullptr;    // array of element scalar values
+    char **tText1DA = nullptr;    // array of tensor names
+    float *torsVal1DA = nullptr;  // read the array of 3 forces, 3 moments torsor values for each elt
+    int *elt2Skew1DA = nullptr;   // array of the skew number for each elt
+    float *eMass1DA = nullptr;    // mass :elementar mass
+    int *elNum1DA = nullptr;      // element numbering
 
     // hierarchy
-    int nbSubsets=0;                // number of subsets
-    char *subsetText=nullptr;       // subset name
-    int numParent=0;                // parent number
-    int nbSubsetSon=0;              // nb subset sons
-    int *subsetSonA=nullptr;        // subset son list
-    int nbSubPart2D=0;              // nb 2D subparts
-    int *subPart2DA=nullptr;        // 2D subpart list
-    int nbSubPart3D=0;              // nb 3D subparts
-    int *subPart3DA=nullptr;        // 3D subpart list
-    int nbSubPart1D=0;              // nb 1D subparts
-    int *subPart1DA=nullptr;        // 1D subpart list
-    int nbMaterial=0;               // material number
-    int nbProperties=0;             // number of Properties
-    char **materialTextA=nullptr;   // material names
-    char **propertiesTextA=nullptr; // property names
-    int *materialTypeA=nullptr;     // material types
-    int *propertiesTypeA=nullptr;   // property types
-    int *part2subset2DA=nullptr;    // array of subset for each part
-    int *partMaterial2DA=nullptr;   // array of material for each part
-    int *partProperties2DA=nullptr; // array of properties for each part
-    int *part2subset3DA=nullptr;    // array of subset for each part
-    int *partMaterial3DA=nullptr;   // array of material for each part
-    int *partProperties3DA=nullptr; // array of properties for each part
-    int *part2subset1DA=nullptr;    // array of subset for each part
-    int *partMaterial1DA=nullptr;   // array of material for each part
-    int *partProperties1DA=nullptr; // array of properties for each part
+    int nbSubsets = 0;                // number of subsets
+    char *subsetText = nullptr;       // subset name
+    int numParent = 0;                // parent number
+    int nbSubsetSon = 0;              // nb subset sons
+    int *subsetSonA = nullptr;        // subset son list
+    int nbSubPart2D = 0;              // nb 2D subparts
+    int *subPart2DA = nullptr;        // 2D subpart list
+    int nbSubPart3D = 0;              // nb 3D subparts
+    int *subPart3DA = nullptr;        // 3D subpart list
+    int nbSubPart1D = 0;              // nb 1D subparts
+    int *subPart1DA = nullptr;        // 1D subpart list
+    int nbMaterials = 0;              // material number
+    int nbProperties = 0;             // number of Properties
+    char **materialTextA = nullptr;   // material names
+    char **propertiesTextA = nullptr; // property names
+    int *materialTypeA = nullptr;     // material types
+    int *propertiesTypeA = nullptr;   // property types
+    int *part2subset2DA = nullptr;    // array of subset for each part
+    int *partMaterial2DA = nullptr;   // array of material for each part
+    int *partProperties2DA = nullptr; // array of properties for each part
+    int *part2subset3DA = nullptr;    // array of subset for each part
+    int *partMaterial3DA = nullptr;   // array of material for each part
+    int *partProperties3DA = nullptr; // array of properties for each part
+    int *part2subset1DA = nullptr;    // array of subset for each part
+    int *partMaterial1DA = nullptr;   // array of material for each part
+    int *partProperties1DA = nullptr; // array of properties for each part
 
     // NODES/ELTS FOR Time History
-    int nbNodesTH=0;             // number of Time History nodes
-    int nbElts2DTH=0;            // number of Time History 2D elements
-    int nbElts3DTH=0;            // number of Time History 3D elements
-    int nbElts1DTH=0;            // number of Time History 1D elements
-    int *nodes2THA=nullptr;      // node list
-    char **n2thTextA=nullptr;    // node names
-    int *elt2DTHA=nullptr;       // elt 2D list
-    char **elt2DthTextA=nullptr; // elt 2D name
-    int *elt3DTHA=nullptr;       // elt 3D list
-    char **elt3DthTextA=nullptr; // elt 3D name
-    int *elt1DTHA=nullptr;       // elt 1D list
-    char **elt1DthTextA=nullptr; // elt 1D name
+    int nbNodesTH = 0;             // number of Time History nodes
+    int nbElts2DTH = 0;            // number of Time History 2D elements
+    int nbElts3DTH = 0;            // number of Time History 3D elements
+    int nbElts1DTH = 0;            // number of Time History 1D elements
+    int *nodes2THA = nullptr;      // node list
+    char **n2thTextA = nullptr;    // node names
+    int *elt2DTHA = nullptr;       // elt 2D list
+    char **elt2DthTextA = nullptr; // elt 2D name
+    int *elt3DTHA = nullptr;       // elt 3D list
+    char **elt3DthTextA = nullptr; // elt 3D name
+    int *elt1DTHA = nullptr;       // elt 1D list
+    char **elt1DthTextA = nullptr; // elt 1D name
 
     // SPH ELTS
-    int nbEltsSPH=0;
-    int nbPartsSPH=0;
-    int nbEFuncSPH=0;
-    int nbTensSPH=0;
-    int *connecSPH=nullptr;
-    Boolean *delEltSPH=nullptr;          // are the elements deleted or not
-    int *defPartSPH=nullptr;
-    float *eFuncSPH=nullptr;
-    char **scalTextSPH=nullptr;
-    char **tensTextSPH=nullptr;
-    float *tensValSPH=nullptr;
-    char **pTextSPH=nullptr;
-    float *eMassSPH=nullptr;
-    int *nodNumSPH=nullptr;
-    int *numParentSPH=nullptr;
-    int *matPartSPH=nullptr;
-    int *propPartSPH=nullptr;
+    int nbEltsSPH = 0;
+    int nbPartsSPH = 0;
+    int nbEFuncSPH = 0;
+    int nbTensSPH = 0;
+    int *connecSPH = nullptr;
+    Boolean *delEltSPH = nullptr; // are the elements deleted or not
+    int *defPartSPH = nullptr;
+    float *eFuncSPH = nullptr;
+    char **scalTextSPH = nullptr;
+    char **tensTextSPH = nullptr;
+    float *tensValSPH = nullptr;
+    char **pTextSPH = nullptr;
+    float *eMassSPH = nullptr;
+    int *nodNumSPH = nullptr;
+    int *numParentSPH = nullptr;
+    int *matPartSPH = nullptr;
+    int *propPartSPH = nullptr;
 
     FILE *inf;
     char tmpText[128];
@@ -319,8 +327,6 @@ void readRadiossAnim(char *fileName)
                                                 //        flagA[6] defines if there is a new skew for tensor 2D
                                                 //        flagA[7] define if there is SPH format
                                                 //        flagA[8] to flagsA[9] are not yet used
-
-
 
         Ufread(flagA, sizeof(int), 10, inf);
         // ********************
@@ -393,7 +399,6 @@ void readRadiossAnim(char *fileName)
         {
             normFloatA[i] = ((float)normShortA[i]) / SHORT2FLOAT;
         }
-
 
         // scalar values
         if (nbFunc + nbEFunc)
@@ -482,8 +487,7 @@ void readRadiossAnim(char *fileName)
             Ufread(partMaterial2DA, sizeof(int), nbParts, inf);
             // array of properties for each part
             partProperties2DA = (int *)malloc(nbParts * sizeof(int));
-            Ufread(partProperties2DA, sizeof(int), nbParts,
-                   inf);
+            Ufread(partProperties2DA, sizeof(int), nbParts, inf);
         }
         // ********************
         // 3D GEOMETRY
@@ -536,8 +540,7 @@ void readRadiossAnim(char *fileName)
 
             // part texts which defines the name of each part
             //    Each name does not exceed 50 characters.
-            pText3DA = (char **)malloc(nbParts3D * sizeof(char
-                                                              *));
+            pText3DA = (char **)malloc(nbParts3D * sizeof(char *));
             for (i = 0; i < nbParts3D; i++)
             {
                 Ufread(tmpText, sizeof(char), 50, inf);
@@ -594,18 +597,14 @@ void readRadiossAnim(char *fileName)
                 // hierarchy
                 // array of subset for each part
                 part2subset3DA = (int *)malloc(nbParts3D * sizeof(int));
-                Ufread(part2subset3DA, sizeof(int), nbParts3D,
-                       inf);
+                Ufread(part2subset3DA, sizeof(int), nbParts3D, inf);
                 // array of material for each part
-                partMaterial3DA = (int *)malloc(nbParts3D *
-                                                sizeof(int));
-                Ufread(partMaterial3DA, sizeof(int), nbParts3D,
-                       inf);
+                partMaterial3DA = (int *)malloc(nbParts3D * sizeof(int));
+                Ufread(partMaterial3DA, sizeof(int), nbParts3D, inf);
                 // array of properties for each part
                 partProperties3DA = (int *)malloc(nbParts3D *
                                                   sizeof(int));
-                Ufread(partProperties3DA, sizeof(int), nbParts3D,
-                       inf);
+                Ufread(partProperties3DA, sizeof(int), nbParts3D, inf);
             }
         }
         // ********************
@@ -652,8 +651,7 @@ void readRadiossAnim(char *fileName)
 
             // part texts which defines the name of each part
             //    Each name does not exceed 50 characters.
-            pText1DA = (char **)malloc(nbParts1D * sizeof(char
-                                                              *));
+            pText1DA = (char **)malloc(nbParts1D * sizeof(char *));
             for (i = 0; i < nbParts1D; i++)
             {
                 Ufread(tmpText, sizeof(char), 50, inf);
@@ -783,32 +781,29 @@ void readRadiossAnim(char *fileName)
             }
 
             // number of Material
-            Ufread(&nbMaterial, sizeof(int), 1, inf);
+            Ufread(&nbMaterials, sizeof(int), 1, inf);
             // number of Properties
             Ufread(&nbProperties, sizeof(int), 1, inf);
             // material names
-            materialTextA = (char **)malloc(nbMaterial * sizeof(char *));
-            for (i = 0; i < nbMaterial; i++)
+            materialTextA = (char **)malloc(nbMaterials * sizeof(char *));
+            for (i = 0; i < nbMaterials; i++)
             {
                 Ufread(tmpText, sizeof(char), 50, inf);
                 materialTextA[i] = strdup(tmpText);
             }
             // material types
-            materialTypeA = (int *)malloc(nbMaterial * sizeof(int));
-            Ufread(materialTypeA, sizeof(int), nbMaterial, inf);
+            materialTypeA = (int *)malloc(nbMaterials * sizeof(int));
+            Ufread(materialTypeA, sizeof(int), nbMaterials, inf);
             // properties names
-            propertiesTextA = (char **)malloc(nbProperties *
-                                              sizeof(char *));
+            propertiesTextA = (char **)malloc(nbProperties * sizeof(char *));
             for (i = 0; i < nbProperties; i++)
             {
                 Ufread(tmpText, sizeof(char), 50, inf);
                 propertiesTextA[i] = strdup(tmpText);
             }
             // properties types
-            propertiesTypeA = (int *)malloc(nbProperties *
-                                            sizeof(int));
-            Ufread(propertiesTypeA, sizeof(int), nbProperties,
-                   inf);
+            propertiesTypeA = (int *)malloc(nbProperties * sizeof(int));
+            Ufread(propertiesTypeA, sizeof(int), nbProperties, inf);
         }
         // ********************
         // NODES/ELTS FOR Time History ( nodes & elems that are also selected for Time History output)
@@ -945,25 +940,31 @@ void readRadiossAnim(char *fileName)
             }
         } // end if flag7
 
-
-
         // ********************
-        // vtk ascii output 
+        // vtk ascii output
         // ********************
 
-        cout << "# vtk DataFile Version 3.0" << "\n";
-        cout << "vtk output" << "\n";
-        cout << "ASCII" << "\n";
-        cout << "DATASET UNSTRUCTURED_GRID" << "\n";
+        cout << "# vtk DataFile Version 3.0"
+             << "\n";
+        cout << "vtk output"
+             << "\n";
+        cout << "ASCII"
+             << "\n";
+        cout << "DATASET UNSTRUCTURED_GRID"
+             << "\n";
 
-        cout << "FIELD FieldData 2" << "\n";
-        cout << "TIME 1 1 double" << "\n";
+        cout << "FIELD FieldData 2"
+             << "\n";
+        cout << "TIME 1 1 double"
+             << "\n";
         cout << a_time << "\n";
-        cout << "CYCLE 1 1 int" << "\n";
+        cout << "CYCLE 1 1 int"
+             << "\n";
         cout << 0 << "\n";
 
         // nodes
-        cout << "POINTS " << nbNodes << " float" << "\n";
+        cout << "POINTS " << nbNodes << " float"
+             << "\n";
         for (int inod = 0; inod < nbNodes; inod++)
         {
             cout << coorA[(3 * inod)] << " "
@@ -1033,14 +1034,15 @@ void readRadiossAnim(char *fileName)
         }
         cout << "\n";
 
-
         // nodal scalars & vectors
         cout << "POINT_DATA " << nbNodes << "\n";
 
-
         // node id
-        cout << "SCALARS " << "NODE_ID int 1" << "\n";
-        cout << "LOOKUP_TABLE default" << "\n";
+        cout << "SCALARS "
+             << "NODE_ID int 1"
+             << "\n";
+        cout << "LOOKUP_TABLE default"
+             << "\n";
         for (int inod = 0; inod < nbNodes; inod++)
         {
             cout << nodNumA[inod] << "\n";
@@ -1050,8 +1052,10 @@ void readRadiossAnim(char *fileName)
         for (int ifun = 0; ifun < nbFunc; ifun++)
         {
             replaceUnderscore(fTextA[ifun]);
-            cout << "SCALARS " << fTextA[ifun] << " float 1" << "\n";
-            cout << "LOOKUP_TABLE default" << "\n";
+            cout << "SCALARS " << fTextA[ifun] << " float 1"
+                 << "\n";
+            cout << "LOOKUP_TABLE default"
+                 << "\n";
             for (int inod = 0; inod < nbNodes; inod++)
             {
                 cout << funcA[(ifun * nbNodes) + inod] << "\n";
@@ -1062,7 +1066,8 @@ void readRadiossAnim(char *fileName)
         for (int ivect = 0; ivect < nbVect; ivect++)
         {
             replaceUnderscore(vTextA[ivect]);
-            cout << "VECTORS " << vTextA[ivect] << " float" << "\n";
+            cout << "VECTORS " << vTextA[ivect] << " float"
+                 << "\n";
 
             for (int inod = 0; inod < nbNodes; inod++)
             {
@@ -1073,10 +1078,12 @@ void readRadiossAnim(char *fileName)
 
         cout << "CELL_DATA " << nbElts1D + nbFacets + nbElts3D + nbEltsSPH << "\n";
 
-        
         // element id
-        cout << "SCALARS " << "ELEMENT_ID int 1" << "\n";
-        cout << "LOOKUP_TABLE default" << "\n";
+        cout << "SCALARS "
+             << "ELEMENT_ID int 1"
+             << "\n";
+        cout << "LOOKUP_TABLE default"
+             << "\n";
         for (int iel = 0; iel < nbElts1D; iel++)
         {
             cout << elNum1DA[iel] << "\n";
@@ -1096,72 +1103,89 @@ void readRadiossAnim(char *fileName)
         cout << "\n";
 
         // part id
-        cout << "SCALARS " << "PART_ID int 1" << "\n";
-        cout << "LOOKUP_TABLE default" << "\n";
+        cout << "SCALARS "
+             << "PART_ID int 1"
+             << "\n";
+        cout << "LOOKUP_TABLE default"
+             << "\n";
 
-        int part1dIndex=0;
-        int part2dIndex=0;
-        int part3dIndex=0;
-        int part0dIndex=0;
+        int part1dIndex = 0;
+        int part2dIndex = 0;
+        int part3dIndex = 0;
+        int part0dIndex = 0;
 
         for (int iel = 0; iel < nbElts1D; iel++)
         {
-            if (iel == defPart1DA[part1dIndex])part1dIndex++;
-            if(part1dIndex < nbParts1D)
+
+            if (part1dIndex < nbParts1D)
             {
-              cout << atoi(pText1DA[part1dIndex]) << "\n";
+                if (iel == defPart1DA[part1dIndex])
+                    part1dIndex++;
+            }
+
+            if (part1dIndex < nbParts1D)
+            {
+
+                cout << atoi(pText1DA[part1dIndex]) << "\n";
             }
             else
             {
-              cout << 0 << "\n";
+                cout << 0 << "\n";
             }
         }
         for (int iel = 0; iel < nbFacets; iel++)
         {
-            if (iel == defPartA[part2dIndex])part2dIndex++;
+            if (iel == defPartA[part2dIndex])
+                part2dIndex++;
             cout << atoi(pTextA[part2dIndex]) << "\n";
         }
         for (int iel = 0; iel < nbElts3D; iel++)
         {
-            if (iel == defPart3DA[part3dIndex])part3dIndex++;
+            if (iel == defPart3DA[part3dIndex])
+                part3dIndex++;
             cout << atoi(pText3DA[part3dIndex]) << "\n";
         }
         for (int iel = 0; iel < nbEltsSPH; iel++)
         {
-            if (iel == defPartSPH[part0dIndex])part0dIndex++;
+            if (iel == defPartSPH[part0dIndex])
+                part0dIndex++;
             cout << atoi(pTextSPH[part0dIndex]) << "\n";
         }
         cout << "\n";
 
         // element erosion status ( 0:off, 1:on )
-        cout << "SCALARS " << "EROSION_STATUS int 1" << "\n";
-        cout << "LOOKUP_TABLE default" << "\n";
+        cout << "SCALARS "
+             << "EROSION_STATUS int 1"
+             << "\n";
+        cout << "LOOKUP_TABLE default"
+             << "\n";
         for (int iel = 0; iel < nbElts1D; iel++)
         {
-            cout << (int)(delElt1DA[iel]==true) << "\n";
+            cout << (int)(delElt1DA[iel] == true) << "\n";
         }
         for (int iel = 0; iel < nbFacets; iel++)
         {
-            cout << (int)(delEltA[iel]==true) << "\n";
+            cout << (int)(delEltA[iel] == true) << "\n";
         }
         for (int iel = 0; iel < nbElts3D; iel++)
         {
-            cout << (int)(delElt3DA[iel]==true) << "\n";
+            cout << (int)(delElt3DA[iel] == true) << "\n";
         }
         for (int iel = 0; iel < nbEltsSPH; iel++)
         {
-            cout << (int)(delEltSPH[iel]==true) << "\n";
+            cout << (int)(delEltSPH[iel] == true) << "\n";
         }
         cout << "\n";
 
-
-        // elemental scalars & tensors 
+        // elemental scalars & tensors
 
         for (int iefun = 0; iefun < nbEFunc1D; iefun++)
         {
             replaceUnderscore(fText1DA[iefun]);
-            cout << "SCALARS 1DELEM_" << fText1DA[iefun] << " float 1" << "\n";
-            cout << "LOOKUP_TABLE default" << "\n";
+            cout << "SCALARS 1DELEM_" << fText1DA[iefun] << " float 1"
+                 << "\n";
+            cout << "LOOKUP_TABLE default"
+                 << "\n";
             for (int iel = 0; iel < nbElts1D; iel++)
             {
                 cout << eFunc1DA[(iefun * nbElts1D) + iel] << "\n";
@@ -1181,12 +1205,13 @@ void readRadiossAnim(char *fileName)
             cout << "\n";
         }
 
-        
         for (int iefun = 0; iefun < nbEFunc; iefun++)
         {
-            replaceUnderscore(fTextA[iefun+nbFunc]);
-            cout << "SCALARS 2DELEM_" << fTextA[iefun+nbFunc] << " float 1" << "\n";
-            cout << "LOOKUP_TABLE default" << "\n";
+            replaceUnderscore(fTextA[iefun + nbFunc]);
+            cout << "SCALARS 2DELEM_" << fTextA[iefun + nbFunc] << " float 1"
+                 << "\n";
+            cout << "LOOKUP_TABLE default"
+                 << "\n";
             for (int iel = 0; iel < nbElts1D; iel++)
             {
                 cout << 0 << "\n";
@@ -1208,52 +1233,65 @@ void readRadiossAnim(char *fileName)
         for (int ietens = 0; ietens < nbTens; ietens++)
         {
             replaceUnderscore(tTextA[ietens]);
-            cout << "TENSORS 2DELEM_" << tTextA[ietens] << " float" << "\n";
+            cout << "TENSORS 2DELEM_" << tTextA[ietens] << " float"
+                 << "\n";
             for (int iel = 0; iel < nbElts1D; iel++)
             {
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
             }
             for (int iel = 0; iel < nbFacets; iel++)
             {
                 cout << tensValA[(iel * 3) + (ietens * 3 * nbFacets)] << " " << tensValA[(iel * 3) + 2 + (ietens * 3 * nbFacets)] << " "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
                 cout << tensValA[(iel * 3) + 2 + (ietens * 3 * nbFacets)] << " " << tensValA[(iel * 3) + 1 + (ietens * 3 * nbFacets)] << " "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
             }
             for (int iel = 0; iel < nbElts3D; iel++)
             {
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
             }
             for (int iel = 0; iel < nbEltsSPH; iel++)
             {
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
             }
             cout << "\n";
         }
@@ -1261,8 +1299,10 @@ void readRadiossAnim(char *fileName)
         for (int iefun = 0; iefun < nbEFunc3D; iefun++)
         {
             replaceUnderscore(fText3DA[iefun]);
-            cout << "SCALARS 3DELEM_" << fText3DA[iefun] << " float 1" << "\n";
-            cout << "LOOKUP_TABLE default" << "\n";
+            cout << "SCALARS 3DELEM_" << fText3DA[iefun] << " float 1"
+                 << "\n";
+            cout << "LOOKUP_TABLE default"
+                 << "\n";
             for (int iel = 0; iel < nbElts1D; iel++)
             {
                 cout << 0 << "\n";
@@ -1285,30 +1325,37 @@ void readRadiossAnim(char *fileName)
         for (int ietens = 0; ietens < nbTens3D; ietens++)
         {
             replaceUnderscore(tText3DA[ietens]);
-            cout << "TENSORS 3DELEM_" << tText3DA[ietens] << " float" << "\n";
+            cout << "TENSORS 3DELEM_" << tText3DA[ietens] << " float"
+                 << "\n";
             for (int iel = 0; iel < nbElts1D; iel++)
             {
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
             }
             for (int iel = 0; iel < nbFacets; iel++)
             {
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
             }
             for (int iel = 0; iel < nbElts3D; iel++)
             {
@@ -1317,27 +1364,32 @@ void readRadiossAnim(char *fileName)
                 cout << tensVal3DA[(iel * 6) + 4 + (ietens * 6 * nbElts3D)] << " " << tensVal3DA[(iel * 6) + 5 + (ietens * 6 * nbElts3D)] << " " << tensVal3DA[(iel * 6) + 2 + (ietens * 6 * nbElts3D)] << "\n";
             }
             for (int iel = 0; iel < nbEltsSPH; iel++)
-            {   
+            {
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
                 cout << "0 "
                      << "0 "
-                     << "0 " << "\n";
+                     << "0 "
+                     << "\n";
             }
             cout << "\n";
         }
-        
+
         if (flagA[7])
         {
             for (int iefun = 0; iefun < nbEFuncSPH; iefun++)
             {
                 replaceUnderscore(scalTextSPH[iefun]);
-                cout << "SCALARS SPHELEM_" << scalTextSPH[iefun] << " float 1" << "\n";
-                cout << "LOOKUP_TABLE default" << "\n";
+                cout << "SCALARS SPHELEM_" << scalTextSPH[iefun] << " float 1"
+                     << "\n";
+                cout << "LOOKUP_TABLE default"
+                     << "\n";
                 for (int iel = 0; iel < nbElts1D; iel++)
                 {
                     cout << 0 << "\n";
@@ -1360,167 +1412,252 @@ void readRadiossAnim(char *fileName)
             for (int ietens = 0; ietens < nbTensSPH; ietens++)
             {
                 replaceUnderscore(tensTextSPH[ietens]);
-                cout << "TENSORS SPHELEM_" << tensTextSPH[ietens] << " float" << "\n";
+                cout << "TENSORS SPHELEM_" << tensTextSPH[ietens] << " float"
+                     << "\n";
                 for (int iel = 0; iel < nbElts1D; iel++)
                 {
                     cout << "0 "
                          << "0 "
-                         << "0 " << "\n";
+                         << "0 "
+                         << "\n";
                     cout << "0 "
                          << "0 "
-                         << "0 " << "\n";
+                         << "0 "
+                         << "\n";
                     cout << "0 "
                          << "0 "
-                         << "0 " << "\n";
+                         << "0 "
+                         << "\n";
                 }
                 for (int iel = 0; iel < nbFacets; iel++)
                 {
                     cout << "0 "
                          << "0 "
-                         << "0 " << "\n";
+                         << "0 "
+                         << "\n";
                     cout << "0 "
                          << "0 "
-                         << "0 " << "\n";
+                         << "0 "
+                         << "\n";
                     cout << "0 "
                          << "0 "
-                         << "0 " << "\n";
+                         << "0 "
+                         << "\n";
                 }
                 for (int iel = 0; iel < nbElts3D; iel++)
                 {
                     cout << "0 "
                          << "0 "
-                         << "0 " << "\n";
+                         << "0 "
+                         << "\n";
                     cout << "0 "
                          << "0 "
-                         << "0 " << "\n";
+                         << "0 "
+                         << "\n";
                     cout << "0 "
                          << "0 "
-                         << "0 " << "\n";
+                         << "0 "
+                         << "\n";
                 }
                 for (int iel = 0; iel < nbEltsSPH; iel++)
                 {
                     cout << tensValSPH[(iel * 6) + (ietens * 6 * nbEltsSPH)] << " " << tensValSPH[(iel * 6) + 3 + (ietens * 6 * nbEltsSPH)] << " " << tensValSPH[(iel * 6) + 4 + (ietens * 6 * nbEltsSPH)] << "\n";
                     cout << tensValSPH[(iel * 6) + 3 + (ietens * 6 * nbEltsSPH)] << " " << tensValSPH[(iel * 6) + 1 + (ietens * 6 * nbEltsSPH)] << " " << tensValSPH[(iel * 6) + 5 + (ietens * 6 * nbEltsSPH)] << "\n";
-                    cout << tensValSPH[(iel * 6) + 4 + (ietens * 6 * nbEltsSPH)] << " " << tensValSPH[(iel * 6) + 5 + (ietens * 6 * nbEltsSPH)] << " " << tensValSPH[(iel * 6) + 2 + (ietens * 6* nbEltsSPH)] << "\n";
+                    cout << tensValSPH[(iel * 6) + 4 + (ietens * 6 * nbEltsSPH)] << " " << tensValSPH[(iel * 6) + 5 + (ietens * 6 * nbEltsSPH)] << " " << tensValSPH[(iel * 6) + 2 + (ietens * 6 * nbEltsSPH)] << "\n";
                 }
                 cout << "\n";
             }
         }
-
 
         fclose(inf);
         break;
     } // end case block
 
     default:
-        cout << "Error in Anim Files version " << "\n";
+        cout << "Error in Anim Files version "
+             << "\n";
         fclose(inf);
         exit(1);
     } // end switch
 
     if (flagA[2])
     {
-        if(connect3DA != nullptr) free(connect3DA);    
-        if(delElt3DA != nullptr) free(delElt3DA);
-        if(defPart3DA != nullptr) free(defPart3DA);   
-        if(pText3DA != nullptr) free(pText3DA);   
-        if(fText3DA != nullptr) free(fText3DA);   
-        if(eFunc3DA != nullptr) free(eFunc3DA);   
-        if(tText3DA != nullptr) free(tText3DA);   
-        if(tensVal3DA != nullptr) free(tensVal3DA); 
-        if(eMass3DA != nullptr) free(eMass3DA);   
-        if(elNum3DA != nullptr) free(elNum3DA);      
+        if (connect3DA != nullptr)
+            free(connect3DA);
+        if (delElt3DA != nullptr)
+            free(delElt3DA);
+        if (defPart3DA != nullptr)
+            free(defPart3DA);
+        if (pText3DA != nullptr)
+            freeStarStar(pText3DA, nbParts3D);
+        if (fText3DA != nullptr)
+            freeStarStar(fText3DA, nbEFunc3D);
+        if (eFunc3DA != nullptr)
+            free(eFunc3DA);
+        if (tText3DA != nullptr)
+            freeStarStar(tText3DA, nbTens3D);
+        if (tensVal3DA != nullptr)
+            free(tensVal3DA);
+        if (eMass3DA != nullptr)
+            free(eMass3DA);
+        if (elNum3DA != nullptr)
+            free(elNum3DA);
     }
 
-    if(skewShortValA != nullptr) free(skewShortValA); 
-    if(skewValA != nullptr) free(skewValA);         
-    if(coorA != nullptr) free(coorA);            
-    if(connectA != nullptr) free(connectA);           
-    if(delEltA != nullptr) free(delEltA);           
-    if(defPartA != nullptr) free(defPartA);           
-    if(pTextA != nullptr) free(pTextA);           
-    if(normShortA != nullptr) free(normShortA);    
-    if(normFloatA != nullptr) free(normFloatA);       
-    if(fTextA != nullptr) free(fTextA);           
-    if(funcA != nullptr) free(funcA);            
-    if(eFuncA != nullptr) free(eFuncA);           
-    if(vTextA != nullptr) free(vTextA);           
-    if(vectValA != nullptr) free(vectValA);         
-    if(tTextA != nullptr) free(tTextA);           
-    if(tensValA != nullptr) free(tensValA);
+    if (skewShortValA != nullptr)
+        free(skewShortValA);
+    if (skewValA != nullptr)
+        free(skewValA);
+    if (coorA != nullptr)
+        free(coorA);
+    if (connectA != nullptr)
+        free(connectA);
+    if (delEltA != nullptr)
+        free(delEltA);
+    if (defPartA != nullptr)
+        free(defPartA);
+    if (pTextA != nullptr)
+        freeStarStar(pTextA, nbParts);
+    if (normShortA != nullptr)
+        free(normShortA);
+    if (normFloatA != nullptr)
+        free(normFloatA);
+    if (fTextA != nullptr)
+        freeStarStar(fTextA, nbFunc + nbEFunc);
+    if (funcA != nullptr)
+        free(funcA);
+    if (eFuncA != nullptr)
+        free(eFuncA);
+    if (vTextA != nullptr)
+        freeStarStar(vTextA, nbVect);
+    if (vectValA != nullptr)
+        free(vectValA);
+    if (tTextA != nullptr)
+        freeStarStar(tTextA, nbTens);
+    if (tensValA != nullptr)
+        free(tensValA);
 
     if (flagA[0] == 1)
-    {         
-        if(nMassA != nullptr) free(nMassA);
-        if(eMassA != nullptr) free(eMassA);    
+    {
+        if (nMassA != nullptr)
+            free(nMassA);
+        if (eMassA != nullptr)
+            free(eMassA);
     }
- 
+
     if (flagA[1])
     {
-        if(nodNumA != nullptr) free(nodNumA);
-        if(elNumA != nullptr) free(elNumA);  
-    }   
+        if (nodNumA != nullptr)
+            free(nodNumA);
+        if (elNumA != nullptr)
+            free(elNumA);
+    }
 
     if (flagA[3])
     {
-        if(connect1DA != nullptr) free(connect1DA);  
-        if(delElt1DA != nullptr) free(delElt1DA);
-        if(defPart1DA != nullptr) free(defPart1DA);  
-        if(pText1DA != nullptr) free(pText1DA);  
-        if(fText1DA != nullptr) free(fText1DA);  
-        if(eFunc1DA != nullptr) free(eFunc1DA);  
-        if(tText1DA != nullptr) free(tText1DA);  
-        if(torsVal1DA != nullptr) free(torsVal1DA);
-        if(elt2Skew1DA != nullptr) free(elt2Skew1DA); 
-        if(eMass1DA != nullptr) free(eMass1DA);  
-        if(elNum1DA != nullptr) free(elNum1DA); 
-    }  
-    
+        if (connect1DA != nullptr)
+            free(connect1DA);
+        if (delElt1DA != nullptr)
+            free(delElt1DA);
+        if (defPart1DA != nullptr)
+            free(defPart1DA);
+        if (pText1DA != nullptr)
+            freeStarStar(pText1DA, nbParts1D);
+        if (fText1DA != nullptr)
+            freeStarStar(fText1DA, nbEFunc1D);
+        if (eFunc1DA != nullptr)
+            free(eFunc1DA);
+        if (tText1DA != nullptr)
+            freeStarStar(tText1DA, nbTors1D);
+        if (torsVal1DA != nullptr)
+            free(torsVal1DA);
+        if (elt2Skew1DA != nullptr)
+            free(elt2Skew1DA);
+        if (eMass1DA != nullptr)
+            free(eMass1DA);
+        if (elNum1DA != nullptr)
+            free(elNum1DA);
+    }
+
     if (flagA[4])
     {
-        if(materialTextA != nullptr) free(materialTextA);  
-        if(propertiesTextA != nullptr) free(propertiesTextA);
-        if(materialTypeA != nullptr) free(materialTypeA);    
-        if(propertiesTypeA != nullptr) free(propertiesTypeA);  
-        if(part2subset2DA != nullptr) free(part2subset2DA);   
-        if(partMaterial2DA != nullptr) free(partMaterial2DA);  
-        if(partProperties2DA != nullptr) free(partProperties2DA);
-        if(part2subset3DA != nullptr) free(part2subset3DA);   
-        if(partMaterial3DA != nullptr) free(partMaterial3DA);  
-        if(partProperties3DA != nullptr) free(partProperties3DA);
-        if(part2subset1DA != nullptr) free(part2subset1DA);   
-        if(partMaterial1DA != nullptr) free(partMaterial1DA);  
-        if(partProperties1DA != nullptr) free(partProperties1DA); 
-    }  
+        if (materialTextA != nullptr)
+            freeStarStar(materialTextA, nbMaterials);
+        if (propertiesTextA != nullptr)
+            freeStarStar(propertiesTextA, nbProperties);
+        if (materialTypeA != nullptr)
+            free(materialTypeA);
+        if (propertiesTypeA != nullptr)
+            free(propertiesTypeA);
+        if (part2subset2DA != nullptr)
+            free(part2subset2DA);
+        if (partMaterial2DA != nullptr)
+            free(partMaterial2DA);
+        if (partProperties2DA != nullptr)
+            free(partProperties2DA);
+        if (part2subset3DA != nullptr)
+            free(part2subset3DA);
+        if (partMaterial3DA != nullptr)
+            free(partMaterial3DA);
+        if (partProperties3DA != nullptr)
+            free(partProperties3DA);
+        if (part2subset1DA != nullptr)
+            free(part2subset1DA);
+        if (partMaterial1DA != nullptr)
+            free(partMaterial1DA);
+        if (partProperties1DA != nullptr)
+            free(partProperties1DA);
+    }
 
     if (flagA[5])
     {
-        if(nodes2THA != nullptr) free(nodes2THA);     
-        if(n2thTextA != nullptr) free(n2thTextA);   
-        if(elt2DTHA != nullptr) free(elt2DTHA);      
-        if(elt2DthTextA != nullptr) free(elt2DthTextA);
-        if(elt3DTHA != nullptr) free(elt3DTHA);      
-        if(elt3DthTextA != nullptr) free(elt3DthTextA);
-        if(elt1DTHA != nullptr) free(elt1DTHA);      
-        if(elt1DthTextA != nullptr) free(elt1DthTextA); 
-    }  
+        if (nodes2THA != nullptr)
+            free(nodes2THA);
+        if (n2thTextA != nullptr)
+            freeStarStar(n2thTextA, nbNodesTH);
+        if (elt2DTHA != nullptr)
+            free(elt2DTHA);
+        if (elt2DthTextA != nullptr)
+            freeStarStar(elt2DthTextA, nbElts2DTH);
+        if (elt3DTHA != nullptr)
+            free(elt3DTHA);
+        if (elt3DthTextA != nullptr)
+            freeStarStar(elt3DthTextA, nbElts3DTH);
+        if (elt1DTHA != nullptr)
+            free(elt1DTHA);
+        if (elt1DthTextA != nullptr)
+            freeStarStar(elt1DthTextA, nbElts1DTH);
+    }
 
     if (flagA[7])
     {
-        if(connecSPH != nullptr) free(connecSPH);
-        if(delEltSPH != nullptr) free(delEltSPH);          
-        if(defPartSPH != nullptr) free(defPartSPH);
-        if(eFuncSPH != nullptr) free(eFuncSPH);
-        if(scalTextSPH != nullptr) free(scalTextSPH);
-        if(tensTextSPH != nullptr) free(tensTextSPH);
-        if(tensValSPH != nullptr) free(tensValSPH);
-        if(pTextSPH != nullptr) free(pTextSPH);
-        if(eMassSPH != nullptr) free(eMassSPH);
-        if(nodNumSPH != nullptr) free(nodNumSPH);
-        if(numParentSPH != nullptr) free(numParentSPH);
-        if(matPartSPH != nullptr) free(matPartSPH);
-        if(propPartSPH != nullptr) free(propPartSPH);
-    }  
+        if (connecSPH != nullptr)
+            free(connecSPH);
+        if (delEltSPH != nullptr)
+            free(delEltSPH);
+        if (defPartSPH != nullptr)
+            free(defPartSPH);
+        if (eFuncSPH != nullptr)
+            free(eFuncSPH);
+        if (scalTextSPH != nullptr)
+            freeStarStar(scalTextSPH, nbEFuncSPH);
+        if (tensTextSPH != nullptr)
+            freeStarStar(tensTextSPH, nbTensSPH);
+        if (tensValSPH != nullptr)
+            free(tensValSPH);
+        if (pTextSPH != nullptr)
+            freeStarStar(pTextSPH, nbPartsSPH);
+        if (eMassSPH != nullptr)
+            free(eMassSPH);
+        if (nodNumSPH != nullptr)
+            free(nodNumSPH);
+        if (numParentSPH != nullptr)
+            free(numParentSPH);
+        if (matPartSPH != nullptr)
+            free(matPartSPH);
+        if (propPartSPH != nullptr)
+            free(propPartSPH);
+    }
 }
 
 // *******************
@@ -1528,7 +1665,8 @@ int main(int argc, char **argv)
 {
     if (argc < 2)
     {
-        cout << "Call a filename" << "\n";
+        cout << "Call a filename"
+             << "\n";
         exit(1);
     }
     readRadiossAnim(argv[1]);
