@@ -12317,8 +12317,8 @@ Parameter ALPHA should be lower than square root of 2/3 (0.8164965809)
 /MESSAGE/1716/DESCRIPTION
    -- MATERIAL ID: %d
    -- MATERIAL TITLE: %s
-   %i2="/FUNC"
-   %i3="/FUNC"
+   %i2="/FUNCT"
+   %i3="/FUNCT"
    %i1="/MAT"
    NO INTERSECTION FOUND BETWEEN LOADING AND UNLOADING CURVES %d and %d
 
@@ -13232,7 +13232,7 @@ Parameter ALPHA should be lower than square root of 2/3 (0.8164965809)
 /MESSAGE/1874/DESCRIPTION
    -- FUNCTION ID: %d
    -- TITLE: %s
-   %i1="/FUNC"
+   %i1="/FUNCT"
       THERE IS ONLY 1 POINT DEFINED IN THE FUNCTION. THIS MAY CAUSE ISSUES IN THE COMPUTATION.
 /MESSAGE/1874/SOLUTION
    ADD MORE POINTS TO THE FUNCTION.
@@ -14270,10 +14270,10 @@ Parameter ALPHA should be lower than square root of 2/3 (0.8164965809)
    -- MATERIAL ID: %d
    -- MATERIAL TITLE: %s
    %i1="/MAT"
-   %i2="/FUNC"
-   %i3="/FUNC"
    YIELD STRESS CURVES FOR DIFFERENT STRAIN RATES SHOULD NOT INTERSECT
    CURVES %d and %d ARE INTERSECTING
+   %i2="/FUNCT"
+   %i3="/FUNCT"
 
 
 
