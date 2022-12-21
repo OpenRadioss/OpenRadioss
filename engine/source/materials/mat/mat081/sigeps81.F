@@ -737,6 +737,8 @@ c-----------
 Chd|====================================================================
 Chd|  FCRIT                         source/materials/mat/mat081/sigeps81.F
 Chd|-- called by -----------
+Chd|        FAIL_INIEVO_C                 source/materials/fail/inievo/fail_inievo_c.F
+Chd|        FAIL_INIEVO_S                 source/materials/fail/inievo/fail_inievo_s.F
 Chd|        SIGEPS81                      source/materials/mat/mat081/sigeps81.F
 Chd|-- calls ---------------
 Chd|====================================================================

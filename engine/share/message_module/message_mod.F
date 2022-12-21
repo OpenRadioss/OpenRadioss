@@ -77,6 +77,8 @@ Chd|        ERR_THK                       source/elements/shell/err_thk.F
 Chd|        EULRO2                        source/ale/euler2d/eulro2.F   
 Chd|        EXECARGCHECK                  source/engine/execargcheck.F  
 Chd|        FACEPOLY                      source/airbag/fvmesh.F        
+Chd|        FAIL_INIEVO_C                 source/materials/fail/inievo/fail_inievo_c.F
+Chd|        FAIL_INIEVO_S                 source/materials/fail/inievo/fail_inievo_s.F
 Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
 Chd|        FAIL_TAB_OLD_C                source/materials/fail/tabulated/fail_tab_old_c.F
 Chd|        FAIL_TAB_OLD_XFEM             source/materials/fail/tabulated/fail_tab_old_xfem.F

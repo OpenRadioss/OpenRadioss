@@ -25,7 +25,6 @@ Chd|  SPMD_EXCH_A_INT2H             source/mpi/forces/spmd_exch_a_int2h.F
 Chd|-- called by -----------
 Chd|        INTTI1                        source/interfaces/interf/intti1.F
 Chd|-- calls ---------------
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE SPMD_EXCH_A_INT2H(
      1   A    ,AR     ,MS    ,IN     ,STIFN,
