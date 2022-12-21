@@ -60,7 +60,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NUPARF) , INTENT(IN)  :: UPARF
       my_real, DIMENSION(NUPARAM), INTENT(OUT) :: UPARAM
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
-      TYPE(MLAW_TAG_)    :: MLAW_TAG
+      TYPE(MLAW_TAG_),INTENT(INOUT)    :: MLAW_TAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT)    :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

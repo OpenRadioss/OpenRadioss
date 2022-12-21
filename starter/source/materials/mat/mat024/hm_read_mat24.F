@@ -79,7 +79,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM)  ,INTENT(OUT)     :: PM     
       CHARACTER(nchartitle) ,INTENT(IN)            :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
-      TYPE(MLAW_TAG_) :: MTAG
+      TYPE(MLAW_TAG_), INTENT(INOUT) :: MTAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -73,8 +73,8 @@ C-----------------------------------------------
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)   :: UPARAM
       my_real, DIMENSION(100),INTENT(OUT)          :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
-      TYPE(MLAW_TAG_), INTENT(OUT)                 :: MTAG
-      TYPE(MATPARAM_STRUCT_) ,INTENT(OUT)          :: MATPARAM  
+      TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT)        :: MATPARAM  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

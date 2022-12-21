@@ -71,7 +71,7 @@ c
       INTEGER, INTENT(OUT)   :: IPM(NPROPMI)
       my_real, INTENT(OUT)   :: PM(NPROPM)     
       INTEGER, INTENT(OUT)   :: NUPARAM,NUVAR,NFUNC,JTHE
-      TYPE(MLAW_TAG_) ,INTENT(OUT)         :: MTAG
+      TYPE(MLAW_TAG_) ,INTENT(INOUT)         :: MTAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

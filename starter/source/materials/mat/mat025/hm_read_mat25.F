@@ -82,7 +82,7 @@ c
       INTEGER, INTENT(OUT)                         :: ISRATE
       my_real, DIMENSION(100)       ,INTENT(OUT)   :: PARMAT     
       my_real, DIMENSION(NPROPM)    ,INTENT(OUT)   :: PM     
-      TYPE(MLAW_TAG_)               ,INTENT(OUT)   :: MTAG
+      TYPE(MLAW_TAG_)               ,INTENT(INOUT) :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 c
       INTEGER :: MAXUPARAM,NUPARAM
