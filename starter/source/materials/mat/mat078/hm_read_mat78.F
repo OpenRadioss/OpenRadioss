@@ -75,7 +75,7 @@ C-----------------------------------------------
       my_real  ,DIMENSION(100)          ,INTENT(OUT) :: PARMAT   
       my_real  ,DIMENSION(MAXUPARAM)    ,INTENT(OUT) :: UPARAM
       INTEGER         ,INTENT(OUT)     :: NFUNC,NUVAR,NVARTMP,NUPARAM,ISRATE,IMATVIS
-      TYPE(MLAW_TAG_) ,INTENT(OUT)     :: MTAG
+      TYPE(MLAW_TAG_) ,INTENT(INOUT)   :: MTAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

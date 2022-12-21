@@ -94,7 +94,7 @@ C-----------------------------------------------
       my_real, DIMENSION(MAXUPARAM), INTENT(INOUT) :: UPARAM
       my_real, INTENT(INOUT) :: PARMAT(*)
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
-      TYPE(MATPARAM_STRUCT_)  :: MATPARAM
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT)  :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

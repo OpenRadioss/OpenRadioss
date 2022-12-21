@@ -86,7 +86,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(OUT)   :: IFUNC
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)   :: UPARAM
       my_real, DIMENSION(100),INTENT(OUT) :: PARMAT
-      TYPE(MATPARAM_STRUCT_) ,INTENT(OUT) :: MATPARAM
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
