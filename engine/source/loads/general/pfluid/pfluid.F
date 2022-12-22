@@ -59,6 +59,7 @@ C-----------------------------------------------
 #include      "scr16_c.inc"
 #include      "scr17_c.inc"
 #include      "tabsiz_c.inc"
+#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   E x t e r n a l  F u n c t i o n s
 C-----------------------------------------------
@@ -127,7 +128,8 @@ C-----------------------------------------------
           ELSE                                                                                     
              TS = TT-SENSOR_TAB(ISENS)%TSTART                                                              
              IF(TS < ZERO) CYCLE                                                                   
-          ENDIF                                                                                    
+          ENDIF  
+!$OMP DO SCHEDULE(GUIDED,MVSIZ)                                                                                            
           DO I = 1,ILOADP(1,NL)/4                                                                  
             N1=LLOADP(ILOADP(4,NL)+4*(I-1))                                                        
             N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)                                                      
@@ -331,7 +333,9 @@ C-----------------------------------------------
      +                           +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))   
                                                        
             ENDIF                                                                                  
-          ENDDO !next I                                                                                 
+          ENDDO !next I   
+!$OMP END DO
+                                                                                        
         ENDDO !nextNL
 
 #include "atomic.inc"
@@ -365,6 +369,7 @@ C-----------------------------------------------
            XSENS = ONE
            ! -------------
            ! flush fsky array to 0.
+!$OMP DO SCHEDULE(GUIDED,MVSIZ)           
            DO I = 1,ILOADP(1,NL)/4
              N1=LLOADP(ILOADP(4,NL)+4*(I-1))
              N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)
@@ -381,6 +386,7 @@ C-----------------------------------------------
                   FSKY(1:3,IAD) = ZERO
              ENDDO
            ENDDO
+!$OMP END DO           
            ! -------------
            DO K=1,NSENSOR
              IF(ILOADP(6,NL) == SENSOR_TAB(K)%SENS_ID) ISENS=K
@@ -391,6 +397,8 @@ C-----------------------------------------------
               TS = TT- SENSOR_TAB(ISENS)%TSTART 
               IF(TS < ZERO) CYCLE     
            ENDIF
+
+!$OMP DO SCHEDULE(GUIDED,MVSIZ)                      
            DO I = 1,ILOADP(1,NL)/4
              N1=LLOADP(ILOADP(4,NL)+4*(I-1))
              N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)
@@ -603,8 +611,9 @@ C-----------------------------------------------
      +                          +FY*(V(2,N1)+V(2,N2)+V(2,N3))
      +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
              ENDIF
-            ENDDO!next I
-          ENDDO!next NL
+           ENDDO!next I
+!$OMP END DO           
+         ENDDO!next NL
 
 #include "atomic.inc"
                 TFEXT = TFEXT + TFEXTT
@@ -641,6 +650,7 @@ C---------------------
               TS = TT- SENSOR_TAB(ISENS)%TSTART 
               IF(TS < ZERO) CYCLE     
            ENDIF
+!$OMP DO SCHEDULE(GUIDED,MVSIZ)           
            DO I = 1,ILOADP(1,NL)/4
              N1=LLOADP(ILOADP(4,NL)+4*(I-1))
              N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)
@@ -853,6 +863,7 @@ C---------------------
      +                           +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
              ENDIF
            ENDDO!next I
+!$OMP END DO           
          ENDDO!next NL
 C
 #include "atomic.inc"
