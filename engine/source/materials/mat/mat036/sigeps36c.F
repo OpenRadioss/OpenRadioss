@@ -33,16 +33,17 @@ Chd|====================================================================
      2     KFUNC  ,NPF    ,NPT0    ,IPT     ,IPLAS  ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
      3     AREA   ,EINT   ,THKLY   ,ASRATE  ,
-     4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,
-     5     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
-     6     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX   ,
-     7     SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
-     8     SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     9     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR    ,
-     A     VARTMP ,OFF    ,NGL     ,IPM     ,IMAT    ,
-     B     ETSE   ,GS     ,YLD     ,EPSP    ,ISRATE  ,
+     4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
+     5     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
+     6     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
+     7     SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
+     8     SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
+     9     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
+     A     VARTMP ,OFF    ,NGL     ,IPM     ,IMAT   ,
+     B     ETSE   ,GS     ,YLD     ,EPSP    ,ISRATE ,
      C     DPLA_I ,GAMA_IMP,SIGNOR ,SHF     ,HARDM  ,
-     D     FACYLDI,SIGB   ,INLOC   ,DPLANL  )
+     D     FACYLDI,SIGB   ,INLOC   ,DPLANL  ,DMG    ,
+     E     PLANL  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -117,7 +118,8 @@ C-----------------------------------------------
      .   DEPSXX(NEL),DEPSYY(NEL),DEPSXY(NEL),DEPSYZ(NEL),DEPSZX(NEL),
      .   EPSXX(NEL) ,EPSYY(NEL),EPSXY(NEL),EPSYZ(NEL),EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
-     .   GS(NEL),EPSP(NEL),SHF(NEL),HARDM(NEL),DPLANL(NEL)
+     .   GS(NEL),EPSP(NEL),SHF(NEL),HARDM(NEL),DPLANL(NEL),DMG(NEL),
+     .   PLANL(NEL)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -272,6 +274,7 @@ c-------------------
      .   + SQRT( (EPSXX(1:NEL)-EPSYY(1:NEL))*(EPSXX(1:NEL)-EPSYY(1:NEL))
      .   + EPSXY(1:NEL)*EPSXY(1:NEL) ) )
         FAIL(1:NEL) = MAX(EM20,MIN(ONE,(EPSR2-EPST(1:NEL))/(EPSR2-EPSR1)))
+        DMG(1:NEL)  = ONE - MAX(ZERO,MIN(ONE,(EPSR2-EPST(1:NEL))/(EPSR2-EPSR1)))
       ELSE
         FAIL(1:NEL) = ONE
       ENDIF
@@ -902,13 +905,29 @@ c----------------------------------------------------------------------
 c     Element failure
 c----------------------------------------------------------------------
       IF (IFAIL == 1) THEN
-        DO I=1,NEL
-          IF (OFF(I) == ONE .and. PLA(I) > EPSMAX) OFF(I) = FOUR_OVER_5
-        ENDDO
+        IF (INLOC > 0) THEN 
+          DO I=1,NEL
+            IF (EPSMAX < EP20) DMG(I) = PLANL(I)/EPSMAX
+            IF (OFF(I) == ONE .AND. PLANL(I) > EPSMAX) OFF(I) = FOUR_OVER_5
+          ENDDO
+        ELSE 
+          DO I=1,NEL
+            IF (EPSMAX < EP20) DMG(I) = PLA(I)/EPSMAX
+            IF (OFF(I) == ONE .AND. PLA(I) > EPSMAX)   OFF(I) = FOUR_OVER_5
+          ENDDO
+        ENDIF
       ELSEIF (IFAIL == 2) THEN
-        DO I=1,NEL
-          IF (OFF(I) == ONE .and. (PLA(I) > EPSMAX .or. EPST(I) > EPSF)) OFF(I) = FOUR_OVER_5
-        ENDDO
+        IF (INLOC > 0) THEN
+          DO I=1,NEL 
+            IF (EPSMAX < EP20) DMG(I) = MAX(DMG(I),PLANL(I)/EPSMAX)
+            IF (OFF(I) == ONE .AND. (PLANL(I) > EPSMAX .OR. EPST(I) > EPSF)) OFF(I) = FOUR_OVER_5
+          ENDDO
+        ELSE
+          DO I=1,NEL 
+            IF (EPSMAX < EP20) DMG(I) = MAX(DMG(I),PLA(I)/EPSMAX)
+            IF (OFF(I) == ONE .AND. (PLA(I) > EPSMAX .OR. EPST(I) > EPSF))   OFF(I) = FOUR_OVER_5
+          ENDDO
+        ENDIF
       ENDIF     
 c----------------------------------------------------------------------
       IF (IMPL_S > 0) THEN

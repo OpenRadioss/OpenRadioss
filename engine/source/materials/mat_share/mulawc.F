@@ -1125,7 +1125,8 @@ C
      A          VARTMP ,OFF    ,NGL    ,IPM     ,IMAT     ,
      B          ETSE   ,GS     ,SIGY   ,EPSPL   ,ISRATE   ,
      C          DPLA   ,G_IMP  ,SIGKSI  ,SHF      ,HARDM  ,
-     D          YLDFAC ,LBUF%SIGB,INLOC ,VARNL(1,IT)) 
+     D          YLDFAC ,LBUF%SIGB,INLOC ,VARNL(1,IT),LBUF%DMG,
+     E          LBUF%PLANL) 
           ELSEIF (ILAW == 42) THEN
            CALL SIGEPS42C(
      1         JLT    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,

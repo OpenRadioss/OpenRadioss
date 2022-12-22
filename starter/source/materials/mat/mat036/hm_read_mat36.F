@@ -244,7 +244,7 @@ c-----------------------------------------------
      .              C2=TITR)
       END IF
 C      
-      IF (EPSR1 == ZERO .AND. EPSR1 == ZERO .AND. EPSF == ZERO) THEN
+      IF (EPSR1 == ZERO .AND. EPSR2 == ZERO .AND. EPSF == ZERO) THEN
         IF (EPSMAX == ZERO) THEN
           IFAIL = 0
         ELSE
@@ -257,6 +257,10 @@ c     IFAIL = 0 => no failure at all inside material
 c     IFAIL = 1 => only failure vs max plastic strain
 c     IFAIL = 2 => failure + damage vs principal tensile strain
 c
+      IF (IFAIL > 0) THEN 
+        MTAG%G_DMG = 1
+        MTAG%L_DMG = 1        
+      ENDIF
       IF (EPSMAX== ZERO) EPSMAX= INFINITY
       IF (EPSR1 == ZERO) EPSR1 = INFINITY
       IF (EPSR2 == ZERO) EPSR2 = TWO*INFINITY
