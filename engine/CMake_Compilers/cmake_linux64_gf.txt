@@ -123,7 +123,7 @@ endif()
 set ( opt_flag "  ${wo_linalg} -DCOMP_GFORTRAN=1 -ffp-contract=off -frounding-math -fopenmp " )
 
 if ( sanitize STREQUAL "1" )
-set( FSANITIZE "-fsanitize=address -DSANITIZE") 
+set( FSANITIZE "-fsanitize=address -fsanitize=undefined  -fsanitize=bounds-strict -DSANITIZE") 
 endif()
 
 set(opt_flag "${opt_flag} ${mumps_flag} ${mumps_inc}")
