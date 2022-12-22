@@ -530,7 +530,7 @@ C-------------------
      9    SSPP     ,VIS      ,UVAR     ,OFF      ,NGL      ,IPT   ,
      A    IPM      ,MAT      ,EPSD     ,IPLA     ,SIGY     ,LBUF%PLA,
      B    DPLA     ,ET       ,BIDON    ,BIDON    ,AMU      ,CST1  ,
-     C    NVARTMP  ,VARTMP   ,LBUF%SIGB)
+     C    NVARTMP  ,VARTMP   ,LBUF%SIGB,LBUF%DMG )
 c
           DEFP(1:LLT)   =  LBUF%PLA(1:LLT)
 c

@@ -820,7 +820,7 @@ c
      8                SSP    ,VIS    ,UVAR   ,OFF    ,NGL    ,0     ,
      9                IPM    ,MAT    ,EPSD   ,IPLA   ,SIGY   ,DEFP  ,
      A                DPLA   ,ET     ,AL_IMP ,SIGNOR ,AMU    ,YLDFAC,
-     B                NVARTMP,VARTMP ,LBUF%SIGB)
+     B                NVARTMP,VARTMP ,LBUF%SIGB,LBUF%DMG,INLOC,LBUF%PLANL)
 
       ELSEIF (MTN == 37) THEN
           IF (N2D == 0) THEN

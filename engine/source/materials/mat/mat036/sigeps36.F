@@ -41,8 +41,9 @@ Chd|====================================================================
      7     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
      8     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,IPT    ,
      9     IPM    ,MAT    ,EPSP    ,IPLA    ,YLD     ,PLA    ,
-     A     DPLA1  ,ETSE   ,AL_IMP  ,SIGNOR  ,AMU,
-     B     FACYLDI,NVARTMP,VARTMP  ,SIGB)
+     A     DPLA1  ,ETSE   ,AL_IMP  ,SIGNOR  ,AMU     ,
+     B     FACYLDI,NVARTMP,VARTMP  ,SIGB    ,DMG     ,INLOC  ,
+     C     PLANL  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -101,7 +102,7 @@ C---------+---------+---+---+--------------------------------------------
 #include      "impl1_c.inc"
 C=======================================================================
       INTEGER NEL, NUPARAM, NUVAR,IPT,IPLA,NVARTMP,
-     .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*)
+     .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*),INLOC
       my_real
      .   TIME,TIMESTEP,UPARAM(*),SIGB(*),
      .   RHO(NEL),RHO0(NEL),VOLUME(NEL),EINT(NEL),
@@ -111,7 +112,8 @@ C=======================================================================
      .   DEPSXY(NEL),DEPSYZ(NEL),DEPSZX(NEL),
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOZZ(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
-     .   EPSP(NEL),ETSE(NEL),AMU(NEL),FACYLDI(NEL)
+     .   EPSP(NEL),ETSE(NEL),AMU(NEL),FACYLDI(NEL),
+     .   DMG(NEL),PLANL(NEL)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -404,6 +406,7 @@ C-------------------
 C     tension failure 
 C-------------------
           FAIL(I) = MAX(EM20, MIN(ONE, (EPSR2-EPST)/(EPSR2-EPSR1) ))
+          DMG(I)  = ONE - MAX(ZERO, MIN(ONE,(EPSR2-EPST)/(EPSR2-EPSR1)))
         ENDDO
       ENDIF
 C=======================================================================
@@ -1463,21 +1466,45 @@ c
       IF (IFAIL > 0) THEN
         NINDX = 0
         IF (IFAIL == 2) THEN
-          DO I=1,NEL
-            IF ((PLA(I) > EPSMAX .OR. EPSTT(I) > EPSF) .AND. OFF(I) == ONE) THEN
-              OFF(I)= FOUR_OVER_5
-              NINDX = NINDX+1
-              INDX(NINDX) = I
-            ENDIF
-          ENDDO
+          IF (INLOC > 0) THEN 
+            DO I=1,NEL
+              IF (EPSMAX < EP20) DMG(I) = MAX(DMG(I),PLANL(I)/EPSMAX)
+              IF ((PLANL(I) > EPSMAX .OR. EPSTT(I) > EPSF) .AND. OFF(I) == ONE) THEN
+                OFF(I)= FOUR_OVER_5
+                NINDX = NINDX+1
+                INDX(NINDX) = I
+              ENDIF
+            ENDDO
+          ELSE
+            DO I=1,NEL
+              IF (EPSMAX < EP20) DMG(I) = MAX(DMG(I),PLA(I)/EPSMAX)
+              IF ((PLA(I) > EPSMAX .OR. EPSTT(I) > EPSF) .AND. OFF(I) == ONE) THEN
+                OFF(I)= FOUR_OVER_5
+                NINDX = NINDX+1
+                INDX(NINDX) = I
+              ENDIF
+            ENDDO
+          ENDIF
         ELSE
-          DO I=1,NEL
-            IF (PLA(I) > EPSMAX .AND. OFF(I) == ONE) THEN
-              OFF(I)= FOUR_OVER_5
-              NINDX = NINDX+1
-              INDX(NINDX) = I
-            ENDIF
-          ENDDO
+          IF (INLOC > 0) THEN 
+            DO I=1,NEL
+              IF (EPSMAX < EP20) DMG(I) = PLANL(I)/EPSMAX
+              IF (PLANL(I) > EPSMAX .AND. OFF(I) == ONE) THEN
+                OFF(I)= FOUR_OVER_5
+                NINDX = NINDX+1
+                INDX(NINDX) = I
+              ENDIF
+            ENDDO
+          ELSE
+            DO I=1,NEL
+              IF (EPSMAX < EP20) DMG(I) = PLA(I)/EPSMAX
+              IF (PLA(I) > EPSMAX .AND. OFF(I) == ONE) THEN
+                OFF(I)= FOUR_OVER_5
+                NINDX = NINDX+1
+                INDX(NINDX) = I
+              ENDIF
+            ENDDO
+          ENDIF
         END IF
         IF (NINDX > 0 .AND. IMCONV == 1) THEN
           IDEL7NOK = 1
