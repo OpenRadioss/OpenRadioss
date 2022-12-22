@@ -3228,11 +3228,13 @@ C-------------------------------------------------------------------
           CALL TRACE_IN(10,0,ZERO)
         IF (IMON>0) CALL STARTIME(4,1)
         IF (IMONM > 0) CALL STARTIME(41,1)
+!$OMP PARALLEL
           CALL PFLUID(ILOADP  ,LOADP   ,NPC   ,TF   ,A         ,
      2                V     ,X      ,XFRAME  ,AR   ,VR        ,
      3                SENSOR_TAB,WEIGHT,TFEXC,IADS(I87M),
      4                FSKY    ,FSKY    ,LLOADP ,FEXT  ,H3D_DATA
      5                )
+!$OMP END PARALLEL
         IF (IMONM > 0) CALL STOPTIME(41,1)
         IF (IMON>0) CALL STOPTIME(4,1)
           CALL TRACE_OUT(10)
