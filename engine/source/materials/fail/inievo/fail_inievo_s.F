@@ -272,7 +272,7 @@ c
           DEV_PR(I,1) = DEV_PR(I,2)
           DEV_PR(I,2) = R_INTER
         ENDIF       
-        ALPHA(I) = DEV_PR(I,2)/SIGN(MAX(ABS(DEV_PR(I,1)),EM20),DEV_PR(I,1))
+        ALPHA(I) = DEV_PR(I,3)/SIGN(MAX(ABS(DEV_PR(I,1)),EM20),DEV_PR(I,1))
 c
       ENDDO
 c    
@@ -288,7 +288,7 @@ c
           ! Plastic strain vs shear influence (theta)
           CASE(2)
             DO I = 1,NEL
-              XVEC(I,1) = (SVM(I) + INI_P1(J)*P(I))/MAX(MAXSHEAR(I),EM20)
+              XVEC(I,1) = (SVM(I) + INI_P1(J)*P(I))/MAX(MAXSHEAR(I),EM08)
             ENDDO
           ! MSFLD / FLD
           CASE(3,4)
@@ -296,7 +296,7 @@ c
           ! Normalized principal stress
           CASE(5)
             DO I = 1,NEL
-              XVEC(I,1) = (SVM(I) + INI_P1(J)*P(I))/MAX(SIGPMAJ(I),EM20)
+              XVEC(I,1) = (SVM(I) + INI_P1(J)*P(I))/MAX(SIGPMAJ(I),EM08)
             ENDDO
         END SELECT
         XVEC(1:NEL,2)   = EPSP(1:NEL)/SR_REF(J)
@@ -312,13 +312,13 @@ c
               XVEC(1:NEL,2) = TRIAX(1:NEL)
             CASE(2)
               DO I = 1,NEL
-                XVEC(I,2) = (SVM(I) + INI_P1(J)*P(I))/MAX(MAXSHEAR(I),EM20)
+                XVEC(I,2) = (SVM(I) + INI_P1(J)*P(I))/MAX(MAXSHEAR(I),EM08)
               ENDDO
             CASE(3,4)
               XVEC(1:NEL,2) = ALPHA(1:NEL)
             CASE(5)
               DO I = 1,NEL
-                XVEC(I,2) = (SVM(I) + INI_P1(J)*P(I))/MAX(SIGPMAJ(I),EM20)
+                XVEC(I,2) = (SVM(I) + INI_P1(J)*P(I))/MAX(SIGPMAJ(I),EM08)
               ENDDO            
           END SELECT
           IPOS(1:NEL,1:2) = 1

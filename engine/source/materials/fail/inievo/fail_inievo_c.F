@@ -93,7 +93,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,INDX(NEL),NINDX,FAILIP,IPOS(NEL,2),
-     .        NROT(NEL),NINIEVO,ISHEAR,ILEN
+     .        NINIEVO,ISHEAR,ILEN
       INTEGER, DIMENSION(:), ALLOCATABLE :: 
      .        INITYPE,EVOTYPE,EVOSHAP,COMPTYP,TAB_ID,
      .        TAB_EL,FCRIT            
@@ -103,13 +103,13 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:), ALLOCATABLE :: 
      .        DMGINI,DMGEVO
       my_real
-     .        LAMBDA,FAC,DF,L0(NEL)    ,TRIAX(NEL)  ,EPSF(NEL)    ,
-     .        DEPSF(NEL)  ,XVEC(NEL,2) ,SXX,SYY,SZZ ,SIZEFAC(NEL) ,
-     .        EPSMOD(NEL) ,P(NEL)      ,SVM(NEL)    ,DMGMAX(NEL)  ,
-     .        DMGMUL(NEL) ,CENTER      ,RADIUS      ,SIGP1        ,
-     .        SIGP2       ,DEVTENS(NEL,3,3),DEV_PR(NEL,3),DEV_VEC(NEL,3,3),
-     .        PLAS_DISP   ,R_INTER     ,YLD0        ,MAXSHEAR(NEL),
-     .        SIGPMAJ(NEL),ALPHA(NEL)  ,DSIZE(NEL)
+     .        L0(NEL)     ,TRIAX(NEL)  ,EPSF(NEL)    ,DEPSF(NEL)  ,
+     .        XVEC(NEL,2) ,SIZEFAC(NEL),MAXSHEAR(NEL),EPSMOD(NEL) ,
+     .        P(NEL)      ,SVM(NEL)    ,DMGMAX(NEL)  ,DMGMUL(NEL) ,
+     .        CENTER      ,RADIUS      ,SIGP1        ,SIGP2       ,
+     .        DEVSP1      ,DEVSP2      ,ALPHA(NEL)   ,PLAS_DISP   ,
+     .        YLD0        ,SIGPMAJ(NEL),DSIZE(NEL)   ,FAC         ,
+     .        DF          ,SXX         ,SYY          ,SZZ 
 C!--------------------------------------------------------------
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
@@ -223,46 +223,10 @@ c
         SIGPMAJ(I)  = SIGP1
         MAXSHEAR(I) = (SIGP1-SIGP2)*HALF
 c
-        ! Compute principal deviatoric stresses
-        DEVTENS(I,1,1) = SXX
-        DEVTENS(I,2,2) = SYY
-        DEVTENS(I,3,3) = SZZ
-        DEVTENS(I,1,2) = SIGNXY(I)
-        DEVTENS(I,2,1) = SIGNXY(I)
-        IF (ISHEAR > 0) THEN 
-          DEVTENS(I,2,3) = SIGNYZ(I)
-          DEVTENS(I,3,1) = SIGNZX(I)
-          DEVTENS(I,3,2) = SIGNYZ(I)
-          DEVTENS(I,1,3) = SIGNZX(I)  
-        ELSE
-          DEVTENS(I,2,3) = ZERO
-          DEVTENS(I,3,1) = ZERO
-          DEVTENS(I,3,2) = ZERO
-          DEVTENS(I,1,3) = ZERO
-        ENDIF 
-      ENDDO
-
-      ! Compute principal deviatoric stresses
-      CALL JACOBIEW_V(NEL,3,DEVTENS,DEV_PR,DEV_VEC,NROT)
-
-      ! Sort principal deviatoric stresses and compute alpha parameter
-      DO I = 1,NEL   
-        IF (DEV_PR(I,1) < DEV_PR(I,2)) THEN 
-          R_INTER = DEV_PR(I,1)
-          DEV_PR(I,1) = DEV_PR(I,2)
-          DEV_PR(I,2) = R_INTER
-        ENDIF 
-        IF (DEV_PR(I,2) < DEV_PR(I,3)) THEN
-          R_INTER = DEV_PR(I,2)
-          DEV_PR(I,2) = DEV_PR(I,3)
-          DEV_PR(I,3) = R_INTER
-        ENDIF
-        IF (DEV_PR(I,1) < DEV_PR(I,2)) THEN
-          R_INTER = DEV_PR(I,1)
-          DEV_PR(I,1) = DEV_PR(I,2)
-          DEV_PR(I,2) = R_INTER
-        ENDIF     
-        ALPHA(I) = DEV_PR(I,2)/SIGN(MAX(ABS(DEV_PR(I,1)),EM20),DEV_PR(I,1))
+        ! Compute the alpha parameter for FLD/MSFLD
+        DEVSP1 = SIGP1 - THIRD*(SIGP1+SIGP2)
+        DEVSP2 = SIGP2 - THIRD*(SIGP1+SIGP2)    
+        ALPHA(I) = DEVSP2/SIGN(MAX(ABS(DEVSP1),EM20),DEVSP1)
       ENDDO
 c    
       !====================================================================
@@ -277,7 +241,7 @@ c
           ! Plastic strain vs shear influence (theta)
           CASE(2)
             DO I = 1,NEL
-              XVEC(I,1) = (SVM(I) + INI_P1(J)*P(I))/MAX(MAXSHEAR(I),EM20)
+              XVEC(I,1) = (SVM(I) + INI_P1(J)*P(I))/MAX(MAXSHEAR(I),EM08)
             ENDDO
           ! MSFLD / FLD
           CASE(3,4)
@@ -285,7 +249,7 @@ c
           ! Normalized principal stress
           CASE(5)
             DO I = 1,NEL
-              XVEC(I,1) = (SVM(I) + INI_P1(J)*P(I))/MAX(SIGPMAJ(I),EM20)
+              XVEC(I,1) = (SVM(I) + INI_P1(J)*P(I))/MAX(SIGPMAJ(I),EM08)
             ENDDO
         END SELECT
         XVEC(1:NEL,2)   = EPSP(1:NEL)/SR_REF(J)
@@ -301,13 +265,13 @@ c
               XVEC(1:NEL,2) = TRIAX(1:NEL)
             CASE(2)
               DO I = 1,NEL
-                XVEC(I,2) = (SVM(I) + INI_P1(J)*P(I))/MAX(MAXSHEAR(I),EM20)
+                XVEC(I,2) = (SVM(I) + INI_P1(J)*P(I))/MAX(MAXSHEAR(I),EM08)
               ENDDO
             CASE(3,4)
               XVEC(1:NEL,2) = ALPHA(1:NEL)
             CASE(5)
               DO I = 1,NEL
-                XVEC(I,2) = (SVM(I) + INI_P1(J)*P(I))/MAX(SIGPMAJ(I),EM20)
+                XVEC(I,2) = (SVM(I) + INI_P1(J)*P(I))/MAX(SIGPMAJ(I),EM08)
               ENDDO            
           END SELECT
           IPOS(1:NEL,1:2) = 1
