@@ -233,7 +233,7 @@ C-----------------------------------------------
       !---------------------------------------------                                                                                                                                                 
       !   LOOP ON SEGMENTS (4N or 3N)                                                                                                                                                                
       !---------------------------------------------                                                                                                                                                 
-!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
+!$OMP DO SCHEDULE(GUIDED,MVSIZ)
       DO I = 1,ISIZ_SEG                                                                                                                                                                              
         N1=LLOADP(ILOADP(4,NL)+4*(I-1))                                                                                                                                                              
         N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)                                                                                                                                                            
@@ -732,7 +732,7 @@ C-----------------------------------------------
       !-------------------------------------------!                                                 
       ! SPMD/SMP Parith/OFF                                                                         
       IF(IPARIT==0) THEN  
-!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)                                                                                
+!$OMP DO SCHEDULE(GUIDED,MVSIZ)                                                                                
         DO I = 1,ISIZ_SEG                                                                           
           N1=LLOADP(ILOADP(4,NL)+4*(I-1))                                                           
           N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)                                                         
@@ -755,7 +755,7 @@ C-----------------------------------------------
         ENDDO                                                                                       
 !$OMP END DO        
       ELSE    
-!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)                                                                                            
+!$OMP DO SCHEDULE(GUIDED,MVSIZ)                                                                                            
         DO I = 1,ISIZ_SEG                                                                           
           IAD         =IADC(ILOADP(4,NL)+4*(I-1))                                                   
           FSKY(1,IAD) =PBLAST_TAB(IL)%FX(I)                                                                        
@@ -785,7 +785,7 @@ C-----------------------------------------------
       !-------------------------------------------!                                                 
       IF(IANIM>0) THEN                                                                              
         IF(IANIM > 0) THEN  
-!$OMP DO SCHEDULE(DYNAMIC,MVSIZ)                                                                                
+!$OMP DO SCHEDULE(GUIDED,MVSIZ)                                                                                
           DO I = 1,ISIZ_SEG                                                                         
             N1=PBLAST_TAB(IL)%N(1,I)                                                                               
             N2=PBLAST_TAB(IL)%N(2,I)                                                                               
