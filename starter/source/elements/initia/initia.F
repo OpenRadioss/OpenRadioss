@@ -182,7 +182,7 @@ Chd|====================================================================
      I                  FXBCPM     ,FXBCPS       ,FXBLM        ,FXBFLS       ,FXBDLS,
      J                  FXB_MATRIX ,FXB_MATRIX_ADD,FXB_LAST_ADRESS,PTR_NOPT_FXB,R_SKEW,
      K                  KNOD2EL1D  ,NOD2EL1D     ,EBCS_TAB     ,RBY_INIAXIS  ,ALEA    ,
-     K                  KNOD2ELC   ,NOD2ELC      ,DR           ,SLRBODY)
+     K                  KNOD2ELC   ,NOD2ELC      ,DR           ,SLRBODY , DRAPEG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -336,7 +336,8 @@ C-----------------------------------------------
       TYPE (ADMAS_)  , DIMENSION(NODMAS)  :: IPMAS
       TYPE (INIVOL_) , DIMENSION(NINIVOL) :: INIVOL
       TYPE (DETONATOR_STRUCT_) :: DETONATORS
-      TYPE (DRAPE_) :: DRAPE(*)
+      TYPE (DRAPE_)  , DIMENSION(NUMELC_DRAPE + NUMELTG_DRAPE):: DRAPE 
+      TYPE (DRAPEG_)                            :: DRAPEG 
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -357,7 +358,7 @@ C      INTEGER *8 I8MI(6,NUMNOD)
      .   IFILE,IRCS,NELT,NELP,FXBID, ANOD, IRCM, NSNI, NSN, NMANI, IMIN, IMAX,
      .   NELEMR,CPT_ELTENS,IXFEM,ITG,ISUBSTACK,NCTRL, ITETRA10, KK,PX,PY,PZ,IPID
       INTEGER IFRAC,IDP,IDC,IDSURF,IFILL,JMID,JADCONTY, NBCONTY,NSEG_SWIFT_SURF,NSEG_USED,
-     .   NSURF_INVOL,IMAT,ICPRE
+     .   NSURF_INVOL,IMAT,ICPRE,IDRAPE
       INTEGER SOLMAT(0:MAXLAW), COQMAT(0:MAXLAW), TRUMAT(0:MAXLAW),
      .   POUMAT(0:MAXLAW),SPHMAT(0:MAXLAW),
      .   RESMAT(0:MAXLAW),RESPID(0:50), SPHPID(0:50),
@@ -847,6 +848,7 @@ C
         ISRAT  = IPARG(40,NG)
         ISORTH = IPARG(42,NG)
         ISROT  = IPARG(41,NG)
+        IDRAPE  = IPARG(92,NG)
         IF(ISOLNOD == 10) ISROT  = IPARG(74,NG)
         IEXPAN = IPARG(49,NG)
         ISHXFEM_PLY  = IPARG(50,NG)
@@ -1307,7 +1309,7 @@ C 2D multifluid law
      C             NPC        ,PLD    ,XFEM_TAB,ISUBSTACK ,STACK    ,
      D             RNOISE     ,DRAPE  ,SH4ANG    ,GEO_STACK,
      E             IGEO_STACK ,STRC   ,PERTURB            ,IYLDINI ,ELE_AREA,
-     F             NLOC_DMG   ,NG        ,GROUP_PARAM_TAB(NG))
+     F             NLOC_DMG   ,NG        ,GROUP_PARAM_TAB(NG),IDRAPE,DRAPEG)
           ELSE
             NULLIFY(ptr_ITAGE)
             IF (SITAGE>0) ptr_ITAGE => ITAGE(1)       
@@ -1324,7 +1326,8 @@ C 2D multifluid law
      C      IXFEM     ,NPC        ,PLD  ,XFEM_TAB,ISUBSTACK,
      D      STACK     ,RNOISE     ,DRAPE      ,SH4ANG     ,
      E      GEO_STACK,IGEO_STACK  ,STRC       ,PERTURB    ,IYLDINI    ,
-     F      ELE_AREA  ,NG         ,GROUP_PARAM_TAB(NG)    ,NLOC_DMG   )
+     F      ELE_AREA  ,NG         ,GROUP_PARAM_TAB(NG)    ,NLOC_DMG   ,
+     G      IDRAPE    ,DRAPEG)
           ENDIF
           NC1 = NVC / 8
           NC2 = (NVC-NC1*8) / 4
@@ -1394,8 +1397,8 @@ C 2D multifluid law
      A          BUFMAT   ,SH3TREE,MCP    ,MCPTG ,  TEMP ,
      B          IPARG(1,NG),CPT_ELTENS,PART_AREA   ,NPC ,PLD      , 
      C          SH3TRIM ,ISUBSTACK,STACK ,RNOISE,
-     D          DRAPE(1+NUMELC),SH3ANG ,GEO_STACK,IGEO_STACK,STRTG,
-     E          PERTURB,IYLDINI ,ELE_AREA,NLOC_DMG)
+     D          DRAPE,SH3ANG ,GEO_STACK,IGEO_STACK,STRTG,
+     E          PERTURB,IYLDINI ,ELE_AREA,NLOC_DMG,IDRAPE, DRAPEG)
           ELSEIF (MTN == 151 .OR. N2D > 0) THEN
              CALL MULTIFLUID_INIT2T(ELBUF_TAB(NG), NEL, NSIGS, NVC, IPARG, IXTG, ALE_CONNECTIVITY,
      .            IGEO, IPART, IPART(I15H), IPM, PTSH3N, NPC, ILOADP, 
@@ -1415,9 +1418,9 @@ C 2D multifluid law
      B          CPT_ELTENS,PART_AREA,ptr_ITAGE,ITAGN,IXFEM  ,
      C          NPC     ,PLD     ,SH3TRIM ,XFEM_TAB,
      D          ISUBSTACK , STACK,RNOISE  ,
-     E          DRAPE(1+NUMELC) ,SH3ANG,GEO_STACK,IGEO_STACK,STRTG,
+     E          DRAPE ,SH3ANG,GEO_STACK,IGEO_STACK,STRTG,
      F          PERTURB ,ISH3N,IYLDINI ,ELE_AREA,
-     G          NLOC_DMG,NG,GROUP_PARAM_TAB(NG))
+     G          NLOC_DMG,NG,GROUP_PARAM_TAB(NG),IDRAPE, DRAPEG)
           ENDIF
           NC1 = NVC / 8
           NC2 = (NVC-NC1*8) / 4

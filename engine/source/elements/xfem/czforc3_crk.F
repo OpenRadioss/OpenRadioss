@@ -79,7 +79,8 @@ Chd|====================================================================
      L            TABLE  ,IPARG  ,IXFEM ,INOD_CRK,IEL_CRK,
      M            IADC_CRK,ELCUTC,CRKSKY,SENSOR_TAB,IXEL    ,
      N            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
-     K            NODEDGE,CRKEDGE, STACK ,DRAPE_Q4,NLOC_DMG)
+     O            NODEDGE,CRKEDGE, STACK ,DRAPE_SH4N,NLOC_DMG,
+     P            INDX_DRAPE  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -122,7 +123,7 @@ C-----------------------------------------------
       INTEGER IXC(NIXC,*),IADC(4,*),IPARTC(*),NPF(*),IGEO(NPROPGI,*),
      .        IPM(NPROPMI,*),INDXOF(MVSIZ),ITASK,IEXPAN,GRTH(*),IGRTH(*),
      .        IPARG(*),IXFEM,INOD_CRK(*),IEL_CRK(*),IADC_CRK(4,*),
-     .        ELCUTC(2,*),NODEDGE(2,*)
+     .        ELCUTC(2,*),NODEDGE(2,*),INDX_DRAPE(SCDRAPE)
 C     REAL OU REAL*8
       my_real
      .   F11(MVSIZ),F12(MVSIZ),F13(MVSIZ),F14(MVSIZ),
@@ -148,7 +149,7 @@ C     REAL OU REAL*8
       TYPE (STACK_PLY) :: STACK
       TYPE (FAILWAVE_STR_) :: FAILWAVE 
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
-      TYPE (DRAPE_) :: DRAPE_Q4
+      TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE) :: DRAPE_SH4N
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
@@ -233,6 +234,8 @@ C=======================================================================
       IR   = 1
       IS   = 1
       IT   = 1
+      SEDRAPE = SCDRAPE
+      NUMEL_DRAPE = NUMELC_DRAPE
       ALLOCATE(VARNL(NEL,1))
       VARNL = ZERO
 C -----will put it in starter     
@@ -406,7 +409,7 @@ C
      1                 PID    ,MTN    ,NPTT     ,HM      ,HF     ,  
      2                 HC     ,HMFOR  ,IORTH    ,DIR_A   ,IGEO   ,  
      3                 ISUBSTACK,STACK,XFEM_STR ,NXLAY   ,THKG   ,
-     4                 DRAPE_Q4 ,NFT  ,NEL      )           
+     4                 DRAPE_SH4N ,NFT  ,NEL      )           
 C----------------------------------
 C     CALCUL VITESSE DE DEFORMATION 
 C----------------------------------
@@ -470,7 +473,8 @@ C-----------------------------
      M       DIR1_CRK  ,DIR2_CRK  ,LL        ,
      N       ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT    ,
      O       IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
-     R       BID       ,ITASK     ,DRAPE_Q4  ,VARNL     ,NLOC_DMG)
+     P       BID       ,ITASK     ,DRAPE_SH4N  ,VARNL     ,NLOC_DMG,
+     R       INDX_DRAPE)
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C--------------------------

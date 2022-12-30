@@ -1095,6 +1095,11 @@ c-------  layer variables
         my_real, DIMENSION(:)  , POINTER ::  VAR 
         INTEGER, DIMENSION(:)  , POINTER ::  VARTMP
       END TYPE BUF_MAT_
+!     
+      TYPE L_BUFEL_DIR_      ! element variables per slice in each layer
+        my_real, DIMENSION(:) , POINTER ::   DIRA
+        my_real, DIMENSION(:) , POINTER ::   DIRB
+      END TYPE L_BUFEL_DIR_                             
 
       TYPE BUF_LAY_
         integer  ILAW     
@@ -1207,7 +1212,8 @@ c-------
         TYPE (BUF_EOS_)  , DIMENSION(:,:,:)  , POINTER :: EOS  
         TYPE (BUF_VISC_) , DIMENSION(:,:,:)  , POINTER :: VISC  
         TYPE (BUF_PORO_) , DIMENSION(:,:,:)  , POINTER :: PORO  
-        TYPE (BUF_XFEM_) , DIMENSION(:)      , POINTER :: XFEM   ! XFEM (NXEL)
+        TYPE (BUF_XFEM_) , DIMENSION(:)      , POINTER :: XFEM        ! XFEM (NXEL)
+        TYPE (L_BUFEL_DIR_) , DIMENSION(:)  , POINTER :: LBUF_DIR   ! Local direction by int point in the tickness for slice)
       END TYPE BUF_LAY_
 c
 c--------------------       
@@ -1243,6 +1249,7 @@ c--------------------
         integer     :: NPTT   
         integer     :: IXFEM
         integer     :: NXEL       ! number of xfem parts created after element crack
+        integer     :: IDRAPE
        
         TYPE (G_BUFEL_)                              :: GBUF   ! global variables - mean element values
         TYPE (BUF_LAY_)   , DIMENSION(:)   , POINTER :: BUFLY  ! BUFLY(NLAY) layer variables 

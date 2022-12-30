@@ -43,7 +43,8 @@ Chd|====================================================================
      6           IREP   ,ELBUF_STR,DRAPE  ,ANGLE   ,X        ,
      7           GEO_STACK,IGEO_STACK,E3X  ,E3Y     ,E3Z     ,
      8           BETAORTH ,X1     ,X2      ,Y1      ,Y2      ,
-     9           Z1       ,Z2     ,NEL     ,G_ADD_NODE,ADD_NODE)
+     9           Z1       ,Z2     ,NEL     ,G_ADD_NODE,ADD_NODE,
+     A           NPT_ALL , IDRAPE ,INDX)
 c---     
 C-----------------------------------------------
 C   M o d u l e s
@@ -72,28 +73,32 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NFT,NLAY,IPT,ID,NIX,NUMEL,NSIGSH,
-     .        ISUBSTACK,IREP
+     .        ISUBSTACK,IREP,NPT_ALL,IDRAPE
       INTEGER IX(NIX,*),IGEO(NPROPGI,*),PTSH(*),IORTHLOC(*),
      .        IGEO_STACK(NPROPGI,*)
-      INTEGER, INTENT(IN) :: NEL,G_ADD_NODE,ADD_NODE(G_ADD_NODE*NEL)  
+      INTEGER, INTENT(IN) :: NEL,G_ADD_NODE,ADD_NODE(G_ADD_NODE*NEL) 
+      INTEGER, DIMENSION(*)  :: INDX  
       my_real
      . GEO(NPROPG,*),SKEW(LSKEW,*),SIGSH(NSIGSH,*),VX(*),VY(*),VZ(*),
-     . PHI1(NLAY,*),PHI2(NLAY,*),COOR1(NLAY,MVSIZ),COOR2(NLAY,MVSIZ),
+     . PHI1(NPT_ALL,*),PHI2(NPT_ALL,*),COOR1(NLAY,MVSIZ),COOR2(NLAY,MVSIZ),
      . COOR3(NLAY,MVSIZ),COOR4(NLAY,MVSIZ),
      . ANGLE(*),GEO_STACK(NPROPG,*),X(3,*),BETAORTH(*)
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: E3X,E3Y,E3Z,X1,X2,Y1,Y2,Z1,Z2
 C------------------------------------------------------     
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY):: STACK
-      TYPE (DRAPE_) :: DRAPE(*)
+      TYPE (DRAPE_)  , DIMENSION(*), TARGET :: DRAPE 
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,JJ,N,NPT,NPTI,IGTYP,IPID,PID,ISK,IPANG,IPPHI,
      . IIGEO,IADR,IPTHK,IPPOS,IPDIR,IMAT_LY,ILAW_LY,IPPID,IPMAT,ILAY,
-     . DEF_ORTH(MVSIZ),N1,N2,IRP,POS,NOD
+     . DEF_ORTH(MVSIZ),N1,N2,IRP,POS,NOD,IL,IT,NSLICE,IPT_ALL,NPTT,
+     . IE, IP
       my_real V(MVSIZ),E11,E12,E13,NE1,VX0,VY0,VZ0
       CHARACTER*nchartitle, TITR1
+      
+      TYPE (DRAPE_PLY_)  , POINTER :: DRAPE_PLY 
 C=======================================================================
       PID = IX(NIX-1,1)
       IGTYP = IGEO(11,PID)
@@ -177,36 +182,145 @@ C---    read property data
               PHI1(J,I)= GEO(IPANG+J,PID)
             ENDDO
           ENDDO
-         ELSEIF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
-          DO I=JFT,JLT
+         ELSEIF (IGTYP == 17 ) THEN !to modify later
+          IF(IDRAPE > 0) THEN
+           DO I=JFT,JLT
+            IPANG   = 1
+            IE = INDX(NFT + I)
+            IF(IE == 0) THEN
+               DO J=1,NLAY                             
+                  IF(IGEO_STACK(49,STACK%IGEO(2+J,ISUBSTACK)) == 1)THEN                                 
+                     PHI1(J,I)   = GEO_STACK(2,STACK%IGEO(2+J,ISUBSTACK)) + ANGLE(I)                    
+                     DEF_ORTH(I) = DEF_ORTH(I) - 1                                                      
+                 ELSE                                                                                   
+                      PHI1(J,I)  = STACK%GEO(IPANG+J,ISUBSTACK)                                         
+                 ENDIF                                                                                 
+                 IF (IREP >= 2) PHI2(J,I)= STACK%GEO(IPDIR+J,ISUBSTACK)                                 
+               ENDDO
+           ELSE ! ie > 0
+               DO J=1,NLAY  
+                 IF(IGEO_STACK(49,STACK%IGEO(2+J,ISUBSTACK)) == 1)THEN                                 
+                        PHI1(J,I)   = GEO_STACK(2,STACK%IGEO(2+J,ISUBSTACK)) + ANGLE(I)                    
+                        DEF_ORTH(I) = DEF_ORTH(I) - 1                                                      
+                 ELSE                                                                                   
+                        PHI1(J,I)  = STACK%GEO(IPANG+J,ISUBSTACK)                                         
+                 ENDIF                             
+                 IF (IREP >= 2) PHI2(J,I)= STACK%GEO(IPDIR+J,ISUBSTACK)
+                 IP = DRAPE(IE)%INDX_PLY(J)  
+                 IF(IP > 0) THEN                                                                              
+                    DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(IP)
+                    PHI1(J,I) = PHI1(J,I) + DRAPE_PLY%RDRAPE(1,2)
+                  ENDIF                                   
+               ENDDO
+           ENDIF                                                                                 
+          ENDDO  
+         ELSE ! idrape== 0
+           DO I=JFT,JLT
             IPANG   = 1
             DO J=1,NLAY
-              IF (IGTYP == 52) THEN    
-                IF(IGEO_STACK(49,STACK%IGEO(2+J,ISUBSTACK)) == 1)THEN
-                  PHI1(J,I)= 
-     .              GEO_STACK(2,STACK%IGEO(2+J,ISUBSTACK)) + ANGLE(I) 
-                    DEF_ORTH(I) = DEF_ORTH(I) - 1
-                ELSE
-                  PHI1(J,I)= STACK%GEO(IPANG+J,ISUBSTACK)
-                ENDIF
-              ELSEIF ((IGTYP == 17 .OR. IGTYP == 51) .AND. 
-     .             STACK%IGEO(2+J,ISUBSTACK) /= 0) THEN
-                IF (IGEO(49,STACK%IGEO(2+J,ISUBSTACK)) == 1) THEN
-                  PHI1(J,I)= GEO(2,STACK%IGEO(2+J,ISUBSTACK)) + ANGLE(I)
-                    DEF_ORTH(I) = DEF_ORTH(I) - 1 
-                ELSE
-                  PHI1(J,I)= STACK%GEO(IPANG+J,ISUBSTACK)
-                ENDIF
+               IF(IGEO_STACK(49,STACK%IGEO(2+J,ISUBSTACK)) == 1)THEN
+                  PHI1(J,I)   = GEO_STACK(2,STACK%IGEO(2+J,ISUBSTACK)) + ANGLE(I) 
+                  DEF_ORTH(I) = DEF_ORTH(I) - 1
               ELSE
-                PHI1(J,I)= STACK%GEO(IPANG+J,ISUBSTACK)
-              ENDIF
-              IF (NDRAPE > 0) THEN
-                IF (DRAPE(I+NFT)%IDRAPE(J) > 0) PHI1(J,I) = PHI1(J,I) +
-     .                                               DRAPE(I+NFT)%RDRAPE(J,2)
+                   PHI1(J,I)  = STACK%GEO(IPANG+J,ISUBSTACK)
               ENDIF
               IF (IREP >= 2) PHI2(J,I)= STACK%GEO(IPDIR+J,ISUBSTACK)
             ENDDO
           ENDDO  
+         ENDIF  ! idrape 
+        ELSEIF(IGTYP == 51 .OR. IGTYP == 52) THEN
+         IF(IDRAPE > 0) THEN
+           DO I=JFT,JLT
+            IPANG   = 1
+            IPT_ALL = 0
+            IE = INDX(NFT + I)
+            IF(IE > 0) THEN
+                DO IL=1,NLAY
+                   NPTT = ELBUF_STR%BUFLY(IL)%NPTT
+                   IP = DRAPE(IE)%INDX_PLY(IL)
+                   IF(IP > 0) THEN
+                     DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(IP)
+                     NSLICE = DRAPE_PLY%NSLICE ! NPTT
+                     IF(IGEO_STACK(49,STACK%IGEO(2+IL,ISUBSTACK)) == 1)THEN
+                       DEF_ORTH(I) = DEF_ORTH(I) - 1
+                       DO IT = 1,NPTT                                                             
+                          IPT =  IPT_ALL + IT                                                     
+                          PHI1(IPT,I)   = GEO_STACK(2,STACK%IGEO(2+IL,ISUBSTACK)) + ANGLE(I) 
+     .                                                       +   DRAPE_PLY%RDRAPE(IT,2) 
+                       ENDDO ! NPTT                                                          
+                     ELSE
+                       DO IT = 1,NPTT
+                         IPT =  IPT_ALL + IT
+                         PHI1(IPT,I)  = STACK%GEO(IPANG+IL,ISUBSTACK) +   DRAPE_PLY%RDRAPE(IT,2)
+                       ENDDO
+                     ENDIF 
+                     IF(IREP >= 2) THEN
+                       DO IT = 1,NPTT
+                         IPT =  IPT_ALL + IT
+                         PHI2(IPT,I)= STACK%GEO(IPDIR+IL,ISUBSTACK)
+                       ENDDO ! NPTT 
+                     ENDIF 
+                   ELSE !IP == 0
+                     IF(IGEO_STACK(49,STACK%IGEO(2+IL,ISUBSTACK)) == 1)THEN
+                       DEF_ORTH(I) = DEF_ORTH(I) - 1
+                       DO IT = 1,NPTT                                                             
+                          IPT =  IPT_ALL + IT                                                     
+                          PHI1(IPT,I)   = GEO_STACK(2,STACK%IGEO(2+IL,ISUBSTACK)) + ANGLE(I)
+                       ENDDO ! NPTT                                                          
+                     ELSE
+                       DO IT = 1,NPTT
+                         IPT =  IPT_ALL + IT
+                         PHI1(IPT,I)  = STACK%GEO(IPANG+IL,ISUBSTACK)
+                       ENDDO
+                     ENDIF 
+                     IF(IREP >= 2) THEN
+                       DO IT = 1,NPTT
+                         IPT =  IPT_ALL + IT
+                         PHI2(IPT,I)= STACK%GEO(IPDIR+IL,ISUBSTACK)
+                       ENDDO ! NPTT 
+                     ENDIF                  
+                   ENDIF ! IP
+                   IPT_ALL = IPT_ALL + NPTT
+                 ENDDO !  NLAY
+             ELSE !IE == 0
+                DO IL=1,NLAY
+                   NPTT = ELBUF_STR%BUFLY(IL)%NPTT
+                   IF(IGEO_STACK(49,STACK%IGEO(2+IL,ISUBSTACK)) == 1)THEN
+                     DEF_ORTH(I) = DEF_ORTH(I) - 1
+                     DO IT = 1,NPTT                                                             
+                          IPT =  IPT_ALL + IT                                                     
+                          PHI1(IPT,I)   = GEO_STACK(2,STACK%IGEO(2+IL,ISUBSTACK)) + ANGLE(I) 
+                     ENDDO ! NPTT                                                          
+                   ELSE
+                     DO IT = 1,NPTT
+                        IPT =  IPT_ALL + IT
+                        PHI1(IPT,I)  = STACK%GEO(IPANG+IL,ISUBSTACK)
+                     ENDDO
+                   ENDIF 
+                   IF(IREP >= 2) THEN
+                     DO IT = 1,NPTT
+                        IPT =  IPT_ALL + IT
+                        PHI2(IPT,I)= STACK%GEO(IPDIR+IL,ISUBSTACK)
+                     ENDDO ! NPTT 
+                   ENDIF 
+                   IPT_ALL = IPT_ALL + NPTT
+                 ENDDO !  NLAY     
+             ENDIF    !IE
+          ENDDO ! JFT:JLT 
+         ELSE ! IDRAPE = 0
+           DO I=JFT,JLT
+             IPANG   = 1
+             DO IL=1,NLAY
+               IF(IGEO_STACK(49,STACK%IGEO(2 + IL,ISUBSTACK)) == 1)THEN
+                  PHI1(IL,I)   = GEO_STACK(2,STACK%IGEO(2 + IL,ISUBSTACK)) + ANGLE(I) 
+                  DEF_ORTH(I)  = DEF_ORTH(I) - 1
+               ELSE
+                   PHI1(IL,I)  = STACK%GEO(IPANG + IL,ISUBSTACK)
+               ENDIF
+               IF (IREP >= 2) PHI2(IL,I)= STACK%GEO(IPDIR + IL,ISUBSTACK)
+             ENDDO
+           ENDDO  
+         ENDIF   
         ELSEIF (IGTYP == 16) THEN
           DO I=JFT,JLT
             DO J=1,NLAY

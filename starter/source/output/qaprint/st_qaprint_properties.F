@@ -49,9 +49,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: IGEO(NPROPGI,NUMGEO),IGEO_STACK(3* NPT_STACK+2,*)
-      my_real, INTENT(IN) :: GEO(NPROPG,NUMGEO),GEO_STACK(6*NPT_STACK+1,*),
-     .                       PM_STACK(20,*),BUFGEO(*)
+      INTEGER, INTENT(IN) :: IGEO(NPROPGI,NUMGEO),IGEO_STACK(4* NPT_STACK+2,NS_STACK)
+      my_real, INTENT(IN) :: GEO(NPROPG,NUMGEO),GEO_STACK(6*NPT_STACK+1,NS_STACK),
+     .                       PM_STACK(20,NS_STACK),BUFGEO(*)
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

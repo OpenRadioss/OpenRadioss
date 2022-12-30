@@ -63,8 +63,8 @@ Chd|====================================================================
      .           IGRBRIC   ,IGRQUAD     ,IGRSH4N        ,IGRSH3N   , IGRTRUSS        ,
      .           IGRBEAM   ,IGRSPRING   ,IGRPART        ,IGRSURF   , IGRSLIN         , 
      .           FORNEQS   ,MATPARAM_TAB,GROUP_PARAM_TAB,PINCH_DATA, ALE_CONNECTIVITY,
-     .           T_MONVOL  ,DRAPE_Q4    ,DRAPE_T3       ,SENSOR_TAB, EBCS_TAB        , 
-     .           DIFFUSION ,SEGVAR)
+     .           T_MONVOL  ,DRAPE_SH4N  ,DRAPE_SH3N       ,SENSOR_TAB, EBCS_TAB        , 
+     .           DIFFUSION ,SEGVAR,DRAPEG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -154,7 +154,8 @@ C     REAL
       TYPE(PINCH) :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
-      TYPE(DRAPE_)   :: DRAPE_Q4,DRAPE_T3
+      TYPE(DRAPE_)        :: DRAPE_SH3N(NUMELTG_DRAPE),DRAPE_SH4N(NUMELC_DRAPE)
+      TYPE(DRAPEG_)                :: DRAPEG
       TYPE(SENSOR_STR_)   ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
       TYPE(T_DIFFUSION), INTENT(INOUT) :: DIFFUSION
@@ -259,7 +260,7 @@ C
      C  TABSENSOR       ,FBSAV6         ,WSMCOMP        ,STACK          ,
      D  CPUTIME_MP_GLOB ,CPUTIME_MP     ,TAB_UMP        ,POIN_UMP       ,SOL2SPH_TYP    ,
      E  IRUNN_BIS       ,ADDCSRECT      ,IAD_FRNOR      ,FR_NOR         ,PROCNOR        ,
-     F  IAD_FREDG       ,FR_EDG         ,DRAPE_Q4       ,DRAPE_T3       ,TAB_MAT        , 
+     F  IAD_FREDG       ,FR_EDG         ,DRAPE_SH4N     ,DRAPE_SH3N       ,TAB_MAT        , 
      G  NATIV0_SMS      ,MULTI_FVM      ,DDP            ,SEGQUADFR      ,MS_2D          ,
      H  H3D_DATA        ,INTBUF_FRIC_TAB,SUBSETS        ,IGRNOD         ,IGRBRIC        ,
      I  IGRQUAD         ,IGRSH4N        ,IGRSH3N        ,IGRTRUSS       ,IGRBEAM        ,
@@ -267,7 +268,8 @@ C
      K  NLOC_DMG        ,ISKWP_L        ,KNOTLOCPC      ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6  ,ALE_CONNECTIVITY ,
      L  XCELL           , XFACE         ,NE_NERCVOIS    ,NE_NESDVOIS    ,NE_LERCVOIS    ,NE_LESDVOIS ,IBCSCYC          ,LBCSCYC   ,
      M  T_MONVOL        ,ID_GLOBAL_VOIS ,FACE_VOIS      ,TAGSLV_RBY     ,IPART_DYNAIN   ,FCONT_MAX   ,EBCS_TAB         ,DIFFUSION ,
-     N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT)
+     N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT,
+     O  DRAPEG )
 C
       CALL TRACE_OUT(2)
 C

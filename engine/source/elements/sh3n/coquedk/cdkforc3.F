@@ -72,7 +72,7 @@ Chd|====================================================================
      F            IGRTH  ,MSTG   ,DMELTG  ,JSMS  ,TABLE  ,
      G            IPARG  ,SENSOR_TAB,PTG    ,JTHE   ,
      H            CONDN  ,CONDNSKY,ISUBSTACK,STACK,ITASK ,
-     I            DRAPE_T3  ,IPRI ,NLOC_DMG )
+     I            DRAPE_SH3N  ,IPRI ,NLOC_DMG , INDX_DRAPE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -112,7 +112,7 @@ C-----------------------------------------------
      .        NEL,ISTRAIN,IHBE ,ITHK,IOFC,IPLA,NFT,ISMSTR ,
      .        NPT,KFTS,IFAILURE,JSMS,JTHE,ISUBSTACK,ITASK,IPRI
       INTEGER NPF(*),IXTG(NIXTG,*),IADTG(3,*),IGEO(NPROPGI,*),ITAB(*),
-     .        IPM(NPROPMI,*),IPARTTG(*),GRTH(*),IGRTH(*),IPARG(*)
+     .        IPM(NPROPMI,*),IPARTTG(*),GRTH(*),IGRTH(*),IPARG(*),INDX_DRAPE(SCDRAPE)
 C     REAL
       my_real 
      .   PM(*), X(*), F(*), M(*), V(*), R(*),
@@ -131,7 +131,7 @@ C     REAL
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE(NLOCAL_STR_),  TARGET :: NLOC_DMG
-      TYPE (DRAPE_) :: DRAPE_T3
+      TYPE (DRAPE_), DIMENSION (NUMELTG_DRAPE):: DRAPE_SH3N
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
@@ -142,7 +142,7 @@ c  indx utilise localement contrairement aux coques 4n
      .   IFLAG,LENF,LENM,LENS,IR,IS,IT,IPT,NPTT,N1,N2,N3,
      .   I,II,J,JJ,NG,NPG,NNOD,NPTR,NPTS,NLAY,L_DIRA,L_DIRB,IFAILWAVE,
      .   PT0,PT1,PT2,PT3,PTF,PTM,PTE,PTEP,PTS,IGTYP,IBID,J1,J2,
-     .   IGMAT,ILAY,NPTTOT,IREP,KK(5),K
+     .   IGMAT,ILAY,NPTTOT,IREP,KK(5),K,IDRAPE
       INTEGER, DIMENSION(NEL) :: OFFLY
       PARAMETER (NPG = 3)
       PARAMETER (NNOD = 3)
@@ -188,7 +188,8 @@ C--- Variables pour le non-local
 C-----
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF1,LBUF2,LBUF3     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF1,LBUF2,LBUF3 ,LBUF
+      TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR    
 C-----------------------------------------------
       DATA A_HAMMER / 
      1 0.166666666666667,0.666666666666667,0.166666666666667,             
@@ -213,6 +214,7 @@ C     NB16   |2*NPT*JLT         | axe I  d'orthotropie/anisotropie
 C     NB16A  |2*NPT*JLT         | axe II d'anisotropie
 C=======================================================================
       GBUF   => ELBUF_STR%GBUF
+      IDRAPE = ELBUF_STR%IDRAPE
 C---
       IUN  = 1
       IBID = 0
@@ -220,6 +222,8 @@ C---
       IGTYP = IGEO(11,IXTG(5,1))
       IREP = IPARG(35)
       INLOC= IPARG(78)
+      SEDRAPE = STDRAPE
+      NUMEL_DRAPE = NUMELTG_DRAPE
 !
       DO J=1,5
         KK(J) = NEL*(J-1)
@@ -256,21 +260,44 @@ c
 c-------------------------------------
       L_DIRA = ELBUF_STR%BUFLY(1)%LY_DIRA
       L_DIRB = ELBUF_STR%BUFLY(1)%LY_DIRB
-      ALLOCATE(DIRA(NLAY*NEL*L_DIRA))
-      ALLOCATE(DIRB(NLAY*NEL*L_DIRB))
-      DIRA=ZERO
-      DIRB=ZERO
-      IF (L_DIRA == 0) THEN
-        CONTINUE
-      ELSEIF (IREP == 0) THEN
-        DO J=1,NLAY
-          J1 = 1+(J-1)*L_DIRA*NEL
-          J2 = J*L_DIRA*NEL
-          DIRA(J1:J2) = ELBUF_STR%BUFLY(J)%DIRA(1:NEL*L_DIRA)
-        ENDDO
-      ENDIF
-      DIR_A => DIRA(1:NLAY*NEL*L_DIRA)
-      DIR_B => DIRB(1:NLAY*NEL*L_DIRB)
+      IF(IDRAPE > 0) THEN
+        ALLOCATE(DIRA(NPTTOT*NEL*L_DIRA))
+        ALLOCATE(DIRB(NPTTOT*NEL*L_DIRB))
+        IF (L_DIRA == 0) THEN
+            CONTINUE
+        ELSEIF (IREP == 0) THEN
+           NPTTOT = 0
+           DO ILAY=1,NLAY
+              NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
+              DO IT=1,NPTT
+                 J = NPTTOT + IT
+                 LBUF_DIR =>  ELBUF_STR%BUFLY(ILAY)%LBUF_DIR(IT)
+                 J1 = 1+(J-1)*L_DIRA*NEL
+                 J2 = J*L_DIRA*NEL
+                 DIRA(J1:J2) = LBUF_DIR%DIRA(1:NEL*L_DIRA)
+              ENDDO
+              NPTTOT = NPTTOT + NPTT
+            ENDDO 
+        ENDIF
+        DIR_A => DIRA(1:NPTTOT*NEL*L_DIRA)
+        DIR_B => DIRB(1:NPTTOT*NEL*L_DIRB)
+      ELSE ! idrape
+        ALLOCATE(DIRA(NLAY*NEL*L_DIRA))
+        ALLOCATE(DIRB(NLAY*NEL*L_DIRB))
+        DIRA=ZERO
+        DIRB=ZERO
+        IF (L_DIRA == 0) THEN
+          CONTINUE
+        ELSEIF (IREP == 0) THEN
+           DO J=1,NLAY
+              J1 = 1+(J-1)*L_DIRA*NEL
+              J2 = J*L_DIRA*NEL
+              DIRA(J1:J2) = ELBUF_STR%BUFLY(J)%DIRA(1:NEL*L_DIRA)
+           ENDDO
+         ENDIF
+         DIR_A => DIRA(1:NLAY*NEL*L_DIRA)
+         DIR_B => DIRB(1:NLAY*NEL*L_DIRB)
+      ENDIF ! IDRAPE
 C
        IF (IGTYP == 51 .OR. IGTYP == 52) THEN
          ALLOCATE(PLAPT_LAY(NLAY,NPG,MVSIZ))
@@ -392,7 +419,8 @@ C----------------------------------------------------------------------------
      M     BID       ,BID       ,ALDT      ,
      N     ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O     IBID      ,IBID      ,ISUBSTACK ,STACK     ,
-     R     BID       ,ITASK     ,DRAPE_T3  ,VAR_REG   ,NLOC_DMG  )
+     P     BID       ,ITASK     ,DRAPE_SH3N  ,VAR_REG   ,NLOC_DMG  ,
+     R    INDX_DRAPE)
 C----------------------------------------------------------------------------
 C     THICKNESS CORRECTION 
 C----------------------------

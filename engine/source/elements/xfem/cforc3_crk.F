@@ -80,7 +80,7 @@ Chd|====================================================================
      L            IEL_CRK,IADC_CRK,ELCUTC,
      M            SENSOR_TAB,IXEL ,STACK   ,
      N            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
-     O            NODEDGE,CRKEDGE,DRAPE_Q4,IPRI  ,NLOC_DMG)
+     O            NODEDGE,CRKEDGE,DRAPE_SH4N,IPRI  ,NLOC_DMG,INDX_DRAPE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -129,7 +129,7 @@ C-----------------------------------------------
       INTEGER NPF(*),IXC(NIXC,*),IADC(4,*),INDXOF(MVSIZ),IPARTC(*),
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),ITASK,JTHE, JSMS,
      .   GRTH(*),IGRTH(*),IPARG(*),IXFEM,INOD_CRK(*),IEL_CRK(*),
-     .   IADC_CRK(4,*),ELCUTC(2,*),ISUBSTACK,NODEDGE(2,*)
+     .   IADC_CRK(4,*),ELCUTC(2,*),ISUBSTACK,NODEDGE(2,*),INDX_DRAPE(SCDRAPE)
 C     REAL
       my_real
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
@@ -151,7 +151,7 @@ C     REAL
       TYPE (STACK_PLY) :: STACK
       TYPE (FAILWAVE_STR_) :: FAILWAVE 
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
-      TYPE (DRAPE_) :: DRAPE_Q4
+      TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE)  ::  DRAPE_SH4N
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
@@ -230,6 +230,8 @@ C=======================================================================
       IR   = 1
       IS   = 1
       IT   = 1
+      SEDRAPE = SCDRAPE
+      NUMEL_DRAPE = NUMELC_DRAPE
       ALLOCATE(VARNL(NEL,1))
       VARNL = ZERO
 C -----will put it in starter     
@@ -449,7 +451,8 @@ C-----------------------------
      M    DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
      N    ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT      ,
      O    IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
-     R    BID       ,ITASK     ,DRAPE_Q4  ,VARNL     ,NLOC_DMG  )
+     P    BID       ,ITASK     ,DRAPE_SH4N  ,VARNL     ,NLOC_DMG ,
+     R    INDX_DRAPE )
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C-----------------------------

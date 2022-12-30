@@ -80,8 +80,8 @@ Chd|====================================================================
      H            PTG    ,IXFEM  ,INOD_CRK,IEL_CRK,IADTG_CRK,
      I            ELCUTC ,IXEL   ,STACK  ,ISUBSTACK ,
      R            UXINT_MEAN,UYINT_MEAN  ,UZINT_MEAN,NLEVXF  ,
-     S            NODEDGE,CRKEDGE ,DRAPE_T3   ,IPRI          ,
-     T            NLOC_DMG)
+     S            NODEDGE,CRKEDGE ,DRAPE_SH3N   ,IPRI          ,
+     T            NLOC_DMG,INDX_DRAPE)
 C-----------------------------------------------
       USE TABLE_MOD
       USE CRACKXFEM_MOD
@@ -125,7 +125,7 @@ C-----------------------------------------------
       INTEGER NPF(*),IXTG(NIXTG,*),IADTG(3,*),IGEO(NPROPGI,*),IPM(*),
      .   IPARTTG(*),ITASK,JTHE,IEXPAN,GRTH(*),IGRTH(*),IPARG(*),
      .   IXFEM,INOD_CRK(*),IEL_CRK(*),IADTG_CRK(3,*),
-     .   ELCUTC(2,*),NODEDGE(2,*)
+     .   ELCUTC(2,*),NODEDGE(2,*),INDX_DRAPE(STDRAPE)
       my_real 
      .   PM(*),F(*),M(*),V(*),R(*),
      .   GEO(NPROPG,*),TF(*),BUFMAT(*),PMSAV(*),STIFN(*),
@@ -149,7 +149,7 @@ C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
       TYPE (FAILWAVE_STR_) :: FAILWAVE 
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM 
-      TYPE(DRAPE_) :: DRAPE_T3
+      TYPE(DRAPE_) :: DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
@@ -160,7 +160,7 @@ c     indx utilise localement contrairement aux coques 4n
       INTEGER 
      .   I,J,J1,J2,IR,IS,IT,IPT,IFLAG,IGTYP,IXFEM2,IREP,IMAT,
      .   IUN,NPG,IBID,IDRIL,NG,IXLAY,NXLAY,NLAYER,NPTT,STEP,
-     .   L_DIRA,L_DIRB,ILEV,IGMAT,IPTHK,ISH3NFR
+     .   L_DIRA,L_DIRB,ILEV,IGMAT,IPTHK,ISH3NFR,IDRAPE
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ),FWAVE(MVSIZ)
       my_real STI(MVSIZ),STIR(MVSIZ),RHO(MVSIZ),
      .   SSP(MVSIZ),VISCMX(MVSIZ),AREA(MVSIZ),
@@ -225,6 +225,8 @@ C=======================================================================
       IS   = 1
       IT   = 1
       NG   = 1
+      SEDRAPE = STDRAPE
+      NUMEL_DRAPE = NUMELTG_DRAPE
       ALLOCATE(VARNL(NEL,1))
       VARNL = ZERO
 C -----will put it in starter     
@@ -442,7 +444,8 @@ C--------------------------
      M   DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
      P   ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT      ,
      Q   IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
-     R   BID    ,ITASK        ,DRAPE_T3  ,VARNL     ,NLOC_DMG  )
+     P   BID    ,ITASK        ,DRAPE_SH3N  ,VARNL     ,NLOC_DMG ,
+     R   INDX_DRAPE)
 
 C--------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)

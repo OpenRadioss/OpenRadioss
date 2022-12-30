@@ -41,7 +41,7 @@ Chd|        SENSOR_ENERGY_PART            source/tools/sensor/sensor_energy_part
 Chd|        STARTIMEG                     source/system/timer.F         
 Chd|        STOPTIMEG                     source/system/timer.F         
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
+Chd|         _MOD                     share/modules/drape_mod.F     
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
@@ -76,8 +76,8 @@ Chd|====================================================================
      N    IBORDNODE ,NODEDGE   ,CRKNODIAD ,ELBUF_TAB ,
      O    XFEM_TAB  ,CONDN     ,CONDNSKY  ,CRKEDGE   ,
      P    DIMFB     , FBSAV6   ,STABSEN   ,TABSENSOR ,STACK     ,ITAB ,
-     S    DRAPE_Q4  ,DRAPE_T3  ,SUBSET    ,XDP       ,VPINCH,
-     T    APINCH    ,STIFPINCH )
+     S    DRAPE_SH4N  ,DRAPE_SH3N  ,SUBSET    ,XDP       ,VPINCH,
+     T    APINCH    ,STIFPINCH ,DRAPEG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -168,7 +168,8 @@ C     REAL
       TYPE (NLOCAL_STR_)   :: NLOC_DMG 
       TYPE (GRP_PARAM_STRUCT_) , DIMENSION(NGROUP) :: GROUP_PARAM_TAB
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
-      TYPE (DRAPE_)  :: DRAPE_Q4,DRAPE_T3
+      TYPE (DRAPE_)    :: DRAPE_SH4N(NUMELC_DRAPE),DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPEG_)               :: DRAPEG
       TYPE (MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
@@ -300,6 +301,7 @@ C
          IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .    CALL SENSOR_ENERGY_PART(IPARTC(NF1) ,SUBSET ,IPRI)
           IF (JHBE >= 11.AND.JHBE <= 19) THEN
+              
               CALL CBAFORC3(ELBUF_TAB(NG),
      1        JFT        ,JLT       ,NFT       ,NPT       ,
      2        IPARI      ,MLW       ,IPRI      ,ITHK      ,NELTST     ,
@@ -323,8 +325,8 @@ C
      N        IADC_PXFEM ,GRESAV    ,GRTH      ,IGRTH(NF1) ,MSC(NF1)  ,
      O        DMELC(NF1) ,JSMS      ,TABLE     ,IPARG(1,NG),SENSOR_TAB,
      P        MSZ2       ,CONDN     ,CONDNSKY  ,ISUBSTACK  ,STACK     ,
-     R        DRAPE_Q4   ,NEL       ,NLOC_DMG  ,VPINCH     ,
-     R        APINCH     ,STIFPINCH )
+     R        DRAPE_SH4N   ,NEL     ,NLOC_DMG  ,VPINCH     ,
+     R        APINCH     ,STIFPINCH ,DRAPEG%INDX_SH4N)
           ELSEIF (JHBE >= 21 .AND. JHBE <= 29) THEN
 
               CALL CZFORC3(ELBUF_TAB(NG),
@@ -350,7 +352,7 @@ C
      K        ELCUTC(1,NF1),INOD_CRK,IEL_CRK   ,IBORDNODE  ,NODENR    ,
      L        IADC_CRK    ,NODEDGE  ,CRKNODIAD ,CONDN    ,
      M      CONDNSKY    ,STACK,ISUBSTACK,XFEM_TAB(NG,1:NXEL),CRKEDGE,       
-     O      DRAPE_Q4      ,NEL,NLOC_DMG)                         
+     O      DRAPE_SH4N      ,NEL,NLOC_DMG,DRAPEG%INDX_SH4N)                         
 
       IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
           DO IXEL=1,NXEL
@@ -377,7 +379,7 @@ C
      M          IADC_CRK   ,ELCUTC(1,NF1),CRKSKY ,
      N          SENSOR_TAB,IXEL     ,
      O          ISUBSTACK  ,UXINT_MEAN ,UYINT_MEAN,UZINT_MEAN,NLEVXF      ,
-     P          NODEDGE    ,CRKEDGE    ,STACK    ,DRAPE_Q4  ,NLOC_DMG    )
+     P          NODEDGE    ,CRKEDGE    ,STACK    ,DRAPE_SH4N  ,NLOC_DMG,DRAPEG%INDX_SH4N    )
           ENDDO
             ENDIF
 c
@@ -406,7 +408,7 @@ c
      N        ELCUTC(1,NF1),INOD_CRK,IEL_CRK ,IBORDNODE ,NODENR   ,      
      O        IADC_CRK ,NODEDGE ,CRKNODIAD ,CONDN   ,
      P        CONDNSKY ,STACK ,ISUBSTACK ,XFEM_TAB(NG,1:NXEL),CRKEDGE,
-     R        DRAPE_Q4     ,IPRI        ,NLOC_DMG)
+     R        DRAPE_SH4N     ,IPRI        ,NLOC_DMG,DRAPEG%INDX_SH4N)
 c
          IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
           DO IXEL=1,NXEL
@@ -433,7 +435,8 @@ c
      M ELCUTC(1,NF1),
      N SENSOR_TAB,IXEL      ,STACK       ,
      O ISUBSTACK   ,UXINT_MEAN  ,UYINT_MEAN  ,UZINT_MEAN,NLEVXF      ,
-     P NODEDGE     ,CRKEDGE     ,DRAPE_Q4   ,IPRI       ,NLOC_DMG    )
+     P NODEDGE     ,CRKEDGE     ,DRAPE_SH4N   ,IPRI       ,NLOC_DMG  ,
+     R DRAPEG%INDX_SH4N  )
           ENDDO
             END IF
           ENDIF
@@ -498,8 +501,8 @@ C----6---------------------------------------------------------------7--
      .      IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NF1) ,MSTG(NF1) ,             
      G DMELTG(NF1) ,JSMS        ,TABLE       ,IPARG(1,NG) ,SENSOR_TAB,             
      H PTG(1,NF1)  ,JTHE        ,CONDN       ,CONDNSKY   ,
-     I ISUBSTACK   ,STACK       ,ITASK,DRAPE_T3,
-     . IPRI        ,NLOC_DMG    )
+     I ISUBSTACK   ,STACK       ,ITASK,DRAPE_SH3N,
+     . IPRI        ,NLOC_DMG    ,DRAPEG%INDX_SH3N)
            ELSE
              IF (ISH3N == 30) THEN
               CALL CDKFORC3(ELBUF_TAB(NG),
@@ -521,7 +524,7 @@ C----6---------------------------------------------------------------7--
      .              MSTG(NF1)   ,DMELTG(NF1) ,JSMS        ,TABLE       ,
      G IPARG(1,NG) ,SENSOR_TAB  ,PTG(1,NF1)  ,JTHE        ,
      J CONDN       ,CONDNSKY    ,ISUBSTACK , STACK        ,ITASK       ,
-     K DRAPE_T3,IPRI   ,NLOC_DMG    )
+     K DRAPE_SH3N ,IPRI   ,NLOC_DMG ,DRAPEG%INDX_SH3N    )
              ELSE
               CALL C3FORC3(ELBUF_TAB(NG),
      1 JFT         ,JLT         ,PM          ,IXTG(1,NF1) ,X           ,
@@ -545,7 +548,7 @@ C----6---------------------------------------------------------------7--
      J ELCUTC(1,NF1+ITG3-1),INOD_CRK,IEL_CRK(ITG3),NODENR,IADC_CRK(ITG1),
      K NODEDGE     ,CRKNODIAD   ,KNOD2ELC    ,CONDN,
      L CONDNSKY    ,STACK       ,ISUBSTACK   ,XFEM_TAB(NG,1:NXEL),CRKEDGE,
-     N DRAPE_T3,IPRI   ,NLOC_DMG    ,XDP)
+     N DRAPE_SH3N,IPRI   ,NLOC_DMG    ,XDP , DRAPEG%INDX_SH3N)
 
        IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
          DO IXEL=1,NXEL
@@ -569,8 +572,8 @@ C----6---------------------------------------------------------------7--
      H     SENSOR_TAB  ,PTG(1,NF1)  ,IXFEM       ,INOD_CRK    ,
      I     IEL_CRK(ITG3),IADC_CRK(ITG1),ELCUTC(1,NF1+ITG3-1)  ,IXEL        ,
      J     STACK       ,ISUBSTACK   ,UXINT_MEAN  ,UYINT_MEAN  ,UZINT_MEAN  ,
-     K     NLEVXF      ,NODEDGE     ,CRKEDGE     ,DRAPE_T3    ,IPRI        ,
-     L     NLOC_DMG    )
+     K     NLEVXF      ,NODEDGE     ,CRKEDGE     ,DRAPE_SH3N    ,IPRI        ,
+     L     NLOC_DMG    ,DRAPEG%INDX_SH3N)
         ENDDO
         ENDIF
        ENDIF
