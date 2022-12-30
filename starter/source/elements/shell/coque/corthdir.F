@@ -38,7 +38,8 @@ Chd|====================================================================
      .                    NEL    ,IMAT      ,IPROP     ,
      .                    X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                    Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
-     .                    E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
+     .                    E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z ,
+     .                    NPT_ALL, IDRAPE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,12 +66,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NLAY,IREP,ISUBSTACK,IS,IR,NEL,IMAT,IPROP
+      INTEGER NLAY,IREP,ISUBSTACK,IS,IR,NEL,IMAT,IPROP,NPT_ALL,IDRAPE
       INTEGER IGEO(NPROPGI,*),IORTHLOC(*),IGEO_STACK(NPROPGI,*)
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,
      .                                         X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4
       my_real
-     .   GEO(NPROPG,*),VX(*),VY(*),VZ(*),PHI1(NLAY,*),PHI2(NLAY,*),
+     .   GEO(NPROPG,*),VX(*),VY(*),VZ(*),PHI1(NPT_ALL,*),PHI2(NPT_ALL,*),
      .   COOR1(NLAY,MVSIZ),COOR2(NLAY,MVSIZ),
      .   COOR3(NLAY,MVSIZ),COOR4(NLAY,MVSIZ),
      .   GEO_STACK(NPROPG,*)
@@ -79,7 +80,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,I1,I2,I3,IL,IGTYP,IPTHK,IPMAT,ILAW,L_DMG
+      INTEGER I,II,J,I1,I2,I3,IL,IGTYP,IPTHK,IPMAT,ILAW,L_DMG,NPTT,
+     .        IPT ,IPT_ALL,IT
       my_real R,S,D1,D2,D11,D12,D21,D22,U1X,U1Y,U2X,U2Y,
      .        DET,W1X,W2X,W1Y,W2Y,CSP,SNP
       my_real,  DIMENSION(MVSIZ)      :: E11,E12,E13,E21,E22,E23,VR,VS
@@ -87,6 +89,7 @@ C-----------------------------------------------
 C      
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
 C======================================================================|
       IGTYP = IGEO(11,IPROP)
 C
@@ -169,8 +172,7 @@ C-------
             ENDDO                       
           ENDDO                       
 C-------
-        ELSEIF (IGTYP == 11 .OR. IGTYP == 17) THEN
-       
+        ELSEIF (IGTYP == 11 .OR. IGTYP == 17) THEN 
 C-------
           DO IL=1,NLAY
             DIR1 => ELBUF_STR%BUFLY(IL)%DIRA 
@@ -240,8 +242,356 @@ C
           ENDIF
 C-------
         ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN
+         IF(IDRAPE > 0) THEN
+           IPT_ALL = 0
+           DO IL=1,NLAY
+              !!DIR1 => ELBUF_STR%BUFLY(IL)%DIRA
+             NPTT = ELBUF_STR%BUFLY(IL)%NPTT
+             IF(STACK%IGEO(2 + IL,ISUBSTACK) > 0)THEN 
+               DO IT = 1, NPTT  
+                  LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
+                  DIR1 => LBUF_DIR%DIRA
+                  IPT = IPT_ALL + IT 
+                  DO I=LFT,LLT
+                   CSP=COS(PHI1(IPT,I))                                       
+                   SNP=SIN(PHI1(IPT,I)) 
+                   IF (IGEO(49,STACK%IGEO(2 + IL,ISUBSTACK)) == 1) THEN      
+                       DIR1(I)     = CSP                                     
+                       DIR1(I+NEL) = SNP                                     
+                   ELSE 
+                       DIR1(I)     = VR(I)*CSP-VS(I)*SNP                     
+                       DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP                     
+                   ENDIF                                           
+                   IF (IORTHLOC(I) /= 0) THEN                                
+                     DIR1(I)     = COOR1(IL,I)                               
+                     DIR1(I+NEL) = COOR2(IL,I)                               
+                   ENDIF                                                     
+                 ENDDO    
+               ENDDO ! NPPT
+             ELSE
+               DO IT = 1, NPTT  
+                  LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
+                  DIR1 => LBUF_DIR%DIRA
+                  IPT = IPT_ALL + IT 
+                  DO I=LFT,LLT                                               
+                   CSP=COS(PHI1(IPT,I))                                       
+                   SNP=SIN(PHI1(IPT,I))        
+                    DIR1(I)     = VR(I)*CSP-VS(I)*SNP                        
+                    DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP                 
+                    IF (IORTHLOC(I) /= 0) THEN                                
+                     DIR1(I)     = COOR1(IL,I)                               
+                     DIR1(I+NEL) = COOR2(IL,I)                               
+                    ENDIF                                                     
+                 ENDDO    
+               ENDDO ! NPPT
+             ENDIF !
+             IPT_ALL = IPT_ALL + NPTT                                                    
+            ENDDO
+          IF (IREP == 1) THEN
+            DO I=LFT,LLT
+              U1X = E11(I)*E1X(I)+E12(I)*E1Y(I)+E13(I)*E1Z(I)
+              U1Y = E11(I)*E2X(I)+E12(I)*E2Y(I)+E13(I)*E2Z(I)
+              U2X = E21(I)*E1X(I)+E22(I)*E1Y(I)+E23(I)*E1Z(I)
+              U2Y = E21(I)*E2X(I)+E22(I)*E2Y(I)+E23(I)*E2Z(I)
+              DET = U1X*U2Y-U1Y*U2X
+              W1X = U2Y/DET
+              W2Y = U1X/DET
+              W1Y = -U1Y/DET
+              W2X = -U2X/DET
+              DO IL=1,NLAY
+               DIR1 => ELBUF_STR%BUFLY(IL)%DIRA 
+               NPTT = ELBUF_STR%BUFLY(IL)%NPTT
+               DIR1 => ELBUF_STR%BUFLY(IL)%DIRA   
+               DO IT = 1,NPTT
+                IF (IORTHLOC(I) /= 0) THEN
+                  DIR1(I)     = COOR1(IL,I) ! il --> It 
+                  DIR1(I+NEL) = COOR2(IL,I) 
+                ENDIF
+                D1 = DIR1(I)
+                D2 = DIR1(I+NEL)
+                DIR1(I)     = W1X*D1 + W2X*D2
+                DIR1(I+NEL) = W1Y*D1 + W2Y*D2
+                S = SQRT(DIR1(I)**2 + DIR1(I+NEL)**2)
+                DIR1(I)     = DIR1(I)/S
+                DIR1(I+NEL) = DIR1(I+NEL)/S
+              ENDDO ! nptt
+             ENDDO ! nlay 
+            ENDDO
+          ELSEIF (IREP == 2) THEN
+C---      Axe I d'anisotropie
+            DO IL=1,NLAY
+              NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
+              DO IT = 1, NPTT  
+                 LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
+                  DIR1 => LBUF_DIR%DIRA
+                  DIR2 => LBUF_DIR%DIRB
+                 IPT = IPT_ALL + IT
+C---      Axe I d'anisotropie
+                DO I=LFT,LLT                    
+                  CSP=COS(PHI1(IPT,I))
+                  SNP=SIN(PHI1(IPT,I))
+                  DIR1(I)     = VR(I)*CSP-VS(I)*SNP 
+                  DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP 
+                ENDDO
+C---      Axe II d'anisotropie
+                DO I=LFT,LLT                  
+                  CSP=COS(PHI2(IPT,I))
+                  SNP=SIN(PHI2(IPT,I))
+                  R = DIR1(I)              
+                  S = DIR1(I+NEL)            
+                  DIR2(I)     = R*CSP-S*SNP 
+                  DIR2(I+NEL) = S*CSP+R*SNP 
+                ENDDO   
+             ENDDO ! NPTT
+             IPT_ALL = IPT_ALL + NPTT                         
+            ENDDO ! DO IL=1,NLAY
+C---
+            IPT_ALL = 0
+            DO IL=1,NLAY
+              NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
+              DO IT = 1, NPTT  
+                 LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
+                 DIR1 => LBUF_DIR%DIRA
+                 DIR2 => LBUF_DIR%DIRB
+                 IPT = IPT_ALL + IT
+                 DO I=LFT,LLT  
+                   IF (IORTHLOC(I) /= 0) THEN                               
+                     DIR1(I)     =  COOR1(IL,I) !! IL ou ipt
+                     DIR1(I+NEL) =  COOR2(IL,I)
+                     DIR2(I)     =  COOR3(IL,I)
+                     DIR2(I+NEL) =  COOR4(IL,I)
+                   ENDIF  
+                 ENDDO  
+              ENDDO ! NPTT
+              IPT_ALL = IPT_ALL + NPTT                         
+            ENDDO ! DO IL=1,NLAY
+C---
+            IPT_ALL = 0
+            DO I=LFT,LLT                                       
+              U1X = E11(I)*E1X(I)+E12(I)*E1Y(I)+E13(I)*E1Z(I)  
+              U1Y = E11(I)*E2X(I)+E12(I)*E2Y(I)+E13(I)*E2Z(I)  
+              U2X = E21(I)*E1X(I)+E22(I)*E1Y(I)+E23(I)*E1Z(I)  
+              U2Y = E21(I)*E2X(I)+E22(I)*E2Y(I)+E23(I)*E2Z(I)  
+              DET = U1X*U2Y-U1Y*U2X                            
+              W1X = U2Y/DET                                    
+              W2Y = U1X/DET                                    
+              W1Y = -U1Y/DET                                   
+              W2X = -U2X/DET                                   
+              DO IL=1,NLAY  
+               NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
+               DO IT = 1, NPTT  
+                 LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
+                 DIR1 => LBUF_DIR%DIRA
+                 DIR2 => LBUF_DIR%DIRB
+                 IPT = IPT_ALL + IT
+C---          dir I
+                D11 = DIR1(I)                                   
+                D21 = DIR1(I+NEL)                                   
+                DIR1(I)     = W1X*D11 + W2X*D21                     
+                DIR1(I+NEL) = W1Y*D11 + W2Y*D21                      
+                S = SQRT(DIR1(I)**2 + DIR1(I+NEL)**2)              
+                DIR1(I)     = DIR1(I)/S
+                DIR1(I+NEL) = DIR1(I+NEL)/S
+C---          dir II
+                D12 = DIR2(I)                                   
+                D22=  DIR2(I+NEL)                                   
+                DIR2(I)     = W1X*D12 + W2X*D22                    
+                DIR2(I+NEL) = W1Y*D12 + W2Y*D22                      
+                S = SQRT(DIR2(I)**2 + DIR2(I+NEL)**2)              
+                DIR2(I)     = DIR2(I)/S                          
+                DIR2(I+NEL) = DIR2(I+NEL)/S   
+              ENDDO  
+             ENDDO                                           
+            ENDDO
+          ELSEIF (IREP == 3) THEN
+C   mixing law58 with other user laws with IREP = 0 within PID51
+            IPT_ALL = 0
+            DO IL=1,NLAY
+              ILAW = ELBUF_STR%BUFLY(IL)%ILAW
+              NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
+             IF (ILAW == 58) THEN         
+               DO IT = 1, NPTT  
+                 LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
+                 DIR1 => LBUF_DIR%DIRA
+                 DIR2 => LBUF_DIR%DIRB
+                 IPT = IPT_ALL + IT
+C---      Axe I d'anisotropie
+                  DO I=LFT,LLT                    
+                    CSP=COS(PHI1(IPT,I))
+                    SNP=SIN(PHI1(IPT,I))
+                    DIR1(I)     = VR(I)*CSP-VS(I)*SNP 
+                    DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP 
+                  ENDDO
+C---      Axe II d'anisotropie
+                  DO I=LFT,LLT                    
+                    CSP=COS(PHI2(IPT,I))
+                    SNP=SIN(PHI2(IPT,I))
+                    R = DIR1(I)              
+                    S = DIR1(I+NEL)              
+                    DIR2(I)     = R*CSP-S*SNP  
+                    DIR2(I+NEL) = S*CSP+R*SNP  
+                  ENDDO
+C---
+                  DO I=LFT,LLT  
+                    IF (IORTHLOC(I) /= 0) THEN                                
+                      DIR1(I)     =  COOR1(IL,I)  ! to check
+                      DIR1(I+NEL) =  COOR2(IL,I)
+                      DIR2(I)     =  COOR3(IL,I) 
+                      DIR2(I+NEL) =  COOR4(IL,I) 
+                    ENDIF  
+                  ENDDO
+C---
+                   DO I=LFT,LLT                                       
+                     U1X = E11(I)*E1X(I)+E12(I)*E1Y(I)+E13(I)*E1Z(I)  
+                     U1Y = E11(I)*E2X(I)+E12(I)*E2Y(I)+E13(I)*E2Z(I)  
+                     U2X = E21(I)*E1X(I)+E22(I)*E1Y(I)+E23(I)*E1Z(I)  
+                     U2Y = E21(I)*E2X(I)+E22(I)*E2Y(I)+E23(I)*E2Z(I)  
+                     DET = U1X*U2Y-U1Y*U2X                            
+                     W1X = U2Y/DET                                    
+                     W2Y = U1X/DET                                    
+                     W1Y = -U1Y/DET                                   
+                     W2X = -U2X/DET                                   
+C---          dir I
+                     D11 = DIR1(I)                                  
+                     D21 = DIR1(I+NEL)                                
+                     DIR1(I) = W1X*D11 + W2X*D21                    
+                     DIR1(I+NEL) = W1Y*D11 + W2Y*D21                   
+                     S = SQRT(DIR1(I)**2 + DIR1(I+NEL)**2)            
+                     DIR1(I)     = DIR1(I)/S               
+                     DIR1(I+NEL) = DIR1(I+NEL)/S           
+C---          dir II
+                     D12 = DIR2(I)                                  
+                     D22=  DIR2(I+NEL)                                
+                     DIR2(I)     = W1X*D12 + W2X*D22                  
+                     DIR2(I+NEL) = W1Y*D12 + W2Y*D22                   
+                     S = SQRT(DIR2(I)**2 + DIR2(I+NEL)**2)            
+                     DIR2(I)     = DIR2(I)/S                         
+                     DIR2(I+NEL) = DIR2(I+NEL)/S   
+                  ENDDO
+                 ENDDO ! NPTT
+                 IPT_ALL  = IPT_ALL + NPTT 
+              ELSE  ! IREP = 0 within PID51
+                 DO IT = 1, NPTT  
+                  LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
+                  DIR1 => LBUF_DIR%DIRA
+                  DIR2 => LBUF_DIR%DIRB
+                  IPT = IPT_ALL + IT
+                  DO I=LFT,LLT
+                    CSP=COS(PHI1(IPT,I))
+                    SNP=SIN(PHI1(IPT,I))
+                    DIR1(I)     = VR(I)*CSP-VS(I)*SNP
+                    DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP
+                    IF (IORTHLOC(I) /= 0) THEN
+                      DIR1(I)     = COOR1(IL,I) 
+                      DIR1(I+NEL) = COOR2(IL,I) 
+                    ENDIF
+                  ENDDO
+                ENDDO
+                IPT_ALL = IPT_ALL + NPTT 
+              ENDIF ! IF (ILAW == 58) THEN
+            ENDDO ! DO N=1,NLAY
+          ELSEIF (IREP == 4) THEN
+C   mixing law58 with other user laws with IREP = 1 within PID51
+            IPT_ALL = 0
+            DO IL=1,NLAY
+              ILAW = ELBUF_STR%BUFLY(IL)%ILAW
+              IF (ILAW == 58) THEN
+               DO IT = 1, NPTT  
+                 LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
+                 DIR1 => LBUF_DIR%DIRA
+                 DIR2 => LBUF_DIR%DIRB
+                 IPT = IPT_ALL + IT
+C---      Axe I d'anisotropie
+                DO I=LFT,LLT                    
+                  CSP=COS(PHI1(IPT,I))
+                  SNP=SIN(PHI1(IPT,I))
+                  DIR1(I)     = VR(I)*CSP-VS(I)*SNP  
+                  DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP  
+                ENDDO
+C---      Axe II d'anisotropie
+                DO I=LFT,LLT                    
+                  CSP=COS(PHI2(IPT,I))
+                  SNP=SIN(PHI2(IPT,I))
+                  R = DIR1(I)              
+                  S = DIR1(I+NEL)              
+                  DIR2(I)     = R*CSP-S*SNP  
+                  DIR2(I+NEL) = S*CSP+R*SNP  
+                ENDDO
+C---
+                DO I=LFT,LLT  
+                  IF (IORTHLOC(I) /= 0) THEN                                  
+                    DIR1(I)     =  COOR1(IL,I) 
+                    DIR1(I+NEL) =  COOR2(IL,I)
+                    DIR2(I)     =  COOR3(IL,I) 
+                    DIR2(I+NEL) =  COOR4(IL,I) 
+                  ENDIF  
+                ENDDO
+C---
+                DO I=LFT,LLT                                       
+                  U1X = E11(I)*E1X(I)+E12(I)*E1Y(I)+E13(I)*E1Z(I)  
+                  U1Y = E11(I)*E2X(I)+E12(I)*E2Y(I)+E13(I)*E2Z(I)  
+                  U2X = E21(I)*E1X(I)+E22(I)*E1Y(I)+E23(I)*E1Z(I)  
+                  U2Y = E21(I)*E2X(I)+E22(I)*E2Y(I)+E23(I)*E2Z(I)  
+                  DET = U1X*U2Y-U1Y*U2X                            
+                  W1X = U2Y/DET                                    
+                  W2Y = U1X/DET                                    
+                  W1Y = -U1Y/DET                                   
+                  W2X = -U2X/DET                                   
+C---          dir I
+                  D11 = DIR1(I)                                   
+                  D21 = DIR1(I+NEL)                                   
+                  DIR1(I)     = W1X*D11 + W2X*D21                     
+                  DIR1(I+NEL) = W1Y*D11 + W2Y*D21                      
+                  S = SQRT(DIR1(I)**2 + DIR1(I+NEL)**2)              
+                  DIR1(I)     = DIR1(I)/S
+                  DIR1(I+NEL) = DIR1(I+NEL)/S
+C---          dir II
+                  D12 = DIR2(I)                                   
+                  D22=  DIR2(I+NEL)                                   
+                  DIR2(I)     = W1X*D12 + W2X*D22                    
+                  DIR2(I+NEL) = W1Y*D12 + W2Y*D22                      
+                  S = SQRT(DIR2(I)**2 + DIR2(I+NEL)**2)              
+                  DIR2(I)     = DIR2(I)/S                          
+                  DIR2(I+NEL) = DIR2(I+NEL)/S   
+                ENDDO
+               ENDDO ! NPTT
+               IPT_ALL = IPT_ALL + NPTT
+              ELSE  ! Ilaw
+               DO IT = 1, NPTT  
+                 LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
+                 DIR1 => LBUF_DIR%DIRA
+                 DIR2 => LBUF_DIR%DIRB
+                 IPT = IPT_ALL + IT
+                 DO I=LFT,LLT
+                    U1X = E11(I)*E1X(I)+E12(I)*E1Y(I)+E13(I)*E1Z(I)
+                    U1Y = E11(I)*E2X(I)+E12(I)*E2Y(I)+E13(I)*E2Z(I)
+                    U2X = E21(I)*E1X(I)+E22(I)*E1Y(I)+E23(I)*E1Z(I)
+                    U2Y = E21(I)*E2X(I)+E22(I)*E2Y(I)+E23(I)*E2Z(I)
+                    DET = U1X*U2Y-U1Y*U2X
+                    W1X = U2Y/DET
+                    W2Y = U1X/DET
+                    W1Y = -U1Y/DET
+                    W2X = -U2X/DET
+                    IF (IORTHLOC(I) /= 0) THEN
+                      DIR1(I)     = COOR1(IL,I) 
+                      DIR1(I+NEL) = COOR2(IL,I) 
+                    ENDIF
+                    D1 = DIR1(I)
+                    D2 = DIR1(I+NEL)
+                    DIR1(I)     = W1X*D1 + W2X*D2
+                    DIR1(I+NEL) = W1Y*D1 + W2Y*D2
+                    S = SQRT(DIR1(I)**2 + DIR1(I+NEL)**2)
+                    DIR1(I)     = DIR1(I)/S
+                    DIR1(I+NEL) = DIR1(I+NEL)/S
+                ENDDO
+               ENDDO
+               IPT_ALL = IPT_ALL + NPTT 
+              ENDIF ! IF (ILAW == 58) THEN
+            ENDDO ! DO N=1,NLAY
+          ENDIF ! IF (IREP == 1)       
+         ELSE ! idrape ==0
           DO IL=1,NLAY
-            DIR1 => ELBUF_STR%BUFLY(IL)%DIRA    
+             DIR1 => ELBUF_STR%BUFLY(IL)%DIRA 
             DO I=LFT,LLT
               CSP=COS(PHI1(IL,I))
               SNP=SIN(PHI1(IL,I))
@@ -296,9 +646,9 @@ C---
             ENDDO
           ELSEIF (IREP == 2) THEN
 C---      Axe I d'anisotropie
-            DO IL=1,NLAY
-              DIR1 => ELBUF_STR%BUFLY(IL)%DIRA    
-              DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
+            DO IL=1,NLAY 
+              DIR1 => ELBUF_STR%BUFLY(IL)%DIRA 
+              DIR2 => ELBUF_STR%BUFLY(IL)%DIRB 
 C---      Axe I d'anisotropie
               DO I=LFT,LLT                    
                 CSP=COS(PHI1(IL,I))
@@ -317,9 +667,9 @@ C---      Axe II d'anisotropie
               ENDDO                           
             ENDDO ! DO IL=1,NLAY
 C---
-            DO IL=1,NLAY
-              DIR1 => ELBUF_STR%BUFLY(IL)%DIRA    
-              DIR2 => ELBUF_STR%BUFLY(IL)%DIRB    
+            DO IL=1,NLAY 
+              DIR1 => ELBUF_STR%BUFLY(IL)%DIRA 
+              DIR2 => ELBUF_STR%BUFLY(IL)%DIRB     
               DO I=LFT,LLT  
                 IF (IORTHLOC(I) /= 0) THEN                                  
                   DIR1(I)     =  COOR1(IL,I) 
@@ -365,9 +715,9 @@ C---          dir II
 C   mixing law58 with other user laws with IREP = 0 within PID51
             DO IL=1,NLAY
               ILAW = ELBUF_STR%BUFLY(IL)%ILAW
-              IF (ILAW == 58) THEN
-                DIR1 => ELBUF_STR%BUFLY(IL)%DIRA
-                DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
+              IF (ILAW == 58) THEN 
+                  DIR1 => ELBUF_STR%BUFLY(IL)%DIRA 
+                  DIR2 => ELBUF_STR%BUFLY(IL)%DIRB 
 C---      Axe I d'anisotropie
                 DO I=LFT,LLT                    
                   CSP=COS(PHI1(IL,I))
@@ -422,7 +772,7 @@ C---          dir II
                   DIR2(I+NEL) = DIR2(I+NEL)/S   
                 ENDDO
               ELSE  ! IREP = 0 within PID51
-                DIR1 => ELBUF_STR%BUFLY(IL)%DIRA    
+                 DIR1 => ELBUF_STR%BUFLY(IL)%DIRA 
                 DO I=LFT,LLT
                   CSP=COS(PHI1(IL,I))
                   SNP=SIN(PHI1(IL,I))
@@ -440,8 +790,8 @@ C   mixing law58 with other user laws with IREP = 1 within PID51
             DO IL=1,NLAY
               ILAW = ELBUF_STR%BUFLY(IL)%ILAW
               IF (ILAW == 58) THEN
-                DIR1 => ELBUF_STR%BUFLY(IL)%DIRA
-                DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
+                  DIR1 => ELBUF_STR%BUFLY(IL)%DIRA 
+                  DIR2 => ELBUF_STR%BUFLY(IL)%DIRB 
 C---      Axe I d'anisotropie
                 DO I=LFT,LLT                    
                   CSP=COS(PHI1(IL,I))
@@ -496,7 +846,7 @@ C---          dir II
                   DIR2(I+NEL) = DIR2(I+NEL)/S   
                 ENDDO
               ELSE  ! IREP = 1 within PID51
-                DIR1 => ELBUF_STR%BUFLY(IL)%DIRA
+                 DIR1 => ELBUF_STR%BUFLY(IL)%DIRA 
                 DO I=LFT,LLT
                   U1X = E11(I)*E1X(I)+E12(I)*E1Y(I)+E13(I)*E1Z(I)
                   U1Y = E11(I)*E2X(I)+E12(I)*E2Y(I)+E13(I)*E2Z(I)
@@ -522,6 +872,7 @@ C---          dir II
               ENDIF ! IF (ILAW == 58) THEN
             ENDDO ! DO N=1,NLAY
           ENDIF ! IF (IREP == 1)
+         ENDIF ! IDRAPE 
 C-------
         ELSEIF (IGTYP == 16) THEN
 C-------

@@ -41,7 +41,7 @@ Chd|====================================================================
      4       CEP     ,XEP     ,IGEO      ,IPM    ,
      5       IPART   ,SH4TREE ,NOD2ELC   ,ISHEOFF,SH4TRIM,
      6       TAGPRT_SMS, LGAUGE,IWORKSH,
-     7       STACK   ,DRAPE    ,RNOISE ,SH4ANG)
+     7       STACK   ,DRAPE  ,RNOISE ,SH4ANG,DRAPEG)
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -113,8 +113,10 @@ C     REAL OU REAL*8
      .    SH4ANG(*)
 C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_)    :: DRAPE (*)
-      TYPE (DRAPE_) , DIMENSION(:), ALLOCATABLE :: XNUM_DRAPE
+      TYPE (DRAPE_)   , TARGET    :: DRAPE (NUMELC_DRAPE + NUMELTG_DRAPE)
+      TYPE (DRAPEG_)                             :: DRAPEG
+      TYPE (DRAPE_)  , DIMENSION(:), ALLOCATABLE :: XNUM_DRAPE
+      TYPE (DRAPEG_)                             :: XNUM_DRAPEG
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSHEL)  :: IGRSH4N
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -133,7 +135,7 @@ C-----------------------------------------------
      .  NFAIL,IFAIL,IXFEM,INUM_R2R(1+R2R_SIU*NUMELC),
      .  INUM_WORKC(3,NUMELC),II5,JJ5,
      .  ISUBSTACK,IIGEO,IADI ,IPPID,NB_LAW58,IPMAT,
-     .  IPERT,STAT
+     .  IPERT,STAT,IP,NSLICE,KK,NPT_DRP,IE,IE0
       my_real
      .  ANGLE(NUMELC)
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
@@ -141,6 +143,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2
 C     REAL OU REAL*8
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
+C
+      TYPE (DRAPE_PLY_)             , POINTER   :: DRAPE_PLY
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 Clef 1---------------------------------
       DATA MSKMLN /O'07770000000'/
@@ -169,17 +173,30 @@ C----------------------------------------------------------
       ELSE
         ALLOCATE( ISTOR(0,0) )
       ENDIF
-      IF (NDRAPE > 0) THEN
-        ALLOCATE( XNUM_DRAPE(NUMELC))
-        DO I =1, NUMELC
-           NPT = DRAPE(I)%NPT
-           ALLOCATE(XNUM_DRAPE(I)%RDRAPE(NPT,2),XNUM_DRAPE(I)%IDRAPE(NPT))
-           XNUM_DRAPE(I)%RDRAPE = 0
-           XNUM_DRAPE(I)%IDRAPE = 0
-        ENDDO 
-      ELSE
-        ALLOCATE( XNUM_DRAPE(0) )
-      ENDIF
+        IF (NDRAPE > 0 .AND. NUMELC_DRAPE > 0) THEN
+         ALLOCATE(XNUM_DRAPE(NUMELC))  
+         ALLOCATE(XNUM_DRAPEG%INDX(NUMELC))
+         XNUM_DRAPEG%INDX = 0                                             
+         DO I =1, NUMELC 
+           IE = DRAPEG%INDX(I)
+           IF(IE == 0) CYCLE                                                                      
+           NPT_DRP = DRAPE(IE)%NPLY_DRAPE  
+           NPT = IWORKSH(1,I)                                              
+           ALLOCATE(XNUM_DRAPE(I)%INDX_PLY(NPT))                                              
+           ALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(NPT_DRP))        
+           XNUM_DRAPE(I)%INDX_PLY = 0
+           XNUM_DRAPE(I)%INDX_PLY = 0
+           DO J = 1,NPT_DRP
+                NSLICE = DRAPE(IE)%DRAPE_PLY(J)%NSLICE    
+                ALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(J)%RDRAPE(NSLICE,2))    
+                ALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(J)%IDRAPE(NSLICE,2)) 
+                XNUM_DRAPE(I)%DRAPE_PLY(J)%RDRAPE = 0             
+                XNUM_DRAPE(I)%DRAPE_PLY(J)%IDRAPE = 0  
+           ENDDO 
+         ENDDO      
+        ELSE
+            ALLOCATE( XNUM_DRAPE(0) )
+        ENDIF
 C
       IF (NPERTURB > 0) THEN
         ALLOCATE(XNUM_RNOISE(NPERTURB,NUMELC),STAT=stat)
@@ -190,41 +207,84 @@ C
 C    
       MY_ALLOCATE(INDEX2,NUMELC)
 
-      DO I=1,NUMELC
-        INDEX2(I)=PERMUTATION%SHELL(I)
-        EADD(I)=1
-        ITRI(7,I)=I
-        INDEX(I)=I
-        INUM(1,I)=IPARTC(I)
-        INUM(2,I)=ISHEOFF(I)
-        INUM(3,I)=IXC(1,I)
-        INUM(4,I)=IXC(2,I)
-        INUM(5,I)=IXC(3,I)
-        INUM(6,I)=IXC(4,I)
-        INUM(7,I)=IXC(5,I)
-        INUM(8,I)=IXC(6,I)
-        INUM(9,I)=IXC(7,I)
-        XNUM(I)=THK(I)
-        IF (NSUBDOM>0) INUM_R2R(I) = TAG_ELCF(I)
-        INUM_WORKC(1,I) = IWORKSH(1,I)
-        INUM_WORKC(2,I) = IWORKSH(2,I)
-        INUM_WORKC(3,I) = IWORKSH(3,I)
-        IF (NDRAPE > 0) THEN
-          NPT = DRAPE(I)%NPT
-          XNUM_DRAPE(I)%NPT = DRAPE(I)%NPT
-          DO IPT = 1, NPT
-            XNUM_DRAPE(I)%IDRAPE(IPT)  =  DRAPE(I)%IDRAPE(IPT)
-            XNUM_DRAPE(I)%RDRAPE(IPT,1) = DRAPE(I)%RDRAPE(IPT,1)
-            XNUM_DRAPE(I)%RDRAPE(IPT,2) = DRAPE(I)%RDRAPE(IPT,2)
-          ENDDO
-        ENDIF
-        IF (NPERTURB > 0) THEN
-          DO IPERT = 1, NPERTURB
-            XNUM_RNOISE(IPERT,I) = RNOISE(IPERT,I) 
-          ENDDO
-        ENDIF
-        ANGLE(I)=SH4ANG(I) 
-      ENDDO
+      IF(NDRAPE > 0 .AND. NUMELC_DRAPE > 0) THEN
+        DO I=1,NUMELC
+            INDEX2(I)=PERMUTATION%SHELL(I)
+            EADD(I)=1
+            ITRI(7,I)=I
+            INDEX(I)=I
+            INUM(1,I)=IPARTC(I)
+            INUM(2,I)=ISHEOFF(I)
+            INUM(3,I)=IXC(1,I)
+            INUM(4,I)=IXC(2,I)
+            INUM(5,I)=IXC(3,I)
+            INUM(6,I)=IXC(4,I)
+            INUM(7,I)=IXC(5,I)
+            INUM(8,I)=IXC(6,I)
+            INUM(9,I)=IXC(7,I)
+            XNUM(I)=THK(I)
+            IF (NSUBDOM>0) INUM_R2R(I) = TAG_ELCF(I)
+            INUM_WORKC(1,I) = IWORKSH(1,I)
+            INUM_WORKC(2,I) = IWORKSH(2,I)
+            INUM_WORKC(3,I) = IWORKSH(3,I)
+            IF (NPERTURB > 0) THEN
+              DO IPERT = 1, NPERTURB
+                XNUM_RNOISE(IPERT,I) = RNOISE(IPERT,I) 
+              ENDDO
+            ENDIF
+            ANGLE(I)=SH4ANG(I) 
+            !drape structure
+            IE = DRAPEG%INDX(I)
+            XNUM_DRAPEG%INDX(I) = DRAPEG%INDX(I)                                
+            IF(IE == 0) CYCLE                                                   
+            NPT = IWORKSH(1,I)                                   
+            XNUM_DRAPE(I)%INDX_PLY(1:NPT) = DRAPE(IE)%INDX_PLY(1:NPT)
+            NPT = DRAPE(IE)%NPLY_DRAPE                                      
+            XNUM_DRAPE(I)%NPLY_DRAPE = NPT           
+            DO JJ = 1, NPT                                                  
+              DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(JJ)                              
+              NSLICE =  DRAPE_PLY%NSLICE                                        
+              XNUM_DRAPE(I)%DRAPE_PLY(JJ)%NSLICE =  NSLICE                      
+              XNUM_DRAPE(I)%DRAPE_PLY(JJ)%IPID   = DRAPE_PLY%IPID
+              DO KK = 1,NSLICE                                                  
+                XNUM_DRAPE(I)%DRAPE_PLY(JJ)%IDRAPE(KK,1)=DRAPE_PLY%IDRAPE(KK,1) 
+                XNUM_DRAPE(I)%DRAPE_PLY(JJ)%IDRAPE(KK,2)=DRAPE_PLY%IDRAPE(KK,2) 
+                XNUM_DRAPE(I)%DRAPE_PLY(JJ)%RDRAPE(KK,1)=DRAPE_PLY%RDRAPE(KK,1) 
+                XNUM_DRAPE(I)%DRAPE_PLY(JJ)%RDRAPE(KK,2)=DRAPE_PLY%RDRAPE(KK,2)
+              ENDDO    
+              DEALLOCATE(DRAPE_PLY%IDRAPE, DRAPE_PLY%RDRAPE)
+            ENDDO
+             DEALLOCATE(DRAPE(IE)%DRAPE_PLY)  
+             DEALLOCATE(DRAPE(IE)%INDX_PLY)                  
+         ENDDO
+       ELSE
+        DO I=1,NUMELC
+            INDEX2(I)=PERMUTATION%SHELL(I)
+            EADD(I)=1
+            ITRI(7,I)=I
+            INDEX(I)=I
+            INUM(1,I)=IPARTC(I)
+            INUM(2,I)=ISHEOFF(I)
+            INUM(3,I)=IXC(1,I)
+            INUM(4,I)=IXC(2,I)
+            INUM(5,I)=IXC(3,I)
+            INUM(6,I)=IXC(4,I)
+            INUM(7,I)=IXC(5,I)
+            INUM(8,I)=IXC(6,I)
+            INUM(9,I)=IXC(7,I)
+            XNUM(I)=THK(I)
+            IF (NSUBDOM>0) INUM_R2R(I) = TAG_ELCF(I)
+            INUM_WORKC(1,I) = IWORKSH(1,I)
+            INUM_WORKC(2,I) = IWORKSH(2,I)
+            INUM_WORKC(3,I) = IWORKSH(3,I)          
+            IF (NPERTURB > 0) THEN
+              DO IPERT = 1, NPERTURB
+                XNUM_RNOISE(IPERT,I) = RNOISE(IPERT,I) 
+              ENDDO
+            ENDIF
+            ANGLE(I)=SH4ANG(I) 
+         ENDDO
+       ENDIF   
 C
       IF(NADMESH /= 0)THEN
         DO  K=1,KSH4TREE
@@ -455,30 +515,57 @@ C
           IXC(K,I)=INUM(K+2,INDEX(I))
         ENDDO
       ENDDO
-      DO I=1,NUMELC
-       IWORKSH(1,I)= INUM_WORKC(1,INDEX(I))
-       IWORKSH(2,I)= INUM_WORKC(2,INDEX(I))
-       IWORKSH(3,I)= INUM_WORKC(3,INDEX(I))
-       IF (NDRAPE > 0) THEN
-         NPT = XNUM_DRAPE(INDEX(I))%NPT 
-         IF(NPT /= DRAPE(I)%NPT ) THEN
-            DEALLOCATE(DRAPE(I)%IDRAPE,DRAPE(I)%RDRAPE)
-            ALLOCATE(DRAPE(I)%IDRAPE(NPT),DRAPE(I)%RDRAPE(NPT,2))
-         ENDIF 
-         DRAPE(I)%NPT = XNUM_DRAPE(INDEX(I))%NPT
-         DO IPT = 1, NPT
-           DRAPE(I)%IDRAPE(IPT)   = XNUM_DRAPE(INDEX(I))%IDRAPE(IPT)
-           DRAPE(I)%RDRAPE(IPT,1) = XNUM_DRAPE(INDEX(I))%RDRAPE(IPT,1)
-           DRAPE(I)%RDRAPE(IPT,2) = XNUM_DRAPE(INDEX(I))%RDRAPE(IPT,2)
-         ENDDO
-       ENDIF
-       IF (NPERTURB > 0) THEN
-         DO IPERT = 1, NPERTURB
-           RNOISE(IPERT,I) = XNUM_RNOISE(IPERT,INDEX(I)) 
-         ENDDO
-       ENDIF
-        SH4ANG(I)=ANGLE(INDEX(I))
-      ENDDO
+      IF(NDRAPE > 0) THEN
+        IE = 0
+        DO I=1,NUMELC
+         IWORKSH(1,I)= INUM_WORKC(1,INDEX(I))
+         IWORKSH(2,I)= INUM_WORKC(2,INDEX(I))
+         IWORKSH(3,I)= INUM_WORKC(3,INDEX(I))
+         IF (NPERTURB > 0) THEN
+           DO IPERT = 1, NPERTURB
+             RNOISE(IPERT,I) = XNUM_RNOISE(IPERT,INDEX(I)) 
+           ENDDO
+         ENDIF
+         SH4ANG(I)=ANGLE(INDEX(I))
+         !
+         IE0 = XNUM_DRAPEG%INDX(INDEX(I))
+         DRAPEG%INDX(I)= 0
+         IF(IE0 == 0) CYCLE
+         IE = IE + 1
+         NPT = IWORKSH(1,I) ! number of layer shell 
+         DRAPEG%INDX(I)= IE
+         ALLOCATE(DRAPE(IE)%INDX_PLY(NPT)) 
+         DRAPE(IE)%INDX_PLY(1:NPT) =  XNUM_DRAPE(INDEX(I))%INDX_PLY(1:NPT)                                  
+         NPT = XNUM_DRAPE(INDEX(I))%NPLY_DRAPE       ! NPT_DRP                                      
+         ALLOCATE(DRAPE(IE)%DRAPE_PLY(NPT))  
+         DRAPE(IE)%NPLY_DRAPE= NPT             
+         DO JJ = 1, NPT         
+           DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(JJ)                                  
+           NSLICE = XNUM_DRAPE(INDEX(I))%DRAPE_PLY(JJ)%NSLICE                            
+           DRAPE_PLY%NSLICE = NSLICE   
+           DRAPE_PLY%IPID =  XNUM_DRAPE(INDEX(I))%DRAPE_PLY(JJ)%IPID
+           ALLOCATE(DRAPE_PLY%IDRAPE(NSLICE,2), DRAPE_PLY%RDRAPE(NSLICE,2))
+           DO KK = 1,NSLICE                                                               
+            DRAPE_PLY%IDRAPE(KK,1) = XNUM_DRAPE(INDEX(I))%DRAPE_PLY(JJ)%IDRAPE(KK,1)      
+            DRAPE_PLY%IDRAPE(KK,2) = XNUM_DRAPE(INDEX(I))%DRAPE_PLY(JJ)%IDRAPE(KK,2)      
+            DRAPE_PLY%RDRAPE(KK,1) = XNUM_DRAPE(INDEX(I))%DRAPE_PLY(JJ)%RDRAPE(KK,1)      
+            DRAPE_PLY%RDRAPE(KK,2) = XNUM_DRAPE(INDEX(I))%DRAPE_PLY(JJ)%RDRAPE(KK,2)      
+           ENDDO                                                                          
+         ENDDO 
+        ENDDO
+      ELSE
+        DO I=1,NUMELC
+         IWORKSH(1,I)= INUM_WORKC(1,INDEX(I))
+         IWORKSH(2,I)= INUM_WORKC(2,INDEX(I))
+         IWORKSH(3,I)= INUM_WORKC(3,INDEX(I))
+         IF (NPERTURB > 0) THEN
+           DO IPERT = 1, NPERTURB
+             RNOISE(IPERT,I) = XNUM_RNOISE(IPERT,INDEX(I)) 
+           ENDDO
+         ENDIF
+          SH4ANG(I)=ANGLE(INDEX(I))
+        ENDDO
+      ENDIF  
 C
       IF(NADMESH /= 0)THEN
         DO  K=1,KSH4TREE
@@ -580,6 +667,20 @@ c
 c
       DEALLOCATE(INDEX2)
       DEALLOCATE( ISTOR )
-      DEALLOCATE( XNUM_DRAPE )
+      IF(NDRAPE > 0 .AND. NUMELC_DRAPE > 0) THEN
+         DO I =1, NUMELC       
+           IE = XNUM_DRAPEG%INDX(I)
+           IF(IE == 0) CYCLE                                
+           NPT_DRP = XNUM_DRAPE(I)%NPLY_DRAPE  
+           DO J = 1,NPT_DRP                                              
+              DEALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(J)%RDRAPE)          
+              DEALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(J)%IDRAPE)  
+           ENDDO   
+           DEALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY,XNUM_DRAPE(I)%INDX_PLY) 
+         ENDDO
+         DEALLOCATE( XNUM_DRAPE ,XNUM_DRAPEG%INDX)
+      ELSE
+         DEALLOCATE( XNUM_DRAPE )      
+      ENDIF
       RETURN
       END

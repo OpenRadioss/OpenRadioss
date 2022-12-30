@@ -74,7 +74,7 @@ Chd|====================================================================
      C           NPF      ,TF       ,XFEM_STR ,ISUBSTACK,STACK  ,
      D           RNOISE   ,DRAPE    ,SH4ANG  ,GEO_STACK,
      E           IGEO_STACK,STRC    ,PERTURB  ,IYLDINI ,ELE_AREA,
-     F           NLOC_DMG ,NG       ,GROUP_PARAM)
+     F           NLOC_DMG ,NG       ,GROUP_PARAM, IDRAPE , DRAPEG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -111,7 +111,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NVC,NEL,ITHK,IHBE,ISIGSH,IXFEM,NSIGSH,IUSER,IYLDINI,
-     .        ISUBSTACK,NG
+     .        ISUBSTACK,NG,IDRAPE
       INTEGER IXC(NIXC,*),IPART(*),PTSHEL(*),ITAG(*),ITAGEL(*), 
      .        IGEO(NPROPGI,*), IPM(NPROPMI,*), NSHNOD(*),NPF(*),
      .        SH4TREE(*),IPARG(*),CPT_ELTENS,ITAGN(*),ITAGE(*),
@@ -131,7 +131,8 @@ C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
       TYPE (NLOCAL_STR_) :: NLOC_DMG
       TYPE (GRP_PARAM_STRUCT_)  :: GROUP_PARAM
-      TYPE (DRAPE_) ::  DRAPE(*)
+      TYPE (DRAPE_) ::  DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
+      TYPE (DRAPEG_) ::  DRAPEG
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
@@ -201,14 +202,27 @@ C
 C
       LENS = NEL*GBUF%G_STRPG/NPG
     
-      ALLOCATE(DIR_A(NLAY*NEL*2))
-      ALLOCATE(DIR_B(NLAY*NEL*2))
-      DIR_A = ZERO
-      DIR_B = ZERO
+      NPT_ALL = 0
+      DO IL=1,NLAY
+        NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
+      ENDDO   
+      IF((IGTYP == 51 .OR. IGTYP == 52) .AND. IDRAPE > 0) THEN
+         ALLOCATE(DIR_A(NPT_ALL*NEL*2))
+         ALLOCATE(DIR_B(NPT_ALL*NEL*2))
+         DIR_A = ZERO
+         DIR_B = ZERO
+      ELSE
+         ALLOCATE(DIR_A(NLAY*NEL*2))
+         ALLOCATE(DIR_B(NLAY*NEL*2))
+         DIR_A = ZERO
+         DIR_B = ZERO
+         NPT_ALL = NLAY 
+      ENDIF
 !
       DO I=1,9  ! length max of GBUF%G_SMSTR = 9
         JJ(I) = NEL*(I-1)
       ENDDO
+      NPT_ALL = MAX(NLAY, NPT_ALL)
 !
 C
       IF (ISHXFEM_PLY > 0) THEN
@@ -264,14 +278,12 @@ C------------
      .            MS_LAYER, ZI_LAYER,MS_LAYERC,ZI_LAYERC,
      .            MSZ2C,ZPLY,ISUBSTACK,NLAY,ELBUF_STR,STACK,
      .            GBUF%THK_I,RNOISE   ,DRAPE       ,
-     .            PERTURB,IX1     ,IX2      ,IX3     ,IX4      )
+     .            PERTURB,IX1     ,IX2      ,IX3     ,IX4     ,
+     .            IDRAPE  ,DRAPEG%INDX)
 C-----------------------------------------------
       IF (MTN == 1 .OR. MTN == 3 .OR. MTN == 23 .OR. MTN == 91) NPT = 0
-      NPT_ALL = 0
-      DO IL=1,NLAY
-        NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
-      ENDDO
       MPT  = MAX(1,NPT_ALL)
+      NPT_ALL = MAX(NLAY, NPT_ALL)
       IF (IPARG(6) == 0.OR.NPT==0) MPT=0
 C---------------------------
       CALL CDERII(PX1G,PX2G,PY1G,PY2G,
@@ -307,8 +319,9 @@ C
            CALL LAYINI1(
      .        ELBUF_STR  ,LFT        ,LLT        ,GEO        ,IGEO      ,
      .        MAT        ,PID        ,MATLY      ,POSLY      ,IGTYP     ,
-     .        NLAY       ,MPT        ,ISUBSTACK  ,STACK      ,DRAPE      ,
-     .        NFT        ,GBUF%THK   ,NEL        )
+     .        NLAY       ,MPT        ,ISUBSTACK  ,STACK      ,DRAPE     ,
+     .        NFT        ,GBUF%THK   ,NEL        ,IDRAPE     ,SCDRAPE    ,
+     .        DRAPEG%INDX)
         END IF
 c---------------------------
 c     Loop over Gauss points
@@ -329,7 +342,8 @@ c
      .                 IGMAT    ,IMAT     ,IPROP   ,
      .                 X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                 Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
-     .                 E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,X )
+     .                 E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,X ,
+     .                 NPT_ALL,IDRAPE ,SCDRAPE , DRAPEG%INDX)
 c
           IF (( ISIGSH/=0 .OR. ITHKSHEL == 2) .and. IHBE == 11) THEN
             IF (MPT>0) 
@@ -337,7 +351,8 @@ c
      .             NLAY     ,IREP    ,NEL     ,
      .             X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .             Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
-     .             E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
+     .             E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
+     .             IDRAPE, IGTYP)
            CALL CSIGINI4(ELBUF_STR,IHBE     ,
      1          LFT      ,LLT      ,NFT      ,MPT      ,ISTRAIN,
      2          GBUF%THK ,GBUF%EINT,GBUF%STRPG(PTS+1),GBUF%HOURG,
@@ -475,7 +490,8 @@ c---
      .             NLAY     ,IREP    ,NEL     ,
      .             X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .             Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
-     .             E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
+     .             E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
+     .             IDRAPE, IGTYP)
           CALL CSIGINI4(ELBUF_STR,IHBE   ,
      1         LFT     ,LLT    ,NFT      ,MPT      ,ISTRAIN,
      2         GBUF%THK,GBUF%EINT,GBUF%STRA,GBUF%HOURG,

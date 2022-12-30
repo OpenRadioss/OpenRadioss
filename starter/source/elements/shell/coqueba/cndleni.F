@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IMAT, IPROP
       INTEGER IXC(NIXC,*),IGEO(NPROPGI,*),IHBE, SH4TREE(KSH4TREE,*),
-     .   IPM(NPROPMI,*),NLAY,ISUBSTACK,IGEO_STACK(3* NPT_STACK+2,*)
+     .   IPM(NPROPMI,*),NLAY,ISUBSTACK,IGEO_STACK(4*NPT_STACK+2,*)
 C     REAL
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*),STIFN(*),STIFR(*),THK(*),ALDT(*),

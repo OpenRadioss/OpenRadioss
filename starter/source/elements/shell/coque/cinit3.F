@@ -71,7 +71,8 @@ Chd|====================================================================
      C                  IXFEM    ,NPF     ,TF      ,XFEM_STR,ISUBSTACK,
      D                  STACK    ,RNOISE  ,DRAPE  ,SH4ANG  ,
      E                  GEO_STACK,IGEO_STACK,STRC  ,PERTURB ,IYLDINI ,
-     F                  ELE_AREA ,NG      ,GROUP_PARAM      ,NLOC_DMG)
+     F                  ELE_AREA ,NG      ,GROUP_PARAM      ,NLOC_DMG,
+     G                  IDRAPE   ,DRAPEG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -108,7 +109,7 @@ C-----------------------------------------------
       INTEGER NVC,NEL,ITHK,IHBE,ISIGSH,IXFEM,NSIGSH,IUSER,IYLDINI
       INTEGER IXC(NIXC,*),IPART(*),IPARG(*),IGEO(NPROPGI,*), NSHNOD(*),
      .  PTSHEL(*),IPM(NPROPMI,*), SH4TREE(*),ITAGN(*),ITAGE(*),NPF(*),
-     .  ISUBSTACK,IGEO_STACK(*),PERTURB(NPERTURB),NG
+     .  ISUBSTACK,IGEO_STACK(*),PERTURB(NPERTURB),NG,IDRAPE
       INTEGER *8 I8MI(6,*)
       my_real
      .   PM(NPROPM,*), X(3,*), GEO(NPROPG,*), XMAS(*), IN(*),
@@ -123,7 +124,8 @@ C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
       TYPE (GRP_PARAM_STRUCT_)  :: GROUP_PARAM
       TYPE (NLOCAL_STR_) :: NLOC_DMG
-      TYPE (DRAPE_) :: DRAPE(*)
+      TYPE (DRAPE_) :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
+      TYPE (DRAPEG_) :: DRAPEG
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
@@ -152,8 +154,11 @@ C-----------------------------------------------
      .   POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX)
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(L_BUFEL_DIR_), POINTER :: LBUF_DIR
 C=======================================================================
       GBUF  => ELBUF_STR%GBUF
+      
+     
 c
       IMAT  = IXC(1,1+NFT)         ! mat N
       IPROP = IXC(NIXC-1,1+NFT)    ! property N
@@ -176,11 +181,34 @@ C
       NLAY = ELBUF_STR%NLAY
       NXEL = ELBUF_STR%NXEL
       NPTT = ELBUF_STR%NPTT
+      IDRAPE = ELBUF_STR%IDRAPE
+      NPT_ALL = 0
+      DO IL=1,NLAY
+        NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
+      ENDDO
+      MPT  = MAX(1,NPT_ALL)
+      IF(NPT_ALL == 0) NPT_ALL = NLAY
 C----- NPT=0 for some cases      
-      ALLOCATE(PHI1(NLAY*MVSIZ))
-      PHI1 = ZERO
-      ALLOCATE(PHI2(NLAY*MVSIZ))
-      PHI2 = ZERO
+      IF((IGTYP == 51 .OR. IGTYP == 52) .AND. IDRAPE > 0) THEN
+         ALLOCATE(PHI1(MVSIZ*NPT_ALL))
+         ALLOCATE(PHI2(NVSIZ*NPT_ALL))
+         ALLOCATE(DIR_A(NPT_ALL*NEL*2))
+         ALLOCATE(DIR_B(NPT_ALL*NEL*2))
+         PHI1  = ZERO
+         PHI2  = ZERO
+         DIR_A = ZERO
+         DIR_B = ZERO
+      ELSE
+         ALLOCATE(PHI1(NLAY*MVSIZ))
+         ALLOCATE(PHI2(NLAY*MVSIZ))
+         ALLOCATE(DIR_A(NLAY*NEL*2))
+         ALLOCATE(DIR_B(NLAY*NEL*2))
+         PHI1  = ZERO
+         PHI2  = ZERO
+         DIR_A = ZERO
+         DIR_B = ZERO
+         NPT_ALL = NLAY
+      ENDIF
       ALLOCATE(COOR1(NLAY*MVSIZ))
       COOR1 = ZERO
       ALLOCATE(COOR2(NLAY*MVSIZ))
@@ -189,16 +217,7 @@ C----- NPT=0 for some cases
       COOR3 = ZERO
       ALLOCATE(COOR4(NLAY*MVSIZ))
       COOR4 = ZERO
-      ALLOCATE(DIR_A(NLAY*NEL*2))
-      ALLOCATE(DIR_B(NLAY*NEL*2))
-      DIR_A = ZERO
-      DIR_B = ZERO
 C      
-      NPT_ALL = 0
-      DO IL=1,NLAY
-        NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
-      ENDDO
-      MPT  = MAX(1,NPT_ALL)
       IF (IPARG(6) == 0.OR.NPT==0) MPT=0
 C
       DO J=1,9
@@ -246,15 +265,16 @@ C         PART_AREA(IP) = PART_AREA(IP) + AREA(I)
         ENDDO
       ENDIF
 C------------
-      CALL CINMAS(X    ,XREFC(1,1,NFT+1),IXC,GEO ,PM,
-     .            XMAS ,IN              ,THK       ,IHBE       ,PARTSAV,
-     .            V    ,IPART(NFT+1)    ,MSC(NFT+1),INC(NFT+1) ,AREA    ,
-     .            I8MI      ,IGEO       ,ETNOD ,IMAT       ,IPROP      ,
-     .            NSHNOD,STC(NFT+1)     ,SH4TREE   ,MCP    ,MCPS(NFT+1),
-     .            TEMP  ,BID            ,BID       ,BID        ,BID,
-     .            BID   ,BID            ,ISUBSTACK ,NLAY  ,ELBUF_STR,
-     .            STACK ,GBUF%THK_I     ,RNOISE    ,DRAPE   ,
-     .            PERTURB,IX1     ,IX2      ,IX3     ,IX4       )
+      CALL CINMAS(X     ,XREFC(1,1,NFT+1),IXC       ,GEO       ,PM,
+     .            XMAS  ,IN              ,THK       ,IHBE       ,PARTSAV,
+     .            V     ,IPART(NFT+1)    ,MSC(NFT+1),INC(NFT+1) ,AREA    ,
+     .            I8MI  ,IGEO       ,ETNOD ,IMAT       ,IPROP      ,
+     .            NSHNOD ,STC(NFT+1)     ,SH4TREE   ,MCP    ,MCPS(NFT+1),
+     .            TEMP   ,BID            ,BID       ,BID        ,BID,
+     .            BID    ,BID            ,ISUBSTACK ,NLAY  ,ELBUF_STR,
+     .            STACK  ,GBUF%THK_I     ,RNOISE    ,DRAPE   ,
+     .            PERTURB,IX1            ,IX2       ,IX3     ,IX4       ,
+     .            IDRAPE ,DRAPEG)
 C-----------------------------------------------
       CALL CDERII(PX1G,PX2G,PY1G,PY2G,
      .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  , 
@@ -289,7 +309,8 @@ c     PHI, COOR used only with dimension(NLAY,MVSIZ); !! now corrected
      .   IREP       ,ELBUF_STR ,DRAPE     ,SH4ANG(NFT+1),X        ,
      .   GEO_STACK  ,IGEO_STACK,E3X       ,E3Y        ,E3Z        ,
      .   GBUF%BETAORTH,X1      ,X2        ,Y1         ,Y2         ,
-     .   Z1         ,Z2        ,NEL       ,GBUF%G_ADD_NODE,GBUF%ADD_NODE) 
+     .   Z1         ,Z2        ,NEL       ,GBUF%G_ADD_NODE,GBUF%ADD_NODE,
+     .   NPT_ALL    ,IDRAPE    ,DRAPEG%INDX(1)) 
 c---     
 C-----
       IF(IGTYP == 51 .OR. IGTYP == 52 .AND. IGMAT > 0) THEN
@@ -302,7 +323,8 @@ c
      .                NEL      ,IMAT      ,IPROP      ,     
      .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
-     .                E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
+     .                E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
+     .                NPT_ALL  ,IDRAPE)
 c
       ELSEIF (MTN == 27) THEN
         CALL CM27IN3(ELBUF_STR,
@@ -330,7 +352,8 @@ c
      .                NEL      ,IMAT      ,IPROP      ,
      .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
-     .                E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
+     .                E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z ,
+     .                NPT_ALL  ,IDRAPE)
       ENDIF
 c
       IF (MTN == 58 .AND. IGTYP /= 16 .AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN  
@@ -343,6 +366,7 @@ c
      .                I3=IGTYP)
       ELSEIF (MTN == 58 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
 C
+       IF(IDRAPE == 0) THEN 
         DO IL = 1,NLAY
           NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
           IMAT =  ELBUF_STR%BUFLY(IL)%IMAT
@@ -363,30 +387,55 @@ C
             ENDDO
           ENDIF ! IF (ILAW == 58) THEN
         ENDDO ! DO IL = 1,NLAY
+       ELSE
+         DO IL = 1,NLAY
+          NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
+          IMAT =  ELBUF_STR%BUFLY(IL)%IMAT
+          ILAW =  ELBUF_STR%BUFLY(IL)%ILAW
+          IF (ILAW == 58) THEN
+            DO IT=1,NPTT
+              LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
+              UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
+              NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
+              LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
+              DIR1 => LBUF_DIR%DIRA
+              DIR2 => LBUF_DIR%DIRB
+              CALL CM58IN3(
+     .             IREP     ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
+     .             BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
+     .             X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
+     .             Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
+     .             E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
+            ENDDO
+          ENDIF ! IF (ILAW == 58) THEN
+        ENDDO ! DO IL = 1,NLAY      
+       ENDIF 
       ENDIF
 C-----------------------------------------------------------------------
 C     CALCUL DES CONTRAINTES INITIALES
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       IF (ISIGSH/=0 .OR. ITHKSHEL == 2) THEN
 C to be checked for IGTYP = 51 : ok
-        IF (MPT>0) THEN
+        IF (MPT > 0) THEN
            CALL LAYINI1(
      .        ELBUF_STR  ,LFT        ,LLT        ,GEO        ,IGEO      ,
      .        MAT        ,PID        ,MATLY      ,POSLY      ,IGTYP     ,
-     .        NLAY       ,MPT        ,ISUBSTACK  ,STACK      ,DRAPE      ,
-     .        NFT        ,GBUF%THK   ,NEL        )
+     .        NLAY       ,MPT        ,ISUBSTACK  ,STACK      ,DRAPE     ,
+     .        NFT        ,GBUF%THK   ,NEL        ,IDRAPE     ,SCDRAPE   ,    
+     .        DRAPEG%INDX)
            CALL CORTH3(ELBUF_STR,DIR_A   ,DIR_B   ,LFT    ,LLT    ,
      .             NLAY     ,IREP    ,NEL     ,
      .             X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .             Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
-     .             E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
+     .             E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z , 
+     .             IDRAPE, IGTYP )
         END IF
         CALL CSIGINI(ELBUF_STR ,
      1       LFT     ,LLT      ,NFT      ,MPT       ,ISTRAIN   ,
      2       GBUF%THK,GBUF%EINT,GBUF%STRA,GBUF%HOURG,GBUF%PLA  ,
      3       GBUF%FOR,GBUF%MOM ,SIGSH    ,NLAY      ,GBUF%G_HOURG,
      4       NUMELC  ,IXC      ,NIXC     ,NSIGSH    ,NUMSHEL   ,
-     5       PTSHEL  ,IGEO     ,THK      ,NEL       ,E1X       ,                       
+     5       PTSHEL  ,IGEO     ,THK      ,NEL       ,E1X       , 
      6       E2X     ,E3X      ,E1Y      ,E2Y       ,E3Y       ,
      7       E1Z     ,E2Z      ,E3Z      ,ISIGSH    ,DIR_A     ,
      8       DIR_B   ,POSLY    ,IGTYP    )    

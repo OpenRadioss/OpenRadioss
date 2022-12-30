@@ -21,52 +21,31 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  DRAPE_MOD                     share/modules/drape_mod.F     
+Chd|  DRAPE_MOD                     share/modules1/drape_mod.F    
 Chd|-- called by -----------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
-Chd|        C3KE3                         source/elements/sh3n/coque3n/c3ke3.F
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|        CBAKE3                        source/elements/shell/coqueba/cbake3.F
-Chd|        CDK6FORC3                     source/elements/sh3n/coquedk6/cdk6forc3.F
-Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
-Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
-Chd|        CMAIN3PINCH                   source/elements/shell/coqueba/cmain3pinch.F
-Chd|        CMATC3                        source/elements/shell/coqueba/cmatc3.F
-Chd|        CNCOEFORT                     source/elements/sh3n/coquedk/cncoef3.F
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|        CZKE3                         source/elements/shell/coquez/czke3.F
-Chd|        C_TF_NE                       source/output/sty/c_tf_ne.F   
-Chd|        DRAPE_RREST                   source/output/restart/rdresb.F
-Chd|        DRAPE_WREST                   source/output/restart/wrrest.F
-Chd|        DYNAIN_C_STRAG                source/output/dynain/dynain_c_strag.F
-Chd|        DYNAIN_C_STRSG                source/output/dynain/dynain_c_strsg.F
-Chd|        EIG                           stub/eig.F                    
-Chd|        EIG1                          stub/eig1.F                   
-Chd|        EIGCOND                       stub/eigcond.F                
-Chd|        EIGP                          stub/eigp.F                   
-Chd|        FORINTC                       source/elements/forintc.F     
-Chd|        GENDYNAIN                     source/output/dynain/gendynain.F
-Chd|        GENOUTP                       source/output/sty/genoutp.F   
-Chd|        GENSTAT                       source/output/sta/genstat.F   
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        IMP_GLOB_K                    source/implicit/imp_glob_k.F  
-Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
-Chd|        IMP_GLOB_KHP                  source/implicit/imp_glob_k.F  
-Chd|        IMP_K_EIG                     stub/imp_k_eig.F              
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|        LAYINI                        source/elements/shell/coque/layini.F
-Chd|        OUTP_C_TF                     source/output/sty/outp_c_t.F  
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|        RESTALLOC                     source/output/restart/arralloc.F
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|        STAT_C_STRAFG                 source/output/sta/stat_c_strafg.F
-Chd|        STAT_C_STRSFG                 source/output/sta/stat_c_strsfg.F
+Chd|        C3GRHEAD                      source/elements/sh3n/coque3n/c3grhead.F
+Chd|        C3GRTAILS                     source/elements/sh3n/coque3n/c3grtails.F
+Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
+Chd|        C3INMAS                       source/elements/sh3n/coque3n/c3inmas.F
+Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
+Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
+Chd|        CGRHEAD                       source/elements/shell/coque/cgrhead.F
+Chd|        CGRTAILS                      source/elements/shell/coque/cgrtails.F
+Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
+Chd|        CINMAS                        source/elements/shell/coque/cinmas.F
+Chd|        CMAINI3                       source/elements/sh3n/coquedk/cmaini3.F
+Chd|        CORTHINI                      source/elements/shell/coque/corthini.F
+Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
+Chd|        HM_READ_DRAPE                 source/properties/composite_options/drape/hm_read_drape.F
+Chd|        INITIA                        source/elements/initia/initia.F
+Chd|        LAYINI1                       source/elements/shell/coqueba/layini1.F
+Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        SHELLTHK_UPD                  source/properties/composite_options/drape/shellthk_upd.F
+Chd|        ST_QAPRINT_COMPOSITE_OPTIONS  source/output/qaprint/st_qaprint_composite_options.F
+Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
+Chd|        T3GRHEAD                      source/elements/solid_2d/tria/t3grhead.F
+Chd|        T3GRTAILS                     source/elements/solid_2d/tria/t3grtails.F
+Chd|        W_DRAPE                       source/restart/ddsplit/w_drape.F
 Chd|-- calls ---------------
 Chd|====================================================================
         MODULE DRAPE_MOD
@@ -76,13 +55,33 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
 c=======================================================================      
-c
+c      
+      TYPE DRAPE_PLY_
+        INTEGER                           ::  NSLICE   ! number of slice
+        INTEGER                           ::  IPID     ! ID PID
+c-------  layer variables     
+        my_real, DIMENSION(:,:) , ALLOCATABLE ::   RDRAPE
+        INTEGER, DIMENSION(:,:) , ALLOCATABLE ::   IDRAPE 
+c-------       
+      END TYPE DRAPE_PLY_      
+      !!
       TYPE DRAPE_
-        integer                                 :: NDIM
-        integer, DIMENSION(:),    ALLOCATABLE   :: INDX
-        integer, DIMENSION(:) ,   ALLOCATABLE   :: NPT
-        integer, DIMENSION(:) ,   ALLOCATABLE   :: IDRAPE
-        my_real, DIMENSION(:,:) , ALLOCATABLE   :: RDRAPE  
-      END TYPE DRAPE_   
+        INTEGER                                        ::  NPLY_DRAPE
+        INTEGER                                        ::  NPLY
+        INTEGER,            DIMENSION(:)   , ALLOCATABLE   ::  INDX_PLY
+        TYPE (DRAPE_PLY_) , DIMENSION(:)   , ALLOCATABLE   ::  DRAPE_PLY
+      END TYPE DRAPE_  
+      !!
+      TYPE DRAPEG_
+        INTEGER        ::  NDIM_SH4N
+        INTEGER        ::  NDIM_SH3N
+        INTEGER        ::  NDIM_SLICE_SH4N
+        INTEGER        ::  NDIM_SLICE_SH3N
+        INTEGER        ::  NDIM_INDX_PLY_SH4N
+        INTEGER        ::  NDIM_INDX_PLY_SH3N
+        INTEGER, DIMENSION(:) , ALLOCATABLE  ::  INDX_SH3N,INDX_SH4N
+      END TYPE DRAPEG_  
+      INTEGER :: NUMELC_DRAPE    ,NUMELTG_DRAPE , SCDRAPE, STDRAPE ,
+     .           SEDRAPE, NUMEL_DRAPE      
 C=======================================================================
       END MODULE DRAPE_MOD

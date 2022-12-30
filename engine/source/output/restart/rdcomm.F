@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE ANIM_MOD
       USE OUTPUTS_MOD
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1765,6 +1766,11 @@ C---- MAX (/H3D)
 C---- Time history strain flag
       NEXT       = NEXT + 1
       TH_STRAIN  = TABVINT(NEXT)
+C  draped shell element
+      NEXT       = NEXT + 1
+      NUMELC_DRAPE= TABVINT(NEXT)
+      NEXT       = NEXT + 1
+      NUMELTG_DRAPE= TABVINT(NEXT)
 C--------------------------------------
       RETURN
       END
