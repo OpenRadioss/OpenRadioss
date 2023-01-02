@@ -1,0 +1,6 @@
+# Fixed compiler switches for linux64 Gfortran binary
+set ( CMAKE_Fortran_COMPILER "gfortran-12" )
+set ( CMAKE_C_COMPILER "gcc-12" )
+set ( CMAKE_CXX_COMPILER "g++-12" )
+set ( CMAKE_CPP_COMPILER "g++-12" )
+
