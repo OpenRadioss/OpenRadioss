@@ -2618,7 +2618,11 @@ C--------------------------
         ELSEIF(KEY3(1:5)=='COLOR')THEN
          IDX           = 13547 + 4*MX_PLY_ANIM + 1000 + 3
          ANIM_CE(IDX)  = 1  
-         ANIM_SE(4967) = 1      
+         ANIM_SE(4967) = 1  
+        ELSEIF(KEY3(1:4) == 'DAMG') THEN 
+         IDX           = 14551 + 4*MX_PLY_ANIM
+         ANIM_CE(IDX)  = 1  
+         ANIM_SE(4968) = 1    
         ELSE IF(KEY3(1:7)=='NL_EPSP')THEN
          IDX           = 14567 + 4*MX_PLY_ANIM
          ANIM_CE(IDX)  = 1
@@ -2627,6 +2631,10 @@ C--------------------------
          IDX           = 14581 + 4*MX_PLY_ANIM
          ANIM_CE(IDX)  = 1
          ANIM_SE(4970) = 1
+        ELSE IF(KEY3(1:6)=='TSAIWU')THEN 
+         IDX           = 14595 + 4*MX_PLY_ANIM 
+         ANIM_CE(IDX)  = 1 
+         ANIM_SE(4971) = 1 
        ELSE
          IXITKEY=IXITKEY+1
        ENDIF
