@@ -29,7 +29,7 @@ Chd|====================================================================
       SUBROUTINE PDLEN3(JFT  ,JLT    ,PM     ,GEO  ,OFFG ,
      .                  DT2T ,NELTST ,ITYPTST,STI  ,STIR ,
      .                  MSP  ,DMELP  ,G_DT   ,DTEL ,AL   ,
-     .                  MAT  ,PID    ,NGL    )
+     .                  MAT  ,PID    ,NGL    ,IN   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,6 +65,7 @@ C-----------------------------------------------
       my_real DT2T ,
      .   PM(NPROPM,*), GEO(NPROPG,*), OFFG(*), STI(*), STIR(*),
      .   MSP(*), DMELP(*),AL(MVSIZ)
+      my_real,DIMENSION(NUMNOD), INTENT(INOUT) :: IN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -72,7 +73,9 @@ C-----------------------------------------------
       my_real
      .   SSP(MVSIZ), DT(MVSIZ), DMP(MVSIZ), FAC(MVSIZ),
      .   A1, B1, B2, B3, YOUNG,G,AA,BB,   
-     .   PHI,SHF,DSH(MVSIZ),SL2I(MVSIZ),F1,F2
+     .   PHI,SHF,DSH(MVSIZ),SL2I(MVSIZ),F1,F2,
+     .   FACDT(MVSIZ),PHII(MVSIZ),CST,PHMAX,RHO,EMS,
+     .   TIN,TIXX,TIYY,TIZZ
 C-----------------------------------------------
       DT(1:MVSIZ) = ZERO
 !
@@ -80,6 +83,23 @@ C-----------------------------------------------
         DMP(I)=MAX(GEO(16,PID(I)),GEO(17,PID(I)))
       ENDDO
 !
+C----------------------------------------------
+C     for new dt
+C----------------------------------------------
+      DO I=LFT,LLT
+        YOUNG = PM (20,MAT(I))
+        G = PM (22,MAT(I))
+        CST = SIX_OVER_5*YOUNG/G
+        A1  =GEO(1,PID(I))
+        B1  =GEO(2,PID(I))
+        B2  =GEO(18,PID(I))
+        BB  = MAX(B1,B2,EM30)
+        SL2I(I) = A1*AL(I)**2 / BB
+        FACDT(I) = ONE_OVER_12*SL2I(I)
+        PHMAX = CST/FACDT(I)        
+        PHII(I) = (FOUR+PHMAX)/(ONE+PHMAX)/(ONE+FACDT(I))        
+        PHII(I) = MAX(ONE,PHII(I))        
+      ENDDO
       IF (IDTMINS /= 2 .OR. JSMS == 0) THEN
         IF (NODADT /= 0 .OR. IDTMINS == 2) THEN
           DO I=JFT,JLT
@@ -98,19 +118,8 @@ C-----------------------------------------------
               AA    =(SQRT(ONE +DMP(I)*DMP(I))-DMP(I))
               AA  = AL(I) * AA * AA
               BB  = MAX(B1,B2)
-              STIR(I) = MAX(G*B3,FOUR*YOUNG*BB) / AA
+              STIR(I) = MAX(G*B3,PHII(I)*YOUNG*BB) / AA
               STI(I) = A1 * YOUNG / AA
-!             calcul du pourcentage d'amortissement en cisaillement
-              SL2I(I)= A1*AL(I)**2 / MAX(B1,B2,EM30)
-              SHF    = ONE-GEO(37,PID(I))
-              PHI    = TWELVE*YOUNG/(FIVE/SIX*G)/MAX(EM30,SL2I(I))
-! ---  lm(41u)  DSH > DMP : ne change pas ce qui marche, meme si trop severe
-              DSH(I) = DMP(I)
-     .                *MAX(ONE,
-     .                 SQRT(TWELVE/MAX(EM30,SL2I(I)))*SQRT(ONE+PHI*SHF))
-              AA     = SQRT(ONE+DSH(I)*DSH(I))-DSH(I)
-              AA     = AL(I) * AA * AA
-              STI(I) = MAX(STI(I),TWELVE*BB*YOUNG/AL(I)/AL(I) / AA)
             ENDIF ! IF (OFFG(I) /= ZERO)
           ENDDO
           IF (IDTMIN(5) == 0) RETURN
@@ -121,18 +130,23 @@ C-----------------------------------------------
             SSP(I) =PM(27,MAT(I))
             YOUNG  =PM(20,MAT(I))
             A1  =GEO(1,PID(I))
-            B1  =GEO(2,PID(I))
-            B2  =GEO(18,PID(I))
-            SL2I(I)=A1*AL(I)**2 / MAX(B1,B2,EM30)
             DMP(I)=DMP(I)*SQRT(TWO)
-!           calcul du pourcentage d'amortissement en cisaillement
-            G      = PM(22,MAT(I))
-            SHF    = ONE-GEO(37,PID(I))
-            PHI    = TWELVE*YOUNG/(FIVE/SIX*G)/MAX(EM30,SL2I(I))
-            DSH(I) = DMP(I)
-     .         * MAX(ONE,
-     .           SQRT(TWELVE/MAX(EM30,SL2I(I)))*SQRT(ONE+PHI*SHF))
             IF (OFFG(I) > ZERO) STI(I) = A1 * YOUNG / AL(I)
+          ENDDO
+          DO I=JFT,JLT
+            IF (FACDT(I)<ONE) THEN 
+              RHO =PM (89,MAT(I))
+              TIXX=GEO(4,PID(I))
+              TIYY=GEO(2,PID(I))
+              TIZZ=GEO(18,PID(I))
+              EMS =RHO*AL(I)*A1*HALF
+              A1  =GEO(1,PID(I))
+              TIN =EMS*AL(I)**2*ONE_OVER_12 + RHO*(AL(I)*HALF)
+     .                                  * MAX(TIYY,TIZZ)
+              TIN=PHII(I)*TIN
+              TIN= MAX(TIN,RHO*AL(I)*TIXX*HALF)
+              IN(I) = MAX(IN(I),TIN)
+            END IF 
           ENDDO
         ENDIF ! IF (NODADT /= 0 .OR. IDTMINS == 2)
       ELSE  ! IF (IDTMINS /= 2 .OR. JSMS == 0)
@@ -187,10 +201,7 @@ C-----------------------------------------------
       ENDIF
 !
       DO I=JFT,JLT
-        F1    =SQRT(ONE+DMP(I)*DMP(I))-DMP(I)
-        F2    =MIN(F1,SQRT(ONE+DSH(I)*DSH(I))-DSH(I))
-        FAC(I)=HALF*MIN(SQRT(MIN(FOUR,ONE+SL2I(I)/TWELVE))*F1,
-     .                    SQRT(SL2I(I)/THREE)*F2)
+        FAC(I) =SQRT(ONE+DMP(I)*DMP(I))-DMP(I)
         DT(I)=DTFAC1(5)*FAC(I)*AL(I)/SSP(I)
       ENDDO ! DO I=JFT,JLT
 C

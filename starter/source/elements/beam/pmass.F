@@ -75,6 +75,8 @@ C-----------------------------------------------
       my_real
      .   RHO(MVSIZ), EMS(MVSIZ),
      .   TIN(MVSIZ), TIXX(MVSIZ), TIYY(MVSIZ), TIZZ(MVSIZ),RHOCP(MVSIZ)
+      my_real
+     .   FACDT(MVSIZ), PHII(MVSIZ),CST,PHMAX
 C=======================================================================
       IPY = 200  
       IPZ = 300  
@@ -110,12 +112,27 @@ C=======================================================================
         ENDIF
       ENDDO
 C----------------------------------------------
+C     for dt
+C----------------------------------------------
+      DO I=LFT,LLT
+        E = PM (20,MXT(I))
+        G = PM (22,MXT(I))
+        CST = SIX_OVER_5*E/G
+        BB  = MAX(TIYY(I),TIZZ(I),EM30)
+        SL2I= AREA(I)*AL(I)**2 /BB
+        FACDT(I) = ONE_OVER_12*SL2I
+        PHMAX = CST/FACDT(I)        
+        PHII(I) = (FOUR+PHMAX)/(ONE+PHMAX)/(ONE+FACDT(I))
+        PHII(I) = MAX(ONE,PHII(I))        
+      ENDDO
+C----------------------------------------------
 C     MASSE ELEMENT /2
 C----------------------------------------------
       DO I=LFT,LLT
        EMS(I)=RHO(I)*AL(I)*AREA(I)* HALF
        TIN(I)=EMS(I)*AL(I)**2*ONE_OVER_12 + RHO(I)*(AL(I)*HALF)
      .       * MAX(TIYY(I),TIZZ(I))
+       IF (FACDT(I)<ONE) TIN(I)=PHII(I)*TIN(I)
        TIN(I)= MAX(TIN(I),RHO(I)*AL(I)/TWO*TIXX(I))
       ENDDO
        IF( JTHE > 0 ) THEN
@@ -187,21 +204,8 @@ C
        AA  =(SQRT(ONE +DMP*DMP)-DMP)
        AA  = AL(I) * AA * AA
        BB  = MAX(TIYY(I),TIZZ(I))
-       STIR = MAX(G*TIXX(I),FOUR*E*BB) / AA
+       STIR = MAX(G*TIXX(I),PHII(I)*E*BB) / AA
        STI  = AREA(I) * E / AA
-C
-C      calcul du pourcentage d'amortissement en cisaillement
-       SL2I= AREA(I)*AL(I)**2 / MAX(BB,EM30)
-       SHF    = ONE-GEO(37,MXG(I))
-       PHI    = TWELVE*E/(FIVE/SIX*G)/MAX(EM30,SL2I)
-C
-C      DSH > DMP : ne change pas ce qui marche, meme si trop severe
-       DSH = DMP
-     .         *MAX(ONE,
-     .  	SQRT(TWELVE/MAX(EM30,SL2I))*SQRT(ONE+PHI*SHF))
-       AA     = SQRT(ONE+DSH*DSH)-DSH
-       AA     = AL(I) * AA * AA
-       STI = MAX(STI,TWELVE*BB*E/AL(I)/AL(I) / AA)
 C
        STIFN(NC1(I))=STIFN(NC1(I))+STI
        STIFN(NC2(I))=STIFN(NC2(I))+STI
