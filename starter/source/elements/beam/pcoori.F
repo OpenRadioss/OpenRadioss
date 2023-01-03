@@ -116,6 +116,7 @@ C------------------------------
        ENDIF
 C
 C      CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
+       IF (NC3(I)==NC2(I)) CYCLE
        XP4=X3(I)-X1(I)
        XP5=Y3(I)-Y1(I)
        XP6=Z3(I)-Z1(I)
