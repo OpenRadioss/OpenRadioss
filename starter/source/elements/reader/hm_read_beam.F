@@ -151,7 +151,17 @@ C--------------------------------------------------
           CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1=IXP(6,I),C1=LINE,C2='/BEAM')
         ENDIF
-                           
+C optional Node 3 
+        IF (IXP(4,I)==0 .OR. IXP(4,I)==IXP(2,I)
+     .      .OR. IXP(4,I)==IXP(3,I)) THEN
+          CALL ANCMSG(MSGID=2093,
+     .                MSGTYPE=MSGINFO,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=IPART(4,INDEX_PART),
+     .                I2=IXP(6,I),
+     .                PRMOD=MSG_CUMU)
+          IXP(4,I) = IXP(3,I)                    
+        ENDIF
         DO J=2,4                                            
           IXP(J,I)=USR2SYS(IXP(J,I),ITABM1,MESS,IXP(6,I))  
         ENDDO
@@ -165,6 +175,11 @@ C Node 3 is just a used node, to define directions (CHECK_USED)
 C-----------
       CALL ANCMSG(MSGID=402,                 
      .            MSGTYPE=MSGERROR,         
+     .            ANMODE=ANINFO_BLIND_1,    
+     .            PRMOD=MSG_PRINT) 
+C     
+      CALL ANCMSG(MSGID=2093,                 
+     .            MSGTYPE=MSGINFO,         
      .            ANMODE=ANINFO_BLIND_1,    
      .            PRMOD=MSG_PRINT) 
 C-------------------------------------
