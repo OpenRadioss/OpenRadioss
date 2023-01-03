@@ -1760,7 +1760,10 @@ C
       DO I=LFT,LLT
         IF(OFFG(I)==ZERO)THEN
          DET(I)=ONE
-         IF (VOL(I)<=ZERO) VOL(I)=ONE
+         IF (VOL(I)<=ZERO) THEN
+           VOL(I)=ONE
+           VOLDP(I)= ONE
+         END IF
         ELSEIF (VOL(I)<=ZERO ) THEN
           ICOR=1
         ENDIF
