@@ -169,6 +169,7 @@ C-----------------------------------------------
 #include      "parit_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
+#include      "scr06_c.inc"
 #include      "scr07_c.inc"
 #include      "scr13_c.inc"
 #include      "scr14_c.inc"
@@ -1244,7 +1245,7 @@ C--------------------------------------
          ENDIF
        ENDIF
 
-        IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX >0)THEN
+        IF(IFCONTMAX >0)THEN
           IF(NINTSTAMP/=0.AND.NSPMD > 1 ) THEN
              IF(ISPMD == 0) CALL WRITE_DB(FCONT_MAX, 3*NUMNODG)
           ELSE
@@ -1252,9 +1253,25 @@ C--------------------------------------
          ENDIF
         ENDIF
 
-        IF(H3D_DATA%N_VECT_PCONT_MAX >0)THEN
+        IF(IFCONTPMAX >0)THEN
           CALL WRITE_DB(FNCONT_MAX, 3*SPCONT_MAX)
           CALL WRITE_DB(FTCONT_MAX, 3*SPCONT_MAX)
+        ENDIF
+
+        IF(IFCONT2MAX >0)THEN
+          CALL WRITE_DB(FCONT2_MAX, 3*NUMNOD)
+        ENDIF
+        IF(IFCONTP2MAX >0)THEN
+          CALL WRITE_DB(FNCONT2_MAX, 3*NUMNOD)
+          CALL WRITE_DB(FTCONT2_MAX, 3*NUMNOD)
+        ENDIF
+
+        IF(IFCONT2MIN >0)THEN
+          CALL WRITE_DB(FCONT2_MIN, 3*NUMNOD)
+        ENDIF
+        IF(IFCONTP2MIN >0)THEN
+          CALL WRITE_DB(FNCONT2_MIN, 3*NUMNOD)
+          CALL WRITE_DB(FTCONT2_MIN, 3*NUMNOD)
         ENDIF
 C--------------------------------------
 C  Interface friction buffer (integer )

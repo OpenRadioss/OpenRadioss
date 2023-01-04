@@ -1162,6 +1162,24 @@ C   ----------------------------------------------------------------------
            CALL READ_DB(FCONT_MAX, 3*NUMNOD)
          ENDIF
       ENDIF
+      IF(IFCONTPMAX >0)THEN
+         CALL READ_DB(FNCONT_MAX, 3*SPCONT_MAX)
+         CALL READ_DB(FTCONT_MAX, 3*SPCONT_MAX)
+      ENDIF
+      IF(IFCONT2MAX >0)THEN
+         CALL READ_DB(FCONT2_MAX, 3*NUMNOD)
+      ENDIF
+      IF(IFCONTP2MAX >0)THEN
+         CALL READ_DB(FNCONT2_MAX, 3*NUMNOD)
+         CALL READ_DB(FTCONT2_MAX, 3*NUMNOD)
+      ENDIF
+      IF(IFCONT2MIN >0)THEN
+         CALL READ_DB(FCONT2_MIN, 3*NUMNOD)
+      ENDIF
+      IF(IFCONTP2MIN >0)THEN
+         CALL READ_DB(FNCONT2_MIN, 3*NUMNOD)
+         CALL READ_DB(FTCONT2_MIN, 3*NUMNOD)
+      ENDIF
 C--------------------------------------
 C  Interface friction buffer (Reals )
 C--------------------------------------

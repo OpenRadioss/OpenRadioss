@@ -53,7 +53,6 @@ C-----------------------------------------------
      .       , DIMENSION(:,:), ALLOCATABLE :: FCONT_TMP,FCONT_TMP_P
 C-----------------------------------------------
 
-      IFCONTMAX = 1
       IF(NINTSTAMP == 0) THEN
          DO N=1,NUMNOD
             IF(WEIGHT(N) == 1) THEN

@@ -448,7 +448,11 @@ C-----------------------------------------------
         INTEGER N_VECT_CLUST_MOM        !ANIM_V(20)
         INTEGER N_VECT_CONT_MAX         !ANIM_V(26)
         INTEGER N_VECT_PCONT2           !ANIM_V(27)
-        INTEGER N_VECT_PCONT_MAX         
+        INTEGER N_VECT_PCONT_MAX     
+        INTEGER N_VECT_CONT2_MAX             
+        INTEGER N_VECT_PCONT2_MAX     
+        INTEGER N_VECT_CONT2_MIN             
+        INTEGER N_VECT_PCONT2_MIN     
 
         INTEGER SOL_SCAL_VORTX          !ANIM_SE(10)
         INTEGER SOL_SCAL_VORTY          !ANIM_SE(4960)

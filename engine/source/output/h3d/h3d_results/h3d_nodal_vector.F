@@ -219,7 +219,7 @@ C--------------------------------------------------
      .                                    VALUE)
         ENDDO
 C--------------------------------------------------
-      ELSEIF(KEYWORD == 'CONT'.AND.KEYWORD /= 'CONT/MAX')THEN
+      ELSEIF(KEYWORD == 'CONT'.AND.KEYWORD /= 'CONT/TMAX')THEN
 C--------------------------------------------------
        IF(NINTSTAMP==0)THEN
          DO I=1,NUMNOD
@@ -240,7 +240,7 @@ C--------------------------------------------------
          ENDDO
        END IF
 C------------------------------------------------------------------------------
-      ELSEIF(KEYWORD == 'CONT/MAX')THEN
+      ELSEIF(KEYWORD == 'CONT/TMAX')THEN
 C------------------------------------------------------------------------------
        IF(NINTSTAMP==0.OR.NSPMD==1)THEN
          DO I=1,NUMNOD
@@ -500,6 +500,66 @@ C--------------------------------------------------
             VALUE(1) = FTCONTP2(1,I)
             VALUE(2) = FTCONTP2(2,I)
             VALUE(3) = FTCONTP2(3,I)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
+     .                                    VALUE)
+          ENDDO 
+C--------------------------------------------------
+      ELSEIF(KEYWORD == 'CONT2/TMAX') THEN
+C--------------------------------------------------
+          DO I=1,NUMNOD
+            VALUE(1) = FCONT2_MAX(3*(I-1)+1)
+            VALUE(2) = FCONT2_MAX(3*(I-1)+2)
+            VALUE(3) = FCONT2_MAX(3*(I-1)+3)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
+     .                                    VALUE)
+          ENDDO 
+C--------------------------------------------------
+      ELSEIF(KEYWORD == 'CONT2/TMIN') THEN
+C--------------------------------------------------
+          DO I=1,NUMNOD
+            VALUE(1) = FCONT2_MIN(3*(I-1)+1)
+            VALUE(2) = FCONT2_MIN(3*(I-1)+2)
+            VALUE(3) = FCONT2_MIN(3*(I-1)+3)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
+     .                                    VALUE)
+          ENDDO 
+C--------------------------------------------------
+      ELSEIF(KEYWORD == 'MAXPCONT2/NORMAL') THEN
+C--------------------------------------------------
+          DO I=1,NUMNOD
+            VALUE(1) = FNCONT2_MAX(3*(I-1)+1)
+            VALUE(2) = FNCONT2_MAX(3*(I-1)+2)
+            VALUE(3) = FNCONT2_MAX(3*(I-1)+3)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
+     .                                    VALUE)
+          ENDDO 
+C--------------------------------------------------
+      ELSEIF(KEYWORD == 'MAXPCONT2/TANGENT') THEN
+C--------------------------------------------------
+          DO I=1,NUMNOD
+            VALUE(1) = FTCONT2_MAX(3*(I-1)+1)
+            VALUE(2) = FTCONT2_MAX(3*(I-1)+2)
+            VALUE(3) = FTCONT2_MAX(3*(I-1)+3)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
+     .                                    VALUE)
+          ENDDO 
+C--------------------------------------------------
+      ELSEIF(KEYWORD == 'MINPCONT2/NORMAL') THEN
+C--------------------------------------------------
+          DO I=1,NUMNOD
+            VALUE(1) = FNCONT2_MIN(3*(I-1)+1)
+            VALUE(2) = FNCONT2_MIN(3*(I-1)+2)
+            VALUE(3) = FNCONT2_MIN(3*(I-1)+3)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
+     .                                    VALUE)
+          ENDDO 
+C--------------------------------------------------
+      ELSEIF(KEYWORD == 'MINPCONT2/TANGENT') THEN
+C--------------------------------------------------
+          DO I=1,NUMNOD
+            VALUE(1) = FTCONT2_MIN(3*(I-1)+1)
+            VALUE(2) = FTCONT2_MIN(3*(I-1)+2)
+            VALUE(3) = FTCONT2_MIN(3*(I-1)+3)
             CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
      .                                    VALUE)
           ENDDO 
