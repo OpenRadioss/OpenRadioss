@@ -3,11 +3,20 @@
 # --------------------------------------
  
 cmake_minimum_required (VERSION 2.8)
-project (Radioss_Starter NONE)
+project (Radioss_Starter)
 
 # Verbose
 # -------
 # set (CMAKE_VERBOSE_MAKEFILE on)
+
+
+# Language settings & Compiler Settings
+# -------------------------------------
+enable_language (Fortran)
+enable_language (C)
+enable_language (CXX)
+
+
 
 if ( NOT DEFINED COM) 
 set (cdir "" )
@@ -16,13 +25,6 @@ set (cdir "_c" )
 endif()
 
 include (CMake_Compilers${cdir}/cmake_${arch}_compilers.txt)
-
-# Language settings & Compiler Settings
-# -------------------------------------
-enable_language (Fortran)
-enable_language (C)
-enable_language (CXX)
-
 
 # source files & include directories
 # -------------------------------------

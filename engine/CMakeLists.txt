@@ -3,21 +3,11 @@
 # --------------------------------------
  
 cmake_minimum_required (VERSION 2.8)
-project (Radioss_Engine NONE)
+project (Radioss_Engine)
 
 # Verbose
 # -------
 # set (CMAKE_VERBOSE_MAKEFILE on)
-
-# Load Compiler flags
-# --------------------
-if ( NOT DEFINED COM) 
-set (cdir "" )
-else()
-set (cdir "_c" )
-endif()
-
-include (CMake_Compilers${cdir}/cmake_${arch}_compilers.txt)
 
 
 
@@ -29,6 +19,15 @@ enable_language (C)
 enable_language (CXX)
 
 
+# Load Compiler flags
+# --------------------
+if ( NOT DEFINED COM) 
+set (cdir "" )
+else()
+set (cdir "_c" )
+endif()
+
+include (CMake_Compilers${cdir}/cmake_${arch}_compilers.txt)
 
 # source files & include directories
 # -------------------------------------
