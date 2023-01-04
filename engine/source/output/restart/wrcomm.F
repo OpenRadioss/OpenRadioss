@@ -1597,9 +1597,19 @@ C Friction interface
 !     H3D -> number of skid lines    
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=H3D_DATA%N_SCAL_SKID
-!     H3D ANIM-> Is maximum contact force computed   
+!     H3D ANIM-> Is maximum contact force/contact pressure computed   
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = IFCONTMAX
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = IFCONTPMAX
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = IFCONT2MAX
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = IFCONTP2MAX
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = IFCONT2MIN
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = IFCONTP2MIN
 C  NITSCHE METHOD
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NITSCHE

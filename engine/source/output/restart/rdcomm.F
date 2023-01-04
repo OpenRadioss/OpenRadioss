@@ -1622,9 +1622,19 @@ C Friction interface
 !     H3D -> number of inter skid lines    
       NEXT       = NEXT + 1
       NINTSKIDOLD= TABVINT(NEXT) 
-!     H3D ANIM-> Is maximum contact force computed   
+!     H3D ANIM-> Is maximum contact force /contact pressure computed    
       NEXT       = NEXT + 1
-      IFCONTMAX = TABVINT(NEXT) 
+      IFCONTMAX  = TABVINT(NEXT) 
+      NEXT       = NEXT + 1
+      IFCONTPMAX = TABVINT(NEXT) 
+      NEXT       = NEXT + 1
+      IFCONT2MAX = TABVINT(NEXT) 
+      NEXT       = NEXT + 1
+      IFCONTP2MAX= TABVINT(NEXT) 
+      NEXT       = NEXT + 1
+      IFCONT2MIN = TABVINT(NEXT) 
+      NEXT       = NEXT + 1
+      IFCONTP2MIN= TABVINT(NEXT) 
 C  NITSCHE METHOD
       NEXT=NEXT+1
       NITSCHE = TABVINT(NEXT)
