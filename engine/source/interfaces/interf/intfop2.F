@@ -621,7 +621,7 @@ C
      J  CONDNSKYI  ,QFRICINT    ,TAGNCONT    ,KLOADPINTER,LOADPINTER   ,
      K  LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
 
-          IAD=IAD+NUM_IMP(N)
+         IF(IMPL_S == 1) IAD=IAD+NUM_IMP(N)
 C-----------------------------------------------------------------------
         ELSE
 C-----------------------------------------------------------------------
