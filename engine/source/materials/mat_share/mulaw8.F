@@ -137,7 +137,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NPAR,IADBUF,NFUNC,I,J,II,IPT,JPT,IR,IP,ISRATE,
      .  IFUNC(MAXFUNC),IDUM1,IFAIL(MVSIZ),MATF(MVSIZ),IC,IFLAG,
-     .  NVARF,NVARF_MAX,MX, IEXPAN8,JJ(6)
+     .  NVARF,NVARF_MAX,MX, IEXPAN8,JJ(6),INLOC
       my_real 
      .C1(MVSIZ),PNEW(MVSIZ),PP(MVSIZ),DEFP(MVSIZ),
      .EP1(MVSIZ),EP2(MVSIZ),EP3(MVSIZ),EP4(MVSIZ),EP5(MVSIZ),EP6(MVSIZ),
@@ -169,6 +169,7 @@ C-----------------------------------------------
       CHARACTER IUSER_KEY*ncharline
 C=======================================================================
       MX = MAT(LFT)
+      INLOC  = IPM(253,MX)
       NPAR   = IPM(9,MX)
       IADBUF = IPM(7,MX)
       NFUNC  = IPM(10,MX)
@@ -530,7 +531,7 @@ C-------------------
      9    SSPP     ,VIS      ,UVAR     ,OFF      ,NGL      ,IPT   ,
      A    IPM      ,MAT      ,EPSD     ,IPLA     ,SIGY     ,LBUF%PLA,
      B    DPLA     ,ET       ,BIDON    ,BIDON    ,AMU      ,CST1  ,
-     C    NVARTMP  ,VARTMP   ,LBUF%SIGB,LBUF%DMG )
+     C    NVARTMP  ,VARTMP   ,LBUF%SIGB,LBUF%DMG ,INLOC    ,LBUF%PLANL)
 c
           DEFP(1:LLT)   =  LBUF%PLA(1:LLT)
 c
