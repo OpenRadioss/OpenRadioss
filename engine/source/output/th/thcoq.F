@@ -649,8 +649,8 @@ C---
                               UVAR=>ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR              
                               DO J = 1, NUVAR
                                 I1 = (J-1)*NEL                             
-                                IF (J==4 .OR. J==5) THEN                                         
-                                  VAR(J,IL) = VAR(J,IL) + LOG(UVAR(I1+I)+ONE)/NPG
+                                IF (J==4 .OR. J==5) THEN    ! convert to eng strain                                     
+                                  VAR(J,IL) = VAR(J,IL) + (EXP(UVAR(I1+I))-ONE)/NPG
                                 ELSE
                                   VAR(J,IL) = VAR(J,IL) + UVAR(I1+I)/NPG
                                 ENDIF               
@@ -671,8 +671,8 @@ C---
                             K = NPTR*(IS-1) + IR                                        
                             DO J = 1, NUVAR
                               I1 = (J-1)*NEL 
-                              IF (J==4 .OR. J==5) THEN
-                               VAR(J,IPT) = VAR(J, IPT) + LOG(UVAR(I1+I)+ONE)/NPG               
+                              IF (J==4 .OR. J==5) THEN        ! convert to eng strain 
+                               VAR(J,IPT) = VAR(J, IPT) + (EXP(UVAR(I1+I))-ONE)/NPG               
                               ELSE                                          
                                VAR(J,IPT) = VAR(J, IPT) + UVAR(I1 + I)/NPG               
                               ENDIF                                          
