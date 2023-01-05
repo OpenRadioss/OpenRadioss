@@ -197,11 +197,13 @@ C-----------------------------------------------
            DO I=LFT,LLT
              RES_A(I) = ZERO
              RES_B(I) = FSCALE_B*FINTER(B_fun_id,MU(I),NPF,TF,DERI_B(I))
+             DERI_A(I) = ZERO             
            ENDDO
          ELSEIF(B_fun_id == 0)THEN
            DO I=LFT,LLT
              RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
              RES_B(I) = ZERO
+             DERI_B(I) = ZERO             
            ENDDO         
          ELSE
            DO I=LFT,LLT         
@@ -215,8 +217,8 @@ C-----------------------------------------------
                PP      = RES_A(I) + RES_B(I)*ESPE(I) - PSH(I)                  
                DPDM(I) = DERI_A(I)+DERI_B(I)*ESPE(I) + RES_B(I)*(PP+PSH(I))/( (ONE+MU(I))*(ONE+MU(I)) ) ! A'(MU0) + B'(MU0)*E0+B(MU0)/(ONE+MU0)/(ONE+MU0)*P0     !total derivative
                DPDE(I) = RES_B(I) ! B(MU(I))                                               !partial derivative
-               PNEW(I) = PP                                                        
-            ENDIF                                                                  
+               PNEW(I) = PP                                                       
+            ENDIF 
          ENDDO                                                                     
       ENDIF
 C-----------------------------------------------
