@@ -75,7 +75,7 @@ C-----------------------------------------------
      .   A1, B1, B2, B3, YOUNG,G,AA,BB,   
      .   PHI,SHF,DSH(MVSIZ),SL2I(MVSIZ),F1,F2,
      .   FACDT(MVSIZ),PHII(MVSIZ),CST,PHMAX,RHO,EMS,
-     .   TIN,TIXX,TIYY,TIZZ
+     .   TIN,TIXX,TIYY,TIZZ,KPHI(MVSIZ)
 C-----------------------------------------------
       DT(1:MVSIZ) = ZERO
 !
@@ -97,7 +97,8 @@ C----------------------------------------------
         SL2I(I) = A1*AL(I)**2 / BB
         FACDT(I) = ONE_OVER_12*SL2I(I)
         PHMAX = CST/FACDT(I)        
-        PHII(I) = (FOUR+PHMAX)/(ONE+PHMAX)/(ONE+FACDT(I))        
+        KPHI(I) = (FOUR+PHMAX)/(ONE+PHMAX)        
+        PHII(I) = KPHI(I)/(ONE+FACDT(I))        
         PHII(I) = MAX(ONE,PHII(I))        
       ENDDO
       IF (IDTMINS /= 2 .OR. JSMS == 0) THEN
@@ -118,7 +119,7 @@ C----------------------------------------------
               AA    =(SQRT(ONE +DMP(I)*DMP(I))-DMP(I))
               AA  = AL(I) * AA * AA
               BB  = MAX(B1,B2)
-              STIR(I) = MAX(G*B3,PHII(I)*YOUNG*BB) / AA
+              STIR(I) = MAX(G*B3,KPHI(I)*YOUNG*BB) / AA
               STI(I) = A1 * YOUNG / AA
             ENDIF ! IF (OFFG(I) /= ZERO)
           ENDDO

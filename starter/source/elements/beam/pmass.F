@@ -76,7 +76,7 @@ C-----------------------------------------------
      .   RHO(MVSIZ), EMS(MVSIZ),
      .   TIN(MVSIZ), TIXX(MVSIZ), TIYY(MVSIZ), TIZZ(MVSIZ),RHOCP(MVSIZ)
       my_real
-     .   FACDT(MVSIZ), PHII(MVSIZ),CST,PHMAX
+     .   FACDT(MVSIZ), PHII(MVSIZ),KPHI(MVSIZ),CST,PHMAX
 C=======================================================================
       IPY = 200  
       IPZ = 300  
@@ -122,7 +122,8 @@ C----------------------------------------------
         SL2I= AREA(I)*AL(I)**2 /BB
         FACDT(I) = ONE_OVER_12*SL2I
         PHMAX = CST/FACDT(I)        
-        PHII(I) = (FOUR+PHMAX)/(ONE+PHMAX)/(ONE+FACDT(I))
+        KPHI(I) = (FOUR+PHMAX)/(ONE+PHMAX)
+        PHII(I) = KPHI(I)/(ONE+FACDT(I))
         PHII(I) = MAX(ONE,PHII(I))        
       ENDDO
 C----------------------------------------------
@@ -204,7 +205,7 @@ C
        AA  =(SQRT(ONE +DMP*DMP)-DMP)
        AA  = AL(I) * AA * AA
        BB  = MAX(TIYY(I),TIZZ(I))
-       STIR = MAX(G*TIXX(I),PHII(I)*E*BB) / AA
+       STIR = MAX(G*TIXX(I),KPHI(I)*E*BB) / AA
        STI  = AREA(I) * E / AA
 C
        STIFN(NC1(I))=STIFN(NC1(I))+STI
