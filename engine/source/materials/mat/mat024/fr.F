@@ -27,7 +27,7 @@ Chd|        CRIT24                        source/materials/mat/mat024/crit24.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FRV(S1,S2,S3,S4,S5,S6,
-     .               SM,VK0,ROB,FC,RT,RC,
+     .               SM,VK0,VK,ROB,FC,RT,RC,
      .               RCT1,RCT2,AA,AC,BC,BT,
      .               ROK,TOL,FA,NINDEX,INDEX,IBUG,
      .               NEL,SEQ,ICRIT_OUTP)
@@ -41,25 +41,26 @@ C-----------------------------------------------
       INTEGER NINDEX, INDEX(NEL),ICRIT_OUTP
       my_real :: FC,RT,RC,RCT1,RCT2,AA,AC,BC,BT,TOL
       my_real, DIMENSION(NEL) :: S1,S2,S3,S4,S5,S6,SM,VK0,ROB,ROK,FA,SEQ
+      my_real, DIMENSION(NEL),INTENT(OUT):: VK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, NEL, IBUG
-      my_real VK, BB, DF, RF, R2, AJ3, CS3T
+      my_real  BB, DF, RF, R2, AJ3, CS3T
 C=======================================================================
 #include "vectorize.inc"
       DO N = 1,NINDEX
         I = INDEX(N)
         IF (I > 0) THEN
           IF (SM(I) >= RT-TOL ) THEN                                        
-            VK = ONE                                                               
+            VK(I) = ONE                                                               
           ELSEIF( SM(I) > RC ) THEN                                            
-            VK = ONE+(ONE-VK0(I))*(RCT1-TWO*RC*SM(I)+SM(I)**2)/RCT2       
+            VK(I) = ONE+(ONE-VK0(I))*(RCT1-TWO*RC*SM(I)+SM(I)**2)/RCT2       
           ELSEIF(SM(I) > ROK(I))THEN                                              
-            VK = VK0(I)                                                           
+            VK(I) = VK0(I)                                                           
           ELSE                                                                    
-            VK = VK0(I)*(ONE - ((SM(I)-ROK(I))/(ROB(I)-ROK(I)))**2)                
-          ENDIF                                                                   
+            VK(I) = VK0(I)*(ONE - ((SM(I)-ROK(I))/(ROB(I)-ROK(I)))**2)                
+          ENDIF                                                               
 C
           IF (SM(I) > AC/AA) THEN                                           
             FA(I) = HALF*(SM(I)-AC/AA) / MIN(BC,BT)/FC           
@@ -85,7 +86,7 @@ c
             BB = HALF*((ONE -CS3T)*BC+(ONE +CS3T)*BT)                       
             DF = SQRT(MAX(ZERO,BB*BB-AA*SM(I)+AC,ZERO))                     
             RF = (-BB+DF)/AA                                                   
-            FA(I)=(SQRT(R2)-VK*RF)/FC                                          
+            FA(I)=(SQRT(R2)-VK(I)*RF)/FC                                          
 c
 !!            IF (ICRIT_OUTP == 0) THEN ! (EQUIVALENT STRESS)/CTITERION FOR OUTPUT  
 !!              SEQ(I) = FA(I)                                               

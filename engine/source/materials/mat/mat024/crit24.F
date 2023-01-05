@@ -27,7 +27,7 @@ Chd|        CONC24                        source/materials/mat/mat024/conc24.F
 Chd|-- calls ---------------
 Chd|        FRV                           source/materials/mat/mat024/fr.F
 Chd|====================================================================
-      SUBROUTINE CRIT24(NEL,PM,SIG,VK0,OFF,
+      SUBROUTINE CRIT24(NEL,PM,SIG,VK0,VK,OFF,
      .                  ROB,NGL,SEQ,
      .                  S01,S02,S03,S04,S05,S06,
      .                  S1 ,S2 ,S3 ,S4 ,S5 ,S6 ,
@@ -50,7 +50,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM) :: PM
       my_real, DIMENSION(NEL), INTENT(IN)  :: S01,S02,S03,S04,S05,S06,
      .   SCAL1,SCAL2,SCAL3,VK0,ROB,OFF,SEQ
-      my_real, DIMENSION(NEL), INTENT(OUT) :: S1,S2,S3,S4,S5,S6,
+      my_real, DIMENSION(NEL), INTENT(OUT) :: VK,S1,S2,S3,S4,S5,S6,
      .   SCLE1,SCLE2,SCLE3,SM,DSM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -124,7 +124,7 @@ c----------------------------------------------
       IF (NINDEX > 0) THEN
         IBUG = NINT(PM(59))
         CALL FRV(S1,S2,S3,S4,S5,S6,
-     .           SM,VK0,ROB,FC,RT,RC,
+     .           SM,VK0,VK,ROB,FC,RT,RC,
      .           RCT1,RCT2,AA,AC,BC,BT,
      .           ROK,TOL,FA,NINDEX,INDEX,IBUG,
      .           NEL,SEQ,ICRIT_OUTP)
@@ -166,7 +166,7 @@ c---------------
         ENDDO
 c----------------------------------------------
         CALL FRV(SN1,SN2,SN3,SN4,SN5,SN6,
-     .           SN7,VK0,ROB,FC,RT,RC,
+     .           SN7,VK0,VK,ROB,FC,RT,RC,
      .           RCT1,RCT2,AA,AC,BC,BT,
      .           ROK,TOL,FN,NINDEX2,INDEX,IBUG,
      .           NEL,SEQ,ICRIT_OUTP)
