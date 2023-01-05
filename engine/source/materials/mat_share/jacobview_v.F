@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  JACOBIEW_V                    source/materials/mat_share/jacobview_v.F
 Chd|-- called by -----------
-Chd|        FAIL_INIEVO_C                 source/materials/fail/inievo/fail_inievo_c.F
 Chd|        FAIL_INIEVO_S                 source/materials/fail/inievo/fail_inievo_s.F
 Chd|-- calls ---------------
 Chd|====================================================================

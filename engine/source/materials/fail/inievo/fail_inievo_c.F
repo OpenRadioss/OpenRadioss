@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
 Chd|-- calls ---------------
-Chd|        JACOBIEW_V                    source/materials/mat_share/jacobview_v.F
 Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|        FCRIT                         source/materials/mat/mat081/sigeps81.F
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
