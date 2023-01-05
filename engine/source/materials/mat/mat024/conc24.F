@@ -108,9 +108,9 @@ C . . . . . . . . . . .
       VMAX = PM(27)
       RT   = PM(34)
       EPSMAX = PM(47)
-      YMS  = PM(50)         
-      Y0S  = PM(51)         
-      ETS  = PM(52)         
+      YMS  = PM(50)  !young modulus       
+      Y0S  = PM(51)  !yield strength         
+      ETS  = PM(52)  !tangent modulus        
       ICAP = NINT(PM(57))   
 c
       ARMA = ZERO
@@ -149,7 +149,7 @@ c------
 c------
 C     2 - EVALUATION DU CRITERE
 c------
-      CALL CRIT24(NEL,PM,SIGC,VK0,OFF,
+      CALL CRIT24(NEL,PM,SIGC,VK0,VK,OFF,
      .            ROB,NGL,SEQ,
      .            S01,S02,S03,S04,S05,S06,
      .            S1 ,S2 ,S3 ,S4 ,S5 ,S6 ,
