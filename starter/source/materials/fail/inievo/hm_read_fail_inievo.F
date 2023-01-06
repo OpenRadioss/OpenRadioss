@@ -118,6 +118,13 @@ C===============================================================================
       ISHEAR = MIN(ISHEAR,1)
       CALL HM_GET_INTV   ('ILEN'     ,ILEN     ,IS_AVAILABLE,LSUBMODEL)
       ILEN   = MIN(ILEN,2)
+      IF (ILEN == 2) THEN 
+        CALL ANCMSG(MSGID=2094,
+     .              MSGTYPE=MSGINFO,
+     .              ANMODE=ANINFO_BLIND,
+     .              I1=MAT_ID,
+     .              C1=TITR)
+      ENDIF
       CALL HM_GET_INTV   ('FAILIP'   ,FAILIP   ,IS_AVAILABLE,LSUBMODEL)
       IF (FAILIP == 0)  FAILIP  = 1
       CALL HM_GET_FLOATV ('PTHK'     ,PTHK     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -303,9 +310,9 @@ c-----------------------------------------------------
      & 5X,'  ISHEAR = 0: TRANSVERSE SHEAR STRESS COMPONENTS NOT CONSIDERED ',/,
      & 5X,'  ISHEAR = 1: TRANSVERSE SHEAR STRESS COMPONENTS CONSIDERED     ',/,
      & 5X,'ELEMENT CHARACTERISTIC LENGTH FLAG . . . . . . . . . . .=',I10,/,
-     & 5X,'  ILEN   = 0: INITIAL GEOMETRIC FORMULATION            ',/,
-     & 5X,'  ILEN   = 1: INITIAL CRITICAL TIMESTEP FORMULATION    ',/,
-     & 5X,'  ILEN   = 2: CURRENT GEOMETRIC FORMULATION            ',/)
+     & 5X,'  ILEN   = 0: INITIAL GEOMETRIC FORMULATION              ',/,
+     & 5X,'  ILEN   = 1: INITIAL CRITICAL TIMESTEP FORMULATION      ',/,
+     & 5X,'  ILEN   = 2: CURRENT GEOMETRIC FORMULATION (SHELLS ONLY)',/)
  1200 FORMAT(
      & 5X,'ELEMENT DELETION PARAMETERS:                             ',/,
      & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO SOLID DELETION . =',I10,/,

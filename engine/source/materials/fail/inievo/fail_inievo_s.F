@@ -163,12 +163,6 @@ c
           ENDDO
         ENDIF
       ENDIF
-      !  -> Current geometric formulation
-      IF (ILEN == 2) THEN 
-        DO I = 1,NEL
-          UVAR(I,1) = EXP(THIRD*LOG(VOL(I)))
-        ENDDO  
-      ENDIF   
       L0(1:NEL) = UVAR(1:NEL,1)
       ! Positive stress triaxiality bounded plastic strain
       EPSMOD(1:NEL) = UVAR(1:NEL,2)
