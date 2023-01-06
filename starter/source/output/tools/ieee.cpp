@@ -21,19 +21,18 @@
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 #include "hardware.inc"
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cstdint>
+#include <tgmath.h>
 
 
-void integer_to_IEEE_ASCII(int entier,unsigned char octet[4]);
-void IEEE_ASCII_to_integer(int *entier,unsigned char octet[4]);
+extern "C" void integer_to_IEEE_ASCII(int entier,unsigned char octet[4]);
+extern "C" void IEEE_ASCII_to_integer(int *entier,unsigned char octet[4]);
 
-void real_to_IEEE_ASCII(float reel,unsigned char octet[4]);
-void IEEE_ASCII_to_real(float *reel,unsigned char octet[4]);
+extern "C" void real_to_IEEE_ASCII(float reel,unsigned char octet[4]);
+extern "C" void IEEE_ASCII_to_real(float *reel,unsigned char octet[4]);
 
-void double_to_IEEE_ASCII(double *reel,unsigned char octet[1000][8],int len);
-void IEEE_ASCII_to_double(double *reel,unsigned char octet[1000][8],int len);
+extern "C" void double_to_IEEE_ASCII(double *reel,unsigned char octet[1000][8],int len);
+extern "C" void IEEE_ASCII_to_double(double *reel,unsigned char octet[1000][8],int len);
 
 
 
