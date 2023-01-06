@@ -102,7 +102,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NBMAT, MAT_ID  ! Number of declared materials
       INTEGER :: I,J,VP,YLDCHECK
-      INTEGER :: RHOFLAG,ICOMP,NRATE1,NRATE,IPFUN,IFUNCE,ISRAT,
+      INTEGER :: RHOFLAG,ICOMP,NRATE1,NRATE,IPFUN,IFUNCE,ISRAT,ISMOOTH,
      .           NBLINE,NBREAD,IFAIL,OPTE,ILAW,NFUNC
       my_real :: RHO0, RHOR,E,NU,G,C1,SOUNDSP, EPSMAX,EPSR1,EPSR2,EPSF,FISOKIN,FCUT,
      .           PSCAL_UNIT,PSCALE,EINF,CE ,
@@ -131,7 +131,7 @@ Card1
 C-----------------------------------------------
 Card2
       CALL HM_GET_INTV  ('NFUNC'        ,NRATE   ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV  ('Fsmooth'      ,ISRAT   ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV  ('Fsmooth'      ,ISMOOTH ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_HARD'     ,FISOKIN ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Fcut'         ,FCUT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_Epsilon_F',EPSF    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -211,6 +211,7 @@ c
 c-------------------------
       IF (NRATE == 1) THEN
         NFUNC  = 1
+        ISMOOTH= 0
         ISRAT  = 0
         FCUT   = ZERO
         VP     = 0   !!!  no plastic strain rate dependency with single static curve
@@ -332,8 +333,9 @@ c -----------------------
       UPARAM(2*NFUNC + 26) = VP
       UPARAM(2*NFUNC + 27) = IFAIL
       UPARAM(2*NFUNC + 28) = YLDCHECK
+      UPARAM(2*NFUNC + 29) = ISMOOTH
 c
-      NUPARAM = 2*NFUNC + 28
+      NUPARAM = 2*NFUNC + 29
 c--------------------------------
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1) = RHOR
@@ -383,37 +385,42 @@ C-----------
       RETURN
 C-----------
  1000 FORMAT(
-     & 5X,40H  TABULATED ELASTIC PLASTIC LAW 36      ,/,
-     & 5X,40H  --------------------------------      ,//)
+     & 5X,'    TABULATED ELASTIC PLASTIC LAW 36    ',/,
+     & 5X,'    --------------------------------    ' ,//)
  1001 FORMAT(/
      & 5X,A,/,
-     & 5X,'MATERIAL NUMBER. . . . . . . . . . . . =',I10/,
-     & 5X,'MATERIAL LAW . . . . . . . . . . . . . =',I10/)
+     & 5X,'MATERIAL NUMBER . . . . . . . . . . . . . .=',I10/,
+     & 5X,'MATERIAL LAW. . . . . . . . . . . . . . . .=',I10/)
  1002 FORMAT(
-     & 5X,'INITIAL DENSITY. . . . . . . . . . . . =',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . . . .=',1PG20.13/)  
  1100 FORMAT(
-     & 5X,'YOUNG''S MODULUS. . . . . . . . . . . .=',1PG20.13/
-     & 5X,'POISSON''S RATIO. . . . . . . . . . . .=',1PG20.13/
-     & 5X,'MAXIMUM PLASTIC STRAIN . . . . . . . . =',1PG20.13/
-     & 5X,'TENSION FAILURE STRAIN 1 . . . . . . . =',1PG20.13/
-     & 5X,'TENSION FAILURE STRAIN 2 . . . . . . . =',1PG20.13/
-     & 5X,'MAXIMUM TENSION FAILURE STRAIN  .. . . =',1PG20.13/     
-     & 5X,'ISO-KINEMATIC HARDENING FACTOR. . . .  =',1PG20.13/
-     & 5X,'SMOOTH STRAIN RATE OPTION. . . . . . . =',I10/
-     & 5X,'STRAIN RATE CUTTING FREQUENCY . . . . .=',1PG20.13/
-     & 5X,'PLASTIC STRAIN RATE DEPENDENCY FLAG . .=',I10/
-     & 5X,40H  - FLAG_PL = 0 -> TOTAL SR DEPENDENCY         ,/,
-     & 5X,40H  - FLAG_PL = 1 -> PLASTIC SR DEPENDENCY       ,//)
+     & 5X,'YOUNG MODULUS . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'POISSON RATIO . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'MAXIMUM PLASTIC STRAIN  . . . . . . . . . .=',1PG20.13/
+     & 5X,'TENSION FAILURE STRAIN 1  . . . . . . . . .=',1PG20.13/
+     & 5X,'TENSION FAILURE STRAIN 2  . . . . . . . . .=',1PG20.13/
+     & 5X,'MAXIMUM TENSION FAILURE STRAIN  . . . . . .=',1PG20.13/     
+     & 5X,'ISO-KINEMATIC HARDENING FACTOR. . . . . . .=',1PG20.13/
+     & 5X,'SMOOTH STRAIN RATE OPTION . . . . . . . . .=',I10/
+     & 5X,'     0 -> NO SMOOTHING                      ',/,
+     & 5X,'     1 -> SMOOTH + LINEAR INTERPOLATION     ',/,
+     & 5X,'     2 -> SMOOTH + LOG_10 INTERPOLATION     ',/,
+     & 5X,'     3 -> SMOOTH + LOG_N  INTERPOLATION     ',/
+     & 5X,'STRAIN RATE CUTTING FREQUENCY . . . . . . .=',1PG20.13/
+     & 5X,'PLASTIC STRAIN RATE DEPENDENCY FLAG . . . .=',I10/
+     & 5X,'   FLAG_PL = 0 -> TOTAL SR DEPENDENCY       ',/,
+     & 5X,'   FLAG_PL = 1 -> PLASTIC SR DEPENDENCY     ',/,
+     & 5X,'STRAIN RATE INTERPOLATION FLAG. . . . . . .=',I10/)
  1200 FORMAT(
-     & 5X,'YIELD STRESS FUNCTION NUMBER. . . . . .=',I10/
-     & 5X,'YIELD SCALE FACTOR. . . . . . . . . . .=',1PG20.13/
-     & 5X,'STRAIN RATE . . . . . . . . . . . . . .=',1PG20.13)
+     & 5X,'YIELD STRESS FUNCTION NUMBER. . . . . . . .=',I10/
+     & 5X,'YIELD SCALE FACTOR. . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'STRAIN RATE . . . . . . . . . . . . . . . .=',1PG20.13)
  1300 FORMAT(
-     & 5X,'PRESSURE DEPENDENT YIELD FUNCTION . . . .=',I10/
-     & 5X,'PRESSURE SCALE FACTOR. . . . . . . . .  .=',1PG20.13/
-     & 5X,'YOUNG MODULUS SCALE FACTOR FUNCTION . . .=',I10/
-     & 5X,'YOUNG MODULUS EINF . . . . . . . . . . . =',1PG20.13/
-     & 5X,'PARAMETER CE . . . . . . . . . . . . . . =',1PG20.13)
+     & 5X,'PRESSURE DEPENDENT YIELD FUNCTION . . . . .=',I10/
+     & 5X,'PRESSURE SCALE FACTOR . . . . . . . . . . .=',1PG20.13/
+     & 5X,'YOUNG MODULUS SCALE FACTOR FUNCTION . . . .=',I10/
+     & 5X,'YOUNG MODULUS EINF. . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'PARAMETER CE. . . . . . . . . . . . . . . .=',1PG20.13)
 c-----------
       RETURN
       END

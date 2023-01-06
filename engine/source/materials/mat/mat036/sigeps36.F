@@ -97,12 +97,14 @@ C---------+---------+---+---+--------------------------------------------
 #include      "scr17_c.inc"
 #include      "scr05_c.inc"
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "units_c.inc"
 #include      "impl1_c.inc"
 C=======================================================================
-      INTEGER NEL, NUPARAM, NUVAR,IPT,IPLA,NVARTMP,
-     .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*),INLOC
+      INTEGER NEL, NUPARAM, NUVAR,IPT,IPLA,NVARTMP,INLOC
+      INTEGER ,DIMENSION(NEL) :: NGL,MAT
+      INTEGER ,DIMENSION(NPROPMI,NUMMAT) :: IPM
       my_real
      .   TIME,TIMESTEP,UPARAM(*),SIGB(*),
      .   RHO(NEL),RHO0(NEL),VOLUME(NEL),EINT(NEL),
@@ -146,15 +148,14 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,J1,J2,NFUNC,VP,II,NITER,IFAIL,
-     .        NRATE,PFUN,IPFUN,IPFLAG,YLDCHECK,
-     .        OPTE,IFUNCE,NINDX,
-     .        ILEN1(MVSIZ),IAD2(MVSIZ),ILEN2(MVSIZ),INDEX(MVSIZ),
+      INTEGER I,J,K,J1,J2,NFUNC,VP,II,NITER,IFAIL,NRATE,PFUN,IPFUN,
+     .        IPFLAG,ISMOOTH,YLDCHECK,OPTE,IFUNCE,NINDX
+      INTEGER ILEN1(MVSIZ),IAD2(MVSIZ),ILEN2(MVSIZ),INDEX(MVSIZ),
      .        IFUNC(100),IAD1(MVSIZ), IADP(MVSIZ),ILENP(MVSIZ),
      .        INDX(MVSIZ),JJ(MVSIZ), IADP2(MVSIZ),ILENP2(MVSIZ)
       INTEGER, DIMENSION(MVSIZ) :: IPOS1,IPOS2,IPOSPE,IPOSP,IPOSP2
       my_real
-     .        E11,NU,DAV,VM,R(MVSIZ),FAC,EPST,P,
+     .        E11,NU,DAV,VM,R(MVSIZ),FAC,EPST,P,EPSP1,EPSP2,
      .        E1,E2,E3,E4,E5,E6,C,CC,D,Y,YP,E42,E52,E62,EPST2,
      .        C11,G11,G21,G31,EPSR1,DPLA,EPSF,HKIN,FISOKIN,
      .        DSXX,DSYY,DSZZ,DSXY,DSYZ,
@@ -165,16 +166,16 @@ C-----------------------------------------------
      .        C1(MVSIZ),G(MVSIZ),G2(MVSIZ),G3(MVSIZ),
      .        Y1(MVSIZ),Y2(MVSIZ),H(MVSIZ),DYDX1(MVSIZ),
      .        DYDX2(MVSIZ),FAIL(MVSIZ),E(MVSIZ),
-     .        P0(MVSIZ),PFAC(MVSIZ),PSCALE(MVSIZ),
+     .        P0(MVSIZ),PFAC(MVSIZ),PSCALE(MVSIZ),RFAC(MVSIZ),
      .        PSCALE1(MVSIZ),PLA0(MVSIZ), PLAM(MVSIZ),
      .        DFDP(MVSIZ),EPSTT(MVSIZ),
      .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEZZ(MVSIZ),
      .        SIGEXY(MVSIZ),SIGEYZ(MVSIZ),SIGEZX(MVSIZ),
      .        DYDXE(MVSIZ),PLAOLD(MVSIZ),
-     .        RATE(MVSIZ,2),YFAC(MVSIZ,2)
+     .        YFAC(MVSIZ,2)
       my_real
      .       PLAP(MVSIZ),SVM2(MVSIZ),DPLA_J(MVSIZ),DPLA_I(MVSIZ),
-     .       SRATE(MVSIZ),HI(MVSIZ),ESCALE12(MVSIZ),
+     .       HI(MVSIZ),ESCALE12(MVSIZ),
      .       SVM_TAB(MVSIZ)
       INTEGER :: NINDEX_PLA,NINDEX_VINTER
       INTEGER, DIMENSION(MVSIZ) :: INDEX_PLA,INDEX_VINTER
@@ -212,6 +213,7 @@ C
       VP       = NINT(UPARAM(2*NRATE + 26))  ! flag for plastic strain dependency
       IFAIL    = NINT(UPARAM(2*NRATE + 27))  ! flag rupture 
       YLDCHECK = NINT(UPARAM(2*NRATE + 28))
+      ISMOOTH  = NINT(UPARAM(2*NRATE + 29))  ! strain rate interpolation flag
 C
 #include "vectorize.inc"
       DO I=1,NEL
@@ -444,13 +446,28 @@ c-----------
             ENDDO
           ENDDO
 C
+          IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+#include    "vectorize.inc"
+            DO I=1,NEL
+              EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+              EPSP2 = UPARAM(7+JJ(I))
+              RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
+            ENDDO
+          ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
+#include    "vectorize.inc"
+            DO I=1,NEL
+              EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+              EPSP2 = UPARAM(7+JJ(I))
+              RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
+            ENDDO
+          ELSE                        ! linear interpolation of strain rate
 #include "vectorize.inc"
-          DO I=1,NEL
-            RATE(I,1)=UPARAM(6+JJ(I))
-            RATE(I,2)=UPARAM(6+JJ(I)+1)
-            YFAC(I,1)=UPARAM(6+NRATE+JJ(I))*FACYLDI(I)
-            YFAC(I,2)=UPARAM(6+NRATE+JJ(I)+1)*FACYLDI(I)
-          ENDDO
+            DO I=1,NEL
+              EPSP1 = UPARAM(6+JJ(I))
+              EPSP2 = UPARAM(7+JJ(I))
+              RFAC(I)  = (EPSP(I) - EPSP1) / (EPSP2 - EPSP1)
+            ENDDO
+          END IF
 C
 #include "vectorize.inc"
           DO I=1,NEL
@@ -458,6 +475,8 @@ C
             J2 = J1+1
             IPOS1(I) = VARTMP(I,J1+2)
             IPOS2(I) = VARTMP(I,J2+2)
+            YFAC(I,1)= UPARAM(6+NRATE+J1) * FACYLDI(I)
+            YFAC(I,2)= UPARAM(6+NRATE+J2) * FACYLDI(I)
           ENDDO
           IAD1(1:NEL)  = NPF(IFUNC(JJ(1:NEL))) / 2 + 1
           ILEN1(1:NEL) = NPF(IFUNC(JJ(1:NEL))+1) / 2 - IAD1(1:NEL) - IPOS1(1:NEL)
@@ -481,11 +500,11 @@ C
               J2 = J1+1
               Y1(I)=Y1(I)*YFAC(I,1)
               Y2(I)=Y2(I)*YFAC(I,2)
-              FAC   = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
+              FAC   = RFAC(I)
               CC = FAIL(I)* PFAC(I)
               YLD(I)  = (Y1(I)    + FAC*(Y2(I)-Y1(I))) * CC
-              DYDX1(I)=DYDX1(I)*YFAC(I,1)
-              DYDX2(I)=DYDX2(I)*YFAC(I,2)
+              DYDX1(I)= DYDX1(I)*YFAC(I,1)
+              DYDX2(I)= DYDX2(I)*YFAC(I,2)
               H(I) = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I))) * CC
             ENDDO
 c
@@ -495,7 +514,7 @@ c
             DO I=1,NEL
               J1 = JJ(I)
               J2 = J1+1        
-              FAC = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
+              FAC = RFAC(I)
               CC  = FAIL(I) * PFAC(I)
               DYDX1(I)=DYDX1(I)*YFAC(I,1)
               DYDX2(I)=DYDX2(I)*YFAC(I,2) 
@@ -515,7 +534,7 @@ c
               J2 = J1+1
               Y1(I) = Y1(I)*YFAC(I,1)
               Y2(I) = Y2(I)*YFAC(I,2)
-              FAC     = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
+              FAC   = RFAC(I)
               YLD(I)  = FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I)))
               YLD(I)  = MAX(YLD(I),EM20)
               DYDX1(I)= DYDX1(I)*YFAC(I,1)
@@ -700,14 +719,31 @@ c
                 IF (PLAP(I) >= UPARAM(6+J)) JJ(I) = J               
               ENDDO
             ENDDO  
-#include "vectorize.inc" 
-            DO II=1,NINDX                                             
-                  I = INDEX(II) 
-                FAC=UPARAM(6+JJ(I))
-                SRATE(I)=(PLAP(I) - FAC)/(UPARAM(7+JJ(I)) - FAC)
-                YFAC(I,1)=UPARAM(6+NRATE+JJ(I))*FACYLDI(I)
-                YFAC(I,2)=UPARAM(6+NRATE+JJ(I)+1)*FACYLDI(I)
-            ENDDO
+            IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+#include     "vectorize.inc" 
+              DO II=1,NINDX                                             
+                I = INDEX(II) 
+                EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+                EPSP2 = UPARAM(7+JJ(I))
+                RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
+              ENDDO
+            ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
+#include     "vectorize.inc" 
+              DO II=1,NINDX                                             
+                I = INDEX(II) 
+                EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+                EPSP2 = UPARAM(7+JJ(I))
+                RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
+              ENDDO
+            ELSE                         ! linear interpolation of strain rate
+#include     "vectorize.inc" 
+              DO II=1,NINDX                                             
+                I = INDEX(II) 
+                EPSP1 = UPARAM(6+JJ(I))
+                EPSP2 = UPARAM(7+JJ(I))
+                RFAC(I) = (PLAP(I) - EPSP1) / (EPSP2 - EPSP1)
+              ENDDO
+            END IF                        ! linear interpolation of strain rate
 ! ------------------------
             NINDEX_VINTER = 0
 #include "vectorize.inc"
@@ -724,6 +760,8 @@ c
               IADP2(NINDEX_VINTER)  = NPF(IFUNC(JJ(I)+1)) / 2 + 1
               ILENP2(NINDEX_VINTER) = NPF(IFUNC(JJ(I)+1)  + 1) / 2 - IADP2(NINDEX_VINTER) - IPOSP2(NINDEX_VINTER)
               TAB_LOC(NINDEX_VINTER) = PLA(I)
+              YFAC(I,1) = UPARAM(6+NRATE+J1) * FACYLDI(I)
+              YFAC(I,2) = UPARAM(6+NRATE+J2) * FACYLDI(I)
             ENDDO
 
             CALL VINTER2(TF,IADP,IPOSP,ILENP,NINDEX_VINTER,TAB_LOC,DYDX1_LOC,Y1_LOC)
@@ -750,7 +788,7 @@ c
                 I = INDEX(II)
                 Y1(I) = Y1(I) * YFAC(I,1)
                 Y2(I) = Y2(I) * YFAC(I,2)        
-                FAC     = SRATE(I)        
+                FAC     = RFAC(I)        
                 YLD(I)  = FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I)))
                 YLD(I)  = MAX(YLD(I),EM20)
                 DYDX1(I)=DYDX1(I)*YFAC(I,1)
@@ -766,27 +804,27 @@ c------------------------
               !update svm
 #include "vectorize.inc" 
               DO II=1,NINDX                                                
-                    I = INDEX(II)                                        
-                    DPLA_I(I) = DPLA_J(I)                                
-                    PLA(I)    = PLAOLD(I) + DPLA_I(I)                    
-                    PLAP(I)   = DPLA_I(I) / TIMESTEP                     
-                    R(I)      = YLD(I)/(YLD(I) +G3(I)*DPLA_I(I))         
-                    SVM       = R(I)* SVM_TAB(I)                         
+                I = INDEX(II)                                        
+                DPLA_I(I) = DPLA_J(I)                                
+                PLA(I)    = PLAOLD(I) + DPLA_I(I)                    
+                PLAP(I)   = DPLA_I(I) / TIMESTEP                     
+                R(I)      = YLD(I)/(YLD(I) +G3(I)*DPLA_I(I))         
+                SVM       = R(I)* SVM_TAB(I)                         
 
-                    F = SVM -  YLD(I) - G3(I) *DPLA_I(I)                 
-                    DF = - G3(I) -DFSR                                   
-                    DF = SIGN(MAX(ABS(DF),EM20),DF)                      
-                    IF(DPLA_I(I) > ZERO) THEN                            
-                      DPLA_J(I)=MAX( EM10 ,DPLA_I(I)-F/DF)               
-                    ELSE                                                 
-                      DPLA_J(I)=EM10                                     
-                    ENDIF                                                
-                    !--------------                                      
-                    !update yield :                                      
-                    !--------------                                      
-                    PLA(I)    = PLAOLD(I) + DPLA_J(I)                    
-                    PLAP(I)   = DPLA_J(I) / TIMESTEP                     
-                    JJ(I) = 1                                            
+                F = SVM -  YLD(I) - G3(I) *DPLA_I(I)                 
+                DF = - G3(I) -DFSR                                   
+                DF = SIGN(MAX(ABS(DF),EM20),DF)                      
+                IF(DPLA_I(I) > ZERO) THEN                            
+                  DPLA_J(I)=MAX( EM10 ,DPLA_I(I)-F/DF)               
+                ELSE                                                 
+                  DPLA_J(I)=EM10                                     
+                ENDIF                                                
+                !--------------                                      
+                !update yield :                                      
+                !--------------                                      
+                PLA(I)    = PLAOLD(I) + DPLA_J(I)                    
+                PLAP(I)   = DPLA_J(I) / TIMESTEP                     
+                JJ(I) = 1                                            
               ENDDO                                                        
               DO J=2,NRATE-1
                 DO II=1,NINDX                                             
@@ -794,14 +832,29 @@ c------------------------
                   IF(PLAP(I) >= UPARAM(6+J)) JJ(I) = J       
                 ENDDO       
               ENDDO
-#include "vectorize.inc" 
-              DO II=1,NINDX                                             
-                I = INDEX(II)  
-                FAC=UPARAM(6+JJ(I))
-                SRATE(I)=(PLAP(I) - FAC)/(UPARAM(7+JJ(I)) - FAC)
-                YFAC(I,1)=UPARAM(6+NRATE+JJ(I))*FACYLDI(I)
-                YFAC(I,2)=UPARAM(6+NRATE+JJ(I)+1)*FACYLDI(I)
-              ENDDO
+              IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+#include        "vectorize.inc"
+                DO I=1,NEL
+                  EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+                  EPSP2 = UPARAM(7+JJ(I))
+                  RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
+                ENDDO
+              ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
+#include        "vectorize.inc"
+                DO I=1,NEL
+                  EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+                  EPSP2 = UPARAM(7+JJ(I))
+                  RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
+                ENDDO
+              ELSE                        ! linear interpolation of strain rate
+#include        "vectorize.inc"
+                DO II=1,NINDX                                           
+                  I = INDEX(II)  
+                  EPSP1 = UPARAM(6+JJ(I))
+                  EPSP2 = UPARAM(7+JJ(I))
+                  RFAC(I) = (PLAP(I) - EPSP1) / (EPSP2 - EPSP1)
+                ENDDO
+              END IF
 ! ------------------------
               NINDEX_VINTER = 0
 #include "vectorize.inc"
@@ -818,6 +871,8 @@ c------------------------
                 IADP2(NINDEX_VINTER)  = NPF(IFUNC(JJ(I)+1)) / 2 + 1
                 ILENP2(NINDEX_VINTER) = NPF(IFUNC(JJ(I)+1)  + 1) / 2 - IADP2(NINDEX_VINTER) - IPOSP2(NINDEX_VINTER)
                 TAB_LOC(NINDEX_VINTER) = PLA(I)
+                YFAC(I,1)=UPARAM(6+NRATE+J1)*FACYLDI(I)
+                YFAC(I,2)=UPARAM(6+NRATE+J2)*FACYLDI(I)
               ENDDO
 
               CALL VINTER2(TF,IADP,IPOSP,ILENP,NINDEX_VINTER,TAB_LOC,DYDX1_LOC,Y1_LOC)
@@ -845,7 +900,7 @@ c------------------------
                 !Y1 and Y2 for Pl SR dependency
                 Y1(I) = YFAC(I,1) * Y1(I)
                 Y2(I) = YFAC(I,2) * Y2(I)
-                FAC   = SRATE(I)         
+                FAC   = RFAC(I)         
                 YLD(I)= FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I)))
                 YLD(I) = MAX(YLD(I),EM20)
                 YLD(I) = YLD(I)*MAX(ZERO,PFAC(I))
@@ -896,16 +951,32 @@ c------------------------------------------------
                 IF (PLAP(I) >= UPARAM(6+J)) JJ(I) = J               
               ENDDO
             ENDDO    
-#include "vectorize.inc" 
-            DO II=1,NINDX                                             
-              I = INDEX(II) 
-              J1 = JJ(I)
-              J2 = JJ(I)+1
-              FAC=UPARAM(6+J1)
-              SRATE(I)=(PLAP(I) - FAC)/(UPARAM(7+J1) - FAC)
-              YFAC(I,1)=UPARAM(6+NRATE+J1)*FACYLDI(I)
-              YFAC(I,2)=UPARAM(6+NRATE+J2)*FACYLDI(I)
-            ENDDO
+c
+            IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+#include      "vectorize.inc"
+              DO II=1,NINDX                                           
+                I = INDEX(II) 
+                EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+                EPSP2 = UPARAM(7+JJ(I))
+                RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
+              ENDDO
+            ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
+#include      "vectorize.inc"
+              DO II=1,NINDX                                           
+                I = INDEX(II) 
+                EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+                EPSP2 = UPARAM(7+JJ(I))
+                RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
+              ENDDO
+            ELSE                        ! linear interpolation of strain rate
+#include      "vectorize.inc"
+              DO II=1,NINDX                                           
+                I = INDEX(II) 
+                EPSP1 = UPARAM(6+JJ(I))
+                EPSP2 = UPARAM(7+JJ(I))
+                RFAC(I) = (PLAP(I) - EPSP1) / (EPSP2 - EPSP1)
+              ENDDO
+            END IF
 ! ------------------------
             NINDEX_VINTER = 0
 #include "vectorize.inc"
@@ -922,25 +993,27 @@ c------------------------------------------------
               IADP2(NINDEX_VINTER)  = NPF(IFUNC(JJ(I)+1)) / 2 + 1
               ILENP2(NINDEX_VINTER) = NPF(IFUNC(JJ(I)+1)  + 1) / 2 - IADP2(NINDEX_VINTER) - IPOSP2(NINDEX_VINTER)
               TAB_LOC(NINDEX_VINTER) = PLA(I)
+              YFAC(I,1)=UPARAM(6+NRATE+J1)*FACYLDI(I)
+              YFAC(I,2)=UPARAM(6+NRATE+J2)*FACYLDI(I)
             ENDDO
 
             CALL VINTER2(TF,IADP,IPOSP,ILENP,NINDEX_VINTER,TAB_LOC,DYDX1_LOC,Y1_LOC)
             CALL VINTER2(TF,IADP2,IPOSP2,ILENP2,NINDEX_VINTER,TAB_LOC,DYDX2_LOC,Y2_LOC)
 
             DO II=1,NINDEX_VINTER  
-                I = INDEX_VINTER(II)       
-                J1 = JJ(I)
-                J2 = JJ(I)+1                                 
-                VARTMP(I,J1+2) = IPOSP(II)
-                VARTMP(I,J2+2) = IPOSP2(II)
+              I = INDEX_VINTER(II)       
+              J1 = JJ(I)
+              J2 = JJ(I)+1                                 
+              VARTMP(I,J1+2) = IPOSP(II)
+              VARTMP(I,J2+2) = IPOSP2(II)
             ENDDO
 #include "vectorize.inc"
             DO II=1,NINDEX_VINTER  
-                I = INDEX_VINTER(II)
-                Y1(I) = Y1_LOC(II)
-                Y2(I) = Y2_LOC(II)
-                DYDX1(I)=DYDX1_LOC(II)
-                DYDX2(I)=DYDX2_LOC(II)
+              I = INDEX_VINTER(II)
+              Y1(I) = Y1_LOC(II)
+              Y2(I) = Y2_LOC(II)
+              DYDX1(I)=DYDX1_LOC(II)
+              DYDX2(I)=DYDX2_LOC(II)
             ENDDO
 ! ------------------------
 #include "vectorize.inc" 
@@ -951,7 +1024,7 @@ c------------------------------------------------
               J2 = JJ(I)+1
               Y1(I) = YFAC(I,1)*Y1(I)
               Y2(I) = YFAC(I,2)*Y2(I)                        
-              FAC   = SRATE(I)        
+              FAC   = RFAC(I)        
               YLD(I)= FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I)))
         
               DYDX1(I)=DYDX1(I)*YFAC(I,1)
@@ -999,27 +1072,43 @@ c------------------------------------------------
                 !--------------
                 !update yield :
                 !-------------- 
-                PLA(I)    = PLAOLD(I) + DPLA_J(I)
-                PLAP(I)   = DPLA_J(I) / TIMESTEP    
+                PLA(I)  = PLAOLD(I) + DPLA_J(I)
+                PLAP(I) = DPLA_J(I) / TIMESTEP    
                 JJ(I) = 1      
               ENDDO
               DO J=2,NRATE-1
 #include "vectorize.inc" 
                 DO II=1,NINDX                                             
-                         I = INDEX(II) 
-                           IF(PLAP(I) >= UPARAM(6+J)) JJ(I) = J
+                  I = INDEX(II) 
+                  IF(PLAP(I) >= UPARAM(6+J)) JJ(I) = J
                 ENDDO              
               ENDDO
-#include "vectorize.inc" 
-              DO II=1,NINDX                                             
-                I = INDEX(II) 
-                J1 = JJ(I)
-                J2 = J1+1
-                FAC=UPARAM(6+J1)
-                SRATE(I)=(PLAP(I) - FAC)/(UPARAM(7+J1) - FAC)
-                YFAC(I,1)=UPARAM(6+NRATE+J1)*FACYLDI(I)
-                YFAC(I,2)=UPARAM(6+NRATE+J2)*FACYLDI(I)
-              ENDDO
+c
+              IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+#include        "vectorize.inc"
+                DO II=1,NINDX                                           
+                  I = INDEX(II) 
+                  EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+                  EPSP2 = UPARAM(7+JJ(I))
+                  RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
+                ENDDO
+              ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
+#include        "vectorize.inc"
+                DO II=1,NINDX                                           
+                  I = INDEX(II) 
+                  EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+                  EPSP2 = UPARAM(7+JJ(I))
+                  RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
+                ENDDO
+              ELSE                        ! linear interpolation of strain rate
+#include        "vectorize.inc"
+                DO II=1,NINDX                                           
+                  I = INDEX(II) 
+                  EPSP1 = UPARAM(6+JJ(I))
+                  EPSP2 = UPARAM(7+JJ(I))
+                  RFAC(I) = (PLAP(I) - EPSP1) / (EPSP2 - EPSP1)
+                ENDDO
+              END IF
 ! ------------------------
               NINDEX_VINTER = 0
 #include "vectorize.inc"
@@ -1036,6 +1125,8 @@ c------------------------------------------------
                 IADP2(NINDEX_VINTER)  = NPF(IFUNC(JJ(I)+1)) / 2 + 1
                 ILENP2(NINDEX_VINTER) = NPF(IFUNC(JJ(I)+1)  + 1) / 2 - IADP2(NINDEX_VINTER) - IPOSP2(NINDEX_VINTER)
                 TAB_LOC(NINDEX_VINTER) = PLA(I)
+                YFAC(I,1)=UPARAM(6+NRATE+J1)*FACYLDI(I)
+                YFAC(I,2)=UPARAM(6+NRATE+J2)*FACYLDI(I)
               ENDDO
 
               CALL VINTER2(TF,IADP,IPOSP,ILENP,NINDEX_VINTER,TAB_LOC,DYDX1_LOC,Y1_LOC)
@@ -1065,8 +1156,8 @@ c------------------------------------------------
                 J2 = JJ(I)+1
                 Y1(I) = YFAC(I,1) * Y1(I) 
                 Y2(I) = YFAC(I,2) * Y2(I) 
-                FAC   = SRATE(I)        
-                        YLD(I)= FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I)))
+                FAC   = RFAC(I)        
+                YLD(I)= FAIL(I)*(Y1(I) + FAC*(Y2(I)-Y1(I)))
                 DYDX1(I)=DYDX1(I)*YFAC(I,1)
                 DYDX2(I)=DYDX2(I)*YFAC(I,2)
                 H(I)  = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
@@ -1124,16 +1215,32 @@ c------------------------------------------------
                 IF(PLAP(I) >= UPARAM(6+J)) JJ(I) = J               
               ENDDO 
             ENDDO
-#include "vectorize.inc" 
-            DO II=1,NINDX                                             
-              I = INDEX(II)
-              J1 = JJ(I)
-              J2 = J1+1
-              FAC=UPARAM(6+J1)
-              SRATE(I)=(PLAP(I) - FAC)/(UPARAM(7+J1) - FAC)
-              YFAC(I,1)=UPARAM(6+NRATE+J1)*FACYLDI(I)
-              YFAC(I,2)=UPARAM(6+NRATE+J2)*FACYLDI(I) 
-            ENDDO
+c
+            IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+#include      "vectorize.inc"
+              DO II=1,NINDX                                           
+                I = INDEX(II) 
+                EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+                EPSP2 = UPARAM(7+JJ(I))
+                RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
+              ENDDO
+            ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
+#include      "vectorize.inc"
+              DO II=1,NINDX                                           
+                I = INDEX(II) 
+                EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+                EPSP2 = UPARAM(7+JJ(I))
+                RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
+              ENDDO
+            ELSE                        ! linear interpolation of strain rate
+#include      "vectorize.inc"
+              DO II=1,NINDX                                           
+                I = INDEX(II) 
+                EPSP1 = UPARAM(6+JJ(I))
+                EPSP2 = UPARAM(7+JJ(I))
+                RFAC(I) = (PLAP(I) - EPSP1) / (EPSP2 - EPSP1)
+              ENDDO
+            END IF
 ! ------------------------
             NINDEX_VINTER = 0
 #include "vectorize.inc"
@@ -1150,6 +1257,8 @@ c------------------------------------------------
               IADP2(NINDEX_VINTER)  = NPF(IFUNC(JJ(I)+1)) / 2 + 1
               ILENP2(NINDEX_VINTER) = NPF(IFUNC(JJ(I)+1)  + 1) / 2 - IADP2(NINDEX_VINTER) - IPOSP2(NINDEX_VINTER)
               TAB_LOC(NINDEX_VINTER) = PLA(I)
+              YFAC(I,1)=UPARAM(6+NRATE+J1)*FACYLDI(I)
+              YFAC(I,2)=UPARAM(6+NRATE+J2)*FACYLDI(I) 
             ENDDO
 
             CALL VINTER2(TF,IADP,IPOSP,ILENP,NINDEX_VINTER,TAB_LOC,DYDX1_LOC,Y1_LOC)
@@ -1179,7 +1288,7 @@ c------------------------------------------------
               J2 = JJ(I)+1
               Y1(I) = YFAC(I,1) * Y1(I)
               Y2(I) = YFAC(I,2) * Y2(I)
-              FAC   = SRATE(I)        
+              FAC   = RFAC(I)        
               YLD(I)= FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I)))
         
               DYDX1(I)=DYDX1(I)*YFAC(I,1)
@@ -1238,16 +1347,32 @@ c------------------------------------------------
                   IF(PLAP(I) >= UPARAM(6+J)) JJ(I) = J              
                 ENDDO
               ENDDO
-#include "vectorize.inc"
-              DO II=1,NINDX                                             
-                I = INDEX(II)
-                J1 = JJ(I)
-                J2 = J1+1
-                FAC=UPARAM(6+J1)
-                SRATE(I)=(PLAP(I) - FAC)/(UPARAM(7+J1) - FAC)
-                YFAC(I,1)=UPARAM(6+NRATE+J1)*FACYLDI(I)
-                YFAC(I,2)=UPARAM(6+NRATE+J2)*FACYLDI(I)
-              ENDDO
+c
+              IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+#include        "vectorize.inc"
+                DO II=1,NINDX                                           
+                  I = INDEX(II) 
+                  EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+                  EPSP2 = UPARAM(7+JJ(I))
+                  RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
+                ENDDO
+              ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
+#include        "vectorize.inc"
+                DO II=1,NINDX                                           
+                  I = INDEX(II) 
+                  EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+                  EPSP2 = UPARAM(7+JJ(I))
+                  RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
+                ENDDO
+              ELSE                        ! linear interpolation of strain rate
+#include        "vectorize.inc"
+                DO II=1,NINDX                                           
+                  I = INDEX(II) 
+                  EPSP1 = UPARAM(6+JJ(I))
+                  EPSP2 = UPARAM(7+JJ(I))
+                  RFAC(I) = (PLAP(I) - EPSP1) / (EPSP2 - EPSP1)
+                ENDDO
+              END IF
 ! ------------------------
               NINDEX_VINTER = 0
 #include "vectorize.inc"
@@ -1264,6 +1389,8 @@ c------------------------------------------------
                 IADP2(NINDEX_VINTER)  = NPF(IFUNC(JJ(I)+1)) / 2 + 1
                 ILENP2(NINDEX_VINTER) = NPF(IFUNC(JJ(I)+1)  + 1) / 2 - IADP2(NINDEX_VINTER) - IPOSP2(NINDEX_VINTER)
                 TAB_LOC(NINDEX_VINTER) = PLA(I)
+                YFAC(I,1)=UPARAM(6+NRATE+J1)*FACYLDI(I)
+                YFAC(I,2)=UPARAM(6+NRATE+J2)*FACYLDI(I)
               ENDDO
 
               CALL VINTER2(TF,IADP,IPOSP,ILENP,NINDEX_VINTER,TAB_LOC,DYDX1_LOC,Y1_LOC)
@@ -1293,7 +1420,7 @@ c------------------------------------------------
                 J2 = JJ(I)+1
                 Y1(I) = YFAC(I,1) * Y1(I)
                 Y2(I) = YFAC(I,2) * Y2(I) 
-                FAC   = SRATE(I)        
+                FAC   = RFAC(I)        
                 YLD(I)= FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I)))
                 DYDX1(I)=DYDX1(I)*YFAC(I,1)
                 DYDX2(I)=DYDX2(I)*YFAC(I,2)

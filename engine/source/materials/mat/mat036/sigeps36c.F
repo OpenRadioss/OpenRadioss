@@ -142,19 +142,20 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ::  I,J,K,N,II,J1,J2,NINDX,VP,IFAIL,OPTE,NINDEX_PLA,
-     .        NITER,NRATE,IPFUN,NFUNC,PFUN,IFUNCE,FUN1,FUN2,YLDCHECK
+     .        NITER,NRATE,IPFUN,NFUNC,PFUN,IFUNCE,FUN1,FUN2,YLDCHECK,
+     .        ISMOOTH
       INTEGER IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .        IAD2(MVSIZ),IPOS2(MVSIZ),ILEN2(MVSIZ),
      .        JJ(MVSIZ),INDEX(MVSIZ),IPOSP(MVSIZ),IPOSPE(MVSIZ),
      .        IFUNC(100),IADP(MVSIZ),ILENP(MVSIZ)
       INTEGER, DIMENSION(MVSIZ) :: INDEX_PLA
       my_real :: A,B,C,P,P2,R,CC,FAC,DEZZ,SVM,
-     .        HKIN,DTINV,AAA,SOUNDSP1,ALPHA,CE,EINF,
+     .        HKIN,DTINV,AAA,SOUNDSP1,ALPHA,CE,EINF,EPSP1,EPSP2,
      .        ERR,F,DF,PLA_I,Q2,YLD_I,SIGPXX,SIGPYY,SIGPXY,
      .        E1,A11,A21,G1,G31,NU11,NU21,NU_MNU,U_MNU,T_PNU,NUX,NU3,
      .        EPSMAX,EPSR1,EPSR2,EPSF,FISOKIN,S1,S2,S3,DPLA,VM2,YLD0
       my_real ::  FACT(NEL),E(MVSIZ),A1(MVSIZ),A2(MVSIZ),G(MVSIZ),
-     .        DYDX1(MVSIZ),DYDX2(MVSIZ),RATE(MVSIZ),
+     .        DYDX1(MVSIZ),DYDX2(MVSIZ),RFAC(MVSIZ),
      .        Y1(MVSIZ),Y2(MVSIZ),DR(MVSIZ),YFAC(MVSIZ,2),ESCALE(MVSIZ),
      .        AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),  
      .        PP(MVSIZ),QQ(MVSIZ),FAIL(MVSIZ),H(MVSIZ),HK(MVSIZ),
@@ -199,6 +200,7 @@ C
       VP       = NINT(UPARAM(2*NRATE + 26)) ! flag for plastic strain dependency
       IFAIL    = NINT(UPARAM(2*NRATE + 27)) ! flag for failure
       YLDCHECK = NINT(UPARAM(2*NRATE + 28))
+      ISMOOTH  = NINT(UPARAM(2*NRATE + 29)) ! strain rate interpolation flag
 c-----------------------------
       IF (FISOKIN > 0) THEN
         SIGBXX => SIGB(1       :  NEL) 
@@ -356,13 +358,34 @@ c
               IF (EPSP(I) >= UPARAM(6+J)) JJ(I) = J
             ENDDO
           ENDDO
-#include "vectorize.inc"
-          DO I=1,NEL
-            FAC = UPARAM(6+JJ(I))
-            RATE(I) = (EPSP(I) - FAC)/(UPARAM(7+JJ(I)) - FAC)
-            YFAC(I,1)=UPARAM(6+NRATE+JJ(I))*FACYLDI(I)
-            YFAC(I,2)=UPARAM(6+NRATE+JJ(I)+1)*FACYLDI(I)
-          ENDDO
+          IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+#include    "vectorize.inc"
+            DO I=1,NEL
+              EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+              EPSP2 = UPARAM(7+JJ(I))
+              RFAC(I) = LOG(MAX(EPSP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
+              YFAC(I,1) = UPARAM(6+NRATE+JJ(I))  * FACYLDI(I)
+              YFAC(I,2) = UPARAM(7+NRATE+JJ(I))  * FACYLDI(I)
+            ENDDO
+          ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
+#include    "vectorize.inc"
+            DO I=1,NEL
+              EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+              EPSP2 = UPARAM(7+JJ(I))
+              RFAC(I) = LOG10(MAX(EPSP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
+              YFAC(I,1) = UPARAM(6+NRATE+JJ(I)) * FACYLDI(I)
+              YFAC(I,2) = UPARAM(7+NRATE+JJ(I)) * FACYLDI(I)
+            ENDDO
+          ELSE                        ! linear interpolation of strain rate
+#include    "vectorize.inc"
+            DO I=1,NEL
+              EPSP1 = UPARAM(6+JJ(I))
+              EPSP2 = UPARAM(7+JJ(I))
+              RFAC(I) = (EPSP(I) - EPSP1) / (EPSP2 - EPSP1)
+              YFAC(I,1) = UPARAM(6+NRATE+JJ(I)) * FACYLDI(I)
+              YFAC(I,2) = UPARAM(7+NRATE+JJ(I)) * FACYLDI(I)
+            ENDDO
+          END IF
 
 #include  "vectorize.inc"
           DO I=1,NEL
@@ -386,10 +409,10 @@ c
             DO I=1,NEL
              J1 = JJ(I)
              J2 = J1+1
-             Y1(I)=Y1(I)*YFAC(I,1)
-             Y2(I)=Y2(I)*YFAC(I,2)
-             FAC   = RATE(I)
-             YLD(I) = FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I)))
+             Y1(I) = Y1(I)*YFAC(I,1)
+             Y2(I) = Y2(I)*YFAC(I,2)
+             FAC   = RFAC(I)
+             YLD(I) = FAIL(I)*(Y1(I) + FAC*(Y2(I)-Y1(I)))
              YLD(I) = MAX(YLD(I),EM20)
              DYDX1(I)=DYDX1(I)*YFAC(I,1)
              DYDX2(I)=DYDX2(I)*YFAC(I,2)
@@ -410,7 +433,7 @@ c
              J2 = J1+1
              FUN1 = IFUNC(J1)
              FUN2 = IFUNC(J2)
-             FAC   = RATE(I)
+             FAC   = RFAC(I)
              DYDX1(I)=DYDX1(I)*YFAC(I,1)
              DYDX2(I)=DYDX2(I)*YFAC(I,2)
              H(I)   = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
@@ -438,7 +461,7 @@ C           ECROUISSAGE CINEMATIQUE
               FUN2 = IFUNC(J2)
               Y1(I)=Y1(I)*YFAC(I,1)
               Y2(I)=Y2(I)*YFAC(I,2)
-              FAC   = RATE(I)
+              FAC   = RFAC(I)
               YLD(I) = FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I)))
               YLD(I) = MAX(YLD(I),EM20)
               DYDX1(I)=DYDX1(I)*YFAC(I,1)
@@ -700,12 +723,33 @@ C-------------------
             IF (PLAP(I) >= UPARAM(6+J)) JJ(I) = J  
           ENDDO                                    
         ENDDO                                      
+c
+        IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+#include  "vectorize.inc"
+          DO I=1,NEL
+            EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+            EPSP2 = UPARAM(7+JJ(I))
+            RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
+          ENDDO
+        ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
+#include  "vectorize.inc"
+          DO I=1,NEL
+            EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
+            EPSP2 = UPARAM(7+JJ(I))
+            RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
+          ENDDO
+        ELSE                        ! linear interpolation of strain rate
+#include  "vectorize.inc"
+          DO I=1,NEL
+            EPSP1 = UPARAM(6+JJ(I))
+            EPSP2 = UPARAM(7+JJ(I))
+            RFAC(I) = (PLAP(I) - EPSP1) / (EPSP2 - EPSP1)
+          ENDDO
+        END IF
 #include  "vectorize.inc"
         DO I=1,NEL
-          FAC = UPARAM(6+JJ(I))
-          RATE(I) = (PLAP(I) - FAC)/(UPARAM(7+JJ(I)) - FAC)
-          YFAC(I,1) = UPARAM(6+NRATE+JJ(I))  *FACYLDI(I)
-          YFAC(I,2) = UPARAM(6+NRATE+JJ(I)+1)*FACYLDI(I)
+          YFAC(I,1) = UPARAM(6+NRATE+JJ(I))  * FACYLDI(I)
+          YFAC(I,2) = UPARAM(7+NRATE+JJ(I))  * FACYLDI(I)
         ENDDO
 
 #include"vectorize.inc"
@@ -731,16 +775,16 @@ c-------------------------------
           DO I=1,NEL
             J1 = JJ(I)
             J2 = J1+1
-            Y1(I)=Y1(I)*YFAC(I,1)
-            Y2(I)=Y2(I)*YFAC(I,2)
-            FAC   = RATE(I)
-            YLD(I) = FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I)))
-            YLD(I) = MAX(YLD(I),EM20)
-            DYDX1(I)=DYDX1(I)*YFAC(I,1)
-            DYDX2(I)=DYDX2(I)*YFAC(I,2)
-            H(I)   = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
-            YLD(I) = YLD(I)*MAX(ZERO,PFAC(I))
-            H(I)   = H(I)*MAX(ZERO,PFAC(I))          
+            Y1(I)= Y1(I)*YFAC(I,1)
+            Y2(I)= Y2(I)*YFAC(I,2)
+            FAC  = RFAC(I)
+            YLD(I)  = FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I)))
+            YLD(I)  = MAX(YLD(I),EM20)
+            DYDX1(I)= DYDX1(I)*YFAC(I,1)
+            DYDX2(I)= DYDX2(I)*YFAC(I,2)
+            H(I)    = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
+            YLD(I)  = YLD(I)*MAX(ZERO,PFAC(I))
+            H(I)    = H(I)*MAX(ZERO,PFAC(I))          
           ENDDO
           DO I=1,NEL
            J1 = JJ(I)
@@ -757,14 +801,14 @@ c-------------------------------
             J2 = J1+1
             FUN1 = IFUNC(J1)
             FUN2 = IFUNC(J2)
-            FAC   = RATE(I)
+            FAC  = RFAC(I)
             DYDX1(I)=DYDX1(I)*YFAC(I,1)
             DYDX2(I)=DYDX2(I)*YFAC(I,2)
             H(I)   = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
-            Y1(I)=TF(NPF(FUN1)+1)
-            Y2(I)=TF(NPF(FUN2)+1)
-            Y1(I)=Y1(I)*YFAC(I,1)
-            Y2(I)=Y2(I)*YFAC(I,2)
+            Y1(I)  = TF(NPF(FUN1)+1)
+            Y2(I)  = TF(NPF(FUN2)+1)
+            Y1(I)  = Y1(I)*YFAC(I,1)
+            Y2(I)  = Y2(I)*YFAC(I,2)
             YLD(I) = FAIL(I)*(Y1(I) + FAC*(Y2(I)-Y1(I)))
             YLD(I) = YLD(I)*MAX(ZERO,PFAC(I))
             H(I)   = H(I)*MAX(ZERO,PFAC(I)) 
@@ -784,19 +828,19 @@ c-------------------------------
             J2 = J1+1
             FUN1 = IFUNC(J1)
             FUN2 = IFUNC(J2)
-            Y1(I)=Y1(I)*YFAC(I,1)
-            Y2(I)=Y2(I)*YFAC(I,2)
-            FAC   = RATE(I)
-            YLD(I) = FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I)))
-            YLD(I) = MAX(YLD(I),EM20)
-            DYDX1(I)=DYDX1(I)*YFAC(I,1)
-            DYDX2(I)=DYDX2(I)*YFAC(I,2)
-            H(I)   = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
-            Y1(I)=TF(NPF(FUN1)+1)
-            Y2(I)=TF(NPF(FUN2)+1)
-            Y1(I)=Y1(I)*YFAC(I,1)
-            Y2(I)=Y2(I)*YFAC(I,2)
-            YLD(I) = (ONE - FISOKIN) * YLD(I) + 
+            Y1(I)= Y1(I)*YFAC(I,1)
+            Y2(I)= Y2(I)*YFAC(I,2)
+            FAC  = RFAC(I)
+            YLD(I)  = FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I)))
+            YLD(I)  = MAX(YLD(I),EM20)
+            DYDX1(I)= DYDX1(I)*YFAC(I,1)
+            DYDX2(I)= DYDX2(I)*YFAC(I,2)
+            H(I)    = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
+            Y1(I)   = TF(NPF(FUN1)+1)
+            Y2(I)   = TF(NPF(FUN2)+1)
+            Y1(I)   = Y1(I)*YFAC(I,1)
+            Y2(I)   = Y2(I)*YFAC(I,2)
+            YLD(I)  = (ONE - FISOKIN) * YLD(I) + 
      .           FISOKIN * (FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I))))
             YLD(I) = YLD(I)*MAX(ZERO,PFAC(I))
             H(I)   = H(I)*MAX(ZERO,PFAC(I))      
