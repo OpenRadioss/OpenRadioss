@@ -249,7 +249,7 @@ C-----------------------------------------------
       USE CRACKXFEM_MOD
       USE CLUSTER_MOD
       USE STACK_MOD
-      USE ALEANIM_MOD  !, ONLY : FANI_CELL
+      USE ALEANIM_MOD                 
       USE H3D_MOD
       USE GROUPDEF_MOD
       USE MULTI_FVM_MOD 
@@ -937,7 +937,7 @@ C-----------------------------------------------
           CALL CUTCNT (ICUT,XCUT,IXS,X,D,LENCUT)
           LENCUT = MAX(LENCUT,NCUTS)
           IF(LENCUT>LENCUTO)THEN
-            IF(LENCUTO>0)THEN
+            IF(ALLOCATED(CBUF))THEN
               DEALLOCATE(CBUF)
               DEALLOCATE(ICBUF)
             ENDIF
@@ -3319,10 +3319,13 @@ C-----------------------------------------------
         IF(ANIM_V(20)==1) CALL ANI_TXT('Cluster Moments',16)
         IF(ANIM_V(21)==1) CALL ANI_TXT('inter22 - Centroid Velocity',27)          !inter22
         IF(ANIM_V(22)==1) CALL ANI_TXT('inter22 - Faces Velocity',24)             !inter22
-        IF(ANIM_V(23)==1) CALL ANI_TXT('inter22 - Centroid Momentum Density',35)  !inter22
+        IF(ANIM_V(23)==1) 
+     .  CALL ANI_TXT('inter22 - Centroid Momentum Density',35)  !inter22
         IF(ANIM_V(24)==1) CALL ANI_TXT('inter22 - Faces Pressure Forces',31)      !inter22
-        IF(ANIM_V(25)==1) CALL ANI_TXT('inter22 - Centroid Internal Force',33)    !inter22
-        IF(ANIM_V(26)==1) CALL ANI_TXT('Maximum Contact Forces Over Time',32)
+        IF(ANIM_V(25)==1) 
+     . CALL ANI_TXT('inter22 - Centroid Internal Force',33)    !inter22
+        IF(ANIM_V(26)==1)
+     . CALL ANI_TXT('Maximum Contact Forces Over Time',32)
         IF(ANIM_V(27)==1) THEN
           CALL ANI_TXT('Tied Contact Pressure / Normal',30)
           CALL ANI_TXT('Tied Contact Pressure / Tangent',31)
@@ -3331,12 +3334,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C    VECT
 C-----------------------------------------------
-c        NNNSRG=NNSRG+NNSMD+NNSPH+2*NUMELS16
-        NNNSRG=NNSRG+NNSMD+NNSPHG+2*NUMELS16G
-      IF(ANIM_V(1)==1)
-     . CALL VELVEC(V,V_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
+      NNNSRG=NNSRG+NNSMD+NNSPHG+2*NUMELS16G
+C     IF(NCUTS == 0) THEN
+        IF(.NOT. ALLOCATED(ICBUF)) ALLOCATE(ICBUF(1)) 
+        IF(.NOT. ALLOCATED(CBUF)) ALLOCATE(CBUF(1))
+C     ENDIF
+      IF(ANIM_V(1)==1) THEN
+       CALL VELVEC(V,V_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .       NNNSRG,NODGLOB,WEIGHT,NFVNOD,1,
      .       NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,NFNOD_CRKXFEMG,ITAB)
+      ENDIF
       IF(ANIM_V(2)==1)
      . CALL VELVEC(D,D_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .       NNNSRG,NODGLOB,WEIGHT,NFVNOD,2,
@@ -3356,7 +3363,6 @@ c        NNNSRG=NNSRG+NNSMD+NNSPH+2*NUMELS16
      .       FCONTG,NFNOD_CRKXFEMG)
        END IF
       END IF
-
       IF(ANIM_V(5)==1)
      . CALL VELVEC(FINT,FINT_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .       NNNSRG,NODGLOB,WEIGHT,NFVNOD,5,

@@ -349,7 +349,7 @@ Chd|====================================================================
      A   MULTIPLE_SKEW, IGRSURF_PROC,KNOTLOCPC      ,KNOTLOCEL    ,ALE_ELM,
      B   SIZE_ALE_ELM ,PINCH_DATA  ,TAG_SKINS6      ,IBCSCYC      ,LBCSCYC  ,T_MONVOL,
      C INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
-     D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER)
+     D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER, LEN_CEP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -442,13 +442,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER, INTENT(IN) :: LEN_CEP ! size of CEP
       INTEGER P,
      .        LIBAGALE, LENTHG, LENLAS, NPTS,LEN,
      .        LBUFMAT, LBUFGEO, LBUFSF, LENXLAS, LNOM_OPT,
      .        LENVOLU, NTHWA, NAIRWA, NMNT, I2NSNT,
      .        L_MUL_LAG1, L_MUL_LAG, LWASPIO,PM1SPH,
      .        LCNI2G, PM1SHF, I11FLAG,LENTHGR,NCRKPART,
-     .        CEP(*),CEL(*),IGEO(*), IPM(*),
+     .        CEP(LEN_CEP),CEL(*),IGEO(*), IPM(*),
      .        ICODE(*),ISKEW(*),ISKN(*),INSEL(*),IBCSLAG(*),
      .        IPART(*),IPARTS(*),IPARTQ(*),IPARTC(*),IPARTT(*),
      .        IPARTP(*),IPARTR(*),IPARTUR(*),IPARTTG(*),IPARTX(*),
@@ -856,37 +857,37 @@ C--------------------------------------------
 c count local elements 
 C--------------------------------------------
       OFF = 0
-      CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELS8,NUMELS8_L)
+      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELS8,NUMELS8_L)
       OFF = OFF + NUMELS8
-      CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELS10,NUMELS10_L)
+      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELS10,NUMELS10_L)
       OFF = OFF + NUMELS10
-      CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELS20,NUMELS20_L)
+      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELS20,NUMELS20_L)
       OFF = OFF + NUMELS20
-      CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELS16,NUMELS16_L)
+      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELS16,NUMELS16_L)
       OFF = OFF + NUMELS16
       NUMELS_L = NUMELS8_L + NUMELS10_L + NUMELS20_L + NUMELS16_L
-      CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELQ,NUMELQ_L)
+      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELQ,NUMELQ_L)
       OFF = OFF + NUMELQ
-      CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELC,NUMELC_L)
+      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELC,NUMELC_L)
       OFF = OFF + NUMELC
-      CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELT,NUMELT_L)
+      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELT,NUMELT_L)
       OFF = OFF + NUMELT
-      CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELP,NUMELP_L)
+      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELP,NUMELP_L)
       OFF = OFF + NUMELP
-      CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELR,NUMELR_L)
+      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELR,NUMELR_L)
       OFF = OFF + NUMELR
       NUMELTG3=NUMELTG-NUMELTG6
-      CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELTG3,NUMELTG_L)
+      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELTG3,NUMELTG_L)
       OFF = OFF + NUMELTG3
       NUMELTG3_L = NUMELTG_L
-      CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELTG6,NUMELTG6_L)
+      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELTG6,NUMELTG6_L)
       OFF = OFF + NUMELTG6
       NUMELTG_L = NUMELTG3_L+NUMELTG6_L
-      CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELUR,NUMELUR_L)
+      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELUR,NUMELUR_L)
       OFF = OFF + NUMELUR
-      CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELX,NUMELX_L)
+      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELX,NUMELX_L)
       OFF = OFF + NUMELX
-      CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELIG3D,NUMELIG3D_L)
+      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELIG3D,NUMELIG3D_L)
       OFF = OFF + NUMELIG3D
 C
       IF (P==1) THEN
@@ -1470,7 +1471,7 @@ C--------------------------------------------
        IF(IPLYXFEM > 0 ) THEN
          OFF = NUMELS + NUMELQ
 C plyxfem
-         CALL C_PXFEM(CEP(OFF+1),P-1 ,NODGLOB  ,IEL_PXFEM  ,INOD_PXFEM,
+         CALL C_PXFEM(CEP(MIN(OFF+1,LEN_CEP)),P-1 ,NODGLOB  ,IEL_PXFEM  ,INOD_PXFEM,
      .                 IEPXFEM_L,INPXFEM_L, NUMELC , NUMNOD_L ,NUMELC_L,
      .                 NUMELCPXFE_L,NUMNODPXFE_L,INDEX_PXFEM)
        ENDIF
@@ -1493,12 +1494,12 @@ C--------------------------------------------
 C
          OFF = NUMELS + NUMELQ
          CALL C_CRKXFEM(
-     .          CEP(OFF+1),P-1,IEL_CRKXFEM,IELXFEMC_L,NUMELC,
+     .          CEP(MIN(OFF+1,LEN_CEP)),P-1,IEL_CRKXFEM,IELXFEMC_L,NUMELC,
      .          NUMELC_L,NUMELCCRKXFE_L,NUMEDGES_L,IEDGESH,4,TAGEDGE)
          OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR
          IF(NUMELTG > 0)THEN
          CALL C_CRKXFEM(
-     .         CEP(OFF+1),P-1,IEL_CRKXFEM(1+NUMELC),IELXFEMTG_L,NUMELTG,
+     .         CEP(MIN(OFF+1,LEN_CEP)),P-1,IEL_CRKXFEM(1+NUMELC),IELXFEMTG_L,NUMELTG,
      .         NUMELTG_L,NUMELTGCRKXFE_L,NUMEDGES_L,
      .         IEDGESH(1+4*ECRKXFEC),3,TAGEDGE)
          END IF
@@ -1779,30 +1780,30 @@ C--------------------------------------------
 C Parts Elements
 C--------------------------------------------
       OFF = 0
-      CALL W_IELOC(IPARTS,CEP(OFF+1),P-1,NUMELS,NUMELS_L,LEN_IA)
+      CALL W_IELOC(IPARTS,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELS,NUMELS_L,LEN_IA)
       OFF = OFF + NUMELS
-      CALL W_IELOC(IPARTQ,CEP(OFF+1),P-1,NUMELQ,NUMELQ_L,LEN_IA)
+      CALL W_IELOC(IPARTQ,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELQ,NUMELQ_L,LEN_IA)
       OFF = OFF + NUMELQ
-      CALL W_IELOC(IPARTC,CEP(OFF+1),P-1,NUMELC,NUMELC_L,LEN_IA)
+      CALL W_IELOC(IPARTC,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELC,NUMELC_L,LEN_IA)
       OFF = OFF + NUMELC
-      CALL W_IELOC(IPARTT,CEP(OFF+1),P-1,NUMELT,NUMELT_L,LEN_IA)
+      CALL W_IELOC(IPARTT,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELT,NUMELT_L,LEN_IA)
       OFF = OFF + NUMELT
-      CALL W_IELOC(IPARTP,CEP(OFF+1),P-1,NUMELP,NUMELP_L,LEN_IA)
+      CALL W_IELOC(IPARTP,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELP,NUMELP_L,LEN_IA)
       OFF = OFF + NUMELP
-      CALL W_IELOC(IPARTR,CEP(OFF+1),P-1,NUMELR,NUMELR_L,LEN_IA)
+      CALL W_IELOC(IPARTR,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELR,NUMELR_L,LEN_IA)
       OFF = OFF + NUMELR
       OFF1 = OFF
       OFF  = OFF + NUMELTG
-      CALL W_IELOC(IPARTUR,CEP(OFF+1),P-1,NUMELUR,NUMELUR_L,LEN_IA)
+      CALL W_IELOC(IPARTUR,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELUR,NUMELUR_L,LEN_IA)
 C      OFF = OFF + NUMELUR
       OFF = OFF1
-      CALL W_IELOC(IPARTTG,CEP(OFF+1),P-1,NUMELTG,NUMELTG_L,LEN_IA)
+      CALL W_IELOC(IPARTTG,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELTG,NUMELTG_L,LEN_IA)
       OFF = OFF + NUMELTG + NUMELUR
-      CALL W_IELOC(IPARTX,CEP(OFF+1),P-1,NUMELX,NUMELX_L,LEN_IA)
+      CALL W_IELOC(IPARTX,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELX,NUMELX_L,LEN_IA)
       OFF = OFF + NUMELX
       CALL W_IELOC(IPARTSP,CEPSP,P-1,NUMSPH,NUMSPH_L,LEN_IA)
 c      OFF = OFF + NUMSPH
-      CALL W_IELOC(IPARTIG3D,CEP(OFF+1),P-1,NUMELIG3D,NUMELIG3D_L,LEN_IA)
+      CALL W_IELOC(IPARTIG3D,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELIG3D,NUMELIG3D_L,LEN_IA)
 C
       IF(P==1)THEN
         CALL WRITE_I_C(NOM_OPT,LNOM_OPT)
@@ -1815,13 +1816,13 @@ C--------------------------------------------
 C contectivity for RNUR
 C--------------------------------------------
       OFF = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
-      CALL W_IXLOC(IXUR,NIXUR,4,CEP(OFF+1),P-1,
+      CALL W_IXLOC(IXUR,NIXUR,4,CEP(MIN(OFF+1,LEN_CEP)),P-1,
      +             NUMELUR,NUMELUR_L,NODLOCAL,LEN_IA)
 C--------------------------------------------
 C Connectivity for Triangles
 C--------------------------------------------
       OFF = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR
-      CALL W_IXLOC(IXTG,NIXTG,3,CEP(OFF+1),P-1,
+      CALL W_IXLOC(IXTG,NIXTG,3,CEP(MIN(OFF+1,LEN_CEP)),P-1,
      +             NUMELTG,NUMELTG_L,NODLOCAL,LEN_IA)
 C--------------------------------------------
 C boundary Elts CFD/ALE
@@ -1865,14 +1866,14 @@ C--------------------------------------------
 C Triangles
 C--------------------------------------------
       OFF = OFF+NUMELTG3
-      CALL W_IXBLOC(IXTG6,3,4,CEP(OFF+1),P-1,
+      CALL W_IXBLOC(IXTG6,3,4,CEP(MIN(OFF+1,LEN_CEP)),P-1,
      +              NUMELTG6,NUMELTG6_L,NODLOCAL,LEN_IA)
 C      OFF = OFF+NUMELTG6
 C--------------------------------------------
 C Solid: elements connectivity
 C--------------------------------------------
       OFF = 0
-      CALL W_IXLOC(IXS,NIXS,8,CEP(OFF+1),P-1,
+      CALL W_IXLOC(IXS,NIXS,8,CEP(MIN(OFF+1,LEN_CEP)),P-1,
      +             NUMELS,NUMELS_L,NODLOCAL,LEN_IA)
 C
       IF(IALE+IEULER+ITHERM+IALELAG/=0) THEN
@@ -1885,16 +1886,16 @@ C--------------------------------------------
 C Solids                                
 C--------------------------------------------
       OFF = OFF+NUMELS8
-      CALL W_IXALOC(IXS10,6,CEP(OFF+1),P-1,
+      CALL W_IXALOC(IXS10,6,CEP(MIN(OFF+1,LEN_CEP)),P-1,
      +             NUMELS10,NUMELS10_L,NODLOCAL,LEN_IA)
       OFF = OFF+NUMELS10
-      CALL W_IXALOC(IXS20,12,CEP(OFF+1),P-1,
+      CALL W_IXALOC(IXS20,12,CEP(MIN(OFF+1,LEN_CEP)),P-1,
      +             NUMELS20,NUMELS20_L,NODLOCAL,LEN_IA)
       OFF = OFF+NUMELS20
-      CALL W_IXALOC(IXS16,8,CEP(OFF+1),P-1,
+      CALL W_IXALOC(IXS16,8,CEP(MIN(OFF+1,LEN_CEP)),P-1,
      +             NUMELS16,NUMELS16_L,NODLOCAL,LEN_IA)
       OFF = OFF+NUMELS16
-      CALL W_IXLOC(IXQ,NIXQ,4,CEP(OFF+1),P-1,
+      CALL W_IXLOC(IXQ,NIXQ,4,CEP(MIN(OFF+1,LEN_CEP)),P-1,
      +             NUMELQ,NUMELQ_L,NODLOCAL,LEN_IA)
       OFF = OFF+NUMELQ
 C--------------------------------------------
@@ -1907,16 +1908,16 @@ C--------------------------------------------
      +    DEALLOCATE(IXQF)
       ENDIF
 C--------------------------------------------
-      CALL W_IXLOC(IXC,NIXC,4,CEP(OFF+1),P-1,
+      CALL W_IXLOC(IXC,NIXC,4,CEP(MIN(OFF+1,LEN_CEP)),P-1,
      +             NUMELC,NUMELC_L,NODLOCAL,LEN_IA)
       OFF = OFF+NUMELC
-      CALL W_IXLOC(IXT,NIXT,2,CEP(OFF+1),P-1,
+      CALL W_IXLOC(IXT,NIXT,2,CEP(MIN(OFF+1,LEN_CEP)),P-1,
      +             NUMELT,NUMELT_L,NODLOCAL,LEN_IA)
       OFF = OFF+NUMELT
-      CALL W_IXLOC(IXP,NIXP,3,CEP(OFF+1),P-1,
+      CALL W_IXLOC(IXP,NIXP,3,CEP(MIN(OFF+1,LEN_CEP)),P-1,
      +             NUMELP,NUMELP_L,NODLOCAL,LEN_IA)
       OFF = OFF+NUMELP
-      CALL W_IXLOC(IXR,NIXR,3,CEP(OFF+1),P-1,
+      CALL W_IXLOC(IXR,NIXR,3,CEP(MIN(OFF+1,LEN_CEP)),P-1,
      +             NUMELR,NUMELR_L,NODLOCAL,LEN_IA)
 C
 C--------------------------------------
@@ -2632,11 +2633,11 @@ C--------------------------------------------
 C THKE SHELL 4-N + SHELL 3-N
 C--------------------------------------------
       OFF = NUMELS + NUMELQ
-      CALL W_RELOC(THKE,CEP(OFF+1),P-1,NUMELC,NUMELC_L,LEN_AM)
+      CALL W_RELOC(THKE,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELC,NUMELC_L,LEN_AM)
 C      OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR + NUMELUR
       OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR
       CALL W_RELOC(
-     .   THKE(NUMELC+1),CEP(OFF+1),P-1,NUMELTG,NUMELTG_L,LEN_AM)
+     .   THKE(NUMELC+1),CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELTG,NUMELTG_L,LEN_AM)
 C--------------------------------------------
 C DAMPING
 C--------------------------------------------
@@ -2712,15 +2713,15 @@ C--------------------------------------------
 C Eani solide+quad+shell+triangle
 C--------------------------------------------
       OFF = 0
-      CALL W_RELOC(EANI(OFF+1),CEP(OFF+1),P-1,NUMELS,NUMELS_L,LEN_AM)
+      CALL W_RELOC(EANI(OFF+1),CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELS,NUMELS_L,LEN_AM)
       OFF = OFF + NUMELS
-      CALL W_RELOC(EANI(OFF+1),CEP(OFF+1),P-1,NUMELQ,NUMELQ_L,LEN_AM)
+      CALL W_RELOC(EANI(OFF+1),CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELQ,NUMELQ_L,LEN_AM)
       OFF = OFF + NUMELQ
-      CALL W_RELOC(EANI(OFF+1),CEP(OFF+1),P-1,NUMELC,NUMELC_L,LEN_AM)
+      CALL W_RELOC(EANI(OFF+1),CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELC,NUMELC_L,LEN_AM)
       SHF = OFF + NUMELC
 C      OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR + NUMELUR
       OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR
-      CALL W_RELOC(EANI(SHF+1),CEP(OFF+1),P-1,NUMELTG,NUMELTG_L,LEN_AM)
+      CALL W_RELOC(EANI(SHF+1),CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELTG,NUMELTG_L,LEN_AM)
 C--------------------------------------------
 C BUFMAT BUFGEO BUFSF
 C--------------------------------------------
@@ -2756,10 +2757,10 @@ C--------------------------------------------
         IF(N2D==0) THEN
           OFF = 0
           CALL W_RELOC2(
-     .      VEUL,LVEUL,CEP(OFF+1),P-1,NUMELS,NUMELS_L,LEN_AM)
+     .      VEUL,LVEUL,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELS,NUMELS_L,LEN_AM)
         ELSE
           OFF = NUMELS
-          CALL W_RELOC2(VEUL,10,CEP(OFF+1),P-1,NUMELQ,NUMELQ_L,LEN_AM)
+          CALL W_RELOC2(VEUL,10,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELQ,NUMELQ_L,LEN_AM)
         ENDIF
       ENDIF
 C--------------------------------------------
@@ -2869,11 +2870,11 @@ C--------------------------------------------
      .  CALL W_R3NLOC(FZERO,NODGLOB,NUMNOD_L,LEN_AM)
       IF(IABS(ISIGI)==5)THEN
         OFF = NUMELS+NUMELQ
-        CALL W_RELOC2(FZERO,3*4,CEP(OFF+1),P-1,NUMELC,NUMELC_L,LEN_AM)
+        CALL W_RELOC2(FZERO,3*4,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELC,NUMELC_L,LEN_AM)
 C        OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR + NUMELUR
         OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR
         SHF = NUMELC*3*4
-        CALL W_RELOC2(FZERO(SHF+1),3*4,CEP(OFF+1),P-1,NUMELTG,
+        CALL W_RELOC2(FZERO(SHF+1),3*4,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELTG,
      .                NUMELTG_L,LEN_AM)
       ENDIF
 C--------------------------------------------
@@ -3062,31 +3063,31 @@ C     Elem Masses
 C--------------------------------------
       IF(NADMESH /= 0 .OR. IREST_MSELT /= 0)THEN
         OFF  = NUMELS + NUMELQ
-        CALL W_RELOC2(MSC,1,CEP(OFF+1),P-1,NUMELC,NUMELC_L,
+        CALL W_RELOC2(MSC,1,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELC,NUMELC_L,
      .                LEN_AM )
-        CALL W_RELOC2(INC,1,CEP(OFF+1),P-1,NUMELC,NUMELC_L,
+        CALL W_RELOC2(INC,1,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELC,NUMELC_L,
      .                LEN_AM )
         OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR
-        CALL W_RELOC2(MSTG,1,CEP(OFF+1),P-1,NUMELTG,NUMELTG_L,
+        CALL W_RELOC2(MSTG,1,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELTG,NUMELTG_L,
      .                LEN_AM )
-        CALL W_RELOC2(INTG,1,CEP(OFF+1),P-1,NUMELTG,NUMELTG_L,
+        CALL W_RELOC2(INTG,1,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELTG,NUMELTG_L,
      .                LEN_AM )
-        CALL W_RELOC2(PTG,3,CEP(OFF+1),P-1,NUMELTG,NUMELTG_L,
+        CALL W_RELOC2(PTG,3,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELTG,NUMELTG_L,
      .                LEN_AM )
        END IF
 
       IF(IREST_MSELT /= 0)THEN
         OFF = 0
-        CALL W_RELOC2(MSSA,1,CEP(OFF+1),P-1,NUMELS,NUMELS_L,
+        CALL W_RELOC2(MSSA,1,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELS,NUMELS_L,
      .                LEN_AM )
         OFF = NUMELS+NUMELQ+NUMELC
-        CALL W_RELOC2(MSTR,1,CEP(OFF+1),P-1,NUMELT,NUMELT_L,
+        CALL W_RELOC2(MSTR,1,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELT,NUMELT_L,
      .                LEN_AM )
         OFF = OFF+NUMELT
-        CALL W_RELOC2(MSP,1,CEP(OFF+1),P-1,NUMELP,NUMELP_L,
+        CALL W_RELOC2(MSP,1,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELP,NUMELP_L,
      .                LEN_AM )
         OFF = OFF+NUMELP
-        CALL W_RELOC2(MSRT,1,CEP(OFF+1),P-1,NUMELR,NUMELR_L,
+        CALL W_RELOC2(MSRT,1,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELR,NUMELR_L,
      .                LEN_AM )
        END IF
 C--------------------------------------
@@ -3317,7 +3318,7 @@ C plyxfem integer
 C PlyXfem Anim
          OFF = NUMELS + NUMELQ
          CALL W_ANIM_PLY(IXC,      NUMELC_L,   NODLOCAL,
-     *                   NUMNOD_L, CEL(OFF+1), CEP(OFF+1), P-1)
+     *                   NUMNOD_L, CEL(OFF+1), CEP(MIN(OFF+1,LEN_CEP)), P-1)
 C plyxfem velocity, displacement
          CALL W_AVUPLY(NUMNODPXFE_L,LEN_AM)
        ENDIF
@@ -3443,9 +3444,9 @@ C--------------------------------------------
        IF (NDRAPE > 0) THEN
 C    write drape structure
          OFF  = NUMELS + NUMELQ
-         CALL W_DRAPE(DRAPE,CEP(OFF+1),P-1,NUMELC,NUMELC_L,LEN_IA,LEN_AM)
+         CALL W_DRAPE(DRAPE,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELC,NUMELC_L,LEN_IA,LEN_AM)
          OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR
-         CALL W_DRAPE(DRAPE(1+NUMELC),CEP(OFF+1),P-1,
+         CALL W_DRAPE(DRAPE(1+NUMELC),CEP(MIN(OFF+1,LEN_CEP)),P-1,
      .                 NUMELTG,NUMELTG_L,LEN_IA,LEN_AM)
        ENDIF
 C--------------------------------------------
