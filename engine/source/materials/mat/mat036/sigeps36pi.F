@@ -103,13 +103,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      INTEGER I,J,J1,J2,N,NINDX,IADBUF,NFUNC,IPLAS,IFAIL,MFUNCE,ISMOOTH
       INTEGER NRATE(NEL),IAD1(NEL),IPOS1(NEL),ILEN1(NEL),
      .        IAD2(NEL),IPOS2(NEL),ILEN2(NEL),JJ(NEL),
-     .        IFUNC(NEL,100),OPTE(NEL),MFUNCE
-      INTEGER I,J,J1,J2,N,NINDX,IADBUF,NFUNC,IPLAS,IFAIL
-      my_real 
-     .        G3(NEL),
-     .        DYDX1(NEL),DYDX2(NEL),RATE(NEL,2),
+     .        IFUNC(NEL,100),OPTE(NEL)
+      my_real :: G3(NEL),DYDX1(NEL),DYDX2(NEL),RATE(NEL,2),
      .        Y1(NEL),Y2(NEL),DR(NEL),YFAC(NEL,2),
      .        PP(NEL),QQ(NEL),FAIL(NEL),SVM(NEL),H(NEL),
      .        EPSMAX(NEL),EPSR1(NEL),EPSR2(NEL),
@@ -117,8 +115,7 @@ C-----------------------------------------------
      .        HK(NEL),NU(NEL),NU1(NEL),EPSF(NEL),YLD(NEL),
      .        AA(NEL),BB(NEL),CC(NEL),EINF(NEL),CE(NEL),
      .        ESCALE(NEL),DYDXE(NEL)
-      my_real
-     .        R,UMR,FAC,GS,SVM1,SHFACT
+      my_real :: R,UMR,FAC,GS,SVM1,SHFACT,EPSP1,EPSP2,RFAC
 C=======================================================================
       IPLAS  = 1                        
       SHFACT = FIVE_OVER_6
@@ -143,6 +140,7 @@ c---------------------
         EINF(I) = UPARAM(IADBUF+2*NRATE(I) + 24) 
         CE(I)   = UPARAM(IADBUF+2*NRATE(I) + 25) 
         IFAIL   = NINT(UPARAM(2*NRATE(I) + 27))    ! flag for failure
+        ISMOOTH = NINT(UPARAM(2*NRATE(I) + 29))    ! strain rate interpolation flag
 c--------------------
         IF (OPTE(I) == 1)THEN                                                     
            IF(PLA(I) > ZERO)THEN             
@@ -193,11 +191,11 @@ C-------------------
       ENDDO                                           
       DO I=1,NEL                                               
         IADBUF = IPM(7,MAT(I))-1
-        RATE(I,1)=UPARAM(IADBUF+6+JJ(I))                        
-        YFAC(I,1)=UPARAM(IADBUF+6+NRATE(I)+JJ(I))   
-        IF ( NRATE(I) > 1)THEN         
-          RATE(I,2)=UPARAM(IADBUF+6+JJ(I)+1)                      
-          YFAC(I,2)=UPARAM(IADBUF+6+NRATE(I)+JJ(I)+1)  
+        RATE(I,1) = UPARAM(IADBUF+6+JJ(I))                        
+        YFAC(I,1) = UPARAM(IADBUF+6+NRATE(I)+JJ(I))   
+        IF (NRATE(I) > 1) THEN         
+          RATE(I,2) = UPARAM(IADBUF+6+JJ(I)+1)                      
+          YFAC(I,2) = UPARAM(IADBUF+6+NRATE(I)+JJ(I)+1)  
         ENDIF           
       ENDDO                                                     
 C
@@ -210,7 +208,7 @@ C
         IPOS1(I) = VARTMP(I,J1)                                         
         IAD1(I)  = NPF(IFUNC(I,J1)) / 2 + 1                    
         ILEN1(I) = NPF(IFUNC(I,J1)+1) / 2 - IAD1(I) - IPOS1(I) 
-        IF ( NRATE(I) > 1)THEN         
+        IF (NRATE(I) > 1) THEN         
           IPOS2(I) = VARTMP(I,J2)                                           
           IAD2(I)  = NPF(IFUNC(I,J2)) / 2 + 1                    
           ILEN2(I) = NPF(IFUNC(I,J2)+1) / 2 - IAD2(I) - IPOS2(I) 
@@ -231,9 +229,21 @@ C
           J1 = JJ(I)                                              
           J2 = J1+1                                               
           Y1(I) = Y1(I)*YFAC(I,1)                                 
-          Y2(I) = Y2(I)*YFAC(I,2)                                 
-          FAC   = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))   
-          YLD(I)  = FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I)))        
+          Y2(I) = Y2(I)*YFAC(I,2)
+          IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+            EPSP1 = MAX(RATE(I,1), EM20)
+            EPSP2 = RATE(I,2)
+            FAC   = LOG(MAX(EPSP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)   
+          ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
+            EPSP1 = MAX(RATE(I,1), EM20)
+            EPSP2 = RATE(I,2)
+            FAC   = LOG10(MAX(EPSP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)   
+          ELSE                         ! linear interpolation of strain rate
+            EPSP1 = RATE(I,1)
+            EPSP2 = RATE(I,2)
+            FAC   = (EPSP(I) - EPSP1) / (EPSP2 - EPSP1)   
+          END IF
+          YLD(I)  = FAIL(I)*(Y1(I) + FAC*(Y2(I)-Y1(I)))        
           YLD(I)  = MAX(YLD(I),EM20)                              
           DYDX1(I)= DYDX1(I)*YFAC(I,1)                            
           DYDX2(I)= DYDX2(I)*YFAC(I,2)                            
