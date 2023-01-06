@@ -476,6 +476,17 @@ C    THERMAL MATERIAL ISTROPE EXPANSION
 C --------------------------------------------------------
 
       IF((IEXPAN > 0).AND.(JTHE < 0).AND.(TT/=ZERO)) THEN
+         IF(ISMSTR==4) THEN
+           AMU(1:NEL)  = AMU(1:NEL) /(AMU(1:NEL) + ONE) ! to get amu = 1- rho0/rho
+        ENDIF
+        IF(ISMSTR==2) THEN
+          DO I=1,NEL
+            IF(ABS(LBUF%OFF(I))<=ONE)THEN
+              AMU(I)  = AMU(I) /(AMU(I) + ONE)
+            END IF
+          ENDDO 
+        END IF
+
         DO I=1,NEL
            IFUNC_ALPHA = IPM(219,MAT(1))
            FSCAL_ALPHA = PM(191,MAT(1))
@@ -483,7 +494,7 @@ C --------------------------------------------------------
            ALPHA = FINTER(IFUNC_ALPHA,TEMPEL(I),NPF,TF,BIDON1)
            ALPHA = ALPHA * FSCAL_ALPHA
            ETH(I)= ALPHA *(TEMPEL(I)-TEMPEL0(I))*OFF(I) 
-           LBUF%FORTH(I) = LBUF%FORTH(I) + ETH(I)  ! LBUF%FORTH contient la deformation thermique totale
+           LBUF%FORTH(I) = LBUF%FORTH(I) + ETH(I)  ! LBUF%FORTH the total thermal strain over time
            EPSTH(I)= THREE*LBUF%FORTH(I)
            DXX(I)  = DXX(I)-ETH(I)/DT1
            DYY(I)  = DYY(I)-ETH(I)/DT1
