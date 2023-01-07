@@ -32,6 +32,8 @@ Chd|        ANI_PCONT21                   source/output/anim/generate/ani_pcont.
 Chd|        CNDMASI2                      source/elements/solid/solide10/s10cndf.F
 Chd|        ECRIT                         source/output/ecrit.F         
 Chd|        ENG_QAPRINT_DRIVER            source/output/qaprint/eng_qaprint_driver.F
+Chd|        FCONT2_MAX_OUTPUT             source/output/h3d/h3d_results/fcont2_max_output.F
+Chd|        FCONT2_MIN_OUTPUT             source/output/h3d/h3d_results/fcont2_min_output.F
 Chd|        FCONT_MAX_OUTPUT              source/output/h3d/h3d_results/fcont_max_output.F
 Chd|        FLUXSW                        source/fluid/fluxsw.F         
 Chd|        GENANI                        source/output/anim/generate/genani.F
