@@ -1958,10 +1958,11 @@ C
                 EXIT
               END IF
             ENDDO
-            IF (IOK == 0)  
-     .        CALL ANCMSG(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
+            IF (IOK == 0) THEN  
+              CALL ANCMSG(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
      .                    I1=ID,C1=TITR,I2=ISENS) 
               BUFMAT(IADD+13) = 0   ! If not found set SENSOR ID to 0 as if there is no sensor
+            ENDIF
           ENDIF
         ENDIF
       ENDDO
