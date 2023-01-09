@@ -106,10 +106,11 @@ C-----------------------------------------------
      .        LAMBDA,FAC,DF,L0(NEL)     ,TRIAX(NEL)  ,EPSF(NEL)   ,
      .        DEPSF(NEL)  ,XVEC(NEL,2)  ,SXX,SYY,SZZ ,SIZEFAC(NEL),
      .        EPSMOD(NEL) ,P(NEL)       ,SVM(NEL)    ,DMGMAX(NEL) ,
-     .        DMGMUL(NEL) ,SIGTENS(NEL,3,3)          ,DEVTENS(NEL,3,3),
-     .        SIG_PR(NEL,3),DEV_PR(NEL,3),VECT_PR(NEL,3,3),
-     .        PLAS_DISP   ,R_INTER     ,YLD0        ,MAXSHEAR(NEL),
-     .        SIGPMAJ(NEL),ALPHA(NEL)  ,DSIZE(NEL)
+     .        DMGMUL(NEL) ,SIGTENS(NEL,3,3)          ,SIG_PR(NEL,3),
+     .        VECT_PR(NEL,3,3),PLAS_DISP,R_INTER     ,YLD0        ,
+     .        MAXSHEAR(NEL),SIGPMAJ(NEL),ALPHA(NEL)  ,DSIZE(NEL)  ,
+     .        CENTER      ,DEVSP1       ,DEVSP2      ,RADIUS      ,
+     .        SIGP1       ,SIGP2
 C!--------------------------------------------------------------
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
@@ -212,23 +213,10 @@ c
         SIGTENS(I,3,2) = SIGNYZ(I)
         SIGTENS(I,1,3) = SIGNZX(I)  
 c
-        ! Deviatoric stress tensor
-        DEVTENS(I,1,1) = SXX
-        DEVTENS(I,2,2) = SYY
-        DEVTENS(I,3,3) = SZZ
-        DEVTENS(I,1,2) = SIGNXY(I)
-        DEVTENS(I,2,3) = SIGNYZ(I)
-        DEVTENS(I,3,1) = SIGNZX(I)
-        DEVTENS(I,2,1) = SIGNXY(I)
-        DEVTENS(I,3,2) = SIGNYZ(I)
-        DEVTENS(I,1,3) = SIGNZX(I)   
-c
       ENDDO
 c
       ! Compute principal stresses
       CALL JACOBIEW_V(NEL,3,SIGTENS,SIG_PR,VECT_PR,NROT)
-      ! Compute principal deviatoric stresses
-      CALL JACOBIEW_V(NEL,3,DEVTENS,DEV_PR,VECT_PR,NROT)
 c
       ! Sort principal stresses and compute variables
       DO I = 1,NEL
@@ -251,22 +239,14 @@ c
         SIGPMAJ(I)  = SIG_PR(I,1)
         MAXSHEAR(I) = (SIG_PR(I,1)-SIG_PR(I,3))*HALF
 c
-        IF (DEV_PR(I,1) < DEV_PR(I,2)) THEN 
-          R_INTER     = DEV_PR(I,1)
-          DEV_PR(I,1) = DEV_PR(I,2)
-          DEV_PR(I,2) = R_INTER
-        ENDIF 
-        IF (DEV_PR(I,2) < DEV_PR(I,3)) THEN
-          R_INTER     = DEV_PR(I,2)
-          DEV_PR(I,2) = DEV_PR(I,3)
-          DEV_PR(I,3) = R_INTER
-        ENDIF
-        IF (DEV_PR(I,1) < DEV_PR(I,2)) THEN
-          R_INTER     = DEV_PR(I,1)
-          DEV_PR(I,1) = DEV_PR(I,2)
-          DEV_PR(I,2) = R_INTER
-        ENDIF       
-        ALPHA(I) = DEV_PR(I,3)/SIGN(MAX(ABS(DEV_PR(I,1)),EM20),DEV_PR(I,1))
+        ! Compute the alpha parameter for FLD/MSFLD
+        CENTER = HALF*(SIGNXX(I)+SIGNYY(I))
+        RADIUS = SQRT((HALF*(SIGNXX(I)-SIGNYY(I)))**2 + SIGNXY(I)**2)
+        SIGP1  = CENTER + RADIUS
+        SIGP2  = CENTER - RADIUS
+        DEVSP1 = SIGP1  - THIRD*(SIGP1+SIGP2)
+        DEVSP2 = SIGP2  - THIRD*(SIGP1+SIGP2)    
+        ALPHA(I) = DEVSP2/SIGN(MAX(ABS(DEVSP1),EM20),DEVSP1)
 c
       ENDDO
 c    
