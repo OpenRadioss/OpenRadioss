@@ -33,10 +33,25 @@ set ( wo_linalg "-DWITHOUT_LINALG" )
 endif()
 
 
+#
 # compiler Flags
 # --------------
+set (CMAKE_Fortran_FLAGS " " )
+set (CMAKE_C_FLAGS " " )
+set (CMAKE_CPP_FLAGS " " )
+set (CMAKE_CXX_FLAGS " " )
+
 set (CMAKE_Fortran_FLAGS_DEBUG " " )
 set (CMAKE_Fortran_FLAGS_RELEASE " " )
+
+set (CMAKE_C_FLAGS_DEBUG " " )
+set (CMAKE_C_FLAGS_RELEASE " " )
+
+set (CMAKE_CPP_FLAGS_DEBUG " " )
+set (CMAKE_CPP_FLAGS_RELEASE " " )
+
+set (CMAKE_CXX_FLAGS_DEBUG " " )
+set (CMAKE_CXX_FLAGS_RELEASE " " )
 
 # Single / Double Precision
 # -------------------------
@@ -115,10 +130,11 @@ set (F_O3_AXSSE3 " -O3 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_fl
 set (C_BASIC "${cppmach} ${cpprel}" )
 set_source_files_properties( ${source_directory}/source/coupling/rad2rad/rad2rad_c.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
 set_source_files_properties( ${source_directory}//source/output/tools/sortie_c.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
+# ieee.cpp
+set_source_files_properties( ${source_directory}/source/output/tools/ieee.cpp PROPERTIES COMPILE_FLAGS ${C_BASIC})
+
 
 set (C_BASIC "${cppmach} ${cpprel} -std=c90" )
-# ieee.c
-set_source_files_properties( ${source_directory}/source/output/tools/ieee.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
 set_source_files_properties( ${source_directory}/source/coupling/rad2rad/sys_pipes_c.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
 
 
