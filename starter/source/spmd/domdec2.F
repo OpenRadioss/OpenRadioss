@@ -56,7 +56,7 @@ Chd|====================================================================
      D   LGAUGE ,IGAUP  ,NGAUP  ,INTBUF_TAB,IBFFLUX,
      E   ICNDS10,ITAGND ,IGEO   ,TAG_SKN,MULTIPLE_SKEW,
      F   IBFV   ,IBCSCYC,LBCSCYC,R_SKEW,IPM     ,
-     G   SENSOR_TAB, SCEP)
+     G   SENSOR_TAB, LEN_CEP)
 C
 C-----------------------------------------------
 C   M o d u l e s
@@ -106,12 +106,12 @@ C-----------------------------------------------
      .        ADSKY(0:*), LCNE, LCNI2, ADSKYI2(0:*),CEPI2(*),CELI2(*),
      .        ISENSP(2,*), NSENSP(*), IACCP(*), NACCP(*),
      .        LACCELM(3,*),IBCV(NICONV, *),IRBE3(NRBE3L,*), LRBE3(*),
-     .        FRONT_RM(NRBYM,NSPMD), IRBYM(NIRBYM,*) ,LCRBYM(*), CEP(SCEP),
+     .        FRONT_RM(NRBYM,NSPMD), IRBYM(NIRBYM,*) ,LCRBYM(*), CEP(LEN_CEP),
      .        IBCR(NIRADIA,*),IRBE2(NRBE2L,*), LRBE2(*),
      .        CEPSP(NUMSPH), CELSPH(NUMSPH),ILOADP(SIZLOADP,*),LLOADP(*),
      .        LGAUGE(3,*), IGAUP(*), NGAUP(*), IBFFLUX(NITFLUX,*),
      .        ICNDS10(3,*),ITAGND(*),IBFV(NIFV,*),IBCSCYC(4,*),LBCSCYC(2,*),
-     .        R_SKEW(*),IPM(NPROPMI,*),SCEP
+     .        R_SKEW(*),IPM(NPROPMI,*),LEN_CEP
         INTEGER, DIMENSION(NPROPGI,*), INTENT(IN) :: IGEO
         INTEGER, DIMENSION(NUMSKW+NSUBMOD+1), INTENT(INOUT) :: TAG_SKN
         TYPE(SKEW_TYPE), DIMENSION(NUMSKW+1), INTENT(INOUT) :: MULTIPLE_SKEW
@@ -217,7 +217,7 @@ C skew global fixe
        DO P = 1, NSPMD
          NSKWP(P) = 0
        END DO        
-       IF(N2D==0 .AND. SCEP > 0)THEN
+       IF(N2D==0 .AND. LEN_CEP > 0)THEN
         OFFSET = NUMELS + NUMELQ + NUMELC + NUMELT + NUMELP
 !       check if a SPRING is linked with a SKEW
         CALL CHECK_SKEW(IXR,IGEO,ISKN,CEP(OFFSET+1),ISKWP,NSKWP,TAG_SKN,MULTIPLE_SKEW,

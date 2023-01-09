@@ -22,7 +22,7 @@
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 #include "hardware.inc"
 #include <cstdint>
-#include <tgmath.h>
+#include <cmath>
 
 
 extern "C" void integer_to_IEEE_ASCII(int entier,unsigned char octet[4]);
