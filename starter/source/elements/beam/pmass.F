@@ -76,7 +76,7 @@ C-----------------------------------------------
      .   RHO(MVSIZ), EMS(MVSIZ),
      .   TIN(MVSIZ), TIXX(MVSIZ), TIYY(MVSIZ), TIZZ(MVSIZ),RHOCP(MVSIZ)
       my_real
-     .   FACDT(MVSIZ), PHII(MVSIZ),KPHI(MVSIZ),CST,PHMAX
+     .   FACDT(MVSIZ), PHII(MVSIZ),KPHI(MVSIZ),CST,PHMAX,PHMIN,FSH(MVSIZ)
 C=======================================================================
       IPY = 200  
       IPZ = 300  
@@ -122,9 +122,12 @@ C----------------------------------------------
         SL2I= AREA(I)*AL(I)**2 /BB
         FACDT(I) = ONE_OVER_12*SL2I
         PHMAX = CST/FACDT(I)        
-        KPHI(I) = (FOUR+PHMAX)/(ONE+PHMAX)
+        PHMIN = MIN(TIYY(I),TIZZ(I))*PHMAX/BB
+        KPHI(I) = (FOUR+PHMIN)/(ONE+PHMIN)
         PHII(I) = KPHI(I)/(ONE+FACDT(I))
-        PHII(I) = MAX(ONE,PHII(I))        
+        PHII(I) = MAX(ONE,PHII(I)) 
+        FSH(I) = AL(I)/(FACDT(I)+CST)
+        FSH(I) = MAX(ONE,FSH(I))
       ENDDO
 C----------------------------------------------
 C     MASSE ELEMENT /2
@@ -206,7 +209,7 @@ C
        AA  = AL(I) * AA * AA
        BB  = MAX(TIYY(I),TIZZ(I))
        STIR = MAX(G*TIXX(I),KPHI(I)*E*BB) / AA
-       STI  = AREA(I) * E / AA
+       STI  = FSH(I)*AREA(I) * E / AA
 C
        STIFN(NC1(I))=STIFN(NC1(I))+STI
        STIFN(NC2(I))=STIFN(NC2(I))+STI

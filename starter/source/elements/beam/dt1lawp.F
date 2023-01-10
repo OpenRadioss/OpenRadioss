@@ -56,7 +56,7 @@ C     REAL
       my_real
      .   RHO0, G, C1, SSP, C,
      .   IYY, IZZ, SL2I, SHF, DMP, 
-     .   DSH, PHI, F1, F2, FAC, YOUNG
+     .   DSH, PHI, F1, F2, FAC, YOUNG,CST,FSH
 C=======================================================================
         DO I=LFT,LLT
          MX   = MAT(I)
@@ -65,12 +65,19 @@ C=======================================================================
          C1   = PM(32,MX)
          SSP  = PM(27,MX)
          IG   = MXG(I)
+         IYY  = GEO(2,IG)
+         IZZ  = GEO(18,IG)
+C
+         SL2I = GEO(1,IG)*DELTAX(I)**2/ MAX(EM20,IZZ,IYY)
+         CST = SIX_OVER_5*PM(20,MX)/G
+         FSH = DELTAX(I)/(ONE_OVER_12*SL2I+CST)
+         FSH = MAX(ONE,FSH)
 C
          DMP =MAX(GEO(16,IG),GEO(17,IG))
          DMP =DMP*SQRT(TWO)
          FAC =SQRT(ONE+DMP*DMP)-DMP
 C
-         DTX(I) = FAC * DELTAX(I) / MAX(EM20,SSP)
+         DTX(I) = FAC * DELTAX(I) / MAX(EM20,SSP)/SQRT(FSH)
         ENDDO
 C-----------
       RETURN

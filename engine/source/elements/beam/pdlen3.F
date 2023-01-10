@@ -75,7 +75,7 @@ C-----------------------------------------------
      .   A1, B1, B2, B3, YOUNG,G,AA,BB,   
      .   PHI,SHF,DSH(MVSIZ),SL2I(MVSIZ),F1,F2,
      .   FACDT(MVSIZ),PHII(MVSIZ),CST,PHMAX,RHO,EMS,
-     .   TIN,TIXX,TIYY,TIZZ,KPHI(MVSIZ)
+     .   TIN,TIXX,TIYY,TIZZ,KPHI(MVSIZ),PHMIN,FSH(MVSIZ)
 C-----------------------------------------------
       DT(1:MVSIZ) = ZERO
 !
@@ -97,9 +97,12 @@ C----------------------------------------------
         SL2I(I) = A1*AL(I)**2 / BB
         FACDT(I) = ONE_OVER_12*SL2I(I)
         PHMAX = CST/FACDT(I)        
-        KPHI(I) = (FOUR+PHMAX)/(ONE+PHMAX)        
+        PHMIN = MIN(B1,B2)*PHMAX/BB
+        KPHI(I) = (FOUR+PHMIN)/(ONE+PHMIN)        
         PHII(I) = KPHI(I)/(ONE+FACDT(I))        
         PHII(I) = MAX(ONE,PHII(I))        
+        FSH(I) = AL(I)/(FACDT(I)+CST)
+        FSH(I) = MAX(ONE,FSH(I))
       ENDDO
       IF (IDTMINS /= 2 .OR. JSMS == 0) THEN
         IF (NODADT /= 0 .OR. IDTMINS == 2) THEN
@@ -120,7 +123,7 @@ C----------------------------------------------
               AA  = AL(I) * AA * AA
               BB  = MAX(B1,B2)
               STIR(I) = MAX(G*B3,KPHI(I)*YOUNG*BB) / AA
-              STI(I) = A1 * YOUNG / AA
+              STI(I) = FSH(I)*A1 * YOUNG / AA
             ENDIF ! IF (OFFG(I) /= ZERO)
           ENDDO
           IF (IDTMIN(5) == 0) RETURN
@@ -132,7 +135,7 @@ C----------------------------------------------
             YOUNG  =PM(20,MAT(I))
             A1  =GEO(1,PID(I))
             DMP(I)=DMP(I)*SQRT(TWO)
-            IF (OFFG(I) > ZERO) STI(I) = A1 * YOUNG / AL(I)
+            IF (OFFG(I) > ZERO) STI(I) = FSH(I)*A1 * YOUNG / AL(I)
           ENDDO
           DO I=JFT,JLT
             IF (FACDT(I)<ONE) THEN 
@@ -203,7 +206,7 @@ C----------------------------------------------
 !
       DO I=JFT,JLT
         FAC(I) =SQRT(ONE+DMP(I)*DMP(I))-DMP(I)
-        DT(I)=DTFAC1(5)*FAC(I)*AL(I)/SSP(I)
+        DT(I)=DTFAC1(5)*FAC(I)*AL(I)/SSP(I)/SQRT(FSH(I))
       ENDDO ! DO I=JFT,JLT
 C
       DO I=JFT,JLT
