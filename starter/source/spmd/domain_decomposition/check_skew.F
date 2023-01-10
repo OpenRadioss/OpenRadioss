@@ -30,7 +30,7 @@ Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F
 Chd|        SKEW_MOD                      share/modules1/skew_mod.F     
 Chd|====================================================================
         SUBROUTINE CHECK_SKEW(IXR,IGEO,ISKN,CEP,ISKWP,NSKWP,TAG_SKN,MULTIPLE_SKEW,
-     .                        R_SKEW,IPM)
+     .                        R_SKEW,IPM,OFFSET)
 C----------------------------------------------------------
 C----------------------------------------------------------
         USE SKEW_MOD
@@ -66,6 +66,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(LISKN,SISKWN/LISKN), INTENT(IN) :: ISKN
         INTEGER, DIMENSION(NPROPMI,NUMMAT), INTENT(IN) :: IPM
         TYPE(SKEW_TYPE), DIMENSION(NUMSKW+1), INTENT(INOUT) :: MULTIPLE_SKEW
+        INTEGER, INTENT(IN) :: OFFSET
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       NSKWP : integer ; dimension = NSPMD
 !               number of skew per processor
@@ -92,6 +93,7 @@ C-----------------------------------------------
 !       MULTIPLE_SKEW : SKEW_TYPE ; dimension=NUMSKW+1
 !                       MULTIPLE_SKEW(I)%PLIST(:) is a list of processor
 !                       where the SKEW is stuck
+!       OFFSET :: integer, offset to point to the good place in CEP array
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 
 C-----------------------------------------------
@@ -177,7 +179,7 @@ C
                         IF(SPRING_TYPE==8 .OR. (SPRING_TYPE== 23 .AND. MAT_TYPE == 108)) THEN
                                 NUMBER_SKEW_SP = NUMBER_SKEW_SP + 1
                                 SKEW_PER_SP( NUMBER_SKEW_SP ) = R_SKEW(I)   
-                                LOCAL_P(NUMBER_SKEW_SP) = CEP(I)+1
+                                LOCAL_P(NUMBER_SKEW_SP) = CEP(OFFSET+I)+1
                                 TAG_SKN( R_SKEW(I) ) = TAG_SKN( R_SKEW(I) ) + 1
                         ENDIF
                      ENDIF
@@ -188,7 +190,7 @@ C
                         IF(SPRING_TYPE==8 .OR. SPRING_TYPE==13 .OR. SPRING_TYPE== 23) THEN
                                 NUMBER_SKEW_SP = NUMBER_SKEW_SP + 1
                                 SKEW_PER_SP( NUMBER_SKEW_SP ) = IGEO( 2,IXR(1,I) )    
-                                LOCAL_P(NUMBER_SKEW_SP) = CEP(I)+1
+                                LOCAL_P(NUMBER_SKEW_SP) = CEP(OFFSET+I)+1
                                 TAG_SKN( IGEO(2,IXR(1,I)) ) = TAG_SKN( IGEO(2,IXR(1,I)) ) + 1
                         ENDIF     
                     ENDIF

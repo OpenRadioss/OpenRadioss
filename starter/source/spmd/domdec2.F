@@ -220,8 +220,8 @@ C skew global fixe
        IF(N2D==0 .AND. LEN_CEP > 0)THEN
         OFFSET = NUMELS + NUMELQ + NUMELC + NUMELT + NUMELP
 !       check if a SPRING is linked with a SKEW
-        CALL CHECK_SKEW(IXR,IGEO,ISKN,CEP(OFFSET+1),ISKWP,NSKWP,TAG_SKN,MULTIPLE_SKEW,
-     .                  R_SKEW,IPM)
+        CALL CHECK_SKEW(IXR,IGEO,ISKN,CEP,ISKWP,NSKWP,TAG_SKN,MULTIPLE_SKEW,
+     .                  R_SKEW,IPM,OFFSET)
 
 
         DO I=1,NUMSKW
