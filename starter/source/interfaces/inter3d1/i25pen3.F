@@ -372,7 +372,11 @@ C
             PENT(I,IT)=ZERO
           END IF
         ELSEIF(ETYP(I) > NRTM)THEN ! Coating shell (same orientation than solid)
-          PENT(I,IT)=MAX(GAPV(I,IT)+BB(I,IT),ZERO)
+          IF(BB(I,IT) > ZERO)THEN
+            PENT(I,IT)=GAPV(I,IT)+BB(I,IT)
+          ELSE
+            PENT(I,IT)=MAX(ZERO,GAPV(I,IT)-SQRT(DD(I,IT)))          
+          END IF
         ELSE
           IF(BB(I,IT) > ZERO)THEN
 C
@@ -457,7 +461,11 @@ C
               PENT(I,IT)=ZERO
             END IF
           ELSEIF(ETYP(I) > NRTM)THEN ! Coating shell (same orientation than solid)
-            PENT(I,IT)=MAX(GAPV(I,IT)+BB(I,IT),ZERO)
+            IF(BB(I,IT) > ZERO)THEN
+               PENT(I,IT)=GAPV(I,IT)+BB(I,IT)
+            ELSE
+               PENT(I,IT)=MAX(ZERO,GAPV(I,IT)-SQRT(DD(I,IT)))          
+            END IF
           ELSE
             IF(BB(I,IT) > ZERO)THEN
 C
