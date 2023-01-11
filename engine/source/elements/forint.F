@@ -1153,7 +1153,7 @@ C
      9      IPM        ,BUFMAT    ,NPT     ,NPC     ,TF     ,
      A      GRESAV     ,GRTH      ,IGRTH(OFF_IGRTH+NF1),MSP(NF1),DMELP(NF1),
      C      IPRI       ,ITASK     ,JTHE    ,TEMP     ,FTHE      ,
-     D      FTHESKY    ,IEXPAN    ,H3D_DATA,IN      )
+     D      FTHESKY    ,IEXPAN    ,H3D_DATA)
 C
              IF (NSECT > 0) THEN
               K0=NSTRF(25)

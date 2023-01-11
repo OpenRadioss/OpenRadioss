@@ -59,7 +59,7 @@ Chd|====================================================================
      9                  IPM     ,BUFMAT ,NPT     ,NPF     ,TF      ,
      A                  GRESAV  ,GRTH   ,IGRTH   ,MSP     ,DMELP   ,
      C                  IOUTPRT ,ITASK  ,JTHE    ,TEMP    ,FTHE    ,
-     D                  FTHESKY ,IEXPAN ,H3D_DATA,IN      )
+     D                  FTHESKY ,IEXPAN ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -99,7 +99,6 @@ C-----------------------------------------------
      .   MX2(MVSIZ),MY2(MVSIZ),MZ2(MVSIZ),
      .   GRESAV(*),MSP(*),DMELP(*),TEMP(*),FTHE(*),
      .   FTHESKY(*)
-      my_real,DIMENSION(NUMNOD), INTENT(INOUT) :: IN
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -149,7 +148,7 @@ C-----------------------------------------------
       CALL PDLEN3(JFT    ,JLT    ,PM        ,GEO        ,GBUF%OFF,
      .            DT2T   ,NELTST ,ITYPTST,STI    ,STIR   ,
      .            MSP    ,DMELP  ,GBUF%G_DT ,GBUF%DT    ,AL      ,
-     .            MAT    ,PID    ,NGL       ,IN    )
+     .            MAT    ,PID    ,NGL       )
       CALL PDEFO3(V     ,EXX    ,EXY     ,EXZ    ,AL      ,
      .            NC1   ,NC2    ,NC3     ,E1X    ,E1Y     ,
      .            E1Z   ,E2X    ,E2Y     ,E2Z    ,E3X     ,
