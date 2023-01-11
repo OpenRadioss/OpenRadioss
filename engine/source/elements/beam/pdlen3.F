@@ -29,7 +29,7 @@ Chd|====================================================================
       SUBROUTINE PDLEN3(JFT  ,JLT    ,PM     ,GEO  ,OFFG ,
      .                  DT2T ,NELTST ,ITYPTST,STI  ,STIR ,
      .                  MSP  ,DMELP  ,G_DT   ,DTEL ,AL   ,
-     .                  MAT  ,PID    ,NGL    ,IN   )
+     .                  MAT  ,PID    ,NGL    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +65,6 @@ C-----------------------------------------------
       my_real DT2T ,
      .   PM(NPROPM,*), GEO(NPROPG,*), OFFG(*), STI(*), STIR(*),
      .   MSP(*), DMELP(*),AL(MVSIZ)
-      my_real,DIMENSION(NUMNOD), INTENT(INOUT) :: IN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -136,21 +135,6 @@ C----------------------------------------------
             A1  =GEO(1,PID(I))
             DMP(I)=DMP(I)*SQRT(TWO)
             IF (OFFG(I) > ZERO) STI(I) = FSH(I)*A1 * YOUNG / AL(I)
-          ENDDO
-          DO I=JFT,JLT
-            IF (FACDT(I)<ONE) THEN 
-              RHO =PM (89,MAT(I))
-              TIXX=GEO(4,PID(I))
-              TIYY=GEO(2,PID(I))
-              TIZZ=GEO(18,PID(I))
-              EMS =RHO*AL(I)*A1*HALF
-              A1  =GEO(1,PID(I))
-              TIN =EMS*AL(I)**2*ONE_OVER_12 + RHO*(AL(I)*HALF)
-     .                                  * MAX(TIYY,TIZZ)
-              TIN=PHII(I)*TIN
-              TIN= MAX(TIN,RHO*AL(I)*TIXX*HALF)
-              IN(I) = MAX(IN(I),TIN)
-            END IF 
           ENDDO
         ENDIF ! IF (NODADT /= 0 .OR. IDTMINS == 2)
       ELSE  ! IF (IDTMINS /= 2 .OR. JSMS == 0)
