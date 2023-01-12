@@ -1979,9 +1979,9 @@ c
                ENDIF                     
                CALL STOPTIME(MACRO_TIMER_SPMDH3D,1) 
 
-            ELSEIF(NINTSTAMP/=0.AND.((KEYWORD == 'CONT/MAX').OR.(KEYWORD == 'MAXPCONT/NORMAL') .OR.
+            ELSEIF(NINTSTAMP/=0.AND.((KEYWORD == 'CONT/TMAX').OR.(KEYWORD == 'MAXPCONT/NORMAL') .OR.
      .           (KEYWORD == 'MAXPCONT/TANGENT'))) THEN
-               IF(KEYWORD == 'CONT/MAX')THEN
+               IF(KEYWORD == 'CONT/TMAX')THEN
                   IF(ISPMD == 0) THEN
                      NODAL_VECTOR_P(1:3*NUMNODG) =FCONT_MAX(1:3*NUMNODG)
                   ENDIF
