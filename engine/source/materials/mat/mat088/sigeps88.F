@@ -346,9 +346,8 @@ C
               F(3) = F(3) + 
      .              (DD3 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
           ENDDO
-              
-          P = INVR*RBULK*(RV(I) - ONE)
           INVR = ONE/MAX(EM20,RV(I))
+          P = INVR*RBULK*(RV(I) - ONE)
           T1(I) =INVR*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P 
           T2(I) =INVR*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P
           T3(I) =INVR*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P 
