@@ -51,7 +51,8 @@ Chd|====================================================================
      4           INOM_OPT,IPART_L,IAD,NALE_R2R,FLG_R2R_ERR ,
      5           PM_STACK ,IWORKSH  ,IGRBRIC2,IGRQUAD2  ,IGRSH4N2,
      6           IGRSH3N2 ,IGRTRUSS2,IGRBEAM2,IGRSPRING2,IGRNOD2 ,
-     7           IGRSURF2 ,IGRSLIN2,LSUBMODEL,ALE_EULER,IGEO_)
+     7           IGRSURF2 ,IGRSLIN2,LSUBMODEL,ALE_EULER,IGEO_,
+     7           NLOC_DMG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,6 +64,7 @@ C-----------------------------------------------
       USE INOUTFILE_MOD
       USE SUBMODEL_MOD
       USE INIVOL_ARRAY_MOD
+      USE NLOCAL_REG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,6 +99,7 @@ C-----------------------------------------------
      .   IPARTG(*),IXR_KJ(*),INOM_OPT(*),IPART_L(*),IAD,
      .   NALE_R2R(*),FLG_R2R_ERR,IWORKSH(*),ALE_EULER
       my_real :: PM_STACK(*)
+      TYPE (NLOCAL_STR_) ,INTENT(IN)  :: NLOC_DMG
 C-----------------------------------------------
 !      TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD2
       TYPE (GROUP_)  , DIMENSION(NGROU)   :: IGRNOD2
@@ -107,7 +110,6 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRTRUS) :: IGRTRUSS2
       TYPE (GROUP_)  , DIMENSION(NGRBEAM) :: IGRBEAM2
       TYPE (GROUP_)  , DIMENSION(NGRSPRI) :: IGRSPRING2
-!
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF2
       TYPE (SURF_)   , DIMENSION(NSLIN)   :: IGRSLIN2
 C-----------------------------------------------
@@ -117,13 +119,13 @@ C-----------------------------------------------
       INTEGER ID_TEMP(NB_PART_SUB),NSUBDOM_LOC,P,TMP_PART(NPART)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IGROUP_TEMP2
       INTEGER N_LNK_C,NI,GRM,GRS,MAIN,IGU,NUL,IAD_TMP,COMPT_T2
-      INTEGER MODIF,NINTER_PREC,FAC,IO_ERR,NUM_KJ,NSPCONDN,NSPHION
+      INTEGER MODIF,NINTER_PREC,FAC,IO_ERR,NUM_KJ,NSPCONDN,NSPHION,NN
       INTEGER MEMTR(NUMNOD),FLG_SPH,COUNT,NEW_NSLASH_INT,NEW_HM_NINTER,NEW_NINTSUB,NEW_NINIVOL
       CHARACTER TITR*nchartitle,NAME*100
       INTEGER NGRNOD2,NGRBRIC2,NGRQUAD2,NGRSHEL2,NGRSH3N2,NGRTRUS2,NGRBEAM2,NGRSPRI2,LENGRN,ITITLE(LTITR)
       CHARACTER NEW_TITLE(NGROU+10*NSUBDOM)*nchartitle
 
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IGROUP_TEMP2_BUF
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IGROUP_TEMP2_BUF,TAG_NLOCAL
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=4096) :: TMP_NAME
 C-----------------------------------------------
@@ -417,17 +419,41 @@ C--------------------------------------------------------------------C
 C---------------FLAG = 1 --> Creation of groups and links------------C
 C--------------------------------------------------------------------C
           INNOD = 0
-          DO K=1,4
+          NN = 4
+C
+C---------------Tag of nodes with nlocal dof-------------------------C
+          IF (NLOC_DMG%IMOD > 0) THEN
+            NN = 5
+            MY_ALLOCATE(TAG_NLOCAL,NUMNOD)
+            TAG_NLOCAL(1:NUMNOD) = 0
+            CALL TAGNOD_R2R_NL(IXC,IXTG,IXS,IXS10,IXS20,
+     .                         IXS16,TAG_NLOCAL,IPM)
+          ENDIF
+C
+          DO K=1,NN
             COMPT = 0
             IAD_TMP = IAD
-C---------------Storage inside buffer--------------------------------C	
-            DO J=1,NUMNOD
-              IF (TAGNO(J+NPART)==(K+N)) THEN 
-                BUF_NOD(IAD)=J
-                IAD=IAD+1
-                COMPT = COMPT+1	        
-              ENDIF
-            ENDDO
+C-----------Storage inside buffer------------------------------------C
+            IF (K < 5) THEN
+              DO J=1,NUMNOD	     
+                IF (TAGNO(J+NPART)==(K+N)) THEN 
+                  BUF_NOD(IAD)=J
+                  IAD=IAD+1
+                  COMPT = COMPT+1	        
+                ENDIF
+              ENDDO
+            ELSE
+C-----------Nodes in link type 4 + nlocal dof -> aditional link------C
+C-----------Node coupled only if nl material on both sides ----------C 
+              DO J=1,NUMNOD
+                IF ((TAG_NLOCAL(J)==1).AND.(TAGNO(J+NPART+NUMNOD) == N+1)) THEN
+                  BUF_NOD(IAD)=J
+                  IAD=IAD+1
+                  COMPT = COMPT+1	        
+                ENDIF
+              ENDDO
+            ENDIF
+C
             INNOD = INNOD + COMPT   
             IF (COMPT>0) THEN
 C---------------Creation of new GRNOD + LINK ------------------------C
@@ -436,7 +462,9 @@ C---------------Creation of new GRNOD + LINK ------------------------C
               ELSEIF (K == 2) THEN
                 TITR="MULTIDOMAINS INTERFACE TYPE RBODY CONNECTION "
               ELSEIF (K == 4) THEN
-                TITR="MULTIDOMAINS INTERFACE TYPE KINEMATIC CONDITION"                
+                TITR="MULTIDOMAINS INTERFACE TYPE KINEMATIC CONDITION"
+              ELSEIF (K == 5) THEN
+                TITR="MULTIDOMAINS INTERFACE TYPE NON LOCAL"                 
               ELSE 
                 TITR="MULTIDOMAINS INTERFACE TYPE CONTACT "   
               ENDIF
@@ -467,6 +495,11 @@ C---------------Incrementation of Variables for future GRNOD---------C
            ENDIF   
       ENDIF
       END DO
+
+      IF (NLOC_DMG%IMOD > 0) THEN
+        DEALLOCATE(TAG_NLOCAL)
+      ENDIF
+
 C--------------------------------------------------------------------C
 C----- Recopy of other groups in IGROUP_TEMP-------------------------C
 C--------------------------------------------------------------------C

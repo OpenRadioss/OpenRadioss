@@ -446,7 +446,7 @@ C
      3                  FR_ELEM,ADDCNEL,CNEL,IXC,IPARG,ICODT,ICODR,
      4                  IBFV,D,RBY,NPBY,XDP,STIFN,STIFR,DD_R2R_ELEM,
      5                  SDD_R2R_ELEM,WEIGHT_MD,ILENXV,NUMSPH_GLO_R2R,
-     6                  FLG_SPHINOUT_R2R,IPARI)
+     6                  FLG_SPHINOUT_R2R,IPARI,NLOC_DMG)
         END IF
 C
         NFIA = NUMNOD*MIN(1,ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT)
