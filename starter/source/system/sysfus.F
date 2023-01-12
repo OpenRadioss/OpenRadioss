@@ -332,10 +332,16 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        R2R_SYS                       source/coupling/rad2rad/routines_r2r.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      INTEGER FUNCTION USR2SYS2(IU,ITABM1,MESS,JINDEX)
+      INTEGER FUNCTION USR2SYS2(IU,ITABM1,MESS,JINDEX,ID)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
-C      IDENTIQUE A USR2SYS, RENVOYE L'INDEX JINDEX
-C      FONCTION DONNE N0 SYSTEME DU NOEUD USER IU
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C      SAME AS USR2SYS, SENDING INDEX JINDEX CORRESPONDING TO
+C      INTERNAL IDENTIFIER OF USER NODE IDENTIFIER IU
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -345,14 +351,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IU, JINDEX
       CHARACTER MESS*40
-      INTEGER ITABM1(*)     
+      INTEGER ITABM1(*) 
+      INTEGER,INTENT(IN) :: ID    
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER R2R_SYS      
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -370,7 +374,7 @@ C-----------------------------------------------
       J=MAX(1,NUMNOD/2)
    10 IF(JSUP<=JINF.AND.(IU-ITABM1(J))/=0) THEN
         IF (NSUBDOM>0) THEN
-C------------Multidomaines -> On check dans la liste des noeuds suprimes-----
+C------------Multidomaines -> checking in list of deleted nodes-----
           NN=R2R_SYS(IU,ITABM1,MESS)
           IF (NN==0) THEN
             CALL ANCMSG(MSGID=895,
@@ -384,21 +388,22 @@ C-----------------------------------------------------------
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
      .                C1=MESS,
-     .                I1=IU)
+     .                I1=ID,
+     .                I2=IU)
           USR2SYS2=0
         ENDIF     
         RETURN
       ENDIF
       IF((IU-ITABM1(J))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM : ENDING THE SEARCH ALGORITHM
          JINDEX=J
          USR2SYS2=ITABM1(J+NUMNOD)
          RETURN
       ELSE IF (IU-ITABM1(J)<0) THEN
-C     >CAS IU<TABM
+C     >CASE IU<TABM
          JSUP=J-1
       ELSE
-C     >CAS IU>TABM
+C     >CASE IU>TABM
          JINF=J+1
       ENDIF
       J=(JSUP+JINF)/2
@@ -416,8 +421,14 @@ Chd|        USR2SYS2                      source/system/sysfus.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       INTEGER FUNCTION ULIST2S(LIST,NLIST,ITABM1,MESS,INDEX,ID)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
-C      FONCTION DONNE N0 SYSTEME D'UNE LISTE DE NOEUDS USER
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C      Function is sending back Internal node identifiers from a list of user node identifiers
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -429,11 +440,8 @@ C-----------------------------------------------
       CHARACTER MESS*40
       INTEGER ITABM1(*),INDEX(*)
 C     ITABM1(1:NUMNOD) NO USER TRIE
-C     ITABM1(1+NUMNOD:2*NUMNOD) INDEX SYSTEM 
-C             ITABM1(NUMNOD+J) NO SYSTEM DU NOEUDS USER ITABM1(J)
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
+C     ITABM1(1+NUMNOD:2*NUMNOD) INDEX NUMBER
+C             ITABM1(NUMNOD+J) INTERNAL NODE IDENTIFIER IN ITABM1(J)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -443,14 +451,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NNOD,NOLD,K,
-     .        IWORK(70000)
+      INTEGER I, J,NNOD,NOLD,K, IWORK(70000)
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
         INTEGER USR2SYS2
 C-----------------------
-C TRI DE LIST EN ORDRE CROISSANT
+C SORT (ASCENDING ORDER)
 C-----------------------
         CALL MY_ORDERS(0,IWORK,LIST,INDEX,NLIST,1)
         DO I=1,NLIST
@@ -465,38 +472,41 @@ C-----------------------
         ENDDO
         NNOD=K
 C-----------------------
-C RECHERCHE DES NOEUDS DE LIST() DANS ITABM1()
+C SEARCH NODES FROM LIST() IN ITABM1()
 C  ALGO < NLIST+NUMNOD
 C-----------------------
 C        I=1
 C        J=1
-C USR2SYS2 renvoie J, index dans ITABM1 tq LIST(1)=ITABM1(J)
-C de maniere a se positionner directement a la bonne adresse dans ITABM1
-        LIST(1)=USR2SYS2(LIST(1),ITABM1,MESS,J)
+C USR2SYS2 is sending back J, index in ITABM1 array such as LIST(1)=ITABM1(J)
+C cursor is then directly positioned on the correct address in ITABM1
+        LIST(1)=USR2SYS2(LIST(1),ITABM1,MESS,J,ID)
         IF(J==0)THEN
-C cas d erreur
+          ! in case of error, node does not exist
           ULIST2S=0
-        END IF
+        ELSE
 C
-        DO I=2,NNOD
-          DO WHILE(LIST(I)>ITABM1(J).AND.J<NUMNOD)
-            J=J+1
+          DO I=2,NNOD
+            DO WHILE(LIST(I)>ITABM1(J).AND.J<NUMNOD)
+              J=J+1
+            ENDDO
+            IF(LIST(I)==ITABM1(J))THEN
+              LIST(I)=ITABM1(NUMNOD+J)
+            ELSE
+              CALL ANCMSG(MSGID=78,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO,
+     .                    C1=MESS,
+     .                    I1=ID,
+     .                    I2=LIST(I))
+              ULIST2S=I-1
+              RETURN
+            ENDIF
           ENDDO
-          IF(LIST(I)==ITABM1(J))THEN
-            LIST(I)=ITABM1(NUMNOD+J)
-          ELSE
-            CALL ANCMSG(MSGID=78,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO,
-     .                  C1=MESS,
-     .                  I1=ID,
-     .                  I2=LIST(I))
-            ULIST2S=I-1
-            RETURN
-          ENDIF
-        ENDDO
 C
-        ULIST2S=NNOD
+          ULIST2S=NNOD
+          
+        ENDIF
+
         RETURN
         END
 C
