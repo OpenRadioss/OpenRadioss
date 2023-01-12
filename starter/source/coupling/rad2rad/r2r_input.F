@@ -142,7 +142,11 @@ C--->  type = 60 -> interface type FSI------------------ -----
           ELSE
             WRITE(REF,1340) TLK
           ENDIF
-          WRITE(REF,*) ' 0.1'         
+          WRITE(REF,*) ' 0.1'
+        ELSEIF (IEXTER(5,I)==70) THEN
+C--->  type = 70 -> interface type NLOCAL--------------- -----
+          TLK = 4	 
+          WRITE(REF,1360) TLK        
 	ELSEIF (FLG_TIED(IEXTER(5,I))==1) THEN
 	  WRITE(REF,1320) IEXTER(5,I)           
 	ELSE
@@ -187,6 +191,7 @@ C--------------------------------------------------------------C
  1330 FORMAT('/LINK/TYPE',I1,'/KINE')
  1340 FORMAT('/LINK/TYPE',I1,'/FSI')
  1350 FORMAT('/LINK/TYPE',I1,'/TIED/FSI')
+ 1360 FORMAT('/LINK/TYPE',I1,'/NLOCAL')
  1400 FORMAT('',A10)
  1500 FORMAT(  3X,10I5)
  1600 FORMAT('   ',A10,I10)

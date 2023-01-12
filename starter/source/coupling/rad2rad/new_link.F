@@ -80,8 +80,9 @@ C----- Storage of new link information
        IEX_TEMP(3,NR2RLNK+1) = 0
        IEX_TEMP(4,NR2RLNK+1) = N	    	    	                 
        IEX_TEMP(5,NR2RLNK+1) = 4
-       IF (K == 2) IEX_TEMP(5,NR2RLNK+1) = 40
-       IF ((K == 3).OR.(K == 4)) THEN
+       IF (K == 2) THEN
+         IEX_TEMP(5,NR2RLNK+1) = 40
+       ELSEIF ((K == 3).OR.(K == 4)) THEN
          IF (FLG_SWALE==0) THEN
 C--> contact with void elements in subdomain - order of domains is inverted
            IEX_TEMP(3,NR2RLNK+1) = N
@@ -91,6 +92,8 @@ C--> contact with void elements in subdomain - order of domains is inverted
          ELSE
            IEX_TEMP(5,NR2RLNK+1) = 60
          ENDIF
+       ELSEIF (K == 5) THEN
+         IEX_TEMP(5,NR2RLNK+1) = 70       
        ENDIF
                 
 C----- Generation of a new link
