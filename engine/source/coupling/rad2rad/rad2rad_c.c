@@ -356,7 +356,6 @@ void syserr();
          com->vx_buf = shm + offset + 19*local_len;
          com->vr_buf = shm + offset + 22*local_len;
          com->dx_buf = shm + offset + 25*local_len;
-     
          com->buf    = shmi + offseti ;
          com->itagr  = shmi + offseti + 10;
          com->itagr2 = shmi + offseti + 10 + local_len;
@@ -674,6 +673,76 @@ void _FCALL init_link_c__(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,info,ty
 int *igd, *nng, *nodbuf, *itab,*addcnel,*cnel,*ixc,*ofc,*info,*typ,*cdt,*cdr,*print,*rddl,*nlink;
 my_real_c *x,*dx;
 {init_link_c(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,info,typ,cdt,cdr,print,rddl,nlink,dx);}
+
+void init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof)
+int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof;
+my_real_c *x,*dx;
+{
+int i,j,tt,nn,lbuf,lbuf1,init_buf[6],id;
+int *nodid,*bcs;
+my_real_c *crd;
+
+    /************************coupling for non local dof***************************/
+    /*****************************************************************************/
+    lbuf = *nb_tot_dof*sizeof(my_real_c);
+    crd  = (my_real_c *) malloc(3*lbuf);
+    lbuf1  = *nb_tot_dof*sizeof(int);   
+    nodid  = (int *) malloc(lbuf1);
+    bcs  = (int *) malloc(lbuf1);
+        
+    tt = 0;
+    for (i = 0; i < *nng; i++)
+      {
+        nn = nodbuf[i]-1;
+        for (j = 0; j < ndof_nl[i]; j++)
+          {
+           crd[3*tt]   = x[3*nn]-dx[3*nn];        
+           crd[3*tt+1] = x[3*nn+1]-dx[3*nn+1];
+           crd[3*tt+2] = x[3*nn+2]-dx[3*nn+2];        
+           nodid[tt]   = itab[nn]+10000*j;
+           bcs[tt] = 0;
+           tt++;
+          }    
+      }
+
+    id = *igd;                            
+    init_buf[0] = *igd;
+    init_buf[1] = *nb_tot_dof;
+    init_buf[2] = 0 ;
+    init_buf[3] = 0 ;
+    init_buf[4] = 0 ;    
+    init_buf[5] = *print;        
+                    
+    writer(fidw, (void *) init_buf,6*sizeof(int));                            
+    writer(fidw, (void *) nodid, lbuf1);
+    writer(fidw, (void *) bcs, lbuf1);
+    writer(fidw, (void *) crd, 3*lbuf);   
+
+    /*********Deallocation****************************/
+    free(crd);    
+    free(nodid);
+    free(bcs);                   
+}
+
+void _FCALL  INIT_LINK_NL_C (igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof)
+int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof;
+my_real_c *x,*dx;
+{
+    init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof);
+}
+
+void _FCALL init_link_nl_c_(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof)
+int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof;
+my_real_c *x,*dx;
+{
+    init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof);
+}
+
+void _FCALL init_link_nl_c__(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof)
+int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof;
+my_real_c *x,*dx;
+{init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof);}
+
 
 void init_buf_spmd_c(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,tlel,lel,lelnb,tleln,leln,nbelem,tcnel,cnelem2,wgt,tcneldb,cnelemdb,info,typ,nglob)
 int *igd, *nng, *nodbuf, *itab,*addcnel,*cnel,*ixc,*ofc,*tlel,*lel,*lelnb,*tleln,*leln,*nbelem,*tcnel,*cnelem2,*wgt,*tcneldb,*cnelemdb,*info,*typ,*nglob;
@@ -1123,7 +1192,45 @@ int *idp, *nng, *nodbuf;
 my_real_c *ms, *in;
 {send_mass_c(idp, nng, nodbuf, ms, in);}
 
+void send_mass_nl_c(idp, nng, iadd_nl, ms)
+int *idp, *nng, *iadd_nl;
+my_real_c *ms;
+{
+int i, j,nn, lbuf, flag;
+my_real_c *mbuf;
 
+    writer(fidw, (void *) idp, sizeof(int));    
+    readr(fidr, (void *) &flag, sizeof(int));
+    flagrot[*idp]=0;
+    
+    lbuf = *nng*sizeof(my_real_c);
+    mbuf = (my_real_c *) malloc(lbuf);
+
+    for (i = 0; i < *nng; i++)
+      {
+       mbuf[i] = ms[iadd_nl[i]-1];
+      }
+    
+    writer(fidw, (void *) mbuf, lbuf);    
+    free(mbuf);
+}
+
+void _FCALL SEND_MASS_NL_C(idp, nng, iadd_nl, ms)
+int *idp, *nng, *iadd_nl;
+my_real_c *ms;
+{
+    send_mass_nl_c(idp, nng, iadd_nl, ms);
+}
+void send_mass_nl_c_(idp, nng, iadd_nl, ms)
+int *idp, *nng, *iadd_nl;
+my_real_c *ms;
+{
+    send_mass_nl_c(idp, nng, iadd_nl, ms);
+}
+void send_mass_nl_c__(idp, nng, iadd_nl, ms)
+int *idp, *nng, *iadd_nl;
+my_real_c *ms;
+{send_mass_nl_c(idp, nng, iadd_nl, ms);}
 
 void send_mass_rby_c(idp, nng, nodbuf, ms, in, npby, nrbody, rby, tag, add_rby, nnpby, nrby)
 int *idp, *nng, *nodbuf, *nrbody, *npby, *tag, *add_rby, *nnpby, *nrby;
@@ -1565,6 +1672,56 @@ double *dx, *dr;
 {send_data_c(idp, nng, nodbuf, fx, fr, stx, str, vx,  vr,  ms,  in,  dx, x, typ, npas, rby, tag_rby, add_rby, rbylnk, kin, dr, dt2, iex, off_sph, numsph_glo, nrby);}
 /******************************************************************/
 
+void send_data_nl_c(idp, nng, iadd_nl, fx, vx,  ms, npas, iex)
+int *idp, *nng, *iadd_nl, *npas, *iex;
+my_real_c *fx, *vx, *ms;
+{
+int rest, next, chunk;
+int i;
+
+    rest = *nng;
+    chunk = rest / nthreads;
+
+    #pragma omp parallel for schedule(static,chunk) if (chunk>350) private(i)                                
+    for (next = 0; next < rest; next++)
+      {
+       i = next;
+       com->mass_buf[off_link+i] = ms[iadd_nl[i]-1];
+       com->fx_buf[3*(off_link+i)] = fx[iadd_nl[i]-1];    
+      }
+
+    if (*npas==0)    
+      {
+        #pragma omp parallel for schedule(static,chunk) if (chunk>350) private(i)                                
+        for (next = 0; next < rest; next++)
+          {
+           i = next;
+           com->vx_buf[3*(off_link+i)] = vx[iadd_nl[i]-1];
+          }              
+      }
+             
+    off_link += rest;     
+}
+
+/******************************************************************/
+void _FCALL SEND_DATA_NL_C(idp, nng, iadd_nl, fx, vx,  ms, npas, iex)
+int *idp, *nng, *iadd_nl, *npas, *iex;
+my_real_c *fx, *vx, *ms;
+{
+    send_data_nl_c(idp, nng, iadd_nl, fx, vx,  ms, npas, iex);
+}
+void send_data_nl_c_(idp, nng, iadd_nl, fx, vx,  ms, npas, iex)
+int *idp, *nng, *iadd_nl, *npas, *iex;
+my_real_c *fx, *vx, *ms;
+{
+    send_data_nl_c(idp, nng, iadd_nl, fx, vx,  ms, npas, iex);
+}
+void send_data_nl_c__(idp, nng, iadd_nl, fx, vx,  ms, npas, iex)
+int *idp, *nng, *iadd_nl, *npas, *iex;
+my_real_c *fx, *vx, *ms;
+{send_data_nl_c(idp, nng, iadd_nl, fx, vx,  ms, npas, iex);}
+/******************************************************************/
+
 /* el51g1+++ */
 void send_data_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, bufr5, bufr6, bufr7, bufr8, bufr9, buf_rby, flg_rby, typ, npas, iex)
 int *idp, *nng, *typ, *npas, *flg_rby, *iex;
@@ -1818,6 +1975,43 @@ int *idp, *nng, *nodbuf, *typ, *kin, *wgt, *iex, *iresp;
 my_real_c *wf, *wm, *wf2, *wm2, *v, *vr, *fx, *fr, *ms, *in, *x, *dx;
 double *xdp,*tfext;
 {    get_force_c(idp, nng, nodbuf, wf, wm, wf2, wm2, v, vr, fx, fr, ms, in, x, xdp, dx, typ, kin, wgt, iex, iresp, tfext);}
+/******************************************************************/
+
+void get_force_nl_c(idp, nng, iadd_nl, fx, ms, iex)
+int *idp, *nng, *iadd_nl, *iex;
+my_real_c *fx, *ms;
+{
+int rest, next;
+int i, chunk;
+
+    rest = *nng;
+
+    if (*iex == 1) off_link = 0;
+                   
+    chunk = rest / nthreads;            
+    #pragma omp parallel for schedule(static,chunk) if (chunk>350) private(i)
+    for (next = 0; next < rest; next++)
+      {
+       i = next;
+       fx[iadd_nl[i]-1] = com->fx_buf[3*(off_link+i)]*ms[iadd_nl[i]-1];    
+      }       
+
+      off_link += rest;          
+}
+
+/******************************************************************/
+void _FCALL GET_FORCE_NL_C(idp, nng, iadd_nl, fx, ms, iex)
+int *idp, *nng, *iadd_nl, *iex;
+my_real_c *fx, *ms;
+{    get_force_nl_c(idp, nng, iadd_nl, fx, ms, iex);}
+void get_force_nl_c_(idp, nng, iadd_nl, fx, ms, iex)
+int *idp, *nng, *iadd_nl, *iex;
+my_real_c *fx, *ms;
+{    get_force_nl_c(idp, nng, iadd_nl, fx, ms, iex);}
+void get_force_nl_c__(idp, nng, iadd_nl, fx, ms, iex)
+int *idp, *nng, *iadd_nl, *iex;
+my_real_c *fx, *ms;
+{    get_force_nl_c(idp, nng, iadd_nl, fx, ms, iex);}
 /******************************************************************/
 
 void get_force_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, iex, nglob)

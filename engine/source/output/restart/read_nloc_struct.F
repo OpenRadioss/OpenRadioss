@@ -46,6 +46,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr02_c.inc"
+#include      "rad2r_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -54,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ILOC,NNOD,L_NLOC,NUMELS_NL,NUMELC_NL,NDDMAX,
-     .        NUMELTG_NL,LCNE_NL
+     .        NUMELTG_NL,LCNE_NL,MATSIZE
       my_real, DIMENSION(:), POINTER :: FNL,STIFNL
       INTEGER, DIMENSION(8)  :: 
      .  HEAD
@@ -82,11 +83,18 @@ c
 c
       IF (ILOC > 0) THEN
 c
-        ALLOCATE (NLOC_DMG%LEN(NUMMAT))
-        ALLOCATE (NLOC_DMG%LE_MAX(NUMMAT))
-        ALLOCATE (NLOC_DMG%DENS(NUMMAT))
-        ALLOCATE (NLOC_DMG%DAMP(NUMMAT))
-        ALLOCATE (NLOC_DMG%SSPNL(NUMMAT))
+        IF (R2R_SIU > 0) THEN
+C--       multidomains - origianl nummat is used
+          MATSIZE = NUMMAT0 
+        ELSE
+          MATSIZE = NUMMAT 
+        ENDIF
+c
+        ALLOCATE (NLOC_DMG%LEN(MATSIZE))
+        ALLOCATE (NLOC_DMG%LE_MAX(MATSIZE))
+        ALLOCATE (NLOC_DMG%DENS(MATSIZE))
+        ALLOCATE (NLOC_DMG%DAMP(MATSIZE))
+        ALLOCATE (NLOC_DMG%SSPNL(MATSIZE))
         ALLOCATE (NLOC_DMG%INDX(NNOD))
         ALLOCATE (NLOC_DMG%POSI(NNOD+1))
         ALLOCATE (NLOC_DMG%IDXI(NUMNOD))
@@ -141,15 +149,15 @@ c
           ENDIF
         ENDIF
 c
-        CALL READ_DB(NLOC_DMG%DENS,NUMMAT)
+        CALL READ_DB(NLOC_DMG%DENS,MATSIZE)
 c
-        CALL READ_DB(NLOC_DMG%DAMP,NUMMAT)
+        CALL READ_DB(NLOC_DMG%DAMP,MATSIZE)
 c
-        CALL READ_DB(NLOC_DMG%LEN,NUMMAT)
+        CALL READ_DB(NLOC_DMG%LEN,MATSIZE)
 c
-        CALL READ_DB(NLOC_DMG%LE_MAX,NUMMAT)
+        CALL READ_DB(NLOC_DMG%LE_MAX,MATSIZE)
 c
-        CALL READ_DB(NLOC_DMG%SSPNL,NUMMAT)
+        CALL READ_DB(NLOC_DMG%SSPNL,MATSIZE)
 c        
         CALL READ_I_C(NLOC_DMG%INDX,NNOD)
 c        

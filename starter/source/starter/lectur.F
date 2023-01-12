@@ -3661,7 +3661,8 @@ C---  Premiere Passe -> comptage
      4           IADBUF,NALE_R2R,FLG_R2R_ERR ,
      5           STACK%PM ,IWORKSH  ,IGRBRIC ,IGRQUAD   ,IGRSH4N ,
      6           IGRSH3N  ,IGRTRUSS ,IGRBEAM ,IGRSPRING ,IGRNOD  ,
-     7           IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER ,IGEO)
+     7           IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER ,IGEO    ,
+     8           NLOC_DMG)
 C---
          ALLOCATE(IBUFTMP(IDX2)%ptr(SIBUFSSG+INNOD)   ,STAT=stat)
          IF (STAT /= 0) THEN
@@ -3687,7 +3688,8 @@ C---  Deuxieme Passe -> creation des interfaces
      4           IADBUF,NALE_R2R,FLG_R2R_ERR ,
      5           STACK%PM ,IWORKSH  ,IGRBRIC ,IGRQUAD   ,IGRSH4N ,
      6           IGRSH3N  ,IGRTRUSS ,IGRBEAM ,IGRSPRING ,IGRNOD  ,
-     7           IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER ,IGEO)
+     7           IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER ,IGEO    ,
+     8           NLOC_DMG)
 C--------------------------------------------
 C     MULTIDOMAINS - SPLIT DES TABLEAUX
 C--------------------------------------------

@@ -39,12 +39,13 @@ Chd|====================================================================
      .               VR      ,A       ,AR      ,MS      ,IN      ,        
      .               XDP     ,DX      ,R2R_ON  ,DD_R2R  ,WEIGHT  ,
      .               IAD_ELEM,FR_ELEM ,STIFN   , STIFR  , DD_R2R_ELEM,
-     .               SDD_R2R_ELEM)                                           
+     .               SDD_R2R_ELEM,NLOC_DMG)                                           
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE RAD2R_MOD
       USE GROUPDEF_MOD
+      USE NLOCAL_REG_MOD
 C-----------------------------------------------      
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,20 +80,23 @@ C
       DOUBLE PRECISION XDP(3,*) 
 !
       TYPE (GROUP_)  , TARGET, DIMENSION(NGRNOD)  :: IGRNOD
+      TYPE(NLOCAL_STR_), TARGET, INTENT(IN)  :: NLOC_DMG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IEX, IDP, IDG, NNG, NB,NGLOB,LENR,SIZE,BID
-      INTEGER NBD
+      INTEGER NBD,NL_FLAG
       my_real
      .        WF, WM, WF2, WM2, WFB, WMB, WF2B, WM2B  
 C
-      INTEGER, DIMENSION(:), POINTER :: GRNOD  
+      INTEGER, DIMENSION(:), POINTER :: GRNOD
+      my_real, POINTER, DIMENSION(:) :: MSNL,FNL  
 C=======================================================================
       WF = ZERO
       WM = ZERO
       WF2= ZERO
       WM2= ZERO
+      NL_FLAG = 0
 
       IF ((R2R_SIU==1).OR.(NSPMD==1)) THEN
 C-----------------------------------------------------------------------                     
@@ -101,12 +105,19 @@ C-----------------------------------------------------------------------
         IDP  = IEXLNK(2,IEX)
         NNG  = IGRNOD(IDG)%NENTITY
         GRNOD => IGRNOD(IDG)%ENTITY
-!
-        CALL GET_FORCE_C(
-     .       IDP    ,NNG    ,GRNOD  ,WF     ,WM      ,
-     .       WF2    ,WM2    ,V      ,VR     ,A      ,AR      ,
-     .       MS     ,IN     ,X      ,XDP    ,DX     ,TYPLNK(IEX),
-     .       KINLNK(IEX),WEIGHT  ,IEX    ,IRESP, TFEXT)
+	IF (NLLNK(IEX)==1) THEN
+C-------Non local coupling interface--------------------------
+          NL_FLAG = 1
+          MSNL  => NLOC_DMG%MASS(1:NLOC_DMG%L_NLOC)
+          FNL  => NLOC_DMG%FNL(1:NLOC_DMG%L_NLOC,1)  
+          CALL GET_FORCE_NL_C(IDP    ,NBDOF_NL(IEX)  ,IADD_NL  ,FNL ,MSNL ,
+     .                        IEX)
+        ELSE
+          CALL GET_FORCE_C(IDP    ,NNG    ,GRNOD  ,WF     ,WM      ,
+     .                     WF2    ,WM2    ,V      ,VR     ,A      ,AR      ,
+     .                     MS     ,IN     ,X      ,XDP    ,DX     ,TYPLNK(IEX),
+     .                     KINLNK(IEX),WEIGHT  ,IEX    ,IRESP, TFEXT)
+        ENDIF
         IF (R2R_ON == 1)  THEN
           CALL GET_DISPL_C(IDP,NNG,GRNOD,X)
         ENDIF
@@ -117,10 +128,9 @@ C----------New rad2rad HMPP - synchro SPMD-----------------------------
          IF (SDD_R2R_ELEM>0) THEN        
            SIZE =  3+FLAG_KINE + IRODDL*(3+FLAG_KINE)         
            LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)         
-           CALL SPMD_EXCH_R2R_2(
-     1       A ,AR,V , VR  ,MS   ,IN,
-     2       IAD_ELEM,FR_ELEM,SIZE , WF, WF2,
-     3       LENR    ,DD_R2R,DD_R2R_ELEM,WEIGHT,FLAG_KINE)
+           CALL SPMD_EXCH_R2R_2(A ,AR,V , VR  ,MS   ,IN,
+     2                          IAD_ELEM,FR_ELEM,SIZE , WF, WF2,
+     3                          LENR    ,DD_R2R,DD_R2R_ELEM,WEIGHT,FLAG_KINE)
          ENDIF
          CALL SPMD_EXCH_WORK(WF, WF2)
          CALL SPMD_EXCH_WORK(WM, WM2)

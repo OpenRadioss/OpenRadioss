@@ -119,27 +119,29 @@ C------ Information for speedup computation
 C------      
         DO I=1,NR2RLNK      		
           IDG = IEXTER(1,I)
-          DO J=1,IGRNOD(IDG)%NENTITY
-            NJ = IGRNOD(IDG)%ENTITY(J)
-            FL_EXIT = 0
-            SPLIST=0  
-	    CALL PLIST_IFRONT(PLIST,NJ,SPLIST)
+C--  70 -> nlocal link - nodes already defined in link type 4  
+          IF (IEXTER(5,I) /= 70) THEN
+            DO J=1,IGRNOD(IDG)%NENTITY
+              NJ = IGRNOD(IDG)%ENTITY(J)
+              FL_EXIT = 0
+              SPLIST=0  
+	      CALL PLIST_IFRONT(PLIST,NJ,SPLIST)
 C
-            WRITE(REF,1302,IOSTAT=ERR) ITAB(NJ),SPLIST
-	    DO L=1,SPLIST
-              K = PLIST(L)	   
-              WRITE(REF,1303,IOSTAT=ERR) (K)
-              IF (ERR/=0) THEN
-                CALL ANCMSG(MSGID=950,
-     .          MSGTYPE=MSGERROR,
-     .          ANMODE=ANINFO_BLIND_1)
-                FL_EXIT = 1                
-                EXIT
-              ENDIF
-            ENDDO
-C
-            IF (FL_EXIT==1) EXIT            
-          END DO
+              WRITE(REF,1302,IOSTAT=ERR) ITAB(NJ),SPLIST
+	      DO L=1,SPLIST
+                K = PLIST(L)	   
+                WRITE(REF,1303,IOSTAT=ERR) (K)
+                IF (ERR/=0) THEN
+                  CALL ANCMSG(MSGID=950,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO_BLIND_1)
+                  FL_EXIT = 1                
+                  EXIT
+                ENDIF
+              ENDDO
+              IF (FL_EXIT==1) EXIT            
+            END DO
+          ENDIF
         END DO
 C
         CLOSE(UNIT=REF,STATUS='KEEP')
@@ -155,27 +157,30 @@ C------ Information for speedup computation
 C
         DO I=1,NR2RLNK      		
           IDG = IEXTER(1,I)
-          DO J=1,IGRNOD(IDG)%NENTITY
-            FL_EXIT = 0
-            READ(REF,1302,IOSTAT=ERR) NJS,SPLIST
-            NJ = USR2SYS(NJS,ITABM1,MESS,0)
-            DO K=1,NSPMD
-               FRONTB_R2R(NJ,K) = IDG 
-            END DO     
-            DO L=1,SPLIST	   
-              READ(REF,1303,IOSTAT=ERR) K
-              IF (ERR/=0) THEN
-                CALL ANCMSG(MSGID=950,
-     .          MSGTYPE=MSGERROR,
-     .          ANMODE=ANINFO_BLIND_1)                
-                FL_EXIT = 1
-                EXIT                
-              ENDIF
-              FRONTB_R2R(NJ,K) = -1                              
-              IF (NLOCAL(NJ,K)/=1) CALL IFRONTPLUS(NJ,K)               
-            ENDDO
-            IF (FL_EXIT==1) EXIT
-          END DO                      
+C--  70 -> nlocal link - nodes already defined in link type 4 
+          IF (IEXTER(5,I) /= 70) THEN
+            DO J=1,IGRNOD(IDG)%NENTITY
+              FL_EXIT = 0
+              READ(REF,1302,IOSTAT=ERR) NJS,SPLIST
+              NJ = USR2SYS(NJS,ITABM1,MESS,0)
+              DO K=1,NSPMD
+                 FRONTB_R2R(NJ,K) = IDG 
+              END DO     
+              DO L=1,SPLIST	   
+                READ(REF,1303,IOSTAT=ERR) K
+                IF (ERR/=0) THEN
+                  CALL ANCMSG(MSGID=950,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO_BLIND_1)                
+                  FL_EXIT = 1
+                  EXIT                
+                ENDIF
+                FRONTB_R2R(NJ,K) = -1                              
+                IF (NLOCAL(NJ,K)/=1) CALL IFRONTPLUS(NJ,K)               
+              ENDDO
+              IF (FL_EXIT==1) EXIT
+            END DO    
+          ENDIF                  
         END DO
         CLOSE(UNIT=REF,STATUS='KEEP')     
         

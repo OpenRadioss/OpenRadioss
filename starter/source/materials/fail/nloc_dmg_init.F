@@ -60,6 +60,7 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
 #include      "tabsiz_c.inc"
+#include      "r2r_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -85,7 +86,7 @@ C-----------------------------------------------
       INTEGER I,J,K,NG,NEL,NFT,ITY,NPTT,ILOC,INOD,NNOD,NDEPAR,IMAT,
      .        L_NLOC,POS,NDD,FORMU,N,NUMELS_NL,IGTYP,NUMELC_NL,NDDMAX,
      .        NUMELTG_NL,NPTR,NPTS,IR,IS,ISOLNOD,IO_ERR1,LEN_TMP_NAME,
-     .        WORK(70000),IDEB,IDEBS,IDEBC,IDEBT,IADBUF
+     .        WORK(70000),IDEB,IDEBS,IDEBC,IDEBT,IADBUF,MATSIZE
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGNOD
       INTEGER, DIMENSION(:),   ALLOCATABLE :: INDX,IDXI,NMAT,NDDL,
      .                                        POSI,ITRI,INDEX,TAGTET
@@ -94,10 +95,9 @@ C-----------------------------------------------
      .   DENS, DTMIN, LEN, SSPNL,NTH1, NTH2,
      .   Z01(11,11), WF1(11,11), ZN1(12,11),DAMP,WS,LE_MIN,
      .   DTSCA_AMS,DTSCA_CST_AMS,LE_MAX,SSP,
-     .   DTMINI_AMS,DTMINI_CST_AMS,DTMINI,
-     .   WARN_LENGHT(NUMMAT,3)
+     .   DTMINI_AMS,DTMINI_CST_AMS,DTMINI
       my_real, DIMENSION(:,:), ALLOCATABLE ::  
-     .   VOLN_S, VOLN_C, VOLN_TG
+     .   VOLN_S, VOLN_C, VOLN_TG, WARN_LENGHT
       my_real, DIMENSION(:)  , ALLOCATABLE ::  
      .   VOLN, VOLU
       my_real ,DIMENSION(:)  , POINTER     :: 
@@ -244,6 +244,14 @@ c
         ALLOCATE( TAGTET(NUMELS) )
         ALLOCATE( INDEX(NUMELS+NUMELC+NUMELTG) )
         ALLOCATE( ITRI(NUMELS+NUMELC+NUMELTG) )
+C
+        IF (NSUBDOM > 0) THEN
+C--       multidomains - origianl nummat is used
+          MATSIZE = NUMMAT0
+        ELSE
+          MATSIZE = NUMMAT
+        ENDIF
+        MY_ALLOCATE2D(WARN_LENGHT,MATSIZE,3)
 c   
         ! Initialization of variables   
         VOLN_S(1:8,1:NUMELS)   = ZERO
@@ -259,7 +267,7 @@ c
         NUMELC_NL  = 0
         NUMELTG_NL = 0
         NDDMAX     = 0
-        WARN_LENGHT(1:NUMMAT,1:3) = ZERO
+        WARN_LENGHT(1:MATSIZE,1:3) = ZERO
 c     
         ! Computation of the volume of elements 
         DO NG=1,NGROUP
@@ -614,7 +622,7 @@ C
         ENDDO
 c
         ! Checking non-local length consistency with mesh size
-        DO I = 1, NUMMAT
+        DO I = 1, MATSIZE
           IF (WARN_LENGHT(I,1) > ZERO) THEN
             CALL ANCMSG(MSGID=1812,MSGTYPE=MSGWARNING,
      .         ANMODE=ANINFO_BLIND_1,I1=IPM(1,I),R1=NLOC_DMG%LEN(I),
@@ -624,7 +632,7 @@ c
 c
         ! Printing out non-local parameters
         WRITE(IOUT,1800)
-        DO I = 1, NUMMAT
+        DO I = 1, MATSIZE
           IF (NLOC_DMG%DENS(I) > ZERO) THEN 
             WRITE(IOUT,1900) IPM(1,I),NLOC_DMG%LEN(I),NLOC_DMG%LE_MAX(I),NLOC_DMG%DENS(I),NLOC_DMG%DAMP(I)
           ENDIF
@@ -808,6 +816,7 @@ c
        IF (ALLOCATED(VOLN_TG)) DEALLOCATE(VOLN_TG)
        IF (ALLOCATED(VOLN))    DEALLOCATE(VOLN)
        IF (ALLOCATED(VOLU))    DEALLOCATE(VOLU)
+       IF (ALLOCATED(WARN_LENGHT))  DEALLOCATE(WARN_LENGHT)
 c-----------
  1800 FORMAT(
      . 5X,' NON-LOCAL PARAMETERS '/

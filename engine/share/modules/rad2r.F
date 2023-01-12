@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE ::      
      .      SOCKET,DBNO,NBELTN_R2R,TCNELT,TCNELTDB,TYPLNK,  
      .      OFFSET,NBELT_R2R,ROTLNK,RBYLNK,TAG_RBY,ADD_RBY,
-     .      KINLNK,TAGEL_R2R_SEND       
+     .      KINLNK,TAGEL_R2R_SEND,NLLNK,NBDOF_NL,IADD_NL       
 
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: 
      .      DBN,NBEL,NBELN,TBCNEL,TBCNELDB
