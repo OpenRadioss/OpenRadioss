@@ -905,6 +905,22 @@ C-------------------------------------
               DO  I=LFT,LLT                                         
                 FUNC(EL2FA(NN3+NFT+I)) = ISPMD                       
               ENDDO  
+C-------------------------------------
+            ELSEIF (IFUNC == 14595 + 4*MX_PLY_ANIM  .AND. (GBUF%G_TSAIWU > 0)) THEN
+C-------------------------------------
+              ! /ANIM/ELEM/TSAIWU
+              BUFLY => ELBUF_TAB(NG)%BUFLY(1)             
+              DO I=LFT,LLT
+                DO IR=1,NPTR
+                  DO IS=1,NPTS   
+                    DO IT=1,NPTT
+                      FUNC(EL2FA(NN3+NFT+I)) = 
+     .                  FUNC(EL2FA(NN3+NFT+I)) 
+     .                  + BUFLY%LBUF(IR,IS,IT)%TSAIWU(I)/(NPTT*NPTR*NPTS)
+                    ENDDO
+                  ENDDO
+                ENDDO
+              ENDDO
 c------------------------------------ 
             ELSE                                                      
               DO  I=LFT,LLT                                           

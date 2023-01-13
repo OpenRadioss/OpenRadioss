@@ -235,6 +235,10 @@ c-----------------------------------------------
       H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1  = 'Plastic Strain '
 c-----------------------------------------------
       I = I + 1
+      H3D_KEYWORD_QUAD_SCALAR(I)%KEY3   = 'TSAIWU'
+      H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1  = 'Tsai-Wu Criterion'
+c-----------------------------------------------
+      I = I + 1
       H3D_KEYWORD_QUAD_SCALAR(I)%KEY3  = 'FAIL'
       H3D_KEYWORD_QUAD_SCALAR(I)%IS_PLY = 1
       H3D_KEYWORD_QUAD_SCALAR(I)%IS_IPT = 1
