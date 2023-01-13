@@ -56,11 +56,12 @@ Chd|====================================================================
         integer  LMAX_NSTRA ! noda p1&p3 for 3D
 C------ used to initialize LMAX_* (for elementary only)
         integer :: NKEYMAX = 6  
+        integer :: NCY_GPS, NCY_GPSTR 
 C---------Output Max contact force and pressure 
         integer :: SFCONT_MAX, SPCONT_MAX 
         integer :: IFCONTMAX,IFCONTPMAX, IFCONT2MAX,IFCONTP2MAX,IFCONT2MIN,IFCONTP2MIN
 C        /VONM;/SIGEQ; /ENER ; /DAMA, /TENS/STRESS ;/TENS/STRAIN
-        integer, DIMENSION(:) ,  ALLOCATABLE :: IKEYMAX 
+        integer, DIMENSION(:) ,  ALLOCATABLE :: IKEYMAX,IGPSTAG,IGPSTRATAG
         integer, DIMENSION(:,:) ,ALLOCATABLE :: IPART_OK 
         my_real, DIMENSION(:) , ALLOCATABLE ::  TM_DIS,TM_VEL  ! 3*NUMNOD
         my_real, DIMENSION(:) , ALLOCATABLE ::   TM_NSIG1 ,TM_NSIG3 ! 6*NUMNOD
