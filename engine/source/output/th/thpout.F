@@ -227,7 +227,7 @@ C
                                            IF (BUFLY%L_PLA > 0) THEN                                                                                     
                                             IPT = ITHBUF(L) - 255 
                                             LBUF  => BUFLY%LBUF(1,1,IPT) 
-                                            WA(IJK) = LBUF%PLA(KK(IK)+I)
+                                            WA(IJK) = LBUF%PLA(I)
                                            ENDIF
                                         ENDIF
 
