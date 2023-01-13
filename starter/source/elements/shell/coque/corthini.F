@@ -92,7 +92,7 @@ C-----------------------------------------------
       INTEGER I,II,J,JJ,N,NPT,NPTI,IGTYP,IPID,PID,ISK,IPANG,IPPHI,
      . IIGEO,IADR,IPTHK,IPPOS,IPDIR,IMAT_LY,ILAW_LY,IPPID,IPMAT,ILAY,
      . DEF_ORTH(MVSIZ),N1,N2,IRP,POS,NOD
-      my_real V(MVSIZ),E11,E12,E13,NE1
+      my_real V(MVSIZ),E11,E12,E13,NE1,VX0,VY0,VZ0
       CHARACTER*nchartitle, TITR1
 C=======================================================================
       PID = IX(NIX-1,1)
@@ -142,10 +142,13 @@ C       non orthotropic property
               VZ(I) = SKEW(3,ISK)
             ENDDO
           CASE (23)
+              VX0 = GEO(7,PID)
+              VY0 = GEO(8,PID)
+              VZ0 = GEO(9,PID)
             DO I=JFT,JLT
-              VX(I) = GEO(7,PID)
-              VY(I) = GEO(8,PID)
-              VZ(I) = GEO(9,PID)
+              VX(I) = E3Y(I)*VZ0-E3Z(I)*VY0
+              VY(I) = E3Z(I)*VX0-E3X(I)*VZ0
+              VZ(I) = E3X(I)*VY0-E3Y(I)*VX0
             ENDDO
           CASE (24)
 C--         seatbelt elements - dir1 defined by N1 and ADD_NODE (can be either N2 or N4)
