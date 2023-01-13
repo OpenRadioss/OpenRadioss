@@ -4077,6 +4077,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD            
+      USE OUTMAX_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4207,6 +4208,7 @@ C=======================================================================
         EVAR(6,I) = ZERO
       ENDDO  
       DO 900 NG=1,NGROUP
+        IF (LMAX_NSIG >0 .AND. IPART_OK(NG,1)==0) CYCLE
         IVISC = IPARG(61,NG)
         GBUF => ELBUF_TAB(NG)%GBUF
         CALL INITBUF (IPARG    ,NG      ,                    

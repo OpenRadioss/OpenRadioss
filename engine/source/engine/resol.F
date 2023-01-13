@@ -8308,6 +8308,7 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
       IF(NCYCLE > 0) THEN
 
+        IF (IMON>0) CALL STARTIME(MACRO_TIMER_GENH3D1,1)
         L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
         L2 = L1+6*NUMELS10
         L3 = L2+12*NUMELS20
@@ -8324,6 +8325,7 @@ C--------------------------------------------------
      .             WEIGHT ,IPM   ,IGEO    ,STACK   ,ITSK    )  
 
 !$OMP END PARALLEL
+        IF (IMON>0) CALL STOPTIME(MACRO_TIMER_GENH3D1,1)
       END IF
       
 C========================================================================================

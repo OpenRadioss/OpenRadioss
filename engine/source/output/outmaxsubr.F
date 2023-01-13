@@ -33,7 +33,8 @@ Chd|====================================================================
       SUBROUTINE GPS_SOLID(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
      .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
-     .  	       X	,IAD_ELEM,FR_ELEM ,WEIGHT  ,SIG_N   )
+     .  	       X	,IAD_ELEM,FR_ELEM ,WEIGHT  ,SIG_N   ,
+     .             ITAGPS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,8 +70,9 @@ C-----------------------------------------------
       INTEGER, DIMENSION(8,NUMELS16) ,INTENT(IN):: IXS16
       INTEGER, DIMENSION(12,NUMELS20) ,INTENT(IN):: IXS20
       INTEGER, DIMENSION(2,NSPMD+1)   ,INTENT(IN):: IAD_ELEM
-      INTEGER, DIMENSION(SFR_ELEM)     ,INTENT(IN):: FR_ELEM
-      INTEGER, DIMENSION(NUMNOD)     ,INTENT(IN):: WEIGHT
+      INTEGER, DIMENSION(SFR_ELEM)    ,INTENT(IN):: FR_ELEM
+      INTEGER, DIMENSION(NUMNOD)      ,INTENT(IN):: WEIGHT
+      INTEGER, DIMENSION(NUMNOD)     ,INTENT(INOUT):: ITAGPS
       my_real, DIMENSION(NPROPG,NUMGEO) ,INTENT(IN):: GEO
       my_real, DIMENSION(NPROPM,NUMMAT) ,INTENT(IN):: PM
       my_real, DIMENSION(3,NUMNOD) ,INTENT(IN):: X
@@ -79,34 +81,32 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,LENR
+      INTEGER I,J,K,N,LENR,NSIZ
       my_real
      .  FAC
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS    
       my_real
-     .       , DIMENSION(:,:), ALLOCATABLE :: AFLU, VFLU
+     .       , DIMENSION(:,:), ALLOCATABLE, TARGET :: VCOM
+      my_real
+     .       , DIMENSION(:,:), POINTER :: AFLU, VFLU
 C-----------------------------------------------
 C
-      ALLOCATE(AFLU(3,NUMNOD))
-      ALLOCATE(VFLU(3,NUMNOD))
-      ALLOCATE(ITAGPS(NUMNOD))
+      NSIZ = 7
+      ALLOCATE(VCOM(NSIZ,NUMNOD))
+      AFLU=>VCOM(1:3,1:NUMNOD)
+      VFLU=>VCOM(4:6,1:NUMNOD)
+      VCOM = ZERO
 
        SIG_N(1:NUMNOD,1:6) = ZERO
-         DO N=1,NUMNOD
-           ITAGPS(N) = 0
-           VFLU(1:3,N) = ZERO
-           AFLU(1:3,N) = ZERO
-         ENDDO
+       ITAGPS(1:NUMNOD) = 0
          CALL TENSGPS3(ELBUF_TAB ,VFLU	  ,AFLU    ,IPARG   ,GEO     ,
      .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
      .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
      .  	       X	,ITAGPS  ,PM	  )
-
          IF(NSPMD > 1)THEN
+           VCOM(7,1:NUMNOD) =ITAGPS(1:NUMNOD) 
            LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-           CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
-           CALL SPMD_EXCH_N(VFLU,IAD_ELEM,FR_ELEM,LENR)
-           CALL SPMD_EXCH_N(AFLU,IAD_ELEM,FR_ELEM,LENR)
+           CALL SPMD_EXCH_V(VCOM,NSIZ,IAD_ELEM,FR_ELEM,LENR)
+           ITAGPS(1:NUMNOD)=NINT(VCOM(7,1:NUMNOD)) 
          ENDIF
          DO N=1,NUMNOD
            IF (ITAGPS(N) == 0) CYCLE
@@ -115,9 +115,7 @@ C
            SIG_N(N,4:6)=FAC*AFLU(1:3,N)
          ENDDO
 
-      DEALLOCATE(AFLU)
-      DEALLOCATE(VFLU)
-      DEALLOCATE(ITAGPS)
+      DEALLOCATE(VCOM)
 
       RETURN
       END
@@ -134,7 +132,8 @@ Chd|====================================================================
       SUBROUTINE GPSTRA_SOLID(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
      .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
-     .  	       X	,IAD_ELEM,FR_ELEM ,WEIGHT  ,STR_N   )
+     .  	       X	,IAD_ELEM,FR_ELEM ,WEIGHT  ,STR_N   ,
+     .             ITAGPS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -170,8 +169,9 @@ C-----------------------------------------------
       INTEGER, DIMENSION(8,NUMELS16) ,INTENT(IN):: IXS16
       INTEGER, DIMENSION(12,NUMELS20) ,INTENT(IN):: IXS20
       INTEGER, DIMENSION(2,NSPMD+1)   ,INTENT(IN):: IAD_ELEM
-      INTEGER, DIMENSION(SFR_ELEM)     ,INTENT(IN):: FR_ELEM
-      INTEGER, DIMENSION(NUMNOD)     ,INTENT(IN):: WEIGHT
+      INTEGER, DIMENSION(SFR_ELEM)    ,INTENT(IN):: FR_ELEM
+      INTEGER, DIMENSION(NUMNOD)      ,INTENT(IN):: WEIGHT
+      INTEGER, DIMENSION(NUMNOD)     ,INTENT(INOUT):: ITAGPS
       my_real, DIMENSION(NPROPG,NUMGEO) ,INTENT(IN):: GEO
       my_real, DIMENSION(NPROPM,NUMMAT) ,INTENT(IN):: PM
       my_real, DIMENSION(3,NUMNOD) ,INTENT(IN):: X
@@ -183,14 +183,12 @@ C-----------------------------------------------
       INTEGER I,J,K,N,LENR
       my_real
      .  FAC
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS    
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: AFLU, VFLU
 C-----------------------------------------------
 C
       ALLOCATE(AFLU(3,NUMNOD))
       ALLOCATE(VFLU(3,NUMNOD))
-      ALLOCATE(ITAGPS(NUMNOD))
 
 
        STR_N(1:NUMNOD,1:6) = ZERO
@@ -218,7 +216,6 @@ C
 
       DEALLOCATE(AFLU)
       DEALLOCATE(VFLU)
-      DEALLOCATE(ITAGPS)
 
       RETURN
       END
@@ -1189,7 +1186,7 @@ Chd|-- called by -----------
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE UPD_TMTENS(NSIG,PNSIG,TM_NSIG1,TM_NSIG3,TM_PNSIG,NFT,NLT)
+      SUBROUTINE UPD_TMTENS(NSIG,PNSIG,TM_NSIG1,TM_NSIG3,TM_PNSIG,NFT,NLT,IGPSTAG)
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1202,6 +1199,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NFT,NLT
+      INTEGER  ,DIMENSION(NUMNOD) ,INTENT(IN):: IGPSTAG
       my_real, DIMENSION(NUMNOD,6) ,INTENT(IN):: NSIG
       my_real, DIMENSION(NUMNOD,2) ,INTENT(IN):: PNSIG
       my_real, DIMENSION(NUMNOD,2) ,INTENT(INOUT):: TM_PNSIG
@@ -1216,6 +1214,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
       DO  I=NFT,NLT 
+        IF (IGPSTAG(I)==0) CYCLE      
         IF (PNSIG(I,1) > TM_PNSIG(I,1)) THEN
           TM_PNSIG(I,1) = PNSIG(I,1)
           TM_NSIG1(I,1:6) = NSIG(I,1:6)
@@ -1234,7 +1233,7 @@ Chd|-- called by -----------
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SIG3DPIN2H(SIG,PIN,NFT,NLT)
+      SUBROUTINE SIG3DPIN2H(SIG,PIN,NFT,NLT,IGPSTAG)
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1247,8 +1246,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  ,INTENT(IN) :: NFT,NLT
+      INTEGER  ,DIMENSION(NUMNOD) ,INTENT(IN):: IGPSTAG
       my_real, DIMENSION(NUMNOD,6) ,INTENT(IN) :: SIG
-      my_real, DIMENSION(NUMNOD,2) ,INTENT(OUT):: PIN
+      my_real, DIMENSION(NUMNOD,2) ,INTENT(INOUT):: PIN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1258,7 +1258,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      DO  I=NFT,NLT 
+      DO  I=NFT,NLT
+        IF (IGPSTAG(I)==0) CYCLE      
         S1 = SIG(I,4)*SIG(I,4)+SIG(I,5)*SIG(I,5)+SIG(I,6)*SIG(I,6)
         IF (S1 > EM10) THEN
           T1 = THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))

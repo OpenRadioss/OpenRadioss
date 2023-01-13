@@ -338,19 +338,19 @@ C-----------------------------------------------
 C-----------------------------------------------
       ELSEIF(KEYWORD == 'GPS/TMAX') THEN
 C-----------------------------------------------
-         CALL GET_TM_GPS(VALUE,TM_NSIG1,NUMNOD)
+         CALL GET_TM_GPS(VALUE,TM_NSIG1,NUMNOD,IOK_PART,IGPSTAG)
 C-----------------------------------------------
       ELSEIF(KEYWORD == 'GPS/TMIN') THEN
 C-----------------------------------------------
-         CALL GET_TM_GPS(VALUE,TM_NSIG3,NUMNOD)
+         CALL GET_TM_GPS(VALUE,TM_NSIG3,NUMNOD,IOK_PART,IGPSTAG)
 C-----------------------------------------------
       ELSEIF(KEYWORD == 'GPSTRAIN/TMAX') THEN
 C-----------------------------------------------
-         CALL GET_TM_GPS(VALUE,TM_NSTRA1,NUMNOD)
+         CALL GET_TM_GPS(VALUE,TM_NSTRA1,NUMNOD,IOK_PART,IGPSTRATAG)
 C-----------------------------------------------
       ELSEIF(KEYWORD == 'GPSTRAIN/TMIN') THEN
 C-----------------------------------------------
-         CALL GET_TM_GPS(VALUE,TM_NSTRA3,NUMNOD)
+         CALL GET_TM_GPS(VALUE,TM_NSTRA3,NUMNOD,IOK_PART,IGPSTRATAG)
 C
 C-----------------------------------------------
 C
@@ -374,7 +374,7 @@ Chd|-- called by -----------
 Chd|        H3D_NODAL_TENSOR              source/output/h3d/h3d_results/h3d_nodal_tensor.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE GET_TM_GPS(VALUE,TM_NSIG,NNOD)
+      SUBROUTINE GET_TM_GPS(VALUE,TM_NSIG,NNOD,IOK_PART,IGPSTAG)
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -388,6 +388,8 @@ C-----------------------------------------------
       INTEGER  NNOD
       my_real, DIMENSION(6,NNOD) ,INTENT(OUT):: VALUE
       my_real, DIMENSION(NNOD,6) ,INTENT(INOUT):: TM_NSIG
+      INTEGER, DIMENSION(NNOD) ,INTENT(IN):: IGPSTAG
+      INTEGER, DIMENSION(NNOD) ,INTENT(INOUT):: IOK_PART
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -398,6 +400,8 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
       DO  I=1,NNOD 
+        IOK_PART(I) = MIN(IOK_PART(I),IGPSTAG(I))
+        IF (IGPSTAG(I)==0) CYCLE
         VALUE(1:6,I) = TM_NSIG(I,1:6)
       ENDDO
 C      

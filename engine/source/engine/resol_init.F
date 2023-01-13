@@ -1150,6 +1150,9 @@ C-----------------------
 C-----------------------
 C TMAX OF H3D
 C-----------------------
+       IF (ITASK == 0) 
+     .   CALL TMAX_IPART(IPARG   ,IPART   ,IPART(I15A),IPART(I15C),
+     .                 IPART(I15I),H3D_DATA)
        CALL INI_TMAX(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
      .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
