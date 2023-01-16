@@ -2146,7 +2146,8 @@ C
      7                   INTBUF_TAB%MSEGLO ,GAPS   ,INTBUF_TAB%IRECTM ,INTBUF_TAB%IRTLM  ,
      8                   INTBUF_TAB%TIME_S ,INTBUF_TAB%PENE_OLD,ITAB ,INTBUF_TAB%MSEGTYP24,ISHARP,
      9                   NNX     ,NNY    ,NNZ   ,GAP_NM  ,MVOISN,
-     A                   GAPMXL  ,IVIS2  ,IBOUND,INTBUF_TAB%VTX_BISECTOR )
+     A                   GAPMXL  ,IVIS2  ,IBOUND,INTBUF_TAB%VTX_BISECTOR,ILEV,
+     B                   INACTI )
 
            ENDDO
 C

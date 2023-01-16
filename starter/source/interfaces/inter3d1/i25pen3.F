@@ -38,7 +38,8 @@ Chd|====================================================================
      7                  MSEGLO ,GAPS   ,IRECT  ,IRTLM  ,
      9                  TIME_S ,PENE_OLD,ITAB   ,MSEGTYP,ISHARP,
      A                  NNX     ,NNY    ,NNZ   ,GAP_NM  ,MVOISN,
-     B                  GAPMXL  ,IVIS2  ,IBOUND,VTX_BISECTOR)
+     B                  GAPMXL  ,IVIS2  ,IBOUND,VTX_BISECTOR,ILEV,
+     C                  INACTI)
 C
       USE MESSAGE_MOD
 C
@@ -69,6 +70,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 C-----------------------------------------------
       INTEGER JLT, NSVG(*), NSN, MSEGLO(*), MSEGTYP(*), NRTM, IVIS2, ISHARP
+      INTEGER , INTENT(IN) :: INACTI, ILEV
 C     REAL
       my_real
      .   GAPS(*), GAP_NM(4,*), GAPMXL(*)
@@ -101,7 +103,7 @@ C     REAL
      .     LBH(MVSIZ,4), LCH(MVSIZ,4), LAH(MVSIZ,4), 
      .     DX, DY, DZ, DD(MVSIZ,4), 
      .     XP, YP, ZP,
-     .     GAP_MM(MVSIZ), GAPV(MVSIZ,4), GAP2
+     .     GAP_MM(MVSIZ), GAPV(MVSIZ,4), GAP2,NORM
       my_real
      .     PENE, 
      .     SX1,SX2,SX3,SX4,
@@ -1189,6 +1191,15 @@ C--------------------------------------------------------
           MGLOB = MSEGLO(L)
 
           PENE=PENT(I,IT) ! PENE /= ZERO .OR. DIST(I) < PENMIN**2
+
+C------- exclude wrong normal dir PEN_OLD(1-3): normal of nn  
+         IF (MSEGTYP(L)==0.OR.MSEGTYP(L)>NRTM) THEN          
+            IF(INACTI/=0.AND.ILEV/=3)THEN
+              NORM = NN1(I)*PENE_OLD(1,N)+NN2(I)*PENE_OLD(2,N)
+     +                  +NN3(I)*PENE_OLD(3,N)
+              IF(NORM > ZERO) PENE = ZERO
+            END IF 
+          ENDIF 
 C       if(itab(nsvg(i))==299344.or.itab(ix1(i))==299344.or.itab(ix2(i))==299344
 C    .   .or.itab(ix3(i))==299344.or.itab(ix4(i))==299344)
 C    .      print *,itab(nsvg(i)),itab(ix1(i)),itab(ix2(i)),itab(ix3(i)),itab(ix4(i)),
@@ -1234,7 +1245,17 @@ C         Looking for penetration vs closest segment (cf initial penetrations vs
             IF(PENT(I,IT)==ZERO) CYCLE
           END IF
 
+
           PENE=MAX(ZERO,PENT(I,IT)-HALF*GAPV(I,IT)) ! PENE /= ZERO .OR. DIST(I) < PENMIN**2
+
+C------- exclude wrong normal dir PEN_OLD(1-3): normal of nn  
+         IF (MSEGTYP(L)==0.OR.MSEGTYP(L)>NRTM) THEN          
+            IF(INACTI/=0.AND.ILEV/=3)THEN
+              NORM = NN1(I)*PENE_OLD(1,N)+NN2(I)*PENE_OLD(2,N)
+     +                  +NN3(I)*PENE_OLD(3,N)
+              IF(NORM > ZERO) PENE = ZERO
+            END IF 
+          ENDIF 
 C 
 C         Looking for penetration vs closest segment (cf initial penetrations vs solids)
           IF(DIST(I) < TIME_S(N) .OR.

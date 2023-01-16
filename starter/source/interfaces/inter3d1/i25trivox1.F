@@ -424,12 +424,7 @@ c               IF(INACTI==5.OR.INACTI==-1)THEN Do it for all inacti
                    IF(IPM==IPS) GOTO 300
                  END IF
 c               END IF
-C------- exclude wrong normal dir PEN_OLD(1-3): normal of nn            
-               IF(INACTI/=0.AND.ILEV/=3)THEN
-                 NSNM = SX*PEN_OLD(1,JJ)+SY*PEN_OLD(2,JJ)
-     +                  +SZ*PEN_OLD(3,JJ)
-                 IF(NSNM > ZERO)GOTO 300
-               END IF               
+             
 
 
 c    sousestimation de la distance**2 pour elimination de candidats
