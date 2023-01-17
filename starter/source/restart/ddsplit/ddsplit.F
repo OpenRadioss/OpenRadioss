@@ -1060,7 +1060,9 @@ C        ALLOCATE
                     DO JJ = 1, IEBCS_NELEM_L(II)
                        EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%ielem(JJ) = IEBCS_LISTELEM_L(IPT)
                        EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%iface(JJ) = IEBCS_LISTFAC_L(IPT)
-                       IF(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%has_dp0)EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%dp0(JJ) = IEBCS_LISTDP0_L(IPT)
+                       IF(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%has_dp0) THEN
+                          EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%dp0(JJ) = IEBCS_LISTDP0_L(IPT)
+                       ENDIF
                        IPT = IPT + 1
                     ENDDO
                 ENDIF
