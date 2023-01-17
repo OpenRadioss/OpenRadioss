@@ -102,6 +102,7 @@ Chd|        M_FLOW                        source/restart/ddsplit/m_flow.F
 Chd|        NFWRESTP                      source/restart/ddsplit/wrrest.F
 Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/pblast_mod.F
 Chd|        SETLENWA                      source/restart/ddsplit/setlenwa.F
+Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|        SPLIT_SKEW                    source/restart/ddsplit/split_skew.F
 Chd|        SPMD_NE_CONNECT               source/ale/spmd_ne_connect.F  

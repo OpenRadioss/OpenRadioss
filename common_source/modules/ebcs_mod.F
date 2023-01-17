@@ -25,7 +25,9 @@ Chd|  EBCS_MOD                      modules/ebcs_mod.F
 Chd|-- called by -----------
 Chd|        C_IEBCS                       starter/source/restart/ddsplit/c_iebcs.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
+Chd|        DOMDEC2                       starter/source/spmd/domdec2.F 
 Chd|        EBCS_SET_TCARP                starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
+Chd|        FILLCNE                       starter/source/spmd/domdec2.F 
 Chd|        HM_READ_EBCS_FLUXOUT          starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
 Chd|        HM_READ_EBCS_GRADP0           starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
 Chd|        HM_READ_EBCS_INIP             starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
@@ -46,9 +48,11 @@ Chd|        INIGRAV_PART_LIST             starter/source/initial_conditions/inig
 Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        READ_EBCS                     starter/source/boundary_conditions/ebcs/read_ebcs.F
+Chd|        SPLIT_EBCS                    starter/source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        STARTER0                      starter/source/starter/starter0.F
 Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_EBCS               starter/source/output/qaprint/st_qaprint_ebcs.F
+Chd|        W_PON                         starter/source/restart/ddsplit/w_pon.F
 Chd|        ALEMAIN                       engine/source/ale/alemain.F   
 Chd|        EBCCLAP                       engine/source/boundary_conditions/ebcs/ebcclap.F
 Chd|        EBCS0                         engine/source/boundary_conditions/ebcs/ebcs0.F

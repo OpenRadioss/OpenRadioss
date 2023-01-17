@@ -371,6 +371,7 @@ Chd|        SET_IBUFSSG_IO                starter/source/starter/lectur.F
 Chd|        SGRHEAD                       starter/source/elements/solid/solide/sgrhead.F
 Chd|        SGRTAILS                      starter/source/elements/solid/solide/sgrtails.F
 Chd|        SORT_SURF                     starter/source/groups/sort_surf.F
+Chd|        SPLIT_EBCS                    starter/source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        SPLIT_INTERFACES              starter/source/restart/ddsplit/split_interfaces.F
 Chd|        SSURFIGEO                     starter/source/groups/ssurftagigeo.F
 Chd|        SSURFTAG                      starter/source/groups/ssurftag.F

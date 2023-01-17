@@ -1086,6 +1086,7 @@ Chd|        SPLIT_CAND_I20_EDGE           source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_CAND_I24                source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_CAND_I25                source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_CAND_I7                 source/restart/ddsplit/inter_tools.F
+Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|        SPLIT_NISUB_I25               source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_NISUB_I7                source/restart/ddsplit/inter_tools.F
@@ -1116,6 +1117,7 @@ Chd|        T3GRTAILS                     source/elements/solid_2d/tria/t3grtail
 Chd|        TAGNODS                       source/groups/tagnod.F        
 Chd|        TAGNODS_R2R                   source/coupling/rad2rad/tagnod_r2r.F
 Chd|        TAGNOD_R2R                    source/coupling/rad2rad/tagnod_r2r.F
+Chd|        TAGNOD_R2R_NL                 source/coupling/rad2rad/tagnod_r2r_nl.F
 Chd|        TAG_NODE_FROM_1D_2D_ELEM      source/model/sets/tag_node_from_1D_2D_elem.F
 Chd|        TAG_NODE_FROM_RBODY           source/model/sets/tag_node_from_rbody.F
 Chd|        TAG_NODE_FROM_SOLID           source/model/sets/tag_node_from_solid.F

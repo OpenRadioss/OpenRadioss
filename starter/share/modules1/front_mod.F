@@ -69,6 +69,7 @@ Chd|        SET_INTERCEP                  source/spmd/node/ddtools.F
 Chd|        SPLIT_ADSKYN_25               source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_CAND_I11                source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_CAND_I24                source/restart/ddsplit/inter_tools.F
+Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|        SPLIT_REMNODE_I24             source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_REMNODE_I25             source/restart/ddsplit/inter_tools.F

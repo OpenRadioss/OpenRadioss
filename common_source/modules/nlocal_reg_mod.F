@@ -40,6 +40,7 @@ Chd|        LAW104_UPD                    starter/source/materials/mat/mat104/la
 Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        NLOCAL_INIT_STA               starter/source/materials/fail/nlocal_init_sta.F
 Chd|        NLOC_DMG_INIT                 starter/source/materials/fail/nloc_dmg_init.F
+Chd|        R2R_GROUP                     starter/source/coupling/rad2rad/r2r_group.F
 Chd|        READ_MATERIAL_MODELS          starter/source/materials/read_material_models.F
 Chd|        UPDMAT                        starter/source/materials/updmat.F
 Chd|        WRITE_NLOC_STRUCT             starter/source/restart/ddsplit/write_nloc_struct.F
@@ -76,6 +77,9 @@ Chd|        NLOCAL_INCR                   engine/source/assembly/nlocal_incr.F
 Chd|        NLOCAL_VEL                    engine/source/assembly/nlocal_vel.F
 Chd|        Q4FORC2                       engine/source/elements/solid_2d/quad4/q4forc2.F
 Chd|        QFORC2                        engine/source/elements/solid_2d/quad/qforc2.F
+Chd|        R2R_EXCHANGE                  engine/source/coupling/rad2rad/r2r_exchange.F
+Chd|        R2R_GETDATA                   engine/source/coupling/rad2rad/r2r_getdata.F
+Chd|        R2R_INIT                      engine/source/coupling/rad2rad/r2r_init.F
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|        READ_NLOC_STRUCT              engine/source/output/restart/read_nloc_struct.F
 Chd|        RESOL                         engine/source/engine/resol.F  

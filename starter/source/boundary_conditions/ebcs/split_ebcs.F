@@ -21,10 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  SPLIT_EBCS                     source/boundary_conditions/ebcs/split_ebcs.F
+Chd|  SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
 Chd|-- called by -----------
-Chd|        DDSPLIT                        source/restart/ddsplit/ddsplit.F
+Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
+Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale_ebcs_mod.F
+Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
+Chd|        FRONT_MOD                     share/modules1/front_mod.F    
+Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        RESTMOD                       share/modules1/restart_mod.F  
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
+Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
         SUBROUTINE SPLIT_EBCS( PROC_ID,LOCAL_NEBCS,LIST_OTHER_EBCS,NUMEL,
      1                         CEP,IGRSURF,LOCAL_ELEMENT_ID,NODLOCAL,

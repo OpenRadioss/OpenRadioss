@@ -303,6 +303,7 @@ Chd|        PLY_INFO_REST                 source/output/restart/rdresb.F
 Chd|        PROJECIG3D                    source/elements/ige3d/projecig3d.F
 Chd|        QSTAT_INI                     source/implicit/imp_dyna.F    
 Chd|        QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
+Chd|        R2R_INIT                      source/coupling/rad2rad/r2r_init.F
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|        RBE3CL                        source/constraints/general/rbe3/rbe3f.F
 Chd|        RBYACT                        source/constraints/general/rbody/rbyact.F

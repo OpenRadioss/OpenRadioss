@@ -33,11 +33,13 @@ Chd|        R2R_BLOCK_C                   source/coupling/rad2rad/rad2rad_c.c
 Chd|        R2R_SEM_C                     source/coupling/rad2rad/rad2rad_c.c
 Chd|        R2R_UNLOCK_THREADS_C          source/coupling/rad2rad/rad2rad_c.c
 Chd|        SEND_DATA_C                   source/coupling/rad2rad/rad2rad_c.c
+Chd|        SEND_DATA_NL_C                source/coupling/rad2rad/rad2rad_c.c
 Chd|        SEND_DATA_SPMD                source/coupling/rad2rad/r2r_exchange.F
 Chd|        SEND_IBUF_C                   source/coupling/rad2rad/rad2rad_c.c
 Chd|        SPMD_EXCH_R2R                 source/mpi/r2r/spmd_r2r.F     
 Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        RAD2R_MOD                     share/modules/rad2r.F         
 Chd|====================================================================
       SUBROUTINE R2R_EXCHANGE(

@@ -80,6 +80,7 @@ Chd|        MATFUN_USR2SYS                source/materials/tools/matfun_usr2sys.
 Chd|        MATTAB_USR2SYS                source/materials/tools/mattab_usr2sys.F
 Chd|        READ_EBCS                     source/boundary_conditions/ebcs/read_ebcs.F
 Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
+Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_MODEL_TOOLS        source/output/qaprint/st_qaprint_model_tools.F
 Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F

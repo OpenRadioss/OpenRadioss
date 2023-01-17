@@ -378,6 +378,7 @@ Chd|        SETRB2ON                      source/constraints/general/rbe2/hm_rea
 Chd|        SETRBYON                      source/constraints/general/rbody/hm_read_rbody.F
 Chd|        SET_ADMESH                    source/model/remesh/set_admesh.F
 Chd|        SORT_SET                      source/model/sets/sort_sets.F 
+Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        STATE_ADMESH                  source/model/remesh/state_admesh.F
 Chd|        ST_QAPRINT_SET                source/output/qaprint/st_qaprint_set.F
 Chd|        HM_THVARC                     source/output/th/hm_read_thvarc.F

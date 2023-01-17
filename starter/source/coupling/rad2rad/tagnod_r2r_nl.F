@@ -21,11 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
 Chd|====================================================================
-Chd|  TAGNODS_R2R                   source/coupling/rad2rad/tagnod_r2r.F
+Chd|  TAGNOD_R2R_NL                 source/coupling/rad2rad/tagnod_r2r_nl.F
 Chd|-- called by -----------
 Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE TAGNOD_R2R_NL(IXC,IXTG,IXS,IXS10,IXS20,IXS16,TAG_NLOCAL,IPM)

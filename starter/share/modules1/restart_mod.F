@@ -46,6 +46,7 @@ Chd|        R2R_SPLIT                     source/coupling/rad2rad/r2r_split.F
 Chd|        R2R_VOID                      source/coupling/rad2rad/r2r_void.F
 Chd|        R2R_VOID_1D                   source/coupling/rad2rad/r2r_void.F
 Chd|        READ_EBCS                     source/boundary_conditions/ebcs/read_ebcs.F
+Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        ST_QAPRINT_EBCS               source/output/qaprint/st_qaprint_ebcs.F
 Chd|        TAGNOD_R2R_S                  source/coupling/rad2rad/tagnod_r2r.F
 Chd|        TAG_ELEM_VOID_R2R             source/coupling/rad2rad/tagelem_r2r.F

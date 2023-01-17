@@ -34,12 +34,14 @@ Chd|        R2R_INPUT                     source/coupling/rad2rad/r2r_input.F
 Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
 Chd|        TAGNODS_R2R                   source/coupling/rad2rad/tagnod_r2r.F
 Chd|        TAGNOD_R2R                    source/coupling/rad2rad/tagnod_r2r.F
+Chd|        TAGNOD_R2R_NL                 source/coupling/rad2rad/tagnod_r2r_nl.F
 Chd|        TAGNOD_R2R_S                  source/coupling/rad2rad/tagnod_r2r.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        GROUP_MOD                     share/modules1/group_mod.F    
 Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|        RESTMOD                       share/modules1/restart_mod.F  
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 

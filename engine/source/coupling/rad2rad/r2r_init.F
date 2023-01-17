@@ -36,6 +36,7 @@ Chd|        GET_MASS_SPMD                 source/coupling/rad2rad/r2r_init.F
 Chd|        GET_NAME_C                    source/coupling/rad2rad/rad2rad_c.c
 Chd|        INIT_ACTIV_C                  source/coupling/rad2rad/rad2rad_c.c
 Chd|        INIT_LINK_C                   source/coupling/rad2rad/rad2rad_c.c
+Chd|        INIT_LINK_NL_C                source/coupling/rad2rad/rad2rad_c.c
 Chd|        INIT_LINK_SPMD                source/coupling/rad2rad/r2r_init.F
 Chd|        OPENFIFO_C                    source/coupling/rad2rad/rad2rad_c.c
 Chd|        OPENSEM_C                     source/coupling/rad2rad/rad2rad_c.c
@@ -44,6 +45,7 @@ Chd|        R2R_RBY                       source/coupling/rad2rad/r2r_init.F
 Chd|        SEND_FBUF_C                   source/coupling/rad2rad/rad2rad_c.c
 Chd|        SEND_IBUF_C                   source/coupling/rad2rad/rad2rad_c.c
 Chd|        SEND_MASS_C                   source/coupling/rad2rad/rad2rad_c.c
+Chd|        SEND_MASS_NL_C                source/coupling/rad2rad/rad2rad_c.c
 Chd|        SEND_MASS_RBY_C               source/coupling/rad2rad/rad2rad_c.c
 Chd|        SEND_MASS_RBY_SPMD            source/coupling/rad2rad/r2r_init.F
 Chd|        SEND_MASS_SPMD                source/coupling/rad2rad/r2r_init.F
@@ -54,6 +56,8 @@ Chd|        SPMD_EXCH_R2R_RBY             source/mpi/r2r/spmd_r2r.F
 Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
 Chd|        SPMD_R2R_SYNC                 source/mpi/r2r/spmd_r2r.F     
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        RAD2R_MOD                     share/modules/rad2r.F         
 Chd|====================================================================
       SUBROUTINE R2R_INIT(IEXLNK  ,ITAB,IGRNOD,X      ,

@@ -85,6 +85,7 @@ Chd|        MULTI_CONNECTIVITY            starter/source/multifluid/multi_connec
 Chd|        PREPARE_SPLIT_I7              starter/source/restart/ddsplit/inter_tools.F
 Chd|        READ_EBCS                     starter/source/boundary_conditions/ebcs/read_ebcs.F
 Chd|        READ_MATERIAL_MODELS          starter/source/materials/read_material_models.F
+Chd|        SPLIT_EBCS                    starter/source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        SPLIT_INTERFACES              starter/source/restart/ddsplit/split_interfaces.F
 Chd|        STARTER0                      starter/source/starter/starter0.F
 Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F

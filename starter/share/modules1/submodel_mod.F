@@ -645,6 +645,7 @@ Chd|        SETRBYON                      source/constraints/general/rbody/hm_re
 Chd|        SET_ADMESH                    source/model/remesh/set_admesh.F
 Chd|        SHELLTHK_UPD                  source/properties/composite_options/drape/shellthk_upd.F
 Chd|        SORT_SET                      source/model/sets/sort_sets.F 
+Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        STACKGROUP                    source/stack/stackgroup.F     
 Chd|        STARTER0                      source/starter/starter0.F     
 Chd|        STATE_ADMESH                  source/model/remesh/state_admesh.F
