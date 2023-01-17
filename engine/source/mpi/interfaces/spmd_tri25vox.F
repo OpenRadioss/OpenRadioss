@@ -1063,9 +1063,11 @@ C
           CALL MPI_WAITALL(NBIRECV_EDGE,REQ_RD5,MPI_STATUSES_IGNORE,IERROR)
 
           !set specifics IREM and XREM indexes for INT24 sorting
-          IGAPXREMP = IREM(4,1)
-          I24XREMP  = IREM(5,1)
-          I24IREMP  = IREM(6,1)
+          IF(ISIZ > 5 .AND. NSNR > 0) THEN
+            IGAPXREMP = IREM(4,1)
+            I24XREMP  = IREM(5,1)
+            I24IREMP  = IREM(6,1)
+          ENDIF    
         ENDIF
       ENDIF
 C
