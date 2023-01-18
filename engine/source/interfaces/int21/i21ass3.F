@@ -571,27 +571,6 @@ C
         END IF
       ENDIF
 
-      IF(NINSKID > 0)THEN
-C-------------SKID LINES OUTPUTTING ----------------
-#include "lockon.inc"
-         DO I=1,JLT
-          JG = NSVG(I)
-          IF(WEIGHT(JG)/=1)CYCLE
-          N = NODGLOB(JG)
-          PSKIDS(NINSKID,N)=MAX(PSKIDS(NINSKID,N),PRATIO(I))
-
-          N= IX1(I)
-          PSKIDS(NINSKID,N)=MAX(PSKIDS(NINSKID,N),PRATIO(I))
-          N= IX2(I)
-          PSKIDS(NINSKID,N)=MAX(PSKIDS(NINSKID,N),PRATIO(I))
-          N= IX3(I)
-          PSKIDS(NINSKID,N)=MAX(PSKIDS(NINSKID,N),PRATIO(I))
-          N= IX4(I)
-          PSKIDS(NINSKID,N)=MAX(PSKIDS(NINSKID,N),PRATIO(I))
-
-         ENDDO
-#include "lockoff.inc"
-
 C---------------------------------
       IF(.NOT.(    (ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0 .AND.
      .                  (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
@@ -599,7 +578,7 @@ C---------------------------------
      .         .OR.(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
      .                  (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
      .                  (MANIM>=4.AND.MANIM<=15) .OR. H3D_DATA%MH3D /= 0))
-     .         .OR.H3D_DATA%N_VECT_PCONT_MAX>0
+     .         .OR.H3D_DATA%N_VECT_PCONT_MAX>0.OR.NINSKID > 0
      .         .OR.ISECIN/=0)  ) RETURN
 C--------------------------------- 
       DO I=1,JLT
@@ -840,7 +819,27 @@ C +fsav(section)
 C       NSPMD > 1
       ENDIF 
 C
+      IF(NINSKID > 0)THEN
+C-------------SKID LINES OUTPUTTING ----------------
+#include "lockon.inc"
+         DO I=1,JLT
+          JG = NSVG(I)
+          IF(WEIGHT(JG)/=1)CYCLE
+          N = NODGLOB(JG)
+          PSKIDS(NINSKID,N)=MAX(PSKIDS(NINSKID,N),PRATIO(I))
 
+          N= IX1(I)
+          PSKIDS(NINSKID,N)=MAX(PSKIDS(NINSKID,N),PRATIO(I))
+          N= IX2(I)
+          PSKIDS(NINSKID,N)=MAX(PSKIDS(NINSKID,N),PRATIO(I))
+          N= IX3(I)
+          PSKIDS(NINSKID,N)=MAX(PSKIDS(NINSKID,N),PRATIO(I))
+          N= IX4(I)
+          PSKIDS(NINSKID,N)=MAX(PSKIDS(NINSKID,N),PRATIO(I))
+
+         ENDDO
+#include "lockoff.inc"
       ENDIF
+C
       RETURN
       END
