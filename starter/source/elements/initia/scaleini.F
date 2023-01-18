@@ -116,17 +116,18 @@ c
 
 
             DO ILAY = 1,NLAY
-             DO IT=1,NPTT             
-              DO IS=1,NPTS
-               DO IR=1,NPTR
-                KK = NPTR*NPTS*NPTT*(ILAY-1)+ NPTR*NPTS*(IT-1)+NPTR*(IS-1)+IR
-                LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)                         
-                LBUF%FAC_YLD(I) =   SIGSP(IIS+ KK ,JJ)  
-               ENDDO !R
-              ENDDO !S
-             ENDDO !T
-
-            ENDDO
+              IF(ELBUF_STR%BUFLY(ILAY)%L_FAC_YLD > 0 ) THEN
+                DO IT=1,NPTT
+                  DO IS=1,NPTS
+                   DO IR=1,NPTR
+                    KK = NPTR*NPTS*NPTT*(ILAY-1)+ NPTR*NPTS*(IT-1)+NPTR*(IS-1)+IR
+                    LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT) 
+                    LBUF%FAC_YLD(I) =   SIGSP(IIS+ KK ,JJ) 
+                   ENDDO !R
+                  ENDDO !S
+                ENDDO !T
+              ENDIF
+           ENDDO
         ENDIF                                                              
       ENDDO !  I=LFT,LLT                                                           
 c-----------

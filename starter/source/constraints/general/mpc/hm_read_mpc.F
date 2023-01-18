@@ -127,7 +127,8 @@ C
           IF (COEF==ZERO) COEF = ONE
           RBUF  (KF) = COEF
           NOSYS = USR2SYS(NOD,ITABM,MESS,ID)
-          IF (NS10E>0.AND.ITAGND(NOSYS)/=0) THEN
+          IF (NS10E>0) THEN 
+            IF(ITAGND(NOSYS)/=0) THEN
 C------- error out	
            CALL ANCMSG(MSGID=1208,
      .                MSGTYPE=MSGERROR,
@@ -136,6 +137,7 @@ C------- error out
      .                C1='MPC ',
      .                I2=ID,
      .                C2='MPC ')
+            ENDIF
           END IF
           CALL KINSET(512,ITAB(NOSYS),IKINE(NOSYS),7,0,IKINE1LAG(NOSYS))
           IBUFNN(KF) = NOSYS

@@ -150,7 +150,7 @@ C--------------------------------------------------------------
 C         BORNAGE DES GROUPES DE MVSIZ
 C--------------------------------------------------------------
       MY_ALLOCATE(INDEXS2,NUMELS)
-
+      nullify(MATPARAM)
       INDEXS2(1:NUMELS)=PERMUTATION%SOLID(1:NUMELS)
       NGR1 = NGROUP + 1
 C
@@ -1361,7 +1361,8 @@ C------ compatibility w/ AMS
         END IF
 C-------
         ! remove incompatibility for Itet4 = 3 
-        IF (ISSN < 10 .AND. ITET4 == 3 .AND.MATPARAM%STRAIN_FORMULATION==2) THEN 
+        IF (ISSN < 10 .AND. ITET4 == 3 .AND. ASSOCIATED(MATPARAM)) THEN
+          IF(MATPARAM%STRAIN_FORMULATION==2) THEN 
           CALL ANCMSG(MSGID=2037,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_2,
@@ -1369,6 +1370,7 @@ C-------
      .                I2=ISSN,    
      .                PRMOD=MSG_CUMU)
           ISSN = 10
+          ENDIF
         ENDIF
 C-------------------------------------------------
 C STOCKAGE IPARG
