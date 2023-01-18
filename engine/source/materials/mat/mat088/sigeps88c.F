@@ -113,6 +113,7 @@ C initialization
       IF(TIME == ZERO)THEN
          UVAR(1:NEL,1:NUVAR) = ZERO 
          UVAR(1:NEL,1) = ONE 
+         UVAR(1:NEL,18)= ONE 
       ENDIF      
       G_INI = THREE_HALF*RBULK*(ONE - TWO*NU)/(ONE + NU)
 C
@@ -241,9 +242,11 @@ C
            UVAR(I,17)= MAX(UVAR(I,17), ECURENT(I)) 
            DEINT(I) = ECURENT(I) - UVAR(I,16)
            UVAR(I,16) = ECURENT(I)
-           IF(DEINT(I) >= ZERO) THEN
+           IF(DEINT(I) >= ZERO .OR. DEPS_EQ(I) >= ZERO) THEN
               NE_L = NE_L + 1 
               INDX_L(NE_L) = I
+              UVAR(I,19) = 1
+              IF(UVAR(I,18) == ONE )UVAR(I,17) = UVAR(I,16) 
            ELSE
               NE_UNL = NE_UNL + 1 
               INDX_UNL(NE_UNL) = I
@@ -256,6 +259,8 @@ C
 C  global      
                     T1(I) = DAM*T1(I)
                     T2(I) = DAM*T2(I)
+                    UVAR(I,19) = -1
+                    UVAR(I,18) = DAM
               ENDIF
       ENDDO
 C-------------------------------------------------------------                                  
