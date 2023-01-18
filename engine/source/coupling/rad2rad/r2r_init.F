@@ -375,7 +375,8 @@ C------Allocation of common arrays
        ALLOCATE(NBELN(NR2RLNK,NSPMD))
        ALLOCATE(DBNO(NR2RLNK),TCNELT(NR2RLNK),NBELT_R2R(NR2RLNK))
        ALLOCATE(TCNELTDB(NR2RLNK),OFFSET(NSPMD),NBELTN_R2R(NR2RLNK))     
-       ALLOCATE(RBYLNK(NR2RLNK),ADD_RBY(NR2RLNK),KINLNK(NR2RLNK))        
+       ALLOCATE(RBYLNK(NR2RLNK),ADD_RBY(NR2RLNK),KINLNK(NR2RLNK))
+       MY_ALLOCATE(NLLNK,NR2RLNK)        
 C--------------------------------------- 
                     
        DO I = 1, ROOTLEN
@@ -436,7 +437,8 @@ C------	determination of the type of interface and link
 	  CALL GET_IBUF_C(TYPLNK(IEX),1)
 	  CALL GET_IBUF_C(MAIN_SIDE,1)            
 	  CALL GET_IBUF_C(RBYLNK(IEX),1)
-   	  CALL GET_IBUF_C(KINLNK(IEX),1)              	  	  
+   	  CALL GET_IBUF_C(KINLNK(IEX),1)
+	  CALL GET_IBUF_C(NLLNK(IEX),1)              	  	  
 	ENDIF
 c------		
 	IF(NSPMD>1) THEN
