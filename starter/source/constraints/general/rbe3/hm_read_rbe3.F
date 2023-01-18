@@ -181,7 +181,8 @@ C
         IC2=J6(4)*4 +J6(5)*2 +J6(6)
         IC =IC1*512+IC2*64
         IF (IC==0) IC =7*512+7*64
-        IF (NS10E > 0.AND.ITAGND(NS)/=0) THEN
+        IF (NS10E > 0) THEN
+          IF(ITAGND(NS)/=0) THEN
 C------- error out      
           CALL ANCMSG(MSGID=1208,
      .                MSGTYPE=MSGERROR,
@@ -190,6 +191,7 @@ C------- error out
      .                C1='RBE3 ',
      .                I2=NUSER,
      .                C2='RBE3 ')
+          ENDIF
         END IF
         IRBE3(3,I) = NS
         IRBE3(4,I) = IC

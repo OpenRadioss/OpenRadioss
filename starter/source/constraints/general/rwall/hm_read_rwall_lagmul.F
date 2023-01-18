@@ -304,7 +304,9 @@ C
         NSL = 0
         DO I = 1,NUMNOD
           IF (LPRW(K+I) > 0) THEN
-            IF (NS10E > 0 .AND. ITAGND(I) /= 0) CYCLE
+            IF (NS10E > 0) THEN
+               IF(ITAGND(I) /= 0) CYCLE
+            ENDIF
             NSL = NSL+1
             LPRW(K+NSL) = I
             IF (IDDLEVEL == 0) THEN
