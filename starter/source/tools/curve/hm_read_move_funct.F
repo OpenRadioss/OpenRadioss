@@ -70,7 +70,7 @@ C     NSUBMOD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,ID,IFIX_TMP
+      INTEGER I,J,N,ID,IFIX_TMP,CPT
       my_real
      .   SCX,SCY,SHX,SHY
       my_real, DIMENSION(:),ALLOCATABLE :: PLD_TMP
@@ -111,15 +111,15 @@ C-----------------------------------------------
                      ENDDO
                   ELSEIF(SCX < ZERO) THEN
                      ALLOCATE(PLD_TMP(NPC(N+1)))
+                     CPT = 1
                      DO J = NPC(N),NPC(N+1)-1,2
-                        PLD_TMP(J)   = PLD(NPC(N+1)-1-J)  *SCX
-                        PLD_TMP(J+1) = PLD(NPC(N+1)-J)*SCY
+                        PLD_TMP(J)   = PLD(NPC(N+1)-1-CPT)  *SCX
+                        PLD_TMP(J+1) = PLD(NPC(N+1)-CPT)*SCY
                         PLD_TMP(J)   = PLD_TMP(J)  +SHX
                         PLD_TMP(J+1) = PLD_TMP(J+1)+SHY  
+                        CPT = CPT + 2
                      ENDDO
                      DO J = NPC(N),NPC(N+1)-1,2
-                        PLD(J)   = PLD_TMP(J)
-                        PLD(J+1) = PLD_TMP(J+1)
                         PLD(J)   = PLD_TMP(J)
                         PLD(J+1) = PLD_TMP(J+1)
                         IF (FUNCRYPT(N) == 0) WRITE(IOUT,'(8X,1PG20.13,2X,1G20.13)')PLD(J),PLD(J+1)   
