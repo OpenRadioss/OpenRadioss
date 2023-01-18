@@ -6021,8 +6021,8 @@ C------------Need to stop computation at Tstop for /DT/THERM----------
           DTREST = TREST*(ONE+EM10)
 
           IF(DTREST<DT2T) THEN
-             ILASTANIM = 1 
-             ILASTH3D = 1 
+             IF (DTANIM>ZERO) ILASTANIM = 1 
+             IF (H3D_DATA%DTH3D>ZERO) ILASTH3D = 1  
           ENDIF     
           DT2T = MIN(DT2TT,DTREST) 
           NELTST = NELTSTT
