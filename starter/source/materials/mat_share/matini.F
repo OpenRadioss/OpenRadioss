@@ -124,23 +124,23 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: DDELTAX(*)
       TYPE(DETONATOR_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TARGET  :: BUFMAT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IADBUF,NPAR,NFUNC,NUVAR,IFORM
       INTEGER IFUNC(MAXFUNC)
       my_real RHO0(MVSIZ)
-      my_real,TARGET :: TMP(MVSIZ)
-      my_real, DIMENSION(:), POINTER ::
+      my_real ,DIMENSION(MVSIZ) ,TARGET :: TMP,EPL,FILLO
+      my_real ,DIMENSION(:) ,POINTER ::
      .   OFF,SIG,EINT,RHO,VOL,EPSD,DELTAX,TB,ANG,SF,VK,ROB,UVAR,EPLAS,
      .   FILL,DTEL,UPARAM,TEMP
-      my_real :: FILLO(MVSIZ)
-      TARGET  :: FILLO,BUFMAT
 C
       INTEGER ID
       CHARACTER*nchartitle, TITR
 C=======================================================================
       TMP(1:NEL)=ZERO
+      EPL(1:NEL)=ZERO
       
       IF (IPT == 0) THEN
         OFF   => GBUF%OFF(1:NEL)
@@ -153,10 +153,15 @@ C=======================================================================
         TB    => GBUF%TB(1:NEL)
         EPLAS => GBUF%PLA(1:NEL)
         DTEL  => GBUF%DT(1:NEL)
-        IF(GBUF%G_TEMP > 0)THEN
-          TEMP  => GBUF%TEMP(1:NEL)
+        IF (GBUF%G_TEMP > 0) THEN
+          TEMP => GBUF%TEMP(1:NEL)
         ELSE
           TEMP => TMP(1:NEL)
+        ENDIF
+        IF (GBUF%G_PLA > 0) THEN
+          EPLAS => GBUF%PLA(1:NEL)
+        ELSE
+          EPLAS => EPL(1:NEL)
         ENDIF
       ELSE
         OFF   => LBUF%OFF(1:NEL)
@@ -168,12 +173,18 @@ C=======================================================================
         DELTAX=> LBUF%DELTAX(1:NEL)
         TB    => LBUF%TB(1:NEL)
         EPLAS => LBUF%PLA(1:NEL)
-        IF(ELBUF_STR%BUFLY(1)%L_TEMP > 0)THEN
-          TEMP  => LBUF%TEMP(1:NEL) 
+        IF (ELBUF_STR%BUFLY(1)%L_TEMP > 0) THEN
+          TEMP => LBUF%TEMP(1:NEL) 
         ELSE
           TEMP => TMP(1:NEL)
         ENDIF               
+        IF (ELBUF_STR%BUFLY(1)%L_PLA > 0) THEN
+          EPLAS => LBUF%PLA(1:NEL) 
+        ELSE
+          EPLAS => EPL(1:NEL)
+        ENDIF
       ENDIF
+c
       IF(JSPH==0)THEN
          FILL  => GBUF%FILL(1:NEL)
       ELSE
