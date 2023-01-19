@@ -179,7 +179,11 @@ c
                 TABPARTS_FRIC_TMP(NIF,K) = TABPARTS_FRIC_TMP(NIF,I)  
               ENDIF
           ENDDO
-          INTBUF_FRIC_TAB(NIF)%S_TABPARTS_FRIC = K
+          IF(NSETT > 0) THEN
+             INTBUF_FRIC_TAB(NIF)%S_TABPARTS_FRIC = K
+          ELSE
+             INTBUF_FRIC_TAB(NIF)%S_TABPARTS_FRIC = 0
+          ENDIF
 C------Coefs-----------------------------
           DO I=1,NSET
             IFRICORTH_TMP(NIF,I) = TRIFRIORTH(INDEX(I))
