@@ -67,13 +67,17 @@ C-----------------------------------------------
       INTEGER N,I,J,ISK,IGR,ND,K,L,LL
       my_real FACTB,DAMPBR,DAMPAR,D_TSTART,D_TSTOP,DAMPT,
      .   DT2N(NUMNOD),BB,COEFF,DTN,DTN2,DAMPAI,DAMPBI,DT0,DAMPA3,
-     .   ALPHA05,BETA1,DTMAX,FAC,DTMI1,DTMI2     
+     .   ALPHA05,BETA1,DTMAX,FAC,DTMI1,DTMI2,BBI,FACI     
 C----------------------------------------------------------
         DTMI1 = DTMIN1(11)
         DTMAX = EP04
         DT0 = DTMAX
-        DT0=MIN(DT0,DT1,DT2T) 
-        DTMI2 = MIN(DTMI1,DT1)
+        IF (DT1>ZERO) THEN
+          DT0=MIN(DT0,DT1)
+        ELSE          
+          IF (DTMI1>ZERO) DT0=MIN(DT0,DTMI1) 
+        END IF
+        DTMI2 = DTMI1/DTFAC1(11)
 c--    
         DO I=1,NDAMP
 C--       
@@ -92,16 +96,6 @@ C--
               DTN = MIN(DT2N(ND),DTN)		
             END IF      	       	      	      
           END DO	    
-          IF (IRODDL/=0) THEN
-            DO J=1,IGRNOD(IGR)%NENTITY
-              ND=IGRNOD(IGR)%ENTITY(J)
-              IF(STIFR(ND)>EM20 .AND. IN(ND)>ZERO)THEN
-                DTN2 = SQRT(TWO*IN(ND)/STIFR(ND))		
-                DT2N(ND) = MIN(DT2N(ND),DTN2)		
-                DTN = MIN(DT2N(ND),DTN)		
-              END IF      	       	      	      
-            END DO	    
-          END IF      	       	      	      
           DAMPAI = MAX(DAMPR(3,I),DAMPR(5,I),DAMPR(7,I))
           DAMPAI = MAX(DAMPAI,DAMPR(9,I),DAMPR(11,I),DAMPR(13,I))
           DAMPBI = MAX(DAMPR(4,I),DAMPR(6,I),DAMPR(8,I))
@@ -109,24 +103,40 @@ C--
           DAMPT = DT0*DAMPR(16,I)
           DAMPBI = MIN(DAMPBI,DAMPT)
 C--
+          IF (DTMI2 > ZERO) THEN
+            BBI = DAMPBI+HALF*DAMPAI*DTMI2*DTMI2
+            DTN2= SQRT(DTMI2*DTMI2+TWO*BBI*DTMI2)
+            BBI = DAMPBI/DTN2+HALF*DAMPAI*DTN2
+            FACI = SQRT(BBI*BBI+ONE) -BBI
+          END IF      	       	      	      
           DO J=1,IGRNOD(IGR)%NENTITY
             ND=IGRNOD(IGR)%ENTITY(J)
             BB=DAMPBI/DT2N(ND)+HALF*DAMPAI*DT2N(ND)
             FAC = SQRT(BB*BB+ONE) -BB
             IF (FAC*DT2N(ND) < DTMI2) THEN
-              BB=DAMPBI/DTMI2+HALF*DAMPAI*DTMI2
-              FAC = MAX(FAC,SQRT(BB*BB+ONE) -BB)
+              FAC = MAX(FAC,FACI)
             END IF
             COEFF =ONE/FAC**2
             IF(STIFN(ND)>ZERO .AND. MS(ND)>ZERO)THEN
               STIFN(ND) =STIFN(ND)*COEFF		
             END IF      	       	      	      
-            IF (IRODDL/=0) THEN
-              IF(STIFR(ND)>ZERO .AND. IN(ND)>ZERO)THEN
+          END DO
+          IF (IRODDL/=0) THEN
+            DO J=1,IGRNOD(IGR)%NENTITY
+              ND=IGRNOD(IGR)%ENTITY(J)
+              IF(STIFR(ND)>EM20 .AND. IN(ND)>ZERO)THEN
+                DT2N(ND) = SQRT(TWO*IN(ND)/STIFR(ND))		
+                DT2N(ND) = MIN(DTMAX,DT2N(ND))		
+                BB=DAMPBI/DT2N(ND)+HALF*DAMPAI*DT2N(ND)
+                FAC = SQRT(BB*BB+ONE) -BB
+                IF (FAC*DT2N(ND) < DTMI2) THEN
+                  FAC = MAX(FAC,FACI)
+                END IF
+                COEFF =ONE/FAC**2
                 STIFR(ND) =STIFR(ND)*COEFF		
               END IF      	       	      	      
-            END IF      	       	      	      
-          END DO
+            END DO	    
+          END IF      	       	      	      
         END DO !I=1,NDAMP
 C----------global damping
         IF(IDAMP>0.OR.ISTAT==3)THEN
@@ -156,25 +166,42 @@ C----------global damping
 C------- still factor HALF* in Abaqus          
           ALPHA05 = HALF*(DAMPA+DAMPA3)
           BETA1 = MIN(DAMPB,DT0)
+          IF (DTMI2 > ZERO) THEN
+            BBI = DAMPBI+HALF*DAMPAI*DTMI2*DTMI2
+            DTN2= SQRT(DTMI2*DTMI2+TWO*BBI*DTMI2)
+            BBI = DAMPBI/DTN2+HALF*DAMPAI*DTN2
+            FACI = SQRT(BBI*BBI+ONE) -BBI
+          END IF      	       	      	      
           DO ND=1,NUMNOD
             COEFF =ONE
             IF(STIFN(ND)>ZERO .AND. MS(ND)>ZERO)THEN
-              DT2N(ND) = MIN(DTMAX,SQRT(DT2N(ND)))		
+              DT2N(ND) = SQRT(TWO*MS(ND)/STIFN(ND))		
+              DT2N(ND) = MIN(DTMAX,DT2N(ND))		
               BB  = BETA1/DT2N(ND) + ALPHA05*DT2N(ND)
               FAC = SQRT(BB*BB+ONE) -BB
               IF (FAC*DT2N(ND) < DTMI2) THEN
-                BB = BETA1/DTMI2 + ALPHA05*DTMI2
-                FAC = MAX(FAC,SQRT(BB*BB+ONE) -BB)
+                FAC = MAX(FAC,FACI)
               END IF
               COEFF =ONE/FAC**2
               STIFN(ND) =STIFN(ND)*COEFF		
             END IF      	       	      	      
-            IF (IRODDL/=0) THEN
+          END DO	    
+          IF (IRODDL/=0) THEN
+            DO ND=1,NUMNOD
+              COEFF =ONE
               IF(STIFR(ND)>ZERO .AND. IN(ND)>ZERO)THEN
+                DT2N(ND) = SQRT(TWO*IN(ND)/STIFR(ND))		
+                DT2N(ND) = MIN(DTMAX,DT2N(ND))		
+                BB  = BETA1/DT2N(ND) + ALPHA05*DT2N(ND)
+                FAC = SQRT(BB*BB+ONE) -BB
+                IF (FAC*DT2N(ND) < DTMI2) THEN
+                  FAC = MAX(FAC,FACI)
+                END IF
+                COEFF =ONE/FAC**2
                 STIFR(ND) =STIFR(ND)*COEFF		
               END IF      	       	      	      
-            END IF      	       	      	      
-          END DO	    
+            END DO	    
+          END IF      	       	      	      
         END IF 
 C        
       RETURN 
