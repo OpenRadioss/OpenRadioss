@@ -571,8 +571,6 @@ C---
 #include "vectorize.inc"
         DO  J=1,NINDX
           I=INDEX(J)
-          UVAR(I,1) = SIGNXX(I) + SIGVXX(I)
-          UVAR(I,2) = SIGNYY(I) + SIGVYY(I)
           UVAR(I,3) = SIGNXY(I) + SIGVXY(I)
           TAN_PHI(I)= DEPSXY(I)
           UVAR(I,6) = DEPSXY(I)
@@ -1657,8 +1655,6 @@ C---
 #include "vectorize.inc"
       DO  J=1,NINDX
         I=INDEX(J)
-        UVAR(I,1) = SIGNXX(I) + SIGVXX(I)
-        UVAR(I,2) = SIGNYY(I) + SIGVYY(I)
         UVAR(I,3) = SIGNXY(I) + SIGVXY(I)
         TAN_PHI(I) = DEPSXY(I)
         UVAR(I,6)  = DEPSXY(I)
