@@ -101,10 +101,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NBMAT, MAT_ID  ! Number of declared materials
       INTEGER :: I,J,IU,NC,NT,VP,ILAW,ISRATE,IRATE
-      my_real 
-     .     E,NU,G,CP,EPSP0,YFAC(MAXFUNC+1),
-     .     RATE(MAXFUNC+1),PC,PT,C1,
-     .     SIGY,RHO0,RHOR,FISOKIN,YFAC_UNIT,FCUT
+      my_real :: E,EC,NU,G,CP,EPSP0,SIGY,RHO0,RHOR,
+     .           FISOKIN,YFAC_UNIT,FCUT,PC,PT,C1,RPCT
+      my_real :: RATE(MAXFUNC+1),YFAC(MAXFUNC+1)
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -113,32 +112,35 @@ C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
       ILAW = 66
 C initialization
-       NC = 0
-       NT = 0
-       EPSP0 = EP20
-       CP = ONE
-       VP = 0
-       SIGY = ZERO
+      NC = 0
+      NT = 0
+      EPSP0 = EP20
+      CP = ONE
+      VP = 0
+      SIGY = ZERO
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C-----------------------------------------------
-      ILAW    = 66
-      CALL HM_GET_FLOATV('MAT_RHO'  ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('Refer_Rho',RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-C-----------------------------------------------
 Card1
-      CALL HM_GET_FLOATV('MAT_E'    ,E        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_NU'   ,NU       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_HARD'  ,FISOKIN  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_asrate',FCUT     ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_INTV  ('Fsmooth'    ,ISRATE   ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV  ('ISRATE'    ,IRATE    ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_FLOATV('MAT_RHO'    ,RHO0    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('Refer_Rho'  ,RHOR    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 C-----------------------------------------------
 Card2
-      CALL HM_GET_FLOATV('MAT_PC'     ,PC    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('Ptole'      ,PT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_E'      ,E       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_NU'     ,NU      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_HARD'   ,FISOKIN ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_asrate' ,FCUT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+      CALL HM_GET_INTV  ('Fsmooth'    ,ISRATE  ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV  ('ISRATE'     ,IRATE   ,IS_AVAILABLE,LSUBMODEL)
+C-----------------------------------------------
+Card3
+      CALL HM_GET_FLOATV('MAT_PC'     ,PC      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_PT'     ,PT      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_EC'     ,EC      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_RPCT'   ,RPCT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+C-----------------------------------------------
 C!!
       IF(IRATE == 0) IRATE = 1      
 Card3 
@@ -155,9 +157,9 @@ C unit
          CALL HM_GET_FLOATV_DIM('FScale22'     ,YFAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          IF(YFAC(2) == ZERO) YFAC(2)= YFAC_UNIT
          RATE(2) = ZERO          
-       ENDIF  
+      ENDIF  
 C        
-       IF(IRATE < = 2) THEN   
+      IF(IRATE < = 2) THEN   
          CALL HM_GET_FLOATV('Epsilon_0'    ,EPSP0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C0'       ,CP         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('SIGMA_r'      ,SIGY       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -167,14 +169,14 @@ C
          IF(EPSP0 == ZERO) EPSP0 = ONE !!!
          
 C
-       ELSEIF(IRATE == 3) THEN
+      ELSEIF(IRATE == 3) THEN
          CALL HM_GET_INTV  ('FUN_B1'       ,IFUNC(3)   ,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_INTV  ('FUN_B2'       ,IFUNC(4)   ,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_FLOATV('FScale33'     ,YFAC(3)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('FScale12'     ,YFAC(4)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)           
          MFUNC = 4
          DO I=1,MFUNC
-            RATE(I) = ZERO
+           RATE(I) = ZERO
          ENDDO 
 C unit         
          CALL HM_GET_FLOATV_DIM('FScale33'     ,YFAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -186,58 +188,57 @@ C unit
         CALL HM_GET_INTV  ('NFUNC'       ,NC   ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV  ('TFUNC'       ,NT   ,IS_AVAILABLE,LSUBMODEL)
         DO I= 1,NC
-         CALL HM_GET_INT_ARRAY_INDEX('ABG_IPt'           ,IFUNC(I)    ,I,IS_AVAILABLE, LSUBMODEL)
-         CALL HM_GET_FLOAT_ARRAY_INDEX('Fp1'             ,YFAC(I)     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
-         CALL HM_GET_FLOAT_ARRAY_INDEX('K_A1'            ,RATE(I)     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
-C unity         
-         CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fp1'     ,YFAC_UNIT     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
-         IF(YFAC(I) == ZERO) YFAC(I) = YFAC_UNIT   
+          CALL HM_GET_INT_ARRAY_INDEX('ABG_IPt' ,IFUNC(I)    ,I,IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('Fp1'   ,YFAC(I)     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('K_A1'  ,RATE(I)     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+C       
+          CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fp1' ,YFAC_UNIT ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          IF(YFAC(I) == ZERO) YFAC(I) = YFAC_UNIT   
         ENDDO
 C        
-        IF(NC == 1) THEN
-             NC = NC +1
-             IFUNC(2) = IFUNC(1)
-             RATE(1) = ZERO
-             RATE(2) = ONE
-             YFAC(2) = YFAC(1)
-         ELSEIF(RATE(1) /= ZERO)THEN
-             NC = NC + 1
-             DO J=NC,1,-1
-               IFUNC(J+1)=IFUNC(J)
-               RATE(J+1) =RATE(J)
-               YFAC(J+1) =YFAC(J)
-             ENDDO
-               RATE(1)=ZERO
-          ENDIF
-            DO I= 1,NT
-              CALL HM_GET_INT_ARRAY_INDEX('ABG_IPdel'       ,IFUNC(NC + I)    ,I,IS_AVAILABLE, LSUBMODEL)
-              CALL HM_GET_FLOAT_ARRAY_INDEX('Fp2'           ,YFAC(NC  + I)    ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
-              CALL HM_GET_FLOAT_ARRAY_INDEX('K_B1'          ,RATE(NC  + I)    ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
-C unity          
-              CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fp2'     ,YFAC_UNIT     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
-              IF(YFAC(NC + I) == ZERO) YFAC(NC + I) = YFAC_UNIT 
-            ENDDO  
-            IF(NT == 1) THEN
-             NT = NT +1
-             IFUNC(NC + 2) = IFUNC(NC + 1)
-             RATE(NC + 2)  = ONE
-             RATE(NC + 1)  = ZERO
-             YFAC(NC + 2)  = YFAC(NC + 1)
-           ELSEIF(RATE(NC + 1) /= ZERO)THEN
-             NT = NT + 1
-             DO J=NT,1,-1
-               IFUNC(NC + J + 1) = IFUNC(NC + J)
-               RATE(NC  + J + 1) = RATE(NC + J)
-               YFAC(NC  + J + 1) = YFAC(NC + J)
-             ENDDO
-               RATE(NC + 1)=ZERO             
-           ENDIF      
-           MFUNC = NC + NT          
-C----------------
-C verification
-C----------------
-           DO I=1,NC-1                        
-	      IF(RATE(I) > RATE(I+1))THEN        
+        IF (NC == 1) THEN
+          NC = NC +1
+          IFUNC(2) = IFUNC(1)
+          RATE(1) = ZERO
+          RATE(2) = ONE
+          YFAC(2) = YFAC(1)
+        ELSEIF(RATE(1) /= ZERO)THEN
+          NC = NC + 1
+          DO J=NC,1,-1
+            IFUNC(J+1)=IFUNC(J)
+            RATE(J+1) =RATE(J)
+            YFAC(J+1) =YFAC(J)
+          ENDDO
+          RATE(1)=ZERO
+        ENDIF
+        
+        DO I= 1,NT
+          CALL HM_GET_INT_ARRAY_INDEX('ABG_IPdel',IFUNC(NC + I) ,I,IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('Fp2'    ,YFAC(NC  + I) ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('K_B1'   ,RATE(NC  + I) ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+C unity      
+          CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fp2'     ,YFAC_UNIT     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          IF(YFAC(NC + I) == ZERO) YFAC(NC + I) = YFAC_UNIT 
+        ENDDO  
+        IF (NT == 1) THEN
+         NT = NT +1
+         IFUNC(NC + 2) = IFUNC(NC + 1)
+         RATE(NC + 2)  = ONE
+         RATE(NC + 1)  = ZERO
+         YFAC(NC + 2)  = YFAC(NC + 1)
+        ELSEIF(RATE(NC + 1) /= ZERO)THEN
+          NT = NT + 1
+          DO J=NT,1,-1
+            IFUNC(NC + J + 1) = IFUNC(NC + J)
+            RATE(NC  + J + 1) = RATE(NC + J)
+            YFAC(NC  + J + 1) = YFAC(NC + J)
+          ENDDO
+          RATE(NC + 1)=ZERO             
+        ENDIF      
+        MFUNC = NC + NT          
+c
+        DO I=1,NC-1                        
+	         IF(RATE(I) > RATE(I+1))THEN        
                CALL ANCMSG(MSGID=478,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
@@ -245,11 +246,11 @@ C----------------
      .                     C1=TITR)
              GOTO 100                          
             ENDIF                               
-          ENDDO                                 
- 100      CONTINUE
+        ENDDO                                 
+ 100    CONTINUE
  
-          DO I=1,NT-1                        
-	      IF(RATE(NC+I) >= RATE(NC+I+1))THEN        
+        DO I=1,NT-1                        
+	         IF(RATE(NC+I) >= RATE(NC+I+1))THEN        
                CALL ANCMSG(MSGID=478,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
@@ -257,10 +258,13 @@ C----------------
      .                     C1=TITR)
              GOTO 200                          
             ENDIF                               
-         ENDDO                                 
- 200     CONTINUE      
+        ENDDO                                 
+ 200    CONTINUE      
+c-----
       ENDIF   ! IRATE        
-C
+c
+c-----------------------------------------------------------------------
+c
       RHOR=RHO0
       IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
@@ -282,13 +286,14 @@ C
       IF(IRATE == 1 ) CP  = ONE/CP
       G = HALF*E/( ONE + NU)
 C
+c-----------------------------------------------------------------------
       UPARAM(1)  = IRATE
       UPARAM(2)  = E
       UPARAM(3)  = E/(ONE - NU*NU)
       UPARAM(4)  = NU*UPARAM(3)
       UPARAM(5)  = G
       UPARAM(6)  = NU
-      UPARAM(7)   = PC
+      UPARAM(7)  = PC
       UPARAM(8)  = PT
       UPARAM(9)  = EPSP0
       UPARAM(10) = CP
@@ -297,13 +302,14 @@ C
       UPARAM(13) = FISOKIN
       DO I= 1,MFUNC
          UPARAM(13+I) = YFAC(I)
-         UPARAM(13+MFUNC+I)=RATE(I)
+         UPARAM(13+I+MFUNC) = RATE(I)
       ENDDO
 C    
-      NUPARAM = 13 + 2*MFUNC  
-      UPARAM(NUPARAM + 1) = SIGY 
-      UPARAM(NUPARAM + 2) = VP
-      NUPARAM = NUPARAM + 2      
+      UPARAM(14 + 2*MFUNC) = SIGY 
+      UPARAM(15 + 2*MFUNC) = VP
+      UPARAM(16 + 2*MFUNC) = EC
+      UPARAM(17 + 2*MFUNC) = RPCT
+      NUPARAM = 17 + 2*MFUNC
 c     
       C1=E/THREE/(ONE - TWO*NU)
 C                      
@@ -327,9 +333,8 @@ C
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1002) RHO0
-        WRITE(IOUT,1100)
-     .      E,NU, PC,PT,FISOKIN,ISRATE,FCUT
-        write(IOUT,1200) IRATE
+        WRITE(IOUT,1100) E,EC,NU,PC,PT,RPCT,FISOKIN,ISRATE,FCUT
+        WRITE(IOUT,1200) IRATE
         IF(IRATE <= 2) THEN
            WRITE(IOUT,1300) IFUNC(1),YFAC(1)
            write(IOUT,1400) IFUNC(2),YFAC(2)
@@ -355,7 +360,7 @@ C
          ENDIF
       ENDIF
 C
-      RETURN
+c-----------------------------------------------------------------      
  1000 FORMAT(
      & 5X,' TABULATED TENSION-COMPRESSION  PLASTIC LAW   ',/,
      & 5X,'      -----------------------------           ' ,//)
@@ -367,9 +372,11 @@ C
      & 5X,'INITIAL DENSITY. . . . . . . . . . . . =',1PG20.13/) 
  1100 FORMAT(
      & 5X,'YOUNG''S MODULUS. . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'YOUNG''S MODULUS IN COMPRESSION . . . . .=',1PG20.13/
      & 5X,'POISSON''S RATIO. . . . . . . . . . . . .=',1PG20.13/
      & 5X,'COMPRESSION MEAN STRESS.  . . . . . . . .=',1PG20.13/
      & 5X,'TRACTION MEAN STRESS  . . . . . . . . . .=',1PG20.13/
+     & 5X,'FRACTION OF MEAN STRESSES . . . . . . . .=',1PG20.13/
      & 5X,'ISO-KINEMATIC HARDENNING FACTOR . . . . .=',1PG20.13/   
      & 5X,'SMOOTH STRAIN RATE OPTION . . . . . . . .=',I10/
      & 5X,'STRAIN RATE CUTTING FREQUENCY . . . . . .=',1PG20.13/)
@@ -409,7 +416,6 @@ C
      & 5X,'TRACTION YIELD STRESS FUNCTION NUMBER . .=',I10/
      & 5X,'YIELD SCALE FACTOR. . . . . . . . . . . .=',1PG20.13/
      & 5X,'STRAIN RATE . . . . . . . . . . . . . . .=',1PG20.13)  
- 4000 FORMAT(
-     & 5X,' VISCO-ELASTIC MODEL'         ,/,
-     & 5X,'  -------------------'         ,//)       
+c-----------------------------------------------------------------      
+      RETURN
       END
