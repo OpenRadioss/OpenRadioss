@@ -955,7 +955,7 @@ C---------
                         S(4) = TMPVAL6(K)
                         S(5) = TMPVAL7(K)
                         S(6) = TMPVAL8(K)
-                        IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+!
                         SIGSP(IIS+1,I) = S(1)
                         SIGSP(IIS+2,I) = S(2)
                         SIGSP(IIS+3,I) = S(3)
@@ -999,7 +999,7 @@ C---------
                         S(4) = TMPVAL6(1)
                         S(5) = TMPVAL7(1)
                         S(6) = TMPVAL8(1)
-                        IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+!
                         SIGI(1,I) = S(1)
                         SIGI(2,I) = S(2)
                         SIGI(3,I) = S(3)
@@ -1024,7 +1024,7 @@ C---------
                           S(4) = TMPVAL6(K)
                           S(5) = TMPVAL7(K)
                           S(6) = TMPVAL8(K)
-                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+!
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -1074,7 +1074,7 @@ C---------
                             S(4) = TMPVAL4(KK)
                             S(5) = TMPVAL5(KK)
                             S(6) = TMPVAL6(KK)
-                            IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+!
                             SIGSP(IIS+1,I) = S(1)
                             SIGSP(IIS+2,I) = S(2)
                             SIGSP(IIS+3,I) = S(3)
@@ -1121,7 +1121,7 @@ C---------
                             S(4) = TMPVAL4(KK)
                             S(5) = TMPVAL5(KK)
                             S(6) = TMPVAL6(KK)
-                            IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+!
                             SIGSP(IIS+1,I) = S(1)
                             SIGSP(IIS+2,I) = S(2)
                             SIGSP(IIS+3,I) = S(3)
@@ -1170,7 +1170,7 @@ C---------
                               S(4) = TMPVAL4(KK)
                               S(5) = TMPVAL5(KK)
                               S(6) = TMPVAL6(KK)
-                              IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+!
                               SIGSP(IIS+1,I) = S(1)
                               SIGSP(IIS+2,I) = S(2)
                               SIGSP(IIS+3,I) = S(3)
@@ -1208,7 +1208,7 @@ C---------
                           S(4) = TMPVAL4(K)
                           S(5) = TMPVAL5(K)
                           S(6) = TMPVAL6(K)
-                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+!
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -1324,7 +1324,7 @@ C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
                           S(4) = TMPVAL4(KK)
                           S(5) = TMPVAL5(KK)
                           S(6) = TMPVAL6(KK)
-                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+!
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -1362,7 +1362,7 @@ C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
                           S(4) = TMPVAL4(KK)
                           S(5) = TMPVAL5(KK)
                           S(6) = TMPVAL6(KK)
-                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+!
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -1400,7 +1400,7 @@ C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
                           S(4) = TMPVAL4(KK)
                           S(5) = TMPVAL5(KK)
                           S(6) = TMPVAL6(KK)
-                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+!
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -1429,7 +1429,7 @@ C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
                       S(4) = TMPVAL4(K)
                       S(5) = TMPVAL5(K)
                       S(6) = TMPVAL6(K)
-                      IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+!
                       SIGSP(IIS+1,I) =S(1)
                       SIGSP(IIS+2,I) =S(2)
                       SIGSP(IIS+3,I) =S(3)
