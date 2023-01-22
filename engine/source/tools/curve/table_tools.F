@@ -610,6 +610,192 @@ C-----
       RETURN
       END SUBROUTINE TABLE_INTERP
 Chd|====================================================================
+Chd|  TABLE_INTERP                  source/tools/curve/table_tools.F
+Chd|-- called by -----------
+Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
+Chd|        FAIL_TAB_S                    source/materials/fail/tabulated/fail_tab_s.F
+Chd|        FAIL_TAB_XFEM                 source/materials/fail/tabulated/fail_tab_xfem.F
+Chd|        GET_TABLE_VALUE               source/user_interface/utable.F
+Chd|        GET_U_TABLE                   source/user_interface/utable.F
+Chd|        R3DEF3                        source/elements/spring/r3def3.F
+Chd|        SIGEPS52                      source/materials/mat/mat052/sigeps52.F
+Chd|        SIGEPS52C                     source/materials/mat/mat052/sigeps52c.F
+Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        ARRET                         source/system/arret.F         
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
+Chd|====================================================================
+      SUBROUTINE TABLE_INTERP_DYDX(TABLE,XX,XXDIM,YY,DYDX)
+C-----------------------------------------------
+      USE TABLE_MOD
+      USE MESSAGE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "scr05_c.inc"
+#include      "units_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER XXDIM
+      TYPE(TTABLE) TABLE
+      my_real, INTENT(IN),DIMENSION(XXDIM) :: XX
+      my_real, INTENT(OUT) :: YY,DYDX
+C-----------------------------------------------
+C   L o c a l   V a r  i a b l e s
+C-----------------------------------------------
+      TYPE(TTABLE_XY), POINTER :: TY
+      INTEGER NDIM, I,K,IP,IN,IM,IL,P,N,M,L,N1,N12,N123
+      INTEGER NXK(4),IPOS(4)
+      INTEGER IB(2,2,2,2)
+      my_real 
+     .       DX1,DX2,R(4),UNR(4)
+C-----------------------------------------------
+      NDIM=TABLE%NDIM
+      print*,'Size:',SIZE(XX),NDIM,XXDIM
+      IF( XXDIM < NDIM )THEN
+        CALL ANCMSG(MSGID=36,ANMODE=ANINFO,
+     .              C1='TABLE INTERPOLATION')
+        CALL ARRET(2)
+      END IF
+C-----
+      IPOS(1:NDIM)= 1
+      R(1:NDIM) = ONE
+c
+      DO K=1,NDIM
+        NXK(K) = SIZE(TABLE%X(K)%VALUES)
+        DO I=2,NXK(K)
+          DX2 = TABLE%X(K)%VALUES(I) - XX(K)
+          IF (DX2>=ZERO .OR. I==NXK(K)) THEN
+            IPOS(K)=I-1
+            R(K)   =(TABLE%X(K)%VALUES(I)-XX(K))/
+     .              (TABLE%X(K)%VALUES(I)-TABLE%X(K)%VALUES(I-1))
+            EXIT
+          ENDIF
+        END DO
+
+        UNR(K) = ONE - R(K)
+
+      END DO
+C-----
+      TY=>TABLE%Y
+      SELECT CASE(NDIM)
+
+       CASE(4)
+
+        N1  =NXK(1)
+        N12 =NXK(1)*NXK(2)
+        N123=N12   *NXK(3)
+        DO P=0,1
+          IP=N123*(IPOS(4)-1+P)
+          DO N=0,1
+            IN=N12*(IPOS(3)-1+N)
+            DO M=0,1
+              IM=N1*(IPOS(2)-1+M)
+              DO L=0,1
+                IL=IPOS(1)+L
+                IB(L+1,M+1,N+1,P+1)=IP+IN+IM+IL
+              END DO
+            END DO
+          END DO
+        END DO
+C
+        YY = R(4) * (R(3)*(R(2) * (R(1)*TY%VALUES(IB(1,1,1,1)) + UNR(1)*TY%VALUES(IB(2,1,1,1)))
+     .                 + UNR(2) * (R(1)*TY%VALUES(IB(1,2,1,1)) + UNR(1)*TY%VALUES(IB(2,2,1,1))))
+     .            +UNR(3)*(R(2) * (R(1)*TY%VALUES(IB(1,1,2,1)) + UNR(1)*TY%VALUES(IB(2,1,2,1)))
+     .                 + UNR(2) * (R(1)*TY%VALUES(IB(1,2,2,1)) + UNR(1)*TY%VALUES(IB(2,2,2,1)))))
+     .     +UNR(4) *(R(3)*(R(2) * (R(1)*TY%VALUES(IB(1,1,1,2)) + UNR(1)*TY%VALUES(IB(2,1,1,2)))
+     .                  +UNR(2) * (R(1)*TY%VALUES(IB(1,2,1,2)) + UNR(1)*TY%VALUES(IB(2,2,1,2))))
+     .            +UNR(3)*(R(2) * (R(1)*TY%VALUES(IB(1,1,2,2)) + UNR(1)*TY%VALUES(IB(2,1,2,2)))
+     .                  +UNR(2) * (R(1)*TY%VALUES(IB(1,2,2,2)) + UNR(1)*TY%VALUES(IB(2,2,2,2)))))
+C-----
+         DYDX =
+     .     (R(4) * (R(3) * (R(2) * ( TY%VALUES(IB(2,1,1,1)) - TY%VALUES(IB(1,1,1,1)))
+     .                   +UNR(2) * ( TY%VALUES(IB(2,2,1,1)) - TY%VALUES(IB(1,2,1,1))))
+     .          + UNR(3) * (R(2) * ( TY%VALUES(IB(2,1,2,1)) - TY%VALUES(IB(1,1,2,1)))
+     .                  + UNR(2) * ( TY%VALUES(IB(2,2,2,1)) - TY%VALUES(IB(1,2,2,1)))))
+     .  + UNR(4) * (R(3) * (R(2) * ( TY%VALUES(IB(2,1,1,1)) - TY%VALUES(IB(1,1,1,1)))
+     .                  + UNR(2) * ( TY%VALUES(IB(2,2,1,1)) - TY%VALUES(IB(1,2,1,1))))
+     .          + UNR(3) * (R(2) * ( TY%VALUES(IB(2,1,2,1)) - TY%VALUES(IB(1,1,2,1)))
+     .                  + UNR(2) * ( TY%VALUES(IB(2,2,2,1)) - TY%VALUES(IB(1,2,2,1))))))/
+     .     (TABLE%X(1)%VALUES(IPOS(1)+1)-TABLE%X(1)%VALUES(IPOS(1)))
+
+
+C-----
+       CASE(3)
+
+        N1  = NXK(1)
+        N12 = NXK(1)*NXK(2)
+        DO N=0,1
+          IN = N12*(IPOS(3)-1+N)
+          DO M=0,1
+            IM = N1*(IPOS(2)-1+M)
+            DO L=0,1
+              IL = IPOS(1)+L
+              IB(L+1,M+1,N+1,1) = IN+IM+IL
+            END DO
+          END DO
+        END DO
+c        
+        IF (R(2) == ONE) THEN   ! case when second variable has only one value
+          YY = R(3)   * (R(1)*TY%VALUES(IB(1,1,1,1)) + UNR(1)*TY%VALUES(IB(2,1,1,1)))
+     .       + UNR(3) * (R(1)*TY%VALUES(IB(1,1,2,1)) + UNR(1)*TY%VALUES(IB(2,1,2,1)))
+        ELSE
+C
+          YY = R(3) *(R(2) * (R(1)*TY%VALUES(IB(1,1,1,1)) + UNR(1)*TY%VALUES(IB(2,1,1,1)))
+     .             +UNR(2) * (R(1)*TY%VALUES(IB(1,2,1,1)) + UNR(1)*TY%VALUES(IB(2,2,1,1))))
+     .     + UNR(3) *(R(2) * (R(1)*TY%VALUES(IB(1,1,2,1)) + UNR(1)*TY%VALUES(IB(2,1,2,1)))
+     .             +UNR(2) * (R(1)*TY%VALUES(IB(1,2,2,1)) + UNR(1)*TY%VALUES(IB(2,2,2,1))))
+        END IF
+        
+         DYDX =
+     .        (R(3) * (R(2) * ( TY%VALUES(IB(2,1,1,1)) - TY%VALUES(IB(1,1,1,1)))
+     .             + UNR(2) * ( TY%VALUES(IB(2,2,1,1)) - TY%VALUES(IB(1,2,1,1))))
+     .     + UNR(3) * (R(2) * ( TY%VALUES(IB(2,1,2,1)) - TY%VALUES(IB(1,1,2,1)))
+     .              +UNR(2) * ( TY%VALUES(IB(2,2,2,1)) - TY%VALUES(IB(1,2,2,1)))))/
+     .     (TABLE%X(1)%VALUES(IPOS(1)+1)-TABLE%X(1)%VALUES(IPOS(1)))
+C-----
+       CASE(2)
+
+        N1  =NXK(1)
+        DO M=0,1
+          IM=N1*(IPOS(2)-1+M)
+          DO L=0,1
+            IL=IPOS(1)+L
+            IB(L+1,M+1,1,1)=IM+IL
+          END DO
+        END DO
+C
+        YY = (R(2)*(R(1)*TY%VALUES(IB(1,1,1,1)) + UNR(1)*TY%VALUES(IB(2,1,1,1)))
+     .     +UNR(2)*(R(1)*TY%VALUES(IB(1,2,1,1)) + UNR(1)*TY%VALUES(IB(2,2,1,1))))
+     
+        DYDX =
+     .        (R(2) * ( TY%VALUES(IB(2,1,1,1)) - TY%VALUES(IB(1,1,1,1)))
+     .     + UNR(2) * ( TY%VALUES(IB(2,2,1,1)) - TY%VALUES(IB(1,2,1,1))))/
+     .     (TABLE%X(1)%VALUES(IPOS(1)+1)-TABLE%X(1)%VALUES(IPOS(1)))
+
+C-----
+       CASE(1)
+
+C
+        YY = R(1) * TY%VALUES(IPOS(1)) + UNR(1) * TY%VALUES(IPOS(1)+1)
+        
+        DYDX = (TY%VALUES(IPOS(1)+1)-TY%VALUES(IPOS(1)))/
+     .     (TABLE%X(1)%VALUES(IPOS(1)+1)-TABLE%X(1)%VALUES(IPOS(1)))
+
+C-----
+      END SELECT
+
+      RETURN
+      END SUBROUTINE TABLE_INTERP_DYDX
+Chd|====================================================================
 Chd|  TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|-- called by -----------
 Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas76.F
