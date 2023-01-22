@@ -117,6 +117,40 @@ C
       RETURN
       END
 Chd|====================================================================
+Chd|  GET_TABLE_VALUE               source/user_interface/utable.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
+Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
+Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
+Chd|====================================================================
+      SUBROUTINE GET_TABLE_VALUE_DYDX(ITABLE,XX,XXDIM,YY,DYDX) 
+      USE TABLE_GLOB_MOD
+      USE INTERFACE_TABLE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+       INTEGER ITABLE,XXDIM
+       my_real XX(XXDIM)
+
+       my_real
+     .       YY,DYDX
+       my_real, DIMENSION(:),ALLOCATABLE :: XX2
+
+      ALLOCATE (XX2(XXDIM))
+      XX2(1:XXDIM)=XX(1:XXDIM)
+C
+      call my_flush(6)
+      CALL TABLE_INTERP_DYDX(TABLE(ITABLE),XX2,XXDIM,YY,DYDX)
+      
+      DEALLOCATE(XX2)
+      RETURN
+      END
+Chd|====================================================================
 Chd|  GET_U_VTABLE                  source/user_interface/utable.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
