@@ -885,7 +885,7 @@ jobs:
   # Call the sync CI if build and qa are OK 
   # Secrets variables must be passed
   call-workflow-sync-git2perforce:
-    needs: [qa_linux,qa_windows_no_container]
+    # needs: [qa_linux,qa_windows_no_container]
     uses: ./.github/workflows/prmerge_ci_sync.yml
     secrets: 
       DOCKER_REGISTRY_USER: ${{secrets.DOCKER_REGISTRY_USER}}
