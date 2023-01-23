@@ -82,10 +82,13 @@ C L o c a l V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,J,LENG,NINDX,INDX(NEL),TYPE_MAX,F_FLAG,STRDEF,STRFLAG
         my_real E11,SIG_A,SIG_B,SIG_11,EPS_A,EPS_B,
-     .          C_MIN,C_MAX,EMA,DAMAGE,ALPHA,F,FF,
-     .          PI1,PI8,PI38,SPI8,SPI38,C0,C1,C2,C3,C4,C5,C6,C7,C8,C9,
-     .          X1,X2,X3,Y1,Y2,Y3,Z1,Z2,Z3,D,DD,D2,DP,E,G
-        my_real A0(2),A1(2),A2(2),AS(3),VS(3)
+     .          C_MIN,C_MAX,EMA,DAMAGE 
+        DOUBLE PRECISION :: A0(2),A1(2),A2(2),C0,C1,C2,C3,C4,C5,C6,C7,C8,C9,
+     .          X1,X2,X3,Y1,Y2,Y3,Z1,Z2,Z3,F,FF,D,DD,D2,DP,E,G
+        DOUBLE PRECISION, PARAMETER :: PI8   = 0.3926990817D0 
+        DOUBLE PRECISION, PARAMETER :: PI38  = 1.178097245D0
+        DOUBLE PRECISION, PARAMETER :: SPI8  = 0.3826834324D0
+        DOUBLE PRECISION, PARAMETER :: SPI38 = 0.9238795325D0
 C-----------------------------------------------
 C USER VARIABLES INITIALIZATION
 
@@ -161,15 +164,8 @@ c! --- EMA or Butterworth filtering
 C-----------------------------------------------
 C INITIALIALISATION OF THE FILTER-COEFFICIENTS 
 C-----------------------------------------------
-          F       = MIN(FF,ZEP4 / MAX(TIMESTEP,EM20))
-          PI1     = TWO*ATAN2(ONE,ZERO)
-          PI8     = PI1*ONE_OVER_8
-          PI38    = THREE*PI8
-          SPI8    = SIN(PI8)
-          SPI38   = SIN(PI38)
-C         
-          D  = TAN(PI1*F*MAX(TIMESTEP,EM20))
-          
+          F  = MIN(FF,ZEP4 / MAX(TIMESTEP,EM20))
+          D  = TAN(PI*F*MAX(TIMESTEP,EM20))
           DD = D*D
           D2 = TWO*D
           DP = ONE + DD
@@ -197,12 +193,12 @@ C-----------------------------------------------
 C BUTTERWORTH FILTERING
 C-----------------------------------------------
          
-          A0(1)     = UVAR(I,3)
-          A0(2)     = UVAR(I,4) 
-          A1(1)     = UVAR(I,5) 
-          A1(2)     = UVAR(I,6) 
-          A2(1)     = UVAR(I,7) 
-          A2(2)     = UVAR(I,8) 
+          A0(1) = UVAR(I,3)*UVAR(I,9) 
+          A0(2) = UVAR(I,4)*UVAR(I,9) 
+          A1(1) = UVAR(I,5)*UVAR(I,10) 
+          A1(2) = UVAR(I,6)*UVAR(I,10)  
+          A2(1) = UVAR(I,7)*UVAR(I,11)  
+          A2(2) = UVAR(I,8)*UVAR(I,11) 
 
           X1 = A0(2)
           X2 = A0(1)
@@ -210,12 +206,18 @@ C-----------------------------------------------
           X3 = E11
           Y1 = A1(2)
           Y2 = A1(1)
-          Y3 = C0 * X3 + C1 * X2 + C2 * X1
-     .       + C3 * Y2 + C4 * Y1
+          Y3 = C0 * X3 
+          Y3 = Y3 + C1 * X2 
+          Y3 = Y3 + C2 * X1
+          Y3 = Y3 + C3 * Y2
+          Y3 = Y3 + C4 * Y1
           Z1 = A2(2)
           Z2 = A2(1)
-          Z3 = C5 * Y3 + C6 * Y2 + C7 * Y1
-     .       + C8 * Z2 + C9 * Z1
+          Z3 = C5 * Y3 
+          Z3 = Z3 + C6 * Y2 
+          Z3 = Z3 + C7 * Y1
+          Z3 = Z3 + C8 * Z2 
+          Z3 = Z3 + C9 * Z1
 C         
           A0(2) = X2
           A0(1) = X3
@@ -223,15 +225,30 @@ C
           A1(1) = Y3
           A2(2) = Z2
           A2(1) = Z3
+
+          IF ((X3 /= ZERO).AND.(X2 /= ZERO)) THEN 
+            UVAR(I,3)  = A0(1)/X2
+            UVAR(I,4)  = A0(2)/X2
+            UVAR(I,5)  = A1(1)/(C0*X3)
+            UVAR(I,6)  = A1(2)/(C0*X3)
+            UVAR(I,7)  = A2(1)/(C0*Y3)
+            UVAR(I,8)  = A2(2)/(C0*Y3)
+            UVAR(I,9)  = X2
+            UVAR(I,10) = C0*X3
+            UVAR(I,11) = C0*Y3
+          ELSE
+            UVAR(I,3)  = A0(1)
+            UVAR(I,4)  = A0(2)
+            UVAR(I,5)  = A1(1)
+            UVAR(I,6)  = A1(2)
+            UVAR(I,7)  = A2(1)
+            UVAR(I,8)  = A2(2)
+            UVAR(I,9)  = ONE
+            UVAR(I,10) = ONE
+            UVAR(I,11) = ONE
+          ENDIF
           
-          UVAR(I,3) = A0(1)
-          UVAR(I,4) = A0(2)
-          UVAR(I,5) = A1(1)
-          UVAR(I,6) = A1(2)
-          UVAR(I,7) = A2(1)
-          UVAR(I,8) = A2(2)
-          
-          E11       = A2(1)
+          E11 = A2(1)
           
         ELSE
 
