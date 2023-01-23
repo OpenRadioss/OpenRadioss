@@ -1102,6 +1102,7 @@ c-------  layer variables
         integer  IPORO
         integer  NFAIL
         integer  NVAR_MAT
+        integer  NVAR_EOS        
         integer  NVARTMP
         integer  NVAR_VISC
         integer  NVAR_LAY   ! max nb of layer variables = 9

@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,K
-      INTEGER :: EOSTYPE, ITER, MAX_ITER, MAT(NEL), REMAINING_ELTS, NBMAT
+      INTEGER :: EOSTYPE, ITER, MAX_ITER, MAT(NEL), REMAINING_ELTS, NBMAT, NVAREOS
       my_real :: TOL, INCR
       my_real :: FUNC(NEL), DFUNC(NEL), ERROR(NEL), RHOZERO(NEL), RHO(NEL), 
      .           MU(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), DF(NEL), VOL(NEL), PSH(NEL), 
@@ -72,6 +72,7 @@ C-----------------------------------------------
       LOGICAL :: CONT, CONVERGED(NEL)
       TYPE(G_BUFEL_), POINTER :: GBUF
       TYPE(L_BUFEL_), POINTER :: LBUF
+      TYPE(BUF_EOS_), POINTER :: EBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -83,11 +84,14 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
       
       GBUF => ELBUF_TAB(NG)%GBUF
       NULLIFY(LBUF)
+      NULLIFY(EBUF)
       IF(IMAT>0)THEN
         LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
+        EBUF =>  ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1, 1, 1)
       ENDIF
       
       EOSTYPE          = IPM(4, MATID)
+      NVAREOS          = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS
       ITER             = 0
       MAX_ITER         = 30
       CONT             =.TRUE.
@@ -145,12 +149,12 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
             DF(K) = RHOZERO(I) / RHO(K)
             EINT(K) = EINT(K) / DF(K) !with IFLAG==2 we need ESPE=Df*EINT
          ENDDO
-         CALL EOSMAIN(2     , NEL    , EOSTYPE, PM   , OFF  , EINT, 
-     .                RHO   , RHOZERO, MU     , MU2  , ESPE , 
-     .                DVOL  , DF     , VOL    , MAT  , PSH  , 
-     .                PRES  , DPDM   , DPDE   , THETA, ECOLD, 
-     .                BUFMAT, SIG    , MU     , MLW  , POLD ,
-     .                NPF   , TF)
+         CALL EOSMAIN(2     , NEL    , EOSTYPE  , PM     , OFF  , EINT, 
+     .                RHO   , RHOZERO, MU       , MU2    , ESPE , 
+     .                DVOL  , DF     , VOL      , MAT    , PSH  , 
+     .                PRES  , DPDM   , DPDE     , THETA  , ECOLD, 
+     .                BUFMAT, SIG    , MU       , MLW    , POLD ,
+     .                NPF   , TF     , EBUF%VAR , NVAREOS)
           DO K=1,NEL
             EINT(K)=EINT(K)*DF(K) ! set back to Eint/V
           ENDDO

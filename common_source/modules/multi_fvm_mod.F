@@ -311,17 +311,21 @@ C     Compression coefficient for phase advection
       TYPE(REMOTE_MULTI_FVM), DIMENSION(:), ALLOCATABLE :: R_AFI
       ! --------------------------------------------------
       ! Navier-Stokes diffusion activated with law 6
-      LOGICAL :: NS_DIFF
+        LOGICAL :: NS_DIFF
       END TYPE MULTI_FVM_STRUCT
 
       TYPE LBUF_PTR
-      TYPE(L_BUFEL_), POINTER :: LBUF
+        TYPE(L_BUFEL_), POINTER :: LBUF
       END TYPE LBUF_PTR
 
+      TYPE EBUF_PTR
+        TYPE(BUF_EOS_), POINTER :: EBUF
+      END TYPE EBUF_PTR
+      
       TYPE FVM_INIVEL_STRUCT
-      LOGICAL :: FLAG
-      INTEGER :: GRBRICID, GRQUADID, GRSH3NID
-      my_real :: VX, VY, VZ
+        LOGICAL :: FLAG
+        INTEGER :: GRBRICID, GRQUADID, GRSH3NID
+        my_real :: VX, VY, VZ
       END TYPE FVM_INIVEL_STRUCT
 
 

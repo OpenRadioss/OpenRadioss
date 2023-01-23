@@ -317,7 +317,9 @@ c---    uvar
         INTEGER ::  L_MU        !  old mu (old rho) for reloading (compaction eos)   
         INTEGER ::  L_TB        !  explosive eos
         INTEGER ::  L_ABURN     !  afterburning   
-        INTEGER ::  L_BFRAC     !  burn fraction      
+        INTEGER ::  L_BFRAC     !  burn fraction 
+        
+        INTEGER ::  NVAR        !  EOS%VAR buffer size     
       END TYPE EOS_TAG_              
 
 C 

@@ -129,37 +129,37 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE MULAW (NFT      ,MTN     ,JCVT   ,
-     2                  PM      ,OFF     ,SIG      ,EINT    ,RHO    ,
-     3                  QOLD    ,VOL     ,STRAIN   ,SIGL    ,GAMA   ,
-     4                  UVAR    ,BUFMAT  ,TF       ,NPF     ,STIFN  ,
-     5                  MAT     ,NGL     ,NUVAR    ,DT2T    ,NELTST ,
-     6                  ITYPTST ,OFFG    ,GEO      ,PID     ,EPSD   ,
+      SUBROUTINE MULAW (NFT     ,MTN     ,JCVT     ,
+     2                  PM      ,OFF     ,SIG      ,EINT        ,RHO    ,
+     3                  QOLD    ,VOL     ,STRAIN   ,SIGL        ,GAMA   ,
+     4                  UVAR    ,BUFMAT  ,TF       ,NPF         ,STIFN  ,
+     5                  MAT     ,NGL     ,NUVAR    ,DT2T        ,NELTST ,
+     6                  ITYPTST ,OFFG    ,GEO      ,PID         ,EPSD   ,
      7                  LTEMP   ,WXX     ,
-     9                  WYY     ,WZZ     ,JSPH     ,MUMAX   ,SSP    ,
-     A                  AIRE    ,VOLN    ,VD2      ,DELTAX  ,VIS    ,  
-     B                  D1      ,D2      ,D3       ,D4      ,D5     ,
-     C                  D6      ,PNEW    ,PSH      ,Q       ,SSP_EQ ,
-     D                  DVOL    ,SOLD1   ,SOLD2    ,SOLD3   ,SOLD4  ,
-     E                  SOLD5   ,SOLD6   ,RX       ,RY      ,RZ     ,
-     F                  SX      ,SY      ,SZ       ,TX      ,TY     ,
-     G                  TZ      ,IPLA    ,SIGY     ,DEFP    ,ISMSTR ,
-     H                  MFXX    ,MFXY    ,MFXZ     ,MFYX    ,MFYY   , 
-     I                  MFYZ    ,MFZX    ,MFZY     ,MFZZ    ,IPM    ,
-     J                  ISORTH  ,FBUF    ,NFAIL    ,NPG     ,SIGDD  ,
-     K                  DXY     ,DYX     ,DYZ      ,DZY     ,DZX    ,
-     L                  DXZ     ,FR_WAV  ,V       ,VARNL  ,
-     M                  W       ,IX      ,X        ,JTHE    ,ET     ,
-     N                  MSSA    ,DMELS   ,IPTR     ,IPTS    ,IPTT   ,
-     O                  TABLE   ,FVD2    ,FDELTAX  ,FSSP    ,FQVIS  ,
-     P                  TEMPEL  ,IGEO     ,SIGV    ,
-     Q                  AL_IMP  ,SIGNOR  ,ISTRAIN  ,NG      ,ELBUF_TAB,
-     R                  VBUF    ,ILAY    ,VK       ,ALE_CONNECT   ,IPARG  ,
-     S                  BUFVOIS ,VDX     ,VDY      ,VDZ     ,IHET   ,
-     T                  CONDE   ,ITASK   ,IEXPAN   ,VOL_AVG ,AMU    ,
-     U                  EPSTH3  ,EPSTH   ,SVISC    ,NEL     ,ETOTSH ,
-     V                  ISELECT ,TSTAR   ,MUOLD    ,DPDM   ,
-     W                  RHOREF  ,RHOSP   ,NVARTMP  ,VARTMP  ,EINTTH ,
+     9                  WYY     ,WZZ     ,JSPH     ,MUMAX       ,SSP    ,
+     A                  AIRE    ,VOLN    ,VD2      ,DELTAX      ,VIS    ,
+     B                  D1      ,D2      ,D3       ,D4          ,D5     ,
+     C                  D6      ,PNEW    ,PSH      ,Q           ,SSP_EQ ,
+     D                  DVOL    ,SOLD1   ,SOLD2    ,SOLD3       ,SOLD4  ,
+     E                  SOLD5   ,SOLD6   ,RX       ,RY          ,RZ     ,
+     F                  SX      ,SY      ,SZ       ,TX          ,TY     ,
+     G                  TZ      ,IPLA    ,SIGY     ,DEFP        ,ISMSTR ,
+     H                  MFXX    ,MFXY    ,MFXZ     ,MFYX        ,MFYY   ,
+     I                  MFYZ    ,MFZX    ,MFZY     ,MFZZ        ,IPM    ,
+     J                  ISORTH  ,FBUF    ,NFAIL    ,NPG         ,SIGDD  ,
+     K                  DXY     ,DYX     ,DYZ      ,DZY         ,DZX    ,
+     L                  DXZ     ,FR_WAV  ,V        ,VARNL       ,
+     M                  W       ,IX      ,X        ,JTHE        ,ET     ,
+     N                  MSSA    ,DMELS   ,IPTR     ,IPTS        ,IPTT   ,
+     O                  TABLE   ,FVD2    ,FDELTAX  ,FSSP        ,FQVIS  ,
+     P                  TEMPEL  ,IGEO    ,SIGV     ,
+     Q                  AL_IMP  ,SIGNOR  ,ISTRAIN  ,NG          ,ELBUF_TAB,
+     R                  VBUF    ,ILAY    ,VK       ,ALE_CONNECT ,IPARG  ,
+     S                  BUFVOIS ,VDX     ,VDY      ,VDZ         ,IHET   ,
+     T                  CONDE   ,ITASK   ,IEXPAN   ,VOL_AVG     ,AMU    ,
+     U                  EPSTH3  ,EPSTH   ,SVISC    ,NEL         ,ETOTSH ,
+     V                  ISELECT ,TSTAR   ,MUOLD    ,DPDM        ,
+     W                  RHOREF  ,RHOSP   ,NVARTMP  ,VARTMP      ,EINTTH ,
      X                  MATPARAM_TAB     ,NLOC_DMG )
 C-----------------------------------------------
 C   M o d u l e s
@@ -198,11 +198,11 @@ C-----------------------------------------------
      .        J, JSPH, IPLA,ISMSTR,NELTST, ITYPTST, NUVARR,NG,ILAY,
      .        IX, JTHE, ISROT,ISTRAIN,IPTR, IPTS, IPTT,IHET,IEXPAN,NEL
       INTEGER NPF(*),MAT(MVSIZ),NGL(MVSIZ),PID(MVSIZ),IPM(NPROPMI,*),
-     .        IPARG(NPARG,*),IGEO(NPROPGI,*),ITASK,ISELECT
+     .        IPARG(NPARG,NGROUP),IGEO(NPROPGI,NUMGEO),ITASK,ISELECT
       TARGET  :: IPM
 C 
       my_real :: DT2T, BUFVOIS(*)
-      my_real :: PM(NPROPM,*), GAMA(*),PNEW(NEL),VARNL(NEL),
+      my_real :: PM(NPROPM,NUMMAT), GAMA(*),PNEW(NEL),VARNL(NEL),
      .   OFF(*), SIG(NEL,6), SIGL(NEL,6), STRAIN(NEL,6), EINT(*), 
      .   RHO(*),QOLD(*), VOL(*), BUFMAT(*), TF(*),VK(*),
      .   OFFG(*),STIFN(*),GEO(NPROPG,*),EPSD(*),
@@ -274,7 +274,8 @@ C----
      .                                    EL_PLA,DAMINI
       my_real, DIMENSION(:), ALLOCATABLE ,TARGET  :: BUFZERO
       TYPE(L_BUFEL_)  ,POINTER         :: LBUF
-      TYPE(G_BUFEL_)  ,POINTER         :: GBUF      
+      TYPE(G_BUFEL_)  ,POINTER         :: GBUF   
+      TYPE(BUF_EOS_)  ,POINTER         :: EBUF   
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
       LOGICAL :: LOGICAL_USERL_AVAIL
       my_real :: USER_UELR(MVSIZ)
@@ -283,10 +284,12 @@ C----
       INTEGER                          :: DMG_FLAG
 !
       CHARACTER OPTION*256
-      INTEGER SIZE
+      INTEGER SIZE,NVAREOS
 C=======================================================================
       GBUF   => ELBUF_TAB(NG)%GBUF           
       LBUF   => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IPTR,IPTS,IPTT)
+      EBUF   => ELBUF_TAB(NG)%BUFLY(ILAY)%EOS(IPTR,IPTS,IPTT)
+      NVAREOS = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_EOS
       LOGICAL_USERL_AVAIL=.FALSE.
       IF (USERL_AVAIL>0) LOGICAL_USERL_AVAIL=.TRUE.
       NPTR   = ELBUF_TAB(NG)%NPTR
@@ -957,21 +960,21 @@ c
           ENDIF
           !Numerical viscosity is managed inside sigeps51.f        
           !FACQ0 = ZERO
-          CALL SIGEPS51(NEL       ,NPAR   ,NUVAR    ,NFUNC  ,IFUNC           ,
-     .                  NPF       ,TF     ,TT       ,DT1    ,UPARAM  ,NUMEL        ,
-     .                  RHO0      ,RHO    ,VOL      ,EINT   ,SIGY            ,VK           ,  
-     .                  EP1       ,EP2    ,EP3      ,EP4    ,EP5             ,EP6          ,
-     .                  DE1       ,DE2    ,DE3      ,DE4    ,DE5             ,DE6          ,
-     .                  ES1       ,ES2    ,ES3      ,ES4    ,ES5             ,ES6          ,
-     .                  SO1       ,SO2    ,SO3      ,SO4    ,SO5             ,SO6          ,
-     .                  S1        ,S2     ,S3       ,S4     ,S5              ,S6           ,
-     .                  SV1       ,SV2    ,SV3      ,SV4    ,SV5             ,SV6          ,
-     .                  SSP       ,VIS    ,UVAR     ,OFF    ,NFT             ,V            ,
-     .                  W         ,X      ,IX       ,N48    ,NIX             ,JTHE         ,
-     .                  GEO       ,PID    ,ILAY     ,NG     ,ELBUF_TAB       , PM          , 
-     .                  IPARG     ,ALE_CONNECT  ,BUFVOIS  ,IPM    ,BUFMAT          ,STIFN        ,
-     .                  VD2       ,VDX    ,VDY      ,VDZ    ,MAT             ,GBUF%TAG22   ,
-     .                  GBUF%QVIS, DVOL, QOLD       ,NV46)
+          CALL SIGEPS51(NEL       ,NPAR        ,NUVAR   ,NFUNC ,IFUNC     ,                         
+     .                  NPF       ,TF          ,TT      ,DT1   ,UPARAM    ,NUMEL     ,              
+     .                  RHO0      ,RHO         ,VOL     ,EINT  ,SIGY      ,VK        ,              
+     .                  EP1       ,EP2         ,EP3     ,EP4   ,EP5       ,EP6       ,              
+     .                  DE1       ,DE2         ,DE3     ,DE4   ,DE5       ,DE6       ,              
+     .                  ES1       ,ES2         ,ES3     ,ES4   ,ES5       ,ES6       ,              
+     .                  SO1       ,SO2         ,SO3     ,SO4   ,SO5       ,SO6       ,              
+     .                  S1        ,S2          ,S3      ,S4    ,S5        ,S6        ,              
+     .                  SV1       ,SV2         ,SV3     ,SV4   ,SV5       ,SV6       ,              
+     .                  SSP       ,VIS         ,UVAR    ,OFF   ,NFT       ,V         ,              
+     .                  W         ,X           ,IX      ,N48   ,NIX       ,JTHE      ,              
+     .                  GEO       ,PID         ,ILAY    ,NG    ,ELBUF_TAB , PM       ,              
+     .                  IPARG     ,ALE_CONNECT ,BUFVOIS ,IPM   ,BUFMAT    ,STIFN     ,              
+     .                  VD2       ,VDX         ,VDY     ,VDZ   ,MAT       ,GBUF%TAG22,              
+     .                  GBUF%QVIS ,DVOL        ,QOLD    ,NV46)                              
       ELSEIF (MTN == 52) THEN
         IDEV = 1
         CALL MSTRAIN_RATE(NEL    ,ISRATE ,ASRATE ,EPSD   ,IDEV   ,
@@ -1196,17 +1199,18 @@ c
      D                  AMU ,ISEQ)
 C 
       ELSEIF (MTN == 75) THEN
-          CALL SIGEPS75(NEL ,NPAR,NUVAR,NFUNC,IFUNC,
-     2                  NPF ,TF  ,TT  ,DT1  ,UPARAM,
-     3                  RHO0,RHO ,VOLN,EINT ,MUOLD,
-     4                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
-     5                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
-     6                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
-     7                  SO1 ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,
-     8                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
-     9                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
-     A                  SSP ,VIS ,UVAR,OFF  ,DVOL ,VOL ,
-     B                  PM  ,IPM ,MAT ,PSH  ,BUFMAT)
+          CALL SIGEPS75(NEL     ,NPAR   ,NUVAR ,NFUNC ,IFUNC ,
+     2                  NPF     ,TF     ,TT    ,DT1   ,UPARAM,
+     3                  RHO0    ,RHO    ,VOLN  ,EINT  ,MUOLD ,
+     4                  EP1     ,EP2    ,EP3   ,EP4   ,EP5   ,EP6 ,
+     5                  DE1     ,DE2    ,DE3   ,DE4   ,DE5   ,DE6 ,
+     6                  ES1     ,ES2    ,ES3   ,ES4   ,ES5   ,ES6 ,
+     7                  SO1     ,SO2    ,SO3   ,SO4   ,SO5   ,SO6 ,
+     8                  S1      ,S2     ,S3    ,S4    ,S5    ,S6  ,
+     9                  SV1     ,SV2    ,SV3   ,SV4   ,SV5   ,SV6 ,
+     A                  SSP     ,VIS    ,UVAR  ,OFF   ,DVOL  ,VOL ,
+     B                  PM      ,IPM    ,MAT   ,PSH   ,BUFMAT,
+     C                  EBUF%VAR,NVAREOS)
 C
       ELSEIF (MTN == 76) THEN
         CALL SIGEPS76(NEL      ,NPAR     ,NUVAR    ,NFUNC    ,IFUNC    ,NGL      ,

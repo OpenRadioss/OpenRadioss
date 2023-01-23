@@ -41,7 +41,8 @@ Chd|====================================================================
      8      SIGNXX , SIGNYY , SIGNZZ  , SIGNXY, SIGNYZ, SIGNZX,
      9      SIGVXX , SIGVYY , SIGVZZ  , SIGVXY, SIGVYZ, SIGVZX,
      A      SOUNDSP, VISCMAX, UVAR    , OFF   , DVOL  , VOL0  ,
-     B      PM     , IPM    , MAT     , PSH   , BUFMAT)
+     B      PM     , IPM    , MAT     , PSH   , BUFMAT, VAREOS,
+     C      NVAREOS)
 C
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
@@ -103,13 +104,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C O M M O N 
 C-----------------------------------------------
+#include "com04_c.inc"
 #include "com08_c.inc"
 #include "param_c.inc"
 #include "scr17_c.inc"
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR, IPM(NPROPMI,*), MAT(NEL)
+      INTEGER NEL, NUPARAM, NUVAR, IPM(NPROPMI,NUMGEO), MAT(NEL)
+      INTEGER,INTENT(IN) ::NVAREOS
 C
       my_real
      .      TIME       , TIMESTEP   , UPARAM(NUPARAM),
@@ -122,8 +125,10 @@ C
      .      EPSXY (NEL), EPSYZ (NEL), EPSZX (NEL),
      .      SIGOXX(NEL), SIGOYY(NEL), SIGOZZ(NEL),
      .      SIGOXY(NEL), SIGOYZ(NEL), SIGOZX(NEL),
-     .      DVOL(NEL)  , VOL0(NEL)  , PM(NPROPM,*),
+     .      DVOL(NEL)  , VOL0(NEL)  , PM(NPROPM,NUMMAT),
      .      PSH(NEL)   , BUFMAT(*)  , MUOLD(NEL)
+     
+      my_real,INTENT(INOUT) :: VAREOS(NVAREOS*NEL)
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
@@ -136,8 +141,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real
-     .      UVAR(NEL,NUVAR), OFF(NEL) 
+      my_real UVAR(NEL,NUVAR), OFF(NEL) 
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -145,7 +149,7 @@ C----------------------------------------------------------------
       my_real FINTER,FINTTE,TF(*),FINT2V
       EXTERNAL FINTER,FINTTE
 C----------------------------------------------------------------
-C  L O C A L  V A R I A B L E S
+C  L o c a l   V a r i a b l e s
 C----------------------------------------------------------------
       INTEGER I, EOSTYP, ITER, MATS(NEL),IPLA(NEL), MXS, IFLAG1,
      .        IFLAG2, ITEMAX, IMAX, IPLAS
@@ -263,13 +267,13 @@ C--------------
      .             DVOLS  ,DFS    ,VNEWS   ,MATS   ,PSH    ,
      .             PNEW   ,DPDM   ,DPDE    ,THETA  ,ECOLD  ,
      .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,POLD   ,
-     .             NPF    ,TF)
+     .             NPF    ,TF     ,VAREOS  ,NVAREOS)
       CALL EOSMAIN(1      ,NEL    ,EOSTYP  ,PM     ,OFF    ,EINTN ,
      .             RHOS   ,RHOS0  ,MUS     ,MU2S   ,ESPES  ,
      .             DVOLS  ,DFS    ,VNEWS   ,MATS   ,PSH    ,
      .             PNEW   ,DPDM   ,DPDE    ,THETA  ,ECOLD  ,
      .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,POLD   ,
-     .             NPF    ,TF)
+     .             NPF    ,TF     ,VAREOS  ,NVAREOS)
       IF(IFLAG1 == 2) THEN
         DO I=1,NEL
            PNEW(I)=PNEW(I)/ALPHA(I)
@@ -367,13 +371,13 @@ C--------------
      .             DVOLS ,DFS   ,VNEWS  ,MATS  ,PSH   ,
      .             PNEW  ,DPDM  ,DPDE   ,THETA ,ECOLD ,
      .             BUFMAT,SIGOLD,MUOLD  ,75    ,POLD  ,
-     .             NPF   ,TF)
+     .             NPF   ,TF    ,VAREOS ,NVAREOS)
       CALL EOSMAIN(1     ,NEL   ,EOSTYP ,PM    ,OFF   ,EINTN ,
      .             RHOS  ,RHOS0 ,MUS    ,MU2S  ,ESPES ,
      .             DVOLS ,DFS   ,VNEWS  ,MATS  ,PSH   ,
      .             PNEW  ,DPDM  ,DPDE   ,THETA ,ECOLD ,
      .             BUFMAT,SIGOLD,MUOLD  ,75    ,POLD  ,
-     .             NPF   ,TF)
+     .             NPF   ,TF    ,VAREOS ,NVAREOS)
       IF(IFLAG1 == 2) THEN
         DO I=1,NEL
            PNEW(I)=PNEW(I)/ALPHA(I)

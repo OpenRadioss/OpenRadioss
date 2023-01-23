@@ -252,7 +252,7 @@ C-----------------------------------------------
       INTEGER I,IPG,NUVAR,NPARAM,NFUNC,IFUNC_ALPHA,ILAW,
      .   NVARF,NFAIL,IR,IP,IRUPT,IVISC,EOSTYP,NPTS,NPTT,NPTR,NPG,ISVIS,
      .   MX,NVARTMP,NLAY,INLOC
-      INTEGER IFUNC(MAXFUNC),ISELECT,IBPRELD
+      INTEGER IFUNC(MAXFUNC),ISELECT,IBPRELD,NVAREOS
       my_real
      .   FACQ0,E1,E2,E3,E4,E5,E6,ALPHA,T0,TM
       my_real
@@ -288,7 +288,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL), TARGET :: LE_MAX
       my_real, DIMENSION(:) ,POINTER :: STRD1,STRD2,EL_LEN,DMG_SCALE,
      .                                  EL_PLA
-       LOGICAL :: LOGICAL_USERL_AVAIL, l_MULAW_CALLED
+      LOGICAL :: LOGICAL_USERL_AVAIL, l_MULAW_CALLED
 !
       CHARACTER OPTION*256
       INTEGER LENGTH
@@ -303,6 +303,7 @@ C--------------------------------------------
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
       TYPE(BUF_FAIL_) ,POINTER :: FBUF
       TYPE(BUF_VISC_) ,POINTER :: VBUF
+      TYPE(BUF_EOS_)  ,POINTER :: EBUF
       my_real,
      .  DIMENSION(:), POINTER  :: UVARF,DFMAX,TDEL,DAMINI
 c     Bolt Preloading
@@ -311,7 +312,9 @@ c     Bolt Preloading
      .  DIMENSION(:), POINTER  :: BPRELD
       INTEGER                  :: DMG_FLAG
 !      my_real T1, T2, REDUC1
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       LOGICAL_USERL_AVAIL = .FALSE.
       l_MULAW_CALLED=.FALSE.
       IF(USERL_AVAIL/=0) LOGICAL_USERL_AVAIL = .TRUE.
@@ -320,6 +323,7 @@ C=======================================================================
       MBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%MAT(IPTR,IPTS,IPTT)
       FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IPTR,IPTS,IPTT)
       VBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%VISC(IPTR,IPTS,IPTT)
+      EBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%EOS(IPTR,IPTS,IPTT)
       ILAW  = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW
       NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL
       IVISC = ELBUF_TAB(NG)%BUFLY(ILAY)%IVISC
@@ -328,6 +332,7 @@ C=======================================================================
       NPTT  = ELBUF_TAB(NG)%NPTT
       NLAY  = ELBUF_TAB(NG)%NLAY
       NPG   = NPTS*NPTT*NPTR
+      NVAREOS = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_EOS 
       IPG   = IPTR + ((IPTS-1) + (IPTT-1)*NPTS)*NPTR
       IGTYP = IPARG(38,NG)
       DMG_FLAG = ELBUF_TAB(NG)%BUFLY(ILAY)%L_DMGSCL
@@ -526,7 +531,7 @@ C-----------------------------------
      3               DVOL    ,DF       ,VOLN    ,MAT       ,PSH      ,
      4               PNEW    ,DPDM     ,DPDE    ,LBUF%TEMP ,ECOLD    ,
      5               BUFMAT  ,LBUF%SIG ,LBUF%MU ,MTN       ,POLD     ,
-     6               NPF     ,TF)
+     6               NPF     ,TF       ,EBUF%VAR,NVAREOS)
       ENDIF
 C-----------------------------------
 C     STRESSES DEVIATORIC/TOTAL
@@ -990,19 +995,18 @@ C       TSAI 3D Complet
         EOSTYP= IPM(4,MAT(1))
         STRD1(1:NEL*3) => LBUF%EPE(1:NEL*3)
         STRD2(1:NEL*3) => LBUF%EPE(1+NEL*3:NEL*6)
-        
-        CALL M12LAW(PM     ,OFF      ,LBUF%SIG,LBUF%EINT,LBUF%PLA,
-     2            LBUF%SIGF,LBUF%EPSF,LBUF%DAM,STRD1    ,STRD2   ,
-     3            GAMA     ,LBUF%VOL ,RX      ,RY       ,RZ      ,
-     4            SX       ,SY       ,SZ      ,MAT      ,VOLN    ,
-     5            DVOL     ,CXX      ,DXX     ,DYY      ,DZZ     , 
-     6            D4       ,D5       ,D6      ,S1       ,S2      ,
-     7            S3       ,S4       ,S5      ,S6       ,SIGY    ,
-     8            DEFP     ,NGL      ,LBUF%SEQ,NEL      ,EOSTYP  ,   
-     9            RHO0     ,AMU      ,AMU2    ,ESPE     ,DF      ,
-     A            PSH      ,PNEW     ,DPDM    ,DPDE     ,LBUF%RHO,
-     B            LBUF%TEMP,ECOLD    ,BUFMAT  ,NPF      ,TF      ,
-     C            LBUF%TSAIWU)
+        CALL M12LAW(PM       ,OFF       ,LBUF%SIG,LBUF%EINT,LBUF%PLA,
+     2            LBUF%SIGF  ,LBUF%EPSF ,LBUF%DAM,STRD1    ,STRD2   ,
+     3            GAMA       ,LBUF%VOL  ,RX      ,RY       ,RZ      ,
+     4            SX         ,SY        ,SZ      ,MAT      ,VOLN    ,
+     5            DVOL       ,CXX       ,DXX     ,DYY      ,DZZ     , 
+     6            D4         ,D5        ,D6      ,S1       ,S2      ,
+     7            S3         ,S4        ,S5      ,S6       ,SIGY    ,
+     8            DEFP       ,NGL       ,LBUF%SEQ,NEL      ,EOSTYP  ,   
+     9            RHO0       ,AMU       ,AMU2    ,ESPE     ,DF      ,
+     A            PSH        ,PNEW      ,DPDM    ,DPDE     ,LBUF%RHO,
+     B            LBUF%TEMP  ,ECOLD     ,BUFMAT  ,NPF      ,TF      ,
+     C            LBUF%TSAIWU,EBUF%VAR,NVAREOS)
         IF (JSPH == 0) THEN
           CALL MQVISCB(PM,OFF    ,LBUF%RHO ,LBUF%RK ,LBUF%TEMP ,CXX       ,
      2         LBUF%RE  ,STIFN   ,DT2T     ,NELTST  ,ITYPTST   ,AIRE      ,
@@ -1384,7 +1388,7 @@ C-----------------------------------
      3               DVOL    ,DF       ,VOLN    ,MAT      ,PSH      ,
      4               PNEW    ,DPDM     ,DPDE    ,LBUF%TEMP,ECOLD    ,
      5               BUFMAT  ,LBUF%SIG ,LBUF%MU ,MTN      ,POLD     ,
-     6               NPF     ,TF)
+     6               NPF     ,TF       ,EBUF%VAR,NVAREOS)
         CALL EOSUPDA(OFF  ,LBUF%SIG ,LBUF%EINT, LBUF%VOL ,PNEW,NEL)
       ELSEIF(l_MULAW_CALLED)THEN
         IF(l_MULAW_CALLED)THEN
