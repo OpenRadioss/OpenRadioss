@@ -1042,10 +1042,10 @@ C-----RGBODY between domains -> all nodes one the r2r interface
 	        ENDIF                                              
 	      ENDIF
 	    ENDIF
+C-----tag of the RBODY to keep it
 	    TAGRBY(I)=ID_RBY         
 	    NB_RBY = NB_RBY + 1
-	    NB_KIN = NB_KIN + 1     
-C-----tag of the RBODY to keep it	      
+	    NB_KIN = NB_KIN + 1	      
           ENDIF  
         END DO
         NEW_NRBYKIN=NB_KIN
@@ -1203,18 +1203,22 @@ C--------------------------------------------------------------------C
               N1 = USR2SYS(N1, ITABM1, MESS, ID)
               N2 = USR2SYS(N2, ITABM1, MESS, ID)
               IF (N1 > 0) THEN
-                 IF ((IGRNOD(GR_ID)%R2R_ALL > 0) .AND. (TAGNO(NPART+N1) == -1)) THEN
+                 IF ((IGRNOD(GR_ID)%R2R_ALL > 0) .AND. (TAGNO(NPART+N1) < 1)) THEN
                     CALL MODIF_TAG(TAGNO(NPART + N1), 2, MODIF)
                  ELSEIF ((IGRNOD(GR_ID)%R2R_SHARE > 0) .AND. (TAGNO(NPART+N1) == 1)) THEN
+                    CALL MODIF_TAG(TAGNO(NPART+N1), 2, MODIF)
+                 ELSEIF (TAGNO(NPART+N1) == 0) THEN
                     CALL MODIF_TAG(TAGNO(NPART+N1), 2, MODIF)
                  ELSEIF (TAGNO(NPART+N1) == -1) THEN
                     CALL MODIF_TAG(TAGNO(NPART+N1), 0, MODIF)
                  ENDIF
               ENDIF
               IF (N2 > 0) THEN
-                 IF ((IGRNOD(GR_ID)%R2R_ALL > 0) .AND. (TAGNO(NPART+N2) == -1)) THEN
+                 IF ((IGRNOD(GR_ID)%R2R_ALL > 0) .AND. (TAGNO(NPART+N2) < 1)) THEN
                     CALL MODIF_TAG(TAGNO(NPART+N2), 2, MODIF)
                  ELSEIF ((IGRNOD(GR_ID)%R2R_SHARE > 0) .AND. (TAGNO(NPART+N2) == 1)) THEN
+                    CALL MODIF_TAG(TAGNO(NPART+N2), 2, MODIF)
+                 ELSEIF (TAGNO(NPART+N2) == 0) THEN
                     CALL MODIF_TAG(TAGNO(NPART+N2), 2, MODIF)
                  ELSEIF (TAGNO(NPART+N2) == -1) THEN
                     CALL MODIF_TAG(TAGNO(NPART+N2), 0, MODIF)
