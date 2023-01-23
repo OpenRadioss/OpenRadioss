@@ -330,12 +330,10 @@ c
                   IF(ASSOCIATED(FLOC%INDX))  DEALLOCATE(FLOC%INDX)
                   IF(ASSOCIATED(FLOC%OFF))  DEALLOCATE(FLOC%OFF)
                 ENDDO
-                IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR))  
-     *                     DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR)              
-                IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR)) 
-     *                     DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR)       
-                IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC))
-     *                     DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC)
+                IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR))  DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR)              
+                IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR)) DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR)       
+                IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC))DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC)
+                IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR))DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR)
 
               ENDDO                                                           
             ENDDO                                                          
@@ -402,8 +400,7 @@ c-------------------------------------------------
 c-----------------------------------------------------
 c deallocation des sub-structures de l'element buffer
 c-----------------------------------------------------
-          CALL DEALLOCATE_ONE_ELEMENT_GROUP(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,NINTLAY, 
-     *            NEL,NPT,NG,NGROUP,ITY,IGTYP)
+          CALL DEALLOCATE_ONE_ELEMENT_GROUP(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,NINTLAY,NEL,NPT,NG,NGROUP,ITY,IGTYP)
 
           DO IL = 1, NINTLAY                                                       
             NUVARM = ELBUF_TAB(NG)%INTLAY(IL)%NVAR_MAT                            
@@ -416,10 +413,8 @@ C
                   IF(ASSOCIATED(FLOC%VAR)) DEALLOCATE(FLOC%VAR)                                
                 ENDDO  
                                                             
-                IF(ASSOCIATED(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR))
-     *                    DEALLOCATE(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR)
-                IF(ASSOCIATED(ELBUF_TAB(NG)%INTLAY(IL)%FAIL(IR,IS)%FLOC))
-     *                    DEALLOCATE(ELBUF_TAB(NG)%INTLAY(IL)%FAIL(IR,IS)%FLOC)     
+                IF(ASSOCIATED(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR))DEALLOCATE(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR)
+                IF(ASSOCIATED(ELBUF_TAB(NG)%INTLAY(IL)%FAIL(IR,IS)%FLOC))DEALLOCATE(ELBUF_TAB(NG)%INTLAY(IL)%FAIL(IR,IS)%FLOC)     
               ENDDO                                                                  
             ENDDO                                                                   
           ENDDO                                                                    
@@ -444,12 +439,9 @@ C
                   IF(ASSOCIATED(FLOC%OFF)) DEALLOCATE(FLOC%OFF)
                 ENDDO
 
-                IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR))
-     *              DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR)
-                IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR))
-     *              DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR)
-                IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC))
-     *              DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC)
+                IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR))DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR)
+                IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR))DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR)
+                IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC))DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC)
               ENDDO                                                           
             ENDDO                                                          
            ENDDO 
@@ -467,13 +459,13 @@ C
           DO I = 1, NLAY
             BUFLY => ELBUF_TAB(NG)%BUFLY(I)
             NPTT = BUFLY%NPTT
-            IF(ASSOCIATED(BUFLY%LBUF)) DEALLOCATE(BUFLY%LBUF)
-            IF(ASSOCIATED(BUFLY%MAT))   DEALLOCATE(BUFLY%MAT)
-            IF(ASSOCIATED(BUFLY%FAIL))  DEALLOCATE(BUFLY%FAIL)
-            IF(ASSOCIATED(BUFLY%PROP))  DEALLOCATE(BUFLY%PROP)
-            IF(ASSOCIATED(BUFLY%EOS))  DEALLOCATE(BUFLY%EOS)
-            IF(ASSOCIATED(BUFLY%VISC))  DEALLOCATE(BUFLY%VISC)
-            IF(ASSOCIATED(BUFLY%PORO))  DEALLOCATE(BUFLY%PORO)
+            IF(ASSOCIATED(BUFLY%LBUF))DEALLOCATE(BUFLY%LBUF)  
+            IF(ASSOCIATED(BUFLY%MAT)) DEALLOCATE(BUFLY%MAT)   
+            IF(ASSOCIATED(BUFLY%FAIL))DEALLOCATE(BUFLY%FAIL)  
+            IF(ASSOCIATED(BUFLY%PROP))DEALLOCATE(BUFLY%PROP)  
+            IF(ASSOCIATED(BUFLY%EOS)) DEALLOCATE(BUFLY%EOS)   
+            IF(ASSOCIATED(BUFLY%VISC))DEALLOCATE(BUFLY%VISC)  
+            IF(ASSOCIATED(BUFLY%PORO))DEALLOCATE(BUFLY%PORO)  
           ENDDO
 
           IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY)) DEALLOCATE(ELBUF_TAB(NG)%BUFLY)

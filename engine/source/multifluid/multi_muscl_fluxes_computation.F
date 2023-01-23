@@ -36,6 +36,7 @@ Chd|====================================================================
      .     IXS, IXQ, IXTG,
      .     PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, NBMAT, CURRENT_TIME, BUFMAT,
      .     ID_GLOBAL_VOIS,FACE_VOIS,NPF,TF)
+C-----------------------------------------------
 !$COMMENT
 !       MULTI_MUSCL_FLUXES_COMPUTATION description :
 !           computation of fluxes with 2nd order algorithm
@@ -102,6 +103,7 @@ C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(G_BUFEL_), POINTER :: GBUF, GBUFJJ
       TYPE(L_BUFEL_), POINTER :: LBUF
+      TYPE(BUF_EOS_), POINTER :: EBUF
 
       INTEGER :: II, JJ, KFACE, I, J, KFACE2, NGJJ, NFTJJ, NELJJ, IFACE
       INTEGER :: ITY, NFT, NEL
@@ -120,7 +122,8 @@ C-----------------------------------------------
       my_real :: MACHII, MACHJJ, PSTAR2, THETA, ALPHAII, SUB_RHOII, SUB_RHOEINTII, 
      .     ALPHASTAR, SUB_RHOSTAR, SUB_ESTAR, SUB_PII, WFAC(3)
       TYPE(LBUF_PTR) :: LBUFS(NBMAT)
-      INTEGER :: LOCAL_MATID(NBMAT), MATLAW(NBMAT),IDX(6)
+      TYPE(EBUF_PTR) :: EBUFS(NBMAT)
+      INTEGER :: LOCAL_MATID(NBMAT), MATLAW(NBMAT),IDX(6), NVAREOS(NBMAT)
       my_real :: XF(3), XK(3), XL(3)
       my_real :: EINTII, EINTJJ, GRUN, TEMP
       my_real :: PHASE_RHOII(NBMAT), PHASE_PRESII(NBMAT), PHASE_EINTII(NBMAT), 
@@ -151,10 +154,15 @@ C-----------------------------------------------
 !DIR$ NOVECTOR
          DO IMAT = 1, NBMAT
             LBUFS(IMAT)%LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
+            EBUFS(IMAT)%EBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1, 1, 1)
+            NVAREOS(IMAT) = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS
          ENDDO
       ELSE
          DO IMAT = 1, NBMAT
-            NULLIFY( LBUFS(IMAT)%LBUF )
+            !GBUF will be used
+            NULLIFY( LBUFS(IMAT)%LBUF, EBUFS(IMAT)%EBUF )
+            EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1)
+            NVAREOS(1) = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS
          ENDDO
       ENDIF
 C     Normal and surface computation
@@ -300,7 +308,7 @@ C     Reconstructed density current element
                   CALL COMPUTE_PRESSURE(MATLAW(1), LOCAL_MATID(1), PM, IPM, NPROPM, NPROPMI, 
      .                 EINTII, RHOII, PII, SSPII,
      .                 MULTI_FVM%BFRAC(1, I), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
-     .                 BUFMAT, GBUF%OFF(II), GBUF%SIG(II+IDX(1):II+IDX(6)), NPF, TF)
+     .                 BUFMAT, GBUF%OFF(II), GBUF%SIG(II+IDX(1):II+IDX(6)), NPF, TF, EBUF%VAR, NVAREOS(1))
                   SSPII = SQRT(SSPII)
                  
                ELSE
@@ -337,11 +345,12 @@ C     Global reconstructed density
                      RHOII = RHOII + PHASE_ALPHAII(IMAT) * PHASE_RHOII(IMAT)
                      MATLAW(IMAT) = IPM(2, LOCAL_MATID(IMAT))
                      IF (PHASE_ALPHAII(IMAT)  >  ZERO) THEN
-                        
+                        NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS
                         CALL COMPUTE_PRESSURE(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI, 
      .                       PHASE_EINTII(IMAT), PHASE_RHOII(IMAT), PHASE_PRESII(IMAT), PHASE_SSPII(IMAT),
      .                       MULTI_FVM%BFRAC(IMAT, I), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
-     .                       BUFMAT, LBUFS(IMAT)%LBUF%OFF(II),LBUFS(IMAT)%LBUF%SIG(II+IDX(1):II+IDX(6)), NPF,TF)
+     .                       BUFMAT, LBUFS(IMAT)%LBUF%OFF(II),LBUFS(IMAT)%LBUF%SIG(II+IDX(1):II+IDX(6)), NPF,TF, 
+     .                       EBUFS(IMAT)%EBUF%VAR,NVAREOS(IMAT))
 C     Global reconstructed pressure
                         PII = PII + PHASE_ALPHAII(IMAT) * PHASE_PRESII(IMAT)
                         EINTII = EINTII + PHASE_ALPHAII(IMAT) * PHASE_EINTII(IMAT)
@@ -394,10 +403,11 @@ C     Reconstructed density adjacent element
      .                    + MULTI_FVM%GRAD_PRES(3, J) * (XF(3) - XL(3))
                   ENDIF
                   MATLAW(1) = IPM(2, LOCAL_MATID(1))
+                  NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS
                   CALL COMPUTE_PRESSURE(MATLAW(1), LOCAL_MATID(1), PM, IPM, NPROPM, NPROPMI, 
      .                 EINTJJ, RHOJJ, PJJ, SSPJJ,
      .                 MULTI_FVM%BFRAC(1, J), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
-     .                 BUFMAT, GBUF%OFF(II),GBUF%SIG(II+IDX(1):II+IDX(6)), NPF,TF)
+     .                 BUFMAT, GBUF%OFF(II),GBUF%SIG(II+IDX(1):II+IDX(6)), NPF,TF,EBUF%VAR,NVAREOS(1))
                   SSPJJ = SQRT(SSPJJ)
                ELSE
                   RHOJJ = ZERO
@@ -436,7 +446,8 @@ C     Global reconstructed density
                         CALL COMPUTE_PRESSURE(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI, 
      .                       PHASE_EINTJJ(IMAT), PHASE_RHOJJ(IMAT), PHASE_PRESJJ(IMAT), PHASE_SSPJJ(IMAT),
      .                       MULTI_FVM%BFRAC(IMAT, J), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
-     .                       BUFMAT, LBUFS(IMAT)%LBUF%OFF(II),LBUFS(IMAT)%LBUF%SIG(II+IDX(1):II+IDX(6)),NPF,TF)
+     .                       BUFMAT, LBUFS(IMAT)%LBUF%OFF(II),LBUFS(IMAT)%LBUF%SIG(II+IDX(1):II+IDX(6)),NPF,TF,
+     .                       EBUFS(IMAT)%EBUF%VAR,NVAREOS(IMAT))
 C     Global reconstructed pressure
                         PJJ = PJJ + PHASE_ALPHAJJ(IMAT) * PHASE_PRESJJ(IMAT)
                         EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)
@@ -743,7 +754,7 @@ Chd|====================================================================
       SUBROUTINE COMPUTE_PRESSURE(MATLAW, LOCAL_MATID, PM, IPM, NPROPM, NPROPMI, 
      .     EINT, RHO, PRES, SSP, 
      .     BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,
-     .     BUFMAT, OFF, SIG, NPF, TF)
+     .     BUFMAT, OFF, SIG, NPF, TF, VAREOS,NVAREOS)
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -757,8 +768,8 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: BURNFRAC, BURNTIME, DELTAX, BUFMAT(*)
       my_real, INTENT(OUT) :: OFF
       my_real, INTENT(INOUT) :: EINT, RHO
-      INTEGER,INTENT(IN)::NPF(SNPC)
-      my_real,INTENT(IN)::TF(STF)
+      INTEGER,INTENT(IN)::NPF(SNPC),NVAREOS
+      my_real,INTENT(IN)::TF(STF),VAREOS(NVAREOS*1)
 
       INTEGER :: ITER, MAX_ITER
       my_real :: TOL, ERROR
@@ -778,5 +789,5 @@ C     Initialization
       CONT = .TRUE.
       CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, 1, EINT, PRES, RHO, SSP, VOL, GRUN, 
      .     PM, IPM, NPROPM, NPROPMI, BUFMAT, OFF, TEMP, 
-     .     BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,SIG(1:6),NPF,TF)
+     .     BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,SIG(1:6),NPF,TF,VAREOS,NVAREOS)
       END SUBROUTINE COMPUTE_PRESSURE

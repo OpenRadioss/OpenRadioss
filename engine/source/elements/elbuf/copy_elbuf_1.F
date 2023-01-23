@@ -87,6 +87,7 @@ C-----------------------------------------------
       TYPE(L_BUFEL_)  , POINTER :: LBUFS,LBUFT
       TYPE(FAIL_LOC_) , POINTER :: FLOCS,FLOCT
       TYPE(BUF_VISC_) , POINTER :: VISCS,VISCT
+      TYPE(BUF_EOS_)  , POINTER :: EOSS,EOST
       TYPE(BUF_NLOC_) , POINTER :: BUFNLS,BUFNLT
 c-------------------------------------------------
 c      copy the element buffer : ELBUF_SRC -> ELBUF_TGT
@@ -128,24 +129,19 @@ c-------------------------------------------------
           ELBUF_TGT(NG)%NPTT   = NPTT 
 c
           DO IL = 1,NLAY                                         
-            ELBUF_TGT(NG)%BUFLY(IL)%ILAW  =ELBUF_SRC(NG)%BUFLY(IL)%ILAW                          
-            ELBUF_TGT(NG)%BUFLY(IL)%IMAT  =ELBUF_SRC(NG)%BUFLY(IL)%IMAT                          
-            ELBUF_TGT(NG)%BUFLY(IL)%IEOS  =ELBUF_SRC(NG)%BUFLY(IL)%IEOS                           
-            ELBUF_TGT(NG)%BUFLY(IL)%IVISC =ELBUF_SRC(NG)%BUFLY(IL)%IVISC                          
-            ELBUF_TGT(NG)%BUFLY(IL)%IPORO =ELBUF_SRC(NG)%BUFLY(IL)%IPORO                         
-            ELBUF_TGT(NG)%BUFLY(IL)%NFAIL =ELBUF_SRC(NG)%BUFLY(IL)%NFAIL                         
-            ELBUF_TGT(NG)%BUFLY(IL)%NVAR_MAT =
-     .                                  ELBUF_SRC(NG)%BUFLY(IL)%NVAR_MAT                           
-            ELBUF_TGT(NG)%BUFLY(IL)%NVARTMP =
-     .                                  ELBUF_SRC(NG)%BUFLY(IL)%NVARTMP                           
-            ELBUF_TGT(NG)%BUFLY(IL)%NVAR_VISC=
-     .                                 ELBUF_SRC(NG)%BUFLY(IL)%NVAR_VISC                        
-            ELBUF_TGT(NG)%BUFLY(IL)%NVAR_LOC=
-     .                                  ELBUF_SRC(NG)%BUFLY(IL)%NVAR_LOC                        
-            ELBUF_TGT(NG)%BUFLY(IL)%NVAR_LAY=
-     .                                  ELBUF_SRC(NG)%BUFLY(IL)%NVAR_LAY                       
-            ELBUF_TGT(NG)%BUFLY(IL)%NPTT=
-     .                                  ELBUF_SRC(NG)%BUFLY(IL)%NPTT
+            ELBUF_TGT(NG)%BUFLY(IL)%ILAW = ELBUF_SRC(NG)%BUFLY(IL)%ILAW                          
+            ELBUF_TGT(NG)%BUFLY(IL)%IMAT = ELBUF_SRC(NG)%BUFLY(IL)%IMAT                          
+            ELBUF_TGT(NG)%BUFLY(IL)%IEOS = ELBUF_SRC(NG)%BUFLY(IL)%IEOS                           
+            ELBUF_TGT(NG)%BUFLY(IL)%IVISC = ELBUF_SRC(NG)%BUFLY(IL)%IVISC                          
+            ELBUF_TGT(NG)%BUFLY(IL)%IPORO = ELBUF_SRC(NG)%BUFLY(IL)%IPORO                         
+            ELBUF_TGT(NG)%BUFLY(IL)%NFAIL = ELBUF_SRC(NG)%BUFLY(IL)%NFAIL                         
+            ELBUF_TGT(NG)%BUFLY(IL)%NVAR_MAT = ELBUF_SRC(NG)%BUFLY(IL)%NVAR_MAT                           
+            ELBUF_TGT(NG)%BUFLY(IL)%NVARTMP = ELBUF_SRC(NG)%BUFLY(IL)%NVARTMP                           
+            ELBUF_TGT(NG)%BUFLY(IL)%NVAR_EOS = ELBUF_SRC(NG)%BUFLY(IL)%NVAR_EOS                           
+            ELBUF_TGT(NG)%BUFLY(IL)%NVAR_VISC = ELBUF_SRC(NG)%BUFLY(IL)%NVAR_VISC                        
+            ELBUF_TGT(NG)%BUFLY(IL)%NVAR_LOC = ELBUF_SRC(NG)%BUFLY(IL)%NVAR_LOC                        
+            ELBUF_TGT(NG)%BUFLY(IL)%NVAR_LAY = ELBUF_SRC(NG)%BUFLY(IL)%NVAR_LAY                       
+            ELBUF_TGT(NG)%BUFLY(IL)%NPTT = ELBUF_SRC(NG)%BUFLY(IL)%NPTT
           ENDDO                                                            
 c
           DO IL = 1, NLAY                                                         
@@ -525,6 +521,26 @@ c-------------------------------
               ENDDO
             ENDIF
           ENDIF
+c-------------------------------
+c         EoS                            
+c-------------------------------
+          DO IL = 1, NLAY  
+            NUVAR = ELBUF_SRC(NG)%BUFLY(IL)%NVAR_EOS                                                
+            IF (IGTYP == 51 .OR. IGTYP == 52) THEN
+              NPTT = ELBUF_SRC(NG)%BUFLY(IL)%NPTT
+            ELSE
+              NPTT = ELBUF_SRC(NG)%NPTT
+            ENDIF
+            DO IR = 1,NPTR                                                
+              DO IS = 1,NPTS                                              
+                DO IT = 1,NPTT                                  
+                  EOSS => ELBUF_SRC(NG)%BUFLY(IL)%EOS(IR,IS,IT)
+                  EOST => ELBUF_TGT(NG)%BUFLY(IL)%EOS(IR,IS,IT)
+                  EOST%VAR(1:NEL*NUVAR) = EOSS%VAR(1:NEL*NUVAR)
+                ENDDO                                                         
+              ENDDO                                                          
+            ENDDO                                                         
+          ENDDO             
 c-------------------------------------------------
 c         Global buffer variables
 c-------------------------------------------------

@@ -38,17 +38,12 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE MESSAGE_MOD
 C-----------------------------------------------
-C   I m p l i c i t   T y p e s
+C   I n c l u d e
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 #include      "analyse_name.inc"
-C-----------------------------------------------
-C   M y  A l l o c a t e                           
-C-----------------------------------------------
 #include      "my_allocate.inc"
+#include      "eos.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -57,8 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IL,IR,IS,IT,Stat,NPG,ILAYER,IPT,
-     .        LEN1,LEN2,LEN_PLAPT,LEN_SIGPT,NPTTOT
+      INTEGER I,J,IL,IR,IS,IT,Stat,NPG,ILAYER,IPT,LEN1,LEN2,LEN_PLAPT,LEN_SIGPT,NPTTOT,NVAR,ILAY
       TYPE(BUF_MAT_)     , POINTER :: MATBUF
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
       TYPE(BUF_INTLAY_)  , POINTER :: INTLAY
@@ -652,47 +646,10 @@ c---
                 GBUF%TM_STRA3 = ZERO
                 
       IF (STAT /= 0) THEN                         
-            CALL ANCMSG(MSGID=727,MSGTYPE=MSGERROR,
-     .                  ANMODE=ANSTOP,C1='ELEMENT BUFFER')              
+            CALL ANCMSG(MSGID=727,MSGTYPE=MSGERROR,ANMODE=ANSTOP,C1='ELEMENT BUFFER')              
       ENDIF                                       
-c
-c-----    Viscosity model buffer - per integration point                                                                  
-c
-c        DO IR = 1,NPTR                                       
-c          DO IS = 1,NPTS                                      
-c            DO IT = 1,NPTT   
-c              VISCBUF => ELBUF_TAB(NG)%VISC(IR,IS,IT)
-c              VISCBUF%LawId = IMAT
-c              VISCBUF%MVISC = IPM(220,IMAT)    
-c              VISCBUF%NVAR  = IPM(225,IMAT)    
-c              print*,'visc_nvar=',VISCBUF%NVAR
-c              ALLOCATE(VISCBUF%VAR(NEL*NVAR)  ,STAT=Stat)
-c              VISCBUF%VAR(1:NEL*NVAR) = ZERO
-c            ENDDO                                                           
-c          ENDDO                                                            
-c        ENDDO 
-c-------------------------------
-c         EOS model variables    (pas de UVAR pour l'instant)                        
-c-------------------------------
-c        IF (IEOS /= 0) THEN   
-c          ALLOCATE (ELBUF_TAB(NG)%EOS(NPTR,NPTS,NPTT), STAT=Stat)
-c          IF (STAT /= 0) THEN
-c            CALL ANSTCKC(6,'SOLBUF')  
-c            CALL ANCStat(727,ANSTOP)                      
-c          ENDIF
-C
-c          DO IR = 1,NPTR                                     
-c           DO IS = 1,NPTS                                    
-c            DO IT = 1,NPTT
-c                ALLOCATE(ELBUF_TAB(NG)%EOS(IR,IS,IT)%VAR(NEL,NVAR),           
-c     .                                                     STAT=Stat)                                                            
-c            ENDDO                                                         
-c           ENDDO                                                          
-c          ENDDO                                                           
-c        ENDIF                                            
-c-------------------------------
-c         Viscosity model variables                   
-c-------------------------------
+
+
 C-----------------------------------------------
       RETURN
       END SUBROUTINE ALLOCBUF_AUTO

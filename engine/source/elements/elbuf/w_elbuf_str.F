@@ -177,7 +177,7 @@ c---------------------------------------------------
           DO IL = 1,ELBUF%NLAY                                             
             BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
 c
-c---------    write layer parameters: NPAR_LAY = 12
+c---------    write layer parameters: NPAR_LAY = 13
 c
               RBUF_L(L_REL+1) = BUFLY%ILAW           
                    L_REL = L_REL+1                                    
@@ -194,6 +194,8 @@ c
               RBUF_L(L_REL+1) = BUFLY%NVAR_MAT           
                    L_REL = L_REL+1                                    
               RBUF_L(L_REL+1) = BUFLY%NVARTMP           
+                   L_REL = L_REL+1                                    
+              RBUF_L(L_REL+1) = BUFLY%NVAR_EOS           
                    L_REL = L_REL+1                                    
               RBUF_L(L_REL+1) = BUFLY%NVAR_VISC           
                    L_REL = L_REL+1                                    
@@ -640,8 +642,8 @@ C------ DP of VOL0DP
 c          print*,'    local=',l_rel
 c          print*,'    local=',l_rel-sum
 c
-c-----    Layer Material buffer - UVAR                                                             
-c
+          !-----------------------------------------------------                                                                 
+          ! Layer Material buffer - UVAR                                                             
           DO IL = 1,ELBUF%NLAY                                          
             BUFLY => ELBUF_TAB(NG)%BUFLY(IL)              
             NUVAR  = BUFLY%NVAR_MAT                                     
@@ -652,19 +654,17 @@ c
             ENDIF 
             DO IR = 1,ELBUF%NPTR                                             
               DO IS = 1,ELBUF%NPTS                                           
-c                DO IT = 1,ELBUF%NPTT                                         
                 DO IT = 1,NPTT
-                  RBUF_L(L_REL+1:L_REL+NEL*NUVAR)=
-     .                   BUFLY%MAT(IR,IS,IT)%VAR(1:NEL*NUVAR)
+                  RBUF_L(L_REL+1:L_REL+NEL*NUVAR)= BUFLY%MAT(IR,IS,IT)%VAR(1:NEL*NUVAR)
                   L_REL = L_REL+NEL*NUVAR
                 ENDDO                                                       
               ENDDO                                                         
             ENDDO                                                           
           ENDDO                                                       
 c          print*,'    mat =',l_rel
-c
-c-----    Layer Fail buffer - UVAR                                                             
-c
+
+c         !-----------------------------------------------------                                                                 
+          ! Layer Fail buffer - UVAR 
           DO IL = 1,ELBUF%NLAY                                          
             BUFLY => ELBUF_TAB(NG)%BUFLY(IL)             
             NFAIL = BUFLY%NFAIL  
@@ -704,34 +704,28 @@ c
                     RBUF_L(L_REL+1)=LF_OFF
                       L_REL = L_REL+1
 c
-                    RBUF_L(L_REL+1:L_REL+NEL*NUVAR)
-     .                                           = FLOC%VAR(1:NEL*NUVAR)
+                    RBUF_L(L_REL+1:L_REL+NEL*NUVAR) = FLOC%VAR(1:NEL*NUVAR)
                       L_REL = L_REL + NEL*NUVAR
-                    RBUF_L(L_REL+1:L_REL+NEL*LF_DAM)
-     .                                           = FLOC%DAM(1:NEL*LF_DAM)
+                    RBUF_L(L_REL+1:L_REL+NEL*LF_DAM) = FLOC%DAM(1:NEL*LF_DAM)
                       L_REL = L_REL + NEL*LF_DAM
-                    RBUF_L(L_REL+1:L_REL+NEL*LF_DAMMX)
-     .                                           = FLOC%DAMMX(1:NEL*LF_DAMMX)
+                    RBUF_L(L_REL+1:L_REL+NEL*LF_DAMMX) = FLOC%DAMMX(1:NEL*LF_DAMMX)
                       L_REL = L_REL+NEL*LF_DAMMX
-                    RBUF_L(L_REL+1:L_REL+NEL*LF_DAMINI)
-     .                                           = FLOC%DAMINI(1:NEL*LF_DAMINI)
+                    RBUF_L(L_REL+1:L_REL+NEL*LF_DAMINI) = FLOC%DAMINI(1:NEL*LF_DAMINI)
                       L_REL = L_REL+NEL*LF_DAMINI
-                    RBUF_L(L_REL+1:L_REL+NEL*LF_TDEL)
-     .                                           = FLOC%TDEL(1:NEL*LF_TDEL)
+                    RBUF_L(L_REL+1:L_REL+NEL*LF_TDEL) = FLOC%TDEL(1:NEL*LF_TDEL)
                       L_REL = L_REL + NEL*LF_TDEL
-                    RBUF_L(L_REL+1:L_REL+NEL*LF_INDX)
-     .                                           = FLOC%INDX(1:NEL*LF_INDX)
+                    RBUF_L(L_REL+1:L_REL+NEL*LF_INDX) = FLOC%INDX(1:NEL*LF_INDX)
                       L_REL = L_REL + NEL*LF_INDX
-                    RBUF_L(L_REL+1:L_REL+NEL*LF_OFF)
-     .                                           = FLOC%OFF(1:NEL*LF_OFF)
+                    RBUF_L(L_REL+1:L_REL+NEL*LF_OFF) = FLOC%OFF(1:NEL*LF_OFF)
                       L_REL = L_REL + NEL*LF_OFF
                 ENDDO                                                       
               ENDDO                                                       
              ENDDO                                                         
             ENDDO                                                           
           ENDDO                                                       
-c-----    Layer Visc buffer - UVAR                                                             
-c
+
+          !-----------------------------------------------------                                                                 
+          ! Layer Visc buffer - UVAR                                                             
           DO IL = 1,ELBUF%NLAY                                          
             BUFLY => ELBUF_TAB(NG)%BUFLY(IL)              
             NUVAR  = BUFLY%NVAR_VISC                                    
@@ -742,53 +736,68 @@ c
             ENDIF
             DO IR = 1,ELBUF%NPTR                                             
               DO IS = 1,ELBUF%NPTS                                           
-c                DO IT = 1,ELBUF%NPTT                                         
                 DO IT = 1,NPTT
-                  RBUF_L(L_REL+1:L_REL+NEL*NUVAR)=
-     .                   BUFLY%VISC(IR,IS,IT)%VAR(1:NEL*NUVAR)
+                  RBUF_L(L_REL+1:L_REL+NEL*NUVAR)=  BUFLY%VISC(IR,IS,IT)%VAR(1:NEL*NUVAR)
                   L_REL = L_REL+NEL*NUVAR
                 ENDDO                                                       
               ENDDO                                                         
             ENDDO                                                           
           ENDDO    
-c          
-           ! Non-local regularization in the shell thickness            
-           IF ((ITY==3).OR.(ITY==7)) THEN
-             IF ((INLOC>0).AND.(ELBUF%NPTT>1)) THEN
-               ! Number of non-local nodes in the thickness
-               IF (ELBUF%NPTT>2) THEN
-                 NONL = ELBUF%NPTT+1
-               ELSE
-                 NONL = ELBUF%NPTT
-               ENDIF
-               ! Copying the buffer
-               DO IR = 1,ELBUF%NPTR                                             
-                 DO IS = 1,ELBUF%NPTS 
-                   ! Pointing the non-local buffer
-                   BUFNL => ELBUF_TAB(NG)%NLOC(IR,IS) 
-                   DO I = 1,NEL
-                     ! Nodal masses
-                     RBUF_L(L_REL+1:L_REL+NONL) = 
-     .                  BUFNL%MASSTH(I,1:NONL) 
-                     L_REL = L_REL + NONL
-                     ! Non-local in-thickness cumulated variables
-                     RBUF_L(L_REL+1:L_REL+NONL) = 
-     .                  BUFNL%UNLTH(I,1:NONL) 
-                     L_REL = L_REL + NONL
-                     ! Non-local in-thickness velocities
-                     RBUF_L(L_REL+1:L_REL+NONL) = 
-     .                  BUFNL%VNLTH(I,1:NONL) 
-                     L_REL = L_REL + NONL
-                     ! Non-local in-thickness forces
-                     RBUF_L(L_REL+1:L_REL+NONL) = 
-     .                  BUFNL%FNLTH(I,1:NONL) 
-                     L_REL = L_REL + NONL
-                   ENDDO
-                 ENDDO                   
-               ENDDO
-             ENDIF
-           ENDIF
-           !-----------------------------------------------------                                                                 
+
+          !-----------------------------------------------------                                                                 
+          ! Non-local regularization in the shell thickness             
+          IF ((ITY==3).OR.(ITY==7)) THEN                         
+            IF ((INLOC>0).AND.(ELBUF%NPTT>1)) THEN               
+              ! Number of non-local nodes in the thickness       
+              IF (ELBUF%NPTT>2) THEN                             
+                NONL = ELBUF%NPTT+1                              
+              ELSE                                               
+                NONL = ELBUF%NPTT                                
+              ENDIF                                              
+              ! Copying the buffer                               
+              DO IR = 1,ELBUF%NPTR                                              
+                DO IS = 1,ELBUF%NPTS                             
+                  ! Pointing the non-local buffer                
+                  BUFNL => ELBUF_TAB(NG)%NLOC(IR,IS)             
+                  DO I = 1,NEL                                   
+                    ! Nodal masses                               
+                    RBUF_L(L_REL+1:L_REL+NONL) = BUFNL%MASSTH(I,1:NONL)                    
+                    L_REL = L_REL + NONL                         
+                    ! Non-local in-thickness cumulated variables 
+                    RBUF_L(L_REL+1:L_REL+NONL) = BUFNL%UNLTH(I,1:NONL)                     
+                    L_REL = L_REL + NONL                         
+                    ! Non-local in-thickness velocities          
+                    RBUF_L(L_REL+1:L_REL+NONL) = BUFNL%VNLTH(I,1:NONL)                     
+                    L_REL = L_REL + NONL                         
+                    ! Non-local in-thickness forces              
+                    RBUF_L(L_REL+1:L_REL+NONL) = BUFNL%FNLTH(I,1:NONL)                     
+                    L_REL = L_REL + NONL                         
+                  ENDDO                                          
+                ENDDO                                            
+              ENDDO                                              
+            ENDIF                                                
+          ENDIF                                                  
+           
+          !-----------------------------------------------------                                                                 
+          ! EoS         
+          DO IL = 1,ELBUF%NLAY                                          
+            NUVAR  = BUFLY%NVAR_EOS
+            BUFLY => ELBUF_TAB(NG)%BUFLY(IL)                                                 
+            IF (IGTYP == 51 .OR. IGTYP == 52) THEN
+              NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+            ELSE
+              NPTT = ELBUF_TAB(NG)%NPTT
+            ENDIF
+            DO IR = 1,ELBUF%NPTR                                             
+              DO IS = 1,ELBUF%NPTS                                           
+                DO IT = 1,NPTT
+                  RBUF_L(L_REL+1:L_REL+NEL*NUVAR)= BUFLY%EOS(IR,IS,IT)%VAR(1:NEL*NUVAR)
+                  L_REL = L_REL+NEL*NUVAR
+                ENDDO                                                       
+              ENDDO                                                         
+            ENDDO                                                           
+          ENDDO              
+          !-----------------------------------------------------                                                                 
 c          
           sum = l_rel                                                      
 

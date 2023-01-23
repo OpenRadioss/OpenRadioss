@@ -574,7 +574,7 @@ Chd|====================================================================
       SUBROUTINE ENERGY_JUMP(MATLAW, LOCAL_MATID, PM, IPM, NPROPM, NPROPMI, 
      .     EINT, RHOSTAR, PRES, ALPHA, 
      .     BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,
-     .     ESTAR, BUFMAT,SIG,NPF,TF)
+     .     ESTAR, BUFMAT,SIG,NPF,TF,VAREOS,NVAREOS)
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -586,8 +586,8 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: EINT, PRES, ALPHA,SIG(6)
       my_real, INTENT(INOUT) :: BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME, BUFMAT(*), RHOSTAR
       my_real, INTENT(OUT) :: ESTAR
-      INTEGER, INTENT(IN) :: NPF(SNPC)
-      my_real, INTENT(IN) :: TF(STF)
+      INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
+      my_real, INTENT(IN) :: TF(STF),VAREOS(NVAREOS*1)
 
       INTEGER :: ITER, MAX_ITER
       my_real :: TOL, ERROR
@@ -611,7 +611,7 @@ C     Initialization
          ITER = ITER + 1
          CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, 1, RHOSTAR * ESTAR, PSTAR, RHOSTAR, SSP, VOL, GRUN, 
      .        PM, IPM, NPROPM, NPROPMI, BUFMAT, OFF, TEMP, 
-     .        BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,SIG(1:6),NPF,TF)
+     .        BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,SIG(1:6),NPF,TF,VAREOS,NVAREOS)
 
          IF (GRUN == ZERO) THEN
             ERROR = ZERO

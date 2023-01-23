@@ -41,7 +41,7 @@ Chd|====================================================================
      9                   RHO0 ,AMU  ,AMU2  ,ESPE ,DF   ,
      A                   PSH  ,PNEW ,DPDM  ,DPDE ,RHO  ,
      B                   TEMP ,ECOLD,BUFMAT,NPC  ,TF   ,
-     C                   TSAIWU)
+     C                   TSAIWU, VAREOS,NVAREOS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,6 +66,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ),NGL(MVSIZ),NEL,EOSTYP
+      INTEGER,INTENT(IN) :: NVAREOS
       my_real
      .   PM(NPROPM,*), OFF(*), SIG(NEL,6), EINT(*), PLA(*), SIGF(*),
      .   RX(*), RY(*), RZ(*), SX(*), SY(*), SZ(*),
@@ -74,7 +75,7 @@ C-----------------------------------------------
      .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ),D4(MVSIZ),D5(MVSIZ),D6(MVSIZ),
      .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ), SOLD4(MVSIZ),
      .   SOLD5(MVSIZ), SOLD6(MVSIZ),SIGY(*),DEFP(*),SEQ_OUTPUT(*),
-     .   TSAIWU(MVSIZ)
+     .   TSAIWU(MVSIZ),VAREOS(NVAREOS*NEL)
       my_real
      .   RHO0(NEL), AMU(NEL)  , AMU2(NEL), ESPE(NEL), DF(NEL) ,
      .   PSH(NEL) , PNEW(NEL) , DPDM(NEL), DPDE(NEL), RHO(NEL),
@@ -357,13 +358,13 @@ C
      3               DVOL    ,DF      ,VNEW   ,MAT   ,PSH  ,
      4               PNEW    ,DPDM    ,DPDE   ,TEMP  ,ECOLD,
      5               BUFMAT  ,SIG     ,MUOLD  ,12    ,POLD,
-     6               NPC     ,TF)
+     6               NPC     ,TF      ,VAREOS ,NVAREOS)
         CALL EOSMAIN(1       ,NEL     ,EOSTYP ,PM    ,OFF  , ENER ,
      2               RHO     ,RHO0    ,AMU    ,AMU2  ,ESPE ,
      3               DVOL    ,DF      ,VNEW   ,MAT   ,PSH  ,
      4               PNEW    ,DPDM    ,DPDE   ,TEMP  ,ECOLD,
      5               BUFMAT  ,SIG     ,MUOLD  ,12    ,POLD,
-     6               NPC     ,TF)
+     6               NPC     ,TF      ,VAREOS ,NVAREOS)
         DO  I=LFT,LLT
           T1(I)=T1(I)-PNEW(I)
           T2(I)=T2(I)-PNEW(I)

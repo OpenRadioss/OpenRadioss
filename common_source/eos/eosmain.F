@@ -54,7 +54,7 @@ Chd|====================================================================
      3                   DVOL  ,DF    ,VNEW   ,MAT   ,PSH   ,
      4                   PNEW  ,DPDM  ,DPDE   ,THETA ,ECOLD ,
      5                   BUFMAT,SIG   ,MU_OLD ,MLW   ,POLD  ,
-     6                   NPF   ,TF)
+     6                   NPF   ,TF    ,VAREOS ,NVAREOS)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C depending on EOSTYP(INTEGER) value.
       !------------------------------------!                
       !  IEOS     !    EOS                 !             
       !-----------!------------------------!  
-      !   0       !     LINEAR             !                 
+      !   0       !     LINEAR             ! 2019.0                
       !   1       !     POLYNOMIAL         !             
       !   2       !     GRUNEISEN          !             
       !   3       !     TILLOTSON          !             
@@ -110,14 +110,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(NEL),IFLAG, EOSTYP, NEL, MLW
+      INTEGER MAT(NEL),IFLAG, EOSTYP, NEL, MLW, NVAREOS
       my_real
      .   PM(NPROPM,NUMMAT),BUFMAT(NEL)   ,OFF(NEL)  , 
      .   EINT(NEL) ,RHO(NEL)  ,RHO0(NEL) , 
      .   MU(NEL)   ,MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL), 
      .   DF(NEL)   ,VNEW(NEL) ,PSH(NEL)  ,PNEW(NEL),
      .   DPDM(NEL) ,DPDE(NEL) ,THETA(NEL),ECOLD(NEL),
-     .   SIG(NEL,6), MU_OLD(NEL),POLD(NEL)
+     .   SIG(NEL,6), MU_OLD(NEL),POLD(NEL),VAREOS(NVAREOS*NEL)
       INTEGER,INTENT(IN)::NPF(SNPC)
       my_real,INTENT(IN)::TF(STF)
 C-----------------------------------------------

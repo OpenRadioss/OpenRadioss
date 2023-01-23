@@ -35,7 +35,7 @@ Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
 Chd|====================================================================
       SUBROUTINE MULTI_SUBMATLAW(IFLAG   , MATLAW  , LOCAL_MATID, NEL, EINT   , PRES  , RHO, SSP  , VOL, GRUN, 
      .                           PM      , IPM     , NPROPM     , NPROPMI     , BUFMAT, OFF, THETA,
-     .                           BURNFRAC, BURNTIME, DELTAX     , CURRENT_TIME, SIGOLD, NPF, TF)
+     .                           BURNFRAC, BURNTIME, DELTAX     , CURRENT_TIME, SIGOLD, NPF, TF, VAREOS,NVAREOS)
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------      
@@ -61,8 +61,8 @@ C-----------------------------------------------
       my_real, INTENT(OUT) :: PRES(NEL), SSP(NEL)
       my_real, INTENT(IN) :: BURNTIME(*), DELTAX(*), CURRENT_TIME
       my_real, INTENT(INOUT) :: BURNFRAC(*), BUFMAT(*)
-      INTEGER, INTENT(IN) :: NPF(SNPC)
-      my_real, INTENT(IN) :: TF(STF)
+      INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
+      my_real, INTENT(IN) :: TF(STF),VAREOS(NVAREOS*NEL)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -160,12 +160,12 @@ C     Burnt fraction
             EOSTYPE      = IPM(4, LOCAL_MATID)
             MUOLD(1:NEL) = MU(1:NEL)
 C     -> FLAG = 2 : compute pressure as a function of rho and e, as well as dpdm and dpde
-            CALL EOSMAIN(2     , NEL   , EOSTYPE, PM    , OFF  , EINT, 
-     .                   RHO   , RHO0  , MU     , MU2   , ESPE , 
-     .                   DVOL  , DF    , VOL    , MAT   , PSH  , 
-     .                   PRES  , SSP   , DPDE   , THETA , ECOLD, 
-     .                   BUFMAT, SIGOLD, MUOLD  , MATLAW, PRES ,
-     .                   NPF   , TF)
+            CALL EOSMAIN(2     , NEL   , EOSTYPE   , PM    , OFF  , EINT, 
+     .                   RHO   , RHO0  , MU        , MU2   , ESPE , 
+     .                   DVOL  , DF    , VOL       , MAT   , PSH  , 
+     .                   PRES  , SSP   , DPDE      , THETA , ECOLD, 
+     .                   BUFMAT, SIGOLD, MUOLD     , MATLAW, PRES ,
+     .                   NPF   , TF    , VAREOS    , NVAREOS)
 C     SQUARE sound speed : c^2 = 1/rho0 * dp/dmu
             DO II = 1, NEL
                IF (VOL(II) > ZERO) THEN

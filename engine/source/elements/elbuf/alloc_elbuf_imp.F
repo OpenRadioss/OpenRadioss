@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NG,ITY,ERR,BUFLEN,NEL,NPT,NPG,NLAY,NPTR,NPTS,NPTT,NUVAR,NVARTMP,
-     .   NFAIL,K,IL,IR,IS,IT,IGTYP,NPTTOT,I,NONL,INLOC
+     .   NFAIL,K,IL,IR,IS,IT,IGTYP,NPTTOT,I,NONL,INLOC,NVAR_EOS
       INTEGER ! global variables 
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
      .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,
@@ -85,7 +85,9 @@ C-----------------------------------------------
       TYPE(L_BUFEL_)  , POINTER :: LBUF
       TYPE(FAIL_LOC_) , POINTER :: FLOC
       TYPE(BUF_NLOC_) , POINTER :: BUFNL
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       DO NG = 1,NGROUP                                                 
        ITY = IPARG(5,NG)    
        INLOC = IPARG(78,NG) ! Non-local regularization flag                                                        
@@ -403,8 +405,7 @@ c-------------------------------
           DO IR = 1,NPTR                                                  
             DO IS = 1,NPTS                                                
               DO IT = 1,NPTT                                              
-                ALLOCATE (ELBUF_IMP(NG)%BUFLY(IL)%VISC(IR,IS,IT)
-     .                                 %VAR(NEL*NUVAR), STAT=ERR)
+                ALLOCATE (ELBUF_IMP(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR(NEL*NUVAR), STAT=ERR)
               ENDDO                                                           
             ENDDO                                                            
           ENDDO                                                           
@@ -441,6 +442,25 @@ c-------------------------------
             ENDDO  
           ENDIF
         ENDIF
+        
+c-------------------------------
+c         EoS buffer
+c-------------------------------
+      DO IL = 1, NLAY 
+        NVAR_EOS = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS                                                                                         
+        IF (IGTYP == 51 .OR. IGTYP == 52) THEN
+          NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+        ELSE
+          NPTT = ELBUF_TAB(NG)%NPTT
+        ENDIF
+        DO IR = 1,NPTR                                                    
+          DO IS = 1,NPTS                                                  
+            DO IT = 1,NPTT                                                           
+              ALLOCATE( ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR(NEL*NVAR_EOS), STAT=ERR)                                                                                                                                      
+            ENDDO                                                             
+          ENDDO                                                              
+        ENDDO                                                             
+      ENDDO         
 c-------------------------------------------------
 c       allocation of global buffer variables
 c-------------------------------------------------

@@ -37,7 +37,7 @@ Chd|====================================================================
      .                        IPARTQ   ,XGRID     ,VEL    ,IXS     ,IXQ      ,
      .                        IXTG     ,PM        ,IPM    ,BUFMAT  ,MULTI_FVM, 
      .                        PLD      ,NPC       ,IGRBRIC,IGRQUAD ,IGRSH3N  ,
-     .                        NPTS)
+     .                        NPTS     )
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -112,6 +112,10 @@ C-----------------------------------------------
 
       CHARACTER*2 :: Str1, Str2      
       my_real :: VFRAC(MVSIZ,21),DENSFRAC 
+
+      TYPE(BUF_EOS_), POINTER :: EBUF
+      INTEGER NVAREOS      
+      
 C-----------------------------------------------
 C     S o u r c e   L i n e s
 C-----------------------------------------------
@@ -844,8 +848,10 @@ C     Compute EINT from pressure
                      MATID = IXTG(1, 1 + NFT)
                   ENDIF
                   SUBMAT(1)%TEMP(1:NEL) => ELBUF_TAB(NG)%GBUF%TEMP(1:NEL)
+                  EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1)
+                  NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS 
                   CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, 1), GBUF%EINT, GBUF%RHO, IFIRST, ILAST, ELEM_LIST, 
-     .                 IPM, PM, BUFMAT, MLW,NG,0,SUBMAT(1)%TEMP,NPC,PLD)
+     .                 IPM, PM, BUFMAT, MLW,NG,0,SUBMAT(1)%TEMP,NPC,PLD, EBUF%VAR, NVAREOS)
                ELSE IF (MLW == 151) THEN
                   DO IMAT = 1, NBMAT
                      IF (ITY  ==  1) THEN
@@ -856,9 +862,11 @@ C     Compute EINT from pressure
                         MATID = IPM(20 + IMAT, IXTG(1, 1 + NFT))
                      ENDIF
                      SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%TEMP(1:NEL)
+                     EBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1,1,1)
+                     NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS                      
                      CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%EINT, 
      .                    ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO, IFIRST, ILAST, ELEM_LIST, 
-     .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD)
+     .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD,EBUF%VAR,NVAREOS)
                   ENDDO
                ELSE
                   DO IMAT = 1, NBMAT
@@ -871,10 +879,12 @@ C     Compute EINT from pressure
                      ENDIF
                      KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                      SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1+NEL*(16+KPHASE-1) : NEL*(16+KPHASE )) 
+                     EBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1,1,1)
+                     NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS                      
                      CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), EINT(:, IMAT), 
      .                    ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1 + NEL * (9 + KPHASE - 1):NEL + NEL * (9 + KPHASE - 1)), 
      .                    IFIRST, ILAST, ELEM_LIST, 
-     .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD)
+     .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD,EBUF%VAR,NVAREOS)
                      DO II = IFIRST, ILAST
                         ELEMID = ELEM_LIST(II)
                         RES = EINT(ELEMID - NFT, IMAT)
@@ -926,7 +936,7 @@ Chd|-- calls ---------------
 Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
 Chd|====================================================================
       SUBROUTINE SOLVE_EINT(MATID, NFT,    NEL, PRESIN, EINT, RHO,   IFIRST, ILAST, ELEM_LIST, IPM, 
-     .                      PM   , BUFMAT, MLW, NG,     IMAT, THETA, NPC,    TF)
+     .                      PM   , BUFMAT, MLW, NG,     IMAT, THETA, NPC,    TF, VAREOS, NVAREOS)
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -942,10 +952,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: MATID, NFT, NEL, IFIRST, ILAST, ELEM_LIST(*), IPM(NPROPMI, NUMMAT), MLW, NG
+      INTEGER, INTENT(IN) :: MATID, NFT, NEL, IFIRST, ILAST, ELEM_LIST(*), IPM(NPROPMI, NUMMAT), MLW, NG,NVAREOS
       my_real, INTENT(IN) :: PM(NPROPM, NUMMAT), BUFMAT(*), RHO(NEL), PRESIN(NEL)
       my_real, INTENT(OUT) :: EINT(NEL)
-      my_real, INTENT(INOUT) :: THETA(NEL)
+      my_real, INTENT(INOUT) :: THETA(NEL), VAREOS(NVAREOS*NEL)
       INTEGER,INTENT(IN) :: IMAT !debug purpose
       INTEGER,INTENT(IN)::NPC(SNPC)
       my_real,INTENT(IN)::TF(STF)
@@ -1017,7 +1027,7 @@ C-----------------------------------------------
          CALL EOSMAIN(2, NEL, EOSTYPE, PM, OFF, EINT(1:NEL), 
      .        RHO(1:NEL), RHOZERO, MU, MU2, ESPE, 
      .        DVOL, DF, VOL, MAT, PSH, 
-     .        PRES, SSP, DPDE, THETA, ECOLD, BUFMAT, SIG, MUOLD, MLW, POLD, NPC, TF)
+     .        PRES, SSP, DPDE, THETA, ECOLD, BUFMAT, SIG, MUOLD, MLW, POLD, NPC, TF, VAREOS, NVAREOS)
          
          DO II = IFIRST, ILAST
             ELEMID = ELEM_LIST(II)

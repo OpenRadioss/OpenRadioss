@@ -54,7 +54,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,IL,IR,IS,IT,IAD,ERR,NUVAR,NVARTMP,IGTYP,IXFEM,NLAY,
      .  NINTLAY,NPTR,NPTS,NPTT,NEL,NPG,IPT,LEN1,LEN2,ILAW,IMAT,IEOS,NONL,
-     .  IVISC,IPORO,NFAIL,NVAR_MAT,NVAR_VISC,NVAR_LOC,NVAR_LAY,NPTTOT,IADP
+     .  IVISC,IPORO,NFAIL,NVAR_MAT,NVAR_EOS,NVAR_VISC,NVAR_LOC,NVAR_LAY,NPTTOT,IADP
       INTEGER ! global variables
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
      .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,
@@ -182,7 +182,7 @@ c-------------------------------------------------
 c     LAYER VARIABLES
 c-------------------------------------------------
       DO IL = 1,ELBUF_STR%NLAY                                         
-c       Layer parameters : NPAR_LAY = 12 
+c       Layer parameters : NPAR_LAY = 13 
 c
         BUFLY => ELBUF_STR%BUFLY(IL)
 c
@@ -202,6 +202,8 @@ c
           IAD = IAD+1                                                  
         NVARTMP = NINT(RBUF(IAD+1))               
           IAD = IAD+1                                                  
+        NVAR_EOS = NINT(RBUF(IAD+1))               
+          IAD = IAD+1                                                  
         NVAR_VISC= NINT(RBUF(IAD+1))                        
           IAD = IAD+1                                                  
         NVAR_LOC = NINT(RBUF(IAD+1))                        
@@ -210,7 +212,6 @@ c
           IAD = IAD+1                                                  
         NPTT  = NINT(RBUF(IAD+1))                        
           IAD = IAD+1
-c
 c---    layer variable lengths (BUFLY%NVAR_LAY = 6
 c             
         LY_DMG = NINT(RBUF(IAD+1))                        
@@ -374,6 +375,7 @@ c
         BUFLY%NFAIL     = NFAIL            
         BUFLY%NVAR_MAT  = NVAR_MAT         
         BUFLY%NVARTMP   = NVARTMP         
+        BUFLY%NVAR_EOS  = NVAR_EOS
         BUFLY%NVAR_VISC = NVAR_VISC        
         BUFLY%NVAR_LOC  = NVAR_LOC         
         BUFLY%NVAR_LAY  = NVAR_LAY         
@@ -789,7 +791,7 @@ c-----    Material buffer - per integration point
 c
       DO IL = 1, NLAY                                                     
         NUVAR   = ELBUF_STR%BUFLY(IL)%NVAR_MAT                              
-        NVARTMP = ELBUF_STR%BUFLY(IL)%NVARTMP                              
+        NVARTMP = ELBUF_STR%BUFLY(IL)%NVARTMP                                                          
         IF (IGTYP == 51 .OR. IGTYP == 52) THEN
           NPTT = ELBUF_STR%BUFLY(IL)%NPTT
         ELSE
@@ -911,6 +913,7 @@ c-----
           ENDDO                                                              
         ENDDO                                                             
       ENDDO
+ 
 c-------------------------------
 c         Non-local regularization in the shell thickness                
 c-------------------------------
@@ -958,6 +961,28 @@ c-------------------------------
           ENDDO
         ENDIF
       ENDIF
+      
+c-------------------------------
+c         EoS buffer
+c-------------------------------
+      DO IL = 1, NLAY 
+        NVAR_EOS = ELBUF_STR%BUFLY(IL)%NVAR_EOS                                                                                         
+        IF (IGTYP == 51 .OR. IGTYP == 52) THEN
+          NPTT = ELBUF_STR%BUFLY(IL)%NPTT
+        ELSE
+          NPTT = ELBUF_STR%NPTT
+        ENDIF
+        DO IR = 1,NPTR                                                    
+          DO IS = 1,NPTS                                                  
+            DO IT = 1,NPTT                                                           
+              ALLOCATE( ELBUF_STR%BUFLY(IL)%EOS(IR,IS,IT)%VAR(NEL*NVAR_EOS), STAT=ERR)                        
+              ELBUF_STR%BUFLY(IL)%EOS(IR,IS,IT)%VAR(1:NEL*NVAR_EOS) = RBUF(IAD+1:IAD+NEL*NVAR_EOS)                          
+              IAD = IAD+NEL*NVAR_EOS                                                                                                                   
+            ENDDO                                                             
+          ENDDO                                                              
+        ENDDO                                                             
+      ENDDO     
+            
 c-------------------------------------------------
 c     INTER LAYER VARIABLES
 c-------------------------------------------------

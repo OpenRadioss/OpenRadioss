@@ -62,24 +62,30 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ILAY,NLAY,NPG,NPTT
+      INTEGER ILAY,NLAY,NPG,NPTT,NPTR,NPTS,IL,IR,IS,IT
       TYPE(G_BUFEL_)     , POINTER :: GBUF
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
       TYPE(MLAW_TAG_)    , POINTER :: MTAG
       TYPE(EOS_TAG_)     , POINTER :: ETAG
       TYPE(PROP_TAG_)    , POINTER :: PTAG
-      TYPE(FAIL_TAG_)    , POINTER :: FTAG
+      TYPE(FAIL_TAG_)    , POINTER :: FTAG 
 C-----------------------------------------------------------------------
 c     GMAT - globat material number
 c     GLAW - globat material law model
 C=======================================================================
 
+      
+      NULLIFY(ETAG)
+      
       GBUF => ELBUF_STR%GBUF
       PTAG => PROP_TAG(IGTYP)     
-      ETAG => EOS_TAG(IEOS)
+      IF(IEOS>0)ETAG => EOS_TAG(IEOS)
       NLAY =  ELBUF_STR%NLAY
       NPTT =  ELBUF_STR%NPTT
       NPG  =  ELBUF_STR%NPTR*ELBUF_STR%NPTS
+      
+      NPTR = ELBUF_STR%NPTR
+      NPTS = ELBUF_STR%NPTS
 c---------------------
 c     global material variables                                            
 c---------------------
@@ -121,6 +127,7 @@ c---------------------
           IF (GBUF%G_TSAIWU == 0) GBUF%G_TSAIWU = MTAG%G_TSAIWU            
           BUFLY%NVAR_MAT= MTAG%NUVAR
           BUFLY%NVARTMP = MTAG%NVARTMP
+          IF(BUFLY%NVAR_EOS==0 .AND. IEOS>0 )BUFLY%NVAR_EOS=ETAG%NVAR
         ENDDO                                      
       ELSE
         IF (NLAY > 1) THEN
@@ -194,11 +201,30 @@ C
 c
 c     equation of state (eos)                                           
 c     
-      IF (MAXEOS > 0)THEN
+      IF (IEOS > 0)THEN
         IF (GBUF%G_MU    == 0) GBUF%G_MU    = ETAG%G_MU   
         IF (GBUF%G_TB    == 0) GBUF%G_TB    = ETAG%G_TB
         IF (GBUF%G_ABURN == 0) GBUF%G_ABURN = ETAG%G_ABURN  
         IF (GBUF%G_BFRAC == 0) GBUF%G_BFRAC = ETAG%G_BFRAC
+        
+        DO IL = 1, NLAY                                                    
+          IF (IGTYP == 51 .OR. IGTYP == 52) THEN                     
+            NPTT = ELBUF_STR%BUFLY(IL)%NPTT                      
+          ELSE                                                       
+            NPTT = ELBUF_STR%NPTT                                
+          ENDIF                                                      
+          DO IR = 1,NPTR                                                  
+            DO IS = 1,NPTS                                                
+              DO IT = 1,NPTT                                         
+                IF(ELBUF_STR%BUFLY(IL)%NVAR_EOS == 0)THEN
+                  ELBUF_STR%BUFLY(IL)%NVAR_EOS = ETAG%NVAR                                          
+                ENDIF                                              
+              ENDDO                                                           
+            ENDDO                                                            
+          ENDDO                                                           
+        ENDDO                                                        
+
+        
       ENDIF
 
 c
@@ -327,7 +353,7 @@ c
           MTAG  => MLAW_TAG(BUFLY%IMAT)
         ENDIF 
         ETAG  => EOS_TAG(BUFLY%IEOS)
-        IF(MAXEOS > 0)THEN
+        IF(IEOS > 0)THEN
           IF (BUFLY%L_MU    == 0) BUFLY%L_MU    = ETAG%L_MU   
           IF (BUFLY%L_TB    == 0) BUFLY%L_TB    = ETAG%L_TB
           IF (BUFLY%L_ABURN == 0) BUFLY%L_ABURN = ETAG%L_ABURN  
@@ -390,8 +416,7 @@ c       layer property variables
         IF (BUFLY%LY_GAMA == 0) BUFLY%LY_GAMA   = PTAG%LY_GAMA               
         IF (BUFLY%LY_DIRA == 0) BUFLY%LY_DIRA   = PTAG%LY_DIRA               
         IF (BUFLY%LY_DIRB == 0) BUFLY%LY_DIRB   = PTAG%LY_DIRB  
-        IF (BUFLY%LY_PLAPT== 0 .and. BUFLY%L_PLA > 0) 
-     .                    BUFLY%LY_PLAPT  = PTAG%LY_PLAPT
+        IF (BUFLY%LY_PLAPT== 0 .and. BUFLY%L_PLA > 0) BUFLY%LY_PLAPT  = PTAG%LY_PLAPT
         IF (BUFLY%LY_SIGPT == 0) BUFLY%LY_SIGPT = PTAG%LY_SIGPT
         IF (BUFLY%LY_HOURG == 0) BUFLY%LY_HOURG = PTAG%LY_HOURG
 c       local property variables
