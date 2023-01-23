@@ -450,7 +450,7 @@ jobs:
 
   sync_github_gitlab:
     needs: [syncGitPperforce]
-    runs-on: [sync,linux64]
+    runs-on: [dev_sync,linux64]
     container: 
       image: fr-qafactorydev.europe.altair.com/common-linux64:latest
       credentials: 
