@@ -118,7 +118,7 @@ c!CARD1
       ELSE
          BUTTER = EMA 
          EMA    = ONE       
-         NUVAR  = 8! User variable # 3-8, Storage values for the Butterworth filter
+         NUVAR  = 11! User variable # 3-8, Storage values for the Butterworth filter
       ENDIF
 
       IF (TYPE_MAX == 0) TYPE_MAX = 1
