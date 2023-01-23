@@ -8351,7 +8351,7 @@ C
      U            MS_PLY0 ,ZI_PLY0    ,ITAGND_SHXFEM,ITAGSH  ,MCPC    ,
      W            MCPTG   ,XREFC      ,XREFTG    ,XREFS   ,MSSA    ,
      X            MSRT    ,IRBE2      ,LRBE2     ,USER_INIVOL  ,KVOL    , NBSUBMAT,
-     Y            IXS(PIXS10),IXS(PIXS16),IXS(PIXS20),TOTADDMAS,
+     Y            IXS10,IXS16,IXS20,TOTADDMAS,
      Z            IPMAS   ,STIFFN     ,MSZ20     ,ITAGN   ,SITAGE,
      1            ITAGE   ,IXR_KJ     ,ELBUF_TAB,
      2            NOM_OPT ,INOM_OPT(13),INOM_OPT(21),INOM_OPT(20),

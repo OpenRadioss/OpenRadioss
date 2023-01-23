@@ -226,7 +226,7 @@ C------------
         DO I=LFT,LLT
           J = IPART(I+NFT)
 C         PART_AREA(J) = PART_AREA(J) + AREA(I)
-          ELE_AREA(I+NFT) = AREA(I)
+          ELE_AREA(NUMELC+I+NFT) = AREA(I)
           IF (GBUF%G_AREA > 0) GBUF%AREA(I) = AREA(I)
         ENDDO
       ENDIF
