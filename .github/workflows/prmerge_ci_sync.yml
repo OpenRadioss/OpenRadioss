@@ -34,7 +34,11 @@ on:
         required: true
       DATE_MIN_CHECK_COMMITS:
         required: true
-        
+      GITLAB_PAT:
+        required: true
+      GITLAB_REPO_URL:
+        required: true
+
 # When pushing in main or merging pull request in main
 #  ${{github.base_ref}} : <empty>
 #  ${{github.ref_name}} : main 
@@ -443,3 +447,138 @@ jobs:
           exit 1
 
         if: ${{ always() && env.CLOSE_BRANCH == 1 && steps.close_branch.outputs.status != 200 }} 
+
+  sync_github_gitlab:
+    needs: [syncGitPperforce]
+    runs-on: [dev_sync,linux64]
+    container: 
+      image: fr-qafactorydev.europe.altair.com/common-linux64:latest
+      credentials: 
+        username: ${{secrets.DOCKER_REGISTRY_USER}}
+        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+      volumes: 
+         - /etc/localtime:/etc/localtime:ro
+
+    env:
+      GITLAB_PAT: ${{ secrets.GITLAB_PAT }}
+      GITLAB_REPO_URL : ${{ secrets.GITLAB_REPO_URL }}
+      # Needed by gh auth
+      GH_TOKEN: ${{ secrets.SERVBOT_PAT }} 
+      FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+      TO_EMAIL: ${{ secrets.TO_EMAIL }}
+      STATUS_STEP_CONNECT_GH: 0
+      MSG_STEP_CONNECT_GH: "Could not connect to github repository"
+      STATUS_STEP_CONNECT_GL: 0
+      MSG_STEP_CONNECT_GL: "Could not connect to gitlab repository"
+      STATUS_STEP_MERGE: 0
+      MSG_STEP_MERGE: "Could not merge the github commits into gitlab dedicated branch"
+    steps:
+
+      - name: Set github access credentials
+        run: |
+          # This command exit with 1 even when everything is OK ...
+          gh auth login -h github.com || echo ""
+          gh auth setup-git
+          gh auth status
+
+          # Set correct end of step status (if not an email will be sent)
+          echo "STATUS_STEP_CONNECT_GH=1" >> $GITHUB_ENV
+
+      - name: Set gitlab access credentials
+        run: |
+          glab auth login -h gitlab.com --token ${{ env.GITLAB_PAT }}
+          glab auth status
+          glab config -h gitlab.com  set git_protocol https
+          glab config -h gitlab.com  set user servbotaltr
+          git config --global user.email "servbotaltr@altair.com"
+          git config --global user.name "servbotaltr"
+          git config --global credential.helper '!/usr/bin/glab auth git-credential'
+
+          # Set correct end of step status (if not an email will be sent)
+          echo "STATUS_STEP_CONNECT_GL=1" >> $GITHUB_ENV
+
+      - name: Merge github commits into gitlab dedicated branch
+        run: |
+          if ! test -d .git
+          then
+            git clone ${{ env.GITLAB_REPO_URL }} .
+          else
+              echo "Already present"
+          fi
+
+          # Create a branch from_github_main if it does not exist
+          git checkout from_github_main || git checkout -b from_github_main
+
+          # Add remote link to github/main
+          git remote remove github
+          git remote add github $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git || echo "Remote origin already exist"
+          # git remote -v
+
+          # Merge github commits into this branch and push on remote
+          git fetch github 
+          git merge github/main
+          git push --set-upstream origin from_github_main       
+
+          # Set correct end of step status (if not an email will be sent)
+          echo "STATUS_STEP_MERGE=1" >> $GITHUB_ENV
+
+      - name: Managing step execution
+        if: ${{ always() }}
+        run: |
+
+          MAILMSG="Some error(s) has(ve) been raised during workflow execution:\n\n"
+          CONTINUE=1
+          echo -e "\n#### STATUS_STEP_CONNECT_GH ###"
+          if [ "$STATUS_STEP_CONNECT_GH" = 0 ]
+          then
+            echo -e "Status\t[ \033[31;2;1mFAILED\033[0m ]" 
+            MAILMSG+="$MSG_STEP_CONNECT_GH\n"
+            CONTINUE=0
+          else
+            echo -e "Status\t[ \033[32;2;1mOK\033[0m ]"
+          fi
+
+          if [ "$CONTINUE" = 1 ]
+          then
+            echo -e "\n#### STATUS_STEP_CONNECT_GL ###"
+            if [ "$STATUS_STEP_CONNECT_GL" = 0 ]
+            then 
+              echo -e "Status\t[ \033[31;2;1mFAILED\033[0m ]" 
+              MAILMSG+="$MSG_STEP_CONNECT_GL\n"
+            CONTINUE=0
+            else
+              echo -e "Status\t[ \033[32;2;1mOK\033[0m ]"
+            fi
+          fi
+
+          if [ "$CONTINUE" = 1 ]
+          then
+            echo -e "\n#### STATUS_STEP_MERGE ###"
+            if [ "$STATUS_STEP_MERGE" = 0 ]
+            then 
+              echo -e "Status\t[ \033[31;2;1mFAILED\033[0m ]" 
+              MAILMSG+="$MSG_STEP_MERGE\n"
+              CONTINUE=0
+            else
+              echo -e "Status\t[ \033[32;2;1mOK\033[0m ]"
+            fi
+          fi
+
+          # Send email 
+          if [ "$CONTINUE" = 0 ] 
+          then
+    
+            # Setting SMTP server (docker host)
+            DOCKER_HOST=`/sbin/ip route|awk '/default/ { print $3 }'`
+            echo "set smtp=smtp://${DOCKER_HOST}:25" >> /etc/mail.rc 
+
+            # Print message in log 
+            echo -e $MAILMSG
+
+            # Send email
+            echo -e "$MAILMSG\nThis is a minor error, the branch is not closed" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} (${{github.sha}}) while syncing github to gitlab" $TO_EMAIL
+
+            # Exit fail to see it as a failure
+            exit 1
+
+          fi        
