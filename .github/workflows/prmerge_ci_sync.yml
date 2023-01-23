@@ -450,7 +450,7 @@ jobs:
 
   sync_github_gitlab:
     needs: [syncGitPperforce]
-    runs-on: [dev_sync,linux64]
+    runs-on: [sync,linux64]
     container: 
       image: fr-qafactorydev.europe.altair.com/common-linux64:latest
       credentials: 
@@ -475,6 +475,7 @@ jobs:
     steps:
 
       - name: Set github access credentials
+        working-directory: sync_gh_gl
         run: |
           # This command exit with 1 even when everything is OK ...
           gh auth login -h github.com || echo ""
@@ -485,6 +486,7 @@ jobs:
           echo "STATUS_STEP_CONNECT_GH=1" >> $GITHUB_ENV
 
       - name: Set gitlab access credentials
+        working-directory: sync_gh_gl
         run: |
           glab auth login -h gitlab.com --token ${{ env.GITLAB_PAT }}
           glab auth status
@@ -498,6 +500,7 @@ jobs:
           echo "STATUS_STEP_CONNECT_GL=1" >> $GITHUB_ENV
 
       - name: Merge github commits into gitlab dedicated branch
+        working-directory: sync_gh_gl
         run: |
           if ! test -d .git
           then
@@ -510,9 +513,9 @@ jobs:
           git checkout from_github_main || git checkout -b from_github_main
 
           # Add remote link to github/main
-          git remote remove github
+          echo "Running git remote add github $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git"
           git remote add github $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git || echo "Remote origin already exist"
-          # git remote -v
+          git remote -v
 
           # Merge github commits into this branch and push on remote
           git fetch github 
