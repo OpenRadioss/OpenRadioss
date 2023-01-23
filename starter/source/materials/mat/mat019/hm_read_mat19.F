@@ -84,7 +84,7 @@ C-----------------------------------------------
       my_real ,INTENT(INOUT):: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       TYPE (UNIT_TYPE_)      ,INTENT(IN)    :: UNITAB 
       TYPE(SUBMODEL_DATA)    ,INTENT(IN)    :: LSUBMODEL((NSUBMOD))
-      TYPE(MLAW_TAG_)        ,INTENT(OUT)   :: MTAG
+      TYPE(MLAW_TAG_)        ,INTENT(INOUT)   :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

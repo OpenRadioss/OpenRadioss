@@ -149,9 +149,8 @@ C=======================================================================
         EPSD  => GBUF%EPSD(1:NEL)
         RHO   => GBUF%RHO(1:NEL)
         VOL   => GBUF%VOL(1:NEL)
-        DELTAX=> GBUF%DELTAX(1:NEL)
-        TB    => GBUF%TB(1:NEL)
-        EPLAS => GBUF%PLA(1:NEL)
+        IF(SIZE(GBUF%DELTAX)>0) DELTAX=> GBUF%DELTAX(1:NEL)
+        IF(SIZE(GBUF%TB)>0) TB => GBUF%TB(1:NEL)
         DTEL  => GBUF%DT(1:NEL)
         IF (GBUF%G_TEMP > 0) THEN
           TEMP => GBUF%TEMP(1:NEL)
@@ -170,9 +169,8 @@ C=======================================================================
         EPSD  => LBUF%EPSD(1:NEL) 
         RHO   => LBUF%RHO(1:NEL)
         VOL   => LBUF%VOL(1:NEL)
-        DELTAX=> LBUF%DELTAX(1:NEL)
-        TB    => LBUF%TB(1:NEL)
-        EPLAS => LBUF%PLA(1:NEL)
+        IF(SIZE(LBUF%DELTAX)>0) DELTAX=> LBUF%DELTAX(1:NEL)
+        IF(SIZE(LBUF%TB)>0) TB    => LBUF%TB(1:NEL)
         IF (ELBUF_STR%BUFLY(1)%L_TEMP > 0) THEN
           TEMP => LBUF%TEMP(1:NEL) 
         ELSE

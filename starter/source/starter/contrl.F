@@ -1858,7 +1858,7 @@ C-----------------------------------------------
       INTEGER I, J, K, N ,NELC , NELTG , IP , NPRT , IPRT
       INTEGER IH3D,NG,ITY,NFT,IKEY,K_LEN
 
-      INTEGER :: TMAX_IPART(NPART),NKPART(NPART,NKEYMAX+1)
+      INTEGER :: TMAX_IPART(NPART),NKPART(NPART+1,NKEYMAX+1)
       CHARACTER CARTE*ncharline
 C-----------------------------------------------
       IF (ALLOCATED(IKEYMAX)) DEALLOCATE(IKEYMAX)
@@ -1870,7 +1870,7 @@ C-----------------------------------------------
       LMAX_VEL = 0
       LMAX_NSIG = 0
       LMAX_NSTRA = 0
-      NKPART(1:NPART,1:NKEYMAX+1) = 0
+      NKPART(1:NPART+1,1:NKEYMAX+1) = 0
 C-----------------------------------------------
 C     Lecture des donnees dans le fichier engine
 C-----------------------------------------------
