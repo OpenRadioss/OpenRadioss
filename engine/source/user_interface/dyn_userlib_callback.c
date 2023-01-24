@@ -65,8 +65,6 @@ extern void GET_U_TABLE(int * itable,my_real *XX, my_real *YY);
 extern void GET_U_VTABLE(int * itable, int * nel0, int * ipos,my_real *XX, my_real*YY, my_real *DYDX1);
 extern void SET_U_SHLPLAS(int *USRNEL,my_real *SIGY,my_real *ETSE);
 extern void SET_U_SOLPLAS(int *USRNEL, my_real*SIGY, my_real*PLA);
-extern void USENS_SHIFT_AB(my_real * sensor);
-extern void USENS_SHIFT_BA(my_real * sensor);
 extern int GET_U_NUMSENS (int * idsens) ;
 extern int GET_U_SENS_ID (int * idsens);
 extern int SET_U_SENS_VALUE(int *nsens, int * ivar, my_real * var );
@@ -135,8 +133,6 @@ void init_callback(void ** callback_array){
   callback_array[ 3]= GET_U_VTABLE;
   callback_array[ 4]= SET_U_SHLPLAS;
   callback_array[ 5]= SET_U_SOLPLAS;
-  callback_array[ 6]= USENS_SHIFT_AB;
-  callback_array[ 7]= USENS_SHIFT_BA;
   callback_array[ 8]= GET_U_NUMSENS;
   callback_array[ 9]= GET_U_SENS_ID;
   callback_array[10]= SET_U_SENS_VALUE;
