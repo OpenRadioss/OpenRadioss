@@ -152,7 +152,7 @@ C
       CHARACTER*10 VARRIV(NVARRIV),VARRIVG(NVARRIVG)
 C-----------------------------------------------
       PARAMETER (NVARN = 637,NVARS =239554 ,NVARC = 37856,NVART = 6)
-      PARAMETER (NVARP = 336,NVARR = 65,NVARUR = 12)
+      PARAMETER (NVARP = 337,NVARR = 65,NVARUR = 12)
       PARAMETER (NVARNS = 4,NVARSPH = 41)
       PARAMETER (NVARIN = 28,NVARRW = 6,NVARRB =15,NVARFX =4)
       PARAMETER (NVARFXM = 3)
@@ -968,7 +968,7 @@ C   beams
      . 'EPSP_66 ','EPSP_67 ','EPSP_68 ','EPSP_69 ','EPSP_70 ',
      . 'EPSP_71 ','EPSP_72 ','EPSP_73 ','EPSP_74 ','EPSP_75 ',
      . 'EPSP_76 ','EPSP_77 ','EPSP_78 ','EPSP_79 ','EPSP_80 ',
-     . 'EPSP_81 '/
+     . 'EPSP_81 ','EPSD    '/
 C   springs
       DATA VARR/
      . 'OFF     ','FX      ','FY      ','FZ      ','MX      ',

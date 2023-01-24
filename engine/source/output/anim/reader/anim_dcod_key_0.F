@@ -242,7 +242,7 @@ C--------------------------
          IXITKEY=IXITKEY+1
        ENDIF
 C--------------------------
-C    COQUES
+C    SHELL
 C--------------------------
       ELSEIF(KEY2(1:4)=='SHEL')THEN
 C
@@ -286,7 +286,7 @@ C---------------------------------------
       ELSE IF(KEY3(1:3)=='CRK') THEN
 c          ANIM_CRK = 1
 C--------------------------
-C    COQUES:TENSEUR
+C    SHELL:TENSOR
 C--------------------------
       ELSEIF (KEY3(1:4) == 'TENS') THEN
         IF (KEY4(1:5) == 'STRES') THEN
@@ -2052,6 +2052,8 @@ C--------------------------
         IF (KEY2(1:5)=='TRUSS') THEN
           ANIM_FE(123) = 1
         ENDIF
+      ELSEIF(KEY3(1:4)=='EPSD')THEN
+        ANIM_FE(124) = 1               
       ELSE
         IXITKEY=IXITKEY+1
       ENDIF

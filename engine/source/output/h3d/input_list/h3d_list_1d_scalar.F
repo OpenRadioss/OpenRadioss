@@ -165,5 +165,9 @@ c-----------------------------------------------
       H3D_KEYWORD_ONED_SCALAR(I)%KEY3  = 'LOCAL.ID'
       H3D_KEYWORD_ONED_SCALAR(I)%TEXT1  = 'Local identifier within the group'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_ONED_SCALAR(I)%KEY3  = 'EPSD'
+      H3D_KEYWORD_ONED_SCALAR(I)%TEXT1  = 'Strain rate'
+c-----------------------------------------------
       NKEY=I
       END
