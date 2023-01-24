@@ -80,10 +80,10 @@ c    SENSOR%VAR(1)   = TCRIT1
 c    SENSOR%VAR(2)   = TSTART1
 c    SENSOR%VAR(3)   = TCRIT2 
 c    SENSOR%VAR(4)   = TSTART2
-c    SENSOR%VAR(5)   = NI
+c    SENSOR%VAR(5)   = ALPHA_I
 c    SENSOR%VAR(6)   = Mean  EI
 c    SENSOR%VAR(7)   = Stdev EI
-c    SENSOR%VAR(8)   = NK
+c    SENSOR%VAR(8)   = ALPHA_K
 c    SENSOR%VAR(9)   = Mean  EK
 c    SENSOR%VAR(10)  = Stdev EK
 C=======================================================================
@@ -214,97 +214,94 @@ c---------------------------------------------------------
           NK = NINT(KETIME / DT2) + 1
           SENSOR%VAR(5) = TWO / NI   ! ALPHAI
           SENSOR%VAR(8) = TWO / NK   ! ALPHAK
-          SENSOR%VAR(1) = INFINITY        ! TACT1
-          SENSOR%VAR(3) = INFINITY        ! TACT2
+          SENSOR%VAR(1) = INFINITY   ! TACT1
+          SENSOR%VAR(2) = INFINITY   ! TSTART1
+          SENSOR%VAR(3) = INFINITY   ! TACT2
+          SENSOR%VAR(4) = INFINITY   ! TSTART2
         END IF
 c
-        IF (IETOL > ZERO) THEN
+        IF (EINT > ZERO) THEN
+          ALPHAI   = SENSOR%VAR(5)
+          EMA_INT  = SENSOR%VAR(6)
+          EVAR_INT = SENSOR%VAR(7)
+          BETAI  = (ONE - ALPHAI)
+          DIFF = EINT - EMA_INT
+c        
+          EMA_INT  = ALPHAI*EINT + BETAI*EMA_INT
+          EVAR_INT = BETAI*(EVAR_INT + ALPHAI*DIFF**2)
+          FAC_EI = SQRT(EVAR_INT) / EMA_INT
 c
-          IF (EINT > ZERO) THEN
-            ALPHAI   = SENSOR%VAR(5)
-            EMA_INT  = SENSOR%VAR(6)
-            EVAR_INT = SENSOR%VAR(7)
-            BETAI  = (ONE - ALPHAI)
-            DIFF = EINT - EMA_INT
-c          
-            EMA_INT  = ALPHAI*EINT + BETAI*EMA_INT
-            EVAR_INT = BETAI*(EVAR_INT + ALPHAI*DIFF**2)
-            FAC_EI = SQRT(EVAR_INT) / EMA_INT
+          SENSOR%VAR(6) = EMA_INT
+          SENSOR%VAR(7) = EVAR_INT
+        END IF
 c
-            SENSOR%VAR(6) = EMA_INT
-            SENSOR%VAR(7) = EVAR_INT
+c       Test sensor activation on constant internal energy criterion
+c
+        IF (FAC_EI < IETOL) ICRIT1 = 1
+c
+        IF (SENSOR%VAR(1) > TT) THEN
+          IF (ICRIT1 == 0) THEN
+            SENSOR%VAR(1) = INFINITY
+          ELSE IF (SENSOR%VAR(1) == INFINITY) THEN
+            SENSOR%VAR(1) = MIN(SENSOR%VAR(1), TT)
           END IF
-c
-c         Test sensor activation on constant internal energy criterion
-c
-          IF (FAC_EI < IETOL) ICRIT1 = 1
-c
-          IF (SENSOR%VAR(1) + TMIN > TT) THEN
-            IF (ICRIT1 == 0) THEN
-              SENSOR%VAR(1) = INFINITY
-            ELSE IF (SENSOR%VAR(1) == INFINITY) THEN
-              SENSOR%VAR(1) = MIN(SENSOR%VAR(1), TT)
-            END IF
-          ELSE IF (SENSOR%VAR(2) == INFINITY) THEN
-            SENSOR%VAR(2) = SENSOR%VAR(1) + TMIN + TDELAY
-          END IF
-          IF (SENSOR%VAR(2) <= TT) THEN   ! sensor activation
-            SENSOR%STATUS = 1
-            SENSOR%TSTART = SENSOR%VAR(2)
-          END IF
+        ELSE IF (SENSOR%VAR(2) == INFINITY) THEN
+          SENSOR%VAR(2) = SENSOR%VAR(1) + TDELAY
+        END IF
+        IF (SENSOR%VAR(2) <= TT) THEN   ! sensor activation
+          SENSOR%STATUS = 1
+          SENSOR%TSTART = SENSOR%VAR(2)
+        END IF
 
-          IF (SENSOR%VAR(2) <= TT .and. ISPMD == 0) THEN
-#include   "lockon.inc"
-            WRITE (ISTDO,1000 ) SENSOR%SENS_ID,TT
-            WRITE (IOUT ,1000 ) SENSOR%SENS_ID,TT
-            WRITE (IOUT ,2100)  EINT,EMA_INT,SQRT(EVAR_INT)
-#include   "lockoff.inc"
-          END IF
-        ENDIF
+        IF (SENSOR%VAR(2) <= TT .and. ISPMD == 0) THEN
+#include "lockon.inc"
+          WRITE (ISTDO,1000 ) SENSOR%SENS_ID,TT
+          WRITE (IOUT ,1000 ) SENSOR%SENS_ID,TT
+          WRITE (IOUT ,2100)  EINT,EMA_INT,SQRT(EVAR_INT)
+#include "lockoff.inc"
+        END IF
 c
 c---------------------------------------------------------
 c       Test sensor activation on constant kinetic energy criterion
 c---------------------------------------------------------
-        IF (KETOL > ZERO) THEN
-          IF (EKIN > ZERO) THEN
-            ALPHAK   = SENSOR%VAR(8)
-            EMA_KIN  = SENSOR%VAR(9)
-            EVAR_KIN = SENSOR%VAR(10)
-            BETAK  = (ONE - ALPHAK)
-            DIFF = EKIN - EMA_KIN
+        IF (EKIN > ZERO) THEN
+          ALPHAK   = SENSOR%VAR(8)
+          EMA_KIN  = SENSOR%VAR(9)
+          EVAR_KIN = SENSOR%VAR(10)
+          BETAK  = (ONE - ALPHAK)
+          DIFF = EKIN - EMA_KIN
 c       
-            EMA_KIN  = ALPHAK*EKIN + BETAK*EMA_KIN
-            EVAR_KIN = BETAK*(EVAR_KIN + ALPHAK*DIFF**2)
-            FAC_EK = SQRT(EVAR_KIN) / EMA_KIN
+          EMA_KIN  = ALPHAK*EKIN + BETAK*EMA_KIN
+          EVAR_KIN = BETAK*(EVAR_KIN + ALPHAK*DIFF**2)
+          FAC_EK = SQRT(EVAR_KIN) / EMA_KIN
 c
-            SENSOR%VAR(9)  = EMA_KIN
-            SENSOR%VAR(10) = EVAR_KIN
-          END IF
+          SENSOR%VAR(9)  = EMA_KIN
+          SENSOR%VAR(10) = EVAR_KIN
+        END IF
 
-          IF (FAC_EK < KETOL) ICRIT2 = 1
+        IF (FAC_EK < KETOL) ICRIT2 = 1
 c
-          IF (SENSOR%VAR(3) + TMIN > TT) THEN
-            IF (ICRIT1 == 0) THEN
-              SENSOR%VAR(3) = INFINITY
-            ELSE IF (SENSOR%VAR(3) == INFINITY) THEN
-              SENSOR%VAR(3) = MIN(SENSOR%VAR(3), TT)
-            END IF
-          ELSE IF (SENSOR%VAR(4) == INFINITY) THEN
-            SENSOR%VAR(4) = SENSOR%VAR(1) + TMIN + TDELAY
+        IF (SENSOR%VAR(3) > TT) THEN
+          IF (ICRIT1 == 0) THEN
+            SENSOR%VAR(3) = INFINITY
+          ELSE IF (SENSOR%VAR(3) == INFINITY) THEN
+            SENSOR%VAR(3) = MIN(SENSOR%VAR(3), TT)
           END IF
-          IF (SENSOR%VAR(4) <= TT) THEN   ! sensor activation
-            SENSOR%STATUS = 1
-            SENSOR%TSTART = SENSOR%VAR(4)
-          END IF
+        ELSE IF (SENSOR%VAR(4) == INFINITY) THEN
+          SENSOR%VAR(4) = SENSOR%VAR(1) + TDELAY
+        END IF
+        IF (SENSOR%VAR(4) <= TT) THEN   ! sensor activation
+          SENSOR%STATUS = 1
+          SENSOR%TSTART = SENSOR%VAR(4)
+        END IF
 c
-          IF (SENSOR%VAR(4) <= TT .and. ISPMD == 0) THEN
-#include   "lockon.inc"
-            WRITE (ISTDO,1000 ) SENSOR%SENS_ID,TT
-            WRITE (IOUT ,1000 ) SENSOR%SENS_ID,TT
-            WRITE (IOUT ,2200)  EKIN,EMA_KIN,SQRT(EVAR_KIN)
-#include   "lockoff.inc"
-          END IF
-        ENDIF
+        IF (SENSOR%VAR(4) <= TT .and. ISPMD == 0) THEN
+#include "lockon.inc"
+          WRITE (ISTDO,1000 ) SENSOR%SENS_ID,TT
+          WRITE (IOUT ,1000 ) SENSOR%SENS_ID,TT
+          WRITE (IOUT ,2200)  EKIN,EMA_KIN,SQRT(EVAR_KIN)
+#include "lockoff.inc"
+        END IF
 c
       END IF  ! constant energy option
 c-----------------------------------------------------------------------      
