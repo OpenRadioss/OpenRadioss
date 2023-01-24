@@ -230,7 +230,10 @@ C
                                             WA(IJK) = LBUF%PLA(I)
                                            ENDIF
                                         ENDIF
-
+                                    ELSEIF (ITHBUF(L) == 337 ) THEN
+                                      IF(GBUF%G_EPSD>0)THEN
+                                        WA(IJK)=GBUF%EPSD(I) 
+                                      ENDIF
                                     ENDIF
                                 ENDDO
                                 IJK = IJK + 1

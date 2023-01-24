@@ -191,7 +191,7 @@ C-----------------------------------------------
             ENDDO
           ENDIF
 C-----------------------------------------------
-C       POUTRES
+C       BEAM
 C-----------------------------------------------
         ELSEIF(ITY==5)THEN
           IF (IFUNC == 1) THEN
@@ -306,6 +306,11 @@ C-----------------------------------------------
                 ENDIF ! IF (IPT <= NPT)
               ENDIF ! IF (IGTYP == 18)
             ENDIF ! IF (MLW /= 1)
+          ELSEIF(IFUNC == 124 .AND. (GBUF%G_EPSD>0))THEN                       
+            DO I=LFT,LLT
+              N = I + NFT
+              FUNC(EL2FA(NN7+N)) = GBUF%EPSD(I)
+            ENDDO          
           ELSE
             DO I=LFT,LLT
              N = I + NFT
