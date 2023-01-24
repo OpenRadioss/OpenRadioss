@@ -450,7 +450,7 @@ jobs:
 
   sync_github_gitlab:
     needs: [syncGitPperforce]
-    runs-on: [dev_sync,linux64]
+    runs-on: [sync,linux64]
     container: 
       image: fr-qafactorydev.europe.altair.com/common-linux64:latest
       credentials: 
@@ -474,7 +474,14 @@ jobs:
       MSG_STEP_MERGE: "Could not merge the github commits into gitlab dedicated branch"
     steps:
 
+      # Set the working
+      - name: Set workdir 
+        run: |
+          mkdir -p github_2_gitlab
+          echo "WORKDIR=github_2_gitlab" >> $GITHUB_ENV
+
       - name: Set github access credentials
+        working-directory: ${{ env.WORKDIR }}
         run: |
           # This command exit with 1 even when everything is OK ...
           gh auth login -h github.com || echo ""
@@ -485,6 +492,7 @@ jobs:
           echo "STATUS_STEP_CONNECT_GH=1" >> $GITHUB_ENV
 
       - name: Set gitlab access credentials
+        working-directory: ${{ env.WORKDIR }}
         run: |
           glab auth login -h gitlab.com --token ${{ env.GITLAB_PAT }}
           glab auth status
@@ -498,6 +506,7 @@ jobs:
           echo "STATUS_STEP_CONNECT_GL=1" >> $GITHUB_ENV
 
       - name: Merge github commits into gitlab dedicated branch
+        working-directory: ${{ env.WORKDIR }}
         run: |
           if ! test -d .git
           then
