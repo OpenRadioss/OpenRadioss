@@ -25,7 +25,7 @@ Chd|====================================================================
 Chd|  SPMD_SD_ACC                   source/mpi/output/spmd_sd_acc.F
 Chd|-- called by -----------
 Chd|        HIST2                         source/output/th/hist2.F      
-Chd|        SENSOR0                       source/tools/sensor/sensor0.F 
+Chd|        SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_SD_ACC(ACCELM,IACCP,NACCP)

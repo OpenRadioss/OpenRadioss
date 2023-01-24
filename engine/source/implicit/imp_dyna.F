@@ -896,6 +896,7 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE DYNA_INA(IBCL  ,FORC   ,NPC   ,TF    ,A     ,
      2                    V     ,X      ,SKEW  ,AR    ,VR    ,
@@ -1135,6 +1136,7 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        WFV_IMP                       source/constraints/general/impvel/fv_imp0.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE DYNA_WEX(IBCL  ,FORC   ,NPC   ,TF    ,A     ,
      2                    V     ,X      ,SKEW  ,AR    ,VR    ,

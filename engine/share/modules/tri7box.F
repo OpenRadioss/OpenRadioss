@@ -288,7 +288,6 @@ Chd|        SPMD_SD_STFN25                source/mpi/interfaces/send_cand.F
 Chd|        SPMD_SPHVOX                   source/mpi/sph/spmd_sphvox.F  
 Chd|        SPMD_SPHVOX0                  source/mpi/elements/spmd_sph.F
 Chd|        SPMD_SPHVOX_OLD               source/mpi/sph/spmd_sphvox.F  
-Chd|        SPMD_TAGNCONT_STAMP           source/mpi/forces/spmd_exch_tagncont.F
 Chd|        SPMD_TRI10BOX                 source/mpi/interfaces/spmd_int.F
 Chd|        SPMD_TRI10GAT                 source/mpi/interfaces/spmd_int.F
 Chd|        SPMD_TRI11GAT                 source/mpi/interfaces/spmd_int.F

@@ -24,7 +24,6 @@ C=======================================================================
 Chd|====================================================================
 Chd|  SENSOR_CONTACT                source/tools/sensor/sensor_contact.F
 Chd|-- called by -----------
-Chd|        SENSOR1                       source/tools/sensor/sensor1.F 
 Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
 Chd|-- calls ---------------
 Chd|        BUTTERWORTH                   source/tools/univ/butterworth.F

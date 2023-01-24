@@ -44,7 +44,6 @@ Chd|        SPLISSV                       source/elements/sph/splissv.F
 Chd|        SPMD_INISPH                   source/mpi/sph/spmd_sptool.F  
 Chd|        SPMD_SAVESPH                  source/mpi/sph/spmd_sptool.F  
 Chd|        SPMD_SPAMAJ                   source/mpi/sph/spmd_spamaj.F  
-Chd|        SPMD_SPAMAJ_old               source/mpi/sph/spmd_spamaj.F  
 Chd|        SPMD_SPHBOX                   source/mpi/elements/spmd_sph.F
 Chd|        SPMD_SPHGAT                   source/mpi/sph/spmd_sphgat.F  
 Chd|        SPMD_SPHGAT_old               source/mpi/sph/spmd_sphgat.F  

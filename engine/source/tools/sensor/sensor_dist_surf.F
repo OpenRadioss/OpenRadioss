@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SENSOR_DIST_SURF              source/tools/sensor/sensor_dist_surf.F
 Chd|-- called by -----------
-Chd|        SENSOR1                       source/tools/sensor/sensor1.F 
 Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
 Chd|-- calls ---------------
 Chd|        DIST_NODE_PLANE_3N            source/tools/sensor/dist_node_plane_3n.F

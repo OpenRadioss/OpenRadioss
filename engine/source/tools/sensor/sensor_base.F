@@ -25,6 +25,9 @@ Chd|  SENSOR_BASE                   source/tools/sensor/sensor_base.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        ARRET                         source/system/arret.F         
+Chd|        ENG_USERLIB_USER_SENS         source/user_interface/dyn_userlib.c
 Chd|        SENSOR_ACC                    source/tools/sensor/sensor_acc.F
 Chd|        SENSOR_CONTACT                source/tools/sensor/sensor_contact.F
 Chd|        SENSOR_DIST                   source/tools/sensor/sensor_dist.F
@@ -41,6 +44,7 @@ Chd|        SENSOR_TIME                   source/tools/sensor/sensor_time.F
 Chd|        SENSOR_VEL                    source/tools/sensor/sensor_vel.F
 Chd|        SENSOR_WORK                   source/tools/sensor/sensor_work.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SENSOR_BASE(SENSOR_TAB,

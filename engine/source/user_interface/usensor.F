@@ -125,9 +125,6 @@ C---
 Chd|====================================================================
 Chd|  SET_U_SENS_VALUE              source/user_interface/usensor.F
 Chd|-- called by -----------
-Chd|        FORCE                         source/loads/general/force.F  
-Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
-Chd|        IMP_KPRES                     source/implicit/imp_glob_k.F  
 Chd|-- calls ---------------
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
@@ -182,9 +179,6 @@ C---
 Chd|====================================================================
 Chd|  GET_U_SENS_VALUE              source/user_interface/usensor.F
 Chd|-- called by -----------
-Chd|        FORCE                         source/loads/general/force.F  
-Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
-Chd|        IMP_KPRES                     source/implicit/imp_glob_k.F  
 Chd|-- calls ---------------
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    

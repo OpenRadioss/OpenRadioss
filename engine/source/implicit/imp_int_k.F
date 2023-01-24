@@ -35,6 +35,7 @@ Chd|        UPD_INT_K                     source/implicit/upd_glob_k.F
 Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
 Chd|        IMP_INTTD                     share/modules/imp_mod_def.F   
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE IMP_INT_K( A     ,V         ,
      1                      ICODT ,ICODR ,ISKEW  ,IBFV  ,NPC    ,
@@ -377,6 +378,7 @@ Chd|        I7MAIN_CRIT_TRI               source/interfaces/intsort/i7main_crit_
 Chd|        IMP_ICOMCRIT                  source/implicit/imp_int_k.F   
 Chd|        SPMD_MIN_S                    source/mpi/implicit/imp_spmd.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE IMP_INTDT(
      1       IPARI    ,INTBUF_TAB,X        ,
@@ -545,6 +547,7 @@ Chd|        SPMD_GET_STIF11               source/mpi/interfaces/send_cand.F
 Chd|        SPMD_SYNC_MMX                 source/mpi/interfaces/spmd_sync_mmx.F
 Chd|        INTAB                         source/implicit/ind_glob_k.F  
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE IMP_ICOMCRIT(
      1  INTBUF_TAB,IPARI  ,NEWFRONT,ISENDTO,
@@ -708,6 +711,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE IMP_INTTD0(
      1       IPARI ,INTBUF_TAB     ,X       ,D       ,
@@ -1082,6 +1086,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE IMP_TRIPI(
      1       IPARI ,INTBUF_TAB   ,X       ,D       ,
@@ -1584,6 +1589,7 @@ Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        IMP_INTDT                     source/implicit/imp_int_k.F   
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE IMP_DTKIN(
      1       IPARI ,INTBUF_TAB      ,X       ,V       ,

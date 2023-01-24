@@ -35,7 +35,6 @@ Chd|        SPMD_I21TEMPCOM               source/mpi/interfaces/send_cand.F
 Chd|        SPMD_IFRONT_STAMP             source/mpi/interfaces/send_cand.F
 Chd|        SPMD_INITFI                   source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_SAVEFI                   source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_TAGNCONT_STAMP           source/mpi/forces/spmd_exch_tagncont.F
 Chd|        UPDATE_STRUCT_INT21           source/interfaces/int21/update_struct_int21.F
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------

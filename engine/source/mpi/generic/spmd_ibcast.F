@@ -42,7 +42,7 @@ Chd|        R2R_INPUT_INIT                source/coupling/rad2rad/r2r_input_init
 Chd|        RBYONF                        source/constraints/general/rbody/rbyonf.F
 Chd|        RBYPID                        source/constraints/general/rbody/rbypid.F
 Chd|        RESOL                         source/engine/resol.F         
-Chd|        SENSOR0                       source/tools/sensor/sensor0.F 
+Chd|        SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
 Chd|        SMS_BUILD_DIAG                source/ams/sms_build_diag.F   
 Chd|        SMS_INI_KIN_1                 source/ams/sms_init.F         
 Chd|        SMS_INI_KIN_2                 source/ams/sms_init.F         

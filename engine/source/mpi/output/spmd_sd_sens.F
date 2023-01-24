@@ -24,7 +24,7 @@ C
 Chd|====================================================================
 Chd|  SPMD_SD_SENS                  source/mpi/output/spmd_sd_sens.F
 Chd|-- called by -----------
-Chd|        SENSOR0                       source/tools/sensor/sensor0.F 
+Chd|        SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_SD_SENS(XSENS,RXBUF,NSENSP)

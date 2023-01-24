@@ -24,7 +24,6 @@ C=======================================================================
 Chd|====================================================================
 Chd|  SENSOR_NIC                    source/tools/sensor/sensor_nic.F
 Chd|-- called by -----------
-Chd|        SENSOR1                       source/tools/sensor/sensor1.F 
 Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F

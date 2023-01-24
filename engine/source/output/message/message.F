@@ -242,7 +242,7 @@ Chd|        SCHKJABT3                     source/elements/solid/solide4/s4deri3.
 Chd|        SECT_INI                      source/tools/sect/sectio.F    
 Chd|        SECT_READ                     source/tools/sect/sectio.F    
 Chd|        SECT_READP                    source/tools/sect/sectio.F    
-Chd|        SENSOR2                       source/tools/sensor/sensor2.F 
+Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
 Chd|        SIGEPS53                      source/materials/mat/mat053/sigeps53.F
 Chd|        SIGEPS75                      source/materials/mat/mat075/sigeps75.F
 Chd|        SMALLGEO3                     source/elements/solid/solide/small3.F
@@ -304,7 +304,6 @@ Chd|        SPMD_SPHGAT                   source/mpi/sph/spmd_sphgat.F
 Chd|        SPMD_SPHGAT_old               source/mpi/sph/spmd_sphgat.F  
 Chd|        SPMD_SPHVOX                   source/mpi/sph/spmd_sphvox.F  
 Chd|        SPMD_SPHVOX_OLD               source/mpi/sph/spmd_sphvox.F  
-Chd|        SPMD_TAGNCONT_STAMP           source/mpi/forces/spmd_exch_tagncont.F
 Chd|        SPMD_TRI10BOX                 source/mpi/interfaces/spmd_int.F
 Chd|        SPMD_TRI10GAT                 source/mpi/interfaces/spmd_int.F
 Chd|        SPMD_TRI11GAT                 source/mpi/interfaces/spmd_int.F

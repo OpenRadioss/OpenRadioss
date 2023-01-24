@@ -478,7 +478,6 @@ Chd|        SPMD_IFRONT_STAMP             engine/source/mpi/interfaces/send_cand
 Chd|        SPMD_INT18_LAW151_PON         engine/source/mpi/forces/spmd_int18_law151_pon.F
 Chd|        SPMD_SAVEFI                   engine/source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_SPLIT_COMM_INTER         engine/source/mpi/interfaces/spmd_split_comm_inter.F
-Chd|        SPMD_TAGNCONT_STAMP           engine/source/mpi/forces/spmd_exch_tagncont.F
 Chd|        SPMD_WAIT_NB                  engine/source/mpi/interfaces/spmd_wait_nb.F
 Chd|        UD_INT5                       engine/source/implicit/upd_glob_k.F
 Chd|        UPDK_MV                       engine/source/airbag/monv_imp0.F

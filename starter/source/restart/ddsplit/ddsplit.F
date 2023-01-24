@@ -188,7 +188,6 @@ Chd|        W_LACC                        source/restart/ddsplit/w_lacc.F
 Chd|        W_LAS                         source/restart/ddsplit/w_las.F
 Chd|        W_LGAU                        source/restart/ddsplit/w_lgau.F
 Chd|        W_LLINK                       source/restart/ddsplit/w_llink.F
-Chd|        W_LSENS                       source/restart/ddsplit/w_lsens.F
 Chd|        W_MAD                         source/restart/ddsplit/w_mad.F
 Chd|        W_MAIN_PROC_WEIGHT            source/restart/ddsplit/w_master_proc_weight.F
 Chd|        W_MONVOL                      source/restart/ddsplit/w_monvol.F

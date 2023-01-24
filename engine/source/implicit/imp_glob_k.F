@@ -2013,8 +2013,7 @@ Chd|        KPQUAD                        source/implicit/imp_glob_k.F
 Chd|        KPTRIA                        source/implicit/imp_glob_k.F  
 Chd|        PUT_KIJ                       source/implicit/imp_glob_k.F  
 Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        GET_U_SENS_VALUE              source/user_interface/usensor.F
-Chd|        SET_U_SENS_VALUE              source/user_interface/usensor.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE IMP_KPRES(IB    ,FAC    ,NPC   ,TF    ,X     ,
      2                     SKEW  ,SENSOR_TAB,WEIGHT,IADC  ,

@@ -206,6 +206,7 @@ Chd|-- calls ---------------
 Chd|        DINTERI                       source/constraints/general/impvel/fv_imp0.F
 Chd|        FVL_MODIF                     source/constraints/general/impvel/fv_imp0.F
 Chd|        VELROT                        source/constraints/general/rbe2/rbe2v.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FV_IMP(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR_TAB,
      1                  UD    ,RD   ,IFIX  ,IDDL  ,
@@ -1773,6 +1774,7 @@ Chd|        DYNA_WEX                      source/implicit/imp_dyna.F
 Chd|-- calls ---------------
 Chd|        DINTERA                       source/constraints/general/impvel/fv_imp0.F
 Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE WFV_IMP(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR_TAB,
      1                  UD     ,RD   ,IFIX  ,IDDL  ,
@@ -2163,6 +2165,7 @@ Chd|-- called by -----------
 Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|-- calls ---------------
 Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FV_FINT0(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR_TAB,
      1                   UD     ,RD   ,IFIX  ,IDDL  ,

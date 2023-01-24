@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_ALL_DMIN                 source/mpi/interfaces/spmd_th.F
 Chd|-- called by -----------
-Chd|        SENSOR0                       source/tools/sensor/sensor0.F 
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_ALL_DMIN(V,LEN)
@@ -370,7 +369,7 @@ Chd|        OUTP_N_V2                     source/output/sty/outp_n_v.F
 Chd|        OUTP_N_VC                     source/output/sty/outp_n_v.F  
 Chd|        PNOISE                        source/general_controls/computation/pnoise.F
 Chd|        SECT_IO                       source/tools/sect/sectio.F    
-Chd|        SENSOR0                       source/tools/sensor/sensor0.F 
+Chd|        SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
 Chd|        SMS_PCG                       source/ams/sms_pcg.F          
 Chd|        SMS_PRODUT3                   source/ams/sms_proj.F         
 Chd|        SORTIE_ERROR                  source/output/sortie_error.F  
@@ -518,7 +517,7 @@ Chd|        PRINTIME                      source/system/timer.F
 Chd|        RBYONF                        source/constraints/general/rbody/rbyonf.F
 Chd|        RBYPID                        source/constraints/general/rbody/rbypid.F
 Chd|        RESOL                         source/engine/resol.F         
-Chd|        SENSOR0                       source/tools/sensor/sensor0.F 
+Chd|        SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
 Chd|        SPMD_DPARRBE2                 source/mpi/anim/spmd_dparrbe2.F
 Chd|        SPMD_DPARRBE3                 source/mpi/anim/spmd_dparrbe3.F
 Chd|        SPMD_DPARRBY                  source/mpi/anim/spmd_dparrby.F

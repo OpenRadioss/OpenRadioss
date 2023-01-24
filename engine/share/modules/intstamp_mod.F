@@ -47,7 +47,6 @@ Chd|        SMS_PCG                       source/ams/sms_pcg.F
 Chd|        SPMD_I21FTHECOM               source/mpi/interfaces/send_cand.F
 Chd|        SPMD_I21TEMPCOM               source/mpi/interfaces/send_cand.F
 Chd|        SPMD_IFRONT_STAMP             source/mpi/interfaces/send_cand.F
-Chd|        SPMD_TAGNCONT_STAMP           source/mpi/forces/spmd_exch_tagncont.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|-- calls ---------------
 Chd|====================================================================

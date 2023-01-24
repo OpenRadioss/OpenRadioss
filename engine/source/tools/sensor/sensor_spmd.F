@@ -21,19 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SENSOR0                       source/tools/sensor/sensor0.F 
+Chd|  SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        SPMD_ALLREDUCE_DB             source/mpi/generic/spmd_allreduce_db.F
-Chd|        SPMD_ALL_DMIN                 source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
 Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
 Chd|        SPMD_SD_ACC                   source/mpi/output/spmd_sd_acc.F
 Chd|        SPMD_SD_SENS                  source/mpi/output/spmd_sd_sens.F
-Chd|        SPMD_SUMAX                    source/mpi/generic/spmd_sumax.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================

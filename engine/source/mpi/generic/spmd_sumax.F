@@ -24,7 +24,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_SUMAX                    source/mpi/generic/spmd_sumax.F
 Chd|-- called by -----------
-Chd|        SENSOR0                       source/tools/sensor/sensor0.F 
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_SUMAX(V,LEN1,LEN)
