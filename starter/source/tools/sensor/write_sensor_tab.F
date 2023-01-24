@@ -69,6 +69,9 @@ c       update node system N° after renumbering for sensors using nodes
           N2 = NODLOCAL(SENSOR%IPARAM(2))
           LTEMP(1) = N1
           LTEMP(2) = N2
+        ELSE IF (TYP == 9) THEN  ! /sens/vel
+          N1 = NODLOCAL(SENSOR%IPARAM(1))
+          LTEMP(1) = N1
         ELSE IF (TYP == 13) THEN  ! /sens/work
           N2 = SENSOR%IPARAM(2)
           N1 = NODLOCAL(SENSOR%IPARAM(1))
