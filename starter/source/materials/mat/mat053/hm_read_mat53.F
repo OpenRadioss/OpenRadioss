@@ -95,7 +95,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .      E11, E22, N12, G12, G23, G13,FAC1,FAC2,FAC3,FAC4,FAC5,
-     .      FAC_L,FAC_T,FAC_M,FAC_C,DMIN,DMAX
+     .      FAC_L,FAC_T,FAC_M,FAC_C,DMIN,DMAX,SSP
       INTEGER NRATE,J,I,IFLAG
       my_real :: RHO0, RHOR, FAC_UNIT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
@@ -143,8 +143,10 @@ C-----------------------------------------------
 
       !---DEFAULT VALUES
       IF(RHOR == ZERO)RHOR=RHO0
-      PM(1) =RHOR
-      PM(89)=RHO0  
+      PM(1)  = RHOR
+      PM(89) = RHO0  
+      SSP    = SQRT(MAX(E11,E22,G12,G23)/RHO0)
+      PM(27) = SSP
       IF (FAC1 == ZERO) FAC1 = ONE*FAC_UNIT
       IF (FAC2 == ZERO) FAC2 = ONE*FAC_UNIT
       IF (FAC3 == ZERO) FAC3 = ONE*FAC_UNIT
@@ -163,6 +165,8 @@ C-----------------------------------------------
       UPARAM(9)=FAC4
       UPARAM(10)=FAC5      
       !Formulation for solid elements time step computation.
+      PARMAT(1)  = MAX(E11,E22,G12,G23)
+      PARMAT(2)  = MAX(E11,E22)
       PARMAT(16) = 1
       DMIN = E11*E22   
       DMAX = MAX(E11,E22)
