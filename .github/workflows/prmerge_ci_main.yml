@@ -176,7 +176,7 @@ jobs:
         working-directory: ${{ env.WORKDIR }}
         shell: cmd
         run: >
-          call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
+          call "C:\Program Files (x86)\Intel\oneAPI\compiler\2022.1.0\env\vars.bat" intel64 vs2019 && call "C:\Program Files (x86)\Intel\oneAPI\mpi\2021.6.0\env\vars.bat" intel64 vs2019 && call "C:\Program Files (x86)\Intel\oneAPI\mkl\2022.1.0\env\vars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
           cd %cd:\=/%;
           mkdir exec;
           cmd=\"./build.bat\";
@@ -665,7 +665,7 @@ jobs:
         # Not using wsl because of cmake issue with linux/win pathes conversion
         shell: cmd
         run: >
-          call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
+          call "C:\Program Files (x86)\Intel\oneAPI\compiler\2022.1.0\env\vars.bat" intel64 vs2019 && call "C:\Program Files (x86)\Intel\oneAPI\mpi\2021.6.0\env\vars.bat" intel64 vs2019 && call "C:\Program Files (x86)\Intel\oneAPI\mkl\2022.1.0\env\vars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
           cd %cd:\=/%;
           echo '------- Print ifx version -------';
           ifx --version;
@@ -802,7 +802,7 @@ jobs:
         # Running cygwin from powershell or cmd => neither identation nor comment !
         shell: cmd
         run: >
-          call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
+          call "C:\Program Files (x86)\Intel\oneAPI\mpi\2021.6.0\env\vars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
           cd %cd:\=/%;
           md5sum exec/* || echo \"Nothing in exec/\";
           if [ \"${{ matrix.precision }}\" = \"dp\" ];
@@ -814,7 +814,7 @@ jobs:
           /cygdrive/c/mybin/clean_win10.pl;
           cd qa-tests/scripts;
           rm -f QA.summary;
-          export PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$PATH;
+          export PATH=${{ env./win64 }}/${{ matrix.os }}:$PATH;
           export PATH=${{ env.oneapi_exlib }}/${{ matrix.os }}:$PATH;
           cmd=\"./or_qa_script ../../exec/engine_${{ matrix.os }}_${{ env.mpi }}${precision_ext} 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:KMP_STACKSIZE=400m --exec_script_args='mpiexec -np ${{ env.QA_NB_PROC }}' --env:OMP_NUM_THREADS=${{ env.QA_NB_THREAD }} --output_failures_stdout --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST }}' \";
           echo \"=========================================\";
