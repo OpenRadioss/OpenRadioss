@@ -120,12 +120,15 @@ C-----------------------------------------------
      .        JJ(6),NPGT,IADBUF,NUPARAM,IMAT,NS,NRATE,EXPA,IVISC,IU(4),NFRAC
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(MVSIZ),
      .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),LENCOM,NPT_ALL,IPLY,ITRIMAT,IPOS,
-     .        ISUBMAT, ISH_EINT, IS_ALE, IS_EULER,IPG,IPINCH
+     .        ISUBMAT, ISH_EINT, IS_ALE, IS_EULER,IPG,IPINCH,
+     .        IMAT_TILLOTSON, NTILLOTSON,NVAREOS,IEOS
       REAL R4
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
       TYPE(BUF_FAIL_) ,POINTER :: FBUF 
+      TYPE(BUF_EOS_)  ,POINTER :: EBUF     
+      
       my_real,
      .  DIMENSION(:), POINTER  :: UVAR,OFFL
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2 
@@ -921,6 +924,57 @@ C-------------------------------------
                   ENDDO
                 ENDDO
               ENDDO
+c------------------------------------ Tillotson Region id
+              ! /ANIM/ELEM/TILLOTSON
+            ELSEIF( IFUNC == 14596 + 4*MX_PLY_ANIM ) THEN
+              DO I=LFT,LLT
+                FUNC(EL2FA(NN3+NFT+I)) = ZERO
+              ENDDO 
+              MT = IXQ(1,NFT+1)  
+              IF (MLW == 151) THEN 
+                NLAY = ELBUF_TAB(NG)%NLAY 
+                !count number of submaterial based on /EOS/TILLOTSON (IEOS=3)            
+                NTILLOTSON = 0 
+                DO IMAT=1,NLAY
+                  IEOS =  IPM(4, IPM(20 + IMAT,MT) )
+                  IF(IEOS == 3)THEN 
+                    NTILLOTSON = NTILLOTSON + 1 
+                    IMAT_TILLOTSON = IMAT 
+                  ENDIF 
+                ENDDO 
+                !several Tillotson EoS   Value= sum ( Region_i*10**(i-1),  i=1,imat)       
+                IF(NTILLOTSON > 1)THEN 
+                  FAC=ONE
+                  DO IMAT=1,NLAY
+                    IEOS =  IPM(4,    IPM(20 + IMAT,MT) )
+                    IF(IEOS == 3)THEN 
+                      EBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1,1,1) 
+                      NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS
+                      DO I=1,NEL
+                        FUNC(EL2FA(NN3+NFT+I)) = FUNC(EL2FA(NN3+NFT+I)) + EBUF%VAR(I) * FAC
+                      ENDDO 
+                    ENDIF 
+                    FAC=FAC*TEN 
+                  ENDDO 
+                !single Tillotson EoS   Value=  Region_i                                 
+                ELSEIF(NTILLOTSON == 1)THEN
+                      EBUF => ELBUF_TAB(NG)%BUFLY(IMAT_TILLOTSON)%EOS(1,1,1)
+                      NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT_TILLOTSON)%NVAR_EOS 
+                      DO I=1,NEL
+                        FUNC(EL2FA(NN3+NFT+I)) = EBUF%VAR(I)
+                      ENDDO 
+                ENDIF 
+              ELSE 
+                !monomaterial law                                                        
+                IEOS = IPM(4,MT)
+                IF(IEOS == 3)THEN
+                  EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1)                              
+                  NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS                              
+                  DO  I=1,NEL
+                    FUNC(EL2FA(NN3+NFT+I)) = EBUF%VAR(I)
+                  ENDDO
+                ENDIF
+              ENDIF              
 c------------------------------------ 
             ELSE                                                      
               DO  I=LFT,LLT                                           

@@ -81,7 +81,6 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER  :: BUFLEN,MAXEOS,IADBUF
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(INOUT) :: IPM
-
       my_real ,DIMENSION(NPROPM ,NUMMAT) ,INTENT(INOUT) :: PM
       my_real ,DIMENSION(*)              ,INTENT(INOUT) :: BUFMAT
       TYPE(EOS_TAG_),DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG
@@ -211,7 +210,7 @@ c---
 c---
           CASE ('TILLOTSON')
             IEOS = 3  
-            CALL HM_READ_EOS_TILLOTSON(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                    
+            CALL HM_READ_EOS_TILLOTSON(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_TAG,IEOS,MAXEOS)                                    
 c---
           CASE ('PUFF')
             IEOS = 4  

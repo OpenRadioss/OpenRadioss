@@ -194,7 +194,7 @@ C-----------------------------------------------
          CALL TILLOTSON(
      1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,      
      2                  ESPE   ,DVOL   ,DF     ,VNEW   ,MAT   ,          
-     3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,ECOLD )  
+     3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,ECOLD ,VAREOS,NVAREOS)  
 
        CASE (4) 
          !--------------------------------------------------!

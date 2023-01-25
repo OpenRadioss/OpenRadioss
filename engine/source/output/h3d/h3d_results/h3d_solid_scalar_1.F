@@ -133,7 +133,7 @@ C-----------------------------------------------
      .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
      .        IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
      .        LERCVOIS(*),LESDVOIS(*),NB_PLYOFF,IUVAR,IDX,IPOS,ITRIMAT,
-     .        IALEFVM_FLG, IMAT,IADBUF,NUPARAM,ICSIG,NC(8)
+     .        IALEFVM_FLG, IMAT,IADBUF,NUPARAM,ICSIG,NC(8),IEOS
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
      .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
      .        ID_ELEM_TMP(MVSIZ),NIX,ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,
@@ -145,12 +145,12 @@ C-----------------------------------------------
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
       TYPE(BUF_MAT_)  ,POINTER :: MBUF      
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      TYPE(BUF_FAIL_) ,POINTER :: FBUF 
-      my_real,
-     .  DIMENSION(:), POINTER  :: UVARF,DAMF,DFMAX,TDELE
+      TYPE(BUF_FAIL_) ,POINTER :: FBUF
+      TYPE(BUF_EOS_)  ,POINTER :: EBUF 
+      my_real, DIMENSION(:), POINTER  :: UVARF,DAMF,DFMAX,TDELE
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
       my_real, DIMENSION(:) ,POINTER  :: UPARAM
-      INTEGER :: ISUBMAT
+      INTEGER :: ISUBMAT,NVAREOS,NTILLOTSON,IMAT_TILLOTSON
 
 C-----------------------------------------------
 
@@ -186,12 +186,14 @@ c           SOLID ELEMENTS
 C-----------------------------------------------
             GBUF => ELBUF_TAB(NG)%GBUF
             MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
-            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)       
+            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1) 
+            EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1)
             NLAY = ELBUF_TAB(NG)%NLAY                    
             NPTR = ELBUF_TAB(NG)%NPTR                     
             NPTS = ELBUF_TAB(NG)%NPTS                     
             NPTT = ELBUF_TAB(NG)%NPTT                     
             NPTG = NPTT*NPTS*NPTR*NLAY
+            NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS
             TSHELL  = 0      
             TSH_ORT = 0  
             IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22) TSHELL = 1 
@@ -2285,60 +2287,60 @@ c                    IS_WRITTEN_VALUE(1:NEL) = 1
 C--------------------------------------------------  
               ELSEIF(KEYWORD == 'COLOR') THEN  
 C--------------------------------------------------                 
-              GBUF => ELBUF_TAB(NG)%GBUF 
-              IF (MLW == 151) THEN 
-                 NFRAC=MULTI_FVM%NBMAT
-                 DO IMAT=1,NFRAC
-                    LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)
-                    DO I=1,NEL
-                       VFRAC(I,IMAT) = LBUF%VOL(I) / GBUF%VOL(I)         
+                GBUF => ELBUF_TAB(NG)%GBUF 
+                IF (MLW == 151) THEN 
+                   NFRAC=MULTI_FVM%NBMAT
+                   DO IMAT=1,NFRAC
+                      LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)
+                      DO I=1,NEL
+                         VFRAC(I,IMAT) = LBUF%VOL(I) / GBUF%VOL(I)         
+                      ENDDO
                     ENDDO
+                ELSEIF(MLW == 20)THEN 
+                  NFRAC=2
+                  DO I=1,NEL
+                    VFRAC(I,1) = ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)%VOL(I) / GBUF%VOL(I)  
+                    VFRAC(I,2) = ELBUF_TAB(NG)%BUFLY(2)%LBUF(1,1,1)%VOL(I) / GBUF%VOL(I)                           
+                  ENDDO 
+                ELSEIF(MLW == 37)THEN 
+                  MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1) 
+                  NFRAC=2                  
+                  DO  I=1,NEL
+                    VFRAC(I,1) = MBUF%VAR(I+3*NEL)
+                    VFRAC(I,2) = MBUF%VAR(I+4*NEL)
+                  ENDDO 
+                ELSEIF(MLW == 51)THEN
+                  !get UPARAM
+                  IMAT = IXS(1,NFT+1)                        
+                  IADBUF = IPM(7,IMAT)                       
+                  NUPARAM= IPM(9,IMAT)                       
+                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                  !bijective order           !indexes  
+                  ISUBMAT=UPARAM(276+1);     IU(1)=N0PHAS+(ISUBMAT-1)*NVPHAS 
+                  ISUBMAT=UPARAM(276+2);     IU(2)=N0PHAS+(ISUBMAT-1)*NVPHAS 
+                  ISUBMAT=UPARAM(276+3);     IU(3)=N0PHAS+(ISUBMAT-1)*NVPHAS 
+                  ISUBMAT=UPARAM(276+4);     IU(4)=N0PHAS+(ISUBMAT-1)*NVPHAS 
+                  MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)  
+                  NFRAC=4   
+                  DO  I=1,NEL
+                    VFRAC(I,1) = MBUF%VAR(I+IU(1)*NEL)
+                    VFRAC(I,2) = MBUF%VAR(I+IU(2)*NEL)   
+                    VFRAC(I,3) = MBUF%VAR(I+IU(3)*NEL)   
+                    VFRAC(I,4) = MBUF%VAR(I+IU(4)*NEL)
+                  ENDDO 
+                ELSE
+                  NFRAC=0
+                  !VFRAC(1:NEL,1:21)=ZERO     
+                ENDIF 
+                IF(NFRAC>0)THEN
+                  DO I=1,NEL
+                    VALUE(I)=ZERO
+                    DO IMAT=1,NFRAC
+                      VALUE(I) = VALUE(I) + VFRAC(I,IMAT)*IMAT
+                    ENDDO
+                    IS_WRITTEN_VALUE(I) = 1  
                   ENDDO
-              ELSEIF(MLW == 20)THEN 
-                NFRAC=2
-                DO I=1,NEL
-                  VFRAC(I,1) = ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)%VOL(I) / GBUF%VOL(I)  
-                  VFRAC(I,2) = ELBUF_TAB(NG)%BUFLY(2)%LBUF(1,1,1)%VOL(I) / GBUF%VOL(I)                           
-                ENDDO 
-              ELSEIF(MLW == 37)THEN 
-                MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1) 
-                NFRAC=2                  
-                DO  I=1,NEL
-                  VFRAC(I,1) = MBUF%VAR(I+3*NEL)
-                  VFRAC(I,2) = MBUF%VAR(I+4*NEL)
-                ENDDO 
-              ELSEIF(MLW == 51)THEN
-                !get UPARAM
-                IMAT = IXS(1,NFT+1)                        
-                IADBUF = IPM(7,IMAT)                       
-                NUPARAM= IPM(9,IMAT)                       
-                UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
-                !bijective order           !indexes  
-                ISUBMAT=UPARAM(276+1);     IU(1)=N0PHAS+(ISUBMAT-1)*NVPHAS 
-                ISUBMAT=UPARAM(276+2);     IU(2)=N0PHAS+(ISUBMAT-1)*NVPHAS 
-                ISUBMAT=UPARAM(276+3);     IU(3)=N0PHAS+(ISUBMAT-1)*NVPHAS 
-                ISUBMAT=UPARAM(276+4);     IU(4)=N0PHAS+(ISUBMAT-1)*NVPHAS 
-                MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)  
-                NFRAC=4   
-                DO  I=1,NEL
-                  VFRAC(I,1) = MBUF%VAR(I+IU(1)*NEL)
-                  VFRAC(I,2) = MBUF%VAR(I+IU(2)*NEL)   
-                  VFRAC(I,3) = MBUF%VAR(I+IU(3)*NEL)   
-                  VFRAC(I,4) = MBUF%VAR(I+IU(4)*NEL)
-                ENDDO 
-              ELSE
-                NFRAC=0
-                !VFRAC(1:NEL,1:21)=ZERO     
-              ENDIF 
-              IF(NFRAC>0)THEN
-                DO I=1,NEL
-                  VALUE(I)=ZERO
-                  DO IMAT=1,NFRAC
-                    VALUE(I) = VALUE(I) + VFRAC(I,IMAT)*IMAT
-                  ENDDO
-                  IS_WRITTEN_VALUE(I) = 1  
-                ENDDO
-              ENDIF
+                ENDIF
 C--------------------------------------------------                 
 
 C--------------------------------------------------  
@@ -2369,9 +2371,59 @@ C--------------------------------------------------
                     VALUE(I) = GBUF%TM_DMG(I) 
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO   
-C--------------------------------------------------                 
+C-------------------------------------------------- 
+              ELSEIF(KEYWORD == 'TILLOTSON') THEN  
+C-------------------------------------------------- 
+                 MT = IXS(1,NFT+1)                                         
+                 IF (MLW == 151) THEN
+                   !count number of submaterial based on /EOS/TILLOTSON (IEOS=3)
+                   NTILLOTSON = 0
+                   DO IMAT=1,NLAY
+                     IEOS =  IPM(4, IPM(20 + IMAT,MT) )
+                     IF(IEOS == 3)THEN
+                       NTILLOTSON = NTILLOTSON + 1
+                       IMAT_TILLOTSON = IMAT
+                     ENDIF
+                   ENDDO
+                   !several Tillotson EoS   Value= sum ( Region_i*10**(i-1),  i=1,imat)    
+                   IF(NTILLOTSON > 1)THEN
+                     FAC=ONE
+                     DO IMAT=1,NLAY
+                       IEOS =  IPM(4,    IPM(20 + IMAT,MT) )
+                       IF(IEOS == 3)THEN
+                         EBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1,1,1)
+                         NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS
+                         DO I=1,NEL
+                           VALUE(I) = VALUE(I) + EBUF%VAR(I) * FAC
+                           IS_WRITTEN_VALUE(I) = 1  
+                         ENDDO
+                       ENDIF  
+                       FAC=FAC*TEN                 
+                     ENDDO
+                   !single Tillotson EoS   Value=  Region_i
+                   ELSEIF(NTILLOTSON == 1)THEN
+                         EBUF => ELBUF_TAB(NG)%BUFLY(IMAT_TILLOTSON)%EOS(1,1,1)
+                         NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT_TILLOTSON)%NVAR_EOS
+                         DO I=1,NEL
+                           VALUE(I) = EBUF%VAR(I)
+                           IS_WRITTEN_VALUE(I) = 1  
+                         ENDDO
+                   ENDIF                  
+                 ELSE
+                   !monomaterial law  
+                   IEOS = IPM(4,MT)
+                   IF(IEOS == 3)THEN
+                     EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1) 
+                     NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS
+                     DO  I=1,NEL                         
+                       VALUE(I) = EBUF%VAR(I)
+                       IS_WRITTEN_VALUE(I) = 1  
+                     ENDDO  
+                   ENDIF                      
+                 ENDIF                 
+C--------------------------------------------------  
               ENDIF
-c
+C-------------------------------------------------- 
               CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_SOLID,SOLID_SCALAR,NEL,OFFSET,NFT,
      .   			  VALUE,IS_WRITTEN_VALUE)
             ENDIF

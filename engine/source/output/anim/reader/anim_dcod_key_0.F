@@ -1455,7 +1455,10 @@ C------------
              IDX = 14595 + 4*MX_PLY_ANIM 
              ANIM_CE(IDX) = 1 
            ENDIF 
-         ENDIF   
+         ENDIF 
+      ELSEIF(KEY3(1:9) == 'TILLOTSON')THEN
+        IDX = 14596 + 4*MX_PLY_ANIM
+        ANIM_CE(IDX) = 1           
       ELSE
         IXITKEY=IXITKEY+1
       ENDIF
@@ -1982,10 +1985,12 @@ C         ANIM_SE(4936) ==> !   law37 -    gas
          ELSE
            ANIM_SE(4971) = 1 
          ENDIF   
-        
+      ELSEIF(KEY3(1:9)=='TILLOTSON')THEN
+          ANIM_SE(5172) = 1 
+
 !D YOUR NEW ANIMATION CONTOUR HERE          
       !ELSEIF(...)THEN
-      !  ANIM_SE(5172) = 1
+      !  ANIM_SE(5173) = 1
 
       ENDIF
 C
@@ -2635,6 +2640,11 @@ C--------------------------
          IDX           = 14595 + 4*MX_PLY_ANIM 
          ANIM_CE(IDX)  = 1 
          ANIM_SE(4971) = 1 
+        ELSEIF(KEY3(1:9)=='TILLOTSON')THEN
+         IDX = 14596 + 4*MX_PLY_ANIM
+         ANIM_CE(IDX)  = 1  
+         ANIM_SE(5172) = 1  
+         
        ELSE
          IXITKEY=IXITKEY+1
        ENDIF

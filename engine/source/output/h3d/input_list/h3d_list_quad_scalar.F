@@ -46,9 +46,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (H3D_KEYWORD) H3D_KEYWORD_QUAD_SCALAR(*)
-      my_real
-     .      GEO(NPROPG,*)
-      INTEGER IGEO(NPROPGI,*)
+      my_real GEO(NPROPG,NUMGEO)
+      INTEGER IGEO(NPROPGI,NUMGEO)
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       INTEGER, INTENT(INOUT) :: NKEY
 C-----------------------------------------------
@@ -58,13 +57,12 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,NIPMAX,IPLYMAX,CPTPLY,IPTMAX
-C=========================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       I = 0
 c-----------------------------------------------
       I = I + 1
@@ -162,26 +160,22 @@ c-----------------------------------------------
             I = I + 1
             WRITE(H3D_KEYWORD_QUAD_SCALAR(I)%KEY3, '(A9,I0)') 'M151VFRAC', II
             WRITE(H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1, '(A17,I0)') 'Volume fraction ', II
-            H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 
-     .        'Volume fractions (for ALE multi-material Law151)'
+            H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 'Volume fractions (for ALE multi-material Law151)'
 c-----------------------------------------------
             I = I + 1
             WRITE(H3D_KEYWORD_QUAD_SCALAR(I)%KEY3, '(A8,I0)') 'M151DENS', II
             WRITE(H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1, '(A8,I0)') 'Density ', II
-            H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 
-     .        'Density (for ALE multi-material Law151)'
+            H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 'Density (for ALE multi-material Law151)'
 c-----------------------------------------------
             I = I + 1
             WRITE(H3D_KEYWORD_QUAD_SCALAR(I)%KEY3, '(A8,I0)') 'M151ENER', II
             WRITE(H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1, '(A7,I0)') 'Energy ', II
-            H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 
-     .        'Energy (for ALE multi-material Law151)'
+            H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 'Energy (for ALE multi-material Law151)'
 c-----------------------------------------------
             I = I + 1
             WRITE(H3D_KEYWORD_QUAD_SCALAR(I)%KEY3, '(A8,I0)') 'M151PRES', II
             WRITE(H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1, '(A10,I0)') 'Pressure ', II
-            H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 
-     .        'Pressure (for ALE multi-material Law151)'
+            H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 'Pressure (for ALE multi-material Law151)'
 c-----------------------------------------------
          ENDDO
       ELSE
@@ -189,26 +183,22 @@ c-----------------------------------------------
          I = I + 1
          H3D_KEYWORD_QUAD_SCALAR(I)%KEY3  = 'VFRAC1'
          H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1  = 'Volumetric Fraction 1'
-         H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 
-     .        'Volumetric fractions (for ALE multi-material laws: LAW20, LAW37 and LAW51)'
+         H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 'Volumetric fractions (for ALE multi-material laws: LAW20, LAW37 and LAW51)'
 c-----------------------------------------------
          I = I + 1
          H3D_KEYWORD_QUAD_SCALAR(I)%KEY3  = 'VFRAC2'
          H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1  = 'Volumetric Fraction 2'
-         H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 
-     .        'Volumetric fractions (for ALE multi-material laws: LAW20, LAW37 and LAW51)'
+         H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 'Volumetric fractions (for ALE multi-material laws: LAW20, LAW37 and LAW51)'
 c-----------------------------------------------
          I = I + 1
          H3D_KEYWORD_QUAD_SCALAR(I)%KEY3  = 'VFRAC3'
          H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1  = 'Volumetric Fraction 3'
-         H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 
-     .        'Volumetric fractions (for ALE multi-material laws: LAW20, LAW37 and LAW51)'
+         H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 'Volumetric fractions (for ALE multi-material laws: LAW20, LAW37 and LAW51)'
 c-----------------------------------------------
          I = I + 1
          H3D_KEYWORD_QUAD_SCALAR(I)%KEY3  = 'VFRAC4'
          H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1  = 'Volumetric Fraction 4'
-         H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 
-     .        'Volumetric fractions (for ALE multi-material laws: LAW20, LAW37 and LAW51)'
+         H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 'Volumetric fractions (for ALE multi-material laws: LAW20, LAW37 and LAW51)'
 c-----------------------------------------------
       ENDIF  ! MULTI_FVM%IS_USED
 c-----------------------------------------------
@@ -453,6 +443,11 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_QUAD_SCALAR(I)%KEY3  = 'LOCAL.ID'
       H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1  = 'Local identifier within the group'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_QUAD_SCALAR(I)%KEY3  = 'TILLOTSON'
+      H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1  = 'Region identifier in p,v diagram'
+      H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = '1:compressed, 2:expanded cold, 3:transition, 4:hot expansion'
 c-----------------------------------------------
       NKEY=I
 c-----------------------------------------------

@@ -30,13 +30,14 @@ Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_EOS_TILLOTSON(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      SUBROUTINE HM_READ_EOS_TILLOTSON(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_TAG,IEOS,MAXEOS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD       
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -59,9 +60,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IIN,IOUT,IUNIT
+      INTEGER,INTENT(IN) :: IEOS,MAXEOS
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
+      TYPE(EOS_TAG_),DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -71,17 +74,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .   C1, C2, A, B, ER, ES, VS, E0, RHO0,RHOI,RHOR, ALPHA, BETA,
-     .   FAC_L,FAC_T,FAC_M,FAC_C,FACC1,FACC2,FACPB,MU0,MU2,DF,ETA,
-     .   OMEGA,AA,BB,PP,XX,EXPA,EXPB
+      my_real :: C1, C2, A, B, ER, ES, VS, E0, RHO0,RHOI,RHOR, ALPHA, BETA,
+     .           FAC_L,FAC_T,FAC_M,FAC_C,FACC1,FACC2,FACPB,MU0,MU2,DF,ETA,
+     .           OMEGA,AA,BB,PP,XX,EXPA,EXPB,DPDMU, SSP0, G0
       LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE
-      my_real :: DPDMU, SSP0, G0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
+
+      EOS_TAG(IEOS)%NVAR = 1  !saving Region id for H2D and ANIM output                         
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
