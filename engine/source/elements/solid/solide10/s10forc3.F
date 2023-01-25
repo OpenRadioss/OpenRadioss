@@ -316,7 +316,7 @@ C-----------
      7   GBUF%SIG ,GBUF%EINT ,GBUF%RHO    ,GBUF%QVIS,GBUF%PLA ,
      8   GBUF%EPSD,VR        ,DR          ,D        ,WXXG     ,
      9   WYYG     ,WZZG      ,GBUF%G_PLA  ,XDP      ,NEL      ,
-     A   CONDEG   )
+     A   CONDEG   ,GBUF%G_EPSD)
 C     
       CALL S10NX3(NX)
       IF(JTHE < 0 .AND. ISOLNOD == 4) CALL S10NXT4(NXT4,NEL)
@@ -566,7 +566,7 @@ C----------------------------
      .   FX,FY,FZ,VOLN,QVIS,STI,STIG,
      .   LBUF%EINT,LBUF%RHO,LBUF%QVIS,LBUF%PLA,LBUF%EPSD,GBUF%EPSD,
      .   GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,GBUF%PLA,
-     .   WIP(IP,NPT),GBUF%G_PLA,NEL,CONDE,CONDEG)
+     .   WIP(IP,NPT),GBUF%G_PLA,NEL,CONDE,CONDEG,GBUF%G_EPSD)
 C
         DO I=LFT,LLT
          IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN
