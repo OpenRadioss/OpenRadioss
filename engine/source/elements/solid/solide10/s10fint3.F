@@ -30,7 +30,8 @@ Chd|====================================================================
      .                    FX,FY,FZ,VOL,QVIS,STI,STIG,
      .                    EINT,RHO,Q,EPLAS,EPSD,EPSDG,
      .                    SIGG,EINTG,RHOG,QG,EPLASG,
-     .                    WIP ,G_PLA,NEL,CONDE,CONDEG)
+     .                    WIP ,G_PLA,NEL,CONDE,CONDEG,
+     .                    G_EPSD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,7 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER G_PLA,NEL
+      INTEGER, INTENT(IN) :: G_PLA,NEL,G_EPSD
 C     REAL
       my_real
      .  PX(MVSIZ,10),PY(MVSIZ,10),PZ(MVSIZ,10),
@@ -96,7 +97,7 @@ C
         ENDDO
       ENDIF
 c
-      IF (ISRAT > 0) THEN                                                    
+      IF ((ISRAT > 0).OR.(G_EPSD > 0)) THEN                                                    
         DO I=LFT,LLT
          EPSDG(I) = EPSDG(I) + WIP * EPSD(I)
         ENDDO

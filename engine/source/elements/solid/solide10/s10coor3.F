@@ -36,7 +36,7 @@ Chd|====================================================================
      7   SIGG ,EINTG,RHOG ,QG  ,EPLASM,
      8   EPSDG,VR   ,DR   ,D   ,WXXG ,
      9   WYYG,WZZG  ,G_PLA,XDP ,NEL  ,
-     A   CONDEG)
+     A   CONDEG,G_EPSD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER G_PLA,NEL
+      INTEGER, INTENT(IN) :: G_PLA,NEL,G_EPSD
       INTEGER NC(MVSIZ,10), MXT(*), NGL(*), NGEO(*),
      .        IXS(NIXS,*), IXS10(6,*)
      
@@ -109,7 +109,7 @@ C
       STIG(LFT:LLT)=ZERO
       CONDEG(LFT:LLT)=ZERO
       
-      IF (ISRAT /= 0) THEN
+      IF ((ISRAT /= 0).OR.(G_EPSD > 0)) THEN
           EPSDG(LFT:LLT)=ZERO
       ENDIF
       IF (G_PLA > 0) THEN
@@ -927,7 +927,7 @@ Chd|====================================================================
      8   EPSDG,VR   ,DR   ,D   ,WXXG ,
      9   WYYG,WZZG  ,G_PLA,XDP ,
      .   R11   ,R12   ,R13   ,R21   ,R22   ,R23   ,R31   ,R32   ,R33   ,
-     .   NEL  ) 
+     .   NEL  ,G_EPSD) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -947,7 +947,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER G_PLA,NEL
+      INTEGER, INTENT(IN) :: G_PLA,NEL,G_EPSD
       INTEGER NC(MVSIZ,10), MXT(*), NGL(*), NGEO(*),
      .        IXS(NIXS,*), IXS10(6,*)
      
@@ -1011,7 +1011,7 @@ C
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
       
-      IF (ISRAT /= 0) THEN
+      IF ((ISRAT /= 0).OR.(G_EPSD > 0)) THEN
         DO I=LFT,LLT
           EPSDG(I)=ZERO
         ENDDO
