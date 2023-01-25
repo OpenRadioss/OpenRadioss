@@ -126,10 +126,21 @@ C-----------------------------------------------
       INTEGER JINF, JSUP, J
 C-----------------------------------------------
 C
-      IF ((NUMNOD==0).OR.(IU-ITABM1(1)<0)) THEN
+      ! Check exit parameters
+
+      ! 1st NUMNOD=0
+      IF (NUMNOD==0) THEN
         SYSFUS2=0
         RETURN
       END IF
+
+      ! 2nd NodeID is lower than smallest NodeID.
+      IF ( IU-ITABM1(1)<0 ) THEN
+        SYSFUS2=0
+        RETURN
+      ENDIF
+
+
       JINF=1
       JSUP=NUMNOD
       J=MIN(1,NUMNOD/2)
