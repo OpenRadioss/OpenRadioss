@@ -146,30 +146,13 @@ C----------global damping
            DAMPA3 = ZERO
           END IF 
           DTN2 = DTMAX
-          DO ND=1,NUMNOD
-            DT2N(ND) = DTMAX		
-            IF(STIFN(ND)>EM20 .AND. MS(ND)>ZERO)THEN
-              DT2N(ND) = TWO*MS(ND)/STIFN(ND)		
-              DTN2 = MIN(DTN2,DT2N(ND))		
-            END IF      	       	      	      
-          END DO	    
-          IF (IRODDL/=0) THEN
-            DO ND=1,NUMNOD
-              IF(STIFR(ND)>EM20 .AND. IN(ND)>ZERO)THEN
-                DTN = TWO*IN(ND)/STIFR(ND)		
-                DT2N(ND) = MIN(DTN,DT2N(ND))		
-                DTN2 = MIN(DTN2,DT2N(ND))		
-              END IF      	       	      	      
-            END DO	    
-          END IF      	       	      	      
-          DTN = SQRT(DTN2)
-C------- still factor HALF* in Abaqus          
+C------- still factor HALF* in another program          
           ALPHA05 = HALF*(DAMPA+DAMPA3)
           BETA1 = MIN(DAMPB,DT0)
           IF (DTMI2 > ZERO) THEN
-            BBI = DAMPBI+HALF*DAMPAI*DTMI2*DTMI2
+            BBI = BETA1+ALPHA05*DTMI2*DTMI2
             DTN2= SQRT(DTMI2*DTMI2+TWO*BBI*DTMI2)
-            BBI = DAMPBI/DTN2+HALF*DAMPAI*DTN2
+            BBI = BETA1/DTN2+ALPHA05*DTN2
             FACI = SQRT(BBI*BBI+ONE) -BBI
           END IF      	       	      	      
           DO ND=1,NUMNOD
