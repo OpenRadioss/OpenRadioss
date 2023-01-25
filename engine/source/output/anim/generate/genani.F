@@ -2467,6 +2467,11 @@ C all NPTT for PID51
             CALL ANI_TXT(MES,30)
           ENDIF
         ENDDO 
+        
+        !---NTILLOTSON EoS
+        IDX = 14596 + 4*MX_PLY_ANIM
+        IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Region identifier in p,v diagram',32)  
+        
 
 C----------------------------------------------------------------------
 C   Tsai-Wu criterion output for composites
@@ -2960,43 +2965,46 @@ C------------iso geo stress
 C------------gps part
            IFIRST=IFIRST+1
            IF (IFIRST==1) THEN
-            DO N=1,NUMNOD
-             ITAGPS(N) = 0
-            ENDDO
-            DO J=1,3
              DO N=1,NUMNOD
-              VFLU(J,N) = ZERO
-              AFLU(J,N) = ZERO
+              ITAGPS(N) = 0
              ENDDO
-            ENDDO
-            CALL TENSGPSTRAIN(ELBUF_TAB,VFLU    ,AFLU    ,IPARG   ,GEO     ,
-     .                    IXS      ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
-     .                    IXC      ,IXTG    ,IXT     ,IXP     ,IXR     ,
-     .                    X        ,ITAGPS  ,PM      )
+             DO J=1,3
+              DO N=1,NUMNOD
+               VFLU(J,N) = ZERO
+               AFLU(J,N) = ZERO
+              ENDDO
+             ENDDO
+             CALL TENSGPSTRAIN(ELBUF_TAB,VFLU    ,AFLU    ,IPARG   ,GEO     ,
+     .                     IXS      ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
+     .                     IXC      ,IXTG    ,IXT     ,IXP     ,IXR     ,
+     .                     X        ,ITAGPS  ,PM      )
            ENDIF
            J = I-IAD_GP4
-          ! --------------------------
-          IF(NSPMD > 1)THEN
-            LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-            IF (IFIRST==1) CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
-            IF (J<=3) THEN
-             CALL SPMD_EXCH_NODAREA2(VFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J)
-            ELSE
-             CALL SPMD_EXCH_NODAREA2(AFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J-3)
-            ENDIF
-          ENDIF
-          ! --------------------------
+           ! --------------------------
+           IF(NSPMD > 1)THEN
+             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
+             IF (IFIRST==1) CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
+             IF (J<=3) THEN
+              CALL SPMD_EXCH_NODAREA2(VFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J)
+             ELSE
+              CALL SPMD_EXCH_NODAREA2(AFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J-3)
+             ENDIF
+           ENDIF
+           ! --------------------------
 
            IF (J<=3) THEN
-            DO N=1,NUMNOD
-             IF (ITAGPS(N)>0) WA4(N)=VFLU(J,N)/ITAGPS(N)
-            ENDDO
+             DO N=1,NUMNOD
+               IF (ITAGPS(N)>0) WA4(N)=VFLU(J,N)/ITAGPS(N)
+             ENDDO
            ELSE
-            DO N=1,NUMNOD
-             IF (ITAGPS(N)>0) WA4(N)=AFLU(J-3,N)/ITAGPS(N)
-            ENDDO
+             DO N=1,NUMNOD
+               IF (ITAGPS(N)>0) WA4(N)=AFLU(J-3,N)/ITAGPS(N)
+             ENDDO
            ENDIF
+c----------------------------------------
+           
           ENDIF
+
 c----------------------------------------
           IF (NSPMD == 1) THEN
             IF (NUMELIG3D /= 0) THEN
@@ -4603,6 +4611,8 @@ C
             CALL ANI_TXT(MES,22)
           ENDIF
         ENDDO
+        IF(ANIM_SE(5172)==1)CALL ANI_TXT('Region identifier in p,v diagram',32)
+        
 C-----------------------------------------------                                         
       ENDIF !(ISPMD==0)
 

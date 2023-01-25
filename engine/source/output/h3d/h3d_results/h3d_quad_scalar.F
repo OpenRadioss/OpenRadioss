@@ -123,17 +123,19 @@ C-----------------------------------------------
      .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
      .        IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
      .        LERCVOIS(*),LESDVOIS(*),ID_PLY,NB_PLYOFF,IOK,IADBUF,NUPARAM,
-     .        IMAT,IVISC,IPOS,ITRIMAT,IU(4)
+     .        IMAT,IVISC,IPOS,ITRIMAT,IU(4),IEOS
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
      .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
      .        ID_ELEM_TMP(MVSIZ),NIX,IOK_PART(MVSIZ),JJ(6),NPGT,IUVAR,
-     .        IS_WRITTEN_VALUE(MVSIZ),NFRAC,KFACE,NB_FACE,IV,ISUBMAT,IS_EULER,IS_ALE,IAD2
+     .        IS_WRITTEN_VALUE(MVSIZ),NFRAC,KFACE,NB_FACE,IV,ISUBMAT,IS_EULER,IS_ALE,IAD2,NVAREOS,
+     .        NTILLOTSON,IMAT_TILLOTSON
       CHARACTER*5 BUFF
       REAL R4
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF    
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
       TYPE(BUF_FAIL_) ,POINTER :: FBUF 
+      TYPE(BUF_EOS_)  ,POINTER :: EBUF      
       my_real,
      .  DIMENSION(:), POINTER  :: UVAR
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
@@ -195,6 +197,7 @@ C-----------------------------------------------
             GBUF => ELBUF_TAB(NG)%GBUF
             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
             UVAR => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR
+            EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1)
             JALE=(IPARG(7,NG)+IPARG(11,NG))
             JTURB=IPARG(12,NG)*JALE
             NPTR  = ELBUF_TAB(NG)%NPTR
@@ -202,6 +205,7 @@ C-----------------------------------------------
             NPTT  = ELBUF_TAB(NG)%NPTT
             NLAY  = ELBUF_TAB(NG)%NLAY
             NUVAR = ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT
+            NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS
 c
             DO  I=1,NEL 
               ID_ELEM(NFT+I) = IXQ(NIXQ,NFT+I)
@@ -1323,7 +1327,56 @@ C--------------------------------------------------
                   VALUE(I) = I
                   IS_WRITTEN_VALUE(I) = 1  
                 ENDDO          
-                                        
+C-------------------------------------------------- 
+              ELSEIF(KEYWORD == 'TILLOTSON') THEN  
+C-------------------------------------------------- 
+                 MT = IXQ(1,NFT+1)                                         
+                 IF (MLW == 151) THEN
+                   !count number of submaterial based on /EOS/TILLOTSON (IEOS=3)
+                   NTILLOTSON = 0
+                   DO IMAT=1,NLAY
+                     IEOS =  IPM(4, IPM(20 + IMAT,MT) )
+                     IF(IEOS == 3)THEN
+                       NTILLOTSON = NTILLOTSON + 1
+                       IMAT_TILLOTSON = IMAT
+                     ENDIF
+                   ENDDO
+                   !several Tillotson EoS   Value= sum ( Region_i*10**(i-1),  i=1,imat)    
+                   IF(NTILLOTSON > 1)THEN
+                     FAC=ONE
+                     DO IMAT=1,NLAY
+                       IEOS =  IPM(4,    IPM(20 + IMAT,MT) )
+                       IF(IEOS == 3)THEN
+                         EBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1,1,1)
+                         NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS
+                         DO I=1,NEL
+                           VALUE(I) = VALUE(I) + EBUF%VAR(I) * FAC
+                           IS_WRITTEN_VALUE(I) = 1  
+                         ENDDO
+                       ENDIF  
+                       FAC=FAC*TEN                 
+                     ENDDO
+                   !single Tillotson EoS   Value=  Region_i
+                   ELSEIF(NTILLOTSON == 1)THEN
+                         EBUF => ELBUF_TAB(NG)%BUFLY(IMAT_TILLOTSON)%EOS(1,1,1)
+                         NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT_TILLOTSON)%NVAR_EOS
+                         DO I=1,NEL
+                           VALUE(I) = EBUF%VAR(I)
+                           IS_WRITTEN_VALUE(I) = 1  
+                         ENDDO
+                   ENDIF                  
+                 ELSE
+                   !monomaterial law  
+                   IEOS = IPM(4,MT)
+                   IF(IEOS == 3)THEN
+                     EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1) 
+                     NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS
+                     DO  I=1,NEL                         
+                       VALUE(I) = EBUF%VAR(I)
+                       IS_WRITTEN_VALUE(I) = 1  
+                     ENDDO  
+                   ENDIF                      
+                 ENDIF                               
 C---------------------------------------------------------------------------
 c            ELSEIF (KEYWORD == 'NEWKEY') THEN ! New Output Example
 C---------------------------------------------------------------------------
@@ -1358,7 +1411,9 @@ c                ENDIF
 c              ENDIF
 C---------------------------------------------------------------------------
 c 
+C-------------------------------------------------- 
             ENDIF  ! KEYWORD
+C-------------------------------------------------- 
             CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_QUAD,QUAD_SCALAR,NEL,0,NFT,
      .   			       VALUE,IS_WRITTEN_VALUE)
           ENDIF  ! ITY 

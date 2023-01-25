@@ -42,9 +42,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (H3D_KEYWORD) H3D_KEYWORD_SPH_SCALAR(*)
-      my_real
-     .      GEO(NPROPG,*)
-      INTEGER IGEO(NPROPGI,*)
+      my_real GEO(NPROPG,NUMGEO)
+      INTEGER IGEO(NPROPGI,NUMGEO)
       INTEGER, INTENT(INOUT) :: NKEY
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -53,13 +52,12 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NIPMAX
-C=========================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       I = 0
 c-----------------------------------------------
       I = I + 1
@@ -180,8 +178,7 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SPH_SCALAR(I)%KEY3  = 'OFF'
       H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Element status'
-      H3D_KEYWORD_SPH_SCALAR(I)%COMMENT  = 
-     .'0.0:deleted  >0.&<1.:under failure process 1.0:activated  <0:Standby'
+      H3D_KEYWORD_SPH_SCALAR(I)%COMMENT  = '0.0:deleted  >0.&<1.:under failure process 1.0:activated  <0:Standby'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SPH_SCALAR(I)%KEY3  = 'ENTH'
@@ -218,6 +215,11 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SPH_SCALAR(I)%KEY3  = 'LOCAL.ID'
       H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Local identifier within the group'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SPH_SCALAR(I)%KEY3  = 'TILLOTSON'
+      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Region identifier in p,v diagram'
+      H3D_KEYWORD_SPH_SCALAR(I)%COMMENT  = '1:compressed, 2:expanded cold, 3:transition, 4:hot expansion'
 c-----------------------------------------------
 
 

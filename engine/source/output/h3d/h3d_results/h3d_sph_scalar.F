@@ -111,20 +111,20 @@ C-----------------------------------------------
      .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
      .        IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
      .        LERCVOIS(*),LESDVOIS(*),NB_PLYOFF,IUVAR,IPRT,IADBUF,
-     .        NUPARAM,IMAT
+     .        NUPARAM,IMAT,IEOS
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
      .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
      .        ID_ELEM_TMP(MVSIZ),NIX,ISOLNOD,NPTG,TSHELL,TSH_ORT,
      .        IOK_PART(MVSIZ),JJ(6),IRUPT,IOK,NPG_PLANE,NUMLAY,IJK,IIR,
-     .        IS_WRITTEN_VALUE(MVSIZ),IPOS,ITRIMAT
+     .        IS_WRITTEN_VALUE(MVSIZ),IPOS,ITRIMAT,NVAREOS
       REAL R4
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
       TYPE(BUF_MAT_)  ,POINTER :: MBUF      
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
       TYPE(BUF_FAIL_) ,POINTER :: FBUF 
-      my_real,
-     .  DIMENSION(:), POINTER  :: UVARF,DAMF,DFMAX,TDELE
+      TYPE(BUF_EOS_)  ,POINTER :: EBUF
+      my_real, DIMENSION(:), POINTER  :: UVARF,DAMF,DFMAX,TDELE
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
 C-----------------------------------------------
       DO I=1,NUMSPH
@@ -569,6 +569,22 @@ C--------------------------------------------------
                   ENDIF
                   IS_WRITTEN_VALUE(I) = 1
                 ENDDO
+C-------------------------------------------------- 
+              ELSEIF(KEYWORD == 'TILLOTSON') THEN  
+C-------------------------------------------------- 
+                 N = I + NFT
+                 IPRT=IPARTSP(N)                                           
+                 MT  =IPART(1,IPRT) 
+                 IEOS = IPM(4,MT)                             
+                 IF(IEOS == 3)THEN                            
+                   EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1)   
+                   NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS  
+                   DO  I=1,NEL                                
+                     VALUE(I) = EBUF%VAR(I)                   
+                     IS_WRITTEN_VALUE(I) = 1                  
+                   ENDDO                                      
+                 ENDIF                                                       
+C-------------------------------------------------- 
               ENDIF   ! IFUNC
 C-------------------------------------------------- 
               CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_SPH,SPH_SCALAR,NEL,OFFSET,NFT,
