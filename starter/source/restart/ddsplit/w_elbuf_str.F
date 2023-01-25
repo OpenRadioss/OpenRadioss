@@ -883,8 +883,8 @@ c
 c-----    EoS                                                             
 c
           DO IL = 1,ELBUF%NLAY 
-            NUVAR = BUFLY%NVAR_EOS                                         
             BUFLY => ELBUF_TAB(NG)%BUFLY(IL)              
+            NUVAR = BUFLY%NVAR_EOS 
             IF (IGTYP == 51 .OR. IGTYP == 52) THEN
               NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
             ELSE
