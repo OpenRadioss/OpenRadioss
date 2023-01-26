@@ -4805,6 +4805,7 @@ C     LECTURE DES SENSORS
 C--------------------------------------------
       ERR_MSG='SENSORS'
       ERR_CATEGORY='SENSORS'
+      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 c
       ! -------------
       ! size initialization for user sensor
