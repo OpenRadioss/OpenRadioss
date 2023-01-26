@@ -1733,6 +1733,15 @@ c
      4            EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,
      5            DFMAX    ,NFUNC1   ,IFUNC1   ,EL_LEN   ,FOFF     ,
      6            IPG      ,DMG_FLAG ,DMG_LOC_SCALE,NPF  ,TF       )
+c
+              CASE (44)     !    Tsai-Wu failure model
+c
+                CALL FAIL_TSAIWU_C(
+     1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
+     2               TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
+     3               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
+     4               OFF       ,FOFF ,PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,
+     5               DFMAX     ,TDEL      ,DT1C      )
 c 
 c-------------
               END SELECT

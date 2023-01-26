@@ -1962,6 +1962,14 @@ C---- Inievo failure model
      6          EL_PLA   ,TEMPEL   ,SIGY     ,OFF      ,DFMAX    ,
      7          TDEL     ,DMG_SCALE,GBUF%UELR,IPG      ,NPG      ,
      8          LBUF%OFF ,DAMINI   ,GBUF%VOL ,INLOC    )
+c
+          ELSEIF (IRUPT == 44) THEN                                        
+c --- Tsai-Wu failure model
+            CALL FAIL_TSAIWU_S(
+     1          LLT      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
+     2          DT1      ,BUFMAT(IADBUF),NGL ,OFF      ,LBUF%OFF ,GBUF%NOFF,
+     3          SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,
+     5          UVARF    ,NPARAM   ,DFMAX    ,TDEL     ,DMG_SCALE)
 c---------
           ENDIF ! IRUPT 
 c

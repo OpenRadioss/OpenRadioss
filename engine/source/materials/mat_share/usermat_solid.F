@@ -1547,7 +1547,15 @@ C---- Inievo failure model
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
      6          EL_PLA   ,EL_TEMP  ,SIGY     ,OFF      ,DFMAX    ,
      7          TDEL     ,DMG_SCALE,GBUF%UELR,IPG      ,NPG      ,
-     8          LBUF%OFF ,DAMINI   ,GBUF%VOL ,INLOC    )   
+     8          LBUF%OFF ,DAMINI   ,GBUF%VOL ,INLOC    )  
+c
+          ELSEIF (IRUPT == 44) THEN                                      
+C---- Tsai-Wu failure model
+              CALL FAIL_TSAIWU_S(
+     1          NEL      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
+     2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%NOFF,
+     3          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,  
+     4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,DMG_SCALE) 
 c             
           ENDIF
         ENDDO ! IR = 1,NFAIL
