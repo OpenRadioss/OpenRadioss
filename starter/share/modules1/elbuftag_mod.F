@@ -29,6 +29,7 @@ Chd|        ELBUF_INI                     source/elements/elbuf_init/elbuf_ini.F
 Chd|        HM_PROP_READ21                source/properties/thickshell/hm_read_prop21.F
 Chd|        HM_READ_EOS                   source/materials/eos/hm_read_eos.F
 Chd|        HM_READ_EOS_COMPACTION        source/materials/eos/hm_read_eos_compaction.F
+Chd|        HM_READ_EOS_TILLOTSON         source/materials/eos/hm_read_eos_tillotson.F
 Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|        HM_READ_FAIL_ALTER            source/materials/fail/windshield_alter/hm_read_fail_alter.F
 Chd|        HM_READ_INJECT1               source/properties/injector/hm_read_inject1.F

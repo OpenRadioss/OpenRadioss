@@ -61,6 +61,7 @@ Chd|        SPMD_ANIM_PLY_INIT            source/mpi/anim/spmd_anim_ply_init.F
 Chd|        SPMD_FAILWAVE_BOUNDARIES      source/mpi/output/spmd_exch_failwave.F
 Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_SUB_BOUNDARIES           source/mpi/spmd_exch_sub.F    
+Chd|        TMAX_IPART                    source/output/tmax_ipart.F    
 Chd|        TSHCDCOM_DIM                  source/elements/thickshell/solidec/scdtdc3.F
 Chd|        TSHCDCOM_INI                  source/elements/thickshell/solidec/scdtdc3.F
 Chd|        ZERO1                         source/system/zero.F          

@@ -4067,6 +4067,7 @@ Chd|        SROTA6                        source/output/anim/generate/srota6.F
 Chd|        SZSIGPARA                     source/elements/solid/solidez/szhour3.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
+Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|====================================================================
       SUBROUTINE TENSGPS3(ELBUF_TAB,FUNC1   ,FUNC2   ,IPARG   ,GEO     ,
      .                    IXS      ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,

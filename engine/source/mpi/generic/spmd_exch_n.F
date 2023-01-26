@@ -26,7 +26,6 @@ Chd|  SPMD_EXCH_N                   source/mpi/generic/spmd_exch_n.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|        GPSTRA_SOLID                  source/output/outmaxsubr.F    
-Chd|        GPS_SOLID                     source/output/outmaxsubr.F    
 Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
 Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
 Chd|-- calls ---------------

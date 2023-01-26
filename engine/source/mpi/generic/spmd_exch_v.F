@@ -24,6 +24,7 @@ C
 Chd|====================================================================
 Chd|  SPMD_EXCH_V                   source/mpi/generic/spmd_exch_v.F
 Chd|-- called by -----------
+Chd|        GPS_SOLID                     source/output/outmaxsubr.F    
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_EXCH_V(XNORM,NSIZ,IAD_ELEM,FR_ELEM,LENR)

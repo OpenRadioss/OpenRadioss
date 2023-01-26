@@ -337,6 +337,7 @@ Chd|        TABLE_INTERP_LAW76            source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTI_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
+Chd|        TMAX_IPART                    source/output/tmax_ipart.F    
 Chd|        TRACE_PRINT                   source/system/trace_back.F    
 Chd|        UPDATE_SLIPRING               source/tools/seatbelts/update_slipring.F
 Chd|        UPD_ASPC0                     source/constraints/general/bcs/bc_imp0.F

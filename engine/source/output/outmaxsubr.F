@@ -25,8 +25,7 @@ Chd|  GPS_SOLID                     source/output/outmaxsubr.F
 Chd|-- called by -----------
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
-Chd|        SPMD_EXCH_N                   source/mpi/generic/spmd_exch_n.F
-Chd|        SPMD_EXCH_NODAREAI            source/mpi/anim/spmd_exch_nodareai.F
+Chd|        SPMD_EXCH_V                   source/mpi/generic/spmd_exch_v.F
 Chd|        TENSGPS3                      source/output/anim/generate/tensor6.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================

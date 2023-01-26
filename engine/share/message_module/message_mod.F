@@ -473,6 +473,7 @@ Chd|        TABLE_INTERP_LAW76            source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTI_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
+Chd|        TMAX_IPART                    source/output/tmax_ipart.F    
 Chd|        TRACE_PRINT                   source/system/trace_back.F    
 Chd|        UPDATE_SLIPRING               source/tools/seatbelts/update_slipring.F
 Chd|        UPDATE_STRUCT_INT21           source/interfaces/int21/update_struct_int21.F

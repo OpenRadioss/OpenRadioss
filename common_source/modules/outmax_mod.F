@@ -37,6 +37,9 @@ Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|        RESOL_INIT                    engine/source/engine/resol_init.F
 Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
+Chd|        TENSGPS3                      engine/source/output/anim/generate/tensor6.F
+Chd|        TENSGPSTRAIN                  engine/source/output/anim/generate/tensgpstrain.F
+Chd|        TMAX_IPART                    engine/source/output/tmax_ipart.F
 Chd|        UPD_TMAX                      engine/source/output/upd_outmax.F
 Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
