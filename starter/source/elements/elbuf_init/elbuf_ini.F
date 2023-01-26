@@ -1883,14 +1883,18 @@ c
               IMAT(IL) = IMID                                                      
               ILAW(IL) = MLW
               LAW_VIS  = IPM(222,IMAT(IL))
+              NUVAREOS = 0
+              IEOS_TYPE = IPM(4,IMAT(IL))
+              IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR
               ELBUF_TAB(NG)%BUFLY(IL)%ILAW = MLW                                   
               ELBUF_TAB(NG)%BUFLY(IL)%IMAT = IMID                                  
               ELBUF_TAB(NG)%BUFLY(IL)%IEOS = IEOS                                  
-              ELBUF_TAB(NG)%BUFLY(IL)%IVISC= LAW_VIS                               
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT  = MLAW_TAG(IMAT(IL))%NUVAR
-              ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP   = MLAW_TAG(IMAT(IL))%NVARTMP
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC=VISC_TAG(LAW_VIS)%NUVAR            
-              ELBUF_TAB(NG)%BUFLY(IL)%IPORO= 0
+              ELBUF_TAB(NG)%BUFLY(IL)%IVISC = LAW_VIS                               
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT = MLAW_TAG(IMAT(IL))%NUVAR
+              ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP = MLAW_TAG(IMAT(IL))%NVARTMP
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = VISC_TAG(LAW_VIS)%NUVAR  
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS = NUVAREOS           
+              ELBUF_TAB(NG)%BUFLY(IL)%IPORO = 0
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL
             ENDDO
 c

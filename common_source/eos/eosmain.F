@@ -111,13 +111,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(NEL),IFLAG, EOSTYP, NEL, MLW, NVAREOS
-      my_real
-     .   PM(NPROPM,NUMMAT),BUFMAT(NEL)   ,OFF(NEL)  , 
-     .   EINT(NEL) ,RHO(NEL)  ,RHO0(NEL) , 
-     .   MU(NEL)   ,MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL), 
-     .   DF(NEL)   ,VNEW(NEL) ,PSH(NEL)  ,PNEW(NEL),
-     .   DPDM(NEL) ,DPDE(NEL) ,THETA(NEL),ECOLD(NEL),
-     .   SIG(NEL,6), MU_OLD(NEL),POLD(NEL),VAREOS(NVAREOS*NEL)
+      my_real PM(NPROPM,NUMMAT),BUFMAT(SBUFMAT),OFF(NEL),EINT(NEL),RHO(NEL),RHO0(NEL),MU(NEL),MU2(NEL),ESPE(NEL),DVOL(NEL), 
+     .        DF(NEL),VNEW(NEL),PSH(NEL),PNEW(NEL),DPDM(NEL),DPDE(NEL),THETA(NEL),ECOLD(NEL),MU_OLD(NEL),POLD(NEL),
+     .        SIG(NEL,6),VAREOS(NVAREOS*NEL)
       INTEGER,INTENT(IN)::NPF(SNPC)
       my_real,INTENT(IN)::TF(STF)
 C-----------------------------------------------
@@ -149,14 +145,6 @@ C-----------------------------------------------
            ENDDO
          ENDIF         
       ENDIF    
-      
-      ! inutile de conserver cela, si PNEW a une expression cumulative avec IEOSTYP=1 mais dans tous les autres cas il est ecrase.
-      ! a quoi bon mettre a 0.0 quelque chose qui va etre ecrase dans le bloc SELECT CASE ce dessous.
-      !IF (IFLAG==1)THEN
-      !  IF (MLW /= 6 .AND. MLW /= 17) THEN
-      !      IF(EOSTYP/=13)PNEW(1:NEL) = ZERO
-      !  ENDIF
-      !ENDIF
            
       SELECT CASE (EOSTYP)
 

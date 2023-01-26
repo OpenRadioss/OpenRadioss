@@ -35,36 +35,30 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER MAT(*), IFLAG, NEL
-      my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*)  ,EINT(*) ,MU(*)   , 
-     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  , 
-     .   VNEW(*) ,PSH(*)  ,PNEW(*) ,DPDM(*),
-     .   DPDE(*) ,THETA(*),ECOLD(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "scr06_c.inc"
 C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER MAT(NEL), IFLAG, NEL
+      my_real PM(NPROPM,NUMMAT), 
+     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
+     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
+     .        VNEW(NEL) ,PSH(NEL)  ,PNEW(NEL) ,DPDM(NEL),
+     .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL)
+C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real
-     .   GM1(MVSIZ),TFEXTT, DVV, PP,BB_(MVSIZ),RHO0(MVSIZ)
-      my_real
-     .   C0(MVSIZ),C2(MVSIZ),C3(MVSIZ),C5(MVSIZ),
-     .   SPH(MVSIZ), BR0,DENOM,BB
+      my_real GM1(MVSIZ),TFEXTT, DVV, PP,BB_(MVSIZ),RHO0(MVSIZ)
+      my_real C0(MVSIZ),C2(MVSIZ),C3(MVSIZ),C5(MVSIZ),SPH(MVSIZ), BR0,DENOM,BB
 C--------------------------------------------------------------------
       IF(IFLAG == 0) THEN
 C-----------------------------------------
@@ -78,7 +72,7 @@ C-----------------------------------------
       ! PM(34) =  RHO0         
       ! PM(88) =  PSH
 
-       DO I=LFT,LLT
+       DO I=1,NEL
         MX      = MAT(I)
         BB_(I)  = PM(32,MX)
         GM1(I)  = PM(33,MX)
@@ -87,14 +81,14 @@ C-----------------------------------------
         SPH(I)  = PM(69,MX)      
        ENDDO
     
-       DO I=LFT,LLT
+       DO I=1,NEL
         DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
         PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM 
         DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM
         DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I)      
        ENDDO
 C
-       DO I=LFT,LLT
+       DO I=1,NEL
         ECOLD(I)=-THREE100*SPH(I)
         IF(MU(I)>ZERO) THEN
           ECOLD(I)=ECOLD(I)*(ONE+GM1(I)*MU(I)*(ONE-MU(I))) 
@@ -106,7 +100,7 @@ C----------------------------------------
 C     UPDATE PRESSURE AND INTERNAL ENERGY
 C----------------------------------------
        TFEXTT   = ZERO
-       DO I=LFT,LLT
+       DO I=1,NEL
         MX      = MAT(I)
         BB_(I)  = PM(32,MX)
         GM1(I)  = PM(33,MX)
@@ -115,8 +109,7 @@ C----------------------------------------
         SPH(I)  = PM(69,MX)
        ENDDO
 C
-       DO I=LFT,LLT
-
+       DO I=1,NEL
         DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
         BB      = GM1(I)*(ONE+MU(I))/DENOM
         DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
@@ -133,7 +126,7 @@ C
 C------------------------
 C     COMPUTE TEMPERATURE
 C------------------------
-       DO I=LFT,LLT
+       DO I=1,NEL
         MX     =MAT(I)
         SPH(I) =PM(69,MX)
        ENDDO

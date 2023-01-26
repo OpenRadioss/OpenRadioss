@@ -51,11 +51,15 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
+#include      "com06_c.inc"
+#include      "com08_c.inc"
+#include      "vect01_c.inc"
+#include      "scr06_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -67,13 +71,6 @@ C-----------------------------------------------
      .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL),
      .        SIG(NEL,6),POLD(NEL) ,DF(NEL)   
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "vect01_c.inc"
-#include      "scr06_c.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, IFORM
@@ -84,20 +81,20 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 
-       MX           = MAT(1)
-       E0           = PM(23,MX)         
-       C0           = PM(49,MX)
-       C1           = PM(32,MX)
-       C2           = PM(33,MX)
-       C3           = PM(34,MX)
-       PSH(1:NEL)   = PM(88,MX)
-       BUNL         = PM(45,MX)
-       MU_MAX       = PM(46,MX)
-       SPH          = PM(69,MX)
-       P0           = PM(31,MX)
-       PFRAC        = PM(37,MX)
-       MUMIN        = PM(47,MX)
-       IFORM        = NINT(PM(48,MX))
+       MX         = MAT(1)
+       E0         = PM(23,MX)         
+       C0         = PM(49,MX)
+       C1         = PM(32,MX)
+       C2         = PM(33,MX)
+       C3         = PM(34,MX)
+       PSH(1:NEL) = PM(88,MX)
+       BUNL       = PM(45,MX)
+       MU_MAX     = PM(46,MX)
+       SPH        = PM(69,MX)
+       P0         = PM(31,MX)
+       PFRAC      = PM(37,MX)
+       MUMIN      = PM(47,MX)
+       IFORM      = NINT(PM(48,MX))
        
        TFEXTT       = ZERO
        BULK(1:NEL)  = BUNL

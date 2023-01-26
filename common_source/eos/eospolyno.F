@@ -44,27 +44,24 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER MAT(*), IFLAG, NEL
-      my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*)  ,EINT(*) ,MU(*)   , 
-     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  , 
-     .   VNEW(*) ,PSH(*)  ,PNEW(*) ,DPDM(*),
-     .   DPDE(*) ,THETA(*),ECOLD(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "scr06_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER MAT(NEL), IFLAG, NEL
+      my_real PM(NPROPM,NUMMAT), 
+     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
+     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
+     .        VNEW(NEL) ,PSH(NEL)  ,PNEW(NEL) ,DPDM(NEL),
+     .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -79,23 +76,23 @@ C-----------------------------------------
 C     COMPUTE BULK MODULUS FOR SOUND SPEED
 C     COMPUTE COLD COMPRESSION ENERGY
 C-----------------------------------------
-       MX           = MAT(LFT)
-       C0           = PM(104,MX)
-       C1           = PM( 32,MX)
-       C2           = PM( 33,MX)
-       C3           = PM( 34,MX)
-       C4           = PM( 35,MX)
-       C5           = PM( 36,MX)
-       SPH          = PM( 69,MX)
-       PSH(LFT:LLT) = PM( 88,MX)
+       MX         = MAT(1)
+       C0         = PM(104,MX)
+       C1         = PM( 32,MX)
+       C2         = PM( 33,MX)
+       C3         = PM( 34,MX)
+       C4         = PM( 35,MX)
+       C5         = PM( 36,MX)
+       SPH        = PM( 69,MX)
+       PSH(1:NEL) = PM( 88,MX)
 
-       DO I=LFT,LLT
+       DO I=1,NEL
          PP      = C0 +(C1 +C3 *MU(I)*MU(I))*MU(I)+C2 *MU2(I) + (C4 +C5 *MU(I))*ESPE(I)
          DPDM(I) = C1 + TWO*C2 *MAX(ZERO,MU(I))+THREE*C3 *MU(I)*MU(I) + C5 *ESPE(I)+(C4 +C5 *MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
          DPDE(I) = C4 +C5 *MU(I)
        ENDDO
 
-       DO I=LFT,LLT
+       DO I=1,NEL
          ECOLD(I)=-THREE100*SPH 
          IF(MU(I)>ZERO) ECOLD(I)=ECOLD(I)*(ONE+C4 *MU(I)*(ONE-MU(I)))+HALF*C1 *MU2(I)
        ENDDO
@@ -105,7 +102,7 @@ C----------------------------------------
 C     UPDATE PRESSURE AND INTERNAL ENERGY
 C----------------------------------------
        TFEXTT=ZERO
-       MX  = MAT(LFT)
+       MX  = MAT(1)
        C0  = PM(104,MX)
        C1  = PM( 32,MX)
        C2  = PM( 33,MX)
@@ -113,10 +110,10 @@ C----------------------------------------
        C4  = PM( 35,MX)
        C5  = PM( 36,MX)
        PC  = PM( 37,MX)
-       PSH(LFT:LLT) = PM( 88,MX)
+       PSH(1:NEL) = PM(88,MX)
 
 C
-       DO I=LFT,LLT
+       DO I=1,NEL
          AA      = C0 +MU(I)*(C1 +C3 *MU(I)*MU(I))+C2 *MU2(I)
          BB      = C4 +C5 *MU(I)
          DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
@@ -134,16 +131,16 @@ C------------------------
 C     COMPUTE TEMPERATURE
 C------------------------
 
-       MX     = MAT(LFT)
+       MX     = MAT(1)
        SPH    = PM(69,MX)
 
-       DO I=LFT,LLT
+       DO I=1,NEL
          IF(OFF(I)<1..OR.SPH<=0.) CYCLE
          THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
          THETA(I) = MAX(ZERO,THETA(I))
        ENDDO
        ELSEIF(IFLAG == 2) THEN
-          MX  = MAT(LFT)
+          MX  = MAT(1)
           C0  = PM(104,MX)
           C1  = PM( 32,MX)
           C2  = PM( 33,MX)

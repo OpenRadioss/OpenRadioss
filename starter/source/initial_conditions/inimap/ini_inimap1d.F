@@ -879,8 +879,8 @@ C     Compute EINT from pressure
                      ENDIF
                      KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                      SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1+NEL*(16+KPHASE-1) : NEL*(16+KPHASE )) 
-                     EBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1,1,1)
-                     NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS                      
+                     EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1)
+                     NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS                      
                      CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), EINT(:, IMAT), 
      .                    ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1 + NEL * (9 + KPHASE - 1):NEL + NEL * (9 + KPHASE - 1)), 
      .                    IFIRST, ILAST, ELEM_LIST, 

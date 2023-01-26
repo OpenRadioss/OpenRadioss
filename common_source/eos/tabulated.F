@@ -42,12 +42,16 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-#include      "com04_c.inc"
 #include      "tabsiz_c.inc"
+#include      "com04_c.inc"
+#include      "com06_c.inc"
+#include      "com08_c.inc"
+#include      "vect01_c.inc"
+#include      "scr06_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -58,13 +62,6 @@ C-----------------------------------------------
      .   VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
      .   DPDE(NEL) ,THETA(NEL),ECOLD(NEL),
      .   PSH(NEL), TF(STF)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "vect01_c.inc"
-#include      "scr06_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -80,7 +77,7 @@ C-----------------------------------------------
       IF(IFLAG == 0) THEN
          MX = MAT(1)
          E0 = PM(23,MX)         
-         PSH(LFT:LLT) = PM(88,MX)
+         PSH(1:NEL) = PM(88,MX)
          SPH = PM(69,MX)
          XSCALE_A = PM(33,MX)
          XSCALE_B = PM(34,MX)
@@ -92,40 +89,40 @@ C-----------------------------------------------
          
          ! both A_fun_id & B_fun_id cannot be 0. This is ensured by the reader during the Starter process
          IF(A_fun_id == 0)THEN
-           DO I=LFT,LLT
+           DO I=1,NEL
              RES_A(I) = ZERO
              DERI_A(I) = ZERO
              RES_B(I) = FSCALE_B*FINTER(B_fun_id,MU(I),NPF,TF,DERI_B(I))
            ENDDO
          ELSEIF(B_fun_id == 0)THEN
-           DO I=LFT,LLT
+           DO I=1,NEL
              RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
              RES_B(I) = ZERO
              DERI_B(I) = ZERO             
            ENDDO         
          ELSE
-           DO I=LFT,LLT         
+           DO I=1,NEL        
              RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
              RES_B(I) = FSCALE_B*FINTER(B_fun_id,MU(I),NPF,TF,DERI_B(I))
            ENDDO
          ENDIF
          
-         DO I=LFT,LLT
+         DO I=1,NEL
            PP      = RES_A(I) + RES_B(I) * ESPE(I) - PSH(I) ! A(MU(I))+B(MU(I))*ESPE(I)
            DPDM(I) = DERI_A(I)+DERI_B(I)*ESPE(I) + RES_B(I)*(PP+PSH(I))/( (ONE+MU(I))*(ONE+MU(I)) ) ! A'(MU0) + B'(MU0)*E0+B(MU0)/(ONE+MU0)/(ONE+MU0)*P0     !total derivative
            DPDE(I) = RES_B(I) ! B(MU(I))                                               !partial derivative
          ENDDO
          
-         DO I=LFT,LLT
+         DO I=1,NEL
            ECOLD(I)=-THREE100*SPH
            IF(MU(I)>ZERO) ECOLD(I)=ECOLD(I)*ONE
          ENDDO
 C-----------------------------------------------
       ELSEIF(IFLAG == 1) THEN
-         TFEXTT       =ZERO
+         TFEXTT = ZERO
          MX = MAT(1)
          E0 = PM(23,MX)         
-         PSH(LFT:LLT) = PM(88,MX)
+         PSH(1:NEL) = PM(88,MX)
          SPH = PM(69,MX)
          XSCALE_A = PM(33,MX)
          XSCALE_B = PM(34,MX)
@@ -137,23 +134,23 @@ C-----------------------------------------------
 
          ! both A_fun_id & B_fun_id cannot be 0. This is ensured by the reader during the Starter process
          IF(A_fun_id == 0)THEN
-           DO I=LFT,LLT
+           DO I=1,NEL
              RES_A(I) = ZERO
              RES_B(I) = FSCALE_B*FINTER(B_fun_id,MU(I),NPF,TF,DERI_B(I))
            ENDDO
          ELSEIF(B_fun_id == 0)THEN
-           DO I=LFT,LLT
+           DO I=1,NEL
              RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
              RES_B(I) = ZERO
            ENDDO         
          ELSE
-           DO I=LFT,LLT         
+           DO I=1,NEL        
              RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
              RES_B(I) = FSCALE_B*FINTER(B_fun_id,MU(I),NPF,TF,DERI_B(I))
            ENDDO
          ENDIF
          
-         DO I=LFT,LLT
+         DO I=1,NEL
            AA      = RES_A(I)
            BB      = RES_B(I)
            DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
@@ -171,7 +168,7 @@ C-----------------------------------------------
          SPH    = PM(69,MX)
          Cv     = PM(36,MX)
          IF(SPH == ZERO)SPH=ONE
-         DO I=LFT,LLT
+         DO I=1,NEL
            RHO      = RHO0*(ONE+MU(I))
            IF(OFF(I) >= ONE)THEN
              THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
@@ -182,7 +179,7 @@ C-----------------------------------------------
        ELSEIF (IFLAG == 2) THEN
          MX = MAT(1)
          E0 = PM(23,MX)         
-         PSH(LFT:LLT) = PM(88,MX)
+         PSH(1:NEL) = PM(88,MX)
          SPH = PM(69,MX)
          XSCALE_A = PM(33,MX)
          XSCALE_B = PM(34,MX)
@@ -194,19 +191,19 @@ C-----------------------------------------------
 
          ! both A_fun_id & B_fun_id cannot be 0. This is ensured by the reader during the Starter process
          IF(A_fun_id == 0)THEN
-           DO I=LFT,LLT
+           DO I=1,NEL
              RES_A(I) = ZERO
              RES_B(I) = FSCALE_B*FINTER(B_fun_id,MU(I),NPF,TF,DERI_B(I))
              DERI_A(I) = ZERO             
            ENDDO
          ELSEIF(B_fun_id == 0)THEN
-           DO I=LFT,LLT
+           DO I=1,NEL
              RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
              RES_B(I) = ZERO
              DERI_B(I) = ZERO             
            ENDDO         
          ELSE
-           DO I=LFT,LLT         
+           DO I=1,NEL         
              RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
              RES_B(I) = FSCALE_B*FINTER(B_fun_id,MU(I),NPF,TF,DERI_B(I))
            ENDDO

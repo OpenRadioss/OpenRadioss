@@ -39,9 +39,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-      my_real
-     .   SIG(NEL,6), OFF(MVSIZ), EINT(MVSIZ),
-     .   VOL0(MVSIZ) , PNEW(MVSIZ)
+      my_real SIG(NEL,6), OFF(NEL), EINT(NEL), VOL0(NEL) , PNEW(NEL)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -56,7 +54,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 
 C     TOTAL STRESS TENSOR
-      DO I=LFT,LLT
+      DO I=1,NEL
         SIG(I,1)=SIG(I,1)*OFF(I)-PNEW(I)
         SIG(I,2)=SIG(I,2)*OFF(I)-PNEW(I)
         SIG(I,3)=SIG(I,3)*OFF(I)-PNEW(I)
@@ -66,7 +64,7 @@ C     TOTAL STRESS TENSOR
       ENDDO
 
 C     ENERGY DENSITY
-      DO I=LFT,LLT
+      DO I=1,NEL
         EINT(I)=EINT(I) / MAX(EM15,VOL0(I))
       ENDDO
 C
