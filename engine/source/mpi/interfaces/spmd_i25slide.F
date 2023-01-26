@@ -745,28 +745,28 @@ C thermic
           ENDIF
           
 C Adhesion
-          IF(IVIS2==-1.AND.INTTH==0)THEN
+          IF(IVIS2==-1)THEN
              NBLOCAL = 0
              DO J = 1, NN
                I = IAUX(J)
                K = IDEB_NEW+J -NBLOCAL
                IF (I > 0) THEN
                  L = IDEB_OLD+I
-                 AREASFI(NIN)%P(K) = TMP%AREASFI%P(L) 
+                 IF(INTTH==0) AREASFI(NIN)%P(K) = TMP%AREASFI%P(L) 
                  IF_ADHFI(NIN)%P(K) =  TMP%IF_ADHFI%P(L)
                ELSEIF( I < 0 ) THEN
                  L = INDX_FOR_P(P)%P(-I)
-                 AREASFI(NIN)%P(K) =  XREM(RSHIFT,L)
+                 IF(INTTH==0) AREASFI(NIN)%P(K) =  XREM(RSHIFT,L)
                  IF_ADHFI(NIN)%P(K) =  IREM(ISHIFT,L)                
                ELSEIF(I == 0) THEN                 
                  K = IAUX_K(J) 
                  L = IAUX_L(J) 
-                 INTBUF_TAB%AREAS(K)   = XREM(RSHIFT,L)
+                 IF(INTTH==0) INTBUF_TAB%AREAS(K)   = XREM(RSHIFT,L)
                  INTBUF_TAB%IF_ADH(K)  = IREM(ISHIFT,L)
                  NBLOCAL = NBLOCAL+1
                END IF
              END DO
-             RSHIFT = RSHIFT + 1
+             IF(INTTH==0) RSHIFT = RSHIFT + 1
              ISHIFT = ISHIFT + 1
           ENDIF
               
@@ -1182,8 +1182,8 @@ C-----------------------------------------------
        TMP%MATSFI%P=>MATSFI(NIN)%P
        TMP%AREASFI%P=>AREASFI(NIN)%P
       ENDIF 
-      IF(INTTH==0.AND.IVIS2==-1) THEN
-        TMP%AREASFI%P=>AREASFI(NIN)%P
+      IF(IVIS2==-1) THEN
+        IF(INTTH==0) TMP%AREASFI%P=>AREASFI(NIN)%P
         TMP%IF_ADHFI%P=>IF_ADHFI(NIN)%P
       ENDIF
       IF(INTFRIC > 0 ) THEN
@@ -1248,8 +1248,8 @@ C     WRITE(6,*) "NEW SIZE:",NEW_SIZE
        MY_ALLOCATE(MATSFI(NIN)%P,NEW_SIZE)
        MY_ALLOCATE(AREASFI(NIN)%P,NEW_SIZE)
       ENDIF 
-      IF(INTTH==0.AND.IVIS2==-1) THEN
-        MY_ALLOCATE(AREASFI(NIN)%P,NEW_SIZE)
+      IF(IVIS2==-1) THEN
+        IF(INTTH==0) MY_ALLOCATE(AREASFI(NIN)%P,NEW_SIZE)
         MY_ALLOCATE(IF_ADHFI(NIN)%P,NEW_SIZE)
       ENDIF
       IF(INTFRIC > 0 ) THEN
@@ -1358,8 +1358,8 @@ C-----------------------------------------------
        DEALLOCATE(TMP%MATSFI%P)
        DEALLOCATE(TMP%AREASFI%P)
       ENDIF 
-      IF(INTTH==0.AND.IVIS2==-1) THEN
-        DEALLOCATE(TMP%AREASFI%P)
+      IF(IVIS2==-1) THEN
+        IF(INTTH==0) DEALLOCATE(TMP%AREASFI%P)
         DEALLOCATE(TMP%IF_ADHFI%P)
       ENDIF
       IF(INTFRIC > 0 ) THEN
@@ -1591,7 +1591,7 @@ C
         CALL ARRET(2)
       ENDIF
 C
-C allocations conditionnelles output pression
+C allocations conditionnelles output pression/ friction energy
 C
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0)THEN
         IF(ASSOCIATED(FNCONTI(NIN)%P)) DEALLOCATE(FNCONTI(NIN)%P)
@@ -1613,6 +1613,33 @@ C
         END IF          
       END IF
 C
+      IF(H3D_DATA%N_SCAL_CSE_FRICINT >0)THEN
+       IF(H3D_DATA%N_CSE_FRIC_INTER (NIN) >0)THEN
+        IF(ASSOCIATED(EFRICFI(NIN)%P)) DEALLOCATE(EFRICFI(NIN)%P)
+        ALLOCATE(EFRICFI(NIN)%P(NODFI),STAT=IERROR1)
+        IF(IERROR1/=0) THEN
+          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+          CALL ARRET(2)
+        ELSE
+          DO J = 1, NODFI
+            EFRICFI(NIN)%P(J)=ZERO
+          END DO                  
+        END IF  		      
+       END IF
+      ENDIF
+C
+      IF(H3D_DATA%N_SCAL_CSE_FRIC >0)THEN
+        IF(ASSOCIATED(EFRICGFI(NIN)%P)) DEALLOCATE(EFRICGFI(NIN)%P)
+        ALLOCATE(EFRICGFI(NIN)%P(NODFI),STAT=IERROR1)
+        IF(IERROR1/=0) THEN
+          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+          CALL ARRET(2)
+        ELSE
+          DO J = 1, NODFI
+            EFRICGFI(NIN)%P(J)=ZERO
+          END DO                  
+        END IF  		      
+      END IF
 
       RETURN
       END SUBROUTINE

@@ -51,10 +51,12 @@ Chd|====================================================================
      k                  TEMPM   ,NPC    ,TF     ,IX1    ,IX2    ,
      L                  IX3     ,IX4    ,DT2T   ,NELTST ,ITYPTST,
      M                  KINET   ,NISUB  ,ISENSINT,FSAVPARIT,NFT ,
-     N                  IFTLIM  ,PSKIDFLAG,PRATIO,PMAXSKID )
+     N                  IFTLIM  ,PSKIDFLAG,PRATIO,PMAXSKID,INTEREFRIC,
+     O                  EFRIC_L )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,7 +92,7 @@ C-----------------------------------------------
       INTEGER NSVG(MVSIZ),CAND_N_N(MVSIZ), WEIGHT(*),
      .        IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ), NISUB, 
      .        ISENSINT(*),NFT,PSKIDFLAG
-
+      INTEGER  , INTENT(IN) :: INTEREFRIC
       my_real
      .   STIGLO, PENI(*), FROT_P(*), FSAV(*), TF(*),
      .   ALPHA0, GAP, FRIC, VISC,DT2T,PMAXSKID ,
@@ -116,6 +118,7 @@ C-----------------------------------------------
      .   KT(MVSIZ), C(MVSIZ), FHEAT,EFRICT(MVSIZ),QFRIC,
      .   TEMPI(MVSIZ),TEMPM(MVSIZ),XFRIC,DYDX,
      .   FSAVPARIT(NISUB+1,11,*),PRATIO(MVSIZ)
+      my_real  , INTENT(INOUT) :: EFRIC_L(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -161,6 +164,8 @@ C-----------------------------------------------
             PRATIO(I) =  ZERO
          ENDDO
       ENDIF
+      EFRIC_L(1:JLT) =  ZERO
+      EFRICT(1:JLT) =  ZERO
 C---------------------
 C      PENE INITIALE
 C---------------------
@@ -539,20 +544,17 @@ C-------    total force
 C---------------------------------
 C       CONTACT ENERGY CALCULATION
 C---------------------------------
-        EFRICT(I) = ZERO
+        EFRIC_L(I) = DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I)) 
+     .              * WEIGHT(IG)
+        ECONVT = ECONVT   + EFRIC_L(I)
+
         IF( INTTH > 0 .AND.BETA/=ZERO) THEN
           EFRICT(I) = (FX-FXT(I))*FXT(I) + (FY-FYT(I))*FYT(I) + 
      .                (FZ-FZT(I))*FZT(I) ! FRICTIONAL ENERGY
           EFRICT(I) = EFRICT(I)/STIF0(I)
           QFRICT   =  QFRICT + EFRICT(I)
         ENDIF
-
-        ECONVT = ECONVT 
-     .         + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I)) 
-     .              * WEIGHT(IG)
-        
-      ENDDO
-       
+      ENDDO    
 C---------------------------------
       DO I=1,JLT
        IG=NSVG(I)

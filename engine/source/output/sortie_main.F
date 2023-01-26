@@ -144,6 +144,8 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE OUTMAX_MOD
       USE ANIM_MOD
+      USE OUTPUTS_MOD
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -180,6 +182,7 @@ C-----------------------------------------------
 #include      "filescount_c.inc"
 #include      "parit_c.inc"
 #include      "intstamp_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -272,7 +275,7 @@ C-----------------------------------------------
      .  SN1,SN2,SN3,SN4,SN5,SN6,SN7,SN8,SN9,NELG,
      .  SKUIX, SKXUSR ,SKFACPTX,SKXEDGE,SKXFACET,SKXSOLID,SKNUMX1,
      .  SKNUMX2,SKNUMX3,SKOFFX1,SKOFFX2,SKOFFX3,SKMASS1,SKMASS2,
-     .  SKMASS3,SKFUNC1,SKFUNC2,SKFUNC3,SKFIN,SIG3DSOLID
+     .  SKMASS3,SKFUNC1,SKFUNC2,SKFUNC3,SKFIN,SIG3DSOLID,IERROR
       INTEGER
      .  LENR,LENG,LENGC,LENGTG,LENGS,LENGT,LENGR,LENGP,LENGQ
       INTEGER SIZE_MES,LONG,LONG_TMP,N
@@ -283,6 +286,8 @@ C-----------------------------------------------
      .   TABFWR0(10),BID
       my_real
      .      ,  DIMENSION(:),ALLOCATABLE :: VMCDN
+      my_real
+     .      ,  DIMENSION(:),ALLOCATABLE :: CSEFRIC,CSEFRIC_STAMP,CSEFRICG,CSEFRICG_STAMP
       CHARACTER FILNAMABF*100,FILNAMABF_TMP*100
 
       INTEGER :: LEN_TMP_NAME,LEN_TMP_NAME2
@@ -359,8 +364,49 @@ C       Compute contact pressures from normal + tangential contact forces.
 C       Tied Contact : Inter type2
 C----------------------
       IFLAG_ANIPCONT = 0
+
+      IF((H3D_DATA%N_SCAL_CSE_FRIC /=0).OR.(H3D_DATA%N_SCAL_CSE_FRICINT /=0)
+     .    .AND.
+     .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
+     .  MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
+     .  MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
+     .  MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15.OR.
+     .  H3D_DATA%MH3D/=0)) THEN
+
+           IF(NINEFRIC > 0) THEN
+             MY_ALLOCATE(CSEFRIC,NINEFRIC*NUMNOD) ! friction energy by surface unit
+           ELSE
+             MY_ALLOCATE(CSEFRIC,0)
+           ENDIF   
+           IF(NINEFRIC_STAMP > 0) THEN
+             MY_ALLOCATE(CSEFRIC_STAMP,NINEFRIC_STAMP*NUMNODG) ! friction energy by surface unit
+
+           ELSE
+             MY_ALLOCATE(CSEFRIC_STAMP,0) 
+           ENDIF 
+           IF(H3D_DATA%N_SCAL_CSE_FRIC /=0) THEN
+              MY_ALLOCATE(CSEFRICG,NUMNOD) ! Global friction energy by surface unit
+              CSEFRICG = ZERO
+              IF(NINTSTAMP /= 0) THEN
+                 MY_ALLOCATE(CSEFRICG_STAMP,NUMNODG) ! Global friction energy by surface unit
+              ELSE
+                 MY_ALLOCATE(CSEFRICG_STAMP,0) 
+              ENDIF
+           ELSE
+              MY_ALLOCATE(CSEFRICG,0)
+              MY_ALLOCATE(CSEFRICG_STAMP,0) 
+           ENDIF
+      ELSE
+         MY_ALLOCATE(CSEFRIC,0)
+         MY_ALLOCATE(CSEFRIC_STAMP,0)
+         MY_ALLOCATE(CSEFRICG,0)
+         MY_ALLOCATE(CSEFRICG_STAMP,0) 
+      ENDIF
+
+
       IF(((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT /=0.OR.
-     .   ANIM_V(27)+H3D_DATA%N_VECT_PCONT2 /=0.)
+     .   ANIM_V(27)+H3D_DATA%N_VECT_PCONT2 /=0..OR.
+     .   H3D_DATA%N_SCAL_CSE_FRIC /=0.OR.H3D_DATA%N_SCAL_CSE_FRICINT /=0)
      .    .AND.
      .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
      .  MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
@@ -373,13 +419,13 @@ C----------------------
           CALL ANI_PCONT(IXS ,IXC    ,IXTG    ,FASOLFR  ,X      ,
      .               FNCONT  ,FTCONT,IAD_ELEM ,FR_ELEM  ,WEIGHT ,
      .               IXQ     ,SEGQUADFR,IXS10 ,FNCONTP2,FTCONTP2,
-     .               H3D_DATA)
+     .               H3D_DATA,CSEFRIC,CSEFRICG)
         ELSE
           IFLAG_ANIPCONT = 1
           CALL ANI_PCONT21(IXS ,IXC    ,IXTG    ,FASOLFR  ,X      ,
      .               FNCONT    ,FTCONT ,IAD_ELEM,FR_ELEM  ,WEIGHT ,
      .               NODGLOB   ,FNCONTG,FTCONTG,FNCONTP2,FTCONTP2,
-     .               H3D_DATA)
+     .               H3D_DATA  ,CSEFRIC_STAMP,CSEFRICG_STAMP)
         END IF
       END IF
 
@@ -728,9 +774,15 @@ c
      1             SH4TREE    ,SH3TREE   ,H3D_DATA    ,MULTI_FVM   ,SUBSET    ,
      2             PSKIDS     ,TAG_SKINS6,TF          ,NPC         ,FCONT_MAX ,
      3             MDS_MATID  ,FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP    ,
-     4             LLOADP     ,LOADP     ,SENSOR_TAB  ,TAGNCONT    ,
-     5             LOADP_HYD_INTER,XFRAME,FORC        ,AR          )
+     4             LLOADP     ,LOADP     ,SENSOR_TAB  ,TAGNCONT    ,LOADP_HYD_INTER,
+     5             XFRAME     ,FORC      ,AR          ,CSEFRIC     ,CSEFRICG  ,
+     6             CSEFRIC_STAMP,CSEFRICG_STAMP)
       ENDIF
+      IF(ALLOCATED(CSEFRIC)) DEALLOCATE(CSEFRIC)
+      IF(ALLOCATED(CSEFRICG)) DEALLOCATE(CSEFRICG)
+      IF(ALLOCATED(CSEFRIC_STAMP)) DEALLOCATE(CSEFRIC_STAMP)
+      IF(ALLOCATED(CSEFRICG_STAMP)) DEALLOCATE(CSEFRICG_STAMP)
+
       IF(TT>=H3D_DATA%TH3D) H3D_DATA%TH3D = H3D_DATA%TH3D + H3D_DATA%DTH3D
       IF((TSTOP< H3D_DATA%TH3D).AND.(H3D_DATA%TH3D < TSTOP+EM06*TSTOP) .AND.(TSTOP+EM06*TSTOP< H3D_DATA%TH3D + H3D_DATA%DTH3D)) THEN
          H3D_DATA%TH3D = TSTOP

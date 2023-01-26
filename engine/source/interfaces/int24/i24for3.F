@@ -71,7 +71,7 @@ Chd|====================================================================
      X    INDEXORTH   , INDEXISOT,DIR1      ,DIR2      ,T2FAC_SMS ,
      Y    F_PFIT      ,TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
      Z    TYPSUB      ,INFLG_SUBS,INFLG_SUBM ,NINLOADP  ,DGAPLOADINT,
-     1    S_LOADPINTER,DIST      ,IXX)  
+     1    S_LOADPINTER,DIST      ,IXX        ,INTEREFRIC,EFRICINT  )  
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,6 +79,7 @@ C-----------------------------------------------
       USE PLYXFEM_MOD
       USE H3D_MOD
       USE ANIM_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,6 +136,7 @@ C-----------------------------------------------
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .        LOADP_HYD_INTER(NLOADP_HYD)
       INTEGER  , INTENT(IN) :: IXX(MVSIZ,13)
+      INTEGER  , INTENT(IN) :: INTEREFRIC
       my_real
      .   STIGLO,FROT_P(*), X(3,*),
      .   A(3,*), MS(*), V(3,*), FSAV(*),FCONT(3,*),
@@ -170,6 +172,7 @@ C-----------------------------------------------
      .     PENE_OLD(5,NSN),STIF_OLD(2,NSN),F_PFIT
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real  , INTENT(INOUT) :: DIST(MVSIZ)
+      my_real  , INTENT(INOUT) :: EFRICINT(S_EFRICINT)
 
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
@@ -188,7 +191,7 @@ C-----------------------------------------------
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
      .   VIS2(MVSIZ), DTMI(MVSIZ), XMU(MVSIZ),STIF0(MVSIZ),
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
-     .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),
+     .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),EFRIC_L(MVSIZ),
      .   VNX, VNY, VNZ, AA, CRIT,S2,
      .   V2, FM2, DT1INV, VISCA, FAC,FF,ALPHI,ALPHA,BETA,
      .   FX, FY, FZ, F2, MAS2, M2SK, DTMI0,DTI,FT,FN,FMAX,FTN,
@@ -207,7 +210,7 @@ C-----------------------------------------------
      .   VN1(3),VN2(3),VN3(3),VN4(4),
      .   CSA ,SNA ,ALPHAF ,FTT1 ,FTT2 ,
      .   AN(NFORTH) ,BN(NFORTH) ,NEP1 ,NEP2 ,NEP ,C11 ,C22 ,ANS ,EP ,
-     .   SIGNC,DGAPLOAD,GAPP
+     .   SIGNC,DGAPLOAD,GAPP,EFRIC_LS,EFRIC_LM
       my_real
      .   PREC,FACV
       my_real
@@ -254,6 +257,7 @@ C-----------------------------------------------
       DO I=1,JLT
         STIF0(I) = STIF(I)
       ENDDO
+      EFRIC_L(1:JLT) = ZERO
 C---------------------
 C     COURBURE FIXE
 C---------------------
@@ -1894,8 +1898,8 @@ C-------      total force
                FXI(I)=FXI(I) + FXT(I)
                FYI(I)=FYI(I) + FYT(I)
                FZI(I)=FZI(I) + FZT(I)
-               ECONVT = ECONVT 
-     .                + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
+               EFRIC_L(I) = DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
+               ECONVT = ECONVT + EFRIC_L(I)
             ENDDO
 C--------implicit non converge---	  
           ELSE
@@ -2036,8 +2040,8 @@ C-------      total force
                FXI(I)=FXI(I) + FXT(I)
                FYI(I)=FYI(I) + FYT(I)
                FZI(I)=FZI(I) + FZT(I)
-               ECONVT = ECONVT 
-     .                + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
+               EFRIC_L(I) = DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
+               ECONVT = ECONVT + EFRIC_L(I)
             ENDDO
 
 #include   "vectorize.inc"
@@ -2204,8 +2208,8 @@ C-------      total force
                FXI(I)=FXI(I) + FXT(I)
                FYI(I)=FYI(I) + FYT(I)
                FZI(I)=FZI(I) + FZT(I)
-               ECONVT = ECONVT 
-     .                + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
+               EFRIC_L(I) = DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
+               ECONVT = ECONVT + EFRIC_L(I)
             ENDDO
 
 
@@ -2918,6 +2922,53 @@ C---------------------------------
         ECONTD = ECONTD + ECONTDT ! Damping Energy
         END IF !(INCONV==1) THEN
 #include "lockoff.inc"
+C---------------------------------
+C---------------------------------
+      IF(INTEREFRIC >0)THEN
+         IF (INCONV==1) THEN
+#include "lockon.inc"
+           DO I=1,JLT
+             IF(PENE(I) == ZERO)CYCLE
+             EFRIC_LM = HALF*EFRIC_L(I)
+             EFRICINT(IX1(I)) = EFRICINT(IX1(I)) + H1(I)*EFRIC_LM
+             EFRICINT(IX2(I)) = EFRICINT(IX2(I)) + H2(I)*EFRIC_LM
+             EFRICINT(IX3(I)) = EFRICINT(IX3(I)) + H3(I)*EFRIC_LM
+             EFRICINT(IX4(I)) = EFRICINT(IX4(I)) + H4(I)*EFRIC_LM
+             JG = NSVG(I)
+             EFRIC_LS = HALF*EFRIC_L(I)
+             IF(JG>0) THEN
+               EFRICINT(JG) = EFRICINT(JG) + EFRIC_LS
+            ELSE ! node remote
+              JG = -JG
+              EFRICFI(NIN)%P(JG)=EFRICFI(NIN)%P(JG)+ EFRIC_LS
+            ENDIF
+           ENDDO
+#include "lockoff.inc"
+         END IF !(INCONV==1) THEN
+      ENDIF
+C---------------------------------
+      IF(H3D_DATA%N_SCAL_CSE_FRIC >0)THEN
+         IF (INCONV==1) THEN
+#include "lockon.inc"
+           DO I=1,JLT
+             IF(PENE(I) == ZERO)CYCLE
+              EFRIC_LM = HALF*EFRIC_L(I)
+              EFRICG(IX1(I)) = EFRICG(IX1(I)) + H1(I)*EFRIC_LM
+              EFRICG(IX2(I)) = EFRICG(IX2(I)) + H2(I)*EFRIC_LM
+              EFRICG(IX3(I)) = EFRICG(IX3(I)) + H3(I)*EFRIC_LM
+              EFRICG(IX4(I)) = EFRICG(IX4(I)) + H4(I)*EFRIC_LM
+              JG = NSVG(I)
+              EFRIC_LS = HALF*EFRIC_L(I)
+              IF(JG>0) THEN
+                EFRICG(JG) = EFRICG(JG) + EFRIC_LS
+              ELSE ! node remote
+               JG = -JG
+               EFRICGFI(NIN)%P(JG)=EFRICGFI(NIN)%P(JG)+ EFRIC_LS
+             ENDIF
+           ENDDO
+#include "lockoff.inc"
+         END IF !(INCONV==1) THEN
+      ENDIF
 C---------------------------------
       IF(KDTINT==1)THEN
        IF(    (VISC/=ZERO)

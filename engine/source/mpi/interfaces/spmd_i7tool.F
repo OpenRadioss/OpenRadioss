@@ -3887,6 +3887,12 @@ C
          IERROR = IERROR + IERROR1 
         ENDIF
 
+C
+        ALLOCATE(EFRICFI(NINTER),STAT=IERROR1)
+        IERROR = IERROR + IERROR1
+        ALLOCATE(EFRICGFI(NINTER),STAT=IERROR1)
+        IERROR = IERROR + IERROR1
+
 C       MY_ALLOCATE(MAIN_FIE,NINTER)
         MY_ALLOCATE(GAPE_L_FIE,NINTER)
         MY_ALLOCATE(EDG_BISECTOR_FIE,NINTER)
@@ -4018,7 +4024,9 @@ C         NULLIFY(MAIN_FIE(I)%P)
           NULLIFY(VTX_BISECTOR_FIE(I)%P)
           NULLIFY(LEDGE_FIE(I)%P)
           NULLIFY(X_SEG_FIE(I)%P)
-
+C
+           NULLIFY(EFRICFI(I)%P)  
+           NULLIFY(EFRICGFI(I)%P)                
         END DO
 C
         IF(INTHEAT /= 0) THEN
@@ -5191,6 +5199,33 @@ C
             ENDIF
           ENDIF
 C
+          IF(H3D_DATA%N_SCAL_CSE_FRICINT >0)THEN
+            IF(H3D_DATA%N_CSE_FRIC_INTER (I) >0)THEN
+              IERROR = 0
+              ALLOCATE(EFRICFI(I)%P(LENR),STAT=IERROR)
+              IF(IERROR/=0) THEN
+                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+                CALL ARRET(2)
+c              ELSEIF(S_EFRICINT >0) THEN ! to be corrected if inters
+c                CALL READ_DB(EFRICFI(I)%P(1),LENR)  
+              ELSE
+                  EFRICFI(I)%P(1:LENR)=ZERO            
+              END IF                   
+            END IF
+          ENDIF
+C
+          IF(H3D_DATA%N_SCAL_CSE_FRIC >0)THEN
+              IERROR = 0
+              ALLOCATE(EFRICGFI(I)%P(LENR),STAT=IERROR)
+              IF(IERROR/=0) THEN
+                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+                CALL ARRET(2)
+c              ELSEIF(S_EFRIC >0) THEN
+c                CALL READ_DB(EFRICGFI(I)%P(1),LENR)  
+              ELSE
+                  EFRICGFI(I)%P(1:LENR) =ZERO                   
+              END IF                   
+          END IF
         END DO
        END IF
       END IF

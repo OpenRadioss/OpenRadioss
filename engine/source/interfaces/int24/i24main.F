@@ -68,7 +68,8 @@ Chd|====================================================================
      H                   DIMFB    ,H3D_DATA ,INTBUF_FRIC_TAB, T2MAIN_SMS,
      I                   FORNEQS  ,T2FAC_SMS,NPC    ,TF       ,TAGNCONT,
      J                   KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,DGAPLOADINT,
-     .                                                         S_LOADPINTER)
+     .                                                         S_LOADPINTER,
+     K                   INTEREFRIC,EFRICINT   )
 C========================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -80,6 +81,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -125,7 +127,9 @@ C-----------------------------------------------
       INTEGER IXS(*)  ,IXS16(*) ,IXS20(*)
       INTEGER IAD_ELEM(2,*),FR_ELEM(*), 
      .        ISKYI_SMS(*), NODNX_SMS(*), ISENSINT(*),DIMFB,T2MAIN_SMS(6,*)
+      INTEGER  , INTENT(IN) :: INTEREFRIC
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
+      my_real  , INTENT(INOUT) :: EFRICINT(S_EFRICINT)
       my_real 
      .        EMINX(*)
 C     REAL
@@ -595,7 +599,7 @@ C-------------------------------------------------------------------------------
      Y  TAGNCONT    ,KLOADPINTER ,LOADPINTER  ,LOADP_HYD_INTER,
      Z  INTBUF_TAB%TYPSUB,INTBUF_TAB%INFLG_SUBS,INTBUF_TAB%INFLG_SUBM,
      .                                      NINLOADP,DGAPLOADINT,
-     1  S_LOADPINTER, DIST       ,IXX         ) 
+     1  S_LOADPINTER, DIST       ,IXX         ,INTEREFRIC,EFRICINT   ) 
 C
           IF(IMPL_S > 0 ) 
      +     CALL IMPL_SAV1(

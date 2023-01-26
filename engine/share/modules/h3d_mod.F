@@ -440,6 +440,8 @@ C-----------------------------------------------
         INTEGER N_SCAL_SKID               
         INTEGER N_SCAL_STIFR            !ANIM_N(18)
         INTEGER N_SCAL_STIFN            !ANIM_N(19)
+        INTEGER N_SCAL_CSE_FRIC      
+        INTEGER N_SCAL_CSE_FRICINT          
 
         INTEGER N_VECT_CONT             !ANIM_V(4)
         INTEGER N_VECT_FINT             !ANIM_V(5)
@@ -486,6 +488,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(:), ALLOCATABLE :: N_SKID_INTER   
         INTEGER, DIMENSION(:), ALLOCATABLE :: ITITLE 
         INTEGER, DIMENSION(:), ALLOCATABLE :: LSENS_H3D      
+        INTEGER, DIMENSION(:), ALLOCATABLE :: N_CSE_FRIC_INTER   
 
         CHARACTER*80, DIMENSION(:), ALLOCATABLE ::TITLE        
 

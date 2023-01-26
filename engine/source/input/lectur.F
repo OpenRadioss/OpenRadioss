@@ -101,6 +101,8 @@ C-----------------------------------------------
       USE CHECK_MOD
       USE SENSOR_MOD
       USE ANIM_MOD
+      USE OUTPUTS_MOD
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -161,6 +163,7 @@ C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "intstamp_c.inc"
 #include      "ale_param.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -209,7 +212,7 @@ C-----------------------------------------------
      .   IUS,CPTPLY,IPT,IGTYP,NPT,NPTR,NPTT,IGTYP15,IDEL2,IS,
      .   IDX,WORK(70000),CPT,STEXT1,STEXT2,MULTIREST1,NLPRI1,LOWMACH_OPT,IERROR,
      .   NINTERSKID,INTER_INPUT,NPTT_PLY,NMAX,IVOLU,IFV,IFV_TYPE,ISTATG_P,
-     .   NIPMAX_BEAM,K3,K4,K5,K6,K7,K8,K9
+     .   NIPMAX_BEAM,K3,K4,K5,K6,K7,K8,K9,NINEFRICG,NS,NI
 
       INTEGER :: NBPARTALEON, NBPARTALEOFF, PARTID, ISON, ION, IOFF, NBALEON_PART, NBALEOFF_PART
       INTEGER, DIMENSION(:), ALLOCATABLE :: ALEOFF_PARTIDS_TMP, ALEOFF_PARTIDS,
@@ -1817,7 +1820,52 @@ C
       ELSEIF(H3D_DATA%N_SCAL_SKID  == 0.AND.NINTSKIDOLD==0)THEN
          ALLOCATE (PSKIDS(0,0))
       ENDIF
-
+C-------------------------------------------
+C        2 - Frictionnal energy: allocs tabs
+C--------------------------------------------
+      IF(H3D_DATA%N_SCAL_CSE_FRICINT  > 0.AND.S_EFRICINT==0) THEN
+C
+         NINEFRICG = H3D_DATA%N_SCAL_CSE_FRICINT
+         NINEFRIC_STAMP = 0
+         NINEFRIC = 0
+         IF(NINTSTAMP/=0) THEN
+           DO N=1,NINTER
+               NI = H3D_DATA%N_CSE_FRIC_INTER (N) 
+               IF(NI/= 0.AND.IPARI(7,N)==21) NINEFRIC_STAMP = NINEFRIC + 1
+           ENDDO
+         ENDIF
+         IF(NINEFRIC_STAMP==NINEFRICG) THEN
+            MY_ALLOCATE2D(EFRIC_STAMP,NINEFRICG,NUMNODG)
+            EFRIC_STAMP(1:NINEFRICG,1:NUMNODG) = ZERO
+            MY_ALLOCATE2D(EFRIC,0,0)
+         ELSEIF(NINEFRIC_STAMP==0) THEN
+            NINEFRIC = NINEFRICG
+            MY_ALLOCATE2D(EFRIC,NINEFRIC,NUMNOD)
+            EFRIC(1:NINEFRICG,1:NUMNOD) = ZERO
+            MY_ALLOCATE2D(EFRIC_STAMP,0,0)
+         ELSE
+            NINEFRIC = NINEFRICG-NINEFRIC_STAMP
+            MY_ALLOCATE2D(EFRIC_STAMP,NINEFRIC_STAMP,NUMNODG)
+            EFRIC_STAMP(1:NINEFRIC_STAMP,1:NUMNODG) = ZERO
+            MY_ALLOCATE2D(EFRIC,NINEFRIC,NUMNOD)
+            EFRIC(1:NINEFRIC,1:NUMNOD) = ZERO
+            NS = 0
+            NN= 0
+            DO N=1,NINTER
+               NI = H3D_DATA%N_CSE_FRIC_INTER (N) 
+               IF(NI/= 0.AND.IPARI(7,N)==21) THEN
+                  NS = NS+1
+                  H3D_DATA%N_CSE_FRIC_INTER (N) = NINEFRIC + NS
+               ELSEIF (NI/=0) THEN
+                  NN = NN+1
+                  H3D_DATA%N_CSE_FRIC_INTER (N) = NN
+               ENDIF     
+            ENDDO
+         ENDIF
+      ELSEIF(S_EFRICINT==0)THEN
+            MY_ALLOCATE2D(EFRIC,0,0)
+            MY_ALLOCATE2D(EFRIC_STAMP,0,0)
+      ENDIF
 C-----------------------------------
 
 C-----------------------
