@@ -54,28 +54,25 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER,INTENT(IN) :: MAT(MVSIZ), IFLAG, NEL, NVAREOS
-      my_real PM(NPROPM,NUMMAT), 
-     .        OFF(MVSIZ) , EINT(MVSIZ), VOL0(MVSIZ), MU(MVSIZ)   ,
-     .        MU2(MVSIZ) , ESPE(MVSIZ), DVOL(MVSIZ), DF(MVSIZ)   ,
-     .        VNEW(MVSIZ), PNEW(MVSIZ), DPDM(MVSIZ), DPDE(MVSIZ) ,
-     .        THETA(MVSIZ),ECOLD(MVSIZ)
-      my_real,INTENT(INOUT) :: VAREOS(NVAREOS*NEL)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "scr06_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: MAT(NEL), IFLAG, NEL, NVAREOS
+      my_real PM(NPROPM,NUMMAT), 
+     .        OFF(NEL) , EINT(NEL), VOL0(NEL), MU(NEL)   ,
+     .        MU2(NEL) , ESPE(NEL), DVOL(NEL), DF(NEL)   ,
+     .        VNEW(NEL), PNEW(NEL), DPDM(NEL), DPDE(NEL) ,
+     .        THETA(NEL),ECOLD(NEL)
+      my_real,INTENT(INOUT) :: VAREOS(NVAREOS*NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -90,7 +87,7 @@ C--------------------------------------------------------------------
 C-----------------------------------------
 C     COMPUTE BULK MODULUS FOR SOUND SPEED
 C-----------------------------------------
-       DO I=LFT,LLT
+       DO I=1,NEL
         MX      = MAT(I)
         C1(I)   = PM(32,MX)
         C2(I)   = PM(33,MX)
@@ -105,7 +102,7 @@ C-----------------------------------------
         BETA(I) = PM(163,MX)
        ENDDO
 
-       DO I=LFT,LLT
+       DO I=1,NEL
         FACC1=ONE
         FACC2=ONE
         FACPB=ONE
@@ -133,7 +130,7 @@ C-----------------------------------------
         DPDE(I)=BB*ETA
         VAREOS(I)=REGION
        ENDDO
-       DO I=LFT,LLT
+       DO I=1,NEL
         ECOLD(I)=-THREE100*SPH(I)
         IF(MU(I)>ZERO) THEN
            XX  = MU(I)/(ONE+MU(I))
@@ -147,7 +144,7 @@ C-----------------------------------------
 C----------------------------------------
 C     UPDATE PRESSURE AND INTERNAL ENERGY
 C----------------------------------------
-       DO I=LFT,LLT
+       DO I=1,NEL
         MX      = MAT(I)
         C1(I)   = PM(32,MX)
         C2(I)   = PM(33,MX)
@@ -161,7 +158,7 @@ C----------------------------------------
         BETA(I) = PM(163,MX)
        ENDDO
 
-       DO I=LFT,LLT
+       DO I=1,NEL
         DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
         ETA=ONE+MU(I)        
         OMEGA= ONE+ESPE(I)/(EZERO(I)*ETA**2)
@@ -195,11 +192,11 @@ C----------------------------------------
        ENDDO
 
        !Temperature
-       DO I=LFT,LLT
+       DO I=1,NEL
         MX=MAT(I)
         SPH(I)=PM(69,MX)
        ENDDO
-       DO I=LFT,LLT
+       DO I=1,NEL
         XX=-ECOLD(I)
         IF(VNEW(I)>EM15)XX=DF(I)*EINT(I)/VNEW(I)-ECOLD(I)
         IF(OFF(I)<ONE.OR.SPH(I)<=ZERO.OR.XX<ZERO) CYCLE

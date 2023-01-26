@@ -45,16 +45,16 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(*), IFLAG, NEL
-      my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*) ,EINT(*) ,MU(*)   , 
-     .   MU2(*) ,DVOL(*) ,DF(*)   ,VNEW(*),
-     .   PNEW(*),DPDM(*) ,DPDE(*) ,THETA(*),
-     .   ECOLD(*)
+      INTEGER MAT(NEL), IFLAG, NEL
+      my_real PM(NPROPM,NUMMAT), 
+     .        OFF(NEL) ,EINT(NEL) ,MU(NEL)   , 
+     .        MU2(NEL) ,DVOL(NEL) ,DF(NEL)   ,VNEW(NEL),
+     .        PNEW(NEL),DPDM(NEL) ,DPDE(NEL) ,THETA(NEL),
+     .        ECOLD(NEL)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -66,22 +66,21 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real
-     .   BULK(MVSIZ),PC(MVSIZ),SPH(MVSIZ),C0(MVSIZ),PSH(MVSIZ)
+      my_real BULK(MVSIZ),PC(MVSIZ),SPH(MVSIZ),C0(MVSIZ),PSH(MVSIZ)
 C-----------------------------------------
       IF(IFLAG == 0) THEN
 C-----------------------------------------
 C     COMPUTE BULK MODULUS FOR SOUND SPEED
 C-----------------------------------------
-       DO I=LFT,LLT
-        MX     =MAT(I)
-        BULK(I)=PM(32,MX)
-        SPH(I) =PM(69,MX)
-        C0(I)  =PM(104,MX)
-        PC(I)  =PM(37,MX)
-        PSH(I) =PM(88,MX)
+       DO I=1,NEL
+        MX = MAT(I)
+        BULK(I) = PM(32,MX)
+        SPH(I) = PM(69,MX)
+        C0(I) = PM(104,MX)
+        PC(I) = PM(37,MX)
+        PSH(I) = PM(88,MX)
        ENDDO
-       DO I=LFT,LLT
+       DO I=1,NEL
         DPDM(I) = BULK(I)
         DPDE(I) = ZERO
         PNEW(I) = C0(I)+BULK(I)*MU(I)
@@ -91,7 +90,7 @@ C-----------------------------------------
 C----------------------------
 C     COLD COMPRESSION ENERGY
 C----------------------------
-       DO I=LFT,LLT
+       DO I=1,NEL
         ECOLD(I)=-THREE100*SPH(I)
         IF(MU(I) > ZERO) THEN
           ECOLD(I)=ECOLD(I)+HALF*BULK(I)*MU2(I)
@@ -102,14 +101,14 @@ C------------------------------------------------
 C----------------------------------------
 C     UPDATE PRESSURE AND INTERNAL ENERGY
 C----------------------------------------
-       DO I=LFT,LLT
+       DO I=1,NEL
         MX     = MAT(I)
         BULK(I)= PM(32,MX)
         PC(I)  = PM(37,MX)
         C0(I)  = PM(104,MX)
         PSH(I) = PM(88,MX)
        ENDDO
-       DO I=LFT,LLT
+       DO I=1,NEL
         PNEW(I) = C0(I)+BULK(I)*MU(I)
         PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))
         PNEW(I) = PNEW(I)*OFF(I)
@@ -118,12 +117,12 @@ C----------------------------------------
 C------------------------
 C     COMPUTE TEMPERATURE
 C------------------------
-       DO I=LFT,LLT
-        MX     =MAT(I)
-        SPH(I) =PM(69,MX)
-        PSH(I) =PM(88,MX)
+       DO I=1,NEL
+        MX     = MAT(I)
+        SPH(I) = PM(69,MX)
+        PSH(I) = PM(88,MX)
        ENDDO
-       DO I=LFT,LLT
+       DO I=1,NEL
         IF(OFF(I)<1..OR.SPH(I)<=0.) CYCLE
         THETA(I)=(DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH(I)
         THETA(I)=MAX(ZERO,THETA(I))
@@ -131,11 +130,11 @@ C------------------------
 C------------------------------------------------
       ELSEIF (IFLAG == 2) THEN
         DO I=1, NEL                                
-           MX     =MAT(I)  
-           C0(I)  =PM(104,MX)                                    
-           BULK(I)=PM(32,MX)                       
-           PC(I)  =PM(37,MX)                       
-           PSH(I) =PM(88,MX)                       
+           MX = MAT(I)  
+           C0(I) = PM(104,MX)                                    
+           BULK(I) = PM(32,MX)                       
+           PC(I) = PM(37,MX)                       
+           PSH(I) = PM(88,MX)                       
         ENDDO                                      
         DO I=1, NEL                                
            IF (VNEW(I) > ZERO) THEN             

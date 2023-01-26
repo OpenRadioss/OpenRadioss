@@ -48,37 +48,33 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
+#include      "vect01_c.inc"
+#include      "com04_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(MVSIZ), IFLAG, NEL
-      my_real
-     .   PM(NPROPM,*), BUFMAT(*), 
-     .   OFF(MVSIZ) , EINT(MVSIZ), RHO(MVSIZ) , RHO0(MVSIZ),
-     .   ESPE(MVSIZ), DVOL(MVSIZ), PNEW(MVSIZ), 
-     .   DPDM(MVSIZ), DPDE(MVSIZ), THETA(MVSIZ)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
+      INTEGER MAT(NEL), IFLAG, NEL
+      my_real PM(NPROPM,NUMMAT), BUFMAT(SBUFMAT), 
+     .        OFF(NEL) , EINT(NEL), RHO(NEL) , RHO0(NEL),
+     .        ESPE(NEL), DVOL(NEL), PNEW(NEL), 
+     .        DPDM(NEL), DPDE(NEL), THETA(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, NR, NT, IDR, IDT, IDP, IDE
-      my_real
-     .   ESPEM, PRES, DTDE, DPDR, DPDT
-      my_real
-     .   PC(MVSIZ)
+      my_real ESPEM, PRES, DTDE, DPDR, DPDT
+      my_real PC(MVSIZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       IF(IFLAG == 0) THEN
 C-----------------------------------------
 C     COMPUTE BULK MODULUS FOR SOUND SPEED
 C-----------------------------------------
-       DO I=LFT,LLT
+       DO I=1,NEL
         MX  = MAT(I)
         NR  = NINT(PM(33,MX))
         NT  = NINT(PM(34,MX))
@@ -104,7 +100,7 @@ C
 C----------------------------------------
 C     UPDATE PRESSURE AND INTERNAL ENERGY
 C----------------------------------------
-       DO I=LFT,LLT
+       DO I=1,NEL
         MX      = MAT(I)
         PC(I)   = PM(37,MX)
         NR  = NINT(PM(33,MX))

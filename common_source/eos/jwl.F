@@ -41,38 +41,33 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER MAT(*), IFLAG, NEL
-      my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*)  ,EINT(*) ,MU(*)   , 
-     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  , 
-     .   VNEW(*) ,PNEW(*) ,DPDM(*),
-     .   DPDE(*) ,THETA(*),ECOLD(*)
-      my_real, INTENT(INOUT) :: PSH(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "scr06_c.inc"
 C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER MAT(NEL), IFLAG, NEL
+      my_real PM(NPROPM,NUMMAT), 
+     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
+     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
+     .        VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
+     .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL)
+      my_real, INTENT(INOUT) :: PSH(NEL)
+C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,IBFRAC
-      my_real
-     .   VDET ,  
-     .   BFRAC(MVSIZ),WDR1V,WDR2V,
-     .   BFRAC1, BFRAC2, RHO0 , AA , BB , R1,
-     .   R2, W1,  BHE, P0, BULK,UNPMU,
-     .   R1DF,R2DF,ER1DF,ER2DF,dPdmu
+      my_real VDET,BFRAC(MVSIZ),WDR1V,WDR2V,
+     .        BFRAC1, BFRAC2, RHO0 , AA , BB , R1,
+     .        R2, W1,  BHE, P0, BULK,UNPMU,
+     .        R1DF,R2DF,ER1DF,ER2DF,dPdmu
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -90,7 +85,7 @@ C-----------------------------------------------
         !----------------------------------------
         !     FOR USE WITH MULTULMATERIAL LAW 151
         !----------------------------------------
-         MX     = MAT(LFT)         
+         MX     = MAT(1)         
          RHO0   = PM( 1,MX)        
          AA     = PM(33,MX)        
          BB     = PM(34,MX)        

@@ -26,9 +26,9 @@ Chd|-- called by -----------
 Chd|        EOSMAIN                       common_source/eos/eosmain.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE IDEALGAS(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2 , 
-     2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD)
+      SUBROUTINE IDEALGAS(IFLAG ,NEL  ,PM   ,OFF   ,EINT  ,MU   ,MU2 , 
+     2                     ESPE ,DVOL ,DF   ,VNEW  ,MAT   ,PSH  ,
+     3                     PNEW ,DPDM ,DPDE ,THETA ,ECOLD)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -40,28 +40,25 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER MAT(*), IFLAG, NEL
-      my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*)  ,EINT(*) ,MU(*)   , 
-     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  , 
-     .   VNEW(*) ,PNEW(*) ,DPDM(*),
-     .   DPDE(*) ,THETA(*),ECOLD(*)
-      my_real, INTENT(INOUT) :: PSH(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "scr06_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER MAT(NEL), IFLAG, NEL
+      my_real PM(NPROPM,NUMMAT), 
+     .     OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
+     .     MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
+     .     VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
+     .     DPDE(NEL) ,THETA(NEL),ECOLD(NEL)
+      my_real, INTENT(INOUT) :: PSH(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -71,34 +68,34 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF(IFLAG == 0) THEN
-         MX           = MAT(1)
-         E0           = PM(23,MX)         
-         GAMMA        = PM(32,MX)
-         P0           = PM(31,MX)
-         PSH(LFT:LLT) = PM(88,MX)
-         T0           = PM(35,MX)
-         SPH          = PM(69,MX)
-         DO I=LFT,LLT
+         MX         = MAT(1)
+         E0         = PM(23,MX)         
+         GAMMA      = PM(32,MX)
+         P0         = PM(31,MX)
+         PSH(1:NEL) = PM(88,MX)
+         T0         = PM(35,MX)
+         SPH        = PM(69,MX)
+         DO I=1,NEL
            PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I)
            DPDM(I) = (GAMMA-ONE)*(ESPE(I)+PP*DF(I))     !total derivative
            DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))             !partial derivative
          ENDDO
-         DO I=LFT,LLT
+         DO I=1,NEL
            ECOLD(I)=-THREE100*SPH
            IF(MU(I)>ZERO) ECOLD(I)=ECOLD(I)*(ONE+(GAMMA-ONE)*MU(I)*(ONE-MU(I)))
          ENDDO
 C-----------------------------------------------
       ELSEIF(IFLAG == 1) THEN
-         TFEXTT       =ZERO
-         MX           = MAT(1)
-         E0           = PM(23,MX)
-         GAMMA        = PM(32,MX)
-         P0           = PM(31,MX)
-         PSH(LFT:LLT) = PM(88,MX)
-         T0           = PM(35,MX)
-         SPH          = PM(69,MX)
+         TFEXTT     =ZERO
+         MX         = MAT(1)
+         E0         = PM(23,MX)
+         GAMMA      = PM(32,MX)
+         P0         = PM(31,MX)
+         PSH(1:NEL) = PM(88,MX)
+         T0         = PM(35,MX)
+         SPH        = PM(69,MX)
          ! p1 = p(mu,E+dE) = (g-1)*(1+mu)*(E-dvv*(p0+p1))    where p1,p0 are total pressure (no pshift), dvv = DVOL/2/V0                                               
-         DO I=LFT,LLT
+         DO I=1,NEL
            BB          = (GAMMA-ONE)*(ONE+MU(I))
            DVV         = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
            PNEW(I)     = BB*ESPE(I) / (ONE+BB*DVV)         
@@ -114,7 +111,7 @@ C-----------------------------------------------
          RHO0   = PM(1 ,MX)
          SPH    = PM(69,MX)
          Cv     = PM(36,MX)
-         DO I=LFT,LLT
+         DO I=1,NEL
            RHO      = RHO0*(ONE+MU(I))
            IF(OFF(I)<1.) CYCLE
            THETA(I) = EINT(I)/Cv/RHO/VNEW(I)

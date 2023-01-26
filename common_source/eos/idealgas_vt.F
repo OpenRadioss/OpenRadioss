@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        EOSMAIN                       common_source/eos/eosmain.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE IDEALGAS_VT(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2 , 
+      SUBROUTINE IDEALGAS_VT(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 , 
      2                       ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                       PNEW ,DPDM ,DPDE ,THETA,ECOLD,POLD)
 C-----------------------------------------------
@@ -40,29 +40,25 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER MAT(NEL), IFLAG, NEL
-      my_real
-     .   PM(NPROPM,NUMMAT), 
-     .   OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
-     .   MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
-     .   VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
-     .   DPDE(NEL) ,THETA(NEL),ECOLD(NEL)
-      my_real, INTENT(INOUT) :: PSH(NEL),POLD(NEL)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "scr06_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER MAT(NEL), IFLAG, NEL
+      my_real PM(NPROPM,NUMMAT), 
+     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
+     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
+     .        VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
+     .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL)
+      my_real, INTENT(INOUT) :: PSH(NEL),POLD(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -76,23 +72,23 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       MAX_ITER = 50
       TOL = EM05
-      CP(LFT:LLT)=ZERO
+      CP(1:NEL)=ZERO
       IF(IFLAG == 0) THEN
-         MX           = MAT(1)
-         RHO0         = PM(1 ,MX)
-         E0           = PM(23,MX)         
-         r_GAS        = PM(106,MX)
-         P0           = PM(31,MX)
-         PSH(LFT:LLT) = PM(88,MX)
-         SPH          = PM(69,MX)
-         A0           = PM(32,MX)
-         A1           = PM(33,MX)
-         A2           = PM(34,MX)
-         A3           = PM(35,MX)
-         A4           = PM(36,MX)
+         MX         = MAT(1)
+         RHO0       = PM(1 ,MX)
+         E0         = PM(23,MX)         
+         r_GAS      = PM(106,MX)
+         P0         = PM(31,MX)
+         PSH(1:NEL) = PM(88,MX)
+         SPH        = PM(69,MX)
+         A0         = PM(32,MX)
+         A1         = PM(33,MX)
+         A2         = PM(34,MX)
+         A3         = PM(35,MX)
+         A4         = PM(36,MX)
          
          !SOLVE TEMPERATURE
-         DO I=LFT,LLT
+         DO I=1,NEL
            ! Init newton
            RHO = RHO0 * (ONE + MU(I))           
            TEMP = POLD(I)/RHO/r_GAS
@@ -115,7 +111,7 @@ C-----------------------------------------------
            CP(I) = A0 + A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4
         ENDDO
          
-         DO I=LFT,LLT
+         DO I=1,NEL
            CV = CP(I) - r_GAS 
            GAMMA = CP(I)/CV
            DPDM(I) = RHO0*GAMMA*r_GAS*THETA(I)     !total derivative
@@ -125,22 +121,22 @@ C-----------------------------------------------
          
 C-----------------------------------------------
       ELSEIF(IFLAG == 1) THEN
-         TFEXTT       =ZERO
-         MX           = MAT(1)
-         RHO0         = PM(1 ,MX)
-         E0           = PM(23,MX)
-         r_GAS        = PM(106,MX)
-         P0           = PM(31,MX)
-         PSH(LFT:LLT) = PM(88,MX)
-         SPH          = PM(69,MX)
-         A0           = PM(32,MX)
-         A1           = PM(33,MX)
-         A2           = PM(34,MX)
-         A3           = PM(35,MX)
-         A4           = PM(36,MX)         
+         TFEXTT     =ZERO
+         MX         = MAT(1)
+         RHO0       = PM(1 ,MX)
+         E0         = PM(23,MX)
+         r_GAS      = PM(106,MX)
+         P0         = PM(31,MX)
+         PSH(1:NEL) = PM(88,MX)
+         SPH        = PM(69,MX)
+         A0         = PM(32,MX)
+         A1         = PM(33,MX)
+         A2         = PM(34,MX)
+         A3         = PM(35,MX)
+         A4         = PM(36,MX)         
 
          !SOLVE TEMPERATURE
-         DO I=LFT,LLT
+         DO I=1,NEL
            ! Init newton
            RHO = RHO0 * (ONE + MU(I))           
            TEMP = POLD(I)/RHO/r_GAS
@@ -163,7 +159,7 @@ C-----------------------------------------------
            CP(I) = A0 + A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4
          ENDDO
 
-         DO I=LFT,LLT
+         DO I=1,NEL
            PNEW(I) = RHO0*(ONE+MU(I))*r_GAS*THETA(I)    
            EINT(I) = EINT(I) - HALF*DVOL(I)*PNEW(I)
            TFEXTT  = TFEXTT-DVOL(I)*PSH(I)

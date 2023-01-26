@@ -42,28 +42,25 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER MAT(*), IFLAG, NEL
-      my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*)  ,EINT(*) ,MU(*)   , 
-     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  , 
-     .   VNEW(*) ,PNEW(*) ,DPDM(*),
-     .   DPDE(*) ,THETA(*),ECOLD(*)
-      my_real, INTENT(INOUT) :: PSH(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "scr06_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER MAT(NEL), IFLAG, NEL
+      my_real PM(NPROPM,NUMMAT), 
+     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
+     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
+     .        VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
+     .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL)
+      my_real, INTENT(INOUT) :: PSH(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -78,20 +75,20 @@ C-----------------------------------------------
       !     COMPUTE COLD COMPRESSION ENERGY
       !-----------------------------------------
       IF(IFLAG == 0) THEN
-         MX           = MAT(1)
-         E0           = PM(23 ,MX)         
-         GAMMA        = PM(34 ,MX)
-         P0           = PM(32 ,MX)
-         PSH(LFT:LLT) = PM(88 ,MX)
-         PSTAR        = PM(160,MX)
-         SPH          = PM(69 ,MX)
-         Q            = PM(35 ,MX)
-         Q_           = PM(36 ,MX)
-         B            = PM(161,MX)
-         Cv           = PM(162,MX)
-         T0           = PM(79, MX)
-         RHO0         = PM(1 , MX)
-         DO I=LFT,LLT
+         MX         = MAT(1)
+         E0         = PM(23 ,MX)         
+         GAMMA      = PM(34 ,MX)
+         P0         = PM(32 ,MX)
+         PSH(1:NEL) = PM(88 ,MX)
+         PSTAR      = PM(160,MX)
+         SPH        = PM(69 ,MX)
+         Q          = PM(35 ,MX)
+         Q_         = PM(36 ,MX)
+         B          = PM(161,MX)
+         Cv         = PM(162,MX)
+         T0         = PM(79, MX)
+         RHO0       = PM(1 , MX)
+         DO I=1,NEL
            UNPMU   =  ONE+MU(I)
            DENOM   = (ONE-RHO0*b*UNPMU)
            NUM     = (ESPE(I)-RHO0*q)
@@ -99,7 +96,7 @@ C-----------------------------------------------
            dPdE(I) = (GAMMA-ONE)*UNPMU / DENOM                                         !partial derivative    
            DPDM(I) = (GAMMA-ONE)*NUM/DENOM/DENOM + DPDE(I)*(PP+PSH(I))/UNPMU/UNPMU     !total derivative
          ENDDO
-         DO I=LFT,LLT
+         DO I=1,NEL
            ECOLD(I)=-THREE100*SPH
            IF(MU(I)>ZERO) ECOLD(I)=ECOLD(I)*(ONE+(GAMMA-ONE)*MU(I)*(ONE-MU(I)))
          ENDDO
@@ -108,21 +105,21 @@ C-----------------------------------------------
       !     UPDATE PRESSURE AND INTERNAL ENERGY
       !----------------------------------------
       ELSEIF(IFLAG == 1) THEN
-         TFEXTT       = ZERO      
-         MX           = MAT(1)
-         E0           = PM(23 ,MX)         
-         GAMMA        = PM(34 ,MX)
-         P0           = PM(32 ,MX)
-         PSH(LFT:LLT) = PM(88 ,MX)
-         PSTAR        = PM(160,MX)
-         SPH          = PM(69 ,MX)
-         Q            = PM(35 ,MX)
-         Q_           = PM(36 ,MX)
-         B            = PM(161,MX)
-         Cv           = PM(162,MX)
-         T0           = PM(79, MX)
-         RHO0         = PM(1 , MX)
-         DO I=LFT,LLT
+         TFEXTT     = ZERO      
+         MX         = MAT(1)
+         E0         = PM(23 ,MX)         
+         GAMMA      = PM(34 ,MX)
+         P0         = PM(32 ,MX)
+         PSH(1:NEL) = PM(88 ,MX)
+         PSTAR      = PM(160,MX)
+         SPH        = PM(69 ,MX)
+         Q          = PM(35 ,MX)
+         Q_         = PM(36 ,MX)
+         B          = PM(161,MX)
+         Cv         = PM(162,MX)
+         T0         = PM(79, MX)
+         RHO0       = PM(1 , MX)
+         DO I=1,NEL
            EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
            UNPMU   =  ONE+MU(I)
            RHO     = UNPMU*RHO0
@@ -137,7 +134,7 @@ C-----------------------------------------------
 #include "atomic.inc"
        TFEXT = TFEXT + TFEXTT
 #include "atomend.inc"
-         DO I=LFT,LLT
+         DO I=1,NEL
            IF(OFF(I)<ONE.OR.SPH<=ZERO) CYCLE
            UNPMU   =  ONE+MU(I)
            RHO     = UNPMU*RHO0
@@ -149,20 +146,20 @@ C-----------------------------------------------
        !     FOR USE WITH MULTULMATERIAL LAW 151
        !----------------------------------------
        ELSEIF(IFLAG == 2) THEN
-         MX           = MAT(1)
-         E0           = PM(23 ,MX)         
-         GAMMA        = PM(34 ,MX)
-         P0           = PM(32 ,MX)
-         PSH(LFT:LLT) = PM(88 ,MX)
-         PSTAR        = PM(160,MX)
-         SPH          = PM(69 ,MX)
-         Q            = PM(35 ,MX)
-         Q_           = PM(36 ,MX)
-         B            = PM(161,MX)
-         Cv           = PM(162,MX)
-         T0           = PM(79, MX)
-         RHO0         = PM(1 , MX)
-         PC           = PM(37, MX)
+         MX         = MAT(1)
+         E0         = PM(23 ,MX)         
+         GAMMA      = PM(34 ,MX)
+         P0         = PM(32 ,MX)
+         PSH(1:NEL) = PM(88 ,MX)
+         PSTAR      = PM(160,MX)
+         SPH        = PM(69 ,MX)
+         Q          = PM(35 ,MX)
+         Q_         = PM(36 ,MX)
+         B          = PM(161,MX)
+         Cv         = PM(162,MX)
+         T0         = PM(79, MX)
+         RHO0       = PM(1 , MX)
+         PC         = PM(37, MX)
           DO I=1, NEL
              IF (VNEW(I) > ZERO) THEN
                 UNPMU   =  ONE+MU(I)

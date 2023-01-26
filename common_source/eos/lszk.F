@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        EOSMAIN                       common_source/eos/eosmain.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE LSZK    ( IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2 , 
+      SUBROUTINE LSZK    ( IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 , 
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD)
 C-----------------------------------------------
@@ -41,27 +41,24 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER MAT(*), IFLAG, NEL
-      my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*)  ,EINT(*) ,MU(*)   , 
-     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  , 
-     .   VNEW(*) ,PNEW(*) ,DPDM(*),
-     .   DPDE(*) ,THETA(*),ECOLD(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "scr06_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER MAT(NEL), IFLAG, NEL
+      my_real PM(NPROPM,NUMMAT), 
+     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
+     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
+     .        VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
+     .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -75,22 +72,22 @@ C-----------------------------------------
 C     COMPUTE BULK MODULUS FOR SOUND SPEED
 C     COMPUTE COLD COMPRESSION ENERGY
 C-----------------------------------------
-       MX           = MAT(LFT)
-       E0           = PM(23,MX)         
-       GAMMA        = PM(34,MX)
-       P0           = PM(32,MX)
-       PSH(LFT:LLT) = PM(88,MX)
-       AR0B         = PM(35,MX)
-       B            = PM(36,MX)
-       SPH          = PM(69,MX)
+       MX         = MAT(1)
+       E0         = PM(23,MX)         
+       GAMMA      = PM(34,MX)
+       P0         = PM(32,MX)
+       PSH(1:NEL) = PM(88,MX)
+       AR0B       = PM(35,MX)
+       B          = PM(36,MX)
+       SPH        = PM(69,MX)
 
-       DO I=LFT,LLT
+       DO I=1,NEL
          PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))
          DPDM(I) = (GAMMA-ONE)*ESPE(I)+AR0B*B/(ONE+MU(I))*EXP((B-ONE)*LOG(ONE+MU(I)))+(GAMMA-ONE)*DF(I)*PP   !total derivative
          DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                                  !partial derivative
        ENDDO
 
-       DO I=LFT,LLT
+       DO I=1,NEL
          ECOLD(I)=-THREE100*SPH
          !IF(MU(I)>ZERO) ECOLD(I)=
        ENDDO
@@ -99,18 +96,18 @@ C-----------------------------------------
 C----------------------------------------
 C     UPDATE PRESSURE AND INTERNAL ENERGY
 C----------------------------------------
-       TFEXTT       = ZERO
-       MX           = MAT(LFT)
-       E0           = PM(23,MX)         
-       GAMMA        = PM(34,MX)
-       P0           = PM(32,MX)
-       PSH(LFT:LLT) = PM(88,MX)
-       AR0B         = PM(35,MX)
-       B            = PM(36,MX)
-       SPH          = PM(69,MX)
-       PC           = PM(37,MX)
+       TFEXTT     = ZERO
+       MX         = MAT(1)
+       E0         = PM(23,MX)         
+       GAMMA      = PM(34,MX)
+       P0         = PM(32,MX)
+       PSH(1:NEL) = PM(88,MX)
+       AR0B       = PM(35,MX)
+       B          = PM(36,MX)
+       SPH        = PM(69,MX)
+       PC         = PM(37,MX)
 
-       DO I=LFT,LLT
+       DO I=1,NEL
          BB         = (GAMMA-ONE)*(ONE+MU(I))
          AA         = AR0B*EXP(B*LOG(ONE+MU(I)))
          DVV        = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
@@ -129,16 +126,16 @@ C------------------------
 C     COMPUTE TEMPERATURE
 C------------------------
 
-         MX         = MAT(LFT)
+         MX         = MAT(1)
          SPH        = PM(69,MX)
 
-       DO I=LFT,LLT
+       DO I=1,NEL
          IF(OFF(I)<1..OR.SPH<=0.) CYCLE
          THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
          THETA(I)   = MAX(ZERO,THETA(I))
        ENDDO
       ELSEIF (IFLAG == 2) THEN
-         MX           = MAT(LFT)
+         MX           = MAT(1)
          E0           = PM(23,MX)         
          GAMMA        = PM(34,MX)
          P0           = PM(32,MX)
