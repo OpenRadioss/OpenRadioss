@@ -41,6 +41,7 @@ C-----------------------------------------------
       USE PINCHTYPE_MOD
       USE OUTMAX_MOD
       USE ANIM_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1637,6 +1638,18 @@ C Friction interface
       IFCONT2MIN = TABVINT(NEXT) 
       NEXT       = NEXT + 1
       IFCONTP2MIN= TABVINT(NEXT) 
+      NEXT       = NEXT + 1
+      S_EFRIC    = TABVINT(NEXT) 
+      NEXT       = NEXT + 1
+      S_EFRICINT = TABVINT(NEXT) 
+      NEXT       = NEXT + 1
+      S_EFRICG   = TABVINT(NEXT) 
+      NEXT       = NEXT + 1
+      S_EFRICINTG = TABVINT(NEXT) 
+      NEXT       = NEXT + 1
+      NINEFRIC   = TABVINT(NEXT)
+      NEXT       = NEXT + 1
+      NINEFRIC_STAMP = TABVINT(NEXT)  
 C  NITSCHE METHOD
       NEXT=NEXT+1
       NITSCHE = TABVINT(NEXT)

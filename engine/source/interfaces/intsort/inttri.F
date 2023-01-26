@@ -140,6 +140,7 @@ C-----------------------------------------------
       USE INTER_STRUCT_MOD
       USE INTER_SORTING_MOD
       USE SENSOR_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -644,6 +645,16 @@ C
 C Fin Partie non parallele smt
 !$OMP END SINGLE
 
+      IF(IMPL_S/=1)THEN
+
+       IF((NSPMD>1.AND.ITASK==0).AND.(H3D_DATA%N_SCAL_CSE_FRIC > 0.OR.NINEFRIC > 0).AND.TT > ZERO) THEN
+         CALL SPMD_EXCH_SORTING_EFRIC(
+     1        IPARI   ,INTLIST ,NBINTC  ,ISLEN7 ,IRLEN7  ,
+     2        IRLEN7T ,ISLEN7T ,IRLEN20 ,ISLEN20,IRLEN20T,
+     3        ISLEN20T,INTBUF_TAB,H3D_DATA  )
+       ENDIF
+      ENDIF
+
       IF(ITASK==0)CALL STOPTIME(120,1) 
 
 
@@ -707,6 +718,8 @@ C     non implicit options-------
 C=======================================================================
 C
       IF(IMPL_S/=1)THEN
+
+
        IDUM = 0
        DO KK=1,NBINTC
         N   = INTLIST(KK)

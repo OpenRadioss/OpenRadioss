@@ -927,8 +927,8 @@ C thermic
         ISIZ = ISIZ + 1
       ENDIF
 c adhesion
-      IF(IVIS2==-1.AND.INTTH==0) THEN
-         RSIZ = RSIZ + 1
+      IF(IVIS2==-1) THEN
+          IF(INTTH==0) RSIZ = RSIZ + 1
          ISIZ = ISIZ + 1
       ENDIF      
 C Friction      
@@ -1213,7 +1213,7 @@ C thermic
                ISHIFT = ISHIFT + 1	       
             ENDIF              
 C Adhesion
-            IF(IVIS2==-1.AND.INTTH==0)THEN
+            IF(IVIS2==-1)THEN
                LR = 0  
                LI = 0
 #include      "vectorize.inc"	       	       	    
@@ -1221,17 +1221,17 @@ C Adhesion
                  I = INDEX(IDEB+J)
                  IF(I <= NSN)THEN
                    NOD = INTBUF_TAB%NSV(I)
-                   RBUF(P,NI25)%p(LR+RSHIFT)= INTBUF_TAB%AREAS(I)
+                    IF(INTTH==0) RBUF(P,NI25)%p(LR+RSHIFT)= INTBUF_TAB%AREAS(I)
                    IBUF(P,NI25)%p(LI+ISHIFT)=INTBUF_TAB%IF_ADH(I)
                  ELSE
                    II = I-NSN
-                   RBUF(P,NI25)%p(LR+RSHIFT)= AREASFI(NIN)%P(II)
+                    IF(INTTH==0) RBUF(P,NI25)%p(LR+RSHIFT)= AREASFI(NIN)%P(II)
                    IBUF(P,NI25)%p(LI+ISHIFT)= IF_ADHFI(NIN)%P(II)
                  END IF
-                 LR = LR + RSIZ
+                  IF(INTTH==0) LR = LR + RSIZ
                  LI = LI + ISIZ
                END DO
-               RSHIFT = RSHIFT + 1
+                IF(INTTH==0) RSHIFT = RSHIFT + 1
                ISHIFT = ISHIFT + 1
             ENDIF
 

@@ -170,6 +170,7 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE SENSOR_MOD
       USE H3D_INC_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -219,6 +220,7 @@ C-----------------------------------------------
 #include      "inter22.inc"
 #include      "thermal_c.inc"
 #include      "alemuscl.inc"
+#include      "intstamp_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -560,6 +562,14 @@ C
         IF(H3D_DATA%N_VECT_PCONT2_MAX >0) IFCONTP2MAX=1
         IF(H3D_DATA%N_VECT_CONT2_MIN >0) IFCONT2MIN=1
         IF(H3D_DATA%N_VECT_PCONT2_MIN >0) IFCONTP2MIN=1
+        IF(H3D_DATA%N_SCAL_CSE_FRIC >0) THEN
+          S_EFRIC = NUMNOD
+          IF(NINTSTAMP/=0) S_EFRICG = NUMNODG
+        ENDIF
+        IF(H3D_DATA%N_SCAL_CSE_FRICINT >0) THEN
+           S_EFRICINT = NUMNOD
+          IF(NINTSTAMP/=0) S_EFRICINTG = NUMNODG
+        ENDIF
 C------------------------
 C      PARAL. ARITH.
 C------------------------

@@ -35,7 +35,8 @@ Chd|====================================================================
       SUBROUTINE SPMD_EXCH_PRESS(
      1    IPARI   ,INTLIST ,NBINTC  ,FNCONT ,
      2    FTCONT  ,ISLEN7 ,IRLEN7  ,IRLEN7T ,ISLEN7T,
-     3    IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,INTBUF_TAB)
+     3    IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,INTBUF_TAB,
+     4    N_CSE_FRIC_INTER, N_SCAL_CSE_EFRIC  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -43,6 +44,7 @@ C-----------------------------------------------
       USE TRI25EBOX
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,9 +76,9 @@ C-----------------------------------------------
       INTEGER NBINTC,ISLEN7, IRLEN7,IRLEN7T, ISLEN7T,
      .        IRLEN20, ISLEN20, IRLEN20T, ISLEN20T,
      .        IPARI(NPARI,*), INTLIST(*)
+      INTEGER  , INTENT(IN) :: N_SCAL_CSE_EFRIC,N_CSE_FRIC_INTER(NINTER)
       my_real
      .        FNCONT(3,*), FTCONT(3,*)
-
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -84,7 +86,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER P, L, ADD, LL, NB, LEN, SIZ, KFI, LOC_PROC, MULTIMP, II,
      .        NIN, IDEB, N, MSGTYP, IERROR, NI, NOD, I,
-     .        NTY, IALLOCS, IALLOCR, MSGOFF,
+     .        NTY, IALLOCS, IALLOCR, MSGOFF,INTERFRIC,LF,
      .        STATUS(MPI_STATUS_SIZE),DEBUT(NINTER),
      .        ADDS(NSPMD+1), ADDR(NSPMD+1),
      .        REQ_SI(NSPMD),REQ_RI(NSPMD)
@@ -97,6 +99,8 @@ C-----------------------------------------------
         LOC_PROC = ISPMD + 1
 C
         LEN = 7
+        IF(NINEFRIC > 0) LEN = LEN +1
+        IF(N_SCAL_CSE_EFRIC > 0)  LEN = LEN +1
 C
 C Partie 1 envoi et preparation buffer reception
 C
@@ -168,6 +172,7 @@ Cel test en plus pour savoir si com globale necessaire entre les 2 procs
               IDEB = DEBUT(NIN)
               NB = NSNFI(NIN)%P(P)
               NTY  = IPARI(7,NIN)
+              INTERFRIC = N_CSE_FRIC_INTER(NIN)
               IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==22.OR.
      .           NTY==23.OR.NTY==24.OR.NTY==25) THEN
                IF(NB>0) THEN
@@ -183,12 +188,25 @@ C noeud generant une force
                     BBUFS(L+5) = FTCONTI(NIN)%P(1,IDEB+N)
                     BBUFS(L+6) = FTCONTI(NIN)%P(2,IDEB+N)
                     BBUFS(L+7) = FTCONTI(NIN)%P(3,IDEB+N)
+                    LF = 7
+                    IF(INTERFRIC>0) THEN
+                        BBUFS(L+LF+1) = EFRICFI(NIN)%P(IDEB+N)
+                        EFRICFI(NIN)%P(IDEB+N) = ZERO
+                        LF=LF+1
+                    ELSEIF(NINEFRIC>0) THEN
+                        BBUFS(L+LF+1) = ZERO
+                        LF=LF+1
+                    ENDIF
+                    IF(N_SCAL_CSE_EFRIC>0) THEN
+                        BBUFS(L+LF+1) = EFRICGFI(NIN)%P(IDEB+N)
+                        EFRICGFI(NIN)%P(IDEB+N) = ZERO
+                    ENDIF
                     FNCONTI(NIN)%P(1,IDEB+N) = ZERO
                     FNCONTI(NIN)%P(2,IDEB+N) = ZERO
                     FNCONTI(NIN)%P(3,IDEB+N) = ZERO
                     FTCONTI(NIN)%P(1,IDEB+N) = ZERO
                     FTCONTI(NIN)%P(2,IDEB+N) = ZERO
-                    FTCONTI(NIN)%P(3,IDEB+N) = ZERO
+                    FTCONTI(NIN)%P(3,IDEB+N) = ZERO  
                     L = L + LEN
                   ENDIF
                 ENDDO
@@ -222,6 +240,7 @@ C
               NIN = INTLIST(II)
               IF(NSNSI(NIN)%P(P)>0)THEN
                 NTY   =IPARI(7,NIN)
+                INTERFRIC = N_CSE_FRIC_INTER(NIN)
                 IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==22.OR.
      .             NTY==23.OR.NTY==24.OR.NTY==25)THEN
                   NB = NINT(BBUFR(L))
@@ -239,6 +258,14 @@ C
                       FTCONT(1,NOD) = FTCONT(1,NOD) + BBUFR(L+LEN*(I-1)+4)
                       FTCONT(2,NOD) = FTCONT(2,NOD) + BBUFR(L+LEN*(I-1)+5)
                       FTCONT(3,NOD) = FTCONT(3,NOD) + BBUFR(L+LEN*(I-1)+6)
+                      LF = 6
+                      IF(INTERFRIC>0) THEN
+                          EFRIC(INTERFRIC,NOD)= EFRIC(INTERFRIC,NOD)+ BBUFR(L+LEN*(I-1)+LF+1)
+                          LF = LF+1
+                      ENDIF
+                      IF(N_SCAL_CSE_EFRIC>0) THEN
+                         EFRICG(NOD)= EFRICG(NOD)+ BBUFR(L+LEN*(I-1)+LF+1)
+                      ENDIF
                     ENDIF
                   ENDDO
                   L = L + NB*LEN

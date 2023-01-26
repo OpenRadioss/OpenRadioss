@@ -46,13 +46,15 @@ Chd|====================================================================
      .                  NPBY      ,RBY          ,INTERSKID       ,NINTERSKID,PSKIDS ,
      .                  NODGLOB   ,ITYSKID      ,IPARTSP         ,IPARTR   ,IPARTP  , 
      .                  IPARTT    ,IPARTS       ,IPARTQ          ,KXSP     ,IXR     ,
-     .                  IXP       ,IXT          ,N_H3D_PART_LIST ) 
+     .                  IXP       ,IXT          ,N_H3D_PART_LIST ,INTERFRIC,CSEFRIC ,
+     .                  CSEFRICG  ,CSEFRIC_STAMP,CSEFRICG_STAMP  ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD 
       USE H3D_MOD 
       USE ALE_CONNECTIVITY_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,6 +79,7 @@ C-----------------------------------------------
 #include      "sphcom.inc"
 #include      "spmd_c.inc"
 #include      "sms_c.inc"
+#include      "intstamp_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -99,6 +102,9 @@ C-----------------------------------------------
       TYPE (H3D_DATABASE) :: H3D_DATA
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       INTEGER ,INTENT(IN) :: N_H3D_PART_LIST
+      INTEGER , INTENT(IN) :: INTERFRIC
+      my_real  , INTENT(IN) :: CSEFRIC(NINEFRIC,S_EFRICINT) ,CSEFRICG(S_EFRIC),
+     .                         CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG) ,CSEFRICG_STAMP(S_EFRICG)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -329,7 +335,44 @@ C--------------------------------------------------
           IS_WRITTEN_VALUE(I) = 1  
         ENDDO
 C--------------------------------------------------
-     
+      ELSEIF(KEYWORD == 'CSE_FRIC')THEN
+C--------------------------------------------------
+        IF(INTERFRIC > 0) THEN
+          IF(INTERFRIC <= NINEFRIC ) THEN
+             DO I=1,NUMNOD
+                VALUE(I)=CSEFRIC(INTERFRIC,I)		 
+                IS_WRITTEN_VALUE(I) = 1
+             ENDDO
+          ELSE
+             DO I=1,NUMNOD
+                K=NODGLOB(I)
+                VALUE(I)=CSEFRIC_STAMP(INTERFRIC-NINEFRIC,K)		 
+                IS_WRITTEN_VALUE(I) = 1
+             ENDDO
+          ENDIF 
+        ENDIF
+C--------------------------------------------------
+      ELSEIF(KEYWORD == 'CSE_FRICG')THEN
+C--------------------------------------------------
+        IF(NINTSTAMP==0) THEN
+           DO I=1,NUMNOD
+              VALUE(I)=CSEFRICG(I)  
+              IS_WRITTEN_VALUE(I) = 1
+           ENDDO
+        ELSE
+           IF(NSPMD > 1 ) THEN
+              DO I=1,NUMNOD
+                 VALUE(I)=CSEFRICG(I)  
+                 IS_WRITTEN_VALUE(I) = 1
+              ENDDO
+           ELSE
+              DO I=1,NUMNOD
+                 K=NODGLOB(I)
+                 VALUE(I)=CSEFRICG(I) + CSEFRICG_STAMP(K)		 
+                 IS_WRITTEN_VALUE(I) = 1
+              ENDDO
+           ENDIF
+        ENDIF
       ENDIF
 c	 
       CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_NODE,NODAL_SCALAR,NUMNOD,0,0,

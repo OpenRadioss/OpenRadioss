@@ -31,11 +31,12 @@ Chd|====================================================================
       SUBROUTINE ANI_PCONT(IXS ,IXC    ,IXTG    ,FASOLFR  ,X       ,
      .                 CONTN   ,CONTT  ,IAD_ELEM,FR_ELEM,WEIGHT    ,
      .                 IXQ     ,SEGQUADFR,IXS10 ,FNCONTP2,FTCONTP2 ,
-     .                 H3D_DATA)
+     .                 H3D_DATA,CSEFRIC,CSEFRICG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,13 +61,14 @@ C     REAL
      .   IXS10(6,*)
       my_real
      .   X(3,*), CONTN(3,*), CONTT(3,*),FNCONTP2(3,*),FTCONTP2(3,*)
+      my_real  , INTENT(INOUT) :: CSEFRIC(NINEFRIC,S_EFRICINT),CSEFRICG(S_EFRIC)
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N1,N2,N3,N4,NN1,NN2,NN3,J,
      .        I,N,IFAC,ILINE,
-     .        IERROR, LENR
+     .        IERROR, LENR, NI
        my_real
      .     AREA, 
      .     X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
@@ -435,6 +437,30 @@ C
          END DO
        ENDIF
 C
+       IF(NINEFRIC > 0) THEN
+        DO NI=1,NINEFRIC
+         DO N=1,NUMNOD
+           IF (NODAREA(N) == ZERO) THEN
+             CSEFRIC(NI,N)=ZERO
+           ELSE
+             AREAINV = ONE/MAX(EM30,NODAREA(N))
+             CSEFRIC(NI,N)=AREAINV*EFRIC(NI,N)
+           ENDIF
+         END DO
+        ENDDO
+       ENDIF
+C
+      IF(H3D_DATA%N_SCAL_CSE_FRIC >0)THEN
+         DO N=1,NUMNOD
+           IF (NODAREA(N) == ZERO) THEN
+             CSEFRICG(N)=ZERO
+           ELSE
+             AREAINV = ONE/MAX(EM30,NODAREA(N))
+             CSEFRICG(N)=AREAINV*EFRICG(N)
+           ENDIF
+         END DO
+      ENDIF
+C
       DEALLOCATE(NODAREA)
 C
       RETURN
@@ -451,11 +477,12 @@ Chd|====================================================================
       SUBROUTINE ANI_PCONT21(IXS ,IXC    ,IXTG    ,FASOLFR  ,X       ,
      .                 CONTN   ,CONTT  ,IAD_ELEM,FR_ELEM,WEIGHT      ,
      .                 NODGLOB ,FNCONTG ,FTCONTG,FNCONTP2,FTCONTP2   ,
-     .                 H3D_DATA )
+     .                 H3D_DATA,CSEFRIC_STAMP,CSEFRICG_STAMP )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -482,13 +509,15 @@ C     REAL
       my_real
      .   X(3,*), CONTN(3,*), CONTT(3,*), FNCONTG(3,*), FTCONTG(3,*),
      .   FNCONTP2(3,*),FTCONTP2(3,*)
+      my_real  , INTENT(INOUT) :: CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG),
+     .   CSEFRICG_STAMP(S_EFRICG)
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N1,N2,N3,N4,
      .        I,K,N,IFAC,
-     .        IERROR, LENR
+     .        IERROR, LENR, NI
        my_real
      .     AREA, 
      .     X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
@@ -697,6 +726,45 @@ C
       END IF
 C-----
 
+      IF(NSPMD > 1)THEN
+        IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT+NINEFRIC_STAMP
+     .   +H3D_DATA%N_SCAL_CSE_FRIC /=0) THEN
+
+          ALLOCATE(NODAREAG(NUMNODG))
+           DO I=1,NUMNODG
+             NODAREAG(I)=ZERO
+           ENDDO
+           DO K=1,NUMNOD
+             I=NODGLOB(K)
+             NODAREAG(I)=NODAREA(K)*WEIGHT(K)
+           ENDDO
+
+           CALL SPMD_GLOB_DSUM9(NODAREAG,NUMNODG)
+
+           IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT/=0) THEN
+              CALL SPMD_GLOB_DSUM9(FNCONTG,3*NUMNODG)
+              CALL SPMD_GLOB_DSUM9(FTCONTG,3*NUMNODG)
+           ENDIF
+           IF(NINEFRIC_STAMP > 0) THEN
+             DO NI=1,NINEFRIC_STAMP
+               DO I=1,NUMNODG
+                 CSEFRIC_STAMP(NI,I)=EFRIC_STAMP(NI,I)
+               ENDDO
+               CALL SPMD_GLOB_DSUM9(CSEFRIC_STAMP(NI,1),NUMNODG)
+             ENDDO
+           ENDIF
+
+           IF(H3D_DATA%N_SCAL_CSE_FRIC > 0) THEN
+              DO I=1,NUMNODG
+                 CSEFRICG_STAMP(I)=EFRICG_STAMP(I)
+              ENDDO
+              CALL SPMD_GLOB_DSUM9(CSEFRICG_STAMP,NUMNODG)
+           ENDIF
+           
+        ENDIF
+
+      ENDIF
+
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT /=0) THEN
 C     INTER == 21
         IF (NSPMD == 1) THEN
@@ -720,19 +788,6 @@ C     INTER == 21
             ENDIF
           END DO
         ELSE
-          ALLOCATE(NODAREAG(NUMNODG))
-           DO I=1,NUMNODG
-             NODAREAG(I)=ZERO
-           ENDDO
-           DO K=1,NUMNOD
-             I=NODGLOB(K)
-             NODAREAG(I)=NODAREA(K)*WEIGHT(K)
-           ENDDO
-
-           CALL SPMD_GLOB_DSUM9(NODAREAG,NUMNODG)
-           CALL SPMD_GLOB_DSUM9(FNCONTG,3*NUMNODG)
-           CALL SPMD_GLOB_DSUM9(FTCONTG,3*NUMNODG)
-
            IF(ISPMD==0)THEN
              DO N=1,NUMNODG
                IF (NODAREAG(N) == ZERO) THEN
@@ -762,7 +817,7 @@ C     INTER == 21
                FTCONTG(3,N)=ZERO
              END DO
            END IF
-           DEALLOCATE(NODAREAG)
+
          END IF
        ENDIF
 C
@@ -787,6 +842,75 @@ C
          END DO
        ENDIF
 C
+       IF(NINEFRIC_STAMP > 0) THEN
+        IF (NSPMD == 1) THEN
+            DO NI=1,NINEFRIC_STAMP
+             DO N=1,NUMNOD
+                I=NODGLOB(N)
+                IF (NODAREA(N) == ZERO) THEN
+                   CSEFRIC_STAMP(NI,I)=ZERO
+                ELSE
+                  TMP=ONE/MAX(EM30,NODAREA(N))
+                  CSEFRIC_STAMP(NI,I)=TMP*EFRIC_STAMP(NI,I)
+                ENDIF
+             END DO
+            ENDDO
+        ELSE
+          IF(ISPMD==0)THEN 
+            DO NI=1,NINEFRIC_STAMP
+             DO N=1,NUMNODG
+                IF (NODAREAG(N) == ZERO) THEN
+                   CSEFRIC_STAMP(NI,N)=ZERO
+                ELSE
+                  TMP=ONE/MAX(EM30,NODAREAG(N))
+                  CSEFRIC_STAMP(NI,N)=TMP*CSEFRIC_STAMP(NI,N)
+                ENDIF
+             END DO
+            ENDDO
+          ELSE
+            DO NI=1,NINEFRIC_STAMP
+              DO N=1,NUMNODG
+                CSEFRIC_STAMP(NI,N)=ZERO
+              END DO
+            ENDDO
+          ENDIF
+        ENDIF
+       ENDIF
+C
+       IF(H3D_DATA%N_SCAL_CSE_FRIC > 0) THEN
+        IF (NSPMD == 1) THEN
+            DO N=1,NUMNOD
+              I=NODGLOB(N)
+              IF (NODAREA(N) == ZERO) THEN
+                 CSEFRICG_STAMP(I)=ZERO
+              ELSE
+                 TMP=ONE/MAX(EM30,NODAREA(N))
+                 CSEFRICG_STAMP(I)=TMP*EFRICG_STAMP(I)
+              ENDIF
+            ENDDO
+        ELSE
+          IF(ISPMD==0)THEN 
+            DO N=1,NUMNODG
+              IF (NODAREAG(N) == ZERO) THEN
+                 CSEFRICG_STAMP(N)=ZERO
+              ELSE
+                 TMP=ONE/MAX(EM30,NODAREAG(N))
+                 CSEFRICG_STAMP(N)=TMP*CSEFRICG_STAMP(N)
+              ENDIF
+            ENDDO
+          ELSE
+            DO N=1,NUMNODG
+              CSEFRICG_STAMP(N)=ZERO
+            END DO
+          ENDIF
+        ENDIF
+       ENDIF
+C
+      IF(NSPMD > 1)THEN
+        IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT+NINEFRIC_STAMP
+     .   +H3D_DATA%N_SCAL_CSE_FRIC /=0) DEALLOCATE(NODAREAG)
+      ENDIF
+          
       DEALLOCATE(NODAREA)
 C
       RETURN

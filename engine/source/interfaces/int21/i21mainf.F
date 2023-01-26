@@ -56,7 +56,7 @@ Chd|====================================================================
      B                   CONDNSKYI,DT2T   ,NELTST   ,ITYPTST ,KINET    ,
      C                   FBSAV6  ,ISENSINT,DIMFB    ,NISKYFI ,H3D_DATA ,
      D                   PSKIDS  ,TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
-     E                   DGAPLOADINT,S_LOADPINTER)
+     E                   DGAPLOADINT,S_LOADPINTER,INTEREFRIC,EFRICINT )                   
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE MESSAGE_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,6 +92,7 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "timeri_c.inc"
 #include      "warn_c.inc"
+#include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -107,8 +109,10 @@ C-----------------------------------------------
       INTEGER  , INTENT(IN) :: S_LOADPINTER
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .         LOADP_HYD_INTER(NLOADP_HYD)
+      INTEGER  , INTENT(IN) :: INTEREFRIC
 C     REAL
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
+      my_real  , INTENT(INOUT) :: EFRICINT(S_EFRICINTG)
       my_real 
      .   X(*), A(3,*), FSAV(*), V(3,*),
      .   MS(*),STIFN(*),FSKYI(LSKYI,4), FCONT(3,*),
@@ -154,7 +158,8 @@ C     REAL
      .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ), KT(MVSIZ), C(MVSIZ),
      .   PENRAD(MVSIZ), TEMPM(MVSIZ),EFRICT(MVSIZ),CONDINT(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .   PHI1(MVSIZ),PHI2(MVSIZ),PHI3(MVSIZ),PHI4(MVSIZ),PRATIO(MVSIZ)
+     .   PHI1(MVSIZ),PHI2(MVSIZ),PHI3(MVSIZ),PHI4(MVSIZ),PRATIO(MVSIZ),
+     .   EFRIC_L(MVSIZ)
       my_real
      .     RCURVI(MVSIZ), ANGLMI(MVSIZ), ANGLT, PADM
       INTEGER NRTMFT, NRTMLT, NRADM, ITRIA(MVSIZ)
@@ -377,7 +382,8 @@ C
      K  TEMPM        ,NPC       ,TF           ,IX1      ,IX2          ,
      L  IX3          ,IX4       ,DT2T         ,NELTST   ,ITYPTST      ,
      M  KINET        ,NISUB     ,ISENSINT     ,FSAVPARIT,NFT          ,
-     N  IFTLIM       ,NINSKID   ,PRATIO       ,PMAXSKID )
+     N  IFTLIM       ,NINSKID   ,PRATIO       ,PMAXSKID ,INTEREFRIC   ,
+     O  EFRIC_L      )
 C
           IF( INTTH > 0 ) THEN 
            CALL I21THERM(JLT   ,XI     ,YI    ,ZI    ,KTHE  ,
@@ -410,24 +416,25 @@ C
             STIF(1:JLT)=ZERO
           END IF
 C
-	  CALL I21ASS3(JLT     ,A      ,NIN    ,NOINT  ,FXN    ,
-     2  		FYN    ,FZN    ,FXT    ,FYT    ,FZT    ,
-     3  		IX1    ,IX2    ,IX3    ,IX4    ,NSVG   ,
-     4  		FCONT  ,FNCONT ,FTCONT ,LB     ,LC     ,
-     5  		ITRIA  ,STIFN  ,STIF   ,FSKYI  ,ISKY   ,
-     6  		ISECIN ,NSTRF  ,SECFCUM ,INTBUF_TAB%FTSAVX,
+	  CALL I21ASS3(JLT       ,A        ,NIN      ,NOINT    ,FXN    ,
+     2  		FYN      ,FZN      ,FXT      ,FYT      ,FZT    ,
+     3  		IX1      ,IX2      ,IX3      ,IX4      ,NSVG   ,
+     4  		FCONT    ,FNCONT   ,FTCONT   ,LB       ,LC     ,
+     5  		ITRIA    ,STIFN    ,STIF     ,FSKYI    ,ISKY   ,
+     6  		ISECIN   ,NSTRF    ,SECFCUM  ,INTBUF_TAB%FTSAVX,
      .  					  INTBUF_TAB%FTSAVY,
-     7  		INTBUF_TAB%FTSAVZ,CAND_N_N,INTSTAMP,WEIGHT,
+     7  		INTBUF_TAB%FTSAVZ  ,CAND_N_N ,INTSTAMP,WEIGHT  ,
      .  					  INTBUF_TAB%MSR21,
-     8  		INTTH  ,PHI    ,FTHE   ,FTHESKYI,MXI   ,
-     9  		MYI    ,MZI    ,STRI   ,NODGLOB,NCONT  ,
-     A  		INDEXCONT,TAGCONT,CONDN,CONDINT,CONDNSKYI,
-     B                  IFORM_THE, PHI1    ,PHI2 ,PHI3  ,PHI4     ,
-     C                  H1       ,H2       ,H3   ,H4    ,NISKYFI  ,
-     D                  INTBUF_TAB%MSR_L   ,ITAB ,H3D_DATA,NINSKID,
-     E                  PRATIO,H3D_DATA%N_SCAL_SKID,PSKIDS,IPARI(95,NIN),
-     F                  TAGNCONT,KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,
-     G                  DGAPLOADINT,DIST,GAPV,S_LOADPINTER   )  
+     8  		INTTH    ,PHI      ,FTHE   ,FTHESKYI  ,MXI     ,
+     9  		MYI      ,MZI      ,STRI   ,NODGLOB   ,NCONT   ,
+     A  		INDEXCONT,TAGCONT  ,CONDN  ,CONDINT   ,CONDNSKYI,
+     B                  IFORM_THE, PHI1    ,PHI2   ,PHI3      ,PHI4     ,
+     C                  H1       ,H2       ,H3     ,H4        ,NISKYFI  ,
+     D                  INTBUF_TAB%MSR_L   ,ITAB   ,H3D_DATA  ,NINSKID  ,
+     E                  PRATIO   ,H3D_DATA%N_SCAL_SKID,PSKIDS ,IPARI(95,NIN),
+     F                  TAGNCONT ,KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,
+     G                  DGAPLOADINT,DIST,GAPV,S_LOADPINTER    ,EFRIC_L  ,
+     H                  FHEAT     ,EFRICT ,INTEREFRIC,EFRICINT )  
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 C

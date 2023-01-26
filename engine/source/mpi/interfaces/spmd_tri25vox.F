@@ -284,8 +284,8 @@ C thermic
       ENDIF
 
 C Interface Adhesion      
-      IF(ITYP==25.AND.(IVIS2==-1.AND.INTTH == 0) ) THEN    
-        RSIZ = RSIZ + 1 ! areas
+      IF(ITYP==25.AND.IVIS2==-1 ) THEN    
+         IF(INTTH==0) RSIZ = RSIZ + 1 ! areas
         ISIZ = ISIZ + 2 ! if_adh+ioldnsnfi
       ENDIF
 
@@ -742,20 +742,20 @@ C thermic
             ENDIF
 
 C Interface Adhesion
-            IF(ITYP==25.AND.IVIS2==-1.AND.INTTH==0)THEN                                                  
+            IF(ITYP==25.AND.IVIS2==-1)THEN                                                  
               L = 0
               L2 = 0
 #include      "vectorize.inc"                       
               DO J = 1, NB
                 I = INDEX(J)
                 NOD = NSV(I)
-                RBUF(P)%p(L+RSHIFT) = AREAS(I)
+                IF(INTTH==0) RBUF(P)%p(L+RSHIFT) = AREAS(I)
                 IBUF(p)%p(L2+ISHIFT) = IF_ADH(I)
                 IBUF(P)%p(L2+ISHIFT+1)=ITAGNSNFI(NOD)
-                L = L + RSIZ
+                IF(INTTH==0) L = L + RSIZ
                 L2 = L2 + ISIZ
               END DO
-              RSHIFT = RSHIFT + 1
+              IF(INTTH==0) RSHIFT = RSHIFT + 1
               ISHIFT = ISHIFT + 2 
             ENDIF 
 

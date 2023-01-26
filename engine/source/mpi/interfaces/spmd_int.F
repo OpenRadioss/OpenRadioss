@@ -394,8 +394,8 @@ C thermic
       ENDIF
 
 C Interface Adhesion      
-      IF(ITYP==25.AND.(IVIS2==-1.AND.INTTH == 0) ) THEN    
-        RSIZ = RSIZ + 1 ! areas
+      IF(ITYP==25.AND.IVIS2==-1) THEN    
+         IF(INTTH==0) RSIZ = RSIZ + 1 ! areas
         ISIZ = ISIZ + 2 ! if_adh+ioldnsnfi
       ENDIF
 
@@ -607,20 +607,20 @@ C thermic
 	    ENDIF
 
 C Interface Adhesion
-            IF(ITYP==25.AND.IVIS2==-1.AND.INTTH==0)THEN							 
+            IF(ITYP==25.AND.IVIS2==-1)THEN							 
               L = 0
               L2 = 0
 #include      "vectorize.inc"	       	       	    
               DO J = 1, NB
                 I = INDEX(J)
                 NOD = NSV(I)
-                RBUF(P)%p(L+RSHIFT) = AREAS(I)
+                 IF(INTTH==0) RBUF(P)%p(L+RSHIFT) = AREAS(I)
                 IBUF(p)%p(L2+ISHIFT) = IF_ADH(I)
                 IBUF(P)%p(L2+ISHIFT+1)=ITAGNSNFI(NOD)
-                L = L + RSIZ
+                 IF(INTTH==0) L = L + RSIZ
                 L2 = L2 + ISIZ
               END DO
-              RSHIFT = RSHIFT + 1
+               IF(INTTH==0) RSHIFT = RSHIFT + 1
               ISHIFT = ISHIFT + 2 
             ENDIF 
 
@@ -2922,7 +2922,7 @@ C
         CALL ARRET(2)
       ENDIF
 C
-C allocations conditionnelles output pression
+C allocations conditionnelles output pression / friction energy
 C
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0)THEN
         IF(ASSOCIATED(FNCONTI(NIN)%P)) DEALLOCATE(FNCONTI(NIN)%P)
@@ -2940,6 +2940,33 @@ C
             FTCONTI(NIN)%P(1,J)=ZERO
             FTCONTI(NIN)%P(2,J)=ZERO
             FTCONTI(NIN)%P(3,J)=ZERO
+          END DO                  
+        END IF  		      
+      END IF
+
+      IF(H3D_DATA%N_SCAL_CSE_FRICINT >0)THEN
+       IF(H3D_DATA%N_CSE_FRIC_INTER (NIN) >0)THEN
+        IF(ASSOCIATED(EFRICFI(NIN)%P)) DEALLOCATE(EFRICFI(NIN)%P)
+        ALLOCATE(EFRICFI(NIN)%P(NODFI),STAT=IERROR1)
+        IF(IERROR1/=0) THEN
+          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+          CALL ARRET(2)
+        ELSE
+          DO J = 1, NODFI
+            EFRICFI(NIN)%P(J)=ZERO
+          END DO                  
+        END IF  		      
+       END IF
+      ENDIF
+      IF(H3D_DATA%N_SCAL_CSE_FRIC >0)THEN
+        IF(ASSOCIATED(EFRICGFI(NIN)%P)) DEALLOCATE(EFRICGFI(NIN)%P)
+        ALLOCATE(EFRICGFI(NIN)%P(NODFI),STAT=IERROR1)
+        IF(IERROR1/=0) THEN
+          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+          CALL ARRET(2)
+        ELSE
+          DO J = 1, NODFI
+            EFRICGFI(NIN)%P(J)=ZERO
           END DO                  
         END IF  		      
       END IF
@@ -3472,6 +3499,33 @@ C
           END DO                  
         END IF  		      
       END IF
+
+      IF(H3D_DATA%N_SCAL_CSE_FRICINT >0)THEN
+       IF(H3D_DATA%N_CSE_FRIC_INTER (NIN) >0)THEN
+        IF(ASSOCIATED(EFRICFI(NIN)%P)) DEALLOCATE(EFRICFI(NIN)%P)
+        ALLOCATE(EFRICFI(NIN)%P(NODFI),STAT=IERROR1)
+        IF(IERROR1/=0) THEN
+          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+          CALL ARRET(2)
+        ELSE
+          DO J = 1, NODFI
+            EFRICFI(NIN)%P(J)=ZERO
+          END DO                  
+        END IF  		      
+       END IF
+      ENDIF
+      IF(H3D_DATA%N_SCAL_CSE_FRIC >0)THEN
+        IF(ASSOCIATED(EFRICGFI(NIN)%P)) DEALLOCATE(EFRICGFI(NIN)%P)
+        ALLOCATE(EFRICGFI(NIN)%P(NODFI),STAT=IERROR1)
+        IF(IERROR1/=0) THEN
+          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+          CALL ARRET(2)
+        ELSE
+          DO J = 1, NODFI
+            EFRICGFI(NIN)%P(J)=ZERO
+          END DO                  
+        END IF  		      
+      END IF
 C
 C
 C Renumerotation des candidats
@@ -3508,6 +3562,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4190,7 +4245,6 @@ C
           END DO                  
         END IF  		      
       END IF
-
 C
 C Renumerotation des candidats
 C
@@ -4926,6 +4980,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
