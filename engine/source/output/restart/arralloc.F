@@ -87,6 +87,7 @@ C-----------------------------------------------
       USE SEATBELT_MOD    
       USE SEGVAR_MOD 
       USE OUTMAX_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1860,7 +1861,32 @@ C
             ALLOCATE(FNCONT2_MIN(0),STAT=IERR)
             ALLOCATE(FTCONT2_MIN(0),STAT=IERR)
          END IF
-C 
+C----Frictional energy output  when it is coming from restart
+C
+         IF(S_EFRICINT > 0)THEN
+           IF(NINEFRIC > 0) THEN 
+            MY_ALLOCATE2D(EFRIC,NINEFRIC,NUMNOD)
+           ELSE 
+            MY_ALLOCATE2D(EFRIC,0,0)
+           ENDIF
+           IF(NINEFRIC_STAMP > 0) THEN
+              MY_ALLOCATE2D(EFRIC_STAMP,NINEFRIC_STAMP,NUMNODG)
+           ELSE
+            MY_ALLOCATE2D(EFRIC_STAMP,0,0)
+           ENDIF
+         END IF 
+C
+         IF(H3D_DATA%N_SCAL_CSE_FRIC >0.OR.S_EFRIC > 0)THEN
+            MY_ALLOCATE(EFRICG,NUMNOD)
+            IF(NINTSTAMP/=0) THEN
+              MY_ALLOCATE(EFRICG_STAMP,NUMNODG)
+            ELSE
+              MY_ALLOCATE(EFRICG_STAMP,0)
+            ENDIF
+         ELSE
+            MY_ALLOCATE(EFRICG,0)
+            MY_ALLOCATE(EFRICG_STAMP,0)
+         ENDIF
 C
          IF(NINTSTAMP/=0.AND.(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.OR.
      .          ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0))THEN

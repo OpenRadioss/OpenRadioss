@@ -75,7 +75,7 @@ Chd|====================================================================
      H                   DIMFB     ,H3D_DATA,INTBUF_FRIC_TAB  ,NISKYFIE,
      I                   APINCH    ,STIFPINCH,NPC   ,TF       ,CONDN   ,
      J                   CONDNSKYI ,QFRICINT,TAGNCONT,KLOADPINTER,LOADPINTER,
-     K                   LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
+     K                   LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,EFRICINT)
 C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -86,6 +86,7 @@ C-----------------------------------------------
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
       USE TRI25EBOX
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -133,7 +134,9 @@ C-----------------------------------------------
       INTEGER  , INTENT(IN) :: S_LOADPINTER
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .         LOADP_HYD_INTER(NLOADP_HYD)
+      INTEGER  , INTENT(IN) :: INTEREFRIC
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
+      my_real  , INTENT(INOUT) :: EFRICINT(S_EFRICINT)
       my_real 
      .        EMINX(*)
 C     REAL
@@ -713,7 +716,7 @@ C-------------------------------------------------------------------------------
      C  INTTH       ,DRAD       ,FHEATS       ,FHEATM     ,QFRICINT(NIN),
      D  EFRICT      ,TAGNCONT   ,KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER,
      E  INTBUF_TAB%TYPSUB,IPARI(40,NIN),NINLOADP,DGAPLOADINT,S_LOADPINTER,
-     F  DIST        ,DGAPLOADPMAX  )
+     F  DIST        ,DGAPLOADPMAX,INTEREFRIC  ,EFRICINT   )
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 

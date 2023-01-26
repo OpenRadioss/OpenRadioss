@@ -217,6 +217,17 @@ c-----------------------------------------------
       H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'INTERNAL.ID'
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Internal identifier'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'CSE_FRIC'
+      H3D_KEYWORD_NODAL_SCALAR(I)%IS_INTER = 1
+      H3D_KEYWORD_NODAL_SCALAR(I)%IS_INTER_ALL = 1
+      H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Surface frictional contact energy  for Interface'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'CSE_FRICG'
+      H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Surface frictional contact energy'
+      H3D_KEYWORD_NODAL_SCALAR(I)%COMMENT  = 'Node Energy density (Sum of all contacts) '
+c-----------------------------------------------
 
       NKEY=I
       END

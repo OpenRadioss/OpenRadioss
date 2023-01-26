@@ -122,6 +122,7 @@ C-----------------------------------------------
       USE SEATBELT_MOD
       USE PBLAST_MOD
       USE OUTMAX_MOD
+      USE OUTPUTS_MOD
 C ecriture restart pour version spmd
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1290,6 +1291,15 @@ C--------------------------------------
           CALL WRITE_DB(FNCONT2_MIN, 3*NUMNOD)
           CALL WRITE_DB(FTCONT2_MIN, 3*NUMNOD)
         ENDIF
+C--------Frictional energy output-------
+      IF(S_EFRICINT >0)THEN
+         IF(NINEFRIC > 0) CALL WRITE_DB(EFRIC, NINEFRIC*NUMNOD)
+         IF(NINEFRIC_STAMP > 0) CALL WRITE_DB(EFRIC_STAMP, NINEFRIC_STAMP*NUMNODG)
+      ENDIF
+      IF(S_EFRIC >0)THEN
+         CALL WRITE_DB(EFRICG, NUMNOD)
+         IF(NINTSTAMP/=0) CALL WRITE_DB(EFRICG_STAMP, NUMNODG)
+      ENDIF
 C--------------------------------------
 C  Interface friction buffer (integer )
 C--------------------------------------

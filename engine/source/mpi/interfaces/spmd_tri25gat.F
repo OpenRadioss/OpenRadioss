@@ -229,7 +229,7 @@ C
 
 C create a temporary array IFFI_ADH to copy old values
 
-        IF(ITY==25.AND.IVIS2==-1.AND.INTTH==0) THEN
+        IF(ITY==25.AND.IVIS2==-1) THEN
           ALLOCATE(IFFI_ADH(NSNR_OLD), STAT=IERROR16)
           IFFI_ADH(1:NSNR_OLD) = 0
         ENDIF
@@ -262,7 +262,7 @@ C
         ALLOCATE(STIF_OLDFI(NIN)%P(2,NODFI),STAT=IERROR16)
 C
 C copy old values of if_adh
-        IF(IVIS2==-1.AND.INTTH==0) THEN
+        IF(IVIS2==-1) THEN
           IF(ASSOCIATED(IF_ADHFI(NIN)%P)) THEN
               IFFI_ADH(1:NSNR_OLD)=IF_ADHFI(NIN)%P(1:NSNR_OLD)
               DEALLOCATE(IF_ADHFI(NIN)%P)
@@ -309,7 +309,7 @@ C
         STIF_OLDFI(NIN)%P(1:2,1:NODFI)=ZERO
 C
 C reset FI
-        IF(IVIS2==-1.AND.INTTH==0) IF_ADHFI(NIN)%P(1:NODFI) = 0
+        IF(IVIS2==-1) IF_ADHFI(NIN)%P(1:NODFI) = 0
 C
         IF(FLAGREMN == 2 ) THEN
            ALLOCATE(REMNOR_FI_TMP(NODFI*LREMNORMAX),STAT=IERROR20)
@@ -413,7 +413,7 @@ C thermic
               ISHIFT = ISHIFT + 1
             ENDIF
 C Interface Adhesion
-            IF(IVIS2==-1.AND.INTTH==0)THEN
+            IF(IVIS2==-1)THEN
               JDEB = 0
               DO Q=1,P-1
                 JDEB = JDEB + NSNFIOLD(Q)
@@ -422,7 +422,7 @@ C Interface Adhesion
 #include      "vectorize.inc"
                 DO J = 1, NN
                   I = IAUX(J)
-                  AREASFI(NIN)%P(NN2+J) = XREM(RSHIFT,I+IDEB)
+                  IF(INTTH==0) AREASFI(NIN)%P(NN2+J) = XREM(RSHIFT,I+IDEB)
                   IF_ADHFI(NIN)%P(NN2+J) = IREM(ISHIFT,I+IDEB)
                   IOLDNSNFI = IREM(ISHIFT+1,I+IDEB)
                 ENDDO
@@ -430,7 +430,7 @@ C Interface Adhesion
 #include      "vectorize.inc"
                 DO J = 1, NN
                   I = IAUX(J)
-                  AREASFI(NIN)%P(NN2+J) = XREM(RSHIFT,I+IDEB)
+                   IF(INTTH==0) AREASFI(NIN)%P(NN2+J) = XREM(RSHIFT,I+IDEB)
                   IOLDNSNFI = IREM(ISHIFT+1,I+IDEB)
                   IF(IOLDNSNFI /= 0)THEN
                     IF_ADHFI(NIN)%P(NN2+J)=IFFI_ADH(IOLDNSNFI+JDEB)
@@ -439,7 +439,7 @@ C Interface Adhesion
                   ENDIF
                 ENDDO
               ENDIF
-              RSHIFT = RSHIFT + 1
+               IF(INTTH==0) RSHIFT = RSHIFT + 1
               ISHIFT = ISHIFT + 2
             ENDIF
 
@@ -708,7 +708,7 @@ C
         CALL ARRET(2)
       ENDIF
 C
-C pressure output
+C pressure output / friction energy output
 C
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0)THEN
         IF(ASSOCIATED(FNCONTI(NIN)%P)) DEALLOCATE(FNCONTI(NIN)%P)
@@ -728,6 +728,34 @@ C
             FTCONTI(NIN)%P(3,J)=ZERO
           END DO
         END IF
+      END IF
+
+      IF(H3D_DATA%N_SCAL_CSE_FRICINT >0)THEN
+       IF(H3D_DATA%N_CSE_FRIC_INTER (NIN) >0)THEN
+        IF(ASSOCIATED(EFRICFI(NIN)%P)) DEALLOCATE(EFRICFI(NIN)%P)
+        ALLOCATE(EFRICFI(NIN)%P(NODFI),STAT=IERROR1)
+        IF(IERROR1/=0) THEN
+          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+          CALL ARRET(2)
+        ELSE
+          DO J = 1, NODFI
+            EFRICFI(NIN)%P(J)=ZERO
+          END DO                  
+        END IF  		      
+       END IF
+      ENDIF
+
+      IF(H3D_DATA%N_SCAL_CSE_FRIC >0)THEN
+        IF(ASSOCIATED(EFRICGFI(NIN)%P)) DEALLOCATE(EFRICGFI(NIN)%P)
+        ALLOCATE(EFRICGFI(NIN)%P(NODFI),STAT=IERROR1)
+        IF(IERROR1/=0) THEN
+          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+          CALL ARRET(2)
+        ELSE
+          DO J = 1, NODFI
+            EFRICGFI(NIN)%P(J)=ZERO
+          END DO                  
+        END IF  		      
       END IF
 C
 C Renumbering candidate

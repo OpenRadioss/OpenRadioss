@@ -88,6 +88,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE ALE_CONNECTIVITY_MOD
       USE SENSOR_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -116,6 +117,7 @@ C-----------------------------------------------
 #include      "ige3d_c.inc"
 #include      "timeri_c.inc"
 #include      "tabsiz_c.inc"
+#include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------     
@@ -175,7 +177,7 @@ C-----------------------------------------------
      .        IAD17, IGN, IGE, NME, NMES, ISTAMP,NN1,NN2,j,ISENS
 C
       INTEGER NB_JLT(PARASIZ),NB_JLT_NEW(PARASIZ),NB_STOK_N(PARASIZ),NTH
-      INTEGER ISU1, NBRIC, II, IBRIC, INOD, NODEID
+      INTEGER ISU1, NBRIC, II, IBRIC, INOD, NODEID, INTEREFRIC
       SAVE NB_JLT,NB_JLT_NEW,NB_STOK_N
       my_real
      .   PCT,PCT1,PCT2, TS, BID
@@ -229,6 +231,7 @@ C
         ELSE
            TS = TT
         ENDIF
+        INTEREFRIC = H3D_DATA%N_CSE_FRIC_INTER (N) 
 C
         NTH = N
 C-----  INTER/TYPE19 -> output redirected for TYPE7 and TYPE11
@@ -304,9 +307,10 @@ C
      F  NODNX_SMS      ,MS0            ,QFRICINT         ,NPC             ,TF          ,
      G  CONDN          ,CONDNSKYI      ,INTBUF_TAB(N)    ,
      H  FBSAV6         ,ISENSINT(1,N)  ,DIMFB            ,IXIG3D          ,
-     I  KXIG3D         ,WIGE           ,KNOT             ,IGEO            ,MULTI_FVM   , H3D_DATA,
-     J  INTBUF_FRIC_TAB,KNOTLOCPC      ,KNOTLOCEL        ,JTASK           ,
-     K  TAGNCONT       ,KLOADPINTER    ,LOADPINTER       ,LOADP_HYD_INTER ,DGAPLOADINT ,S_LOADPINTER)
+     I  KXIG3D         ,WIGE           ,KNOT             ,IGEO            ,MULTI_FVM   , 
+     J  H3D_DATA       ,INTBUF_FRIC_TAB,KNOTLOCPC      ,KNOTLOCEL        ,JTASK        ,
+     K  TAGNCONT       ,KLOADPINTER    ,LOADPINTER       ,LOADP_HYD_INTER ,DGAPLOADINT ,
+     L  S_LOADPINTER   ,INTEREFRIC     ,EFRIC(INTEREFRIC,1))
           ELSE
            NULLIFY(ptr_FR_I18)
            IF(NI18>0) ptr_FR_I18 => FR_I18(1,NI18)           
@@ -327,9 +331,10 @@ C
      F  NODNX_SMS ,MS0            ,QFRICINT         ,NPC             ,TF          ,
      G  CONDN      ,CONDNSKYI     ,INTBUF_TAB(N)    ,
      H  FBSAV6     ,ISENSINT(1,N) ,DIMFB            ,IXIG3D          ,              
-     I  KXIG3D     ,WIGE          ,KNOT             ,IGEO            ,MULTI_FVM,    H3D_DATA,    
-     J  INTBUF_FRIC_TAB           ,KNOTLOCPC        ,KNOTLOCEL       ,JTASK       ,
-     K  TAGNCONT    ,KLOADPINTER  ,LOADPINTER       ,LOADP_HYD_INTER ,DGAPLOADINT ,S_LOADPINTER)
+     I  KXIG3D     ,WIGE          ,KNOT             ,IGEO            ,MULTI_FVM,     
+     J  H3D_DATA   ,INTBUF_FRIC_TAB,KNOTLOCPC       ,KNOTLOCEL       ,JTASK       ,
+     K  TAGNCONT    ,KLOADPINTER  ,LOADPINTER       ,LOADP_HYD_INTER ,DGAPLOADINT ,
+     L  S_LOADPINTER,INTEREFRIC   ,EFRIC(INTEREFRIC,1))
            IAD=IAD+NUM_IMP(N)
           END IF
           IF(NTY == 17 .AND. IPARI(33,N) == 0)THEN            ! ILAGM == 0
@@ -373,7 +378,7 @@ C
      9     NUM_IMP(N),NS_IMP(IAD)  ,NE_IMP(IAD)  ,IND_IMP(IAD),FNCONT  ,
      A      FTCONT   ,MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS   ,
      B      ICONTACT ,INTBUF_TAB(N),FBSAV6,ISENSINT(1,N),DIMFB       ,
-     C      H3D_DATA  )
+     C      H3D_DATA )
            IAD=IAD+NUM_IMP(N)
           ENDIF
 C-----------------------------------------------------------------------
@@ -396,7 +401,7 @@ C
      9  NPC        , TF          ,CONDN        ,CONDNSKYI ,FBSAV6     ,
      A  ISENSINT(1,N),DIMFB      ,FSAV(1,NN1)  ,H3D_DATA  ,INTBUF_FRIC_TAB,
      B  JTASK      ,TAGNCONT      ,KLOADPINTER ,LOADPINTER,LOADP_HYD_INTER,
-     C  DGAPLOADINT,S_LOADPINTER)
+     C  DGAPLOADINT,S_LOADPINTER )
           ELSE
            CALL I11MAINF(
      1  IPARI(1,N) ,X            ,A          ,
@@ -410,7 +415,7 @@ C
      9  NPC        , TF          ,CONDN        ,CONDNSKYI ,FBSAV6     ,
      A  ISENSINT(1,N),DIMFB      ,FSAV(1,NN1)  ,H3D_DATA  ,INTBUF_FRIC_TAB,
      B  JTASK      ,TAGNCONT      ,KLOADPINTER ,LOADPINTER,LOADP_HYD_INTER,
-     C  DGAPLOADINT,S_LOADPINTER)
+     C  DGAPLOADINT,S_LOADPINTER )
           ENDIF
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 20) THEN
@@ -476,7 +481,7 @@ C
      B  CONDNSKYI ,DT2T         ,NELTST     ,ITYPTST      ,KINET       ,
      C  FBSAV6    ,ISENSINT(1,N),DIMFB      ,NISKYFI(N)   ,H3D_DATA    ,
      D  PSKIDS    ,TAGNCONT     ,KLOADPINTER,LOADPINTER   ,LOADP_HYD_INTER,
-     E  DGAPLOADINT,S_LOADPINTER)
+     E  DGAPLOADINT,S_LOADPINTER,INTEREFRIC ,EFRIC_STAMP(INTEREFRIC-NINEFRIC,1))
 C-----------------------------------------------------------------------
 C
 C-----------------------------------------------------------------------
@@ -560,7 +565,8 @@ C
      G  FBSAV6      ,ISENSINT(1,N),
      H  DIMFB      ,H3D_DATA    ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
      I  T2FAC_SMS  ,NPC         ,TF          ,TAGNCONT    ,KLOADPINTER ,
-     J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
+     J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,
+     K  EFRIC(INTEREFRIC,1)     )
 
           ELSE
            CALL I24MAINF(
@@ -581,7 +587,8 @@ C
      G  FBSAV6     ,ISENSINT(1,N),
      H  DIMFB     ,H3D_DATA     ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
      I  T2FAC_SMS ,NPC         ,TF           ,TAGNCONT    ,KLOADPINTER ,
-     J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
+     J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,
+     K  EFRIC(INTEREFRIC,1)    )
            IAD=IAD+NUM_IMP(N)
           END IF
 C-----------------------------------------------------------------------
@@ -618,8 +625,8 @@ C
      G  FBSAV6     ,ISENSINT(1,N),
      H  DIMFB      ,H3D_DATA    ,INTBUF_FRIC_TAB,NISKYFIE(N),
      I  APINCH     ,STIFPINCH   ,NPC         ,TF         , CONDN      ,
-     J  CONDNSKYI  ,QFRICINT    ,TAGNCONT    ,KLOADPINTER,LOADPINTER   ,
-     K  LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
+     J  CONDNSKYI  ,QFRICINT    ,TAGNCONT    ,KLOADPINTER,LOADPINTER  ,
+     K  LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,EFRIC(INTEREFRIC,1))
 
          IF(IMPL_S == 1) IAD=IAD+NUM_IMP(N)
 C-----------------------------------------------------------------------

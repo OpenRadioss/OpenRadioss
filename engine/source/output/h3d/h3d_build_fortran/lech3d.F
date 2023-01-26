@@ -151,7 +151,7 @@ C-----------------------------------------------
      .        ISHELL_NPT_CHECK,ICSTR,NPTR,NPTS,NPTT,IS_CORNER_DATA,ISH_NPT0,
      .        IS_MDSVAR_DEF,NMDSVAR_MAX,IS_MDSVAR,IS_MDSVAR_ALL,IMDSVAR,
      .        IS_MODEL_NPT,IS_MODEL_PLY,IS_MODEL_LAYER,ISKIND,IOUTER,IPEXT,
-     .        IS_ID,ID,ID_MAX,IS_ID_ALL
+     .        IS_ID,ID,ID_MAX,IS_ID_ALL,NINEFRIC
       INTEGER MLW,NEL,NG,JTURB,NLAY,NUVAR,IPLY,IMAT,ISUBSTACK,ID_PLY_TMP
       CHARACTER  KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, KEY5*ncharkey, KEY6*ncharkey,
      .           KEY7*ncharkey,KEY8*ncharkey,KEY3_GLOB*ncharline,KEY3_READ*ncharline, 
@@ -217,6 +217,9 @@ c
       H3D_DATA%N_SKID_INTER(1:NINTER) = 0
       NINTERSKID = 0
  
+      ALLOCATE(H3D_DATA%N_CSE_FRIC_INTER(NINTER))
+      H3D_DATA%N_CSE_FRIC_INTER(1:NINTER) = 0
+      NINEFRIC = 0
       MDS_LABEL_TMP=' '
 C-------------------------------------------------- 
 C ALLOCATE / INIT KEYWORD LISTS
@@ -733,10 +736,16 @@ C--------------------------
                            IF(IPARI(15,K) == INTER) THEN
 c                             H3D_DATA%OUTPUT_LIST(I)%INTER = K 
                              INTER_INPUT(CPT_H3D) = K
-                             NINTERSKID = NINTERSKID +1
-                             H3D_DATA%N_SCAL_SKID = NINTERSKID
-                             H3D_DATA%N_SKID_INTER(K) = NINTERSKID
-                               EXIT 
+                             IF(KEY3_GLOB(1:4) == 'SKID' ) THEN
+                                NINTERSKID = NINTERSKID +1
+                                H3D_DATA%N_SCAL_SKID = NINTERSKID
+                                H3D_DATA%N_SKID_INTER(K) = NINTERSKID
+                             ELSEIF(KEY3_GLOB(1:8) == 'CSE_FRIC' ) THEN
+                                NINEFRIC = NINEFRIC +1
+                                H3D_DATA%N_SCAL_CSE_FRICINT = NINEFRIC
+                                H3D_DATA%N_CSE_FRIC_INTER(K) = NINEFRIC
+                             ENDIF
+                             EXIT 
                             ENDIF
                           ENDDO
                        ENDIF
@@ -747,10 +756,15 @@ c                             H3D_DATA%OUTPUT_LIST(I)%INTER = K
 	 	  	CPT_H3D = CPT_H3D + 1
 c
 	 	  	INTER_INPUT(CPT_H3D) = K
-           		IS_AVAILABLE_KEY(CPT_H3D) = 1 
-                        H3D_DATA%N_SKID_INTER(K) = K
+           		IS_AVAILABLE_KEY(CPT_H3D) = 1
+                        IF(KEY3_GLOB(1:4) == 'SKID' ) THEN 
+                           H3D_DATA%N_SKID_INTER(K) = K
+                        ELSEIF(KEY3_GLOB(1:8) == 'CSE_FRIC' ) THEN
+                           H3D_DATA%N_CSE_FRIC_INTER(K) = K
+                        ENDIF
 	 	     ENDDO
-                     H3D_DATA%N_SCAL_SKID = NINTER
+                     IF(KEY3_GLOB(1:4) == 'SKID' ) H3D_DATA%N_SCAL_CSE_FRICINT = NINTER
+                     IF(KEY3_GLOB(1:8) == 'CSE_FRIC' ) H3D_DATA%N_SCAL_CSE_FRIC = NINTER
            	   ENDIF
            	  ENDIF
            	ELSE
@@ -760,7 +774,6 @@ c
            	  IS_AVAILABLE_KEY(CPT_H3D) = 1 
            	ENDIF
 	      ENDIF
-
 	      IF ( IS_SCALAR == 1 ) THEN
                 DO K=1,CPT_H3D
            	   IF (IS_AVAILABLE_KEY(K) == 1 .AND. IS_SCALAR == 1) THEN

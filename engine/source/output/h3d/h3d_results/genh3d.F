@@ -139,8 +139,9 @@ Chd|====================================================================
      1                  SH4TREE  ,SH3TREE  ,H3D_DATA    ,MULTI_FVM   ,SUBSET    ,
      2                  PSKIDS   ,TAG_SKINS6,TF         ,NPF         ,FCONT_MAX ,
      3                  MDS_MATID,FNCONTP2 ,FTCONTP2    ,IBCL        ,ILOADP    ,
-     4                  LLOADP   ,FAC      ,SENSOR_TAB  ,TAGNCONT    ,
-     5                  LOADP_HYD_INTER,XFRAME,FORC     ,AR          )
+     4                  LLOADP   ,FAC      ,SENSOR_TAB  ,TAGNCONT    ,LOADP_HYD_INTER,
+     5                  XFRAME   ,FORC     ,AR          ,CSEFRIC     ,CSEFRICG  ,
+     6                  CSEFRIC_STAMP,CSEFRICG_STAMP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -160,6 +161,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE OUTMAX_MOD
       USE H3D_INC_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -280,6 +282,8 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       my_real , INTENT(IN) :: AR(SAR)
+      my_real  , INTENT(IN) :: CSEFRIC(NINEFRIC,S_EFRICINT) ,CSEFRICG(S_EFRIC),
+     .                         CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG) ,CSEFRICG_STAMP(S_EFRICG)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -350,7 +354,7 @@ C-----------------------------------------------
      .        NFVPART, NFVSUBS, IDMAX, KK, NN, FVIAD, JJ, OFFPART,
      .        ELOFF, IDCMAX, NND, NBID1, NBID2, NBID3, NFVNODT, IDP,
      .        NBPART2D, ISUBG,EMPSIZPL,IRUNN,IR,IS,IT,INTER_INPUT,INTERSKID,
-     .        NI, ITYSKID
+     .        NI, ITYSKID, INTERFRIC
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: SHELL_ID,SHELL_ID_P,
      .                                      SHELL_ITY,SHELL_ITY_P,ONED_ID,ONED_ID_P,
@@ -1878,7 +1882,15 @@ c-----
                 ENDIF
              ENDDO
           ENDIF
-
+          INTERFRIC = 0
+          IF(KEYWORD == 'CSE_FRIC')THEN
+            DO NI=1,NINTER
+               IF(NI == INTER_INPUT ) THEN
+                  INTERFRIC = H3D_DATA%N_CSE_FRIC_INTER (NI) 
+                  EXIT
+                ENDIF
+             ENDDO
+          ENDIF
 c          IF(ISPMD == 0) print *,'nodal scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1',INFO1,'INFO2',INFO2
 
 c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
@@ -1895,7 +1907,8 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                     NPBY     ,RBY           ,INTERSKID     ,H3D_DATA%N_SCAL_SKID,PSKIDS,
      .                     NODGLOB  ,ITYSKID       ,IPARTSP       ,IPARTR       ,IPARTP    , 
      .                     IPARTT   ,IPARTS        ,IPARTQ        ,KXSP         ,IXR       ,
-     .                     IXP      ,IXT           ,N_H3D_PART_LIST)
+     .                     IXP      ,IXT           ,N_H3D_PART_LIST,INTERFRIC   ,CSEFRIC  ,
+     .                     CSEFRICG ,CSEFRIC_STAMP ,CSEFRICG_STAMP )
 
 c
           IF (NSPMD > 1 ) THEN
@@ -1909,6 +1922,27 @@ c
      .                 INTERSKID,H3D_DATA%N_SCAL_SKID)
                ELSE
                   CALL SPMD_H3D_MAX_R_NODAL_VALUE(NODGLOB,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG)
+               ENDIF
+            ELSEIF(KEYWORD == 'CSE_FRIC'.AND.INTERFRIC > 0)THEN
+               CALL SPMD_OUTPITAB(NODE_ID,WEIGHT,NODGLOB,NODE_ID_P)
+               CALL SPMD_OUTPITAB(IS_WRITEN_NODE,WEIGHT,NODGLOB,IS_WRITEN_NODE_P)   
+               IF(INTERFRIC <= NINEFRIC ) THEN
+                  CALL SPMD_H3D_SUM_R_NODAL_VALUE(NODGLOB,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG)
+               ELSE
+                  IF(ISPMD == 0) THEN
+                     NODAL_SCALAR_P(1:NUMNODG) =CSEFRIC_STAMP(INTERFRIC-NINEFRIC,1:NUMNODG)
+                  ENDIF
+               ENDIF
+            ELSEIF(KEYWORD == 'CSE_FRICG')THEN
+               CALL SPMD_OUTPITAB(NODE_ID,WEIGHT,NODGLOB,NODE_ID_P)
+               CALL SPMD_OUTPITAB(IS_WRITEN_NODE,WEIGHT,NODGLOB,IS_WRITEN_NODE_P)   
+               IF(NINTSTAMP==0) THEN
+                  CALL SPMD_H3D_SUM_R_NODAL_VALUE(NODGLOB,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG)
+               ELSE
+                  CALL SPMD_H3D_SUM_R_NODAL_VALUE(NODGLOB,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG)
+                  IF(ISPMD == 0) THEN
+                     NODAL_SCALAR_P(1:NUMNODG) =NODAL_SCALAR_P(1:NUMNODG) + CSEFRICG_STAMP(1:NUMNODG)
+                  ENDIF
                ENDIF
             ELSE
                CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,NODE_ID,NUMNOD,NODE_ID_P,NUMNODG) 

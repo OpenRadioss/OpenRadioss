@@ -498,6 +498,7 @@ C indiquant pour chaque interface type7, 10, 24, 25, et pour chaque noeud remote
 C son adresse de depart dans LISUBSFI et INFLG_SUBSFI (tableau dimensionne a NSNR+1 (noeud remote + 1)
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: ADDSUBSFI
       TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE :: FNCONTI, FTCONTI
+      TYPE(real_pointer), DIMENSION(:), ALLOCATABLE :: EFRICFI, EFRICGFI
       INTEGER , DIMENSION(:), ALLOCATABLE :: NLSKYFI, NLSKYFIE
 C Temporary array for VOXEL SORTING
       INTEGER , DIMENSION(:), ALLOCATABLE :: NEXT_NOD

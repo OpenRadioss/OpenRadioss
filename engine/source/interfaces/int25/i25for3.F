@@ -67,8 +67,7 @@ Chd|====================================================================
      C    INTTH       ,DRAD     ,FHEATS    ,FHEATM     ,QFRIC     ,
      D    EFRICT      ,TAGNCONT ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
      E    TYPSUB      ,NCFIT    ,NINLOADP  ,DGAPLOADINT,S_LOADPINTER,
-     F    DIST        ,DGAPLOADPMAX)
-
+     F    DIST        ,DGAPLOADPMAX,INTEREFRIC,EFRICINT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,6 +76,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE PINCHTYPE_MOD
       USE ANIM_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -131,6 +131,7 @@ C-----------------------------------------------
       INTEGER  , INTENT(IN) :: NINLOADP,S_LOADPINTER 
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .        LOADP_HYD_INTER(NLOADP_HYD)
+      INTEGER  , INTENT(IN) :: INTEREFRIC
       my_real
      .   STIGLO, X(3,*),
      .   A(3,*), MS(*), V(3,*), FSAV(*),FCONT(3,*),
@@ -167,6 +168,7 @@ C-----------------------------------------------
       my_real  , INTENT(IN) :: DGAPLOADPMAX
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real  , INTENT(INOUT) :: DIST(MVSIZ)
+      my_real  , INTENT(INOUT) :: EFRICINT(S_EFRICINT)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -180,12 +182,12 @@ C-----------------------------------------------
      .   FXT(MVSIZ),FYT(MVSIZ),FZT(MVSIZ),
      .   VIS2(MVSIZ), DTMI(MVSIZ), XMU(MVSIZ),STIF0(MVSIZ), FF(MVSIZ),
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
-     .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),
+     .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ), EFRIC_L(MVSIZ),
      .   VNX, VNY, VNZ, AA, CRIT,S2,
      .   V2, FM2, DT1INV, VISCA, FAC,ALPHI,ALPHA,BETA,
      .   FX, FY, FZ, F2, MAS2, M2SK, DTMI0,DTI,FT,FN,FMAX,FTN,
      .   FACM1, ECONTT, ECONVT, H0, ECONTDT,
-     .   D1,D2,D3,D4,A1,A2,A3,A4,
+     .   D1,D2,D3,D4,A1,A2,A3,A4,EFRIC_LS,EFRIC_LM,
      .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8, 
      .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15,
      .   FSAV22, FSAV23, FSAV24, FFO,
@@ -240,6 +242,9 @@ C-----------------------------------------------
       DO I=1,JLT
         STIF0(I) = STIF(I)
       ENDDO
+
+      EFRICT(1:JLT) = ZERO
+      EFRIC_L(1:JLT) = ZERO
 C-------------------------------------------
 C     PENE Offset removed to i24dst3.F
 C-------------------------------------------
@@ -281,6 +286,7 @@ C
           VZ(I) = VZI(I) - H1(I)*V(3,IX1(I)) - H2(I)*V(3,IX2(I))
      .                   - H3(I)*V(3,IX3(I)) - H4(I)*V(3,IX4(I))
           VN(I) = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
+
         ENDIF
       ENDDO
 C-------------------------------------------
@@ -1754,15 +1760,15 @@ C-------      total force
                 FXI(I)=FXI(I) + FXT(I)
                 FYI(I)=FYI(I) + FYT(I)
                 FZI(I)=FZI(I) + FZT(I)
-                ECONVT = ECONVT 
-     .                 + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
 
                 IF( INTTH > 0 .AND.BETA/=ZERO) THEN
                    EFRICT(I) = (FX-FXT(I))*FXT(I) + (FY-FYT(I))*FYT(I) + 
      .                       (FZ-FZT(I))*FZT(I) 
                    EFRICT(I) = EFRICT(I)/STIF0(I) ! FRICTIONAL ENERGY 
-                   QFRICT     =  QFRICT + EFRICT(I)             
+                   QFRICT     =  QFRICT + EFRICT(I)  
                 ENDIF
+                EFRIC_L(I) = DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
+                ECONVT = ECONVT + EFRIC_L(I)
 
               ENDDO
 C--------implicit non converge---         
@@ -1887,15 +1893,15 @@ C-------      total force
                 FXI(I)=FXI(I) + FXT(I)
                 FYI(I)=FYI(I) + FYT(I)
                 FZI(I)=FZI(I) + FZT(I)
-                ECONVT = ECONVT 
-     .                 + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
 
                 IF( INTTH > 0 .AND.BETA/=ZERO) THEN
                    EFRICT(I) = (FX-FXT(I))*FXT(I) + (FY-FYT(I))*FYT(I) + 
      .                       (FZ-FZT(I))*FZT(I) 
                    EFRICT(I) = EFRICT(I)/STIF0(I) ! FRICTIONAL ENERGY 
-                   QFRICT     =  QFRICT + EFRICT(I)             
+                   QFRICT     =  QFRICT + EFRICT(I) 
                 ENDIF
+                EFRIC_L(I) = DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
+                ECONVT = ECONVT + EFRIC_L(I)
 
               ENDDO
 
@@ -2054,14 +2060,15 @@ C-------      total force
                 FXI(I)=FXI(I) + FXT(I)
                 FYI(I)=FYI(I) + FYT(I)
                 FZI(I)=FZI(I) + FZT(I)
-                ECONVT = ECONVT 
-     .                 + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
+
                 IF( INTTH > 0 .AND.BETA/=ZERO) THEN
                    EFRICT(I) = (FX-FXT(I))*FXT(I) + (FY-FYT(I))*FYT(I) + 
      .                       (FZ-FZT(I))*FZT(I) 
                    EFRICT(I) = EFRICT(I)/STIF0(I) ! FRICTIONAL ENERGY 
-                   QFRICT     =  QFRICT + EFRICT(I)             
+                   QFRICT     =  QFRICT + EFRICT(I)       
                 ENDIF
+                EFRIC_L(I) = DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
+                ECONVT = ECONVT + EFRIC_L(I)
 
               ENDDO
 C--------implicit non converge---         
@@ -2114,14 +2121,7 @@ c             SECND_FR(1:3,N) is the old friction force
                   FYI(I)=FYI(I) + FYT(I)
                   FZI(I)=FZI(I) + FZT(I)
                 ENDIF
-C            IFPEN(INDEX(I)) = 1
 
-                IF( INTTH > 0 .AND.BETA/=ZERO) THEN
-                   EFRICT(I) = (FX-FXT(I))*FXT(I) + (FY-FYT(I))*FYT(I) + 
-     .                       (FZ-FZT(I))*FZT(I) 
-                   EFRICT(I) = EFRICT(I)/STIF0(I) ! FRICTIONAL ENERGY 
-                   QFRICT     =  QFRICT + EFRICT(I)             
-                ENDIF
               ENDDO
 
 #include   "vectorize.inc"
@@ -2259,13 +2259,6 @@ c             SECND_FR(1:3,N) is the old friction force
                   FXI(I)=FXI(I) + FXT(I)
                   FYI(I)=FYI(I) + FYT(I)
                   FZI(I)=FZI(I) + FZT(I)
-                ENDIF
-C            IFPEN(INDEX(I)) = 1
-                IF( INTTH > 0 .AND.BETA/=ZERO) THEN
-                   EFRICT(I) = (FX-FXT(I))*FXT(I) + (FY-FYT(I))*FYT(I) + 
-     .                       (FZ-FZT(I))*FZT(I) 
-                   EFRICT(I) = EFRICT(I)/STIF0(I) ! FRICTIONAL ENERGY 
-                   QFRICT     =  QFRICT + EFRICT(I)             
                 ENDIF
               ENDDO
             ENDIF
@@ -2807,6 +2800,53 @@ C---------------------------------
           ENDIF
         END IF !(INCONV==1) THEN
 #include "lockoff.inc"
+C---------------------------------
+C---------------------------------
+      IF(INTEREFRIC >0)THEN
+         IF (INCONV==1) THEN
+#include "lockon.inc"
+           DO I=1,JLT
+             IF(PENE(I) == ZERO)CYCLE
+             EFRIC_LM = HALF*EFRIC_L(I)
+             EFRICINT(IX1(I)) = EFRICINT(IX1(I)) + H1(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+             EFRICINT(IX2(I)) = EFRICINT(IX2(I)) + H2(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+             EFRICINT(IX3(I)) = EFRICINT(IX3(I)) + H3(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+             EFRICINT(IX4(I)) = EFRICINT(IX4(I)) + H4(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+             JG = NSVG(I)
+             EFRIC_LS = HALF*EFRIC_L(I)
+             IF(JG>0) THEN
+               EFRICINT(JG) = EFRICINT(JG) + (EFRIC_LS-FHEATS*EFRICT(I))
+            ELSE ! node remote
+              JG = -JG
+              EFRICFI(NIN)%P(JG)=EFRICFI(NIN)%P(JG)+ (EFRIC_LS-FHEATS*EFRICT(I))
+            ENDIF
+           ENDDO
+#include "lockoff.inc"
+         END IF !(INCONV==1) THEN
+      ENDIF
+C---------------------------------
+      IF(H3D_DATA%N_SCAL_CSE_FRIC >0)THEN
+         IF (INCONV==1) THEN
+#include "lockon.inc"
+           DO I=1,JLT
+             IF(PENE(I) == ZERO)CYCLE
+              EFRIC_LM = HALF*EFRIC_L(I)
+              EFRICG(IX1(I)) = EFRICG(IX1(I)) + H1(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+              EFRICG(IX2(I)) = EFRICG(IX2(I)) + H2(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+              EFRICG(IX3(I)) = EFRICG(IX3(I)) + H3(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+              EFRICG(IX4(I)) = EFRICG(IX4(I)) + H4(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+              JG = NSVG(I)
+              EFRIC_LS = HALF*EFRIC_L(I)
+              IF(JG>0) THEN
+                EFRICG(JG) = EFRICG(JG) + (EFRIC_LS-FHEATS*EFRICT(I))
+              ELSE ! node remote
+               JG = -JG
+               EFRICGFI(NIN)%P(JG)=EFRICGFI(NIN)%P(JG)+ (EFRIC_LS-FHEATS*EFRICT(I))
+             ENDIF
+           ENDDO
+#include "lockoff.inc"
+         END IF !(INCONV==1) THEN
+      ENDIF
 C---------------------------------
       IF(KDTINT==1)THEN
        IF(    (VISC/=ZERO)

@@ -642,6 +642,7 @@ C-----------------------------------------------
       USE INTER_SORTING_MOD
       USE SHOOTING_NODE_MOD
       USE ANIM_MOD
+      USE OUTPUTS_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4074,11 +4075,21 @@ C
            IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0.AND.
      .      ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
      .      (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
-     .      .OR.H3D_DATA%N_VECT_PCONT_MAX >0)THEN        ! comm a faire avant appel i7fcom
+     .      .OR.H3D_DATA%N_VECT_PCONT_MAX >0)THEN        ! comm to do before i7fcom
             CALL SPMD_EXCH_PRESS( 
      1        IPARI          ,INTLIST ,NBINTC  ,FANI(1,NFNCA+1),
      2        FANI(1,NFTCA+1),ISLEN7 ,IRLEN7  ,IRLEN7T ,ISLEN7T        ,
-     3        IRLEN20        ,ISLEN20,IRLEN20T,ISLEN20T,INTBUF_TAB    )
+     3        IRLEN20        ,ISLEN20,IRLEN20T,ISLEN20T,INTBUF_TAB    ,
+     4        H3D_DATA%N_CSE_FRIC_INTER,H3D_DATA%N_SCAL_CSE_FRIC)
+           ELSEIF((H3D_DATA%N_SCAL_CSE_FRIC+NINEFRIC>0.AND.
+     .      ((TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
+     .       H3D_DATA%MH3D/=0 ))
+     .      .OR.(H3D_DATA%N_SCAL_CSE_FRIC+NINEFRIC >0.AND.NINTER25>0))THEN  
+            CALL SPMD_EXCH_EFRIC( 
+     1        IPARI          ,INTLIST ,NBINTC  ,ISLEN7 ,IRLEN7  ,
+     2        IRLEN7T        ,ISLEN7T ,IRLEN20 ,ISLEN20,IRLEN20T,
+     3        ISLEN20T       ,INTBUF_TAB  ,H3D_DATA)
+
            END IF
 C
            L1 = 1+NIXS*NUMELS + NSVOIS*NIXS

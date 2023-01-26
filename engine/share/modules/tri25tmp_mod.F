@@ -149,6 +149,7 @@ C indiquant pour chaque interface type7, 10, et pour chaque noeud remote de cett
 C son adresse de depart dans LISUBSFI et INFLG_SUBSFI(tableau dimensionne a NSNR+1 (noeud remote + 1)
       TYPE(int_pointer) :: ADDSUBSFI
       TYPE(real_pointer2) :: FNCONTI, FTCONTI
+      TYPE(real_pointer) :: EFRICFI, EFRICGFI
       INTEGER  :: NLSKYFI, NLSKYFIE
 C Flag array to tag if NSNFI was frozen into NSNFI_SAV - Case INACTI + TSTART
       INTEGER  :: NSNFI_FLAG
