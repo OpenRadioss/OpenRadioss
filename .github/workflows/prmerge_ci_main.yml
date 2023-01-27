@@ -22,7 +22,7 @@ jobs:
     runs-on: ["linux64","prmerge_ci"]
     continue-on-error: true
     container: 
-      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:ompi411
+      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:ompi411-devts11
       credentials: 
         username: ${{secrets.DOCKER_REGISTRY_USER}}
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
@@ -228,7 +228,7 @@ jobs:
     # DEV ONLY # runs-on: ["${{ matrix.build }}","dev_pmci"]
     runs-on: ["${{ matrix.build }}","prmerge_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:ompi411
+      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:ompi411-devts11
       credentials: 
         username: ${{secrets.DOCKER_REGISTRY_USER}}
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}

@@ -11,7 +11,7 @@ on:
       - '.github/workflows/*.yml'    
 
 env:
-  QA_TIMEOUT_PER_TEST: 150
+  QA_TIMEOUT_PER_TEST: 300
 
 jobs:
 
@@ -25,7 +25,7 @@ jobs:
     # DEV ONLY # runs-on: ["build","dev_devci"]
     runs-on: ["build","developer_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:ompi411
+      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:ompi411-devts11
       credentials: 
         username: ${{secrets.DOCKER_REGISTRY_USER}}
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
@@ -95,7 +95,7 @@ jobs:
             mpi_opts="-mpi=${{ matrix.mpi }}"
           fi
 
-          cmd="./build_script.sh -arch=${{ matrix.os }}_gf -prec=${{ matrix.precision }} -nt=${{ env.BUILD_NB_THREAD }} -static-link $mpi_opts"
+          cmd="./build_script.sh -arch=${{ matrix.os }}_gf -prec=${{ matrix.precision }} -nt=${{ env.BUILD_NB_THREAD }} -static-link $mpi_opts -debug=2"
           echo "========================================="
           echo "--  BUILD ${{ matrix.build }} --"   
           echo "--  $cmd --"   
@@ -140,7 +140,10 @@ jobs:
       hm_reader_cfgfiles: ../../hm_cfg_files
       homeuser: /home/adminqa
       mpi: ompi
-
+      # DEV ONLY # QA_NB_PROC: 2
+      QA_NB_PROC: 4
+      QA_NB_THREAD: 2
+      
     strategy:
       # If one job fails othere are canceled
       fail-fast: false
@@ -190,7 +193,7 @@ jobs:
           export LD_LIBRARY_PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$LD_LIBRARY_PATH
 
 
-          cmd="./or_qa_script ../../exec/engine_${{ matrix.os }}_gf_${{ env.mpi }}${precision_ext} 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:OMP_STACKSIZE=400m --exec_script_args='mpiexec -np 4' --env:OMP_NUM_THREADS=2 --output_failures_stdout --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST }}'"
+          cmd="./or_qa_script ../../exec/engine_${{ matrix.os }}_gf_${{ env.mpi }}${precision_ext}_db 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:OMP_STACKSIZE=400m --exec_script_args='mpiexec -np ${{ env.QA_NB_PROC }}' --env:OMP_NUM_THREADS=${{ env.QA_NB_THREAD }} --output_failures_stdout --env:ASAN_OPTIONS='new_delete_type_mismatch=0:detect_leaks=0' --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST }}'"
           echo "========================================="
           echo "--  QA ${{ matrix.os }}_${{ matrix.precision }} --"   
           echo "--  $cmd --"   
