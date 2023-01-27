@@ -163,7 +163,7 @@ C------- error out
         ENDDO
         IBUFNC(I) = NUMC
         WRITE(IOUT,1101) ID,NUMC
-        WRITE(IOUT,1102) (ITAB(IBUFNN(J)),IBUFDL(J),IBUFSK(J),RBUF(J),
+        WRITE(IOUT,1102) (ITAB(IBUFNN(J)),IBUFDL(J),ISKN(4,IBUFSK(J)),RBUF(J),
      .                    J=KF-NUMC+1,KF)
       ENDDO
 C---
