@@ -176,7 +176,7 @@ jobs:
         working-directory: ${{ env.WORKDIR }}
         shell: cmd
         run: >
-          call "C:\Program Files (x86)\Intel\oneAPI\compiler\2022.1.0\env\vars.bat" intel64 vs2019 && call "C:\Program Files (x86)\Intel\oneAPI\mpi\2021.6.0\env\vars.bat" intel64 vs2019 && call "C:\Program Files (x86)\Intel\oneAPI\mkl\2022.1.0\env\vars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
+          call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
           cd %cd:\=/%;
           mkdir exec;
           cmd=\"./build.bat\";
@@ -665,7 +665,7 @@ jobs:
         # Not using wsl because of cmake issue with linux/win pathes conversion
         shell: cmd
         run: >
-          call "C:\Program Files (x86)\Intel\oneAPI\compiler\2022.1.0\env\vars.bat" intel64 vs2019 && call "C:\Program Files (x86)\Intel\oneAPI\mpi\2021.6.0\env\vars.bat" intel64 vs2019 && call "C:\Program Files (x86)\Intel\oneAPI\mkl\2022.1.0\env\vars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
+          call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
           cd %cd:\=/%;
           echo '------- Print ifx version -------';
           ifx --version;
@@ -802,7 +802,7 @@ jobs:
         # Running cygwin from powershell or cmd => neither identation nor comment !
         shell: cmd
         run: >
-          call "C:\Program Files (x86)\Intel\oneAPI\mpi\2021.7.0\env\vars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
+          call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
           cd %cd:\=/%;
           md5sum exec/* || echo \"Nothing in exec/\";
           if [ \"${{ matrix.precision }}\" = \"dp\" ];
