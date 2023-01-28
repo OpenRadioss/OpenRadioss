@@ -117,10 +117,10 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  GET_TABLE_VALUE               source/user_interface/utable.F
+Chd|  GET_TABLE_VALUE_DYDX          source/user_interface/utable.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
+Chd|        TABLE_INTERP_DYDX             source/tools/curve/table_tools.F
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|====================================================================

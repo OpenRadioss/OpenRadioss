@@ -333,6 +333,7 @@ Chd|        SUFORC3                       source/user_interface/suforc3.F
 Chd|        SWITCH_TO_DTNODA              source/time_step/switch_to_dtnoda.F
 Chd|        TABLE2D_VINTERP_LOG           source/tools/curve/table2d_vinterp_log.F
 Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
+Chd|        TABLE_INTERP_DYDX             source/tools/curve/table_tools.F
 Chd|        TABLE_INTERP_LAW76            source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTI_MAT              source/tools/curve/table_tools.F

@@ -610,16 +610,9 @@ C-----
       RETURN
       END SUBROUTINE TABLE_INTERP
 Chd|====================================================================
-Chd|  TABLE_INTERP                  source/tools/curve/table_tools.F
+Chd|  TABLE_INTERP_DYDX             source/tools/curve/table_tools.F
 Chd|-- called by -----------
-Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
-Chd|        FAIL_TAB_S                    source/materials/fail/tabulated/fail_tab_s.F
-Chd|        FAIL_TAB_XFEM                 source/materials/fail/tabulated/fail_tab_xfem.F
-Chd|        GET_TABLE_VALUE               source/user_interface/utable.F
-Chd|        GET_U_TABLE                   source/user_interface/utable.F
-Chd|        R3DEF3                        source/elements/spring/r3def3.F
-Chd|        SIGEPS52                      source/materials/mat/mat052/sigeps52.F
-Chd|        SIGEPS52C                     source/materials/mat/mat052/sigeps52c.F
+Chd|        GET_TABLE_VALUE_DYDX          source/user_interface/utable.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         

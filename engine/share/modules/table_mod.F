@@ -127,6 +127,7 @@ Chd|        SUSER43                       source/elements/solid/sconnect/suser43
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|        TABLE2D_VINTERP_LOG           source/tools/curve/table2d_vinterp_log.F
 Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
+Chd|        TABLE_INTERP_DYDX             source/tools/curve/table_tools.F
 Chd|        TABLE_INTERP_LAW76            source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTI_MAT              source/tools/curve/table_tools.F
@@ -180,6 +181,7 @@ Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_t
 Chd|        FAIL_TAB_S                    source/materials/fail/tabulated/fail_tab_s.F
 Chd|        FAIL_TAB_XFEM                 source/materials/fail/tabulated/fail_tab_xfem.F
 Chd|        GET_TABLE_VALUE               source/user_interface/utable.F
+Chd|        GET_TABLE_VALUE_DYDX          source/user_interface/utable.F
 Chd|        GET_U_TABLE                   source/user_interface/utable.F
 Chd|        GET_U_VTABLE                  source/user_interface/utable.F
 Chd|        GET_VTABLE_VALUE              source/user_interface/utable.F

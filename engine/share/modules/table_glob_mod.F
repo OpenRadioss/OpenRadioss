@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|-- called by -----------
 Chd|        GET_TABLE_VALUE               source/user_interface/utable.F
+Chd|        GET_TABLE_VALUE_DYDX          source/user_interface/utable.F
 Chd|        GET_U_TABLE                   source/user_interface/utable.F
 Chd|        GET_U_VTABLE                  source/user_interface/utable.F
 Chd|        GET_VTABLE_VALUE              source/user_interface/utable.F
