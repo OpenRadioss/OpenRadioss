@@ -11,20 +11,20 @@ Linux system with glibc version 2.17 or higher:
 
 #### Compiler and development tools
 
-You will need GCC/Gfortran version 8 or higher,
+You will need GCC/Gfortran version 11 or higher,
 [Cmake](https://cmake.org/) version 2.8 or higher, and GNU make.
 
 Install as sudo or root
 
 * RHEL 7
 
-            yum install devtoolset-8
+            yum install devtoolset-11
             yum install make
             yum install cmake
             yum install perl
             yum install git-lfs
             
-  To enable the devtoolset-8, you can run `scl enable devtoolset-8 bash`
+  To enable the devtoolset-11, you can run `scl enable devtoolset-11 bash`
 
 * RHEL 8, CentOS Stream 8
 
@@ -78,7 +78,7 @@ It is recommended to build and install OpenMPI from OpenMPI website using gcc co
 
 ### Compiler Environment
 
-OpenRadioss was tested with OneAPI 2022.1 + Visual Studio 2019. Cygwin is used to build OpenRadioss. 
+OpenRadioss was tested with OneAPI 2023.0 + Visual Studio 2019. Cygwin is used to build OpenRadioss. 
 
 This chapter explains how to setup 
 
