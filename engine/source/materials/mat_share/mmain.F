@@ -1971,6 +1971,14 @@ c --- Tsai-Wu failure model
      2          DT1      ,BUFMAT(IADBUF),NGL ,OFF      ,LBUF%OFF ,GBUF%NOFF,
      3          SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,
      5          UVARF    ,NPARAM   ,DFMAX    ,TDEL     ,DMG_SCALE)
+c
+          ELSEIF (IRUPT == 45) THEN                                        
+c --- Tsai-Hill failure model
+            CALL FAIL_TSAIHILL_S(
+     1          LLT      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
+     2          DT1      ,BUFMAT(IADBUF),NGL ,OFF      ,LBUF%OFF ,GBUF%NOFF,
+     3          SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,
+     5          UVARF    ,NPARAM   ,DFMAX    ,TDEL     ,DMG_SCALE)
 c---------
           ENDIF ! IRUPT 
 c

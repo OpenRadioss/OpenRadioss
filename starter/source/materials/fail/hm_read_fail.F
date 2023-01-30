@@ -362,6 +362,9 @@ c--------------------------------------------
 c--------------------------------------------
         ELSEIF(KEY(1:6) == 'TSAIWU')THEN
              IRUP= 44
+c--------------------------------------------
+        ELSEIF(KEY(1:8) == 'TSAIHILL')THEN
+             IRUP= 45
 c--------------------------------------------      
         ELSE  
              IRUP= 0
@@ -602,6 +605,12 @@ c---
 c---
             CASE(44)
               CALL HM_READ_FAIL_TSAIWU(
+     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID  ,MAT_ID    ,
+     .             TITR     ,LSUBMODEL)
+c---
+            CASE(45)
+              CALL HM_READ_FAIL_TSAIHILL(
      .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
      .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID  ,MAT_ID    ,
      .             TITR     ,LSUBMODEL)
