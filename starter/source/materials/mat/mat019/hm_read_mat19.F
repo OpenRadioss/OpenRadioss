@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(OUT)  :: NUPARAM,NUVAR,ISRATE
+      INTEGER ,INTENT(INOUT)  :: NUPARAM,NUVAR,ISRATE
       INTEGER ,INTENT(IN)   :: MAT_ID,MAXUPARAM
       CHARACTER*nchartitle,INTENT(IN)::TITR
       my_real ,INTENT(INOUT):: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)

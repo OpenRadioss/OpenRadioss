@@ -70,11 +70,11 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_)   ,INTENT(IN)   :: UNITAB 
       TYPE(SUBMODEL_DATA) ,DIMENSION(*) ,INTENT(IN)  :: LSUBMODEL
       CHARACTER*nchartitle              ,INTENT(IN)  :: TITR
-      INTEGER  ,DIMENSION(MAXFUNC)      ,INTENT(OUT) :: IFUNC       
-      my_real  ,DIMENSION(NPROPM)       ,INTENT(OUT) :: PM       
-      my_real  ,DIMENSION(100)          ,INTENT(OUT) :: PARMAT   
-      my_real  ,DIMENSION(MAXUPARAM)    ,INTENT(OUT) :: UPARAM
-      INTEGER         ,INTENT(OUT)     :: NFUNC,NUVAR,NVARTMP,NUPARAM,ISRATE,IMATVIS
+      INTEGER  ,DIMENSION(MAXFUNC)      ,INTENT(INOUT) :: IFUNC       
+      my_real  ,DIMENSION(NPROPM)       ,INTENT(INOUT) :: PM       
+      my_real  ,DIMENSION(100)          ,INTENT(INOUT) :: PARMAT   
+      my_real  ,DIMENSION(MAXUPARAM)    ,INTENT(INOUT) :: UPARAM
+      INTEGER         ,INTENT(INOUT)     :: NFUNC,NUVAR,NVARTMP,NUPARAM,ISRATE,IMATVIS
       TYPE(MLAW_TAG_) ,INTENT(INOUT)   :: MTAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

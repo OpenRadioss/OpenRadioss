@@ -68,7 +68,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(NLOCAL_STR_)                                 :: NLOC_DMG
       TYPE(MLAW_TAG_), DIMENSION(NUMMAT), INTENT(INOUT) :: MLAW_TAG
-      INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(OUT)   :: IPM
+      INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(INOUT)   :: IPM
       TYPE (UNIT_TYPE_) ,INTENT(IN)                     :: UNITAB 
       TYPE(SUBMODEL_DATA) ,DIMENSION(*) , INTENT(IN)    :: LSUBMODEL
 C-----------------------------------------------

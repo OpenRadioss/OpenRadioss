@@ -63,7 +63,7 @@ C INPUT ARGUMENTS
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
 C MODIFIED ARGUMENT
       my_real,INTENT(INOUT)          :: UPARAM(MAXUPARAM)
-      INTEGER,INTENT(OUT)            :: NUPARAM,NUVAR
+      INTEGER,INTENT(INOUT)            :: NUPARAM,NUVAR
       CHARACTER TITR*nchartitle
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

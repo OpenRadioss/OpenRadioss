@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(OUT)  :: NUPARAM,NUVAR,NUMTABL,ISRATE
+      INTEGER ,INTENT(INOUT)  :: NUPARAM,NUVAR,NUMTABL,ISRATE
       INTEGER ,INTENT(IN)   :: MAT_ID,MAXUPARAM,MAXTABL
       INTEGER, DIMENSION(MAXTABL) ,INTENT(INOUT) :: ITABLE
       CHARACTER*nchartitle,INTENT(IN)::TITR

@@ -71,9 +71,9 @@ C INPUT ARGUMENTS
       INTEGER,INTENT(IN)  :: ID,FAIL_ID,MAXFUNC,MAXUPARAM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
 C OUTPUT ARGUMENTS
-      INTEGER,INTENT(OUT) :: NUPARAM,NUVAR,NFUNC,IXFEM
-      INTEGER,INTENT(OUT) :: IFUNC(MAXFUNC)
-      my_real,INTENT(OUT) :: UPARAM(MAXUPARAM)
+      INTEGER,INTENT(INOUT) :: NUPARAM,NUVAR,NFUNC,IXFEM
+      INTEGER,INTENT(INOUT) :: IFUNC(MAXFUNC)
+      my_real,INTENT(INOUT) :: UPARAM(MAXUPARAM)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

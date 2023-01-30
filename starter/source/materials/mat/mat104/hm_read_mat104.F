@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)   :: UPARAM
+      my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)   :: UPARAM
       INTEGER, INTENT(IN)                          :: MAT_ID,MAXUPARAM,MAXFUNC
       INTEGER, INTENT(INOUT)                       :: NUPARAM,NUVAR,IFUNC(MAXFUNC),NFUNC
       TYPE (UNIT_TYPE_),INTENT(IN)                 :: UNITAB    

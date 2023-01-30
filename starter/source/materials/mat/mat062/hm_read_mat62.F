@@ -76,9 +76,9 @@ C-----------------------------------------------
       INTEGER, INTENT(IN)    :: MAT_ID,MAXUPARAM
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM     
       CHARACTER*nchartitle ,INTENT(IN) :: TITR
-      INTEGER, INTENT(OUT)   :: NUPARAM,NUVAR,NFUNC,IMATVIS
-      my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)   :: UPARAM
-      my_real, DIMENSION(100),INTENT(OUT) :: PARMAT
+      INTEGER, INTENT(INOUT)   :: NUPARAM,NUVAR,NFUNC,IMATVIS
+      my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)   :: UPARAM
+      my_real, DIMENSION(100),INTENT(INOUT) :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------

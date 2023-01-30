@@ -85,7 +85,7 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: PM(NPROPM)     
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
-      INTEGER, INTENT(OUT) :: NUPARAM,NUVAR,NFUNC
+      INTEGER, INTENT(INOUT) :: NUPARAM,NUVAR,NFUNC
       INTEGER, DIMENSION(MAXFUNC), INTENT(INOUT) :: IFUNC
       my_real, DIMENSION(MAXUPARAM), INTENT(INOUT) :: UPARAM
       my_real, INTENT(INOUT) :: PARMAT(*)

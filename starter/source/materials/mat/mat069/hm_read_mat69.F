@@ -88,7 +88,7 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT)                :: ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
       INTEGER,INTENT(IN)                    :: ID
-      INTEGER,INTENT(OUT)                    :: IMATVIS
+      INTEGER,INTENT(INOUT)                    :: IMATVIS
       CHARACTER*nchartitle,INTENT(IN)       :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(*)
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM

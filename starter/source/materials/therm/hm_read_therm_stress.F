@@ -63,8 +63,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(OUT)   :: IPM
-      my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(OUT)   :: PM
+      INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(INOUT)   :: IPM
+      my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(INOUT)   :: PM
       TYPE(MLAW_TAG_) , DIMENSION(NUMMAT  ) , INTENT(INOUT)     :: MLAW_TAG
       TYPE (UNIT_TYPE_) ,INTENT(IN) :: UNITAB 
       TYPE(SUBMODEL_DATA) ,DIMENSION(*) , INTENT(IN)    :: LSUBMODEL

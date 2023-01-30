@@ -79,9 +79,9 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
 c
-      INTEGER, INTENT(OUT)                         :: ISRATE
-      my_real, DIMENSION(100)       ,INTENT(OUT)   :: PARMAT     
-      my_real, DIMENSION(NPROPM)    ,INTENT(OUT)   :: PM     
+      INTEGER, INTENT(INOUT)                         :: ISRATE
+      my_real, DIMENSION(100)       ,INTENT(INOUT)   :: PARMAT     
+      my_real, DIMENSION(NPROPM)    ,INTENT(INOUT)   :: PM     
       TYPE(MLAW_TAG_)               ,INTENT(INOUT) :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 c

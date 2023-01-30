@@ -81,8 +81,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN)    :: UNITAB 
       INTEGER ,INTENT(IN   )          :: MAXUPARAM,MAXTABL,MAT_ID
-      INTEGER ,INTENT(OUT)            :: NUMTABL,NUPARAM,NUVAR,NVARTMP
-      INTEGER ,DIMENSION(MAXTABL) ,INTENT(OUT)  :: ITABLE
+      INTEGER ,INTENT(INOUT)            :: NUMTABL,NUPARAM,NUVAR,NVARTMP
+      INTEGER ,DIMENSION(MAXTABL) ,INTENT(INOUT)  :: ITABLE
       my_real ,INTENT(INOUT)          :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)

@@ -74,9 +74,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER, INTENT(IN)                          :: MAT_ID
-      INTEGER, INTENT(OUT)                         :: NUPARAM,NUVAR,NFUNC
-      INTEGER, DIMENSION(NPROPMI) ,INTENT(OUT)     :: IPM
-      my_real, DIMENSION(NPROPM)  ,INTENT(OUT)     :: PM     
+      INTEGER, INTENT(INOUT)                         :: NUPARAM,NUVAR,NFUNC
+      INTEGER, DIMENSION(NPROPMI) ,INTENT(INOUT)     :: IPM
+      my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)     :: PM     
       CHARACTER(nchartitle) ,INTENT(IN)            :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT) :: MTAG
