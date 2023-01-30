@@ -228,6 +228,11 @@ c
      .           IFUNC    ,TF       ,NPF      )
 c
         END SELECT
+          CALL PDAMP3(
+     .    PM      ,GEO     ,OFF     ,MAT     ,PID,
+     .    NEL     ,NGL     ,EXX     ,EXY     ,EXZ,
+     .    KXX     ,KYY     ,KZZ     ,AL      ,F1  ,
+     .    F2      ,F3      ,M1      ,M2      ,M3  )
 C----
       ELSEIF (IGTYP == 18) THEN  
 C----   Poutre a section intergree

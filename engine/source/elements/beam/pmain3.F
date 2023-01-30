@@ -71,7 +71,7 @@ C-----------------------------------------------
      .   FOR(NEL,3),MOM(NEL,3),EXX(MVSIZ),EXY(MVSIZ),
      .   EXZ(MVSIZ),KXX(MVSIZ),KYY(MVSIZ),KZZ(MVSIZ),
      .   F1(MVSIZ),F2(MVSIZ),F3(MVSIZ),M1(MVSIZ),M2(MVSIZ),M3(MVSIZ),
-     .   TEMPEL(MVSIZ)
+     .   TEMPEL(MVSIZ),VOL(MVSIZ),RHOE(MVSIZ),RHOG(MVSIZ)
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C-----------------------------------------------
      .   APT(MVSIZ),IXX(MVSIZ),IYY(MVSIZ),IZZ(MVSIZ),ETSE(MVSIZ),
      .   G(MVSIZ),E(MVSIZ),EPSPL(MVSIZ)
       my_real 
-     .   DTINV,ASRATE,EPSPI,DMPM,DMPF,SPE,SPG,RHO,FACT,AREA
+     .   DTINV,ASRATE,EPSPI,DMPM,DMPF,SPE,SPG,RHO,FACT,AREA,DMM,DMPFL
 C=======================================================================
 C       STRAIN RATE
 C-------------------
@@ -166,17 +166,20 @@ C
         IYY(I)= GEO(2,PID(I))
         IZZ(I)= GEO(18,PID(I))
         AREA  = GEO(1 ,PID(I))
-        DMPM  = GEO(16,PID(I)) * AL(I)                                   
-        DMPF  = GEO(17,PID(I)) * AL(I)
+        DMPM  = GEO(16,PID(I))                                    
+        DMPF  = GEO(17,PID(I)) 
+        VOL(I) = AREA*AL(I)
 C
-        SPE   = DTINV * DMPM * SQRT(TWO*RHO*E(I))             
-        SPG   = DTINV * DMPF * SQRT(TWO*RHO*G(I))                            
-        F1(I) = FOR(I,1) + EXX(I)*SPE*AREA   
-        F2(I) = FOR(I,2) + EXY(I)*SPG*IZZ(I)*TWELVE/AL(I)**2    
-        F3(I) = FOR(I,3) + EXZ(I)*SPG*IYY(I)*TWELVE/AL(I)**2   
-        M1(I) = MOM(I,1) + KXX(I)*SPG*IXX(I)
-        M2(I) = MOM(I,2) + KYY(I)*SPG*IYY(I)
-        M3(I) = MOM(I,3) + KZZ(I)*SPG*IZZ(I)
+        SPE   = DTINV *  SQRT(TWO*RHO*E(I))             
+        SPG   = DTINV *  SQRT(TWO*RHO*G(I))
+        DMM  =  SPE* VOL(I)
+        DMPFL = DMPF*AL(I)
+        F1(I) = FOR(I,1) + DMPM*EXX(I)*DMM   
+        F2(I) = FOR(I,2) + DMPF*EXY(I)*DMM    
+        F3(I) = FOR(I,3) + DMPF*EXZ(I)*DMM   
+        M1(I) = MOM(I,1) + DMPFL*KXX(I)*SPG*IXX(I)
+        M2(I) = MOM(I,2) + DMPFL*KYY(I)*SPE*IYY(I)
+        M3(I) = MOM(I,3) + DMPFL*KZZ(I)*SPE*IZZ(I)
       ENDDO                 
 C-------------------------------------
       DO I=JFT,JLT
