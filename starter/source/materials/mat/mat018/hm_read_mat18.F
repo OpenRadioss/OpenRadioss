@@ -68,9 +68,9 @@ C-----------------------------------------------
       my_real, DIMENSION(*), INTENT(IN) :: UNITAB
       INTEGER, INTENT(IN)    :: MAT_ID
 c
-      INTEGER, INTENT(OUT)   :: IPM(NPROPMI)
-      my_real, INTENT(OUT)   :: PM(NPROPM)     
-      INTEGER, INTENT(OUT)   :: NUPARAM,NUVAR,NFUNC,JTHE
+      INTEGER, INTENT(INOUT)   :: IPM(NPROPMI)
+      my_real, INTENT(INOUT)   :: PM(NPROPM)     
+      INTEGER, INTENT(INOUT)   :: NUPARAM,NUVAR,NFUNC,JTHE
       TYPE(MLAW_TAG_) ,INTENT(INOUT)         :: MTAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

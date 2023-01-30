@@ -68,10 +68,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN)  :: MAT_ID,MAXTABL,MAXUPARAM
       CHARACTER*nchartitle ,INTENT(IN) :: TITR
-      my_real ,INTENT(OUT) :: RHO
-      my_real ,DIMENSION(100)       ,INTENT(OUT)  :: PARMAT
-      my_real ,DIMENSION(MAXUPARAM) ,INTENT(OUT)  :: UPARAM
-      INTEGER ,DIMENSION(MAXTABL)   ,INTENT(OUT)  :: ITABLE
+      my_real ,INTENT(INOUT) :: RHO
+      my_real ,DIMENSION(100)       ,INTENT(INOUT)  :: PARMAT
+      my_real ,DIMENSION(MAXUPARAM) ,INTENT(INOUT)  :: UPARAM
+      INTEGER ,DIMENSION(MAXTABL)   ,INTENT(INOUT)  :: ITABLE
       INTEGER ,INTENT(INOUT)          :: NTABL,NUPARAM,NUVAR,NVARTMP  
       TYPE(MLAW_TAG_),INTENT(INOUT)   :: MTAG
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)

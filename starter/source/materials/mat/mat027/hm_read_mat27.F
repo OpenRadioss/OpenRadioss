@@ -79,7 +79,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(INOUT)                       :: ISRATE
-      my_real, DIMENSION(100),INTENT(OUT) :: PARMAT
+      my_real, DIMENSION(100),INTENT(INOUT) :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT) :: MTAG
 C-----------------------------------------------

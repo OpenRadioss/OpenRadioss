@@ -79,7 +79,7 @@ C INPUT ARGUMENTS
 C MODIFIED ARGUMENT
       INTEGER,INTENT(INOUT)          ::IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM
       my_real,INTENT(INOUT)          ::UPARAM(MAXUPARAM)
-      INTEGER,INTENT(OUT)            ::NUPARAM,NUVAR
+      INTEGER,INTENT(INOUT)            ::NUPARAM,NUVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

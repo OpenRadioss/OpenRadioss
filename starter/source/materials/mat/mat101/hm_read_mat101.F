@@ -59,7 +59,7 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  D U M M Y   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)   :: UPARAM
+      my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)   :: UPARAM
       INTEGER, INTENT(IN)                          :: MAT_ID,MAXUPARAM,MAXFUNC      
       INTEGER, INTENT(INOUT)                       :: NUPARAM,NUVAR,IMATVIS,
      .                                                IFUNC(MAXFUNC),NFUNC      

@@ -70,9 +70,9 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(INOUT)                       :: ISRATE,IFUNC(MAXFUNC)
-      INTEGER, INTENT(OUT)                         :: NUPARAM,NUVAR,NFUNC
+      INTEGER, INTENT(INOUT)                         :: NUPARAM,NUVAR,NFUNC
       my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT) :: UPARAM
-      my_real, DIMENSION(100),INTENT(OUT)          :: PARMAT
+      my_real, DIMENSION(100),INTENT(INOUT)          :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT)        :: MATPARAM  

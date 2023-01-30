@@ -293,7 +293,7 @@ C-----------------------------------------------
       my_real PLD(*),FAC,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG
 C-----------------------------------------------
       INTENT(IN)    :: NPC,PLD,IDN
-      INTENT(OUT)   :: STIFFMAX,STIFFINI,STIFFAVG
+      INTENT(INOUT)   :: STIFFMAX,STIFFINI,STIFFAVG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

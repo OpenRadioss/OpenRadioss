@@ -85,11 +85,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM     
-      my_real, DIMENSION(100)    ,INTENT(OUT)     :: PARMAT
-      my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)  :: UPARAM
+      my_real, DIMENSION(100)    ,INTENT(INOUT)     :: PARMAT
+      my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)  :: UPARAM
       
       INTEGER, INTENT(INOUT)          :: MFUNC,NUPARAM,NUVAR,IMATVIS
-      INTEGER, DIMENSION(MAXFUNC)   ,INTENT(OUT)  :: IFUNC
+      INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)  :: IFUNC
       TYPE(MLAW_TAG_),INTENT(INOUT)   :: MTAG
       INTEGER,INTENT(IN)              :: ID,MAXFUNC,MAXUPARAM 
       CHARACTER*nchartitle,INTENT(IN) :: TITR

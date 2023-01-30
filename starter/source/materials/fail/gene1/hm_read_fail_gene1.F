@@ -97,7 +97,7 @@ C INPUT ARGUMENTS
 C MODIFIED ARGUMENT
       INTEGER,INTENT(INOUT)          :: IFUNC(MAXFUNC),NFUNC
       my_real,INTENT(INOUT)          :: UPARAM(MAXUPARAM)
-      INTEGER,INTENT(OUT)            :: NUPARAM,NUVAR
+      INTEGER,INTENT(INOUT)            :: NUPARAM,NUVAR
       CHARACTER TITR*nchartitle
       TYPE(TTABLE) TABLE(NTABLE)    
 C-----------------------------------------------

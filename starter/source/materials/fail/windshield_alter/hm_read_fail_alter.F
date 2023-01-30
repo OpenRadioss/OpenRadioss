@@ -67,9 +67,9 @@ C INPUT ARGUMENTS
       INTEGER ,INTENT(IN) :: MAXUPARAM,FAIL_ID,MAT_ID
       TYPE(SUBMODEL_DATA)       ,INTENT(IN) :: LSUBMODEL(*)
 C MODIFIED ARGUMENT
-      INTEGER ,INTENT(OUT) :: IXFEM,NUPARAM,NUVAR,NFUNC,IFAILWAVE
-      my_real ,DIMENSION(MAXUPARAM) ,INTENT(OUT) :: UPARAM
-      TYPE(FAIL_TAG_), INTENT(OUT) :: FAIL_TAG
+      INTEGER ,INTENT(INOUT) :: IXFEM,NUPARAM,NUVAR,NFUNC,IFAILWAVE
+      my_real ,DIMENSION(MAXUPARAM) ,INTENT(INOUT) :: UPARAM
+      TYPE(FAIL_TAG_), INTENT(INOUT) :: FAIL_TAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
