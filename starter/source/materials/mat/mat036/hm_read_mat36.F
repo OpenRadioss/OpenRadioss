@@ -212,7 +212,7 @@ c-------------------------
       IF (NRATE == 1) THEN
         NFUNC  = 1
         ISMOOTH= 0
-        ISRAT  = 0
+        ISRAT  = 0     ! strain rate is always calculated for output
         FCUT   = ZERO
         VP     = 0   !!!  no plastic strain rate dependency with single static curve
       ELSE    ! NRATE > 1
@@ -376,7 +376,7 @@ C-----------------------
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE     
         WRITE(IOUT,1002) RHO0
-        WRITE(IOUT,1100) E,NU,EPSMAX,EPSR1,EPSR2,EPSF,FISOKIN,ISRATE,FCUT,VP
+        WRITE(IOUT,1100) E,NU,EPSMAX,EPSR1,EPSR2,EPSF,FISOKIN,ISMOOTH,FCUT,VP
         WRITE(IOUT,1200)(IFUNC(J),YFAC(J),RATE(J),J=1,NFUNC)
         WRITE(IOUT,1300) IPFUN,PSCALE, IFUNCE,EINF,CE
         WRITE(IOUT,*)' '
