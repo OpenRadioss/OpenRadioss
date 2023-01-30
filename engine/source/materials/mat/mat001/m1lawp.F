@@ -96,16 +96,8 @@ C
         SHF(I) =GEO(37,PID(I))
       ENDDO
 C-----------------------------
-C     AMORTISSEMENT
+C     DAMPING terms removed to pforce3
 C-----------------------------
-      DO I=LFT,LLT
-        F1(I)= EXX(I)*DMPM(I)*A1(I)*SQRT(TWO*YM(I)*RHO(I))
-        F2(I)= EXY(I)*DMPF(I)*12*B2(I)*SQRT(TWO*YM(I)*RHO(I))/AL(I)**2
-        F3(I)= EXZ(I)*DMPF(I)*12*B1(I)*SQRT(TWO*YM(I)*RHO(I))/AL(I)**2
-        M1(I)= KXX(I)*DMPF(I)*B3(I)*SQRT(TWO*G(I)*RHO(I))
-        M2(I)= KYY(I)*DMPF(I)*B1(I)*SQRT(TWO*YM(I)*RHO(I))
-        M3(I)= KZZ(I)*DMPF(I)*B2(I)*SQRT(TWO*YM(I)*RHO(I))
-      ENDDO
 C
       DO I=LFT,LLT
         EXX(I)=EXX(I)*DT1
@@ -160,12 +152,12 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        F1(I) = F1(I) + FOR(I,1)
-        F2(I) = F2(I) + FOR(I,2) 
-        F3(I) = F3(I) + FOR(I,3)  
-        M1(I) = M1(I) + MOM(I,1) 
-        M2(I) = M2(I) + MOM(I,2) 
-        M3(I) = M3(I) + MOM(I,3) 
+        F1(I) =  FOR(I,1)
+        F2(I) =  FOR(I,2) 
+        F3(I) =  FOR(I,3)  
+        M1(I) =  MOM(I,1) 
+        M2(I) =  MOM(I,2) 
+        M3(I) =  MOM(I,3) 
       ENDDO               
 C-----------------------------------------------
       RETURN

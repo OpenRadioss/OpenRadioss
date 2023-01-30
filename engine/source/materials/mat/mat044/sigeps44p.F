@@ -123,22 +123,8 @@ c
         DPLA(I)  = ZERO
       ENDDO
 C-----------------------------
-C     AMORTISSEMENT
+C     DAMPING terms removed to pforce3
 C-----------------------------
-      DO I=1,NEL
-        FA1(I) = EXX(I)*DMPM(I)*A1(I)*SQRT(TWO*E(I)*RHO(I))
-        FA2(I) = EXY(I)*DMPF(I)*12*B2(I)*SQRT(TWO*E(I)*RHO(I))/AL(I)**2
-        FA3(I) = EXZ(I)*DMPF(I)*12*B1(I)*SQRT(TWO*E(I)*RHO(I))/AL(I)**2
-        MA1(I) = KXX(I)*DMPF(I)*B3(I)*SQRT(TWO*G(I)*RHO(I))
-        MA2(I) = KYY(I)*DMPF(I)*B1(I)*SQRT(TWO*E(I)*RHO(I))
-        MA3(I) = KZZ(I)*DMPF(I)*B2(I)*SQRT(TWO*E(I)*RHO(I))
-        FA1(I) = FA1(I)*OFF(I)
-        FA2(I) = FA2(I)*OFF(I)
-        FA3(I) = FA3(I)*OFF(I)
-        MA1(I) = MA1(I)*OFF(I)
-        MA2(I) = MA2(I)*OFF(I)
-        MA3(I) = MA3(I)*OFF(I)
-      ENDDO
 C
       DO I=1,NEL
         EXX(I)=EXX(I)*DT1
@@ -350,12 +336,12 @@ C
       ENDDO
 C
       DO I=1,NEL
-        FA1(I) = FA1(I) + FOR(I,1)
-        FA2(I) = FA2(I) + FOR(I,2) 
-        FA3(I) = FA3(I) + FOR(I,3)  
-        MA1(I) = MA1(I) + MOM(I,1) 
-        MA2(I) = MA2(I) + MOM(I,2) 
-        MA3(I) = MA3(I) + MOM(I,3) 
+        FA1(I) =  FOR(I,1)
+        FA2(I) =  FOR(I,2) 
+        FA3(I) =  FOR(I,3)  
+        MA1(I) =  MOM(I,1) 
+        MA2(I) =  MOM(I,2) 
+        MA3(I) =  MOM(I,3) 
       ENDDO               
 c-----------------------------------------------
  1000 FORMAT(1X,'-- RUPTURE OF BEAM ELEMENT NUMBER ',I10)
