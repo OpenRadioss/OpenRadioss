@@ -80,8 +80,7 @@ C-----------------------------------------------
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        KXSP(NISP,*),FLAG_XFEM,IPARTIG3D(*),IGEO_STACK(NPROPGI,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),KXX(NIXX,*),MAXEOS
-      my_real ::
-     .    PM(NPROPM,*),GEO(NPROPG,*)
+      my_real :: PM(NPROPM,NUMMAT),GEO(NPROPG,NUMGEO)
       TYPE(ELBUF_STRUCT_),TARGET ,DIMENSION(NGROUP)     :: ELBUF_TAB
       TYPE(MLAW_TAG_)    ,TARGET ,DIMENSION(NUMMAT)     :: MLAW_TAG
       TYPE(EOS_TAG_)     ,TARGET ,DIMENSION(0:MAXEOS)   :: EOS_TAG
@@ -1494,7 +1493,7 @@ c
           BUFLEN = NPAR_TAB + LMAT  + LFAIL + LVISC + LPORO + LEOS + LIMAT + LIFAIL + LNLOC
 c-------------------------------------------------
          IF (DEBUG_PRINT == 1) THEN
-           print*,'       BUFLEN=NPAR_TAB+LMAT+LFAIL+LVISC+LIMAT+LIFAIL',buflen             
+           print*,'       BUFLEN=NPAR_TAB+LMAT+LFAIL+LVISC+LPORO+LEOS+LIMAT+LIFAIL+LNLOC',buflen             
          ENDIF
 c-------------------------------------------------
           IF (LFAIL > 0) THEN
@@ -1865,6 +1864,7 @@ c-------------------------------------------------
           IMAT(:) = 0
 C
           LMAT = 0
+          LEOS = 0
 C
           IF (NLAY > 0) THEN  ! integrated beam (NLAY = 1)
             MY_ALLOCATE(ELBUF_TAB(NG)%BUFLY ,NLAY)
@@ -1873,7 +1873,8 @@ C---
               BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
               BUFLY%NPTT = NPTT
               MY_ALLOCATE3D(BUFLY%LBUF, NPTR,NPTS,NPTT)  
-              MY_ALLOCATE3D(BUFLY%MAT , NPTR,NPTS,NPTT)      
+              MY_ALLOCATE3D(BUFLY%MAT , NPTR,NPTS,NPTT)
+              MY_ALLOCATE3D(BUFLY%EOS , NPTR,NPTS,NPTT)       
             ENDDO
 C---
 c
@@ -1902,6 +1903,7 @@ c---      User Mat Buffer, Fail buffer, Visc buffer :  alloc + init
 c
             DO IL = 1,NLAY
               NUVARM  = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
+              NUVAREOS= ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS
               NPTT    = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
               DO IR = 1,NPTR                                       
                 DO IS = 1,NPTS                                      
@@ -1909,7 +1911,9 @@ c
                     ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%MLAW = ELBUF_TAB(NG)%BUFLY(IL)%ILAW
                     ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%LawID =  ELBUF_TAB(NG)%BUFLY(IL)%IMAT
                     MY_ALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR,NUVARM*NEL)
+                    MY_ALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR,NUVAREOS*NEL)
                     ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR = ZERO
+                    ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR = ZERO
                     LMAT  = LMAT  + NUVARM*NEL
                   ENDDO                                                           
                 ENDDO                                                          
