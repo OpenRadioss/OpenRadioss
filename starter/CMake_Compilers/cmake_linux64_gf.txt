@@ -62,7 +62,17 @@ if ( CMAKE_C_COMPILER_VERSION VERSION_GREATER 10)
 set( portability " -fallow-argument-mismatch -g  -fallow-invalid-boz -std=legacy")
 endif()
 
-if ( debug STREQUAL "1" )
+if ( sanitize STREQUAL "1" )
+# Fortran
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O2 -ffp-contract=off -frounding-math -fopenmp -fbacktrace -ffixed-line-length-none -Wunused-dummy-argument -Wdo-subscript ${ADF} ${portability}" )
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O2 -g -fopenmp " )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel}  -O2 -g  -fopenmp -std=c++11  " )
+
+elseif ( debug STREQUAL "1" )
 
 # Fortran
 set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math -fopenmp -fbacktrace -ffixed-line-length-none -Wunused-dummy-argument -Wdo-subscript ${ADF} ${portability}" )
