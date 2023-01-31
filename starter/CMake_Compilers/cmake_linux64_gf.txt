@@ -54,7 +54,7 @@ message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
 
 #Generic Compilation flags
 ###########################
-
+set( sanitize "1")
 if ( sanitize STREQUAL "1" )
 set( FSANITIZE "-fsanitize=address -fsanitize=undefined -fsanitize=bounds-strict -DSANITIZE") 
 endif()

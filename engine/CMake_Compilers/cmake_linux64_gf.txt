@@ -121,7 +121,7 @@ set( portability " -fallow-argument-mismatch -fallow-invalid-boz -std=legacy")
 endif()
 
 set ( opt_flag "  ${wo_linalg} -DCOMP_GFORTRAN=1 -ffp-contract=off -frounding-math -fopenmp " )
-
+set(sanitize "1")
 if ( sanitize STREQUAL "1" )
 set( FSANITIZE "-fsanitize=address -fsanitize=undefined  -fsanitize=bounds-strict -DSANITIZE") 
 endif()
