@@ -38,6 +38,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -120,7 +121,7 @@ C     IR10 -> PTI    : incident pressure time integral
 C     IR11 -> CMAT   : Matrice C (nel >= nelmax)
 C-----------------------------------------------------------------------------------
       IPINT=0
-      IF (TT>=TANIM.OR.
+      IF ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15) 
      .   IPINT=1

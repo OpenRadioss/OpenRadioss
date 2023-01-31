@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE H3D_MOD 
       USE PINCHTYPE_MOD
       USE OUTMAX_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1762,12 +1763,15 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE RDCOMR(LMXVREA, LVARREA, TABVREA)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+       USE ANIM_MOD      
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
       INTEGER LMXVREA,LVARREA
-      my_real
-     .       TABVREA(LMXVREA)
+      my_real TABVREA(LMXVREA)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -2102,6 +2106,9 @@ C  INITIAL MASS IN STARTER
       MASS0_START = TABVREA(RVARINT)
       RVARINT = RVARINT + 1
       PERCENT_ADDMASS_OLD = TABVREA(RVARINT)
-     
+C  ANIM FILES FINAL TIME
+      RVARINT = RVARINT + 1
+      TANIM_STOP = TABVREA(RVARINT)
+           
       RETURN
       END

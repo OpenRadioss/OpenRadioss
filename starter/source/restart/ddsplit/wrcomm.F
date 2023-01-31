@@ -28,6 +28,10 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,MS_ND,P)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ANIM_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -35,8 +39,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LMXVREA,LVARREA, I
-      my_real
-     .       TABVREA(*),MS_ND
+      my_real TABVREA(*),MS_ND
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -320,7 +323,10 @@ C  INITIAL MASS FROM STARTER
       TABVREA(RVARINT) = MASS0_START
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = ZERO    
-C      
+C ANIM FILES STOP TIME
+      RVARINT = RVARINT + 1
+      TABVREA(RVARINT) = TANIM_STOP      
+C
 C---- fin check point restart      
 C      
       LVARREA=RVARINT

@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE H3D_MOD 
       USE PINCHTYPE_MOD
       USE OUTMAX_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1738,15 +1739,18 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ANIM_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
+C---------------L o c a l   V a r i a b l e sL o c a l   V a r i a b l e s--------------------------------
       INTEGER LMXVREA,LVARREA, I
-      my_real
-     .       TABVREA(*)
+      my_real TABVREA(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1793,7 +1797,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IVAR,RVARINT,J
 C--------------------------------------
-C     PREPARATION DES VARIABLES REELLES POUR ECRITURE SUR RFILE.
+C     REAL VARIABLES TO BE WRITTEN IN RFILE
 C=======================================================================
       DO IVAR=1,LMXVREA
        TABVREA(IVAR)=ZERO
@@ -2067,6 +2071,9 @@ C  INITIAL MASS IN STARTER
       TABVREA(RVARINT) = MASS0_START
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = PERCENT_ADDMASS_OLD
+      
+      RVARINT = RVARINT + 1
+      TABVREA(RVARINT) = TANIM_STOP      
 C      
       LVARREA =RVARINT
 C----------------------------------------------------------------

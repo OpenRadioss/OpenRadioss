@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE FVMBAG_MESHCONTROL_MOD
       USE SENSOR_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1764,7 +1765,7 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
 C---------------------------------------------------
 C Fluid velocity on nodes
 C---------------------------------------------------
-      IF(TT >= TANIM.OR.TT >= TOUTP.OR. NBGAUGE > 0 .OR.
+      IF( (TT>=TANIM .AND. TT<=TANIM_STOP) .OR.TT >= TOUTP.OR. NBGAUGE > 0 .OR.
      .              (MANIM >= 4.AND.MANIM <= 15)) THEN
 C     Computations for anim, also needed if there are gauges.
         PREPARE_ANIM = 1

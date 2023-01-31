@@ -100,6 +100,7 @@ C-----------------------------------------------
       USE ALE_EBCS_MOD
       USE RESTMOD
       USE GRP_SIZE_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1144,6 +1145,7 @@ C
       DTPAT = ZERO
       DTANIM = ZERO
       TANIM=ZERO
+      TANIM_STOP = EP20
       DTOUTP = ZERO
       TOUTP=ZERO
       THIS=ZERO

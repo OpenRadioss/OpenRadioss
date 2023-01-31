@@ -99,6 +99,7 @@ C-----------------------------------------------
       USE FVBAG_MOD
       USE CHECK_MOD
       USE SENSOR_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -834,6 +835,7 @@ C-------------------------------------------
 C     Animations
 C-------------------------------------------
       IF(TANIM0 /= ZERO)  TANIM = TANIM0
+      IF(TANIM_STOP0/=ZERO .AND. TANIM_STOP0/=EP20)  TANIM_STOP = TANIM_STOP0      
       IF(DTANIM0 > ZERO)  DTANIM= DTANIM0
       IF(DTANIM<=ZERO)  TANIM = EP30
       IF (TANIM < TT-DT2.AND.DTANIM > ZERO)TANIM = TANIM
@@ -862,7 +864,7 @@ C-----------------------
 C-----------------------
 C       Tracing Animations cards
 C-----------------------
-       WRITE(IOUT,1120)TANIM,DTANIM,IANISENS,DTANISENS,
+       WRITE(IOUT,1120)TANIM,DTANIM,TANIM_STOP,IANISENS,DTANISENS,
      +       ANIM_E(1),ANIM_E(2),ANIM_E(3),ANIM_E(25),
      +       ANIM_E(4),ANIM_E(5),ANIM_E(6),
      +       ANIM_E(7),ANIM_E(8),ANIM_E(9),
@@ -2890,6 +2892,7 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
  1120 FORMAT(/
      .  ' TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . . ',G14.7/
      .  ' TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . . ',G14.7/
+     .  ' TIME TO STOP ANIMATION-FILE PLOTS. . . . . . . . ',G14.7/     
      .  ' SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . . ',I10/
      .  ' TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. . ',G14.7//
      .  ' VARIABLE SAVED ON ANIMATION FILES (1: YES) :',/

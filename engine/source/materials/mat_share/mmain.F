@@ -181,6 +181,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
       USE MESSAGE_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2130,11 +2131,10 @@ C-----------
 C-----------------------------------------------------------------  
 C  ALE/EULER  POST-TREATMENT
 C-----------------------------------------------------------------  
-      !IF(TT>=TANIM)THEN     -> becomes unconditional since ssp needed for flux calculation : storage required.
         IF(IPARG(7,NG)+IPARG(11,NG) > 0 ) THEN
           LBUF%SSP(1:NEL) = CXX(1:NEL)
         ENDIF
-      !ENDIF      
+
 C-----------------------------------------------------------------         
       RETURN
       END SUBROUTINE MMAIN
