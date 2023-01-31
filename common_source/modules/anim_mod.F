@@ -21,43 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ANICON0                       source/output/anim/generate/anicon0.F
-Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|-- calls ---------------
+C Temporary requested module to introduce TANIM_STOP and TANIM_STOP0
+C All REAL VARIABLES related to ANIM were moved in this module
+C       (intially located in ./engine/share/includes/com04_c.inc and engine/share/includes/scr_14.inc) 
+C COMMON BLOCK are no longer maintened
 Chd|====================================================================
-      SUBROUTINE ANICON0(CONT, N)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-#include      "comlock.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "scr05_c.inc"
-#include      "scr07_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      my_real  CONT(3,*)
-      INTEGER N
-      INTEGER I, J
-C-----------------------------------------------
-C   S o u r c e   L i n e s
-C-----------------------------------------------
-#include "lockon.inc"
-         DO I = 1,N
-          CONT(1,I) = ZERO
-          CONT(2,I) = ZERO
-          CONT(3,I) = ZERO  
-         ENDDO
-#include "lockoff.inc"
-C-----------------------------------------------
-      RETURN
-      END
-      
+      MODULE ANIM_MOD
+                  
+#include "my_real.inc"              
 
-
+        !REAL VARIABLES FOR ANIMATION FILES
+        my_real TANIM, TANIM0            !start time
+        my_real DTANIM, DTANIM0          !time frequency
+        my_real TANIM_STOP, TANIM_STOP0  !stop time
+        my_real TANIMSENS  
+        my_real DTANISENS
+              
+        !INTEGER VARIABLES FOR ANIMATION FILES
+        ! refer to scr14_c.inc
+          
+      END MODULE ANIM_MOD

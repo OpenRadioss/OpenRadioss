@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ANICON0                       source/output/anim/generate/anicon0.F
+Chd|  ANICON2                       source/output/anim/generate/anicon2.F
 Chd|-- called by -----------
 Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE ANICON0(CONT, N)
+      SUBROUTINE ANICON2(CONT, N,INDEXC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,21 +43,18 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real  CONT(3,*)
-      INTEGER N
+      INTEGER N,INDEXC(*)
       INTEGER I, J
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 #include "lockon.inc"
          DO I = 1,N
-          CONT(1,I) = ZERO
-          CONT(2,I) = ZERO
-          CONT(3,I) = ZERO  
+          CONT(1,INDEXC(I)) = ZERO
+          CONT(2,INDEXC(I)) = ZERO
+          CONT(3,INDEXC(I)) = ZERO  
          ENDDO
 #include "lockoff.inc"
 C-----------------------------------------------
       RETURN
       END
-      
-
-

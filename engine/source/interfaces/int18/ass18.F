@@ -38,7 +38,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-C=======================================================================
+      USE ANIM_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -62,21 +63,19 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTM,IBAG,IRECT(4,*),FR_I18(*),ISKY(*)
-      my_real 
-     .    A(3,*),X(3,*),SURF(3,*),PRES(*),FCONT(3,*),FSAV(*),
-     .    FSAVBAG(NTHVKI,*), FSKYI(LSKYI,*)
-c     .    SURFN(NUMNOD),CDGX,CDGY,CDGZ,VOLUME,PBAG,ALPHA
+      my_real A(3,*),X(3,*),SURF(3,*),PRES(*),FCONT(3,*),FSAV(*),
+     .        FSAVBAG(NTHVKI,*), FSKYI(LSKYI,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  ERROR,NSKYI18G,PMAIN,I,J,K,L,N,NN,NBAG,
-     .         PERM(NRTM)
-      my_real 
-     .    PRESMED,PRESMOY,SURFACE,SURFLOC,AAA,BBB,PRESM,PRESVOL,
-     .    CDGX,CDGY,CDGZ,VOLUME,PBAG,ALPHA,
-     .   F1(NRTM), F2(NRTM), F3(NRTM), F4(NRTM), F5(NRTM)
+      INTEGER ERROR,NSKYI18G,PMAIN,I,J,K,L,N,NN,NBAG,PERM(NRTM)
+      my_real PRESMED,PRESMOY,SURFACE,SURFLOC,AAA,BBB,PRESM,PRESVOL,
+     .        CDGX,CDGY,CDGZ,VOLUME,PBAG,ALPHA,
+     .        F1(NRTM), F2(NRTM), F3(NRTM), F4(NRTM), F5(NRTM)
        DOUBLE PRECISION I18F6(5,6), I18FB6(2,6)
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
 C
 c      PRESMOY = ZERO
@@ -216,7 +215,7 @@ c        ENDDO
 c      ENDIF
       
 c      IF(ANIM_V(4)+OUTP_V(4)>0.AND.
-c     .          (TT>=TANIM.OR.TT>=TOUTP.OR.
+c     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
 c     .              (MANIM>=4.AND.MANIM<=15)))THEN
 c       DO I=1,NRTM
 c        NN = 4
@@ -300,7 +299,7 @@ c      IF(IBAG/=5)THEN
 C------------------------------------------------------
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .              (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
+     .              ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
      .                  (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 C
             DO I=1,NRTM

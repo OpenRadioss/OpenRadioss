@@ -59,7 +59,8 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE MULTI_FVM_MOD    
-      USE ALE_CONNECTIVITY_MOD          
+      USE ALE_CONNECTIVITY_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2118,6 +2119,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE H3D_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2147,7 +2149,6 @@ C-----------------------------------------------
 #include      "warn_c.inc"
 #include      "couple_c.inc"
 #include      "param_c.inc"
-ctmp+1
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -2156,21 +2157,14 @@ C-----------------------------------------------
      .        ITAB(*), NOINT, IRECT(4,*),CAND_N(*),CAND_E(*),
      .        INTTH,IFORM,NSN
       INTEGER NSV(*) ,SLVNDTAG(*)
-      my_real
-     .   X(3,*),
-     .   A(3,*), MS(*), V(3,*), FSAV(*),FCONT(3,*),
-     .   GAP, STFN(*),STIFN(*), MTF(14,*),CAND_SAV(8,*)
-      my_real
-     .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
-     .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
-     .     NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
-     .     LB1(MVSIZ), LB2(MVSIZ), LB3(MVSIZ), LB4(MVSIZ),
-     .     LC1(MVSIZ), LC2(MVSIZ), LC3(MVSIZ), LC4(MVSIZ),
-     .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ), STIF(MVSIZ),
-     .     GAPV(MVSIZ),
-     .     STIFSAV(MVSIZ),
-     .     VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ),
-     .     RSTIF
+      my_real X(3,*), A(3,*), MS(*), V(3,*), FSAV(*),FCONT(3,*), GAP, STFN(*),STIFN(*), MTF(14,*),CAND_SAV(8,*)
+      my_real NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
+     .        NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
+     .        NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
+     .        LB1(MVSIZ), LB2(MVSIZ), LB3(MVSIZ), LB4(MVSIZ),
+     .        LC1(MVSIZ), LC2(MVSIZ), LC3(MVSIZ), LC4(MVSIZ),
+     .        P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ), STIF(MVSIZ),
+     .        GAPV(MVSIZ),STIFSAV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ),RSTIF
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -2178,43 +2172,39 @@ C-----------------------------------------------
       INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI,
      .        NA1,NA2,L
       INTEGER IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
-      my_real
-     .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), FNI(MVSIZ),
-     .   FXT(MVSIZ),FYT(MVSIZ),FZT(MVSIZ),
-     .   FX1(MVSIZ), FX2(MVSIZ), FX3(MVSIZ), FX4(MVSIZ),
-     .   FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
-     .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
-     .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
-     .   VIS2(MVSIZ), DTMI(MVSIZ), XMU(MVSIZ),STIF0(MVSIZ),
-     .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),DIST(MVSIZ),
-     .   VNX, VNY, VNZ, AA, CRIT,S2,RDIST,
-     .   FM2, DT12INV, VISCA, FAC, FAC2,FF,ALPHI,ALPHA,BETA,
-     .   FX, FY, FZ, F2, MAS2, M2SK, DTMI0,DTI,FT,FN,FMAX,FTN,
-     .   FACM1, ECONTT, ECONVT, H0, LA1, LA2, LA3, LA4,
-     .   D1,D2,D3,D4,A1,A2,A3,A4,
-     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8,
-     .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15, FFO,
-     .   E10, H0D, S2D, SUM,
-     .   LA1D,LA2D,LA3D,LA4D,T1,T1D,T2,T2D,FFD,VISD,FACD,D1D,
-     .   P1S(MVSIZ),P2S(MVSIZ),P3S(MVSIZ),P4S(MVSIZ),
-     .   D2D,D3D,D4D,VNXD,VNYD,VNZD,V2D,FM2D,F2D,AAD,FXD,FYD,FZD,
-     .   A1D,A2D,A3D,A4D,VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,
-     .   AREA,P,VV1,VV2,V21,DMU, DTI2,H00 ,A0X,A0Y,A0Z,RX,RY,RZ,
-     .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,TM,TS
-      my_real
-     .   PREC
-      my_real
-     .   ST1(MVSIZ),ST2(MVSIZ),ST3(MVSIZ),ST4(MVSIZ),STV(MVSIZ),
-     .   KT(MVSIZ),C(MVSIZ),CF(MVSIZ),
-     .   KS(MVSIZ),K1(MVSIZ),K2(MVSIZ),K3(MVSIZ),K4(MVSIZ),
-     .   CS(MVSIZ),C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),
-     .   CX,CY,CFI,AUX,PHI1(MVSIZ), PHI2(MVSIZ), PHI3(MVSIZ),
-     .   PHI4(MVSIZ)
+      my_real FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), FNI(MVSIZ),
+     .        FXT(MVSIZ),FYT(MVSIZ),FZT(MVSIZ),
+     .        FX1(MVSIZ), FX2(MVSIZ), FX3(MVSIZ), FX4(MVSIZ),
+     .        FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
+     .        FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
+     .        N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
+     .        VIS2(MVSIZ), DTMI(MVSIZ), XMU(MVSIZ),STIF0(MVSIZ),
+     .        H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
+     .        VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),DIST(MVSIZ),
+     .        VNX, VNY, VNZ, AA, CRIT,S2,RDIST,
+     .        FM2, DT12INV, VISCA, FAC, FAC2,FF,ALPHI,ALPHA,BETA,
+     .        FX, FY, FZ, F2, MAS2, M2SK, DTMI0,DTI,FT,FN,FMAX,FTN,
+     .        FACM1, ECONTT, ECONVT, H0, LA1, LA2, LA3, LA4,
+     .        D1,D2,D3,D4,A1,A2,A3,A4,
+     .        FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8,
+     .        FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15, FFO,
+     .        E10, H0D, S2D, SUM,
+     .        LA1D,LA2D,LA3D,LA4D,T1,T1D,T2,T2D,FFD,VISD,FACD,D1D,
+     .        P1S(MVSIZ),P2S(MVSIZ),P3S(MVSIZ),P4S(MVSIZ),
+     .        D2D,D3D,D4D,VNXD,VNYD,VNZD,V2D,FM2D,F2D,AAD,FXD,FYD,FZD,
+     .        A1D,A2D,A3D,A4D,VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,
+     .        AREA,P,VV1,VV2,V21,DMU, DTI2,H00 ,A0X,A0Y,A0Z,RX,RY,RZ,
+     .        ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,TM,TS
+      my_real PREC
+      my_real ST1(MVSIZ),ST2(MVSIZ),ST3(MVSIZ),ST4(MVSIZ),STV(MVSIZ),
+     .        KT(MVSIZ),C(MVSIZ),CF(MVSIZ),
+     .        KS(MVSIZ),K1(MVSIZ),K2(MVSIZ),K3(MVSIZ),K4(MVSIZ),
+     .        CS(MVSIZ),C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),
+     .        CX,CY,CFI,AUX,PHI1(MVSIZ), PHI2(MVSIZ), PHI3(MVSIZ),
+     .        PHI4(MVSIZ)
       INTEGER JSUB,KSUB,JJ,KK,IN,NSUB,IBID
-      my_real
-     .   IMPX,IMPY,IMPZ,PP1,PP2,PP3,PP4,BID,BBB,
-     .   V1,V2,V3,V4,VSX,VSY,VSZ,DVSX,DVSY,DVSZ,VSXP,VSYP,VSZP
+      my_real IMPX,IMPY,IMPZ,PP1,PP2,PP3,PP4,BID,BBB,
+     .        V1,V2,V3,V4,VSX,VSY,VSZ,DVSX,DVSY,DVSZ,VSXP,VSYP,VSZP
 C
 C-----------------------------------------------
 #include "sync_dir.inc"
@@ -2380,7 +2370,7 @@ C---------------------------------
 #include "lockoff.inc"
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT > 0.AND.
-     .          (TT >= TANIM.OR.TT >= TOUTP.OR.TT >= H3D_DATA%TH3D.OR.
+     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT >= TOUTP.OR.TT >= H3D_DATA%TH3D.OR.
      .              (MANIM >= 4.AND.MANIM <= 15).OR. H3D_DATA%MH3D  /=  0))THEN
 #include "lockon.inc"
          DO I=1,JLT

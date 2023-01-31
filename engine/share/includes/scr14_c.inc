@@ -20,14 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C.../SCR14R/
-C...mis a 0 par defaut en spmd
-      COMMON /SCR14R/ DTANIM0,TANIM0,DTANISENS,TANIMSENS
-      my_real
-     .    DTANIM0,TANIM0,DTANISENS,TANIMSENS
-C
-C.../SCR14/
-C...recopie par defaut en spmd
+
 c----------------------------------------------------------
       INTEGER MX_ANI
       PARAMETER (MX_ANI = 80000)      

@@ -47,6 +47,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE SENSOR_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,11 +89,9 @@ C-----------------------------------------------
       INTEGER NFX,ANOD,AMOD,AGLM,ACP,ALM,AFLS,ADLS,AVAR,ARPM,
      .        NME,NMOD,AMCD,ASE,ITN,NCYCLP1,AELM,ASIG,N2,NN2,
      .        AGRVI,AGRVR,NLGRAV,NSN,I,PMAIN
-      my_real
-     .        MFEXTP(LENVAR)
+      my_real MFEXTP(LENVAR)
       INTEGER NSNT, NMMAX, IAD(NFXBODY), ANOD2, J
-      my_real
-     .       , DIMENSION(:,:), ALLOCATABLE :: FSKYFXB
+      my_real, DIMENSION(:,:), ALLOCATABLE :: FSKYFXB
 C=======================================================================
       N2=NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU
       ITN=0

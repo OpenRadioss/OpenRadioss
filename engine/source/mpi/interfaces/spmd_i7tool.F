@@ -490,6 +490,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
       USE MULTI_FVM_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -581,11 +582,11 @@ C
             ENDIF
          ENDIF      
 C     
-C     suite traitement i7for3 et i10for3 sur noeud secnd
+C     following i7for3 & i10for3 process on secondary nodes
 C     
          IF (INCONV == 1) THEN
             IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .           (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .           ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
      .           (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .          .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C     Anim FCONT
@@ -686,6 +687,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -839,7 +841,7 @@ C suite traitement i11for3 sur noeud secnd
 C
       IF(INCONV == 1) THEN
        IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -988,6 +990,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1117,7 +1120,7 @@ C
 C suite traitement i11for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -1214,6 +1217,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1263,7 +1267,7 @@ C
           A(2,NOD)   = A(2,NOD) + BUFR(3,I)
           A(3,NOD)   = A(3,NOD) + BUFR(4,I)
           STIFN(NOD) = STIFN(NOD) + BUFR(5,I)          
-C Traitement interface type20
+C type20 interface treatment
           ISIGN = 1
           IF(ALPHAK(2,N) < ZERO .or. BUFR(6,I) < ZERO)ISIGN = -1
           ALPHAK(2,N) = ISIGN*MIN(ABS(ALPHAK(2,N)),ABS(BUFR(6,I)))             
@@ -1299,7 +1303,7 @@ C Traitement interface type20
           ISIGN = 1
           IF(ALPHAK(2,N) < ZERO .or. BUFR(7,I) < ZERO)ISIGN = -1
           ALPHAK(2,N) = ISIGN*MIN(ABS(ALPHAK(2,N)),ABS(BUFR(7,I)))             
-C Traitement interface type20
+C type20 interface treatment
           CALL GETDPDAANC(DAANC6L,BUFR(8,I),IRESP,INC)
           DAANC6(1,1,N) = DAANC6(1,1,N)+DAANC6L(1,1)
           DAANC6(1,2,N) = DAANC6(1,2,N)+DAANC6L(1,2)
@@ -1332,7 +1336,7 @@ C
           A(3,NOD)   = A(3,NOD) + BUFR(4,I)
           STIFN(NOD) = STIFN(NOD) + BUFR(5,I)
           FTHE(NOD) = FTHE(NOD) + BUFR(6,I)       
-C Traitement interface type20
+C type20 interface treatment
           ISIGN = 1
           IF(ALPHAK(2,N) < ZERO .or. BUFR(7,I) < ZERO)ISIGN = -1
           ALPHAK(2,N) = ISIGN*MIN(ABS(ALPHAK(2,N)),ABS(BUFR(7,I)))             
@@ -1366,7 +1370,7 @@ C Traitement interface type20
           STIFN(NOD) = STIFN(NOD) + BUFR(5,I)          
           VISCN(NOD) = VISCN(NOD) + BUFR(6,I)
           FTHE(NOD) = FTHE(NOD) + BUFR(7,I)            
-C Traitement interface type20
+C type20 interface treatment
           ISIGN = 1
           IF(ALPHAK(2,N) < ZERO .or. BUFR(8,I) < ZERO)ISIGN = -1
           ALPHAK(2,N) = ISIGN*MIN(ABS(ALPHAK(2,N)),ABS(BUFR(8,I)))             
@@ -1393,10 +1397,10 @@ C Traitement interface type20
         ENDIF
       ENDIF
 C
-C suite traitement i7for3 et i10for3 sur noeud secnd
+C following i7for3 & i10for3 process on secondary nodes
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .    .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -1483,6 +1487,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1655,7 +1660,7 @@ C
 C suite traitement i7for3 et i10for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .    .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -1967,6 +1972,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2057,7 +2063,7 @@ C
 C suite traitement i7for3 et i10for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -2161,6 +2167,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2263,7 +2270,7 @@ C
 C suite traitement i7for3 et i10for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -2355,6 +2362,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2538,7 +2546,7 @@ C
 C suite traitement i11for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -2692,6 +2700,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2777,7 +2786,7 @@ C
 C suite traitement i11for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -2906,11 +2915,11 @@ Chd|====================================================================
       SUBROUTINE SPMD_FIADD17_PON(
      1       NB     ,LEN    ,BUFR  ,NELEMS ,FSKYI ,
      2       ISKY   ,FCONT  ,IXS   ,IXS16  ,H3D_DATA  )
-c     2       ISKY   ,FCONT  ,IXS   ,IXS16  ,FROTS )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2935,8 +2944,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NB, LEN, 
      .        NELEMS(*), ISKY(*), IXS(NIXS,*), IXS16(8,*)
-      my_real
-     .        BUFR(LEN,*),
+      my_real BUFR(LEN,*),
      .        FSKYI(LSKYI,NFSKYI),
      .        FCONT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -2949,11 +2957,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       DO I = 1, NB
         NN = NINT(BUFR(1,I))
-        IES = NELEMS(NN)
-c        FROTS(1,NN) = FROTS(1,NN) + BUFR(2,I)                       
-c        FROTS(2,NN) = FROTS(2,NN) + BUFR(3,I)                       
-c        FROTS(3,NN) = FROTS(3,NN) + BUFR(4,I)                       
-c        FROTS(4,NN) = FROTS(4,NN) + BUFR(5,I)                       
+        IES = NELEMS(NN)                    
         DO II =1,8
           IIIS = NINT(BUFR(6+(II-1)*5,I))
           IF(IIIS<=8)THEN
@@ -2970,10 +2974,10 @@ c        FROTS(4,NN) = FROTS(4,NN) + BUFR(5,I)
         END DO
       END DO
 C
-C suite traitement i11for3 sur noeud secnd
+C followin i11for3 process on secondary nodes
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT

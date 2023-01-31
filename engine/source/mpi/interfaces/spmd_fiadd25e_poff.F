@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE MULTI_FVM_MOD
       USE DEBUG_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -137,7 +138,7 @@ C     suite traitement i7for3 et i10for3 sur noeud secnd
 C     
          IF (INCONV == 1) THEN
             IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .           (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .           ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
      .           (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .          .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C     Anim FCONT

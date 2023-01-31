@@ -640,6 +640,7 @@ C-----------------------------------------------
       USE INTER_STRUCT_MOD
       USE INTER_SORTING_MOD
       USE SHOOTING_NODE_MOD
+      USE ANIM_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4066,7 +4067,7 @@ C--------------------------------------------------------
         IF(NSPMD>1)THEN
 C
            IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0.AND.
-     .      (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
+     .      ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
      .      (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
      .      .OR.H3D_DATA%N_VECT_PCONT_MAX >0)THEN        ! comm a faire avant appel i7fcom
             CALL SPMD_EXCH_PRESS( 
@@ -8165,7 +8166,7 @@ c--------------
       ENDIF
 C--------------------------------------------------
       IF( ANIM_CE(2156)/=0
-     .     .AND.(TT>=TANIM.OR.TT>=TOUTP.OR.
+     .     .AND.((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
      .          (MANIM>=4.AND.MANIM<=15))) THEN
 
 C========================================================================================
@@ -8357,7 +8358,7 @@ C Do not stop yet
           ILASTH3D=0
         END IF
 C Regular animation                                               
-        IF (TT>TANIM.AND.ILASTANIM==0) THEN
+        IF ((TT>TANIM .AND. TT<=TANIM_STOP).AND.ILASTANIM==0) THEN
           ILASTANIM=3
           LASTANIMCYCLE=NCYCLE
         END IF

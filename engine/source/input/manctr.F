@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE H3D_MOD         
       USE INOUTFILE_MOD
       USE SENSOR_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,18 +75,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,MANIM0, MREST0, MSTOP0, MFILR, MCYCLE, LK2, IKEY,
-     .   WMCHECK0, MSG_R2R, R2R_MSTOP_LOC,ICTLSTOP0, MH3D0
-C     REAL
-      my_real
-     .   TMPMAN(50)
-      my_real
-     .   TMAN,TMAN_LOC
-      CHARACTER FILNAM*100, CARTE*ncharline, KEY2*80, FMT*80, 
-     . KEY0(NKEY)*5,REC*1
+      INTEGER J,MANIM0, MREST0, MSTOP0, MFILR, MCYCLE, LK2, IKEY, WMCHECK0, MSG_R2R, R2R_MSTOP_LOC,ICTLSTOP0, MH3D0
+      my_real TMPMAN(50), TMAN,TMAN_LOC
+      CHARACTER FILNAM*100, CARTE*ncharline, KEY2*80, FMT*80, KEY0(NKEY)*5,REC*1
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
-
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

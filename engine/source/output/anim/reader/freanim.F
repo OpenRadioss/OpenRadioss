@@ -42,6 +42,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE STACK_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,8 +105,7 @@ C        THE FOLLOWING OPTIONS USE AN ADDITIONAL CARD
 C----------------------------
          IF(KEY2(1:5)=='DT   ')THEN
            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-!!           READ(IUSC2,*,ERR=9990)TANIM0,DTANIM0
-           READ(IUSC2,*,ERR=310,END=320)TANIM0,DTANIM0
+           READ(IUSC2,*,ERR=310,END=320)TANIM0,DTANIM0,TANIM_STOP0
            GOTO 320
  310       READ(IUSC2,*,ERR=320,END=320)TANIM0
  320       CONTINUE
@@ -114,6 +114,15 @@ C----------------------------
              CALL ANCMSG(MSGID=293,ANMODE=ANINFO,c1='ANIM',c2='ANIM')
              CALL ARRET(0)
            ENDIF
+           
+           IF (TANIM_STOP0 < ZERO) THEN
+             CALL ANCMSG(MSGID=304,ANMODE=ANINFO,c1='ANIM',c2='ANIM')
+             CALL ARRET(0)
+           ELSEIF (TANIM_STOP0 == ZERO)THEN
+             TANIM_STOP0 = EP20
+           ELSE
+             TANIM_STOP0 = MAX(TANIM_STOP0, MAX(ZERO,TANIM0))
+           ENDIF           
 !
          ELSEIF(KEY2(1:5)=='SENSO')THEN
            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))

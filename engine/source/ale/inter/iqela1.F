@@ -35,6 +35,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -82,7 +83,7 @@ C-----------------------------------------------
       IANIM  = .FALSE.
       ICONT  = (ANIM_V(4)+OUTP_V(4) > 0+H3D_DATA%N_VECT_CONT)
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT > 0)THEN      
-       IF(TT >= TANIM.OR.TT >= TOUTP.OR.TT >= H3D_DATA%TH3D.OR.
+       IF( (TT>=TANIM .AND. TT<=TANIM_STOP) .OR.TT >= TOUTP.OR.TT >= H3D_DATA%TH3D.OR.
      .      (MANIM >= 4.AND.MANIM <= 15).OR. H3D_DATA%MH3D /= 0)THEN
          IPCONT = .TRUE.
        ENDIF

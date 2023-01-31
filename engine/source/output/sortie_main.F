@@ -142,6 +142,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ALE_CONNECTIVITY_MOD
       USE OUTMAX_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -336,7 +337,7 @@ C-----------------------------------------------
 C     CUMUL MASS SPMD
 C-----------------------------------------------
       IF(IMACH==3.AND.NSPMD>1.AND.(ANIM_N(2)+OUTP_N(2)>0).AND.
-     .  (TT>=TANIM.OR.TT>=TOUTP.OR.
+     .  ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .   MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
      .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15)) THEN
@@ -345,7 +346,7 @@ C-----------------------------------------------
       ENDIF
       IF(IMACH==3.AND.NSPMD>1.AND.
      .  (ANIM_N(12)+OUTP_N(3)>0).AND.
-     .  (TT>=TANIM.OR.TT>=TOUTP.OR.
+     .  ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .   MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
      .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15)) THEN
@@ -360,7 +361,7 @@ C----------------------
       IF(((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT /=0.OR.
      .   ANIM_V(27)+H3D_DATA%N_VECT_PCONT2 /=0.)
      .    .AND.
-     .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
+     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
      .  MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .  MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
      .  MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15.OR.
@@ -426,7 +427,7 @@ c       IF(TT>=TPAT)TPAT=TPAT+DTPAT
 c      END IF
 c      END IF
    
-      IF (TT>=TANIM.OR. ! NUMELCRK > NUMELCRK2 .or.   !  => ANIM par fissure avance
+      IF ((TT>=TANIM .AND. TT<=TANIM_STOP).OR. ! NUMELCRK > NUMELCRK2 .or.   !  => ANIM par fissure avance
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15 .OR.
      .   (MSTOP == 1  .AND. ICTLSTOP == 0) .OR. 
@@ -581,7 +582,7 @@ c
      2             FCONT_MAX  ,FNCONTP2  ,FTCONTP2    )
 c
        ENDIF
-      IF(TT>=TANIM)TANIM=TANIM+DTANIM
+      IF((TT>=TANIM .AND. TT<=TANIM_STOP))TANIM=TANIM+DTANIM
       IF ((TSTOP<TANIM).AND.(TANIM<TSTOP+EM06*TSTOP)
      .     .AND.(TSTOP+EM06*TSTOP<TANIM+DTANIM)) THEN
          TANIM=TSTOP

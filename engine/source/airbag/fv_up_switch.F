@@ -74,6 +74,7 @@ C-----------------------------------------------
       USE FVMBAG_MESHCONTROL_MOD
       USE OMP_LIB
       USE SENSOR_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -1670,8 +1671,8 @@ C     AUTOMATIC SWITCH TO UNIFORM PRESSURE WHEN DISPERSION OF PRESSURE IS LOW
 C---------------------------------------------------
 C NODAL FLUID VELOCITIES
 C---------------------------------------------------
-      IF(TT>=TANIM.OR.TT>=TOUTP.OR. NBGAUGE > 0 .OR.
-     .              (MANIM>=4.AND.MANIM<=15)) THEN
+      IF( (TT>=TANIM .AND. TT<=TANIM_STOP) .OR.TT>=TOUTP.OR. NBGAUGE > 0 .OR.
+     .              (MANIM>=4.AND.MANIM<=15) ) THEN
 C     COMPUTATIONS FOR ANIM, ALSO NEEDED IF THERE ARE GAUGES.
         PREPARE_ANIM = 1
         UEL(1:3,1:NELT)=ZERO

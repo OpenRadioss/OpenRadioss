@@ -33,6 +33,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE MESSAGE_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,6 +71,10 @@ C-----------------------------------------------
         WRITE(VARNAME,'(A)') 'DTANIM0'
         TEMP_DOUBLE = DTANIM0
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+        
+        WRITE(VARNAME,'(A)') 'TANIM_STOP0'
+        TEMP_DOUBLE = TANIM_STOP0
+        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)        
 
         WRITE(VARNAME,'(A)') 'IANISENS'
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IANISENS,0.0_8)

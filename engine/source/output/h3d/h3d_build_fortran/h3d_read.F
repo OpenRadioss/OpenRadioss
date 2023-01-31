@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE STACK_MOD
       USE H3D_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,8 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IKAD(0:*),
-     .        KH3D,IFID,MFID,NSLASH(*)
+      INTEGER IKAD(0:*),KH3D,IFID,MFID,NSLASH(*)
       CHARACTER KEY0(*)*5
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
@@ -79,15 +79,15 @@ C-----------------------------------------------
       CHARACTER  TITLE*72, KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, KEY5*ncharkey, 
      .           KEY6*ncharkey,KEY7*ncharkey, KEY8*ncharkey,KEYTMP*ncharkey,
      .           CARTE*ncharline,TITLE2*80,LINE*120
-      my_real
-     .   X0,Y0,Z0,VNX,VNY,VNZ,V0
-     
-C=========================================================================
-      KCUR           = KH3D
+      my_real X0,Y0,Z0,VNX,VNY,VNZ,V0
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------=
+      KCUR = KH3D
       NH3D = NSLASH(KCUR)
 c
-      H3D_DATA%TH3D0         = ZERO
-      H3D_DATA%DTH3D0        = ZERO
+      H3D_DATA%TH3D0 = ZERO
+      H3D_DATA%DTH3D0 = ZERO
       H3D_DATA%PERCENTAGE_ERROR = ZERO
       H3D_DATA%COMP_LEVEL = 7
       H3D_DATA%N_SENS_H3D = 0

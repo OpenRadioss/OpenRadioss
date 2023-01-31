@@ -33,6 +33,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE STACK_MOD
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,6 +63,7 @@ C     Initializations ../..
 C-----------------------------------------------
       TANIM0            = ZERO
       DTANIM0           = ZERO
+      TANIM_STOP0       = EP20
       TANIMSENS         = ZERO
       DTANISENS         = ZERO
       IANISENS          = 0
