@@ -64,6 +64,7 @@ Chd|        FAIL_TAB_XFEM                 source/materials/fail/tabulated/fail_t
 Chd|        FAIL_TBUTCHER_C               source/materials/fail/tuler_butcher/fail_tbutcher_c.F
 Chd|        FAIL_TBUTCHER_XFEM            source/materials/fail/tuler_butcher/fail_tbutcher_xfem.F
 Chd|        FAIL_TENSSTRAIN_C             source/materials/fail/tensstrain/fail_tensstrain_c.F
+Chd|        FAIL_TSAIWU_C                 source/materials/fail/tsaiwu/fail_tsaiwu_c.F
 Chd|        FAIL_VISUAL_C                 source/materials/fail/visual/fail_visual_c.F
 Chd|        FAIL_WIERZBICKI_C             source/materials/fail/wierzbicki/fail_wierzbicki_c.F
 Chd|        FAIL_WILKINS_C                source/materials/fail/wilkins/fail_wilkins_c.F
