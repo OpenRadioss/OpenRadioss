@@ -128,8 +128,18 @@ endif()
 
 set(opt_flag "${opt_flag} ${mumps_flag} ${mumps_inc}")
 
+if ( sanitize STREQUAL "1" )
+# Fortran
 
-if ( debug STREQUAL "1" )
+set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -O2 -g -fdec-math -fbacktrace -Wunused-dummy-argument -Wdo-subscript ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF}  " )
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag}  ${cppmach} ${cpprel} -O2 -g  -fopenmp " )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag} ${cppmach} ${cpprel}  -O2 -g -fopenmp -std=c++11  " )
+
+elseif ( debug STREQUAL "1" )
 # Fortran
 
 set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -O0 -g -fdec-math -fbacktrace -Wunused-dummy-argument -Wdo-subscript ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF}  " )
