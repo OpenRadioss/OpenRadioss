@@ -885,19 +885,21 @@ c
           DO IL = 1,ELBUF%NLAY 
             BUFLY => ELBUF_TAB(NG)%BUFLY(IL)              
             NUVAR = BUFLY%NVAR_EOS 
-            IF (IGTYP == 51 .OR. IGTYP == 52) THEN
-              NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
-            ELSE
-              NPTT = ELBUF_TAB(NG)%NPTT
-            ENDIF
-            DO IR = 1,ELBUF%NPTR                                             
-              DO IS = 1,ELBUF%NPTS                                                                                  
-                 DO IT = 1,NPTT
-                   RBUF_L(L_REL+1:L_REL+NEL*NUVAR)=BUFLY%EOS(IR,IS,IT)%VAR(1:NEL*NUVAR)
-                   L_REL = L_REL+NEL*NUVAR
-                 ENDDO                                                       
-               ENDDO                                                         
-             ENDDO
+            IF(ASSOCIATED(BUFLY%EOS))THEN
+              IF (IGTYP == 51 .OR. IGTYP == 52) THEN
+                NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+              ELSE
+                NPTT = ELBUF_TAB(NG)%NPTT
+              ENDIF
+              DO IR = 1,ELBUF%NPTR                                             
+                DO IS = 1,ELBUF%NPTS                                                                                  
+                   DO IT = 1,NPTT
+                     RBUF_L(L_REL+1:L_REL+NEL*NUVAR)=BUFLY%EOS(IR,IS,IT)%VAR(1:NEL*NUVAR)
+                     L_REL = L_REL+NEL*NUVAR
+                   ENDDO                                                       
+                 ENDDO                                                         
+               ENDDO
+             ENDIF!IF(ASSOCIATED(BUFLY%EOS))
            ENDDO  
 c---------------------------------------------------
               IF (DEBUG_PRINT == 1) THEN
@@ -957,8 +959,7 @@ c
             NUVAR  = INTLAY%NVAR_MAT                                     
             DO IR = 1,ELBUF%NPTR                                             
               DO IS = 1,ELBUF%NPTS                                           
-                  RBUF_L(L_REL+1:L_REL+NEL*NUVAR)=
-     .                   INTLAY%MAT(IR,IS)%VAR(1:NEL*NUVAR)
+                  RBUF_L(L_REL+1:L_REL+NEL*NUVAR)=INTLAY%MAT(IR,IS)%VAR(1:NEL*NUVAR)
                   L_REL = L_REL+NEL*NUVAR
               ENDDO                                                         
             ENDDO                                                           
@@ -979,8 +980,7 @@ c
                     L_REL = L_REL+1                                      
                   RBUF_L(L_REL+1)=NUVAR                                  
                     L_REL = L_REL+1                                      
-                  RBUF_L(L_REL+1:L_REL+NEL*NUVAR)=                       
-     .                      FLOC%VAR(1:NEL*NUVAR)                        
+                  RBUF_L(L_REL+1:L_REL+NEL*NUVAR)=FLOC%VAR(1:NEL*NUVAR)                        
                     L_REL = L_REL+NEL*NUVAR                              
                 ENDDO                                                       
              ENDDO                                                         
