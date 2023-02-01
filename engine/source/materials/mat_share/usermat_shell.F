@@ -248,7 +248,9 @@ c----
       CHARACTER OPTION*256
       INTEGER SIZE
       CHARACTER IUSER_KEY*ncharline
-C======================================================================|
+C-----------------------------------------------
+C   S o u r c e   L i n e s 
+C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
       IPG  = (IS-1)*ELBUF_STR%NPTR + IR     ! current Gauss point
       NPG  = ELBUF_STR%NPTR * ELBUF_STR%NPTS
@@ -306,11 +308,9 @@ c
       TRELAX   = ZERO
 c                                 
       DEGMB(JFT:JLT) = FOR(JFT:JLT,1)*EXX(JFT:JLT)+FOR(JFT:JLT,2)*EYY(JFT:JLT)  
-     .           + FOR(JFT:JLT,3)*EXY(JFT:JLT)+FOR(JFT:JLT,4)*EYZ(JFT:JLT)  
-     .           + FOR(JFT:JLT,5)*EXZ(JFT:JLT)                  
-      DEGFX(JFT:JLT) = MOM(JFT:JLT,1)*KXX(JFT:JLT)+MOM(JFT:JLT,2)*KYY(JFT:JLT)  
-     .           + MOM(JFT:JLT,3)*KXY(JFT:JLT)                  
-!
+     .               + FOR(JFT:JLT,3)*EXY(JFT:JLT)+FOR(JFT:JLT,4)*EYZ(JFT:JLT)  
+     .               + FOR(JFT:JLT,5)*EXZ(JFT:JLT)                  
+      DEGFX(JFT:JLT) = MOM(JFT:JLT,1)*KXX(JFT:JLT)+MOM(JFT:JLT,2)*KYY(JFT:JLT) +MOM(JFT:JLT,3)*KXY(JFT:JLT)                  
 !
       VOL0(JFT:JLT)   = AREA(JFT:JLT)*THK0(JFT:JLT)            
       THKN(JFT:JLT)   = THK(JFT:JLT)

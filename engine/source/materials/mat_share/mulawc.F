@@ -282,8 +282,9 @@ c----
       INTEGER SIZE
       CHARACTER IUSER_KEY*ncharline
 c
-!!      my_real, DIMENSION(:) ,POINTER :: SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
-C======================================================================|
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
       IPG  = (IS-1)*ELBUF_STR%NPTR + IR     ! current Gauss point
       NPG  = ELBUF_STR%NPTR * ELBUF_STR%NPTS
@@ -974,8 +975,8 @@ C---
            ENDIF
           ENDIF
 C------------------------------------------
-C         CONTRAINTES ELASTIQUES + 
-C         CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C         ELASTIC STRESS + 
+C         PLASTICLY ADMISSIBLE STRESS
 C------------------------------------------
           IF (ILAW == 1) THEN
             CALL SIGEPS01C(JFT       ,JLT      ,NEL      ,IMAT     ,GS       ,
@@ -1829,15 +1830,6 @@ c
      7                     COPY_PLA ,DPLA   ,EPSPL  ,UVARF  ,UELR    ,
      8                     OFF      ,ALDT   ,AREA   ,BIDON3,BIDON4,BIDON5 )
                 ELSE
-!                  CALL F04LAWC(NEL ,NUPAR,NVARF,NFUNC1,IFUNC1,NPF,
-!     2                     TF  ,TT  ,DT1C   ,UPARAMF,NGL ,IPT, 
-!     3                     MPT ,IPG ,IBIDON2,IBIDON3  , 
-!     4                     SIGNXX   ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX  ,
-!     5                     EPSPXX   ,EPSPYY ,EPSPXY ,EPSPYZ ,EPSPZX  ,
-!     6                     EPSXX    ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX   ,
-!     7                     COPY_PLA ,DPLA   ,EPSPL  ,UVARF  ,UELR    ,
-!     8                     OFF      ,ALDT   ,AREA   ,BIDON3,BIDON4,BIDON5 )       
-!!!
               ! ----------------
               ! ERROR to be printed & exit
                 OPTION='/FAIL/USER1 - SHELL '
@@ -1867,15 +1859,6 @@ c
      7                 COPY_PLA ,DPLA   ,EPSPL  ,UVARF  ,UELR    ,
      8                 OFF      ,ALDT   ,AREA   ,BIDON3,BIDON4,BIDON5 )
                 ELSE
-!                  CALL F05LAWC (NEL ,NUPAR,NVARF,NFUNC1,IFUNC1,NPF,
-!     2                     TF  ,TT   ,DT1C  ,UPARAMF,NGL,IPT, 
-!     3                     MPT ,IPG ,IBIDON2,IBIDON3   ,  
-!     4                     SIGNXX   ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX  ,
-!     5                     EPSPXX   ,EPSPYY ,EPSPXY ,EPSPYZ ,EPSPZX  ,
-!     6                     EPSXX    ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX   ,
-!     7                     COPY_PLA ,DPLA   ,EPSPL  ,UVARF  ,UELR    ,
-!     8                     OFF      ,ALDT   ,AREA   ,BIDON3,BIDON4,BIDON5 ) 
-!!!
               ! ----------------
               ! ERROR to be printed & exit
                 OPTION='/FAIL/USER2 - SHELL '
@@ -1905,15 +1888,6 @@ c
      7                 COPY_PLA ,DPLA   ,EPSPL  ,UVARF  ,UELR    ,
      8                 OFF      ,ALDT   ,AREA   ,BIDON3,BIDON4,BIDON5 )
                 ELSE
-!                  CALL F06LAWC(NEL   ,NUPAR,NVARF,NFUNC1,IFUNC1,NPF,
-!     2              TF       ,TT     ,DT1C   ,UPARAMF,NGL   ,       
-!     3              IPT      ,MPT    ,IPG,IBIDON2,IBIDON3,              
-!     4              SIGNXX   ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX  ,             
-!     5              EPSPXX   ,EPSPYY ,EPSPXY ,EPSPYZ ,EPSPZX  ,             
-!     6              EPSXX    ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX   ,             
-!     7              COPY_PLA ,DPLA   ,EPSPL  ,UVARF  ,UELR    ,             
-!     8              OFF      ,ALDT   ,AREA   ,BIDON3,BIDON4,BIDON5  )              
-!!!
               ! ----------------
               ! ERROR to be printed & exit
                 OPTION='/FAIL/USER3 - SHELL '
@@ -2478,7 +2452,7 @@ C-------------------------------------
         IPT_ALL = IPT_ALL + NPTT
       ENDDO  !  DO ILAY =1,NLAY
 c--------------------------------------------------
-c     FIN DE BOUCLE SUR POINTS INTEGRATION (LAYERS)
+c     END OF LOOP OVER INTEGRATION POINTS (LAYERS)
 c--------------------------------------------------
 c     TEST OF ELEMENT FAILURE 
 c--------------------------------------------------
@@ -2521,7 +2495,7 @@ c---
         ENDDO
       ENDIF
 c------------------------------------------------------------------
-C     VISCOSITE DE MEMBRANE
+C     MEMBRANE VISCOSITY
 C---------------------------                                              
       IF (IGTYP == 11 .AND. IGMAT > 0) THEN
         IPGMAT = 700
@@ -2606,17 +2580,15 @@ C!  --- specific treatment for law 119 - scale factor applied on internal forces
       ENDIF
 C
       DEGMB(JFT:JLT) = DEGMB(JFT:JLT)+ FOR(JFT:JLT,1)*EXX(JFT:JLT)+FOR(JFT:JLT,2)*EYY(JFT:JLT)
-     .                   + FOR(JFT:JLT,3)*EXY(JFT:JLT)+FOR(JFT:JLT,4)*EYZ(JFT:JLT)
-     .                   + FOR(JFT:JLT,5)*EXZ(JFT:JLT)
-      DEGFX(JFT:JLT) = DEGFX(JFT:JLT)+ MOM(JFT:JLT,1)*KXX(JFT:JLT)+MOM(JFT:JLT,2)*KYY(JFT:JLT)
-     .                   + MOM(JFT:JLT,3)*KXY(JFT:JLT)
+     .               + FOR(JFT:JLT,3)*EXY(JFT:JLT)+FOR(JFT:JLT,4)*EYZ(JFT:JLT)+ FOR(JFT:JLT,5)*EXZ(JFT:JLT)
+      DEGFX(JFT:JLT) = DEGFX(JFT:JLT)+ MOM(JFT:JLT,1)*KXX(JFT:JLT)+MOM(JFT:JLT,2)*KYY(JFT:JLT)+MOM(JFT:JLT,3)*KXY(JFT:JLT)
 c-----------------------------------------------------------------------
 !---
       IF (MTN == 25) THEN
 C----------------------------
 C  SHEAR DELAMINATION
 C----------------------------
-C is an obsolete option (just for the past)
+C is an obsolete option (still present for backward compatibility)
         IF (IGMAT == 0) 
      .    CALL M25DELAM(JFT,JLT,PM,GSTR,GBUF%DAMDL,MAT,NGL,NEL)
 !
@@ -2657,9 +2629,10 @@ C  cas xfem multilayer
         EINT(I,2) = EINT(I,2) + DEGFX(I)*THK0(I)*VOL2
       ENDDO
 !
-      IF (JTHE > 0 .AND. MTN /= 2) DIE(JFT:JLT) = DIE(JFT:JLT) + 
-     .             COEF(JFT:JLT)*( DEGMB(JFT:JLT)*HALF*VOL0(JFT:JLT) + 
-     .                             DEGFX(JFT:JLT)*THK0(JFT:JLT)*HALF*VOL0(JFT:JLT) )
+      IF (JTHE > 0 .AND. MTN /= 2) THEN
+        DIE(JFT:JLT) = DIE(JFT:JLT) + 
+     .                 COEF(JFT:JLT)*( DEGMB(JFT:JLT)*HALF*VOL0(JFT:JLT) + DEGFX(JFT:JLT)*THK0(JFT:JLT)*HALF*VOL0(JFT:JLT) )
+      ENDIF
 c---------------------------------------------------
 c      check element failure with xfem
        IF (IXFEM > 0) THEN
@@ -2672,7 +2645,7 @@ c      check element failure with xfem
         ENDDO
       ENDIF
 
-c---  Shell rupture print out
+c---  Shell failure print out
 c
       IOFC = NINDX  !  INDX used before in IELOF - check if still useful
       IF (NINDX > 0 .and. IXEL == 0) THEN
@@ -2693,50 +2666,4 @@ c---------------------------------------------------
 c---------------------------------------------------
       RETURN
       END
-
-Chd|====================================================================
-Chd|  ROTOS4                        source/materials/mat_share/mulawc.F
-Chd|-- called by -----------
-Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE ROTOS4(JFT,JLT,SIGXX,SIGYY,SIGXY,SIGYX,DIR,NEL)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER JFT, JLT,NEL
-C     REAL
-      my_real
-     .   SIGXX(*),SIGYY(*),SIGXY(*),SIGYX(*), DIR(NEL,2)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-C     REAL
-      my_real
-     .   S1, S2, S3, S4,S5
-C-----------------------------------------------
-      DO I=JFT,JLT
-         S1 =    DIR(I,1)*DIR(I,1)*SIGXX(I)
-     .          +DIR(I,2)*DIR(I,2)*SIGYY(I)
-     .          +DIR(I,1)*DIR(I,2)*(SIGXY(I)+SIGYX(I))
-         S2 =    DIR(I,2)*DIR(I,2)*SIGXX(I)
-     .          +DIR(I,1)*DIR(I,1)*SIGYY(I)
-     .          -DIR(I,2)*DIR(I,1)*(SIGXY(I)+SIGYX(I))
-         S5 =   -DIR(I,1)*DIR(I,2)*SIGXX(I)+DIR(I,2)*DIR(I,1)*SIGYY(I)
-         S3 = S5+DIR(I,1)*DIR(I,1)*SIGXY(I)-DIR(I,2)*DIR(I,2)*SIGYX(I)
-         S4 = S5+DIR(I,1)*DIR(I,1)*SIGYX(I)-DIR(I,2)*DIR(I,2)*SIGXY(I)
-         SIGXX(I)=S1
-         SIGYY(I)=S2
-         SIGXY(I)=S3
-         SIGYX(I)=S4
-      ENDDO
-c-----------
-      RETURN
-      END
-
-
+       

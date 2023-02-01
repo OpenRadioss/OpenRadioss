@@ -92,7 +92,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IGTYP, I, NUVAR ,NINDX,IGEO(NPROPGI,*),NVARTMP,
      .        MX,IOFF_DUCT(MVSIZ),ISRATE
-C     REAL
       my_real 
      .   DEGMB(MVSIZ) ,DEGFX(MVSIZ) ,THKN(MVSIZ),
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
@@ -109,18 +108,18 @@ C     REAL
      .   MOMOXX(MVSIZ),MOMOYY(MVSIZ),MOMOXY(MVSIZ),
      .   MOMNXX(MVSIZ),MOMNYY(MVSIZ),MOMNXY(MVSIZ),
      .   ETSE(MVSIZ)  ,EPSPL(MVSIZ),EPSP_LOC(MVSIZ)
-      my_real,
-     .  DIMENSION(:) ,POINTER :: UVAR
+      my_real,DIMENSION(:) ,POINTER :: UVAR
       my_real, DIMENSION(MVSIZ) :: DT_INV
 C-------------------------------------
       INTEGER, DIMENSION(:), POINTER :: VARTMP
       TYPE(L_BUFEL_) ,POINTER :: LBUF
-C-------------------------------------
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
+C-----------------------------------------------
+C   S o u r c e   L i n es
+C-----------------------------------------------
 C
       LBUF => ELBUF_STR%BUFLY(1)%LBUF(IR,IS,1)
 C
-C     pour les lois user pid(i)=pid(1)
+C     for user material laws : pid(i)=pid(1)
       IGTYP  = IGEO(11,PID(1))
       IF(MTN==43.OR.MTN==56.OR.MTN==60.OR.MTN==86) THEN
         NUVAR  = ELBUF_STR%BUFLY(1)%NVAR_MAT
@@ -146,6 +145,8 @@ C
       DO I=JFT,JLT
         DT_INV(I) = DT1C(I)/MAX(DT1C(I)**2,EM20)
       ENDDO
+!
+      ETSE(1:MVSIZ) = ZERO      
 C-----------------------------------------------------------
 C     EPS POINT EQUIVALENT (au sens energetique)
 C-----------------------------------------------------------
@@ -181,7 +182,7 @@ C     eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
         END DO
       ENDIF
 C-----------------------
-C     PLASTICITE GLOBALE
+C     GLOBAL PLASTICITY
 C-----------------------
       DO I=JFT,JLT
         SIGNXX(I) = ZERO
@@ -309,8 +310,8 @@ C
         EPSPZX(I) = DEPSZX(I)*DT_INV(I)
       ENDDO
 C-------------------------------------------
-C      CONTRAINTES ELASTIQUES + 
-C      CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C      ELASTIC STRESS + 
+C      PLASTICLY ADMISSIBLE STRESS
 C-------------------------------------------
       IF (MTN == 1) THEN
         CALL SIGEPS01G(JFT     ,JLT     ,G       ,THKN    ,OFF     ,
