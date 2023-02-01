@@ -275,10 +275,12 @@ void c_h3d_create_solid_tensor_datatype_(int *cpt_data, char *name1, int *size1,
     delete [] LAYERPOOL;
     delete [] LAYER_STRING; 
     delete [] NUVAR_STRING;
-    delete []    IR_STRING; 
-    delete []    IS_STRING; 
-    delete []    IT_STRING;   
-    delete []   MID_STRING; 
+    delete [] IR_STRING; 
+    delete [] IS_STRING; 
+    delete [] IT_STRING;   
+    delete [] MID_STRING;  
+    delete [] RES_STRING;  
+    delete [] ID_STRING; 
     free(cname);
     free(ccomment);
 
