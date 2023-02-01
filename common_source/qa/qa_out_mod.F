@@ -240,8 +240,10 @@ C         enddo
 !>    @purpose 
 !>       replace blank char with _ for a given string
       subroutine blank2underscore(textin,textout)
+#include      "implicit_f.inc"
           character(len=*), intent(in) :: textin
           character(len=LEN_TRIM(textin)), intent(out)  ::  textout
+          integer i
 
           textout=textin
 
@@ -881,4 +883,3 @@ C       end subroutine qaprint_ra
 
 
       end module QA_OUT_MOD
-

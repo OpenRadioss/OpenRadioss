@@ -32,8 +32,7 @@ Chd|        I25_FIE_MOD                   share/modules1/i25_fie_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE PREPARE_SPLIT_I25E2E(NSPMD,
-     1   INTBUF_TAB , IPARI, INTERCEP)
+      SUBROUTINE PREPARE_SPLIT_I25E2E(NSPMD, INTBUF_TAB , IPARI, INTERCEP)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -45,9 +44,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -66,7 +62,6 @@ C-----------------------------------------------
       INTEGER,             INTENT(IN) ::    IPARI(NPARI,*)
       TYPE(INTERSURFP),    INTENT(IN) ::    INTERCEP(3,NINTER)
       TYPE(INTBUF_STRUCT_),INTENT(INOUT) :: INTBUF_TAB(*)
-
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -80,7 +75,6 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: LOCAL_ID_EDG
       INTEGER, DIMENSION(:), ALLOCATABLE :: LOCAL_ID_SEG
       INTEGER, DIMENSION(:), ALLOCATABLE :: LOCAL_ID
-
 C C++ interface
       INTEGER :: nbCand, nbCandE2E, nbCandE2S, sizeM
       INTEGER, DIMENSION(:), ALLOCATABLE :: CANDS,CANDM
@@ -88,10 +82,8 @@ C C++ interface
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: secondaryRemoteCount
       INTEGER :: LOCAL_CAND_COUNT(NSPMD)
 C-----------------------------------------------
-
         ALLOCATE(I25_SPLIT_CAND(NINTER,NSPMD))
         ALLOCATE(I25_FIE(NINTER,NSPMD))
-
 
         DO  NIN = 1,NINTER
           NTY=IPARI(7,NIN)
@@ -246,11 +238,15 @@ Chd|        PREPARE_SPLIT_I25E2E          source/spmd/prepare_split_i25e2e.F
 Chd|-- calls ---------------
 Chd|====================================================================
        SUBROUTINE LOCAL_EDGE_NUMBERING(NEDGE,NRTM,NSPMD,
-     .                              LEDGE,           
-     .                              CEP_SEG,
-     .                              LOCAL_ID_SEG,
-     .                              CEP_EDGE,
-     .                              LOCAL_ID_EDG)
+     .                                 LEDGE,           
+     .                                 CEP_SEG,
+     .                                 LOCAL_ID_SEG,
+     .                                 CEP_EDGE,
+     .                                 LOCAL_ID_EDG)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -275,7 +271,7 @@ C-----------------------------------------------
       INTEGER :: NB_BOUNDARY_EDGES_REMOTE(NSPMD) ! boundary edges treated by the other domain 
       INTEGER :: EDGE_LOCAL(NSPMD)
       INTEGER :: ISPMD
-      INTEGER :: I,E1,E2,K1,K2
+      INTEGER :: I,E1,E2,K1,K2,K
 C-----------------------------------------------
       NRTM_LOCAL(1:NSPMD) = 0
       EDGE_LOCAL(1:NSPMD) = 0
