@@ -177,8 +177,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c  indx utilise localement contrairement aux coques 4n 
-      INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ),FWAVE_EL(NEL)
+      INTEGER INDX(MVSIZ)  ! local definition contrary to 4-node-shell elems
+      INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),FWAVE_EL(NEL)
       INTEGER I,J,IFLAG,NPG,IBID,IDRIL,NG,IR,IS,N1,N2,N3,
      .   IXEL,IXLAY,ILAY,NXLAY,NLAY,L_DIRA,L_DIRB,J1,J2,IGMAT,IGTYP,
      .   IMAT,NPTTOT,IREP,ipr,IFRAM_OLD,IPRI,IFAILWAVE
@@ -219,7 +219,7 @@ c  indx utilise localement contrairement aux coques 4n
         REAL(kind=8), DIMENSION(MVSIZ) ::Z1G,Z2G,Z3G
 C        REAL(kind=8), DIMENSION(:), POINTER :: X_POINTER
 
-C--- Variables pour le non-local
+C--- Variables for non-local formulation
       INTEGER :: NDDL, K, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: BPRELD,DNL
@@ -233,12 +233,9 @@ C-----
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
-C=======================================================================
-c        IF(IRESP == 1)THEN
-c            X_POINTER(1:3*NUMNOD) => XDP(1:3*NUMNOD)
-c        else
-c             X_POINTER(1:3*NUMNOD) => X(1:3*NUMNOD)
-c        endif
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
 
       GBUF   => ELBUF_STR%GBUF
       IBID   = 0
@@ -255,7 +252,9 @@ C                                 to allow for NPT = 0 (global LAW_3
       IXEL  = 0
       IXLAY = 0
       IREP = IPARG(35)
-C
+c
+      ZCFAC(1:MVSIZ,1:2) = ZERO      
+c
       NPTTOT  = 0
       DO ILAY=1,NLAY
         NPTTOT = NPTTOT + ELBUF_STR%BUFLY(ILAY)%NPTT
@@ -366,7 +365,7 @@ c
      .               E1X       ,E1Y     ,E1Z     ,E2X     ,                 
      .               E2Y       ,E2Z     ,E3X     ,E3Y     ,E3Z      )       
       ELSE
-C       bug ismstr=3 non supporte pour coques 3N
+C       bug ismstr=3 not supported ofr 3-node-shell elements
         CALL C3PXPY3(JFT       ,JLT   ,PM    ,STI    ,STIR,
      2               GBUF%SMSTR,PX1   ,PY1   ,PY2    ,MAT ,
      3               SSP       ,NEL   )
@@ -512,7 +511,7 @@ C--------keep  GBUF%FOR,GBUF%MOM in new local sys as LBUF%SIG
       CALL C3SROTO3(JFT    ,JLT    ,ECOS    ,ESIN      ,GBUF%FOR,
      +             GBUF%MOM,NFOR  ,NMOM     ,IFRAM_OLD ,NEL     )
 C--------------------------
-C     BILANS PAR MATERIAU
+C     BALANCE FOR EACH MATERIAL
 C--------------------------
 c      IFLAG=MOD(NCYCLE,NCPRI)
       IF(IPRI>0)
@@ -522,7 +521,7 @@ c      IFLAG=MOD(NCYCLE,NCPRI)
      4                IGRTH,OFF    ,IBID  ,IBID ,IBID   ,IBID     ,
      5                IBID ,IEXPAN ,GBUF%EINTTH,ITASK)
 C----------------------------
-C     FORCES INTERNES
+C     INTERNAL FORCES
 C----------------------------
       CALL C3FINT3(JFT    ,JLT     ,NFOR   ,NMOM  ,THK0,
      2             PX1    ,PY1     ,PY2    ,F11   ,F12 ,
@@ -550,7 +549,7 @@ c--------------------------
       ENDIF 
 c-------------------------------
 C-------------------------
-c     Thermique des coques 
+c     SHELL THERMICS 
 C--------------------------
        IF (JTHE > 0) THEN
          CALL THERM3C(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXTG    ,
@@ -566,7 +565,7 @@ C--------------------------
      3                  DT_THERM,OFF     ,CONDE) 
          ENDIF 
 C-------------------------
-C     ASSEMBLE
+C     ASSEMBLY
 C-------------------------
       CALL C3FCUM3(JFT,JLT,F,
      .             F11,F12,F13,F21,F22,F23,
@@ -608,7 +607,7 @@ C
 C
       IF (ICSEN > 0) CALL CSENS3(JFT  ,JLT  ,PID  ,IGEO  ,GBUF%EPSD)
 C-------------------------
-c     Fissure des coques 
+c     SHELL CRACKS 
 C--------------------------
       IF (ICRACK3D > 0 .AND. IXFEM > 0) THEN
         DO ILAY=1,NXLAY                                        
