@@ -2221,7 +2221,15 @@ c
      3               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
      4               OFF       ,FOFF ,PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,
      5               DFMAX     ,TDEL      ,DT1C      )
-c-------------
+c
+              CASE (46)     !    Hoffman criterion
+c
+                CALL FAIL_HOFFMAN_C(
+     1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
+     2               TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
+     3               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
+     4               OFF       ,FOFF ,PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,
+     5               DFMAX     ,TDEL      ,DT1C      )
 c-------------
               END SELECT
 c-------------

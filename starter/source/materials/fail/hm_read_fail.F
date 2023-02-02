@@ -365,7 +365,10 @@ c--------------------------------------------
 c--------------------------------------------
         ELSEIF(KEY(1:8) == 'TSAIHILL')THEN
              IRUP= 45
-c--------------------------------------------      
+c--------------------------------------------
+        ELSEIF(KEY(1:7) == 'HOFFMAN')THEN
+             IRUP= 46
+c--------------------------------------------
         ELSE  
              IRUP= 0
         ENDIF
@@ -605,12 +608,6 @@ c---
 c---
             CASE(44)
               CALL HM_READ_FAIL_TSAIWU(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID  ,MAT_ID    ,
-     .             TITR     ,LSUBMODEL)
-c---
-            CASE(45)
-              CALL HM_READ_FAIL_TSAIHILL(
      .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
      .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID  ,MAT_ID    ,
      .             TITR     ,LSUBMODEL)

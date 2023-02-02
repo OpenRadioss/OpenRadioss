@@ -138,7 +138,7 @@ c-----------------------------------------------------------------------
             ELSE IF (IRUP == 28) THEN  ! Alter
               MTAG%G_DMG = 2
             ELSE IF (IRUP == 41 .OR. IRUP == 42 .OR. IRUP == 44 .OR. 
-     .               IRUP == 45 ) THEN 
+     .               IRUP == 45 .OR. IRUP == 46) THEN 
               MTAG%L_DMGSCL = 1
             ENDIF
           ENDDO
