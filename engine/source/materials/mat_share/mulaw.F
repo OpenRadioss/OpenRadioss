@@ -2060,11 +2060,19 @@ C---- Tsai-Hill failure model
      4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,DMG_SCALE)
 c 
           ELSEIF (IRUPT == 46) THEN                                      
-c---- Hoffman failure model
+C---- Hoffman failure model
               CALL FAIL_HOFFMAN_S(
      1          NEL      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
      2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%UELR,
      3          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
+     4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,DMG_SCALE)
+c
+          ELSEIF (IRUPT == 47) THEN                                      
+C---- Maximum strain failure model
+              CALL FAIL_MAXSTRN_S(
+     1          NEL      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
+     2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%UELR,
+     3          ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6      ,
      4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,DMG_SCALE)
 c 
           ENDIF

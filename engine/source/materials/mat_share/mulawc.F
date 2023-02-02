@@ -2209,29 +2209,38 @@ c
               CASE (44)     !    Tsai-Wu criterion
 c
                 CALL FAIL_TSAIWU_C(
-     1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
-     2               TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
-     3               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
-     4               OFF       ,FOFF ,PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,
-     5               DFMAX     ,TDEL      ,DT1C      )
+     1            NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
+     2            TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
+     3            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
+     4            OFF       ,FOFF ,PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,
+     5            DFMAX     ,TDEL      ,DT1C      )
 c
               CASE (45)     !    Tsai-Hill criterion
 c
                 CALL FAIL_TSAIHILL_C(
-     1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
-     2               TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
-     3               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
-     4               OFF       ,FOFF ,PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,
-     5               DFMAX     ,TDEL      ,DT1C      )
+     1            NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
+     2            TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
+     3            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
+     4            OFF       ,FOFF ,PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,
+     5            DFMAX     ,TDEL      ,DT1C      )
 c
               CASE (46)     !    Hoffman criterion
 c
                 CALL FAIL_HOFFMAN_C(
-     1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
-     2               TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
-     3               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
-     4               OFF       ,FOFF ,PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,
-     5               DFMAX     ,TDEL      ,DT1C      )
+     1            NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
+     2            TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
+     3            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
+     4            OFF       ,FOFF ,PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,
+     5            DFMAX     ,TDEL      ,DT1C      )
+c
+              CASE (47)     !    Maximum strain failure model
+c
+                CALL FAIL_MAXSTRN_C(
+     1            NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
+     2            TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
+     3            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,
+     4            OFF       ,FOFF ,PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,
+     5            DFMAX     ,TDEL      ,DT1C      )
 c-------------
               END SELECT
 c-------------

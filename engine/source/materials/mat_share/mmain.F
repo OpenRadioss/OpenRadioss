@@ -1989,6 +1989,14 @@ c --- Hoffman failure model
      2          DT1      ,BUFMAT(IADBUF),NGL ,OFF      ,LBUF%OFF ,GBUF%NOFF,
      3          SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,
      5          UVARF    ,NPARAM   ,DFMAX    ,TDEL     ,DMG_SCALE)
+c
+          ELSEIF (IRUPT == 47) THEN                                        
+c---- Maximum strain failure model
+            CALL FAIL_MAXSTRN_S(
+     1          LLT      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
+     2          DT1      ,BUFMAT(IADBUF),NGL ,OFF      ,LBUF%OFF ,GBUF%NOFF,
+     3          ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6      , 
+     4          UVARF    ,NPARAM   ,DFMAX    ,TDEL     ,DMG_SCALE)
 c---------
           ENDIF ! IRUPT 
 c
