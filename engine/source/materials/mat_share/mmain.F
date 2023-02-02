@@ -1959,7 +1959,7 @@ C---- Inievo failure model
      1          LLT      ,NPARAM   ,NVARF    ,NFUNC    ,IFUNC    ,
      2          NPF      ,TABLE    ,TF       ,TT       ,BUFMAT(IADBUF), 
      3          NGL      ,EL_LEN   ,DPLA     ,EPSP     ,UVARF    ,     
-     5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
+     5          SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,               
      6          EL_PLA   ,TEMPEL   ,SIGY     ,OFF      ,DFMAX    ,
      7          TDEL     ,DMG_SCALE,GBUF%UELR,IPG      ,NPG      ,
      8          LBUF%OFF ,DAMINI   ,GBUF%VOL ,INLOC    )
@@ -1975,6 +1975,14 @@ c
           ELSEIF (IRUPT == 45) THEN                                        
 c --- Tsai-Hill failure model
             CALL FAIL_TSAIHILL_S(
+     1          LLT      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
+     2          DT1      ,BUFMAT(IADBUF),NGL ,OFF      ,LBUF%OFF ,GBUF%NOFF,
+     3          SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,
+     5          UVARF    ,NPARAM   ,DFMAX    ,TDEL     ,DMG_SCALE)
+c
+          ELSEIF (IRUPT == 46) THEN                                        
+c --- Hoffman failure model
+            CALL FAIL_HOFFMAN_S(
      1          LLT      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
      2          DT1      ,BUFMAT(IADBUF),NGL ,OFF      ,LBUF%OFF ,GBUF%NOFF,
      3          SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,
