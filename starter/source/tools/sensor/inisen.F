@@ -288,7 +288,7 @@ C-------------------------------------
 c----------------------------------------------------------------------
 c     Logical sensors : AND, OR, NOT, SENS - create a dependancy order
 c----------------------------------------------------------------------
-      CALL SORT_LOGICAL_SENSORS(SENSOR_TAB)
+      CALL SORT_LOGICAL_SENSORS()
 
 
 c-----------
