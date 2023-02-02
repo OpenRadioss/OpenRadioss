@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  PDAMP3                        source/elements/beam/pmain3.F 
+Chd|  PDAMP3                        source/elements/beam/pdamp3.F 
 Chd|-- called by -----------
 Chd|        PFORC3                        source/elements/beam/pforc3.F 
+Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PDAMP3(
      .    PM      ,GEO     ,OFF     ,MAT     ,PID,

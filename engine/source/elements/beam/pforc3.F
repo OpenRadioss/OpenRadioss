@@ -30,6 +30,7 @@ Chd|        M2LAWP                        source/materials/mat/mat002/m2lawp.F
 Chd|        PBILAN                        source/elements/beam/pbilan.F 
 Chd|        PCOOR3                        source/elements/beam/pcoor3.F 
 Chd|        PCURV3                        source/elements/beam/pcurv3.F 
+Chd|        PDAMP3                        source/elements/beam/pdamp3.F 
 Chd|        PDEFO3                        source/elements/beam/pdefo3.F 
 Chd|        PDLEN3                        source/elements/beam/pdlen3.F 
 Chd|        PEVEC3                        source/elements/beam/pevec3.F 

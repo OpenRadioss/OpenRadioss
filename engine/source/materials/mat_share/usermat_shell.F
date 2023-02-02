@@ -73,7 +73,7 @@ Chd|        FAIL_WIND_XFEM                source/materials/fail/alter/fail_wind_
 Chd|        M25DELAM                      source/materials/mat/mat025/m25delam.F
 Chd|        NOLIB_USERMAT99               source/user_interface/nolib_usermat99.F
 Chd|        PUTSIGNORC3                   source/elements/shell/coqueba/cmatc3.F
-Chd|        ROTOS4                        source/materials/mat_share/mulawc.F
+Chd|        ROTOS4                        source/materials/mat_share/rotos4.F
 Chd|        ROTOV                         source/airbag/roto.F          
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
