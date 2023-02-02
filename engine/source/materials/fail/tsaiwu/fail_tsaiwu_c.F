@@ -137,7 +137,11 @@ c
 c
           ! Compute failure index and reserve factor
           FINDEX = A + B
-          RFACTR = (-B + SQRT((B**2)+FOUR*A))/(TWO*A)
+          IF (FINDEX > ZERO) THEN 
+            RFACTR = (-B + SQRT((B**2)+FOUR*A))/(TWO*A)
+          ELSE
+            RFACTR = ZERO
+          ENDIF
 c
           ! Damage variable update
           DFMAX(I) = MIN(ONE,FINDEX)
