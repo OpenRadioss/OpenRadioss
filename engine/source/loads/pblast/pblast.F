@@ -79,7 +79,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        INTEGER NL, ABAC_ID, NDT, NDT0, ID
-       my_real :: T0INF_LOC, TFEXT_LOC
+       my_real :: T0INF_LOC, TFEXT_LOC, T_STOP, TDET
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -111,39 +111,44 @@ C-----------------------------------------------
        DO NL=NLOADP_F+1, NLOADP_F+NLOADP_B
 
          ABAC_ID = ILOADP(07,NL)
-         ID      = ILOADP(08,NL) !user_id                
-         NDT     = PBLAST_NDT                            
-         NDT0    = ILOADP(10,NL)                         
-         IF(NDT0/=0) NDT = NDT0                  
+         ID      = ILOADP(08,NL) !user_id
+         NDT     = PBLAST_NDT
+         NDT0    = ILOADP(10,NL)
+         IF(NDT0/=0) NDT = NDT0
+         TDET    =  FAC(01,NL)
+         T_STOP  =  FAC(13,NL)
          
          TFEXT_LOC = ZERO
          T0INF_LOC = EP20
 
-         SELECT CASE(ABAC_ID)
-           CASE(1)
-             !--- LOADING MODEL : FREE AIR, SPHERICAL CHARGE
-             CALL PBLAST_1(
-     1                     ILOADP  ,FAC      ,A        ,V         ,X       ,
-     2                     IADC    ,FSKY     ,FSKYV    ,LLOADP    ,FEXT    ,
-     3                     ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC)
+         IF(TT >= TDET .AND. TT <= T_STOP)THEN
+           SELECT CASE(ABAC_ID)
+             CASE(1)
+               !--- LOADING MODEL : FREE AIR, SPHERICAL CHARGE
+               CALL PBLAST_1(
+     1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
+     2                       IADC    ,FSKY     ,FSKYV    ,LLOADP    ,FEXT     ,
+     3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC)
      
-           CASE(2)
-             !--- LOADING MODEL : GROUND REFLECTION, HEMISPHERICAL CHARGE
-             CALL PBLAST_2(
-     1                     ILOADP  ,FAC      ,A        ,V         ,X       ,
-     2                     IADC    ,FSKY     ,FSKYV    ,LLOADP    ,FEXT    ,
-     3                     ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC)          
-           CASE(3)
-             !--- LOADING MODEL : SURFACE BURST, SPHERICAL CHARGE
-             CALL PBLAST_3(
-     1                     ILOADP  ,FAC      ,A        ,V         ,X       ,
-     2                     IADC    ,FSKY     ,FSKYV    ,LLOADP    ,FEXT    ,
-     3                     ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC) 
+             CASE(2)
+               !--- LOADING MODEL : GROUND REFLECTION, HEMISPHERICAL CHARGE
+               CALL PBLAST_2(
+     1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
+     2                       IADC    ,FSKY     ,FSKYV    ,LLOADP    ,FEXT     ,
+     3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC)        
+             CASE(3)
+               !--- LOADING MODEL : SURFACE BURST, SPHERICAL CHARGE
+               CALL PBLAST_3(
+     1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
+     2                       IADC    ,FSKY     ,FSKYV    ,LLOADP    ,FEXT     ,
+     3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC)
      
-           END SELECT 
+             END SELECT 
+         ENDIF
 
 #include "lockon.inc"
          TFEXT = TFEXT + TFEXT_LOC
+         ! Time Step (DT_PBLAST) and corresponding option id (IDT_PBLAST)
          IF(T0INF_LOC/NDT<DT_PBLAST) THEN
            IDT_PBLAST  = ID 
            DT_PBLAST = T0INF_LOC/NDT

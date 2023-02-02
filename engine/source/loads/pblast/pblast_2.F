@@ -95,7 +95,7 @@ C-----------------------------------------------
      .   I_inci,I_refl,I_inci_,I_refl_, dt_0, t_a,dt_0_,
      .   WAVE_refl,WAVE_inci, W13, P0, T_
       my_real FINTER,COORMEAN,YMEAN,ZMEAN,PVEL,NSIGN,DNORM,FV(MVSIZ),
-     .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,
+     .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,
      .        Dx,Dy,Dz,
      .        NORMD, P,
      .        FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, TA_SHIFT, TT_STAR
@@ -146,136 +146,137 @@ C-----------------------------------------------
       !-----------------------------------------------,                                                 
       !   FREE AIR BURST                                                                                
       !-----------------------------------------------                                                  
-      IL             = NL-NLOADP_F                                                                      
-      TDET           = FAC(01,NL)                                                                       
-      XDET           = FAC(02,NL)                                                                       
-      YDET           = FAC(03,NL)                                                                       
-      ZDET           = FAC(04,NL)                                                                       
-      WTNT           = FAC(05,NL)                                                                       
-      PMIN           = FAC(06,NL)                                                                       
-      TA_SHIFT       = FAC(07,NL)                                                                       
-      P0             = ZERO                                                                             
+      IL             = NL-NLOADP_F
+      TDET           = FAC(01,NL)
+      XDET           = FAC(02,NL)
+      YDET           = FAC(03,NL)
+      ZDET           = FAC(04,NL)
+      WTNT           = FAC(05,NL)
+      PMIN           = FAC(06,NL)
+      TA_SHIFT       = FAC(07,NL)
+      T_STOP         = FAC(13,NL)
+      P0             = ZERO
       IS             = ILOADP(02,NL)                                                                    
-      IZ_UPDATE      = ILOADP(06,NL)                                                                    
-      ABAC_ID        = ILOADP(07,NL)                                                                    
-      ID             = ILOADP(08,NL) !user_id                                                           
-      ITA_SHIFT      = ILOADP(09,NL)                                                                    
-      IMODEL         = ILOADP(11,NL)                                                                    
-      ISIZ_SEG       = ILOADP(01,NL)/4                                                                  
-      IERR1          = 0                                                                                
-      W13            = (WTNT*FAC_M_bb)**THIRD   ! '*FAC_M'  g->work unit    '/FAC_M' : WORK_UNIT -> g   
-      Z              = ZERO                                                                             
-      TT_STAR = TT                                                                                      
-      IF(ITA_SHIFT==2)TT_STAR = TT + TA_SHIFT  !working unit                                            
-      IF(TT<TDET)RETURN  
+      IZ_UPDATE      = ILOADP(06,NL)
+      ABAC_ID        = ILOADP(07,NL)
+      ID             = ILOADP(08,NL) !user_id
+      ITA_SHIFT      = ILOADP(09,NL)
+      IMODEL         = ILOADP(11,NL)
+      ISIZ_SEG       = ILOADP(01,NL)/4
+      IERR1          = 0
+      W13            = (WTNT*FAC_M_bb)**THIRD   ! '*FAC_M'  g->work unit    '/FAC_M' : WORK_UNIT -> g
+      Z              = ZERO
+      TT_STAR = TT
+      IF(ITA_SHIFT==2)TT_STAR = TT + TA_SHIFT  !working unit
+      IF(TT<TDET)RETURN
          
       !---------------------------------------------                                                                                                                                                  
       !   LOOP ON SEGMENTS (4N or 3N)                                                                                                                                                                 
       !---------------------------------------------  
                                                                                                                                                  
 !$OMP DO SCHEDULE(GUIDED,MVSIZ)
-      DO I = 1,ISIZ_SEG   
-        N1=LLOADP(ILOADP(4,NL)+4*(I-1))                                                                                                                                                               
-        N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)                                                                                                                                                             
-        N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)                                                                                                                                                             
-        N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)                                                                                                                                                             
-                                                                                                                                                                                                      
-        IF(N4==0 .OR. N3==N4 )THEN                                                                                                                                                                    
-          !3 NODE SEGMENT                                                                                                                                                                            
-          PBLAST_TAB(IL)%NPt(I)   = THREE  
+      DO I = 1,ISIZ_SEG
+        N1=LLOADP(ILOADP(4,NL)+4*(I-1))
+        N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)
+        N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
+        N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)
+
+        IF(N4==0 .OR. N3==N4 )THEN
+          !3 NODE SEGMENT 
+          PBLAST_TAB(IL)%NPt(I)   = THREE 
           NPT = THREE                                                                                                                                                                          
           !Segment Zentrum                                                                                                                                                                            
-          Zx = X(1,N1)+X(1,N2)+X(1,N3)                                                                                                                                                                
-          Zy = X(2,N1)+X(2,N2)+X(2,N3)                                                                                                                                                                
-          Zz = X(3,N1)+X(3,N2)+X(3,N3)                                                                                                                                                                
-          Zx = Zx*THIRD                                                                                                                                                                               
-          Zy = Zy*THIRD                                                                                                                                                                               
-          Zz = Zz*THIRD                                                                                                                                                                               
-          NX = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))                                                                                                              
-          NY = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))                                                                                                              
-          NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))                                                                                                              
-          NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                                                                                                                                                              
-        ELSE                                                                                                                                                                                          
-          !4 NODE SEGMENT                                                                                                                                                                            
-          PBLAST_TAB(IL)%NPt(I)   = FOUR  
-          NPT = FOUR                                                                                                                                                                           
-          !Segment Zentrum                                                                                                                                                                            
-          Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)                                                                                                                                                        
-          Zy = X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4)                                                                                                                                                        
-          Zz = X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4)                                                                                                                                                        
-          Zx = Zx*FOURTH                                                                                                                                                                              
-          Zy = Zy*FOURTH                                                                                                                                                                              
-          Zz = Zz*FOURTH                                                                                                                                                                              
-          !Normal                                                                                                                                                                                     
-          NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))                                                                                                              
-          NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))                                                                                                              
-          NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))                                                                                                              
-          NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                                                                                                                                                              
-        ENDIF     
+          Zx = X(1,N1)+X(1,N2)+X(1,N3)
+          Zy = X(2,N1)+X(2,N2)+X(2,N3)
+          Zz = X(3,N1)+X(3,N2)+X(3,N3)
+          Zx = Zx*THIRD
+          Zy = Zy*THIRD
+          Zz = Zz*THIRD
+          NX = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
+          NY = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
+          NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
+          NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
+        ELSE 
+          !4 NODE SEGMENT
+          PBLAST_TAB(IL)%NPt(I)   = FOUR
+          NPT = FOUR
+          !Segment Zentrum 
+          Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)
+          Zy = X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4)
+          Zz = X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4)
+          Zx = Zx*FOURTH
+          Zy = Zy*FOURTH
+          Zz = Zz*FOURTH
+          !Normal
+          NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
+          NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
+          NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
+          NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
+        ENDIF 
         NN(1)=N1
         NN(2)=N2
         NN(3)=N3
-        NN(4)=N4                                                                                                                                                                                                            
-        PBLAST_TAB(IL)%N(1,I) = N1                                                                                                                                                                                   
-        PBLAST_TAB(IL)%N(2,I) = N2                                                                                                                                                                                   
-        PBLAST_TAB(IL)%N(3,I) = N3                                                                                                                                                                                   
-        PBLAST_TAB(IL)%N(4,I) = N4                                                                                                                                                                                   
+        NN(4)=N4 
+        PBLAST_TAB(IL)%N(1,I) = N1
+        PBLAST_TAB(IL)%N(2,I) = N2
+        PBLAST_TAB(IL)%N(3,I) = N3
+        PBLAST_TAB(IL)%N(4,I) = N4
 
-        !--------------------------------------------!                                                                                                                                                
-        !          Update Wave parameters            !                                                                                                                                                
-        ! (experimental)                             !                                                                                                                                                
-        ! If requested. Otherwise use Starter param. !                                                                                                                                                
-        ! Default : do not update:use Starter param. !                                                                                                                                                
-        !--------------------------------------------!                                                                                                                                                
-        IF(IZ_UPDATE==1)THEN                                                                                                                                                                          
+        !--------------------------------------------! 
+        !          Update Wave parameters            ! 
+        ! (experimental)                             ! 
+        ! If requested. Otherwise use Starter param. ! 
+        ! Default : do not update:use Starter param. ! 
+        !--------------------------------------------! 
+        IF(IZ_UPDATE==1)THEN
                                                                                                                                                                                                       
-          !Dist                                                                                                                                                                                       
-          Dx    = (Xdet - Zx)*FAC_L_bb  ! => working unit to cm                                                                                                                                       
-          Dy    = (Ydet - Zy)*FAC_L_bb  ! => ... to cm                                                                                                                                                
-          Dz    = (Zdet - Zz)*FAC_L_bb  ! => ... to cm                                                                                                                                                
-          DNORM = SQRT(Dx*Dx+Dy*Dy+Dz*Dz)                                                                                                                                                             
+          !Dist 
+          Dx    = (Xdet - Zx)*FAC_L_bb  ! => working unit to cm
+          Dy    = (Ydet - Zy)*FAC_L_bb  ! => ... to cm
+          Dz    = (Zdet - Zz)*FAC_L_bb  ! => ... to cm
+          DNORM = SQRT(Dx*Dx+Dy*Dy+Dz*Dz)
 
-          !scaled distance                                                                                                                                                                            
-          Z     = DNORM / W13    !in abac unit ID  g,cm,mus                                                                                                                                           
-                                                                                                                                                                                                      
-          !DO KK=1,400                                                                                                                                                                                
+          !scaled distance
+          Z     = DNORM / W13    !in abac unit ID  g,cm,mus
+
+          !DO KK=1,400
           !  Z=KK                                                                                                                                                                                     
-          !  W13=750000.d00**(THIRD)                                                                                                                                                                  
+          !  W13=750000.d00**(THIRD)
                                                                                                                                                                                                       
-          !finding index for TM5-1300 abacuses from bijection.                                                                                                                                        
-          IF(Z>0.5 .and. Z<400.) then                                                                                                                                                                 
-            Phi_DB = LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN                                                                                                                                               
-            Phi_I  = 1 + INT(Phi_DB)                                                                                                                                                                  
-            bound1 = PBLAST_DATA%RW3(Phi_I)                                                                                                                                                           
-            bound2 = PBLAST_DATA%RW3(Phi_I+1)                                                                                                                                                         
-            LAMBDA = (Z-bound1) / (bound2-bound1)                                                                                                                                                     
-          elseif(Z <= 0.5)then                                                                                                                                                                        
-            if (N4==0)then                                                                                                                                                                            
-              write(*,FMT='(A,3I11)')                                                                                                                                                                 
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)                                                                              
-            else                                                                                                                                                                                      
-              write(*,FMT='(A,4I11)')                                                                                                                                                                 
+          !finding index for TM5-1300 abacuses from bijection.
+          IF(Z>0.5 .and. Z<400.) then
+            Phi_DB = LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN
+            Phi_I  = 1 + INT(Phi_DB)
+            bound1 = PBLAST_DATA%RW3(Phi_I)
+            bound2 = PBLAST_DATA%RW3(Phi_I+1)
+            LAMBDA = (Z-bound1) / (bound2-bound1)
+          elseif(Z <= 0.5)then  
+            if (N4==0)then
+              write(*,FMT='(A,3I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
+            else
+              write(*,FMT='(A,4I11)')
      .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)                                                                     
-            endif                                                                                                                                                                                     
-            LAMBDA = ZERO                                                                                                                                                                             
-            Phi_I  = 1                                                                                                                                                                                
-          elseif(Z > 400.)then                                                                                                                                                                        
-            if (N4==0)then                                                                                                                                                                            
-              write(*,FMT='(A,3I11)')                                                                                                                                                                 
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)                                                                              
-            else                                                                                                                                                                                      
-              write(*,FMT='(A,4I11)')                                                                                                                                                                 
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)                                                                     
-            endif                                                                                                                                                                                     
-            LAMBDA = ONE                                                                                                                                                                              
-            Phi_I  = 255                                                                                                                                                                              
-          ENDIF                                                                                                                                                                                       
+            endif 
+            LAMBDA = ZERO
+            Phi_I  = 1
+          elseif(Z > 400.)then
+            if (N4==0)then
+              write(*,FMT='(A,3I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
+            else
+              write(*,FMT='(A,4I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+            endif
+            LAMBDA = ONE
+            Phi_I  = 255
+          ENDIF
 
-          !Angle from detonation point                                                                                                                                                                
-          cos_theta = Dx*Nx + Dy*Ny + Dz*Nz                                                                                                                                                           
-          cos_theta = cos_theta/MAX(EM20,NORM*DNORM)                                                                                                                                                  
+          !Angle from detonation point
+          cos_theta = Dx*Nx + Dy*Ny + Dz*Nz
+          cos_theta = cos_theta/MAX(EM20,NORM*DNORM)
                                                                                                                                                                                                       
-          IF(  ABAC_ID==1 ) THEN                                                                                                                                                                      
+          IF(  ABAC_ID==1 ) THEN
           !=== SPHERICAL CHARGE IN FREE FIELD ===!                                                                                                                                                    
                                                                                                                                                                                                       
             !Incident upper Pressure (TM5-1300)                                                                                                                                                       

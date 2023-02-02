@@ -42,9 +42,9 @@ Chd|        PBLAST_MOD                    ../common_source/modules/pblast_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_PBLAST(ITAB    ,ITABM1    ,UNITAB   ,IGRSURF  ,NUMLOADP,
-     .                          ILOADP  ,IBUFLOADP ,FACLOADP, X, BUFSF, LSUBMODEL,
-     .                          RTRANS)
+      SUBROUTINE HM_READ_PBLAST(ITAB      ,ITABM1    ,UNITAB   ,IGRSURF ,NUMLOADP,
+     .                          ILOADP    ,IBUFLOADP ,FACLOADP ,X       , BUFSF  , 
+     .                          LSUBMODEL ,RTRANS)
 C
 C-----------------------------------------------
 C FAC_M FACL FAC_T : enable to convert (custom) input unit to working unit system
@@ -88,7 +88,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       my_real, INTENT(INOUT) :: BUFSF(SBUFSF)
       my_real, INTENT(IN) :: RTRANS(NTRANSF,NRTRANS)
-      TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
+      TYPE (SURF_),TARGET, DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -130,7 +130,7 @@ C-----------------------------------------------
       
       my_real LogRes,PI_,Z1_ !tmp
       my_real P_inci,P_refl,P_inci_,P_refl_,decay_inci,decay_refl,I_inci,I_refl,I_inci_,I_refl_
-      my_real DT_0,DT_0_,ZETA,TOL,TMP1,TMP2,TMP3,DIFF,RES
+      my_real DT_0,DT_0_,ZETA,TOL,TMP1,TMP2,TMP3,DIFF,RES,TSTOP
       
       my_real :: cst_255_div_ln_Z1_on_ZN,  log10_
       
@@ -150,7 +150,7 @@ C-----------------------------------------------
       DATA char_XX/'XX'/
       DATA char_YY/'YY'/
       DATA char_ZZ/'ZZ'/
-      LOGICAL :: IS_AVAILABLE,lFOUND
+      LOGICAL :: IS_AVAILABLE,lFOUND, IS_AVAILABLE_TSTOP
       DATA MESS/'BLAST LOADING DEFINITION                '/
 
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
@@ -208,6 +208,7 @@ C-----------------------------------------------
             YDET   = ZERO
             ZDET   = ZERO
             TDET   = ZERO
+            TSTOP  = ZERO
             WTNT   = ZERO
 
             !--------------------------------------------------------------
@@ -230,6 +231,7 @@ C-----------------------------------------------
             CALL HM_GET_FLOATV('WTNT', WTNT, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
             CALL HM_GET_FLOATV('Pmin', PMIN, IS_AVAILABLE, LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('Tstop',TSTOP,IS_AVAILABLE_TSTOP, LSUBMODEL, UNITAB)
 
             CALL HM_GET_INTV('surf_ground_ID', SURF_ID_GROUND, IS_AVAILABLE, LSUBMODEL)
 
@@ -251,6 +253,7 @@ C-----------------------------------------------
             !   D e f a u l t   V a l u e s 
             !--------------------------------------------------------------      
             
+            IF(TSTOP == ZERO)TSTOP=EP20
             IF(PMIN == ZERO)PMIN=-EP20
             
             IF(Node_id > 0)THEN                                                                
@@ -542,6 +545,7 @@ C-----------------------------------------------
                HC=ABS(HC)
                FACLOADP(11,K) = HC
                FACLOADP(12,K) = alpha_zc ! inteprolation factor for curve if on figure 2_13 in [0,1[  +  curve_id1   (no matter are units ft/lb**1/3  or cm/g**1/3)
+               FACLOADP(13,K) = TSTOP
             ENDIF
             
             !--------------------------------------------------------------
@@ -1173,6 +1177,7 @@ C-----------------------------------------------
             WRITE(IOUT,2010)  
             IF(IABAC==3)                WRITE(IOUT,2023) HC              
             WRITE (IOUT,2011)ID,SURF_ID,IABAC,IMODEL,ITA_SHIFT,XDET,YDET,ZDET,TDET,WTNT
+            IF(IS_AVAILABLE_TSTOP)WRITE (IOUT,2024)TSTOP
             IF(NODE_ID /= 0)WRITE (IOUT,2015)NODE_ID
             IF(IABAC == 1)WRITE (IOUT,2021)
             IF(IABAC == 2)WRITE (IOUT,2022)
@@ -1228,6 +1233,8 @@ C-------------------------------------------------------------------------------
      .     5X,'EXP_DATA=2:HEMISPHERICAL TNT CHARGE WITH GROUND REFLECTION, TM5-1300') 
  2023 FORMAT(
      .     5X,'CHARGE HEIGHT. . . . . . . . . . . . .=',E12.4)         
+ 2024 FORMAT(
+     .     5X,'STOP TIME . . . . .. . . . . . . . . .=',E12.4/)
 C-----------------------------------------------
  1000 CONTINUE
       IF (IERR1 /= 0) THEN
