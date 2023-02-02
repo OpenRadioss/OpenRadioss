@@ -494,7 +494,7 @@ C new composite shell pid max nbs 200
       LFACCLD = 2
       NIGRV   = 6 
       LFACGRV = 2
-      LFACLOAD = 12
+      LFACLOAD = 13
       LUNIT   = 4
       LSUBMOD = 1
       NRVOLU =73

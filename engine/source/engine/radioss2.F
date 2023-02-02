@@ -482,7 +482,7 @@ C------------------------------------------------------------------
       NRWLP = 26
       NBVELP = 6
       NRVOLU=24
-      LFACLOAD =12
+      LFACLOAD =13
       NSENSI = 15
       NSENSR = 223
       LKJNI = 6

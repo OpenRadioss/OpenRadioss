@@ -118,7 +118,7 @@ C-----------------------------------------------
      .   I_inci,I_refl,I_inci_,I_refl_, dt_0, t_a,dt_0_,
      .   WAVE_refl,WAVE_inci, W13, P0, T_
       my_real FINTER,COORMEAN,YMEAN,ZMEAN,PVEL,NSIGN,DNORM,FV(MVSIZ),
-     .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,
+     .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,
      .        Dx,Dy,Dz,
      .        NORMD, P,
      .        FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, TA_SHIFT, TT_STAR
@@ -206,7 +206,8 @@ C-----------------------------------------------
       NNY            = FAC(09,NL)                                                                                                                                                                    
       NNZ            = FAC(10,NL)                                                                                                                                                                    
       HC             = FAC(11,NL)                                                                                                                                                                    
-      alpha_zc       = FAC(12,NL)  !curve_id1+alpha_zc                                                                                                                                               
+      alpha_zc       = FAC(12,NL)  !curve_id1+alpha_zc
+      T_STOP         = FAC(13,NL)                                                                                                                                               
       P0             = ZERO                                                                                                                                                                          
       ISIZ_SEG       = ILOADP(01,NL)/4                                                                                                                                                               
       IS             = ILOADP(02,NL)                                                                                                                                                                 
