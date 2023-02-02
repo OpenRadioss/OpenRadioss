@@ -102,7 +102,9 @@ C-----------------------------------------------
       CHARACTER MESS*40, MSGTITL*nchartitle
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       INTEGER,EXTERNAL :: NGR2USR
-      LOGICAL :: IS_AVAILABLE
+      LOGICAL :: IS_AVAILABLE,
+     .           IS_AVAILABLE_VISC,
+     .           IS_AVAILABLE_BUMULT
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -151,8 +153,8 @@ C------------------------------------------------------------
 C------------------------------------------------------------
 C  Line3
 C------------------------------------------------------------
-      CALL HM_GET_FLOATV('STIFF_DC', VISC, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('SORT_FACT', BUMULT, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('STIFF_DC', VISC, IS_AVAILABLE_VISC, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('SORT_FACT', BUMULT, IS_AVAILABLE_BUMULT, LSUBMODEL, UNITAB)
       
 !===BACKUP TO BE ABLE TO OUTPUT USER ids
        ISU1_user=ISU1
@@ -337,8 +339,13 @@ C------------------------------------------------------------
           !VARIABLE GAP                                 
           WRITE(IOUT,3026)                             
         ENDIF                                            
-                                                         
-         WRITE(IOUT,3028)STARTT,STOPT,VISC,BUMULT        
+                                      
+        IF(IS_AVAILABLE_VISC .OR. IS_AVAILABLE_BUMULT)THEN 
+          !VISC & BUMULT may be available with old input version                  
+          WRITE(IOUT,3028)STARTT,STOPT,VISC,BUMULT
+        ELSE
+          WRITE(IOUT,3029)STARTT,STOPT
+        ENDIF
         
         IF(IDEL7N /= 0) THEN
            WRITE(IOUT,'(A,A,I5/)')'    DELETION FLAG ON FAILURE OF MAIN ELEMENT','  (1:YES-ALL/2:YES-ANY) : ',IDEL7N
@@ -377,6 +384,9 @@ C------------
      .    '    STOP TIME . . . . . . . . . . . . . . . . . ',1PG20.13/,
      .    '    CRITICAL DAMPING FACTOR . . . . . . . . . . ',1PG20.13/,
      .    '    SORTING FACTOR. . . . . . . . . . . . . . . ',1PG20.13) 
+ 3029 FORMAT(
+     .   /'    START TIME. . . . . . . . . . . . . . . . . ',1PG20.13/,
+     .    '    STOP TIME . . . . . . . . . . . . . . . . . ',1PG20.13)     
      
  6001 FORMAT(
      .       '    NODE GROUP IDENTIFIER.  . . . . . . . . ',I10)
