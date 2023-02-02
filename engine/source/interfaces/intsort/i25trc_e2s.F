@@ -30,8 +30,8 @@ Chd|====================================================================
       SUBROUTINE I25TRC_E2S(
      1      NEDGE,I_STOK,CAND_S,CAND_M,
      2      CAND_P,CAND_A,NIN,NEDGE_L,
-     3      LEDGE,LEDGE_FIE,IFQ,
-     4      CAND_FX ,CAND_FY,CAND_FZ,IFPEN)
+     3      LEDGE,IFQ,CAND_FX ,
+     4      CAND_FY,CAND_FZ,IFPEN)
 C-----------------------------------------------
       USE TRI7BOX
 C-----------------------------------------------
@@ -64,7 +64,6 @@ C-----------------------------------------------
       INTEGER I_STOK,NEDGE,NIN,NEDGE_L,IFQ
       INTEGER CAND_S(I_STOK),CAND_M(I_STOK),CAND_A(*),IFPEN(*)
       INTEGER LEDGE(NLEDGE,NEDGE)
-      INTEGER LEDGE_FIE(E_LEDGE_SIZE,*)
       my_real
      .        CAND_P(4,*),CAND_FX(4,*) ,CAND_FY(4,*) ,CAND_FZ(4,*) 
 C-----------------------------------------------

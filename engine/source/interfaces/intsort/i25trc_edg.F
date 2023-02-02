@@ -29,7 +29,7 @@ Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I25TRC_EDG(
      1      NEDGE,I_STOK,CAND_S,CAND_M,
-     2      CAND_P,CAND_A,NIN,NEDGE_L,LEDGE_FIE,IFQ,
+     2      CAND_P,CAND_A,NIN,NEDGE_L,IFQ,
      3      CAND_FX ,CAND_FY,CAND_FZ,IFPEN)
 C-----------------------------------------------
       USE TRI7BOX
@@ -61,7 +61,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: I_STOK,NEDGE,NIN,NEDGE_L,IFQ
-      INTEGER :: LEDGE_FIE(E_LEDGE_SIZE,*) 
       INTEGER :: CAND_S(I_STOK),CAND_M(I_STOK),CAND_A(*),IFPEN(*)
       my_real
      .        CAND_P(*),CAND_FX(*) ,CAND_FY(*) ,CAND_FZ(*)
