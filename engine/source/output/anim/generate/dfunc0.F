@@ -36,13 +36,13 @@ Chd|        INITBUF_MOD                   share/resol/initbuf.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
 Chd|====================================================================
-      SUBROUTINE DFUNC0(ELBUF_TAB   ,    FUNC      ,IFUNC     ,IPARG   ,
-     2                  MASS        ,    PM        ,EL2FA     ,NBF     ,
-     3                  NBPART      ,    IADG      ,SPBUF     ,IPART   ,
-     4                  IPARTSP     ,ALE_CONNECTIVITY,IXQ     ,
-     5                  X           ,    V         ,W         ,
-     6                  NERCVOIS    ,    NESDVOIS  ,LERCVOIS  ,LESDVOIS ,BUFMAT  ,
-     7                  MULTI_FVM)
+      SUBROUTINE DFUNC0(ELBUF_TAB, FUNC             ,IFUNC     ,IPARG   ,
+     2                  MASS     , PM               ,EL2FA     ,NBF     ,
+     3                  NBPART   , IADG             ,SPBUF     ,IPART   ,
+     4                  IPARTSP  , ALE_CONNECTIVITY ,IXQ       ,IPM     ,
+     5                  X        , V                ,W         ,
+     6                  NERCVOIS , NESDVOIS         ,LERCVOIS  ,LESDVOIS, 
+     7                  BUFMAT   , MULTI_FVM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -76,22 +76,20 @@ C-----------------------------------------------
       my_real FUNC(*), MASS(*) ,PM(NPROPM,NUMMAT),SPBUF(NSPBUF,*),BUFMAT(*),X(3,NUMNOD),V(3,NUMNOD), W(*)
       INTEGER IPARG(NPARG,NGROUP),EL2FA(*),IFUNC,NBF,
      .        NBPART,IADG(NSPMD,*),IPART(LIPART1,*),IPARTSP(*),
-     .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IXQ(NIXQ,NUMELQ)
+     .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IXQ(NIXQ,NUMELQ),IPM(NPROPMI,NUMMAT)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .   EVAR(MVSIZ),
-     .   P, VONM2, VONM, S1, S2, S3, VALUE
-      INTEGER I,II(6),N,NN,NN1,NG,NEL,JTURB,MT,MLW,IALEL,IPRT,IUS,BUF,
-     .        NUVAR,IR,NFAIL,IALEFVM_FLG
+      my_real EVAR(MVSIZ), P, VONM2, VONM, S1, S2, S3, VALUE
+      INTEGER I,II(6),N,NN,NN1,NG,NEL,JTURB,MT,MLW,IALEL,IPRT,IUS,BUF,NUVAR,IR,NFAIL,IALEFVM_FLG,IEOS,NVAREOS
       REAL R4,WA(NBF)
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF 
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
+      TYPE(BUF_EOS_)  ,POINTER :: EBUF
       my_real, DIMENSION(:),POINTER  ::  DFMAX
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -519,6 +517,23 @@ c-----------OFF
                  ENDIF
                ENDDO  
              ENDIF
+c-----------TILLOTSON             
+           ELSEIF(IFUNC == 5172)THEN   !/ANIM/ELEM/TILLOTSON
+              DO I=LFT,NEL
+                EVAR(I) = ZERO
+              ENDDO 
+              N=1+NFT
+              IPRT=IPARTSP(N)
+              MT=IPART(1,IPRT)                                                        
+              IEOS=IPM(4,MT)
+              IF(IEOS == 3)THEN
+                EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1)                              
+                NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS                              
+                DO  I=1,NEL
+                  EVAR(I) = EBUF%VAR(I)
+                ENDDO
+              ENDIF 
+              FUNC(EL2FA(NN1+NFT+1:NN1+NFT+NEL)) = EVAR(1:NEL)                       
 c-----------
            ELSE
             DO I=LFT,LLT
