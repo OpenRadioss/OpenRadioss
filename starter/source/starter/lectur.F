@@ -503,7 +503,7 @@ Chd|        TABLE_GLOB_MOD                share/modules1/table_glob_mod.F
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================
       SUBROUTINE LECTUR(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,EBCS_TAB,SEATBELT_CONVERTED_ELEMENTS,
-     .                  NB_SEATBELT_SHELLS)
+     .                  NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -589,6 +589,7 @@ C-----------------------------------------------
       TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB
       INTEGER,INTENT(IN)::NB_SEATBELT_SHELLS
       INTEGER,INTENT(INOUT)::SEATBELT_CONVERTED_ELEMENTS(3,NB_SEATBELT_SHELLS)
+      INTEGER,INTENT(IN)::NB_DYNA_INCLUDE
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -10194,7 +10195,8 @@ C----------------------------------------------
 C     Driver to reader of so-called "engine cards"
 C----------------------------------------------
 C      NGINE = 0 ! Number of Engine "cards", to be counted in contrl.F
-      IF ((IS_DYNA/=0).AND.(NGINE+NANIM_ENG/=0)) CALL READ_ENGINE_DRIVER(IGRPART,IS_DYNA)
+      IF ((IS_DYNA /= 0 .OR. NB_DYNA_INCLUDE /= 0).AND.(NGINE+NANIM_ENG/=0)) 
+     .          CALL READ_ENGINE_DRIVER(IGRPART,IS_DYNA,NB_DYNA_INCLUDE)
 C----------------------------------------------
 C     Driver to QAPRINT
 C----------------------------------------------

@@ -162,6 +162,7 @@ C
       CHARACTER(len=8)  :: STARTDATE
       CHARACTER(len=10) :: STARTTIME
       CHARACTER(len=2048) :: TMP_NAME 
+      INTEGER :: NB_DYNA_INCLUDE
 C
       my_real
      .   UNITE, RTITR
@@ -170,6 +171,11 @@ C
       TYPE(SUBMODEL_DATA) , DIMENSION(:), ALLOCATABLE :: LSUBMODEL
       TYPE(DETONATOR_STRUCT_),TARGET :: DETONATORS
       TYPE(t_ebcs_tab) :: EBCS_TAB
+
+      CHARACTER CWD*ncharline
+      CHARACTER GLOBAL_PATH*(ncharline+2048)
+      INTEGER :: LEN_CWD
+      INTEGER*4 GETCWD, STATUS_CWD
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -391,6 +397,7 @@ C Read DYNA model & convert DYNA -> Radioss objects
 C------------------------------------------------
       CALL STARTIME(15,1)
 
+      NB_DYNA_INCLUDE = 0
       IF(IS_DYNA == 1) THEN
         CALL CPP_READ_DYNA_AND_CONVERT(FNAME, LFNAME,EDI_RES,FILNAM,ROOTLEN+9+OUTFILE_NAME_LEN)
       ENDIF
@@ -663,9 +670,27 @@ C------------------------------------------------
 C Build model in memory (Radioss format)
 C------------------------------------------------
       IF (GOT_INPUT == 1 .AND. IS_DYNA == 0)THEN
+C
         CALL STARTIME(16,1)
-        CALL CPP_BUILD_MODEL(FNAME,LFNAME,EDI_RES)
+        STATUS_CWD = GETCWD(CWD)
+        LEN_CWD = LEN_TRIM(CWD)
+        GLOBAL_PATH = TRIM(CWD)//'/'//TRIM(PATH)
+c
+        CALL CPP_BUILD_MODEL_INC(FNAME,LFNAME,EDI_RES,NB_DYNA_INCLUDE,GLOBAL_PATH,LEN_TRIM(GLOBAL_PATH) )
         CALL CPP_APPLY_SUBMODEL_OFFSETS()
+c
+        IF(NB_DYNA_INCLUDE .NE. 0) THEN
+          DYNA_MESSAGE=1
+          CLOSE(IOUT)
+          CALL CPP_PRINT_DYNA(FILNAM,ROOTLEN+9+OUTFILE_NAME_LEN)
+          OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
+     .    ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN',POSITION="APPEND")   
+          WRITE(IOUT,'(A)')''
+          WRITE(IOUT,'(A)')''
+          WRITE(IOUT,'(A)')'************************************************************************'
+          WRITE(IOUT,'(A)')'* RADIOSS STARTER PROCESS'
+          WRITE(IOUT,'(A)')'************************************************************************'
+        ENDIF
         CALL STOPTIME(16,1)
       ENDIF
 C-------------------------------------------------------------------
@@ -856,7 +881,8 @@ c       start CPU timer for lectur
 C--------------------------------------------------
 C      Main reading routine
 C--------------------------------------------------
-        CALL LECTUR(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,EBCS_TAB,SEATBELT_CONVERTED_ELEMENTS,NB_SEATBELT_SHELLS)
+        CALL LECTUR(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,EBCS_TAB,SEATBELT_CONVERTED_ELEMENTS,
+     .              NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE   )
 
 c       stop CPU timer for lectur
         CALL STOPTIME(2,1)
