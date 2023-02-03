@@ -101,7 +101,9 @@ c
       TSTART1    = SENSOR_TAB(IS1)%TSTART
 c
       IS2        = SENSOR_TAB(SENS)%IPARAM(2)
-      STATUS_IS2 = SENSOR_TAB(IS2)%STATUS
+      IF (IS2 > 0) THEN
+          STATUS_IS2 = SENSOR_TAB(IS2)%STATUS
+      ENDIF
 
       IF (SENSOR_TAB(SENS)%STATUS == -1)THEN         ! Status= -1 : Sensor will never wake up again
          RETURN
