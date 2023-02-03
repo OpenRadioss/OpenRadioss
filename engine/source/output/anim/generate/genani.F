@@ -6367,10 +6367,8 @@ C
        IF(ANIM_SE(4937)==1) CALL ANI_TXT('Element Time Step',17)
        IF(ANIM_SE(4959)==1) CALL ANI_TXT('AMS selection',13)    
        IF(ANIM_SE(4965)==1) CALL ANI_TXT('Element status',14) 
-C-----------------------------------------------
-C   element equivalent stress criteria
-C-----------------------------------------------
        IF(ANIM_SE(4895)==1)CALL ANI_TXT('Equiv stress',12)
+       IF(ANIM_SE(5172)==1)CALL ANI_TXT('Region identifier in p,v diagram',32)
       ENDIF
 C-----------------------------------------------
 C   ELEMENT FUNC (SPH)
@@ -6381,13 +6379,13 @@ C-----------------------------------------------
         CONDITION = (IFUNC == 0) 
         IF(IFUNC > 0) CONDITION = CONDITION .OR. (ANIM_SE(I) == 1)
         IF(CONDITION) THEN
-          CALL DFUNC0(ELBUF_TAB ,WAFT      ,IFUNC    ,IPARG   ,
-     2                MAS       ,PM        ,EL2FA    ,NNN     ,
-     3                NBPART    ,IADG      ,SPBUF    ,IPART   ,
-     4                IPARTSP   ,ALE_CONNECTIVITY,IXQ     ,
-     5                X         ,V         ,W        ,
-     6                NERCVOIS  ,NESDVOIS  ,LERCVOIS ,LESDVOIS,BUFMAT       ,
-     7                MULTI_FVM)
+          CALL DFUNC0(ELBUF_TAB ,WAFT            ,IFUNC    ,IPARG   ,
+     2                MAS       ,PM              ,EL2FA    ,NNN     ,
+     3                NBPART    ,IADG            ,SPBUF    ,IPART   ,
+     4                IPARTSP   ,ALE_CONNECTIVITY,IXQ      ,IPM     ,
+     5                X         ,V               ,W        ,
+     6                NERCVOIS  ,NESDVOIS        ,LERCVOIS ,LESDVOIS,
+     7                BUFMAT    ,MULTI_FVM)
         ENDIF
       ENDDO
 C-----------------------------------------------
