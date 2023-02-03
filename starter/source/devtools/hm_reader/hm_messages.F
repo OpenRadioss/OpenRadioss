@@ -166,6 +166,7 @@ C LS-DYNA INPUT FORMAT READING MESSAGES ( SYNTAX PB)
 C--------------------------------------------------
 C GET NUMBER OF MESSAGES
       IF(IS_DYNA == 1) THEN
+        NBMESSAGES = 0
         CALL CPP_GET_MESSAGE_NUMBER_DYNA(NBMESSAGES)
         DO I=1,NBMESSAGES
           MSG_ID = 0
