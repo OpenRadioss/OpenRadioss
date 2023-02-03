@@ -56,7 +56,6 @@ Chd|        S10CNDS_DIM                   source/elements/solid/solide10/s10cndf
 Chd|        S10CNDS_INI                   source/elements/solid/solide10/s10cndf.F
 Chd|        S10CND_INI                    source/elements/solid/solide10/s10cndf.F
 Chd|        SECT_INI                      source/tools/sect/sectio.F    
-Chd|        SENSOR_SORT                   source/tools/sensor/sensor_sort.F
 Chd|        SPMD_ANIM_PLY_INIT            source/mpi/anim/spmd_anim_ply_init.F
 Chd|        SPMD_FAILWAVE_BOUNDARIES      source/mpi/output/spmd_exch_failwave.F
 Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F

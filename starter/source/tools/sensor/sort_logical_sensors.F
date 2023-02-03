@@ -21,11 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  SORT_LOGICAL_SENSORS                 source/model/sets/hm_set.F    
+Chd|  SORT_LOGICAL_SENSORS          source/tools/sensor/sort_logical_sensors.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/tools/sensors/hm_read_sensors.F
+Chd|        INISEN                        source/tools/sensor/inisen.F  
 Chd|-- calls ---------------
-Chd|    
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
+Chd|        SENSOR_VARIABLE_MOD           share/modules1/sensor_mod.F   
 Chd|====================================================================
       SUBROUTINE SORT_LOGICAL_SENSORS()
 C-----------------------------------------------

@@ -139,6 +139,7 @@ Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8
 Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
 Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
 Chd|        SENSOR_ACC                    source/tools/sensor/sensor_acc.F
+Chd|        SENSOR_AND                    source/tools/sensor/sensor_and.F
 Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
 Chd|        SENSOR_CONTACT                source/tools/sensor/sensor_contact.F
 Chd|        SENSOR_DIST                   source/tools/sensor/sensor_dist.F
@@ -153,10 +154,12 @@ Chd|        SENSOR_HIC                    source/tools/sensor/sensor_hic.F
 Chd|        SENSOR_INIT                   source/tools/sensor/sensor_init.F
 Chd|        SENSOR_LOGICAL                source/tools/sensor/sensor_logical.F
 Chd|        SENSOR_NIC                    source/tools/sensor/sensor_nic.F
+Chd|        SENSOR_NOT                    source/tools/sensor/sensor_not.F
+Chd|        SENSOR_OR                     source/tools/sensor/sensor_or.F
 Chd|        SENSOR_RBODY                  source/tools/sensor/sensor_rbody.F
 Chd|        SENSOR_RWALL                  source/tools/sensor/sensor_rwall.F
 Chd|        SENSOR_SECTION                source/tools/sensor/sensor_section.F
-Chd|        SENSOR_SORT                   source/tools/sensor/sensor_sort.F
+Chd|        SENSOR_SENS                   source/tools/sensor/sensor_sens.F
 Chd|        SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
 Chd|        SENSOR_TEMP                   source/tools/sensor/sensor_temp.F
 Chd|        SENSOR_TEMP0                  source/tools/sensor/sensor_temp0.F

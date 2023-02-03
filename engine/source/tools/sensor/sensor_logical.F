@@ -24,7 +24,12 @@ Chd|====================================================================
 Chd|  SENSOR_LOGICAL                source/tools/sensor/sensor_logical.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
+Chd|        SENSOR_INIT                   source/tools/sensor/sensor_init.F
 Chd|-- calls ---------------
+Chd|        SENSOR_AND                    source/tools/sensor/sensor_and.F
+Chd|        SENSOR_NOT                    source/tools/sensor/sensor_not.F
+Chd|        SENSOR_OR                     source/tools/sensor/sensor_or.F
+Chd|        SENSOR_SENS                   source/tools/sensor/sensor_sens.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================

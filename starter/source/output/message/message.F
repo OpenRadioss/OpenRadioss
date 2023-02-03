@@ -762,6 +762,7 @@ Chd|        SMS_INIT                      source/ams/sms_init.F
 Chd|        SMS_INI_JAD_3                 source/ams/sms_init.F         
 Chd|        SOLTOSPHV4                    source/elements/sph/soltosph.F
 Chd|        SOLTOSPHV8                    source/elements/sph/soltosph.F
+Chd|        SORT_LOGICAL_SENSORS          source/tools/sensor/sort_logical_sensors.F
 Chd|        SPGRHEAD                      source/elements/sph/spgrhead.F
 Chd|        SPGRTAILS                     source/elements/sph/spgrtails.F
 Chd|        SPHDCOD                       source/elements/sph/sphdcod.F 

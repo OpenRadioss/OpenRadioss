@@ -25,6 +25,7 @@ Chd|====================================================================
 Chd|  SENSOR_TIME                   source/tools/sensor/sensor_time.F
 Chd|-- called by -----------
 Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
+Chd|        SENSOR_INIT                   source/tools/sensor/sensor_init.F
 Chd|-- calls ---------------
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================

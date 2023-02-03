@@ -38,6 +38,7 @@ Chd|        FAIL_FLD_XFEM                 source/materials/fail/fld/fail_fld_xfe
 Chd|        FAIL_GENE1_C                  source/materials/fail/gene1/fail_gene1_c.F
 Chd|        FAIL_HASHIN_C                 source/materials/fail/hashin/fail_hashin_c.F
 Chd|        FAIL_HC_DSSE_C                source/materials/fail/hc_dsse/fail_hc_dsse_c.F
+Chd|        FAIL_HOFFMAN_C                source/materials/fail/hoffman/fail_hoffman_c.F
 Chd|        FAIL_INIEVO_C                 source/materials/fail/inievo/fail_inievo_c.F
 Chd|        FAIL_JOHNSON_C                source/materials/fail/johnson_cook/fail_johnson_c.F
 Chd|        FAIL_JOHNSON_XFEM             source/materials/fail/johnson_cook/fail_johnson_xfem.F
@@ -58,6 +59,7 @@ Chd|        FAIL_TAB_XFEM                 source/materials/fail/tabulated/fail_t
 Chd|        FAIL_TBUTCHER_C               source/materials/fail/tuler_butcher/fail_tbutcher_c.F
 Chd|        FAIL_TBUTCHER_XFEM            source/materials/fail/tuler_butcher/fail_tbutcher_xfem.F
 Chd|        FAIL_TENSSTRAIN_C             source/materials/fail/tensstrain/fail_tensstrain_c.F
+Chd|        FAIL_TSAIHILL_C               source/materials/fail/tsaihill/fail_tsaihill_c.F
 Chd|        FAIL_TSAIWU_C                 source/materials/fail/tsaiwu/fail_tsaiwu_c.F
 Chd|        FAIL_VISUAL_C                 source/materials/fail/visual/fail_visual_c.F
 Chd|        FAIL_WIERZBICKI_C             source/materials/fail/wierzbicki/fail_wierzbicki_c.F

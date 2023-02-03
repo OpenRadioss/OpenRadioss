@@ -83,6 +83,7 @@ Chd|        READ_SENSOR_WORK              source/tools/sensor/read_sensor_work.F
 Chd|        SENSOR_TAB_INIT               source/tools/sensor/sensor_tab_init.F
 Chd|        SENSOR_USER_ALLOC             source/tools/sensor/sensor_user_alloc.F
 Chd|        SENSOR_USER_INIT              source/tools/sensor/sensor_user_init.F
+Chd|        SORT_LOGICAL_SENSORS          source/tools/sensor/sort_logical_sensors.F
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_MODEL_TOOLS        source/output/qaprint/st_qaprint_model_tools.F
 Chd|        UPDMAT                        source/materials/updmat.F     
@@ -165,6 +166,7 @@ Chd|====================================================================
 Chd|  SENSOR_VARIABLE_MOD           share/modules1/sensor_mod.F   
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        SORT_LOGICAL_SENSORS          source/tools/sensor/sort_logical_sensors.F
 Chd|        SET_U_SENS_FPAR               source/user_interface/uaccess.F
 Chd|        SET_U_SENS_IPAR               source/user_interface/uaccess.F
 Chd|-- calls ---------------

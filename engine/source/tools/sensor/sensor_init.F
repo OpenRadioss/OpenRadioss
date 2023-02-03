@@ -25,6 +25,8 @@ Chd|  SENSOR_INIT                   source/tools/sensor/sensor_init.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        SENSOR_LOGICAL                source/tools/sensor/sensor_logical.F
+Chd|        SENSOR_TIME                   source/tools/sensor/sensor_time.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================

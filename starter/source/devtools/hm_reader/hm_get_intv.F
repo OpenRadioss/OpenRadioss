@@ -118,6 +118,7 @@ Chd|        HM_READ_FAIL_GENE1            source/materials/fail/gene1/hm_read_fa
 Chd|        HM_READ_FAIL_GURSON           source/materials/fail/gurson/hm_read_fail_gurson.F
 Chd|        HM_READ_FAIL_HASHIN           source/materials/fail/hashin/hm_read_fail_hashin.F
 Chd|        HM_READ_FAIL_HC_DSSE          source/materials/fail/hc_dsse/hm_read_fail_hc_dsse.F
+Chd|        HM_READ_FAIL_HOFFMAN          source/materials/fail/hoffman/hm_read_fail_hoffman.F
 Chd|        HM_READ_FAIL_INIEVO           source/materials/fail/inievo/hm_read_fail_inievo.F
 Chd|        HM_READ_FAIL_JOHNSON          source/materials/fail/johnson_cook/hm_read_fail_johnson.F
 Chd|        HM_READ_FAIL_LADEVEZE         source/materials/fail/ladeveze/hm_read_fail_ladeveze.F
@@ -135,6 +136,7 @@ Chd|        HM_READ_FAIL_TAB2             source/materials/fail/tabulated/hm_rea
 Chd|        HM_READ_FAIL_TAB_OLD          source/materials/fail/tabulated/hm_read_fail_tab_old.F
 Chd|        HM_READ_FAIL_TBUTCHER         source/materials/fail/tuler_butcher/hm_read_fail_tbutcher.F
 Chd|        HM_READ_FAIL_TENSSTRAIN       source/materials/fail/tensstrain/hm_read_fail_tensstrain.F
+Chd|        HM_READ_FAIL_TSAIHILL         source/materials/fail/tsaihill/hm_read_fail_tsaihill.F
 Chd|        HM_READ_FAIL_TSAIWU           source/materials/fail/tsaiwu/hm_read_fail_tsaiwu.F
 Chd|        HM_READ_FAIL_USER             source/materials/fail/failuser/hm_read_fail_user.F
 Chd|        HM_READ_FAIL_VISUAL           source/materials/fail/visual/hm_read_fail_visual.F
