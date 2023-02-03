@@ -220,7 +220,22 @@ c          ENDIF
             ELSE                                                           
               ISU1=GRBRIC_ID !ISU1 outgoing argument used to get nodes in grbrick  
             ENDIF                                              
-        ENDIF                                                  
+        ENDIF 
+
+!===CHECK GRBRIC_ID IS PROVIDED TO CALL LATER LECINT > INGRBRIC_DX (automatic gap)        
+
+        !Variable gap (Igap=1) requires a Group of Bricks
+        IF(IGAP == 1 .AND. GRBRIC_ID == 0)THEN
+          MSGTITL='GRBRIC_ID MUST BE DEFINED TO ENABLE VARIABLE GAP' 
+          CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)            
+        ENDIF 
+
+        !Constant gap with Gap=0.0 requires a Group of Bricks
+        IF(IGAP == 1000 .AND. GRBRIC_ID == 0 .AND. GAP == ZERO)THEN
+          MSGTITL='GRBRIC_ID MUST BE DEFINED TO ESTIMATE CONSTANT GAP VALUE' 
+          CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)            
+        ENDIF 
+                                                 
 !===CHECK STFAC VALUE                                               
         IF(STFAC <= ZERO .AND. ISTIFF==1)THEN                                  
              MSGTITL='STIFFNESS VALUE MUST BE DEFINED (STFVAL)'
