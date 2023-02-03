@@ -31,7 +31,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-       SUBROUTINE READ_ENGINE_DRIVER(IGRPART,IS_DYNA)
+       SUBROUTINE READ_ENGINE_DRIVER(IGRPART,IS_DYNA,NB_DYNA_INCLUDE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,6 +65,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(GROUP_)  ,DIMENSION(NGRPART) :: IGRPART
       INTEGER,INTENT(IN)::IS_DYNA
+      INTEGER,INTENT(IN)::NB_DYNA_INCLUDE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -76,8 +77,13 @@ C=======================================================================
 C-----------------------------------------------
 C OPEN 1.rad FILE
 C-----------------------------------------------
-       FILNAM  =ROOTNAM(1:ROOTLEN)//'_0001.rad'
-       LEN_FILNAM=ROOTLEN+9
+       IF(NB_DYNA_INCLUDE .NE. 0) THEN
+         FILNAM  = 'DYNA_INCLUDE_0001.rad'
+         LEN_FILNAM=21
+       ELSE
+         FILNAM  =ROOTNAM(1:ROOTLEN)//'_0001.rad'
+         LEN_FILNAM=ROOTLEN+9
+       ENDIF
        CALL CPP_MODEL_OPEN_FILE(FILNAM,LEN_FILNAM)
 C--------------------------------------------------
 C START BROWSING ANIM OPTIONS
