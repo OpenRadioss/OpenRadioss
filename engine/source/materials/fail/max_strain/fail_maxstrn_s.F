@@ -121,11 +121,11 @@ c
         IF (DFMAX(I)<ONE) THEN
 c
           ! Compute failure index and reserve factor
-          FINDEX = MAX(EXX(I)/EPS1_MAX,
-     .                 EYY(I)/EPS2_MAX,
-     .                 EXY(I)/GAM12_MAX,
-     .                 EZZ(I)/EPS2_MAX,
-     .                 EZX(I)/GAM12_MAX)
+          FINDEX = MAX(ABS(EXX(I))/EPS1_MAX,
+     .                 ABS(EYY(I))/EPS2_MAX,
+     .                 ABS(EXY(I))/GAM12_MAX,
+     .                 ABS(EZZ(I))/EPS2_MAX,
+     .                 ABS(EZX(I))/GAM12_MAX)
           IF (FINDEX > ZERO) THEN 
             RFACTR = ONE/SQRT(FINDEX)
           ELSE 
