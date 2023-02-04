@@ -48,6 +48,7 @@ Chd|        FAIL_HOFFMAN_C                source/materials/fail/hoffman/fail_hof
 Chd|        FAIL_INIEVO_C                 source/materials/fail/inievo/fail_inievo_c.F
 Chd|        FAIL_JOHNSON_C                source/materials/fail/johnson_cook/fail_johnson_c.F
 Chd|        FAIL_JOHNSON_XFEM             source/materials/fail/johnson_cook/fail_johnson_xfem.F
+Chd|        FAIL_MAXSTRN_C                source/materials/fail/max_strain/fail_maxstrn_c.F
 Chd|        FAIL_NXT_C                    source/materials/fail/nxt/fail_nxt_c.F
 Chd|        FAIL_ORTHBIQUAD_C             source/materials/fail/orthbiquad/fail_orthbiquad_c.F
 Chd|        FAIL_ORTHSTRAIN_C             source/materials/fail/orthstrain/fail_orthstrain_c.F
