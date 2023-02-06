@@ -145,7 +145,7 @@ C
           PARTSAV(3,M)=PARTSAV(3,M) + XM(I)
           PARTSAV(4,M)=PARTSAV(4,M) + YM(I)
           PARTSAV(5,M)=PARTSAV(5,M) + ZM(I)
-          PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
+          IF (OFF(I) >= ONE) PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
         ENDDO
       ELSE
         DO I=LFT,LLT
