@@ -413,18 +413,19 @@ C-----------------------------------------------
       INTEGER I, J
 C     REAL
       my_real
-     .   P,FAC(MVSIZ)
+     .   P,FAC(MVSIZ),FAC2(MVSIZ)
 C-----------------------------------------------
 C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
       DO I=LFT,LLT
          FAC(I) = OFF(I)*VOL(I)/VOLG(I)
+         FAC2(I) = VOL(I)/VOLG(I)
          SIGM(I,1) = SIGM(I,1) + FAC(I) * SIGOR(I,1)
          SIGM(I,2) = SIGM(I,2) + FAC(I) * SIGOR(I,2)
          SIGM(I,3) = SIGM(I,3) + FAC(I) * SIGOR(I,3)
          SIGM(I,4) = SIGM(I,4) + FAC(I) * SIGOR(I,4)
          SIGM(I,5) = SIGM(I,5) + FAC(I) * SIGOR(I,5)
          SIGM(I,6) = SIGM(I,6) + FAC(I) * SIGOR(I,6)
-         RHOM(I)   = RHOM(I)   + FAC(I) * RHO(I)
+         RHOM(I)   = RHOM(I)   + FAC2(I) * RHO(I)
          EINTM(I)  = EINTM(I)  + EINT(I)*VOL0(I)/VOL0G(I)
          QM(I)     = QM(I)     + FAC(I) * Q(I)
          STIN(I)     = STIN(I)     + STI(I)
