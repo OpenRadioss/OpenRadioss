@@ -133,11 +133,11 @@ C     LLOADP(4,K) :   NODE4                                           NODE4
 C----------------------------------------------------------------------------------        
 C     FACLOADP(LFACLOAD,*)
 C     FACLOADP( 1,K) = Fscaley_hsp                                    TDET                                      
-C     FACLOADP( 2,K) = ONE/Ascalex_hsp                                 XDET     
+C     FACLOADP( 2,K) = ONE/Ascalex_hsp                                XDET     
 C     FACLOADP( 3,K) = Fscaley_pc                                     YDET                                        
-C     FACLOADP( 4,K) = ONE/Ascalex_pc                                  ZDET     
+C     FACLOADP( 4,K) = ONE/Ascalex_pc                                 ZDET     
 C     FACLOADP( 5,K) = Fscaley_vel                                    WTNT                                        
-C     FACLOADP( 6,K) = ONE/Ascalex_vel                                 P0_REF   
+C     FACLOADP( 6,K) = ONE/Ascalex_vel                                P0_REF   
 C     FACLOADP( 7,K) = UNUSED		                              ZERO ! TA_SHIFT 
 C----------------------------------------------------------------------------------        
 C   S o u r c e   L i n e s
@@ -155,11 +155,11 @@ C--------------------------------------------------
 C EXTRACT DATAS OF /LOAD/PFLUID... LINE
 C--------------------------------------------------
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                       OPTION_ID = ID,
-     .                       UNIT_ID = UID,
-     .                       SUBMODEL_ID = SUB_ID,
-     .                       SUBMODEL_INDEX = SUB_INDEX,
-     .                       OPTION_TITR = TITR)
+     .                          OPTION_ID = ID,
+     .                          UNIT_ID = UID,
+     .                          SUBMODEL_ID = SUB_ID,
+     .                          SUBMODEL_INDEX = SUB_INDEX,
+     .                          OPTION_TITR = TITR)
 
         IFLAGUNIT = 0
         DO J=1,NUNITS
@@ -179,17 +179,19 @@ C--------------------------------------------------
      .                C3      = TITR)  
         ENDIF
 C-----------        
-        ILOADP(2,K) = ID
+        ILOADP(2,K) = ID  !load identifier
 C-----------        
-        IAD      = NUMLOADP + 1                                                      
+        IAD = NUMLOADP + 1                                                      
         FUN_HSP = 0                                                                  
         FUN_CX = 0                                                                   
         FUN_VEL = 0                                                                  
         ICFIELD9 = 0                                                                 
-        ICFIELD13 = 0                                                                
+        ICFIELD13 = 0          
+        !Reader (based on cfg file)                                                      
         CALL HM_GET_INTV('surf_ID',ISU,IS_AVAILABLE,LSUBMODEL)                       
         CALL HM_GET_INTV('sens_ID',ISENS,IS_AVAILABLE,LSUBMODEL)                     
-        !-----------                                                                 
+        !-----------  
+        !get face nodes N1,N2,N3,N4                                                               
         IS=0                                                                         
         DO J=1,NSURF                                                                 
           IF (ISU  == IGRSURF(J)%ID) IS=J                                            
@@ -208,8 +210,9 @@ C-----------
           ENDDO                                                                      
         ENDIF                                                                        
 	       ILOADP(1,K)=4*NN                                                             
-        !-----------                                                                 
-	       TSENS=0                                                                      
+        !-----------  
+        !possible Sensor                                                               
+	TSENS=0                                                                      
         DO J=1,NSENSOR                                                               
         	  IF(ISENS /= 0) THEN                                                
 	            IF (ISENS == SENSOR_TAB(J)%SENS_ID) TSENS=J
@@ -223,16 +226,18 @@ C-----------
      .                      C1=TITR,                                                 
      .                      I2=ISENS)                                                
         	ENDIF                                                                
-        !-----------                                                                 
+        !-----------  
+        !Input file - Reader                                                               
         CALL HM_GET_INTV('fct_hsp',NCUR_HSP,IS_AVAILABLE,LSUBMODEL)                  
         CALL HM_GET_FLOATV('Ascalex_hsp',FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)          
         CALL HM_GET_FLOATV_DIM('Ascalex_hsp',FAC_FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)  
         CALL HM_GET_FLOATV('Fscaley_hsp',FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)          
         CALL HM_GET_FLOATV_DIM('Fscaley_hsp',FAC_FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-        IF (FCX == ZERO) FCX = FAC_FCX                                               
-        IF (FCY == ZERO) FCY = FAC_FCY                                               
-        !-----------                                                                 
-        IF(NCUR_HSP  /=  0)THEN                                                      
+        IF (FCX == ZERO) FCX = FAC_FCX ! default value                                          
+        IF (FCY == ZERO) FCY = FAC_FCY ! default value                                     
+        !-----------   
+        !check function identifier if provided                                                              
+        IF(NCUR_HSP /= 0)THEN                                                      
           DO J=1,NFUNCT                                                              
             IF(NPC(NFUNCT+J+1)  == NCUR_HSP)FUN_HSP=J                                
           ENDDO                                                                      
@@ -245,18 +250,20 @@ C-----------
      .                  I2=NCUR_HSP)                                                 
           ENDIF                                                                      
         ENDIF                                                                        
-        !-----------                                                                 
+        !-----------   
+        !Reader for XYZ field                                                             
         XYZ = ''                                                                     
         CALL HM_GET_STRING('Dir_hsp',XYZ,ncharfield,IS_AVAILABLE)                    
         !-----------                                                                 
         ICFIELD8 = 0                                                                 
         IF(XYZ(1:1)  == char_X)ICFIELD8=1                                            
         IF(XYZ(1:1)  == char_Y)ICFIELD8=2                                            
-        IF(XYZ(1:1)  == char_Z)ICFIELD8=3                                            
+        IF(XYZ(1:1)  == char_Z)ICFIELD8=3    
+        ! XYZ mandatory if hydrostatic pressure (HSP) expected                                        
         IF (NCUR_HSP /= 0)THEN                                                       
-          IF(XYZ(1:1)   /= char_X  .AND.                                             
-     .       XYZ(1:1)   /= char_Y  .AND.                                             
-     .       XYZ(1:1)   /= char_Z  ) THEN                                            
+          IF(XYZ(1:1) /= char_X  .AND.                                             
+     .       XYZ(1:1) /= char_Y  .AND.                                             
+     .       XYZ(1:1) /= char_Z  ) THEN                                            
              CALL ANCMSG(MSGID=927,                                                  
      .                   MSGTYPE=MSGERROR,                                           
      .                   ANMODE=ANINFO_BLIND_1,                                      
@@ -265,11 +272,11 @@ C-----------
      .                   C2=XYZ)                                                     
           ENDIF                                                                      
         ENDIF                                                                        
-                                                                                     
-                                                                                     
-        !-----------                                                                 
+                                                                                                                                                                         
+        !-----------    
+        !possible frame                                                             
         CALL HM_GET_INTV('frahsp_ID',IFRA1,IS_AVAILABLE,LSUBMODEL)                   
-        !-----------                                                                 
+        !-----------                                                       
         IF(IFRA1 == 0 .AND. SUB_INDEX /= 0)THEN                                      
           CALL ANCMSG(MSGID   = 1712,                                                
      .                ANMODE  = ANINFO,                                              
@@ -294,7 +301,8 @@ C-----------
      .                C1=TITR,                                                       
      .                I2=IFRA1)                                                      
         ENDIF                                                                        
-        !-----------                                                                 
+        !-----------    
+        !Reader                                                             
         CALL HM_GET_INTV('fct_pc',NCUR_CX,IS_AVAILABLE,LSUBMODEL)                    
         CALL HM_GET_FLOATV('Ascalex_pc',FCX1,IS_AVAILABLE,LSUBMODEL,UNITAB)          
         CALL HM_GET_FLOATV_DIM('Ascalex_pc',FAC_FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)   
@@ -302,7 +310,8 @@ C-----------
         CALL HM_GET_FLOATV_DIM('Fscaley_pc',FAC_FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)   
         IF (FCX1 == ZERO) FCX1 = FAC_FCX                                             
         IF (FCY1 == ZERO) FCY1 = FAC_FCY                                             
-        !-----------                                                                 
+        !-----------    
+        !check user function identifier                                                            
         IF (NCUR_CX /= 0)THEN                                                        
           DO J=1,NFUNCT                                                              
             IF(NPC(NFUNCT+J+1)  == NCUR_CX)FUN_CX=J                                  
@@ -316,7 +325,8 @@ C-----------
      .                  I2=NCUR_CX)                                                  
           ENDIF                                                                      
         ENDIF                                                                        
-        !-----------                                                                 
+        !-----------   
+        !reader                                                              
         CALL HM_GET_INTV('fct_vel',NCUR_VEL,IS_AVAILABLE,LSUBMODEL)                  
         CALL HM_GET_FLOATV('Ascalex_vel',FCX2,IS_AVAILABLE,LSUBMODEL,UNITAB)         
         CALL HM_GET_FLOATV_DIM('Ascalex_vel',FAC_FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)  
@@ -324,7 +334,8 @@ C-----------
         CALL HM_GET_FLOATV_DIM('Fscaley_vel',FAC_FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)  
         IF (FCX2 == ZERO) FCX2 = FAC_FCX                                             
         IF (FCY2 == ZERO) FCY2 = FAC_FCY                                             
-        !-----------                                                                 
+        !-----------  
+        !check user function identifier                                                               
         IF (NCUR_VEL /= 0)THEN                                                       
           DO J=1,NFUNCT                                                              
             IF(NPC(NFUNCT+J+1)  == NCUR_VEL)FUN_VEL=J                                
@@ -385,8 +396,9 @@ C-----------
      .                I2=IFRA2)                                                      
         ENDIF                                                                        
 
-        ILOADP(5,K)=2 
-                      
+        ILOADP(5,K)=2 !type of load 2:PFLUID
+               
+        !STORAGE : ILOADP (integer) - FACLOADP (real)       
         IF(IS /= 0)THEN  
           ILOADP  ( 4,K) = IAD                                                        
           ILOADP  ( 6,K) = ISENS                                                      
@@ -408,6 +420,7 @@ C-----------
 	  IF (IDDOM > 0) NN = NN-ISURF_R2R(1,IS)                                      
         ENDIF    
 
+        !OUTPUT STARTER LISTING FILE
         WRITE (IOUT,2002)                                                                                                
         WRITE (IOUT,'(I10,2X,I10,9X,A1,2X,I10,2X,I10,2X,1PG20.13,2X,1PG20.13)')ISU,IFRA1,XYZ(1:1),NCUR_HSP,ISENS,FCX,FCY 
         WRITE (IOUT,2003)                                                                                                
