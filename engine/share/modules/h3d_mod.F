@@ -477,8 +477,10 @@ C-----------------------------------------------
 
         my_real TH3D
         my_real DTH3D
+        my_real TH3D_STOP
         my_real TH3D0
         my_real DTH3D0
+        my_real TH3D_STOP0
         my_real PERCENTAGE_ERROR
 
         INTEGER, DIMENSION(:), ALLOCATABLE :: N_SKID_INTER   

@@ -306,7 +306,7 @@ c           delta A parith on
       END IF
 
       IF(ANIM_V(15)+OUTP_V(15)+H3D_DATA%N_VECT_DXANC >0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
         DO I=NLNF,NLNL
           IG=NLG(I)

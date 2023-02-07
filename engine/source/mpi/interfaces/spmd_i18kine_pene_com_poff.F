@@ -269,7 +269,7 @@ c                      ENDIF
                          A(2,NOD) = BBUFR(IADR(P)+L+1)
                          A(3,NOD) = BBUFR(IADR(P)+L+2)
                          IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
-     .                    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .                    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .                    (MANIM>=4.AND.MANIM<=15)))THEN
                            IF(INCONV == 1) THEN
                              FCONT(1,NOD) = FCONT(1,NOD)+BBUFR(IADR(P)+L+3)
