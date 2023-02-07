@@ -25,6 +25,7 @@ Chd|  I3FRI3                        source/interfaces/inter3d/i3fri3.F
 Chd|-- called by -----------
 Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
 Chd|-- calls ---------------
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE I3FRI3(LFT   ,LLT   ,NFT   ,
@@ -413,6 +414,7 @@ Chd|  I5FRI3                        source/interfaces/inter3d/i3fri3.F
 Chd|-- called by -----------
 Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
 Chd|-- calls ---------------
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE I5FRI3(LFT   ,LLT   ,NFT   ,IPARI ,

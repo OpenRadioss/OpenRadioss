@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        I6MAIN                        source/interfaces/inter3d/i6main.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE I6ASS3(E       ,MSR     ,NSV     ,ES      ,

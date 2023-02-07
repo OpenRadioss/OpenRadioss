@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
 Chd|-- calls ---------------
 Chd|        IBCOFF                        source/interfaces/interf/ibcoff.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE I8FOR3(LFT   ,LLT   ,NFT   ,

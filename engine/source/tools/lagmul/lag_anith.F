@@ -25,6 +25,7 @@ Chd|  LAG_ANITH                     source/tools/lagmul/lag_anith.F
 Chd|-- called by -----------
 Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
 Chd|-- calls ---------------
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE LAG_ANITH(IADLL  ,LLL   ,JLL    ,SLL    ,XLL    ,
@@ -105,6 +106,7 @@ Chd|-- called by -----------
 Chd|        LAG_MULTP                     source/tools/lagmul/lag_mult.F
 Chd|-- calls ---------------
 Chd|        SPMD_SG_FANI                  source/mpi/lag_multipliers/spmd_lag.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE LAG_ANITHP(IADLL  ,LLL   ,JLL  ,SLL     ,XLL    ,

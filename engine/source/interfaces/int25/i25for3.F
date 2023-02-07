@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        I25SMS2                       source/interfaces/int25/i25for3.F
 Chd|        IBCOFF                        source/interfaces/interf/ibcoff.F
 Chd|        BITGET                        source/interfaces/intsort/i20sto.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   

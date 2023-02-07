@@ -30,6 +30,7 @@ Chd|        I7ASS0                        source/interfaces/int07/i7ass3.F
 Chd|        I7ASS05                       source/interfaces/int07/i7ass3.F
 Chd|        I7ASS2                        source/interfaces/int07/i7ass3.F
 Chd|        I7ASS25                       source/interfaces/int07/i7ass3.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

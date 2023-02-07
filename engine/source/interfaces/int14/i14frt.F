@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        I14CMP                        source/interfaces/int14/i14cmp.F
 Chd|-- calls ---------------
 Chd|        NINTERP                       source/interfaces/int14/ninterp.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================

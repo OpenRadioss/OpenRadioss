@@ -66,6 +66,7 @@ Chd|        NBADMESH                      source/model/remesh/nbadmesh.F
 Chd|        NBSPH                         source/elements/sph/nbsph.F   
 Chd|        ID                            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
 Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale_ebcs_mod.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        GRP_SIZE_MOD                  share/modules1/grp_size_mod.F 

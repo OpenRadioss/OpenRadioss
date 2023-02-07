@@ -31,6 +31,7 @@ Chd|        I17LLL_ASS                    source/interfaces/int17/i17for3.F
 Chd|        I17LLL_PENA                   source/interfaces/int17/i17for3.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_I17FROTS_PON             source/mpi/interfaces/spmd_i17frots_pon.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        ICONTACT_MOD                  share/modules/icontact_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -279,6 +280,7 @@ Chd|        I17LLL4_PENA                  source/interfaces/int17/i17for3.F
 Chd|        I17MINI_PENA                  source/interfaces/int17/i17for3.F
 Chd|        I17RST                        source/interfaces/int17/i17lagm.F
 Chd|        I17VIT_PENA                   source/interfaces/int17/i17for3.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE I17LLL_PENA(
@@ -1511,6 +1513,7 @@ Chd|        I17LLL_PENA                   source/interfaces/int17/i17for3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        ICONTACT_MOD                  share/modules/icontact_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

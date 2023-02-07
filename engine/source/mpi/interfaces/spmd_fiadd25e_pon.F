@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        IBCOFF                        source/interfaces/interf/ibcoff.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|        WRITE_ARRAY                   ../common_source/comm/write_array.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
@@ -1736,6 +1737,7 @@ Chd|  WRCOMR                        source/output/restart/wrcomm.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|====================================================================
       SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA)
 C-----------------------------------------------

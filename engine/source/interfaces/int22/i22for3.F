@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        I22ASS0                       source/interfaces/int22/i22assembly.F
 Chd|        I22ASS2                       source/interfaces/int22/i22assembly.F
 Chd|        I7ASS3                        source/interfaces/int07/i7ass3.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F

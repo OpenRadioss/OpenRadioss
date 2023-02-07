@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        I20MAIN_CRIT_TRI              source/interfaces/intsort/i20main_crit_tri.F
 Chd|-- calls ---------------
 Chd|        SPMD_GET_PENIS20              source/mpi/interfaces/send_cand.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
        SUBROUTINE I20BUCE_CRIT(

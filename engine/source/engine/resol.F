@@ -427,6 +427,7 @@ Chd|        ALEFLOW_MOD                   share/modules/aleflow_mod.F
 Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
 Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 

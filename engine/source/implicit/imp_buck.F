@@ -50,6 +50,7 @@ Chd|        UPD_FR_K                      source/mpi/implicit/imp_fri.F
 Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F  
 Chd|        ZEROR                         source/system/zero.F          
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     

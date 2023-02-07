@@ -33,6 +33,7 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        FREDEC_8KEY_I                 source/input/fredec_8key_i.F  
 Chd|        WRIUSC2                       source/input/wriusc2.F        
 Chd|        NVAR                          source/input/nvar.F           
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================

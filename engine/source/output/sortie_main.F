@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        ANICON0                       source/output/anim/generate/anicon0.F
-Chd|        ANICON2                       source/output/anim/generate/anicon0.F
+Chd|        ANICON2                       source/output/anim/generate/anicon2.F
 Chd|        ANI_PCONT                     source/output/anim/generate/ani_pcont.F
 Chd|        ANI_PCONT21                   source/output/anim/generate/ani_pcont.F
 Chd|        CNDMASI2                      source/elements/solid/solide10/s10cndf.F
@@ -48,6 +48,7 @@ Chd|        SPMD_EXCH_ADM                 source/mpi/anim/spmd_exch_adm.F
 Chd|        SPMD_SD_SKW_ANIM              source/mpi/output/spmd_sd_skw.F
 Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     

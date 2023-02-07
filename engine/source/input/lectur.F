@@ -53,6 +53,7 @@ Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
 Chd|        SPMD_WIOUT                    source/mpi/generic/spmd_wiout.F
 Chd|        NGR2USR                       source/input/freform.F        
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     

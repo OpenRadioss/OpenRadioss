@@ -25,6 +25,7 @@ Chd|  WRCOMR                        source/restart/ddsplit/wrcomm.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|====================================================================
       SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,MS_ND,P)
 C-----------------------------------------------

@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        RDRESA                        source/output/restart/rdresa.F
 Chd|-- calls ---------------
 Chd|        READ_ARRAY                    ../common_source/comm/read_array.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
@@ -1760,6 +1761,7 @@ Chd|  RDCOMR                        source/output/restart/rdcomm.F
 Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|====================================================================
       SUBROUTINE RDCOMR(LMXVREA, LVARREA, TABVREA)
 C-----------------------------------------------

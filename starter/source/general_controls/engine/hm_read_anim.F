@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  HM_READ_ANIM                  source/general_controls/engine/hm_read_anim.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|====================================================================

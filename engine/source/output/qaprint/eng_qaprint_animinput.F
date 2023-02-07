@@ -25,6 +25,7 @@ Chd|  ENG_QAPRINT_ANIMINPUT         source/output/qaprint/eng_qaprint_animinput.
 Chd|-- called by -----------
 Chd|        ENG_QAPRINT_DRIVER            source/output/qaprint/eng_qaprint_driver.F
 Chd|-- calls ---------------
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ENG_QAPRINT_ANIMINPUT()

@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        FXBODVP1                      source/constraints/fxbody/fxbodvp.F
 Chd|        FXBODVP2                      source/constraints/fxbody/fxbodvp.F
 Chd|        SPMD_FXB_CIN                  source/mpi/kinematic_conditions/spmd_fxb_cin.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|====================================================================
       SUBROUTINE FXBYVIT(FXBIPM, FXBNOD, FXBMOD  , FXBGLM , FXBLM ,
      .                   FXBMVN, FXBMCD, FXBSE   , FXBSV  , FXBVIT,

@@ -25,6 +25,7 @@ Chd|  CUTCNT                        source/tools/sect/cutcnt.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|====================================================================
       SUBROUTINE CUTCNT(ICUT,XCUT,IXS,XYZ0,D,LEN)
 C-----------------------------------------------

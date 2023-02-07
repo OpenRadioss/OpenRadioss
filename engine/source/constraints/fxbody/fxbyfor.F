@@ -29,6 +29,7 @@ Chd|        FXBODFP1                      source/constraints/fxbody/fxbodfp.F
 Chd|        FXBODFP2                      source/constraints/fxbody/fxbodfp.F
 Chd|        SPMD_FXB_FOR                  source/mpi/kinematic_conditions/spmd_fxb_for.F
 Chd|        SPMD_FXB_FOR_PON              source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================

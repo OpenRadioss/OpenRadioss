@@ -32,6 +32,7 @@ Chd|        MY_FLUSH                      source/system/machine.F
 Chd|        SPMD_EXCH_FVSTATS             source/mpi/airbags/spmd_exch_fvstats.F
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

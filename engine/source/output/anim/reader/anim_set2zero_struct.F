@@ -25,6 +25,7 @@ Chd|  ANIM_SET2ZERO_STRUCT          source/output/anim/reader/anim_set2zero_stru
 Chd|-- called by -----------
 Chd|        FREANIM                       source/output/anim/reader/freanim.F
 Chd|-- calls ---------------
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ANIM_SET2ZERO_STRUCT()

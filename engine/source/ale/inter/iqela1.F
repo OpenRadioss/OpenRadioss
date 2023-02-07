@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        INTAL2                        source/ale/inter/intal2.F     
 Chd|-- calls ---------------
 Chd|        SHAPEH                        source/ale/inter/shapeh.F     
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE IQELA1(X,SKEW,A,E,MSM,IRECT,LMSR,CRST,MSR,

@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
 Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
 Chd|        SUM_6_FLOAT                   source/system/parit.F         
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE ASS18(NRTM  ,IRECT,A    ,X   ,SURF   ,

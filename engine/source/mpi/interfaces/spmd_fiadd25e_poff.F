@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        SPMD_I7FCOM_POFF              source/mpi/forces/spmd_i7fcom_poff.F
 Chd|-- calls ---------------
 Chd|        IBCOFF                        source/interfaces/interf/ibcoff.F
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F

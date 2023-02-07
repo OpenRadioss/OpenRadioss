@@ -25,6 +25,7 @@ Chd|  I15ASS                        source/interfaces/int15/i15ass.F
 Chd|-- called by -----------
 Chd|        I15CMP                        source/interfaces/int15/i15cmp.F
 Chd|-- calls ---------------
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
