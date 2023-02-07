@@ -29,11 +29,45 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE PFLUID(ILOADP  ,FAC     ,NPC    ,TF    ,A       ,
-     2                  V       ,X       ,XFRAME ,AR    ,VR      ,
-     3                  SENSOR_TAB,WEIGHT ,TFEXC ,IADC    ,
-     4                  FSKY    ,FSKYV   ,LLOADP ,FEXT  ,H3D_DATA
+      SUBROUTINE PFLUID(ILOADP     ,RLOAD   ,NPC    ,TF     ,A       ,
+     2                  V          ,X       ,XFRAME ,AR     ,VR      ,
+     3                  SENSOR_TAB ,WEIGHT  ,TFEXC  ,IADC   ,
+     4                  FSKY       ,FSKYV   ,LLOADP ,FEXT   ,H3D_DATA
      5                  )
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C----------------------------------------------- 
+C This subroutine is modeling a pressure load on given strucutral faces (4 or 3 nodes). 
+C The pressure load results into a normal force at face centroid. This normal force is then expanded to the nodes composing the face.
+C
+C ILOADP     : Integer array related to /LOAD/PBLAST option
+C RLOAD      : Real array related to /LOAD/PBLAST option
+C NPC        : integer array for /FUNCT options
+C TF         : real array for /FUNCT options
+C A          : nodal accelerations
+C V          : nodal velocities
+C X          : nodal coordinates
+C XFRAME     : array for /FRAME option
+C AR         : rotationnal acceleration
+C VR         : rotationnal velocities
+C SENSOR_TAB : data structure for /SENSOR option
+C WEIGHT     : -
+C TFEXC      : -
+C IADC       : (Parith/on only) contains index to be used with FSKY array
+C FSKY       : (Parith/on only) Nodal force    (directly apply as a nodal acceleration in A array in case of Parith/off)
+C LLOADP     : array used to retieve nodes N1,N2,N3,N4 of the structural face to be loaded
+C FEXT       : storage of nodal forces for animation purpose (/ANIM/VECT/FEXT)
+C H3D_DATA   : data structure for H3D parameters
+C
+C FORCE STORAGE :
+C Parith/off : Forces are introduced as acceleration directly in A(1:3, 1:NUMNOD) array
+C Parith/on  : Forces are saved in FSKY array and will be assembled later using a suitable order
+C
+C SOURCE CODE
+C There are currently 3 parts in this source file
+C  -1- "PART-1. PARITH/OFF"
+C  -2- "PART-2. PARITH/ON, non vectorial code"
+C  -3- "PART-3. PARITH/ON, vectorial code"
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -71,7 +105,7 @@ C-----------------------------------------------
       INTEGER NPC(SNPC),LLOADP(SLLOADP)
       INTEGER ILOADP(SIZLOADP,NLOADP)
       INTEGER WEIGHT(SWEIGHT), IADC(DSNCOL)
-      my_real FAC(LFACLOAD,NLOADP), TF(STF), A(3,NUMNOD), V(3,NUMNOD), AR(3,NUMNOD), VR(3,NUMNOD),
+      my_real RLOAD(LFACLOAD,NLOADP), TF(STF), A(3,NUMNOD), V(3,NUMNOD), AR(3,NUMNOD), VR(3,NUMNOD),
      .        X(3,NUMNOD), XFRAME(NXFRAME,NUMFRAM+1),TFEXC,
      .        FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -85,7 +119,7 @@ C-----------------------------------------------
       my_real NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
      .        SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY, VSEGX, VSEGY, VSEGZ,
      .        FCX1,FCY1,FCX2,FCY2,VX,VY,VZ,VEL,VSEG,FINTER,
-     .        COORMEAN,YMEAN,ZMEAN,PVEL,NORM,NSIGN,AREA
+     .        CENTROID_DEPTH,YMEAN,ZMEAN,PVEL,NORM,NSIGN,AREA
       EXTERNAL FINTER
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -99,29 +133,35 @@ C-----------------------------------------------
       X_OLD  = ZERO
       IANIM  = ANIM_V(5)+OUTP_V(5) + H3D_DATA%N_VECT_FINT + ANIM_V(6)+OUTP_V(6) + H3D_DATA%N_VECT_FEXT
 
-      !-----------------------------------!
-      !            PARITH/OFF             !
-      !-----------------------------------!
+C---------------------------------------
+C PART-1. PARITH/OFF
+C---------------------------------------
+
       IF(IPARIT == 0) THEN
-        DO NL=1,NLOADP_F                                                                      
-          FUN_HSP=ILOADP(7,NL)                                                                     
-          DIR_HSP=ILOADP(8,NL)                                                                     
-          IFRA1=ILOADP(9,NL)                                                                       
-          FCY = FAC(1,NL)                                                                          
-          FCX = FAC(2,NL)                                                                          
-          FUN_CX=ILOADP(10,NL)                                                                     
-          FCY1 = FAC(3,NL)                                                                         
-          FCX1 = FAC(4,NL)                                                                         
-          FUN_VEL=ILOADP(11,NL)                                                                    
-          FCY2 = FAC(5,NL)                                                                         
-          FCX2 = FAC(6,NL)                                                                                                      
-          DIR_VEL=MAX(ILOADP(12,NL),1)    !To avoid a check bound issue when the velocity options are not set in the input, the DIR_VEL variable is bounded to a minimal value of 1                                                         
-          IFRA2=ILOADP(13,NL) 
-          IFRA2=MAX(IFRA2,1)                                                                     
-          ISENS=0                                                                                  
+      
+        DO NL=1,NLOADP_F  !loop over /LOAD/PFLUID options
+        
+          !user parameters (Defined in Starter while reading input file hm_read_pblast.F, and transmitted to Engine with Restart file)                                                                    
+          FUN_HSP = ILOADP(7,NL)                                                                     
+          DIR_HSP = ILOADP(8,NL)                                                                     
+          IFRA1   = ILOADP(9,NL)                                                                       
+          FCY     = RLOAD(1,NL)                                                                          
+          FCX     = RLOAD(2,NL)                                                                          
+          FUN_CX  = ILOADP(10,NL)                                                                     
+          FCY1    = RLOAD(3,NL)                                                                         
+          FCX1    = RLOAD(4,NL)                                                                         
+          FUN_VEL = ILOADP(11,NL)                                                                    
+          FCY2    = RLOAD(5,NL)                                                                         
+          FCX2    = RLOAD(6,NL)                                                                                                      
+          DIR_VEL = MAX(ILOADP(12,NL),1)   !To avoid a check bound issue when the velocity options are useless                                                       
+          IFRA2   = ILOADP(13,NL) 
+          IFRA2   = MAX(IFRA2,1)                                                                     
+          ISENS   = 0 
+          
+          !possible sensor                                                                                 
           XSENS = ONE                                                                              
           DO K=1,NSENSOR                                                                           
-            IF(ILOADP(6,NL) == SENSOR_TAB(K)%SENS_ID) ISENS=K      ! do it in starter !!!                                          
+            IF(ILOADP(6,NL) == SENSOR_TAB(K)%SENS_ID) ISENS=K      ! should be moved in Starter to optimize performance
           ENDDO                                                                                    
           IF(ISENS == 0)THEN                                                                       
              TS=TT                                                                                 
@@ -129,8 +169,10 @@ C-----------------------------------------------
              TS = TT-SENSOR_TAB(ISENS)%TSTART                                                              
              IF(TS < ZERO) CYCLE                                                                   
           ENDIF  
+          
 !$OMP DO SCHEDULE(GUIDED,MVSIZ)                                                                                            
-          DO I = 1,ILOADP(1,NL)/4                                                                  
+          DO I = 1,ILOADP(1,NL)/4    
+            !Structural face is N1,N2,N3,N4                                                              
             N1=LLOADP(ILOADP(4,NL)+4*(I-1))                                                        
             N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)                                                      
             N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)                                                      
@@ -139,31 +181,34 @@ C-----------------------------------------------
             VEL=ZERO                                                                             
             PVEL=ZERO                                                                              
             !---QUADRAGLE--------------------------------------------
-            IF(N4 /= 0 .AND. N1 /= N2 .AND. N1 /= N3 .AND. N1 /= N4 .AND. N2 /= N3 .AND. N2 /= N4 .AND. N3 /= N4 )THEN  !this check should be done at starter ! (can't we keep only case N4=0 for triangles ?)                      
+            IF(N4 /= 0 .AND. N1 /= N2 .AND. N1 /= N3 .AND. N1 /= N4 .AND. N2 /= N3 .AND. N2 /= N4 .AND. N3 /= N4 )THEN  !we could optimize performance by moving this check in Starter                     
               K1=3*DIR_HSP-2                                                                       
               K2=3*DIR_HSP-1                                                                       
               K3=3*DIR_HSP                                                                         
               ! hydrostatic pressure                                                               
               IF(FUN_HSP /= 0)THEN                                                                
-                 COORMEAN =           (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)
-                 COORMEAN = COORMEAN +(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)
-                 COORMEAN = COORMEAN +(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)              
-                 AA = FCY*FINTER(FUN_HSP,(COORMEAN-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX) 
-              ENDIF                                                                                
+                 CENTROID_DEPTH =                 (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)
+                 CENTROID_DEPTH = CENTROID_DEPTH +(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)
+                 CENTROID_DEPTH = CENTROID_DEPTH +(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)              
+                 AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX) 
+              ENDIF  
+              !normal vector                                                                              
               NX=(X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))        
               NY=(X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))        
               NZ=(X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))        
               NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                                                       
               AREA = HALF * NORM                                                                   
-              AA = AA * AREA  
-                                                                                                                                                                    
+              AA = AA * AREA                                                                                                                                                                      
+              
+              !face velocity
               K1=3*DIR_VEL-2                                                                       
               K2=3*DIR_VEL-1                                                                       
-              K3=3*DIR_VEL 
+              K3=3*DIR_VEL               
               VSEG =        (XFRAME(K1,IFRA2)*(V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4)) /FOUR)              
               VSEG = VSEG + (XFRAME(K2,IFRA2)*(V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4)) /FOUR)                             
               VSEG = VSEG + (XFRAME(K3,IFRA2)*(V(3,N1) + V(3,N2) + V(3,N3) + V(3,N4)) /FOUR)                               
 
+              !VEL,PVEL, and NSIGN
               IF(FUN_VEL /= 0)THEN                                                                
                  VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG                             
               ELSE                                                                                 
@@ -188,7 +233,9 @@ C-----------------------------------------------
               FX=FX*FOURTH
               FY=FY*FOURTH
               FZ=FZ*FOURTH                                  
-
+              
+              !/PARITH/OFF: force is direcctly added in A array. It will be dividedby nodal mass later
+              !-node_1
               A(1,N1)=A(1,N1)+FX                                                                   
               A(2,N1)=A(2,N1)+FY                                                                   
               A(3,N1)=A(3,N1)+FZ                                                                   
@@ -197,7 +244,7 @@ C-----------------------------------------------
                 FEXT(2,N1) = FEXT(2,N1)+FY                                                         
                 FEXT(3,N1) = FEXT(3,N1)+FZ                                                         
               ENDIF                                                                                
-
+              !-node_2
               A(1,N2)=A(1,N2)+FX                                                                   
               A(2,N2)=A(2,N2)+FY                                                                   
               A(3,N2)=A(3,N2)+FZ                                                                   
@@ -206,7 +253,7 @@ C-----------------------------------------------
                 FEXT(2,N2) = FEXT(2,N2)+FY                                                         
                 FEXT(3,N2) = FEXT(3,N2)+FZ                                                         
               ENDIF                                                                                
-
+              !-node_3
               A(1,N3)=A(1,N3)+FX                                                                   
               A(2,N3)=A(2,N3)+FY                                                                   
               A(3,N3)=A(3,N3)+FZ                                                                   
@@ -215,7 +262,7 @@ C-----------------------------------------------
                 FEXT(2,N3) = FEXT(2,N3)+FY                                                         
                 FEXT(3,N3) = FEXT(3,N3)+FZ                                                         
               ENDIF                                                                                
-
+              !-node_4
               A(1,N4)=A(1,N4)+FX                                                                   
               A(2,N4)=A(2,N4)+FY                                                                   
               A(3,N4)=A(3,N4)+FZ                                                                   
@@ -224,7 +271,7 @@ C-----------------------------------------------
                 FEXT(2,N4) = FEXT(2,N4)+FY                                                         
                 FEXT(3,N4) = FEXT(3,N4)+FZ                                                         
               ENDIF                                                                                
-
+              !External Force Work
               TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                          +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
@@ -250,89 +297,94 @@ C-----------------------------------------------
               ELSEIF(N3 == N4)THEN                                                                  
                 N4 = 0                                                                              
               ENDIF                                                                                 
-                                                                       
+              
+              !hydrostatic pressure                                                         
               IF(FUN_HSP /= 0)THEN                                                                 
                  K1=3*DIR_HSP-2                                                                     
                  K2=3*DIR_HSP-1                                                                     
                  K3=3*DIR_HSP                                                                       
-                 ! hydrostatic pressure                                                             
-                 COORMEAN =          (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)                  
-                 COORMEAN = COORMEAN+(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)
-                 COORMEAN = COORMEAN+(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)                      
-                 AA = FCY*FINTER(FUN_HSP,(COORMEAN-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX) 
-               ENDIF                                                                                
-               NX   = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))     
-               NY   = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))     
-               NZ   = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))     
-               NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                                                       
-               AREA = HALF * NORM                                                                   
-               AA = AA * AREA                                                                       
-                                                                              
-               K1=3*DIR_VEL-2                                                                       
-               K2=3*DIR_VEL-1                                                                       
-               K3=3*DIR_VEL 
-               VSEG=     (XFRAME(K1,IFRA2)* (V(1,N1) + V(1,N2) + V(1,N3)) /THREE)
-               VSEG=VSEG+(XFRAME(K2,IFRA2)* (V(2,N1) + V(2,N2) + V(2,N3)) /THREE)
-               VSEG=VSEG+(XFRAME(K3,IFRA2)* (V(3,N1) + V(3,N2) + V(3,N3)) /THREE)
-                                                                                                    
-               IF(FUN_VEL /= 0)THEN                                                                
-                  VEL = FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG                             
-               ELSE                                                                                 
-                  VEL = -VSEG                                                                     
-               ENDIF 
-                                                                                              
-               IF(FUN_CX /= 0)THEN                                                                    
-                 PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-(NY/NORM)*VEL*XFRAME(K2,IFRA2)-(NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )                              
-                 PVEL=PVEL*FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO  
-               ENDIF 
-               NSIGN = VEL*(NX*XFRAME(K1,IFRA2) + NY*XFRAME(K2,IFRA2) +  NZ*XFRAME(K3,IFRA2))   !  <Vseg.d,n>  where d is flow direction X,Y,Z    ! IFRA2=1 is general frame, IFRA2 in [2:NFRAME+1] are for user frames
-               NSIGN = SIGN(ONE,NSIGN)                                           
-                               
-               !hydrostatic pressure                 
-               FX=-AA*(NX/NORM)                                        
-               FY=-AA*(NY/NORM)                                        
-               FZ=-AA*(NZ/NORM)
-               !drag force
-               FX=FX+PVEL*HALF*NX*NSIGN
-               FY=FY+PVEL*HALF*NY*NSIGN
-               FZ=FZ+PVEL*HALF*NZ*NSIGN
-               !expanding on the 4-node-face
-               FX=FX*THIRD
-               FY=FY*THIRD
-               FZ=FZ*THIRD 
+                                                                             
+                 CENTROID_DEPTH =                (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)                  
+                 CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)
+                 CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)                      
+                 AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX) 
+              ENDIF  
+              !normal vector                                                                                                                                                                                           
+              NX   = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))                                                                                                                         
+              NY   = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))                                                                                                                         
+              NZ   = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))                                                                                                                         
+              NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                                                                                                                                                                           
+              AREA = HALF * NORM                                                                                                                                                                                       
+              AA = AA * AREA                                                                                                                                                                                           
 
-               A(1,N1)=A(1,N1)+FX                                                                   
-               A(2,N1)=A(2,N1)+FY                                                                   
-               A(3,N1)=A(3,N1)+FZ                                                                   
-               IF(IANIM  > 0) THEN                                                                 
-                 FEXT(1,N1) = FEXT(1,N1)+FX                                                         
-                 FEXT(2,N1) = FEXT(2,N1)+FY                                                         
-                 FEXT(3,N1) = FEXT(3,N1)+FZ                                                         
-               ENDIF                                                                                
+              !face velocity                                                                                                                                                                                           
+              K1=3*DIR_VEL-2                                                                                                                                                                                           
+              K2=3*DIR_VEL-1                                                                                                                                                                                           
+              K3=3*DIR_VEL                                                                                                                                                                                             
+              VSEG=     (XFRAME(K1,IFRA2)* (V(1,N1) + V(1,N2) + V(1,N3)) /THREE)                                                                                                                                       
+              VSEG=VSEG+(XFRAME(K2,IFRA2)* (V(2,N1) + V(2,N2) + V(2,N3)) /THREE)                                                                                                                                       
+              VSEG=VSEG+(XFRAME(K3,IFRA2)* (V(3,N1) + V(3,N2) + V(3,N3)) /THREE)                                                                                                                                       
+                                                                                                                                                                                                                       
+              ! VEL,PVEL,and NSIGN                                                                                                                                                                                     
+              IF(FUN_VEL /= 0)THEN                                                                                                                                                                                     
+                 VEL = FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG                                                                                                                                                 
+              ELSE                                                                                                                                                                                                     
+                 VEL = -VSEG                                                                                                                                                                                           
+              ENDIF                                                                                                                                                                                                    
+              IF(FUN_CX /= 0)THEN                                                                                                                                                                                      
+                PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-(NY/NORM)*VEL*XFRAME(K2,IFRA2)-(NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )                                                                                        
+                PVEL=PVEL*FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO                                                                                                                                                  
+              ENDIF                                                                                                                                                                                                    
+              NSIGN = VEL*(NX*XFRAME(K1,IFRA2) + NY*XFRAME(K2,IFRA2) +  NZ*XFRAME(K3,IFRA2))   !  <Vseg.d,n>  where d is flow direction X,Y,Z    ! IFRA2=1 is general frame, IFRA2 in [2:NFRAME+1] are for user frames 
+              NSIGN = SIGN(ONE,NSIGN)                                                                                                                                                                                  
+                                                                                                                                                                                                                       
+              !hydrostatic pressure                                                                                                                                                                                    
+              FX=-AA*(NX/NORM)                                                                                                                                                                                         
+              FY=-AA*(NY/NORM)                                                                                                                                                                                         
+              FZ=-AA*(NZ/NORM)                                                                                                                                                                                         
+              !drag force                                                                                                                                                                                              
+              FX=FX+PVEL*HALF*NX*NSIGN                                                                                                                                                                                 
+              FY=FY+PVEL*HALF*NY*NSIGN                                                                                                                                                                                 
+              FZ=FZ+PVEL*HALF*NZ*NSIGN                                                                                                                                                                                 
+              !expanding on the 4-node-face                                                                                                                                                                            
+              FX=FX*THIRD                                                                                                                                                                                              
+              FY=FY*THIRD                                                                                                                                                                                              
+              FZ=FZ*THIRD                                                                                                                                                                                              
 
-               A(1,N2)=A(1,N2)+FX                                                                   
-               A(2,N2)=A(2,N2)+FY                                                                   
-               A(3,N2)=A(3,N2)+FZ                                                                   
-               IF(IANIM  > 0) THEN                                                                 
-                 FEXT(1,N2) = FEXT(1,N2)+FX                                                         
-                 FEXT(2,N2) = FEXT(2,N2)+FY                                                         
-                 FEXT(3,N2) = FEXT(3,N2)+FZ                                                         
-               ENDIF                                                                                
-
-               A(1,N3)=A(1,N3)+FX                                                                   
-               A(2,N3)=A(2,N3)+FY                                                                   
-               A(3,N3)=A(3,N3)+FZ                                                                   
-               IF(IANIM  > 0) THEN                                                                 
-                 FEXT(1,N3) = FEXT(1,N3)+FX                                                         
-                 FEXT(2,N3) = FEXT(2,N3)+FY                                                         
-                 FEXT(3,N3) = FEXT(3,N3)+FZ                                                         
-               ENDIF
-               
-               TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
-     +                           +FY*(V(2,N1)+V(2,N2)+V(2,N3))
-     +                           +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))   
+              !/PARITH/OFF: force is direcctly added in A array. It will be dividedby nodal mass later
+              !-node_1
+              A(1,N1)=A(1,N1)+FX                                                                    
+              A(2,N1)=A(2,N1)+FY                                                                    
+              A(3,N1)=A(3,N1)+FZ                                                                    
+              IF(IANIM  > 0) THEN                                                                  
+                FEXT(1,N1) = FEXT(1,N1)+FX                                                          
+                FEXT(2,N1) = FEXT(2,N1)+FY                                                          
+                FEXT(3,N1) = FEXT(3,N1)+FZ                                                          
+              ENDIF                                                                                 
+              !-node_2
+              A(1,N2)=A(1,N2)+FX                                                                    
+              A(2,N2)=A(2,N2)+FY                                                                    
+              A(3,N2)=A(3,N2)+FZ                                                                    
+              IF(IANIM  > 0) THEN                                                                  
+                FEXT(1,N2) = FEXT(1,N2)+FX                                                          
+                FEXT(2,N2) = FEXT(2,N2)+FY                                                          
+                FEXT(3,N2) = FEXT(3,N2)+FZ                                                          
+              ENDIF                                                                                 
+              !-node_3
+              A(1,N3)=A(1,N3)+FX                                                                    
+              A(2,N3)=A(2,N3)+FY                                                                    
+              A(3,N3)=A(3,N3)+FZ                                                                    
+              IF(IANIM  > 0) THEN                                                                  
+                FEXT(1,N3) = FEXT(1,N3)+FX                                                          
+                FEXT(2,N3) = FEXT(2,N3)+FY                                                          
+                FEXT(3,N3) = FEXT(3,N3)+FZ                                                          
+              ENDIF                                            
+              !External Force Work
+              TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))  
+     +                          +FY*(V(2,N1)+V(2,N2)+V(2,N3))  
+     +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))    
                                                        
-            ENDIF                                                                                  
+            ENDIF! quadrangle / triangle                                                                                  
           ENDDO !next I   
 !$OMP END DO
                                                                                         
@@ -345,32 +397,40 @@ C-----------------------------------------------
 
 
 
-      ELSE      
-      !-----------------------------------!
-      !            PARITH/ON              !
-      !-----------------------------------!
+      ELSE  !IF(IPARIT == 0) THEN
+        
+        !otherwise  IPARIT /= 0 
+       
+C---------------------------------------
+C PART-2. PARITH/ON, non vectorial code
+C---------------------------------------
        IF(IVECTOR == 0) THEN
 
-         DO NL=1,NLOADP_F
-           FUN_HSP=ILOADP(7,NL)
-           DIR_HSP=ILOADP(8,NL)
-           IFRA1=ILOADP(9,NL)
-           FCY = FAC(1,NL)
-           FCX = FAC(2,NL)
-           FUN_CX=ILOADP(10,NL)
-           FCY1 = FAC(3,NL)
-           FCX1 = FAC(4,NL)
-           FUN_VEL=ILOADP(11,NL)
-           FCY2 = FAC(5,NL)
-           FCX2 = FAC(6,NL)
-           DIR_VEL=MAX(ILOADP(12,NL),1) ! To avoid a check bound issue when the velocity options are not set in the input, the DIR_VEL variable is bounded to a minimal value of 1
-           IFRA2=ILOADP(13,NL)
-           ISENS=0
-           XSENS = ONE
-           ! -------------
-           ! flush fsky array to 0.
+         
+         DO NL=1,NLOADP_F !loop over /LOAD/PFLUID options
+         
+           !user parameters (Defined in Starter while reading input file hm_read_pblast.F, and transmitted to Engine with Restart file) 
+           FUN_HSP = ILOADP(7,NL)
+           DIR_HSP = ILOADP(8,NL)
+           IFRA1   = ILOADP(9,NL)
+           FCY     = RLOAD(1,NL)
+           FCX     = RLOAD(2,NL)
+           FUN_CX  = ILOADP(10,NL)
+           FCY1    = RLOAD(3,NL)
+           FCX1    = RLOAD(4,NL)
+           FUN_VEL = ILOADP(11,NL)
+           FCY2    = RLOAD(5,NL)
+           FCX2    = RLOAD(6,NL)
+           DIR_VEL = MAX(ILOADP(12,NL),1) ! To avoid a check bound issue when velocity is useless
+           IFRA2   = ILOADP(13,NL)
+           ISENS   = 0
+           XSENS   = ONE
+
+
+          ! FLUSH fsky array to 0.
 !$OMP DO SCHEDULE(GUIDED,MVSIZ)           
            DO I = 1,ILOADP(1,NL)/4
+             !nodes of structural face : N1,N2,N3,N4
              N1=LLOADP(ILOADP(4,NL)+4*(I-1))
              N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)
              N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
@@ -386,8 +446,9 @@ C-----------------------------------------------
                   FSKY(1:3,IAD) = ZERO
              ENDDO
            ENDDO
-!$OMP END DO           
-           ! -------------
+!$OMP END DO     
+      
+           !possible sensor 
            DO K=1,NSENSOR
              IF(ILOADP(6,NL) == SENSOR_TAB(K)%SENS_ID) ISENS=K
            ENDDO
@@ -400,6 +461,8 @@ C-----------------------------------------------
 
 !$OMP DO SCHEDULE(GUIDED,MVSIZ)                      
            DO I = 1,ILOADP(1,NL)/4
+           
+             !nodes of structural face : N1,N2,N3,N4
              N1=LLOADP(ILOADP(4,NL)+4*(I-1))
              N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)
              N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
@@ -411,16 +474,18 @@ C-----------------------------------------------
              
              !---QUADRAGLE--------------------------------------------
              IF(N4 /= 0 .AND. N1 /= N2 .AND. N1 /= N3 .AND. N1 /= N4 .AND.N2 /= N3 .AND. N2 /= N4 .AND. N3 /= N4 )THEN
+
+               !hydrostatic pressure  
                K1=3*DIR_HSP-2
                K2=3*DIR_HSP-1
                K3=3*DIR_HSP
                IF(FUN_HSP /= 0) THEN
-                 ! hydrostatic pressure
-                 COORMEAN =        (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)
-                 COORMEAN=COORMEAN+(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)
-                 COORMEAN=COORMEAN+(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)
-                 AA = FCY*FINTER(FUN_HSP,(COORMEAN-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
+                 CENTROID_DEPTH =                (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)
+                 CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)
+                 CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)
+                 AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
                ENDIF
+               !normal vector
                NX   = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2))-(X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
                NY   = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2))-(X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
                NZ   = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2))-(X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
@@ -428,18 +493,20 @@ C-----------------------------------------------
                AREA = HALF * NORM
                AA = AA * AREA
 
+               !structural face velocity
                K1=3*DIR_VEL-2                                                                       
                K2=3*DIR_VEL-1                                                                       
                K3=3*DIR_VEL 
                VSEG=     (XFRAME(K1,IFRA2)*(V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4)) /FOUR)
                VSEG=VSEG+(XFRAME(K2,IFRA2)*(V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4)) /FOUR)
                VSEG=VSEG+(XFRAME(K3,IFRA2)*(V(3,N1) + V(3,N2) + V(3,N3) + V(3,N4)) /FOUR)
+               
+               !VEL, PVEL, and NSIGN
                IF(FUN_VEL /= 0)THEN
                   VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG
                ELSE
                   VEL =  -VSEG
                ENDIF
-
                IF(FUN_CX /= 0)THEN   
                  PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2) -(NY/NORM)*VEL*XFRAME(K2,IFRA2)-(NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )
                  PVEL = PVEL * FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
@@ -460,6 +527,7 @@ C-----------------------------------------------
                FY=FY*FOURTH
                FZ=FZ*FOURTH                 
 
+               !NODE_1 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1))
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
@@ -470,6 +538,7 @@ C-----------------------------------------------
                  FEXT(3,N1) = FEXT(3,N1)+FZ
                ENDIF
 
+               !NODE_2 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+1)
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
@@ -480,6 +549,7 @@ C-----------------------------------------------
                  FEXT(3,N2) = FEXT(3,N2)+FZ
                ENDIF
 
+               !NODE_3 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+2)
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
@@ -490,6 +560,7 @@ C-----------------------------------------------
                  FEXT(3,N3) = FEXT(3,N3)+FZ
                ENDIF
 
+               !NODE_4 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+3)
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
@@ -500,6 +571,7 @@ C-----------------------------------------------
                  FEXT(3,N4) = FEXT(3,N4)+FZ
                ENDIF
 
+               !External force work
                TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                           +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                           +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
@@ -527,17 +599,18 @@ C-----------------------------------------------
                 N4 = 0
               ENDIF
  
+               !hydrostatic pressure
                IF(FUN_HSP /= 0)THEN
                  K1=3*DIR_HSP-2
                  K2=3*DIR_HSP-1
                  K3=3*DIR_HSP
-                 ! hydrostatic pressure
-                 COORMEAN =            (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)
-                 COORMEAN = COORMEAN + (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)
-                 COORMEAN = COORMEAN + (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)
-                 AA = FCY*FINTER(FUN_HSP,(COORMEAN-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
+                 CENTROID_DEPTH =                  (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)
+                 CENTROID_DEPTH = CENTROID_DEPTH + (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)
+                 CENTROID_DEPTH = CENTROID_DEPTH + (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)
+                 AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
                ENDIF
 
+               !normal vector
                NX   = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2))-(X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
                NY   = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2))-(X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
                NZ   = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2))-(X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
@@ -545,18 +618,20 @@ C-----------------------------------------------
                AREA = HALF * NORM
                AA = AA * AREA
 
+               !structural face velocity
                K1=3*DIR_VEL-2                                                                       
                K2=3*DIR_VEL-1                                                                       
                K3=3*DIR_VEL  
                VSEG=     (XFRAME(K1,IFRA2)*(V(1,N1) + V(1,N2) + V(1,N3)) /THREE)
                VSEG=VSEG+(XFRAME(K2,IFRA2)*(V(2,N1) + V(2,N2) + V(2,N3)) /THREE)
                VSEG=VSEG+(XFRAME(K3,IFRA2)*(V(3,N1) + V(3,N2) + V(3,N3)) /THREE)
+               
+               !VEL, PVEL, and NSIGN
                IF(FUN_VEL /= 0)THEN
                   VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX)- VSEG
                ELSE
                   VEL =  -VSEG
                ENDIF
-
                IF(FUN_CX /= 0) THEN  
                  PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-(NY/NORM)*VEL*XFRAME(K2,IFRA2)-(NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )
                  PVEL = PVEL * FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
@@ -577,6 +652,7 @@ C-----------------------------------------------
                FY=FY*THIRD
                FZ=FZ*THIRD  
 
+               !NODE_1 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1))
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
@@ -587,6 +663,7 @@ C-----------------------------------------------
                  FEXT(3,N1) = FEXT(3,N1)+FZ
                ENDIF
 
+               !NODE_2 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+1)
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
@@ -597,6 +674,7 @@ C-----------------------------------------------
                  FEXT(3,N2) = FEXT(3,N2)+FZ
                ENDIF
 
+               !NODE_3 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+2)
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
@@ -607,9 +685,10 @@ C-----------------------------------------------
                  FEXT(3,N3) = FEXT(3,N3)+FZ
                ENDIF
 
-              TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
-     +                          +FY*(V(2,N1)+V(2,N2)+V(2,N3))
-     +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
+               !external force work
+               TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
+     +                           +FY*(V(2,N1)+V(2,N2)+V(2,N3))
+     +                           +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
              ENDIF
            ENDDO!next I
 !$OMP END DO           
@@ -620,27 +699,31 @@ C-----------------------------------------------
 #include "atomend.inc"
 
          ELSE
-C---------------------
-C vectorial code
-C---------------------
+         
+C-----------------------------------
+C PART-3. PARITH/ON, vectorial code
+C-----------------------------------
 
-         DO NL=1,NLOADP_F
-           FUN_HSP=ILOADP(7,NL)
-           DIR_HSP=ILOADP(8,NL)
-           IFRA1=ILOADP(9,NL)
-           FCY = FAC(1,NL)
-           FCX = FAC(2,NL)
-           FUN_CX=ILOADP(10,NL)
-           FCY1 = FAC(3,NL)
-           FCX1 = FAC(4,NL)
-           FUN_VEL=ILOADP(11,NL)
-           FCY2 = FAC(5,NL)
-           FCX2 = FAC(6,NL)
-           DIR_VEL=MAX(ILOADP(12,NL),1)! To avoid a check bound issue when the velocity options are not set in the input, the DIR_VEL variable is bounded to a minimal value of 1 
-           IFRA2=ILOADP(13,NL)
-           ISENS=0
-           XSENS = ONE
+         DO NL=1,NLOADP_F !loop over /LOAD/PFLUID options
+         
+           !user parameters (Defined in Starter while reading input file hm_read_pblast.F, and transmitted to Engine with Restart file) 
+           FUN_HSP = ILOADP(7,NL)
+           DIR_HSP = ILOADP(8,NL)
+           IFRA1   = ILOADP(9,NL)
+           FCY     = RLOAD(1,NL)
+           FCX     = RLOAD(2,NL)
+           FUN_CX  = ILOADP(10,NL)
+           FCY1    = RLOAD(3,NL)
+           FCX1    = RLOAD(4,NL)
+           FUN_VEL = ILOADP(11,NL)
+           FCY2    = RLOAD(5,NL)
+           FCX2    = RLOAD(6,NL)
+           DIR_VEL = MAX(ILOADP(12,NL),1)! To avoid a check bound issue when the velocity options is useless
+           IFRA2   = ILOADP(13,NL)
+           ISENS   = 0
+           XSENS   = ONE
 
+           !possible sensor
            DO K=1,NSENSOR
              IF(ILOADP(6,NL) == SENSOR_TAB(K)%SENS_ID) ISENS=K
            ENDDO
@@ -652,6 +735,8 @@ C---------------------
            ENDIF
 !$OMP DO SCHEDULE(GUIDED,MVSIZ)           
            DO I = 1,ILOADP(1,NL)/4
+           
+             !nodes of the structural face
              N1=LLOADP(ILOADP(4,NL)+4*(I-1))
              N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)
              N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
@@ -659,20 +744,22 @@ C---------------------
 
              AA = ZERO
              VEL = ZERO
-             PVEL=ZERO
+             PVEL = ZERO
  
              IF(N4 /= 0 .AND. N1 /= N2 .AND. N1 /= N3 .AND. N1 /= N4 .AND. N2 /= N3 .AND. N2 /= N4 .AND. N3 /= N4 )THEN
 
+               !hydrostatic pressure
                K1=3*DIR_HSP-2
                K2=3*DIR_HSP-1
                K3=3*DIR_HSP
                IF(FUN_HSP /= 0) THEN
-                 ! hydrostatic pressure
-                 COORMEAN =          (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)
-                 COORMEAN = COORMEAN+(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)
-                 COORMEAN = COORMEAN+(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)
-                 AA = FCY*FINTER(FUN_HSP,(COORMEAN-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
+                 CENTROID_DEPTH =          (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)
+                 CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)
+                 CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)
+                 AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
                ENDIF
+               
+               !normal vector
                NX   = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
                NY   = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
                NZ   = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
@@ -680,19 +767,20 @@ C---------------------
                AREA = HALF * NORM
                AA = AA * AREA
 
+               !structural face velocity
                K1=3*DIR_VEL-2                                                                       
                K2=3*DIR_VEL-1                                                                       
                K3=3*DIR_VEL 
                VSEG=     (XFRAME(K1,IFRA2)*(V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4)) /FOUR)
                VSEG=VSEG+(XFRAME(K2,IFRA2)*(V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4)) /FOUR)
                VSEG=VSEG+(XFRAME(K3,IFRA2)*(V(3,N1) + V(3,N2) + V(3,N3) + V(3,N4)) /FOUR)
-                  
+               
+               !VEL,PVEL and NSIGN  
                IF(FUN_VEL /= 0)THEN
                   VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG
                ELSE
                   VEL =  -VSEG
                ENDIF
-
                IF(FUN_CX /= 0) THEN  
                  PVEL = (-NX/NORM*VEL*XFRAME(K1,IFRA2)- (NY/NORM)*VEL*XFRAME(K2,IFRA2)-(NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2
                  PVEL = PVEL * FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
@@ -713,6 +801,7 @@ C---------------------
                FY=FY*FOURTH
                FZ=FZ*FOURTH  
 
+               !NODE_1 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1))
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
@@ -723,6 +812,7 @@ C---------------------
                  FEXT(3,N1) = FEXT(3,N1)+FZ
                ENDIF
 
+               !NODE_2 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+1)
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
@@ -733,6 +823,7 @@ C---------------------
                  FEXT(3,N2) = FEXT(3,N2)+FZ
                ENDIF
 
+               !NODE_3 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+2)
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
@@ -743,6 +834,7 @@ C---------------------
                  FEXT(3,N3) = FEXT(3,N3)+FZ
                ENDIF
 
+               !NODE_4 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+3)
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
@@ -753,9 +845,10 @@ C---------------------
                  FEXT(3,N4) = FEXT(3,N4)+FZ
                ENDIF
                
-              TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
-     +                          +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
-     +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
+               !external force work               
+               TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
+     +                           +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
+     +                           +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
                
              ELSE
 
@@ -780,15 +873,18 @@ C---------------------
                 N4 = 0
               ENDIF
  
+               !hydrostatic load
                K1=3*DIR_HSP-2
                K2=3*DIR_HSP-1
                K3=3*DIR_HSP
                IF(FUN_HSP /= 0)THEN
-                 COORMEAN =          (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)
-                 COORMEAN = COORMEAN+(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)
-                 COORMEAN = COORMEAN+(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)
-                 AA = FCY*FINTER(FUN_HSP,(COORMEAN-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
+                 CENTROID_DEPTH =                (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)
+                 CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)
+                 CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)
+                 AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
                ENDIF
+               
+               !normal vector
                NX   = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
                NY   = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
                NZ   = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
@@ -796,6 +892,7 @@ C---------------------
                AREA = HALF * NORM
                AA = AA * AREA
 
+               !structural face velocity
                K1=3*DIR_VEL-2                                                                       
                K2=3*DIR_VEL-1                                                                       
                K3=3*DIR_VEL 
@@ -803,12 +900,12 @@ C---------------------
                VSEG=VSEG+(XFRAME(K2,IFRA2)* (V(2,N1) + V(2,N2) + V(2,N3)) /THREE)
                VSEG=VSEG+(XFRAME(K3,IFRA2)* (V(3,N1) + V(3,N2) + V(3,N3)) /THREE)
                
+               !VEL,PVEL, and NSIGN
                IF(FUN_VEL /= 0)THEN
                   VEL = FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG
                ELSE
                   VEL = -VSEG
                ENDIF
- 
                IF(FUN_CX /= 0)THEN   
                  PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-(NY/NORM)*VEL*XFRAME(K2,IFRA2)-(NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )
                  PVEL = PVEL * FCY1* FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
@@ -829,6 +926,7 @@ C---------------------
                FY=FY*THIRD
                FZ=FZ*THIRD  
 
+               !NODE_1 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1))
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
@@ -839,6 +937,7 @@ C---------------------
                  FEXT(3,N1) = FEXT(3,N1)+FZ
                ENDIF
 
+               !NODE_2 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+1)
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
@@ -849,6 +948,7 @@ C---------------------
                  FEXT(3,N2) = FEXT(3,N2)+FZ
                ENDIF
 
+               !NODE_3 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+2)
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
@@ -858,6 +958,8 @@ C---------------------
                  FEXT(2,N3) = FEXT(2,N3)+FY
                  FEXT(3,N3) = FEXT(3,N3)+FZ
                ENDIF
+               
+               !external force work
                TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
      +                           +FY*(V(2,N1)+V(2,N2)+V(2,N3))
      +                           +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
