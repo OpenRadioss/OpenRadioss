@@ -3663,7 +3663,7 @@ C---  Premiere Passe -> comptage
      5           STACK%PM ,IWORKSH  ,IGRBRIC ,IGRQUAD   ,IGRSH4N ,
      6           IGRSH3N  ,IGRTRUSS ,IGRBEAM ,IGRSPRING ,IGRNOD  ,
      7           IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER ,IGEO    ,
-     8           NLOC_DMG)
+     8           NLOC_DMG ,DETONATORS)
 C---
          ALLOCATE(IBUFTMP(IDX2)%ptr(SIBUFSSG+INNOD)   ,STAT=stat)
          IF (STAT /= 0) THEN
@@ -3690,7 +3690,7 @@ C---  Deuxieme Passe -> creation des interfaces
      5           STACK%PM ,IWORKSH  ,IGRBRIC ,IGRQUAD   ,IGRSH4N ,
      6           IGRSH3N  ,IGRTRUSS ,IGRBEAM ,IGRSPRING ,IGRNOD  ,
      7           IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER ,IGEO    ,
-     8           NLOC_DMG)
+     8           NLOC_DMG ,DETONATORS)
 C--------------------------------------------
 C     MULTIDOMAINS - SPLIT DES TABLEAUX
 C--------------------------------------------

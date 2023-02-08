@@ -58,7 +58,8 @@ Chd|====================================================================
      4           PM_STACK ,IWORKSH   ,IGRNOD  ,IGRSURF ,IGRSLIN ,
      5           IGRBRIC  ,IGRQUAD   ,IGRSH4N ,IGRSH3N ,IGRTRUSS,
      6           IGRBEAM  ,IGRSPRING ,NEW_NSLASH_INT,LSUBMODEL,NEW_HM_NINTER,
-     7           NEW_NINTSUB,NEW_NINIVOL,IXS10,IXS20,IXS16)
+     7           NEW_NINTSUB,NEW_NINIVOL,IXS10,IXS20,IXS16,
+     8           DETONATORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,6 +71,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE INIVOL_ARRAY_MOD
+      USE DETONATORS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,6 +115,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRTRUS) :: IGRTRUSS
       TYPE (GROUP_)  , DIMENSION(NGRBEAM) :: IGRBEAM
       TYPE (GROUP_)  , DIMENSION(NGRSPRI) :: IGRSPRING
+      TYPE(DETONATOR_STRUCT_),TARGET,INTENT(IN) :: DETONATORS
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -131,6 +134,7 @@ C-----------------------------------------------
       INTEGER COMPT2,IGR9_TEMP,IGR8_TEMP,IGR2_TEMP,ID,ID_PART,IDS
       INTEGER SPTFL,BID(LNOPT1),IUD,IGRPP_R2R(2,NGRNOD),FLAG_T24
       INTEGER SUB_ID,IDTITL,IDINT,GR_BRIC,NUMC
+      INTEGER NTRANS,NNODE_TRANSFORM,NODE_TRANSFORM(6)
       my_real F,NUL_M
       CHARACTER MESS*40,KEY2*ncharkey,TSENS*40
       CHARACTER TITR*nchartitle,KEY*ncharkey,STRING*ncharfield      
@@ -264,8 +268,9 @@ c	         CALL MODIF_TAG(TAGNO(NPART+N1),2,MODIF)
            TSENS = '/SENSOR/'//KEY(1:5)
            CALL ANCMSG(MSGID=835, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .              C1=TSENS)
-	       ENDIF	  
+        ENDIF	  
       END DO
+C
 C----------------------------------------------------------------------------------C
 C------Prereading and tag of elements/nodes for GAUGES-----------------------------C
 C----------------------------------------------------------------------------------C
@@ -896,10 +901,10 @@ C--> pretag of elts of line2 to keep them with void material <---C
              ENDIF
 	  ELSEIF (KEY(1:6)=='TYPE24'.OR.KEY(1:6)=='TYPE21'.OR.KEY(1:5)=='TYPE6'.OR.
      .            KEY(1:6)=='TYPE23'.OR.KEY(1:6)=='TYPE20'.OR.KEY(1:6)=='TYPE15'.OR.
-     .          ((KEY(1:5)=='TYPE3').AND.(FLG==1))) THEN
+     .            KEY(1:6)=='TYPE25'.OR.((KEY(1:5)=='TYPE3').AND.(FLG==1))) THEN
              CONT = 1
              FLAG_T24 = 0
-             IF (KEY(1:6)=='TYPE24') THEN
+             IF ((KEY(1:6)=='TYPE24').OR.(KEY(1:6)=='TYPE25')) THEN
                FLAG_T24 = 1
              ELSE
                FLAG_T24 = 0
@@ -1240,7 +1245,7 @@ C
      .                            KEYWORD2 = KEY)
 C
           IF (KEY(1:7) == 'LAGMUL') THEN
-C--------RWALL /LAGMUL not allowed with multidomains	    
+C--------RWALL /LAGMUL not allowed with multidomains	  
              CALL ANCMSG(MSGID=835,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,
@@ -1253,6 +1258,7 @@ C--------RWALL /LAGMUL not allowed with multidomains
             ENDIF	    
 	  ENDIF
         ENDDO
+
 C--------------------------------------------------------------------C
 C------Prereading and tag of INIVOL----------------------------------C
 C--------------------------------------------------------------------C
@@ -1274,6 +1280,70 @@ C
             TAG_INIVOL(I) = ID
             NEW_NINIVOL = NEW_NINIVOL + 1
           ENDIF
+        ENDDO
+
+C--------------------------------------------------------------------C
+C------Prereading of /TRANSFORM--------------------------------------C
+C--------------------------------------------------------------------C
+C
+        CALL HM_OPTION_COUNT('TRANSFORM',NTRANS)
+        CALL HM_OPTION_START('TRANSFORM')
+C
+        DO I=1,NTRANS
+C
+          CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                            OPTION_ID = ID,
+     .                            KEYWORD2 = KEY)
+C
+          NNODE_TRANSFORM = 0
+          NODE_TRANSFORM(1:6) = 0
+C
+          IF ((KEY(1:3)=='TRA').OR.(KEY(1:3)=='ROT').OR.(KEY(1:3)=='SYM')) THEN
+            NNODE_TRANSFORM = 2
+            CALL HM_GET_INTV('node1',NODE_TRANSFORM(1),IS_AVAILABLE,LSUBMODEL)
+            CALL HM_GET_INTV('node2',NODE_TRANSFORM(2),IS_AVAILABLE,LSUBMODEL)
+          ELSEIF (KEY(1:3)=='SCA') THEN
+            NNODE_TRANSFORM = 1
+            CALL HM_GET_INTV('node1',NODE_TRANSFORM(1),IS_AVAILABLE,LSUBMODEL)
+          ELSEIF (KEY(1:3)=='POS') THEN
+            NNODE_TRANSFORM = 6
+            CALL HM_GET_INTV('node1',NODE_TRANSFORM(1),IS_AVAILABLE,LSUBMODEL)
+            CALL HM_GET_INTV('node2',NODE_TRANSFORM(2),IS_AVAILABLE,LSUBMODEL)
+            CALL HM_GET_INTV('node3',NODE_TRANSFORM(3),IS_AVAILABLE,LSUBMODEL)
+            CALL HM_GET_INTV('node4',NODE_TRANSFORM(4),IS_AVAILABLE,LSUBMODEL)
+            CALL HM_GET_INTV('node5',NODE_TRANSFORM(5),IS_AVAILABLE,LSUBMODEL)
+            CALL HM_GET_INTV('node6',NODE_TRANSFORM(6),IS_AVAILABLE,LSUBMODEL)    
+	  ENDIF
+C
+          DO J=1,NNODE_TRANSFORM
+            IF (NODE_TRANSFORM(J) > 0) THEN
+              NOD=USR2SYS(NODE_TRANSFORM(J),ITABM1,MESS,ID)
+              IF (TAGNO(NPART+NOD) == -1) CALL MODIF_TAG(TAGNO(NPART+NOD),0,MODIF)
+            ENDIF
+          ENDDO
+C
+        ENDDO
+C
+C--------------------------------------------------------------------C
+C------Prereading of detonation points-------------------------------C
+C--------------------------------------------------------------------C
+C
+        CALL HM_OPTION_START('/DFS')
+C
+        DO I=1,DETONATORS%NDET+NLASER
+C
+          CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                            OPTION_ID = ID,
+     .                            KEYWORD2 = KEY)
+C
+          IF (KEY(1:7)=='DETPOIN') THEN
+            CALL HM_GET_INTV('rad_det_node1', NOD, IS_AVAILABLE, LSUBMODEL)  
+            IF (NOD>0) THEN
+              NOD=USR2SYS(NOD,ITABM1,MESS,ID)
+              IF (TAGNO(NPART+NOD) == -1) CALL MODIF_TAG(TAGNO(NPART+NOD),0,MODIF)
+            ENDIF
+          ENDIF
+C
         ENDDO
 
 C------------------------------------------------------------------	

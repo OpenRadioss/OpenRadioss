@@ -54,7 +54,7 @@ Chd|====================================================================
      5           PM_STACK ,IWORKSH  ,IGRBRIC2,IGRQUAD2  ,IGRSH4N2,
      6           IGRSH3N2 ,IGRTRUSS2,IGRBEAM2,IGRSPRING2,IGRNOD2 ,
      7           IGRSURF2 ,IGRSLIN2,LSUBMODEL,ALE_EULER,IGEO_,
-     7           NLOC_DMG)
+     7           NLOC_DMG ,DETONATORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,6 +67,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE INIVOL_ARRAY_MOD
       USE NLOCAL_REG_MOD
+      USE DETONATORS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,6 +103,7 @@ C-----------------------------------------------
      .   NALE_R2R(*),FLG_R2R_ERR,IWORKSH(*),ALE_EULER
       my_real :: PM_STACK(*)
       TYPE (NLOCAL_STR_) ,INTENT(IN)  :: NLOC_DMG
+      TYPE(DETONATOR_STRUCT_),TARGET,INTENT(IN) :: DETONATORS
 C-----------------------------------------------
 !      TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD2
       TYPE (GROUP_)  , DIMENSION(NGROU)   :: IGRNOD2
@@ -322,7 +324,8 @@ C---------------Prereading of options for tag of nodes---------------C
      4           PM_STACK ,IWORKSH   ,IGRNOD  ,IGRSURF ,IGRSLIN ,
      5           IGRBRIC  ,IGRQUAD   ,IGRSH4N ,IGRSH3N ,IGRTRUSS,
      6           IGRBEAM  ,IGRSPRING ,NEW_NSLASH_INT,LSUBMODEL,NEW_HM_NINTER,
-     7           NEW_NINTSUB,NEW_NINIVOL,IXS10,IXS20,IXS16)
+     7           NEW_NINTSUB,NEW_NINIVOL,IXS10,IXS20,IXS16,
+     8           DETONATORS)
         ENDIF
 C---------------Tag of nodes of pretaged elements ( for TYPE2)-------C
         IF (COMPT_T2>0) THEN
