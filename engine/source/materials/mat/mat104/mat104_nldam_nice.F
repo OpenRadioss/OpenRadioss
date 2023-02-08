@@ -663,7 +663,11 @@ c
           SIGDR(I)   = ZERO
         ENDIF
         ! USR Outputs
-        UVAR(I,1)  = PHI(I)           ! Yield function value
+        IF (DPLA(I) > ZERO) THEN 
+          UVAR(I,1) = PHI(I)          ! Yield function value
+        ELSE
+          UVAR(I,1) = ZERO
+        ENDIF
         UVAR(I,2)  = FG(I)            ! Growth damage
         UVAR(I,3)  = FN(I)            ! Nucleation damage
         UVAR(I,4)  = FSH(I)           ! Shear damage
