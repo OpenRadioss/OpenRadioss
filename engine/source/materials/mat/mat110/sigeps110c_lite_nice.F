@@ -903,7 +903,11 @@ c
           EPSP(I)   = UVAR(I,1)
         ENDIF
         ! USR Outputs
-        UVAR(I,2)  = PHI(I)   ! Yield function value
+        IF (DPLA(I) > ZERO) THEN 
+          UVAR(I,2) = PHI(I)  ! Yield function value
+        ELSE
+          UVAR(I,2) = ZERO
+        ENDIF
         SEQ(I)     = SIGVG(I) ! SIGEQ
         ! Coefficient for hourglass
         ET(I)      = HARDP(I) / (HARDP(I) + YOUNG) 

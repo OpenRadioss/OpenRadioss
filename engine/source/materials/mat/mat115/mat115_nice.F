@@ -371,7 +371,11 @@ c
       ! Storing new values
       DO I=1,NEL
         ! USR Outputs
-        UVAR(I,1)  = PHI(I)   ! Yield function value
+        IF (DPLA(I) > ZERO) THEN 
+          UVAR(I,1) = PHI(I)   ! Yield function value
+        ELSE
+          UVAR(I,1) = ZERO
+        ENDIF
         IF (CFAIL > ZERO) THEN 
           UVAR(I,2) = UVAR(I,2) + DEFVP(I)
           IF (UVAR(I,2) >= CFAIL) THEN

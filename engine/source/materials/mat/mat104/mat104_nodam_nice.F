@@ -474,7 +474,11 @@ c
       ! Storing new values
       DO I=1,NEL
         ! USR Outputs
-        UVAR(I,1)  = PHI(I)   ! Yield function value
+        IF (DPLA(I) > ZERO) THEN 
+          UVAR(I,1) = PHI(I)  ! Yield function value
+        ELSE
+          UVAR(I,1) = ZERO
+        ENDIF
         SEQ(I)     = SIGDR(I) ! SIGEQ
         DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)
         ! Plastic strain-rate (filtered)
