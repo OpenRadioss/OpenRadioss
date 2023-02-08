@@ -892,10 +892,10 @@ c-----------------------------------------------------------------------
           T_CS(I) = TT / PP
           CALL  I17ABC_PENA(I,RI_S,R_CS(I),T_CS(I),
      +                   BB1 ,BB2 ,BB3 ,CC1 ,CC2 ,CC3 )
-          R_CM(I) = BB1 + (BB2 + BB3*RT(IR))*RT(IR)
+          R_CM(I) = BB1 + (BB2 + BB3*R_CS(I))*R_CS(I)
           CALL  I17ABC_PENA(I,TI_S,R_CS(I),T_CS(I),
      +                   BB1 ,BB2 ,BB3 ,CC1 ,CC2 ,CC3 )
-          T_CM(I) = CC1 + (CC2 + CC3*RT(IT))*RT(IT)
+          T_CM(I) = CC1 + (CC2 + CC3*T_CS(I))*T_CS(I)
           CALL  I17ABC_PENA(I,SI_S,R_CS(I),T_CS(I),
      +                   BB1 ,BB2 ,BB3 ,CC1 ,CC2 ,CC3 )
           S_CM(I) = CC1 + (CC2 + CC3*T_CS(I))*T_CS(I)
