@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER N, NUSER, IGR, IGRS, STAT,I,COMPT,SET
       CHARACTER MESS*40,KEY*ncharkey,TITR*nchartitle
       INTEGER J,ADD,K
-      INTEGER FLAG_OK,NUM_LINK,FOUND,NEL,ID
+      INTEGER FLAG_OK,NUM_LINK,FOUND,NEL,ID,NELN
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_SUB_TEMP
       LOGICAL IS_AVAILABLE      
 C-----------------------------------------------
@@ -157,30 +157,24 @@ C
      .                            KEYWORD2 = KEY)
 C
           CALL HM_GET_INTV('idsmax',NEL,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_GET_INTV('negativeIdsmax',NELN,IS_AVAILABLE,LSUBMODEL) 
 C
 	  IF (I>1) SET = SET+ISUBDOM(1,I-1)
 	  ISUBDOM(3,I)=SET
           COMPT = 0
 C
           DO J=1,NEL
-C
-            CALL HM_GET_INT_ARRAY_INDEX('ids',ID,J,IS_AVAILABLE,LSUBMODEL)
-C
-	    IF (ID>0) THEN	      
-	      COMPT=COMPT+1
-	      ID_SUB_TEMP(COMPT+SET)=ID
+            CALL HM_GET_INT_ARRAY_INDEX('ids',ID,J,IS_AVAILABLE,LSUBMODEL)	      
+	    COMPT=COMPT+1
+	    ID_SUB_TEMP(COMPT+SET)=ID
 C----- CHECK PART ID
-              FLAG_OK = 0
-              DO K=1,NPART
-	        IF(ID==IPART(4,K)) THEN
-		  FLAG_OK=1
-		  ISUBDOM_PART(COMPT+SET)=K
-		 END IF
-	      END DO
-            ELSEIF (ID==-1) THEN
-                FLAG_OK = 1
-                R2R_FLAG_ERR_OFF = 1
-            ENDIF
+            FLAG_OK = 0
+            DO K=1,NPART
+	      IF(ID==IPART(4,K)) THEN
+	        FLAG_OK=1
+	         ISUBDOM_PART(COMPT+SET)=K
+              END IF
+	    END DO
 	    IF (FLAG_OK==0) THEN
               CALL ANCMSG(MSGID=783,
      .                    MSGTYPE=MSGERROR,
@@ -190,6 +184,10 @@ C----- CHECK PART ID
      .                    I2=ID)
 	    ENDIF
 	  END DO
+C
+C--       if ID < 0 in list of part -> error message for size of interface is deactivated
+          IF (NELN > 0) R2R_FLAG_ERR_OFF = 1
+C
 C----- STORAGE OF DATA FOR SUBDOMAINS
           ISUBDOM(1,I) = COMPT
           ISUBDOM(2,I) = NUSER
