@@ -84,6 +84,8 @@ C------- IPART_OK(NGROUP,1) for GPS_PART,IPART_OK(NGROUP,2) for GPSRA_PART
           IF (LMAX_NSTRA>0)ALLOCATE(IGPSTRATAG(NUMNOD))
           NKPART(1:NPART,1:3) = 0
           NOPART(1:3) = 1
+          NCY_GPS = 10
+          NCY_GPSTR = 10
           DO ID_INPUT=1,H3D_DATA%N_INPUT_H3D
 c         
             KEY2 = H3D_DATA%INPUT_LIST(ID_INPUT)%KEY2
@@ -96,12 +98,10 @@ c
             ELSEIF ( KEY3=='GPS'.AND. KEY4=='TMAX') THEN
               ID = 1
               NOPART(ID) = 0
-              NCY_GPS = 10
               IF (KEY5/=' ') READ (KEY5(3:12),'(I10)',ERR=100) NCY_GPS 
             ELSEIF ( KEY3=='GPSTRAIN'.AND. KEY4=='TMAX') THEN
               ID = 2
               NOPART(ID) = 0
-              NCY_GPSTR = 10
               IF (KEY5/=' ') READ (KEY5(3:12),'(I10)',ERR=100) NCY_GPSTR 
             ELSE
               ID = 0
