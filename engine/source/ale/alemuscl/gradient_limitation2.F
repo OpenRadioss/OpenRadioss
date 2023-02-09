@@ -77,12 +77,12 @@ C-----------------------------------------------
       DO I = LFT, LLT
          II = I + NFT
          !!! Element centroid
-         YK = ELCENTER(2, II) ; ZK = ELCENTER(3, II)
+         YK = ELCENTER(II,2) ; ZK = ELCENTER(II,3)
          reduc_factor = EP30
          NNUM = 0
          DO ITRIMAT = 1, TRIMAT
-            IF(ABS(GRAD(ITRIMAT, 2, II)) + 
-     .           ABS(GRAD(ITRIMAT, 3, II)) > ZERO) THEN
+            IF(ABS(GRAD(II,2,ITRIMAT)) + 
+     .           ABS(GRAD(II,3,ITRIMAT)) > ZERO) THEN
                NNUM = NNUM + 1
                !!! Check the nodes of the element
                DO JJ = 1, 4
@@ -90,18 +90,18 @@ C-----------------------------------------------
                   !!! Get the node coordinates
                   YN = X(2, NODE_ID) ; ZN = X(3, NODE_ID) 
                   !!! Interpolate the function at the node
-                  VALNODE = VOLUME_FRACTION(ITRIMAT, II) 
-     .                 + GRAD(ITRIMAT, 2, II) * (YN - YK)
-     .                 + GRAD(ITRIMAT, 3, II) * (ZN - ZK)
+                  VALNODE = VOLUME_FRACTION(II,ITRIMAT) 
+     .                 + GRAD(II,2,ITRIMAT) * (YN - YK)
+     .                 + GRAD(II,3,ITRIMAT) * (ZN - ZK)
                   nodal_reduc_factor = ONE
-                  IF (VALNODE - VOLUME_FRACTION(ITRIMAT, II) > ZERO) THEN
+                  IF (VALNODE - VOLUME_FRACTION(II,ITRIMAT) > ZERO) THEN
                      nodal_reduc_factor = 
-     .                    MIN((NODE_MAX_VALUE(ITRIMAT, NODE_ID) - VOLUME_FRACTION(ITRIMAT, II))
-     .                    / (VALNODE - VOLUME_FRACTION(ITRIMAT, II)), I_BETA)
-                  ELSE IF (VALNODE - VOLUME_FRACTION(ITRIMAT, II) < ZERO) THEN
+     .                    MIN((NODE_MAX_VALUE(NODE_ID,ITRIMAT) - VOLUME_FRACTION(II,ITRIMAT))
+     .                    / (VALNODE - VOLUME_FRACTION(II,ITRIMAT)), I_BETA)
+                  ELSE IF (VALNODE - VOLUME_FRACTION(II,ITRIMAT) < ZERO) THEN
                      nodal_reduc_factor = 
-     .                    MIN((NODE_MIN_VALUE(ITRIMAT, NODE_ID) - VOLUME_FRACTION(ITRIMAT, II)) 
-     .                    / (VALNODE - VOLUME_FRACTION(ITRIMAT, II)), I_BETA)
+     .                    MIN((NODE_MIN_VALUE(NODE_ID,ITRIMAT) - VOLUME_FRACTION(II,ITRIMAT)) 
+     .                    / (VALNODE - VOLUME_FRACTION(II,ITRIMAT)), I_BETA)
                   ENDIF
                   reduc_factor(ITRIMAT) = MIN(reduc_factor(ITRIMAT), nodal_reduc_factor)
                ENDDO  ! JJ = 1, 8
@@ -111,11 +111,11 @@ C-----------------------------------------------
          ENDDO  ! ITRIMAT = 1, TRIMAT
         
          DO ITRIMAT = 1, TRIMAT
-            IF(ABS(GRAD(ITRIMAT, 2, II)) + 
-     .           ABS(GRAD(ITRIMAT, 3, II)) > ZERO) THEN
+            IF(ABS(GRAD(II,2,ITRIMAT)) + 
+     .           ABS(GRAD(II,3,ITRIMAT)) > ZERO) THEN
             !!!   Limitation of the gradient
-               GRAD(ITRIMAT, 2, II) = reduc_factor(ITRIMAT) * GRAD(ITRIMAT, 2, II)
-               GRAD(ITRIMAT, 3, II) = reduc_factor(ITRIMAT) * GRAD(ITRIMAT, 3, II)
+               GRAD(II,2,ITRIMAT) = reduc_factor(ITRIMAT) * GRAD(II,2,ITRIMAT)
+               GRAD(II,3,ITRIMAT) = reduc_factor(ITRIMAT) * GRAD(II,3,ITRIMAT)
             ENDIF
          ENDDO
       ENDDO  ! I = LFT, LLT

@@ -121,8 +121,8 @@ C     ALE ON / OFF
             DO I=LFT,LLT 
                II     = I+NFT    
                !!! Element centroid
-               ELCENTER(2, II) = FOURTH * (X(2, IXQ(2, II)) + X(2, IXQ(3, II)) + X(2, IXQ(4, II)) + X(2, IXQ(5, II)))
-               ELCENTER(3, II) = FOURTH * (X(3, IXQ(2, II)) + X(3, IXQ(3, II)) + X(3, IXQ(4, II)) + X(3, IXQ(5, II)))
+               ELCENTER(II,2) = FOURTH * (X(2, IXQ(2, II)) + X(2, IXQ(3, II)) + X(2, IXQ(4, II)) + X(2, IXQ(5, II)))
+               ELCENTER(II,3) = FOURTH * (X(3, IXQ(2, II)) + X(3, IXQ(3, II)) + X(3, IXQ(4, II)) + X(3, IXQ(5, II)))
             ENDDO  
          ENDIF
       ENDDO  ! NG=ITASK+1,NGROUP,NTHREAD
@@ -150,8 +150,8 @@ C     ALE ON / OFF
             !!!   Volume fraction
             DO I=LFT,LLT 
                II     = I+NFT    
-               VOLUME_FRACTION(ITRIMAT, II) = VOLP(I)/VOLG(I)
-               VOLUME_FRACTION(ITRIMAT, II) = MAX(ZERO,MIN(ONE,VOLUME_FRACTION(ITRIMAT, II))) 
+               VOLUME_FRACTION(II,ITRIMAT) = VOLP(I)/VOLG(I)
+               VOLUME_FRACTION(II,ITRIMAT) = MAX(ZERO,MIN(ONE,VOLUME_FRACTION(II,ITRIMAT))) 
             ENDDO  
          ENDDO  
       ENDDO  ! NG=ITASK+1,NGROUP,NTHREAD
@@ -163,12 +163,12 @@ C     ALE ON / OFF
 !$OMP SINGLE
          !!! Volumic fractions comm
          DO ITRIMAT = 1, TRIMAT
-            CALL SPMD_E1VOIS(VOLUME_FRACTION(ITRIMAT, :), NERCVOIS, NESDVOIS,
+            CALL SPMD_E1VOIS(VOLUME_FRACTION(1,ITRIMAT), NERCVOIS, NESDVOIS,
      .           LERCVOIS, LESDVOIS, LENCOM)
          ENDDO
          !!! Centroid coordinates comm
          DO JJ = 1, 3
-            CALL SPMD_E1VOIS(ELCENTER(JJ, :), NERCVOIS, NESDVOIS,
+            CALL SPMD_E1VOIS(ELCENTER(1,JJ), NERCVOIS, NESDVOIS,
      .           LERCVOIS, LESDVOIS, LENCOM)
          ENDDO
 !$OMP END SINGLE
@@ -177,17 +177,17 @@ C     ALE ON / OFF
       
       DO NODE_ID = 1 + ITASK, NUMNOD, NTHREAD
          DO ITRIMAT = 1, TRIMAT
-            NODE_MAX_VALUE(ITRIMAT, NODE_ID) = -EP30
-            NODE_MIN_VALUE(ITRIMAT, NODE_ID) = EP30
+            NODE_MAX_VALUE(NODE_ID,ITRIMAT) = -EP30
+            NODE_MIN_VALUE(NODE_ID,ITRIMAT) = EP30
             JMIN = pADDCNEL(NODE_ID)
             JMAX = pADDTMPL(NODE_ID) - 1
             DO JJ = JMIN, JMAX
                ELEM_ID = pCNEL(JJ)
                IF (ELEM_ID   /=  0 .AND. ELEM_ID  <=  NUMELQ) THEN
-                  NODE_MAX_VALUE(ITRIMAT,NODE_ID) = MAX(NODE_MAX_VALUE(ITRIMAT,NODE_ID), 
-     .                 VOLUME_FRACTION(ITRIMAT, ELEM_ID))
-                  NODE_MIN_VALUE(ITRIMAT,NODE_ID) = MIN(NODE_MIN_VALUE(ITRIMAT,NODE_ID), 
-     .                 VOLUME_FRACTION(ITRIMAT, ELEM_ID))
+                  NODE_MAX_VALUE(NODE_ID,ITRIMAT) = MAX(NODE_MAX_VALUE(NODE_ID,ITRIMAT), 
+     .                 VOLUME_FRACTION(ELEM_ID,ITRIMAT))
+                  NODE_MIN_VALUE(NODE_ID,ITRIMAT) = MIN(NODE_MIN_VALUE(NODE_ID,ITRIMAT), 
+     .                 VOLUME_FRACTION(ELEM_ID,ITRIMAT))
                ENDIF
             ENDDO
          ENDDO
@@ -197,7 +197,7 @@ C     ALE ON / OFF
       IF(NSPMD > 1)THEN
 !$OMP SINGLE
          DO ITRIMAT = 1, TRIMAT
-            CALL  SPMD_EXCH_MIN_MAX(IAD_ELEM ,FR_ELEM ,NODE_MIN_VALUE(ITRIMAT, :), NODE_MAX_VALUE(ITRIMAT, :) )
+            CALL  SPMD_EXCH_MIN_MAX(IAD_ELEM ,FR_ELEM ,NODE_MIN_VALUE(1,ITRIMAT), NODE_MAX_VALUE(1,ITRIMAT) )
          ENDDO
 !$OMP END SINGLE
       ENDIF
@@ -229,7 +229,7 @@ C     ALE ON / OFF
 C     MPI exchange for gradients
 !$OMP SINGLE
          DO ITRIMAT = 1, TRIMAT
-            CALL SPMD_ENVOIS(3, GRAD(ITRIMAT, 1:3, :), 
+            CALL SPMD_ENVOIS(3, GRAD(1,1,ITRIMAT), 
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
          ENDDO
 !$OMP END SINGLE         
