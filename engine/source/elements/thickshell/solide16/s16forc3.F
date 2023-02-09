@@ -609,7 +609,8 @@ C
            CALL S16BILAN(PARTSAV,GBUF%EINT,GBUF%RHO,VOLG  ,GBUF%VOL,
      .             VX     ,VY       ,VZ      ,IPARTS     ,GRESAV    ,
      .             GRTH   ,IGRTH    ,IEXPAN  ,GBUF%EINTTH, GBUF%FILL,
-     .             XX     ,YY       ,ZZ      ,ITASK      ,IPARG(1,NG))
+     .             XX     ,YY       ,ZZ      ,ITASK      ,IPARG(1,NG),
+     .             GBUF%OFF)
       ENDIF
 C
 c-----------------------------

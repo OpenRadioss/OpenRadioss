@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE S10BILAN(PARTSAV,EINT,RHO,RK,VOL,
      .   VX, VY, VZ, NX, VNEW,IPARTS,
      .   GRESAV,GRTH,IGRTH,IEXPAN,EINTTH,
-     .   FILL  ,X, Y, Z,ITASK,IPARG)
+     .   FILL  ,X, Y, Z,ITASK,IPARG,OFFG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,6 +58,7 @@ C     REAL
      .  X(MVSIZ,10),Y(MVSIZ,10),Z(MVSIZ,10)
       INTEGER IEXPAN,ITASK,
      .  IPARTS(*),GRTH(*),IGRTH(*),IPARG(*)
+      my_real, INTENT(IN) :: OFFG(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -163,7 +164,7 @@ C
         PARTSAV(3,M)=PARTSAV(3,M) + XM(I)
         PARTSAV(4,M)=PARTSAV(4,M) + YM(I)
         PARTSAV(5,M)=PARTSAV(5,M) + ZM(I)
-        PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
+        IF (OFFG(I) >= ONE) PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
       ENDDO
 C
 C-----------------------------------------------

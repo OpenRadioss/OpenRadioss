@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE S20BILAN(PARTSAV,EINTG,RHOG, VOLG,
      .   VX, VY, VZ,IPARTS, VOL0G,
      .   GRESAV,GRTH,IGRTH,IEXPAN,EINTTH,
-     .   FILL ,X, Y, Z,ITASK,IPARG)
+     .   FILL ,X, Y, Z,ITASK,IPARG,OFFG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,6 +58,7 @@ C     REAL
      .  VOLG(*),VOL0G(*),GRESAV(*),EINTTH(*),
      .  FILL(*),
      .  X(MVSIZ,*),Y(MVSIZ,*),Z(MVSIZ,*)
+      my_real, INTENT(IN) :: OFFG(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -149,7 +150,7 @@ C
         PARTSAV(3,M)=PARTSAV(3,M) + XMAS(I)*VXA(I)
         PARTSAV(4,M)=PARTSAV(4,M) + XMAS(I)*VYA(I)
         PARTSAV(5,M)=PARTSAV(5,M) + XMAS(I)*VZA(I)
-        PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
+        IF (OFFG(I) >= ONE) PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
       ENDDO
 C
       IF(IEXPAN/=0)THEN

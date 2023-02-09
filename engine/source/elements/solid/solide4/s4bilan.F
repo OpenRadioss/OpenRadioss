@@ -33,7 +33,7 @@ Chd|====================================================================
      .   VZ1, VZ2, VZ3, VZ4, VNEW,IPARTS,GRESAV,
      .   GRTH,IGRTH,IEXPAN,EINTTH,FILL ,
      .   X1, X2, X3, X4, Y1, Y2, Y3, Y4, 
-     .   Z1, Z2, Z3, Z4,ITASK,IPARG)
+     .   Z1, Z2, Z3, Z4,ITASK,IPARG,OFFG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C     REAL
      .  Z1(*), Z2(*), Z3(*), Z4(*)
       INTEGER IEXPAN,ITASK,
      .  IPARTS(*),GRTH(*),IGRTH(*),IPARG(*)
+      my_real, INTENT(IN) :: OFFG(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -119,7 +120,7 @@ C
         PARTSAV(3,M)=PARTSAV(3,M) + XM(I)
         PARTSAV(4,M)=PARTSAV(4,M) + YM(I)
         PARTSAV(5,M)=PARTSAV(5,M) + ZM(I)
-        PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
+        IF (OFFG(I) >= ONE) PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
       ENDDO 
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES ADDITIONNELLES 

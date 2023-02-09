@@ -418,7 +418,8 @@ C--------------------------
            CALL S20BILAN(PARTSAV,GBUF%EINT,GBUF%RHO,VOLG,
      .                   VX, VY, VZ,IPARTS,GBUF%VOL,
      .                   GRESAV,GRTH,IGRTH,IEXPAN,GBUF%EINTTH,
-     .                   GBUF%FILL, XX, YY, ZZ,ITASK,IPARG(1,NG))
+     .                   GBUF%FILL, XX, YY, ZZ,ITASK,IPARG(1,NG),
+     .                   GBUF%OFF)
       ENDIF
 C
 c-----------------------------

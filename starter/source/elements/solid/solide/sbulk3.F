@@ -208,8 +208,8 @@ C     16 nodes thick shells :
        BNS(8,I)=CV1
        DO N=9,16        
          IF(NC(I,N)/=0)THEN
-           VNSX(N-4,I)=AV2
-           BNSX(N-4,I)=CV2
+           VNSX(N-8,I)=AV2
+           BNSX(N-8,I)=CV2
          ELSE
            N1=IPERM161(N)
            N2=IPERM162(N)
@@ -248,8 +248,8 @@ C     20 nodes bricks :
        BNS(8,I)=CV1
        DO N=9,20        
          IF(NC(I,N)/=0)THEN
-           VNSX(N-4,I)=AV2
-           BNSX(N-4,I)=CV2
+           VNSX(N-8,I)=AV2
+           BNSX(N-8,I)=CV2
          ELSE
            N1=IPERM201(N)
            N2=IPERM202(N)
