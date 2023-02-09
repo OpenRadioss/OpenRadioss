@@ -634,7 +634,7 @@ C--------------------------------------
      .       VGXA, VGYA, VGZA, VGA2, VOLG,IPARTS,
      .       GRESAV,GRTH,IGRTH,GBUF%OFF,IBID,GBUF%EINTTH,
      .       GBUF%FILL, XGXA, XGYA, XGZA,XGXA2,XGYA2,XGZA2,
-     .       XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG))
+     .       XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),GBUF%OFF)
       ENDIF
 C--------------------------------
 C Convected frame to global frame
