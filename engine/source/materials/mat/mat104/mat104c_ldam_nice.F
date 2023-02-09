@@ -82,19 +82,19 @@ c
      .   H,LDAV,TRDFDS,SIGVM,SIGDR2,YLD2I,OMEGA,
      .   DTEMP,FCOSH,FSINH,DPDT,DLAM,DDEP
       DOUBLE PRECISION :: 
-     .   DPXX,DPYY,DPXY,DPYZ,DPZX,DPZZ,DSDRDJ2,DSDRDJ3,
-     .   DJ3DSXX,DJ3DSYY,DJ3DSXY,DJ3DSZZ,DJ3DSYZ,DJ3DSZX,
+     .   DPXX,DPYY,DPXY,DPZZ,DSDRDJ2,DSDRDJ3,
+     .   DJ3DSXX,DJ3DSYY,DJ3DSXY,DJ3DSZZ,
      .   DJ2DSXX,DJ2DSYY,DJ2DSXY,
      .   DFDSXX,DFDSYY,DFDSXY,DYLD_DPLA_NL,
-     .   NORMXX,NORMYY,NORMXY,NORMZZ,NORMYZ,NORMZX,
+     .   NORMXX,NORMYY,NORMXY,NORMZZ,
      .   DENOM,DPHI,SDPLA,DPHI_DTRSIG,SDV_DFDSIG,SIG_DFDSIG,DFDSIG2,
      .   DPHI_DSIG,DPHI_DYLD,DPHI_DFDR,DPHI_DFS,DFS_DFT,
      .   DFN_DLAM,DFSH_DLAM,DFG_DLAM,DFT_DLAM,DFDPLA,NORMSIG,
      .   DFN,DFSH,DFG,DFT,DYLD_DPLA,DYLD_DTEMP,DTEMP_DLAM
 c
       DOUBLE PRECISION, DIMENSION(NEL) ::
-     .   DSIGXX,DSIGYY,DSIGXY,DSIGYZ,DSIGZX,TRSIG,TRDEP,
-     .   SXX,SYY,SXY,SZZ,SYZ,SZX,SIGM,J2,J3,SIGDR,YLD,WEITEMP,
+     .   DSIGXX,DSIGYY,DSIGXY,TRSIG,TRDEP,
+     .   SXX,SYY,SXY,SZZ,SIGM,J2,J3,SIGDR,YLD,WEITEMP,
      .   HARDP,FHARD,FRATE,FTHERM,FDR,D,TRIAX,ETAT,
      .   FDAM,PHI0,PHI,FT,FS,FG,FN,FSH,DPLA_DLAM,DEZZ
 c
@@ -274,15 +274,11 @@ c
         SYY(I)    = SIGNYY(I) + SIGM(I)
         SZZ(I)    = SIGM(I)
         SXY(I)    = SIGNXY(I)
-        SYZ(I)    = SIGNYZ(I)
-        SZX(I)    = SIGNZX(I)
         DEZZ(I)   = -NNU*DEPSXX(I) - NNU*DEPSYY(I)
         ! Second deviatoric invariant
-        J2(I) = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
-     .          +       SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
+        J2(I) = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 ) + SXY(I)**2 
         ! Third deviatoric invariant
-        J3(I)  = SXX(I)*SYY(I)*SZZ(I) + SXY(I)*SYZ(I)*SZX(I) * TWO
-     .         - SXX(I)*SYZ(I)**2 - SYY(I)*SZX(I)**2 - SZZ(I)*SXY(I)**2 
+        J3(I)  = SXX(I)*SYY(I)*SZZ(I) - SZZ(I)*SXY(I)**2 
         ! Drucker equivalent stress
         FDR(I) = J2(I)**3 - CDR*(J3(I)**2)
         ! Checking equivalent stress values
@@ -340,8 +336,6 @@ c
         DSIGXX(I) = (ONE-D(I))*(A11*DEPSXX(I) + A12*DEPSYY(I))
         DSIGYY(I) = (ONE-D(I))*(A11*DEPSYY(I) + A12*DEPSXX(I))
         DSIGXY(I) = (ONE-D(I))*(DEPSXY(I)*G)
-        DSIGYZ(I) = (ONE-D(I))*(DEPSYZ(I)*GS(I))
-        DSIGZX(I) = (ONE-D(I))*(DEPSZX(I)*GS(I))
         DLAM      = ZERO         
 c
         ! Computation of Drucker equivalent stress of the previous stress tensor
@@ -351,12 +345,8 @@ c
         SYY(I)    = SIGOYY(I) + SIGM(I)
         SZZ(I)    = SIGM(I)
         SXY(I)    = SIGOXY(I)
-        SYZ(I)    = SIGOYZ(I)
-        SZX(I)    = SIGOZX(I)
-        J2(I)     = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2)
-     .          +           SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
-        J3(I)     = SXX(I)*SYY(I)*SZZ(I) + SXY(I)*SYZ(I)*SZX(I) * TWO
-     .            - SXX(I)*SYZ(I)**2 - SYY(I)*SZX(I)**2 - SZZ(I)*SXY(I)**2          
+        J2(I)     = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + SXY(I)**2 
+        J3(I)     = SXX(I)*SYY(I)*SZZ(I) - SZZ(I)*SXY(I)**2          
         FDR(I)    = J2(I)**3 - CDR*(J3(I)**2)
         SIGDR(I)  = KDR * EXP((ONE/SIX)*LOG(FDR(I)))  
         ! Computation of the stress triaxiality and the etaT factor
@@ -371,13 +361,13 @@ c
         ! a plastic multiplier allowing to update internal variables to satisfy
         ! the consistency condition. 
         ! Its expression is : DLAMBDA = - (PHI + DPHI) / DPHI_DLAMBDA
-	! -> PHI  : current value of yield function (known)
+	      ! -> PHI  : current value of yield function (known)
         ! -> DPHI : yield function prediction (to compute)
         ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
         !                   into account of internal variables kinetic : 
         !                   plasticity, temperature and damage (to compute)
 c        
-	! 1 - Computation of DPHI_DSIG the normal to the yield surface
+	      ! 1 - Computation of DPHI_DSIG the normal to the yield surface
         !-------------------------------------------------------------  
 c        
         ! Computation of the normal to the yield criterion NORM
@@ -397,9 +387,7 @@ c
         ! Computation of the Eulerian norm of the stress tensor
         NORMSIG = SQRT(SIGOXX(I)*SIGOXX(I)
      .               + SIGOYY(I)*SIGOYY(I)
-     .          + TWO*SIGOXY(I)*SIGOXY(I)
-     .          + TWO*SIGOYZ(I)*SIGOYZ(I)
-     .          + TWO*SIGOZX(I)*SIGOZX(I))
+     .           + TWO*SIGOXY(I)*SIGOXY(I))
 c 
         ! Derivative with respect to Fdr 
         FDR(I)     =  (J2(I)/(NORMSIG**2))**3 - CDR*((J3(I)/(NORMSIG**3))**2)       
@@ -407,25 +395,22 @@ c
         DSDRDJ2    =  DPHI_DFDR*THREE*(J2(I)/(NORMSIG**2))**2                             
         DSDRDJ3    = -DPHI_DFDR*TWO*CDR*(J3(I)/(NORMSIG**3))                   
         ! dJ3/dSig                                                        
-        DJ3DSXX =  TWO_THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
-     .           -  THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
-     .           -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)                 
-        DJ3DSYY = - THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
-     .           + TWO_THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
-     .           -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)             
-        DJ3DSZZ = - THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
-     .            - THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
+        DJ3DSXX =  TWO_THIRD*(SYY(I)*SZZ(I))/(NORMSIG**2)
+     .              -  THIRD*(SXX(I)*SZZ(I))/(NORMSIG**2)
+     .              -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)                 
+        DJ3DSYY =    - THIRD*(SYY(I)*SZZ(I))/(NORMSIG**2)
+     .           + TWO_THIRD*(SXX(I)*SZZ(I))/(NORMSIG**2)
+     .              -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)             
+        DJ3DSZZ =    - THIRD*(SYY(I)*SZZ(I))/(NORMSIG**2)
+     .               - THIRD*(SXX(I)*SZZ(I))/(NORMSIG**2)
      .           + TWO_THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2) 
-        DJ3DSXY = TWO*(SXX(I)*SXY(I) + SXY(I)*SYY(I) + SZX(I)*SYZ(I))/(NORMSIG**2)                   
-        DJ3DSYZ = TWO*(SXY(I)*SZX(I) + SYY(I)*SYZ(I) + SYZ(I)*SZZ(I))/(NORMSIG**2)                     
-        DJ3DSZX = TWO*(SXX(I)*SZX(I) + SXY(I)*SYZ(I) + SZX(I)*SZZ(I))/(NORMSIG**2)                      
+        DJ3DSXY =  TWO*(SXX(I)*SXY(I) + SXY(I)*SYY(I))/(NORMSIG**2)                   
+                   
         ! dPhi/dSig
         NORMXX  = DSDRDJ2*SXX(I)/NORMSIG + DSDRDJ3*DJ3DSXX + DPHI_DTRSIG
         NORMYY  = DSDRDJ2*SYY(I)/NORMSIG + DSDRDJ3*DJ3DSYY + DPHI_DTRSIG
         NORMZZ  = DSDRDJ2*SZZ(I)/NORMSIG + DSDRDJ3*DJ3DSZZ + DPHI_DTRSIG
         NORMXY  = TWO*DSDRDJ2*SXY(I)/NORMSIG + DSDRDJ3*DJ3DSXY
-        NORMYZ  = TWO*DSDRDJ2*SYZ(I)/NORMSIG + DSDRDJ3*DJ3DSYZ
-        NORMZX  = TWO*DSDRDJ2*SZX(I)/NORMSIG + DSDRDJ3*DJ3DSZX     
 c        
         ! Restoring previous value of the yield function
         PHI(I) = PHI0(I)
@@ -434,8 +419,6 @@ c
         DPHI = NORMXX * DSIGXX(I)  
      .       + NORMYY * DSIGYY(I)   
      .       + NORMXY * DSIGXY(I)
-     .       + NORMYZ * DSIGYZ(I)
-     .       + NORMZX * DSIGZX(I)
 c  
         ! 2 - Computation of DPHI_DLAMBDA
         !---------------------------------------------------------
@@ -446,8 +429,6 @@ c
         DFDSIG2 = NORMXX * (ONE-D(I))*(A11*NORMXX + A12*NORMYY)
      .          + NORMYY * (ONE-D(I))*(A11*NORMYY + A12*NORMXX)
      .          + NORMXY * (ONE-D(I))* NORMXY * G
-     .          + NORMYZ * (ONE-D(I))* NORMYZ * GS(I)
-     .          + NORMZX * (ONE-D(I))* NORMZX * GS(I)  
 c  
         !   b) Derivatives with respect to plastic strain P 			
         !   ------------------------------------------------
@@ -471,14 +452,10 @@ c
         SDV_DFDSIG = SXX(I) * NORMXX
      .             + SYY(I) * NORMYY
      .             + SZZ(I) * NORMZZ
-     .             + SXY(I) * NORMXY
-     .             + SYZ(I) * NORMYZ
-     .             + SZX(I) * NORMZX        
+     .             + SXY(I) * NORMXY      
         SIG_DFDSIG = SIGOXX(I) * NORMXX
      .             + SIGOYY(I) * NORMYY
-     .             + SIGOXY(I) * NORMXY
-     .             + SIGOYZ(I) * NORMYZ
-     .             + SIGOZX(I) * NORMZX         
+     .             + SIGOXY(I) * NORMXY        
         DPLA_DLAM(I) = SIG_DFDSIG / ((ONE - FT(I))*YLD(I)) 
 c        
         !  c) Derivatives with respect to the temperature TEMP 
@@ -579,8 +556,6 @@ c
         DPYY     = DLAM * NORMYY
         DPZZ     = DLAM * NORMZZ
         DPXY     = DLAM * NORMXY
-        DPYZ     = DLAM * NORMYZ
-        DPZX     = DLAM * NORMZX 
         TRDEP(I) = DPXX + DPYY + DPZZ
 c        
         ! Cumulated plastic strain and strain rate update
@@ -612,7 +587,7 @@ c
           OMEGA  = MAX(ZERO,OMEGA)
           OMEGA  = MIN(ONE,OMEGA)
           SDPLA  = SXX(I)*DPXX + SYY(I)*DPYY + SZZ(I)*DPZZ
-     .           + SXY(I)*DPXY + SYZ(I)*DPYZ + SZX(I)*DPZX
+     .           + SXY(I)*DPXY
           FSH(I) = FSH(I) + KW*OMEGA*FT(I)*(SDPLA/SIGDR(I))
         ENDIF
         FSH(I) = MAX(FSH(I),ZERO)
@@ -648,23 +623,17 @@ c
         ! Elasto-plastic stresses update   
         SIGNXX(I) = SIGOXX(I) + DSIGXX(I) - (ONE-D(I))*(A11*DPXX + A12*DPYY)
         SIGNYY(I) = SIGOYY(I) + DSIGYY(I) - (ONE-D(I))*(A11*DPYY + A12*DPXX) 
-        SIGNXY(I) = SIGOXY(I) + DSIGXY(I) - (ONE-D(I))*DPXY*G
-        SIGNYZ(I) = SIGOYZ(I) + DSIGYZ(I) - (ONE-D(I))*DPYZ*GS(I)
-        SIGNZX(I) = SIGOZX(I) + DSIGZX(I) - (ONE-D(I))*DPZX*GS(I)     
+        SIGNXY(I) = SIGOXY(I) + DSIGXY(I) - (ONE-D(I))*DPXY*G  
         TRSIG(I)  = SIGNXX(I) + SIGNYY(I)
         SIGM(I)   = -TRSIG(I) * THIRD
         SXX(I)    = SIGNXX(I) + SIGM(I)
         SYY(I)    = SIGNYY(I) + SIGM(I)
         SZZ(I)    = SIGM(I)
         SXY(I)    = SIGNXY(I)
-        SYZ(I)    = SIGNYZ(I)
-        SZX(I)    = SIGNZX(I) 
 c        
         ! Drucker equivalent stress update
-        J2(I)    = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
-     .             +         SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
-        J3(I)    = SXX(I) * SYY(I) * SZZ(I) + TWO   * SXY(I) * SYZ(I) * SZX(I)
-     .             - SXX(I) * SYZ(I)**2 - SYY(I) * SZX(I)**2 - SZZ(I) * SXY(I)**2 
+        J2(I)    = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 ) + SXY(I)**2
+        J3(I)    = SXX(I) * SYY(I) * SZZ(I) - SZZ(I) * SXY(I)**2 
         FDR(I)   = J2(I)**3 - CDR*(J3(I)**2)
         SIGDR(I) = KDR * EXP((ONE/SIX)*LOG(FDR(I)))
         ! Computation of the stress triaxiality and the etaT factor
