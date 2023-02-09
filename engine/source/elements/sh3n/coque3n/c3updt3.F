@@ -69,25 +69,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NVC1,NVC2,NVC3,NC1,NC2,NC3,IOFF,MX,MT
+      INTEGER I,J,NVC1,NVC2,NVC3,NC1,NC2,NC3,MX,MT
       my_real
      .   OFF_L
 C=======================================================================
 C cumul de l'energie des elements deletes AU moment du delete
-      IOFF=0
-      DO I=JFT,JLT
-        IF(OFF(I) == ZERO .AND. OFFG(I) > ZERO) IOFF=1
-      ENDDO
-      IF(IOFF == 1)THEN
-       MT = MAT(JFT)
-       DO I=JFT,JLT 
-        IF (OFF(I) == ZERO .AND. OFFG(I) > ZERO)THEN
-           MX = IPARTTG(I)
-           PARTSAV(24,MX)=PARTSAV(24,MX) + EINT(I,1) + EINT(I,2)
-           PARTSAV(25,MX)=PARTSAV(25,MX) + PM(1,MT)*AREA(I)*THK(I)
-        ENDIF
-       ENDDO
-      ENDIF
       OFF_L = ZERO
       DO I=JFT,JLT
         IF(OFF(I)<ONE)OFFG(I) = OFF(I)
@@ -454,25 +440,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, K, IOFF, MX, MT
+      INTEGER I, II, K, MX, MT
       my_real
      .   OFF_L
 C=======================================================================
 C cumul de l'energie des elements deletes AU moment du delete
-      IOFF=0
-      DO I=JFT,JLT
-        IF(OFF(I) == ZERO.AND.OFFG(I) > ZERO)IOFF=1
-      ENDDO
-      IF(IOFF == 1)THEN
-       MT = MAT(JFT)
-       DO I=JFT,JLT
-        IF(OFF(I) == ZERO.AND.OFFG(I) > ZERO)THEN
-           MX = IPARTTG(I)
-           PARTSAV(24,MX)=PARTSAV(24,MX) + EINT(I,1) + EINT(I,2)
-           PARTSAV(25,MX)=PARTSAV(25,MX) + PM(1,MT)*AREA(I)*THK(I)
-        ENDIF
-       ENDDO
-      ENDIF
       OFF_L = ZERO
       DO I=JFT,JLT
         IF (OFF(I) < ONE) OFFG(I) = OFF(I)

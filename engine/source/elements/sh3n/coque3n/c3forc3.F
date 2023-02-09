@@ -519,7 +519,8 @@ c      IFLAG=MOD(NCYCLE,NCPRI)
      2                PMSAV,IPARTTG,RHO   ,VOL00,IXTG   ,X        ,
      3                R    ,THK02  ,AREA  ,GRESAV ,GRTH     ,
      4                IGRTH,OFF    ,IBID  ,IBID ,IBID   ,IBID     ,
-     5                IBID ,IEXPAN ,GBUF%EINTTH,ITASK)
+     5                IBID ,IEXPAN ,GBUF%EINTTH ,ITASK  ,MAT      ,
+     6                GBUF%VOL)
 C----------------------------
 C     INTERNAL FORCES
 C----------------------------

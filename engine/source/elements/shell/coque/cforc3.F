@@ -339,7 +339,7 @@ C Y1G-> Y1,Y2G-> Y2,Y3G-> Y3,Y4G-> Y4,Z1G-> Z1,Z2G-> Z2,Z3G-> Z3,Z4G-> Z4
      6            X1G    ,X2G     ,X3G   ,X4G    ,Y1G  ,Y2G    ,
      7            Y3G    ,Y4G     ,Z1G   ,Z2G    ,Z3G  ,Z4G    ,
      8            IPARTC ,IADC  ,FSKY   ,FSKY ,GRESAV   ,
-     9            GRTH   ,IGRTH   ,ITASK)
+     9            GRTH   ,IGRTH   ,ITASK,GBUF%VOL)
         IF(JLT < JFT)RETURN
       ENDIF
 C
@@ -562,7 +562,8 @@ c      IFLAG=MOD(NCYCLE,NCPRI)
      7              VRL2    ,VRL3     ,VRL4   ,X1G   ,X2G   , 
      8              X3G     ,X4G      ,Y1G    ,Y2G   ,Y3G   , 
      9              Y4G     ,Z1G      ,Z2G    ,Z3G   ,Z4G   , 
-     A              IBID    ,IEXPAN   ,GBUF%EINTTH,ITASK)                                   
+     A              IBID    ,IEXPAN   ,GBUF%EINTTH   ,ITASK ,
+     B              GBUF%VOL)                                   
        ENDIF
 C--------------------------
 C     PAS DE TEMPS

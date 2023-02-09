@@ -79,24 +79,10 @@ C-----------------------------------------------
      .  I8M21(3,MVSIZ), I8M22(3,MVSIZ), I8M23(3,MVSIZ), I8M24(3,MVSIZ),
      .  I8M31(3,MVSIZ), I8M32(3,MVSIZ), I8M33(3,MVSIZ), I8M34(3,MVSIZ)
 C-----------------------------------------------
-      INTEGER NVC1, NVC2, NVC3, NVC4, I, J,N,IOFF,MX,MT
+      INTEGER NVC1, NVC2, NVC3, NVC4, I, J,N,MX,MT
       my_real OFF_L
 C=======================================================================
 C cumul de l'energie des elements deletes AU moment du delete
-      IOFF=0
-      DO I=JFT,JLT
-        IF(OFF(I) == 0.0.AND.OFFG(I) > 0.)IOFF=1
-      ENDDO
-      IF(IOFF == 1)THEN
-       MT = MAT(JFT)
-       DO I=JFT,JLT
-        IF(OFF(I) == 0.0.AND.OFFG(I) > 0.)THEN
-           MX = IPARTC(I)
-           PARTSAV(24,MX)=PARTSAV(24,MX) + EINT(I,1) + EINT(I,2)
-           PARTSAV(25,MX)=PARTSAV(25,MX) + PM(1,MT)*AREA(I)*THK(I)
-        ENDIF
-       ENDDO
-      ENDIF
       OFF_L = ZERO
       DO I=JFT,JLT
         IF(OFF(I)<1.)OFFG(I) = OFF(I)
@@ -564,26 +550,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NVC1, NVC2, NVC3, NVC4, I, J,IOFF,MX, MT
+      INTEGER NVC1, NVC2, NVC3, NVC4, I, J,MX, MT
       my_real
      .   OFF_L,CF(MVSIZ)
 C=======================================================================
 C
 C cumul de l'energie des elements deletes AU moment du delete
-      IOFF=0
-      DO I=JFT,JLT
-        IF (OFF(I) == ZERO .AND. OFFG(I) > ZERO) IOFF=1
-      ENDDO
-      MT = MAT(JFT)
-      IF (IOFF == 1)THEN
-       DO I=JFT,JLT
-        IF (OFF(I) == ZERO .AND. OFFG(I) > ZERO) THEN
-           MX = IPARTC(I)
-           PARTSAV(24,MX)=PARTSAV(24,MX) + EINT(I,1) + EINT(I,2)
-           PARTSAV(25,MX)=PARTSAV(25,MX) + PM(1,MT)*AREA(I)*THK(I)
-        ENDIF
-       ENDDO
-      ENDIF
       OFF_L = ZERO
       DO I=JFT,JLT
         IF (OFF(I) < ONE) OFFG(I) = OFF(I)
@@ -1033,24 +1005,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, K, J,IOFF,MX,MT
+      INTEGER I, II, K, J,MX,MT
       my_real OFF_L
 C=======================================================================
 C cumul de l'energie des elements deletes AU moment du delete
-      IOFF=0
-      DO I=JFT,JLT
-        IF (OFF(I) == ZERO .AND. OFFG(I) > ZERO) IOFF=1
-      ENDDO
-      IF (IOFF == 1) THEN
-       MT = MAT(JFT)
-       DO I=JFT,JLT
-        IF (OFF(I) == ZERO .AND. OFFG(I) > ZERO) THEN
-           MX = IPARTC(I)
-           PARTSAV(24,MX)=PARTSAV(24,MX) + EINT(I,1) + EINT(I,2)
-           PARTSAV(25,MX)=PARTSAV(25,MX) + PM(1,MT)*AREA(I)*THK(I)
-        ENDIF
-       ENDDO
-      ENDIF
       OFF_L = ZERO
       DO I=JFT,JLT
         IF (OFF(I) < ONE) OFFG(I) = OFF(I)
