@@ -86,6 +86,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr08_c.inc"
 #include      "vect07_c.inc"
+#include      "units_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,7 +94,7 @@ C-----------------------------------------------
      .        IEL,MG,IP,NELS,NELC,NELTG
 C     REAL
       my_real
-     .     THKSECND,THKMAIN,DD,DX1,DY1,DZ1,DX3,DY3,DZ3,VOL,AREA
+     .     THKSECND,THKMAIN,DD,DX1,DY1,DZ1,DX3,DY3,DZ3,VOL,AREA,GAPMIN,GAPMAX
 C-----------------------------------------------
 C
 !      EQUIVALENCE (IX1,IV(1,1)) ,(IX2,IV(1,2)) ,(IX3,IV(1,3))
@@ -114,14 +115,18 @@ C
        ZI(I) = X(3,IG)
       ENDDO
 C
+      GAPMIN = EP30
+      GAPMAX = ZERO
       IF(IGAP==0 .AND. IGNORE <= 1)THEN
         DO I=LFT,LLT
          GAPV(I) = GAP
         ENDDO 
+        WRITE(IOUT,2001) GAP
       ELSEIF((IGNORE == 2 .OR. IGNORE == 3) .AND. DSEARCH /= ZERO)THEN
         DO I=LFT,LLT
           GAPV(I) = GAP
         ENDDO
+        WRITE(IOUT,2001) GAP
       ELSEIF(IGNORE >= 2)THEN
         DO I=LFT,LLT
           THKSECND = ZERO
@@ -209,12 +214,18 @@ C         LONGUEUR DIAG 2
           DZ3=(X(3,NODE2)-X(3,NODE4))
           DD=MIN(DD,SQRT(DX3**2+DY3**2+DZ3**2))
           GAPV(I) = MAX(ZEP05*DD,ZEP6*(THKSECND+THKMAIN))
+          GAPMIN = MIN(GAPMIN,GAPV(I))
+          GAPMAX = MAX(GAPMAX,GAPV(I))
         ENDDO
+        WRITE(IOUT,2002) GAPMIN,GAPMAX
       ELSE
         DO I=LFT,LLT
          GAPV(I) = GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
          GAPV(I) = MAX(GAP,GAPV(I))
+          GAPMIN = MIN(GAPMIN,GAPV(I))
+          GAPMAX = MAX(GAPMAX,GAPV(I))
         ENDDO
+        WRITE(IOUT,2002) GAPMIN,GAPMAX
       ENDIF
 C
       IF(ISTF/=0)THEN
@@ -259,5 +270,8 @@ C
       ENDDO
 C
       RETURN
+C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
+ 2001 FORMAT(//,1X,'SEARCH DISTANCE . . . . . . . . . . . . . .',1PG20.13/)
+ 2002 FORMAT(//,1X,'SEARCH DISTANCE . . . . . . . . . . . . . .BETWEEN',1PG20.13,' AND ',1PG20.13/)
+C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       END
-
