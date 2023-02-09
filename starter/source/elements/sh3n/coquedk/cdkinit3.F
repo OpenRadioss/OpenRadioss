@@ -394,6 +394,11 @@ c        IGTYP=GEO(12,IXTG(5,I+NFT))
       DO I=LFT,LLT
         DTELEM(NDEPAR+I) = DT(I)
       ENDDO
+C------------
+      ! Compute the initial volume
+      DO I=LFT,LLT
+        IF (GBUF%G_VOL > 0) GBUF%VOL(I) = AREA(I)*GBUF%THK(I)
+      ENDDO
 C      
       DEALLOCATE(DIR_A)
       DEALLOCATE(DIR_B)

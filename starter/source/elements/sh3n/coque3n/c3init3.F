@@ -511,6 +511,11 @@ C---
      .               PID      ,NPT ,NPTT ,NLAY,IR ,
      .               IS       ,IXFEM,MTN ,NG)
       ENDIF
+C------------
+      ! Compute the initial volume
+      DO I=LFT,LLT
+        IF (GBUF%G_VOL > 0) GBUF%VOL(I) = AREA(I)*GBUF%THK(I)
+      ENDDO
 C---
       IF (ALLOCATED(DIR_B))    DEALLOCATE(DIR_B)
       IF (ALLOCATED(DIR_A))    DEALLOCATE(DIR_A)

@@ -406,7 +406,7 @@ C--------------------------
      2                PMSAV,IPARTTG,RHO  ,VOL0,IXTG   ,X      ,
      3                R    ,THK02  ,AREA ,GRESAV ,GRTH   ,
      4                IGRTH,OFF    ,IBID ,IBID,IBID   ,IBID   ,
-     5                IBID ,IEXPAN ,GBUF%EINTTH,ITASK)
+     5                IBID ,IEXPAN ,GBUF%EINTTH,ITASK ,MAT,GBUF%VOL)
       IF(IPARIT==0)THEN
         CALL CDK6UPDT3(JFT  ,JLT  ,F   ,M   ,NVC  ,
      2             GBUF%OFF,OFF  ,STI ,STIR,STIFN,

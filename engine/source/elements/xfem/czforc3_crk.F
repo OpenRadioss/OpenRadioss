@@ -486,7 +486,7 @@ C--------------------------
      7                VRL2    ,VRL3     ,VRL4   ,X1G  ,X2G ,
      8                X3G     ,X4G      ,Y1G    ,Y2G  ,Y3G ,
      9                Y4G     ,Z1G      ,Z2G    ,Z3G  ,Z4G ,
-     A                IXFEM2  ,IEXPAN   ,EINTTH   ,ITASK)
+     A                IXFEM2  ,IEXPAN   ,EINTTH ,ITASK,GBUF%VOL)
 C
         CALL CNDT3(
      1             JFT    ,JLT    ,OFF    , DT2T   ,AMU   ,

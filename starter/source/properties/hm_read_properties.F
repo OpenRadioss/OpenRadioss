@@ -610,8 +610,8 @@ c----   Shells
           PROP_TAG(IGTYP)%L_THK = 0
           PROP_TAG(IGTYP)%L_EINT= 2
           PROP_TAG(IGTYP)%L_EINS= 0
-          PROP_TAG(IGTYP)%G_VOL = 0
-          PROP_TAG(IGTYP)%L_VOL = 0
+          PROP_TAG(IGTYP)%G_VOL = 1
+          PROP_TAG(IGTYP)%L_VOL = 1
           PROP_TAG(IGTYP)%LY_DMG = 2
           IF (IGTYP == 9  .OR. IGTYP == 10 .OR. IGTYP == 11 .OR. 
      .        IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN

@@ -43,7 +43,7 @@ Chd|====================================================================
      7                  VRL2 ,VRL3   ,VRL4  ,X1G  ,X2G ,
      8                  X3G  ,X4G    ,Y1G   ,Y2G  ,Y3G ,
      9                  Y4G  ,Z1G    ,Z2G   ,Z3G  ,Z4G ,
-     A                  IXFEM,IEXPAN ,EINTTH,ITASK)
+     A                  IXFEM,IEXPAN ,EINTTH,ITASK,GVOL)
       USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -78,6 +78,7 @@ C     REAL
      .   Z1G(MVSIZ), Z2G(MVSIZ), Z3G(MVSIZ), Z4G(MVSIZ),
      .   VL1(MVSIZ,3),VL2(MVSIZ,3),VL3(MVSIZ,3),VL4(MVSIZ,3),
      .   VRL1(MVSIZ,3),VRL2(MVSIZ,3),VRL3(MVSIZ,3),VRL4(MVSIZ,3)
+      my_real, INTENT(IN) :: GVOL(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -157,7 +158,7 @@ C
 
 C
       DO I=JFT,JLT
-        XMAS(I)=RHO*AREA(I)*THK(I)
+        XMAS(I)=RHO*GVOL(I)
       ENDDO
 C
       DO I=JFT,JLT
@@ -245,12 +246,12 @@ C
          MX = IPARTC(JFT)
 #include      "simd.inc"
          DO I=JFT,JLT
-          IF(OFF(I)/=0.0)THEN
-            PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
-            PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
-            PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
-            PARTSAV(4,MX)=PARTSAV(4,MX) + YM(I)
-            PARTSAV(5,MX)=PARTSAV(5,MX) + ZM(I)
+          PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
+          PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
+          PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
+          PARTSAV(4,MX)=PARTSAV(4,MX) + YM(I)
+          PARTSAV(5,MX)=PARTSAV(5,MX) + ZM(I)
+          IF(OFF(I)/=ZERO)THEN
             PARTSAV(6,MX)=PARTSAV(6,MX) + XMAS(I)
 C           PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
           ENDIF
@@ -276,12 +277,12 @@ C
             IF (JST(II+1)-JST(II)>15) THEN
 #include "simd.inc"
               DO I=JST(II),JST(II+1)-1
-               IF(OFF(I)/=0.0)THEN
-                 PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
-                 PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
-                 PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
-                 PARTSAV(4,MX)=PARTSAV(4,MX) + YM(I)
-                 PARTSAV(5,MX)=PARTSAV(5,MX) + ZM(I)
+               PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
+               PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
+               PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
+               PARTSAV(4,MX)=PARTSAV(4,MX) + YM(I)
+               PARTSAV(5,MX)=PARTSAV(5,MX) + ZM(I)
+               IF(OFF(I)/=ZERO)THEN
                  PARTSAV(6,MX)=PARTSAV(6,MX) + XMAS(I)
 C                PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
                ENDIF
@@ -302,12 +303,12 @@ C                PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
               ENDDO
             ELSE
               DO I=JST(II),JST(II+1)-1
-               IF(OFF(I)/=0.0)THEN
-                 PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
-                 PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
-                 PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
-                 PARTSAV(4,MX)=PARTSAV(4,MX) + YM(I)
-                 PARTSAV(5,MX)=PARTSAV(5,MX) + ZM(I)
+               PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
+               PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
+               PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
+               PARTSAV(4,MX)=PARTSAV(4,MX) + YM(I)
+               PARTSAV(5,MX)=PARTSAV(5,MX) + ZM(I)
+               IF(OFF(I)/=ZERO)THEN
                  PARTSAV(6,MX)=PARTSAV(6,MX) + XMAS(I)
 C                PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
                ENDIF
@@ -352,12 +353,12 @@ C                PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
           MX = IPARTC(JFT)
 #include      "simd.inc"
           DO I=JFT,JLT
-            IF(OFF(I)/=0.0)THEN
-              PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
-              PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
-              PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
-              PARTSAV(4,MX)=PARTSAV(4,MX) + YM(I)
-              PARTSAV(5,MX)=PARTSAV(5,MX) + ZM(I)
+            PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
+            PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
+            PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
+            PARTSAV(4,MX)=PARTSAV(4,MX) + YM(I)
+            PARTSAV(5,MX)=PARTSAV(5,MX) + ZM(I)
+            IF(OFF(I)/=ZERO)THEN
               PARTSAV(6,MX)=PARTSAV(6,MX) + XMAS(I)
 C             PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
             ENDIF
@@ -368,24 +369,24 @@ C             PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
              IF (JST(II+1)-JST(II)>15) THEN
 #include "simd.inc"
                DO I=JST(II),JST(II+1)-1
-                 IF(OFF(I)/=0.0)THEN
-                   PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
-                   PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
-                   PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
-                   PARTSAV(4,MX)=PARTSAV(4,MX) + YM(I)
-                   PARTSAV(5,MX)=PARTSAV(5,MX) + ZM(I)
+                 PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
+                 PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
+                 PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
+                 PARTSAV(4,MX)=PARTSAV(4,MX) + YM(I)
+                 PARTSAV(5,MX)=PARTSAV(5,MX) + ZM(I)
+                 IF(OFF(I)/=ZERO)THEN
                    PARTSAV(6,MX)=PARTSAV(6,MX) + XMAS(I)
 C                  PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
                  ENDIF
                ENDDO
              ELSE
                DO I=JST(II),JST(II+1)-1
-                 IF(OFF(I)/=0.0)THEN
-                   PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
-                   PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
-                   PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
-                   PARTSAV(4,MX)=PARTSAV(4,MX) + YM(I)
-                   PARTSAV(5,MX)=PARTSAV(5,MX) + ZM(I)
+                 PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
+                 PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
+                 PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
+                 PARTSAV(4,MX)=PARTSAV(4,MX) + YM(I)
+                 PARTSAV(5,MX)=PARTSAV(5,MX) + ZM(I)
+                 IF(OFF(I)/=ZERO)THEN
                    PARTSAV(6,MX)=PARTSAV(6,MX) + XMAS(I)
 C                  PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
                  ENDIF
@@ -398,7 +399,7 @@ C
       IF(IEXPAN > 0) THEN
          DO I=JFT,JLT
             MX = IPARTC(I)
-            IF(OFF(I)/=0.0)THEN
+            IF(OFF(I)/=ZERO)THEN
                PARTSAV(27,MX)=PARTSAV(27,MX) + EINTTH(I)
             ENDIF
          ENDDO

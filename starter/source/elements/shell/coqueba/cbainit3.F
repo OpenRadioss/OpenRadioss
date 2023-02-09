@@ -633,6 +633,11 @@ c-----------
      .               PID      ,NPT      ,NPTT     ,NLAY     ,IR      ,
      .               IS       ,IXFEM    ,MTN      ,NG)
       ENDIF
+C------------
+      ! Compute the initial volume
+      DO I=LFT,LLT
+        IF (GBUF%G_VOL > 0) GBUF%VOL(I) = AREA(I)*GBUF%THK(I)
+      ENDDO
 c-----------
       DEALLOCATE(DIR_A)
       DEALLOCATE(DIR_B)

@@ -467,7 +467,7 @@ c        IFLAG = MOD(NCYCLE,NCPRI)
      2                   PMSAV,IPARTTG,RHO   ,VOL00,IXTG    ,X        ,
      3                   R    ,THK02  ,AREA  ,GRESAV  ,GRTH     ,
      4                   IGRTH,OFF    ,IXFEM2,ILEV ,IEL_CRK ,IADTG_CRK,
-     5                   NFT  ,IEXPAN  ,EINTTH ,ITASK)
+     5                   NFT  ,IEXPAN  ,EINTTH ,ITASK,MAT,GBUF%VOL)
 C----------------------------
 C     FORCES INTERNES
 C----------------------------

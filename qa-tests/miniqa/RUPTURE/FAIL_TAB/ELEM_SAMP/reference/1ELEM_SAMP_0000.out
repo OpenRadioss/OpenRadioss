@@ -12,10 +12,10 @@
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
+**                                                                    **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 1986-2023 Altair Engineering, Inc.                   **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -24,7 +24,7 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+ fr-lap233-0.europe.altair.com   Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz (x86_64), 2592 MHz,   7982 MB RAM,      0 MB swap
   
 ************************************************************************
 
@@ -458,49 +458,52 @@ SOLUTION :
 
 
      Steel
-     MATERIAL NUMBER. . . . . . . . . . . . =         2
-     MATERIAL LAW . . . . . . . . . . . . . =        36
+     MATERIAL NUMBER . . . . . . . . . . . . . .=         2
+     MATERIAL LAW. . . . . . . . . . . . . . . .=        36
 
-       TABULATED ELASTIC PLASTIC LAW 36      
-       --------------------------------      
-
-
-     INITIAL DENSITY. . . . . . . . . . . . = 7.8000000000000E-06
-
-     YOUNG'S MODULUS. . . . . . . . . . . .=  210.0000000000    
-     POISSON'S RATIO. . . . . . . . . . . .= 0.3000000000000    
-     MAXIMUM PLASTIC STRAIN . . . . . . . . = 1.0000000200409E+20
-     TENSION FAILURE STRAIN 1 . . . . . . . = 1.0000000200409E+20
-     TENSION FAILURE STRAIN 2 . . . . . . . = 2.0000000400818E+20
-     MAXIMUM TENSION FAILURE STRAIN  .. . . = 3.0000000601226E+20
-     ISO-KINEMATIC HARDENING FACTOR. . . .  =  0.000000000000    
-     SMOOTH STRAIN RATE OPTION. . . . . . . =         1
-     STRAIN RATE CUTTING FREQUENCY . . . . .=  10.00000000000    
-     PLASTIC STRAIN RATE DEPENDENCY FLAG . .=         0
-       - FLAG_PL = 0 -> TOTAL SR DEPENDENCY  
-       - FLAG_PL = 1 -> PLASTIC SR DEPENDENCY
+         TABULATED ELASTIC PLASTIC LAW 36    
+         --------------------------------    
 
 
-     YIELD STRESS FUNCTION NUMBER. . . . . .=        14
-     YIELD SCALE FACTOR. . . . . . . . . . .=  1.000000000000    
-     STRAIN RATE . . . . . . . . . . . . . .=  0.000000000000    
-     YIELD STRESS FUNCTION NUMBER. . . . . .=        14
-     YIELD SCALE FACTOR. . . . . . . . . . .=  1.000000000000    
-     STRAIN RATE . . . . . . . . . . . . . .= 1.0000000000000E-06
-     YIELD STRESS FUNCTION NUMBER. . . . . .=        14
-     YIELD SCALE FACTOR. . . . . . . . . . .=  1.000000000000    
-     STRAIN RATE . . . . . . . . . . . . . .= 1.0000000000000E-05
-     YIELD STRESS FUNCTION NUMBER. . . . . .=        14
-     YIELD SCALE FACTOR. . . . . . . . . . .=  1.200000000000    
-     STRAIN RATE . . . . . . . . . . . . . .= 0.1000000000000    
-     YIELD STRESS FUNCTION NUMBER. . . . . .=        14
-     YIELD SCALE FACTOR. . . . . . . . . . .=  1.200000000000    
-     STRAIN RATE . . . . . . . . . . . . . .=  1.000000000000    
-     PRESSURE DEPENDENT YIELD FUNCTION . . . .=         0
-     PRESSURE SCALE FACTOR. . . . . . . . .  .=  0.000000000000    
-     YOUNG MODULUS SCALE FACTOR FUNCTION . . .=         0
-     YOUNG MODULUS EINF . . . . . . . . . . . =  0.000000000000    
-     PARAMETER CE . . . . . . . . . . . . . . =  0.000000000000    
+     INITIAL DENSITY . . . . . . . . . . . . . .= 7.8000000000000E-06
+
+     YOUNG MODULUS . . . . . . . . . . . . . . .=  210.0000000000    
+     POISSON RATIO . . . . . . . . . . . . . . .= 0.3000000000000    
+     MAXIMUM PLASTIC STRAIN  . . . . . . . . . .= 1.0000000200409E+20
+     TENSION FAILURE STRAIN 1  . . . . . . . . .= 1.0000000200409E+20
+     TENSION FAILURE STRAIN 2  . . . . . . . . .= 2.0000000400818E+20
+     MAXIMUM TENSION FAILURE STRAIN  . . . . . .= 3.0000000601226E+20
+     ISO-KINEMATIC HARDENING FACTOR. . . . . . .=  0.000000000000    
+     SMOOTH STRAIN RATE OPTION . . . . . . . . .=         1
+          0 -> NO SMOOTHING                      
+          1 -> SMOOTH + LINEAR INTERPOLATION     
+          2 -> SMOOTH + LOG_10 INTERPOLATION     
+          3 -> SMOOTH + LOG_N  INTERPOLATION     
+     STRAIN RATE CUTTING FREQUENCY . . . . . . .=  10.00000000000    
+     PLASTIC STRAIN RATE DEPENDENCY FLAG . . . .=         0
+        FLAG_PL = 0 -> TOTAL SR DEPENDENCY       
+        FLAG_PL = 1 -> PLASTIC SR DEPENDENCY     
+     STRAIN RATE INTERPOLATION FLAG. . . . . . .=
+     YIELD STRESS FUNCTION NUMBER. . . . . . . .=        14
+     YIELD SCALE FACTOR. . . . . . . . . . . . .=  1.000000000000    
+     STRAIN RATE . . . . . . . . . . . . . . . .=  0.000000000000    
+     YIELD STRESS FUNCTION NUMBER. . . . . . . .=        14
+     YIELD SCALE FACTOR. . . . . . . . . . . . .=  1.000000000000    
+     STRAIN RATE . . . . . . . . . . . . . . . .= 1.0000000000000E-06
+     YIELD STRESS FUNCTION NUMBER. . . . . . . .=        14
+     YIELD SCALE FACTOR. . . . . . . . . . . . .=  1.000000000000    
+     STRAIN RATE . . . . . . . . . . . . . . . .= 1.0000000000000E-05
+     YIELD STRESS FUNCTION NUMBER. . . . . . . .=        14
+     YIELD SCALE FACTOR. . . . . . . . . . . . .=  1.200000000000    
+     STRAIN RATE . . . . . . . . . . . . . . . .= 0.1000000000000    
+     YIELD STRESS FUNCTION NUMBER. . . . . . . .=        14
+     YIELD SCALE FACTOR. . . . . . . . . . . . .=  1.200000000000    
+     STRAIN RATE . . . . . . . . . . . . . . . .=  1.000000000000    
+     PRESSURE DEPENDENT YIELD FUNCTION . . . . .=         0
+     PRESSURE SCALE FACTOR . . . . . . . . . . .=  0.000000000000    
+     YOUNG MODULUS SCALE FACTOR FUNCTION . . . .=         0
+     YOUNG MODULUS EINF. . . . . . . . . . . . .=  0.000000000000    
+     PARAMETER CE. . . . . . . . . . . . . . . .=  0.000000000000    
   
 
 
@@ -611,7 +614,7 @@ PART:         1,Shell part 1
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR BROADWELL PROCESSOR
 
 
       3D - SHELL ELEMENT GROUPS
@@ -625,7 +628,7 @@ PART:         1,Shell part 1
        RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
        ----------------------------------------------
 
-       ELEMENT GROUP         1,  SIZE=       575
+       ELEMENT GROUP         1,  SIZE=       593
 
 
 
@@ -796,7 +799,7 @@ Part id,name:         1 Shell part 1           Mat type:  36 Elm type: SHELL-4no
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        122 MB
+    STARTER MEMORY USAGE        120 MB
 
 
 
@@ -885,20 +888,20 @@ STANDARD DEVIATION            :       3
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .3762E+00   .1494E+00   .1358E-01   .0000E+00   .0000E+00   .0000E+00   .2199E-04
+.0000E+00   .1863E+00   .8547E-01   .8847E-02   .0000E+00   .0000E+00   .0000E+00   .2497E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1144E+07   .1653E+00   .8936E-02   .0000E+00   .0000E+00   .0000E+00   .8907E-05
+.0000E+00   .2864E+05   .1018E+00   .5803E-02   .0000E+00   .0000E+00   .0000E+00   .1336E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2022/11/23  16:24:15
- EXECUTION COMPLETED    :      2022/11/23  16:24:15
+ EXECUTION STARTED      :      2023/02/13  16:27:25
+ EXECUTION COMPLETED    :      2023/02/13  16:27:25
   
- ELAPSED TIME...........=          0.61 s
+ ELAPSED TIME...........=          0.39 s
                                00:00:00
   
 ------------------------------------------------------------------------

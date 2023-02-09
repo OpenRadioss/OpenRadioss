@@ -1055,7 +1055,8 @@ C--------------------------
      7               VRL2    ,VRL3     ,VRL4   ,X1G     ,X2G      ,
      8               X3G     ,X4G      ,Y1G    ,Y2G     ,Y3G      ,
      9               Y4G     ,Z1G      ,Z2G    ,Z3G     ,Z4G      ,
-     A               IBID    ,IEXPAN   ,GBUF%EINTTH,ITASK)
+     A               IBID    ,IEXPAN   ,GBUF%EINTTH     ,ITASK    ,
+     B               GBUF%VOL)
 C----------------------------
 C     CALCUL  DT
 C----------------------------

@@ -36,7 +36,7 @@ Chd|====================================================================
      6                  X1  ,X2  ,X3  ,X4  ,Y1  ,Y2    ,
      7                  Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4    ,
      8                  IPARTC ,IADC ,FSKY ,FSKYV,GRESAV,
-     9                  GRTH,IGRTH,ITASK)
+     9                  GRTH,IGRTH,ITASK,GVOL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,6 +72,7 @@ C     REAL
      .   Z3(MVSIZ), Z4(MVSIZ), THK0(MVSIZ),
      .   DTC(*),AREA(*),VR(3,*),DT1C(*),DT2C(*),THKE(*),
      .   FSKYV(LSKY,8), FSKY(8,LSKY),GRESAV(*)
+      my_real, INTENT(IN) :: GVOL(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -114,7 +115,7 @@ C
      7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
      8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
      9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
-     A                  IBID,IBID ,BID  ,ITASK)
+     A                  IBID,IBID ,BID  ,ITASK,GVOL)
           ENDIF
           IF(IPARIT/=0)THEN
            IF (IVECTOR==1) THEN
@@ -245,7 +246,7 @@ C
      7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
      8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
      9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
-     A                  IBID,IBID ,BID  ,ITASK)
+     A                  IBID,IBID ,BID  ,ITASK,GVOL)
             ELSE
              IF(JFTN>JFT)THEN
               DO I=JFT,JFTN-1
@@ -260,7 +261,7 @@ C
      7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
      8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
      9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
-     A                  IBID,IBID ,BID  ,ITASK)
+     A                  IBID,IBID ,BID  ,ITASK,GVOL)
              ENDIF
 C
              IF(JLT >JLTN)THEN
@@ -276,7 +277,7 @@ C
      7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
      8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
      9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
-     A                  IBID,IBID ,BID  ,ITASK)
+     A                  IBID,IBID ,BID  ,ITASK,GVOL)
              ENDIF
             ENDIF
 C

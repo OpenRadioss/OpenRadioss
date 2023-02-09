@@ -623,7 +623,7 @@ c      IFLAG=MOD(NCYCLE,NCPRI)
      2                PMSAV,IPARTTG,RHO  ,VOL00,IXTG   ,X         ,
      3                R    ,THK02  ,AREA ,GRESAV ,GRTH      ,
      4                IGRTH,OFF    ,IBID ,IBID ,IBID   ,IBID      ,
-     5                IBID ,IBID   ,GBUF%EINTTH,ITASK)
+     5                IBID ,IBID   ,GBUF%EINTTH,ITASK  ,MAT ,GBUF%VOL)
 c
       IF (IPARIT == 0) THEN
         CALL C3UPDT3(JFT  ,JLT  ,F   ,M   ,NVC  ,
