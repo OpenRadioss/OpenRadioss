@@ -27,7 +27,7 @@ Chd|        ALE51_GRADIENT_RECONSTRUCTION source/ale/alemuscl/ale51_gradient_rec
 Chd|        CENTROID3T                    source/multifluid/centroid.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE GEOM(A, B, C, CENTER, VOL)
+      SUBROUTINE GEOM(A, B, C, CENTER_X,CENTER_Y,CENTER_Z, VOL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -36,12 +36,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C----------------------------------------------- 
       my_real, INTENT(IN) :: A(3), B(3), C(3)
-      my_real, INTENT(INOUT) :: CENTER(3), VOL
+      my_real, INTENT(INOUT) :: CENTER_X,CENTER_Y,CENTER_Z, VOL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: NORM(3), AB, BC, CA
-      INTEGER :: JJ
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
@@ -56,9 +55,9 @@ C-----------------------------------------------
       BC = DOT_PRODUCT(HALF * (B + C), HALF * (B + C))
       CA = DOT_PRODUCT(HALF * (C + A), HALF * (C + A))
 
-      DO JJ = 1, 3
-         CENTER(JJ) = CENTER(JJ) + NORM(JJ) * (AB + BC + CA)
-      ENDDO
+      CENTER_X = CENTER_X + NORM(1) * (AB + BC + CA)
+      CENTER_Y = CENTER_Y + NORM(2) * (AB + BC + CA)
+      CENTER_Z = CENTER_Z + NORM(3) * (AB + BC + CA)
 
 C-----------------------------------------------      
       END SUBROUTINE GEOM

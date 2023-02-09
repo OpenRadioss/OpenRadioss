@@ -124,64 +124,64 @@ C     ALE ON / OFF
                II     = I+NFT    
                
                !!! Element centroid
-               ELCENTER(1, II) = ZERO ; ELCENTER(2, II) = ZERO ; ELCENTER(3, II) = ZERO
+               ELCENTER(II,1) = ZERO ; ELCENTER(II,2) = ZERO ; ELCENTER(II,3) = ZERO
                VOL = ZERO
                !!! Face 1
                !!! Points 321
                A = X(1:3, IXS(1+3, II)) ; B = X(1:3, IXS(2+1, II)) ; C = X(1:3, IXS(1+1, II))
-               CALL GEOM(A, B, C, ELCENTER(1:3, II), VOL)
+               CALL GEOM(A, B, C,ELCENTER(II,1),ELCENTER(II,2),ELCENTER(II,3), VOL)
                !!! Points 314
                A = X(1:3, IXS(3+1, II)) ; B = X(1:3, IXS(1+1, II)) ; C = X(1:3, IXS(4+1, II))
-               CALL GEOM(A, B, C, ELCENTER(1:3, II), VOL)
+               CALL GEOM(A, B, C,ELCENTER(II,1),ELCENTER(II,2),ELCENTER(II,3), VOL)
 
                !!! Face 2
                !!! Points 473
                A = X(1:3, IXS(4+1, II)) ; B = X(1:3, IXS(7+1, II)) ; C = X(1:3, IXS(3+1, II))
-               CALL GEOM(A, B, C, ELCENTER(1:3, II), VOL)
+               CALL GEOM(A, B, C,ELCENTER(II,1),ELCENTER(II,2),ELCENTER(II,3), VOL)
 
                !!! Points 487
                A = X(1:3, IXS(4+1, II)) ; B = X(1:3, IXS(8+1, II)) ; C = X(1:3, IXS(7+1, II))
-               CALL GEOM(A, B, C, ELCENTER(1:3, II), VOL)
+               CALL GEOM(A, B, C,ELCENTER(II,1),ELCENTER(II,2),ELCENTER(II,3), VOL)
 
                !!! Face 3
                !!! Points 678
                A = X(1:3, IXS(6+1, II)) ; B = X(1:3, IXS(7+1, II)) ; C = X(1:3, IXS(8+1, II))
-               CALL GEOM(A, B, C, ELCENTER(1:3, II), VOL)
+               CALL GEOM(A, B, C,ELCENTER(II,1),ELCENTER(II,2),ELCENTER(II,3), VOL)
 
                !!! Points 685
                A = X(1:3, IXS(6+1, II)) ; B = X(1:3, IXS(8+1, II)) ; C = X(1:3, IXS(5+1, II))
-               CALL GEOM(A, B, C, ELCENTER(1:3, II), VOL)
+               CALL GEOM(A, B, C,ELCENTER(II,1),ELCENTER(II,2),ELCENTER(II,3), VOL)
 
                !!! Face 4
                !!! Points 126
                A = X(1:3, IXS(1+1, II)) ; B = X(1:3, IXS(2+1, II)) ; C = X(1:3, IXS(6+1, II))
-               CALL GEOM(A, B, C, ELCENTER(1:3, II), VOL)
+               CALL GEOM(A, B, C,ELCENTER(II,1),ELCENTER(II,2),ELCENTER(II,3), VOL)
 
                !!! Points 165
                A = X(1:3, IXS(1+1, II)) ; B = X(1:3, IXS(6+1, II)) ; C = X(1:3, IXS(5+1, II))
-               CALL GEOM(A, B, C, ELCENTER(1:3, II), VOL)
+               CALL GEOM(A, B, C,ELCENTER(II,1),ELCENTER(II,2),ELCENTER(II,3), VOL)
 
                !!! Face 5
                !!! Points 236
                A = X(1:3, IXS(2+1, II)) ; B = X(1:3, IXS(3+1, II)) ; C = X(1:3, IXS(6+1, II))
-               CALL GEOM(A, B, C, ELCENTER(1:3, II), VOL)
+               CALL GEOM(A, B, C,ELCENTER(II,1),ELCENTER(II,2),ELCENTER(II,3), VOL)
 
                !!! Points 376
                A = X(1:3, IXS(3+1, II)) ; B = X(1:3, IXS(7+1, II)) ; C = X(1:3, IXS(6+1, II))
-               CALL GEOM(A, B, C, ELCENTER(1:3, II), VOL)
+               CALL GEOM(A, B, C,ELCENTER(II,1),ELCENTER(II,2),ELCENTER(II,3), VOL)
 
                !!! Face 6
                !!! Points 154
                A = X(1:3, IXS(1+1, II)) ; B = X(1:3, IXS(5+1, II)) ; C = X(1:3, IXS(4+1, II))
-               CALL GEOM(A, B, C, ELCENTER(1:3, II), VOL)
+               CALL GEOM(A, B, C,ELCENTER(II,1),ELCENTER(II,2),ELCENTER(II,3), VOL)
 
                !!! Points 458
                A = X(1:3, IXS(4+1, II)) ; B = X(1:3, IXS(5+1, II)) ; C = X(1:3, IXS(8+1, II))
-               CALL GEOM(A, B, C, ELCENTER(1:3, II), VOL)
+               CALL GEOM(A, B, C,ELCENTER(II,1),ELCENTER(II,2),ELCENTER(II,3), VOL)
 
 
                VOL = VOL / 6.D0
-               ELCENTER(1:3, II) = ELCENTER(1:3, II) / 12.D0 / VOL
+               ELCENTER(II,1:3) = ELCENTER(II,1:3) / 12.D0 / VOL
                
                
             ENDDO  
@@ -211,9 +211,9 @@ C     ALE ON / OFF
             !!!   Volume fraction
             DO I=LFT,LLT 
                II     = I+NFT    
-               VOLUME_FRACTION(ITRIMAT, II) = VOLP(I)/VOLG(I)
-               VOLUME_FRACTION(ITRIMAT, II) = 
-     .              MAX(ZERO,MIN(ONE,VOLUME_FRACTION(ITRIMAT, II))) 
+               VOLUME_FRACTION(II,ITRIMAT) = VOLP(I)/VOLG(I)
+               VOLUME_FRACTION(II,ITRIMAT) = 
+     .              MAX(ZERO,MIN(ONE,VOLUME_FRACTION(II,ITRIMAT))) 
                
             ENDDO  
          ENDDO  
@@ -226,12 +226,12 @@ C     ALE ON / OFF
 !$OMP SINGLE
          !!! Volumic fractions comm
          DO ITRIMAT = 1, TRIMAT
-            CALL SPMD_E1VOIS(VOLUME_FRACTION(ITRIMAT, :), NERCVOIS, NESDVOIS,
+            CALL SPMD_E1VOIS(VOLUME_FRACTION(1,ITRIMAT), NERCVOIS, NESDVOIS,
      .           LERCVOIS, LESDVOIS, LENCOM)
          ENDDO
          !!! Centroid coordinates comm
          DO JJ = 1, 3
-            CALL SPMD_E1VOIS(ELCENTER(JJ, :), NERCVOIS, NESDVOIS,
+            CALL SPMD_E1VOIS(ELCENTER(1,JJ), NERCVOIS, NESDVOIS,
      .           LERCVOIS, LESDVOIS, LENCOM)
          ENDDO
 !$OMP END SINGLE
@@ -240,17 +240,17 @@ C     ALE ON / OFF
       
       DO NODE_ID = 1 + ITASK, NUMNOD, NTHREAD
          DO ITRIMAT = 1, TRIMAT
-            NODE_MAX_VALUE(ITRIMAT, NODE_ID) = -EP30
-            NODE_MIN_VALUE(ITRIMAT, NODE_ID) = EP30
+            NODE_MAX_VALUE(NODE_ID,ITRIMAT) = -EP30
+            NODE_MIN_VALUE(NODE_ID,ITRIMAT) = EP30
             JMIN = pADDCNEL(NODE_ID)
             JMAX = pADDTMPL(NODE_ID) - 1
             DO JJ = JMIN, JMAX
                ELEM_ID = pCNEL(JJ)
                IF (ELEM_ID   /=  0 .AND. ELEM_ID <= NUMELS) THEN
-                  NODE_MAX_VALUE(ITRIMAT,NODE_ID) = MAX(NODE_MAX_VALUE(ITRIMAT,NODE_ID), 
-     .                 VOLUME_FRACTION(ITRIMAT, ELEM_ID))
-                  NODE_MIN_VALUE(ITRIMAT,NODE_ID) = MIN(NODE_MIN_VALUE(ITRIMAT,NODE_ID), 
-     .                 VOLUME_FRACTION(ITRIMAT, ELEM_ID))
+                  NODE_MAX_VALUE(NODE_ID,ITRIMAT) = MAX(NODE_MAX_VALUE(NODE_ID,ITRIMAT), 
+     .                 VOLUME_FRACTION(ELEM_ID,ITRIMAT))
+                  NODE_MIN_VALUE(NODE_ID,ITRIMAT) = MIN(NODE_MIN_VALUE(NODE_ID,ITRIMAT), 
+     .                 VOLUME_FRACTION(ELEM_ID,ITRIMAT))
                ENDIF
             ENDDO
          ENDDO
@@ -260,7 +260,7 @@ C     ALE ON / OFF
       IF(NSPMD  > 1)THEN
 !$OMP SINGLE
          DO ITRIMAT = 1, TRIMAT
-            CALL  SPMD_EXCH_MIN_MAX(IAD_ELEM ,FR_ELEM ,NODE_MIN_VALUE(ITRIMAT, :), NODE_MAX_VALUE(ITRIMAT, :) )
+            CALL  SPMD_EXCH_MIN_MAX(IAD_ELEM ,FR_ELEM ,NODE_MIN_VALUE(1,ITRIMAT), NODE_MAX_VALUE(1,ITRIMAT) )
          ENDDO
 !$OMP END SINGLE
       ENDIF
@@ -292,7 +292,7 @@ C     ALE ON / OFF
 C     Communication MPI pour les gradients
 !$OMP SINGLE
          DO ITRIMAT = 1, TRIMAT
-            CALL SPMD_ENVOIS(3, GRAD(ITRIMAT, 1:3, :), 
+            CALL SPMD_ENVOIS(3, GRAD(1,1,ITRIMAT), 
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
          ENDDO
 !$OMP END SINGLE         

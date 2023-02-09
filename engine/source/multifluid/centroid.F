@@ -154,22 +154,22 @@ C     Centroid
          A(1:3) = X1(1:3)
          B(1:3) = X2(1:3)
          C(1:3) = X4(1:3)
-         CALL GEOM(A, B, C, ELEM_CENTROID(1:3, II), VOL)
+         CALL GEOM(A, B, C,ELEM_CENTROID(1,II),ELEM_CENTROID(2,II),ELEM_CENTROID(3,II), VOL)
 
          A(1:3) = X1(1:3)
          B(1:3) = X3(1:3)
          C(1:3) = X2(1:3)
-         CALL GEOM(A, B, C, ELEM_CENTROID(1:3, II), VOL)
+         CALL GEOM(A, B, C,ELEM_CENTROID(1,II),ELEM_CENTROID(2,II),ELEM_CENTROID(3,II), VOL)
 
          A(1:3) = X1(1:3)
          B(1:3) = X4(1:3)
          C(1:3) = X3(1:3)
-         CALL GEOM(A, B, C, ELEM_CENTROID(1:3, II), VOL)
+         CALL GEOM(A, B, C,ELEM_CENTROID(1,II),ELEM_CENTROID(2,II),ELEM_CENTROID(3,II), VOL)
 
          A(1:3) = X2(1:3)
          B(1:3) = X3(1:3)
          C(1:3) = X4(1:3)
-         CALL GEOM(A, B, C, ELEM_CENTROID(1:3, II), VOL)
+         CALL GEOM(A, B, C,ELEM_CENTROID(1,II),ELEM_CENTROID(2,II),ELEM_CENTROID(3,II), VOL)
          
          VOL = VOL / 6.D0
          ELEM_CENTROID(1:3, II) = ELEM_CENTROID(1:3, II) / 12.D0 / VOL

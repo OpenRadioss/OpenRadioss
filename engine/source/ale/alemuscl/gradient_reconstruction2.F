@@ -96,8 +96,8 @@ C-----------------------------------------------
          !!! Reset mat, rhs
          mat(1:2, 1:2) = ZERO ; rhs(1:2) = ZERO
          !!! Value of the target function in the element
-         VALK = VOLUME_FRACTION(ITRIMAT,II)
-         YK = ELCENTER(2, II) ; ZK = ELCENTER(3, II)
+         VALK = VOLUME_FRACTION(II,ITRIMAT)
+         YK = ELCENTER(II,2) ; ZK = ELCENTER(II,3)
          !!! IXS(2:9, II) : Node global ID
          IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
          LGTH = ALE_CONNECT%ee_connect%iad_connect(II+1)-IAD2
@@ -105,8 +105,8 @@ C-----------------------------------------------
             VOIS_ID = ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1)
             IF (VOIS_ID > 0) THEN
                !!! Value of the target function in the current neighbor
-               VALL = VOLUME_FRACTION(ITRIMAT,VOIS_ID)
-               YL = ELCENTER(2, VOIS_ID) ; ZL = ELCENTER(3, VOIS_ID)
+               VALL = VOLUME_FRACTION(VOIS_ID,ITRIMAT)
+               YL = ELCENTER(VOIS_ID,2) ; ZL = ELCENTER(VOIS_ID,3)
             ELSE
                IF(VOIS_ID == 0) THEN
                  VALL = VALK
@@ -121,8 +121,8 @@ C-----------------------------------------------
                YF = HALF * (X(2, NODEID1) + X(2, NODEID2))
                ZF = HALF * (X(3, NODEID1) + X(3, NODEID2))
 
-               YL = TWO * YF - ELCENTER(2, II)
-               ZL = TWO * ZF - ELCENTER(3, II)
+               YL = TWO * YF - ELCENTER(II,2)
+               ZL = TWO * ZF - ELCENTER(II,3)
             ENDIF
 
             !!! Incrementing mat and rhs
@@ -142,8 +142,8 @@ C-----------------------------------------------
          sol(1) = undet * (rhs(1) * mat(2,2) - rhs(2) * mat(1,2))
          sol(2) = undet * (- mat(2,1) * rhs(1) + mat(1, 1) * rhs(2))
          !!! Solution goes to the gradient
-         GRAD(ITRIMAT,2, II) = -sol(1)
-         GRAD(ITRIMAT,3, II) = -sol(2)
+         GRAD(II,2,ITRIMAT) = -sol(1)
+         GRAD(II,3,ITRIMAT) = -sol(2)
       ENDDO  ! I = LFT, LLT
 C-----------------------------------------------      
       END SUBROUTINE GRADIENT_RECONSTRUCTION2
