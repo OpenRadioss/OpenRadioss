@@ -48,6 +48,8 @@ Chd|        PRELECDET                     source/initial_conditions/detonation/p
 Chd|        PRINTSTSZ                     source/spmd/node/st_array_size.F
 Chd|        Q4INIT2                       source/elements/solid_2d/quad4/q4init2.F
 Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
+Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
+Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
 Chd|        READ_DETONATORS               source/initial_conditions/detonation/read_detonators.F
 Chd|        READ_DFS_DETCORD              source/initial_conditions/detonation/read_dfs_detcord.F
 Chd|        READ_DFS_DETLINE              source/initial_conditions/detonation/read_dfs_detline.F

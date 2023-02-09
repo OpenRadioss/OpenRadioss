@@ -43,6 +43,7 @@ Chd|        TAGINT_R2R                    source/coupling/rad2rad/tagint_r2r.F
 Chd|        TAG_ELEM_VOID_R2R             source/coupling/rad2rad/tagelem_r2r.F
 Chd|        TAG_ELEM_VOID_R2R_LIN         source/coupling/rad2rad/tagelem_r2r.F
 Chd|        USR2SYS                       source/system/sysfus.F        
+Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
