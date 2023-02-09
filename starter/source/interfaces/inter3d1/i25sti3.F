@@ -403,7 +403,8 @@ C------------------------------------
      F GAPMX  , GAPMN  ,GAPSCALE  ,GAPMAX_M,
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT ,
      H PM_STACK, IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
-     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE)
+     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE,
+     J IVIS2)
 C---------------------------
 C     GAP 
 C---------------------------
@@ -588,9 +589,11 @@ C
           END DO
         END IF
        ENDIF
-
+      ENDIF
 
 C     
+      IF(INTTH > 0 ) THEN
+
        IF(ILEV /= 3 )THEN
         IF(NUMELS/=0)THEN
           DO I = 1,NSN    
@@ -707,7 +710,8 @@ Chd|====================================================================
      F GAPMX  , GAPMN  ,GAPSCALE  ,GAPMAX_M,
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT ,
      H PM_STACK, IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
-     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE)
+     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE,
+     J IVIS2  )
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD  
@@ -748,6 +752,7 @@ C-----------------------------------------------
      .   ITAB(*), IXS10(6,*),MSEGTYP(*), IXS16(*), IXS20(*),
      .   IGEO(NPROPGI,*),NRTT,IWORKSH(3,*),TAGPRT_FRIC(*),IPARTFRICS(*),
      .   IPARTFRICM(*) ,IPARTSM(*),INRTIE(*)
+      INTEGER  , INTENT(IN) :: IVIS2
 C     REAL
       my_real
      .   STFAC, GAP,BGAPSMX,GAPS1 ,GAPS2,GAPMX ,GAPMN ,GAPSCALE
@@ -767,13 +772,14 @@ C-----------------------------------------------
       INTEGER I, J, INRT, NELS, MT, JJ, JJJ, NELC,
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IAD,NREV,IGTYP,IPGMAT,IGMAT,
-     .   ISUBSTACK,IPL,IPG
+     .   ISUBSTACK,IPL,IPG,ISOL
 C     REAL
       my_real
      .   AREA, VOL, DX, GAPM, DDX, 
      .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
      .   XL,STIFC, STV, STC
 C----------------------
+      ISOL = 0
       NREV=0
       IPGMAT = 700
       DO I=1,NRT
@@ -824,6 +830,7 @@ C----------------------
      .                    I3=I)
            ENDIF
          ENDIF
+         ISOL = 1
          GAP_N(1,I)=VOL/AREA
 C--------Correction for different elements
          IF(NELS>NUMELS8.AND.NELS<=NUMELS8+NUMELS10)THEN
@@ -1052,6 +1059,14 @@ C      en SPMD il faut un element associe a l'arrete sinon erreur
          ENDIF
        ENDIF
       END DO
+C
+      IF(IVIS2 /=0.AND.ISOL /=0) THEN
+              CALL ANCMSG(MSGID=2096,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO_BLIND_2,
+     .                    I1=ID,
+     .                    C1=TITR)
+      ENDIF
 C	  
       DO I=1,NRTT
        GAP_M(I)=MIN(GAP_M(I),GAPMAX_M)
