@@ -242,10 +242,10 @@ C-----------------------------------------------
             NFIRST = 1+ITASK*(NUMELQ)/NTHREAD
             NLAST = (ITASK+1)*(NUMELQ)/NTHREAD
          ENDIF
-        DO I = NFIRST, NLAST
-          N4_VOIS(I,1) = 0
-          FLUX_VOIS(I,1:NV46) = -EP20
-        ENDDO
+         N4_VOIS(NFIRST:NLAST,1) = 0
+         DO I=1,NV46
+            FLUX_VOIS(NFIRST:NLAST,I) = -EP20
+         ENDDO
 C----------------------
         CALL MY_BARRIER
 C----------------------
