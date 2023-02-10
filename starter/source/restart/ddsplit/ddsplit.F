@@ -2979,7 +2979,7 @@ C--------------------------------------------
 C Sensors
 C--------------------------------------------
       IF (NSENSOR > 0) THEN
-        CALL WRITE_SENSOR_TAB(SENSOR_TAB,NSENSOR,NODLOCAL,LEN_AM)
+        CALL WRITE_SENSOR_TAB(SENSOR_TAB,NSENSOR,NODLOCAL)
       END IF
 C--------------------------------------------
 C RBM

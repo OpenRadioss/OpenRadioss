@@ -215,7 +215,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   m y _ r e a l
 C-----------------------------------------------
-#include      "my_real.inc"
+#include "my_real.inc"
+#include "nchar_c.inc"
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
@@ -239,6 +240,7 @@ C-----------------------------------------------
         INTEGER :: STATUS      !   sensor status
                                !          = 0   : deactivated
                                !          = 1   : activated at TSTART
+        CHARACTER(LEN = nchartitle) :: TITLE
         my_real :: TCRIT       !   time when activation criterion is met
         my_real :: TMIN        !   time duration of crit value before activation
         my_real :: TDELAY      !   time delay before activation (after Tmin)

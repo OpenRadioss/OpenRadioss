@@ -29,7 +29,7 @@ Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
-      SUBROUTINE WRITE_SENSOR_TAB(SENSOR_TAB,NSENSOR,NODLOCAL,LEN_AM)
+      SUBROUTINE WRITE_SENSOR_TAB(SENSOR_TAB,NSENSOR,NODLOCAL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -37,20 +37,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"
+#include "implicit_f.inc"
+#include "scr17_c.inc"
+#include "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER , INTENT(IN)    :: NSENSOR
-      INTEGER , INTENT(INOUT) :: LEN_AM
       INTEGER , DIMENSION(*)  :: NODLOCAL
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR,N1,N2,TYP
+      INTEGER, DIMENSION(LTITR) :: ITITLE
       INTEGER, DIMENSION(:), ALLOCATABLE :: LTEMP
       my_real, DIMENSION(:), ALLOCATABLE :: RBUF
+      CHARACTER(LEN = nchartitle) :: TITLE
       TYPE (SENSOR_STR_) ,POINTER :: SENSOR
 C=======================================================================
       NFIX = 11
@@ -61,6 +64,7 @@ c
         NPARI = SENSOR%NPARI
         NPARR = SENSOR%NPARR
         NVAR  = SENSOR%NVAR
+        TITLE = SENSOR_TAB(ISEN)%TITLE
         ALLOCATE (LTEMP(NPARI))
         LTEMP(1:NPARI) = SENSOR%IPARAM(1:NPARI)
 c       update node system N° after renumbering for sensors using nodes
@@ -128,7 +132,11 @@ c
         CALL WRITE_DB (RBUF,LEN)
         DEALLOCATE (RBUF)
         DEALLOCATE (LTEMP)
-
+c
+c       write sensor title
+        CALL FRETITL(TITLE,ITITLE,LTITR)
+        CALL WRITE_I_C(ITITLE,LTITR)
+c
         IF (TYP==29.OR.TYP==30.OR.TYP==31)THEN
           CALL WRITE_I_C(SENSOR%INTEGER_USERPARAM,NSENPARI)
           CALL WRITE_I_C(SENSOR%INTEGER_USERBUF,ISENBUF)

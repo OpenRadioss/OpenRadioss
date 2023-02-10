@@ -37,7 +37,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"
+#include "implicit_f.inc"
+#include "scr17_c.inc"
+#include "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -47,7 +49,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR,TYP
+      INTEGER, DIMENSION(LTITR) :: ITITLE
       my_real, DIMENSION(:), ALLOCATABLE :: HEAD,RBUF
+      CHARACTER(LEN = nchartitle) :: TITLE
       TYPE (SENSOR_STR_) ,POINTER :: SENSOR
 C=======================================================================
       NFIX = 11
@@ -102,7 +106,12 @@ c
         END IF
 c         
         DEALLOCATE (RBUF)
-
+c
+c       read sensor title
+        CALL READ_I_C(ITITLE,LTITR)
+        CALL FRETITL2(TITLE,ITITLE,LTITR)
+        SENSOR%TITLE = TITLE
+c
         TYP = SENSOR%TYPE
         IF (TYP == 29 .OR. TYP == 30 .OR. TYP == 31)THEN
 

@@ -37,7 +37,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"
+#include "implicit_f.inc"
+#include "scr17_c.inc"
+#include "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -47,16 +49,20 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR,TYP
+      INTEGER, DIMENSION(LTITR) :: ITITLE
       my_real, DIMENSION(:), ALLOCATABLE :: RBUF
+      CHARACTER(LEN = nchartitle) :: TITLE
       TYPE (SENSOR_STR_) ,POINTER :: SENSOR
 C=======================================================================
       NFIX = 11
 c
       DO ISEN=1,NSENSOR
         SENSOR => SENSOR_TAB(ISEN)
+        TYP   = SENSOR%TYPE 
         NPARI = SENSOR%NPARI
         NPARR = SENSOR%NPARR
         NVAR  = SENSOR%NVAR
+        TITLE = SENSOR_TAB(ISEN)%TITLE
         
         LEN = NFIX + NPARI + NPARR + NVAR
         ALLOCATE (RBUF(LEN) )
@@ -97,7 +103,10 @@ c
         CALL WRITE_DB (RBUF,LEN)
         DEALLOCATE (RBUF)
 c
-        TYP = SENSOR%TYPE
+c       write sensor title
+        CALL FRETITL(TITLE,ITITLE,LTITR)
+        CALL WRITE_I_C(ITITLE,LTITR)
+c
         IF (TYP==29.OR.TYP==30.OR.TYP==31)THEN
           CALL WRITE_I_C(SENSOR%INTEGER_USERPARAM,NSENPARI)
           CALL WRITE_I_C(SENSOR%INTEGER_USERBUF,ISENBUF)
