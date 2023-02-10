@@ -190,9 +190,7 @@ C
         DO I=1,NNE
           N = ITHBUF(IAD)
           ITHBUF(IAD+2*NNE) = SENSOR_TAB(N)%SENS_ID
-          TITR(1:40) = '  SENSOR_ID '
-          WRITE(ID_TXT,FMT='(I10,A)')  SENSOR_TAB(N)%SENS_ID,''
-          TITR(13:40) = ID_TXT(1:20) 
+          TITR = SENSOR_TAB(N)%TITLE
 
           CALL FRETITL(TITR,ITHBUF(IAD2),40)
 

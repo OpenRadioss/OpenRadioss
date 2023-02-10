@@ -112,7 +112,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISEN,IUNIT,IFLAGUNIT,NS,TYP,UNIT_ID,SENS_ID
+      INTEGER ISEN,IUNIT,IFLAGUNIT,NS,TYP,UNIT_ID,SENS_ID
       my_real :: BID
       CHARACTER TITR*nchartitle,KEY*40,MESS*40
       INTEGER ,DIMENSION(NSENSOR)    :: SID
@@ -254,14 +254,16 @@ c---
      .                  I1=SENS_ID,
      .                  C1=TITR)        
         END SELECT 
+c
+        SENSOR_TAB(ISEN)%TITLE = TITR
 c-----------------
       END DO  ! NSENSOR
 c-------------------------------------
 c     Recherche des ID doubles  : activate this code when lecsen is removed
 c-------------------------------------
-      DO I = 1,NSENSOR
-        IF (SENSOR_TAB(I)%SENS_ID > 0)  THEN
-          SID(I) = SENSOR_TAB(I)%SENS_ID
+      DO ISEN = 1,NSENSOR
+        IF (SENSOR_TAB(ISEN)%SENS_ID > 0)  THEN
+          SID(ISEN) = SENSOR_TAB(ISEN)%SENS_ID
         END IF
       END DO
       CALL UDOUBLE(SID,1,NSENSOR,MESS,0,BID)
