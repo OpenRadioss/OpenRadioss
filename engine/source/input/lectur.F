@@ -112,7 +112,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com02_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com07_c.inc"
@@ -140,7 +139,6 @@ C-----------------------------------------------
 #include      "scrcut_c.inc"
 #include      "scrnoi_c.inc"
 #include      "parit_c.inc"
-#include      "rnur_c.inc"
 #include      "scrupw_c.inc"
 #include      "scr_fac_c.inc"
 #include      "couple_c.inc"
@@ -158,7 +156,7 @@ C-----------------------------------------------
 #include      "userlib.inc"
 #include      "alefvm.inc"
 #include      "scr_thermal_c.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 #include      "alesolver.inc"
 #include      "alemuscl.inc"
 #include      "spmd_c.inc"
@@ -2761,7 +2759,7 @@ C-------------------------------------------
         K5=K4+NUMELT
         K6=K5+NUMELP
         K7=K6+NUMELR
-        K8=K7+NUMELUR
+        K8=K7
         K9=K8+NUMELTG
         CALL LECSTAT(IPART,IPART_STATE,ELBUF_STR,IPM,IPARG,
      .               IPART(K1),IPART(K3),IPART(K8))
@@ -2777,7 +2775,7 @@ C-------------------------------------------
         K5=K4+NUMELT
         K6=K5+NUMELP
         K7=K6+NUMELR
-        K8=K7+NUMELUR
+        K8=K7
         K9=K8+NUMELTG
         CALL READ_DYNAIN(IPART,IPART_DYNAIN,IPART(K3),IPART(K8),IXC,IXTG)
       END IF

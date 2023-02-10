@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE BUILD_CNEL(
      2   IXS        ,IXQ        ,IXC        ,IXT      ,IXP      ,
-     3   IXR        ,IXTG       ,IXUR       ,IXS10    ,IXS20    ,
+     3   IXR        ,IXTG       ,IXS10      ,IXS20    ,
      4   IXS16      ,IXTG1      ,IGEO       ,KNOD2ELS ,KNOD2ELC ,
      5   KNOD2ELTG  ,NOD2ELS    ,NOD2ELC    ,NOD2ELTG ,CNEL     ,
      6   ADDCNEL    ,KXX        ,IXX        ,X        ,LELX     ,
@@ -49,12 +49,11 @@ C-----------------------------------------------
 #include      "scr23_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "rnur_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
-     .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*), IXUR(NIXUR,*),
+     .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
      .        IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG1(4,*),
      .        IGEO(NPROPGI,*),KNOD2ELS(*),KNOD2ELC(*),KNOD2ELTG(*),
      .        NOD2ELS(*),NOD2ELC(*),NOD2ELTG(*),ADDCNEL(*),CNEL(*),
@@ -232,13 +231,6 @@ c      DO I=1,NUMELR
 c        N = IXR(4,I)
 c        IF(IGEO(11,IXR(1,I))==12)  ADDCNEL(N) = ADDCNEL(N) + 1
 c      END DO
-
-c      DO K=2,5
-c        DO I=1,NUMELUR
-c          N = IXUR(K,I) + 1
-c          ADDCNEL(N) = ADDCNEL(N) + 1
-c        END DO
-c      END DO
 C
 C-----------------------------------------------
 C
@@ -380,13 +372,7 @@ c          CNEL(ADDCNEL(N)) = OFFSET_R+I
 c        END IF
 c      END DO
 
-c      DO K=2,5
-c        DO I=1,NUMELUR
-c          N = IXUR(K,I) + 1
-c          ADDCNEL(N) = ADDCNEL(N) + 1
-c          CNEL(ADDCNEL(N)) = NUMELT+NUMELP+NUMELR+I
-c        END DO
-c      END DO
+
 C
 
 c fill LELX (use in I11STI3 and I20STI3E)
@@ -469,7 +455,6 @@ C-----------------------------------------------
 #include      "scr23_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "rnur_c.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -575,7 +560,6 @@ C-----------------------------------------------
 #include      "scr23_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "rnur_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

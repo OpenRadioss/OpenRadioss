@@ -31,12 +31,12 @@ Chd|====================================================================
       SUBROUTINE SPMD_MSIN_ADDMASS(
      1               IXS    ,IXS10  ,IXS20  ,IXS16  ,IXQ      ,
      2               IXC    ,IXT    ,IXP    ,IXR    ,IXTG     ,
-     3               IXUR   ,MSS    ,MSSX   ,MSQ    ,MSC      ,
-     4               MST    ,MSP    ,MSR    ,MSTG   ,MSUR     ,
-     5               PTG    ,EVUR   ,MS     ,INDEX  ,ITRI     ,
+     3               MSS    ,MSSX   ,MSQ    ,MSC    ,
+     4               MST    ,MSP    ,MSR    ,MSTG   ,
+     5               PTG    ,MS     ,INDEX  ,ITRI     ,
      6               GEO    ,SH4TREE,SH3TREE,PARTSAV,IPMAS    ,
      7               IPARTS ,IPARTQ ,IPARTC ,IPARTT   ,
-     8               IPARTP ,IPARTR ,IPARTUR,IPARTTG,TOTADDMAS,
+     8               IPARTP ,IPARTR ,IPARTTG,TOTADDMAS,
      9               IPART  ,THK    ,PM     ,PART_AREA,
      A               ADDEDMS,ITAB   ,PARTSAV1_PON,ELE_AREA)
 C-----------------------------------------------
@@ -59,7 +59,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "scr03_c.inc"
-#include      "rnur_c.inc"
 #include      "scr12_c.inc"
 #include      "scr17_c.inc"
 #include      "remesh_c.inc"
@@ -68,14 +67,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IXS10(6,*),IXS20(12,*),IXS16(8,*),
      .   IXQ(NIXQ,*),IXC(NIXC,*),IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
-     .   IXTG(6,*),IXUR(6,*),INDEX(*), ITRI(*),SH4TREE(KSH4TREE,*),
+     .   IXTG(6,*),INDEX(*), ITRI(*),SH4TREE(KSH4TREE,*),
      .   SH3TREE(KSH3TREE,*),IPARTS(*),IPARTQ(*),IPARTC(*),
-     .   IPARTT(*),IPARTP(*),IPARTR(*),IPARTUR(*),IPARTTG(*),
+     .   IPARTT(*),IPARTP(*),IPARTR(*),IPARTTG(*),
      .   IPART(LIPART1,*),ITAB(*)
 C     REAL
       my_real
      .   MSS(8,*),MSSX(12,*),MSQ(*),MSC(*),MST(*),MSP(*),MSR(3,*),
-     .   MSTG(*),MSUR(*),PTG(3,*),EVUR(3,*),MS(*),GEO(NPROPG,*),
+     .   MSTG(*),PTG(3,*),MS(*),GEO(NPROPG,*),
      .   PARTSAV(20,*),TOTADDMAS,PART_AREA(*),THK(*),
      .   ADDEDMS(*),PM(NPROPM,*),PARTSAV1_PON(NPART),ELE_AREA(*)
 C
@@ -504,11 +503,11 @@ Chd|====================================================================
       SUBROUTINE SPMD_PARTSAV_PON(
      1               IXS    ,IXS10  ,IXS20  ,IXS16        ,IXQ    ,
      2               IXC    ,IXT    ,IXP    ,IXR          ,IXTG   ,
-     3               IXUR   ,MSS    ,MSSX   ,MSQ          ,MSC    ,
-     4               MST    ,MSP    ,MSR    ,MSTG         ,MSUR   ,
+     3               MSS    ,MSSX   ,MSQ          ,MSC    ,
+     4               MST    ,MSP    ,MSR    ,MSTG         ,
      5               INDEX  ,ITRI   ,GEO    ,PARTSAV1_PON ,IPARTS ,
      6               IPARTQ ,IPARTC ,IPARTT ,IPARTP       ,IPARTR ,
-     7               IPARTUR,IPARTTG,IPART  )
+     7               IPARTTG,IPART  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -525,7 +524,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "scr03_c.inc"
-#include      "rnur_c.inc"
 #include      "scr12_c.inc"
 #include      "scr17_c.inc"
 #include      "remesh_c.inc"
@@ -534,14 +532,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IXS10(6,*),IXS20(12,*),IXS16(8,*),
      .   IXQ(NIXQ,*),IXC(NIXC,*),IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
-     .   IXTG(6,*),IXUR(6,*),INDEX(*), ITRI(*),
+     .   IXTG(6,*),INDEX(*), ITRI(*),
      .   IPARTS(*),IPARTQ(*),IPARTC(*),
-     .   IPARTT(*),IPARTP(*),IPARTR(*),IPARTUR(*),IPARTTG(*),
+     .   IPARTT(*),IPARTP(*),IPARTR(*),IPARTTG(*),
      .   IPART(LIPART1,*)
 C     REAL
       my_real
      .   MSS(8,*),MSSX(12,*),MSQ(*),MSC(*),MST(*),MSP(*),MSR(3,*),
-     .   MSTG(*),MSUR(*),GEO(NPROPG,*),PARTSAV1_PON(NPART)
+     .   MSTG(*),GEO(NPROPG,*),PARTSAV1_PON(NPART)
 C
       INTEGER IDEB
 C-----------------------------------------------

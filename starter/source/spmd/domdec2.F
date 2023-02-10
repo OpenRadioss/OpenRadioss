@@ -47,7 +47,7 @@ Chd|====================================================================
      2   LPBY   ,IXRI   ,IBVEL  ,LBVEL ,
      3   IPARG  ,CEL    ,IXS    ,IXS10 ,IXS20 ,
      4   IXS16  ,IXQ    ,IXC    ,IXT   ,IXP   ,
-     5   IXR    ,IXUR   ,IXTG   ,IXTG6 ,T_MONVOL,
+     5   IXR    ,IXTG   ,IXTG6 ,T_MONVOL,
      6   IGRSURF,ADSKY  ,LCNE   ,GEO   ,
      7   NPRW   ,LPRW   ,LCNI2  ,ADSKYI2,CEPI2,
      8   CELI2  ,I2NSNT ,ISKN   ,ISKWP,NSKWP  ,
@@ -86,7 +86,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "units_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
@@ -106,7 +105,7 @@ C-----------------------------------------------
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
      .        IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG6(4,*),IB(NIBCLD,*),
-     .        IXUR(NIXUR,*),I2NSNT,ISKN(LISKN,*),ISKWP(*),NSKWP(*),
+     .        I2NSNT,ISKN(LISKN,*),ISKWP(*),NSKWP(*),
      .        ADSKY(0:*), LCNE, LCNI2, ADSKYI2(0:*),CEPI2(*),CELI2(*),
      .        ISENSP(2,*), NSENSP(*), IACCP(*), NACCP(*),
      .        LACCELM(3,*),IBCV(NICONV, *),IRBE3(NRBE3L,*), LRBE3(*),
@@ -1415,12 +1414,6 @@ C elem penta6
         END DO
       END IF
 C
-      DO K=2,5
-        DO I=1,NUMELUR
-          N = IXUR(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
-        ENDDO
-      ENDDO
 C--------------------------------------
 Cel prise en compte des forces des mv
 C--------------------------------------
@@ -2026,7 +2019,7 @@ Chd|====================================================================
       SUBROUTINE FILLCNE(
      1   CNE    ,LCNE   ,IXS  ,IXS10  ,IXS20  ,
      2   IXS16  ,IXQ    ,IXC  ,IXT    ,IXP    ,
-     3   IXR    ,IXUR   ,IXTG ,IXTG6  ,T_MONVOL ,
+     3   IXR    ,IXTG ,IXTG6  ,T_MONVOL ,
      4   IGRSURF,IB   ,ADDCNE ,CEP    ,
      5   ILEN   ,GEO    ,IBCV ,IBCR   ,IBFFLUX,
      6   ILOADP ,LLOADP ,CEL  ,EBCS_TAB)
@@ -2051,7 +2044,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "units_c.inc"
 #include      "warn_c.inc"
 #include      "scr17_c.inc"
@@ -2062,7 +2054,7 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),CEP(*),
      .        IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG6(4,*),
-     .        IXUR(NIXUR,*),IB(NIBCLD,*),
+     .        IB(NIBCLD,*),
      .        ADDCNE(0:*), CNE(*), LCNE, ILEN,
      .        IBCV(NICONV,*), IBCR(NIRADIA,*),IBFFLUX(NITFLUX,*),
      .        ILOADP(SIZLOADP,*),LLOADP(*)
@@ -2294,20 +2286,6 @@ C
 C
       OFFTG = OFF
       OFF = OFF + NUMELTG
-C
-      DO I = 1, NUMELUR
-        ITRI(I) = IXUR(6,I)
-      ENDDO
-      CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELUR,1)
-      DO J=1,NUMELUR
-        I = INDEX(J)
-        DO K=1,4
-          N = IXUR(K+1,I)
-          CNE(ADSKY(N)) = I+OFF
-          ADSKY(N) = ADSKY(N) + 1
-        ENDDO
-      ENDDO
-      OFF = OFF + NUMELUR
       OFF = OFF + NUMELX
 C
 C---------------------------------------------
@@ -2816,7 +2794,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "units_c.inc"
 #include      "warn_c.inc"
 C-----------------------------------------------
@@ -2895,7 +2872,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "commandline.inc"
 #include      "units_c.inc"
-#include      "rnur_c.inc"
 #include      "sphcom.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
@@ -2912,7 +2888,7 @@ C 5 : NUMELC_L
 C 6 : NUMELP_L
 C 7 : NUMELT_L
 C 8 : NUMELR_L
-C 9 : NUMELUR_L
+C 9 : -
 C 10: NUMELTG_L
 C 11: NUMELX_L
 C 12: NBDDPROC :  nb de proc frontiere
@@ -3043,8 +3019,6 @@ C
      .    WRITE(IOUT,*)'NUMBER OF TRUSS ELEMENTS........ :',DDSTAT(7,P)
         IF(NUMELR>0)
      .    WRITE(IOUT,*)'NUMBER OF SPRING ELEMENTS....... :',DDSTAT(8,P)
-        IF(NUMELUR>0)
-     .    WRITE(IOUT,*)'NUMBER OF USER ELEMENTS......... :',DDSTAT(9,P)
         IF(NUMELTG>0)
      .    WRITE(IOUT,*)'NUMBER OF 3-N SHELL ELEMENTS.... :',DDSTAT(10,P)
         IF(NUMELX>0)

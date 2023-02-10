@@ -31,7 +31,7 @@ Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|====================================================================
       SUBROUTINE DELNUMBC(IPARG,IXQ  ,IXC   ,IXTG ,INVERT,
      2                    EL2FA,NBF  ,INUM ,NELCUT,
-     3                    IXUR ,DD_IAD  ,IADD ,NBF_L,
+     3                    DD_IAD  ,IADD ,NBF_L,
      4                    NBPART,IADG,NODGLOB,IDCMAX          )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -45,14 +45,13 @@ C   C o m m o n   B l o c k s
 #include      "param_c.inc"
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),IXTG(NIXTG,*),IPARG(NPARG,*),
-     .        IXQ(NIXQ,*),EL2FA(*),INUM(*),IXUR(NIXUR,*),
+     .        IXQ(NIXQ,*),EL2FA(*),INUM(*),
      .        INVERT(*), NBF,NELCUT,NBPART,IADG(NSPMD,*)
       INTEGER DD_IAD(NSPMD+1,*), IADD(*), NBF_L
 C-----------------------------------------------
@@ -74,7 +73,7 @@ C
       NN7 = NN6 
       NN8 = NN7 
       NN9 = NN8 
-      NN10= NN9 + NUMELUR
+      NN10= NN9
 C
       DO 490 NG=1,NGROUP
         NEL   =IPARG(2,NG)
@@ -107,14 +106,6 @@ C-----------------------------------------------
           N = I + NFT
           INUM(EL2FA(NN5+N)) = IXTG(NIXTG,N)
          ENDDO
-C-----------------------------------------------
-C       RNUR
-C-----------------------------------------------
-        ELSEIF(ITY==50)THEN
-         DO I=LFT,LLT
-          N = I + NFT
-          INUM(EL2FA(NN9+N)) = IXUR(NIXUR,N)
-         ENDDO
         ELSE
         ENDIF
  490  CONTINUE
@@ -136,7 +127,7 @@ C-----------------------------------------------
         ENDDO
         CALL SPMD_FVB_AMAX(IDCMAX, IDCMAXL)
         IF (ISPMD==0) THEN
-           BUF = NUMELQG+NUMELCG+NUMELTGG+NUMELURG
+           BUF = NUMELQG+NUMELCG+NUMELTGG
         ELSE 
            BUF = 1
         ENDIF

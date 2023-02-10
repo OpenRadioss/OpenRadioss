@@ -277,7 +277,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CHKINIT(
      2   IXS        ,IXQ        ,IXC        ,IXT      ,IXP      ,
-     3   IXR        ,IXTG       ,IXUR       ,IXS10    ,IXS20    ,
+     3   IXR        ,IXTG       ,IXS10    ,IXS20    ,
      4   IXS16      ,IXTG1      ,GEO        ,ADDCNEL  ,CNEL     ,
      5   ADSKY      ,IPARG      )
 C-----------------------------------------------
@@ -295,13 +295,12 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
-     .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*), IXUR(NIXUR,*),
+     .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*), 
      .        IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG1(4,*),
      .        ADDCNEL(0:*), CNEL(0:*), ADSKY(0:*), IPARG(NPARG,*)
       my_real 
@@ -400,12 +399,6 @@ C
           IF (N > 1) ADDCNEL(N) = ADDCNEL(N) + 1
         END DO
       END DO
-      DO K=2,5
-        DO I=1,NUMELUR
-          N = IXUR(K,I) + 1
-          ADDCNEL(N) = ADDCNEL(N) + 1
-        END DO
-      END DO
 C
       ADDCNEL(1) = 1
       DO I=2,NUMNOD+1
@@ -415,7 +408,7 @@ C
 C Construction de la matrice CNEL
 C
 C CNEL est contruite de maniere analogue a ce qui est fait dans chkstfn3n (traitement idel)
-C la numerotation dans CNEL est globale de 1 a NUMELS+NUMELQ+...+NUMELUR
+C la numerotation dans CNEL est globale de 1 a NUMELS+NUMELQ+...+NUMELR
 C
       ADSKY(0) = 0
       DO I = 1, NUMNOD
@@ -563,16 +556,6 @@ C#include "vectorize.inc"
               ENDDO
             END IF
 C
-          ELSEIF(ITY == 50)THEN
-C#include "vectorize.inc"
-            DO I = LFT,LLT
-              IE = NFT+I+OFUR
-              DO K=2,5
-                N = IXUR(K,NFT+I)
-                CNEL(ADSKY(N)) = IE
-                ADSKY(N) = ADSKY(N)+1
-              ENDDO
-            ENDDO
           ENDIF
       ENDDO
 C
@@ -605,7 +588,7 @@ Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
       SUBROUTINE TAGOFF3N(
      1    GEO     ,IXS   ,IXS10   ,IXS20   ,IXS16  ,IXQ    ,
-     2    IXC     ,IXT    ,IXP    ,IXR     ,IXTG   ,IXUR   ,
+     2    IXC     ,IXT    ,IXP    ,IXR     ,IXTG   ,
      3    ITAG    ,NODFT  ,NODLT  ,IPARG   ,EV     ,ITASK  ,
      4    ITAGL   ,IXTG1  ,IAD_ELEM,FR_ELEM,ITAB   ,ITABM1 ,
      5    ADDCNEL ,CNEL   ,KXSP   ,ELBUF_TAB,TAGEL ,IEXLNK ,
@@ -639,7 +622,6 @@ C-----------------------------------------------
 #include      "scr01_c.inc"
 #include      "scr05_c.inc"
 #include      "scr17_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "sphcom.inc"
 #include      "rad2r_c.inc"
@@ -651,7 +633,7 @@ C-----------------------------------------------
      .   LINDIDEL, LBUFIDEL,
      .   IXS(NIXS,*),IXS10(6,*),IXS20(12,*),IXS16(8,*),
      .   IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   IXR(NIXR,*), IXTG(NIXTG,*),IXTG1(4,*),IXUR(NIXUR,*),ITAG(*),
+     .   IXR(NIXR,*), IXTG(NIXTG,*),IXTG1(4,*),ITAG(*),
      .   IPARG(NPARG,*), NODFT,NODLT,ITASK, ITAGL (*),
      .   IAD_ELEM(2,*),FR_ELEM(*),ITAB(*),ITABM1(*),
      .   ADDCNEL(0:*),CNEL(0:*),KXSP(NISP,*),
@@ -1131,35 +1113,6 @@ C Void elements never break and doesn't have ELBUF
              ENDIF
             END IF
 C
-          ELSEIF(ITY == 50)THEN
-            NB1 = KAD
-#include "vectorize.inc"
-            DO I = LFT,LLT
-              IE = NFT+I+OFUR
-              IF(ABS(EV(NB1+I-1))>=ONE) THEN 
-                TAGEL(IE)=1
-                DO K=2,5
-                  N = IXUR(K,NFT+I)
-                  ITAG(N) = 1
-                ENDDO
-              ELSE
-                IF ((R2R_SIU == 1).AND.(TAGEL(IE) > -1)) THEN
-                  CALL R2R_TAGEL(NTAGEL_R2R_SEND,IXUR(NIXUR,NFT+I),ITAB(IXUR(2,NFT+I)),ITY,
-     .                           OFUR,TAGEL_SIZE)
-                ENDIF
-                TAGEL(IE)=-1
-                IF(ELEM_STATE(IE)) THEN
-                    GLOBAL_NB_ELEM_OFF(ITASK+1) = GLOBAL_NB_ELEM_OFF(ITASK+1) + 1
-                    LOCAL_ELEM_INDEX(GLOBAL_NB_ELEM_OFF(ITASK+1)) = IE
-                ENDIF
-                ELEM_STATE(IE) = .FALSE.
-                DO K=2,5
-                  N = IXUR(K,NFT+I)
-                  ITAG(NUMNOD+N) = 1
-                ENDDO
-              ENDIF
-            ENDDO
-C
  	    ELSEIF(ITY == 51) THEN
  	      NB1 = KAD
 #include "vectorize.inc"
@@ -1295,8 +1248,6 @@ C
                   R2R_NUMEL = IXR(NIXR,IE-OFR)              
                 ELSEIF ((ITY == 7).AND.((IE > OFTG).AND.(IE<=OFUR))) THEN
                   R2R_NUMEL = IXTG(6,IE-OFTG)
-                ELSEIF ((ITY == 8).AND.((IE > OFUR).AND.(IE<=OFUR+NUMELUR))) THEN
-                  R2R_NUMEL = IXUR(NIXUR,IE-OFUR)
                 ENDIF
 C
                 IF (R2R_NUMEL == TAGEL_R2R_RECV((I-1)*3+1)) THEN
@@ -1385,7 +1336,6 @@ C-----------------------------------------------
 #include      "scr01_c.inc"
 #include      "scr05_c.inc"
 #include      "scr17_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "sphcom.inc"
 #include      "rad2r_c.inc"

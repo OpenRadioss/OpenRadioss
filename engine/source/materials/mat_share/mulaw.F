@@ -195,7 +195,7 @@ C-----------------------------------------------
 #include      "userlib.inc"
 #include      "impl1_c.inc"
 #include      "timeri_c.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

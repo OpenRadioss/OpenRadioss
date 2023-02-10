@@ -86,7 +86,7 @@ Chd|====================================================================
      B    IXR       ,NELTST    ,IPARI      ,
      C    ITYPTST   ,NSTRF      ,IPART     ,
      D    IPARTS    ,IPARTQ    ,IPARTT     ,IPARTP    ,
-     E    IPARTR    ,IPARTUR   ,FR_WAVE    ,IXUR      ,RBY       ,
+     E    IPARTR    ,IPARTUR   ,FR_WAVE    ,RBY       ,
      F    IADUR     ,SECFCUM   ,AGRAV      ,IGRV      ,LGRAV     ,
      G    IXS10     ,
      H    IXS20     ,IADS10    ,IADS20     ,IXS16     ,IADS16    ,
@@ -131,7 +131,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com03_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
@@ -162,7 +161,7 @@ C-----------------------------------------------
      .   IPARTR(*) ,IPARTUR(*) ,
      .   IADS(8,*),IADQ(4,*),IADT(2,*),
      .   IADP(2,*),IADR(3,*),
-     .   NELTST,ITYPTST,IXUR(*),IADUR(4,*),
+     .   NELTST,ITYPTST,IADUR(4,*),
      .   IXS10(6,*),IXS20(12,*),IADS10(6,*),IADS20(12,*),
      .   IXS16(8,*),IADS16(8,*),ITASK,IGROUNC(*),
      .   NGROUNC,GRTH(*),IGRTH(*),NBSDVOIS(*),NERCVOIS(*),

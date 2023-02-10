@@ -63,7 +63,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr02_c.inc"
-#include      "rnur_c.inc"
 #include      "scr17_c.inc"
 #include      "scr18_c.inc"
 #include      "sms_c.inc"
@@ -109,7 +108,7 @@ C-----------------------------------------------------
       I15E=I15D+NUMELT
       I15F=I15E+NUMELP
       I15G=I15F+NUMELR
-      I15H=I15G+NUMELUR
+      I15H=I15G+0
       I15I=I15H+NUMELTG
       I15J=I15I+NUMELX
       I15K=I15J+NUMSPH

@@ -37,7 +37,7 @@ Chd|====================================================================
       SUBROUTINE H3D_SHELL_SCALAR(
      .                  ELBUF_TAB   ,SHELL_SCALAR,IFUNC   ,IPARG       ,GEO        ,
      .                  IXQ         ,IXC       ,IXTG      ,PM          ,BUFMAT     ,
-     .                  EL2FA       ,NBF       ,IXUR      ,IADP        ,
+     .                  EL2FA       ,NBF       ,IADP        ,
      .                  NBF_L       ,EHOUR     ,ANIM      ,NBPART      ,IADG       ,
      .                  IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
      .                  INVERT      ,X         ,V         ,W           ,ALE_CONNECT,
@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -73,7 +73,6 @@ C-----------------------------------------------
 #include      "scr14_c.inc"
 #include      "scr25_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
 #include      "tabsiz_c.inc"
@@ -84,7 +83,7 @@ C-----------------------------------------------
      .   SHELL_SCALAR(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),D(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,NUMGEO),
      .   ANIM(*),PM(NPROPM,NUMMAT),ERR_THK_SH4(NUMELC), ERR_THK_SH3(NUMELTG)
       INTEGER IPARG(NPARG,NGROUP),IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),EL2FA(*),
-     .   IXQ(NIXQ,NUMELQ),IXUR(NIXUR,NUMELUR),IFUNC,NBF,
+     .   IXQ(NIXQ,NUMELQ),IFUNC,NBF,
      .   IADP(*),NBF_L, NBPART,IADG(NSPMD,NPART),IPM(NPROPMI,NUMMAT),
      .   IGEO(NPROPGI,NUMGEO),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),
      .   INFO1,INFO2,IS_WRITTEN_SHELL(*),IPARTC(NUMELC),IPARTTG(NUMELTG),H3D_PART(*),
@@ -126,7 +125,7 @@ C-----------------------------------------------
        CALL H3D_SHELL_SCALAR_1(
      .                  ELBUF_TAB   ,SHELL_SCALAR,IFUNC   ,IPARG       ,GEO        ,
      .                  IXQ         ,IXC       ,IXTG      ,PM          ,BUFMAT     ,
-     .                  EL2FA       ,NBF       ,IXUR      ,IADP        ,
+     .                  EL2FA       ,NBF       ,IADP        ,
      .                  NBF_L       ,EHOUR     ,ANIM      ,NBPART      ,IADG       ,
      .                  IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
      .                  INVERT      ,X         ,V         ,W           ,ALE_CONNECT      ,

@@ -73,7 +73,6 @@ C-----------------------------------------------
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "r2r_c.inc"
-#include      "rnur_c.inc"
 #include      "tabsiz_c.inc"
 #include      "sphcom.inc"
 #include      "param_c.inc"
@@ -284,7 +283,7 @@ C---------------Tag of elements-------------------------------------------------
         L0 = L0+NUMELR
  
         IF (NUMELTG>0)CALL TAGELEM_R2R(NUMELTG,IPART(L0),TAG_ELG,NPART)
-        L0 = L0+NUMELTG+NUMELUR+NUMELX
+        L0 = L0+NUMELTG+NUMELX
 
         IF (NUMSPH>0) CALL TAGELEM_R2R(NUMSPH,IPART(L0),TAG_ELSP,NPART)
 
@@ -667,7 +666,7 @@ C-------------------------------------------------------------------------------
 
 	  DEALLOCATE(IPART)
           SIPART  = SIPART0+SIPARTTH+NELSN+NELQN+NELCN+NELTN+NELPN
-     .        + NELRN+NUMELUR+NELTGN+NUMELX+NUMSPH
+     .        + NELRN+NELTGN+NUMELX+NUMSPH
 	  ALLOCATE(IPART(SIPART))
 
 	  DO J=1,SIPART0+SIPARTTH

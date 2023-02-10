@@ -277,7 +277,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
-#include      "rnur_c.inc"
 #include      "thermal_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
@@ -298,7 +297,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------
-      OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR+NUMELUR+NUMELX+NCONLD+NUMCONV+NUMRADIA+NFXFLUX
+      OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR+NUMELX+NCONLD+NUMCONV+NUMRADIA+NFXFLUX
       ALLOCATE(NSEGL(NLOADP_B))
       !--------------------------------------
       !     WRITING LOCAL SIZE (number of local segments)
@@ -318,7 +317,7 @@ C-----------------------------------------------
       !--------------------------------------
       !     WRITING REAL BUFFER (for local segments only)
       !--------------------------------------
-      OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR+NUMELUR+NUMELX+NCONLD+NUMCONV+NUMRADIA+NFXFLUX
+      OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR+NUMELX+NCONLD+NUMCONV+NUMRADIA+NFXFLUX
       DO I=1,NLOADP_B
         SIZ = NSEGL(I)
         ALLOCATE(RTMP(7*NSEGL(I)))
@@ -371,7 +370,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
-#include      "rnur_c.inc"
 #include      "thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

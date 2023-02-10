@@ -56,7 +56,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com_xfem1.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "scr01_c.inc"
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"

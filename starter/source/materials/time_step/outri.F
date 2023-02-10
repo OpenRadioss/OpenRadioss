@@ -29,7 +29,7 @@ Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE OUTRI(DTELEM,IXS   ,IXQ   ,IXC   ,IXT   ,
-     .                 IXP   ,IXR   ,IXUR  ,IXTG  ,KXX   ,
+     .                 IXP   ,IXR   ,IXTG  ,KXX   ,
      .                 KXSP  ,KXIG3D,IGEO  ,NUMEL)
 C
 C     TRI DES DTEL (POUR CHAQUE TYPE D'ELEMENT) ET IMPRESSIONS
@@ -53,14 +53,13 @@ C-----------------------------------------------
 #include      "sphcom.inc"
 #include      "scr23_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "units_c.inc"
 #include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*) 
-      INTEGER IXP(NIXP,*), IXR(NIXR,*), IXUR(NIXUR,*), IXTG(NIXTG,*) 
+      INTEGER IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*) 
       INTEGER KXX(NIXX,*), KXSP(NISP,*) ,KXIG3D(NIXIG3D,*),
      .        IGEO(NPROPGI,*)
       my_real
@@ -115,14 +114,8 @@ C
         PERM(NUM2+I)=I
       ENDDO
       ! --------------------
-      ! user solid
-      NUM2=NUM2+NUMELTG
-      DO  I=1,NUMELUR
-        PERM(NUM2+I)=I
-      ENDDO
-      ! --------------------
       ! the X element :)
-      NUM2=NUM2+NUMELUR
+      NUM2=NUM2+NUMELTG
       DO  I=1,NUMELX
         PERM(NUM2+I)=I
       ENDDO
@@ -170,20 +163,16 @@ C
           NUM2=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+1
           CALL MYQSORT(NUMELTG,DTELEM(NUM2),PERM(NUM2),IERROR)
       ENDIF
-      IF (NUMELUR>1) THEN
-          NUM2=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+1
-          CALL MYQSORT(NUMELUR,DTELEM(NUM2),PERM(NUM2),IERROR)
-      ENDIF
       IF (NUMELX>1) THEN
-          NUM2=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+NUMELUR+1
+          NUM2=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+1
           CALL MYQSORT(NUMELX,DTELEM(NUM2),PERM(NUM2),IERROR)
       ENDIF
       IF (NUMSPH>1) THEN
-        NUM2=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+NUMELUR+NUMELX+1
+        NUM2=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+NUMELX+1
         CALL MYQSORT(NUMSPH,DTELEM(NUM2),PERM(NUM2),IERROR)
       ENDIF
       IF (NUMELIG3D>1) THEN
-        NUM2=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+NUMELUR+NUMELX+
+        NUM2=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+NUMELX+
      .       NUMSPH+1
         CALL MYQSORT(NUMELIG3D,DTELEM(NUM2),PERM(NUM2),IERROR)
       ENDIF
@@ -306,24 +295,11 @@ c        CALL ANCHECK(93)
            WRITE(IOUT,1002)DTELEM(NUM1+I),IXTG(6,NUMELO)
         END DO
       ENDIF
-
-      IF(NUMELUR>0) THEN
-        TEMPO = NUMELUR*TWOEM2
-        NUMIMP=MIN0(NUMELUR,MAX1(VINGTR4,TEMPO))
-        NUM1=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
-        NUM2=NUM1+NUMEL
-        WRITE(IOUT,50000)
-        WRITE(IOUT,1001)
-        DO I=1,NUMIMP
-           NUMELO=NINT(DTELEM(NUM2+I))
-           WRITE(IOUT,1002)DTELEM(NUM1+I),IXUR(6,NUMELO)
-        END DO
-      ENDIF
-      
+     
       IF(NUMELX>0) THEN
         TEMPO = NUMELX*TWOEM2
         NUMIMP=MIN0(NUMELX,MAX1(VINGTR4,TEMPO))
-        NUM1=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+NUMELUR
+        NUM1=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
         NUM2=NUM1+NUMEL
         WRITE(IOUT,7000)
         WRITE(IOUT,1001)
@@ -336,7 +312,7 @@ c        CALL ANCHECK(93)
       IF(NUMSPH>0) THEN
         TEMPO = NUMSPH*TWOEM2
         NUMIMP=MIN0(NUMSPH,MAX1(VINGTR4,TEMPO))
-        NUM1=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+NUMELUR+NUMELX
+        NUM1=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+NUMELX
         NUM2=NUM1+NUMEL
         WRITE(IOUT,8000)
         WRITE(IOUT,1001)
@@ -349,7 +325,7 @@ c        CALL ANCHECK(93)
       IF(NUMELIG3D>0) THEN
         TEMPO = NUMELIG3D*TWOEM2
         NUMIMP=MIN0(NUMELIG3D,MAX1(VINGTR4,TEMPO))
-        NUM1=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+NUMELUR+NUMELX+
+        NUM1=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+NUMELX+
      .       NUMSPH
         NUM2=NUM1+NUMEL
         WRITE(IOUT,9000)

@@ -43,7 +43,7 @@ Chd|====================================================================
      .                  CONT     , FCONTG      , FINT           , FEXT       , KEYWORD  ,
      .                  FNCONT   , FNCONTG     , FTCONT         , FTCONTG    , FNCONT2  , 
      .                  DR       , DXANCG      , FANREAC        , FCLUSTER   , MCLUSTER ,
-     .                  VR       , FOPT        , NPBY           , IXUR       , VGAZ     ,
+     .                  VR       , FOPT        , NPBY           , VGAZ     ,
      .                  IPARI    , IGRNOD      , WEIGHT         , NODGLOB    , FCONT_MAX, 
      .                  FNCONTP2 , FTCONTP2    , AR             , IPARTSP    , IPARTR   ,
      .                  IPARTP   , IPARTT      , IPARTS         , IPARTQ     ,KXSP      ,
@@ -59,7 +59,7 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "chara_c.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -76,7 +76,6 @@ C-----------------------------------------------
 #include      "scr16_c.inc"
 #include      "scr25_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "sphcom.inc"
 #include      "spmd_c.inc"
@@ -97,7 +96,7 @@ C-----------------------------------------------
      .   INFO1,INFO2,IS_WRITTEN_NODE(*),H3D_PART(*),ITAB(*),
      .   IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),IPARTTG(*),IFLOW(*),
      .   IXS(NIXS,*),IXQ(NIXQ,*),NV46,MONVOL(*),NPBY(NNPBY,*),
-     .   IXUR(NIXUR,*),IPARI(NPARI,*),WEIGHT(*),NODGLOB(*)
+     .   IPARI(NPARI,*),WEIGHT(*),NODGLOB(*)
       CHARACTER*ncharline KEYWORD
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
       my_real , INTENT(IN) :: AR(3,NUMNOD)
@@ -299,14 +298,6 @@ C--------------------------------------------------
           ENDIF
         ENDDO
 C
-        DO N=1,NUMELUR
-          I = IXUR(3,N)
-          V(1,I) = V(1,I) + FOPT(1,NSECT+NRBODY+NRWALL+N)
-          V(2,I) = V(2,I) + FOPT(2,NSECT+NRBODY+NRWALL+N)
-          V(3,I) = V(3,I) + FOPT(3,NSECT+NRBODY+NRWALL+N)
-          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
-        ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'FOPT/MOMENT') THEN
 C--------------------------------------------------
@@ -326,14 +317,6 @@ C--------------------------------------------------
           ENDIF
         ENDDO
 C
-        DO N=1,NUMELUR
-          I = IXUR(3,N)
-          V(1,I) = V(1,I) + FOPT(4,NSECT+NRBODY+NRWALL+N)
-          V(2,I) = V(2,I) + FOPT(5,NSECT+NRBODY+NRWALL+N)
-          V(3,I) = V(3,I) + FOPT(6,NSECT+NRBODY+NRWALL+N)
-          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
-        ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'VROT') THEN
 C--------------------------------------------------

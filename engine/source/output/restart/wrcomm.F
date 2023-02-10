@@ -64,7 +64,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "lagmult.inc"
 #include      "com01_c.inc"
-#include      "com02_c.inc"
 #include      "com04_c.inc"
 #include      "com05_c.inc"
 #include      "com06_c.inc"
@@ -82,7 +81,6 @@ C-----------------------------------------------
 #include      "scr_fac_c.inc"
 #include      "chara_c.inc"
 #include      "task_c.inc"
-#include      "rnur_c.inc"
 #include      "scr16_c.inc"
 #include      "scr14_c.inc"
 #include      "scrcut_c.inc"
@@ -183,7 +181,7 @@ C   -------- Tailles des tableaux entiers --------
       TABVINT(44)  = SIPART
       TABVINT(45)  = SNOM_OPT
       TABVINT(46)  = SNPC
-      TABVINT(47)  = SIXUR
+      TABVINT(47)  = 0
       TABVINT(48)  = SIXTG
       TABVINT(49)  = SIXTG1
       TABVINT(50)  = SIXS
@@ -464,7 +462,7 @@ C-----
       TABVINT(321)=NIXP
       TABVINT(322)=NIXR
       TABVINT(323)=NIXTG
-      TABVINT(324)=NIXUR
+      TABVINT(324)=0
       TABVINT(325)=NIXFR1
       TABVINT(326)=NIXFR2
       TABVINT(327)=NPARI
@@ -759,7 +757,7 @@ C-----
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= NUMELTGG
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)= NUMELURG
+      TABVINT(LVARINT)= 0
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= NUMELSG
       LVARINT=LVARINT+1
@@ -1772,7 +1770,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "chara_c.inc"
 #include      "com01_c.inc"
-#include      "com02_c.inc"
 #include      "com04_c.inc"
 #include      "com05_c.inc"
 #include      "com06_c.inc"

@@ -36,7 +36,7 @@ Chd|====================================================================
      .                      IADMERGE2,NMERGE_TOT,MERGE_NODE_TAB,MERGE_NODE_TOL,
      .                      NMERGE_NODE_CAND,NMERGE_NODE_DEST,IXS,IXS10,IXS20,
      .                      IXS16,IXQ,IXC,IXT,IXP,
-     .                      IXR,IXTG,IXUR,EANI,IGRNOD)   
+     .                      IXR,IXTG,EANI,IGRNOD)   
       USE MESSAGE_MOD
       USE NOD2EL_MOD
       USE GROUPDEF_MOD
@@ -61,7 +61,7 @@ C-----------------------------------------------
      .        NMERGE_NODE_CAND,NMERGE_NODE_DEST,NMERGE_TOT
       INTEGER IXS(NIXS,*),IXS10(6,*),IXS16(8,*),IXS20(12,*),IXQ(NIXQ,*),
      .        IXC(NIXC,*),IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),
-     .        IXUR(6,*),EANI(*)
+     .        EANI(*)
       TARGET  ITAB
       my_real
      .        X(3,NUMNOD),MERGE_NODE_TOL(*)

@@ -258,8 +258,8 @@ Chd|====================================================================
      1   P            ,CEP          ,CEL            ,IGEO         ,MATPARAM_TAB,
      2   IPM          ,ICODE        ,ISKEW          ,ISKN         ,INSEL       ,
      3   IBCSLAG      ,IPART        ,IPARTS         ,IPARTQ       ,IPARTC      ,
-     4   IPARTT       ,IPARTP       ,IPARTR         ,IPARTUR      ,IPARTTG     ,
-     5   IPARTX       ,NPC          ,IXUR           ,IXTG         ,GROUP_PARAM_TAB,
+     4   IPARTT       ,IPARTP       ,IPARTR         ,IPARTTG     ,
+     5   IPARTX       ,NPC          ,IXTG           ,GROUP_PARAM_TAB,
      6   IXTG6        ,IXS          ,IXS10          ,IXS20        ,IXS16       ,
      7   IXQ          ,IXC          ,IXT            ,IXP          ,IXR         ,
      8   ITAB         ,ITABM1       ,GJBUFI         ,NALE         ,
@@ -399,8 +399,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com02_c.inc"
-#include      "com03_c.inc"
 #include      "com04_c.inc"
 #include      "com05_c.inc"
 #include      "com10_c.inc"
@@ -412,7 +410,6 @@ C-----------------------------------------------
 #include      "lagmult.inc"
 #include      "param_c.inc"
 #include      "ale_param.inc"
-#include      "rnur_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
 #include      "scr15_c.inc"
@@ -452,8 +449,8 @@ C-----------------------------------------------
      .        CEP(LEN_CEP),CEL(*),IGEO(*), IPM(*),
      .        ICODE(*),ISKEW(*),ISKN(*),INSEL(*),IBCSLAG(*),
      .        IPART(*),IPARTS(*),IPARTQ(*),IPARTC(*),IPARTT(*),
-     .        IPARTP(*),IPARTR(*),IPARTUR(*),IPARTTG(*),IPARTX(*),
-     .        NPC(*),IXUR(*),IXTG(NIXTG,*),IXTG6(4,*),
+     .        IPARTP(*),IPARTR(*),IPARTTG(*),IPARTX(*),
+     .        NPC(*),IXTG(NIXTG,*),IXTG6(4,*),
      .        IXS(NIXS,*),IXS10(6,*),IXS20(12,*),IXS16(8,*),
      .        IXQ(NIXQ,*),IXC(*),IXT(*),IXP(*),IXR(*),
      .        ITAB(*),ITABM1(*),GJBUFI(*),
@@ -650,7 +647,7 @@ C-----------------------------------------------
       INTEGER I, IR_, IM,IFILNAM(2148),IFILNAM2(2148),
      .        NUMELS_L,NUMELS8_L,NUMELS10_L,NUMELS20_L,NUMELS16_L,
      .        NUMELQ_L ,NUMELC_L, NCONLD_L,NSKYLL_L,
-     .        NUMELT_L,NUMELP_L,NUMELR_L,NUMELUR_L,NUMELTG_L,
+     .        NUMELT_L,NUMELP_L,NUMELR_L,NUMELTG_L,
      .        NUMELTG3,NUMELTG3_L,NUMELTG6_L,NUMELX_L,NUMPOR_L,
      .        NSVOIS,NQVOIS,NTGVOIS,NE_NSVOIS,NE_NQVOIS,NE_NTGVOIS,NRCVVOIS,NSNDVOIS,ILAW11,LJOINT_L,
      .        NSEGFL_L,NGROUP_L, NSTRF_L,
@@ -883,8 +880,6 @@ C--------------------------------------------
       CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELTG6,NUMELTG6_L)
       OFF = OFF + NUMELTG6
       NUMELTG_L = NUMELTG3_L+NUMELTG6_L
-      CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELUR,NUMELUR_L)
-      OFF = OFF + NUMELUR
       CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELX,NUMELX_L)
       OFF = OFF + NUMELX
       CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELIG3D,NUMELIG3D_L)
@@ -1330,7 +1325,7 @@ C--------------------------------------
 C counts nb of local elts 
 C--------------------------------------
       NUMEL_L = NUMELS_L + NUMELQ_L + NUMELC_L + NUMELT_L + NUMELP_L
-     +        + NUMELR_L + NUMELUR_L+ NUMELTG_L+ NUMELX_L + NUMSPH_L
+     +        + NUMELR_L + NUMELTG_L+ NUMELX_L + NUMSPH_L
      +        + NUMELIG3D_L
 C--------------------------------------------
 C counts buffer TH
@@ -1360,8 +1355,7 @@ C--------------------------------------
      5             INOD_CRKXFEM,ADDCNCND,LCNCND_L,IGRSURF)
         NISKY0_L=8*NUMELS_L+6*NUMELS10_L+8*NUMELS16_L+12*NUMELS20_L+
      +         4*NUMELQ_L+4*NUMELC_L+2*NUMELT_L+2*NUMELP_L+
-     +         3*NUMELR_L+3*NUMELTG_L+3*NUMELTG6_L+4*NUMELUR_L+
-     +         4*NCONLD_L
+     +         3*NUMELR_L+3*NUMELTG_L+3*NUMELTG6_L+4*NCONLD_L
         NIR = 4
         IF(N2D/=0) NIR = 2
         NISKYI2_L = I2NSN_L*NIR
@@ -1686,7 +1680,7 @@ C  Skippon_l for obsolide "modif" option.
       SKIPPON_L = NUMNOD_L+1 + LCNE_L + LCNI2_L +
      .  8*NUMELS_L + 6*NUMELS10_L + 8*NUMELS16_L + 12*NUMELS20_L +
      .  4*NUMELQ_L + 4*NUMELC_L   + 2*NUMELT_L + 2*NUMELP_L +
-     .  3*NUMELR_L + 3*NUMELTG_L  + 3*NUMELTG6_L + 4*NUMELUR_L +
+     .  3*NUMELR_L + 3*NUMELTG_L  + 3*NUMELTG6_L + 
      .  4*NNMV_L   + 4*NCONLD_L  + 4*NCONV_L  + NSKYRW_L + NSKYRBK_L +
      .  NISKYI2_L +
      .  NNMV_L     + NNMVC_L      + NSKYLL_L + NSKYRBM_L + NSKYI18_L +
@@ -1705,7 +1699,7 @@ C--------------------------------------------
      2   LENWA_L   ,INTBAG_L  ,NUMELQ_L  ,NUMELS_L  ,NUMELC_L ,
      3   NUMELT_L  ,NUMELR_L  ,NUMELP_L  ,NUMELX_L  ,ISUMNX_L ,
      4   NUMELS10_L,NUMELS20_L,NUMELS8_L ,NUMELS16_L,LNOM_OPT ,
-     5   NUMELUR_L ,NUMELTG_L ,NUMELTG6_L,NSLARB_L  ,NUMNOD_L ,
+     5   NUMELTG_L ,NUMELTG6_L,NSLARB_L  ,NUMNOD_L ,
      6   NUMEL_L   ,NSVOIS    ,NQVOIS    ,NTGVOIS,   LENLAS   ,
      7   NLLINK_L  ,LLGRAV_L  ,LLBVEL_L  ,NSLAW_L  ,
      8   NESLAW_L  ,NSKYLL_L  ,NSTRF_L   ,LJOINT_L ,
@@ -1846,13 +1840,8 @@ C--------------------------------------------
       OFF = OFF + NUMELP
       CALL W_IELOC(IPARTR,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELR,NUMELR_L,LEN_IA)
       OFF = OFF + NUMELR
-      OFF1 = OFF
-      OFF  = OFF + NUMELTG
-      CALL W_IELOC(IPARTUR,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELUR,NUMELUR_L,LEN_IA)
-C      OFF = OFF + NUMELUR
-      OFF = OFF1
       CALL W_IELOC(IPARTTG,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELTG,NUMELTG_L,LEN_IA)
-      OFF = OFF + NUMELTG + NUMELUR
+      OFF = OFF + NUMELTG
       CALL W_IELOC(IPARTX,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELX,NUMELX_L,LEN_IA)
       OFF = OFF + NUMELX
       CALL W_IELOC(IPARTSP,CEPSP,P-1,NUMSPH,NUMSPH_L,LEN_IA)
@@ -1866,12 +1855,6 @@ C
 C
       CALL WRITE_I_C(NPC,3*NFUNCT+1)
         LEN_IA = LEN_IA + 3*NFUNCT+1
-C--------------------------------------------
-C contectivity for RNUR
-C--------------------------------------------
-      OFF = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
-      CALL W_IXLOC(IXUR,NIXUR,4,CEP(MIN(OFF+1,LEN_CEP)),P-1,
-     +             NUMELUR,NUMELUR_L,NODLOCAL,LEN_IA)
 C--------------------------------------------
 C Connectivity for Triangles
 C--------------------------------------------
@@ -2530,11 +2513,11 @@ C--------------------------------------
      1      ADDCNE   ,CNE      ,LCNE      ,NUMNOD_L  ,NODGLOB   ,
      2      LCNE_L   ,CEP      ,CEL       ,IXS       ,IXS10     ,
      3      IXS20    ,IXS16    ,IXQ       ,IXC       ,IXT       ,
-     4      IXP      ,IXR      ,IXTG      ,IXUR      ,MONVOL    ,
+     4      IXP      ,IXR      ,IXTG      ,MONVOL    ,
      5      IBCL     ,GEO      ,IGEO      ,P         ,
      6      NUMELS_L ,NUMELS8_L,NUMELS10_L,NUMELS16_L,NUMELS20_L,
      7      NUMELQ_L ,NUMELC_L ,NUMELT_L  ,NUMELP_L  ,NUMELR_L  ,
-     8      NUMELTG_L,NUMELUR_L,NSKYRW_L  ,NPRW      ,LPRW      ,
+     8      NUMELTG_L,NSKYRW_L  ,NPRW      ,LPRW      ,
      9      NSKYRBK_L,NPBY      ,LPBY     ,DD_RBY2   ,
      A      I2NSNT   ,I2NSN_L  ,IPARI     ,NIR       ,
      B      LCNI2_L  ,NISKYI2_L,CEPI2     ,CELI2     ,CNI2      ,
@@ -2711,7 +2694,6 @@ C THKE SHELL 4-N + SHELL 3-N
 C--------------------------------------------
       OFF = NUMELS + NUMELQ
       CALL W_RELOC(THKE,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELC,NUMELC_L,LEN_AM)
-C      OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR + NUMELUR
       OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR
       CALL W_RELOC(
      .   THKE(NUMELC+1),CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELTG,NUMELTG_L,LEN_AM)
@@ -2796,7 +2778,6 @@ C--------------------------------------------
       OFF = OFF + NUMELQ
       CALL W_RELOC(EANI(OFF+1),CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELC,NUMELC_L,LEN_AM)
       SHF = OFF + NUMELC
-C      OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR + NUMELUR
       OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR
       CALL W_RELOC(EANI(SHF+1),CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELTG,NUMELTG_L,LEN_AM)
 C--------------------------------------------
@@ -2948,7 +2929,6 @@ C--------------------------------------------
       IF(IABS(ISIGI)==5)THEN
         OFF = NUMELS+NUMELQ
         CALL W_RELOC2(FZERO,3*4,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELC,NUMELC_L,LEN_AM)
-C        OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR + NUMELUR
         OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR
         SHF = NUMELC*3*4
         CALL W_RELOC2(FZERO(SHF+1),3*4,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELTG,
@@ -3571,7 +3551,7 @@ C 5 : NUMELC_L
 C 6 : NUMELP_L
 C 7 : NUMELT_L
 C 8 : NUMELR_L
-C 9 : NUMELUR_L
+C 9 : -
 C 10: NUMELTG_L
 C 11: NUMELX_L
 C 12: NBDDPROC :  nb of boundary proc 
@@ -3596,7 +3576,7 @@ C 24: NSLARB_L : number of nodes secnd rigid body
       DDSTAT(6) = NUMELP_L
       DDSTAT(7) = NUMELT_L
       DDSTAT(8) = NUMELR_L
-      DDSTAT(9) = NUMELUR_L
+      DDSTAT(9) = 0
       DDSTAT(10)= NUMELTG_L
       DDSTAT(11)= NUMELX_L
       DDSTAT(12)= NBDDPROC

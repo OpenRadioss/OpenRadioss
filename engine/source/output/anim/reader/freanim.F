@@ -60,7 +60,6 @@ C-----------------------------------------------
 #include      "scr14_c.inc"
 #include      "scr25_c.inc"
 #include      "scrcut_c.inc"
-#include      "nchara_c.inc"
 #include      "nchar_c.inc"
 #include      "chara_c.inc"
 #include      "sms_c.inc"

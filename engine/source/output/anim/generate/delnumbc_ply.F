@@ -33,7 +33,7 @@ Chd|====================================================================
       SUBROUTINE DELNUMBC_PLY(IPLY,NEL_PLY,IPARG,
      2                  IXC ,IXTG ,INVERT,
      3                  EL2FA,NBF  ,INUM ,NELCUT,
-     4                  IXUR ,DD_IAD  ,IADD ,NBF_L,
+     4                  DD_IAD  ,IADD ,NBF_L,
      5                  NBPART,IADG,NODGLOB,IDCMAX,
      6                  NBF_PXFEMG)
       USE PLYXFEM_MOD
@@ -49,14 +49,13 @@ C   C o m m o n   B l o c k s
 #include      "param_c.inc"
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),IXTG(NIXTG,*),IPARG(NPARG,*),
-     .         EL2FA(*),INUM(*),IXUR(NIXUR,*),
+     .         EL2FA(*),INUM(*),
      .        INVERT(*), NBF,NELCUT,NBPART,IADG(NSPMD,*)
       INTEGER DD_IAD(NSPMD+1,*), IADD(*), NBF_L,IPLY,
      .        NEL_PLY,NBF_PXFEMG

@@ -30,7 +30,7 @@ Chd|        STACK_MOD                     share/modules/stack_mod.F
 Chd|====================================================================
       SUBROUTINE DMASANIC(ELBUF_TAB,X   ,D    ,GEO  ,IPARG,
      .                    IXQ  ,IXC  ,IXTG ,MAS  ,PM   ,
-     .                    EL2FA,NBF  ,IXUR ,IGEO,STACK)
+     .                    EL2FA,NBF  ,IGEO,STACK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -49,7 +49,6 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -58,7 +57,7 @@ C     REAL
       my_real
      .   MAS(*) ,PM(NPROPM,*),GEO(NPROPG,*),X(3,*),
      .   D(3,*)
-      INTEGER IPARG(NPARG,*),IXC(NIXC,*),IXTG(NIXTG,*),IXUR(NIXUR,*),
+      INTEGER IPARG(NPARG,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        IXQ(NIXQ,*),EL2FA(*),NBF,IGEO(NPROPGI,*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
@@ -88,7 +87,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       NN7 = NN6 
       NN8 = NN7 
       NN9 = NN8 
-      NN10= NN9 + NUMELUR
+      NN10= NN9
 C-----------------------------------------------
 C
       NEL_OLD = 0
@@ -242,16 +241,6 @@ C
               MAS(EL2FA(NN5+N_FA)) = RHO0*THK0*A0
              ENDDO       
           ENDIF
-C
-C-----------------------------------------------
-C       RNUR
-C-----------------------------------------------
-        ELSEIF(ITY==50)THEN
-         DO I=LFT,LLT
-            N = I + NFT
-            N_FA = I + NFT_FA
-            MAS(EL2FA(NN9+N_FA)) = GEO(21,IXUR(1,N))
-         ENDDO
 C
         ELSE
         ENDIF

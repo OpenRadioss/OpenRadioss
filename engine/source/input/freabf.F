@@ -51,7 +51,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 #include      "chara_c.inc"
 #include      "com08_c.inc"
 C-----------------------------------------------

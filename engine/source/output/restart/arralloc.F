@@ -186,10 +186,6 @@ C
         IF (IERR/=0) GOTO 1000
         NPC = 0
 
-        ALLOCATE (IXUR(SIXUR),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        IXUR = 0  
-
         ALLOCATE (IXTG(SIXTG),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         IXTG = 0  
@@ -2455,8 +2451,6 @@ C   I16
         WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SNOM_OPT :',SNOM_OPT
 C   I17
         WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SNPC :    ',SNPC
-C   I18
-        WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SIXUR :   ',SIXUR
 C   I19
         WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SIXTG :   ',SIXTG
 C   I19A

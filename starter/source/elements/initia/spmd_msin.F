@@ -30,11 +30,11 @@ Chd|        STRR                          source/tools/univ/strr.F
 Chd|====================================================================
       SUBROUTINE SPMD_MSIN(
      1               IXS  ,IXQ  ,IXC  ,IXT  ,IXP  ,
-     2               IXR  ,IXTG ,IXUR ,MSS  ,MSQ  ,
+     2               IXR  ,IXTG ,MSS  ,MSQ  ,
      3               MSC  ,MST  ,MSP  ,MSR  ,MSTG ,
-     4               MSUR ,INC  ,INP  ,INR  ,INTG ,
-     5               INUR ,INDEX,ITRI ,MS   ,IN   ,
-     6               PTG  ,EVUR ,GEO  ,IXS10,IXS20,
+     4               INC  ,INP  ,INR  ,INTG ,
+     5               INDEX,ITRI ,MS   ,IN   ,
+     6               PTG  ,GEO  ,IXS10,IXS20,
      7               IXS16,MSSX ,MSNF ,MSSF ,VNS  ,
      8               VNSX ,STC  ,STT  ,STP  ,STR  ,
      9               STTG ,STUR ,BNS  ,BNSX ,VOLNOD ,
@@ -62,7 +62,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "scr03_c.inc"
-#include      "rnur_c.inc"
 #include      "scr12_c.inc"
 #include      "remesh_c.inc"
 C-----------------------------------------------
@@ -70,16 +69,16 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*),
      .   IXT(NIXT,*),IXP(NIXP,*), IXR(NIXR,*), IXTG(6,*),
-     .   IXUR(6,*), INDEX(*), ITRI(*),
+     .   INDEX(*), ITRI(*),
      .   IXS10(6,*),IXS20(12,*),IXS16(8,*),
      .   SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*),KXIG3D(NIXIG3D,*),
      .   IXIG3D(*),NSHNOD(*)
 C     REAL
       my_real
      .   MSS(8,*), MSQ(*),MSC(*),MST(*),MSP(*),MSR(3,*),
-     .   MSTG(*),MSUR(*),MSSX(12,*),INC(*),
-     .   INP(*),INR(3,*),INTG(*),INUR(*),
-     .   MS(*), IN(*),PTG(3,*), EVUR(3,*), GEO(NPROPG,*),
+     .   MSTG(*),MSSX(12,*),INC(*),
+     .   INP(*),INR(3,*),INTG(*),
+     .   MS(*), IN(*),PTG(3,*),  GEO(NPROPG,*),
      .   MSNF(*), MSSF(8,*),
      .   VNS(8,*) ,VNSX(12,*) ,STC(*) ,STT(*) ,STP(*) ,STR(*) ,
      .   STTG(*) ,STUR(*) ,BNS(8,*) ,BNSX(12,*) ,
@@ -645,22 +644,6 @@ C
         ENDDO
        ENDDO
       ENDIF
-C
-      DO I = 1, NUMELUR
-        ITRI(I) = IXUR(6,I)
-      ENDDO
-      CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELUR,1)
-      DO J=1,NUMELUR
-        I = INDEX(J)
-        N = IXUR(2,I)
-        MS(N) = MS(N) + MSUR(I)
-        IN(N) = IN(N) + INUR(I)
-        DO K=1,3
-          N = IXUR(K+2,I)
-          MS(N) = MS(N) + ABS(MSUR(I)*EVUR(K,I))
-          IF (IRODDL/=0)IN(N) = IN(N) + ABS(INUR(I)*EVUR(K,I))
-        ENDDO
-      ENDDO
 C
       DO I = 1, NUMELIG3D
         ITRI(I) = KXIG3D(5,I)

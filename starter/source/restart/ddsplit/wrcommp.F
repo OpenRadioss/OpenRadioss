@@ -36,7 +36,7 @@ Chd|====================================================================
      2   LENWA_L   ,INTBAG_L  ,NUMELQ_L  ,NUMELS_L  ,NUMELC_L ,
      3   NUMELT_L  ,NUMELR_L  ,NUMELP_L  ,NUMELX_L  ,ISUMNX_L ,
      4   NUMELS10_L,NUMELS20_L,NUMELS8_L ,NUMELS16_L,LNOM_OPT ,
-     5   NUMELUR_L ,NUMELTG_L ,NUMELTG6_L,NSLARB_L  ,NUMNOD_L ,
+     5   NUMELTG_L ,NUMELTG6_L,NSLARB_L  ,NUMNOD_L ,
      6   NUMEL_L   ,NSVOIS_L  ,NQVOIS_L  ,NTGVOIS_L, LENLAS   ,
      7   NLLINK_L  ,LLGRAV_L  ,LLBVEL_L  ,NSLAW_L  ,
      8   NESLAW_L  ,NSKYLL_L  ,NSTRF_L   ,LJOINT_L ,
@@ -95,7 +95,7 @@ C-----------------------------------------------
      .        NESLAW_L,NSTRF_L,LJOINT_L,NUMPOR_L,
      .        LENVOLU,INTBAG_L,LENTHG,LBUFMAT,LBUFGEO,NCONLD_L,
      .        LBUFSF,LENXLAS,LWSAV_L,LSECBUF_L,I2NSNT_L,
-     .        NUMELUR_L,NUMELTG_L,NUMELTG6_L,NSLARB_L,NUMNOD_L,
+     .        NUMELTG_L,NUMELTG6_L,NSLARB_L,NUMNOD_L,
      .        NPTS,NBDDNOD_L,NFXVEL_L,NBDDNRB_L,LCNE_L,
      .        NSKYRW_L,NSKYRBK_L,NBDDI2M_L,LCNI2_L,NISKYI2_L,NNMV_L,
      .        NNMVC_L,NSKYLL_L,NBDDNCJ_L,NBDDNRBM_L,NSKYRBM_L, NNODT_L,
@@ -134,8 +134,6 @@ C-----------------------------------------------
 #include      "alemuscl.inc"
 #include      "alesolver.inc"
 #include      "com01_c.inc"
-#include      "com02_c.inc"
-#include      "com03_c.inc"
 #include      "com04_c.inc"
 #include      "com05_c.inc"
 #include      "com06_c.inc"
@@ -175,7 +173,6 @@ C-----------------------------------------------
 #include      "sms_c.inc"
 #include      "sphcom.inc"
 #include      "spmd_c.inc"
-#include      "stati_c.inc"
 #include      "submod_c.inc"
 #include      "sysunit.inc"
 #include      "tabsiz_c.inc"
@@ -246,7 +243,7 @@ C taille locale inutile
       TABVINT(44) = LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)+NUMEL_L
       TABVINT(45) = LNOM_OPT*ISP0
       TABVINT(46) = 3*NFUNCT+1
-      TABVINT(47) = NIXUR*NUMELUR_L
+      TABVINT(47) = 0
       TABVINT(48) = NIXTG*NUMELTG_L + NIXTG * NTGVOIS_L
       TABVINT(49) = 4*NUMELTG6_L
       TABVINT(50) = NIXS*NUMELS_L+NSVOIS_L*NIXS+6*NUMELS10_L
@@ -678,7 +675,7 @@ C-----
       TABVINT(321)=NIXP
       TABVINT(322)=NIXR
       TABVINT(323)=NIXTG
-      TABVINT(324)=NIXUR
+      TABVINT(324)=0
       TABVINT(325)=NIXFR1
       TABVINT(326)=NIXFR2
       TABVINT(327)=NPARI
@@ -921,7 +918,7 @@ c
        LVARINT=LVARINT+1
        TABVINT(LVARINT)= NUMELTGG
        LVARINT=LVARINT+1
-       TABVINT(LVARINT)= NUMELURG
+       TABVINT(LVARINT)= 0
        LVARINT=LVARINT+1
        TABVINT(LVARINT)= NUMELSG
        LVARINT=LVARINT+1

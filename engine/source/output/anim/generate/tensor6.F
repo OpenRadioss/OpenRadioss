@@ -58,7 +58,6 @@ C-----------------------------------------------
 #include      "scr01_c.inc"
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "scr03_c.inc"
 #include      "spmd_c.inc"

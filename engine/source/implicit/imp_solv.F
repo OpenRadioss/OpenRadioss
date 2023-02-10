@@ -136,7 +136,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE IMP_SOLV( 
-     1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXUR   ,IXTG   ,IXS    ,IXQ    ,
+     1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
      4  IPARI  ,INTBUF_TAB,NPRW   ,ICONX  ,NPBY   ,LPBY   ,LRIVET ,
@@ -204,7 +204,6 @@ C-----------------------------------------------
 #include      "scr06_c.inc"
 #include      "scr16_c.inc"
 #include      "scr17_c.inc"
-#include      "rnur_c.inc"
 #include      "dmumps_struc.h"
 #include      "comlock.inc"
 #include      "fsi_ar_c.inc"
@@ -213,7 +212,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITASK,ICODE(*), ISKEW(*), ISKWN(LISKN,*),ITABM1(*),
      .   IPART(*),IXS(*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*),
-     .   IXP(NIXP,*),IXR(NIXR,*), IXUR(*)  ,IXTG(NIXTG,*), IXTG1(4,*),
+     .   IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*), IXTG1(4,*),
      .   ITAB(*),NPC(*), IBCL(*), IBFV(*),IPARG(NPARG,*),IPARI(NPARI,*),
      .   NPRW(*), NPBY(NNPBY,*), LPBY(*),IADS_F(*),
      .   LRIVET(*), NSTRF(*), LJOINT(*), ICODT(*), ICODR(*), ILINK(*),
@@ -726,7 +725,7 @@ C---------attention si rigid body reactive(deactive) pendant un restart il faut 
      4    IKINW(LI6),IKINW(LI7),IPARG     ,ELBUF     ,ELBUF_TAB ,
      5    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
      6    IXR       ,IXTG      ,IXTG1     ,IXS(L1)   ,IXS(L2)   ,
-     7    IXS(L3)   ,IXUR      ,IDDL      ,NDOF      ,IADK      ,
+     7    IXS(L3)   ,IDDL      ,NDOF      ,IADK      ,
      8    JDIK      ,NDDL      ,NNZK      ,NNMAX     ,LSIZE(8)  ,
      9    INLOC     ,NKMAX     ,IKINW(LI9),IKINW(LI10),IKINW(LI11),
      A    NMC2      ,IKINW(LI12),NTMP     ,LSIZE(12) ,LSIZE(13) ,
@@ -747,7 +746,7 @@ c          NGDONE = 1
          CALL IMP_GLOB_KHP(
      1    PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
      2    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
-     3    IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS(L1)   ,
+     3    IXR       ,IXTG      ,IXTG1     ,IXS(L1)   ,
      4    IXS(L2)   ,IXS(L3)   ,IPARG     ,TF        ,NPC       ,
      5    FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
      6    RBY       ,SKEW      ,X         ,
@@ -3158,7 +3157,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE IMP_CHKM(
-     1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXUR   ,IXTG   ,IXS    ,IXQ    ,
+     1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
      4  IPARI  ,INTBUF_TAB,NPRW   ,ICONX  ,NPBY   ,LPBY   ,LRIVET ,
@@ -3219,7 +3218,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITASK,ICODE(*), ISKEW(*), ISKWN(LISKN,*),ITABM1(*),
      .   IPART(*),IXS(*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*),
-     .   IXP(NIXP,*),IXR(NIXR,*), IXUR(*)  ,IXTG(NIXTG,*), IXTG1(4,*),
+     .   IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*), IXTG1(4,*),
      .   ITAB(*),NPC(*), IBCL(*), IBFV(*),IPARG(NPARG,*),IPARI(NPARI,*),
      .   NPRW(*), NPBY(NNPBY,*), LPBY(*),IADS_F(*),
      .   LRIVET(*), NSTRF(*), LJOINT(*), ICODT(*), ICODR(*), ILINK(*),
@@ -3529,7 +3528,7 @@ C    /---------------/
          CALL IMP_GLOB_KHP(
      1    PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
      2    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
-     3    IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS(L1)   ,
+     3    IXR       ,IXTG      ,IXTG1     ,IXS(L1)   ,
      4    IXS(L2)   ,IXS(L3)   ,IPARG     ,TF        ,NPC       ,
      5    FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
      6    RBY       ,SKEW      ,X         ,

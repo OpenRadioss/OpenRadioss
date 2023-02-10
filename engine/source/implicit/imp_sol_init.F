@@ -49,7 +49,7 @@ Chd|====================================================================
      1    GEO       ,NPBY      ,LPBY      ,ITAB      ,
      2    IPARI     ,IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS10     ,
-     5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,     
+     5    IXS20     ,IXS16     ,IPARG     ,     
      6    ELBUF     ,NINT7     ,NBINTC    ,X         ,DMCP      ,
      7    FR_ELEM   ,IAD_ELEM  ,FR_I2M    ,IAD_I2M   ,
      8    NPRW      ,NUM_IMP1  ,NUM_IMPL  ,MONVOL    ,IGRSURF   ,
@@ -99,7 +99,7 @@ C-----------------------------------------------
       INTEGER IPM(NPROPMI,*),IGEO(NPROPGI,*),IFRAME(LISKN,*)
       INTEGER 
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
+     .   IXR(NIXR,*), IXTG(NIXTG,*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),IRBE3(*),LRBE3(*),
      .   SH4TREE(*), SH3TREE(*),
      .   IRBE2(*),LRBE2(*),IBFV(*),NUM_IMP1(*),NUM_IMPL(NINTER,NTHREAD)
@@ -182,7 +182,7 @@ c
      2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
      3    IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS10     ,
-     5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,NDOF      ,
+     5    IXS20     ,IXS16     ,IPARG     ,NDOF      ,
      6    IDDL      ,NDDL      ,NNZK      ,ELBUF     ,INLOC     ,
      7    LSIZE     ,FR_ELEM   ,IAD_ELEM  ,FR_I2M    ,IAD_I2M   ,
      8    NPRW      ,NMONV     ,IMONV     ,MONVOL    ,IGRSURF   ,
@@ -263,7 +263,7 @@ C----finally not to splite IKINW, otherwise too many changes
      4    IKINW(LI6),IKINW(LI7),IPARG     ,ELBUF     ,ELBUF_TAB ,
      5    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
      6    IXR       ,IXTG      ,IXTG1     ,IXS10     ,IXS20     ,
-     7    IXS16     ,IXUR      ,IDDL      ,NDOF      ,IADK      ,
+     7    IXS16     ,IDDL      ,NDOF      ,IADK      ,
      8    JDIK      ,NDDL      ,NNZK      ,LSIZE(9)  ,LSIZE(8)  ,
      9    INLOC     ,LSIZE(10),IKINW(LI9),IKINW(LI10),IKINW(LI11),
      A    LSIZE(11) ,IKINW(LI12),LI1      ,LSIZE(12) ,LSIZE(13) ,

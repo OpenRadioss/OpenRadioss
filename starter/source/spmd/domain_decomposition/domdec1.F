@@ -32,7 +32,7 @@ Chd|        DD_FR_2                       source/spmd/domain_decomposition/domde
 Chd|====================================================================
       SUBROUTINE DOMDEC1(
      1     IPARG ,IXS   ,IXQ        ,IXC   ,IXT    ,
-     2     IXP   ,IXR   ,IXUR       ,IXTG  ,DD_IAD ,
+     2     IXP   ,IXR   ,IXTG  ,DD_IAD ,
      3     X     ,DD_IAD_PREV,IXS10 ,IXS20  ,
      4     IXS16 ,KXX   ,IXX        ,KXSP  ,IXSP   ,
      5     CEPSP ,IXTG6 )
@@ -65,7 +65,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*), IXS(NIXS,*), IXQ(NIXQ,*) , 
      .        IXC(NIXC,*) , IXT(NIXT,*), IXTG(NIXTG,*) ,
-     .        IXP(NIXP,*) , IXR(NIXR,*) , IXUR(NIXUR,*), 
+     .        IXP(NIXP,*) , IXR(NIXR,*) , 
      .        DD_IAD(NSPMD+1,*),
      .        DD_IAD_PREV(NSPMD+1,*),
      .        IXS10(6,*),IXS20(12,*),IXS16(8,*), IXTG6(4,*),
@@ -162,10 +162,6 @@ C shift de 1 sur ixtg6
      .          IXTG6(4,1+NFT-NUMELTG+NUMELTG6),P,NEL,
      .          ICON,DIM)
           END IF
-        ELSE IF(ITY==50) THEN
-          ICON = 4
-          DIM  = NIXUR
-          CALL DD_FR(IXUR(1,NFT+1),P,NEL,ICON,DIM)
         ELSE IF(ITY==51) THEN
           ICON = 1
           DIM  = NISP

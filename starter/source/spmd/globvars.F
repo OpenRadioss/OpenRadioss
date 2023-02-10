@@ -42,7 +42,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "spmd_c.inc"
 #include      "com01_c.inc"
-#include      "rnur_c.inc"
 #include      "param_c.inc"
 #include      "sphcom.inc"
 #include      "tabsiz_c.inc"
@@ -68,7 +67,6 @@ C   Variable globale NUMELTGG,NUMELCG, nombre global de triangles
       NUMELQG = NUMELQ
       NUMELCG = NUMELC
       NUMELTGG = NUMELTG
-      NUMELURG = NUMELUR
       NUMELSG = NUMELS
       NUMELPG = NUMELP
       NUMELRG = NUMELR

@@ -64,7 +64,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "scr01_c.inc"
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
@@ -245,7 +244,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C     CALCUL DES DT ELEMENTAIRES
 C--------------------------------------------------
-       NDEPAR=NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELUR+NUMELTG
+       NDEPAR=NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG
      .       +NUMELX+NFT
      
       AIRE(:) = ZERO

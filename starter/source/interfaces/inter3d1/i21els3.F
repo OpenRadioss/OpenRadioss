@@ -73,15 +73,13 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "warn_c.inc"
 #include      "remesh_c.inc"
-#include      "rnur_c.inc"
-
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTS, NRTM, NINT, NTY, NOINT, NSN, NMN
       INTEGER IRECTS(4,*), IRECTM(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*), 
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
+     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
      .   NOD2ELTG(*),
      .   INTTH, IELES(*), MSR(*), IELEM21(*), IXS10(*),
      .   IXS16(*), IXS20(*),IGEO(*),SH3TREE(KSH3TREE,*), SH4TREE(KSH4TREE,*),
@@ -108,7 +106,7 @@ C     REAL
 C-----
       IF(INTTH > 0)THEN
         NELEM = NUMELC+NUMELTG+NUMELS+NUMELR
-     +      + NUMELP+NUMELT+NUMELQ+NUMELUR+NUMELX+NUMELIG3D
+     +      + NUMELP+NUMELT+NUMELQ+NUMELX+NUMELIG3D
         ALLOCATE(INRTIE(NELEM),STAT=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
@@ -280,7 +278,7 @@ C        en SPMD il faut un element associe a l'arrete sinon erreur
       END IF
   500 CONTINUE
 C---------------------------
-C     remplace dans IRECTM les n°s de noeuds par leur n° dans MSR.
+C     remplace dans IRECTM les n\B0s de noeuds par leur n\B0 dans MSR.
 C---------------------------
       ITMP=0
       DO I=1,NMN

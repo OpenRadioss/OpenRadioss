@@ -50,11 +50,6 @@ C-----------------------------------------------
 #include      "assert.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
-C#include      "scr17_c.inc"
-C#include      "scr23_c.inc"
-C#include      "com01_c.inc"
-C#include      "rnur_c.inc"
-C#include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

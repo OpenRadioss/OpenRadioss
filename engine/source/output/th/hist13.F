@@ -36,7 +36,7 @@ Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod
 Chd|====================================================================
       SUBROUTINE HIST13(IPARG ,IXS  ,IXQ  ,IXC    ,IXT    ,
      2                  IXP   ,IXR  ,IWA  ,ITAB   ,PM     ,
-     3                  NPBY  ,IXTG ,IRFE ,IXUR   ,LACCELM,
+     3                  NPBY  ,IXTG ,IRFE ,LACCELM,
      4                  IPARI ,IPART,ITHGRP ,ITHBUF,CHRUN_OLD)
 C=======================================================================
 C   OLD TH V3 RADIOSS INPUT V3 or V4
@@ -63,14 +63,13 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "scrfs_c.inc"
 #include      "chara_c.inc"
-#include      "rnur_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRFE
       INTEGER IPARG(NPARG,*), IXS(NIXS,*), IXQ(NIXQ,*),
      .   IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*), IXR(NIXR,*),
-     .   IXUR(NIXUR,*), IXTG(NIXTG,*), IWA(*), ITAB(*),
+     .   IXTG(NIXTG,*), IWA(*), ITAB(*),
      .   IPARI(NPARI,*),LACCELM(3,*),IPART(LIPART1,*), NPBY(NNPBY,*),
      .   ITHGRP(NITHGR,*), ITHBUF(*)
 C     REAL
@@ -235,7 +234,6 @@ C
       IWA(29)=NRBAGV
       IWA(30)=NSELTG
       IWA(31)=NELTGV
-C      IWA(32)=NSELUR
       IWA(32)=NSELU
       IWA(33)=NELURV
       IWA(34)=NACCELM
@@ -519,26 +517,6 @@ C
               I=ITHBUF(J)
               II=II+1
               IWA(II)=ITHBUF(J+2*NN)
-              II=II+1
-              IWA(II)=0
-            ENDDO
-          ENDIF
-        ENDDO
-        CALL WRTDES(IWA,IWA,II,ITFORM,0)
-      ENDIF
-C
-C      IF (NSELUR>0) THEN
-      IF (NSELU>0) THEN
-        II=0
-        DO N=1,NTHGRP
-          ITYP=ITHGRP(2,N)
-          NN  =ITHGRP(4,N)
-          IAD =ITHGRP(5,N)
-          IF(ITYP==50)THEN
-            DO J=IAD,IAD+NN-1
-              I=ITHBUF(J)
-              II=II+1
-              IWA(II)=IXUR(NIXUR,I)
               II=II+1
               IWA(II)=0
             ENDDO

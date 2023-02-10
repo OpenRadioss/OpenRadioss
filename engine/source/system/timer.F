@@ -2066,7 +2066,6 @@ C-----------------------------------------------
 #include        "units_c.inc"
 #include        "param_c.inc"
 #include        "spmd_c.inc"
-#include        "rnur_c.inc"
 #include        "chara_c.inc"
 #include        "scr19_c.inc"
 #include        "ddspmd_c.inc"
@@ -2462,7 +2461,6 @@ C-----------------------------------------------
 #include    "units_c.inc"
 #include    "param_c.inc"
 #include    "spmd_c.inc"
-#include    "rnur_c.inc"
 #include    "chara_c.inc"
 #include    "scr07_c.inc"
 #include    "scr19_c.inc"
@@ -2592,7 +2590,6 @@ C-----------------------------------------------
 #include    "units_c.inc"
 #include    "param_c.inc"
 #include    "spmd_c.inc"
-#include    "rnur_c.inc"
 #include    "chara_c.inc"
 #include    "scr07_c.inc"
 #include    "scr19_c.inc"
@@ -2709,7 +2706,6 @@ C-----------------------------------------------
 #include    "units_c.inc"
 #include    "param_c.inc"
 #include    "spmd_c.inc"
-#include    "rnur_c.inc"
 #include    "chara_c.inc"
 #include    "scr07_c.inc"
 #include    "scr19_c.inc"
@@ -2825,7 +2821,6 @@ C-----------------------------------------------
 #include    "units_c.inc"
 #include    "param_c.inc"
 #include    "spmd_c.inc"
-#include    "rnur_c.inc"
 #include    "chara_c.inc"
 #include    "scr07_c.inc"
 #include    "scr19_c.inc"
@@ -2937,7 +2932,6 @@ C-----------------------------------------------
 #include    "units_c.inc"
 #include    "param_c.inc"
 #include    "spmd_c.inc"
-#include    "rnur_c.inc"
 #include    "chara_c.inc"
 #include      "scr07_c.inc"
 #include     "scr19_c.inc"
@@ -3244,7 +3238,7 @@ Chd|====================================================================
       SUBROUTINE CUMULTIME_MP(
      1          TAILLE,IPARG,
      2          IXC,IXQ,IXT,IXP,IXTG,
-     3          IXR,IXUR,IXS,KXIG3D,IPM,
+     3          IXR,IXS,KXIG3D,IPM,
      4          IGEO,GEO,POIN_UMP,CPUTIME_MP,
      5          NBR_GPMP,CPUTIME_MP_GLOB,TAB_UMP,PM,
      6          BUFMAT,TABMP_L,TAB_MAT )
@@ -3270,7 +3264,6 @@ C-----------------------------------------------
 #include    "units_c.inc"
 #include    "param_c.inc"
 #include    "spmd_c.inc"
-#include    "rnur_c.inc"
 #include    "chara_c.inc"
 #include    "scr19_c.inc"
 #include    "ddspmd_c.inc"
@@ -3279,7 +3272,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),IXC(NIXC,*),IXS(NIXS,*),
      .        IXQ(NIXQ,*),IXT(NIXT,*), IXP(NIXP,*),
-     .        IXR(NIXR,*), IXUR(*),KXIG3D(*),IXTG(NIXTG,*),
+     .        IXR(NIXR,*),KXIG3D(*),IXTG(NIXTG,*),
      .        IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        TAILLE,NBR_GPMP,TABMP_L
 
@@ -3562,7 +3555,6 @@ C-----------------------------------------------
 #include    "units_c.inc"
 #include    "param_c.inc"
 #include    "spmd_c.inc"
-#include    "rnur_c.inc"
 #include    "chara_c.inc"
 #include    "scr19_c.inc"
 #include    "ddspmd_c.inc"

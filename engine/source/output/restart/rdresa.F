@@ -209,7 +209,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "r4r8_p.inc"
 #include      "com01_c.inc"
-#include      "com02_c.inc"
 #include      "com04_c.inc"
 #include      "com05_c.inc"
 #include      "com09_c.inc"
@@ -228,7 +227,6 @@ C-----------------------------------------------
 #include      "cong1_c.inc"
 #include      "parit_c.inc"
 #include      "task_c.inc"
-#include      "rnur_c.inc"
 #include      "scrnoi_c.inc"
 #include      "scrfs_c.inc"
 #include      "scrcut_c.inc"
@@ -266,7 +264,6 @@ C
         IF(IPARIT /= 1) IPARIT = IPARI0
       ENDIF
 C
-      NUMELUR=SIXUR/NIXUR
       IF(IMACH==3.AND.IPARI0==0.AND.IPARIT==1) THEN
         IF(ISPMD==0)THEN
 C Parith/on necessite Parith/ON anterieur en SPMD (structures de donnees additionnelles)
@@ -279,7 +276,7 @@ C Parith/on necessite Parith/ON anterieur en SPMD (structures de donnees additio
 
 C calcul de NISKY0 dans ts les cas
       NISKY0 = 8*NUMELS   + 4*NUMELQ    + 4*NUMELC   + 2*NUMELT  +
-     .         2*NUMELP   + 3*NUMELR    + 3*NUMELTG  + 4*NUMELUR +
+     .         2*NUMELP   + 3*NUMELR    + 3*NUMELTG  + 
      .         6*NUMELS10 + 12*NUMELS20 + 8*NUMELS16 + 3*NUMELTG6
       LCNEL = NISKY0
       IF(IMACH==3) THEN
@@ -541,7 +538,7 @@ C---------------------------------------------------------
      .                MIN(1,ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT)
      .              + MIN(1,ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT)
      .              + MIN(1,ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT) )
-     .          + 6*(NSECT+NRBODY+NRWALL+NUMELUR)
+     .          + 6*(NSECT+NRBODY+NRWALL)
      .          + 6*NUMNOD*MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT)  
      .          + 3*NUMNOD*MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2)
      .          + 6*NUMNOD*MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2)  

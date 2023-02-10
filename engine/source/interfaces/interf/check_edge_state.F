@@ -56,7 +56,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com01_c.inc"
 #include      "scr17_c.inc"
-#include      "rnur_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -81,7 +80,7 @@ C-----------------------------------------------
         my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO
         INTEGER, DIMENSION(0:LCNEL), INTENT(in) :: CNEL ! connectivity node-->element
         INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: TAG_NODE
-        INTEGER, DIMENSION(NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+NUMELUR), INTENT(inout) :: TAG_ELEM
+        INTEGER, DIMENSION(NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG), INTENT(inout) :: TAG_ELEM
         TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo   
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

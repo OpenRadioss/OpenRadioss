@@ -70,7 +70,7 @@ Chd|====================================================================
       SUBROUTINE IMP_BUCK(
      2                    PM          , GEO         , IPM      , IGEO     , ELBUF     ,
      3                    IXS         , IXQ         , IXC      , IXT      , IXP       ,
-     4                    IXR         , IXTG        , IXTG1    , IXUR     , IPARG     ,
+     4                    IXR         , IXTG        , IXTG1    , IPARG     ,
      5                    TF          , NPC         , FR_WAVE  , W16      , BUFMAT    ,
      6                    THKE        , BUFGEO      ,SENSOR_TAB, RBY       ,
      7                    SKEW        , WA          ,ICODT     , ICODR    , ISKEW     ,
@@ -133,7 +133,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "com09_c.inc"
 #include      "com_xfem1.inc"
-#include      "rnur_c.inc"
 #include      "sphcom.inc"
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
@@ -153,7 +152,7 @@ C-----------------------------------------------
       INTEGER NDDL0, NNZK0,  IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IXS(*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*),
      .        IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),INDX_CRK(*),   
-     .        IXTG1(4,*), IXUR(*), IPARG(NPARG,*),
+     .        IXTG1(4,*), IPARG(NPARG,*),
      .        NPC(*), ICODT(*), ICODR(*), ISKEW(*), IBFV(NIFV,*),
      .        LPBY(*), NPBY(NNPBY,*), ITAB(*),
      .        WEIGHT(*),IPARI(NPARI,*),ITASK, ICUT(*), NSTRF(*), NPRW(*),
@@ -384,7 +383,7 @@ C    /---------------/
        CALL IMP_GLOB_KHP(
      1   PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
      2   IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
-     3   IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS(L1)   ,
+     3   IXR       ,IXTG      ,IXTG1     ,IXS(L1)   ,
      4   IXS(L2)   ,IXS(L3)   ,IPARG     ,TF        ,NPC       ,
      5   FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
      6   RBY       ,SKEW      ,X         ,
@@ -431,7 +430,7 @@ citask0      IF (ITASK == 0) THEN
      4   IKINW(LI6),IKINW(LI7),IPARG     ,ELBUF     ,ELBUF_TAB ,
      5   IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
      6   IXR       ,IXTG      ,IXTG1     ,IXS(L1)   ,IXS(L2)   ,
-     7   IXS(L3)   ,IXUR      ,IDDL      ,NDOF      ,IADK      ,
+     7   IXS(L3)   ,IDDL      ,NDOF      ,IADK      ,
      8   JDIK      ,NDDL      ,NNZK      ,NNMAX     ,LSIZE(8)  ,
      9   INLOC     ,NKMAX     ,IKINW(LI9),IKINW(LI10),IKINW(LI11),
      A   NMC2      ,IKINW(LI12),NTMP     ,LSIZE(12) ,LSIZE(13) ,
@@ -448,7 +447,7 @@ C    /---------------/
       CALL IMP_GLOB_KHP(
      1   PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
      2   IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
-     3   IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS(L1)   ,
+     3   IXR       ,IXTG      ,IXTG1     ,IXS(L1)   ,
      4   IXS(L2)   ,IXS(L3)   ,IPARG     ,TF        ,NPC       ,
      5   FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
      6   RBY       ,SKEW      ,X         ,
@@ -708,11 +707,11 @@ C
       ENDIF
 C
       NEL3D = NUMELS + NUMSPH + 3*NUMELS16
-      NEL2D = NUMELC + NUMELTG + NUMELQ + NUMELUR
+      NEL2D = NUMELC + NUMELTG + NUMELQ 
       NEL1D = NUMELT + NUMELP  + 2*NUMELR + NANIM1D
       NEL = MAX(NEL1D,NEL2D,NEL3D)
       NELG = MAX (  NUMELSG+3*NUMELS16G+NUMSPHG,
-     .              NUMELCG+NUMELTGG+NUMELQG+NUMELURG,
+     .              NUMELCG+NUMELTGG+NUMELQG,
      .              NUMELTG + NUMELPG  + 2*NUMELRG)
 C
       SN1 = MAX(3*NUMNOD,6*NEL3D,3*NEL2D,9*NEL1D,NUMSPH)
@@ -779,7 +778,7 @@ C
       K5=K4+NUMELT
       K6=K5+NUMELP
       K7=K6+NUMELR
-      K8=K7+NUMELUR
+      K8=K7
       K9=K8+NUMELTG
       K10=K9+NUMELX
       K11=K10+NUMSPH
@@ -851,7 +850,7 @@ C
      5             SN5        ,CONT      ,SN6        ,ICUT        ,SKEW      ,
      6             XCUT       ,FINT      ,ITAB       ,SN7         ,FEXT      ,
      7             FOPT       ,ANIN      ,LPBY       ,NPBY        ,NSTRF     ,
-     8             RWBUF      ,NPRW      ,IXUR       ,TANI        ,ELBUF_TAB ,
+     8             RWBUF      ,NPRW      ,TANI        ,ELBUF_TAB ,
      A             DD_IAD     ,WEIGHT    ,EANI       ,IPART       ,CLUSTER   ,
      B             IPART(K1)  ,IPART(K2) ,IPART(K3)  ,IPART(K4)   ,IPART(K5) ,
      C             IPART(K6)  ,IPART(K7) ,IPART(K8)  ,

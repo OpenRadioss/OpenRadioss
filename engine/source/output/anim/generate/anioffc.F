@@ -49,7 +49,6 @@ C-----------------------------------------------
 #include      "com_xfem1.inc"
 #include      "param_c.inc"
 #include      "remesh_c.inc"
-#include      "rnur_c.inc"
 #include      "scr01_c.inc"
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
@@ -87,7 +86,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       NN7 = NN6 
       NN8 = NN7 
       NN9 = NN8 
-      NN10= NN9 + NUMELUR
+      NN10= NN9
 C-----------------------------------------------
 C
       DO NG=1,NGROUP
@@ -183,7 +182,7 @@ C-----------------------------------------------
           IOFFBUF(I) = IOFF(I)
         ENDDO
          IF (ISPMD == 0) THEN
-          RBUF = (NUMELQG+NUMELCG+NUMELTGG+NUMELURG)
+          RBUF = (NUMELQG+NUMELCG+NUMELTGG)
           CALL SPMD_IGET_PARTN(1,NBF_L,IOFFBUF,NBPART,IADG,RBUF,2)
         ELSE
           RBUF = 1

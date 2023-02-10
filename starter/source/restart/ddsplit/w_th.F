@@ -46,7 +46,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -100,11 +99,8 @@ Cel elements
               ESHIFT = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP
             ELSEIF(ITYP==7) THEN
               ESHIFT = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR
-            ELSEIF(ITYP==50) THEN
-              ESHIFT = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
             ELSEIF(ITYP==100) THEN
               ESHIFT = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
-     .                 +NUMELUR
             ENDIF
             IF(P==PROC) THEN
               IF(ITYP==51)THEN

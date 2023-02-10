@@ -3424,7 +3424,7 @@ Chd|====================================================================
       SUBROUTINE DIM_FR_K(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NDOF      ,
+     3    IXS10     ,IXS20     ,IXS16     ,NDOF      ,
      4    NNMAX     ,INLOC     ,FR_ELEM   ,IAD_ELEM  ,N_FR      ,
      5    IGEO      ,FR_I2M    ,IAD_I2M   ,ELBUF_TAB )
 C-----------------------------------------------
@@ -3450,7 +3450,7 @@ C-----------------------------------------------
      .        FR_I2M(*),IAD_I2M(*)
       INTEGER
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*),IXP(NIXP,*),
-     .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
+     .   IXR(NIXR,*), IXTG(NIXTG,*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),INLOC(*),FR_ELEM(*),IAD_ELEM(2,*)
 C     REAL
       my_real
@@ -3493,7 +3493,7 @@ c      RETURN
        CALL DIM_ELEMSP(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROW(NF1),
+     3    IXS10     ,IXS20     ,IXS16     ,NROW(NF1),
      4    INLOC     ,NNMAX     ,ICOL(1,NF1),IGEO   ,ELBUF_TAB )
        DO J=1,JLT
         NK=J+NFT
@@ -3624,7 +3624,7 @@ Chd|====================================================================
       SUBROUTINE IND_FR_K(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NDOF      ,
+     3    IXS10     ,IXS20     ,IXS16     ,NDOF      ,
      4    NNMAX     ,INLOC     ,FR_ELEM   ,IAD_ELEM  ,N_FR      ,
      5    IGEO      ,ELBUF_TAB )
 C-----------------------------------------------
@@ -3649,7 +3649,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),NNMAX,N_FR ,NDOF(*),IGEO(*)
       INTEGER
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*),IXP(NIXP,*),
-     .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
+     .   IXR(NIXR,*), IXTG(NIXTG,*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),INLOC(*),FR_ELEM(*),IAD_ELEM(2,*)
 C     REAL
       my_real
@@ -3680,7 +3680,7 @@ C   ----  creer NROW,ICOL aux front.---------
        CALL DIM_ELEMSP(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROW(NF1),
+     3    IXS10     ,IXS20     ,IXS16     ,NROW(NF1),
      4    INLOC     ,NNMAX     ,ICOL(1,NF1),IGEO   ,ELBUF_TAB )
        DO J=1,JLT
         NK=J+NFT
@@ -3981,7 +3981,7 @@ Chd|====================================================================
       SUBROUTINE INI_FR_K(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NDOF      ,
+     3    IXS10     ,IXS20     ,IXS16     ,NDOF      ,
      4    NNMAX     ,INLOC     ,FR_ELEM   ,IAD_ELEM  ,N_FR      ,
      5    IGEO      ,FR_I2M    ,IAD_I2M   ,ELBUF_TAB ,NNRMAX    )
 C-----------------------------------------------
@@ -4008,7 +4008,7 @@ C-----------------------------------------------
      .        FR_I2M(*),IAD_I2M(*),NNRMAX
       INTEGER
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*),IXP(NIXP,*),
-     .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
+     .   IXR(NIXR,*), IXTG(NIXTG,*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),INLOC(*),FR_ELEM(*),IAD_ELEM(2,*)
 C     REAL
       my_real
@@ -4046,7 +4046,7 @@ C     IF (N_FR <=0 .OR. NNMAX <=0) RETURN
        CALL DIM_ELEMSP(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROW(NF1),
+     3    IXS10     ,IXS20     ,IXS16     ,NROW(NF1),
      4    INLOC     ,NNMAX     ,ICOL(1,NF1),IGEO   ,ELBUF_TAB )
        DO J=1,JLT
         NK=J+NFT

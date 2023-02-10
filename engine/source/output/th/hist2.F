@@ -121,7 +121,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "scr23_c.inc"
 #include      "scrfs_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "warn_c.inc"
 #include      "timeri_c.inc"

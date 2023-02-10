@@ -33,7 +33,7 @@ Chd|====================================================================
      1  IXS     ,IXQ      ,IXC     ,IXT     ,IXP       ,
      2  IXR     ,IXTG     ,IXS10   ,IXS16   ,IXS20     ,
      3  IPARTS  ,IPARTQ   ,IPARTC  ,IPARTT  ,IPARTP    ,
-     4  IPARTR  ,IPARTUR  ,IPARTG  ,IPARTX  ,IPART     ,
+     4  IPARTR  ,IPARTG  ,IPARTX  ,IPART     ,
      5  IPARG   ,ELBUF_TAB,IGEO    ,IDDLEVEL,TAGPRT_SMS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -53,7 +53,6 @@ C-----------------------------------------------
 #include      "scr15_c.inc"
 #include      "scr17_c.inc"
 #include      "sphcom.inc"
-#include      "rnur_c.inc"
 #include      "units_c.inc"
 #include      "sms_c.inc"
 C-----------------------------------------------
@@ -63,7 +62,7 @@ C-----------------------------------------------
      .   IXS(NIXS,*),IXS10(6,*) ,IXS16(8,*) ,IXS20(12,*),
      .   IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*),IXTG(NIXTG,*),IPARTS(*),IPARTQ(*),IPARTC(*),
-     .   IPARTT(*),IPARTP(*),IPARTR(*),IPARTUR(*),IPARTG(*),IPARTX(*),
+     .   IPARTT(*),IPARTP(*),IPARTR(*),IPARTG(*),IPARTX(*),
      .   IPARG(NPARG,NGROUP),IGEO(NPROPGI,*),IDDLEVEL, TAGPRT_SMS(*)
       my_real
      .   DTELEM(*)
@@ -141,7 +140,7 @@ C-----------------------------------------------
 C     Calcul des index dans dtelem pour chaque type d'element
 C-----------------------------------------------
 C
-      NUMEL= NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELUR+NUMELTG
+      NUMEL= NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG
      .      +NUMELX+NUMSPH+NUMELIG3D
 C
       NUME(1) = NUMELS

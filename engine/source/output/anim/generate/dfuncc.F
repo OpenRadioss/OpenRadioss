@@ -40,7 +40,7 @@ Chd|        STACK_MOD                     share/modules/stack_mod.F
 Chd|====================================================================
       SUBROUTINE DFUNCC(ELBUF_TAB ,FUNC      ,IFUNC     ,IPARG       ,GEO        ,
      .                  IXQ       ,IXC       ,IXTG      ,MASS        ,PM         ,
-     .                  EL2FA     ,NBF       ,IXUR      ,IADP        ,
+     .                  EL2FA     ,NBF       ,IADP        ,
      .                  NBF_L     ,EHOUR     ,ANIM      ,NBPART      ,IADG       ,
      .                  IPM       ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
      .                  INVERT    ,X         ,V         ,W           ,ALE_CONNECTIVITY,
@@ -72,7 +72,6 @@ C-----------------------------------------------
 #include      "scr14_c.inc"
 #include      "scr25_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
 #include      "mmale51_c.inc"
@@ -84,7 +83,7 @@ C-----------------------------------------------
      .   FUNC(*),MASS(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,NUMGEO),
      .   ANIM(*),PM(NPROPM,NUMMAT),ERR_THK_SH4(*), ERR_THK_SH3(*),BUFMAT(*)
       INTEGER IPARG(NPARG,NGROUP),IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),EL2FA(*),
-     .   IXQ(NIXQ,NUMELQ),IXUR(NIXUR,NUMELUR),IFUNC,NBF,
+     .   IXQ(NIXQ,NUMELQ),IFUNC,NBF,
      .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
      .   IGEO(NPROPGI,NUMGEO),INVERT(*), NV46
       REAL WAL(NBF_L)
@@ -4440,7 +4439,7 @@ C-----------------------------------------------
         ENDDO
 C
         IF (ISPMD == 0) THEN
-          BUF = (NUMELQG+NUMELCG+NUMELTGG+NUMELURG)*4
+          BUF = (NUMELQG+NUMELCG+NUMELTGG)*4
         ELSE
           BUF=1
         ENDIF

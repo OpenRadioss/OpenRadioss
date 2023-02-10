@@ -28,7 +28,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE MESSAGE_MOD2
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
       TYPE TMESSAGE
 C message size
         INTEGER SMESSAGE

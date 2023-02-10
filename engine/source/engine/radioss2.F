@@ -203,7 +203,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com02_c.inc"
 #include      "com04_c.inc"
 #include      "com05_c.inc"
 #include      "com06_c.inc"
@@ -237,7 +236,6 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "warn_c.inc"
 #include      "lon_c.inc"
-#include      "rnur_c.inc"
 #include      "parit_c.inc"
 #include      "titr_c.inc"
 #include      "timeri_c.inc"
@@ -262,7 +260,7 @@ C-----------------------------------------------
 #include      "inter22.inc"
 #include      "alesolver.inc"
 #include      "alemuscl.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1876,7 +1874,7 @@ C   Multiple th files
           CALL HIST13(
      1           IPARG ,IXS ,IXQ ,IXC ,IXT ,
      2           IXP ,IXR ,WA  ,ITAB ,PM  ,
-     3           NPBYL ,IXTG ,IRFE    ,IXUR,LACCELM ,
+     3           NPBYL ,IXTG ,IRFE    ,LACCELM ,
      4           IPARI ,IPART ,ITHGRP ,ITHBUF ,CHR_OLD)
         ENDIF
         IF(NABFILE /= 0) THEN
@@ -2217,7 +2215,7 @@ C Send Data / Fem Structures
         K5=K4+NUMELT
         K6=K5+NUMELP
         K7=K6+NUMELR
-        K8=K7+NUMELUR
+        K8=K7
         K9=K8+NUMELTG
         K10=K9+NUMELX
         K11=K10+NUMSPH
