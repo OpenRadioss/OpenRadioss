@@ -72,12 +72,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL(KIND=C_BOOL) :: C_IS_AVAILABLE
+      DOUBLE PRECISION DVAL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C=======================================================================
 C--------------------------------------------------
-        CALL CPP_SET_FLOATV(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),RVAL,C_IS_AVAILABLE)
+        DVAL = RVAL
+        CALL CPP_SET_FLOATV(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),DVAL,C_IS_AVAILABLE)
 C--------------------------------------------------                             
       RETURN
 C
