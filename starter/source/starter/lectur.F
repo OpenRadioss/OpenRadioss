@@ -7456,6 +7456,8 @@ C--------------------------------------------
      .                  MS      ,ITABM1   ,IGRNOD   ,UNITAB ,IGRSURF,
      .                  IPART   ,IPMAS    ,TOTADDMAS,FLAGG  ,IGRPART,
      .                  X       ,LSUBMODEL)
+!---
+           IF (NS10E>0) CALL ADDMAST10(ICNDS10,  MS    )
 C---
         ELSE
           IF (IDDLEVEL==0) THEN
