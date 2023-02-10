@@ -100,6 +100,7 @@ C-----------------------------------------------
       INTEGER :: ADD
       INTEGER :: K, I, II, JJ, NODE_ID, JMIN, JMAX
       INTEGER :: ELEM_ID
+      INTEGER :: FIRST,LAST
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C----------------------------------------------- 
@@ -175,10 +176,12 @@ C     ALE ON / OFF
       ENDIF
       CALL MY_BARRIER 
       
-      DO NODE_ID = 1 + ITASK, NUMNOD, NTHREAD
-         DO ITRIMAT = 1, TRIMAT
-            NODE_MAX_VALUE(NODE_ID,ITRIMAT) = -EP30
-            NODE_MIN_VALUE(NODE_ID,ITRIMAT) = EP30
+      FIRST = 1 + ITASK * NUMNOD / NTHREAD
+      LAST = (1 + ITASK) * NUMNOD / NTHREAD
+      NODE_MAX_VALUE(FIRST:LAST,1:TRIMAT) = -EP30
+      NODE_MIN_VALUE(FIRST:LAST,1:TRIMAT) = EP30
+      DO ITRIMAT = 1, TRIMAT
+        DO NODE_ID = FIRST,LAST
             JMIN = pADDCNEL(NODE_ID)
             JMAX = pADDTMPL(NODE_ID) - 1
             DO JJ = JMIN, JMAX
