@@ -6023,11 +6023,7 @@ C------------Need to stop computation at Tstop for /DT/THERM----------
           TREST=MAX(TSTOP-TT,ZERO)
   
           DTREST = TREST*(ONE+EM10)
-
-          IF(DTREST<DT2T) THEN
-             IF (DTANIM>ZERO) ILASTANIM = 1 
-             IF (H3D_DATA%DTH3D>ZERO) ILASTH3D = 1  
-          ENDIF     
+    
           DT2T = MIN(DT2TT,DTREST) 
           NELTST = NELTSTT
           ITYPTST= ITYPTSTT
@@ -9308,18 +9304,26 @@ C
             CALL CLOSE_C
           ENDIF 
           STATE_ANIM = 0
-          IF (ILASTANIM==1) THEN
-            STATE_ANIM = 1
-          ELSEIF (ILASTANIM==0.OR.ILASTANIM==3) THEN
-            STATE_ANIM = 2
-          END IF
+          IF(MSTOP_DT_THERM==0) THEN
+            IF (ILASTANIM==1) THEN
+               STATE_ANIM = 1
+            ELSEIF (ILASTANIM==0.OR.ILASTANIM==3) THEN
+               STATE_ANIM = 2
+            END IF
+          ELSE
+               STATE_ANIM = 2
+          ENDIF
 
           STATE_H3D = 0
-          IF (ILASTH3D==1) THEN
-            STATE_H3D = 1
-          ELSEIF (ILASTH3D==0.OR.ILASTH3D==3) THEN
+          IF(MSTOP_DT_THERM==0) THEN
+            IF (ILASTH3D==1) THEN
+               STATE_H3D = 1
+            ELSEIF (ILASTH3D==0.OR.ILASTH3D==3) THEN
+              STATE_H3D = 2
+            END IF
+          ELSE
             STATE_H3D = 2
-          END IF
+          ENDIF
 
           IF( STATE_ANIM == 1 .OR. STATE_H3D == 1 ) THEN
             CALL TRACE_OUT(3)
