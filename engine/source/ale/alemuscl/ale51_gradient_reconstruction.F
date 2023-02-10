@@ -292,7 +292,7 @@ C     ALE ON / OFF
 C     Communication MPI pour les gradients
 !$OMP SINGLE
          DO ITRIMAT = 1, TRIMAT
-            CALL SPMD_ENVOIS(3, GRAD(1,1,ITRIMAT), 
+            CALL SPMD_EXCHANGE_GRAD(3, NUMELS + NSVOIS + NUMELQ + NQVOIS,3,GRAD(1,1,ITRIMAT), 
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
          ENDDO
 !$OMP END SINGLE         
