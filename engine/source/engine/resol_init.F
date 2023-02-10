@@ -102,7 +102,7 @@ Chd|====================================================================
      F  STIFR   ,DMAS     ,DINER   ,FANI      ,ANIN      ,
      G           WA       ,UWA     ,PM        ,GEO       ,
      H  PARTSAV ,PARTS0    ,MONVOL    ,
-     I  I87H    ,I87I     ,I87J    ,I87K      ,IXUR      ,
+     I  I87H    ,I87I     ,I87J    ,I87K      ,
      J  I15J    ,KXX      ,
      K  SECBUF  ,SECFCUM  ,NSTRF   ,IGRNOD    ,IEXLNK    ,
      L  XFRAME  ,I8A      ,I8AR    ,I8STIFN   ,I8STIFR   ,
@@ -204,7 +204,6 @@ C-----------------------------------------------
 #include      "cong2_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
-#include      "rnur_c.inc"
 #include      "timerc_c.inc"
 #include      "timeri_c.inc"
 #include      "couple_c.inc"
@@ -242,7 +241,7 @@ C-----------------------------------------------
      .        IXS(NIXS,*),IXS10(6,*) ,IXS20(12,*),IADS10(6,*),
      .        IADS20(12,*),IXS16(6,*) ,IADS16(12,*), IGEO(NPROPGI,*),
      .        IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
-     .        IXR(NIXR,*), IXTG(NIXTG,*), IXUR(NIXUR,*), IXTG1(4,*),
+     .        IXR(NIXR,*), IXTG(NIXTG,*), IXTG1(4,*),
      .        ITAB(*), IPARG(NPARG,*), IPARI(NPARI,*), ADSKY(*),
      .        IADS(*), IEXLNK(NR2R,*),
      .        WEIGHT(*), NSTRF(*), IB(NIBCLD,*), ITABM1(*),
@@ -436,7 +435,7 @@ C
         IF(IDEL7NG>0.OR.IRAD2R>0.OR.IALEMUSCL>0.OR.PDEL>0) THEN
            CALL CHKINIT(
      2       IXS        ,IXQ       ,IXC       ,IXT         ,IXP       ,
-     3       IXR        ,IXTG      ,IXUR      ,IXS10       ,IXS20     ,
+     3       IXR        ,IXTG      ,IXS10       ,IXS20     ,
      4       IXS16      ,IXTG1     ,GEO       ,ADDCNEL     ,CNEL      ,
      5       ADDTMPL    ,IPARG     )
         ENDIF
@@ -456,7 +455,7 @@ C
         NFNCA= NFEA + NUMNOD*MIN(1,ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT)
         NFTCA= NFNCA+ NUMNOD*MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT)
         NFOA = NFTCA+ NUMNOD*MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT)
-        NFT2 = NFOA+ 2*(NSECT+NRBODY+NRWALL+NUMELUR)
+        NFT2 = NFOA+ 2*(NSECT+NRBODY+NRWALL)
         NFNCA2= NFT2  + NUMNOD*MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2)
         NFTCA2= NFNCA2+ NUMNOD*MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2)
         NDMA = NUMNOD*MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT)
@@ -492,7 +491,6 @@ C
         I13E=I13D+NSELT
         I13F=I13E+NSELP
         I13G=I13F+NSELR
-C       I13H=I13G+NSELUR
         I13H=I13G+NSELU
         I13I=I13H+NSELTG
         I15ATH=1+LIPART1*(NPART+NTHPART)
@@ -503,7 +501,7 @@ C       I13H=I13G+NSELUR
         I15E=I15D+NUMELT
         I15F=I15E+NUMELP
         I15G=I15F+NUMELR
-        I15H=I15G+NUMELUR
+        I15H=I15G
         I15I=I15H+NUMELTG
         I15J=I15I+NUMELX
         I15K=I15J+NUMSPH
@@ -519,7 +517,7 @@ C
         I87G = I87F + 3 * NUMELR
         I87H = I87G + 3 * NUMELTG
         I87H = I87H + 3 * NUMELTG6
-        I87I = I87H + 4 * NUMELUR
+        I87I = I87H
         I87J = I87I + 4 * NSKYMV0
         I87K = I87J + 4 * NCONLD
         I87L = I87K + 4 * NUMCONV
@@ -1495,7 +1493,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "task_c.inc"
-#include      "rnur_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1538,10 +1535,6 @@ C
 C
        DO I = 1, NUMELR
          IPARTL(IPARTR(I))=1
-       END DO
-C
-       DO I = 1, NUMELUR
-         IPARTL(IPARTUR(I))=1
        END DO
 C
        DO I = 1, NUMELTG

@@ -43,7 +43,6 @@ C   C o m m o n   B l o c k s
 #include      "param_c.inc"
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------

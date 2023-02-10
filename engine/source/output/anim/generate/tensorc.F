@@ -53,7 +53,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "scr01_c.inc"
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
@@ -114,7 +113,7 @@ C
       NN7 = NN6 
       NN8 = NN7 
       NN9 = NN8 
-      NN10= NN9 + NUMELUR
+      NN10= NN9 
 C
 C
       DO 490 NG=1,NGROUP
@@ -1346,7 +1345,7 @@ C-----------------------------------------------
           WA(3*N  ) = TENS(3,N)
         ENDDO
         IF (ISPMD == 0) THEN
-           BUF = (NUMELQG+NUMELCG+NUMELTGG+NUMELURG)*3
+           BUF = (NUMELQG+NUMELCG+NUMELTGG)*3
         ELSE
            BUF = 1
         ENDIF

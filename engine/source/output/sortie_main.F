@@ -76,7 +76,7 @@ Chd|====================================================================
      4            ITAB      ,X           ,GEO        ,MS        ,A        ,         
      5            CONT      ,PARTSAV                 ,ICUT      ,XCUT     ,         
      6            FINT      ,FEXT        ,FOPT       ,ANIN      ,LPBY     ,         
-     7            NPBY      ,NSTRF       ,RWBUF      ,NPRW      ,IXUR     ,         
+     7            NPBY      ,NSTRF       ,RWBUF      ,NPRW      ,
      8            TANI      ,INOISE      ,BUFNOIS    ,RBY       ,NEFLSW   ,         
      9            NNFLSW    ,CRFLSW      ,FLSW       ,LOUT      ,                
      B            FSAV      ,SKEW        ,ELBUF_TAB  ,CLUSTER   ,                   
@@ -172,7 +172,6 @@ C-----------------------------------------------
 #include      "scr23_c.inc"
 #include      "param_c.inc"
 #include      "scrfs_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "scr13_c.inc"
 #include      "scr03_c.inc"
@@ -192,7 +191,7 @@ C-----------------------------------------------
       INTEGER IPARG(*), IXS(*), IXQ(*), IXC(*), IXT(*), IXP(*),
      .   IXS10(6,*) ,IXS16(8,*)  ,IXS20(12,*) ,INDX_CRK(*),
      .   IXR(*), IXTG(*), ITAB(*),ICUT(*),NSTRF(*),LPBY(*),
-     .   NPRW(*),IXUR(*),IPART(*),
+     .   NPRW(*),IPART(*),
      .   INOISE(*), NPBY(NNPBY,*),NEFLSW(*),NNFLSW(*),
      .   DD_IAD(NSPMD+1,*), IACCP(*), NACCP(*),
      .   IPARI(NPARI,*),WEIGHT(*),
@@ -494,12 +493,12 @@ C      N7 = N6 + NUMMAT
 !       need to communicate the SKEW array on main proc 
          CALL SPMD_SD_SKW_ANIM(SKEW,ISKWP)
          NEL3D = NUMELS + NUMSPH + 3*NUMELS16
-         NEL2D = NUMELC + NUMELTG + NUMELQ + NUMELUR
+         NEL2D = NUMELC + NUMELTG + NUMELQ
          NEL1D = NUMELT + NUMELP  + 2*NUMELR + NANIM1D
          NEL = MAX(NEL1D,NEL2D,NEL3D)
 C
          NELG = MAX (  NUMELSG+3*NUMELS16G+NUMSPHG+27*NUMELIG3D,
-     .                 NUMELCG+NUMELTGG+NUMELQG+NUMELURG,
+     .                 NUMELCG+NUMELTGG+NUMELQG,
      .                 NUMELTRG + NUMELPG  + 2*NUMELRG + NANIM1D)
          SN1 = MAX(3*NUMNOD,6*NEL3D+6*27*NUMELIG3D,3*NEL2D,9*NEL1D,NUMSPH)
          SN2 = NEL+3*NUMELS16+NUMSPH
@@ -584,7 +583,7 @@ C
          K5=K4+NUMELT
          K6=K5+NUMELP
          K7=K6+NUMELR
-         K8=K7+NUMELUR
+         K8=K7+0
          K9=K8+NUMELTG
          K10=K9+NUMELX
          K11=K10+NUMSPH
@@ -600,7 +599,7 @@ c
      5  	   SN5        ,CONT	 ,SN6	      ,ICUT	   ,SKEW      ,
      6  	   XCUT       ,FINT	 ,ITAB        ,SN7	   ,FEXT      ,
      7  	   FOPT       ,ANIN	 ,LPBY        ,NPBY	   ,NSTRF     ,
-     8  	   RWBUF      ,NPRW	 ,IXUR        ,TANI	   ,ELBUF_TAB ,
+     8  	   RWBUF      ,NPRW	 ,TANI	   ,ELBUF_TAB ,
      A  	   DD_IAD     ,WEIGHT	 ,EANI        ,IPART	   ,CLUSTER   ,
      B  	   IPART(K1)  ,IPART(K2) ,IPART(K3)   ,IPART(K4)   ,IPART(K5) ,
      C  	   IPART(K6)  ,IPART(K7) ,IPART(K8)   ,
@@ -648,12 +647,12 @@ C-----------------------------------------------
 
 
          NEL3D = NUMELS + NUMSPH + 3*NUMELS16
-         NEL2D = NUMELC + NUMELTG + NUMELQ + NUMELUR
+         NEL2D = NUMELC + NUMELTG + NUMELQ
          NEL1D = NUMELT + NUMELP  + 2*NUMELR + NANIM1D
          NEL = MAX(NEL1D,NEL2D,NEL3D)
 C
          NELG = MAX (  NUMELSG+3*NUMELS16G+NUMSPHG+27*NUMELIG3D,
-     .                 NUMELCG+NUMELTGG+NUMELQG+NUMELURG,
+     .                 NUMELCG+NUMELTGG+NUMELQG,
      .                 NUMELTRG + NUMELPG  + 2*NUMELRG + NANIM1D)
          SN1 = MAX(3*NUMNOD,6*NEL3D+6*27*NUMELIG3D,3*NEL2D,9*NEL1D,NUMSPH)
          SN2 = NEL+3*NUMELS16+NUMSPH
@@ -731,7 +730,7 @@ C
          K5=K4+NUMELT
          K6=K5+NUMELP
          K7=K6+NUMELR
-         K8=K7+NUMELUR
+         K8=K7+0
          K9=K8+NUMELTG
          K10=K9+NUMELX
          K11=K10+NUMSPH
@@ -746,7 +745,7 @@ c
      5             SN5        ,CONT      ,SN6         ,ICUT        ,SKEW      ,
      6             XCUT       ,FINT      ,ITAB        ,SN7         ,FEXT      ,
      7             FOPT       ,ANIN      ,LPBY        ,NPBY        ,NSTRF     ,
-     8             RWBUF      ,NPRW      ,IXUR        ,TANI        ,ELBUF_TAB ,
+     8             RWBUF      ,NPRW      ,TANI        ,ELBUF_TAB ,
      A             DD_IAD     ,WEIGHT    ,EANI        ,IPART       ,CLUSTER   ,
      B             IPART(K1)  ,IPART(K2) ,IPART(K3)   ,IPART(K4)   ,IPART(K5) ,
      C             IPART(K6)  ,IPART(K7) ,IPART(K8)   ,
@@ -831,7 +830,7 @@ C .sta files
        K5=K4+NUMELT
        K6=K5+NUMELP
        K7=K6+NUMELR
-       K8=K7+NUMELUR
+       K8=K7+0
        K9=K8+NUMELTG
        K10=K9+NUMELX
        K11=K10+NUMSPH
@@ -894,7 +893,7 @@ C----------------------
        K5=K4+NUMELT
        K6=K5+NUMELP
        K7=K6+NUMELR
-       K8=K7+NUMELUR
+       K8=K7+0
        K9=K8+NUMELTG
        K10=K9+NUMELX
        K11=K10+NUMSPH

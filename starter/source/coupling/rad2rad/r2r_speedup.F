@@ -57,7 +57,6 @@ C-----------------------------------------------
 #include      "scr15_c.inc"
 #include      "sphcom.inc"
 #include      "warn_c.inc"
-#include      "rnur_c.inc"
 #include      "r2r_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -183,7 +182,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr15_c.inc"
 #include      "sphcom.inc"
-#include      "rnur_c.inc"
 #include      "r2r_c.inc"
 #include      "my_allocate.inc"
 C-----------------------------------------------
@@ -213,7 +211,7 @@ C
       DT_MIN_ELEM(:) = EP30 
       FLAG_TRI(:) = 0
       DTFAC1(:) = DTFAC
-      NUMEL= NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELUR+NUMELTG
+      NUMEL= NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG
      .      +NUMELX+NUMSPH+NUMELIG3D
       MY_ALLOCATE( PERM,NUMEL+1)
   
@@ -227,7 +225,7 @@ C-----------------------------------------------
       NUME(5) = NUMELP
       NUME(6) = NUMELR
       NUME(7) = NUMELTG
-      NUME(8) = NUMELUR
+      NUME(8) = 0
       NUME(9) = NUMELX
       NUME(10) = NUMSPH
       NUME(11) = NUMELIG3D           

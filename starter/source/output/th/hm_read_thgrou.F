@@ -51,7 +51,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_THGROU(
-     1      ITHGRP,ITHBUF,ITAB   ,ITABM1,IXUR  ,IXTG  ,
+     1      ITHGRP,ITHBUF,ITAB   ,ITABM1 ,IXTG  ,
      2      IXS   ,IXQ   ,IXC    ,IXT   ,IXP   ,IXR   ,
      3      KXX   ,IXX   ,IPART  ,IFI   ,
      4      NTHWA ,KXSP  ,IXRI  ,ISKWN ,IFRAME ,
@@ -89,7 +89,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "warn_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "sphcom.inc"
 #include      "fxbcom.inc"
 #include      "submod_c.inc"
@@ -102,7 +101,7 @@ C-----------------------------------------------
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXT(NIXT,*),
      .        IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),KXX(NIXX,*),
      .        IXX(*),IPART(LIPART1,*),ITHGRP(NITHGR,*),ITHBUF(LITHBUFMX),
-     .        IXUR(NIXUR,*),IMERGE(*),
+     .        IMERGE(*),
      .        IFI,NTHWA,KXSP(NISP,*),IXRI(4,*),
      .        IFRAME(LISKN,*), NTHGRP2,PATHID(*),SUTHID(*),
      .        FXBIPM(NBIPM,*),ISKWN(LISKN,*),

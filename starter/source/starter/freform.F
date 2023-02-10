@@ -60,7 +60,6 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "scr06_c.inc"
 #include      "scr12_c.inc"
-#include      "lon_c.inc"
 #include      "sysunit.inc"
 #include      "submod_c.inc"
 C-----------------------------------------------

@@ -70,7 +70,7 @@ C-----------------------------------------------
 #include      "scr06_c.inc"
 #include      "chara_c.inc"
 #include      "fsi_ar_c.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

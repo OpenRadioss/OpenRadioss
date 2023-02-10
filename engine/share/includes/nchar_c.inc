@@ -20,8 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+#ifndef ncharline
+#define ncharline 100
+#endif
 #ifndef nchartitle
 #define nchartitle 500
+#endif
+#ifndef ncharkey
+#define ncharkey 20
 #endif
 #ifndef line120
 #define line120 120

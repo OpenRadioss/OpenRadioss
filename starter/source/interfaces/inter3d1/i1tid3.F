@@ -50,7 +50,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr03_c.inc"
-#include      "scr07_c.2.inc"
 #include      "warn_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
@@ -70,6 +69,7 @@ C-----------------------------------------------
       INTEGER II, I, J, K, L, JJ, NN, IER
       my_real
      .   N1, N2, N3, SS, TT, ALP
+      my_real :: XX1(4),XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -96,7 +96,7 @@ C-----------------------------------------------
         XS1=X(1,I)
         YS1=X(2,I)
         ZS1=X(3,I)
-        CALL INIST3(N1,N2,N3,SS,TT,IER,ALP)
+        CALL INIST3(N1,N2,N3,SS,TT,IER,ALP,XX1,XX2,XX3,XS1,YS1,ZS1,XC,YC,ZC)
         IF(IPRI>=1)WRITE(IOUT,FMT=FMW_7I_2F)
      .        ITAB(I),ITAB(K),
      .        L,(ITAB(MSR(IRECT(JJ,L))),JJ=1,4),SS,TT

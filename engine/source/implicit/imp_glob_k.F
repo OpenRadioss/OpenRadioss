@@ -51,7 +51,7 @@ Chd|====================================================================
       SUBROUTINE IMP_GLOB_K(
      1    PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
      2    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
-     3    IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS10     ,
+     3    IXR       ,IXTG      ,IXTG1     ,IXS10     ,
      4    IXS20     ,IXS16     ,IPARG     ,TF        ,NPC       ,
      5    FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
      6    RBY       ,SKEW      ,X         ,
@@ -78,7 +78,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com03_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
@@ -100,7 +99,7 @@ C-----------------------------------------------
       INTEGER IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*) ,
      .   IPM(NPROPMI,*),IGEO(NPROPGI,*),IKGEO
       INTEGER IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*),
-     .   IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),
+     .   IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*),
      .   NPC(*), IPARG(NPARG,*),
      .   IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG1(4,*), ETAG(*)
 C     REAL
@@ -525,29 +524,7 @@ C----6---------------------------------------------------------------7---------8
 
              ENDIF
 C----6---------------------------------------------------------------7---------8
-            ELSEIF(ITY==50)THEN
-C              K = 1+2*(NSECT+NRBODY+NRWALL)
-C              CALL URKE3(
-C     1          IXUR     ,GEO    ,ELBUF(KAD)  ,A           ,AR   ,
-C     2          V        ,VR     ,X           ,STIFN       ,STIFR,
-C     3          FANI(1,K),OFFSET ,PARTSAV     ,IPARTUR(NF1),DT2T ,
-C     4          NELTST   ,ITYPTST,IADUR(1,NF1),FSKY        ,NEL  )
-              IETY=19
-              IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
-              WRITE(IOUT,1001)'USER-SPRING'
-              WRITE(ISTDO,1001)'USER-SPRING'
-               IPRMES_EL(IETY)=1
-	      ENDIF
-C#include "lockon.inc"
-C     .      ' **RADIOSS STOPPED DUE TO INCOMPATIBILITY BETWEEN '
-C              WRITE(IOUT,*)
-C     .         'IMPLICITE FORMULATION AND USR SPRING ELEMENT **'
-C              WRITE(ISTDO,*)
-C     .      ' **RADIOSS STOPPED DUE TO INCOMPATIBILITY BETWEEN '
-C              WRITE(ISTDO,*)
-C     .         'IMPLICITE FORMULATION AND USR SPRING ELEMENT **'
-C#include "lockoff.inc"
-C              CALL ARRET(2)
+
             ENDIF
  250    CONTINUE
       END DO
@@ -2938,7 +2915,7 @@ Chd|====================================================================
       SUBROUTINE IMP_GLOB_KHP(
      1    PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
      2    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
-     3    IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS10     ,
+     3    IXR       ,IXTG      ,IXTG1     ,IXS10     ,
      4    IXS20     ,IXS16     ,IPARG     ,TF        ,NPC       ,
      5    FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
      6    RBY       ,SKEW      ,X         ,
@@ -2977,7 +2954,7 @@ C-----------------------------------------------
       INTEGER IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*) ,
      .   IPM(NPROPMI,*),IGEO(NPROPGI,*),IKGEO,ITASK0
       INTEGER IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*),
-     .   IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),
+     .   IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*),
      .   NPC(*), IPARG(NPARG,*),
      .   IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG1(4,*), ETAG(*)
 C     REAL
@@ -3013,7 +2990,7 @@ c
        CALL IMP_GLOB_K0(
      1    PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
      2    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
-     3    IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS10     ,
+     3    IXR       ,IXTG      ,IXTG1     ,IXS10     ,
      4    IXS20     ,IXS16     ,IPARG     ,TF        ,NPC       ,
      5    FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
      6    RBY       ,SKEW      ,X         ,
@@ -3147,7 +3124,7 @@ Chd|====================================================================
       SUBROUTINE IMP_GLOB_K0(
      1    PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
      2    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
-     3    IXR       ,IXTG      ,IXTG1     ,IXUR      ,IXS10     ,
+     3    IXR       ,IXTG      ,IXTG1     ,IXS10     ,
      4    IXS20     ,IXS16     ,IPARG     ,TF        ,NPC       ,
      5    FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
      6    RBY       ,SKEW      ,X         ,
@@ -3174,7 +3151,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com03_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
@@ -3196,7 +3172,7 @@ C-----------------------------------------------
       INTEGER IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*) ,
      .   IPM(NPROPMI,*),IGEO(NPROPGI,*),IKGEO,ITASK,IGROUC(NGROUP)
       INTEGER IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*),
-     .   IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),
+     .   IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*),
      .   NPC(*), IPARG(NPARG,*),
      .   IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG1(4,*), ETAG(*),
      .   IPRMES_EL(*)

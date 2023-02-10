@@ -41,7 +41,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "scr23_c.inc"
-#include      "rnur_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -58,7 +57,7 @@ C-----------------------------------------------
       my_real
      .        KNOTLOCPC_L(SKNOTLOCPC),KNOTLOCEL_L(SKNOTLOCEL)
 C
-      OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR+NUMELUR+
+      OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR+
      .      NUMCONV+NUMRADIA+SLLOADP/4
       IE_L = 0
       MAXGEO=1

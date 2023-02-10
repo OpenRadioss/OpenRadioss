@@ -42,9 +42,9 @@ Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F
 Chd|====================================================================
       SUBROUTINE INITWG(WD,PM,GEO,IXS,IXQ,
      .            IXC,IXT,IXP,IXR,IXTG,
-     .            IXUR,KXX,IGEO,ISOLNOD,IDARCH,
+     .            KXX,IGEO,ISOLNOD,IDARCH,
      .            NUMELS,NUMELQ,NUMELC,NUMELT,NUMELP,
-     .            NUMELR,NUMELTG,NUMELUR,NUMELX,IPM ,
+     .            NUMELR,NUMELTG,NUMELX,IPM ,
      .            BUFMAT,NUMMAT,NUMGEO,TAILLE,POIN_UMP,
      .            TAB_UMP,POIN_UMP_OLD,TAB_UMP_OLD,CPUTIME_MP_OLD,
      .            TABMP_L,IPART,IPARTC,IPARTG,
@@ -78,11 +78,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IDARCH,
      .  NUMELS,NUMELQ,NUMELC,NUMELT,NUMELP,
-     .  NUMELR,NUMELTG,NUMELUR,NUMELX,
+     .  NUMELR,NUMELTG,NUMELX,
      .  NUMMAT,NUMGEO,TAILLE,
      .  IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),
      .  IXT(NIXT,*), IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*),
-     .  IXUR(NIXUR,*),  KXX(NIXX,*),IGEO(NPROPGI,*),ISOLNOD(*),
+     .  KXX(NIXX,*),IGEO(NPROPGI,*),ISOLNOD(*),
      .  IPM(NPROPMI,*),TABMP_L,NPART,IDDLEVEL
       INTEGER, DIMENSION(NUMMAT_OLD) :: POIN_UMP_OLD
       INTEGER, DIMENSION(7,TAILLE_OLD) :: TAB_UMP_OLD
@@ -359,11 +359,6 @@ C
      .            TABMP_L)
 C
       OFF = OFF + NUMELTG
-! -------------------- 
-      CALL INITWG_UR(WD,PM,GEO,IXUR,IGEO,
-     .            NUMELUR,IPM,NUMMAT,NUMGEO,OFF)
-C
-      OFF = OFF + NUMELUR
 ! -------------------- 
       CALL INITWG_X(WD,PM,GEO,KXX,IGEO,
      .            NUMELX,IPM,NUMMAT,NUMGEO,OFF)

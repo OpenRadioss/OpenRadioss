@@ -107,7 +107,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com03_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
@@ -124,7 +123,6 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "units_c.inc"
 #include      "couple_c.inc"
-#include      "rnur_c.inc"
 #include      "impl1_c.inc"
 #include      "stati_c.inc"
 C-----------------------------------------------
@@ -497,7 +495,7 @@ C----6---------------------------------------------------------------7--
      D NPT         ,KFTS        ,            
      E IXTG1(1,NFT1),IADTG1(1,NFT1),IGEO     ,IPM         ,IFAILURE   ,             
      F IEXPAN      ,GRESAV      ,GRTH        ,                          
-     .      IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NUMELUR+NF1) ,MSTG(NF1) ,             
+     .      IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NF1) ,MSTG(NF1) ,             
      G DMELTG(NF1) ,JSMS        ,TABLE       ,IPARG(1,NG) ,SENSOR_TAB,             
      H PTG(1,NF1)  ,JTHE        ,CONDN       ,CONDNSKY   ,
      I ISUBSTACK   ,STACK       ,ITASK,DRAPE_T3,
@@ -519,7 +517,7 @@ C----6---------------------------------------------------------------7--
      C ITHK        ,IOFC        ,IPLA        ,NFT         ,ISMSTR      ,
      D NPT         ,KFTS        ,
      E IGEO        ,IPM         ,IFAILURE    ,GRESAV      ,GRTH        ,
-     F IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NUMELUR+NF1),
+     F IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NF1),
      .              MSTG(NF1)   ,DMELTG(NF1) ,JSMS        ,TABLE       ,
      G IPARG(1,NG) ,SENSOR_TAB  ,PTG(1,NF1)  ,JTHE        ,
      J CONDN       ,CONDNSKY    ,ISUBSTACK , STACK        ,ITASK       ,
@@ -541,7 +539,7 @@ C----6---------------------------------------------------------------7--
      D NPT         ,KFTS        ,
      E FZERO(1,1,NF1+NUMELC),IGEO,IPM        ,IFAILURE    ,ITASK       ,
      F JTHE        ,TEMP        , FTHE       ,FTHESKY     ,IEXPAN      ,
-     G GRESAV      ,GRTH,IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NUMELUR+NF1),
+     G GRESAV      ,GRTH,IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NF1),
      H MSTG(NF1)   ,DMELTG(NF1) ,JSMS        ,TABLE       ,IPARG(1,NG) ,
      I IXFEM       ,SENSOR_TAB  ,PTG(1,NF1)  ,IBORDNODE   ,
      J ELCUTC(1,NF1+ITG3-1),INOD_CRK,IEL_CRK(ITG3),NODENR,IADC_CRK(ITG1),
@@ -566,7 +564,7 @@ C----6---------------------------------------------------------------7--
      C     ITHK        ,IOFC        ,IPLA        ,NFT         ,ISMSTR      ,
      D     FZERO(1,1,NF1+NUMELC),IGEO,IPM        ,IFAILURE    ,ITASK       ,
      E     JTHE        ,TEMP        , FTHE       ,FTHESKY     ,IEXPAN      ,
-     F     GRESAV      ,GRTH,IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NUMELUR+NF1),
+     F     GRESAV      ,GRTH,IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NF1),
      G     MSTG(NF1)   ,DMELTG(NF1) ,JSMS        ,TABLE       ,IPARG(1,NG) ,
      H     SENSOR_TAB  ,PTG(1,NF1)  ,IXFEM       ,INOD_CRK    ,
      I     IEL_CRK(ITG3),IADC_CRK(ITG1),ELCUTC(1,NF1+ITG3-1)  ,IXEL        ,

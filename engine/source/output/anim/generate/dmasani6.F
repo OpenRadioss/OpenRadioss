@@ -54,7 +54,6 @@ C-----------------------------------------------
 #include      "scr14_c.inc"
 #include      "scr17_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

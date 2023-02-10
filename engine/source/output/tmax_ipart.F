@@ -53,7 +53,7 @@ C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "tabsiz_c.inc"
 #include      "chara_c.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

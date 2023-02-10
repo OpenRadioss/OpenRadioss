@@ -62,7 +62,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr03_c.inc"
-#include      "scr07_c.2.inc"
 #include      "warn_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
@@ -70,6 +69,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: II, I, J, K, L, JJ, NN, IER
       my_real :: N1, N2, N3, SS, TT
+      my_real :: XX1(4),XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -88,9 +88,9 @@ C-----------------------------------------------
           XX1(JJ) = X(1,NN)
           XX2(JJ) = X(2,NN)
           XX3(JJ) = X(3,NN)
-	END DO
+	    END DO
         
-        CALL INIST3(N1,N2,N3,SS,TT,IER,ALP)
+        CALL INIST3(N1,N2,N3,SS,TT,IER,ALP,XX1,XX2,XX3,XS1,YS1,ZS1,XC,YC,ZC)
         IF(IPRI>=1)WRITE(IOUT,FMT=FMW_7I_2F) ITAB(I),ITAB(K),L,(ITAB(MSR(IRECT(JJ,L))),JJ=1,4),SS,TT
         IF(IER==-1)THEN                          
           CALL ANCMSG(MSGID=1247,                  

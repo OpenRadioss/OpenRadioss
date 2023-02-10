@@ -45,7 +45,6 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
 #include      "task_c.inc"
-#include      "rnur_c.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -125,7 +124,6 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
 #include      "task_c.inc"
-#include      "rnur_c.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -207,7 +205,6 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
 #include      "task_c.inc"
-#include      "rnur_c.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

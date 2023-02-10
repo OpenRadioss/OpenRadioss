@@ -41,7 +41,7 @@ Chd|====================================================================
      *                               LSUBMODEL  ,SUBSET,
      *                               IPART,
      *                               IXS  ,IXQ, IXC ,IXTG ,
-     *                               IXT  ,IXP ,IXR ,IXUR,KXSP,LRIVET,
+     *                               IXT  ,IXP ,IXR ,KXSP,LRIVET,
      *                               RBY_MSN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -65,7 +65,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "sphcom.inc"
 #include      "submod_c.inc"
-#include      "rnur_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s 
 C-----------------------------------------------
@@ -82,7 +81,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN), DIMENSION(NIXT,NUMELT)    :: IXT
       INTEGER, INTENT(IN), DIMENSION(NIXP,NUMELP)    :: IXP
       INTEGER, INTENT(IN), DIMENSION(NIXR,NUMELR)    :: IXR
-      INTEGER, DIMENSION(NIXUR,NUMELUR), INTENT(in)  :: IXUR
       INTEGER, DIMENSION(NISP,NUMSPH), INTENT(in)    :: KXSP
       INTEGER, DIMENSION(4,NRIVET), INTENT(in)       :: LRIVET
       INTEGER, INTENT(IN), DIMENSION(2,NRBODY)       :: RBY_MSN
@@ -301,9 +299,6 @@ C Beam
 C Spring
         IF(MODE==1) ALLOCATE( MAP_TABLES%ISPRINGM(NUMELR,2))
         CALL MAP_ORDER(IXR,NIXR,NIXR,NUMELR,MAP_TABLES%ISPRINGM)    
-C Renault element
-        IF(MODE==1) ALLOCATE( MAP_TABLES%IELMURM(NUMELUR,2))
-        CALL MAP_ORDER(IXUR,NIXUR,NIXUR,NUMELUR,MAP_TABLES%IELMURM)      
 C SPH 
         IF(MODE==1) ALLOCATE( MAP_TABLES%ISPHM(NUMSPH,2))
         MAP_TABLES%ISPHM(1:NUMSPH,1:2) = 0

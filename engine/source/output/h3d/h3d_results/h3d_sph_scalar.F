@@ -35,7 +35,7 @@ Chd|====================================================================
       SUBROUTINE H3D_SPH_SCALAR(
      .                  ELBUF_TAB ,SPH_SCALAR      ,IFUNC     ,IPARG       ,GEO        ,
      .                  KXSP      ,PM        ,IPART       ,
-     .                  EL2FA     ,NBF       ,IXUR      ,IADP        ,
+     .                  EL2FA     ,NBF       ,IADP        ,
      .                  NBF_L     ,EHOUR     ,ANIM      ,NBPART      ,IADG       ,
      .                  IPM       ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
      .                  INVERT    ,X         ,V         ,W           ,
@@ -54,7 +54,7 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "chara_c.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -69,7 +69,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "scr25_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
 #include      "sphcom.inc"
@@ -80,7 +79,7 @@ C-----------------------------------------------
       my_real
      .   SPH_SCALAR(*),X(3,*),V(3,*),W(3,*),THKE(*),EHOUR(*),GEO(NPROPG,*),
      .   ANIM(*),PM(NPROPM,*),ERR_THK_SH4(*), ERR_THK_SH3(*)
-      INTEGER IPARG(NPARG,*),KXSP(NISP,*),EL2FA(*),IFUNC,NBF,IXUR(NIXUR,*),
+      INTEGER IPARG(NPARG,*),KXSP(NISP,*),EL2FA(*),IFUNC,NBF,
      .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,*),
      .   IGEO(NPROPGI,*),INVERT(*), NV46,ID_ELEM(*),IPARTSP(*),
      .   H3D_PART(*),IS_WRITTEN_SPH(*),INFO1,IUVAR_INPUT,IPART(LIPART1,*)

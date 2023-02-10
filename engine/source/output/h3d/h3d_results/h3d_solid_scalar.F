@@ -37,7 +37,7 @@ Chd|====================================================================
       SUBROUTINE H3D_SOLID_SCALAR(
      .                  ELBUF_TAB       ,SOLID_SCALAR ,IFUNC     ,IPARG       ,GEO         ,
      .                  IXQ             ,IXS          ,IXTG      ,PM          ,BUFMAT      ,
-     .                  EL2FA           ,NBF          ,IXUR      ,IADP        ,
+     .                  EL2FA           ,NBF          ,IADP        ,
      .                  NBF_L           ,EHOUR        ,ANIM      ,NBPART      ,IADG        ,
      .                  IPM             ,IGEO         ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3 ,
      .                  INVERT          ,X            ,V         ,W           ,ALE_CONNECT,
@@ -61,7 +61,7 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "chara_c.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -75,7 +75,6 @@ C-----------------------------------------------
 #include      "scr14_c.inc"
 #include      "scr25_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
 #include      "mmale51_c.inc"
@@ -88,7 +87,7 @@ C-----------------------------------------------
      .   ANIM(*),PM(NPROPM,*),ERR_THK_SH4(*), ERR_THK_SH3(*)
       my_real, INTENT(IN),TARGET :: BUFMAT(*)
       INTEGER IPARG(NPARG,*),IXS(NIXS,*),IXTG(NIXTG,*),EL2FA(*),
-     .   IXQ(NIXQ,*),IXUR(NIXUR,*),IFUNC,NBF,
+     .   IXQ(NIXQ,*),IFUNC,NBF,
      .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,*),
      .   IGEO(NPROPGI,*),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),IPARTS(*),
      .   H3D_PART(*),IS_WRITTEN_SOLID(*),INFO1,LAYER_INPUT,IR_INPUT,IS_INPUT,IT_INPUT,
@@ -160,7 +159,7 @@ c
         call H3D_SOLID_SCALAR_1(
      .                  ELBUF_TAB       ,SOLID_SCALAR ,IFUNC     ,IPARG       ,GEO         ,
      .                  IXQ             ,IXS          ,IXTG      ,PM          ,BUFMAT      ,
-     .                  EL2FA           ,NBF          ,IXUR      ,IADP        ,
+     .                  EL2FA           ,NBF          ,IADP        ,
      .                  NBF_L           ,EHOUR        ,ANIM      ,NBPART      ,IADG        ,
      .                  IPM             ,IGEO         ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3 ,
      .                  INVERT          ,X            ,V         ,W           ,ALE_CONNECT,

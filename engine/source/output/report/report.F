@@ -56,7 +56,7 @@ C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "units_c.inc"
 #include      "chara_c.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 #include      "drape_c.inc"
 #include      "submodel.inc"
 C-----------------------------------------------

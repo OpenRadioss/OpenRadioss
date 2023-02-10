@@ -157,7 +157,6 @@ C-----------------------------------------------
 #include      "chara_c.inc"
 #include      "couple_c.inc"
 #include      "com01_c.inc"
-#include      "com02_c.inc"
 #include      "com04_c.inc"
 #include      "com05_c.inc"
 #include      "com06_c.inc"
@@ -387,8 +386,6 @@ C--------------------------------------
         CALL WRITE_I_C(NOM_OPT,SNOM_OPT)
 
         CALL WRITE_I_C(NPC,SNPC)
-
-        CALL WRITE_I_C(IXUR,SIXUR)
 
         CALL WRITE_I_C(IXTG,SIXTG)
 

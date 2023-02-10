@@ -33,7 +33,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|====================================================================
       SUBROUTINE PARSORC(X    ,D    ,XNORM,IADD ,CDG  ,
      .                  BUFEL,IPARG,IXQ  ,IXC  ,IXTG ,
-     .                  ELBUF_TAB,INVERT,EL2FA,IXUR,IADG,
+     .                  ELBUF_TAB,INVERT,EL2FA,IADG,
      .                  MATER,IPARTQ,IPARTC,IPARTUR,IPARTTG,
      .                  NODGLOB)
 C-----------------------------------------------
@@ -53,7 +53,6 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
 #include      "task_c.inc"
-#include      "rnur_c.inc"
 #include      "spmd_c.inc"
 #include      "scr01_c.inc"
 C-----------------------------------------------
@@ -63,7 +62,7 @@ C     REAL
       my_real
      .   X(*),D(*),XNORM(3,*),CDG(*),BUFEL(*)
       INTEGER IXC(NIXC,*),IXTG(NIXTG,*),IADD(*),IPARG(NPARG,*),
-     .        IXQ(NIXQ,*),IXUR(NIXUR,*),
+     .        IXQ(NIXQ,*),
      .        INVERT(*), EL2FA(*),MATER(*),
      .        IADG(NSPMD,*),
      .        IPARTQ(*),IPARTC(*),IPARTTG(*),IPARTUR(*),NODGLOB(*)
@@ -76,7 +75,7 @@ C     REAL
      .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        JJ, K, SH_IH, BUF
-      INTEGER NP((NUMELQ + NUMELC + NUMELTG + NUMELUR)*4)
+      INTEGER NP((NUMELQ + NUMELC + NUMELTG)*4)
 C-----------------------------------------------
 C     NORMALE
 C-----------------------------------------------
@@ -99,16 +98,13 @@ C
       NN7 = NN6
       NN8 = NN7
       NN9 = NN8
-      NN10= NN9 + NUMELUR
+      NN10= NN9
 C-----------------------------------------------
       NPAR = 0
 C
 C-----------------------------------------------
 C     PART
 C-----------------------------------------------
-C en spmd il faut envoyer l'info meme qd on a 0 elem local
-c      IF(NUMELQ + NUMELC + NUMELTG + NUMELUR
-c     .   /=0.OR.IMACH == 3)THEN
       JJ = 0
 
       DO 500 IPRT=1,NPART
@@ -219,32 +215,6 @@ C-----------------------------------------------
              EL2FA(NN5+N) = IE
              JJ = JJ + 4
  170     CONTINUE
-C-----------------------------------------------
-C       RNUR
-C-----------------------------------------------
-        ELSEIF(ITY == 50)THEN
-         DO 199 I=LFT,LLT
-          N = I + NFT
-          IF(IPARTUR(N)/=IPRT)GOTO 199
-          IF (MTN /= 0 .AND. MTN /= 13) OFF = BUFEL(IAD+I-1)
-          IF (NSPMD == 1) THEN
-             II(1) = IXUR(2,N)-1
-             II(2) = IXUR(3,N)-1
-             II(3) = IXUR(4,N)-1
-             II(4) = IXUR(5,N)-1
-             CALL WRITE_I_C(II,4)
-          ELSE
-               NP(JJ+1) = NODGLOB(II(1))-1
-               NP(JJ+2) = NODGLOB(II(2))-1
-               NP(JJ+3) = NODGLOB(II(3))-1
-               NP(JJ+4) = NODGLOB(II(4))-1
-
-          ENDIF
-          IE = IE + 1
-          INVERT(IE) = 0
-          EL2FA(NN9+N) = IE
-          JJ = JJ + 4
- 199      CONTINUE
         ELSE
         ENDIF
  490   CONTINUE
@@ -263,7 +233,7 @@ Cel construction tableau global des parts sur p0
 
            CALL SPMD_IGLOB_PARTN(IADD,NPAR,IADG,NPART)
 
-           BUF = (NUMELQG+NUMELCG+NUMELTGG+NUMELURG)*4
+           BUF = (NUMELQG+NUMELCG+NUMELTGG)*4
            CALL SPMD_IGET_PARTN(4,JJ,NP,NPAR,IADG,BUF,1)
 
         ELSE

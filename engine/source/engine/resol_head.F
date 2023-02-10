@@ -102,7 +102,6 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C------------------------------------------------
 #include      "com01_c.inc"
-#include      "com02_c.inc"
 #include      "com04_c.inc"
 #include      "scr_fac_c.inc"
 #include      "param_c.inc" 
@@ -187,7 +186,7 @@ C
       CALL RESOL(
      .  AF              ,IAF            ,
      1  ICODE           ,ISKEW          ,ISKWN          ,NETH           ,IPART          ,NOM_OPT     ,KXX              ,IXX       ,
-     2  IXUR            ,IXTG           ,IXS            ,IXQ            ,IXC            ,IXT         ,IXP              ,IXR       ,
+     2  IXTG            ,IXS            ,IXQ            ,IXC            ,IXT            ,IXP         ,IXR       ,
      3                   ITAB           ,ITABM1         ,IFILL          ,
      4  IMS             ,NPC            ,IBCL           ,MATPARAM_TAB   ,GROUP_PARAM_TAB,
      5  IBFV            ,IECRAN         ,ILAS           ,LACCELM        ,NNLINK         ,LNLINK      ,

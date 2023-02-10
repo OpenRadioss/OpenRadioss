@@ -45,7 +45,7 @@ Chd|====================================================================
      5                IXTG     , PM        , GEO         ,CONT        , ICUT      , 
      6                SKEW     , XCUT      , FINT        ,ITAB        , FEXT      , 
      7                FOPT     , ANIN      , LPBY        ,NPBY        , NSTRF     , 
-     8                RWBUF    , NPRW      , IXUR        ,TANI        , ELBUF_TAB , 
+     8                RWBUF    , NPRW      , TANI        ,ELBUF_TAB , 
      9                DD_IAD   , FR_IAD    , DD_FRONT    ,CLUSTER     ,             
      A                WEIGHT   , EANI      , IPART       , 
      B                RBY      , NOM_OPT   , IGRSURF     ,BUFSF       , IDATA     , 
@@ -95,7 +95,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "com09_c.inc"
 #include      "com_xfem1.inc"
-#include      "rnur_c.inc"
 #include      "sphcom.inc"
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
@@ -110,7 +109,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IADK(*), JDIK(*), NDDL, NDOF(*),
      .   IPARG(NPARG,*), IXS(*), IXQ(*), IXC(*), IXT(*), IXP(*),
-     .   IXS10(6,*) ,IXS16(8,*)  ,IXS20(12,*) ,NPRW(*),IXUR(*),
+     .   IXS10(6,*) ,IXS16(8,*)  ,IXS20(12,*) ,NPRW(*),
      .   IPART(*), IXR(*), IXTG(*), ITAB(*),ICUT(*),NSTRF(*),LPBY(*),
      .   NPBY(NNPBY,*),INDX_CRK(*),
      .   DD_IAD(NSPMD+1,*),XEDGE4N(4,*),XEDGE3N(3,*),

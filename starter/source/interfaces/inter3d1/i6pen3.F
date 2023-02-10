@@ -48,7 +48,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "warn_c.inc"
 #include      "scr03_c.inc"
-#include      "scr07_c.2.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -72,6 +71,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   N1, N2, N3, PEN, ALP
+      my_real :: XX1(4), XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -89,7 +89,7 @@ C-----------------------------------------------
       XS1=X(1,I)
       YS1=X(2,I)
       ZS1=X(3,I)
-      CALL INIST3(N1,N2,N3,CST(1,II),CST(2,II),IER,ALP)
+      CALL INIST3(N1,N2,N3,CST(1,II),CST(2,II),IER,ALP,XX1,XX2,XX3,XS1,YS1,ZS1,XC,YC,ZC)
       IF(IER==-1)THEN
          CALL ANCMSG(MSGID=85,
      .               MSGTYPE=MSGERROR,

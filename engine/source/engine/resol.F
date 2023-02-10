@@ -494,7 +494,7 @@ Chd|        i22EDGE_MOD                   ../common_source/modules/cut-cell-buff
 Chd|====================================================================
       SUBROUTINE RESOL(AF,IAF,
      1  ICODE  ,ISKEW  ,ISKWN   ,NETH   ,IPART  ,NOM_OPT,KXX    ,IXX    ,
-     2  IXUR   ,IXTG   ,IXS     ,IXQ    ,IXC    ,IXT    ,IXP    ,IXR    ,
+     2  IXTG   ,IXS     ,IXQ    ,IXC    ,IXT    ,IXP    ,IXR    ,
      3          ITAB   ,ITABM1  ,IFILL  ,
      4  IMS    ,NPC    ,IBCL    ,MATPARAM_TAB   ,GROUP_PARAM_TAB,
      5  IBFV   ,IDUM   ,LAS     ,LACCELM,NNLINK ,LNLINK ,
@@ -691,7 +691,6 @@ C-----------------------------------------------
 #include      "scrfs_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
-#include      "rnur_c.inc"
 #include      "timeri_c.inc"
 #include      "couple_c.inc"
 #include      "rad2r_c.inc"
@@ -744,7 +743,7 @@ C-----------------------------------------------
       INTEGER  ICODE(*), ISKEW(*), ISKWN(LISKN,*), NETH(*),
      .   IPART(*),NOM_OPT(LNOPT1,*),IXS(*),
      .   IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   IXR(NIXR,*), IXUR(*)  ,IXTG(NIXTG,*), IXTG1(4,*),
+     .   IXR(NIXR,*),IXTG(NIXTG,*), IXTG1(4,*),
      .   ITAB(*), 
      .   KINET(*),
      .   IFILL(NUMNOD,*), IMS(*), NPC(*), IBCL(*), IBFV(*),
@@ -1388,7 +1387,7 @@ C
             SIZE_ADDCNEL = NUMNOD+1
             SIZE_CNEL = LCNEL
             NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .               NUMELR+NUMELTG+NUMELUR
+     .               NUMELR+NUMELTG
             S_ELEM_STATE = NELEML
           ELSE
             SIZE_ADDCNEL = 0
@@ -1405,7 +1404,7 @@ C Allocation of inverse connectivity array
             ALLOCATE(ADDTMPL(0:NUMNOD+1),STAT=IERROR2)
             IERROR = IERROR + IERROR2
             NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .               NUMELR+NUMELTG+NUMELUR
+     .               NUMELR+NUMELTG
             ALLOCATE(TAGEL(1:NELEML),STAT=IERROR2)
             TAGEL(:) = 0
             IERROR = IERROR + IERROR2
@@ -1807,7 +1806,7 @@ C --
             NGPE = NTHPART
             NGRTH = NTHPART
               NELEM=NUMELSG+3*NUMELS16G+NUMSPHG+
-     .              NUMELCG+NUMELTGG+NUMELQG+NUMELURG+
+     .              NUMELCG+NUMELTGG+NUMELQG+
      .              NUMELTG + NUMELPG  + 2*NUMELRG
           ELSE
             NGPE = 0
@@ -1948,7 +1947,7 @@ C Play Time & Logical sensors.
        K5=K4+NUMELT
        K6=K5+NUMELP
        K7=K6+NUMELR
-       K8=K7+NUMELUR
+       K8=K7
        K9=K8+NUMELTG
        K10=K9+NUMELX
        K11=K10+NUMSPH
@@ -1990,7 +1989,7 @@ C
      F   STIFR    ,DMAS     ,DINER    ,FANI     ,ANIN     ,
      G             WA       ,UWA      ,PM       ,GEO      ,
      H   PARTSAV  ,PARTS0   ,MONVOL   ,
-     I   I87H     ,I87I     ,I87J     ,I87K     ,IXUR     ,
+     I   I87H     ,I87I     ,I87J     ,I87K     ,
      J   I15J     ,KXX      ,
      K   SECBUF   ,SECFCUM  ,NSTRF    ,IGRNOD   ,IEXLNK   ,
      L   XFRAME   ,A(1,N1)  ,AR(1,N1) ,STIFN(N1),STIFR(N1),
@@ -2246,7 +2245,7 @@ C Init var parallel SMP
 
           CALL TAGOFF3N(
      1       GEO        ,IXS       ,IXS(L1)   ,IXS(L1)   ,IXS(L3)  ,IXQ    ,
-     2       IXC         ,IXT      ,IXP       ,IXR       ,IXTG     ,IXUR   ,
+     2       IXC         ,IXT      ,IXP       ,IXR       ,IXTG     ,
      3       WA(NUMNOD+1),NODFTSK  ,NODLTSK   ,IPARG     ,ELBUF    ,ITSK   ,
      4       WA(NWAFTSK) ,IXTG1    ,IAD_ELEM  ,FR_ELEM   ,ITAB     ,ITABM1 ,
      5       ADDCNEL     ,CNEL     ,KXSP      ,ELBUF_TAB ,TAGEL    ,IEXLNK , 
@@ -2697,7 +2696,7 @@ C----------------------------------
      1    GEO       ,NPBY      ,LPBY      ,ITAB      ,
      2    IPARI     ,IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS(L1)   ,
-     5    IXS(L2)   ,IXS(L3)   ,IXUR      ,IPARG     ,     
+     5    IXS(L2)   ,IXS(L3)   ,IPARG     ,     
      6    ELBUF     ,NINT7     ,NBINTC    ,X         ,DMCP      ,
      7    FR_ELEM   ,IAD_ELEM  ,FR_I2M    ,IAD_I2M   ,
      8    NPRW      ,NUM_IMP1  ,NUM_IMPL  ,MONVOL    ,IGRSURF   ,
@@ -2744,7 +2743,7 @@ C------ one routine for EIG
      6                   PM          , GEO         , FANI     , ICUT      , SKEW    ,
      7                   XCUT        ,FANI(1,1+NFIA), ITAB    ,FANI(1,1+NFEA),FANI(1,1+NFOA),
      8                   ANIN        , LPBY        , NPBY     , NSTRF     , RWBUF   ,
-     9                   NPRW        , IXUR        , TANI     , ELBUF_TAB , DD_IAD  ,
+     9                   NPRW        , TANI     , ELBUF_TAB , DD_IAD  ,
      A                   IAD_ELEM    , FR_ELEM     , WEIGHT   , EANI      , IPART   ,
      B                   RBY         , NOM_OPT     , IGRSURF  ,
      C                   BUFSF       , IDATA       , RDATA    , BUFMAT    , BUFGEO  ,
@@ -3032,7 +3031,7 @@ C Init var parallel SMP
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
-          DO I=1+NFOA,NFOA+2*(NSECT+NRBODY+NRWALL+NUMELUR)
+          DO I=1+NFOA,NFOA+2*(NSECT+NRBODY+NRWALL)
              FANI(1,I) = ZERO
              FANI(2,I) = ZERO
              FANI(3,I) = ZERO
@@ -3095,7 +3094,7 @@ C--------------------------------------------------------
         K5=K4+NUMELT
         K6=K5+NUMELP
         K7=K6+NUMELR
-        K8=K7+NUMELUR
+        K8=K7
         K9=K8+NUMELTG
         K10=K9+NUMELX
         K11=K10+NUMSPH
@@ -3766,7 +3765,7 @@ C
       IF (IMON>0) CALL STARTIME(6,1)
       IF (IMONM > 0) CALL STARTIME(51,1)
 C----------------------------------
-C       INTERNAL FORCES: RNUR S8FORC3 
+C       INTERNAL FORCES:S8FORC3 
 C----------------------------------
         CALL FORINTS(
      1    PM        ,GEO       ,X         ,A         ,AR        ,
@@ -4467,7 +4466,7 @@ C
      B IXR            ,NELTSTT       ,IPARI       ,
      C ITYPTSTT       ,NSTRF         ,IPART       ,
      D IPART(K1)      ,IPART(K2)     ,IPART(K4)   ,IPART(K5)  ,
-     E IPART(K6)      ,IPART(K7)     ,FR_WAVE     ,IXUR       ,RBY           ,
+     E IPART(K6)      ,IPART(K7)     ,FR_WAVE     ,RBY           ,
      F IADS(I87H)     ,SECFCUM       ,AGRV        ,IGRV       ,LGRAV           ,
      G IXS(L1)        ,
      H IXS(L2)        ,IADS(LL1)     ,IADS(LL2)   ,IXS(L3)    ,IADS(LL3)       ,
@@ -5344,7 +5343,7 @@ C WA local  : utilise de 1 a NUMNOD
         IF ((IDEL7NG>=1.AND.IDEL7NOK==1).OR.(PDEL>0.AND.IDEL7NOK==1)) THEN
           CALL TAGOFF3N(
      1       GEO        ,IXS       ,IXS(L1)   ,IXS(L1)   ,IXS(L3)  ,IXQ    ,
-     2       IXC         ,IXT      ,IXP       ,IXR       ,IXTG     ,IXUR   ,
+     2       IXC         ,IXT      ,IXP       ,IXR       ,IXTG     ,
      3       WA(NUMNOD+1),NODFTSK  ,NODLTSK   ,IPARG     ,ELBUF    ,ITSK   ,
      4       WA(NWAFTSK) ,IXTG1    ,IAD_ELEM  ,FR_ELEM   ,ITAB     ,ITABM1 ,
      5       ADDCNEL     ,CNEL     ,KXSP      ,ELBUF_TAB ,TAGEL    ,IEXLNK , 
@@ -6630,7 +6629,7 @@ C
       K5=K4+NUMELT
       K6=K5+NUMELP
       K7=K6+NUMELR
-      K8=K7+NUMELUR
+      K8=K7
       K9=K8+NUMELTG
       K10=K9+NUMELX
       K11=K10+NUMSPH
@@ -8408,7 +8407,7 @@ C Regular animation
      4   ITAB          ,X_A            ,GEO            ,MS             ,A             ,
      5   FANI          ,PARTSAV        ,ICUT           ,XCUT           ,
      6   FANI(1,1+NFIA),FANI(1,1+NFEA) ,FANI(1,1+NFOA) ,ANIN           ,LPBY          ,
-     7   NPBY          ,NSTRF          ,RWBUF          ,NPRW           ,IXUR          ,
+     7   NPBY          ,NSTRF          ,RWBUF          ,NPRW           ,
      8   TANI          ,INOISE         ,BUFNOIS        ,RBY            ,NEFLSW        ,
      9   NNFLSW        ,CRFLSW         ,FLSW           ,LOUT           ,
      B   FSAV          ,SKEW           ,ELBUF_TAB      ,CLUSTER        ,
@@ -8593,7 +8592,7 @@ C===============================================================================
       IF (IMP_CHK > 0) THEN
 #if defined(MUMPS5) 
          CALL IMP_CHKM(
-     1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXUR   ,IXTG   ,IXS    ,IXQ    ,
+     1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
      4  IPARI  ,INTBUF_TAB,NPRW   ,ICONX  ,NPBY,LPBY   ,LRIVET ,
@@ -8624,7 +8623,7 @@ C-----reel : 1,2,3,4:DIAG_K,LT_K,DIAG_M,LT_M,5,6:LB,DB,7:BKUD,8,9:D_IMP,DR_IMP
 C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:AC,ACR
 #if defined(MUMPS5) 
         CALL IMP_SOLV(
-     1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXUR   ,IXTG   ,IXS    ,IXQ    ,
+     1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
      4  IPARI  ,INTBUF_TAB,NPRW   ,ICONX  ,NPBY,LPBY   ,LRIVET ,
@@ -8665,7 +8664,7 @@ C
          CALL IMP_BUCK(
      2 PM,             GEO,             IPM,       IGEO,           ELBUF,
      3 IXS,            IXQ,             IXC,       IXT,            IXP,
-     4 IXR,            IXTG,            IXTG1,     IXUR,           IPARG,
+     4 IXR,            IXTG,            IXTG1,     IPARG,
      5 TF,             NPC,             FR_WAVE,   W16,            BUFMAT,
      6 THKE,           BUFGEO,          SENSOR_TAB,RBY,
      7 SKEW,           WA,                ICODT,   ICODR,         ISKEW,          
@@ -9734,7 +9733,7 @@ C
         CALL CUMULTIME_MP(
      1          TAILLE,IPARG,
      2          IXC,IXQ,IXT,IXP,IXTG,
-     3          IXR,IXUR,IXS,KXIG3D,IPM,
+     3          IXR,IXS,KXIG3D,IPM,
      4          IGEO,GEO,POIN_UMP,CPUTIME_MP,
      5          NBR_GPMP,CPUTIME_MP_GLOB,TAB_UMP,PM,
      6          BUFMAT,TABMP_L ,TAB_MAT )

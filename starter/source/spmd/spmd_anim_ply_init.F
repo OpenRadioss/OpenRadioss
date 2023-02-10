@@ -29,7 +29,7 @@ Chd|        PLYXFEM_MOD                   share/modules1/plyxfem_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|====================================================================
       SUBROUTINE SPMD_ANIM_PLY_INIT (IGEO, GEO  ,IPARG  ,IXC  ,IXTG ,
-     .                          IPARTC,IPARTQ,IPARTTG,IPARTUR ,STACK)
+     .                          IPARTC,IPARTQ,IPARTTG,STACK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,7 +47,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
-#include      "rnur_c.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -55,7 +54,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .  GEO(NPROPG,*)
-      INTEGER IXC(NIXC,*),IPARTQ(*),IPARTTG(*),IPARTUR(*),IXTG(NIXTG,*),
+      INTEGER IXC(NIXC,*),IPARTQ(*),IPARTTG(*),IXTG(NIXTG,*),
      .        IPARG(NPARG,*), IPARTC(*),IGEO(NPROPGI,*)
 C     
       TYPE (STACK_PLY) :: STACK
@@ -92,11 +91,6 @@ C-----------------------------------------------
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTTG(N)) = 1
-            ENDDO
-          ELSEIF(ITY==50)THEN
-            DO I = 1, NEL
-              N = I + NFT
-              MATER(IPARTUR(N)) = 1
             ENDDO
           ENDIF
       ENDDO
@@ -301,7 +295,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
-#include      "rnur_c.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -381,7 +374,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
-#include      "rnur_c.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

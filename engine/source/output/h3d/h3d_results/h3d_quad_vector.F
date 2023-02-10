@@ -38,7 +38,7 @@ Chd|====================================================================
       SUBROUTINE H3D_QUAD_VECTOR(
      .                  ELBUF_TAB   ,QUAD_VECTOR,IFUNC   ,IPARG       ,GEO        ,
      .                  IXQ         ,IXC       ,IXTG      ,PM         ,
-     .                  EL2FA       ,NBF       ,IXUR      ,IADP        ,
+     .                  EL2FA       ,NBF       ,IADP        ,
      .                  NBF_L       ,EHOUR     ,ANIM      ,NBPART      ,IADG       ,
      .                  IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
      .                  INVERT      ,X         ,V         ,W           ,
@@ -61,7 +61,7 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "chara_c.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -76,7 +76,6 @@ C-----------------------------------------------
 #include      "scr14_c.inc"
 #include      "scr25_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
 #include      "alefvm.inc"
@@ -87,7 +86,7 @@ C-----------------------------------------------
      .   QUAD_VECTOR(3,*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,NUMGEO),
      .   ANIM(*),PM(NPROPM,*),ERR_THK_SH4(*), ERR_THK_SH3(*)
       INTEGER IPARG(NPARG,NGROUP),IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),EL2FA(*),
-     .   IXQ(NIXQ,NUMELQ),IXUR(NIXUR,NUMELUR),IFUNC,NBF,
+     .   IXQ(NIXQ,NUMELQ),IFUNC,NBF,
      .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
      .   IGEO(NPROPGI,NUMGEO),INVERT(*),  NV46,ID_ELEM(*),
      .   INFO1,INFO2,IS_WRITTEN_QUAD(*),IPARTQ(*),IPARTTG(*),H3D_PART(*),

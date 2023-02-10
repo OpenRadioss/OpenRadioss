@@ -243,7 +243,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE INISMS(
      .       IGRPART  ,IPARTS     ,IPARTQ   ,IPARTC  ,
-     .       IPARTT   ,IPARTP     ,IPARTR   ,IPARTUR ,IPARTTG ,
+     .       IPARTT   ,IPARTP     ,IPARTR   ,IPARTTG ,
      .       IPARTX   ,TAGPRT_SMS )
 C-----------------------------------------------
 C   M o d u l e s
@@ -269,7 +269,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        INTEGER IPARTS(*),IPARTQ(*),IPARTC(*),IPARTT(*),
-     .   IPARTP(*),IPARTR(*),IPARTUR(*),IPARTTG(*),IPARTX(*),
+     .   IPARTP(*),IPARTR(*),IPARTTG(*),IPARTX(*),
      .   TAGPRT_SMS(*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRPART)  :: IGRPART

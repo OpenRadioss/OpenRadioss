@@ -91,8 +91,8 @@ Chd|====================================================================
      2                   IXT    , IXP    , IXR   , IXTG   , SWAFT   ,
      3                   IPARG  , PM     , GEO   , SKEW   , ITAB    ,
      4                   LPBY   , NPBY   , NSTRF , RWBUF  , NPRW    ,
-     5                   IXUR   , IPART  , IPARTS, IPARTQ , IPARTC  ,
-     6                   IPARTT , IPARTP , IPARTR, IPARTUR, IPARTTG ,
+     5                   IPART  , IPARTS, IPARTQ , IPARTC  ,
+     6                   IPARTT , IPARTP , IPARTR, IPARTTG ,
      7                   RBY   , SWA4   , 
      8                   IGRSURF, BUFSF  , IPARTX, KXSP   , IXSP    ,
      9                   IPARTSP, SPBUF  , IXS10 , IXS20  , IXS16   ,
@@ -131,7 +131,6 @@ C-----------------------------------------------
 #include      "scr15_c.inc"
 #include      "scr16_c.inc"
 #include      "scr23_c.inc"
-#include      "rnur_c.inc"
 #include      "scr12_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
@@ -140,9 +139,9 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*),
      .        IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*), SWAFT,
      .        IPARG(NPARG,*), ITAB(*), LPBY(*), NPBY(NNPBY,*),
-     .        NSTRF(*), NPRW(*), IXUR(NIXUR,*), IPART(LIPART1,*),
+     .        NSTRF(*), NPRW(*), IPART(LIPART1,*),
      .        IPARTS(*), IPARTQ(*), IPARTC(*), IPARTT(*),
-     .        IPARTP(*), IPARTR(*), IPARTUR(*), IPARTTG(*),SWA4, 
+     .        IPARTP(*), IPARTR(*),  IPARTTG(*),SWA4, 
      .        IPARTX(*), KXSP(NISP,*),IXSP(KVOISPH,*),
      .        IPARTSP(*), IXS10(6,*), IXS20(12,*), IXS16(8,*),
      .        IPM(NPROPMI,*), IGEO(NPROPGI,*), SMATER, SEL2FA,
@@ -284,19 +283,16 @@ C=======================================================================
       DO I=1,NUMELTG
         MATER(IPARTTG(I))=1
       ENDDO
-      DO I=1,NUMELUR
-        MATER(IPARTUR(I))=1
-      ENDDO
 C
       NBPART = 0
       DO I=1,NPART
         NBPART = NBPART + MATER(I)
       ENDDO
 C
-      NBF =  NUMELQ + NUMELC + NUMELTG + NUMELUR
+      NBF =  NUMELQ + NUMELC + NUMELTG
       NBF_L = NBF
 C
-      DO I=1,NUMELQ + NUMELC + NUMELTG + NUMELUR + 1
+      DO I=1,NUMELQ + NUMELC + NUMELTG + 1
         EL2FA(I)=0
       ENDDO
 C-----------------------------------------------
@@ -532,8 +528,8 @@ C   PART SORT
 C-----------------------------------------------
       CALL PARSORC(X   ,D, XNORM,IAD  ,CDG   ,
      .            BUFEL,IPARG,IXQ  ,IXC   ,IXTG ,
-     .            INVERT,EL2FA,IXUR ,
-     .            MATER,IPARTQ,IPARTC,IPARTUR,IPARTTG,
+     .            INVERT,EL2FA,
+     .            MATER,IPARTQ,IPARTC,IPARTTG,
      .            ELBUF_TAB)
 C
       IF(NSECT+NRWALL>0) CALL DPARRWS(
@@ -837,7 +833,7 @@ C-----------------------------------------------
      .   ANIM_CE(25)==1)THEN
          CALL DMASANIC(ELBUF_TAB, X    ,D    ,GEO  ,IPARG,
      .               IXQ  ,IXC  ,IXTG ,MAS  ,PM   ,
-     .               EL2FA,NBF  ,IXUR )
+     .               EL2FA,NBF  )
       ENDIF
 C-----------------------------------------------
 C   N FUNC TEXT
@@ -1141,7 +1137,7 @@ C
 C--------------------
 C   ELEMENT NUMBERING
 C--------------------
-      CALL DELNUMBC(IPARG,IXQ  ,IXC  ,IXTG ,IXUR,
+      CALL DELNUMBC(IPARG,IXQ  ,IXC  ,IXTG ,
      .              EL2FA,NBF  ,WAFT ,NELCUT,
      .              NBPART,IDCMAX)
       DO J=1,NESBW2

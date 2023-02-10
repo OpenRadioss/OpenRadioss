@@ -35,7 +35,7 @@ Chd|        INELTS_NP                     source/interfaces/inter3d1/i24sti3.F
 Chd|        INSOL3                        source/interfaces/inter3d1/insol3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE NORMA1(N1,N2,N3,AREA)
+      SUBROUTINE NORMA1(N1,N2,N3,AREA,XX1,XX2,XX3)
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -46,10 +46,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .   N1, N2, N3, AREA
+      my_real, INTENT(IN) :: XX1(4),XX2(4),XX3(4)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr07_c.2.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ Chd|-- called by -----------
 Chd|        INSOL3D                       source/interfaces/inter3d1/insol3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE NORMA1D(N1,N2,N3,AREA)
+      SUBROUTINE NORMA1D(N1,N2,N3,AREA,XX1,XX2,XX3)
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -97,10 +97,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .   N1, N2, N3, AREA
+      my_real, INTENT(IN) :: XX1(4),XX2(4),XX3(4)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr07_c.2.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

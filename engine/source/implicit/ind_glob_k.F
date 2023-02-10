@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE DIM_ELEMS1(
      1    IGEO      ,ELBUF     ,IPARG     ,IXS       ,IXQ       ,
      2    IXC       ,IXT       ,IXP       ,IXR       ,IXTG      ,
-     3    IXTG1     ,IXS10     ,IXS20     ,IXS16     ,IXUR      ,
+     3    IXTG1     ,IXS10     ,IXS20     ,IXS16     ,
      4    NDOF      ,NROW      ,ELBUF_TAB )
 C-----------------------------------------------
 C   M o d u l e s
@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),IGEO(NPROPGI,*)
       INTEGER 
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
+     .   IXR(NIXR,*), IXTG(NIXTG,*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),NDOF(*),NROW(*)
 C     REAL
       my_real
@@ -330,7 +330,7 @@ Chd|====================================================================
       SUBROUTINE DIM_ELEMS3(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROW      ,
+     3    IXS10     ,IXS20     ,IXS16     ,NROW      ,
      4    INLOC     ,NKMAX     ,ICOK      ,IGEO      ,ELBUF_TAB )
 C-----------------------------------------------
 C   M o d u l e s
@@ -356,7 +356,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),NKMAX,IGEO(NPROPGI,*)
       INTEGER 
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
+     .   IXR(NIXR,*), IXTG(NIXTG,*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),NROW(*),ICOK(NKMAX,*),INLOC(*)
 C     REAL
       my_real
@@ -628,7 +628,7 @@ Chd|====================================================================
       SUBROUTINE DIM_ELEMS2(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROW      ,
+     3    IXS10     ,IXS20     ,IXS16     ,NROW      ,
      4    INLOC     ,NNMAX     ,ICOK      ,NKMAX     ,ICOKM     ,
      5    INK       ,IGEO      ,ELBUF_TAB )
 C-----------------------------------------------
@@ -655,7 +655,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),NNMAX,NKMAX,IGEO(NPROPGI,*)
       INTEGER 
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
+     .   IXR(NIXR,*), IXTG(NIXTG,*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),
      .    NROW(*),ICOK(NNMAX,*),ICOKM(NKMAX,*),INLOC(*),INK
 C     REAL
@@ -968,7 +968,7 @@ Chd|====================================================================
       SUBROUTINE DIM_ELEMS4(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROW      ,
+     3    IXS10     ,IXS20     ,IXS16     ,NROW      ,
      4    INLOC     ,NNMAX     ,ICOK      ,NKMAX     ,ICOKM     ,
      5    INK       ,IGEO      ,ELBUF_TAB )
 C-----------------------------------------------
@@ -995,7 +995,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),NNMAX,NKMAX,IGEO(NPROPGI,*)
       INTEGER 
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
+     .   IXR(NIXR,*), IXTG(NIXTG,*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),
      .    NROW(*),ICOK(NNMAX,*),ICOKM(NKMAX,*),INLOC(*),INK
 C     REAL
@@ -1320,7 +1320,7 @@ Chd|====================================================================
       SUBROUTINE DIM_ELEMSP(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROW      ,
+     3    IXS10     ,IXS20     ,IXS16     ,NROW      ,
      4    INLOC     ,NKMAX     ,ICOK      ,IGEO      ,ELBUF_TAB )
 C-----------------------------------------------
 C   M o d u l e s
@@ -1346,7 +1346,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),NKMAX,IGEO(NPROPGI,*)
       INTEGER 
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
+     .   IXR(NIXR,*), IXTG(NIXTG,*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),NROW(*),ICOK(NKMAX,*),INLOC(*)
 C     REAL
       my_real
@@ -1625,7 +1625,7 @@ Chd|====================================================================
       SUBROUTINE DIM_ELEMAX(
      1    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
      2    IXR       ,IXTG      ,IXTG1     ,IXS10     ,IXS20     ,
-     3    IXS16     ,IXUR      ,IPARG     ,ELBUF     ,NDOF      ,
+     3    IXS16     ,IPARG     ,ELBUF     ,NDOF      ,
      4    NROW      ,INLOC     ,NNMAX     ,L_MAX     ,C_MAX     ,
      5    IGEO      ,ELBUF_TAB )
 C-----------------------------------------------
@@ -1652,7 +1652,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),IGEO(NPROPGI,*)
       INTEGER 
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
+     .   IXR(NIXR,*), IXTG(NIXTG,*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),NDOF(*),NROW(*),INLOC(*),
      .   NNMAX,L_MAX,C_MAX
 C     REAL
@@ -1678,7 +1678,7 @@ C-----------------------------------------------
        CALL DIM_ELEMS3(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROW(NFT+1) ,
+     3    IXS10     ,IXS20     ,IXS16     ,NROW(NFT+1) ,
      4    INLOC     ,L_MAX     ,ICOL      ,IGEO      ,ELBUF_TAB )
        DO NK=1,JLT
         N=NK+NFT
@@ -3231,7 +3231,7 @@ Chd|====================================================================
      2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
      3    INTBUF_TAB,IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS10     ,
-     5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,NDOF      ,     
+     5    IXS20     ,IXS16     ,IPARG     ,NDOF      ,     
      6    NSI2      ,NSRB      ,ELBUF     ,NKINE     ,INLOC     ,
      7    NROW      ,NNMAX     ,NKMAX     ,NSS       ,NSIJ      ,
      8    NMIJ      ,NSS2      ,NSIJ2     ,NMIJ2     ,FR_ELEM   ,
@@ -3268,7 +3268,7 @@ C-----------------------------------------------
       INTEGER FR_ELEM(*),IAD_ELEM(2,*),SH4TREE(*),SH3TREE(*)
       INTEGER 
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
+     .   IXR(NIXR,*), IXTG(NIXTG,*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),NDOF(*),NROW(*),NNMAX,NKINE,
      .   INLOC(*),NKMAX,NSS,NSIJ,NMIJ,NSS2,NSIJ2,NMIJ2,NSS3,
      .   IRBE2(*),LRBE2(*),NSB2
@@ -3305,7 +3305,7 @@ C----- pass for IND_GLOB_K, including RBE2 main
       CALL DIM_ELEMS3(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROWI     ,
+     3    IXS10     ,IXS20     ,IXS16     ,NROWI     ,
      4    INLOC     ,NNMAX     ,ICOK      ,IGEO      ,ELBUF_TAB )
       IF (IMACH==3.AND.NSPMD>1) THEN
          CALL KIN_NRMAX(
@@ -3356,7 +3356,7 @@ C
          CALL DIM_ELEMS2(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROWI     ,
+     3    IXS10     ,IXS20     ,IXS16     ,NROWI     ,
      4    INLOC     ,NNMAX     ,ICOK(L2)  ,NKMAX     ,ICOK(L1)  ,
      5    LNK       ,IGEO      ,ELBUF_TAB )
 c
@@ -3423,7 +3423,7 @@ Chd|====================================================================
      2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
      3    IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS10     ,
-     5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,NDOF      ,     
+     5    IXS20     ,IXS16     ,IPARG     ,NDOF      ,     
      6    IDDL      ,NDDL      ,NNZK      ,ELBUF     ,INLOC     ,
      7    LSIZE     ,FR_ELEM   ,IAD_ELEM  ,FR_I2M    ,IAD_I2M   ,
      8    NPRW      ,NMONV     ,IMONV     ,MONVOL    ,IGRSURF   ,
@@ -3467,7 +3467,7 @@ C-----------------------------------------------
       INTEGER IPM(NPROPMI,*),IGEO(NPROPGI,*),IFRAME(LISKN,*)
       INTEGER 
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
+     .   IXR(NIXR,*), IXTG(NIXTG,*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),IDDL(*),NDOF(*),IRBE3(*),LRBE3(*),
      .   NDDL ,NNZK,INLOC(*),LSIZE(*),SH4TREE(*), SH3TREE(*),
      .   IRBE2(*),LRBE2(*),IBFV(*)
@@ -3508,7 +3508,7 @@ c-----1. calcule NNMAX,NDOF;
       CALL DIM_ELEMS1(
      1    IGEO      ,ELBUF     ,IPARG     ,IXS       ,IXQ       ,
      2    IXC       ,IXT       ,IXP       ,IXR       ,IXTG      ,
-     3    IXTG1     ,IXS10     ,IXS20     ,IXS16     ,IXUR      ,
+     3    IXTG1     ,IXS10     ,IXS20     ,IXS16     ,
      4    NDOF      ,IDDL      ,ELBUF_TAB )
       CALL DIM_NDOF_II(
      1    NINT2     ,IINT2     ,IPARI     ,NDOF      ,
@@ -3548,7 +3548,7 @@ C
        CALL DIM_FR_K(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NDOF      ,
+     3    IXS10     ,IXS20     ,IXS16     ,NDOF      ,
      4    NKINE0    ,INLOC     ,FR_ELEM   ,IAD_ELEM  ,NPP       ,
      5    IGEO      ,FR_M      ,IAD_M     ,ELBUF_TAB )
        DEALLOCATE(FR_M)
@@ -3556,7 +3556,7 @@ C
       CALL DIM_ELEMAX(
      1    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
      2    IXR       ,IXTG      ,IXTG1     ,IXS10     ,IXS20     ,
-     3    IXS16     ,IXUR      ,IPARG     ,ELBUF     ,NDOF      ,
+     3    IXS16     ,IPARG     ,ELBUF     ,NDOF      ,
      4    IDDL      ,INLOC     ,NNMAX     ,NKINE0    ,NNSIZ     ,
      5    IGEO      ,ELBUF_TAB )
       IF (IMACH==3.AND.NSPMD>1) THEN 
@@ -3568,7 +3568,7 @@ C
      2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
      3    INTBUF_TAB,IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS10     ,
-     5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,NDOF      ,     
+     5    IXS20     ,IXS16     ,IPARG     ,NDOF      ,     
      6    NSI2      ,NSRB      ,ELBUF     ,NKINE     ,INLOC     ,
      7    IDDL      ,NNMAX     ,NKMAX     ,NSS       ,NSIJ      ,
      8    NMIJ      ,NSS2      ,NSIJ2     ,NMIJ2     ,FR_ELEM   ,
@@ -3797,7 +3797,7 @@ Chd|====================================================================
      4    NSS2      ,ISS2      ,IPARG     ,ELBUF     ,ELBUF_TAB ,
      5    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
      6    IXR       ,IXTG      ,IXTG1     ,IXS10     ,IXS20     ,
-     7    IXS16     ,IXUR      ,IDDL      ,NDOF      ,IADK      ,     
+     7    IXS16     ,IDDL      ,NDOF      ,IADK      ,     
      8    JDIK      ,NDDL      ,NNZK      ,NNMAX     ,NKINE     ,
      9    INLOC     ,NKMAX     ,NROWK     ,ICOK      ,ICOKM     ,
      A    NMC2      ,IMIJ2     ,IRK       ,NPN       ,NPP       ,
@@ -3836,7 +3836,7 @@ C-----------------------------------------------
       INTEGER IPM(NPROPMI,*),IGEO(NPROPGI,*)
       INTEGER 
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
+     .   IXR(NIXR,*), IXTG(NIXTG,*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),IDDL(*),NDOF(*),IADK(*),JDIK(*),
      .   NDDL ,NNZK,NKINE,INLOC(*),NMC2,IMIJ2(*),NPN ,NPP,
      .   FR_ELEM(*),IAD_ELEM(2,*),IRBE3(*),LRBE3(*),ISS3(*),
@@ -3896,7 +3896,7 @@ c        INK=NKINE-NRBYAC
          CALL DIM_ELEMS4(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROWK     ,
+     3    IXS10     ,IXS20     ,IXS16     ,NROWK     ,
      4    ILOC      ,NNMAX     ,ICOK      ,NKMAX     ,ICOKM     ,
      5    INK       ,IGEO      ,ELBUF_TAB )
          CALL KIN_NRMAX(
@@ -3921,7 +3921,7 @@ C
        CALL INI_FR_K(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NDOF      ,
+     3    IXS10     ,IXS20     ,IXS16     ,NDOF      ,
      4    NNMAX     ,ILOC      ,FR_ELEM   ,IAD_ELEM  ,N_FR      ,
      5    IGEO      ,FR_M      ,IAD_M     ,ELBUF_TAB ,NRMAX     )
        DEALLOCATE(FR_M)
@@ -3942,7 +3942,7 @@ C
         CALL DIM_ELEMS3(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROW      ,
+     3    IXS10     ,IXS20     ,IXS16     ,NROW      ,
      4    ILOC      ,NNMAX     ,ICOL      ,IGEO      ,ELBUF_TAB )
         CALL IND_NRFR(
      1    NFT       ,JLT       ,NPN       ,NPP       ,NNMAX     ,     
@@ -4012,7 +4012,7 @@ C
        CALL IND_FR_K(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NDOF      ,
+     3    IXS10     ,IXS20     ,IXS16     ,NDOF      ,
      4    NNMAX     ,ILOC      ,FR_ELEM   ,IAD_ELEM  ,N_FR      ,
      5    IGEO      ,ELBUF_TAB )
        IF(IAUTSPC>0) THEN
@@ -4045,7 +4045,7 @@ C
        CALL DIM_ELEMS3(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROW      ,
+     3    IXS10     ,IXS20     ,IXS16     ,NROW      ,
      4    ILOC      ,NNMAX     ,ICOL      ,IGEO      ,ELBUF_TAB )
        IF (IKPAT==0) THEN
         DO NK=1,JLT
@@ -4095,7 +4095,7 @@ C      INK=NKINE-NRBYAC
        CALL DIM_ELEMS4(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROWK     ,
+     3    IXS10     ,IXS20     ,IXS16     ,NROWK     ,
      4    ILOC      ,NNMAX     ,ICOK      ,NKMAX     ,ICOKM     ,
      5    INK       ,IGEO      ,ELBUF_TAB )
 C
@@ -4176,7 +4176,7 @@ C        INK=NKINE-NRBYAC
         CALL DIM_ELEMS4(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROWK     ,
+     3    IXS10     ,IXS20     ,IXS16     ,NROWK     ,
      4    ILOC      ,NNMAX     ,ICOK      ,NKMAX     ,ICOKM     ,
      5    INK       ,IGEO      ,ELBUF_TAB )
 C
@@ -4234,7 +4234,7 @@ C---main nodes of rbodies first----
         CALL DIM_ELEMS3(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
-     3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROW      ,
+     3    IXS10     ,IXS20     ,IXS16     ,NROW      ,
      4    ILOC      ,NNMAX     ,ICOL      ,IGEO      ,ELBUF_TAB )
         DO NK=1,JLT
          N=NK+NFT

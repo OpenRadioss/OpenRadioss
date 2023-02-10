@@ -30,7 +30,7 @@ Chd|        I5PWR3                        source/interfaces/inter3d1/i3pen3.F
 Chd|        I6PEN3                        source/interfaces/inter3d1/i6pen3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE INIST3(N1,N2,N3,SSC,TTC,IER,ALP)
+      SUBROUTINE INIST3(N1,N2,N3,SSC,TTC,IER,ALP,XX1,XX2,XX3,XS1,YS1,ZS1,XC,YC,ZC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,10 +41,10 @@ C-----------------------------------------------
       INTEGER,INTENT(INOUT)  :: IER
       my_real, INTENT(INOUT) :: N1, N2, N3, SSC, TTC
       my_real, INTENT(IN)    :: ALP
+      my_real,INTENT(INOUT)  :: XX1(4), XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr07_c.2.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

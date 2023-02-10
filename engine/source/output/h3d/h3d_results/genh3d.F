@@ -111,7 +111,7 @@ Chd|====================================================================
      5                  SINVERT  ,CONT     ,SMATER      ,ICUT        ,SKEW     ,
      6                  XCUT     ,FINT     ,ITAB        ,SEL2FA      ,FEXT     ,
      7                  FOPT     ,ANIN     ,LPBY        ,NPBY        ,NSTRF    ,
-     8                  RWBUF    ,NPRW     ,IXUR        ,TANI        ,ELBUF_TAB,
+     8                  RWBUF    ,NPRW     ,TANI        ,ELBUF_TAB,
      A                  DD_IAD   ,WEIGHT   ,EANI        ,IPART       ,CLUSTER  ,
      B                  IPARTS   ,IPARTQ   ,IPARTC      ,IPARTT      ,IPARTP   ,
      C                  IPARTR   ,IPARTUR  ,IPARTTG     ,
@@ -196,7 +196,6 @@ C-----------------------------------------------
 #include      "submodel.inc"
 #include      "chara_c.inc"
 #include      "scrcut_c.inc"
-#include      "rnur_c.inc"
 #include      "r4r8_p.inc"
 #include      "task_c.inc"
 #include      "couple_c.inc"
@@ -208,7 +207,7 @@ C-----------------------------------------------
 #include      "tabsiz_c.inc"
 #include      "parit_c.inc"
 #include      "intstamp_c.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 #include      "timeri_c.inc"
 #include      "macro.inc"
 #include      "my_allocate.inc"
@@ -250,7 +249,7 @@ C-----------------------------------------------
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),MONVOL(*) ,
      .        IXS10(6,*) ,IXS16(8,*)  ,IXS20(12,*) ,
-     .        ICUT(*), ITAB(*),NPBY(NNPBY,*),NPRW(*),IXUR(NIXUR,*),
+     .        ICUT(*), ITAB(*),NPBY(NNPBY,*),NPRW(*),
      .        WEIGHT(*),IPART(LIPART1,*),IPARTS(*),IPARTQ(*),IPARTC(*),
      .        IPARTT(*),IPARTP(*),IPARTR(*),IPARTUR(*),IPARTTG(*),
      .        NOM_OPT(*),
@@ -1988,7 +1987,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                   PDAMA2,X, STIFR, STIFN, A, D, V, CONT, FCONTG, FINT, FEXT,KEYWORD,
      .                   FNCONT  , FNCONTG , FTCONT , FTCONTG   , FNCONT2,
      .                   DR      , DXANCG  , FANREAC, FCLUSTER  , MCLUSTER ,
-     .                   VR      , FOPT    , NPBY   , IXUR      , VGAZ     ,
+     .                   VR      , FOPT    , NPBY   , VGAZ     ,
      .                   IPARI   , IGRNOD  , WEIGHT , NODGLOB   ,FCONT_MAX ,
      .                   FNCONTP2, FTCONTP2, AR     , IPARTSP   ,IPARTR    ,
      .                   IPARTP  , IPARTT  , IPARTS , IPARTQ    ,KXSP      ,
@@ -2299,7 +2298,7 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
           CALL H3D_SHELL_SCALAR(
      .                     ELBUF_TAB ,SHELL_SCALAR ,IFUNC      ,IPARG        ,GEO        ,
      .                     IXQ       ,IXC       ,IXTG          ,PM           ,BUFMAT     ,
-     .                     EL2FA     ,NBF       ,IXUR          ,IAD          ,
+     .                     EL2FA     ,NBF       ,IAD          ,
      .                     NBF_L     ,EANI      ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
      .                     IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                     INVERT    ,X         ,V             ,W            ,ALE_CONNECT,
@@ -2352,7 +2351,7 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
           CALL H3D_SHELL_VECTOR(
      .                     ELBUF_TAB ,SHELL_VECTOR ,IFUNC      ,IPARG,GEO    ,
      .                     IXQ       ,IXC       ,IXTG          ,PM       ,
-     .                     EL2FA     ,NBF       ,IXUR          ,IAD          ,
+     .                     EL2FA     ,NBF       ,IAD          ,
      .                     NBF_L     ,EANI      ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
      .                     IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                     INVERT    ,X         ,V             ,W            ,
@@ -2462,7 +2461,7 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
           CALL H3D_SOLID_SCALAR(
      .                    ELBUF_TAB ,SOLID_SCALAR ,IFUNC      ,IPARG        ,GEO        ,
      .                    IXQ       ,IXS       ,IXTG          ,PM           ,BUFMAT     ,
-     .                    EL2FA     ,NBF       ,IXUR          ,IAD          ,
+     .                    EL2FA     ,NBF       ,IAD          ,
      .                    NBF_L     ,EANI      ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
      .                    IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                    INVERT    ,X         ,V             ,W            ,ALE_CONNECT,
@@ -2512,7 +2511,7 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
           CALL H3D_SOLID_VECTOR(
      .                    ELBUF_TAB ,SOLID_VECTOR ,IFUNC      ,IPARG,GEO    ,
      .                    IXQ       ,IXS       ,IXTG          ,PM           ,
-     .                    EL2FA     ,NBF       ,IXUR          ,IAD          ,
+     .                    EL2FA     ,NBF       ,IAD          ,
      .                    NBF_L     ,EANI      ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
      .                    IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                    INVERT    ,X         ,V             ,W            ,
@@ -2606,7 +2605,7 @@ c          IF(ISPMD == 0)  print *,'SPH scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1
           CALL H3D_SPH_SCALAR(
      .                    ELBUF_TAB ,SPH_SCALAR,IFUNC         ,IPARG        ,GEO        ,
      .                    KXSP      ,PM        ,IPART         ,
-     .                    EL2FA     ,NBF       ,IXUR          ,IAD          ,
+     .                    EL2FA     ,NBF       ,IAD          ,
      .                    NBF_L     ,EANI      ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
      .                    IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                    INVERT    ,X         ,V             ,W            ,
@@ -2692,7 +2691,7 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
           CALL H3D_QUAD_SCALAR(
      .                     ELBUF_TAB ,QUAD_SCALAR ,IFUNC      ,IPARG,GEO    ,
      .                     IXQ       ,IXC       ,IXTG          ,PM       ,
-     .                     EL2FA     ,NBF       ,IXUR          ,IAD          ,
+     .                     EL2FA     ,NBF       ,IAD          ,
      .                     NBF_L     ,EANI      ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
      .                     IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                     INVERT    ,X         ,V             ,W            ,ALE_CONNECT,
@@ -2746,7 +2745,7 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
           CALL H3D_QUAD_VECTOR(
      .                     ELBUF_TAB ,QUAD_VECTOR ,IFUNC      ,IPARG,GEO    ,
      .                     IXQ       ,IXC       ,IXTG          ,PM       ,
-     .                     EL2FA     ,NBF       ,IXUR          ,IAD          ,
+     .                     EL2FA     ,NBF       ,IAD          ,
      .                     NBF_L     ,EANI      ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
      .                     IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                     INVERT    ,X         ,V             ,W            ,

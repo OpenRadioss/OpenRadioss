@@ -30,7 +30,7 @@ Chd|====================================================================
       SUBROUTINE RECONNECT(
      .           IXS      ,IXS10    ,IXS20    ,IXS16    ,IXQ      ,
      .           IXC      ,IXT      ,IXP      ,IXR      ,IXTG     ,
-     .           IXUR     ,IGRNOD   ,IGRSURF  ,IGRSLIN  ,
+     .           IGRNOD   ,IGRSURF  ,IGRSLIN  ,
      .           ISKN     ,IMERGE   ,NMERGE_TOT)
 C--------------------------------------------------------
 C     RENITIALISE ELEMENT CONNECTIVITIES AFTER NODE MERGE
@@ -47,14 +47,13 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com04_c.inc"
-#include      "rnur_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IXS10(6,*),IXS16(8,*),IXS20(12,*),IXQ(NIXQ,*),
      .   IXC(NIXC,*),IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),
-     .   IXUR(6,*),ISKN(LISKN,*),IMERGE(*),NMERGE_TOT
+     .   ISKN(LISKN,*),IMERGE(*),NMERGE_TOT
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -167,16 +166,6 @@ C
         DO J=2,4
           DO K = 1,NMERGED
             IF (IXTG(J,I) == IMERGE(K)) IXTG(J,I) = IMERGE(NMERGE_TOT+K)
-          ENDDO
-        ENDDO
-      ENDDO
-C
-C---  RNUR elements
-C
-      DO I = 1, NUMELUR
-        DO J=2,5
-          DO K = 1,NMERGED
-            IF (IXUR(J,I) == IMERGE(K)) IXUR(J,I) = IMERGE(NMERGE_TOT+K)
           ENDDO
         ENDDO
       ENDDO

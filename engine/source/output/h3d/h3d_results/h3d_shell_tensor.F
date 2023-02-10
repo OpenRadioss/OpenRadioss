@@ -50,7 +50,7 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "chara_c.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -59,7 +59,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "rnur_c.inc"
 #include      "scr01_c.inc"
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
@@ -134,7 +133,7 @@ C
       NN7 = NN6 
       NN8 = NN7 
       NN9 = NN8 
-      NN10= NN9 + NUMELUR
+      NN10= NN9 
 C
       DO I=1,NUMELC+NUMELTG
          IS_WRITTEN_SHELL(I) = 0

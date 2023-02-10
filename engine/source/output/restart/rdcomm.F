@@ -56,7 +56,6 @@ C-----------------------------------------------
 #include      "lagmult.inc"
 #include      "r4r8_p.inc"
 #include      "com01_c.inc"
-#include      "com02_c.inc"
 #include      "com04_c.inc"
 #include      "com05_c.inc"
 #include      "com09_c.inc"
@@ -74,7 +73,6 @@ C-----------------------------------------------
 #include      "cong1_c.inc"
 #include      "parit_c.inc"
 #include      "task_c.inc"
-#include      "rnur_c.inc"
 #include      "scrnoi_c.inc"
 #include      "scrfs_c.inc"
 #include      "scrcut_c.inc"
@@ -174,7 +172,7 @@ C   -------- Tailles des tableaux entiers --------
       SIPART    = TABVINT(44)
       SNOM_OPT  = TABVINT(45)
       SNPC      = TABVINT(46)
-      SIXUR     = TABVINT(47)
+C Empty field           = TABVINT(47)
       SIXTG     = TABVINT(48)
       SIXTG1    = TABVINT(49)
       SIXS      = TABVINT(50)
@@ -770,7 +768,7 @@ C
       NEXT = NEXT+1
       NUMELTGG =  TABVINT(NEXT)
       NEXT = NEXT+1
-      NUMELURG =  TABVINT(NEXT)
+C       empty field
       NEXT = NEXT+1
       NUMELSG =  TABVINT(NEXT)
       NEXT = NEXT+1
@@ -1793,7 +1791,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "r4r8_p.inc"
 #include      "com01_c.inc"
-#include      "com02_c.inc"
 #include      "com04_c.inc"
 #include      "com05_c.inc"
 #include      "com06_c.inc"

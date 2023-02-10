@@ -40,7 +40,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "rnur_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -57,7 +56,7 @@ C-----------------------------------------------
       INTEGER I, J, IBTMP(NICONV,NCONV_L), N1, N2, N3, N4, OFF, NB_L
       INTEGER K,ID,ITY,NG,NELG,NFT
 C
-      OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR+NUMELUR
+      OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR
      +    + NUMELX + NCONLD
       NB_L = 0
 C

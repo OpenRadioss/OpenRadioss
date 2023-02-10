@@ -27,7 +27,7 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE DSDIM0(NDOF  ,IXS   , IXQ    , IXC    , IXT    ,
-     2                  IXP   ,IXR   , IXTG   , IXUR   , KXX    ,
+     2                  IXP   ,IXR   , IXTG   , KXX    ,
      3                  IXX   ,GEO   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -43,13 +43,12 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "param_c.inc"
 #include      "scr23_c.inc"
-#include      "rnur_c.inc"
 #include      "sms_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDOF(*), IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*), 
-     .        IXT(NIXT,*), IXP(NIXP,*), IXR(NIXR,*), IXUR(NIXUR,*),
+     .        IXT(NIXT,*), IXP(NIXP,*), IXR(NIXR,*),
      .        IXTG(NIXTG,*), KXX(NIXX,*), IXX(*)
       my_real
      .        GEO(NPROPG,*)

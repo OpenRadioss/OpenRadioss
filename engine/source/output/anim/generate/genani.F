@@ -210,7 +210,7 @@ Chd|====================================================================
      5                  SINVERT  ,CONT     ,SMATER      ,ICUT        ,SKEW     ,
      6                  XCUT     ,FINT     ,ITAB        ,SEL2FA      ,FEXT     ,
      7                  FOPT     ,ANIN     ,LPBY        ,NPBY        ,NSTRF    ,
-     8                  RWBUF    ,NPRW     ,IXUR        ,TANI        ,ELBUF_TAB,
+     8                  RWBUF    ,NPRW     ,TANI        ,ELBUF_TAB,
      A                  DD_IAD   ,WEIGHT   ,EANI        ,IPART       ,CLUSTER  ,
      B                  IPARTS   ,IPARTQ   ,IPARTC      ,IPARTT      ,IPARTP   ,
      C                  IPARTR   ,IPARTUR  ,IPARTTG     ,
@@ -282,7 +282,6 @@ C-----------------------------------------------
 #include      "scr25_c.inc"
 #include      "chara_c.inc"
 #include      "scrcut_c.inc"
-#include      "rnur_c.inc"
 #include      "r4r8_p.inc"
 #include      "task_c.inc"
 #include      "couple_c.inc"
@@ -327,7 +326,7 @@ C-----------------------------------------------
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),MONVOL(*) ,
      .        IXS10(6,*) ,IXS16(8,*)  ,IXS20(12,*) ,
-     .        ICUT(*), ITAB(*),NPBY(NNPBY,*),NPRW(*),IXUR(NIXUR,*),
+     .        ICUT(*), ITAB(*),NPBY(NNPBY,*),NPRW(*),
      .        WEIGHT(*),IPART(LIPART1,*),IPARTS(*),IPARTQ(*),IPARTC(*),
      .        IPARTT(*),IPARTP(*),IPARTR(*),IPARTUR(*),IPARTTG(*),
      .        NOM_OPT(*),
@@ -767,10 +766,10 @@ C
         NBPART = NBPART + MATER(I)
       ENDDO
 C
-      NBF =  NUMELQ + NUMELC + NUMELTG + NUMELUR
+      NBF =  NUMELQ + NUMELC + NUMELTG
       NBF_L = NBF
-      NBF = NUMELQG+NUMELCG+NUMELTGG+NUMELURG
-      DO I=1,NUMELQ + NUMELC + NUMELTG + NUMELUR + 1
+      NBF = NUMELQG+NUMELCG+NUMELTGG
+      DO I=1,NUMELQ + NUMELC + NUMELTG +  1
         EL2FA(I)=0
       ENDDO
 C
@@ -1277,7 +1276,7 @@ C   PART SORT
 C-----------------------------------------------
       CALL PARSORC(X  ,D    ,XNORM,IAD  ,CDG   ,
      .            BUFEL,IPARG,IXQ  ,IXC   ,IXTG ,
-     .            ELBUF_TAB,INVERT,EL2FA,IXUR ,IADG ,
+     .            ELBUF_TAB,INVERT,EL2FA,IADG ,
      .            MATER,IPARTQ,IPARTC,IPARTUR,IPARTTG,
      .            NODGLOB)
 C
@@ -1842,7 +1841,7 @@ C-----------------------------------------------
      .   ANIM_CE(25)==1)THEN
          CALL DMASANIC(ELBUF_TAB,X    ,D    ,GEO  ,IPARG,
      .               IXQ  ,IXC  ,IXTG ,MAS  ,PM   ,
-     .               EL2FA,NBF  ,IXUR ,IGEO , STACK )
+     .               EL2FA,NBF  ,IGEO , STACK )
       ENDIF
 C-----------------------------------------------
 C   N FUNC TEXT
@@ -3161,7 +3160,7 @@ C  en spmd localement NBF = 0 mais pas la somme sur pi !
      .      (I>=10253.AND.I<=10675) .OR. (I >= 10676 .AND. I <= 1000000)) THEN
             CALL DFUNCC(ELBUF_TAB ,WAFT        ,IFUNC         ,IPARG,GEO    ,
      .                  IXQ       ,IXC         ,IXTG          ,MAS          ,PM         ,
-     .                  EL2FA     ,NBF         ,IXUR          ,IAD          ,
+     .                  EL2FA     ,NBF         ,IAD          ,
      .                  NBF_L     ,EANI        ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
      .                  IPM       ,IGEO        ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                  INVERT    ,X           ,V             ,W            ,ALE_CONNECTIVITY,
@@ -3381,11 +3380,11 @@ C     ENDIF
      .       NFNOD_CRKXFEMG)
 
       IF(ANIM_V(7)==1) CALL VELVEC2(ICBUF(MIC2),BID_TEMP,CBUF(MAC2),
-     .    NODCUT,FOPT(1,1),NPBY,NNWL,NNNSRG,IXUR,
+     .    NODCUT,FOPT(1,1),NPBY,NNWL,NNNSRG,
      .    NODGLOB,WEIGHT,FR_SEC,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,
      .    NFNOD_CRKXFEMG)
       IF(ANIM_V(8)==1) CALL VELVEC2(ICBUF(MIC2),BID_TEMP,CBUF(MAC2),
-     .    NODCUT,FOPT(4,1),NPBY,NNWL,NNNSRG,IXUR,
+     .    NODCUT,FOPT(4,1),NPBY,NNWL,NNNSRG,
      .    NODGLOB,WEIGHT,FR_SEC,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,
      .    NFNOD_CRKXFEMG)
 c     .                 MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0 ) .AND.
@@ -3845,7 +3844,7 @@ C xfem crack for layered shells ---
            MAS4(I) = MAS(I)
          ENDDO
          IF(ISPMD==0) THEN
-           BUF = (NUMELQG+NUMELCG+NUMELTGG+NUMELURG)
+           BUF = (NUMELQG+NUMELCG+NUMELTGG)
          ELSE
            BUF=1
          END IF
@@ -4063,7 +4062,7 @@ C  Traitment equivalent monoproc
 C
       CALL DELNUMBC(IPARG,IXQ  ,IXC   ,IXTG ,INVERT,
      .             EL2FA,NBF  ,WAFT ,NELCUT,
-     .             IXUR       ,DD_IAD,IAD ,NBF_L,
+     .             DD_IAD,IAD ,NBF_L,
      .             NBPART,IADG,NODGLOB,IDCMAX)
       IF (ISPMD==0) THEN
          DO J=1,NESBW2
@@ -4077,7 +4076,7 @@ C
           CALL DELNUMBC_PLY(IPLY,NEL_PLY,IPARG,
      .             IXC   ,IXTG ,INVERT,
      .             EL2FA_PLY,NBF_PXFEM  ,WAFT_PLY ,NELCUT,
-     .             IXUR  ,DD_IAD,IAD ,PLYNUMC,
+     .             DD_IAD,IAD ,PLYNUMC,
      .             NBPART,IAD_PLYG,NODGLOB,IDCMAX,NBF_PXFEMG)
        ENDIF
 C
@@ -7188,7 +7187,7 @@ C
         ENDDO
       ELSE
         IF (ISPMD==0) THEN
-           BUF = (NUMELQG+NUMELCG+NUMELTGG+NUMELURG)*4
+           BUF = (NUMELQG+NUMELCG+NUMELTGG)*4
         ELSE
            BUF=1
         ENDIF

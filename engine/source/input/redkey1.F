@@ -36,7 +36,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "warn_c.inc"
 #include      "chara_c.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

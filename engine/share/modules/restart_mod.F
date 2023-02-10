@@ -57,7 +57,7 @@ Chd|====================================================================
         INTEGER , DIMENSION(:), ALLOCATABLE :: 
      .      ICODE,   LSHSUB,  ISKEW,    ISKWN,   IFRAME,  NETH,  
      .      IBCSLAG,
-     .      IPART,   NOM_OPT, NPC,      IXUR,    IXTG,    IXTG1,
+     .      IPART,   NOM_OPT, NPC,      IXTG,    IXTG1,
      .      IXS,     IXQ,     IXC,      IXT,     IXP,     IXR,
      .      ITAB,    ITABM1,  GJBUFI,   
      .      IFILL,   IMS,     ISUBS,

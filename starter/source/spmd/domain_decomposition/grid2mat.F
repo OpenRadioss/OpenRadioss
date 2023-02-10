@@ -49,7 +49,7 @@ Chd|        REORDER_MOD                   share/modules1/reorder_mod.F
 Chd|====================================================================
       SUBROUTINE DOMETIS(
      1  IXS    ,IXQ    ,IXC    ,IXT     ,IXP     ,
-     2  IXR    ,IXUR   ,IXTG   ,CEP     ,GEO     ,
+     2  IXR    ,IXTG   ,CEP     ,GEO     ,
      3  ITRI1  ,ITRI2  ,INDEX1 ,INDEX2  ,NUM     ,
      4  WD     ,IWCONT ,NELEM  ,IDDLEVEL,NELEMINT,
      5  IXINT  ,PM     ,X      ,KXX     ,IXX     ,
@@ -94,7 +94,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr12_c.inc"
-#include      "rnur_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "scr15_c.inc"
@@ -109,7 +108,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*),
-     .        IXP(NIXP,*), IXR(NIXR,*), IXUR(NIXUR,*), IXTG(NIXTG,*),
+     .        IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*),
      .        CEP(*), ITRI1(*), ITRI2(*), INDEX1(*),INDEX2(*),
      .        NUM(*), NELEM,IDDLEVEL, NELEMINT, IXINT(6,*),
      .        KXX(NIXX,NUMELX),IXX(*), ADSKY(0:*),IGEO(NPROPGI,NUMGEO),
@@ -314,13 +313,6 @@ C
           ADSKY(N) = ADSKY(N) + 1
  170  CONTINUE
 
-C
-      DO K=2,5
-        DO I=1,NUMELUR
-          N = IXUR(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
-        ENDDO
-      ENDDO
 C
 C Elements Multibrins
       DO I=1,NUMELX
@@ -709,18 +701,9 @@ C
 C
       OFFELEM(7)=NUMELTG
       OFF = OFF + NUMELTG
-C
-      DO I = 1, NUMELUR
-        TAGELEM(I+OFF)=9
-        DO K=1,4
-          N = IXUR(K+1,I)
-          CNE(ADSKY(N)) = I+OFF
-          ADSKY(N) = ADSKY(N) + 1
-        ENDDO
-      ENDDO
-C
-      OFFELEM(8)=NUMELUR
-      OFF = OFF + NUMELUR
+
+C     Old obsolete & removed element
+      OFFELEM(8) = 0
 C
       DO I=1, NUMELX
         TAGELEM(I+OFF)=10
@@ -962,9 +945,9 @@ C poids Metis suivant
 Cel optimisation des poids par defaut
       CALL INITWG(WD,PM,GEO,IXS,IXQ,
      .            IXC,IXT,IXP,IXR,IXTG,
-     .            IXUR,KXX,IGEO,ISOLNOD,IARCH,
+     .            KXX,IGEO,ISOLNOD,IARCH,
      .             NUMELS,NUMELQ,NUMELC,NUMELT,NUMELP,
-     .             NUMELR,NUMELTG,NUMELUR,NUMELX,IPM,
+     .             NUMELR,NUMELTG,NUMELX,IPM,
      .             BUFMAT,NUMMAT,NUMGEO,TAILLE,POIN_UMP,
      .             TAB_UMP,POIN_UMP_OLD,TAB_UMP_OLD,CPUTIME_MP_OLD,
      .             TABMP_L,IPART,IPARTC,IPARTG,
@@ -1253,35 +1236,6 @@ cc     +    RWD(NCOND*(I+OFF-1)+ICNOD) = (ONE/TWO)*(SIX*THREE)/NNC
 C
       OFF = OFF + NUMELTG
 C
-      DO I = 1, NUMELUR
-        NNC=0
-        DO K=1,4
-          N = IXUR(K+1,I)
-          IF(N/=0)THEN
-            FAC=ONE/(ADSKY(N+1)-ADSKY(N))
-            NNC = NNC+ADSKY(N+1)-ADSKY(N)
-            IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) =
-     +                  RWD(NCOND*(I+OFF-1)+ICDDL) + DSDOF(N)*FAC
-            IF(ICINTS/=0)
-     +        RWD(NCOND*(I+OFF-1)+ICINTS) = RWD(NCOND*(I+OFF-1)+ICINTS)
-     +                                    + IWCONT(1,N)*FAC
-            IF(ICINTM/=0)
-     +        RWD(NCOND*(I+OFF-1)+ICINTM) = RWD(NCOND*(I+OFF-1)+ICINTM)
-     +                                    + IWCONT(2,N)*FAC
-            IF(ICINT2/=0)
-     +        RWD(NCOND*(I+OFF-1)+ICINT2) = RWD(NCOND*(I+OFF-1)+ICINT2) 
-     +                                    + (IWCIN2(1,N)+IWCIN2(2,N))*FAC
-            IF(ICKIN/=0)RWD(NCOND*(I+OFF-1)+ICKIN)=
-     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC             
-            IF(ICNOD_SMS/=0)RWD(NCOND*(I+OFF-1)+ICNOD_SMS)=RWD(NCOND*(I+OFF-1)+ICNOD_SMS)
-     +                                                      +MIN(DSDOF(N),1)*FAC
-          END IF
-        ENDDO
-cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD)=ONE
-      ENDDO
-C
-      OFF = OFF + NUMELUR
-C
       DO I=1, NUMELX
         NELX=KXX(3,I)
         NNC=0
@@ -1403,7 +1357,7 @@ C+------------------------------------------------------------+
         DO I = 1 , NELEM
           CALL FIND_NODES(I     ,ELEMNODES,TAGELEM,IXS,IXS10,
      1                    IXQ   ,IXC      ,IXT    ,IXP,IXR,
-     2                    IXTG  ,IXUR     ,KXX    ,IXX,KXIG3D,
+     2                    IXTG  ,KXX    ,IXX,KXIG3D,
      3                    IXIG3D,GEO      ,OFFELEM,NELMIN)
           PREV_NEIGH = 0
           C_NEIGH = 0
@@ -1786,7 +1740,7 @@ C           according to the distance
 
           CALL FIND_NODES(ROOTS(I)   ,ELEMNODES,TAGELEM,IXS,IXS10,
      1                    IXQ   ,IXC      ,IXT    ,IXP,IXR,
-     2                    IXTG  ,IXUR     ,KXX    ,IXX,KXIG3D,
+     2                    IXTG  ,KXX    ,IXX,KXIG3D,
      3                    IXIG3D,GEO      ,OFFELEM,NELMIN)
 
           IF(ELEMNODES(1) /= 0) THEN
@@ -1860,7 +1814,7 @@ C
       BOOL_RBODY=.FALSE.
 
       IF(IDDLEVEL/=0) THEN
-        NUMEL   = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELUR
+        NUMEL   = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR
      .        + NUMELTG+NUMELX+NUMSPH+NUMELIG3D
 
 !       ------------------------
@@ -4260,7 +4214,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FIND_NODES(ELEMN0,ELEMNODES,TAGELEM,IXS, IXS10 ,
      2                      IXQ   ,IXC      ,IXT    ,IXP, IXR   , 
-     3                      IXTG  ,IXUR     ,KXX    ,IXX, KXIG3D,
+     3                      IXTG  ,KXX    ,IXX, KXIG3D,
      4                      IXIG3D,GEO      ,OFFELEM,NELMIN)
 C-----------------------------------------------
 C            M o d u l e s
@@ -4276,7 +4230,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr12_c.inc"
-#include      "rnur_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "scr15_c.inc"
@@ -4290,7 +4243,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*),
-     .        IXP(NIXP,*), IXR(NIXR,*), IXUR(NIXUR,*), IXTG(NIXTG,*),
+     .        IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*),
      .        KXX(NIXX,NUMELX),IXX(*),IXS10(6,*),KXIG3D(NIXIG3D,NUMELIG3D),
      .        IXIG3D(*),ELEMNODES(20),TAGELEM(*),OFFELEM(10)
       INTEGER ELEMN0,NELMIN
@@ -4380,10 +4333,6 @@ C---------------------------------------------
         DO I=1,7
            ELEM = ELEM - OFFELEM(I)
         ENDDO
-        DO K=1,4
-          N = IXUR(K+1,ELEM)
-          ELEMNODES(K) = N
-        ENDDO
       CASE(10)
         NELMIN = 1
         DO I=1,8
@@ -4460,7 +4409,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr12_c.inc"
-#include      "rnur_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "scr15_c.inc"

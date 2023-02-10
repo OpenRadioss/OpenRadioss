@@ -54,8 +54,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "scr18_c.inc"
 #include      "sms_c.inc"
-#include      "stati_c.inc"
-#include      "statr_c.inc"
 #include      "timeri_c.inc"
 #include      "units_c.inc"
 #include      "warn_c.inc"

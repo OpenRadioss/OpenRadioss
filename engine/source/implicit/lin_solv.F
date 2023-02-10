@@ -1466,7 +1466,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
-#include "com02_c.inc"
 #include "com04_c.inc"
 #include "units_c.inc" 
 #include "timeri_c.inc"

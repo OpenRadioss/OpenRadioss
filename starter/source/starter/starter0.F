@@ -96,8 +96,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com02_c.inc"
-#include      "com03_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com07_c.inc"
@@ -117,7 +115,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "scr23_c.inc"
 #include      "param_c.inc"
-#include      "lon_c.inc"
 #include      "lagmult.inc"
 #include      "fluid_scr_c.inc"
 #include      "flowcom.inc"
@@ -460,8 +457,6 @@ C------------------------------------------------
       ERR_MSG='OPEN OUTPUT FILE'
       ERR_CATEGORY='OPEN OUTPUT FILE'
 C------------------------------------------------
-      MAXLA = 0
-      MAXLM = 0
       IUGEO=4
       IIN=8
       IIN2=11

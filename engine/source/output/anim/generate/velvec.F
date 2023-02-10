@@ -235,7 +235,7 @@ Chd|        SPMD_VELVEC2                  source/mpi/anim/spmd_velvec2.F
 Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
 Chd|====================================================================
       SUBROUTINE VELVEC2(IVOIS,V_TEMP,AL   ,NODCUT,FOPT,
-     .                   NPBY,NNWL ,NNSRG,IXUR,NODGLOB,WEIGHT,FR_SEC,
+     .                   NPBY,NNWL ,NNSRG,NODGLOB,WEIGHT,FR_SEC,
      .                   NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,NFNOD_CRKXFEMG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -250,7 +250,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
-#include      "rnur_c.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -260,7 +259,7 @@ C     REAL
      .  AL(*),FOPT(6,*),V_TEMP(3,*)
 
       REAL R4
-      INTEGER IVOIS(2,*),NPBY(NNPBY,*),IXUR(NIXUR,*),NODCUT,NNWL
+      INTEGER IVOIS(2,*),NPBY(NNPBY,*),NODCUT,NNWL
       INTEGER NNSRG,NFNOD_PXFEM,NFNOD_PXFEMG
       INTEGER I,N,WEIGHT(*),FR_SEC(NSPMD+1,*)
 
@@ -289,12 +288,6 @@ C
          V(3,I) = FOPT(3,NSECT+N)
         ENDDO
 C
-        DO N=1,NUMELUR
-         I = IXUR(3,N)
-         V(1,I) = V(1,I) + FOPT(1,NSECT+NRBODY+NRWALL+N)
-         V(2,I) = V(2,I) + FOPT(2,NSECT+NRBODY+NRWALL+N)
-         V(3,I) = V(3,I) + FOPT(3,NSECT+NRBODY+NRWALL+N)
-        ENDDO
       ELSE
          DO N=1,NRBODY
            I = NPBY(1,N)
@@ -307,14 +300,6 @@ C
            ENDIF
          ENDDO
 
-         DO N=1,NUMELUR
-           I = IXUR(3,N)
-           IF (WEIGHT(I)==1) THEN
-             V(1,I) = V(1,I) + FOPT(1,NSECT+NRBODY+NRWALL+N)
-             V(2,I) = V(2,I) + FOPT(2,NSECT+NRBODY+NRWALL+N)
-             V(3,I) = V(3,I) + FOPT(3,NSECT+NRBODY+NRWALL+N)
-           ENDIF
-         ENDDO
       ENDIF
 C
       IF (NSPMD == 1) THEN

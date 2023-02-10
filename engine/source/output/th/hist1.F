@@ -72,7 +72,6 @@ C-----------------------------------------------
 #include      "scr13_c.inc"
 #include      "scrfs_c.inc"
 #include      "chara_c.inc"
-#include      "rnur_c.inc"
 #include      "titr_c.inc"
 #include      "scr07_c.inc"
 #include      "scr17_c.inc"

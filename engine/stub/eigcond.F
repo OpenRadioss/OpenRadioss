@@ -47,7 +47,7 @@ Chd|====================================================================
      6                   PM          , GEO       , CONT    , ICUT      , SKEW        ,
      7                   XCUT        , FINT      , ITAB    , FEXT      , FOPT        ,
      8                   ANIN        , LPBY      , NPBY    , NSTRF     , RWBUF       ,
-     9                   NPRW        , IXUR      , TANI    , ELBUF_TAB , DD_IAD      ,
+     9                   NPRW        , TANI    , ELBUF_TAB , DD_IAD      ,
      A                   FR_IAD      , DD_FRONT  , WEIGHT  , EANI      , IPART       ,
      B                   RBY         , NOM_OPT   , IGRSURF ,
      C                   BUFSF       , IDATA     , RDATA   , BUFMAT    , BUFGEO      ,
@@ -100,7 +100,6 @@ C-----------------------------------------------
 #include      "scr23_c.inc"
 #include      "param_c.inc"
 #include      "sphcom.inc"
-#include      "rnur_c.inc"
 #include      "units_c.inc"
 #include      "spmd_c.inc"
 #include      "task_c.inc"
@@ -110,7 +109,7 @@ C-----------------------------------------------
       INTEGER EIGIPM(*), IKC0(*), NDDL0, IADK(*), JDIK(*), NDOF(*),
      .        NDDL, EIGIBUF(*), IXS(*), IXQ(*), IXC(*), IXT(*), IXP(*),
      .        IXR(*), IXTG(*), ICUT(*), ITAB(*), LPBY(*), NPBY(NNPBY,*),
-     .        NSTRF(*), NPRW(*), IXUR(*),INDX_CRK(*),XEDGE4N(4,*),XEDGE3N(3,*),
+     .        NSTRF(*), NPRW(*),INDX_CRK(*),XEDGE4N(4,*),XEDGE3N(3,*),
      .        DD_IAD(NSPMD+1,*), FR_IAD(*), DD_FRONT(4,*), WEIGHT(*),
      .        IPART(*), NOM_OPT(LNOPT1,*),
      .        IDATA(*), KXX(NIXX,*), IXX(*),

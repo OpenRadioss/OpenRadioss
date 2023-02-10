@@ -51,7 +51,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr03_c.inc"
-#include      "scr07_c.2.inc"
 #include      "warn_c.inc"
 #include      "scr17_c.inc"
 #include      "tabsiz_c.inc"
@@ -69,6 +68,7 @@ C-----------------------------------------------
       INTEGER II,JJ,J,K,L,M,PP,NN,KK,NEL,IRECT(4),IAD,N,ALE,NF,IP(NNODE),TURBU,NEIGH,CON(8),IS
       INTEGER IFACE, IFACE2, IFACE2T, JALE_FROM_MAT, JALE_FROM_PROP,MINUS
       my_real :: N1, N2, N3, DDS,AREA
+      my_real :: XX1(4), XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
       EXTERNAL  IFACE, IFACE2, IFACE2T
       DATA CON/1,2,3,4,5,6,7,8/
 C-----------------------------------------------
@@ -146,7 +146,7 @@ C-----------------------------------------------
         ENDDO
 
         IF (N2D == 0) THEN               
-           CALL NORMA1(N1,N2,N3,AREA)      
+           CALL NORMA1(N1,N2,N3,AREA,XX1,XX2,XX3)      
         ELSE                               
            N1 = ZERO                       
            N2 = XX3(2) - XX3(1)            

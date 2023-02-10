@@ -132,13 +132,13 @@ Chd|====================================================================
      2                  IXP        ,IXR          ,DETONATORS   ,GEO          ,PM      , 
      3                  RBY        ,NPBY         ,LPBY         ,NPC          ,NPTS    ,	        
      4                  PLD        ,VEUL         ,ALE_CONNECTIVITY ,SKEW     ,FILL    , 
-     5                  IPART      ,ITAB         ,IXUR         , 
+     5                  IPART      ,ITAB         , 
      6                  IXTG       ,THK          ,NLOC_DMG     ,GROUP_PARAM_TAB,
      7                  IGRNOD     ,IGRSURF      ,BUFSF        ,VR           , 
      8                  BUFMAT     ,XLAS         ,LAS          ,DTELEM       ,MSS     ,
      9                  MSQ        ,MSC          ,MST          ,MSP          ,MSR     , 
-     A                  MSTG       ,PTG          ,MSUR         ,EVUR         ,INC     , 
-     B                  INP        ,INR          ,INTG         ,INUR         ,INDEX   , 
+     A                  MSTG       ,PTG          ,INC     , 
+     B                  INP        ,INR          ,INTG         ,INDEX   , 
      C                  ITRI       ,KXX          ,IXX          ,XELEMWA      ,	        
      E                  IWA        ,
      F                  KXSP       ,IXSP         ,NOD2SP       ,ISPCOND      ,ICODE   , 
@@ -254,7 +254,7 @@ C-----------------------------------------------
      .   IGEO(NPROPGI,*), IXT(NIXT,*),IXP(NIXP,*), IXR(NIXR,*),
      .   NPBY(NNPBY,*),LPBY(*),NPBYL(NNPBY,*),LPBYL(*),NPC(*),
      .   ITAB(*), IPART(*),
-     .   LAS(*),IXUR(6,*),
+     .   LAS(*),
      .   IXTG(NIXTG,*),INDEX(*),ITRI(*),IWA(*),KXX(NIXX,*),IXX(*),
      .   KXSP(*)   ,IXSP(*)  ,NOD2SP(*),ISPCOND(*),ISPSYM(*),ISPTAG(*),
      .   ICODE(*),ISKEW(*),ISKN(LISKN,*), IPM(NPROPMI,*), NSHNOD(*),
@@ -284,8 +284,8 @@ C-----------------------------------------------
      .   RBY(NRBY,*),PLD(*),VEUL(*),SKEW(LSKEW,*),FILL(*),
      .   THK(*),BUFSF(*), VR(3,*),BUFMAT(*),PTG(3,*),XLAS(*),
      .   DTELEM(*),MSS(*), MSQ(*),MSC(*),MST(*),MSP(*),MSR(*),
-     .   MSTG(*),MSUR(*),INC(*),RBYL(NRBY,*),
-     .   INP(*),INR(*),INTG(*),INUR(*),EVUR(*),
+     .   MSTG(*),INC(*),RBYL(NRBY,*),
+     .   INP(*),INR(*),INTG(*),
      .   XELEMWA(*),
      .   XFRAME(NXFRAME,*),SPBUF(*),MSSX(*),MSNF(*),
      .   MSSF(*), WMA(*),
@@ -1556,23 +1556,23 @@ C---------------------------------------------------------------
         CALL SPMD_PARTSAV_PON(
      1    IXS        ,IXS10      ,IXS20      ,IXS16        ,IXQ         ,
      2    IXC        ,IXT        ,IXP        ,IXR          ,IXTG        ,
-     3    IXUR       ,MSS        ,MSSX       ,MSQ          ,MSC         ,
-     4    MST        ,MSP        ,MSR        ,MSTG         ,MSUR        ,
+     3    MSS        ,MSSX       ,MSQ          ,MSC         ,
+     4    MST        ,MSP        ,MSR        ,MSTG         ,
      5    INDEX      ,ITRI       ,GEO        ,PARTSAV1_PON ,IPART(I15A) ,
      6    IPART(I15B),IPART(I15C),IPART(I15D),IPART(I15E)  ,IPART(I15F) ,
-     7    IPART(I15G),IPART(I15H),IPART      )
+     7    IPART(I15H),IPART      )
         CALL ADDMASPART(IPART,IPMAS,PARTSAV,
      .                  PART_AREA,PM,ADDEDMS,NOM_OPT(1,PTR_NOPT_ADM+1),
      .                  PARTSAV1_PON)
         CALL SPMD_MSIN_ADDMASS(
      1    IXS        ,IXS10      ,IXS20      ,IXS16      ,IXQ        ,
      2    IXC        ,IXT        ,IXP        ,IXR        ,IXTG       ,
-     3    IXUR       ,MSS        ,MSSX       ,MSQ        ,MSC        ,
-     4    MST        ,MSP        ,MSR        ,MSTG       ,MSUR       ,
-     5    PTG        ,EVUR       ,MS         ,INDEX      ,ITRI       ,
+     3    MSS        ,MSSX       ,MSQ        ,MSC        ,
+     4    MST        ,MSP        ,MSR        ,MSTG       ,
+     5    PTG        ,MS         ,INDEX      ,ITRI       ,
      6    GEO        ,SH4TREE    ,SH3TREE    ,PARTSAV    ,IPMAS      ,
      7    IPART(I15A),IPART(I15B),IPART(I15C),IPART(I15D),
-     8    IPART(I15E),IPART(I15F),IPART(I15G),IPART(I15H),TOTADDMAS  ,
+     8    IPART(I15E),IPART(I15F),IPART(I15H),TOTADDMAS  ,
      9    IPART      ,THK        ,PM         ,PART_AREA  ,
      A    ADDEDMS    ,ITAB       ,PARTSAV1_PON,ELE_AREA  )
       END IF
@@ -1584,11 +1584,11 @@ C---------------------------------------------------------------
         KK3=KK2+NUMELS20*12
         CALL SPMD_MSIN(
      1               IXS     ,IXQ  ,IXC  ,IXT     ,IXP     ,
-     2               IXR     ,IXTG ,IXUR ,MSS     ,MSQ     ,
+     2               IXR     ,IXTG ,MSS     ,MSQ     ,
      3               MSC     ,MST  ,MSP  ,MSR     ,MSTG    ,
-     4               MSUR    ,INC  ,INP  ,INR     ,INTG    ,
-     5               INUR    ,INDEX,ITRI ,MS      ,IN      ,
-     6               PTG     ,EVUR ,GEO  ,IXS10   ,IXS20   ,
+     4               INC     ,INP  ,INR     ,INTG    ,
+     5               INDEX   ,ITRI ,MS      ,IN      ,
+     6               PTG     ,GEO  ,IXS10   ,IXS20   ,
      7               IXS16   ,MSSX ,MSNF ,MSSF    ,VNS     ,
      8               VNSX    ,STC     ,STT     ,STP  ,STR  ,
      9               STTG    ,STUR    ,BNS     ,BNSX ,VOLNOD ,
@@ -1906,7 +1906,7 @@ C------------------------------------------------------------------
      .       IXS     ,IXQ      ,IXC     ,IXT     ,IXP       ,
      .       IXR     ,IXTG     ,IXS10   ,IXS16   ,IXS20     ,
      .       IPART(I15A)  ,IPART(I15B)   ,IPART(I15C)  ,IPART(I15D)  ,IPART(I15E)    ,
-     .       IPART(I15F)  ,IPART(I15G)   ,IPART(I15H)  ,IPART(I15I)  ,IPART          ,
+     .       IPART(I15F)  ,IPART(I15H)  ,IPART(I15I)  ,IPART          ,
      .       IPARG        ,ELBUF_TAB     ,IGEO         ,IDDLEVEL     ,TAGPRT_SMS     )
       ENDIF
 C

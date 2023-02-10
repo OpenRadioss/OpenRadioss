@@ -131,7 +131,7 @@ C-----------------------------------------------
 #include      "scr_thermal_c.inc"
 #include      "alesolver.inc"
 #include      "scrupw_c.inc"
-#include      "nchara_c.inc"
+#include      "nchar_c.inc"
 #include      "ale_param.inc"
 #include      "alemuscl.inc"
 C-----------------------------------------------

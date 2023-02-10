@@ -49,7 +49,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
-#include      "scr07_c.2.inc"
 #include      "scr03_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -68,6 +67,7 @@ C-----------------------------------------------
      .        NUSER, NUSERM
       my_real
      .   N1, N2, N3, DDS
+      my_real ::  XX1(4), XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -147,7 +147,7 @@ C-----------------------------------------------
        YS1=YS1+FOURTH*X(2,NN)
   100  ZS1=ZS1+FOURTH*X(3,NN)
 C
-       CALL NORMA1(N1,N2,N3,AREA)
+       CALL NORMA1(N1,N2,N3,AREA,XX1,XX2,XX3)
        XC=ZERO
        YC=ZERO
        ZC=ZERO
@@ -206,7 +206,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
-#include      "scr07_c.2.inc"
 #include      "scr03_c.inc" 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -231,6 +230,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   N1, N2, N3, DDS
+      my_real :: XX1(4),XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -328,7 +328,7 @@ C-----------------------------------------------
        YS1=YS1+FOURTH*X(2,NN)
   100  ZS1=ZS1+FOURTH*X(3,NN)       
 C
-       CALL NORMA1D(N1,N2,N3,AREA)
+       CALL NORMA1D(N1,N2,N3,AREA,XX1,XX2,XX3)
        XC=0.
        YC=0.
        ZC=0.
@@ -385,7 +385,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
-#include      "scr07_c.2.inc"
 #include      "scr03_c.inc"
 #include      "warn_c.inc"
 #include      "scr17_c.inc"
@@ -411,6 +410,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   N1, N2, N3, DDS
+      my_real :: XX1(4), XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -493,7 +493,7 @@ C-----------------------------------------------
        YS1=YS1+FOURTH*X(2,NN)
   100  ZS1=ZS1+FOURTH*X(3,NN)       
 C
-       CALL NORMA1(N1,N2,N3,AREA)
+       CALL NORMA1(N1,N2,N3,AREA,XX1,XX2,XX3)
        XC=ZERO
        YC=ZERO
        ZC=ZERO

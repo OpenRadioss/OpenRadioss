@@ -44,7 +44,6 @@ C   C o m m o n   B l o c k s
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
 #include      "scr23_c.inc"
-#include      "rnur_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------

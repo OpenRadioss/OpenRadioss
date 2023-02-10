@@ -141,8 +141,6 @@ C-----------------------------------------------
 #include      "scr22_c.inc"
 #include      "scr23_c.inc"
 #include      "titr_c.inc"
-#include      "lon_c.inc"
-#include      "rnur_c.inc"
 #include      "param_c.inc"
 #include      "ale_param.inc"
 #include      "sphcom.inc"
@@ -1315,11 +1313,6 @@ C=======================================================================
      .'    NSPHSOL:NUMBER OF PARTICLES & NODES CREATED FROM SOLIDS .',
      .'            (AMONG NUMSPH & NUMNOD) . . . . . . . . . . . . .',
      .  NSPHSOL
-      ENDIF
-      IF(NUMELUR>0) THEN
-        WRITE (IOUT,'(A,I10)')
-     .  '    NUMELUR: NUMBER OF USER ELEMENTS. . . . . . . . . . .',
-     .  NUMELUR
       ENDIF
       WRITE (IOUT,'(/(A,I10))')  TITRE(138)(1:57),NFUNCT,
      .'    NGRAV:  NUMBER OF GRAVITY LOADS . . . . . . . . . . .',

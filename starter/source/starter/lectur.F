@@ -602,8 +602,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "hash_id.inc"
 #include      "com01_c.inc"
-#include      "com02_c.inc"
-#include      "com03_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com09_c.inc"
@@ -616,12 +614,10 @@ C-----------------------------------------------
 #include      "fxbcom.inc"
 #include      "intstamp_c.inc"
 #include      "lagmult.inc"
-#include      "lon_c.inc"
 #include      "sphcom.inc"
 #include      "param_c.inc"
 #include      "ale_param.inc"
 #include      "remesh_c.inc"
-#include      "rnur_c.inc"
 #include      "tabsiz_c.inc"
 #include      "tablen_c.inc"
 #include      "scr03_c.inc"
@@ -720,7 +716,6 @@ C-----------------------------------------------
       INTEGER(KIND=8) NUMELPK8
       INTEGER(KIND=8) NUMELTK8
       INTEGER(KIND=8) NUMELQK8
-      INTEGER(KIND=8) NUMELURK8
       INTEGER(KIND=8) NUMELXK8
       INTEGER(KIND=8) NUMELIG3DK8
       INTEGER(KIND=8) NUMSPHK8
@@ -886,7 +881,7 @@ C======================================================================|
       INTEGER, DIMENSION(:,:,:), ALLOCATABLE :: TAB_UMP_LOC2
       INTEGER, DIMENSION(:), POINTER ::
      .    IPARTTH,IPARTS,IPARTQ,IPARTC,IPARTT,IPARTP,IPARTR,
-     .    IPARTUR,IPARTG,IPARTX,IPARTSP,NPC1,IXS10,IXS20,IXS16,IPRES,
+     .    IPARTG,IPARTX,IPARTSP,NPC1,IXS10,IXS20,IXS16,IPRES,
      .    IBMPC2,IBMPC3,IBMPC4,IWORK2,
      .    ITRI1,ITRI2,ITRI3,INDEX,
      .    INDEX1,INDEX2,IWD,IWEIG,INUM,EADD,ITR1,ITR2,XEP,
@@ -900,7 +895,7 @@ C  Bid13 a  virer !!!!
      .    LITHBUFI,LITHBUFMX,NTHGRPMX,SINDEX,SITRI,LDD_IAD,
      .    LSIGI,LSIGSH,LSIGSP,LSIGSPH,SINSCR,
      .    SIPART0,SIPARTTH,SIPARTS,SIPARTQ,SIPARTC,SIPARTT,SIPARTP,
-     .    SIPARTR,SIPARTUR,SIPARTG,SIPARTX,SIPARTSP,ITER,
+     .    SIPARTR,SIPARTG,SIPARTX,SIPARTSP,ITER,
      .    LIXINT,SBUFALE,NVARTOT,
      .    NVARTOT0,NVARTOTMAX,NVARABF,
      .    PIXS10,PIXS16,PIXS20,NUMCFIELD,SIXINT,NUMLOADP,IXEL,
@@ -961,9 +956,9 @@ C   Allocations AM (Reels)
 C======================================================================|
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: DBRWORK
       my_real, DIMENSION(:), ALLOCATABLE ::
-     .    RWORK,STIFINT,MWA,MSS,MSSX,MSSF,MSQ,MSR,MSUR,
-     .    INP,INR,INUR,INS,VNS,VNSX,STC,STT,STP,STR,STTG,STUR,
-     .    EVUR,BNS,BNSX,VOLNOD,BVOLNOD,ETNOD,NSHNOD,XELEMWA,
+     .    RWORK,STIFINT,MWA,MSS,MSSX,MSSF,MSQ,MSR,
+     .    INP,INR,INS,VNS,VNSX,STC,STT,STP,STR,STTG,STUR,
+     .    BNS,BNSX,VOLNOD,BVOLNOD,ETNOD,NSHNOD,XELEMWA,
      .    XNUM,XTMP,RTRANS,MSIG3D,STIFINTR,STRC,STRR,STRP,STRTG,
      .    VNIGE,BNIGE
       TARGET ::
@@ -1138,7 +1133,6 @@ c   BEGINNING
       NXLAYMAX = 0   ! max layer nb in parts xfem
 C lic. Init
       LIDFS = 0
-      LIRNUR = 0
 C bc heat
       NUMCONV = 0
       NFXTEMP = 0
@@ -1175,8 +1169,6 @@ C     Idem with  (KD(12) = KD(11) + 4*NRTM )
       INTER18_AUTOPARAM = 0
       INTER18_IS_VARIABLE_GAP_DEFINED = .FALSE.
       NBPRELD = 10
-c     RNUR elements (obsolete) :
-      NUMELUR = 0
 C
       ALLOCATE(EOS_TAG(0:MAXEOS))
 C Interface give CPU to Main surface - INITIALIZE ARRAY
@@ -1481,7 +1473,7 @@ C---  Longueurs
       SISKWN   = LISKN*((NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+(NUMFRAM+1)+
      .           NSUBMOD)
       SIFRAME = LISKN*(NUMFRAM+1)
-c     SNETH = 2*NSNOD+NSELS+NSELQ+NSELC+NSELT+NSELP+NSELR+NSELUR+NSELTG = 0
+c     SNETH = 2*NSNOD+NSELS+NSELQ+NSELC+NSELT+NSELP+NSELR+NSELTG = 0
       SIBCSLAG= 5*NBCSLAG
       SIPART0 = LIPART1*NPART+LIPART1*NTHPART
       SIPARTTH= 2*9*NPART+2*9*NTHPART
@@ -1491,18 +1483,16 @@ c     SNETH = 2*NSNOD+NSELS+NSELQ+NSELC+NSELT+NSELP+NSELR+NSELUR+NSELTG = 0
       SIPARTT = NUMELT
       SIPARTP = NUMELP
       SIPARTR = NUMELR
-      SIPARTUR= NUMELUR
       SIPARTG = NUMELTG
       SIPARTX = NUMELX
       SIPARTSP= NUMSPH
       SIPARTIG3D = NUMELIG3D
       SIPART  = SIPART0+SIPARTTH+SIPARTS+SIPARTQ+SIPARTC+SIPARTT+SIPARTP
-     .        + SIPARTR+SIPARTUR+SIPARTG+SIPARTX+SIPARTIG3D+SIPARTSP
-      NUMEL   = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELUR
+     .        + SIPARTR+SIPARTG+SIPARTX+SIPARTIG3D+SIPARTSP
+      NUMEL   = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR
      .        + NUMELTG+NUMELX+NUMSPH+NUMELIG3D
 c
       SNPC    = 3*NFUNCT+1
-      SIXUR   = NIXUR*NUMELUR
       SIXTG0  = NIXTG*NUMELTG
       SIXTG   = SIXTG0
       SIXS0   = NIXS*NUMELS
@@ -1562,10 +1552,6 @@ C---  Allocations
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='NPC')
-      ALLOCATE (IXUR(SIXUR)       ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='IXUR')
       ALLOCATE (IXTG(SIXTG)       ,STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
@@ -1653,7 +1639,6 @@ C --- Initialisations
       IF (SIBCSLAG > 0) IBCSLAG = 0
       IF (SIPART > 0) IPART   = 0
       IF (SNPC > 0) NPC     = 0
-      IF (SIXUR > 0) IXUR    = 0
       IF (SITAB > 0) ITAB    = 0
       IF (SITABM1 > 0) ITABM1  = 0
       IF (SGJBUFI > 0) GJBUFI  = 0
@@ -1724,7 +1709,7 @@ C     ipart
       L5 = L4 + SIPARTT
       L6 = L5 + SIPARTP
       L7 = L6 + SIPARTR
-      L8 = L7 + SIPARTUR
+      L8 = L7 + 0
       L9 = L8 + SIPARTG
       L10= L9 + SIPARTX
       L11= L10+ SIPARTSP
@@ -1763,11 +1748,6 @@ C     ipart
       IPARTR => IPART(L6+1:L7)
       ELSE
         IPARTR => IPART
-      END IF
-      IF (L8>L7) THEN
-      IPARTUR=> IPART(L7+1:L8)
-      ELSE
-        IPARTUR => IPART
       END IF
       IF (L9>L8) THEN
       IPARTG => IPART(L8+1:L9)
@@ -2815,7 +2795,7 @@ C Create IXTG1 array and set to 0
 C--------------------------------------------
       CALL BUILD_CNEL(
      2   IXS        ,IXQ        ,IXC        ,IXT      ,IXP      ,
-     3   IXR        ,IXTG       ,IXUR       ,IXS10    ,IXS20    ,
+     3   IXR        ,IXTG       ,IXS10      ,IXS20    ,
      4   IXS16      ,IXTG1      ,IGEO       ,KNOD2ELS ,KNOD2ELC ,
      5   KNOD2ELTG  ,NOD2ELS    ,NOD2ELC    ,NOD2ELTG ,NOD2EL1D ,
      6   KNOD2EL1D  ,KXX        ,IXX        ,X        ,LELX     ,
@@ -3093,7 +3073,7 @@ C--------------------------------------------
      *                         LSUBMODEL ,SUBSETS,
      *                         IPART,
      *                         IXS  ,IXQ  ,IXC   ,IXTG ,
-     *                         IXT  ,IXP  ,IXR   ,IXUR,KXSP,IBID,
+     *                         IXT  ,IXP  ,IXR   ,KXSP,IBID,
      *                         RBY_MSN)
 
 
@@ -3778,7 +3758,7 @@ C-----on recalcule les connectivit   s inverses--------
 
          CALL BUILD_CNEL(
      2   IXS        ,IXQ        ,IXC        ,IXT      ,IXP      ,
-     3   IXR        ,IXTG       ,IXUR       ,IXS10    ,IXS20    ,
+     3   IXR        ,IXTG       ,IXS10      ,IXS20    ,
      4   IXS16      ,IXTG1      ,IGEO       ,KNOD2ELS ,KNOD2ELC ,
      5   KNOD2ELTG  ,NOD2ELS    ,NOD2ELC    ,NOD2ELTG ,NOD2EL1D ,
      6   KNOD2EL1D  ,KXX        ,IXX        ,X        ,LELX     ,
@@ -3898,7 +3878,7 @@ C--   /MERGE/NODE merging
      .                    IADMERGE2,NMERGE_TOT,MERGE_NODE_TAB,MERGE_NODE_TOL,
      .                    NMERGE_NODE_CAND,NMERGE_NODE_DEST,IXS,IXS10,IXS20,
      .                    IXS16,IXQ,IXC,IXT,IXP,
-     .                    IXR,IXTG,IXUR,EANI,IGRNOD)
+     .                    IXR,IXTG,EANI,IGRNOD)
 C
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -3910,7 +3890,7 @@ C--------------------------------------------
         CALL RECONNECT(
      .           IXS      ,IXS10    ,IXS20    ,IXS16    ,IXQ      ,
      .           IXC      ,IXT      ,IXP      ,IXR      ,IXTG     ,
-     .           IXUR     ,IGRNOD   ,IGRSURF  ,IGRSLIN  ,
+     .           IGRNOD   ,IGRSURF  ,IGRSLIN  ,
      .           ISKWN    ,IMERGE   ,NMERGE_TOT)
 C
         KNOD2ELS  = 0
@@ -3927,7 +3907,7 @@ C
         NOD2ELQ  = 0
         CALL BUILD_CNEL(
      2   IXS        ,IXQ        ,IXC        ,IXT      ,IXP      ,
-     3   IXR        ,IXTG       ,IXUR       ,IXS10    ,IXS20    ,
+     3   IXR        ,IXTG       ,IXS10      ,IXS20    ,
      4   IXS16      ,IXTG1      ,IGEO       ,KNOD2ELS ,KNOD2ELC ,
      5   KNOD2ELTG  ,NOD2ELS    ,NOD2ELC    ,NOD2ELTG ,NOD2EL1D ,
      6   KNOD2EL1D  ,KXX        ,IXX        ,X        ,LELX     ,
@@ -5138,7 +5118,7 @@ C---------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       CALL DSDIM0(
      1    DSDOF,IXS , IXQ,  IXC , IXT,
-     2    IXP  ,IXR , IXTG, IXUR, KXX,
+     2    IXP  ,IXR , IXTG, KXX,
      3    IXX  ,GEO )
 C---------------------------
 C DOMAIN DECOMPOSITION SUR MODELE COMPLET
@@ -5386,7 +5366,7 @@ C
           T2MAIN_SMS=0
 C
           CALL INISMS(IGRPART  ,IPARTS     ,IPARTQ   ,IPARTC  ,
-     .            IPARTT   ,IPARTP    ,IPARTR     ,IPARTUR  ,IPARTG  ,
+     .            IPARTT   ,IPARTP    ,IPARTR      ,IPARTG  ,
      .                IPARTX   ,TAGPRT_SMS )
 C
           CALL TRACE_OUT1()
@@ -5425,7 +5405,7 @@ C
      3     IXS20   ,IPARG    ,DSDOF   ,
      4     ICODT   ,ICODR    ,KINWORK ,
      5                        IPARTS     ,IPARTQ   ,IPARTC  ,
-     6     IPARTT   ,IPARTP   ,IPARTR     ,IPARTUR  ,IPARTG  ,
+     6     IPARTT   ,IPARTP   ,IPARTR      ,IPARTG  ,
      7     IPARTX   ,TAGPRT_SMS ,ITAB   ,IRBE2   ,
      8     IRBE3    ,LRBE2      ,LRBE3      ,NPRW   ,LPRW    ,
      9     IPART    ,IGEO       ,IPM        ,NATIV_SMS,NPBY  ,
@@ -5437,7 +5417,7 @@ C
      3     IXS20   ,IPARG    ,MS      ,MS0     ,DSDOF     ,
      4     ICODT   ,ICODR    ,KINET   ,
      5     KAD_SMS                    ,IPARTS   ,IPARTQ   ,
-     6     IPARTC  ,IPARTT  ,IPARTP   ,IPARTR    ,IPARTUR  ,
+     6     IPARTC  ,IPARTT  ,IPARTP   ,IPARTR    ,
      7     IPARTG  ,IPARTX  ,TAGPRT_SMS,TAGREL_SMS,ITAB    ,
      8     IRBE2   ,IRBE3     ,LRBE2    ,LRBE3    ,
      9     NPRW    ,LPRW      ,IPART    ,IGEO     ,NATIV_SMS)
@@ -5456,7 +5436,7 @@ C
      5             JADT_SMS ,JADP_SMS,
      6             JADR_SMS,JADTG_SMS,TAGPRT_SMS,IAD_SMS ,
      7             TAGREL_SMS,IPARTS ,IPARTQ   ,IPARTC   ,IPARTT   ,
-     8             IPARTP    ,IPARTR ,IPARTUR  ,IPARTG   ,IPARTX   ,
+     8             IPARTP    ,IPARTR ,IPARTG   ,IPARTX   ,
      9             NPBY     ,LPBY     ,KINET   ,TAGSLV_RBY_SMS,IPARI  ,
      A             INTBUF_TAB,LAD_SMS ,IPART   ,IGEO     ,NATIV_SMS)
 C
@@ -5471,7 +5451,7 @@ C
      4           JADS_SMS ,JADS10_SMS,JADT_SMS ,JADP_SMS,JADR_SMS ,
      5           JADTG_SMS,TAGPRT_SMS,KAD_SMS,KDI_SMS  ,PK_SMS    ,
      6           TAGREL_SMS,IPARTS ,IPARTQ   ,IPARTC   ,IPARTT    ,
-     7           IPARTP    ,IPARTR ,IPARTUR  ,IPARTG   ,IPARTX    ,
+     7           IPARTP    ,IPARTR ,IPARTG   ,IPARTX    ,
      8           NPBY     ,LPBY     ,KINET   ,TAGSLV_RBY_SMS,IPARI ,
      9           INTBUF_TAB,LAD_SMS ,IPART   ,IGEO      ,NATIV_SMS ,
      A           IAD_SMS   ,IDI_SMS,JAD_SMS  ,JDI_SMS  ,T2MAIN_SMS)
@@ -5492,7 +5472,7 @@ C
      4           JADS_SMS ,JADS10_SMS,JADT_SMS,JADP_SMS,JADR_SMS ,
      5           JADTG_SMS,TAGPRT_SMS,KAD_SMS,KDI_SMS  ,
      7           TAGREL_SMS,IPARTS ,IPARTQ   ,IPARTC   ,IPARTT   ,
-     8           IPARTP    ,IPARTR ,IPARTUR  ,IPARTG   ,IPARTX   ,
+     8           IPARTP    ,IPARTR ,IPARTG   ,IPARTX   ,
      9           NPBY     ,LPBY  ,KINET      ,TAGSLV_RBY_SMS,IPARI   ,
      A           INTBUF_TAB,LAD_SMS   ,NPRW  ,LPRW    ,TAGMSR_RBY_SMS,
      C           INTSTAMP  ,IPART     ,IGEO  ,NATIV_SMS,IRBE2        ,
@@ -5522,7 +5502,7 @@ C
      4           JADS_SMS ,JADS10_SMS,JADT_SMS ,JADP_SMS,JADR_SMS ,
      5           JADTG_SMS,TAGPRT_SMS,KAD_SMS  ,KDI_SMS ,
      6           TAGREL_SMS,IPARTS ,IPARTQ   ,IPARTC   ,IPARTT   ,
-     7           IPARTP    ,IPARTR ,IPARTUR  ,IPARTG   ,IPARTX   ,
+     7           IPARTP    ,IPARTR ,IPARTG   ,IPARTX   ,
      8           NPBY     ,LPBY     ,KINET    ,
      9           TAGSLV_RBY_SMS,IPARI  ,INTBUF_TAB,
      A           LAD_SMS ,JSM_SMS ,INTSTAMP  ,IPART    ,
@@ -5541,7 +5521,7 @@ C
       END IF
 C-----
       NELEM = NUMELC+NUMELTG+NUMELS+NUMELR
-     +      + NUMELP+NUMELT+NUMELQ+NUMELUR+NUMELX+NUMELIG3D
+     +      + NUMELP+NUMELT+NUMELQ+NUMELX+NUMELIG3D
 C
 
       ALLOCATE(IELEM21(NELEM),STAT=stat)
@@ -5583,7 +5563,7 @@ C        les sensors de type 2 modifient front sur p<>1
          ENDIF
       ENDIF
       EMAX = MAX(NUMELC,NUMELTG,NUMELS,NUMELR,
-     .             NUMELP,NUMELT,NUMELQ,NUMELUR,NUMELX,NUMELIG3D)
+     .             NUMELP,NUMELT,NUMELQ,NUMELX,NUMELIG3D)
       K1 = 1
       K2 = K1+EMAX
       K3 = K2+EMAX
@@ -5627,7 +5607,7 @@ C allocation moyenne normalement suffisante si taille de groupe moyenne > NVSIZ/
 
           CALL DOMETIS(
      1     IXS       ,IXQ      ,IXC      ,IXT     ,IXP      ,
-     2     IXR       ,IXUR     ,IXTG     ,CEP     ,GEO      ,
+     2     IXR       ,IXTG     ,CEP     ,GEO      ,
      3     ITRI1     ,ITRI2    ,INDEX1   ,INDEX2  ,INUM     ,
      4     IWD       ,IWCONT   ,NELEM    ,IDDLEVEL,NELEMINT ,
      5     IXINT     ,PM       ,X        ,KXX     ,IXX      ,
@@ -5689,13 +5669,12 @@ C---------------------------
       NUMELPK8     =    NUMELP
       NUMELTK8     =    NUMELT
       NUMELQK8     =    NUMELQ
-      NUMELURK8    =    NUMELUR
       NUMELXK8     =    NUMELX
       NUMELIG3DK8  =    NUMELIG3D
       NUMSPHK8     =    NUMSPH
 ! working int8 to avoid integer overflow for large models
       EMAX = MAX(23*NUMELCK8,24*NUMELTGK8+1,29*NUMELSK8+1,18*NUMELRK8,
-     .           17*NUMELPK8+1,16*NUMELTK8,19*NUMELQK8,16*NUMELURK8,
+     .           17*NUMELPK8+1,16*NUMELTK8,19*NUMELQK8,
      .           15*NUMELXK8+1,24*NUMELIG3DK8+1,NUMSPHK8) + 1
 
       ALLOCATE (IPARGTMP(NPARG,NUMEL)    ,STAT=stat)
@@ -6273,7 +6252,7 @@ C
         NOD2ELQ  = 0
         CALL BUILD_CNEL(
      2   IXS        ,IXQ        ,IXC        ,IXT      ,IXP      ,
-     3   IXR        ,IXTG       ,IXUR       ,IXS10    ,IXS20    ,
+     3   IXR        ,IXTG       ,IXS10      ,IXS20    ,
      4   IXS16      ,IXTG1      ,IGEO       ,KNOD2ELS ,KNOD2ELC ,
      5   KNOD2ELTG  ,NOD2ELS    ,NOD2ELC    ,NOD2ELTG ,NOD2EL1D ,
      6   KNOD2EL1D  ,KXX        ,IXX        ,X        ,LELX     ,
@@ -6500,7 +6479,7 @@ C si NSPMD = 1 il faut qd meme construire dd_iad et fr_iad
       DD_IAD = 0
       CALL DOMDEC1(
      1       IPARG  ,IXS    ,IXQ       ,IXC     ,IXT     ,
-     2       IXP    ,IXR    ,IXUR      ,IXTG    ,DD_IAD  ,
+     2       IXP    ,IXR    ,IXTG    ,DD_IAD  ,
      3       X      ,DD_TMP    ,IXS10   ,IXS20   ,
      4       IXS16  ,KXX    ,IXX       ,KXSP    ,IXSP    ,
      5       CEPSP  ,IXTG1)
@@ -7969,7 +7948,7 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       WRITE(ISTDO,'(A)')TITRE(45)
       NUMEL=2*(NUMELC+NUMELQ+NUMELT+NUMELS+NUMELP+NUMELR+
-     &         NUMELTG+NUMELUR+NUMELX+NUMSPH+NUMELIG3D)
+     &         NUMELTG+NUMELX+NUMSPH+NUMELIG3D)
 C
 C--------------------------------------------
 C     NEW ELEMENT BUFFER STRUCTURE ALLOCATION
@@ -8063,11 +8042,11 @@ C
 C
       IF(ABS(ISIGI)==3.OR.ABS(ISIGI)==4.OR.ABS(ISIGI)==5)THEN
          IMAX  = MAX(NUMELS,NUMELQ,NUMELC,NUMELT,NUMELP,NUMELR,
-     .               NUMELTG,NUMELUR,NUMSOL,NUMQUAD,NUMSHEL,NUMSH3N,
+     .               NUMELTG,NUMSOL,NUMQUAD,NUMSHEL,NUMSH3N,
      .               NUMSPHY,NUMSPRI,NUMBEAM,NUMTRUS)
       ELSE
          IMAX  = MAX(NUMELS,NUMELQ,NUMELC,NUMELT,NUMELP,NUMELR,
-     .               NUMELTG,NUMELUR,NUMELIG3D)
+     .               NUMELTG,NUMELIG3D)
       END IF
       SINDEX = 2*IMAX
       SITRI  = IMAX
@@ -8122,11 +8101,8 @@ C non optimise (12 max(8,10,12)
       IF(.NOT.ALLOCATED(MSTR)) ALLOCATE (MSTR(NUMELT)      ,STAT=stat)
       IF(.NOT.ALLOCATED(MSP)) ALLOCATE (MSP(NUMELP)       ,STAT=stat)
       ALLOCATE (MSR(NUMELR*3)     ,STAT=stat)
-      ALLOCATE (MSUR(NUMELUR)     ,STAT=stat)
-      ALLOCATE (EVUR(NUMELUR*3)   ,STAT=stat)
       ALLOCATE (INP(NUMELP)       ,STAT=stat)
       ALLOCATE (INR(NUMELR*3)     ,STAT=stat)
-      ALLOCATE (INUR(NUMELUR)     ,STAT=stat)
       ALLOCATE (INS(NUMELS*8)     ,STAT=stat)
       MSS   = ZERO
       MSSX  = ZERO
@@ -8135,11 +8111,8 @@ C non optimise (12 max(8,10,12)
       MSTR  = ZERO
       MSP   = ZERO
       MSR   = ZERO
-      MSUR  = ZERO
-      EVUR  = ZERO
       INP   = ZERO
       INR   = ZERO
-      INUR  = ZERO
       INS   = ZERO
 C------
 C      ELSE
@@ -8150,11 +8123,8 @@ C        ALLOCATE (MSQ(0)     ,STAT=stat)
 C        ALLOCATE (MSTR(0)    ,STAT=stat)
 C        ALLOCATE (MSP(0)     ,STAT=stat)
 C        ALLOCATE (MSR(0)     ,STAT=stat)
-C        ALLOCATE (MSUR(0)    ,STAT=stat)
-C        ALLOCATE (EVUR(0)    ,STAT=stat)
 C        ALLOCATE (INP(0)     ,STAT=stat)
 C        ALLOCATE (INR(0)     ,STAT=stat)
-C        ALLOCATE (INUR(0)    ,STAT=stat)
 C        ALLOCATE (INS(0)     ,STAT=stat)
 C      ENDIF
 C----
@@ -8312,13 +8282,13 @@ C
      2            IXP     ,IXR        ,DETONATORS,GEO     ,PM      ,
      3            RBY     ,NPBY       ,LPBY      ,NPC     ,NPTS    ,
      4            TF      ,VEUL       ,ALE_CONNECTIVITY   ,SKEW    ,FILL    ,
-     5            IPART   ,ITAB       ,IXUR      ,
+     5            IPART   ,ITAB       ,
      6            IXTG    ,THKE       ,NLOC_DMG  ,GROUP_PARAM_TAB  ,
      7            IGRNOD  ,IGRSURF    ,BUFSF     ,VR      ,
      8            BUFMAT  ,XLAS       ,ILAS      ,DTELEM  ,MSS     ,
      9            MSQ     ,MSC        ,MSTR      ,MSP     ,MSR     ,
-     A            MSTG    ,PTG        ,MSUR      ,EVUR    ,INC     ,
-     B            INP     ,INR        ,INTG      ,INUR    ,INDEX   ,
+     A            MSTG    ,PTG        ,INC       ,
+     B            INP     ,INR        ,INTG      ,INDEX   ,
      C            ITRI    ,KXX        ,IXX       ,XELEMWA ,
      E            IWA     ,
      F            KXSP    ,IXSP       ,NOD2SP    ,ISPCOND ,ICODE   ,
@@ -8420,13 +8390,10 @@ C
       DEALLOCATE (MSSF)
       DEALLOCATE (MSQ)
       DEALLOCATE (MSR)
-      DEALLOCATE (MSUR)
       IF(ALLOCATED(MSIG3D)) DEALLOCATE (MSIG3D)
       IF(ALLOCATED(TABCONPATCH)) DEALLOCATE (TABCONPATCH)
-      DEALLOCATE (EVUR)
       DEALLOCATE (INP)
       DEALLOCATE (INR)
-      DEALLOCATE (INUR)
       DEALLOCATE (INS)
       DEALLOCATE (VNS)
       DEALLOCATE (VNSX)
@@ -9256,7 +9223,7 @@ C--------------------------------------------
      *                         LSUBMODEL ,SUBSETS,
      *                         IPART,
      *                         IXS  ,IXQ  ,IXC   ,IXTG ,
-     *                         IXT  ,IXP  ,IXR   ,IXUR,KXSP,LRIVET,
+     *                         IXT  ,IXP  ,IXR   ,KXSP,LRIVET,
      *                         IBID )
 C----------------------------------
 C     LECTURE DES GROUPES TH
@@ -9331,7 +9298,7 @@ c
 c-----
       ! New routine to read /TH with hm_reader and old reader
       CALL HM_READ_THGROU(
-     1       ITHGRP   ,ITHBUFTMP,ITAB     ,ITABM1   ,IXUR    ,IXTG     ,
+     1       ITHGRP   ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
      3       KXX      ,IXX      ,IPART    ,SITHBUF  ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
@@ -9373,7 +9340,7 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPA  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXUR    ,IXTG     ,
+     1       ITHGRPA  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
      3       KXX      ,IXX      ,IPART    ,SITHBUFA ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
@@ -9415,7 +9382,7 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPB  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXUR    ,IXTG     ,
+     1       ITHGRPB  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
      3       KXX      ,IXX      ,IPART    ,SITHBUFB ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
@@ -9459,7 +9426,7 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPC  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXUR    ,IXTG     ,
+     1       ITHGRPC  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
      3       KXX      ,IXX      ,IPART    ,SITHBUFC ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
@@ -9501,7 +9468,7 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPD  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXUR    ,IXTG     ,
+     1       ITHGRPD  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
      3       KXX      ,IXX      ,IPART    ,SITHBUFD ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
@@ -9544,7 +9511,7 @@ c-----
         END IF
 c-----
         CALL HM_READ_THGROU(
-     1       ITHGRPE  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXUR    ,IXTG     ,
+     1       ITHGRPE  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
      3       KXX      ,IXX      ,IPART    ,SITHBUFE ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
@@ -9586,7 +9553,7 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPF  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXUR    ,IXTG     ,
+     1       ITHGRPF  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
      3       KXX      ,IXX      ,IPART    ,SITHBUFF ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
@@ -9627,7 +9594,7 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPG  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXUR    ,IXTG     ,
+     1       ITHGRPG  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
      3       KXX      ,IXX      ,IPART    ,SITHBUFG ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
@@ -9669,7 +9636,7 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPH  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXUR    ,IXTG     ,
+     1       ITHGRPH  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
      3       KXX      ,IXX      ,IPART    ,SITHBUFH ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
@@ -9711,7 +9678,7 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPI  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXUR    ,IXTG     ,
+     1       ITHGRPI  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
      3       KXX      ,IXX      ,IPART    ,SITHBUFI ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
@@ -9899,7 +9866,7 @@ C--------------------------------------------
 C--------------------------------------------
 C     TRI ET IMPRESSION DES DT ELEM
 C--------------------------------------------
-      CALL OUTRI(DTELEM,IXS,IXQ,IXC,IXT,IXP,IXR,IXUR,IXTG,
+      CALL OUTRI(DTELEM,IXS,IXQ,IXC,IXT,IXP,IXR,IXTG,
      .           KXX,KXSP,KXIG3D,IGEO,NUMEL)
 C--------------------------------------------
 C     TRI ET IMPRESSION DES DT NODAUX
@@ -10042,7 +10009,7 @@ C
      2    LPBY   ,LRIVET ,IBVEL   ,LBVEL     ,
      3    IPARG  ,CEL     ,IXS    ,IXS10     ,IXS20   ,
      4    IXS16  ,IXQ     ,IXC    ,IXT       ,IXP     ,
-     5    IXR    ,IXUR    ,IXTG   ,IXTG1     ,T_MONVOL  ,
+     5    IXR    ,IXTG   ,IXTG1     ,T_MONVOL  ,
      6    IGRSURF,ADDCNE ,LCNE      ,GEO     ,
      7    NPRW   ,LPRW    ,LCNI2G ,ADDCNI2   ,CEPI2   ,
      8    CELI2  ,I2NSNT  ,ISKWN  ,ISKWP     ,NSKWP   ,
@@ -10119,7 +10086,7 @@ C--------------------------------------------
      .                         DECANI==1.OR.
      .                         NMANIM>0.OR.IFVANI>0))   THEN
          NEL3D = NUMELS + NUMSPH + 3*NUMELS16 + 27*NUMELIG3D
-         NEL2D = NUMELC + NUMELTG + NUMELQ + NUMELUR
+         NEL2D = NUMELC + NUMELTG + NUMELQ 
          NEL1D = NUMELT + NUMELP  + 2*NUMELR
          NEL = MAX(NEL1D,NEL2D,NEL3D)
 C
@@ -10147,7 +10114,7 @@ C
 C
          IANIM=0
          NELEM=NUMELC+NUMELTG+NUMELS+NUMELR +
-     .         NUMELP+NUMELT +NUMELQ+NUMELUR+NUMELX
+     .         NUMELP+NUMELT +NUMELQ+NUMELX
 C
          MY_ALLOCATE(DNULL,3*NUMNOD)
          DO I=1,3*NUMNOD
@@ -10178,8 +10145,8 @@ C
      2      IXT      ,IXP      ,IXR     ,IXTG     ,SWAFT    ,
      3      IPARG    ,PM       ,GEO     ,SKEW     ,ITAB     ,
      4      LPBY     ,NPBY     ,NSTRF   ,RWBUF    ,NPRW     ,
-     5      IXUR     ,IPART    ,IPARTS  ,IPARTQ   ,IPARTC   ,
-     6      IPARTT   ,IPARTP   ,IPARTR  ,IPARTUR  ,IPARTG   ,
+     5      IPART    ,IPARTS  ,IPARTQ   ,IPARTC   ,
+     6      IPARTT   ,IPARTP   ,IPARTR  ,IPARTG   ,
      7      RBY      ,SWA4    ,
      8      IGRSURF  ,BUFSF    ,IPARTX  ,KXSP     ,IXSP     ,
      9      IPARTSP  ,SPBUF    ,IXS10   ,IXS20    ,IXS16    ,
@@ -10298,7 +10265,7 @@ C----------------------------------------------
       ERR_CATEGORY='RESTART FILE(S) WRITING'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       IF(IERR==0) THEN
-C--------------------------------------------
+C--------------------------------------------m
 C     SPMD : SPLIT +  ECRITURE FICHIER RESTART PAR PROC
 C--------------------------------------------
           IF(RESTART_FILE==1) WRITE(ISTDO,'(A)')TITRE(50)
@@ -10306,13 +10273,13 @@ C--------------------------------------------
 C--------------------------------------------
 C Matrice de connectivite globale
 C--------------------------------------------
-          ILEN = MAX(NUMELS,NUMELQ,NUMELC,NUMELT,NUMELP,NUMELR,NUMELTG,NUMELUR)
+          ILEN = MAX(NUMELS,NUMELQ,NUMELC,NUMELT,NUMELP,NUMELR,NUMELTG)
           IF(LCNE>0) ALLOCATE(CNE(LCNE),STAT=stat)
           IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='CNE')
           CALL FILLCNE(
      1      CNE    ,LCNE   ,IXS    ,IXS10   ,IXS20   ,
      2      IXS16  ,IXQ    ,IXC    ,IXT     ,IXP     ,
-     3      IXR    ,IXUR   ,IXTG   ,IXTG1   ,T_MONVOL  ,
+     3      IXR    ,IXTG   ,IXTG1   ,T_MONVOL  ,
      4      IGRSURF,IBCL   ,ADDCNE  ,CEP     ,
      5      ILEN   ,GEO    ,IBCV   ,IBCR    ,IBFFLUX ,
      6      ILOADP ,LLOADP ,CEL    ,EBCS_TAB)
@@ -10453,7 +10420,7 @@ C--------------------------------------------
           CALL GLOBVARS(IGEO,IXR    ,NSTRF  )
           IF (NPLYMAX > 0)THEN
              CALL SPMD_ANIM_PLY_INIT(IGEO, GEO  ,IPARG  ,IXC  ,IXTG ,
-     .                          IPARTC,IPARTQ,IPARTG,IPARTUR  ,STACK )
+     .                          IPARTC,IPARTQ,IPARTG ,STACK )
           ENDIF
 C--------------------------------------------
 
@@ -10570,8 +10537,8 @@ c
      1         P            ,CEP         ,CEL            ,IGEO        ,MATPARAM_TAB,
      2         IPM          ,ICODE       ,ISKEW          ,ISKWN       ,BID13      ,
      3         IBCSLAG      ,IPART       ,IPARTS         ,IPARTQ      ,IPARTC     ,
-     4         IPARTT       ,IPARTP      ,IPARTR         ,IPARTUR     ,IPARTG     ,
-     5         IPARTX       ,NPC         ,IXUR           ,IXTG        ,GROUP_PARAM_TAB,
+     4         IPARTT       ,IPARTP      ,IPARTR         ,IPARTG     ,
+     5         IPARTX       ,NPC         ,IXTG        ,GROUP_PARAM_TAB,
      6         IXTG1        ,IXS         ,IXS10          ,IXS20       ,IXS16      ,
      7         IXQ          ,IXC         ,IXT            ,IXP         ,IXR        ,
      8         ITAB         ,ITABM1      ,GJBUFI         ,ALE_CONNECTIVITY%NALE   ,

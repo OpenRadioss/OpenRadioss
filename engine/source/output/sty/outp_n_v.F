@@ -176,8 +176,6 @@ C----
       END IF
 C
 C----
-C     DO N=1,NUMELUR
-C     ENDDO
 C
 C----
       WRITE(IUGEO,'(A)')'/SECTION   /VECTOR	/FORCE'
