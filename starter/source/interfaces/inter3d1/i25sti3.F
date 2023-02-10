@@ -1060,7 +1060,7 @@ C      en SPMD il faut un element associe a l'arrete sinon erreur
        ENDIF
       END DO
 C
-      IF(IVIS2 /=0.AND.ISOL /=0) THEN
+      IF(IVIS2 ==-1.AND.ISOL /=0) THEN
               CALL ANCMSG(MSGID=2096,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_2,
