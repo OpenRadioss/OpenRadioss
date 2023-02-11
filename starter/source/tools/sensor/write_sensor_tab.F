@@ -25,6 +25,7 @@ Chd|  WRITE_SENSOR_TAB              source/tools/sensor/write_sensor_tab.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
+Chd|        FRETITL                       source/starter/freform.F      
 Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   

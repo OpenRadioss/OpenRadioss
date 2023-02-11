@@ -25,6 +25,7 @@ Chd|  READ_SENSOR_TAB               source/output/restart/read_sensor_tab.F
 Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
+Chd|        FRETITL2                      source/input/freform.F        
 Chd|        READ_DB                       source/output/tools/read_db.F 
 Chd|        READ_I_C                      source/output/tools/sortie_c.c
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

@@ -25,6 +25,7 @@ Chd|  LECTUR                        source/starter/lectur.F
 Chd|-- called by -----------
 Chd|        STARTER0                      source/starter/starter0.F     
 Chd|-- calls ---------------
+Chd|        ADDMAST10                     source/tools/admas/addmast10.F
 Chd|        ADD_MASS_STAT                 source/tools/admas/add_mass_stat.F
 Chd|        ADMBCS                        source/model/remesh/admbcs.F  
 Chd|        ALELEC                        source/ale/alelec.F           

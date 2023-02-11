@@ -1538,6 +1538,7 @@ Chd|        READ_IMPVEL                   source/constraints/general/impvel/read
 Chd|        READ_IMPVEL_FGEO              source/constraints/general/impvel/read_impvel_fgeo.F
 Chd|        READ_IMPVEL_LAGMUL            source/constraints/general/impvel/read_impvel_lagmul.F
 Chd|        READ_MONVOL                   source/airbag/read_monvol.F   
+Chd|        WRITE_SENSOR_TAB              source/tools/sensor/write_sensor_tab.F
 Chd|        W_GR_ENTITY_E                 source/restart/ddsplit/w_gr_entity.F
 Chd|        W_GR_ENTITY_N                 source/restart/ddsplit/w_gr_entity.F
 Chd|        W_GR_ENTITY_P                 source/restart/ddsplit/w_gr_entity.F

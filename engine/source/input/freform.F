@@ -2727,6 +2727,7 @@ Chd|====================================================================
 Chd|  FRETITL                       source/input/freform.F        
 Chd|-- called by -----------
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
+Chd|        WRITE_SENSOR_TAB              source/output/restart/write_sensor_tab.F
 Chd|        W_GR_ENTITY                   source/output/restart/w_gr_entity.F
 Chd|        W_LINE_STR                    source/output/restart/w_line_str.F
 Chd|        W_SUBSET_STR                  source/output/restart/w_subset_str.F
@@ -2769,6 +2770,7 @@ Chd|        ALLOC_SURF_STR                source/groups/alloc_surf_str.F
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|        HIST1                         source/output/th/hist1.F      
 Chd|        OUTP_MT                       source/output/sty/outp_mt.F   
+Chd|        READ_SENSOR_TAB               source/output/restart/read_sensor_tab.F
 Chd|        THMONV                        source/output/th/thmonv.F     
 Chd|-- calls ---------------
 Chd|====================================================================

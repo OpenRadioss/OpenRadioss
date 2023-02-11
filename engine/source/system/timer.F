@@ -746,6 +746,7 @@ Chd|        SPMD_ENVOIS                   source/mpi/fluid/spmd_cfd.F
 Chd|        SPMD_EVOIS                    source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_EXALEW                   source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_EXALEW_PON               source/mpi/fluid/spmd_cfd.F   
+Chd|        SPMD_EXCHANGE_GRAD            source/mpi/fluid/spmd_exchange_grad.F
 Chd|        SPMD_EXTAG                    source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_GLOB_DMIN9               source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_I4VOIS                   source/mpi/fluid/spmd_cfd.F   
@@ -896,6 +897,7 @@ Chd|        SPMD_ENVOIS                   source/mpi/fluid/spmd_cfd.F
 Chd|        SPMD_EVOIS                    source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_EXALEW                   source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_EXALEW_PON               source/mpi/fluid/spmd_cfd.F   
+Chd|        SPMD_EXCHANGE_GRAD            source/mpi/fluid/spmd_exchange_grad.F
 Chd|        SPMD_EXTAG                    source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_GLOB_DMIN9               source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_I4VOIS                   source/mpi/fluid/spmd_cfd.F   

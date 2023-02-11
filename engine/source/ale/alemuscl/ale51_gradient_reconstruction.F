@@ -31,7 +31,7 @@ Chd|        GRADIENT_RECONSTRUCTION       source/ale/alemuscl/gradient_reconstru
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_E1VOIS                   source/mpi/fluid/spmd_cfd.F   
-Chd|        SPMD_ENVOIS                   source/mpi/fluid/spmd_cfd.F   
+Chd|        SPMD_EXCHANGE_GRAD            source/mpi/fluid/spmd_exchange_grad.F
 Chd|        SPMD_EXCH_MIN_MAX             source/mpi/ale/spmd_exch_min_max.F
 Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F

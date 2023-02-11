@@ -21,6 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  ADDMAST10                     source/tools/admas/addmast10.F
+Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE ADDMAST10(ICNDS10, MS  )
 C=======================================================================
 C-----------------------------------------------

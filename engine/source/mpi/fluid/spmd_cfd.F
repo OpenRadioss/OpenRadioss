@@ -843,8 +843,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_ENVOIS                   source/mpi/fluid/spmd_cfd.F   
 Chd|-- called by -----------
-Chd|        ALE51_GRADIENT_RECONSTRUCTION source/ale/alemuscl/ale51_gradient_reconstruction.F
-Chd|        ALE51_GRADIENT_RECONSTRUCTION2source/ale/alemuscl/ale51_gradient_reconstruction2.F
 Chd|        ALEMAIN                       source/ale/alemain.F          
 Chd|        ALEW6                         source/ale/grid/alew6.F       
 Chd|        MULTI_TIMEEVOLUTION           source/multifluid/multi_timeevolution.F
