@@ -258,6 +258,82 @@ C-------- grp skin_up
              END DO
              NSKIN = NSKIN + NEL
 C-----------------------------------------------
+          ELSEIF (KEYWORD == 'FLDZ/OUTER_AVERAGE') THEN
+            IS_WRITTEN_VALUE(1:NEL) = 1
+            MX = IXS(1,1 + NFT)
+            NGL(1:NEL) =IXS(NIXS,1 + NFT:NEL + NFT) 
+            IT = 1
+C-----------------------------------------------
+            ILAY=(1+NLAY)/2
+C-------- grp skin_inf first
+            IF (IGTYP == 22) THEN
+             PID = IXS(NIXS-1,1 + NFT)
+             MID = IGEO(100+ILAY,PID)
+             MLWI=NINT(PM(19,MID))
+            END IF
+            CALL H3D_FLD_STRAIN(ELBUF_TAB(NG),X  ,IXS   ,
+     .                       JHBE,MLWI,ILAY,KCVT,IOR_TSH,
+     .                       ICSTR,NPTR,NPTS,NEL,F_EXP,STRAIN )
+C------
+              IR = 1
+              IS = 1
+              FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)                            
+              NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
+             DO IFAIL=1,NFAIL                                                          
+               IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
+                  IP=(IFAIL -1)*15         
+                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),
+     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
+     .                       IPM,NPF,TF,BUFMAT,
+     .                       NGL,STRAIN,NEL )
+                   DO I=1,NEL 
+                    RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
+                    VALUE(I) = MAX(VALUE(I),RINDX) 
+                    IS_WRITTEN_VALUE(I) = 1	                         
+                  ENDDO                                                                 
+               ENDIF
+             END DO               
+C------           
+             DO I=1,NEL
+               SKIN_SCALAR(NSKIN+I) = VALUE(I)
+               IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_VALUE(I)
+             END DO
+             NSKIN = NSKIN + NEL
+C-------- grp skin_up
+              ILAY=(1+NLAY)/2
+              VALUE(1:NEL) = ZERO
+             IF (IGTYP == 22) THEN
+              PID = IXS(NIXS-1,1 + NFT)
+              MID = IGEO(100+ILAY,PID)
+              MLWI=NINT(PM(19,MID))
+             END IF
+             CALL H3D_FLD_STRAIN(ELBUF_TAB(NG),X  ,IXS   ,
+     .                         JHBE,MLWI,ILAY,KCVT,IOR_TSH,
+     .                         ICSTR,NPTR,NPTS,NEL,F_EXP,STRAIN )
+              IR = 1
+              IS = 1
+              FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)                            
+              NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
+             DO IFAIL=1,NFAIL                                                          
+               IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
+                  IP=(IFAIL -1)*15         
+                  DO I=1,NEL                                                      
+                     CALL H3D_FLD_TSH(ELBUF_TAB(NG),
+     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
+     .                       IPM,NPF,TF,BUFMAT,
+     .                       NGL,STRAIN,NEL )
+                    RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
+                    VALUE(I) = MAX(VALUE(I),RINDX) 
+                    IS_WRITTEN_VALUE(I) = 1	                         
+                  ENDDO                                                                 
+               ENDIF
+             END DO               
+             DO I=1,NEL
+               SKIN_SCALAR(NSKIN+I) = VALUE(I)
+               IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_VALUE(I)
+             END DO
+             NSKIN = NSKIN + NEL
+C-----------------------------------------------
           ELSEIF (KEYWORD == 'FLDF/OUTER') THEN
             IS_WRITTEN_VALUE(1:NEL) = 1
             MX = IXS(1,1 + NFT)
@@ -300,6 +376,82 @@ C------
              NSKIN = NSKIN + NEL
 C-------- grp skin_up
               ILAY=NLAY
+              IT = 1
+             VALUE(1:NEL) = ZERO
+             IF (IGTYP == 22) THEN
+              PID = IXS(NIXS-1,1 + NFT)
+              MID = IGEO(100+ILAY,PID)
+              MLWI=NINT(PM(19,MID))
+             END IF
+             CALL H3D_FLD_STRAIN(ELBUF_TAB(NG),X  ,IXS   ,
+     .                        JHBE,MLWI,ILAY,KCVT,IOR_TSH,
+     .                        ICSTR,NPTR,NPTS,NEL,F_EXP,STRAIN )
+              IR = 1
+              IS = 1
+              FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)                            
+              NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
+             DO IFAIL=1,NFAIL                                                          
+               IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
+                  IP=(IFAIL -1)*15         
+                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),
+     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
+     .                       IPM,NPF,TF,BUFMAT,
+     .                       NGL,STRAIN,NEL )
+                  DO I=1,NEL                                                      
+                    VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
+                    IS_WRITTEN_VALUE(I) = 1	                         
+                  ENDDO                                                                 
+               ENDIF
+             END DO               
+             DO I=1,NEL
+               N = I + NFT
+               SKIN_SCALAR(NSKIN+I) = VALUE(I)
+               IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_VALUE(I)
+             END DO
+             NSKIN = NSKIN + NEL
+C------------to get right NSKIN for next case          
+          ELSEIF (KEYWORD == 'FLDF/OUTER_AVERAGE') THEN
+            IS_WRITTEN_VALUE(1:NEL) = 1
+            MX = IXS(1,1 + NFT)
+            NGL(1:NEL) =IXS(NIXS,1 + NFT:NEL + NFT) 
+C-----------------------------------------------
+              ILAY=(1+NLAY)/2
+              IT = 1
+            IF (IGTYP == 22) THEN
+             PID = IXS(NIXS-1,1 + NFT)
+             MID = IGEO(100+ILAY,PID)
+             MLWI=NINT(PM(19,MID))
+            END IF
+            CALL H3D_FLD_STRAIN(ELBUF_TAB(NG),X  ,IXS   ,
+     .                        JHBE,MLWI,ILAY,KCVT,IOR_TSH,
+     .                        ICSTR,NPTR,NPTS,NEL,F_EXP,STRAIN )
+C-------- grp skin_inf first
+              IR = 1
+              IS = 1
+              FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)                            
+              NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
+             DO IFAIL=1,NFAIL                                                          
+               IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
+                  IP=(IFAIL -1)*15         
+                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),
+     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
+     .                       IPM,NPF,TF,BUFMAT,
+     .                       NGL,STRAIN,NEL )
+                  DO I=1,NEL                                                      
+                    VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
+                    IS_WRITTEN_VALUE(I) = 1	                         
+                  ENDDO                                                                 
+               ENDIF
+             END DO               
+C------           
+             DO I=1,NEL
+               N = I + NFT
+               SKIN_SCALAR(NSKIN+I) = VALUE(I)
+               IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_VALUE(I)
+             END DO
+             NSKIN = NSKIN + NEL
+C-------- grp skin_up
+              ILAY=(1+NLAY)/2
               IT = 1
              VALUE(1:NEL) = ZERO
              IF (IGTYP == 22) THEN
