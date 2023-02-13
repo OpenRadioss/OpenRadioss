@@ -82,8 +82,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER ITAB(NUMNOD), ITABM1(NUMNOD), NUMLOADP, ILOADP(SIZLOADP,NUMLOADP), IBUFLOADP(*)
-      my_real FACLOADP(LFACLOAD,NUMLOADP)
+      INTEGER ITAB(NUMNOD), ITABM1(NUMNOD), NUMLOADP, ILOADP(SIZLOADP,NLOADP), IBUFLOADP(*)
+      my_real FACLOADP(LFACLOAD,NLOADP)
       my_real, INTENT(IN) :: X(3,NUMNOD)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       my_real, INTENT(INOUT) :: BUFSF(SBUFSF)

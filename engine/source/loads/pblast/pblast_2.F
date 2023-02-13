@@ -515,7 +515,7 @@ C-----------------------------------------------
           alpha_inci = ONE + alpha_refl - TWO * cos_theta        ! 1 + cos**2 X -2 cosX                                                                                                               
         ENDIF                                                                                                                                                                                         
                                                                                                                                                                                                       
-        !Building pressure waves from Friedlander model. (Modified model can bu introduced later if needed)                                                                                           
+        !Building pressure waves from Friedlander model.                                                                                       
         WAVE_INCI = ZERO                                                                                                                                                                              
         WAVE_REFL = ZERO                                                                                                                                                                              
         IF(TT_STAR>=T_A)THEN                                                                                                                                                                          
@@ -529,11 +529,18 @@ C-----------------------------------------------
         P = MAX(P,PMIN)                                                                                                                                                                               
         IF (NUMSKINP > 0) PBLAST_TAB(IL)%PRES(I) = P                                                                                                                                                  
 
-        !!Expand Pressure load to nodes                                                                                                                                            
+        !!Expand Pressure load to nodes
+        ! FF is nodal force which applied on each node N1,N2,N3, and also N4 if relevant
+        ! FF = FF_elem / NPT = Pload.S.n / NPT  where n is the unitary normal vector
+        ! NX,NY,NZ = 2S.n (in all cases:quadrangles & triangles)
+        !storing force for one node of the current face (for assembly below)                                                                                                                                          
         PBLAST_TAB(IL)%FX(I)= -P * HALF*NX / NPT                                                                                                                                                                  
         PBLAST_TAB(IL)%FY(I)= -P * HALF*NY / NPT                                                                                                                                                                  
         PBLAST_TAB(IL)%FZ(I)= -P * HALF*NZ / NPT                                                                                                                                                                  
 
+        !External Force work
+        ! on a given node : DW = <F,V>*dt
+        ! for this current 4-node or 3-node face :   DW = sum(   <F_k,V_k>*dt       k=1,NPT)   where F_k=Fel/NPT
         TFEXT_LOC=TFEXT_LOC+DT1*(   PBLAST_TAB(IL)%FX(I) * SUM(  V( 1, NN(1:NINT(NPT))  )  )                                                                                                                           
      +                            + PBLAST_TAB(IL)%FY(I) * SUM(  V( 2, NN(1:NINT(NPT))  )  )                                                                                                                           
      +                            + PBLAST_TAB(IL)%FZ(I) * SUM(  V( 3, NN(1:NINT(NPT))  )  )                                                                                                                           
@@ -544,9 +551,11 @@ C-----------------------------------------------
          
       CALL MY_BARRIER() 
                  
-      !-------------------------------------------!                                                
-      !   ASSEMBLY                                !                                                
-      !-------------------------------------------!                                                
+      !-------------------------------------------------------------------!
+      !   FORCE ASSEMBLY                                                  !
+      !     /PARITH/OFF : F directly added in A(1:3,1:NUMNOD).            !
+      !     /PARITH/ON  : F added FSKY & and automatically treated later  !      
+      !-------------------------------------------------------------------!                                           
       ! SPMD/SMP Parith/OFF                                                                        
       IF(IPARIT==0) THEN 
 !$OMP DO SCHEDULE(GUIDED,MVSIZ)
@@ -598,11 +607,12 @@ C-----------------------------------------------
                                                                                                    
                                                                                                    
       !-------------------------------------------!                                                
-      !   ANIMATION FILE                          !                                                
+      !   ANIMATION FILE   /ANIM/VECT/FEXT        !
+      !   H3D FILE         /H3D/NODA/FEXT         !
       !-------------------------------------------!                                                
+!$OMP SINGLE 
       IF(IANIM>0) THEN                                                                             
         IF(IANIM > 0) THEN  
-!$OMP DO SCHEDULE(GUIDED,MVSIZ) 
           DO I = 1,ISIZ_SEG                                                                        
             N1=PBLAST_TAB(IL)%N(1,I)                                                                              
             N2=PBLAST_TAB(IL)%N(2,I)                                                                              
@@ -622,10 +632,10 @@ C-----------------------------------------------
               FEXT(2,N4) = FEXT(2,N4)+PBLAST_TAB(IL)%FY(I)                                                        
               FEXT(3,N4) = FEXT(3,N4)+PBLAST_TAB(IL)%FZ(I)                                                        
             ENDIF                                                                                  
-          ENDDO
-!$OMP END DO                                                                                               
+          ENDDO                                                                                             
         ENDIF                                                                                      
-      ENDIF                                                                                        
+      ENDIF 
+!$OMP END SINGLE                                                                                              
 
  9000 CONTINUE      
       RETURN
