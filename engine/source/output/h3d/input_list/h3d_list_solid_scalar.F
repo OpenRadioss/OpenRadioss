@@ -569,6 +569,18 @@ c-----------------------------------------------
       H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Region identifier in p,v diagram'
       H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = '1:compressed, 2:expanded cold, 3:transition, 4:hot expansion'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'FLDF/OUTER_AVERAGE'
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_SKIN  = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'FLD Failure Factor OUTER_AVERAGE'
+      H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = 'FLD Failure Factor average of solid skin'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'FLDZ/OUTER_AVERAGE'
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_SKIN  = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'FLD Zone Index OUTER_AVERAGE'
+      H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = '1:HighWrinkle 2:Compression 3:LooseMetal 4:SafeZone 5:MarginToFail 6:FailureZone'
+c-----------------------------------------------
 
 
 c-----------------------------------------------
