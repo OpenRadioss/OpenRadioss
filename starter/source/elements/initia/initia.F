@@ -2149,7 +2149,7 @@ C-------------------------------------
 C-------------------------------------
 C     INFO supp in PROP&MAT / PARTS
 C-------------------------------------
-      CALL OUTPART5(GROUP_PARAM_TAB,IPART,IPARG,IGEO,GEO ,PM )
+      CALL OUTPART5(GROUP_PARAM_TAB,IPART,IPART(I15A),IPARG,IGEO,GEO ,PM )
 C-------------------------------------
 C Mass and inertia parallel arithmetic
 C-------------------------------------
@@ -3222,7 +3222,7 @@ Chd|-- calls ---------------
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE OUTPART5(GROUP_PARAM_TAB,IPART,IPARG,IGEO, GEO ,PM )
+      SUBROUTINE OUTPART5(GROUP_PARAM_TAB,IPART,IPARTS,IPARG,IGEO, GEO ,PM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3242,6 +3242,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER , DIMENSION(NUMELS), INTENT(IN) :: IPARTS
       INTEGER IPART(LIPART1,*),IPARG(NPARG,*),IGEO(NPROPGI,*)
       my_real
      .   GEO(NPROPG,*),PM(NPROPM,*)
@@ -3252,7 +3253,8 @@ C-----------------------------------------------
       INTEGER I,J,NG,IPID,IMID,MID,PID,ITY,IGTYP,ETY,N_NOD,ISOLNOD,
      .        IHBE,ISMSTR,ICPRE,JCVT,IINT,IHKT,ITET4,ITET10,IMATVIS,NPT,NLY,
      .        ICSTR,IDRIL,ITHK,IPLAS,I2GEO(NUMGEO),NG2,NG1,NG0,JG,ETYE,
-     .        IH4,IH3,IGMAT,I2GEO1(NUMGEO),I2GEO2(NUMGEO),IHBE0
+     .        IH4,IH3,IGMAT,I2GEO1(NUMGEO),I2GEO2(NUMGEO),IHBE0,ISNN(NPART),
+     .        IP,NFT
       my_real
      .   MAS,SM,XX,YY,ZZ,XY,YZ,ZX,XG,YG,ZG,
      .   IXX,IXY,IYY,IYZ,IZZ,IZX,EK,VX,VY,VZ,HM,HR,HF,DN,QA,QB,QH,
@@ -3300,10 +3302,16 @@ C
        I2GEO(1:NUMGEO) = 0
        I2GEO1(1:NUMGEO) = 0
        I2GEO2(1:NUMGEO) = 0
+       ISNN(1:NPART) = 0
 C Up to 3 different elements using same PID (tetra4,tetra10,hexa) 
 C Only solid and shell have initialized surely IPARG(62,NG)  
       DO NG=1,NGROUP
        IF (IPARG(8,NG)==1.OR.IPARG(62,NG)==0) CYCLE
+       ITY = IPARG(5,NG)
+       ISOLNOD = IPARG(28,NG)
+       NFT=IPARG(3,NG)+1
+       IP = IPARTS(NFT)
+       ISNN(IP) = ISOLNOD             
        IPID=IPARG(62,NG)
        IF (I2GEO(IPID)==0) THEN
         I2GEO(IPID) = NG
@@ -3377,7 +3385,6 @@ C----- Limited to 3 parts used same pid
         IF (NG >0) THEN
          ITY = IPARG(5,NG)
          ISOLNOD = IPARG(28,NG)
-c         MID = IPARG(28,NG)
          IHBE=IPARG(23,NG)
          NPT =MAX(NPT,IPARG(6,NG))
         ELSE
@@ -3425,7 +3432,9 @@ C-------thick-shell
          CASE DEFAULT 
 C---- solid         
           IF(ITY==1)THEN
-           IF (NG0>2*NGROUP) THEN
+           IF (ISNN(I)==20) THEN
+            ETY=4
+           ELSEIF (NG0>2*NGROUP) THEN
             ETY = 17+7
            ELSEIF (NG0>NGROUP) THEN
             NG1 = IABS(I2GEO1(IPID))
@@ -3484,25 +3493,34 @@ C----- spring, KJOINT -----
 C-print in fonction of elem types ITY
         SELECT CASE (ITY)
          CASE(1)
+          ISOLNOD = ISNN(I)            
           QH =ZERO
           IF (ETY==21.OR.ETY==22.OR.ETY==24) THEN
-		   IHBE=IHBE0
+           IHBE=IHBE0
            NG0 = I2GEO(IPID)
            IF (NG0>2*NGROUP) THEN
             IF (I2GEO2(IPID)>0) THEN
              NG0 = I2GEO2(IPID)
-		     IF (IPARG(28,NG0)==8) NG = NG0
+             IF (IPARG(28,NG0)==8) NG = NG0
             ELSEIF (I2GEO1(IPID)>0) THEN
              NG0 = I2GEO1(IPID)
-		     IF (IPARG(28,NG0)==8) NG = NG0
+             IF (IPARG(28,NG0)==8) NG = NG0
             END IF
            ELSEIF (NG0>NGROUP) THEN
              NG0 = I2GEO1(IPID)
-		     IF (IPARG(28,NG0)==8) NG = NG0
+             IF (IPARG(28,NG0)==8) NG = NG0
            ELSE
-		     IF (IPARG(28,NG0)==8) NG = NG0
+             IF (IPARG(28,NG0)==8) NG = NG0
            END IF
           END IF		   
+           SELECT CASE (ISOLNOD)
+             CASE(4,10)
+               IHBE=1
+             CASE(6)
+               IHBE=15
+             CASE(20)
+               IHBE=16
+           END SELECT 
           IF (IHBE<=2.AND.ISOLNOD==8) QH = GEO(13,IPID)
           QA = GEO(14,IPID)
           QB = GEO(15,IPID)
