@@ -110,11 +110,11 @@ C-----------------------------------------------
        ENDIF
 C
        IF (JJ < 0) THEN
-c        premi  re ligne
+c        first line
          CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
          K=K+1
          READ(IUSC2,*,ERR=9990,END=9990) IFM
-c        deuxi  me ligne
+c        second line
          CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
          K=K+1
          READ(IUSC2,*,ERR=9990,END=9990) VTX, VTY, VTZ, V
@@ -130,24 +130,25 @@ C
        END IF
 C------
        IF (K3==2) THEN
-        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
-        READ(CARTE,FMT='(I10)') IGN
-        WRITE(IIN,'(3I10,1PG20.13)')-IGN,IGN,JJ,V
-        IF(JJ < 0) THEN
-          WRITE(IIN,'(1P3G20.13,I10)')VTX,VTY,VTZ,IFM
-        ENDIF
+         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
+         K=K+1
+         READ(CARTE,FMT='(I10)') IGN
+         WRITE(IIN,'(3I10,1PG20.13)')-IGN,IGN,JJ,V
+         IF(JJ < 0) THEN
+           WRITE(IIN,'(1P3G20.13,I10)')VTX,VTY,VTZ,IFM
+         ENDIF
        ELSE
          DO I=1,NBC-M
-            READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
-            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-            K=K+1
-            READ(IUSC2,*,ERR=9990,END=9990)(IV1(J),J=1,NVAR(CARTE))
-            DO J=1,NVAR(CARTE),K3+1
-            WRITE(IIN,'(3I10,1PG20.13)')IV1(J),IV1(J+K3),JJ,V
-            IF(JJ < 0) THEN
-              WRITE(IIN,'(1P3G20.13,I10)')VTX,VTY,VTZ,IFM
-            ENDIF
-            ENDDO
+           READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
+           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
+           K=K+1
+           READ(IUSC2,*,ERR=9990,END=9990)(IV1(J),J=1,NVAR(CARTE))
+           DO J=1,NVAR(CARTE),K3+1
+             WRITE(IIN,'(3I10,1PG20.13)')IV1(J),IV1(J+K3),JJ,V
+             IF(JJ < 0) THEN
+               WRITE(IIN,'(1P3G20.13,I10)')VTX,VTY,VTZ,IFM
+             ENDIF
+           ENDDO
          ENDDO
        END IF
       ENDDO
