@@ -71,6 +71,7 @@ Chd|        INT_STOPTIME                  source/system/timer_interf.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_ALLGLOB_ISUM9            source/mpi/generic/spmd_allglob_isum9.F
 Chd|        SPMD_BARRIER                  source/mpi/generic/spmd_barrier.F
+Chd|        SPMD_EXCH_SORTING_EFRIC       source/mpi/interfaces/spmd_exch_sorting_efric.F
 Chd|        SPMD_GET_INACTI_GLOBAL        source/mpi/interfaces/spmd_get_inacti_global.F
 Chd|        SPMD_GET_STIF25_EDG           source/mpi/interfaces/spmd_getstif25_edg.F
 Chd|        SPMD_I25FRONT_NOR             source/mpi/interfaces/spmd_i25front.F
@@ -92,6 +93,7 @@ Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

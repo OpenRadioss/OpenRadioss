@@ -238,10 +238,12 @@ Chd|        SPMD_CELL_SIZE_EXCHANGE       source/mpi/interfaces/spmd_cell_size_e
 Chd|        SPMD_CELL_SIZE_EXCHANGE_INIT  source/mpi/interfaces/spmd_cell_size_exchange_init.F
 Chd|        SPMD_CELL_SIZE_POST_RCV       source/mpi/interfaces/spmd_cell_size_post_rcv.F
 Chd|        SPMD_CHECK_TAG                source/mpi/ams/spmd_check_tag.F
+Chd|        SPMD_EXCH_EFRIC               source/mpi/interfaces/spmd_exch_efric.F
 Chd|        SPMD_EXCH_I24                 source/mpi/interfaces/spmd_exch_i24.F
 Chd|        SPMD_EXCH_I25                 source/mpi/interfaces/spmd_exch_i25.F
 Chd|        SPMD_EXCH_PRESS               source/mpi/interfaces/spmd_exch_press.F
 Chd|        SPMD_EXCH_SMST2               source/mpi/ams/spmd_exch_smst2.F
+Chd|        SPMD_EXCH_SORTING_EFRIC       source/mpi/interfaces/spmd_exch_sorting_efric.F
 Chd|        SPMD_GET_PENIS                source/mpi/interfaces/send_cand.F
 Chd|        SPMD_GET_PENIS20              source/mpi/interfaces/send_cand.F
 Chd|        SPMD_GET_STIF                 source/mpi/interfaces/send_cand.F

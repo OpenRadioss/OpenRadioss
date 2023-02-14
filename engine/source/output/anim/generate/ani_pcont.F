@@ -27,6 +27,7 @@ Chd|        SORTIE_MAIN                   source/output/sortie_main.F
 Chd|-- calls ---------------
 Chd|        SPMD_EXCH_NODAREA             source/mpi/anim/spmd_exch_nodarea.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|====================================================================
       SUBROUTINE ANI_PCONT(IXS ,IXC    ,IXTG    ,FASOLFR  ,X       ,
      .                 CONTN   ,CONTT  ,IAD_ELEM,FR_ELEM,WEIGHT    ,
@@ -473,6 +474,7 @@ Chd|-- calls ---------------
 Chd|        SPMD_EXCH_NODAREA             source/mpi/anim/spmd_exch_nodarea.F
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|====================================================================
       SUBROUTINE ANI_PCONT21(IXS ,IXC    ,IXTG    ,FASOLFR  ,X       ,
      .                 CONTN   ,CONTT  ,IAD_ELEM,FR_ELEM,WEIGHT      ,

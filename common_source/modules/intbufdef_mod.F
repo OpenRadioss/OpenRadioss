@@ -450,12 +450,14 @@ Chd|        SPMD_CELL_SIZE_EXCHANGE       engine/source/mpi/interfaces/spmd_cell
 Chd|        SPMD_CHECK_TAG                engine/source/mpi/ams/spmd_check_tag.F
 Chd|        SPMD_EXCH_DA20                engine/source/mpi/interfaces/spmd_exch_da20.F
 Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+Chd|        SPMD_EXCH_EFRIC               engine/source/mpi/interfaces/spmd_exch_efric.F
 Chd|        SPMD_EXCH_I24                 engine/source/mpi/interfaces/spmd_exch_i24.F
 Chd|        SPMD_EXCH_I25                 engine/source/mpi/interfaces/spmd_exch_i25.F
 Chd|        SPMD_EXCH_IDEL_SEGLO          engine/source/mpi/interfaces/spmd_exch_idel_seglo.F
 Chd|        SPMD_EXCH_NOR                 engine/source/mpi/interfaces/spmd_exch_nor.F
 Chd|        SPMD_EXCH_PRESS               engine/source/mpi/interfaces/spmd_exch_press.F
 Chd|        SPMD_EXCH_SMST2               engine/source/mpi/ams/spmd_exch_smst2.F
+Chd|        SPMD_EXCH_SORTING_EFRIC       engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
 Chd|        SPMD_GLOB_MIN5                engine/source/mpi/generic/spmd_glob_min5.F
 Chd|        SPMD_I18KINE_COM_A            engine/source/mpi/interfaces/spmd_i18kine_com_a.F
 Chd|        SPMD_I18KINE_COM_ACC          engine/source/mpi/interfaces/spmd_i18kine_com_acc.F

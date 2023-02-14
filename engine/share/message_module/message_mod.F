@@ -371,6 +371,7 @@ Chd|        SOLTOSPHF                     source/elements/sph/soltosph.F
 Chd|        SOLTOSPH_ON1                  source/elements/sph/soltosph_on1.F
 Chd|        SOLTOSPH_ON12                 source/elements/sph/soltosph_on1.F
 Chd|        SOLTOSPH_ON2                  source/elements/sph/soltosph_on2.F
+Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
 Chd|        SPADAH                        source/elements/sph/spadah.F  
 Chd|        SPBUC3                        source/elements/sph/spbuc3.F  
 Chd|        SPHPREP                       source/elements/sph/sphprep.F 
@@ -382,12 +383,14 @@ Chd|        SPMD_CHKW                     source/mpi/generic/spmd_chkw.F
 Chd|        SPMD_EXCHM_SMS                source/mpi/ams/spmd_sms.F     
 Chd|        SPMD_EXCH_A_RB6               source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
 Chd|        SPMD_EXCH_A_RB6G              source/mpi/kinematic_conditions/spmd_exch_a_rb6g.F
+Chd|        SPMD_EXCH_EFRIC               source/mpi/interfaces/spmd_exch_efric.F
 Chd|        SPMD_EXCH_FA                  source/mpi/elements/spmd_exch_dttsh.F
 Chd|        SPMD_EXCH_I24                 source/mpi/interfaces/spmd_exch_i24.F
 Chd|        SPMD_EXCH_I25                 source/mpi/interfaces/spmd_exch_i25.F
 Chd|        SPMD_EXCH_MIN_MAX             source/mpi/ale/spmd_exch_min_max.F
 Chd|        SPMD_EXCH_PRESS               source/mpi/interfaces/spmd_exch_press.F
 Chd|        SPMD_EXCH_SMST2               source/mpi/ams/spmd_exch_smst2.F
+Chd|        SPMD_EXCH_SORTING_EFRIC       source/mpi/interfaces/spmd_exch_sorting_efric.F
 Chd|        SPMD_EXCH_TAGNCONT            source/mpi/forces/spmd_exch_tagncont.F
 Chd|        SPMD_EXCH_TAG_TSH             source/mpi/elements/spmd_exch_dttsh.F
 Chd|        SPMD_EXCH_VMAX                source/mpi/elements/spmd_exch_dttsh.F

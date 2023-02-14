@@ -265,12 +265,14 @@ Chd|        SPMD_CELL_EXCHANGE            source/mpi/generic/spmd_cell_exchange.
 Chd|        SPMD_CELL_SIZE_EXCHANGE       source/mpi/interfaces/spmd_cell_size_exchange.F
 Chd|        SPMD_CHECK_TAG                source/mpi/ams/spmd_check_tag.F
 Chd|        SPMD_EXCHM_SMS                source/mpi/ams/spmd_sms.F     
+Chd|        SPMD_EXCH_EFRIC               source/mpi/interfaces/spmd_exch_efric.F
 Chd|        SPMD_EXCH_FA                  source/mpi/elements/spmd_exch_dttsh.F
 Chd|        SPMD_EXCH_I24                 source/mpi/interfaces/spmd_exch_i24.F
 Chd|        SPMD_EXCH_I25                 source/mpi/interfaces/spmd_exch_i25.F
 Chd|        SPMD_EXCH_MIN_MAX             source/mpi/ale/spmd_exch_min_max.F
 Chd|        SPMD_EXCH_PRESS               source/mpi/interfaces/spmd_exch_press.F
 Chd|        SPMD_EXCH_SMST2               source/mpi/ams/spmd_exch_smst2.F
+Chd|        SPMD_EXCH_SORTING_EFRIC       source/mpi/interfaces/spmd_exch_sorting_efric.F
 Chd|        SPMD_EXCH_TAGNCONT            source/mpi/forces/spmd_exch_tagncont.F
 Chd|        SPMD_EXCH_VMAX                source/mpi/elements/spmd_exch_dttsh.F
 Chd|        SPMD_FIADD11_PON              source/mpi/interfaces/spmd_i7tool.F

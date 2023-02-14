@@ -21,10 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SPMD_CHECK_ALE_NEIGHBOUR            source/mpi/fluid/spmd_check_ale_neighbour.F   
+Chd|  SPMD_CHECK_ALE_NEIGHBOUR      source/mpi/fluid/spmd_check_ale_neighbour.F
 Chd|-- called by -----------
-Chd|        CHECK_ALE_NEIGHBOUR           source/ale/alemain.F 
-Chd|-- calls ---------------  
+Chd|        CHECK_ALE_COMM                source/ale/check_ale_comm.F   
+Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE SPMD_CHECK_ALE_NEIGHBOUR(ACTIVE_ELEMENT,NB_RCV_NEIGH,NB_SEND_NEIGH,
      .                                      INDEX_RCV_NEIGH,INDEX_SEND_NEIGH,LENCOM,

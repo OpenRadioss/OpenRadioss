@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SPMD_H3D_MAX_R_NODAL_VALUE    source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F
+Chd|  SPMD_H3D_SUM_R_NODAL_VALUE    source/output/h3d/spmd/spmd_h3d_sum_r_nodal_value.F
 Chd|-- called by -----------
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------

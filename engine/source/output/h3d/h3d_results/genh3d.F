@@ -81,6 +81,7 @@ Chd|        SPMD_H3D_MAX_R_NODAL_VALUE    source/output/h3d/spmd/spmd_h3d_gather
 Chd|        SPMD_H3D_MAX_R_NODAL_VALUE_21 source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F
 Chd|        SPMD_H3D_SUM_R_NODAL          source/output/h3d/spmd/spmd_h3d_gather_r_node.F
 Chd|        SPMD_H3D_SUM_R_NODAL_21       source/output/h3d/spmd/spmd_h3d_gather_r_node.F
+Chd|        SPMD_H3D_SUM_R_NODAL_VALUE    source/output/h3d/spmd/spmd_h3d_sum_r_nodal_value.F
 Chd|        SPMD_OUTPITAB                 source/mpi/interfaces/spmd_outp.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
@@ -98,6 +99,7 @@ Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
+Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STACK_MOD                     share/modules/stack_mod.F     

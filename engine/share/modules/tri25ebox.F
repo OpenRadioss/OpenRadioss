@@ -37,7 +37,9 @@ Chd|        I25STO_E2S                    source/interfaces/intsort/i25sto_e2s.F
 Chd|        I25STO_EDG                    source/interfaces/intsort/i25sto_edg.F
 Chd|        I25TRIVOX_EDG                 source/interfaces/intsort/i25trivox_edg.F
 Chd|        MPP_INIT                      source/mpi/interfaces/spmd_i7tool.F
+Chd|        SPMD_EXCH_EFRIC               source/mpi/interfaces/spmd_exch_efric.F
 Chd|        SPMD_EXCH_PRESS               source/mpi/interfaces/spmd_exch_press.F
+Chd|        SPMD_EXCH_SORTING_EFRIC       source/mpi/interfaces/spmd_exch_sorting_efric.F
 Chd|        SPMD_GET_STIF25_EDG           source/mpi/interfaces/spmd_getstif25_edg.F
 Chd|        SPMD_I25FRONT_NOR             source/mpi/interfaces/spmd_i25front.F
 Chd|        SPMD_I7FCOM_POFF              source/mpi/forces/spmd_i7fcom_poff.F

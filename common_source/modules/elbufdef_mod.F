@@ -228,6 +228,7 @@ Chd|        CFORC3                        engine/source/elements/shell/coque/cfo
 Chd|        CFORC3_CRK                    engine/source/elements/xfem/cforc3_crk.F
 Chd|        CGSHELL3                      engine/source/implicit/cgshell.F
 Chd|        CGSHELL4                      engine/source/implicit/cgshell.F
+Chd|        CHECK_ALE_COMM                engine/source/ale/check_ale_comm.F
 Chd|        CHKSTFN3N                     engine/source/interfaces/interf/chkstfn3.F
 Chd|        CLUSTERF                      engine/source/output/cluster/clusterf.F
 Chd|        CMAIN3                        engine/source/materials/mat_share/cmain3.F

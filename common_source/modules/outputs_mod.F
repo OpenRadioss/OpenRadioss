@@ -21,23 +21,34 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  OUTMAX_MOD                    modules/outputs_mod.F          
+Chd|  OUTPUTS_MOD                   modules/outputs_mod.F         
 Chd|-- called by -----------
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        INI_H3DTMAX_ENGINE            starter/source/starter/contrl.F
-Chd|        INI_OUTMAX_AUTO               starter/source/elements/elbuf_init/ini_outmax_auto.F
-Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
-Chd|        W_OUTMAXN                     starter/source/restart/ddsplit/w_outmaxn.F
+Chd|        ANI_PCONT                     engine/source/output/anim/generate/ani_pcont.F
+Chd|        ANI_PCONT21                   engine/source/output/anim/generate/ani_pcont.F
 Chd|        GENH3D                        engine/source/output/h3d/h3d_results/genh3d.F
-Chd|        H3D_NODAL_TENSOR              engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
-Chd|        H3D_NODAL_VECTOR              engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
-Chd|        INI_TMAX                      engine/source/output/ini_outmax.F
+Chd|        H3D_NODAL_SCALAR              engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
+Chd|        I21ASS3                       engine/source/interfaces/int21/i21ass3.F
+Chd|        I21MAINF                      engine/source/interfaces/int21/i21mainf.F
+Chd|        I24FOR3                       engine/source/interfaces/int24/i24for3.F
+Chd|        I24MAINF                      engine/source/interfaces/int24/i24main.F
+Chd|        I25FOR3                       engine/source/interfaces/int25/i25for3.F
+Chd|        I25MAINF                      engine/source/interfaces/int25/i25mainf.F
+Chd|        I7FOR3                        engine/source/interfaces/int07/i7for3.F
+Chd|        I7MAINF                       engine/source/interfaces/int07/i7mainf.F
+Chd|        INTFOP2                       engine/source/interfaces/interf/intfop2.F
+Chd|        INTTRI                        engine/source/interfaces/intsort/inttri.F
+Chd|        LECTUR                        engine/source/input/lectur.F  
 Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
+Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        RESOL_INIT                    engine/source/engine/resol_init.F
 Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
-Chd|        UPD_TMAX                      engine/source/output/upd_outmax.F
+Chd|        SPMD_EXCH_EFRIC               engine/source/mpi/interfaces/spmd_exch_efric.F
+Chd|        SPMD_EXCH_PRESS               engine/source/mpi/interfaces/spmd_exch_press.F
+Chd|        SPMD_EXCH_SORTING_EFRIC       engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
+Chd|        SPMD_TRI10BOX                 engine/source/mpi/interfaces/spmd_int.F
+Chd|        SPMD_TRI11GAT                 engine/source/mpi/interfaces/spmd_int.F
 Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------

@@ -67,6 +67,7 @@ Chd|        BCSDTTH_COPY                  source/constraints/general/bcs/bcsdtth
 Chd|        BCSN                          source/constraints/general/bcs/bcsn.F
 Chd|        BMULTN                        source/ale/bimat/bmultn.F     
 Chd|        CFIELD_1                      source/loads/general/load_centri/cfield.F
+Chd|        CHECK_ALE_COMM                source/ale/check_ale_comm.F   
 Chd|        CHECK_EDGE_STATE              source/interfaces/interf/check_edge_state.F
 Chd|        CHECK_NAN_ACC                 source/output/outfile/check_nan_acc.F
 Chd|        CHECK_NODAL_STATE             source/interfaces/interf/check_nodal_state.F
@@ -346,6 +347,7 @@ Chd|        SPMD_EXCH_A_AMS_POFF          source/mpi/forces/spmd_exch_a_ams_poff
 Chd|        SPMD_EXCH_CRKVEL              source/mpi/elements/spmd_xfem.F
 Chd|        SPMD_EXCH_DA20                source/mpi/interfaces/spmd_exch_da20.F
 Chd|        SPMD_EXCH_DELETED_SURF_EDGE   source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+Chd|        SPMD_EXCH_EFRIC               source/mpi/interfaces/spmd_exch_efric.F
 Chd|        SPMD_EXCH_FA                  source/mpi/elements/spmd_exch_dttsh.F
 Chd|        SPMD_EXCH_I24                 source/mpi/interfaces/spmd_exch_i24.F
 Chd|        SPMD_EXCH_I25                 source/mpi/interfaces/spmd_exch_i25.F
@@ -465,6 +467,7 @@ Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
 Chd|        MPI_TOOLS_MOD                 share/modules/mpi_tools_mod.F 
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
+Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        PBLAST_MOD                    ../common_source/modules/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   

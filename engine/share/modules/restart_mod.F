@@ -27,6 +27,7 @@ Chd|        UPGRADE_CAND_OPT              ../common_source/interf/upgrade_multim
 Chd|        UPGRADE_LCAND_E2S             ../common_source/interf/upgrade_multimp.F
 Chd|        UPGRADE_LCAND_EDG             ../common_source/interf/upgrade_multimp.F
 Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
+Chd|        CHECK_ALE_COMM                source/ale/check_ale_comm.F   
 Chd|        CRKXFEM_RRESTANIM             source/output/restart/rdresb.F
 Chd|        CRKXFEM_WRESTANIM             source/output/restart/wrrest.F
 Chd|        MAT_SOLID_GET_NOD_V           source/user_interface/uaccess.F

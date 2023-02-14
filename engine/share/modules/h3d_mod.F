@@ -266,6 +266,8 @@ Chd|        SPMD_EXCH_A_INT2H             source/mpi/forces/spmd_exch_a_int2h.F
 Chd|        SPMD_EXCH_A_INT2H_AMS         source/mpi/forces/spmd_exch_a_int2h_ams.F
 Chd|        SPMD_EXCH_A_INT2_AMS          source/mpi/forces/spmd_exch_a_int2_ams.F
 Chd|        SPMD_EXCH_A_INT2_PON          source/mpi/forces/spmd_exch_a_int2_pon.F
+Chd|        SPMD_EXCH_EFRIC               source/mpi/interfaces/spmd_exch_efric.F
+Chd|        SPMD_EXCH_SORTING_EFRIC       source/mpi/interfaces/spmd_exch_sorting_efric.F
 Chd|        SPMD_FIADD11_POFF             source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_FIADD11_PON              source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_FIADD17_POFF             source/mpi/interfaces/spmd_i7tool.F
