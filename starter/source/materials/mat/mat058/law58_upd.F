@@ -115,7 +115,7 @@ c
      .             MSGTYPE=MSGERROR,
      .             ANMODE=ANINFO_BLIND_2,
      .             I1=MAT_ID,
-     .             I2=FUNC_ID(1),
+     .             I2=FUNC_ID(IFUNC(1)),
      .             C1=TITR)
         ENDIF
         KC  = MAX(KC ,STIFFMAX)
@@ -137,7 +137,7 @@ c
      .             MSGTYPE=MSGERROR,
      .             ANMODE=ANINFO_BLIND_2,
      .             I1=MAT_ID,
-     .             I2=FUNC_ID(2),
+     .             I2=FUNC_ID(IFUNC(2)),
      .             C1=TITR)
         ENDIF
         KT  = MAX(KT ,STIFFMAX)
@@ -159,7 +159,7 @@ c
      .             MSGTYPE=MSGERROR,
      .             ANMODE=ANINFO_BLIND_2,
      .             I1=MAT_ID,
-     .             I2=FUNC_ID(3),
+     .             I2=FUNC_ID(IFUNC(3)),
      .             C1=TITR)
         ENDIF
         GMAX  = MAX(GMAX,STIFFMAX)
@@ -188,7 +188,7 @@ c
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
      .               I1=MAT_ID,
-     .               I2=FUNC_ID(4),
+     .               I2=FUNC_ID(IFUNC(4)),
      .               C1=TITR)
           ENDIF
         ENDIF                                                                     
@@ -206,7 +206,7 @@ c
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
      .               I1=MAT_ID,
-     .               I2=FUNC_ID(5),
+     .               I2=FUNC_ID(IFUNC(5)),
      .               C1=TITR)
           ENDIF
         ENDIF                                                                     
@@ -224,7 +224,7 @@ c
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
      .               I1=MAT_ID,
-     .               I2=FUNC_ID(6),
+     .               I2=FUNC_ID(IFUNC(6)),
      .               C1=TITR)
           ENDIF                                       
         ENDIF                                       
