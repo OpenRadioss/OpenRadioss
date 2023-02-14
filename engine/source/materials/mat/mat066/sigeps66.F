@@ -215,10 +215,10 @@ c------------------------------------------------
 c------------------------------------------------   
       E(1:NEL) = ET   
       G(1:NEL) = GT   
+      C1T  = ET/THREE/(ONE - TWO*NU)
       IF(EC > ZERO)THEN
         DO I=1,NEL  
 c         P(I) = C1 * (RHO(I)/RHO0(I)- ONE)
-          C1T  = ET/THREE/(ONE - TWO*NU)
           P(I) = C1T * AMU(I)
           IF(P(I) <=  - RPCT * PT) THEN
             E(I)   = ET
@@ -237,13 +237,6 @@ c         P(I) = C1 * (RHO(I)/RHO0(I)- ONE)
         G3(I)  = THREE*G(I)                         
         C1(I)  = E(I)/THREE/(ONE - TWO*NU)
       ENDDO
-
-
-
-
-
-
-
 
 C------------------------------------------
 C     estiamte stresse CINE
@@ -270,7 +263,7 @@ C
         SIGNYZ(I)=SIGOYZ(I) + G(I) *DEPSYZ(I)
         SIGNZX(I)=SIGOZX(I) + G(I) *DEPSZX(I)
 C
-        SOUNDSP(I) = SQRT((C1(I) + FOUR*G(I)/THREE)/RHO0(I))
+        SOUNDSP(I) = SQRT((C1T + FOUR*G(I)/THREE)/RHO0(I))
         VISCMAX(I) = ZERO 
 C         
         SIGEXX(I) = SIGNXX(I)

@@ -281,7 +281,7 @@ C
          
          P(I) = -THIRD*(SIGNXX(I) + SIGNYY(I) )
 C
-         SOUNDSP(I) = SQRT(A11(I)/RHO0(I))
+         SOUNDSP(I) = SQRT(A11T/RHO0(I))
          VISCMAX(I) = ZERO
          ETSE(I)    = ONE
 C-------------------
