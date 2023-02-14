@@ -830,9 +830,9 @@ C LEDGE_FIE
                 LEDGE_FIE(E_IBUF_SIZE*(K-1) + 7) = INTBUF_TAB(NI)%LEDGE(6+ (J-1)*NLEDGE) 
                 LEDGE_FIE(E_IBUF_SIZE*(K-1) + 8) = INTBUF_TAB(NI)%LEDGE(7+ (J-1)*NLEDGE) 
                 ! global id node 1
-                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 9) = ITAB(LEDGE_FIE(E_IBUF_SIZE*(K-1) + 7))
+                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 9) = ITAB(LEDGE_FIE(E_IBUF_SIZE*(K-1) + 6))
                 !global id node 2
-                LEDGE_FIE(E_IBUF_SIZE*(K-1) +10) = ITAB(LEDGE_FIE(E_IBUF_SIZE*(K-1) + 8))
+                LEDGE_FIE(E_IBUF_SIZE*(K-1) +10) = ITAB(LEDGE_FIE(E_IBUF_SIZE*(K-1) + 7))
                 ! IM
                 LEDGE_FIE(E_IBUF_SIZE*(K-1) +11) = INTBUF_TAB(NI)%LEDGE(10 + (J-1)*NLEDGE) 
                 ! LocalID
