@@ -784,32 +784,30 @@ C-----------------------------------------------
       !-------------------------------------------!                                                 
       !   ANIMATION FILE                          !                                                 
       !-------------------------------------------!                                                 
-      IF(IANIM>0) THEN                                                                              
-        IF(IANIM > 0) THEN  
-!$OMP DO SCHEDULE(GUIDED,MVSIZ)                                                                                
-          DO I = 1,ISIZ_SEG                                                                         
-            N1=PBLAST_TAB(IL)%N(1,I)                                                                               
-            N2=PBLAST_TAB(IL)%N(2,I)                                                                               
-            N3=PBLAST_TAB(IL)%N(3,I)                                                                               
-            N4=PBLAST_TAB(IL)%N(4,I)                                                                               
-            FEXT(1,N1) = FEXT(1,N1)+PBLAST_TAB(IL)%FX(I)                                                           
-            FEXT(2,N1) = FEXT(2,N1)+PBLAST_TAB(IL)%FY(I)                                                           
-            FEXT(3,N1) = FEXT(3,N1)+PBLAST_TAB(IL)%FZ(I)                                                           
-            FEXT(1,N2) = FEXT(1,N2)+PBLAST_TAB(IL)%FX(I)                                                           
-            FEXT(2,N2) = FEXT(2,N2)+PBLAST_TAB(IL)%FY(I)                                                           
-            FEXT(3,N2) = FEXT(3,N2)+PBLAST_TAB(IL)%FZ(I)                                                           
-            FEXT(1,N3) = FEXT(1,N3)+PBLAST_TAB(IL)%FX(I)                                                           
-            FEXT(2,N3) = FEXT(2,N3)+PBLAST_TAB(IL)%FY(I)                                                           
-            FEXT(3,N3) = FEXT(3,N3)+PBLAST_TAB(IL)%FZ(I)                                                           
-            IF(PBLAST_TAB(IL)%NPt(I)==FOUR)THEN                                                                    
-              FEXT(1,N4) = FEXT(1,N4)+PBLAST_TAB(IL)%FX(I)                                                         
-              FEXT(2,N4) = FEXT(2,N4)+PBLAST_TAB(IL)%FY(I)                                                         
-              FEXT(3,N4) = FEXT(3,N4)+PBLAST_TAB(IL)%FZ(I)                                                         
-            ENDIF                                                                                   
-          ENDDO                                                                                     
-!$OMP END DO        
-        ENDIF                                                                                       
-      ENDIF                                                                                         
+!$OMP SINGLE  
+      IF(IANIM>0) THEN                                                                                                                                                         
+        DO I = 1,ISIZ_SEG                                                                         
+          N1=PBLAST_TAB(IL)%N(1,I)                                                                               
+          N2=PBLAST_TAB(IL)%N(2,I)                                                                               
+          N3=PBLAST_TAB(IL)%N(3,I)                                                                               
+          N4=PBLAST_TAB(IL)%N(4,I)                                                                               
+          FEXT(1,N1) = FEXT(1,N1)+PBLAST_TAB(IL)%FX(I)                                                           
+          FEXT(2,N1) = FEXT(2,N1)+PBLAST_TAB(IL)%FY(I)                                                           
+          FEXT(3,N1) = FEXT(3,N1)+PBLAST_TAB(IL)%FZ(I)                                                           
+          FEXT(1,N2) = FEXT(1,N2)+PBLAST_TAB(IL)%FX(I)                                                           
+          FEXT(2,N2) = FEXT(2,N2)+PBLAST_TAB(IL)%FY(I)                                                           
+          FEXT(3,N2) = FEXT(3,N2)+PBLAST_TAB(IL)%FZ(I)                                                           
+          FEXT(1,N3) = FEXT(1,N3)+PBLAST_TAB(IL)%FX(I)                                                           
+          FEXT(2,N3) = FEXT(2,N3)+PBLAST_TAB(IL)%FY(I)                                                           
+          FEXT(3,N3) = FEXT(3,N3)+PBLAST_TAB(IL)%FZ(I)                                                           
+          IF(PBLAST_TAB(IL)%NPt(I)==FOUR)THEN                                                                    
+            FEXT(1,N4) = FEXT(1,N4)+PBLAST_TAB(IL)%FX(I)                                                         
+            FEXT(2,N4) = FEXT(2,N4)+PBLAST_TAB(IL)%FY(I)                                                         
+            FEXT(3,N4) = FEXT(3,N4)+PBLAST_TAB(IL)%FZ(I)                                                         
+          ENDIF                                                                                   
+        ENDDO                                                                                                                                                                                
+       ENDIF                                                                                         
+!$OMP END SINGLE
 
  9000 CONTINUE 
       RETURN

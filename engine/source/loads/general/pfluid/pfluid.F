@@ -238,43 +238,44 @@ C---------------------------------------
               !-node_1
               A(1,N1)=A(1,N1)+FX                                                                   
               A(2,N1)=A(2,N1)+FY                                                                   
-              A(3,N1)=A(3,N1)+FZ                                                                   
-              IF(IANIM  > 0) THEN                                                                 
-                FEXT(1,N1) = FEXT(1,N1)+FX                                                         
-                FEXT(2,N1) = FEXT(2,N1)+FY                                                         
-                FEXT(3,N1) = FEXT(3,N1)+FZ                                                         
-              ENDIF                                                                                
+              A(3,N1)=A(3,N1)+FZ                                                                                                                                               
               !-node_2
               A(1,N2)=A(1,N2)+FX                                                                   
               A(2,N2)=A(2,N2)+FY                                                                   
-              A(3,N2)=A(3,N2)+FZ                                                                   
-              IF(IANIM  > 0) THEN                                                                 
-                FEXT(1,N2) = FEXT(1,N2)+FX                                                         
-                FEXT(2,N2) = FEXT(2,N2)+FY                                                         
-                FEXT(3,N2) = FEXT(3,N2)+FZ                                                         
-              ENDIF                                                                                
+              A(3,N2)=A(3,N2)+FZ                                                                                                                                               
               !-node_3
               A(1,N3)=A(1,N3)+FX                                                                   
               A(2,N3)=A(2,N3)+FY                                                                   
-              A(3,N3)=A(3,N3)+FZ                                                                   
-              IF(IANIM  > 0) THEN                                                                 
-                FEXT(1,N3) = FEXT(1,N3)+FX                                                         
-                FEXT(2,N3) = FEXT(2,N3)+FY                                                         
-                FEXT(3,N3) = FEXT(3,N3)+FZ                                                         
-              ENDIF                                                                                
+              A(3,N3)=A(3,N3)+FZ                                                                                                                                                  
               !-node_4
               A(1,N4)=A(1,N4)+FX                                                                   
               A(2,N4)=A(2,N4)+FY                                                                   
-              A(3,N4)=A(3,N4)+FZ                                                                   
-              IF(IANIM  > 0) THEN                                                                 
-                FEXT(1,N4) = FEXT(1,N4)+FX                                                         
-                FEXT(2,N4) = FEXT(2,N4)+FY                                                         
-                FEXT(3,N4) = FEXT(3,N4)+FZ                                                         
-              ENDIF                                                                                
+              A(3,N4)=A(3,N4)+FZ  
+                                                                                
               !External Force Work
               TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                          +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
+     
+              IF(IANIM  > 0) THEN  
+#include "lockon.inc"
+                FEXT(1,N1) = FEXT(1,N1)+FX                                                         
+                FEXT(2,N1) = FEXT(2,N1)+FY                                                         
+                FEXT(3,N1) = FEXT(3,N1)+FZ    
+                !                                                                             
+                FEXT(1,N2) = FEXT(1,N2)+FX                                                         
+                FEXT(2,N2) = FEXT(2,N2)+FY                                                         
+                FEXT(3,N2) = FEXT(3,N2)+FZ  
+                !
+                FEXT(1,N3) = FEXT(1,N3)+FX                                                         
+                FEXT(2,N3) = FEXT(2,N3)+FY                                                         
+                FEXT(3,N3) = FEXT(3,N3)+FZ
+                !
+                FEXT(1,N4) = FEXT(1,N4)+FX                                                         
+                FEXT(2,N4) = FEXT(2,N4)+FY                                                         
+                FEXT(3,N4) = FEXT(3,N4)+FZ                                      
+#include "lockoff.inc"                                                                    
+              ENDIF         
 
             !---TRIANGLE--------------------------------------------                                                                                                     
             ELSE     
@@ -355,34 +356,36 @@ C---------------------------------------
               !-node_1
               A(1,N1)=A(1,N1)+FX                                                                    
               A(2,N1)=A(2,N1)+FY                                                                    
-              A(3,N1)=A(3,N1)+FZ                                                                    
-              IF(IANIM  > 0) THEN                                                                  
-                FEXT(1,N1) = FEXT(1,N1)+FX                                                          
-                FEXT(2,N1) = FEXT(2,N1)+FY                                                          
-                FEXT(3,N1) = FEXT(3,N1)+FZ                                                          
-              ENDIF                                                                                 
+              A(3,N1)=A(3,N1)+FZ                                                                                                                                                    
               !-node_2
               A(1,N2)=A(1,N2)+FX                                                                    
               A(2,N2)=A(2,N2)+FY                                                                    
-              A(3,N2)=A(3,N2)+FZ                                                                    
-              IF(IANIM  > 0) THEN                                                                  
-                FEXT(1,N2) = FEXT(1,N2)+FX                                                          
-                FEXT(2,N2) = FEXT(2,N2)+FY                                                          
-                FEXT(3,N2) = FEXT(3,N2)+FZ                                                          
-              ENDIF                                                                                 
+              A(3,N2)=A(3,N2)+FZ                                                                                                                                                   
               !-node_3
               A(1,N3)=A(1,N3)+FX                                                                    
               A(2,N3)=A(2,N3)+FY                                                                    
               A(3,N3)=A(3,N3)+FZ                                                                    
-              IF(IANIM  > 0) THEN                                                                  
-                FEXT(1,N3) = FEXT(1,N3)+FX                                                          
-                FEXT(2,N3) = FEXT(2,N3)+FY                                                          
-                FEXT(3,N3) = FEXT(3,N3)+FZ                                                          
-              ENDIF                                            
+                                                         
               !External Force Work
               TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))  
      +                          +FY*(V(2,N1)+V(2,N2)+V(2,N3))  
-     +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))    
+     +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))   
+
+              IF(IANIM  > 0) THEN  
+#include "lockon.inc"
+                FEXT(1,N1) = FEXT(1,N1)+FX                                                         
+                FEXT(2,N1) = FEXT(2,N1)+FY                                                         
+                FEXT(3,N1) = FEXT(3,N1)+FZ    
+                !                                                                             
+                FEXT(1,N2) = FEXT(1,N2)+FX                                                         
+                FEXT(2,N2) = FEXT(2,N2)+FY                                                         
+                FEXT(3,N2) = FEXT(3,N2)+FZ  
+                !
+                FEXT(1,N3) = FEXT(1,N3)+FX                                                         
+                FEXT(2,N3) = FEXT(2,N3)+FY                                                         
+                FEXT(3,N3) = FEXT(3,N3)+FZ                                     
+#include "lockoff.inc"                                                                    
+              ENDIF        
                                                        
             ENDIF! quadrangle / triangle                                                                                  
           ENDDO !next I   
@@ -532,49 +535,49 @@ C---------------------------------------
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
                FSKY(3,IAD) = FZ
-               IF(IANIM  > 0) THEN
-                 FEXT(1,N1) = FEXT(1,N1)+FX
-                 FEXT(2,N1) = FEXT(2,N1)+FY
-                 FEXT(3,N1) = FEXT(3,N1)+FZ
-               ENDIF
 
                !NODE_2 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+1)
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
                FSKY(3,IAD) = FZ
-               IF(IANIM  > 0) THEN
-                 FEXT(1,N2) = FEXT(1,N2)+FX
-                 FEXT(2,N2) = FEXT(2,N2)+FY
-                 FEXT(3,N2) = FEXT(3,N2)+FZ
-               ENDIF
 
                !NODE_3 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+2)
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
                FSKY(3,IAD) = FZ
-               IF(IANIM  > 0) THEN
-                 FEXT(1,N3) = FEXT(1,N3)+FX
-                 FEXT(2,N3) = FEXT(2,N3)+FY
-                 FEXT(3,N3) = FEXT(3,N3)+FZ
-               ENDIF
 
                !NODE_4 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+3)
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
                FSKY(3,IAD) = FZ
-               IF(IANIM  > 0) THEN
-                 FEXT(1,N4) = FEXT(1,N4)+FX
-                 FEXT(2,N4) = FEXT(2,N4)+FY
-                 FEXT(3,N4) = FEXT(3,N4)+FZ
-               ENDIF
 
                !External force work
                TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                           +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                           +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
+     
+              IF(IANIM  > 0) THEN  
+#include "lockon.inc"
+                FEXT(1,N1) = FEXT(1,N1)+FX                                                         
+                FEXT(2,N1) = FEXT(2,N1)+FY                                                         
+                FEXT(3,N1) = FEXT(3,N1)+FZ    
+                !                                                                             
+                FEXT(1,N2) = FEXT(1,N2)+FX                                                         
+                FEXT(2,N2) = FEXT(2,N2)+FY                                                         
+                FEXT(3,N2) = FEXT(3,N2)+FZ  
+                !
+                FEXT(1,N3) = FEXT(1,N3)+FX                                                         
+                FEXT(2,N3) = FEXT(2,N3)+FY                                                         
+                FEXT(3,N3) = FEXT(3,N3)+FZ
+                !
+                FEXT(1,N4) = FEXT(1,N4)+FX                                                         
+                FEXT(2,N4) = FEXT(2,N4)+FY                                                         
+                FEXT(3,N4) = FEXT(3,N4)+FZ                                      
+#include "lockoff.inc"                                                                    
+              ENDIF       
 
              ELSE
 
@@ -657,38 +660,40 @@ C---------------------------------------
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
                FSKY(3,IAD) = FZ
-               IF(IANIM  > 0) THEN
-                 FEXT(1,N1) = FEXT(1,N1)+FX
-                 FEXT(2,N1) = FEXT(2,N1)+FY
-                 FEXT(3,N1) = FEXT(3,N1)+FZ
-               ENDIF
 
                !NODE_2 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+1)
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
                FSKY(3,IAD) = FZ
-               IF(IANIM  > 0) THEN
-                 FEXT(1,N2) = FEXT(1,N2)+FX
-                 FEXT(2,N2) = FEXT(2,N2)+FY
-                 FEXT(3,N2) = FEXT(3,N2)+FZ
-               ENDIF
 
                !NODE_3 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+2)
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
                FSKY(3,IAD) = FZ
-               IF(IANIM  > 0) THEN
-                 FEXT(1,N3) = FEXT(1,N3)+FX
-                 FEXT(2,N3) = FEXT(2,N3)+FY
-                 FEXT(3,N3) = FEXT(3,N3)+FZ
-               ENDIF
 
                !external force work
                TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
      +                           +FY*(V(2,N1)+V(2,N2)+V(2,N3))
      +                           +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
+     
+              IF(IANIM  > 0) THEN  
+#include "lockon.inc"
+                FEXT(1,N1) = FEXT(1,N1)+FX                                                         
+                FEXT(2,N1) = FEXT(2,N1)+FY                                                         
+                FEXT(3,N1) = FEXT(3,N1)+FZ    
+                !                                                                             
+                FEXT(1,N2) = FEXT(1,N2)+FX                                                         
+                FEXT(2,N2) = FEXT(2,N2)+FY                                                         
+                FEXT(3,N2) = FEXT(3,N2)+FZ  
+                !
+                FEXT(1,N3) = FEXT(1,N3)+FX                                                         
+                FEXT(2,N3) = FEXT(2,N3)+FY                                                         
+                FEXT(3,N3) = FEXT(3,N3)+FZ                                  
+#include "lockoff.inc"                                                                    
+              ENDIF  
+                   
              ENDIF
            ENDDO!next I
 !$OMP END DO           
@@ -806,49 +811,49 @@ C-----------------------------------
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
                FSKYV(IAD,3) = FZ
-               IF(IANIM  > 0) THEN
-                 FEXT(1,N1) = FEXT(1,N1)+FX
-                 FEXT(2,N1) = FEXT(2,N1)+FY
-                 FEXT(3,N1) = FEXT(3,N1)+FZ
-               ENDIF
 
                !NODE_2 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+1)
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
                FSKYV(IAD,3) = FZ
-               IF(IANIM  > 0) THEN
-                 FEXT(1,N2) = FEXT(1,N2)+FX
-                 FEXT(2,N2) = FEXT(2,N2)+FY
-                 FEXT(3,N2) = FEXT(3,N2)+FZ
-               ENDIF
 
                !NODE_3 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+2)
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
                FSKYV(IAD,3) = FZ
-               IF(IANIM  > 0) THEN
-                 FEXT(1,N3) = FEXT(1,N3)+FX
-                 FEXT(2,N3) = FEXT(2,N3)+FY
-                 FEXT(3,N3) = FEXT(3,N3)+FZ
-               ENDIF
 
                !NODE_4 : storing nodal force in FSKY array (it will be assembled later)
                IAD = IADC(ILOADP(4,NL)+4*(I-1)+3)
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
                FSKYV(IAD,3) = FZ
-               IF(IANIM  > 0) THEN
-                 FEXT(1,N4) = FEXT(1,N4)+FX
-                 FEXT(2,N4) = FEXT(2,N4)+FY
-                 FEXT(3,N4) = FEXT(3,N4)+FZ
-               ENDIF
                
                !external force work               
                TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                           +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                           +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
+     
+              IF(IANIM  > 0) THEN  
+#include "lockon.inc"
+                FEXT(1,N1) = FEXT(1,N1)+FX                                                         
+                FEXT(2,N1) = FEXT(2,N1)+FY                                                         
+                FEXT(3,N1) = FEXT(3,N1)+FZ    
+                !                                                                             
+                FEXT(1,N2) = FEXT(1,N2)+FX                                                         
+                FEXT(2,N2) = FEXT(2,N2)+FY                                                         
+                FEXT(3,N2) = FEXT(3,N2)+FZ  
+                !
+                FEXT(1,N3) = FEXT(1,N3)+FX                                                         
+                FEXT(2,N3) = FEXT(2,N3)+FY                                                         
+                FEXT(3,N3) = FEXT(3,N3)+FZ
+                !
+                FEXT(1,N4) = FEXT(1,N4)+FX                                                         
+                FEXT(2,N4) = FEXT(2,N4)+FY                                                         
+                FEXT(3,N4) = FEXT(3,N4)+FZ                                      
+#include "lockoff.inc"                                                                    
+              ENDIF       
                
              ELSE
 
@@ -932,9 +937,11 @@ C-----------------------------------
                FSKYV(IAD,2) = FY
                FSKYV(IAD,3) = FZ
                IF(IANIM  > 0) THEN
+#include "lockon.inc"               
                  FEXT(1,N1) = FEXT(1,N1)+FX
                  FEXT(2,N1) = FEXT(2,N1)+FY
                  FEXT(3,N1) = FEXT(3,N1)+FZ
+#include "lockoff.inc"                 
                ENDIF
 
                !NODE_2 : storing nodal force in FSKY array (it will be assembled later)
@@ -943,9 +950,11 @@ C-----------------------------------
                FSKYV(IAD,2) = FY
                FSKYV(IAD,3) = FZ
                IF(IANIM  > 0) THEN
+#include "lockon.inc"               
                  FEXT(1,N2) = FEXT(1,N2)+FX
                  FEXT(2,N2) = FEXT(2,N2)+FY
                  FEXT(3,N2) = FEXT(3,N2)+FZ
+#include "lockoff.inc"                 
                ENDIF
 
                !NODE_3 : storing nodal force in FSKY array (it will be assembled later)
@@ -954,9 +963,11 @@ C-----------------------------------
                FSKYV(IAD,2) = FY
                FSKYV(IAD,3) = FZ
                IF(IANIM  > 0) THEN
+#include "lockon.inc"               
                  FEXT(1,N3) = FEXT(1,N3)+FX
                  FEXT(2,N3) = FEXT(2,N3)+FY
                  FEXT(3,N3) = FEXT(3,N3)+FZ
+#include "lockoff.inc"                 
                ENDIF
                
                !external force work
