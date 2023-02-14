@@ -264,7 +264,6 @@ C-----------------------------------------------
             MONVOL(ICOPY) = T_MONVOL(N)%TAGELS(I)
             ICOPY = ICOPY + 1
          ENDDO
-!     Probleme d'adressage apparemment, IADALE8 n etait pas fittee au juste besoin
          ICOPY = T_MONVOL(N)%IADALE8 + SHIFT
          IF (T_MONVOL(N)%IADALE8 == 0) ICOPY = ICOPY + 1
          DO I = 1, T_MONVOL(N)%NNA

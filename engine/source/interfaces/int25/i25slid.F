@@ -25,7 +25,7 @@ Chd|  I25PREP_ADD                   source/interfaces/int25/i25slid.F
 Chd|-- called by -----------
 Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I25PREP_ADD(
      1                  NIN    ,NI25   ,NSN      ,NSNR   ,ITAB   ,
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN, NI25, NSN, NSNR, NADMSR, 
+      INTEGER NIN, NI25, NSN, NSNR, NADMSR,
      .        ITAB(*), ADMSR(4,*), ISLIDE(4,*)
       INTEGER IAD_FRNOR(NINTER25,NSPMD+1), FR_NOR(*)
       INTEGER NADD(*), KADD(*)
@@ -67,84 +67,84 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, L, N, NOR
 C
-C preparer TAGFR ds le starter 
+C preparer TAGFR ds le starter
       INTEGER TAGFR(NADMSR)
 C--------------------------------------------------------
 C
-       TAGFR(1:NADMSR)=0
-       DO I=IAD_FRNOR(NI25,1),IAD_FRNOR(NI25,NSPMD+1)-1
-         NOR=FR_NOR(I)
-         IF(TAGFR(NOR)==0)THEN
-           TAGFR(NOR)=1
-         END IF
-       END DO
+      TAGFR(1:NADMSR)=0
+      DO I=IAD_FRNOR(NI25,1),IAD_FRNOR(NI25,NSPMD+1)-1
+        NOR=FR_NOR(I)
+        IF(TAGFR(NOR)==0)THEN
+          TAGFR(NOR)=1
+        END IF
+      END DO
 C
 C      NADD(1:NADMSR+1), KADD <=> liste sky line des noeuds secnd concerns / tous les sommets frontires
 C------
 C
-       DO N=1,NSN
-         DO J=1,4
-           NOR=ISLIDE(J,N)
-           IF(NOR/=0)THEN
-             IF(TAGFR(NOR)==1)THEN
-                NADD(NOR)=NADD(NOR)+1
-             END IF
-           END IF
-         END DO
-       END DO
+      DO N=1,NSN
+        DO J=1,4
+          NOR=ISLIDE(J,N)
+          IF(NOR/=0)THEN
+            IF(TAGFR(NOR)==1)THEN
+              NADD(NOR)=NADD(NOR)+1
+            END IF
+          END IF
+        END DO
+      END DO
 C
-       DO N=1,NSNR
-         DO J=1,4
-           NOR=ISLIDE_FI(NIN)%P(J,N)
-           IF(NOR/=0)THEN
-           ASSERT(NOR > 0) 
-           ASSERT(NOR <= NADMSR)
-             IF(TAGFR(NOR)==1)THEN
-                NADD(NOR)=NADD(NOR)+1
-             END IF
-           END IF
-         END DO
-       END DO
+      DO N=1,NSNR
+        DO J=1,4
+          NOR=ISLIDE_FI(NIN)%P(J,N)
+          IF(NOR/=0)THEN
+            ASSERT(NOR > 0)
+            ASSERT(NOR <= NADMSR)
+            IF(TAGFR(NOR)==1)THEN
+              NADD(NOR)=NADD(NOR)+1
+            END IF
+          END IF
+        END DO
+      END DO
 C
 C--------------------------------------------------------
-       DO N=1,NADMSR
-         NADD(N+1)=NADD(N)+NADD(N+1)
-       END DO
+      DO N=1,NADMSR
+        NADD(N+1)=NADD(N)+NADD(N+1)
+      END DO
 C
-       DO N=NADMSR,1,-1
-         NADD(N+1)=NADD(N)
-       END DO
-       NADD(1) = 0
+      DO N=NADMSR,1,-1
+        NADD(N+1)=NADD(N)
+      END DO
+      NADD(1) = 0
 C--------------------------------------------------------
-       DO N=1,NSN
-         DO J=1,4
-           NOR=ISLIDE(J,N)
-           IF(NOR/=0)THEN
-             IF(TAGFR(NOR)==1)THEN
-                NADD(NOR)=NADD(NOR)+1
-                KADD(NADD(NOR))=N
-             END IF
-           END IF
-         END DO
-       END DO
+      DO N=1,NSN
+        DO J=1,4
+          NOR=ISLIDE(J,N)
+          IF(NOR/=0)THEN
+            IF(TAGFR(NOR)==1)THEN
+              NADD(NOR)=NADD(NOR)+1
+              KADD(NADD(NOR))=N
+            END IF
+          END IF
+        END DO
+      END DO
 C
-       DO N=1,NSNR
-         DO J=1,4
-           NOR=ISLIDE_FI(NIN)%P(J,N)
-           IF(NOR/=0)THEN
-             IF(TAGFR(NOR)==1)THEN
-                NADD(NOR)=NADD(NOR)+1
-                KADD(NADD(NOR))=NSN+N
-             END IF
-           END IF
-         END DO
-       END DO
+      DO N=1,NSNR
+        DO J=1,4
+          NOR=ISLIDE_FI(NIN)%P(J,N)
+          IF(NOR/=0)THEN
+            IF(TAGFR(NOR)==1)THEN
+              NADD(NOR)=NADD(NOR)+1
+              KADD(NADD(NOR))=NSN+N
+            END IF
+          END IF
+        END DO
+      END DO
 C
 C------
-       DO N=NADMSR,1,-1
-         NADD(N+1)=NADD(N)
-       END DO
-       NADD(1) = 0
+      DO N=NADMSR,1,-1
+        NADD(N+1)=NADD(N)
+      END DO
+      NADD(1) = 0
 C
       RETURN
       END
@@ -153,7 +153,7 @@ Chd|  I25PREP_SLID_1                source/interfaces/int25/i25slid.F
 Chd|-- called by -----------
 Chd|        I25COMP_1                     source/interfaces/int25/i25comp_1.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I25PREP_SLID_1(
      1                  JLT    ,CAND_N ,CAND_E ,NIN    ,
@@ -184,7 +184,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, NIN, NSN, NSNR, INACTI, NADMSR, 
+      INTEGER JLT, NIN, NSN, NSNR, INACTI, NADMSR,
      .        CAND_N(*),CAND_E(*),ITAB(*),IRECT(4,*), ADMSR(4,*)
       INTEGER MSEGLO(*), IRTLM(4,NSN) ,FARM(4,*), ISLIDE(4,*), NSV(*)
       my_real
@@ -200,206 +200,202 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, L, N, I1, I2, I3, I4, 
-     .        FAR1, FAR2, FAR3, FAR4, FARI, MGLOB, 
-     .        J1, J2, J3, J4, NOR, 
+      INTEGER I, J, K, L, N, I1, I2, I3, I4,
+     .        FAR1, FAR2, FAR3, FAR4, FARI, MGLOB,
+     .        J1, J2, J3, J4, NOR,
      .        LOC_PROC, IADLEN, NS, IT, JT, ITRIA(2,4), NSLIDE, ITAG(4)
       DATA ITRIA/1,2,2,3,3,4,4,1/
 C
 C--------------------------------------------------------
-       DO J=1,JLT
+      DO J=1,JLT
 C
-         N = CAND_N(J)
-         L = CAND_E(J)
+        N = CAND_N(J)
+        L = CAND_E(J)
 C
-         IF(N <= NSN)THEN
-C
-C          pas de glisst !
-           IF(IRTLM(2,N) > 0) CYCLE
-C
-           IF(IRECT(3,L)/=IRECT(4,L))THEN
-
-             ITAG(1:4)=0
-
-             IT=-IRTLM(2,N)/5
-             IF(FARM(IT,J)==2)THEN
-C
-C              quitte le contact
-               DO JT=1,4
-                 IF(FARM(JT,J)==2)THEN ! Hors cone vs normales cote no JT & (FAR/=0 .OR. BBB <= ZERO)
-                   ITAG(ITRIA(1,JT))=1
-                   ITAG(ITRIA(2,JT))=1
-                 END IF
-               END DO
-
-               NSLIDE=0
-               DO K=1,4
-                 NSLIDE=NSLIDE+1
-                 IF(ITAG(K)/=0) ISLIDE(NSLIDE,N)=ADMSR(K,L)
-               END DO
-
-             ELSEIF(PENM(IT,J)==ZERO)THEN
-
-               I1=ABS(ADMSR(1,L))
-               I2=ABS(ADMSR(2,L))
-               I3=ABS(ADMSR(3,L))
-               I4=ABS(ADMSR(4,L))
-
-               ISLIDE(1,N)=I1
-               ISLIDE(2,N)=I2
-               ISLIDE(3,N)=I3
-               ISLIDE(4,N)=I4
-
-             ELSE
-C
-C              Ah ben en fin de compte, je n'ai pas quitte le contact (TIME_S = non zero value)
-               TIME_S(1,N)=PENM(IT,J)
-             END IF
-C
-           ELSE
-
-             I1=ABS(ADMSR(1,L))
-             I2=ABS(ADMSR(2,L))
-             I3=ABS(ADMSR(3,L))
-             I4=I3
-
-             IF(FARM(1,J)==2 .OR. FARM(2,J)==2 .OR. FARM(3,J)==2)THEN
-               IF( FARM(1,J) == 2 )THEN
-C
-C                quitte le segment cote 12
-                 ISLIDE(1,N)=I1
-                 ISLIDE(2,N)=I2
-               END IF
-C
-C
-               IF( FARM(2,J) == 2 )THEN
-C
-C                quitte le segment cote 23
-                 ISLIDE(2,N)=I2
-                 ISLIDE(3,N)=I3
-               END IF
-C
-               IF( FARM(3,J) == 2 )THEN
-C
-C                quitte le segment cote 31
-                 ISLIDE(3,N)=I3
-                 ISLIDE(1,N)=I1
-               END IF
-
-             ELSEIF(PENM(1,J)==ZERO)THEN
-
-               I1=ABS(ADMSR(1,L))
-               I2=ABS(ADMSR(2,L))
-               I3=ABS(ADMSR(3,L))
-               I4=I3
-
-               ISLIDE(1,N)=I1
-               ISLIDE(2,N)=I2
-               ISLIDE(3,N)=I3
-
-             ELSE
-C
-C              Ah ben en fin de compte, je n'ai pas quitte le contact (TIME_S = non zero value)
-               TIME_S(1,N)=PENM(1,J)
-             END IF
-C
-           END IF
-         ELSE
-           N = N - NSN
+        IF(N <= NSN)THEN
 C
 C          pas de glisst !
-           IF(IRTLM_FI(NIN)%P(2,N) > 0) CYCLE
+          IF(IRTLM(2,N) > 0) CYCLE
 C
-           IF(IRECT(3,L)/=IRECT(4,L))THEN
+          IF(IRECT(3,L)/=IRECT(4,L))THEN
 
-             IT=-IRTLM_FI(NIN)%P(2,N)/5
+            ITAG(1:4)=0
 
-             ITAG(1:4)=0
-
-             IF(FARM(IT,J)==2)THEN
+            IT=-IRTLM(2,N)/5
+            IF(FARM(IT,J)==2)THEN
 C
 C              quitte le contact
-               DO JT=1,4
-                 IF(FARM(JT,J)==2)THEN ! Hors cone vs normales cote no JT & (FAR/=0 .OR. BBB <= ZERO)
-                   ITAG(ITRIA(1,JT))=1
-                   ITAG(ITRIA(2,JT))=1
-                 END IF
-               END DO
+              DO JT=1,4
+                IF(FARM(JT,J)==2)THEN ! Hors cone vs normales cote no JT & (FAR/=0 .OR. BBB <= ZERO)
+                  ITAG(ITRIA(1,JT))=1
+                  ITAG(ITRIA(2,JT))=1
+                END IF
+              END DO
 
-               NSLIDE=0
-               DO K=1,4
-                 NSLIDE=NSLIDE+1
-                 IF(ITAG(K)/=0) ISLIDE_FI(NIN)%P(NSLIDE,N)=ADMSR(K,L)
-               END DO
+              NSLIDE=0
+              DO K=1,4
+                NSLIDE=NSLIDE+1
+                IF(ITAG(K)/=0) ISLIDE(NSLIDE,N)=ADMSR(K,L)
+              END DO
 
-             ELSEIF(PENM(IT,J)==ZERO)THEN
+            ELSEIF(PENM(IT,J)==ZERO)THEN
 
-               I1=ABS(ADMSR(1,L))
-               I2=ABS(ADMSR(2,L))
-               I3=ABS(ADMSR(3,L))
-               I4=ABS(ADMSR(4,L))
+              I1=ABS(ADMSR(1,L))
+              I2=ABS(ADMSR(2,L))
+              I3=ABS(ADMSR(3,L))
+              I4=ABS(ADMSR(4,L))
 
-               ISLIDE_FI(NIN)%P(1,N)=I1
-               ISLIDE_FI(NIN)%P(2,N)=I2
-               ISLIDE_FI(NIN)%P(3,N)=I3
-               ISLIDE_FI(NIN)%P(4,N)=I4
+              ISLIDE(1,N)=I1
+              ISLIDE(2,N)=I2
+              ISLIDE(3,N)=I3
+              ISLIDE(4,N)=I4
 
-             ELSE
+            ELSE
 C
-C              Ah ben en fin de compte, je n'ai pas quitte le contact (TIME_S = non zero value)
-               TIME_SFI(NIN)%P(2*(N-1)+1)=PENM(IT,J)
-             END IF
+C              still in contact (TIME_S = non zero value)
+              TIME_S(1,N)=PENM(IT,J)
+            END IF
 C
-           ELSE
+          ELSE
 
-             IF(FARM(1,J)==2 .OR. FARM(2,J)==2 .OR. FARM(3,J)==2)THEN
+            I1=ABS(ADMSR(1,L))
+            I2=ABS(ADMSR(2,L))
+            I3=ABS(ADMSR(3,L))
+            I4=I3
 
-               I1=ABS(ADMSR(1,L))
-               I2=ABS(ADMSR(2,L))
-               I3=ABS(ADMSR(3,L))
-               I4=I3
+            IF(FARM(1,J)==2 .OR. FARM(2,J)==2 .OR. FARM(3,J)==2)THEN
+              IF( FARM(1,J) == 2 )THEN
+C                leave side 12
+                ISLIDE(1,N)=I1
+                ISLIDE(2,N)=I2
+              END IF
+C
+C
+              IF( FARM(2,J) == 2 )THEN
+C
+C                leave side 23
+                ISLIDE(2,N)=I2
+                ISLIDE(3,N)=I3
+              END IF
+C
+              IF( FARM(3,J) == 2 )THEN
+C
+C                leave side 31
+                ISLIDE(3,N)=I3
+                ISLIDE(1,N)=I1
+              END IF
 
-               IF( FARM(1,J) == 2 )THEN
-C
-C                quitte le segment cote 12
-                 ISLIDE_FI(NIN)%P(1,N)=I1
-                 ISLIDE_FI(NIN)%P(2,N)=I2
-               END IF
-C
-               IF( FARM(2,J) == 2 )THEN
-C
-C                quitte le segment cote 23
-                 ISLIDE_FI(NIN)%P(2,N)=I2
-                 ISLIDE_FI(NIN)%P(3,N)=I3
-               END IF
-C
-               IF( FARM(3,J) == 2 )THEN
-C
-C                quitte le segment cote 31
-                 ISLIDE_FI(NIN)%P(3,N)=I3
-                 ISLIDE_FI(NIN)%P(1,N)=I1
-               END IF
+            ELSEIF(PENM(1,J)==ZERO)THEN
 
-             ELSEIF(PENM(1,J)==ZERO)THEN
+              I1=ABS(ADMSR(1,L))
+              I2=ABS(ADMSR(2,L))
+              I3=ABS(ADMSR(3,L))
+              I4=I3
 
-               I1=ABS(ADMSR(1,L))
-               I2=ABS(ADMSR(2,L))
-               I3=ABS(ADMSR(3,L))
-               I4=I3
+              ISLIDE(1,N)=I1
+              ISLIDE(2,N)=I2
+              ISLIDE(3,N)=I3
 
-               ISLIDE_FI(NIN)%P(1,N)=I1
-               ISLIDE_FI(NIN)%P(2,N)=I2
-               ISLIDE_FI(NIN)%P(3,N)=I3
-
-             ELSE
+            ELSE
 C
-C              Ah ben en fin de compte, je n'ai pas quitte le contact (TIME_S = non zero value)
-               TIME_SFI(NIN)%P(2*(N-1)+1)=PENM(1,J)
-             END IF
+C             Still in contact (TIME_S = non zero value)
+              TIME_S(1,N)=PENM(1,J)
+            END IF
 C
-           END IF
-         END IF
-       END DO
+          END IF
+        ELSE
+          N = N - NSN
+C         No sliding!
+          IF(IRTLM_FI(NIN)%P(2,N) > 0) CYCLE
+C
+          IF(IRECT(3,L)/=IRECT(4,L))THEN
+
+            IT=-IRTLM_FI(NIN)%P(2,N)/5
+
+            ITAG(1:4)=0
+
+            IF(FARM(IT,J)==2)THEN
+C
+C             leave contact 
+              DO JT=1,4
+                IF(FARM(JT,J)==2)THEN 
+                  ITAG(ITRIA(1,JT))=1
+                  ITAG(ITRIA(2,JT))=1
+                END IF
+              END DO
+
+              NSLIDE=0
+              DO K=1,4
+                NSLIDE=NSLIDE+1
+                IF(ITAG(K)/=0) ISLIDE_FI(NIN)%P(NSLIDE,N)=ADMSR(K,L)
+              END DO
+
+            ELSEIF(PENM(IT,J)==ZERO)THEN
+
+              I1=ABS(ADMSR(1,L))
+              I2=ABS(ADMSR(2,L))
+              I3=ABS(ADMSR(3,L))
+              I4=ABS(ADMSR(4,L))
+
+              ISLIDE_FI(NIN)%P(1,N)=I1
+              ISLIDE_FI(NIN)%P(2,N)=I2
+              ISLIDE_FI(NIN)%P(3,N)=I3
+              ISLIDE_FI(NIN)%P(4,N)=I4
+
+            ELSE
+              TIME_SFI(NIN)%P(2*(N-1)+1)=PENM(IT,J)
+            END IF
+C
+          ELSE
+
+            IF(FARM(1,J)==2 .OR. FARM(2,J)==2 .OR. FARM(3,J)==2)THEN
+
+              I1=ABS(ADMSR(1,L))
+              I2=ABS(ADMSR(2,L))
+              I3=ABS(ADMSR(3,L))
+              I4=I3
+
+              IF( FARM(1,J) == 2 )THEN
+C
+C                leave side 12
+                ISLIDE_FI(NIN)%P(1,N)=I1
+                ISLIDE_FI(NIN)%P(2,N)=I2
+              END IF
+C
+              IF( FARM(2,J) == 2 )THEN
+C
+C                leave side 23
+                ISLIDE_FI(NIN)%P(2,N)=I2
+                ISLIDE_FI(NIN)%P(3,N)=I3
+              END IF
+C
+              IF( FARM(3,J) == 2 )THEN
+C
+C                leave side 31
+                ISLIDE_FI(NIN)%P(3,N)=I3
+                ISLIDE_FI(NIN)%P(1,N)=I1
+              END IF
+
+            ELSEIF(PENM(1,J)==ZERO)THEN
+
+              I1=ABS(ADMSR(1,L))
+              I2=ABS(ADMSR(2,L))
+              I3=ABS(ADMSR(3,L))
+              I4=I3
+
+              ISLIDE_FI(NIN)%P(1,N)=I1
+              ISLIDE_FI(NIN)%P(2,N)=I2
+              ISLIDE_FI(NIN)%P(3,N)=I3
+
+            ELSE
+C
+C              Contact not left (TIME_S = non zero value)
+              TIME_SFI(NIN)%P(2*(N-1)+1)=PENM(1,J)
+            END IF
+C
+          END IF
+        END IF
+      END DO
 C
       RETURN
       END
@@ -408,7 +404,7 @@ Chd|  I25PREP_SLID_2                source/interfaces/int25/i25slid.F
 Chd|-- called by -----------
 Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I25PREP_SLID_2(
      1                  CAND_N ,CAND_E ,NIN    ,NI25   ,NSN    ,
@@ -467,21 +463,21 @@ C--------------------------------------------------------
       ALLOCATE(PROV_N(SIZOPT))
 
       IF(FLAGREMN == 2)THEN
-         ALLOCATE(TAGMSR(NRTM))
-         TAGMSR(1:NRTM) = 0
+        ALLOCATE(TAGMSR(NRTM))
+        TAGMSR(1:NRTM) = 0
 c
-         DO N=1,NSN
-           NOR1 = KREMNOR(N)+1
-           NOR2 = KREMNOR(N+1)
-           DO M=NOR1,NOR2
-              TAGMSR(REMNOR(M)) = 1
-           ENDDO
-C   
-           DO J=1,4
-             NOR=ISLIDE(J,N)
-             IF(NOR/=0)THEN
-               DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
-                  L   = NOR2MSR(NL)
+        DO N=1,NSN
+          NOR1 = KREMNOR(N)+1
+          NOR2 = KREMNOR(N+1)
+          DO M=NOR1,NOR2
+            TAGMSR(REMNOR(M)) = 1
+          ENDDO
+C
+          DO J=1,4
+            NOR=ISLIDE(J,N)
+            IF(NOR/=0)THEN
+              DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
+                L   = NOR2MSR(NL)
 C
 C             In some specific case, the segment and its symmetric one may share one vertex (common normal)
 C             => make sure not to slide from one to the other.
@@ -489,50 +485,50 @@ C             => make sure not to slide from one to the other.
 
 C                                       |   /
 C                    Shell (free edge)  | /
-C                                |      | 
+C                                |      |
 C                                |     /|
 C                                |   /  |
 C                                | /    |
 C             --------------------      |
 C                                |
-C                        .. Part of Bricks (corner) .. 
+C                        .. Part of Bricks (corner) ..
 C                                |
 C                                |
 
-                 ISH = IABS(MSEGTYP(L))
-                 IF(ISH/=0)THEN
-                   IF(ISH > NRTM) ISH=ISH-NRTM
-                   IF(MSEGLO(ISH)==IRTLM(1,N)) CYCLE
-                 END IF
+                ISH = IABS(MSEGTYP(L))
+                IF(ISH/=0)THEN
+                  IF(ISH > NRTM) ISH=ISH-NRTM
+                  IF(MSEGLO(ISH)==IRTLM(1,N)) CYCLE
+                END IF
 
-                 IF(STFM(L)/=ZERO.AND.MSEGLO(L)/=IRTLM(1,N).AND.
-     .              ITAGM(L) /= N.AND.TAGMSR(L)==0)THEN
-                    IF(NSV(N)/=IRECT(1,L).AND.NSV(N)/=IRECT(2,L).AND.
-     .                 NSV(N)/=IRECT(3,L).AND.NSV(N)/=IRECT(4,L))THEN
-                       ITAGM(L)=N
-                       K_STOK = K_STOK + 1
-                       IF(K_STOK <= SIZOPT) THEN
-                          PROV_N(K_STOK)=N
-                          PROV_E(K_STOK)=L
-                       ENDIF
-                    END IF
-                 END IF
-               END DO
-             END IF
-           END DO
+                IF(STFM(L)/=ZERO.AND.MSEGLO(L)/=IRTLM(1,N).AND.
+     .             ITAGM(L) /= N.AND.TAGMSR(L)==0)THEN
+                  IF(NSV(N)/=IRECT(1,L).AND.NSV(N)/=IRECT(2,L).AND.
+     .               NSV(N)/=IRECT(3,L).AND.NSV(N)/=IRECT(4,L))THEN
+                    ITAGM(L)=N
+                    K_STOK = K_STOK + 1
+                    IF(K_STOK <= SIZOPT) THEN
+                      PROV_N(K_STOK)=N
+                      PROV_E(K_STOK)=L
+                    ENDIF
+                  END IF
+                END IF
+              END DO
+            END IF
+          END DO
 c
-           DO M=NOR1,NOR2
-              TAGMSR(REMNOR(M)) = 0
-           ENDDO
+          DO M=NOR1,NOR2
+            TAGMSR(REMNOR(M)) = 0
+          ENDDO
 
-         END DO
+        END DO
       ELSE !FLAGREMN
-         DO N=1,NSN
-           DO J=1,4
-             NOR=ISLIDE(J,N)
-             IF(NOR/=0)THEN
-               DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
-                  L   = NOR2MSR(NL)
+        DO N=1,NSN
+          DO J=1,4
+            NOR=ISLIDE(J,N)
+            IF(NOR/=0)THEN
+              DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
+                L   = NOR2MSR(NL)
 C
 C             In some specific case, the segment and its symmetric one may share one vertex (common normal)
 C             => make sure not to slide from one to the other.
@@ -540,47 +536,47 @@ C             => make sure not to slide from one to the other.
 
 C                                       |   /
 C                    Shell (free edge)  | /
-C                                |      | 
+C                                |      |
 C                                |     /|
 C                                |   /  |
 C                                | /    |
 C             --------------------      |
 C                                |
-C                        .. Part of Bricks (corner) .. 
+C                        .. Part of Bricks (corner) ..
 C                                |
 C                                |
 
-                 ISH = IABS(MSEGTYP(L))
-                 IF(ISH/=0)THEN
-                   IF(ISH > NRTM) ISH=ISH-NRTM
-                   IF(MSEGLO(ISH)==IRTLM(1,N)) CYCLE
-                 END IF
+                ISH = IABS(MSEGTYP(L))
+                IF(ISH/=0)THEN
+                  IF(ISH > NRTM) ISH=ISH-NRTM
+                  IF(MSEGLO(ISH)==IRTLM(1,N)) CYCLE
+                END IF
 
-                 IF(STFM(L)/=ZERO.AND.MSEGLO(L)/=IRTLM(1,N).AND.
-     .              ITAGM(L) /= N)THEN
-                    IF(NSV(N)/=IRECT(1,L).AND.NSV(N)/=IRECT(2,L).AND.
-     .                 NSV(N)/=IRECT(3,L).AND.NSV(N)/=IRECT(4,L))THEN
-                       ITAGM(L)=N
-                       K_STOK = K_STOK + 1
-                       IF(K_STOK <= SIZOPT) THEN
-                          PROV_N(K_STOK)=N
-                          PROV_E(K_STOK)=L
-                       ENDIF
-                    END IF
-                 END IF
-               END DO
-             END IF
-           END DO
-         END DO
+                IF(STFM(L)/=ZERO.AND.MSEGLO(L)/=IRTLM(1,N).AND.
+     .             ITAGM(L) /= N)THEN
+                  IF(NSV(N)/=IRECT(1,L).AND.NSV(N)/=IRECT(2,L).AND.
+     .               NSV(N)/=IRECT(3,L).AND.NSV(N)/=IRECT(4,L))THEN
+                    ITAGM(L)=N
+                    K_STOK = K_STOK + 1
+                    IF(K_STOK <= SIZOPT) THEN
+                      PROV_N(K_STOK)=N
+                      PROV_E(K_STOK)=L
+                    ENDIF
+                  END IF
+                END IF
+              END DO
+            END IF
+          END DO
+        END DO
       ENDIF
 C-----
       IF(FLAGREMN == 2)THEN
         DO N=1,NSNR
-           NOR1 = KREMNOR_FI(NIN)%P(N)+1
-           NOR2 = KREMNOR_FI(NIN)%P(N+1)
-           DO M=NOR1,NOR2
-              TAGMSR(REMNOR_FI(NIN)%P(M)) = 1
-           ENDDO
+          NOR1 = KREMNOR_FI(NIN)%P(N)+1
+          NOR2 = KREMNOR_FI(NIN)%P(N+1)
+          DO M=NOR1,NOR2
+            TAGMSR(REMNOR_FI(NIN)%P(M)) = 1
+          ENDDO
           DO J=1,4
             NOR=ISLIDE_FI(NIN)%P(J,N)
             IF(NOR/=0)THEN
@@ -598,8 +594,8 @@ C-----
                   ITAGM(L)=N+NSN
                   K_STOK = K_STOK + 1
                   IF(K_STOK <= SIZOPT) THEN
-                      PROV_N(K_STOK)=N + NSN
-                      PROV_E(K_STOK)=L
+                    PROV_N(K_STOK)=N + NSN
+                    PROV_E(K_STOK)=L
                   ENDIF
                 END IF
               END DO
@@ -607,7 +603,7 @@ C-----
           END DO
 c
           DO M=NOR1,NOR2
-             TAGMSR(REMNOR_FI(NIN)%P(M)) = 0
+            TAGMSR(REMNOR_FI(NIN)%P(M)) = 0
           ENDDO
         END DO
       ELSE !FLAGREMN
@@ -629,8 +625,8 @@ c
                   ITAGM(L)=N+NSN
                   K_STOK = K_STOK + 1
                   IF(K_STOK <= SIZOPT) THEN
-                      PROV_N(K_STOK)=N + NSN
-                      PROV_E(K_STOK)=L
+                    PROV_N(K_STOK)=N + NSN
+                    PROV_E(K_STOK)=L
                   ENDIF
                 END IF
               END DO
@@ -660,7 +656,7 @@ Chd|  I25KEEPF                      source/interfaces/int25/i25slid.F
 Chd|-- called by -----------
 Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I25KEEPF(
      1                  I_STOK ,INDEX  ,CAND_N ,CAND_E ,NIN    ,
@@ -724,14 +720,14 @@ c              print *,'keepf natif',itab(nsv(n)),mseglo(l),PENM(1,J)+PENM(2,J)+
             ELSE
 C
 C             attention si ici <=> pb parith/on
-               print *,'i25keepf native - internal problem',itab(nsv(n)),irtlm(1,n),ispmd+1,time_s(1,n),
-     .                PENM(1,J),PENM(2,J),PENM(3,J),PENM(4,J)
-             IRTLM(1,N)=0
-             IRTLM(2,N)=0
-             IRTLM(3,N)=0
-             IRTLM(4,N)=0
+              print *,'i25keepf native - internal problem',itab(nsv(n)),irtlm(1,n),ispmd+1,time_s(1,n),
+     .               PENM(1,J),PENM(2,J),PENM(3,J),PENM(4,J)
+              IRTLM(1,N)=0
+              IRTLM(2,N)=0
+              IRTLM(3,N)=0
+              IRTLM(4,N)=0
             END IF
-          END IF  
+          END IF
         ELSE
 c          if(itafi(nin)%p(n-nsn)==31774)
 c     .         print *,'keepf remote',ispmd+1,itafi(nin)%p(n-nsn),IRTLM_FI(NIN)%P(1,N-NSN),
@@ -750,10 +746,10 @@ C             attention si ici <=> pb parith/on
               IRTLM_FI(NIN)%P(3,N-NSN)=0
               IRTLM_FI(NIN)%P(4,N-NSN)=0
             END IF
-          END IF  
-        END IF  
+          END IF
+        END IF
 C
-C       switch to negative value if no more kept 
+C       switch to negative value if no more kept
         IF(IKEEP == 0) CAND_N(J)=-CAND_N(J)
       END DO
 C----------------------------------------------------------------------
@@ -766,7 +762,7 @@ Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I25PREP_NINDEX(
      1                  NIN    ,NI25   ,NSN    ,NSNR   ,
@@ -775,7 +771,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
       USE MESSAGE_MOD
       USE TRI7BOX
 C-----------------------------------------------
@@ -795,7 +791,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN, NI25, NSN, NSNR, 
+      INTEGER NIN, NI25, NSN, NSNR,
      .        SIZBUFS(NSPMD),NSENDTOT
       INTEGER ITAB(*)
       INTEGER IAD_FRNOR(NINTER25,NSPMD+1),FR_NOR(*),
@@ -845,8 +841,8 @@ C             NADD(1:NADMSR+1), KADD <=> liste sky line des noeuds secnd concern
       END DO
 C     DEALLOCATE(TAGSLD)
 C------
-       RETURN
-       END
+      RETURN
+      END
 Chd|====================================================================
 Chd|  I25PREP_SIZBUFS               source/interfaces/int25/i25slid.F
 Chd|-- called by -----------
@@ -854,7 +850,7 @@ Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I25PREP_SIZBUFS(
      1                  NIN    ,NI25   ,NSN    ,NSNR   ,ITYP   ,
@@ -865,7 +861,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
       USE MESSAGE_MOD
       USE TRI7BOX
 C-----------------------------------------------
@@ -885,7 +881,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN, NI25, NSN, NSNR, ITYP, IFQ, INACTI, IGAP, INTTH, ILEV, 
+      INTEGER NIN, NI25, NSN, NSNR, ITYP, IFQ, INACTI, IGAP, INTTH, ILEV,
      .        RSIZ, ISIZ, INTFRIC, IVIS2, SIZBUFS(NSPMD)
       INTEGER ITAB(*), INDEX(*), FR_SLIDE(4,*)
       INTEGER IAD_FRNOR(NINTER25,NSPMD+1),FR_NOR(*),
@@ -907,11 +903,11 @@ C--------------------------------------------------------
 C
 C computation of real and integer sending buffers sizes
 c general case
-      RSIZ = 9  
+      RSIZ = 9
       ISIZ = 8
       IF(.TRUE.) THEN
-! ICODT and ISKEW 
-        ISIZ = ISIZ + 2 
+! ICODT and ISKEW
+        ISIZ = ISIZ + 2
       ENDIF
 C
 C specific cases ../..
@@ -921,46 +917,46 @@ C specific cases ../..
         RSIZ = RSIZ + 2
       ENDIF
 C
-C thermic      
-      IF(INTTH > 0 ) THEN    
+C thermic
+      IF(INTTH > 0 ) THEN
         RSIZ = RSIZ + 2
         ISIZ = ISIZ + 1
       ENDIF
 c adhesion
       IF(IVIS2==-1) THEN
-          IF(INTTH==0) RSIZ = RSIZ + 1
-         ISIZ = ISIZ + 1
-      ENDIF      
-C Friction      
-      IF(INTFRIC > 0 ) THEN    
-	ISIZ = ISIZ + 1
+        IF(INTTH==0) RSIZ = RSIZ + 1
+        ISIZ = ISIZ + 1
+      ENDIF
+C Friction
+      IF(INTFRIC > 0 ) THEN
+        ISIZ = ISIZ + 1
       ENDIF
 C
-C -- IDTMINS==2      
-      IF(IDTMINS == 2)THEN     
+C -- IDTMINS==2
+      IF(IDTMINS == 2)THEN
         ISIZ = ISIZ + 2
-C -- IDTMINS_INT /= 0		
-      ELSEIF(IDTMINS_INT/=0)THEN    
+C -- IDTMINS_INT /= 0
+      ELSEIF(IDTMINS_INT/=0)THEN
         ISIZ = ISIZ + 1
       END IF
 C
-C INT24      
+C INT24
 C     IF(ITYP==24)THEN
 C       RSIZ = RSIZ + 8
 C       ISIZ = ISIZ + 3
-C-----for   NBINFLG      
+C-----for   NBINFLG
 C       IF (ILEV==2) ISIZ = ISIZ + 1
-C     ENDIF    
+C     ENDIF
 C
-C INT25     
+C INT25
       IF(ITYP==25)THEN
         RSIZ = RSIZ + 10
         ISIZ = ISIZ + 5
-C-----for   NBINFLG      
+C-----for   NBINFLG
         IF (ILEV==2) ISIZ = ISIZ + 1
 C-----for FR_SLIDE
         ISIZ = ISIZ + 4
-      ENDIF    
+      ENDIF
 C------
       LOC_PROC = ISPMD+1
       IDEB=0
@@ -998,8 +994,8 @@ C               entree dans IAD_FRNOR(NI25,P:P+1)
         END IF
       END DO
 C------
-       RETURN
-       END
+      RETURN
+      END
 
 Chd|====================================================================
 Chd|  I25PREP_SEND                  source/interfaces/int25/i25slid.F
@@ -1008,7 +1004,7 @@ Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I25PREP_SEND(
      1                  NIN    ,NI25   ,NSN    ,NSNR   ,ITYP    ,
@@ -1019,11 +1015,11 @@ Chd|====================================================================
      .                  INTBUF_TAB,RBUF  ,IBUF   ,
      4                  RSIZ   ,ISIZ   ,SIZBUFS,FR_SLIDE ,INDEX  ,
      5                  MAIN_PROC ,INTFRIC,IVIS2, ICODT, ISKEW)
-    
+
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
       USE MESSAGE_MOD
       USE TRI7BOX
 C-----------------------------------------------
@@ -1054,7 +1050,7 @@ C-----------------------------------------------
      .        X(3,*), V(3,*), MS(*), TEMP(*)
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
       TYPE(real_pointer), DIMENSION(NSPMD,NINTER25) :: RBUF
-      TYPE(int_pointer) , DIMENSION(NSPMD,NINTER25) :: IBUF   
+      TYPE(int_pointer) , DIMENSION(NSPMD,NINTER25) :: IBUF
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1071,231 +1067,231 @@ C-----------------------------------------------
 C--------------------------------------------------------
 
 C
-       LOC_PROC = ISPMD+1
+      LOC_PROC = ISPMD+1
 
-       IDEB = 0
-       DO P=1,NSPMD
-         IF(P/=LOC_PROC)THEN
-            IF(IAD_FRNOR(NI25,P+1)-IAD_FRNOR(NI25,P)>0) THEN
+      IDEB = 0
+      DO P=1,NSPMD
+        IF(P/=LOC_PROC)THEN
+          IF(IAD_FRNOR(NI25,P+1)-IAD_FRNOR(NI25,P)>0) THEN
 C
-              NSEND = SIZBUFS(P)
+            NSEND = SIZBUFS(P)
 C
 C             Pointeurs sur la zone vs cette interface et ce processeur
-              LR = 0
-              LI = 0     
+            LR = 0
+            LI = 0
 C
-              DO J=1,NSEND
-                I = INDEX(IDEB+J)
-                IF(I <= NSN)THEN
-                  NOD = INTBUF_TAB%NSV(I)
-                  RBUF(P,NI25)%p(LR+1) = X(1,NOD)
-                  RBUF(P,NI25)%p(LR+2) = X(2,NOD)
-                  RBUF(P,NI25)%p(LR+3) = X(3,NOD)
-                  RBUF(P,NI25)%p(LR+4) = V(1,NOD)
-                  RBUF(P,NI25)%p(LR+5) = V(2,NOD)
-                  RBUF(P,NI25)%p(LR+6) = V(3,NOD)
-                  RBUF(P,NI25)%p(LR+7) = MS(NOD)
-                  RBUF(P,NI25)%p(LR+8) = INTBUF_TAB%STFNS(I)   
-                  IBUF(P,NI25)%p(LI+1) = INTBUF_TAB%NSV_ON_PMAIN(I) 
+            DO J=1,NSEND
+              I = INDEX(IDEB+J)
+              IF(I <= NSN)THEN
+                NOD = INTBUF_TAB%NSV(I)
+                RBUF(P,NI25)%p(LR+1) = X(1,NOD)
+                RBUF(P,NI25)%p(LR+2) = X(2,NOD)
+                RBUF(P,NI25)%p(LR+3) = X(3,NOD)
+                RBUF(P,NI25)%p(LR+4) = V(1,NOD)
+                RBUF(P,NI25)%p(LR+5) = V(2,NOD)
+                RBUF(P,NI25)%p(LR+6) = V(3,NOD)
+                RBUF(P,NI25)%p(LR+7) = MS(NOD)
+                RBUF(P,NI25)%p(LR+8) = INTBUF_TAB%STFNS(I)
+                IBUF(P,NI25)%p(LI+1) = INTBUF_TAB%NSV_ON_PMAIN(I)
 c                 IF(MAIN_PROC(NOD) == LOC_PROC) THEN
 c                   IBUF(P,NI25)%p(LI+1) = -ITAB(NOD)
 c                   ! on peut metre ici directement le numero local
 c                 ELSE
 c                   IBUF(P,NI25)%p(LI+1) = -ITAB(NOD)
 c                 ENDIF
-                  IBUF(P,NI25)%p(LI+2) = ITAB(NOD) 
-c                  if(itab(nod)==6992)print *,'prep_send nat',ispmd+1,p,li,main_proc(nod)   
-                  IBUF(P,NI25)%p(LI+3) = MAIN_PROC(NOD)  
-                  IBUF(P,NI25)%p(LI+4) = KINET(NOD)
-                ELSE
-                  II = I-NSN
-                  RBUF(P,NI25)%p(LR+1) = XFI(NIN)%P(1,II)
-                  RBUF(P,NI25)%p(LR+2) = XFI(NIN)%P(2,II)
-                  RBUF(P,NI25)%p(LR+3) = XFI(NIN)%P(3,II)
-                  RBUF(P,NI25)%p(LR+4) = VFI(NIN)%P(1,II)
-                  RBUF(P,NI25)%p(LR+5) = VFI(NIN)%P(2,II)
-                  RBUF(P,NI25)%p(LR+6) = VFI(NIN)%P(3,II)
-                  RBUF(P,NI25)%p(LR+7) = MSFI(NIN)%P(II)
-                  RBUF(P,NI25)%p(LR+8) = STIFI(NIN)%P(II)
+                IBUF(P,NI25)%p(LI+2) = ITAB(NOD)
+c                  if(itab(nod)==6992)print *,'prep_send nat',ispmd+1,p,li,main_proc(nod)
+                IBUF(P,NI25)%p(LI+3) = MAIN_PROC(NOD)
+                IBUF(P,NI25)%p(LI+4) = KINET(NOD)
+              ELSE
+                II = I-NSN
+                RBUF(P,NI25)%p(LR+1) = XFI(NIN)%P(1,II)
+                RBUF(P,NI25)%p(LR+2) = XFI(NIN)%P(2,II)
+                RBUF(P,NI25)%p(LR+3) = XFI(NIN)%P(3,II)
+                RBUF(P,NI25)%p(LR+4) = VFI(NIN)%P(1,II)
+                RBUF(P,NI25)%p(LR+5) = VFI(NIN)%P(2,II)
+                RBUF(P,NI25)%p(LR+6) = VFI(NIN)%P(3,II)
+                RBUF(P,NI25)%p(LR+7) = MSFI(NIN)%P(II)
+                RBUF(P,NI25)%p(LR+8) = STIFI(NIN)%P(II)
 C                 To test search in SPMD_I25_FRONT
-                  IBUF(P,NI25)%p(LI+1) = NSVFI(NIN)%P(II) 
-                  IBUF(P,NI25)%p(LI+2) = ITAFI(NIN)%P(II)     
-c                  if(ITAFI(NIN)%P(II) ==6992)print *,'prep_send rem',ispmd+1,p,li,PMAINFI(NIN)%P(II)    
-                  IBUF(P,NI25)%p(LI+3) = PMAINFI(NIN)%P(II)    
-                  IBUF(P,NI25)%p(LI+4) = KINFI(NIN)%P(II)
-                END IF
-                LR = LR + RSIZ
-                LI = LI + ISIZ
-              END DO
+                IBUF(P,NI25)%p(LI+1) = NSVFI(NIN)%P(II)
+                IBUF(P,NI25)%p(LI+2) = ITAFI(NIN)%P(II)
+c                  if(ITAFI(NIN)%P(II) ==6992)print *,'prep_send rem',ispmd+1,p,li,PMAINFI(NIN)%P(II)
+                IBUF(P,NI25)%p(LI+3) = PMAINFI(NIN)%P(II)
+                IBUF(P,NI25)%p(LI+4) = KINFI(NIN)%P(II)
+              END IF
+              LR = LR + RSIZ
+              LI = LI + ISIZ
+            END DO
 C
-C shift for real variables (prepare for next setting)	    
-              RSHIFT = 9
+C shift for real variables (prepare for next setting)
+            RSHIFT = 9
 C
-C shift for integer variables (prepare for next setting) 
-              ISHIFT = 8 
+C shift for integer variables (prepare for next setting)
+            ISHIFT = 8
 C
 C specific cases ../..
 
 
-              IF(.TRUE.) THEN
-               LI = 0           
-#include      "vectorize.inc"                       
-               DO J = 1, NSEND
-                 I = INDEX(IDEB+J)
-                 IF(I <= NSN) THEN
-                   NOD = INTBUF_TAB%NSV(I)
-                   IBUF(P,NI25)%p(LI+ISHIFT)  = ICODT(NOD) 
-                   IBUF(P,NI25)%p(LI+ISHIFT+1)= ISKEW(NOD) 
-                  ELSE
-                   II = I-NSN
-                   IBUF(P,NI25)%p(LI+ISHIFT)  = ICODT_FI(NIN)%P(II) 
-                   IBUF(P,NI25)%p(LI+ISHIFT+1)= ISKEW_FI(NIN)%P(II) 
-                  END IF
-                  LI = LI + ISIZ
-               END DO
-               ISHIFT = ISHIFT + 2             
-              ENDIF
+            IF(.TRUE.) THEN
+              LI = 0
+#include      "vectorize.inc"
+              DO J = 1, NSEND
+                I = INDEX(IDEB+J)
+                IF(I <= NSN) THEN
+                  NOD = INTBUF_TAB%NSV(I)
+                  IBUF(P,NI25)%p(LI+ISHIFT)  = ICODT(NOD)
+                  IBUF(P,NI25)%p(LI+ISHIFT+1)= ISKEW(NOD)
+                ELSE
+                  II = I-NSN
+                  IBUF(P,NI25)%p(LI+ISHIFT)  = ICODT_FI(NIN)%P(II)
+                  IBUF(P,NI25)%p(LI+ISHIFT+1)= ISKEW_FI(NIN)%P(II)
+                END IF
+                LI = LI + ISIZ
+              END DO
+              ISHIFT = ISHIFT + 2
+            ENDIF
 
-              IF(IGAP==1 .OR. IGAP==2)THEN
-                LR = 0        
-                DO J=1,NSEND
-                  I = INDEX(IDEB+J)
-                  IF(I <= NSN)THEN
-                    NOD = INTBUF_TAB%NSV(I)
-                    RBUF(P,NI25)%p(LR+RSHIFT)= INTBUF_TAB%GAP_S(I)
-                  ELSE
-                    II = I-NSN
-                    RBUF(P,NI25)%p(LR+RSHIFT)= GAPFI(NIN)%P(II)
-                  END IF
-                  LR = LR + RSIZ
-                END DO
-                 RSHIFT = RSHIFT + 1    
-              ELSEIF(IGAP==3)THEN 
-                LR = 0        
-#include        "vectorize.inc"            
-                DO J = 1, NSEND
-                  I = INDEX(IDEB+J)
-                  IF(I <= NSN)THEN
-                    RBUF(P,NI25)%p(LR+RSHIFT)  = INTBUF_TAB%GAP_S(I)
-                    RBUF(P,NI25)%p(LR+RSHIFT+1)= INTBUF_TAB%GAP_SL(I)
-                  ELSE
-                    II = I-NSN
-                    RBUF(P,NI25)%p(LR+RSHIFT)  = GAPFI(NIN)%P(II)
-                    RBUF(P,NI25)%p(LR+RSHIFT+1)= GAP_LFI(NIN)%P(II)
-                  END IF
-                  LR = LR + RSIZ
-                END DO
-                RSHIFT = RSHIFT + 2
-              ENDIF
+            IF(IGAP==1 .OR. IGAP==2)THEN
+              LR = 0
+              DO J=1,NSEND
+                I = INDEX(IDEB+J)
+                IF(I <= NSN)THEN
+                  NOD = INTBUF_TAB%NSV(I)
+                  RBUF(P,NI25)%p(LR+RSHIFT)= INTBUF_TAB%GAP_S(I)
+                ELSE
+                  II = I-NSN
+                  RBUF(P,NI25)%p(LR+RSHIFT)= GAPFI(NIN)%P(II)
+                END IF
+                LR = LR + RSIZ
+              END DO
+              RSHIFT = RSHIFT + 1
+            ELSEIF(IGAP==3)THEN
+              LR = 0
+#include        "vectorize.inc"
+              DO J = 1, NSEND
+                I = INDEX(IDEB+J)
+                IF(I <= NSN)THEN
+                  RBUF(P,NI25)%p(LR+RSHIFT)  = INTBUF_TAB%GAP_S(I)
+                  RBUF(P,NI25)%p(LR+RSHIFT+1)= INTBUF_TAB%GAP_SL(I)
+                ELSE
+                  II = I-NSN
+                  RBUF(P,NI25)%p(LR+RSHIFT)  = GAPFI(NIN)%P(II)
+                  RBUF(P,NI25)%p(LR+RSHIFT+1)= GAP_LFI(NIN)%P(II)
+                END IF
+                LR = LR + RSIZ
+              END DO
+              RSHIFT = RSHIFT + 2
+            ENDIF
 C
 C thermic
             IF(INTTH>0)THEN
-               LR = 0  
-	       LI = 0 	    	
-#include      "vectorize.inc"	       	       	    
-               DO J = 1, NSEND
-                 I = INDEX(IDEB+J)
-                 IF(I <= NSN)THEN
-                   NOD = INTBUF_TAB%NSV(I)
-                   RBUF(P,NI25)%p(LR+RSHIFT)  = TEMP(NOD)
-                   RBUF(P,NI25)%p(LR+RSHIFT+1)= INTBUF_TAB%AREAS(I)
-                   IBUF(P,NI25)%p(LI+ISHIFT)  = INTBUF_TAB%IELES(I)
-                  ELSE
-                   II = I-NSN
-                   RBUF(P,NI25)%p(LR+RSHIFT)  = TEMPFI(NIN)%P(II)
-                   RBUF(P,NI25)%p(LR+RSHIFT+1)= AREASFI(NIN)%P(II)
-                   IBUF(P,NI25)%p(LI+ISHIFT)  = MATSFI(NIN)%P(II)
-                  END IF
-                  LR = LR + RSIZ
-                  LI = LI + ISIZ
-               END DO
-               RSHIFT = RSHIFT + 2
-               ISHIFT = ISHIFT + 1	       
-            ENDIF              
-C Adhesion
-            IF(IVIS2==-1)THEN
-               LR = 0  
-               LI = 0
-#include      "vectorize.inc"	       	       	    
-               DO J = 1, NSEND
-                 I = INDEX(IDEB+J)
-                 IF(I <= NSN)THEN
-                   NOD = INTBUF_TAB%NSV(I)
-                    IF(INTTH==0) RBUF(P,NI25)%p(LR+RSHIFT)= INTBUF_TAB%AREAS(I)
-                   IBUF(P,NI25)%p(LI+ISHIFT)=INTBUF_TAB%IF_ADH(I)
-                 ELSE
-                   II = I-NSN
-                    IF(INTTH==0) RBUF(P,NI25)%p(LR+RSHIFT)= AREASFI(NIN)%P(II)
-                   IBUF(P,NI25)%p(LI+ISHIFT)= IF_ADHFI(NIN)%P(II)
-                 END IF
-                  IF(INTTH==0) LR = LR + RSIZ
-                 LI = LI + ISIZ
-               END DO
-                IF(INTTH==0) RSHIFT = RSHIFT + 1
-               ISHIFT = ISHIFT + 1
-            ENDIF
-
-C Friction
-            IF(INTFRIC>0)THEN
-	       LI = 0 	    	
-#include      "vectorize.inc"	       	       	    
-               DO J = 1, NSEND
-                 I = INDEX(IDEB+J)
-                 IF(I <= NSN)THEN
-                   IBUF(P,NI25)%p(LI+ISHIFT)  = INTBUF_TAB%IPARTFRICS(I)
-                  ELSE
-                   II = I-NSN
-                   IBUF(P,NI25)%p(LI+ISHIFT)  = IPARTFRICSFI(NIN)%P(II)
-                  END IF
-                  LI = LI + ISIZ
-               END DO
-               ISHIFT = ISHIFT + 1       
-	    ENDIF
-
-C
-C -- IDTMINS==2
-            IF(IDTMINS==2)THEN
-               LI = 0
-#include      "vectorize.inc"	       	       
-               DO J = 1, NSEND
-                 I = INDEX(IDEB+J)
-                 IF(I <= NSN)THEN
-                   NOD = INTBUF_TAB%NSV(I)
-                   IBUF(P,NI25)%p(LI+ISHIFT)  = NODNX_SMS(NOD)
-                   IF(P/=MAIN_PROC(NOD)) THEN
-                    IBUF(P,NI25)%p(LI+ISHIFT+1)= IBUF(P,NI25)%p(LI+1)
-                   ELSE
-                    IBUF(P,NI25)%p(LI+ISHIFT+1)= NOD
-                   ENDIF
-                 ELSE
-                  II = I-NSN
-                  IBUF(P,NI25)%p(LI+ISHIFT)  = NODNXFI(NIN)%P(II) 
-                  IBUF(P,NI25)%p(LI+ISHIFT+1)= NODAMSFI(NIN)%P(II) 
-                 END IF
-                 LI = LI + ISIZ
-               END DO
-               ISHIFT = ISHIFT + 2
-               
-C -- IDTMINS_INT /= 0	       
-            ELSEIF(IDTMINS_INT/=0)THEN
+              LR = 0
               LI = 0
-#include      "vectorize.inc"	      
+#include      "vectorize.inc"
               DO J = 1, NSEND
                 I = INDEX(IDEB+J)
                 IF(I <= NSN)THEN
                   NOD = INTBUF_TAB%NSV(I)
-                   IF(P/=MAIN_PROC(NOD)) THEN
-                    IBUF(P,NI25)%p(LI+ISHIFT)= IBUF(P,NI25)%p(LI+1)
-                   ELSE
-                    IBUF(P,NI25)%p(LI+ISHIFT)= NOD
-                   ENDIF
+                  RBUF(P,NI25)%p(LR+RSHIFT)  = TEMP(NOD)
+                  RBUF(P,NI25)%p(LR+RSHIFT+1)= INTBUF_TAB%AREAS(I)
+                  IBUF(P,NI25)%p(LI+ISHIFT)  = INTBUF_TAB%IELES(I)
                 ELSE
                   II = I-NSN
-                  IBUF(P,NI25)%p(LI+ISHIFT)  = NODNXFI(NIN)%P(II) 
+                  RBUF(P,NI25)%p(LR+RSHIFT)  = TEMPFI(NIN)%P(II)
+                  RBUF(P,NI25)%p(LR+RSHIFT+1)= AREASFI(NIN)%P(II)
+                  IBUF(P,NI25)%p(LI+ISHIFT)  = MATSFI(NIN)%P(II)
+                END IF
+                LR = LR + RSIZ
+                LI = LI + ISIZ
+              END DO
+              RSHIFT = RSHIFT + 2
+              ISHIFT = ISHIFT + 1
+            ENDIF
+C Adhesion
+            IF(IVIS2==-1)THEN
+              LR = 0
+              LI = 0
+#include      "vectorize.inc"
+              DO J = 1, NSEND
+                I = INDEX(IDEB+J)
+                IF(I <= NSN)THEN
+                  NOD = INTBUF_TAB%NSV(I)
+                  IF(INTTH==0) RBUF(P,NI25)%p(LR+RSHIFT)= INTBUF_TAB%AREAS(I)
+                  IBUF(P,NI25)%p(LI+ISHIFT)=INTBUF_TAB%IF_ADH(I)
+                ELSE
+                  II = I-NSN
+                  IF(INTTH==0) RBUF(P,NI25)%p(LR+RSHIFT)= AREASFI(NIN)%P(II)
+                  IBUF(P,NI25)%p(LI+ISHIFT)= IF_ADHFI(NIN)%P(II)
+                END IF
+                IF(INTTH==0) LR = LR + RSIZ
+                LI = LI + ISIZ
+              END DO
+              IF(INTTH==0) RSHIFT = RSHIFT + 1
+              ISHIFT = ISHIFT + 1
+            ENDIF
+
+C Friction
+            IF(INTFRIC>0)THEN
+              LI = 0
+#include      "vectorize.inc"
+              DO J = 1, NSEND
+                I = INDEX(IDEB+J)
+                IF(I <= NSN)THEN
+                  IBUF(P,NI25)%p(LI+ISHIFT)  = INTBUF_TAB%IPARTFRICS(I)
+                ELSE
+                  II = I-NSN
+                  IBUF(P,NI25)%p(LI+ISHIFT)  = IPARTFRICSFI(NIN)%P(II)
                 END IF
                 LI = LI + ISIZ
               END DO
-              ISHIFT = ISHIFT + 1 	      
+              ISHIFT = ISHIFT + 1
+            ENDIF
+
+C
+C -- IDTMINS==2
+            IF(IDTMINS==2)THEN
+              LI = 0
+#include      "vectorize.inc"
+              DO J = 1, NSEND
+                I = INDEX(IDEB+J)
+                IF(I <= NSN)THEN
+                  NOD = INTBUF_TAB%NSV(I)
+                  IBUF(P,NI25)%p(LI+ISHIFT)  = NODNX_SMS(NOD)
+                  IF(P/=MAIN_PROC(NOD)) THEN
+                    IBUF(P,NI25)%p(LI+ISHIFT+1)= IBUF(P,NI25)%p(LI+1)
+                  ELSE
+                    IBUF(P,NI25)%p(LI+ISHIFT+1)= NOD
+                  ENDIF
+                ELSE
+                  II = I-NSN
+                  IBUF(P,NI25)%p(LI+ISHIFT)  = NODNXFI(NIN)%P(II)
+                  IBUF(P,NI25)%p(LI+ISHIFT+1)= NODAMSFI(NIN)%P(II)
+                END IF
+                LI = LI + ISIZ
+              END DO
+              ISHIFT = ISHIFT + 2
+
+C -- IDTMINS_INT /= 0
+            ELSEIF(IDTMINS_INT/=0)THEN
+              LI = 0
+#include      "vectorize.inc"
+              DO J = 1, NSEND
+                I = INDEX(IDEB+J)
+                IF(I <= NSN)THEN
+                  NOD = INTBUF_TAB%NSV(I)
+                  IF(P/=MAIN_PROC(NOD)) THEN
+                    IBUF(P,NI25)%p(LI+ISHIFT)= IBUF(P,NI25)%p(LI+1)
+                  ELSE
+                    IBUF(P,NI25)%p(LI+ISHIFT)= NOD
+                  ENDIF
+                ELSE
+                  II = I-NSN
+                  IBUF(P,NI25)%p(LI+ISHIFT)  = NODNXFI(NIN)%P(II)
+                END IF
+                LI = LI + ISIZ
+              END DO
+              ISHIFT = ISHIFT + 1
             ENDIF
 C
             IF(ITYP==25)THEN
@@ -1310,7 +1306,7 @@ C
                   RBUF(P,NI25)%p(LR+RSHIFT+3)  =INTBUF_TAB%SECND_FR(6*(I-1)+5)
                   RBUF(P,NI25)%p(LR+RSHIFT+4)  =INTBUF_TAB%SECND_FR(6*(I-1)+6)
                   RBUF(P,NI25)%p(LR+RSHIFT+5)  =INTBUF_TAB%PENE_OLD(5*(I-1)+2)
-                  RBUF(P,NI25)%p(LR+RSHIFT+6)  =INTBUF_TAB%STIF_OLD(2*(I-1)+2) 
+                  RBUF(P,NI25)%p(LR+RSHIFT+6)  =INTBUF_TAB%STIF_OLD(2*(I-1)+2)
                   RBUF(P,NI25)%p(LR+RSHIFT+7)  =INTBUF_TAB%PENE_OLD(5*(I-1)+3)
                   RBUF(P,NI25)%p(LR+RSHIFT+8)  =INTBUF_TAB%PENE_OLD(5*(I-1)+4)
                   RBUF(P,NI25)%p(LR+RSHIFT+9)  =INTBUF_TAB%PENE_OLD(5*(I-1)+5)
@@ -1322,16 +1318,16 @@ C
                   RBUF(P,NI25)%p(LR+RSHIFT+3)  =SECND_FRFI(NIN)%P(5,II)
                   RBUF(P,NI25)%p(LR+RSHIFT+4)  =SECND_FRFI(NIN)%P(6,II)
                   RBUF(P,NI25)%p(LR+RSHIFT+5)  =PENE_OLDFI(NIN)%P(2,II)
-                  RBUF(P,NI25)%p(LR+RSHIFT+6)  =STIF_OLDFI(NIN)%P(2,II) 
+                  RBUF(P,NI25)%p(LR+RSHIFT+6)  =STIF_OLDFI(NIN)%P(2,II)
                   RBUF(P,NI25)%p(LR+RSHIFT+7)  =PENE_OLDFI(NIN)%P(3,II)
                   RBUF(P,NI25)%p(LR+RSHIFT+8)  =PENE_OLDFI(NIN)%P(4,II)
                   RBUF(P,NI25)%p(LR+RSHIFT+9)  =PENE_OLDFI(NIN)%P(5,II)
                 END IF
                 LR = LR + RSIZ
-              END DO          
-              RSHIFT = RSHIFT + 10 
-                
-              LI = 0     
+              END DO
+              RSHIFT = RSHIFT + 10
+
+              LI = 0
 #include      "vectorize.inc"
               DO J = 1, NSEND
                 I = INDEX(IDEB+J)
@@ -1351,13 +1347,13 @@ C
                   IBUF(P,NI25)%p(LI+ISHIFT+4)=ICONT_I_FI(NIN)%P(II)
                 END IF
                 LI = LI + ISIZ
-              END DO          
+              END DO
               ISHIFT = ISHIFT + 5
 
-              IF (ILEV==2) THEN  
-C             Voir avec  
-                LI = 0                
-C include      "vectorize.inc"       
+              IF (ILEV==2) THEN
+C             Voir avec
+                LI = 0
+C include      "vectorize.inc"
                 DO J = 1, NSEND
                   I = INDEX(IDEB+J)
                   IF(I <= NSN)THEN
@@ -1366,11 +1362,11 @@ c                   IBUF(P,NI25)%p(LI+ISHIFT)=NBINFLFI(NIN)%P(I)
                     IBUF(P,NI25)%p(LI+ISHIFT) = 0
                   END IF
                   LI = LI + ISIZ
-                END DO        
-              ISHIFT = ISHIFT + 1
+                END DO
+                ISHIFT = ISHIFT + 1
               END IF
 
-              LI = 0     
+              LI = 0
 !#include      "vectorize.inc"
               DO J = 1, NSEND
                 I = INDEX(IDEB+J)
@@ -1385,7 +1381,7 @@ c                end if
                 IBUF(P,NI25)%p(LI+ISHIFT+2)=FR_SLIDE(3,IDEB+J)
                 IBUF(P,NI25)%p(LI+ISHIFT+3)=FR_SLIDE(4,IDEB+J)
                 LI = LI + ISIZ
-              END DO          
+              END DO
               ISHIFT = ISHIFT + 4
 
             ENDIF ! (ITYP==25)

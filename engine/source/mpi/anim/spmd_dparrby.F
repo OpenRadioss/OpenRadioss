@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C
 Chd|====================================================================
 Chd|  SPMD_DPARRBY                  source/mpi/anim/spmd_dparrby.F
 Chd|-- called by -----------
@@ -63,18 +62,18 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-        INTEGER PMAIN,JENVOIE,I,J,K,L,S,B,M,P,N,
-     .          RECOISDE(NSPMD),
-     .          II(2),PTRPO(NSPMD+1),PTRPOO(NSPMD+1)
-C  
-        INTEGER BUFSEND(NSPMD+1),BUFRECP(NSPMD+1),
-     .          NBNOD,SIZ,LPO,NSN,PTR,NOD,NN,NR,
-     .          SRBY
-        INTEGER, DIMENSION(:), ALLOCATABLE :: BUFSPM,BUFRECVM,PORBY,BUFSPO
+      INTEGER PMAIN,JENVOIE,I,J,K,L,S,B,M,P,N,
+     .        RECOISDE(NSPMD),
+     .        II(2),PTRPO(NSPMD+1),PTRPOO(NSPMD+1)
+C
+      INTEGER BUFSEND(NSPMD+1),BUFRECP(NSPMD+1),
+     .        NBNOD,SIZ,LPO,NSN,PTR,NOD,NN,NR,
+     .        SRBY
+      INTEGER, DIMENSION(:), ALLOCATABLE :: BUFSPM,BUFRECVM,PORBY,BUFSPO
 
-        INTEGER MAINND(NRBYKIN)
+      INTEGER MAINND(NRBYKIN)
 
-C   MPI variables 
+C   MPI variables
       INTEGER LOC_PROC
       INTEGER MSGOFF,MSGOFF2,MSGTYP,INFO,ATID,ATAG,ALEN
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,ISD(NSPMD)
@@ -87,241 +86,205 @@ C-----------------------------------------------
       ALLOCATE(PORBY(SPORBY))
       ALLOCATE(BUFSPO(SBUFSPO))
 
-      LOC_PROC = ISPMD + 1 
+      LOC_PROC = ISPMD + 1
 
 C SEND main NODES TO PROC 0
       DO J=1,NRBYKIN
         PMAIN = FR_RBY2(3,J)
         IF (LOC_PROC==ABS(PMAIN))THEN
-            MAINND(J)=NODGLOB( NPBY(1,J) )-1
+          MAINND(J)=NODGLOB( NPBY(1,J) )-1
         ELSE
-            MAINND(J)= 0 
+          MAINND(J)= 0
         ENDIF
-      ENDDO   
+      ENDDO
 
       CALL SPMD_GLOB_ISUM9(MAINND,NRBYKIN)
-C   init
-       DO I=1,SBUFRECVM
-           BUFRECVM(I)=0
-       ENDDO
-C   Remplissage du buffer d envoi proc ayant des noeuds secnds
-C   vers proc ayant Noeud Main
+      DO I=1,SBUFRECVM
+        BUFRECVM(I)=0
+      ENDDO
 
-        L = 1
+      L = 1
 
-        DO I=1,NSPMD
+      DO I=1,NSPMD
 
-          BUFSEND(I)=L
-          S = 1
+        BUFSEND(I)=L
+        S = 1
 C
-          DO J=1,NRBYKIN
+        DO J=1,NRBYKIN
 
-            PMAIN = FR_RBY2(3,J)
-            NBNOD =  FR_RBY2(1,J)
+          PMAIN = FR_RBY2(3,J)
+          NBNOD =  FR_RBY2(1,J)
 
-            IF ( NBNOD/=0  .AND.
-     .          ABS(PMAIN)==I .AND. LOC_PROC/=I) THEN
+          IF ( NBNOD/=0  .AND.
+     .        ABS(PMAIN)==I .AND. LOC_PROC/=I) THEN
 
-               BUFSPM(L) = J
-               BUFSPM(L+1) = NBNOD
-               L = L + 2
-               NR = 1
-               DO K=1,NPBY(2,J)
-                 IF (WEIGHT(LPBY(K+S-1))==1) THEN
-                   BUFSPM(L+NR-1) = NODGLOB(LPBY(K+S-1))-1
-                   NR = NR +1
-                 ENDIF
-               ENDDO
-               L = L+NBNOD
-            ENDIF
-            S = S + NPBY(2,J)
-          ENDDO
-        ENDDO
-        BUFSEND(NSPMD+1)=L
-
-C   Envoi du buffer BUFSPM vers les differents procs
-        DO I=1,NSPMD
-  
-          IF (IAD_RBY2(1,I)>0) THEN
-
-            MSGTYP = MSGOFF
-            B = BUFSEND(I)
-            SIZ = BUFSEND(I+1)-BUFSEND(I)
-            CALL MPI_ISEND(BUFSPM(B),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .         MPI_COMM_WORLD,ISD(I),ierror)
-
+            BUFSPM(L) = J
+            BUFSPM(L+1) = NBNOD
+            L = L + 2
+            NR = 1
+            DO K=1,NPBY(2,J)
+              IF (WEIGHT(LPBY(K+S-1))==1) THEN
+                BUFSPM(L+NR-1) = NODGLOB(LPBY(K+S-1))-1
+                NR = NR +1
+              ENDIF
+            ENDDO
+            L = L+NBNOD
           ENDIF
+          S = S + NPBY(2,J)
         ENDDO
+      ENDDO
+      BUFSEND(NSPMD+1)=L
 
-C   Procs qui contient des Noeuds Main... Reception des noeuds secnds des
-C   differents processeurs
+      DO I=1,NSPMD
 
-        L=1
-        DO I = 1, NSPMD
+        IF (IAD_RBY2(1,I)>0) THEN
 
-          BUFRECP(I)=L
-          IF (IAD_RBY2(2,I)>0) THEN
+          MSGTYP = MSGOFF
+          B = BUFSEND(I)
+          SIZ = BUFSEND(I+1)-BUFSEND(I)
+          CALL MPI_ISEND(BUFSPM(B),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
+     .       MPI_COMM_WORLD,ISD(I),ierror)
 
-            MSGTYP = MSGOFF
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    MPI_COMM_WORLD,STATUS,ierror)
-	    CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
-
-            CALL MPI_RECV(BUFRECVM(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
-
-            L = L + SIZ
-            BUFRECVM(L)=0
-            L=L+1
-           ENDIF
-        ENDDO
-        DO I=1,NSPMD
-  
-          IF (IAD_RBY2(1,I)>0) THEN
-            CALL MPI_WAIT(ISD(I),STATUS,IERROR)
-          ENDIF
-        ENDDO
-        BUFRECP(NSPMD+1)=L
-C   Maintenant que les procs mains ont tout
-C   Il faut tout compacter dans le tableau d'envoi vers proc0
-
-        L = 0
-        K = 1
-
-        DO I=1,NRBYKIN
-          PMAIN = FR_RBY2(3,I)
-
-          IF (ABS(PMAIN)==LOC_PROC) THEN
-
-C   on recopie du proc main les noeuds secnds
-               NBNOD = FR_RBY2(1,I)
-C   sauvegarde du ptr pour mettre la taille du RB
-               NN = L+1
-               L = L+2
-               NR = 1
-
-               DO J = 1,NPBY(2,I)
-C   des RBY qui on un PMAIN n  gatif n'ont pas forcement tous leur noeuds
-C   avec weight(I)=1
-                 IF (PMAIN<=0) THEN
-                    BUFSPO(L+NR)=NODGLOB(LPBY(K+J-1))-1
-                    NR = NR+1
-                 ELSE
-                   IF (WEIGHT(LPBY(K+J-1)) ==1) THEN
-                      BUFSPO(L+NR)=NODGLOB(LPBY(K+J-1))-1
-                      NR = NR+1
-                   ENDIF
-                 ENDIF
-               ENDDO
-
-               L=L+NR-1
-
-               SRBY = NR-1
-
-C   le rb n'est pas local, on parcours les procs pour savoir s'il n a
-C   pas des bouts de RB.
-             IF (PMAIN>0) THEN
-               DO P=1,NSPMD
-
-                IF (IAD_RBY2(2,P)>0) THEN
-C   pointeur courrant de la pile du proc 
-                  M = BUFRECP(P)
-C   numero du RB
-                  IF (BUFRECVM(M)==I) THEN
-
-                    NBNOD=BUFRECVM(M+1)
-                    BUFRECP(P)=BUFRECP(P)+2
-C   recopie
-                    NR = 1
-                    DO J=BUFRECP(P),BUFRECP(P)+NBNOD-1
-                      BUFSPO(L+NR)=BUFRECVM(J)
-                      NR=NR+1
-                    ENDDO
-                    L = L+NR-1
-                    SRBY = SRBY + NR-1
-C   mise a jour du pointeur pour le RB suivant
-                    BUFRECP(P)=BUFRECP(P)+NBNOD
-                  ENDIF
-                ENDIF
-               ENDDO
-             ENDIF
-             BUFSPO(NN)=I
-             BUFSPO(NN+1)=SRBY
-          ENDIF
-          K =K+NPBY(2,I)
-
-        ENDDO
-C   envoi tableau vers proc 0
-        IF (ISPMD/=0 .AND .L>0) THEN
-
-          MSGTYP = MSGOFF2
-          CALL MPI_SEND(BUFSPO,L,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .         MPI_COMM_WORLD,ierror)
         ENDIF
+      ENDDO
+      L=1
+      DO I = 1, NSPMD
 
+        BUFRECP(I)=L
+        IF (IAD_RBY2(2,I)>0) THEN
 
-C   je recois des messages des procs qui ont un noeud main de RB
-        IF (ISPMD==0) THEN
-          DO I=1,NSPMD
-            RECOISDE(I)=0
-          ENDDO
-          DO I=1,NRBYKIN
-            RECOISDE(ABS(FR_RBY2(3,I)))=1
-          ENDDO
+          MSGTYP = MSGOFF
+          CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
+     .                  MPI_COMM_WORLD,STATUS,ierror)
+          CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
 
-          LPO=1
-          PTRPO(1)=LPO
-C   Je remplis ma file pour PO
-          DO I=1,L
-            PORBY(I)=BUFSPO(I)
-          ENDDO
-          LPO = LPO+L
-          
-          DO I=2,NSPMD
+          CALL MPI_RECV(BUFRECVM(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
+     .                MPI_COMM_WORLD,STATUS,ierror)
 
-            IF (RECOISDE(I)==1) THEN
-ccc             
-              MSGTYP = MSGOFF2
-              PTRPO(I) = LPO
-              CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                     MPI_COMM_WORLD,STATUS,ierror)
-              CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+          L = L + SIZ
+          BUFRECVM(L)=0
+          L=L+1
+        ENDIF
+      ENDDO
+      DO I=1,NSPMD
 
-              CALL MPI_RECV(PORBY(LPO),SIZ,MPI_INTEGER,IT_SPMD(I),
-     .                  MSGTYP, MPI_COMM_WORLD,STATUS,ierror)
-              LPO=LPO+SIZ
+        IF (IAD_RBY2(1,I)>0) THEN
+          CALL MPI_WAIT(ISD(I),STATUS,IERROR)
+        ENDIF
+      ENDDO
+      BUFRECP(NSPMD+1)=L
+      L = 0
+      K = 1
+      DO I=1,NRBYKIN
+        PMAIN = FR_RBY2(3,I)
+        IF (ABS(PMAIN)==LOC_PROC) THEN
+          NBNOD = FR_RBY2(1,I)
+          NN = L+1
+          L = L+2
+          NR = 1
+          DO J = 1,NPBY(2,I)
+            IF (PMAIN<=0) THEN
+              BUFSPO(L+NR)=NODGLOB(LPBY(K+J-1))-1
+              NR = NR+1
             ELSE
-              PTRPO(I) = LPO
+              IF (WEIGHT(LPBY(K+J-1)) ==1) THEN
+                BUFSPO(L+NR)=NODGLOB(LPBY(K+J-1))-1
+                NR = NR+1
+              ENDIF
             ENDIF
-          ENDDO                
-          PTRPO(NSPMD+1)=LPO
-C   ecriture sur disque
-           PTRPOO=PTRPO
+          ENDDO
+          L=L+NR-1
+          SRBY = NR-1
+          IF (PMAIN>0) THEN
+            DO P=1,NSPMD
 
-           DO I=1,NRBYKIN
-             II(1)=MAINND(I)
+              IF (IAD_RBY2(2,P)>0) THEN
+                M = BUFRECP(P)
+                IF (BUFRECVM(M)==I) THEN
 
-             DO P=1,NSPMD
-               PTR = PTRPO(P)
-               IF(PTR<PTRPOO(P+1))THEN
-                IF(PORBY(PTR)==I)THEN
-                 NSN = PORBY(PTR+1)
-                 PTR = PTR+2
-                 DO N=1,NSN
+                  NBNOD=BUFRECVM(M+1)
+                  BUFRECP(P)=BUFRECP(P)+2
+                  NR = 1
+                  DO J=BUFRECP(P),BUFRECP(P)+NBNOD-1
+                    BUFSPO(L+NR)=BUFRECVM(J)
+                    NR=NR+1
+                  ENDDO
+                  L = L+NR-1
+                  SRBY = SRBY + NR-1
+                  BUFRECP(P)=BUFRECP(P)+NBNOD
+                ENDIF
+              ENDIF
+            ENDDO
+          ENDIF
+          BUFSPO(NN)=I
+          BUFSPO(NN+1)=SRBY
+        ENDIF
+        K =K+NPBY(2,I)
+
+      ENDDO
+      IF (ISPMD/=0 .AND .L>0) THEN
+        MSGTYP = MSGOFF2
+        CALL MPI_SEND(BUFSPO,L,MPI_INTEGER,IT_SPMD(1),MSGTYP,
+     .       MPI_COMM_WORLD,ierror)
+      ENDIF
+
+      IF (ISPMD==0) THEN
+        DO I=1,NSPMD
+          RECOISDE(I)=0
+        ENDDO
+        DO I=1,NRBYKIN
+          RECOISDE(ABS(FR_RBY2(3,I)))=1
+        ENDDO
+
+        LPO=1
+        PTRPO(1)=LPO
+        DO I=1,L
+          PORBY(I)=BUFSPO(I)
+        ENDDO
+        LPO = LPO+L
+
+        DO I=2,NSPMD
+
+          IF (RECOISDE(I)==1) THEN
+            MSGTYP = MSGOFF2
+            PTRPO(I) = LPO
+            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
+     .                   MPI_COMM_WORLD,STATUS,ierror)
+            CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+
+            CALL MPI_RECV(PORBY(LPO),SIZ,MPI_INTEGER,IT_SPMD(I),
+     .                MSGTYP, MPI_COMM_WORLD,STATUS,ierror)
+            LPO=LPO+SIZ
+          ELSE
+            PTRPO(I) = LPO
+          ENDIF
+        ENDDO
+        PTRPO(NSPMD+1)=LPO
+        PTRPOO=PTRPO
+        DO I=1,NRBYKIN
+          II(1)=MAINND(I)
+
+          DO P=1,NSPMD
+            PTR = PTRPO(P)
+            IF(PTR<PTRPOO(P+1))THEN
+              IF(PORBY(PTR)==I)THEN
+                NSN = PORBY(PTR+1)
+                PTR = PTR+2
+                DO N=1,NSN
                   II(2)=PORBY(PTR+N-1)
                   CALL WRITE_I_C(II,2)
-                 ENDDO
-                 PTRPO(P)=PTRPO(P) + NSN +2
-                ENDIF
-               ENDIF
-             ENDDO
-           ENDDO
-        ENDIF
+                ENDDO
+                PTRPO(P)=PTRPO(P) + NSN +2
+              ENDIF
+            ENDIF
+          ENDDO
+        ENDDO
+      ENDIF
 
       DEALLOCATE(BUFSPM)
       DEALLOCATE(BUFRECVM)
       DEALLOCATE(PORBY)
       DEALLOCATE(BUFSPO)
 #endif
-        RETURN
+      RETURN
       END

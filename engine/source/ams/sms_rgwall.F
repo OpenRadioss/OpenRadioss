@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SMS_RGWALL_IMPACT             source/ams/sms_rgwall.F       
+Chd|  SMS_RGWALL_IMPACT             source/ams/sms_rgwall.F
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SMS_RGWALL_IMPACT
@@ -66,22 +66,22 @@ C
 C     fixed wall only.
 C
       IF(MSR==0)THEN
-       XWL=RWL(4)
-       YWL=RWL(5)
-       ZWL=RWL(6)
-       VXW=ZERO
-       VYW=ZERO
-       VZW=ZERO
+        XWL=RWL(4)
+        YWL=RWL(5)
+        ZWL=RWL(6)
+        VXW=ZERO
+        VYW=ZERO
+        VZW=ZERO
       ELSE
-       M3=3*MSR
-       M2=M3-1
-       M1=M2-1
-       VXW=V(M1)+A(M1)*DT12
-       VYW=V(M2)+A(M2)*DT12
-       VZW=V(M3)+A(M3)*DT12
-       XWL=X(M1)+VXW*DT2
-       YWL=X(M2)+VYW*DT2
-       ZWL=X(M3)+VZW*DT2
+        M3=3*MSR
+        M2=M3-1
+        M1=M2-1
+        VXW=V(M1)+A(M1)*DT12
+        VYW=V(M2)+A(M2)*DT12
+        VZW=V(M3)+A(M3)*DT12
+        XWL=X(M1)+VXW*DT2
+        YWL=X(M2)+VYW*DT2
+        ZWL=X(M3)+VZW*DT2
       ENDIF
 C
       NIMPACT=0
@@ -108,7 +108,7 @@ C
             K = 3*(I-1)
             RWSAV(K+1) = ZERO
             RWSAV(K+2) = ZERO
-            RWSAV(K+3) = ZERO    
+            RWSAV(K+3) = ZERO
             GOTO 20
           ENDIF
 C---      test pour noeuds penetres
@@ -116,7 +116,7 @@ C---      test pour noeuds penetres
      .      GOTO 20
           NIMPACT = NIMPACT+1
           IMPACT(NIMPACT) = I
- 20     CONTINUE
+   20   CONTINUE
       ELSE
         DO 21 J=1,NSMS
           I=NRWL_SMS(J)
@@ -140,7 +140,7 @@ C---      test pour noeuds penetres
      .      GOTO 21
           NIMPACT = NIMPACT+1
           IMPACT(NIMPACT) = I
- 21     CONTINUE
+   21   CONTINUE
       ENDIF
 C
       IF(NIMPACT/=0.AND.ITIED==2)IFRICW=1
@@ -148,9 +148,9 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SMS_RGWALL_FRIC               source/ams/sms_rgwall.F       
+Chd|  SMS_RGWALL_FRIC               source/ams/sms_rgwall.F
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SMS_RGWALL_FRIC
@@ -178,7 +178,7 @@ C-----------------------------------------------
       INTEGER NSW(*), WEIGHT(*), IMPACT(*), NRWL_SMS(*)
 C     REAL
       my_real
-     .   X(*), A(*), V(*), RWL(*), MS(*), RWSAV(*), FSAV(*), 
+     .   X(*), A(*), V(*), RWL(*), MS(*), RWSAV(*), FSAV(*),
      .   FOPT(*), RES(*), FREA(*), R(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -187,159 +187,159 @@ C-----------------------------------------------
 
 C     REAL
       my_real
-     .   XWL, YWL, ZWL, VXW, VYW, VZW, VX, VY, VZ, 
+     .   XWL, YWL, ZWL, VXW, VYW, VZW, VX, VY, VZ,
      .   DV, DA, DVT, FN, MSW,
      .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
      .   FCOE, FAC, ALPHA, ALPHI, FXT, FYT, FZT, FXN, FYN, FZN
 C-----------------------------------------------
 C
       IF(MSR==0)THEN
-       XWL=RWL(4)
-       YWL=RWL(5)
-       ZWL=RWL(6)
-       VXW=ZERO
-       VYW=ZERO
-       VZW=ZERO
+        XWL=RWL(4)
+        YWL=RWL(5)
+        ZWL=RWL(6)
+        VXW=ZERO
+        VYW=ZERO
+        VZW=ZERO
       ELSE
-       M3=3*MSR
-       M2=M3-1
-       M1=M2-1
-       VXW=V(M1)+A(M1)*DT12
-       VYW=V(M2)+A(M2)*DT12
-       VZW=V(M3)+A(M3)*DT12
-       XWL=X(M1)+VXW*DT2
-       YWL=X(M2)+VYW*DT2
-       ZWL=X(M3)+VZW*DT2
+        M3=3*MSR
+        M2=M3-1
+        M1=M2-1
+        VXW=V(M1)+A(M1)*DT12
+        VYW=V(M2)+A(M2)*DT12
+        VZW=V(M3)+A(M3)*DT12
+        XWL=X(M1)+VXW*DT2
+        YWL=X(M2)+VYW*DT2
+        ZWL=X(M3)+VZW*DT2
       ENDIF
 C
       IFQ = NINT(RWL(15))
 C
       IF(ITIED == 2)THEN
 C
-       IF (IFQ>0) THEN
+        IF (IFQ>0) THEN
 C---     friction filtering
-         FRIC = RWL(13)
-         ALPHA= RWL(14)
-         IF (IFQ==3) ALPHA = ALPHA * DT12
-         ALPHI = ONE - ALPHA
-         FRIC2 = FRIC**2
-         FAC=ONE/DT12
-         DO J = 1,NIMPACT
-           I = ABS(IMPACT(J))
-           N=NSW(I)
-           N3=3*N
-           N2=N3-1
-           N1=N2-1
+          FRIC = RWL(13)
+          ALPHA= RWL(14)
+          IF (IFQ==3) ALPHA = ALPHA * DT12
+          ALPHI = ONE - ALPHA
+          FRIC2 = FRIC**2
+          FAC=ONE/DT12
+          DO J = 1,NIMPACT
+            I = ABS(IMPACT(J))
+            N=NSW(I)
+            N3=3*N
+            N2=N3-1
+            N1=N2-1
 C---
-           FN=RES(N1)*RWL(1)+RES(N2)*RWL(2)+RES(N3)*RWL(3)
-           FN=FN*DT12
-           FNXN=FN*RWL(1)
-           FNYN=FN*RWL(2)
-           FNZN=FN*RWL(3)
-           FNXT=RES(N1)*DT12-FNXN
-           FNYT=RES(N2)*DT12-FNYN
-           FNZT=RES(N3)*DT12-FNZN
+            FN=RES(N1)*RWL(1)+RES(N2)*RWL(2)+RES(N3)*RWL(3)
+            FN=FN*DT12
+            FNXN=FN*RWL(1)
+            FNYN=FN*RWL(2)
+            FNZN=FN*RWL(3)
+            FNXT=RES(N1)*DT12-FNXN
+            FNYT=RES(N2)*DT12-FNYN
+            FNZT=RES(N3)*DT12-FNZN
 C---       filter
-           K = 3*(I-1)+1
-           FNXT = FNXT * ALPHA + RWSAV(K)   * ALPHI
-           FNYT = FNYT * ALPHA + RWSAV(K+1) * ALPHI
-           FNZT = FNZT * ALPHA + RWSAV(K+2) * ALPHI
+            K = 3*(I-1)+1
+            FNXT = FNXT * ALPHA + RWSAV(K)   * ALPHI
+            FNYT = FNYT * ALPHA + RWSAV(K+1) * ALPHI
+            FNZT = FNZT * ALPHA + RWSAV(K+2) * ALPHI
 C---
-           FNDFN=FNXN**2+FNYN**2+FNZN**2
-           FTDFT=FNXT**2+FNYT**2+FNZT**2
-           IF (FNDFN==0) THEN
-             RWSAV(K)   = ZERO
-             RWSAV(K+1) = ZERO
-             RWSAV(K+2) = ZERO
-           ELSE
-             RWSAV(K)   = FNXT
-             RWSAV(K+1) = FNYT
-             RWSAV(K+2) = FNZT
-           ENDIF
+            FNDFN=FNXN**2+FNYN**2+FNZN**2
+            FTDFT=FNXT**2+FNYT**2+FNZT**2
+            IF (FNDFN==0) THEN
+              RWSAV(K)   = ZERO
+              RWSAV(K+1) = ZERO
+              RWSAV(K+2) = ZERO
+            ELSE
+              RWSAV(K)   = FNXT
+              RWSAV(K+1) = FNYT
+              RWSAV(K+2) = FNZT
+            ENDIF
 C---
-           IF(FTDFT <= FRIC2*FNDFN)THEN
-           ELSE
+            IF(FTDFT <= FRIC2*FNDFN)THEN
+            ELSE
 C glissement
-             FCOE=FRIC*SQRT(FNDFN/FTDFT)
-             FNXT=FCOE*FNXT
-             FNYT=FCOE*FNYT
-             FNZT=FCOE*FNZT
+              FCOE=FRIC*SQRT(FNDFN/FTDFT)
+              FNXT=FCOE*FNXT
+              FNYT=FCOE*FNYT
+              FNZT=FCOE*FNZT
 C
 C apply Ft
-             FXT=FNXT*FAC
-             FYT=FNYT*FAC
-             FZT=FNZT*FAC
-             R(N1)=R(N1)-FXT
-             R(N2)=R(N2)-FYT
-             R(N3)=R(N3)-FZT
+              FXT=FNXT*FAC
+              FYT=FNYT*FAC
+              FZT=FNZT*FAC
+              R(N1)=R(N1)-FXT
+              R(N2)=R(N2)-FYT
+              R(N3)=R(N3)-FZT
 C
-             FREA(N1) = FXT
-             FREA(N2) = FYT
-             FREA(N3) = FZT
+              FREA(N1) = FXT
+              FREA(N2) = FYT
+              FREA(N3) = FZT
 C
-             IMPACT(J)=-IMPACT(J)
-           END IF
-         ENDDO
-       ELSE
+              IMPACT(J)=-IMPACT(J)
+            END IF
+          ENDDO
+        ELSE
 C---     no friction filtering
-         FRIC=RWL(13)
-         FRIC2=FRIC**2
-         FAC=ONE/DT12
-         DO J = 1,NIMPACT
-           I = IMPACT(J)
-           N=NSW(I)
-           N3=3*N
-           N2=N3-1
-           N1=N2-1
+          FRIC=RWL(13)
+          FRIC2=FRIC**2
+          FAC=ONE/DT12
+          DO J = 1,NIMPACT
+            I = IMPACT(J)
+            N=NSW(I)
+            N3=3*N
+            N2=N3-1
+            N1=N2-1
 C---
-           FN=RES(N1)*RWL(1)+RES(N2)*RWL(2)+RES(N3)*RWL(3)
-           FN=FN*DT12
-           FNXN=FN*RWL(1)
-           FNYN=FN*RWL(2)
-           FNZN=FN*RWL(3)
-           FNXT=RES(N1)*DT12-FNXN
-           FNYT=RES(N2)*DT12-FNYN
-           FNZT=RES(N3)*DT12-FNZN
+            FN=RES(N1)*RWL(1)+RES(N2)*RWL(2)+RES(N3)*RWL(3)
+            FN=FN*DT12
+            FNXN=FN*RWL(1)
+            FNYN=FN*RWL(2)
+            FNZN=FN*RWL(3)
+            FNXT=RES(N1)*DT12-FNXN
+            FNYT=RES(N2)*DT12-FNYN
+            FNZT=RES(N3)*DT12-FNZN
 C
 C---
-           FNDFN=FNXN**2+FNYN**2+FNZN**2
-           FTDFT=FNXT**2+FNYT**2+FNZT**2
-           IF(FTDFT <= FRIC2*FNDFN)THEN
-C adherence 
-           ELSE
+            FNDFN=FNXN**2+FNYN**2+FNZN**2
+            FTDFT=FNXT**2+FNYT**2+FNZT**2
+            IF(FTDFT <= FRIC2*FNDFN)THEN
+C adherence
+            ELSE
 C glissement
-             FCOE=FRIC*SQRT(FNDFN/FTDFT)
-             FNXT=FCOE*FNXT
-             FNYT=FCOE*FNYT
-             FNZT=FCOE*FNZT
+              FCOE=FRIC*SQRT(FNDFN/FTDFT)
+              FNXT=FCOE*FNXT
+              FNYT=FCOE*FNYT
+              FNZT=FCOE*FNZT
 C
 C apply Ft
-             FXT=FNXT*FAC
-             FYT=FNYT*FAC
-             FZT=FNZT*FAC
-             R(N1)=R(N1)-FXT
-             R(N2)=R(N2)-FYT
-             R(N3)=R(N3)-FZT
+              FXT=FNXT*FAC
+              FYT=FNYT*FAC
+              FZT=FNZT*FAC
+              R(N1)=R(N1)-FXT
+              R(N2)=R(N2)-FYT
+              R(N3)=R(N3)-FZT
 C
-             FXN=FNXN*FAC
-             FYN=FNYN*FAC
-             FZN=FNZN*FAC
-             FREA(N1) = FXT
-             FREA(N2) = FYT
-             FREA(N3) = FZT
+              FXN=FNXN*FAC
+              FYN=FNYN*FAC
+              FZN=FNZN*FAC
+              FREA(N1) = FXT
+              FREA(N2) = FYT
+              FREA(N3) = FZT
 C
-             IMPACT(J)=-IMPACT(J)
-           END IF
-         ENDDO
-       ENDIF
+              IMPACT(J)=-IMPACT(J)
+            END IF
+          ENDDO
+        ENDIF
       ENDIF
 C
       RETURN
       END
 Chd|====================================================================
-Chd|  SMS_RGWALL_BCS_0              source/ams/sms_rgwall.F       
+Chd|  SMS_RGWALL_BCS_0              source/ams/sms_rgwall.F
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SMS_RGWALL_BCS_0
@@ -380,81 +380,81 @@ C-----------------------------------------------
 C
 C     fixed wall only.
       IF(MSR==0)THEN
-       XWL=RWL(4)
-       YWL=RWL(5)
-       ZWL=RWL(6)
-       VXW=ZERO
-       VYW=ZERO
-       VZW=ZERO
+        XWL=RWL(4)
+        YWL=RWL(5)
+        ZWL=RWL(6)
+        VXW=ZERO
+        VYW=ZERO
+        VZW=ZERO
       ELSE
-       M3=3*MSR
-       M2=M3-1
-       M1=M2-1
-       VXW=V(M1)+A(M1)*DT12
-       VYW=V(M2)+A(M2)*DT12
-       VZW=V(M3)+A(M3)*DT12
-       XWL=X(M1)+VXW*DT2
-       YWL=X(M2)+VYW*DT2
-       ZWL=X(M3)+VZW*DT2
+        M3=3*MSR
+        M2=M3-1
+        M1=M2-1
+        VXW=V(M1)+A(M1)*DT12
+        VYW=V(M2)+A(M2)*DT12
+        VZW=V(M3)+A(M3)*DT12
+        XWL=X(M1)+VXW*DT2
+        YWL=X(M2)+VYW*DT2
+        ZWL=X(M3)+VZW*DT2
       ENDIF
-C     
+C
       IFQ = NINT(RWL(15))
-C     
+C
       IF(ITIED==0)THEN
 C
-       DO 40 J = 1,NIMPACT
-        I = IMPACT(J)
-        N=NSW(I)
-        N3=3*N
-        N2=N3-1
-        N1=N2-1
-        DV =(V(N1)-VXW)*RWL(1)+(V(N2)-VYW)*RWL(2)+(V(N3)-VZW)*RWL(3)
-        DA =A(N1)*RWL(1)+A(N2)*RWL(2)+A(N3)*RWL(3)
-        DA =DV/DT12+DA
+        DO 40 J = 1,NIMPACT
+          I = IMPACT(J)
+          N=NSW(I)
+          N3=3*N
+          N2=N3-1
+          N1=N2-1
+          DV =(V(N1)-VXW)*RWL(1)+(V(N2)-VYW)*RWL(2)+(V(N3)-VZW)*RWL(3)
+          DA =A(N1)*RWL(1)+A(N2)*RWL(2)+A(N3)*RWL(3)
+          DA =DV/DT12+DA
 C
-        A(N1)=A(N1)-DA*RWL(1)
-        A(N2)=A(N2)-DA*RWL(2)
-        A(N3)=A(N3)-DA*RWL(3)
+          A(N1)=A(N1)-DA*RWL(1)
+          A(N2)=A(N2)-DA*RWL(2)
+          A(N3)=A(N3)-DA*RWL(3)
 C
- 40    CONTINUE
+   40   CONTINUE
 C
       ELSEIF(ITIED==1)THEN
 C
-       DO 60 J = 1,NIMPACT
-        I = IMPACT(J)
-        N=NSW(I)
-        N3=3*N
-        N2=N3-1
-        N1=N2-1
+        DO 60 J = 1,NIMPACT
+          I = IMPACT(J)
+          N=NSW(I)
+          N3=3*N
+          N2=N3-1
+          N1=N2-1
 C
-        A(N1)=-(V(N1)-VXW)/DT12
-        A(N2)=-(V(N2)-VYW)/DT12
-        A(N3)=-(V(N3)-VZW)/DT12
- 60    CONTINUE
+          A(N1)=-(V(N1)-VXW)/DT12
+          A(N2)=-(V(N2)-VYW)/DT12
+          A(N3)=-(V(N3)-VZW)/DT12
+   60   CONTINUE
 C
       ELSE
 C
 C---   friction
-       DO J = 1,NIMPACT
-         I = ABS(IMPACT(J))
-         N=NSW(I)
-         N3=3*N
-         N2=N3-1
-         N1=N2-1
+        DO J = 1,NIMPACT
+          I = ABS(IMPACT(J))
+          N=NSW(I)
+          N3=3*N
+          N2=N3-1
+          N1=N2-1
 C---
 C adherence
-         A(N1)=-(V(N1)-VXW)/DT12
-         A(N2)=-(V(N2)-VYW)/DT12
-         A(N3)=-(V(N3)-VZW)/DT12
-       ENDDO
+          A(N1)=-(V(N1)-VXW)/DT12
+          A(N2)=-(V(N2)-VYW)/DT12
+          A(N3)=-(V(N3)-VZW)/DT12
+        ENDDO
       ENDIF
 C
       RETURN
       END
 Chd|====================================================================
-Chd|  SMS_RGWALL_BCS_1              source/ams/sms_rgwall.F       
+Chd|  SMS_RGWALL_BCS_1              source/ams/sms_rgwall.F
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SMS_RGWALL_BCS_1
@@ -493,34 +493,34 @@ C     REAL
 C-----------------------------------------------
 C
       IFQ = NINT(RWL(15))
-C     
+C
       IF(ITIED==0)THEN
 C
-       DO 40 J = 1,NIMPACT
-        I = IMPACT(J)
-        N=NSW(I)
-        N3=3*N
-        N2=N3-1
-        N1=N2-1
-        DA =A(N1)*RWL(1)+A(N2)*RWL(2)+A(N3)*RWL(3)
+        DO 40 J = 1,NIMPACT
+          I = IMPACT(J)
+          N=NSW(I)
+          N3=3*N
+          N2=N3-1
+          N1=N2-1
+          DA =A(N1)*RWL(1)+A(N2)*RWL(2)+A(N3)*RWL(3)
 C
-        A(N1)=A(N1)-DA*RWL(1)
-        A(N2)=A(N2)-DA*RWL(2)
-        A(N3)=A(N3)-DA*RWL(3)
- 40    CONTINUE
+          A(N1)=A(N1)-DA*RWL(1)
+          A(N2)=A(N2)-DA*RWL(2)
+          A(N3)=A(N3)-DA*RWL(3)
+   40   CONTINUE
 C
       ELSEIF(ITIED==1)THEN
 C
-       DO 60 J = 1,NIMPACT
-        I = IMPACT(J)
-        N=NSW(I)
-        N3=3*N
-        N2=N3-1
-        N1=N2-1
-        A(N1)=ZERO
-        A(N2)=ZERO
-        A(N3)=ZERO
- 60    CONTINUE
+        DO 60 J = 1,NIMPACT
+          I = IMPACT(J)
+          N=NSW(I)
+          N3=3*N
+          N2=N3-1
+          N1=N2-1
+          A(N1)=ZERO
+          A(N2)=ZERO
+          A(N3)=ZERO
+   60   CONTINUE
 C
       ELSE
 C
@@ -550,11 +550,11 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SMS_RGWALL_BILAN              source/ams/sms_rgwall.F       
+Chd|  SMS_RGWALL_BILAN              source/ams/sms_rgwall.F
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
 Chd|-- calls ---------------
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
+Chd|        SUM_6_FLOAT                   source/system/parit.F
 Chd|====================================================================
       SUBROUTINE SMS_RGWALL_BILAN
      1                 (X     ,FREA  ,V     ,RWL    ,NSW   ,
@@ -583,7 +583,7 @@ C     REAL
       my_real
      .   X(*), V(*), RWL(*), MS(*), RWSAV(*), FSAV(*), FREA(3,*),
      .   FOPT(*), A(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   FRWL6(7,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -601,42 +601,42 @@ C-----------------------------------------------
 C
 C     fixed wall only.
       IF(MSR==0)THEN
-       VXW=ZERO
-       VYW=ZERO
-       VZW=ZERO
+        VXW=ZERO
+        VYW=ZERO
+        VZW=ZERO
       ELSE
-       M3=3*MSR
-       M2=M3-1
-       M1=M2-1
+        M3=3*MSR
+        M2=M3-1
+        M1=M2-1
 C TFEXT only <=> dt12/2.
-       VXW=V(M1)+HALF*A(M1)*DT12
-       VYW=V(M2)+HALF*A(M2)*DT12
-       VZW=V(M3)+HALF*A(M3)*DT12
+        VXW=V(M1)+HALF*A(M1)*DT12
+        VYW=V(M2)+HALF*A(M2)*DT12
+        VZW=V(M3)+HALF*A(M3)*DT12
       ENDIF
 C
       TFXT= ZERO
 C
       IFQ = NINT(RWL(15))
-C     
+C
       IF(ITIED==0)THEN
 C
-       DO 40 J = 1,NIMPACT
-        I = IMPACT(J)
-        N=NSW(I)
+        DO 40 J = 1,NIMPACT
+          I = IMPACT(J)
+          N=NSW(I)
 C
-        FN=FREA(1,N)*RWL(1)+FREA(2,N)*RWL(2)+FREA(3,N)*RWL(3)
-        FN=WEIGHT(N)*FN
-        FXN=FN*RWL(1)
-        FYN=FN*RWL(2)
-        FZN=FN*RWL(3)
+          FN=FREA(1,N)*RWL(1)+FREA(2,N)*RWL(2)+FREA(3,N)*RWL(3)
+          FN=WEIGHT(N)*FN
+          FXN=FN*RWL(1)
+          FYN=FN*RWL(2)
+          FZN=FN*RWL(3)
 C
-        F1(J) = FXN
-        F2(J) = FYN
-        F3(J) = FZN
-        F4(J) = MS(N) 
-        F5(J) = ZERO
-        F6(J) = ZERO
-        F7(J) = ZERO
+          F1(J) = FXN
+          F2(J) = FYN
+          F3(J) = FZN
+          F4(J) = MS(N)
+          F5(J) = ZERO
+          F6(J) = ZERO
+          F7(J) = ZERO
 C
 C 1er impact (Tfext avec decalage 1/2 cycle)
 c        N3=3*N
@@ -646,51 +646,49 @@ c        VX=V(N1)+HALF*A(N1)*DT12
 c        VY=V(N2)+HALF*A(N2)*DT12
 c        VZ=V(N3)+HALF*A(N3)*DT12
 c        TFXT = TFXT -DT12*((VX-VXW)*FXN+(VY-VYW)*FYN+(VZ-VZW)*FZN)
- 40    CONTINUE
+   40   CONTINUE
 C
       ELSE
 C
-       DO 60 J = 1,NIMPACT
-        I = ABS(IMPACT(J))
-        N=NSW(I)
+        DO 60 J = 1,NIMPACT
+          I = ABS(IMPACT(J))
+          N=NSW(I)
 C
-        FN=FREA(1,N)*RWL(1)+FREA(2,N)*RWL(2)+FREA(3,N)*RWL(3)
-        FN=WEIGHT(N)*FN
-        FXN=FN*RWL(1)
-        FYN=FN*RWL(2)
-        FZN=FN*RWL(3)
+          FN=FREA(1,N)*RWL(1)+FREA(2,N)*RWL(2)+FREA(3,N)*RWL(3)
+          FN=WEIGHT(N)*FN
+          FXN=FN*RWL(1)
+          FYN=FN*RWL(2)
+          FZN=FN*RWL(3)
 C
-        F1(J) = FXN
-        F2(J) = FYN
-        F3(J) = FZN
-        F4(J) = MS(N)
+          F1(J) = FXN
+          F2(J) = FYN
+          F3(J) = FZN
+          F4(J) = MS(N)
 C
-        N3=3*N
-        N2=N3-1
-        N1=N2-1
-        VX=V(N1)+HALF*A(N1)*DT12
-        VY=V(N2)+HALF*A(N2)*DT12
-        VZ=V(N3)+HALF*A(N3)*DT12
+          N3=3*N
+          N2=N3-1
+          N1=N2-1
+          VX=V(N1)+HALF*A(N1)*DT12
+          VY=V(N2)+HALF*A(N2)*DT12
+          VZ=V(N3)+HALF*A(N3)*DT12
 C 1er impact (Tfext avec decalage 1/2 cycle)
 c       TFXT = TFXT -DT12*((VX-VXW)*FXN+(VY-VYW)*FYN+(VZ-VZW)*FZN)
 C
-        FXT=WEIGHT(N)*FREA(1,N)-FXN
-        FYT=WEIGHT(N)*FREA(2,N)-FYN
-        FZT=WEIGHT(N)*FREA(3,N)-FZN
-        F5(J) = FXT
-        F6(J) = FYT
-        F7(J) = FZT
-        TFXT = TFXT -DT12*((VX-VXW)*FXT+(VY-VYW)*FYT+(VZ-VZW)*FZT)
+          FXT=WEIGHT(N)*FREA(1,N)-FXN
+          FYT=WEIGHT(N)*FREA(2,N)-FYN
+          FZT=WEIGHT(N)*FREA(3,N)-FZN
+          F5(J) = FXT
+          F6(J) = FYT
+          F7(J) = FZT
+          TFXT = TFXT -DT12*((VX-VXW)*FXT+(VY-VYW)*FYT+(VZ-VZW)*FZT)
 C
- 60    CONTINUE
+   60   CONTINUE
       ENDIF
 C
 #include "lockon.inc"
-c!$OMP ATOMIC ne marche pas
       TFEXT= TFEXT+TFXT
 #include "lockoff.inc"
 C
-C     IF (MSR/=0) THEN
       CALL SUM_6_FLOAT(1, NIMPACT, F1, FRWL6(1,1), 7)
       CALL SUM_6_FLOAT(1, NIMPACT, F2, FRWL6(2,1), 7)
       CALL SUM_6_FLOAT(1, NIMPACT, F3, FRWL6(3,1), 7)

@@ -72,101 +72,101 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   DT1D2,DVC(MVSIZ),TOL,DT1D,UDT1
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   DVP,DV,DV1
 C                                                                     12
       TOL = ONE-EM20
 C-----------------------------------------------
       DO I=LFT,LLT
-       DXX(I)=DN_X(I,1)*ULX1(I)+DN_X(I,2)*ULX2(I)
-     .       +DN_X(I,3)*ULX3(I)+DN_X(I,4)*ULX4(I)
-     .       +DN_X(I,5)*ULX5(I)+DN_X(I,6)*ULX6(I)
-     .       +DN_X(I,7)*ULX7(I)+DN_X(I,8)*ULX8(I)
-       DYY(I)=DN_Y(I,1)*ULY1(I)+DN_Y(I,2)*ULY2(I)
-     .       +DN_Y(I,3)*ULY3(I)+DN_Y(I,4)*ULY4(I)
-     .       +DN_Y(I,5)*ULY5(I)+DN_Y(I,6)*ULY6(I)
-     .       +DN_Y(I,7)*ULY7(I)+DN_Y(I,8)*ULY8(I)
-       DZZ(I)=DN_Z(I,1)*ULZ1(I)+DN_Z(I,2)*ULZ2(I)
-     .       +DN_Z(I,3)*ULZ3(I)+DN_Z(I,4)*ULZ4(I)
-     .       +DN_Z(I,5)*ULZ5(I)+DN_Z(I,6)*ULZ6(I)
-     .       +DN_Z(I,7)*ULZ7(I)+DN_Z(I,8)*ULZ8(I)
-       DXY(I)=DN_Y(I,1)*ULX1(I)+DN_Y(I,2)*ULX2(I)
-     .       +DN_Y(I,3)*ULX3(I)+DN_Y(I,4)*ULX4(I)
-     .       +DN_Y(I,5)*ULX5(I)+DN_Y(I,6)*ULX6(I)
-     .       +DN_Y(I,7)*ULX7(I)+DN_Y(I,8)*ULX8(I)
-       DYX(I)=DN_X(I,1)*ULY1(I)+DN_X(I,2)*ULY2(I)
-     .       +DN_X(I,3)*ULY3(I)+DN_X(I,4)*ULY4(I)
-     .       +DN_X(I,5)*ULY5(I)+DN_X(I,6)*ULY6(I)
-     .       +DN_X(I,7)*ULY7(I)+DN_X(I,8)*ULY8(I)
-       DYZ(I)=DN_Z(I,1)*ULY1(I)+DN_Z(I,2)*ULY2(I)
-     .       +DN_Z(I,3)*ULY3(I)+DN_Z(I,4)*ULY4(I)
-     .       +DN_Z(I,5)*ULY5(I)+DN_Z(I,6)*ULY6(I)
-     .       +DN_Z(I,7)*ULY7(I)+DN_Z(I,8)*ULY8(I)
-       DZY(I)=DN_Y(I,1)*ULZ1(I)+DN_Y(I,2)*ULZ2(I)
-     .       +DN_Y(I,3)*ULZ3(I)+DN_Y(I,4)*ULZ4(I)
-     .       +DN_Y(I,5)*ULZ5(I)+DN_Y(I,6)*ULZ6(I)
-     .       +DN_Y(I,7)*ULZ7(I)+DN_Y(I,8)*ULZ8(I)
-       DZX(I)=DN_X(I,1)*ULZ1(I)+DN_X(I,2)*ULZ2(I)
-     .       +DN_X(I,3)*ULZ3(I)+DN_X(I,4)*ULZ4(I)
-     .       +DN_X(I,5)*ULZ5(I)+DN_X(I,6)*ULZ6(I)
-     .       +DN_X(I,7)*ULZ7(I)+DN_X(I,8)*ULZ8(I)
-       DXZ(I)=DN_Z(I,1)*ULX1(I)+DN_Z(I,2)*ULX2(I)
-     .       +DN_Z(I,3)*ULX3(I)+DN_Z(I,4)*ULX4(I)
-     .       +DN_Z(I,5)*ULX5(I)+DN_Z(I,6)*ULX6(I)
-     .       +DN_Z(I,7)*ULX7(I)+DN_Z(I,8)*ULX8(I)
-       DVC(I) =ZERO
+        DXX(I)=DN_X(I,1)*ULX1(I)+DN_X(I,2)*ULX2(I)
+     .        +DN_X(I,3)*ULX3(I)+DN_X(I,4)*ULX4(I)
+     .        +DN_X(I,5)*ULX5(I)+DN_X(I,6)*ULX6(I)
+     .        +DN_X(I,7)*ULX7(I)+DN_X(I,8)*ULX8(I)
+        DYY(I)=DN_Y(I,1)*ULY1(I)+DN_Y(I,2)*ULY2(I)
+     .        +DN_Y(I,3)*ULY3(I)+DN_Y(I,4)*ULY4(I)
+     .        +DN_Y(I,5)*ULY5(I)+DN_Y(I,6)*ULY6(I)
+     .        +DN_Y(I,7)*ULY7(I)+DN_Y(I,8)*ULY8(I)
+        DZZ(I)=DN_Z(I,1)*ULZ1(I)+DN_Z(I,2)*ULZ2(I)
+     .        +DN_Z(I,3)*ULZ3(I)+DN_Z(I,4)*ULZ4(I)
+     .        +DN_Z(I,5)*ULZ5(I)+DN_Z(I,6)*ULZ6(I)
+     .        +DN_Z(I,7)*ULZ7(I)+DN_Z(I,8)*ULZ8(I)
+        DXY(I)=DN_Y(I,1)*ULX1(I)+DN_Y(I,2)*ULX2(I)
+     .        +DN_Y(I,3)*ULX3(I)+DN_Y(I,4)*ULX4(I)
+     .        +DN_Y(I,5)*ULX5(I)+DN_Y(I,6)*ULX6(I)
+     .        +DN_Y(I,7)*ULX7(I)+DN_Y(I,8)*ULX8(I)
+        DYX(I)=DN_X(I,1)*ULY1(I)+DN_X(I,2)*ULY2(I)
+     .        +DN_X(I,3)*ULY3(I)+DN_X(I,4)*ULY4(I)
+     .        +DN_X(I,5)*ULY5(I)+DN_X(I,6)*ULY6(I)
+     .        +DN_X(I,7)*ULY7(I)+DN_X(I,8)*ULY8(I)
+        DYZ(I)=DN_Z(I,1)*ULY1(I)+DN_Z(I,2)*ULY2(I)
+     .        +DN_Z(I,3)*ULY3(I)+DN_Z(I,4)*ULY4(I)
+     .        +DN_Z(I,5)*ULY5(I)+DN_Z(I,6)*ULY6(I)
+     .        +DN_Z(I,7)*ULY7(I)+DN_Z(I,8)*ULY8(I)
+        DZY(I)=DN_Y(I,1)*ULZ1(I)+DN_Y(I,2)*ULZ2(I)
+     .        +DN_Y(I,3)*ULZ3(I)+DN_Y(I,4)*ULZ4(I)
+     .        +DN_Y(I,5)*ULZ5(I)+DN_Y(I,6)*ULZ6(I)
+     .        +DN_Y(I,7)*ULZ7(I)+DN_Y(I,8)*ULZ8(I)
+        DZX(I)=DN_X(I,1)*ULZ1(I)+DN_X(I,2)*ULZ2(I)
+     .        +DN_X(I,3)*ULZ3(I)+DN_X(I,4)*ULZ4(I)
+     .        +DN_X(I,5)*ULZ5(I)+DN_X(I,6)*ULZ6(I)
+     .        +DN_X(I,7)*ULZ7(I)+DN_X(I,8)*ULZ8(I)
+        DXZ(I)=DN_Z(I,1)*ULX1(I)+DN_Z(I,2)*ULX2(I)
+     .        +DN_Z(I,3)*ULX3(I)+DN_Z(I,4)*ULX4(I)
+     .        +DN_Z(I,5)*ULX5(I)+DN_Z(I,6)*ULX6(I)
+     .        +DN_Z(I,7)*ULX7(I)+DN_Z(I,8)*ULX8(I)
+        DVC(I) =ZERO
       ENDDO
 C-------------Volume traitement------
       IF (ICP==2) THEN
-       DO I=LFT,LLT
-        DVC(I)=(DSV(I)-DVC(I))*FAC(I)*DT1
-       ENDDO
+        DO I=LFT,LLT
+          DVC(I)=(DSV(I)-DVC(I))*FAC(I)*DT1
+        ENDDO
       ELSEIF (ICP==1) THEN
-       DO I=LFT,LLT
-        DVC(I)=(DSV(I)-DVC(I))*DT1
-       ENDDO
-      ENDIF 
+        DO I=LFT,LLT
+          DVC(I)=(DSV(I)-DVC(I))*DT1
+        ENDDO
+      ENDIF
       IF ((ICP>0.AND.ISMSTR/=10.AND.ISMSTR/=12).OR.I_SH>1) THEN
-       DO I=LFT,LLT
-        DV =DVC(I)*OFF(I)
-        IF(IDEGE(I)>10) DV = ZERO
-        SDV(I) =DV
-        IF (DV>TOL) THEN
-          DV =ZERO
-        ENDIF
-        IF(OFFS(I)==TWO.OR.ISMSTR==11) CYCLE
-         DV1 = ONE- DV
-         VOLO(I) = VOLO(I)*DV1
-         EINT(I) = EINT(I)/DV1
+        DO I=LFT,LLT
+          DV =DVC(I)*OFF(I)
+          IF(IDEGE(I)>10) DV = ZERO
+          SDV(I) =DV
+          IF (DV>TOL) THEN
+            DV =ZERO
+          ENDIF
+          IF(OFFS(I)==TWO.OR.ISMSTR==11) CYCLE
+          DV1 = ONE- DV
+          VOLO(I) = VOLO(I)*DV1
+          EINT(I) = EINT(I)/DV1
 c        ENDIF
-       ENDDO
+        ENDDO
       ELSE
-       DO I=LFT,LLT
-        SDV(I) =ZERO
-       ENDDO
-      ENDIF 
+        DO I=LFT,LLT
+          SDV(I) =ZERO
+        ENDDO
+      ENDIF
 C
       DT1D2=HALF*DT1
       IF (ISCAU>0)DT1D2=DT1
       DT1D=TWO*DT1D2
-       DO I=LFT,LLT
+      DO I=LFT,LLT
         D4(I)=DXY(I)+DYX(I)
         D5(I)=DYZ(I)+DZY(I)
         D6(I)=DXZ(I)+DZX(I)
         WZZ(I)=DT1D2*(DYX(I)-DXY(I))
         WYY(I)=DT1D2*(DXZ(I)-DZX(I))
         WXX(I)=DT1D2*(DZY(I)-DYZ(I))
-       ENDDO
-       UDT1 = ONE     ! sb a supprimer, si je garde la vitesse pour ce calcul
-       IF (DT1 > ZERO) UDT1 = ONE/DT1
-       DO I=LFT,LLT
+      ENDDO
+      UDT1 = ONE
+      IF (DT1 > ZERO) UDT1 = ONE/DT1
+      DO I=LFT,LLT
         DXX(I)= DXX(I)*UDT1
         DYY(I)= DYY(I)*UDT1
         DZZ(I)= DZZ(I)*UDT1
         D4(I) = D4(I)*UDT1
         D5(I) = D5(I)*UDT1
         D6(I) = D6(I)*UDT1
-       ENDDO
+      ENDDO
 C
       RETURN
       END
@@ -223,9 +223,9 @@ C     REAL
      .   X1(*),X2(*),X3(*),X4(*),X5(*),X6(*),X7(*),X8(*),
      .   Y1(*),Y2(*),Y3(*),Y4(*),Y5(*),Y6(*),Y7(*),Y8(*),
      .   Z1(*),Z2(*),Z3(*),Z4(*),Z5(*),Z6(*),Z7(*),Z8(*),
-     .   A11(MVSIZ), A12(MVSIZ), A13(MVSIZ), 
-     .   A21(MVSIZ), A22(MVSIZ), A23(MVSIZ), 
-     .   A31(MVSIZ), A32(MVSIZ), A33(MVSIZ), 
+     .   A11(MVSIZ), A12(MVSIZ), A13(MVSIZ),
+     .   A21(MVSIZ), A22(MVSIZ), A23(MVSIZ),
+     .   A31(MVSIZ), A32(MVSIZ), A33(MVSIZ),
      .   BB(6,24,MVSIZ),
      .   KSI,ETA,ZETA
 C-----------------------------------------------
@@ -244,24 +244,24 @@ C     REAL
      .   C1B1,C1B2,C1B3,C2B1,C2B2,C2B3,
      .   CA11,CA21,CA31,CA12,CA22,CA32,CA13,CA23,CA33,
      .   D11,D22,D33,D12,D13,D23
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   DVP,DV,DV1
-C                                                                     
+C
       TOL = ONE-EM20
 C-----------------------------------------------
-      
+
       DO I=LFT,LLT
         DO J=1,8
-         JJ = 3*(J-1)
-         B(1,JJ+1) =  A11(I)*DN_T(J)
-         B(1,JJ+2) =  A12(I)*DN_T(J)
-         B(1,JJ+3) =  A13(I)*DN_T(J)
-         B(2,JJ+1) =  A21(I)*DN_R(J)
-         B(2,JJ+2) =  A22(I)*DN_R(J)
-         B(2,JJ+3) =  A23(I)*DN_R(J)
-         B(3,JJ+1) =  A31(I)*DN_S(J)
-         B(3,JJ+2) =  A32(I)*DN_S(J)
-         B(3,JJ+3) =  A33(I)*DN_S(J)
+          JJ = 3*(J-1)
+          B(1,JJ+1) =  A11(I)*DN_T(J)
+          B(1,JJ+2) =  A12(I)*DN_T(J)
+          B(1,JJ+3) =  A13(I)*DN_T(J)
+          B(2,JJ+1) =  A21(I)*DN_R(J)
+          B(2,JJ+2) =  A22(I)*DN_R(J)
+          B(2,JJ+3) =  A23(I)*DN_R(J)
+          B(3,JJ+1) =  A31(I)*DN_S(J)
+          B(3,JJ+2) =  A32(I)*DN_S(J)
+          B(3,JJ+3) =  A33(I)*DN_S(J)
         ENDDO
 
 ! sortir cette partie car independante du PG
@@ -304,7 +304,7 @@ C-----------------------------------------------
         B(4,22) = UP*(A1B1-A2B1)
         B(4,23) = UP*(A1B2-A2B2)
         B(4,24) = UP*(A1B3-A2B3)
-      
+
 ! sortir cette partie car independante du PG
         B1A1 = (X2(I)+X6(I)-X1(I)-X5(I))*FOURTH
         B1A2 = (Y2(I)+Y6(I)-Y1(I)-Y5(I))*FOURTH
@@ -345,7 +345,7 @@ C-----------------------------------------------
         B(5,22)=  UP*(B1B1-B2B1)
         B(5,23)=  UP*(B1B2-B2B2)
         B(5,24)=  UP*(B1B3-B2B3)
-      
+
 ! sortir cette partie car independante du PG
         C1A1 = (X4(I)+X8(I)-X1(I)-X5(I))*FOURTH
         C1A2 = (Y4(I)+Y8(I)-Y1(I)-Y5(I))*FOURTH
@@ -385,171 +385,171 @@ C-----------------------------------------------
         B(6,21)=  UP*(C1B3+C2B3)
         B(6,22)=  UM*(C1A1+C2A1)
         B(6,23)=  UM*(C1A2+C2A2)
-        B(6,24)=  UM*(C1A3+C2A3)      
+        B(6,24)=  UM*(C1A3+C2A3)
 !      ENDDO
-      
-!      DO I=LFT,LLT
-       CA11 = INVJ(3,I)
-       CA21 = INVJ(1,I)
-       CA31 = INVJ(2,I)
-       CA12 = INVJ(6,I)
-       CA22 = INVJ(4,I)
-       CA32 = INVJ(5,I)
-       CA13 = INVJ(9,I)
-       CA23 = INVJ(7,I)
-       CA33 = INVJ(8,I)
-       
-       C(1,1) = CA11*CA11
-       C(2,1) = CA12*CA12
-       C(3,1) = CA13*CA13
-       C(4,1) = TWO*CA11*CA12
-       C(5,1) = TWO*CA11*CA13
-       C(6,1) = TWO*CA12*CA13
-       C(1,2) = CA21*CA21
-       C(2,2) = CA22*CA22
-       C(3,2) = CA23*CA23
-       C(4,2) = TWO*CA21*CA22
-       C(5,2) = TWO*CA21*CA23
-       C(6,2) = TWO*CA22*CA23
-       C(1,3) = CA31*CA31
-       C(2,3) = CA32*CA32
-       C(3,3) = CA33*CA33
-       C(4,3) = TWO*CA31*CA32
-       C(5,3) = TWO*CA31*CA33
-       C(6,3) = TWO*CA32*CA33
-       C(1,4) = CA11*CA21
-       C(2,4) = CA12*CA22
-       C(3,4) = CA13*CA23
-       C(4,4) = CA12*CA21+CA11*CA22
-       C(5,4) = CA13*CA21+CA11*CA23
-       C(6,4) = CA12*CA23+CA13*CA22
-       C(1,5) = CA11*CA31
-       C(2,5) = CA12*CA32
-       C(3,5) = CA13*CA33
-       C(4,5) = CA12*CA31+CA11*CA32
-       C(5,5) = CA13*CA31+CA11*CA33
-       C(6,5) = CA12*CA33+CA13*CA32
-       C(1,6) = CA21*CA31
-       C(2,6) = CA22*CA32
-       C(3,6) = CA23*CA33
-       C(4,6) = CA22*CA31+CA21*CA32
-       C(5,6) = CA23*CA31+CA21*CA33
-       C(6,6) = CA23*CA32+CA22*CA33
 
-       D11   =B(1,1)*ULX1(I)+B(1,2)*ULY1(I)+B(1,3)*ULZ1(I)
-     .       +B(1,4)*ULX2(I)+B(1,5)*ULY2(I)+B(1,6)*ULZ2(I)
-     .       +B(1,7)*ULX3(I)+B(1,8)*ULY3(I)+B(1,9)*ULZ3(I)
-     .       +B(1,10)*ULX4(I)+B(1,11)*ULY4(I)+B(1,12)*ULZ4(I)
-     .       +B(1,13)*ULX5(I)+B(1,14)*ULY5(I)+B(1,15)*ULZ5(I)
-     .       +B(1,16)*ULX6(I)+B(1,17)*ULY6(I)+B(1,18)*ULZ6(I)
-     .       +B(1,19)*ULX7(I)+B(1,20)*ULY7(I)+B(1,21)*ULZ7(I)
-     .       +B(1,22)*ULX8(I)+B(1,23)*ULY8(I)+B(1,24)*ULZ8(I)
-       D22   =B(2,1)*ULX1(I)+B(2,2)*ULY1(I)+B(2,3)*ULZ1(I)
-     .       +B(2,4)*ULX2(I)+B(2,5)*ULY2(I)+B(2,6)*ULZ2(I)
-     .       +B(2,7)*ULX3(I)+B(2,8)*ULY3(I)+B(2,9)*ULZ3(I)
-     .       +B(2,10)*ULX4(I)+B(2,11)*ULY4(I)+B(2,12)*ULZ4(I)
-     .       +B(2,13)*ULX5(I)+B(2,14)*ULY5(I)+B(2,15)*ULZ5(I)
-     .       +B(2,16)*ULX6(I)+B(2,17)*ULY6(I)+B(2,18)*ULZ6(I)
-     .       +B(2,19)*ULX7(I)+B(2,20)*ULY7(I)+B(2,21)*ULZ7(I)
-     .       +B(2,22)*ULX8(I)+B(2,23)*ULY8(I)+B(2,24)*ULZ8(I)
-       D33   =B(3,1)*ULX1(I)+B(3,2)*ULY1(I)+B(3,3)*ULZ1(I)
-     .       +B(3,4)*ULX2(I)+B(3,5)*ULY2(I)+B(3,6)*ULZ2(I)
-     .       +B(3,7)*ULX3(I)+B(3,8)*ULY3(I)+B(3,9)*ULZ3(I)
-     .       +B(3,10)*ULX4(I)+B(3,11)*ULY4(I)+B(3,12)*ULZ4(I)
-     .       +B(3,13)*ULX5(I)+B(3,14)*ULY5(I)+B(3,15)*ULZ5(I)
-     .       +B(3,16)*ULX6(I)+B(3,17)*ULY6(I)+B(3,18)*ULZ6(I)
-     .       +B(3,19)*ULX7(I)+B(3,20)*ULY7(I)+B(3,21)*ULZ7(I)
-     .       +B(3,22)*ULX8(I)+B(3,23)*ULY8(I)+B(3,24)*ULZ8(I)
-       D12   =B(4,1)*ULX1(I)+B(4,2)*ULY1(I)+B(4,3)*ULZ1(I)
-     .       +B(4,4)*ULX2(I)+B(4,5)*ULY2(I)+B(4,6)*ULZ2(I)
-     .       +B(4,7)*ULX3(I)+B(4,8)*ULY3(I)+B(4,9)*ULZ3(I)
-     .       +B(4,10)*ULX4(I)+B(4,11)*ULY4(I)+B(4,12)*ULZ4(I)
-     .       +B(4,13)*ULX5(I)+B(4,14)*ULY5(I)+B(4,15)*ULZ5(I)
-     .       +B(4,16)*ULX6(I)+B(4,17)*ULY6(I)+B(4,18)*ULZ6(I)
-     .       +B(4,19)*ULX7(I)+B(4,20)*ULY7(I)+B(4,21)*ULZ7(I)
-     .       +B(4,22)*ULX8(I)+B(4,23)*ULY8(I)+B(4,24)*ULZ8(I)
-       D13   =B(5,1)*ULX1(I)+B(5,2)*ULY1(I)+B(5,3)*ULZ1(I)
-     .       +B(5,4)*ULX2(I)+B(5,5)*ULY2(I)+B(5,6)*ULZ2(I)
-     .       +B(5,7)*ULX3(I)+B(5,8)*ULY3(I)+B(5,9)*ULZ3(I)
-     .       +B(5,10)*ULX4(I)+B(5,11)*ULY4(I)+B(5,12)*ULZ4(I)
-     .       +B(5,13)*ULX5(I)+B(5,14)*ULY5(I)+B(5,15)*ULZ5(I)
-     .       +B(5,16)*ULX6(I)+B(5,17)*ULY6(I)+B(5,18)*ULZ6(I)
-     .       +B(5,19)*ULX7(I)+B(5,20)*ULY7(I)+B(5,21)*ULZ7(I)
-     .       +B(5,22)*ULX8(I)+B(5,23)*ULY8(I)+B(5,24)*ULZ8(I)
-       D23   =B(6,1)*ULX1(I)+B(6,2)*ULY1(I)+B(6,3)*ULZ1(I)
-     .       +B(6,4)*ULX2(I)+B(6,5)*ULY2(I)+B(6,6)*ULZ2(I)
-     .       +B(6,7)*ULX3(I)+B(6,8)*ULY3(I)+B(6,9)*ULZ3(I)
-     .       +B(6,10)*ULX4(I)+B(6,11)*ULY4(I)+B(6,12)*ULZ4(I)
-     .       +B(6,13)*ULX5(I)+B(6,14)*ULY5(I)+B(6,15)*ULZ5(I)
-     .       +B(6,16)*ULX6(I)+B(6,17)*ULY6(I)+B(6,18)*ULZ6(I)
-     .       +B(6,19)*ULX7(I)+B(6,20)*ULY7(I)+B(6,21)*ULZ7(I)
-     .       +B(6,22)*ULX8(I)+B(6,23)*ULY8(I)+B(6,24)*ULZ8(I)
-     
-       DXX(I) =C(1,1)*D11+C(1,2)*D22+C(1,3)*D33
-     .        +C(1,4)*D12+C(1,5)*D13+C(1,6)*D23 
-       DYY(I) =C(2,1)*D11+C(2,2)*D22+C(2,3)*D33
-     .        +C(2,4)*D12+C(2,5)*D13+C(2,6)*D23 
-       DZZ(I) =C(3,1)*D11+C(3,2)*D22+C(3,3)*D33
-     .        +C(3,4)*D12+C(3,5)*D13+C(3,6)*D23 
-       D4(I)  =C(4,1)*D11+C(4,2)*D22+C(4,3)*D33
-     .        +C(4,4)*D12+C(4,5)*D13+C(4,6)*D23
-       D6(I)  =C(5,1)*D11+C(5,2)*D22+C(5,3)*D33
-     .        +C(5,4)*D12+C(5,5)*D13+C(5,6)*D23
-       D5(I)  =C(6,1)*D11+C(6,2)*D22+C(6,3)*D33
-     .        +C(6,4)*D12+C(6,5)*D13+C(6,6)*D23
+!      DO I=LFT,LLT
+        CA11 = INVJ(3,I)
+        CA21 = INVJ(1,I)
+        CA31 = INVJ(2,I)
+        CA12 = INVJ(6,I)
+        CA22 = INVJ(4,I)
+        CA32 = INVJ(5,I)
+        CA13 = INVJ(9,I)
+        CA23 = INVJ(7,I)
+        CA33 = INVJ(8,I)
+
+        C(1,1) = CA11*CA11
+        C(2,1) = CA12*CA12
+        C(3,1) = CA13*CA13
+        C(4,1) = TWO*CA11*CA12
+        C(5,1) = TWO*CA11*CA13
+        C(6,1) = TWO*CA12*CA13
+        C(1,2) = CA21*CA21
+        C(2,2) = CA22*CA22
+        C(3,2) = CA23*CA23
+        C(4,2) = TWO*CA21*CA22
+        C(5,2) = TWO*CA21*CA23
+        C(6,2) = TWO*CA22*CA23
+        C(1,3) = CA31*CA31
+        C(2,3) = CA32*CA32
+        C(3,3) = CA33*CA33
+        C(4,3) = TWO*CA31*CA32
+        C(5,3) = TWO*CA31*CA33
+        C(6,3) = TWO*CA32*CA33
+        C(1,4) = CA11*CA21
+        C(2,4) = CA12*CA22
+        C(3,4) = CA13*CA23
+        C(4,4) = CA12*CA21+CA11*CA22
+        C(5,4) = CA13*CA21+CA11*CA23
+        C(6,4) = CA12*CA23+CA13*CA22
+        C(1,5) = CA11*CA31
+        C(2,5) = CA12*CA32
+        C(3,5) = CA13*CA33
+        C(4,5) = CA12*CA31+CA11*CA32
+        C(5,5) = CA13*CA31+CA11*CA33
+        C(6,5) = CA12*CA33+CA13*CA32
+        C(1,6) = CA21*CA31
+        C(2,6) = CA22*CA32
+        C(3,6) = CA23*CA33
+        C(4,6) = CA22*CA31+CA21*CA32
+        C(5,6) = CA23*CA31+CA21*CA33
+        C(6,6) = CA23*CA32+CA22*CA33
+
+        D11   =B(1,1)*ULX1(I)+B(1,2)*ULY1(I)+B(1,3)*ULZ1(I)
+     .        +B(1,4)*ULX2(I)+B(1,5)*ULY2(I)+B(1,6)*ULZ2(I)
+     .        +B(1,7)*ULX3(I)+B(1,8)*ULY3(I)+B(1,9)*ULZ3(I)
+     .        +B(1,10)*ULX4(I)+B(1,11)*ULY4(I)+B(1,12)*ULZ4(I)
+     .        +B(1,13)*ULX5(I)+B(1,14)*ULY5(I)+B(1,15)*ULZ5(I)
+     .        +B(1,16)*ULX6(I)+B(1,17)*ULY6(I)+B(1,18)*ULZ6(I)
+     .        +B(1,19)*ULX7(I)+B(1,20)*ULY7(I)+B(1,21)*ULZ7(I)
+     .        +B(1,22)*ULX8(I)+B(1,23)*ULY8(I)+B(1,24)*ULZ8(I)
+        D22   =B(2,1)*ULX1(I)+B(2,2)*ULY1(I)+B(2,3)*ULZ1(I)
+     .        +B(2,4)*ULX2(I)+B(2,5)*ULY2(I)+B(2,6)*ULZ2(I)
+     .        +B(2,7)*ULX3(I)+B(2,8)*ULY3(I)+B(2,9)*ULZ3(I)
+     .        +B(2,10)*ULX4(I)+B(2,11)*ULY4(I)+B(2,12)*ULZ4(I)
+     .        +B(2,13)*ULX5(I)+B(2,14)*ULY5(I)+B(2,15)*ULZ5(I)
+     .        +B(2,16)*ULX6(I)+B(2,17)*ULY6(I)+B(2,18)*ULZ6(I)
+     .        +B(2,19)*ULX7(I)+B(2,20)*ULY7(I)+B(2,21)*ULZ7(I)
+     .        +B(2,22)*ULX8(I)+B(2,23)*ULY8(I)+B(2,24)*ULZ8(I)
+        D33   =B(3,1)*ULX1(I)+B(3,2)*ULY1(I)+B(3,3)*ULZ1(I)
+     .        +B(3,4)*ULX2(I)+B(3,5)*ULY2(I)+B(3,6)*ULZ2(I)
+     .        +B(3,7)*ULX3(I)+B(3,8)*ULY3(I)+B(3,9)*ULZ3(I)
+     .        +B(3,10)*ULX4(I)+B(3,11)*ULY4(I)+B(3,12)*ULZ4(I)
+     .        +B(3,13)*ULX5(I)+B(3,14)*ULY5(I)+B(3,15)*ULZ5(I)
+     .        +B(3,16)*ULX6(I)+B(3,17)*ULY6(I)+B(3,18)*ULZ6(I)
+     .        +B(3,19)*ULX7(I)+B(3,20)*ULY7(I)+B(3,21)*ULZ7(I)
+     .        +B(3,22)*ULX8(I)+B(3,23)*ULY8(I)+B(3,24)*ULZ8(I)
+        D12   =B(4,1)*ULX1(I)+B(4,2)*ULY1(I)+B(4,3)*ULZ1(I)
+     .        +B(4,4)*ULX2(I)+B(4,5)*ULY2(I)+B(4,6)*ULZ2(I)
+     .        +B(4,7)*ULX3(I)+B(4,8)*ULY3(I)+B(4,9)*ULZ3(I)
+     .        +B(4,10)*ULX4(I)+B(4,11)*ULY4(I)+B(4,12)*ULZ4(I)
+     .        +B(4,13)*ULX5(I)+B(4,14)*ULY5(I)+B(4,15)*ULZ5(I)
+     .        +B(4,16)*ULX6(I)+B(4,17)*ULY6(I)+B(4,18)*ULZ6(I)
+     .        +B(4,19)*ULX7(I)+B(4,20)*ULY7(I)+B(4,21)*ULZ7(I)
+     .        +B(4,22)*ULX8(I)+B(4,23)*ULY8(I)+B(4,24)*ULZ8(I)
+        D13   =B(5,1)*ULX1(I)+B(5,2)*ULY1(I)+B(5,3)*ULZ1(I)
+     .        +B(5,4)*ULX2(I)+B(5,5)*ULY2(I)+B(5,6)*ULZ2(I)
+     .        +B(5,7)*ULX3(I)+B(5,8)*ULY3(I)+B(5,9)*ULZ3(I)
+     .        +B(5,10)*ULX4(I)+B(5,11)*ULY4(I)+B(5,12)*ULZ4(I)
+     .        +B(5,13)*ULX5(I)+B(5,14)*ULY5(I)+B(5,15)*ULZ5(I)
+     .        +B(5,16)*ULX6(I)+B(5,17)*ULY6(I)+B(5,18)*ULZ6(I)
+     .        +B(5,19)*ULX7(I)+B(5,20)*ULY7(I)+B(5,21)*ULZ7(I)
+     .        +B(5,22)*ULX8(I)+B(5,23)*ULY8(I)+B(5,24)*ULZ8(I)
+        D23   =B(6,1)*ULX1(I)+B(6,2)*ULY1(I)+B(6,3)*ULZ1(I)
+     .        +B(6,4)*ULX2(I)+B(6,5)*ULY2(I)+B(6,6)*ULZ2(I)
+     .        +B(6,7)*ULX3(I)+B(6,8)*ULY3(I)+B(6,9)*ULZ3(I)
+     .        +B(6,10)*ULX4(I)+B(6,11)*ULY4(I)+B(6,12)*ULZ4(I)
+     .        +B(6,13)*ULX5(I)+B(6,14)*ULY5(I)+B(6,15)*ULZ5(I)
+     .        +B(6,16)*ULX6(I)+B(6,17)*ULY6(I)+B(6,18)*ULZ6(I)
+     .        +B(6,19)*ULX7(I)+B(6,20)*ULY7(I)+B(6,21)*ULZ7(I)
+     .        +B(6,22)*ULX8(I)+B(6,23)*ULY8(I)+B(6,24)*ULZ8(I)
+
+        DXX(I) =C(1,1)*D11+C(1,2)*D22+C(1,3)*D33
+     .         +C(1,4)*D12+C(1,5)*D13+C(1,6)*D23
+        DYY(I) =C(2,1)*D11+C(2,2)*D22+C(2,3)*D33
+     .         +C(2,4)*D12+C(2,5)*D13+C(2,6)*D23
+        DZZ(I) =C(3,1)*D11+C(3,2)*D22+C(3,3)*D33
+     .         +C(3,4)*D12+C(3,5)*D13+C(3,6)*D23
+        D4(I)  =C(4,1)*D11+C(4,2)*D22+C(4,3)*D33
+     .         +C(4,4)*D12+C(4,5)*D13+C(4,6)*D23
+        D6(I)  =C(5,1)*D11+C(5,2)*D22+C(5,3)*D33
+     .         +C(5,4)*D12+C(5,5)*D13+C(5,6)*D23
+        D5(I)  =C(6,1)*D11+C(6,2)*D22+C(6,3)*D33
+     .         +C(6,4)*D12+C(6,5)*D13+C(6,6)*D23
         DO L=1,6
-         DO M=1,24
-          BB(L,M,I) = ZERO
-          DO LM=1,6
-           BB(L,M,I) = BB(L,M,I)+C(L,LM)*B(LM,M)
+          DO M=1,24
+            BB(L,M,I) = ZERO
+            DO LM=1,6
+              BB(L,M,I) = BB(L,M,I)+C(L,LM)*B(LM,M)
+            ENDDO
           ENDDO
-         ENDDO
         ENDDO
-        DVC(I) =ZERO        
+        DVC(I) =ZERO
       ENDDO
 C-------------Volume traitement------
       IF (ICP==2) THEN
-       DO I=LFT,LLT
-        DVC(I)=(DSV(I)-DVC(I))*FAC(I)*DT1
-       ENDDO
+        DO I=LFT,LLT
+          DVC(I)=(DSV(I)-DVC(I))*FAC(I)*DT1
+        ENDDO
       ELSEIF (ICP==1) THEN
-       DO I=LFT,LLT
-        DVC(I)=(DSV(I)-DVC(I))*DT1
-       ENDDO
-      ENDIF 
+        DO I=LFT,LLT
+          DVC(I)=(DSV(I)-DVC(I))*DT1
+        ENDDO
+      ENDIF
       IF ((ICP>0.AND.ISMSTR/=10.AND.ISMSTR/=12).OR.I_SH>1) THEN
-       DO I=LFT,LLT
-        DV =DVC(I)*OFF(I)
-        IF(IDEGE(I)>10) DV = ZERO
-        SDV(I) =DV
-        IF (DV>TOL) THEN
-          DV =ZERO
-        ENDIF
-        IF(OFFS(I)==TWO.OR.ISMSTR==11) CYCLE
-         DV1 = ONE- DV
-         VOLO(I) = VOLO(I)*DV1
-         EINT(I) = EINT(I)/DV1
+        DO I=LFT,LLT
+          DV =DVC(I)*OFF(I)
+          IF(IDEGE(I)>10) DV = ZERO
+          SDV(I) =DV
+          IF (DV>TOL) THEN
+            DV =ZERO
+          ENDIF
+          IF(OFFS(I)==TWO.OR.ISMSTR==11) CYCLE
+          DV1 = ONE- DV
+          VOLO(I) = VOLO(I)*DV1
+          EINT(I) = EINT(I)/DV1
 c        ENDIF
-       ENDDO
+        ENDDO
       ELSE
-       DO I=LFT,LLT
-        SDV(I) =ZERO
-       ENDDO
-      ENDIF 
+        DO I=LFT,LLT
+          SDV(I) =ZERO
+        ENDDO
+      ENDIF
 C
       DT1D2=HALF*DT1
       IF (ISCAU>0)DT1D2=DT1
       DT1D=TWO*DT1D2
-       UDT1 = ONE     ! sb a supprimer, si je garde la vitesse pour ce calcul
-       IF (DT1 > ZERO) UDT1 = ONE/DT1
-       DO I=LFT,LLT
+      UDT1 = ONE
+      IF (DT1 > ZERO) UDT1 = ONE/DT1
+      DO I=LFT,LLT
         DXX(I)= DXX(I)*UDT1
         DYY(I)= DYY(I)*UDT1
         DZZ(I)= DZZ(I)*UDT1
         D4(I) = D4(I)*UDT1
         D5(I) = D5(I)*UDT1
         D6(I) = D6(I)*UDT1
-       ENDDO
+      ENDDO
 C
       RETURN
       END

@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ALENO                         source/airbag/fvmbag1.F       
+Chd|  ALENO                         source/airbag/fvmbag1.F
 Chd|-- called by -----------
-Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
+Chd|        INIT_MONVOL                   source/airbag/init_monvol.F
 Chd|-- calls ---------------
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|====================================================================
@@ -64,9 +64,9 @@ C elimination des elements doubles
 C
 
       DO I=1,NUMNOD
-         IADCH(I)=0
-         ITAG(I)=0
-         TAGVENT(I)=0
+        IADCH(I)=0
+        ITAG(I)=0
+        TAGVENT(I)=0
       ENDDO
 
 ! temporary nodal surface array
@@ -116,7 +116,7 @@ C
       INVP2(11)=3
       INVP2(13)=2
       INVP2(14)=1
-C 
+C
 
 C  Recherche elts doubles
 
@@ -171,10 +171,10 @@ C test pour 2 triangles ou 2 quadrangles avec ts les noeuds communs
 C test pour 2 elts (2 quadrangles ou 1 triangle et 1 quadrangle) avec 3 noeuds communs
               ELSEIF(NC == 3)THEN
                 IF(NA == 4)THEN
-C le 1er est un quadrangle  
+C le 1er est un quadrangle
                   TAGE(I)=INVP2(NC2) ! tag numero noeud libre
                 ELSE
-C le 1er est un triangle  
+C le 1er est un triangle
                   TAGE(I)=5
                 ENDIF
               ENDIF
@@ -182,7 +182,7 @@ C le 1er est un triangle
             IADC = NEXT(IADC)
           ENDDO
         ENDDO
- 10     CONTINUE
+   10   CONTINUE
         DO K = 0,3
           J = NODESURF(IAD1+K)
           IF(K == 3) THEN
@@ -206,7 +206,7 @@ C le 1er est un triangle
 c fin elimination des elements doubles
 
       DO I=1,NUMNOD
-         ITAG(I)=0
+        ITAG(I)=0
       ENDDO
       IAD1=1
       DO I=1,NN
@@ -249,25 +249,25 @@ c fin elimination des elements doubles
       ENDDO
       NNB=0
       DO I=1,NUMNOD
-         IF (ITAG(I)==1) THEN
-           NNB=NNB+1
-           ITABINV(I)=NNB
-         ENDIF
+        IF (ITAG(I)==1) THEN
+          NNB=NNB+1
+          ITABINV(I)=NNB
+        ENDIF
       END DO
       T_MONVOLN%NNS = NNB
       ALLOCATE(T_MONVOLN%NODES(NNB))
       NNB = 0
       DO I=1,NUMNOD
-         IF (ITAG(I)==1) THEN
-           NNB=NNB+1
-           T_MONVOLN%NODES(NNB)=I
-         ENDIF
+        IF (ITAG(I)==1) THEN
+          NNB=NNB+1
+          T_MONVOLN%NODES(NNB)=I
+        ENDIF
       END DO
 C
       RETURN
       END
 Chd|====================================================================
-Chd|  ALETG                         source/airbag/fvmbag1.F       
+Chd|  ALETG                         source/airbag/fvmbag1.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
@@ -338,42 +338,42 @@ C decoupage du quadrangle en 2 triangles
           ENDIF
 C Remplacement du quadrangle en 1 triangle en conservant le noeud libre et ses 2 noeuds adjacents
         ELSEIF(TAGE(I) == 1)THEN
-          NTG=NTG+1                  
-          TBEMTG(1,NTG)=ITABINV(I1)  
-          TBEMTG(2,NTG)=ITABINV(I2)  
-          TBEMTG(3,NTG)=ITABINV(I4)  
+          NTG=NTG+1
+          TBEMTG(1,NTG)=ITABINV(I1)
+          TBEMTG(2,NTG)=ITABINV(I2)
+          TBEMTG(3,NTG)=ITABINV(I4)
           ELEM_ID(NTG) = SURF%ELEM(I)
-       ELSEIF(TAGE(I) == 2)THEN
-          NTG=NTG+1                  
-          TBEMTG(1,NTG)=ITABINV(I2)  
-          TBEMTG(2,NTG)=ITABINV(I3)  
-          TBEMTG(3,NTG)=ITABINV(I1)  
+        ELSEIF(TAGE(I) == 2)THEN
+          NTG=NTG+1
+          TBEMTG(1,NTG)=ITABINV(I2)
+          TBEMTG(2,NTG)=ITABINV(I3)
+          TBEMTG(3,NTG)=ITABINV(I1)
           ELEM_ID(NTG) = SURF%ELEM(I)
         ELSEIF(TAGE(I) == 3)THEN
-          NTG=NTG+1                  
-          TBEMTG(1,NTG)=ITABINV(I3)  
-          TBEMTG(2,NTG)=ITABINV(I4)  
-          TBEMTG(3,NTG)=ITABINV(I2)  
+          NTG=NTG+1
+          TBEMTG(1,NTG)=ITABINV(I3)
+          TBEMTG(2,NTG)=ITABINV(I4)
+          TBEMTG(3,NTG)=ITABINV(I2)
           ELEM_ID(NTG) = SURF%ELEM(I)
         ELSEIF(TAGE(I) == 4)THEN
-          NTG=NTG+1                  
-          TBEMTG(1,NTG)=ITABINV(I4)  
-          TBEMTG(2,NTG)=ITABINV(I1)  
-          TBEMTG(3,NTG)=ITABINV(I3)  
+          NTG=NTG+1
+          TBEMTG(1,NTG)=ITABINV(I4)
+          TBEMTG(2,NTG)=ITABINV(I1)
+          TBEMTG(3,NTG)=ITABINV(I3)
           ELEM_ID(NTG) = SURF%ELEM(I)
         ENDIF
       ENDDO
       T_MONVOLN%NTG = NTG
       ALLOCATE(T_MONVOLN%ELEM(3, NTG))
       DO I = 1, NTG
-         T_MONVOLN%ELEM(1:3, I) = TBEMTG(1:3, I)
+        T_MONVOLN%ELEM(1:3, I) = TBEMTG(1:3, I)
       ENDDO
-C     
+C
       DEALLOCATE(TBEMTG)
       RETURN
       END
 Chd|====================================================================
-Chd|  FVBAG_TAGELE                  source/airbag/fvmbag1.F       
+Chd|  FVBAG_TAGELE                  source/airbag/fvmbag1.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
@@ -412,31 +412,31 @@ C
         IF(I3 == I4) I4 = 0
         IF (I4==0) THEN
 C     conservation du triangle
-           NTG=NTG+1
-           ELEM_ID(NTG) = SURF%ELEM(I)
+          NTG=NTG+1
+          ELEM_ID(NTG) = SURF%ELEM(I)
         ELSE
 C     decoupage du quadrangle en 2 triangles
-           NTG=NTG+1
-           ELEM_ID(NTG) = SURF%ELEM(I)
-           NTG=NTG+1
-           ELEM_ID(NTG) = SURF%ELEM(I)
+          NTG=NTG+1
+          ELEM_ID(NTG) = SURF%ELEM(I)
+          NTG=NTG+1
+          ELEM_ID(NTG) = SURF%ELEM(I)
         ENDIF
       ENDDO
-C     
+C
       RETURN
       END
 Chd|====================================================================
-Chd|  FVVERIF                       source/airbag/fvmbag1.F       
+Chd|  FVVERIF                       source/airbag/fvmbag1.F
 Chd|-- called by -----------
-Chd|        FVMESH0                       source/airbag/fvmesh0.F       
+Chd|        FVMESH0                       source/airbag/fvmesh0.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE FVVERIF(NELA, ELEMA, X    , MONVID,
      .     VX3 , VY3  , VZ3  , VX1   , VY1,
-     .     VZ1 , XB0  , YB0  , ZB0   , 
-     .     LX , LY , LZ, IBUF , IBUFA, TAGELA, 
+     .     VZ1 , XB0  , YB0  , ZB0   ,
+     .     LX , LY , LZ, IBUF , IBUFA, TAGELA,
      .     TITR)
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -471,12 +471,12 @@ C-----------------------------------------------
 C
       NORM=SQRT(VX3**2+VY3**2+VZ3**2)
       IF (NORM==ZERO) THEN
-         CALL ANCMSG(MSGID=630,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO_BLIND_1,
-     .               I1=MONVID,
-     .               C1=TITR)
-         RETURN
+        CALL ANCMSG(MSGID=630,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=MONVID,
+     .              C1=TITR)
+        RETURN
       ENDIF
       VX3=VX3/NORM
       VY3=VY3/NORM
@@ -487,12 +487,12 @@ C
       VZ1=VZ1-SS*VZ3
       NORM=SQRT(VX1**2+VY1**2+VZ1**2)
       IF (NORM==ZERO) THEN
-         CALL ANCMSG(MSGID=630,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO_BLIND_1,
-     .               I1=MONVID,
-     .               C1=TITR)
-         RETURN
+        CALL ANCMSG(MSGID=630,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=MONVID,
+     .              C1=TITR)
+        RETURN
       ENDIF
       VX1=VX1/NORM
       VY1=VY1/NORM
@@ -502,102 +502,90 @@ C
       VZ2=VX3*VY1-VY3*VX1
 C Limites de l'airbag dans les directions de decoupage
       DO I=1,NUMNOD
-         ITAG(I)=0
+        ITAG(I)=0
       ENDDO
       DO I=1,NELA
-         I1=ELEMA(1,I)
-         I2=ELEMA(2,I)
-         I3=ELEMA(3,I)
-         IF (TAGELA(I)>0) THEN
-            I1=IBUF(I1)
-            I2=IBUF(I2)
-            I3=IBUF(I3)
-         ELSE
-            I1=IBUFA(I1)
-            I2=IBUFA(I2)
-            I3=IBUFA(I3)
-         ENDIF
-         ITAG(I1)=1
-         ITAG(I2)=1
-         ITAG(I3)=1
+        I1=ELEMA(1,I)
+        I2=ELEMA(2,I)
+        I3=ELEMA(3,I)
+        IF (TAGELA(I)>0) THEN
+          I1=IBUF(I1)
+          I2=IBUF(I2)
+          I3=IBUF(I3)
+        ELSE
+          I1=IBUFA(I1)
+          I2=IBUFA(I2)
+          I3=IBUFA(I3)
+        ENDIF
+        ITAG(I1)=1
+        ITAG(I2)=1
+        ITAG(I3)=1
       ENDDO
 C
       LXMAX=ZERO
       LYMAX=ZERO
       LZMAX=ZERO
       DO I=1,NUMNOD
-         IF (ITAG(I)==1) THEN
-            XX=X(1,I)
-            YY=X(2,I)
-            ZZ=X(3,I)
+        IF (ITAG(I)==1) THEN
+          XX=X(1,I)
+          YY=X(2,I)
+          ZZ=X(3,I)
 C
-            XL=(XX-XB0)*VX1+(YY-YB0)*VY1+(ZZ-ZB0)*VZ1
-            YL=(XX-XB0)*VX2+(YY-YB0)*VY2+(ZZ-ZB0)*VZ2
-            ZL=(XX-XB0)*VX3+(YY-YB0)*VY3+(ZZ-ZB0)*VZ3
-            LXMAX=MAX(LXMAX,ABS(XL))
-            LYMAX=MAX(LYMAX,ABS(YL))
-            LZMAX=MAX(LZMAX,ABS(ZL))
-         ENDIF
+          XL=(XX-XB0)*VX1+(YY-YB0)*VY1+(ZZ-ZB0)*VZ1
+          YL=(XX-XB0)*VX2+(YY-YB0)*VY2+(ZZ-ZB0)*VZ2
+          ZL=(XX-XB0)*VX3+(YY-YB0)*VY3+(ZZ-ZB0)*VZ3
+          LXMAX=MAX(LXMAX,ABS(XL))
+          LYMAX=MAX(LYMAX,ABS(YL))
+          LZMAX=MAX(LZMAX,ABS(ZL))
+        ENDIF
       ENDDO
 C
       IF (LXMAX>LX) THEN
-         LX_OLD=LX
-         LX=LXMAX*ONEP01
-         CALL ANCMSG(MSGID=631,
-     .               MSGTYPE=MSGWARNING,
-     .               ANMODE=ANINFO_BLIND_1,
-     .               I1=MONVID,
-     .               C1=TITR,
-     .               R1=LX_OLD,
-     .               R3=LX,
-     .               R2=LXMAX,
-     .               I2=1)
+        LX_OLD=LX
+        LX=LXMAX*ONEP01
+        CALL ANCMSG(MSGID=631,
+     .              MSGTYPE=MSGWARNING,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=MONVID,
+     .              C1=TITR,
+     .              R1=LX_OLD,
+     .              R3=LX,
+     .              R2=LXMAX,
+     .              I2=1)
       ENDIF
       IF (LYMAX>LY) THEN
-         LY_OLD=LY
-         LY=LYMAX*ONEP01
-         CALL ANCMSG(MSGID=631,
-     .               MSGTYPE=MSGWARNING,
-     .               ANMODE=ANINFO_BLIND_1,
-     .               I1=MONVID,
-     .               C1=TITR,
-     .               R3=LY,
-     .               R1=LY_OLD,
-     .               R2=LYMAX,
-     .               I2=2)
+        LY_OLD=LY
+        LY=LYMAX*ONEP01
+        CALL ANCMSG(MSGID=631,
+     .              MSGTYPE=MSGWARNING,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=MONVID,
+     .              C1=TITR,
+     .              R3=LY,
+     .              R1=LY_OLD,
+     .              R2=LYMAX,
+     .              I2=2)
       ENDIF
-CFA je ne comprend pas pourquoi cette partie est en commentaire: cela pose un probl   e si l'on rentre LZ=0
-C   LZ et DZ restent nul dans FVMESH
-C On autorise le decoupage horizontal d'une bande du maillage uniquement
-C      IF (LZMAX>LZ) THEN
-C         CALL ANSTCKI(ID)
-C         CALL ANSTCKI(3)
-C         CALL ANSTCKR(LZ)
-C         CALL ANSTCKR(LZMAX)
-C         LZ=LZMAX*ONEP01
-C         CALL ANSTCKR(LZ)
-C         CALL ANCWARN(631,ANINFO_BLIND_1)
-C      ENDIF
       IF (LZMAX>LZ) THEN
-         LZ_OLD=LZ
-         LZ=LZMAX*ONEP01
-         CALL ANCMSG(MSGID=631,
-     .               MSGTYPE=MSGWARNING,
-     .               ANMODE=ANINFO_BLIND_1,
-     .               I1=MONVID,
-     .               C1=TITR,
-     .               R3=LZ,
-     .               R1=LZ_OLD,
-     .               R2=LZMAX,
-     .               I2=3)
+        LZ_OLD=LZ
+        LZ=LZMAX*ONEP01
+        CALL ANCMSG(MSGID=631,
+     .              MSGTYPE=MSGWARNING,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=MONVID,
+     .              C1=TITR,
+     .              R3=LZ,
+     .              R1=LZ_OLD,
+     .              R2=LZMAX,
+     .              I2=3)
       ENDIF
 C
       RETURN
       END
 Chd|====================================================================
-Chd|  FVNODI                        source/airbag/fvmbag1.F       
+Chd|  FVNODI                        source/airbag/fvmbag1.F
 Chd|-- called by -----------
-Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
+Chd|        INIT_MONVOL                   source/airbag/init_monvol.F
 Chd|-- calls ---------------
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|====================================================================
@@ -636,19 +624,19 @@ C-----------------------------------------------
       ALLOCATE(ITAG(NUMNOD), ITAG_SURFEXT(NUMNOD), ITABINV_SURFEXT(NUMNOD))
 
       DO I = 1, NUMNOD
-         ITAG(I) = 0
-         ITAG_SURFEXT(I) = 0
-         ITABINV_SURFEXT(I) = 0
+        ITAG(I) = 0
+        ITAG_SURFEXT(I) = 0
+        ITABINV_SURFEXT(I) = 0
       ENDDO
 
       NNS = T_MONVOLN%NNS
       ALLOCATE(BUFNODE(NNS))
       DO I = 1, NNS
-         BUFNODE(I) = T_MONVOLN%NODES(I)
+        BUFNODE(I) = T_MONVOLN%NODES(I)
 !     FLAG NODES OF EXTERNAL SURFACE
-         ITAG_SURFEXT(T_MONVOLN%NODES(I)) = 1
+        ITAG_SURFEXT(T_MONVOLN%NODES(I)) = 1
 !     KEEP INDEX IN ITABINV_SURFEXT TAB
-         ITABINV_SURFEXT(T_MONVOLN%NODES(I)) = I
+        ITABINV_SURFEXT(T_MONVOLN%NODES(I)) = I
       ENDDO
 
 !     FLAG NODES OF INTERNAL SURFACE
@@ -668,25 +656,25 @@ C-----------------------------------------------
       CALL INTVECTOR_CREATE(VEC_PTR_SURFINT)
       NNB = 0
       DO I = 1, NUMNOD
-         IF (ITAG(I) == 1) THEN
-            IF (ITAG_SURFEXT(I) /= 1) THEN
+        IF (ITAG(I) == 1) THEN
+          IF (ITAG_SURFEXT(I) /= 1) THEN
 !     Node that does not already appear in external surface
-               NNB = NNB + 1
-               ITABINV(I) = NNB + NNS
-               CALL INTVECTOR_PUSH_BACK(VEC_PTR_SURFINT, I)
-            ELSE
-               ITABINV(I) = ITABINV_SURFEXT(I)
-            ENDIF
-         ENDIF
+            NNB = NNB + 1
+            ITABINV(I) = NNB + NNS
+            CALL INTVECTOR_PUSH_BACK(VEC_PTR_SURFINT, I)
+          ELSE
+            ITABINV(I) = ITABINV_SURFEXT(I)
+          ENDIF
+        ENDIF
       END DO
-      
+
       DEALLOCATE(T_MONVOLN%NODES)
       ALLOCATE(T_MONVOLN%NODES(NNB + NNS))
       DO I = 1, NNS
-         T_MONVOLN%NODES(I) = BUFNODE(I)
+        T_MONVOLN%NODES(I) = BUFNODE(I)
       ENDDO
       T_MONVOLN%NNI = NNB
-      
+
       CALL INTVECTOR_COPY_TO(VEC_PTR_SURFINT, T_MONVOLN%NODES(NNS + 1))
 
       CALL INTVECTOR_DELETE(VEC_PTR_SURFINT)
@@ -698,7 +686,7 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  FVTGI                         source/airbag/fvmbag1.F       
+Chd|  FVTGI                         source/airbag/fvmbag1.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
@@ -734,7 +722,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: ELEMTG, BUFELEM
       ALLOCATE(ELEMTG(3, 2 * NN), BUFELEM(3, T_MONVOLN%NTG))
       DO I = 1, T_MONVOLN%NTG
-         BUFELEM(1:3, I) = T_MONVOLN%ELEM(1:3, I)
+        BUFELEM(1:3, I) = T_MONVOLN%ELEM(1:3, I)
       ENDDO
       DEALLOCATE(T_MONVOLN%ELEM)
 C
@@ -745,51 +733,51 @@ C
         I3=SURF%NODES(I,3)
         I4=SURF%NODES(I,4)
         IF(I3 == I4) I4 = 0
-          IF (I4==0) THEN
+        IF (I4==0) THEN
 C conservation du triangle
-            NTG=NTG+1
-            ELEMTG(1,NTG)=ITABINV(I1)
-            ELEMTG(2,NTG)=ITABINV(I2)
-            ELEMTG(3,NTG)=ITABINV(I3)
-            ELEM_ID(NTG) = SURF%ELEM(I)
-          ELSE
+          NTG=NTG+1
+          ELEMTG(1,NTG)=ITABINV(I1)
+          ELEMTG(2,NTG)=ITABINV(I2)
+          ELEMTG(3,NTG)=ITABINV(I3)
+          ELEM_ID(NTG) = SURF%ELEM(I)
+        ELSE
 C decoupage du quadrangle en 2 triangles
+          NTG=NTG+1
+          ELEMTG(1,NTG)=ITABINV(I1)
+          ELEMTG(2,NTG)=ITABINV(I2)
+          ELEMTG(3,NTG)=ITABINV(I3)
+          ELEM_ID(NTG) = SURF%ELEM(I)
+          IF (ITABINV(I4)/=ITABINV(I3)) THEN
             NTG=NTG+1
             ELEMTG(1,NTG)=ITABINV(I1)
-            ELEMTG(2,NTG)=ITABINV(I2)
-            ELEMTG(3,NTG)=ITABINV(I3)
+            ELEMTG(2,NTG)=ITABINV(I3)
+            ELEMTG(3,NTG)=ITABINV(I4)
             ELEM_ID(NTG) = SURF%ELEM(I)
-            IF (ITABINV(I4)/=ITABINV(I3)) THEN
-              NTG=NTG+1
-              ELEMTG(1,NTG)=ITABINV(I1)
-              ELEMTG(2,NTG)=ITABINV(I3)
-              ELEMTG(3,NTG)=ITABINV(I4)
-              ELEM_ID(NTG) = SURF%ELEM(I)
-            ENDIF
           ENDIF
+        ENDIF
       ENDDO
       T_MONVOLN%NTGI = NTG
       ALLOCATE(T_MONVOLN%ELEM(3, T_MONVOLN%NTG + T_MONVOLN%NTGI))
       DO I = 1, T_MONVOLN%NTG
-         T_MONVOLN%ELEM(1:3, I) = BUFELEM(1:3, I)
+        T_MONVOLN%ELEM(1:3, I) = BUFELEM(1:3, I)
       ENDDO
       DO I = 1, T_MONVOLN%NTGI
-         T_MONVOLN%ELEM(1:3, I + T_MONVOLN%NTG) = ELEMTG(1:3, I)
+        T_MONVOLN%ELEM(1:3, I + T_MONVOLN%NTG) = ELEMTG(1:3, I)
       ENDDO
 C
       DEALLOCATE(ELEMTG, BUFELEM)
       RETURN
       END
 Chd|====================================================================
-Chd|  FVNODBR                       source/airbag/fvmbag1.F       
+Chd|  FVNODBR                       source/airbag/fvmbag1.F
 Chd|-- called by -----------
-Chd|        FVMESH0                       source/airbag/fvmesh0.F       
+Chd|        FVMESH0                       source/airbag/fvmesh0.F
 Chd|-- calls ---------------
-Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
+Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F
 Chd|====================================================================
       SUBROUTINE FVNODBR(IBUFA, NNA, NNFV, IFV, NB_NODE)
 C-----------------------------------------------
-C   M o d u l e s 
+C   M o d u l e s
 C-----------------------------------------------
       USE FVBAG_MOD
 C-----------------------------------------------
@@ -812,7 +800,7 @@ C
 C Save local number of a brick node in IFVNOD(3)
 C
       DO I=1,NB_NODE
-         ITAB(I)=0
+        ITAB(I)=0
       ENDDO
 C
       DO I=1,NNA
@@ -822,20 +810,20 @@ C
 C
       DO I=1,NNFV
         IF(FVDATA(IFV)%IFVNOD(1,I)/=2) CYCLE
-          N=FVDATA(IFV)%IFVNOD(2,I)
-          FVDATA(IFV)%IFVNOD(3,I)=ITAB(N)
+        N=FVDATA(IFV)%IFVNOD(2,I)
+        FVDATA(IFV)%IFVNOD(3,I)=ITAB(N)
       ENDDO
 C
       RETURN
       END
 Chd|====================================================================
-Chd|  FVNORMAL                      source/airbag/fvmbag1.F       
+Chd|  FVNORMAL                      source/airbag/fvmbag1.F
 Chd|-- called by -----------
-Chd|        FVBRIC1                       source/airbag/fvbric1.F       
-Chd|        FVELAREA                      source/airbag/fvelarea.F      
-Chd|        FVLENGTH                      source/airbag/fvlength.F      
-Chd|        FVMESH1                       source/airbag/fvmesh.F        
-Chd|        FVVOLU                        source/airbag/fvvolu.F        
+Chd|        FVBRIC1                       source/airbag/fvbric1.F
+Chd|        FVELAREA                      source/airbag/fvelarea.F
+Chd|        FVLENGTH                      source/airbag/fvlength.F
+Chd|        FVMESH1                       source/airbag/fvmesh.F
+Chd|        FVVOLU                        source/airbag/fvvolu.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FVNORMAL(X, N1, N2, N3, N4, NX, NY, NZ)
@@ -854,54 +842,54 @@ C-----------------------------------------------
      .        X(3,*), NX, NY, NZ
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
-C----------------------------------------------- 
+C-----------------------------------------------
       my_real
-     .        X1,  Y1,  Z1,  X2, Y2, Z2, X3,  Y3,  Z3, X12, Y12, Z12, 
+     .        X1,  Y1,  Z1,  X2, Y2, Z2, X3,  Y3,  Z3, X12, Y12, Z12,
      .        X13, Y13, Z13, X4, Y4, Z4, X24, Y24, Z24
 C-----------------------------------------------------------------------
 C Compute normal vector for a triangle and a quad
 C-----------------------------------------------------------------------
       IF(N4==0) THEN
-            X1=X(1,N1)
-            Y1=X(2,N1)
-            Z1=X(3,N1)
-            X2=X(1,N2)
-            Y2=X(2,N2)
-            Z2=X(3,N2)
-            X3=X(1,N3)
-            Y3=X(2,N3)
-            Z3=X(3,N3)
-            X12=X2-X1
-            Y12=Y2-Y1
-            Z12=Z2-Z1
-            X13=X3-X1
-            Y13=Y3-Y1
-            Z13=Z3-Z1
-            NX=Y12*Z13-Z12*Y13
-            NY=Z12*X13-X12*Z13
-            NZ=X12*Y13-Y12*X13
+        X1=X(1,N1)
+        Y1=X(2,N1)
+        Z1=X(3,N1)
+        X2=X(1,N2)
+        Y2=X(2,N2)
+        Z2=X(3,N2)
+        X3=X(1,N3)
+        Y3=X(2,N3)
+        Z3=X(3,N3)
+        X12=X2-X1
+        Y12=Y2-Y1
+        Z12=Z2-Z1
+        X13=X3-X1
+        Y13=Y3-Y1
+        Z13=Z3-Z1
+        NX=Y12*Z13-Z12*Y13
+        NY=Z12*X13-X12*Z13
+        NZ=X12*Y13-Y12*X13
       ELSE
-            X1=X(1,N1)
-            Y1=X(2,N1)
-            Z1=X(3,N1)
-            X2=X(1,N2)
-            Y2=X(2,N2)
-            Z2=X(3,N2)
-            X3=X(1,N3)
-            Y3=X(2,N3)
-            Z3=X(3,N3)
-            X4=X(1,N4)
-            Y4=X(2,N4)
-            Z4=X(3,N4)
-            X13=X3-X1
-            Y13=Y3-Y1
-            Z13=Z3-Z1
-            X24=X4-X2
-            Y24=Y4-Y2
-            Z24=Z4-Z2
-            NX=Y13*Z24-Z13*Y24
-            NY=Z13*X24-X13*Z24
-            NZ=X13*Y24-Y13*X24
+        X1=X(1,N1)
+        Y1=X(2,N1)
+        Z1=X(3,N1)
+        X2=X(1,N2)
+        Y2=X(2,N2)
+        Z2=X(3,N2)
+        X3=X(1,N3)
+        Y3=X(2,N3)
+        Z3=X(3,N3)
+        X4=X(1,N4)
+        Y4=X(2,N4)
+        Z4=X(3,N4)
+        X13=X3-X1
+        Y13=Y3-Y1
+        Z13=Z3-Z1
+        X24=X4-X2
+        Y24=Y4-Y2
+        Z24=Z4-Z2
+        NX=Y13*Z24-Z13*Y24
+        NY=Z13*X24-X13*Z24
+        NZ=X13*Y24-Y13*X24
       ENDIF
       RETURN
       END

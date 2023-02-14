@@ -237,7 +237,6 @@ C Depth est tjrs superieur au gap (sup des gaps si variable)
 C
       CRITER=MAX(CRITER,EM01*DEPTH)
 C
-Ce warning pour les performances du tri.
       IF(DEPTH>GAPMX)THEN
        CALL ANCMSG(MSGID=687,
      .             MSGTYPE=MSGWARNING,
@@ -251,18 +250,14 @@ Ce warning pour les performances du tri.
 C
       IF(INTTH/=0)THEN
         IF(DRAD==ZERO)THEN
-C Valeur par defaut de Drad = max( sup des gaps , largeur des elts )
           DRAD=MAX(GAP,GAPMX)
-C je ne sais plus si cest necessaire au tri
         ELSEIF(DRAD<GAP)THEN
-C Drad est tjrs superieur au gap (sup des gaps si variable)
           DRAD=GAP
         END IF
         WRITE(IOUT,2001)DRAD
 C
         CRITER=MAX(CRITER,EM01*DRAD)
 C
-Ce warning pour les performances du tri.
         IF(DRAD>GAPMX)THEN
          CALL ANCMSG(MSGID=918,
      .               MSGTYPE=MSGWARNING,

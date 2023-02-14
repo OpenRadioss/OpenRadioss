@@ -24,10 +24,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPTRIVOX                      source/elements/sph/sptrivox.F
 Chd|-- called by -----------
-Chd|        SPBUC31                       source/elements/sph/spbuc31.F 
+Chd|        SPBUC31                       source/elements/sph/spbuc31.F
 Chd|-- calls ---------------
-Chd|        SPPRO31                       source/elements/sph/spbuc31.F 
-Chd|        TRI7BOX                       share/modules1/tri7box.F      
+Chd|        SPPRO31                       source/elements/sph/spbuc31.F
+Chd|        TRI7BOX                       share/modules1/tri7box.F
 Chd|====================================================================
       SUBROUTINE SPTRIVOX(
      1      NSN    ,X       ,BMINMA  ,NOD2SP  ,
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================
-C   CLASSE LES NOEUDS DANS DES BOITES 
+C   CLASSE LES NOEUDS DANS DES BOITES
 C   RECHERCHE POUR CHAQUE FACETTE DES BOITES CONCERNES
 C   RECHERCHE DES CANDIDATS
 C-----------------------------------------------
@@ -72,10 +72,10 @@ C     X(3,*)       COORDONNEES NODALES               E
 C     XMAX         plus grande abcisse existante     E
 C     XMAX         plus grande ordonn. existante     E
 C     XMAX         plus grande cote    existante     E
-C     VOXEL(ix,iy,iz) contient le numero local du premier noeud de 
-C                  la boite 
+C     VOXEL(ix,iy,iz) contient le numero local du premier noeud de
+C                  la boite
 C     NEXT_NOD(i)  noeud suivant dans la meme boite (si /= 0)
-C     LAST_NOD(i)  dernier noeud dans la meme boite (si /= 0) 
+C     LAST_NOD(i)  dernier noeud dans la meme boite (si /= 0)
 C                  utilise uniquement pour aller directement du premier
 C                       noeud au dernier
 C-----------------------------------------------
@@ -98,7 +98,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,XN,YN,ZN,
-     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, 
+     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ,
      .   D1X,D1Y,D1Z,D2,A2,ALPHA_MARGE,DISTMAX
 c provisoire
       INTEGER  LAST_NOD(NSN)
@@ -113,10 +113,10 @@ c provisoire
       SAVE IIX,IIY,IIZ,DISTMAX
 C-----------------------------------------------
 C      IF(ITASK == 0)THEN
-        ALLOCATE(NEXT_NOD(NSN))
-        ALLOCATE(IIX(NSN))
-        ALLOCATE(IIY(NSN))
-        ALLOCATE(IIZ(NSN))
+      ALLOCATE(NEXT_NOD(NSN))
+      ALLOCATE(IIX(NSN))
+      ALLOCATE(IIY(NSN))
+      ALLOCATE(IIZ(NSN))
 C      END IF
 C Barrier to wait init voxel and allocation NEX_NOD
 C      CALL MY_BARRIER
@@ -127,7 +127,7 @@ C
       XMAX = BMINMA(1)
       YMAX = BMINMA(2)
       ZMAX = BMINMA(3)
-      XMIN = BMINMA(4)  
+      XMIN = BMINMA(4)
       YMIN = BMINMA(5)
       ZMIN = BMINMA(6)
 
@@ -144,9 +144,9 @@ C 1   mise des noeuds dans les boites
 C=======================================================================
 C     IF(ITASK == 0)THEN
 
-       DISTMAX = ZERO
+      DISTMAX = ZERO
 
-       DO I=1,NSN
+      DO I=1,NSN
         IIX(I)=0
         IIY(I)=0
         IIZ(I)=0
@@ -155,7 +155,7 @@ C     IF(ITASK == 0)THEN
         NN = KXSP(3,J)
 
         DISTMAX = MAX(DISTMAX,SPBUF(1,J))
-C Optimisation // recherche les noeuds compris dans xmin xmax des 
+C Optimisation // recherche les noeuds compris dans xmin xmax des
 C elements du processeur
         IF(X(1,NN) < XMIN)  CYCLE
         IF(X(1,NN) > XMAX)  CYCLE
@@ -163,7 +163,7 @@ C elements du processeur
         IF(X(2,NN) > YMAX)  CYCLE
         IF(X(3,NN) < ZMIN)  CYCLE
         IF(X(3,NN) > ZMAX)  CYCLE
-         
+
         IIX(I)=INT(NBX*(X(1,NN)-XMINB)/(XMAXB-XMINB))
         IIY(I)=INT(NBY*(X(2,NN)-YMINB)/(YMAXB-YMINB))
         IIZ(I)=INT(NBZ*(X(3,NN)-ZMINB)/(ZMAXB-ZMINB))
@@ -174,25 +174,25 @@ C elements du processeur
 
         FIRST = VOXEL(IIX(I),IIY(I),IIZ(I))
         IF(FIRST == 0)THEN
-c         boite vide
+c         empty cell
           VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
-          NEXT_NOD(I)                 = 0 ! pas de next
-          LAST_NOD(I)                 = 0 ! pas de last
+          NEXT_NOD(I)                 = 0 ! last one
+          LAST_NOD(I)                 = 0 ! no last
         ELSEIF(LAST_NOD(FIRST) == 0)THEN
-c         boite contenant un seul noeud
-c         on ajoute comme suivant
+c         cell containing one node
+c         add as next node
           NEXT_NOD(FIRST) = I ! next
           LAST_NOD(FIRST) = I ! last
-          NEXT_NOD(I)     = 0 ! pas de next apres I
+          NEXT_NOD(I)     = 0 ! last one
         ELSE
-c         boite contenant plusieurs noeuds
-c         on saute directement au dernier
-          LAST = LAST_NOD(FIRST) ! dernier noeud de la boite
-          NEXT_NOD(LAST)  = I ! next apres precedant
+c
+c         jump to the last node of the cell
+          LAST = LAST_NOD(FIRST) ! last node in this voxel
+          NEXT_NOD(LAST)  = I ! next
           LAST_NOD(FIRST) = I ! last
-          NEXT_NOD(I)     = 0 ! pas de next apres I
+          NEXT_NOD(I)     = 0 ! last one
         ENDIF
-       ENDDO
+      ENDDO
 C     END IF
 C Barrier to wait task0 treatment
 C     CALL MY_BARRIER
@@ -204,98 +204,98 @@ C=======================================================================
 C on ne retient pas les facettes detruites
 c        IF(STF(NE) == ZERO)CYCLE
 
-         J=NLIST(NE)
-         NN = KXSP(3,J)
+        J=NLIST(NE)
+        NN = KXSP(3,J)
 
 c a revoir !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-         AAA = (SPBUF(1,J)+DISTMAX)* ALPHA_MARGE
+        AAA = (SPBUF(1,J)+DISTMAX)* ALPHA_MARGE
 
 c        indice des voxels occupes par la facette
 
-         IX1=INT(NBX*(X(1,NN)-AAA-XMINB)/(XMAXB-XMINB))
-         IY1=INT(NBY*(X(2,NN)-AAA-YMINB)/(YMAXB-YMINB))
-         IZ1=INT(NBZ*(X(3,NN)-AAA-ZMINB)/(ZMAXB-ZMINB))
+        IX1=INT(NBX*(X(1,NN)-AAA-XMINB)/(XMAXB-XMINB))
+        IY1=INT(NBY*(X(2,NN)-AAA-YMINB)/(YMAXB-YMINB))
+        IZ1=INT(NBZ*(X(3,NN)-AAA-ZMINB)/(ZMAXB-ZMINB))
 
-         IX1=MAX(1,2+MIN(NBX,IX1))
-         IY1=MAX(1,2+MIN(NBY,IY1))
-         IZ1=MAX(1,2+MIN(NBZ,IZ1))
+        IX1=MAX(1,2+MIN(NBX,IX1))
+        IY1=MAX(1,2+MIN(NBY,IY1))
+        IZ1=MAX(1,2+MIN(NBZ,IZ1))
 
-         IX2=INT(NBX*(X(1,NN)+AAA-XMINB)/(XMAXB-XMINB))
-         IY2=INT(NBY*(X(2,NN)+AAA-YMINB)/(YMAXB-YMINB))
-         IZ2=INT(NBZ*(X(3,NN)+AAA-ZMINB)/(ZMAXB-ZMINB))
+        IX2=INT(NBX*(X(1,NN)+AAA-XMINB)/(XMAXB-XMINB))
+        IY2=INT(NBY*(X(2,NN)+AAA-YMINB)/(YMAXB-YMINB))
+        IZ2=INT(NBZ*(X(3,NN)+AAA-ZMINB)/(ZMAXB-ZMINB))
 
-         IX2=MAX(1,2+MIN(NBX,IX2))
-         IY2=MAX(1,2+MIN(NBY,IY2))
-         IZ2=MAX(1,2+MIN(NBZ,IZ2))
+        IX2=MAX(1,2+MIN(NBX,IX2))
+        IY2=MAX(1,2+MIN(NBY,IY2))
+        IZ2=MAX(1,2+MIN(NBZ,IZ2))
 
 cc         nbpelem = 0
 cc         nnpelem = 0
 cc         nnr0pelem = 0
 cc         nnrpelem = 0
 
-         DO IZ = IZ1,IZ2
+        DO IZ = IZ1,IZ2
           DO IY = IY1,IY2
-           DO IX = IX1,IX2
+            DO IX = IX1,IX2
 
 cc             nbpelem = nbpelem + 1
 
-             JJ = VOXEL(IX,IY,IZ)
+              JJ = VOXEL(IX,IY,IZ)
 
-             DO WHILE(JJ /= 0)
+              DO WHILE(JJ /= 0)
 
 cc             nnpelem = nnpelem + 1
 
-               JS=NLIST(JJ)
-               NS=KXSP(3,JS)         
-               IF(JJ == NE)GOTO 200
-               XS = X(1,NS)
-               YS = X(2,NS)
-               ZS = X(3,NS)
+                JS=NLIST(JJ)
+                NS=KXSP(3,JS)
+                IF(JJ == NE)GOTO 200
+                XS = X(1,NS)
+                YS = X(2,NS)
+                ZS = X(3,NS)
 
-               AAA = SPBUF(1,J)+SPBUF(1,JS)
+                AAA = SPBUF(1,J)+SPBUF(1,JS)
 
-               BBB = AAA * ALPHA_MARGE
+                BBB = AAA * ALPHA_MARGE
 
-               IF(XS<=X(1,NN)-BBB)GOTO 200
-               IF(XS>=X(1,NN)+BBB)GOTO 200
-               IF(YS<=X(2,NN)-BBB)GOTO 200
-               IF(YS>=X(2,NN)+BBB)GOTO 200
-               IF(ZS<=X(3,NN)-BBB)GOTO 200
-               IF(ZS>=X(3,NN)+BBB)GOTO 200
+                IF(XS<=X(1,NN)-BBB)GOTO 200
+                IF(XS>=X(1,NN)+BBB)GOTO 200
+                IF(YS<=X(2,NN)-BBB)GOTO 200
+                IF(YS>=X(2,NN)+BBB)GOTO 200
+                IF(ZS<=X(3,NN)-BBB)GOTO 200
+                IF(ZS>=X(3,NN)+BBB)GOTO 200
 
 cc             nnr0pelem = nnr0pelem + 1
 
-               D1X = XS - X(1,NN)
-               D1Y = YS - X(2,NN)
-               D1Z = ZS - X(3,NN)
-               D2 = D1X*D1X+D1Y*D1Y+D1Z*D1Z
-               A2 = BBB*BBB
-               IF(JS==J.or.D2 > A2)GOTO 200
+                D1X = XS - X(1,NN)
+                D1Y = YS - X(2,NN)
+                D1Z = ZS - X(3,NN)
+                D2 = D1X*D1X+D1Y*D1Y+D1Z*D1Z
+                A2 = BBB*BBB
+                IF(JS==J.or.D2 > A2)GOTO 200
 
 cc             nnrpelem = nnrpelem + 1
-                 AAA2 = AAA*AAA
-                 NVOIS=KXSP(5,J)+1
-                 JVOIS(NVOIS)=JS
-                 DVOIS(NVOIS)=D2/AAA2
+                AAA2 = AAA*AAA
+                NVOIS=KXSP(5,J)+1
+                JVOIS(NVOIS)=JS
+                DVOIS(NVOIS)=D2/AAA2
 
-                 KXSP(5,J)  =NVOIS
+                KXSP(5,J)  =NVOIS
 
- 200           CONTINUE
+  200           CONTINUE
 
-               JJ = NEXT_NOD(JJ)
+                JJ = NEXT_NOD(JJ)
 
-             ENDDO ! WHILE(JJ /= 0)
+              ENDDO ! WHILE(JJ /= 0)
 
-           ENDDO
+            ENDDO
           ENDDO
-         ENDDO
+        ENDDO
 
 cc       nbpelg = nbpelg + nbpelem
 cc       nnpelg = nnpelg + nnpelem
 cc       nnrpelg = nnrpelg + nnrpelem
-cc       nnr0pelg = nnr0pelg + nnr0pelem        
-         CALL SPPRO31(J    ,KXSP  ,IXSP ,NOD2SP,JVOIS,
-     .                JSTOR,JPERM ,DVOIS,IREDUCE,KREDUCE)
+cc       nnr0pelg = nnr0pelg + nnr0pelem
+        CALL SPPRO31(J    ,KXSP  ,IXSP ,NOD2SP,JVOIS,
+     .               JSTOR,JPERM ,DVOIS,IREDUCE,KREDUCE)
 
       ENDDO
 
@@ -305,7 +305,7 @@ C-------------------------------------------------------------------------
 C=======================================================================
 C 4   remise a zero des noeuds dans les boites
 C=======================================================================
- 100  CONTINUE
+  100 CONTINUE
 
 C Barrier to avoid reinitialization before end of sorting
 C     CALL MY_BARRIER
