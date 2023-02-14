@@ -41,7 +41,7 @@ Chd|====================================================================
      5                  IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6                  X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7                  Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8                  XI     ,YI     ,ZI  ,STIF)
+     8                  XI     ,YI     ,ZI  ,STIF    ,IFLAG )
 C============================================================================
 C  cette routine est appelee par : I7BUC1(/inter3d1/i7buc1.F)
 C                                  I7TRI(/inter3d1/i7tri.F)
@@ -69,6 +69,7 @@ C-----------------------------------------------
      .        NOD2ELTG(*),NINT,IGNORE,
      .        IXS16(*), IXS20(*),IPARTTG(*),IGEO(NPROPGI,*),
      .        IWORKSH(*)
+      INTEGER, INTENT(IN) :: IFLAG
 C     REAL
       my_real
      .   GAP, X(3,*), STF(*), STFN(*), GAPV(*), GAP_S(*), GAP_M(*),
@@ -121,12 +122,12 @@ C
         DO I=LFT,LLT
          GAPV(I) = GAP
         ENDDO 
-        WRITE(IOUT,2001) GAP
+        IF(IFLAG==1) WRITE(IOUT,2001) GAP
       ELSEIF((IGNORE == 2 .OR. IGNORE == 3) .AND. DSEARCH /= ZERO)THEN
         DO I=LFT,LLT
           GAPV(I) = GAP
         ENDDO
-        WRITE(IOUT,2001) GAP
+        IF(IFLAG==1) WRITE(IOUT,2001) GAP
       ELSEIF(IGNORE >= 2)THEN
         DO I=LFT,LLT
           THKSECND = ZERO
@@ -217,7 +218,7 @@ C         LONGUEUR DIAG 2
           GAPMIN = MIN(GAPMIN,GAPV(I))
           GAPMAX = MAX(GAPMAX,GAPV(I))
         ENDDO
-        WRITE(IOUT,2002) GAPMIN,GAPMAX
+        IF(IFLAG==1) WRITE(IOUT,2002) GAPMIN,GAPMAX
       ELSE
         DO I=LFT,LLT
          GAPV(I) = GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
@@ -225,7 +226,7 @@ C         LONGUEUR DIAG 2
           GAPMIN = MIN(GAPMIN,GAPV(I))
           GAPMAX = MAX(GAPMAX,GAPV(I))
         ENDDO
-        WRITE(IOUT,2002) GAPMIN,GAPMAX
+        IF(IFLAG==1) WRITE(IOUT,2002) GAPMIN,GAPMAX
       ENDIF
 C
       IF(ISTF/=0)THEN

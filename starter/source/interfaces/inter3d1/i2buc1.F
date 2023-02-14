@@ -125,7 +125,7 @@ C-----------------------------------------------
       INTEGER I, J, L, N1, N2, N3, N4, I_AMAX,I_MEM
       INTEGER I_ADD, ADESTK, NB_NC, NB_EC, ADNSTK,IEL,N
       INTEGER IP1, IP2, IP21, IP22, IP31,J_STOK,I_BID,NB_N_B,IS,IAD,
-     .   MG,IP,NELS,NELC,NELTG,JJ,JJJ
+     .   MG,IP,NELS,NELC,NELTG,JJ,JJJ,IFLAG
 C     REAL
       my_real
      .   DX1,DY1,DZ1,DX3,DY3,DZ3,DX4,DY4,DZ4,DX6,DY6,DZ6,
@@ -138,6 +138,7 @@ C     1-CALCUL TAILLE DES ZONES INFLUENCES
 c
       DD = ZERO
       DSEARCH = TZINF05
+      IFLAG = 1
       IF (IGNORE >= 2) THEN
          THKSECND = ZERO
          THKMAIN = ZERO
@@ -451,7 +452,7 @@ C---------------------------------
      5               IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6               X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7               Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8               XI     ,YI     ,ZI  ,STIF)
+     8               XI     ,YI     ,ZI  ,STIF    ,IFLAG )
 C
          IF (ILEV == 27) THEN
 C--        Improved projections on triangles for spotflag27
