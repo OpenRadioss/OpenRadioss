@@ -23,14 +23,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
+Chd|        SORTIE_MAIN                   source/output/sortie_main.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
+Chd|        ARRET                         source/system/arret.F
 Chd|        DRBE2CNT                      source/output/anim/generate/drbe2cnt.F
 Chd|        DRBE3CNT                      source/output/anim/generate/drbe3cnt.F
 Chd|        DRBYCNT                       source/output/anim/generate/drbycnt.F
-Chd|        FRETITL                       source/input/freform.F        
+Chd|        FRETITL                       source/input/freform.F
 Chd|        GET_NODAL_IPART               source/output/h3d/h3d_results/h3d_skin_ixskin.F
 Chd|        H3DLIB_LOAD                   source/output/h3d/h3d_build_cpp/h3d_dl.c
 Chd|        H3D_CONSTIT                   source/output/h3d/h3d_build_fortran/h3d_constit.F
@@ -83,26 +83,26 @@ Chd|        SPMD_H3D_SUM_R_NODAL          source/output/h3d/spmd/spmd_h3d_gather
 Chd|        SPMD_H3D_SUM_R_NODAL_21       source/output/h3d/spmd/spmd_h3d_gather_r_node.F
 Chd|        SPMD_H3D_SUM_R_NODAL_VALUE    source/output/h3d/spmd/spmd_h3d_sum_r_nodal_value.F
 Chd|        SPMD_OUTPITAB                 source/mpi/interfaces/spmd_outp.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        SYSFUS2                       source/system/sysfus.F        
-Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   
+Chd|        STARTIME                      source/system/timer.F
+Chd|        STOPTIME                      source/system/timer.F
+Chd|        SYSFUS2                       source/system/sysfus.F
+Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
-Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
+Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F
+Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
+Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
+Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
+Chd|        STACK_MOD                     share/modules/stack_mod.F
 Chd|====================================================================
       SUBROUTINE GENH3D(X        ,D        ,V           ,A           ,BUFEL    ,
      2                  IXS      ,IXQ      ,IXC         ,IXT         ,IXP      ,
@@ -150,7 +150,7 @@ C-----------------------------------------------
       USE FVBAG_MOD
       USE PLYXFEM_MOD
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE CRACKXFEM_MOD
       USE CLUSTER_MOD
       USE STACK_MOD
@@ -245,7 +245,7 @@ C-----------------------------------------------
      .   FCONTG(*), FNCONTG(*), FTCONTG(*),FANREAC(6,*),PDAMA2(2,*),
      .   RES_SMS(*),FCLUSTER(3,*),MCLUSTER(3,*),W(*),
      .   WIGE(*),KNOT(*),STIFN(*),STIFR(*),PSKIDS(*),TF(*),FCONT_MAX(*),
-     .   FNCONTP2(3,*) ,FTCONTP2(3,*) 
+     .   FNCONTP2(3,*) ,FTCONTP2(3,*)
       INTEGER IPARG(NPARG,*),NSTRF(*),LPBY(*),
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),MONVOL(*) ,
@@ -259,7 +259,7 @@ C-----------------------------------------------
      .        NODGLOB(*),IAD_ELEM(2,*),FR_ELEM(*),FR_WALL(*), IFLOW(*),
      .        IPARI(NPARI,*),IRBE2(NRBE2L,*),IRBE3(NRBE3L,*),
      .        WEIGHT_MD(*),NODGLOBXFE(*),IPARTIG3D(*)
-      INTEGER CTEXT(111), IB 
+      INTEGER CTEXT(111), IB
       INTEGER DD_IAD(NSPMD+1,*),
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        N1,N2,N3
@@ -290,7 +290,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .       , DIMENSION(:), ALLOCATABLE :: WAFT  , MAS   , XNORM, 
+     .       , DIMENSION(:), ALLOCATABLE :: WAFT  , MAS   , XNORM,
      .                                      XMASS1, XMASS2, XMASS3,
      .                                      XFUNC1, XFUNC2, XFUNC3,
      .                                      XUSR, WAFT_P
@@ -308,7 +308,7 @@ C-----------------------------------------------
      .   X_TEMP(3,64*NUMELIG3D),D_TEMP(3,64*NUMELIG3D),
      .   V_TEMP(3,64*NUMELIG3D),A_TEMP(3,64*NUMELIG3D),TABSTRESL(6,64*NUMELIG3D),
      .   BID_TEMP(3,64*NUMELIG3D)
-       
+
 
       my_real ,DIMENSION (:), ALLOCATABLE :: CBUF
       INTEGER ,DIMENSION (:), ALLOCATABLE :: ICBUF
@@ -346,7 +346,7 @@ C-----------------------------------------------
       INTEGER K1, KK1, K2, KIBJET, KIBHOL, IADHOL, KK2, KRBJET, KRBHOL,
      .        RADHOL, ITYP, KI1, KR1, NCA, NTG, NJET, NVENT, NTGI
       my_real
-     .       , DIMENSION(:,:), ALLOCATABLE :: VFLU    , VVAR1   , AFLU, 
+     .       , DIMENSION(:,:), ALLOCATABLE :: VFLU    , VVAR1   , AFLU,
      .                         VFLU_ALE, FANREACT, FANREACR
 
       INTEGER IADI, IADR, NINOUT, NNO, II1, II2, IR1, NNO_L, NNN_L,
@@ -373,7 +373,7 @@ C-----------------------------------------------
       INTEGER  INFO1,INFO2,IS_CORNER_DATA, COMPID_RBODIES, COMPID_RBE2S, COMPID_RBE3S, MAX_PART_ID
       INTEGER  CPT,ERROR_LOAD,NUMNOD_H3DPART,WORK(70000)
 c a mettre en allocatable
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:,:), ALLOCATABLE ::
      .         IXC_P,
      .         IXC_TMP,
      .         IXTG_TMP,
@@ -409,7 +409,7 @@ c a mettre en allocatable
      .         IPARTS20_P,
      .         IPARTC_P,
      .         IPARTTG_P,
-     .         IPARTQ_P,  
+     .         IPARTQ_P,
      .         IPARTSKIN_P,
      .         NODAL_IPART,
      .         IMAPSKP
@@ -417,7 +417,7 @@ c a mettre en allocatable
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAB_P
 
       INTEGER :: IAD_H3DPART,IAD_P,NUMNODG0,IP0 ,NIXSKIN
-      INTEGER :: NUMELC_P(NSPMD),DISP(NSPMD),NUMNOD_P(NSPMD) 
+      INTEGER :: NUMELC_P(NSPMD),DISP(NSPMD),NUMNOD_P(NSPMD)
 
 
 
@@ -450,7 +450,7 @@ C
      .                                      ITAB_P_PART,ITABM1_P
       my_real
      .   XWL(NRWALL) ,YWL(NRWALL) , ZWL(NRWALL), V1(NRWALL), V2(NRWALL), V3(NRWALL),
-     .   VV1(NRWALL), VV2(NRWALL), VV3(NRWALL), XL(NRWALL), XN(NRWALL), YN(NRWALL),  
+     .   VV1(NRWALL), VV2(NRWALL), VV3(NRWALL), XL(NRWALL), XN(NRWALL), YN(NRWALL),
      .   ZN(NRWALL)
 
       LOGICAL IS_FILE_EXISTS
@@ -498,13 +498,13 @@ c
 c
       H3D_DATA%IH3D_RUN = H3D_DATA%IH3D_RUN + 1
       IF(ISPMD == 0) THEN
-        NUMNODG0 = NUMNODG  
+        NUMNODG0 = NUMNODG
         IP0 = 1
       ELSE
         NUMNODG0 = 1
         IP0 = 0
       ENDIF
-C----- same size of skin than quad      
+C----- same size of skin than quad
       NIXSKIN = NIXQ
 
       MY_ALLOCATE(X_P,8*NUMNODG0)
@@ -522,7 +522,7 @@ C----- same size of skin than quad
       MY_ALLOCATE2D( IXS20_P      ,21,NUMELS20G*IP0)
       MY_ALLOCATE  ( IPARTC_P     ,NUMELCG*IP0)
       MY_ALLOCATE  ( IPARTTG_P    ,NUMELTGG*IP0)
-      MY_ALLOCATE  ( IPARTQ_P     ,NUMELQG*IP0) 
+      MY_ALLOCATE  ( IPARTQ_P     ,NUMELQG*IP0)
       MY_ALLOCATE  ( IPARTS_P     ,(NUMELSG-NUMELS10G-NUMELS16G-NUMELS20G)*IP0)
       MY_ALLOCATE  ( IPARTR_P     ,NUMELRG*IP0)
       MY_ALLOCATE  ( IPARTP_P     ,NUMELPG*IP0)
@@ -544,13 +544,13 @@ C----- same size of skin than quad
       MY_ALLOCATE2D( IXQ_TMP      ,NIXQ,NUMELQ)
       MY_ALLOCATE2D( IXSKIN_TMP   ,NIXSKIN,NUMSKIN)
       MY_ALLOCATE2D( IXSKIN_P     ,NIXSKIN,NUMSKING*IP0)
-      MY_ALLOCATE  ( IPARTSKIN_P  ,NUMSKING*IP0) 
+      MY_ALLOCATE  ( IPARTSKIN_P  ,NUMSKING*IP0)
 c
       MY_ALLOCATE(D_P,NUMNODG0*8)
 
-      IF(NSPMD > 1) THEN 
-        CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-        CALL SPMD_H3D_GATHER_R_NODE(WEIGHT,D,3*NUMNOD,D_P,3*NUMNODG) 
+      IF(NSPMD > 1) THEN
+        CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+        CALL SPMD_H3D_GATHER_R_NODE(WEIGHT,D,3*NUMNOD,D_P,3*NUMNODG)
         CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
       ENDIF
 c
@@ -574,13 +574,13 @@ C*******************************************************************************
         FILNAM=ROOTNAM(1:ROOTLEN)//'.h3d'
         FILEN = ROOTLEN + 4
         LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + 4
-        TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))   
+        TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
 C
 c**********************************************************************************************
 C CREATE PARTS + HIERARCHY
 C**********************************************************************************************
-        IF ((H3D_DATA%IH3D == 1 .AND. IRUN == 1) 
-     . .OR.( H3D_DATA%IH3D_RUN == 1 .AND. IRUN > 1)) THEN
+        IF ((H3D_DATA%IH3D == 1 .AND. IRUN == 1)
+     .  .OR.( H3D_DATA%IH3D_RUN == 1 .AND. IRUN > 1)) THEN
 
           IF (NSUBS > 0) THEN
             ALL_SUB_CHILDS = 0
@@ -607,7 +607,7 @@ C*******************************************************************************
             ENDDO
 !  title
             DO J=1,NSUBS
-               CALL FRETITL(SUBSET(J)%TITLE,SUB_TITLE(LTITR * (J-1)+1),LTITR)
+              CALL FRETITL(SUBSET(J)%TITLE,SUB_TITLE(LTITR * (J-1)+1),LTITR)
             ENDDO
           ELSE
             ALLOCATE(SUB_CHILD(0))
@@ -616,11 +616,11 @@ C*******************************************************************************
           ENDIF !IF (NSUBS > 0) THEN
         ENDIF ! IH3D,IRUN
 
-        IF (H3D_DATA%IH3D == 1 .AND. IRUN == 1) THEN 
+        IF (H3D_DATA%IH3D == 1 .AND. IRUN == 1) THEN
 C
 c**********************************************************************************************
 C OPEN H3D LIB
-C********************************************************************************************** 
+C**********************************************************************************************
           ERROR_LOAD = 0
           CALL H3DLIB_LOAD(ERROR_LOAD)
           IF(ERROR_LOAD == 1) THEN
@@ -630,7 +630,7 @@ C*******************************************************************************
 C
 c**********************************************************************************************
 C OPEN H3D FILE
-C********************************************************************************************** 
+C**********************************************************************************************
           IS_H3D_USED = .TRUE.
           WRITE(RADVERS,'(A,A)') 'Radioss ',VERS
           LEN_RADVERS = LEN_TRIM(RADVERS)
@@ -651,7 +651,7 @@ C
         ELSEIF( H3D_DATA%IH3D_RUN == 1 .AND. IRUN > 1) THEN
 c**********************************************************************************************
 C OPEN H3D LIB
-C********************************************************************************************** 
+C**********************************************************************************************
           ERROR_LOAD = 0
           CALL H3DLIB_LOAD(ERROR_LOAD)
           IF(ERROR_LOAD == 1) THEN
@@ -661,8 +661,8 @@ C*******************************************************************************
 C
 c**********************************************************************************************
 C REOPEN H3D FILE
-C********************************************************************************************** 
-          INQUIRE( FILE=TMP_NAME(1:LEN_TMP_NAME), EXIST=IS_FILE_EXISTS ) 
+C**********************************************************************************************
+          INQUIRE( FILE=TMP_NAME(1:LEN_TMP_NAME), EXIST=IS_FILE_EXISTS )
           IF (IS_FILE_EXISTS) THEN
             CALL STARTIME(MACRO_TIMER_LIBH3D,1)
             IS_H3D_USED = .TRUE.
@@ -671,11 +671,11 @@ C*******************************************************************************
           ELSE
 c**********************************************************************************************
 C OPEN H3D FILE
-C********************************************************************************************** 
+C**********************************************************************************************
             WRITE(CH_H3D,'(I4.4)')IRUN
             FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CH_H3D//'.h3d'
             LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
-            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM)) 
+            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
             H3D_DATA%IH3D = 1
             FILEN = ROOTLEN + 9
             IS_H3D_USED = .TRUE.
@@ -691,18 +691,18 @@ C
      .                                 SUB_NCHILD, NSUBS, NRBE2G, NRBE3G, I16E, I16F, N2D  ,IRBE2,
      .                                 NRBE2L,SUB_ID,SUB_CHILD,SUB_LEVEL,SUB_IAD,SUB_TITLE,IRBE3,
      .                                 NRBE3L,COMPID_RBODIES,COMPID_RBE2S,COMPID_RBE3S)
-             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
+            CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
           ENDIF
         ENDIF
       ENDIF
 c**********************************************************************************************
 C CREATE ITAB_P
-C********************************************************************************************** 
-      IF(NSPMD > 1) THEN 
-        CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-        CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,ITAB,NUMNOD,ITAB_P,NUMNODG) 
-        CALL SPMD_H3D_GATHER_R_NODE(WEIGHT,X,3*NUMNOD,X_P,3*NUMNODG) 
+C**********************************************************************************************
+      IF(NSPMD > 1) THEN
+        CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+        CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,ITAB,NUMNOD,ITAB_P,NUMNODG)
+        CALL SPMD_H3D_GATHER_R_NODE(WEIGHT,X,3*NUMNOD,X_P,3*NUMNODG)
         CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
       ELSE
         DO I=1,NUMNOD
@@ -711,7 +711,7 @@ C*******************************************************************************
       ENDIF
 c**********************************************************************************************
 C H3D/PART
-C********************************************************************************************** 
+C**********************************************************************************************
       IF (ISPMD == 0)THEN
         ALLOCATE(TAGNOD_P(NUMNODG))
       ELSE
@@ -756,7 +756,7 @@ c
         DO I=1,NRBODY
           IF(NPBY(1,I) > 0 ) TAGNOD(NPBY(1,I)) = 1
           DO J=1,NPBY(2,I)
-           IF(LPBY(NPBY(11,I)+J) > 0)  TAGNOD(LPBY(NPBY(11,I)+J)) = 1
+            IF(LPBY(NPBY(11,I)+J) > 0)  TAGNOD(LPBY(NPBY(11,I)+J)) = 1
           ENDDO
         ENDDO
 c
@@ -794,36 +794,35 @@ c
 
         NUMNOD_H3DPART = 0
 
-        IF(NSPMD > 1) THEN 
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(NUMNOD,1,NUMNOD_P,NSPMD) 
+        IF(NSPMD > 1) THEN
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(NUMNOD,1,NUMNOD_P,NSPMD)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           IF(ISPMD == 0) THEN
-C bug fix
-          DO I=1,NSPMD
-            NUMNOD_H3DPART = NUMNOD_H3DPART + NUMNOD_P(I)
-          ENDDO
-        ENDIF
+            DO I=1,NSPMD
+              NUMNOD_H3DPART = NUMNOD_H3DPART + NUMNOD_P(I)
+            ENDDO
+          ENDIF
         ENDIF
 C
         ALLOCATE(TAGNOD_P_PART(NUMNOD_H3DPART))
         ALLOCATE(ITAB_P_PART(NUMNOD_H3DPART))
         ALLOCATE(ITABM1_P(2*NUMNODG))
 C
-        IF(NSPMD > 1) THEN 
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,TAGNOD,NUMNOD,TAGNOD_P,NUMNODG) 
-          CALL SPMD_H3D_GATHER_I_NODE_PART(WEIGHT,TAGNOD,ITAB,NUMNOD,ITAB_P_PART,NUMNOD_H3DPART) 
+        IF(NSPMD > 1) THEN
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,TAGNOD,NUMNOD,TAGNOD_P,NUMNODG)
+          CALL SPMD_H3D_GATHER_I_NODE_PART(WEIGHT,TAGNOD,ITAB,NUMNOD,ITAB_P_PART,NUMNOD_H3DPART)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
-          IF(ISPMD == 0) THEN 
+          IF(ISPMD == 0) THEN
             CALL H3D_CONSTIT(ITAB_P,ITABM1_P,NUMNODG)
             DO I=1,NUMNOD_H3DPART
               IF(ITAB_P_PART(I) /= 0)THEN
                 IF(SYSFUS2(ITAB_P_PART(I),ITABM1_P,NUMNODG) /= 0) THEN
                   TAGNOD_P(SYSFUS2(ITAB_P_PART(I),ITABM1_P,NUMNODG)) = 1
-                ENDIF 
-              ENDIF 
-            ENDDO 
+                ENDIF
+              ENDIF
+            ENDDO
           ENDIF
         ELSE
           DO I=1,NUMNOD
@@ -840,7 +839,7 @@ C
       ENDIF
 c**********************************************************************************************
 C CREATE NODES
-C********************************************************************************************** 
+C**********************************************************************************************
 c
       IF(NSPMD > 1 .AND. ISPMD==0)THEN
         MAX_NOD_ID = 0
@@ -867,10 +866,10 @@ c
       DEALLOCATE(X_P)
 c**********************************************************************************************
 C CREATE SPH
-C********************************************************************************************** 
+C**********************************************************************************************
 c
       IF(H3D_DATA%IH3D == 1) THEN
-        IF(NSPMD > 1) THEN 
+        IF(NSPMD > 1) THEN
           DO I=1,NUMSPH
             DO J=1,2
               KXSP_TMP(J,I) = KXSP(J,I)
@@ -881,8 +880,8 @@ c
             ENDDO
           ENDDO
 c
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(KXSP_TMP,NISP*NUMSPH,KXSP_P,NISP*NUMSPHG) 
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(KXSP_TMP,NISP*NUMSPH,KXSP_P,NISP*NUMSPHG)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
 c
         ELSE
@@ -897,9 +896,9 @@ c
           ENDDO
         ENDIF
 c
-        IF(NSPMD > 1) THEN 
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IPARTSP,NUMSPH,IPARTSP_P,NUMSPHG) 
+        IF(NSPMD > 1) THEN
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IPARTSP,NUMSPH,IPARTSP_P,NUMSPHG)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
         ELSE
           DO I=1,NUMSPH
@@ -908,10 +907,10 @@ c
         ENDIF
       ENDIF
 
-      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN 
-                 CALL STARTIME(MACRO_TIMER_LIBH3D,1)
-                 CALL C_H3D_CREATE_SPH(ITAB_P,NUMNODG,KXSP_P,NISP,NUMSPHG,IPARTSP_P,IPART,LIPART1,X,H3D_DATA%PARTS(1)%PART)
-                 CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN
+        CALL STARTIME(MACRO_TIMER_LIBH3D,1)
+        CALL C_H3D_CREATE_SPH(ITAB_P,NUMNODG,KXSP_P,NISP,NUMSPHG,IPARTSP_P,IPART,LIPART1,X,H3D_DATA%PARTS(1)%PART)
+        CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
       ENDIF
 c**********************************************************************************************
 C CREATE 1D CONNECTIVITY
@@ -920,7 +919,7 @@ C
 C         CREATE SPRINGS
 C
       IF(H3D_DATA%IH3D == 1) THEN
-        IF(NSPMD > 1) THEN 
+        IF(NSPMD > 1) THEN
           DO I=1,NUMELR
             IXR_TMP(1,I) = IXR(1,I)
             DO J=2,4
@@ -929,23 +928,23 @@ C
             IXR_TMP(4:NIXR,I) = IXR(4:NIXR,I)
           ENDDO
 c
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IXR_TMP,NIXR*NUMELR,IXR_P,NIXR*NUMELRG) 
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IXR_TMP,NIXR*NUMELR,IXR_P,NIXR*NUMELRG)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
 c
         ELSE
           DO I=1,NUMELR
             IXR_P(1,I) = IXR(1,I)
             DO J=2,4
-               IF (IXR(J,I) /= 0 ) IXR_P(J,I) = ITAB(IXR(J,I))
+              IF (IXR(J,I) /= 0 ) IXR_P(J,I) = ITAB(IXR(J,I))
             ENDDO
             IXR_P(4:NIXR,I) = IXR(4:NIXR,I)
           ENDDO
         ENDIF
 c
-        IF(NSPMD > 1) THEN 
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IPARTR,NUMELR,IPARTR_P,NUMELRG) 
+        IF(NSPMD > 1) THEN
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IPARTR,NUMELR,IPARTR_P,NUMELRG)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
         ELSE
           DO I=1,NUMELR
@@ -954,7 +953,7 @@ c
         ENDIF
       ENDIF
 c
-      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN 
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
         CALL C_H3D_CREATE_SPRINGS(ITAB,NUMNOD,IXR_P,NIXR,NUMELRG,IPARTR_P,IPART,LIPART1,H3D_DATA%PARTS(1)%PART)
         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
@@ -964,7 +963,7 @@ C         CREATE BEAMS
 C
 C
       IF(H3D_DATA%IH3D == 1) THEN
-        IF(NSPMD > 1) THEN 
+        IF(NSPMD > 1) THEN
           DO I=1,NUMELP
             IXP_TMP(1,I) = IXP(1,I)
             DO J=2,4
@@ -973,8 +972,8 @@ C
             IXP_TMP(4:NIXP,I) = IXP(4:NIXP,I)
           ENDDO
 c
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IXP_TMP,NIXP*NUMELP,IXP_P,NIXP*NUMELPG) 
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IXP_TMP,NIXP*NUMELP,IXP_P,NIXP*NUMELPG)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
 c
         ELSE
@@ -986,9 +985,9 @@ c
             IXP_P(4:NIXP,I) = IXP(4:NIXP,I)
           ENDDO
         ENDIF
-        IF(NSPMD > 1) THEN 
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IPARTP,NUMELP,IPARTP_P,NUMELPG) 
+        IF(NSPMD > 1) THEN
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IPARTP,NUMELP,IPARTP_P,NUMELPG)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
         ELSE
           DO I=1,NUMELP
@@ -998,17 +997,17 @@ c
       ENDIF
 c
 c
-      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN 
-         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
-         CALL C_H3D_CREATE_BEAMS(ITAB,NUMNOD,IXP_P,NIXP,NUMELPG,IPARTP_P,IPART,LIPART1,H3D_DATA%PARTS(1)%PART)
-         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN
+        CALL STARTIME(MACRO_TIMER_LIBH3D,1)
+        CALL C_H3D_CREATE_BEAMS(ITAB,NUMNOD,IXP_P,NIXP,NUMELPG,IPARTP_P,IPART,LIPART1,H3D_DATA%PARTS(1)%PART)
+        CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
       ENDIF
 C
 C         CREATE TRUSS
 C
 C
       IF(H3D_DATA%IH3D == 1) THEN
-        IF(NSPMD > 1) THEN 
+        IF(NSPMD > 1) THEN
           DO I=1,NUMELT
             IXT_TMP(1,I) = IXT(1,I)
             DO J=2,4
@@ -1017,8 +1016,8 @@ C
             IXT_TMP(4:NIXT,I) = IXT(4:NIXT,I)
           ENDDO
 c
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IXT_TMP,NIXT*NUMELT,IXT_P,NIXP*NUMELTRG) 
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IXT_TMP,NIXT*NUMELT,IXT_P,NIXP*NUMELTRG)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
 c
         ELSE
@@ -1030,9 +1029,9 @@ c
             IXT_P(4:NIXT,I) = IXT(4:NIXT,I)
           ENDDO
         ENDIF
-        IF(NSPMD > 1) THEN 
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IPARTT,NUMELT,IPARTT_P,NUMELTRG) 
+        IF(NSPMD > 1) THEN
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IPARTT,NUMELT,IPARTT_P,NUMELTRG)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
         ELSE
           DO I=1,NUMELT
@@ -1050,41 +1049,41 @@ c
 C
 c**********************************************************************************************
 C CREATE RBODY CONNECTIVITY
-C********************************************************************************************** 
+C**********************************************************************************************
 
       IF(NSPMD > 1 .AND. H3D_DATA%IH3D == 1)THEN
-             NERBY = 0
-             IF (NRBODY>0)
-     .           CALL DRBYCNT(NERBY,NPBY,FR_RBY2)
-             NERBE2 = 0
-             IF (NRBE2G>0)
-     .         CALL DRBE2CNT(NERBE2,IRBE2,LRBE2,WEIGHT)
-             NERBE3 = 0
-             IF (NRBE3G>0)
-     .         CALL DRBE3CNT(NERBE3,IRBE3,LRBE3,WEIGHT)
+        NERBY = 0
+        IF (NRBODY>0)
+     .      CALL DRBYCNT(NERBY,NPBY,FR_RBY2)
+        NERBE2 = 0
+        IF (NRBE2G>0)
+     .    CALL DRBE2CNT(NERBE2,IRBE2,LRBE2,WEIGHT)
+        NERBE3 = 0
+        IF (NRBE3G>0)
+     .    CALL DRBE3CNT(NERBE3,IRBE3,LRBE3,WEIGHT)
 c
-             SBUFSPM=0
-             SBUFRECVM=0
-             SBUFSPO=0
-             SPORBY=0
+        SBUFSPM=0
+        SBUFRECVM=0
+        SBUFSPO=0
+        SPORBY=0
 
-             DO I=1,NSPMD
-               SBUFSPM = SBUFSPM + IAD_RBY2(1,I)
-               SBUFRECVM = SBUFRECVM + IAD_RBY2(2,I)+1
-             ENDDO
-               SBUFSPM = SBUFSPM + 2*NRBYKIN
-               SBUFRECVM = SBUFRECVM + 2*NRBYKIN*NSPMD
-             DO I=1,NRBYKIN
+        DO I=1,NSPMD
+          SBUFSPM = SBUFSPM + IAD_RBY2(1,I)
+          SBUFRECVM = SBUFRECVM + IAD_RBY2(2,I)+1
+        ENDDO
+        SBUFSPM = SBUFSPM + 2*NRBYKIN
+        SBUFRECVM = SBUFRECVM + 2*NRBYKIN*NSPMD
+        DO I=1,NRBYKIN
 
-               IF ((ISPMD+1)==ABS(FR_RBY2(3,I)))
-     .           SBUFSPO = SBUFSPO + FR_RBY2(2,I)
-             ENDDO
-             SBUFSPO = SBUFSPO + NRBYKIN*2
-             IF (ISPMD==0) THEN
-               SPORBY = NERBY+NRBYKIN*2
-             ELSE
-               SPORBY=1
-             ENDIF
+          IF ((ISPMD+1)==ABS(FR_RBY2(3,I)))
+     .      SBUFSPO = SBUFSPO + FR_RBY2(2,I)
+        ENDDO
+        SBUFSPO = SBUFSPO + NRBYKIN*2
+        IF (ISPMD==0) THEN
+          SPORBY = NERBY+NRBYKIN*2
+        ELSE
+          SPORBY=1
+        ENDIF
 
         CALL H3D_CREATE_RBODIES_IMPI(NPBY,LPBY,FR_RBY2,IAD_RBY2,
      .                        SBUFSPM,SBUFRECVM,SBUFSPO,SPORBY,
@@ -1097,7 +1096,7 @@ c
      .                         NERBE3T,ITAB,COMPID_RBE3S)
 
       ELSE
-        IF(NSPMD == 1 .AND. ISPMD==0 .AND. H3D_DATA%IH3D == 1) THEN 
+        IF(NSPMD == 1 .AND. ISPMD==0 .AND. H3D_DATA%IH3D == 1) THEN
           CALL STARTIME(MACRO_TIMER_LIBH3D,1)
           CALL C_H3D_CREATE_RBODIES(ITAB,NUMNOD,NPBY,NNPBY,LPBY,NRBODY,COMPID_RBODIES)
           CALL C_H3D_CREATE_RBE2(ITAB,NUMNOD,IRBE2,NRBE2L,LRBE2,NRBE2,COMPID_RBE2S,COMPID_RBE2S)
@@ -1108,10 +1107,10 @@ c
 C
 c**********************************************************************************************
 C CREATE SH4N & SH3N CONNECTIVITY
-C********************************************************************************************** 
+C**********************************************************************************************
 c
       IF(H3D_DATA%IH3D  == 1) THEN
-        IF(NSPMD > 1 .AND. H3D_DATA%IH3D == 1) THEN 
+        IF(NSPMD > 1 .AND. H3D_DATA%IH3D == 1) THEN
           DO I=1,NUMELC
             IXC_TMP(1,I) = IXC(1,I)
             DO J=2,5
@@ -1120,8 +1119,8 @@ c
             IXC_TMP(6:NIXC,I) = IXC(6:NIXC,I)
           ENDDO
 c
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IXC_TMP,NIXC*NUMELC,IXC_P,NIXC*NUMELCG) 
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IXC_TMP,NIXC*NUMELC,IXC_P,NIXC*NUMELCG)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
 c
           DO I=1,NUMELTG
@@ -1132,8 +1131,8 @@ c
             IXTG_TMP(5:NIXTG,I) = IXTG(5:NIXTG,I)
           ENDDO
 c
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IXTG_TMP,NIXTG*NUMELTG,IXTG_P,NIXTG*NUMELTGG) 
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IXTG_TMP,NIXTG*NUMELTG,IXTG_P,NIXTG*NUMELTGG)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
 c
         ELSE
@@ -1152,14 +1151,14 @@ c
             ENDDO
             IXTG_P(5:NIXTG,I) = IXTG(5:NIXTG,I)
           ENDDO
-          
+
         ENDIF
-        IF(NSPMD > 1) THEN 
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IPARTC,NUMELC,IPARTC_P,NUMELCG) 
+        IF(NSPMD > 1) THEN
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IPARTC,NUMELC,IPARTC_P,NUMELCG)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IPARTTG,NUMELTG,IPARTTG_P,NUMELTGG) 
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IPARTTG,NUMELTG,IPARTTG_P,NUMELTGG)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
         ELSE
           DO I=1,NUMELC
@@ -1173,33 +1172,33 @@ c
 c
 
 
-      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN 
-          CALL STARTIME(MACRO_TIMER_LIBH3D,1)
-          CALL C_H3D_CREATE_SHELLS(ITAB_P,NUMNODG,IXC_P,NIXC,NUMELCG,IPARTC_P,IPART,LIPART1,
-     .                             H3D_DATA%PARTS(1)%PART)
-          CALL C_H3D_CREATE_SH3NS(ITAB_P,NUMNODG,IXTG_P,NIXTG,NUMELTGG,IPARTTG_P,IPART,LIPART1,
-     .                                    H3D_DATA%PARTS(1)%PART)
-          CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN
+        CALL STARTIME(MACRO_TIMER_LIBH3D,1)
+        CALL C_H3D_CREATE_SHELLS(ITAB_P,NUMNODG,IXC_P,NIXC,NUMELCG,IPARTC_P,IPART,LIPART1,
+     .                           H3D_DATA%PARTS(1)%PART)
+        CALL C_H3D_CREATE_SH3NS(ITAB_P,NUMNODG,IXTG_P,NIXTG,NUMELTGG,IPARTTG_P,IPART,LIPART1,
+     .                                  H3D_DATA%PARTS(1)%PART)
+        CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
       ENDIF
 C
 c**********************************************************************************************
 C CREATE RWALLS
-C********************************************************************************************** 
+C**********************************************************************************************
 c
       IF(H3D_DATA%IH3D  == 1 .AND. NRWALL>0) THEN
 
-         CALL SCANOR(X,D,CDG,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,SCALE,
-     .            WEIGHT)
+        CALL SCANOR(X,D,CDG,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,SCALE,
+     .           WEIGHT)
 C
 
-         CALL H3D_DXYZ_RWALL(
-     2                  NSTRF,RWBUF,NPRW  ,X,XMIN,
-     3                  YMIN,ZMIN,XMAX,YMAX,ZMAX,
-     4                  FR_SEC,FR_WALL,WEIGHT,ITAB,
-     5                  XWL ,YWL , ZWL, V1, V2, V3, VV1, VV2, VV3, XL, XN, YN, ZN )
+        CALL H3D_DXYZ_RWALL(
+     2                 NSTRF,RWBUF,NPRW  ,X,XMIN,
+     3                 YMIN,ZMIN,XMAX,YMAX,ZMAX,
+     4                 FR_SEC,FR_WALL,WEIGHT,ITAB,
+     5                 XWL ,YWL , ZWL, V1, V2, V3, VV1, VV2, VV3, XL, XN, YN, ZN )
 
 
-        IF(ISPMD==0) THEN 
+        IF(ISPMD==0) THEN
           CALL STARTIME(MACRO_TIMER_LIBH3D,1)
           CALL C_H3D_CREATE_RWALLS(NOM_OPT, LNOPT1, I16D, NPRW, NRWALL, MAX_NOD_ID,
      .                           XWL ,YWL , ZWL, V1, V2, V3, VV1, VV2, VV3, XL, XN, YN, ZN)
@@ -1210,11 +1209,11 @@ C
 C
 c**********************************************************************************************
 C CREATE SOLIDS CONNECTIVITY
-C********************************************************************************************** 
+C**********************************************************************************************
 c
       IF(H3D_DATA%IH3D == 1) THEN
 
-        IF(NSPMD > 1) THEN 
+        IF(NSPMD > 1) THEN
           ALLOCATE(IXS_TMP(NIXS,NUMELS8))
 c
           DO I=1,NUMELS8
@@ -1231,11 +1230,11 @@ c
             IXS10_TMP(3,I) = ITAB(IXS(7,NUMELS8+I))
             IXS10_TMP(4,I) = ITAB(IXS(6,NUMELS8+I))
             DO J=1,6
-			  IF (IXS10(J,I)>0) THEN
+              IF (IXS10(J,I)>0) THEN
                 IXS10_TMP(4+J,I) = ITAB(IXS10(J,I))
-		      ELSE
+              ELSE
                 IXS10_TMP(4+J,I) = 0
-			  END IF
+              END IF
             ENDDO
             IXS10_TMP(11,I) = IXS(NIXS,NUMELS8+I)
           ENDDO
@@ -1272,11 +1271,11 @@ c
             IXS20_TMP(21,I) = IXS(NIXS,NUMELS8+NUMELS10+I)
           ENDDO
 c
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IXS_TMP,NIXS*NUMELS8,IXS_P,NIXS*(NUMELSG-NUMELS10G-NUMELS16G-NUMELS20G)) 
-          CALL SPMD_H3D_GATHER_I(IXS10_TMP,11*NUMELS10,IXS10_P,11*NUMELS10G) 
-          CALL SPMD_H3D_GATHER_I(IXS16_TMP,17*NUMELS16,IXS16_P,17*NUMELS16G) 
-          CALL SPMD_H3D_GATHER_I(IXS20_TMP,21*NUMELS20,IXS20_P,21*NUMELS20G) 
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IXS_TMP,NIXS*NUMELS8,IXS_P,NIXS*(NUMELSG-NUMELS10G-NUMELS16G-NUMELS20G))
+          CALL SPMD_H3D_GATHER_I(IXS10_TMP,11*NUMELS10,IXS10_P,11*NUMELS10G)
+          CALL SPMD_H3D_GATHER_I(IXS16_TMP,17*NUMELS16,IXS16_P,17*NUMELS16G)
+          CALL SPMD_H3D_GATHER_I(IXS20_TMP,21*NUMELS20,IXS20_P,21*NUMELS20G)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           DEALLOCATE(IXS_TMP)
         ELSE
@@ -1330,12 +1329,12 @@ c
             IXS20_P(21,I) = IXS(NIXS,NUMELS8+NUMELS10+I)
           ENDDO
         ENDIF
-        IF(NSPMD > 1) THEN 
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IPARTS,NUMELS8,IPARTS_P,NUMELSG-NUMELS10G-NUMELS16G-NUMELS20G) 
-          CALL SPMD_H3D_GATHER_I(IPARTS(NUMELS8+1),NUMELS10,IPARTS10_P,NUMELS10G) 
-          CALL SPMD_H3D_GATHER_I(IPARTS(NUMELS8+NUMELS10+1),NUMELS20,IPARTS20_P,NUMELS20G) 
-          CALL SPMD_H3D_GATHER_I(IPARTS(NUMELS8+NUMELS10+NUMELS20+1),NUMELS16,IPARTS16_P,NUMELS16G) 
+        IF(NSPMD > 1) THEN
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IPARTS,NUMELS8,IPARTS_P,NUMELSG-NUMELS10G-NUMELS16G-NUMELS20G)
+          CALL SPMD_H3D_GATHER_I(IPARTS(NUMELS8+1),NUMELS10,IPARTS10_P,NUMELS10G)
+          CALL SPMD_H3D_GATHER_I(IPARTS(NUMELS8+NUMELS10+1),NUMELS20,IPARTS20_P,NUMELS20G)
+          CALL SPMD_H3D_GATHER_I(IPARTS(NUMELS8+NUMELS10+NUMELS20+1),NUMELS16,IPARTS16_P,NUMELS16G)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
         ELSE
           DO I=1,NUMELS8
@@ -1354,7 +1353,7 @@ c
       ENDIF
 c
 c
-      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN 
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
         CALL C_H3D_CREATE_SOLID8N(ITAB_P,NUMNODG,IXS_P,NIXS,NUMELSG,IPARTS_P,IPART,LIPART1,
      .                  H3D_DATA%PARTS(1)%PART,NUMELS10G,IXS10_P,IPARTS10_P,NUMELS16G,IXS16_P,
@@ -1364,10 +1363,10 @@ c
 C
 c**********************************************************************************************
 C CREATE QUADS CONNECTIVITY
-C********************************************************************************************** 
+C**********************************************************************************************
 c
       IF(H3D_DATA%IH3D == 1) THEN
-        IF(NSPMD > 1) THEN 
+        IF(NSPMD > 1) THEN
           DO I=1,NUMELQ
             IXQ_TMP(1,I) = IXQ(1,I)
             DO J=2,5
@@ -1375,8 +1374,8 @@ c
             ENDDO
             IXQ_TMP(6:NIXQ,I) = IXQ(6:NIXQ,I)
           ENDDO
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IXQ_TMP,NIXQ*NUMELQ,IXQ_P,NIXQ*NUMELQG) 
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IXQ_TMP,NIXQ*NUMELQ,IXQ_P,NIXQ*NUMELQG)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
         ELSE
           DO I=1,NUMELQ
@@ -1387,9 +1386,9 @@ c
             IXQ_P(6:NIXQ,I) = IXQ(6:NIXQ,I)
           ENDDO
         ENDIF
-        IF(NSPMD > 1) THEN 
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IPARTQ,NUMELQ,IPARTQ_P,NUMELQG) 
+        IF(NSPMD > 1) THEN
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IPARTQ,NUMELQ,IPARTQ_P,NUMELQG)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
         ELSE
           DO I=1,NUMELQ
@@ -1399,7 +1398,7 @@ c
       ENDIF
 c
 c
-      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN 
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
         CALL C_H3D_CREATE_QUADS(ITAB_P,NUMNODG,IPART,LIPART1,H3D_DATA%PARTS(1)%PART,
      .                  IXQ_P,NIXQ,NUMELQG,IPARTQ_P)
@@ -1408,39 +1407,39 @@ c
 c**********************************************************************************************
 C CREATE SKIN (4-N) CONNECTIVITY ( THICK SHELLS +solid +PLOAD...)
 C**********************************************************************************************
-C-------------nodal_pid used for PLOAD---        
-       IF (NUMSKINP>0) THEN
-          ALLOCATE(NODAL_IPART(NUMNOD),IMAPSKP(NUMSKINP0))
-          CALL GET_NODAL_IPART(ELBUF_TAB,IPARG,IPARTC,IPARTTG,IPARTS,
-     .                          IXC, IXTG, IXS,IXS10,IXS16,IXS20,
-     .                          NODAL_IPART)
-          CALL H3D_SKIN_PRE_MAP(IBCL  ,ILOADP  ,LLOADP ,IMAPSKP)
-       END IF
+C-------------nodal_pid used for PLOAD---
+      IF (NUMSKINP>0) THEN
+        ALLOCATE(NODAL_IPART(NUMNOD),IMAPSKP(NUMSKINP0))
+        CALL GET_NODAL_IPART(ELBUF_TAB,IPARG,IPARTC,IPARTTG,IPARTS,
+     .                        IXC, IXTG, IXS,IXS10,IXS16,IXS20,
+     .                        NODAL_IPART)
+        CALL H3D_SKIN_PRE_MAP(IBCL  ,ILOADP  ,LLOADP ,IMAPSKP)
+      END IF
       IF(H3D_DATA%IH3D == 1 .AND. NUMSKING>0 ) THEN
-C----create connectivity IXSKIN_P(NIXQ,NUMSKING),IPARTSKIN_P(NUMSKING) 
-        IXSKIN_TMP = 0 
+C----create connectivity IXSKIN_P(NIXQ,NUMSKING),IPARTSKIN_P(NUMSKING)
+        IXSKIN_TMP = 0
         CALL H3D_SKIN_IXSKIN(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
      .                       ITAB ,IXSKIN_TMP  ,TAG_SKINS6,
-     .                       IBCL,ILOADP,LLOADP,NODAL_IPART,IMAPSKP) 
+     .                       IBCL,ILOADP,LLOADP,NODAL_IPART,IMAPSKP)
 c--------IXSKIN_TMP(1,i) :ipart (instead of mid)--IXSKIN_TMP(2-5,i) : Nj(user_id)
-        IF(NSPMD > 1) THEN 
-C         
-          CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-          CALL SPMD_H3D_GATHER_I(IXSKIN_TMP,NIXSKIN*NUMSKIN,IXSKIN_P,NIXSKIN*NUMSKING) 
+        IF(NSPMD > 1) THEN
+C
+          CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+          CALL SPMD_H3D_GATHER_I(IXSKIN_TMP,NIXSKIN*NUMSKIN,IXSKIN_P,NIXSKIN*NUMSKING)
           CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
         ELSE
           IXSKIN_P(1:NIXSKIN,1:NUMSKIN) = IXSKIN_TMP(1:NIXSKIN,1:NUMSKIN)
         END IF
 
 c
-        IF(ISPMD == 0) THEN 
-C-----usr_id not important but unique ---------        
+        IF(ISPMD == 0) THEN
+C-----usr_id not important but unique ---------
           DO I=1,NUMSKING
             IPARTSKIN_P(I) = IXSKIN_P(1,I)
-            IXSKIN_P(NIXSKIN,I) = I 
+            IXSKIN_P(NIXSKIN,I) = I
           ENDDO
           CALL STARTIME(MACRO_TIMER_LIBH3D,1)
-C 
+C
           CALL C_H3D_CREATE_SKINS(ITAB_P,NUMNODG,IPART,LIPART1,H3D_DATA%PARTS(1)%PART,
      .                            IXSKIN_P,NIXSKIN,NUMSKING,IPARTSKIN_P)
           CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
@@ -1449,8 +1448,8 @@ C
 C
 c**********************************************************************************************
 C CREATE NODAL DISPLACEMENT DATAS
-C********************************************************************************************** 
-      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN 
+C**********************************************************************************************
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
         CALL C_H3D_CREATE_DISPLACEMENT_DATATYPE()
         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
@@ -1458,16 +1457,16 @@ C*******************************************************************************
 C
 c**********************************************************************************************
 C CREATE RESULTS DATAS
-C********************************************************************************************** 
+C**********************************************************************************************
       IF(ISPMD==0.AND. ( H3D_DATA%IH3D_RUN == 1)) THEN
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
-        CALL H3D_CREATE_DATATYPE(H3D_DATA,IPARI) 
+        CALL H3D_CREATE_DATATYPE(H3D_DATA,IPARI)
 C
 c**********************************************************************************************
 C FINALIZE FORMAT
-C********************************************************************************************** 
-       CALL C_H3D_CREATE_RESULTS_END()
-       CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
+C**********************************************************************************************
+        CALL C_H3D_CREATE_RESULTS_END()
+        CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
       ENDIF
 C
@@ -1477,15 +1476,15 @@ c*******************************************************************************
 c
       IF(NRWALL>0) THEN
 
-         CALL SCANOR(X,D,CDG,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,SCALE,
-     .            WEIGHT)
+        CALL SCANOR(X,D,CDG,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,SCALE,
+     .           WEIGHT)
 C
 
-         CALL H3D_DXYZ_RWALL_UPDATE(
-     2                  NSTRF,RWBUF,NPRW  ,D,XMIN,
-     3                  YMIN,ZMIN,XMAX,YMAX,ZMAX,
-     4                  FR_SEC,FR_WALL,WEIGHT,ITAB,
-     5                  XWL ,YWL , ZWL, V1, V2, V3, VV1, VV2, VV3)
+        CALL H3D_DXYZ_RWALL_UPDATE(
+     2                 NSTRF,RWBUF,NPRW  ,D,XMIN,
+     3                 YMIN,ZMIN,XMAX,YMAX,ZMAX,
+     4                 FR_SEC,FR_WALL,WEIGHT,ITAB,
+     5                 XWL ,YWL , ZWL, V1, V2, V3, VV1, VV2, VV3)
       ENDIF
 c
       H3DTITLE = ' '
@@ -1500,23 +1499,23 @@ c
       ENDIF
 c
       IF(NSPMD > 1 .AND. ISPMD==0)THEN
-         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
-         CALL C_H3D_UPDATE_NODES(H3DTITLE,LEN_H3DTITLE,TT,H3D_DATA%IH3D,
-     .                           ITAB_P,NUMNODG,D_P, NRWALL, MAX_NOD_ID,
-     .                           XWL ,YWL , ZWL, V1, V2, 
-     .                           V3, VV1, VV2, VV3,KXSP_P,
-     .                           NISP,NUMSPHG,TAGNOD_P,NPRW)
-         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
+        CALL STARTIME(MACRO_TIMER_LIBH3D,1)
+        CALL C_H3D_UPDATE_NODES(H3DTITLE,LEN_H3DTITLE,TT,H3D_DATA%IH3D,
+     .                          ITAB_P,NUMNODG,D_P, NRWALL, MAX_NOD_ID,
+     .                          XWL ,YWL , ZWL, V1, V2,
+     .                          V3, VV1, VV2, VV3,KXSP_P,
+     .                          NISP,NUMSPHG,TAGNOD_P,NPRW)
+        CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
       ELSEIF(ISPMD==0 )THEN
-         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
-         CALL C_H3D_UPDATE_NODES(H3DTITLE,LEN_H3DTITLE,TT,H3D_DATA%IH3D,
-     .                           ITAB,NUMNOD,D, NRWALL, MAX_NOD_ID,
-     .                           XWL ,YWL , ZWL, V1, V2,
-     .                           V3, VV1, VV2, VV3,KXSP_P,
-     .                           NISP,NUMSPHG,TAGNOD_P,NPRW)
-         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
+        CALL STARTIME(MACRO_TIMER_LIBH3D,1)
+        CALL C_H3D_UPDATE_NODES(H3DTITLE,LEN_H3DTITLE,TT,H3D_DATA%IH3D,
+     .                          ITAB,NUMNOD,D, NRWALL, MAX_NOD_ID,
+     .                          XWL ,YWL , ZWL, V1, V2,
+     .                          V3, VV1, VV2, VV3,KXSP_P,
+     .                          NISP,NUMSPHG,TAGNOD_P,NPRW)
+        CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
       ENDIF
-c 
+c
 c**********************************************************************************************
 C OUTPUT RESULTS
 c**********************************************************************************************
@@ -1721,10 +1720,10 @@ c
      .                 IPART, IPARTC ,IPARTTG)
 c
       IF (NSPMD > 1 ) THEN
-        CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-        CALL SPMD_H3D_GATHER_I(SHELL_ID,NUMELC+NUMELTG,SHELL_ID_P,NUMELCG+NUMELTGG) 
-        CALL SPMD_H3D_GATHER_I(SHELL_ITY,NUMELC+NUMELTG,SHELL_ITY_P,NUMELCG+NUMELTGG) 
-        CALL SPMD_H3D_GATHER_R(SHELL_SCALAR,NUMELC+NUMELTG,SHELL_SCALAR_P,NUMELCG+NUMELTGG) 
+        CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+        CALL SPMD_H3D_GATHER_I(SHELL_ID,NUMELC+NUMELTG,SHELL_ID_P,NUMELCG+NUMELTGG)
+        CALL SPMD_H3D_GATHER_I(SHELL_ITY,NUMELC+NUMELTG,SHELL_ITY_P,NUMELCG+NUMELTGG)
+        CALL SPMD_H3D_GATHER_R(SHELL_SCALAR,NUMELC+NUMELTG,SHELL_SCALAR_P,NUMELCG+NUMELTGG)
         CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
       ELSE
         SHELL_ID_P(1:NUMELC+NUMELTG) =  SHELL_ID(1:NUMELC+NUMELTG)
@@ -1733,24 +1732,24 @@ c
       ENDIF
 c
       IF(ISPMD == 0) THEN
-         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
-         CALL C_H3D_ERODED_SHELL(TT,H3D_DATA%IH3D,ITAB,NUMNOD,IXC_P,
-     .       NIXC,NUMELCG,IPARTC,IXTG,NIXTG,
-     .       NUMELTGG,IPARTTG,SHELL_SCALAR_P,SHELL_ID_P,
-     .       H3D_DATA%N_OUTP_H3D+3,SHELL_ITY_P,NUMELS,
-     .       NUMELQ,NUMELT,NUMELP,NUMELR) 
-         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
-      ENDIF 
+        CALL STARTIME(MACRO_TIMER_LIBH3D,1)
+        CALL C_H3D_ERODED_SHELL(TT,H3D_DATA%IH3D,ITAB,NUMNOD,IXC_P,
+     .      NIXC,NUMELCG,IPARTC,IXTG,NIXTG,
+     .      NUMELTGG,IPARTTG,SHELL_SCALAR_P,SHELL_ID_P,
+     .      H3D_DATA%N_OUTP_H3D+3,SHELL_ITY_P,NUMELS,
+     .      NUMELQ,NUMELT,NUMELP,NUMELR)
+        CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
+      ENDIF
 c
       CALL H3D_SOLID_OFF(
      .                 ELBUF_TAB ,IPARG ,IXS ,SOLID_SCALAR, SOLID_ID, SOLID_ITY, ISOLNOD)
 c
       IF (NSPMD > 1 ) THEN
-        CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-        CALL SPMD_H3D_GATHER_I(SOLID_ID,NUMELS,SOLID_ID_P,NUMELSG) 
-        CALL SPMD_H3D_GATHER_I(SOLID_ITY,NUMELS,SOLID_ITY_P,NUMELSG) 
-        CALL SPMD_H3D_GATHER_R(SOLID_SCALAR,NUMELS,SOLID_SCALAR_P,NUMELSG) 
-        CALL SPMD_H3D_GATHER_I(ISOLNOD,NUMELS,ISOLNOD_P,NUMELSG) 
+        CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+        CALL SPMD_H3D_GATHER_I(SOLID_ID,NUMELS,SOLID_ID_P,NUMELSG)
+        CALL SPMD_H3D_GATHER_I(SOLID_ITY,NUMELS,SOLID_ITY_P,NUMELSG)
+        CALL SPMD_H3D_GATHER_R(SOLID_SCALAR,NUMELS,SOLID_SCALAR_P,NUMELSG)
+        CALL SPMD_H3D_GATHER_I(ISOLNOD,NUMELS,ISOLNOD_P,NUMELSG)
         CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
       ELSE
         SOLID_ID_P(1:NUMELS) =  SOLID_ID(1:NUMELS)
@@ -1774,10 +1773,10 @@ c
      .                 IPART , IPARTT  ,IPARTP  ,IPARTR)
 c
       IF (NSPMD > 1 ) THEN
-        CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-        CALL SPMD_H3D_GATHER_I(ONED_ID,NUMELT+NUMELP+NUMELR,ONED_ID_P,NUMELTRG+NUMELPG+NUMELRG) 
-        CALL SPMD_H3D_GATHER_I(ONED_ITY,NUMELT+NUMELP+NUMELR,ONED_ITY_P,NUMELTRG+NUMELPG+NUMELRG) 
-        CALL SPMD_H3D_GATHER_R(ONED_SCALAR,NUMELT+NUMELP+NUMELR,ONED_SCALAR_P,NUMELTRG+NUMELPG+NUMELRG) 
+        CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+        CALL SPMD_H3D_GATHER_I(ONED_ID,NUMELT+NUMELP+NUMELR,ONED_ID_P,NUMELTRG+NUMELPG+NUMELRG)
+        CALL SPMD_H3D_GATHER_I(ONED_ITY,NUMELT+NUMELP+NUMELR,ONED_ITY_P,NUMELTRG+NUMELPG+NUMELRG)
+        CALL SPMD_H3D_GATHER_R(ONED_SCALAR,NUMELT+NUMELP+NUMELR,ONED_SCALAR_P,NUMELTRG+NUMELPG+NUMELRG)
         CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
       ELSE
         ONED_ID_P(1:NUMELT+NUMELP+NUMELR) =  ONED_ID(1:NUMELT+NUMELP+NUMELR)
@@ -1793,14 +1792,14 @@ c
      .                     IPARTR,ONED_SCALAR_P,ONED_ID_P,H3D_DATA%N_OUTP_H3D+5,ONED_ITY_P)
         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
-      ENDIF 
+      ENDIF
 c
       CALL H3D_SPH_OFF(
      .                 ELBUF_TAB ,IPARG ,KXSP ,SPH_SCALAR, SPH_ID)
 c
       IF (NSPMD > 1 ) THEN
-        CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-        CALL SPMD_H3D_GATHER_I(SPH_ID,NUMSPH,SPH_ID_P,NUMSPHG)  
+        CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+        CALL SPMD_H3D_GATHER_I(SPH_ID,NUMSPH,SPH_ID_P,NUMSPHG)
         CALL SPMD_H3D_GATHER_R(SPH_SCALAR,NUMSPH,SPH_SCALAR_P,NUMSPHG)
         CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
       ELSE
@@ -1821,9 +1820,9 @@ c
      .                 IPART     ,IPARTQ)
 c
       IF (NSPMD > 1 ) THEN
-        CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-        CALL SPMD_H3D_GATHER_I(QUAD_ID,NUMELQ,QUAD_ID_P,NUMELQ) 
-        CALL SPMD_H3D_GATHER_R(QUAD_SCALAR,NUMELQ,QUAD_SCALAR_P,NUMELQ) 
+        CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+        CALL SPMD_H3D_GATHER_I(QUAD_ID,NUMELQ,QUAD_ID_P,NUMELQ)
+        CALL SPMD_H3D_GATHER_R(QUAD_SCALAR,NUMELQ,QUAD_SCALAR_P,NUMELQ)
         CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
       ELSE
         QUAD_ID_P(1:NUMELQ) =  QUAD_ID(1:NUMELQ)
@@ -1831,17 +1830,17 @@ c
       ENDIF
 c
       IF(ISPMD == 0) THEN
-         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
-         CALL C_H3D_ERODED_QUAD(TT,H3D_DATA%IH3D,ITAB,NUMNOD,IXQ_P,
-     .       NIXQ,NUMELQG,IPARTQ,QUAD_SCALAR_P,QUAD_ID_P,
-     .       H3D_DATA%N_OUTP_H3D+7) 
-         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
-      ENDIF 
+        CALL STARTIME(MACRO_TIMER_LIBH3D,1)
+        CALL C_H3D_ERODED_QUAD(TT,H3D_DATA%IH3D,ITAB,NUMNOD,IXQ_P,
+     .      NIXQ,NUMELQG,IPARTQ,QUAD_SCALAR_P,QUAD_ID_P,
+     .      H3D_DATA%N_OUTP_H3D+7)
+        CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
+      ENDIF
 C
       CALL H3D_SKIN_OFF(ELBUF_TAB,IPARG,IXS,IXS10,TAG_SKINS6,SKIN_SCALAR)
       IF (NSPMD > 1 ) THEN
-        CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-        CALL SPMD_H3D_GATHER_R(SKIN_SCALAR,NUMSKIN,SKIN_SCALAR_P,NUMSKING) 
+        CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+        CALL SPMD_H3D_GATHER_R(SKIN_SCALAR,NUMSKIN,SKIN_SCALAR_P,NUMSKING)
         CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
       ELSE
         SKIN_SCALAR_P(1:NUMSKIN) =  SKIN_SCALAR(1:NUMSKIN)
@@ -1849,20 +1848,20 @@ C
 c
       IF(ISPMD == 0) THEN
         DO II=1,NUMSKING
-          SKIN_ID_P(II) = II 
+          SKIN_ID_P(II) = II
         ENDDO
-         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
-         CALL C_H3D_ERODED_SKIN(TT,H3D_DATA%IH3D,ITAB,NUMNOD,SKIN_SCALAR_P,SKIN_ID_P,
-     .                          H3D_DATA%N_OUTP_H3D+8,NUMSKING) 
-         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
-      ENDIF 
+        CALL STARTIME(MACRO_TIMER_LIBH3D,1)
+        CALL C_H3D_ERODED_SKIN(TT,H3D_DATA%IH3D,ITAB,NUMNOD,SKIN_SCALAR_P,SKIN_ID_P,
+     .                         H3D_DATA%N_OUTP_H3D+8,NUMSKING)
+        CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
+      ENDIF
 C-----------------------------------------------
 C  UPDATE RESULTS VALUES
 C-----------------------------------------------
-c     
+c
       DO I = 1,H3D_DATA%N_OUTP_H3D
-c-----   
-c nodal scalar 
+c-----
+c nodal scalar
 c-----
         IF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1)THEN
@@ -1877,21 +1876,21 @@ c-----
           INTERSKID = 0
           IF(KEYWORD == 'SKID_LINE')THEN
             DO NI=1,NINTER
-               IF(NI == INTER_INPUT ) THEN
-                  INTERSKID = H3D_DATA%N_SKID_INTER (NI) 
-                  ITYSKID = IPARI(7,NI)
-                  EXIT
-                ENDIF
-             ENDDO
+              IF(NI == INTER_INPUT ) THEN
+                INTERSKID = H3D_DATA%N_SKID_INTER (NI)
+                ITYSKID = IPARI(7,NI)
+                EXIT
+              ENDIF
+            ENDDO
           ENDIF
           INTERFRIC = 0
           IF(KEYWORD == 'CSE_FRIC')THEN
             DO NI=1,NINTER
-               IF(NI == INTER_INPUT ) THEN
-                  INTERFRIC = H3D_DATA%N_CSE_FRIC_INTER (NI) 
-                  EXIT
-                ENDIF
-             ENDDO
+              IF(NI == INTER_INPUT ) THEN
+                INTERFRIC = H3D_DATA%N_CSE_FRIC_INTER (NI)
+                EXIT
+              ENDIF
+            ENDDO
           ENDIF
 c          IF(ISPMD == 0) print *,'nodal scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1',INFO1,'INFO2',INFO2
 
@@ -1907,49 +1906,49 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                     VOLMON   , ALE_CONNECT  ,DIAG_SMS      ,MS           ,PDAMA2    ,
      .                     X        , STIFR        , STIFN        ,KEYWORD      ,H3D_DATA  ,
      .                     NPBY     ,RBY           ,INTERSKID     ,H3D_DATA%N_SCAL_SKID,PSKIDS,
-     .                     NODGLOB  ,ITYSKID       ,IPARTSP       ,IPARTR       ,IPARTP    , 
+     .                     NODGLOB  ,ITYSKID       ,IPARTSP       ,IPARTR       ,IPARTP    ,
      .                     IPARTT   ,IPARTS        ,IPARTQ        ,KXSP         ,IXR       ,
      .                     IXP      ,IXT           ,N_H3D_PART_LIST,INTERFRIC   ,CSEFRIC  ,
      .                     CSEFRICG ,CSEFRIC_STAMP ,CSEFRICG_STAMP )
 
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
 
             IF(KEYWORD == 'SKID_LINE')THEN
-               CALL SPMD_OUTPITAB(NODE_ID,WEIGHT,NODGLOB,NODE_ID_P)
-               CALL SPMD_OUTPITAB(IS_WRITEN_NODE,WEIGHT,NODGLOB,IS_WRITEN_NODE_P)
-               IF(ITYSKID== 21) THEN
-                  CALL SPMD_H3D_MAX_R_NODAL_VALUE_21(NODGLOB,NODAL_SCALAR_P,NUMNODG,PSKIDS,
-     .                 INTERSKID,H3D_DATA%N_SCAL_SKID)
-               ELSE
-                  CALL SPMD_H3D_MAX_R_NODAL_VALUE(NODGLOB,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG)
-               ENDIF
+              CALL SPMD_OUTPITAB(NODE_ID,WEIGHT,NODGLOB,NODE_ID_P)
+              CALL SPMD_OUTPITAB(IS_WRITEN_NODE,WEIGHT,NODGLOB,IS_WRITEN_NODE_P)
+              IF(ITYSKID== 21) THEN
+                CALL SPMD_H3D_MAX_R_NODAL_VALUE_21(NODGLOB,NODAL_SCALAR_P,NUMNODG,PSKIDS,
+     .               INTERSKID,H3D_DATA%N_SCAL_SKID)
+              ELSE
+                CALL SPMD_H3D_MAX_R_NODAL_VALUE(NODGLOB,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG)
+              ENDIF
             ELSEIF(KEYWORD == 'CSE_FRIC'.AND.INTERFRIC > 0)THEN
-               CALL SPMD_OUTPITAB(NODE_ID,WEIGHT,NODGLOB,NODE_ID_P)
-               CALL SPMD_OUTPITAB(IS_WRITEN_NODE,WEIGHT,NODGLOB,IS_WRITEN_NODE_P)   
-               IF(INTERFRIC <= NINEFRIC ) THEN
-                  CALL SPMD_H3D_SUM_R_NODAL_VALUE(NODGLOB,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG)
-               ELSE
-                  IF(ISPMD == 0) THEN
-                     NODAL_SCALAR_P(1:NUMNODG) =CSEFRIC_STAMP(INTERFRIC-NINEFRIC,1:NUMNODG)
-                  ENDIF
-               ENDIF
+              CALL SPMD_OUTPITAB(NODE_ID,WEIGHT,NODGLOB,NODE_ID_P)
+              CALL SPMD_OUTPITAB(IS_WRITEN_NODE,WEIGHT,NODGLOB,IS_WRITEN_NODE_P)
+              IF(INTERFRIC <= NINEFRIC ) THEN
+                CALL SPMD_H3D_SUM_R_NODAL_VALUE(NODGLOB,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG)
+              ELSE
+                IF(ISPMD == 0) THEN
+                  NODAL_SCALAR_P(1:NUMNODG) =CSEFRIC_STAMP(INTERFRIC-NINEFRIC,1:NUMNODG)
+                ENDIF
+              ENDIF
             ELSEIF(KEYWORD == 'CSE_FRICG')THEN
-               CALL SPMD_OUTPITAB(NODE_ID,WEIGHT,NODGLOB,NODE_ID_P)
-               CALL SPMD_OUTPITAB(IS_WRITEN_NODE,WEIGHT,NODGLOB,IS_WRITEN_NODE_P)   
-               IF(NINTSTAMP==0) THEN
-                  CALL SPMD_H3D_SUM_R_NODAL_VALUE(NODGLOB,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG)
-               ELSE
-                  CALL SPMD_H3D_SUM_R_NODAL_VALUE(NODGLOB,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG)
-                  IF(ISPMD == 0) THEN
-                     NODAL_SCALAR_P(1:NUMNODG) =NODAL_SCALAR_P(1:NUMNODG) + CSEFRICG_STAMP(1:NUMNODG)
-                  ENDIF
-               ENDIF
+              CALL SPMD_OUTPITAB(NODE_ID,WEIGHT,NODGLOB,NODE_ID_P)
+              CALL SPMD_OUTPITAB(IS_WRITEN_NODE,WEIGHT,NODGLOB,IS_WRITEN_NODE_P)
+              IF(NINTSTAMP==0) THEN
+                CALL SPMD_H3D_SUM_R_NODAL_VALUE(NODGLOB,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG)
+              ELSE
+                CALL SPMD_H3D_SUM_R_NODAL_VALUE(NODGLOB,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG)
+                IF(ISPMD == 0) THEN
+                  NODAL_SCALAR_P(1:NUMNODG) =NODAL_SCALAR_P(1:NUMNODG) + CSEFRICG_STAMP(1:NUMNODG)
+                ENDIF
+              ENDIF
             ELSE
-               CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,NODE_ID,NUMNOD,NODE_ID_P,NUMNODG) 
-               CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,IS_WRITEN_NODE,NUMNOD,IS_WRITEN_NODE_P,NUMNODG) 
-               CALL SPMD_H3D_GATHER_R_NODAL_VALUE(WEIGHT,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG) 
+              CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,NODE_ID,NUMNOD,NODE_ID_P,NUMNODG)
+              CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,IS_WRITEN_NODE,NUMNOD,IS_WRITEN_NODE_P,NUMNODG)
+              CALL SPMD_H3D_GATHER_R_NODAL_VALUE(WEIGHT,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG)
             ENDIF
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
@@ -1961,13 +1960,13 @@ c
           IF(ISPMD == 0) THEN
             CALL STARTIME(MACRO_TIMER_LIBH3D,1)
             CALL C_H3D_UPDATE_NODAL_SCALAR(TT,H3D_DATA%IH3D,ITAB,NUMNODG,NODAL_SCALAR_P,NODE_ID_P,
-     .                           N_OUTP_DATA,IS_WRITEN_NODE_P) 
+     .                           N_OUTP_DATA,IS_WRITEN_NODE_P)
             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
           ENDIF
-c-----    
-c nodal vector 
-c-----   
+c-----
+c nodal vector
+c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2)THEN
 c
@@ -2000,43 +1999,43 @@ c
             IF(KEYWORD == 'CONT'.OR.KEYWORD == 'PCONT/NORMAL'.OR.KEYWORD == 'PCONT/TANGENT'.OR.KEYWORD == 'FEXT'
      .         .OR.(KEYWORD == 'CONT2'.OR.KEYWORD == 'PCONT2/NORMAL'.OR.KEYWORD == 'PCONT2/TANGENT')) THEN
 
-               CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-               CALL SPMD_OUTPITAB(NODE_ID,WEIGHT,NODGLOB,NODE_ID_P)
-               CALL SPMD_OUTPITAB(IS_WRITEN_NODE,WEIGHT,NODGLOB,IS_WRITEN_NODE_P)
-               IF(NINTSTAMP==0.OR.KEYWORD == 'CONT2'.OR.KEYWORD == 'PCONT2/NORMAL'.OR.KEYWORD == 'PCONT2/NORMAL'
-     .           .OR.KEYWORD == 'PCONT2/TANGENT'.OR.KEYWORD == 'FEXT') THEN
-                  CALL SPMD_H3D_SUM_R_NODAL(NODGLOB,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG)
-               ELSEIF(KEYWORD == 'CONT')THEN
-                  CALL SPMD_H3D_SUM_R_NODAL_21(NODGLOB,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG,FCONTG)
-               ELSEIF(KEYWORD == 'PCONT/NORMAL')THEN    
-                  CALL SPMD_H3D_SUM_R_NODAL_21(NODGLOB,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG,FNCONTG)
-               ELSEIF(KEYWORD == 'PCONT/TANGENT')THEN  
-                  CALL SPMD_H3D_SUM_R_NODAL_21(NODGLOB,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG,FTCONTG)
-               ENDIF                     
-               CALL STOPTIME(MACRO_TIMER_SPMDH3D,1) 
+              CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+              CALL SPMD_OUTPITAB(NODE_ID,WEIGHT,NODGLOB,NODE_ID_P)
+              CALL SPMD_OUTPITAB(IS_WRITEN_NODE,WEIGHT,NODGLOB,IS_WRITEN_NODE_P)
+              IF(NINTSTAMP==0.OR.KEYWORD == 'CONT2'.OR.KEYWORD == 'PCONT2/NORMAL'.OR.KEYWORD == 'PCONT2/NORMAL'
+     .          .OR.KEYWORD == 'PCONT2/TANGENT'.OR.KEYWORD == 'FEXT') THEN
+                CALL SPMD_H3D_SUM_R_NODAL(NODGLOB,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG)
+              ELSEIF(KEYWORD == 'CONT')THEN
+                CALL SPMD_H3D_SUM_R_NODAL_21(NODGLOB,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG,FCONTG)
+              ELSEIF(KEYWORD == 'PCONT/NORMAL')THEN
+                CALL SPMD_H3D_SUM_R_NODAL_21(NODGLOB,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG,FNCONTG)
+              ELSEIF(KEYWORD == 'PCONT/TANGENT')THEN
+                CALL SPMD_H3D_SUM_R_NODAL_21(NODGLOB,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG,FTCONTG)
+              ENDIF
+              CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
 
             ELSEIF(NINTSTAMP/=0.AND.((KEYWORD == 'CONT/TMAX').OR.(KEYWORD == 'MAXPCONT/NORMAL') .OR.
      .           (KEYWORD == 'MAXPCONT/TANGENT'))) THEN
-               IF(KEYWORD == 'CONT/TMAX')THEN
-                  IF(ISPMD == 0) THEN
-                     NODAL_VECTOR_P(1:3*NUMNODG) =FCONT_MAX(1:3*NUMNODG)
-                  ENDIF
-               ELSEIF(KEYWORD == 'MAXPCONT/NORMAL')THEN
-                  IF(ISPMD == 0) THEN
-                     NODAL_VECTOR_P(1:3*NUMNODG) =FNCONT_MAX(1:3*NUMNODG)
-                 ENDIF 
-               ELSEIF(KEYWORD == 'MAXPCONT/TANGENT')THEN
-                  IF(ISPMD == 0) THEN
-                     NODAL_VECTOR_P(1:3*NUMNODG) =FTCONT_MAX(1:3*NUMNODG)
-                 ENDIF
-               ENDIF            
+              IF(KEYWORD == 'CONT/TMAX')THEN
+                IF(ISPMD == 0) THEN
+                  NODAL_VECTOR_P(1:3*NUMNODG) =FCONT_MAX(1:3*NUMNODG)
+                ENDIF
+              ELSEIF(KEYWORD == 'MAXPCONT/NORMAL')THEN
+                IF(ISPMD == 0) THEN
+                  NODAL_VECTOR_P(1:3*NUMNODG) =FNCONT_MAX(1:3*NUMNODG)
+                ENDIF
+              ELSEIF(KEYWORD == 'MAXPCONT/TANGENT')THEN
+                IF(ISPMD == 0) THEN
+                  NODAL_VECTOR_P(1:3*NUMNODG) =FTCONT_MAX(1:3*NUMNODG)
+                ENDIF
+              ENDIF
 
             ELSE
-               CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-               CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,NODE_ID,NUMNOD,NODE_ID_P,NUMNODG) 
-               CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,IS_WRITEN_NODE,NUMNOD,IS_WRITEN_NODE_P,NUMNODG) 
-               CALL SPMD_H3D_GATHER_R_NODE(WEIGHT,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG) 
-               CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
+              CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+              CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,NODE_ID,NUMNOD,NODE_ID_P,NUMNODG)
+              CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,IS_WRITEN_NODE,NUMNOD,IS_WRITEN_NODE_P,NUMNODG)
+              CALL SPMD_H3D_GATHER_R_NODE(WEIGHT,NODAL_VECTOR,3*NUMNOD,NODAL_VECTOR_P,3*NUMNODG)
+              CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
             ENDIF
 
           ELSE
@@ -2050,13 +2049,13 @@ c
           IF(ISPMD == 0) THEN
             CALL STARTIME(MACRO_TIMER_LIBH3D,1)
             CALL C_H3D_UPDATE_NODAL_VECTOR(TT,H3D_DATA%IH3D,ITAB,NUMNODG,NODAL_VECTOR_P,NODE_ID_P,
-     .                           N_OUTP_DATA,IS_WRITEN_NODE_P) 
+     .                           N_OUTP_DATA,IS_WRITEN_NODE_P)
             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
-          ENDIF 
-c-----    
-c nodal tensor 
-c-----   
+          ENDIF
+c-----
+c nodal tensor
+c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3)THEN
 c
@@ -2077,16 +2076,16 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                  IXC, IXTG,TEMP,IFLOW,RFLOW,IXS,IXQ,NV46,MONVOL   ,VOLMON, DIAG_SMS,MS,
      .                   PDAMA2,X, STIFR, STIFN, A, D, V, CONT, FCONTG, FINT, FEXT,KEYWORD,
      .                   BUFMAT   ,IXS10      ,IXS16      ,IXS20   ,IXT      ,
-     .                   IXP      ,IXR        ,IAD_ELEM   ,FR_ELEM ,WEIGHT   , 
-     .                   IPARTSP  ,IPARTR     ,IPARTP     ,IPARTT  ,IPARTS   , 
+     .                   IXP      ,IXR        ,IAD_ELEM   ,FR_ELEM ,WEIGHT   ,
+     .                   IPARTSP  ,IPARTR     ,IPARTP     ,IPARTT  ,IPARTS   ,
      .                   IPARTQ   ,KXSP       ,N_H3D_PART_LIST)
 
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,NODE_ID,NUMNOD,NODE_ID_P,NUMNODG) 
-            CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,IS_WRITEN_NODE,NUMNOD,IS_WRITEN_NODE_P,NUMNODG) 
-            CALL SPMD_H3D_GATHER_T_NODE(WEIGHT,NODAL_TENSOR,6*NUMNOD,NODAL_TENSOR_P,6*NUMNODG) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,NODE_ID,NUMNOD,NODE_ID_P,NUMNODG)
+            CALL SPMD_H3D_GATHER_I_NODE(WEIGHT,IS_WRITEN_NODE,NUMNOD,IS_WRITEN_NODE_P,NUMNODG)
+            CALL SPMD_H3D_GATHER_T_NODE(WEIGHT,NODAL_TENSOR,6*NUMNOD,NODAL_TENSOR_P,6*NUMNODG)
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             NODE_ID_P(1:NUMNOD) =  NODE_ID(1:NUMNOD)
@@ -2097,12 +2096,12 @@ c
           IF(ISPMD == 0) THEN
             CALL STARTIME(MACRO_TIMER_LIBH3D,1)
             CALL C_H3D_UPDATE_NODAL_TENSOR(TT,H3D_DATA%IH3D,ITAB,NUMNODG,NODAL_TENSOR_P,NODE_ID_P,
-     .                           N_OUTP_DATA,IS_WRITEN_NODE_P) 
+     .                           N_OUTP_DATA,IS_WRITEN_NODE_P)
             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
-          ENDIF 
-c-----    
-c 1d scalar 
+          ENDIF
+c-----
+c 1d scalar
 c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1 .AND. (NUMELTRG+NUMELPG+NUMELRG) > 0)THEN
@@ -2119,18 +2118,18 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
 
           CALL H3D_ONED_SCALAR(ELBUF_TAB   ,IFUNC  ,IPARG    ,GEO  ,
      .                IXT          ,IXP    ,IXR    ,PM   ,
-     .                ANIN(NDMA2+1),ONED_SCALAR, 
+     .                ANIN(NDMA2+1),ONED_SCALAR,
      .                ONED_ID      ,ONED_ITY,INFO1 ,INFO2    , IS_WRITEN_ONED  ,
      .                IPARTT ,IPARTP,IPARTR,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                KEYWORD, X , D   ,IPT)
 
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(ONED_ID,NUMELT+NUMELP+NUMELR,ONED_ID_P,NUMELTRG+NUMELPG+NUMELRG) 
-            CALL SPMD_H3D_GATHER_I(ONED_ITY,NUMELT+NUMELP+NUMELR,ONED_ITY_P,NUMELTRG+NUMELPG+NUMELRG) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_ONED,NUMELT+NUMELP+NUMELR,IS_WRITEN_ONED_P,NUMELTRG+NUMELPG+NUMELRG) 
-            CALL SPMD_H3D_GATHER_R(ONED_SCALAR,NUMELT+NUMELP+NUMELR,ONED_SCALAR_P,NUMELTRG+NUMELPG+NUMELRG) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(ONED_ID,NUMELT+NUMELP+NUMELR,ONED_ID_P,NUMELTRG+NUMELPG+NUMELRG)
+            CALL SPMD_H3D_GATHER_I(ONED_ITY,NUMELT+NUMELP+NUMELR,ONED_ITY_P,NUMELTRG+NUMELPG+NUMELRG)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_ONED,NUMELT+NUMELP+NUMELR,IS_WRITEN_ONED_P,NUMELTRG+NUMELPG+NUMELRG)
+            CALL SPMD_H3D_GATHER_R(ONED_SCALAR,NUMELT+NUMELP+NUMELR,ONED_SCALAR_P,NUMELTRG+NUMELPG+NUMELRG)
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             ONED_ID_P(1:NUMELT+NUMELP+NUMELR) =  ONED_ID(1:NUMELT+NUMELP+NUMELR)
@@ -2142,12 +2141,12 @@ c
           IF(ISPMD == 0) THEN
             CALL STARTIME(MACRO_TIMER_LIBH3D,1)
             CALL C_H3D_UPDATE_ONED_SCALAR(TT,H3D_DATA%IH3D,ITAB,NUMELTRG,NUMELPG,NUMELRG,ONED_SCALAR_P,ONED_ID_P,
-     .                           N_OUTP_DATA,ONED_ITY_P,IS_WRITEN_ONED_P) 
+     .                           N_OUTP_DATA,ONED_ITY_P,IS_WRITEN_ONED_P)
             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
           ENDIF
-c-----    
-c 1d vector 
+c-----
+c 1d vector
 c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2 .AND. (NUMELTRG+NUMELPG+NUMELRG) > 0)THEN
@@ -2163,18 +2162,18 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
 
           CALL H3D_ONED_VECTOR(ELBUF_TAB   ,IFUNC  ,IPARG    ,GEO  ,
      .                IXT          ,IXP    ,IXR    ,PM   ,
-     .                ANIN(NDMA2+1),ONED_VECTOR, 
+     .                ANIN(NDMA2+1),ONED_VECTOR,
      .                ONED_ID      ,ONED_ITY,INFO1 ,INFO2    , IS_WRITEN_ONED  ,
      .                IPARTT ,IPARTP,IPARTR,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                KEYWORD      , X     , D     ,TORS   )
 
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(ONED_ID,NUMELT+NUMELP+NUMELR,ONED_ID_P,NUMELTRG+NUMELPG+NUMELRG) 
-            CALL SPMD_H3D_GATHER_I(ONED_ITY,NUMELT+NUMELP+NUMELR,ONED_ITY_P,NUMELTRG+NUMELPG+NUMELRG) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_ONED,NUMELT+NUMELP+NUMELR,IS_WRITEN_ONED_P,NUMELTRG+NUMELPG+NUMELRG) 
-            CALL SPMD_H3D_GATHER_R(ONED_VECTOR,3*(NUMELT+NUMELP+NUMELR),ONED_VECTOR_P,3*(NUMELTRG+NUMELPG+NUMELRG)) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(ONED_ID,NUMELT+NUMELP+NUMELR,ONED_ID_P,NUMELTRG+NUMELPG+NUMELRG)
+            CALL SPMD_H3D_GATHER_I(ONED_ITY,NUMELT+NUMELP+NUMELR,ONED_ITY_P,NUMELTRG+NUMELPG+NUMELRG)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_ONED,NUMELT+NUMELP+NUMELR,IS_WRITEN_ONED_P,NUMELTRG+NUMELPG+NUMELRG)
+            CALL SPMD_H3D_GATHER_R(ONED_VECTOR,3*(NUMELT+NUMELP+NUMELR),ONED_VECTOR_P,3*(NUMELTRG+NUMELPG+NUMELRG))
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             ONED_ID_P(1:NUMELT+NUMELP+NUMELR) =  ONED_ID(1:NUMELT+NUMELP+NUMELR)
@@ -2186,12 +2185,12 @@ c
           IF(ISPMD == 0) THEN
             CALL STARTIME(MACRO_TIMER_LIBH3D,1)
             CALL C_H3D_UPDATE_ONED_VECTOR(TT,H3D_DATA%IH3D,ITAB,NUMELTRG,NUMELPG,NUMELRG,ONED_VECTOR_P,ONED_ID_P,
-     .                           N_OUTP_DATA,ONED_ITY_P,IS_WRITEN_ONED_P) 
+     .                           N_OUTP_DATA,ONED_ITY_P,IS_WRITEN_ONED_P)
             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
           ENDIF
-c-----    
-c 1d tensor 
+c-----
+c 1d tensor
 c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3 .AND. (NUMELTRG+NUMELPG+NUMELRG) > 0)THEN
@@ -2208,17 +2207,17 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
 
           CALL H3D_ONED_TENSOR(ELBUF_TAB   ,IFUNC  ,IPARG    ,GEO  ,
      .                IXT          ,IXP    ,IXR    ,PM   ,
-     .                ANIN(NDMA2+1),ONED_TENSOR, 
+     .                ANIN(NDMA2+1),ONED_TENSOR,
      .                ONED_ID      ,ONED_ITY,INFO1 ,INFO2    , IS_WRITEN_ONED  ,
      .                IPARTT ,IPARTP,IPARTR,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                KEYWORD      , X     , D     ,IPT)
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(ONED_ID,NUMELT+NUMELP+NUMELR,ONED_ID_P,NUMELTRG+NUMELPG+NUMELRG) 
-            CALL SPMD_H3D_GATHER_I(ONED_ITY,NUMELT+NUMELP+NUMELR,ONED_ITY_P,NUMELTRG+NUMELPG+NUMELRG) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_ONED,NUMELT+NUMELP+NUMELR,IS_WRITEN_ONED_P,NUMELTRG+NUMELPG+NUMELRG) 
-            CALL SPMD_H3D_GATHER_R(ONED_TENSOR,6*(NUMELT+NUMELP+NUMELR),ONED_TENSOR_P,6*(NUMELTRG+NUMELPG+NUMELRG)) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(ONED_ID,NUMELT+NUMELP+NUMELR,ONED_ID_P,NUMELTRG+NUMELPG+NUMELRG)
+            CALL SPMD_H3D_GATHER_I(ONED_ITY,NUMELT+NUMELP+NUMELR,ONED_ITY_P,NUMELTRG+NUMELPG+NUMELRG)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_ONED,NUMELT+NUMELP+NUMELR,IS_WRITEN_ONED_P,NUMELTRG+NUMELPG+NUMELRG)
+            CALL SPMD_H3D_GATHER_R(ONED_TENSOR,6*(NUMELT+NUMELP+NUMELR),ONED_TENSOR_P,6*(NUMELTRG+NUMELPG+NUMELRG))
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             ONED_ID_P(1:NUMELT+NUMELP+NUMELR) =  ONED_ID(1:NUMELT+NUMELP+NUMELR)
@@ -2230,12 +2229,12 @@ c
           IF(ISPMD == 0) THEN
             CALL STARTIME(MACRO_TIMER_LIBH3D,1)
             CALL C_H3D_UPDATE_ONED_TENSOR(TT,H3D_DATA%IH3D,ITAB,NUMELTRG,NUMELPG,NUMELRG,ONED_TENSOR_P,ONED_ID_P,
-     .                           N_OUTP_DATA,ONED_ITY_P,IS_WRITEN_ONED_P) 
+     .                           N_OUTP_DATA,ONED_ITY_P,IS_WRITEN_ONED_P)
             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
           ENDIF
-c-----    
-c 1d torsor 
+c-----
+c 1d torsor
 c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 4 .AND. (NUMELTRG+NUMELPG+NUMELRG) > 0)THEN
@@ -2256,11 +2255,11 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
 
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(ONED_ID,NUMELT+NUMELP+NUMELR,ONED_ID_P,NUMELTRG+NUMELPG+NUMELRG) 
-            CALL SPMD_H3D_GATHER_I(ONED_ITY,NUMELT+NUMELP+NUMELR,ONED_ITY_P,NUMELTRG+NUMELPG+NUMELRG) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_ONED,NUMELT+NUMELP+NUMELR,IS_WRITEN_ONED_P,NUMELTRG+NUMELPG+NUMELRG) 
-            CALL SPMD_H3D_GATHER_R(ONED_TORSOR,9*(NUMELT+NUMELP+NUMELR),ONED_TORSOR_P,9*(NUMELTRG+NUMELPG+NUMELRG)) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(ONED_ID,NUMELT+NUMELP+NUMELR,ONED_ID_P,NUMELTRG+NUMELPG+NUMELRG)
+            CALL SPMD_H3D_GATHER_I(ONED_ITY,NUMELT+NUMELP+NUMELR,ONED_ITY_P,NUMELTRG+NUMELPG+NUMELRG)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_ONED,NUMELT+NUMELP+NUMELR,IS_WRITEN_ONED_P,NUMELTRG+NUMELPG+NUMELRG)
+            CALL SPMD_H3D_GATHER_R(ONED_TORSOR,9*(NUMELT+NUMELP+NUMELR),ONED_TORSOR_P,9*(NUMELTRG+NUMELPG+NUMELRG))
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             ONED_ID_P(1:NUMELT+NUMELP+NUMELR) =  ONED_ID(1:NUMELT+NUMELP+NUMELR)
@@ -2272,11 +2271,11 @@ c
           IF(ISPMD == 0) THEN
             CALL STARTIME(MACRO_TIMER_LIBH3D,1)
             CALL C_H3D_UPDATE_ONED_TORSOR(TT,H3D_DATA%IH3D,ITAB,NUMELTRG,NUMELPG,NUMELRG,ONED_TORSOR_P,ONED_ID_P,
-     .         N_OUTP_DATA,ONED_ITY_P,IS_WRITEN_ONED_P) 
+     .         N_OUTP_DATA,ONED_ITY_P,IS_WRITEN_ONED_P)
             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
-          ENDIF 
+          ENDIF
 c-----
-c shell scalar 
+c shell scalar
 c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1 .AND. (NUMELCG+NUMELTGG) > 0)THEN
@@ -2311,9 +2310,9 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                     D          ,MULTI_FVM ,IDMDS        ,IMDSVAR      ,MDS_MATID  )
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SHELL,NUMELC+NUMELTG,IS_WRITEN_SHELL_P,NUMELCG+NUMELTGG) 
-            CALL SPMD_H3D_GATHER_R(SHELL_SCALAR,NUMELC+NUMELTG,SHELL_SCALAR_P,NUMELCG+NUMELTGG) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SHELL,NUMELC+NUMELTG,IS_WRITEN_SHELL_P,NUMELCG+NUMELTGG)
+            CALL SPMD_H3D_GATHER_R(SHELL_SCALAR,NUMELC+NUMELTG,SHELL_SCALAR_P,NUMELCG+NUMELTGG)
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             IS_WRITEN_SHELL_P(1:NUMELC+NUMELTG) =  IS_WRITEN_SHELL(1:NUMELC+NUMELTG)
@@ -2326,12 +2325,12 @@ c
      .                           NIXC,NUMELCG,IPARTC,IXTG,NIXTG,
      .                           NUMELTGG,IPARTTG,SHELL_SCALAR_P,SHELL_ID_P,
      .                           N_OUTP_DATA,SHELL_ITY_P,NUMELS,
-     .                           NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITEN_SHELL_P) 
+     .                           NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITEN_SHELL_P)
             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
-          ENDIF 
+          ENDIF
 c-----
-c shell vector 
+c shell vector
 c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2 .AND. (NUMELCG+NUMELTGG) > 0)THEN
@@ -2364,9 +2363,9 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                     D         ,MULTI_FVM)
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SHELL,NUMELC+NUMELTG,IS_WRITEN_SHELL_P,NUMELCG+NUMELTGG) 
-            CALL SPMD_H3D_GATHER_R(SHELL_VECTOR,3*(NUMELC+NUMELTG),SHELL_VECTOR_P,3*(NUMELCG+NUMELTGG)) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SHELL,NUMELC+NUMELTG,IS_WRITEN_SHELL_P,NUMELCG+NUMELTGG)
+            CALL SPMD_H3D_GATHER_R(SHELL_VECTOR,3*(NUMELC+NUMELTG),SHELL_VECTOR_P,3*(NUMELCG+NUMELTGG))
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             IS_WRITEN_SHELL_P(1:NUMELC+NUMELTG) =  IS_WRITEN_SHELL(1:NUMELC+NUMELTG)
@@ -2380,13 +2379,13 @@ c            print *,'C_H3D_UPDATE_SHELL_VECTOR'
      .                           NIXC,NUMELCG,IPARTC,IXTG,NIXTG,
      .                           NUMELTGG,IPARTTG,SHELL_VECTOR_P,SHELL_ID_P,
      .                           N_OUTP_DATA,SHELL_ITY_P,NUMELS,
-     .                           NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITEN_SHELL_P) 
+     .                           NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITEN_SHELL_P)
             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
-          ENDIF 
+          ENDIF
 c-----
-c shell tensor   
-c-----   
+c shell tensor
+c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3 .AND. (NUMELCG+NUMELTGG) > 0)THEN
 
@@ -2403,26 +2402,26 @@ c-----
           KEYWORD = H3D_DATA%OUTPUT_LIST(I)%KEYWORD
 
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
-          INFO1 = H3D_DATA%OUTPUT_LIST(I)%INFO1 
+          INFO1 = H3D_DATA%OUTPUT_LIST(I)%INFO1
           INFO2 = H3D_DATA%OUTPUT_LIST(I)%INFO2
           N_OUTP_DATA = H3D_DATA%OUTPUT_LIST(I)%N_OUTP
 c         IF(ISPMD == 0)   print *,'shell tensor',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1',INFO1,'INFO2',INFO2
 
 c         IF(ISPMD == 0)   print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
 
-           CALL H3D_SHELL_TENSOR(ELBUF_TAB,SHELL_TENSOR ,IPARG ,IFUNC ,INVERT,NELCUT,
-     .                  EL2FA    ,NBF   ,WAFT  ,TANI  ,IAD   ,
-     .                  NBF_L    ,NBPART,IADG  ,X     ,IXC   ,
-     .                  IGEO     ,IXTG  ,IPM   ,STACK ,SHELL_ID   ,SHELL_ITY    ,INFO1,
-     .                  INFO2    ,IS_WRITEN_SHELL ,IPARTC ,IPARTTG     ,LAYER        ,IPT        ,
-     .                  ID_PLY     ,GAUSS     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART ,KEYWORD,D    ,
-     .                  OBJECT_ID  ,BUFMAT    )
+          CALL H3D_SHELL_TENSOR(ELBUF_TAB,SHELL_TENSOR ,IPARG ,IFUNC ,INVERT,NELCUT,
+     .                 EL2FA    ,NBF   ,WAFT  ,TANI  ,IAD   ,
+     .                 NBF_L    ,NBPART,IADG  ,X     ,IXC   ,
+     .                 IGEO     ,IXTG  ,IPM   ,STACK ,SHELL_ID   ,SHELL_ITY    ,INFO1,
+     .                 INFO2    ,IS_WRITEN_SHELL ,IPARTC ,IPARTTG     ,LAYER        ,IPT        ,
+     .                 ID_PLY     ,GAUSS     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART ,KEYWORD,D    ,
+     .                 OBJECT_ID  ,BUFMAT    )
 
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SHELL,NUMELC+NUMELTG,IS_WRITEN_SHELL_P,NUMELCG+NUMELTGG) 
-            CALL SPMD_H3D_GATHER_R(SHELL_TENSOR,3*(NUMELC+NUMELTG),SHELL_TENSOR_P,3*(NUMELCG+NUMELTGG)) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SHELL,NUMELC+NUMELTG,IS_WRITEN_SHELL_P,NUMELCG+NUMELTGG)
+            CALL SPMD_H3D_GATHER_R(SHELL_TENSOR,3*(NUMELC+NUMELTG),SHELL_TENSOR_P,3*(NUMELCG+NUMELTGG))
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             IS_WRITEN_SHELL_P(1:NUMELC+NUMELTG) =  IS_WRITEN_SHELL(1:NUMELC+NUMELTG)
@@ -2438,11 +2437,11 @@ c
      .                           NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITEN_SHELL_P)
             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
-          ENDIF 
+          ENDIF
 
 c-----
-c solid scalar   
-c-----    
+c solid scalar
+c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3.AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1 .AND. NUMELSG > 0)THEN
 
@@ -2468,15 +2467,15 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
      .                    IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                    INVERT    ,X         ,V             ,W            ,ALE_CONNECT,
      .                    NV46      ,NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
-     .                    STACK     ,SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,  
+     .                    STACK     ,SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,
      .                    IR        ,IS        ,IT            ,IUVAR        ,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                    IS_WRITEN_SOLID,INFO1,KEYWORD       ,FANI_CELL    ,SFANI_CELL ,
      .                    MULTI_FVM, H3D_DATA  ,IDMDS         ,IMDSVAR      ,MDS_MATID  )
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SOLID,NUMELS,IS_WRITEN_SOLID_P,NUMELSG) 
-            CALL SPMD_H3D_GATHER_R(SOLID_SCALAR,NUMELS,SOLID_SCALAR_P,NUMELSG) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SOLID,NUMELS,IS_WRITEN_SOLID_P,NUMELSG)
+            CALL SPMD_H3D_GATHER_R(SOLID_SCALAR,NUMELS,SOLID_SCALAR_P,NUMELSG)
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             IS_WRITEN_SOLID_P(1:NUMELS) =  IS_WRITEN_SOLID(1:NUMELS)
@@ -2493,8 +2492,8 @@ c
 
           ENDIF
 c-----
-c solid vector   
-c-----    
+c solid vector
+c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3.AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2 .AND. NUMELSG > 0)THEN
 
@@ -2518,15 +2517,15 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
      .                    IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                    INVERT    ,X         ,V             ,W            ,
      .                    NV46      ,NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
-     .                    STACK     ,SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,  
+     .                    STACK     ,SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,
      .                    IR        ,IS        ,IT            ,IUVAR        ,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                    IS_WRITEN_SOLID,INFO1,KEYWORD       ,FANI_CELL    ,SFANI_CELL ,
      .                    H3D_DATA, MULTI_FVM)
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SOLID,NUMELS,IS_WRITEN_SOLID_P,NUMELSG) 
-            CALL SPMD_H3D_GATHER_R(SOLID_VECTOR,3*NUMELS,SOLID_VECTOR_P,3*NUMELSG) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SOLID,NUMELS,IS_WRITEN_SOLID_P,NUMELSG)
+            CALL SPMD_H3D_GATHER_R(SOLID_VECTOR,3*NUMELS,SOLID_VECTOR_P,3*NUMELSG)
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             IS_WRITEN_SOLID_P(1:NUMELS) =  IS_WRITEN_SOLID(1:NUMELS)
@@ -2543,8 +2542,8 @@ c
 
           ENDIF
 c-----
-c solid tensor   
-c-----   
+c solid tensor
+c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3.AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3 .AND. NUMELSG > 0)THEN
 
@@ -2570,16 +2569,16 @@ c
      6                  SOLID_TENSOR_CORNER,IS_CORNER_DATA , IXS10 ,MAX_NCORN,OBJECT_ID)
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SOLID,NUMELS,IS_WRITEN_SOLID_P,NUMELSG) 
-            CALL SPMD_H3D_GATHER_R(SOLID_TENSOR,6*NUMELS,SOLID_TENSOR_P,6*NUMELSG) 
-            IF (IS_CORNER_DATA == 1) 
-     .        CALL SPMD_H3D_GATHER_R(SOLID_TENSOR_CORNER,6*NUMELS*MAX_NCORN,SOLID_TENSOR_CORNER_P,6*NUMELSG*MAX_NCORN) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SOLID,NUMELS,IS_WRITEN_SOLID_P,NUMELSG)
+            CALL SPMD_H3D_GATHER_R(SOLID_TENSOR,6*NUMELS,SOLID_TENSOR_P,6*NUMELSG)
+            IF (IS_CORNER_DATA == 1)
+     .        CALL SPMD_H3D_GATHER_R(SOLID_TENSOR_CORNER,6*NUMELS*MAX_NCORN,SOLID_TENSOR_CORNER_P,6*NUMELSG*MAX_NCORN)
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             IS_WRITEN_SOLID_P(1:NUMELS) =  IS_WRITEN_SOLID(1:NUMELS)
             SOLID_TENSOR_P(1:6*NUMELS) =  SOLID_TENSOR(1:6*NUMELS)
-            IF (IS_CORNER_DATA == 1) 
+            IF (IS_CORNER_DATA == 1)
      .        SOLID_TENSOR_CORNER_P(1:6*NUMELS*MAX_NCORN) =  SOLID_TENSOR_CORNER(1:6*NUMELS*MAX_NCORN)
           ENDIF
 c
@@ -2594,8 +2593,8 @@ c
 
           ENDIF
 c-----
-c sph scalar   
-c-----    
+c sph scalar
+c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 5.AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1 .AND. NUMSPHG > 0)THEN
 
@@ -2612,14 +2611,14 @@ c          IF(ISPMD == 0)  print *,'SPH scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1
      .                    IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                    INVERT    ,X         ,V             ,W            ,
      .                    NV46      ,NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
-     .                    STACK     ,SPH_ID  ,IPARTSP      ,IUVAR      ,  
+     .                    STACK     ,SPH_ID  ,IPARTSP      ,IUVAR      ,
      .                    H3D_DATA%OUTPUT_LIST(I)%PART,IS_WRITEN_SPH,INFO1,KEYWORD,SPBUF  )
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(SPH_ID,NUMSPH,SPH_ID_P,NUMSPHG) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SPH,NUMSPH,IS_WRITEN_SPH_P,NUMSPHG) 
-            CALL SPMD_H3D_GATHER_R(SPH_SCALAR,NUMSPH,SPH_SCALAR_P,NUMSPHG) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(SPH_ID,NUMSPH,SPH_ID_P,NUMSPHG)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SPH,NUMSPH,IS_WRITEN_SPH_P,NUMSPHG)
+            CALL SPMD_H3D_GATHER_R(SPH_SCALAR,NUMSPH,SPH_SCALAR_P,NUMSPHG)
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             SPH_ID_P(1:NUMSPH) =  SPH_ID(1:NUMSPH)
@@ -2637,8 +2636,8 @@ c
 
           ENDIF
 c-----
-c sph tensor   
-c-----   
+c sph tensor
+c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 5.AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3 .AND. NUMSPHG > 0)THEN
 
@@ -2654,10 +2653,10 @@ c
      5                  H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD  )
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(SPH_ID,NUMSPH,SPH_ID_P,NUMSPHG) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SPH,NUMSPH,IS_WRITEN_SPH_P,NUMSPHG) 
-            CALL SPMD_H3D_GATHER_R(SPH_TENSOR,6*NUMSPH,SPH_TENSOR_P,6*NUMSPHG) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(SPH_ID,NUMSPH,SPH_ID_P,NUMSPHG)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SPH,NUMSPH,IS_WRITEN_SPH_P,NUMSPHG)
+            CALL SPMD_H3D_GATHER_R(SPH_TENSOR,6*NUMSPH,SPH_TENSOR_P,6*NUMSPHG)
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             SPH_ID_P(1:NUMSPH) =  SPH_ID(1:NUMSPH)
@@ -2673,7 +2672,7 @@ c
 
           ENDIF
 c-----
-c quad scalar 
+c quad scalar
 c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1 .AND. NUMELQG > 0)THEN
@@ -2704,10 +2703,10 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                     BUFMAT     ,MULTI_FVM ,IR           ,IS           ,IT         )
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(QUAD_ID,NUMELQ,QUAD_ID_P,NUMELQG) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_QUAD,NUMELQ,IS_WRITEN_QUAD_P,NUMELQG) 
-            CALL SPMD_H3D_GATHER_R(QUAD_SCALAR,NUMELQ,QUAD_SCALAR_P,NUMELQG) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(QUAD_ID,NUMELQ,QUAD_ID_P,NUMELQG)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_QUAD,NUMELQ,IS_WRITEN_QUAD_P,NUMELQG)
+            CALL SPMD_H3D_GATHER_R(QUAD_SCALAR,NUMELQ,QUAD_SCALAR_P,NUMELQG)
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             QUAD_ID_P(1:NUMELQ) =  QUAD_ID(1:NUMELQ)
@@ -2722,12 +2721,12 @@ c            print *,'C_H3D_UPDATE_QUAD_SCALAR'
      .                           NIXC,NUMELC,IPARTC,IXTG,NIXTG,
      .                           NUMELTGG,IPARTTG,QUAD_SCALAR_P,QUAD_ID_P,
      .                           N_OUTP_DATA,NUMELS,
-     .                           NUMELQG,NUMELT,NUMELP,NUMELR,IS_WRITEN_QUAD_P) 
+     .                           NUMELQG,NUMELT,NUMELP,NUMELR,IS_WRITEN_QUAD_P)
             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
-          ENDIF 
+          ENDIF
 c-----
-c quad vector 
+c quad vector
 c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2 .AND. NUMELQG > 0)THEN
@@ -2758,10 +2757,10 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                     BUFMAT    ,MULTI_FVM  ,IR          ,IS           ,IT           )
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(QUAD_ID,NUMELQ,QUAD_ID_P,NUMELQG) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_QUAD,NUMELQ,IS_WRITEN_QUAD_P,NUMELQG) 
-            CALL SPMD_H3D_GATHER_R(QUAD_VECTOR,3*NUMELQ,QUAD_VECTOR_P,3*NUMELQG) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(QUAD_ID,NUMELQ,QUAD_ID_P,NUMELQG)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_QUAD,NUMELQ,IS_WRITEN_QUAD_P,NUMELQG)
+            CALL SPMD_H3D_GATHER_R(QUAD_VECTOR,3*NUMELQ,QUAD_VECTOR_P,3*NUMELQG)
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             QUAD_ID_P(1:NUMELQ) =  QUAD_ID(1:NUMELQ)
@@ -2776,13 +2775,13 @@ c            print *,'C_H3D_UPDATE_QUAD_VECTOR'
      .                           NIXC,NUMELC,IPARTC,IXTG,NIXTG,
      .                           NUMELTGG,IPARTTG,QUAD_VECTOR_P,QUAD_ID_P,
      .                           N_OUTP_DATA,NUMELS,
-     .                           NUMELQG,NUMELT,NUMELP,NUMELR,IS_WRITEN_QUAD_P) 
-             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
+     .                           NUMELQG,NUMELT,NUMELP,NUMELR,IS_WRITEN_QUAD_P)
+            CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
-          ENDIF 
+          ENDIF
 c-----
-c quad tensor   
-c-----   
+c quad tensor
+c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3 .AND. NUMELQG > 0)THEN
 
@@ -2798,20 +2797,20 @@ c         IF(ISPMD == 0)   print *,'QUAD tensor',N_OUTP_DATA,'IFUNC',IFUNC,'INFO
 
 c         IF(ISPMD == 0)   print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
 
-           CALL H3D_QUAD_TENSOR(ELBUF_TAB,QUAD_TENSOR ,IPARG ,IFUNC ,INVERT,NELCUT,
-     .                  EL2FA    ,WAFT  ,TANI  ,IAD   ,
-     .                  NBPART,IADG  ,X     ,IXQ   ,
-     .                  IGEO     ,IXTG  ,IPM   ,STACK ,QUAD_ID    ,INFO1,
-     .                  INFO2    ,IS_WRITEN_QUAD ,IPARTQ ,IPARTTG     ,LAYER        ,IPT        ,
-     .                  ID_PLY     ,GAUSS     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART ,KEYWORD ,
-     .                  IR        ,IS        ,IT      )
+          CALL H3D_QUAD_TENSOR(ELBUF_TAB,QUAD_TENSOR ,IPARG ,IFUNC ,INVERT,NELCUT,
+     .                 EL2FA    ,WAFT  ,TANI  ,IAD   ,
+     .                 NBPART,IADG  ,X     ,IXQ   ,
+     .                 IGEO     ,IXTG  ,IPM   ,STACK ,QUAD_ID    ,INFO1,
+     .                 INFO2    ,IS_WRITEN_QUAD ,IPARTQ ,IPARTTG     ,LAYER        ,IPT        ,
+     .                 ID_PLY     ,GAUSS     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART ,KEYWORD ,
+     .                 IR        ,IS        ,IT      )
 
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(QUAD_ID,NUMELQ,QUAD_ID_P,NUMELQG) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_QUAD,NUMELQ,IS_WRITEN_QUAD_P,NUMELQG) 
-            CALL SPMD_H3D_GATHER_R(QUAD_TENSOR,6*(NUMELQ),QUAD_TENSOR_P,6*(NUMELQG)) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(QUAD_ID,NUMELQ,QUAD_ID_P,NUMELQG)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_QUAD,NUMELQ,IS_WRITEN_QUAD_P,NUMELQG)
+            CALL SPMD_H3D_GATHER_R(QUAD_TENSOR,6*(NUMELQ),QUAD_TENSOR_P,6*(NUMELQG))
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             QUAD_ID_P(1:NUMELQ) =  QUAD_ID(1:NUMELQ)
@@ -2828,11 +2827,11 @@ c
      .                           NUMELQG,NUMELT,NUMELP,NUMELR,IS_WRITEN_QUAD_P)
             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
-          ENDIF 
+          ENDIF
 c
 c-----
-c skin scalar   
-c-----   
+c skin scalar
+c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1 .AND. NUMSKING > 0)THEN
 
@@ -2848,14 +2847,14 @@ c-----
      .                    IPARTS    ,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                    IS_WRITEN_SKIN,INFO1,KEYWORD       , H3D_DATA  ,
      6                    IAD_ELEM        ,FR_ELEM     , WEIGHT    ,TAG_SKINS6,
-     7                    NPF  ,TF   ,BUFMAT,IBCL    ,ILOADP     ,LLOADP    ,FAC    , 
+     7                    NPF  ,TF   ,BUFMAT,IBCL    ,ILOADP     ,LLOADP    ,FAC    ,
      8                    SENSOR_TAB,TAGNCONT    ,LOADP_HYD_INTER,XFRAME,FORC  ,
      9                    NODAL_IPART ,IMAPSKP )
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SKIN,NUMSKIN,IS_WRITEN_SKIN_P,NUMSKING) 
-            CALL SPMD_H3D_GATHER_R(SKIN_SCALAR,NUMSKIN,SKIN_SCALAR_P,NUMSKING) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SKIN,NUMSKIN,IS_WRITEN_SKIN_P,NUMSKING)
+            CALL SPMD_H3D_GATHER_R(SKIN_SCALAR,NUMSKIN,SKIN_SCALAR_P,NUMSKING)
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             IS_WRITEN_SKIN_P(1:NUMSKIN) =  IS_WRITEN_SKIN(1:NUMSKIN)
@@ -2864,7 +2863,7 @@ c
 c
           IF(ISPMD == 0) THEN
             DO II=1,NUMSKING
-              SKIN_ID_P(II) = II 
+              SKIN_ID_P(II) = II
             ENDDO
             CALL STARTIME(MACRO_TIMER_LIBH3D,1)
             CALL C_H3D_UPDATE_SKIN_SCALAR(TT,H3D_DATA%IH3D,ITAB,NUMNOD,
@@ -2874,7 +2873,7 @@ c
 
           ENDIF
 c-----
-c skin vector 
+c skin vector
 c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2 .AND. NUMSKING > 0)THEN
@@ -2889,9 +2888,9 @@ c-----
      .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,IMAPSKP)
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SKIN,NUMSKIN,IS_WRITEN_SKIN_P,NUMSKING) 
-            CALL SPMD_H3D_GATHER_R(SKIN_VECTOR,NUMSKIN,SKIN_VECTOR_P,3*(NUMSKING)) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SKIN,NUMSKIN,IS_WRITEN_SKIN_P,NUMSKING)
+            CALL SPMD_H3D_GATHER_R(SKIN_VECTOR,NUMSKIN,SKIN_VECTOR_P,3*(NUMSKING))
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             IS_WRITEN_SKIN_P(1:NUMSKIN) =  IS_WRITEN_SKIN(1:NUMSKIN)
@@ -2900,7 +2899,7 @@ c
 c
           IF(ISPMD == 0) THEN
             DO II=1,NUMSKING
-              SKIN_ID_P(II) = II 
+              SKIN_ID_P(II) = II
             ENDDO
             CALL STARTIME(MACRO_TIMER_LIBH3D,1)
             CALL C_H3D_UPDATE_SKIN_VECTOR(TT,H3D_DATA%IH3D,
@@ -2910,8 +2909,8 @@ c
 
           ENDIF
 c-----
-c skin tensor   
-c-----   
+c skin tensor
+c-----
         ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3 .AND. NUMSKING > 0)THEN
 
@@ -2919,16 +2918,16 @@ c-----
           LAYER = H3D_DATA%OUTPUT_LIST(I)%LAYER
           IUVAR = H3D_DATA%OUTPUT_LIST(I)%IUVAR
           KEYWORD = H3D_DATA%OUTPUT_LIST(I)%KEYWORD
-           CALL H3D_SKIN_TENSOR(
-     .                   ELBUF_TAB,SKIN_TENSOR, IPARG   ,IXS     ,X     ,PM  ,
-     4                   IPARTS  ,IPM     ,IGEO    ,IXS10   ,IXS16   ,IXS20   ,
-     5                   IS_WRITEN_SKIN  ,H3D_DATA%OUTPUT_LIST(I)%PART,INFO1   ,
-     6                   KEYWORD ,IAD_ELEM        ,FR_ELEM     , WEIGHT   ,TAG_SKINS6)
+          CALL H3D_SKIN_TENSOR(
+     .                  ELBUF_TAB,SKIN_TENSOR, IPARG   ,IXS     ,X     ,PM  ,
+     4                  IPARTS  ,IPM     ,IGEO    ,IXS10   ,IXS16   ,IXS20   ,
+     5                  IS_WRITEN_SKIN  ,H3D_DATA%OUTPUT_LIST(I)%PART,INFO1   ,
+     6                  KEYWORD ,IAD_ELEM        ,FR_ELEM     , WEIGHT   ,TAG_SKINS6)
 c
           IF (NSPMD > 1 ) THEN
-            CALL STARTIME(MACRO_TIMER_SPMDH3D,1) 
-            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SKIN,NUMSKIN,IS_WRITEN_SKIN_P,NUMSKING) 
-            CALL SPMD_H3D_GATHER_R(SKIN_TENSOR,3*(NUMSKIN),SKIN_TENSOR_P,3*(NUMSKING)) 
+            CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
+            CALL SPMD_H3D_GATHER_I(IS_WRITEN_SKIN,NUMSKIN,IS_WRITEN_SKIN_P,NUMSKING)
+            CALL SPMD_H3D_GATHER_R(SKIN_TENSOR,3*(NUMSKIN),SKIN_TENSOR_P,3*(NUMSKING))
             CALL STOPTIME(MACRO_TIMER_SPMDH3D,1)
           ELSE
             IS_WRITEN_SKIN_P(1:NUMSKIN) =  IS_WRITEN_SKIN(1:NUMSKIN)
@@ -2936,9 +2935,9 @@ c
           ENDIF
 c
           IF(ISPMD == 0) THEN
-C-----usr_id not important but should be unique ---------        
+C-----usr_id not important but should be unique ---------
             DO II=1,NUMSKING
-              SKIN_ID_P(II) = II 
+              SKIN_ID_P(II) = II
             ENDDO
             CALL STARTIME(MACRO_TIMER_LIBH3D,1)
             CALL C_H3D_UPDATE_SKIN_TENSOR(TT,H3D_DATA%IH3D,
@@ -2946,7 +2945,7 @@ C-----usr_id not important but should be unique ---------
      .                           N_OUTP_DATA,IS_WRITEN_SKIN_P)
             CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
-          ENDIF 
+          ENDIF
 c
         ENDIF
       ENDDO
@@ -3047,7 +3046,7 @@ c
       DEALLOCATE(  IXS20_P)
       DEALLOCATE(  IPARTC_P)
       DEALLOCATE(  IPARTTG_P)
-      DEALLOCATE(  IPARTQ_P) 
+      DEALLOCATE(  IPARTQ_P)
       DEALLOCATE(  IPARTS_P)
       DEALLOCATE(  IPARTR_P)
       DEALLOCATE(  IPARTP_P)
@@ -3070,8 +3069,8 @@ c     DEALLOCATE(  IXS_TMP)
       DEALLOCATE(  IXQ_TMP)
       DEALLOCATE( SUB_ID,SUB_LEVEL,SUB_NCHILD)
       IF(ALLOCATED(SUB_CHILD)) DEALLOCATE( SUB_CHILD,SUB_IAD,SUB_TITLE)
-      
-      
+
+
       IF (ALLOCATED(NODAL_IPART))  DEALLOCATE(NODAL_IPART)
 
 c
@@ -3090,13 +3089,13 @@ C
       IF (ISPMD==0) THEN
         INQUIRE(FILE=TMP_NAME(1:LEN_TMP_NAME), SIZE=H3DTOTALSIZE8)
         H3DTOTALSIZE8 = H3DTOTALSIZE8/(1024*1024)
-        H3DTOTALSIZE = H3DTOTALSIZE8 
+        H3DTOTALSIZE = H3DTOTALSIZE8
         WRITE (IOUT,1000)  FILNAM(1:FILEN),H3D_DATA%IH3D,NCYCLE,TT
         WRITE (ISTDO,1000) FILNAM(1:FILEN),H3D_DATA%IH3D,NCYCLE,TT
       ENDIF
-c-----------       
-       CALL STOPTIME(MACRO_TIMER_GENH3D,1)
+c-----------
+      CALL STOPTIME(MACRO_TIMER_GENH3D,1)
 
-       RETURN
- 1000  FORMAT (4X,' H3D FILE:',1X,A,' UPDATED:  FRAME=',1X,I5,' , NC=',1X,I7,' , TIME=',1X,G11.4)
+      RETURN
+ 1000 FORMAT (4X,' H3D FILE:',1X,A,' UPDATED:  FRAME=',1X,I5,' , NC=',1X,I7,' , TIME=',1X,G11.4)
       END SUBROUTINE GENH3D

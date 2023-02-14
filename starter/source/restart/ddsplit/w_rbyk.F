@@ -20,20 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C
-
 Chd|====================================================================
 Chd|  W_RBYK                        source/restart/ddsplit/w_rbyk.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
+Chd|        NLOCAL                        source/spmd/node/ddtools.F
 Chd|====================================================================
       SUBROUTINE W_RBYK(NPBY,LPBY,NODLOCAL,PROC,NSLARB_L,LEN_IA)
 C-----------------------------------------------
 C   M o d u l e s
-C-----------------------------------------------  
+C-----------------------------------------------
 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -50,13 +48,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       INTEGER  PROC, LEN_IA, NSLARB_L, NODLOCAL(*),
-     .          NPBY(NNPBY,*), LPBY(*)
+      INTEGER  PROC, LEN_IA, NSLARB_L, NODLOCAL(*),
+     .         NPBY(NNPBY,*), LPBY(*)
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL      
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -89,7 +87,7 @@ C
         ENDDO
         NPBY_L(2,N) = NSL_L
         M = NPBY(1,N)
-C optimisation pour ne pas traiter les rb inutiles
+C Skip useless rigid bodies
         IF(NSL_L==0.AND.NLOCAL(M,PROC+1)==0)THEN
           NPBY_L(1,N) = -M
         ELSE
@@ -101,7 +99,7 @@ C optimisation pour ne pas traiter les rb inutiles
 C
       CALL WRITE_I_C(NPBY_L,NNPBY*NRBYKIN)
 
-C rajout ecriture RBY LAG en mono SPMD
+C write RBY LAG
       IF(NRBYLAG > 0 .AND. PROC == 0) THEN
         K = SLPBY
         DO N = NRBYKIN+1, NRBYKIN+NRBYLAG
@@ -120,17 +118,12 @@ C rajout ecriture RBY LAG en mono SPMD
       CALL WRITE_I_C(LPBY_L,NSLARB_L)
       LEN_IA = LEN_IA + NNPBY*NRBYKIN + NSLARB_L
 
-C rajout ecriture RBY LAG en mono SPMD
       IF(NRBYLAG > 0 .AND. PROC == 0) THEN
         CALL WRITE_I_C(LPBY(SLPBY+1),SLPBYL)
         LEN_IA = LEN_IA + NNPBY*NRBYLAG + SLPBYL
       END IF
 C
-! -------------------------
-!     deallocate 1d array
       DEALLOCATE( LPBY_L )
-!     deallocate 2d array
       DEALLOCATE( NPBY_L )
-! -------------------------
       RETURN
       END

@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  REALLOC_MOD                   share/modules1/realloc_mod.F  
+Chd|  REALLOC_MOD                   share/modules1/realloc_mod.F
 Chd|-- called by -----------
 Chd|        I11TRIVOX1                    source/interfaces/inter3d1/i11trivox1.F
 Chd|        I25TRIVOX_EDG                 source/interfaces/inter3d1/i25trivox_edg.F
@@ -29,75 +29,60 @@ Chd|-- calls ---------------
 Chd|====================================================================
       MODULE REALLOC_MOD
       CONTAINS
-        
-      FUNCTION IREALLOCATE(ptr, new_size)
+
+        FUNCTION IREALLOCATE(ptr, new_size)
 !reallocate INTEGER ARRAY
 C-----------------------------------------------
 C   I n c l u d e s
-C-----------------------------------------------      
-#include      "implicit_f.inc"      
 C-----------------------------------------------
-C   D u m m y  a r g u m e n t s 
+#include      "implicit_f.inc"
 C-----------------------------------------------
-      INTEGER, DIMENSION(:),POINTER :: ptr,IREALLOCATE
-      INTEGER, intent(in)   :: new_size
+C   D u m m y  a r g u m e n t s
+C-----------------------------------------------
+        INTEGER, DIMENSION(:),POINTER :: ptr,IREALLOCATE
+        INTEGER, intent(in)   :: new_size
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
-C-----------------------------------------------      
-      INTEGER :: old_size, ierr
 C-----------------------------------------------
-C   P r e c o n d i t i o n s
-C-----------------------------------------------          
-      !Precondition : le pointeur doit etre affecte
-      IF(.NOT. ASSOCIATED(ptr)) RETURN
-      
-      !il reste suffisamment de memoire
-      ALLOCATE(IREALLOCATE(1:new_size), STAT=ierr)
-      IF(ierr /= 0) STOP "memory allocation error"
-C-----------------------------------------------                                            
-       old_size = MIN(SIZE(ptr), new_size)
-       IREALLOCATE(1:old_size) = ptr(1:old_size)                       
-       DEALLOCATE(ptr) ! a ne surtout pas oublier    
-            
-      END FUNCTION IREALLOCATE
+        INTEGER :: old_size, ierr
+C-----------------------------------------------
+        IF(.NOT. ASSOCIATED(ptr)) RETURN
+        ALLOCATE(IREALLOCATE(1:new_size), STAT=ierr)
+        IF(ierr /= 0) STOP "memory allocation error"
+C-----------------------------------------------
+        old_size = MIN(SIZE(ptr), new_size)
+        IREALLOCATE(1:old_size) = ptr(1:old_size)
+        DEALLOCATE(ptr)
+
+        END FUNCTION IREALLOCATE
 C-----------------------------------------------
 
-
-
-
-      FUNCTION JREALLOCATE(ptr, new_size)
+        FUNCTION JREALLOCATE(ptr, new_size)
 !reallocate MY_REAL ARRAY
 C-----------------------------------------------
 C   I n c l u d e s
-C-----------------------------------------------      
-#include      "implicit_f.inc"      
 C-----------------------------------------------
-C   D u m m y  a r g u m e n t s 
+#include      "implicit_f.inc"
 C-----------------------------------------------
-      my_real
-     .,DIMENSION(:),POINTER :: ptr,JREALLOCATE
-       INTEGER, intent(in)  :: new_size
+C   D u m m y  a r g u m e n t s
+C-----------------------------------------------
+        my_real
+     .  ,DIMENSION(:),POINTER :: ptr,JREALLOCATE
+        INTEGER, intent(in)  :: new_size
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
-C-----------------------------------------------      
-      INTEGER :: old_size, ierr
 C-----------------------------------------------
-C   P r e c o n d i t i o n s
-C-----------------------------------------------          
-      !Precondition : le pointeur doit etre affecte
-      IF(.NOT. ASSOCIATED(ptr)) RETURN
-      
-      !il reste suffisamment de memoire
-      ALLOCATE(JREALLOCATE(1:new_size), STAT=ierr)
-      IF(ierr /= 0) STOP "memory allocation error"
-C-----------------------------------------------                                            
-       old_size = MIN(SIZE(ptr), new_size)
-       JREALLOCATE(1:old_size) = ptr(1:new_size)                       
-       DEALLOCATE(ptr) ! a ne surtout pas oublier    
-            
-      END FUNCTION JREALLOCATE
+        INTEGER :: old_size, ierr
 C-----------------------------------------------
+        IF(.NOT. ASSOCIATED(ptr)) RETURN
 
+        ALLOCATE(JREALLOCATE(1:new_size), STAT=ierr)
+        IF(ierr /= 0) STOP "memory allocation error"
+C-----------------------------------------------
+        old_size = MIN(SIZE(ptr), new_size)
+        JREALLOCATE(1:old_size) = ptr(1:new_size)
+        DEALLOCATE(ptr) 
 
-          
+        END FUNCTION JREALLOCATE
+C-----------------------------------------------
       END MODULE REALLOC_MOD

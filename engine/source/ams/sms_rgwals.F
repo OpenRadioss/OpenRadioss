@@ -695,11 +695,9 @@ C
       ENDIF
 C
 #include "lockon.inc"
-c!$OMP ATOMIC ne marche pas
       TFEXT=TFEXT+TFXT
 #include "lockoff.inc"
 C
-C     IF (MSR/=0) THEN
       CALL SUM_6_FLOAT(1, NIMPACT, F1, FRWL6(1,1), 7)
       CALL SUM_6_FLOAT(1, NIMPACT, F2, FRWL6(2,1), 7)
       CALL SUM_6_FLOAT(1, NIMPACT, F3, FRWL6(3,1), 7)

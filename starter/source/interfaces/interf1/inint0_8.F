@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN)  :: NMN, NSN, NRT, NUMNOD
-      INTEGER, INTENT(IN)  :: IRECT(4,*), NSEG(*), NSV(*), MSR(*) 
+      INTEGER, INTENT(IN)  :: IRECT(4,*), NSEG(*), NSV(*), MSR(*)
       INTEGER, INTENT(OUT) :: LCSEG(*), ILOC(*)
       my_real, INTENT(IN)  :: X(3,*)
 C-----------------------------------------------
@@ -70,19 +70,19 @@ C=======================================================================
 C----- BORNES DU DOMAINE
       XMAX_M=-EP30
       YMAX_M=-EP30
-      ZMAX_M=-EP30 
+      ZMAX_M=-EP30
       XMIN_M= EP30
       YMIN_M= EP30
       ZMIN_M= EP30
 
       DO I=1,NMN
-         J=MSR(I) 
-         XMAX_M= MAX(XMAX_M,X(1,J))
-         YMAX_M= MAX(YMAX_M,X(2,J))
-         ZMAX_M= MAX(ZMAX_M,X(3,J))
-         XMIN_M= MIN(XMIN_M,X(1,J))
-         YMIN_M= MIN(YMIN_M,X(2,J))
-         ZMIN_M= MIN(ZMIN_M,X(3,J))
+        J=MSR(I)
+        XMAX_M= MAX(XMAX_M,X(1,J))
+        YMAX_M= MAX(YMAX_M,X(2,J))
+        ZMAX_M= MAX(ZMAX_M,X(3,J))
+        XMIN_M= MIN(XMIN_M,X(1,J))
+        YMIN_M= MIN(YMIN_M,X(2,J))
+        ZMIN_M= MIN(ZMIN_M,X(3,J))
       ENDDO
 
       XMIN_S= EP30
@@ -90,16 +90,16 @@ C----- BORNES DU DOMAINE
       YMIN_S= EP30
       YMAX_S=-EP30
       ZMIN_S= EP30
-      ZMAX_S=-EP30 
+      ZMAX_S=-EP30
 
       DO I=1,NSN
-       J=NSV(I)
-       XMIN_S= MIN(XMIN_S,X(1,J))
-       YMIN_S= MIN(YMIN_S,X(2,J))
-       ZMIN_S= MIN(ZMIN_S,X(3,J))
-       XMAX_S= MAX(XMAX_S,X(1,J))
-       YMAX_S= MAX(YMAX_S,X(2,J))
-       ZMAX_S= MAX(ZMAX_S,X(3,J))
+        J=NSV(I)
+        XMIN_S= MIN(XMIN_S,X(1,J))
+        YMIN_S= MIN(YMIN_S,X(2,J))
+        ZMIN_S= MIN(ZMIN_S,X(3,J))
+        XMAX_S= MAX(XMAX_S,X(1,J))
+        YMAX_S= MAX(YMAX_S,X(2,J))
+        ZMAX_S= MAX(ZMAX_S,X(3,J))
       ENDDO
       XMIN=MIN(XMIN_M,XMIN_S)
       YMIN=MIN(YMIN_M,YMIN_S)
@@ -127,12 +127,12 @@ C 1   mise des noeuds dans les boites
 C=======================================================================
       ALLOCATE(VOXEL(NBX,NBY,NBZ))
       VOXEL=0
-       DO I=1,NSN
+      DO I=1,NSN
         IIX(I)=0
         IIY(I)=0
         IIZ(I)=0
         J=NSV(I)
-         
+
         IIX(I)=INT(NBX*(X(1,J)-XMIN)/(XMAX-XMIN))
         IIY(I)=INT(NBY*(X(2,J)-YMIN)/(YMAX-YMIN))
         IIZ(I)=INT(NBZ*(X(3,J)-ZMIN)/(ZMAX-ZMIN))
@@ -143,25 +143,25 @@ C=======================================================================
 
         FIRST = VOXEL(IIX(I),IIY(I),IIZ(I))
         IF(FIRST == 0)THEN
-c         boite vide
+c         empty cell
           VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
-          NEXT_NOD(I)                 = 0 ! pas de next
-          LAST_NOD(I)                 = 0 ! pas de last
+          NEXT_NOD(I)                 = 0 ! last one
+          LAST_NOD(I)                 = 0 ! no last
         ELSEIF(LAST_NOD(FIRST) == 0)THEN
-c         boite contenant un seul noeud
-c         on ajoute comme suivant
+c         cell containing one node
+c         add as next node
           NEXT_NOD(FIRST) = I ! next
           LAST_NOD(FIRST) = I ! last
-          NEXT_NOD(I)     = 0 ! pas de next apres I
+          NEXT_NOD(I)     = 0 ! last one
         ELSE
-c         boite contenant plusieurs noeuds
-c         on saute directement au dernier
-          LAST = LAST_NOD(FIRST) ! dernier noeud de la boite
-          NEXT_NOD(LAST)  = I ! next apres precedant
+c
+c         jump to the last node of the cell
+          LAST = LAST_NOD(FIRST) ! last node in this voxel
+          NEXT_NOD(LAST)  = I ! next
           LAST_NOD(FIRST) = I ! last
-          NEXT_NOD(I)     = 0 ! pas de next apres I
+          NEXT_NOD(I)     = 0 ! last one
         ENDIF
-       ENDDO
+      ENDDO
 C=======================================================================
 C 2   recherche noeud second. le plus proche de chaque main
 C=======================================================================
@@ -184,40 +184,40 @@ C=======================================================================
 
         FOUND = 0
         DO WHILE(FOUND == 0)
-         DO IZ = IZ1,IZ2
-          DO IY = IY1,IY2
-           DO IX = IX1,IX2
+          DO IZ = IZ1,IZ2
+            DO IY = IY1,IY2
+              DO IX = IX1,IX2
 
-             JJ = VOXEL(IX,IY,IZ)
+                JJ = VOXEL(IX,IY,IZ)
 
-             DO WHILE(JJ /= 0)
-               NN=NSV(JJ)
-               XS = X(1,NN)
-               YS = X(2,NN)
-               ZS = X(3,NN)
-               DIST = (X1-XS)**2+(Y1-YS)**2+(Z1-ZS)**2
-               IF( DIST < MINDIST )  THEN
-                 ILOC(NE)=JJ
-                 MINDIST = DIST
-               ENDIF
-               FOUND = 1
-               JJ = NEXT_NOD(JJ)
-             ENDDO ! WHILE(JJ /= 0)
-           ENDDO
+                DO WHILE(JJ /= 0)
+                  NN=NSV(JJ)
+                  XS = X(1,NN)
+                  YS = X(2,NN)
+                  ZS = X(3,NN)
+                  DIST = (X1-XS)**2+(Y1-YS)**2+(Z1-ZS)**2
+                  IF( DIST < MINDIST )  THEN
+                    ILOC(NE)=JJ
+                    MINDIST = DIST
+                  ENDIF
+                  FOUND = 1
+                  JJ = NEXT_NOD(JJ)
+                ENDDO ! WHILE(JJ /= 0)
+              ENDDO
+            ENDDO
           ENDDO
-         ENDDO
-         IX1 = IX1-1
-         IY1 = IY1-1
-         IZ1 = IZ1-1
-         IX1 = MAX(1,IX1)
-         IY1 = MAX(1,IY1)
-         IZ1 = MAX(1,IZ1)
-         IX2 = IX2+1
-         IY2 = IY2+1
-         IZ2 = IZ2+1
-         IX2 = MIN(NBX,IX2)
-         IY2 = MIN(NBY,IY2)
-         IZ2 = MIN(NBZ,IZ2)
+          IX1 = IX1-1
+          IY1 = IY1-1
+          IZ1 = IZ1-1
+          IX1 = MAX(1,IX1)
+          IY1 = MAX(1,IY1)
+          IZ1 = MAX(1,IZ1)
+          IX2 = IX2+1
+          IY2 = IY2+1
+          IZ2 = IZ2+1
+          IX2 = MIN(NBX,IX2)
+          IY2 = MIN(NBY,IY2)
+          IZ2 = MIN(NBZ,IZ2)
         ENDDO ! WHILE(FOUND == 0)
 
 
@@ -240,27 +240,27 @@ C=======================================================================
         IY2=MAX(1,MIN(NBY,IY2))
         IZ2=MAX(1,MIN(NBZ,IZ2))
 
-         DO IZ = IZ1,IZ2
+        DO IZ = IZ1,IZ2
           DO IY = IY1,IY2
-           DO IX = IX1,IX2
+            DO IX = IX1,IX2
 
-             JJ = VOXEL(IX,IY,IZ)
+              JJ = VOXEL(IX,IY,IZ)
 
-             DO WHILE(JJ /= 0)
-               NN=NSV(JJ)
-               XS = X(1,NN)
-               YS = X(2,NN)
-               ZS = X(3,NN)
-               DIST = (X1-XS)**2+(Y1-YS)**2+(Z1-ZS)**2
-               IF( DIST < MINDIST )  THEN
-                 ILOC(NE)=JJ
-                 MINDIST = DIST
-               ENDIF
-               JJ = NEXT_NOD(JJ)
-             ENDDO ! WHILE(JJ /= 0)
-           ENDDO
+              DO WHILE(JJ /= 0)
+                NN=NSV(JJ)
+                XS = X(1,NN)
+                YS = X(2,NN)
+                ZS = X(3,NN)
+                DIST = (X1-XS)**2+(Y1-YS)**2+(Z1-ZS)**2
+                IF( DIST < MINDIST )  THEN
+                  ILOC(NE)=JJ
+                  MINDIST = DIST
+                ENDIF
+                JJ = NEXT_NOD(JJ)
+              ENDDO ! WHILE(JJ /= 0)
+            ENDDO
           ENDDO
-         ENDDO
+        ENDDO
       ENDDO
       DEALLOCATE(VOXEL)
 C-----------------------------------------------

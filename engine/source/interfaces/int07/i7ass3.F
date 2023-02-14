@@ -33,14 +33,14 @@ Chd|        I7ASS3                        source/interfaces/int07/i7ass3.F
 Chd|        I7ASS35                       source/interfaces/int07/i7ass3.F
 Chd|        I7ASSIGEO0                    source/interfaces/int07/i7ass3.F
 Chd|        I7SMS2                        source/interfaces/int07/i7sms2.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I7ASS33(JLT       ,A        ,NOINT     ,ITAB      ,STIFN    ,
      2                  STIF      ,FSKYI    ,ISKY      ,FCONT     ,IX1       ,
      3                  IX2       ,IX3      ,IX4       ,NSVG      ,NELTST    ,
      4                  ITYPTST   ,DT2T     ,NISKYFI   ,ISECIN    ,NSTRF     ,
-     5                  SECFCUM   ,VISCN    ,NIN       ,FXI       ,FYI       , 
+     5                  SECFCUM   ,VISCN    ,NIN       ,FXI       ,FYI       ,
      6                  FZI       ,FX1      ,FY1       ,FZ1       ,FX2       ,
      7                  FY2       ,FZ2      ,FX3       ,FY3       ,FZ3       ,
      8                  FX4       ,FY4      ,FZ4       ,H1        ,H2        ,
@@ -94,22 +94,22 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NELTST,ITYPTST,JLT,NIN,NOINT,ISECIN,JTASK,NISKYFI,INTTH,IFORM
-      
+
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ),ITAB(*), ISKY(*), NSTRF(*),
      .        NISUB,ISKYI_SMS(*), NSMS(*),
      .        KXIG3D(NIXIG3D,*),IXIG3D(*),IGEO(NPROPGI,*),NIGE(*)
       my_real
      .   X(3,*), A(3,*), FCONT(3,*),DT2T,DTMINI,
-     .   STIFN(*), FSKYI(LSKYI,NFSKYI), 
+     .   STIFN(*), FSKYI(LSKYI,NFSKYI),
      .   MSKYI_SMS(*)
       my_real
      .     STIF(MVSIZ),SECFCUM(7,NUMNOD,NSECT),
      .     VISCN(*),PHI(MVSIZ), FTHE(*),FTHESKYI(LSKYI),
      .     PHI1(MVSIZ),PHI2(MVSIZ),PHI3(MVSIZ),PHI4(MVSIZ) ,
-     .     CONDINT(MVSIZ),CONDN(*),CONDNSKYI(LSKYI) 
+     .     CONDINT(MVSIZ),CONDN(*),CONDNSKYI(LSKYI)
       my_real
-     .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), 
+     .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ),
      .   FX1(MVSIZ), FX2(MVSIZ), FX3(MVSIZ), FX4(MVSIZ),
      .   FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
@@ -125,7 +125,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,JG,K0,NBINTER,K1S,J,IG,IBCM,IBCS,TAGIGEO
       my_real
-     .   DTI     
+     .   DTI
 C-------------------------------------------------------------------------------
 C
       IF(IDTMINS==2.OR.IDTMINS_INT/=0)THEN
@@ -145,75 +145,75 @@ C
         STIF(1:JLT)=ZERO
       END IF
 C
-C-----Isogeometric elements     
+C-----Isogeometric elements
       TAGIGEO=0
 c
       IF(IPARIT==3)THEN
-       IF(KDTINT==0)THEN
-        CALL I7ASS3(JLT  ,IX1  ,IX2  ,IX3  ,IX4  ,
-     2             NSVG ,H1   ,H2   ,H3   ,H4   ,STIF ,
-     3             FX1  ,FY1  ,FZ1  ,FX2  ,FY2  ,FZ2  ,
-     4             FX3  ,FY3  ,FZ3  ,FX4  ,FY4  ,FZ4  ,
-     5             FXI  ,FYI  ,FZI  ,A    ,STIFN)
-       ELSE
-        CALL I7ASS35(JLT  ,IX1  ,IX2  ,IX3  ,IX4  ,
-     2                  NSVG ,H1   ,H2   ,H3   ,H4   ,STIF ,
-     3                  FX1  ,FY1  ,FZ1  ,FX2  ,FY2  ,FZ2  ,
-     4                  FX3  ,FY3  ,FZ3  ,FX4  ,FY4  ,FZ4  ,
-     5                  FXI  ,FYI  ,FZI  ,A    ,STIFN,VISCN,
-     6                  KS   ,K1   ,K2   ,K3   ,K4   ,CS   ,
-     7                  C1   ,C2   ,C3   ,C4   )
-       ENDIF
-      ELSEIF(IPARIT==0)THEN
-       IF(KDTINT==0)THEN
-        DO I=1,JLT
-         IF(IX1(I)>=NUMNOD.AND.IX2(I)>=NUMNOD.AND. 
-     .      IX3(I)>=NUMNOD.AND.IX4(I)>=NUMNOD)THEN
-            TAGIGEO=TAGIGEO+1 
-         ENDIF
-        ENDDO
-        IF(TAGIGEO==0) THEN
-         CALL I7ASS0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
-     2               NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
-     3               FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,
-     4               FX3   ,FY3  ,FZ3  ,FX4  ,FY4    ,FZ4  ,
-     5               FXI   ,FYI  ,FZI  ,A    ,STIFN  ,NIN  ,
-     6               INTTH ,PHI  ,FTHE ,PHI1 , PHI2  ,PHI3 ,
-     7               PHI4  ,CONDN,CONDINT,JTASK,IFORM)
+        IF(KDTINT==0)THEN
+          CALL I7ASS3(JLT  ,IX1  ,IX2  ,IX3  ,IX4  ,
+     2               NSVG ,H1   ,H2   ,H3   ,H4   ,STIF ,
+     3               FX1  ,FY1  ,FZ1  ,FX2  ,FY2  ,FZ2  ,
+     4               FX3  ,FY3  ,FZ3  ,FX4  ,FY4  ,FZ4  ,
+     5               FXI  ,FYI  ,FZI  ,A    ,STIFN)
         ELSE
-         CALL I7ASSIGEO0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
-     2               NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
-     3               FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,
-     4               FX3   ,FY3  ,FZ3  ,FX4  ,FY4    ,FZ4  ,
-     5               FXI   ,FYI  ,FZI  ,A    ,STIFN  ,IXIG3D,
-     6               KXIG3D,X    ,WIGE ,KNOT ,IGEO   ,NIGE, 
-     7               RIGE  ,FCONT,H3D_DATA,KNOTLOCPC,KNOTLOCEL)
+          CALL I7ASS35(JLT  ,IX1  ,IX2  ,IX3  ,IX4  ,
+     2                    NSVG ,H1   ,H2   ,H3   ,H4   ,STIF ,
+     3                    FX1  ,FY1  ,FZ1  ,FX2  ,FY2  ,FZ2  ,
+     4                    FX3  ,FY3  ,FZ3  ,FX4  ,FY4  ,FZ4  ,
+     5                    FXI  ,FYI  ,FZI  ,A    ,STIFN,VISCN,
+     6                    KS   ,K1   ,K2   ,K3   ,K4   ,CS   ,
+     7                    C1   ,C2   ,C3   ,C4   )
         ENDIF
-       ELSE
+      ELSEIF(IPARIT==0)THEN
+        IF(KDTINT==0)THEN
+          DO I=1,JLT
+            IF(IX1(I)>=NUMNOD.AND.IX2(I)>=NUMNOD.AND.
+     .         IX3(I)>=NUMNOD.AND.IX4(I)>=NUMNOD)THEN
+              TAGIGEO=TAGIGEO+1
+            ENDIF
+          ENDDO
+          IF(TAGIGEO==0) THEN
+            CALL I7ASS0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
+     2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
+     3                  FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,
+     4                  FX3   ,FY3  ,FZ3  ,FX4  ,FY4    ,FZ4  ,
+     5                  FXI   ,FYI  ,FZI  ,A    ,STIFN  ,NIN  ,
+     6                  INTTH ,PHI  ,FTHE ,PHI1 , PHI2  ,PHI3 ,
+     7                  PHI4  ,CONDN,CONDINT,JTASK,IFORM)
+          ELSE
+            CALL I7ASSIGEO0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
+     2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
+     3                  FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,
+     4                  FX3   ,FY3  ,FZ3  ,FX4  ,FY4    ,FZ4  ,
+     5                  FXI   ,FYI  ,FZI  ,A    ,STIFN  ,IXIG3D,
+     6                  KXIG3D,X    ,WIGE ,KNOT ,IGEO   ,NIGE,
+     7                  RIGE  ,FCONT,H3D_DATA,KNOTLOCPC,KNOTLOCEL)
+          ENDIF
+        ELSE
 C
-         CALL I7ASS05(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
-     2                NSVG  ,H1   ,H2   ,H3   ,H4     ,
-     3                FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,
-     4                FX3   ,FY3  ,FZ3  ,FX4  ,FY4    ,FZ4  ,
-     5                FXI   ,FYI  ,FZI  ,A    ,STIFN  ,VISCN ,
-     6                KS    ,K1   ,K2   ,K3   ,K4     ,CS    ,
-     7                C1    ,C2   ,C3   ,C4   ,NIN    ,INTTH ,
-     8                PHI   ,FTHE ,PHI1 , PHI2  ,PHI3 , PHI4 ,
-     9                JTASK,CONDN,CONDINT,IFORM)
-       ENDIF
+          CALL I7ASS05(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
+     2                 NSVG  ,H1   ,H2   ,H3   ,H4     ,
+     3                 FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,
+     4                 FX3   ,FY3  ,FZ3  ,FX4  ,FY4    ,FZ4  ,
+     5                 FXI   ,FYI  ,FZI  ,A    ,STIFN  ,VISCN ,
+     6                 KS    ,K1   ,K2   ,K3   ,K4     ,CS    ,
+     7                 C1    ,C2   ,C3   ,C4   ,NIN    ,INTTH ,
+     8                 PHI   ,FTHE ,PHI1 , PHI2  ,PHI3 , PHI4 ,
+     9                 JTASK,CONDN,CONDINT,IFORM)
+        ENDIF
 C
       ELSE
         IF(KDTINT==0)THEN
-         IF(TAGIGEO==0) THEN
-          CALL I7ASS2(JLT   ,IX1   ,IX2  ,IX3  ,IX4  ,
-     2                NSVG  ,H1    ,H2   ,H3   ,H4   ,STIF   ,
-     3                FX1   ,FY1   ,FZ1  ,FX2  ,FY2  ,FZ2    ,
-     4                FX3   ,FY3   ,FZ3  ,FX4  ,FY4  ,FZ4    ,
-     5                FXI   ,FYI   ,FZI  ,FSKYI,ISKY ,NISKYFI,
-     6                NIN   ,NOINT ,INTTH,PHI  ,FTHESKYI ,PHI1,
-     7                PHI2  ,PHI3 , PHI4 ,CONDNSKYI,CONDINT,
-     A                IFORM )  
-         ELSE
+          IF(TAGIGEO==0) THEN
+            CALL I7ASS2(JLT   ,IX1   ,IX2  ,IX3  ,IX4  ,
+     2                  NSVG  ,H1    ,H2   ,H3   ,H4   ,STIF   ,
+     3                  FX1   ,FY1   ,FZ1  ,FX2  ,FY2  ,FZ2    ,
+     4                  FX3   ,FY3   ,FZ3  ,FX4  ,FY4  ,FZ4    ,
+     5                  FXI   ,FYI   ,FZI  ,FSKYI,ISKY ,NISKYFI,
+     6                  NIN   ,NOINT ,INTTH,PHI  ,FTHESKYI ,PHI1,
+     7                  PHI2  ,PHI3 , PHI4 ,CONDNSKYI,CONDINT,
+     A                  IFORM )
+          ELSE
 c         CALL I7ASSIGEO2(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
 c     2               NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
 c     3               FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,
@@ -223,7 +223,7 @@ c     6               NIN   ,NOINT ,INTTH,PHI  ,FTHESKYI ,PHI1,
 c     7               PHI2  ,PHI3 , PHI4 ,CONDNSKYI,CONDINT,IXIG3D,
 c     6               KXIG3D,X    ,WIGE ,KNOT ,IGEO   ,NIGE,
 c     7               RIGE  ,FCONT,H3D_DATA,KNOTLOCPC,KNOTLOCEL)
-         ENDIF   
+          ENDIF
         ELSE
           CALL I7ASS25(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                 NSVG  ,H1   ,H2   ,H3   ,H4     ,
@@ -232,15 +232,15 @@ c     7               RIGE  ,FCONT,H3D_DATA,KNOTLOCPC,KNOTLOCEL)
      5                 FXI   ,FYI  ,FZI  ,FSKYI,NISKYFI,NIN  ,
      6                 KS    ,K1   ,K2   ,K3   ,K4     ,CS   ,
      7                 C1    ,C2   ,C3   ,C4   ,ISKY  ,NOINT ,
-     8                 INTTH ,PHI  ,FTHESKYI  ,PHI1   ,PHI2  , PHI3, 
+     8                 INTTH ,PHI  ,FTHESKYI  ,PHI1   ,PHI2  , PHI3,
      9                  PHI4 ,CONDNSKYI,CONDINT,IFORM)
         ENDIF
       ENDIF
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
-         IF (INCONV==1) THEN
+        IF (INCONV==1) THEN
 #include "lockon.inc"
-           DO I=1,JLT
+          DO I=1,JLT
             FCONT(1,IX1(I)) =FCONT(1,IX1(I)) + FX1(I)
             FCONT(2,IX1(I)) =FCONT(2,IX1(I)) + FY1(I)
             FCONT(3,IX1(I)) =FCONT(3,IX1(I)) + FZ1(I)
@@ -260,65 +260,65 @@ C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
               FCONT(2,JG)=FCONT(2,JG)- FYI(I)
               FCONT(3,JG)=FCONT(3,JG)- FZI(I)
             ENDIF
-           ENDDO
+          ENDDO
 #include "lockoff.inc"
-         END IF !(INCONV==1) THEN
+        END IF !(INCONV==1) THEN
       ENDIF
 C-----------------------------------------------------
       IF(ISECIN>0.AND.INCONV==1)THEN
         K0=NSTRF(25)
         IF(NSTRF(1)+NSTRF(2)/=0)THEN
           DO I=1,NSECT
-           NBINTER=NSTRF(K0+14)
-           K1S=K0+30
-           DO J=1,NBINTER
-            IF(NSTRF(K1S)==NOINT)THEN
-              IF(ISECUT/=0)THEN
+            NBINTER=NSTRF(K0+14)
+            K1S=K0+30
+            DO J=1,NBINTER
+              IF(NSTRF(K1S)==NOINT)THEN
+                IF(ISECUT/=0)THEN
 #include "lockon.inc"
-                DO K=1,JLT
+                  DO K=1,JLT
 C attention aux signes pour le cumul des efforts
 C a rendre conforme avec CFORC3
-                 IF(SECFCUM(4,IX1(K),I)==1.)THEN
-                  SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
-                  SECFCUM(2,IX1(K),I)=SECFCUM(2,IX1(K),I)-FY1(K)
-                  SECFCUM(3,IX1(K),I)=SECFCUM(3,IX1(K),I)-FZ1(K)
-                ENDIF
-                IF(SECFCUM(4,IX2(K),I)==1.)THEN
-                  SECFCUM(1,IX2(K),I)=SECFCUM(1,IX2(K),I)-FX2(K)
-                  SECFCUM(2,IX2(K),I)=SECFCUM(2,IX2(K),I)-FY2(K)
-                  SECFCUM(3,IX2(K),I)=SECFCUM(3,IX2(K),I)-FZ2(K)
-                ENDIF
-                IF(SECFCUM(4,IX3(K),I)==1.)THEN
-                  SECFCUM(1,IX3(K),I)=SECFCUM(1,IX3(K),I)-FX3(K)
-                  SECFCUM(2,IX3(K),I)=SECFCUM(2,IX3(K),I)-FY3(K)
-                  SECFCUM(3,IX3(K),I)=SECFCUM(3,IX3(K),I)-FZ3(K)
-                ENDIF
-                IF(SECFCUM(4,IX4(K),I)==1.)THEN
-                  SECFCUM(1,IX4(K),I)=SECFCUM(1,IX4(K),I)-FX4(K)
-                  SECFCUM(2,IX4(K),I)=SECFCUM(2,IX4(K),I)-FY4(K)
-                  SECFCUM(3,IX4(K),I)=SECFCUM(3,IX4(K),I)-FZ4(K)
-                ENDIF
-                JG = NSVG(K)
-                IF(JG>0) THEN
+                    IF(SECFCUM(4,IX1(K),I)==1.)THEN
+                      SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
+                      SECFCUM(2,IX1(K),I)=SECFCUM(2,IX1(K),I)-FY1(K)
+                      SECFCUM(3,IX1(K),I)=SECFCUM(3,IX1(K),I)-FZ1(K)
+                    ENDIF
+                    IF(SECFCUM(4,IX2(K),I)==1.)THEN
+                      SECFCUM(1,IX2(K),I)=SECFCUM(1,IX2(K),I)-FX2(K)
+                      SECFCUM(2,IX2(K),I)=SECFCUM(2,IX2(K),I)-FY2(K)
+                      SECFCUM(3,IX2(K),I)=SECFCUM(3,IX2(K),I)-FZ2(K)
+                    ENDIF
+                    IF(SECFCUM(4,IX3(K),I)==1.)THEN
+                      SECFCUM(1,IX3(K),I)=SECFCUM(1,IX3(K),I)-FX3(K)
+                      SECFCUM(2,IX3(K),I)=SECFCUM(2,IX3(K),I)-FY3(K)
+                      SECFCUM(3,IX3(K),I)=SECFCUM(3,IX3(K),I)-FZ3(K)
+                    ENDIF
+                    IF(SECFCUM(4,IX4(K),I)==1.)THEN
+                      SECFCUM(1,IX4(K),I)=SECFCUM(1,IX4(K),I)-FX4(K)
+                      SECFCUM(2,IX4(K),I)=SECFCUM(2,IX4(K),I)-FY4(K)
+                      SECFCUM(3,IX4(K),I)=SECFCUM(3,IX4(K),I)-FZ4(K)
+                    ENDIF
+                    JG = NSVG(K)
+                    IF(JG>0) THEN
 C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
-                  IF(SECFCUM(4,JG,I)==1.)THEN
-                    SECFCUM(1,JG,I)=SECFCUM(1,JG,I)+FXI(K)
-                    SECFCUM(2,JG,I)=SECFCUM(2,JG,I)+FYI(K)
-                    SECFCUM(3,JG,I)=SECFCUM(3,JG,I)+FZI(K)
-                  ENDIF
-                ENDIF
-              ENDDO
+                      IF(SECFCUM(4,JG,I)==1.)THEN
+                        SECFCUM(1,JG,I)=SECFCUM(1,JG,I)+FXI(K)
+                        SECFCUM(2,JG,I)=SECFCUM(2,JG,I)+FYI(K)
+                        SECFCUM(3,JG,I)=SECFCUM(3,JG,I)+FZI(K)
+                      ENDIF
+                    ENDIF
+                  ENDDO
 #include "lockoff.inc"
-             ENDIF
+                ENDIF
 C +fsav(section)
-           ENDIF
-           K1S=K1S+1
-        ENDDO
-        K0=NSTRF(K0+24)
-       ENDDO
-       ENDIF
+              ENDIF
+              K1S=K1S+1
+            ENDDO
+            K0=NSTRF(K0+24)
+          ENDDO
+        ENDIF
       ENDIF
-C-----------------------------------------------------   
+C-----------------------------------------------------
       RETURN
       END
 Chd|====================================================================
@@ -330,7 +330,7 @@ Chd|        I22FOR3                       source/interfaces/int22/i22for3.F
 Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
 Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
 Chd|-- calls ---------------
-Chd|        DOUBLE_FLOT_IEEE              source/system/parit.F         
+Chd|        DOUBLE_FLOT_IEEE              source/system/parit.F
 Chd|====================================================================
       SUBROUTINE I7ASS3(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
@@ -365,7 +365,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      integer*8 
+      integer*8
      .  I8STIF(3,MVSIZ),I8FX(3,MVSIZ),I8FY(3,MVSIZ),I8FZ(3,MVSIZ)
       INTEGER I,J1
       my_real
@@ -382,7 +382,7 @@ C
       CALL DOUBLE_FLOT_IEEE(1,JLT,FY1,FY1,I8FY)
       CALL DOUBLE_FLOT_IEEE(1,JLT,FZ1,FZ1,I8FZ)
       CALL DOUBLE_FLOT_IEEE(1,JLT,STIF1,STIF1,I8STIF)
-C     
+C
       DO I=1 ,JLT
         J1=IX1(I)
         I8A(1,1,J1)=I8A(1,1,J1) + I8FX(1,I)
@@ -406,7 +406,7 @@ C
       CALL DOUBLE_FLOT_IEEE(1,JLT,FY2,FY2,I8FY)
       CALL DOUBLE_FLOT_IEEE(1,JLT,FZ2,FZ2,I8FZ)
       CALL DOUBLE_FLOT_IEEE(1,JLT,STIF2,STIF2,I8STIF)
-C     
+C
       DO I=1 ,JLT
         J1=IX2(I)
         I8A(1,1,J1)=I8A(1,1,J1) + I8FX(1,I)
@@ -430,7 +430,7 @@ C
       CALL DOUBLE_FLOT_IEEE(1,JLT,FY3,FY3,I8FY)
       CALL DOUBLE_FLOT_IEEE(1,JLT,FZ3,FZ3,I8FZ)
       CALL DOUBLE_FLOT_IEEE(1,JLT,STIF3,STIF3,I8STIF)
-C     
+C
       DO I=1 ,JLT
         J1=IX3(I)
         I8A(1,1,J1)=I8A(1,1,J1) + I8FX(1,I)
@@ -454,7 +454,7 @@ C
       CALL DOUBLE_FLOT_IEEE(1,JLT,FY4,FY4,I8FY)
       CALL DOUBLE_FLOT_IEEE(1,JLT,FZ4,FZ4,I8FZ)
       CALL DOUBLE_FLOT_IEEE(1,JLT,STIF4,STIF4,I8STIF)
-C     
+C
       DO I=1 ,JLT
         J1=IX4(I)
         I8A(1,1,J1)=I8A(1,1,J1) + I8FX(1,I)
@@ -478,7 +478,7 @@ C
       CALL DOUBLE_FLOT_IEEE(1,JLT,FYI,FYI,I8FY)
       CALL DOUBLE_FLOT_IEEE(1,JLT,FZI,FZI,I8FZ)
       CALL DOUBLE_FLOT_IEEE(1,JLT,STIF,STIF,I8STIF)
-C     
+C
       DO I=1 ,JLT
         J1=NSVG(I)
         I8A(1,1,J1)=I8A(1,1,J1) - I8FX(1,I)
@@ -507,7 +507,7 @@ Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
 Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
 Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
 Chd|-- calls ---------------
-Chd|        DOUBLE_FLOT_IEEE              source/system/parit.F         
+Chd|        DOUBLE_FLOT_IEEE              source/system/parit.F
 Chd|====================================================================
       SUBROUTINE I7ASS35(JLT  ,IX1  ,IX2  ,IX3  ,IX4  ,
      2                  NSVG ,H1   ,H2   ,H3   ,H4   ,STIF ,
@@ -546,7 +546,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      integer*8 
+      integer*8
      .  I8STIF(3,MVSIZ),I8FX(3,MVSIZ),I8FY(3,MVSIZ),I8FZ(3,MVSIZ),
      .  I8VISC(3,MVSIZ)
       INTEGER I,J1
@@ -570,7 +570,7 @@ C
       CALL DOUBLE_FLOT_IEEE(1,JLT,FZ1,FZ1,I8FZ)
       CALL DOUBLE_FLOT_IEEE(1,JLT,STIF1,STIF1,I8STIF)
       CALL DOUBLE_FLOT_IEEE(1,JLT,VISC1,VISC1,I8VISC)
-C     
+C
       DO I=1 ,JLT
         J1=IX1(I)
         I8A(1,1,J1)=I8A(1,1,J1) + I8FX(1,I)
@@ -599,7 +599,7 @@ C
       CALL DOUBLE_FLOT_IEEE(1,JLT,FZ2,FZ2,I8FZ)
       CALL DOUBLE_FLOT_IEEE(1,JLT,STIF2,STIF2,I8STIF)
       CALL DOUBLE_FLOT_IEEE(1,JLT,VISC2,VISC2,I8VISC)
-C     
+C
       DO I=1 ,JLT
         J1=IX2(I)
         I8A(1,1,J1)=I8A(1,1,J1) + I8FX(1,I)
@@ -628,7 +628,7 @@ C
       CALL DOUBLE_FLOT_IEEE(1,JLT,FZ3,FZ3,I8FZ)
       CALL DOUBLE_FLOT_IEEE(1,JLT,STIF3,STIF3,I8STIF)
       CALL DOUBLE_FLOT_IEEE(1,JLT,VISC3,VISC3,I8VISC)
-C     
+C
       DO I=1 ,JLT
         J1=IX3(I)
         I8A(1,1,J1)=I8A(1,1,J1) + I8FX(1,I)
@@ -657,7 +657,7 @@ C
       CALL DOUBLE_FLOT_IEEE(1,JLT,FZ4,FZ4,I8FZ)
       CALL DOUBLE_FLOT_IEEE(1,JLT,STIF4,STIF4,I8STIF)
       CALL DOUBLE_FLOT_IEEE(1,JLT,VISC4,VISC4,I8VISC)
-C     
+C
       DO I=1 ,JLT
         J1=IX4(I)
         I8A(1,1,J1)=I8A(1,1,J1) + I8FX(1,I)
@@ -686,7 +686,7 @@ C
       CALL DOUBLE_FLOT_IEEE(1,JLT,FZI,FZI,I8FZ)
       CALL DOUBLE_FLOT_IEEE(1,JLT,KS,KS,I8STIF)
       CALL DOUBLE_FLOT_IEEE(1,JLT,CS,CS,I8VISC)
-C     
+C
       DO I=1 ,JLT
         J1=NSVG(I)
         I8A(1,1,J1)=I8A(1,1,J1) - I8FX(1,I)
@@ -723,7 +723,7 @@ Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
 Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
 Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I7ASS0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
@@ -774,122 +774,122 @@ C
       !---REACTION FORCE AGAINST LAGRANGIAN FACE
       !
       IF(INTTH == 0) THEN
-          DO I=1,JLT
-           J1=IX1(I)
-           A(1,J1)=A(1,J1)+FX1(I)
-           A(2,J1)=A(2,J1)+FY1(I)
-           A(3,J1)=A(3,J1)+FZ1(I)
-           STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H1(I))
+        DO I=1,JLT
+          J1=IX1(I)
+          A(1,J1)=A(1,J1)+FX1(I)
+          A(2,J1)=A(2,J1)+FY1(I)
+          A(3,J1)=A(3,J1)+FZ1(I)
+          STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H1(I))
 C
-           J1=IX2(I)
-           A(1,J1)=A(1,J1)+FX2(I)
-           A(2,J1)=A(2,J1)+FY2(I)
-           A(3,J1)=A(3,J1)+FZ2(I)
-           STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H2(I))
+          J1=IX2(I)
+          A(1,J1)=A(1,J1)+FX2(I)
+          A(2,J1)=A(2,J1)+FY2(I)
+          A(3,J1)=A(3,J1)+FZ2(I)
+          STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H2(I))
 C
-           J1=IX3(I)
-           A(1,J1)=A(1,J1)+FX3(I)
-           A(2,J1)=A(2,J1)+FY3(I)
-           A(3,J1)=A(3,J1)+FZ3(I)
-           STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H3(I))
+          J1=IX3(I)
+          A(1,J1)=A(1,J1)+FX3(I)
+          A(2,J1)=A(2,J1)+FY3(I)
+          A(3,J1)=A(3,J1)+FZ3(I)
+          STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H3(I))
 C
-           J1=IX4(I)
-           A(1,J1)=A(1,J1)+FX4(I)
-           A(2,J1)=A(2,J1)+FY4(I)
-           A(3,J1)=A(3,J1)+FZ4(I)
-           STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H4(I))
-         ENDDO
+          J1=IX4(I)
+          A(1,J1)=A(1,J1)+FX4(I)
+          A(2,J1)=A(2,J1)+FY4(I)
+          A(3,J1)=A(3,J1)+FZ4(I)
+          STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H4(I))
+        ENDDO
       ELSE
-         IF(NODADT_THERM == 1.AND.IFORM > 0 ) THEN  
-            DO I=1,JLT
-               J1=IX1(I)
-               A(1,J1)=A(1,J1)+FX1(I)
-               A(2,J1)=A(2,J1)+FY1(I)
-               A(3,J1)=A(3,J1)+FZ1(I)
-               STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H1(I))
-               FTHE(J1) = FTHE(J1) + PHI1(I)
-               CONDN(J1) = CONDN(J1) + CONDINT(I)*ABS(H1(I))
+        IF(NODADT_THERM == 1.AND.IFORM > 0 ) THEN
+          DO I=1,JLT
+            J1=IX1(I)
+            A(1,J1)=A(1,J1)+FX1(I)
+            A(2,J1)=A(2,J1)+FY1(I)
+            A(3,J1)=A(3,J1)+FZ1(I)
+            STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H1(I))
+            FTHE(J1) = FTHE(J1) + PHI1(I)
+            CONDN(J1) = CONDN(J1) + CONDINT(I)*ABS(H1(I))
 C
-               J1=IX2(I)
-               A(1,J1)=A(1,J1)+FX2(I)
-               A(2,J1)=A(2,J1)+FY2(I)
-               A(3,J1)=A(3,J1)+FZ2(I)
-               STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H2(I))
-               FTHE(J1) = FTHE(J1) + PHI2(I)
-               CONDN(J1) = CONDN(J1) + CONDINT(I)*ABS(H2(I))
+            J1=IX2(I)
+            A(1,J1)=A(1,J1)+FX2(I)
+            A(2,J1)=A(2,J1)+FY2(I)
+            A(3,J1)=A(3,J1)+FZ2(I)
+            STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H2(I))
+            FTHE(J1) = FTHE(J1) + PHI2(I)
+            CONDN(J1) = CONDN(J1) + CONDINT(I)*ABS(H2(I))
 C
-               J1=IX3(I)
-               A(1,J1)=A(1,J1)+FX3(I)
-               A(2,J1)=A(2,J1)+FY3(I)
-               A(3,J1)=A(3,J1)+FZ3(I)
-               STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H3(I))
-               FTHE(J1) = FTHE(J1) + PHI3(I)
-               CONDN(J1) = CONDN(J1) + CONDINT(I)*ABS(H3(I))
+            J1=IX3(I)
+            A(1,J1)=A(1,J1)+FX3(I)
+            A(2,J1)=A(2,J1)+FY3(I)
+            A(3,J1)=A(3,J1)+FZ3(I)
+            STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H3(I))
+            FTHE(J1) = FTHE(J1) + PHI3(I)
+            CONDN(J1) = CONDN(J1) + CONDINT(I)*ABS(H3(I))
 C
-               J1=IX4(I)
-               A(1,J1)=A(1,J1)+FX4(I)
-               A(2,J1)=A(2,J1)+FY4(I)
-               A(3,J1)=A(3,J1)+FZ4(I)
-               STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H4(I))
-               FTHE(J1) = FTHE(J1) + PHI4(I)
-               CONDN(J1) = CONDN(J1) + CONDINT(I)*ABS(H4(I))
-            ENDDO
-         ELSE
-            DO I=1,JLT
-               J1=IX1(I)
-               A(1,J1)=A(1,J1)+FX1(I)
-               A(2,J1)=A(2,J1)+FY1(I)
-               A(3,J1)=A(3,J1)+FZ1(I)
-               STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H1(I))
-               FTHE(J1) = FTHE(J1) + PHI1(I)
+            J1=IX4(I)
+            A(1,J1)=A(1,J1)+FX4(I)
+            A(2,J1)=A(2,J1)+FY4(I)
+            A(3,J1)=A(3,J1)+FZ4(I)
+            STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H4(I))
+            FTHE(J1) = FTHE(J1) + PHI4(I)
+            CONDN(J1) = CONDN(J1) + CONDINT(I)*ABS(H4(I))
+          ENDDO
+        ELSE
+          DO I=1,JLT
+            J1=IX1(I)
+            A(1,J1)=A(1,J1)+FX1(I)
+            A(2,J1)=A(2,J1)+FY1(I)
+            A(3,J1)=A(3,J1)+FZ1(I)
+            STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H1(I))
+            FTHE(J1) = FTHE(J1) + PHI1(I)
 C
-               J1=IX2(I)
-               A(1,J1)=A(1,J1)+FX2(I)
-               A(2,J1)=A(2,J1)+FY2(I)
-               A(3,J1)=A(3,J1)+FZ2(I)
-               STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H2(I))
-               FTHE(J1) = FTHE(J1) + PHI2(I)
+            J1=IX2(I)
+            A(1,J1)=A(1,J1)+FX2(I)
+            A(2,J1)=A(2,J1)+FY2(I)
+            A(3,J1)=A(3,J1)+FZ2(I)
+            STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H2(I))
+            FTHE(J1) = FTHE(J1) + PHI2(I)
 C
-               J1=IX3(I)
-               A(1,J1)=A(1,J1)+FX3(I)
-               A(2,J1)=A(2,J1)+FY3(I)
-               A(3,J1)=A(3,J1)+FZ3(I)
-               STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H3(I))
-               FTHE(J1) = FTHE(J1) + PHI3(I)
+            J1=IX3(I)
+            A(1,J1)=A(1,J1)+FX3(I)
+            A(2,J1)=A(2,J1)+FY3(I)
+            A(3,J1)=A(3,J1)+FZ3(I)
+            STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H3(I))
+            FTHE(J1) = FTHE(J1) + PHI3(I)
 C
-               J1=IX4(I)
-               A(1,J1)=A(1,J1)+FX4(I)
-               A(2,J1)=A(2,J1)+FY4(I)
-               A(3,J1)=A(3,J1)+FZ4(I)
-               STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H4(I))
-               FTHE(J1) = FTHE(J1) + PHI4(I)
-            ENDDO
-         ENDIF  
-      ENDIF 
+            J1=IX4(I)
+            A(1,J1)=A(1,J1)+FX4(I)
+            A(2,J1)=A(2,J1)+FY4(I)
+            A(3,J1)=A(3,J1)+FZ4(I)
+            STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H4(I))
+            FTHE(J1) = FTHE(J1) + PHI4(I)
+          ENDDO
+        ENDIF
+      ENDIF
 C
       !---FLUID REACTION FORCE
       !
       NODFI = NLSKYFI(NIN)
       ISHIFT = NODFI*(JTASK-1)
       IF(INTTH == 0 ) THEN
-         DO I=1,JLT
-           IG=NSVG(I)
-           IF(IG>0)THEN
-             A(1,IG)=A(1,IG)-FXI(I)
-             A(2,IG)=A(2,IG)-FYI(I)
-             A(3,IG)=A(3,IG)-FZI(I)
-             STIFN(IG) = STIFN(IG) + STIF(I)
-           ELSE
-             IG = -IG
-             AFI(NIN)%P(1,IG+ISHIFT)=AFI(NIN)%P(1,IG+ISHIFT)-FXI(I)
-             AFI(NIN)%P(2,IG+ISHIFT)=AFI(NIN)%P(2,IG+ISHIFT)-FYI(I)
-             AFI(NIN)%P(3,IG+ISHIFT)=AFI(NIN)%P(3,IG+ISHIFT)-FZI(I)
-             STNFI(NIN)%P(IG+ISHIFT)=STNFI(NIN)%P(IG+ISHIFT)+STIF(I)
+        DO I=1,JLT
+          IG=NSVG(I)
+          IF(IG>0)THEN
+            A(1,IG)=A(1,IG)-FXI(I)
+            A(2,IG)=A(2,IG)-FYI(I)
+            A(3,IG)=A(3,IG)-FZI(I)
+            STIFN(IG) = STIFN(IG) + STIF(I)
+          ELSE
+            IG = -IG
+            AFI(NIN)%P(1,IG+ISHIFT)=AFI(NIN)%P(1,IG+ISHIFT)-FXI(I)
+            AFI(NIN)%P(2,IG+ISHIFT)=AFI(NIN)%P(2,IG+ISHIFT)-FYI(I)
+            AFI(NIN)%P(3,IG+ISHIFT)=AFI(NIN)%P(3,IG+ISHIFT)-FZI(I)
+            STNFI(NIN)%P(IG+ISHIFT)=STNFI(NIN)%P(IG+ISHIFT)+STIF(I)
           ENDIF
-         ENDDO
-C       
-      ELSE 
-         IF(NODADT_THERM == 1 ) THEN  
+        ENDDO
+C
+      ELSE
+        IF(NODADT_THERM == 1 ) THEN
           DO I=1,JLT
             IG=NSVG(I)
             IF(IG>0)THEN
@@ -909,7 +909,7 @@ C
               CONDNFI(NIN)%P(IG+ISHIFT)=CONDNFI(NIN)%P(IG+ISHIFT) + CONDINT(I)
             ENDIF
           ENDDO
-         ELSE
+        ELSE
           DO I=1,JLT
             IG=NSVG(I)
             IF(IG>0)THEN
@@ -927,8 +927,8 @@ C
               FTHEFI(NIN)%P(IG+ISHIFT)= FTHEFI(NIN)%P(IG+ISHIFT) + PHI(I)
             ENDIF
           ENDDO
-         ENDIF 
-      ENDIF    
+        ENDIF
+      ENDIF
 C
       RETURN
       END
@@ -941,7 +941,7 @@ Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
 Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
 Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I7ASS05(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                   NSVG  ,H1   ,H2   ,H3   ,H4     ,
@@ -991,7 +991,38 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J1, IG,NODFI,ISHIFT
 C
-       IF(INTTH == 0) THEN
+      IF(INTTH == 0) THEN
+        DO I=1,JLT
+          J1=IX1(I)
+          A(1,J1)=A(1,J1)+FX1(I)
+          A(2,J1)=A(2,J1)+FY1(I)
+          A(3,J1)=A(3,J1)+FZ1(I)
+          STIFN(J1)= STIFN(J1)+K1(I)
+          VISCN(J1)=VISCN(J1)+C1(I)
+C
+          J1=IX2(I)
+          A(1,J1)=A(1,J1)+FX2(I)
+          A(2,J1)=A(2,J1)+FY2(I)
+          A(3,J1)=A(3,J1)+FZ2(I)
+          STIFN(J1)=STIFN(J1)+K2(I)
+          VISCN(J1)=VISCN(J1)+C2(I)
+C
+          J1=IX3(I)
+          A(1,J1)=A(1,J1)+FX3(I)
+          A(2,J1)=A(2,J1)+FY3(I)
+          A(3,J1)=A(3,J1)+FZ3(I)
+          STIFN(J1)=STIFN(J1)+K3(I)
+          VISCN(J1)=VISCN(J1)+C3(I)
+C
+          J1=IX4(I)
+          A(1,J1)=A(1,J1)+FX4(I)
+          A(2,J1)=A(2,J1)+FY4(I)
+          A(3,J1)=A(3,J1)+FZ4(I)
+          STIFN(J1)=STIFN(J1)+K4(I)
+          VISCN(J1)=VISCN(J1)+C4(I)
+        ENDDO
+      ELSE
+        IF(NODADT_THERM == 1 .AND.IFORM > 0) THEN
           DO I=1,JLT
             J1=IX1(I)
             A(1,J1)=A(1,J1)+FX1(I)
@@ -999,6 +1030,8 @@ C
             A(3,J1)=A(3,J1)+FZ1(I)
             STIFN(J1)= STIFN(J1)+K1(I)
             VISCN(J1)=VISCN(J1)+C1(I)
+            FTHE(J1)= FTHE(J1) +  PHI1(I)
+            CONDN(J1)= CONDN(J1) +  CONDINT(I)*ABS(H1(I))
 C
             J1=IX2(I)
             A(1,J1)=A(1,J1)+FX2(I)
@@ -1006,6 +1039,8 @@ C
             A(3,J1)=A(3,J1)+FZ2(I)
             STIFN(J1)=STIFN(J1)+K2(I)
             VISCN(J1)=VISCN(J1)+C2(I)
+            FTHE(J1)= FTHE(J1) +  PHI2(I)
+            CONDN(J1)= CONDN(J1) +  CONDINT(I)*ABS(H2(I))
 C
             J1=IX3(I)
             A(1,J1)=A(1,J1)+FX3(I)
@@ -1013,6 +1048,8 @@ C
             A(3,J1)=A(3,J1)+FZ3(I)
             STIFN(J1)=STIFN(J1)+K3(I)
             VISCN(J1)=VISCN(J1)+C3(I)
+            FTHE(J1)= FTHE(J1) +  PHI3(I)
+            CONDN(J1)= CONDN(J1) +  CONDINT(I)*ABS(H3(I))
 C
             J1=IX4(I)
             A(1,J1)=A(1,J1)+FX4(I)
@@ -1020,88 +1057,51 @@ C
             A(3,J1)=A(3,J1)+FZ4(I)
             STIFN(J1)=STIFN(J1)+K4(I)
             VISCN(J1)=VISCN(J1)+C4(I)
+            FTHE(J1)= FTHE(J1) +  PHI4(I)
+            CONDN(J1)= CONDN(J1) +  CONDINT(I)*ABS(H4(I))
           ENDDO
         ELSE
-          IF(NODADT_THERM == 1 .AND.IFORM > 0) THEN
-             DO I=1,JLT
-                J1=IX1(I)
-                A(1,J1)=A(1,J1)+FX1(I)
-                A(2,J1)=A(2,J1)+FY1(I)
-                A(3,J1)=A(3,J1)+FZ1(I)
-                STIFN(J1)= STIFN(J1)+K1(I)
-                VISCN(J1)=VISCN(J1)+C1(I)
-                FTHE(J1)= FTHE(J1) +  PHI1(I)
-                CONDN(J1)= CONDN(J1) +  CONDINT(I)*ABS(H1(I))
+          DO I=1,JLT
+            J1=IX1(I)
+            A(1,J1)=A(1,J1)+FX1(I)
+            A(2,J1)=A(2,J1)+FY1(I)
+            A(3,J1)=A(3,J1)+FZ1(I)
+            STIFN(J1)= STIFN(J1)+K1(I)
+            VISCN(J1)=VISCN(J1)+C1(I)
+            FTHE(J1)= FTHE(J1) +  PHI1(I)
 C
-                J1=IX2(I)
-                A(1,J1)=A(1,J1)+FX2(I)
-                A(2,J1)=A(2,J1)+FY2(I)
-                A(3,J1)=A(3,J1)+FZ2(I)
-                STIFN(J1)=STIFN(J1)+K2(I)
-                VISCN(J1)=VISCN(J1)+C2(I)
-                FTHE(J1)= FTHE(J1) +  PHI2(I)
-                CONDN(J1)= CONDN(J1) +  CONDINT(I)*ABS(H2(I))
+            J1=IX2(I)
+            A(1,J1)=A(1,J1)+FX2(I)
+            A(2,J1)=A(2,J1)+FY2(I)
+            A(3,J1)=A(3,J1)+FZ2(I)
+            STIFN(J1)=STIFN(J1)+K2(I)
+            VISCN(J1)=VISCN(J1)+C2(I)
+            FTHE(J1)= FTHE(J1) +  PHI2(I)
 C
-                J1=IX3(I)
-                A(1,J1)=A(1,J1)+FX3(I)
-                A(2,J1)=A(2,J1)+FY3(I)
-                A(3,J1)=A(3,J1)+FZ3(I)
-                STIFN(J1)=STIFN(J1)+K3(I)
-                VISCN(J1)=VISCN(J1)+C3(I)
-                FTHE(J1)= FTHE(J1) +  PHI3(I)
-                CONDN(J1)= CONDN(J1) +  CONDINT(I)*ABS(H3(I))
+            J1=IX3(I)
+            A(1,J1)=A(1,J1)+FX3(I)
+            A(2,J1)=A(2,J1)+FY3(I)
+            A(3,J1)=A(3,J1)+FZ3(I)
+            STIFN(J1)=STIFN(J1)+K3(I)
+            VISCN(J1)=VISCN(J1)+C3(I)
+            FTHE(J1)= FTHE(J1) +  PHI3(I)
 C
-                J1=IX4(I)
-                A(1,J1)=A(1,J1)+FX4(I)
-                A(2,J1)=A(2,J1)+FY4(I)
-                A(3,J1)=A(3,J1)+FZ4(I)
-                STIFN(J1)=STIFN(J1)+K4(I)
-                VISCN(J1)=VISCN(J1)+C4(I)
-                FTHE(J1)= FTHE(J1) +  PHI4(I)
-                CONDN(J1)= CONDN(J1) +  CONDINT(I)*ABS(H4(I))
-             ENDDO 
-           ELSE
-             DO I=1,JLT
-                J1=IX1(I)
-                A(1,J1)=A(1,J1)+FX1(I)
-                A(2,J1)=A(2,J1)+FY1(I)
-                A(3,J1)=A(3,J1)+FZ1(I)
-                STIFN(J1)= STIFN(J1)+K1(I)
-                VISCN(J1)=VISCN(J1)+C1(I)
-                FTHE(J1)= FTHE(J1) +  PHI1(I)
-C
-                J1=IX2(I)
-                A(1,J1)=A(1,J1)+FX2(I)
-                A(2,J1)=A(2,J1)+FY2(I)
-                A(3,J1)=A(3,J1)+FZ2(I)
-                STIFN(J1)=STIFN(J1)+K2(I)
-                VISCN(J1)=VISCN(J1)+C2(I)
-                FTHE(J1)= FTHE(J1) +  PHI2(I)
-C
-                J1=IX3(I)
-                A(1,J1)=A(1,J1)+FX3(I)
-                A(2,J1)=A(2,J1)+FY3(I)
-                A(3,J1)=A(3,J1)+FZ3(I)
-                STIFN(J1)=STIFN(J1)+K3(I)
-                VISCN(J1)=VISCN(J1)+C3(I)
-                FTHE(J1)= FTHE(J1) +  PHI3(I)
-C
-                J1=IX4(I)
-                A(1,J1)=A(1,J1)+FX4(I)
-                A(2,J1)=A(2,J1)+FY4(I)
-                A(3,J1)=A(3,J1)+FZ4(I)
-                STIFN(J1)=STIFN(J1)+K4(I)
-                VISCN(J1)=VISCN(J1)+C4(I)
-                FTHE(J1)= FTHE(J1) +  PHI4(I)
-             ENDDO 
+            J1=IX4(I)
+            A(1,J1)=A(1,J1)+FX4(I)
+            A(2,J1)=A(2,J1)+FY4(I)
+            A(3,J1)=A(3,J1)+FZ4(I)
+            STIFN(J1)=STIFN(J1)+K4(I)
+            VISCN(J1)=VISCN(J1)+C4(I)
+            FTHE(J1)= FTHE(J1) +  PHI4(I)
+          ENDDO
 
-           ENDIF
-        ENDIF  
+        ENDIF
+      ENDIF
 C
       NODFI = NLSKYFI(NIN)
       ISHIFT = NODFI*(JTASK-1)
 C
-      IF(INTTH == 0) THEN     
+      IF(INTTH == 0) THEN
         DO I=1,JLT
           IG=NSVG(I)
           IF(IG>0)THEN
@@ -1118,7 +1118,7 @@ C
             STNFI(NIN)%P(IG+ISHIFT)=STNFI(NIN)%P(IG+ISHIFT)+KS(I)
             VSCFI(NIN)%P(IG+ISHIFT)=VSCFI(NIN)%P(IG+ISHIFT)+CS(I)
           ENDIF
-        ENDDO 
+        ENDDO
       ELSE
         DO I=1,JLT
           IG=NSVG(I)
@@ -1138,7 +1138,7 @@ C
             VSCFI(NIN)%P(IG+ISHIFT)=VSCFI(NIN)%P(IG+ISHIFT)+CS(I)
             FTHEFI(NIN)%P(IG+ISHIFT)=FTHEFI(NIN)%P(IG+ISHIFT) + PHI(I)
           ENDIF
-        ENDDO 
+        ENDDO
       ENDIF
 C
       RETURN
@@ -1155,9 +1155,9 @@ Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
 Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
+Chd|        ARRET                         source/system/arret.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I7ASS2(JLT   ,IX1   ,IX2  ,IX3  ,IX4   ,
      2                  NSVG  ,H1    ,H2   ,H3   ,H4    ,STIF   ,
@@ -1166,7 +1166,7 @@ Chd|====================================================================
      5                  FXI   ,FYI   ,FZI  ,FSKYI,ISKY  ,NISKYFI,
      6                  NIN   ,NOINT ,INTTH,PHI  ,FTHESKYI,PHI1,
      7                  PHI2  ,PHI3 , PHI4 ,CONDNSKYI,CONDINT,
-     A                  IFORM )     
+     A                  IFORM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1249,8 +1249,8 @@ C
 #include "lockoff.inc"
 C
       IF (NISKYL+NISKYL1+IGP > LSKYI) THEN
-         CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
-         CALL ARRET(2)
+        CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
+        CALL ARRET(2)
       ENDIF
       IF (NISKYFIL+IGM > NLSKYFI(NIN)) THEN
         CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
@@ -1274,7 +1274,7 @@ C
             FSKYI(NISKYL,2)=FY2(I)
             FSKYI(NISKYL,3)=FZ2(I)
             FSKYI(NISKYL,4)=STIF(I)*ABS(H2(I))
-            ISKY(NISKYL) = IX2(I)  
+            ISKY(NISKYL) = IX2(I)
           ENDIF
         ENDDO
         DO I=1,JLT
@@ -1306,7 +1306,7 @@ C
             FSKYI(NISKYL,2)=-FYI(I)
             FSKYI(NISKYL,3)=-FZI(I)
             FSKYI(NISKYL,4)= STIF(I)
-            ISKY(NISKYL) = IG 
+            ISKY(NISKYL) = IG
           ELSE
             IG = -IG
             NISKYFIL = NISKYFIL + 1
@@ -1315,153 +1315,153 @@ C
             FSKYFI(NIN)%P(3,NISKYFIL)=-FZI(I)
             FSKYFI(NIN)%P(4,NISKYFIL)= STIF(I)
             ISKYFI(NIN)%P(NISKYFIL) = IG
-          ENDIF  
+          ENDIF
         ENDDO
 C Thermique
       ELSE
         IF(NODADT_THERM == 1 .AND.IFORM > 0) THEN
-           DO I=1,JLT
-              IF (H1(I)/=0.) THEN
-                NISKYL = NISKYL + 1
-                FSKYI(NISKYL,1)=FX1(I)
-                FSKYI(NISKYL,2)=FY1(I)
-                FSKYI(NISKYL,3)=FZ1(I)
-                FSKYI(NISKYL,4)=STIF(I)*ABS(H1(I))
-                ISKY(NISKYL) = IX1(I)
-                FTHESKYI(NISKYL) = PHI1(I)
-                CONDNSKYI(NISKYL)=CONDINT(I)*ABS(H1(I))
-              ENDIF
-           ENDDO
-           DO I=1,JLT
-              IF (H2(I)/=ZERO) THEN
-                NISKYL = NISKYL + 1
-                FSKYI(NISKYL,1)=FX2(I)
-                FSKYI(NISKYL,2)=FY2(I)
-                FSKYI(NISKYL,3)=FZ2(I)
-                FSKYI(NISKYL,4)=STIF(I)*ABS(H2(I))
-                ISKY(NISKYL) = IX2(I)
-                FTHESKYI(NISKYL) = PHI2(I)     
-                CONDNSKYI(NISKYL)=CONDINT(I)*ABS(H2(I))     
-              ENDIF
-           ENDDO
-           DO I=1,JLT
-              IF (H3(I)/=ZERO) THEN
-                NISKYL = NISKYL + 1
-                FSKYI(NISKYL,1)=FX3(I)
-                FSKYI(NISKYL,2)=FY3(I)
-                FSKYI(NISKYL,3)=FZ3(I)
-                FSKYI(NISKYL,4)=STIF(I)*ABS(H3(I))
-                ISKY(NISKYL) = IX3(I)
-                FTHESKYI(NISKYL) = PHI3(I)
-                CONDNSKYI(NISKYL)=CONDINT(I)*ABS(H3(I))
-              ENDIF
-           ENDDO
-           DO I=1,JLT
-              IF (H4(I)/=ZERO) THEN
-                NISKYL = NISKYL + 1
-                FSKYI(NISKYL,1)=FX4(I)
-                FSKYI(NISKYL,2)=FY4(I)
-                FSKYI(NISKYL,3)=FZ4(I)
-                FSKYI(NISKYL,4)=STIF(I)*ABS(H4(I))
-                ISKY(NISKYL) = IX4(I)
-                FTHESKYI(NISKYL) = PHI4(I)
-                CONDNSKYI(NISKYL)=CONDINT(I)*ABS(H4(I))
-              ENDIF
-           ENDDO  
+          DO I=1,JLT
+            IF (H1(I)/=0.) THEN
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=FX1(I)
+              FSKYI(NISKYL,2)=FY1(I)
+              FSKYI(NISKYL,3)=FZ1(I)
+              FSKYI(NISKYL,4)=STIF(I)*ABS(H1(I))
+              ISKY(NISKYL) = IX1(I)
+              FTHESKYI(NISKYL) = PHI1(I)
+              CONDNSKYI(NISKYL)=CONDINT(I)*ABS(H1(I))
+            ENDIF
+          ENDDO
+          DO I=1,JLT
+            IF (H2(I)/=ZERO) THEN
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=FX2(I)
+              FSKYI(NISKYL,2)=FY2(I)
+              FSKYI(NISKYL,3)=FZ2(I)
+              FSKYI(NISKYL,4)=STIF(I)*ABS(H2(I))
+              ISKY(NISKYL) = IX2(I)
+              FTHESKYI(NISKYL) = PHI2(I)
+              CONDNSKYI(NISKYL)=CONDINT(I)*ABS(H2(I))
+            ENDIF
+          ENDDO
+          DO I=1,JLT
+            IF (H3(I)/=ZERO) THEN
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=FX3(I)
+              FSKYI(NISKYL,2)=FY3(I)
+              FSKYI(NISKYL,3)=FZ3(I)
+              FSKYI(NISKYL,4)=STIF(I)*ABS(H3(I))
+              ISKY(NISKYL) = IX3(I)
+              FTHESKYI(NISKYL) = PHI3(I)
+              CONDNSKYI(NISKYL)=CONDINT(I)*ABS(H3(I))
+            ENDIF
+          ENDDO
+          DO I=1,JLT
+            IF (H4(I)/=ZERO) THEN
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=FX4(I)
+              FSKYI(NISKYL,2)=FY4(I)
+              FSKYI(NISKYL,3)=FZ4(I)
+              FSKYI(NISKYL,4)=STIF(I)*ABS(H4(I))
+              ISKY(NISKYL) = IX4(I)
+              FTHESKYI(NISKYL) = PHI4(I)
+              CONDNSKYI(NISKYL)=CONDINT(I)*ABS(H4(I))
+            ENDIF
+          ENDDO
         ELSE
-           DO I=1,JLT
-              IF (H1(I)/=0.) THEN
-                NISKYL = NISKYL + 1
-                FSKYI(NISKYL,1)=FX1(I)
-                FSKYI(NISKYL,2)=FY1(I)
-                FSKYI(NISKYL,3)=FZ1(I)
-                FSKYI(NISKYL,4)=STIF(I)*ABS(H1(I))
-                ISKY(NISKYL) = IX1(I)
-                FTHESKYI(NISKYL) = PHI1(I)
-              ENDIF
-           ENDDO
-           DO I=1,JLT
-              IF (H2(I)/=ZERO) THEN
-                NISKYL = NISKYL + 1
-                FSKYI(NISKYL,1)=FX2(I)
-                FSKYI(NISKYL,2)=FY2(I)
-                FSKYI(NISKYL,3)=FZ2(I)
-                FSKYI(NISKYL,4)=STIF(I)*ABS(H2(I))
-                ISKY(NISKYL) = IX2(I)
-               FTHESKYI(NISKYL) = PHI2(I)          
-              ENDIF
-           ENDDO
-           DO I=1,JLT
-              IF (H3(I)/=ZERO) THEN
-                NISKYL = NISKYL + 1
-                FSKYI(NISKYL,1)=FX3(I)
-                FSKYI(NISKYL,2)=FY3(I)
-                FSKYI(NISKYL,3)=FZ3(I)
-                FSKYI(NISKYL,4)=STIF(I)*ABS(H3(I))
-                ISKY(NISKYL) = IX3(I)
-                FTHESKYI(NISKYL) = PHI3(I)
-              ENDIF
-           ENDDO
-           DO I=1,JLT
-              IF (H4(I)/=ZERO) THEN
-                NISKYL = NISKYL + 1
-                FSKYI(NISKYL,1)=FX4(I)
-                FSKYI(NISKYL,2)=FY4(I)
-                FSKYI(NISKYL,3)=FZ4(I)
-                FSKYI(NISKYL,4)=STIF(I)*ABS(H4(I))
-                ISKY(NISKYL) = IX4(I)
-                FTHESKYI(NISKYL) = PHI4(I)
-              ENDIF
-           ENDDO 
-        ENDIF    
+          DO I=1,JLT
+            IF (H1(I)/=0.) THEN
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=FX1(I)
+              FSKYI(NISKYL,2)=FY1(I)
+              FSKYI(NISKYL,3)=FZ1(I)
+              FSKYI(NISKYL,4)=STIF(I)*ABS(H1(I))
+              ISKY(NISKYL) = IX1(I)
+              FTHESKYI(NISKYL) = PHI1(I)
+            ENDIF
+          ENDDO
+          DO I=1,JLT
+            IF (H2(I)/=ZERO) THEN
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=FX2(I)
+              FSKYI(NISKYL,2)=FY2(I)
+              FSKYI(NISKYL,3)=FZ2(I)
+              FSKYI(NISKYL,4)=STIF(I)*ABS(H2(I))
+              ISKY(NISKYL) = IX2(I)
+              FTHESKYI(NISKYL) = PHI2(I)
+            ENDIF
+          ENDDO
+          DO I=1,JLT
+            IF (H3(I)/=ZERO) THEN
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=FX3(I)
+              FSKYI(NISKYL,2)=FY3(I)
+              FSKYI(NISKYL,3)=FZ3(I)
+              FSKYI(NISKYL,4)=STIF(I)*ABS(H3(I))
+              ISKY(NISKYL) = IX3(I)
+              FTHESKYI(NISKYL) = PHI3(I)
+            ENDIF
+          ENDDO
+          DO I=1,JLT
+            IF (H4(I)/=ZERO) THEN
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=FX4(I)
+              FSKYI(NISKYL,2)=FY4(I)
+              FSKYI(NISKYL,3)=FZ4(I)
+              FSKYI(NISKYL,4)=STIF(I)*ABS(H4(I))
+              ISKY(NISKYL) = IX4(I)
+              FTHESKYI(NISKYL) = PHI4(I)
+            ENDIF
+          ENDDO
+        ENDIF
 C
         IF(NODADT_THERM == 1) THEN
-         DO I=1,JLT
-           IG =NSVG(I)
-           IF(IG>0) THEN
-             NISKYL = NISKYL + 1
-             FSKYI(NISKYL,1)=-FXI(I)
-             FSKYI(NISKYL,2)=-FYI(I)
-             FSKYI(NISKYL,3)=-FZI(I)
-             FSKYI(NISKYL,4)= STIF(I)
-             ISKY(NISKYL) = IG
-             FTHESKYI(NISKYL)=PHI(I)
-             CONDNSKYI(NISKYL)=CONDINT(I)
-           ELSE
-             IG = -IG
-             NISKYFIL = NISKYFIL + 1
-             FSKYFI(NIN)%P(1,NISKYFIL)=-FXI(I)
-             FSKYFI(NIN)%P(2,NISKYFIL)=-FYI(I)
-             FSKYFI(NIN)%P(3,NISKYFIL)=-FZI(I)
-             FSKYFI(NIN)%P(4,NISKYFIL)= STIF(I)
-             ISKYFI(NIN)%P(NISKYFIL) = IG
-             FTHESKYFI(NIN)%P(NISKYFIL)=PHI(I)
-             CONDNSKYFI(NIN)%P(NISKYFIL)=CONDINT(I)
-           ENDIF  
-         ENDDO
+          DO I=1,JLT
+            IG =NSVG(I)
+            IF(IG>0) THEN
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=-FXI(I)
+              FSKYI(NISKYL,2)=-FYI(I)
+              FSKYI(NISKYL,3)=-FZI(I)
+              FSKYI(NISKYL,4)= STIF(I)
+              ISKY(NISKYL) = IG
+              FTHESKYI(NISKYL)=PHI(I)
+              CONDNSKYI(NISKYL)=CONDINT(I)
+            ELSE
+              IG = -IG
+              NISKYFIL = NISKYFIL + 1
+              FSKYFI(NIN)%P(1,NISKYFIL)=-FXI(I)
+              FSKYFI(NIN)%P(2,NISKYFIL)=-FYI(I)
+              FSKYFI(NIN)%P(3,NISKYFIL)=-FZI(I)
+              FSKYFI(NIN)%P(4,NISKYFIL)= STIF(I)
+              ISKYFI(NIN)%P(NISKYFIL) = IG
+              FTHESKYFI(NIN)%P(NISKYFIL)=PHI(I)
+              CONDNSKYFI(NIN)%P(NISKYFIL)=CONDINT(I)
+            ENDIF
+          ENDDO
         ELSE
-         DO I=1,JLT
-          IG =NSVG(I)
-          IF(IG>0) THEN
-            NISKYL = NISKYL + 1
-            FSKYI(NISKYL,1)=-FXI(I)
-            FSKYI(NISKYL,2)=-FYI(I)
-            FSKYI(NISKYL,3)=-FZI(I)
-            FSKYI(NISKYL,4)= STIF(I)
-            ISKY(NISKYL) = IG
-            FTHESKYI(NISKYL)=PHI(I)
-          ELSE
-            IG = -IG
-            NISKYFIL = NISKYFIL + 1
-            FSKYFI(NIN)%P(1,NISKYFIL)=-FXI(I)
-            FSKYFI(NIN)%P(2,NISKYFIL)=-FYI(I)
-            FSKYFI(NIN)%P(3,NISKYFIL)=-FZI(I)
-            FSKYFI(NIN)%P(4,NISKYFIL)= STIF(I)
-            ISKYFI(NIN)%P(NISKYFIL) = IG
-            FTHESKYFI(NIN)%P(NISKYFIL)=PHI(I)
-          ENDIF  
-         ENDDO 
-        ENDIF             
+          DO I=1,JLT
+            IG =NSVG(I)
+            IF(IG>0) THEN
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=-FXI(I)
+              FSKYI(NISKYL,2)=-FYI(I)
+              FSKYI(NISKYL,3)=-FZI(I)
+              FSKYI(NISKYL,4)= STIF(I)
+              ISKY(NISKYL) = IG
+              FTHESKYI(NISKYL)=PHI(I)
+            ELSE
+              IG = -IG
+              NISKYFIL = NISKYFIL + 1
+              FSKYFI(NIN)%P(1,NISKYFIL)=-FXI(I)
+              FSKYFI(NIN)%P(2,NISKYFIL)=-FYI(I)
+              FSKYFI(NIN)%P(3,NISKYFIL)=-FZI(I)
+              FSKYFI(NIN)%P(4,NISKYFIL)= STIF(I)
+              ISKYFI(NIN)%P(NISKYFIL) = IG
+              FTHESKYFI(NIN)%P(NISKYFIL)=PHI(I)
+            ENDIF
+          ENDDO
+        ENDIF
       ENDIF
 C
 !#include "lockon.inc"
@@ -1473,7 +1473,7 @@ C
 !        WRITE(914,'(1X,I5,I5,3(1X,Z20))')I,IX4(I),FX4(I),FY4(I),FZ4(I)
 !      enddo
 !#include "lockoff.inc"
-C    
+C
       RETURN
       END
 C
@@ -1487,9 +1487,9 @@ Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
 Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
+Chd|        ARRET                         source/system/arret.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I7ASS25(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                   NSVG  ,H1   ,H2   ,H3   ,H4     ,
@@ -1498,7 +1498,7 @@ Chd|====================================================================
      5                   FXI   ,FYI  ,FZI  ,FSKYI,NISKYFI,NIN   ,
      6                   KS    ,K1   ,K2   ,K3   ,K4     ,CS    ,
      7                   C1    ,C2   ,C3   ,C4   ,ISKY   ,NOINT ,
-     8                   INTTH ,PHI  ,FTHESKYI   ,PHI1   ,PHI2  ,  
+     8                   INTTH ,PHI  ,FTHESKYI   ,PHI1   ,PHI2  ,
      9                   PHI3  ,PHI4 ,CONDNSKYI  ,CONDINT,IFORM )
 C-----------------------------------------------
 C   M o d u l e s
@@ -1580,8 +1580,8 @@ C
 #include "lockoff.inc"
 C
       IF (NISKYL+NISKYL1+IGP > LSKYI) THEN
-         CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
-         CALL ARRET(2)
+        CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
+        CALL ARRET(2)
       ENDIF
       IF (NISKYFIL+IGM > NLSKYFI(NIN)) THEN
         CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
@@ -1620,7 +1620,7 @@ Cs
             FSKYI(NISKYL,3)=FZ3(I)
             FSKYI(NISKYL,4)=K3(I)
             FSKYI(NISKYL,5)=C3(I)
-            ISKY(NISKYL) = IX3(I)        
+            ISKY(NISKYL) = IX3(I)
           ENDIF
         ENDDO
         DO I=1,JLT
@@ -1652,49 +1652,49 @@ Cs
             FSKYFI(NIN)%P(3,NISKYFIL)=-FZI(I)
             FSKYFI(NIN)%P(4,NISKYFIL)= KS(I)
             FSKYFI(NIN)%P(5,NISKYFIL)= CS(I)
-            ISKYFI(NIN)%P(NISKYFIL) = IG           
-          ENDIF  
-        ENDDO               
-C + la thermique 
+            ISKYFI(NIN)%P(NISKYFIL) = IG
+          ENDIF
+        ENDDO
+C + la thermique
       ELSE
         IF(NODADT_THERM == 1 .AND.IFORM > 0) THEN
           DO I=1,JLT
             IF (H1(I)/=0.) THEN
-               NISKYL = NISKYL + 1
-               FSKYI(NISKYL,1)=FX1(I)
-               FSKYI(NISKYL,2)=FY1(I)
-               FSKYI(NISKYL,3)=FZ1(I)
-               FSKYI(NISKYL,4)=K1(I)
-               FSKYI(NISKYL,5)=C1(I)
-               ISKY(NISKYL) = IX1(I)
-               FTHESKYI(NISKYL) = PHI1(I)
-               CONDNSKYI(NISKYL) = CONDINT(I)*ABS(H1(I))
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=FX1(I)
+              FSKYI(NISKYL,2)=FY1(I)
+              FSKYI(NISKYL,3)=FZ1(I)
+              FSKYI(NISKYL,4)=K1(I)
+              FSKYI(NISKYL,5)=C1(I)
+              ISKY(NISKYL) = IX1(I)
+              FTHESKYI(NISKYL) = PHI1(I)
+              CONDNSKYI(NISKYL) = CONDINT(I)*ABS(H1(I))
             ENDIF
           ENDDO
           DO I=1,JLT
             IF (H2(I)/=ZERO) THEN
-               NISKYL = NISKYL + 1
-               FSKYI(NISKYL,1)=FX2(I)
-               FSKYI(NISKYL,2)=FY2(I)
-               FSKYI(NISKYL,3)=FZ2(I)
-               FSKYI(NISKYL,4)=K2(I)
-               FSKYI(NISKYL,5)=C2(I)
-               ISKY(NISKYL) = IX2(I)
-               FTHESKYI(NISKYL) = PHI2(I)
-               CONDNSKYI(NISKYL) = CONDINT(I)*ABS(H2(I))
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=FX2(I)
+              FSKYI(NISKYL,2)=FY2(I)
+              FSKYI(NISKYL,3)=FZ2(I)
+              FSKYI(NISKYL,4)=K2(I)
+              FSKYI(NISKYL,5)=C2(I)
+              ISKY(NISKYL) = IX2(I)
+              FTHESKYI(NISKYL) = PHI2(I)
+              CONDNSKYI(NISKYL) = CONDINT(I)*ABS(H2(I))
             ENDIF
           ENDDO
           DO I=1,JLT
             IF (H3(I)/=ZERO) THEN
-               NISKYL = NISKYL + 1
-               FSKYI(NISKYL,1)=FX3(I)
-               FSKYI(NISKYL,2)=FY3(I)
-               FSKYI(NISKYL,3)=FZ3(I)
-               FSKYI(NISKYL,4)=K3(I)
-               FSKYI(NISKYL,5)=C3(I)
-               ISKY(NISKYL) = IX3(I)
-               FTHESKYI(NISKYL) = PHI3(I)   
-               CONDNSKYI(NISKYL) = CONDINT(I)*ABS(H3(I))       
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=FX3(I)
+              FSKYI(NISKYL,2)=FY3(I)
+              FSKYI(NISKYL,3)=FZ3(I)
+              FSKYI(NISKYL,4)=K3(I)
+              FSKYI(NISKYL,5)=C3(I)
+              ISKY(NISKYL) = IX3(I)
+              FTHESKYI(NISKYL) = PHI3(I)
+              CONDNSKYI(NISKYL) = CONDINT(I)*ABS(H3(I))
             ENDIF
           ENDDO
           DO I=1,JLT
@@ -1713,38 +1713,38 @@ C + la thermique
         ELSE
           DO I=1,JLT
             IF (H1(I)/=0.) THEN
-               NISKYL = NISKYL + 1
-               FSKYI(NISKYL,1)=FX1(I)
-               FSKYI(NISKYL,2)=FY1(I)
-               FSKYI(NISKYL,3)=FZ1(I)
-               FSKYI(NISKYL,4)=K1(I)
-               FSKYI(NISKYL,5)=C1(I)
-               ISKY(NISKYL) = IX1(I)
-               FTHESKYI(NISKYL) = PHI1(I)
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=FX1(I)
+              FSKYI(NISKYL,2)=FY1(I)
+              FSKYI(NISKYL,3)=FZ1(I)
+              FSKYI(NISKYL,4)=K1(I)
+              FSKYI(NISKYL,5)=C1(I)
+              ISKY(NISKYL) = IX1(I)
+              FTHESKYI(NISKYL) = PHI1(I)
             ENDIF
           ENDDO
           DO I=1,JLT
             IF (H2(I)/=ZERO) THEN
-               NISKYL = NISKYL + 1
-               FSKYI(NISKYL,1)=FX2(I)
-               FSKYI(NISKYL,2)=FY2(I)
-               FSKYI(NISKYL,3)=FZ2(I)
-               FSKYI(NISKYL,4)=K2(I)
-               FSKYI(NISKYL,5)=C2(I)
-               ISKY(NISKYL) = IX2(I)
-               FTHESKYI(NISKYL) = PHI2(I)
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=FX2(I)
+              FSKYI(NISKYL,2)=FY2(I)
+              FSKYI(NISKYL,3)=FZ2(I)
+              FSKYI(NISKYL,4)=K2(I)
+              FSKYI(NISKYL,5)=C2(I)
+              ISKY(NISKYL) = IX2(I)
+              FTHESKYI(NISKYL) = PHI2(I)
             ENDIF
           ENDDO
           DO I=1,JLT
             IF (H3(I)/=ZERO) THEN
-               NISKYL = NISKYL + 1
-               FSKYI(NISKYL,1)=FX3(I)
-               FSKYI(NISKYL,2)=FY3(I)
-               FSKYI(NISKYL,3)=FZ3(I)
-               FSKYI(NISKYL,4)=K3(I)
-               FSKYI(NISKYL,5)=C3(I)
-               ISKY(NISKYL) = IX3(I)
-               FTHESKYI(NISKYL) = PHI3(I)          
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=FX3(I)
+              FSKYI(NISKYL,2)=FY3(I)
+              FSKYI(NISKYL,3)=FZ3(I)
+              FSKYI(NISKYL,4)=K3(I)
+              FSKYI(NISKYL,5)=C3(I)
+              ISKY(NISKYL) = IX3(I)
+              FTHESKYI(NISKYL) = PHI3(I)
             ENDIF
           ENDDO
           DO I=1,JLT
@@ -1763,69 +1763,68 @@ C + la thermique
 C
         IF(NODADT_THERM == 1 ) THEN
           DO I=1,JLT
-             IG = NSVG(I)
-             IF(IG>0) THEN
-               NISKYL = NISKYL + 1
-               FSKYI(NISKYL,1)=-FXI(I)
-               FSKYI(NISKYL,2)=-FYI(I)
-               FSKYI(NISKYL,3)=-FZI(I)
-               FSKYI(NISKYL,4)= KS(I)
-               FSKYI(NISKYL,5)= CS(I)
-               ISKY(NISKYL) = IG
-               FTHESKYI(NISKYL)=PHI(I)
-               CONDNSKYI(NISKYL)=CONDINT(I)
-             ELSE
-               IG = -IG
-               NISKYFIL = NISKYFIL + 1
-               FSKYFI(NIN)%P(1,NISKYFIL)=-FXI(I)
-               FSKYFI(NIN)%P(2,NISKYFIL)=-FYI(I)
-               FSKYFI(NIN)%P(3,NISKYFIL)=-FZI(I)
-               FSKYFI(NIN)%P(4,NISKYFIL)= KS(I)
-               FSKYFI(NIN)%P(5,NISKYFIL)= CS(I)
-               ISKYFI(NIN)%P(NISKYFIL) = IG
-               FTHESKYFI(NIN)%P(NISKYFIL) =PHI(I) 
-               CONDNSKYFI(NIN)%P(NISKYFIL) =CONDINT(I)           
-             ENDIF  
-         ENDDO 
+            IG = NSVG(I)
+            IF(IG>0) THEN
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=-FXI(I)
+              FSKYI(NISKYL,2)=-FYI(I)
+              FSKYI(NISKYL,3)=-FZI(I)
+              FSKYI(NISKYL,4)= KS(I)
+              FSKYI(NISKYL,5)= CS(I)
+              ISKY(NISKYL) = IG
+              FTHESKYI(NISKYL)=PHI(I)
+              CONDNSKYI(NISKYL)=CONDINT(I)
+            ELSE
+              IG = -IG
+              NISKYFIL = NISKYFIL + 1
+              FSKYFI(NIN)%P(1,NISKYFIL)=-FXI(I)
+              FSKYFI(NIN)%P(2,NISKYFIL)=-FYI(I)
+              FSKYFI(NIN)%P(3,NISKYFIL)=-FZI(I)
+              FSKYFI(NIN)%P(4,NISKYFIL)= KS(I)
+              FSKYFI(NIN)%P(5,NISKYFIL)= CS(I)
+              ISKYFI(NIN)%P(NISKYFIL) = IG
+              FTHESKYFI(NIN)%P(NISKYFIL) =PHI(I)
+              CONDNSKYFI(NIN)%P(NISKYFIL) =CONDINT(I)
+            ENDIF
+          ENDDO
         ELSE
           DO I=1,JLT
-             IG = NSVG(I)
-             IF(IG>0) THEN
-               NISKYL = NISKYL + 1
-               FSKYI(NISKYL,1)=-FXI(I)
-               FSKYI(NISKYL,2)=-FYI(I)
-               FSKYI(NISKYL,3)=-FZI(I)
-               FSKYI(NISKYL,4)= KS(I)
-               FSKYI(NISKYL,5)= CS(I)
-               ISKY(NISKYL) = IG
-               FTHESKYI(NISKYL)=PHI(I)
-             ELSE
-               IG = -IG
-               NISKYFIL = NISKYFIL + 1
-               FSKYFI(NIN)%P(1,NISKYFIL)=-FXI(I)
-               FSKYFI(NIN)%P(2,NISKYFIL)=-FYI(I)
-               FSKYFI(NIN)%P(3,NISKYFIL)=-FZI(I)
-               FSKYFI(NIN)%P(4,NISKYFIL)= KS(I)
-               FSKYFI(NIN)%P(5,NISKYFIL)= CS(I)
-               ISKYFI(NIN)%P(NISKYFIL) = IG
-               FTHESKYFI(NIN)%P(NISKYFIL) =PHI(I)            
-             ENDIF  
-         ENDDO 
+            IG = NSVG(I)
+            IF(IG>0) THEN
+              NISKYL = NISKYL + 1
+              FSKYI(NISKYL,1)=-FXI(I)
+              FSKYI(NISKYL,2)=-FYI(I)
+              FSKYI(NISKYL,3)=-FZI(I)
+              FSKYI(NISKYL,4)= KS(I)
+              FSKYI(NISKYL,5)= CS(I)
+              ISKY(NISKYL) = IG
+              FTHESKYI(NISKYL)=PHI(I)
+            ELSE
+              IG = -IG
+              NISKYFIL = NISKYFIL + 1
+              FSKYFI(NIN)%P(1,NISKYFIL)=-FXI(I)
+              FSKYFI(NIN)%P(2,NISKYFIL)=-FYI(I)
+              FSKYFI(NIN)%P(3,NISKYFIL)=-FZI(I)
+              FSKYFI(NIN)%P(4,NISKYFIL)= KS(I)
+              FSKYFI(NIN)%P(5,NISKYFIL)= CS(I)
+              ISKYFI(NIN)%P(NISKYFIL) = IG
+              FTHESKYFI(NIN)%P(NISKYFIL) =PHI(I)
+            ENDIF
+          ENDDO
         ENDIF
       ENDIF
 C
       RETURN
       END
-Cel nouvelle routine
 Chd|====================================================================
 Chd|  I7ASSIGEO0                    source/interfaces/int07/i7ass3.F
 Chd|-- called by -----------
 Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
 Chd|-- calls ---------------
 Chd|        IG3DONEBASIS                  source/elements/ige3d/ig3donebasis.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I7ASSIGEO0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
@@ -1890,182 +1889,170 @@ C-----------------------------------------------
      .   W_IGEO(64),R(64),
      .   FX(MVSIZ),FY(MVSIZ),FZ(MVSIZ),KNOTLOCELX(2,JLT),
      .   KNOTLOCELY(2,JLT),KNOTLOCELZ(2,JLT)
-c     .   KNOTLOCX(PX+1,NCTRL,JLT),
-c     .   KNOTLOCY(PY+1,NCTRL,JLT),KNOTLOCZ(PZ+1,NCTRL,JLT)
       my_real, DIMENSION(:,:), ALLOCATABLE :: KNOTLOCX, KNOTLOCY, KNOTLOCZ
 C======================================================================|
 
 C-------------------------------------
-C     ASSEMBLAGE FORCES - COTE MAIN
+C     Force Assembly
 C-------------------------------------
 
       DO I=1,JLT
 
-      IF(IX1(I)<=NUMNOD) THEN
-        J1=IX1(I)
-        A(1,J1)=A(1,J1)+FX1(I)
-        A(2,J1)=A(2,J1)+FY1(I)
-        A(3,J1)=A(3,J1)+FZ1(I)
-        STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H1(I))
-        CYCLE
-      ENDIF
+        IF(IX1(I)<=NUMNOD) THEN
+          J1=IX1(I)
+          A(1,J1)=A(1,J1)+FX1(I)
+          A(2,J1)=A(2,J1)+FY1(I)
+          A(3,J1)=A(3,J1)+FZ1(I)
+          STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H1(I))
+          CYCLE
+        ENDIF
 
-      JS=NIGE(IX1(I)-NUMNOD)
+        JS=NIGE(IX1(I)-NUMNOD)
 c      print*,'JS main ', JS, KXIG3D(2,JS)
-      IPID=KXIG3D(2,JS)
-      NCTRL = KXIG3D(3,JS)
-      IAD_KNOT = IGEO(40,IPID)
-      PX = IGEO(41,IPID)
-      PY = IGEO(42,IPID)
-      PZ = IGEO(43,IPID)
-      N1 = IGEO(44,IPID)
-      N2 = IGEO(45,IPID)
-      N3 = IGEO(46,IPID)
-      IDFRSTLOCKNT = IGEO(47,IPID)
-      NKNOT1 = N1+PX
-      NKNOT2 = N2+PY
-      NKNOT3 = N3+PZ
-      IDX = KXIG3D(6,JS)
-      IDY = KXIG3D(7,JS)
-      IDZ = KXIG3D(8,JS)
-      IDX2 = KXIG3D(9,JS)
-      IDY2 = KXIG3D(10,JS)
-      IDZ2 = KXIG3D(11,JS)
+        IPID=KXIG3D(2,JS)
+        NCTRL = KXIG3D(3,JS)
+        IAD_KNOT = IGEO(40,IPID)
+        PX = IGEO(41,IPID)
+        PY = IGEO(42,IPID)
+        PZ = IGEO(43,IPID)
+        N1 = IGEO(44,IPID)
+        N2 = IGEO(45,IPID)
+        N3 = IGEO(46,IPID)
+        IDFRSTLOCKNT = IGEO(47,IPID)
+        NKNOT1 = N1+PX
+        NKNOT2 = N2+PY
+        NKNOT3 = N3+PZ
+        IDX = KXIG3D(6,JS)
+        IDY = KXIG3D(7,JS)
+        IDZ = KXIG3D(8,JS)
+        IDX2 = KXIG3D(9,JS)
+        IDY2 = KXIG3D(10,JS)
+        IDZ2 = KXIG3D(11,JS)
 
-C   PAREIL POUR NCTRL
 
-      DO J=1,NCTRL
-        K = IXIG3D(KXIG3D(4,JS)+J-1)
-        NUMCP(J) =K 
-        X_IGEO(J)=X(1,K)
-        Y_IGEO(J)=X(2,K)
-        Z_IGEO(J)=X(3,K)
-        W_IGEO(J)=1!WIGE(K)
-      ENDDO
-
-      ALLOCATE(KNOTLOCX(PX+1,NCTRL),KNOTLOCY(PY+1,NCTRL),KNOTLOCZ(PZ+1,NCTRL))
-
-      DO J=1,NCTRL 
-        DO K=1,PX+1
-          KNOTLOCX(K,J)=KNOTLOCPC(K,1,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+        DO J=1,NCTRL
+          K = IXIG3D(KXIG3D(4,JS)+J-1)
+          NUMCP(J) =K
+          X_IGEO(J)=X(1,K)
+          Y_IGEO(J)=X(2,K)
+          Z_IGEO(J)=X(3,K)
+          W_IGEO(J)=1!WIGE(K)
         ENDDO
-        DO K=1,PY+1
-          KNOTLOCY(K,J)=KNOTLOCPC(K,2,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+
+        ALLOCATE(KNOTLOCX(PX+1,NCTRL),KNOTLOCY(PY+1,NCTRL),KNOTLOCZ(PZ+1,NCTRL))
+
+        DO J=1,NCTRL
+          DO K=1,PX+1
+            KNOTLOCX(K,J)=KNOTLOCPC(K,1,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
+          DO K=1,PY+1
+            KNOTLOCY(K,J)=KNOTLOCPC(K,2,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
+          DO K=1,PZ+1
+            KNOTLOCZ(K,J)=KNOTLOCPC(K,3,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
         ENDDO
-        DO K=1,PZ+1
-          KNOTLOCZ(K,J)=KNOTLOCPC(K,3,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+
+        KNOTLOCELX(1,I) = KNOTLOCEL(1,1,JS)
+        KNOTLOCELY(1,I) = KNOTLOCEL(1,2,JS)
+        KNOTLOCELZ(1,I) = KNOTLOCEL(1,3,JS)
+        KNOTLOCELX(2,I) = KNOTLOCEL(2,1,JS)
+        KNOTLOCELY(2,I) = KNOTLOCEL(2,2,JS)
+        KNOTLOCELZ(2,I) = KNOTLOCEL(2,3,JS)
+
+        ZR = RIGE(1,IX1(I)-NUMNOD)
+        ZS = RIGE(2,IX1(I)-NUMNOD)
+        ZT = RIGE(3,IX1(I)-NUMNOD)
+
+        CALL IG3DONEBASIS(
+     1    JS     ,0        ,X_IGEO(:)  ,Y_IGEO(:),
+     2    Z_IGEO(:),W_IGEO(:)    ,IDX   ,IDY ,
+     3    IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
+     4    R          ,NCTRL  ,
+     5    ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
+     6    KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
+     7    PY-1   ,PZ-1       ,0        ,
+     8    IDX2   ,IDY2       ,IDZ2   ,
+     9    KNOTLOCELX(:,I),KNOTLOCELY(:,I),KNOTLOCELZ(:,I))
+
+        DO J=1,NCTRL
+          K = NUMCP(J)
+          IF(ANIM_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
+            FCONT(1,K) = FCONT(1,K) + R(J)*FX1(I)
+            FCONT(2,K) = FCONT(2,K) + R(J)*FY1(I)
+            FCONT(3,K) = FCONT(3,K) + R(J)*FZ1(I)
+          ENDIF
+          A(1,K) = A(1,K) + R(J)*FX1(I)
+          A(2,K) = A(2,K) + R(J)*FY1(I)
+          A(3,K) = A(3,K) + R(J)*FZ1(I)
+          STIFN(K) = STIFN(K) + STIF(I)*ABS(H1(I))*R(J)
         ENDDO
-      ENDDO
 
-      KNOTLOCELX(1,I) = KNOTLOCEL(1,1,JS)
-      KNOTLOCELY(1,I) = KNOTLOCEL(1,2,JS)
-      KNOTLOCELZ(1,I) = KNOTLOCEL(1,3,JS)
-      KNOTLOCELX(2,I) = KNOTLOCEL(2,1,JS)
-      KNOTLOCELY(2,I) = KNOTLOCEL(2,2,JS)
-      KNOTLOCELZ(2,I) = KNOTLOCEL(2,3,JS)
-
-      ZR = RIGE(1,IX1(I)-NUMNOD)
-      ZS = RIGE(2,IX1(I)-NUMNOD)
-      ZT = RIGE(3,IX1(I)-NUMNOD)
-
-c      CALL IGE3DBASIS(
-c     1     JS        ,0   ,X_IGEO(:)    ,Y_IGEO(:)  ,
-c     2     Z_IGEO(:)    ,W_IGEO(:)     ,IDX     ,IDY     ,
-c     3     IDZ       ,R         ,
-c     4     NCTRL     ,ZR        ,ZS        ,ZT      ,
-c     5     KNOT(IAD_KNOT+1) ,KNOT(IAD_KNOT+NKNOT1+1),
-c     6     KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    , 
-c     7     PY-1      ,PZ-1      ,0)
-
-          CALL IG3DONEBASIS(
-     1      JS     ,0        ,X_IGEO(:)  ,Y_IGEO(:),
-     2      Z_IGEO(:),W_IGEO(:)    ,IDX   ,IDY ,
-     3      IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
-     4      R          ,NCTRL  ,
-     5      ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
-     7      PY-1   ,PZ-1       ,0        ,
-     8      IDX2   ,IDY2       ,IDZ2   ,
-     9      KNOTLOCELX(:,I),KNOTLOCELY(:,I),KNOTLOCELZ(:,I))
-
-      DO J=1,NCTRL
-        K = NUMCP(J)
-        IF(ANIM_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
-        FCONT(1,K) = FCONT(1,K) + R(J)*FX1(I)
-        FCONT(2,K) = FCONT(2,K) + R(J)*FY1(I)
-        FCONT(3,K) = FCONT(3,K) + R(J)*FZ1(I)
-        ENDIF
-        A(1,K) = A(1,K) + R(J)*FX1(I)
-        A(2,K) = A(2,K) + R(J)*FY1(I)
-        A(3,K) = A(3,K) + R(J)*FZ1(I)
-        STIFN(K) = STIFN(K) + STIF(I)*ABS(H1(I))*R(J)
-      ENDDO
-
-      DEALLOCATE(KNOTLOCX,KNOTLOCY,KNOTLOCZ)
+        DEALLOCATE(KNOTLOCX,KNOTLOCY,KNOTLOCZ)
 
       ENDDO
 
       DO I=1,JLT
 
-      IF(IX2(I)<=NUMNOD) THEN
-        J1=IX2(I)
-        A(1,J1)=A(1,J1)+FX2(I)
-        A(2,J1)=A(2,J1)+FY2(I)
-        A(3,J1)=A(3,J1)+FZ2(I)
-        STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H2(I))
-        CYCLE
-      ENDIF
+        IF(IX2(I)<=NUMNOD) THEN
+          J1=IX2(I)
+          A(1,J1)=A(1,J1)+FX2(I)
+          A(2,J1)=A(2,J1)+FY2(I)
+          A(3,J1)=A(3,J1)+FZ2(I)
+          STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H2(I))
+          CYCLE
+        ENDIF
 
-      JS=NIGE(IX2(I)-NUMNOD)
-      IPID=KXIG3D(2,JS)
-      NCTRL = KXIG3D(3,JS)
-      IAD_KNOT = IGEO(40,IPID)
-      PX = IGEO(41,IPID)
-      PY = IGEO(42,IPID)
-      PZ = IGEO(43,IPID)
-      N1 = IGEO(44,IPID)
-      N2 = IGEO(45,IPID)
-      N3 = IGEO(46,IPID)
-      NKNOT1 = N1+PX
-      NKNOT2 = N2+PY
-      NKNOT3 = N3+PZ
-      IDX = KXIG3D(6,JS)
-      IDY = KXIG3D(7,JS)
-      IDZ = KXIG3D(8,JS)
+        JS=NIGE(IX2(I)-NUMNOD)
+        IPID=KXIG3D(2,JS)
+        NCTRL = KXIG3D(3,JS)
+        IAD_KNOT = IGEO(40,IPID)
+        PX = IGEO(41,IPID)
+        PY = IGEO(42,IPID)
+        PZ = IGEO(43,IPID)
+        N1 = IGEO(44,IPID)
+        N2 = IGEO(45,IPID)
+        N3 = IGEO(46,IPID)
+        NKNOT1 = N1+PX
+        NKNOT2 = N2+PY
+        NKNOT3 = N3+PZ
+        IDX = KXIG3D(6,JS)
+        IDY = KXIG3D(7,JS)
+        IDZ = KXIG3D(8,JS)
 
-      DO J=1,NCTRL
-        K = IXIG3D(KXIG3D(4,JS)+J-1)
-        NUMCP(J) =K 
-        X_IGEO(J)=X(1,K)
-        Y_IGEO(J)=X(2,K)
-        Z_IGEO(J)=X(3,K)
-        W_IGEO(J)=1!WIGE(K)
-      ENDDO
-
-      ALLOCATE(KNOTLOCX(PX+1,NCTRL),KNOTLOCY(PY+1,NCTRL),KNOTLOCZ(PZ+1,NCTRL))
-
-      DO J=1,NCTRL 
-        DO K=1,PX+1
-          KNOTLOCX(K,J)=KNOTLOCPC(K,1,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+        DO J=1,NCTRL
+          K = IXIG3D(KXIG3D(4,JS)+J-1)
+          NUMCP(J) =K
+          X_IGEO(J)=X(1,K)
+          Y_IGEO(J)=X(2,K)
+          Z_IGEO(J)=X(3,K)
+          W_IGEO(J)=1!WIGE(K)
         ENDDO
-        DO K=1,PY+1
-          KNOTLOCY(K,J)=KNOTLOCPC(K,2,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
-        ENDDO
-        DO K=1,PZ+1
-          KNOTLOCZ(K,J)=KNOTLOCPC(K,3,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
-        ENDDO
-      ENDDO
 
-      KNOTLOCELX(1,I) = KNOTLOCEL(1,1,JS)
-      KNOTLOCELY(1,I) = KNOTLOCEL(1,2,JS)
-      KNOTLOCELZ(1,I) = KNOTLOCEL(1,3,JS)
-      KNOTLOCELX(2,I) = KNOTLOCEL(2,1,JS)
-      KNOTLOCELY(2,I) = KNOTLOCEL(2,2,JS)
-      KNOTLOCELZ(2,I) = KNOTLOCEL(2,3,JS)
+        ALLOCATE(KNOTLOCX(PX+1,NCTRL),KNOTLOCY(PY+1,NCTRL),KNOTLOCZ(PZ+1,NCTRL))
 
-      ZR = RIGE(1,IX2(I)-NUMNOD)
-      ZS = RIGE(2,IX2(I)-NUMNOD)
-      ZT = RIGE(3,IX2(I)-NUMNOD)
+        DO J=1,NCTRL
+          DO K=1,PX+1
+            KNOTLOCX(K,J)=KNOTLOCPC(K,1,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
+          DO K=1,PY+1
+            KNOTLOCY(K,J)=KNOTLOCPC(K,2,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
+          DO K=1,PZ+1
+            KNOTLOCZ(K,J)=KNOTLOCPC(K,3,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
+        ENDDO
+
+        KNOTLOCELX(1,I) = KNOTLOCEL(1,1,JS)
+        KNOTLOCELY(1,I) = KNOTLOCEL(1,2,JS)
+        KNOTLOCELZ(1,I) = KNOTLOCEL(1,3,JS)
+        KNOTLOCELX(2,I) = KNOTLOCEL(2,1,JS)
+        KNOTLOCELY(2,I) = KNOTLOCEL(2,2,JS)
+        KNOTLOCELZ(2,I) = KNOTLOCEL(2,3,JS)
+
+        ZR = RIGE(1,IX2(I)-NUMNOD)
+        ZS = RIGE(2,IX2(I)-NUMNOD)
+        ZT = RIGE(3,IX2(I)-NUMNOD)
 
 c      CALL IGE3DBASIS(
 c     1     JS        ,0   ,X_IGEO(:)    ,Y_IGEO(:)  ,
@@ -2073,98 +2060,98 @@ c     2     Z_IGEO(:)    ,W_IGEO(:)     ,IDX     ,IDY     ,
 c     3     IDZ       ,R         ,
 c     4     NCTRL     ,ZR        ,ZS        ,ZT      ,
 c     5     KNOT(IAD_KNOT+1) ,KNOT(IAD_KNOT+NKNOT1+1),
-c     6     KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    , 
+c     6     KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    ,
 c     7     PY-1      ,PZ-1      ,0)
 
-          CALL IG3DONEBASIS(
-     1      JS     ,0        ,X_IGEO(:)  ,Y_IGEO(:),
-     2      Z_IGEO(:),W_IGEO(:)    ,IDX   ,IDY ,
-     3      IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
-     4      R          ,NCTRL  ,
-     5      ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
-     7      PY-1   ,PZ-1       ,0        ,
-     8      IDX2   ,IDY2       ,IDZ2   ,
-     9      KNOTLOCELX(:,I),KNOTLOCELY(:,I),KNOTLOCELZ(:,I))
- 
-      DO J=1,NCTRL
-        K = NUMCP(J)
-        IF(ANIM_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
-        FCONT(1,K) = FCONT(1,K) + R(J)*FX2(I)
-        FCONT(2,K) = FCONT(2,K) + R(J)*FY2(I)
-        FCONT(3,K) = FCONT(3,K) + R(J)*FZ2(I)
-        ENDIF
-        A(1,K) = A(1,K) + R(J)*FX2(I)
-        A(2,K) = A(2,K) + R(J)*FY2(I)
-        A(3,K) = A(3,K) + R(J)*FZ2(I)
-        STIFN(K) = STIFN(K) + STIF(I)*ABS(H2(I))*R(J)
-      ENDDO
+        CALL IG3DONEBASIS(
+     1    JS     ,0        ,X_IGEO(:)  ,Y_IGEO(:),
+     2    Z_IGEO(:),W_IGEO(:)    ,IDX   ,IDY ,
+     3    IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
+     4    R          ,NCTRL  ,
+     5    ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
+     6    KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
+     7    PY-1   ,PZ-1       ,0        ,
+     8    IDX2   ,IDY2       ,IDZ2   ,
+     9    KNOTLOCELX(:,I),KNOTLOCELY(:,I),KNOTLOCELZ(:,I))
 
-      DEALLOCATE(KNOTLOCX,KNOTLOCY,KNOTLOCZ)
+        DO J=1,NCTRL
+          K = NUMCP(J)
+          IF(ANIM_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
+            FCONT(1,K) = FCONT(1,K) + R(J)*FX2(I)
+            FCONT(2,K) = FCONT(2,K) + R(J)*FY2(I)
+            FCONT(3,K) = FCONT(3,K) + R(J)*FZ2(I)
+          ENDIF
+          A(1,K) = A(1,K) + R(J)*FX2(I)
+          A(2,K) = A(2,K) + R(J)*FY2(I)
+          A(3,K) = A(3,K) + R(J)*FZ2(I)
+          STIFN(K) = STIFN(K) + STIF(I)*ABS(H2(I))*R(J)
+        ENDDO
+
+        DEALLOCATE(KNOTLOCX,KNOTLOCY,KNOTLOCZ)
 
       ENDDO
 
       DO I=1,JLT
 
-      IF(IX3(I)<=NUMNOD) THEN
-        J1=IX3(I)
-        A(1,J1)=A(1,J1)+FX3(I)
-        A(2,J1)=A(2,J1)+FY3(I)
-        A(3,J1)=A(3,J1)+FZ3(I)
-        STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H3(I))
-        CYCLE
-      ENDIF
+        IF(IX3(I)<=NUMNOD) THEN
+          J1=IX3(I)
+          A(1,J1)=A(1,J1)+FX3(I)
+          A(2,J1)=A(2,J1)+FY3(I)
+          A(3,J1)=A(3,J1)+FZ3(I)
+          STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H3(I))
+          CYCLE
+        ENDIF
 
-      JS=NIGE(IX3(I)-NUMNOD)
-      IPID=KXIG3D(2,JS)
-      NCTRL = KXIG3D(3,JS)
-      IAD_KNOT = IGEO(40,IPID)
-      PX = IGEO(41,IPID)
-      PY = IGEO(42,IPID)
-      PZ = IGEO(43,IPID)
-      N1 = IGEO(44,IPID)
-      N2 = IGEO(45,IPID)
-      N3 = IGEO(46,IPID)
-      NKNOT1 = N1+PX
-      NKNOT2 = N2+PY
-      NKNOT3 = N3+PZ
-      IDX = KXIG3D(6,JS)
-      IDY = KXIG3D(7,JS)
-      IDZ = KXIG3D(8,JS)
+        JS=NIGE(IX3(I)-NUMNOD)
+        IPID=KXIG3D(2,JS)
+        NCTRL = KXIG3D(3,JS)
+        IAD_KNOT = IGEO(40,IPID)
+        PX = IGEO(41,IPID)
+        PY = IGEO(42,IPID)
+        PZ = IGEO(43,IPID)
+        N1 = IGEO(44,IPID)
+        N2 = IGEO(45,IPID)
+        N3 = IGEO(46,IPID)
+        NKNOT1 = N1+PX
+        NKNOT2 = N2+PY
+        NKNOT3 = N3+PZ
+        IDX = KXIG3D(6,JS)
+        IDY = KXIG3D(7,JS)
+        IDZ = KXIG3D(8,JS)
 
-      DO J=1,NCTRL
-        K = IXIG3D(KXIG3D(4,JS)+J-1)
-        NUMCP(J) =K 
-        X_IGEO(J)=X(1,K)
-        Y_IGEO(J)=X(2,K)
-        Z_IGEO(J)=X(3,K)
-        W_IGEO(J)=1!WIGE(K)
-      ENDDO
-
-      ALLOCATE(KNOTLOCX(PX+1,NCTRL),KNOTLOCY(PY+1,NCTRL),KNOTLOCZ(PZ+1,NCTRL))
-
-      DO J=1,NCTRL 
-        DO K=1,PX+1
-          KNOTLOCX(K,J)=KNOTLOCPC(K,1,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+        DO J=1,NCTRL
+          K = IXIG3D(KXIG3D(4,JS)+J-1)
+          NUMCP(J) =K
+          X_IGEO(J)=X(1,K)
+          Y_IGEO(J)=X(2,K)
+          Z_IGEO(J)=X(3,K)
+          W_IGEO(J)=1!WIGE(K)
         ENDDO
-        DO K=1,PY+1
-          KNOTLOCY(K,J)=KNOTLOCPC(K,2,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
-        ENDDO
-        DO K=1,PZ+1
-          KNOTLOCZ(K,J)=KNOTLOCPC(K,3,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
-        ENDDO
-      ENDDO
 
-      KNOTLOCELX(1,I) = KNOTLOCEL(1,1,JS)
-      KNOTLOCELY(1,I) = KNOTLOCEL(1,2,JS)
-      KNOTLOCELZ(1,I) = KNOTLOCEL(1,3,JS)
-      KNOTLOCELX(2,I) = KNOTLOCEL(2,1,JS)
-      KNOTLOCELY(2,I) = KNOTLOCEL(2,2,JS)
-      KNOTLOCELZ(2,I) = KNOTLOCEL(2,3,JS)
+        ALLOCATE(KNOTLOCX(PX+1,NCTRL),KNOTLOCY(PY+1,NCTRL),KNOTLOCZ(PZ+1,NCTRL))
 
-      ZR = RIGE(1,IX3(I)-NUMNOD)
-      ZS = RIGE(2,IX3(I)-NUMNOD)
-      ZT = RIGE(3,IX3(I)-NUMNOD)
+        DO J=1,NCTRL
+          DO K=1,PX+1
+            KNOTLOCX(K,J)=KNOTLOCPC(K,1,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
+          DO K=1,PY+1
+            KNOTLOCY(K,J)=KNOTLOCPC(K,2,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
+          DO K=1,PZ+1
+            KNOTLOCZ(K,J)=KNOTLOCPC(K,3,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
+        ENDDO
+
+        KNOTLOCELX(1,I) = KNOTLOCEL(1,1,JS)
+        KNOTLOCELY(1,I) = KNOTLOCEL(1,2,JS)
+        KNOTLOCELZ(1,I) = KNOTLOCEL(1,3,JS)
+        KNOTLOCELX(2,I) = KNOTLOCEL(2,1,JS)
+        KNOTLOCELY(2,I) = KNOTLOCEL(2,2,JS)
+        KNOTLOCELZ(2,I) = KNOTLOCEL(2,3,JS)
+
+        ZR = RIGE(1,IX3(I)-NUMNOD)
+        ZS = RIGE(2,IX3(I)-NUMNOD)
+        ZT = RIGE(3,IX3(I)-NUMNOD)
 
 c      CALL IGE3DBASIS(
 c     1     JS        ,0   ,X_IGEO(:)    ,Y_IGEO(:)  ,
@@ -2172,137 +2159,128 @@ c     2     Z_IGEO(:)    ,W_IGEO(:)     ,IDX     ,IDY     ,
 c     3     IDZ       ,R         ,
 c     4     NCTRL     ,ZR        ,ZS        ,ZT      ,
 c     5     KNOT(IAD_KNOT+1) ,KNOT(IAD_KNOT+NKNOT1+1),
-c     6     KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    , 
+c     6     KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    ,
 c     7     PY-1      ,PZ-1      ,0)
 
-          CALL IG3DONEBASIS(
-     1      JS     ,0        ,X_IGEO(:)  ,Y_IGEO(:),
-     2      Z_IGEO(:),W_IGEO(:)    ,IDX   ,IDY ,
-     3      IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
-     4      R          ,NCTRL  ,
-     5      ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
-     7      PY-1   ,PZ-1       ,0        ,
-     8      IDX2   ,IDY2       ,IDZ2   ,
-     9      KNOTLOCELX(:,I),KNOTLOCELY(:,I),KNOTLOCELZ(:,I))
- 
-      DO J=1,NCTRL
-        K = NUMCP(J)
-        IF(ANIM_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
-        FCONT(1,K) = FCONT(1,K) + R(J)*FX3(I)
-        FCONT(2,K) = FCONT(2,K) + R(J)*FY3(I)
-        FCONT(3,K) = FCONT(3,K) + R(J)*FZ3(I)
-        ENDIF
-        A(1,K) = A(1,K) + R(J)*FX3(I)
-        A(2,K) = A(2,K) + R(J)*FY3(I)
-        A(3,K) = A(3,K) + R(J)*FZ3(I)
-        STIFN(K) = STIFN(K) + STIF(I)*ABS(H3(I))*R(J)
-      ENDDO
+        CALL IG3DONEBASIS(
+     1    JS     ,0        ,X_IGEO(:)  ,Y_IGEO(:),
+     2    Z_IGEO(:),W_IGEO(:)    ,IDX   ,IDY ,
+     3    IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
+     4    R          ,NCTRL  ,
+     5    ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
+     6    KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
+     7    PY-1   ,PZ-1       ,0        ,
+     8    IDX2   ,IDY2       ,IDZ2   ,
+     9    KNOTLOCELX(:,I),KNOTLOCELY(:,I),KNOTLOCELZ(:,I))
 
-      DEALLOCATE(KNOTLOCX,KNOTLOCY,KNOTLOCZ)
+        DO J=1,NCTRL
+          K = NUMCP(J)
+          IF(ANIM_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
+            FCONT(1,K) = FCONT(1,K) + R(J)*FX3(I)
+            FCONT(2,K) = FCONT(2,K) + R(J)*FY3(I)
+            FCONT(3,K) = FCONT(3,K) + R(J)*FZ3(I)
+          ENDIF
+          A(1,K) = A(1,K) + R(J)*FX3(I)
+          A(2,K) = A(2,K) + R(J)*FY3(I)
+          A(3,K) = A(3,K) + R(J)*FZ3(I)
+          STIFN(K) = STIFN(K) + STIF(I)*ABS(H3(I))*R(J)
+        ENDDO
+
+        DEALLOCATE(KNOTLOCX,KNOTLOCY,KNOTLOCZ)
 
       ENDDO
 
       DO I=1,JLT
 
-      IF(IX4(I)<=NUMNOD) THEN
-        J1=IX4(I)
-        A(1,J1)=A(1,J1)+FX4(I)
-        A(2,J1)=A(2,J1)+FY4(I)
-        A(3,J1)=A(3,J1)+FZ4(I)
-        STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H4(I))
-        CYCLE
-      ENDIF
-
-      JS=NIGE(IX4(I)-NUMNOD)
-      IPID=KXIG3D(2,JS)
-      NCTRL = KXIG3D(3,JS)
-      IAD_KNOT = IGEO(40,IPID)
-      PX = IGEO(41,IPID)
-      PY = IGEO(42,IPID)
-      PZ = IGEO(43,IPID)
-      N1 = IGEO(44,IPID)
-      N2 = IGEO(45,IPID)
-      N3 = IGEO(46,IPID)
-      NKNOT1 = N1+PX
-      NKNOT2 = N2+PY
-      NKNOT3 = N3+PZ
-      IDX = KXIG3D(6,JS)
-      IDY = KXIG3D(7,JS)
-      IDZ = KXIG3D(8,JS)
-
-      DO J=1,NCTRL
-        K = IXIG3D(KXIG3D(4,JS)+J-1)
-        NUMCP(J) =K 
-        X_IGEO(J)=X(1,K)
-        Y_IGEO(J)=X(2,K)
-        Z_IGEO(J)=X(3,K)
-        W_IGEO(J)=1!WIGE(K)
-      ENDDO
-
-      ALLOCATE(KNOTLOCX(PX+1,NCTRL),KNOTLOCY(PY+1,NCTRL),KNOTLOCZ(PZ+1,NCTRL))
-
-      DO J=1,NCTRL 
-        DO K=1,PX+1
-          KNOTLOCX(K,J)=KNOTLOCPC(K,1,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
-        ENDDO
-        DO K=1,PY+1
-          KNOTLOCY(K,J)=KNOTLOCPC(K,2,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
-        ENDDO
-        DO K=1,PZ+1
-          KNOTLOCZ(K,J)=KNOTLOCPC(K,3,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
-        ENDDO
-      ENDDO
-
-      KNOTLOCELX(1,I) = KNOTLOCEL(1,1,JS)
-      KNOTLOCELY(1,I) = KNOTLOCEL(1,2,JS)
-      KNOTLOCELZ(1,I) = KNOTLOCEL(1,3,JS)
-      KNOTLOCELX(2,I) = KNOTLOCEL(2,1,JS)
-      KNOTLOCELY(2,I) = KNOTLOCEL(2,2,JS)
-      KNOTLOCELZ(2,I) = KNOTLOCEL(2,3,JS)
-
-      ZR = RIGE(1,IX4(I)-NUMNOD)
-      ZS = RIGE(2,IX4(I)-NUMNOD)
-      ZT = RIGE(3,IX4(I)-NUMNOD)
-
-c      CALL IGE3DBASIS(
-c     1     JS        ,0   ,X_IGEO(:)    ,Y_IGEO(:)  ,
-c     2     Z_IGEO(:)    ,W_IGEO(:)     ,IDX     ,IDY     ,
-c     3     IDZ       ,R         ,
-c     4     NCTRL     ,ZR        ,ZS        ,ZT      ,
-c     5     KNOT(IAD_KNOT+1) ,KNOT(IAD_KNOT+NKNOT1+1),
-c     6     KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    , 
-c     7     PY-1      ,PZ-1      ,0)
-
-          CALL IG3DONEBASIS(
-     1      JS     ,0        ,X_IGEO(:)  ,Y_IGEO(:),
-     2      Z_IGEO(:),W_IGEO(:)    ,IDX   ,IDY ,
-     3      IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
-     4      R          ,NCTRL  ,
-     5      ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
-     7      PY-1   ,PZ-1       ,0        ,
-     8      IDX2   ,IDY2       ,IDZ2   ,
-     9      KNOTLOCELX(:,I),KNOTLOCELY(:,I),KNOTLOCELZ(:,I))
- 
-      DO J=1,NCTRL
-        K = NUMCP(J)
-        IF(ANIM_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
-         FCONT(1,K) = FCONT(1,K) + R(J)*FX4(I)
-         FCONT(2,K) = FCONT(2,K) + R(J)*FY4(I)
-         FCONT(3,K) = FCONT(3,K) + R(J)*FZ4(I)
+        IF(IX4(I)<=NUMNOD) THEN
+          J1=IX4(I)
+          A(1,J1)=A(1,J1)+FX4(I)
+          A(2,J1)=A(2,J1)+FY4(I)
+          A(3,J1)=A(3,J1)+FZ4(I)
+          STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H4(I))
+          CYCLE
         ENDIF
+
+        JS=NIGE(IX4(I)-NUMNOD)
+        IPID=KXIG3D(2,JS)
+        NCTRL = KXIG3D(3,JS)
+        IAD_KNOT = IGEO(40,IPID)
+        PX = IGEO(41,IPID)
+        PY = IGEO(42,IPID)
+        PZ = IGEO(43,IPID)
+        N1 = IGEO(44,IPID)
+        N2 = IGEO(45,IPID)
+        N3 = IGEO(46,IPID)
+        NKNOT1 = N1+PX
+        NKNOT2 = N2+PY
+        NKNOT3 = N3+PZ
+        IDX = KXIG3D(6,JS)
+        IDY = KXIG3D(7,JS)
+        IDZ = KXIG3D(8,JS)
+
+        DO J=1,NCTRL
+          K = IXIG3D(KXIG3D(4,JS)+J-1)
+          NUMCP(J) =K
+          X_IGEO(J)=X(1,K)
+          Y_IGEO(J)=X(2,K)
+          Z_IGEO(J)=X(3,K)
+          W_IGEO(J)=1!WIGE(K)
+        ENDDO
+
+        ALLOCATE(KNOTLOCX(PX+1,NCTRL),KNOTLOCY(PY+1,NCTRL),KNOTLOCZ(PZ+1,NCTRL))
+
+        DO J=1,NCTRL
+          DO K=1,PX+1
+            KNOTLOCX(K,J)=KNOTLOCPC(K,1,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
+          DO K=1,PY+1
+            KNOTLOCY(K,J)=KNOTLOCPC(K,2,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
+          DO K=1,PZ+1
+            KNOTLOCZ(K,J)=KNOTLOCPC(K,3,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
+        ENDDO
+
+        KNOTLOCELX(1,I) = KNOTLOCEL(1,1,JS)
+        KNOTLOCELY(1,I) = KNOTLOCEL(1,2,JS)
+        KNOTLOCELZ(1,I) = KNOTLOCEL(1,3,JS)
+        KNOTLOCELX(2,I) = KNOTLOCEL(2,1,JS)
+        KNOTLOCELY(2,I) = KNOTLOCEL(2,2,JS)
+        KNOTLOCELZ(2,I) = KNOTLOCEL(2,3,JS)
+
+        ZR = RIGE(1,IX4(I)-NUMNOD)
+        ZS = RIGE(2,IX4(I)-NUMNOD)
+        ZT = RIGE(3,IX4(I)-NUMNOD)
+
+        CALL IG3DONEBASIS(
+     1    JS     ,0        ,X_IGEO(:)  ,Y_IGEO(:),
+     2    Z_IGEO(:),W_IGEO(:)    ,IDX   ,IDY ,
+     3    IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
+     4    R          ,NCTRL  ,
+     5    ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
+     6    KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
+     7    PY-1   ,PZ-1       ,0        ,
+     8    IDX2   ,IDY2       ,IDZ2   ,
+     9    KNOTLOCELX(:,I),KNOTLOCELY(:,I),KNOTLOCELZ(:,I))
+
+        DO J=1,NCTRL
+          K = NUMCP(J)
+          IF(ANIM_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
+            FCONT(1,K) = FCONT(1,K) + R(J)*FX4(I)
+            FCONT(2,K) = FCONT(2,K) + R(J)*FY4(I)
+            FCONT(3,K) = FCONT(3,K) + R(J)*FZ4(I)
+          ENDIF
 c        print*,'R', R(J)
 c        print*,'A(J)',A(1,K),A(2,K),A(3,K)
-        A(1,K) = A(1,K) + R(J)*FX4(I)
-        A(2,K) = A(2,K) + R(J)*FY4(I)
-        A(3,K) = A(3,K) + R(J)*FZ4(I)
+          A(1,K) = A(1,K) + R(J)*FX4(I)
+          A(2,K) = A(2,K) + R(J)*FY4(I)
+          A(3,K) = A(3,K) + R(J)*FZ4(I)
 c      print*,'F', FX4(I),FY4(I),FZ4(I)
 c        print*,'A(J)',A(1,K),A(2,K),A(3,K)
-        STIFN(K) = STIFN(K) + STIF(I)*ABS(H4(I))*R(J)
-      ENDDO
+          STIFN(K) = STIFN(K) + STIF(I)*ABS(H4(I))*R(J)
+        ENDDO
 
-      DEALLOCATE(KNOTLOCX,KNOTLOCY,KNOTLOCZ)
+        DEALLOCATE(KNOTLOCX,KNOTLOCY,KNOTLOCZ)
 C
       ENDDO
 
@@ -2315,23 +2293,23 @@ C-------------------------------------
       FZ(:) = 0
 
       DO I=1,JLT
-       IG=NSVG(I)
-       IF(IG<=NUMNOD)THEN 
-        A(1,IG)=A(1,IG)-FXI(I)
-        A(2,IG)=A(2,IG)-FYI(I)
-        A(3,IG)=A(3,IG)-FZI(I)
-        STIFN(IG) = STIFN(IG) + STIF(I)
-       ENDIF
+        IG=NSVG(I)
+        IF(IG<=NUMNOD)THEN
+          A(1,IG)=A(1,IG)-FXI(I)
+          A(2,IG)=A(2,IG)-FYI(I)
+          A(3,IG)=A(3,IG)-FZI(I)
+          STIFN(IG) = STIFN(IG) + STIF(I)
+        ENDIF
       ENDDO
 
       DO I=1,JLT
-       IG=NSVG(I)
-       IF(NSVG(I)<=NUMNOD) CYCLE
+        IG=NSVG(I)
+        IF(NSVG(I)<=NUMNOD) CYCLE
         JS=NIGE(IG-NUMNOD)
         NCTRL = KXIG3D(3,JS)
         DO J=1,NCTRL
-          K = IXIG3D(KXIG3D(4,JS)+J-1)  !! PAS BON SI ONE SEMGENT CONTIENT DES POINTS QUI NE SONT PAS SUR LE MEME ELEMENT
-          NUMCP(J) =K 
+          K = IXIG3D(KXIG3D(4,JS)+J-1)
+          NUMCP(J) =K
           X_IGEO(J)=X(1,K)
           Y_IGEO(J)=X(2,K)
           Z_IGEO(J)=X(3,K)
@@ -2357,60 +2335,50 @@ C-------------------------------------
         IDY2 = KXIG3D(10,JS)
         IDZ2 = KXIG3D(11,JS)
 
-C NE PAS OUBLIER DE FAIRE ARRIVER KNOTLOCPC DANS L'APPEL
 
-      ALLOCATE(KNOTLOCX(PX+1,NCTRL),KNOTLOCY(PY+1,NCTRL),KNOTLOCZ(PZ+1,NCTRL))
+        ALLOCATE(KNOTLOCX(PX+1,NCTRL),KNOTLOCY(PY+1,NCTRL),KNOTLOCZ(PZ+1,NCTRL))
 
-      DO J=1,NCTRL 
-        DO K=1,PX+1
-          KNOTLOCX(K,J)=KNOTLOCPC(K,1,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+        DO J=1,NCTRL
+          DO K=1,PX+1
+            KNOTLOCX(K,J)=KNOTLOCPC(K,1,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
+          DO K=1,PY+1
+            KNOTLOCY(K,J)=KNOTLOCPC(K,2,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
+          DO K=1,PZ+1
+            KNOTLOCZ(K,J)=KNOTLOCPC(K,3,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
+          ENDDO
         ENDDO
-        DO K=1,PY+1
-          KNOTLOCY(K,J)=KNOTLOCPC(K,2,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
-        ENDDO
-        DO K=1,PZ+1
-          KNOTLOCZ(K,J)=KNOTLOCPC(K,3,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
-        ENDDO
-      ENDDO
 
-      KNOTLOCELX(1,I) = KNOTLOCEL(1,1,JS)
-      KNOTLOCELY(1,I) = KNOTLOCEL(1,2,JS)
-      KNOTLOCELZ(1,I) = KNOTLOCEL(1,3,JS)
-      KNOTLOCELX(2,I) = KNOTLOCEL(2,1,JS)
-      KNOTLOCELY(2,I) = KNOTLOCEL(2,2,JS)
-      KNOTLOCELZ(2,I) = KNOTLOCEL(2,3,JS)
+        KNOTLOCELX(1,I) = KNOTLOCEL(1,1,JS)
+        KNOTLOCELY(1,I) = KNOTLOCEL(1,2,JS)
+        KNOTLOCELZ(1,I) = KNOTLOCEL(1,3,JS)
+        KNOTLOCELX(2,I) = KNOTLOCEL(2,1,JS)
+        KNOTLOCELY(2,I) = KNOTLOCEL(2,2,JS)
+        KNOTLOCELZ(2,I) = KNOTLOCEL(2,3,JS)
 
         ZR = RIGE(1,IG-NUMNOD)
         ZS = RIGE(2,IG-NUMNOD)
         ZT = RIGE(3,IG-NUMNOD)
 
-c      CALL IGE3DBASIS(
-c     1     JS        ,0   ,X_IGEO(:)     ,Y_IGEO(:)  ,
-c     2     Z_IGEO(:)    ,W_IGEO(:)     ,IDX     ,IDY     ,
-c     3     IDZ       ,R         ,
-c     4     NCTRL     ,ZR        ,ZS        ,ZT      ,
-c     5     KNOT(IAD_KNOT+1) ,KNOT(IAD_KNOT+NKNOT1+1),
-c     6     KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    , 
-c     7     PY-1      ,PZ-1      ,0)
+        CALL IG3DONEBASIS(
+     1    JS     ,0        ,X_IGEO(:)  ,Y_IGEO(:),
+     2    Z_IGEO(:),W_IGEO(:)    ,IDX   ,IDY ,
+     3    IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
+     4    R          ,NCTRL  ,
+     5    ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
+     6    KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
+     7    PY-1   ,PZ-1       ,0        ,
+     8    IDX2,IDY2    ,IDZ2   ,
+     9    KNOTLOCELX(:,I),KNOTLOCELY(:,I),KNOTLOCELZ(:,I))
 
-          CALL IG3DONEBASIS(
-     1      JS     ,0        ,X_IGEO(:)  ,Y_IGEO(:),
-     2      Z_IGEO(:),W_IGEO(:)    ,IDX   ,IDY ,
-     3      IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
-     4      R          ,NCTRL  ,
-     5      ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
-     7      PY-1   ,PZ-1       ,0        ,
-     8      IDX2,IDY2    ,IDZ2   ,
-     9      KNOTLOCELX(:,I),KNOTLOCELY(:,I),KNOTLOCELZ(:,I))
 
- 
         DO J=1,NCTRL
           K = NUMCP(J)
           IF(ANIM_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
-           FCONT(1,K) = FCONT(1,K) - R(J)*FXI(I)
-           FCONT(2,K) = FCONT(2,K) - R(J)*FYI(I)
-           FCONT(3,K) = FCONT(3,K) - R(J)*FZI(I)
+            FCONT(1,K) = FCONT(1,K) - R(J)*FXI(I)
+            FCONT(2,K) = FCONT(2,K) - R(J)*FYI(I)
+            FCONT(3,K) = FCONT(3,K) - R(J)*FZI(I)
           ENDIF
           A(1,K) = A(1,K) - R(J)*FXI(I)
           A(2,K) = A(2,K) - R(J)*FYI(I)
@@ -2422,7 +2390,7 @@ c     7     PY-1      ,PZ-1      ,0)
           FZ(J) = FZ(J) + R(J)*FZI(I)
         ENDDO
 
-      DEALLOCATE(KNOTLOCX,KNOTLOCY,KNOTLOCZ)
+        DEALLOCATE(KNOTLOCX,KNOTLOCY,KNOTLOCZ)
 
       ENDDO
 

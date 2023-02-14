@@ -724,7 +724,6 @@ C BEGIN OF LOOP ON MDIR
          ESECANT(I,J)=0.4*ABS(PSN(I,J))/MAX(TINY,ABS(STRAIN(I,J)))
          IF (ESECANT(I,J)<=SIGMAX(I)) THEN
           TMP1=0.2*(SIGMAX(I)-ESECANT(I,J))
-C calcul de PSN pose pb en P/ON sous Solaris => compilation en 03
           PSN(I,J)=PSN(I,J)+TMP1*EAN(I,J)
           EYN(I,J)=MAX(EYN(I,J),(ONE+TMP1)*ESECANT(I,J))
          ENDIF 

@@ -64,7 +64,7 @@ C     REAL
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
-     .   OFFG(*), OFF(*), SAV(NEL,21), GAMA0(NEL,6),GAMA(MVSIZ,6), 
+     .   OFFG(*), OFF(*), SAV(NEL,21), GAMA0(NEL,6),GAMA(MVSIZ,6),
      .   R(3,3,MVSIZ)
       my_real
      .   K11(9,*)   ,K12(9,*)   ,K13(9,*)    ,K14(9,*)    ,K15(9,*)   ,
@@ -74,11 +74,11 @@ C     REAL
      .   K38(9,*)   ,K44(9,*)   ,K45(9,*)    ,K46(9,*)    ,K47(9,*)   ,
      .   K48(9,*)   ,K55(9,*)   ,K56(9,*)    ,K57(9,*)    ,K58(9,*)   ,
      .   K66(9,*)   ,K67(9,*)   ,K68(9,*)    ,K77(9,*)    ,K78(9,*)   ,
-     .   K88(9,*)   
+     .   K88(9,*)
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*),
      .        NC5(*), NC6(*), NC7(*), NC8(*), MXT(*), NGL(*),NGEO(*)
       INTEGER IXS(NIXS,*),KHBE
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   TRM(NEL,24,24),INVJ(MVSIZ,3,3),KL(576,NEL),
      .   V1(MVSIZ,9), V2(MVSIZ,9), V3(MVSIZ,9), V4(MVSIZ,9),
      .   V5(MVSIZ,9), V6(MVSIZ,9), V7(MVSIZ,9), V8(MVSIZ,9)
@@ -99,24 +99,24 @@ C     REAL
       my_real
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
-     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
+     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ)
       DOUBLE PRECISION DX_DR,DX_DS,DX_DT,DY_DR,DY_DS,DY_DT,DZ_DR,DZ_DS,DZ_DT
       DOUBLE PRECISION X0(8),Y0(8),Z0(8),DETM1,DETJ0
 C-----------------------------------------------
 C
       MXT_1 = IXS(1,LFT)
       DO I=LFT,LLT
-      NGEO(I)=IXS(10,I)
-      NGL(I)=IXS(11,I)
-      MXT(I)=MXT_1
-      NC1(I)=IXS(2,I)
-      NC2(I)=IXS(3,I)
-      NC3(I)=IXS(4,I)
-      NC4(I)=IXS(5,I)
-      NC5(I)=IXS(6,I)
-      NC6(I)=IXS(7,I)
-      NC7(I)=IXS(8,I)
-      NC8(I)=IXS(9,I)
+        NGEO(I)=IXS(10,I)
+        NGL(I)=IXS(11,I)
+        MXT(I)=MXT_1
+        NC1(I)=IXS(2,I)
+        NC2(I)=IXS(3,I)
+        NC3(I)=IXS(4,I)
+        NC4(I)=IXS(5,I)
+        NC5(I)=IXS(6,I)
+        NC6(I)=IXS(7,I)
+        NC7(I)=IXS(8,I)
+        NC8(I)=IXS(9,I)
       ENDDO
 C----------------------------
 C     NODAL COORDINATES     |
@@ -148,14 +148,8 @@ C----------------------------
         Z8(I)=X(3,NC8(I))
       ENDDO
 C-----------
-C     REPERE LOCAL
+C     Local system
 C-----------
-!      CALL CRFRAME_IMP(SAV, INVJ, 
-!     .             X1, X2, X3, X4, X5, X6, X7, X8,
-!     .             Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-!     .             Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-!     .             R,NEL)
-     
       DO I=LFT,LLT
         X0(1) = ZERO
         Y0(1) = ZERO
@@ -206,17 +200,15 @@ C-----------
         INVJ(I,2,3) = (DX_DT*DY_DR-DX_DR*DY_DT)*DETM1
         INVJ(I,3,3) = (DX_DR*DY_DS-DX_DS*DY_DR)*DETM1
       ENDDO
-      CALL CRTRANS_IMP(SAV,INVJ, 
+      CALL CRTRANS_IMP(SAV,INVJ,
      .             X1, X2, X3, X4, X5, X6, X7, X8,
      .             Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .             Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .             V1,  V2,  V3,  V4,  V5,  V6,  V7,  V8,
      .             R, TRM, NEL)
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C
 C-----------
-!sb   ne s'applique que dans le cas des petites deformations (ismstr = 1)
-!     Prevoir un test ici 
       DO I = LFT,LLT
         X1(I) = ZERO
         Y1(I) = ZERO
@@ -243,63 +235,60 @@ C-----------
         Y8(I) = SAV(I,20)
         Z8(I) = SAV(I,21)
       ENDDO
-!sb revoir cela avec qqun je ne comprends pas cette partie
-        DO I=LFT,LLT
-        IF(OFFG(I)>ONE)THEN
-         OFF(I) = OFFG(I)-ONE
-        ENDIF
-        ENDDO
-       DO I=LFT,LLT
-        OFF(I) = MIN(ONE,OFFG(I))
-       ENDDO
-!C
-!       ENDIF
-C-----------
-      DO J=1,9      
       DO I=LFT,LLT
-        K11(J,I)=ZERO
-        K12(J,I)=ZERO
-        K13(J,I)=ZERO
-        K14(J,I)=ZERO
-        K15(J,I)=ZERO
-        K16(J,I)=ZERO
-        K17(J,I)=ZERO
-        K18(J,I)=ZERO
-        K22(J,I)=ZERO
-        K23(J,I)=ZERO
-        K24(J,I)=ZERO
-        K25(J,I)=ZERO
-        K26(J,I)=ZERO
-        K27(J,I)=ZERO
-        K28(J,I)=ZERO
-        K33(J,I)=ZERO
-        K34(J,I)=ZERO
-        K35(J,I)=ZERO
-        K36(J,I)=ZERO
-        K37(J,I)=ZERO
-        K38(J,I)=ZERO
-        K44(J,I)=ZERO
-        K45(J,I)=ZERO
-        K46(J,I)=ZERO
-        K47(J,I)=ZERO
-        K48(J,I)=ZERO
-        K55(J,I)=ZERO
-        K56(J,I)=ZERO
-        K57(J,I)=ZERO
-        K58(J,I)=ZERO
-        K66(J,I)=ZERO
-        K67(J,I)=ZERO
-        K68(J,I)=ZERO
-        K77(J,I)=ZERO
-        K78(J,I)=ZERO
-        K88(J,I)=ZERO
+        IF(OFFG(I)>ONE)THEN
+          OFF(I) = OFFG(I)-ONE
+        ENDIF
       ENDDO
+      DO I=LFT,LLT
+        OFF(I) = MIN(ONE,OFFG(I))
       ENDDO
-      
+C-----------
+      DO J=1,9
+        DO I=LFT,LLT
+          K11(J,I)=ZERO
+          K12(J,I)=ZERO
+          K13(J,I)=ZERO
+          K14(J,I)=ZERO
+          K15(J,I)=ZERO
+          K16(J,I)=ZERO
+          K17(J,I)=ZERO
+          K18(J,I)=ZERO
+          K22(J,I)=ZERO
+          K23(J,I)=ZERO
+          K24(J,I)=ZERO
+          K25(J,I)=ZERO
+          K26(J,I)=ZERO
+          K27(J,I)=ZERO
+          K28(J,I)=ZERO
+          K33(J,I)=ZERO
+          K34(J,I)=ZERO
+          K35(J,I)=ZERO
+          K36(J,I)=ZERO
+          K37(J,I)=ZERO
+          K38(J,I)=ZERO
+          K44(J,I)=ZERO
+          K45(J,I)=ZERO
+          K46(J,I)=ZERO
+          K47(J,I)=ZERO
+          K48(J,I)=ZERO
+          K55(J,I)=ZERO
+          K56(J,I)=ZERO
+          K57(J,I)=ZERO
+          K58(J,I)=ZERO
+          K66(J,I)=ZERO
+          K67(J,I)=ZERO
+          K68(J,I)=ZERO
+          K77(J,I)=ZERO
+          K78(J,I)=ZERO
+          K88(J,I)=ZERO
+        ENDDO
+      ENDDO
+
       DO J=LFT,LLT
-       DO I=1,576
-        KL(I,J)=ZERO
-       ENDDO
+        DO I=1,576
+          KL(I,J)=ZERO
+        ENDDO
       ENDDO
 C-----------
       RETURN

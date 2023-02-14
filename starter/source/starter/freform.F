@@ -671,17 +671,12 @@ C--------------------------
       LKEY0(K)=4
       KANIM=K
       K=K+1
-C remarque, cette option et lu dans le starter0.F
-C a ne pas utiliser, elle sert pour lire le rootnam
       KEY0(K)='BEGIN'
       LKEY0(K)=5
-cpas besoin !     KBEEGIN= K
       K=K+1
 C-------------------------------------------------------------------
-C optrion bidon pour preprocesseur
       KEY0(K)='PREPRO'
       LKEY0(K)=6
-cpas besoin !     KPREPRO= K
       K=K+1
       KEY0(K)='CNODE'
       LKEY0(K)=5

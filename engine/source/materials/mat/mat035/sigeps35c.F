@@ -25,7 +25,7 @@ Chd|  SIGEPS35C                     source/materials/mat/mat035/sigeps35c.F
 Chd|-- called by -----------
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        FINTER                        source/tools/curve/finter.F
 Chd|====================================================================
       SUBROUTINE SIGEPS35C(
      1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC  ,
@@ -57,32 +57,31 @@ C----------------------------------------------------------------
       my_real
      .      TIME       , TIMESTEP   , UPARAM(NUPARAM),
      .      RHO0  (NEL),  EINT(NEL,2),
-     .      EPSPXX(NEL), EPSPYY(NEL),SHF(NEL), 
+     .      EPSPXX(NEL), EPSPYY(NEL),SHF(NEL),
      .      EPSPXY(NEL), EPSPYZ(NEL), EPSPZX(NEL),
-     .      DEPSXX(NEL), DEPSYY(NEL), 
+     .      DEPSXX(NEL), DEPSYY(NEL),
      .      DEPSXY(NEL), DEPSYZ(NEL), DEPSZX(NEL),
-     .      EPSXX (NEL), EPSYY (NEL), 
+     .      EPSXX (NEL), EPSYY (NEL),
      .      EPSXY (NEL), EPSYZ (NEL), EPSZX (NEL),
-     .      SIGOXX(NEL), SIGOYY(NEL), 
+     .      SIGOXX(NEL), SIGOYY(NEL),
      .      SIGOXY(NEL), SIGOYZ(NEL), SIGOZX(NEL),
      .      THKLY(NEL) ,THK(NEL),AREA(NEL),EDOT(NEL),
      .      ASRATE
-c    RHO   (NEL) je suis oblige de calcule
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real
-     .      SIGNXX (NEL), SIGNYY (NEL), 
+     .      SIGNXX (NEL), SIGNYY (NEL),
      .      SIGNXY (NEL), SIGNYZ (NEL), SIGNZX(NEL),
-     .      SIGVXX (NEL), SIGVYY (NEL), 
+     .      SIGVXX (NEL), SIGVYY (NEL),
      .      SIGVXY (NEL), SIGVYZ (NEL), SIGVZX(NEL),
      .      SOUNDSP(NEL), VISCMAX(NEL),ETSE(NEL)
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real UVAR(NEL,NUVAR), OFF(NEL) 
+      my_real UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
-C  VARIABLES FOR FUNCTION INTERPOLATION 
+C  VARIABLES FOR FUNCTION INTERPOLATION
 C----------------------------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
       my_real
@@ -93,7 +92,7 @@ C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER I,J,KF,IFLAG,ICORRECT
 
-      my_real 
+      my_real
      .        POISSON,E,E1,E2,G02,BULK0,
      .        GT2,BULKT,LAMDA,LAMDAT,RELVEXP,
      .        VMU2,VLAMDA,VBULK,FAC,
@@ -112,7 +111,7 @@ C----------------------------------------------------------------
      .        SIGAIR(MVSIZ),RELVOL(MVSIZ),ENEW(MVSIZ),
      .        RHO   (MVSIZ),EPSP
 
-      my_real 
+      my_real
      .       SSM,EPSM,EPSPM,EPIN,SMALL,CSHEAR,MIDSTEP,DT05
 C=======================================================================
       SMALL = EM3
@@ -120,7 +119,7 @@ C=======================================================================
 C --  INITIALIZATION---------
       IF (TIME == ZERO) THEN
         DO I=1,NEL
-           UVAR(I,3) = AREA(I)*THK(I) ! VOLUME0
+          UVAR(I,3) = AREA(I)*THK(I) ! VOLUME0
         ENDDO
       ENDIF
 C SET INITIAL MATERIAL CONSTANTS
@@ -133,7 +132,7 @@ C SET INITIAL MATERIAL CONSTANTS
       GT2    = UPARAM(5)/(ONE+UPARAM(6))
       BULKT  = UPARAM(5)/(ONE-TWO*UPARAM(6))
       VMU2   = TWO*UPARAM(7)
-      VBULK  = THREE*UPARAM(8)+VMU2      
+      VBULK  = THREE*UPARAM(8)+VMU2
 
       P0     = UPARAM(9)
       PHI    = UPARAM(10)
@@ -172,8 +171,8 @@ c-------calcul E_eq-----
         EPSPC =EPSPXX(I)-EPSPYY(I)
         EPSP  = SQRT(HALF*(EPSPC*EPSPC+EPSPXX(I)*EPSPXX(I)+
      1          EPSPYY(I)*EPSPYY(I)) +THREE_HALF* (EPSPXY(I)*EPSPXY(I)
-     2          + EPSPYZ(I)*EPSPYZ(I)+EPSPZX(I)*EPSPZX(I)))    
-        IF (ISRATE == 0) THEN 
+     2          + EPSPYZ(I)*EPSPYZ(I)+EPSPZX(I)*EPSPZX(I)))
+        IF (ISRATE == 0) THEN
           EDOT(I) = EPSP
         ELSE
           EDOT(I) = ASRATE*EPSP + (ONE - ASRATE)*UVAR(I,4)
@@ -209,39 +208,39 @@ c------UPDATE ELASTIC MODULUS
   200 CONTINUE
 c
       IF(ICORRECT/=0)THEN
-       DO 210 I=1,NEL
+        DO 210 I=1,NEL
 C COMPUTE DEVIATORIC STRESSES
-        DSXX(I)=SIGOXX(I)-SM(I)
-        DSYY(I)=SIGOYY(I)-SM(I)
-        DSXY(I)=SIGOXY(I)
- 
+          DSXX(I)=SIGOXX(I)-SM(I)
+          DSYY(I)=SIGOYY(I)-SM(I)
+          DSXY(I)=SIGOXY(I)
+
 C  COMPUTE DEVIATORIC STRAINS
-        DEXX(I)=EPSXX(I)-EM(I)
-        DEYY(I)=EPSYY(I)-EM(I)
-        DEXY(I)=EPSXY(I)
+          DEXX(I)=EPSXX(I)-EM(I)
+          DEYY(I)=EPSYY(I)-EM(I)
+          DEXY(I)=EPSXY(I)
 
 C  COMPUTE DEVIATORIC STRAIN RATES
-        DEDTXX(I)=EPSPXX(I)-DEDTM(I)
-        DEDTYY(I)=EPSPYY(I)-DEDTM(I)
-        DEDTXY(I)=EPSPXY(I)
-  210  CONTINUE
+          DEDTXX(I)=EPSPXX(I)-DEDTM(I)
+          DEDTYY(I)=EPSPYY(I)-DEDTM(I)
+          DEDTXY(I)=EPSPXY(I)
+  210   CONTINUE
       ELSE
-       DO I=1,NEL
+        DO I=1,NEL
 C COMPUTE DEVIATORIC STRESSES
-        DSXX(I)=SIGOXX(I)-SM(I)
-        DSYY(I)=SIGOYY(I)-SM(I)
-        DSXY(I)=SIGOXY(I)
- 
+          DSXX(I)=SIGOXX(I)-SM(I)
+          DSYY(I)=SIGOYY(I)-SM(I)
+          DSXY(I)=SIGOXY(I)
+
 C  COMPUTE DEVIATORIC STRAINS
-        DEXX(I)=EPSXX(I)-EM(I)
-        DEYY(I)=EPSYY(I)-EM(I)
-        DEXY(I)=EPSXY(I)*HALF
+          DEXX(I)=EPSXX(I)-EM(I)
+          DEYY(I)=EPSYY(I)-EM(I)
+          DEXY(I)=EPSXY(I)*HALF
 
 C  COMPUTE DEVIATORIC STRAIN RATES
-        DEDTXX(I)=EPSPXX(I)-DEDTM(I)
-        DEDTYY(I)=EPSPYY(I)-DEDTM(I)
-        DEDTXY(I)=EPSPXY(I)*HALF
-       END DO
+          DEDTXX(I)=EPSPXX(I)-DEDTM(I)
+          DEDTYY(I)=EPSPYY(I)-DEDTM(I)
+          DEDTXY(I)=EPSPXY(I)*HALF
+        END DO
       END IF
 
 
@@ -254,11 +253,11 @@ C COMPUTE STRESS RATE INCREMENTS
         DSDTXX(I)=DSDTXX(I)*MIDSTEP
         DSDTYY(I)=DSDTYY(I)*MIDSTEP
         DSDTXY(I)=DSDTXY(I)*MIDSTEP
- 250  CONTINUE
+  250 CONTINUE
 
 
       DO 260 I=1,NEL
-          SM(I)=SM(I)+UVAR(I,1)
+        SM(I)=SM(I)+UVAR(I,1)
         IF(KF/=0) THEN
           AMU(I)=RHO(I)/RHO0(I)-ONE
           IF(IFLAG == 0) THEN
@@ -272,17 +271,17 @@ C COMPUTE STRESS RATE INCREMENTS
      &           -FAC*FINTER(KF,AMU(I),NPF,TF,DPDMU)
           ENDIF
         ELSE
-            PDOT(I)=( C1*BULK(I)*DEDTM(I)
-     &               -C2*MK(I)*SM(I)
-     &               +C3*PK(I)*EM(I))
-     &             /(ONE+C2*DT05*MK(I))
-            P(I)=SM(I)+PDOT(I)*TIMESTEP
+          PDOT(I)=( C1*BULK(I)*DEDTM(I)
+     &             -C2*MK(I)*SM(I)
+     &             +C3*PK(I)*EM(I))
+     &           /(ONE+C2*DT05*MK(I))
+          P(I)=SM(I)+PDOT(I)*TIMESTEP
         ENDIF
         IF(P(I)<=PMIN) P(I)=PMIN
         P(I)=P(I)-SIGAIR(I)
   260 CONTINUE
 
-C COMPUTE SOUND SPEED 
+C COMPUTE SOUND SPEED
       DO 270 I=1,NEL
         DPDRO(I)= G2(I)/(ONE-POISSON)
      &          +P0*(ONE-PHI)/(ONE+GAMA(I)-PHI)**2
@@ -295,27 +294,27 @@ C COMPUTE PRESSURE
 
 C COMPUTE UPDATED STRESSES
       IF(ICORRECT/=0)THEN
-       DO 290 I=1,NEL
-        SIGNXX(I)=DSXX(I)+DSDTXX(I)*TIMESTEP+P(I)
-        SIGNYY(I)=DSYY(I)+DSDTYY(I)*TIMESTEP+P(I)
-        SIGNXY(I)=DSXY(I)+DSDTXY(I)*TIMESTEP*0.5
-        SIGNYZ(I)=SIGOYZ(I)+G02*DEPSYZ(I)*CSHEAR
-        SIGNZX(I)=SIGOZX(I)+G02*DEPSZX(I)*CSHEAR
-        VISCMAX(I)= ZERO
-        UVAR(I,1)=SIGAIR(I)
-  290  CONTINUE
+        DO 290 I=1,NEL
+          SIGNXX(I)=DSXX(I)+DSDTXX(I)*TIMESTEP+P(I)
+          SIGNYY(I)=DSYY(I)+DSDTYY(I)*TIMESTEP+P(I)
+          SIGNXY(I)=DSXY(I)+DSDTXY(I)*TIMESTEP*0.5
+          SIGNYZ(I)=SIGOYZ(I)+G02*DEPSYZ(I)*CSHEAR
+          SIGNZX(I)=SIGOZX(I)+G02*DEPSZX(I)*CSHEAR
+          VISCMAX(I)= ZERO
+          UVAR(I,1)=SIGAIR(I)
+  290   CONTINUE
       ELSE
-       DO I=1,NEL
-        SIGNXX(I)=DSXX(I)+DSDTXX(I)*TIMESTEP+P(I)
-        SIGNYY(I)=DSYY(I)+DSDTYY(I)*TIMESTEP+P(I)
-        SIGNXY(I)=DSXY(I)+DSDTXY(I)*TIMESTEP
-        SIGNYZ(I)=SIGOYZ(I)+G02*DEPSYZ(I)*CSHEAR
-        SIGNZX(I)=SIGOZX(I)+G02*DEPSZX(I)*CSHEAR
-        VISCMAX(I)= ZERO
-        UVAR(I,1)=SIGAIR(I)
-       END DO
+        DO I=1,NEL
+          SIGNXX(I)=DSXX(I)+DSDTXX(I)*TIMESTEP+P(I)
+          SIGNYY(I)=DSYY(I)+DSDTYY(I)*TIMESTEP+P(I)
+          SIGNXY(I)=DSXY(I)+DSDTXY(I)*TIMESTEP
+          SIGNYZ(I)=SIGOYZ(I)+G02*DEPSYZ(I)*CSHEAR
+          SIGNZX(I)=SIGOZX(I)+G02*DEPSZX(I)*CSHEAR
+          VISCMAX(I)= ZERO
+          UVAR(I,1)=SIGAIR(I)
+        END DO
       END IF
-c-----------        
+c-----------
       RETURN
       END
 

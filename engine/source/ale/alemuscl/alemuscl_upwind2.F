@@ -23,28 +23,28 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ALEMUSCL_UPWIND2              source/ale/alemuscl/alemuscl_upwind2.F
 Chd|-- called by -----------
-Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
+Chd|        AFLUXT                        source/ale/ale51/afluxt.F
 Chd|-- calls ---------------
 Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
 Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
-Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
+Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F
 Chd|====================================================================
-      SUBROUTINE ALEMUSCL_UPWIND2(FLUX, ALE_CONNECT, ALPH, X, IXQ, FLUX_VOIS, 
+      SUBROUTINE ALEMUSCL_UPWIND2(FLUX, ALE_CONNECT, ALPH, X, IXQ, FLUX_VOIS,
      .     N4_VOIS, ITAB, NV46, ITRIMAT, SEGVAR)
 C-----------------------------------------------
 C   D e s c r i p t i o n
-C   This subroutines performs the following steps: 
-C     1 - compute a gradient for volumicfraction ALPH
+C   This subroutines performs the following steps:
+C     1 - compute a gradient for volume fraction ALPH
 C         (calls GRADIENT_RECONSTRUCTION)
-C     2 - reconstruct a value for volumic fraction on each edge of the mesh
+C     2 - reconstruct a value for volume fraction on each edge of the mesh
 C         based on an affine approximation
 C     3 - upwind this value on the edge and store it in the flux
 C-----------------------------------------------
-      USE I22BUFBRIC_MOD 
-      USE I22TRI_MOD 
-      USE ALEMUSCL_MOD 
+      USE I22BUFBRIC_MOD
+      USE I22TRI_MOD
+      USE ALEMUSCL_MOD
       USE SEGVAR_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
@@ -90,7 +90,7 @@ C-----------------------------------------------
       my_real :: YF, ZF
       INTEGER :: FACE_TO_NODE_LOCAL_ID(4, 2), NODEID1, NODEID2
 C-----------------------------------------------
-C   S o u r c e   L i n e s 
+C   S o u r c e   L i n e s
 C-----------------------------------------------
 !!! Once for all, associate node local id to a face number
 !!! Face 1
@@ -103,74 +103,74 @@ C-----------------------------------------------
       FACE_TO_NODE_LOCAL_ID(4, 1) = 4 ; FACE_TO_NODE_LOCAL_ID(4, 2) = 1
 !!! First of all, compute gradient for alpha
       DO I = LFT, LLT
-         II = I + NFT
-         IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
-         !!! Element centroid
-         YK = ELCENTER(II,2) ; ZK = ELCENTER(II,3) 
-         !!! Neighbors
-         DO KK = 1, NV46
-            !!! Only for outgoing fluxes
-            IF (FLUX(KK, II) > ZERO) THEN
-               !!! Storing neighbor indexes
-               NEIGHBOOR_LIST(KK) = ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1)
-               FACE_NEIGHBOOR(KK) = KK
-               IF (NEIGHBOOR_LIST(KK) <= 0) THEN
-                  IF(NEIGHBOOR_LIST(KK)==0)NEIGHBOOR_LIST(KK) = II
-                  !case <0 is for eBCS. -NEIGHBOR_LIST is then the segment number                  
-               ELSEIF (NEIGHBOOR_LIST(KK) <= NUMELQ) THEN
-                  IAD3 = ALE_CONNECT%ee_connect%iad_connect(NEIGHBOOR_LIST(KK))
-                  !!! Store the face number to which II and NEIGHBOR_LIST(KK) are adjacent
-                  DO JJ = 1, NV46
-                     IF (ALE_CONNECT%ee_connect%connected(IAD3 + JJ - 1) == II) THEN
-                        FACE_NEIGHBOOR(KK) = JJ
-                     ENDIF
-                  ENDDO  ! JJ = 1, NV46
-               ENDIF
-               
-               NODEID1 = IXQ(1 + FACE_TO_NODE_LOCAL_ID(KK, 1), II)
-               NODEID2 = IXQ(1 + FACE_TO_NODE_LOCAL_ID(KK, 2), II)
+        II = I + NFT
+        IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
+        !!! Element centroid
+        YK = ELCENTER(II,2) ; ZK = ELCENTER(II,3)
+        !!! Neighbors
+        DO KK = 1, NV46
+          !!! Only for outgoing fluxes
+          IF (FLUX(KK, II) > ZERO) THEN
+            !!! Storing neighbor indexes
+            NEIGHBOOR_LIST(KK) = ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1)
+            FACE_NEIGHBOOR(KK) = KK
+            IF (NEIGHBOOR_LIST(KK) <= 0) THEN
+              IF(NEIGHBOOR_LIST(KK)==0)NEIGHBOOR_LIST(KK) = II
+              !case <0 is for eBCS. -NEIGHBOR_LIST is then the segment number
+            ELSEIF (NEIGHBOOR_LIST(KK) <= NUMELQ) THEN
+              IAD3 = ALE_CONNECT%ee_connect%iad_connect(NEIGHBOOR_LIST(KK))
+              !!! Store the face number to which II and NEIGHBOR_LIST(KK) are adjacent
+              DO JJ = 1, NV46
+                IF (ALE_CONNECT%ee_connect%connected(IAD3 + JJ - 1) == II) THEN
+                  FACE_NEIGHBOOR(KK) = JJ
+                ENDIF
+              ENDDO  ! JJ = 1, NV46
+            ENDIF
 
-               YF = HALF * (X(2, NODEID1) + X(2, NODEID2))
-               ZF = HALF * (X(3, NODEID1) + X(3, NODEID2))
+            NODEID1 = IXQ(1 + FACE_TO_NODE_LOCAL_ID(KK, 1), II)
+            NODEID2 = IXQ(1 + FACE_TO_NODE_LOCAL_ID(KK, 2), II)
 
-               !!! Reconstruct second order value for ALPHA(II) on the face
-               ALPHAK = VOLUME_FRACTION(II,ITRIMAT) 
-     .              + GRAD(II,2,ITRIMAT) * (YF - YK) 
-     .              + GRAD(II,3,ITRIMAT) * (ZF - ZK)
-              
-               !!! Partial volume flux is then computed as:
-               FLUX(KK, II) = ALPHAK * FLUX(KK, II)
-               IF (NEIGHBOOR_LIST(KK) > 0)THEN
-                 IF (NEIGHBOOR_LIST(KK) <= NUMELQ) THEN
-                    !!! The opposite of the flux goes to the neighbor
-                    FLUX(FACE_NEIGHBOOR(KK), NEIGHBOOR_LIST(KK)) = -FLUX(KK, II)
-                 ELSE
-                    !!! No idea what I'm doing ... cf. ALE51_ANTIDIFF3
-                    FLUX_VOIS(II, KK) = FLUX(KK, II)
-                    N4_VOIS(II, 1) = ITAB(IXQ(2, II))
-                    N4_VOIS(II, 2) = ITAB(IXQ(3, II))
-                    N4_VOIS(II, 3) = ITAB(IXQ(4, II))
-                    N4_VOIS(II, 4) = ITAB(IXQ(5, II))
-                 ENDIF
-               ENDIF
-            ENDIF  ! (FLUX(KK, II) > ZERO)
-         ENDDO  ! KK = 1, NV46
+            YF = HALF * (X(2, NODEID1) + X(2, NODEID2))
+            ZF = HALF * (X(3, NODEID1) + X(3, NODEID2))
+
+            !!! Reconstruct second order value for ALPHA(II) on the face
+            ALPHAK = VOLUME_FRACTION(II,ITRIMAT)
+     .           + GRAD(II,2,ITRIMAT) * (YF - YK)
+     .           + GRAD(II,3,ITRIMAT) * (ZF - ZK)
+
+            !!! Partial volume flux is then computed as:
+            FLUX(KK, II) = ALPHAK * FLUX(KK, II)
+            IF (NEIGHBOOR_LIST(KK) > 0)THEN
+              IF (NEIGHBOOR_LIST(KK) <= NUMELQ) THEN
+                !!! The opposite of the flux goes to the neighbor
+                FLUX(FACE_NEIGHBOOR(KK), NEIGHBOOR_LIST(KK)) = -FLUX(KK, II)
+              ELSE
+                !!! cf. ALE51_ANTIDIFF3
+                FLUX_VOIS(II, KK) = FLUX(KK, II)
+                N4_VOIS(II, 1) = ITAB(IXQ(2, II))
+                N4_VOIS(II, 2) = ITAB(IXQ(3, II))
+                N4_VOIS(II, 3) = ITAB(IXQ(4, II))
+                N4_VOIS(II, 4) = ITAB(IXQ(5, II))
+              ENDIF
+            ENDIF
+          ENDIF  ! (FLUX(KK, II) > ZERO)
+        ENDDO  ! KK = 1, NV46
       ENDDO  ! I = LFT, LLT
-      
+
 C-----------------------------------------------
-C         flux entrant par EBCS 
+C         flux entrant par EBCS
 C-----------------------------------------------
-          IF(NSEGFLU > 0)THEN
-            DO I = LFT, LLT
-              II = I + NFT 
-              IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
-              DO KK=1,4                                                                
-                IF(FLUX(KK,II) < ZERO .AND. ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1) < 0)THEN  
-                  FLUX(KK,II) = SEGVAR%PHASE_ALPHA(ITRIMAT,-ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1))*FLUX(KK,II)    
-                ENDIF                                                                 
-              ENDDO                                                                   
-             ENDDO  
-          ENDIF 
-                
+      IF(NSEGFLU > 0)THEN
+        DO I = LFT, LLT
+          II = I + NFT
+          IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
+          DO KK=1,4
+            IF(FLUX(KK,II) < ZERO .AND. ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1) < 0)THEN
+              FLUX(KK,II) = SEGVAR%PHASE_ALPHA(ITRIMAT,-ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1))*FLUX(KK,II)
+            ENDIF
+          ENDDO
+        ENDDO
+      ENDIF
+
 C-----------------------------------------------
       END SUBROUTINE ALEMUSCL_UPWIND2
