@@ -124,7 +124,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_ECN,ADDNN,ADDNE,IPOS,I,IP,J
-      INTEGER INF,SUP,DIR,N1,N2,N3,N4,NN,NE,MEMX
+      INTEGER INF,SUP,DIR,N1,N2,N3,N4,NN,NE,MEMX,IFLAG
 C     REAL
       my_real
      .   BID,DX,DY,DZ,DSUP,SEUIL,XMX,XMN,GAPV(MVSIZ)
@@ -243,6 +243,7 @@ C       VIRER LES INUTILES
                   LLT = NVSIZ
                   NFT = 0
                   J_STOK = 0
+                  IFLAG = 0
                   CALL I2COR3(X     ,IRECT ,NSV   ,PROV_E  ,PROV_N,
      1                        BID   ,BID   ,GAPV  ,0       ,TZINF,
      2                        BID   ,BID   ,0     ,NINT    ,IXC   , 
@@ -254,7 +255,7 @@ C       VIRER LES INUTILES
      5                        IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6                        X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7                        Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8                        XI     ,YI     ,ZI  ,STIF)
+     8                        XI     ,YI     ,ZI  ,STIF    ,IFLAG )
                   IF (ILEV == 27) THEN
 C--               Improved projections on triangles for spotflag27
                     CALL I2DST3_27(GAPV,PROV_E ,PROV_N,TZINF,IRTL,ST,DMIN,
