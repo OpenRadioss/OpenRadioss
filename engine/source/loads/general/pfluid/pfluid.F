@@ -233,7 +233,13 @@ C---------------------------------------
               FX=FX*FOURTH
               FY=FY*FOURTH
               FZ=FZ*FOURTH                                  
-              
+                                                                                             
+              !External Force Work
+              TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
+     +                          +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
+     +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
+     
+#include "lockon.inc"
               !/PARITH/OFF: force is direcctly added in A array. It will be dividedby nodal mass later
               !-node_1
               A(1,N1)=A(1,N1)+FX                                                                   
@@ -251,14 +257,8 @@ C---------------------------------------
               A(1,N4)=A(1,N4)+FX                                                                   
               A(2,N4)=A(2,N4)+FY                                                                   
               A(3,N4)=A(3,N4)+FZ  
-                                                                                
-              !External Force Work
-              TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
-     +                          +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
-     +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
-     
-              IF(IANIM  > 0) THEN  
-#include "lockon.inc"
+
+              IF(IANIM  > 0) THEN                
                 FEXT(1,N1) = FEXT(1,N1)+FX                                                         
                 FEXT(2,N1) = FEXT(2,N1)+FY                                                         
                 FEXT(3,N1) = FEXT(3,N1)+FZ    
@@ -273,9 +273,10 @@ C---------------------------------------
                 !
                 FEXT(1,N4) = FEXT(1,N4)+FX                                                         
                 FEXT(2,N4) = FEXT(2,N4)+FY                                                         
-                FEXT(3,N4) = FEXT(3,N4)+FZ                                      
+                FEXT(3,N4) = FEXT(3,N4)+FZ  
+              ENDIF                                                         
 #include "lockoff.inc"                                                                    
-              ENDIF         
+    
 
             !---TRIANGLE--------------------------------------------                                                                                                     
             ELSE     

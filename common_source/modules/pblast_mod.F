@@ -45,6 +45,7 @@ Chd|====================================================================
 
       TYPE PBLAST_STRUCT_
         INTEGER SIZ
+        LOGICAL IS_RESET
         my_real, ALLOCATABLE,DIMENSION(:)    :: PRES      ! pressure output(workarray)
         my_real, ALLOCATABLE,DIMENSION(:)    :: cos_theta ! angle on structural face
         my_real, ALLOCATABLE,DIMENSION(:)    :: P_inci,P_refl,ta,t0,decay_inci,decay_refl ! Friedlander parameters  
@@ -145,6 +146,7 @@ C-----------------------------------------------
       !--------------------------------------
       DO I=1,NLOADP_B
         CALL READ_I_C(PBLAST_TAB(I)%SIZ,1)
+        PBLAST_TAB(I)%IS_RESET = .FALSE.
       ENDDO
       !--------------------------------------
       !     READING REAL BUFFER (local segments only)
