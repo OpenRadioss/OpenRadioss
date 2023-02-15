@@ -763,8 +763,8 @@ c
                            H3D_DATA%N_CSE_FRIC_INTER(K) = K
                         ENDIF
 	 	     ENDDO
-                     IF(KEY3_GLOB(1:4) == 'SKID' ) H3D_DATA%N_SCAL_CSE_FRICINT = NINTER
-                     IF(KEY3_GLOB(1:8) == 'CSE_FRIC' ) H3D_DATA%N_SCAL_CSE_FRIC = NINTER
+                     IF(KEY3_GLOB(1:4) == 'SKID' ) H3D_DATA%N_SCAL_SKID = NINTER
+                     IF(KEY3_GLOB(1:8) == 'CSE_FRIC' ) H3D_DATA%N_SCAL_CSE_FRICINT = NINTER
            	   ENDIF
            	  ENDIF
            	ELSE
