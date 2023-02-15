@@ -215,7 +215,7 @@ C
       DTFAC1(:) = DTFAC
       NUMEL= NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELUR+NUMELTG
      .      +NUMELX+NUMSPH+NUMELIG3D
-      MY_ALLOCATE( PERM,NUMEL )
+      MY_ALLOCATE( PERM,NUMEL+1)
   
 C-----------------------------------------------
 C     Computation of index in dtelem for each type of elements
