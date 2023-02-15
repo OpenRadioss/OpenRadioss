@@ -1212,7 +1212,7 @@ C-------------------------------------------------------------------------------
         LOGICAL, DIMENSION(:), ALLOCATABLE :: ELEM_STATE    ! boolean : true if element is ON, false if element is OFF
         INTEGER :: SIZE_ADDCNEL ! size of addcnel array
         INTEGER :: SIZE_CNEL ! size of cnel array
-        LOGICAL :: GLOBAL_ACTIVE_CFD_ELEMENT
+        LOGICAL :: GLOBAL_ACTIVE_ALE_ELEMENT
       DATA IUN/1/
 C-----------------------------------------------------------------------------------       
 C Uncomment for Debug - ITAB is copied in Debug Module.
@@ -2056,8 +2056,8 @@ C===============================================================================
        CALL FAIL_WIND_FRWAVE_INIT(NGROUP)
 
        ! Check if ALE elements are deactivated to avoid some mpi comm. in the ALE solver
-       GLOBAL_ACTIVE_CFD_ELEMENT = .FALSE.
-       IF(IALE+IEULER+ITHERM/=0) CALL CHECK_ALE_COMM(IPARG,ELBUF_TAB,GLOBAL_ACTIVE_CFD_ELEMENT)
+       GLOBAL_ACTIVE_ALE_ELEMENT = .FALSE.
+       CALL CHECK_ALE_COMM(IPARG,ELBUF_TAB,GLOBAL_ACTIVE_ALE_ELEMENT)
 C     End Initialisations //
        IF(NADMESH/=0.AND.IDEL7NG>=1) IDEL7NOK = 0
 C     THERMAL TIME STEP : we don't check incompatible kinematic conditions anymore
@@ -3664,7 +3664,7 @@ C
 C--------------------------------------------------------
 C       ALE flux + forces
 C--------------------------------------------------------
-        IF (IALE+IEULER+ITHERM/=0.AND.GLOBAL_ACTIVE_CFD_ELEMENT) THEN
+        IF (IALE+IEULER+ITHERM/=0.AND.GLOBAL_ACTIVE_ALE_ELEMENT) THEN
            CALL STARTIME(MACRO_TIMER_ALEMAIN,1) 
 C-----------------------------
 C        SPMD : MS=0 boundary nodes if  weight/=1  (pour amas03)

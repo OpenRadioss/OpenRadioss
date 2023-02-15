@@ -74,7 +74,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(SLESDVOIS), INTENT(INOUT) :: TMP_INDEX_SEND_NEIGH
         INTEGER, DIMENSION(SLERCVOIS), INTENT(INOUT) :: TMP_INDEX_RCV_NEIGH
         INTEGER, INTENT(IN) :: LENCOM
-        LOGICAL, DIMENSION(NUMELS+NUMELQ), INTENT(IN) :: ACTIVE_ELEMENT
+        LOGICAL, DIMENSION(NUMELS+NUMELQ+NUMELTG), INTENT(IN) :: ACTIVE_ELEMENT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
