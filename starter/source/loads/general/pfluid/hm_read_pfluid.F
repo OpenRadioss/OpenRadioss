@@ -77,7 +77,7 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER NPC(SNPC),IFRAME(LISKN,NUMFRAM+1),
      .        NUMLOADP, ILOADP(SIZLOADP,NLOADP), LLOADP(SLLOADP)
-      my_real FACLOADP(LFACLOAD,NUMLOADP)
+      my_real FACLOADP(LFACLOAD,NLOADP)
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)

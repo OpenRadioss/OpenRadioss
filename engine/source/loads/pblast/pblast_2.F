@@ -549,7 +549,7 @@ C-----------------------------------------------
       !-------------------------------------------!                                                
       ! SPMD/SMP Parith/OFF                                                                        
       IF(IPARIT==0) THEN 
-!$OMP DO SCHEDULE(GUIDED,MVSIZ)
+!$OMP SINGLE
         DO I = 1,ISIZ_SEG                                                                          
           N1=LLOADP(ILOADP(4,NL)+4*(I-1))                                                          
           N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)                                                        
@@ -570,7 +570,7 @@ C-----------------------------------------------
             A(3,N4)=A(3,N4)+PBLAST_TAB(IL)%FZ(I)                                                                  
           ENDIF                                                                                    
         ENDDO 
-!$OMP END DO                                                                                             
+!$OMP END SINGLE                                                                                        
       ELSE     
 !$OMP DO SCHEDULE(GUIDED,MVSIZ) 
         DO I = 1,ISIZ_SEG                                                                          

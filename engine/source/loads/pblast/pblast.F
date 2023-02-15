@@ -78,8 +78,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER NL, ABAC_ID, NDT, NDT0, ID
+       INTEGER :: NL, ABAC_ID, NDT, NDT0, ID, II, IJK, NN(4), NNOD, IAD , IL
        my_real :: T0INF_LOC, TFEXT_LOC, T_STOP, TDET
+       LOGICAL :: IS_RESET
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -110,14 +111,18 @@ C-----------------------------------------------
        !----------------------------------------------- 
        DO NL=NLOADP_F+1, NLOADP_F+NLOADP_B
 
-         ABAC_ID = ILOADP(07,NL)
-         ID      = ILOADP(08,NL) !user_id
-         NDT     = PBLAST_NDT
-         NDT0    = ILOADP(10,NL)
-         IF(NDT0/=0) NDT = NDT0
-         TDET    =  FAC(01,NL)
-         T_STOP  =  FAC(13,NL)
+         ABAC_ID  = ILOADP(07,NL)
+         ID       = ILOADP(08,NL) !user_id
+         NDT      = PBLAST_NDT
+         NDT0     = ILOADP(10,NL)
+         TDET     = FAC(01,NL)
+         T_STOP   = FAC(13,NL)
          
+         IL       = NL-NLOADP_F
+         IS_RESET = PBLAST_TAB(IL)%IS_RESET
+
+         IF(NDT0/=0) NDT = NDT0
+                  
          TFEXT_LOC = ZERO
          T0INF_LOC = EP20
 
@@ -144,6 +149,35 @@ C-----------------------------------------------
      3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC)
      
              END SELECT 
+             
+         ELSEIF(TT > T_STOP)THEN         
+         
+           IF(.NOT. IS_RESET)THEN
+            ! FLUSH fsky array to 0.
+!$OMP DO SCHEDULE(GUIDED,MVSIZ)           
+             DO II = 1,ILOADP(1,NL)/4
+               !nodes of structural face : N1,N2,N3,N4
+               NN(1)=LLOADP(ILOADP(4,NL)+4*(II-1))
+               NN(2)=LLOADP(ILOADP(4,NL)+4*(II-1)+1)
+               NN(3)=LLOADP(ILOADP(4,NL)+4*(II-1)+2)
+               NN(4)=LLOADP(ILOADP(4,NL)+4*(II-1)+3)
+               IF(NN(4) /= 0 .AND.
+     .            NN(1) /= NN(2) .AND. NN(1) /= NN(3) .AND. NN(1) /= NN(4) .AND.
+     .            NN(2) /= NN(3) .AND. NN(2) /= NN(4) .AND.
+     .            NN(3) /= NN(4) )THEN
+                 NNOD=4
+               ELSE
+                 NNOD=3
+               ENDIF
+               DO IJK=1,NNOD
+                 IAD = IADC(ILOADP(4,NL)+4*(II-1)+(IJK-1))  ! node indexes in FSKY related to current option /LOAD/PBLAST
+                 FSKY(1:3,IAD) = ZERO
+               ENDDO
+               PBLAST_TAB(IL)%IS_RESET = .TRUE.
+             ENDDO! next II
+!$OMP END DO          
+           ENDIF!(.NOT. IS_RESET)
+         
          ENDIF
 
 #include "lockon.inc"

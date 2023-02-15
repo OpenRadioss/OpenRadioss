@@ -81,7 +81,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N1, ISK, N2, N3, N4,IL,IS,
      .        IERR,ICODE,IAD,I,
-     .        IANIM,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
+     .        IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
      .        Phi_I, ID, ITA_SHIFT,
      .        NITER,ITER,IMODEL,NN(4)
      
@@ -129,7 +129,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   S o u r c e   C o d e
 C-----------------------------------------------
-      IANIM = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT + ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT   !output
+      IANIM_OR_H3D = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT + ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT   !output
 
       !Index Bijection                                                                                  
       Z1_ = 0.500000000000000                                                                           
@@ -185,35 +185,38 @@ C-----------------------------------------------
         NN(4)=N4                                                                                                                                                                       
                                                                                                                                                                                                       
         IF(N4==0 .OR. N3==N4 )THEN                                                                                                                                                                    
-          !3 NODE SEGMENT                                                                                                                                                                            
+          !3-NODE-SEGMENT                                                                                                                                                                            
           PBLAST_TAB(IL)%NPt(I)   = THREE  
           NPT = THREE                                                                                                                                                                          
-          !Segment Zentrum                                                                                                                                                                            
+          !Segment Centroid                                                                                                                                                                            
           Zx = X(1,N1)+X(1,N2)+X(1,N3)                                                                                                                                                                
           Zy = X(2,N1)+X(2,N2)+X(2,N3)                                                                                                                                                                
           Zz = X(3,N1)+X(3,N2)+X(3,N3)                                                                                                                                                                
           Zx = Zx*THIRD                                                                                                                                                                               
           Zy = Zy*THIRD                                                                                                                                                                               
-          Zz = Zz*THIRD                                                                                                                                                                               
+          Zz = Zz*THIRD  
+          !Normal vector : (NX,NY,NZ) = 2*S*n where |n|=1.0                                                                                                                                                                             
           NX = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))                                                                                                              
           NY = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))                                                                                                              
-          NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))                                                                                                              
+          NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
+          !NORM = 2*S                                                                                                              
           NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                                                                                                                                                              
         ELSE                                                                                                                                                                                          
-          !4 NODE SEGMENT                                                                                                                                                                            
+          !4-NODE-SEGMENT                                                                                                                                                                            
           PBLAST_TAB(IL)%NPt(I)   = FOUR  
           NPT = FOUR                                                                                                                                                                           
-          !Segment Zentrum                                                                                                                                                                            
+          !Face Centroid                                                                                                                                                                           
           Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)                                                                                                                                                        
           Zy = X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4)                                                                                                                                                        
           Zz = X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4)                                                                                                                                                        
           Zx = Zx*FOURTH                                                                                                                                                                              
           Zy = Zy*FOURTH                                                                                                                                                                              
           Zz = Zz*FOURTH                                                                                                                                                                              
-          !Normal                                                                                                                                                                                     
+          !Normal vector (NX,NY,NZ) = 2*S*n where |n|=1.0
           NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))                                                                                                              
           NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))                                                                                                              
-          NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))                                                                                                              
+          NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2)) 
+          !NORM = 2*S                                                                                                             
           NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                                                                                                                                                              
         ENDIF     
                                                                                                                                                                                                           
@@ -529,30 +532,36 @@ C-----------------------------------------------
         P = MAX(P,PMIN)                                                                                                                                                                               
         IF (NUMSKINP > 0) PBLAST_TAB(IL)%PRES(I) = P                                                                                                                                                  
 
-        !!Expand Pressure load to nodes   
-        FF(1) = -P * HALF*NX / NPT                                                                                                                                          
-        FF(2) = -P * HALF*NY / NPT  
-        FF(3) = -P * HALF*NZ / NPT  
-        PBLAST_TAB(IL)%FX(I) = FF(1)                                                                                                                                                                 
-        PBLAST_TAB(IL)%FY(I) = FF(2)                                                                                                                                                                  
-        PBLAST_TAB(IL)%FZ(I) = FF(3)                                                                                                                                                                  
+        !!Expand Pressure load to nodes
+        ! FF is nodal force which applied on each node N1,N2,N3, and also N4 if relevant
+        ! FF = FF_elem / NPT = Pload.S.n / NPT  where n is the unitary normal vector
+        ! NX,NY,NZ = 2S.n (in all cases:quadrangles & triangles)
+        FF(1) = -P * HALF*NX / NPT       !  -P*S/NPT . nx
+        FF(2) = -P * HALF*NY / NPT       !  -P*S/NPT . ny
+        FF(3) = -P * HALF*NZ / NPT       !  -P*S/NPT . nz
+        !storing force for one node of the current face (for assembly below)
+        PBLAST_TAB(IL)%FX(I) = FF(1)
+        PBLAST_TAB(IL)%FY(I) = FF(2)
+        PBLAST_TAB(IL)%FZ(I) = FF(3)
 
-        TFEXT_LOC=TFEXT_LOC+DT1*(   FF(1) * SUM(  V( 1, NN(1:NINT(NPT))  )  )                                                                                                                           
-     +                            + FF(2) * SUM(  V( 2, NN(1:NINT(NPT))  )  )                                                                                                                           
-     +                            + FF(3) * SUM(  V( 3, NN(1:NINT(NPT))  )  )                                                                                                                           
-     +                          )  
+        !External Force work
+        ! on a given node : DW = <F,V>*dt
+        ! for this current 4-node or 3-node face :   DW = sum(   <F_k,V_k>*dt       k=1,NPT)   where F_k=Fel/NPT
+        TFEXT_LOC=TFEXT_LOC+DT1*(FF(1)*SUM(V(1,NN(1:NINT(NPT)))) +FF(2)*SUM(V(2,NN(1:NINT(NPT)))) +FF(3)*SUM(V(3,NN(1:NINT(NPT)))))
 
       ENDDO!next I                                                                                                                                                                                    
 !$OMP END DO
          
       CALL MY_BARRIER() 
                  
-      !-------------------------------------------!                                                
-      !   ASSEMBLY                                !                                                
-      !-------------------------------------------!                                                
-      ! SPMD/SMP Parith/OFF                                                                        
+      !-------------------------------------------------------------------!
+      !   FORCE ASSEMBLY                                                  !
+      !     /PARITH/OFF : F directly added in A(1:3,1:NUMNOD).            !
+      !     /PARITH/ON  : F added FSKY & and automatically treated later  !      
+      !-------------------------------------------------------------------!
+      ! SPMD/SMP Parith/OFF
       IF(IPARIT==0) THEN 
-!$OMP DO SCHEDULE(GUIDED,MVSIZ)
+!$OMP SINGLE
         DO I = 1,ISIZ_SEG                                                                          
           N1=LLOADP(ILOADP(4,NL)+4*(I-1))                                                          
           N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)                                                        
@@ -573,7 +582,7 @@ C-----------------------------------------------
             A(3,N4)=A(3,N4)+PBLAST_TAB(IL)%FZ(I)                                                                  
           ENDIF                                                                                    
         ENDDO 
-!$OMP END DO                                                                                             
+!$OMP END SINGLE
       ELSE     
 !$OMP DO SCHEDULE(GUIDED,MVSIZ) 
         DO I = 1,ISIZ_SEG                                                                          
@@ -601,10 +610,11 @@ C-----------------------------------------------
                                                                                                    
                                                                                                    
       !-------------------------------------------!                                                
-      !   ANIMATION FILE                          !                                                
-      !-------------------------------------------!                                                                                                                          
+      !   ANIMATION FILE   /ANIM/VECT/FEXT        !
+      !   H3D FILE         /H3D/NODA/FEXT         !
+      !-------------------------------------------!                                                                                                                       
 !$OMP SINGLE
-      IF(IANIM > 0) THEN  
+      IF(IANIM_OR_H3D>0) THEN
         DO I = 1,ISIZ_SEG                                                                        
           N1=PBLAST_TAB(IL)%N(1,I)                                                                              
           N2=PBLAST_TAB(IL)%N(2,I)                                                                              
