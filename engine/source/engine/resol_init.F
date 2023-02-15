@@ -567,10 +567,8 @@ C
           S_EFRIC = NUMNOD
           IF(NINTSTAMP/=0) S_EFRICG = NUMNODG
         ENDIF
-        IF(H3D_DATA%N_SCAL_CSE_FRICINT >0) THEN
-           S_EFRICINT = NUMNOD
-          IF(NINTSTAMP/=0) S_EFRICINTG = NUMNODG
-        ENDIF
+        IF(NINEFRIC >0) S_EFRICINT = NUMNOD
+        IF(NINEFRIC_STAMP >0) S_EFRICINTG = NUMNODG
 C------------------------
 C      PARAL. ARITH.
 C------------------------

@@ -1832,7 +1832,7 @@ C
          IF(NINTSTAMP/=0) THEN
            DO N=1,NINTER
                NI = H3D_DATA%N_CSE_FRIC_INTER (N) 
-               IF(NI/= 0.AND.IPARI(7,N)==21) NINEFRIC_STAMP = NINEFRIC + 1
+               IF(NI/= 0.AND.IPARI(7,N)==21) NINEFRIC_STAMP = NINEFRIC_STAMP + 1
            ENDDO
          ENDIF
          IF(NINEFRIC_STAMP==NINEFRICG) THEN
