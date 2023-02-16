@@ -694,9 +694,9 @@ C-----------------------------------------------
           !Surface not facing the point of explosion                                                                                                                                                 
           alpha_refl = ZERO                                                                                                                                                                          
           alpha_inci = ONE                                                                                                                                                                           
-        ELSE                                                                                                                                                                                         
-          alpha_refl = cos_theta**2                           !     cos**2 X                                                                                                                         
-          alpha_inci = ONE + alpha_refl - TWO * cos_theta        ! 1 + cos**2 X -2 cosX                                                                                                              
+        ELSE
+          alpha_refl = cos_theta**2                              ! cos**2 a                                                                                                                         
+          alpha_inci = ONE + cos_theta - TWO * alpha_refl        ! 1 + cos a -2 cos**2 a                                                                                                                     
         ENDIF                                                                                                                                                                                        
                                                                                                                                                                                                      
         !Building pressure waves from Friedlander model. (Modified model can bu introduced later if needed)                                                                                           
