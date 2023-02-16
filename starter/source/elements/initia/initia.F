@@ -3308,10 +3308,12 @@ C Only solid and shell have initialized surely IPARG(62,NG)
       DO NG=1,NGROUP
        IF (IPARG(8,NG)==1.OR.IPARG(62,NG)==0) CYCLE
        ITY = IPARG(5,NG)
-       ISOLNOD = IPARG(28,NG)
-       NFT=IPARG(3,NG)+1
-       IP = IPARTS(NFT)
-       ISNN(IP) = ISOLNOD             
+       IF (ITY ==1) THEN
+         ISOLNOD = IPARG(28,NG)
+         NFT=IPARG(3,NG)+1
+         IP = IPARTS(NFT)
+         ISNN(IP) = ISOLNOD 
+       END IF         
        IPID=IPARG(62,NG)
        IF (I2GEO(IPID)==0) THEN
         I2GEO(IPID) = NG
