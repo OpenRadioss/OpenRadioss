@@ -313,7 +313,6 @@ Chd|        MERGE                         source/model/submodel/merge.F
 Chd|        MERGE_NODE                    source/elements/nodes/merge_node.F
 Chd|        MONVOL_ALLOCATE               share/modules1/monvol_struct_mod.F
 Chd|        MONVOL_DEALLOCATE             share/modules1/monvol_struct_mod.F
-Chd|        MTAG_R2R_VOID                 source/elements/elbuf_init/mtag_r2r_void.F
 Chd|        MULTI_CONNECTIVITY            source/multifluid/multi_connectivity.F
 Chd|        MULTI_UNPLUG_NEIGHBORS        source/multifluid/multi_unplug_neighbors.F
 Chd|        NBFUNCT                       source/tools/curve/nbfunc.F   

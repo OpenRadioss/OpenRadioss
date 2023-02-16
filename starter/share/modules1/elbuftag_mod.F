@@ -183,7 +183,6 @@ Chd|        LAW104_UPD                    source/materials/mat/mat104/law104_upd
 Chd|        LECSTACK_PLY                  source/properties/composite_options/stack/lecstack_ply.F
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        M20DCOD                       source/system/fsdcod.F        
-Chd|        MTAG_R2R_VOID                 source/elements/elbuf_init/mtag_r2r_void.F
 Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|        ZEROVARS_AUTO                 source/elements/elbuf_init/zerovars_auto.F
