@@ -206,7 +206,16 @@ C--------------------------------------------------
         WRITE(IOUT,1300) 
 
         STR_TMP = KEY(1:LEN_TRIM(KEY))
-
+C--------------------------------------------------
+C CHECK INTERFACE AVAILABILITY WITH 2D ANALYSIS
+C--------------------------------------------------
+        IF(N2D /= 0 .AND.
+     .     STR_TMP /= 'TYPE1' .AND. STR_TMP /= 'TYPE2' .AND.
+     .     STR_TMP /= 'TYPE3' .AND. STR_TMP /= 'TYPE5') THEN
+              CALL ANCMSG(MSGID=2097,ANMODE=ANSTOP,MSGTYPE=MSGERROR,
+     .  	       I1=NOINT,C1=TITR,C2=STR_TMP)
+        ENDIF
+C--------------------------------------------------
         SELECT CASE(STR_TMP)
         CASE ('KINE', 'TYPE1', 'TYPE9', 'TYPE12','TYPE18',  'TYPE22')
 C--------------------------------------------------
