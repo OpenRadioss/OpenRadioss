@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chr|           scratchfile names are opened in 
 Chd|====================================================================
 Chd|  SCRATCHFILE_MOD               share/modules/scratchfiles_mod.F
 Chd|-- called by -----------
@@ -32,11 +31,60 @@ Chd|        FXBWREST                      source/output/restart/wrrest.F
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|====================================================================
-      MODULE SCRATCHFILE_MOD
-        CHARACTER(LEN=10192) :: IINFNA,IUSC4_FNAM,IUSC2_FNAM,
-     *                        IFXS_FN,IFXM_FN,IEIGM_FN
-        INTEGER USE_IFXM, USE_IFXS,USE_IEIGM
-        INTEGER LEN_IINFNA,LEN_IUSC4_FNAM,LEN_IFXS_FN,LEN_IFXM_FN,
-     *                        LEN_IEIGM_FN
+      SUBROUTINE OPEN_F_SCRATCH_FILE(FD,ACCES_TYPE,ROOTN,LENROOTN,FILN)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C    ACCESS TYPES - File format
+C T_FORMATED : FORM=FORMATED
+#define  T_FORMATED 1  
+C T_DIRECT : FORM=DIRECT_120 RECL=120
+#define  T_DIRECT_120   2
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "task_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+        INTEGER, INTENT(IN) :: FD
+        INTEGER, INTENT(IN)  :: LENROOTN
+        CHARACTER(LEN=LENROOTN),INTENT(IN) :: ROOTN
+        CHARACTER(LEN=10192),INTENT(OUT) :: FILN
+        INTEGER,INTENT(IN) ::  ACCES_TYPE
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+        INTEGER MY_PID,TLEN
+        CHARACTER(LEN=4096) TMPDIR
+        CHARACTER(LEN=20) :: CPID,CISPMD
+        CHARACTER(LEN=5) :: CFD
+C-----------------------------------------------
+        CALL MY_GETPID(MY_PID)
+        TLEN=4096
 
-      END MODULE SCRATCHFILE_MOD 
+        TMPDIR='' 
+        CALL TMPENVF(TMPDIR,TLEN)
+        
+        WRITE(CPID,'(I10.10)') MY_PID
+        WRITE(CISPMD,'(I6.6)') ISPMD
+        WRITE(CFD,'(I2.2)') FD
+#ifdef _WIN64
+        FILN=TMPDIR(1:TLEN)//'\\'//TRIM(CFD)//'_'//ROOTN(1:LENROOTN)//'_'//TRIM(CPID)//'_'//TRIM(CISPMD)//'.tmp'
+#else
+        FILN=TMPDIR(1:TLEN)//'/'//TRIM(CFD)//'_'//ROOTN(1:LENROOTN)//'_'//TRIM(CPID)//'_'//TRIM(CISPMD)//'.tmp'
+#endif
+C       Create tempo file
+        IF (ACCES_TYPE == T_FORMATED ) THEN
+
+          OPEN(UNIT=FD,FORM='FORMATTED',FILE=TRIM(FILN))  
+
+        ELSEIF (ACCES_TYPE == T_DIRECT_120 ) THEN
+
+          OPEN(UNIT=FD,FORM='FORMATTED',ACCESS='DIRECT',RECL=120,FILE=TRIM(FILN)) 
+        ENDIF
+      END
+
+

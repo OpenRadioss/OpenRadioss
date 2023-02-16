@@ -63,13 +63,13 @@ char* tmpenv_c(){
   int sz_tmpdir;
   
   tmpdir=(char *)malloc(sizeof(char)*2048);
-  GetEnvironmentVariable("TMPDIR",tmpdir,2048);
-
+  sz_tmpdir = GetEnvironmentVariable("TMPDIR",tmpdir,2048);
   /* second trial get current working directory */
   if (sz_tmpdir == 0){
       
     sz_tmpdir = GetCurrentDirectory( 2048,tmpdir);
   }
+  fflush(stdout);
   return tmpdir;
 
 }
