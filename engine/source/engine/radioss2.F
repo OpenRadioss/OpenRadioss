@@ -635,18 +635,14 @@ C--------------------------------------------------
       HVISC=HALF
       HVLIN=ZERO
 C--------------------------------------------------
-      WRITE(CPID,'(I10.10)') MY_PID
-      WRITE(CISPMD,'(I6.6)') ISPMD
-      IINFNA='8_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
-      OPEN(UNIT=IIN,FORM='FORMATTED',FILE=TRIM(IINFNA))   ! Create tempo file
+      CALL OPEN_F_SCRATCH_FILE(8,1,ROOTN,LENROOTN,IINFNA)
 
       IF ( GOT_INPUT == 0)THEN
        IF (ISPMD/=0) THEN
 C redirect IOUT to tmp file  fichier temporaire when SPMD on pi <> 0
          IOUT = IUSC4
-         IUSC4_FNAM='70_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+         CALL OPEN_F_SCRATCH_FILE(IOUT,1,ROOTN,LENROOTN,IUSC4_FNAM)
          LEN_IUSC4_FNAM=LEN_TRIM(IUSC4_FNAM)
-         OPEN(UNIT=IOUT,ACCESS='SEQUENTIAL',FORM='FORMATTED',FILE=TRIM(IUSC4_FNAM) )
 
          WRITE(UNIT=IOUT,IOSTAT=IOS,FMT='(A)')
          OPEN(UNIT=ISTDI,FORM='FORMATTED',FILE=INPUTNAM,STATUS='OLD',IOSTAT=IO_ERR)
@@ -659,10 +655,8 @@ C redirect IOUT to tmp file  fichier temporaire when SPMD on pi <> 0
       ELSE
        IF (ISPMD/=0) THEN
          IOUT = IUSC4
-         IUSC4_FNAM='70_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+         CALL OPEN_F_SCRATCH_FILE(IOUT,1,ROOTN,LENROOTN,IUSC4_FNAM)
          LEN_IUSC4_FNAM=LEN_TRIM(IUSC4_FNAM)
-         OPEN(UNIT=IOUT,ACCESS='SEQUENTIAL',FORM='FORMATTED',FILE=TRIM(IUSC4_FNAM))
-
          WRITE(UNIT=IOUT,IOSTAT=IOS,FMT='(A)')
        ENDIF
       ENDIF
