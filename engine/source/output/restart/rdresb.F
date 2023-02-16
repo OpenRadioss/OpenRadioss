@@ -1464,13 +1464,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LEN_IPM,LEN_MOD, NRECM, NRECS, IRCM, IRCM0, IRCM1,
-     .        IRCS, IRCS0, IRCS1, LREC, I, J, RCLEN,TLEN
+     .        IRCS, IRCS0, IRCS1, LREC, I, J, RCLEN
       my_real
      .        VV(6)
       INTEGER MY_PID
       CHARACTER(LEN=10) :: CPID
       CHARACTER(LEN=6) :: CISPMD
-      CHARACTER(LEN=4096) :: TMPDIR
 C--------------------------------------
 C     READING INTEGERS
 C--------------------------------------
@@ -1522,20 +1521,16 @@ C--------------------------------------
 C Lecture des fichiers de modes et de contraintes
       INQUIRE(IOLENGTH=RCLEN) VV
 
-      TLEN=4096
-      CALL TMPENVF(TMPDIR,TLEN)
       CALL MY_GETPID(MY_PID)
       WRITE(CPID,'(I10.10)') MY_PID
       WRITE(CISPMD,'(I6.6)') ISPMD
-      IFXM_FN=TMPDIR//'/'//'25_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
-      IFXS_FN=TMPDIR//'/'//'26_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+      IFXM_FN='25_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+      IFXS_FN='26_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
       LEN_IFXM_FN=LEN_TRIM(IFXM_FN)
       LEN_IFXS_FN=LEN_TRIM(IFXS_FN)
 
       OPEN(UNIT=IFXM,FILE=TRIM(IFXM_FN),ACCESS='DIRECT',RECL=RCLEN)
       OPEN(UNIT=IFXS,FILE=TRIM(IFXS_FN),ACCESS='DIRECT',RECL=RCLEN)
-      
-
       USE_IFXM = 1
       USE_IFXS = 1
       NRECM=0
@@ -1602,12 +1597,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NRECM, IRCM, NBN, NBM, IAD, LREC, I, J, RCLEN,TLEN
+      INTEGER NRECM, IRCM, NBN, NBM, IAD, LREC, I, J, RCLEN
       my_real
      .        VV(6)
       CHARACTER(LEN=10) :: CPID
       CHARACTER(LEN=6) :: CISPMD
-      CHARACTER(LEN=4096) :: TMPDIR
       INTEGER MY_PID
 C--------------------------------------
 C     READING INTEGERS
@@ -1633,9 +1627,7 @@ C Lecture du fichier de modes additionnels
       CALL MY_GETPID(MY_PID)
       WRITE(CPID,'(I10.10)') MY_PID
       WRITE(CISPMD,'(I6.6)') ISPMD
-      TLEN=4096
-      CALL TMPENVF(TMPDIR,TLEN)
-      IEIGM_FN=TMPDIR//'/'//'27_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+      IEIGM_FN='27_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
       LEN_IEIGM_FN=LEN_TRIM(IEIGM_FN)
       OPEN(UNIT=IEIGM,FILE=TRIM(IEIGM_FN),ACCESS='DIRECT',RECL=RCLEN)
       USE_IEIGM = 1
