@@ -24,10 +24,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPTRIVOX                      source/elements/sph/sptrivox.F
 Chd|-- called by -----------
-Chd|        SPBUC31                       source/elements/sph/spbuc31.F
+Chd|        SPBUC31                       source/elements/sph/spbuc31.F 
 Chd|-- calls ---------------
-Chd|        SPPRO31                       source/elements/sph/spbuc31.F
-Chd|        TRI7BOX                       share/modules1/tri7box.F
+Chd|        SPPRO31                       source/elements/sph/spbuc31.F 
+Chd|        TRI7BOX                       share/modules1/tri7box.F      
 Chd|====================================================================
       SUBROUTINE SPTRIVOX(
      1      NSN    ,X       ,BMINMA  ,NOD2SP  ,

@@ -32,9 +32,9 @@ Chd|        I25ASSE25                     source/interfaces/int25/i25asse.F
 Chd|        I25SMS0E                      source/interfaces/int25/i25smse.F
 Chd|        I25SMS2E                      source/interfaces/int25/i25smse.F
 Chd|        BITGET                        source/interfaces/intsort/i20sto.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25FOR3E(
      1                  JLT    ,A      ,V      ,IBC     ,ICODT  ,

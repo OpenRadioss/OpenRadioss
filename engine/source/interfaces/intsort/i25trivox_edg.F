@@ -27,14 +27,14 @@ Chd|        I25BUCE_EDG                   source/interfaces/intsort/i25buce_edg.
 Chd|-- calls ---------------
 Chd|        I25STO_E2S                    source/interfaces/intsort/i25sto_e2s.F
 Chd|        I25STO_EDG                    source/interfaces/intsort/i25sto_edg.F
-Chd|        MY_BARRIER                    source/system/machine.F
+Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        BITGET                        source/interfaces/intsort/i20sto.F
-Chd|        INT_CHECKSUM                  share/modules/debug_mod.F
-Chd|        DEBUG_MOD                     share/modules/debug_mod.F
-Chd|        REALLOC_MOD                   share/modules/realloc_mod.F
-Chd|        TRI11                         share/modules/tri11_mod.F
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        INT_CHECKSUM                  share/modules/debug_mod.F     
+Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
+Chd|        REALLOC_MOD                   share/modules/realloc_mod.F   
+Chd|        TRI11                         share/modules/tri11_mod.F     
+Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25TRIVOX_EDG(
      1      I_MEM   ,VMAXDT  ,INACTI ,IRECT   ,

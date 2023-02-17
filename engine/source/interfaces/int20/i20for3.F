@@ -25,7 +25,7 @@ Chd|  I20FOR3                       source/interfaces/int20/i20for3.F
 Chd|-- called by -----------
 Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
 Chd|-- calls ---------------
-Chd|        FOAT_TO_6_FLOAT               source/system/parit.F
+Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
 Chd|        I7ASS0                        source/interfaces/int07/i7ass3.F
 Chd|        I7ASS05                       source/interfaces/int07/i7ass3.F
 Chd|        I7ASS2                        source/interfaces/int07/i7ass3.F
@@ -36,8 +36,8 @@ Chd|        I7CURV                        source/interfaces/int07/i7curv.F
 Chd|        I7SMS2                        source/interfaces/int07/i7sms2.F
 Chd|        IBCOFF                        source/interfaces/interf/ibcoff.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I20FOR3(JLT   ,A      ,VA     ,IBCC  ,ICODT  ,
      2                  FSAV   ,GAP    ,FRIC   ,MS    ,VISC   ,
@@ -2252,8 +2252,8 @@ Chd|  I20FOR3C                      source/interfaces/int20/i20for3.F
 Chd|-- called by -----------
 Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
 Chd|-- calls ---------------
-Chd|        ICONTACT_MOD                  share/modules/icontact_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        ICONTACT_MOD                  share/modules/icontact_mod.F  
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I20FOR3C(NLN   ,NLG  ,MS     ,DXANC ,
      2                    DVANC ,STFA ,WEIGHT ,INACTI,
@@ -2388,14 +2388,14 @@ Chd|  I20FOR3E                      source/interfaces/int20/i20for3.F
 Chd|-- called by -----------
 Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
 Chd|-- calls ---------------
-Chd|        FOAT_TO_6_FLOAT               source/system/parit.F
+Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
 Chd|        I20ASS0                       source/interfaces/int20/i20for3.F
 Chd|        I20ASS05                      source/interfaces/int20/i20for3.F
 Chd|        I20ASS2                       source/interfaces/int20/i20for3.F
 Chd|        I20ASS25                      source/interfaces/int20/i20for3.F
 Chd|        I20SMS2E                      source/interfaces/int20/i20sms2.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I20FOR3E(
      1                  JLT    ,A      ,V      ,IBC     ,ICODT  ,
@@ -3354,7 +3354,7 @@ Chd|  I20ASS0                       source/interfaces/int20/i20for3.F
 Chd|-- called by -----------
 Chd|        I20FOR3E                      source/interfaces/int20/i20for3.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I20ASS0(JLT  ,CS_LOC,N1   ,N2   ,M1   ,
      2                   M2   ,HS1   ,HS2  ,HM1  ,HM2  ,
@@ -3451,7 +3451,7 @@ Chd|  I20ASS05                      source/interfaces/int20/i20for3.F
 Chd|-- called by -----------
 Chd|        I20FOR3E                      source/interfaces/int20/i20for3.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I20ASS05(JLT  ,CS_LOC,N1    ,N2   ,M1   ,
      2                    M2   ,HS1   ,HS2   ,HM1  ,HM2  ,
@@ -3558,9 +3558,9 @@ Chd|-- called by -----------
 Chd|        I20FOR3E                      source/interfaces/int20/i20for3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I20ASS2(JLT   ,CS_LOC ,N1    ,N2    ,M1      ,
      2                   M2    ,HS1    ,HS2   ,HM1   ,HM2     ,
@@ -3700,9 +3700,9 @@ Chd|-- called by -----------
 Chd|        I20FOR3E                      source/interfaces/int20/i20for3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I20ASS25(JLT   ,CS_LOC ,N1    ,N2      ,M1    ,
      2                    M2    ,HS1    ,HS2   ,HM1     ,HM2   ,

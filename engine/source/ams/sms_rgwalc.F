@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SMS_RGWALC_IMPACT             source/ams/sms_rgwalc.F
+Chd|  SMS_RGWALC_IMPACT             source/ams/sms_rgwalc.F       
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SMS_RGWALC_IMPACT(X    ,A    ,V      ,RWL  ,NSW   ,
@@ -119,9 +119,9 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SMS_RGWALC_FRIC               source/ams/sms_rgwalc.F
+Chd|  SMS_RGWALC_FRIC               source/ams/sms_rgwalc.F       
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SMS_RGWALC_FRIC
@@ -262,9 +262,9 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SMS_RGWALC_BCS_0              source/ams/sms_rgwalc.F
+Chd|  SMS_RGWALC_BCS_0              source/ams/sms_rgwalc.F       
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SMS_RGWALC_BCS_0
@@ -420,9 +420,9 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SMS_RGWALC_BCS_1              source/ams/sms_rgwalc.F
+Chd|  SMS_RGWALC_BCS_1              source/ams/sms_rgwalc.F       
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SMS_RGWALC_BCS_1
@@ -573,11 +573,11 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SMS_RGWALC_BILAN              source/ams/sms_rgwalc.F
+Chd|  SMS_RGWALC_BILAN              source/ams/sms_rgwalc.F       
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
 Chd|-- calls ---------------
-Chd|        SUM_6_FLOAT                   source/system/parit.F
+Chd|        SUM_6_FLOAT                   source/system/parit.F         
 Chd|====================================================================
       SUBROUTINE SMS_RGWALC_BILAN
      1                 (X     ,FREA  ,V     ,RWL    ,NSW   ,

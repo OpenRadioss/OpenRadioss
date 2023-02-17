@@ -25,7 +25,7 @@ Chd|  I25PREP_ADD                   source/interfaces/int25/i25slid.F
 Chd|-- called by -----------
 Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25PREP_ADD(
      1                  NIN    ,NI25   ,NSN      ,NSNR   ,ITAB   ,
@@ -153,7 +153,7 @@ Chd|  I25PREP_SLID_1                source/interfaces/int25/i25slid.F
 Chd|-- called by -----------
 Chd|        I25COMP_1                     source/interfaces/int25/i25comp_1.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25PREP_SLID_1(
      1                  JLT    ,CAND_N ,CAND_E ,NIN    ,
@@ -404,7 +404,7 @@ Chd|  I25PREP_SLID_2                source/interfaces/int25/i25slid.F
 Chd|-- called by -----------
 Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25PREP_SLID_2(
      1                  CAND_N ,CAND_E ,NIN    ,NI25   ,NSN    ,
@@ -656,7 +656,7 @@ Chd|  I25KEEPF                      source/interfaces/int25/i25slid.F
 Chd|-- called by -----------
 Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25KEEPF(
      1                  I_STOK ,INDEX  ,CAND_N ,CAND_E ,NIN    ,
@@ -762,7 +762,7 @@ Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25PREP_NINDEX(
      1                  NIN    ,NI25   ,NSN    ,NSNR   ,
@@ -850,7 +850,7 @@ Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25PREP_SIZBUFS(
      1                  NIN    ,NI25   ,NSN    ,NSNR   ,ITYP   ,
@@ -1004,7 +1004,7 @@ Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25PREP_SEND(
      1                  NIN    ,NI25   ,NSN    ,NSNR   ,ITYP    ,

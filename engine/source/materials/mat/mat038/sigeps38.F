@@ -31,7 +31,7 @@ Chd|        DREH                          source/materials/mat/mat033/sigeps33.F
 Chd|        JACOBIEW                      source/materials/mat/mat033/sigeps33.F
 Chd|        VALPVECDP_V                   source/materials/mat/mat033/sigeps33.F
 Chd|        VALPVEC_V                     source/materials/mat/mat033/sigeps33.F
-Chd|        FINTER                        source/tools/curve/finter.F
+Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE SIGEPS38(
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,

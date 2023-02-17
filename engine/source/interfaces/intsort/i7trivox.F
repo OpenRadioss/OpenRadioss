@@ -26,12 +26,12 @@ Chd|-- called by -----------
 Chd|        I7BUCE_VOX                    source/interfaces/intsort/i7buce.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        I7STO                         source/interfaces/intsort/i7sto.F
-Chd|        MY_BARRIER                    source/system/machine.F
+Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_OLDNUMCD                 source/mpi/interfaces/spmd_i7tool.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I7TRIVOX(
      1      NSN    ,RENUM       ,NSNR    ,ISZNSNR  ,I_MEM    ,

@@ -29,7 +29,7 @@ Chd|        I7CMP3                        source/interfaces/inter3d1/i7cmp3.F
 Chd|        I7COR3                        source/interfaces/inter3d1/i7cor3.F
 Chd|        I7DST3                        source/interfaces/inter3d1/i7dst3.F
 Chd|        I7PEN3                        source/interfaces/inter3d1/i7pen3.F
-Chd|        TRI7BOX                       share/modules1/tri7box.F
+Chd|        TRI7BOX                       share/modules1/tri7box.F      
 Chd|====================================================================
       SUBROUTINE I7TRIVOX1(
      1      NSN    ,I_MEM   ,IRECT    ,X       ,STF     ,

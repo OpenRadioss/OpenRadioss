@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SMS_RGWALL_IMPACT             source/ams/sms_rgwall.F
+Chd|  SMS_RGWALL_IMPACT             source/ams/sms_rgwall.F       
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SMS_RGWALL_IMPACT
@@ -148,9 +148,9 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SMS_RGWALL_FRIC               source/ams/sms_rgwall.F
+Chd|  SMS_RGWALL_FRIC               source/ams/sms_rgwall.F       
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SMS_RGWALL_FRIC
@@ -337,9 +337,9 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SMS_RGWALL_BCS_0              source/ams/sms_rgwall.F
+Chd|  SMS_RGWALL_BCS_0              source/ams/sms_rgwall.F       
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SMS_RGWALL_BCS_0
@@ -452,9 +452,9 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SMS_RGWALL_BCS_1              source/ams/sms_rgwall.F
+Chd|  SMS_RGWALL_BCS_1              source/ams/sms_rgwall.F       
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SMS_RGWALL_BCS_1
@@ -550,11 +550,11 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SMS_RGWALL_BILAN              source/ams/sms_rgwall.F
+Chd|  SMS_RGWALL_BILAN              source/ams/sms_rgwall.F       
 Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F
+Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
 Chd|-- calls ---------------
-Chd|        SUM_6_FLOAT                   source/system/parit.F
+Chd|        SUM_6_FLOAT                   source/system/parit.F         
 Chd|====================================================================
       SUBROUTINE SMS_RGWALL_BILAN
      1                 (X     ,FREA  ,V     ,RWL    ,NSW   ,

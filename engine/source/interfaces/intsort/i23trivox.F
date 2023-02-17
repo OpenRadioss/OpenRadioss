@@ -26,9 +26,9 @@ Chd|-- called by -----------
 Chd|        I23BUCE                       source/interfaces/intsort/i23buce.F
 Chd|-- calls ---------------
 Chd|        I23STO                        source/interfaces/int23/i23sto.F
-Chd|        MY_BARRIER                    source/system/machine.F
+Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_OLDNUMCD                 source/mpi/interfaces/spmd_i7tool.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I23TRIVOX(
      1      NSN    ,RENUM  ,NSNR    ,ISZNSNR  ,I_MEM    ,

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        I11MAINF                      source/interfaces/int11/i11mainf.F
 Chd|-- calls ---------------
 Chd|        BITGET                        source/interfaces/intsort/i20sto.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I11FOR3(
      1                JLT      ,FSAV     ,GAP      ,FRIC    ,MS      ,

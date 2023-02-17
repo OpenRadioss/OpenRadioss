@@ -33,8 +33,8 @@ Chd|        I7ASS3                        source/interfaces/int07/i7ass3.F
 Chd|        I7ASS35                       source/interfaces/int07/i7ass3.F
 Chd|        I7ASSIGEO0                    source/interfaces/int07/i7ass3.F
 Chd|        I7SMS2                        source/interfaces/int07/i7sms2.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I7ASS33(JLT       ,A        ,NOINT     ,ITAB      ,STIFN    ,
      2                  STIF      ,FSKYI    ,ISKY      ,FCONT     ,IX1       ,
@@ -330,7 +330,7 @@ Chd|        I22FOR3                       source/interfaces/int22/i22for3.F
 Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
 Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
 Chd|-- calls ---------------
-Chd|        DOUBLE_FLOT_IEEE              source/system/parit.F
+Chd|        DOUBLE_FLOT_IEEE              source/system/parit.F         
 Chd|====================================================================
       SUBROUTINE I7ASS3(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
@@ -507,7 +507,7 @@ Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
 Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
 Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
 Chd|-- calls ---------------
-Chd|        DOUBLE_FLOT_IEEE              source/system/parit.F
+Chd|        DOUBLE_FLOT_IEEE              source/system/parit.F         
 Chd|====================================================================
       SUBROUTINE I7ASS35(JLT  ,IX1  ,IX2  ,IX3  ,IX4  ,
      2                  NSVG ,H1   ,H2   ,H3   ,H4   ,STIF ,
@@ -723,7 +723,7 @@ Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
 Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
 Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I7ASS0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
@@ -941,7 +941,7 @@ Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
 Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
 Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I7ASS05(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                   NSVG  ,H1   ,H2   ,H3   ,H4     ,
@@ -1155,9 +1155,9 @@ Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
 Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I7ASS2(JLT   ,IX1   ,IX2  ,IX3  ,IX4   ,
      2                  NSVG  ,H1    ,H2   ,H3   ,H4    ,STIF   ,
@@ -1487,9 +1487,9 @@ Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
 Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I7ASS25(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                   NSVG  ,H1   ,H2   ,H3   ,H4     ,
@@ -1822,9 +1822,9 @@ Chd|-- called by -----------
 Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
 Chd|-- calls ---------------
 Chd|        IG3DONEBASIS                  source/elements/ige3d/ig3donebasis.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I7ASSIGEO0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,

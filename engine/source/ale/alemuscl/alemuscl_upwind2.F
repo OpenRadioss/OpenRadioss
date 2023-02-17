@@ -23,13 +23,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ALEMUSCL_UPWIND2              source/ale/alemuscl/alemuscl_upwind2.F
 Chd|-- called by -----------
-Chd|        AFLUXT                        source/ale/ale51/afluxt.F
+Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
 Chd|-- calls ---------------
 Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
 Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
-Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F
+Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
       SUBROUTINE ALEMUSCL_UPWIND2(FLUX, ALE_CONNECT, ALPH, X, IXQ, FLUX_VOIS,
      .     N4_VOIS, ITAB, NV46, ITRIMAT, SEGVAR)

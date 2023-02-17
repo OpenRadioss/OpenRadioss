@@ -27,9 +27,9 @@ Chd|        I24BUCE                       source/interfaces/intsort/i24buce.F
 Chd|-- calls ---------------
 Chd|        I24FIC_GETN                   source/interfaces/int24/i24for3e.F
 Chd|        I24STO                        source/interfaces/intsort/i24sto.F
-Chd|        MY_BARRIER                    source/system/machine.F
+Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_OLDNUMCD                 source/mpi/interfaces/spmd_i7tool.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I24TRIVOX(
      1      NSN    ,NSNR    ,ISZNSNR ,I_MEM   ,VMAXDT   ,

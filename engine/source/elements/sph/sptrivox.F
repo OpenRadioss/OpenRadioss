@@ -24,13 +24,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPTRIVOX                      source/elements/sph/sptrivox.F
 Chd|-- called by -----------
-Chd|        SPBUC3                        source/elements/sph/spbuc3.F
+Chd|        SPBUC3                        source/elements/sph/spbuc3.F  
 Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F
+Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_SPHGETDK                 source/mpi/elements/spmd_sph.F
-Chd|        SPPRO3                        source/elements/sph/sppro3.F
-Chd|        SPHBOX                        share/modules/sphbox.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        SPPRO3                        source/elements/sph/sppro3.F  
+Chd|        SPHBOX                        share/modules/sphbox.F        
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPTRIVOX(
      1      NSN    ,NSNR    ,X       ,BMINMA  ,NOD2SP  ,

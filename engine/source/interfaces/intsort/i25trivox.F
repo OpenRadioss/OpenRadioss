@@ -26,8 +26,8 @@ Chd|-- called by -----------
 Chd|        I25BUCE                       source/interfaces/intsort/i25buce.F
 Chd|-- calls ---------------
 Chd|        I25STO                        source/interfaces/intsort/i25sto.F
-Chd|        MY_BARRIER                    source/system/machine.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        MY_BARRIER                    source/system/machine.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25TRIVOX(
      1      NSN    ,NSNR    ,ISZNSNR ,I_MEM   ,VMAXDT   ,

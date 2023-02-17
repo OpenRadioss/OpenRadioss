@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        I25BUC_VOX1                   source/interfaces/inter3d1/i25buc_vox1.F
 Chd|-- calls ---------------
 Chd|        I25STO                        source/interfaces/inter3d1/i25sto.F
-Chd|        TRI7BOX                       share/modules1/tri7box.F
+Chd|        TRI7BOX                       share/modules1/tri7box.F      
 Chd|====================================================================
       SUBROUTINE I25TRIVOX1(
      1      NSN    ,I_MEM   ,IRECT  ,X       ,STF     ,
