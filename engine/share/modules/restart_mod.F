@@ -114,7 +114,7 @@ Chd|====================================================================
      .      NODGLOBXFE,ELCUTC,   NODENR,   KXFENOD2ELC,ENRTAG,
      .      TABSENSOR ,ADDCSRECT,FR_NOR,   IAD_FRNOR  , PROCNOR,    
      .      FR_EDG,    IAD_FREDG,IDRAPE,   NATIV0_SMS , SEGQUADFR,ISKWP_L, NE_NERCVOIS,  
-     .      NE_LERCVOIS,  NE_NESDVOIS, NE_LESDVOIS,NESDVOIS_SAVE, NERCVOIS_SAVE
+     .      NE_LERCVOIS,  NE_NESDVOIS, NE_LESDVOIS
 
         my_real , 
      .    DIMENSION(:), ALLOCATABLE :: 
