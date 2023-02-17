@@ -146,7 +146,7 @@ C-----------------------------------------------
      .   KDTIX, KIMPL, KFLSEC, KFUNC, KKEREL, KDYREL, KRUN, KTITLE,
      .   KDT, KTFILE, KPRINT, KRFILE, KVERS, KGFILE, KPATRA, KALE, KDEL,
      .   KVEL, KBCS, KBCSR, KUSERW, KDEBUG,KOUTP,KDTNOD,KALESUB,KPROC,
-     .   KCUT,KNOISE,KDELIN,KFSHFT,KPARIT,KINIV,KRBODY,KANIM,KINTER,
+     .   KCUT,KNOISE,KDELIN,KPARIT,KINIV,KRBODY,KANIM,KINTER,
      .   KUPWM, KMON,KSOROT,KDT1,KINCMP,KSHFRA,KTH, KSTOP, KKILL,
      .   KMADYM,KSPMD,KRAD2R,KDAMP,N_DAMP, KATFIL,KBTFIL,KCTFIL,KDTFIL,
      .   KETFIL,KFTFIL,KGTFIL,KHTFIL,KITFIL, KRERUN, KQEPH, KFXINP,
@@ -199,7 +199,7 @@ C-----------------------------------------------
      .     'DTIX '   ,'IMPL '   ,'FUNCT'   ,'FLSEC'   ,'DYREL'   ,
      .     'KEREL'   ,'RBODY'   ,'ANIM'    ,'USERW'   ,'DEBUG'   ,
      .     'OUTP '   ,'DTNOD'   ,'ALESU'   ,'PROC'    ,'CUT  '   ,
-     .     '@TFIL'   ,'DELIN'   ,'FSHFT'   ,'PARIT'   ,'INIV '   ,
+     .     '@TFIL'   ,'DELIN'   ,'     '   ,'PARIT'   ,'INIV '   ,
      .     'UPWM '   ,'MON'     ,'SOROT'   ,'DT1'     ,'INCMP'   ,
      .     'SHFRA'   ,'TH'      ,'STOP'    ,'KILL'    ,'MADYM'   ,
      .     'SPMD '   ,'RAD2R'   ,'DAMP'    ,'ATFIL'   ,'BTFIL'   ,
@@ -213,25 +213,25 @@ C-----------------------------------------------
      .     'ADYRE'   ,'DT1TE'   ,'PERF'    ,'DYNAI'   ,'DTTSH'   ,
      .     'MASS '    /
 
-      DATA KRUN/1/   ,KTITLE/2/ ,KDT/3/    ,KTFILE/4/ ,KPRINT/5/ ,
-     .     KRFILE/6/ ,KVERS/7/  ,KGFILE/8/ ,KPATRA/9/ ,KALE/10/  ,
-     .     KDEL/11/  ,KVEL/12/  ,KBCS/13/  ,KBCSR/14/ ,KINTER/15/,
-     .     KDTIX/16/ ,KIMPL/17/ ,KFUNC/18/ ,KFLSEC/19/,KDYREL/20/,
-     .     KKEREL/21/,KRBODY/22/,KANIM/23/ ,KUSERW/24/,KDEBUG/25/,
-     .     KOUTP/26/ ,KDTNOD/27/,KALESUB/28/,KPROC/29/,KCUT/30/  ,
-     .     KNOISE/31/,KDELIN/32/,KFSHFT/33/,KPARIT/34/,KINIV/35/ ,
-     .     KUPWM/36/ ,KMON/37/  ,KSOROT/38/,KDT1/39/  ,KINCMP/40/,
-     .     KSHFRA/41/,KTH/42/   ,KSTOP/43/ ,KKILL/44/ ,KMADYM/45/,
-     .     KSPMD/46/ ,KRAD2R/47/,KDAMP/48/ ,KATFIL/49/,KBTFIL/50/,
-     .     KCTFIL/51/,KDTFIL/52/,KETFIL/53/,KFTFIL/54/,KGTFIL/55/,
-     .     KHTFIL/56/,KITFIL/57/, KRERUN/58/, KQEPH/59/,KFXINP/60/,
-     .     KOSHSUB/61/,KENTHA/62/,KEIG/63/,KSMOOTH4/64/,KFVBAG/65/,
-     .     KMLAGS/66/,KSTATF/67/,KSHVER/68/,KDT1HEPH/69/,KABF/70/,
-     .     KDTSDE/71/,KAABF/72/,KBABF/73/,KCABF/74/,KDABF/75/,
-     .     KEABF/76/,KFABF/77/,KGABF/78/,KHABF/79/,KIABF/80/,
-     .     KUPWIND/81/,KTHERMAL/82/,KH3D/83/,KREPORT/84/,
-     .     KNEGVOL/85/,KADYREL/86/,KDT1TET10/87/,KPERF/88/,
-     .     KDYNAIN/89/,KDTTSH/90/,KMASS/91/
+      DATA KRUN/1/    ,KTITLE/2/    ,KDT/3/       ,KTFILE/4/   ,KPRINT/5/  ,
+     .     KRFILE/6/  ,KVERS/7/     ,KGFILE/8/    ,KPATRA/9/   ,KALE/10/   ,
+     .     KDEL/11/   ,KVEL/12/     ,KBCS/13/     ,KBCSR/14/   ,KINTER/15/ ,
+     .     KDTIX/16/  ,KIMPL/17/    ,KFUNC/18/    ,KFLSEC/19/  ,KDYREL/20/ ,
+     .     KKEREL/21/ ,KRBODY/22/   ,KANIM/23/    ,KUSERW/24/  ,KDEBUG/25/ ,
+     .     KOUTP/26/  ,KDTNOD/27/   ,KALESUB/28/  ,KPROC/29/   ,KCUT/30/   ,
+     .     KNOISE/31/ ,KDELIN/32/                 ,KPARIT/34/  ,KINIV/35/  ,
+     .     KUPWM/36/  ,KMON/37/     ,KSOROT/38/   ,KDT1/39/    ,KINCMP/40/ ,
+     .     KSHFRA/41/ ,KTH/42/      ,KSTOP/43/    ,KKILL/44/   ,KMADYM/45/ ,
+     .     KSPMD/46/  ,KRAD2R/47/   ,KDAMP/48/    ,KATFIL/49/  ,KBTFIL/50/ ,
+     .     KCTFIL/51/ ,KDTFIL/52/   ,KETFIL/53/   ,KFTFIL/54/  ,KGTFIL/55/ ,
+     .     KHTFIL/56/ ,KITFIL/57/   , KRERUN/58/  , KQEPH/59/  ,KFXINP/60/ ,
+     .     KOSHSUB/61/,KENTHA/62/   ,KEIG/63/     ,KSMOOTH4/64/,KFVBAG/65/ ,
+     .     KMLAGS/66/ ,KSTATF/67/   ,KSHVER/68/   ,KDT1HEPH/69/,KABF/70/   ,
+     .     KDTSDE/71/ ,KAABF/72/    ,KBABF/73/    ,KCABF/74/   ,KDABF/75/  ,
+     .     KEABF/76/  ,KFABF/77/    ,KGABF/78/    ,KHABF/79/   ,KIABF/80/  ,
+     .     KUPWIND/81/,KTHERMAL/82/ ,KH3D/83/     ,KREPORT/84/ ,KNEGVOL/85/,
+     .     KADYREL/86/,KDT1TET10/87/,KPERF/88/    ,KDYNAIN/89/ ,KDTTSH/90/ ,
+     .     KMASS/91/
 
       DATA KEYALE/
      .     'BCS  '   ,'CLOSE'   ,'GRID '   ,'LINK '   ,'MAT  '   ,
@@ -586,15 +586,6 @@ C     //
 C-----------------------
       IKEY=KPROC
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-      ENDIF
-C-----------------------
-C
-C-----------------------
-      BIGFOR = ZERO
-      IKEY=KFSHFT
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
-       READ(IUSC2,*)BIGFOR
       ENDIF
 C-----------------------
 C     DYNAMIC RELAXATION
