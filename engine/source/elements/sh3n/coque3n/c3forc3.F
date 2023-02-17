@@ -124,17 +124,13 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
 #include      "scr01_c.inc"
-#include      "scr03_c.inc"
 #include      "scr07_c.inc"
 #include      "scr18_c.inc"
 #include      "com_xfem1.inc"
 #include      "parit_c.inc"
 #include      "timeri_c.inc"
 #include      "warn_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

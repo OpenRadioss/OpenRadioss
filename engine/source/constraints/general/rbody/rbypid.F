@@ -69,7 +69,6 @@ C-----------------------------------------------
 #include      "scr07_c.inc"
 #include      "cong1_c.inc"
 #include      "cong2_c.inc"
-#include      "scrfs_c.inc"
 #include      "stati_c.inc"
 #include      "statr_c.inc"
 #include      "units_c.inc"

@@ -22,14 +22,10 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../COM08/
       INTEGER LCOM08
-Csm41p3      PARAMETER (LCOM08 = 8)
       PARAMETER (LCOM08 = 37)     
       COMMON /COM08/ TT, DT1, DT2, DT12, DT2OLD, TSTOP, TDES, THIS,
-      
-Csm41p3 +
      .                 THIS1(9),TABFIS(10),TABFWR(10)
 C     REAL ou REAL*8
       my_real
      .   TT, DT1, DT2, DT12, DT2OLD, TSTOP, TDES, THIS,
-Csm41p3
      .   THIS1,TABFIS,TABFWR

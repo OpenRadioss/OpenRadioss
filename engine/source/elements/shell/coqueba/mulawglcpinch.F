@@ -62,7 +62,6 @@ C-----------------------------------------------
 #include      "scr06_c.inc"
 #include      "scr17_c.inc"
 #include      "param_c.inc"
-#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "com20_c.inc"
 #include      "impl1_c.inc"

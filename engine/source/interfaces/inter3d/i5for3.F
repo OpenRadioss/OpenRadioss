@@ -56,11 +56,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "scr07_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
-#include      "com01_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "parit_c.inc"

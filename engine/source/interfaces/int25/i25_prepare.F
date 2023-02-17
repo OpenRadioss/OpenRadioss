@@ -53,8 +53,6 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "units_c.inc"
 #include      "com01_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
 #include      "scr07_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"

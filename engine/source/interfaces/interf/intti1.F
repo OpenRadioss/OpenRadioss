@@ -70,12 +70,9 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
-#include      "scr03_c.inc"
 #include      "scr18_c.inc"
 #include      "spmd_c.inc"
 #include      "sms_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
 #include      "scr07_c.inc"
 #include      "scr14_c.inc"
 C-----------------------------------------------

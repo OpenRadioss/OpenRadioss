@@ -45,8 +45,6 @@ C-----------------------------------------------
 #include      "i22edges.inc"
 #include      "inter22.inc"
 #include      "task_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 C-----------------------------------------------
 
 

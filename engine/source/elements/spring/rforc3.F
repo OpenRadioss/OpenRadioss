@@ -116,7 +116,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr03_c.inc"
 #include      "chara_c.inc"
 #include      "userlib.inc"
 C-----------------------------------------------

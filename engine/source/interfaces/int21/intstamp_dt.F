@@ -45,15 +45,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
 #include      "intstamp_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
-#include      "scr05_c.inc"
-#include      "scr18_c.inc"
 #include      "sms_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------

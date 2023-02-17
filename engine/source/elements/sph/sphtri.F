@@ -47,9 +47,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "bucki_c.inc"
 #include      "buckr_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com08_c.inc"
 #include      "sphcom.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"

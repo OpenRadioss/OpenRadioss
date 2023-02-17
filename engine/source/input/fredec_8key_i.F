@@ -40,7 +40,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "nchar_c.inc"
 #include      "chara_c.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
 C   G l o b a l   V a r i a b l e s
 C-----------------------------------------------

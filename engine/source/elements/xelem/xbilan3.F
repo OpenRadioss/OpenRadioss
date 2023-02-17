@@ -41,7 +41,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "com01_c.inc"
 #include      "param_c.inc"
 #include      "scr23_c.inc"
 #include      "vect01_c.inc"

@@ -45,9 +45,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "task_c.inc"
 #include      "warn_c.inc"
-#include      "scr05_c.inc"
 #include      "scr07_c.inc"
-#include      "scr18_c.inc"
 #include      "units_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"

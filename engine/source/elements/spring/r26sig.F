@@ -55,7 +55,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
-#include      "scr05_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

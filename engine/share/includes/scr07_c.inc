@@ -21,7 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../SCR07/
-C...mis a 0 par defaut en spmd
       INTEGER MX_STOP
       PARAMETER(MX_STOP = 50000)      
       COMMON /SCR07/ IFREEF , MDESS, MREST , MSTOP , MANIM ,
@@ -36,6 +35,4 @@ C...mis a 0 par defaut en spmd
      .        NSTH, NSSTAT, NSOUTP, NSABF, NSTOPSENS,
      .        LSTOPSENS(MX_STOP),ICTLSTOP,NERR_POSIT,NSH3D,
      .        NSTOPSENS_OLD,LSTOPSENS_OLD(MX_STOP),NSDYNANIN
-      COMMON /SCR07R/ BIGFOR, FREE1, FREE2, FREE3, FREE4
-      my_real BIGFOR, FREE1, FREE2, FREE3, FREE4
 

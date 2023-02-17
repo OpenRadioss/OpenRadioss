@@ -65,7 +65,6 @@ C   C O M M O N   B L O C K S
 C-----------------------------------------------
 #include      "scr01_c.inc"
 #include      "parit_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"

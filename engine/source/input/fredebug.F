@@ -49,10 +49,8 @@ C   C o m m o n   B l o c k s
 C----------------------------------------------- 
 #include      "units_c.inc" 
 #include      "warn_c.inc"    
-#include      "scr03_c.inc" 
 #include      "couple_c.inc" 
 #include      "task_c.inc" 
-#include      "scr05_c.inc" 
 #include      "macro.inc"
 C----------------------------------------------- 
 C   E x t e r n a l   F u n c t i o n s 

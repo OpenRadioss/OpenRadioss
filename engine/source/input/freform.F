@@ -100,6 +100,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "warn_c.inc"
 #include      "lon_c.inc"
+#include      "scrfs_c.inc"
 #include      "scr02_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
@@ -113,7 +114,6 @@ C-----------------------------------------------
 #include      "cong1_c.inc"
 #include      "cong2_c.inc"
 #include      "chara_c.inc"
-#include      "scrfs_c.inc"
 #include      "parit_c.inc"
 #include      "couple_c.inc"
 #include      "rad2r_c.inc"
@@ -121,7 +121,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "com09_c.inc"
 #include      "check.inc"
 #include      "subc_c.inc"
 #include      "scr19_c.inc"
@@ -146,7 +145,7 @@ C-----------------------------------------------
      .   KDTIX, KIMPL, KFLSEC, KFUNC, KKEREL, KDYREL, KRUN, KTITLE,
      .   KDT, KTFILE, KPRINT, KRFILE, KVERS, KGFILE, KPATRA, KALE, KDEL,
      .   KVEL, KBCS, KBCSR, KUSERW, KDEBUG,KOUTP,KDTNOD,KALESUB,KPROC,
-     .   KCUT,KNOISE,KDELIN,KFSHFT,KPARIT,KINIV,KRBODY,KANIM,KINTER,
+     .   KCUT,KNOISE,KDELIN,KPARIT,KINIV,KRBODY,KANIM,KINTER,
      .   KUPWM, KMON,KSOROT,KDT1,KINCMP,KSHFRA,KTH, KSTOP, KKILL,
      .   KMADYM,KSPMD,KRAD2R,KDAMP,N_DAMP, KATFIL,KBTFIL,KCTFIL,KDTFIL,
      .   KETFIL,KFTFIL,KGTFIL,KHTFIL,KITFIL, KRERUN, KQEPH, KFXINP,
@@ -170,6 +169,7 @@ C-----------------------------------------------
      .   TSTOP0,DTFAC0, DTMIN0, DTHIS0, T1G, DTG, T1P, DTP, ALP, GAM,
      .   A1, A2, A3, VM, DTFACA,DTMINA, DTHIS01(9),vt, TMP,DTFAC_AMS,
      .   LAMBDA,L_TYPE
+      my_real :: BIGFOR
       CHARACTER KEY(9)*5, TITLE*81,
      .  KEY1*5, KEY2*5,KEY3*5,   CH4*4, KEY4*5, KEY5*5, StrIAL*32
       CHARACTER(LEN=ncharline) :: KEYA
@@ -219,7 +219,7 @@ C-----------------------------------------------
      .     KDTIX/16/ ,KIMPL/17/ ,KFUNC/18/ ,KFLSEC/19/,KDYREL/20/,
      .     KKEREL/21/,KRBODY/22/,KANIM/23/ ,KUSERW/24/,KDEBUG/25/,
      .     KOUTP/26/ ,KDTNOD/27/,KALESUB/28/,KPROC/29/,KCUT/30/  ,
-     .     KNOISE/31/,KDELIN/32/,KFSHFT/33/,KPARIT/34/,KINIV/35/ ,
+     .     KNOISE/31/,KDELIN/32/,KPARIT/34/,KINIV/35/ ,
      .     KUPWM/36/ ,KMON/37/  ,KSOROT/38/,KDT1/39/  ,KINCMP/40/,
      .     KSHFRA/41/,KTH/42/   ,KSTOP/43/ ,KKILL/44/ ,KMADYM/45/,
      .     KSPMD/46/ ,KRAD2R/47/,KDAMP/48/ ,KATFIL/49/,KBTFIL/50/,
@@ -580,21 +580,6 @@ C
        K=K+NBC+1
        NFCT=NFCT+1
        IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 140
-      ENDIF
-C-----------------------
-C     //
-C-----------------------
-      IKEY=KPROC
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-      ENDIF
-C-----------------------
-C
-C-----------------------
-      BIGFOR = ZERO
-      IKEY=KFSHFT
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
-       READ(IUSC2,*)BIGFOR
       ENDIF
 C-----------------------
 C     DYNAMIC RELAXATION

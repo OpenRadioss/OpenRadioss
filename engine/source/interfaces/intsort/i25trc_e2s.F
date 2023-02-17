@@ -49,9 +49,7 @@ C-----------------------------------------------
 #include      "i25edge_c.inc"
 #include      "units_c.inc"
 #include      "warn_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "com08_c.inc"
 C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================

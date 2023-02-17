@@ -24,7 +24,7 @@ C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
 Chd|====================================================================
 Chd|  PRINTSTSZ                     source/spmd/node/st_array_size.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        MAP_MEMORY                    ../common_source/comm/memory_use_c.c
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
@@ -41,7 +41,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com05_c.inc"
 #include      "com06_c.inc"
 #include      "com07_c.inc"
 #include      "com08_c.inc"
@@ -69,45 +68,45 @@ C-----------------------------------------------
       INTEGER LEN_G,LEN_M,LEN_S , LINTSTAMP,MEM
       INTEGER VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK
 C-----------------------------------------------
-        LEN_G = NPROPGI*NUMGEO
-        LEN_M = NPROPMI*NUMMAT      
-        LEN_S = NPART     
-        CALL MAP_MEMORY(VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK)
+      LEN_G = NPROPGI*NUMGEO
+      LEN_M = NPROPMI*NUMMAT
+      LEN_S = NPART
+      CALL MAP_MEMORY(VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK)
 
-        IF( GOT_INSPIRE_ALM == 1)THEN
-            IF(GOT_MEM_MAP == 1 )THEN
-                WRITE(IOUT,1101) VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK
-            ELSE
-                IF(VMHWM/=-1) THEN 
-                    MEM = VMHWM
-                ELSEIF(VMPEAK/=-1) THEN
-                    MEM = VMPEAK
-                ELSEIF(VMSIZE/=-1) THEN
-                    MEM = VMSIZE
-                ELSE
-                    MEM = -1
-                ENDIF
-                WRITE(IOUT,1001) MEM
-            ENDIF
+      IF( GOT_INSPIRE_ALM == 1)THEN
+        IF(GOT_MEM_MAP == 1 )THEN
+          WRITE(IOUT,1101) VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK
         ELSE
-            IF(GOT_MEM_MAP == 1 )THEN
-                WRITE(IOUT,1100) VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK
-            ELSE
-                IF(VMHWM/=-1) THEN 
-                    MEM = VMHWM
-                ELSEIF(VMPEAK/=-1) THEN
-                    MEM = VMPEAK
-                ELSEIF(VMSIZE/=-1) THEN
-                    MEM = VMSIZE
-                ELSE
-                    MEM = -1
-                ENDIF
-                WRITE(IOUT,1000) MEM
-            ENDIF
-        ENDIF    
+          IF(VMHWM/=-1) THEN
+            MEM = VMHWM
+          ELSEIF(VMPEAK/=-1) THEN
+            MEM = VMPEAK
+          ELSEIF(VMSIZE/=-1) THEN
+            MEM = VMSIZE
+          ELSE
+            MEM = -1
+          ENDIF
+          WRITE(IOUT,1001) MEM
+        ENDIF
+      ELSE
+        IF(GOT_MEM_MAP == 1 )THEN
+          WRITE(IOUT,1100) VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK
+        ELSE
+          IF(VMHWM/=-1) THEN
+            MEM = VMHWM
+          ELSEIF(VMPEAK/=-1) THEN
+            MEM = VMPEAK
+          ELSEIF(VMSIZE/=-1) THEN
+            MEM = VMSIZE
+          ELSE
+            MEM = -1
+          ENDIF
+          WRITE(IOUT,1000) MEM
+        ENDIF
+      ENDIF
 
 
-        
+
  1000 FORMAT(/,
      . ' '/
      . '    STARTER STORAGE '/

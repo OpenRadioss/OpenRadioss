@@ -67,7 +67,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "parit_c.inc"
 #include      "impl1_c.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

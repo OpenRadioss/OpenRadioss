@@ -108,7 +108,6 @@ C-----------------------------------------------
 #include      "scr01_c.inc"
 #include      "scr14_c.inc"
 #include      "parit_c.inc"
-#include      "scr17_c.inc"
 #include      "timeri_c.inc"
 #include      "warn_c.inc"
 #include      "comlock.inc"

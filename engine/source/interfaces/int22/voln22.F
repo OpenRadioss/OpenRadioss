@@ -58,8 +58,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com06_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "fluid_scr_c.inc"

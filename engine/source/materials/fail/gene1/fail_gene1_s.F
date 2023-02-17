@@ -63,7 +63,6 @@ C-----------------------------------------------
 #include      "impl1_c.inc"
 #include      "com04_c.inc"
 #include      "com01_c.inc"
-#include      "scr18_c.inc"
 C!-----------------------------------------------
       INTEGER NEL, NUPARAM, NUVAR,NGL(NEL),IPG,NPG,IRUPT,ILAY1
       my_real TIME,TIMESTEP,UPARAM(*),

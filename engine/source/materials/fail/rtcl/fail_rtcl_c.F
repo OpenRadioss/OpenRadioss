@@ -38,7 +38,6 @@ C!-----------------------------------------------
 #include "implicit_f.inc"
 C!---------+---------+---+---+-------------------
 #include "mvsiz_p.inc"
-#include "scr17_c.inc"
 #include "units_c.inc"
 #include "comlock.inc"
 #include "param_c.inc"

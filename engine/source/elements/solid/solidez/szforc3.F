@@ -130,7 +130,6 @@ C-----------------------------------------------
 #include      "scr07_c.inc"
 #include      "com08_c.inc"
 #include      "scr01_c.inc"
-#include      "scr03_c.inc"
 #include      "scr06_c.inc"
 #include      "scr17_c.inc"
 #include      "parit_c.inc"

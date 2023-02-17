@@ -46,7 +46,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com05_c.inc"
 #include      "com06_c.inc"
 #include      "com07_c.inc"
 #include      "com08_c.inc"
@@ -79,7 +78,7 @@ C     PREPARATION DES VARIABLES REELLES POUR ECRITURE SUR RFILE.
 C--------------------------------------
 C-----
       DO IVAR=1,LMXVREA
-       TABVREA(IVAR)=ZERO
+        TABVREA(IVAR)=ZERO
       ENDDO
 C-----
       TABVREA(1)=TT
@@ -96,7 +95,7 @@ C-----
       TABVREA(11)=DTFAC
       TABVREA(12)=DTMIN
       TABVREA(13)=VOLMIN
-          TABVREA(14)=TFEXT
+      TABVREA(14)=TFEXT
       TABVREA(15)=REINT
       TABVREA(16)=DTPAT
       TABVREA(17)=TPAT
@@ -125,23 +124,23 @@ C-----
 C-----
       TABVREA(39)=SPASORT
       TABVREA(40)=SPATRUE
-       DO I=1,9
-         TABVREA(40+I) = DTHIS1(I)
-         TABVREA(49+I) = THIS1(I)
-       ENDDO
-         TABVREA(59) = ZERO
-         TABVREA(60) = ZERO
+      DO I=1,9
+        TABVREA(40+I) = DTHIS1(I)
+        TABVREA(49+I) = THIS1(I)
+      ENDDO
+      TABVREA(59) = ZERO
+      TABVREA(60) = ZERO
       TABVREA(61)=LAGM_TOL
       TABVREA(62)=LAG_ALPH
       TABVREA(63)=LAG_ALPHS
       LVARREA=63
-C 
+C
 C---- debut check point restart
 C
       DO I = 1, 42
-       TABVREA(63+I)=ZERO
+        TABVREA(63+I)=ZERO
       ENDDO
-C 
+C
 C---- fin check point restart
 C
       LVARREA= 105
@@ -217,10 +216,10 @@ C  TABLEAU SOLTELT
         RVARINT = RVARINT + 1
         TABVREA(RVARINT) = SOLTELT(I)
       ENDDO
-        RVARINT = RVARINT + 1
-        TABVREA(RVARINT) = TET4TELT(1)
-        RVARINT = RVARINT + 1
-        TABVREA(RVARINT) = TET10TELT(1)
+      RVARINT = RVARINT + 1
+      TABVREA(RVARINT) = TET4TELT(1)
+      RVARINT = RVARINT + 1
+      TABVREA(RVARINT) = TET10TELT(1)
 C  TABLEAU SHTELT
       DO I=1,10
         RVARINT = RVARINT + 1
@@ -272,16 +271,16 @@ C
 C
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = M51_IFLG6
-C      
+C
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = MS_ND ! MASS Middle nodes Itet=2
-C      
+C
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = ZERO ! DMSI2 Itet=2
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = ZERO ! MSI20 Itet=2
-C      
-C---- debut check point restart      
+C
+C---- debut check point restart
 C
 C     DTFAC1(51) and DTMIN1(51)
       RVARINT = RVARINT + 1
@@ -299,35 +298,35 @@ C
       TABVREA(RVARINT) = ZERO
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = ZERO
-C      
+C
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = ZERO ! DTFACS_INT
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = ZERO ! DTMINS_INT
-C      
-C     BETATE_0, EINT_0,ENCIN_0,PIMAX ,PCMAX,PINT ,PCIN ,FILtr+8,NFIRST 
+C
+C     BETATE_0, EINT_0,ENCIN_0,PIMAX ,PCMAX,PINT ,PCIN ,FILtr+8,NFIRST
       DO I = 1, 16
-      RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = ZERO 
+        RVARINT = RVARINT + 1
+        TABVREA(RVARINT) = ZERO
       END DO
 C
       RVARINT = RVARINT + 2
-C  ENCONTD , ECONT_CUMU 
+C  ENCONTD , ECONT_CUMU
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = ECONTD 
+      TABVREA(RVARINT) = ECONTD
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = ECONT_CUMU
 C  INITIAL MASS FROM STARTER
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = MASS0_START
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = ZERO    
+      TABVREA(RVARINT) = ZERO
 C ANIM FILES STOP TIME
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = TANIM_STOP      
+      TABVREA(RVARINT) = TANIM_STOP
 C
-C---- fin check point restart      
-C      
+C---- fin check point restart
+C
       LVARREA=RVARINT
 C----------------------------------------------------------------
 C    warning to radioss developers : Check LVARREA < LMXVREA

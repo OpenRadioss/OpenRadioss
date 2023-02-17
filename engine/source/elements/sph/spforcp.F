@@ -53,8 +53,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "sphcom.inc"
@@ -62,7 +60,6 @@ C-----------------------------------------------
 #include      "parit_c.inc"
 #include      "scr02_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------------------------

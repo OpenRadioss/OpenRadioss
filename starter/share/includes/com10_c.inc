@@ -22,21 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../COM10/
       INTEGER LCOM10
-Csm41p3 PARAMETER (LCOM10 = 13)      
-cow41p17      PARAMETER (LCOM10 = 32)
-Cvf50c2      PARAMETER (LCOM10 = 33)
-Cvf51e1      PARAMETER (LCOM10 = 34)
       PARAMETER (LCOM10 = 35)
 C
       COMMON /COM10/ NSNOD, NSELQ, NSELS, NSELC, NSELT, NSELP, NSELR,
      .   NSRBY, NSMAT, NSELTG, NTHGRP, NTHGRP0, NSELU,  NTHGRP01(10),
      .   NTHGRP1(10), NSFXBY, NSMOD
-Cvf51e1     .   NTHGRP1(10), NSFXBY
-Cvf50c2     .   NTHGRP1(10)
-Csm41p3     .   NSRBY, NSMAT, NSELTG, NTHGRP, NTHGRP0, NSELU
       INTEGER NSNOD, NSELQ, NSELS, NSELC, NSELT, NSELP, NSELR, NSRBY,
      .   NSMAT, NSELTG, NTHGRP, NTHGRP0, NSELU, NTHGRP01,NTHGRP1,
      .   NSFXBY, NSMOD
-Cvf51e1     .   NSFXBY
-Cvf50c2     .   NSMAT, NSELTG, NTHGRP, NTHGRP0, NSELU, NTHGRP01,NTHGRP1
-Csm41p3.   NSMAT, NSELTG, NTHGRP, NTHGRP0, NSELU

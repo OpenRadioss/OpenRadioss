@@ -21,9 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../DDSPMDV5/
-Cow51c4
-Cow51c4       necessite avant l include scr19_c.inc
-
       COMMON /DDSPMDV5/ TPSREF,TPSENG,
      .  SOL1TNL(0:MAXLAW,3),SOL8TNL(0:MAXLAW,3),
      .  SHTNL(0:MAXLAW,0:3,3),

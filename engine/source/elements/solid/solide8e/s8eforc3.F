@@ -152,7 +152,6 @@ C-----------------------------------------------
 #include      "scr07_c.inc"
 #include      "vect01_c.inc"
 #include      "scr01_c.inc"
-#include      "scr03_c.inc"
 #include      "scr06_c.inc"
 #include      "parit_c.inc"
 #include      "param_c.inc"

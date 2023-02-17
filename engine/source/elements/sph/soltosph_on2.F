@@ -56,7 +56,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com06_c.inc"
 #include      "param_c.inc"
 #include      "sphcom.inc"
 #include      "task_c.inc"

@@ -27,7 +27,7 @@ Chd|        RDRESA                        source/output/restart/rdresa.F
 Chd|-- calls ---------------
 Chd|        READ_ARRAY                    ../common_source/comm/read_array.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
@@ -37,8 +37,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MULTI_FVM_MOD 
-      USE H3D_MOD 
+      USE MULTI_FVM_MOD
+      USE H3D_MOD
       USE PINCHTYPE_MOD
       USE OUTMAX_MOD
       USE ANIM_MOD
@@ -57,7 +57,6 @@ C-----------------------------------------------
 #include      "r4r8_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com05_c.inc"
 #include      "com09_c.inc"
 #include      "com10_c.inc"
 #include      "sphcom.inc"
@@ -117,7 +116,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-          INTEGER LWASPH44C, I, NEXT,IDUM1,ISUSED
+      INTEGER LWASPH44C, I, NEXT,IDUM1,ISUSED
 C-----------------------------------------------
 C     LECTURE DES VARIABLES ENTIERES.
 C-----------------------------------------------
@@ -157,8 +156,8 @@ C-----------------------------------------------
       IRESMD  =TABVINT(34)
       IFRWV   =TABVINT(35)
 C-----
-        ITESTV = IABS(ITESTV)
-        IF (IR4R8==2) ITESTV = -ITESTV
+      ITESTV = IABS(ITESTV)
+      IF (IR4R8==2) ITESTV = -ITESTV
 C       ITESTV = IABS(ITESTV)
 C-----
 C   -------- Tailles des tableaux entiers --------
@@ -563,55 +562,55 @@ C
       NTHGRP1(7)  = TABVINT(491)
       NTHGRP1(8)  = TABVINT(492)
       NTHGRP1(9)  = TABVINT(493)
-      
+
       NEXT = 493
 
       !output data must be read in case of mcheck/=0 (dynamic size)
       !otherwise LVARINT is increased to skip related range in TABVINT
       CALL READ_ARRAY(OUTP_V ,TABVINT, NEXT, MCHECK)
       CALL READ_ARRAY(OUTP_SS,TABVINT, NEXT, MCHECK)
-      CALL READ_ARRAY(OUTP_ST,TABVINT, NEXT, MCHECK)      
+      CALL READ_ARRAY(OUTP_ST,TABVINT, NEXT, MCHECK)
       CALL READ_ARRAY(OUTP_CS,TABVINT, NEXT, MCHECK)
-      CALL READ_ARRAY(OUTP_CT,TABVINT, NEXT, MCHECK)      
+      CALL READ_ARRAY(OUTP_CT,TABVINT, NEXT, MCHECK)
       CALL READ_ARRAY(OUTP_TS,TABVINT, NEXT, MCHECK)
-      CALL READ_ARRAY(OUTP_PS,TABVINT, NEXT, MCHECK)      
+      CALL READ_ARRAY(OUTP_PS,TABVINT, NEXT, MCHECK)
       CALL READ_ARRAY(OUTP_PT,TABVINT, NEXT, MCHECK)
-      CALL READ_ARRAY(OUTP_RS,TABVINT, NEXT, MCHECK)      
+      CALL READ_ARRAY(OUTP_RS,TABVINT, NEXT, MCHECK)
       CALL READ_ARRAY(OUTP_RT,TABVINT, NEXT, MCHECK)
-      CALL READ_ARRAY(ANIM_V ,TABVINT, NEXT, MCHECK)      
+      CALL READ_ARRAY(ANIM_V ,TABVINT, NEXT, MCHECK)
       CALL READ_ARRAY(ANIM_T ,TABVINT, NEXT, MCHECK)
-      CALL READ_ARRAY(ANIM_E ,TABVINT, NEXT, MCHECK)      
+      CALL READ_ARRAY(ANIM_E ,TABVINT, NEXT, MCHECK)
       CALL READ_ARRAY(ANIM_CE,TABVINT, NEXT, MCHECK)
-      CALL READ_ARRAY(ANIM_SE,TABVINT, NEXT, MCHECK)      
+      CALL READ_ARRAY(ANIM_SE,TABVINT, NEXT, MCHECK)
       CALL READ_ARRAY(ANIM_FE,TABVINT, NEXT, MCHECK)
-      CALL READ_ARRAY(ANIM_CT,TABVINT, NEXT, MCHECK)      
+      CALL READ_ARRAY(ANIM_CT,TABVINT, NEXT, MCHECK)
       CALL READ_ARRAY(ANIM_ST,TABVINT, NEXT, MCHECK)
-      CALL READ_ARRAY(ANIM_FT,TABVINT, NEXT, MCHECK) 
-      
+      CALL READ_ARRAY(ANIM_FT,TABVINT, NEXT, MCHECK)
+
       IF(MCHECK/=0)THEN
         NEXT=NEXT+1
         ANIM_M    = TABVINT(NEXT)
-        NEXT=NEXT+1        
+        NEXT=NEXT+1
         ANIM_K    = TABVINT(NEXT)
-        NEXT=NEXT+1        
+        NEXT=NEXT+1
         ANIM_U    = TABVINT(NEXT)
         NEXT=NEXT+1
         ANIM_MAT  = TABVINT(NEXT)
-        NEXT=NEXT+1        
+        NEXT=NEXT+1
         NCUTS     = TABVINT(NEXT)
-        NEXT=NEXT+1        
+        NEXT=NEXT+1
         IEPSDOT   = TABVINT(NEXT)
-        NEXT=NEXT+1        
+        NEXT=NEXT+1
         FMT_ANI   = TABVINT(NEXT)
-        NEXT=NEXT+1        
+        NEXT=NEXT+1
         ANIM_VERS = TABVINT(NEXT)
-        NEXT=NEXT+1        
-        IZIP      = TABVINT(NEXT)        
+        NEXT=NEXT+1
+        IZIP      = TABVINT(NEXT)
       ELSE
         NEXT=NEXT+9
       ENDIF
-           
-      NEXT=NEXT+1 
+
+      NEXT=NEXT+1
       NRBYLAG =TABVINT(NEXT)
       NEXT = NEXT+1
       NFVLAG  =TABVINT(NEXT)
@@ -649,7 +648,7 @@ C-----
 C--------------------------------------
       IF(MCHECK/=0)THEN
         DO I=1,12
-         IDTMIN(I)= TABVINT(NEXT + I)
+          IDTMIN(I)= TABVINT(NEXT + I)
         ENDDO
         IDTGR(11) = TABVINT(NEXT + 13 )
         NODADT    = TABVINT(NEXT + 14 )
@@ -664,7 +663,7 @@ C No more used        TABVINT(NEXT + 16 )
         IMON      = TABVINT(NEXT + 23 )
         IDUM1     = TABVINT(NEXT + 24 )
         DO I =1,10
-         DEBUG(I) = TABVINT(NEXT + 24 + I )
+          DEBUG(I) = TABVINT(NEXT + 24 + I )
         ENDDO
         ITRACE    = TABVINT(NEXT + 35 )
         INCOMP    = TABVINT(NEXT + 36 )
@@ -689,7 +688,7 @@ c link
         NRLINK    = TABVINT(NEXT + 55 )
         NALELK    = TABVINT(NEXT + 56 )
         LLLINK    = TABVINT(NEXT + 57 )
-        !!!LLINAL=TABVINT(LVARINT + 58 )   
+        !!!LLINAL=TABVINT(LVARINT + 58 )
       ENDIF
 
       NEXT=NEXT+58
@@ -841,12 +840,12 @@ C--------------------------------------
       NEXT = NEXT+1
       IROOTYY = TABVINT(NEXT)
       IF(MCHECK/=0)THEN
-       INVERS     = TABVINT(NEXT + 1)
-       NCRST      = TABVINT(NEXT + 2)
-       IRLTYP     = TABVINT(NEXT + 3)
-       IRETYP     = TABVINT(NEXT + 4)
-       MULTIREST  = TABVINT(NEXT + 5)
-       IRPREV     = TABVINT(NEXT + 6)
+        INVERS     = TABVINT(NEXT + 1)
+        NCRST      = TABVINT(NEXT + 2)
+        IRLTYP     = TABVINT(NEXT + 3)
+        IRETYP     = TABVINT(NEXT + 4)
+        MULTIREST  = TABVINT(NEXT + 5)
+        IRPREV     = TABVINT(NEXT + 6)
       ENDIF
       NEXT = NEXT + 6
       NEXT = NEXT+1
@@ -1001,8 +1000,8 @@ C .sta files
       ISTATF = TABVINT(NEXT)
       IF(MCHECK/=0)THEN
         DO I=1, MX_STAT0
-         NEXT   = NEXT + 1
-         STAT_C(I) = TABVINT(NEXT)
+          NEXT   = NEXT + 1
+          STAT_C(I) = TABVINT(NEXT)
         ENDDO
       ELSE
         NEXT   = NEXT + MX_STAT0
@@ -1012,8 +1011,8 @@ C .dyain files
       IDYNAINF = TABVINT(NEXT)
       IF(MCHECK/=0)THEN
         DO I=1, MX_DYNAIN
-         NEXT   = NEXT + 1
-         DYNAIN_C(I) = TABVINT(NEXT)
+          NEXT   = NEXT + 1
+          DYNAIN_C(I) = TABVINT(NEXT)
         ENDDO
       ELSE
         NEXT   = NEXT + MX_DYNAIN
@@ -1180,9 +1179,9 @@ C--------------------------------------
       NUMRADIA = TABVINT(NEXT)
 C--------------------------------------
       NEXT    = NEXT+1
-      NITFLUX = TABVINT(NEXT) 
+      NITFLUX = TABVINT(NEXT)
       NEXT    = NEXT+1
-      NFXFLUX = TABVINT(NEXT)  
+      NFXFLUX = TABVINT(NEXT)
 C--------------------------------------
       NEXT = NEXT + 1
       IF(MCHECK/=0)NSMSPCG = TABVINT(NEXT)
@@ -1280,7 +1279,7 @@ C xfem for layered shell (cracks)
       NEXT = NEXT + 1
       NIBSPH   = TABVINT(NEXT)
       NEXT = NEXT + 1
-      SLINALE  = TABVINT(NEXT)      
+      SLINALE  = TABVINT(NEXT)
       NEXT = NEXT + 1
       NSUBMOD  = TABVINT(NEXT)
       NEXT = NEXT + 1
@@ -1329,7 +1328,7 @@ c inter22
       NEXT     = NEXT + 1
       IOUTP22  = TABVINT(NEXT)
       NEXT     = NEXT + 1
-      I22LAW37 = TABVINT(NEXT)      
+      I22LAW37 = TABVINT(NEXT)
       NEXT     = NEXT + 1
       I22LAW51 = TABVINT(NEXT)
 c
@@ -1354,7 +1353,7 @@ c
       SIGAUP= TABVINT(NEXT)
       NEXT   = NEXT + 1
       SNGAUP= TABVINT(NEXT)
-C      
+C
       NEXT=NEXT+1
       SDD_R2R_ELEM=TABVINT(NEXT)
       NEXT=NEXT+1
@@ -1378,16 +1377,16 @@ C
       NEXT   = NEXT + 1
       NUMMAT0=TABVINT(NEXT)
       NEXT   = NEXT + 1
-      NUMGEO0=TABVINT(NEXT)                  
-C 
+      NUMGEO0=TABVINT(NEXT)
+C
       NEXT       = NEXT + 1
       INTPLYXFEM = TABVINT(NEXT)
-C      
+C
       NEXT       = NEXT + 1
-      I22LEN     = TABVINT(NEXT)      
-C 
+      I22LEN     = TABVINT(NEXT)
+C
       NEXT       = NEXT + 1
-      NCLUSTER   = TABVINT(NEXT)      
+      NCLUSTER   = TABVINT(NEXT)
 C
       NEXT       = NEXT + 1
       NXLAYMAX   = TABVINT(NEXT)
@@ -1427,14 +1426,14 @@ C Stack info
       NEXT    = NEXT + 1
       IPART_STACK = TABVINT(NEXT)
       NEXT    = NEXT + 1
-      NPT_STACK  = TABVINT(NEXT)    
+      NPT_STACK  = TABVINT(NEXT)
       NEXT     = NEXT + 1
-      NS_STACK  = TABVINT(NEXT)  
+      NS_STACK  = TABVINT(NEXT)
 C
       NEXT           = NEXT + 1
-      IALEFVM        = TABVINT(NEXT)           
+      IALEFVM        = TABVINT(NEXT)
       NEXT           = NEXT + 1
-      I_ALE_SOLVER   = TABVINT(NEXT)  
+      I_ALE_SOLVER   = TABVINT(NEXT)
 C MUSCL keyword, compression parameter beta
       NEXT           = NEXT + 1
       IALEMUSCL      = TABVINT(NEXT)
@@ -1450,7 +1449,7 @@ C /LOAD/PBLAST
       NEXT       = NEXT + 1
       NLOADP_F   = TABVINT(NEXT)
       NEXT       = NEXT + 1
-      NLOADP_B   = TABVINT(NEXT)      
+      NLOADP_B   = TABVINT(NEXT)
 C
       NEXT     = NEXT + 1
       IF(MCHECK/=0) IDTMIN(51)= TABVINT(NEXT)
@@ -1462,7 +1461,7 @@ C
       NBR_GPMP  = TABVINT(NEXT)
 C
       NEXT     = NEXT + 1
-      TAILLE  = TABVINT(NEXT) 
+      TAILLE  = TABVINT(NEXT)
 C
       NEXT       = NEXT + 1
       NINTER25   = TABVINT(NEXT)
@@ -1518,137 +1517,137 @@ C ISFINT flag
       NEXT       = NEXT + 1
       IF(ISFINT==0)THEN
         !no engine keyword (/ALE/SOLVER) affecting ISFINT, then use starter setting
-        ISFINT   = TABVINT(NEXT)      
-      ENDIF  
+        ISFINT   = TABVINT(NEXT)
+      ENDIF
 C ICNDS10 dyna condensation for S10
       NEXT       = NEXT + 1
-      NS10E      = TABVINT(NEXT)      
+      NS10E      = TABVINT(NEXT)
       NEXT       = NEXT + 1
-      LCNCND     = TABVINT(NEXT)      
+      LCNCND     = TABVINT(NEXT)
       NEXT       = NEXT + 1
-      SIAD_CNDM  = TABVINT(NEXT)      
+      SIAD_CNDM  = TABVINT(NEXT)
       NEXT       = NEXT + 1
-      SFR_CNDM   = TABVINT(NEXT)      
-C---- old local sys of shell3n      
+      SFR_CNDM   = TABVINT(NEXT)
+C---- old local sys of shell3n
       NEXT = NEXT+1
       ISH3NFRAM =TABVINT(NEXT)
       NEXT = NEXT+1
       STAB_MAT = TABVINT(NEXT)
 C SMS auto switch
       NEXT       = NEXT + 1
-      ISMS_SELEC = TABVINT(NEXT)  
+      ISMS_SELEC = TABVINT(NEXT)
       NEXT = NEXT + 1
       ISUSED = TABVINT(NEXT)
       MULTI_FVM%IS_USED = .FALSE.
       IF (ISUSED == 1) THEN
-         MULTI_FVM%IS_USED = .TRUE.
-         MULTI_FVM%BETA = I_BETA
+        MULTI_FVM%IS_USED = .TRUE.
+        MULTI_FVM%BETA = I_BETA
       ENDIF
       NEXT = NEXT + 1
       ISUSED = TABVINT(NEXT)
       MULTI_FVM%NBMAT = ISUSED
-C---- old Isolid17      
+C---- old Isolid17
       NEXT = NEXT+1
       IS17_OLD =TABVINT(NEXT)
-C IH3D -> H3D count       
+C IH3D -> H3D count
       NEXT       = NEXT + 1
-      H3D_DATA%IH3D = TABVINT(NEXT)   
-C        
+      H3D_DATA%IH3D = TABVINT(NEXT)
+C
       NEXT       = NEXT + 1
-      NUMELS10G  = TABVINT(NEXT)   
-C        
-      NEXT       = NEXT + 1                      
-      NUMELS20G  = TABVINT(NEXT)   
+      NUMELS10G  = TABVINT(NEXT)
+C
+      NEXT       = NEXT + 1
+      NUMELS20G  = TABVINT(NEXT)
 !
-      NEXT             = NEXT + 1                      
-      I_DT_NODA_ALE_ON = TABVINT(NEXT) 
+      NEXT             = NEXT + 1
+      I_DT_NODA_ALE_ON = TABVINT(NEXT)
 c interface adhesion
       NEXT    = NEXT + 1
       INTERADHESION = TABVINT(NEXT)
-C Friction interface  
+C Friction interface
       NEXT             = NEXT + 1
       NINTERFRIC   = TABVINT(NEXT)
 !
-      NEXT    = NEXT + 1                      
+      NEXT    = NEXT + 1
       LENSUBS = TABVINT(NEXT)
 !
-      NEXT    = NEXT + 1                      
+      NEXT    = NEXT + 1
       LENIGRNOD = TABVINT(NEXT)
 !
-      NEXT    = NEXT + 1                      
+      NEXT    = NEXT + 1
       LENIGRBRIC = TABVINT(NEXT)
 !
-      NEXT    = NEXT + 1                      
+      NEXT    = NEXT + 1
       LENIGRQUAD = TABVINT(NEXT)
 !
-      NEXT    = NEXT + 1                      
+      NEXT    = NEXT + 1
       LENIGRSH4N = TABVINT(NEXT)
 !
-      NEXT    = NEXT + 1                      
+      NEXT    = NEXT + 1
       LENIGRSH3N = TABVINT(NEXT)
 !
-      NEXT    = NEXT + 1                      
+      NEXT    = NEXT + 1
       LENIGRTRUS = TABVINT(NEXT)
 !
-      NEXT    = NEXT + 1                      
+      NEXT    = NEXT + 1
       LENIGRBEAM = TABVINT(NEXT)
 !
-      NEXT    = NEXT + 1                      
+      NEXT    = NEXT + 1
       LENIGRSPRI = TABVINT(NEXT)
 !
-      NEXT    = NEXT + 1                      
+      NEXT    = NEXT + 1
       LENIGRPART = TABVINT(NEXT)
 !
-      NEXT    = NEXT + 1                      
+      NEXT    = NEXT + 1
       LENISURF = TABVINT(NEXT)
 !
-      NEXT    = NEXT + 1                      
+      NEXT    = NEXT + 1
       LENISLIN = TABVINT(NEXT)
 !
       IF(MCHECK/=0)THEN
-        NEXT    = NEXT + 1 
-        IDTS6   =  TABVINT(NEXT)                    
-        NEXT    = NEXT + 1                      
-        IDTHEPH =  TABVINT(NEXT)                    
-        NEXT    = NEXT + 1                      
-        IDT1SOL =  TABVINT(NEXT)                    
-        NEXT    = NEXT + 1                      
-        IDT1TET10=  TABVINT(NEXT)  
-        NEXT    = NEXT + 1                      
-        IDT1SH  =  TABVINT(NEXT)  
-         
+        NEXT    = NEXT + 1
+        IDTS6   =  TABVINT(NEXT)
+        NEXT    = NEXT + 1
+        IDTHEPH =  TABVINT(NEXT)
+        NEXT    = NEXT + 1
+        IDT1SOL =  TABVINT(NEXT)
+        NEXT    = NEXT + 1
+        IDT1TET10=  TABVINT(NEXT)
+        NEXT    = NEXT + 1
+        IDT1SH  =  TABVINT(NEXT)
+
       ELSE
-        NEXT    = NEXT + 5                 
+        NEXT    = NEXT + 5
       END IF
 !
-!     H3D -> number of inter skid lines    
+!     H3D -> number of inter skid lines
       NEXT       = NEXT + 1
-      NINTSKIDOLD= TABVINT(NEXT) 
-!     H3D ANIM-> Is maximum contact force /contact pressure computed    
+      NINTSKIDOLD= TABVINT(NEXT)
+!     H3D ANIM-> Is maximum contact force /contact pressure computed
       NEXT       = NEXT + 1
-      IFCONTMAX  = TABVINT(NEXT) 
+      IFCONTMAX  = TABVINT(NEXT)
       NEXT       = NEXT + 1
-      IFCONTPMAX = TABVINT(NEXT) 
+      IFCONTPMAX = TABVINT(NEXT)
       NEXT       = NEXT + 1
-      IFCONT2MAX = TABVINT(NEXT) 
+      IFCONT2MAX = TABVINT(NEXT)
       NEXT       = NEXT + 1
-      IFCONTP2MAX= TABVINT(NEXT) 
+      IFCONTP2MAX= TABVINT(NEXT)
       NEXT       = NEXT + 1
-      IFCONT2MIN = TABVINT(NEXT) 
+      IFCONT2MIN = TABVINT(NEXT)
       NEXT       = NEXT + 1
-      IFCONTP2MIN= TABVINT(NEXT) 
+      IFCONTP2MIN= TABVINT(NEXT)
       NEXT       = NEXT + 1
-      S_EFRIC    = TABVINT(NEXT) 
+      S_EFRIC    = TABVINT(NEXT)
       NEXT       = NEXT + 1
-      S_EFRICINT = TABVINT(NEXT) 
+      S_EFRICINT = TABVINT(NEXT)
       NEXT       = NEXT + 1
-      S_EFRICG   = TABVINT(NEXT) 
+      S_EFRICG   = TABVINT(NEXT)
       NEXT       = NEXT + 1
-      S_EFRICINTG = TABVINT(NEXT) 
+      S_EFRICINTG = TABVINT(NEXT)
       NEXT       = NEXT + 1
       NINEFRIC   = TABVINT(NEXT)
       NEXT       = NEXT + 1
-      NINEFRIC_STAMP = TABVINT(NEXT)  
+      NINEFRIC_STAMP = TABVINT(NEXT)
 C  NITSCHE METHOD
       NEXT=NEXT+1
       NITSCHE = TABVINT(NEXT)
@@ -1663,7 +1662,7 @@ C  Pinching
       IF(I_SUPG_ON_OFF==0) I_SUPG_ON_OFF = TABVINT(NEXT)
 
       NEXT       = NEXT + 1
-      NLEDGE     = TABVINT(NEXT) 
+      NLEDGE     = TABVINT(NEXT)
 !
       NEXT       = NEXT + 1
       INISPRI    = TABVINT(NEXT)
@@ -1687,30 +1686,30 @@ C  Pinching
       NEXT       = NEXT + 1
       LFACGRV    = TABVINT(NEXT)
 !
-C  BCS/CYCLIC 
+C  BCS/CYCLIC
       NEXT       = NEXT + 1
       NBCSCYC    = TABVINT(NEXT)
       NEXT       = NEXT + 1
       SIBCSCYC   = TABVINT(NEXT)
       NEXT       = NEXT + 1
       SLBCSCYC   = TABVINT(NEXT)
-      
+
       NEXT       = NEXT + 1
       INTER18_AUTOPARAM = TABVINT(NEXT)
       NEXT       = NEXT + 1
       IF(TABVINT(NEXT) == 1)INTER18_IS_VARIABLE_GAP_DEFINED = .TRUE.
 
       IF ((IALE > 0 .AND. NWALE_RST == 6) .OR. INTER18_AUTOPARAM == 1 .OR. INTER18_IS_VARIABLE_GAP_DEFINED) THEN
-         NEXT = NEXT + 1
-         NE_SLERCVOIS = TABVINT(NEXT)
-         NEXT = NEXT + 1
-         NE_SLESDVOIS = TABVINT(NEXT)
-         NEXT = NEXT + 1
-         NE_NSVOIS = TABVINT(NEXT)
-         NEXT = NEXT + 1
-         NE_NQVOIS = TABVINT(NEXT)
-         NEXT = NEXT + 1
-         NE_NTGVOIS = TABVINT(NEXT)
+        NEXT = NEXT + 1
+        NE_SLERCVOIS = TABVINT(NEXT)
+        NEXT = NEXT + 1
+        NE_SLESDVOIS = TABVINT(NEXT)
+        NEXT = NEXT + 1
+        NE_NSVOIS = TABVINT(NEXT)
+        NEXT = NEXT + 1
+        NE_NQVOIS = TABVINT(NEXT)
+        NEXT = NEXT + 1
+        NE_NTGVOIS = TABVINT(NEXT)
       ENDIF
 
       NEXT       = NEXT + 1
@@ -1753,7 +1752,7 @@ C
 C---- Number of RBODY before merge
       NEXT       = NEXT + 1
       NRBODY0    = TABVINT(NEXT)
-C---- MAX (/H3D) 
+C---- MAX (/H3D)
       NEXT       = NEXT + 1
       LMAX_DIS   = TABVINT(NEXT)
       NEXT       = NEXT + 1
@@ -1779,7 +1778,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-       USE ANIM_MOD      
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1792,7 +1791,6 @@ C-----------------------------------------------
 #include      "r4r8_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com05_c.inc"
 #include      "com06_c.inc"
 #include      "com07_c.inc"
 #include      "com08_c.inc"
@@ -1828,7 +1826,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,RVARINT,J
+      INTEGER I,RVARINT,J
 C-----------------------------------------------
 C      warning to radioss developers:
 C      IF(LVARREA>LMXVREA)THEN
@@ -1877,48 +1875,48 @@ C-----
       VGY    =TABVREA(37)
       VGZ    =TABVREA(38)
 C-----
-       SPASORT=TABVREA(39)
-       SPATRUE=TABVREA(40)
-       DO I=1,9
+      SPASORT=TABVREA(39)
+      SPATRUE=TABVREA(40)
+      DO I=1,9
         DTHIS1(I) = TABVREA(40+I)
         THIS1(I)  = TABVREA(49+I)
-       ENDDO
-       MASS0 = TABVREA(59)
-       ENTOT0 = TABVREA(60)
-       LAGM_TOL =TABVREA(61)
-       LAG_ALPH =TABVREA(62)
-       LAG_ALPHS=TABVREA(63)
+      ENDDO
+      MASS0 = TABVREA(59)
+      ENTOT0 = TABVREA(60)
+      LAGM_TOL =TABVREA(61)
+      LAG_ALPH =TABVREA(62)
+      LAG_ALPHS=TABVREA(63)
 
 C-----
 C     read/write next real variable at TABVREA(LVR44A+1) if LVARREA > LVR44A,
 C                                      else, set its value to zero.
 C           (whatever the real common to store the variable).
 C--------------------------------------
-       IF(MCHECK/=0)THEN
-         DO I=1,12
+      IF(MCHECK/=0)THEN
+        DO I=1,12
           DTFAC1(I) = TABVREA(63 + I)
           DTMIN1(I) = TABVREA(63 + 12 +I)
-         ENDDO
-         BETA   = TABVREA(88)
-         BETATE = TABVREA(89)
-         PERIOD = TABVREA(90)
-         DMTMXS = TABVREA(91)
-         DMNMXS = TABVREA(92)
-         DMNMXS = TABVREA(93)
-         DTIN   = TABVREA(94)
-         DTMX   = TABVREA(95)
-         MADUL  = TABVREA(96)
-         MADUT  = TABVREA(97)
-         MADUM  = TABVREA(98)
-         DTFSUB = TABVREA(99)
-         DTMSUB = TABVREA(100)
-         EPS    = TABVREA(101)
-         EPS2   = TABVREA(102)
-         CUPWM  = TABVREA(103)
+        ENDDO
+        BETA   = TABVREA(88)
+        BETATE = TABVREA(89)
+        PERIOD = TABVREA(90)
+        DMTMXS = TABVREA(91)
+        DMNMXS = TABVREA(92)
+        DMNMXS = TABVREA(93)
+        DTIN   = TABVREA(94)
+        DTMX   = TABVREA(95)
+        MADUL  = TABVREA(96)
+        MADUT  = TABVREA(97)
+        MADUM  = TABVREA(98)
+        DTFSUB = TABVREA(99)
+        DTMSUB = TABVREA(100)
+        EPS    = TABVREA(101)
+        EPS2   = TABVREA(102)
+        CUPWM  = TABVREA(103)
 c noise
-         TNOISE = TABVREA(104)
-         DTNOISE= TABVREA(105)
-       ENDIF
+        TNOISE = TABVREA(104)
+        DTNOISE= TABVREA(105)
+      ENDIF
 
 
       DWMAD = TABVREA(106)
@@ -2053,15 +2051,15 @@ C
       RATIO22       = TABVREA(RVARINT)
 C
       RVARINT       = RVARINT + 1
-      M51_IFLG6     = TABVREA(RVARINT)      
+      M51_IFLG6     = TABVREA(RVARINT)
 C
       RVARINT       = RVARINT + 1
-      MS_ND         = TABVREA(RVARINT)      
+      MS_ND         = TABVREA(RVARINT)
       RVARINT       = RVARINT + 1
-      DMSI2         = TABVREA(RVARINT)      
+      DMSI2         = TABVREA(RVARINT)
       RVARINT       = RVARINT + 1
-      MSI20         = TABVREA(RVARINT)      
-C      
+      MSI20         = TABVREA(RVARINT)
+C
       RVARINT = RVARINT + 1
       IF(MCHECK/=0) DTFAC1(51)= TABVREA(RVARINT)
       RVARINT = RVARINT + 1
@@ -2076,12 +2074,12 @@ C
       IF(MCHECK/=0) DTFAC1(102)= TABVREA(RVARINT)
       RVARINT = RVARINT + 1
       IF(MCHECK/=0) DTMIN1(102)= TABVREA(RVARINT)
-C      
+C
       RVARINT = RVARINT + 1
       IF(MCHECK/=0) DTFACS_INT_OLD= TABVREA(RVARINT)
       RVARINT = RVARINT + 1
       IF(MCHECK/=0) DTMINS_INT_OLD= TABVREA(RVARINT)
-C      
+C
 C    /ADYREL :BETATE_0, EINT_0,ENCIN_0,PIMAX ,PCMAX,PINT ,PCIN ,FIL_
       RVARINT = RVARINT + 1
       BETATE_0 = TABVREA(RVARINT)
@@ -2103,7 +2101,7 @@ C    /ADYREL :BETATE_0, EINT_0,ENCIN_0,PIMAX ,PCMAX,PINT ,PCIN ,FIL_
       FIL_KE(1:4)=TABVREA(RVARINT:RVARINT+3)
       RVARINT = RVARINT + 4
       NFIRST  = TABVREA(RVARINT)
-C     
+C
       RVARINT = RVARINT + 1
       IF(MCHECK/=0) VGY0= TABVREA(RVARINT)
       RVARINT = RVARINT + 1
@@ -2122,6 +2120,6 @@ C  INITIAL MASS IN STARTER
 C  ANIM FILES FINAL TIME
       RVARINT = RVARINT + 1
       TANIM_STOP = TABVREA(RVARINT)
-           
+
       RETURN
       END

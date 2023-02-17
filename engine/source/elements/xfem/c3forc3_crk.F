@@ -104,13 +104,9 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
 #include      "com_xfem1.inc"
 #include      "scr01_c.inc"
-#include      "scr03_c.inc"
 #include      "scr07_c.inc"
 #include      "parit_c.inc"
 #include      "timeri_c.inc"

@@ -47,7 +47,6 @@ C-----------------------------------------------
 #include      "inter22.inc"
 #include      "task_c.inc"
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "alefvm.inc"
 !#include      "mmale51_c.inc" 
 C-----------------------------------------------

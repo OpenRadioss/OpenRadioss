@@ -47,7 +47,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "impl1_c.inc"
 #include      "com01_c.inc"
-#include      "com06_c.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "scr07_c.inc"

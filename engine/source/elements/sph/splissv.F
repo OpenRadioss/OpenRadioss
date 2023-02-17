@@ -94,9 +94,7 @@ C-----------------------------------------------
 #include      "sphcom.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------------------------

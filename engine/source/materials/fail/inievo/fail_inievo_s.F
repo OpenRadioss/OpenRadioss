@@ -60,8 +60,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "impl1_c.inc"
 #include      "com04_c.inc"
-#include      "com01_c.inc"
-#include      "scr18_c.inc"
 #include      "tabsiz_c.inc"
 #include      "my_allocate.inc"
 C-----------------------------------------------

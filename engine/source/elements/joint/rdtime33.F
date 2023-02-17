@@ -45,7 +45,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr02_c.inc"
-#include      "com08_c.inc"
 #include      "sms_c.inc"
 #include      "units_c.inc"
 #include      "vect01_c.inc"

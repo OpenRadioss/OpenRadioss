@@ -21,7 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../COM20/
-C...non transmis en spmd
       COMMON /COM20/ Z0(11,11),  WF(11,11),  WM(11,11), ZTH(12,11)
 C     REAL ou REAL*8
       my_real
