@@ -71,6 +71,7 @@ Chd|        MY_GETPID                     source/system/pid.c
 Chd|        NFRREST                       source/output/restart/rdresb.F
 Chd|        NITSCHERREST                  source/output/restart/rdresb.F
 Chd|        OPEN_C                        source/output/tools/sortie_c.c
+Chd|        OPEN_F_SCRATCH_FILE           source/system/open_tempfile.F 
 Chd|        PLYXFEM_RAVUPLY               source/output/restart/rdresb.F
 Chd|        PLYXFEM_RREST                 source/output/restart/rdresb.F
 Chd|        PLYXFEM_RRESTANIM             source/output/restart/rdresb.F

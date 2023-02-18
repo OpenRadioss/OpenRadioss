@@ -1435,6 +1435,7 @@ Chd|        READ_DB                       source/output/tools/read_db.F
 Chd|        READ_I_C                      source/output/tools/sortie_c.c
 Chd|        REDSQI                        source/output/tools/redsqi.F  
 Chd|        REDSQR                        source/output/tools/redsqr.F  
+Chd|        TMPENVF                       source/system/tmpenv_c.c      
 Chd|        FXB_MOD                       share/modules/fxb_mod.F       
 Chd|        SCRATCHFILE_MOD               share/modules/scratchfiles_mod.F
 Chd|====================================================================
@@ -1574,6 +1575,7 @@ Chd|        READ_DB                       source/output/tools/read_db.F
 Chd|        READ_I_C                      source/output/tools/sortie_c.c
 Chd|        REDSQI                        source/output/tools/redsqi.F  
 Chd|        REDSQR                        source/output/tools/redsqr.F  
+Chd|        TMPENVF                       source/system/tmpenv_c.c      
 Chd|        EIG_MOD                       share/modules/eig_mod.F       
 Chd|        SCRATCHFILE_MOD               share/modules/scratchfiles_mod.F
 Chd|====================================================================

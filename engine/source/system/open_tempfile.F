@@ -21,15 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SCRATCHFILE_MOD               share/modules/scratchfiles_mod.F
+Chd|  OPEN_F_SCRATCH_FILE           source/system/open_tempfile.F 
 Chd|-- called by -----------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        EIGRREST                      source/output/restart/rdresb.F
-Chd|        EIGWREST                      source/output/restart/wrrest.F
-Chd|        FXBRESB                       source/output/restart/rdresb.F
-Chd|        FXBWREST                      source/output/restart/wrrest.F
+Chd|        FREFORM                       source/input/freform.F        
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
+Chd|        MY_GETPID                     source/system/pid.c           
+Chd|        TMPENVF                       source/system/tmpenv_c.c      
 Chd|====================================================================
       SUBROUTINE OPEN_F_SCRATCH_FILE(FD,ACCES_TYPE,ROOTN,LENROOTN,FILN)
 C-----------------------------------------------

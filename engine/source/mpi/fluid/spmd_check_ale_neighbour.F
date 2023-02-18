@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_CHECK_ALE_NEIGHBOUR      source/mpi/fluid/spmd_check_ale_neighbour.F
 Chd|-- called by -----------
-Chd|        CHECK_ALE_COMM                source/ale/check_ale_comm.F   
 Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE SPMD_CHECK_ALE_NEIGHBOUR(ACTIVE_ELEMENT,NB_RCV_NEIGH,NB_SEND_NEIGH,

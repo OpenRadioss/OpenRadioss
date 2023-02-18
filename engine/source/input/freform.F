@@ -60,7 +60,7 @@ Chd|        FREUPWIND                     source/input/freupwind.F
 Chd|        FREUPWM                       source/input/freupwm.F        
 Chd|        H3D_INI                       source/output/h3d/h3d_build_fortran/h3d_ini.F
 Chd|        H3D_READ                      source/output/h3d/h3d_build_fortran/h3d_read.F
-Chd|        MY_GETPID                     source/system/pid.c           
+Chd|        OPEN_F_SCRATCH_FILE           source/system/open_tempfile.F 
 Chd|        RDELE                         source/input/rdele.F          
 Chd|        REDKEY0                       source/input/redkey0.F        
 Chd|        REDKEY1                       source/input/redkey1.F        

@@ -25,9 +25,7 @@ Chd|  CHECK_ALE_COMM                source/ale/check_ale_comm.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        SPMD_CHECK_ALE_NEIGHBOUR      source/mpi/fluid/spmd_check_ale_neighbour.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        RESTMOD                       share/modules/restart_mod.F   
 Chd|====================================================================
         SUBROUTINE CHECK_ALE_COMM(IPARG_L,ELBUF_TAB,GLOBAL_ACTIVE_ALE_ELEMENT)
 !$COMMENT
