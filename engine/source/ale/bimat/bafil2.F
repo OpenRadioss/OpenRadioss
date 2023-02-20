@@ -69,13 +69,6 @@ C-----------------------------------------------
      .   PTZ, PS, PST, PTS, DS0, DT0, DS, DT,
      .   DF1(MVSIZ), DF2(MVSIZ), DF3(MVSIZ), DF4(MVSIZ)
 C-----------------------------------------------
-!      EQUIVALENCE (GAMMA,BV(1,61)),(XMS,BV(1,62))
-C-------------------------------
-!      DO I=LFT,LLT
-!        XMS(I)  =HALF/(PY1(I)*PZ2(I)-PY2(I)*PZ1(I))
-!        GAMMA(I)= ONE
-!      ENDDO
-C-------------------------------
       DO I=LFT,LLT
         FI1(I)=FILL(NC1(I),1)
         FI2(I)=FILL(NC2(I),1)

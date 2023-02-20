@@ -58,7 +58,6 @@ C-----------------------------------------------
       INTEGER          :: NIN, I, J, K, ISIZ
       INTEGER          :: Isectype(14)  
       CHARACTER*14     :: string
-!      EQUIVALENCE(Isectype,Csectype)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

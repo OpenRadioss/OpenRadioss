@@ -97,7 +97,6 @@ C
            !-----------------------------------------------! 
 
          DO I = LFT, LLT
-C     Getting rid of equivalences
             II = I + NFT
             NODE1 = IX(2, II)
             NODE2 = IX(3, II)

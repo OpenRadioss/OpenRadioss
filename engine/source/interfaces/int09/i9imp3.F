@@ -55,11 +55,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL
 C-----------------------------------------------
-!      EQUIVALENCE (N1,BV(1,19)) ,(N2,BV(1,20)) ,(N3,BV(1,21))
-!      EQUIVALENCE (ANS,BV(1,22)),(SSC,BV(1,23)),(TTC,BV(1,24))
-!      EQUIVALENCE (XFACE,BV(1,29))
-!      EQUIVALENCE (THK,BV(1,70))
-C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO I=LFT,LLT

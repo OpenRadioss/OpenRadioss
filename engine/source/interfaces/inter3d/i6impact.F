@@ -65,11 +65,6 @@ C     REAL
       my_real
      .   DVX,DVY,DVZ,VTX,VTY,VTZ
 C-----------------------------------------------
-!      EQUIVALENCE (SSC,BV(1,23)),(TTC,BV(1,24)),(XFACE,BV(1,29))
-!      EQUIVALENCE (N1,BV(1,19)) ,(N2,BV(1,20)) ,(N3,BV(1,21))
-!      EQUIVALENCE (H1,BV(1,25)) ,(H2,BV(1,26)) ,(H3,BV(1,27))
-!      EQUIVALENCE (H4,BV(1,28)) 
-C=======================================================================
       DO I=LFT,LLT
         IL = I+NFT
 c

@@ -32,9 +32,9 @@ Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-sear
 Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE AFLUX3_INT22_FVM(
-     .           PM         , IXS   , V      , FLUX     , FLU1    ,
-     .           VEUL       , IPARG  , ELBUF_TAB, ITASK   ,
-     .           NV46       , IPM   , X      , W)
+     .           PM         , IXS    , V        , FLUX     , FLU1    ,
+     .           VEUL       , IPARG  , ELBUF_TAB, ITASK    ,
+     .           NV46       , IPM    , X        , W)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -117,14 +117,6 @@ C-----------------------------------------------
       my_real :: Wface(3), WfaceV(3), WfaceB(3,6)
       LOGICAL debug_outp,bFOUND
       INTEGER                             :: NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8
-C-----------------------------------------------
-!      EQUIVALENCE
-!     +  (X1,BV(1,1 )),(X2,BV(1,2 )),(X3,BV(1,3 )),(X4,BV(1,4 )),
-!     +  (X5,BV(1,5 )),(X6,BV(1,6 )),(X7,BV(1,7 )),(X8,BV(1,8 )),
-!     +  (Y1,BV(1,9 )),(Y2,BV(1,10)),(Y3,BV(1,11)),(Y4,BV(1,12)),
-!     +  (Y5,BV(1,13)),(Y6,BV(1,14)),(Y7,BV(1,15)),(Y8,BV(1,16)),
-!     +  (Z1,BV(1,17)),(Z2,BV(1,18)),(Z3,BV(1,19)),(Z4,BV(1,20)),
-!     +  (Z5,BV(1,21)),(Z6,BV(1,22)),(Z7,BV(1,23)),(Z8,BV(1,24))
 C-----------------------------------------------
 C   P r e - C o n d i t i o n 
 C-----------------------------------------------

@@ -202,15 +202,7 @@ C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----
 C
-C----6----------------------------------------------------------------12
-C     Les variables suivantes sont utilisees dans les materiaux 
-C     en equivalence sur BV
-C                   WYZ VOL VD2 DVOL DELTAX VIS 
-C                   D1,D2,D3,D4,D5,D6
-C                   S1,S2,S2,S3,S4,S5,S6
-C                   RX,RY,RZ,SX,SY,SZ,TX,TY,TZ
-C il faut supprimer les equivalences sur les variables qui ne servent pas
-C=======================================================================
+C--------------------------------------------------------------------
       GBUF => ELBUF_TAB(NG)%GBUF
 c
       IBIDON=0 

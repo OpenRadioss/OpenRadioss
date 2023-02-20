@@ -53,7 +53,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ISGN,II
 C-----------------------------------------------
-!      EQUIVALENCE (SSC,BV(1,23)),(TTC,BV(1,24)),(XFACE,BV(1,29))
       
       DO I=LFT,LLT
         II=I+NFT

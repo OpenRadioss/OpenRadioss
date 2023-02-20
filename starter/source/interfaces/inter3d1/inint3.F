@@ -248,7 +248,6 @@ C-----------------------------------------------
       INTEGER, POINTER :: pIXINT
       INTEGER, DIMENSION(:),ALLOCATABLE :: IPARTSM
 C-----------------------------------------------
-!     Local variables for equivalence removal
       INTEGER, DIMENSION(MVSIZ) ::PROV_N,PROV_E
       INTEGER, DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4,NSVG
       my_real, DIMENSION(MVSIZ) :: X1,X2,X3,X4

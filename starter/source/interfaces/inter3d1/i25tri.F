@@ -125,8 +125,6 @@ C     REAL
      .   GAPV(MVSIZ),MARGE_E
       INTEGER, DIMENSION(:), ALLOCATABLE ::  TAGNOD
 C-----------------------------------------------
-!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7)) 
-C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================
 C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN TWO ZONES

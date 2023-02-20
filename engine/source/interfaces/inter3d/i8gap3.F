@@ -54,7 +54,6 @@ C     REAL
       my_real
      .    VAR
 C-----------------------------------------------
-C     EQUIVALENCE (THK ,BV(1,70)),(AREA,BV(1,71)),(ALP,BV(1,72))
 C
       DO 100 I=LFT,LLT
       THK(I)=GAP

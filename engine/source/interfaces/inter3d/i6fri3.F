@@ -80,18 +80,6 @@ C-----------------------------------------------
       my_real
      .   KFRIC(LLT),KFRICV(LLT),XX(LLT)
 C-----------------------------------------------
-!      EQUIVALENCE (XP,BV(1,16)),(YP,BV(1,17)),(ZP,BV(1,18))
-!      EQUIVALENCE (N1,BV(1,19)) ,(N2,BV(1,20)) ,(N3,BV(1,21))
-!      EQUIVALENCE (SSC,BV(1,23)),(TTC,BV(1,24))
-!      EQUIVALENCE (H1,BV(1,25)) ,(H2,BV(1,26)) ,(H3,BV(1,27))
-!      EQUIVALENCE (H4,BV(1,28)) ,(XFACE,BV(1,29))
-!      EQUIVALENCE (FNI,BV(1,40))
-!      EQUIVALENCE (FXI,BV(1,41)),(FYI,BV(1,42)),(FZI,BV(1,43))
-!      EQUIVALENCE (FX1,BV(1,44)),(FY1,BV(1,45)),(FZ1,BV(1,46))
-!      EQUIVALENCE (FX2,BV(1,47)),(FY2,BV(1,48)),(FZ2,BV(1,49))
-!      EQUIVALENCE (FX3,BV(1,50)),(FY3,BV(1,51)),(FZ3,BV(1,52))
-!      EQUIVALENCE (FX4,BV(1,53)),(FY4,BV(1,54)),(FZ4,BV(1,55))
-C=======================================================================
 C     Coefficient de Frottement : MU = FROT*F1(FN)*F2(VT)
 C----------------------------------------------------------
       IF (IFRICF == 0) THEN
