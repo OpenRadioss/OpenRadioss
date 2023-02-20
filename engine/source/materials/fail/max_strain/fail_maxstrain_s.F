@@ -28,7 +28,7 @@ Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE FAIL_MAXSTRN_S(
+      SUBROUTINE FAIL_MAXSTRAIN_S(
      1     NEL     ,NUVAR   ,IP      ,ILAY    ,NPG     ,TIME    ,
      2     TIMESTEP,UPARAM  ,NGL     ,OFF     ,LOFF    ,NOFF    ,
      3     EPSXX   ,EPSYY   ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX   ,
@@ -198,9 +198,9 @@ C
         END DO
       ENDIF      
 C--------------------------------------------      
- 1000 FORMAT(1X,'FAILURE (MAXSTRN) OF SOLID ELEMENT ',I10,1X,
+ 1000 FORMAT(1X,'FAILURE (MAXSTRAIN) OF SOLID ELEMENT ',I10,1X,
      .',GAUSS PT',I5,1X,',LAYER',I5)
- 1100 FORMAT(1X,'FAILURE (MAXSTRN) OF SOLID ELEMENT ',I10,1X,
+ 1100 FORMAT(1X,'FAILURE (MAXSTRAIN) OF SOLID ELEMENT ',I10,1X,
      .',GAUSS PT',I5,1X,',LAYER',I5,1X,'AT TIME :',1PE20.13)
  1200 FORMAT(1X,'-- RUPTURE OF SOLID ELEMENT : ',I10,1X,
      .'AT TIME :',1PE20.13)  
