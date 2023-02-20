@@ -1528,8 +1528,8 @@ C Lecture des fichiers de modes et de contraintes
       CALL MY_GETPID(MY_PID)
       WRITE(CPID,'(I10.10)') MY_PID
       WRITE(CISPMD,'(I6.6)') ISPMD
-      IFXM_FN=TMPDIR//'/'//'25_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
-      IFXS_FN=TMPDIR//'/'//'26_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+      IFXM_FN=TMPDIR(1:TLEN)//'/'//'25_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+      IFXS_FN=TMPDIR(1:TLEN)//'/'//'26_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
       LEN_IFXM_FN=LEN_TRIM(IFXM_FN)
       LEN_IFXS_FN=LEN_TRIM(IFXS_FN)
 
@@ -1637,7 +1637,7 @@ C Lecture du fichier de modes additionnels
       WRITE(CISPMD,'(I6.6)') ISPMD
       TLEN=4096
       CALL TMPENVF(TMPDIR,TLEN)
-      IEIGM_FN=TMPDIR//'/'//'27_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
+      IEIGM_FN=TMPDIR(1:TLEN)//'/'//'27_'//ROOTN(1:LENROOTN)//'_'//CPID//'_'//CISPMD//'.tmp'
       LEN_IEIGM_FN=LEN_TRIM(IEIGM_FN)
       OPEN(UNIT=IEIGM,FILE=TRIM(IEIGM_FN),ACCESS='DIRECT',RECL=RCLEN)
       USE_IEIGM = 1
