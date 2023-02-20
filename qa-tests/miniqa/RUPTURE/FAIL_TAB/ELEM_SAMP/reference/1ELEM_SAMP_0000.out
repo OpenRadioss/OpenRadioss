@@ -799,7 +799,7 @@ Part id,name:         1 Shell part 1           Mat type:  36 Elm type: SHELL-4no
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        120 MB
+    STARTER MEMORY USAGE        129 MB
 
 
 
@@ -888,20 +888,20 @@ STANDARD DEVIATION            :       3
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1863E+00   .8547E-01   .8847E-02   .0000E+00   .0000E+00   .0000E+00   .2497E-04
+.0000E+00   .2055E+00   .8191E-01   .5000E-02   .0000E+00   .0000E+00   .0000E+00   .2500E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .2864E+05   .1018E+00   .5803E-02   .0000E+00   .0000E+00   .0000E+00   .1336E-04
+.0000E+00   .1128E+05   .9534E-01   .5327E-02   .0000E+00   .0000E+00   .0000E+00   .1136E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2023/02/13  16:27:25
- EXECUTION COMPLETED    :      2023/02/13  16:27:25
+ EXECUTION STARTED      :      2023/02/20  11:49:00
+ EXECUTION COMPLETED    :      2023/02/20  11:49:00
   
- ELAPSED TIME...........=          0.39 s
+ ELAPSED TIME...........=          0.36 s
                                00:00:00
   
 ------------------------------------------------------------------------
