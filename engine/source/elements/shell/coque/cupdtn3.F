@@ -72,27 +72,13 @@ CMasParINCLUDE 'cupdt3.intmap.inc'
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NVC1, NVC2, NVC3, NVC4, I, J, MX,IOFF,MT
+      INTEGER NVC1, NVC2, NVC3, NVC4, I, J, MX,MT
       my_real
      .   OFF_L,CF(MVSIZ)
 C-----------------------------------------------
 C
 C cumul de l'energie des elements deletes AU moment du delete
             
-      IOFF=0
-      DO I=JFT,JLT
-        IF(OFF(I)==ZERO.AND.OFFG(I)>ZERO)IOFF=1
-      ENDDO
-      IF(IOFF==1)THEN
-       MT = MAT(JFT)
-       DO I=JFT,JLT
-        IF(OFF(I)==ZERO.AND.OFFG(I)>ZERO)THEN
-           MX = IPARTC(I)
-           PARTSAV(24,MX)=PARTSAV(24,MX) + EINT(I,1) + EINT(I,2)
-           PARTSAV(25,MX)=PARTSAV(25,MX) + PM(1,MT)*AREA(I)*THK(I)
-        ENDIF
-       ENDDO
-      ENDIF
       OFF_L = ZERO
       DO I=JFT,JLT
         IF(OFF(I)<ONE)OFFG(I) = OFF(I)
@@ -548,25 +534,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C ds 41i 001 13/16/00 +1
 C     INTEGER I, II, K
-      INTEGER I, II, K, J, MX,IOFF, MT
+      INTEGER I, II, K, J, MX,MT
       my_real
      .   OFF_L
 C-----------------------------------------------
 C cumul de l'energie des elements deletes AU moment du delete 
-      IOFF=0
-      DO I=JFT,JLT
-        IF(OFF(I)==ZERO.AND.OFFG(I)>ZERO)IOFF=1
-      ENDDO
-      IF(IOFF==1)THEN
-       MT = MAT(JFT)
-       DO I=JFT,JLT
-        IF(OFF(I)==ZERO.AND.OFFG(I)>ZERO)THEN
-           MX = IPARTC(I)
-           PARTSAV(24,MX)=PARTSAV(24,MX) + EINT(I,1) + EINT(I,2)
-           PARTSAV(25,MX)=PARTSAV(25,MX) + PM(1,MT)*AREA(I)*THK(I)
-        ENDIF
-       ENDDO
-      ENDIF
       OFF_L = ZERO
       DO I=JFT,JLT
         IF(OFF(I)<ONE)OFFG(I) = OFF(I)
