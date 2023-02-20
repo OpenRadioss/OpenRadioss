@@ -221,17 +221,6 @@ C     REAL
       my_real
      .  DN
 C-----------------------------------------------
-!      EQUIVALENCE (IX1,IV(1,1)) ,(IX2,IV(1,2)) ,(IX3,IV(1,3))
-!      EQUIVALENCE (IX4,IV(1,4)) ,(NSVG,IV(1,5))
-C
-!      EQUIVALENCE (XI,BV(1,13)),(YI,BV(1,14)),(ZI,BV(1,15))
-!      EQUIVALENCE (X1,BV(1,1)) ,(Y1,BV(1,2)) ,(Z1,BV(1,3))
-!      EQUIVALENCE (X2,BV(1,4)) ,(Y2,BV(1,5)) ,(Z2,BV(1,6))
-!      EQUIVALENCE (X3,BV(1,7)) ,(Y3,BV(1,8)) ,(Z3,BV(1,9))
-!      EQUIVALENCE (X4,BV(1,10)),(Y4,BV(1,11)),(Z4,BV(1,12))
-!      EQUIVALENCE (N1,BV(1,19)) ,(N2,BV(1,20)) ,(N3,BV(1,21))
-!      EQUIVALENCE (PENE,BV(1,22))
-C=======================================================================
         DO 100 I=LFT,LLT
           IF(IPRI>=1.AND.PENE(I)>ZERO)THEN
             WRITE(IOUT,FMT=FMW_5I)
@@ -460,17 +449,6 @@ C     REAL
       my_real
      .  DN
 C-----------------------------------------------
-!      EQUIVALENCE (IX1,IV(1,1)) ,(IX2,IV(1,2)) ,(IX3,IV(1,3))
-!      EQUIVALENCE (IX4,IV(1,4)) ,(NSVG,IV(1,5))
-C
-!      EQUIVALENCE (XI,BV(1,13)),(YI,BV(1,14)),(ZI,BV(1,15))
-!      EQUIVALENCE (X1,BV(1,1)) ,(Y1,BV(1,2)) ,(Z1,BV(1,3))
-!      EQUIVALENCE (X2,BV(1,4)) ,(Y2,BV(1,5)) ,(Z2,BV(1,6))
-!      EQUIVALENCE (X3,BV(1,7)) ,(Y3,BV(1,8)) ,(Z3,BV(1,9))
-!      EQUIVALENCE (X4,BV(1,10)),(Y4,BV(1,11)),(Z4,BV(1,12))
-!      EQUIVALENCE (N1,BV(1,19)) ,(N2,BV(1,20)) ,(N3,BV(1,21))
-!      EQUIVALENCE (PENE,BV(1,22))
-C=======================================================================
       JWARN = 0
         DO 100 I=LFT,LLT
           IS=CAND_N(I)      

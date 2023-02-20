@@ -97,47 +97,6 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       my_real CVMGN
 C-----------------------------------------------
-
-!      EQUIVALENCE (X1,BV(1,1)) ,(Y1,BV(1,2)) ,(Z1,BV(1,3))
-!      EQUIVALENCE (X2,BV(1,4)) ,(Y2,BV(1,5)) ,(Z2,BV(1,6))
-!      EQUIVALENCE (X3,BV(1,7)) ,(Y3,BV(1,8)) ,(Z3,BV(1,9))
-!      EQUIVALENCE (X4,BV(1,10)),(Y4,BV(1,11)),(Z4,BV(1,12))
-!      EQUIVALENCE (YI,BV(1,14)),(ZI,BV(1,15))
-!      EQUIVALENCE (N1,BV(1,19)) ,(N2,BV(1,20)) ,(N3,BV(1,21))
-!      EQUIVALENCE (SSC,BV(1,23)),(TTC,BV(1,24))
-!      EQUIVALENCE (XFACE,BV(1,29))
-!      EQUIVALENCE (X0,BV(1,31)) ,(Y0,BV(1,32)) ,(Z0,BV(1,33))
-!      EQUIVALENCE (XX1,BV(1,34)),(YY1,BV(1,35)),(ZZ1,BV(1,36))
-!      EQUIVALENCE (XX2,BV(1,37)),(YY2,BV(1,38)),(ZZ2,BV(1,39))
-!      EQUIVALENCE (XX3,BV(1,40)),(YY3,BV(1,41)),(ZZ3,BV(1,42))
-!      EQUIVALENCE (XX4,BV(1,43)),(YY4,BV(1,44)),(ZZ4,BV(1,45))
-!      EQUIVALENCE (XI1,BV(1,46)),(YI1,BV(1,47)),(ZI1,BV(1,48))
-!      EQUIVALENCE (XI2,BV(1,49)),(YI2,BV(1,50)),(ZI2,BV(1,51))
-!      EQUIVALENCE (XI3,BV(1,52)),(YI3,BV(1,53)),(ZI3,BV(1,54))
-!      EQUIVALENCE (XI4,BV(1,55)),(YI4,BV(1,56)),(ZI4,BV(1,57))
-!      EQUIVALENCE (XN1,BV(1,58)),(YN1,BV(1,59)),(ZN1,BV(1,60))
-!      EQUIVALENCE (XN2,BV(1,61)),(YN2,BV(1,62)),(ZN2,BV(1,63))
- !     EQUIVALENCE (XN3,BV(1,64)),(YN3,BV(1,65)),(ZN3,BV(1,66))
-!      EQUIVALENCE (XN4,BV(1,67)),(YN4,BV(1,68)),(ZN4,BV(1,69))
-!      EQUIVALENCE (AREA,BV(1,71))
-
-
-
-
-!      EQUIVALENCE (IX1,IV(1,1)) ,(IX2,IV(1,2)) ,(IX3,IV(1,3))
-!      EQUIVALENCE (IX4,IV(1,4))
-C
-!      EQUIVALENCE (N1,BV(1,19)) ,(N2,BV(1,20)) ,(N3,BV(1,21))
-!      EQUIVALENCE (ANS,BV(1,22)),(SSC,BV(1,23)),(TTC,BV(1,24))
-!      EQUIVALENCE (H1,BV(1,25)) ,(H2,BV(1,26)) ,(H3,BV(1,27))
-!      EQUIVALENCE (H4,BV(1,28)) ,(XFACE,BV(1,29)),(STIF,BV(1,30))
-!      EQUIVALENCE (FNI,BV(1,40))
-!      EQUIVALENCE (FXI,BV(1,41)),(FYI,BV(1,42)),(FZI,BV(1,43))
-!      EQUIVALENCE (FX1,BV(1,44)),(FY1,BV(1,45)),(FZ1,BV(1,46))
-!      EQUIVALENCE (FX2,BV(1,47)),(FY2,BV(1,48)),(FZ2,BV(1,49))
-!      EQUIVALENCE (FX3,BV(1,50)),(FY3,BV(1,51)),(FZ3,BV(1,52))
-!      EQUIVALENCE (FX4,BV(1,53)),(FY4,BV(1,54)),(FZ4,BV(1,55))
-!      EQUIVALENCE (THK,BV(1,70))
       DO 100 I=LFT,LLT
       ANS(I)= MIN(ZERO,(ANS(I)*XFACE(I)-THK(I)))
 C

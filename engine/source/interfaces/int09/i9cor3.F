@@ -60,12 +60,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, IG, L, NN
 C-----------------------------------------------
-!      EQUIVALENCE (Y1,BV(1,2)) ,(Z1,BV(1,3))
-!      EQUIVALENCE (Y2,BV(1,5)) ,(Z2,BV(1,6))
-!      EQUIVALENCE (Y3,BV(1,8)) ,(Z3,BV(1,9))
-!      EQUIVALENCE (Y4,BV(1,11)),(Z4,BV(1,12))
-!      EQUIVALENCE (YI,BV(1,14)),(ZI,BV(1,15))
-C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO I=LFT,LLT

@@ -63,8 +63,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(*),MAT(*),NIX,IX(NIX,*)
       INTEGER,INTENT(IN) :: M151_ID
-      my_real
-     .   PM(NPROPM,*), TB(*),X(3,*),VDET2
+      my_real PM(NPROPM,*), TB(*),X(3,*),VDET2
       TYPE(DETONATOR_STRUCT_)::DETONATORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -103,7 +102,6 @@ C
            !-----------------------------------------------! 
 
          DO I = LFT, LLT
-C     Getting rid of equivalences
             II = I + NFT
             NODE1 = IX(2, II)
             NODE2 = IX(3, II)

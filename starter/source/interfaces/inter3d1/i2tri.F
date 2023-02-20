@@ -125,11 +125,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_ECN,ADDNN,ADDNE,IPOS,I,IP,J
       INTEGER INF,SUP,DIR,N1,N2,N3,N4,NN,NE,MEMX,IFLAG
-C     REAL
       my_real
      .   BID,DX,DY,DZ,DSUP,SEUIL,XMX,XMN,GAPV(MVSIZ)
 C-----------------------------------------------
-!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7)) 
       DATA MEMX/0/
 C-----------------------------------------------
 C   ROLE DE LA ROUTINE:

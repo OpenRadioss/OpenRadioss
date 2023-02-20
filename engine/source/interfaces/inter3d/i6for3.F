@@ -75,18 +75,6 @@ C     REAL
       my_real
      .   PENET
 C-----------------------------------------------
-!      EQUIVALENCE (N1,BV(1,19)) ,(N2,BV(1,20)) ,(N3,BV(1,21))
-!      EQUIVALENCE (ANS,BV(1,22))
-!      EQUIVALENCE (H1,BV(1,25)) ,(H2,BV(1,26)) ,(H3,BV(1,27))
-!      EQUIVALENCE (H4,BV(1,28)) ,(XFACE,BV(1,29))
-!      EQUIVALENCE (FNI,BV(1,40))
-!      EQUIVALENCE (FXI,BV(1,41)),(FYI,BV(1,42)),(FZI,BV(1,43))
-!      EQUIVALENCE (FX1,BV(1,44)),(FY1,BV(1,45)),(FZ1,BV(1,46))
-!      EQUIVALENCE (FX2,BV(1,47)),(FY2,BV(1,48)),(FZ2,BV(1,49))
-!      EQUIVALENCE (FX3,BV(1,50)),(FY3,BV(1,51)),(FZ3,BV(1,52))
-!      EQUIVALENCE (FX4,BV(1,53)),(FY4,BV(1,54)),(FZ4,BV(1,55))
-!      EQUIVALENCE (THK,BV(1,70))
-C=======================================================================
       DO I=LFT,LLT
         PENET = (ANS(I)-THK(I))*XFACE(I)
         ANSMX = MIN(ANSMX,PENET)

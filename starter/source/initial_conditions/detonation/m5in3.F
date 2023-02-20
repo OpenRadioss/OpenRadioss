@@ -109,7 +109,6 @@ C
          IF (JSPH == 1) THEN
 C     SPH -> only X1, Y1, Z1, have to be used
             DO I = LFT, LLT
-C     Getting rid of the equivalences
                II = I + NFT
                NODE1 = IX(3, II)
                X1(I) = X(1, NODE1) 
@@ -139,7 +138,6 @@ C     Getting rid of the equivalences
             ENDDO            
          ELSE
             DO I = LFT, LLT
-C     Getting rid of the equivalences
                II = I + NFT
                NODE1 = IX(2, II)
                NODE2 = IX(3, II)

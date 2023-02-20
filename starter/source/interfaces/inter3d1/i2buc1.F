@@ -132,7 +132,6 @@ C     REAL
      .   DD1,DD2,DD3,DD4,DD,XMIN,YMIN,ZMIN,MAXBOX,MINBOX,XMAX,YMAX,ZMAX,
      .   BID,TZINFMIN,THKSECND,THKMAIN,AREA,VOL,GAPV(MVSIZ),DSEARCH
 C
-!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7))
 C=======================================================================
 C     1-CALCUL TAILLE DES ZONES INFLUENCES
 c

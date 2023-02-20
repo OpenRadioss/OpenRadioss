@@ -69,18 +69,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
-!      EQUIVALENCE (X1,BV(1,1)) ,(Y1,BV(1,2)) ,(Z1,BV(1,3))
-!      EQUIVALENCE (X2,BV(1,4)) ,(Y2,BV(1,5)) ,(Z2,BV(1,6))
-!      EQUIVALENCE (X3,BV(1,7)) ,(Y3,BV(1,8)) ,(Z3,BV(1,9))
-!      EQUIVALENCE (X4,BV(1,10)),(Y4,BV(1,11)),(Z4,BV(1,12))
-!      EQUIVALENCE (XI,BV(1,13)),(YI,BV(1,14)),(ZI,BV(1,15))
-!      EQUIVALENCE (XP,BV(1,16)),(YP,BV(1,17)),(ZP,BV(1,18))
-!      EQUIVALENCE (N1,BV(1,19)) ,(N2,BV(1,20)) ,(N3,BV(1,21))
-!      EQUIVALENCE (ANS,BV(1,22)),(SSC,BV(1,23)),(TTC,BV(1,24))
-!      EQUIVALENCE (H1,BV(1,25)) ,(H2,BV(1,26)) ,(H3,BV(1,27))
-!      EQUIVALENCE (H4,BV(1,28)) ,(XFACE,BV(1,29))
-!      EQUIVALENCE (ALP,BV(1,72))
-C=======================================================================
       DO I=LFT,LLT
         IF (XFACE(I) == ZERO) CYCLE
         IF (ABS(SSC(I))>ONE+ALP(I) .OR. ABS(TTC(I))>ONE+ALP(I)) THEN

@@ -138,9 +138,7 @@ C     REAL
      .         DIMENSION(:),ALLOCATABLE :: IWORK
       my_real,
      .         DIMENSION(:,:),ALLOCATABLE :: XTEN
-C
-!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7)) 
-      
+C    
       GAPMAX=EP30
       GAPMIN=ZERO
 C----edge fictive nodes----- 
@@ -612,7 +610,6 @@ C-----------------------------------------------
 C     REAL
 C-----------------------------------------------
 C
-!      EQUIVALENCE (PENE,BV(1,22))
       INTEGER BITGET
       EXTERNAL BITGET
 C=======================================================================

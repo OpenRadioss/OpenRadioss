@@ -292,7 +292,6 @@ c a modifier
         IMAT = KXIG3D(1,I+NFT)
         NGEO(I)=KXIG3D(2,I+NFT)
         MXT(I)=IMAT
-c Mise    0 des anciennes equivalences non utilis  es
         VIS(I)=ZERO
         QVIS(I)=ZERO
         VDX(I)=ZERO

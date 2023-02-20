@@ -99,24 +99,6 @@ C     REAL
      .     Z12,Z23,Z34,Z41,ZI0,SZ1,SZ2,SZ3,SZ4,SZ0,
      .     LA, HLA, AAA
 C-----------------------------------------------
-!      EQUIVALENCE (IX1,IV(1,1)) ,(IX2,IV(1,2)) ,(IX3,IV(1,3))
-!      EQUIVALENCE (IX4,IV(1,4)) ,(NSVG,IV(1,5))
-C
-!      EQUIVALENCE (X1,BV(1,1)) ,(Y1,BV(1,2)) ,(Z1,BV(1,3))
-!      EQUIVALENCE (X2,BV(1,4)) ,(Y2,BV(1,5)) ,(Z2,BV(1,6))
-!      EQUIVALENCE (X3,BV(1,7)) ,(Y3,BV(1,8)) ,(Z3,BV(1,9))
-!      EQUIVALENCE (X4,BV(1,10)),(Y4,BV(1,11)),(Z4,BV(1,12))
-!      EQUIVALENCE (XI,BV(1,13)),(YI,BV(1,14)),(ZI,BV(1,15))
-!      EQUIVALENCE (X0,BV(1,31)) ,(Y0,BV(1,32)) ,(Z0,BV(1,33))
-!      EQUIVALENCE (NX1,BV(1,58)),(NY1,BV(1,59)),(NZ1,BV(1,60))
-!      EQUIVALENCE (NX2,BV(1,61)),(NY2,BV(1,62)),(NZ2,BV(1,63))
-!      EQUIVALENCE (NX3,BV(1,64)),(NY3,BV(1,65)),(NZ3,BV(1,66))
-!      EQUIVALENCE (NX4,BV(1,67)),(NY4,BV(1,68)),(NZ4,BV(1,69))
-!      EQUIVALENCE (P1,BV(1,71)) ,(P2,BV(1,72)) ,(P3,BV(1,73))
-!      EQUIVALENCE (P4,BV(1,74)) ,(LB1,BV(1,75)),(LB2,BV(1,76))
-!      EQUIVALENCE (LB3,BV(1,77)),(LB4,BV(1,78)),(LC1,BV(1,79))
-!      EQUIVALENCE (LC2,BV(1,80)),(LC3,BV(1,81)),(LC4,BV(1,82))
-C=======================================================================
       DO 100 I=LFT,LLT
        X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
        Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))

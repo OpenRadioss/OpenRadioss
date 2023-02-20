@@ -65,10 +65,6 @@ C-----------------------------------------------
      .   PREC,Q11,Q12,Q13,Q22,Q23,Q33,H00,VTX,VTY,VTZ,VT,
      .   KT1,KT2,KT3,KT4,Q1,Q2
 C-----------------------------------------------
-!      EQUIVALENCE (N1,BV(1,19)) ,(N2,BV(1,20)) ,(N3,BV(1,21))
-!      EQUIVALENCE (H1,BV(1,25)) ,(H2,BV(1,26)) ,(H3,BV(1,27))
-!      EQUIVALENCE (H4,BV(1,28)) ,(STIF,BV(1,30))
-C---------------------------------
 C    ----sans frottement d'abord--- 
       DO I=LFT,LLT
         FAC=STIF(I)*SCALK
@@ -235,19 +231,6 @@ C     REAL
      .   VV1,VV2,V21,DMU,AA
       my_real, DIMENSION(MVSIZ) :: FXI,FYI,FZI,FNI
 C-----------------------------------------------
-!      EQUIVALENCE (IX1,IV(1,1)) ,(IX2,IV(1,2)) ,(IX3,IV(1,3))
-!      EQUIVALENCE (IX4,IV(1,4))
-C
-!      EQUIVALENCE (XI,BV(1,13)),(YI,BV(1,14)),(ZI,BV(1,15))
-!      EQUIVALENCE (XP,BV(1,16)),(YP,BV(1,17)),(ZP,BV(1,18))
-!      EQUIVALENCE (N1,BV(1,19)) ,(N2,BV(1,20)) ,(N3,BV(1,21))
-!      EQUIVALENCE (ANS,BV(1,22)),(SSC,BV(1,23)),(TTC,BV(1,24))
-!      EQUIVALENCE (H1,BV(1,25)) ,(H2,BV(1,26)) ,(H3,BV(1,27))
-!      EQUIVALENCE (H4,BV(1,28)) ,(XFACE,BV(1,29)),(STIF,BV(1,30))
-!      EQUIVALENCE (FNI,BV(1,40))                                       --> local
-!      EQUIVALENCE (FXI,BV(1,41)),(FYI,BV(1,42)),(FZI,BV(1,43))         --> local
-!      EQUIVALENCE (AREA,BV(1,71))
-C
       DO I=LFT,LLT
        L=I_E(I)
        STIF(I)=HALF*STFM(L)

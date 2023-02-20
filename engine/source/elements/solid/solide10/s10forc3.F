@@ -164,8 +164,6 @@ C-----------------------------------------------
       INTEGER I,J,IP,LCO,NF1,NF2,IFLAG,IOFFS,IPTR,IPTS,IPTT,ILAY
       INTEGER IBID,IBIDON(1),NNEGA,INDEX(MVSIZ),ITET,iel,ISM12_11
 C-----
-C Variables utilisees en equivalence par les materiaux
-C transmises en argument a mmain.
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
       my_real
      . VD2(MVSIZ) , DVOL(MVSIZ),DELTAX(MVSIZ),

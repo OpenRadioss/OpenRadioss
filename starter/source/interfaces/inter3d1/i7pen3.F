@@ -75,16 +75,6 @@ C     REAL
       my_real
      .     D1,D2,D3,D4,S2
 C-----------------------------------------------
-C
-!      EQUIVALENCE (N1,BV(1,19)) ,(N2,BV(1,20)) ,(N3,BV(1,21))
-!      EQUIVALENCE (PENE,BV(1,22))
-!      EQUIVALENCE (NX1,BV(1,58)),(NY1,BV(1,59)),(NZ1,BV(1,60))
-!      EQUIVALENCE (NX2,BV(1,61)),(NY2,BV(1,62)),(NZ2,BV(1,63))
-!      EQUIVALENCE (NX3,BV(1,64)),(NY3,BV(1,65)),(NZ3,BV(1,66))
-!      EQUIVALENCE (NX4,BV(1,67)),(NY4,BV(1,68)),(NZ4,BV(1,69))
-!      EQUIVALENCE (P1,BV(1,71)) ,(P2,BV(1,72)) ,(P3,BV(1,73))
-!      EQUIVALENCE (P4,BV(1,74)) 
-C=======================================================================
        DO I=LFT,LLT
         D1 = SQRT(P1(I))
         P1(I) = MAX(ZERO, GAPV(I) + MARGE - D1)

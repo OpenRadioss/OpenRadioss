@@ -211,7 +211,7 @@ C-----------------------------------------------
       my_real
      .   BID,QMVBID
       my_real
-     .   VOLN(MVSIZ)  !local array to get rid of equivalence statements
+     .   VOLN(MVSIZ)
       my_real,
      .   ALLOCATABLE, DIMENSION(:,:) :: FX,FY,FZ,MX,MY,MZ
       TYPE(G_BUFEL_) ,POINTER :: GBUF

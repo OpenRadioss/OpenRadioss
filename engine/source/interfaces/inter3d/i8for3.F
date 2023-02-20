@@ -126,23 +126,6 @@ C-----------------------------------------------
      .   FTXI(NSN),FTYI(NSN),FTZI(NSN),FTX1(NSN),FTY1(NSN),
      .   FTZ1(NSN),FTX2(NSN),FTY2(NSN),FTZ2(NSN),FTX3(NSN),
      .   FTY3(NSN),FTZ3(NSN),FTX4(NSN),FTY4(NSN),FTZ4(NSN)
-C-----------------------------------------------
-C     EQUIVALENCE (IX1,IV(1,1)) ,(IX2,IV(1,2)) ,(IX3,IV(1,3))
-C     EQUIVALENCE (IX4,IV(1,4))
-C
-C     EQUIVALENCE (XI,BV(1,13)),(YI,BV(1,14)),(ZI,BV(1,15))
-C     EQUIVALENCE (N1,BV(1,19)) ,(N2,BV(1,20)) ,(N3,BV(1,21))
-C     EQUIVALENCE (ANS,BV(1,22)),(SSC,BV(1,23)),(TTC,BV(1,24))
-C     EQUIVALENCE (H1,BV(1,25)) ,(H2,BV(1,26)) ,(H3,BV(1,27))
-C     EQUIVALENCE (H4,BV(1,28)) ,(XFACE,BV(1,29)),(STIF,BV(1,30))
-C     EQUIVALENCE (FNI,BV(1,40))
-C     EQUIVALENCE (FXI,BV(1,41)),(FYI,BV(1,42)),(FZI,BV(1,43))
-C     EQUIVALENCE (FX1,BV(1,44)),(FY1,BV(1,45)),(FZ1,BV(1,46))
-C     EQUIVALENCE (FX2,BV(1,47)),(FY2,BV(1,48)),(FZ2,BV(1,49))
-C     EQUIVALENCE (FX3,BV(1,50)),(FY3,BV(1,51)),(FZ3,BV(1,52))
-C     EQUIVALENCE (FX4,BV(1,53)),(FY4,BV(1,54)),(FZ4,BV(1,55))
-C     EQUIVALENCE (THK,BV(1,70))
-C
 C---------------------------------------------
       FTLIM = FMAX
       FNLIM = FNOR
