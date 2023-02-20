@@ -27,7 +27,7 @@ Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE FAIL_MAXSTRN_C(
+      SUBROUTINE FAIL_MAXSTRAIN_C(
      1     NEL       ,NUPARAM   ,NUVAR     ,UPARAM    ,UVAR      , 
      2     TIME      ,NGL       ,IPG       ,ILAY      ,IPT       ,                          
      3     EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,  
@@ -171,9 +171,9 @@ c
         END DO
       END IF              
 c------------------------
- 2000 FORMAT(1X,'FAILURE (MAXSTRN) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
+ 2000 FORMAT(1X,'FAILURE (MAXSTRAIN) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
      .       I2,1X,',LAYER',I3,1X,',INTEGRATION PT',I3)
- 2100 FORMAT(1X,'FAILURE (MAXSTRN) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
+ 2100 FORMAT(1X,'FAILURE (MAXSTRAIN) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
      .       I2,1X,',LAYER',I3,1X,',INTEGRATION PT',I3,1X,'AT TIME :',1PE12.4)
 c------------------------
       END

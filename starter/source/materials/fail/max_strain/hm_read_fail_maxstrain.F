@@ -32,7 +32,7 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_MAXSTRN(
+      SUBROUTINE HM_READ_FAIL_MAXSTRAIN(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
      .           MAXFUNC  ,NFUNC    ,UNITAB   ,FAIL_ID,MAT_ID   ,
      .           TITR     ,LSUBMODEL)

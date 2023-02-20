@@ -372,7 +372,7 @@ c--------------------------------------------
         ELSEIF(KEY(1:7) == 'HOFFMAN')THEN
              IRUP= 46
 c--------------------------------------------
-        ELSEIF(KEY(1:7) == 'MAXSTRN')THEN
+        ELSEIF(KEY(1:9) == 'MAXSTRAIN')THEN
              IRUP= 47
 c--------------------------------------------      
         ELSE  
@@ -631,7 +631,7 @@ c---
      .             TITR     ,LSUBMODEL)
 c---
             CASE(47)
-              CALL HM_READ_FAIL_MAXSTRN(
+              CALL HM_READ_FAIL_MAXSTRAIN(
      .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
      .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID  ,MAT_ID    ,
      .             TITR     ,LSUBMODEL)

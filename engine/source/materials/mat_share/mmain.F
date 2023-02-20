@@ -1995,7 +1995,7 @@ c --- Hoffman failure model
 c
           ELSEIF (IRUPT == 47) THEN                                        
 c---- Maximum strain failure model
-            CALL FAIL_MAXSTRN_S(
+            CALL FAIL_MAXSTRAIN_S(
      1          LLT      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
      2          DT1      ,BUFMAT(IADBUF),NGL ,OFF      ,LBUF%OFF ,GBUF%NOFF,
      3          ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6      , 

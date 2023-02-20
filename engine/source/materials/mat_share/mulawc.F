@@ -2237,7 +2237,7 @@ c
 c
               CASE (47)     !    Maximum strain failure model
 c
-                CALL FAIL_MAXSTRN_C(
+                CALL FAIL_MAXSTRAIN_C(
      1            NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
      2            TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
      3            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,
