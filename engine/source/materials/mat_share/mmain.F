@@ -83,7 +83,7 @@ Chd|        FAIL_HOFFMAN_S                source/materials/fail/hoffman/fail_hof
 Chd|        FAIL_INIEVO_S                 source/materials/fail/inievo/fail_inievo_s.F
 Chd|        FAIL_JOHNSON                  source/materials/fail/johnson_cook/fail_johnson.F
 Chd|        FAIL_LADEVEZE                 source/materials/fail/ladeveze/fail_ladeveze.F
-Chd|        FAIL_MAXSTRN_S                source/materials/fail/max_strain/fail_maxstrn_s.F
+Chd|        FAIL_MAXSTRAIN_S              source/materials/fail/max_strain/fail_maxstrain_s.F
 Chd|        FAIL_ORTHBIQUAD_S             source/materials/fail/orthbiquad/fail_orthbiquad_s.F
 Chd|        FAIL_ORTHSTRAIN               source/materials/fail/orthstrain/fail_orthstrain_s.F
 Chd|        FAIL_PUCK_S                   source/materials/fail/puck/fail_puck_s.F
