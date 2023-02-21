@@ -1056,6 +1056,7 @@ C     =========
          ENDIF
          DO JJ = 1, 20
             TITREVENT(JJ) = T_MONVOLN%IBAGHOL(JJ + 14, II)
+            VENTTITLE(JJ:JJ) = ACHAR(TITREVENT(JJ))
          ENDDO
          WRITE(IOUT,1476) VENTTITLE
          IF (IPVENT(II)==0) THEN                      
