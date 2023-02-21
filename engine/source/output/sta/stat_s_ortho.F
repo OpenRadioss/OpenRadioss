@@ -120,6 +120,7 @@ c
           PID = IPART(2,IPRT)
 C          JHBE   = IGEO(10,PID)
 c
+          IF (JHBE==17.AND.IINT==2) JHBE = 18
           GBUF => ELBUF_TAB(NG)%GBUF
           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
           IF(IGTYP == 22) THEN
