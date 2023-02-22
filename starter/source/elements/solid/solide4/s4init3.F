@@ -187,6 +187,9 @@ C
      .             PZ1    ,PZ2    ,PZ3    ,PZ4    ,GBUF%JAC_I, 
      .             DELTAX ,VOLU   ,NGL    ,PID    ,MAT       ,
      .             PM     ,LBUF%VOL0DP)
+      IF (NSIGI > 0.AND.(ISMSTR==10.OR.ISMSTR==12)) THEN
+         CALL S4JACI3(GBUF%SMSTR,GBUF%JAC_I, NEL  ) 
+      END IF
       IREP = IPARG_GR(35)
       CALL SREPLOC3(
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
