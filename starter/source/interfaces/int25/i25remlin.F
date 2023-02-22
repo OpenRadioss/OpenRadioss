@@ -566,8 +566,10 @@ C---------
 
           SIZE_INSERTED_EDG =  8 * NEDGE *MAX_INSERTED_EDG *MAX_INSERTED_I2 ! to check
 
+          IF(SIZE_INSERTED_EDG < 0 .OR. NEDGE *MAX_INSERTED_EDG *MAX_INSERTED_I2 > 1 000 000) THEN
+             SIZE_INSERTED_EDG =  8 * NEDGE
+          ENDIF
 C
-
           MY_ALLOCATE(INSERTED_EDG,SIZE_INSERTED_EDG) 
 
           DO II=1,NEDGE
@@ -587,7 +589,7 @@ C
             IF(JJJ + MAX_INSERTED_EDG*MAX_INSERTED_I2  > SIZE_INSERTED_EDG) THEN
 C extend INSERTED_EDG if needed
                OLDSIZE = SIZE_INSERTED_EDG
-               SIZE_INSERTED_EDG = SIZE_INSERTED_EDG  + MAX(NEDGE,MAX_INSERTED_EDG)
+               SIZE_INSERTED_EDG = SIZE_INSERTED_EDG  + MAX(NEDGE,MAX_INSERTED_EDG*MAX_INSERTED_I2)
                MY_ALLOCATE(TMP_EDG,SIZE_INSERTED_EDG)
                TMP_EDG(1:OLDSIZE) = INSERTED_EDG(1:OLDSIZE)
 !              move_alloc deallocates TMP
@@ -633,7 +635,7 @@ C extend INSERTED_EDG if needed
                          IF (((INOD2LIN(NM2+1)-INOD2LIN(NM2))/=0).AND.(TAG_NDE(NM2)==0)) THEN
                            TAG_NDE(NM2)=1
                            DO IE=INOD2LIN(NM2),INOD2LIN(NM2+1)-1  
-                            IEDGS = NOD2LIN(IE)                                                                                             
+                            IEDGS = NOD2LIN(IE)   
                             IF (TAGD_EDG(IEDGS)==0) THEN
                                 NNREM_EDG = NNREM_EDG + 1  
                                 TAGD_EDG(IEDGS)=1  
