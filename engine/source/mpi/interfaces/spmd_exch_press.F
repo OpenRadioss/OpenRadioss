@@ -181,7 +181,7 @@ Cel test en plus pour savoir si com globale necessaire entre les 2 procs
                 L = L + 1
                 DO N = 1, NB
                   IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating force
                     BBUFS(L+1) = -NSVFI(NIN)%P(IDEB+N)
                     BBUFS(L+2) = FNCONTI(NIN)%P(1,IDEB+N)
                     BBUFS(L+3) = FNCONTI(NIN)%P(2,IDEB+N)
@@ -208,6 +208,29 @@ C noeud generant une force
                     FTCONTI(NIN)%P(1,IDEB+N) = ZERO
                     FTCONTI(NIN)%P(2,IDEB+N) = ZERO
                     FTCONTI(NIN)%P(3,IDEB+N) = ZERO  
+                    L = L + LEN
+                  ELSEIF(INTERFRIC > 0.OR.N_SCAL_CSE_EFRIC>0) THEN
+C node not generating force but energy is cumulated
+                    BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
+                    BBUFS(L+2) = ZERO
+                    BBUFS(L+3) = ZERO
+                    BBUFS(L+4) = ZERO
+                    BBUFS(L+5) = ZERO
+                    BBUFS(L+6) = ZERO
+                    BBUFS(L+7) = ZERO
+                    LF = 7
+                    IF(INTERFRIC>0) THEN
+                        BBUFS(L+LF+1) = EFRICFI(NIN)%P(IDEB+N)
+                        EFRICFI(NIN)%P(IDEB+N) = ZERO
+                        LF=LF+1
+                    ELSEIF(NINEFRIC>0) THEN
+                        BBUFS(L+LF+1) = ZERO
+                        LF=LF+1
+                    ENDIF
+                    IF(N_SCAL_CSE_EFRIC>0) THEN
+                        BBUFS(L+LF+1) = EFRICGFI(NIN)%P(IDEB+N)
+                        EFRICGFI(NIN)%P(IDEB+N) = ZERO
+                    ENDIF
                     L = L + LEN
                   ENDIF
                 ENDDO

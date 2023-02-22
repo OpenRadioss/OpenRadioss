@@ -187,22 +187,20 @@ C
                    LL = L+1
                    L = L + 1
                    DO N = 1, NB
-                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-                       BBUFS(L+1) = -NSVFI(NIN)%P(IDEB+N)
-                       IF(INTERFRIC>0)  THEN
-                           BBUFS(L+2) = EFRICFI(NIN)%P(IDEB+N)
-                           EFRICFI(NIN)%P(IDEB+N) = ZERO
-                       ELSE
-                           BBUFS(L+2) = ZERO
-                       ENDIF
-                       IF(H3D_DATA%N_SCAL_CSE_FRIC>0) THEN
-                           BBUFS(L+3) = EFRICGFI(NIN)%P(IDEB+N)
-                           EFRICGFI(NIN)%P(IDEB+N) = ZERO
-                       ELSE
-                           BBUFS(L+3) = ZERO
-                       ENDIF
-                       L = L + LEN
-                     ENDIF
+                      BBUFS(L+1) = ABS(NSVFI(NIN)%P(IDEB+N))
+                      IF(INTERFRIC>0)  THEN
+                          BBUFS(L+2) = EFRICFI(NIN)%P(IDEB+N)
+                          EFRICFI(NIN)%P(IDEB+N) = ZERO
+                      ELSE
+                          BBUFS(L+2) = ZERO
+                      ENDIF
+                      IF(H3D_DATA%N_SCAL_CSE_FRIC>0) THEN
+                          BBUFS(L+3) = EFRICGFI(NIN)%P(IDEB+N)
+                          EFRICGFI(NIN)%P(IDEB+N) = ZERO
+                      ELSE
+                          BBUFS(L+3) = ZERO
+                      ENDIF
+                      L = L + LEN
                    ENDDO
                    BBUFS(LL) = (L-LL)/LEN
                    DEBUT(NIN) = DEBUT(NIN) + NB
