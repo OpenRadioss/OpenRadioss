@@ -40,6 +40,10 @@ Chd|====================================================================
      7                         ADDSUBE,LISUBE ,INFLG_SUBE,NOINT,NMN,MSR,
      8                         NOM_OPT,ILEV   ,MBINFLG ,EBINFLG)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -54,6 +58,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -75,14 +80,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,IW,I1,I2,I3,I4,M,N,NMAX,E_MAX,E_ID,N_EI,
-     1        ITAG(NUMNOD),NE0,NRTM0,ISH,
+     1        NE0,NRTM0,ISH,NVERTX, IVERTX, JVERTX,
      2        J1,J2,J3,J4,K1,K2,L1,L2,KPERM1(4),KPERM2(4),IRR,
-     3        NFT,JLT,MI,II(4),JJ(4),IEDG,JEDG,IOK,
-     4        NVERTX, NTAG(4*NRTM), ROOT(4*NRTM), IVERTX, JVERTX,
-     5        IBASE, KBASE, KOLD, FIN, NE, EJ, NEDGE_TMP, 
-     6        SOL_EDGE, SH_EDGE, ISTORE,
-     7        LL, KK, CUR, NEXT, JSUB, KSUB, IMS1, IMS2, IMS3, IMS4, 
-     8        NISUBN, INFLG, MAXADD, STAT
+     3        NFT,JLT,MI,II(4),JJ(4),IEDG,JEDG,IOK,       
+     4        IBASE, KBASE, KOLD, FIN, NE, EJ, NEDGE_TMP, 
+     5        SOL_EDGE, SH_EDGE, ISTORE,
+     6        LL, KK, CUR, NEXT, JSUB, KSUB, IMS1, IMS2, IMS3, IMS4, 
+     7        NISUBN, INFLG, MAXADD, STAT
       INTEGER IX1, IX2, IX3, IX4,
      ,        JX1, JX2, JX3, JX4,
      .        NA, NB, EA, EB
@@ -99,7 +103,7 @@ C-----------------------------------------------
      .     XNA, YNA, ZNA, XNB, YNB, ZNB, AAA, BBB, ANG
       INTEGER WORK(70000)
       INTEGER,  DIMENSION(:,:),ALLOCATABLE :: CLEF,LEDGE_TMP1,LEDGE_TMP2
-      INTEGER,  DIMENSION(:),ALLOCATABLE :: INDEX
+      INTEGER,  DIMENSION(:),ALLOCATABLE :: INDEX, ITAG, NTAG, ROOT
       INTEGER, DIMENSION(:), ALLOCATABLE :: MLOC,KAD,ADDSUBN,ADDSUBN_TMP,
      .                                      LISUBN,INFLG_SUBN,IXSUB
 C-----------------------------------------------
@@ -111,6 +115,10 @@ C-----------------------------------------------
       DATA KPERM1/1,3,5,7/
       DATA KPERM2/2,4,6,8/
 C-----------------------------------------------
+      MY_ALLOCATE(ITAG,NUMNOD)
+      MY_ALLOCATE(NTAG,4*NRTM)
+      MY_ALLOCATE(ROOT,4*NRTM)
+C
       DO I=1,NRTM
         MSEGLO(I)=I      
       ENDDO
@@ -360,6 +368,7 @@ C     Reset ADSKYN
       END DO
 C      
       DEALLOCATE(MVOI,EIDNOD)
+      DEALLOCATE(ITAG,NTAG,ROOT)
 C
       NRTM0=NRTM-NRTM_SH
 C
