@@ -1176,11 +1176,10 @@ C-----------------------------------------------
             END SELECT
             WRITE(IOUT,2010)  
             IF(IABAC==3)                WRITE(IOUT,2023) HC              
-            WRITE (IOUT,2011)ID,SURF_ID,IABAC,IMODEL,ITA_SHIFT,XDET,YDET,ZDET,TDET,WTNT
+            WRITE (IOUT,2011)ID,SURF_ID,IABAC,IMODEL,ITA_SHIFT,XDET,YDET,ZDET,TDET,WTNT,PMIN
             IF(IS_AVAILABLE_TSTOP)WRITE (IOUT,2024)TSTOP
             IF(NODE_ID /= 0)WRITE (IOUT,2015)NODE_ID
-            IF(IABAC == 1)WRITE (IOUT,2021)
-            IF(IABAC == 2)WRITE (IOUT,2022)
+            
             IF(NDT /= 0)WRITE (IOUT,2014)NDT
             IF(ITA_SHIFT == 2)THEN
                WRITE (IOUT,2012)TAINF_PBLAST
@@ -1218,7 +1217,8 @@ C-------------------------------------------------------------------------------
      .     5X,'Y-DET . . . . . . . . . . . . . . . . =',E12.4/,
      .     5X,'Z-DET . . . . . . . . . . . . . . . . =',E12.4/, 
      .     5X,'DETONATION TIME. . . . . . . . . . . .=',E12.4/,
-     .     5X,'EXPLOSIVE MASS.  . . . . . . . . . . .=',E12.4/) 
+     .     5X,'EXPLOSIVE MASS.  . . . . . . . . . . .=',E12.4/,
+     .     5X,'MINIMUM PRESSURE . . . . . . . . . . .=',E12.4/) 
  2012 FORMAT(
      .     5X,'COMPUTED TIME SHIFT. . . . . . . . . .=',E12.4//)
  2013 FORMAT(
@@ -1227,10 +1227,6 @@ C-------------------------------------------------------------------------------
      .     5X,'NUMBER OF TIME INTERVALS . . . . . . .=',I10)
  2015 FORMAT(
      .     5X,'NODE IDENTIFIER. . . . . . . . . . . .=',I10)
- 2021 FORMAT(
-     .     5X,'EXP_DATA=1:SPHERICAL TNT CHARGE IN FREE AIR, TM5-1300')
- 2022 FORMAT(
-     .     5X,'EXP_DATA=2:HEMISPHERICAL TNT CHARGE WITH GROUND REFLECTION, TM5-1300') 
  2023 FORMAT(
      .     5X,'CHARGE HEIGHT. . . . . . . . . . . . .=',E12.4)         
  2024 FORMAT(
