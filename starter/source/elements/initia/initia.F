@@ -3264,8 +3264,8 @@ C-----------------------------------------------
       INTEGER I,J,NG,IPID,IMID,MID,PID,ITY,IGTYP,ETY,N_NOD,ISOLNOD,
      .        IHBE,ISMSTR,ICPRE,JCVT,IINT,IHKT,ITET4,ITET10,IMATVIS,NPT,NLY,
      .        ICSTR,IDRIL,ITHK,IPLAS,I2GEO(NUMGEO),NG2,NG1,NG0,JG,ETYE,
-     .        IH4,IH3,IGMAT,I2GEO1(NUMGEO),I2GEO2(NUMGEO),IHBE0,ISNN(NPART),
-     .        IP,NFT
+     .        IH4,IH3,IGMAT,I2GEO1(NUMGEO),I2GEO2(NUMGEO),IHBE0,
+     .        IP,NFT,IP2NG1(NPART),IP2NG2(NPART),LST
       my_real
      .   MAS,SM,XX,YY,ZZ,XY,YZ,ZX,XG,YG,ZG,
      .   IXX,IXY,IYY,IYZ,IZZ,IZX,EK,VX,VY,VZ,HM,HR,HF,DN,QA,QB,QH,
@@ -3275,13 +3275,13 @@ C-----------------------------------------------
       DATA EL_TYP / 'SOLID-HEXA ', 
      .    'TETRA4 ',
      .    'TETRA10 ',
-     .    'S20 ',      
+     .    'BRICK20 ',      
      .    'ELEM-USER ', 
      .    'SOLID-IGE ', 
      .    'THICK-SHELL HEXA ' ,
      .    'THICK-SHELL PENTA '  ,
-     .    'THICK-SHELL S16 '    ,
-     .    'THICK-SHELL S20 '    , 
+     .    'THICK-SHELL SHEL16'    ,
+     .    'THICK-SHELL BRICK20'    , 
      .    'SHELL-4nodes '         , 
      .    'SHELL-3nodes '         , 
      .    'QUAD-2D '            ,
@@ -3313,7 +3313,8 @@ C
        I2GEO(1:NUMGEO) = 0
        I2GEO1(1:NUMGEO) = 0
        I2GEO2(1:NUMGEO) = 0
-       ISNN(1:NPART) = 0
+       IP2NG1(1:NPART) = 0
+       IP2NG2(1:NPART) = 0
 C Up to 3 different elements using same PID (tetra4,tetra10,hexa) 
 C Only solid and shell have initialized surely IPARG(62,NG)  
       DO NG=1,NGROUP
@@ -3322,8 +3323,45 @@ C Only solid and shell have initialized surely IPARG(62,NG)
        IF (ITY ==1) THEN
          ISOLNOD = IPARG(28,NG)
          NFT=IPARG(3,NG)+1
+         LST=IPARG(3,NG)+IPARG(2,NG)
          IP = IPARTS(NFT)
-         ISNN(IP) = ISOLNOD 
+         IF (IP2NG1(IP)==0) THEN
+           IP2NG1(IP) = NG 
+         ELSEIF (IP2NG2(IP)==0.AND.IPARG(28,IP2NG1(IP)) /= ISOLNOD) THEN
+           IP2NG2(IP) = NG 
+         ELSEIF(IP2NG2(IP)>0) THEN
+C-------3 elem types in the same part 4+10+8        
+           N_NOD = ISOLNOD+IPARG(28,IP2NG1(I))+IPARG(28,IP2NG2(I))
+           IF(N_NOD==22) THEN
+             IF (IPARG(28,IP2NG1(IP))==8) THEN
+               IP2NG2(IP) = -IP2NG1(IP)
+             ELSEIF (IPARG(28,IP2NG2(IP))==8) THEN
+               IP2NG2(IP) = -IP2NG2(IP)
+             ELSE
+               IP2NG2(IP) = -NG
+             END IF
+           END IF
+         END IF
+C-----case 2 parts in same groupe         
+         IF (IPARTS(LST)/=IP) THEN
+           IP = IPARTS(LST)
+           IF (IP2NG1(IP)==0) THEN
+             IP2NG1(IP) = NG 
+           ELSEIF (IP2NG2(IP)==0.AND.IPARG(28,IP2NG1(IP)) /= ISOLNOD) THEN
+             IP2NG2(IP) = NG 
+           ELSEIF(IP2NG2(IP)>0) THEN
+             N_NOD = ISOLNOD+IPARG(28,IP2NG1(I))+IPARG(28,IP2NG2(I))
+             IF(N_NOD==22) THEN
+               IF (IPARG(28,IP2NG1(IP))==8) THEN
+                 IP2NG2(IP) = -IP2NG1(IP)
+               ELSEIF (IPARG(28,IP2NG2(IP))==8) THEN
+                 IP2NG2(IP) = -IP2NG2(IP)
+               ELSE
+                 IP2NG2(IP) = -NG
+               END IF
+             END IF
+           END IF
+         END IF
        END IF         
        IPID=IPARG(62,NG)
        IF (I2GEO(IPID)==0) THEN
@@ -3376,6 +3414,19 @@ C----                          4): solid hexa-tetra4, 5): solid hexa-tetra10,6):
 C---- case 3 elem use same pid 1): solid hexa-tetra4-tetra10 
 C-----case not-considered :  thick-shell hexa-S16 hexa-S20, hexa-S16-S20    
         ETY=ETYE
+       IF(IP2NG1(I)>0)THEN
+        IF (IP2NG2(I)<0) THEN
+          NG = -IP2NG2(I)
+        ELSEIF (IP2NG2(I)>0) THEN
+          IF (IPARG(28,IP2NG2(I))==8) THEN
+            NG = IP2NG2(I)
+          ELSE
+            NG = IP2NG1(I)
+          END IF
+        ELSE
+          NG = IP2NG1(I)
+        END IF
+       ELSE
         IF (NG0>2*NGROUP) THEN
          IF (I2GEO2(IPID)>0) THEN
           NG = I2GEO2(IPID)
@@ -3394,7 +3445,8 @@ C-----case not-considered :  thick-shell hexa-S16 hexa-S20, hexa-S16-S20
           I2GEO1(IPID)= -I2GEO1(IPID)
          END IF
         END IF
-C----- Limited to 3 parts used same pid     
+       END IF!(IP2NG1(I)>0)
+C-----     
         IF (NG >0) THEN
          ITY = IPARG(5,NG)
          ISOLNOD = IPARG(28,NG)
@@ -3407,11 +3459,12 @@ C------- set ele_type(ETY)
         SELECT CASE (IGTYP)
 C-------thick-shell        
          CASE(20,21,22)                                             
-          IF (NG0>NGROUP) THEN
+          IF (NG0>NGROUP.AND.IP2NG2(I)>0) THEN
            NG1 = IABS(I2GEO1(IPID))
-           IF((ISOLNOD+IPARG(28,NG1))==14) THEN
+           N_NOD = IPARG(28,IP2NG1(I))+IPARG(28,IP2NG2(I))
+           IF(N_NOD==14) THEN
             ETY = 17+2
-           ELSEIF((ISOLNOD+IPARG(28,NG1))==36) THEN
+           ELSEIF(N_NOD==36) THEN
             ETY = 17+3
            END IF
           ELSEIF (ISOLNOD==8) THEN
@@ -3445,17 +3498,16 @@ C-------thick-shell
          CASE DEFAULT 
 C---- solid         
           IF(ITY==1)THEN
-           IF (ISNN(I)==20) THEN
-            ETY=4
-           ELSEIF (NG0>2*NGROUP) THEN
+           IF (NG0>2*NGROUP.AND.IP2NG2(I)<0) THEN
             ETY = 17+7
-           ELSEIF (NG0>NGROUP) THEN
+           ELSEIF (NG0>NGROUP.AND.IP2NG2(I)>0) THEN
             NG1 = IABS(I2GEO1(IPID))
-            IF((ISOLNOD+IPARG(28,NG1))==12) THEN
+            N_NOD = IPARG(28,IP2NG1(I))+IPARG(28,IP2NG2(I))
+            IF(N_NOD==12) THEN
              ETY = 17+4
-            ELSEIF((ISOLNOD+IPARG(28,NG1))==18) THEN
+            ELSEIF(N_NOD==18) THEN
              ETY = 17+5
-            ELSEIF((ISOLNOD+IPARG(28,NG1))==14) THEN
+            ELSEIF(N_NOD==14) THEN
              ETY = 17+6
             END IF
            ELSEIF (ISOLNOD==8) THEN
@@ -3506,26 +3558,7 @@ C----- spring, KJOINT -----
 C-print in fonction of elem types ITY
         SELECT CASE (ITY)
          CASE(1)
-          ISOLNOD = ISNN(I)            
           QH =ZERO
-          IF (ETY==21.OR.ETY==22.OR.ETY==24) THEN
-           IHBE=IHBE0
-           NG0 = I2GEO(IPID)
-           IF (NG0>2*NGROUP) THEN
-            IF (I2GEO2(IPID)>0) THEN
-             NG0 = I2GEO2(IPID)
-             IF (IPARG(28,NG0)==8) NG = NG0
-            ELSEIF (I2GEO1(IPID)>0) THEN
-             NG0 = I2GEO1(IPID)
-             IF (IPARG(28,NG0)==8) NG = NG0
-            END IF
-           ELSEIF (NG0>NGROUP) THEN
-             NG0 = I2GEO1(IPID)
-             IF (IPARG(28,NG0)==8) NG = NG0
-           ELSE
-             IF (IPARG(28,NG0)==8) NG = NG0
-           END IF
-          END IF		   
            SELECT CASE (ISOLNOD)
              CASE(4,10)
                IHBE=1
