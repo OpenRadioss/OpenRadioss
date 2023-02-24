@@ -1092,6 +1092,13 @@ c-------
      .           NFUNC    ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
      .           PM(1,I)  ,LSUBMODEL,ISRATE   ,MAT_ID   ,TITR     ,
      .           MATPARAM )
+c-------     
+          CASE ('LAW124','CDPM2')
+           ILAW  = 124
+           CALL HM_READ_MAT124(
+     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,MTAG     ,
+     .           PARMAT   ,UNITAB   ,PM(1,I)  ,LSUBMODEL,ISRATE   ,
+     .           ASRATE   ,MAT_ID   ,TITR     ,MATPARAM )
 c-------
           CASE ('LAW151','MULTIFLUID')
             ILAW  = 151

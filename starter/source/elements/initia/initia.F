@@ -605,6 +605,7 @@ C     solids
       SOLMAT(117)= 1
       SOLMAT(120)= 1
       SOLMAT(121)= 1
+      SOLMAT(124)= 1
       SOLMAT(151)= 1
       SOLMAT(187)= 1
       SOLMAT(200)= 1
