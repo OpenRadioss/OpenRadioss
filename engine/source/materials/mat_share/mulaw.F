@@ -1687,6 +1687,19 @@ c
      .                 SIGY   ,ET     ,VARNL  ,INLOC  ,GBUF%DT,
      .                 IPG    ,NPG    ,ELBUF_TAB(NG))
 c
+      ELSEIF (MTN == 124) THEN 
+c 
+        IDEV = 0
+        CALL MSTRAIN_RATE(NEL    ,ISRATE ,ASRATE ,EPSD   ,IDEV   ,
+     .                    EP1    ,EP2    ,EP3    ,EP4    ,EP5    ,EP6)
+        CALL SIGEPS124(NEL    ,NGL    ,NPAR   ,NUVAR  ,DT1    ,TT     ,
+     .                 UPARAM ,UVAR   ,RHO    ,DEFP   ,DPLA   ,GBUF%UELR,
+     .                 SSP    ,EPSD   ,OFF    ,LBUF%OFF,IPG   ,NPG    ,
+     .                 DE1    ,DE2    ,DE3    ,DE4    ,DE5    ,DE6    ,
+     .                 ES1    ,ES2    ,ES3    ,ES4    ,ES5    ,ES6    ,
+     .                 S1     ,S2     ,S3     ,S4     ,S5     ,S6     ,
+     .                 SIGY   ,ET     ,VARNL  ,INLOC  ,LBUF%DMG,DELTAX)
+c
       ELSEIF (MTN == 187) THEN !BARLAT 2000
           CALL SIGEPS187(NEL   ,NPAR  ,NUVAR ,NFUNC ,IFUNC ,
      .                   NPF   ,TF    ,TT    ,DT1   ,UPARAM,
