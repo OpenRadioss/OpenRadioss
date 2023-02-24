@@ -974,11 +974,11 @@ C Element types
             ELSE
                IF (ISTOT == 1) THEN
                   CALL SGSAVINI(ISOLNOD,X,IXS(1,NFT+1),GBUF%SMSTR,NEL)
+                  IF (NSIGI > 0 ) THEN
+                    CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
+     .                                GBUF%SMSTR,GBUF%OFF,NEL)
+                  END IF
                ENDIF   
-               IF (NSIGI > 0 ) THEN
-                 CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
-     .                             GBUF%SMSTR,GBUF%OFF,NEL)
-               END IF
                CALL S4INIT3(
      1              ELBUF_TAB(NG),MS          ,IXS      ,PM         ,X          ,  
      2              DETONATORS    ,GEO          ,VEUL   ,ALE_CONNECTIVITY  ,IPARG(1,NG),
@@ -1000,12 +1000,13 @@ C Element types
 C Case total strain
                   IF (ISTOT == 1) THEN
                      CALL SGSAVREF(ISOLNOD,XREFS(1,1,NFT+1),GBUF%SMSTR,NEL)
-                    IF (NSIGI > 0 ) THEN
-                      CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
-     .                                  GBUF%SMSTR,GBUF%OFF,NEL)
-                    END IF
                   END IF
                ENDIF
+               IF (NSIGI > 0 ) THEN
+                 IF (NXREF > 0 .OR. ISMSTR == 1) 
+     .           CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
+     .                             GBUF%SMSTR,GBUF%OFF,NEL)
+               END IF
             ENDIF
          ELSEIF(ISOLNOD == 10 .OR.(ISOLNOD == 4 .AND.ISROT == 1))THEN
           KK1=1+NUMELS*NIXS
@@ -1125,10 +1126,10 @@ C Case total strain
             GBUF => ELBUF_TAB(NG)%GBUF
             IF (ISTOT == 1) THEN
               CALL SGSAVINI(ISOLNOD,X,IXS(1,NFT+1),GBUF%SMSTR,NEL)
-            END IF
-            IF (NSIGI > 0 ) THEN
+              IF (NSIGI > 0 ) THEN
                  CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
      .                             GBUF%SMSTR,GBUF%OFF,NEL)
+              END IF
             END IF
             CALL S8ZINIT3(
      .           ELBUF_TAB(NG),MS        ,IXS     ,PM   ,X          ,
@@ -1143,6 +1144,10 @@ C Case total strain
      .             MSSA    ,STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI,SPBUF   ,
      .             KXSP    ,IPART(I15J) ,NOD2SP  ,SOL2SPH ,IRST,
      .             ILOADP  ,FACLOAD     ,PERTURB ,RNOISE  )
+              IF (NSIGI > 0 .AND. ISMSTR == 1) THEN
+                 CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
+     .                             GBUF%SMSTR,GBUF%OFF,NEL)
+              END IF
           ELSEIF (IGTYP>=29) THEN
             CALL SUINIT3(ELBUF_TAB(NG),MS    ,IXS      ,PM   ,X          ,
      .             DETONATORS  ,GEO       ,VEUL  ,ALE_CONNECTIVITY ,IPARG(1,NG),
@@ -1157,11 +1162,11 @@ C Case total strain
             GBUF => ELBUF_TAB(NG)%GBUF
             IF (NPT == 1 .AND. ISTOT == 1) THEN
                 CALL SGSAVINI(ISOLNOD,X,IXS(1,NFT+1),GBUF%SMSTR,NEL)
+               IF (NSIGI > 0 ) THEN
+                  CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
+     .                              GBUF%SMSTR,GBUF%OFF,NEL)
+               END IF
             ENDIF    
-            IF (NSIGI > 0 ) THEN
-               CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
-     .                           GBUF%SMSTR,GBUF%OFF,NEL)
-            END IF
             IF (JMULT == 0) THEN
                CALL SINIT3(
      1              ELBUF_TAB(NG),MS         ,IXS      ,PM         ,X          ,  
@@ -1204,10 +1209,11 @@ C
 C Case total strain: conf_ref <- XREF
             IF (NXREF > 0 .AND. (NPT == 1 .AND. ISTOT == 1) ) THEN
              CALL SGSAVREF(ISOLNOD,XREFS(1,1,NFT+1),GBUF%SMSTR,NEL)
-             IF (NSIGI > 0 ) THEN
-                CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
-     .                            GBUF%SMSTR,GBUF%OFF,NEL)
-             END IF
+            END IF
+            IF (NSIGI > 0 ) THEN
+              IF (NXREF > 0 .OR. ISMSTR == 1 ) 
+     .         CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
+     .                           GBUF%SMSTR,GBUF%OFF,NEL)
             END IF
             NC1 = NVC / 128
             NC2 = (NVC-NC1*128) / 64
