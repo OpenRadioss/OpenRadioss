@@ -72,7 +72,7 @@ Chd|====================================================================
      X    INDEXORTH   , INDEXISOT,DIR1      ,DIR2      ,T2FAC_SMS ,
      Y    F_PFIT      ,TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
      Z    TYPSUB      ,INFLG_SUBS,INFLG_SUBM ,NINLOADP  ,DGAPLOADINT,
-     1    S_LOADPINTER,DIST      ,IXX        ,INTEREFRIC,EFRICINT  )
+     1    S_LOADPINTER,DIST      ,IXX        ,INTEREFRIC )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -173,7 +173,6 @@ C-----------------------------------------------
      .     PENE_OLD(5,NSN),STIF_OLD(2,NSN),F_PFIT
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real  , INTENT(INOUT) :: DIST(MVSIZ)
-      my_real  , INTENT(INOUT) :: EFRICINT(S_EFRICINT)
 
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
@@ -2931,14 +2930,14 @@ C---------------------------------
           DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
             EFRIC_LM = HALF*EFRIC_L(I)
-            EFRICINT(IX1(I)) = EFRICINT(IX1(I)) + H1(I)*EFRIC_LM
-            EFRICINT(IX2(I)) = EFRICINT(IX2(I)) + H2(I)*EFRIC_LM
-            EFRICINT(IX3(I)) = EFRICINT(IX3(I)) + H3(I)*EFRIC_LM
-            EFRICINT(IX4(I)) = EFRICINT(IX4(I)) + H4(I)*EFRIC_LM
+            EFRIC(INTEREFRIC,IX1(I)) = EFRIC(INTEREFRIC,IX1(I)) + H1(I)*EFRIC_LM
+            EFRIC(INTEREFRIC,IX2(I)) = EFRIC(INTEREFRIC,IX2(I)) + H2(I)*EFRIC_LM
+            EFRIC(INTEREFRIC,IX3(I)) = EFRIC(INTEREFRIC,IX3(I)) + H3(I)*EFRIC_LM
+            EFRIC(INTEREFRIC,IX4(I)) = EFRIC(INTEREFRIC,IX4(I)) + H4(I)*EFRIC_LM
             JG = NSVG(I)
             EFRIC_LS = HALF*EFRIC_L(I)
             IF(JG>0) THEN
-              EFRICINT(JG) = EFRICINT(JG) + EFRIC_LS
+              EFRIC(INTEREFRIC,JG) = EFRIC(INTEREFRIC,JG) + EFRIC_LS
             ELSE ! node remote
               JG = -JG
               EFRICFI(NIN)%P(JG)=EFRICFI(NIN)%P(JG)+ EFRIC_LS

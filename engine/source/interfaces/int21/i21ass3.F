@@ -48,8 +48,7 @@ Chd|====================================================================
      D                  MSRL     ,ITAB     ,H3D_DATA ,NINSKID  ,PRATIO  ,
      E                  NINTERSKID,PSKIDS  ,IFLAGLOADP,TAGNCONT ,KLOADPINTER,
      F                  LOADPINTER,LOADP_HYD_INTER,DGAPLOADINT,DIST,GAPV,  
-     G                  S_LOADPINTER,EFRIC_L,FHEAT   ,EFRICT   ,INTEREFRIC,
-     H                  EFRICINT)
+     G                  S_LOADPINTER,EFRIC_L,FHEAT   ,EFRICT   ,INTEREFRIC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -100,7 +99,6 @@ C-----------------------------------------------
       my_real  , INTENT(IN) :: FHEAT
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER),DIST(MVSIZ),GAPV(MVSIZ)
       my_real  , INTENT(INOUT) :: EFRIC_L(MVSIZ),EFRICT(MVSIZ)
-      my_real  , INTENT(INOUT) :: EFRICINT(S_EFRICINTG)
       my_real
      .   A(3,*), FCONT(3,*),FNCONT(3,*), FTCONT(3,*), STIFN(*),
      .   FSKYI(LSKYI,NFSKYI), SECFCUM(7,NUMNOD,NSECT),
@@ -119,7 +117,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IG, J, JG , K0, NBINTER, K1S, K, NISKYL, IROT, I1,
-     .        NISKYL1,NISKYL2, NISKYFIL, ND , N,PP ,PPL
+     .        NISKYL1,NISKYL2, NISKYFIL, ND , N,PP ,PPL,INTF
       my_real
      .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), 
      .   FX1(MVSIZ), FX2(MVSIZ), FX3(MVSIZ), FX4(MVSIZ),
@@ -853,22 +851,23 @@ C-------------SKID LINES OUTPUTTING ----------------
 C
 C-------------FRICTION ENERGY OUTPUTTING ----------------
       IF(INTEREFRIC > 0)THEN
+          INTF= INTEREFRIC - NINEFRIC
 #include "lockon.inc"
          DO I=1,JLT
           JG = NSVG(I)
           IF(WEIGHT(JG)/=1)CYCLE
           N = NODGLOB(JG)
           EFRICSM = HALF*EFRIC_L(I)
-          EFRICINT(N)=EFRICINT(N) + (EFRICSM-FHEAT*EFRICT(I))
+          EFRIC_STAMP(INTF,N)=EFRIC_STAMP(INTF,N) + (EFRICSM-FHEAT*EFRICT(I))
 
           N= IX1(I)
-          EFRICINT(N)=EFRICINT(N) + EFRICSM*H1(I)
+          EFRIC_STAMP(INTF,N)=EFRIC_STAMP(INTF,N) + EFRICSM*H1(I)
           N= IX2(I)
-          EFRICINT(N)=EFRICINT(N) + EFRICSM*H2(I)
+          EFRIC_STAMP(INTF,N)=EFRIC_STAMP(INTF,N) + EFRICSM*H2(I)
           N= IX3(I)
-          EFRICINT(N)=EFRICINT(N) + EFRICSM*H3(I)
+          EFRIC_STAMP(INTF,N)=EFRIC_STAMP(INTF,N) + EFRICSM*H3(I)
           N= IX4(I)
-          EFRICINT(N)=EFRICINT(N) + EFRICSM*H4(I)
+          EFRIC_STAMP(INTF,N)=EFRIC_STAMP(INTF,N) + EFRICSM*H4(I)
 
          ENDDO
 #include "lockoff.inc"

@@ -76,7 +76,7 @@ Chd|====================================================================
      H                   DIMFB     ,H3D_DATA,INTBUF_FRIC_TAB  ,NISKYFIE,
      I                   APINCH    ,STIFPINCH,NPC   ,TF       ,CONDN   ,
      J                   CONDNSKYI ,QFRICINT,TAGNCONT,KLOADPINTER,LOADPINTER,
-     K                   LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,EFRICINT)
+     K                   LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC)
 C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -137,7 +137,6 @@ C-----------------------------------------------
      .         LOADP_HYD_INTER(NLOADP_HYD)
       INTEGER  , INTENT(IN) :: INTEREFRIC
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
-      my_real  , INTENT(INOUT) :: EFRICINT(S_EFRICINT)
       my_real 
      .        EMINX(*)
 C     REAL
@@ -717,7 +716,7 @@ C-------------------------------------------------------------------------------
      C  INTTH       ,DRAD       ,FHEATS       ,FHEATM     ,QFRICINT(NIN),
      D  EFRICT      ,TAGNCONT   ,KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER,
      E  INTBUF_TAB%TYPSUB,IPARI(40,NIN),NINLOADP,DGAPLOADINT,S_LOADPINTER,
-     F  DIST        ,DGAPLOADPMAX,INTEREFRIC  ,EFRICINT   )
+     F  DIST        ,DGAPLOADPMAX,INTEREFRIC  )
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 

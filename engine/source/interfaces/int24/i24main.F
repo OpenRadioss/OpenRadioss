@@ -70,7 +70,7 @@ Chd|====================================================================
      I                   FORNEQS  ,T2FAC_SMS,NPC    ,TF       ,TAGNCONT,
      J                   KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,DGAPLOADINT,
      .                                                         S_LOADPINTER,
-     K                   INTEREFRIC,EFRICINT   )
+     K                   INTEREFRIC)
 C========================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -130,7 +130,6 @@ C-----------------------------------------------
      .        ISKYI_SMS(*), NODNX_SMS(*), ISENSINT(*),DIMFB,T2MAIN_SMS(6,*)
       INTEGER  , INTENT(IN) :: INTEREFRIC
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
-      my_real  , INTENT(INOUT) :: EFRICINT(S_EFRICINT)
       my_real 
      .        EMINX(*)
 C     REAL
@@ -600,7 +599,7 @@ C-------------------------------------------------------------------------------
      Y  TAGNCONT    ,KLOADPINTER ,LOADPINTER  ,LOADP_HYD_INTER,
      Z  INTBUF_TAB%TYPSUB,INTBUF_TAB%INFLG_SUBS,INTBUF_TAB%INFLG_SUBM,
      .                                      NINLOADP,DGAPLOADINT,
-     1  S_LOADPINTER, DIST       ,IXX         ,INTEREFRIC,EFRICINT   ) 
+     1  S_LOADPINTER, DIST       ,IXX         ,INTEREFRIC   ) 
 C
           IF(IMPL_S > 0 ) 
      +     CALL IMPL_SAV1(
