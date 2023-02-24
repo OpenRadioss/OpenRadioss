@@ -101,7 +101,7 @@ Chd|====================================================================
      I                   WIGE           ,KNOT        ,IGEO           ,MULTI_FVM        ,H3D_DATA   ,
      J                   INTBUF_FRIC_TAB,KNOTLOCPC   ,KNOTLOCEL      ,ITASK            ,TAGNCONT   ,
      K                   KLOADPINTER    ,LOADPINTER  ,LOADP_HYD_INTER,DGAPLOADINT      ,S_LOADPINTER,
-     L                   INTEREFRIC     ,EFRICINT    )
+     L                   INTEREFRIC     )
 C======================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -168,7 +168,6 @@ C-----------------------------------------------
      .         LOADP_HYD_INTER(NLOADP_HYD)
       INTEGER  , INTENT(IN) :: INTEREFRIC
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
-      my_real  , INTENT(INOUT) :: EFRICINT(S_EFRICINT)
       my_real  EMINX(*), XCELL(3,SXCELL)
       my_real DT2T,
      .   X(3,*), A(3,*), FSAV(*), V(3,*),FSAVBAG(*),
@@ -806,7 +805,7 @@ C
      9  KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER,INTBUF_TAB%TYPSUB    ,  
      .                                            INTBUF_TAB%INFLG_SUBS,
      A  INTBUF_TAB%INFLG_SUBM,NINLOADP,DGAPLOADINT,S_LOADPINTER,DGAPLOADP,
-     B  INTEREFRIC   ,EFRICINT  )
+     B  INTEREFRIC   )
 
 
               IF( INTTH > 0 ) THEN 

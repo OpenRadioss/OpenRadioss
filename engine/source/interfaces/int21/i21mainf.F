@@ -57,7 +57,7 @@ Chd|====================================================================
      B                   CONDNSKYI,DT2T   ,NELTST   ,ITYPTST ,KINET    ,
      C                   FBSAV6  ,ISENSINT,DIMFB    ,NISKYFI ,H3D_DATA ,
      D                   PSKIDS  ,TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
-     E                   DGAPLOADINT,S_LOADPINTER,INTEREFRIC,EFRICINT )                   
+     E                   DGAPLOADINT,S_LOADPINTER,INTEREFRIC )                   
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -113,7 +113,6 @@ C-----------------------------------------------
       INTEGER  , INTENT(IN) :: INTEREFRIC
 C     REAL
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
-      my_real  , INTENT(INOUT) :: EFRICINT(S_EFRICINTG)
       my_real 
      .   X(*), A(3,*), FSAV(*), V(3,*),
      .   MS(*),STIFN(*),FSKYI(LSKYI,4), FCONT(3,*),
@@ -435,7 +434,7 @@ C
      E                  PRATIO   ,H3D_DATA%N_SCAL_SKID,PSKIDS ,IPARI(95,NIN),
      F                  TAGNCONT ,KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,
      G                  DGAPLOADINT,DIST,GAPV,S_LOADPINTER    ,EFRIC_L  ,
-     H                  FHEAT     ,EFRICT ,INTEREFRIC,EFRICINT )  
+     H                  FHEAT     ,EFRICT ,INTEREFRIC )  
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 C
