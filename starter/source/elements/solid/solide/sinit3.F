@@ -36,6 +36,7 @@ Chd|        FRETITL2                      source/starter/freform.F
 Chd|        INIMOM_FVM                    source/elements/solid/solide/inimom_fvm.F
 Chd|        M115_PERTURB                  source/materials/mat/mat115/m115_perturb.F
 Chd|        MATINI                        source/materials/mat_share/matini.F
+Chd|        S8EREFCOOR3                   source/elements/solid/solide8z/s8erefcoor3.F
 Chd|        SBOLTINI                      source/loads/bolt/sboltini.F  
 Chd|        SBULK3                        source/elements/solid/solide/sbulk3.F
 Chd|        SCOOR3                        source/elements/solid/solide/scoor3.F
@@ -43,7 +44,7 @@ Chd|        SDERI3                        source/elements/solid/solide/sderi3.F
 Chd|        SDERI3B                       source/elements/solid/solid8p/sderi3b.F
 Chd|        SDLEN3                        source/elements/solid/solide/sdlen3.F
 Chd|        SIGIN3B                       source/elements/solid/solid8p/sigin3b.F
-Chd|        SJAC_I                        source/elements/solid/solide/sderi3.F
+Chd|        SJACIDP                       source/elements/solid/solide/sjacidp.F
 Chd|        SMASS3                        source/elements/solid/solide/smass3.F
 Chd|        SMASS3B                       source/elements/solid/solid8p/smass3b.F
 Chd|        SMORTH3                       source/elements/solid/solide/smorth3.F

@@ -33,6 +33,7 @@ Chd|        FRETITL2                      source/starter/freform.F
 Chd|        MATINI                        source/materials/mat_share/matini.F
 Chd|        S8EDERI3                      source/elements/solid/solide8z/s8zderi3.F
 Chd|        S8EJACIP3                     source/elements/solid/solide8z/s8zderi3.F
+Chd|        S8EREFCOOR3                   source/elements/solid/solide8z/s8erefcoor3.F
 Chd|        S8E_PIJ                       source/elements/solid/solide8z/s8zderi3.F
 Chd|        S8ZDERI3                      source/elements/solid/solide8z/s8zderi3.F
 Chd|        S8ZDERIC3                     source/elements/solid/solide8z/s8zderi3.F

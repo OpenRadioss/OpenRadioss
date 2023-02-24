@@ -255,6 +255,7 @@ Chd|====================================================================
 Chd|  S10JACOB                      source/elements/solid/solide10/s10deri3.F
 Chd|-- called by -----------
 Chd|        S10DERI3                      source/elements/solid/solide10/s10deri3.F
+Chd|        S10JACI3                      source/elements/solid/solide10/s10jaci3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S10JACOB(ALPH,BETA,W,
@@ -473,6 +474,7 @@ Chd|====================================================================
 Chd|  S10PIJSAV                     source/elements/solid/solide10/s10deri3.F
 Chd|-- called by -----------
 Chd|        S10DERI3                      source/elements/solid/solide10/s10deri3.F
+Chd|        S10JACI3                      source/elements/solid/solide10/s10jaci3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S10PIJSAV(PX,PY,PZ, PIJ,NEL)

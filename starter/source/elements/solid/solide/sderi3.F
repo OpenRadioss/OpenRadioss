@@ -251,7 +251,6 @@ Chd|====================================================================
 Chd|  SJAC_I                        source/elements/solid/solide/sderi3.F
 Chd|-- called by -----------
 Chd|        MULTIFLUID_INIT3              source/multifluid/multifluid_init3.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
 Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

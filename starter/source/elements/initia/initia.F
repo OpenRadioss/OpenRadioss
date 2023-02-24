@@ -82,6 +82,7 @@ Chd|        RINI33_RB                     source/elements/joint/rjoint/rini33_rb
 Chd|        RINI45_RB                     source/elements/joint/rjoint/rini45_rb.F
 Chd|        RINIT3                        source/elements/spring/rinit3.F
 Chd|        S10INIT3                      source/elements/solid/solide10/s10init3.F
+Chd|        S10JACI3                      source/elements/solid/solide10/s10jaci3.F
 Chd|        S16INIT3                      source/elements/thickshell/solide16/s16init3.F
 Chd|        S20INIT3                      source/elements/solid/solide20/s20init3.F
 Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F

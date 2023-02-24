@@ -21,6 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  S4JACI3                       source/elements/solid/solide4/s4jaci3.F
+Chd|-- called by -----------
+Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE S4JACI3(SAV   ,JAC_I, NEL  ) 
 C------------------------------------------------------
 C

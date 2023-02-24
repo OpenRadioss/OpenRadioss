@@ -1071,6 +1071,7 @@ Chd|        SET_INTERCEP                  source/spmd/node/ddtools.F
 Chd|        SGRHEAD                       source/elements/solid/solide/sgrhead.F
 Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
 Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
+Chd|        SJACIDP                       source/elements/solid/solide/sjacidp.F
 Chd|        SJAC_I                        source/elements/solid/solide/sderi3.F
 Chd|        SMORTH3                       source/elements/solid/solide/smorth3.F
 Chd|        SMS_INIT                      source/ams/sms_init.F         

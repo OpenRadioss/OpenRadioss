@@ -35,6 +35,7 @@ Chd|        M115_PERTURB                  source/materials/mat/mat115/m115_pertu
 Chd|        MATINI                        source/materials/mat_share/matini.F
 Chd|        S4COOR3                       source/elements/solid/solide4/s4coor3.F
 Chd|        S4DERI3                       source/elements/solid/solide4/s4deri3.F
+Chd|        S4JACI3                       source/elements/solid/solide4/s4jaci3.F
 Chd|        S4MASS3                       source/elements/solid/solide4/s4mass3.F
 Chd|        SBOLTINI                      source/loads/bolt/sboltini.F  
 Chd|        SBULK3                        source/elements/solid/solide/sbulk3.F
