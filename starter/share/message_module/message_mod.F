@@ -737,6 +737,7 @@ Chd|        I24TRI                        source/interfaces/inter3d1/i24tri.F
 Chd|        I25BUCE_EDG                   source/interfaces/inter3d1/i25buce_edg.F
 Chd|        I25BUC_VOX1                   source/interfaces/inter3d1/i25buc_vox1.F
 Chd|        I25GAPM                       source/interfaces/inter3d1/i25sti3.F
+Chd|        I25NEIGH                      source/interfaces/inter3d1/i25neigh.F
 Chd|        I25NEIGH_MSG_ERR              source/interfaces/inter3d1/i25neigh.F
 Chd|        I25PEN3                       source/interfaces/inter3d1/i25pen3.F
 Chd|        I25PWR3                       source/interfaces/inter3d1/i25pwr3.F

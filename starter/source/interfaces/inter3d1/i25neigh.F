@@ -30,6 +30,7 @@ Chd|        I25NEIGH_SEG_EN               source/interfaces/inter3d1/i25neigh.F
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        BITGET                        source/interfaces/inter3d1/bitget.F
 Chd|        BITSET                        source/interfaces/inter3d1/bitget.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I25NEIGH(NRTM ,NSN   ,NSV     ,IRECT  ,IRTLM,
      2                         MVOISIN,EVOISIN ,MSEGLO ,MSEGTYP,ITAB   ,
