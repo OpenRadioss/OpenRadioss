@@ -134,7 +134,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),NPF(*),IADS(8,*),
      .        IPARTS(*),IXS10(6,*),IADS10(6,*),IPM(*),ITASK,GRTH(*),
-     .        IGRTH(*),IGEO(*),IOUTPRT,H3D_STRAIN
+     .        IGRTH(*),IGEO(NPROPGI,*),IOUTPRT,H3D_STRAIN
       INTEGER NELTST,ITYPTST,OFFSET,NEL,NG,ISTRAIN,ISOLNOD,IEXPAN,ITAGDN(*)      
 C     REAL
 
@@ -144,7 +144,7 @@ C     REAL
       my_real
      .   DT2T
       my_real
-     .   PM(NPROPM,*), GEO(*), X(*), A(*), V(3,*), MS(*), W(*),
+     .   PM(NPROPM,*), GEO(NPROPG,*), X(*), A(*), V(3,*), MS(*), W(*),
      .   FLUX(6,*),FLU1(*), VEUL(*), FV(*), TF(*), 
      .   BUFMAT(*),PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
      .   AR(*),VR(*) ,DR(*) ,STIFR(*),D(*), MSSA(*)  ,DMELS(*)
@@ -191,7 +191,7 @@ C     Variables void MMAIN
      . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
      . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
 C Variables utilisees dans les routines solides uniquement (en arguments).
-      INTEGER NC(MVSIZ,10),ICP,MX
+      INTEGER NC(MVSIZ,10),ICP,MX,IPLAW1
 
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),
@@ -207,7 +207,7 @@ C Variables utilisees dans les routines solides uniquement (en arguments).
      .  DXY(MVSIZ),DYX(MVSIZ),DYZ(MVSIZ),DZY(MVSIZ),
      .  DZX(MVSIZ),DXZ(MVSIZ),
      .  STIG(MVSIZ),  WIP(5,5), ALPH(5,5), BETA(5,5),BID(MVSIZ),
-     .  DIE(MVSIZ), MBID(1),OFFG0(MVSIZ),AMU(MVSIZ),SUM
+     .  DIE(MVSIZ), MBID(1),OFFG0(MVSIZ),AMU(MVSIZ),SUM,RHO0_1,CNS2
       my_real NXT4(MVSIZ,4,4)
       my_real, DIMENSION(MVSIZ) ::
      .   E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z
@@ -217,7 +217,7 @@ C
      .    MFXX(MVSIZ,5),MFXY(MVSIZ,5),MFYX(MVSIZ,5),
      .    MFYY(MVSIZ,5),MFYZ(MVSIZ,5),MFZY(MVSIZ,5),
      .    MFZZ(MVSIZ,5),MFZX(MVSIZ,5),MFXZ(MVSIZ,5),DIVDE(MVSIZ),
-     .    NU(MVSIZ),FAC(MVSIZ),FACP(MVSIZ),E0(MVSIZ),C1
+     .    NU(MVSIZ),FAC(MVSIZ),FACP(MVSIZ),E0(MVSIZ),C1,DVM(MVSIZ)
 c
       my_real VARNL(NEL)
 c     Flag Bolt Preloading
@@ -316,6 +316,17 @@ C-----------
      9   WYYG     ,WZZG      ,GBUF%G_PLA  ,XDP      ,NEL      ,
      A   CONDEG   ,GBUF%G_EPSD)
 C     
+      IPLAW1 = 0
+      IF (ISM12_11>0 .AND.IDTMIN(1)==3) THEN
+         MX = IXS(1,NF1)
+         RHO0_1 =PM( 1,MX)
+         IF (PM(21,MX)>0.49) IPLAW1=1
+         NU(LFT:LLT)=MIN(HALF,PM(21,MX))
+         FACP(LFT:LLT)=TWO*PM(21,MX)
+         CNS2 = ZERO
+         IF (IGEO(35,NGEO(1))>0) CNS2=ABS(GEO(17,NGEO(1)))
+      END IF 
+C     
       CALL S10NX3(NX)
       IF(JTHE < 0 .AND. ISOLNOD == 4) CALL S10NXT4(NXT4,NEL)
 C-----------
@@ -342,10 +353,6 @@ C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un)
          CALL S10RCOOR12(GBUF%OFF,X ,XDP ,NC ,
      .    E1X   ,E2X   ,E3X   ,E1Y   ,E2Y   ,E3Y   ,E1Z  ,E2Z  ,E3Z   ) 
         END IF !(ISMSTR == 10.AND.ISORTH/=0.AND.IDTMIN(1)==3)
-c        CALL S10DERITO3(VOLP,
-c     .   XX0, YY0, ZZ0, PX,PY,PZ, NX,
-c     .   RX,  RY,  RZ,  SX,  SY,  SZ , TX, TY, TZ,
-c     .   WIP(1,NPT),ALPH(1,NPT),BETA(1,NPT),VOLN,ELBUF_TAB(NG))
         IBID = 1
         DO IP=1,NPT
          LBUF => ELBUF_TAB(NG)%BUFLY(IBID)%LBUF(IP,IBID,IBID)
@@ -381,6 +388,11 @@ C
      .   NC ,NEL,MXT,PM  ,GBUF%ISMS,
      .   GBUF%DT_PITER)
 
+        IF (IPLAW1>0) THEN
+           CALL S10DVM12(
+     .               PX, PY, PZ, VX, VY, VZ, 
+     .               DVM ,GBUF%OFF, NPT ,NEL)
+        END IF
 C--- for /CST avoid multi-printout----	
        IF (ISMSTR == 2 .OR.ISMSTR ==12) THEN
         DO IP=1,NPT
@@ -457,10 +469,11 @@ C
            CALL S10_ICP(GBUF%OFF,JACGM,FACP,NU,
      .        MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP), MFYX(1,IP), MFYY(1,IP), 
      .        MFYZ(1,IP), MFZX(1,IP), MFZY(1,IP), MFZZ(1,IP) ,
-     .                  LBUF%VOL,VOLN,LBUF%VOL0DP,VOLDP(1,IP),NEL)
+     .        LBUF%VOL,VOLN,LBUF%VOL0DP,VOLDP(1,IP),NEL)
          ENDIF
 C   
         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))  
+        IF (IPLAW1>0) CALL S10DIVDE12(DVM ,DIVDE ,FACP,GBUF%OFF,NEL)
         CALL SRHO3(PM         ,LBUF%VOL  , LBUF%RHO, LBUF%EINT, DIVDE,
      .             FLUX(1,NF1),FLU1(NF1) , VOLN    , DVOL     , NGL, MXT, OFF,
      .             0          ,GBUF%TAG22, VOLDP(1,IP),LBUF%VOL0DP ,AMU ,GBUF%OFF)
@@ -557,6 +570,10 @@ C--------------------------
 C-------------------------
 C       ASSEMBLE
 C-------------------------
+        IF (IPLAW1>0) 
+     .     CALL NSVIS_SM12(GBUF%OFF ,CNS2,CXX  ,VOLN ,DXX     ,
+     .                      DYY     ,DZZ    ,D4    ,D5  ,D6   ,
+     .                      LBUF%VOL,RHO0_1,STI   ,NEL   ) 
 C----------------------------
 C       INTERNAL FORCES
 C----------------------------
