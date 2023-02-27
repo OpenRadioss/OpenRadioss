@@ -842,6 +842,7 @@ C-------compressible
 C-------uncompressible       
               CASE(2)                                             
                ICPRE = 1
+               IF (MLN == 1) ICPRE = 3
 C--------elasto-plastic       
               CASE(3)                                             
                ICPRE = 2
