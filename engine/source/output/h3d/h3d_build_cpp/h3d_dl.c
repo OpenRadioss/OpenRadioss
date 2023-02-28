@@ -617,7 +617,7 @@ void h3dlib_load_(int * IERROR)
     strcat(load_libname,getenv("RAD_H3D_PATH"));
     strcat(load_libname,"/");
     strcat(load_libname,h3dlib);
-    h3dhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
+    h3dhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL);
     if(!h3dhandle) fprintf(stderr,"Warning: libh3dwriter.so not found in $RAD_H3D_PATH:\n %s \n",dlerror());
 
   }
@@ -629,7 +629,7 @@ void h3dlib_load_(int * IERROR)
     getcwd(load_libname,20000);
     strcat(load_libname,"/");
     strcat(load_libname,h3dlib);
-    h3dhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
+    h3dhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL);
     if(!h3dhandle) {fprintf(stderr,"Warning: libh3dwriter.so not found in current directory:\n %s\n",dlerror());}
     else {fprintf(stderr,"success: libh3dwriter.so was found in current directory\n");}
 
@@ -644,7 +644,7 @@ void h3dlib_load_(int * IERROR)
     strcat(load_libname,getenv("ARCH"));
     strcat(load_libname,"/");
     strcat(load_libname,h3dlib);
-    h3dhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
+    h3dhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL);
     if(!h3dhandle) {fprintf(stderr,"Warning: libh3dwriter.so not found in $ALTAIR_HOME:\n %s\n",dlerror());}
   }
 
@@ -652,7 +652,7 @@ void h3dlib_load_(int * IERROR)
   if(!h3dhandle) {
   /* Fourth trial : $LD_LIBRARY_PATH settings - simple dlopen*/
     strcpy(load_libname,h3dlib);
-    h3dhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
+    h3dhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL);
     if(!h3dhandle) {fprintf(stderr,"Warning: libh3dwriter.so not found in $LD_LIBRARY_PATH:\n %s\n",dlerror());}
     else {fprintf(stderr,"success: libh3dwriter.so was found in $LD_LIBRARY_PATH\n");}
 
