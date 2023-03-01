@@ -192,7 +192,7 @@ c-----------------------------
       ! Friction parameter
       M0 = THREE*(((FC**2)-(FT**2))/(FC*FT))*(ECC/(ECC + ONE))
       ! Failure flag check
-      IF (FAILIP == 0) FAILIP = 1
+      FAILIP = MAX(FAILIP,0)
       ! Dflag check 
       IF (DFLAG == 0) DFLAG = 1
       DFLAG = MIN(MAX(1,DFLAG),4)
