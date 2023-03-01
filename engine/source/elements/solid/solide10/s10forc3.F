@@ -27,6 +27,7 @@ Chd|        FORINT                        source/elements/forint.F
 Chd|-- calls ---------------
 Chd|        BOLTST                        source/elements/solid/solide/boltst.F
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
+Chd|        NSVIS_SM12                    source/elements/solid/solide10/nsvis_sm12.F
 Chd|        S10BILAN                      source/elements/solid/solide10/s10bilan.F
 Chd|        S10COOR3                      source/elements/solid/solide10/s10coor3.F
 Chd|        S10CUMU3                      source/elements/solid/solide10/s10cumu3.F
@@ -35,6 +36,8 @@ Chd|        S10DEFO3                      source/elements/solid/solide10/s10defo
 Chd|        S10DEFOT3                     source/elements/solid/solide10/s10defo3.F
 Chd|        S10DERI3                      source/elements/solid/solide10/s10deri3.F
 Chd|        S10DERIT3                     source/elements/solid/solide10/s10deri3.F
+Chd|        S10DIVDE12                    source/elements/solid/solide10/s10divde12.F
+Chd|        S10DVM12                      source/elements/solid/solide10/s10dvm12.F
 Chd|        S10FINT3                      source/elements/solid/solide10/s10fint3.F
 Chd|        S10LEN3                       source/elements/solid/solide10/s10len3.F
 Chd|        S10MALLA3                     source/elements/solid/solide10/s10mall3.F

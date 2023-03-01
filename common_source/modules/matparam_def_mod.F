@@ -56,6 +56,7 @@ Chd|        HM_READ_MAT119                starter/source/materials/mat/mat119/hm
 Chd|        HM_READ_MAT12                 starter/source/materials/mat/mat012/hm_read_mat12.F
 Chd|        HM_READ_MAT120                starter/source/materials/mat/mat120/hm_read_mat120.F
 Chd|        HM_READ_MAT121                starter/source/materials/mat/mat121/hm_read_mat121.F
+Chd|        HM_READ_MAT124                starter/source/materials/mat/mat124/hm_read_mat124.F
 Chd|        HM_READ_MAT13                 starter/source/materials/mat/mat013/hm_read_mat13.F
 Chd|        HM_READ_MAT14                 starter/source/materials/mat/mat014/hm_read_mat14.F
 Chd|        HM_READ_MAT15                 starter/source/materials/mat/mat015/hm_read_mat15.F

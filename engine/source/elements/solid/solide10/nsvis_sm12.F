@@ -21,6 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  NSVIS_SM12                    source/elements/solid/solide10/nsvis_sm12.F
+Chd|-- called by -----------
+Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE NSVIS_SM12(OFFG ,MU0,SSP  ,VOL  ,D1   ,
      .                      D2   ,D3  ,D4    ,D5  ,D6   ,
      .                      VOL0 ,RHO0,STI   ,NEL   ) 

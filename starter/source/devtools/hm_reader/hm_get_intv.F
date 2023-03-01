@@ -231,6 +231,7 @@ Chd|        HM_READ_MAT11_K_EPS           source/materials/mat/mat011/hm_read_ma
 Chd|        HM_READ_MAT12                 source/materials/mat/mat012/hm_read_mat12.F
 Chd|        HM_READ_MAT120                source/materials/mat/mat120/hm_read_mat120.F
 Chd|        HM_READ_MAT121                source/materials/mat/mat121/hm_read_mat121.F
+Chd|        HM_READ_MAT124                source/materials/mat/mat124/hm_read_mat124.F
 Chd|        HM_READ_MAT14                 source/materials/mat/mat014/hm_read_mat14.F
 Chd|        HM_READ_MAT15                 source/materials/mat/mat015/hm_read_mat15.F
 Chd|        HM_READ_MAT151                source/materials/mat/mat151/hm_read_mat151.F
