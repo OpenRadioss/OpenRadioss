@@ -60,7 +60,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,NODE_CUR,NRES_FOUND,ELEM_NEWT,NODE_NEXT,ELEM_NEXT,ID_PREV,MTYP,MID,ELEM_TEST
+      INTEGER K,NODE_CUR,NRES_FOUND,ELEM_NEWT,NODE_NEXT,ELEM_NEXT,ID_PREV,MTYP,MID,ELEM_TEST,
+     .        NOD_START_B,ELEM_CUR_B
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -93,13 +94,28 @@ C
               IF ((MTYP == 114).AND.(TAG_RES(ELEM_TEST) == 0)) THEN
                 NRES_FOUND = NRES_FOUND + 1
                 IF(NRES_FOUND > 1) THEN
-                  CALL ANCMSG(MSGID=2005,
+                  IF (NSLIPRING+NRETRACTOR > 0) THEN
+C--                 in case of sliprings and retractors bifurcation is not allowded
+                    CALL ANCMSG(MSGID=2005,
      .                         MSGTYPE=MSGERROR,
      .                         ANMODE=ANINFO,
      .                         I1=ITAB(NODE_NEXT))
-                  NRES_FOUND = 0
+                    NRES_FOUND = 0
+                  ELSE
+C--                 start of the secondary branch (only if no slipring and no retractor)
+                    CALL ANCMSG(MSGID=2098,
+     .                          MSGTYPE=MSGWARNING,
+     .                          ANMODE=ANINFO,
+     .                          I1=ITAB(NODE_NEXT))
+                    NOD_START_B = NODE_NEXT
+                    ELEM_CUR_B = ELEM_TEST
+                    CALL NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,NOD_START_B,
+     .                                ELEM_CUR_B,TAG_RES,TAG_NOD,ID,FLAG,
+     .                                NNOD,IPM)
+                  ENDIF
+                ELSE
+                  ELEM_NEXT = ELEM_TEST
                 ENDIF
-                ELEM_NEXT = ELEM_TEST
               ENDIF
             ENDIF
           ENDIF
