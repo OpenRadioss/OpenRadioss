@@ -226,8 +226,9 @@ c vector
         IF (KEY3_GLOB == 'VECT/CONT') H3D_DATA%N_VECT_CONT  = 1      
       ENDIF
 c
-      ! Just for EPSDOT
       IF(KEY2 == 'SHELL') THEN
+c scalar
+        IF (KEY3_GLOB == 'ERROR/THICK') H3D_DATA%SH_SCAL_ERR_THK = 1
 c tensor
         IF (KEY3_GLOB == 'TENS/EPSDOT') IEPSDOT = 1
       ENDIF

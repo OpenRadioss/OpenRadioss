@@ -1650,9 +1650,12 @@ c
 C--------------------------------------------
 C       Error estimation / not on Restart file.
 C--------------------------------------------
-          IF(ANIM_CE(2156)/=0 .OR. IADMERRT/=0)THEN
-             ALLOCATE(ERR_THK_SH4 (NUMELC))
-             ALLOCATE(ERR_THK_SH3 (NUMELTG))
+          IF(ANIM_CE(2156)/=0 .OR. IADMERRT/=0 .OR. 
+     .         H3D_DATA%SH_SCAL_ERR_THK /= 0)THEN
+             MY_ALLOCATE(ERR_THK_SH4,NUMELC)
+             MY_ALLOCATE(ERR_THK_SH3,NUMELTG)
+             ERR_THK_SH4(1:NUMELC) = ZERO
+             ERR_THK_SH3(1:NUMELTG) = ZERO
           ELSE
              ALLOCATE(ERR_THK_SH4 (0))
              ALLOCATE(ERR_THK_SH3 (0))
@@ -8180,7 +8183,7 @@ c--------------
        ENDIF
       ENDIF
 C--------------------------------------------------
-      IF( ANIM_CE(2156)/=0
+      IF( ( ANIM_CE(2156)/=0 .OR. H3D_DATA%SH_SCAL_ERR_THK /=0) 
      .     .AND.((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
      .          (MANIM>=4.AND.MANIM<=15))) THEN
 
