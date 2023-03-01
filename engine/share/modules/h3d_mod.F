@@ -464,6 +464,8 @@ C-----------------------------------------------
         INTEGER N_VECT_CONT2_MIN             
         INTEGER N_VECT_PCONT2_MIN     
 
+        INTEGER SH_SCAL_ERR_THK         !ANIM_CE(2156)
+
         INTEGER SOL_SCAL_VORTX          !ANIM_SE(10)
         INTEGER SOL_SCAL_VORTY          !ANIM_SE(4960)
         INTEGER SOL_SCAL_VORTZ          !ANIM_SE(4961)
