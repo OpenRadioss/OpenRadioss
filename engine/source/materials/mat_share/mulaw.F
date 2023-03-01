@@ -1699,7 +1699,7 @@ c
      .                 DE1    ,DE2    ,DE3    ,DE4    ,DE5    ,DE6    ,
      .                 ES1    ,ES2    ,ES3    ,ES4    ,ES5    ,ES6    ,
      .                 S1     ,S2     ,S3     ,S4     ,S5     ,S6     ,
-     .                 SIGY   ,ET     ,VARNL  ,INLOC  ,LBUF%DMG,DELTAX)
+     .                 SIGY   ,ET     ,LBUF%DMG,DELTAX)
 c
       ELSEIF (MTN == 187) THEN !BARLAT 2000
           CALL SIGEPS187(NEL   ,NPAR  ,NUVAR ,NFUNC ,IFUNC ,

@@ -35,7 +35,7 @@ Chd|====================================================================
      4     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5     EPSXX   ,EPSYY   ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX   ,
      6     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7     SIGY    ,ET      ,DPLANL  ,INLOC   ,DMG     ,LE      )     
+     7     SIGY    ,ET      ,DMG     ,LE      )     
       !=======================================================================
       !      Implicit types
       !=======================================================================
@@ -52,8 +52,7 @@ Chd|====================================================================
       !=======================================================================
       !      Dummy arguments
       !=======================================================================
-      INTEGER NEL,NUPARAM,NUVAR,INLOC,IPG,NPG,
-     .        NGL(NEL)
+      INTEGER,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,NPG,NGL(NEL)
       my_real 
      .   TIME,TIMESTEP,UPARAM(NUPARAM)
       my_real,DIMENSION(NEL), INTENT(IN)     :: 
@@ -65,7 +64,7 @@ Chd|====================================================================
       my_real,DIMENSION(NEL) ::
      .   SIGY,ET
       my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
-     .   PLA,DPLA,EPSD,DPLANL,LOFF,OFF,DMG,UELR
+     .   PLA,DPLA,EPSD,LOFF,OFF,DMG,UELR
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
       !=======================================================================
@@ -206,13 +205,22 @@ c
       !========================================================================     
       ! Computation of the trial stress tensor 
       DO I=1,NEL
-        LDAV      = (DEPSXX(I) + DEPSYY(I) + DEPSZZ(I)) * LAM
-        SIGNXX(I) = SIGOXX(I) + DEPSXX(I)*G2 + LDAV
-        SIGNYY(I) = SIGOYY(I) + DEPSYY(I)*G2 + LDAV
-        SIGNZZ(I) = SIGOZZ(I) + DEPSZZ(I)*G2 + LDAV
-        SIGNXY(I) = SIGOXY(I) + DEPSXY(I)*G
-        SIGNYZ(I) = SIGOYZ(I) + DEPSYZ(I)*G
-        SIGNZX(I) = SIGOZX(I) + DEPSZX(I)*G
+        IF (LOFF(I) == ONE) THEN 
+          LDAV      = (DEPSXX(I) + DEPSYY(I) + DEPSZZ(I)) * LAM
+          SIGNXX(I) = SIGOXX(I) + DEPSXX(I)*G2 + LDAV
+          SIGNYY(I) = SIGOYY(I) + DEPSYY(I)*G2 + LDAV
+          SIGNZZ(I) = SIGOZZ(I) + DEPSZZ(I)*G2 + LDAV
+          SIGNXY(I) = SIGOXY(I) + DEPSXY(I)*G
+          SIGNYZ(I) = SIGOYZ(I) + DEPSYZ(I)*G
+          SIGNZX(I) = SIGOZX(I) + DEPSZX(I)*G
+        ELSE
+          SIGNXX(I) = ZERO
+          SIGNYY(I) = ZERO
+          SIGNZZ(I) = ZERO
+          SIGNXY(I) = ZERO
+          SIGNYZ(I) = ZERO
+          SIGNZX(I) = ZERO
+        ENDIF 
       ENDDO
 c
       ! Strain rate effects
@@ -353,11 +361,11 @@ c
       INDX2(1:NEL) = 0
       DO I=1,NEL         
         ! Apex return mapping
-        IF ((FAPEX(I) > ZERO) .AND. (OFF(I) == ONE)) THEN
+        IF ((FAPEX(I) > ZERO) .AND. (LOFF(I) == ONE)) THEN
           NINDX = NINDX+1
           INDX(NINDX) = I
         ! Regular return mapping
-        ELSEIF (FP(I) > ZERO  .AND. OFF(I) == ONE)   THEN
+        ELSEIF ((FP(I) > ZERO)  .AND. (LOFF(I) == ONE))   THEN
           NINDX2 = NINDX2+1
           INDX2(NINDX2) = I
         ENDIF
@@ -494,14 +502,14 @@ c
             DTH_DJ3 = -SQR3/(TWO*J2(I)*SQRT(J2(I))*MAX(SQRT(ONE - (COS3TH(I))**2),EM20))
 c
             ! Derivative of third deviatoric invariant with respect to stresses
-            DJ3DSXX =  TWO_THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)
-     .              -  THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)
-     .              -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)               
-            DJ3DSYY = - THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)
-     .              +  TWO_THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)
-     .              -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)            
-            DJ3DSZZ = - THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)
-     .              - THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)
+            DJ3DSXX = TWO_THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)
+     .                 -  THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)
+     .                 -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)               
+            DJ3DSYY =   - THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)
+     .              + TWO_THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)
+     .                 -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)            
+            DJ3DSZZ =   - THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)
+     .                  - THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)
      .              + TWO_THIRD*(SXX(I)*SYY(I)-SXY(I)**2) 
             DJ3DSXY = TWO*(SXX(I)*SXY(I) + SXY(I)*SYY(I) + SZX(I)*SYZ(I))         
             DJ3DSYZ = TWO*(SXY(I)*SZX(I) + SYY(I)*SYZ(I) + SYZ(I)*SZZ(I))                     
@@ -784,11 +792,7 @@ c
           IF (EPS_EQ(I)>=(EPS0(I)-EM08)) THEN 
             ! Compute tension damage
             KAPDT2(I) = KAPDT2(I) + (MAX(EPS_EQ(I) - KAPDT(I),ZERO))/XSIS(I)
-            IF (INLOC > 0) THEN 
-              KAPDT1(I) = KAPDT1(I) + MAX(DPLANL(I),ZERO)/XSIS(I)
-            ELSE
-              KAPDT1(I) = KAPDT1(I) + DPLA(I)/XSIS(I)
-            ENDIF
+            KAPDT1(I) = KAPDT1(I) + DPLA(I)/XSIS(I)
             KAPDT(I) = MAX(EPS_EQ(I),KAPDT(I))
             EPS_INEL(I) = KAPDT1(I) + OMEGAT(I)*KAPDT2(I)
             ! -> Linear type
@@ -819,11 +823,7 @@ c
             KAPDC2(I) = KAPDC2(I) + ALPHAC(I)*(MAX(EPS_EQ(I) - KAPDC(I),ZERO))/XSIS(I)
             BETAC = FT(I)*QH2(I)*SQRT(TWO_THIRD)/
      .              (RHOB(I)*SQRT(ONE + TWO*(DF**2)))
-            IF (INLOC > 0) THEN
-              KAPDC1(I) = KAPDC1(I) + ALPHAC(I)*BETAC*MAX(DPLANL(I),ZERO)/XSIS(I)
-            ELSE
-              KAPDC1(I) = KAPDC1(I) + ALPHAC(I)*BETAC*DPLA(I)/XSIS(I)
-            ENDIF 
+            KAPDC1(I) = KAPDC1(I) + ALPHAC(I)*BETAC*DPLA(I)/XSIS(I)
             KAPDC(I)  = MAX(ALPHAC(I)*EPS_EQ(I),KAPDC(I))
             EPS_INEL(I) = KAPDC1(I) + OMEGAC(I)*KAPDC2(I)
             OMEGAC(I) = ONE - EXP(-(EPS_INEL(I)/EFC))
@@ -835,7 +835,7 @@ c
           ! Apply damage on stress computation
           !  -> Standard model with two damage variables
           IF (DFLAG == 1) THEN 
-            DMG(I) = MIN(MAX(OMEGAT(I),OMEGAC(I)),ONE)
+            DMG(I) = MIN(MIN(OMEGAT(I),OMEGAC(I)),ONE)
             ! Tensile stress tensor
             SIGTXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*SIGPT(I,1)
      .                + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SIGPT(I,2)
@@ -903,7 +903,13 @@ c
 c
           ! Element deletion check    
           IF ((DMG(I) == ONE).AND.(LOFF(I) == ONE).AND.(OFF(I) > ZERO)) THEN 
-            LOFF(I) = ZERO
+            SIGNXX(I) = ZERO
+            SIGNYY(I) = ZERO
+            SIGNZZ(I) = ZERO
+            SIGNXY(I) = ZERO
+            SIGNYZ(I) = ZERO
+            SIGNZX(I) = ZERO  
+            LOFF(I) = FOUR_OVER_5       
             UELR(I) = UELR(I) + ONE
             IF (NINT(UELR(I)) == FAILIP)THEN 
               NINDX3 = NINDX3 + 1
