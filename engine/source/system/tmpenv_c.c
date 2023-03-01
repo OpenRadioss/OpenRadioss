@@ -40,7 +40,9 @@
 #else
     
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
+#include <dirent.h>
 
 #define my_getpid getpid()
 
@@ -61,9 +63,21 @@ char* tmpenv_c(){
 //   ----------------------------------------------------------------------------
   char * tmpdir;
   int sz_tmpdir;
+  DWORD fileattr;
   
   tmpdir=(char *)malloc(sizeof(char)*2048);
   sz_tmpdir = GetEnvironmentVariable("TMPDIR",tmpdir,2048);
+
+  /* Check if TMPDIR is a directory */
+  if (sz_tmpdir > 0){
+    fileattr = GetFileAttributesA(tmpdir);
+
+    // Local directory : if directory does not exist or it is not a directory
+    if ( fileattr == INVALID_FILE_ATTRIBUTES || !(fileattr & FILE_ATTRIBUTE_DIRECTORY) ){  
+      sz_tmpdir = 0;
+    }
+  }
+
   /* second trial get current working directory */
   if (sz_tmpdir == 0){
       
@@ -86,8 +100,20 @@ char* tmpenv_c(){
 char* tmpenv_c(){
 
   char * tmpdir;
+  DIR* directory;
+
   tmpdir =  getenv("TMPDIR");
   
+  if (tmpdir != NULL){
+     directory = opendir(tmpdir);   // check if directory exists 
+
+     if (directory == NULL){
+       tmpdir=NULL;
+     }else{
+       closedir(directory);
+     }
+   }
+
   /* second trial get current working directory */  
   if (tmpdir==NULL){
     tmpdir = (char *)calloc(200,sizeof(char));
