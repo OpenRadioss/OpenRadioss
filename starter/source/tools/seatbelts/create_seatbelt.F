@@ -380,12 +380,6 @@ C
 C----------------------------------------------------------------------------
 C---  Loop on seatblet elements in longitudinal direction
 C----------------------------------------------------------------------------
-c
-      IF (COMPT_BELT_END == 0) THEN
-        CALL ANCMSG(MSGID=2099,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_1)
-      ENDIF
 C
       DO I=1,COMPT_BELT_END
 C
@@ -414,6 +408,12 @@ C--                 Loop on belt elements
                     CALL NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,NOD_START,
      .                                ELEM_CUR,TAG_RES,TAG_NOD,SEATBELT_ID,FLAG,
      .                                NNOD,IPM)
+C 
+                    NDIR = NDIR + 1
+                    IF(NDIR > 2) CALL ANCMSG(MSGID=2005,
+     .                                       MSGTYPE=MSGERROR,
+     .                                       ANMODE=ANINFO,
+     .                                       I1=ITAB(NOD_START))
                   ENDIF
                 ENDIF
               ENDIF
