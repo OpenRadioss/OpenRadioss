@@ -71,13 +71,15 @@ C-----------------------------------------------
      .        FLAG,NNOD,MTYP,MID,NDIR,
      .        I1,I2,IADBUF,TAG_PRINT,ISENS_LOC(2),IPID,OFFC,OFFR,NB_ELEM,NODE,
      .        NB_2D_SEATBELT,COMPT_BELT_END,COMPT_FRAM,NEXT_NODE,NODE_CUR,COMPT_2D,MID_2D,NODE_LONGI,
-     .        IADBUF_2D,FUNC1,FUNC2,ISK,N1,N2,SEATBELT_ELEM_FOUND,IMOV,IECROU
+     .        IADBUF_2D,FUNC1,FUNC2,ISK,N1,N2,SEATBELT_ELEM_FOUND,IMOV,IECROU,NB_ELEM_1D,NB_BRANCH,
+     .        BRANCH_CPT
       my_real DIST2,LMIN,RHO,XK,XC,AREA,LONGI_DIRECTION(3),EDGE_DIRECTION(3),SCAL,E11,E22,G12,DET,
      .        N12,N21,NU,FSCALE1,FSCALE2,A11,A22,A12,C1,SSP,RHO0,YOUNG,FSCALET,KMAX,A1C,A2C
 C
       INTEGER , DIMENSION(:), ALLOCATABLE:: TAG_RES,TAG_SHELL,TAG_NOD,CC_ELEM,CPT_MAT,TAG_MAT_2D,
      .                                      TAG_NOD_SHELL,TAG_NOD_SPRING,FRAM_TAB,TAG_FRAM_SEATBELT,
-     .                                      NNOD_FRAM_SEATBELT,BELT_END_NFRAM,BELT_END_ADDR,TAG_PROP_2D
+     .                                      NNOD_FRAM_SEATBELT,BELT_END_NFRAM,BELT_END_ADDR,TAG_PROP_2D,
+     .                                      BRANCH_TAB
       my_real , DIMENSION(:), ALLOCATABLE:: AV_LEN_MAT,AV_AREA_MAT,ELEMSIZE_MAT,BELT_END_SECTION,
      .                                      SECTION_MAT
 C-----------------------------------------------
@@ -158,6 +160,7 @@ C-        tag of prop type 9 to -2 for error message if conflict with non seatbe
         ENDIF
       ENDDO
 C
+      NB_ELEM_1D = 0
       MY_ALLOCATE(TAG_NOD_SPRING,NUMNOD)
       TAG_NOD_SPRING(1:NUMNOD) = 0
       DO I=1,NUMELR
@@ -165,6 +168,7 @@ C
         IF (MID > 0) THEN
           MTYP = IPM(2,MID)
           IF (MTYP == 114) THEN
+            NB_ELEM_1D = NB_ELEM_1D + 1
             DO J=2,3
               TAG_NOD_SPRING(IXR(J,I)) = TAG_NOD_SPRING(IXR(J,I)) + 1
             ENDDO
@@ -381,6 +385,14 @@ C----------------------------------------------------------------------------
 C---  Loop on seatblet elements in longitudinal direction
 C----------------------------------------------------------------------------
 C
+      IF (COMPT_BELT_END == 0) THEN
+        CALL ANCMSG(MSGID=2099,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1)
+      ENDIF
+C
+      MY_ALLOCATE(BRANCH_TAB,2*NB_ELEM_1D)
+C
       DO I=1,COMPT_BELT_END
 C
 C--     Check of nodes
@@ -405,15 +417,24 @@ C
                   MTYP = IPM(2,MID)
                   IF (MTYP == 114) THEN
 C--                 Loop on belt elements
+                    NB_BRANCH = 0
+                    BRANCH_CPT = 0
                     CALL NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,NOD_START,
-     .                                ELEM_CUR,TAG_RES,TAG_NOD,SEATBELT_ID,FLAG,
-     .                                NNOD,IPM)
-C 
-                    NDIR = NDIR + 1
-                    IF(NDIR > 2) CALL ANCMSG(MSGID=2005,
-     .                                       MSGTYPE=MSGERROR,
-     .                                       ANMODE=ANINFO,
-     .                                       I1=ITAB(NOD_START))
+     .                                  ELEM_CUR,TAG_RES,TAG_NOD,SEATBELT_ID,FLAG,
+     .                                  NNOD,IPM,NB_ELEM_1D,NB_BRANCH,BRANCH_TAB,
+     .                                  BRANCH_CPT)
+
+C--                 Loop on subranch (only if no sliprings and no retractors)
+                    DO WHILE(NB_BRANCH > 0)
+                      NOD_START = BRANCH_TAB(2*(BRANCH_CPT-NB_BRANCH)+1) 
+                      ELEM_CUR = BRANCH_TAB(2*(BRANCH_CPT-NB_BRANCH)+2) 
+                      NB_BRANCH = NB_BRANCH -1
+                      CALL NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,NOD_START,
+     .                                  ELEM_CUR,TAG_RES,TAG_NOD,SEATBELT_ID,FLAG,
+     .                                  NNOD,IPM,NB_ELEM_1D,NB_BRANCH,BRANCH_TAB,
+     .                                  BRANCH_CPT)
+                    ENDDO
+C
                   ENDIF
                 ENDIF
               ENDIF
@@ -440,6 +461,8 @@ C
         ENDIF
 C
       ENDDO
+C
+      DEALLOCATE(BRANCH_TAB)
 C
 C----------------------------------------------------------------------------
 C---  Filling of seatbelt structure

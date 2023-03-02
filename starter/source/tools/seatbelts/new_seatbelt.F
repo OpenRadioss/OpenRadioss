@@ -32,7 +32,8 @@ Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.
 Chd|====================================================================
       SUBROUTINE NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,NOD_START,
      .                        ELEM_CUR,TAG_RES,TAG_NOD,ID,FLAG,
-     .                        NNOD,IPM)
+     .                        NNOD,IPM,NB_ELEM_1D,NB_BRANCH,BRANCH_TAB,
+     .                        BRANCH_CPT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,6 +58,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXR(NIXR,*),ITAB(*),KNOD2EL1D(*),NOD2EL1D(*),NOD_START,TAG_RES(*),TAG_NOD(*),
      .        ELEM_CUR,ID,FLAG,NNOD,IPM(NPROPMI,*)
+      INTEGER, INTENT(IN)    :: NB_ELEM_1D
+      INTEGER, INTENT(INOUT) :: NB_BRANCH,BRANCH_TAB(2*NB_ELEM_1D),BRANCH_CPT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,13 +96,27 @@ C
               IF ((MTYP == 114).AND.(TAG_RES(ELEM_TEST) == 0)) THEN
                 NRES_FOUND = NRES_FOUND + 1
                 IF(NRES_FOUND > 1) THEN
-                  CALL ANCMSG(MSGID=2005,
+                  IF (NSLIPRING+NRETRACTOR > 0) THEN
+C--                 in case of sliprings and retractors bifurcation is not allowded
+                    CALL ANCMSG(MSGID=2005,
      .                         MSGTYPE=MSGERROR,
      .                         ANMODE=ANINFO,
      .                         I1=ITAB(NODE_NEXT))
-                  NRES_FOUND = 0
+                    NRES_FOUND = 0
+                  ELSE
+C--                 start of the secondary branch is saved
+                    NB_BRANCH = NB_BRANCH + 1
+                    BRANCH_CPT = BRANCH_CPT + 1
+                    CALL ANCMSG(MSGID=2098,
+     .                          MSGTYPE=MSGWARNING,
+     .                          ANMODE=ANINFO,
+     .                          I1=ITAB(NODE_NEXT))
+                    BRANCH_TAB(2*(BRANCH_CPT-1)+1) = NODE_NEXT
+                    BRANCH_TAB(2*(BRANCH_CPT-1)+2) = ELEM_TEST
+                  ENDIF
+                ELSE
+                  ELEM_NEXT = ELEM_TEST
                 ENDIF
-                ELEM_NEXT = ELEM_TEST
               ENDIF
             ENDIF
           ENDIF

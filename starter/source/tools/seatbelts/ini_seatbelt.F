@@ -201,7 +201,8 @@ C
 C--             Loop on belt inside the retractor
                 CALL NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,N1,
      .                            ELEM_CUR,TAG_RETRACTOR,TAGN_RETRACTOR,I,FLAG,
-     .                            NOT_USED,IPM)
+     .                            NOT_USED,IPM,NOT_USED,NOT_USED,NOT_USED,
+     .                            NOT_USED)
               ENDIF
             ENDIF
           ENDIF
