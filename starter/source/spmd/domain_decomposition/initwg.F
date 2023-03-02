@@ -34,7 +34,6 @@ Chd|        INITWG_SHELL                  source/spmd/domain_decomposition/initw
 Chd|        INITWG_SOLID                  source/spmd/domain_decomposition/initwg_solid.F
 Chd|        INITWG_TRI                    source/spmd/domain_decomposition/initwg_tri.F
 Chd|        INITWG_TRUSS                  source/spmd/domain_decomposition/initwg_truss.F
-Chd|        INITWG_UR                     source/spmd/domain_decomposition/initwg_ur.F
 Chd|        INITWG_X                      source/spmd/domain_decomposition/initwg_x.F
 Chd|        INIT_MID_PID_ARRAY            source/spmd/tools/init_mid_pid_array.F
 Chd|        DDWEIGHTS_MOD                 share/modules1/ddweights_mod.F
