@@ -153,7 +153,6 @@ C-----------
       ELSE
 c
         IF (IFORM == 1) THEN    ! analytical Drucker-Prager formulation
-          print*, 'dp '
           CALL SIGEPS120_CONNECT_DP(
      1     NEL     ,NGL     ,TIME    ,TIMESTEP,UPARAM  ,OFF     ,
      2     EPSD    ,STIFM   ,THICK   ,
@@ -162,7 +161,6 @@ c
      5     PLA     ,JSMS    ,DMELS   ,UVAR    ,NUVAR   )
 
         ELSE                     ! analytical Von-Mises formulation
-           print*, 'vm '
          CALL SIGEPS120_CONNECT_VM(
      1     NEL     ,NGL     ,TIME    ,TIMESTEP,UPARAM  ,OFF     ,
      2     EPSD    ,STIFM   ,THICK,
