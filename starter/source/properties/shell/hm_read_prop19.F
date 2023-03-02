@@ -102,8 +102,7 @@ C-------------------------------------------------
 !     Line 2
       CALL HM_GET_INTV('table', DRAPE_ID, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('def_orth', IGEO(49), IS_AVAILABLE, LSUBMODEL)
-
-    
+      
       IF (IGEO(4) <= 0) IGEO(4) = 1   ! default value
       IF (GEO(212) == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('orientangle2',FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -125,7 +124,7 @@ C-------------------------------------------------
 !     Check for layer materials compatibility moved to "lecgeo"
 !     *********************************************************    !
       LFOUND = .FALSE.
-      DO J=1,NUMMAT
+      DO J=1,NUMMAT-1
          IF (IPM(1,J) == IMID) THEN
             IGEO(101) = J
             LFOUND = .TRUE.
