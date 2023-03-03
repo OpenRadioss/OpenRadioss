@@ -237,10 +237,6 @@ C-----------------------------------------------
           !scaled distance                                                                                                                                                                            
           Z     = DNORM / W13    !in abac unit ID  g,cm,mus                                                                                                                                           
                                                                                                                                                                                                       
-          !DO KK=1,400                                                                                                                                                                                
-          !  Z=KK                                                                                                                                                                                     
-          !  W13=750000.d00**(THIRD)                                                                                                                                                                  
-                                                                                                                                                                                                      
           !finding index for TM5-1300 abacuses from bijection.                                                                                                                                        
           IF(Z>0.5 .and. Z<400.) then                                                                                                                                                                 
             Phi_DB = LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN                                                                                                                                               
@@ -271,110 +267,70 @@ C-----------------------------------------------
           ENDIF                                                                                                                                                                                       
 
           !Angle from detonation point                                                                                                                                                                
-          cos_theta = Dx*Nx + Dy*Ny + Dz*Nz                                                                                                                                                           
-          cos_theta = cos_theta/MAX(EM20,NORM*DNORM)                                                                                                                                                  
-                                                                                                                                                                                                      
-          IF(  ABAC_ID==1 ) THEN                                                                                                                                                                      
+          cos_theta = Dx*Nx + Dy*Ny + Dz*Nz                                                                                                                                                          
+          cos_theta = cos_theta/MAX(EM20,NORM*DNORM)                                                                                                                                                              
           !=== SPHERICAL CHARGE IN FREE FIELD ===!                                                                                                                                                    
                                                                                                                                                                                                       
-            !Incident upper Pressure (TM5-1300)                                                                                                                                                       
-            bound1 = PBLAST_DATA%Pso(Phi_I)                                                                                                                                                           
-            bound2 = PBLAST_DATA%Pso(Phi_I+1)                                                                                                                                                         
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            P_inci = exp(LogRes*log10_)                                                                                                                                                               
-
-            !Incident Lower Pressure (TM5-1300)                                                                                                                                                       
-            bound1 = PBLAST_DATA%Pso_(Phi_I)                                                                                                                                                          
-            bound2 = PBLAST_DATA%Pso_(Phi_I+1)                                                                                                                                                        
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            P_inci_ = exp(LogRes*log10_)                                                                                                                                                              
-                                                                                                                                                                                                      
-            !Incident upper Impulse (TM5-1300)                                                                                                                                                        
-            bound1 = PBLAST_DATA%Iso(Phi_I)                                                                                                                                                           
-            bound2 = PBLAST_DATA%Iso(Phi_I+1)                                                                                                                                                         
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            I_inci = exp(LogRes*log10_)                                                                                                                                                               
-
-            !Incident lower Impulse (TM5-1300)                                                                                                                                                        
-            bound1 = PBLAST_DATA%Iso_(Phi_I)                                                                                                                                                          
-            bound2 = PBLAST_DATA%Iso_(Phi_I+1)                                                                                                                                                        
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            I_inci_ = exp(LogRes*log10_)                                                                                                                                                              
-                                                                                                                                                                                                      
-            !Reflected upper Pressure (TM5-1300)                                                                                                                                                      
-            bound1 = PBLAST_DATA%Pr(Phi_I)                                                                                                                                                            
-            bound2 = PBLAST_DATA%Pr(Phi_I+1)                                                                                                                                                          
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            P_refl = exp(LogRes*log10_)                                                                                                                                                               
-                                                                                                                                                                                                      
-            !Reflected lower Pressure (TM5-1300)                                                                                                                                                      
-            bound1 = PBLAST_DATA%Pr_(Phi_I)                                                                                                                                                           
-            bound2 = PBLAST_DATA%Pr_(Phi_I+1)                                                                                                                                                         
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            P_refl_ = exp(LogRes*log10_)                                                                                                                                                              
-
-            !Reflected upper Impulse (TM5-1300)                                                                                                                                                       
-            bound1 = PBLAST_DATA%Irefl(Phi_I)                                                                                                                                                         
-            bound2 = PBLAST_DATA%Irefl(Phi_I+1)                                                                                                                                                       
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            I_refl = exp(LogRes*log10_)                                                                                                                                                               
-
-            !Reflected lower Impulse (TM5-1300)                                                                                                                                                       
-            bound1 = PBLAST_DATA%Irefl_(Phi_I)                                                                                                                                                        
-            bound2 = PBLAST_DATA%Irefl_(Phi_I+1)                                                                                                                                                      
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            I_refl_ = exp(LogRes*log10_)                                                                                                                                                              
-                                                                                                                                                                                                      
-            !first time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                     
-            bound1 = PBLAST_DATA%t0(Phi_I)                                                                                                                                                            
-            bound2 = PBLAST_DATA%t0(Phi_I+1)                                                                                                                                                          
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            DT_0 = exp(LogRes*log10_)                                                                                                                                                                 
-
-            !second time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                    
-            bound1 = PBLAST_DATA%t0_(Phi_I)                                                                                                                                                           
-            bound2 = PBLAST_DATA%t0_(Phi_I+1)                                                                                                                                                         
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            DT_0_ = exp(LogRes*log10_)                                                                                                                                                                
-                                                                                                                                                                                                      
-            !Time Arrival (TM5-1300)                                                                                                                                                                  
-            bound1 = PBLAST_DATA%ta(Phi_I)                                                                                                                                                            
-            bound2 = PBLAST_DATA%ta(Phi_I+1)                                                                                                                                                          
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            T_A = exp(LogRes*log10_)                                                                                                                                                                  
-                                                                                                                                                                                                      
-          ELSEIF( ABAC_ID==2 ) THEN                                                                                                                                                                   
-          !=== HEMISPHERICAL CHARGE WITH GROUND REFLECTION ===!                                                                                                                                       
-            !Incident Pressure (TM5-1300)                                                                                                                                                             
-            bound1 = PBLAST_DATA%Pso_g(Phi_I)                                                                                                                                                         
-            bound2 = PBLAST_DATA%Pso_g(Phi_I+1)                                                                                                                                                       
-            P_inci = bound1 + LAMBDA*(bound2-bound1)                                                                                                                                                  
-                                                                                                                                                                                                      
-            !Incident Impulse (TM5-1300)                                                                                                                                                              
-            bound1 = PBLAST_DATA%Iso_g(Phi_I)                                                                                                                                                         
-            bound2 = PBLAST_DATA%Iso_g(Phi_I+1)                                                                                                                                                       
-            I_inci = bound1 + LAMBDA*(bound2-bound1)                                                                                                                                                  
-                                                                                                                                                                                                      
-            !Reflected Pressure (TM5-1300)                                                                                                                                                            
-            bound1 = PBLAST_DATA%Pr_g(Phi_I)                                                                                                                                                          
-            bound2 = PBLAST_DATA%Pr_g(Phi_I+1)                                                                                                                                                        
-            P_refl = bound1 + LAMBDA*(bound2-bound1)                                                                                                                                                  
-                                                                                                                                                                                                      
-            !Reflected Impulse (TM5-1300)                                                                                                                                                             
-            bound1 = PBLAST_DATA%Ir_g(Phi_I)                                                                                                                                                          
-            bound2 = PBLAST_DATA%Ir_g(Phi_I+1)                                                                                                                                                        
-            I_refl = bound1 + LAMBDA*(bound2-bound1)                                                                                                                                                  
-                                                                                                                                                                                                      
-            !first time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                     
-            bound1 = PBLAST_DATA%t0_g(Phi_I)                                                                                                                                                          
-            bound2 = PBLAST_DATA%t0_g(Phi_I+1)                                                                                                                                                        
-            DT_0 = bound1 + LAMBDA*(bound2-bound1)                                                                                                                                                    
-                                                                                                                                                                                                      
-            !Time Arrival (TM5-1300)                                                                                                                                                                  
-            bound1 = PBLAST_DATA%ta_g(Phi_I)                                                                                                                                                          
-            bound2 = PBLAST_DATA%ta_g(Phi_I+1)                                                                                                                                                        
-            T_A = bound1 + LAMBDA*(bound2-bound1)                                                                                                                                                     
-          ENDIF                                                                                                                                                                                       
+          !Incident upper Pressure (TM5-1300)                                                                                                                                                       
+          bound1 = PBLAST_DATA%Pso(Phi_I)                                                                                                                                                           
+          bound2 = PBLAST_DATA%Pso(Phi_I+1)                                                                                                                                                         
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+          P_inci = exp(LogRes*log10_)                                                                                                                                                              
+          !Incident Lower Pressure (TM5-1300)                                                                                                                                                       
+          bound1 = PBLAST_DATA%Pso_(Phi_I)                                                                                                                                                          
+          bound2 = PBLAST_DATA%Pso_(Phi_I+1)                                                                                                                                                        
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+          P_inci_ = exp(LogRes*log10_)                                                                                                                                                              
+                                                                                                                                                                                                    
+          !Incident upper Impulse (TM5-1300)                                                                                                                                                        
+          bound1 = PBLAST_DATA%Iso(Phi_I)                                                                                                                                                           
+          bound2 = PBLAST_DATA%Iso(Phi_I+1)                                                                                                                                                         
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+          I_inci = exp(LogRes*log10_)                                                                                                                                                              
+          !Incident lower Impulse (TM5-1300)                                                                                                                                                        
+          bound1 = PBLAST_DATA%Iso_(Phi_I)                                                                                                                                                          
+          bound2 = PBLAST_DATA%Iso_(Phi_I+1)                                                                                                                                                        
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+          I_inci_ = exp(LogRes*log10_)                                                                                                                                                              
+                                                                                                                                                                                                    
+          !Reflected upper Pressure (TM5-1300)                                                                                                                                                      
+          bound1 = PBLAST_DATA%Pr(Phi_I)                                                                                                                                                            
+          bound2 = PBLAST_DATA%Pr(Phi_I+1)                                                                                                                                                          
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+          P_refl = exp(LogRes*log10_)                                                                                                                                                               
+                                                                                                                                                                                                    
+          !Reflected lower Pressure (TM5-1300)                                                                                                                                                      
+          bound1 = PBLAST_DATA%Pr_(Phi_I)                                                                                                                                                           
+          bound2 = PBLAST_DATA%Pr_(Phi_I+1)                                                                                                                                                         
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+          P_refl_ = exp(LogRes*log10_)                                                                                                                                                             
+          !Reflected upper Impulse (TM5-1300)                                                                                                                                                       
+          bound1 = PBLAST_DATA%Irefl(Phi_I)                                                                                                                                                         
+          bound2 = PBLAST_DATA%Irefl(Phi_I+1)                                                                                                                                                       
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+          I_refl = exp(LogRes*log10_)                                                                                                                                                              
+          !Reflected lower Impulse (TM5-1300)                                                                                                                                                       
+          bound1 = PBLAST_DATA%Irefl_(Phi_I)                                                                                                                                                        
+          bound2 = PBLAST_DATA%Irefl_(Phi_I+1)                                                                                                                                                      
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+          I_refl_ = exp(LogRes*log10_)                                                                                                                                                              
+                                                                                                                                                                                                    
+          !first time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                     
+          bound1 = PBLAST_DATA%t0(Phi_I)                                                                                                                                                            
+          bound2 = PBLAST_DATA%t0(Phi_I+1)                                                                                                                                                          
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+          DT_0 = exp(LogRes*log10_)                                                                                                                                                                
+          !second time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                    
+          bound1 = PBLAST_DATA%t0_(Phi_I)                                                                                                                                                           
+          bound2 = PBLAST_DATA%t0_(Phi_I+1)                                                                                                                                                         
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+          DT_0_ = exp(LogRes*log10_)                                                                                                                                                                
+                                                                                                                                                                                                    
+          !Time Arrival (TM5-1300)                                                                                                                                                                  
+          bound1 = PBLAST_DATA%ta(Phi_I)                                                                                                                                                            
+          bound2 = PBLAST_DATA%ta(Phi_I+1)                                                                                                                                                          
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+          T_A = exp(LogRes*log10_)                                                                                                                                                                                      
                                                                                                                                                                                                       
           !switch from normalized values.      ( Pressure are not scaled by W13 in tables )                                                                                                           
           I_inci  = I_inci * W13                                                                                                                                                                      
@@ -477,17 +433,17 @@ C-----------------------------------------------
           T_A    = T_A + TDET                                                                                                                                                                         
                                                                                                                                                                                                       
           !update wave parameters                                                                                                                                                                     
-          PBLAST_TAB(IL)%cos_theta(I) = cos_theta                                                                                                                                                     
-          PBLAST_TAB(IL)%P_inci(I) = P_inci                                                                                                                                                           
-          PBLAST_TAB(IL)%P_refl(I) = P_refl                                                                                                                                                           
-          PBLAST_TAB(IL)%ta(I) = T_A                                                                                                                                                                  
-          PBLAST_TAB(IL)%t0(I) = DT_0                                                                                                                                                                 
-          PBLAST_TAB(IL)%decay_inci(I) = decay_inci                                                                                                                                                   
-          PBLAST_TAB(IL)%decay_refl(I) = decay_refl                                                                                                                                                   
+          PBLAST_TAB(IL)%cos_theta(I) = cos_theta
+          PBLAST_TAB(IL)%P_inci(I) = P_inci
+          PBLAST_TAB(IL)%P_refl(I) = P_refl
+          PBLAST_TAB(IL)%ta(I) = T_A                                                                                                                                                                 
+          PBLAST_TAB(IL)%t0(I) = DT_0
+          PBLAST_TAB(IL)%decay_inci(I) = decay_inci
+          PBLAST_TAB(IL)%decay_refl(I) = decay_refl
                                                                                                                                                                                                       
         ELSE! => IZ_UPDATE=0                                                                                                                                                                                        
                                                                                                                                                                                                       
-          !update wave parameters (Starter)
+          !use wave parameters from Starter
           Z=ZERO                                                                                                                                                                                      
           cos_theta = PBLAST_TAB(IL)%cos_theta(I)                                                                                                                                                     
           P_inci = PBLAST_TAB(IL)%P_inci(I)                                                                                                                                                           
@@ -497,8 +453,7 @@ C-----------------------------------------------
           decay_inci = PBLAST_TAB(IL)%decay_inci(I)                                                                                                                                                   
           decay_refl = PBLAST_TAB(IL)%decay_refl(I)                                                                                                                                                   
 
-        ENDIF !IF(IZ_UPDATE==1)                                                                                                                                                                       
-                                                                                                                                                                                                      
+        ENDIF !IF(IZ_UPDATE==1)
 
         T0INF_LOC = MIN(T0INF_LOC,DT_0)                                                                                                                                                             
                                                                                                                                                                                                       

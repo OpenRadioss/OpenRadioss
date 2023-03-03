@@ -131,7 +131,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IS,IPRE, MY_ID, MY_LOAD,J,K0,NSMAX,NS,LPRELOADTAB,
      .        IDS(NSPHIO),IDX(NSPHIO),II,MY_SPHIO,LVAD(NSPHIO),
-     .        IADSPHIO_1,IADSPHIO_2
+     .        IADSPHIO_1,IADSPHIO_2,FIRST,LAST
       CHARACTER *nchartitle TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
@@ -180,7 +180,7 @@ C
         END DO ! MY_LOAD=1,NLOADC
       END IF
 C-----------------------------------------------
-C     /LOAD/PFLUID
+C     /LOAD/PFLUID & /LOAD/PBLAST
 C-----------------------------------------------
       OK_QA = MYQAKEY('/LOAD/PFLUID') .OR. MYQAKEY('/LOAD/PBLAST')
       IF (OK_QA) THEN
@@ -202,14 +202,7 @@ C             VARNAME: variable name in ref.extract (without blanks)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ILOADP(I,MY_LOAD),0.0_8)
             END IF
           END DO
-C
-          DO I=ILOADP(4,MY_LOAD),ILOADP(4,MY_LOAD)+ILOADP(1,MY_LOAD)-1
-C
-C           VARNAME: variable name in ref.extract (without blanks)
-            WRITE(VARNAME,'(A,I0)') 'LLOADP_',I      ! LLOADP(11) => 'LLOADP_11'
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LLOADP(I),0.0_8)
-          END DO
-C
+
           DO I=1,LFACLOAD
             IF(LOADP(I,MY_LOAD)/=ZERO)THEN
 C
@@ -219,6 +212,41 @@ C             VARNAME: variable name in ref.extract (without blanks)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
             END IF
           END DO
+ 
+          FIRST=ILOADP(4,MY_LOAD)
+          LAST=ILOADP(4,MY_LOAD)+ILOADP(1,MY_LOAD)-1
+          
+          IF(LAST-FIRST+1 <= 10 )THEN            
+            !display all segments
+            DO I=FIRST,LAST
+C             VARNAME: variable name in ref.extract (without blanks)
+              WRITE(VARNAME,'(A,I0)') 'LLOADP_',I      ! LLOADP(11) => 'LLOADP_11'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LLOADP(I),0.0_8)
+            END DO
+          ELSE
+            !display only 5 first ones and 5 last ones
+            !first 5 segments
+            FIRST=ILOADP(4,MY_LOAD)
+            LAST=FIRST+5
+            DO I=FIRST,LAST
+C             VARNAME: variable name in ref.extract (without blanks)
+              WRITE(VARNAME,'(A,I0)') 'LLOADP_',I      ! LLOADP(11) => 'LLOADP_11'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LLOADP(I),0.0_8)
+            END DO  
+            !suspension points '...'
+            CALL QAPRINT('...',0,0.0_8)
+            !last 5 segments
+            LAST=ILOADP(4,MY_LOAD)+ILOADP(1,MY_LOAD)-1
+            FIRST=LAST-5
+            DO I=FIRST,LAST
+C             VARNAME: variable name in ref.extract (without blanks)
+              WRITE(VARNAME,'(A,I0)') 'LLOADP_',I      ! LLOADP(11) => 'LLOADP_11'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LLOADP(I),0.0_8)
+            END DO              
+            
+            
+                    
+          ENDIF
 C
         END DO ! MY_LOAD=1,NLOADP_F
       END IF

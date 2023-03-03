@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        PBLAST_MOD                    ../common_source/modules/pblast_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_PREREAD_PBLAST(NUMLOADP , IGRNOD ,IGRSURF, LSUBMODEL)
+      SUBROUTINE HM_PREREAD_PBLAST(NUMLOADP , IGRSURF, LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,27 +62,23 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(INOUT) :: NUMLOADP
 C-----------------------------------------------
-      TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER               :: I, ID, IGU, IGS, NN, UID
-      INTEGER               :: FLAG_FMT_TMP, IFIX_TMP, ISU, IS, J, IERR1
-      CHARACTER             :: TITR*nchartitle, KEY2*ncharkey
-!
+      INTEGER :: I, ID, ISU, IS, IERR1
+      CHARACTER :: TITR*nchartitle
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER  NGR2USR
-      EXTERNAL NGR2USR
+      INTEGER,EXTERNAL ::  NGR2USR
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IERR1      = 0
+      IERR1 = 0
 
       CALL HM_OPTION_START('/LOAD/PBLAST')
 
