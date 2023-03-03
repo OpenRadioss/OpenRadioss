@@ -76,11 +76,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N1, ISK, N2, N3, N4,IL,IS,
      .        IERR,ICODE,IAD,I,
-     .        IANIM,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
+     .        IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
      .        Phi_I, ID, ITA_SHIFT,
      .        NITER,ITER,IMODEL,NN(4)
      
-      my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz
+      my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz,NNx,NNy,NNz,Hz
       
       my_real
      .   AA, A0, VV, DYDX, TS, LAMBDA,
@@ -103,7 +103,7 @@ C-----------------------------------------------
       
       my_real :: LogRes
       
-      my_real :: cst_255_div_ln_Z1_on_ZN,  log10_, NPT
+      my_real :: cst_255_div_ln_Z1_on_ZN,  log10_, NPT, FF(3)
       
       integer, external :: OMP_GET_THREAD_NUM
       
@@ -124,8 +124,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   S o u r c e   C o d e
 C-----------------------------------------------
-      TFEXT_LOC = ZERO
-      IANIM = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT + ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT   !output
+      IANIM_OR_H3D = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT + ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT   !output
 
       !Index Bijection                                                                                  
       Z1_ = 0.500000000000000                                                                           
@@ -141,350 +140,307 @@ C-----------------------------------------------
       !-----------------------------------------------,                                                 
       !   FREE AIR BURST                                                                                
       !-----------------------------------------------                                                  
-      IL             = NL-NLOADP_F
-      TDET           = FAC(01,NL)
-      XDET           = FAC(02,NL)
-      YDET           = FAC(03,NL)
-      ZDET           = FAC(04,NL)
-      WTNT           = FAC(05,NL)
-      PMIN           = FAC(06,NL)
+      IL             = NL-NLOADP_F                                                                      
+      TDET           = FAC(01,NL)                                                                       
+      XDET           = FAC(02,NL)                                                                       
+      YDET           = FAC(03,NL)                                                                       
+      ZDET           = FAC(04,NL)                                                                       
+      WTNT           = FAC(05,NL)                                                                       
+      PMIN           = FAC(06,NL)                                                                       
       TA_SHIFT       = FAC(07,NL)
-      T_STOP         = FAC(13,NL)
-      P0             = ZERO
+      NNX            = FAC(08,NL)                                                                                                                                                                    
+      NNY            = FAC(09,NL)                                                                                                                                                                    
+      NNZ            = FAC(10,NL)         
+      T_STOP         = FAC(13,NL)      
+      P0             = ZERO                                                                             
       IS             = ILOADP(02,NL)                                                                    
-      IZ_UPDATE      = ILOADP(06,NL)
-      ABAC_ID        = ILOADP(07,NL)
-      ID             = ILOADP(08,NL) !user_id
-      ITA_SHIFT      = ILOADP(09,NL)
-      IMODEL         = ILOADP(11,NL)
-      ISIZ_SEG       = ILOADP(01,NL)/4
-      IERR1          = 0
-      W13            = (WTNT*FAC_M_bb)**THIRD   ! '*FAC_M'  g->work unit    '/FAC_M' : WORK_UNIT -> g
-      Z              = ZERO
-      TT_STAR = TT
-      IF(ITA_SHIFT==2)TT_STAR = TT + TA_SHIFT  !working unit
-      IF(TT<TDET)RETURN
+      IZ_UPDATE      = ILOADP(06,NL)                                                                    
+      ABAC_ID        = ILOADP(07,NL)                                                                    
+      ID             = ILOADP(08,NL) !user_id                                                           
+      ITA_SHIFT      = ILOADP(09,NL)                                                                    
+      IMODEL         = ILOADP(11,NL)                                                                    
+      ISIZ_SEG       = ILOADP(01,NL)/4                                                                  
+      IERR1          = 0                                                                                
+      W13            = (WTNT*FAC_M_bb)**THIRD   ! '*FAC_M'  g->work unit    '/FAC_M' : WORK_UNIT -> g   
+      Z              = ZERO                                                                             
+      TT_STAR = TT                                                                                      
+      IF(ITA_SHIFT==2)TT_STAR = TT + TA_SHIFT  !working unit  
+      IF(TT<TDET)RETURN  
          
       !---------------------------------------------                                                                                                                                                  
       !   LOOP ON SEGMENTS (4N or 3N)                                                                                                                                                                 
       !---------------------------------------------  
                                                                                                                                                  
 !$OMP DO SCHEDULE(GUIDED,MVSIZ)
-      DO I = 1,ISIZ_SEG
-        N1=LLOADP(ILOADP(4,NL)+4*(I-1))
-        N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)
-        N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
+      DO I = 1,ISIZ_SEG   
+        N1=LLOADP(ILOADP(4,NL)+4*(I-1))                                                                                                                                                               
+        N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)                                                                                                                                                             
+        N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)                                                                                                                                                             
         N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)
-
-        IF(N4==0 .OR. N3==N4 )THEN
-          !3 NODE SEGMENT 
-          PBLAST_TAB(IL)%NPt(I)   = THREE 
-          NPT = THREE                                                                                                                                                                          
-          !Segment Zentrum                                                                                                                                                                            
-          Zx = X(1,N1)+X(1,N2)+X(1,N3)
-          Zy = X(2,N1)+X(2,N2)+X(2,N3)
-          Zz = X(3,N1)+X(3,N2)+X(3,N3)
-          Zx = Zx*THIRD
-          Zy = Zy*THIRD
-          Zz = Zz*THIRD
-          NX = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
-          NY = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
-          NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
-          NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
-        ELSE 
-          !4 NODE SEGMENT
-          PBLAST_TAB(IL)%NPt(I)   = FOUR
-          NPT = FOUR
-          !Segment Zentrum 
-          Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)
-          Zy = X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4)
-          Zz = X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4)
-          Zx = Zx*FOURTH
-          Zy = Zy*FOURTH
-          Zz = Zz*FOURTH
-          !Normal
-          NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
-          NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
-          NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
-          NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
-        ENDIF 
         NN(1)=N1
         NN(2)=N2
         NN(3)=N3
-        NN(4)=N4 
-        PBLAST_TAB(IL)%N(1,I) = N1
-        PBLAST_TAB(IL)%N(2,I) = N2
-        PBLAST_TAB(IL)%N(3,I) = N3
-        PBLAST_TAB(IL)%N(4,I) = N4
-
-        !--------------------------------------------! 
-        !          Update Wave parameters            ! 
-        ! (experimental)                             ! 
-        ! If requested. Otherwise use Starter param. ! 
-        ! Default : do not update:use Starter param. ! 
-        !--------------------------------------------! 
-        IF(IZ_UPDATE==1)THEN
+        NN(4)=N4                                                                                                                                                                       
                                                                                                                                                                                                       
-          !Dist 
-          Dx    = (Xdet - Zx)*FAC_L_bb  ! => working unit to cm
-          Dy    = (Ydet - Zy)*FAC_L_bb  ! => ... to cm
-          Dz    = (Zdet - Zz)*FAC_L_bb  ! => ... to cm
-          DNORM = SQRT(Dx*Dx+Dy*Dy+Dz*Dz)
+        IF(N4==0 .OR. N3==N4 )THEN                                                                                                                                                                    
+          !3-NODE-SEGMENT                                                                                                                                                                            
+          PBLAST_TAB(IL)%NPt(I)   = THREE  
+          NPT = THREE                                                                                                                                                                          
+          !Segment Centroid                                                                                                                                                                            
+          Zx = X(1,N1)+X(1,N2)+X(1,N3)                                                                                                                                                                
+          Zy = X(2,N1)+X(2,N2)+X(2,N3)                                                                                                                                                                
+          Zz = X(3,N1)+X(3,N2)+X(3,N3)                                                                                                                                                                
+          Zx = Zx*THIRD                                                                                                                                                                               
+          Zy = Zy*THIRD                                                                                                                                                                               
+          Zz = Zz*THIRD  
+          !Normal vector : (NX,NY,NZ) = 2*S*n where |n|=1.0                                                                                                                                                                             
+          NX = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))                                                                                                              
+          NY = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))                                                                                                              
+          NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
+          !NORM = 2*S                                                                                                              
+          NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                                                                                                                                                              
+        ELSE                                                                                                                                                                                          
+          !4-NODE-SEGMENT                                                                                                                                                                            
+          PBLAST_TAB(IL)%NPt(I)   = FOUR  
+          NPT = FOUR                                                                                                                                                                           
+          !Face Centroid                                                                                                                                                                           
+          Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)                                                                                                                                                        
+          Zy = X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4)                                                                                                                                                        
+          Zz = X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4)                                                                                                                                                        
+          Zx = Zx*FOURTH                                                                                                                                                                              
+          Zy = Zy*FOURTH                                                                                                                                                                              
+          Zz = Zz*FOURTH                                                                                                                                                                              
+          !Normal vector (NX,NY,NZ) = 2*S*n where |n|=1.0
+          NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))                                                                                                              
+          NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))                                                                                                              
+          NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2)) 
+          !NORM = 2*S                                                                                                             
+          NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                                                                                                                                                              
+        ENDIF     
+                                                                                                                                                                                                          
+        PBLAST_TAB(IL)%N(1,I) = N1                                                                                                                                                                                   
+        PBLAST_TAB(IL)%N(2,I) = N2                                                                                                                                                                                   
+        PBLAST_TAB(IL)%N(3,I) = N3                                                                                                                                                                                   
+        PBLAST_TAB(IL)%N(4,I) = N4        
+        
+        !Determine Height of centroid (structure face)                                                                                                                                             
+        !  Basis = DETPOINT
+        !  NN is ground vector                                                                                                                              
+        HZ = ( NNX*Zx + NNY*Zy + NNZ*Zz  -  NNX*Xdet - NNY*Ydet - NNZ*Zdet )                                                                                                                                                                                    
 
-          !scaled distance
-          Z     = DNORM / W13    !in abac unit ID  g,cm,mus
-
-          !DO KK=1,400
-          !  Z=KK                                                                                                                                                                                     
-          !  W13=750000.d00**(THIRD)
-                                                                                                                                                                                                      
-          !finding index for TM5-1300 abacuses from bijection.
-          IF(Z>0.5 .and. Z<400.) then
-            Phi_DB = LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN
-            Phi_I  = 1 + INT(Phi_DB)
-            bound1 = PBLAST_DATA%RW3(Phi_I)
-            bound2 = PBLAST_DATA%RW3(Phi_I+1)
-            LAMBDA = (Z-bound1) / (bound2-bound1)
-          elseif(Z <= 0.5)then  
-            if (N4==0)then
-              write(*,FMT='(A,3I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
-            else
-              write(*,FMT='(A,4I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)                                                                     
-            endif 
-            LAMBDA = ZERO
-            Phi_I  = 1
-          elseif(Z > 400.)then
-            if (N4==0)then
-              write(*,FMT='(A,3I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
-            else
-              write(*,FMT='(A,4I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
-            endif
-            LAMBDA = ONE
-            Phi_I  = 255
-          ENDIF
-
-          !Angle from detonation point
-          cos_theta = Dx*Nx + Dy*Ny + Dz*Nz
-          cos_theta = cos_theta/MAX(EM20,NORM*DNORM)
-                                                                                                                                                                                                      
-          IF(  ABAC_ID==1 ) THEN
-          !=== SPHERICAL CHARGE IN FREE FIELD ===!                                                                                                                                                    
-                                                                                                                                                                                                      
+        !--------------------------------------------!                                                                                                                                                
+        !          Update Wave parameters            !                                                                                                                                                
+        ! (experimental)                             !                                                                                                                                                
+        ! If requested. Otherwise use Starter param. !                                                                                                                                                
+        ! Default : do not update:use Starter param. !                                                                                                                                                
+        !--------------------------------------------!                                                                                                                                                
+        IF(IZ_UPDATE==1)THEN                                                                                                                                                                          
+          
+          IF(HZ > ZERO)THEN
+                                                                                                                                                                                         
+            !Dist                                                                                                                                                                                       
+            Dx    = (Xdet - Zx)*FAC_L_bb  ! => working unit to cm                                                                                                                                       
+            Dy    = (Ydet - Zy)*FAC_L_bb  ! => ... to cm                                                                                                                                                
+            Dz    = (Zdet - Zz)*FAC_L_bb  ! => ... to cm                                                                                                                                                
+            DNORM = SQRT(Dx*Dx+Dy*Dy+Dz*Dz)                                                                                                                                                             
+  
+            !scaled distance                                                                                                                                                                            
+            Z     = DNORM / W13    !in abac unit ID  g,cm,mus                                                                                                                                           
+                                                                                                                                                                                                        
+            !finding index for TM5-1300 abacuses from bijection.                                                                                                                                        
+            IF(Z>0.5 .and. Z<400.) then                                                                                                                                                                 
+              Phi_DB = LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN                                                                                                                                               
+              Phi_I  = 1 + INT(Phi_DB)                                                                                                                                                                  
+              bound1 = PBLAST_DATA%RW3_Surf(Phi_I)                                                                                                                                                           
+              bound2 = PBLAST_DATA%RW3_Surf(Phi_I+1)                                                                                                                                                         
+              LAMBDA = (Z-bound1) / (bound2-bound1)                                                                                                                                                     
+            elseif(Z <= 0.5)then                                                                                                                                                                        
+              if (N4==0)then                                                                                                                                                                            
+                write(*,FMT='(A,3I11)')                                                                                                                                                                 
+     .           "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)                                                                              
+              else                                                                                                                                                                                      
+                write(*,FMT='(A,4I11)')                                                                                                                                                                 
+     .           "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)                                                                     
+              endif                                                                                                                                                                                     
+              LAMBDA = ZERO                                                                                                                                                                             
+              Phi_I  = 1                                                                                                                                                                                
+            elseif(Z > 400.)then                                                                                                                                                                        
+              if (N4==0)then                                                                                                                                                                            
+                write(*,FMT='(A,3I11)')                                                                                                                                                                 
+     .           "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)                                                                              
+              else                                                                                                                                                                                      
+                write(*,FMT='(A,4I11)')                                                                                                                                                                 
+     .           "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)                                                                     
+              endif                                                                                                                                                                                     
+              LAMBDA = ONE                                                                                                                                                                              
+              Phi_I  = 255                                                                                                                                                                              
+            ENDIF                                                                                                                                                                                       
+  
+            !Angle from detonation point                                                                                                                                                                
+            cos_theta = Dx*Nx + Dy*Ny + Dz*Nz                                                                                                                                                           
+            cos_theta = cos_theta/MAX(EM20,NORM*DNORM)                                                                                                                                                  
+                                                                                                                                                                                                        
+            !=== HEMISPHERICAL CHARGE WITH GROUND REFLECTION ===!                                                                                                                                       
+                                                                                                                                                
             !Incident upper Pressure (TM5-1300)                                                                                                                                                       
-            bound1 = PBLAST_DATA%Pso(Phi_I)                                                                                                                                                           
-            bound2 = PBLAST_DATA%Pso(Phi_I+1)                                                                                                                                                         
+            bound1 = PBLAST_DATA%Pso_Surf(Phi_I)                                                                                                                                                           
+            bound2 = PBLAST_DATA%Pso_Surf(Phi_I+1)                                                                                                                                                         
             LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
             P_inci = exp(LogRes*log10_)                                                                                                                                                               
-
-            !Incident Lower Pressure (TM5-1300)                                                                                                                                                       
-            bound1 = PBLAST_DATA%Pso_(Phi_I)                                                                                                                                                          
-            bound2 = PBLAST_DATA%Pso_(Phi_I+1)                                                                                                                                                        
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            P_inci_ = exp(LogRes*log10_)                                                                                                                                                              
-                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                
             !Incident upper Impulse (TM5-1300)                                                                                                                                                        
-            bound1 = PBLAST_DATA%Iso(Phi_I)                                                                                                                                                           
-            bound2 = PBLAST_DATA%Iso(Phi_I+1)                                                                                                                                                         
+            bound1 = PBLAST_DATA%Iso_Surf(Phi_I)                                                                                                                                                           
+            bound2 = PBLAST_DATA%Iso_Surf(Phi_I+1)                                                                                                                                                         
             LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
             I_inci = exp(LogRes*log10_)                                                                                                                                                               
-
-            !Incident lower Impulse (TM5-1300)                                                                                                                                                        
-            bound1 = PBLAST_DATA%Iso_(Phi_I)                                                                                                                                                          
-            bound2 = PBLAST_DATA%Iso_(Phi_I+1)                                                                                                                                                        
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            I_inci_ = exp(LogRes*log10_)                                                                                                                                                              
                                                                                                                                                                                                       
             !Reflected upper Pressure (TM5-1300)                                                                                                                                                      
-            bound1 = PBLAST_DATA%Pr(Phi_I)                                                                                                                                                            
-            bound2 = PBLAST_DATA%Pr(Phi_I+1)                                                                                                                                                          
+            bound1 = PBLAST_DATA%Pr_Surf(Phi_I)                                                                                                                                                            
+            bound2 = PBLAST_DATA%Pr_Surf(Phi_I+1)                                                                                                                                                          
             LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            P_refl = exp(LogRes*log10_)                                                                                                                                                               
-                                                                                                                                                                                                      
-            !Reflected lower Pressure (TM5-1300)                                                                                                                                                      
-            bound1 = PBLAST_DATA%Pr_(Phi_I)                                                                                                                                                           
-            bound2 = PBLAST_DATA%Pr_(Phi_I+1)                                                                                                                                                         
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            P_refl_ = exp(LogRes*log10_)                                                                                                                                                              
-
+            P_refl = exp(LogRes*log10_)                                                                                                                                                         
             !Reflected upper Impulse (TM5-1300)                                                                                                                                                       
-            bound1 = PBLAST_DATA%Irefl(Phi_I)                                                                                                                                                         
-            bound2 = PBLAST_DATA%Irefl(Phi_I+1)                                                                                                                                                       
+            bound1 = PBLAST_DATA%Ir_Surf(Phi_I)                                                                                                                                                         
+            bound2 = PBLAST_DATA%Ir_Surf(Phi_I+1)                                                                                                                                                       
             LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            I_refl = exp(LogRes*log10_)                                                                                                                                                               
-
-            !Reflected lower Impulse (TM5-1300)                                                                                                                                                       
-            bound1 = PBLAST_DATA%Irefl_(Phi_I)                                                                                                                                                        
-            bound2 = PBLAST_DATA%Irefl_(Phi_I+1)                                                                                                                                                      
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            I_refl_ = exp(LogRes*log10_)                                                                                                                                                              
+            I_refl = exp(LogRes*log10_)                                                                                                                                                           
                                                                                                                                                                                                       
             !first time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                     
-            bound1 = PBLAST_DATA%t0(Phi_I)                                                                                                                                                            
-            bound2 = PBLAST_DATA%t0(Phi_I+1)                                                                                                                                                          
+            bound1 = PBLAST_DATA%t0_Surf(Phi_I)                                                                                                                                                            
+            bound2 = PBLAST_DATA%t0_Surf(Phi_I+1)                                                                                                                                                          
             LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
             DT_0 = exp(LogRes*log10_)                                                                                                                                                                 
-
-            !second time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                    
-            bound1 = PBLAST_DATA%t0_(Phi_I)                                                                                                                                                           
-            bound2 = PBLAST_DATA%t0_(Phi_I+1)                                                                                                                                                         
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-            DT_0_ = exp(LogRes*log10_)                                                                                                                                                                
-                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                  
             !Time Arrival (TM5-1300)                                                                                                                                                                  
-            bound1 = PBLAST_DATA%ta(Phi_I)                                                                                                                                                            
-            bound2 = PBLAST_DATA%ta(Phi_I+1)                                                                                                                                                          
+            bound1 = PBLAST_DATA%ta_Surf(Phi_I)                                                                                                                                                            
+            bound2 = PBLAST_DATA%ta_Surf(Phi_I+1)                                                                                                                                                          
             LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
             T_A = exp(LogRes*log10_)                                                                                                                                                                  
-                                                                                                                                                                                                      
-          ELSEIF( ABAC_ID==2 ) THEN                                                                                                                                                                   
-          !=== HEMISPHERICAL CHARGE WITH GROUND REFLECTION ===!                                                                                                                                       
-            !Incident Pressure (TM5-1300)                                                                                                                                                             
-            bound1 = PBLAST_DATA%Pso_g(Phi_I)                                                                                                                                                         
-            bound2 = PBLAST_DATA%Pso_g(Phi_I+1)                                                                                                                                                       
-            P_inci = bound1 + LAMBDA*(bound2-bound1)                                                                                                                                                  
-                                                                                                                                                                                                      
-            !Incident Impulse (TM5-1300)                                                                                                                                                              
-            bound1 = PBLAST_DATA%Iso_g(Phi_I)                                                                                                                                                         
-            bound2 = PBLAST_DATA%Iso_g(Phi_I+1)                                                                                                                                                       
-            I_inci = bound1 + LAMBDA*(bound2-bound1)                                                                                                                                                  
-                                                                                                                                                                                                      
-            !Reflected Pressure (TM5-1300)                                                                                                                                                            
-            bound1 = PBLAST_DATA%Pr_g(Phi_I)                                                                                                                                                          
-            bound2 = PBLAST_DATA%Pr_g(Phi_I+1)                                                                                                                                                        
-            P_refl = bound1 + LAMBDA*(bound2-bound1)                                                                                                                                                  
-                                                                                                                                                                                                      
-            !Reflected Impulse (TM5-1300)                                                                                                                                                             
-            bound1 = PBLAST_DATA%Ir_g(Phi_I)                                                                                                                                                          
-            bound2 = PBLAST_DATA%Ir_g(Phi_I+1)                                                                                                                                                        
-            I_refl = bound1 + LAMBDA*(bound2-bound1)                                                                                                                                                  
-                                                                                                                                                                                                      
-            !first time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                     
-            bound1 = PBLAST_DATA%t0_g(Phi_I)                                                                                                                                                          
-            bound2 = PBLAST_DATA%t0_g(Phi_I+1)                                                                                                                                                        
-            DT_0 = bound1 + LAMBDA*(bound2-bound1)                                                                                                                                                    
-                                                                                                                                                                                                      
-            !Time Arrival (TM5-1300)                                                                                                                                                                  
-            bound1 = PBLAST_DATA%ta_g(Phi_I)                                                                                                                                                          
-            bound2 = PBLAST_DATA%ta_g(Phi_I+1)                                                                                                                                                        
-            T_A = bound1 + LAMBDA*(bound2-bound1)                                                                                                                                                     
-          ENDIF                                                                                                                                                                                       
-                                                                                                                                                                                                      
-          !switch from normalized values.      ( Pressure are not scaled by W13 in tables )                                                                                                           
-          I_inci  = I_inci * W13                                                                                                                                                                      
-          I_inci_ = I_inci_* W13                                                                                                                                                                      
-          I_refl  = I_refl * W13                                                                                                                                                                      
-          I_refl_ = I_refl_* W13                                                                                                                                                                      
-          DT_0    = DT_0   * W13                                                                                                                                                                      
-          DT_0_   = DT_0_  * W13                                                                                                                                                                      
-          T_A     = T_A    * W13                                                                                                                                                                      
-
-          !---DECAY                                                                                                                                                                                   
-          IF(TT_STAR>=T_A)THEN                                                                                                                                                                        
-                                                                                                                                                                                                      
-            IF(IMODEL == 1)THEN                                                                                                                                                                       
-              !-Friedlander                                                                                                                                                                           
-              DECAY_inci = ONE                                                                                                                                                                        
-              DECAY_refl = ONE                                                                                                                                                                        
-                                                                                                                                                                                                      
-            ELSEIF(IMODEL == 2) THEN                                                                                                                                                                  
-              !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(ONE-(1-exp(-b))/b)                                                                                                                         
-              !     g: b-> I_inci - P_inci*DT_0/b*(ONE-(1-exp(-b))/b)                                                                                                                                 
-              ! find b such as g(b)=0                                                                                                                                                                 
-              ! NEWTON ITERATIONS                                                                                                                                                                     
-              NITER=20                                                                                                                                                                                
-              TOL=EM06                                                                                                                                                                                
-              ITER=0                                                                                                                                                                                  
-              ZETA=ONE                                                                                                                                                                                
-              RES=EP20                                                                                                                                                                                
-              TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                  
-              !--initialize first iteration                                                                                                                                                           
-              kk=P_inci*DT_0                                                                                                                                                                          
-              FUNCT = HALF*kk -I_inci !-ONE_OVER_6*kk*ZETA                                                                                                                                            
-              !--iterative solving                                                                                                                                                                    
-              DO WHILE (ITER<=NITER .AND. RES>TOL)                                                                                                                                                    
-                ITER=ITER+1                                                                                                                                                                           
-                IF(ABS(ZETA) < EM06)THEN                                                                                                                                                              
-                  !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )                                                                                                                                
-                  DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)                                                                                                                                          
-                  ZETA = ZETA - FUNCT/DIFF                                                                                                                                                            
-                  FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_inci                                                                                                                                         
-                ELSE                                                                                                                                                                                  
-                  DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(ONE + TWO/ZETA)                                                                                                                        
-                  ZETA = ZETA - FUNCT/DIFF                                                                                                                                                            
-                  TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                              
-                  TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE                                                                                                                                                     
-                  FUNCT = TMP2 * TMP3 -I_inci                                                                                                                                                         
-                ENDIF                                                                                                                                                                                 
-                RES = ABS(FUNCT)   !g(x_new)                                                                                                                                                          
-              ENDDO                                                                                                                                                                                   
-              DECAY_inci=MAX(EM06,ZETA)                                                                                                                                                               
-
-              ITER=0                                                                                                                                                                                  
-              ZETA=ONE                                                                                                                                                                                
-              RES=EP20                                                                                                                                                                                
-              TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                  
-              !--initialize first iteration                                                                                                                                                           
-              kk=P_refl*DT_0                                                                                                                                                                          
-              FUNCT = HALF*kk -I_refl !-ONE_OVER_6*kk*ZETA                                                                                                                                            
-              !--iterative solving                                                                                                                                                                    
-              DO WHILE (ITER<=NITER .AND. RES>TOL)                                                                                                                                                    
-                ITER=ITER+1                                                                                                                                                                           
-                IF(ABS(ZETA) < EM06)THEN                                                                                                                                                              
-                  !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )                                                                                                                                
-                  DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)                                                                                                                                          
-                  ZETA = ZETA - FUNCT/DIFF                                                                                                                                                            
-                  FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_refl                                                                                                                                         
-                ELSE                                                                                                                                                                                  
-                  DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(ONE + TWO/ZETA)                                                                                                                        
-                  ZETA = ZETA - FUNCT/DIFF                                                                                                                                                            
-                  TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                              
-                  TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE                                                                                                                                                     
-                  FUNCT = TMP2 * TMP3 -I_refl                                                                                                                                                         
-                ENDIF                                                                                                                                                                                 
-                RES = ABS(FUNCT)   !g(x_new)                                                                                                                                                          
-              ENDDO                                                                                                                                                                                   
-              DECAY_refl=MAX(EM06,ZETA)                                                                                                                                                               
-            ENDIF                                                                                                                                                                                     
-                                                                                                                                                                                                      
-          ELSE                                                                                                                                                                                        
-                                                                                                                                                                                                      
-            DECAY_inci = ONE                                                                                                                                                                          
-            DECAY_refl = ONE                                                                                                                                                                          
-                                                                                                                                                                                                      
-          ENDIF                                                                                                                                                                                       
-
-          !CONVERSION UNITS !                                                                                                                                                                         
-          !g,cm,mus,Bar -> Working unit system                                                                                                                                                        
-          P_inci  =  P_inci / FAC_P_bb                                                                                                                                                                
-          I_inci  =  I_inci / FAC_I_bb                                                                                                                                                                
-          P_refl  =  P_refl / FAC_P_bb                                                                                                                                                                
-          I_refl  =  I_refl / FAC_I_bb                                                                                                                                                                
-          P_inci_ =  P_inci_ / FAC_P_bb                                                                                                                                                               
-          I_inci_ =  I_inci_ / FAC_I_bb                                                                                                                                                               
-          P_refl_ =  P_refl_ / FAC_P_bb                                                                                                                                                               
-          I_refl_ =  I_refl_ / FAC_I_bb                                                                                                                                                               
-          DT_0    =  DT_0    / FAC_T_bb                                                                                                                                                               
-          DT_0_   =  DT_0_   / FAC_T_bb                                                                                                                                                               
-          T_A     =  T_A     / FAC_T_bb                                                                                                                                                               
-
-          T_A    = T_A + TDET                                                                                                                                                                         
-                                                                                                                                                                                                      
-          !update wave parameters                                                                                                                                                                     
-          PBLAST_TAB(IL)%cos_theta(I) = cos_theta                                                                                                                                                     
-          PBLAST_TAB(IL)%P_inci(I) = P_inci                                                                                                                                                           
-          PBLAST_TAB(IL)%P_refl(I) = P_refl                                                                                                                                                           
-          PBLAST_TAB(IL)%ta(I) = T_A                                                                                                                                                                  
-          PBLAST_TAB(IL)%t0(I) = DT_0                                                                                                                                                                 
-          PBLAST_TAB(IL)%decay_inci(I) = decay_inci                                                                                                                                                   
-          PBLAST_TAB(IL)%decay_refl(I) = decay_refl                                                                                                                                                   
-                                                                                                                                                                                                      
+                                                                                                                                                                                                        
+            !switch from normalized values.      ( Pressure are not scaled by W13 in tables )                                                                                                           
+            I_inci  = I_inci * W13                                                                                                                                                                      
+            I_inci_ = I_inci_* W13                                                                                                                                                                      
+            I_refl  = I_refl * W13                                                                                                                                                                      
+            I_refl_ = I_refl_* W13                                                                                                                                                                      
+            DT_0    = DT_0   * W13                                                                                                                                                                      
+            DT_0_   = DT_0_  * W13                                                                                                                                                                      
+            T_A     = T_A    * W13                                                                                                                                                                      
+  
+            !---DECAY                                                                                                                                                                                   
+            IF(TT_STAR>=T_A)THEN                                                                                                                                                                        
+                                                                                                                                                                                                        
+              IF(IMODEL == 1)THEN                                                                                                                                                                       
+                !-Friedlander                                                                                                                                                                           
+                DECAY_inci = ONE                                                                                                                                                                        
+                DECAY_refl = ONE                                                                                                                                                                        
+                                                                                                                                                                                                        
+              ELSEIF(IMODEL == 2) THEN                                                                                                                                                                  
+                !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(ONE-(1-exp(-b))/b)                                                                                                                         
+                !     g: b-> I_inci - P_inci*DT_0/b*(ONE-(1-exp(-b))/b)                                                                                                                                 
+                ! find b such as g(b)=0                                                                                                                                                                 
+                ! NEWTON ITERATIONS                                                                                                                                                                     
+                NITER=20                                                                                                                                                                                
+                TOL=EM06                                                                                                                                                                                
+                ITER=0                                                                                                                                                                                  
+                ZETA=ONE                                                                                                                                                                                
+                RES=EP20                                                                                                                                                                                
+                TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                  
+                !--initialize first iteration                                                                                                                                                           
+                kk=P_inci*DT_0                                                                                                                                                                          
+                FUNCT = HALF*kk -I_inci !-ONE_OVER_6*kk*ZETA                                                                                                                                            
+                !--iterative solving                                                                                                                                                                    
+                DO WHILE (ITER<=NITER .AND. RES>TOL)                                                                                                                                                    
+                  ITER=ITER+1                                                                                                                                                                           
+                  IF(ABS(ZETA) < EM06)THEN                                                                                                                                                              
+                    !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )                                                                                                                                
+                    DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)                                                                                                                                          
+                    ZETA = ZETA - FUNCT/DIFF                                                                                                                                                            
+                    FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_inci                                                                                                                                         
+                  ELSE                                                                                                                                                                                  
+                    DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(ONE + TWO/ZETA)                                                                                                                        
+                    ZETA = ZETA - FUNCT/DIFF                                                                                                                                                            
+                    TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                              
+                    TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE                                                                                                                                                     
+                    FUNCT = TMP2 * TMP3 -I_inci                                                                                                                                                         
+                  ENDIF                                                                                                                                                                                 
+                  RES = ABS(FUNCT)   !g(x_new)                                                                                                                                                          
+                ENDDO                                                                                                                                                                                   
+                DECAY_inci=MAX(EM06,ZETA)                                                                                                                                                               
+  
+                ITER=0                                                                                                                                                                                  
+                ZETA=ONE                                                                                                                                                                                
+                RES=EP20                                                                                                                                                                                
+                TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                  
+                !--initialize first iteration                                                                                                                                                           
+                kk=P_refl*DT_0                                                                                                                                                                          
+                FUNCT = HALF*kk -I_refl !-ONE_OVER_6*kk*ZETA                                                                                                                                            
+                !--iterative solving                                                                                                                                                                    
+                DO WHILE (ITER<=NITER .AND. RES>TOL)                                                                                                                                                    
+                  ITER=ITER+1                                                                                                                                                                           
+                  IF(ABS(ZETA) < EM06)THEN                                                                                                                                                              
+                    !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )                                                                                                                                
+                    DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)                                                                                                                                          
+                    ZETA = ZETA - FUNCT/DIFF                                                                                                                                                            
+                    FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_refl                                                                                                                                         
+                  ELSE                                                                                                                                                                                  
+                    DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(ONE + TWO/ZETA)                                                                                                                        
+                    ZETA = ZETA - FUNCT/DIFF                                                                                                                                                            
+                    TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                              
+                    TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE                                                                                                                                                     
+                    FUNCT = TMP2 * TMP3 -I_refl                                                                                                                                                         
+                  ENDIF                                                                                                                                                                                 
+                  RES = ABS(FUNCT)   !g(x_new)                                                                                                                                                          
+                ENDDO                                                                                                                                                                                   
+                DECAY_refl=MAX(EM06,ZETA)                                                                                                                                                               
+              ENDIF                                                                                                                                                                                     
+                                                                                                                                                                                                        
+            ELSE                                                                                                                                                                                        
+                                                                                                                                                                                                        
+              DECAY_inci = ONE                                                                                                                                                                          
+              DECAY_refl = ONE                                                                                                                                                                          
+                                                                                                                                                                                                        
+            ENDIF                                                                                                                                                                                       
+  
+            !CONVERSION UNITS !                                                                                                                                                                         
+            !g,cm,mus,Bar -> Working unit system                                                                                                                                                        
+            P_inci  =  P_inci / FAC_P_bb                                                                                                                                                                
+            I_inci  =  I_inci / FAC_I_bb                                                                                                                                                                
+            P_refl  =  P_refl / FAC_P_bb                                                                                                                                                                
+            I_refl  =  I_refl / FAC_I_bb                                                                                                                                                                
+            P_inci_ =  P_inci_ / FAC_P_bb                                                                                                                                                               
+            I_inci_ =  I_inci_ / FAC_I_bb                                                                                                                                                               
+            P_refl_ =  P_refl_ / FAC_P_bb                                                                                                                                                               
+            I_refl_ =  I_refl_ / FAC_I_bb                                                                                                                                                               
+            DT_0    =  DT_0    / FAC_T_bb                                                                                                                                                               
+            DT_0_   =  DT_0_   / FAC_T_bb                                                                                                                                                               
+            T_A     =  T_A     / FAC_T_bb                                                                                                                                                               
+  
+            T_A    = T_A + TDET                                                                                                                                                                         
+                                                                                                                                                                                                        
+            !update wave parameters                                                                                                                                                                     
+            PBLAST_TAB(IL)%cos_theta(I) = cos_theta
+            PBLAST_TAB(IL)%P_inci(I) = P_inci
+            PBLAST_TAB(IL)%P_refl(I) = P_refl
+            PBLAST_TAB(IL)%ta(I) = T_A
+            PBLAST_TAB(IL)%t0(I) = DT_0
+            PBLAST_TAB(IL)%decay_inci(I) = decay_inci
+            PBLAST_TAB(IL)%decay_refl(I) = decay_refl
+          
+          ELSE
+            !nothing to compute underground                                                                                                                                                                   
+            Z=ZERO                                                                                                                                                                                      
+            cos_theta = zero
+            P_inci = zero
+            P_refl = zero
+            T_A  = EP20
+            DT_0 = EP20
+            decay_inci = zero
+            decay_refl = zero
+          ENDIF      
+                                                                                                                                                                                                  
         ELSE! => IZ_UPDATE=0                                                                                                                                                                                        
                                                                                                                                                                                                       
-          !update wave parameters (Starter)
+          !use wave parameters from Starter
           Z=ZERO                                                                                                                                                                                      
           cos_theta = PBLAST_TAB(IL)%cos_theta(I)                                                                                                                                                     
           P_inci = PBLAST_TAB(IL)%P_inci(I)                                                                                                                                                           
@@ -495,7 +451,6 @@ C-----------------------------------------------
           decay_refl = PBLAST_TAB(IL)%decay_refl(I)                                                                                                                                                   
 
         ENDIF !IF(IZ_UPDATE==1)                                                                                                                                                                       
-                                                                                                                                                                                                      
 
         T0INF_LOC = MIN(T0INF_LOC,DT_0)                                                                                                                                                             
                                                                                                                                                                                                       
@@ -507,7 +462,7 @@ C-----------------------------------------------
           alpha_inci = ONE                                                                                                                                                                            
         ELSE                                                                                                                                                                                          
           alpha_refl = cos_theta**2                              ! cos**2 a                                                                                                                          
-          alpha_inci = ONE + cos_theta - TWO * alpha_refl        ! 1 + cos a -2 cos**2 a                                                                                                                                                                                                                         
+          alpha_inci = ONE + cos_theta - TWO * alpha_refl        ! 1 + cos a -2 cos**2 a                                                                                                                 
         ENDIF                                                                                                                                                                                         
                                                                                                                                                                                                       
         !Building pressure waves from Friedlander model. (Modified model can bu introduced later if needed)                                                                                           
@@ -524,25 +479,34 @@ C-----------------------------------------------
         P = MAX(P,PMIN)                                                                                                                                                                               
         IF (NUMSKINP > 0) PBLAST_TAB(IL)%PRES(I) = P                                                                                                                                                  
 
-        !!Expand Pressure load to nodes                                                                                                                                            
-        PBLAST_TAB(IL)%FX(I)= -P * HALF*NX / NPT                                                                                                                                                                  
-        PBLAST_TAB(IL)%FY(I)= -P * HALF*NY / NPT                                                                                                                                                                  
-        PBLAST_TAB(IL)%FZ(I)= -P * HALF*NZ / NPT                                                                                                                                                                  
+        !!Expand Pressure load to nodes
+        ! FF is nodal force which applied on each node N1,N2,N3, and also N4 if relevant
+        ! FF = FF_elem / NPT = Pload.S.n / NPT  where n is the unitary normal vector
+        ! NX,NY,NZ = 2S.n (in all cases:quadrangles & triangles)
+        FF(1) = -P * HALF*NX / NPT       !  -P*S/NPT . nx
+        FF(2) = -P * HALF*NY / NPT       !  -P*S/NPT . ny
+        FF(3) = -P * HALF*NZ / NPT       !  -P*S/NPT . nz
+        !storing force for one node of the current face (for assembly below)
+        PBLAST_TAB(IL)%FX(I) = FF(1)
+        PBLAST_TAB(IL)%FY(I) = FF(2)
+        PBLAST_TAB(IL)%FZ(I) = FF(3)
 
-        TFEXT_LOC=TFEXT_LOC+DT1*(   PBLAST_TAB(IL)%FX(I) * SUM(  V( 1, NN(1:NINT(NPT))  )  )                                                                                                                           
-     +                            + PBLAST_TAB(IL)%FY(I) * SUM(  V( 2, NN(1:NINT(NPT))  )  )                                                                                                                           
-     +                            + PBLAST_TAB(IL)%FZ(I) * SUM(  V( 3, NN(1:NINT(NPT))  )  )                                                                                                                           
-     +                     )  
+        !External Force work
+        ! on a given node : DW = <F,V>*dt
+        ! for this current 4-node or 3-node face :   DW = sum(   <F_k,V_k>*dt       k=1,NPT)   where F_k=Fel/NPT
+        TFEXT_LOC=TFEXT_LOC+DT1*(FF(1)*SUM(V(1,NN(1:NINT(NPT)))) +FF(2)*SUM(V(2,NN(1:NINT(NPT)))) +FF(3)*SUM(V(3,NN(1:NINT(NPT)))))
 
       ENDDO!next I                                                                                                                                                                                    
 !$OMP END DO
          
       CALL MY_BARRIER() 
                  
-      !-------------------------------------------!                                                
-      !   ASSEMBLY                                !                                                
-      !-------------------------------------------!                                                
-      ! SPMD/SMP Parith/OFF                                                                        
+      !-------------------------------------------------------------------!
+      !   FORCE ASSEMBLY                                                  !
+      !     /PARITH/OFF : F directly added in A(1:3,1:NUMNOD).            !
+      !     /PARITH/ON  : F added FSKY & and automatically treated later  !      
+      !-------------------------------------------------------------------!
+      ! SPMD/SMP Parith/OFF
       IF(IPARIT==0) THEN 
 !$OMP SINGLE
         DO I = 1,ISIZ_SEG                                                                          
@@ -565,7 +529,7 @@ C-----------------------------------------------
             A(3,N4)=A(3,N4)+PBLAST_TAB(IL)%FZ(I)                                                                  
           ENDIF                                                                                    
         ENDDO 
-!$OMP END SINGLE                                                                                        
+!$OMP END SINGLE
       ELSE     
 !$OMP DO SCHEDULE(GUIDED,MVSIZ) 
         DO I = 1,ISIZ_SEG                                                                          
@@ -593,10 +557,11 @@ C-----------------------------------------------
                                                                                                    
                                                                                                    
       !-------------------------------------------!                                                
-      !   ANIMATION FILE                          !                                                
-      !-------------------------------------------!                                                
-!$OMP SINGLE                                                                        
-      IF(IANIM > 0) THEN  
+      !   ANIMATION FILE   /ANIM/VECT/FEXT        !
+      !   H3D FILE         /H3D/NODA/FEXT         !
+      !-------------------------------------------!                                                                                                                       
+!$OMP SINGLE
+      IF(IANIM_OR_H3D>0) THEN
         DO I = 1,ISIZ_SEG                                                                        
           N1=PBLAST_TAB(IL)%N(1,I)                                                                              
           N2=PBLAST_TAB(IL)%N(2,I)                                                                              
@@ -616,9 +581,9 @@ C-----------------------------------------------
             FEXT(2,N4) = FEXT(2,N4)+PBLAST_TAB(IL)%FY(I)                                                        
             FEXT(3,N4) = FEXT(3,N4)+PBLAST_TAB(IL)%FZ(I)                                                        
           ENDIF                                                                                  
-        ENDDO                                                                                            
-      ENDIF                                                                                                                                                                       
-!$OMP END SINGLE
+        ENDDO                                                                                           
+      ENDIF  
+!$OMP END SINGLE                                                                                                                                                                                
 
  9000 CONTINUE      
       RETURN
