@@ -39,17 +39,12 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITAB(*),CAND_E(*),CAND_N(*), IRECT(4,*), 
      .        ITAG(*),CAND_NN(*),CAND_EN(*), IFPEN(*),
      .        IFPENN(*)
       INTEGER I_STOK,NSV(*),MSR(*),IWPENE,INACTI,NOINT,NTY,NSN,JWARN
-C     REAL
       my_real
      .   STFN(*),X(3,*),PENE(*),CAND_P(*),GAP_S(*),
      .   GAPMIN,GAPMAX,STF(*),GAPV(*),FPENMAX
@@ -59,7 +54,6 @@ C-----------------------------------------------
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "vect07_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

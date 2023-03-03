@@ -22,7 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       module MOD_I25NORM
       implicit none
-#include      "my_real.inc"
       REAL*4
      .       , DIMENSION(:,:,:), ALLOCATABLE :: WNOD_NORMAL
       END MODULE MOD_I25NORM
@@ -53,7 +52,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

@@ -35,7 +35,6 @@ C   ROUTINE DESCRIPTION :
 C   ===================
 C   FUNCTION TO COUNT & FOUND SPRING ELEMENTS CREATED FROM 2D SEATBELT FOR SECTION
 C-----------------------------------------------
-C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
@@ -48,10 +47,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "scr17_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

@@ -41,7 +41,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr01_c.inc"
 #include      "param_c.inc"
-#include      "fxbcom.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

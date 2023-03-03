@@ -22,7 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       module MOD_SPGRHEAD
       implicit none
-#include      "my_real.inc"
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IXSPS
       END MODULE MOD_SPGRHEAD
 Chd|====================================================================
@@ -49,17 +48,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "sphcom.inc"
 #include      "param_c.inc"

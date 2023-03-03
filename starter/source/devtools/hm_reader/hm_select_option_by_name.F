@@ -51,24 +51,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
       CHARACTER*50,INTENT(IN)::ENTITY_TYPE,NAME_PARAM
       INTEGER,INTENT(IN)::SUB_INDEX
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
 C=======================================================================
       CALL CPP_SELECT_OPTION_BY_NAME(ENTITY_TYPE(1:LEN_TRIM(ENTITY_TYPE)),LEN_TRIM(ENTITY_TYPE),
      .                                NAME_PARAM(1:LEN_TRIM(NAME_PARAM)),LEN_TRIM(NAME_PARAM),SUB_INDEX ) 

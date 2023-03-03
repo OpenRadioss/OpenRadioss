@@ -52,7 +52,6 @@ C     MAT_ID          MATERIAL ID(INTEGER)
 C     TITR            MATERIAL TITLE
 C     LSUBMODEL       SUBMODEL STRUCTURE    
 C-----------------------------------------------
-C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFTAG_MOD            
@@ -68,7 +67,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "scr03_c.inc"
 #include      "units_c.inc"
 #include      "submod_c.inc"
 #include      "sysunit.inc"

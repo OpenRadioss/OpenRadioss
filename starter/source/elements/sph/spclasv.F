@@ -38,26 +38,14 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "bucki_c.inc"
-#include      "buckr_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com08_c.inc"
-#include      "scr05_c.inc"
 #include      "sphcom.inc"
-#include      "param_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
      .        WASPACT(*), IREDUCE, KREDUCE(*)
-C     REAL
       my_real
      .   X(3,*),SPBUF(NSPBUF,*), MYSPATRUE
 C-----------------------------------------------

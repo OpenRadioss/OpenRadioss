@@ -28,27 +28,18 @@ Chd|-- calls ---------------
 Chd|        SKEW_MOD                      share/modules1/skew_mod.F     
 Chd|====================================================================
         SUBROUTINE SPLIT_SKEW(CURR_PROC,ISKWP_L,ISKWP,TAG_SKN,MULTIPLE_SKEW)
-C----------------------------------------------------------
-C----------------------------------------------------------
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
         USE SKEW_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-#include      "analyse_name.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr17_c.inc"
-#include      "scr03_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com10_c.inc"
-#include      "units_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -83,9 +74,8 @@ C-----------------------------------------------
         INTEGER :: I,J,NN
         INTEGER :: SIZE_SKEW,ISKEW
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
+C   S o u r c e   L i n e s
 C-----------------------------------------------
-C=======================================================================
 !$COMMENT
 !       SPLIT_SKEW description
 !       SPLIT_SKEW initializes the SKEW index ISKWP_L used in the engine
@@ -136,27 +126,16 @@ Chd|-- calls ---------------
 Chd|        SKEW_MOD                      share/modules1/skew_mod.F     
 Chd|====================================================================
         SUBROUTINE SPLIT_SKEW_save(CURR_PROC,ISKWP_L,ISKWP,TAG_SKN,MULTIPLE_SKEW,NSKWP)
-C----------------------------------------------------------
-C----------------------------------------------------------
+C-----------------------------------------------
         USE SKEW_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-#include      "analyse_name.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr17_c.inc"
-#include      "scr03_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com10_c.inc"
-#include      "units_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -174,9 +153,8 @@ C-----------------------------------------------
         INTEGER :: I,J,NN
         INTEGER :: SIZE_SKEW,ISKEW
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
+C   S o u r c e   L i n e s
 C-----------------------------------------------
-C=======================================================================
         NN = 0
         DO I=1,NUMSKW
                 SIZE_SKEW = TAG_SKN(I+1)

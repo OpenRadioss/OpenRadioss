@@ -49,7 +49,6 @@ C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
 C     NIXS, NIXQ, NIXTG
-#include "param_c.inc"
 C     NUMELS, NUMELQ, NUMELTG
 #include "com04_c.inc"
 C     N2D

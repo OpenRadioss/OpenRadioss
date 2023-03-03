@@ -68,7 +68,6 @@ C-----------------------------------------------
 C     NSURF
 #include      "com04_c.inc"
 C     KMONVO, IREC
-#include      "scr17_c.inc"
 C     NIMV, NRVOLU
 #include      "param_c.inc"
 C     IIN

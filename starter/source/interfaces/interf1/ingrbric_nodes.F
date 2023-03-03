@@ -32,8 +32,6 @@ Chd|        LECINT                        source/interfaces/interf1/lecint.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE INGRBRIC_NODES(MSN,NOINT,IBUFSSG,ITAB,MSV, IXS, NBRIC,IFLAG, NALE, IPM, BUFMAT, S_MSV)
-C-----------------------------------------------------------------------
-C-----------------------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,11 +40,9 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "scr03_c.inc"
-#include      "warn_c.inc"
 #include      "scr17_c.inc"
 #include      "alesolver.inc"
 #include      "tabsiz_c.inc"

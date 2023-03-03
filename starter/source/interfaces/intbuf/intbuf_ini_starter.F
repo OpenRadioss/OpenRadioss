@@ -47,8 +47,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com04_c.inc"
-#include      "ige3d_c.inc"
-#include      "com01_c.inc"
 C-----------------------------------------------
 C   M y  A l l o c a t e                         
 C-----------------------------------------------
@@ -2122,7 +2120,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

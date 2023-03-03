@@ -69,15 +69,9 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "scr03_c.inc"
 #include      "units_c.inc"
 #include      "scr21_c.inc"
-#include      "submod_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
 #include      "tablen_c.inc"
-#include      "fluid_scr_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -92,9 +86,6 @@ C MODIFIED ARGUMENT
      .  INTENT(INOUT)::GEO(*)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

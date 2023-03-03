@@ -51,7 +51,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
-#include      "warn_c.inc"
 #include      "kincod_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------

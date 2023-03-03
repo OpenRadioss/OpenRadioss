@@ -34,16 +34,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr03_c.inc"
 #include      "scr17_c.inc"
-#include      "units_c.inc"
 #include      "com04_c.inc"
-#include      "com10_c.inc"
 #include      "param_c.inc"
-#include      "warn_c.inc"
-#include      "com01_c.inc"
-#include      "fluid_scr_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
       LOGICAL LOI_FLUID
       EXTERNAL LOI_FLUID
@@ -52,9 +45,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPART(LIPART1,*),IPM(NPROPMI,*),
      .        POIN_UMP(NUMMAT),TAB_UMP(5,NPART),TAILLE
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

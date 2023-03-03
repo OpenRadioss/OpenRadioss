@@ -56,10 +56,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C OUTPUT ARGUMENTS
@@ -67,16 +63,10 @@ C OUTPUT ARGUMENTS
       CHARACTER*(SNAME),INTENT(IN)::NAME
       LOGICAL,INTENT(OUT)::IS_USED
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL(KIND=C_BOOL) C_IS_USED
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-C=======================================================================
       CALL CPP_GROUP_IS_USED(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),ID,C_IS_USED) 
       IS_USED = C_IS_USED
       RETURN

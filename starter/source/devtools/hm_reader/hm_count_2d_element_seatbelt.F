@@ -69,9 +69,6 @@ C INPUT ARGUMENTS
       INTEGER,INTENT(INOUT)::NB_SHELLS
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID,SUBMODEL_INDEX,OFFSET,NB_PART,
@@ -80,9 +77,6 @@ C-----------------------------------------------
       CHARACTER KEY*ncharline
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-C=======================================================================
       NB_MAT_119 = 0
 C-----------------------------------------------
 C   Check existence of Mat laws 119 in the model

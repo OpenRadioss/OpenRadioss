@@ -64,14 +64,10 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr01_c.inc"
-#include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "scry_c.inc"
 #include      "sphcom.inc"
-#include      "units_c.inc"
 #include      "vect01_c.inc"
-#include      "warn_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

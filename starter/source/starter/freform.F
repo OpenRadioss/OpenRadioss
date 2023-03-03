@@ -45,23 +45,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C-----------------------------------------------
-C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "com01_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "scr06_c.inc"
-#include      "scr12_c.inc"
-#include      "sysunit.inc"
-#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -953,7 +939,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
       INTEGER IOP,ID
       CHARACTER MOT1*ncharfield
@@ -997,7 +982,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "units_c.inc"
 C
       CHARACTER COPT*ncharfield
 C
@@ -1045,7 +1029,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
       INTEGER ID
       CHARACTER COPT*ncharkey
@@ -1116,7 +1099,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
       CHARACTER*ncharkey COPT,COPT2
 C-----------------------------------------------
@@ -1196,9 +1178,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "scr17_c.inc"
-#include      "warn_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
       INTEGER IGU,IGS,IBUF(*),ITABM1(*)
       CHARACTER MESS*40
@@ -1260,9 +1239,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "scr17_c.inc"
-#include      "warn_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C  THIS FUNCTION REMOVES main NODE FROM SECND NODAL SET
 C  IN THE KINEMATIC CONSTRAINT DEFINITION 
@@ -1336,10 +1312,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "scr17_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
       INTEGER IGU
       CHARACTER MESS*40
@@ -1546,7 +1518,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y  A r g u m e  n t s
 C-----------------------------------------------
@@ -1730,7 +1701,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y  A r g u m e  n t s
 C-----------------------------------------------
@@ -1813,7 +1783,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
       INTEGER UID,SUB_ID
       CHARACTER TITR*nchartitle,KEY2*ncharkey,KEY3*ncharkey
@@ -2206,7 +2175,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
       INTEGER ID,UID,VERS,SUB_ID
       CHARACTER TITR*nchartitle,KEY2*ncharkey

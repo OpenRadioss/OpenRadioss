@@ -84,13 +84,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
@@ -98,9 +91,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "sphcom.inc"
 #include      "scr17_c.inc"
-#include      "warn_c.inc"
 #include      "param_c.inc"
-#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -109,7 +100,6 @@ C-----------------------------------------------
      .        ITAB(*),ITABM1(*),IPART(LIPART1,*),IPARTSP(*),
      .        RESERVEP(NBPARTINLET), IXS(NIXS,*), IPARTS(*), ISOLNOD(*),
      .        SPH2SOL(*), SOL2SPH(2,*), IRST(3,NSPHSOL),SOL2SPH_TYP(*)
-C     REAL
       my_real
      .        X(3,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
@@ -145,8 +135,6 @@ C-----------------------------------------------
       INTEGER USR2SYS
 C-----------------------------------------------
       DATA MESS /'SPH CONNECTIVITIES DEFINITION           '/
-C-----------------------------------------------
-C--------------------------------------------------
 C--------------------------------------------------
 C      ALLOCS & INITS
 c      use NUMELQ IN PLACE OF NUMELC ( NBADMESH routine is modifying NUMELC )

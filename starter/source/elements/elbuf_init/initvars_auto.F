@@ -44,7 +44,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "tablen_c.inc"
 #include      "inter22.inc"
 #include      "com04_c.inc"

@@ -49,12 +49,6 @@ C-----------------------------------------------
       my_real
      .    STIFN(*),STIFR(*),RMSTIFN(*), RMSTIFR(*)
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
-#include      "scr03_c.inc"
-#include      "warn_c.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,II,JJ,NR,NR1,NR0,KK,NRC,IR,N,NREST,IE,

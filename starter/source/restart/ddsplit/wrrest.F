@@ -101,7 +101,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N
-C     REAL
       my_real
      .   A(*)
 C-----------------------------------------------
@@ -178,13 +177,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N
-C     REAL
       DOUBLE PRECISION
      .   A(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -314,13 +308,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N
-C     REAL
       DOUBLE PRECISION 
      .   A(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -380,7 +369,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr05_c.inc"
 #include      "scr15_c.inc"
-#include      "units_c.inc"
 #include      "units_fxbody_c.inc"
 #include      "fxbcom.inc"
 C-----------------------------------------------
@@ -528,6 +516,7 @@ C Ecriture des fichiers de modes et de contraintes
 C
       RETURN
       END
+
 Chd|====================================================================
 Chd|  EIGWREST                      source/restart/ddsplit/wrrest.F
 Chd|-- called by -----------
@@ -616,9 +605,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "eigcom.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -642,6 +629,7 @@ C--------------------------------------
 C
       RETURN
       END
+
 Chd|====================================================================
 Chd|  DSWREST                       source/restart/ddsplit/wrrest.F
 Chd|-- called by -----------
@@ -766,6 +754,7 @@ C
 C
       RETURN
       END
+
 Chd|====================================================================
 Chd|  DSWRESTP                      source/restart/ddsplit/wrrest.F
 Chd|-- called by -----------
@@ -783,9 +772,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -861,6 +847,7 @@ C--------------------------------------
 C
       RETURN
       END
+
 Chd|====================================================================
 Chd|  NFWREST                       source/restart/ddsplit/wrrest.F
 Chd|-- called by -----------
@@ -965,7 +952,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 #include      "com04_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
@@ -988,48 +974,6 @@ C--------------------------------------
       ENDIF
       RETURN
       END
-C ---  
-CCC Chd|====================================================================
-CCC Chd|  UNITWREST                     src/init1/wrrest.F            
-CCC Chd|-- called by -----------
-CCC Chd|-- calls ---------------
-CCC Chd|        WRITE_DB                      src/init1/wrrest.F            
-CCC Chd|        WRTSQR                        src/init1/wrtsqr.F            
-CCC Chd|====================================================================
-CCC       SUBROUTINE UNITWREST(UNITAB,LUNIT,NUNITS)
-CCC C-----------------------------------------------
-CCC C   I m p l i c i t   T y p e s
-CCC C-----------------------------------------------
-CCC #include      "implicit_f.inc"
-CCC C-----------------------------------------------
-CCC C   C o m m o n   B l o c k s
-CCC C-----------------------------------------------
-CCC #include      "com04_c.inc"
-CCC #include      "scr05_c.inc"
-CCC #include      "param_c.inc"
-CCC C-----------------------------------------------
-CCC C   D u m m y   A r g u m e n t s
-CCC C-----------------------------------------------
-CCC       INTEGER  LUNIT,NUNITS
-CCC       my_real 
-CCC      .   UNITAB(LUNIT,NUNITS)
-CCC C-----------------------------------------------
-CCC C   L o c a l   V a r i a b l e s
-CCC C-----------------------------------------------
-CCC       INTEGER LEN
-CCC C=======================================================================
-C     ECRITURE DES REELS
-CCC C-----------------------
-CCC      LEN=LUNIT*NUNITS
-CCC      IF (IRFORM/5<=1) THEN
-CCC        CALL WRTSQR (UNITAB,LEN,IRFORM)
-CCC     
-CCC      ELSE
-CCC        CALL WRITE_DB(UNITAB,LEN)
-CCC     ENDIF
-CCC C-----------
-CCC       RETURN
-CCC       END
 
 C convection flux 
 Chd|====================================================================
@@ -1049,7 +993,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 #include      "com04_c.inc"
 #include      "scr05_c.inc"
 #include      "param_c.inc"
@@ -1092,7 +1035,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 #include      "com04_c.inc"
 #include      "scr05_c.inc"
 #include      "param_c.inc"
@@ -1117,8 +1059,8 @@ C--------------------------------------
       ENDIF
       RETURN
       END
+
 C for rigid_ material     
-C  /------------------------------------------------------------
 Chd|====================================================================
 Chd|  RIGMATWREST                   source/restart/ddsplit/wrrest.F
 Chd|-- called by -----------
@@ -1136,8 +1078,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
@@ -1166,6 +1106,7 @@ C--------------------------------------
       ENDIF
       RETURN
       END
+
 C for shell composite xfem 
 Chd|====================================================================
 Chd|  PLYXFEM_WREST                 source/restart/ddsplit/wrrest.F
@@ -1184,7 +1125,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr05_c.inc"

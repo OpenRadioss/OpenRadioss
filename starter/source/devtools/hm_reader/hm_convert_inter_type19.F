@@ -56,27 +56,16 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"
-#include      "submod_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
       INTEGER,INTENT(IN)::IDMAX_INTER,IDMAX_GRNOD,IDMAX_LINE
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NBINTER19,OFFSET,ISFIRST
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-C=======================================================================
       CALL HM_OPTION_COUNT('/INTER/TYPE19', NBINTER19)
       CALL HM_OPTION_START('/INTER/TYPE19')
       DO I=1,NBINTER19

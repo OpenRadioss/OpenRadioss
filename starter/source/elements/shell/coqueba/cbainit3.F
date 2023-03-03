@@ -101,10 +101,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com_xfem1.inc"
 #include      "vect01_c.inc"
-#include      "units_c.inc"
-#include      "scr01_c.inc"
 #include      "scr03_c.inc"
-#include      "warn_c.inc"
 #include      "scry_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------

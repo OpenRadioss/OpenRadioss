@@ -22,7 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C ATTENTION : toute modification dans ces routines doit etre reportee
 C             dans les routines identiques dans l'engine
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 Chd|====================================================================
 Chd|  FVMESH0                       source/airbag/fvmesh0.F       
 Chd|-- called by -----------
@@ -342,10 +341,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "param_c.inc"
-#include      "units_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

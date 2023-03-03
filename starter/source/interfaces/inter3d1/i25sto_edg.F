@@ -52,12 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -65,7 +60,6 @@ C-----------------------------------------------
       INTEGER J_STOK,MULNSN,NOINT,IFORM,IGAP
       INTEGER IRECT(4,*),LEDGE(NLEDGE,*),ADMSR(4,*),CAND_S(*),CAND_M(*),II_STOK,CAND_A(*)
       INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ)
-C     REAL
       my_real
      .   X(3,*), DRAD, MARGE, GAPE(*), GAP_E_L(*), CAND_P(*)
       my_real , INTENT(IN) :: DGAPLOAD

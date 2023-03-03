@@ -62,20 +62,11 @@ C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G L O B A L   P A R A M E T E R S
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C O M M O N   B L O C K S
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com10_c.inc"
-#include      "units_c.inc"
 #include      "param_c.inc"
-#include      "warn_c.inc"
-#include      "scr03_c.inc"
 #include      "scr05_c.inc"
 #include      "scr21_c.inc"
 #include      "scr17_c.inc"

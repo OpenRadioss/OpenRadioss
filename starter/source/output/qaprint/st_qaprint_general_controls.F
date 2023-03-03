@@ -39,14 +39,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com07_c.inc"
 #include      "param_c.inc"
 #include      "scr03_c.inc"
@@ -58,8 +54,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "scr21_c.inc"
 #include      "tabsiz_c.inc"
-#include      "thermal_c.inc"
-#include      "units_c.inc"
 #include      "random_c.inc"
 #include      "sphcom.inc"
 #include      "fluid_scr_c.inc"

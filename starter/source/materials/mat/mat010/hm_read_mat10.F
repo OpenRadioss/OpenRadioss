@@ -62,10 +62,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "scr03_c.inc"
 #include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "sysunit.inc"
 #include      "submod_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------

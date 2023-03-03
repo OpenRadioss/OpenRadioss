@@ -52,13 +52,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "tabsiz_c.inc"
-#include      "units_c.inc"
 #include      "submod_c.inc"
 #include      "sphcom.inc"
 #include      "lagmult.inc"
@@ -146,9 +143,6 @@ C-----------------------------------------------
       DOUBLE PRECISION :: TIME, FVAL, XX, YY, ZZ
       INTEGER :: NPT, ID, II, LENTITR, ICODE
       INTEGER, DIMENSION(NTABLE + NFUNC2D) :: IDX, IDS
-C-----------------------------------------------
-C   S o u r c e   L i n e s
-C-----------------------------------------------
 C-----------------------------------------------
 C     /BOX/...
 C-----------------------------------------------

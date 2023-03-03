@@ -52,32 +52,17 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "vect07_c.inc"
-#include      "scr03_c.inc"
-#include      "scr17_c.inc"
-#include      "param_c.inc"
 #include      "scr05_c.inc"
-#include      "com04_c.inc"
 C-----------------------------------------------
       INTEGER JLT, NSVG(*), NSN, MSEGLO(*), MSEGTYP(*), NRTM, IVIS2, ISHARP
       INTEGER , INTENT(IN) :: INACTI, ILEV
-C     REAL
       my_real
      .   GAPS(*), GAP_NM(4,*), GAPMXL(*)
       INTEGER IRECT(4,*), ITAB(*),CAND_E(*),CAND_N(*),IRTLM(4,*)
       INTEGER IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
      .        MVOISN(MVSIZ,4), IBOUND(4,MVSIZ)
-C     REAL
       my_real
      .   PENMAX,PENMIN,PENE_OLD(5,NSN),TIME_S(NSN)
       my_real
@@ -93,7 +78,6 @@ C-----------------------------------------------
      .        NINDX, INDX(MVSIZ), I4N(MVSIZ), 
      .        FAR(MVSIZ,4), SUBTRIA(MVSIZ), I1, I2, ITRIA(2,4), JJ
       INTEGER IB1, IB2, IB3, IBX, IX, IY, IZ, NBORD, KBORD(MVSIZ)
-C     REAL
       my_real
      .   UNP,ZEROM,EPS,UNPT,ZEROMT,AAA,BB(MVSIZ,4)
       my_real

@@ -67,12 +67,10 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com10_c.inc"
 #include      "param_c.inc"
 #include      "sms_c.inc"
 #include      "units_c.inc"
 #include      "vect01_c.inc"
-#include      "scr17_c.inc"
 #include      "r2r_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

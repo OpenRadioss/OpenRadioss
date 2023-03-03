@@ -63,13 +63,9 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
-#include      "com_xfem1.inc"
 #include      "scr17_c.inc"
-#include      "scr21_c.inc"
-#include      "scr05_c.inc"
 #include      "tablen_c.inc"
 #include      "scr23_c.inc"
-#include      "spmd_c.inc" 
 #include      "ddspmd_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
