@@ -149,11 +149,12 @@ C
           NLAY = ELBUF_TAB(NG)%NLAY
           NPG  = NPTR*NPTS
           NPT  = NLAY*NPTT 
+          IF (IHBE == 23) NPG=4
           LFT=1
           LLT=NEL
 
           G_STRA = GBUF%G_STRA
-
+        
 !
          DO J=1,8  ! length max of GBUF%G_STRA = 8
            KK(J) = NEL*(J-1)
@@ -208,7 +209,6 @@ C-------------------------------------------------------
 C-------------------------------------------------------
 C-       Loop over 4 node shell elements
 C-------------------------------------------------------
-
           DO I=LFT,LLT
             N = I + NFT
             IPRT=IPARTC(N)
