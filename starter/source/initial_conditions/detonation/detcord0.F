@@ -37,13 +37,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-#include      "vect01_c.inc"
-#include      "units_c.inc"
-#include      "scr11_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: ITAB(*),IOPT,N2

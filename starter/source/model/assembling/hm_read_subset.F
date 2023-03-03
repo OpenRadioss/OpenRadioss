@@ -81,12 +81,9 @@ C MODIFIED ARGUMENTS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr03_c.inc"
 #include      "scr17_c.inc"
-#include      "param_c.inc"
 #include      "units_c.inc"
 #include      "my_allocate.inc"
-#include      "submod_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

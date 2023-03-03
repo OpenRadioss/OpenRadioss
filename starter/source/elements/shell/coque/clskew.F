@@ -44,16 +44,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,IREP
-C     REAL
       my_real
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ), 
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ),
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
      .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
      .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ), DET(MVSIZ)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

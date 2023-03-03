@@ -39,23 +39,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com05_c.inc"
-#include      "com06_c.inc"
-#include      "com07_c.inc"
-#include      "com08_c.inc"
-#include      "com09_c.inc"
-#include      "com10_c.inc"
-#include      "com_xfem1.inc"
-#include      "intstamp_c.inc"
 #include      "param_c.inc"
-#include      "remesh_c.inc"
-#include      "scr03_c.inc"
-#include      "scr04_c.inc"
-#include      "scr05_c.inc"
-#include      "scr16_c.inc"
-#include      "tabsiz_c.inc"
 #include      "units_c.inc"
 #include      "commandline.inc"
 C-----------------------------------------------

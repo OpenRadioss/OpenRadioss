@@ -20,14 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C|============================================================
-C|  FVVOLU                                  /airbag1/fvvolu.F
-C|------------------------------------------------------------
-C|-- appelee par -----------
-C|         FVMESH0                          /airbag1/fvmesh0.F
-C|-- appelle ---------------
-C|============================================================
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 Chd|====================================================================
 Chd|  FVVOLU                        source/airbag/fvvolu.F        
 Chd|-- called by -----------
@@ -78,7 +70,6 @@ C-----------------------------------------------
       my_real
      .        CPAI, CPBI, CPCI, CPDI, CPEI, CPFI,
      .        RMWI, PINI, TI,   TI2,  RHOI, EFAC 
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C---------------------------------------------------
 C Noeuds des volumes finis
 C---------------------------------------------------

@@ -394,7 +394,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -418,14 +417,11 @@ C-----------------------------------------------
 #include      "scr23_c.inc"
 #include      "sms_c.inc"
 #include      "sphcom.inc"
-#include      "sysunit.inc"
 #include      "tabsiz_c.inc"
 #include      "tablen_c.inc"
 #include      "remesh_c.inc"
 #include      "submod_c.inc"
 #include      "r2r_c.inc"
-#include      "elbuf_c.inc"
-#include      "inter18.inc"
 #include      "inter22.inc"
 #include      "alefvm.inc"
 #include      "drape_c.inc"
@@ -638,9 +634,6 @@ C-----------------------------------------------
 !                  of the remote connected element
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
         TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
-C-----------------------------------------------
-C   F u n c t i o n
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

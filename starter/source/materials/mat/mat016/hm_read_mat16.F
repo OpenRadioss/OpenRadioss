@@ -42,7 +42,6 @@ C-----------------------------------------------
 C FAC_M FACL FAC_T : enable to convert (custom) input unit to working unit system
 C FAC_MASS, FAC_LENGTH, FAC_TIME : enable to convert working unit system into International Unit system
 C-----------------------------------------------
-C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFTAG_MOD
@@ -56,7 +55,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"

@@ -75,10 +75,7 @@ C MAXFUNC  |  1      | I | R | MAXIMUM SIZE OF IFUNC
 C NFUNC    |  1      | I | W | SIZE OF IFUNC =< MAXFUNC
 C FAIL_ID  |  1      | I | W | ID OF FAILURE CRITERIA
 C----------+---------+---+---+--------------------------------------------
-#include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "submod_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

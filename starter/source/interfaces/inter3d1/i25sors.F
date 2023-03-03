@@ -44,14 +44,10 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NRTS, ITAB(*), ILEV, IPARI(NPARI)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
-C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -59,7 +55,6 @@ C-----------------------------------------------
       INTEGER IERROR,WORK(70000)
       INTEGER, DIMENSION(:),ALLOCATABLE :: ITRI, INDEX, LISUBS, INFLG_SUBS, ADDSUBS
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: ISAV
-C     REAL
 C-----------------------------------------------
       ALLOCATE (ITRI(NSN),ISAV(3,NSN),INDEX(2*NSN),STAT=IERROR)
       IF (IERROR /= 0) 

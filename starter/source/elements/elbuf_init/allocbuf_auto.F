@@ -41,9 +41,7 @@ C-----------------------------------------------
 C   I n c l u d e
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "analyse_name.inc"
 #include      "my_allocate.inc"
-#include      "eos.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

@@ -60,7 +60,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "nchar_c.inc"
-#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -70,9 +69,6 @@ C INPUT ARGUMENTS
 C OUTPUT ARGUMENTS
       INTEGER,INTENT(OUT)::IDMAX
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,VALUE_TYPE,SUB_ID,NBOPTION,OPTION_ID,UNIT_ID,SUBMODEL_INDEX,
@@ -80,11 +76,6 @@ C-----------------------------------------------
      .        OFF_EL,OFF_NOD,OFF_PART,OFF_MAT,OFF_PROP,OFF_DEF
       CHARACTER*ncharline KEYWORD,TITR
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-C=======================================================================
-C--------------------------------------------------
-
       OFFSET_CATEGORY = 0 
       VALUE_TYPE = 0
       SUB_ID = 0

@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
       module MOD_SPTRI
       implicit none
-#include      "my_real.inc"
       INTEGER, DIMENSION(:), ALLOCATABLE :: WREDUCE
       END MODULE MOD_SPTRI
 
@@ -48,16 +47,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "sphcom.inc"
-#include      "bucki_c.inc"
 #include      "buckr_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

@@ -154,27 +154,19 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "remesh_c.inc"
 #include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "scr12_c.inc"
 #include      "units_c.inc"
 #include      "vect07_c.inc"
-#include      "warn_c.inc"
 #include      "scr17_c.inc"
-#include      "ige3d_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -211,9 +203,6 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC)  :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

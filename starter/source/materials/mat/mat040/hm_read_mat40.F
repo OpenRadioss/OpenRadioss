@@ -57,13 +57,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "submod_c.inc"
-#include      "sysunit.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

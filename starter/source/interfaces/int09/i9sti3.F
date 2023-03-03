@@ -49,9 +49,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
@@ -61,14 +58,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRT, NINT, NSN, NTY, NOINT,ISU
-C     REAL
       my_real
      .   SLSFAC, GAP
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*), NSEG(*), LNSV(*), IELE(*),
      .   KNOD2ELS(*), NOD2ELS(*), 
      .   IXS10(*), IXS16(*), IXS20(*)
-C     REAL
       my_real
      .   X(3,*), STF(*), PM(NPROPM,*), GEO(NPROPG,*), STFN(*)
       INTEGER ID

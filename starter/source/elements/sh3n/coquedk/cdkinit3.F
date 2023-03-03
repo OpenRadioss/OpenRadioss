@@ -86,13 +86,9 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com_xfem1.inc"
 #include      "param_c.inc"
-#include      "scr01_c.inc"
 #include      "scr03_c.inc"
-#include      "units_c.inc"
 #include      "vect01_c.inc"
-#include      "warn_c.inc"
 #include      "scry_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -306,7 +302,6 @@ C
      3                 NUMSH3N ,PTSH3N ,IR      ,IS      ,NPT      ,
      4                 IGTYP   ,IGEO   ,NLAY    ,NPG     ,IPG      )
         ENDIF
-C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
          IF (IYLDINI == 1 .AND. (MTN== 36.OR. MTN==87)) THEN
           CALL CMATINI4(ELBUF_STR,

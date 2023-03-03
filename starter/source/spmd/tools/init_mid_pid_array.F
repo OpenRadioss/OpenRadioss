@@ -67,9 +67,6 @@ C-----------------------------------------------
       TYPE(MID_PID_TYPE), DIMENSION(NUMMAT), INTENT(INOUT) :: MID_PID_SHELL,MID_PID_TRI
       TYPE(MID_PID_TYPE), DIMENSION(NUMMAT,7), INTENT(INOUT) :: MID_PID_SOL
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: ELM_TYP,MID,PID,IPID,ID,IGTYP,INDI,IGTYP_LOC,ILAW

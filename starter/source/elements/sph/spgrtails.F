@@ -49,13 +49,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
@@ -63,7 +56,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "sphcom.inc"
 #include      "units_c.inc"
-#include      "warn_c.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "r2r_c.inc"
@@ -75,7 +67,6 @@ C-----------------------------------------------
      .        IPART(LIPART1,*),IPARTSP(*),CEPSP(*),IXSP(KVOISPH,NUMSPH),
      .        IPM(NPROPMI,*), IGEO(NPROPGI,*),
      .        SPH2SOL(*), SOL2SPH(2,*), IRST(3,*), NOD2SP(*)
-C     REAL
       my_real
      .        PM(NPROPM,*), SPBUF(NSPBUF,NUMSPH)
 C-----------------------------------------------

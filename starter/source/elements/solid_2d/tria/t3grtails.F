@@ -82,26 +82,15 @@ C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
-C   G L O B A L   P A R A M E T E R S
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C O M M O N   B L O C K S
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com10_c.inc"
 #include      "com_xfem1.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "vect01_c.inc"
-#include      "warn_c.inc"
 #include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "scr12_c.inc"
 #include      "scr17_c.inc"
 #include      "remesh_c.inc"
 #include      "sms_c.inc"
@@ -150,8 +139,6 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2
       LOGICAL lFOUND
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-C-----------------------------------------------
 C-----------------------------------------------
       MY_ALLOCATE(INDEX2,NUMELTG)
       INDEX2(1:NUMELTG)=PERMUTATION%TRIANGLE(1:NUMELTG)

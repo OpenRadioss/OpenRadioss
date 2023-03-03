@@ -65,8 +65,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "nchar_c.inc"
-#include      "submod_c.inc"
 #include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -81,9 +79,6 @@ C OUTPUT ARGUMENTS
      .  INTENT(OUT)::RVAL
       LOGICAL,INTENT(OUT)::IS_AVAILABLE
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,VALUE_TYPE,SUB_ID,IFLAGUNIT,UID
@@ -92,10 +87,6 @@ C-----------------------------------------------
       REAL*8 DVAL,LENGTH_DIM,MASS_DIM,TIME_DIM
       LOGICAL(KIND=C_BOOL) C_IS_AVAILABLE
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-C=======================================================================
-C--------------------------------------------------
         C_IS_AVAILABLE = .FALSE.
         LENGTH_DIM = ZERO
         MASS_DIM = ZERO

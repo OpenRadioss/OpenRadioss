@@ -60,7 +60,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "nchar_c.inc"
-#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -68,17 +67,11 @@ C INPUT ARGUMENTS
       INTEGER,INTENT(IN)::TABLE_MAXID,FAIL_MAXID
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NBFAILTAB,OFFSET,ISFIRST,IS_CONVERT
       CHARACTER KEY*ncharline
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-C=======================================================================
       IS_CONVERT = 0
       CALL HM_OPTION_COUNT('/FAIL/TAB', NBFAILTAB)
       CALL HM_OPTION_START('/FAIL/TAB')

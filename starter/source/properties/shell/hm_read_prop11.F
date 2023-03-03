@@ -52,17 +52,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "warn_c.inc"
-#include      "scr03_c.inc"
 #include      "scr16_c.inc"
 #include      "scr17_c.inc"
 #include      "scr21_c.inc"
@@ -105,13 +99,11 @@ C   D a t a
 C-----------------------------------------------
       DATA IUN/1/
       DATA PUN/0.1/
-C======================================================================|
 C----------------------------------------------------------------
 C      COMPOSITE LAYERED SHELL
 C      LAYERS WITH : -VARIABLE THICKNESS
 C                    -VARIABLE MATERIAL  (BUT LAW 25 OR 27 ONLY)
 C----------------------------------------------------------------
-C======================================================================|
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
@@ -152,7 +144,6 @@ C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
-C-----------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -168,7 +159,6 @@ C      CALL HM_GET_INTV('ISTRAIN',ISTRAIN,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Iorth',IREP,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Ipos',IPOS,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Ip',IRP,IS_AVAILABLE,LSUBMODEL)
-C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------

@@ -79,11 +79,8 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "scr03_c.inc"
 #include      "scr23_c.inc"
 #include      "com04_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
 #include      "param_c.inc"
 #include      "sysunit.inc"
 #include      "my_allocate.inc"
@@ -158,7 +155,6 @@ C-----------------------------------------------
 !   1. Set processor only when no element is set in lines
 !   2. Split lines accordingly
 !
-C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

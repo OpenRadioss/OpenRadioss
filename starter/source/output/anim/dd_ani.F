@@ -56,19 +56,14 @@ C-----------------------------------------------
 #include      "scr15_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "r4r8_p.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
       my_real
      .   X(*)
       INTEGER IXS(*),IXQ(*),IXC(*),KXSP(NISP,*),IXSP(KVOISPH,*),
      .        IXTG(*),IXT(*),IXP(*),IXR(*),IPARG(NPARG,*)
-C-----------------------------------------------
-C   F u n c t i o n
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -80,7 +75,6 @@ C-----------------------------------------------
       INTEGER I, NBF, NBPART, MAGIC, J, FILEN,NNSLAG,
      .        IANIM, NBCSPH, N1, N2,
      .        CTEXT(81),IB,PROC
-C     REAL
       my_real
      .        CDG(3), S3000, SCALE,BUFEL(1)
       REAL R4

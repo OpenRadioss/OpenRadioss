@@ -58,13 +58,11 @@ C-----------------------------------------------
 C     NSURF
 #include      "com04_c.inc"
 C     KMONVO, IREC
-#include      "scr17_c.inc"
 C     NIMV, NRVOLU
 #include      "param_c.inc"
 C     IIN
 #include      "units_c.inc"
 C     LUNIT
-#include      "sysunit.inc"
 C     NSUBMOD
 #include      "submod_c.inc"
 C-----------------------------------------------

@@ -60,7 +60,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com10_c.inc"
-#include      "param_c.inc"
 #include      "warn_c.inc"
 #include      "submod_c.inc"
 C-----------------------------------------------
@@ -75,9 +74,6 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBEAM) :: IGRBEAM
       TYPE (GROUP_)  , DIMENSION(NGRSPRI) :: IGRSPRING
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

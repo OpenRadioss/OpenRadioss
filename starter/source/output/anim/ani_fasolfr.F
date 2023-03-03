@@ -29,9 +29,6 @@ Chd|        ARRET                         source/system/arret.F
 Chd|====================================================================
       SUBROUTINE ANI_FASOLFR1(IXS ,IXC     ,IXTG    ,FASTAG, ISOLNOD)
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -40,7 +37,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "param_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -341,9 +337,6 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ANI_FASOLFR2(FASTAG  ,FASOLFR, ISOLNOD )
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -352,8 +345,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "param_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

@@ -52,20 +52,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
-#include      "sysunit.inc"
-#include      "r2r_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   G l o b a l   V a r i a b l e s

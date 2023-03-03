@@ -107,9 +107,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
@@ -398,7 +395,6 @@ C     READING OF /LAGMUL
 C-------------------------------------------------------------------
       CALL HM_READ_LAGMUL(LSUBMODEL)
 C-------------------------------------------------------------------
-C-------------------------------------------------------------------
       CALL HM_OPTION_COUNT('/PRIVATE/METADATA/FATXML',IPRIVATE)
       IF(IPRIVATE > 0 ) IPRIVATE = 1
 C-------------------------------------------------------------------
@@ -406,7 +402,6 @@ C     READING OF /STAMPING
 C-------------------------------------------------------------------
       CALL HM_OPTION_COUNT('/STAMPING',ISTAMPING)
       IF(ISTAMPING > 0 ) ISTAMPING = 1
-C-------------------------------------------------------------------
 C-------------------------------------------------------------------
       ICRASH = 0
 C-------------------------------------------------------------------
@@ -468,7 +463,6 @@ C-------------------------------------------------------------------
       DEF_INTER(1:100) = 0
       CALL HM_OPTION_COUNT('/DEFAULT/INTER',HM_NINTER_DEF)
       CALL HM_READ_DEFINTER(HM_NINTER_DEF,DEF_INTER,LSUBMODEL)
-C-------------------------------------------------------------------
 C-------------------------------------------------------------------
       CALL HM_OPTION_COUNT('/INTTHICK/V5',IINTTHICK)
       IF (IINTTHICK > 1) THEN
@@ -1046,7 +1040,6 @@ C     Anim version 5 non encore supporte
         CALL HM_OPTION_NEXT()
         CALL HM_GET_INTV('Anim_vers', ANIM_VERS, IS_AVAILABLE, LSUBMODEL)
       ENDIF
-C----------------------------------------------------------
 C=======================================================================
 C     Some initializations ... (some flags / values need a 1st pre-reading of some options)
 C=======================================================================
@@ -1739,9 +1732,6 @@ C-----------------------------------------------
 #include      "scr15_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IO_ERR1, NITER
@@ -2048,6 +2038,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(LIPART1,NPART),INTENT(IN):: IPART
       INTEGER, INTENT(OUT):: IFUND
       INTEGER ,DIMENSION(NPART),INTENT(INOUT):: NTM_PART
+C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, N ,NELC , NELTG , IP , NPRT , IPRT

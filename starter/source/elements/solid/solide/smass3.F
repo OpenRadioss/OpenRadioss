@@ -61,9 +61,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com07_c.inc"
 #include      "vect01_c.inc"
-#include      "scr05_c.inc"
 #include      "ale_param.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

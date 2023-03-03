@@ -49,9 +49,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "scr05_c.inc"
-#include      "com07_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "ale_param.inc"
 C-----------------------------------------------

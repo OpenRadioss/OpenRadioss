@@ -50,16 +50,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "kincod_c.inc"
 #include      "param_c.inc"
-#include      "sms_c.inc"
 #include      "units_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
@@ -403,10 +398,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "kincod_c.inc"
 #include      "param_c.inc"
 #include      "sms_c.inc"
-#include      "units_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -728,16 +721,9 @@ Chd|====================================================================
      1 NUMNOD  ,NUMEL ,NIX ,MIX ,LIX ,
      2 IX      ,IPARTX,TAGPRT_SMS,NODNX_SMS)
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -797,16 +783,12 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-#include "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "kincod_c.inc"
 #include      "param_c.inc"
 #include      "sms_c.inc"
-#include      "units_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1206,16 +1188,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-#include "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "kincod_c.inc"
 #include      "param_c.inc"
 #include      "sms_c.inc"
-#include      "units_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1603,17 +1580,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-#include "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "intstamp_c.inc"
-#include      "kincod_c.inc"
 #include      "param_c.inc"
 #include      "sms_c.inc"
-#include      "units_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1913,19 +1884,12 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-#include "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "intstamp_c.inc"
-#include      "kincod_c.inc"
 #include      "param_c.inc"
-#include      "sms_c.inc"
-#include      "units_c.inc"
 #include      "scr17_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER 

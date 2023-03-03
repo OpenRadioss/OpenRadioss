@@ -71,13 +71,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "units_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "submod_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -197,8 +191,6 @@ C------------------------------------------------------------------
       IF(EXPC == ZERO)EXPC = -0.700000000
       IF(KSI  == ZERO)KSI = EM02
 C------------------------------------------------------------------
-C------------------------------------------------------------------
-C     
       UPARAM(1)  = C10
       UPARAM(2)  = C01
       UPARAM(3)  = C20
@@ -218,7 +210,6 @@ C
       UPARAM(18) = KSI 
       UPARAM(22) = TAUREF
 c
-
 c---------------------------------
 C      PM PARMAT
 C---------------------------------
@@ -283,12 +274,3 @@ C
 C
       RETURN
       END
-
-
-
-
-
-
-
-
-

@@ -43,14 +43,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_MEM,MULTIMP,IADFIN
@@ -58,7 +50,6 @@ C-----------------------------------------------
       INTEGER IRECTS(2,*),IRECTM(2,*),CAND_N(*),CAND_E(*)
       INTEGER PROV_N(MVSIZ),PROV_E(MVSIZ),IAD0(MVSIZ),ADDCM(*),
      .        CHAINE(2,*)
-C     REAL
       my_real
      .   X(3,*), GAPMIN, DRAD, MARGE
       my_real , INTENT(IN) :: DGAPLOAD
@@ -157,14 +148,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_MEM,MULTIMP,IADFIN
@@ -172,14 +155,12 @@ C-----------------------------------------------
       INTEGER IRECTS(2,*),IRECTM(2,*),CAND_N(*),CAND_E(*)
       INTEGER PROV_N(MVSIZ),PROV_E(MVSIZ),IAD0(MVSIZ),ADDCM(*),
      .        CHAINE(2,*)
-C     REAL
       my_real
      .   X(3,*),TZINF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K_STOK,I_STOK,IAD,CONT
-C     REAL
       my_real
      .   PENE(MVSIZ)
 C-----------------------------------------------

@@ -68,7 +68,6 @@ C-----------------------------------------------
 #include      "remesh_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
-#include      "scr06_c.inc"
 #include      "scr12_c.inc"
 #include      "scr17_c.inc"
 #include      "vect01_c.inc"

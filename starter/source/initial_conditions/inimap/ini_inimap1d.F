@@ -62,7 +62,6 @@ C-----------------------------------------------
 !     MVSIZ
 #include      "mvsiz_p.inc"
 !     IOUT
-#include      "units_c.inc"
 !     IALEFVM
 #include      "alefvm.inc"
 !     N0PHAS, NVPHAS
@@ -946,7 +945,6 @@ C     C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 !     MVSIZ
-#include      "mvsiz_p.inc"
 #include      "com04_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------

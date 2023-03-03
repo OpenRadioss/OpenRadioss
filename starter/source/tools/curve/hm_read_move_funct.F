@@ -46,14 +46,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NFUNCT, NTABLE
       INTEGER NPC(*),FUNCRYPT(*)
-C     REAL
       my_real
      .   PLD(*)
       TYPE(TTABLE) TABLE(*)
@@ -62,7 +58,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "units_c.inc"
 C     NSUBMOD

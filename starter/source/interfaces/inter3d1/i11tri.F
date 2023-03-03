@@ -51,9 +51,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
@@ -69,7 +66,6 @@ C-----------------------------------------------
       INTEGER CAND_S(*),CAND_M(*),BPN(*),PN(*)
       INTEGER ADDCM(*),CHAINE(*)
       INTEGER PROV_S(2*MVSIZ),PROV_M(2*MVSIZ)
-C     REAL
       my_real
      .   X(3,*),XYZM(6,*),TZINF,DBUC,
      .   MAXBOX,MINBOX
@@ -77,19 +73,11 @@ C     REAL
       CHARACTER*nchartitle,
      .   TITR
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "com04_c.inc"
-#include      "vect07_c.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_SCN1,NB_MCN1,NB_SCN,NB_MCN,ADDNN,ADDNE,IPOS,
      .        I,IP,J,K,L
       INTEGER INF,SUP,DIR,N1,N2,NN1,NN2,NN,NE,MEMX,NCAND_PROV
-C     REAL
       my_real
      .   DX,DY,DZ,DSUP,SEUIL,XMX,XMN,XX1,XX2,XMIN, XMAX
 CC      integer idb1,idb2,idb3,idb4

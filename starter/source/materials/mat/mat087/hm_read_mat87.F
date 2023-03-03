@@ -75,12 +75,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "units_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "submod_c.inc"
 #include      "sysunit.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -113,9 +108,6 @@ C-----------------------------------------------
      .          BM    , CM    , DM    , PPM    , QM    , E0MART, VM0 ,
      .          CKH(4), AKH(4)  
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

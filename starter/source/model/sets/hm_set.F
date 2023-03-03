@@ -97,10 +97,6 @@ C     IPARTM1       PART Map table UID -> Internal ID
 C     IGRxxx        Radioss Structures Groups of Nodes, Parts, Elements, Surfaces and lines
 C===========================================================================================
 C-----------------------------------------------
-C   D e f i n i t i o n s 
-C-----------------------------------------------
-#include      "set_def.inc"
-C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE HM_OPTION_READ_MOD
@@ -120,11 +116,9 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "radioss_maptable.inc"
-#include      "nchar_c.inc"
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
 #include      "param_c.inc"
-#include      "remesh_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

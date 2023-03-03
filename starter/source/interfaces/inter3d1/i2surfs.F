@@ -39,11 +39,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "param_c.inc"
 #include      "scr17_c.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -51,7 +47,6 @@ C-----------------------------------------------
       INTEGER NSV(*),IXC(NIXC,*),IXTG(NIXTG,*),IXS(NIXS,*),ITAB(*),
      .   KNOD2ELC(*),KNOD2ELTG(*),KNOD2ELS(*),NOD2ELC(*),
      .   NOD2ELTG(*),NOD2ELS(*)
-C     REAL
       my_real
      .   X(3,*),AREA(*)
       INTEGER ID

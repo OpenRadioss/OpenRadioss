@@ -39,9 +39,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
@@ -53,7 +50,6 @@ C-----------------------------------------------
      .   LEDGE(NLEDGE,*),IPARTFRIC_E(*) ,IPARTFRICM(*), IPARTSM(*)
       INTEGER , INTENT(IN) ::  NSN
       INTEGER , INTENT(IN) ::  NSV(NSN)
-C     REAL
       my_real
      .   STFE(*), GAPE(*), GAP_E_L(*), STFM(*), GAP_M(*), GAP_M_L(*), GAP_S_L(*), BGAPEMX,
      .   BGAPEMX_L

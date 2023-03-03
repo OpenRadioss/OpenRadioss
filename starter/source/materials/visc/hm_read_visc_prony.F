@@ -50,7 +50,6 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD 
       USE TABLE_MOD
 C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -68,15 +67,8 @@ C IFUNC    | NFUNC   | I | W | FUNCTION NUMBER ARRAY
 C MAXFUNC  |  1      | I | R | MAXIMUM SIZE OF IFUNC
 C NFUNC    |  1      | I | W | SIZE OF IFUNC =< MAXFUNC
 C----------+---------+---+---+--------------------------------------------
-#include      "scr17_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "units_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "submod_c.inc"
-#include      "sysunit.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -336,8 +328,6 @@ C
         ENDIF 
       ENDIF               
 C-----------        
-
-C-----------
  1000 FORMAT(
      & 5X,'  PRONY SERIES MODEL  :'         ,/,
      & 5X,' --------------------- '         ,/)
@@ -400,9 +390,7 @@ C-----------
      
       RETURN
       END
-C--------------------------------------------------------------------------
-C--------------------------------------------------------------------------
-C--------------------------------------------------------------------------
+
 Chd|====================================================================
 Chd|  LM_LEAST_SQUARE_PRONY         source/materials/visc/hm_read_visc_prony.F
 Chd|-- called by -----------
@@ -424,15 +412,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "scr17_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "units_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "submod_c.inc"
-#include      "sysunit.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   Dummy arguments
 C-----------------------------------------------
@@ -663,9 +643,7 @@ C
       ! Deallocation of tables
       DEALLOCATE(XI,XI_TR,JAC,FXI,DELTAY,JACTJAC,ID,JACTDY,IPIV,JACT,FXI_TR,VECT,YI,TIME,MU)      
       END
-C--------------------------------------------------------------------------
-C--------------------------------------------------------------------------
-C--------------------------------------------------------------------------
+
 Chd|====================================================================
 Chd|  LM_LEAST_SQUARE_PRONY_2       source/materials/visc/hm_read_visc_prony.F
 Chd|-- called by -----------
@@ -688,15 +666,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "scr17_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "units_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "submod_c.inc"
-#include      "sysunit.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   Dummy arguments
 C-----------------------------------------------
@@ -1058,8 +1028,8 @@ C
      .           JACST,JACLT,FXIS_TR,FXIL_TR,VECT,MU,FREQS,YIS_TEMP,FREQL,YIL_TEMP)    
       IF (ALLOCATED(IDX)) DEALLOCATE(IDX)
       END
-C---------------------------------------------------------------------------------------
-C---------------------------------------------------------------------------------------
+
+
 C---------------------------------------------------------------------------------------      
       RECURSIVE SUBROUTINE QSORT(A, IDX, FIRST, LAST)
 C-----------------------------------------------

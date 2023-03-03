@@ -83,18 +83,13 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
-#include      "warn_c.inc"
 #include      "sysunit.inc"
 #include      "sphcom.inc"
 #include      "r2r_c.inc"
 #include      "submod_c.inc"
-#include      "tabsiz_c.inc" 
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -779,10 +774,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "warn_c.inc"
-#include      "scr03_c.inc"
 #include      "com04_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -913,8 +905,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "warn_c.inc"
-#include      "scr03_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -999,11 +989,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr17_c.inc"
-#include      "scr03_c.inc"
 #include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1057,8 +1044,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "param_c.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1229,8 +1214,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "param_c.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

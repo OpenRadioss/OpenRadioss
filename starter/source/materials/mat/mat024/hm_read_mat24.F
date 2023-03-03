@@ -65,10 +65,7 @@ C-----------------------------------------------
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "submod_c.inc"
 #include      "param_c.inc"
-#include      "sysunit.inc"
-#include      "warn_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

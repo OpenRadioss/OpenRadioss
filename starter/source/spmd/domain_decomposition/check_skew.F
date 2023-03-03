@@ -31,27 +31,20 @@ Chd|        SKEW_MOD                      share/modules1/skew_mod.F
 Chd|====================================================================
         SUBROUTINE CHECK_SKEW(IXR,IGEO,ISKN,CEP,ISKWP,NSKWP,TAG_SKN,MULTIPLE_SKEW,
      .                        R_SKEW,IPM,OFFSET)
-C----------------------------------------------------------
-C----------------------------------------------------------
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
         USE SKEW_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-#include      "analyse_name.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "tabsiz_c.inc"
-#include      "scr17_c.inc"
-#include      "scr03_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com10_c.inc"
-#include      "units_c.inc"
 #include      "param_c.inc"
 #include      "submod_c.inc"
 C-----------------------------------------------

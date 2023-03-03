@@ -67,13 +67,10 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "units_c.inc"
-#include      "warn_c.inc"
 #include      "r2r_c.inc"
 #include      "sysunit.inc"
-#include      "mvsiz_p.inc"
 #include      "sphcom.inc"
 #include      "submod_c.inc"
 C-----------------------------------------------

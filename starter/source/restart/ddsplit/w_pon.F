@@ -69,7 +69,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "mvsiz_p.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -78,8 +77,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "com_xfem1.inc"
-#include      "scr17_c.inc"
-#include      "ige3d_c.inc"
 #include      "thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

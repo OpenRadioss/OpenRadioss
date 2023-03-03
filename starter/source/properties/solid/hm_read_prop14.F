@@ -54,7 +54,6 @@ C     IG              PROPERTY ID(INTEGER)
 C     TITR            MATERIAL TITLE
 C     LSUBMODEL       SUBMODEL STRUCTURE    
 C-----------------------------------------------
-C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
@@ -70,7 +69,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "scr03_c.inc"
 #include      "units_c.inc"
 #include      "scr21_c.inc"
 #include      "submod_c.inc"
@@ -518,13 +516,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr17_c.inc"
-#include      "scr03_c.inc"
 #include      "units_c.inc"
 #include      "scr21_c.inc"
 #include      "submod_c.inc"
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "tablen_c.inc"
 #include      "fluid_scr_c.inc"

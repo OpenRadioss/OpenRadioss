@@ -79,11 +79,9 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "my_allocate.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
@@ -181,7 +179,7 @@ C-----------------------------------------------
      .     '    AIRBAG','     COMMU','    FVMBAG',
      .     '   AIRBAG1','   FVMBAG1','    COMMU1',
      .     '    LFLUID','   FVMBAG2'/
-C---  +----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----A----+----B
+C-----------------------------------------------
       K   = 0
       MFI = 0
       NVB = 0
