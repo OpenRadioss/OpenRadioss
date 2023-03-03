@@ -96,7 +96,7 @@ void c_h3d_create_shell_scalar_datatype_(int *cpt_data, char *name1, int *size1,
     ccomment=(char*) malloc(sizeof(char)*ccomment_len);
     for(i=0;i<*s_comment;i++)  ccomment[i] = comment[i];
     ccomment[*s_comment]='\0';  
-
+    cptBlank = 0;
     cmdsuvar_len = *sizeMdsUvarName + 1;
     cmdsuvar=(char*) malloc(sizeof(char)*cmdsuvar_len);
     for(i=0;i<*sizeMdsUvarName;i++)  cmdsuvar[i] = mdsUvarName[i];
