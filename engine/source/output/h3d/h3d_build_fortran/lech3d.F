@@ -1056,6 +1056,21 @@ C--------------------------------------------------
   	    ALLOCATE (MDSVAR_INPUT_TMP(MAX(1,NMDSVAR_MAX)))
   	    ALLOCATE (MDSVAR_INPUT1_TMP(MAX(1,NMDSVAR_MAX)))
   	    ALLOCATE (MDSVAR_INPUT2_TMP(MAX(1,NMDSVAR_MAX)))
+        
+            LAYER_INPUT(:) = 0
+            IPT_INPUT(:) = 0
+            PLY_INPUT(:) = 0
+            UVAR_INPUT(:) = 0
+            GAUSS_INPUT(:) = 0
+            IR_INPUT(:) = 0
+            IS_INPUT(:) = 0
+            IT_INPUT(:) = 0
+            IS_AVAILABLE_KEY(:) = 0
+            MDSVAR_INPUT(:) = 0
+            MDSVAR_INPUT1(:) = 0
+            MDSVAR_INPUT2(:) = 0
+            IDS_INPUT(:) = 0
+        
             IF (IS_MDSVAR_ALL == 1) THEN
               IF(KEY3_GLOB(1:3) == 'MDS' ) THEN
 	        DO K=1,MDS_NMAT
