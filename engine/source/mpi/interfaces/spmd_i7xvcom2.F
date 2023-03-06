@@ -250,7 +250,7 @@ C Attention aux interfaces inactives
                   STOPT  = INTBUF_TAB(NIN)%VARIABLES(11)              
                   IF (STARTT>TT-DT2) INTERACT = 0
                ENDIF   
-C on force le nombre d entite a envoyer a 0 tant que l'interface est inactive (jusqu au retri suivant)
+                ! Number of entities to send set to 0 when interface is deactivated
                 IF (INTERACT==0) NB=0
               END IF
               LENI = LEN
@@ -308,6 +308,24 @@ C
               NIN = INTLIST(II)
               IDEB = DEBUT(NIN)
               NB = NSNSI(NIN)%P(P)
+
+              ISENS = 0
+              INTERACT = 1
+              IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.
+     .           NTY == 21.OR.NTY == 5.OR.NTY == 19 .OR.
+     .           NTY == 25) ISENS = IPARI(64,NIN)  
+
+              IF (ISENS > 0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+                 TS = SENSOR_TAB(ISENS)%TSTART
+                 IF (TS>TT-DT2)  INTERACT = 0
+              ELSE
+                 STARTT = INTBUF_TAB(NIN)%VARIABLES(3)
+                 STOPT  = INTBUF_TAB(NIN)%VARIABLES(11)              
+                 IF (STARTT>TT-DT2) INTERACT = 0
+              ENDIF   
+              ! Number of entities to send set to 0 when interface is deactivated
+              IF (INTERACT==0) NB=0
+
               IF(NB>0) THEN
                 NTY   =IPARI(7,NIN)
                 INTTH = IPARI(47,NIN)
