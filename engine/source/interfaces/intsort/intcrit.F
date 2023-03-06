@@ -140,6 +140,20 @@ C
               NSNFI_FLAG(I)=0
            ENDIF
         ENDIF
+
+        ! when INTERACT == 0 and NSNFI_FLAG==1 is a change in state of Sensors,
+        ! Sensor was just deactivated but SPMD Buffers where not cleaned.
+        ! Sav buffers NSNFI/NSNSI Buffers & clean the original once.
+
+        IF(INTERACT == 0 .AND.NSNFI_FLAG(I)==0)THEN       
+           ALLOCATE(NSNSI_SAV(I)%P(NSPMD))
+           ALLOCATE(NSNFI_SAV(I)%P(NSPMD))
+           NSNSI_SAV(I)%P(1:NSPMD) = NSNSI(I)%P(1:NSPMD)
+           NSNFI_SAV(I)%P(1:NSPMD) = NSNFI(I)%P(1:NSPMD)
+           NSNFI_FLAG(I)=1
+           NSNFI(I)%P(1:NSPMD) = 0
+           NSNSI(I)%P(1:NSPMD) = 0
+        ENDIF
 C
       ENDDO
 C

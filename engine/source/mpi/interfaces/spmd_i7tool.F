@@ -5592,22 +5592,30 @@ C In case deactivated Interface - Flush NSNFI back to Zero
 C Issue : Restarts + INACTI + TSTART when Start timee was not reached before Restart
                INTERACT = 1
 
+               ISENS = 0
+               IF(ITYP == 7.OR.ITYP == 11.OR.ITYP == 24)  ISENS = IPARI(64,I)  ! All but ITYP == 25
+ 
+               IF (ISENS > 0) THEN               ! Sensors may be deactivated w/o INACTI            
+                  TS = SENSOR_TAB(ISENS)%TSTART
+                  IF (TS>TT) INTERACT = 0
+               ENDIF
+
                INACTI=IPARI(22,I)
                IF (INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.ITYP==23.OR.INACTI==-1)THEN
 C
                ISENS = 0
-               IF(ITYP == 7.OR.ITYP == 11.OR.ITYP == 24) ! All but ITYP == 25
-     .            ISENS = IPARI(64,I)      
-                  IF (ISENS > 0) THEN            
-                    TS = SENSOR_TAB(ISENS)%TSTART
-                    IF (TS>TT) INTERACT = 0
-                  ELSE
+               IF(ITYP == 7.OR.ITYP == 11.OR.ITYP == 24)  ISENS = IPARI(64,I) ! All but ITYP == 25
+                  IF(ISENS == 0)THEN
                     STARTT = INTBUF_TAB(I)%VARIABLES(3)
                     STOPT  = INTBUF_TAB(I)%VARIABLES(11)
                    IF (STARTT>TT) INTERACT = 0
                   ENDIF
                ENDIF
-               IF(INTERACT == 0) NSNFI(I)%P(1:NSPMD) = 0
+
+               IF(INTERACT == 0)THEN
+                    NSNFI(I)%P(1:NSPMD) = 0
+                    NSNSI(I)%P(1:NSPMD) = 0
+               ENDIF
               
 
 C
