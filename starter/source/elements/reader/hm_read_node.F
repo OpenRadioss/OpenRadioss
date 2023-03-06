@@ -63,6 +63,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -379,6 +380,10 @@ C--------------------------------------------------
       X1=XMIN-FOURTH*(XMAX-XMIN)
       X2=YMIN-FOURTH*(YMAX-YMIN)
       X3=ZMIN-FOURTH*(ZMAX-ZMIN)
+
+      XI_RES = X1
+      YI_RES = X2
+      ZI_RES = X3
 
       CALL HM_OPTION_START('/SPH/RESERVE')
       I      =NUMNUSR

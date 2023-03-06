@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
+      USE OUTPUTS_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -496,6 +497,11 @@ C--------
          NZ=NN*NZ
 C--------
          INOD=KXSP(3,N)
+         IF (ITAB(INOD) >= 1000000000) THEN
+           D(1,INOD)=XP-XI_RES
+           D(2,INOD)=YP-YI_RES
+           D(3,INOD)=ZP-ZI_RES
+         ENDIF
          D(1,INOD)=XP-X(1,INOD)
          D(2,INOD)=YP-X(2,INOD)
          D(3,INOD)=ZP-X(3,INOD)
