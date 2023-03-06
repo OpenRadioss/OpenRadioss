@@ -191,17 +191,37 @@ c
                 IF( H3D_PART(IPARTTG(NFT+I)) == 1) IOK_PART(I) = 1
               ENDIF
             ENDDO
-C
-            IF (IGTYP == 51 .OR. IGTYP == 52) THEN
-              NPT_ALL = 0
-              DO IPT=1,NLAY
-                NPT_ALL = NPT_ALL + ELBUF_TAB(NG)%BUFLY(IPT)%NPTT
-              ENDDO
-              IF (NLAY == 1) MPT  = MAX(1,NPT_ALL)
-            ENDIF
+            
+            IF( IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN
+              NPT = 1
+              MPT = NPT 
+            ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN
+              IF(LAYER_INPUT == -2) THEN
+                NPT= ELBUF_TAB(NG)%BUFLY(1)%NPTT
+              ELSEIF(LAYER_INPUT == -3) THEN
+                NPT= ELBUF_TAB(NG)%BUFLY(NLAY)%NPTT
+              ELSEIF(LAYER_INPUT > 0 .AND. LAYER_INPUT <= NLAY) THEN
+                NPT= ELBUF_TAB(NG)%BUFLY(LAYER_INPUT)%NPTT
+              ENDIF  
+              IF( PLY_INPUT > 0) THEN
+                DO J=1,NLAY
+                      ID_PLY = 0
+                      IF (IGTYP == 51) THEN
+	                ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                      ELSEIF (IGTYP == 52) THEN
+                        ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                      ENDIF
+                      IF (ID_PLY  == PLY_INPUT ) THEN
+                         NPT= ELBUF_TAB(NG)%BUFLY(J)%NPTT
+                         EXIT  
+                      ENDIF
+                ENDDO
+              ENDIF 
+              MPT = MAX(1,NPT)     
+            ENDIF 
 c
             ILAY = LAYER_INPUT
-            IPT = IPT_INPUT
+            IPT  = IPT_INPUT
             IPLY = PLY_INPUT
 c            IG = IGAUSS_INPUT
             IUVAR = IUVAR_INPUT
@@ -210,7 +230,7 @@ c
             IF (KEYWORD == 'MDS') IUVAR = IMDSVAR
             IF (IGTYP == 51 .OR. IGTYP == 52) THEN 
               IF (ILAY == -2) ILAY = 1
-              IF (ILAY == -3) ILAY = NPT
+              IF (ILAY == -3) ILAY = NLAY
               IF (IPT  == -2) IPT  = 1
               IF (IPT  == -3) IPT  = MAX(1,ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT)
             ELSE
@@ -218,7 +238,7 @@ c
               IF (ILAY == -3) ILAY = NLAY
               IF (IPT  == -2) IPT  = 1
               IF (IPT  == -3) IPT  = MAX(1,NPT)    
-            ENDIF                 
+            ENDIF 
 C---------------------    
             DO I=1,NEL
               VALUE(I) = ZERO
@@ -730,7 +750,7 @@ c ILAYER=NULL NPT=NULL (mid-layer)
 c							       
                   IF (NLAY > 1) THEN							     
                     IL  = IABS(NLAY)/2 + 1						     
-                    IPT = 1								     
+                    IPT = IABS(NPT)/2 + 1								     
                   ELSE  								     
                     IL  = 1								     
                     IPT =  IABS(NPT)/2 + 1						     
@@ -774,11 +794,11 @@ c
                         ENDDO                                                                     
                       ENDIF !MLW=58                                                               
                     ENDIF                                                        
-                  ENDIF                                                        
+                  ENDIF                                                
                 ENDIF
 c PLY=IPLY NPT=IPT
               ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 .AND. IUVAR > 0) THEN
-c				     
+c		     
 	        DO J=1,NLAY
                   NUVAR = ELBUF_TAB(NG)%BUFLY(J)%NVAR_MAT
                   IF(IUVAR <= NUVAR) THEN
@@ -790,7 +810,7 @@ c
                     ENDIF
 c
                     IF (ID_PLY  == IPLY ) THEN
-                      IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT					     
+                      IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT					     
 c
                       IF(KEYWORD == 'USER') USER_OK = 1
                       IF(IDMDS > 0)THEN
@@ -798,7 +818,7 @@ c
                       ENDIF
 c
                       IF(USER_OK == 1)THEN
-                        BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+                        BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                         IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
                           NPTT = BUFLY%NPTT 
                           IF( IPT <= NPTT) THEN
@@ -813,7 +833,7 @@ c
                                 ENDDO  
                               ENDDO 
                             ELSE 
-                              UVAR=>ELBUF_TAB(NG)%BUFLY(J)%MAT(1,1,1)%VAR  
+                              UVAR=>ELBUF_TAB(NG)%BUFLY(J)%MAT(1,1,IPT)%VAR  
                               DO  I=1,NEL                      
                                 VALUE(I) =  UVAR(I1 + I)                     
                                 IS_WRITTEN_VALUE(I) = 1                     
@@ -825,10 +845,9 @@ c
                     ENDIF  
                   ENDIF 
                 ENDDO
-
-c PLY=IPLY NPT=-1
-              ELSEIF ( IPLY > 0  .AND. IUVAR > 0) THEN
-c
+c PLY=IPLY NPT=NULL
+              ELSEIF ( IPLY > 0  .AND. IPT ==-1 .AND. IUVAR > 0) THEN
+c 
 	        DO J=1,NLAY
                   NUVAR = ELBUF_TAB(NG)%BUFLY(J)%NVAR_MAT
                   IF(IUVAR <= NUVAR) THEN
@@ -863,7 +882,7 @@ c
                                 ENDDO  
                               ENDDO
                             ELSE
-                              UVAR=>ELBUF_TAB(NG)%BUFLY(J)%MAT(1,1,1)%VAR 
+                              UVAR=>ELBUF_TAB(NG)%BUFLY(J)%MAT(1,1,IPT)%VAR 
                               DO  I=1,NEL                              
                                 VALUE(I) =  VALUE(I) + UVAR(I1 + I) / NPTT                   
                                 IS_WRITTEN_VALUE(I) = 1                     
@@ -904,7 +923,7 @@ c
 c ILAYER=IL NPT=NULL
               ELSEIF ( ILAY <= NLAY .AND. ILAY > 0 .AND. IUVAR > 0) THEN
                 NUVAR = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_MAT
-                IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT					     
+                IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT				     
 c
                 IF(KEYWORD == 'USER') USER_OK = 1
                 IF(IDMDS > 0)THEN
@@ -931,7 +950,7 @@ c
                           DO IS=1,NPTS
                             UVAR=>ELBUF_TAB(NG)%BUFLY(ILAY)%MAT(IR,IS,IT)%VAR 
                             DO I=1,NEL
-                              VALUE(I) = VALUE(I) + UVAR(I1 + I)/NPG                     
+                              VALUE(I) = VALUE(I) + UVAR(I1 + I)/(NPG * NPTT)               
                               IS_WRITTEN_VALUE(I) = 1                   
                             ENDDO       
                           ENDDO

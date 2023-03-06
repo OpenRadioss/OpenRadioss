@@ -507,6 +507,8 @@ C--------------------------------------------------
 C-------------------------------------------------- 
 C Read NPT= I/ALL/LOWER/UPPER
 C-------------------------------------------------- 
+
+
          IS_ALL = 1
          IS_LOWER = 1
          IS_UPPER = 1
@@ -527,7 +529,7 @@ C--------------------------------------------------
      .                               KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  , 
      .                               'UVAR'     ,4           ,IS_UVAR    ,IUVAR	  ,
      .                               IS_UVAR_ALL,IBID        ,IBID       ,IS_DEF  ,
-     .                               IBID       )       
+     .                               IBID       ) 
 C-------------------------------------------------- 
 C Read MDS_VAR= I/ALL/DEF
 C-------------------------------------------------- 
@@ -844,23 +846,31 @@ C--------------------------------------------------
             NMDSVAR_MAX = 0
             IF (IS_LAYER_ALL == 1) THEN
 	      DO K=1,NUMGEO
-           	IF(IGEO(11,K) == 10 .OR. IGEO(11,K) == 11 .OR. IGEO(11,K) == 16 .OR. 
-     .     	   IGEO(11,K) == 17 .OR. IGEO(11,K) == 51 .OR. IGEO(11,K) == 52)
-     .     	  NLAY_MAX = MAX(NLAY_MAX,IGEO(4,K))
-           	IF(IGEO(11,K) == 21 .OR. IGEO(11,K) == 22)
-     .     	  NLAY_MAX = MAX(NLAY_MAX,MIN(1,IGEO(30,K)))
+           	IF(IGEO(11,K) == 10 .OR. IGEO(11,K) == 11 .OR. IGEO(11,K) == 16 ) THEN
+                   NLAY_MAX = MAX(NLAY_MAX,IGEO(4,K))
+           	ELSEIF(IGEO(11,K) == 21 .OR. IGEO(11,K) == 22) THEN
+                  NLAY_MAX = MAX(NLAY_MAX,MIN(1,IGEO(30,K)))
+                ENDIF
 	      ENDDO
+              DO K=1,NS_STACK ! type17,51 & 52
+                  NLAY_MAX = MAX(NLAY_MAX,STACK%IGEO(1,K))
+              ENDDO
             ENDIF
 C
-            ISH_NPT0 = 0            
+            ISH_NPT0 = 0    
             IF (IS_IPT_ALL == 1) THEN
                DO K=1,NUMGEO
-                 IF(IGEO(11,K) == 1 .OR. IGEO(11,K) == 9 .OR. IGEO(11,K) == 51  .OR. IGEO(11,K) == 52)THEN
+                 IF(IGEO(11,K) == 1 .OR. IGEO(11,K) == 9 ) THEN
                    NIP_MAX = MAX(NIP_MAX,IGEO(4,K))
                    IF (IGEO(4,K)==0) ISH_NPT0=1
+                 ELSEIF(IGEO(11,K) == 19 )THEN  ! 
+                   NIP_MAX = MAX(NIP_MAX,IGEO(4,K))
                  ELSEIF(IGEO(11,K) == 18)THEN
                    NIP_MAX = MAX(NIP_MAX,IGEO(3,K))
                  ENDIF
+               ENDDO
+               DO K=1,NUMPLY
+                  NIP_MAX = MAX(NIP_MAX, PLY_INFO(2,K)) 
                ENDDO
             ENDIF 
             IF(IS_IPT_ALL == 1 .AND. NIP_MAX == 0) ISHELL_NPT_CHECK = 1
@@ -885,7 +895,6 @@ C
            	 NUVAR_MAX = MAX(NUVAR_MAX,IPM(8,K))
 	      ENDDO
             ENDIF
-   
             IF (IS_MDSVAR_ALL == 1) THEN
               IF(KEY3_GLOB(1:3) == 'MDS' ) THEN
 	        DO K=1,MDS_NMAT
@@ -1135,6 +1144,7 @@ c
 C-------------------------------------------------- 
           IF(KEY2 == 'SHELL' .OR. KEY2 =='ELEM') THEN
 C-------------------------------------------------- 
+
             JMAX=MAX(H3D_NUM_KEY%SHELL_SCALAR, H3D_NUM_KEY%SHELL_VECTOR, H3D_NUM_KEY%SHELL_TENSOR)
 	    DO J=1,JMAX
               CPT_H3D = 0
@@ -1145,11 +1155,9 @@ C--------------------------------------------------
 	      IF ( KEY3_GLOB == H3D_KEYWORD_SHELL_VECTOR(J)%KEY3) IS_VECTOR = 1
               IF ( KEY3_GLOB == H3D_KEYWORD_SHELL_TENSOR(J)%KEY3) IS_TENSOR = 1
 	      IF ( IS_SCALAR == 1 .OR. IS_VECTOR == 1 .OR. IS_TENSOR == 1 ) THEN
-
            	IF(IS_SCALAR == 1) H3D_KEYWORD_SHELL = H3D_KEYWORD_SHELL_SCALAR(J)
            	IF(IS_VECTOR == 1) H3D_KEYWORD_SHELL = H3D_KEYWORD_SHELL_VECTOR(J)
            	IF(IS_TENSOR == 1) H3D_KEYWORD_SHELL = H3D_KEYWORD_SHELL_TENSOR(J)
-
            	IF(H3D_KEYWORD_SHELL%IS_LAYER /= 0  .OR. 
      .     	   H3D_KEYWORD_SHELL%IS_IPT /= 0 .OR.
      .     	   H3D_KEYWORD_SHELL%IS_PLY /= 0 .OR.
@@ -1204,7 +1212,6 @@ C
                       ENDIF
            	    ENDIF
            	  ELSE
-                   
 	 	   IF(NLAY_MAX + MAX(1,NIP_MAX) + NPLY_MAX + NUVAR_MAX + NMDSVAR_MAX /= 0)THEN
 	 	     DO K=1,MAX(1,IS_LAYER_ALL*MAX(NLAY_MAX,1))
 	 	       DO L=1,MAX(1,IS_IPT_ALL*MAX(NIP_MAX,1))
@@ -1329,6 +1336,7 @@ C
 	      ENDIF
 c
               DO K=1,CPT_H3D
+               
            	IF (IS_AVAILABLE_KEY(K) == 1 .AND. IS_SCALAR == 1) THEN
                   IF (IS_MDSVAR ==1) MDS_LABEL_TMP = MDS_LABEL(MDSVAR_INPUT1(K), MDSVAR_INPUT(K))
 
@@ -1339,7 +1347,7 @@ c
      .     				       LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
      .     				       UVAR_INPUT(K))
                     IS_SKING = 1
-			  ELSE
+		   ELSE
            	   CALL CREATE_H3D_SHELL_SCALAR(H3D_DATA,H3D_KEYWORD_SHELL_SCALAR(J)%ID,N1,N2,ID_INPUT,
      .     					   TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1),
      .                                             H3D_KEYWORD_SHELL_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
@@ -1935,6 +1943,6 @@ C
       DEALLOCATE(H3D_KEYWORD_QUAD_VECTOR)
       DEALLOCATE(H3D_KEYWORD_QUAD_TENSOR)
       DEALLOCATE(ID_MAT_MDS)
-C      
+C    
       RETURN
       END

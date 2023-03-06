@@ -33,7 +33,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD    
+      USE H3D_INC_MOD          
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -811,7 +812,7 @@ c-----    Material buffer - per integration point
 c
       DO IL = 1, NLAY                                                     
         NUVAR   = ELBUF_STR%BUFLY(IL)%NVAR_MAT                              
-        NVARTMP = ELBUF_STR%BUFLY(IL)%NVARTMP                                                          
+        NVARTMP = ELBUF_STR%BUFLY(IL)%NVARTMP
         IF (IGTYP == 51 .OR. IGTYP == 52) THEN
           NPTT = ELBUF_STR%BUFLY(IL)%NPTT
         ELSE
