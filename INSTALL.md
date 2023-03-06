@@ -7,6 +7,25 @@ OpenRadioss is made of:
 * Few [libraries](https://github.com/OpenRadioss/OpenRadioss/tree/main/extlib)
 * A set of [configuration files](https://github.com/OpenRadioss/OpenRadioss/tree/main/hm_cfg_files) that describes the input
 
+## Table of Contents
+
+**Prerequisites**
+
+* [Environment variables settings under Linux](#environment-variables-settings-under-linux)
+* [Environment variables settings under Windows cmd shell](#environment-variables-settings-under-windows-cmd-shell)
+* [Environment variables settings under Windows cygwin shell](#environment-variables-settings-under-windows-cygwin-shell)
+ 
+**Running OpenRadioss**
+
+* [Running OpenRadioss without MPI (OpenMP only)](#running-openradioss-without-mpi)
+* [Running OpenRadioss with MPI+OpenMP](#running-openradioss-with-mpi-and-openmp)
+    * [Under Linux](#under-linux)
+    * [Under Windows in cmd.exe shell](#under-windows-in-cmd-shell)
+    * [Running OpenRadioss container using Apptainer under Linux](#running-openradioss-container-using-apptainer-under-linux)
+    * [Running OpenRadioss container without MPI (OpenMP only)](#running-openradioss-container-without-mpi) 
+* [Running OpenRadioss test suite from the source code](*running-openradioss-test-suite-from-the-source-code)
+
+
 
 ## Prerequisites
 
@@ -72,7 +91,7 @@ Note that variables `RAD_CFG_PATH` and `RAD_H3D_PATH` start with `c:` unlike the
 ## Running OpenRadioss
 
 
-### Running OpenRadioss without MPI (OpenMP only)
+### Running OpenRadioss without MPI
 
 * Define number of OpenMP threads
 
@@ -97,7 +116,7 @@ Note that variables `RAD_CFG_PATH` and `RAD_H3D_PATH` start with `c:` unlike the
         engine_win64.exe  -i [Engine input file]
 
 
-### Running OpenRadioss with MPI+OpenMP
+### Running OpenRadioss with MPI and OpenMP
 
 #### Under Linux 
 
@@ -114,7 +133,7 @@ Note that variables `RAD_CFG_PATH` and `RAD_H3D_PATH` start with `c:` unlike the
         mpiexec -n [P]  --map-by socket:PE=$OMP_NUM_THREADS --bind-to core ./engine_linux64_gf_ompi -i [Engine input file]
 
 
-#### Under Windows in cmd.exe shell
+#### Under Windows in cmd shell
 
 * Intel OneAPI MPI must be installed and setup. Variables can le load separately : 
 
@@ -128,7 +147,7 @@ Note that variables `RAD_CFG_PATH` and `RAD_H3D_PATH` start with `c:` unlike the
 
 ### Running OpenRadioss container using Apptainer under Linux
 
-#### Running OpenRadioss container without MPI (OpenMP only)
+#### Running OpenRadioss container without MPI
 
 * Define number of OpenMP threads
 
@@ -186,7 +205,7 @@ Set the variables like running under Cygwin.
 
         cd $OPENRADIOSS_PATH/qa-tests/scripts
 
-#### Running without MPI (OpenMP only)
+#### Running without MPI
 
         perl ./or_qa_script ../../exec/engine_win64.exe 1.0
 
