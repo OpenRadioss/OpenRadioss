@@ -1756,6 +1756,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ANIM_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2087,6 +2088,13 @@ C  INITIAL MASS IN STARTER
       
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = TANIM_STOP      
+      
+      RVARINT = RVARINT + 1
+      TABVREA(RVARINT) = XI_RES  
+      RVARINT = RVARINT + 1
+      TABVREA(RVARINT) = YI_RES  
+      RVARINT = RVARINT + 1
+      TABVREA(RVARINT) = ZI_RES      
 C      
       LVARREA =RVARINT
 C----------------------------------------------------------------
