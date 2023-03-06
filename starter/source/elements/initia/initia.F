@@ -3282,13 +3282,13 @@ C-----------------------------------------------
       DATA EL_TYP / 'SOLID-HEXA ', 
      .    'TETRA4 ',
      .    'TETRA10 ',
-     .    'BRICK20 ',      
+     .    'BRIC20 ',      
      .    'ELEM-USER ', 
      .    'SOLID-IGE ', 
      .    'THICK-SHELL HEXA ' ,
      .    'THICK-SHELL PENTA '  ,
      .    'THICK-SHELL SHEL16'    ,
-     .    'THICK-SHELL BRICK20'    , 
+     .    'THICK-SHELL BRIC20'    , 
      .    'SHELL-4nodes '         , 
      .    'SHELL-3nodes '         , 
      .    'QUAD-2D '            ,
@@ -3338,7 +3338,7 @@ C Only solid and shell have initialized surely IPARG(62,NG)
            IP2NG2(IP) = NG 
          ELSEIF(IP2NG2(IP)>0) THEN
 C-------3 elem types in the same part 4+10+8        
-           N_NOD = ISOLNOD+IPARG(28,IP2NG1(I))+IPARG(28,IP2NG2(I))
+           N_NOD = ISOLNOD+IPARG(28,IP2NG1(IP))+IPARG(28,IP2NG2(IP))
            IF(N_NOD==22) THEN
              IF (IPARG(28,IP2NG1(IP))==8) THEN
                IP2NG2(IP) = -IP2NG1(IP)
@@ -3357,7 +3357,7 @@ C-----case 2 parts in same groupe
            ELSEIF (IP2NG2(IP)==0.AND.IPARG(28,IP2NG1(IP)) /= ISOLNOD) THEN
              IP2NG2(IP) = NG 
            ELSEIF(IP2NG2(IP)>0) THEN
-             N_NOD = ISOLNOD+IPARG(28,IP2NG1(I))+IPARG(28,IP2NG2(I))
+             N_NOD = ISOLNOD+IPARG(28,IP2NG1(IP))+IPARG(28,IP2NG2(IP))
              IF(N_NOD==22) THEN
                IF (IPARG(28,IP2NG1(IP))==8) THEN
                  IP2NG2(IP) = -IP2NG1(IP)
