@@ -149,7 +149,6 @@ C
           NLAY = ELBUF_TAB(NG)%NLAY
           NPG  = NPTR*NPTS
           NPT  = NLAY*NPTT 
-          IF (IHBE == 23) NPG=4
           LFT=1
           LLT=NEL
 
