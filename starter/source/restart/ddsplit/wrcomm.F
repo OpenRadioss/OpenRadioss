@@ -32,6 +32,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ANIM_MOD
+      USE OUTPUTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -313,7 +314,14 @@ C  INITIAL MASS FROM STARTER
       TABVREA(RVARINT) = ZERO    
 C ANIM FILES STOP TIME
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = TANIM_STOP      
+      TABVREA(RVARINT) = TANIM_STOP       
+C INITIAL COORDS OF SPH RESERVE 
+      RVARINT = RVARINT + 1
+      TABVREA(RVARINT) = XI_RES  
+      RVARINT = RVARINT + 1
+      TABVREA(RVARINT) = YI_RES  
+      RVARINT = RVARINT + 1
+      TABVREA(RVARINT) = ZI_RES  
 C
 C---- fin check point restart      
 C      

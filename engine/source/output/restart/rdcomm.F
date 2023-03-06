@@ -1780,6 +1780,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
        USE ANIM_MOD      
+       USE OUTPUTS_MOD      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2121,7 +2122,14 @@ C  INITIAL MASS IN STARTER
       PERCENT_ADDMASS_OLD = TABVREA(RVARINT)
 C  ANIM FILES FINAL TIME
       RVARINT = RVARINT + 1
-      TANIM_STOP = TABVREA(RVARINT)
+      TANIM_STOP = TABVREA(RVARINT)     
+C  INITIAL COORDS OF SPH RESERVE 
+      RVARINT = RVARINT + 1
+      XI_RES = TABVREA(RVARINT)
+      RVARINT = RVARINT + 1
+      YI_RES = TABVREA(RVARINT)
+      RVARINT = RVARINT + 1
+      ZI_RES = TABVREA(RVARINT)
            
       RETURN
       END
