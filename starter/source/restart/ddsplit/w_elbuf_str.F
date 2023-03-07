@@ -87,7 +87,7 @@ C-----------------------------------------------
      .   L_DAM,L_DSUM,L_DGLO,L_EPE,L_EPC,L_XST,L_SSP,L_Z,L_FRAC,L_VISC,
      .   L_THK,L_FOR,L_MOM,L_EPS,L_SMSTR,L_BFRAC,L_DMG,L_FORTH,L_EINTTH,
      .   L_SEQ,L_SIGPLY,L_JAC_I,L_FAC_YLD,L_ABURN,L_MU,L_PLANL,L_EPSDNL,
-     .   L_DMGSCL,L_PIJ,L_VOL0DP,L_TSAIWU,IDRAPE
+     .   L_DMGSCL,L_PIJ,L_VOL0DP,L_TSAIWU
       INTEGER  ! failure variables
      .   LF_DAM,LF_DAMMX,LF_DAMINI,LF_TDEL,LF_INDX,LF_OFF
       INTEGER sum
@@ -105,10 +105,8 @@ C-----------------------------------------------
       TYPE(BUF_INTLAY_)  , POINTER :: INTLAY
       TYPE(FAIL_LOC_)    , POINTER :: FLOC
       TYPE(BUF_NLOC_)    , POINTER :: BUFNL
-      TYPE(L_BUFEL_DIR_)     , POINTER :: LBUF_DIR
-      
 C=======================================================================
-      DEBUG_PRINT = 0  
+      DEBUG_PRINT = 0   
 c
       DO NG=1,NGROUP
         P      = IPARG(32,NG)
@@ -129,7 +127,6 @@ c
           IGTYP = ELBUF%IGTYP
           IXFEM = ELBUF%IXFEM                                  
           NEL   = ELBUF%NEL
-          IDRAPE = ELBUF%IDRAPE
 cc          NPT   = IPARG(6,NG)                                                   
           NPT  = ELBUF%NLAY*ELBUF%NPTR*ELBUF%NPTS*ELBUF%NPTT
 C
@@ -208,9 +205,7 @@ c---------  write top structure parameters: NPAR_TAB = 9
           RBUF_L(L_REL+1) = ELBUF%IXFEM          
                  L_REL = L_REL+1                          
           RBUF_L(L_REL+1) = ELBUF%NXEL       
-                 L_REL = L_REL+1         
-          RBUF_L(L_REL+1) = ELBUF%IDRAPE       
-                 L_REL = L_REL+1                        
+                 L_REL = L_REL+1                          
 c---------------------------------------------------          
 c         LAYERS : write buffer at layer level 
 c---------------------------------------------------
@@ -510,12 +505,10 @@ c
                 L_REL = L_REL+NEL*LY_DMG                                     
               RBUF_L(L_REL+1:L_REL+NEL*LY_GAMA) = BUFLY%GAMA(1:NEL*LY_GAMA)        
                 L_REL = L_REL+NEL*LY_GAMA                                     
-              IF(IDRAPE == 0 .OR.(IDRAPE > 0 .AND. IGTYP == 17)) THEN
-                RBUF_L(L_REL+1:L_REL+NEL*LY_DIRA) = BUFLY%DIRA(1:NEL*LY_DIRA)        
-                  L_REL = L_REL+NEL*LY_DIRA                                     
-                RBUF_L(L_REL+1:L_REL+NEL*LY_DIRB) = BUFLY%DIRB(1:NEL*LY_DIRB)        
-                  L_REL = L_REL+NEL*LY_DIRB
-              ENDIF                                         
+              RBUF_L(L_REL+1:L_REL+NEL*LY_DIRA) = BUFLY%DIRA(1:NEL*LY_DIRA)        
+                L_REL = L_REL+NEL*LY_DIRA                                     
+              RBUF_L(L_REL+1:L_REL+NEL*LY_DIRB) = BUFLY%DIRB(1:NEL*LY_DIRB)        
+                L_REL = L_REL+NEL*LY_DIRB                                     
               IF(LY_CRKDIR > 0) RBUF_L(L_REL+1:L_REL+NEL*LY_CRKDIR) = BUFLY%DIRB(1:NEL*LY_CRKDIR)        
                 L_REL = L_REL+NEL*LY_CRKDIR                                    
 
@@ -558,7 +551,7 @@ c---------------------------------------------------
                  print*,'      LAYER_VARS=', L_REL-IAD
                  print*,'    total layer vars =', L_REL - SUM
                  IAD = L_REL
-              ENDIF              
+              ENDIF
 c---------------------------------------------------
            sum = l_rel
 c         
@@ -714,18 +707,9 @@ C--------write first VOL0DP
                 L_DPREL = L_DPREL + NEL*L_VOL0DP                                                      
               ENDIF
              ENDDO                                                          
-            ENDDO                                             
-           ENDDO   
-           IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-             DO K = 1,NPTT
-                LBUF_DIR => ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(K)
-                RBUF_L(L_REL+1:L_REL+NEL*LY_DIRA) = LBUF_DIR%DIRA(1:NEL*LY_DIRA)        
-                L_REL = L_REL + NEL*LY_DIRA                                     
-                RBUF_L(L_REL+1:L_REL+NEL*LY_DIRB) = LBUF_DIR%DIRB(1:NEL*LY_DIRB)        
-                L_REL = L_REL + NEL*LY_DIRB   
-              ENDDO 
-            ENDIF                                                            
-          ENDDO   ! ELBUF%NLAY
+            ENDDO                                                           
+           ENDDO                                                             
+          ENDDO   
 c---------------------------------------------------
               IF (DEBUG_PRINT == 1) THEN
                  print*,'      LOCAL VARS (LBUF TABLES)=', L_REL-IAD

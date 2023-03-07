@@ -72,7 +72,7 @@ c-------------------------------------------------
         IXFEM  = IPARG(54,NG)
         INLOC  = IPARG(78,NG)
 
-        NEWLEN = BUFLEN         
+        NEWLEN = BUFLEN
         IF(ITY==1)THEN
           ISNOD=IPARG(28,NG)
         ELSE

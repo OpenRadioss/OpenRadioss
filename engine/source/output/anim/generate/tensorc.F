@@ -88,13 +88,12 @@ C     REAL
      .        IHBE,IREP,BUF,NPG,K,ISROT,NUVARV,IVISC,
      .        IPMAT,IGTYP,MATLY,ISUBSTACK,IIGEO,IADI,IPMAT_IPLY,
      .        NPT_ALL,NPTT,ILAY,IUS,ID_PLY,IPANG,IPPOS,IPTHK,JJ(8),
-     .        IDX,IGMAT,IDRAPE
+     .        IDX,IGMAT
       INTEGER PID(MVSIZ),MAT(MVSIZ)
 C
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF 
-      TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C
       my_real,
      .   DIMENSION(:), POINTER :: DIR_A
@@ -128,7 +127,6 @@ C       IF(ANIM_K == 0.AND.IPARG(8,NG) == 1)GOTO 490
         ISTRAIN = IPARG(44,NG)
         ISUBSTACK = IPARG(71,NG)
         IGMAT = IPARG(75,NG)
-        IDRAPE = ELBUF_TAB(NG)%IDRAPE
         LFT=1
         LLT=NEL
 !
@@ -861,38 +859,22 @@ C
 !! the other multidimensional buffer ARRAYS which are still not modified
 !!                    CALL UROTO(LFT,LLT,SIGE,DIR_A)
                   ELSE
-                   IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
                     IF (NLAY > 1) THEN                              
-                      DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF_DIR(1)%DIRA
-                    ELSE                                            
-                      DIR_A => ELBUF_TAB(NG)%BUFLY(1)%LBUF_DIR(1)%DIRA
-                    ENDIF
-                  ELSE
-                     IF (NLAY > 1) THEN                              
                       DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%DIRA
                     ELSE                                            
                       DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
-                    ENDIF 
-                  ENDIF  
-                   CALL UROTOV(LFT,LLT,SIGE,DIR_A,NEL)
+                    ENDIF
+                    CALL UROTOV(LFT,LLT,SIGE,DIR_A,NEL)
 !! temporary replaced by (the same) UROTOV() in order to do not affect
 !! the other multidimensional buffer ARRAYS which are still not modified
 !!                    CALL UROTO(LFT,LLT,SIGE,DIR_A)
                   ENDIF
                 ELSE
-                 IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52 ) ) THEN
-                  IF (NLAY > 1) THEN                              
-                    DIR_A =>  ELBUF_TAB(NG)%BUFLY(IPT)%LBUF_DIR(1)%DIRA
-                  ELSE                                            
-                    DIR_A =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF_DIR(1)%DIRA
-                  ENDIF                 
-                 ELSE
                   IF (NLAY > 1) THEN                              
                     DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%DIRA
                   ELSE                                            
                     DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
-                  ENDIF 
-                ENDIF                                            
+                  ENDIF                                           
                   CALL UROTOV(LFT,LLT,SIGE,DIR_A,NEL)
 !! temporary replaced by (the same) UROTO() in order to do not affect
 !! the other multidimensional buffer ARRAYS which are still not modified

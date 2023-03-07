@@ -41,7 +41,7 @@ Chd|====================================================================
      4           IX     ,NIX    ,NUMSH ,PTSH   ,IGEO   ,
      5           IR     ,IS     ,IPG   ,NPG    ,G_PLA  ,
      6           EPSP   ,THKE   ,IGTYP ,NEL    ,ISIGSH ,
-     7           E1X    ,E2X    ,E3X   ,E1Y    ,E2Y  ,E3Y,
+     7           E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
      8           E1Z    ,E2Z   ,E3Z   ,DIR_A   ,DIR_B  ,
      9           POSLY  )
 !     points Gauss a corriger !!!!!!
