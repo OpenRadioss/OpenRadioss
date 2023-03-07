@@ -126,7 +126,7 @@ Chd|====================================================================
      K                             SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS      ,SIGTRUSS         ,
      L                             NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL ,
      M                             IMERGE      ,NMERGE_TOT ,IEXLNK          ,NUVARI         ,NUVAR            ,
-     N                             IUSER       ,USER      )
+     N                             IUSER       ,USER       ,DRAPEG)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -189,7 +189,8 @@ C-----------------------------------------------
       TYPE(DETONATOR_STRUCT_) :: DETONATORS
       my_real, INTENT(IN) :: XLAS(*)
       INTEGER, INTENT(IN) :: LAS(*)
-      TYPE (DRAPE_)       :: DRAPE(*)
+      TYPE (DRAPE_)       :: DRAPE(NUMELC_DRAPE +  NUMELTG_DRAPE)
+      TYPE (DRAPEG_)                         :: DRAPEG
       INTEGER, INTENT(IN) :: IACTIV(LACTIV,*)
       my_real, INTENT(IN) :: FACTIV(LRACTIV,*),GEO_STACK(6*NPT_STACK+1,NS_STACK),PM_STACK(20,NS_STACK)
       TYPE (UNIT_TYPE_) ::UNITAB
@@ -226,6 +227,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IUSER(NUVARI+100)
       my_real, INTENT(IN) :: USER(NUVAR)
       INTEGER,INTENT(IN) :: IPARG(NPARG,NGROUP)
+      
 C-----------------------------------------------
 C      NOM_OPT(LNOPT1,SNOM_OPT1) 
 C         * Possibly, NOM_OPT(1) = ID
@@ -467,7 +469,7 @@ C-----------------------------------------------
      .                    IXC    ,IXTG     ,IXQ      ,IXP    ,IXT    ,
      .                    IXR    ,IXS      )
       CALL ST_QAPRINT_TRANSFORMATIONS(RTRANS,LSUBMODEL,IGRNOD)
-      CALL ST_QAPRINT_COMPOSITE_OPTIONS(DRAPE)
+      CALL ST_QAPRINT_COMPOSITE_OPTIONS(DRAPE,DRAPEG)
       CALL ST_QAPRINT_ALE_OPTIONS_DRIVER
       CALL ST_QAPRINT_INIVOL()  
       CALL ST_QAPRINT_REFSTA(XREFC     ,XREFTG  ,XREFS    ,TAGXREF   ,IXS   ,IXC   ,IXTG   ,ITAB, XYZREF)   

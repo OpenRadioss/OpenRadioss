@@ -27,7 +27,7 @@ Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_drive
 Chd|-- calls ---------------
 Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
 Chd|====================================================================
-      SUBROUTINE ST_QAPRINT_COMPOSITE_OPTIONS(DRAPE)
+      SUBROUTINE ST_QAPRINT_COMPOSITE_OPTIONS(DRAPE, DRAPEG)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------

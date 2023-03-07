@@ -444,7 +444,7 @@ C
         ENDDO
         NFT = NFT + NEL
         !!
-        IF(NDRAPE > 0) THEN
+        IF(NDRAPE > 0 .AND. NUMELTG_DRAPE > 0) THEN
          DO I =1, NEL     
             IEL0 = XNUM_DRAPEG%INDX(I) 
             IF(IEL0 == 0 ) CYCLE                                                                     
@@ -453,13 +453,13 @@ C
                DEALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(J)%RDRAPE)         
                DEALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(J)%IDRAPE) 
             ENDDO   
-            DEALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY)                                                                    
+            DEALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY,XNUM_DRAPE(I)%INDX_PLY)                                                                    
          ENDDO
          DEALLOCATE( XNUM_DRAPE, XNUM_DRAPEG%INDX )
         ELSE
           DEALLOCATE( XNUM_DRAPE )      
-        ENDIF         
-        
+        ENDIF  
+        DEALLOCATE(INUM_WORKSH)
       ENDDO   
 
 
@@ -880,7 +880,7 @@ C
           IPARG(52,NGROUP)=JSMS
 C for stack         
           IPARG(71,NGROUP) = ISUBSTACK 
-          IPARG(91,NGROUP) = IDRAPE  !
+          IPARG(92,NGROUP) = IDRAPE  !
 C          
           NFT = NFT + NE1
 c  220    CONTINUE
@@ -932,7 +932,6 @@ C
 
       DEALLOCATE(INDEX2)
       DEALLOCATE( ISTOR )
-      DEALLOCATE( XNUM_DRAPE )
 C-----------
       RETURN
       END

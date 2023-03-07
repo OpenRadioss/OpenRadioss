@@ -10289,7 +10289,7 @@ C----------------------------------------------
      K        SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS     ,SIGTRUSS         ,
      L        NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL,
      L        IMERGE      ,NMERGE_TOT ,IEXLNK          ,NUVARI        ,NUVAR            ,
-     N        IUSER       ,USER     )
+     N        IUSER       ,USER       ,DRAPEG)
 !
       DEALLOCATE (SIGI)
       DEALLOCATE (SIGSH)

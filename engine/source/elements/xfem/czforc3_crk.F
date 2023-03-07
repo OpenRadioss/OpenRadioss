@@ -409,7 +409,7 @@ C
      1                 PID    ,MTN    ,NPTT     ,HM      ,HF     ,  
      2                 HC     ,HMFOR  ,IORTH    ,DIR_A   ,IGEO   ,  
      3                 ISUBSTACK,STACK,XFEM_STR ,NXLAY   ,THKG   ,
-     4                 DRAPE_SH4N ,NFT  ,NEL      )           
+     4                 DRAPE_SH4N ,NFT  ,NEL    ,INDX_DRAPE  )           
 C----------------------------------
 C     CALCUL VITESSE DE DEFORMATION 
 C----------------------------------

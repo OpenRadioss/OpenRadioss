@@ -186,6 +186,8 @@ c
           IINT    = IGEO(47,IPID)
 C---
           IPOS = IGEO(99,PID(1))
+          THICKT   = STACK%GEO(1,ISUBSTACK)
+          ZSHIFT = GEO(199, PID(1))
           IF(IPOS == 0 )THEN                         
             ZSHIFT = - HALF                           
           ELSEIF(IPOS == 2 )THEN                      
@@ -334,6 +336,8 @@ c         stack addresses
           IPPOS  =  IPTHK + NLAY ! layer position address  ( NLAY = NPT )
 c
           IPOS = IGEO(99,PID(1))
+          THICKT   = STACK%GEO(1,ISUBSTACK)
+          ZSHIFT = GEO(199, PID(1))
           IF(IPOS == 0 )THEN                         
             ZSHIFT = - HALF                           
           ELSEIF(IPOS == 2 )THEN                      

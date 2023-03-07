@@ -2878,9 +2878,9 @@ c
                ENDIF
 c
                IF (ID_PLY  == PLY_ANIM_PHI( 3 * (IPLY - 1) + 1) ) THEN
-                 BUFLY => ELBUF_TAB(NG)%BUFLY(J)
+                BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                 IF (ITY == 3) THEN
-                  IF(IDRAPE > 0 .AND. IGTYP == 51 .OR. IGTYP == 52) THEN
+                  IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
                     LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1) 
                     IF (MLW /= 0 .AND. MLW /= 13) THEN   
                       DO I=LFT,LLT                                                
@@ -2994,6 +2994,7 @@ c
                       ENDDO                                                       
                     ENDIF  ! MLW                               
                  ELSEIF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
+                     BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                     IF (MLW /= 0 .AND. MLW /= 13) THEN   
                       DO I=LFT,LLT                                                
                         N = I + NFT                                               
@@ -3110,7 +3111,7 @@ c
                   ELSEIF (ITY == 7) THEN
                     IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN  
                      LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1) 
-                   IF (MLW /= 0 .AND. MLW /= 13) THEN                      
+                     IF (MLW /= 0 .AND. MLW /= 13) THEN                      
                       DO I=LFT,LLT                                              
                         N = I + NFT                                             
                         X21 = X(1,IXTG(3,N))-X(1,IXTG(2,N))                     
@@ -3183,6 +3184,7 @@ C
                       ENDDO                                                     
                     ENDIF                                                        
                    ELSEIF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
+                     BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                     IF (MLW /= 0 .AND. MLW /= 13) THEN                      
                       DO I=LFT,LLT                                              
                         N = I + NFT                                             

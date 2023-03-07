@@ -48,7 +48,7 @@ Chd|====================================================================
      5            ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,     
      6            IHBE   ,THKE   ,ISMSTR ,X      ,
      7            IKGEO  ,IPM    ,IGEO   ,IEXPAN ,
-     8            IPARG  ,ISUBSTACK,STACK,DRAPE_T3 )
+     8            IPARG  ,ISUBSTACK,STACK,DRAPE_SH3N, INDX_DRAPE )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -76,6 +76,7 @@ C
       INTEGER JFT     ,JLT    ,NFT    ,NPT   ,MTN     ,ITHK   ,
      .        NCYCLE,ISUBSTACK,
      .        ISTRAIN ,IPLA   ,OFFSET,IHBE    ,ISMSTR,IKGEO, IEXPAN
+      INTEGER, DIMENSION(SEDRAPE) :: INDX_DRAPE
       INTEGER IXTG(NIXTG,*) ,IGEO(NPROPGI,*),IPM(*),IPARG(*)
       INTEGER INDXOF(MVSIZ),
      .         ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
@@ -88,7 +89,7 @@ C     REAL OU REAL*8
      .   K_DIAG(*) ,K_LT(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_) :: DRAPE_T3
+      TYPE (DRAPE_) :: DRAPE_SH3N(NUMELTG_DRAPE)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -157,7 +158,9 @@ C
      6               M11,M12,M13,M22,M23,M33, 
      7               MF11,MF12,MF13,MF22,MF23,MF33, 
      8               FM12,FM13,FM23,OFF ,NEL) 
-
+ 
+      NUMEL_DRAPE = NUMELTG_DRAPE
+      SEDRAPE = STDRAPE
       IF (IREP>0) THEN
        CALL CMATC3(JFT    ,JLT       ,PM     ,MAT     ,GEO      ,
      1             PID    ,AREA      ,THK0   ,THK02   ,GBUF%THK ,
@@ -165,8 +168,8 @@ C
      3             HM     ,HF        ,HC     ,HZ      ,IGTYP    ,
      4             IORTH  ,HMOR      ,HFOR   ,DIR_A   ,IGEO     ,
      5             IDRIL  ,IHBE      ,HMFOR  ,GS      ,ISUBSTACK,
-     6             STACK  ,ELBUF_STR ,NLAY   ,DRAPE_T3 , NFT      ,
-     .              NEL    )
+     6             STACK  ,ELBUF_STR ,NLAY   ,DRAPE_SH3N , NFT      ,
+     .              NEL   ,INDX_DRAPE)
       ELSE
        CALL CMATC3(JFT    ,JLT       ,PM     ,MAT     ,GEO      ,
      1             PID    ,AREA      ,THK0   ,THK02   ,GBUF%THK ,
@@ -174,8 +177,8 @@ C
      3             HM     ,HF        ,HC     ,HZ      ,IGTYP    ,
      4             IORTH  ,HMOR      ,HFOR   ,DIRA    ,IGEO     ,
      5             IDRIL  ,IHBE      ,HMFOR  ,GS      ,ISUBSTACK,
-     6             STACK  ,ELBUF_STR ,NLAY   ,DRAPE_T3   ,NFT      ,
-     .             NEL    )
+     6             STACK  ,ELBUF_STR ,NLAY   ,DRAPE_SH3N   ,NFT      ,
+     .             NEL    ,INDX_DRAPE)
       ENDIF
 C-----------------------------------------------
 C     IF [KT]

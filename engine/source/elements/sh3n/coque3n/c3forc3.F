@@ -302,7 +302,7 @@ c
 c-------------------------------------
       L_DIRA = ELBUF_STR%BUFLY(1)%LY_DIRA
       L_DIRB = ELBUF_STR%BUFLY(1)%LY_DIRB
-      IF(IDRAPE > 0) THEN
+      IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
         ALLOCATE(DIRA(NPTTOT*NEL*L_DIRA))
         ALLOCATE(DIRB(NPTTOT*NEL*L_DIRB))
         IF (L_DIRA == 0) THEN

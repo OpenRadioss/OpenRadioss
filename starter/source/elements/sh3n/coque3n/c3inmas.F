@@ -415,9 +415,10 @@ C---         Test stability condition for mass
         !
         IPOS = IGEO(99,IPROP)                   
         THICKT  = STACK%GEO(1,ISUBSTACK)
+        ZSHIFT = GEO(199,IPROP)
         IF(IPOS == 0 )THEN                           
           ZSHIFT = - HALF                             
-        ELSEIF(IPOS == 2 )THEN                        
+        ELSEIF(IPOS == 2 )THEN  
           ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
         ELSEIF(IPOS == 3) THEN                        
           ZSHIFT = -ONE                               
@@ -729,6 +730,7 @@ C---         Test stability condition for inertia
         !!
         IPOS = IGEO(99,IPROP)                  
         THICKT  = STACK%GEO(1,ISUBSTACK)
+        ZSHIFT  = GEO(199,IPROP)
         IF(IPOS == 0 )THEN                           
           ZSHIFT = - HALF                             
         ELSEIF(IPOS == 2 )THEN                        

@@ -550,7 +550,8 @@ c--------------------------------------------
         NTHK   =  IPPOS + NLAY   !  NPT
 C           
         IPOS = IGEO(99,IPROP)                   
-        THICKT  = STACK%GEO(1,ISUBSTACK)
+        THICKT = STACK%GEO(1,ISUBSTACK)
+        ZSHIFT = GEO(199,IPROP)
         IF(IPOS == 0 )THEN                           
           ZSHIFT = -HALF                             
         ELSEIF(IPOS == 2 )THEN                        
@@ -1058,6 +1059,7 @@ C
         NTHK   =  IPPOS + NLAY   !  NPT 
         IPOS = IGEO(99,IPROP)                   
         THICKT  = STACK%GEO(1,ISUBSTACK)
+        ZSHIFT = GEO(199,IPROP)
         IF(IPOS == 0 )THEN                           
           ZSHIFT = - HALF                             
         ELSEIF(IPOS == 2 )THEN                        

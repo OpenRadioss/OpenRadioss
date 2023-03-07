@@ -946,7 +946,7 @@ C
 C for stack         
           IPARG(71,NGROUP) = ISUBSTACK
           IPARG(75,NGROUP) = IGMAT 
-          IPARG(91,NGROUP) = IDRAPE  ! 
+          IPARG(92,NGROUP) = IDRAPE  ! 
 C          
           NFT = NFT + NE1
 c  220    CONTINUE

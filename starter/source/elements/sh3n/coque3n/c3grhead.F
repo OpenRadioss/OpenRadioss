@@ -136,7 +136,7 @@ C-----------------------------------------------
      .   II0,JJ0,ILEV,PRT,IADM,DIR,MSKIRB,IRB, II4, JJ4,
      .   IRUP,IXFEM,IWARNHB,IPT,IMATLY,IPID,ISH3N,
      .   INUM_WORKSH(3,NUMELTG),II5,JJ5,ISUBSTACK,IIGEO,IADI,IPPID,
-     .   NB_LAW58,IPMAT,IPERT,STAT,IALEL, MT,IP,NSLICE,KK,NPT_DRP,IE,
+     .   NB_LAW58,IPMAT,IPERT,STAT,IALEL, MT,NSLICE,KK,NPT_DRP,IE,
      .   IE0
 C     REAL OU REAL*8
       CHARACTER*nchartitle,
@@ -250,7 +250,6 @@ C
              DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(JJ)                               
              NSLICE =  DRAPE_PLY%NSLICE                                         
              XNUM_DRAPE(I)%DRAPE_PLY(JJ)%NSLICE =  NSLICE                       
-             XNUM_DRAPE(I)%INDX_PLY(JJ) = IP                                    
              XNUM_DRAPE(I)%DRAPE_PLY(JJ)%IPID = DRAPE_PLY%IPID                 
              DO KK = 1,NSLICE                                                   
                XNUM_DRAPE(I)%DRAPE_PLY(JJ)%IDRAPE(KK,1)=DRAPE_PLY%IDRAPE(KK,1)  
