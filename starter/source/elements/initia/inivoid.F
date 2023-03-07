@@ -300,7 +300,7 @@ C
      .              TEMP    ,BID , BID,BID,BID,
      .              BID,BID,ISUBSTACK,IBID,BIDBUF,
      .              STACK,BIDG ,RNOISE,BID,
-     .              PERTURB,IX1     ,IX2      ,IX3     ,IX4     ,IBID, IBID)
+     .              PERTURB,IX1     ,IX2      ,IX3     ,IX4      )
 
         NDEPAR=NUMELS+NFT
         DO I=1,NEL
@@ -336,7 +336,7 @@ C
      .               MCPS(1,NFT+1) , TEMP,SH3TRIM,ISUBSTACK,IBID,
      .               BIDBUF, STACK,BIDG ,RNOISE,
      .               BID,PERTURB,IX1   ,IX2      ,IX3    ,
-     .               X2L      ,X3L    ,Y3L   ,IBID, IBID)
+     .               X2L      ,X3L    ,Y3L   )
 
         NDEPAR=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NFT
         DO I=1,NEL

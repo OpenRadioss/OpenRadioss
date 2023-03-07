@@ -44,7 +44,6 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE ANIM_MOD
       USE OUTPUTS_MOD
-      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1739,11 +1738,6 @@ C---- MAX (/H3D)
 C---- Time history strain flag
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=TH_STRAIN
-C  draped shell element
-      LVARINT=LVARINT+1
-      TABVINT(LVARINT) = NUMELC_DRAPE
-      LVARINT=LVARINT+1
-      TABVINT(LVARINT) = NUMELTG_DRAPE     
 C----------------------------------------------------------------
 C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------

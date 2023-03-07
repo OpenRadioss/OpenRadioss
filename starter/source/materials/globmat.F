@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IGEO(NPROPGI,*),IGEO_STACK(4* NPT_STACK+2,*)
+      INTEGER IGEO(NPROPGI,*),IGEO_STACK(3* NPT_STACK+2,*)
       my_real
      .       GEO(NPROPG,*),PM(NPROPM,*),GEO_STACK(6*NPT_STACK+1,*),
      .       PM_STACK(20,*)

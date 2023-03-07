@@ -840,9 +840,7 @@ C
       TYPE (FAILWAVE_STR_) :: FAILWAVE
       TYPE (NLOCAL_STR_)   :: NLOC_DMG
       TYPE (PINCH)         :: PINCH_DATA
-      TYPE (DRAPE_)   ,DIMENSION(:), ALLOCATABLE   :: DRAPE,DRAPE_WRK
-      TYPE (DRAPEG_)                               :: DRAPEG
-      TYPE(DRAPE_WORK_) ,DIMENSION(:), ALLOCATABLE   :: IWORK_T
+      TYPE (DRAPE_) , DIMENSION(:), ALLOCATABLE :: DRAPE
       INTEGER :: EBCS_TAG_CELL_SPMD(NUMELQ+NUMELTG+NUMELS)
 
 
@@ -1105,10 +1103,6 @@ C
 C SEATBELTS
       INTEGER NB_MAT_SEATBELT,NB_MAT
 C
-!     Tmp variable
-      INTEGER  :: NUMSH3,NUMSH4, NSLICE,NPT_DRAPE,JJ,ISL, IP,IE, IDSHEL
-      INTEGER , DIMENSION(:), ALLOCATABLE :: INDXSH  
-    
 C======================================================================|
 c   BEGINNING
 !     domain decomposition statistic
@@ -3581,112 +3575,19 @@ C        IF(ALLOCATED(RBY_MSN)) DEALLOCATE(RBY_MSN)
       ENDIF
 C--------------------------------------------
       CALL STOPTIME(17,1)
-C--------------------------------------------
-C     LECTURE DES DRAPES
-C--------------------------------------------
-      ERR_MSG='DRAPE'
-      ERR_CATEGORY='DRAPE'
-      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-       NUMELC_DRAPE = 0
-       NUMELTG_DRAPE = 0
-      IF (NDRAPE > 0) THEN
-        WRITE(ISTDO,'(A)')' .. DRAPE'
-        ALLOCATE(DRAPE_WRK(NUMELC + NUMELTG),DRAPEG%INDX(NUMELC + NUMELTG))
-        DRAPEG%INDX = 0  
-        ALLOCATE(INDXSH(NUMELC + NUMELTG))
-        INDXSH = 0
 C-----------------
-C     Stack part Pre orginisation
+C     Stack part organisation
 C-------------------------
-        NUMELC_DRAPE = 0
-        NUMELTG_DRAPE = 0
-        STDRAPE = 0
-        SCDRAPE = 0
-        IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0) THEN
-          ALLOCATE(IWORK_T(NUMELC+NUMELTG))
-          CALL PRE_STACKGROUP(
-     .                   IGRSH3N    ,IGRSH4N    ,IXC        ,IXTG      ,
-     .                   IGEO       ,GEO        ,IGEO_STACK ,IWORKSH    ,
-     .                   IWORK_T  )
-        ENDIF        
-      !!   
-         CALL HM_READ_DRAPE(DRAPE_WRK ,IWORK_T       ,IWORKSH   ,IGRSH3N   ,IGRSH4N  ,
-     .                     IXC       ,IXTG           ,IGEO       ,IGEO_STACK,LSUBMODEL,
-     .                     UNITAB    ,INDXSH         )
-          IF( NUMELC_DRAPE  > 0) SCDRAPE = NUMELC
-          IF( NUMELTG_DRAPE > 0) STDRAPE = NUMELTG
-          IF( (NUMELC_DRAPE + NUMELTG_DRAPE )> 0) THEN
-            ALLOCATE(DRAPE(NUMELC_DRAPE +NUMELTG_DRAPE) ) 
-            DRAPEG%NUMSH4 = NUMELC_DRAPE
-            DRAPEG%NUMSH3 = NUMELTG_DRAPE 
-            DO I=1,NUMELC_DRAPE + NUMELTG_DRAPE
-               IDSHEL = INDXSH(I)  
-               NPT_DRAPE = DRAPE_WRK(IDSHEL)%NPLY_DRAPE  
-               DRAPE(I)%NPLY_DRAPE = NPT_DRAPE 
-               NPT = IWORKSH(1,IDSHEL) 
-               DRAPE(I)%NPLY = NPT 
-               DRAPEG%INDX(IDSHEL) = I
-               ALLOCATE(DRAPE(I)%DRAPE_PLY(NPT_DRAPE))                                                        
-               ALLOCATE(DRAPE(I)%INDX_PLY(NPT))                                                          
-               DRAPE(I)%INDX_PLY = 0
-               DO JJ =1,NPT_DRAPE                                                                                    
-                IP = DRAPE_WRK(IDSHEL)%INDX_PLY(JJ)                                                                 
-                DRAPE(I)%INDX_PLY(IP) = JJ                                                                      
-                NSLICE = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%NSLICE   
-                DRAPE(I)%DRAPE_PLY(JJ)%NSLICE = NSLICE 
-                ALLOCATE(DRAPE(I)%DRAPE_PLY(JJ)%RDRAPE(NSLICE,2))                                        
-                ALLOCATE(DRAPE(I)%DRAPE_PLY(JJ)%IDRAPE(NSLICE,2))   
-                DO ISL = 1,NSLICE                                                                                     
-                   DRAPE(I)%DRAPE_PLY(JJ)%RDRAPE(ISL,1)  = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(ISL,1)           
-                   DRAPE(I)%DRAPE_PLY(JJ)%RDRAPE(ISL,2)  = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(ISL,2)           
-                   DRAPE(I)%DRAPE_PLY(JJ)%IDRAPE(ISL,1)  = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(ISL,1)           
-                   DRAPE(I)%DRAPE_PLY(JJ)%IDRAPE(ISL,2)  = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(ISL,2) 
-                ENDDO ! nbre of slice
-             ENDDO                                                                                  
-           ENDDO 
-           !! Dallocation of work drape momory 
-           DO I=1,NUMELC_DRAPE + NUMELTG_DRAPE
-               IDSHEL = INDXSH(I)                                                 
-               NPT = IWORKSH(1,IDSHEL)  
-               IF(ALLOCATED(DRAPE_WRK(IDSHEL)%DRAPE_PLY)) THEN  
-                 NPT_DRAPE = DRAPE_WRK(IDSHEL)%NPLY_DRAPE                                                                         
-                 DO JJ=1,NPT_DRAPE 
-                     IP = DRAPE_WRK(IDSHEL)%INDX_PLY(JJ)                          
-                     DEALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE,DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE)
-                  ENDDO
-                  DEALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY) 
-               ENDIF     
-           ENDDO 
-           DEALLOCATE(DRAPE_WRK)
-           DEALLOCATE(INDXSH )
-        ENDIF ! NUMSH3+NUMSH4
-        IF(ALLOCATED(IDRAPEID)) DEALLOCATE(IDRAPEID)
-     
-         IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0) THEN
-            CALL STACKGROUP_DRAPE(DRAPE, DRAPEG , IWORK_T, IWORKSH,
-     .                   IGRSH3N    ,IGRSH4N    ,IXC        ,IXTG      ,
-     .                   IGEO       ,GEO        ,THKE       , STACK    ,
-     .                   IGEO_STACK ,GEO_STACK , STACK_INFO ,
-     .                   NUMGEOSTACK,NPROP_STACK)
-         ELSE
-            ALLOCATE(STACK%GEO(0,0))
-            ALLOCATE(STACK%IGEO(0,0))
-            ALLOCATE(STACK%PM(0,0))
-         ENDIF        
-      ELSE ! with out drape
-        ALLOCATE(DRAPE(0))
-        ALLOCATE(DRAPEG%INDX(0))
-        IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0) THEN
-            CALL STACKGROUP(
+      IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0) THEN
+         CALL STACKGROUP(
      .                   IGRSH3N    ,IGRSH4N    ,IXC        ,IXTG      ,
      .                   IGEO       ,GEO        ,IWORKSH    ,THKE      ,
      .                   STACK      ,IPM        ,IGEO_STACK ,GEO_STACK ,
      .                   STACK_INFO ,NUMGEOSTACK,NPROP_STACK)
-         ELSE
-            ALLOCATE(STACK%GEO(0,0))
-            ALLOCATE(STACK%IGEO(0,0))
-            ALLOCATE(STACK%PM(0,0))
-         ENDIF  
+      ELSE
+        ALLOCATE(STACK%GEO(0,0))
+        ALLOCATE(STACK%IGEO(0,0))
+        ALLOCATE(STACK%PM(0,0))
       ENDIF
 C--------------------------------------------
       IF (NSUBDOM==0) GOTO 218
@@ -5276,12 +5177,39 @@ C       Sauvegarde longueurs tableaux lagmult
         LAG_NCL0 = LAG_NCL
         LAG_NKL0 = LAG_NKL
       CALL TRACE_OUT1()
+C--------------------------------------------
+C     LECTURE DES DRAPES
+C--------------------------------------------
+      ERR_MSG='DRAPE'
+      ERR_CATEGORY='DRAPE'
+      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
+      IF (NDRAPE > 0) THEN
+        WRITE(ISTDO,'(A)')' .. DRAPE'
+        ! Allocation of Drape data structure
+        ALLOCATE(DRAPE(NUMELC+NUMELTG))
+        DO I=1,NUMELC + NUMELTG
+          NPT = IWORKSH(1,I)
+          DRAPE(I)%NPT = NPT
+          ALLOCATE(DRAPE(I)%RDRAPE(NPT,2),DRAPE(I)%IDRAPE(NPT))
+          DRAPE(I)%RDRAPE = 0
+          DRAPE(I)%IDRAPE = 0
+        ENDDO
+        ! Reading of the Drape
+        CALL HM_READ_DRAPE(DRAPE ,STACK   ,IWORKSH   ,IGRSH3N   ,IGRSH4N  ,
+     .                     IXC   ,IXTG    ,IGEO      ,IGEO_STACK,LSUBMODEL,
+     .                     UNITAB)
+C
+        IF(ALLOCATED(IDRAPEID)) DEALLOCATE(IDRAPEID)
+      ELSE
+        ALLOCATE(DRAPE(0))
+      ENDIF
+      CALL TRACE_OUT1()
 C-----------------
 C  Update stack Due to DRAPE
 C-------------------------
       IF(NDRAPE > 0 .AND. (IPART_STACK > 0 .OR. IPART_PCOMPP > 0)) THEN
          CALL SHELLTHK_UPD(DRAPE     ,STACK    ,THKE     ,IXC       ,IXTG      ,
-     .                     IGEO      ,IWORKSH     ,DRAPEG%INDX)
+     .                     IGEO      ,IWORKSH     )
       ENDIF
 C-----------------------------------------------------
 C     LECTURE DES /PERTURB( random noise sur les epaisseurs des shells/part )
@@ -5931,7 +5859,8 @@ C
      4   CEP(OFF),XEP     ,IGEO    ,IPM     ,
      5   IPART   ,SH4TREE ,NOD2ELC ,ISHEOFF ,SH4TRIM ,
      6   TAGPRT_SMS,LGAUGE,IWORKSH ,
-     7   STACK   ,DRAPE   ,RNOISE  ,SH4ANG,DRAPEG)
+     7   STACK   ,DRAPE   ,RNOISE  ,SH4ANG)
+
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -5960,7 +5889,7 @@ C
      6        IPART    ,SH4TREE  ,NOD2ELC  ,ISHEOFF ,
      7        SH4TRIM  ,TAGPRT_SMS, LGAUGE,IWORKSH    ,
      8        STACK    ,DRAPE   ,RNOISE  ,MATPARAM_TAB,
-     9        SH4ANG, IDDLEVEL , DRAPEG)
+     9        SH4ANG, IDDLEVEL)
          OFF = OFF + NUMELC
 
          DO I=1,NUMELC
@@ -6149,6 +6078,7 @@ C---------------------------------
        IF(NUMELTG6>0) THEN
          CALL CDK6INX(IXTG   ,IXTG1   ,EANIT   )
        ENDIF
+
        IF(N2D==0)THEN
          CALL C3GRHEAD(
      1     IXTG    ,PM      ,GEO      ,INUM    ,BID13   ,
@@ -6158,7 +6088,7 @@ C---------------------------------
      5     IGEO    ,IPM     ,IPART    ,SH3TREE ,NOD2ELTG,
      6     ITRIOFF ,SH3TRIM ,TAGPRT_SMS,
      7     IWORKSH , STACK  ,DRAPE  ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)),
-     8     MULTI_FVM , SH3ANG,DRAPEG)
+     8     MULTI_FVM , SH3ANG)
        ELSE
          CALL T3GRHEAD(
      1     IXTG    ,PM      ,GEO      ,INUM    ,BID13   ,
@@ -6168,7 +6098,7 @@ C---------------------------------
      5     IGEO    ,IPM     ,IPART    ,SH3TREE ,NOD2ELTG,
      6     ITRIOFF ,SH3TRIM ,TAGPRT_SMS,
      7     IWORKSH , STACK  ,DRAPE  ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)),
-     8     MULTI_FVM ,SH3ANG,DRAPEG)
+     8     MULTI_FVM ,SH3ANG)
        ENDIF
 C---------------------------------
 C-  GROUPAGE SPMD
@@ -6197,7 +6127,7 @@ C
      6          IPART    ,SH3TREE  ,NOD2ELTG ,ITRIOFF  ,
      7          SH3TRIM  ,TAGPRT_SMS,IWORKSH ,STACK      ,
      8          DRAPE   ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)) ,
-     9          MULTI_FVM,MATPARAM_TAB,SH3ANG,DRAPEG)
+     9          MULTI_FVM,MATPARAM_TAB,SH3ANG)
          ELSE
            CALL T3GRTAILS(
      1          IXTG     ,PM       ,IPARGTMP ,GEO      ,
@@ -6208,7 +6138,7 @@ C
      6          IPART    ,SH3TREE  ,NOD2ELTG ,ITRIOFF  ,
      7          SH3TRIM  ,TAGPRT_SMS,IWORKSH ,STACK      ,
      8          DRAPE   ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)) ,MULTI_FVM,USER_INIVOL,
-     9          SH3ANG ,DRAPEG)
+     9          SH3ANG )
          ENDIF
          OFF = OFF + NUMELTG
          DO I=1,NUMELTG
@@ -6226,6 +6156,7 @@ C
          CALL APPLYSORT2FVM(T_MONVOL, IXS, IXC, IXTG,
      .        ITAB, NOM_OPT(LNOPT1*INOM_OPT(2)+1), NUMNOD)
       ENDIF
+
 C---------------------------------
       IF(NUMSPH/=0) THEN
           IWORK  = 0
@@ -8403,7 +8334,7 @@ C
      I            FXBCPM  ,FXBCPS     ,FXBLM     ,FXBFLS   ,FXBDLS  ,
      J            FXB_MATRIX,FXB_MATRIX_ADD,FXB_LAST_ADRESS,INOM_OPT(11),R_SKEW,
      K            KNOD2EL1D,NOD2EL1D  ,EBCS_TAB  ,RBY_INIAXIS,ALEA  ,
-     L            KNOD2ELC,NOD2ELC    ,DR        ,SLRBODY , DRAPEG) 
+     L            KNOD2ELC,NOD2ELC    ,DR        ,SLRBODY)
 
 
       IF (NINTER>0.AND.NUMELIG3D>0) THEN
@@ -10699,7 +10630,7 @@ c
      A         MULTIPLE_SKEW, IGRSURF_PROC,KNOTLOCPC     ,KNOTLOCEL     ,ALE_ELM(P),
      B         SIZE_ALE_ELM(P),PINCH_DATA ,TAG_SKINS6    ,IBCSCYC      ,LBCSCYC   ,T_MONVOL,
      C         INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
-     D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP, DRAPEG)
+     D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP)
       GOTO 220
  221  CONTINUE
 
