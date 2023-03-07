@@ -52,7 +52,7 @@ Chd|====================================================================
      5            ETAG  , IDDL   ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      6            IHBE   ,THKE   ,ISMSTR ,X      ,IKGEO  ,
      7            IPM    ,IGEO   ,IEXPAN ,IPARG  ,ISUBSTACK ,STACK ,
-     8            DRAPE )
+     8            DRAPE_SH4N  ,INDX_DRAPE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -82,6 +82,7 @@ C-----------------------------------------------
       INTEGER IXC(NIXC,*) ,IGEO(NPROPGI,*),IPM(*),IPARG(*)
       INTEGER INDXOF(MVSIZ),ISUBSTACK,
      .         ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
+      INTEGER, DIMENSION(SEDRAPE) :: INDX_DRAPE
 C     REAL OU REAL*8
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*),   X(3,*),THKE(*)
@@ -91,7 +92,7 @@ C     REAL OU REAL*8
      .   KE24(36,MVSIZ),KE34(36,MVSIZ),OFF(MVSIZ),K_DIAG(*) ,K_LT(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_) :: DRAPE
+      TYPE (DRAPE_) :: DRAPE_SH4N(NUMELC_DRAPE)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -188,6 +189,8 @@ C
      3                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
      4                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34) 
 C
+      NUMEL_DRAPE = NUMELC_DRAPE
+      SEDRAPE = SCDRAPE
       IF (IREP>0) THEN
       CALL CMATC3(JFT    ,JLT     ,PM     ,MAT     ,GEO     ,
      1            PID    ,AREA    ,THK0   ,THK2    ,GBUF%THK,
@@ -195,8 +198,8 @@ C
      3            HM     ,HF      ,HC     ,HZ      ,IGTYP   ,
      4            IORTH  ,HMOR    ,HFOR   ,DIR_A   ,IGEO    ,
      5            IDRIL  ,IHBE    ,HMFOR  ,GS      ,ISUBSTACK,
-     6            STACK  ,ELBUF_STR,NLAY  ,DRAPE   ,NFT      ,
-     7            NEL    )
+     6            STACK  ,ELBUF_STR,NLAY  ,DRAPE_SH4N   ,NFT      ,
+     7            NEL    ,INDX_DRAPE)
       ELSE
       CALL CMATC3(JFT    ,JLT     ,PM     ,MAT     ,GEO     ,
      1            PID    ,AREA    ,THK0   ,THK2    ,GBUF%THK,
@@ -204,8 +207,8 @@ C
      3            HM     ,HF      ,HC     ,HZ      ,IGTYP   ,
      4            IORTH  ,HMOR    ,HFOR   ,DIRA    ,IGEO    ,
      5            IDRIL  ,IHBE    ,HMFOR  ,GS      ,ISUBSTACK,
-     6            STACK  ,ELBUF_STR,NLAY  ,DRAPE  , NFT      ,
-     7            NEL    )
+     6            STACK  ,ELBUF_STR,NLAY  ,DRAPE_SH4N  , NFT      ,
+     7            NEL    ,INDX_DRAPE)
       ENDIF
       IF (IDRIL>0) THEN
         CALL CBADERIRZ(JFT  ,JLT  ,AREA ,X13 ,X24   ,

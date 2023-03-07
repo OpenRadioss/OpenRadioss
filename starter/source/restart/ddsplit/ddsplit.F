@@ -350,7 +350,8 @@ Chd|====================================================================
      A   MULTIPLE_SKEW, IGRSURF_PROC,KNOTLOCPC      ,KNOTLOCEL    ,ALE_ELM,
      B   SIZE_ALE_ELM ,PINCH_DATA  ,TAG_SKINS6      ,IBCSCYC      ,LBCSCYC  ,T_MONVOL,
      C INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
-     D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER, LEN_CEP ,DYNAIN_DATA)
+     D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER, LEN_CEP ,DYNAIN_DATA,
+     E   DRAPEG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -558,8 +559,9 @@ C-----------------------------------------------
       TYPE(MID_PID_TYPE), DIMENSION(NUMMAT,7), INTENT(IN) :: MID_PID_SOL
       TYPE (FAILWAVE_STR_) :: FAILWAVE
       TYPE (NLOCAL_STR_)   :: NLOC_DMG
-      TYPE (DRAPE_)   :: DRAPE (*)
+      TYPE (DRAPE_)   :: DRAPE (NUMELC_DRAPE + NUMELTG_DRAPE)
       TYPE (SENSOR_STR_) ,DIMENSION(*) :: SENSOR_TAB
+      TYPE (DRAPEG_)   :: DRAPEG
 C-----------------------------------------------
       TYPE (SUBSET_) , DIMENSION(NSUBS)   :: SUBSET
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
@@ -685,7 +687,7 @@ C-----------------------------------------------
      .        LENIGRTRUS_L,LENIGRBEAM_L,LENIGRSPRI_L,
      .        LENIGRSH3N_L,LENISURF_L,LENISLIN_L,NBCSCYC_L,LLBCSCYC_L,NS_DIFF,
      .        N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,
-     .        N_SEATBELT_L,N_SEATBELT_2D_L
+     .        N_SEATBELT_L,N_SEATBELT_2D_L,NUMSH4N_L,NUMSH3N_L
       INTEGER IPARI_L(NPARI,MAX(1,NINTER))
       INTEGER NCONV_L,NFXTEMP_L,NRADIA_L,NFXFLUX_L
       INTEGER , DIMENSION(:), ALLOCATABLE:: NUMLOCGROUP,NUMLOCCLUSTER
@@ -1645,6 +1647,24 @@ C--------------------------------------
         SUSERW_L = 0
       ENDIF
 C--------------------------------------------
+C DRAPE option preparation
+C--------------------------------------------
+       NUMSH4N_L = 0
+       NUMSH3N_L = 0
+       IF (NDRAPE > 0) THEN
+         OFF  = NUMELS + NUMELQ
+         IF(NUMELC_DRAPE > 0 ) THEN
+            CALL C_DRAPE(DRAPEG%INDX,CEP(MIN(OFF+1,LEN_CEP)),P-1,
+     .                  NUMELC,NUMSH4N_L)
+         ENDIF
+         
+         OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR
+         IF(NUMELC_DRAPE > 0) THEN
+            CALL C_DRAPE(DRAPEG%INDX(NUMELC+1),CEP(MIN(OFF+1,LEN_CEP)),P-1,
+     .                  NUMELTG,NUMSH3N_L)
+         ENDIF
+       ENDIF      
+C--------------------------------------------
 C Open Restart FILE
 C--------------------------------------------
       LEN_IA = 0
@@ -1729,7 +1749,9 @@ C--------------------------------------------
      1   LENIGRSH3N_L,LENISURF_L,LENISLIN_L, NE_NERVOIS, NE_NESVOIS,
      2   NE_NSVOIS, NE_NQVOIS, NE_NTGVOIS,NBCSCYC_L,LLBCSCYC_L,
      3   ALE_CONNECTIVITY,N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,
-     4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA)
+     4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
+     5   NUMSH4N_L,NUMSH3N_L)
+     
 
       CALL WRCOMR(LMXVREA,LVARREA,TABVREA,MSNDP(P),P)
 C--------------------------------------
@@ -3482,7 +3504,7 @@ C--------------------------------------------
 C STACK proprerties
 C--------------------------------------------
        IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0 ) THEN
-          LEN_IG  = (3*NPT_STACK + 2)*NS_STACK
+          LEN_IG  = (4*NPT_STACK + 2)*NS_STACK
           LEN_G   = (6*NPT_STACK + 1)*NS_STACK
           LEN_PM  =  20*NS_STACK
          CALL W_STACK(STACK%IGEO,STACK%GEO,LEN_IG,LEN_G,LEN_IA,LEN_AM,
@@ -3494,10 +3516,11 @@ C--------------------------------------------
        IF (NDRAPE > 0) THEN
 C    write drape structure
          OFF  = NUMELS + NUMELQ
-         CALL W_DRAPE(DRAPE,CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELC,NUMELC_L,LEN_IA,LEN_AM)
+         CALL W_DRAPE(DRAPE,DRAPEG%INDX,CEP(MIN(OFF+1,LEN_CEP)),P-1,
+     .                  NUMELC,NUMELC_L,NUMSH4N_L,LEN_IA,LEN_AM)
          OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR
-         CALL W_DRAPE(DRAPE(1+NUMELC),CEP(MIN(OFF+1,LEN_CEP)),P-1,
-     .                 NUMELTG,NUMELTG_L,LEN_IA,LEN_AM)
+         CALL W_DRAPE(DRAPE,DRAPEG%INDX,CEP(MIN(OFF+1,LEN_CEP)),P-1,
+     .                 NUMELTG,NUMELTG_L,NUMSH3N_L,LEN_IA,LEN_AM)
        ENDIF
 C--------------------------------------------
 C PLY_INFO ( need for animation file )

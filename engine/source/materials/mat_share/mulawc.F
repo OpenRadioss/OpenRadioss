@@ -230,7 +230,7 @@ C-----------------------------------------------
      .   IPTX,ILAYER,IROT,DMG_FLAG,
      .   IGMAT,IPGMAT,NPTT,IPT_ALL,NPTTOT,NUVARV,ILAW,
      .   FAILNPT,JOFF,SIZNUL,PLY_ID,ISEQ,PROGRESSIVE_CRACK,
-     .   ORTH_DAMAGE,L_DMG,IPRONY,ISRATE,NVARTMP,INLOC
+     .   ORTH_DAMAGE,L_DMG,IPRONY,ISRATE,NVARTMP,INLOC,IDRAPE
       INTEGER :: IJ1,IJ2,IJ3,IJ4,IJ5
       INTEGER :: IJ(5),IFLAG(1)
       INTEGER ,DIMENSION(MAXFUNC) :: IFUNC,IFUNC1
@@ -294,7 +294,8 @@ C-----------------------------------------------
       IGTYP = IGEO(11,PID(1))
       IGMAT = IGEO(98,PID(1))
       INLOC = IPARG(78)                     ! Flag for non-local regularization
-!
+!  
+      IDRAPE = ELBUF_STR%IDRAPE   
       LOGICAL_USERL_AVAIL=.FALSE.
       IF (USERL_AVAIL > 0) LOGICAL_USERL_AVAIL=.TRUE.
       DO K=1,5
@@ -383,6 +384,7 @@ c
       MOM(JFT:JLT,3)  = ZERO
       YLD(JFT:JLT)    = ZERO
       IF(FLAG_ZCFAC .AND. MTN /= 22) ZCFAC(JFT:JLT,1)= ZERO
+      ZCFAC(JFT:JLT,2)= ZERO
       IF(FLAG_ZCFAC) ZCFAC(JFT:JLT,2)= ONE
       ETSE(JFT:JLT)   = ONE
       IF(FLAG_ETIMP) ETIMP(JFT:JLT)= ZERO
@@ -558,6 +560,7 @@ c
           UVARV => BUFLY%VISC(IR,IS,IT)%VAR
           VARTMP=> BUFLY%MAT(IR,IS,IT)%VARTMP
           DIRDMG => LBUF%DMG(1:L_DMG*NEL)
+         IF(IDRAPE > 0) JDIR = 1 + (IPT - 1)*JLT*2
 c
           ! -> Make sure the non-local increment is positive
           IF (INLOC > 0) THEN 
@@ -2697,4 +2700,3 @@ c---------------------------------------------------
 c---------------------------------------------------
       RETURN
       END
-       

@@ -117,12 +117,12 @@ Chd|====================================================================
      k            WIGE      ,NERCVOIS    ,NESDVOIS   ,LERCVOIS  ,LESDVOIS ,
      l            CRKEDGE   ,STACK       ,ISPHIO     ,VSPHIO    ,ICODE    ,
      m            INDX_CRK  ,XEDGE4N     ,XEDGE3N    ,SPH2SOL   ,STIFN    ,
-     n            STIFR     ,DRAPE_Q4, DRAPE_T3       ,MS_2D     ,MULTI_FVM,
+     n            STIFR     ,DRAPE_SH4N, DRAPE_SH3N       ,MS_2D     ,MULTI_FVM,
      o            SEGQUADFR ,H3D_DATA    ,ISKEW      ,PSKIDS    ,ISKWP    ,
      p            KNOTLOCPC ,KNOTLOCEL   ,PINCH_DATA ,TAG_SKINS6,IRUNN_BIS, 
      q            TF        ,NPC         ,DYNAIN_DATA,FCONT_MAX,MDS_MATID,
      r            FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP   ,LLOADP   ,
-     s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ) 
+     s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -260,7 +260,8 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
       TYPE (SURF_)   , DIMENSION(NSURF)  :: IGRSURF
       TYPE (PINCH) :: PINCH_DATA
-      TYPE (DRAPE_)  :: DRAPE_Q4, DRAPE_T3
+      TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPEG_)  :: DRAPEG
       TYPE (SENSOR_STR_), DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
@@ -432,7 +433,6 @@ C----------------------
      .               H3D_DATA  ,CSEFRIC_STAMP,CSEFRICG_STAMP)
         END IF
       END IF
-
 C------------------------------------------------------
 C       Compute maximum contact force and pressure
 C----------------------------------------------------
@@ -573,7 +573,6 @@ C
          K12=K11+NUMELIG3D
          L1=1+6*(NUMELC+NUMELTG)*IEPSDOT
 c
-
 	 CALL GENANI(
      1  	   X	      ,D	 ,V	      ,A	   ,ELBUF     ,
      2  	   IXS        ,IXQ	 ,IXC	      ,IXT	   ,IXP       ,
@@ -791,7 +790,8 @@ C
      6             VR    ,ELBUF_TAB ,DD_IAD ,WEIGHT,
      7             IPM   ,KXSP      ,SPBUF  ,NODGLOB,LENG  ,
      8             FOPT  ,NOM_OPT   ,NPBY   ,FNCONT ,FTCONT ,
-     9             GEO   ,THKE      ,STACK  ,DRAPE_Q4, DRAPE_T3)
+     9             GEO   ,THKE      ,STACK  ,DRAPE_SH4N, DRAPE_SH3N,
+     A             DRAPEG)
        IF(TT>=TOUTP)TOUTP=TOUTP+DTOUTP
        IF ((TSTOP<TOUTP).AND.(TOUTP<TSTOP+EM06*TSTOP)
      .     .AND.(TSTOP+EM06*TSTOP<TOUTP+DTOUTP)) THEN
@@ -856,7 +856,7 @@ C
      A             IXS16    ,IXS20  ,ICODE ,LENGR ,LENGP  ,
      B             LENGT    ,ISKEW  ,V     ,VR    ,LENGQ  ,
      C             MULTI_FVM,BUFMAT ,NPBY  ,LPBY  ,STACK  ,
-     D             DRAPE_Q4, DRAPE_T3,DR   )
+     D             DRAPE_SH4N, DRAPE_SH3N,DR,DRAPEG   )
        IF(TT>=TSTAT)TSTAT=TSTAT+DTSTAT
        IF ((TSTOP<TSTAT).AND.(TSTAT<TSTOP+EM06*TSTOP)
      .     .AND.(TSTOP+EM06*TSTOP<TSTAT+DTSTAT)) THEN
@@ -896,8 +896,8 @@ C
      2                IPARG    ,IPM      , IGEO   ,ITAB     ,IPART    ,
      3                PM       ,GEO      , IPART(K3),IPART(K8),LENG   ,
      4                LENGC    ,LENGTG   , WEIGHT ,NODGLOB  ,THKE     ,               
-     5                NPBY     ,LPBY     , STACK  ,DRAPE_Q4 ,DRAPE_T3 , 
-     6                DYNAIN_DATA) 
+     5                NPBY     ,LPBY     , STACK  ,DRAPE_SH4N ,DRAPE_SH3N , 
+     6                DYNAIN_DATA,DRAPEG) 
              
        IF(TT>=DYNAIN_DATA%TDYNAIN)DYNAIN_DATA%TDYNAIN=DYNAIN_DATA%TDYNAIN+DYNAIN_DATA%DTDYNAIN
        IF ((TSTOP<DYNAIN_DATA%TDYNAIN).AND.(DYNAIN_DATA%TDYNAIN<TSTOP+EM06*TSTOP)

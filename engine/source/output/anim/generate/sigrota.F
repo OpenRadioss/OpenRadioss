@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,K,N,I1,NLAY,NPTR,NPTS,NPG,IR,IS,JJ(5),DIM
+      INTEGER I,II,J,K,N,I1,NLAY,NPTR,NPTS,NPG,IR,IS,JJ(5),DIM,IDRAPE,IGTYP
       my_real
      .   X1(NEL),  X2(NEL),  X3(NEL), X4(NEL),
      .   Y1(NEL),  Y2(NEL),  Y3(NEL), Y4(NEL),
@@ -79,16 +79,27 @@ C-----------------------------------------------
      .   DIMENSION(:) , POINTER :: DIR1
       TYPE(G_BUFEL_)  , POINTER :: GBUF   
       TYPE(L_BUFEL_)  , POINTER :: LBUF   
+      TYPE(L_BUFEL_DIR_)  , POINTER :: LBUF_DIR   
 C=======================================================================
       NPTR = ELBUF_STR%NPTR
       NPTS = ELBUF_STR%NPTS
       NLAY = ELBUF_STR%NLAY
       NPG  = NPTR*NPTS
-      IF (NLAY > 1) THEN
-        DIR1 => ELBUF_STR%BUFLY(IPT)%DIRA
+      IDRAPE =  ELBUF_STR%IDRAPE
+      IGTYP =  ELBUF_STR%IGTYP
+      IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52))THEN
+       IF (NLAY > 1) THEN
+        DIR1 => ELBUF_STR%BUFLY(IPT)%LBUF_DIR(1)%DIRA
+       ELSE
+        DIR1 => ELBUF_STR%BUFLY(1)%LBUF_DIR(1)%DIRA
+       ENDIF      
       ELSE
+       IF (NLAY > 1) THEN
+        DIR1 => ELBUF_STR%BUFLY(IPT)%DIRA
+       ELSE
         DIR1 => ELBUF_STR%BUFLY(1)%DIRA
-      ENDIF
+       ENDIF
+      ENDIF 
 c
 !
       DO I=1,5

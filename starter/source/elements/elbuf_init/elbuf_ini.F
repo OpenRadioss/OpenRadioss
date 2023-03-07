@@ -98,7 +98,8 @@ C-----------------------------------------------
      .   LIFAIL,LGLOB,LLAY,LLOC,LFAIL,LVISC,LMAT,LPORO,LEOS,NCTRL,
      .   ISUBSTACK,IIGEO,IADI,IPPID,IPIDL,NPT_LAY,LEN_PLAPT,LEN_SIGPT,
      .   IPMAT,IPMAT_IPLY,NPTTOT,NUVARN,NX,LAW,IBOLTP,CRKDIR,INLOC,LNLOC,
-     .   NONL, DEBUG_PRINT,IPINCH,NUVAREOS,IEOS_TYPE
+     .   NONL, DEBUG_PRINT,IPINCH,NUVAREOS,IEOS_TYPE,IDRAPE,LLOC_SLICE,
+     .   IPNPT_LAY
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: TFAIL
       INTEGER, ALLOCATABLE, DIMENSION(:)   :: IMAT,ILAW
       TYPE(ELBUF_STRUCT_), POINTER :: ELBUF
@@ -112,6 +113,7 @@ C-----------------------------------------------
       TYPE(PROP_TAG_)    , POINTER :: PTAG
       TYPE(FAIL_LOC_)    , POINTER :: FLOC
       TYPE(BUF_NLOC_)    , POINTER :: BUFNL
+      TYPE (L_BUFEL_DIR_), POINTER :: LBUF_DIR  
 C=======================================================================
 c      Element Buffer Routine (Solid) 
 c------
@@ -190,11 +192,12 @@ c
         INLOC   = IPARG(78,NG)  ! Flag for non-local regularization
         ISUBSTACK = IPARG(71,NG)
         IBOLTP  = IPARG(72,NG)  ! Bolt preloading flag
-        IPINCH  = IPARG(90,NG)  ! Batoz shell pinching flag
-        NINTLAY = 0                                              
+        IPINCH    = IPARG(90,NG)  ! Batoz shell pinching flag
+        IDRAPE    = IPARG(92,NG)  ! Drape group shell flag
+        NINTLAY = 0                                            
 cc        NXEL    = 0
 c----
-        NPAR_TAB  = 9  ! number of integer parameters at top structure level
+        NPAR_TAB  = 10 ! number of integer parameters at top structure level
         NPAR_LAY  = 13 ! number of integer parameters at layer level
         NPAR_LBUF = 2  ! number of integer parameters at LBUF layer
 c----
@@ -624,7 +627,6 @@ c
             ENDDO                                                          
            ENDDO 
           ENDDO 
-
 c----------------------------------------------------
           GBUF  => ELBUF_TAB(NG)%GBUF                                  
           IF (IGTYP == 43) THEN       
@@ -870,8 +872,10 @@ c
             LLAY = LLAY + NPAR_LAY + BUFLY%NVAR_LAY + BUFLY%NVAR_LOC
             LLAY = LLAY + NEL*BUFLY%LY_DMG 
             LLAY = LLAY + NEL*BUFLY%LY_GAMA
-            LLAY = LLAY + NEL*BUFLY%LY_DIRA
-            LLAY = LLAY + NEL*BUFLY%LY_DIRB
+            IF(IDRAPE == 0 .OR. (IDRAPE > 0 .AND . IGTYP == 17)) THEN
+              LLAY = LLAY + NEL*BUFLY%LY_DIRA 
+              LLAY = LLAY + NEL*BUFLY%LY_DIRB 
+            ENDIF
             IF (NPG > 1) THEN
               IF (NLAY > 1) THEN
                 LEN_PLAPT = NEL*BUFLY%LY_PLAPT
@@ -1030,6 +1034,7 @@ c-------------------------------------------------
           ELBUF_TAB(NG)%NPTT   = NPTT                        
           ELBUF_TAB(NG)%IXFEM  = IXFEM       
           ELBUF_TAB(NG)%NXEL   = NXEL
+          ELBUF_TAB(NG)%IDRAPE = IDRAPE
 c-------------------------------------------------
 c        print*,'****  JHBE,NPG=',JHBE,NPG
 cc          NPT = NPG*NLAY*NPTT
@@ -1057,27 +1062,42 @@ c         allocation des sub-structures de l'element buffer
 c-------------------------------------------------
           MY_ALLOCATE(ELBUF_TAB(NG)%BUFLY,NLAY)
 C---
-          IF (IGTYP == 51 ) THEN
+          IF(IDRAPE > 0) THEN
+            IF (IGTYP == 51 .OR. IGTYP == 52 ) THEN
 C--- count (and store) total number of integration points through each stack group layer
-            IPPID = 2
-            DO IL = 1,NLAY
-              IPIDL = STACK%IGEO(IPPID+IL,ISUBSTACK)
-              NPT_LAY = IGEO(4,IPIDL)
-              ELBUF_TAB(NG)%BUFLY(IL)%NPTT = NPT_LAY
-            ENDDO
-          ELSEIF(IGTYP == 52) THEN
-            IPPID = 2
-            DO IL = 1,NLAY
-              IPIDL = STACK%IGEO(IPPID+IL,ISUBSTACK)
-              NPT_LAY = IGEO_STACK(4,IPIDL)
-              ELBUF_TAB(NG)%BUFLY(IL)%NPTT = NPT_LAY
-            ENDDO
-              
-          ELSE
-            DO IL = 1,NLAY
-              ELBUF_TAB(NG)%BUFLY(IL)%NPTT = NPTT
-            ENDDO
-          ENDIF
+             IPPID = 2
+             IPNPT_LAY = IPPID + 3*NLAY
+             DO IL = 1,NLAY
+               NPT_LAY = STACK%IGEO(IPNPT_LAY + IL,ISUBSTACK)
+               ELBUF_TAB(NG)%BUFLY(IL)%NPTT = NPT_LAY
+             ENDDO
+           ELSE
+              DO IL = 1,NLAY
+                ELBUF_TAB(NG)%BUFLY(IL)%NPTT = NPTT
+              ENDDO
+           ENDIF
+         ELSE ! idrape = 0
+           IF (IGTYP == 51 ) THEN
+C--- count (and store) total number of integration points through each stack group layer
+             IPPID = 2
+             DO IL = 1,NLAY
+               IPIDL = STACK%IGEO(IPPID+IL,ISUBSTACK)
+               NPT_LAY = IGEO(4,IPIDL)
+               ELBUF_TAB(NG)%BUFLY(IL)%NPTT = NPT_LAY
+             ENDDO
+           ELSEIF(IGTYP == 52) THEN
+             IPPID = 2
+             DO IL = 1,NLAY
+               IPIDL = STACK%IGEO(IPPID+IL,ISUBSTACK)
+               NPT_LAY = IGEO_STACK(4,IPIDL)
+               ELBUF_TAB(NG)%BUFLY(IL)%NPTT = NPT_LAY
+             ENDDO  
+           ELSE
+             DO IL = 1,NLAY
+               ELBUF_TAB(NG)%BUFLY(IL)%NPTT = NPTT
+             ENDDO
+           ENDIF   
+         ENDIF 
 C---
           NPTTOT  = 0
           DO I=1,NLAY
@@ -1093,11 +1113,13 @@ C---
             MY_ALLOCATE3D(BUFLY%PROP,NPTR,NPTS,NPTT)  
             MY_ALLOCATE3D(BUFLY%EOS ,NPTR,NPTS,NPTT)  
             MY_ALLOCATE3D(BUFLY%VISC,NPTR,NPTS,NPTT)  
-            MY_ALLOCATE3D(BUFLY%PORO,NPTR,NPTS,NPTT)  
+            MY_ALLOCATE3D(BUFLY%PORO,NPTR,NPTS,NPTT)
+            IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) 
+     .         ALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(NPTT))
           ENDDO
 C---
           ! Non-local regularization in the shell thickness
-          IF ((INLOC>0).AND.(NPTT>1)) THEN 
+          IF ((INLOC > 0).AND.(NPTT>1)) THEN 
             ! Allocation of the non-local in thickness structural data
             MY_ALLOCATE2D(ELBUF_TAB(NG)%NLOC,NPTR,NPTS)
             ! Number of non-local nodes in the thickness
@@ -1211,9 +1233,7 @@ c-----------------------------------------------
                 TFAIL(IL,J) = IRUPT       
               ENDDO                                                           
             ENDDO                                       
-          ENDIF
-
-          
+          ENDIF       
 c--------------
          IF (DEBUG_PRINT == 1) THEN
 c            print*,'      nlay,nptr,npts,nptt,npt=',nlay,nptr,npts,nptt,npt
@@ -1646,8 +1666,10 @@ c
             LLAY = LLAY + NPAR_LAY + BUFLY%NVAR_LAY + BUFLY%NVAR_LOC
             LLAY = LLAY + NEL*BUFLY%LY_DMG 
             LLAY = LLAY + NEL*BUFLY%LY_GAMA
-            LLAY = LLAY + NEL*BUFLY%LY_DIRA
-            LLAY = LLAY + NEL*BUFLY%LY_DIRB
+            IF(IDRAPE == 0 .OR. (IDRAPE > 0 .AND. IGTYP == 17)) THEN
+              LLAY = LLAY + NEL*BUFLY%LY_DIRA
+              LLAY = LLAY + NEL*BUFLY%LY_DIRB
+            ENDIF  
             IF (NPG > 1) THEN
               IF (NLAY > 1) THEN
                 LEN_PLAPT = NEL*BUFLY%LY_PLAPT
@@ -1761,8 +1783,11 @@ c
             LLOC = LLOC + BUFLY%L_DMGSCL
             LLOC = LLOC + BUFLY%L_TSAIWU
 c
-            BUFLEN = BUFLEN + (LLOC * NEL + NPAR_LBUF) * NIP_LAY
-
+            BUFLEN = BUFLEN + (LLOC * NEL + NPAR_LBUF) * NIP_LAY 
+            IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
+               LLOC_SLICE = BUFLY%LY_DIRA + BUFLY%LY_DIRB
+               BUFLEN = BUFLEN + LLOC_SLICE*NEL*BUFLY%NPTT
+            ENDIF
             IF (DEBUG_PRINT == 1) THEN
                print*,'  **  variables locales LAYER=',IL
                print*,'     (LLOC*NEL+NPAR_LBUF)*NIP_LAY=',(LLOC*NEL+NPAR_LBUF)*NIP_LAY 
@@ -1855,6 +1880,7 @@ c-------------------------------------------------
           ELBUF_TAB(NG)%NPTT   = NPTT
           ELBUF_TAB(NG)%IXFEM  = 0
           ELBUF_TAB(NG)%NXEL   = 0
+          ELBUF_TAB(NG)%IDRAPE   = IDRAPE
 c-------------------------------------------------
           MY_ALLOCATE(IMAT,NLAY)
           MY_ALLOCATE(ILAW,NLAY)
