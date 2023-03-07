@@ -60,10 +60,12 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
+      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+#endif 
+
       INTEGER MSGOFF,MSGOFF0,MSGTYP,INFO,I,K,NG,N,
      .        EMPL                        
       INTEGER, DIMENSION(:), ALLOCATABLE :: SDNODG
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
       DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE ::
      .        AGLOB,RECGLOB
 
@@ -81,6 +83,7 @@ C-----------------------------------------------
         ALLOCATE(AGLOB(4,MAX(NUMNODM,NUMNOD)))
 
         IF (ISPMD/=0) THEN
+#ifdef MPI
           N = 0
           DO I = 1, NUMNOD
             IF (WEIGHT(I)==1) THEN
@@ -100,6 +103,7 @@ C-----------------------------------------------
           CALL MPI_SEND(AGLOB,4*N,MPI_DOUBLE_PRECISION,
      .                  IT_SPMD(1),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
+#endif
         ELSE ! ISPMD == 0
 
           DO I=1,NUMNOD
@@ -111,7 +115,7 @@ C-----------------------------------------------
               RECGLOB(4,EMPL) =  A(3,I)
              ENDIF
           ENDDO
-          
+#ifdef MPI          
           DO K=2,NSPMD
             MSGTYP=MSGOFF0
             CALL MPI_RECV(SDNODG,NUMNODM,MPI_INTEGER,
@@ -131,14 +135,12 @@ C-----------------------------------------------
             ENDDO
 
           END DO
+#endif
           CALL PRINT_CHECKSUM(RECGLOB,NUMNODG,3) 
         ENDIF
         IF(ALLOCATED(SDNODG))  DEALLOCATE(SDNODG)
         IF(ALLOCATED(AGLOB))   DEALLOCATE(AGLOB)
         IF(ALLOCATED(RECGLOB)) DEALLOCATE(RECGLOB)
-
-C
-#endif
       RETURN
       END
 Chd|====================================================================
