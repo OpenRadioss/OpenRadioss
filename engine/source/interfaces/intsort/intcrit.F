@@ -145,7 +145,7 @@ C
         ! Sensor was just deactivated but SPMD Buffers where not cleaned.
         ! Sav buffers NSNFI/NSNSI Buffers & clean the original once.
 
-        IF(INTERACT == 0 .AND.NSNFI_FLAG(I)==0)THEN       
+        IF(INTERACT == 0 .AND.NSNFI_FLAG(I)==0.AND.NTY/=25)THEN
            ALLOCATE(NSNSI_SAV(I)%P(NSPMD))
            ALLOCATE(NSNFI_SAV(I)%P(NSPMD))
            NSNSI_SAV(I)%P(1:NSPMD) = NSNSI(I)%P(1:NSPMD)

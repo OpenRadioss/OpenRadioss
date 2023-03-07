@@ -234,25 +234,27 @@ C
               INTNITSCHE = IPARI(86,NIN)
               IEDGE = IPARI(58,NIN)
 C
-              IF(NTY/=25.AND.(NTY==23.OR.
-     .           INACTI==5.OR.INACTI==6.OR.INACTI==7))THEN
-C Attention aux interfaces inactives
-               ISENS = 0
-               INTERACT = 1
-               IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.
+              ISENS = 0
+              INTERACT = 1
+              IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.
      .            NTY == 21.OR.NTY == 5.OR.NTY == 19 .OR.
      .            NTY == 25) ISENS = IPARI(64,NIN)  
-               IF (ISENS > 0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+               
+              IF (ISENS > 0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
                   TS = SENSOR_TAB(ISENS)%TSTART
                   IF (TS>TT-DT2)  INTERACT = 0
-               ELSE
-                  STARTT = INTBUF_TAB(NIN)%VARIABLES(3)
-                  STOPT  = INTBUF_TAB(NIN)%VARIABLES(11)              
-                  IF (STARTT>TT-DT2) INTERACT = 0
-               ENDIF   
-                ! Number of entities to send set to 0 when interface is deactivated
-                IF (INTERACT==0) NB=0
+              ELSE                    
+                  IF(NTY/=25.AND.(NTY==23.OR.INACTI==5.OR.INACTI==6.OR.INACTI==7))THEN  ! IF INACTI : check TSTART
+                    STARTT = INTBUF_TAB(NIN)%VARIABLES(3)
+                    STOPT  = INTBUF_TAB(NIN)%VARIABLES(11)              
+                    IF (STARTT>TT-DT2) INTERACT = 0
+                  ENDIF   
               END IF
+
+               ! Number of entities to send set to 0 when interface is deactivated
+              IF (INTERACT==0) NB=0
+
+
               LENI = LEN
               IF(NTY==11)LENI=LEN11
               IF(NTY==17)LENI=LEN17
@@ -319,9 +321,11 @@ C
                  TS = SENSOR_TAB(ISENS)%TSTART
                  IF (TS>TT-DT2)  INTERACT = 0
               ELSE
-                 STARTT = INTBUF_TAB(NIN)%VARIABLES(3)
-                 STOPT  = INTBUF_TAB(NIN)%VARIABLES(11)              
-                 IF (STARTT>TT-DT2) INTERACT = 0
+                 IF(NTY/=25.AND.(NTY==23.OR.INACTI==5.OR.INACTI==6.OR.INACTI==7))THEN  ! TSTART
+                    STARTT = INTBUF_TAB(NIN)%VARIABLES(3)
+                    STOPT  = INTBUF_TAB(NIN)%VARIABLES(11)              
+                    IF (STARTT>TT-DT2) INTERACT = 0
+                 ENDIF   
               ENDIF   
               ! Number of entities to send set to 0 when interface is deactivated
               IF (INTERACT==0) NB=0
