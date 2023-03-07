@@ -52,6 +52,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
+#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -71,7 +72,7 @@ C------------------------------------------
         DO EP=JFT,NPLAT 
           I=IPLAT(EP)
 
-          KC = ( CA + CB*TEL(I))*DT1C(I)
+          KC = ( CA + CB*TEL(I))*DT1C(I)*THEACCFACT
 C
           N1 = IXC(2,I)
           N2 = IXC(3,I)
