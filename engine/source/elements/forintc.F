@@ -41,7 +41,7 @@ Chd|        SENSOR_ENERGY_PART            source/tools/sensor/sensor_energy_part
 Chd|        STARTIMEG                     source/system/timer.F         
 Chd|        STOPTIMEG                     source/system/timer.F         
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|         _MOD                     share/modules/drape_mod.F     
+Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F

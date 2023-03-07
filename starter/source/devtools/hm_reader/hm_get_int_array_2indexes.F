@@ -41,6 +41,7 @@ Chd|        CREATE_SUBM_LIST_G            source/model/sets/create_subm_clause.F
 Chd|        CREATE_SUBS_LIST              source/model/sets/create_subs_clause.F
 Chd|        CREATE_SUBS_LIST_G            source/model/sets/create_subs_clause.F
 Chd|        HM_PREREAD_PROPERTIES         source/properties/hm_preread_properties.F
+Chd|        HM_READ_DRAPE                 source/properties/composite_options/drape/hm_read_drape.F
 Chd|        HM_READ_PROP17                source/properties/shell/hm_read_prop17.F
 Chd|        HM_READ_PROP51                source/properties/shell/hm_read_prop51.F
 Chd|        HM_READ_STACK                 source/stack/hm_read_stack.F  

@@ -668,6 +668,7 @@ Chd|        PINIT3                        source/elements/beam/pinit3.F
 Chd|        PORNOD                        source/ale/pornod.F           
 Chd|        PRELECSEC                     source/tools/sect/prelecsec.F 
 Chd|        PREPARE_INT25                 source/model/mesh/build_cnel.F
+Chd|        PRE_STACKGROUP                source/stack/pres_stackgroup.F
 Chd|        PRINTGROUP                    source/output/outfile/printgroup.F
 Chd|        Q4DERI2                       source/elements/solid_2d/quad4/q4deri2.F
 Chd|        Q4INIT2                       source/elements/solid_2d/quad4/q4init2.F

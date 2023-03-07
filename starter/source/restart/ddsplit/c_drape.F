@@ -21,11 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  C_DRAPE                       source/restart/ddsplit/w_drape.F
+Chd|  C_DRAPE                       source/restart/ddsplit/c_drape.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
 Chd|====================================================================
         SUBROUTINE C_DRAPE(INDX, CEP,P,NUMEL,NELDRP_L)   
 C---------------------------------------------

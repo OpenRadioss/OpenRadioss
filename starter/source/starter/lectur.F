@@ -339,6 +339,7 @@ Chd|        PRESCRINT                     source/interfaces/interf1/prescrint.F
 Chd|        PRESEARCHIGEO3D               source/elements/ige3d/searchigeo3d.F
 Chd|        PRETAG_XFEM                   source/elements/xfem/pretag_xfem.F
 Chd|        PRE_CNDPON                    source/elements/solid/solide10/dim_s10edg.F
+Chd|        PRE_STACKGROUP                source/stack/pres_stackgroup.F
 Chd|        PRINTBCS                      source/constraints/general/bcs/printbcs.F
 Chd|        PRINTGROUP                    source/output/outfile/printgroup.F
 Chd|        PRINTSTSZ                     source/spmd/node/st_array_size.F
@@ -405,6 +406,7 @@ Chd|        SPLIT_CFD_SOLIDE              source/spmd/split_cfd_solide.F
 Chd|        SPMD_ANIM_PLY_INIT            source/spmd/spmd_anim_ply_init.F
 Chd|        SPTRI                         source/elements/sph/sptri.F   
 Chd|        STACKGROUP                    source/stack/stackgroup.F     
+Chd|        STACKGROUP_DRAPE              source/stack/stackgroup_drape.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STATE_ADMESH                  source/model/remesh/state_admesh.F
 Chd|        STIFN0_ND                     source/elements/solid/solide10/dim_s10edg.F
