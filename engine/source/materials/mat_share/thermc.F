@@ -41,6 +41,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
+#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -70,7 +71,7 @@ C --- calcul de la tempurature au CG
 C 
 C - flux
 C      
-          KC = (CA + CB*TEL(I))*DT1C(I)/MAX(EM20,AREA(I))
+          KC = (CA + CB*TEL(I))*DT1C(I)/MAX(EM20,AREA(I))*THEACCFACT
           PHIX =  TEMPNC(IXC(2,I))*PX1(I) + TEMPNC(IXC(3,I))*PX2(I)  -
      .            TEMPNC(IXC(4,I))*PX1(I) - TEMPNC(IXC(5,I))*PX2(I)
           

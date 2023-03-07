@@ -311,6 +311,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "vect01_c.inc"
+#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -350,8 +351,9 @@ c       DT_THERM = EP20
             ATU=RPR*TMU*RK(I)*RK(I)/(MAX(EM15,RE(I)*VOL(I))*XMU)
             AKK=AKK*(1.+ATU)
           ENDIF
+          AKK=AKK*THEACCFACT
           LC2 = LC(I)*LC(I)
-          DT = HALF*LC2*SPH/MAX(AKK,EM20)
+          DT = DTFACTHERM*HALF*LC2*SPH/MAX(AKK,EM20)
           IF(DT<DT_THERM)  DT_THERM = DT
           CONDE(I) = FOUR*VOL(I)*AKK/LC2  
           CONDE(I) = CONDE(I)*OFF(I)

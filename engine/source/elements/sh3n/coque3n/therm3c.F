@@ -53,6 +53,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
+#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -77,7 +78,7 @@ cc          PY1(I) = HALF*(X(1,IXTG(4,I)) - X(1,IXTG(3,I)))/AREA(I)
 cc          PY2(I) = HALF*(X(1,IXTG(2,I)) - X(1,IXTG(4,I)))/AREA(I)
           
 
-          KC = (CA + CB*TEL(I))*DT1C(I)/MAX(EM20,AREA(I))
+          KC = (CA + CB*TEL(I))*DT1C(I)/MAX(EM20,AREA(I))*THEACCFACT
           PHIX =  TEMPNC(IXTG(2,I))*PX1(I) - TEMPNC(IXTG(3,I))*PX1(I)
           
            PHIY =  TEMPNC(IXTG(2,I))*PY1(I) + TEMPNC(IXTG(3,I))*PY2(I) -
