@@ -49,8 +49,8 @@ Chd|====================================================================
      2                IPARG    ,IPM      , IGEO   ,ITAB     ,IPART    ,
      3                PM       ,GEO      , IPARTC ,IPARTTG  ,LENG     ,
      4                LENGC    ,LENGTG   , WEIGHT ,NODGLOB  ,THKE     ,               
-     5                NPBY     ,LPBY     , STACK  ,DRAPE_Q4 ,DRAPE_T3 , 
-     6                DYNAIN_DATA) 
+     5                NPBY     ,LPBY     , STACK  ,DRAPE_SH4N ,DRAPE_SH3N , 
+     6                DYNAIN_DATA,DRAPEG) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -87,7 +87,8 @@ C-----------------------------------------------
      .   PM(NPROPM,*), GEO(NPROPG,*) ,THKE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_)  :: DRAPE_Q4,DRAPE_T3
+      TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE),DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPEG_) :: DRAPEG
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -226,8 +227,8 @@ C-----------------------------------------------
      1        ELBUF_TAB  ,IPARG     ,IPM        ,IGEO  ,IXC    ,
      2        IXTG       ,WA        ,WAP0       ,IPARTC,IPARTTG,
      3        DYNAIN_DATA,DYNAIN_INDXC,DYNAIN_INDXTG,SIZP0    ,
-     4        GEO        ,STACK     ,DRAPE_Q4 ,DRAPE_T3,X      ,
-     5        THKE      )
+     4        GEO        ,STACK     ,DRAPE_SH4N ,DRAPE_SH3N,X      ,
+     5        THKE      , DRAPEG)
       ENDIF
 C------------------------------------------
 
@@ -236,8 +237,8 @@ C------------------------------------------
      1         ELBUF_TAB  ,IPARG     ,IPM        ,IGEO  ,IXC    ,
      2         IXTG       ,WA        ,WAP0       ,IPARTC,IPARTTG,
      3         DYNAIN_DATA,DYNAIN_INDXC,DYNAIN_INDXTG,SIZP0    ,
-     4         GEO        ,STACK     ,DRAPE_Q4   ,DRAPE_T3,X    ,
-     5         THKE       )
+     4         GEO        ,STACK     ,DRAPE_SH4N   ,DRAPE_SH3N,X    ,
+     5         THKE       ,DRAPEG)
         ENDIF
 
 C-----------------------------------------------

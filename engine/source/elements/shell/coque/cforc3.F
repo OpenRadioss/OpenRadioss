@@ -98,7 +98,7 @@ Chd|====================================================================
      N            ELCUTC  ,INOD_CRK,IEL_CRK  ,IBORDNODE,NODENR  ,
      O            IADC_CRK,NODEDGE ,CRKNODIAD,CONDN   ,
      P            CONDNSKY,STACK   ,ISUBSTACK,XFEM_STR ,CRKEDGE ,
-     R            DRAPE_Q4  ,IPRI     ,NLOC_DMG )
+     R            DRAPE_SH4N  ,IPRI     ,NLOC_DMG, INDX_DRAPE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -149,7 +149,7 @@ C-----------------------------------------------
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),XEDGE4N(4,*),ITAB(*),
      .   GRTH(*),IGRTH(*),IPARG(*),IXFEM,KNOD2ELC(*),
      .   ELCUTC(2,*),INOD_CRK(*),IEL_CRK(*),IBORDNODE(*),
-     .   NODENR(*),IADC_CRK(4,*),NODEDGE(2,*),CRKNODIAD(*)
+     .   NODENR(*),IADC_CRK(4,*),NODEDGE(2,*),CRKNODIAD(*),INDX_DRAPE(SCDRAPE)
       my_real
      .   F11(MVSIZ),F12(MVSIZ),F13(MVSIZ),F14(MVSIZ),
      .   F21(MVSIZ),F22(MVSIZ),F23(MVSIZ),F24(MVSIZ),
@@ -170,7 +170,7 @@ C
       TYPE (FAILWAVE_STR_) :: FAILWAVE 
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG
-      TYPE (DRAPE_) :: DRAPE_Q4
+      TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE) :: DRAPE_SH4N
       TYPE (MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
@@ -178,7 +178,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ),PID(MVSIZ),NDT(MVSIZ),NGL(MVSIZ),FWAVE_EL(NEL),
      .   I,J,IGTYP,ICSEN,IFLAG,IUN,NPG,ILAY,NLAY,IXEL,IXLAY,NXLAY,N1,N2,N3,N4,
-     .   IBID,NG,IR,IS,L_DIRA,L_DIRB,J1,J2,IGMAT,NPTTOT,IREP,IFAILWAVE
+     .   IBID,NG,IR,IS,L_DIRA,L_DIRB,J1,J2,IGMAT,NPTTOT,IREP,IFAILWAVE,IDRAPE,
+     .   NPTT,IT
       my_real 
      .   STI(MVSIZ),STIR(MVSIZ),SIGY(MVSIZ),RHO(MVSIZ),
      .   X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),
@@ -239,14 +240,18 @@ C-----
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
       TYPE (STACK_PLY) :: STACK
 C=======================================================================
       GBUF => ELBUF_STR%GBUF
+      IDRAPE = ELBUF_STR%IDRAPE
 C-----
       IUN = 1
       IBID = 0
       BID = ZERO
       NLAY = ELBUF_STR%NLAY
+      SEDRAPE = SCDRAPE
+      NUMEL_DRAPE = NUMELC_DRAPE
 cc      NPT  = MAX(NLAY,NPTT) --> set to = IPARG(6) , keeping it original
 C                                 to allow for NPT = 0 (global LAW_3)
       NPG  = 1
@@ -287,21 +292,45 @@ c--------------------------------------------
 c-------------------------------------
       L_DIRA = ELBUF_STR%BUFLY(1)%LY_DIRA
       L_DIRB = ELBUF_STR%BUFLY(1)%LY_DIRB
-      ALLOCATE(DIRA(NLAY*NEL*L_DIRA))
-      ALLOCATE(DIRB(NLAY*NEL*L_DIRB))
-      DIRA=ZERO
-      DIRB=ZERO
-      IF (L_DIRA == 0) THEN
-        CONTINUE
-      ELSEIF (IREP == 0) THEN
-        DO J=1,NLAY
-          J1 = 1+(J-1)*L_DIRA*NEL
-          J2 = J*L_DIRA*NEL
-          DIRA(J1:J2) = ELBUF_STR%BUFLY(J)%DIRA(1:NEL*L_DIRA)
-        ENDDO
-      ENDIF
-      DIR_A => DIRA(1:NLAY*NEL*L_DIRA)
-      DIR_B => DIRB(1:NLAY*NEL*L_DIRB)
+      IGTYP= IGEO(11,IXC(6,1))
+      IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52) ) THEN
+        ALLOCATE(DIRA(NPTTOT*NEL*L_DIRA))
+        ALLOCATE(DIRB(NPTTOT*NEL*L_DIRB))
+        IF (L_DIRA == 0) THEN
+            CONTINUE
+        ELSEIF (IREP == 0) THEN
+           NPTTOT = 0
+           DO ILAY=1,NLAY
+              NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
+              DO IT=1,NPTT
+                 J = NPTTOT + IT
+                 LBUF_DIR =>  ELBUF_STR%BUFLY(ILAY)%LBUF_DIR(IT)
+                 J1 = 1+(J-1)*L_DIRA*NEL
+                 J2 = J*L_DIRA*NEL
+                 DIRA(J1:J2) = LBUF_DIR%DIRA(1:NEL*L_DIRA)
+              ENDDO
+              NPTTOT = NPTTOT + NPTT
+            ENDDO 
+        ENDIF
+        DIR_A => DIRA(1:NPTTOT*NEL*L_DIRA)
+        DIR_B => DIRB(1:NPTTOT*NEL*L_DIRB)
+      ELSE ! idrape
+        ALLOCATE(DIRA(NLAY*NEL*L_DIRA))
+        ALLOCATE(DIRB(NLAY*NEL*L_DIRB))
+        DIRA=ZERO
+        DIRB=ZERO
+        IF (L_DIRA == 0) THEN
+          CONTINUE
+        ELSEIF (IREP == 0) THEN
+           DO J=1,NLAY
+              J1 = 1+(J-1)*L_DIRA*NEL
+              J2 = J*L_DIRA*NEL
+              DIRA(J1:J2) = ELBUF_STR%BUFLY(J)%DIRA(1:NEL*L_DIRA)
+           ENDDO
+         ENDIF
+         DIR_A => DIRA(1:NLAY*NEL*L_DIRA)
+         DIR_B => DIRB(1:NLAY*NEL*L_DIRB)
+      ENDIF ! IDRAPE    
 c-------------------------------------
       NXLAY = NLAY
 C---
@@ -490,7 +519,8 @@ C-----------------------------
      M  DIR1_CRK    ,DIR2_CRK    ,ALDT        ,
      N  ISMSTR      ,IR          ,IS          ,NLAY       ,NPT        ,
      O  IXLAY       ,IXEL        ,ISUBSTACK   ,STACK      ,
-     P  F_DEF       ,ITASK       ,DRAPE_Q4    ,VAR_REG    ,NLOC_DMG   )
+     P  F_DEF       ,ITASK       ,DRAPE_SH4N  ,VAR_REG    ,NLOC_DMG   ,
+     R  INDX_DRAPE)
 C-----------------------------
       IF ((IMON_MAT==1).AND. ITASK == 0)CALL STOPTIME(35,1)
 C-----------------------------

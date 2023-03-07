@@ -57,7 +57,7 @@ Chd|====================================================================
      6    RBY       ,SKEW      ,X         ,
      7    WA        ,IDDL      ,NDOF      ,K_DIAG    ,K_LT      ,
      8    IADK      ,JDIK      ,IKGEO     ,ETAG      ,ELBUF_TAB ,
-     9    STACK     ,DRAPE_Q4, DRAPE_T3        )
+     9    STACK     ,DRAPE_SH4N, DRAPE_SH3N   ,DRAPEG      )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -111,7 +111,8 @@ C     REAL
      .   K_DIAG(*) ,K_LT(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_) :: DRAPE_Q4, DRAPE_T3
+      TYPE (DRAPE_) :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPEG_) :: DRAPEG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -383,6 +384,9 @@ C             CALL QFORC2(
 	              ENDIF
 	             ENDIF
              IF(JHBE>=11.AND.JHBE<=19) THEN
+              
+              NUMEL_DRAPE = NUMELC_DRAPE
+              SEDRAPE = SCDRAPE
               CALL CBAKE3 (
      1        JFT        ,JLT       ,NFT       ,IABS(NPT) ,MLW        ,
      2        ITHK       ,NCYCLE    ,
@@ -391,9 +395,12 @@ C             CALL QFORC2(
      1        ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      7        JHBE       ,THKE(NF1)  ,ISMSTR   ,X         ,IKGEO      ,
      8        IPM        ,IGEO     ,IEXPAN    ,IPARG(1,NG),ISUBSTACK,
-     9        STACK      ,DRAPE_Q4  )
+     9        STACK      ,DRAPE_SH4N  ,DRAPEG%INDX_SH4N)
              ELSE
 C
+              
+              NUMEL_DRAPE = NUMELC_DRAPE
+              SEDRAPE = SCDRAPE
               CALL CZKE3 (
      1        JFT        ,JLT       ,NFT       ,IABS(NPT) ,MLW        ,
      2        ITHK       ,NCYCLE     ,
@@ -402,7 +409,7 @@ C
      1        ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      7        JHBE       ,THKE(NF1)  ,ISMSTR   ,X         ,IKGEO      ,
      8        IPM        ,IGEO     ,IEXPAN    ,IPARG(1,NG),ISUBSTACK,
-     9        STACK      ,DRAPE_Q4      )
+     9        STACK      ,DRAPE_SH4N     ,DRAPEG%INDX_SH4N)
 CTMP             ELSE
 CTMP              WRITE(IOUT,1001)'  Q4  SHELL'
 CTMP              WRITE(ISTDO,1001)'  Q4  SHELL'
@@ -512,6 +519,8 @@ C----6---------------------------------------------------------------7---------8
 	        ENDIF
 	       ENDIF
 	      ENDIF
+              NUMEL_DRAPE = NUMELTG_DRAPE
+              SEDRAPE = STDRAPE              
               CALL C3KE3 (
      1            JFT    ,JLT    ,NFT    ,IABS(NPT),MTN    ,
      2            ITHK   ,NCYCLE ,
@@ -520,7 +529,7 @@ C----6---------------------------------------------------------------7---------8
      5            ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      6            JHBE   ,THKE(NUMELC+NF1),ISMSTR ,X     ,
      7            IKGEO  ,IPM    ,IGEO   ,IEXPAN  ,IPARG(1,NG),
-     8            ISUBSTACK, STACK, DRAPE_T3  )
+     8            ISUBSTACK, STACK, DRAPE_SH3N  ,DRAPEG%INDX_SH3N)
 
              ENDIF
 C----6---------------------------------------------------------------7---------8
@@ -2921,7 +2930,7 @@ Chd|====================================================================
      6    RBY       ,SKEW      ,X         ,
      7    WA        ,IDDL      ,NDOF      ,K_DIAG    ,K_LT      ,
      8    IADK      ,JDIK      ,IKGEO     ,ETAG      ,ITASK0    ,
-     9    ELBUF_TAB ,STACK     ,DRAPE_Q4, DRAPE_T3    )
+     9    ELBUF_TAB ,STACK     ,DRAPE_SH4N, DRAPE_SH3N   ,DRAPEG )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -2966,7 +2975,8 @@ C     REAL
      .   K_DIAG(*) ,K_LT(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_) :: DRAPE_Q4, DRAPE_T3
+      TYPE (DRAPE_), TARGET  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPEG_) :: DRAPEG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2996,7 +3006,8 @@ c
      6    RBY       ,SKEW      ,X         ,
      7    WA        ,IDDL      ,NDOF      ,K_DIAG    ,K_LT      ,
      8    IADK      ,JDIK      ,IKGEO     ,ETAG      ,ITASK     ,
-     9    ELBUF_TAB ,IGROUC    ,IPRMES_EL ,STACK     ,DRAPE_Q4, DRAPE_T3   )
+     9    ELBUF_TAB ,IGROUC    ,IPRMES_EL ,STACK     ,DRAPE_SH4N, DRAPE_SH3N  ,
+     A    DRAPEG )
 C
 !$OMP END PARALLEL
         IF (NCYCLE==1.AND.INCONV==1) THEN
@@ -3130,7 +3141,8 @@ Chd|====================================================================
      6    RBY       ,SKEW      ,X         ,
      7    WA        ,IDDL      ,NDOF      ,K_DIAG    ,K_LT      ,
      8    IADK      ,JDIK      ,IKGEO     ,ETAG      ,ITASK     ,
-     9    ELBUF_TAB ,IGROUC    ,IPRMES_EL ,STACK     ,DRAPE_Q4, DRAPE_T3    )
+     9    ELBUF_TAB ,IGROUC    ,IPRMES_EL ,STACK     ,DRAPE_SH4N, DRAPE_SH3N ,
+     A    DRAPEG   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3185,7 +3197,8 @@ C     REAL
      .   K_DIAG(*) ,K_LT(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_)  :: DRAPE_Q4, DRAPE_T3
+      TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPEG_) :: DRAPEG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3414,7 +3427,10 @@ C----6---------------------------------------------------------------7---------8
 		        ENDIF
 	       ENDIF
 	      ENDIF
+             
              IF(JHBE>=11.AND.JHBE<=19) THEN
+              NUMEL_DRAPE = NUMELC_DRAPE
+              SEDRAPE = SCDRAPE
               CALL CBAKE3 (
      1        JFT        ,JLT       ,NFT       ,IABS(NPT) ,MLW        ,
      2        ITHK       ,NCYCLE    ,
@@ -3423,9 +3439,12 @@ C----6---------------------------------------------------------------7---------8
      1        ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      7        JHBE       ,THKE(NF1)  ,ISMSTR   ,X         ,IKGEO      ,
      8        IPM        ,IGEO     ,IEXPAN    ,IPARG(1,NG),ISUBSTACK , 
-     9        STACK      ,DRAPE_Q4  )
+     9        STACK      ,DRAPE_SH4N  ,DRAPEG%INDX_SH4N)
              ELSE
 C
+              
+              NUMEL_DRAPE = NUMELC_DRAPE
+              SEDRAPE = SCDRAPE
               CALL CZKE3 (
      1        JFT        ,JLT       ,NFT       ,IABS(NPT) ,MLW        ,
      2        ITHK       ,NCYCLE     ,
@@ -3434,7 +3453,7 @@ C
      1        ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      7        JHBE       ,THKE(NF1)  ,ISMSTR   ,X         ,IKGEO      ,
      8        IPM        ,IGEO     ,IEXPAN    ,IPARG(1,NG),ISUBSTACK  ,
-     9        STACK      ,DRAPE_Q4    )
+     9        STACK      ,DRAPE_SH4N    ,DRAPEG%INDX_SH4N)
 C              CALL CKE3(
              ENDIF
 c         OPEN(UNIT=13,FILE='KE.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
@@ -3530,6 +3549,8 @@ C----6---------------------------------------------------------------7---------8
                 IETY=18
                 IF (IPRMES_EL(IETY) == 0 ) IPRMES_EL(IETY)=ISH3N
 	             ENDIF
+              NUMEL_DRAPE = NUMELTG_DRAPE
+              SEDRAPE = STDRAPE      
               CALL C3KE3 (
      1            JFT    ,JLT    ,NFT    ,IABS(NPT),MTN    ,
      2            ITHK   ,NCYCLE ,
@@ -3538,7 +3559,7 @@ C----6---------------------------------------------------------------7---------8
      5            ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      6            JHBE   ,THKE(NUMELC+NF1),ISMSTR ,X     ,
      7            IKGEO  ,IPM    ,IGEO   ,IEXPAN  ,IPARG(1,NG),
-     8            ISUBSTACK , STACK     , DRAPE_T3  )
+     8            ISUBSTACK , STACK     , DRAPE_SH3N, DRAPEG%INDX_SH3N )
 
              ENDIF
 C----6---------------------------------------------------------------7---------8

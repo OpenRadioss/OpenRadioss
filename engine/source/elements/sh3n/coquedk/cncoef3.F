@@ -489,7 +489,7 @@ Chd|====================================================================
      1                     PID    ,MTN     ,NPT       ,HM      ,HF     ,
      2                     HC     ,HMFOR   ,IORTH     ,DIR     ,IGEO   ,
      3                     ISUBSTACK,STACK ,ELBUF_STR ,NLAY    ,THK    ,
-     4                     DRAPE  ,NFT     ,NEL       )
+     4                     DRAPE  ,NFT     ,NEL       ,INDX_DRAPE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -516,13 +516,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  ,MTN  , NPT,IORTH,NLAY,NEL,NFT
       INTEGER MAT(*), PID(*) ,IGEO(NPROPGI,*)
+      INTEGER, DIMENSION(SEDRAPE) :: INDX_DRAPE
 C     REAL
       my_real
      .   GEO(NPROPG,*), PM(NPROPM,*), DIR(*),
      .   HM(MVSIZ,6),HF(MVSIZ,6),HC(MVSIZ,2),HMFOR(MVSIZ,6),THK(*)
       TYPE (STACK_PLY) :: STACK
       TYPE(ELBUF_STRUCT_) :: ELBUF_STR
-      TYPE (DRAPE_) :: DRAPE
+      TYPE (DRAPE_) :: DRAPE(NUMEL_DRAPE)
 C-----------------------------------------------
 c FUNCTION:   stiffness modulus matrix build For hourglass stress compute
 c
@@ -616,7 +617,7 @@ C----------unify the factor ONE_OVER_12 after
      .                    MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   , 
      .                    IGTYP    ,0        ,0        ,NLAY     ,NPT     , 
      .                    ISUBSTACK,STACK    ,DRAPE    ,NFT      ,THK     ,
-     .                    JLT      ,THK_LY   )                              
+     .                    JLT      ,THK_LY   ,INDX_DRAPE)                              
               HM(JFT:JLT,1:6)=ZERO
               HF(JFT:JLT,1:6)=ZERO
               HC(JFT:JLT,1:2)=ZERO

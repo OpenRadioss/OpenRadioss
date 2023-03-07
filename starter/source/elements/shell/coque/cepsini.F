@@ -73,7 +73,7 @@ C-----------------------------------------------
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NT, I1, I2, I3, I4
+      INTEGER I, NT, I1, I2, I3, I4,IDRAPE,IGTYP
       INTEGER PID(MVSIZ)
       my_real
      .   FAC
@@ -99,6 +99,8 @@ C-----------------------------------------------
      .   DIMENSION(:) , POINTER :: DIR1, DIR2
 C=======================================================================
 c     initial state - rep global
+      IDRAPE = ELBUF_STR%IDRAPE
+      IGTYP  = ELBUF_STR%IGTYP
       DO I=JFT,JLT
         I1 = IXC(2,I)
         I2 = IXC(3,I)
@@ -204,7 +206,8 @@ c         DIRA, DIRB : rep intermediaire
      .                NLAY     ,IREP ,NEL  ,
      .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
-     .                E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
+     .                E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z ,
+     .                IDRAPE, IGTYP)
 c
 c         PX1..PX3, X2S..X3S : rep intermediaire
           CALL CPXPYI(JFT  ,JLT  ,ISMSTR     ,AREA  ,

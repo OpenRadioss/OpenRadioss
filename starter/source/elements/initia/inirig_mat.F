@@ -401,7 +401,7 @@ C
      .              TEMP    ,BID , BID,BID,BID,
      .              BID,BID,ISUBSTACK,IBID,BIDBUF,
      .              STACK,BIDG, RNOISE ,BID ,
-     .              PERTURB,IX1     ,IX2      ,IX3     ,IX4      )
+     .              PERTURB,IX1     ,IX2      ,IX3     ,IX4    ,IBID, IBID )
         CALL CDERII(PX1 ,PX2 ,PY1   ,PY2,
      .              X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  , 
      .              Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
@@ -495,7 +495,7 @@ C
      .               MCPS(1,NFT+1) , TEMP,SH3TRIM,ISUBSTACK,IBID,
      .               BIDBUF, STACK,BIDG ,RNOISE,
      .               BID,PERTURB,IX1   ,IX2      ,IX3    ,
-     .               X2L      ,X3L    ,Y3L   )
+     .               X2L      ,X3L    ,Y3L , IBID, IBID   )
         CALL C3DERII(LFT,LLT,PM,GEO,PX1,PY1,PY2,S
      .               TIFN   ,STIFR   ,IXTG(1,NFT+1),
      .               THKT,SH3TREE,ALDT,BUFMAT , IPM   ,IGEO ,

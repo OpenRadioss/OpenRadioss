@@ -74,7 +74,7 @@ C-----------------------------------------------
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NT, I1, I2, I3
+      INTEGER I, NT, I1, I2, I3,IDRAPE,IGTYP
       INTEGER PID(MVSIZ)
       my_real FAC
       my_real ECOS(MVSIZ),ESIN(MVSIZ),
@@ -91,6 +91,8 @@ C-----------------------------------------------
      .   X2L(MVSIZ), X3L(MVSIZ), Y3L(MVSIZ)
       my_real, DIMENSION(:) , POINTER :: DIR1, DIR2
 C=======================================================================
+      IDRAPE = ELBUF_STR%IDRAPE
+      IGTYP  = ELBUF_STR%IGTYP
       DO I=JFT,JLT
         I1    = IXTG(2,I)
         I2    = IXTG(3,I)
@@ -192,7 +194,8 @@ c
      .               NLAY     ,IREP ,NEL  ,
      .               X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .               Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
-     .               E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
+     .               E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z ,
+     .               IDRAPE , IGTYP )
 c
           CALL C3PXPYI(JFT  ,JLT  ,ISMSTR,
      .                 PX1G ,PY1G ,PY2G ,

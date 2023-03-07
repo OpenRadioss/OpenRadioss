@@ -337,7 +337,8 @@ C Madymo Stuff
       TYPE(GRP_PARAM_STRUCT_) , DIMENSION(:), ALLOCATABLE :: GROUP_PARAM_TAB  ! NGROUP
 
       TYPE (PINCH)  :: PINCH_DATA
-      TYPE(DRAPE_) :: DRAPE_Q4,DRAPE_T3
+      TYPE(DRAPE_), DIMENSION(:), ALLOCATABLE        :: DRAPE_SH4N,DRAPE_SH3N
+      TYPE(DRAPEG_)                                  :: DRAPEG
 C      
       INTEGER :: CURRENT_RUN,PREVIOUS_RUN
       REAL(kind=8) :: LOCAL_STARTER_TIME,LOCAL_ENGINE_TIME,RESULT
@@ -1344,7 +1345,7 @@ C--------------------------------------------
       IF(SKNOTLOCEL > 0) CALL KNOTLOCELREST(KNOTLOCEL)
       IF(NUMELIG3D > 0) CALL WIGEREST(WIGE)
       IF(IPART_STACK >0) THEN
-          ALLOCATE(STACK%IGEO(3*NPT_STACK+2,NS_STACK),STAT=IERR)
+          ALLOCATE(STACK%IGEO(4*NPT_STACK+2,NS_STACK),STAT=IERR)
           IF(IERR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .            C1='(/PROP/STACK/...)')
@@ -1369,12 +1370,17 @@ C--------------------------------------------
       ELSE
          ALLOCATE(STACK%IGEO(0,0),STACK%GEO(0,0),STACK%PM(0,0))
       ENDIF 
+      SCDRAPE = 0
+      STDRAPE = 0
       IF (NDRAPE > 0) THEN
-        CALL DRAPE_RREST(DRAPE_Q4,DRAPE_T3)
+         ALLOCATE(DRAPE_SH4N(NUMELC_DRAPE),DRAPE_SH3N(NUMELTG_DRAPE))
+         ALLOCATE(DRAPEG%INDX_SH4N(NUMELC),DRAPEG%INDX_SH3N(NUMELTG))
+         DRAPEG%INDX_SH4N = 0
+         DRAPEG%INDX_SH3N = 0
+         CALL DRAPE_RREST(DRAPE_SH4N,DRAPE_SH3N, DRAPEG)  
       ELSE
-        ALLOCATE(DRAPE_Q4%NPT(0), DRAPE_Q4%INDX(0),DRAPE_Q4%IDRAPE(0),
-     .     DRAPE_Q4%RDRAPE(0,0), DRAPE_T3%NPT(0), DRAPE_T3%INDX(0),DRAPE_T3%IDRAPE(0),
-     .     DRAPE_T3%RDRAPE(0,0)  )   
+       ALLOCATE(DRAPE_SH4N(0),DRAPE_SH3N(0),DRAPEG%INDX_SH4N(0),
+     .                                      DRAPEG%INDX_SH3N(0) )
       ENDIF 
 C--------------------------------------------
       IF (NUMPLY > 0) CALL PLY_INFO_REST(PLY_INFO)
@@ -2241,8 +2247,8 @@ C---------------------------------------------------------------------
      .                   IGRBEAM, IGRSPRING,IGRPART,IGRSURF,IGRSLIN,
      .                   FORNEQS  ,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                   PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                   DRAPE_Q4 ,DRAPE_T3,SENSOR_TAB,EBCS_TAB,DIFFUSION,SEGVAR,
-     .                   DYNAIN_DATA)
+     .                   DRAPE_SH4N ,DRAPE_SH3N,SENSOR_TAB,EBCS_TAB,DIFFUSION,SEGVAR,
+     .                   DYNAIN_DATA,DRAPEG)
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")
