@@ -947,7 +947,6 @@ Chd|        PRELECSEC4BOLT                source/tools/sect/prelecsec4bolt.F
 Chd|        PREPARE_INT25                 source/model/mesh/build_cnel.F
 Chd|        PREPARE_SPLIT_I25E2E          source/spmd/prepare_split_i25e2e.F
 Chd|        PREREAD_RBODY_SET             source/model/sets/preread_rbody_set.F
-Chd|        PRE_STACKGROUP                source/stack/pres_stackgroup.F
 Chd|        PRINTBCS                      source/constraints/general/bcs/printbcs.F
 Chd|        PRINTGROUP                    source/output/outfile/printgroup.F
 Chd|        Q4DERI2                       source/elements/solid_2d/quad4/q4deri2.F
@@ -1110,7 +1109,6 @@ Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
 Chd|        SREFDERI3                     source/elements/solid/solide/srefsta3.F
 Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
 Chd|        STACKGROUP                    source/stack/stackgroup.F     
-Chd|        STACKGROUP_DRAPE              source/stack/stackgroup_drape.F
 Chd|        STARTER0                      source/starter/starter0.F     
 Chd|        STATE_ADMESH                  source/model/remesh/state_admesh.F
 Chd|        STOCK_MSG                     source/output/message/stock_msg.F

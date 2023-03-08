@@ -595,7 +595,6 @@ Chd|        PRELECSEC4BOLT                source/tools/sect/prelecsec4bolt.F
 Chd|        PREREAD_INIVEL                source/initial_conditions/general/inivel/inivel.F
 Chd|        PREREAD_RBODY_LAGMUL          source/constraints/general/rbody/preread_rbody_lagmul.F
 Chd|        PREREAD_RBODY_SET             source/model/sets/preread_rbody_set.F
-Chd|        PRE_STACKGROUP                source/stack/pres_stackgroup.F
 Chd|        R2R_FORK                      source/coupling/rad2rad/r2r_fork.F
 Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|        R2R_MONVOL                    source/coupling/rad2rad/r2r_prelec.F
@@ -653,7 +652,6 @@ Chd|        SHELLTHK_UPD                  source/properties/composite_options/dr
 Chd|        SORT_SET                      source/model/sets/sort_sets.F 
 Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        STACKGROUP                    source/stack/stackgroup.F     
-Chd|        STACKGROUP_DRAPE              source/stack/stackgroup_drape.F
 Chd|        STARTER0                      source/starter/starter0.F     
 Chd|        STATE_ADMESH                  source/model/remesh/state_admesh.F
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F

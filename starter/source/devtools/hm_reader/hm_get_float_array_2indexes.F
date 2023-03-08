@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_GET_FLOAT_ARRAY_2INDEXES   source/devtools/hm_reader/hm_get_float_array_2indexes.F
 Chd|-- called by -----------
-Chd|        HM_READ_DRAPE                 source/properties/composite_options/drape/hm_read_drape.F
 Chd|        HM_READ_PROP17                source/properties/shell/hm_read_prop17.F
 Chd|        HM_READ_PROP51                source/properties/shell/hm_read_prop51.F
 Chd|        HM_READ_STACK                 source/stack/hm_read_stack.F  

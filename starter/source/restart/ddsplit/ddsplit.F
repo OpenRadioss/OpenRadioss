@@ -34,7 +34,6 @@ Chd|        C_CLUSTER                     source/restart/ddsplit/w_cluster.F
 Chd|        C_CRKADD                      source/restart/ddsplit/c_crkadd.F
 Chd|        C_CRKEDGE                     source/restart/ddsplit/c_crkedge.F
 Chd|        C_CRKXFEM                     source/restart/ddsplit/c_crkxfem.F
-Chd|        C_DRAPE                       source/restart/ddsplit/c_drape.F
 Chd|        C_EIG                         source/restart/ddsplit/c_eig.F
 Chd|        C_ELIG3D                      source/restart/ddsplit/c_elig3d.F
 Chd|        C_ELMX                        source/restart/ddsplit/c_elmx.F

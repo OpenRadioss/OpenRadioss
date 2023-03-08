@@ -40,9 +40,7 @@ Chd|        HM_READ_DRAPE                 source/properties/composite_options/dr
 Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        LAYINI1                       source/elements/shell/coqueba/layini1.F
 Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        PRE_STACKGROUP                source/stack/pres_stackgroup.F
 Chd|        SHELLTHK_UPD                  source/properties/composite_options/drape/shellthk_upd.F
-Chd|        STACKGROUP_DRAPE              source/stack/stackgroup_drape.F
 Chd|        ST_QAPRINT_COMPOSITE_OPTIONS  source/output/qaprint/st_qaprint_composite_options.F
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|        T3GRHEAD                      source/elements/solid_2d/tria/t3grhead.F
