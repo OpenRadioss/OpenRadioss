@@ -75,7 +75,7 @@ c
       STATUS_IS1 = SENSOR_TAB(IS1)%STATUS
 c
       
-      IF ( STATUS_IS1 == 0 .AND. SENSOR_TAB(SENS)%STATUS == 0 ) THEN     ! Context change - NOT goes ON
+      IF ( STATUS_IS1 <= 0 .AND. SENSOR_TAB(SENS)%STATUS == 0 ) THEN     ! Context change - NOT goes ON
           SENSOR_TAB(SENS)%STATUS = 1
           SENSOR_TAB(SENS)%TSTART = TT
           ACTI = 1

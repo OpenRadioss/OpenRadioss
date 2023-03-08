@@ -85,7 +85,7 @@ c
           ACTI = 1
       ENDIF
 
-      IF ( (STATUS_IS1 == 0 .OR. STATUS_IS2 == 0) .AND. SENSOR_TAB(SENS)%STATUS == 1 ) THEN     ! Context change - AND goes OFF
+      IF ( (STATUS_IS1 <= 0 .OR. STATUS_IS2 <= 0) .AND. SENSOR_TAB(SENS)%STATUS == 1 ) THEN     ! Context change - AND goes OFF
           SENSOR_TAB(SENS)%STATUS = 0
           SENSOR_TAB(SENS)%TSTART = INFINITY
           ACTI = 2
