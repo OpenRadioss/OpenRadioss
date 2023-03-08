@@ -122,6 +122,23 @@ c-----------------------------------------------
             IS_MDSVAR_DEF = 1
             IF(IS_MODEL_PLY == 1 .OR. IS_MODEL_LAYER == 1 )IS_LAYER_ALL = 1
           ENDIF
+        ELSEIF (KEY3_READ == 'VFRAC') THEN
+c     create specific keywords for LAW151, number of present materials is not
+c     known a priori
+          IF (MULTI_FVM%IS_USED) THEN
+            NB_KEY = MULTI_FVM%NBMAT
+            DO II = 1, NB_KEY
+              IF (CPT_KEY == II) THEN
+                WRITE(KEY3_GLOB, '(A,I0)') 'M151VFRAC', II 
+              ENDIF
+            ENDDO
+          ELSE
+            NB_KEY = 4
+            IF (CPT_KEY == 1) KEY3_GLOB = 'VFRAC1'
+            IF (CPT_KEY == 2) KEY3_GLOB = 'VFRAC2'
+            IF (CPT_KEY == 3) KEY3_GLOB = 'VFRAC3'
+            IF (CPT_KEY == 4) KEY3_GLOB = 'VFRAC4'
+          ENDIF
         ELSE
           NB_KEY = 1
           KEY3_GLOB = KEY3_READ
