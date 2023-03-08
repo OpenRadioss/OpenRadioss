@@ -110,7 +110,7 @@ c
       ENDIF
 
 
-      IF (STATUS_IS1 == 0) THEN
+      IF (STATUS_IS1 <= 0) THEN
           TSTART1 = INFINITY
       END IF
 
