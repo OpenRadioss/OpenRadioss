@@ -173,12 +173,6 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('V_X',VX,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('V_Y',VY,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('V_Z',VZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-
-C----------------------
-C Apply submodel offsets units submodel transform to V (VX,VY,VZ) if needed
-C
-      IF (SUB_ID /= 0)
-     .         CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)
 C----------------------
 
       PTHK = MIN(PTHK, ONE-EM06)
@@ -283,6 +277,11 @@ C---- error out w/ IRP=22,23
         VY=VY/AN
         VZ=VZ/AN
       ENDIF
+
+      IF (SUB_ID /= 0)
+     .         CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)
+
+
       ISK = 0
       IF (IDSK/=0) THEN
         DO J=0,NUMSKW+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD
