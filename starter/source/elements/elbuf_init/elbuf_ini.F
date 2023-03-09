@@ -1400,7 +1400,8 @@ c---------for accumulate WXY
           ELSEIF (ISTRA > 0   .OR. IFAIL > 0 .OR.
      .       ISMSTR == 11 .OR.(ISMSTR==1 .AND. MLW==19)) THEN
             GBUF%G_STRA = 8
-          ENDIF                
+          ENDIF
+          IF (ITY == 3 .AND. JHBE == 23) GBUF%G_STRPG = 4*GBUF%G_STRA
 c           Allocate thermal stress and Thermal internal energy
           IF(IEXPAN > 0) THEN
              GBUF%G_FORTH = 2
@@ -1545,6 +1546,8 @@ C
             LGLOB = LGLOB + GBUF%G_STRPG
             LGLOB = LGLOB + GBUF%G_STRWPG
             LGLOB = LGLOB + GBUF%G_TEMPG
+          ELSEIF (GBUF%G_STRPG > GBUF%G_STRA) THEN
+            LGLOB = LGLOB + GBUF%G_STRPG
           ENDIF
 c
           IF (LFAIL > 0) THEN

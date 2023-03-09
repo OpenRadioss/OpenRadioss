@@ -453,6 +453,12 @@ C----------------------------------
      6             Y24    ,PX2    ,PY1   ,PY2  ,AREA     ,
      7             ISMSTR ,MTN    ,WXY   ,F_DEF,GBUF%STRW,
      8             NEL    )
+       IF (ISTRAIN /= 0) THEN
+        CALL CZSTRAH3(JFT   ,JLT    ,GBUF%STRPG,DHG    ,A_I   ,
+     3               MX23   ,MX34   ,MY23  ,MY34   ,DT1C  ,
+     4               EXX    ,EYY    ,EXY   ,EXZ    ,EYZ      ,  
+     3               KXX    ,KYY    ,KXY   ,NEL    )
+       END IF 
        IF (NPTTOT == 1 .AND. MTN==58) THEN
           CALL CZCORCHT(ELBUF_STR,
      1               JFT    ,JLT    ,X      ,V      ,VR     ,

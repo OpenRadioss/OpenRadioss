@@ -1574,7 +1574,13 @@ C        ELBUF_STR%GBUF%EPGPINCHXZ => GBUF%EPGPINCHXZ ! [PM] add later
 C        ELBUF_STR%GBUF%EPGPINCHYZ => GBUF%EPGPINCHYZ ! [PM] add later
 C        ELBUF_STR%GBUF%EPGPINCHZZ => GBUF%EPGPINCHZZ ! [PM] add later
 C
-        ELBUF_STR%GBUF%STRPG => GBUF%STRA
+        IF (G_STRPG<=G_STRA) THEN
+          ELBUF_STR%GBUF%STRPG => GBUF%STRA
+        ELSE
+          ALLOCATE (ELBUF_STR%GBUF%STRPG(NEL*G_STRPG) ,STAT=ERR)                     
+          GBUF%STRPG(1:NEL*G_STRPG) = RBUF(IAD+1:IAD+NEL*G_STRPG)                  
+          IAD = IAD+NEL*G_STRPG 
+        END IF
       ELSEIF (NPG > 1) THEN
         ALLOCATE (ELBUF_STR%GBUF%FORPG(NEL*G_FORPG) ,STAT=ERR)                     
           GBUF%FORPG(1:NEL*G_FORPG) = RBUF(IAD+1:IAD+NEL*G_FORPG)                  

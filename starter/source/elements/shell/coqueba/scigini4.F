@@ -161,8 +161,8 @@ c     .                C1=TITR,
           ENDIF
         ENDIF
         IF (ISTRAIN /= 0.AND.ITHKSHEL==2) THEN
-C--- in global sys NPGI=1 for QEPH not like stress
-          IF(SIGSH(17,II) == ONE)THEN
+C--- reading in another routine for QEPH 
+          IF(SIGSH(17,II) == ONE.AND.IHBE /= 23)THEN
             PT = INISHVAR1          
             IF(NPGI <= 1.OR.IHBE == 23)THEN
              IF (NPTI==1) THEN

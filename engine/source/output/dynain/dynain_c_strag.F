@@ -149,6 +149,7 @@ C
           NLAY = ELBUF_TAB(NG)%NLAY
           NPG  = NPTR*NPTS
           NPT  = NLAY*NPTT 
+          IF (IHBE == 23) NPG=4
           LFT=1
           LLT=NEL
 
@@ -231,6 +232,7 @@ C-------------------------------------------------------
             JJ = JJ + 1
             WA(JJ) = ONE  ! LARGE
 
+            THKP = THK0(I)
 c---------
 
             IF (MLW == 0 .or. MLW == 13) THEN
@@ -314,11 +316,6 @@ c---------
                  STRAIN => GBUF%STRA
               ENDIF
 
-              IF (ITHK >0 ) THEN
-                 THKP = GBUF%THK(I)
-              ELSE
-                 THKP = THKE(I + NFT)
-              END IF
 
               IPT_ALL = 0
               DO ILAY =1,NLAY
