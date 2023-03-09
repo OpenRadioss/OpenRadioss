@@ -190,6 +190,7 @@ C-----------------------------------------------
       USE SEGVAR_MOD
       USE SCRATCHFILE_MOD
       USE SENSOR_VARIABLE_MOD
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -345,6 +346,7 @@ C
       INTEGER :: DYN_LIB_MODE
       INTEGER :: RADFLEX_PROCESS_PID
       INTEGER IUTITLHIS,IUTITLHI(9)
+      TYPE (DYNAIN_DATABASE) :: DYNAIN_DATA
 C----------------------------------------------------------------------------------
 C MDS Table
       INTEGER, DIMENSION(:), ALLOCATABLE :: MDS_OUTPUT_TABLE
@@ -662,7 +664,7 @@ C redirect IOUT to tmp file  fichier temporaire when SPMD on pi <> 0
 C------------------------------------------------
 C     Standard input reading
 C------------------------------------------------
-      CALL LECINP(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS)
+      CALL LECINP(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA)
       NFSKYI=5
       IF(KDTINT==0 )NFSKYI=4
       
@@ -862,7 +864,7 @@ C     .rst file reading 1
 C------------------------------------------------
       CALL RDRESA(ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
      .            PRESFIL, MULTI_FVM, H3D_DATA,
-     .            PINCH_DATA)
+     .            PINCH_DATA,DYNAIN_DATA)
 C------------------------------------------------
 C     Test of .rst file compatibility
 C------------------------------------------------
@@ -1023,7 +1025,7 @@ c
       CALL RDRESB(AF       ,IAF     ,LVARREA ,XDP    ,
      .            IRUNN , MULTI_FVM,H3D_DATA,MATPARAM_TAB,GROUP_PARAM_TAB,
      .           PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL    ,
-     .           SENSOR_TAB, EBCS_TAB)
+     .           SENSOR_TAB, EBCS_TAB,DYNAIN_DATA)
 
       IF (NSPMD > 1)  CALL SPMD_RST_CHECK()
 c----------
@@ -1549,9 +1551,9 @@ C------------------------------------------------
      D              IFRAME,XFRAME,ELBUF_TAB,IGEO,INTBUF_TAB,
      E              IPM   ,H3D_DATA, MULTI_FVM,FLAG_CST_AMS,
      F              IGRPART,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
-     G              IPART_DYNAIN,MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,
-     H              MAX_DEPVAR,MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,
-     I              SENSOR_TAB)
+     G              MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
+     H              MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSOR_TAB,
+     I              DYNAIN_DATA)
 
 C------------------------------------------------
 C Close & Delete scratch file
@@ -2238,7 +2240,8 @@ C---------------------------------------------------------------------
      .                   IGRBEAM, IGRSPRING,IGRPART,IGRSURF,IGRSLIN,
      .                   FORNEQS  ,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                   PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                   DRAPE_Q4 ,DRAPE_T3,SENSOR_TAB,EBCS_TAB,DIFFUSION,SEGVAR)
+     .                   DRAPE_Q4 ,DRAPE_T3,SENSOR_TAB,EBCS_TAB,DIFFUSION,SEGVAR,
+     .                   DYNAIN_DATA)
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")

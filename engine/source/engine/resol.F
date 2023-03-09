@@ -574,7 +574,7 @@ Chd|====================================================================
      J  IGRSPRING,IGRPART,IGRSURF,FORNEQS,
      K  NLOC_DMG ,ISKWP_L,KNOTLOCPC,KNOTLOCEL,PINCH_DATA,TAG_SKINS6, ALE_CONNECTIVITY,
      L  XCELL, XFACE, NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,IBCSCYC  ,LBCSCYC,
-     M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,IPART_DYNAIN,FCONT_MAX,EBCS_TAB,DIFFUSION,
+     M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
      N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -646,6 +646,7 @@ C-----------------------------------------------
       USE SHOOTING_NODE_MOD
       USE ANIM_MOD
       USE OUTPUTS_MOD
+      USE STATE_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -794,7 +795,7 @@ C-----------------------------------------------
      .   CRKNODIAD(*), LGAUGE(3,*), IGAUP(*), NGAUP(*),NODLEVXF(*),
      .   NODGLOBXFE(*),ELCUTC(2,*),NODENR(*),KXFENOD2ELC(*),
      .   ENRTAG(NUMNOD,*),KXIG3D(*),IXIG3D(*),TABSENSOR(STABSEN),
-     .   NATIV0_SMS(*), SEGQUADFR(*), TAGSLV_RBY(*),IPART_DYNAIN(*),
+     .   NATIV0_SMS(*), SEGQUADFR(*), TAGSLV_RBY(*),
      .   KLOADPINTER(NINTER+1)  ,LOADPINTER(NINTER*NLOADP_HYD) 
       INTEGER IDATA(*), IBFTEMP(*), IBCV(*), IBFFLUX(*), WEIGHT_RM(*),
      .        ICODT_PLY(*), ISKEW_PLY(*),INOD_PXFEM(*),IEL_PXFEM(*),
@@ -902,6 +903,7 @@ c
       TYPE(t_segvar) :: SEGVAR
       TYPE(inter_struct_type), DIMENSION(:), ALLOCATABLE :: INTER_STRUCT   !   structure for interface
       TYPE(sorting_comm_type), DIMENSION(:), ALLOCATABLE :: SORT_COMM   ! structure for interface sorting comm
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -8384,7 +8386,7 @@ C Regular animation
           ILASTANIM=3
           LASTSTATCYCLE=NCYCLE
         END IF
-        IF (TT>TDYNAIN.AND.ILASTDYNAIN==0) THEN
+        IF (TT>DYNAIN_DATA%TDYNAIN.AND.ILASTDYNAIN==0) THEN
           ILASTDYNAIN=3
           LASTDYNCYCLE=NCYCLE
         END IF
@@ -8453,7 +8455,7 @@ C Regular animation
      n   STIFR_TMP     ,DRAPE_Q4       ,DRAPE_T3       ,MS_2D          ,MULTI_FVM     ,
      o   SEGQUADFR     ,H3D_DATA       ,ISKEW          ,PSKIDS         ,ISKWP         ,
      p   KNOTLOCPC     ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6     ,IRUNN_BIS     ,
-     q   TF            ,NPC            ,IPART_DYNAIN   ,FCONT_MAX      ,MDS_MATID     ,
+     q   TF            ,NPC            ,DYNAIN_DATA    ,FCONT_MAX      ,MDS_MATID     ,
      r   FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP         ,LLOADP        ,
      s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ) 
 C
@@ -8526,16 +8528,16 @@ c
           END IF
          END IF
 c
-         IF (DTDYNAIN>ZERO) THEN
+         IF (DYNAIN_DATA%DTDYNAIN>ZERO) THEN
           IF (TT>TSTOP.AND.ILASTDYNAIN==0
-     .        .AND.ABS((TT-TDYNAIN)/DTDYNAIN)<EM03) THEN
+     .        .AND.ABS((TT-DYNAIN_DATA%TDYNAIN)/DYNAIN_DATA%DTDYNAIN)<EM03) THEN
             ILASTDYNAIN=1
-            TDYNAIN=TT-EM10
+            DYNAIN_DATA%TDYNAIN=TT-EM10
           END IF
           IF (TT>TSTOP.AND.ILASTDYNAIN==0.AND.
      .        (NCYCLE-LASTDYNCYCLE)>=100) THEN
             ILASTDYNAIN=1
-            TDYNAIN=TT-EM10
+            DYNAIN_DATA%TDYNAIN=TT-EM10
           END IF
          END IF
 c
@@ -9248,7 +9250,7 @@ C--------------------------------------------------------
      .                 ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
      .                 H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                 SENSOR_TAB, EBCS_TAB)
+     .                 SENSOR_TAB, EBCS_TAB,DYNAIN_DATA)
           IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
           CALL FVWREST()
           IF (IMPL_S>0) THEN
@@ -9515,7 +9517,7 @@ C--------------------------------------------------------
      .                 ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
      .                 H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                 SENSOR_TAB, EBCS_TAB)
+     .                 SENSOR_TAB, EBCS_TAB,DYNAIN_DATA)
         IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
         CALL FVWREST()
         IF (IMPL_S>0) THEN
@@ -9651,7 +9653,7 @@ C--------------------------------------------------------
      .                    ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
      .                    H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                    PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                    SENSOR_TAB, EBCS_TAB)
+     .                    SENSOR_TAB, EBCS_TAB,DYNAIN_DATA)
               IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
               CALL FVWREST()
               IF (IMPL_S>0) THEN

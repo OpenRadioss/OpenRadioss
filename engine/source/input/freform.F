@@ -74,7 +74,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
 Chd|        TH_MOD                        share/modules/th_mod.F        
 Chd|====================================================================
-      SUBROUTINE FREFORM(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS)
+      SUBROUTINE FREFORM(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -84,6 +84,7 @@ C-----------------------------------------------
       USE CHECK_MOD
       USE FVBAG_MOD
       USE TH_MOD
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,6 +94,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRUNN, IRFL, IRFE, FLAG_CST_AMS
       TYPE(H3D_DATABASE), INTENT(INOUT) :: H3D_DATA
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -2540,7 +2542,7 @@ C-----------------------
 C-----------------------
 C     DYNAIN FILES
 C-----------------------
-      CALL FREDYNAIN(IKAD(0),KEY0,KDYNAIN)
+      CALL FREDYNAIN(IKAD(0),KEY0,KDYNAIN,DYNAIN_DATA)
 C-----------------------
 C     ABF FILES
 C-----------------------

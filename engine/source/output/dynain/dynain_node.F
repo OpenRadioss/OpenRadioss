@@ -28,7 +28,11 @@ Chd|-- calls ---------------
 Chd|        SPMD_DSTAT_VGATH              source/mpi/output/spmd_stat.F 
 Chd|====================================================================
       SUBROUTINE DYNAIN_NODE(X   ,NUMNOD  ,ITAB  ,ITABG  ,LENG  ,
-     .                    NODGLOB,WEIGHT  ,NODTAG)
+     .                    NODGLOB,WEIGHT  ,NODTAG,DYNAIN_DATA)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,12 +53,14 @@ C-----------------------------------------------
      .        NODGLOB(*),NODTAG(*)
       my_real
      .   X(3,*)
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I , IERR
       INTEGER ,  DIMENSION(:),ALLOCATABLE :: NODTAGLOB
       my_real ,  DIMENSION(:,:),ALLOCATABLE :: VGLOB
+      CHARACTER*100 LINE
 C-----------------------------------------------
 
       IF (NSPMD > 1) THEN
@@ -68,22 +74,42 @@ C-----------------------
         IF (ISPMD/=0) RETURN
       ENDIF
 
-      WRITE(IUDYNAIN,'(A)')'*NODE'
-      WRITE(IUDYNAIN,'(2A)')'$    NID               X',
-     .         '               Y               Z'
-
+      IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN
+        WRITE(IUDYNAIN,'(A)')'*NODE'
+        WRITE(IUDYNAIN,'(2A)')'$    NID               X',
+     .           '               Y               Z'
+      ELSE
+        WRITE(LINE,'(A)') '*NODE'
+        CALL STRS_TXT50(LINE,100)
+        WRITE(LINE,'(2A)')'$    NID               X',
+     .           '               Y               Z'
+        CALL STRS_TXT50(LINE,100)
+      ENDIF
       IF (NSPMD == 1) THEN
         DO I=1,NUMNOD
            IF(NODTAG(I) /= 0) THEN
-            WRITE(IUDYNAIN,'(I8,1P3G16.9)')
-     .       ITAB(I),X(1,I),X(2,I),X(3,I)
+             IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN
+                WRITE(IUDYNAIN,'(I8,1P3G16.9)')
+     .           ITAB(I),X(1,I),X(2,I),X(3,I)
+             ELSE
+                WRITE(LINE,'(I8,1P3G16.9)')
+     .           ITAB(I),X(1,I),X(2,I),X(3,I)
+                CALL STRS_TXT50(LINE,100)
+             ENDIF
            END IF
         END DO
       ELSE
         DO I=1,NUMNODG
-          IF(NODTAGLOB(I) /= 0)
-     .      WRITE(IUDYNAIN,'(I8,1P3G16.9)')
-     .       ITABG(I),VGLOB(1,I),VGLOB(2,I),VGLOB(3,I)
+          IF(NODTAGLOB(I) /= 0) THEN
+            IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN
+              WRITE(IUDYNAIN,'(I8,1P3G16.9)')
+     .         ITABG(I),VGLOB(1,I),VGLOB(2,I),VGLOB(3,I)
+            ELSE
+                WRITE(LINE,'(I8,1P3G16.9)')
+     .          ITABG(I),VGLOB(1,I),VGLOB(2,I),VGLOB(3,I)
+                CALL STRS_TXT50(LINE,100)
+            ENDIF
+          ENDIF
         END DO
       ENDIF
       IF (NSPMD > 1) DEALLOCATE(VGLOB,NODTAGLOB)

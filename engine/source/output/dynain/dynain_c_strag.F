@@ -38,7 +38,7 @@ Chd|====================================================================
       SUBROUTINE DYNAIN_C_STRAG(
      1                  ELBUF_TAB  ,IPARG     ,IPM        ,IGEO  ,IXC    ,
      2                  IXTG       ,WA        ,WAP0       ,IPARTC,IPARTTG,
-     3                  IPART_DYNAIN,DYNAIN_INDXC,DYNAIN_INDXTG,SIZP0    ,
+     3                  DYNAIN_DATA,DYNAIN_INDXC,DYNAIN_INDXTG,SIZP0    ,
      4                  GEO        ,STACK     ,DRAPE_Q4   ,DRAPE_T3,X    ,
      5                  THKE       )
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD   
       USE STACK_MOD
       USE DRAPE_MOD      
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,30 +56,24 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "scr01_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
-#include      "scr03_c.inc"
-#include      "scr14_c.inc"
-#include      "scr16_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER SIZLOC,SIZP0
       INTEGER IXC(NIXC,*),IXTG(NIXTG,*),
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
-     .        IPARTC(*), IPARTTG(*), IPART_DYNAIN(*),
-     .        DYNAIN_INDXC(*), DYNAIN_INDXTG(*)
+     .        IPARTC(*), IPARTTG(*),DYNAIN_INDXC(*), DYNAIN_INDXTG(*)
       my_real   
      .   GEO(NPROPG,*) , X(*) , THKE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
       TYPE (DRAPE_)  :: DRAPE_Q4,DRAPE_T3
       double precision WA(*),WAP0(*)
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -118,15 +113,17 @@ C=======================================================================
 C-----------------------
 C    Allocation Tabs
 C-----------------------
-      ALLOCATE(PTWA(MAX(DYNAIN_NUMELC ,DYNAIN_NUMELTG)),STAT=IERR)
-      ALLOCATE(PTWA_P0(0:MAX(1,DYNAIN_NUMELC_G,DYNAIN_NUMELTG_G)),STAT=IERR)
+      ALLOCATE(PTWA(MAX(DYNAIN_DATA%DYNAIN_NUMELC ,
+     .             DYNAIN_DATA%DYNAIN_NUMELTG)),STAT=IERR)
+      ALLOCATE(PTWA_P0(0:MAX(1,DYNAIN_DATA%DYNAIN_NUMELC_G,
+     .         DYNAIN_DATA%DYNAIN_NUMELTG_G)),STAT=IERR)
 C*********************************************
 C     4-NODE SHELLS
 C*********************************************
       JJ = 0
 C
       IE=0
-      IF (DYNAIN_NUMELC/=0) THEN
+      IF (DYNAIN_DATA%DYNAIN_NUMELC/=0) THEN
        DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 3) THEN
@@ -212,7 +209,7 @@ C-------------------------------------------------------
           DO I=LFT,LLT
             N = I + NFT
             IPRT=IPARTC(N)
-            IF (IPART_DYNAIN(IPRT)==0) CYCLE
+            IF (DYNAIN_DATA%IPART_DYNAIN(IPRT)==0) CYCLE
             JJ = JJ + 1
             IF (MLW /= 0 .AND. MLW /= 13) THEN
               WA(JJ) = GBUF%OFF(I)
@@ -361,7 +358,7 @@ c-----------------------------------------------------------------------
       IF (NSPMD == 1) THEN
 C       recopying for code simplification
         PTWA_P0(0)=0
-        DO N=1,DYNAIN_NUMELC
+        DO N=1,DYNAIN_DATA%DYNAIN_NUMELC
           PTWA_P0(N)=PTWA(N)
         ENDDO
         LEN=JJ
@@ -370,26 +367,47 @@ C       recopying for code simplification
         ENDDO
       ELSE
 C      Global pointers WAP0
-        CALL SPMD_STAT_PGATHER(PTWA,DYNAIN_NUMELC,PTWA_P0,DYNAIN_NUMELC_G)
+        CALL SPMD_STAT_PGATHER(PTWA,DYNAIN_DATA%DYNAIN_NUMELC,PTWA_P0,DYNAIN_DATA%DYNAIN_NUMELC_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
       ENDIF
 c-------------------------------------
       IS_WRITTEN = 0
       IF (ISPMD == 0.AND.LEN > 0) THEN
-          WRITE(IUDYNAIN,'(A)') DELIMIT
-          WRITE(IUDYNAIN,'(A)')'*INITIAL_STRAIN_SHELL'
-          WRITE(IUDYNAIN,'(A)')
-     .    '$  SHELLID       NPG     NBINT     LARGE  ' 
-          WRITE(IUDYNAIN,'(A)')
-     .     '$ IF(NPT == 0), REPEAT I=1,NPG :'
-          WRITE(IUDYNAIN,'(A)')
-     .    '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'      
-           WRITE(IUDYNAIN,'(A)')
-     .     '$    EPSXX     EPSYY     EPSZZ     EPSXY     EPSYZ     EPSZX         T'
+         IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
             WRITE(IUDYNAIN,'(A)') DELIMIT
+            WRITE(IUDYNAIN,'(A)')'*INITIAL_STRAIN_SHELL'
+            WRITE(IUDYNAIN,'(A)')
+     .      '$  SHELLID       NPG     NBINT     LARGE  ' 
+            WRITE(IUDYNAIN,'(A)')
+     .      '$ IF(NPT == 0), REPEAT I=1,NPG :'
+            WRITE(IUDYNAIN,'(A)')
+     .      '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'      
+            WRITE(IUDYNAIN,'(A)')
+     .      '$    EPSXX     EPSYY     EPSZZ     EPSXY     EPSYZ     EPSZX         T'
+            WRITE(IUDYNAIN,'(A)') DELIMIT
+         ELSE
+            WRITE(LINE,'(A)') DELIMIT
+            CALL STRS_TXT50(LINE,100)
+            WRITE(LINE,'(A)')'*INITIAL_STRAIN_SHELL'
+            CALL STRS_TXT50(LINE,100)
+            WRITE(LINE,'(A)')
+     .      '$  SHELLID       NPG     NBINT     LARGE  ' 
+            CALL STRS_TXT50(LINE,100)
+            WRITE(LINE,'(A)')
+     .      '$ IF(NPT == 0), REPEAT I=1,NPG :'
+            CALL STRS_TXT50(LINE,100)
+            WRITE(LINE,'(A)')
+     .      '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'     
+            CALL STRS_TXT50(LINE,100) 
+            WRITE(LINE,'(A)')
+     .      '$    EPSXX     EPSYY     EPSZZ     EPSXY     EPSYZ     EPSZX         T'
+            CALL STRS_TXT50(LINE,100)
+            WRITE(LINE,'(A)') DELIMIT
+            CALL STRS_TXT50(LINE,100)
+         ENDIF
          IS_WRITTEN = 1
-        DO N=1,DYNAIN_NUMELC_G
+        DO N=1,DYNAIN_DATA%DYNAIN_NUMELC_G
 C         Retrieving shell ID in increasing order 
           K=DYNAIN_INDXC(N)
 C         Adress in  WAP0
@@ -404,20 +422,37 @@ c
             LARGE = NINT(WAP0(J + 5)) 
 
             J = J + 5
-
-            WRITE(IUDYNAIN,'(3I10,I10)')ID,NPG,NPT,LARGE
+            IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
+               WRITE(IUDYNAIN,'(3I10,I10)')ID,NPG,NPT,LARGE
+            ELSE
+               WRITE(LINE,'(3I10,I10)')ID,NPG,NPT,LARGE
+               CALL STRS_TXT50(LINE,100)
+            ENDIF
             IF (NPT == 0) THEN
               DO IPG=1,NPG
-                WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(JJ + K),K=1,3)
-                WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(JJ + K),K=6,7)
+                IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
+                  WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(JJ + K),K=1,3)
+                  WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(JJ + K),K=6,7)
+                ELSE
+                  WRITE(LINE,'(1P5G16.9)')(WAP0(JJ + K),K=1,3)
+                  CALL STRS_TXT50(LINE,100)
+                  WRITE(LINE,'(1P3G16.9)')(WAP0(JJ + K),K=6,7)
+                  CALL STRS_TXT50(LINE,100)
+                ENDIF
                 J = J + 7
               ENDDO
             ELSE
               DO IPT=1,NPT 
                 DO IPG=1,NPG
-
-                   WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(J + K),K=1,5)
-                   WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(J + K),K=6,7)
+                   IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
+                     WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(J + K),K=1,5)
+                     WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(J + K),K=6,7)
+                   ELSE
+                     WRITE(LINE,'(1P5G16.9)')(WAP0(J + K),K=1,5)
+                     CALL STRS_TXT50(LINE,100)
+                     WRITE(LINE,'(1P3G16.9)')(WAP0(J + K),K=6,7)
+                     CALL STRS_TXT50(LINE,100)
+                   ENDIF
                    J = J + 7
                 ENDDO
               ENDDO
@@ -434,7 +469,7 @@ C***********************************************
       JJ = 0
       IE=0
 C
-      IF(DYNAIN_NUMELTG/=0) THEN
+      IF(DYNAIN_DATA%DYNAIN_NUMELTG/=0) THEN
        DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 7) THEN
@@ -513,7 +548,7 @@ C
           DO I=LFT,LLT
             N = I + NFT
             IPRT=IPARTTG(N)
-            IF (IPART_DYNAIN(IPRT) == 0) CYCLE
+            IF (DYNAIN_DATA%IPART_DYNAIN(IPRT) == 0) CYCLE
             JJ = JJ + 1
             IF (MLW /= 0 .AND. MLW /= 13) THEN
               WA(JJ) = GBUF%OFF(I)
@@ -673,35 +708,56 @@ C       recopying for code simplification
           WAP0(J)=WA(J)
         ENDDO
         PTWA_P0(0)=0
-        DO N=1,DYNAIN_NUMELTG
+        DO N=1,DYNAIN_DATA%DYNAIN_NUMELTG
           PTWA_P0(N)=PTWA(N)
         ENDDO
       ELSE
 C      Global pointers WAP0
-        CALL SPMD_STAT_PGATHER(PTWA,DYNAIN_NUMELTG,PTWA_P0,DYNAIN_NUMELTG_G)
+        CALL SPMD_STAT_PGATHER(PTWA,DYNAIN_DATA%DYNAIN_NUMELTG,PTWA_P0,DYNAIN_DATA%DYNAIN_NUMELTG_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
       ENDIF
 
       IF (ISPMD == 0.AND.LEN > 0) THEN
         IF(IS_WRITTEN == 0 ) THEN
-          WRITE(IUDYNAIN,'(A)') DELIMIT
-          WRITE(IUDYNAIN,'(A)')'*INITIAL_STRAIN_SHELL'
-          WRITE(IUDYNAIN,'(A)')
-     .    '$  SHELLID       NPG     NBINT     LARGE  ' 
-          WRITE(IUDYNAIN,'(A)')
-     .     '$ IF(NPT == 0), REPEAT I=1,NPG :'
-          WRITE(IUDYNAIN,'(A)')
-     .    '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'      
-          WRITE(IUDYNAIN,'(A)')
-     .     '$         T    EPSXX     EPSYY     EPSZZ     EPSXY     EPSYZ     EPSZX'
-          WRITE(IUDYNAIN,'(A)') DELIMIT
+          IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
+            WRITE(IUDYNAIN,'(A)') DELIMIT
+            WRITE(IUDYNAIN,'(A)')'*INITIAL_STRAIN_SHELL'
+            WRITE(IUDYNAIN,'(A)')
+     .      '$  SHELLID       NPG     NBINT     LARGE  ' 
+            WRITE(IUDYNAIN,'(A)')
+     .      '$ IF(NPT == 0), REPEAT I=1,NPG :'
+            WRITE(IUDYNAIN,'(A)')
+     .      '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'      
+            WRITE(IUDYNAIN,'(A)')
+     .      '$         T    EPSXX     EPSYY     EPSZZ     EPSXY     EPSYZ     EPSZX'
+            WRITE(IUDYNAIN,'(A)') DELIMIT
+           ELSE
+            WRITE(LINE,'(A)') DELIMIT
+            CALL STRS_TXT50(LINE,100)
+            WRITE(LINE,'(A)')'*INITIAL_STRAIN_SHELL'
+            CALL STRS_TXT50(LINE,100)
+            WRITE(LINE,'(A)')
+     .      '$  SHELLID       NPG     NBINT     LARGE  ' 
+            CALL STRS_TXT50(LINE,100)
+            WRITE(LINE,'(A)')
+     .      '$ IF(NPT == 0), REPEAT I=1,NPG :'
+            CALL STRS_TXT50(LINE,100)
+            WRITE(LINE,'(A)')
+     .      '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'    
+            CALL STRS_TXT50(LINE,100)  
+            WRITE(LINE,'(A)')
+     .      '$         T    EPSXX     EPSYY     EPSZZ     EPSXY     EPSYZ     EPSZX'
+            CALL STRS_TXT50(LINE,100)
+            WRITE(LINE,'(A)') DELIMIT
+            CALL STRS_TXT50(LINE,100)
+           ENDIF
 
           IS_WRITTEN = 1
 
          ENDIF
 
-        DO N=1,DYNAIN_NUMELTG_G
+        DO N=1,DYNAIN_DATA%DYNAIN_NUMELTG_G
 C         Retrieving shell ID in increasing order 
           K=DYNAIN_INDXTG(N)
 C         Adress in  WAP0
@@ -715,20 +771,39 @@ C
             LARGE = NINT(WAP0(J + 5)) 
             J = J + 5
 
-            WRITE(IUDYNAIN,'(3I10,20X,I10)')ID,NPG,NPT,LARGE
+            IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
+              WRITE(IUDYNAIN,'(3I10,20X,I10)')ID,NPG,NPT,LARGE
+            ELSE
+              WRITE(LINE,'(3I10,20X,I10)')ID,NPG,NPT,LARGE
+              CALL STRS_TXT50(LINE,100)
+            ENDIF
 
             IF (NPT == 0) THEN
               DO IPG=1,NPG
-                WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(JJ + K),K=1,5)
-                WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(JJ + K),K=6,7)
+                IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
+                  WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(JJ + K),K=1,5)
+                  WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(JJ + K),K=6,7)
+                ELSE
+                  WRITE(LINE,'(1P5G16.9)')(WAP0(JJ + K),K=1,5)
+                  CALL STRS_TXT50(LINE,100)
+                  WRITE(LINE,'(1P3G16.9)')(WAP0(JJ + K),K=6,7)
+                  CALL STRS_TXT50(LINE,100)
+                ENDIF
                 J = J + 7
               ENDDO
             ELSE
               DO IPT=1,NPT 
                 DO IPG=1,NPG
-                   WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(J + K),K=1,5)
-                   WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(J + K),K=6,7)
-                   J = J + 7
+                  IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
+                    WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(J + K),K=1,5)
+                    WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(J + K),K=6,7)
+                  ELSE
+                    WRITE(LINE,'(1P5G16.9)')(WAP0(J + K),K=1,5)
+                    CALL STRS_TXT50(LINE,100)
+                    WRITE(LINE,'(1P3G16.9)')(WAP0(J + K),K=6,7)
+                    CALL STRS_TXT50(LINE,100)
+                  ENDIF
+                  J = J + 7
                 ENDDO
               ENDDO
             ENDIF  !  IF (NPT == 0)

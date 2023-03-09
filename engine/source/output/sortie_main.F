@@ -119,7 +119,7 @@ Chd|====================================================================
      n            STIFR     ,DRAPE_Q4, DRAPE_T3       ,MS_2D     ,MULTI_FVM,
      o            SEGQUADFR ,H3D_DATA    ,ISKEW      ,PSKIDS    ,ISKWP    ,
      p            KNOTLOCPC ,KNOTLOCEL   ,PINCH_DATA ,TAG_SKINS6,IRUNN_BIS, 
-     q            TF        ,NPC         ,IPART_DYNAIN,FCONT_MAX,MDS_MATID,
+     q            TF        ,NPC         ,DYNAIN_DATA,FCONT_MAX,MDS_MATID,
      r            FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP   ,LLOADP   ,
      s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ) 
 C-----------------------------------------------
@@ -148,6 +148,7 @@ C-----------------------------------------------
       USE ANIM_MOD
       USE OUTPUTS_MOD
       USE MESSAGE_MOD
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -216,7 +217,7 @@ C-----------------------------------------------
      .   WEIGHT_MD(*),NODGLOBXFE(*),NODEDGE(2,*),NV46,KXIG3D(*),
      .   IXIG3D(*),NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .   ISPHIO(NISPHIO,*),ICODE(*),SPH2SOL(*),SEGQUADFR(*),
-     .   ISKEW(*),TAG_SKINS6(*),IRUNN_BIS,IPART_DYNAIN(*)
+     .   ISKEW(*),TAG_SKINS6(*),IRUNN_BIS
        my_real
      .   BUFNOIS(*),PARTSAV(NPSAV,*),RBY(NRBY,*),CRFLSW(*),FLSW(*),
      .   FSAV(NTHVKI,*),SKEW(LSKEW,*), VR(3,*), IN(*), DMAS,DINER,
@@ -261,6 +262,7 @@ C-----------------------------------------------
       TYPE (DRAPE_)  :: DRAPE_Q4, DRAPE_T3
       TYPE (SENSOR_STR_), DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -323,7 +325,7 @@ C-------should use relative velocity for dynamic condensed nodes (Nd of S10)
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
      4             XMOM_SMS ,SENSOR_TAB,QFRICINT ,IPARI  ,
      5             WEIGHT_MD,TFEXTH ,IFLAG   ,MS_2D, MULTI_FVM ,
-     6             MAS_ND   ,KEND   ,H3D_DATA)
+     6             MAS_ND   ,KEND   ,H3D_DATA,DYNAIN_DATA)
         DEALLOCATE(VMCDN)
        ELSE
         BID = ZERO
@@ -332,7 +334,7 @@ C-------should use relative velocity for dynamic condensed nodes (Nd of S10)
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
      4             XMOM_SMS ,SENSOR_TAB,QFRICINT ,IPARI  ,
      5             WEIGHT_MD,TFEXTH  ,IFLAG  ,MS_2D, MULTI_FVM ,
-     6             BID      ,BID     ,H3D_DATA)
+     6             BID      ,BID     ,H3D_DATA,DYNAIN_DATA)
        ENDIF
 C---------------------------------------
 C       CALCUL DU FLUX ET DE LA ROTATION
@@ -883,8 +885,8 @@ C
 C----------------------
 C     DYNAIN FILE
 C----------------------
-      IF(TT>=TDYNAIN) THEN
-       IDYNAINF=IDYNAINF+1
+      IF(TT>=DYNAIN_DATA%TDYNAIN) THEN
+       DYNAIN_DATA%IDYNAINF=DYNAIN_DATA%IDYNAINF+1
 
        K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
        K2=K1+NUMELS
@@ -914,12 +916,12 @@ C
      3                PM       ,GEO      , IPART(K3),IPART(K8),LENG   ,
      4                LENGC    ,LENGTG   , WEIGHT ,NODGLOB  ,THKE     ,               
      5                NPBY     ,LPBY     , STACK  ,DRAPE_Q4 ,DRAPE_T3 , 
-     6                IPART_DYNAIN) 
+     6                DYNAIN_DATA) 
              
-       IF(TT>=TDYNAIN)TDYNAIN=TDYNAIN+DTDYNAIN
-       IF ((TSTOP<TDYNAIN).AND.(TDYNAIN<TSTOP+EM06*TSTOP)
-     .     .AND.(TSTOP+EM06*TSTOP<TDYNAIN+DTDYNAIN)) THEN
-         TDYNAIN=TSTOP
+       IF(TT>=DYNAIN_DATA%TDYNAIN)DYNAIN_DATA%TDYNAIN=DYNAIN_DATA%TDYNAIN+DYNAIN_DATA%DTDYNAIN
+       IF ((TSTOP<DYNAIN_DATA%TDYNAIN).AND.(DYNAIN_DATA%TDYNAIN<TSTOP+EM06*TSTOP)
+     .     .AND.(TSTOP+EM06*TSTOP<DYNAIN_DATA%TDYNAIN+DYNAIN_DATA%DTDYNAIN)) THEN
+         DYNAIN_DATA%TDYNAIN=TSTOP
        END IF
       END IF
 

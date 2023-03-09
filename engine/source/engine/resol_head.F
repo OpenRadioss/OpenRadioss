@@ -64,7 +64,7 @@ Chd|====================================================================
      .           IGRBEAM   ,IGRSPRING   ,IGRPART        ,IGRSURF   , IGRSLIN         , 
      .           FORNEQS   ,MATPARAM_TAB,GROUP_PARAM_TAB,PINCH_DATA, ALE_CONNECTIVITY,
      .           T_MONVOL  ,DRAPE_Q4    ,DRAPE_T3       ,SENSOR_TAB, EBCS_TAB        , 
-     .           DIFFUSION ,SEGVAR)
+     .           DIFFUSION ,SEGVAR      ,DYNAIN_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -94,6 +94,7 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE DIFFUSION_MOD
       USE SEGVAR_MOD
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -159,6 +160,7 @@ C     REAL
       TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
       TYPE(T_DIFFUSION), INTENT(INOUT) :: DIFFUSION
       TYPE(t_segvar) :: SEGVAR
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -266,7 +268,7 @@ C
      J  IGRSPRING       ,IGRPART        ,IGRSURF        ,FORNEQS        ,
      K  NLOC_DMG        ,ISKWP_L        ,KNOTLOCPC      ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6  ,ALE_CONNECTIVITY ,
      L  XCELL           , XFACE         ,NE_NERCVOIS    ,NE_NESDVOIS    ,NE_LERCVOIS    ,NE_LESDVOIS ,IBCSCYC          ,LBCSCYC   ,
-     M  T_MONVOL        ,ID_GLOBAL_VOIS ,FACE_VOIS      ,TAGSLV_RBY     ,IPART_DYNAIN   ,FCONT_MAX   ,EBCS_TAB         ,DIFFUSION ,
+     M  T_MONVOL        ,ID_GLOBAL_VOIS ,FACE_VOIS      ,TAGSLV_RBY     ,DYNAIN_DATA    ,FCONT_MAX   ,EBCS_TAB         ,DIFFUSION ,
      N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT)
 C
       CALL TRACE_OUT(2)

@@ -33,7 +33,7 @@ Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|====================================================================
-      SUBROUTINE RDCOMI(LMXVINT,LVARINT,TABVINT,MULTI_FVM,H3D_DATA)
+      SUBROUTINE RDCOMI(LMXVINT,LVARINT,TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -43,6 +43,8 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE ANIM_MOD
       USE OUTPUTS_MOD
+      USE DRAPE_MOD
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,6 +52,7 @@ C-----------------------------------------------
       INTEGER LMXVINT,LVARINT,TABVINT(*)
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1009,17 +1012,17 @@ C .sta files
       END IF
 C .dyain files
       NEXT   = NEXT + 1
-      IDYNAINF = TABVINT(NEXT)
+      DYNAIN_DATA%IDYNAINF = TABVINT(NEXT)
       IF(MCHECK/=0)THEN
-        DO I=1, MX_DYNAIN
+        DO I=1, DYNAIN_DATA%MX_DYNAIN
          NEXT   = NEXT + 1
-         DYNAIN_C(I) = TABVINT(NEXT)
+         DYNAIN_DATA%DYNAIN_C(I) = TABVINT(NEXT)
         ENDDO
       ELSE
-        NEXT   = NEXT + MX_DYNAIN
+        NEXT   = NEXT + DYNAIN_DATA%MX_DYNAIN
       END IF
       NEXT   = NEXT + 1
-      DYNAIN_CHECK = TABVINT(NEXT)
+      DYNAIN_DATA%DYNAIN_CHECK = TABVINT(NEXT)
 C  heat transfer + int7
       NEXT=NEXT+1
       INTHEAT = TABVINT(NEXT)
@@ -1776,18 +1779,20 @@ Chd|-- calls ---------------
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|====================================================================
-      SUBROUTINE RDCOMR(LMXVREA, LVARREA, TABVREA)
+      SUBROUTINE RDCOMR(LMXVREA, LVARREA, TABVREA,DYNAIN_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
        USE ANIM_MOD      
-       USE OUTPUTS_MOD      
+       USE OUTPUTS_MOD        
+       USE STATE_MOD  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
       INTEGER LMXVREA,LVARREA
       my_real TABVREA(LMXVREA)
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -2023,9 +2028,9 @@ C .sta files
 C
 C .dynain files
       RVARINT = RVARINT + 1
-      DTDYNAIN  = TABVREA(RVARINT)
+      DYNAIN_DATA%DTDYNAIN  = TABVREA(RVARINT)
       RVARINT = RVARINT + 1
-      TDYNAIN   = TABVREA(RVARINT)
+      DYNAIN_DATA%TDYNAIN   = TABVREA(RVARINT)
 C
       RVARINT = RVARINT + 1
       TADMESH = TABVREA(RVARINT)

@@ -29,13 +29,14 @@ Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DYNAIN_SHEL_MP(ITAB   ,ITABG   ,LENG    ,IGEO     ,IXC    ,
-     .                          IXTG   ,IPARTC  ,IPARTTG ,IPART_DYNAIN     ,
+     .                          IXTG   ,IPARTC  ,IPARTTG ,DYNAIN_DATA      ,
      .                          NODTAG ,DYNAIN_INDXC,DYNAIN_INDXTG,IPARG   ,
      .                          ELBUF_TAB,THKE  ,IPART     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD 
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,12 +59,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITAB(*), ITABG(*), LENG, IGEO(NPROPGI,*), 
      .        IXC(NIXC,*), IXTG(NIXTG,*),IPARTC(*), IPARTTG(*), 
-     .        IPART_DYNAIN(*),NODTAG(*) , DYNAIN_INDXC(*) ,
-     .        DYNAIN_INDXTG(*),IPARG(NPARG,*),IPART(LIPART1,*)
+     .        NODTAG(*) , DYNAIN_INDXC(*) ,DYNAIN_INDXTG(*),
+     .        IPARG(NPARG,*),IPART(LIPART1,*)
 
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       my_real
      .   THKE(*)
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -76,6 +78,7 @@ C-----------------------------------------------
       double precision  THKN ,BETA
       double precision ,  DIMENSION(:),ALLOCATABLE :: THKC , THKTG ,BETAC , BETATG
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      CHARACTER*100 LINE
 C--------------------------------------------------------
 
 C-----------------------
@@ -115,7 +118,7 @@ C-----------------------------------------------
            N  = I + NFT
 
            IPRT=IPARTC(N)
-           IF(IPART_DYNAIN(IPRT)==0)CYCLE
+           IF(DYNAIN_DATA%IPART_DYNAIN(IPRT)==0)CYCLE
 
            NPC(JJ+1) = IXC(NIXC,N)
            NPC(JJ+2) = ITAB(IXC(2,N))
@@ -137,10 +140,10 @@ C-----------------------------------------------
            ENDIF
            JJ = JJ + 8
 
-           DYNAIN_NUMELC = DYNAIN_NUMELC+1
+           DYNAIN_DATA%DYNAIN_NUMELC = DYNAIN_DATA%DYNAIN_NUMELC+1
 
-           CLEF(1,DYNAIN_NUMELC)=IGTYP
-           CLEF(2,DYNAIN_NUMELC)=IXC(NIXC,N)
+           CLEF(1,DYNAIN_DATA%DYNAIN_NUMELC)=IGTYP
+           CLEF(2,DYNAIN_DATA%DYNAIN_NUMELC)=IXC(NIXC,N)
 
            NODTAG(IXC(2,N))=1
            NODTAG(IXC(3,N))=1
@@ -157,10 +160,10 @@ C-----------------------------------------------
        END DO
       END IF
 C----
-      DO N=1,DYNAIN_NUMELC
+      DO N=1,DYNAIN_DATA%DYNAIN_NUMELC
         DYNAIN_INDXC(N)=N
       END DO
-      CALL MY_ORDERS(0,WORK,CLEF,DYNAIN_INDXC,DYNAIN_NUMELC,2)
+      CALL MY_ORDERS(0,WORK,CLEF,DYNAIN_INDXC,DYNAIN_DATA%DYNAIN_NUMELC,2)
 
 
 C-----------------------------------------------
@@ -188,7 +191,7 @@ C
            N  = I + NFT
 
            IPRT=IPARTTG(N)
-           IF(IPART_DYNAIN(IPRT)==0)CYCLE
+           IF(DYNAIN_DATA%IPART_DYNAIN(IPRT)==0)CYCLE
 
            NPTG(JJ+1) = IXTG(NIXTG,N)
            NPTG(JJ+2) = ITAB(IXTG(2,N))
@@ -209,10 +212,10 @@ C
            ENDIF
            JJ = JJ + 7
 
-           DYNAIN_NUMELTG =DYNAIN_NUMELTG+1
+           DYNAIN_DATA%DYNAIN_NUMELTG =DYNAIN_DATA%DYNAIN_NUMELTG+1
 
-           CLEF(1,DYNAIN_NUMELTG)=IGTYP
-           CLEF(2,DYNAIN_NUMELTG)=IXTG(NIXTG,N)
+           CLEF(1,DYNAIN_DATA%DYNAIN_NUMELTG)=IGTYP
+           CLEF(2,DYNAIN_DATA%DYNAIN_NUMELTG)=IXTG(NIXTG,N)
 
            NODTAG(IXTG(2,N))=1
            NODTAG(IXTG(3,N))=1
@@ -228,10 +231,10 @@ C
       END IF
 
 C-----
-      DO N=1,DYNAIN_NUMELTG
+      DO N=1,DYNAIN_DATA%DYNAIN_NUMELTG
         DYNAIN_INDXTG(N)=N
       END DO
-      CALL MY_ORDERS(0,WORK,CLEF,DYNAIN_INDXTG,DYNAIN_NUMELTG,2)
+      CALL MY_ORDERS(0,WORK,CLEF,DYNAIN_INDXTG,DYNAIN_DATA%DYNAIN_NUMELTG,2)
 C-----------------------------------------------------------
 C     Output 
 C------------------------------------------------------------
@@ -239,7 +242,7 @@ C------------------------------------------------------------
 C---------Non Orthotropic elements ------------
 
       IGTYP0 = 0
-      DO N=1,DYNAIN_NUMELC
+      DO N=1,DYNAIN_DATA%DYNAIN_NUMELC
         K=DYNAIN_INDXC(N)
         JJ=8*(K-1)
         IOFF=NPC(JJ+7)
@@ -248,18 +251,38 @@ C---------Non Orthotropic elements ------------
         IF(IOFF >= 1) THEN
            IF(IGTYP==1) THEN
               IF(IGTYP/=IGTYP0) THEN  
-                 WRITE(IUDYNAIN,'(A)')'*ELEMENT_SHELL_THICKNESS'
-                 WRITE(IUDYNAIN,'(A)')
-     .            '$SHELLID PART_ID    NOD1    NOD2    NOD3    NOD4'
-                 WRITE(IUDYNAIN,'(A)')
-     .            '$          THIC1           THIC2           THIC3           THIC4' 
-                 IGTYP0 = IGTYP         
+                 IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN
+                   WRITE(IUDYNAIN,'(A)')'*ELEMENT_SHELL_THICKNESS'
+                   WRITE(IUDYNAIN,'(A)')
+     .               '$SHELLID PART_ID    NOD1    NOD2    NOD3    NOD4'
+                   WRITE(IUDYNAIN,'(A)')
+     .               '$          THIC1           THIC2           THIC3           THIC4' 
+                 ELSE
+                   WRITE(LINE,'(A)') '*ELEMENT_SHELL_THICKNESS'
+                   CALL STRS_TXT50(LINE,100)
+                   WRITE(LINE,'(A)') 
+     .               '$SHELLID PART_ID    NOD1    NOD2    NOD3    NOD4'
+                   CALL STRS_TXT50(LINE,100)
+                   WRITE(LINE,'(A)') 
+     .               '$          THIC1           THIC2           THIC3           THIC4' 
+                   CALL STRS_TXT50(LINE,100)
+                 ENDIF    
+                 IGTYP0 = IGTYP     
               ENDIF
 
-              WRITE(IUDYNAIN,'(6I8)')
-     .           NPC(JJ+1),NPC(JJ+6),NPC(JJ+2),NPC(JJ+3),NPC(JJ+4),NPC(JJ+5)
-              WRITE(IUDYNAIN,'(1P4G16.9)')
-     .          THKN,THKN,THKN,THKN
+              IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN
+                WRITE(IUDYNAIN,'(6I8)')
+     .             NPC(JJ+1),NPC(JJ+6),NPC(JJ+2),NPC(JJ+3),NPC(JJ+4),NPC(JJ+5)
+                WRITE(IUDYNAIN,'(1P4G16.9)')
+     .            THKN,THKN,THKN,THKN
+              ELSE
+                WRITE(LINE,'(6I8)') 
+     .             NPC(JJ+1),NPC(JJ+6),NPC(JJ+2),NPC(JJ+3),NPC(JJ+4),NPC(JJ+5)
+                CALL STRS_TXT50(LINE,100)
+                WRITE(LINE,'(1P4G16.9)') 
+     .            THKN,THKN,THKN,THKN
+                CALL STRS_TXT50(LINE,100)
+              ENDIF
 
            ELSE
              EXIT
@@ -270,7 +293,7 @@ C---------Non Orthotropic elements ------------
 
       N4SHELL = N 
 
-      DO N=1,DYNAIN_NUMELTG
+      DO N=1,DYNAIN_DATA%DYNAIN_NUMELTG
          K=DYNAIN_INDXTG(N)
          JJ=7*(K-1)
          IOFF=NPTG(JJ+6)
@@ -278,10 +301,19 @@ C---------Non Orthotropic elements ------------
          THKN = THKTG(K)
          IF(IOFF >= 1) THEN
            IF(IGTYP==1) THEN
-             WRITE(IUDYNAIN,'(5I8)')
-     .          NPTG(JJ+1),NPTG(JJ+5),NPTG(JJ+2),NPTG(JJ+3),NPTG(JJ+4)
-             WRITE(IUDYNAIN,'(1P3G16.9)')
-     .          THKN,THKN,THKN
+             IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN
+               WRITE(IUDYNAIN,'(5I8)')
+     .            NPTG(JJ+1),NPTG(JJ+5),NPTG(JJ+2),NPTG(JJ+3),NPTG(JJ+4)
+               WRITE(IUDYNAIN,'(1P3G16.9)')
+     .            THKN,THKN,THKN
+              ELSE
+                WRITE(LINE,'(5I8)')
+     .            NPTG(JJ+1),NPTG(JJ+5),NPTG(JJ+2),NPTG(JJ+3),NPTG(JJ+4) 
+                CALL STRS_TXT50(LINE,100)
+                WRITE(LINE,'(1P3G16.9)') 
+     .            THKN,THKN,THKN
+                CALL STRS_TXT50(LINE,100)
+              ENDIF
             ELSE
               EXIT
             ENDIF
@@ -292,7 +324,7 @@ C---------Non Orthotropic elements ------------
 C--------- Orthotropic elements ------------
 
       IGTYP0 = 1
-      DO N=N4SHELL,DYNAIN_NUMELC
+      DO N=N4SHELL,DYNAIN_DATA%DYNAIN_NUMELC
         K=DYNAIN_INDXC(N)
         JJ=8*(K-1)
         IOFF=NPC(JJ+7)
@@ -301,34 +333,62 @@ C--------- Orthotropic elements ------------
         BETA = BETAC(K)
         IF(IOFF >= 1) THEN
            IF(IGTYP/=IGTYP0) THEN    
-                 IGTYP0 = IGTYP          
-              WRITE(IUDYNAIN,'(A)')'*ELEMENT_SHELL_THICKNESS_BETA'
-              WRITE(IUDYNAIN,'(A)')
-     .          '$SHELLID PART_ID    NOD1    NOD2    NOD3    NOD4'
-              WRITE(IUDYNAIN,'(A)')
-     .          '$          THIC1           THIC2           THIC3           THIC4            BETA'          
+              IGTYP0 = IGTYP     
+              IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN     
+                WRITE(IUDYNAIN,'(A)')'*ELEMENT_SHELL_THICKNESS_BETA'
+                WRITE(IUDYNAIN,'(A)')
+     .            '$SHELLID PART_ID    NOD1    NOD2    NOD3    NOD4'
+                WRITE(IUDYNAIN,'(A)')
+     .            '$          THIC1           THIC2           THIC3           THIC4            BETA' 
+               ELSE
+                 WRITE(LINE,'(A)') '*ELEMENT_SHELL_THICKNESS'
+                 CALL STRS_TXT50(LINE,100)
+                 WRITE(LINE,'(A)') 
+     .             '$SHELLID PART_ID    NOD1    NOD2    NOD3    NOD4'
+                 CALL STRS_TXT50(LINE,100)
+                 WRITE(LINE,'(A)') 
+     .            '$          THIC1           THIC2           THIC3           THIC4            BETA' 
+                 CALL STRS_TXT50(LINE,100)
+               ENDIF         
             ENDIF
-
+            IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN     
              WRITE(IUDYNAIN,'(6I8)')
      .           NPC(JJ+1),NPC(JJ+6),NPC(JJ+2),NPC(JJ+3),NPC(JJ+4),NPC(JJ+5)
              WRITE(IUDYNAIN,'(1P5G16.9)')
      .          THKN,THKN,THKN,THKN,BETA
+            ELSE
+              WRITE(LINE,'(6I8)') 
+     .           NPC(JJ+1),NPC(JJ+6),NPC(JJ+2),NPC(JJ+3),NPC(JJ+4),NPC(JJ+5)
+              CALL STRS_TXT50(LINE,100)
+              WRITE(LINE,'(1P5G16.9)') 
+     .           THKN,THKN,THKN,THKN,BETA
+              CALL STRS_TXT50(LINE,100)
+            ENDIF
         ENDIF
         
       END DO
      
 
-      DO N=N3SHELL,DYNAIN_NUMELTG
+      DO N=N3SHELL,DYNAIN_DATA%DYNAIN_NUMELTG
          K=DYNAIN_INDXTG(N)
          JJ=7*(K-1)
          IOFF=NPTG(JJ+6)
          THKN = THKTG(K)
          BETA = BETATG(K)
          IF(IOFF >= 1) THEN
-           WRITE(IUDYNAIN,'(5I8)')
+           IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN     
+             WRITE(IUDYNAIN,'(5I8)')
      .          NPTG(JJ+1),NPTG(JJ+5),NPTG(JJ+2),NPTG(JJ+3),NPTG(JJ+4)
-           WRITE(IUDYNAIN,'(1P3G16.9,16X,1PG16.9)')
+             WRITE(IUDYNAIN,'(1P3G16.9,16X,1PG16.9)')
      .          THKN,THKN,THKN,BETA
+           ELSE
+             WRITE(LINE,'(5I8)') 
+     .          NPC(JJ+1),NPC(JJ+6),NPC(JJ+2),NPC(JJ+3),NPC(JJ+4)
+             CALL STRS_TXT50(LINE,100)
+             WRITE(LINE,'(1P3G16.9,16X,1PG16.9)') 
+     .          THKN,THKN,THKN,BETA
+             CALL STRS_TXT50(LINE,100)
+           ENDIF
          ENDIF
       END DO
 

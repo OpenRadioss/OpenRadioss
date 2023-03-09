@@ -87,7 +87,7 @@ Chd|====================================================================
       SUBROUTINE RDRESB(AF ,IAF  ,LVARREA, XDP   ,
      .           IRUNN, MULTI_FVM,H3D_DATA,MATPARAM_TAB,GROUP_PARAM_TAB,
      .           PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL  ,
-     .           SENSOR_TAB, EBCS_TAB)
+     .           SENSOR_TAB, EBCS_TAB,DYNAIN_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -114,6 +114,7 @@ C-----------------------------------------------
       USE PBLAST_MOD
       USE OUTMAX_MOD
       USE OUTPUTS_MOD
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -173,6 +174,7 @@ C-----------------------------------------------
       TYPE(MONVOL_STRUCT_),DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
       TYPE(SENSOR_STR_)   ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -898,7 +900,7 @@ C-----
       CALL READ_DB(TABVREA,LVARREA)
 C
 C-----
-      CALL RDCOMR(LMXVREA,LVARREA,TABVREA)
+      CALL RDCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA)
 C--------------------------------------
 C     READING REALS
 C--------------------------------------

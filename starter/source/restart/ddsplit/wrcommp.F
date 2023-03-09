@@ -70,7 +70,7 @@ Chd|====================================================================
      1   LENIGRSH3N_L,LENISURF_L,LENISLIN_L,NE_NERVOIS_L, NE_NESVOIS_L, 
      2   NE_NSVOIS_L, NE_NQVOIS_L, NE_NTGVOIS_L,NBCSCYC_L,LLBCSCYC_L,
      3   ALE_CONNECTIVITY,N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,
-     4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L)
+     4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,6 +79,7 @@ C-----------------------------------------------
       USE ALE_EBCS_MOD
       USE ALE_CONNECTIVITY_MOD
       USE OUTMAX_MOD
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,6 +128,7 @@ C-----------------------------------------------
      .        N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1176,14 +1178,15 @@ C .sta files
       ENDDO
 C .dynain files
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=IDYNAINF
-      DO I=1, MX_DYNAIN
+      DYNAIN_DATA%IDYNAINF = 0
+      TABVINT(LVARINT)=DYNAIN_DATA%IDYNAINF
+      DO I=1, DYNAIN_DATA%MX_DYNAIN
        LVARINT=LVARINT+1
-       DYNAIN_C(I) = 0
-       TABVINT(LVARINT)=DYNAIN_C(I)
+       DYNAIN_DATA%DYNAIN_C(I) = 0
+       TABVINT(LVARINT)=DYNAIN_DATA%DYNAIN_C(I)
       ENDDO
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=DYNAIN_CHECK
+      TABVINT(LVARINT)=DYNAIN_DATA%DYNAIN_CHECK
 C  heat transfer + int7
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = INTHEAT
