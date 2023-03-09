@@ -33,7 +33,7 @@ Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|====================================================================
-      SUBROUTINE WRCOMI(LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA)
+      SUBROUTINE WRCOMI(LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -43,6 +43,8 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE ANIM_MOD
       USE OUTPUTS_MOD
+      USE DRAPE_MOD
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,6 +60,7 @@ C-----------------------------------------------
       INTEGER LMXVINT,LVARINT,TABVINT(*),ISP
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(H3D_DATABASE), INTENT(IN) :: H3D_DATA
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -998,13 +1001,13 @@ C .sta files
 C
 C .dynain files
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=IDYNAINF
-      DO I=1, MX_DYNAIN
+      TABVINT(LVARINT)=DYNAIN_DATA%IDYNAINF
+      DO I=1, DYNAIN_DATA%MX_DYNAIN
        LVARINT=LVARINT+1
-       TABVINT(LVARINT)=DYNAIN_C(I)
+       TABVINT(LVARINT)=DYNAIN_DATA%DYNAIN_C(I)
       ENDDO
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=DYNAIN_CHECK
+      TABVINT(LVARINT)=DYNAIN_DATA%DYNAIN_CHECK
 C  heat transfer + int7
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = INTHEAT
@@ -1752,12 +1755,13 @@ Chd|-- calls ---------------
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|====================================================================
-      SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA)
+      SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ANIM_MOD
       USE OUTPUTS_MOD
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1767,6 +1771,7 @@ C   D u m m y   A r g u m e n t s
 C---------------L o c a l   V a r i a b l e sL o c a l   V a r i a b l e s--------------------------------
       INTEGER LMXVREA,LVARREA, I
       my_real TABVREA(*)
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1987,9 +1992,9 @@ C .sta files
       TABVREA(RVARINT)=TSTAT
 C .dynain files
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT)=DTDYNAIN
+      TABVREA(RVARINT)=DYNAIN_DATA%DTDYNAIN
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT)=TDYNAIN
+      TABVREA(RVARINT)=DYNAIN_DATA%TDYNAIN
 C
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = TADMESH

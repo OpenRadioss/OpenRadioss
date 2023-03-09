@@ -44,7 +44,7 @@ Chd|====================================================================
      3                 A          ,AR        ,FXBIPM   ,FXBRPM   ,MONVOL     ,
      4                 XMOM_SMS   ,SENSOR_TAB,QFRICINT ,IPARI    ,WEIGHT_MD  ,
      5                 TFEXTH     ,IFLAG     ,MS_2D    ,MULTI_FVM,MAS_ND     ,
-     6                 KEND       ,H3D_DATA  )
+     6                 KEND       ,H3D_DATA  ,DYNAIN_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE SENSOR_MOD
       USE ANIM_MOD
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,6 +103,7 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(H3D_DATABASE), INTENT(INOUT) :: H3D_DATA
       TYPE (SENSOR_STR_), DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -572,7 +574,7 @@ C-----------------------------------------------
                    IPRI  = 0
                 ENDIF 
                 IF(NSDYNANIN/=0)THEN !IF DYNAIN FILE 
-                   TDYNAIN = TT
+                   DYNAIN_DATA%TDYNAIN = TT
                    IPRI  = 0
                 ENDIF 
             ENDIF
@@ -653,7 +655,7 @@ C
           RTMP(7)  = TOUTP
           RTMP(8)  = INFO
           RTMP(9)  = H3D_DATA%TH3D
-          RTMP(10) = TDYNAIN
+          RTMP(10) = DYNAIN_DATA%TDYNAIN
         ENDIF
 C
         CALL SPMD_RBCAST(RTMP,RTMP,10,1,0,2)
@@ -666,7 +668,7 @@ C
           TSTAT = RTMP(6)
           TOUTP = RTMP(7)
           H3D_DATA%TH3D = RTMP(9)
-          TDYNAIN = RTMP(10)
+          DYNAIN_DATA%TDYNAIN = RTMP(10)
         ENDIF
 
         IF(INFO > 0) CALL SPMD_EXCH_FVSTATS(MONVOL)

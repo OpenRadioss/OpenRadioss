@@ -84,7 +84,7 @@ Chd|====================================================================
      .      IBC_PLY,IBORDNODE,IEDGESH,XNODANIMEL,NODEDGE,IEDGE,
      .      CRKNODIAD,DD_R2R_ELEM,KXIG3D,IXIG3D,
      .      MAIN_PROC ,TAG_SKINS6,IBCSCYC,LBCSCYC,
-     .      IPART_DYNAIN,INTERLOADP,KLOADPINTER,LOADPINTER
+     .      INTERLOADP,KLOADPINTER,LOADPINTER
             !rank (1 to NSPMD) of the processor that is the main of the node 
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_GLOBAL_VOIS,FACE_VOIS
 

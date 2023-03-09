@@ -83,9 +83,9 @@ Chd|====================================================================
      D                  IFRAME  ,XFRAME,ELBUF_STR,IGEO ,INTBUF_TAB,
      E                  IPM     ,H3D_DATA, MULTI_FVM,FLAG_CST_AMS,
      F                  IGRPART ,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
-     G                  IPART_DYNAIN,MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,
-     H                  MAX_DEPVAR,MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,
-     I                  SENSOR_TAB)
+     G                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
+     H                  MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSOR_TAB,
+     I                  DYNAIN_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -103,7 +103,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ANIM_MOD
       USE OUTPUTS_MOD
-
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -176,7 +176,7 @@ C-----------------------------------------------
      .   FR_RL(NSPMD+2,*),
      .   IPART(*), MONVOL(*), IPART_STATE(*),IFRAME(LISKN,*),
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),FLAG_CST_AMS,TAG_SKINS6(*),
-     .   ICFIELD(SIZFIELD,*), LCFIELD(*), TAGSLV_RBY(*),IPART_DYNAIN(*),
+     .   ICFIELD(SIZFIELD,*), LCFIELD(*), TAGSLV_RBY(*),
      .   MDS_OUTPUT_TABLE(MDS_NMAT*MAX_DEPVAR),MDS_NMAT,MAX_DEPVAR,
      .   MDS_NDEPSVAR(*),IBCL(*),ILOADP(*),LLOADP(*)
       my_real
@@ -194,6 +194,7 @@ C-----------------------------------------------
       CHARACTER MDS_LABEL(1024,MDS_NMAT)
       TYPE (STACK_PLY) :: STACK
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -318,12 +319,12 @@ C .sta files
      .    + INT((TT-DT2-TSTAT)/DTSTAT)*DTSTAT
       IF (TSTAT < TT-DT2)TSTAT = TSTAT+DTSTAT
 C .dynain files
-      IF(TDYNAIN0 /= ZERO)  TDYNAIN = TDYNAIN0
-      IF(DTDYNAIN0 > ZERO)  DTDYNAIN= DTDYNAIN0
-      IF(DTDYNAIN<=ZERO)  TDYNAIN = EP30
-      IF (TDYNAIN < TT-DT2.AND.DTDYNAIN > ZERO)TDYNAIN = TDYNAIN
-     .    + INT((TT-DT2-TDYNAIN)/DTDYNAIN)*DTDYNAIN
-      IF (TDYNAIN< TT-DT2)TDYNAIN = TDYNAIN+DTDYNAIN
+      IF(DYNAIN_DATA%TDYNAIN0 /= ZERO)  DYNAIN_DATA%TDYNAIN = DYNAIN_DATA%TDYNAIN0
+      IF(DYNAIN_DATA%DTDYNAIN0 > ZERO)  DYNAIN_DATA%DTDYNAIN= DYNAIN_DATA%DTDYNAIN0
+      IF(DYNAIN_DATA%DTDYNAIN<=ZERO)  DYNAIN_DATA%TDYNAIN = EP30
+      IF (DYNAIN_DATA%TDYNAIN < TT-DT2.AND.DYNAIN_DATA%DTDYNAIN > ZERO)DYNAIN_DATA%TDYNAIN = DYNAIN_DATA%TDYNAIN
+     .    + INT((TT-DT2-DYNAIN_DATA%TDYNAIN)/DYNAIN_DATA%DTDYNAIN)*DYNAIN_DATA%DTDYNAIN
+      IF (DYNAIN_DATA%TDYNAIN< TT-DT2)DYNAIN_DATA%TDYNAIN = DYNAIN_DATA%TDYNAIN+DYNAIN_DATA%DTDYNAIN
 C abf files
       DO I=1,10
         IF(DTABF0(I) > ZERO) DTABF(I)= DTABF0(I)
@@ -2767,7 +2768,7 @@ C-------------------------------------------
 C-------------------------------------------
 C     .dynain files
 C-------------------------------------------
-      IF(NDYNAINPRT /= 0 .OR. NDYNAINALL /= 0)THEN
+      IF(DYNAIN_DATA%NDYNAINPRT /= 0 .OR. DYNAIN_DATA%NDYNAINALL /= 0)THEN
         K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
         K2=K1+NUMELS
         K3=K2+NUMELQ
@@ -2777,7 +2778,7 @@ C-------------------------------------------
         K7=K6+NUMELR
         K8=K7
         K9=K8+NUMELTG
-        CALL READ_DYNAIN(IPART,IPART_DYNAIN,IPART(K3),IPART(K8),IXC,IXTG)
+        CALL READ_DYNAIN(IPART,DYNAIN_DATA,IPART(K3),IPART(K8),IXC,IXTG)
       END IF
 C---------------------------------------------------------
       IF(IERR == 0) RETURN

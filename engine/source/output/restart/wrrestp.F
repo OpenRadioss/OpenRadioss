@@ -93,7 +93,7 @@ Chd|====================================================================
      .           ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
      .           H3D_DATA ,INTBUF_FRIC_TAB,SUBSET,MATPARAM_TAB,GROUP_PARAM_TAB,
      .           PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .           SENSOR_TAB,EBCS_TAB)
+     .           SENSOR_TAB,EBCS_TAB,DYNAIN_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -124,6 +124,7 @@ C-----------------------------------------------
       USE PBLAST_MOD
       USE OUTMAX_MOD
       USE OUTPUTS_MOD
+      USE STATE_MOD
 C ecriture restart pour version spmd
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -151,6 +152,7 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN)  :: T_MONVOL
       TYPE (SENSOR_STR_)  , DIMENSION(NSENSOR),INTENT(IN) :: SENSOR_TAB
       TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -222,7 +224,7 @@ C--------------------------------------
 C     PREPARATION DES VARIABLES ENTIERES ET REELLES.
 C--------------------------------------
       IPARI0 = IPARIT
-      CALL WRCOMI(LMXVINT,LVARINT,TABVINT,1,MULTI_FVM,H3D_DATA)
+      CALL WRCOMI(LMXVINT,LVARINT,TABVINT,1,MULTI_FVM,H3D_DATA,DYNAIN_DATA)
 C
       ENTMP(1) = TFEXT
       ENTMP(2) = EHOUR
@@ -268,7 +270,7 @@ C
         IF(ISPMD==0) VGZ = ENTMP(1)
       ENDIF
 C
-      CALL WRCOMR(LMXVREA,LVARREA,TABVREA)
+      CALL WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA)
 C--------------------------------------
 C     OPEN
 C--------------------------------------

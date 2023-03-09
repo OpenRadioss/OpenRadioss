@@ -32,7 +32,7 @@ C
      .               R2RFX1,R2RFX2,DAMPA, DAMPB, DAMPW,
      .               DTHIS1(9),DWMAD,T1SH,SHFTBUCK,DTSTAT,
      .               TSTAT,DTABF(10),DTABFWR(10),DTFACX,
-     .               ECONTD,ECONT_CUMU,DTDYNAIN, TDYNAIN
+     .               ECONTD,ECONT_CUMU
 	  COMMON /COM06DP/TFEXT 
 C     REAL ou REAL*8
       my_real
@@ -43,5 +43,5 @@ C     REAL ou REAL*8
      .               R2RFX1,R2RFX2,DAMPA, DAMPB, DAMPW,
      .               DTHIS1,DWMAD ,T1SH,  SHFTBUCK,DTSTAT,
      .               TSTAT,DTABF,DTABFWR ,DTFACX,ECONTD  ,
-     .               ECONT_CUMU,DTDYNAIN, TDYNAIN
+     .               ECONT_CUMU
       DOUBLE PRECISION TFEXT

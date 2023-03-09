@@ -575,6 +575,7 @@ C-----------------------------------------------
       USE JOINT_MOD
       USE HM_OPTION_READ_MOD
       USE SEATBELT_MOD
+      USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -837,6 +838,8 @@ C
       TYPE (PINCH)         :: PINCH_DATA
       TYPE (DRAPE_) , DIMENSION(:), ALLOCATABLE :: DRAPE
       INTEGER :: EBCS_TAG_CELL_SPMD(NUMELQ+NUMELTG+NUMELS)
+C
+      TYPE (DYNAIN_DATABASE) :: DYNAIN_DATA
 
 
 C-----------------------------------------------
@@ -6764,8 +6767,8 @@ C--------------------------------------------
 C---------------------------------------------
 C    CHECK ENGINE FILE : DYNAIN FILE
 C-------------------------------------------
-      DYNAIN_CHECK = 0
-      CALL CHECK_DYNAIN(IPART,IPARTC,IPARTG,IXC,IXTG)
+      DYNAIN_DATA%DYNAIN_CHECK = 0
+      CALL CHECK_DYNAIN(IPART,IPARTC,IPARTG,IXC,IXTG,DYNAIN_DATA%DYNAIN_CHECK)
 
 C---------------------------------------------
 C    CHECK ENGINE FILE /H3D/?/TMAX initialization
@@ -10624,7 +10627,8 @@ c
      A         MULTIPLE_SKEW, IGRSURF_PROC,KNOTLOCPC     ,KNOTLOCEL     ,ALE_ELM(P),
      B         SIZE_ALE_ELM(P),PINCH_DATA ,TAG_SKINS6    ,IBCSCYC      ,LBCSCYC   ,T_MONVOL,
      C         INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
-     D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP)
+     D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP, DYNAIN_DATA)
+
       GOTO 220
  221  CONTINUE
 
