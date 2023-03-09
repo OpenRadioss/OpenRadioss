@@ -482,7 +482,14 @@ c---
      6         GBUF%PLA,THKE    ,IGTYP    ,NEL   ,ISIGSH  ,
      7          E1X   ,E2X      ,E3X      ,E1Y   ,E2Y  ,E3Y,
      8          E1Z   ,E2Z      ,E3Z     ,DIR_A  ,DIR_B,POSLY )
-          ELSEIF ( ITHKSHEL == 1 ) THEN
+C--------to fill GBUF%STRPG     
+         IF (ITHKSHEL == 2) 
+     1     CALL CSTRAINI4(LFT   ,LLT    ,NFT    ,NEL    ,NUMSHEL,
+     2           ISTRAIN,GBUF%STRPG,SIGSH ,NSIGSH ,NUMELC ,
+     4           IXC    ,NIXC   ,PTSHEL   ,THKE   ,GBUF%STRA,
+     7           E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
+     8           E1Z    ,E2Z   ,E3Z   )
+        ELSEIF ( ITHKSHEL == 1 ) THEN
            CALL THICKINI(LFT     ,LLT   ,NFT    ,PTSHEL,NUMELC,
      2                   GBUF%THK,THKE  ,IXC    ,NIXC  ,NSIGSH,
      3                   SIGSH   )

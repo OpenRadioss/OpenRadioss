@@ -1455,7 +1455,12 @@ c---------------------------------------------------
               ENDIF
 c---------------------------------------------------
 c
-         IF (NPG > 1) THEN                                           
+         IF (NPG == 1) THEN                                           
+           IF (G_STRPG>G_STRA) THEN
+             RBUF_L(L_REL+1:L_REL+NEL*G_STRPG) = GBUF%STRPG(1:NEL*G_STRPG) 
+             L_REL = L_REL+NEL*G_STRPG 
+           END IF
+         ELSEIF (NPG > 1) THEN                                           
            RBUF_L(L_REL+1:L_REL+NEL*G_FORPG) = GBUF%FORPG(1:NEL*G_FORPG) 
              L_REL = L_REL+NEL*G_FORPG                                   
            RBUF_L(L_REL+1:L_REL+NEL*G_MOMPG) = GBUF%MOMPG(1:NEL*G_MOMPG) 
@@ -1476,8 +1481,6 @@ C
              L_REL = L_REL+NEL*G_STRPG                                   
            RBUF_L(L_REL+1:L_REL+NEL*G_STRWPG)= GBUF%STRWPG(1:NEL*G_STRWPG) 
             L_REL = L_REL+NEL*G_STRWPG
-         ELSE
-c           IF (NPG == 1) THEN  ! nothing to write (pointers only)                         
          ENDIF                                                           
 c---------------------------------------------------
               IF (DEBUG_PRINT == 1) THEN

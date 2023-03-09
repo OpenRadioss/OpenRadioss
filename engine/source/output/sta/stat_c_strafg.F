@@ -133,6 +133,7 @@ C-----------------------------------------------
          IGTYP= IPARG(38,NG)
          ISUBSTACK=IPARG(71,NG)
          NPG  = NPTR*NPTS
+         IF (IHBE == 23) NPG=4
          LFT=1
          LLT=NEL
          G_STRA = GBUF%G_STRA
@@ -229,7 +230,7 @@ C
 C------2nd point Z=0.5-> 1.0(LSD) 7 real      
             DO IPG=1,NPG
               K = (IPG-1)*NEL*G_STRA 
-              ZH = 1.0*THKP
+              ZH = HALF*THKP
               STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
               STRAING(3)=HALF*STRAING(3)
               STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)

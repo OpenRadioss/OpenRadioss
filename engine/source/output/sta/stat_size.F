@@ -196,7 +196,7 @@ C------------------------------
             NPTS  = ELBUF_TAB(NG)%NPTS    
 c            NPTT  = ELBUF_TAB(NG)%NPTT    
             NPG   = NPTR*NPTS
-            IF (ITY==3.AND.IHBE==23) NPG=4
+            IF (IHBE==23) NPG=4
 C
 C pre counting of all NPTT (especially for PID_51)
 C
@@ -248,6 +248,7 @@ C------------------------------
 C
            IHBE	 =IPARG(23,NG)
            NPG   =IPARG(48,NG)
+           IF (IHBE==23) NPG=4
 C
            WASZ2 = WASZ2 + (7*NPG*MPT+6)*NEL
          ENDIF
