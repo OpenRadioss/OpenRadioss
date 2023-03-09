@@ -340,13 +340,18 @@ C
             NOD = NSV(I)
             IF(WEIGHT(NOD)==1)THEN
              IF(STIFN(I)>ZERO)THEN
-               IF(ITYP==25.AND.IRTLM(4*(I-1)+4)==P)THEN
-                 NB = NB + 1
-                 INDEX(NB) = I
-               ELSEIF(ITIED/=0.AND.ITYP==7.AND.CANDF_SI(NIN)%P(I)/=0) THEN
+               IF(ITIED/=0.AND.ITYP==7.AND.CANDF_SI(NIN)%P(I)/=0) THEN
                  NB = NB + 1
                  INDEX(NB) = I
                ELSE
+                 IF(ITYP==25) THEN
+                   IF(IRTLM(4*(I-1)+4)==P)THEN
+                     NB = NB + 1
+                     INDEX(NB) = I
+                     CYCLE
+                   ENDIF
+                 ENDIF
+
                  IF(X(1,NOD) < XMINB)  CYCLE
                  IF(X(1,NOD) > XMAXB)  CYCLE
                  IF(X(2,NOD) < YMINB)  CYCLE

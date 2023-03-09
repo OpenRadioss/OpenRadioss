@@ -391,14 +391,14 @@ C Traitement d'assemblage parith/on spmd a optimiser si besoin
              LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
              IF(NSPMD>1)THEN
 C Calcul espace memoire parith/on avec communication
- 	       CALL SPMD_I7CURVSZ(
-     1	         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,IAD_ELEM,FR_ELEM,
-     2	         ISDSIZ      ,IRCSIZ	       ,ITAG  ,LENR    ,LENT   ,
-     3	         MAXCC       )
+               CALL SPMD_I7CURVSZ(
+     1           IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,IAD_ELEM,FR_ELEM,
+     2           ISDSIZ      ,IRCSIZ           ,ITAG  ,LENR    ,LENT   ,
+     3           MAXCC       )
              ELSE
 C Calcul espace memoire parith/on sans communication
- 	       CALL I7CURVSZ(
-     1	         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,ITAG,LENT,MAXCC)
+               CALL I7CURVSZ(
+     1           IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,ITAG,LENT,MAXCC)
              END IF
              CALL I7NORMP(
      1         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD ,X    ,NOD_NORMAL,
@@ -431,14 +431,14 @@ C Traitement d'assemblage parith/on spmd a optimiser si besoin
              LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
              IF(NSPMD>1)THEN
 C Calcul espace memoire parith/on avec communication
- 	       CALL SPMD_I7CURVSZ(
-     1	         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,IAD_ELEM,FR_ELEM,
-     2	         ISDSIZ      ,IRCSIZ	       ,ITAG  ,LENR    ,LENT   ,
-     3	         MAXCC       )
+               CALL SPMD_I7CURVSZ(
+     1           IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,IAD_ELEM,FR_ELEM,
+     2           ISDSIZ      ,IRCSIZ           ,ITAG  ,LENR    ,LENT   ,
+     3           MAXCC       )
              ELSE
 C Calcul espace memoire parith/on sans communication
- 	       CALL I7CURVSZ(
-     1	         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,ITAG,LENT,MAXCC)
+               CALL I7CURVSZ(
+     1           IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,ITAG,LENT,MAXCC)
              END IF
              CALL I7NORMNP(
      1         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD ,X    ,NOD_NORMAL,
@@ -449,9 +449,9 @@ C Calcul espace memoire parith/on sans communication
          CALL MY_BARRIER()
          NMNFT=1+(JTASK-1)*IPARI(6,NIN)/NTHREAD
          NMNLT=JTASK*IPARI(6,NIN)/NTHREAD
- 	 CALL I7NORME(
-     .	   NMNFT,NMNLT,NOD_NORMAL,INTBUF_TAB%MSR)
- 	 CALL MY_BARRIER()
+         CALL I7NORME(
+     .     NMNFT,NMNLT,NOD_NORMAL,INTBUF_TAB%MSR)
+         CALL MY_BARRIER()
          NRTMFT=1+(JTASK-1)*IPARI(4,NIN)/NTHREAD
          NRTMLT=JTASK*IPARI(4,NIN)/NTHREAD
          CALL I7RCURV(NRTMFT, NRTMLT ,X ,NOD_NORMAL ,INTBUF_TAB%IRECTM ,
@@ -664,8 +664,11 @@ C
      E        IGAP          ,MULTI_FVM)
 
             IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
-                MSI_APPEND(1:MVSIZ) = ZERO
-                MSI_APPEND(MVSIZ+1:2*MVSIZ) = MSI(1:MVSIZ)
+              MSI_APPEND(1:MVSIZ) = ZERO
+              MSI_APPEND(MVSIZ+1:2*MVSIZ) = MSI(1:MVSIZ)
+            ELSE
+              MSI_APPEND(1:MVSIZ) = MSI(1:MVSIZ)
+              MSI_APPEND(MVSIZ+1:2*MVSIZ) = ZERO
             ENDIF
 
             JLT = JLT_NEW
@@ -681,18 +684,18 @@ C
      4  STIGLO       ,STIFN     ,STIF         ,FSKYI       ,ISKY     ,
      5  NX1          ,NX2       ,NX3          ,NX4         ,NY1      ,
      6  NY2          ,NY3       ,NY4          ,NZ1         ,NZ2      ,
-     7  NZ3	     ,NZ4	,LB1	      ,LB2	   ,LB3      ,
-     8  LB4	     ,LC1	,LC2	      ,LC3	   ,LC4      ,
-     9  P1	     ,P2	,P3	      ,P4	   ,FCONT    ,
-     B  IX1	     ,IX2	,IX3	      ,IX4	   ,NSVG     ,
+     7  NZ3          ,NZ4       ,LB1          ,LB2         ,LB3      ,
+     8  LB4          ,LC1       ,LC2          ,LC3         ,LC4      ,
+     9  P1           ,P2        ,P3           ,P4          ,FCONT    ,
+     B  IX1          ,IX2       ,IX3          ,IX4         ,NSVG     ,
      C          IVIS2                 ,NELTST           , ITYPTST          , DT2T             , IXS               ,
-     D  GAPV	     ,INACTI	,INTBUF_TAB%CAND_P,INDEX2(NFT+1),NISKYFI ,
-     E  KINET	     ,NEWFRONT  ,ISECIN       ,NSTRF	   ,SECFCUM  ,
-     F  X	     ,INTBUF_TAB%IRECTM,CE_LOC    ,MFROT ,IFQ ,
+     D  GAPV         ,INACTI    ,INTBUF_TAB%CAND_P,INDEX2(NFT+1),NISKYFI ,
+     E  KINET        ,NEWFRONT  ,ISECIN       ,NSTRF       ,SECFCUM  ,
+     F  X            ,INTBUF_TAB%IRECTM,CE_LOC    ,MFROT ,IFQ ,
      G          INTBUF_TAB%FRIC_P     ,INTBUF_TAB%FTSAVX, INTBUF_TAB%FTSAVY, INTBUF_TAB%FTSAVZ, INTBUF_TAB%XFILTR ,  
      H          INTBUF_TAB%IFPEN      ,IBAG             , ICONTACT         , IGROUPS          , IPARG             ,
      J          VISCN                 ,VXI              , VYI              , VZI              , MSI_APPEND        ,
-     K  KINI	     ,NIN	,NISUB   ,INTBUF_TAB%LISUB,INTBUF_TAB%ADDSUBS,
+     K  KINI         ,NIN       ,NISUB   ,INTBUF_TAB%LISUB,INTBUF_TAB%ADDSUBS,
      L  INTBUF_TAB%ADDSUBM,INTBUF_TAB%LISUBS,INTBUF_TAB%LISUBM,FSAVSUB,INTBUF_TAB%CAND_N,
      M          IPARI(33,NIN)         ,IPARI(39,NIN)    , PRES             , FNCONT           , MS0               ,
      N          JTASK                 ,ISENSINT         , FSAVPARIT        , NFT              , MULTI_FVM         ,
@@ -765,28 +768,28 @@ C
               CALL I7FOR3(
      1  JLT          ,A         ,V            ,IBC         ,ICODT    ,
      2  FSAV         ,GAP       ,FRIC         ,MS          ,VISC     ,
-     3  VISCF	     ,NOINT	,INTBUF_TAB%STFNS,ITAB	   ,CN_LOC   ,
-     4  STIGLO       ,STIFN	,STIF	      ,FSKYI	   ,ISKY     ,
-     5  NX1	     ,NX2	,NX3	      ,NX4	   ,NY1      ,
-     6  NY2	     ,NY3	,NY4	      ,NZ1	   ,NZ2      ,
-     7  NZ3	     ,NZ4	,LB1	      ,LB2	   ,LB3      ,
-     8  LB4	     ,LC1	,LC2	      ,LC3	   ,LC4      ,
-     9  P1	     ,P2	,P3	      ,P4	   ,FCONT    ,
-     A  IX1	     ,IX2	,IX3	      ,IX4	   ,NSVG     ,
-     B  IVIS2	     ,NELTST	,ITYPTST      ,DT2T	   ,GAPV     ,
-     C  INACTI,INTBUF_TAB%CAND_P,INDEX2(NFT+1),KINET	   ,NEWFRONT  ,
-     D  ISECIN       ,NSTRF	,X	 ,INTBUF_TAB%IRECTM,CE_LOC    ,
+     3  VISCF        ,NOINT     ,INTBUF_TAB%STFNS,ITAB     ,CN_LOC   ,
+     4  STIGLO       ,STIFN     ,STIF         ,FSKYI       ,ISKY     ,
+     5  NX1          ,NX2       ,NX3          ,NX4         ,NY1      ,
+     6  NY2          ,NY3       ,NY4          ,NZ1         ,NZ2      ,
+     7  NZ3          ,NZ4       ,LB1          ,LB2         ,LB3      ,
+     8  LB4          ,LC1       ,LC2          ,LC3         ,LC4      ,
+     9  P1           ,P2        ,P3           ,P4          ,FCONT    ,
+     A  IX1          ,IX2       ,IX3          ,IX4         ,NSVG     ,
+     B  IVIS2        ,NELTST    ,ITYPTST      ,DT2T        ,GAPV     ,
+     C  INACTI,INTBUF_TAB%CAND_P,INDEX2(NFT+1),KINET       ,NEWFRONT  ,
+     D  ISECIN       ,NSTRF     ,X       ,INTBUF_TAB%IRECTM,CE_LOC    ,
      E  MFROT        ,IFQ       ,INTBUF_TAB%FTSAVX  ,INTBUF_TAB%FTSAVY,
      F  INTBUF_TAB%FTSAVZ,XFILTR_FRIC,INTBUF_TAB%IFPEN     ,IBAG     ,
-     H  ICONTACT     ,VISCN	,VXI	      ,VYI	   ,VZI	     ,	  
-     I  MSI         ,KINI	,NIN	      ,NISUB   ,INTBUF_TAB%LISUB,
+     H  ICONTACT     ,VISCN     ,VXI          ,VYI         ,VZI      ,    
+     I  MSI         ,KINI       ,NIN          ,NISUB   ,INTBUF_TAB%LISUB,
      J  INTBUF_TAB%ADDSUBS,INTBUF_TAB%ADDSUBM,INTBUF_TAB%LISUBS     ,
      .                                     INTBUF_TAB%LISUBM,FSAVSUB,
      K  INTBUF_TAB%CAND_N,IPARI(33,NIN),IPARI(39,NIN),NOD_NORMAL ,FNCONT,     
-     L  FTCONT       ,X1	 ,X2          ,X3         ,X4         ,
-     M  Y1	     , Y2	 ,Y3          ,Y4         ,Z1         ,
-     N  Z2	     ,Z3	 ,Z4          ,XI         ,YI         ,
-     O  ZI	     ,IADM       ,RCURVI      ,RCONTACT   ,ACONTACT   ,
+     L  FTCONT       ,X1         ,X2          ,X3         ,X4         ,
+     M  Y1           , Y2        ,Y3          ,Y4         ,Z1         ,
+     N  Z2           ,Z3         ,Z4          ,XI         ,YI         ,
+     O  ZI           ,IADM       ,RCURVI      ,RCONTACT   ,ACONTACT   ,
      P  PCONTACT     ,ANGLMI     ,PADM        ,INTTH      ,TEMP       , 
      Q  TEMPI        ,IFORM      ,NPC         ,TF         ,CMAJ       ,
      R  DTMINI       ,DRAD       ,FHEATS      ,FHEATM     ,EFRICT     ,
