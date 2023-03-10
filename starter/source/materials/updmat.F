@@ -158,7 +158,7 @@ c
         CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,IMAT),LTITR)
 c
         IADD     = MAX(1,IPM(7,IMAT))
-        NPARAM  = MIN(IPM(9,IMAT),SBUFMAT)
+        NPARAM   = MIN(IPM(9,IMAT),SBUFMAT)
         UPARAM   => BUFMAT(IADD:IADD+NPARAM-1) 
         MATPARAM => MATPARAM_TAB(IMAT)
 c
@@ -259,8 +259,7 @@ c------------------
 c------------------
           CASE (98)    ! 
 c------------------
-c
-C           CALL LAW98_UPD(IOUT,TITR,MAT_ID  ,UPARAM,IPM,FUNC_ID,NPC,PLD,PM(1,IMAT))
+
 c
 c------------------
           CASE (100)    ! parallel network model
@@ -336,6 +335,15 @@ c------------------
 c------------------
           CASE (120)    ! TAPO material for adhesives
             CALL LAW120_UPD(NPARAM ,NUMTABL ,ITABLE ,TABLE ,UPARAM)          
+c-------------------------
+          CASE (158) 
+            NFUNCL =  IPM(6,IMAT)
+            IFUNC  => IPM(10+1:10+NFUNC+NFUNCL,IMAT)
+            CALL LAW158_UPD(TITR,UPARAM,NPC,PLD,
+     .                      NFUNC,NFUNCL,IFUNC,MAT_ID,FUNC_ID,
+     .                      PM(1,IMAT),NPARAM,SENSOR_TAB)
+c------------------
+c
         END SELECT ! (ILAW)  
 c------------------
       ENDDO        ! IMAT=1,NUMMAT

@@ -635,7 +635,7 @@ c
                   ALLOCATE (VAR(NUVAR,MAX(1,MPT)))
                   VAR = ZERO                                                   
 C---  
-                  IF (MTE == 58) THEN
+                  IF (MTE == 58 .or. MTE == 158) THEN
                     IF (NLAY > 1) THEN                                                  
                       DO IL=1,NLAY                                                     
                         NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT                        

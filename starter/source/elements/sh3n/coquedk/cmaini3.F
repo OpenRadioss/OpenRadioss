@@ -86,7 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IT,IL,NUVAR,NPTT,ILAW
+      INTEGER IT,IL,NUVAR,NPTT,ILAW,NUPARAM
       my_real
      .   VX(MVSIZ),VY(MVSIZ),VZ(MVSIZ),PHI1(NPT_ALL,MVSIZ),PHI2(NPT_ALL,MVSIZ)
       my_real
@@ -158,7 +158,8 @@ c
      .                NPT_ALL  ,IDRAPE )
       ENDIF
 C-----
-      IF (MTN == 58 .AND. IGTYP /= 16 .AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN  
+      IF ((MTN == 58 .or. MTN == 158) .AND. 
+     .    IGTYP /= 16 .AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN  
         CALL ANCMSG(MSGID=658,                                               
      .              MSGTYPE=MSGERROR,                                        
      .              ANMODE=ANINFO_BLIND_1,                                   
@@ -166,13 +167,14 @@ C-----
      .              C1=TITR,                                                 
      .              I2=MTN,                                                  
      .              I3=IGTYP)                                                
-      ELSEIF (MTN == 58 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
+      ELSEIF (MTN == 58 .or. MTN == 158 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
 C
-       IF(IDRAPE == 0) THEN
+       IF (IDRAPE == 0) THEN
           DO IL = 1,NLAY
             NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
             IMAT =  ELBUF_STR%BUFLY(IL)%IMAT
             ILAW =  ELBUF_STR%BUFLY(IL)%ILAW
+            NUPARAM = IPM(9,IMAT) 
             IF (ILAW == 58) THEN
               DIR1 => ELBUF_STR%BUFLY(IL)%DIRA
               DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
@@ -186,6 +188,20 @@ C
      .                       Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                       E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
               ENDDO
+            ELSE IF (ILAW == 158) THEN
+              DIR1 => ELBUF_STR%BUFLY(IL)%DIRA
+              DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
+              DO IT=1,NPTT
+                LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
+                UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
+                NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
+                CALL LAW158_INIT(
+     .               NUPARAM  ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
+     .               BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
+     .               X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
+     .               Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
+     .               E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
+              ENDDO
             ENDIF ! ILAW
           ENDDO ! DO IL = 1,NLAY
         ELSE
@@ -193,6 +209,7 @@ C
             NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
             IMAT =  ELBUF_STR%BUFLY(IL)%IMAT
             ILAW =  ELBUF_STR%BUFLY(IL)%ILAW
+            NUPARAM = IPM(9,IMAT) 
             IF (ILAW == 58) THEN
               DO IT=1,NPTT
                 LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
@@ -206,6 +223,21 @@ C
      .                       X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                       Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                       E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
+              ENDDO
+            ELSE IF (ILAW == 158) THEN
+              DO IT=1,NPTT
+                LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
+                UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
+                NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
+                LBUF_DIR =>ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
+                DIR1 => LBUF_DIR%DIRA
+                DIR2 => LBUF_DIR%DIRB
+                CALL LAW158_INIT(
+     .               NUPARAM  ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
+     .               BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
+     .               X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
+     .               Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
+     .               E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
               ENDDO
             ENDIF ! ILAW
           ENDDO ! DO IL = 1,NLAY
