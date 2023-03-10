@@ -132,7 +132,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER*nchartitle, TITR,TITR1
-      INTEGER I,J,N,IP,NDEPAR,IGTYP,NUVAR,ID,NLAY,II,IREP,IPROP,
+      INTEGER I,J,N,IP,NDEPAR,IGTYP,NUVAR,ID,NLAY,II,IREP,IPROP,NUPARAM,
      .   IL,IR,IS,IT,CPT_ELTENS,IUN,NPTR,NPTS,NPTT,IXEL,ILAW,IMAT,IFAIL,
      .   IGMAT,JJ(9),NPT_ALL,MPT,LAYNPT_MAX,LAY_MAX
       INTEGER, DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4,IORTHLOC,MAT,PID,NGL
@@ -355,7 +355,8 @@ c
      .                NPT_ALL  ,IDRAPE)
       ENDIF
 c
-      IF (MTN == 58 .AND. IGTYP /= 16 .AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN  
+      IF ((MTN == 58 .or. MTN == 158) .AND. 
+     .    IGTYP /= 16 .AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN  
           CALL ANCMSG(MSGID=658,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -363,52 +364,83 @@ c
      .                C1=TITR,
      .                I2=MTN,
      .                I3=IGTYP)
-      ELSEIF (MTN == 58 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
+      ELSEIF (MTN == 58 .or. MTN == 158 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
 C
-       IF(IDRAPE == 0) THEN 
-        DO IL = 1,NLAY
-          NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
-          IMAT =  ELBUF_STR%BUFLY(IL)%IMAT
-          ILAW =  ELBUF_STR%BUFLY(IL)%ILAW
-          IF (ILAW == 58) THEN
-            DIR1 => ELBUF_STR%BUFLY(IL)%DIRA
-            DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
-            DO IT=1,NPTT
-              LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
-              UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
-              NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
-              CALL CM58IN3(
-     .             IREP     ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
-     .             BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
-     .             X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
-     .             Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
-     .             E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
-            ENDDO
-          ENDIF ! IF (ILAW == 58) THEN
-        ENDDO ! DO IL = 1,NLAY
-       ELSE
-         DO IL = 1,NLAY
-          NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
-          IMAT =  ELBUF_STR%BUFLY(IL)%IMAT
-          ILAW =  ELBUF_STR%BUFLY(IL)%ILAW
-          IF (ILAW == 58) THEN
-            DO IT=1,NPTT
-              LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
-              UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
-              NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
-              LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
-              DIR1 => LBUF_DIR%DIRA
-              DIR2 => LBUF_DIR%DIRB
-              CALL CM58IN3(
-     .             IREP     ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
-     .             BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
-     .             X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
-     .             Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
-     .             E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
-            ENDDO
-          ENDIF ! IF (ILAW == 58) THEN
-        ENDDO ! DO IL = 1,NLAY      
-       ENDIF 
+        IF (IDRAPE == 0) THEN 
+          DO IL = 1,NLAY
+            NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
+            IMAT =  ELBUF_STR%BUFLY(IL)%IMAT
+            ILAW =  ELBUF_STR%BUFLY(IL)%ILAW
+            NUPARAM = IPM(9,IMAT) 
+            IF (ILAW == 58) THEN
+              DIR1 => ELBUF_STR%BUFLY(IL)%DIRA
+              DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
+              DO IT=1,NPTT
+                LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
+                UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
+                NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
+                CALL CM58IN3(
+     .               IREP     ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
+     .               BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
+     .               X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
+     .               Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
+     .               E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
+              ENDDO
+            ELSE IF (ILAW == 158) THEN
+              DIR1 => ELBUF_STR%BUFLY(IL)%DIRA
+              DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
+              DO IT=1,NPTT
+                LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
+                UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
+                NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
+                CALL CM158IN3(
+     .               NUPARAM  ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
+     .               BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
+     .               X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
+     .               Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
+     .               E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
+              ENDDO
+            ENDIF ! IF (ILAW == 58) THEN
+          ENDDO ! DO IL = 1,NLAY
+        ELSE
+          DO IL = 1,NLAY
+            NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
+            IMAT =  ELBUF_STR%BUFLY(IL)%IMAT
+            ILAW =  ELBUF_STR%BUFLY(IL)%ILAW
+            NUPARAM = IPM(9,IMAT) 
+            IF (ILAW == 58) THEN
+              DO IT=1,NPTT
+                LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
+                UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
+                NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
+                LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
+                DIR1 => LBUF_DIR%DIRA
+                DIR2 => LBUF_DIR%DIRB
+                CALL CM58IN3(
+     .               IREP     ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
+     .               BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
+     .               X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
+     .               Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
+     .               E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
+              ENDDO
+            ELSE IF (ILAW == 158) THEN
+              DO IT=1,NPTT
+                LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
+                UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
+                NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
+                LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
+                DIR1 => LBUF_DIR%DIRA
+                DIR2 => LBUF_DIR%DIRB
+                CALL CM158IN3(
+     .               NUPARAM  ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
+     .               BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
+     .               X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
+     .               Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
+     .               E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
+              ENDDO
+            ENDIF ! IF (ILAW == 58) THEN
+          ENDDO ! DO IL = 1,NLAY      
+        ENDIF 
       ENDIF
 C-----------------------------------------------------------------------
 C     CALCUL DES CONTRAINTES INITIALES

@@ -745,7 +745,7 @@ c
 c
                   IF(USER_OK == 1)THEN
                     IF(IUVAR <= NUVAR) THEN
-                      IF (MLW == 58) THEN                                          
+                      IF (MLW == 58 .or. MLW == 158) THEN                                          
                         DO IR = 1, NPTR                                                        
                          DO IS = 1, NPTS                                                       
                           UVAR=>ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IPT)%VAR                     

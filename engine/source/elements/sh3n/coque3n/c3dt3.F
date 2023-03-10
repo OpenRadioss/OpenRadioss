@@ -101,7 +101,7 @@ C
             A1(I) = PM(24,IMAT)
             G(I)  = PM(22,IMAT)
            ENDDO
-           IF (MTN ==58 ) CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   )
+           IF (MTN == 58  .or. MTN == 158) CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   )
            DO  I=JFT,JLT
                IF (OFF(I)==ZERO) THEN
                  STI(I) = ZERO

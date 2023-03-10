@@ -1101,6 +1101,13 @@ c-------
             CALL HM_READ_MAT151(MTAG   , PM(1, I), IPM(1, I), MAT_ID, TITR, 
      .                          MULTI_FVM,UNITAB,LSUBMODEL)
 c-------
+          CASE ('LAW158','FABR_NL')
+            ILAW  = 158  
+            CALL HM_READ_MAT158(
+     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
+     .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
+     .           PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     )
+c-------
           CASE ('GAS')
              ILAW = 999
              CALL HM_READ_MATGAS(PM(1, I), IPM(1, I),MAT_ID, TITR, KEY2, UNITAB, LSUBMODEL)
