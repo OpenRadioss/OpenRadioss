@@ -707,6 +707,7 @@ Chd|  CG2LEPS                       source/elements/shell/coqueba/scigini4.F
 Chd|-- called by -----------
 Chd|        CSIGINI                       source/elements/shell/coque/csigini.F
 Chd|        CSIGINI4                      source/elements/shell/coqueba/scigini4.F
+Chd|        CSTRAINI4                     source/elements/shell/coqueba/cstraini4.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CG2LEPS(

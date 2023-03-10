@@ -21,8 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  CZSTRAH3                       source/elements/shell/coquez/czstrah3.F
+Chd|  CZSTRAH3                      source/elements/shell/coquez/czstrah3.F
 Chd|-- called by -----------
+Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
+Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CZSTRAH3(JFT    ,JLT    ,STRA_H,VHG    ,A_I   ,
      3                    MX23   ,MX34   ,MY23  ,MY34   ,DT1C  ,

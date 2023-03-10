@@ -44,6 +44,7 @@ Chd|        CNEVECI                       source/elements/shell/coqueba/cneveci.
 Chd|        CORTH3                        source/elements/shell/coque/corth3.F
 Chd|        CSIGINI4                      source/elements/shell/coqueba/scigini4.F
 Chd|        CSMS11_INI                    source/elements/shell/coque/cinit3.F
+Chd|        CSTRAINI4                     source/elements/shell/coqueba/cstraini4.F
 Chd|        CUSERINI                      source/elements/shell/coque/cuserini.F
 Chd|        CUSERINI4                     source/elements/shell/coqueba/cuserini4.F
 Chd|        CVEOK3                        source/elements/shell/coque/cveok3.F

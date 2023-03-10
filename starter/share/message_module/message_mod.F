@@ -147,6 +147,7 @@ Chd|        CREATE_SURFACE_FROM_ELEMENT   source/model/sets/create_surface_from_
 Chd|        CRITYLD2000                   source/materials/mat/mat087/law87_upd.F
 Chd|        CSIGINI                       source/elements/shell/coque/csigini.F
 Chd|        CSIGINI4                      source/elements/shell/coqueba/scigini4.F
+Chd|        CSTRAINI4                     source/elements/shell/coqueba/cstraini4.F
 Chd|        CUSERINI4                     source/elements/shell/coqueba/cuserini4.F
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        DEALLOCATE_ELBUF              source/elements/elbuf_init/deallocate_buffer.F

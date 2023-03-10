@@ -87,6 +87,7 @@ Chd|        CREATE_SUBM_LIST              source/model/sets/create_subm_clause.F
 Chd|        CREATE_SUBS_LIST              source/model/sets/create_subs_clause.F
 Chd|        CSIGINI                       source/elements/shell/coque/csigini.F
 Chd|        CSIGINI4                      source/elements/shell/coqueba/scigini4.F
+Chd|        CSTRAINI4                     source/elements/shell/coqueba/cstraini4.F
 Chd|        CUSERINI4                     source/elements/shell/coqueba/cuserini4.F
 Chd|        DEFBEAM_SECT                  source/properties/beam/hm_read_prop18.F
 Chd|        DEFINTER                      source/interfaces/interf1/definter.F
