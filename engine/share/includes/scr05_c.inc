@@ -22,8 +22,8 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../SCR05/
 C...recopie par defaut en spmd
-      COMMON /SCR05/ IMACH, ICRAY, IGFORM, IRFORM, ITFORM,TH_VERS,IRESP,
+      COMMON /SCR05/ IMACH, ICRAY, IRFORM, ITFORM,TH_VERS,IRESP,
      .               AFORM, NGLOBTH, NGLOBABF
-      INTEGER IMACH, ICRAY, IGFORM, IRFORM, ITFORM,TH_VERS,IRESP
+      INTEGER IMACH, ICRAY, IRFORM, ITFORM,TH_VERS,IRESP
 	  INTEGER AFORM(9), NGLOBTH, NGLOBABF
 

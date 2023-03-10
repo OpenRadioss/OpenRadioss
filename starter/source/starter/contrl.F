@@ -1044,7 +1044,6 @@ C=======================================================================
 C     Some initializations ... (some flags / values need a 1st pre-reading of some options)
 C=======================================================================
       IFORM8 = 2
-      DTDES = ZERO
       DTINI = ZERO
       DTFAC = ZERO
       DTHIS = ZERO
@@ -1132,9 +1131,6 @@ C
 C
       DTX=ZERO
       TSTOP=ZERO
-      TDES=ZERO
-      TPAT=ZERO
-      DTPAT = ZERO
       DTANIM = ZERO
       TANIM=ZERO
       TANIM_STOP = EP20

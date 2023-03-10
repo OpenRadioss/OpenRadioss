@@ -21,10 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../SCR05/
-      COMMON /SCR05/ IMACH, ICRAY, IGFORM, IRFORM,ITFORM,TH_VERS,IRFE0,IGFOR0,IMOT,
+      COMMON /SCR05/ IMACH, ICRAY, IRFORM,ITFORM,TH_VERS,IRFE0,IMOT,
      .               IOUTPUT,IVECTOR,IMPON,IRESP,IARCH,IBUILTIN,
      .               ARCHINFO,ARCHN
-      INTEGER IMACH, ICRAY, IGFORM, IRFORM,ITFORM,TH_VERS,IRFE0,IGFOR0,IMOT,IOUTPUT,
+      INTEGER IMACH, ICRAY,IRFORM,ITFORM,TH_VERS,IRFE0,IMOT,IOUTPUT,
      .        PARASIZ,IVECTOR,IMPON,IRESP,IARCH,IBUILTIN,
      .        MAXARCH,ARCHNAME,NTHMAX
       PARAMETER (PARASIZ=8192)   ! max number of MPI

@@ -25,8 +25,8 @@ C...mis a zero par defaut en spmd
       INTEGER LCOM06
       PARAMETER (LCOM06 = 60)
 C
-      COMMON /COM06/ DTDES, DTHIS, DTFAC, DTMIN, VOLMIN,
-     .               REINT, DTPAT, TPAT,
+      COMMON /COM06/ DTHIS, DTFAC, DTMIN, VOLMIN,
+     .               REINT,
      .                      UREINT,ECONTV,EHOUR, DTOUTP,
      .               TOUTP, T1S,   DT2S,  EPOR,  USREINT,
      .               R2RFX1,R2RFX2,DAMPA, DAMPB, DAMPW,
@@ -36,8 +36,8 @@ C
 	  COMMON /COM06DP/TFEXT 
 C     REAL ou REAL*8
       my_real
-     .               DTDES, DTHIS, DTFAC, DTMIN, VOLMIN,
-     .               REINT, DTPAT, TPAT,
+     .               DTHIS, DTFAC, DTMIN, VOLMIN,
+     .               REINT,
      .                      UREINT,ECONTV,EHOUR, DTOUTP,
      .               TOUTP, T1S,   DT2S,  EPOR,  USREINT,
      .               R2RFX1,R2RFX2,DAMPA, DAMPB, DAMPW,

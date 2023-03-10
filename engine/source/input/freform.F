@@ -146,21 +146,21 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IKAD(0:NKEY+1),
      .   KDTIX, KIMPL, KFLSEC, KFUNC, KKEREL, KDYREL, KRUN, KTITLE,
-     .   KDT, KTFILE, KPRINT, KRFILE, KVERS, KGFILE, KPATRA, KALE, KDEL,
+     .   KDT, KTFILE, KPRINT, KRFILE, KVERS, KALE, KDEL,
      .   KVEL, KBCS, KBCSR, KUSERW, KDEBUG,KOUTP,KDTNOD,KALESUB,KPROC,
-     .   KCUT,KNOISE,KDELIN,KFSHFT,KPARIT,KINIV,KRBODY,KANIM,KINTER,
-     .   KUPWM, KMON,KSOROT,KDT1,KINCMP,KSHFRA,KTH, KSTOP, KKILL,
+     .   KNOISE,KDELIN,KFSHFT,KPARIT,KINIV,KRBODY,KANIM,KINTER,
+     .   KUPWM, KMON,KDT1,KINCMP,KTH, KSTOP, KKILL,
      .   KMADYM,KSPMD,KRAD2R,KDAMP,N_DAMP, KATFIL,KBTFIL,KCTFIL,KDTFIL,
      .   KETFIL,KFTFIL,KGTFIL,KHTFIL,KITFIL, KRERUN, KQEPH, KFXINP,
-     .   NFXINP,KOSHSUB,KENTHA,KEIG,NEIGOFF,NEOFF,KSMOOTH4,KFVBAG,
-     .   NFVMESH,KLAGSOLV,KMLAGS,KSTATF,KSHVER,KDT1HEPH,KABF,KDTSDE,
+     .   NFXINP,KOSHSUB,KEIG,NEIGOFF,NEOFF,KFVBAG,
+     .   NFVMESH,KSTATF,KSHVER,KDT1HEPH,KABF,KDTSDE,
      .   KAABF,KBABF,KCABF,KDABF,KEABF,KFABF,KGABF,KHABF,KIABF,NFVMODI,
      .   KUPWIND,KTHERMAL,KH3D,KREPORT,KNEGVOL,KADYREL,KDT1TET10,KPERF,
      .   KDYNAIN,KDTTSH,KMASS
       INTEGER
      .   IKEY, I, II, I1, J1, J2, K,KK, M, N, NCT, IKOLD, NBC, K3, K4,
      .   NUBCS1,NUBCS2, IR,IDT,NELTGOF,
-     .   IAL, NINTOF, NELSOF, NDEL, NOF,ITTYP, NCPRI0,NCPRI_HEAD0,IGTYP,
+     .   IAL, NINTOF, NELSOF, NDEL, NOF,ITTYP, NCPRI0,NCPRI_HEAD0,
      .   NELQOF, NELCOF, NELTOF, NELPOF, NELROF, NUM_BCS, NINTCH,
      .   NRBYNF, NBCS1, NBCS2, NRBYON, NRBYOF, NINIV,NINIVT,
      .   INTCH_IFOP,IUSC_TMP,INTCH_ITOP,NBTOPFOP,KONOFF,NINTNOF,NINTSOF,
@@ -169,7 +169,7 @@ C-----------------------------------------------
      .   DT_CTRL_COMPATIBILITY(3), LOWMACH_OPT,IO_ERR, NITERP, IOK_READ,
      .   ID_BAG, IERR1, ID_DT_OPTION, FVMBAG_L_TYPE
       my_real
-     .   TSTOP0,DTFAC0, DTMIN0, DTHIS0, T1G, DTG, T1P, DTP, ALP, GAM,
+     .   TSTOP0,DTFAC0, DTMIN0, DTHIS0, ALP, GAM,
      .   A1, A2, A3, VM, DTFACA,DTMINA, DTHIS01(9),vt, TMP,DTFAC_AMS,
      .   LAMBDA,L_TYPE
       CHARACTER KEY(9)*5, TITLE*81,
@@ -196,44 +196,44 @@ C-----------------------------------------------
 C-----------------------------------------------
       DATA KEY0/
      .     'RUN  '   ,'TITLE'   ,'DT   '   ,'TFILE'   ,'PRINT'   ,
-     .     'RFILE'   ,'VERS '   ,'GFILE'   ,'PATRA'   ,'ALE  '   ,
+     .     'RFILE'   ,'VERS '   ,''        ,''        ,'ALE  '   ,
      .     'DEL  '   ,'VEL  '   ,'BCS  '   ,'BCSR '   ,'INTER'   ,
      .     'DTIX '   ,'IMPL '   ,'FUNCT'   ,'FLSEC'   ,'DYREL'   ,
      .     'KEREL'   ,'RBODY'   ,'ANIM'    ,'USERW'   ,'DEBUG'   ,
-     .     'OUTP '   ,'DTNOD'   ,'ALESU'   ,'PROC'    ,'CUT  '   ,
+     .     'OUTP '   ,'DTNOD'   ,'ALESU'   ,'PROC'    ,''        ,
      .     '@TFIL'   ,'DELIN'   ,'FSHFT'   ,'PARIT'   ,'INIV '   ,
-     .     'UPWM '   ,'MON'     ,'SOROT'   ,'DT1'     ,'INCMP'   ,
-     .     'SHFRA'   ,'TH'      ,'STOP'    ,'KILL'    ,'MADYM'   ,
+     .     'UPWM '   ,'MON'     ,''        ,'DT1'     ,'INCMP'   ,
+     .     ''        ,'TH'      ,'STOP'    ,'KILL'    ,'MADYM'   ,
      .     'SPMD '   ,'RAD2R'   ,'DAMP'    ,'ATFIL'   ,'BTFIL'   ,
      .     'CTFIL'   ,'DTFIL'   ,'ETFIL'   ,'FTFIL'   ,'GTFIL'   ,
      .     'HTFIL'   ,'ITFIL'   ,'RERUN'   ,'QEPH '   ,'FXINP'   ,
-     .     'SHSUB'   ,'ENTHA'   ,'EIG'     ,'FSMOO',   'FVMBA'   ,
-     .     'MLAGS'   ,'STATE'   ,'SHVER'   ,'DT1HE'   ,'ABF'     ,
+     .     'SHSUB'   ,''        ,'EIG'     ,''        ,'FVMBA'   ,
+     .     ''        ,'STATE'   ,'SHVER'   ,'DT1HE'   ,'ABF'     ,
      .     'DTSDE'   ,'AABF'    ,'BABF'    ,'CABF'    ,'DABF'    ,
      .     'EABF '   ,'FABF'    ,'GABF'    ,'HABF'    ,'IABF'    ,
      .     'UPWIN'   ,'THERM'   ,'H3D'     ,'REPOR'   ,'NEGVO'  ,
      .     'ADYRE'   ,'DT1TE'   ,'PERF'    ,'DYNAI'   ,'DTTSH'   ,
      .     'MASS '    /
 
-      DATA KRUN/1/   ,KTITLE/2/ ,KDT/3/    ,KTFILE/4/ ,KPRINT/5/ ,
-     .     KRFILE/6/ ,KVERS/7/  ,KGFILE/8/ ,KPATRA/9/ ,KALE/10/  ,
-     .     KDEL/11/  ,KVEL/12/  ,KBCS/13/  ,KBCSR/14/ ,KINTER/15/,
-     .     KDTIX/16/ ,KIMPL/17/ ,KFUNC/18/ ,KFLSEC/19/,KDYREL/20/,
-     .     KKEREL/21/,KRBODY/22/,KANIM/23/ ,KUSERW/24/,KDEBUG/25/,
-     .     KOUTP/26/ ,KDTNOD/27/,KALESUB/28/,KPROC/29/,KCUT/30/  ,
-     .     KNOISE/31/,KDELIN/32/,KFSHFT/33/,KPARIT/34/,KINIV/35/ ,
-     .     KUPWM/36/ ,KMON/37/  ,KSOROT/38/,KDT1/39/  ,KINCMP/40/,
-     .     KSHFRA/41/,KTH/42/   ,KSTOP/43/ ,KKILL/44/ ,KMADYM/45/,
-     .     KSPMD/46/ ,KRAD2R/47/,KDAMP/48/ ,KATFIL/49/,KBTFIL/50/,
-     .     KCTFIL/51/,KDTFIL/52/,KETFIL/53/,KFTFIL/54/,KGTFIL/55/,
-     .     KHTFIL/56/,KITFIL/57/, KRERUN/58/, KQEPH/59/,KFXINP/60/,
-     .     KOSHSUB/61/,KENTHA/62/,KEIG/63/,KSMOOTH4/64/,KFVBAG/65/,
-     .     KMLAGS/66/,KSTATF/67/,KSHVER/68/,KDT1HEPH/69/,KABF/70/,
-     .     KDTSDE/71/,KAABF/72/,KBABF/73/,KCABF/74/,KDABF/75/,
-     .     KEABF/76/,KFABF/77/,KGABF/78/,KHABF/79/,KIABF/80/,
-     .     KUPWIND/81/,KTHERMAL/82/,KH3D/83/,KREPORT/84/,
-     .     KNEGVOL/85/,KADYREL/86/,KDT1TET10/87/,KPERF/88/,
-     .     KDYNAIN/89/,KDTTSH/90/,KMASS/91/
+      DATA KRUN/1/    ,KTITLE/2/   ,KDT/3/       ,KTFILE/4/   ,KPRINT/5/ ,
+     .     KRFILE/6/  ,KVERS/7/    ,                           KALE/10/  ,
+     .     KDEL/11/   ,KVEL/12/    ,KBCS/13/     ,KBCSR/14/   ,KINTER/15/,
+     .     KDTIX/16/  ,KIMPL/17/   ,KFUNC/18/    ,KFLSEC/19/  ,KDYREL/20/,
+     .     KKEREL/21/ ,KRBODY/22/  ,KANIM/23/    ,KUSERW/24/  ,KDEBUG/25/,
+     .     KOUTP/26/  ,KDTNOD/27/  ,KALESUB/28/   ,KPROC/29/  ,
+     .     KNOISE/31/ ,KDELIN/32/  ,KFSHFT/33/   ,KPARIT/34/  ,KINIV/35/ ,
+     .     KUPWM/36/  ,KMON/37/    ,              KDT1/39/    ,KINCMP/40/,
+     .                 KTH/42/     ,KSTOP/43/    ,KKILL/44/   ,KMADYM/45/,
+     .     KSPMD/46/  ,KRAD2R/47/  ,KDAMP/48/    ,KATFIL/49/  ,KBTFIL/50/,
+     .     KCTFIL/51/ ,KDTFIL/52/  ,KETFIL/53/   ,KFTFIL/54/  ,KGTFIL/55/,
+     .     KHTFIL/56/ ,KITFIL/57/  ,KRERUN/58/   ,KQEPH/59/   ,KFXINP/60/,
+     .     KOSHSUB/61/,             KEIG/63/     ,             KFVBAG/65/,
+     .                 KSTATF/67/  ,KSHVER/68/   ,KDT1HEPH/69/,KABF/70/  ,
+     .     KDTSDE/71/ ,KAABF/72/   ,KBABF/73/    ,KCABF/74/   ,KDABF/75/ ,
+     .     KEABF/76/  ,KFABF/77/   ,KGABF/78/    ,KHABF/79/   ,KIABF/80/ ,
+     .     KUPWIND/81/,KTHERMAL/82/,KH3D/83/     ,KREPORT/84/ ,
+     .     KNEGVOL/85/,KADYREL/86/ ,KDT1TET10/87/,KPERF/88/,
+     .     KDYNAIN/89/,KDTTSH/90/  ,KMASS/91/
 
       DATA KEYALE/
      .     'BCS  '   ,'CLOSE'   ,'GRID '   ,'LINK '   ,'MAT  '   ,
@@ -683,14 +683,6 @@ C-----------------------
        CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
        READ(IUSC2,*)NUSERW
        MFID = MFID + NUSERW
-      ENDIF
-C-----------------------
-C     ALE-EULER avec transport d'enthalpie
-C-----------------------
-      IENTHA = 0
-      IKEY=KENTHA
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       IENTHA = 1
       ENDIF
 C-----------------------
 C     ALE SUB-CYCLING
@@ -1330,17 +1322,6 @@ C AMS is not compatible with thermal time step
           CALL ARRET(0)
       ENDIF
 C
-C--------------------
-C     REPERE COQUES
-C--------------------
-      IKEY = KSHFRA
-      IF (IKAD(IKEY)/=IKAD(IKEY+1)) THEN
-        WRITE(ISTDO,*)
-     .    ' ** WARNING ** : /SHFRAME in D01 file is ignored '
-        WRITE(ISTDO,*)
-     .    '               It should be defined in starter input only '
-      ENDIF
-C
       IKEY=KDT1
       IDT1SH = 0
       IDT1SOL= 0
@@ -1583,37 +1564,6 @@ c      IF(IRETYP/=0) IRFE=IRETYP-1
 c      IF(IRLTYP/=0) IRFL=IRLTYP-1
 C     IRFORM=3*IRFE+IRFL
       IRFORM=5*IRFE+IRFL
-C--------------------
-C     CONTROL CARD 3
-C--------------------
-      IKEY=KGFILE
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5)',ERR=9990)IGTYP
-       CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
-       READ(IUSC2,*,ERR=9990,END=9990)T1G,DTG
-       CALL ANCMSG(MSGID=199,ANMODE=ANINFO)
-       IERR=IERR+1
-      ELSE
-       IGTYP=0
-       T1G=EP30
-       DTG=EP30
-      ENDIF
-      WRITE(IIN,'(1P2E16.9,I8)')T1G,DTG,IGTYP
-      IF(IGTYP/=0) IGFORM=IGTYP-1
-C--------------------
-C     CONTROL CARD 4
-C--------------------
-      IKEY=KPATRA
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
-       READ(IUSC2,*,ERR=9990,END=9990)T1P,DTP
-       CALL ANCMSG(MSGID=200,ANMODE=ANINFO)
-       IERR=IERR+1
-      ELSE
-       T1P=EP30
-       DTP=EP30
-      ENDIF
-      WRITE(IIN,'(1P2E16.9)')T1P,DTP
 C--------------------
 C     CONTROL CARD 5 '/ALE/GRID/*'
 C--------------------
@@ -2288,15 +2238,6 @@ C--------------------
       ENDIF
       WRITE(IIN,'(2I8)')NEIGOFF, NEOFF
 C-----------------------
-C  OPTION /FSMOOTH4 pour re-emuler le comportement qui etait celui de
-C         Fsmooth=0 en version 4.
-C--------------------------------------------------------
-      IKEY   = KSMOOTH4
-      ISMOOTH4=0
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-         ISMOOTH4=1
-      END IF
-C-----------------------
 C    FVMBAG REMESH/MODIF
 C-----------------------
       IKEY=KFVBAG
@@ -2314,23 +2255,6 @@ C        IF (KEY2=='REMES') NFVMESH=NFVMESH+NBC/6
          IF (IKAD(IKEY)+K/=IKAD(IKEY+1)) GO TO 810
       ENDIF
       WRITE(IIN,'(2I8)')NFVMESH,NFVMODI
-C--------------------
-C    LAGMULT - Type de solveur : IMLAGSOL=1 si /MLAGS/DIREC IMLAGSOL=0 sinon (/MLAG/ITER)
-C--------------------
-      IKEY=KMLAGS
-      IMLAGSOL=0
-      IF (IKAD(IKEY)/=IKAD(IKEY+1)) THEN
-         READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A5)',ERR=9990)KEY2
-         IF (KEY2=='DIREC') IMLAGSOL=1
-         IF(IMACH/=3.AND.IMLAGSOL==1)THEN
-           WRITE(ISTDO,*)
-     . ' *** WARNING : DIRECT SOLVER IS ONLY MEANINGFUL FOR SPMD RUNS'
-           WRITE(ISTDO,*)
-     . ' *** WARNING : SWITCH TO ITERATIVE SOLVER FOR LAG. MULTIPLIERS'
-           IMLAGSOL = 0
-         END IF
-      END IF
-C=============================================================================
 C-----------------------
 C  OPTION /DT1HEPH use full integrated solid timestep.
 C--------------------------------------------------------
@@ -2498,10 +2422,6 @@ c       ELSEIF(KEY2=='GRAPH')THEN
 c         IMON = K4 + 1
 c         IMONM = 3
        ENDIF
-      ENDIF
-C------------------------------
-      IKEY=KSOROT
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
       ENDIF
 C--------------------
 C     INCOMPRESSIBLE

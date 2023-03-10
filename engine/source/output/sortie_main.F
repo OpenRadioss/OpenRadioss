@@ -456,27 +456,7 @@ C----------------------------------------------------
          CALL FCONT2_MIN_OUTPUT(FNCONTP2,FNCONT2_MIN,WEIGHT)
          CALL FCONT2_MIN_OUTPUT(FTCONTP2,FTCONT2_MIN,WEIGHT)
       ENDIF 
-
-C-----------------------------------------------
-C     FICHIERS D'ANIMATION
-C-----------------------------------------------
-c      IF(LOUT) THEN
-c      IF(TT>=TDES.OR.
-c     .   MANIM==1.OR.MANIM==3 .OR.MANIM==5 .OR.MANIM==7.OR.
-c     .   MANIM==9.OR.MANIM==11.OR.MANIM==13.OR.MANIM==15) THEN
-c       IGER=IGER+1
-c       CALL DESGEO(PARTSAV,D,V,ELBUF,WA)
-c       IF(TT>=TDES)TDES=TDES+DTDES
-c      END IF
-c      IF(TT>=TPAT.OR.
-c     .   MANIM==2 .OR.MANIM==3 .OR.MANIM==6 .OR.MANIM==7.OR.
-c    .   MANIM==10.OR.MANIM==11.OR.MANIM==14.OR.MANIM==15) THEN
-c       IPAT=IPAT+1
-c       CALL PATRAN(D,V,ELBUF,IPARG,IXS,IXQ,IXC,IXT,IXP,IXR,ITAB)
-c       IF(TT>=TPAT)TPAT=TPAT+DTPAT
-c      END IF
-c      END IF
-   
+  
       IF ((TT>=TANIM .AND. TT<=TANIM_STOP).OR. ! NUMELCRK > NUMELCRK2 .or.   !  => ANIM par fissure avance
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15 .OR.
