@@ -501,10 +501,11 @@ C--------
            D(1,INOD)=XP-XI_RES
            D(2,INOD)=YP-YI_RES
            D(3,INOD)=ZP-ZI_RES
+         ELSE
+           D(1,INOD)=XP-X(1,INOD)+D(1,INOD)
+           D(2,INOD)=YP-X(2,INOD)+D(2,INOD)
+           D(3,INOD)=ZP-X(3,INOD)+D(3,INOD)
          ENDIF
-         D(1,INOD)=XP-X(1,INOD)
-         D(2,INOD)=YP-X(2,INOD)
-         D(3,INOD)=ZP-X(3,INOD)
          X(1,INOD)=XP
          X(2,INOD)=YP
          X(3,INOD)=ZP

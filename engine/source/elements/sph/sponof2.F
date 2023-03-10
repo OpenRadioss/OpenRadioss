@@ -675,6 +675,15 @@ c            IN2B=IBUFSSG(IAD+1)
             XG =HALF*(X1+X2)
             YG =HALF*(Y1+Y2)
             ZG =HALF*(Z1+Z2)
+            IF(ITAB(INOD) >= 1000000000)THEN
+              D(1,INOD)=ZERO
+              D(2,INOD)=ZERO
+              D(3,INOD)=ZERO
+            ELSE
+              D(1,INOD)=XG-X(1,INOD)+D(1,INOD)
+              D(2,INOD)=YG-X(2,INOD)+D(2,INOD)
+              D(3,INOD)=ZG-X(3,INOD)+D(3,INOD)
+            ENDIF
             X(1,INOD)=XG
             X(2,INOD)=YG
             X(3,INOD)=ZG
@@ -683,9 +692,6 @@ c            IN2B=IBUFSSG(IAD+1)
               XDP(2,INOD)=YG
               XDP(3,INOD)=ZG
             END IF
-            D(1,INOD)=ZERO
-            D(2,INOD)=ZERO
-            D(3,INOD)=ZERO
             NG=MOD(ABS(KXSP(2,N)),NGROUP+1)
             CALL INITBUF (IPARG    ,NG      ,                 
      2         MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,  
