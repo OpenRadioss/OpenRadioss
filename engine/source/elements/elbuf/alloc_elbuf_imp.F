@@ -625,7 +625,10 @@ c
           ALLOCATE (ELBUF_IMP(NG)%GBUF%MU(NEL*GBUF%G_MU)         ,STAT=ERR)                  
         ENDIF
 c
-        IF (NPG > 1) THEN
+        IF (NPG == 1) THEN
+          IF (GBUF%G_STRPG > GBUF%G_STRA) 
+     .      ALLOCATE(ELBUF_IMP(NG)%GBUF%STRPG(NEL*GBUF%G_STRPG),STAT=ERR)                  
+        ELSEIF (NPG > 1) THEN
           ALLOCATE(ELBUF_IMP(NG)%GBUF%FORPG(NEL*GBUF%G_FORPG),STAT=ERR)                  
           ALLOCATE(ELBUF_IMP(NG)%GBUF%MOMPG(NEL*GBUF%G_MOMPG),STAT=ERR)
 C
