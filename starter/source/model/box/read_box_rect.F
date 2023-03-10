@@ -62,19 +62,20 @@ C-----------------------------------------------
 #include      "sphcom.inc"
 #include      "submod_c.inc"
 #include      "sysunit.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN)    :: NBOX
-      INTEGER ,INTENT(INOUT) :: IAD
-      INTEGER ,DIMENSION(LISKN,*) ,INTENT(IN)  :: ISKN
-      INTEGER ,DIMENSION(NUMNOD)  ,INTENT(IN)  :: ITABM1
-      my_real            ,DIMENSION(3,NUMNOD)  ,INTENT(IN) :: X
-      my_real            ,DIMENSION(LSKEW,*)   ,INTENT(IN) :: SKEW
-      my_real            ,DIMENSION(NTRANSF,*) ,INTENT(IN) :: RTRANS
-      TYPE (UNIT_TYPE_)                        ,INTENT(IN) :: UNITAB 
-      TYPE(SUBMODEL_DATA),DIMENSION(*) ,INTENT(IN) :: LSUBMODEL
-      TYPE (BOX_)  , DIMENSION(NBBOX)  :: IBOX
+      INTEGER, INTENT(IN)                                 :: NBOX
+      INTEGER, INTENT(INOUT)                              :: IAD
+      INTEGER, DIMENSION(LISKN,SISKWN/LISKN), INTENT(IN)  :: ISKN
+      INTEGER, DIMENSION(NUMNOD) , INTENT(IN)             :: ITABM1
+      my_real, DIMENSION(3,NUMNOD), INTENT(IN)            :: X
+      my_real, DIMENSION(LSKEW,SSKEW/LSKEW), INTENT(IN)   :: SKEW
+      my_real, DIMENSION(NTRANSF,NRTRANS), INTENT(IN)     :: RTRANS
+      TYPE (UNIT_TYPE_), INTENT(IN)                       :: UNITAB 
+      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE (BOX_), DIMENSION(NBBOX)                       :: IBOX
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -184,19 +185,17 @@ c-----------------------
 c-----------------------
 c
         IF (N1 > 0 .and. N2 > 0) THEN
-          CALL HM_GET_FLOATV_DIM('box_corner1_x' ,FAC_L,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          XP1 = X(1,USR2SYS(N1,ITABM1,MESS,BOXID)) * FAC_L
-          YP1 = X(2,USR2SYS(N1,ITABM1,MESS,BOXID)) * FAC_L
-          ZP1 = X(3,USR2SYS(N1,ITABM1,MESS,BOXID)) * FAC_L
-          XP2 = X(1,USR2SYS(N2,ITABM1,MESS,BOXID)) * FAC_L
-          YP2 = X(2,USR2SYS(N2,ITABM1,MESS,BOXID)) * FAC_L
-          ZP2 = X(3,USR2SYS(N2,ITABM1,MESS,BOXID)) * FAC_L
-c
+          !using coordinates from user node identifiers
+          XP1 = X(1,USR2SYS(N1,ITABM1,MESS,BOXID))
+          YP1 = X(2,USR2SYS(N1,ITABM1,MESS,BOXID))
+          ZP1 = X(3,USR2SYS(N1,ITABM1,MESS,BOXID))
+          XP2 = X(1,USR2SYS(N2,ITABM1,MESS,BOXID))
+          YP2 = X(2,USR2SYS(N2,ITABM1,MESS,BOXID))
+          ZP2 = X(3,USR2SYS(N2,ITABM1,MESS,BOXID))
         ELSE
-c
+          !Submodel rotation
           IF (SUB_ID > 0) CALL SUBROTPOINT(XP1,YP1,ZP1,RTRANS,SUB_ID,LSUBMODEL)
           IF (SUB_ID > 0) CALL SUBROTPOINT(XP2,YP2,ZP2,RTRANS,SUB_ID,LSUBMODEL)
-c
         ENDIF
 c
         IF ((XP1 == ZERO .and. YP1 == ZERO .and. ZP1 == ZERO) .and.
