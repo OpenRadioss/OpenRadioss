@@ -655,7 +655,7 @@ C No more used      TABVINT(LVARINT + 16 )
       TABVINT(LVARINT + 19 ) = ISTAT
       TABVINT(LVARINT + 20 ) = NTH
       TABVINT(LVARINT + 21 ) = NANIM
-      TABVINT(LVARINT + 22 ) = IGFORM
+      TABVINT(LVARINT + 22 ) = 0
       TABVINT(LVARINT + 23 ) = IMON
       TABVINT(LVARINT + 24 ) = IDUM
       DO I=1,10
@@ -663,7 +663,7 @@ C No more used      TABVINT(LVARINT + 16 )
       ENDDO
       TABVINT(LVARINT + 35 ) = ITRACE
       TABVINT(LVARINT + 36 ) = INCOMP
-      TABVINT(LVARINT + 37 ) = NSOROT
+      TABVINT(LVARINT + 37 ) = 0
       TABVINT(LVARINT + 38 ) = IALESUB
       TABVINT(LVARINT + 39 ) = IMPL
       TABVINT(LVARINT + 40 ) = NITMX
@@ -1829,18 +1829,18 @@ C-----
       TABVREA(4)=DT12
       TABVREA(5)=DT2OLD
       TABVREA(6)=TSTOP
-      TABVREA(7)=TDES
+      TABVREA(7)=0 !no longer used
       TABVREA(8)=THIS
 C-----
-      TABVREA(9)=DTDES
+      TABVREA(9)=0 !no longer used
       TABVREA(10)=DTHIS
       TABVREA(11)=DTFAC
       TABVREA(12)=DTMIN
       TABVREA(13)=VOLMIN
       TABVREA(14)=TFEXT
       TABVREA(15)=REINT
-      TABVREA(16)=DTPAT
-      TABVREA(17)=TPAT
+      TABVREA(16)=0 !no longer used
+      TABVREA(17)=0 !no longer used
       TABVREA(18)=DTANIM
       TABVREA(19)=TANIM
       TABVREA(20)=UREINT

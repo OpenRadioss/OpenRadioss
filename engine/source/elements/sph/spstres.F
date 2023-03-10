@@ -229,8 +229,7 @@ C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
-      IF(IFLAG==0.OR.TT>=THIS.OR.TT>=TDES.
-     .   OR.TT>=TPAT.OR.MDESS/=0 .OR.TT>=TABFIS(1).
+      IF(IFLAG==0.OR.TT>=THIS.OR.MDESS/=0 .OR.TT>=TABFIS(1).
      .   OR.TT>=TABFIS(2).OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).
      .   OR.TT>=TABFIS(5).OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).
      .   OR.TT>=TABFIS(8).OR.TT>=TABFIS(9).OR.TT>=TABFIS(10))THEN

@@ -198,7 +198,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NLEC(16), I, IBID, IGFOR0, NSLIOF, NELSOF, NELQOF, NDAMPN,
+      INTEGER NLEC(16), I, IBID, NSLIOF, NELSOF, NELQOF, NDAMPN,
      .   NELCOF, NELTOF, NELPOF, NELROF, NINTCH, NUBCSN, ITFOR0, IRFE0,
      .   IRFL0, K, NELOF, NN, NBC, IL, II, J, KLG, KUG, NBLK, KI, NG,
      .   ITY, NEL, NFT, IAD, IGOF, K1, K2, N, I1, I2, I3, IR1, IR2, IR3,
@@ -219,7 +219,7 @@ C-----------------------------------------------
      .     ALEON_PARTIDS_TMP, ALEON_PARTIDS
       INTEGER, DIMENSION(:), ALLOCATABLE :: ALELIN_ON_OFF
       my_real
-     .   TITLE(20), TFI, DTH, DTF, DTM, T1G, DTG, T1P, DTP, ALP, GAM,
+     .   TITLE(20), TFI, DTH, DTF, DTM, ALP, GAM,
      .   CV1, CV2, CV3, VOLM, TSTART, TFIN, DTH1(9),CS1(2), DT_INPUT, DT_CRIT
        CHARACTER*9 Cale1,Cale2,ALEform(0:6),CHAR1,CHAR2
        CHARACTER*9 Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9
@@ -249,8 +249,6 @@ C-----------------------------------------------
       READ (IIN,'(4F16.0,I8,I10,2I8)')TFI,DTH,DTF,DTM,NCPRI1,NCRST1,MULTIREST1,NLPRI1
       READ (IIN,'(5F16.0)')(DTH1(I),I=1,5)
       READ (IIN,'(4F16.0)')(DTH1(I+5),I=1,4)
-      READ (IIN,'(2F16.0,I8)')T1G,DTG,IGFOR0
-      READ (IIN,'(2F16.0)')T1P,DTP
       READ (IIN,'(6F10.0)')ALP,GAM,CV1,CV2,CV3,VOLM
       READ (IIN,'(I8)') LOWMACH_OPT
       READ (IIN,'(10I8)')   NSLIOF,NELSOF,NELQOF,NELCOF,NELTOF,
@@ -295,14 +293,6 @@ C-----
 C
       IF(NCRST1 == 0.AND.MCHECK == 0) NCRST=10000000
       IF(TFI /= 0.0) TSTOP=TFI
-C
-      IF(DTG /= ZERO.AND.MCHECK == 0) DTDES=DTG
-      IF(T1G /= ZERO.AND.MCHECK == 0) TDES =T1G
-      IF(DTP /= ZERO.AND.MCHECK == 0) DTPAT=DTP
-      IF(T1P /= ZERO.AND.MCHECK == 0) TPAT =T1P
-C
-      IF(DTDES == ZERO) TDES=EP30
-      IF(DTPAT == ZERO) TPAT=EP30
 C
       IF(TOUTP0 /= ZERO)  TOUTP = TOUTP0
       IF(DTOUTP0 > ZERO) DTOUTP= DTOUTP0
@@ -443,12 +433,8 @@ C
         IF(IDTMIN(7) == 0)IDTMIN(7) = 2
       ENDIF
 C
-      IF(ISPMD == 0)
-     .  WRITE(IOUT,'(//1X,20A4//)') TITLE
-      IGFOR0=IGFORM + 1
+      IF(ISPMD == 0) WRITE(IOUT,'(//1X,20A4//)') TITLE
       ITFOR0=ITFORM + 1
-C     IRFE0 =(IRFORM/3)
-C     IRFL0 =(IRFORM-3*IRFE0) + 1
       IRFE0 =(IRFORM/5)
       IRFL0 =(IRFORM-5*IRFE0) + 1
       IRFE0 =IRFE0 + 1
@@ -638,30 +624,22 @@ C
         CALL ANCMSG(MSGID=121,ANMODE=ANINFO_BLIND)
         CALL ARRET(2)
       END IF
-      IF(ISPMD == 0.AND.MCHECK == 0.AND.KDTINT /= 0)
-     .  WRITE(IOUT,'(A)')
-     .  ' NEW (HIDDEN) TIME STEP COMPUTATION',
-     .  ' ON INTERFACE TYPE 7,11 AND 19 IS ON'
-C
-      IF(ISPMD == 0.AND.MCHECK == 0.AND.KDTSMSTR == 0)
-     .  WRITE(IOUT,'(A)')
-     .  ' BACK TO VERSION 4 COMPUTATION OF NODAL TIME STEP',
-     .  ' CASE OF SMALL STRAIN FOR SOLIDS.'
+      IF(ISPMD == 0.AND.MCHECK == 0.AND.KDTINT /= 0)THEN
+        WRITE(IOUT,'(A)')' NEW (HIDDEN) TIME STEP COMPUTATION',' ON INTERFACE TYPE 7,11 AND 19 IS ON'
+      ENDIF
+      IF(ISPMD == 0.AND.MCHECK == 0.AND.KDTSMSTR == 0)THEN
+        WRITE(IOUT,'(A)')' BACK TO VERSION 4 COMPUTATION OF NODAL TIME STEP',' CASE OF SMALL STRAIN FOR SOLIDS.'
+      ENDIF
       IF(CODVERS>=44.AND.NUMSPH /= 0.AND.MCHECK == 0)THEN
         IF(IDTMIN(51) == 3)THEN
          IF(ISPMD == 0)THEN
-          WRITE(ISTDO,*)
-     .' ** WARNING SMALL STRAIN FORMULATION FOR SPH'
-          WRITE(IOUT,*)
-     .' ** WARNING SMALL STRAIN FORMULATION IS NOT AVAILABLE FOR SPH,',
-     .          ' OPTION /DT/SPHCEL/CST WILL BE OMITTED.'
+          WRITE(ISTDO,*)' ** WARNING SMALL STRAIN FORMULATION FOR SPH'
+          WRITE(IOUT,*)' ** WARNING SMALL STRAIN FORMULATION IS NOT AVAILABLE FOR SPH,',' OPTION /DT/SPHCEL/CST WILL BE OMITTED.'
          END IF
          IDTMIN(51)=0
         ENDIF
         IF(NODADT == 1)THEN
-         IF(ISPMD == 0)
-     .    WRITE(IOUT,*)
-     .   'IMPROVED TIME STEP (NODAL) COMPUTATION ON SPH PARTICLES :'
+         IF(ISPMD == 0) WRITE(IOUT,*)'IMPROVED TIME STEP (NODAL) COMPUTATION ON SPH PARTICLES :'
          DTFAC1(51)=DTFAC1(11)
         ENDIF
         IF(ISPMD == 0)
@@ -705,34 +683,14 @@ C
          ENDDO
       ENDIF
 C
-      IF(ISPMD == 0.AND.MCHECK == 0.AND.IDTHEPH /= 0)
-     .  WRITE(IOUT,'(A)')
-     .  ' OPTIMIZED TIME STEP COMPUTATION FOR HEPH.'
-      IF(ISPMD == 0.AND.MCHECK == 0.AND.IDTTSH /= 0)
-     .  WRITE(IOUT,'(A)')
-     .  ' OPTIMIZED (SHELL) TIME STEP FOR THICK SHELLS.'
-      IF(ISPMD == 0.AND.MCHECK == 0.AND.ISMOOTH4 /= 0)
-     .  THEN
-          WRITE(IOUT,'(A)')
-     .    ' OPTION FSMOOTH4 HAS BEEN ASKED FOR : ',
-     .    ' THERE WILL BE NO EFFECT IF RESTARTING FROM A PREVIOUS RUN,',
-     .    ' AND IT HAD NOT BEEN ASKED FOR IN THIS PREVIOUS RUN.'
-      ELSEIF(MCHECK == 0.AND.ISMOOTH4 == 0)THEN
-        DO I=1,NUMMAT
-          IF(NINT(PM(19,I)) == 2)THEN
-            PM(8,I)=1
-          END IF
-        END DO
-      END IF
-C
-       IF(ISPMD == 0.AND.MCHECK == 0)
-     .  WRITE(IOUT,1110)NCPRI,NCRST,MULTIREST,INVERS,ITFOR0
+      IF(ISPMD == 0.AND.MCHECK == 0.AND.IDTHEPH /= 0) WRITE(IOUT,'(A)')' OPTIMIZED TIME STEP COMPUTATION FOR HEPH.'
+      IF(ISPMD == 0.AND.MCHECK == 0.AND.IDTTSH /= 0) WRITE(IOUT,'(A)')' OPTIMIZED (SHELL) TIME STEP FOR THICK SHELLS.'
+      IF(ISPMD == 0.AND.MCHECK == 0)WRITE(IOUT,1110)NCPRI,NCRST,MULTIREST,INVERS,ITFOR0
       IF(ISPMD == 0.AND.RESTART_FILE == 0) WRITE(IOUT,*) CHECK_MESSAGE(2)(1:len_trim(CHECK_MESSAGE(2)) )
       IF (IMPL_S == 1.AND.IKG>=5) THEN
          IKG=IKG-5
        IF(ISPMD == 0) THEN
-         WRITE(IOUT,*) ' ** WARNING ** : PARITH/ON IS NOT ',
-     .                'COMPATIBLE WITH IMPLICIT OPTION '
+         WRITE(IOUT,*) ' ** WARNING ** : PARITH/ON IS NOT ','COMPATIBLE WITH IMPLICIT OPTION '
          WRITE(IOUT,*) ' ** RESETTING **  : PARITH/OFF  '
        ENDIF
       ENDIF
@@ -835,12 +793,10 @@ C---------------------
          WRITE(IOUT,'(A)')' FINITE ELEMENT THERMAL ANALYSIS '
          IF(IDT_THERM == 1) THEN
             WRITE(IOUT,'(A)')' THERMAL ANALYSIS ONLY'
-            WRITE(IOUT,'(A,1X,G14.7)')
-     .     ' THERMAL TIME STEP SCALE FACTOR . . . . . . . . .', DTFACTHERM
+            WRITE(IOUT,'(A,1X,G14.7)')' THERMAL TIME STEP SCALE FACTOR . . . . . . . . .', DTFACTHERM
          ENDIF
          IF(THEACCFACT > ONE ) THEN
-           WRITE(IOUT,'(A,1X,G14.7/)')
-     .     ' FACTOR TO SPEED-UP THERMAL ANALYSIS. . . . . . .', THEACCFACT
+           WRITE(IOUT,'(A,1X,G14.7/)')' FACTOR TO SPEED-UP THERMAL ANALYSIS. . . . . . .', THEACCFACT
          ENDIF
        ENDIF
 C-------------------------------------------
@@ -1041,11 +997,6 @@ C-----------------------
          WRITE(IOUT,1182)IPARIT-1
        ENDIF
 C-----------------------
-       IF(IMLAGSOL == 1)THEN
-         WRITE(IOUT,'(/,A)')
-     .   ' DIRECT SOLVER USED FOR LAGRANGE MULTIPLIERS'
-       END IF
-C-----------------------
        WRITE(IOUT,1300) NSLIOF,NELSOF,NELQOF,NELCOF,NELTOF,NELPOF,NELROF,NELTGOF,NSPHOF
        WRITE(IOUT,1400) NRLINK
        WRITE(IOUT,1500) NUBCSN
@@ -1158,8 +1109,7 @@ C----------------------------------------
          IF (LOWMACH_OPT == 1 .AND. MULTI_FVM%IS_USED) THEN
             MULTI_FVM%LOWMACH_OPT = .TRUE.
          ENDIF
-         ALEform=(/'DONEA    ','DISP     '
-     .   ,'SPRING   ', 'ZERO     ','STANDARD ', 'LAPLACIAN', 'VOLUME   ' /)
+         ALEform=(/'DONEA    ','DISP     ','SPRING   ','ZERO     ','STANDARD ','LAPLACIAN','VOLUME   ' /)
          !effective value which will be retained during numerical solving
          IF(NWALE_ENGINE /= -1)THEN
            NWALE = NWALE_ENGINE
@@ -2688,11 +2638,6 @@ C---------------------------------------------------------
 C---------------------------------------------------------
       IF (IMPL_S == 1.OR.NEIG > 0) CALL LECIMPL
       IF (NFXINP > 0) CALL LECFXINP(NFXINP)
-C-----
-!      !Keyword no longer used
-!      IF(IENTHA /= 0)THEN
-!         WRITE(IOUT,*) ' Enthalpy Convection for ALE or Euler'
-!      ENDIF
       IF(ISHSUB /= 0)THEN
         IF(IALESUB /= 0)THEN
          IF(ISPMD == 0) THEN

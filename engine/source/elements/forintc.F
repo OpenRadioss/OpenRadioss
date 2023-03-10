@@ -198,7 +198,7 @@ C======================================================================|
       ITG2 = 2*NUMELC
       ITG3 = 1+NUMELC
       IPRI = 0
-      IF(MOD(NCYCLE,IABS(NCPRI))==0.OR.TT >= THIS.OR.TT >= TDES.OR.TT >= TPAT.OR.
+      IF(MOD(NCYCLE,IABS(NCPRI))==0.OR.TT >= THIS.OR.
      +       MDESS /= 0.OR.TT >= THIS1(1).OR.TT >= THIS1(2).
      +       OR.TT >= THIS1(3) .OR.TT >= THIS1(4).OR.TT >= THIS1(5).
      +       OR.TT >= THIS1(6) .OR.TT >= THIS1(7).OR.TT >= THIS1(8).

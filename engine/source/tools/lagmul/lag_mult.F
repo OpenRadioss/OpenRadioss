@@ -411,7 +411,6 @@ Chd|        LAG_ANITHP                    source/tools/lagmul/lag_anith.F
 Chd|        LAG_FXVP                      source/tools/lagmul/lag_fxv.F 
 Chd|        LAG_I2MAIN                    source/tools/lagmul/lag_i2main.F
 Chd|        LAG_MPCP                      source/tools/lagmul/lag_mpc.F 
-Chd|        LAG_MULT_SDP                  source/tools/lagmul/lag_mult_solv.F
 Chd|        LAG_MULT_SOLVP                source/tools/lagmul/lag_mult_solv.F
 Chd|        RBY_DECOND                    source/tools/lagmul/lag_rby_cond.F
 Chd|        SPMD_EXCH_MULT                source/mpi/lag_multipliers/spmd_lag.F
@@ -494,7 +493,6 @@ C-----------------------------------------------
      .        AG(3,NBNODL),VG(3,NBNODL),MSG(NBNODL),
      .        ARG(3,NBNODLR),VRG(3,NBNODLR),ING(NBNODLR)   ! NBNODLR = NBNODL ou 0 suivant iroddl
 C======================================================================|
-C     IMLAGSOL = 1 => solveur directe ; sinon solveur iteratif
 C
       NLAGF = FR_LAGF(3,ISPMD+1)
       IK0 = 2*NBNCL + 1
@@ -753,18 +751,8 @@ C
      2  IN      ,AG      ,ARG    ,VG     ,VRG   ,
      3  MSG     ,ING     ,FR_LAGF,ISIZ   ,NBNODL,
      4  INDEXLAG,NODGLOB ,LLAGF  ,NLAGF  )
-C routine sequentielle a changer si solveur direct branche a la place
-      IF(IMLAGSOL==1) THEN
-        CALL LAG_MULT_SDP(
-     1    NH        ,N_MULT    ,NCR       ,AG        ,VG        ,
-     2    MSG       ,WAG(IP1)  ,WAG(IP2)  ,WAG(IP3)  ,WAG(IP5)  ,
-     3    WAG(IP6)  ,WAG(IP7)  ,WAG(IP8)  ,WAG(IP9)  ,WAG(IP10) ,
-     4    WAG(IP11) ,WAG(IP12) ,WAG(IP13) ,WAG(IP14) ,WAG(IP15) ,
-     5    WAG(IP16) ,WAG(IP17) ,WAG(IP18) ,WAG(IP19) ,LAMBDA    ,
-     6    RBYL      ,NPBYL     ,ARG       ,VRG       ,ING       ,
-     7    LAGBUF(J1),LAGBUF(J2),LAGBUF(J3),LAGBUF(J4),NCF_S     ,
-     8    NCF_E     ,INDEXLAG  )
-      ELSEIF(ISPMD==0) THEN
+      IF(ISPMD==0) THEN
+        !iterative solver
         CALL LAG_MULT_SOLVP(
      1    NH        ,N_MULT    ,NCR       ,AG        ,VG        ,
      2    MSG       ,WAG(IP1)  ,WAG(IP2)  ,WAG(IP3)  ,WAG(IP5)  ,

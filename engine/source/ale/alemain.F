@@ -231,8 +231,7 @@ C-----------------------------------------------
 
 C  IOUTPRT (assembly report)   
          IOUTPRT = 0
-         IF(MOD(NCYCLE,IABS(NCPRI)) == 0.OR.TT >= THIS.OR.TT >= TDES.
-     .   OR.TT >= TPAT.OR.MDESS /= 0.
+         IF(MOD(NCYCLE,IABS(NCPRI)) == 0.OR.TT >= THIS.OR.MDESS /= 0.
      .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS).
      .   OR.TT >= THIS1(1).OR.TT >= THIS1(2).
      .   OR.TT >= THIS1(3).OR.TT >= THIS1(4).OR.TT >= THIS1(5).

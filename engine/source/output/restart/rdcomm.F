@@ -663,7 +663,7 @@ C No more used        TABVINT(NEXT + 16 )
         ISTAT     = TABVINT(NEXT + 19 )
         NTH       = TABVINT(NEXT + 20 )
         NANIM     = TABVINT(NEXT + 21 )
-        IGFORM    = TABVINT(NEXT + 22 )
+C No more used        TABVINT(NEXT + 22 )
         IMON      = TABVINT(NEXT + 23 )
         IDUM1     = TABVINT(NEXT + 24 )
         DO I =1,10
@@ -671,7 +671,7 @@ C No more used        TABVINT(NEXT + 16 )
         ENDDO
         ITRACE    = TABVINT(NEXT + 35 )
         INCOMP    = TABVINT(NEXT + 36 )
-        NSOROT    = TABVINT(NEXT + 37 )
+
         IALESUB   = TABVINT(NEXT + 38 )
         IMPL      = TABVINT(NEXT + 39 )
         NITMX     = TABVINT(NEXT + 40 )
@@ -1849,18 +1849,18 @@ C-----
       DT12   =TABVREA(4)
       DT2OLD =TABVREA(5)
       TSTOP  =TABVREA(6)
-      TDES   =TABVREA(7)
+      !TABVREA(7) no longer used
       THIS   =TABVREA(8)
 C-----
-      DTDES  =TABVREA(9)
+      !TABVREA(9) no longer used
       DTHIS  =TABVREA(10)
       DTFAC  =TABVREA(11)
       DTMIN  =TABVREA(12)
       VOLMIN =TABVREA(13)
       TFEXT  =TABVREA(14)
       REINT  =TABVREA(15)
-      DTPAT  =TABVREA(16)
-      TPAT   =TABVREA(17)
+      !TABVREA(16) no longer used
+      !TABVREA(17) no longer used
       DTANIM =TABVREA(18)
       TANIM  =TABVREA(19)
       UREINT =TABVREA(20)

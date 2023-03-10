@@ -764,8 +764,7 @@ C Does not include upwind SUPG or TG
 C
 C Energy, momentum, mass balance per part in case of output
       IFLAG=MOD(NCYCLE,NCPRI)
-      IF(IFLAG == 0.OR.TT >= THIS.OR.TT >= TDES.
-     .  OR.TT >= TPAT.OR.MDESS /= 0.                             
+      IF(IFLAG == 0.OR.TT >= THIS.OR.MDESS /= 0.                             
      .  OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS).                  
      .  OR.TT >= THIS1(1).OR.TT >= THIS1(2).                     
      .  OR.TT >= THIS1(3).OR.TT >= THIS1(4).OR.TT >= THIS1(5).   

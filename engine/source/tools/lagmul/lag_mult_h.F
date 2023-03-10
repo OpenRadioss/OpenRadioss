@@ -304,7 +304,6 @@ C
 Chd|====================================================================
 Chd|  LAG_MULT_HP                   source/tools/lagmul/lag_mult_h.F
 Chd|-- called by -----------
-Chd|        LAG_MULT_SDP                  source/tools/lagmul/lag_mult_solv.F
 Chd|        LAG_MULT_SOLVP                source/tools/lagmul/lag_mult_solv.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F

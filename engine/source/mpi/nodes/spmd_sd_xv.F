@@ -107,7 +107,7 @@ C-----------------------------------------------
       IF ((IRAD2R==1).AND.(NCYCLE<2)) DT_CST = 1
       IF ((IALESUB/=0).OR.(IALE/=0).OR.(ISUB>0).OR.
      .    (TT>=TANIM .AND. TT<=TANIM_STOP).OR.
-     .    TT>=TOUTP.OR.TT>=TDES.OR.TT>=TPAT.OR.
+     .    TT>=TOUTP.OR.
      .    (MANIM>=1.AND.MANIM<=15)) THEN
         NEW_D = 1
         IF(IALE/=0.AND.NINTER>0) NEW_D = 2
