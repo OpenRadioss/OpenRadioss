@@ -123,8 +123,7 @@ C-----------------------------------------------
      .        KNOD2ELQ(NUMNOD+1),NOD2ELQ(4*NUMELQ)
       INTEGER INSEG,FLAG,IADTABIGE,DECALIGEO,
      .        IADBOXMAX,NSETS
-      my_real
-     .        X(3,NUMNOD),SKEW(LSKEW,SSKEW/LSKEW),BUFSF(LISURF1*NSURF),
+      my_real X(3,NUMNOD),SKEW(LSKEW,SSKEW/LSKEW),BUFSF(LISURF1*NSURF),
      .        RTRANS(NTRANSF,NRTRANS),V(3,NUMNOD),RIGE(*),XIGE(*),VIGE(*),
      .        WIGE(*),KNOT(*),KNOTLOCPC(*),KNOTLOCEL(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
@@ -185,7 +184,6 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS
-C                1234567890123456789012345678901234567890
       DATA MESS/'SURFACE DEFINITION                      '/
       DATA INTMAX /2147483647/
 C-----------------------------------------------
@@ -286,7 +284,7 @@ C=======================================================================
             IGRSURF(IGS)%TYPE=0
             IGRSURF(IGS)%TITLE=TITR
             IF(KEY(1:4)=='SURF' .OR. KEY(1:5)=='DSURF')THEN
-C             tag des SURFACES DE SURFACES
+C             tag for surfaces defined from surface list
               IGRSURF(IGS)%NSEG=-1
               IGRSURF(IGS)%LEVEL=0
               IT0=IT0+1
@@ -371,7 +369,7 @@ C             surf d'un group d'elements
               IF (FLAG == 0) IGRSURF(IGS)%NSEG=0
                IGRSURF(IGS)%LEVEL=1
             ELSEIF(KEY(1:6)=='ELLIPS'.OR.KEY(1:8)=='MDELLIPS')THEN
-C             une surface analytique (rigid, non-meshed).
+C             surface with formal equation (non-meshed).
               IT5=IT5+1
               IF (FLAG == 0) IGRSURF(IGS)%NSEG=1
                IGRSURF(IGS)%LEVEL=1
@@ -392,16 +390,15 @@ C             une surface d'un submodel.
             ELSEIF(KEY(1:3)=='BOX'.AND.(KEY2(1:5) == 'RECTA'.OR.
      .        KEY2(1:5) == 'CYLIN'.OR.KEY2(1:5) == 'SPHER'))THEN
 C             old /grnod/box (not /BOX/BOX)
-C             une surface dans un box (classical box, parallelepiped (oriented),
-C                       cylindrical, spherical)
+C             surf inside a box (classical box, parallelepiped (oriented), cylindrical, spherical)
               lERROR=.TRUE.
             ELSEIF(KEY(1:3) == 'BOX' .AND. NBBOX > 0)THEN
-C             multi box (box de box)
+C             multi box (box of boxes)
               IT8=IT8+1
               IF (FLAG == 0) IGRSURF(IGS)%NSEG=0
               IGRSURF(IGS)%LEVEL=1
             ELSEIF(KEY(1:6)=='PLANE')THEN
-C             une surface infinite plane (non-meshed)
+C             infinite plane (non-meshed)
               IT9=IT9+1
               IF (FLAG == 0) IGRSURF(IGS)%NSEG=0
               IGRSURF(IGS)%LEVEL=1
@@ -423,7 +420,7 @@ c----------------------------
       NUMEL = NUMELC+NUMELTG
 C
 C-------------------------------------
-C Recherche des ID doubles
+C Searching for double IDs
 C-------------------------------------
       IF (FLAG == 0) THEN
         DO IGS=1,NSURF
@@ -560,7 +557,7 @@ C---
       ENDIF  ! IT8/=0
 C
 C=======================================================================
-C groupes de SUBSETS,PART,MAT,PROP,BRIC
+C groups of SUBSETS,PART,MAT,PROP,BRIC
 C=======================================================================
 
       IF(IT2/=0.OR.IT6/=0)THEN
@@ -598,7 +595,7 @@ C=======================================================================
               IFRE=1                                                           
               IEXT=1                                                           
             END IF                                                             
-            IF(IEXT==0.AND.IFRE==0)THEN !seul /grbric/ext est gere             
+            IF(IEXT==0.AND.IFRE==0)THEN !only /grbric/ext is treated             
               CALL ANCMSG(MSGID=479,                                           
      .                    MSGTYPE=MSGERROR,                                    
      .                    ANMODE=ANINFO,                                       
@@ -750,7 +747,7 @@ C------------/SURF/PART/EXT FOR QUADS --------------------
               IGRSURF(IGS)%NSEG = NSEG                                                                                        
               IGRSURF(IGS)%NSEG_IGE = NSEGIGE                                                                                 
               INSEG=INSEG+NISX*NSEG                                                                                           
-              NUMFAKENODIGEO=NUMFAKENODIGEO+16*NSEGIGE/9 ! remplit la meme fonction que IADTABIGE ! 9 anciennement NIGEOCUT  
+              NUMFAKENODIGEO=NUMFAKENODIGEO+16*NSEGIGE/9 ! same functionnality as IADTABIGE
             ENDIF                                                                                                             
           ENDIF                                                                                                               
 C reset BUFTMP to 0 (only where it was set to 1/-1)
@@ -766,7 +763,7 @@ C reset BUFTMP to 0 (only where it was set to 1/-1)
         DEALLOCATE( INDX_SOL10 )      
       ENDIF
 C=======================================================================
-C surfaces de SUBMODELS
+C surfaces from SUBMODELS
 C=======================================================================
       IF (IT6 > 0)THEN
         CALL HM_OPTION_START('/SURF')
@@ -879,7 +876,7 @@ C reset BUFTMP to 0 (only where it was set to 1/-1)
         ENDDO
       ENDIF
 C=======================================================================
-C SURFACE FORMEE DE GROUPE DE COQUES (4N ET 3N)
+C SURFACE FROM GROUP OF SHELLS (4N ET 3N)
 C=======================================================================
       IF (IT4 /= 0) THEN
         CALL HM_OPTION_START('/SURF')
@@ -970,7 +967,7 @@ C-----------
       ENDIF!(IT4 /= 0)
 
 C=======================================================================
-C SURFACE ANALYTIQUE (ETC).
+C SURFACE WITH FORMAL EQUATION (ETC).
 C=======================================================================
       MAD=0
       IF (IT5 /= 0 .AND. FLAG == 1)THEN
@@ -993,9 +990,9 @@ C=======================================================================
             DGR1=0            
             CALL HM_GET_INTV  ('SKEW' ,ISKEW,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_INTV  ('n' ,DGR1,IS_AVAILABLE,LSUBMODEL)            
-            !Stockage temporaire du No de Skew User.                          
+            !skew:temporary storage of user id                           
             IGRSURF(IGS)%ID_MADYMO = ISKEW                                   
-            !Decodage du SKEW a partir de son identificateur. 
+            !get internal id from user id 
             lFOUND=.FALSE.                
             DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD                      
              IF(ISKEW==ISKN(4,J+1)) THEN                                     
@@ -1015,7 +1012,7 @@ C=======================================================================
      .                    I2=ISKEW)                                          
 C
             ELSE                                                       
-C           Initialisation de la rotation de la surface.                     
+C           Init surface rotation                     
               DO J=1,9                                                         
                 BUFSF(MAD+7+J-1)=SKEW(J,ISKEW)                                  
               END DO                                                           
@@ -1028,8 +1025,8 @@ C
             BUFSF(MAD+4)=XG                                                  
             BUFSF(MAD+5)=YG                                                  
             BUFSF(MAD+6)=ZG                                                  
-            !Initialisation du point d'application des forces et moments.     
-            !/* ellipsoides : on choisit le centre de l'ellipsoide  ! */      
+            !Init application point for force and momentum     
+            !/* ellipsoides : defining center ! */      
             BUFSF(MAD+16)=XG                                                 
             BUFSF(MAD+17)=YG                                                 
             BUFSF(MAD+18)=ZG                                                 
@@ -1051,18 +1048,12 @@ C
             ELSEIF (DGR1==0) THEN                                            
              DGR1=DGR                                                        
             ENDIF                                                            
-c            IF (DGR1<2) THEN                                              
-c               CALL ANCMSG(MSGID=186,                                        
-c     .                     MSGTYPE=MSGERROR,                                 
-c     .                     ANMODE=ANINFO,                                    
-c     .                     I1=ID,                                            
-c     .                     C1=TITR)                                          
-c            ENDIF                                                            
+                                                        
             BUFSF(MAD+1)=S_A                                                  
             BUFSF(MAD+2)=S_B                                                  
             BUFSF(MAD+3)=S_C                                                  
             BUFSF(MAD+36)=DGR1                                               
-C
+
             MAD=MAD+36                                                       
           ELSEIF (KEY(1:8)=='MDELLIPS')THEN                                  
             IGRSURF(IGS)%ID = ID                                             
@@ -1070,9 +1061,9 @@ C
             IGRSURF(IGS)%IAD_BUFR = MAD                                      
             MFI=MFI+43                                                       
             CALL HM_GET_INTV  ('MDELLIPS' ,REFMAD,IS_AVAILABLE,LSUBMODEL)                                                            
-            !ID MaDyMo de l'entite qui impose le mvt de la surface :          
+            !ID MaDyMo of entity which imposes the surface movment          
             IGRSURF(IGS)%ID_MADYMO = REFMAD                                  
-            !No systeme MaDyMo de l'entite qui impose le mvt de la surface    
+            !Madymo syst id of entity which imposes the surface movment    
             !(computed in Radioss Engine, when receiving Datas from MaDyMo).  
             IGRSURF(IGS)%NB_MADYMO = 0                                       
             MAD=MAD+43                                                       
@@ -1080,7 +1071,7 @@ C
         ENDDO
       ENDIF
 C=======================================================================
-C SURFACE INFINITE PLANE
+C INFINITE PLANE
 C=======================================================================
       IADPL = MAD
       IF (IT9 /= 0 .AND. FLAG == 1)THEN
@@ -1132,14 +1123,6 @@ C=======================================================================
               CALL HM_GET_FLOATV  ('Z_B' ,ZP2,IS_AVAILABLE,LSUBMODEL,UNITAB)                                                            
               IF(SUB_ID /= 0)CALL SUBROTPOINT(XP2,YP2,ZP2,RTRANS,SUB_ID,LSUBMODEL)
 
-              IF(IFLAGUNIT /= 0)THEN
-                XP1  = XP1  * FAC_L
-                YP1  = YP1  * FAC_L
-                ZP1  = ZP1  * FAC_L
-                XP2  = XP2  * FAC_L
-                YP2  = YP2  * FAC_L
-                ZP2  = ZP2  * FAC_L
-              ENDIF
               VECTX = (XP2-XP1)*(XP2-XP1)
               VECTY = (YP2-YP1)*(YP2-YP1)
               VECTZ = (ZP2-ZP1)*(ZP2-ZP1)
@@ -1151,7 +1134,7 @@ C=======================================================================
      .                      I1=ID,
      .                      C1=TITR)
               ENDIF
-C             Stockage du normal vector (reel)
+C             Normal Vector
               BUFSF(IADPL+1)=XP1
               BUFSF(IADPL+2)=YP1
               BUFSF(IADPL+3)=ZP1
@@ -1173,8 +1156,7 @@ C=======================================================================
         DEALLOCATE( SURF_ELM )  
       ENDIF
       RETURN
- 900  CONTINUE
-      !  Il n y a pas de label 900 ...
+
       CALL ANCMSG(MSGID=189,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO,
