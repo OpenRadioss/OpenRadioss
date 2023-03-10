@@ -134,7 +134,7 @@ C
                NUSR(I) =PM_STACK(13 ,ISUBSTACK)
                KRZ(I) =KFAC*G(I)
           ENDDO 
-      ELSEIF(MTN==58) THEN
+      ELSEIF(MTN == 58 .or. MTN == 158) THEN
            MX  =MAT(JFT)
 C---- due to too high young update (Starter) w/ input func            
            FAC1TMP = PM(23,MX)/PM(20,MX)
@@ -239,7 +239,8 @@ C----- used in mem damping
       DO I=JFT,JLT
          GS(I)=G(I)*SHF(I)
       ENDDO
-      IF(MTN == 58 ) THEN
+      IF (MTN == 58  .or. MTN == 158) THEN
+        CONTINUE
       ELSEIF(MTN>=24)THEN
         DO I=JFT,JLT
           A12(I)  =NU(I)*A11(I)

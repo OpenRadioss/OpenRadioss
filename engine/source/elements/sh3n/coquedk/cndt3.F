@@ -92,7 +92,7 @@ C
      .   ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
      .                                   .AND. IGMAT > 0 )) THEN
         ELSE
-          IF (MTN ==58 ) CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   )
+          IF (MTN == 58 .or. MTN == 158) CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   )
         END IF
       END IF
 C----- isub will add here-----

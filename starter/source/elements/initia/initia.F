@@ -689,6 +689,7 @@ C     shells
       COQMAT(119) = 1
       COQMAT(121) = 1
       COQMAT(151) = 1
+      COQMAT(158) = 1
       COQMAT(200) = 1
 C     truss
       TRUMAT(0)  = 1
