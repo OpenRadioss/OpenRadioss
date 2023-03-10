@@ -89,7 +89,7 @@ c
               ELSE
                 DM = FOURTH
               END IF
-            ELSEIF (ILAW == 58) THEN
+            ELSEIF (ILAW == 58 .or. ILAW == 158) THEN
               IF (IHBE == 11) THEN
                 DM = ONE_FIFTH
               ELSE

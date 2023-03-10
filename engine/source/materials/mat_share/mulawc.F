@@ -491,7 +491,7 @@ c
 
         IF (IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17 .OR. 
      .      IGTYP == 51 .OR. IGTYP == 52) THEN
-          IF (ILAW == 58 .OR. ILAW == 88) NFUNC = IPM(10,IMAT)+IPM(6,IMAT) 
+          IF (ILAW == 58 .or. ILAW == 158 .OR. ILAW == 88) NFUNC = IPM(10,IMAT)+IPM(6,IMAT) 
         ENDIF
         DO I=1,NFUNC
           IFUNC(I)=IPM(10+I,IMAT)
@@ -605,7 +605,7 @@ C
 C-------------------------------
 C         INCREMENT DE DEFORMATIONS 
 C-------------------------------
-          IF (ILAW==58) THEN
+          IF (ILAW == 58 .or. ILAW == 158) THEN
              SIGNXX(1:MVSIZ) = ZERO
              SIGNYY(1:MVSIZ) = ZERO
              SIGNXY(1:MVSIZ) = ZERO
@@ -781,7 +781,7 @@ C--         Igtyp 9/10/11/17/51/52
 !               -------------------------------
 !               IGTYP = 51 or 52 + ilaw=58
 !               -------------------------------
-           IF ((IGTYP == 51 .OR. IGTYP == 52) .AND. ILAW == 58) THEN
+           IF ((IGTYP == 51 .OR. IGTYP == 52) .AND. (ILAW == 58 .or. ILAW == 158)) THEN
         !       ------------
         !       ISMSTR=11
         !       ------------
@@ -1291,7 +1291,7 @@ c
            IF (IGTYP /= 10.AND.IGTYP /= 11 .AND.IGTYP /= 17) THEN
             CALL SIGEPS60C(
      1        JLT    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,
-     2        NPF    ,NPT    ,IPT  ,IFLAG   ,
+     2        NPF    ,NPT    ,IPT     ,IFLAG   ,
      2        TF     ,TT     ,DT1C    ,BUFMAT  ,RHO,
      3        AREA   ,EINT   ,THKLYL   ,
      4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
@@ -1679,6 +1679,19 @@ c
      9         SIGY    ,ETSE    ,VARNL(1,IT),INLOC,GBUF%DT ,
      A         IPG     ,IT      ,ELBUF_STR%NPTR,ELBUF_STR%NPTS,ELBUF_STR%NPTT,
      B         BUFLY   ,LBUF%OFF)
+c
+          ELSEIF (ILAW == 158) THEN
+
+            CALL SIGEPS158C(
+     1        JLT       ,NUPARAM   ,NUVAR     ,NFUNC     ,IFUNC     ,
+     2        NPF       ,TF        ,TT        ,DT1       ,UPARAM    , 
+     3        AREA      ,THKLYL    ,SSP       ,VISCMX    ,UVAR      ,                                                
+     4        DEPSXX    ,DEPSYY    ,DEPSXY    ,DEPSYZ    ,DEPSZX    , 
+     5        EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     , 
+     6        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5), 
+     7        SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,                       
+     8        SIGVXX    ,SIGVYY    ,SIGVXY    ,LBUF%ANG  ,GBUF%OFF  ,
+     9        RHO       ,ETSE      ,SHF       ,ALDT      ,SENSOR_TAB)  
 c
           ENDIF !ILAW
 c-------------------------------------------
@@ -2280,7 +2293,7 @@ c------------------------------------------------
           IF (IGTYP == 1) THEN                                            
             SELECT CASE (DMG_FLAG)                                               
             CASE (0)     
-              IF (ILAW==58 .OR. IPRONY == 1) THEN
+              IF (ILAW==58 .or. ILAW == 158 .OR. IPRONY == 1) THEN
                 FOR(1:NEL,1) = FOR(1:NEL,1) + THLY(1:NEL)*(SIGNXX(1:NEL)+SIGVXX(1:NEL))            
                 FOR(1:NEL,2) = FOR(1:NEL,2) + THLY(1:NEL)*(SIGNYY(1:NEL)+SIGVYY(1:NEL))            
                 FOR(1:NEL,3) = FOR(1:NEL,3) + THLY(1:NEL)*(SIGNXY(1:NEL)+SIGVXY(1:NEL))            
@@ -2300,7 +2313,7 @@ c------------------------------------------------
                 MOM(1:NEL,3) = MOM(1:NEL,3) + WMC(1:NEL) *SIGNXY(1:NEL)            
               ENDIF                                                               
             CASE (1)  ! softening with DMG_LOC_SCALE from failure model          
-              IF (ILAW==58 .OR. IPRONY == 1) THEN
+              IF (ILAW==58 .or. ILAW == 158 .OR. IPRONY == 1) THEN
                 FOR(1:NEL,1) = FOR(1:NEL,1) + THLY(1:NEL)*(SIGNXX(1:NEL)+SIGVXX(1:NEL))*DMG_LOC_SCALE(1:NEL)   
                 FOR(1:NEL,2) = FOR(1:NEL,2) + THLY(1:NEL)*(SIGNYY(1:NEL)+SIGVYY(1:NEL))*DMG_LOC_SCALE(1:NEL)   
                 FOR(1:NEL,3) = FOR(1:NEL,3) + THLY(1:NEL)*(SIGNXY(1:NEL)+SIGVXY(1:NEL))*DMG_LOC_SCALE(1:NEL)   
@@ -2334,7 +2347,7 @@ c
 c
             SELECT CASE (DMG_FLAG)                                            
             CASE (0)                                                           
-              IF (ILAW == 58 .OR. IPRONY == 1) THEN
+              IF (ILAW == 58 .or. ILAW == 158 .OR. IPRONY == 1) THEN
                         TENS(JFT:JLT,1) = SIGNXX(JFT:JLT)+SIGVXX(JFT:JLT)
                         TENS(JFT:JLT,2) = SIGNYY(JFT:JLT)+SIGVYY(JFT:JLT)
                         TENS(JFT:JLT,3) = SIGNXY(JFT:JLT)+SIGVXY(JFT:JLT)
@@ -2348,7 +2361,7 @@ c
                         TENS(JFT:JLT,5) = SIGNZX(JFT:JLT)
               ENDIF                                                                
             CASE (1)                                                           
-              IF (ILAW == 58 .OR. IPRONY == 1) THEN
+              IF (ILAW == 58 .or. ILAW == 158 .OR. IPRONY == 1) THEN
                         TENS(JFT:JLT,1) = (SIGNXX(JFT:JLT)+SIGVXX(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
                         TENS(JFT:JLT,2) = (SIGNYY(JFT:JLT)+SIGVYY(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
                         TENS(JFT:JLT,3) = (SIGNXY(JFT:JLT)+SIGVXY(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
@@ -2369,7 +2382,7 @@ c
               TENS(JFT:JLT,5) = SIGDMG(JFT:JLT,5)  
             END SELECT
 c
-            IF (ILAW == 58) THEN                                                  
+            IF (ILAW == 58 .or. ILAW == 158) THEN                                                  
               DO I=JFT,JLT                                                         
                 II = JDIR + I-1
                 R1 = DIR_A(II)

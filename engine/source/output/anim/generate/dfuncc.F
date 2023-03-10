@@ -1244,7 +1244,7 @@ c
                 ENDIF                                                                      
                 NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT                                   
 c
-                IF (MLW == 58) THEN                                                        
+                IF (MLW == 58 .or. MLW == 158) THEN                                                        
                   DO I=LFT,LLT                                                             
                     DO IR = 1, NPTR                                                        
                      DO IS = 1, NPTS                                                       
