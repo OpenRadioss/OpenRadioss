@@ -1774,6 +1774,7 @@ Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
+Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|====================================================================
       SUBROUTINE RDCOMR(LMXVREA, LVARREA, TABVREA)
 C-----------------------------------------------

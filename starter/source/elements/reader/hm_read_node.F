@@ -34,6 +34,7 @@ Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_st
 Chd|        USRTOS                        source/system/sysfus.F        
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_NODE(X       ,ITAB,ITABM1,CMERGE,UNITAB,

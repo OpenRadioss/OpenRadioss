@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  USR2SYS                       source/system/sysfus.F        
 Chd|-- called by -----------
-Chd|        ELSTAGBOX2                    source/model/box/rdbox.F      
 Chd|        FSDCOD                        source/system/fsdcod.F        
 Chd|        HM_LECGRN                     source/groups/hm_lecgrn.F     
 Chd|        HM_PRELECGRNS                 source/groups/hm_prelecgrns.F 
@@ -196,7 +195,6 @@ C
 Chd|====================================================================
 Chd|  USRTOS                        source/system/sysfus.F        
 Chd|-- called by -----------
-Chd|        ELSTAGBOX2                    source/model/box/rdbox.F      
 Chd|        HM_READ_NODE                  source/elements/reader/hm_read_node.F
 Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
 Chd|        LECTRANS                      source/model/transformation/lectrans.F

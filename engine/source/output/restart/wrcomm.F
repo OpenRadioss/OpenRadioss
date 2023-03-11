@@ -1750,6 +1750,7 @@ Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
+Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|====================================================================
       SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA)
 C-----------------------------------------------

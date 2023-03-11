@@ -34,6 +34,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|====================================================================
       SUBROUTINE SPONOF1(X ,V       ,D       ,MS      ,SPBUF   ,
      2             ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,NPC     ,

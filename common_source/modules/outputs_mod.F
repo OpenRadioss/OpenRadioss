@@ -23,6 +23,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  OUTPUTS_MOD                   modules/outputs_mod.F         
 Chd|-- called by -----------
+Chd|        HM_READ_NODE                  starter/source/elements/reader/hm_read_node.F
+Chd|        WRCOMR                        starter/source/restart/ddsplit/wrcomm.F
 Chd|        ANI_PCONT                     engine/source/output/anim/generate/ani_pcont.F
 Chd|        ANI_PCONT21                   engine/source/output/anim/generate/ani_pcont.F
 Chd|        GENH3D                        engine/source/output/h3d/h3d_results/genh3d.F
@@ -39,6 +41,7 @@ Chd|        INTFOP2                       engine/source/interfaces/interf/intfop
 Chd|        INTTRI                        engine/source/interfaces/intsort/inttri.F
 Chd|        LECTUR                        engine/source/input/lectur.F  
 Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
+Chd|        RDCOMR                        engine/source/output/restart/rdcomm.F
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        RESOL_INIT                    engine/source/engine/resol_init.F
@@ -49,7 +52,9 @@ Chd|        SPMD_EXCH_PRESS               engine/source/mpi/interfaces/spmd_exch
 Chd|        SPMD_EXCH_SORTING_EFRIC       engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
 Chd|        SPMD_TRI10BOX                 engine/source/mpi/interfaces/spmd_int.F
 Chd|        SPMD_TRI11GAT                 engine/source/mpi/interfaces/spmd_int.F
+Chd|        SPONOF1                       engine/source/elements/sph/sponof1.F
 Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
+Chd|        WRCOMR                        engine/source/output/restart/wrcomm.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|====================================================================

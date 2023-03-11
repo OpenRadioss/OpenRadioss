@@ -133,9 +133,6 @@ Chd|        HM_READ_RWALL_THERM           source/constraints/general/rwall/hm_re
 Chd|        HM_READ_SLIPRING              source/tools/seatbelts/hm_read_slipring.F
 Chd|        HM_READ_SPHIO                 source/loads/sph/hm_read_sphio.F
 Chd|        HM_READ_VISC_PRONY            source/materials/visc/hm_read_visc_prony.F
-Chd|        READ_BOX_CYL                  source/model/box/read_box_cyl.F
-Chd|        READ_BOX_RECT                 source/model/box/read_box_rect.F
-Chd|        READ_BOX_SPHER                source/model/box/read_box_spher.F
 Chd|        READ_IMPDISP                  source/constraints/general/impvel/read_impdisp.F
 Chd|        READ_IMPDISP_FGEO             source/constraints/general/impvel/read_impdisp_fgeo.F
 Chd|        READ_IMPVEL                   source/constraints/general/impvel/read_impvel.F

@@ -97,7 +97,6 @@ Chd|        DOMETIS2                      source/spmd/domain_decomposition/domde
 Chd|        ECRAN1                        source/initial_conditions/detonation/ecran1.F
 Chd|        ECRSUB2                       source/model/assembling/hm_read_subset.F
 Chd|        EIGRLINE                      source/general_controls/computation/hm_read_eig.F
-Chd|        ELSTAGBOX2                    source/model/box/rdbox.F      
 Chd|        ELSTAGBOXBOX                  source/model/box/boxbox.F     
 Chd|        ERROR_ALLOC                   source/system/error_alloc.F   
 Chd|        FACEBOX                       source/model/box/bigbox.F     

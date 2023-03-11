@@ -27,7 +27,6 @@ Chd|        BOXTAGE                       source/model/box/bigbox.F
 Chd|        BOXTAGN                       source/model/box/bigbox.F     
 Chd|        BOX_SURF_SH                   source/model/box/bigbox.F     
 Chd|        ELSTAGBOX                     source/model/box/bigbox.F     
-Chd|        ELSTAGBOX2                    source/model/box/rdbox.F      
 Chd|        SIMPLE_ELT_BOX                source/model/sets/simpl_elt_box.F
 Chd|        SIMPLE_NODE_BOX               source/model/sets/simple_node_box.F
 Chd|        SIMPLE_RBODY_BOX              source/model/sets/simple_rbody_box.F
@@ -222,7 +221,6 @@ Chd|        BOXTAGE                       source/model/box/bigbox.F
 Chd|        BOXTAGN                       source/model/box/bigbox.F     
 Chd|        BOX_SURF_SH                   source/model/box/bigbox.F     
 Chd|        ELSTAGBOX                     source/model/box/bigbox.F     
-Chd|        ELSTAGBOX2                    source/model/box/rdbox.F      
 Chd|        SIMPLE_ELT_BOX                source/model/sets/simpl_elt_box.F
 Chd|        SIMPLE_NODE_BOX               source/model/sets/simple_node_box.F
 Chd|        SIMPLE_RBODY_BOX              source/model/sets/simple_rbody_box.F
@@ -337,7 +335,6 @@ Chd|        BOXTAGE                       source/model/box/bigbox.F
 Chd|        BOXTAGN                       source/model/box/bigbox.F     
 Chd|        BOX_SURF_SH                   source/model/box/bigbox.F     
 Chd|        ELSTAGBOX                     source/model/box/bigbox.F     
-Chd|        ELSTAGBOX2                    source/model/box/rdbox.F      
 Chd|        SIMPLE_ELT_BOX                source/model/sets/simpl_elt_box.F
 Chd|        SIMPLE_NODE_BOX               source/model/sets/simple_node_box.F
 Chd|        SIMPLE_RBODY_BOX              source/model/sets/simple_rbody_box.F

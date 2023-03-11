@@ -1355,7 +1355,6 @@ Chd|        BOXBOXS                       source/model/box/boxbox.F
 Chd|        BUILD_ADMESH                  source/model/remesh/build_admesh.F
 Chd|        CONTRL                        source/starter/contrl.F       
 Chd|        ELSTAGBOX                     source/model/box/bigbox.F     
-Chd|        ELSTAGBOX2                    source/model/box/rdbox.F      
 Chd|        ELSTAGBOXBOX                  source/model/box/boxbox.F     
 Chd|        FACEBOX                       source/model/box/bigbox.F     
 Chd|        FREDEC0                       source/starter/freform.F      
