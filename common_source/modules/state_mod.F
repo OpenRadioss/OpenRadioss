@@ -38,12 +38,12 @@ C-----------------------------------------------
 !   -------------------------
         TYPE DYNAIN_DATABASE
             INTEGER :: ZIPDYNAIN
-            INTEGER: : MX_DYNAIN  =20
-            INTEGER NDYNAINPRT,NC_DYNAIN,
+            INTEGER :: MX_DYNAIN  =20
+            INTEGER :: NDYNAINPRT,NC_DYNAIN,
      .        DYNAIN_NUMELC,DYNAIN_NUMELTG,
      .        DYNAIN_NUMELC_G,DYNAIN_NUMELTG_G,
      .        NDYNAINALL,IDYNAINF,DYNAIN_CHECK
-            INTEGER DYNAIN_C(20) ! size MX_DYNAIN
+            INTEGER :: DYNAIN_C(20) ! size MX_DYNAIN
             INTEGER , DIMENSION(:), ALLOCATABLE :: IPART_DYNAIN
             my_real
      .        DTDYNAIN0,TDYNAIN0,DTDYNAIN, TDYNAIN
