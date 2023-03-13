@@ -64,10 +64,8 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "cong1_c.inc"
-#include      "couple_c.inc"
 #include      "impl1_c.inc"
 #include      "param_c.inc"
 #include      "scr02_c.inc"
@@ -78,7 +76,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "vect01_c.inc"
 #include      "inter22.inc"
-#include      "task_c.inc"
 #include      "scr_thermal_c.inc"
 #include      "alesolver.inc"
 C-----------------------------------------------
@@ -692,10 +689,8 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "cong1_c.inc"
-#include      "couple_c.inc"
 #include      "impl1_c.inc"
 #include      "param_c.inc"
 #include      "scr02_c.inc"

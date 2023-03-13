@@ -61,12 +61,9 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "scr04_c.inc"
-#include      "scr06_c.inc"
-#include      "task_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
 #include      "impl1_c.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -95,9 +92,6 @@ C-----------------------------------------------
       my_real TS,STARTT,STOPT
       INTEGER NSLV,SIZ,NBT8
       my_real, DIMENSION(:,:), ALLOCATABLE :: FTSAV_BUF
-
-C-----------------------------------------------
-#include "sync_dir.inc"
 C-----------------------------------------------
       !CALL STARTIME(96,1)
       NBT8 = 0

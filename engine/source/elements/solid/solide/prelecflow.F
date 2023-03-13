@@ -56,23 +56,9 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "com10_c.inc"
 #include      "param_c.inc"
 #include      "vect01_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "scr06_c.inc"
-#include      "scr07_c.inc"
-#include      "scr14_c.inc"
-#include      "scr17_c.inc"
 #include      "task_c.inc"
-#include      "units_c.inc"
-#include      "couple_c.inc"
-#include      "impl1_c.inc"
-#include      "com_xfem1.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -177,23 +163,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
-#include      "com04_c.inc"
 #include      "vect01_c.inc"
-#include      "scr01_c.inc"
-#include      "com01_c.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,MLW
-C     REAL
       my_real
      .   DT2T
-C
-C     REAL
       my_real
      .  PHI1(*),PHI2(*),UVAR(*),PHI3(*)
 C-----------------------------------------------

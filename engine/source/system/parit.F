@@ -65,18 +65,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, N
-C     REAL
       my_real
      .   F(*)
       DOUBLE PRECISION F6(N,6)
@@ -235,14 +226,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
@@ -377,14 +360,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        DOUBLE PRECISION F,F7(7)
@@ -499,71 +474,7 @@ C-----------------------------------------------
        RETURN
        END
 
-       
-       
-c      SUBROUTINE DOUBLE_FLOT_IEEE(JFT  ,JLT  ,I8 ,R8, I8F)
-c      SUBROUTINE DOUBLE_FLOT_IEEE(JFT  ,JLT  ,I8 ,R8, I8F)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-c#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-c#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-c#include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-c      INTEGER JFT, JLT
-c      integer*8 I8(*),I8F(3,*)
-cC     REAL
-c      my_real
-c     .   R8(MVSIZ)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-c___________________________________________________          
-c      integer i,iexpo,i4mask11
-c      integer*8 i8_mant
-c      integer*8 i8_deuxp52,i8mask43,i8mask52,i8mask63,i8mask1 
-c      data i8_deuxp52 /  '10000000000000'x/
-c      data i8mask1    /               '1'x/
-c      data i8mask43   /     '7ffffffffff'x/
-c      data i8mask52   /   'fffffffffffff'x/
-c      data i8mask63   /'7fffffffffffffff'x/
-c      data i4mask11   /             '7ff'x/
-c___________________________________________________          
-C-----------------------------------------------
-C
-c      DO I=JFT,JLT
-c___________________________________________________          
-c          i8_mant    = ior(iand(i8mask52,I8(I)),i8_deuxp52)
-cc          iexpo      = exponent(R8(I))-53
-cc          iexpo  = iand(ishft(I4(2,i),-20),i4mask11) - 1022 - 53  
-c          iexpo  = iand(ishft(I4(2,i),-20),i4mask11) - 1075  
-c          if(R8(I)<0.)then
-c           I8F(1,I) = -iand(i8mask63,ishft(i8_mant,iexpo))
-c           I8F(2,I) = -iand(i8mask43,ishft(i8_mant,iexpo+43))
-c           I8F(3,I) = -iand(i8mask43,ishft(i8_mant,iexpo+86))
-c     .                -iand(i8mask1 ,ishft(i8_mant,iexpo+87))
-c          elseif(R8(I)>0.)then
-c           I8F(1,I) =  iand(i8mask63,ishft(i8_mant,iexpo))
-c           I8F(2,I) =  iand(i8mask43,ishft(i8_mant,iexpo+43))
-c           I8F(3,I) =  iand(i8mask43,ishft(i8_mant,iexpo+86))
-c     .                +iand(i8mask1 ,ishft(i8_mant,iexpo+87))
-c          else
-c           I8F(1,I) =  0
-c           I8F(2,I) =  0
-c           I8F(3,I) =  0
-c          endif
-c      ENDDO
-c___________________________________________________          
-c      RETURN
-c      END
+
 Chd|====================================================================
 Chd|  DOUBLE_FLOT_IEEE              source/system/parit.F         
 Chd|-- called by -----------
@@ -582,15 +493,10 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
       integer*8 I8(*),I8F(3,*)
-C     REAL
       my_real
      .   R8(MVSIZ)
 C-----------------------------------------------
@@ -639,13 +545,8 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -804,21 +705,14 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, A, B, D, E
-C     REAL
-      my_real
-     .   F(A,B)
+      my_real F(A,B)
       DOUBLE PRECISION F6(D,E)
 C-----------------------------------------------
 c

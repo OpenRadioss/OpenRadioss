@@ -37,23 +37,16 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C#include      "scr06_c.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IFIRST
       SAVE I,IFIRST
       DATA I/0/
       DATA IFIRST/0/
-C
-C      IF(IFIRST==0.AND.SEED/=0.0)THEN
-C        I = SEED*32768 + 32768
-C        IFIRST=1
-C      ENDIF
-C
+
       I=MOD(25173*I+13849,65536)
       ALEAT=(I-32768.)/32768.
+      
+C-----------------------------------------------      
       RETURN
       END

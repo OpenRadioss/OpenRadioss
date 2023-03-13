@@ -63,10 +63,7 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
-#include      "task_c.inc"
 #include      "parit_c.inc"
-#include      "alefvm.inc"
-#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   E x t e r n a l  F u n c t i o n s
 C-----------------------------------------------

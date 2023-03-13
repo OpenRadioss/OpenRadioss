@@ -43,14 +43,9 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "scr17_c.inc"
 #include      "units_c.inc"
 #include      "comlock.inc"
-#include      "param_c.inc"
-#include      "impl1_c.inc"
-#include      "com04_c.inc"
 #include      "com01_c.inc"
-#include      "scr18_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s

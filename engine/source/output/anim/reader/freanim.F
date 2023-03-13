@@ -53,16 +53,11 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "warn_c.inc"
-#include      "scr05_c.inc"
 #include      "scr06_c.inc"
 #include      "scr14_c.inc"
-#include      "scr25_c.inc"
 #include      "scrcut_c.inc"
 #include      "nchar_c.inc"
-#include      "chara_c.inc"
-#include      "sms_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

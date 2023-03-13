@@ -33,9 +33,6 @@ Chd|====================================================================
       SUBROUTINE MULTI_NRF_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
      .     FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,EBCS,NPF,TF)
 C-----------------------------------------------
-C     D e s c r i p t i o n
-C-----------------------------------------------
-C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE MULTI_FVM_MOD
@@ -58,7 +55,6 @@ C-----------------------------------------------
 ! DT1
 #include      "com08_c.inc"
 !     SNPC, STF
-!#include      "tabsiz_c.inc" 
       COMMON /TABLESIZF/ STF,SNPC
       INTEGER STF,SNPC
 C-----------------------------------------------

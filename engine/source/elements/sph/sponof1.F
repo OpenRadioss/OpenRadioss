@@ -51,13 +51,11 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE OUTPUTS_MOD
 C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -68,22 +66,17 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "sphcom.inc"
-#include      "scr01_c.inc"
 #include      "scr05_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
 #include      "tabsiz_c.inc"
-#include      "task_c.inc"
 #include      "scr17_c.inc"
 #include      "rad2r_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),ITAB(*),NPC(*),
      .        IPARG(NPARG,*),ISPHIO(NISPHIO,*),IPART(LIPART1,*),
      .        LPRTSPH(2,0:NPART),LONFSPH(*),
      .        MWA(*), IBUFSSG_IO(SIBUFSSG_IO),IPARTSP(*),OFF_SPH_R2R(*)
-C     REAL
       my_real
      .   X(3,*) ,V(3,*) ,D(3,*) ,MS(*) ,SPBUF(NSPBUF,*) ,
      .   PLD(*) ,VSPHIO(*) ,PM(NPROPM,*) ,WA(*),
@@ -105,7 +98,6 @@ C-----------------------------------------------
      .        KNSX,KISX,KNSY,KISY,KNSZ,KISZ,
      .        KNPX,KIPX,KNPY,KIPY,KNPZ,KIPZ,KVNORM,KXPROJ,KF,
      .        IUN,IAD2,NSEGB
-C     REAL
       my_real
      .       PENTV,VT,VN,VV,
      .       PENTR,RHON,RHO0,PENTP,PN,PSHFT,PENTE,EN,EI,

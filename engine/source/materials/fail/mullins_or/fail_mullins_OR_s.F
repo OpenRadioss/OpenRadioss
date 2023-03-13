@@ -63,11 +63,6 @@ C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
-#include "units_c.inc"
-#include "param_c.inc"
-#include "scr17_c.inc"
-#include "scr19_c.inc"
-#include "com01_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -173,11 +168,6 @@ C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
-#include "units_c.inc"
-#include "param_c.inc"
-#include "scr17_c.inc"
-#include "scr19_c.inc"
-#include "com01_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -194,7 +184,6 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL,NUVAR ), INTENT(INOUT) ::  UVAR
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

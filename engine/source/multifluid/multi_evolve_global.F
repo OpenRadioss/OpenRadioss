@@ -32,9 +32,6 @@ Chd|====================================================================
       SUBROUTINE MULTI_EVOLVE_GLOBAL(TIMESTEP, NG, ELBUF_TAB, 
      .     IPARG, ITASK, IXS, IXQ, IXTG, MULTI_FVM, GRAVITY)
 C-----------------------------------------------
-C     D e s c r i p t i o n
-C-----------------------------------------------
-C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD      
@@ -50,8 +47,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com06_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc"
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------

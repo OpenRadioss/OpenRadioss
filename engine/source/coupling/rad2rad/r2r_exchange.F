@@ -58,23 +58,15 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "chara_c.inc"
 #include      "units_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "scr05_c.inc"
-#include      "scr17_c.inc"
-#include      "scr24_c.inc"
 #include      "task_c.inc"
 #include      "rad2r_c.inc"
 C-----------------------------------------------------------------
@@ -304,21 +296,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "chara_c.inc"
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "param_c.inc"
-#include      "scr24_c.inc"
-#include      "rad2r_c.inc"
 #include      "task_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB,i,TYP,
@@ -383,34 +365,22 @@ Chd|====================================================================
      1   IDP     ,NNG    ,GRNOD  ,MS   ,IN     ,
      2   STX     ,STR    ,DD_R2R ,NGLOB,WEIGHT ,
      3   IAD_ELEM,FR_ELEM,NB,IEX,TYP,FLAG_ROT)
-C----6---------------------------------------------------------------7---------8
+C----6------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "chara_c.inc"
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "param_c.inc"
-#include      "scr24_c.inc"
-#include      "rad2r_c.inc"
 #include      "task_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB, GRNOD(*),IEX,TYP,
      .        WEIGHT(*), DD_R2R(*), IAD_ELEM(2,*), FR_ELEM(*),NB,
      .        FLAG_ROT     
-C     REAL
-      my_real
-     .        MS(*), IN(*), STX(*), STR(*)
+      my_real MS(*), IN(*), STX(*), STR(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -460,10 +430,6 @@ C   M o d u l e s
 C-----------------------------------------------
       USE RAD2R_MOD   
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "rad2r_c.inc"
-C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NTAGEL_R2R_SEND,ID_EL,ID_NODE,ITY,OFUR,TAGEL_SIZE
@@ -522,10 +488,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
-#include      "param_c.inc"
-#include      "rad2r_c.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

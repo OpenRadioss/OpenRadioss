@@ -40,7 +40,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -48,11 +47,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "comlock.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "com04_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -80,7 +78,6 @@ C-----------------------------------------------
       DATA IPERM/1,2,3,5,6,7/
       my_real, DIMENSION(:,:), ALLOCATABLE :: FSTPARIT
 C---------------------------------------------------------
-#include "sync_dir.inc"
 C---------------------------------------------------------
        IF(NSEG==0)RETURN
        IF(LFT+NFT>NSTRF(1,NSEG))RETURN
@@ -355,7 +352,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -363,11 +359,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "comlock.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -410,7 +406,6 @@ C-----------------------------------------------
       DATA IPERM/1,3,6,5/
       my_real, DIMENSION(:,:), ALLOCATABLE :: FSTPARIT
 C---------------------------------------------------------
-#include "sync_dir.inc"
 C---------------------------------------------------------
        IF(NSEG==0)RETURN
        IF(LFT+NFT>NSTRF(1,NSEG))RETURN
@@ -850,7 +845,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -858,11 +852,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "comlock.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -905,7 +899,6 @@ C-----------------------------------------------
      .            1024,2048,4096,8192,16384,
      .            32768,65536,131072,262144,524288/
 C---------------------------------------------------------
-#include "sync_dir.inc"
 C---------------------------------------------------------
        IF(NSEG==0)RETURN
        IF(LFT+NFT>NSTRF(1,NSEG))RETURN
@@ -1501,7 +1494,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -1509,11 +1501,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "comlock.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
-#include      "scr05_c.inc"
 #include      "scr06_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1561,7 +1553,6 @@ C
      .            0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,
      .            0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1/
 C---------------------------------------------------------
-#include "sync_dir.inc"
 C---------------------------------------------------------
       IF(NSEG==0) RETURN
       IF(LFT+NFT>NSTRF(1,NSEG)) RETURN
@@ -1588,7 +1579,6 @@ C
              ENDIF
            ENDDO
          ELSE
-#include "scalar.inc"
            DO J=1,NSEG
              I=NSTRF(1,J)-NFT
              IF (LFT<=I.AND.LLT>=I) THEN
@@ -1692,7 +1682,6 @@ C
           ENDDO
         ENDDO
        ELSE
-#include "scalar.inc"
         DO K=1,NSA
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
@@ -1845,7 +1834,6 @@ C
         CALL SUM_6_FLOAT_SECT(FSTPARIT,12,NSA,1,NSA,FBSAV6,12,6)
 C
        ELSE
-#include "scalar.inc"
         DO K=1,NSA
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
@@ -2025,17 +2013,17 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "comlock.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2343,7 +2331,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -2351,10 +2338,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "comlock.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2684,7 +2671,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -2692,10 +2678,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "comlock.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -3026,7 +3012,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -3034,10 +3019,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "comlock.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "scr06_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -3387,20 +3372,13 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "comlock.inc"
 #include      "com08_c.inc"
-#include      "param_c.inc"
 #include      "chara_c.inc"
 #include      "warn_c.inc"
-#include      "units_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "com01_c.inc"
 C-----------------------------------------------
@@ -3701,21 +3679,15 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "comlock.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "chara_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -4200,21 +4172,15 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "comlock.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "chara_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -4351,18 +4317,13 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "comlock.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -4600,21 +4561,12 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
-#include      "com01_c.inc"
+#include      "comlock.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "param_c.inc"
-#include      "chara_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -4885,28 +4837,18 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "param_c.inc"
-#include      "chara_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NNODT, NSTRF(*), IAD_CUT(NSPMD+2,*), FR_CUT(*)
-      my_real 
-     .   TTT, SECBUF(*)
+      my_real TTT, SECBUF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5250,7 +5192,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -5258,6 +5199,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "comlock.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
@@ -5289,7 +5231,6 @@ C
      .            0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,
      .            0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1/
 C---------------------------------------------------------
-#include "sync_dir.inc"
 C---------------------------------------------------------
        IF(NSEG==0)RETURN
        IF(LFT+NFT>NSTRF(1,NSEG))RETURN
@@ -5316,7 +5257,6 @@ C
              ENDIF
            ENDDO
          ELSE
-#include "scalar.inc"
            DO J=1,NSEG
              I=NSTRF(1,J)-NFT
              IF (LFT<=I.AND.LLT>=I) THEN
@@ -5432,7 +5372,6 @@ C
            ENDIF
          ENDDO
         ELSE
-#include "scalar.inc"
          DO K=1,NSA
            J  =JJJ(K)
            I  =NSTRF(1,J)-NFT
@@ -5539,7 +5478,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -5547,6 +5485,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "comlock.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -5554,8 +5493,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT, LLT, NFT, NSEG, N1, N2, N3
       INTEGER NSTRF(2,*),IXTG(NIXTG,*)
-      my_real 
-     .   X(3,*), FSAV(NTHVKI), FOPTA(6)
+      my_real X(3,*), FSAV(NTHVKI), FOPTA(6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5759,6 +5697,9 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "comlock.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -5940,6 +5881,9 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "comlock.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

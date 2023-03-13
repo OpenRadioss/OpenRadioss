@@ -32,7 +32,6 @@ Chd|====================================================================
 C-----------------------------------------------
 C      MONITORED VOLUMES TYPE PERFECT GAS, INPUT STARTER >= 4.4 (PRESSURE).
 C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -40,8 +39,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "units_c.inc"
-#include      "scr05_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "task_c.inc"
@@ -49,8 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IVOLU(*),NVENT,IBAGHOL(NIBHOL,*),PMAIN
-      my_real
-     .   RVOLU(*),VOL,FSAV(*),RBAGHOL(NRBHOL,*)
+      my_real RVOLU(*),VOL,FSAV(*),RBAGHOL(NRBHOL,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -227,18 +223,14 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "vect01_c.inc"
-#include      "scr01_c.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IVOLU(*),NVENT,IBAGHOL(NIBHOL,*), FR_MV(*),
      .        NN,IPARG(NPARG,*)
       INTEGER, INTENT(IN) :: IGROUPC(*), IGROUPTG(*)
-C     REAL
       my_real
      .   RVOLU(*),FSAV(*),RBAGHOL(NRBHOL,*),N(3,*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB

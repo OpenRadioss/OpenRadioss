@@ -61,11 +61,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc"
-#include      "scr17_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -97,7 +94,6 @@ C-----------------------------------------------
       my_real CFL_COEF
 C-----------------------------------------------
 C   D e s c r i p t i o n
-C-----------------------------------------------
 C-----------------------------------------------
 c     GAUGE(3,*)
 c 1:  -Isolid				   -(NUMELS_G+1) if SPH gauge

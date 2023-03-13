@@ -32,21 +32,15 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N, NFSKYI, ISKY(*)
-      my_real
-     .        FSKYI(2*NFSKYI,*)
+      my_real FSKYI(2*NFSKYI,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, L, IR, IIA
-      my_real
-     .        RRA1, RRA2, RRA3, RRA4, RRA5,
-     .        RRA6, RRA7, RRA8, RRA9, RRA10
+      my_real RRA1, RRA2, RRA3, RRA4, RRA5, RRA6, RRA7, RRA8, RRA9, RRA10
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------

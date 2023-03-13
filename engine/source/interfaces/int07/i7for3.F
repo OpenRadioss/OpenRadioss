@@ -99,8 +99,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr02_c.inc"
-#include      "scr03_c.inc"
 #include      "scr05_c.inc"
 #include      "scr07_c.inc"
 #include      "scr11_c.inc"
@@ -110,8 +108,6 @@ C-----------------------------------------------
 #include      "sms_c.inc"
 #include      "units_c.inc"
 #include      "parit_c.inc"
-#include      "warn_c.inc"
-#include      "couple_c.inc"
 #include      "param_c.inc"
 #include      "impl1_c.inc"
 #include      "kincod_c.inc"
@@ -234,7 +230,6 @@ C      1 .. JLT : all impacts
 C          1 .. JLT-JLT_TIED     : Standard TYPE7 formulation
 C          JLT-JLT_TIED+1 .. JLT : Modified formulation (tied nodes with possible rebound)
 C-----------------------------------------------
-#include "sync_dir.inc"
       IF (IRESP==1) THEN
         PREC = FIVEEM4
       ELSE

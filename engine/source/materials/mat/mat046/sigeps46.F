@@ -47,9 +47,6 @@ C-----------------------------------------------
 #include      "scr06_c.inc"
 #include      "scr14_c.inc"
 #include      "com01_c.inc"
-#include      "units_c.inc"
-#include      "secur_c.inc"
-#include      "task_c.inc"
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------

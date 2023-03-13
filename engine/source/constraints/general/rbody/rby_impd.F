@@ -42,7 +42,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
@@ -121,11 +120,7 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com08_c.inc"
 #include      "scr05_c.inc"
-#include      "scr06_c.inc"
-#include      "units_c.inc"
-#include      "parit_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -170,13 +165,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER M,N
-C     REAL
       my_real
      .   X(3,*), D(3,*),DR(3,*), A(3,*), AR(3,*)
 C-----------------------------------------------
@@ -224,7 +215,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -282,17 +272,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N1,N2,M
-C     REAL
-      my_real
-     .   X(3,*),D(3,*),DR(3,*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+      my_real X(3,*),D(3,*),DR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N ,K,IT,NP
-C     REAL
       my_real
      .   XS,YS,ZS,X1(3),X2(3),DRX,DRY,DRZ,L0,L1,S
 C-----------------------------------------------
@@ -381,12 +365,7 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com08_c.inc"
 #include      "scr05_c.inc"
-#include      "scr06_c.inc"
-#include      "units_c.inc"
-#include      "parit_c.inc"
-#include      "com01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -511,12 +490,7 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com08_c.inc"
 #include      "scr05_c.inc"
-#include      "scr06_c.inc"
-#include      "units_c.inc"
-#include      "parit_c.inc"
-#include      "com01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C PURPOSE: calculate displacement increment of secnd node by displacement increment of main node.

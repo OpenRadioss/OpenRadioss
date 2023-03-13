@@ -106,9 +106,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "intstamp_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
 #include      "remesh_c.inc"
@@ -1694,10 +1691,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
@@ -2288,10 +2281,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
@@ -2519,10 +2508,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
@@ -2556,7 +2541,6 @@ C
       DO N=NODFT1_SMS,NODLT1_SMS
        I=INDX1_SMS(N)
        W(I)=V(I)*WEIGHT(I)
-C       W(I)=DIAG_K(I)*V(I)*WEIGHT(I)
       ENDDO
 C
       IF(IDTMINS/=0)THEN
@@ -2569,7 +2553,6 @@ C
               L_K = LT_K(J)/SQRT(DIAG_K(I)*DIAG_K(K))
               W(I) = W(I) + L_K*V(K)
             END IF
-c           W(K) = W(K) + L_K*V(I)
            ENDDO
          END IF
         ENDDO

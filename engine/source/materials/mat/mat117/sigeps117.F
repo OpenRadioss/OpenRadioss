@@ -38,7 +38,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C----------------------------------------------------------
-#include "scr17_c.inc"
 #include "units_c.inc"
 #include "comlock.inc"
 #include "sms_c.inc"

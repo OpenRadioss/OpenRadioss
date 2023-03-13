@@ -62,11 +62,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr02_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
 #include      "timeri_c.inc"
 #include      "sms_c.inc"
 C-----------------------------------------------

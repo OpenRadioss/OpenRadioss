@@ -206,13 +206,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com05_c.inc"
-#include      "com06_c.inc"
-#include      "com07_c.inc"
-#include      "com08_c.inc"
-#include      "com09_c.inc"
 #include      "com10_c.inc"
-#include      "com20_c.inc"
 #include      "com_xfem1.inc"
 #include      "intstamp_c.inc"
 #include      "sphcom.inc"
@@ -223,46 +217,32 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "scr06_c.inc"
 #include      "scr07_c.inc"
-#include      "scr12_c.inc"
 #include      "scr13_c.inc"
 #include      "scr14_c.inc"
-#include      "scr16_c.inc"
 #include      "scr17_c.inc"
 #include      "scr18_c.inc"
 #include      "scr20_c.inc"
 #include      "scr23_c.inc"
 #include      "scr_fac_c.inc"
-#include      "chrasc_c.inc"
-#include      "ascchr_c.inc"
 #include      "chara_c.inc"
 #include      "task_c.inc"
 #include      "warn_c.inc"
-#include      "lon_c.inc"
 #include      "parit_c.inc"
 #include      "titr_c.inc"
-#include      "timeri_c.inc"
-#include      "couple_c.inc"
 #include      "fluid_scr_c.inc"
-#include      "spmd_c.inc"
-#include      "fxbcom.inc"
-#include      "eigcom.inc"
 #include      "flowcom.inc"
-#include      "buckcom.inc"
 #include      "impl1_c.inc"
 #include      "tabsiz_c.inc"
-#include      "sysunit.inc"
 #include      "sms_c.inc"
 #include      "filescount_c.inc"
 #include      "rad2r_c.inc"
 #include      "userlib.inc"
 #include      "alefvm.inc"
 #include      "drape_c.inc"
-#include      "ige3d_c.inc"
 #include      "thermal_c.inc"
 #include      "inter22.inc"
 #include      "alesolver.inc"
 #include      "alemuscl.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -272,13 +252,6 @@ C-----------------------------------------------
      .  RDATA(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-c in machine.inc
-c     POINTER (IADI,IA(1))
-c     POINTER (IADR,A(1))
-c     INTEGER IA
-c     my_real
-c    .        A
 C-----------------------------------------------
       INTEGER ITASK, ITID(PARASIZ), NBTASK(PARASIZ+1),
      .        IFILNAM(2148), IFILNAM_TMP(2148)
@@ -371,12 +344,9 @@ C In starter : define install parameter nspmd
 C uncomment:
 C     In CUPDT3(COQUE) : @PROCESS DIRECTIVE ...
 C------------------------------------------------------------------
-C------------------------------------------------------------------
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 #include      "build_info.inc"
 C------------------------------------------------------------------
 #include      "machine.inc"
-C=======================================================================
 C------------------------------------------------
 C     Init Timer (from beginning of radioss2 (reading timer)
 C------------------------------------------------    
@@ -410,11 +380,10 @@ C                                   IF RELEASE WAS BUILT FROM SOURCE
       ISRCVER=1
       ABINP = 0
       ABOUT = 0
-C------------------------------------------------------------------
-C------------------------------------------------------------------
-C-------------------------------------------------------------------
+      
 #include      "machine2.inc"
-C-------------------------------------------------------------------
+      
+C------------------------------------------------------------------
 C     Version number & date
 C      To be modified when structure of rst file is modified
 C      should be identical to ITESTV in starter
@@ -560,7 +529,6 @@ C--------------------------------------------------
 #endif
 C--------------------------------------------------
 C Error messages initialization
-C--------------------------------------------------
 C--------------------------------------------------
 C Common initialization for arrays size
       TOTALFILECOUNT = 0

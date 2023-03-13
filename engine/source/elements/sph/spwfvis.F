@@ -36,14 +36,10 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD            
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -52,14 +48,11 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "sphcom.inc"
 #include      "param_c.inc"
-#include      "scr01_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARTSP(*), IPARG(NPARG,*), KXSP(NISP,*), WASPACT(*)
-C     REAL
-      my_real
-     .   SPBUF(NSPBUF,*) , PARTSAV(NPSAV,*)
+      my_real SPBUF(NSPBUF,*) , PARTSAV(NPSAV,*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -68,7 +61,7 @@ C-----------------------------------------------
       my_real
      .        VOLO,DT05
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-C=======================================================================
+C===============================================
       DT05=HALF*DT2
       DO NS=1,NSPHACT
         N=WASPACT(NS)
@@ -92,7 +85,6 @@ c
           GBUF%EINT(N-NFT) = GBUF%EINT(N-NFT)       
      .                       - DT12*SPBUF(11,N)/MAX(EM20,VOLO)
           IPRT=IPARTSP(N)
-C         TFEXT=TFEXT+DT12*SPBUF(11,N)
           PARTSAV(1,IPRT)=PARTSAV(1,IPRT)-DT12*SPBUF(11,N)
         END IF
       ENDDO

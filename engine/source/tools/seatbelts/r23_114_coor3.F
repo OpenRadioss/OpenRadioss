@@ -33,22 +33,15 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "scr05_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXR(NIXR,*),NC3(*)
-C     REAL
-      my_real
-     .   X(3,*),V(3,*),VX3(*),VY3(*),VZ3(*)
+      my_real X(3,*),V(3,*),VX3(*),VY3(*),VZ3(*)
       DOUBLE PRECISION XDP(3,*),X3DP(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

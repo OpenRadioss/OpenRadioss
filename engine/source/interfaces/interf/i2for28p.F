@@ -67,19 +67,11 @@ C-----------------------------------------------
      .   DPARA(7,*),DMAST,ADM(*),NMAS(*),FNCONTP(3,*)   ,FTCONTP(3,*) 
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
-#include      "param_c.inc"
-#include      "com01_c.inc"
-#include      "com08_c.inc"
-#include      "scr05_c.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ISN,NI,I0BASE,NINDXC,NINDXP
       INTEGER IADX(NSN),INDXC(NSN),INDXP(NSN)
-C=======================================================================
+C===============================================
       INDXC(1:NSN) = 0      
       INDXP(1:NSN) = 0      
       IADX(1:NSN)  = 0      

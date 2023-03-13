@@ -43,22 +43,15 @@ C-----------------------------------------------
 #include      "scr02_c.inc"
 #include      "scr18_c.inc"
 #include      "scr17_c.inc"
-#include      "inter22.inc"
 #include      "scr_thermal_c.inc"
 #include      "sms_c.inc"
 #include      "cong2_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
 C=======================================================================
 C-----------------------------------------------
 C     QA PRINT FOR DT INPUTS

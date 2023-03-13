@@ -51,15 +51,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_MEM, NRTS, NIN, ITAB(*)
@@ -83,7 +74,6 @@ C     REAL
 C-----------------------------------------------
         K_STOK=0
 
-#include "sync_dir.inc"
 c       CALL I11PEN3(J_STOK ,PROV_S,PROV_M,TZINF ,X     ,
 c    .               IRECTS ,IRECTM,PENE  ,NRTS    )
         CALL I11PEN3_VOX(J_STOK ,PROV_S ,PROV_M ,GAPMIN ,DRAD    , 
@@ -188,15 +178,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_MEM, NRTS, NIN, ITAB(*)
@@ -218,7 +199,6 @@ C     REAL
 C-----------------------------------------------
         K_STOK=0
 
-#include "sync_dir.inc"
         CALL I11PEN3(J_STOK ,PROV_S,PROV_M,TZINF ,X     ,
      .               IRECTS ,IRECTM,PENE  ,NRTS    )
 C-----------------------------------------------

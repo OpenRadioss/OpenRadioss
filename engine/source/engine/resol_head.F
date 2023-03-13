@@ -100,26 +100,13 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
-#include      "mvsiz_p.inc"
 C------------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr_fac_c.inc"
-#include      "param_c.inc" 
 #include      "scr01_c.inc"
-#include      "scr03_c.inc"
-#include      "scr06_c.inc"
-#include      "scr07_c.inc"
-#include      "scr23_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
-#include      "parit_c.inc"
-#include      "spmd_c.inc"
-#include      "fxbcom.inc"
-#include      "eigcom.inc"
 #include      "com_xfem1.inc"
-#include      "tabsiz_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

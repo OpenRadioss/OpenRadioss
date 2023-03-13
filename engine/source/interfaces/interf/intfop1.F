@@ -62,12 +62,10 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "scr04_c.inc"
-#include      "scr06_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
 #include      "impl1_c.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -91,8 +89,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, IAD,IDUM, ISENS
       my_real TS
-C-----------------------------------------------
-#include "sync_dir.inc"
 C-----------------------------------------------
       IF (IMPL_S==1) IAD = 1
 C

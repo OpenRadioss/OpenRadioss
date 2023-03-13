@@ -39,21 +39,16 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "param_c.inc"
+#include      "com04_c.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (H3D_KEYWORD) H3D_KEYWORD_NODAL_TENSOR(*)
-      my_real
-     .      GEO(NPROPG,*)
+      my_real GEO(NPROPG,NUMGEO)
       INTEGER, INTENT(INOUT) :: NKEY
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "chara_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -64,50 +59,42 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_TENSOR(I)%KEY3  = 'GPS'
       H3D_KEYWORD_NODAL_TENSOR(I)%TEXT1  = 'Grid Point Stress'
-      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 
-     .'mean stress of elements connected to node(computed using element shape fcts)'
+      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 'mean stress of elements connected to node(computed using element shape fcts)'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_TENSOR(I)%KEY3  = 'GPS1'
       H3D_KEYWORD_NODAL_TENSOR(I)%TEXT1  = 'GPS1'
-      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 
-     .'mean stress of elements connected to node'
+      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 'mean stress of elements connected to node'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_TENSOR(I)%KEY3  = 'GPS2'
       H3D_KEYWORD_NODAL_TENSOR(I)%TEXT1  = 'GPS2'
-      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 
-     .'mean (using relative element volume) stress of elements connected to node '
+      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 'mean (using relative element volume) stress of elements connected to node '
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_TENSOR(I)%KEY3  = 'GPSTRAIN'
       H3D_KEYWORD_NODAL_TENSOR(I)%TEXT1  = 'Grid Point Strain'
-      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 
-     .'mean strain of elements connected to node(computed using element shape fcts)'
+      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 'mean strain of elements connected to node(computed using element shape fcts)'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_TENSOR(I)%KEY3  = 'GPS/TMAX'
       H3D_KEYWORD_NODAL_TENSOR(I)%TEXT1  = 'Max_Grid Point Stress'
-      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 
-     .'Maximum (P1) Grid Point Stress tensor over time'
+      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 'Maximum (P1) Grid Point Stress tensor over time'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_TENSOR(I)%KEY3  = 'GPS/TMIN'
       H3D_KEYWORD_NODAL_TENSOR(I)%TEXT1  = 'Min_Grid Point Stress'
-      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 
-     .'Minimum (P3) Grid Point Stress tensor over time'
+      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 'Minimum (P3) Grid Point Stress tensor over time'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_TENSOR(I)%KEY3  = 'GPSTRAIN/TMAX'
       H3D_KEYWORD_NODAL_TENSOR(I)%TEXT1  = 'Max_Grid Point Strain'
-      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 
-     .'Maximum (P1) Grid Point Strain tensor over time'
+      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 'Maximum (P1) Grid Point Strain tensor over time'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_TENSOR(I)%KEY3  = 'GPSTRAIN/TMIN'
       H3D_KEYWORD_NODAL_TENSOR(I)%TEXT1  = 'Min_Grid Point Strain'
-      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 
-     .'Minimum (P3) Grid Point Strain tensor over time'
+      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 'Minimum (P3) Grid Point Strain tensor over time'
 c-----------------------------------------------
 
       NKEY=I

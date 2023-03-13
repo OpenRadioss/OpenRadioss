@@ -52,10 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "com08_c.inc"
-#include      "impl1_c.inc"
-#include      "parit_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -322,7 +319,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,IREP
-C     REAL
       my_real
      .   RX(*) , RY(*) , RZ(*), 
      .   SX(*) , SY(*) , SZ(*),
@@ -330,15 +326,10 @@ C     REAL
      .   E2X(*), E2Y(*), E2Z(*),
      .   E3X(*), E3Y(*), E3Z(*), DET(*), OFF(*)
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL
-      MY_REAL
-     .   C1,C2,CC,C1C1,C2C2,C1_1(MVSIZ),C2_1(MVSIZ)
+      MY_REAL C1,C2,CC,C1C1,C2C2,C1_1(MVSIZ),C2_1(MVSIZ)
       my_real :: OFF_LOC
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 C IREP=0 ->QEPH IREP=1 ->Q4, IREP=2-> E1=R(ISHFRAM=1)

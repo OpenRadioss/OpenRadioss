@@ -38,7 +38,6 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr06_c.inc"
 #include      "spmd_c.inc"
 #include      "intstamp_c.inc"
 C-----------------------------------------------

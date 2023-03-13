@@ -45,14 +45,10 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C---------+---------+---+---+--------------------------------------------
-#include      "param_c.inc"
-#include      "parit_c.inc"
 #include      "scr17_c.inc"
-#include      "scr05_c.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "units_c.inc"
-#include      "impl1_c.inc"
 C
       INTEGER NEL,NUPARAM,NUVAR,IPT,NGL(NEL),INLOC
       my_real

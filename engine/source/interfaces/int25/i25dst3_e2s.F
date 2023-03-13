@@ -58,11 +58,8 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "assert.inc"
 #include      "mvsiz_p.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "sms_c.inc"
-#include      "com01_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -89,9 +86,6 @@ C-----------------------------------------------
       my_real  , INTENT(IN) :: NORMALN1(3,MVSIZ),NORMALN2(3,MVSIZ),
      .       NORMALM1(3,4,MVSIZ),NORMALM2(3,4,MVSIZ)
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IA, JA, IB, JB, SOL_EDGE, SH_EDGE, K, NJNDX, N4A, 
@@ -103,9 +97,6 @@ C-----------------------------------------------
      .     XA0(MVSIZ),XA1(MVSIZ),XA2(MVSIZ),XA3(MVSIZ),XA4(MVSIZ),
      .     YA0(MVSIZ),YA1(MVSIZ),YA2(MVSIZ),YA3(MVSIZ),YA4(MVSIZ),
      .     ZA0(MVSIZ),ZA1(MVSIZ),ZA2(MVSIZ),ZA3(MVSIZ),ZA4(MVSIZ),
-C    .     XB0(MVSIZ),XB1(MVSIZ),XB2(MVSIZ),XB3(MVSIZ),XB4(MVSIZ),
-C    .     YB0(MVSIZ),YB1(MVSIZ),YB2(MVSIZ),YB3(MVSIZ),YB4(MVSIZ),
-C    .     ZB0(MVSIZ),ZB1(MVSIZ),ZB2(MVSIZ),ZB3(MVSIZ),ZB4(MVSIZ),
      .     XA(5,MVSIZ),YA(5,MVSIZ),ZA(5,MVSIZ)
       my_real
      .     PENE2(4,MVSIZ),

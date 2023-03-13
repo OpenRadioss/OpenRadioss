@@ -47,13 +47,11 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
       my_real
      .   VX1(*), VX2(*), VX3(*), VX4(*), 
      .   VX5(*), VX6(*), VX7(*), VX8(*),
@@ -71,14 +69,9 @@ C     REAL
       my_real
      .   VXR(*),VYR(*),VZR(*)
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-
       INTEGER  I, J
-C     REAL
       my_real
      .   VX17(MVSIZ), VY17(MVSIZ), VZ17(MVSIZ),
      .   VX28(MVSIZ), VY28(MVSIZ), VZ28(MVSIZ),

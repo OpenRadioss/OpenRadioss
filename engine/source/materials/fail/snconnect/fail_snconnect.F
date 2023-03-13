@@ -68,7 +68,6 @@ C        NPF,TF  : FUNCTION PARAMETER
 CC-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include "scr17_c.inc"
 #include "units_c.inc"
 #include "comlock.inc"
 C-----------------------------------------------

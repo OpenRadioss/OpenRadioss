@@ -54,7 +54,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
@@ -107,9 +106,6 @@ C---------+---------+---+---+--------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "parit_c.inc"
-#include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "com01_c.inc"
 #include      "vect01_c.inc"
 #include      "scr18_c.inc"
@@ -597,14 +593,11 @@ c-------------------------------------
         ENDIF
        ENDIF
       ENDIF!FLAG_LOC /= 2
-
-c-----------------------------------------------
 c-----------------------------------------------
       DO I=1,NEL
         IF(TEMPO(I)<=TEMPMIN(I))TEMPMIN(I)=TEMPO(I)
         UVAR(I,1) = TEMPMIN(I)  
       ENDDO
-c-----------------------------------------------
 c-----------------------------------------------
 c-------------------------------------
 c interpolatin of yield for each phase 
@@ -1277,12 +1270,6 @@ Chd|====================================================================
      .  QR2,QR3,QR4,KPER,KBAIN,ALPHA,XEQ2,XEQ4,XGAMA,TOTFRAC,TIMESTEP,NICOOL,INDEX)
      
 #include      "implicit_f.inc"
-#include      "param_c.inc"
-#include      "parit_c.inc"
-#include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "com01_c.inc"
-#include      "vect01_c.inc"
 #include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
@@ -1402,12 +1389,6 @@ Chd|====================================================================
      .  QR2,QR3,QR4,KPER,KBAIN,ALPHA,XEQ2,XEQ4,XGAMA,TOTFRAC,TIMESTEP,NICOOL,INDEX)
      
 #include      "implicit_f.inc"
-#include      "param_c.inc"
-#include      "parit_c.inc"
-#include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "com01_c.inc"
-#include      "vect01_c.inc"
 #include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
@@ -1429,8 +1410,6 @@ C-----------------------------------------------
      .        FTEMP,UX,VX,UDOT,VDOT,F,CONST,FDOT,X2OLD(NEL0),
      .        X3OLD(NEL0),X4OLD(NEL0),X5OLD(NEL0),GX,GDOT,DTI,TERM1,TERM2 ,TERM3
         INTEGER I,K,J 
-C-----------------------------------------------
-C-----------------------------------------------
 C-----------------------------------------------
       ! SUM OF FRAC1+FRAC2+FRAC3+FRAC4+FRAC5=1--------
        DTI= ONE/MAX(TIMESTEP*THEACCFACT,EM10)

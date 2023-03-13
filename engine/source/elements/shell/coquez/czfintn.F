@@ -51,7 +51,6 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include "implicit_f.inc"
 #include "param_c.inc"
 #include "mvsiz_p.inc"
-#include "parit_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -464,18 +463,15 @@ C
       JST(IC+1)=JLT+1
       IF(IC==1) THEN
         MX = IPARTC(JFT)
-#include "simd.inc"
         DO I=JFT,JLT
           EVIS(8,MX)=EVIS(8,MX) + TESY(I)
         ENDDO
       ELSEIF(IC==2.AND.KFTS>0)THEN
         MX = IPARTC(JFT)
-#include "simd.inc"
         DO I=JFT, KFTS-1
           EVIS(8,MX)=EVIS(8,MX) + TESY(I)
         ENDDO
         MX = IPARTC(JLT)
-#include "simd.inc"
         DO I=KFTS,JLT
           EVIS(8,MX)=EVIS(8,MX) + TESY(I)
         ENDDO
@@ -484,7 +480,6 @@ C
         DO II=1,IC
            MX=IPARTC(JST(II))
            IF (JST(II+1)-JST(II)>15) THEN
-#include "simd.inc"
               DO J=JST(II),JST(II+1)-1
                 EVIS(8,MX)=EVIS(8,MX) + TESY(J)
               ENDDO
@@ -517,7 +512,6 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "param_c.inc"
 #include      "mvsiz_p.inc"
-#include      "parit_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -559,7 +553,6 @@ C--------NOEUDS 2,4-------
        ENDDO 
 C
        MX = IPARTC(JFT)
-#include "simd.inc"
        DO I=JFT,JLT
            EVIS(8,MX)=EVIS(8,MX) + TESY(I)
        ENDDO
@@ -599,7 +592,6 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "param_c.inc"
 #include      "mvsiz_p.inc"
-#include      "parit_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -986,18 +978,15 @@ C
 
       IF(IC==1) THEN
         MX = IPARTC(JFT)
-#include "simd.inc"
         DO I=JFT,JLT
           EVIS(8,MX)=EVIS(8,MX) + TESY(i)
         ENDDO
       ELSEIF(IC==2.AND.KFTS>0)THEN
         MX = IPARTC(JFT)
-#include "simd.inc"
         DO I=JFT, KFTS-1
           EVIS(8,MX)=EVIS(8,MX) + TESY(i)
         ENDDO
         MX = IPARTC(JLT)
-#include "simd.inc"
         DO I=KFTS,JLT
           EVIS(8,MX)=EVIS(8,MX) + TESY(i)
         ENDDO
@@ -1005,7 +994,6 @@ C
         DO II=1,IC
            MX=IPARTC(JST(II))
            IF (JST(II+1)-JST(II)>15) THEN
-#include "simd.inc"
               DO J=JST(II),JST(II+1)-1
                 EVIS(8,MX)=EVIS(8,MX) + TESY(J)
               ENDDO
@@ -1402,7 +1390,6 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include "implicit_f.inc"
 #include "param_c.inc"
 #include "mvsiz_p.inc"
-#include "parit_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -1426,19 +1413,16 @@ C-----------------------------------------------
       JST(IC+1)=JLT+1
       IF(IC==1) THEN
         MX = IPARTC(JFT)
-#include "simd.inc"
         DO I=JFT,JLT
           EVIS(8,MX)=EVIS(8,MX) + TESY(I)
         ENDDO
 
       ELSEIF(IC==2.AND.KFTS>0)THEN
         MX = IPARTC(JFT)
-#include "simd.inc"
         DO I=JFT, KFTS-1
           EVIS(8,MX)=EVIS(8,MX) + TESY(I)
         ENDDO
         MX = IPARTC(JLT)
-#include "simd.inc"
         DO I=KFTS,JLT
           EVIS(8,MX)=EVIS(8,MX) + TESY(I)
         ENDDO
@@ -1448,7 +1432,6 @@ C
            DO II=1,IC
               MX=IPARTC(JST(II))
               IF (JST(II+1)-JST(II)>15) THEN
-#include "simd.inc"
                  DO J=JST(II),JST(II+1)-1
                    EVIS(8,MX)=EVIS(8,MX) + TESY(J)
                  ENDDO
@@ -1499,7 +1482,6 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "param_c.inc"
 #include      "mvsiz_p.inc"
-#include      "units_c.inc"
 
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
@@ -1946,7 +1928,6 @@ Chd|====================================================================
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include "implicit_f.inc"
 #include "mvsiz_p.inc"
-#include      "com01_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -2213,9 +2194,6 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-#include      "parit_c.inc"
-#include      "units_c.inc"
-#include      "com01_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -2284,7 +2262,6 @@ C
      .           (GAMA1(I)+GAMA2(I))*V13(I,3)+(GAMA3(I)+GAMA4(I))*V24(I,3))
 	  ENDDO
        MX = IPARTC(JFT)
-#include "simd.inc"
        DO I=JFT,JLT
           EVIS(8,MX)=EVIS(8,MX) + TESY(I)
        ENDDO

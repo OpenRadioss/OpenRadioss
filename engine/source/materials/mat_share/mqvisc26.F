@@ -55,7 +55,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "cong1_c.inc"
 #include      "units_c.inc"
-#include      "couple_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

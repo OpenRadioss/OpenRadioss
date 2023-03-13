@@ -49,14 +49,10 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "scr14_c.inc"
 #include      "scr16_c.inc"
 #include      "nchar_c.inc"
-#include      "chara_c.inc"
+#include      "nchar_c.inc"
 #include      "com08_c.inc"
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -69,8 +65,7 @@ C-----------------------------------------------
       K = 0
 
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(3X,A,1X,A,1X,A)',
-     .      ERR=9990)KEY2,KEY3,KEY4
+       READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(3X,A,1X,A,1X,A)',ERR=9990)KEY2,KEY3,KEY4
        K=K+1
        ABFILE(CPT) = ABFILE(CPT) + 1
        NABFILE = NABFILE + 1

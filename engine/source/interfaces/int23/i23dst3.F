@@ -47,10 +47,8 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "sms_c.inc"
-#include      "warn_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -71,11 +69,6 @@ C-----------------------------------------------
      .     FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ), 
      .     VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ), STIF(MVSIZ),
      .     H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ), V(3,*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "scr05_c.inc"
-#include      "parit_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

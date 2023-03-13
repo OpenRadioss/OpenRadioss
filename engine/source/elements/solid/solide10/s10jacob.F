@@ -255,16 +255,10 @@ C     REAL
      .   NX6(MVSIZ),NX7(MVSIZ),NX8(MVSIZ),NX9(MVSIZ),NX10(MVSIZ),
      .   VOL(MVSIZ),ALPH,BETA,W
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL
       DOUBLE PRECISION 
-c      my_real
      .   D,A4MB4,A4,B4,BB,AB,B2,
      .   DXDR,DXDS,DXDT,DYDR,DYDS,DYDT,DZDR,DZDS,DZDT
      
@@ -272,7 +266,6 @@ c      my_real
      .   AA,A4M1(MVSIZ),B4M1(MVSIZ)
       
       DOUBLE PRECISION 
-c      my_real
      .   DRDX(MVSIZ), DSDX(MVSIZ), DTDX(MVSIZ),
      .   DRDY(MVSIZ), DSDY(MVSIZ), DTDY(MVSIZ),
      .   DRDZ(MVSIZ), DSDZ(MVSIZ), DTDZ(MVSIZ),
@@ -282,22 +275,7 @@ c      AA = (TWO*ALPH - ONE)*ALPH
 c      BB = (TWO*BETA - ONE)*BETA
 c      B2 = FOUR*BETA*BETA
 c      AB = FOUR*ALPH*BETA      
-cC-----------------------------------------------
-c#include "vectorize.inc"
-c      DO J=1,NNEGA
-c       I = INDEX(J)
-c        NX1(I) = BB
-c        NX2(I) = BB
-c        NX3(I) = BB
-c        NX4(I) = AA
-c        NX5(I) = B2
-c        NX6(I) = B2
-c        NX7(I) = B2
-c        NX8(I) = AB
-c        NX9(I) = AB
-c        NX10(I)= AB
-c      ENDDO
-C
+C-----------------------------------------------
 #include "vectorize.inc"
       DO J=1,NNEGA
        I = INDEX(J)
@@ -421,7 +399,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
        my_real
      .   PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),PX4(MVSIZ),PX5(MVSIZ),
      .   PX6(MVSIZ),PX7(MVSIZ),PX8(MVSIZ),PX9(MVSIZ),PX10(MVSIZ),
@@ -440,7 +417,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL
       my_real
      .   D,A4MB4,A4,B4,BB,AB,B2,
      .   DXDR,DXDS,DXDT,DYDR,DYDS,DYDT,DZDR,DZDS,DZDT
@@ -457,19 +433,7 @@ c      AA = (TWO*ALPH - ONE)*ALPH
 c      BB = (TWO*BETA - ONE)*BETA
 c      B2 = FOUR*BETA*BETA
 c      AB = FOUR*ALPH*BETA      
-cC-----------------------------------------------
-c      DO I=LFT,LLT
-c        NX1(I) = BB
-c        NX2(I) = BB
-c        NX3(I) = BB
-c        NX4(I) = AA
-c        NX5(I) = B2
-c        NX6(I) = B2
-c        NX7(I) = B2
-c        NX8(I) = AB
-c        NX9(I) = AB
-c        NX10(I)= AB
-c      ENDDO
+C-----------------------------------------------
 C
       A4 = FOUR * ALPH
       B4 = FOUR * BETA
@@ -561,7 +525,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL
        DOUBLE PRECISION
      .   X1B(MVSIZ),X2B(MVSIZ),X3B(MVSIZ),X4A(MVSIZ),X5B(MVSIZ),
      .   X6B(MVSIZ),X7B(MVSIZ),X8B(MVSIZ),X9B(MVSIZ),X10B(MVSIZ),
@@ -582,22 +545,15 @@ C     REAL
      .   PZ6(MVSIZ),PZ7(MVSIZ),PZ8(MVSIZ),PZ9(MVSIZ),PZ10(MVSIZ),
      .   VOL(MVSIZ),ALPH,BETA,W
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL
       DOUBLE PRECISION 
-c      my_real
      .   D,A4MB4,A4,B4,BB,AB,B2,A4_0,B4_0,
      .   DXDR,DXDS,DXDT,DYDR,DYDS,DYDT,DZDR,DZDS,DZDT
      
-      DOUBLE PRECISION 
-     .   AA,A4M1,B4M1
+      DOUBLE PRECISION AA,A4M1,B4M1
       
-c      my_real
       DOUBLE PRECISION 
      .   DRDX, DSDX, DTDX,
      .   DRDY, DSDY, DTDY,
@@ -649,8 +605,6 @@ C
 
        D = ONE/MAX(EM30,DET)
 C
-c       A4 = FOUR * ALPH
-c       B4 = FOUR * BETA
        A4M1  = D *(A4_0 - ONE)
        B4M1  =  D *(B4_0 - ONE)
 !

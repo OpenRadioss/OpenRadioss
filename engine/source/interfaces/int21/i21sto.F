@@ -45,12 +45,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_MEM, NSN,IGAP
@@ -78,8 +72,6 @@ C     REAL
      .   NNY1(MVSIZ), NNY2(MVSIZ), NNY3(MVSIZ), NNY4(MVSIZ),
      .   NNZ1(MVSIZ), NNZ2(MVSIZ), NNZ3(MVSIZ), NNZ4(MVSIZ),
      .   PENE(MVSIZ), GAPV(MVSIZ)
-C-----------------------------------------------
-#include "sync_dir.inc"
 C-----------------------------------------------
         CALL I21COR3T(J_STOK ,XLOC ,IRECT ,PROV_E ,
      1               PROV_N  ,IGAP ,GAP   ,X1    ,X2     ,

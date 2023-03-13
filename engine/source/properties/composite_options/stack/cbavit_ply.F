@@ -46,7 +46,6 @@ c-----------------------------------------------
 c   g l o b a l   p a r a m e t e r s
 c-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "com08_c.inc"
 #include      "impl1_c.inc"

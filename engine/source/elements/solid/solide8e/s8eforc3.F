@@ -147,18 +147,12 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "scr07_c.inc"
 #include      "vect01_c.inc"
-#include      "scr01_c.inc"
-#include      "scr03_c.inc"
-#include      "scr06_c.inc"
 #include      "parit_c.inc"
 #include      "param_c.inc"
 #include      "timeri_c.inc"
-#include      "impl1_c.inc"
-#include      "warn_c.inc"
 #include      "scr17_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
@@ -1589,10 +1583,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
@@ -1600,9 +1590,6 @@ C     REAL
       my_real
      .   MXX(*),  MYY(*),  MZZ(*),G1X(*),G1Y(*),G1Z(*),
      .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1640,9 +1627,6 @@ Chd|====================================================================
      .   PX4H1, PX4H2, PX4H3, PX4H4,
      .   JR_1 ,  JS_1, JT_1 , NU   ,FCL  )
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -1653,11 +1637,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "vect01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

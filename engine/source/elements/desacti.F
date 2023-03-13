@@ -56,7 +56,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr17_c.inc"
 #include      "parit_c.inc"
 #include      "scr_thermal_c.inc"
 C-----------------------------------------------

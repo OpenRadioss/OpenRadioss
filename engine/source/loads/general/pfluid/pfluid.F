@@ -86,12 +86,9 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
-#include      "task_c.inc"
 #include      "parit_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
-#include      "scr17_c.inc"
 #include      "tabsiz_c.inc"
 #include      "mvsiz_p.inc"
 C-----------------------------------------------

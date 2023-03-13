@@ -65,8 +65,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "chara_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -74,16 +72,12 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr01_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "scr14_c.inc"
-#include      "scr25_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
-#include      "spmd_c.inc"
 #include      "mmale51_c.inc"
 #include      "alefvm.inc"
+#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2451,18 +2445,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: RX,RY,RZ
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: SX,SY,SZ
       my_real, DIMENSION(MVSIZ), INTENT(OUT) :: DET
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL
       my_real
      .   E3X(NEL), E3Y(NEL), E3Z(NEL) 
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2495,19 +2484,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: RX,RY,RZ
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: SX,SY,SZ
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: TX,TY,TZ
       my_real, DIMENSION(MVSIZ), INTENT(OUT) :: DET
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL
       my_real JAC1, JAC2, JAC3, JAC4, JAC5, JAC6, JAC7, JAC8, JAC9 
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=1,NEL

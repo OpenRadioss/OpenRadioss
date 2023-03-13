@@ -60,9 +60,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "scr01_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
 #include      "task_c.inc"
@@ -726,8 +723,6 @@ c-----------------------------------------------
 c   g l o b a l   p a r a m e t e r s
 c-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "param_c.inc"
-#include      "com01_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -795,8 +790,6 @@ c-----------------------------------------------
 c   g l o b a l   p a r a m e t e r s
 c-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "param_c.inc"
-#include      "com01_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------

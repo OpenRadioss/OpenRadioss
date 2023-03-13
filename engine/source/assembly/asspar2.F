@@ -49,17 +49,13 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "couple_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
 #include      "remesh_c.inc"
-#include      "scr06_c.inc"
-#include      "scr07_c.inc"
 #include      "scr18_c.inc"
 #include      "task_c.inc"
 #include      "units_c.inc"
 #include      "vale_c.inc"
-#include      "warn_c.inc"
       integer maxbloc
       parameter (maxbloc=1000)
       common/tmparit/nbloc,adbloc(0:maxbloc),nbcol(0:maxbloc),
@@ -2978,7 +2974,6 @@ C --- DO THE REST IN OLD WAY - SUM UP ALL CONTRIBUTIONS PER NODE
 C
         IF(INTHEAT == 0 )THEN  
           IF(KDTINT==0)THEN
-#include "scalar.inc"
              DO K=JJ1,JJ2
                 A(1,N) = A(1,N) + FSKYI(K,1)
                 A(2,N) = A(2,N) + FSKYI(K,2)
@@ -2986,7 +2981,6 @@ C
                 STIFN(N) = STIFN(N) + FSKYI(K,4)
              ENDDO
           ELSE
-#include "scalar.inc"
              DO K=JJ1,JJ2
                 A(1,N) = A(1,N) + FSKYI(K,1)
                 A(2,N) = A(2,N) + FSKYI(K,2)
@@ -2997,7 +2991,6 @@ C
           ENDIF        
          ELSE
           IF(KDTINT==0)THEN
-#include "scalar.inc"
              DO K=JJ1,JJ2
                 A(1,N) = A(1,N) + FSKYI(K,1)
                 A(2,N) = A(2,N) + FSKYI(K,2)
@@ -3006,7 +2999,6 @@ C
                 FTHE(N) = FTHE(N) + FTHESKYI(K)
              ENDDO
           ELSE
-#include "scalar.inc"
              DO K=JJ1,JJ2
                 A(1,N) = A(1,N) + FSKYI(K,1)
                 A(2,N) = A(2,N) + FSKYI(K,2)
@@ -3019,7 +3011,6 @@ C
         ENDIF
 C contact stiffness (static condensation)
         IF(ISTATCND/=0)THEN
-#include "scalar.inc"
           DO K=JJ1,JJ2
              STCND(N) = STCND(N) + FSKYI(K,4)
           END DO

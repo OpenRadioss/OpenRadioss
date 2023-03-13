@@ -41,12 +41,7 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
-#include      "subvolumes.inc"
-#include      "i22edges.inc"
 #include      "inter22.inc"
-#include      "task_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 C-----------------------------------------------
 
 

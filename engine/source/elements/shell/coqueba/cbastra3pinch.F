@@ -48,14 +48,9 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,JFT,NPLAT,IPLAT(*),NG
-C     REAL
       my_real
      .   VDEFPINCH(MVSIZ,3),DT1C(*),
      .   EPINCHXZ(*),EPINCHYZ(*),EZZ(MVSIZ),EZZPG(MVSIZ,4),
@@ -64,7 +59,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,EP
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
+C-----------------------------------------------
 #include "vectorize.inc"
       DO I=JFT,JLT 
         EP=IPLAT(I)

@@ -74,15 +74,11 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "param_c.inc"
 #include      "parit_c.inc"
-#include      "scr05_c.inc"
 #include      "scr07_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
 #include      "scr18_c.inc"
-#include      "task_c.inc"
-#include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

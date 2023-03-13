@@ -92,11 +92,6 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
       TYPE(t_connectivity), INTENT(IN) :: ALE_NE_CONNECT
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "scr05_c.inc"
-#include      "parit_c.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IG, J, IEL, IAD1, IAD2, ELEM_ID

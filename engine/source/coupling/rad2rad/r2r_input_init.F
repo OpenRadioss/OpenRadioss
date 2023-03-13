@@ -34,7 +34,7 @@ Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
 Chd|        RAD2R_MOD                     share/modules/rad2r.F         
 Chd|====================================================================
       SUBROUTINE R2R_INPUT_INIT(IRUNN)
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE RAD2R_MOD
@@ -43,25 +43,16 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "chara_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
-#include      "com08_c.inc"
 #include      "com10_c.inc"
-#include      "param_c.inc"
-#include      "scr17_c.inc"
-#include      "scr24_c.inc"
 #include      "rad2r_c.inc"
 #include      "scr05_c.inc"
-#include      "scr03_c.inc"
 #include      "task_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRUNN    

@@ -50,12 +50,8 @@ c     parameter setting the size for the vector (orig version is 128)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
-#include      "scr05_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
 C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================

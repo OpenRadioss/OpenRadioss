@@ -52,13 +52,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "couple_c.inc"
 #include      "param_c.inc"
 #include      "scr02_c.inc"
-#include      "scr06_c.inc"
 #include      "scr07_c.inc"
 #include      "scr17_c.inc"
 #include      "scr18_c.inc"
@@ -309,7 +305,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "units_c.inc"
 #include      "vect01_c.inc"
 #include      "scr_thermal_c.inc"
 C-----------------------------------------------

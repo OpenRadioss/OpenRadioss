@@ -45,17 +45,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com06_c.inc"
 #include      "param_c.inc"
-#include      "units_c.inc"
 #include      "vect01_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL, MXT(MVSIZ)
-C     REAL
       DOUBLE PRECISION
      .   X1(*), X2(*), X3(*), X4(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*),
@@ -72,7 +68,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I,J
       INTEGER NNEGA,INDEX(MVSIZ)
-C     REAL
       DOUBLE PRECISION
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,B1DP,C1DP,D1DP
       my_real
@@ -233,11 +228,6 @@ C
        IF(IDT1SOL==0)THEN
 
          DO I=LFT,LLT
-C          AREAMX2 = SQRT(MAX(B1(I)*B1(I)+C1(I)*C1(I)+D1(I)*D1(I),
-C     .                       B2(I)*B2(I)+C2(I)*C2(I)+D2(I)*D2(I),
-C     .                       B3(I)*B3(I)+C3(I)*C3(I)+D3(I)*D3(I),
-C     .                       B4(I)*B4(I)+C4(I)*C4(I)+D4(I)*D4(I)))
-C          DELTAX(I) = 6.*DET(I) / AREAMX2
 	   D = MAX(PX1(I)*PX1(I)+PY1(I)*PY1(I)+PZ1(I)*PZ1(I),
      .    	   PX2(I)*PX2(I)+PY2(I)*PY2(I)+PZ2(I)*PZ2(I),
      .  	   PX3(I)*PX3(I)+PY3(I)*PY3(I)+PZ3(I)*PZ3(I),
@@ -334,7 +324,6 @@ C-----------------------------------------------
      .   X1(*), X2(*), X3(*), X4(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*),VOLDP(*)
-C     REAL
       my_real
      .   OFF(*),DET(*),DELTAX(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),  
@@ -345,17 +334,12 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com06_c.inc"
-#include      "units_c.inc"
 #include      "vect01_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I
-C     REAL
-C                                                                     12
       DOUBLE PRECISION
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,B1DP,C1DP,D1DP
       my_real
@@ -432,11 +416,6 @@ C
       IF(IDT1SOL==0)THEN
 
         DO I=LFT,LLT
-C         AREAMX2 = SQRT(MAX(B1(I)*B1(I)+C1(I)*C1(I)+D1(I)*D1(I),
-C    .  		    B2(I)*B2(I)+C2(I)*C2(I)+D2(I)*D2(I),
-C    .  		    B3(I)*B3(I)+C3(I)*C3(I)+D3(I)*D3(I),
-C    .  		    B4(I)*B4(I)+C4(I)*C4(I)+D4(I)*D4(I)))
-C         DELTAX(I) = 6.*DET(I) / AREAMX2
           D = MAX(PX1(I)*PX1(I)+PY1(I)*PY1(I)+PZ1(I)*PZ1(I),
      .  	  PX2(I)*PX2(I)+PY2(I)*PY2(I)+PZ2(I)*PZ2(I),
      .  	  PX3(I)*PX3(I)+PY3(I)*PY3(I)+PZ3(I)*PZ3(I),
@@ -516,9 +495,6 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
@@ -536,13 +512,9 @@ C     REAL
       my_real
      .   OFF(*),DET(*),OFFG(*)
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J ,ICOR
-C     REAL
 C-----------------------------------------------
       NNEGA = 0
       IF(JLAG/=0)THEN
@@ -687,13 +659,8 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
       my_real
      .   OFF(*),DET(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),  

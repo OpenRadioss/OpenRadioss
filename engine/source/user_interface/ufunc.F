@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-#include "my_real.inc"
 Chd|====================================================================
 Chd|  UFUNC_DUM                     source/user_interface/ufunc.F 
 Chd|-- called by -----------
@@ -44,15 +43,12 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
-#include      "scr05_c.inc"
       INTEGER IFUNC,I,NPFI,NPFIP
       CALL GET_VAR_USER_I(5,IFUNC,NPFI)
       CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
       GET_U_FUNC_N=(NPFIP-NPFI)/2
       RETURN
       END
-#include "my_real.inc"
 Chd|====================================================================
 Chd|  GET_U_FUNC_X                  source/user_interface/ufunc.F 
 Chd|-- called by -----------
@@ -74,9 +70,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
 #include      "scr05_c.inc"
-#include      "units_c.inc"
 #include      "comlock.inc"
       INTEGER IFUNC,I,NPFI,NPFIP,N,NMAX
       my_real
@@ -100,7 +94,6 @@ C-----------------------------------------------
       GET_U_FUNC_X=XX
       RETURN
       END
-#include "my_real.inc"
 Chd|====================================================================
 Chd|  GET_U_FUNC_Y                  source/user_interface/ufunc.F 
 Chd|-- called by -----------
@@ -122,9 +115,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
 #include      "scr05_c.inc"
-#include      "units_c.inc"
 #include      "comlock.inc"
       INTEGER IFUNC,I,NPFI,NPFIP,N,NMAX
       my_real
@@ -148,7 +139,6 @@ C-----------------------------------------------
       GET_U_FUNC_Y=YY
       RETURN
       END
-#include "my_real.inc"
 Chd|====================================================================
 Chd|  GET_U_FUNC                    source/user_interface/ufunc.F 
 Chd|-- called by -----------
@@ -179,7 +169,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
 #include      "scr05_c.inc"
 C
       INTEGER IFUNC,I,NPFI,NPFIP,DEPLA
@@ -234,7 +223,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -265,7 +253,6 @@ Chd|        GET_VAR_USER_I                source/user_interface/eng_callback_c.c
 Chd|====================================================================
       INTEGER FUNCTION GET_U_NUMFUN(IDFUN)
 #include      "implicit_f.inc"
-#include      "param_c.inc"
 #include      "com04_c.inc"
       INTEGER IDFUN
       INTEGER J,ID
@@ -293,7 +280,6 @@ Chd|        GET_VAR_USER_I                source/user_interface/eng_callback_c.c
 Chd|====================================================================
       INTEGER FUNCTION GET_U_FID(IFUN)
 #include      "implicit_f.inc"
-#include      "param_c.inc"
 #include      "com04_c.inc"
       INTEGER IFUN,DEPLA
 C=======================================================================
@@ -320,7 +306,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
 #include      "scr05_c.inc"
 C
       INTEGER IFUNC,I,NPFI,NPFIP,DEPLA

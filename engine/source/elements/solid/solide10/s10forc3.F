@@ -114,19 +114,13 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "scr03_c.inc"
-#include      "scr07_c.inc"
 #include      "vect01_c.inc"
-#include      "scr01_c.inc"
-#include      "scr06_c.inc"
 #include      "parit_c.inc"
 #include      "param_c.inc"
 #include      "timeri_c.inc"
-#include      "warn_c.inc"
 #include      "scr18_c.inc"
-#include      "impl1_c.inc"
 C-----------------------------------------------
 C   l o c a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -688,9 +682,6 @@ Chd|        S10JACOBNEL                   source/elements/solid/solide10/s10jaco
 Chd|====================================================================
       SUBROUTINE S10PIJ12(NPT,XX, YY, ZZ, PX,PY,PZ ,NEL)
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -699,20 +690,11 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
       INTEGER NEL,NPT
-      DOUBLE PRECISION
-     .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
-      my_real
-     .   PX(MVSIZ,10,5),PY(MVSIZ,10,5),PZ(MVSIZ,10,5)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
+      DOUBLE PRECISION XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
+      my_real PX(MVSIZ,10,5),PY(MVSIZ,10,5),PZ(MVSIZ,10,5)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -847,9 +829,6 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S10PIJSAV12(PX,PY,PZ, PIJ,SIG,SIGL,INDEX,NB,NEL)
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -861,18 +840,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NB,INDEX(*)
-C     REAL
       my_real
      .   PX(MVSIZ,10),PY(MVSIZ,10),PZ(MVSIZ,10),
      .   PIJ(NEL,3,10),SIG(NEL,6),SIGL(NEL,6)
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K
-
 C-----------------------------------------------
 #include "vectorize.inc"
       DO J=1,NB

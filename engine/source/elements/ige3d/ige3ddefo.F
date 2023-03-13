@@ -41,15 +41,11 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "impl1_c.inc"
-#include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NCTRL
-C     REAL
       my_real
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
@@ -60,15 +56,10 @@ C     REAL
      .   VX(NCTRL,MVSIZ),VY(NCTRL,MVSIZ),VZ(NCTRL,MVSIZ),
      .   BA(6,MVSIZ), A(3*NCTRL,MVSIZ),MATB(3*NCTRL,MVSIZ)
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, J, INCTRL
-C     REAL
-      my_real
-     .   DT1D2, DT1D, AAA
+      my_real DT1D2, DT1D, AAA
 C=======================================================================
 
       DO I=LFT,LLT

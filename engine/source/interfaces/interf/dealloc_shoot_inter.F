@@ -39,15 +39,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
 C-----------------------------------------------
         IF(ALLOCATED(SHOOT_STRUCT%SAVE_SURFACE) )DEALLOCATE( SHOOT_STRUCT%SAVE_SURFACE )
         IF(ALLOCATED(SHOOT_STRUCT%SAVE_PROC) )DEALLOCATE( SHOOT_STRUCT%SAVE_PROC )

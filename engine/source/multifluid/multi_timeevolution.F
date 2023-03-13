@@ -56,9 +56,6 @@ Chd|====================================================================
      .     STIFN, FSKY, IADS, FSKYM, 
      .     CONDN, CONDNSKY, BUFMAT, FUNC_VALUE, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPF,TF)
 C-----------------------------------------------
-C     D e s c r i p t i o n
-C-----------------------------------------------
-C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD      
@@ -83,11 +80,8 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "mvsiz_p.inc"
 !     IPARIT
-#include      "parit_c.inc"
 !     DTFAC1
-#include      "scr18_c.inc" 
 !     SMPD
-#include "spmd_c.inc"
 !     SNPC,STF
 #include "tabsiz_c.inc"
 C-----------------------------------------------

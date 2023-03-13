@@ -97,7 +97,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "my_allocate.inc"
-#include      "r4r8_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com_xfem1.inc"
@@ -109,7 +108,6 @@ C-----------------------------------------------
 #include      "scr16_c.inc"
 #include      "sms_c.inc"
 #include      "tabsiz_c.inc"
-#include      "units_c.inc"
 #include      "task_c.inc"
 #include      "couple_c.inc"
 #include      "warn_c.inc"
@@ -118,7 +116,6 @@ C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "sphcom.inc"
 #include      "alefvm.inc"
-#include      "drape_c.inc"
 #include      "thermal_c.inc"
 #include      "alemuscl.inc"
 #include      "ale_param.inc"
@@ -126,7 +123,6 @@ C-----------------------------------------------
 #include      "eigcom.inc"
 #include      "inter18.inc"
 #include      "stati_c.inc"
-#include      "com09_c.inc"
 C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -2405,7 +2401,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "tabsiz_c.inc"
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "task_c.inc"
 C----------------------------------------------

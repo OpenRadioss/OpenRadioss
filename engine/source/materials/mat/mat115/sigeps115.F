@@ -42,16 +42,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C O M M O N
 C-----------------------------------------------
-#include      "param_c.inc" 
-#include      "com01_c.inc"
 #include      "scr17_c.inc"
-#include      "mvsiz_p.inc"
-#include      "parit_c.inc"
-#include      "scr05_c.inc"
-#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "units_c.inc"
-#include      "impl1_c.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

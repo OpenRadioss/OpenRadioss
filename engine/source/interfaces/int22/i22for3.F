@@ -89,20 +89,12 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr02_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "scr07_c.inc"
 #include      "scr11_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
-#include      "scr18_c.inc"
-#include      "units_c.inc"
 #include      "parit_c.inc"
-#include      "warn_c.inc"
-#include      "couple_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -201,8 +193,6 @@ C-----------------------------------------------
         my_real :: P(3,NPTS), I22AERA(3), C(3)
         END FUNCTION
       END INTERFACE     
-C-----------------------------------------------
-#include "sync_dir.inc"
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------  

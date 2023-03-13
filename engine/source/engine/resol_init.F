@@ -177,10 +177,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
@@ -191,22 +187,17 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr02_c.inc"
 #include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "scr06_c.inc"
 #include      "scr07_c.inc"
 #include      "scr12_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
 #include      "scr17_c.inc"
 #include      "scr23_c.inc"
-#include      "secur_c.inc" 
 #include      "units_c.inc"
 #include      "cong2_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
 #include      "timerc_c.inc"
-#include      "timeri_c.inc"
-#include      "couple_c.inc"
 #include      "rad2r_c.inc"
 #include      "scr18_c.inc"
 #include      "spmd_c.inc"
@@ -217,8 +208,6 @@ C-----------------------------------------------
 #include      "sms_c.inc"
 #include      "lagmult.inc"
 #include      "sphcom.inc"
-#include      "inter22.inc"
-#include      "thermal_c.inc"
 #include      "alemuscl.inc"
 #include      "intstamp_c.inc"
 C-----------------------------------------------------------------
@@ -344,7 +333,6 @@ C=======================================================================
        IDUM = 0 
        RDUM = ZERO
        ISECTR = 0         
-C-----------------------------------------------
 C-----------------------------------------------
 C //
 C-----------------------------------------------
@@ -1227,16 +1215,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1484,15 +1467,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "task_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1579,13 +1556,9 @@ Chd|====================================================================
      2   IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK,
      3   GREFTSK,GRELTSK)
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1643,16 +1616,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com08_c.inc"
 #include      "lagmult.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc"
-#include      "parit_c.inc"
-#include      "timeri_c.inc"
-#include      "spmd_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

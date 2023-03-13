@@ -40,11 +40,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-#include      "param_c.inc"
-#include      "parit_c.inc"
-#include      "vect01_c.inc"
-#include      "com20_c.inc"
-#include      "com08_c.inc"
 #include      "scr02_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------

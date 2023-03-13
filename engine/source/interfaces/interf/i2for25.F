@@ -70,12 +70,8 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
-#include      "param_c.inc"
-#include      "com01_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr02_c.inc"
 #include      "scr11_c.inc"
 #include      "scr14_c.inc"
 #include      "sms_c.inc"

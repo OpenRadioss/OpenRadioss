@@ -48,7 +48,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------

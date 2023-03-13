@@ -43,11 +43,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "scr17_c.inc"
-#include      "task_c.inc"
-#include      "param_c.inc"
-#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

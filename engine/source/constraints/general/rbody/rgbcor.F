@@ -54,9 +54,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
-#include      "scr06_c.inc"
-#include      "units_c.inc"
 #include      "parit_c.inc"
 #include      "impl1_c.inc"
 #include      "param_c.inc"
@@ -144,7 +141,6 @@ C
             XMASST=XMASST-MAS
            ENDDO
          ELSE
-#include "scalar.inc"
           DO I=1,NSN
            N = NOD(I)
            MAS=MS(N)*WEIGHT_MD(N)
@@ -206,7 +202,6 @@ C
             XMASST=XMASST-MAS
            ENDDO
          ELSE
-#include "scalar.inc"
           DO I=1,NSN
            N = NOD(I)
            MAS=MS_2D(N)*WEIGHT_MD(N)
@@ -325,7 +320,6 @@ C
 C
            ENDDO
          ELSE
-#include "scalar.inc"
           DO I=1,NSN
 C
            N = NOD(I)
@@ -392,7 +386,6 @@ C
 C
            ENDDO
          ELSE
-#include "scalar.inc"
           DO I=1,NSN
 C
            N = NOD(I)
@@ -492,8 +485,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr11_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc"
-#include      "impl1_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -581,10 +572,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
-#include      "scr06_c.inc"
-#include      "sms_c.inc"
-#include      "units_c.inc"
 #include      "parit_c.inc"
 #include      "impl1_c.inc"
 #include      "com01_c.inc"
@@ -671,7 +658,6 @@ C
           ENDDO
          END IF !(IRODDL/=0) THEN
         ELSE
-#include "scalar.inc"
          DO I=1,NSL
           N = ISL(I)
           MAS=MS(N)*WEIGHT_MD(N)*ITRA
@@ -767,7 +753,6 @@ C
           ENDDO
          ENDIF !(IRODDL/=0) THEN
         ELSE
-#include "scalar.inc"
          DO I=1,NSL
 C
           N = ISL(I)

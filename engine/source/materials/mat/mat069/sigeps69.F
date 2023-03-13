@@ -57,9 +57,6 @@ C-----------------------------------------------
 #include "scr05_c.inc"
 #include "scr17_c.inc"
 #include "impl1_c.inc"
-#include "com01_c.inc"
-#include "param_c.inc"
-#include "scr18_c.inc"
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------

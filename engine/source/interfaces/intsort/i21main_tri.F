@@ -53,10 +53,6 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
@@ -65,7 +61,6 @@ C-----------------------------------------------
 #include      "scr04_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
-#include      "warn_c.inc"
       COMMON /I21MAINC/RESULT21,I_MEMG
       INTEGER RESULT21,I_MEMG
 C-----------------------------------------------
@@ -95,8 +90,6 @@ C     REAL
      .   STARTT,GAP,MAXBOX,MINBOX,STOPT,DIST,TZINF,
      .   XMAX, YMAX, ZMAX, XMIN, YMIN, ZMIN, GAPMIN, GAPMAX,
      .   DD(3)
-C-----------------------------------------------
-#include "sync_dir.inc"
 C-----------------------------------------------
       I_MEM = 0
       I_MEMG = 0

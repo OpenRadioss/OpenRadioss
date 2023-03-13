@@ -45,7 +45,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com01_c.inc"
 #include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -75,7 +74,6 @@ C     REAL
      .   IXX(MVSIZ), IYY(MVSIZ), IZZ(MVSIZ),
      .   IXY(MVSIZ), IYZ(MVSIZ), IZX(MVSIZ),
      .   REI(MVSIZ), REK(MVSIZ), OFF_L(MVSIZ)
-C-----------------------------------------------
 C-----------------------------------------------
       FLAG = IPARG(80) ! Flag pour sorties additionnelles
 C-----------------------------------------------

@@ -39,26 +39,21 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "param_c.inc"
+#include      "com04_c.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (H3D_KEYWORD) H3D_KEYWORD_ONED_TENSOR(*)
-      my_real
-     .      GEO(NPROPG,*)
+      my_real GEO(NPROPG,NUMGEO)
       INTEGER, INTENT(INOUT) :: NKEY
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "chara_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NIPMAX
-C=========================================================================
+C===============================================
       I = 0
 c-----------------------------------------------
       I = I + 1
@@ -76,14 +71,12 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_ONED_TENSOR(I)%KEY3  = 'TENS/STRAIN/MAX'
       H3D_KEYWORD_ONED_TENSOR(I)%TEXT1  = 'Maximum strain'
-      H3D_KEYWORD_ONED_TENSOR(I)%COMMENT  = 
-     .'Maximum strain over the integration points'
+      H3D_KEYWORD_ONED_TENSOR(I)%COMMENT  = 'Maximum strain over the integration points'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_ONED_TENSOR(I)%KEY3  = 'TENS/STRAIN/TMAX'
       H3D_KEYWORD_ONED_TENSOR(I)%TEXT1  = 'Maximum strain over time'
-      H3D_KEYWORD_ONED_TENSOR(I)%COMMENT  = 
-     .'Maximum strain reached over time over the integration points'
+      H3D_KEYWORD_ONED_TENSOR(I)%COMMENT  = 'Maximum strain reached over time over the integration points'
 c-----------------------------------------------
 
 c

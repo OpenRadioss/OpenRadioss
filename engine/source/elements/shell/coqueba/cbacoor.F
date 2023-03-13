@@ -62,8 +62,6 @@ c-----------------------------------------------
 #include      "com08_c.inc"
 #include      "impl1_c.inc"
 #include      "scr14_c.inc"
-#include      "com01_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -1268,12 +1266,6 @@ c   g l o b a l   p a r a m e t e r s
 c-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-#include      "scr17_c.inc"
-#include      "com08_c.inc"
-#include      "impl1_c.inc"
-#include      "scr14_c.inc"
-#include      "com01_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------

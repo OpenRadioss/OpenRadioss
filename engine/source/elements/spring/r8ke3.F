@@ -63,7 +63,6 @@ C-----------------------------------------------
       INTEGER IGEO(*),
      .        ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
 
-C     REAL
       my_real
      .   GEO(NPROPG,*),X(*),TF(*),SKEW(LSKEW,*),
      .   FR_WAVE(*),PM(*),KE11(36,MVSIZ),KE12(36,MVSIZ),KE22(36,MVSIZ),
@@ -73,7 +72,6 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL
       my_real
      .     KX(MVSIZ)  ,KY(MVSIZ) ,KZ(MVSIZ),
      .     MX(MVSIZ)  ,MY(MVSIZ)     ,MZ(MVSIZ),
@@ -96,88 +94,17 @@ C
       DO I=1,3
         II(I) = (I-1)*NEL + 1
       ENDDO
-C
-C      I0 = IXR(1,1)
-C      IGTYP =  NINT(GEO(12,I0))
-c      NB1 =1
-c      NB2 =NB1  + NEL
-c      NB1 =NB1  + OFFSET
-c      NEL3 = 3 * NEL
-c      NEL4 = 4 * NEL
-C
-C=======================================================================
-C      IF(IGTYP==8)THEN
-C=======================================================================
-c       NB3 =NB2  + NEL3
-c       NB4 =NB3  + NEL
-c       NB5 =NB4  + NEL3
-c       IF (SCODVER<101) THEN
-c         NB6 =NB5  + NEL3
-c       ELSE
-c         NB6 =NB5  + 2*NEL3
-c       END IF
-c       NB7 =NB6  + NEL3
-c       NB8 =NB7  + NEL3
-c       NB9 =NB8  + NEL3
-c       NB10=NB9  + NEL3
-c       NB11=NB10 + NEL3
-c       NB12=NB11 + NEL3
-c       NB13=NB12 + NEL3
-c       NB14=NB13 + NEL3
-c       NB15 = NB14 + NEL3
-c       NBFI = NB15 + NEL4*6
-c       NB2A=NB2  + NEL
-c       NB2B=NB2A + NEL
-c       NB4A=NB4  + NEL
-c       NB4B=NB4A + NEL
-c       NB5A=NB5  + NEL
-c       NB5B=NB5A + NEL
-c       NB6A=NB6  + NEL
-c       NB6B=NB6A + NEL
-c       NB7A=NB7  + NEL
-c       NB7B=NB7A + NEL
-c       NB8A=NB8  + NEL
-c       NB8B=NB8A + NEL
-c       NB9A=NB9  + NEL
-c       NB9B=NB9A + NEL
-c       NB10A=NB10  + NEL
-c       NB10B=NB10A + NEL
-c       NB11A=NB11 + NEL
-c       NB11B=NB11A+ NEL
-c       NB12A=NB12 + NEL
-c       NB12B=NB12A+ NEL
-c       NB13A=NB13 + NEL
-c       NB13B=NB13A+ NEL
-c       NB15A=NB15 + NEL4
-c       NB15B=NB15A+ NEL4
-c       NB15C=NB15B+ NEL4
-c       NB15D=NB15C+ NEL4
-c       NB15E=NB15D+ NEL4
-c       NB16 =NB15E+ NEL4
-c       NBFI =NB16 + 6*NEL
-C    FX,FY,FZ       -> NB2,NB2A,NB2B        E               -> NB3
-C    DX,DY,DZ       -> NB4,NB4A,NB4B        OFF             -> NB1
-C    DPX,DPY,DPZ    -> NB6,NB6A,NB6B        DPX2,DPY2,DPZ2  -> NB7,NB7A,NB7B
-C    FXEP,FYEP,FZEP -> NB12,NB12A,NB12B     X0,Y0,Z0        -> NB5,NB5A,NB5B
-C    XMOM,YMOM,ZMOM -> NB8,NB8A,NB8B        RX,RY,RZ        -> NB9,NB9A,NB9B
-C    RPX,RPY,RPZ    -> NB10,NB10A,NB10B     XMEP,YMEP,ZMEP  -> NB11,NB11A,NB11B
-C    RPX2,RPY2,RPZ2 -> NB13,NB13A,NB13B
-C    RLOC           -> NB14
+
       CALL R2COORK3(JFT    ,JLT    ,X       ,IXR    ,PID    ,
      2              NGL    ,R11    ,R12     ,R13    ,R21    ,
      3              R22    ,R23    ,R31     ,R32    ,R33    ,
      4              SKEW   ,GEO    ,GBUF%OFF,OFF    ,AL     ,
      5              IGEO )
+
       DO I=JFT,JLT
        AL0(I)=ONE
       ENDDO
-cc      CALL R13MAT3(JFT    ,JLT    ,GEO    ,KX      ,KY     ,
-cc     2             KZ     ,MX     ,MY     ,MZ      ,PID    ,
-cc     3             AL0    ,EV(NB2),EV(NB2A),EV(NB2B),EV(NB4),
-cc     4             EV(NB4A),EV(NB4B),EV(NB8),EV(NB8A),EV(NB8B),
-cc     5             EV(NB9),EV(NB9A),EV(NB9B),TF     ,NPF     ,
-cc     6             EV(NB15),EV(NB15A),EV(NB15B),EV(NB15C),EV(NB15D),
-cc     7             EV(NB15E),IGEO  )
+
       CALL R13MAT3(JFT    ,JLT    ,GEO    ,KX      ,KY     ,
      2             KZ     ,MX     ,MY     ,MZ      ,PID    ,
      3             AL0    ,GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%TOTDEPL(II(1)),
@@ -209,6 +136,7 @@ C      ENDIF
 C-----------------------------------------------
       RETURN
       END
+
 Chd|====================================================================
 Chd|  R8CHK3                        source/elements/spring/r8ke3.F
 Chd|-- called by -----------
@@ -224,13 +152,8 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "impl1_c.inc"
 #include      "comlock.inc"
 #include      "units_c.inc"
@@ -240,7 +163,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
       INTEGER NGL(*)
-C     REAL
       my_real
      .    AL(3,*),OFF(*),
      .    KX(*),KY(*),KZ(*),
@@ -252,7 +174,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL
       my_real
      .   SCAL,ALX,ALY,ALZ,SX,SY,SZ,S1,S2
 C-----------------------------------------------

@@ -46,7 +46,6 @@ C-----------------------------------------------
 C   G L O B A L   P A R A M E T E R S
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr17_c.inc"
 #include      "param_c.inc"
 #include      "vect01_c.inc"
 C-----------------------------------------------

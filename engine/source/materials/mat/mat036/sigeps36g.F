@@ -60,8 +60,6 @@ C   G L O B A L   P A R A M E T E R S
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-#include      "parit_c.inc"
-#include      "com01_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------

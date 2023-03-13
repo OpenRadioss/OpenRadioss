@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 Chd|====================================================================
 Chd|  CDK6DERI3                     source/elements/sh3n/coquedk6/cdk6deri3.F
 Chd|-- called by -----------
@@ -51,13 +50,9 @@ C-----------------------------------------------
      .     N6Z(*),PX2(*), PY2(*), PX3(*), PY3(*), NU(*),THK2(*),
      .     ALDT(*),ALPE(*),PB1(MVSIZ,3,3),PB2(MVSIZ,3,3),PB3(MVSIZ,3,6)
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,EP
-C     REAL
       my_real
      .     AREAI(MVSIZ),
      .     AL1(MVSIZ), AL2(MVSIZ), AL3(MVSIZ), ALMAX, ALMIN

@@ -79,16 +79,7 @@ c     parameter setting the size for the vector (orig version is 128)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "parit_c.inc"
-#include      "scr05_c.inc"
-#include      "sms_c.inc"
-#include      "task_c.inc"
 #include      "assert.inc"
 #include      "i25edge_c.inc"
 C-----------------------------------------------

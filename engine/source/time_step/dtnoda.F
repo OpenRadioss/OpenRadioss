@@ -51,23 +51,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "rad2r_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "task_c.inc"
 #include      "scr02_c.inc"
-#include      "scr05_c.inc"
 #include      "scr07_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
-#include      "scr17_c.inc"
 #include      "scr18_c.inc"
 #include      "units_c.inc"
 #include      "com08_c.inc"
-#include      "couple_c.inc"
 #include      "parit_c.inc"
 #include      "impl1_c.inc"
-#include      "vect01_c.inc"
 #include      "alesolver.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -179,7 +174,6 @@ C true dependency
          ENDDO
          KMAX = K
 C vectorize sqrt
-#include      "simd.inc"
          DO K=1,KMAX
            N = INDTN(K)
            DTN(K) = DTFAC1(11)*TWO * MCP(N) / CONDN(N)
@@ -263,7 +257,6 @@ C true dependency
          KMAX = K
 
 C vectorize sqrt
-#include      "simd.inc"
          DO K=1,KMAX
            N      = INDTN(K)
            DTN(K) = DTFAC1(11)*SQRT(TWO * MS(N) / STIFN(N))
@@ -384,7 +377,6 @@ C              DTNOD = MIN(DTNOD,DTN(K))
           ENDDO
          KMAX = K
 C vectorize sqrt
-#include      "simd.inc"
          DO K=1,KMAX
             N = INDTN(K)
             DTN(K) = DTFAC1(11)*SQRT(TWO * MASS / STI)
@@ -479,7 +471,6 @@ C true dependency
            ENDDO
            KMAX = K
 C vectorize sqrt
-#include      "simd.inc"
            DO K=1,KMAX
               N = INDTN(K)
               DTN(K) = DTFAC1(11)*SQRT(TWO * IN(N) / STIFR(N))
@@ -593,7 +584,6 @@ C true dependency
            ENDDO
            KMAX = K
 C vectorize sqrt
-#include      "simd.inc"
            DO K=1,KMAX
               N = INDTN(K)
               DTN(K) = DTFAC1(11)*SQRT(TWO * IN(N) / STIFR(N))
@@ -693,7 +683,6 @@ C true dependency
          ENDDO
          KMAX = K
 C vectorize sqrt
-#include      "simd.inc"
          DO K=1,KMAX
            N = INDTN(K)
            DTN(K) = DTFAC1(11)*SQRT(TWO * MS(N) / STIFN(N))

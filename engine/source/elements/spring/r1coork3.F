@@ -41,7 +41,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "impl1_c.inc"
 #include      "comlock.inc"
 #include      "units_c.inc"

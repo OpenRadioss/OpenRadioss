@@ -43,17 +43,8 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "assert.inc"
-#include      "mvsiz_p.inc"
 #include      "com01_c.inc"
-#include      "sms_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "task_c.inc"
-#include      "impl1_c.inc"
 #include      "comlock.inc"
-#include      "scr05_c.inc"
-#include      "com08_c.inc"
-#include      "parit_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -172,14 +163,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-#include      "assert.inc"
-#include      "mvsiz_p.inc"
-#include      "com01_c.inc"
-#include      "sms_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "task_c.inc"
-#include      "impl1_c.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -190,13 +173,6 @@ C-----------------------------------------------
       my_real
      .     TIME_S(2,*),
      .     PENM(4,*), LBM(4,*), LCM(4,*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "scr05_c.inc"
-#include      "com08_c.inc"
-#include      "parit_c.inc"
-#include      "com04_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -423,13 +399,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
-#include      "com01_c.inc"
-#include      "sms_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "task_c.inc"
-#include      "impl1_c.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -442,13 +411,6 @@ C-----------------------------------------------
      .        KREMNOR(*), REMNOR(*)
       my_real
      .        STFM(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "scr05_c.inc"
-#include      "com08_c.inc"
-#include      "parit_c.inc"
-#include      "com04_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -674,13 +636,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
-#include      "com01_c.inc"
-#include      "sms_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
 #include      "task_c.inc"
-#include      "impl1_c.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -690,13 +646,6 @@ C-----------------------------------------------
       INTEGER MSEGLO(*), IRTLM(4,NSN)
       my_real
      .     PENM(4,*), PENE_OLD(5,*), SECND_FR(6,*), TIME_S(2,*), STIF_OLD(2,*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "scr05_c.inc"
-#include      "com08_c.inc"
-#include      "parit_c.inc"
-#include      "com04_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -781,11 +730,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
 #include      "com01_c.inc"
-#include      "sms_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
 #include      "task_c.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -799,9 +744,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
-#include      "com08_c.inc"
-#include      "parit_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -871,11 +813,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
 #include      "com01_c.inc"
 #include      "sms_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
 #include      "task_c.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -889,9 +828,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
-#include      "com08_c.inc"
-#include      "parit_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1029,11 +965,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
 #include      "com01_c.inc"
 #include      "sms_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
 #include      "task_c.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -1054,9 +987,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
-#include      "com08_c.inc"
-#include      "parit_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

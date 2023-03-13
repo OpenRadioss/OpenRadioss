@@ -80,7 +80,6 @@ C-----------------------------------------------
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "impl1_c.inc"
-#include      "param_c.inc"
 #include      "parit_c.inc"
 #include      "scr05_c.inc"
 #include      "scr07_c.inc"
@@ -155,7 +154,6 @@ C-----------------------------------------------
 C-----------------------------------------------
       RBID = ZERO
       IBID = 0
-#include "sync_dir.inc"
       IF (IRESP==1) THEN
            PREC = FIVEEM4
       ELSE

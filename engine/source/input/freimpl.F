@@ -58,17 +58,14 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "warn_c.inc"
 #include      "scr05_c.inc"
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
 #include      "parit_c.inc"
-#include      "task_c.inc"
 #include      "com01_c.inc"
 #include      "com06_c.inc"
 #include      "buckcom.inc"
 #include      "scr06_c.inc"
-#include      "chara_c.inc"
 #include      "fsi_ar_c.inc"
 #include      "nchar_c.inc"
 C-----------------------------------------------

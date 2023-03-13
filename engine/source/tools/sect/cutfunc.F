@@ -33,19 +33,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
-      my_real
-     .   FUNC(*), AL(*)
+      my_real FUNC(*), AL(*)
       INTEGER IVOIS(2,*),NODCUT,I 
 C-----------------------------------------------
-C     REAL
       REAL R4
 C-----------------------------------------------
       DO I=1,NODCUT
@@ -80,9 +72,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "scr01_c.inc"
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

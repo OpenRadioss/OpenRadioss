@@ -197,17 +197,11 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr01_c.inc"
-#include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "scr19_c.inc"
-#include      "units_c.inc"
 #include      "nsvis_c.inc"
-#include      "secur_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc"
 #include      "impl1_c.inc"
 #include      "sms_c.inc"
 #include      "userlib.inc"
@@ -215,7 +209,6 @@ C-----------------------------------------------
 #include      "thermal_c.inc"
 #include      "scr05_c.inc"
 #include      "scr06_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

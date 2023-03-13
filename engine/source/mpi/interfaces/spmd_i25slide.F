@@ -42,7 +42,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
 #include      "my_allocate.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -55,13 +54,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr02_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "timeri_c.inc"
-#include      "sms_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -353,28 +346,14 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
-C-----------------------------------------------
-C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "task_c.inc"
-#include      "units_c.inc"
-#include      "scr14_c.inc"
-#include      "scr16_c.inc"
-#include      "scr18_c.inc"
-#include      "param_c.inc"
-#include      "parit_c.inc"
 #include      "spmd_c.inc"
 #include      "sms_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1132,26 +1111,12 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
 #include      "assert.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "task_c.inc"
-#include      "units_c.inc"
-#include      "scr14_c.inc"
-#include      "scr16_c.inc"
-#include      "scr18_c.inc"
-#include      "param_c.inc"
-#include      "parit_c.inc"
-#include      "spmd_c.inc"
 #include      "sms_c.inc"
-C-----------------------------------------------
-C   M y  A l l o c a t e                             
-C-----------------------------------------------
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1311,25 +1276,10 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "task_c.inc"
-#include      "units_c.inc"
-#include      "scr14_c.inc"
-#include      "scr16_c.inc"
-#include      "scr18_c.inc"
-#include      "param_c.inc"
-#include      "parit_c.inc"
-#include      "spmd_c.inc"
 #include      "sms_c.inc"
-C-----------------------------------------------
-C   M y  A l l o c a t e                             
-C-----------------------------------------------
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1427,27 +1377,14 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
-C-----------------------------------------------
-C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "task_c.inc"
-#include      "units_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
 #include      "scr18_c.inc"
-#include      "param_c.inc"
 #include      "parit_c.inc"
-#include      "spmd_c.inc"
-#include      "sms_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1664,38 +1601,19 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "task_c.inc"
-#include      "units_c.inc"
-#include      "scr14_c.inc"
-#include      "scr16_c.inc"
-#include      "scr18_c.inc"
-#include      "param_c.inc"
-#include      "parit_c.inc"
-#include      "spmd_c.inc"
-#include      "sms_c.inc"
-C-----------------------------------------------
-C   M y  A l l o c a t e                             
-C-----------------------------------------------
-#include      "my_allocate.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 
        IF(ISPMD == 1) THEN
-      !   IF(NSNR > 0) THEN
            IF(ABS(NSVFI(1)%P(2)) ==  5864) THEN 
              WRITE(6,*) __FILE__,__LINE__
            ENDIF
-      !   ENDIF
        ENDIF 
+       
        RETURN  
        END SUBROUTINE

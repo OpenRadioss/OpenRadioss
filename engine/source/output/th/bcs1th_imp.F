@@ -36,16 +36,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NINDX, N, INDX(*),NODREAC(*)
-      my_real
-     .   A(3,*),FTHREAC(6,*),DT3,FTHDTM(6,*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "impl1_c.inc"
-#include      "impl2_c.inc"
-#include      "param_c.inc"
+      my_real A(3,*),FTHREAC(6,*),DT3,FTHDTM(6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

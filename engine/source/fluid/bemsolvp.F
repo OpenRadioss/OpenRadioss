@@ -120,8 +120,7 @@ C---------------------------------------------------
 C 1- Assemblage
 C---------------------------------------------------
       IF (L_ASSEMB) THEN
-         IF (ILVOUT>=1.AND.ISPMD==0) WRITE(ISTDO,'(A)') 
-     .   ' ** BEMSOLV : ASSEMBLY OF INTEGRAL OPERATORS'
+         IF (ILVOUT>=1.AND.ISPMD==0) WRITE(ISTDO,'(A)') ' ** BEMSOLV : ASSEMBLY OF INTEGRAL OPERATORS'
          IF (IFORM==1) THEN
 C Assemblage de H
             DO I=1,NNRP
@@ -319,8 +318,7 @@ C 2- Resolution
 C---------------------------------------------------
       IF (ILVOUT>=1.AND.ISPMD==0) THEN
          WRITE(ISTDO,*)
-         WRITE(ISTDO,'(A)') 
-     .' ** BEMSOLV : PARALLEL LINEAR SYSTEM SOLUTION'
+         WRITE(ISTDO,'(A)') ' ** BEMSOLV : PARALLEL LINEAR SYSTEM SOLUTION'
       ENDIF
       CALL PDGEMV('N', NNO, NEL,    ONE,   GBEM,
      .            1,   1,   DESC_G, Q,    1,
@@ -391,9 +389,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -555,9 +550,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

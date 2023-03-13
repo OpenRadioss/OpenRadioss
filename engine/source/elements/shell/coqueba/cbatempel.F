@@ -33,20 +33,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NG,IXC(NIXC,*)
-C     REAL,
-      my_real
-     .   TEMP(*),TEMPEL(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+      my_real TEMP(*),TEMPEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -59,7 +49,7 @@ C--------------------------
 C     INITIALISATION
 C-------------------------
       DATA VPG/PG1,PG1,PG,PG1,PG,PG,PG1,PG/
-C---------------------------------------------------------------------------------------------------------------
+C-----------------------------------------------
 C --- Temperature in Gauss point NG
        KSI = VPG(1,NG)
        ETA = VPG(2,NG)
@@ -71,7 +61,7 @@ C --- Temperature in Gauss point NG
 
         DO I=JFT,JLT          
           TEMPEL(I) = FOURTH * (SF1 *TEMP(IXC(2,I)) + SF2*TEMP(IXC(3,I)) + 
-     .                          SF3*TEMP(IXC(4,I)) + SF4*TEMP(IXC(5,I)) )
+     .                          SF3 *TEMP(IXC(4,I)) + SF4*TEMP(IXC(5,I)) )
        ENDDO
 C
       RETURN

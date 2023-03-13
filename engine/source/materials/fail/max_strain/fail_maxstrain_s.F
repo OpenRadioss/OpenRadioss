@@ -38,12 +38,8 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include  "implicit_f.inc"
 C-----------------------------------------------
-#include  "mvsiz_p.inc"
-#include  "com01_c.inc"
-#include  "scr17_c.inc"
 #include  "units_c.inc"
 #include  "comlock.inc"
-#include  "param_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------

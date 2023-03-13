@@ -55,10 +55,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "remesh_c.inc"
 #include      "scr01_c.inc"
-#include      "scr05_c.inc"
-#include      "scr14_c.inc"
 #include      "scr17_c.inc"
-#include      "spmd_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -73,7 +70,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT,
      .        N, J, LLT, MLW, NBX, IP,  NN, K1, K2,MT,JALE, IMID, 
      .        N1,N2,N3,N4, NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
@@ -124,10 +120,6 @@ C
           LFT=1
           LLT=NEL
           NBX = IAD - 1
-C        ccc        NPT    =IPARG(6,NG)
-C-----------------------------------------------
-C       QUAD
-C-----------------------------------------------
 C-----------------------------------------------
 C       COQUES 4 N
 C-----------------------------------------------
@@ -228,8 +220,6 @@ C-----------------------------------------------
                               IOFF(EL2FA(N_FA+IE)) = MIN(IOFF(EL2FA(N_FA+IE)),OFFIPLY)
                         ENDDO
                     ENDDO   
-C!!     .               NINT(MIN(BUFLY%DMG(I),ONE))  ! on traite OFF de layer comme DMG
-C!!     .               NINT(MIN(BUFEL(NBX+(IPT- 1)*NEL + I),ONE)) 
                   ENDIF
                 ENDDO
              ELSE
@@ -248,8 +238,6 @@ C!!     .               NINT(MIN(BUFEL(NBX+(IPT- 1)*NEL + I),ONE))
                            IOFF(EL2FA(N_FA+IE))=MIN(IOFF(EL2FA(N_FA+IE)),OFFIPLY)
                         ENDDO
                      ENDDO      
-cc     .              NINT(MAX(ZERO,MIN(BUFLY%DMG(I),ONE)))
-!!     .              NINT(MAX(ZERO,MIN(BUFLY%LBUF(1,1,1)%OFF(I),ONE)))
                   ELSE
                     DO IS = 1,NPTS
                         DO IR = 1,NPTR 
@@ -258,8 +246,6 @@ cc     .              NINT(MAX(ZERO,MIN(BUFLY%DMG(I),ONE)))
                              IOFF(EL2FA(N_FA+IE)) =MIN(IOFF(EL2FA(N_FA+IE)),OFFIPLY) 
                         ENDDO
                      ENDDO   
-cc     .               NINT(MIN(BUFLY%DMG(I),ONE))
-!!     .               NINT(MIN(BUFLY%LBUF(1,1,1)%OFF(I),ONE))
                   END IF
                 ENDIF
               ENDDO

@@ -52,7 +52,6 @@ C-----------------------------------------------
 #include      "scr07_c.inc"
 #include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "couple_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

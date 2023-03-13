@@ -43,7 +43,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "com08_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
@@ -198,12 +197,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-#include      "com08_c.inc"
-#include      "com01_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,ISROT,NEL
@@ -221,7 +214,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NC1, NC2, NC3,II(6),NN(3)
-C     REAL
       my_real 
      .   X0G2(MVSIZ),X0G3(MVSIZ),Y0G2(MVSIZ),Y0G3(MVSIZ),OFF_L,
      .   Z0G2(MVSIZ),Z0G3(MVSIZ),AXYZ(MVSIZ,3,3),
@@ -231,7 +223,6 @@ C     REAL
      .   Y0L2(MVSIZ),Y0L3(MVSIZ),SUM(MVSIZ),NORM,XL,YL,VR1_12,VR1_21,
      .   RLZ1,RLZ2,RLZ3,AREAI,X0G32,Y0G32,Z0G32,DIRZ(MVSIZ,2)
 C-----------------------------------------------
-C=======================================================================
       DO I=1,6
         II(I) = NEL*(I-1)
       ENDDO

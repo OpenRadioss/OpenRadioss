@@ -41,22 +41,17 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "param_c.inc"
+#include      "com04_c.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (H3D_KEYWORD) H3D_KEYWORD_QUAD_TENSOR(*)
-      my_real
-     .      GEO(NPROPG,*)
-      INTEGER IGEO(NPROPGI,*)
+      my_real GEO(NPROPG,NUMGEO)
+      INTEGER IGEO(NPROPGI,NUMGEO)
       INTEGER, INTENT(INOUT) :: NKEY
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "chara_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -77,8 +72,7 @@ c-----------------------------------------------
       H3D_KEYWORD_QUAD_TENSOR(I)%IS_IS  = 1
       H3D_KEYWORD_QUAD_TENSOR(I)%IS_IT  = 1
       H3D_KEYWORD_QUAD_TENSOR(I)%TEXT1  = 'Strain'
-      H3D_KEYWORD_QUAD_TENSOR(I)%COMMENT  = 
-     .'Strain tensor is output only if Istrain =1; except laws 14, 15, 19, 24 > 28'
+      H3D_KEYWORD_QUAD_TENSOR(I)%COMMENT  = 'Strain tensor is output only if Istrain =1; except laws 14, 15, 19, 24 > 28'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_QUAD_TENSOR(I)%KEY3  = 'TENS/DAMA'
@@ -86,8 +80,7 @@ c-----------------------------------------------
       H3D_KEYWORD_QUAD_TENSOR(I)%IS_IS  = 1
       H3D_KEYWORD_QUAD_TENSOR(I)%IS_IT  = 1
       H3D_KEYWORD_QUAD_TENSOR(I)%TEXT1  = 'Damage'
-      H3D_KEYWORD_QUAD_TENSOR(I)%COMMENT  = 
-     .'Cracks (LAW24 only)'
+      H3D_KEYWORD_QUAD_TENSOR(I)%COMMENT  = 'Cracks (LAW24 only)'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_QUAD_TENSOR(I)%KEY3  = 'TENS/EPSP'
@@ -95,8 +88,7 @@ c-----------------------------------------------
       H3D_KEYWORD_QUAD_TENSOR(I)%IS_IS  = 1
       H3D_KEYWORD_QUAD_TENSOR(I)%IS_IT  = 1
       H3D_KEYWORD_QUAD_TENSOR(I)%TEXT1  = 'Plastic Strain Tensor'
-      H3D_KEYWORD_QUAD_TENSOR(I)%COMMENT  = 
-     .'Plastic Strain tensor is output only for law 24'
+      H3D_KEYWORD_QUAD_TENSOR(I)%COMMENT  = 'Plastic Strain tensor is output only for law 24'
 c-----------------------------------------------
 
       NKEY=I

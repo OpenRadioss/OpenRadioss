@@ -44,15 +44,8 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "task_c.inc"
-#include      "warn_c.inc"
-#include      "scr05_c.inc"
-#include      "scr07_c.inc"
-#include      "scr18_c.inc"
-#include      "units_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "param_c.inc"
-#include      "couple_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -239,7 +232,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "units_c.inc"
       COMMON /LAGGLOB/N_MULT
       INTEGER N_MULT
 C-----------------------------------------------
@@ -537,9 +529,6 @@ C     REAL
       my_real
      .   R(MVSIZ),S(MVSIZ),T(MVSIZ),NI(MVSIZ,17) ,
      .   NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -875,9 +864,6 @@ C     REAL
      .   DRDZ(MVSIZ), DSDZ(MVSIZ), DTDZ(MVSIZ),
      .   XX(MVSIZ,17) ,YY(MVSIZ,17),ZZ(MVSIZ,17),
      .   NI(MVSIZ,17) ,RR(MVSIZ) ,SS(MVSIZ) ,TT(MVSIZ)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -39,21 +39,16 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "param_c.inc"
+#include      "com04_c.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (H3D_KEYWORD) H3D_KEYWORD_NODAL_VECTOR(*)
-      my_real
-     .      GEO(NPROPG,*)
+      my_real GEO(NPROPG,NUMGEO)
       INTEGER, INTENT(INOUT) :: NKEY
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "chara_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -64,8 +59,7 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'VEL'
       H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Velocity'
-      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 
-     .'Node translational velocity'
+      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 'Node translational velocity'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'DIS'
@@ -227,14 +221,12 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'VEL/TMAX'
       H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Max_Velocity'
-      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 
-     .'Maximum node translational velocity over time'
+      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 'Maximum node translational velocity over time'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'DIS/TMAX'
       H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Max_Displacement'
-      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 
-     .'Maximum node displacement over time'
+      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 'Maximum node displacement over time'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'AROT'

@@ -39,7 +39,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
@@ -52,11 +51,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "task_c.inc"
-#include      "parit_c.inc"
-#include      "spmd_c.inc"
-#include      "units_c.inc"
-#include      "timeri_c.inc"
-#include      "warn_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -293,7 +287,6 @@ C
           IF(IRODDL/=0) THEN
            DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
-#include "scalar.inc"
             DO CC = ADDCNI2(NOD), ADDCNI2(NOD+1)-1
               IF(PROCNI2(CC)==I) THEN
                 FSKYI2(1,CC) = RBUF(L)
@@ -315,7 +308,6 @@ C
           ELSE
            DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
-#include "scalar.inc"
             DO CC = ADDCNI2(NOD), ADDCNI2(NOD+1)-1
               IF(PROCNI2(CC)==I) THEN
                 FSKYI2(1,CC) = RBUF(L)
@@ -334,7 +326,6 @@ C
           IF(IRODDL/=0) THEN
            DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
-#include "scalar.inc"
             DO CC = ADDCNI2(NOD), ADDCNI2(NOD+1)-1
               IF(PROCNI2(CC)==I) THEN
                 FSKYI2(1,CC) = RBUF(L)
@@ -355,7 +346,6 @@ C
           ELSE
            DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
-#include "scalar.inc"
             DO CC = ADDCNI2(NOD), ADDCNI2(NOD+1)-1
               IF(PROCNI2(CC)==I) THEN
                 FSKYI2(1,CC) = RBUF(L)
@@ -374,7 +364,6 @@ C
          IF(IRODDL/=0) THEN
           DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
-#include "scalar.inc"
             DO CC = ADDCNI2(NOD), ADDCNI2(NOD+1)-1
               IF(PROCNI2(CC)==I) THEN
                 FSKYI2(1,CC) = RBUF(L)
@@ -394,7 +383,6 @@ C
          ELSE
            DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
-#include "scalar.inc"
             DO CC = ADDCNI2(NOD), ADDCNI2(NOD+1)-1
               IF(PROCNI2(CC)==I) THEN
                 FSKYI2(1,CC) = RBUF(L)

@@ -46,11 +46,7 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include "units_c.inc"
-#include "param_c.inc"
-#include "scr17_c.inc"
-#include "scr19_c.inc"
 #include "comlock.inc"
-#include "mvsiz_p.inc"
 C---------+--------+---+---+-------------------------------------------
 C VAR     | SIZE   |TYP| RW| DEFINITION
 C---------+--------+---+---+-------------------------------------------

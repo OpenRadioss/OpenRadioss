@@ -27,34 +27,20 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SHSUB0(FSKY ,FSKYV ,ITASK)
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "scr06_c.inc"
-#include      "units_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
-#include      "param_c.inc"
-#include      "subc_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITASK
-      my_real
-     .   FSKY(*),FSKYV(*)
-C     .   FSKY(8,LSKY),FSKYV(LSKY,8)
+      my_real FSKY(*),FSKYV(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

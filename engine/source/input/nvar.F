@@ -44,8 +44,10 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "chara_c.inc"
-#include      "nchar_c.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "nchar_c.inc"  
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -59,10 +61,12 @@ C-----------------------------------------------
       TEXT1(1:1)=' '
       TEXT1(2:101)=TEXT
       N=0
-      DO 100 I=2,101
-      J=I-1
-      IF(TEXT1(I:I)/=' '.AND.TEXT1(J:J)==' ') N=N+1
-  100 CONTINUE
+      DO I=2,101
+        J=I-1
+        IF(TEXT1(I:I) /= ' ' .AND. TEXT1(J:J) == ' ') THEN
+          N=N+1
+        ENDIF
+      ENDDO
       NVAR=N
       RETURN
       END

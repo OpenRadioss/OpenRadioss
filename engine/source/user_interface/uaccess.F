@@ -39,12 +39,9 @@ Chd|-- calls ---------------
 Chd|====================================================================
       INTEGER FUNCTION GET_U_CYCLE()
 C-----------------------------------------------
-#include "com01_c.inc"
-C-----------------------------------------------
        GET_U_CYCLE = NCYCLE
        RETURN
        END
-#include "my_real.inc"
 Chd|====================================================================
 Chd|  GET_U_TIME                    source/user_interface/uaccess.F
 Chd|-- called by -----------
@@ -54,8 +51,6 @@ Chd|====================================================================
       my_real FUNCTION GET_U_TIME()
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include "com08_c.inc"
 C-----------------------------------------------
        GET_U_TIME = TT
        RETURN
@@ -71,12 +66,9 @@ Chd|====================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 #include      "implicit_f.inc"
-#include      "my_real.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include "com04_c.inc"
 #include "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -120,7 +112,6 @@ Chd|        GET_VAR_USER_I                source/user_interface/eng_callback_c.c
 Chd|====================================================================
       INTEGER FUNCTION GET_U_NUMACC(IDACC)
 #include      "implicit_f.inc"
-#include      "param_c.inc"
 #include      "com04_c.inc"
       INTEGER IDACC
       INTEGER DEPLA,J,ID
@@ -160,11 +151,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "warn_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -225,13 +214,10 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "my_real.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
-#include "com04_c.inc"
 #include "scr05_c.inc"
 #include "userlib.inc"
 C-----------------------------------------------
@@ -320,13 +306,10 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "my_real.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
-#include "com04_c.inc"
 #include "scr05_c.inc"
 #include "userlib.inc"
 C-----------------------------------------------
@@ -415,13 +398,10 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "my_real.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
-#include "com04_c.inc"
 #include "scr05_c.inc"
 #include "userlib.inc"
 C-----------------------------------------------
@@ -510,13 +490,10 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "my_real.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
-#include "com04_c.inc"
 #include "scr05_c.inc"
 #include "userlib.inc"
 C-----------------------------------------------
@@ -602,7 +579,6 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "com04_c.inc"
 #include      "scr05_c.inc"
-#include      "r4r8_p.inc"
 #include      "param_c.inc"
       my_real
      .       VECT(LSKEW)
@@ -704,7 +680,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "vec_spring_num.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -766,19 +741,13 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real USER_X(LLT,8,3)
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -894,19 +863,13 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real USER_V(LLT,8,3)
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

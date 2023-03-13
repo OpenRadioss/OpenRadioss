@@ -41,19 +41,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NEL,NPT
-C     REAL
       my_real ,DIMENSION(NEL) ,INTENT(IN) :: OFFG
       my_real ,DIMENSION(MVSIZ,10) ,INTENT(IN) :: VX,VY,VZ
       my_real ,DIMENSION(MVSIZ,10,5),INTENT(IN) :: PX,PY,PZ
       my_real ,DIMENSION(MVSIZ) ,INTENT(OUT) :: DVM
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,N,IP
-C     REAL
       my_real 
      .   DXX,DYY,DZZ,FAC
 C-----------------------------------------------

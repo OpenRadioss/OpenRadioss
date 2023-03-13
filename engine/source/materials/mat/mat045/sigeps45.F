@@ -47,11 +47,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
-#include      "task_c.inc"
-#include      "com08_c.inc"
-#include      "scr20_c.inc"
-#include      "units_c.inc"
 #include      "scr17_c.inc"
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION

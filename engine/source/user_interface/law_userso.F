@@ -29,9 +29,6 @@ Chd|-- calls ---------------
 Chd|====================================================================
       MODULE LAW_USERSO
 C-----------------------------------------------
-C   D e r i v e d   T y p e   D e f i n i t i o n s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "my_real.inc"
@@ -69,7 +66,6 @@ C DPLA    | NEL     | F |R/W| INCREMENTAL PLASTIC STRAIN
 C---------+---------+---+---+--------------------------------------------
 C
       TYPE ULAWINTBUF
-#include "sequence.inc"
 C integer
         INTEGER  NCYCLE
         INTEGER  ID

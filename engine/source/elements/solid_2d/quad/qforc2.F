@@ -113,13 +113,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "scr03_c.inc"
-#include      "scr07_c.inc"
-#include      "scr01_c.inc"
-#include      "scrupw_c.inc"
-#include      "scr06_c.inc"
 C=======================================================================
 c FUNCTION: Internal force compute of Quad element
 c

@@ -67,11 +67,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "vect01_c.inc"
-#include      "scr05_c.inc"
-#include      "flowcom.inc"
-#include      "task_c.inc"
 #include      "param_c.inc"
-#include      "inter22.inc"
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
