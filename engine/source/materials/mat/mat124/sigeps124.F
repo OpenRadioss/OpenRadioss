@@ -810,15 +810,14 @@ c
      .            FT1(I)*(WF - WF1) + FT1(I)*H(I)*KAPDT1(I) - FT1(I)*WF1)/
      .            (YOUNG*KAPDT(I)*(WF - WF1) - FT1(I)*H(I)*KAPDT2(I))
               ELSE
-                OMEGAT(I) = ONE
+                OMEGAT(I) = ZEP999
               ENDIF
             ! -> Exponential type
             ELSEIF (DTYPE == 3) THEN 
               OMEGAT(I) = ONE - EXP(-(EPS_INEL(I)/WF))
-              IF (OMEGAT(I) > 0.999D0) OMEGAT(I) = ONE
             ENDIF
             OMEGAT(I) = MAX(OMEGAT(I),UVAR(I,12))
-            OMEGAT(I) = MIN(MAX(OMEGAT(I),ZERO),ONE)
+            OMEGAT(I) = MIN(MAX(OMEGAT(I),ZERO),ZEP999)
             ! Compute compression damage
             KAPDC2(I) = KAPDC2(I) + ALPHAC(I)*(MAX(EPS_EQ(I) - KAPDC(I),ZERO))/XSIS(I)
             BETAC = FT(I)*QH2(I)*SQRT(TWO_THIRD)/
@@ -827,15 +826,14 @@ c
             KAPDC(I)  = MAX(ALPHAC(I)*EPS_EQ(I),KAPDC(I))
             EPS_INEL(I) = KAPDC1(I) + OMEGAC(I)*KAPDC2(I)
             OMEGAC(I) = ONE - EXP(-(EPS_INEL(I)/EFC))
-            IF (OMEGAC(I) > 0.999D0) OMEGAC(I) = ONE
             OMEGAC(I) = MAX(OMEGAC(I),UVAR(I,16))
-            OMEGAC(I) = MIN(MAX(OMEGAC(I),ZERO),ONE)      
+            OMEGAC(I) = MIN(MAX(OMEGAC(I),ZERO),ZEP999)      
           ENDIF
 c
           ! Apply damage on stress computation
           !  -> Standard model with two damage variables
           IF (DFLAG == 1) THEN 
-            DMG(I) = MIN(MIN(OMEGAT(I),OMEGAC(I)),ONE)
+            DMG(I) = MIN(MIN(OMEGAT(I),OMEGAC(I)),ZEP999)
             ! Tensile stress tensor
             SIGTXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*SIGPT(I,1)
      .                + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SIGPT(I,2)
@@ -883,7 +881,7 @@ c
             SIGNZX(I) = (ONE-OMEGAT(I))*SIGTZX(I) + (ONE-OMEGAC(I))*SIGCZX(I)
           !  -> Isotropic damage model with one damage variable
           ELSEIF (DFLAG == 2) THEN 
-            DMG(I) = MIN(OMEGAT(I),ONE)
+            DMG(I) = MIN(OMEGAT(I),ZEP999)
             SIGNXX(I) = (ONE-DMG(I))*SIGNXX(I)
             SIGNYY(I) = (ONE-DMG(I))*SIGNYY(I)
             SIGNZZ(I) = (ONE-DMG(I))*SIGNZZ(I)
@@ -892,7 +890,7 @@ c
             SIGNZX(I) = (ONE-DMG(I))*SIGNZX(I)
           !  -> Multiplicative damage model
           ELSEIF (DFLAG == 3) THEN 
-            DMG(I) = ONE - MIN((ONE-OMEGAT(I))*(ONE-OMEGAC(I)),ONE)
+            DMG(I) = MIN(ONE - (ONE-OMEGAT(I))*(ONE-OMEGAC(I)),ZEP999)
             SIGNXX(I) = (ONE-DMG(I))*SIGNXX(I)
             SIGNYY(I) = (ONE-DMG(I))*SIGNYY(I)
             SIGNZZ(I) = (ONE-DMG(I))*SIGNZZ(I)
@@ -902,13 +900,14 @@ c
           ENDIF
 c
           ! Element deletion check    
-          IF ((DMG(I) == ONE).AND.(LOFF(I) == ONE).AND.(OFF(I) > ZERO)) THEN 
+          IF ((DMG(I) == ZEP999).AND.(LOFF(I) == ONE).AND.(OFF(I) > ZERO)) THEN 
             SIGNXX(I) = ZERO
             SIGNYY(I) = ZERO
             SIGNZZ(I) = ZERO
             SIGNXY(I) = ZERO
             SIGNYZ(I) = ZERO
             SIGNZX(I) = ZERO  
+            DMG(I)  = ONE
             LOFF(I) = FOUR_OVER_5       
             UELR(I) = UELR(I) + ONE
             IF (NINT(UELR(I)) == FAILIP)THEN 
