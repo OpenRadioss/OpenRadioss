@@ -34,7 +34,10 @@ Chd|====================================================================
      .                    SURF_ELTYP,KNOD2SURF ,NNOD2SURF,INOD2SURF ,TAGN      ,
      .                    IDSURF    ,NSEG      ,BUFSF    ,NOD_NORMAL,SURF_NODES,
      .                    IAD_BUFR  ,IDC       ,NBCONTY  ,NSEG_SWIFT_SURF,SWIFTSURF,
-     .                    SEGTOSURF ,IVOLSURF  ,NSURF_INVOL,ITAB)
+     .                    SEGTOSURF ,IVOLSURF  ,NSURF_INVOL,ITAB,NSEG_USED,
+     .                    LEADING_DIMENSION,NB_CELL_X,NB_CELL_Y,NB_CELL_Z,
+     .                    IPARG,IXS,IXQ,IXTG,
+     .                    CELL,CELL_POSITION,NODAL_PHASE,NB_BOX_LIMIT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,7 +49,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
+! com01 : ngroup/n2d
+#include "com01_c.inc" 
+#include "com04_c.inc"
+#include "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -59,6 +65,17 @@ C-----------------------------------------------
      . X(3,*),DIS(NSURF_INVOL,*),BUFSF(*),
      . NOD_NORMAL(3,NUMNOD)
       INTEGEr, INTENT(IN) :: ITAb(NUMNOD)
+      INTEGER, INTENT(IN) :: NSEG_USED
+      INTEGER, INTENT(IN) :: LEADING_DIMENSION
+      INTEGER, INTENT(IN) :: NB_BOX_LIMIT
+      INTEGER, INTENT(IN) :: NB_CELL_X,NB_CELL_Y,NB_CELL_Z
+      INTEGER, DIMENSION(NPARG,NGROUP), INTENT(IN) ::  IPARG  ! group data
+      INTEGER, DIMENSION(NIXS,NUMELS),INTENT(IN), TARGET :: IXS ! solid data
+      INTEGER, DIMENSION(NIXQ,NUMELQ),INTENT(IN), TARGET :: IXQ ! quad data
+      INTEGER, DIMENSION(NIXTG,NUMELTG),INTENT(IN), TARGET :: IXTG ! triangle data
+      INTEGER, DIMENSION(NUMNOD), INTENT(INOUT) :: NODAL_PHASE ! phase of nodes (in / out / near the surface)
+      INTEGER, DIMENSION(3,NUMNOD), INTENT(IN) :: CELL_POSITION ! position of node/cell
+      INTEGER, DIMENSION(NB_CELL_X,NB_CELL_Y,NB_CELL_Z), INTENT(INOUT) :: CELL ! phase of the voxcell
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -74,7 +91,7 @@ C-----------------------------------------------
      . V1X,V1Y,V1Z,V2X,V2Y,V2Z,V3X,V3Y,V3Z,V12X,V12Y,V12Z,XN(3),
      . TMP(3),SKW(9),XG,YG,ZG,DGR,X_PRIME,Y_PRIME,Z_PRIME
       DATA dd1/4,1,2,3/,dd2/2,3,4,1/
-      INTEGER , DIMENSION(:), ALLOCATABLE   :: ID_X2_TAGN
+      INTEGER , DIMENSION(:), ALLOCATABLE   :: ID_X2_TAGN,CLOSEST_NODE_ID
 C-----------------------------------------------
        IF(SURF_TYPE == 200) GOTO 950   ! case of infinite plane
        IF(SURF_TYPE == 101) GOTO 951   ! case of ellipsoid
@@ -182,30 +199,35 @@ C------------------------------------
             IPASSN(N) = 1
           ENDIF
         ENDDO ! DO N=1,NUMNOD
-!---
-! new algorithm to avoid quadratic loop
-!---
-      SIZE_X2 = IX2
-      CALL MAIN_DIST(X      ,ID_X2_TAGN ,TAGN   ,SIZE_X2  ,NSOLTOSF   ,
-     .               DIS    ,NBCONTY    ,IDC    ,IDSURF   ,IVOLSURF,
-     .               NSURF_INVOL)
-!---
-      DO 50 N=1,NUMNOD
-        INOD = NSOLTOSF(IDC,N)
-        IF (INOD <= 0) GOTO 50
-        XN(1) = X(1,N)
-        XN(2) = X(2,N)
-        XN(3) = X(3,N)
-        DIST = ZERO
-        CALL IN_OUT_SIDE(
-     .       INOD      ,INOD2SURF ,KNOD2SURF ,NNOD2SURF ,X         ,
-     .       XN        ,DIST      ,NSEG      ,SURF_ELTYP,NOD_NORMAL,
-     .       SURF_NODES,SWIFTSURF ,IDSURF    ,SEGTOSURF )
-!!        DIS(IDC,N) = DIST
-        DIS(IVOLSURF(IDSURF),N) = DIST
+
+        ! -------------------------------
+        ! find the phase of the elements : based on the distance of each node to the surface
+        ! to avoid to many computation, the space is divided in cells
+        ! the phase of each cell without any nodes of the surface is found
+        ! then the cell's phase is applyed to the nodes belonging to the cell 
+        SIZE_X2 = IX2
+        ALLOCATE( CLOSEST_NODE_ID(NUMNOD) )
+        CLOSEST_NODE_ID(1:NUMNOD) = -1
+        CALL PHASE_DETECTION(LEADING_DIMENSION,NB_CELL_X,NB_CELL_Y,NB_CELL_Z,NB_BOX_LIMIT,
+     .                       IPARG,IXS,IXQ,IXTG,X,IDSURF,
+     .                       CELL,CELL_POSITION,NODAL_PHASE,CLOSEST_NODE_ID,
+     .                       NNOD2SURF,KNOD2SURF,INOD2SURF,
+     .                       NOD_NORMAL,NSEG_USED,SEGTOSURF,NSEG,SURF_ELTYP,SURF_NODES,SWIFTSURF)
+        ! -------------------------------
+        ! save the phase & the closest node of the surface are saved in DIS & NSOLTOSF arrays
+        DO N=1,NUMNOD
+            DIST = ZERO
+            IF(TAGN(N) == 0) THEN
+                DIST = NODAL_PHASE(N)
+                NSOLTOSF(IDC,N) = CLOSEST_NODE_ID(N)
+            ENDIF
+            DIS(IVOLSURF(IDSURF),N) = DIST
+        ENDDO
+        DEALLOCATE( CLOSEST_NODE_ID ) 
+        ! -------------------------------
+
 C---
- 50     CONTINUE
-C---
+
  950    CONTINUE
 C---
         IF(SURF_TYPE /= 200) GOTO 951

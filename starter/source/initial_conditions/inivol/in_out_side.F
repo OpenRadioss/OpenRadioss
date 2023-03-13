@@ -133,20 +133,6 @@ C vect NOD --> INOD
           VZ_NOD_INOD = XN(3) - X(3,INOD)
 C PLANE 1
 C V1xV2
-c          V1X = XFAS(1,p)-XFAS(1,p1)
-c          V1Y = XFAS(2,p)-XFAS(2,p1)
-c          V1Z = XFAS(3,p)-XFAS(3,p1)
-c          V2X = XFAS(1,p2)-XFAS(1,p)
-c          V2Y = XFAS(2,p2)-XFAS(2,p)
-c          V2Z = XFAS(3,p2)-XFAS(3,p)
-c          V12X = V1Y*V2Z-V1Z*V2Y
-c          V12Y = V1Z*V2X-V1X*V2Z
-c          V12Z = V1X*V2Y-V1Y*V2X
-C  OR
-!!          V12X = NNX(IPL)
-!!          V12Y = NNY(IPL)
-!!          V12Z = NNZ(IPL)
-!
           V12X = NX
           V12Y = NY
           V12Z = NZ
@@ -185,7 +171,6 @@ C---
           DO r=1,3
             XSIGN(r) = SIGN(ONE,DIST_PL(r))
             IF(DIST_PL(r) == ZERO)XSIGN(r) = ONE !ZERO
-            !IF(XSIGN(r) == ZERO)NULL_DIST = 1
           ENDDO
           FAC1 = 0
           FAC2 = 0
@@ -195,16 +180,11 @@ C
           DO r=1,3
             IF(XSIGN(r) >= ZERO)THEN
               FAC1 = FAC1 + 1
-c            ELSE IF(XSIGN(r) < ZERO)THEN
-c              FAC2 = FAC2 + 1
             ENDIF
           ENDDO
           IF(FAC1 == 3)THEN
             DIST = ONE
             OK = OK + 1
-c          ELSE IF(FAC2 == 3)THEN
-c            DIST = -ONE
-c            OK = OK + 1
           ENDIF
           IF(OK > 0)EXIT
 C---
