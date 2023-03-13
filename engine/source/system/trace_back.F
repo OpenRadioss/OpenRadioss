@@ -266,9 +266,15 @@ C-----------------------------------------------
       CHARACTER*80 BLANC
       CHARACTER*132 TEXT(NLIGNES_MAX,PARASIZ)
       INTEGER I,IP,IL,NLIGNES,IT
-      SAVE NLIGNES_PILE,TEXT,CHECK_PILE
+      LOGICAL :: FIRST_CALL = .TRUE.
+      SAVE NLIGNES_PILE,TEXT,CHECK_PILE, FIRST_CALL
       INTEGER NS_SIGNAL1,IW1,LAST_IN
 C-----------------------------------------------
+      IF(FIRST_CALL) THEN
+        FIRST_CALL = .FALSE.
+        NLIGNES_PILE = 0
+        CHECK_PILE = 0
+      ENDIF
 C-----------------------------------------------
       BLANC=' '
       NIVEAU_PILE = TRACE_PILE(0)

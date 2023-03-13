@@ -1474,7 +1474,8 @@ C
             IFTHE  = 1
             ICONDN = 1
             ALLOCATE(FTHE(IFTHE), FTHESKY(0))
-            ALLOCATE(QFRICINT(0))
+            ALLOCATE(QFRICINT(NINTER))
+            QFRICINT(1:NINTER) = ZERO
             ALLOCATE(CONDN(ICONDN),CONDNSKY(0))
           ENDIF
 C
