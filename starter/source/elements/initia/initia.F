@@ -205,6 +205,7 @@ C-----------------------------------------------
       USE INIVOL_ARRAY_MOD
       USE EBCS_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE ARRAY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -380,6 +381,24 @@ C remove automatic allocation to reduce stack consumption
       CHARACTER*nchartitle,
      .   TITR
       LOGICAL :: ERROR_THROWN
+
+      ! ----------------
+      INTEGER :: LEADING_DIMENSION ! dimension of largest size
+      INTEGER :: ALE_ELEMENT_NUMBER ! number of ale element with material 51 or 151
+      my_real :: ELEMENT_SIZE ! max element size
+      my_real, DIMENSION(6) :: MIN_MAX_POSITION ! min/max position   
+      INTEGER, PARAMETER :: NB_BOX_LIMIT=128 ! maximum number of cell
+      INTEGER :: NB_CELL_X,NB_CELL_Y,NB_CELL_Z ! number of cell in x/y/z direction
+      TYPE(array_type), DIMENSION(:), ALLOCATABLE :: CELL ! voxcell
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: CELL_POSITION ! position of node/cell
+      TYPE(array_type), DIMENSION(:), ALLOCATABLE :: NODAL_PHASE ! phase of node
+
+      INTEGER :: ALE_NODE_NUMBER ! number of ale node
+      INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_ALE_NODE ! list of ale node
+      my_real, DIMENSION(3) :: SIZE_CELL ! cell's size in x/y/z direction
+      ! ----------------
+
+
             
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
@@ -1629,6 +1648,9 @@ C-----------------------------------------------------
 C Option /INIVOL
 C-----------------------------------------------------
       IF (NINIVOL > 0) THEN
+        ALLOCATE( CELL_POSITION(3,NUMNOD) )
+        ALLOCATE( LIST_ALE_NODE(NUMNOD) )
+
         DO II=1,NINIVOL
           IFRAC   = INIVOL(II)%ID
           NBCONTY = INIVOL(II)%NBCONTY
@@ -1732,9 +1754,36 @@ C------------------------------------
           ALLOCATE(SEGTOSURF(NSEG_USED)        ,STAT=stat)
           SEGTOSURF(1:NSEG_USED) = 0
 !---
+          ! -----------------
+          ! compute the min / max position of ale elements
+          ALE_NODE_NUMBER = 0
+          CALL ALE_ELEMENT_SIZE_COMPUTATION(IPARG,IXS,IXQ,IXTG,
+     .               ELEMENT_SIZE,MIN_MAX_POSITION,X,
+     .               ALE_ELEMENT_NUMBER,ALE_NODE_NUMBER,LIST_ALE_NODE)
+          ! -----------------
+          ! compute the min/max position of surface elements
+          CALL SURFACE_MIN_MAX_COMPUTATION(NBCONTY,MIN_MAX_POSITION,X,IGRSURF,INIVOL(II))
+          ! -----------------
+          ! creation of the grid
+          CALL ALE_BOX_CREATION(NB_BOX_LIMIT,NB_CELL_X,NB_CELL_Y,NB_CELL_Z,
+     .                          ALE_ELEMENT_NUMBER,ELEMENT_SIZE,MIN_MAX_POSITION,
+     .                          LEADING_DIMENSION,SIZE_CELL)
+          ! -----------------
+          ! coloration of CELL with nodes of surface
+          ALLOCATE( CELL(NBCONTY) )
+
+          CALL ALE_BOX_COLORATION(NB_CELL_X,NB_CELL_Y,NB_CELL_Z,NBCONTY,
+     .                            MIN_MAX_POSITION,CELL,X,IGRSURF,INIVOL(II),CELL_POSITION,
+     .                            ALE_NODE_NUMBER,LIST_ALE_NODE)
+          ! -----------------
+
+          ALLOCATE( NODAL_PHASE(NBCONTY) )
+          NODAL_PHASE(1:NBCONTY)%SIZE_INT_ARRAY_1D = NUMNOD
           ITAGSURF(1:NSURF) = 0
           NSEG_SWIFT_SURF = 0
           DO IDC=1,NBCONTY
+            CALL ALLOC_1D_ARRAY(NODAL_PHASE(IDC))
+            NODAL_PHASE(IDC)%INT_ARRAY_1D(1:NUMNOD) = 0
             IDSURF     = INIVOL(II)%SURFCONTY(IDC)
             JMID       = INIVOL(II)%CONTY(IDC)%IPHASE
             IFILL      = INIVOL(II)%CONTY(IDC)%IFILL
@@ -1751,10 +1800,17 @@ C------------------------------------
      .        IGRSURF(IDSURF)%ELTYP  ,KNOD2SURF ,NNOD2SURF ,INOD2SURF,TAGN       ,
      .        IDSURF    ,NSEGSURF    ,BUFSF     ,NOD_NORM  ,IGRSURF(IDSURF)%NODES,
      .        IGRSURF(IDSURF)%IAD_BUFR,IDC      ,NBCONTY   ,NSEG_SWIFT_SURF,SWIFTSURF,
-     .        SEGTOSURF ,IVOLSURF,NSURF_INVOL,ITAB)
+     .        SEGTOSURF ,IVOLSURF,NSURF_INVOL,ITAB,NSEG_USED,
+     .        LEADING_DIMENSION,NB_CELL_X,NB_CELL_Y,NB_CELL_Z,
+     .        IPARG,IXS,IXQ,IXTG,
+     .        CELL(IDC)%INT_ARRAY_3D,CELL_POSITION,NODAL_PHASE(IDC)%INT_ARRAY_1D,NB_BOX_LIMIT)
             ENDIF
             DEALLOCATE(TAGN)
+            CALL DEALLOC_1D_ARRAY(NODAL_PHASE(IDC))
+            CALL DEALLOC_3D_ARRAY(CELL(IDC))
           ENDDO ! DO IDC=1,NBCONTY
+          DEALLOCATE( NODAL_PHASE )
+          DEALLOCATE( CELL )
 !-------------
           DO NG=1,NGROUP                                                                                   
 !---
@@ -1838,6 +1894,8 @@ C
           IF(ALLOCATED(SEGTOSURF))DEALLOCATE(SEGTOSURF)
 !---
         ENDDO ! next II=1,NINIVOL
+        DEALLOCATE( CELL_POSITION )
+        DEALLOCATE( LIST_ALE_NODE )
       ELSE
         ALLOCATE(IPHASE(0),NBIP(0,0),ITAGNSOL(0),KNOD2SURF(0),PART_FILL(0),IVOLSURF(0),
      .           SWIFTSURF(0),NSOLTOSF(0,0),INOD2SURF(0),DIS(0,0),NOD_NORM(0),SEGTOSURF(0))
