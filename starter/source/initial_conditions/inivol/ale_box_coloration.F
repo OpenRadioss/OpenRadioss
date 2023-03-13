@@ -60,12 +60,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(IN) :: NB_CELL_X,NB_CELL_Y,NB_CELL_Z ! number of cell in x/y/z direction
+        INTEGER, INTENT(IN) :: SURFACE_NUMBER ! number of surface
         TYPE(array_type), DIMENSION(SURFACE_NUMBER), INTENT(INOUT) :: CELL ! voxcell
         my_real, DIMENSION(6), INTENT(IN) :: MIN_MAX_POSITION ! min/max position
         my_real, DIMENSION(3,NUMNOD), INTENT(IN) :: X ! position
         INTEGER, DIMENSION(3,NUMNOD), INTENT(INOUT) :: CELL_POSITION ! position of node/cell
         TYPE (SURF_), DIMENSION(NSURF), INTENT(IN) :: IGRSURF ! surface data
-        INTEGER, INTENT(IN) :: SURFACE_NUMBER ! number of surface
         TYPE (INIVOL_), INTENT(IN) :: INIVOL ! inivol data
         INTEGER, INTENT(IN) :: ALE_NODE_NUMBER ! number of ale node
         INTEGER, DIMENSION(ALE_NODE_NUMBER), INTENT(IN) :: LIST_ALE_NODE ! list of ale node
