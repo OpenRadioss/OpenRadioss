@@ -37,9 +37,6 @@ Chd|====================================================================
       SUBROUTINE MULTI_MUSCL_GRADIENTS(ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .     PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, NBMAT, CURRENT_TIME, BUFMAT)
 C-----------------------------------------------
-C     D e s c r i p t i o n
-C-----------------------------------------------
-C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD      
@@ -55,12 +52,9 @@ C     C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 !     NUMELS      
-#include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
-#include      "mvsiz_p.inc"
 !     DTFAC1
-#include      "scr18_c.inc" 
 #include      "macro.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s

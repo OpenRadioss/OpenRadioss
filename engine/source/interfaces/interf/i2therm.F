@@ -35,22 +35,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
-#include      "param_c.inc"
-#include      "com01_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr02_c.inc"
-#include      "scr14_c.inc"
 #include      "scr18_c.inc"
-#include      "sms_c.inc"
-#include      "task_c.inc"
 #include      "parit_c.inc"
 #include      "scr_thermal_c.inc"
 C-----------------------------------------------

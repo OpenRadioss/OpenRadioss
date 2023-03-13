@@ -100,10 +100,6 @@ C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
 #include      "param_c.inc"
-C#include      "parit_c.inc"
-C#include      "scr17_c.inc"
-C#include      "scr05_c.inc"
-C#include      "com01_c.inc"
        INTEGER NEL, NUPARAM, NUVAR,IPT,IPLA
        INTEGER NGL(NEL),MAT(NEL),IPM(NPROPMI,*)
         my_real

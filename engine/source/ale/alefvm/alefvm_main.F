@@ -79,26 +79,14 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "vect01_c.inc"
-#include      "scr05_c.inc"
-#include      "scr06_c.inc"
 #include      "scr17_c.inc"
-#include      "units_c.inc"
-#include      "parit_c.inc"
 #include      "task_c.inc"
-#include      "spmd_c.inc"
-#include      "vale_c.inc"
 #include      "inter22.inc"
 #include      "alefvm.inc"
 C-----------------------------------------------
@@ -146,7 +134,6 @@ C-----------------------------------------------
       TYPE(L_BUFEL_)  ,POINTER  :: LBUF
             
       INTEGER :: NIN,NBF,NBL,tNB
-C
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------       

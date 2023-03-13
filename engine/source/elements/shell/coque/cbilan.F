@@ -57,9 +57,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "parit_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -244,7 +241,6 @@ C
 	JST(IC+1)=JLT+1
         IF (IC==1) THEN
          MX = IPARTC(JFT)
-#include      "simd.inc"
          DO I=JFT,JLT
           PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
           PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
@@ -275,7 +271,6 @@ C
           DO II=1,IC
             MX=IPARTC(JST(II))
             IF (JST(II+1)-JST(II)>15) THEN
-#include "simd.inc"
               DO I=JST(II),JST(II+1)-1
                PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
                PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
@@ -351,7 +346,6 @@ C                PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
 	JST(IC+1)=JLT+1		   
         IF (IC==1) THEN
           MX = IPARTC(JFT)
-#include      "simd.inc"
           DO I=JFT,JLT
             PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
             PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
@@ -367,7 +361,6 @@ C             PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
            DO II=1,IC
              MX=IPARTC(JST(II))
              IF (JST(II+1)-JST(II)>15) THEN
-#include "simd.inc"
                DO I=JST(II),JST(II+1)-1
                  PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
                  PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)

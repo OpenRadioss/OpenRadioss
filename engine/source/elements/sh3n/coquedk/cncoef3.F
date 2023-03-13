@@ -48,7 +48,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com04_c.inc"
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
 C-----------------------------------------------
@@ -56,7 +55,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,MTN,ITHK,NPT,IHBE,ISUBSTACK
       INTEGER MAT(*), PID(*), IGEO(NPROPGI,*)
-C     REAL
       my_real
      .   GEO(NPROPG,*), PM(NPROPM,*), AREA(*),
      .   SHF(*),THK0(*),THK02(*),THK(*),THKE(*),
@@ -69,7 +67,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ISH,MX,IPID,IGTYP,IPGMAT,IGMAT
-C     REAL
       my_real FSH,VISCDEF,FAC1TMP,KFAC,DN,K58(3),
      .        RFAC,RFAT,R1,R2,R3,S1,S2,S3,T1,T2,T3,RS1,RS2,RS3,
      .        R12,S12,R22,S22,R3R3,S3S3,E11,E22,EMIN,K58I
@@ -283,14 +280,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com04_c.inc"
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
 C-----------------------------------------------
@@ -430,10 +422,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "impl1_c.inc"
@@ -442,14 +430,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL
       my_real
      .   G(*),KRZ(*),AREA(*),THK(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL
       my_real KFAC ,LMAX
 C-----------------------------------------------
       IF(IMPL_S>0)THEN
@@ -461,15 +447,7 @@ C
       DO I=JFT,JLT
         KRZ(I) =KFAC*G(I)
       ENDDO
-C
-c      DO I=JFT,JLT
-c       LMAX=HALF*ALDT(I)/MAX(EM20,AREA(I))
-c       KFAC=LMAX*SQRT(THREE*AREA(I)+THK(I)*THK(I))
-c       KFAC=LMAX*SQRT((EIGHT*AREA(I)+THREE*THK(I)*THK(I))*THIRD)
-c       KFAC=LMAX*SQRT((EIGHT*AREA(I)+THREE*THK(I)*THK(I))*ONE_OVER_9)
-c       KFAC= MIN(ONE,KFAC)
-c       ALDT(I)= KFAC*ALDT(I)
-c      ENDDO
+
       RETURN
       END
 Chd|====================================================================
@@ -508,9 +486,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com04_c.inc"
-#include      "impl1_c.inc"
-#include      "impl2_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -552,7 +527,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,IPID,J,J1,J2,J3,JJ,MATLY(MVSIZ*100),L,IGTYP,
      .        ISUBSTACK,IGMAT,IPOS,IPT_ALL,ILAY,IPT,IT,NPTT
-C     REAL
       my_real
      .   WMC,FACG,COEF,WM
       my_real

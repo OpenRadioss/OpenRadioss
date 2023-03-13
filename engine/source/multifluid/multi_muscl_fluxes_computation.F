@@ -51,9 +51,6 @@ C-----------------------------------------------
 !           
 !$ENDCOMMENT
 C-----------------------------------------------
-C     D e s c r i p t i o n
-C-----------------------------------------------
-C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD      
@@ -71,12 +68,9 @@ C-----------------------------------------------
 ! NUMELS      
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc"
 #include      "mvsiz_p.inc"
 !     DTFAC1
-#include      "scr18_c.inc" 
 !     SNPC, STF
-!#include      "tabsiz_c.inc" 
       COMMON /TABLESIZF/ STF,SNPC
       INTEGER STF,SNPC
 C-----------------------------------------------

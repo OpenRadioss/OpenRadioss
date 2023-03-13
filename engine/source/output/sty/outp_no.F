@@ -30,10 +30,7 @@ Chd|====================================================================
       SUBROUTINE OUTP_NO(KEY ,TEXT  ,LEN       ,ANIN   ,NUMNOD,
      2                   ITAB,INNODA,ITABG,LENG,NODGLOB,WEIGHT)
 C-----------------------------------------------
-C SORTIE DES VARIABLES SCALAIRES NODALES DANS 
-C LES FICHIERS OUTP
-C JBM LE 23/9/96
-C-----------------------------------------------
+C NODAL VALUES IN OUTP FILES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,7 +39,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "scr16_c.inc"
 #include      "spmd_c.inc"
@@ -52,18 +48,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*10 KEY
       CHARACTER*40 TEXT
-      INTEGER ITAB(*), LEN, NUMNOD, INNODA,
-     .       ITABG(*),LENG,NODGLOB(*),WEIGHT(*)
-
-      my_real
-     .   ANIN(*)
+      INTEGER ITAB(*), LEN, NUMNOD, INNODA,ITABG(*),LENG,NODGLOB(*),WEIGHT(*)
+      my_real ANIN(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N
-
-      my_real
-     .  VGLOB(LENG)
+      my_real VGLOB(LENG)
 C-----------------------------------------------
 
       IF (NSPMD > 1) THEN

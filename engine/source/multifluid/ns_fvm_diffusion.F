@@ -32,20 +32,17 @@ c-----------------------------------------------
 c   i m p l i c i t   t y p e s
 c-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "task_c.inc"
 !     nspmd, ngroup
 #include "com01_c.inc"
 !     numels
 #include "com04_c.inc"
 !     nsvois
-#include "spmd_c.inc"
 !     npropmi, npropm, nparg
 #include "param_c.inc"
 c-----------------------------------------------
 c   m e s s a g e   p a s s i n g
 c-----------------------------------------------
 #ifdef mpi
-#include "mpif.h"
 #endif
 !     dummy
       type(t_ale_connectivity), intent(in) :: ale_connect

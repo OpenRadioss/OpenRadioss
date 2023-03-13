@@ -91,8 +91,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr02_c.inc"
-#include      "scr03_c.inc"
 #include      "scr05_c.inc"
 #include      "scr07_c.inc"
 #include      "scr11_c.inc"
@@ -101,11 +99,8 @@ C-----------------------------------------------
 #include      "scr18_c.inc"
 #include      "units_c.inc"
 #include      "parit_c.inc"
-#include      "warn_c.inc"
-#include      "couple_c.inc"
 #include      "param_c.inc"
 #include      "impl1_c.inc"
-#include      "task_c.inc"
 #include      "sms_c.inc"
 #include      "kincod_c.inc"
 C-----------------------------------------------
@@ -197,7 +192,6 @@ C
       DOUBLE PRECISION FX6(6,MVSIZ), FY6(6,MVSIZ), FZ6(6,MVSIZ)
 C
 C-----------------------------------------------
-#include "sync_dir.inc"
       IF (IRESP==1) THEN
         PREC = FIVEEM4
       ELSE
@@ -2270,24 +2264,11 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "scr11_c.inc"
-#include      "units_c.inc"
-#include      "parit_c.inc"
-#include      "warn_c.inc"
-#include      "couple_c.inc"
-#include      "param_c.inc"
-#include      "impl1_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2436,8 +2417,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr02_c.inc"
-#include      "scr03_c.inc"
 #include      "scr05_c.inc"
 #include      "scr07_c.inc"
 #include      "scr11_c.inc"
@@ -2446,10 +2425,8 @@ C-----------------------------------------------
 #include      "scr18_c.inc"
 #include      "units_c.inc"
 #include      "parit_c.inc"
-#include      "couple_c.inc"
 #include      "impl1_c.inc"
 #include      "sms_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2505,7 +2482,6 @@ C-----------------------------------------------
       DOUBLE PRECISION
      .   FX6(6,MVSIZ), FY6(6,MVSIZ), FZ6(6,MVSIZ)
 C-----------------------------------------------
-#include "sync_dir.inc"
       IF (IRESP == 1) THEN
         PREC = FIVEEM4
       ELSE
@@ -3375,11 +3351,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-#include      "scr05_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT, NRTS, NIN,
@@ -3472,11 +3443,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -3585,10 +3551,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "parit_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -3728,10 +3691,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "parit_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

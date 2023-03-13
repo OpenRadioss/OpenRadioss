@@ -43,8 +43,6 @@ C!---------+---------+---+---+-------------------
 #include "scr17_c.inc"
 #include "units_c.inc"
 #include "comlock.inc"
-#include "param_c.inc"
-#include "impl1_c.inc"
 C!-----------------------------------------------
       INTEGER NEL, NUPARAM, NUVAR,NGL(NEL)
       my_real TIME,TIMESTEP,UPARAM(*),

@@ -45,7 +45,6 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "parit_c.inc"
-#include      "impl1_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -293,9 +292,6 @@ C        SORTIES : FIJ,MIJ
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
-#include      "com01_c.inc"
-#include      "com08_c.inc"
-#include      "parit_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
@@ -902,9 +898,6 @@ C        SORTIES : FIJ,MIJ
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
-#include      "com01_c.inc"
-#include      "com08_c.inc"
-#include      "parit_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S

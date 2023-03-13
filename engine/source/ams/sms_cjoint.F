@@ -122,7 +122,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "param_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -194,7 +193,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "param_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -262,7 +260,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "scr06_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -498,20 +495,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(0:*), IDOWN
-C     REAL
-      my_real
-     .   A(3,*), DMS(*), CJWORK(*)
-CMasParINCLUDE 'telesc.intmap.inc'
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+      my_real A(3,*), DMS(*), CJWORK(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSN, NA, NB, I, N
-C     REAL
-      my_real
-     .   AX, AY, AZ, A0, N1, N2, N3, DMASSE
+      my_real AX, AY, AZ, A0, N1, N2, N3, DMASSE
 C-----------------------------------------------
       NSN =NOD(0)
 C----------------------------
@@ -608,21 +597,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(0:*)
-C     REAL
-      my_real
-     .   A(3,*), AR(3,*), V(3,*), VR(3,*), X(3,*), MS(*),
-     .   IN(*), CJWORK(*)
-CMasParINCLUDE 'telesc.intmap.inc'
+      my_real A(3,*), AR(3,*), V(3,*), VR(3,*), X(3,*), MS(*),IN(*), CJWORK(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "scr06_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSN, NA, NB, I, N
-C     REAL
       my_real
      .   N1, N2, N3, AX, AY, AZ, AXX, AYY, AZZ, 
      .   XCDG, YCDG, ZCDG, XX, YY, ZZ, RR, A0, 

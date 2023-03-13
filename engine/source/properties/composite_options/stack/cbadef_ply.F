@@ -42,7 +42,6 @@ C       ENTREES :  NEL,NG,VQN,VXYZ,VASM,VASTN
 C       SORTIES : VDEF,BM (MEMBRANE),BMF(COUPLAGE MEM-FLEXION),BF (FLEXION),BC(C.T)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C-----------------------------------------------
-C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -83,7 +82,6 @@ C     INITIALISATION
 C--------------------------
       DATA IUN/1/
 C      
-!!       NPLAT0 = JLT
         NPLAT0 = NPLAT
        DO J= 1, NPT
 #include "vectorize.inc"

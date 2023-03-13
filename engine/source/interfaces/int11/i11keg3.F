@@ -58,20 +58,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "scr02_c.inc"
-#include      "scr03_c.inc"
 #include      "scr05_c.inc"
-#include      "scr07_c.inc"
-#include      "scr11_c.inc"
-#include      "scr14_c.inc"
-#include      "scr16_c.inc"
-#include      "scr18_c.inc"
-#include      "units_c.inc"
-#include      "parit_c.inc"
-#include      "couple_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -106,7 +93,6 @@ C-----------------------------------------------
      .   Q11,Q12,Q13,Q22,Q23,Q33,H00,VTX,VTY,VTZ,VT,
      .   KT1,KT2,KT3,KT4,Q1,Q2,FACF
 C-----------------------------------------------
-#include "sync_dir.inc"
       IF (IRESP == 1) THEN
          PREC = FIVEEM4
       ELSE 
@@ -482,9 +468,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,NIN
@@ -661,11 +644,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "scr03_c.inc"
 #include      "scr05_c.inc"
-#include      "parit_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -700,7 +679,6 @@ C-----------------------------------------------
      .   V2, FM2, VISCA,  FAC,  FF,DXT,T1,T2,T3,FTN,
      .   FX, FY, FZ, F2, MAS2, FACM1, PPLUS,GAP2,PENE2,PREC
 C-----------------------------------------------
-#include "sync_dir.inc"
       IF (IRESP == 1) THEN
          PREC = FIVEEM4
       ELSE 

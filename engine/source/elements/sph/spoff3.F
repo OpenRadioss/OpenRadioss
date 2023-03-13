@@ -34,10 +34,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
@@ -46,7 +42,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
       my_real
      .  VIS(*),VD2(*),OFFG(*),OFF(*)
       INTEGER NC1(*), MXT(*), NGL(*), NGEO(*), KXSP(NISP,*),
@@ -55,7 +50,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IPRT
-C     REAL
 C-----------------------------------------------
       DO I=LFT,LLT
        VIS(I)=ZERO
@@ -66,11 +60,8 @@ C-----------------------------------------------
        NC1(I) =KXSP(3,I)
       ENDDO
       DO I=LFT,LLT
-C      OFF(I) = MIN(ONE,OFFG(I))
        OFF(I) = MIN(ONE,ABS(OFFG(I)))
       ENDDO
-C     LAGRANGIAN ONLY.
-C     IF (JLAG/=0)THEN
       DO I=LFT,LLT
        VD2(I)=ZERO
       ENDDO

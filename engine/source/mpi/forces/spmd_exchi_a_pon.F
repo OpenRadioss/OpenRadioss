@@ -39,7 +39,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
@@ -50,13 +49,8 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
-#include      "spmd_c.inc"
-#include      "units_c.inc"
-#include      "timeri_c.inc"
-#include      "warn_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -119,7 +113,6 @@ C
              DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
                IF(ITAGX(NOD)==1)THEN
-#include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
                    SBUF(L+1) = FSKYIF(1,CC)
@@ -134,7 +127,6 @@ C
              DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
                IF(ITAGX(NOD)==1)THEN
-#include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
                    SBUF(L+1) = FSKYIF(1,CC)
@@ -154,7 +146,6 @@ C + la th  ermique
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
                IF(ITAGX(NOD)==1)THEN
-#include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
                    SBUF(L+1) = FSKYIF(1,CC)
@@ -171,7 +162,6 @@ C + la th  ermique
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
                IF(ITAGX(NOD)==1)THEN
-#include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
                    SBUF(L+1) = FSKYIF(1,CC)
@@ -189,7 +179,6 @@ C + la th  ermique
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
                IF(ITAGX(NOD)==1)THEN
-#include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
                    SBUF(L+1) = FSKYIF(1,CC)
@@ -207,7 +196,6 @@ C + la th  ermique
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
                IF(ITAGX(NOD)==1)THEN
-#include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
                    SBUF(L+1) = FSKYIF(1,CC)
@@ -230,7 +218,6 @@ C for type24 + pxfem
              DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
                IF(ITAGX(NOD)==1)THEN
-#include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
                    SBUF(L+1) = FSKYIF(1,CC)
@@ -251,7 +238,6 @@ C
              DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
                IF(ITAGX(NOD)==1)THEN
-#include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
                    SBUF(L+1) = FSKYIF(1,CC)
@@ -277,7 +263,6 @@ C + la th  ermique
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
                IF(ITAGX(NOD)==1)THEN
-#include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
                    SBUF(L+1) = FSKYIF(1,CC)
@@ -300,7 +285,6 @@ C
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
                IF(ITAGX(NOD)==1)THEN
-#include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
                    SBUF(L+1) = FSKYIF(1,CC)
@@ -324,7 +308,6 @@ C
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
                IF(ITAGX(NOD)==1)THEN
-#include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
                    SBUF(L+1) = FSKYIF(1,CC)
@@ -348,7 +331,6 @@ C
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
                IF(ITAGX(NOD)==1)THEN
-#include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
                    SBUF(L+1) = FSKYIF(1,CC)

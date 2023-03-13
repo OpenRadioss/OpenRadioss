@@ -60,7 +60,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 #include      "com01_c.inc"
 #include      "com06_c.inc"
 #include      "vect01_c.inc"

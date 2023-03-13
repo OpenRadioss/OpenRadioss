@@ -40,14 +40,10 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT ,ISMSTR
       INTEGER NCC(6,*),PID(*),MAT(*),NGL(*)
-C     REAL
       my_real
      .   X(3,*),OFFG(*),AL(*),ALI(*),ALS(*),
      .   R11(*),R12(*),R13(*),
@@ -57,7 +53,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ)
-C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), 
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), 

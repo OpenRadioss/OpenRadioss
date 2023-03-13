@@ -45,7 +45,6 @@ Chd|====================================================================
       TYPE(TTABLE) CUR_TABLE
       INTEGER I,TID
 C need NTABLE
-#include      "com04_c.inc"
 C
       GET_U_NUMTABLE = 0
       DO I=1,NTABLE
@@ -166,9 +165,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITABLE,NEL0
@@ -201,16 +197,12 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITABLE,NEL0,XXDIM
       INTEGER IPOS(NEL0,XXDIM)
       my_real  XX(NEL0,XXDIM)
-      my_real
-     .       YY(*), DYDX1(*)
+      my_real  YY(*), DYDX1(*)
      
       my_real, DIMENSION(:,:), ALLOCATABLE :: XX2 
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IPOS2

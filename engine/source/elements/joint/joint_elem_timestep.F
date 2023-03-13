@@ -34,37 +34,26 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com08_c.inc"
 #include      "com01_c.inc"
 #include      "param_c.inc"
 #include      "scr02_c.inc"
 #include      "scr17_c.inc"
 #include      "scr18_c.inc"
-#include      "cong2_c.inc"
-#include      "units_c.inc"
 #include      "sms_c.inc"
-#include      "task_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXR(NIXR,*),IPART(LIPART1,*),IPARTR(*),
      .   IGEO(NPROPGI,*),NPBY(NNPBY,*),
      .   IPARG(NPARG,*),NELTST,ITYPTST,NRBODY,ITAB(*)
-C     REAL
-      my_real STIFN(*), STIFR(*),MS(*) ,IN(*),
-     .   GEO(NPROPG,*),DT2T      
-C
+      my_real STIFN(*), STIFR(*),MS(*) ,IN(*),GEO(NPROPG,*),DT2T      
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -72,7 +61,6 @@ C-----------------------------------------------
       INTEGER I,J,K,M1,M2,IG,IGTYP,KAD,ITYP,NG,JFT,JLT,NEL,
      .        NB8,NFT,NUVAR,IRB,NV
       my_real DTN,DTR,DTRB1,DTRB2,DT
-C
       TYPE(G_BUFEL_),POINTER :: GBUF
 C----------------------------------------------------------      
       

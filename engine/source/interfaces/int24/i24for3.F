@@ -97,8 +97,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr02_c.inc"
-#include      "scr03_c.inc"
 #include      "scr05_c.inc"
 #include      "scr07_c.inc"
 #include      "scr11_c.inc"
@@ -106,14 +104,9 @@ C-----------------------------------------------
 #include      "scr16_c.inc"
 #include      "scr18_c.inc"
 #include      "sms_c.inc"
-#include      "units_c.inc"
 #include      "parit_c.inc"
-#include      "warn_c.inc"
-#include      "couple_c.inc"
 #include      "param_c.inc"
 #include      "impl1_c.inc"
-#include      "task_c.inc"
-#include      "kincod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -235,7 +228,6 @@ C
       INTEGER BITGET
       EXTERNAL BITGET
 C-----------------------------------------------
-#include "sync_dir.inc"
       DTMINI=ZERO
       IF (IRESP==1) THEN
         PREC = FIVEEM4
@@ -3575,13 +3567,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "parit_c.inc"
-#include      "task_c.inc"
-#include      "units_c.inc"
-#include      "com01_c.inc"
-#include      "warn_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -4211,10 +4197,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
-#include      "scr05_c.inc"
-#include      "task_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -4539,14 +4521,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "parit_c.inc"
 #include      "task_c.inc"
-#include      "units_c.inc"
-#include      "com01_c.inc"
 #include      "sms_c.inc"
-#include      "warn_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -4639,7 +4616,6 @@ C
         MAS= DTS * ( DTS * KT(I) + C(I) )
         MAS = HALF * MAX( MAS, DTS * CF(I) )
 C
-C-----------------------------------------------
 C-----------------------------------------------
 C      FAC = 1.0 for all cases
 C      FAC = 0.5 for type2 crossed connections - T2MAIN(i)*T2MAIN(j)=16

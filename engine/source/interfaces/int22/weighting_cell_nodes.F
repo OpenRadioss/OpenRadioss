@@ -51,7 +51,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "task_c.inc"
 #include      "i22edges.inc"  
 #include      "inter22.inc"
 #include      "comlock.inc"

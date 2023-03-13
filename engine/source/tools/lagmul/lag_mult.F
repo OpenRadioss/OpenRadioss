@@ -79,13 +79,9 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "units_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "task_c.inc"
 #include      "lagmult.inc"
-#include      "com01_c.inc"
-#include      "scr17_c.inc"
       COMMON /LAGGLOB/N_MULT
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -448,7 +444,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "units_c.inc"
 #include      "com04_c.inc"
 #include      "task_c.inc"
 #include      "lagmult.inc"

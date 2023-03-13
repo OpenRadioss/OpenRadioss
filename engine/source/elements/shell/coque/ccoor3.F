@@ -44,7 +44,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com08_c.inc"
-#include      "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -118,7 +117,6 @@ C----------------------------
       END DO
 C
       OFF_L = ZERO
-#include      "simd.inc"
       DO I=JFT,JLT
         DT1C(I) = DT1
         OFF(I) = MIN(ONE,ABS(OFFG(I)))
@@ -179,11 +177,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-#include      "com08_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NEL
@@ -198,7 +191,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, II(9),NN(4)
-C     REAL
       my_real 
      .   X0G2(MVSIZ),X0G3(MVSIZ),X0G4(MVSIZ),Y0G2(MVSIZ),
      .   Y0G3(MVSIZ),Y0G4(MVSIZ),Z0G2(MVSIZ),Z0G3(MVSIZ),Z0G4(MVSIZ),
@@ -206,7 +198,6 @@ C     REAL
      .   XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),YL3(MVSIZ),
      .   YL4(MVSIZ),UXYZ(MVSIZ,3,4),A_I(MVSIZ)
 C-----------------------------------------------
-C=======================================================================
       DO I=1,9
         II(I) = NEL*(I-1)
       ENDDO

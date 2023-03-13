@@ -59,11 +59,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr01_c.inc"
-#include      "scr03_c.inc"
-#include      "scr06_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -581,13 +577,9 @@ C     REAL
      .   K1717(9,*) ,K1718(9,*) ,K1719(9,*) ,K1720(9,*) ,K1818(9,*) ,
      .   K1819(9,*) ,K1820(9,*) ,K1919(9,*) ,K1920(9,*) ,K2020(9,*) 
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL
       my_real
      .   FXX(MVSIZ),FYY(MVSIZ),FZZ(MVSIZ),FXY(MVSIZ),FXZ(MVSIZ),
      .   FYZ(MVSIZ)

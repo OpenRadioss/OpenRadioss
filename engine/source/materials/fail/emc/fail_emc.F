@@ -68,10 +68,7 @@ C---------+---------+---+---+--------------------------------------------
 #include "units_c.inc"
 #include "param_c.inc"
 #include "scr17_c.inc"
-#include "scr19_c.inc"
-#include "impl1_c.inc"
 #include "comlock.inc"
-#include "com01_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------

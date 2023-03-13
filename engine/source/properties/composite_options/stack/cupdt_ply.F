@@ -48,8 +48,6 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include     "vect01_c.inc"
 #include     "parit_c.inc"
-#include     "com04_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -157,7 +155,6 @@ C
        ENDDO 
 
       ELSE  
-cc#include "cupdt3_pf.inc"
         DO I=JFT,JLT
         
          I1 = INOD(IXC(2,I))      

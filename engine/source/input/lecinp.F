@@ -53,7 +53,6 @@ C-----------------------------------------------
 #include      "scr02_c.inc"
 #include      "scr07_c.inc"
 #include      "scr18_c.inc"
-#include      "chara_c.inc"
 #include      "scrnoi_c.inc"
 #include      "scrcut_c.inc"
 #include      "nchar_c.inc"

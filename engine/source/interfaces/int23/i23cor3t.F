@@ -48,13 +48,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "scr02_c.inc"
-#include      "scr05_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), CAND_E(*), CAND_N(*), NSV(*), MSR(*),

@@ -55,7 +55,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "scr04_c.inc"
 #include      "scr07_c.inc"
-#include      "scr08_s_c.inc"
 #include      "scr08_a_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"

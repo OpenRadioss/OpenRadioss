@@ -37,13 +37,8 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
       my_real
      .   VX1(*), VX2(*), VX3(*), VX4(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*),
@@ -180,13 +175,8 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
       my_real
      .   VX1(*), VX2(*), VX3(*), VX4(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*),
@@ -205,28 +195,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I
-C     REAL
 C-----------------------------------------------
-C                                                                     12
+C
       DO I=LFT,LLT
-        DXX(I)=PX1(I)*VX1(I)+PX2(I)*VX2(I)+
-     .         PX3(I)*VX3(I)+PX4(I)*VX4(I)
-        DYY(I)=PY1(I)*VY1(I)+PY2(I)*VY2(I)+
-     .         PY3(I)*VY3(I)+PY4(I)*VY4(I)
-        DZZ(I)=PZ1(I)*VZ1(I)+PZ2(I)*VZ2(I)+
-     .         PZ3(I)*VZ3(I)+PZ4(I)*VZ4(I)
-        DXY(I)=PY1(I)*VX1(I)+PY2(I)*VX2(I)+
-     .         PY3(I)*VX3(I)+PY4(I)*VX4(I)
-        DXZ(I)=PZ1(I)*VX1(I)+PZ2(I)*VX2(I)+
-     .         PZ3(I)*VX3(I)+PZ4(I)*VX4(I)
-        DYX(I)=PX1(I)*VY1(I)+PX2(I)*VY2(I)+
-     .         PX3(I)*VY3(I)+PX4(I)*VY4(I)
-        DYZ(I)=PZ1(I)*VY1(I)+PZ2(I)*VY2(I)+
-     .         PZ3(I)*VY3(I)+PZ4(I)*VY4(I)
-        DZX(I)=PX1(I)*VZ1(I)+PX2(I)*VZ2(I)+
-     .         PX3(I)*VZ3(I)+PX4(I)*VZ4(I)
-        DZY(I)=PY1(I)*VZ1(I)+PY2(I)*VZ2(I)+
-     .         PY3(I)*VZ3(I)+PY4(I)*VZ4(I)
+        DXX(I)=PX1(I)*VX1(I)+PX2(I)*VX2(I)+PX3(I)*VX3(I)+PX4(I)*VX4(I)
+        DYY(I)=PY1(I)*VY1(I)+PY2(I)*VY2(I)+PY3(I)*VY3(I)+PY4(I)*VY4(I)
+        DZZ(I)=PZ1(I)*VZ1(I)+PZ2(I)*VZ2(I)+PZ3(I)*VZ3(I)+PZ4(I)*VZ4(I)
+        DXY(I)=PY1(I)*VX1(I)+PY2(I)*VX2(I)+PY3(I)*VX3(I)+PY4(I)*VX4(I)
+        DXZ(I)=PZ1(I)*VX1(I)+PZ2(I)*VX2(I)+PZ3(I)*VX3(I)+PZ4(I)*VX4(I)
+        DYX(I)=PX1(I)*VY1(I)+PX2(I)*VY2(I)+PX3(I)*VY3(I)+PX4(I)*VY4(I)
+        DYZ(I)=PZ1(I)*VY1(I)+PZ2(I)*VY2(I)+PZ3(I)*VY3(I)+PZ4(I)*VY4(I)
+        DZX(I)=PX1(I)*VZ1(I)+PX2(I)*VZ2(I)+PX3(I)*VZ3(I)+PX4(I)*VZ4(I)
+        DZY(I)=PY1(I)*VZ1(I)+PY2(I)*VZ2(I)+PY3(I)*VZ3(I)+PY4(I)*VZ4(I)
       ENDDO
 C
       RETURN

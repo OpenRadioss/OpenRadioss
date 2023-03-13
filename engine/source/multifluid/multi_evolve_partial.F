@@ -33,9 +33,6 @@ Chd|====================================================================
      .     IPARG, ITASK, IXS, IXQ, IXTG, MULTI_FVM, 
      .     PM, IPM, GRAVITY, CURRENT_TIME)
 C-----------------------------------------------
-C     D e s c r i p t i o n
-C-----------------------------------------------
-C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD      
@@ -50,7 +47,6 @@ C     C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc"
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s

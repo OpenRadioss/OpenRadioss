@@ -47,20 +47,11 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "parit_c.inc"
 #include      "task_c.inc"
-#include      "units_c.inc"
-#include      "com01_c.inc"
 #include      "sms_c.inc"
-#include      "warn_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -77,7 +68,6 @@ C-----------------------------------------------
       INTEGER I, IG, NISKYL1, NISKYL, NN
       my_real
      .        MAS1, MAS2, MAS3, MAS4, DTS
-C
 C
       NISKYL1 = 0
       DO I=1,JLT
@@ -253,14 +243,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "parit_c.inc"
 #include      "task_c.inc"
-#include      "units_c.inc"
-#include      "com01_c.inc"
 #include      "sms_c.inc"
-#include      "warn_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

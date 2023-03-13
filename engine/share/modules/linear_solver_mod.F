@@ -255,6 +255,7 @@ C-----------------------------------------------
 #ifdef MPI
 #include "mpif.h"
 #endif
+C-----------------------------------------------
       class (t_mumps_solver), intent(inout) :: this
       integer, intent(in) :: mat_dim
       this%mumps_par%par = 1
@@ -342,9 +343,13 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "com01_c.inc"
 #include      "task_c.inc"
+C-----------------------------------------------
+C   M e s s a g e   P a s s i n g
+C-----------------------------------------------
 #ifdef MPI
 #include "mpif.h"
 #endif
+C-----------------------------------------------
       class (t_mumps_solver), intent(inout) :: this
       integer, intent(in) :: dim
 !      my_real, dimension(dim), intent(out), target :: sol
@@ -395,6 +400,7 @@ C-----------------------------------------------
 #ifdef MPI
 #include "mpif.h"
 #endif
+C-----------------------------------------------
       class (t_mumps_solver), intent(inout) :: this
 
       this%mumps_par%job = -2
@@ -478,9 +484,13 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "com01_c.inc"
 #include      "task_c.inc"
+C-----------------------------------------------
+C   M e s s a g e   P a s s i n g
+C-----------------------------------------------
 #ifdef MPI
 #include "mpif.h"
 #endif
+C-----------------------------------------------
       class (t_cg_solver), intent(inout) :: this
       integer, intent(in) :: dim
       double precision, dimension(dim), intent(out), target :: sol

@@ -43,7 +43,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "couple_c.inc"
 #include      "scr02_c.inc"
 #include      "scr07_c.inc"
 #include      "scr17_c.inc"
@@ -51,7 +50,6 @@ C-----------------------------------------------
 #include      "sms_c.inc"
 #include      "units_c.inc"
 #include      "vect01_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

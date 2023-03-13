@@ -74,10 +74,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "scr01_c.inc"
-#include      "scr03_c.inc"
 #include      "scr19_c.inc"
 #include      "nsvis_c.inc"
 #include      "param_c.inc"

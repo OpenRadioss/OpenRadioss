@@ -36,21 +36,13 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "com08_c.inc"
-#include      "scr18_c.inc"
-#include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL
       my_real
      .   OFFG(*),OFF(*),WXX(*),WYY(*),WZZ(*)
       DOUBLE PRECISION
@@ -59,22 +51,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL
-      DOUBLE PRECISION
-     .   X , Y, Z   ,DV   
+      DOUBLE PRECISION X , Y, Z   ,DV   
 C-----------------------------------------------
 C-----------------------------
 C     ROTATION RBY DES COORDONNEES POUR SMALL STRAIN
 C-----------------------------
-C-----------------implicit sm disp option---
-c      IF (ISMDISP>0) THEN
-c       DO I=LFT,LLT
-c         DV=(DXX(I)+DYY(I)+DZZ(I))*DT1
-cC-----------------------------
-c         RHO(I) = RHOO(I) - RHO(I)*DV
-c         RHO(I) = MAX(RHO(I),EM30)
-c         DVOL(I)=VOL(I)*DV
-c       ENDDO
       IF(ISMSTR==11)THEN
 C----SAV : (ismstr=10,11) is differently saved to Ismstr=1      
        DO I=LFT,LLT
@@ -128,24 +109,8 @@ C
          SAV(I,7) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,14) = Y - Z*WXX(I) + X*WZZ(I)
          SAV(I,21) = Z - X*WYY(I) + Y*WXX(I) 
-C
-c         RHO(I) = RHOO(I) - RHO(I)*(DXX(I)+DYY(I)+DZZ(I))*DT1
-c         RHO(I) = MAX(RHO(I),EM30)
-c         DVOL(I)=VOL(I)*(DXX(I)+DYY(I)+DZZ(I))*DT1
        ENDDO
-c      ELSEIF(ISMSTR==3)THEN
-c       DO I=LFT,LLT
-c       IF(OFFG(I)>ONE)THEN
-cC-----------------------------------------------
-c         RHO(I) = RHOO(I) - RHO(I)*(DXX(I)+DYY(I)+DZZ(I))*DT1
-c         RHO(I) = MAX(RHO(I),EM30)
-cc        rho    = rho2    - rho1 deps
-cc        rho1 : debut du small strain
-cc        rho2 : pas de temps precedent
-cc         DVOL(I)=VOL(I)*(1.-RHO(I)/RHOO(I))
-c         DVOL(I)=VOL(I)*(DXX(I)+DYY(I)+DZZ(I))*DT1
-c        ENDIF
-c       ENDDO
+
       ELSEIF(ISMSTR<=4.AND.JLAG>0)THEN
        DO I=LFT,LLT
        IF(OFFG(I)>ONE)THEN
@@ -198,14 +163,7 @@ C
          SAV(I,19) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,20) = Y - Z*WXX(I) + X*WZZ(I)
          SAV(I,21) = Z - X*WYY(I) + Y*WXX(I) 
-C
-c         RHO(I) = RHOO(I) - RHO(I)*(DXX(I)+DYY(I)+DZZ(I))*DT1
-c         RHO(I) = MAX(RHO(I),EM30)
-cc        rho    = rho2    - rho1 deps
-cc        rho1 : debut du small strain
-cc        rho2 : pas de temps precedent
-cc         DVOL(I)=VOL(I)*(1.-RHO(I)/RHOO(I))
-c         DVOL(I)=VOL(I)*(DXX(I)+DYY(I)+DZZ(I))*DT1
+
         ENDIF
        ENDDO
       ENDIF
@@ -244,9 +202,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
-      my_real
-     .   OFFG(*),OFF(*)
+      my_real OFFG(*),OFF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -285,10 +241,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
@@ -309,9 +261,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL
-      DOUBLE PRECISION
-     .   X , Y, Z    ,DV   ,DV1
+      DOUBLE PRECISION X , Y, Z    ,DV   ,DV1
 C-----------------------------------------------
 C-----------------------------
 C     ROTATION RBY DES COORDONNEES POUR SMALL STRAIN
@@ -358,20 +308,14 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "scr18_c.inc"
-#include      "com01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL
       my_real
      .   R11(*),R12(*),R13(*),
      .   R21(*),R22(*),R23(*),
@@ -530,21 +474,13 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "scr18_c.inc"
-#include      "com01_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL
       my_real
      .   OFFG(*),WXX(*),WYY(*),WZZ(*),
      .   R11(*),R12(*),R13(*),
@@ -727,7 +663,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITET,NGL(*)
-C     REAL
       my_real
      .   OFFG(*),VOLG(*),DELTAX(*), VOLG0(*)
 C-----------------------------------------------

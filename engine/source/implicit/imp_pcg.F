@@ -35,15 +35,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IT,IT_MAX  
-C     REAL
       my_real
      .  R2,TOL 
 C-----------------------------------------------
@@ -78,7 +72,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -127,7 +120,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -184,7 +176,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
@@ -193,8 +184,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c      WRITE(66,*)X(1:NDDL)
-c      WRITE(66,*)R(1:NDDL)
+
       WRITE(66)X(1:NDDL)
       WRITE(66)R(1:NDDL)
       CLOSE(66)
@@ -498,17 +488,13 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
+#include      "comlock.inc"
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "task_c.inc"
 #include      "dmumps_struc.h"
-#include      "timeri_c.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -524,7 +510,6 @@ C----------resol [K]{X}={F}---------
       INTEGER IAD_ELEM(2,*), FR_ELEM(*), ITAB(*),  
      .        INSOLV, ITN, IPIV_K(*), NK, CDDLP(*), ISOLV, IDSC,
      .        IDDL(*), IKC(*), INLOC(*),NDDLI_G, MICID
-C     REAL
       my_real
      .  LT_I(*), TOL, EPS_M, F_X, XI_C(*)
 #if defined knf
@@ -2651,18 +2636,13 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "impl1_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDLI,ITN
-C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2697,8 +2677,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "impl1_c.inc"
@@ -2706,7 +2684,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDLI,NLIM
-C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2729,7 +2706,7 @@ Chd|        IMP_PCGH                      source/implicit/imp_pcg.F
 Chd|-- calls ---------------
 Chd|====================================================================
       LOGICAL FUNCTION MIXEDSOL()
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -2737,19 +2714,17 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "impl1_c.inc"
-C-----------------------------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
        MIXEDSOL=.FALSE.
        IF ((ISOLV==5.OR.ISOLV==6).AND.IT_PCG<0) MIXEDSOL=.TRUE.
-C
+       
       RETURN
       END
+      
 Chd|====================================================================
 Chd|  IMP_INIX                      source/implicit/imp_pcg.F     
 Chd|-- called by -----------
@@ -2770,19 +2745,13 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  F_DDL,L_DDL,NDDL,ITASK,W_DDL(*)
-C     REAL
       my_real
      .  X(*), R(*) 
 C-----------------------------------------------
@@ -2848,19 +2817,13 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  F_DDL ,L_DDL ,NDDL,ITASK,W_DDL(*)
-C     REAL
       my_real
      .  P(*) 
 C-----------------------------------------------
@@ -2918,25 +2881,13 @@ Chd|        ALEAT                         source/system/aleat.F
 Chd|====================================================================
       SUBROUTINE IMP_INIS(ND ,F_ND ,L_ND,   NPF,   NPL,   S   )
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  ND,F_ND ,L_ND,NPF,   NPL
-C     REAL
       my_real
      .  S(ND,*),ALEAT
       EXTERNAL ALEAT
@@ -2999,15 +2950,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
 #include      "impl1_c.inc"
+#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -3018,7 +2965,6 @@ C-----------------------------------------------
       INTEGER  NDOF(*),NE_IMP(*),NSREM ,NSL,
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*) ,IND_IMP(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
-C     REAL
         my_real
      .  DIAG_K(*), LT_K(*),LT_I(*) ,XI_C(*),U_TMP(*),P(*),Y(*)
         my_real
@@ -3121,8 +3067,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "impl1_c.inc"
@@ -3130,7 +3074,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IT,F_DDL,L_DDL
-C     REAL
         my_real
      .  R2, R2_OLD  ,RMAX  ,PROJ_U(*),P(*)
 C-----------------------------------------------
@@ -3217,16 +3160,12 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
+#include      "dmumps_struc.h"
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "task_c.inc"
-#include      "dmumps_struc.h"
-#include      "timeri_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -3242,14 +3181,8 @@ C----------resol [K]{X}={F}---------
       INTEGER IAD_ELEM(2,*), FR_ELEM(*), ITAB(*),  
      .        INSOLV, ITN, IPIV_K(*), NK, CDDLP(*), ISOLV, IDSC,
      .        IDDL(*), IKC(*), INLOC(*),NDDLI_G
-C     REAL
-      my_real
-     .  DIAG_K(*), LT_K(*) ,DIAG_M(*),LT_M(*) ,X(*), TOL,
-     .  P(*) ,Z(*)  ,R(*)  ,Y(*),LT_I(*) ,EPS_M,F_X,XI_C(*)
-      my_real
-     .  A(3,*),AR(3,*),VE(3,*),D(3,*),DR(3,*),XE(3,*),
-     .  MS(*),VOLMON(*),SKEW(*) ,XFRAME(*),FAC_K(*),
-     .  R0(*)
+      my_real DIAG_K(*), LT_K(*) ,DIAG_M(*),LT_M(*) ,X(*), TOL, P(*) ,Z(*)  ,R(*)  ,Y(*),LT_I(*) ,EPS_M,F_X,XI_C(*)
+      my_real A(3,*),AR(3,*),VE(3,*),D(3,*),DR(3,*),XE(3,*), MS(*),VOLMON(*),SKEW(*) ,XFRAME(*),FAC_K(*), R0(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
       TYPE(DMUMPS_STRUC) MUMPS_PAR
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -3259,25 +3192,21 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IT,IP,NLIM,ND,IERR,IPRI,IERROR,NNZI,LOC_PROC,ICK
       PARAMETER (ND=4)
-      CHARACTER*4       EXIT
-      CHARACTER*11       WARR
-      my_real
-     .   S , R2, R02,ALPHA,BETA,G0,G1,RR,TOLS,TOLN,TOLS2
+      CHARACTER*4 EXIT
+      CHARACTER*11 WARR
+      my_real S , R2, R02,ALPHA,BETA,G0,G1,RR,TOLS,TOLN,TOLS2
       INTEGER CRIT_STOP,IUPD,IUPD0,F_DDL,L_DDL,IFLG,GPUR4R8,ITP
       EXTERNAL CRIT_STOP
-      my_real
-     .  ANORM2,XNORM2,L_A,L_B2,L_B,A_OLD,B_OLD,TMP,G00,R2_OLD,RMAX
-      my_real
-     .  CS,DBAR, DELTA, DENOM, KCOND,SNPROD,QRNORM,
-     .  GAMMA, GBAR, GMAX, GMIN, EPSLN,LQNORM,DIAG,CGNORM,
-     .  OLDB, RHS1, RHS2,SN, ZBAR, ZL ,OLDB2,TNORM2,EPS(4)
+      my_real ANORM2,XNORM2,L_A,L_B2,L_B,A_OLD,B_OLD,TMP,G00,R2_OLD,RMAX
+      my_real CS,DBAR, DELTA, DENOM, KCOND,SNPROD,QRNORM,GAMMA, GBAR, GMAX, GMIN, EPSLN,LQNORM,DIAG,CGNORM,
+     .        OLDB, RHS1, RHS2,SN, ZBAR, ZL ,OLDB2,TNORM2,EPS(4)
 C--------------P-PCG Usage--------------------------
       my_real, DIMENSION(:),ALLOCATABLE :: SQ_DIAG_M
       SAVE SQ_DIAG_M
 C--------------END GPU SPECIFIC----------------------
       DATA               EXIT  /'WITH'/
       DATA               WARR  /'**WARRING**'/
-C      
+C-----------------------------------------------
       LOC_PROC=ISPMD+1
 C--------------INITIALISATION--------------------------
 C-----Istop=1 : NIT>=N_LIM+ RR>TOL
@@ -3295,13 +3224,11 @@ C
 C--------
       IF (ITASK == 0) THEN
        IF(IPRI/=0)THEN
-        WRITE(IOUT,*)
-     1         '*** BEGIN PROJECTED CONJUGATE GRADIENT ITERATION ***'
+        WRITE(IOUT,*)'*** BEGIN PROJECTED CONJUGATE GRADIENT ITERATION ***'
         WRITE(IOUT,*)
        ENDIF
        IF(IPRI<0)THEN
-        WRITE(ISTDO,*)
-     1         '*** BEGIN PROJECTED CONJUGATE GRADIENT ITERATION ***'
+        WRITE(ISTDO,*)'*** BEGIN PROJECTED CONJUGATE GRADIENT ITERATION ***'
         WRITE(ISTDO,*)
        ENDIF
       END IF !(ITASK == 0) THEN
@@ -3831,10 +3758,8 @@ C
         WRITE(ISTDO,1003)NLIM
         WRITE(ISTDO,*)
         IF(ITOL==3)THEN
-          WRITE(IOUT,2000)  
-     .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
-          WRITE(ISTDO,2000)  
-     .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
+          WRITE(IOUT,2000) EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
+          WRITE(ISTDO,2000) EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
         ENDIF
         ISTOP_H = 1
         IF (R2>HUNDRED*TOLN) THEN
@@ -3854,15 +3779,13 @@ C
         RR = SQRT(R2/R02)
         WRITE(IOUT,*)
         WRITE(IOUT,1002)IT,RR
-        IF(ITOL==3)WRITE(IOUT,2000)  
-     .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
+        IF(ITOL==3)WRITE(IOUT,2000) EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
 C          WRITE(IOUT,*) 'TOLN,TOLS2=',TOLN,TOLS2 
         WRITE(IOUT,*)
         IF(IPRI<0) THEN
          WRITE(ISTDO,*)
          WRITE(ISTDO,1002)IT,RR
-         IF(ITOL==3)WRITE(ISTDO,2000)
-     .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
+         IF(ITOL==3)WRITE(ISTDO,2000)EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
          WRITE(ISTDO,*)
         ENDIF
        ENDIF
@@ -3930,31 +3853,20 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
 #include      "impl1_c.inc"
+#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL  ,IADK(*)  ,JDIK(*),
-     .         NDDLI ,ITOK(*) ,IADI(*),JDII(*),
-     .         ITASK,W_DDL(*),IBFV(*),IRBE3(*) ,LRBE3(*),
-     .         IRBE2(*) ,LRBE2(*),F_DDL,L_DDL,IADM(*) ,JDIM(*)
-      INTEGER  NDOF(*),NE_IMP(*),NSREM ,NSL,
-     .         IPARI(*) ,NUM_IMP(*),NS_IMP(*) ,IND_IMP(*)
+      INTEGER  NDDL  ,IADK(*)  ,JDIK(*), NDDLI ,ITOK(*) ,IADI(*),JDII(*),
+     .         ITASK,W_DDL(*),IBFV(*),IRBE3(*) ,LRBE3(*), IRBE2(*) ,LRBE2(*),F_DDL,L_DDL,IADM(*) ,JDIM(*)
+      INTEGER  NDOF(*),NE_IMP(*),NSREM ,NSL,IPARI(*) ,NUM_IMP(*),NS_IMP(*) ,IND_IMP(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
-C     REAL
-        my_real
-     .  DIAG_K(*), LT_K(*),LT_I(*) ,XI_C(*),DIAG_M(*), LT_M(*)
-        my_real
-     .  A(3,*),AR(3,*),VE(3,*),D(3,*),DR(3,*),XE(3,*),
-     .  MS(*),VOLMON(*),SKEW(*) ,XFRAME(*),V_W(*)
+      my_real DIAG_K(*), LT_K(*),LT_I(*) ,XI_C(*),DIAG_M(*), LT_M(*)
+      my_real A(3,*),AR(3,*),VE(3,*),D(3,*),DR(3,*),XE(3,*),MS(*),VOLMON(*),SKEW(*) ,XFRAME(*),V_W(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -4050,11 +3962,9 @@ C---------------------
         ENDDO
       if (iline==1.AND.IMPDEB>0) then
        IF (NCG_RUN==0) THEN 
-       write(iout,*)'info,ini EIGENVALUE=',info,
-     .       (ONE/PROJ_LA_1(I),I=1,M_VS1)
+       write(iout,*)'info,ini EIGENVALUE=',info,(ONE/PROJ_LA_1(I),I=1,M_VS1)
        ELSEIF (iline==1) THEN
-       write(iout,*)'info,Upd EIGENVALUE=',info,
-     .       (ONE/PROJ_LA_1(I),I=1,M_VS1)
+       write(iout,*)'info,Upd EIGENVALUE=',info,(ONE/PROJ_LA_1(I),I=1,M_VS1)
        END IF
       endif
        END IF !(ITASK==0) THEN
@@ -4097,14 +4007,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -4116,7 +4021,6 @@ C-----------------------------------------------
       INTEGER  NDOF(*),NE_IMP(*),NSREM ,NSL,
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*) ,IND_IMP(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
-C     REAL
         my_real
      .  DIAG_K(*), LT_K(*),LT_I(*) ,XI_C(*),U(*),P(*),Y(*)
         my_real
@@ -4235,14 +4139,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -4256,7 +4155,6 @@ C-----------------------------------------------
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*) ,IND_IMP(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
       INTEGER IDDL(*), IKC(*), INLOC(*) 
-C     REAL
       my_real
      .  DIAG_K(*), LT_K(*) ,DIAG_M(*),LT_M(*) , 
      .  P(*) ,R(*)  ,Y(*),LT_I(*) ,XI_C(*),Z(*),SQ_DIAG_M(*)

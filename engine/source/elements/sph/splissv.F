@@ -74,15 +74,11 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SPHBOX
       USE MOD_SPLISSV
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -93,13 +89,9 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "sphcom.inc"
 #include      "param_c.inc"
-#include      "parit_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "units_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),ITAB(*),

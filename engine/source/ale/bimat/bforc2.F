@@ -101,11 +101,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "scr07_c.inc"
 #include      "vect01_c.inc"
-#include      "scr01_c.inc"
-#include      "scr02_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "units_c.inc"
 #include      "parit_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------

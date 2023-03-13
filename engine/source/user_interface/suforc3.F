@@ -66,17 +66,11 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr07_c.inc"
-#include      "scr01_c.inc"
-#include      "scr03_c.inc"
-#include      "scr06_c.inc"
 #include      "parit_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "userlib.inc"
-#include      "chara_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -592,8 +586,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "vect01_c.inc"
-#include      "scr18_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

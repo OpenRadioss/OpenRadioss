@@ -20,18 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C   |============================================================
-C   |   PKE3                                   /poutre/pke3.F
-C   |------------------------------------------------------------
-C   |-- appelee par -----------
-C   |         IMP_GLOB_K                         /implicit/imp_glob_k.F
-C   |-- appelle ---------------
-C   |         PCOORK3                          /poutre/pcoork3.F
-C   |         PMAT3                            /poutre/pmat3.F
-C   |         PSUMG3                           /poutre/psumg3.F
-C   |         TKEG3                            /truss/tke3.F
-C   |         ASSEM_P                          /implicit/assem_p.F
-C   |============================================================
 Chd|====================================================================
 Chd|  PKE3                          source/elements/beam/pke3.F   
 Chd|-- called by -----------
@@ -64,16 +52,11 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NCC(NIXP,*),JFT,JLT,OFFSET,NEL ,MTN,ISMSTR,IKGEO,
      .        ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)     
-C     REAL
       my_real 
      .   PM(*), X(*),GEO(*),
      .   KE11(36,MVSIZ),KE12(36,MVSIZ),KE22(36,MVSIZ),OFF(MVSIZ),
@@ -93,33 +76,12 @@ C-----------------------------------------------
      .    R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .    R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .    R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),FX(MVSIZ)
-C-----------------------------------------------
-C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
+C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-       GBUF => ELBUF_TAB%GBUF
-C
-c      NB1 =1
-c      NB2 =NB1  + NEL
-c      NB3 =NB2  + NEL*3
-c      NB4 =NB3  + NEL*3
-c      NB5 =NB4  + NEL*2
-c      NB6 =NB5  + NEL
-c      NB7 =NB6  + NEL*3
-c      NB8 =NB7
-c      NB10=NB8
-c      NB11=NB10
-c      NB12=NB11
-c      NB13=NB12
-c      NB14=NB13
-cC
-c      NB1 =NB1  + OFFSET
-c      NB2 =NB2  + OFFSET*3
-c      NB3 =NB3  + OFFSET*3
-c      NB4 =NB4  + OFFSET*2
-c      NB5 =NB5  + OFFSET
-c      NB6 =NB6  + OFFSET*3
+      GBUF => ELBUF_TAB%GBUF
+
       CALL PCOORK3(JFT         ,JLT      ,X      ,NCC   ,GBUF%OFF,
      2             PID         ,MAT      ,NGL    ,AL    ,ALI     , 
      3             GBUF%LENGTH,ISMSTR    ,R11    ,R12   ,R13     ,
@@ -139,9 +101,7 @@ C-------------------------
      5           R33    ,KE11   ,KE12    ,KE22   )
       IF (IKGEO>0) THEN
        DO I =JFT ,JLT
-        FX(I)=GBUF%FOR(2*NEL+I)
-!!        J = (I-JFT)*3
-!!        FX(I)=GBUF%FOR(J + 1)
+         FX(I)=GBUF%FOR(2*NEL+I)
        ENDDO 
        CALL PKEG3(JFT    ,JLT    ,
      1            FX     ,AL     ,KE11    ,KE12    ,KE22   )
@@ -167,7 +127,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       INTEGER JFT,JLT
       MY_REAL 
      .    FX(*),AL(*),KE11(6,6,*),KE12(6,6,*),KE22(6,6,*)

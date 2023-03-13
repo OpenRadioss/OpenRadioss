@@ -49,35 +49,24 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "scr03_c.inc"
-#include      "couple_c.inc"
 #include      "nchar_c.inc"
-#include      "chara_c.inc"
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J, NBC, K, IKEY, NBCCON
-      my_real
-     .       ULENGTH,UTIME,UMASS,
-     .       TRAX,TRAY,TRAZ,ROTXX,ROTYY,ROTZZ,ROTXY,ROTXZ,ROTYZ
+      my_real ULENGTH,UTIME,UMASS,TRAX,TRAY,TRAZ,ROTXX,ROTYY,ROTZZ,ROTXY,ROTXZ,ROTYZ
       CHARACTER KEY2*5,CARTE*ncharline,ONCOD*5
       PARAMETER (NBCCON=1)
       DATA ONCOD/'ONOFF'/
 C-----------------------------------------------
       IKEY=KCPL
       K=0
- 100  READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',
-     .        ERR=9990) KEY2,NBC
+      READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',ERR=9990) KEY2,NBC
       K=K+1
 C-----------------------------------------------
       IF (KEY2=='ON'.OR.KEY2=='ON2'.OR.KEY2=='MPP') THEN
         IF (NBC/=NBCCON) THEN
-          CALL ANCMSG(MSGID=73,ANMODE=ANINFO,
-     .                C1=KEY0(IKEY))
+          CALL ANCMSG(MSGID=73,ANMODE=ANINFO,C1=KEY0(IKEY))
           CALL ARRET(0)
         ELSE
          WRITE(IIN,'(A5)') ONCOD

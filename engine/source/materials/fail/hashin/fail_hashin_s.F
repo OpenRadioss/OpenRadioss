@@ -80,11 +80,9 @@ C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
 #include "mvsiz_p.inc"
 #include "com01_c.inc"
-#include "scr17_c.inc"
 #include "units_c.inc"
 #include  "comlock.inc"
 #include  "param_c.inc"
-#include  "vect01_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------

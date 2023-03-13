@@ -45,7 +45,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
@@ -59,13 +58,11 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr02_c.inc"
 #include      "scr06_c.inc"
 #include      "scr07_c.inc"
 #include      "scr18_c.inc"
 #include      "task_c.inc"
 #include      "scr05_c.inc"
-#include      "units_c.inc"
 #include      "rad2r_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

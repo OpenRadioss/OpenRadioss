@@ -41,12 +41,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "task_c.inc"
-#include      "parit_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -219,12 +215,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "task_c.inc"
-#include      "parit_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -289,12 +280,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "task_c.inc"
-#include      "parit_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -386,12 +373,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "task_c.inc"
-#include      "parit_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -442,12 +424,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "task_c.inc"
-#include      "parit_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -499,12 +476,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "task_c.inc"
-#include      "parit_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -596,11 +569,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -684,11 +653,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -754,11 +719,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -832,11 +793,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -909,11 +866,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -996,29 +949,20 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE2(NRBE2L,*),ISIZE, WEIGHT(*),NMRBE2,IH
-C     REAL
-      my_real
-     .   A(ISIZE,*)
-      DOUBLE PRECISION
-     .   F6(ISIZE,6,*)
+      my_real A(ISIZE,*)
+      DOUBLE PRECISION F6(ISIZE,6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, N, NS ,NML, IAD,JJ,M,MID,IROT,IRAD
-C     REAL
 C======================================================================|
 #include    "vectorize.inc"
       DO N=1,NRBE2

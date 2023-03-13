@@ -53,7 +53,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "fluid_scr_c.inc"
-#include      "warn_c.inc"
 #include      "inter22.inc"
 #include      "task_c.inc"
 #include      "com01_c.inc"

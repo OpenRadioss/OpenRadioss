@@ -29,9 +29,6 @@ Chd|====================================================================
       SUBROUTINE MULTI_FLUXOUT_EBCS(MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
      .     IXS, IXQ, IXTG, XGRID, WGRID)
 C-----------------------------------------------
-C     D e s c r i p t i o n
-C-----------------------------------------------
-C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE MULTI_FVM_MOD
@@ -43,13 +40,9 @@ C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------  
 ! NIXS
-#include      "param_c.inc"
 ! ISPMD
-#include      "task_c.inc"
 ! ALE
-#include      "com01_c.inc"
 ! NUMELS, NUMELQ, NUMELTG
-#include      "com04_c.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------

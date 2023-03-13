@@ -20,8 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C-----------------------------------------------
-C-----------------------------------------------
 Chd|====================================================================
 Chd|  SPMD_VELVEC2                  source/mpi/anim/spmd_velvec2.F
 Chd|-- called by -----------
@@ -34,7 +32,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
 #ifdef MPI
 #include "mpif.h"
 #endif
@@ -43,7 +40,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------

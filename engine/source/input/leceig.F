@@ -43,7 +43,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr05_c.inc"
 #include      "task_c.inc"
-#include      "eigcom.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

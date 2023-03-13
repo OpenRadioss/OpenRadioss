@@ -47,11 +47,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com06_c.inc"
 #include      "units_c.inc"
 #include      "vect01_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

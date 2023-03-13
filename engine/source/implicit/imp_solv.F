@@ -185,28 +185,23 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "comlock.inc"
+#include      "dmumps_struc.h"
+#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "com09_c.inc"
-#include      "param_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
-#include      "timeri_c.inc"
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
 #include      "scr06_c.inc"
 #include      "scr16_c.inc"
-#include      "scr17_c.inc"
-#include      "dmumps_struc.h"
-#include      "comlock.inc"
-#include      "fsi_ar_c.inc"
+#include      "timeri_c.inc"
+#include      "units_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -228,7 +223,6 @@ C-----------------------------------------------
      .        DIRUL(*),SH4TREE(*), SH3TREE(*),
      .        FR_I2M(*),IAD_I2M(*),FR_RBE3M(*),IAD_RBE3M(*),
      .        ICFIELD(*),LCFIELD(*),COUNT_REMSLV(*),COUNT_REMSLVE(*)
-C     REAL
       my_real
      .   X(3,*)    ,D(3,*)      ,V(3,*)   ,VR(3,*),DAMP(*),
      .   MS(*)   ,IN(*)   ,PM(NPROPM,*),SKEW(LSKEW,*),GEO(NPROPG,*),
@@ -1323,11 +1317,9 @@ C
          IF (NCYCLE==1.AND.ISPMD==0.AND.ITASK==0) THEN
               IF (IQSTAT>0) THEN
            WRITE(IOUT,*)
-           WRITE(IOUT,*)
-     .      ' ** BEGIN LINEAR QUASI-STATIC IMPLICIT COMPUTATION **'
+           WRITE(IOUT,*)' ** BEGIN LINEAR QUASI-STATIC IMPLICIT COMPUTATION **'
            WRITE(ISTDO,*)
-           WRITE(ISTDO,*)
-     .      ' ** BEGIN LINEAR QUASI-STATIC IMPLICIT COMPUTATION **'
+           WRITE(ISTDO,*)' ** BEGIN LINEAR QUASI-STATIC IMPLICIT COMPUTATION **'
            WRITE(IOUT,*)
            WRITE(ISTDO,*)
               ELSE
@@ -1991,14 +1983,10 @@ C-----------------------------------------------
 #include "implicit_f.inc"
 #include "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "units_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc"
-#include      "com01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2042,8 +2030,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -2139,8 +2125,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -2253,11 +2237,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
@@ -2297,11 +2276,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
@@ -2331,11 +2305,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2375,8 +2344,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -2463,8 +2430,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
@@ -2510,14 +2475,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        NDDLIF = 0
@@ -2544,11 +2501,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2660,11 +2612,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
@@ -2702,11 +2649,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2749,8 +2691,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -2810,8 +2750,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -2964,8 +2902,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -3200,22 +3136,18 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com08_c.inc"
-#include      "com09_c.inc"
-#include      "param_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
-#include      "timeri_c.inc"
-#include      "impl1_c.inc"
-#include      "impl2_c.inc"
-#include      "scr05_c.inc"
-#include      "dmumps_struc.h"
+#include "dmumps_struc.h"
+#include "timeri_c.inc"
+#include "impl1_c.inc"
+#include "impl2_c.inc"
+#include "param_c.inc"
+#include "com01_c.inc"
+#include "com04_c.inc"
+#include "scr05_c.inc"
+#include "units_c.inc"
+#include "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -3826,13 +3758,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "tabsiz_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "com09_c.inc"
 #include      "param_c.inc"
-#include      "units_c.inc"
+#include      "dmumps_struc.h"
 #include      "sphcom.inc"
+#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -3841,11 +3774,8 @@ C-----------------------------------------------
       INTEGER LPBY(*),NPBY(NNPBY,*),ITAB(*),IPARI(NPARI,*),
      .        NRBYAC,IRBYAC(*),NDDL,NDOF(*),
      .        IDDL(*),IKC(*),INLOC(*) ,NDDL0,IERR,IWAR
-      my_real
-     .   RBY(NRBY,*) ,X(3,*) ,SKEW(*)
-      my_real
-     .  TF(*),VEL(LFXVELR,*),XFRAME(NXFRAME,*)
-
+      my_real RBY(NRBY,*) ,X(3,*) ,SKEW(*)
+      my_real TF(*),VEL(LFXVELR,*),XFRAME(NXFRAME,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
@@ -3854,15 +3784,10 @@ C-----------------------------------------------
       INTEGER NSN,I,J,K,N,M,JI,NS,NN,IRW,ID
       INTEGER NKINE,IKIN(NUMNOD),IOF(NUMNOD)
       INTEGER ISENS,II,IDEB,IT,ICOMP,NTY,IR,IW
-C     REAL
-      my_real
-     .   STARTT, STOPT, TS,SS
+      my_real STARTT, STOPT, TS,SS
       CHARACTER*25  MSG_TYPE(2)
       CHARACTER*25  CSP
-      DATA
-     .            MSG_TYPE
-     . / '** WARNING **',
-     .   '!! ERROR !!'/
+      DATA MSG_TYPE/ '** WARNING **', '!! ERROR !!'/
 C--------implicit imcompability--
         ICOMP = 0
         IT = 1
@@ -4227,12 +4152,10 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "com09_c.inc"
 #include      "param_c.inc"
-#include      "units_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc"
 #include      "sphcom.inc"
+#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -4241,11 +4164,8 @@ C-----------------------------------------------
       INTEGER LPBY(*),NPBY(NNPBY,*),ITAB(*),IPARI(NPARI,*),
      .        NRBYAC,IRBYAC(*),NDDL,NDOF(*),
      .        IDDL(*),IKC(*),INLOC(*) ,NDDL0,IERR,IWAR
-      my_real
-     .   RBY(NRBY,*) ,X(3,*) ,SKEW(*)
-      my_real
-     .  TF(*),VEL(LFXVELR,*),XFRAME(NXFRAME,*)
-
+      my_real RBY(NRBY,*) ,X(3,*) ,SKEW(*)
+      my_real TF(*),VEL(LFXVELR,*),XFRAME(NXFRAME,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
@@ -4254,14 +4174,9 @@ C-----------------------------------------------
       INTEGER NSN,I,J,K,N,M,JI,K10,K11,K12,NS,NN,IRW,ID,IV
       INTEGER NKINE,IKIN(NUMNOD),IOF(NUMNOD),VI(3,NUMNOD)
       INTEGER ISENS,II,IDEB,IT,ICOMP,NTY,IR,IW,NVMAX,NSIZ
-C     REAL
-      my_real
-     .   STARTT, STOPT, TS,SS
+      my_real STARTT, STOPT, TS,SS
       CHARACTER*25  MSG_TYPE(2)
-      DATA
-     .            MSG_TYPE
-     . / '** WARNING **',
-     .   '!! ERROR !!'/
+      DATA MSG_TYPE / '** WARNING **', '!! ERROR !!'/
 C--------implicit imcompability--
         ICOMP = 0
         IT = 1
@@ -4756,21 +4671,16 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD 
       USE IMPBUFDEF_MOD
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NFIA,NFEA,NODFT,NODLT
@@ -4818,21 +4728,16 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD 
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NFIA,NODFT,NODLT
@@ -4870,21 +4775,16 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD 
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NFIA,NFEA,NODFT,NODLT
@@ -4933,14 +4833,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       NDDL_SI = 0
@@ -4967,18 +4859,8 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-C     REAL
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C------------------------------------------
         IF(ALLOCATED(IN_KN)) DEALLOCATE(IN_KN)
         IF(ALLOCATED(ID_KN)) DEALLOCATE(ID_KN)
        IF (NUMN_KN>0) THEN
@@ -5032,15 +4914,12 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "impl1_c.inc"
-#include      "impl2_c.inc"
-#include      "com01_c.inc"
-#include      "dmumps_struc.h"
-
+#include "com01_c.inc"
+#include "impl1_c.inc"
+#include "impl2_c.inc"
+#include "dmumps_struc.h"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -5048,7 +4927,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C------------------------------------------
        IF(IMUMPSV > 0 ) CALL SPMD_MUMPS_DEAL(MUMPS_PAR) 
        IF (ISOLV>2) THEN
         IF(ALLOCATED(HOLD)) DEALLOCATE(HOLD)
@@ -5127,14 +5005,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -5188,13 +5062,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 #include      "impl1_c.inc"
-#include      "impl2_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -5264,12 +5134,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,IADK(*),JDIK(*),IADK0(*),JDIK0(*)
@@ -5324,14 +5188,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -5384,16 +5244,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "impl1_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -5487,16 +5341,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "impl1_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -5596,14 +5444,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
 #include      "com01_c.inc"
-#include      "com08_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -5696,14 +5541,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -5958,14 +5800,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -6102,19 +5941,14 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc"
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
-#include      "units_c.inc"
-#include      "chara_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -6501,18 +6335,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com08_c.inc"
-#include      "task_c.inc"
-#include      "scr05_c.inc"
 #include      "impl1_c.inc"
-#include      "impl2_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -6953,12 +6778,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -7009,12 +6831,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -7063,9 +6882,6 @@ Chd|====================================================================
       SUBROUTINE IMP_SMPINI(
      1   ITSK   ,N1FTSK ,N1LTSK ,N1   )
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -7113,15 +6929,12 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com08_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -7212,13 +7025,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com08_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
@@ -7279,20 +7089,13 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "impl1_c.inc"
-#include      "task_c.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
-#include      "scr18_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -7398,11 +7201,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com09_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -7508,13 +7308,8 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "impl1_c.inc"
@@ -7620,15 +7415,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -7674,14 +7463,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "units_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -7946,21 +7732,9 @@ Chd|====================================================================
       SUBROUTINE SPB_REFSH4ID(JFT,JLT,NEL,IXC,X,XC,YC,ZC,IE,
      +                        XMIN0,YMIN0,ZMIN0,DMIN)
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -8057,20 +7831,9 @@ Chd|====================================================================
       SUBROUTINE SPB_REFSH3ID(JFT,JLT,NEL,IXTG,X,XC,YC,ZC,IE,
      +                        XMIN0,YMIN0,ZMIN0,DMIN)
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -8187,8 +7950,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -8403,14 +8164,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -8551,10 +8307,6 @@ C     REAL
      .   X_REF(3,4),D_REF(3,4),X(3,*),D(3,*),DTRA(3),DROT(3),
      .   X0  ,Y0  ,Z0  
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, J, II, L, JJ,NJ,K,NIR
@@ -8670,15 +8422,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -8797,7 +8543,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -8863,8 +8608,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "units_c.inc"
@@ -8928,16 +8671,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "units_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ND,NODE
@@ -9027,16 +8765,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "units_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ND
@@ -9149,9 +8881,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICT,ICR,IFIX(6),K
@@ -9222,10 +8951,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
@@ -9252,10 +8977,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -9292,12 +9013,8 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -9349,12 +9066,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

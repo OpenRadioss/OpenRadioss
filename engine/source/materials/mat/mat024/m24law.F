@@ -64,7 +64,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
-#include      "scr01_c.inc"
 #include      "param_c.inc"
 #include      "nsvis_c.inc"
 C-----------------------------------------------

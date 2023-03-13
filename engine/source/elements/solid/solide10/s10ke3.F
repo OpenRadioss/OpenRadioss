@@ -59,11 +59,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr01_c.inc"
-#include      "scr03_c.inc"
-#include      "scr06_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -312,13 +308,9 @@ C     REAL
      .   K77(9,*)   ,K78(9,*)   ,K79(9,*)   ,K70(9,*)    ,K88(9,*)   ,
      .   K89(9,*)   ,K80(9,*)   ,K99(9,*)   ,K90(9,*)    ,K00(9,*)   
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL
       my_real
      .   FXX(MVSIZ),FYY(MVSIZ),FZZ(MVSIZ),FXY(MVSIZ),FXZ(MVSIZ),
      .   FYZ(MVSIZ)

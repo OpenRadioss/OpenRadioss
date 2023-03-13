@@ -36,29 +36,20 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "sphcom.inc"
-#include      "param_c.inc"
-#include      "task_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
      .        ISPSYM(NSPCOND,*)
-C     REAL
       my_real
      .   X(3,*)    ,MS(*)   ,
      .   SPBUF(NSPBUF,*) ,XSPSYM(3,*) ,
@@ -248,29 +239,20 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "sphcom.inc"
-#include      "param_c.inc"
-#include      "task_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
      .        ISPSYM(NSPCOND,*)
-C     REAL
       my_real
      .   X(3,*)    ,MS(*)   ,
      .   SPBUF(NSPBUF,*) ,XSPSYM(3,*) ,
@@ -527,15 +509,9 @@ C      partie symetrique.
 C----------
 C         noyau conjugue.
           ALPHAJ=WACOMP(1,SM)
-C         BETAXJ=WACOMP(2,SM)
-C         BETAYJ=WACOMP(3,SM)
-C         BETAZJ=WACOMP(4,SM)
           BETAXJ=WSMCOMP(1,JS)
           BETAYJ=WSMCOMP(2,JS)
           BETAZJ=WSMCOMP(3,JS)
-C         ALPHAXJ=WACOMP( 5,SM)
-C         ALPHAYJ=WACOMP( 6,SM)
-C         ALPHAZJ=WACOMP( 7,SM)
           ALPHAXJ=WSMCOMP( 4,JS)
           ALPHAYJ=WSMCOMP( 5,JS)
           ALPHAZJ=WSMCOMP( 6,JS)
@@ -607,15 +583,9 @@ C
 C----------
 C          noyau conjugue.
            ALPHAJ=WACOMPR(1,SM)
-C          BETAXJ=WACOMPR(2,SM)
-C          BETAYJ=WACOMPR(3,SM)
-C          BETAZJ=WACOMPR(4,SM)
            BETAXJ=WSMCOMP(1,JS)
            BETAYJ=WSMCOMP(2,JS)
            BETAZJ=WSMCOMP(3,JS)
-C          ALPHAXJ=WACOMPR( 5,SM)
-C          ALPHAYJ=WACOMPR( 6,SM)
-C          ALPHAZJ=WACOMPR( 7,SM)
            ALPHAXJ=WSMCOMP( 4,JS)
            ALPHAYJ=WSMCOMP( 5,JS)
            ALPHAZJ=WSMCOMP( 6,JS)
@@ -670,23 +640,19 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "sphcom.inc"
 #include      "param_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ISPCOND(NISPCOND,*), ISPSYM(NSPCOND,*), WASPACT(*)
-C     REAL
       my_real
      .   XFRAME(NXFRAME,*) ,XSPSYM(3,*) , WGRADT(3,*), 
      .   WGRADTSM(3,*), WGR(3,*) 
@@ -791,21 +757,15 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "sphcom.inc"
 #include      "vect01_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*)
-C     REAL
-      my_real
-     .   TEMP(*),TEMPEL(*)
+      my_real TEMP(*),TEMPEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

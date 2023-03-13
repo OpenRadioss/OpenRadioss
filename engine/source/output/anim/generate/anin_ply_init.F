@@ -37,16 +37,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-#include      "scr05_c.inc"
-#include      "scr14_c.inc"
-#include      "task_c.inc"
-#include      "spmd_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPLY,NODID,OFFSET
@@ -115,16 +105,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-#include      "scr05_c.inc"
-#include      "scr14_c.inc"
-#include      "task_c.inc"
-#include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -196,16 +176,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-#include      "scr05_c.inc"
-#include      "scr14_c.inc"
-#include      "task_c.inc"
-#include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

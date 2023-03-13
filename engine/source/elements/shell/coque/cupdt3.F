@@ -50,7 +50,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -528,7 +527,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com01_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -980,10 +978,8 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "task_c.inc"
 #include      "parit_c.inc"
 #include      "scr18_c.inc"
-#include      "com01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1126,7 +1122,6 @@ C
 c  End of Prefetch
 C
 Cel  prefetch FSKY
-c#include "cupdt3_pf.inc"
           K = IADC(1,I)
           FSKY(1,K)=-F11(I)
           FSKY(2,K)=-F21(I)
@@ -1170,7 +1165,6 @@ C
 C
         IF(JTHE > 0 ) THEN
           DO I=JFT,JLT
-c#include "cupdt3_pf.inc"
             FTHESKY(IADC(1,I)) = THEM(I,1)
             FTHESKY(IADC(2,I)) = THEM(I,2)
             FTHESKY(IADC(3,I)) = THEM(I,3)

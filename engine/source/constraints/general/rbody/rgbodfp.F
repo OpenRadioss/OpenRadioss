@@ -39,17 +39,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
-#include      "scr06_c.inc"
-#include      "scr11_c.inc"
 #include      "impl1_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
@@ -60,7 +53,6 @@ C-----------------------------------------------
       INTEGER NOD(*), WEIGHT(*), ICODR(*), ISKEW(*),
      .        IFLAG,NSN,M, NATIV_SMS(*),IPARSENS,
      .        NODREAC(*),CPTREAC
-C     REAL
       my_real
      .   AF(3,*), AM(3,*), X(3,*), FS(*), RBY(*), VR(3,*), SKEW(LSKEW,*),
      .   STIFN(*),STIFR(*),FOPTA(6),IN(*),MS(*), V(3,*),
@@ -96,7 +88,6 @@ C
 c       NSN =NBY(2)
 C
        IF(IDTMINS/=2)THEN
-c#include "simd.inc"
         DO I=1,NSN
          N = NOD(I)
          IF(WEIGHT(N) == 1)THEN
@@ -124,7 +115,6 @@ c#include "simd.inc"
          END IF
         ENDDO
        ELSE ! IF(IDTMINS/=2)THEN
-c#include "simd.inc"
          DO I=1,NSN
           N = NOD(I)
           IF(WEIGHT(N) == 1)THEN

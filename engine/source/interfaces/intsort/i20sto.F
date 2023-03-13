@@ -52,14 +52,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_MEM, NSN, NSNROLD,IGAP,NIN,ISYM 
@@ -85,8 +77,6 @@ C     REAL
      .   PENE(MVSIZ), GAPV(MVSIZ)
       INTEGER BITGET
       EXTERNAL BITGET
-C-----------------------------------------------
-#include "sync_dir.inc"
 C-----------------------------------------------
         CALL I20COR3T(J_STOK ,XA    ,IRECT ,NSV   ,PROV_E  ,
      1                PROV_N ,IGAP  ,GAP   ,X1    ,X2      ,
@@ -229,14 +219,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_MEM, NLINSA, NIN
@@ -255,7 +237,6 @@ C     REAL
       my_real
      .   PENE(MVSIZ)
 C-----------------------------------------------
-#include "sync_dir.inc"
         CALL I20PEN3_EDGE(J_STOK ,PROV_S,PROV_M,TZINF ,XA    ,
      .               IXLINS,IXLINM,PENE  ,NLINSA ,NIN   )
 C-----------------------------------------------
@@ -343,7 +324,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr05_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -353,9 +333,6 @@ C-----------------------------------------------
      .     GAP
       my_real
      .     XA(3,*), PENE(MVSIZ)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

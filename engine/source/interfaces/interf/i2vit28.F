@@ -47,12 +47,6 @@ C-----------------------------------------------
       my_real X(*), V(*), A(*),MS(*),IN(*),AR(*),VR(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "scr05_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NMN,NINDXC

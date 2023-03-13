@@ -51,10 +51,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "conv_c.inc"
-#include      "scr11_c.inc"
 #include      "mmale51_c.inc"
-#include      "task_c.inc"
 #include      "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

@@ -110,7 +110,6 @@ C-----------------------------------------------
 #include      "scr07_c.inc"
 #include      "scr17_c.inc"
 #include      "scr18_c.inc"
-#include      "scr20_c.inc"
 #include      "stati_c.inc"
 #include      "statr_c.inc"
 #include      "cong1_c.inc"
@@ -124,17 +123,14 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "com09_c.inc"
 #include      "check.inc"
 #include      "subc_c.inc"
 #include      "scr19_c.inc"
 #include      "ddspmd_c.inc"
 #include      "sms_c.inc"
-#include      "scr16_c.inc"
 #include      "scr_thermal_c.inc"
 #include      "alesolver.inc"
 #include      "scrupw_c.inc"
-#include      "nchar_c.inc"
 #include      "ale_param.inc"
 #include      "alemuscl.inc"
 C-----------------------------------------------
@@ -2607,7 +2603,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "com08_c.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

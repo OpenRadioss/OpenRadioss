@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-#include "hardware.inc"
 C=======================================================================
 C     // MEMOIRE PARTAGEE
 C=======================================================================
@@ -247,8 +246,6 @@ Chd|====================================================================
       SUBROUTINE MY_BARRIER
 #include     "comlock.inc"
 #include     "my_real.inc"
-#include     "task_c.inc"
-#include     "units_c.inc"
 #if defined(_OPENMP)
 !$OMP BARRIER
 #endif
@@ -337,8 +334,6 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE WAIT_TASK(ITID)
-#include      "my_real.inc"
-#include      "task_c.inc"
       INTEGER ITID(*),IT,JT
 #if defined(_OPENMP)
 #endif
@@ -465,9 +460,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IUNIT
@@ -493,9 +485,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -526,9 +515,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -564,14 +550,6 @@ C-----------------------------------------------
 #ifdef __INTEL_COMPILER
       use omp_lib
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "task_c.inc"
-#include      "com01_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -609,12 +587,6 @@ C-----------------------------------------------
 #ifdef __INTEL_COMPILER
       use omp_lib
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -658,7 +630,6 @@ Chd|        CHECK_KMP_STACK               source/system/machine.F
 Chd|        SET_STACK_C                   source/system/stacksize_c.c   
 Chd|====================================================================
       SUBROUTINE SET_STACK_VALUES( )
-#include      "task_c.inc"
 C Check & Set Stacksize value
        INTEGER Stack
 
@@ -681,7 +652,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "units_c.inc"
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

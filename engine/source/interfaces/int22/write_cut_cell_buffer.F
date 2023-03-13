@@ -57,10 +57,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"   
 #include      "inter22.inc"
-#include      "tabsiz_c.inc"
-#include      "mvsiz_p.inc"
 #include      "comlock.inc"
-#include      "subvolumes.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

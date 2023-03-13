@@ -52,15 +52,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "parit_c.inc"
 #include      "remesh_c.inc"
 #include      "scr02_c.inc"
-#include      "scr05_c.inc"
 #include      "scr06_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
@@ -241,7 +237,6 @@ C
           END IF   
         ELSE
           IF(NADMESH==0)THEN
-#include   "simd.inc"
              DO I=JFT,JLT
                 IF (OFF(I)==ZERO) THEN
                   STI(I) = ZERO
@@ -255,7 +250,6 @@ c     ..                   + 0.5 * SHF(I) * AREA(I) * G(I)/A11(I))
                 ENDIF 
              ENDDO
          ELSE
-#include   "simd.inc"
              DO I=JFT,JLT
                 IF (OFF(I)==ZERO) THEN
                   STI(I) = ZERO
@@ -350,7 +344,6 @@ C       EHOURT  = EHOURT + EHOU(I)
        B24(I)=-HOUR(I,5)*OFF(I)
       ENDDO
 C separate loop that does not vectorize w/o simd directive
-#include "simd.inc"       
       DO I=JFT,JLT
         EHOURT  = EHOURT + EHOU(I)
       ENDDO
@@ -367,19 +360,16 @@ C
       JST(IC+1)=JLT+1
       IF(IC==1) THEN
         MX = IPARTC(JFT)
-#include "simd.inc"
         DO I=JFT,JLT
           PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
         ENDDO
 
       ELSEIF(IC==2.AND.KFTS>0)THEN
         MX = IPARTC(JFT)
-#include "simd.inc"
         DO I=JFT, KFTS-1
           PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
         ENDDO
         MX = IPARTC(JLT)
-#include "simd.inc"
         DO I=KFTS,JLT
           PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
         ENDDO
@@ -389,7 +379,6 @@ C
            DO II=1,IC
               MX=IPARTC(JST(II))
               IF (JST(II+1)-JST(II)>15) THEN
-#include "simd.inc"
                  DO J=JST(II),JST(II+1)-1
                     PARTSAV(8,MX)=PARTSAV(8,MX)+EHOU(J)
                  ENDDO

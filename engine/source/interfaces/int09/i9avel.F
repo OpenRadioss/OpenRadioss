@@ -63,9 +63,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "scr04_c.inc"
-#include      "scr08_s_c.inc"
 #include      "scr08_a_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

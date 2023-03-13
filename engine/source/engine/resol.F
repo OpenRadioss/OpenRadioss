@@ -649,6 +649,7 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE STATE_MOD
 C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -662,13 +663,11 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "my_allocate.inc"
 #include      "macro.inc"
-#include      "assert.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "com09_c.inc"
-#include      "com10_c.inc"
 #include      "intstamp_c.inc"
 #include      "sphcom.inc"
 #include      "param_c.inc"
@@ -684,44 +683,26 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "scr18_c.inc"
 #include      "scr23_c.inc"
-#include      "secur_c.inc"
 #include      "units_c.inc"
 #include      "stati_c.inc"
 #include      "statr_c.inc"
-#include      "cong1_c.inc"
 #include      "cong2_c.inc"
-#include      "scrfs_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
 #include      "timeri_c.inc"
 #include      "couple_c.inc"
 #include      "rad2r_c.inc"
-#include      "scr24_c.inc"
 #include      "chara_c.inc"
-#include      "bucki_c.inc"
-#include      "buckr_c.inc"
-#include      "nsvis_c.inc"
-#include      "scr01_c.inc"
-#include      "scr04_c.inc"
-#include      "vecfx_c.inc"
-#include      "vecpx_c.inc"
-#include      "vect01_c.inc"
-#include      "scrupw_c.inc"
 #include      "lagmult.inc"
-#include      "check.inc"
 #include      "warn_c.inc"
 #include      "vale_c.inc"
 #include      "impl1_c.inc"
 #include      "fxbcom.inc"
 #include      "eigcom.inc"
-#include      "scr20_c.inc"
 #include      "subc_c.inc"
 #include      "spmd_c.inc"
-#include      "buckcom.inc"
-#include      "impl2_c.inc"
 #include      "remesh_c.inc"
 #include      "com_xfem1.inc"
-#include      "sysunit.inc"
 #include      "tabsiz_c.inc"
 #include      "thknod_c.inc"
 #include      "sms_c.inc"
@@ -729,16 +710,13 @@ C-----------------------------------------------
 #include      "inter22.inc"
 #include      "userlib.inc"
 #include      "alefvm.inc"
-#include      "r4r8_p.inc"
 #include      "drape_c.inc"
 #include      "thermal_c.inc"
 #include      "alemuscl.inc"
-
-
+C-----------------------------------------------
       COMMON /VGLOB/DMAS,DINER
-      my_real
-     .       DMAS,DINER
-C-----------------------------------------------------------------
+      my_real DMAS,DINER
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITASK

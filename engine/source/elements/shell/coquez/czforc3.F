@@ -124,15 +124,11 @@ C-----------------------------------------------
 C   C O M M O N   B L O C K S
 C-----------------------------------------------
 #include      "com_xfem1.inc"
-#include      "scr01_c.inc"
 #include      "scr14_c.inc"
 #include      "scr18_c.inc"
 #include      "parit_c.inc"
-#include      "scr17_c.inc"
 #include      "timeri_c.inc"
-#include      "warn_c.inc"
 #include      "impl1_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S

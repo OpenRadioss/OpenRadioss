@@ -84,19 +84,17 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc" 
-#include      "impl1_c.inc" 
-#include      "impl2_c.inc" 
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "task_c.inc"     
-#include      "timeri_c.inc"
-#include      "dmumps_struc.h"
+#include "dmumps_struc.h"
+#include "com01_c.inc"
+#include "com04_c.inc"
+#include "impl1_c.inc"
+#include "impl2_c.inc"
+#include "timeri_c.inc"
+#include "units_c.inc"
+#include "task_c.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C----------resol [K]{X}={F}------
@@ -109,7 +107,6 @@ C----------resol [K]{X}={F}------
      .         IRBE2(*),LRBE2(*)
 C
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
-C     REAL
       my_real
      .  DIAG_K(*),LT_K(*),DIAG_M(*),LT_M(*), F(*),TOL,
      .  DIAG_I(*),LT_I(*),D(3,*),DR(3,*),F_U, FAC_K(*)
@@ -129,7 +126,6 @@ C
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
 C-----------------------------------------------
 C------------------------------------------
 c     isolv=1 => P.G.C.  
@@ -454,13 +450,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include "units_c.inc" 
-#include      "timeri_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,NNZ ,IADK(*),JDIK(*),ITASK,IPRINT,
@@ -538,11 +527,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "dmumps_struc.h"
-#include      "timeri_c.inc"
-#include      "task_c.inc"
+#include "dmumps_struc.h"
+#include "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -615,12 +601,6 @@ C-----------------------------------------------
 #include "implicit_f.inc"
 #include "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include "units_c.inc" 
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
@@ -651,13 +631,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -720,15 +693,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include "com01_c.inc"
-#include "com04_c.inc"
-#include "units_c.inc" 
-#include "timeri_c.inc"
 #include "dmumps_struc.h"
+#include "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -889,16 +857,13 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include "dmumps_struc.h"
 #include "com01_c.inc"
 #include "com04_c.inc"
-#include "units_c.inc" 
 #include "timeri_c.inc"
-#include "task_c.inc" 
-#include "dmumps_struc.h"
+#include "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -934,14 +899,11 @@ C
       INTEGER OMP_GET_THREAD_NUM
       EXTERNAL OMP_GET_THREAD_NUM
 C
-C-----------------------------------------------
 C------------------------------------------
 c     isolv=1 => P.G.C.  
 C------------------------------------------
-C------------------------------------------
 c     iprec=2 => jacobien 
 c     iprec=5 => fsai static same pattern of [K}
-C------------------------------------------
 C------------------------------------------
 C     [K]:matrice de rigidite [M]:matrice de preconditionnement
        NNE = 0
@@ -1189,16 +1151,14 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
 #include "com04_c.inc"
-#include "units_c.inc" 
 #include "timeri_c.inc"
-#include "task_c.inc" 
+#include "units_c.inc"
 #include "dmumps_struc.h"
+#include "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1234,7 +1194,6 @@ C
       INTEGER OMP_GET_THREAD_NUM
       EXTERNAL OMP_GET_THREAD_NUM
 C
-C-----------------------------------------------
 C------------------------------------------
 c     isolv=1 => P.G.C.  
 C------------------------------------------
@@ -1461,13 +1420,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
 #include "com04_c.inc"
-#include "units_c.inc" 
 #include "timeri_c.inc"
 #include "dmumps_struc.h"
 C-----------------------------------------------
@@ -1634,12 +1590,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDLI,IADI(*),JDII(*),IADK0(*),JDIK0(*),ITOK(*)
@@ -1714,12 +1664,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc" 
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDLI,IADI(*)
@@ -1766,8 +1710,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
+#include "com01_c.inc"
+#include "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1838,8 +1782,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
+#include "com01_c.inc"
+#include "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

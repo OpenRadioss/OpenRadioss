@@ -50,7 +50,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "sms_c.inc"
-#include      "scr14_c.inc"
 #include      "units_c.inc"
 C
 C-----------------------------------------------

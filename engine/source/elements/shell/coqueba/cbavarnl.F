@@ -39,23 +39,14 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NG,IXC(NIXC,*),NDDL,NEL
       INTEGER, INTENT(INOUT) :: 
      .   NC1(*), NC2(*), NC3(*), NC4(*)
-C     REAL,
       MY_REAL, INTENT(INOUT) ::
      .   VARNL(NEL,NDDL)
       TYPE(NLOCAL_STR_), TARGET :: NLOC_DMG
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

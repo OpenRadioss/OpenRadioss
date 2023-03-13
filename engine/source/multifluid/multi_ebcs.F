@@ -33,9 +33,6 @@ Chd|====================================================================
       SUBROUTINE MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, 
      .     FUNC_VALUE, EBCS_TAB,NPF,TF)
 C-----------------------------------------------
-C     D e s c r i p t i o n
-C-----------------------------------------------
-C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE MULTI_FVM_MOD
@@ -48,11 +45,9 @@ C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
 ! NEBCS
-#include      "com04_c.inc"
 ! NPEBC, NIXS
 #include      "param_c.inc"
 ! LISURF1
-#include      "scr17_c.inc"
 ! SNPC,STF
 #include      "tabsiz_c.inc"
 C-----------------------------------------------

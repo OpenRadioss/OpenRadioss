@@ -55,11 +55,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "sphcom.inc"
 #include      "param_c.inc"
-#include      "scr01_c.inc"
-#include      "scr05_c.inc"
-#include      "scr14_c.inc"
 #include      "task_c.inc"
-#include      "scr03_c.inc"
 #include      "spmd_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
@@ -1316,8 +1312,6 @@ c-----------
             ENDIF  ! ISOLNOD & ......
 C-----------------------------------------------
 C    - END OF -     FULL PLASTIC STRAIN TENSOR (MEAN)
-C-----------------------------------------------
-C-----------------------------------------------
 C-----------------------------------------------
 C          STRESS / integration point
 C-----------------------------------------------
@@ -3581,10 +3575,6 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr01_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "scr14_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -3829,10 +3819,6 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr01_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "scr14_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -4089,11 +4075,6 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr01_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "scr14_c.inc"
-#include      "scr18_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -4786,7 +4767,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "param_c.inc"
 #include      "com01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -4905,11 +4885,6 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr01_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "scr14_c.inc"
-#include      "scr18_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

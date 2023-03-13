@@ -56,8 +56,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr01_c.inc"
-#include      "scr05_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "vect01_c.inc"

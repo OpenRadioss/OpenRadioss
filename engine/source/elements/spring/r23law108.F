@@ -71,12 +71,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "parit_c.inc"
-#include      "units_c.inc"
 #include      "com04_c.inc"
-#include      "com08_c.inc"
-#include      "scr03_c.inc"
-#include      "chara_c.inc"
-#include      "userlib.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

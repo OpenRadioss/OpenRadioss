@@ -33,8 +33,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include   "implicit_f.inc"
-#include   "scr17_c.inc"
-#include   "param_c.inc"
 #include   "com_xfem1.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s

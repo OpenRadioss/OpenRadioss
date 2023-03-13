@@ -141,16 +141,11 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "task_c.inc"
 #include      "vect01_c.inc"  
-!#include      "vect01_c.inc" NFT
 #include      "i22edges.inc"  
-!#include      "i22edges.inc"  nodFACE
 #include      "inter22.inc"
-#include      "tabsiz_c.inc"
 #include      "mvsiz_p.inc"
 #include      "comlock.inc"
 #include      "subvolumes.inc"
-!#include      "mmale51_c.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

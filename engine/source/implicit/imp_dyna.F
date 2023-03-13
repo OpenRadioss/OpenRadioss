@@ -42,13 +42,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
 #include "com04_c.inc"
-#include "units_c.inc"
 #include "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -154,8 +151,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
@@ -196,8 +191,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -315,13 +308,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
 C-----------------------------------------------
@@ -409,15 +399,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com08_c.inc"
 #include      "impl1_c.inc"
-#include      "impl2_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -479,14 +465,8 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com08_c.inc"
-#include      "impl1_c.inc"
 #include      "impl2_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -532,8 +512,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "impl2_c.inc"
@@ -552,142 +530,7 @@ C------------------------------------------
 C--------------------------------------------
       RETURN
       END
-C      SUBROUTINE CINER_DY(JFT    ,JLT     ,PM     ,MAT     ,GEO   ,
-C     1                   PID     ,AREA    ,VOLG   ,THK02   ,NPT   ,
-C     2                   IGTYP   ,IGEO    ,VQ     ,IXC     ,IXTG  ,
-C     3                   NNOD    )
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C      USE IMP_DYNA
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-C#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C#include      "param_c.inc"
-C#include      "com01_c.inc"
-C#include      "com04_c.inc"
-C#include      "impl1_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-C      INTEGER JFT, JLT  ,NPT,IGTYP,NNOD
-C      INTEGER MAT(*), PID(*),IGEO(NPROPGI,*),IXC(NIXC,*),IXTG(NIXTG,*)
-C     REAL
-C      my_real
-C     .   GEO(NPROPG,*), PM(NPROPM,*), AREA(*),
-C     .   VOLG(*),THK02(*),VQ(3,3,*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-C      INTEGER I,MX,J,J2,JJ,N1,N2,N3,N4,MATLY(MVSIZ*100)
-C     REAL
-C      my_real
-C     .   RHO(MVSIZ),INE(MVSIZ),FAC,EMS,INZ(MVSIZ),
-C     .   IN_X,IN_Y,IN_Z
-C      my_real
-C     .   THKLY(MVSIZ*100),POSLY(MVSIZ,100)
-C-----------------------------------------------
-Ctmp      IF (IDYNA==0.OR.IRODDL==0) RETURN
-C
-C      DO I=JFT,JLT
-C        MX  =MAT(I)
-C        RHO(I)=PM(1,MX)
-C        INE(I)=ZERO
-C      ENDDO
-C      IF (NNOD==4) THEN
-C       FAC = FOURTH
-C      ELSEIF (NNOD==3) THEN
-C       FAC = THIRD
-C      ENDIF
-C----------------------------------------------
-C     MASSES,INERTIES ELEMENTAIRES /NNOD
-C----------------------------------------------
-C      IF (IGTYP==11 ) THEN
-C         CALL LAYINI (JFT    ,JLT    ,NPT    ,GEO    ,IGEO   ,
-C     .                MAT    ,PID    ,THKLY  ,MATLY  ,POSLY  ,
-C     .                IGTYP  )
-C         DO J=1,NPT
-C          J2=1+(J-1)*JLT
-C          MX  =MATLY(J2)
-C          DO I=JFT,JLT
-C           JJ = J2 - 1 + I
-C           EMS = PM(1,MX)*THKLY(JJ)*AREA(I)*FAC
-C           INE(I)=INE(I)+EMS*((AREA(I)+THKLY(JJ)*THKLY(JJ))*ONE_OVER_12+
-C     .                        POSLY(I,J)*POSLY(I,J))
-C          ENDDO
-C         ENDDO
-C      ELSE
-C        DO I=JFT,JLT
-C          EMS = RHO(I)*VOLG(I)*FAC
-C          INE(I)=EMS*(AREA(I)+THK02(I))*ONE_OVER_12
-C          INZ(I)=TWO*INE(I)
-C        ENDDO
-C      ENDIF
-C
-C      IF (NNOD==4) THEN
-C       DO I=JFT,JLT
-C        IN_X = INE(I)*VQ(1,1,I)*VQ(1,1,I)+INE(I)*VQ(2,1,I)*VQ(2,1,I)+
-C     .         INZ(I)*VQ(3,1,I)*VQ(3,1,I)
-C        IN_Y = INE(I)*VQ(1,2,I)*VQ(1,2,I)+INE(I)*VQ(2,2,I)*VQ(2,2,I)+
-C     .         INZ(I)*VQ(3,2,I)*VQ(3,2,I)
-C        IN_Z = INE(I)*VQ(1,3,I)*VQ(1,3,I)+INE(I)*VQ(2,3,I)*VQ(2,3,I)+
-C     .         INZ(I)*VQ(3,3,I)*VQ(3,3,I)
-C        N1 = IXC(2,I)
-C        N2 = IXC(3,I)
-C        N3 = IXC(4,I)
-C        N4 = IXC(5,I)
-C        DY_IN(1,N1) = DY_IN(1,N1) + IN_X
-C        DY_IN(2,N1) = DY_IN(2,N1) + IN_Y
-C        DY_IN(3,N1) = DY_IN(3,N1) + IN_Z
-C
-C        DY_IN(1,N2) = DY_IN(1,N2) + IN_X
-C        DY_IN(2,N2) = DY_IN(2,N2) + IN_Y
-C        DY_IN(3,N2) = DY_IN(3,N2) + IN_Z
-C
-C        DY_IN(1,N3) = DY_IN(1,N3) + IN_X
-C        DY_IN(2,N3) = DY_IN(2,N3) + IN_Y
-C        DY_IN(3,N3) = DY_IN(3,N3) + IN_Z
-C
-C        DY_IN(1,N4) = DY_IN(1,N4) + IN_X
-C        DY_IN(2,N4) = DY_IN(2,N4) + IN_Y
-C        DY_IN(3,N4) = DY_IN(3,N4) + IN_Z
-C       ENDDO
-C      ELSEIF (NNOD==3) THEN
-C       DO I=JFT,JLT
-C        IN_X = INE(I)*VQ(1,1,I)*VQ(1,1,I)+INE(I)*VQ(2,1,I)*VQ(2,1,I)+
-C     .         INZ(I)*VQ(3,1,I)*VQ(3,1,I)
-C        IN_Y = INE(I)*VQ(1,2,I)*VQ(1,2,I)+INE(I)*VQ(2,2,I)*VQ(2,2,I)+
-C     .         INZ(I)*VQ(3,2,I)*VQ(3,2,I)
-C        IN_Z = INE(I)*VQ(1,3,I)*VQ(1,3,I)+INE(I)*VQ(2,3,I)*VQ(2,3,I)+
-C     .         INZ(I)*VQ(3,3,I)*VQ(3,3,I)
-C        N1 = IXTG(2,I)
-C        N2 = IXTG(3,I)
-C        N3 = IXTG(4,I)
-C        DY_IN(1,N1) = DY_IN(1,N1) + IN_X
-C        DY_IN(2,N1) = DY_IN(2,N1) + IN_Y
-C        DY_IN(3,N1) = DY_IN(3,N1) + IN_Z
-C
-C        DY_IN(1,N2) = DY_IN(1,N2) + IN_X
-C        DY_IN(2,N2) = DY_IN(2,N2) + IN_Y
-C        DY_IN(3,N2) = DY_IN(3,N2) + IN_Z
-C
-C        DY_IN(1,N3) = DY_IN(1,N3) + IN_X
-C        DY_IN(2,N3) = DY_IN(2,N3) + IN_Y
-C        DY_IN(3,N3) = DY_IN(3,N3) + IN_Z
-C       ENDDO
-C      ENDIF
-C
-C      RETURN
-C      END
-Cq52d5-------------nouvelle routine-------
+
 Chd|====================================================================
 Chd|  QSTAT_INI                     source/implicit/imp_dyna.F    
 Chd|-- called by -----------
@@ -710,14 +553,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "units_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -816,11 +656,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDDL
@@ -856,11 +691,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -917,8 +747,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
@@ -927,8 +755,6 @@ C-----------------------------------------------
 #include "impl1_c.inc"
 #include "param_c.inc"
 #include "timeri_c.inc"
-#include "scr05_c.inc"
-#include "units_c.inc"
 #include "impl2_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1157,8 +983,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
@@ -1266,14 +1090,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
-#include      "impl1_c.inc"
 #include      "impl2_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1361,12 +1181,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "scr05_c.inc"
 #include      "param_c.inc"
@@ -1678,12 +1495,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
-#include "com04_c.inc"
 #include "com08_c.inc"
 #include "impl1_c.inc"
 C-----------------------------------------------
@@ -1782,12 +1596,9 @@ C-----------------------------------------------
 #include "implicit_f.inc"
 #include "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com08_c.inc"
 #include      "impl2_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1861,8 +1672,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include  "impl1_c.inc"
@@ -1923,15 +1732,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
-#include      "com08_c.inc"
 #include      "impl2_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -2077,13 +1882,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include  "impl1_c.inc"
-#include  "com01_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
@@ -2138,16 +1936,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
-#include      "com08_c.inc"
-#include      "impl2_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2282,14 +2075,8 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com08_c.inc"
-#include      "impl1_c.inc"
 #include      "impl2_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

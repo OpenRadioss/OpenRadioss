@@ -107,11 +107,7 @@ C---------+---------+---+---+--------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-C#include      "parit_c.inc"
-C#include      "com04_c.inc"
-C#include      "scr05_c.inc"
 Csmtmp +1
-#include      "com01_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------

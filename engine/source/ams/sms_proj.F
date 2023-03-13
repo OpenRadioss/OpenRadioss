@@ -49,16 +49,13 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "sms_c.inc"
+#include      "timeri_c.inc"
 #include      "units_c.inc"
-#include      "task_c.inc"
-#include "timeri_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -68,10 +65,7 @@ C-----------------------------------------------
      .         JADI_SMS(*),JDII_SMS(*),
      .         ISKYI_SMS(LSKYI_SMS,*),FR_SMS(NSPMD+1),FR_RMS(NSPMD+1),
      .         LIST_SMS(*), LIST_RMS(*), IMV(*)
-C     REAL
-      my_real
-     .  DIAG_K(*), LT_K(*)  ,LTI_SMS(*), MSKYI_SMS(*),
-     .  MSKYI_FI_SMS(*), VFI(*), MV(*), MS(*)
+      my_real DIAG_K(*), LT_K(*)  ,LTI_SMS(*), MSKYI_SMS(*),MSKYI_FI_SMS(*), VFI(*), MV(*), MS(*)
       DOUBLE PRECISION MV6(6,3,*), MW6(6,3,*)
 C-----------------------------------------------
 c FUNCTION: initialization of S,T of Projection
@@ -90,11 +84,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #if !defined(WITHOUT_LINALG)
-       CHARACTER          JOBZ, UPLO
-       INTEGER I,J,IT,IP,NLIM,ND,IUPD,IPRI,IERROR,NNZI,M,
-     .         F_DDLI,L_DDLI,INFO,LW,INORM, M_VS1
-       my_real
-     .  WORK(3*M_VS_SMS+9),W(M_VS_SMS+3)
+       CHARACTER JOBZ, UPLO
+       INTEGER I,J,IT,IP,NLIM,ND,IUPD,IPRI,IERROR,NNZI,M,F_DDLI,L_DDLI,INFO,LW,INORM, M_VS1
+       my_real WORK(3*M_VS_SMS+9),W(M_VS_SMS+3)
 C---------------------
       CALL MY_BARRIER
 C---------------------
@@ -162,8 +154,7 @@ C---------------------
         ENDDO
 
         if (ncprisms/=0) then
-         write(iout,*)' ** INFO ** EIGENVALUES =',
-     .       (ONE/PROJ_LA_1(I),I=1,M_VS_SMS)
+         write(iout,*)' ** INFO ** EIGENVALUES =',(ONE/PROJ_LA_1(I),I=1,M_VS_SMS)
         endif
 C
       END IF !(ITASK==0) THEN
@@ -193,21 +184,15 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "sms_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
 #include      "timeri_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NODFT,NODLT,NUMNOD,ITASK,WEIGHT(*)
-C     REAL
-      my_real
-     .  X(3,*), R(3,*), DIAG_SMS(*)
+      my_real X(3,*), R(3,*), DIAG_SMS(*)
 C-----------------------------------------------
 c FUNCTION: initialization of X0=[S][LAMDA]^-1[S]^t{R}
 c
@@ -313,21 +298,15 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "sms_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
 #include      "timeri_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NODFT ,NODLT ,NUMNOD ,ITASK,WEIGHT(*)
-C     REAL
-      my_real
-     .  P(3,*) ,PJ(3,*), DIAG_SMS(*)
+      my_real P(3,*) ,PJ(3,*), DIAG_SMS(*)
 C-----------------------------------------------
 c FUNCTION: Projection of {p}={p}-[S][LAMDA]^-1[T]^t{p}
 c
@@ -430,15 +409,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "sms_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -448,7 +422,6 @@ C-----------------------------------------------
      .         JADI_SMS(*),JDII_SMS(*),
      .         ISKYI_SMS(LSKYI_SMS,*),FR_SMS(NSPMD+1),FR_RMS(NSPMD+1),
      .         LIST_SMS(*), LIST_RMS(*), IMV(*), KINET(*)
-C     REAL
       my_real
      .  DIAG_K(*), LT_K(*)  ,LTI_SMS(*), MSKYI_SMS(*),
      .  MSKYI_FI_SMS(*), VFI(*), MV(*), MS(*), U(3,*), P(3,*), Y(3,*)
@@ -526,28 +499,22 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "sms_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NODFT, NODLT, ITASK, IADK(*)  ,JDIK(*),
-     .         NODFT1_SMS,NODLT1_SMS,INDX1_SMS(*), NODNX_SMS(*),
-     .         IAD_ELEM(2,NSPMD+1) ,FR_ELEM(*),WEIGHT(*),
-     .         JADI_SMS(*),JDII_SMS(*),
-     .         ISKYI_SMS(LSKYI_SMS,*),FR_SMS(NSPMD+1),FR_RMS(NSPMD+1),
-     .         LIST_SMS(*), LIST_RMS(*), IMV(*), KINET(*)
-C     REAL
-      my_real
-     .  DIAG_K(*), LT_K(*)  ,LTI_SMS(*), MSKYI_SMS(*),
-     .  MSKYI_FI_SMS(*), VFI(*), MV(*), MS(*), PREC_SMS(*)
+      INTEGER NODFT, NODLT, ITASK, IADK(*)  ,JDIK(*),
+     .        NODFT1_SMS,NODLT1_SMS,INDX1_SMS(*), NODNX_SMS(*),
+     .        IAD_ELEM(2,NSPMD+1) ,FR_ELEM(*),WEIGHT(*),
+     .        JADI_SMS(*),JDII_SMS(*),
+     .        ISKYI_SMS(LSKYI_SMS,*),FR_SMS(NSPMD+1),FR_RMS(NSPMD+1),
+     .        LIST_SMS(*), LIST_RMS(*), IMV(*), KINET(*)
+      my_real DIAG_K(*), LT_K(*)  ,LTI_SMS(*), MSKYI_SMS(*),
+     .        MSKYI_FI_SMS(*), VFI(*), MV(*), MS(*), PREC_SMS(*)
       DOUBLE PRECISION MV6(6,3,*), MW6(6,3,*)
 C-----------------------------------------------
 c FUNCTION: initialization of S,by M_VS PCG iterations
@@ -627,27 +594,15 @@ Chd|====================================================================
       SUBROUTINE SMS_INIS(NUMNOD,NODFT ,NODLT, NPF,   NPL,   S   ,
      .                    NODNX_SMS,KINET )
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NUMNOD, NODFT, NODLT, NPF,   NPL,
      .         NODNX_SMS(*), KINET(*)
-C     REAL
-      my_real
-     .  S(NUMNOD,*)
+      my_real S(NUMNOD,*)
 C-----------------------------------------------
 c FUNCTION: initialization of [S] 
 c
@@ -707,21 +662,17 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "parit_c.inc"
-#include      "scr05_c.inc"
 #include      "sms_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NODFT  ,NODLT ,WEIGHT(*) ,ITASK
-C     REAL
-      my_real
-     .  X(*), Y(*)  ,R
+      my_real X(*), Y(*)  ,R
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I , N, J, K, L, LLT
-      my_real
-     .  RTMP(MVSIZ), RL, RBUF
+      my_real RTMP(MVSIZ), RL, RBUF
       DOUBLE PRECISION R6T(6), DBUF(6)
 C-----------------------------
       IF(IPARIT==0)THEN
@@ -832,15 +783,12 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "parit_c.inc"
-#include      "scr05_c.inc"
 #include      "sms_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NODFT  ,NODLT ,WEIGHT(*) ,ITASK
-C     REAL
-      my_real
-     .  X(*), Y(3,*)  ,R(3)
+      my_real X(*), Y(3,*)  ,R(3)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -992,17 +940,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NODFT ,NODLT ,NUMNOD ,MD   ,ITASK ,WEIGHT(*)
-C     REAL
-      my_real
-     .  A(NUMNOD,*), B(3,*), C(3,*)  
+      my_real A(NUMNOD,*), B(3,*), C(3,*)  
 C-----------------------------------------------
 c FUNCTION: product {C}=[A]^t{B}
 c
@@ -1040,17 +981,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NODFT ,NODLT ,NUMNOD,MD   ,ITASK,WEIGHT(*)
-C     REAL
-      my_real
-     .  A(NUMNOD,*), B(NUMNOD,*), C(MD,*)  
+      my_real A(NUMNOD,*), B(NUMNOD,*), C(MD,*)  
 C-----------------------------------------------
 c FUNCTION: product {C}=[A]^t[B]
 c
@@ -1093,18 +1027,11 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-C----------------------------s-------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NUMNOD ,MD_F,MD_L,NODFT ,NODLT    ,WEIGHT(*), ITASK
-C     REAL
-      my_real
-     .  A(NUMNOD,*)
+      my_real A(NUMNOD,*)
 C-----------------------------------------------
 c FUNCTION: stabilized Gram-Schmidt orthonormalization (from MD_F to MD_L)
 c
@@ -1157,17 +1084,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  ND  ,MD   ,ITASK
-C     REAL
-      my_real
-     .  A(ND,*), B(3,*), C(3,*)  
+      my_real A(ND,*), B(3,*), C(3,*)  
 C-----------------------------------------------
 c FUNCTION: product {C}=[A]{B}
 c
@@ -1210,19 +1130,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "scr05_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  
-C     REAL
-      my_real
-     .  X(*), Y(3,*)  ,R(3)
+      my_real X(*), Y(3,*)  ,R(3)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -59,7 +59,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr05_c.inc"
 Ctmp+1
-#include      "units_c.inc" 
 #include      "com01_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
@@ -107,7 +106,6 @@ C-----------------------------------------------
      .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,TM,TS
 C-----------------------------------------------
 Celdev021
-#include "sync_dir.inc"
       IF (IRESP==1) THEN
            PREC = FIVEEM4
       ELSE
@@ -569,9 +567,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT, INACTI,NIN
@@ -744,12 +739,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "scr05_c.inc"
-#include      "units_c.inc"
-#include      "param_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -796,7 +787,6 @@ C-----------------------------------------------
      .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,GAP2 ,PENE2,PREC 
       INTEGER NA1,NA2
 C-----------------------------------------------
-#include "sync_dir.inc"
       IF (IRESP==1) THEN
            PREC = FIVEEM4
       ELSE

@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-#include "my_real.inc"
 Chd|====================================================================
 Chd|  UPIDMID_DUM                   source/user_interface/upidmid.F
 Chd|-- called by -----------
@@ -49,7 +48,6 @@ Chd|====================================================================
 #include      "implicit_f.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "r4r8_p.inc"
 #include      "scr05_c.inc"
 C
       INTEGER IVAR,IM,NVAR,DEPLA,IADBUF
@@ -119,7 +117,6 @@ Chd|====================================================================
 #include      "implicit_f.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "r4r8_p.inc"
 #include      "scr05_c.inc"
 
       INTEGER IVAR,IP,NVAR,DEPLA
@@ -182,7 +179,6 @@ Chd|====================================================================
 #include      "implicit_f.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "r4r8_p.inc"
 #include      "scr05_c.inc"
       INTEGER IVAR,IP,K,DEPLA,NVAR
       my_real
@@ -239,8 +235,6 @@ C------------------------------------------
 #include      "implicit_f.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "r4r8_p.inc"
-#include      "scr05_c.inc"
 C------------------------------------------
       INTEGER IVAR,IM,K,KFUNC,NVAR,DEPLA,NFUNC
       PARAMETER (KFUNC=29)
@@ -276,8 +270,6 @@ Chd|====================================================================
       INTEGER FUNCTION GET_U_PID(IP)
 #include      "implicit_f.inc"
 #include      "param_c.inc"
-#include      "r4r8_p.inc"
-#include      "scr05_c.inc"
       INTEGER IP,DEPLA,VAR
 C---------------------------------------------
 C     GET_U_PID = NINT(GEO(40,IP))
@@ -297,8 +289,6 @@ Chd|====================================================================
       INTEGER FUNCTION GET_U_MID(IM)
 #include      "implicit_f.inc"
 #include      "param_c.inc"
-#include      "r4r8_p.inc"
-#include      "scr05_c.inc"
       INTEGER IM,DEPLA
 C-----------------------------------------
 C     GET_U_MID =IPM(1,IM)
@@ -323,7 +313,6 @@ Chd|====================================================================
       INTEGER FUNCTION GET_U_M(MID)
       INTEGER MID,I,GET_U_MID
       EXTERNAL GET_U_MID
-#include      "com04_c.inc"
 C
       GET_U_M = 0
       DO I=1,NUMMAT
@@ -344,7 +333,6 @@ Chd|====================================================================
       INTEGER FUNCTION GET_U_P(PID)
       INTEGER PID,I,GET_U_PID
       EXTERNAL GET_U_PID
-#include      "com04_c.inc"
 C
       GET_U_P = 0
       DO I=1,NUMGEO
@@ -377,7 +365,6 @@ Chd|-- calls ---------------
 Chd|====================================================================
       INTEGER FUNCTION GET_U_TASK()
 #include      "implicit_f.inc"
-#include      "scr01_c.inc"
 C=======================================================================
       INTEGER OMP_GET_THREAD_NUM
       EXTERNAL OMP_GET_THREAD_NUM

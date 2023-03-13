@@ -32,9 +32,6 @@ Chd|====================================================================
      1                        MS0,PARAM,PARTSAV,IPART,PM,
      2                        IGEO)
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -45,8 +42,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
-#include      "scr14_c.inc"
 #include      "scr17_c.inc"
 #include      "scr18_c.inc"
 #include      "spmd_c.inc"

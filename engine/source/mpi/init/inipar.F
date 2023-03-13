@@ -32,7 +32,6 @@ Chd|====================================================================
 C-----------------------------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
-#include      "my_real.inc" 
 #include      "r4r8_p.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -49,7 +48,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include  "com01_c.inc"
-#include  "scr03_c.inc"
 #include  "task_c.inc"
 #include  "scr05_c.inc"
 #include  "units_c.inc"
@@ -340,7 +338,6 @@ Chd|====================================================================
 C-----------------------------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
-#include      "my_real.inc"
 #include      "r4r8_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -351,7 +348,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include  "com01_c.inc"
-#include  "scr03_c.inc"
 #include  "task_c.inc"
 #include  "scr05_c.inc"
 #include  "units_c.inc"

@@ -67,7 +67,6 @@ C-----------------------------------------------
 #include      "nsvis_c.inc"
 #include      "fluid_scr_c.inc"
 #include      "inter22.inc"
-#include      "param_c.inc"
 #include      "alefvm.inc"
 #include      "alesolver.inc"
 C-----------------------------------------------
@@ -385,9 +384,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "com01_c.inc"
 #include      "nsvis_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

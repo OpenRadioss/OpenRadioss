@@ -58,11 +58,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "impl1_c.inc"
-#include      "units_c.inc" 
-#include      "task_c.inc" 
-#include      "dmumps_struc.h"
+#include "dmumps_struc.h"
+#include "impl1_c.inc"
+#include "task_c.inc"
+#include "units_c.inc"
+#include "com01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -284,29 +284,25 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
-C-----------------------------------------------
-C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
-#ifdef  MPI
-#include "mpif.h"
-#endif
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "impl2_c.inc"
+#include      "dmumps_struc.h"
+#include      "task_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
-#include      "spmd_c.inc"
-#include      "dmumps_struc.h"
+#include      "impl2_c.inc"
+C-----------------------------------------------
+C   M e s s a g e   P a s s i n g
+C-----------------------------------------------
+#ifdef MPI
+#include "mpif.h"
+#endif
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(DMUMPS_STRUC) MUMPS_PAR
-      INTEGER NDDL, NODGLOB(*), IDDL(*), NDOF(*), CDDLP(*), 
-     .        INLOC(*), IKC(*), NDDLG, NDDLP(*)
+      INTEGER NDDL, NODGLOB(*), IDDL(*), NDOF(*), CDDLP(*), INLOC(*), IKC(*), NDDLG, NDDLP(*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -483,17 +479,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "impl1_c.inc"
-#include      "dmumps_struc.h"
-#include      "task_c.inc"
-#include      "filescount_c.inc"
+#include "dmumps_struc.h"
+#include "impl1_c.inc"
+#include "filescount_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER CDDLP(*), NDDL
-      my_real
-     .        F(*), X(*)
+      my_real F(*), X(*)
       TYPE(DMUMPS_STRUC) MUMPS_PAR
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -545,6 +538,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
 #include "com04_c.inc"
+#include "com08_c.inc"
 #include "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -564,8 +558,7 @@ C-----------------------------------------------
      .        IADLFRONT(NDDL), IFOUND, CDDLP_REM(NDDL_SI),
      .        IDDL_REM(NDDL_SI)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITKFRONT
-      my_real
-     .       , DIMENSION(:), ALLOCATABLE :: RTKFRONT
+      my_real, DIMENSION(:), ALLOCATABLE :: RTKFRONT
 C
       ALLOCATE(ITKFRONT(2,NDDL+NNZK+NNZI+NZ_SI), 
      .         RTKFRONT(NDDL+NNZK+NNZI+NZ_SI))
@@ -858,7 +851,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
 #include "com04_c.inc"
-#include "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

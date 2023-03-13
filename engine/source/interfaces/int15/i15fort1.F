@@ -53,16 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "task_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr07_c.inc"
-#include      "scr14_c.inc"
-#include      "scr16_c.inc"
-#include      "scr17_c.inc"
-#include      "parit_c.inc"
-#include      "param_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -106,7 +98,6 @@ C-----------------------------------------------
      .   VX2(MVSIZ),VY2(MVSIZ),VZ2(MVSIZ),
      .   VX3(MVSIZ),VY3(MVSIZ),VZ3(MVSIZ),
      .   VXH(MVSIZ),VYH(MVSIZ),VZH(MVSIZ)
-C-----------------------------------------------
 C-----------------------------------------------
       ADRBUF=IGRSURF(KSURF)%IAD_BUFR
       A =BUFSF(ADRBUF+1)

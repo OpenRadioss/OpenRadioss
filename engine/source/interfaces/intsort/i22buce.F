@@ -75,12 +75,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "warn_c.inc"
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com08_c.inc"
-#include      "scr05_c.inc"
-#include      "task_c.inc"
 #include      "param_c.inc"
-#include      "timeri_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -99,10 +94,6 @@ C-----------------------------------------------
      .   STF(*)
       INTEGER :: CANDB, CANDE, NB_SHORT, IPOS_, IREF,ILEN,IVAL
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

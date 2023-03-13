@@ -49,8 +49,6 @@ C-----------------------------------------------
 #include      "parit_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
-#include      "scr07_c.inc"
-#include      "couple_c.inc"
 #include      "task_c.inc"
       integer maxbloc
       parameter (maxbloc=1000)

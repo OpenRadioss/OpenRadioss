@@ -76,7 +76,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "inter22.inc"
 #include      "i22edges.inc"
@@ -115,7 +114,6 @@ C-----------------------------------------------
       INTEGER                             :: NUM, NADJ, IADJ, JV, NG, IE_M, IEm, IBm
       my_real                             :: FACEv, DDVOL, VALEL(6), VALVOIS(6,6,5), SR1, SR2, SRF
       LOGICAL debug_outp,bFOUND
-C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n 
 C-----------------------------------------------

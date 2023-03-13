@@ -55,7 +55,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "chara_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
@@ -63,8 +62,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr05_c.inc"
 #include      "scr11_c.inc"
-#include      "scr17_c.inc"
-#include      "scr24_c.inc"
 #include      "task_c.inc"
 #include      "rad2r_c.inc"
 C-----------------------------------------------------------------
@@ -207,28 +204,16 @@ Chd|====================================================================
      2   WF2    ,WM2     ,V      ,VR    ,A     ,
      3   AR     ,MS      ,IN     ,DD_R2R ,NGLOB,
      4   WEIGHT ,IAD_ELEM,FR_ELEM,NB,IEX,TYP,FLAG_ROT,NBD)
-C----6---------------------------------------------------------------7---------8
+C----6------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "chara_c.inc"
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "param_c.inc"
-#include      "scr24_c.inc"
-#include      "rad2r_c.inc"
 #include      "task_c.inc"
-#include      "timeri_c.inc"
-#include      "timerr_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB, GRNOD(*),IEX,NB,TYP,FLAG_ROT,
@@ -296,26 +281,16 @@ Chd|====================================================================
       SUBROUTINE GET_DISPL_SPMD(
      1   IDP  ,NNG   ,GRNOD ,X      ,DD_R2R ,
      4   NGLOB,WEIGHT,IAD_ELEM,FR_ELEM,IEX        )
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "chara_c.inc"
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "param_c.inc"
-#include      "scr24_c.inc"
-#include      "rad2r_c.inc"
 #include      "task_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB,IEX,GRNOD(*),
@@ -364,19 +339,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "chara_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
-#include      "scr11_c.inc"
-#include      "scr17_c.inc"
-#include      "scr24_c.inc"
-#include      "task_c.inc"
 #include      "rad2r_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IEXLNK(NR2R,NR2RLNK)

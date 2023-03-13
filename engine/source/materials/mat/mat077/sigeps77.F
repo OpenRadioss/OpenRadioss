@@ -107,12 +107,6 @@ C          UVAR(10 ) = SIGZX
 C foam variable
 C         UVAR(10 + ..) 
 #include      "param_c.inc"
-#include      "parit_c.inc"
-#include      "scr17_c.inc"
-#include      "scr05_c.inc"
-#include      "com01_c.inc"
-#include      "com08_c.inc"
-#include      "units_c.inc"
 C
       INTEGER NEL, NUPARAM, NUVAR,IPT,
      .   NGL(NEL),MAT(NEL),IPLA,IPM(NPROPMI,*)

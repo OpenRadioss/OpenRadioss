@@ -104,9 +104,7 @@ C---------+---------+---+---+--------------------------------------------
 #include      "com08_c.inc"
 #include      "impl1_c.inc"
 #include      "param_c.inc"
-#include      "parit_c.inc"
 #include      "scr17_c.inc"
-#include      "scr05_c.inc"
 #include      "units_c.inc"
 C=======================================================================
       INTEGER NEL, NUPARAM, NUVAR,IPT,IPLA, JTHE,

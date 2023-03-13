@@ -66,7 +66,6 @@ Chd|====================================================================
 !-----------------------------------------------
 #include      "units_c.inc"
 #include      "param_c.inc"
-#include      "scr06_c.inc"
 #include      "scr05_c.inc"
 #include      "scr17_c.inc"
 #include      "com08_c.inc"
@@ -189,7 +188,6 @@ Chd|====================================================================
 !       e = 1/t integ[1/2 E (eps_m + k z)^2 dz ]
 !       e = 1/2 E eps_eq^2
 !       eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
-#include      "simd.inc"
         IF (ISRATE >= 1) THEN
           DO I=JFT,JLT
             EPSPDT(I) = EPSP(I)*DT1C(I)
@@ -206,7 +204,6 @@ Chd|====================================================================
         ENDDO
 !
         IF (NPIF == ZERO .AND. (IMACH /= 3 .OR. IPARIT == 0)) THEN
-#include "simd.inc"
           DO I=JFT,JLT
             MT = MAX(EM20,Z3)
             TM = Z4
@@ -228,7 +225,6 @@ Chd|====================================================================
             IF (ICC == 1) YMAX(I) = YMAX(I)*EPSPDT(I)
           ENDDO
         ELSEIF (NPIF == JLT .AND. (IMACH /= 3 .OR. IPARIT == 0)) THEN
-#include "simd.inc"
           DO I=JFT,JLT
             EPSPDT(I) = CC*EXP((-Z3+Z4 * EPSPDT(I))*T(I))
             IF (ICC == 1) YMAX(I) = YMAX(I) + EPSPDT(I)
@@ -335,7 +331,6 @@ Chd|====================================================================
 !-------------------------
 !     CRITERE DE VON MISES
 !-------------------------
-#include "simd.inc"
         DO I=JFT,JLT
           YLD(I) = CA(I)+CB(I)*EXP(CN * LOG(LBUF%PLA(I)+ EM30))
         ENDDO
@@ -385,7 +380,6 @@ Chd|====================================================================
 !---------------------------
 !    DEP EN CONTRAINTE PLANE
 !---------------------------
-#include      "simd.inc"
         DO J=1,NINDX
           I = INDEX(J)
           NU1(I) = HALF*(ONE + NU(I))
@@ -408,7 +402,6 @@ Chd|====================================================================
 !     TIENT COMPTE DU COUPLAGE
 !-------------------------------
         DO N=1,NMAX
-#include      "simd.inc"
           DO J=1,NINDX
             I = INDEX(J)
             DPLA_I = DPLA_J(I)
@@ -459,7 +452,6 @@ Chd|====================================================================
 !------------------------------------------
 !     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 !------------------------------------------
-#include      "simd.inc"
         DO J=1,NINDX
           I = INDEX(J)
           LBUF%PLA(I) = LBUF%PLA(I) + DPLA_J(I)
@@ -505,7 +497,6 @@ Chd|====================================================================
 !--------------------------------
 !     TEST DE RUPTURE DUCTILE
 !--------------------------------
-#include "simd.inc"
       DO I=JFT,JLT
         IF (OFF(I) < EM01) OFF(I) = ZERO
         IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5

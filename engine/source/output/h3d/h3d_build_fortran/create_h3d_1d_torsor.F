@@ -40,9 +40,7 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "nchar_c.inc"
 #include      "com04_c.inc"
-#include      "param_c.inc"
 #include      "scr17_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -52,9 +50,6 @@ C-----------------------------------------------
       CHARACTER(LEN=STEXT1) :: TEXT1
       CHARACTER(LEN=ncharline) ::  KEY3_GLOB
       CHARACTER(LEN=SCOMMENT) :: COMMENT
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

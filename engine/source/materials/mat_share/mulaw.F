@@ -188,14 +188,10 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr17_c.inc"
 #include      "scr18_c.inc"
-#include      "scr19_c.inc"
-#include      "usrplas_c.inc"
 #include      "userlib.inc"
 #include      "impl1_c.inc"
 #include      "timeri_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

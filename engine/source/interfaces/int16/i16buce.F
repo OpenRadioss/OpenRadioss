@@ -46,9 +46,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -61,10 +59,6 @@ C     REAL
      .   TZINF,MINBOX
       my_real
      .   X(3,*),EMINX(6,*),XSAV(3,*),V(3,*) ,A(3,*)  
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

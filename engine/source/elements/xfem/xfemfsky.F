@@ -46,9 +46,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "task_c.inc"
 #include      "parit_c.inc"
-#include      "com01_c.inc"
 #include      "com_xfem1.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -287,9 +285,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "task_c.inc"
 #include      "parit_c.inc"
-#include      "com01_c.inc"
 #include      "com_xfem1.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -526,10 +522,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
-#include      "task_c.inc"
 #include      "parit_c.inc"
-#include      "com01_c.inc"
 #include      "com_xfem1.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -727,9 +720,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com_xfem1.inc"
-#include      "param_c.inc"
-#include      "task_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

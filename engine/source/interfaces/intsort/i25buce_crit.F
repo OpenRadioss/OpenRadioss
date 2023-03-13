@@ -38,14 +38,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
-#include      "warn_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com08_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -54,19 +49,12 @@ C-----------------------------------------------
      .   X(3,*), V(3,*), XSAV(3,*), STFN(*),
      .   XSLV_G(*),XMSR_G(*), VSLV_G(*), VMSR_G(*)
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSNF,NMNF,NSNL,NMNL,I, J, K, II, N,IAD,NES,JG,
      .        IE, I1, I2, N1, N2 
       my_real
      .  XSLV(18),XMSR(12), VSLV(6), VMSR(6)
-C-----------------------------------------------
-C   S o u r c e  L i n e s
-C-----------------------------------------------
 C-----------------------------------------------
 C
 C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON

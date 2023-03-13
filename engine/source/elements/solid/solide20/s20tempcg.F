@@ -36,22 +36,16 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPE,NC(MVSIZ,NPE),JFT,JLT
-C     REAL
       my_real
      .   TEMP(*),NI(NPE),TEMPEL(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL  
 C ---  temperature on integration point
        DO I=JFT,JLT 
          TEMPEL(I) = ZERO 

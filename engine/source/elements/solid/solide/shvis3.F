@@ -49,7 +49,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k sj
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "cong1_c.inc"
 #include      "vect01_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
@@ -59,7 +58,6 @@ C-----------------------------------------------
 #include      "scr16_c.inc"
 #include      "parit_c.inc"
 #include      "inter22.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -157,7 +155,6 @@ C
 C MATERIAUX FLUIDES 
       IF(FLUID==1)THEN
        IF(UPWM>1 .OR. JLAG==1)THEN
-#include "simd.inc"
         DO I=LFT,LLT
          IF(VIS(I)>ZERO)THEN
           FCQ(I)=ZERO
@@ -431,7 +428,6 @@ C
       END DO
 C
       EHOURT = ZERO
-#include "simd.inc"
       DO I=LFT,LLT     
         EHOURT= EHOURT+EHOU(I)
       ENDDO   

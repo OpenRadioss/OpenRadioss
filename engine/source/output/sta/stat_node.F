@@ -37,9 +37,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
-#include      "scr16_c.inc"
 #include      "spmd_c.inc"
 #include      "com01_c.inc"
 C-----------------------------------------------

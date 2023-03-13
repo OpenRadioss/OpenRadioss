@@ -57,16 +57,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "task_c.inc"
-#include      "warn_c.inc"
 #include      "scr05_c.inc"
-#include      "scr07_c.inc"
-#include      "scr18_c.inc"
 #include      "units_c.inc"
-#include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "param_c.inc"
-#include      "couple_c.inc"
       COMMON /LAGGLOB/N_MULT
       INTEGER N_MULT
 C-----------------------------------------------
@@ -156,7 +149,6 @@ C         b  = [L] ao + [L]/dt v_ = [L] (v_ + ao dt)/dt
 C-----------------------------------------------
 C                 b  = [L] vo+/dt   +   vout
 C-----------------------------------------------
-#include "sync_dir.inc"
 
 C--------------------------------------------------------
 C  SEUL CAS RESTANT : PAQUETS MIXTES

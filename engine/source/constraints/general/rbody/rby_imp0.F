@@ -42,7 +42,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -51,7 +50,6 @@ C-----------------------------------------------
      .        NRBYAC,IRBYAC(*),NDDL,IADK(*),JDIK(*),NDOF(*),
      .        IDDL(*),IKC(*),NSC(*),ISIJ(*),NSS(*) ,ISS(*),
      .        NMC,IMIJ(*)
-C     REAL
       my_real
      .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*),
      .   IN(*),MS(*),DIAG_K(*),LT_K(*),B(*)
@@ -105,7 +103,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -113,7 +110,6 @@ C-----------------------------------------------
       INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ISKEW(*),ITAB(*),
      .        NRBYAC,IRBYAC(*),NDDL,IADK(*),JDIK(*),NDOF(*),
      .        IDDL(*),IKC(*),NSS(*) ,ISS(*)
-C     REAL
       my_real
      .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*),
      .   IN(*),MS(*),DIAG_K(*),LT_K(*),B(*)
@@ -168,7 +164,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
 #include      "scr05_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -177,7 +172,6 @@ C-----------------------------------------------
       INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*),
      .        NSC,ISI(2,NSC) ,NS(*),NODS(*)
       INTEGER NDDL,IADK(*),JDIK(*),NDOF(*),IDDL(*),IKC(*)
-C     REAL
       my_real
      .   X(3,*), RBY(*), SKEW(LSKEW,*),
      .   IN(*),MS(*),DIAG_K(*),LT_K(*),B(*)
@@ -277,8 +271,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -627,9 +619,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N, M,NDOF(*)
@@ -920,21 +909,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IADK(*),JDIK(*),NDOF(*),IDDL(*),IDDLM(*),IKC(*),
      .        M, NS,ITAB(*),IDLM ,ISS,ISM
-C     REAL
       my_real
      .   X(3,*),DIAG_K(*),LT_K(*),B(*),A(3,*),
      .   KSS(6),KSM(3,3),KNM(3,3),KRM(3,3)
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K,ID,NL,NI,NJ,NDOFI,ND,IR,IDM
-C     REAL
-      my_real
-     .   KDD(6,6),BD(6),XS,YS,ZS
+      my_real KDD(6,6),BD(6),XS,YS,ZS
 C------------------------------------
 C     VITESSES DES NOEUDS SECONDS
 C------------------------------------

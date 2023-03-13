@@ -39,22 +39,9 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "com01_c.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-c#include      "com01_c.inc"
-c#include      "com06_c.inc"
-c#include      "com08_c.inc"
-c#include      "scr02_c.inc"
-c#include      "scr11_c.inc"
-c#include      "task_c.inc"
-c#include      "units_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRUNN_BIS
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

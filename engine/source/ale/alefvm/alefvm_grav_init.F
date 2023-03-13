@@ -59,15 +59,9 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "nsvis_c.inc"
-#include      "fluid_scr_c.inc"
-#include      "inter22.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D e s c r i p t i o n

@@ -38,7 +38,6 @@ C  element:
 C        mean square approximation of the gradient in the face related 
 C        neighborhood of the element
 C-----------------------------------------------
-C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
       USE ALEMUSCL_MOD
@@ -49,16 +48,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l  P a r a m e t e r s
-C-----------------------------------------------
-#include "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include "param_c.inc"
 #include "vect01_c.inc"
 #include "com04_c.inc"
-#include "alemuscl.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

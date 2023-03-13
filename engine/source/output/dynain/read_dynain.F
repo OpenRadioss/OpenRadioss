@@ -47,9 +47,8 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "param_c.inc"
 #include      "units_c.inc"
-#include      "scr05_c.inc"
+#include      "scr16_c.inc"
 #include      "scr17_c.inc"
 #include      "task_c.inc"
 #include      "com01_c.inc"
@@ -57,9 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPART(LIPART1,*), IXC(NIXC,*), IXTG(NIXTG,*),
-     .        IPARTC(*), IPARTTG(*)
-C     REAL
+      INTEGER IPART(LIPART1,*), IXC(NIXC,*), IXTG(NIXTG,*),IPARTC(*), IPARTTG(*)
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

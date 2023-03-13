@@ -42,7 +42,6 @@ C 11000 -> 11999 => spmd_rest.F
 C 12000 -> 12999 => spmd_lag.F
 C 13000 -> 13999 => spmd_dsreso.F
 
-#include "hardware.inc"
 C
 Chd|====================================================================
 Chd|  SPMD_GET_INACTI7              source/mpi/interfaces/send_cand.F
@@ -69,11 +68,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -183,12 +178,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -338,12 +329,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "scr17_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -480,12 +466,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -636,12 +618,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -792,12 +770,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -947,12 +921,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1105,12 +1075,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "scr17_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1247,12 +1212,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1405,12 +1366,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1582,12 +1539,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
-#include      "r4r8_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1776,16 +1729,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "units_c.inc"
-#include      "scr03_c.inc"
-#include      "scr04_c.inc"
-#include      "scr05_c.inc"
-#include      "scr18_c.inc"
-#include      "warn_c.inc"
 #include      "task_c.inc"
-#include      "parit_c.inc"
-#include      "spmd_c.inc"
-#include      "impl1_c.inc"
 #include      "intstamp_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -2175,11 +2119,8 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "fxbcom.inc"
-#include      "spmd_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
-#include      "parit_c.inc"
 #include      "intstamp_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -2380,8 +2321,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "fxbcom.inc"
-#include      "spmd_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
@@ -2842,13 +2781,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
-#include      "r4r8_p.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -3033,13 +2966,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "scr18_c.inc"
 #include      "task_c.inc"
-#include      "param_c.inc"
-#include      "r4r8_p.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

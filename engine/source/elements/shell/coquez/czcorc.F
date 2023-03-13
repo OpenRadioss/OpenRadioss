@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+C-----------------------------------------------
 #include      "implicit_f.inc"
 c-----------------------------------------------
 c   g l o b a l   p a r a m e t e r s
@@ -77,8 +77,6 @@ c-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "com08_c.inc"
 #include      "impl1_c.inc"
-#include      "com01_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -243,8 +241,6 @@ C--------------------------
      .                   +Y1G(I)+Y2G(I))
           LXYZ0(3)=FOURTH*(Z3G(I)+Z4G(I)
      .                   +Z1G(I)+Z2G(I))
-C          J=IXC(2,I)
-C          K=IXC(3,I)
           XX=X2G(I)-X1G(I)
           YY=Y2G(I)-Y1G(I)
           ZZ=Z2G(I)-Z1G(I)
@@ -461,15 +457,6 @@ C
         S1 = MAX(S1,EM10)
         LL(I) = AREA(I)/S1
        ENDDO
-C       IF (IDRIL>0) THEN
-C        DO I=JFT,JLT
-C	     S1=ONE/SQRT(MAX(L13(I),L24(I)))
-C	     FAC1=0.95*S1*SQRT(ONE_OVER_6*(AREA(I)+THK(I)*THK(I)))
-c	     FAC1=S1*SQRT(ONE_OVER_9*(AREA(I)+THK(I)*THK(I)))
-C         SL= FAC1*AREA(I)*S1
-C         LL(I) = MIN(LL(I),SL)
-C        ENDDO
-C       END IF 
 C-------cas thk >>L----
        IF (IMPL_S>0) THEN
         DO I=JFT,JLT
@@ -531,22 +518,22 @@ C-----------cas explicite revient comme avant---
         ENDDO
         ELSE IF(IXFEM==1)THEN
         DO I=JFT,JLT
-C         K=IXC(2,I)
+
          RLXYZ(I,1,1) =VQ(I,1,1)*VRX1(I)+VQ(I,2,1)*VRY1(I)
      1                +VQ(I,3,1)*VRZ1(I)
          RLXYZ(I,2,1) =VQ(I,1,2)*VRX1(I)+VQ(I,2,2)*VRY1(I)
      1                +VQ(I,3,2)*VRZ1(I)
-C         K=IXC(3,I)
+
          RLXYZ(I,1,2) =VQ(I,1,1)*VRX2(I)+VQ(I,2,1)*VRY2(I)
      1                +VQ(I,3,1)*VRZ2(I)
          RLXYZ(I,2,2) =VQ(I,1,2)*VRX2(I)+VQ(I,2,2)*VRY2(I)
      1                +VQ(I,3,2)*VRZ2(I)
-C         K=IXC(4,I)
+
          RLXYZ(I,1,3) =VQ(I,1,1)*VRX3(I)+VQ(I,2,1)*VRY3(I)
      1                +VQ(I,3,1)*VRZ3(I)
          RLXYZ(I,2,3) =VQ(I,1,2)*VRX3(I)+VQ(I,2,2)*VRY3(I)
      1                +VQ(I,3,2)*VRZ3(I)
-C         K=IXC(5,I)
+
          RLXYZ(I,1,4) =VQ(I,1,1)*VRX4(I)+VQ(I,2,1)*VRY4(I)
      1                +VQ(I,3,1)*VRZ4(I)
          RLXYZ(I,2,4) =VQ(I,1,2)*VRX4(I)+VQ(I,2,2)*VRY4(I)
@@ -804,14 +791,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   D(6), DI(6)
+      my_real D(6), DI(6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -855,7 +837,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1082,7 +1063,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1312,7 +1292,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1544,7 +1523,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "param_c.inc"
 #include      "impl1_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
@@ -1869,7 +1847,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "param_c.inc"
 #include      "impl1_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
@@ -2194,7 +2171,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "param_c.inc"
 #include      "impl1_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
@@ -2476,19 +2452,15 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+C-----------------------------------------------
 #include      "implicit_f.inc"
 c-----------------------------------------------
 c   g l o b a l   p a r a m e t e r s
 c-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-#include      "parit_c.inc"
 #include      "scr05_c.inc"
-#include      "scr17_c.inc"
-#include      "com08_c.inc"
 #include      "impl1_c.inc"
-#include      "com01_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -2816,13 +2788,8 @@ c   g l o b a l   p a r a m e t e r s
 c-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-#include      "parit_c.inc"
 #include      "scr05_c.inc"
-#include      "scr17_c.inc"
 #include      "com08_c.inc"
-#include      "impl1_c.inc"
-#include      "com01_c.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------

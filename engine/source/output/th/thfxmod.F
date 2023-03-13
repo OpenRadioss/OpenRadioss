@@ -38,10 +38,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr05_c.inc"
-#include      "task_c.inc"
 #include      "fxbcom.inc"
 *
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

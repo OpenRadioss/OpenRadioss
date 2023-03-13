@@ -58,12 +58,8 @@ C-----------------------------------------------
 #include      "parit_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
-#include      "warn_c.inc"
 #include      "task_c.inc"
-#include      "scr06_c.inc"
-#include      "scr07_c.inc"
 #include      "scr18_c.inc"
-#include      "couple_c.inc"
 #include      "sphcom.inc"
 #include      "vale_c.inc"
       INTEGER MAXBLOC,NBLOC,NBVAL,NBCOL,NFACNIT
@@ -3648,7 +3644,6 @@ C-----------------------------------------------
 !$OMP END SINGLE
       ENDIF
 C-----------------------------------------------
-C-----------------------------------------------
 C Partie NITSCHE ELEM FORNEQS
 C-----------------------------------------------
       IF(NITSCHE /= 0) THEN
@@ -4499,7 +4494,6 @@ C plyxfem + type 24
 C
               IF(INTHEAT ==  0 ) THEN
                 IF(KDTINT==0)THEN
-#include "scalar.inc"
                   DO K=JJ1,JJ2
                     A(1,N) = A(1,N) + FSKYI(K,1)
                     A(2,N) = A(2,N) + FSKYI(K,2)
@@ -4507,7 +4501,6 @@ C
                     STIFN(N) = STIFN(N) + FSKYI(K,4)
                   ENDDO
                 ELSE
-#include "scalar.inc"
                   DO K=JJ1,JJ2
                     A(1,N) = A(1,N) + FSKYI(K,1)
                     A(2,N) = A(2,N) + FSKYI(K,2)
@@ -4520,7 +4513,6 @@ C + la thermique
               ELSE
                 IF(NODADT_THERM == 1) THEN
                   IF(KDTINT==0)THEN
-#include "scalar.inc"
                     DO K=JJ1,JJ2
                       A(1,N) = A(1,N) + FSKYI(K,1)
                       A(2,N) = A(2,N) + FSKYI(K,2)
@@ -4531,7 +4523,6 @@ C + la thermique
                       FTHESKYI(K) = ZERO
                     ENDDO
                   ELSE
-#include "scalar.inc"
                     DO K=JJ1,JJ2
                       A(1,N) = A(1,N) + FSKYI(K,1)
                       A(2,N) = A(2,N) + FSKYI(K,2)
@@ -4545,7 +4536,6 @@ C + la thermique
                   ENDIF
                 ELSE
                   IF(KDTINT==0)THEN
-#include "scalar.inc"
                     DO K=JJ1,JJ2
                       A(1,N) = A(1,N) + FSKYI(K,1)
                       A(2,N) = A(2,N) + FSKYI(K,2)
@@ -4555,7 +4545,6 @@ C + la thermique
                       FTHESKYI(K) = ZERO
                     ENDDO
                   ELSE
-#include "scalar.inc"
                     DO K=JJ1,JJ2
                       A(1,N) = A(1,N) + FSKYI(K,1)
                       A(2,N) = A(2,N) + FSKYI(K,2)
@@ -4570,7 +4559,6 @@ C + la thermique
               ENDIF
 C  plyxfem + type 24
               IF(INTPLYXFEM > 0) THEN
-#include "scalar.inc"
                 DO K=JJ1,JJ2
                   IL = INOD_PXFEM(N)
                   IF(IL > 0) THEN
@@ -4753,17 +4741,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com08_c.inc"
 #include      "parit_c.inc"
-#include      "units_c.inc"
-#include      "param_c.inc"
-#include      "warn_c.inc"
-#include      "task_c.inc"
-#include      "scr06_c.inc"
-#include      "scr07_c.inc"
 #include      "scr18_c.inc"
-#include      "couple_c.inc"
-#include      "vale_c.inc"
       INTEGER MAXBLOCI2,NBLOCI2,NBVALI2,NBCOLI2
       PARAMETER (MAXBLOCI2=1000)
       COMMON/PTMPARI2/NBLOCI2,NBVALI2(1:MAXBLOCI2),NBCOLI2(1:MAXBLOCI2)

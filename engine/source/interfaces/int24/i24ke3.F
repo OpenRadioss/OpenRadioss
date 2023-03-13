@@ -61,15 +61,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "units_c.inc"
-#include      "scr03_c.inc"
 #include      "scr04_c.inc"
-#include      "scr05_c.inc"
-#include      "scr07_c.inc"
-#include      "warn_c.inc"
-#include      "task_c.inc"
-#include      "parit_c.inc"
-#include      "timeri_c.inc"
 #include      "impl2_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
@@ -343,10 +335,8 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr05_c.inc"
-#include      "units_c.inc" 
 #include      "com01_c.inc"
 #include      "impl1_c.inc"
-#include      "com08_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -661,7 +651,6 @@ Chd|====================================================================
      4                    KL12   ,SCALK  ,LL_S   ,LL_M   ,TAG_S ,
      5                    TAG_M  ,NSN    )
 C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -669,13 +658,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "scr05_c.inc"
-#include      "units_c.inc" 
-#include      "com01_c.inc"
-#include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

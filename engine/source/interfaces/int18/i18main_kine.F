@@ -73,11 +73,8 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "secur_c.inc"
 #include      "task_c.inc"
-#include      "units_c.inc"
 #include      "warn_c.inc"
-#include      "scr05_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -339,13 +336,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "secur_c.inc"
 #include      "task_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -550,11 +542,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "units_c.inc"
 #include      "task_c.inc"
 #include      "warn_c.inc"
 #include      "tabsiz_c.inc"
@@ -783,13 +773,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "units_c.inc"
 #include      "task_c.inc"
-#include      "warn_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -911,12 +897,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com08_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -925,10 +905,6 @@ C-----------------------------------------------
       INTEGER NMN,ITASK,MSR(*), ISKEW(*), LCOD(*) , ITAB(*)
       my_real
      .   A(3,*), V(3,*), MS(*),MTF(14,*), SKEW(LSKEW,*)
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1033,13 +1009,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "units_c.inc"
 #include      "task_c.inc"
-#include      "warn_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1189,13 +1161,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "units_c.inc"
 #include      "task_c.inc"
-#include      "warn_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1334,24 +1302,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr02_c.inc"
-#include      "scr03_c.inc"
 #include      "scr05_c.inc"
-#include      "scr07_c.inc"
-#include      "scr11_c.inc"
-#include      "scr14_c.inc"
-#include      "scr16_c.inc"
-#include      "scr18_c.inc"
-#include      "units_c.inc"
-#include      "parit_c.inc"
-#include      "warn_c.inc"
-#include      "couple_c.inc"
-#include      "param_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1415,7 +1367,6 @@ C-----------------------------------------------
      .   IMPX,IMPY,IMPZ,PP1,PP2,PP3,PP4,BID
 C
 C-----------------------------------------------
-#include "sync_dir.inc"
       IF (IRESP == 1) THEN
            PREC = FIVEEM4
       ELSE
@@ -1595,27 +1546,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "scr02_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "scr07_c.inc"
-#include      "scr11_c.inc"
-#include      "scr14_c.inc"
-#include      "scr16_c.inc"
-#include      "scr18_c.inc"
-#include      "units_c.inc"
-#include      "parit_c.inc"
-#include      "warn_c.inc"
-#include      "couple_c.inc"
-#include      "param_c.inc"
-#include      "task_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,IBCM,IBCS,INACTI,NIN,
@@ -1684,9 +1614,6 @@ C-----------------------------------------------
       my_real
      .   IMPX,IMPY,IMPZ,PP1,PP2,PP3,PP4,BID,
      .   MTXX,MTXY,MTXZ,MTYY,MTYZ,MTZZ
-C
-C-----------------------------------------------
-#include "sync_dir.inc"
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -1913,25 +1840,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr02_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "scr07_c.inc"
-#include      "scr11_c.inc"
-#include      "scr14_c.inc"
-#include      "scr16_c.inc"
-#include      "scr18_c.inc"
-#include      "units_c.inc"
-#include      "parit_c.inc"
-#include      "warn_c.inc"
-#include      "couple_c.inc"
-#include      "param_c.inc"
 ctmp+1
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1997,7 +1907,6 @@ C-----------------------------------------------
      .   V1,V2,V3,V4,VSX,VSY,VSZ
 C
 C-----------------------------------------------
-#include "sync_dir.inc"
       ECONTT = ZERO
       ECONVT = ZERO
 C--------------------------------------------------------
@@ -2135,23 +2044,11 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr02_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "scr07_c.inc"
-#include      "scr11_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
-#include      "scr18_c.inc"
-#include      "units_c.inc"
-#include      "parit_c.inc"
-#include      "warn_c.inc"
-#include      "couple_c.inc"
-#include      "param_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2209,7 +2106,6 @@ C-----------------------------------------------
      .        V1,V2,V3,V4,VSX,VSY,VSZ,DVSX,DVSY,DVSZ,VSXP,VSYP,VSZP
 C
 C-----------------------------------------------
-#include "sync_dir.inc"
       IF(DT12 > ZERO)THEN
         DT12INV = ONE/DT12
       ELSE

@@ -37,9 +37,6 @@ Chd|====================================================================
      8                 SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX  ,
      9                 SIGR   ,TSAIWU )
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -50,16 +47,7 @@ C-----------------------------------------------
 Cc-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
-#include      "scr06_c.inc"
-#include      "scr17_c.inc"
 #include      "param_c.inc"
-#include      "com04_c.inc"
-#include      "com08_c.inc"
-#include      "com20_c.inc"
-#include      "secur_c.inc"
-#include      "com01_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

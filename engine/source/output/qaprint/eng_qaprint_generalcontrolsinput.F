@@ -39,7 +39,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-C#include      "scr02_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
 #include      "scr06_c.inc"
@@ -49,7 +48,6 @@ C#include      "scr02_c.inc"
 #include      "com08_c.inc"
 #include      "check.inc"
 #include      "chara_c.inc"
-#include      "titr_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

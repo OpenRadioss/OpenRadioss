@@ -55,14 +55,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "assert.inc"
 #include      "i25edge_c.inc"
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -86,7 +82,6 @@ C     REAL
       my_real
      .   PENE(MVSIZ)
 C-----------------------------------------------
-#include "sync_dir.inc"
       CALL I25PEN3_EDG( J_STOK,PROV_S ,PROV_M ,DRAD    ,IGAP0   ,
      .                  NEDGE ,LEDGE  ,MARGE  ,GAPE    ,GAP_E_L ,
      .                  IGAP   ,X     ,IRECT  ,PENE    ,ADMSR   ,

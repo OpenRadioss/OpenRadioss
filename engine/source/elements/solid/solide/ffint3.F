@@ -50,8 +50,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-c#include      "vect04_c.2.inc"
-#include      "com01_c.inc"
 #include      "fluid_scr_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

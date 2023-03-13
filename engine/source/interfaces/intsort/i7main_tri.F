@@ -76,10 +76,6 @@ C-----------------------------------------------
 #include      "mpif.h"
 #endif
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
@@ -87,12 +83,8 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "scr03_c.inc"
 #include      "scr04_c.inc"
-#include      "scr05_c.inc"
-#include      "warn_c.inc"
 #include      "task_c.inc"
-#include      "parit_c.inc"
 #include      "timeri_c.inc"
 C common pour variable globale en memoire partagee
       COMMON /I7MAINC/BMINMA,CURV_MAX_MAX,RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
@@ -133,8 +125,6 @@ C-----------------------------------------------
      .   CURV_MAX(NRTM_T),RDUM1(1)
       REAL T1  !elapsed time in smp
       LOGICAL TYPE18
-C-----------------------------------------------
-#include "sync_dir.inc"
 C-----------------------------------------------
       I_MEM  = 0
       I_MEMG = 0

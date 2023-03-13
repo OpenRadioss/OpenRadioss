@@ -62,7 +62,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr03_c.inc"
 #include      "scr14_c.inc"
 #include      "vect01_c.inc"
 #include      "com01_c.inc"

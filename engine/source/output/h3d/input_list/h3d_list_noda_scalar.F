@@ -39,22 +39,16 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "param_c.inc"
+#include      "com04_c.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (H3D_KEYWORD) H3D_KEYWORD_NODAL_SCALAR(*)
-      my_real
-     .      GEO(NPROPG,*)
+      my_real GEO(NPROPG,NUMGEO)
       INTEGER, INTENT(INOUT) :: NKEY
-c-------------------------
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "chara_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

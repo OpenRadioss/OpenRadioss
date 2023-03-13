@@ -41,23 +41,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
 #include      "assert.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "i25edge_c.inc"
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "com08_c.inc"
 C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================
 C   TRI sur N de CAND_S CAND_M CAND_F
 C   et elimination des noeuds en rebond 
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

@@ -46,13 +46,11 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scrnoi_c.inc"
-#include      "chara_c.inc"
 #include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IKAD(0:*),
-     .        KNOISE,IFID,MFID
+      INTEGER IKAD(0:*),KNOISE,IFID,MFID
       CHARACTER KEY0(*)*5, KEY2*5, KEY3*5, KEY4*5, KEY5*5
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -63,7 +61,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NBC, K, KK, IKEY
       CHARACTER CARTE*ncharline
-C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       IKEY=KNOISE
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0

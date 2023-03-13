@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|====================================================================
       MODULE MOD_SPBUC3
       implicit none
-#include      "my_real.inc"
       INTEGER*8, DIMENSION(:), ALLOCATABLE ::  IV
       INTEGER, DIMENSION(:), ALLOCATABLE ::  KV,NV,IVS,
      .                                       IAUX,KXSPR

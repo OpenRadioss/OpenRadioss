@@ -94,13 +94,7 @@ C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
 #include      "param_c.inc"
-#include      "parit_c.inc"
-#include      "scr17_c.inc"
-#include      "scr05_c.inc"
-#include      "com01_c.inc"
-#include      "com08_c.inc"
 #include      "sms_c.inc"
-#include      "units_c.inc"
 #include      "vect01_c.inc"
 #include      "impl1_c.inc"
 C

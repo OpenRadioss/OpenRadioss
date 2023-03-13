@@ -70,7 +70,6 @@ C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
-#include      "scr17_c.inc"
 #include      "sms_c.inc"
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s  

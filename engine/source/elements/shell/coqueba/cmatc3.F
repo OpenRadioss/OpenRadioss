@@ -62,10 +62,8 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com04_c.inc"
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
-CC#include      "com08_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -396,20 +394,15 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NEL
-C     REAL
       my_real
      .   DIR(NEL,2),HM(MVSIZ,4),HC(MVSIZ,2),HMOR(MVSIZ,2)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL
       my_real
      .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),M4(MVSIZ),N4(MVSIZ),
      .  MN2(MVSIZ),CM(6),CC(2),T1,T2,T3
@@ -474,14 +467,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,MAT(*)
-C     REAL
       my_real
      .   HM(MVSIZ,4),HC(MVSIZ,2), PM(NPROPM,*), SHF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,MX
-C     REAL
       my_real
      .   G,A11,A12,E11,E22,NU12,G31,G23,A22
 C-----------------------------------------------
@@ -532,21 +523,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT ,IR,IS,IT
-C     REAL
       my_real
      .   G_IMP(*),SIGNOR(MVSIZ,5)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,J,K
-C     REAL
-
       TYPE(L_KTBUFEP_)    , POINTER :: SKBUF
 C-----------------------------------------------
        IF (IKT==0) RETURN
@@ -594,7 +581,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com04_c.inc"
 #include      "impl1_c.inc"
 #include      "com20_c.inc"
 C-----------------------------------------------
@@ -602,7 +588,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  ,MTN  , NPT,IORTH,IPG
       INTEGER MAT(*), PID(*)
-C     REAL
       my_real
      .   PM(NPROPM,*),HM(MVSIZ,4),HF(MVSIZ,4),HMOR(MVSIZ,2),HFOR(MVSIZ,2),HMFOR(MVSIZ,6)
 C-----------------------------------------------
@@ -835,8 +820,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com04_c.inc"
-#include      "impl1_c.inc"
 #include      "impl2_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -869,7 +852,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,IPID,J,J2,J3,JJ,NEL,L,IGMAT,IPGMAT,IGTYP
-C     REAL
       my_real
      .   NU(MVSIZ),G(MVSIZ),YM(MVSIZ),A11(MVSIZ),A12(MVSIZ),
      .   E11,E22,NU12,G31,G23,A22,WMC,FACG,COEF,WM
@@ -947,21 +929,9 @@ Chd|====================================================================
      3                   GM   ,GF   ,DHZ  ,DMOR ,DFOR ,
      4                   DMF  ,IDRIL,IORTH)
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

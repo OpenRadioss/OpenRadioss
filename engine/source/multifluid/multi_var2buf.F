@@ -30,9 +30,6 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod
 Chd|====================================================================
       SUBROUTINE MULTI_VAR2BUF(ITASK, IPARG, MULTI_FVM, ELBUF_TAB)
 C-----------------------------------------------
-C     D e s c r i p t i o n
-C-----------------------------------------------
-C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD

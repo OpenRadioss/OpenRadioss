@@ -66,7 +66,7 @@ Chd|====================================================================
      4                    IBFV,DX,RBY,NPBY,XDP,STIFN,STIFR,DD_R2R_ELEM,
      5                    SDD_R2R_ELEM,WEIGHT_MD,ILENXV,NUMSPH_GLO_R2R,
      6                    FLG_SPHINOUT_R2R,IPARI,NLOC_DMG)
-C----6---------------------------------------------------------------7---------8
+C----6------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE RAD2R_MOD
@@ -77,9 +77,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -552,21 +549,14 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "chara_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr24_c.inc"
 #include      "rad2r_c.inc"
 #include      "task_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB,ITAB(*), GRNOD(*),
@@ -720,28 +710,15 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "chara_c.inc"
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "param_c.inc"
-#include      "scr24_c.inc"
-#include      "rad2r_c.inc"
 #include      "task_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IDP, NNG, NGLOB, GRNOD(*),
-     .        WEIGHT(*), DD_R2R(*),FLAG_ROT
-C     REAL
-      my_real
-     .        MS(*), IN(*)
+      INTEGER IDP, NNG, NGLOB, GRNOD(*),WEIGHT(*), DD_R2R(*),FLAG_ROT
+      my_real MS(*), IN(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -770,34 +747,22 @@ Chd|====================================================================
       SUBROUTINE GET_MASS_SPMD(
      1   IDP      ,NNG   ,GRNOD,MS      ,IN,DD_R2R   ,
      2   NGLOB ,WEIGHT ,IAD_ELEM,FR_ELEM,FLAG_ROT)
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "chara_c.inc"
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "param_c.inc"
-#include      "scr24_c.inc"
-#include      "rad2r_c.inc"
 #include      "task_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB,
      .        GRNOD(*),FLAG_ROT,
      .        WEIGHT(*), DD_R2R(*), IAD_ELEM(2,*), FR_ELEM(*)
-C     REAL
-      my_real
-     .        MS(*), IN(*)
+      my_real MS(*), IN(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -833,7 +798,7 @@ Chd|====================================================================
      1   IDP      ,NNG   ,GRNOD, MS, IN,
      2   DD_R2R   ,NGLOB ,WEIGHT ,FLAG_ROT,
      3   NPBY  ,RBY, ADDR)
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE RAD2R_MOD
@@ -842,27 +807,18 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "chara_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr24_c.inc"
-#include      "rad2r_c.inc"
 #include      "task_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB,GRNOD(*),
      .        WEIGHT(*), DD_R2R(*),FLAG_ROT,
      .        NPBY(*), ADDR     
-C     REAL
       my_real
      .        MS(*), IN(*), RBY(NRBY,*)
 C-----------------------------------------------
@@ -931,19 +887,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "chara_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr24_c.inc"
-#include      "rad2r_c.inc"
 #include      "task_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------------------------
@@ -953,9 +901,7 @@ C-----------------------------------------------
      .        GRNOD(*),FLAG_ROT,IEX,
      .        WEIGHT(*), DD_R2R(*), IAD_ELEM(2,*), FR_ELEM(*),
      .        NPBY(*),ITAB(*)     
-C     REAL
-      my_real
-     .        MS(*), IN(*), X(3,*),  RBY(NRBY,*)
+      my_real MS(*), IN(*), X(3,*),  RBY(NRBY,*)
       DOUBLE PRECISION XDP(3,*)     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1045,28 +991,17 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "chara_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "rad2r_c.inc"
-#include      "task_c.inc"
 #include      "units_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NNOD,IBUF(*),NPBY(*),ITAB(*),NPROC,WEIGHT(*)
-C     REAL
-      my_real
-     .        MS(*), IN(*), X(*), RBY(NRBY,*)
+      my_real MS(*), IN(*), X(*), RBY(NRBY,*)
       DOUBLE PRECISION XDP(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

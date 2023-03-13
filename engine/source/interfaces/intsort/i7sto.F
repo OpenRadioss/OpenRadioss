@@ -49,14 +49,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
-#include      "warn_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_MEM, NSN, NSNROLD,IGAP,NIN,INTTH,ITIED
@@ -82,8 +74,6 @@ C     REAL
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ), 
      .   PENE(MVSIZ), GAPV(MVSIZ)
       DATA ITYPE/7/
-C-----------------------------------------------
-#include "sync_dir.inc"
 C-----------------------------------------------
         CALL I7COR3T(J_STOK  ,X    ,IRECT ,NSV   ,PROV_E  ,
      1               PROV_N  ,IGAP ,GAP   ,X1    ,X2      ,

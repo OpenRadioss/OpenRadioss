@@ -34,13 +34,6 @@ Chd|====================================================================
      1                   ADDCNCND,PROCNCND,A    ,IADCND,FSKYCND,
      2                   ITAGND  , NODFTSK,NODLTSK,EFTSK ,ELTSK ,
      3                   ITSK  ,ITAB   ,STIFN ,STIFND)
-C Called from              
-C I7FCOM_POFF resol:4581
-C FORINT      resol:4808
-C I7FCOM_POFF resol:5186 Get STIFN from remote nodes (STIFI -> STIFN) 
-C ASSPAR      resol:5244
-C S10CNDF1    resol:5630
-C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -50,35 +43,26 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "param_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
 #include      "spmd_c.inc"
 #include      "comlock.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICNDS10(3,*),WEIGHT(*),IAD_CNDM(*),FR_CNDM(*),FR_NBCCCND(2,*),
      .        ADDCNCND(*),PROCNCND(*),IADCND(2,*),ITAGND(*),ITAB(*)
       INTEGER NODFTSK,NODLTSK,EFTSK,ELTSK,ITSK
-C     REAL
       my_real
      .   A(3,*),FSKYCND(4,*),STIFN(*),STIFND(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, K,ISIZE,LCOMM,LENS,LENR,NCT,NC,N1,N2,ND,IAD1,IAD2,IK
-C     REAL
       my_real
      .   FX,FY,FZ ,FAC,STIF
 C======================================================================|
@@ -247,16 +231,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "param_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
 #include      "spmd_c.inc"
@@ -418,9 +396,6 @@ Chd|====================================================================
      1                      ADDCNCND,PROCNCND,VND  ,V   ,ITAB    ,
      2                      IAD_CNDM1,FR_CNDM1,FR_NBCCCND1)
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -429,10 +404,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "param_c.inc"
 #include      "parit_c.inc"
 #include      "task_c.inc"
-#include      "spmd_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -549,7 +522,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -657,16 +629,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
-#include      "com08_c.inc"
 #include      "comlock.inc"
 #include      "parit_c.inc"
 #include      "spmd_c.inc"
@@ -798,26 +765,15 @@ Chd|====================================================================
      2                     NODFTSK,NODLTSK,EFTSK ,ELTSK ,ITSK   ,
      3                     STIFN ,STIFND)
 C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "param_c.inc"
 #include      "task_c.inc"
-#include      "parit_c.inc"
-#include      "spmd_c.inc"
 #include      "comlock.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -870,10 +826,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -915,10 +869,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -958,15 +910,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1013,9 +959,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1098,9 +1042,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1310,15 +1252,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "comlock.inc"
 #include      "parit_c.inc"
@@ -1653,15 +1590,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "comlock.inc"
 #include      "parit_c.inc"
@@ -1855,39 +1787,26 @@ Chd|====================================================================
      2                     NODFTSK,NODLTSK,EFTSK ,ELTSK ,ITSK   ,
      3                     STIFN ,STIFND)
 C-----------------------------------------------
-C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "param_c.inc"
 #include      "task_c.inc"
-#include      "parit_c.inc"
-#include      "spmd_c.inc"
 #include      "comlock.inc"
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICNDS10(3,*),WEIGHT(*),IAD_CNDS(*),FR_CNDS(*),ITAB(*)
       INTEGER NODFTSK,NODLTSK,EFTSK,ELTSK,ITSK
-C     REAL
-      my_real
-     .   STIFN(*),STIFND(*)
+      my_real STIFN(*),STIFND(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, K,LCOMM,IK,ND
-C     REAL
       my_real
      .   STIFEL(NS10E)
 C======================================================================|
