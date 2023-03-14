@@ -1770,11 +1770,6 @@ C---- MAX (/H3D)
 C---- Time history strain flag
       NEXT       = NEXT + 1
       TH_STRAIN  = TABVINT(NEXT)
-C  draped shell element
-      NEXT       = NEXT + 1
-      NUMELC_DRAPE= TABVINT(NEXT)
-      NEXT       = NEXT + 1
-      NUMELTG_DRAPE= TABVINT(NEXT)
 C--------------------------------------
       RETURN
       END

@@ -50,8 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IL,IR,IS,IT,Stat,NPG,ILAYER,IPT,
-     .        LEN1,LEN2,LEN_PLAPT,LEN_SIGPT,NPTTOT,IDRAPE
+      INTEGER I,J,IL,IR,IS,IT,Stat,NPG,ILAYER,IPT,LEN1,LEN2,LEN_PLAPT,LEN_SIGPT,NPTTOT,NVAR,ILAY
       TYPE(BUF_MAT_)     , POINTER :: MATBUF
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
       TYPE(BUF_INTLAY_)  , POINTER :: INTLAY
@@ -60,7 +59,6 @@ C-----------------------------------------------
       TYPE(L_BUFEL_)     , POINTER :: LBUF
       TYPE(BUF_INTLOC_)  , POINTER :: ILBUF
       TYPE(FAIL_LOC_)    , POINTER :: FLOC
-      TYPE (L_BUFEL_DIR_), POINTER :: LBUF_DIR
 C=======================================================================
       Stat = 0
       IF (ITY == 1 .OR. ITY == 2 .OR. ITY == 51 .OR. ITY == 101) THEN
@@ -77,7 +75,6 @@ C=======================================================================
         NPG = 0
         NPTTOT = 0
       ENDIF
-      IDRAPE = ELBUF_TAB(NG)%IDRAPE
 c-------------------------------------------------
 c     layer buffer allocation
 c-------------------------------------------------
@@ -88,12 +85,10 @@ c
           BUFLY%DMG = ZERO                                                  
         MY_ALLOCATE(BUFLY%GAMA,NEL*BUFLY%LY_GAMA)                        
           BUFLY%GAMA = ZERO                     
-       IF(IDRAPE == 0 .OR. (IDRAPE >0 .AND. IGTYP == 17)) THEN
-         MY_ALLOCATE(BUFLY%DIRA,NEL*BUFLY%LY_DIRA)                        
+        MY_ALLOCATE(BUFLY%DIRA,NEL*BUFLY%LY_DIRA)                        
           BUFLY%DIRA = ZERO                                                 
-         MY_ALLOCATE(BUFLY%DIRB,NEL*BUFLY%LY_DIRB)                        
-           BUFLY%DIRB = ZERO   
-       ENDIF         
+        MY_ALLOCATE(BUFLY%DIRB,NEL*BUFLY%LY_DIRB)                        
+          BUFLY%DIRB = ZERO        
         MY_ALLOCATE(BUFLY%CRKDIR,NEL*BUFLY%LY_CRKDIR)                        
           BUFLY%CRKDIR = ZERO        
         MY_ALLOCATE(BUFLY%OFFPG,NEL*BUFLY%LY_OFFPG)                        
@@ -135,7 +130,6 @@ c---
 c-------------------------------------------------
 c     LAYER Local variables per integration point
 c-------------------------------------------------
-          IDRAPE = ELBUF_TAB(NG)%IDRAPE
           DO I = 1, NLAY
            BUFLY => ELBUF_TAB(NG)%BUFLY(I)
            IF (IGTYP == 51 .OR. IGTYP == 52) THEN
@@ -277,16 +271,7 @@ C-------------initialization even in DP in Starter only---
               ENDDO                                                           
             ENDDO                                                          
            ENDDO 
-           IF ( IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-             DO IT= 1,NPTT 
-               LBUF_DIR => ELBUF_TAB(NG)%BUFLY(I)%LBUF_DIR(IT)
-               MY_ALLOCATE(LBUF_DIR%DIRA,NEL*BUFLY%LY_DIRA) 
-               LBUF_DIR%DIRA = ZERO                       
-               MY_ALLOCATE(LBUF_DIR%DIRB,NEL*BUFLY%LY_DIRB)
-               LBUF_DIR%DIRB = ZERO  
-             ENDDO          
-           ENDIF
-          ENDDO ! NLAY
+          ENDDO
 c---
 C
 C layer mean variable (NPG = 1)
@@ -353,7 +338,12 @@ c
               ILBUF%SIG = ZERO                                         
           ENDDO                                                            
         ENDDO                                                            
-      ENDDO
+      ENDDO                                                             
+c---
+                                                  
+                                                   
+                                                                        
+                                                  
 c-------------------------------------------------
 C       global buffer allocation
 c-------------------------------------------------

@@ -54,8 +54,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,IL,IR,IS,IT,IAD,ERR,NUVAR,NVARTMP,IGTYP,IXFEM,NLAY,
      .  NINTLAY,NPTR,NPTS,NPTT,NEL,NPG,IPT,LEN1,LEN2,ILAW,IMAT,IEOS,NONL,
-     .  IVISC,IPORO,NFAIL,NVAR_MAT,NVAR_EOS,NVAR_VISC,NVAR_LOC,NVAR_LAY,NPTTOT,IADP,
-     .  IDRAPE
+     .  IVISC,IPORO,NFAIL,NVAR_MAT,NVAR_EOS,NVAR_VISC,NVAR_LOC,NVAR_LAY,NPTTOT,IADP
       INTEGER ! global variables
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
      .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,
@@ -105,7 +104,6 @@ C-----------------------------------------------
       TYPE(BUF_INTLOC_)  , POINTER :: ILBUF
       TYPE(FAIL_LOC_)    , POINTER :: FLOC
       TYPE(BUF_NLOC_)    , POINTER :: BUFNL
-      TYPE(L_BUFEL_DIR_) , POINTER :: LBUF_DIR
 c-------------------------------------------------
 c       allocation of sub-structures of the element buffer
 C=======================================================================
@@ -136,9 +134,7 @@ c-----
       IXFEM = NINT(RBUF(IAD+1))                        
         IAD = IAD+1                                      
       NXEL  = NINT(RBUF(IAD+1))                        
-        IAD = IAD+1                     
-      IDRAPE  = NINT(RBUF(IAD+1))                        
-        IAD = IAD+1                     
+        IAD = IAD+1                                      
 c-------------------------------------------------
       ELBUF_STR%IGTYP  = IGTYP
       ELBUF_STR%NEL    = NEL  
@@ -149,7 +145,6 @@ c-------------------------------------------------
       ELBUF_STR%NPTT   = NPTT 
       ELBUF_STR%IXFEM  = IXFEM 
       ELBUF_STR%NXEL   = NXEL 
-      ELBUF_STR%IDRAPE   = IDRAPE
       NPT  = NLAY*NPTR*NPTS*NPTT
 c-------------------------------------------------
       IF (ITY == 1 .OR. ITY == 2 .OR. ITY == 51 .OR. ITY == 101) THEN
@@ -217,7 +212,6 @@ c
           IAD = IAD+1                                                  
         NPTT  = NINT(RBUF(IAD+1))                        
           IAD = IAD+1
-c
 c---    layer variable lengths (BUFLY%NVAR_LAY = 6
 c             
         LY_DMG = NINT(RBUF(IAD+1))                        
@@ -475,8 +469,6 @@ c-------------------------------------------------
         ALLOCATE(ELBUF_STR%BUFLY(IL)%EOS (NPTR,NPTS,NPTT),STAT=ERR)   
         ALLOCATE(ELBUF_STR%BUFLY(IL)%VISC(NPTR,NPTS,NPTT),STAT=ERR)   
         ALLOCATE(ELBUF_STR%BUFLY(IL)%PORO(NPTR,NPTS,NPTT),STAT=ERR)   
-        IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP ==52))
-     .   ALLOCATE(ELBUF_STR%BUFLY(IL)%LBUF_DIR(NPTT),STAT=ERR)
 c-------------------------------------------------
 c-------------------------------------------------
 c       allocation & read of layer variables
@@ -487,14 +479,12 @@ c-------------------------------------------------
         ALLOCATE(BUFLY%GAMA (NEL*LY_GAMA)   ,STAT=ERR)                             
           BUFLY%GAMA(1:NEL*LY_GAMA) = RBUF(IAD+1:IAD+NEL*LY_GAMA)            
             IAD = IAD+NEL*LY_GAMA                                                
-        IF(IDRAPE == 0 .OR. (IDRAPE > 0 .AND. IGTYP == 17)) THEN
-          ALLOCATE(BUFLY%DIRA (NEL*LY_DIRA)   ,STAT=ERR)                             
+        ALLOCATE(BUFLY%DIRA (NEL*LY_DIRA)   ,STAT=ERR)                             
           BUFLY%DIRA(1:NEL*LY_DIRA) = RBUF(IAD+1:IAD+NEL*LY_DIRA)                 
             IAD = IAD+NEL*LY_DIRA                                                
-          ALLOCATE(BUFLY%DIRB (NEL*LY_DIRB)   ,STAT=ERR)                             
+        ALLOCATE(BUFLY%DIRB (NEL*LY_DIRB)   ,STAT=ERR)                             
           BUFLY%DIRB(1:NEL*LY_DIRB) = RBUF(IAD+1:IAD+NEL*LY_DIRB)                 
-            IAD = IAD+NEL*LY_DIRB    
-        ENDIF                                                
+            IAD = IAD+NEL*LY_DIRB                                                
         ALLOCATE(BUFLY%CRKDIR(NEL*LY_CRKDIR)   ,STAT=ERR)                             
           BUFLY%CRKDIR(1:NEL*LY_CRKDIR) = RBUF(IAD+1:IAD+NEL*LY_CRKDIR)                 
             IAD = IAD+NEL*LY_CRKDIR                                               
@@ -741,18 +731,7 @@ C---------- size of DP ---
          ENDDO !next IT
         ENDDO !next IS
        ENDDO !next IR
-       IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-         DO IT = 1, NPTT                
-          LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)
-          ALLOCATE(LBUF_DIR%DIRA(NEL*LY_DIRA))                        
-          LBUF_DIR%DIRA(1:NEL*LY_DIRA) = RBUF(IAD+1:IAD+NEL*LY_DIRA)         
-          IAD = IAD + NEL*LY_DIRA                               
-          ALLOCATE(LBUF_DIR%DIRB(NEL*LY_DIRB)) 
-          LBUF_DIR%DIRB(1:NEL*LY_DIRB) = RBUF(IAD+1:IAD+NEL*LY_DIRB)         
-          IAD = IAD + NEL*LY_DIRB  
-        ENDDO !next IT
-      ENDIF 
-      ENDDO !next IL 
+      ENDDO !next IL                                                                     
 C
       IF (ITY == 3 .OR. ITY == 7) THEN
 cc        NPTTOT  = 0
@@ -934,6 +913,7 @@ c-----
           ENDDO                                                              
         ENDDO                                                             
       ENDDO
+ 
 c-------------------------------
 c         Non-local regularization in the shell thickness                
 c-------------------------------

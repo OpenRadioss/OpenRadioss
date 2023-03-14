@@ -71,8 +71,7 @@ Chd|====================================================================
      1   LENIGRSH3N_L,LENISURF_L,LENISLIN_L,NE_NERVOIS_L, NE_NESVOIS_L, 
      2   NE_NSVOIS_L, NE_NQVOIS_L, NE_NTGVOIS_L,NBCSCYC_L,LLBCSCYC_L,
      3   ALE_CONNECTIVITY,N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,
-     4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
-     5   NUMSH4N_L,NUMSH3N_L)
+     4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -127,8 +126,7 @@ C-----------------------------------------------
      .        LENIGRNOD_L,LENIGRBRIC_L,LENIGRQUAD_L,LENIGRSH4N_L,
      .        LENIGRTRUS_L,LENIGRBEAM_L,LENIGRSPRI_L,LENIGRSH3N_L,LENISURF_L,
      .        LENISLIN_L,NE_NERVOIS_L, NE_NESVOIS_L, NE_NSVOIS_L, NE_NQVOIS_L, NE_NTGVOIS_L,NBCSCYC_L,LLBCSCYC_L,
-     .        N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,
-     .        NUMSH4N_L,NUMSH3N_L
+     .        N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
@@ -1937,12 +1935,7 @@ C---- MAX (/H3D)
       TABVINT(LVARINT)=LMAX_NSTRA
 C---- Time history strain flag
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=TH_STRAIN      
-C  draped shell element
-      LVARINT       = LVARINT + 1
-      TABVINT(LVARINT) = NUMSH4N_L
-      LVARINT       = LVARINT + 1
-      TABVINT(LVARINT) = NUMSH3N_L
+      TABVINT(LVARINT)=TH_STRAIN
 C----------------------------------------------------------------
 C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------

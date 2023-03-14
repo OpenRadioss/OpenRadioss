@@ -68,8 +68,8 @@ Chd|====================================================================
      F            IEXPAN ,GRESAV ,GRTH  ,IGRTH  ,MSTG       ,
      G            DMELTG ,JSMS   ,TABLE ,IPARG  ,SENSOR_TAB ,
      H            PTG    ,JTHE  ,CONDN  ,CONDNSKY   ,
-     K            ISUBSTACK,STACK,ITASK ,DRAPE_SH3N  ,IPRI, 
-     L            NLOC_DMG ,INDX_DRAPE)
+     K            ISUBSTACK,STACK,ITASK ,DRAPE_T3  ,IPRI, 
+     L            NLOC_DMG )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -112,7 +112,7 @@ C-----------------------------------------------
      .   ISUBSTACK,ITASK,IPRI
       INTEGER NPF(*),IXTG(NIXTG,*),IADTG(3,*),IXTG1(4,*),IADTG1(3,*),
      .   IPARTTG(*),IGEO(NPROPGI,*),IPM(NPROPMI,*),GRTH(*),IGRTH(*),
-     .   IPARG(*),INDX_DRAPE(STDRAPE)
+     .   IPARG(*)
 C     REAL
       my_real 
      .   PM(*), X(*), F(*), M(*), V(*), R(*),
@@ -131,7 +131,7 @@ C     REAL
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG
-      TYPE (DRAPE_),DIMENSION(NUMELTG_DRAPE) :: DRAPE_SH3N
+      TYPE (DRAPE_) :: DRAPE_T3
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
@@ -143,7 +143,7 @@ c  indx utilise localement contrairement aux coques 4n
       INTEGER 
      .   I, J, NG,NPG,NNOD,PT0,PT1,PT2,NVS,IFLAG,IBID,NFAIL,
      .   IR,IS,ILAY,NLAY,L_DIRA,L_DIRB,J1,J2,N1,N2,N3,
-     .   IGTYP,IGMAT,NPTTOT,IREP,IFAILWAVE,IDRAPE,IT,NPTT
+     .   IGTYP,IGMAT,NPTTOT,IREP,IFAILWAVE
       INTEGER ,DIMENSION(:) ,POINTER     :: FWAVE_NOD
       PARAMETER (NNOD = 3)
       my_real 
@@ -186,7 +186,6 @@ C-----
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
-      TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
 C=======================================================================
 C GENERALIZED STRAINS ARE SAVED AT NB8 (GENERALIZED FOR ALL MATERIALS)
 C     NB1    |5*JLT    | FORCES  
@@ -198,15 +197,12 @@ C     NB6    |JLT      | OFF
 C     NB8    |8*JLT    | DEFORMATIONS
 C=======================================================================
       GBUF   => ELBUF_STR%GBUF
-      IDRAPE = ELBUF_STR%IDRAPE
       IUN  = 1
       IBID = 0
       BID  = ZERO
       IREP = IPARG(35)
       INLOC= IPARG(78)
-      NLAY = ELBUF_STR%NLAY      
-      SEDRAPE = STDRAPE
-      NUMEL_DRAPE = NUMELTG_DRAPE
+      NLAY = ELBUF_STR%NLAY
 cc      NPT  = MAX(NLAY,NPTT) --> set to = IPARG(6) , keeping it original
 C                                 to allow for NPT = 0 (global LAW_3
       NPG  = 0
@@ -239,45 +235,21 @@ c--------------------------------------------
 c-------------------------------------
       L_DIRA = ELBUF_STR%BUFLY(1)%LY_DIRA
       L_DIRB = ELBUF_STR%BUFLY(1)%LY_DIRB
-      IGTYP = IGEO(11,IXTG(5,1))
-      IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-        ALLOCATE(DIRA(NPTTOT*NEL*L_DIRA))
-        ALLOCATE(DIRB(NPTTOT*NEL*L_DIRB))
-        IF (L_DIRA == 0) THEN
-            CONTINUE
-        ELSEIF (IREP == 0) THEN
-           NPTTOT = 0
-           DO ILAY=1,NLAY
-              NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
-              DO IT=1,NPTT
-                 J = NPTTOT + IT
-                 LBUF_DIR =>  ELBUF_STR%BUFLY(ILAY)%LBUF_DIR(IT)
-                 J1 = 1+(J-1)*L_DIRA*NEL
-                 J2 = J*L_DIRA*NEL
-                 DIRA(J1:J2) = LBUF_DIR%DIRA(1:NEL*L_DIRA)
-              ENDDO
-              NPTTOT = NPTTOT + NPTT
-            ENDDO 
-        ENDIF
-        DIR_A => DIRA(1:NPTTOT*NEL*L_DIRA)
-        DIR_B => DIRB(1:NPTTOT*NEL*L_DIRB)
-      ELSE ! idrape
-        ALLOCATE(DIRA(NLAY*NEL*L_DIRA))
-        ALLOCATE(DIRB(NLAY*NEL*L_DIRB))
-        DIRA=ZERO
-        DIRB=ZERO
-        IF (L_DIRA == 0) THEN
-          CONTINUE
-        ELSEIF (IREP == 0) THEN
-           DO J=1,NLAY
-              J1 = 1+(J-1)*L_DIRA*NEL
-              J2 = J*L_DIRA*NEL
-              DIRA(J1:J2) = ELBUF_STR%BUFLY(J)%DIRA(1:NEL*L_DIRA)
-           ENDDO
-         ENDIF
-         DIR_A => DIRA(1:NLAY*NEL*L_DIRA)
-         DIR_B => DIRB(1:NLAY*NEL*L_DIRB)
-      ENDIF ! IDRAPE
+      ALLOCATE(DIRA(NLAY*NEL*L_DIRA))
+      ALLOCATE(DIRB(NLAY*NEL*L_DIRB))
+      DIRA=ZERO
+      DIRB=ZERO
+      IF (L_DIRA == 0) THEN
+        CONTINUE
+      ELSEIF (IREP == 0) THEN
+        DO J=1,NLAY
+          J1 = 1+(J-1)*L_DIRA*NEL
+          J2 = J*L_DIRA*NEL
+          DIRA(J1:J2) = ELBUF_STR%BUFLY(J)%DIRA(1:NEL*L_DIRA)
+        ENDDO
+      ENDIF
+      DIR_A => DIRA(1:NLAY*NEL*L_DIRA)
+      DIR_B => DIRB(1:NLAY*NEL*L_DIRB)
 c-------------------------------------
 C     transfert thermique pour les coques 3 noeud n'est pas dispo
       DO I=JFT,JLT
@@ -369,8 +341,7 @@ C----------------------------------------------------------------------------
      M   BID       ,BID       ,ALDT      ,
      N   ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O   IBID      ,IBID      ,ISUBSTACK ,STACK     ,
-     P   BID       ,ITASK     ,DRAPE_SH3N  ,VAR_REG   ,NLOC_DMG  ,
-     R  INDX_DRAPE )
+     R   BID       ,ITASK     ,DRAPE_T3  ,VAR_REG   ,NLOC_DMG   )
 C----------------------------------------------------------------------------
 C     FORCES VISCOCITE 
 C----------------------------

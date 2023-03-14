@@ -78,33 +78,13 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
 c=======================================================================      
-c      
-      TYPE DRAPE_PLY_
-        INTEGER                           ::  NSLICE   ! number of slice
-        INTEGER                           ::  IPID     ! ID PID
-c-------  layer variables     
-        my_real, DIMENSION(:,:) , ALLOCATABLE ::   RDRAPE
-        INTEGER, DIMENSION(:,:) , ALLOCATABLE ::   IDRAPE 
-c-------       
-      END TYPE DRAPE_PLY_      
-      !!
+c
       TYPE DRAPE_
-        INTEGER                                        ::  NPLY_DRAPE
-        INTEGER                                        ::  NPLY
-        INTEGER,            DIMENSION(:)   , ALLOCATABLE   ::  INDX_PLY
-        TYPE (DRAPE_PLY_) , DIMENSION(:)   , ALLOCATABLE   ::  DRAPE_PLY
-      END TYPE DRAPE_  
-      !!
-      TYPE DRAPEG_
-        INTEGER        ::  NDIM_SH4N
-        INTEGER        ::  NDIM_SH3N
-        INTEGER        ::  NDIM_SLICE_SH4N
-        INTEGER        ::  NDIM_SLICE_SH3N
-        INTEGER        ::  NDIM_INDX_PLY_SH4N
-        INTEGER        ::  NDIM_INDX_PLY_SH3N
-        INTEGER, DIMENSION(:) , ALLOCATABLE  ::  INDX_SH3N,INDX_SH4N
-      END TYPE DRAPEG_  
-      INTEGER :: NUMELC_DRAPE    ,NUMELTG_DRAPE , SCDRAPE, STDRAPE ,
-     .           SEDRAPE, NUMEL_DRAPE      
+        integer                                 :: NDIM
+        integer, DIMENSION(:),    ALLOCATABLE   :: INDX
+        integer, DIMENSION(:) ,   ALLOCATABLE   :: NPT
+        integer, DIMENSION(:) ,   ALLOCATABLE   :: IDRAPE
+        my_real, DIMENSION(:,:) , ALLOCATABLE   :: RDRAPE  
+      END TYPE DRAPE_   
 C=======================================================================
       END MODULE DRAPE_MOD

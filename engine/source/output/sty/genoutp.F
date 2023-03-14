@@ -75,8 +75,7 @@ Chd|====================================================================
      6                  VR    ,ELBUF_TAB ,DD_IAD,WEIGHT,
      7                  IPM   ,KXSP      ,SPBUF  ,NODGLOB,LENG ,
      8                  FOPT  ,NOM_OPT   ,NPBY   ,FNCONT   ,FTCONT,
-     9                  GEO   ,THKE      ,STACK  ,DRAPE_SH4N, DRAPE_SH3N,
-     A                  DRAPEG )
+     9                  GEO   ,THKE      ,STACK  ,DRAPE_Q4, DRAPE_T3)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -127,8 +126,7 @@ C     REAL
      .   SPBUF(*), FOPT(*), FNCONT(3,*), FTCONT(3,*),GEO(*),THKE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
-      TYPE(DRAPE_) :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
-      TYPE(DRAPEG_) :: DRAPEG
+      TYPE(DRAPE_) :: DRAPE_Q4, DRAPE_T3
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -713,18 +711,17 @@ C-----------------------------------------------
      .         ELBUF_TAB,IPARG,TANI,DD_IAD,SIZLOC_CT(1),SIZP0_CT(1),SIZWR_CT(1)  )
        ENDIF
       ENDDO
+
       IF(OUTP_CT(95) == 1) CALL OUTP_C_TF(95,'STRESS_FUL',
      .   ' Full stress tensor + plastic strain    ',
      .     ELBUF_TAB,IPARG ,DD_IAD,SIZLOC_CT(2),SIZP0_CT(2),THKE,GEO,
-     .     IGEO     ,STACK ,DRAPE_SH4N, DRAPE_SH3N,IXC  ,IXTG,SIZWR_CT(2),
-     .     DRAPEG )
+     .     IGEO     ,STACK ,DRAPE_Q4, DRAPE_T3,IXC  ,IXTG,SIZWR_CT(2))
 
 
       IF(OUTP_CT(96) == 1) CALL OUTP_C_TF(96,'STRAIN_FUL',
      .   ' Full strain tensor + plastic strain    ',
      .     ELBUF_TAB,IPARG ,DD_IAD,SIZLOC_CT(3),SIZP0_CT(3),THKE,GEO,
-     .     IGEO     ,STACK ,DRAPE_SH4N, DRAPE_SH3N,IXC  ,IXTG,SIZWR_CT(3),
-     .     DRAPEG )
+     .     IGEO     ,STACK ,DRAPE_Q4, DRAPE_T3,IXC  ,IXTG,SIZWR_CT(3))
 
 C-----------------------------------------------
 C   SPH TENSOR(3D)

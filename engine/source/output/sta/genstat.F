@@ -93,7 +93,7 @@ Chd|====================================================================
      A                  IXS16    ,IXS20   ,ICODE    ,LENGR   ,LENGP   ,
      B                  LENGT    ,ISKEW   ,V        ,VR      ,LENGQ   ,
      C                  MULTI_FVM,BUFMAT  ,NPBY     ,LPBY    ,STACK   ,
-     D                  DRAPE_SH4N ,DRAPE_SH3N,DR       ,DRAPEG)
+     D                  DRAPE_Q4 ,DRAPE_T3,DR       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -155,8 +155,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
-      TYPE(DRAPEG_) :: DRAPEG
+      TYPE (DRAPE_)  :: DRAPE_Q4, DRAPE_T3
       my_real BUFMAT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -457,7 +456,7 @@ C     option non documentee (not a public option) ::
      .   ELBUF_TAB,X,IPARG ,IPM ,IGEO,IXC  ,
      .   IXTG ,WA,WAP0 ,IPARTC,IPARTTG,
      .   IPART_STATE,STAT_INDXC,STAT_INDXTG,
-     .   THKE ,SIZP0,GEO ,STACK,DRAPE_SH4N,DRAPE_SH3N,DRAPEG)
+     .   THKE ,SIZP0,GEO ,STACK,DRAPE_Q4,DRAPE_T3)
 
       IF(STAT_C(5)==1) CALL STAT_C_STRAF(
      .   ELBUF_TAB,IPARG ,IPM ,IGEO,IXC  ,
@@ -469,7 +468,7 @@ C     option non documentee (not a public option) ::
      .   ELBUF_TAB,X,IPARG ,IPM ,IGEO,IXC  ,
      .   IXTG ,WA,WAP0 ,IPARTC,IPARTTG,
      .   IPART_STATE,STAT_INDXC,STAT_INDXTG,
-     .   THKE ,SIZP0,GEO ,STACK,DRAPE_SH4N,DRAPE_SH3N,DRAPEG)
+     .   THKE ,SIZP0,GEO ,STACK,DRAPE_Q4,DRAPE_T3)
 
       IF(STAT_C(6)==1) CALL STAT_C_AUXF(
      .   ELBUF_TAB,IPARG ,IPM ,IGEO,IXC  ,

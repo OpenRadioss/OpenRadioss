@@ -160,9 +160,9 @@ Chd|====================================================================
      T  IAD_RBE3M,FRWL6,IRBE2 ,LRBE2   ,INTBUF_TAB_C,IKINE  ,DIAG_SMS,
      V  ICFIELD,LCFIELD,CFIELD,COUNT_REMSLV,COUNT_REMSLVE,
      X  ELBUF_TAB,ELBUF_IMP,XDP,WEIGHT_MD , STACK ,
-     Y  DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N, DRAPE_SH3N,
+     Y  DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_Q4, DRAPE_T3,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
-     A  NDDL0   ,NNZK0 ,IT_T    ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG)
+     A  NDDL0   ,NNZK0 ,IT_T    ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -269,10 +269,9 @@ C
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
       TYPE (GROUP_)  , DIMENSION(NGRBEAM) :: IGRBEAM
       TYPE (GROUP_)  , DIMENSION(NSURF)   :: IGRSURF
-      TYPE (DRAPE_)   :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPE_)   :: DRAPE_Q4, DRAPE_T3
       TYPE (IMPBUF_STRUCT_) ,TARGET :: IMPBUF_TAB
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
-      TYPE (DRAPEG_)   :: DRAPEG
 C      
 C---D_IMP: dUn+1,i,DD : ddU,i+1
 C---R_IMP[1:R02,2:RRR(R_OLD),3:RU0,4:E02,5:DE_OLD,6:EIMP,7,8,9:pour line-search]
@@ -753,7 +752,7 @@ c          NGDONE = 1
      6    RBY       ,SKEW      ,X         ,
      7    WA        ,IDDL      ,NDOF      ,DIAG_K    ,LT_K      ,
      8    IADK      ,JDIK      ,IKG       ,IBID      ,ITASK     ,
-     9    ELBUF_TAB ,STACK     ,DRAPE_SH4N, DRAPE_SH3N   ,DRAPEG )
+     9    ELBUF_TAB ,STACK     ,DRAPE_Q4, DRAPE_T3    )
 C
 C    /---------------/
 c      CALL MY_BARRIER
@@ -3180,8 +3179,8 @@ c     K  IND_IMP,NDOFI  ,IDDLI  ,NKUD   ,IKUD   ,BKUD   ,I_IMP  ,R_IMP  ,
      L  IT     ,RWBUF  ,LPRW   ,FR_WALL,NBINTC ,INTLIST,FOPT   ,RWSAV  ,
      M  FSAVD  ,DIRUL  ,LGRAV  ,IRBE3  ,LRBE3  ,FRBE3  ,
      N  FRWL6  ,IRBE2  ,LRBE2  ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,WEIGHT_MD,
-     O  STACK  ,DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N,DRAPE_SH3N,H3D_DATA,
-     P  NDDL0  ,NNZK0  ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,DRAPEG)
+     O  STACK  ,DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,IDRAPE,RDRAPE,H3D_DATA,
+     P  NDDL0  ,NNZK0  ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3228,7 +3227,7 @@ C-----------------------------------------------
      .   WEIGHT(*),IFRAME(LISKN,*),IBVEL(NBVELP,*),LBVEL(*),
      .   IACTIV(*),IGEO(*),IPM(*),ICONX(*),NODFT  ,NODLT,IT,
      .   ICFIELD(*),LCFIELD(*),WEIGHT_MD(*),
-     .   DIMFB,STABSEN,TABSENSOR(*),CPTREAC,NODREAC(*)
+     .   DIMFB,STABSEN,TABSENSOR(*),IDRAPE(*),CPTREAC,NODREAC(*)
       INTEGER LPRW(*), FR_WALL(NSPMD+2,*), FR_ELEM(*),
      .   IAD_ELEM(2,*),NBINTC ,INTLIST(*),DIRUL(*)
 C     REAL
@@ -3241,13 +3240,11 @@ C     REAL
      .   STIFN(*) ,STIFR(*),FSKY(*),FSKYI(*),DR(3,*),
      .   EANI(*),AGRV(*), THKE(*),FR_WAVE(*),PARTS0(*),BUFGEO(*),
      .   USER(*), XFRAME(NXFRAME,*),W16(*),FBVEL(*),FSKYM(*),BUFSF(*),
-     .   FOPT(6,*),FSAVD(NTHVKI,*),CFIELD(*),FRBE3(*),
+     .   FOPT(6,*),FSAVD(NTHVKI,*),CFIELD(*),RDRAPE(*),FRBE3(*),
      .   FTHREAC(6,*)
       INTEGER  NDDL0,NNZK0,NINT7
       INTEGER  NUM_IMP(*),NS_IMP(*),NE_IMP(*),IND_IMP(*),
      .         IRBE3(*),LRBE3(*),IRBE2(*),LRBE2(*)
-      TYPE (DRAPE_) :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
-      TYPE (DRAPEG_) :: DRAPEG
 C     REAL
 c      my_real
 c     .  DIAG_K(*),LT_K(*),DD(*) ,DDR(*) ,DIAG_M(*),LT_M(*),LB(*),LB0(*),
@@ -3537,7 +3534,7 @@ C    /---------------/
      6    RBY       ,SKEW      ,X         ,
      7    WA        ,IDDL      ,NDOF      ,DIAG_K    ,LT_K      ,
      8    IADK      ,JDIK      ,IKG       ,IBID      ,ITASK     ,
-     9    ELBUF_TAB ,STACK     ,DRAPE_SH4N, DRAPE_SH3N   ,DRAPEG   )
+     9    ELBUF_TAB ,STACK     ,IDRAPE    ,RDRAPE    )
          NDDL_L = NDDL
 C    /---------------/
 c      CALL MY_BARRIER
