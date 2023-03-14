@@ -120,6 +120,7 @@ C-----------------------------------------------
       my_real X_1(3),X_2(3),c3,DYDX,COS2(10,10),EPSD0,CJC,RATE_SCALE,FRATE
       my_real EPS_FAIL,EPS_FAIL2,DAMAGE,INST,FSCALE_LEN,MOHR_RADIUS
       my_real P1X,P1Y,S1X,S1Y,S2Y,A1,A2,B1,B2,C1,C2,FAC,LAMBDA,COS2THETA(NEL)
+      my_real SIG1(NEL),SIG2(NEL),MOHR_CENTER
       my_real, DIMENSION(:), ALLOCATABLE :: Q_X11,Q_X12,Q_X13,Q_X21,Q_X22,Q_X23,Q_INST
 C
       DATA  COS2/
@@ -213,10 +214,16 @@ c
 c
           ! Computation of loading angle
           MOHR_RADIUS = SQRT(((SIGNXX(I)-SIGNYY(I))/TWO)**2 + SIGNXY(I)**2)
+          MOHR_CENTER = (SIGNXX(I)+SIGNYY(I))/TWO
           IF (MOHR_RADIUS > EM20) THEN
             COS2THETA(I) = ((SIGNXX(I)-SIGNYY(I))/TWO)/MOHR_RADIUS
           ELSE
             COS2THETA(I) = ONE
+          ENDIF
+          SIG1(I) = MOHR_CENTER + MOHR_RADIUS
+          SIG2(I) = MOHR_CENTER - MOHR_RADIUS
+          IF (SIG1(I)<ZERO.OR.((SIG2(I)<ZERO).AND.(SIG2(I)<-SIG1(I)))) THEN 
+            COS2THETA(I) = -COS2THETA(I)
           ENDIF
 c
           ! Computation of the BIQUAD parameters

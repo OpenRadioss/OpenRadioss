@@ -518,7 +518,8 @@ c--------------------------
         WRITE(IOUT,1000)
         IF (MFLAG /= 0) WRITE(IOUT, 1100) MFLAG
         DO J = 1,NANGLE
-          WRITE(IOUT,1200) THETA(J),C1(J),C2(J),C3(J),C4(J),C5
+          WRITE(IOUT,1200) THETA(J),C1(J),C2(J),C3(J),C4(J),C5,
+     &    X_1(J,3),X_1(J,2),X_1(J,1),X_2(J,3),X_2(J,2),X_2(J,1)           
           IF (SFLAG == 3) WRITE(IOUT, 1900) INST(J)
         ENDDO
         WRITE(IOUT,1300) ABS(PTHK),SFLAG
@@ -561,29 +562,37 @@ c-----------------------------------------------------
  1200 FORMAT(     
      & 5X,'|| FAILURE STRAINS FOR ANGLE',F5.1,' DEG',/,
      & 5X,'  -------------------------------------------------',/,
-     & 5X,'  Simple Compression C1  . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'  Shear C2 . . . . . . . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'  Simple Tension C3  . . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'  Plane strain C4  . . . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'  Biaxial Tension C5 . . . . . . . . . . . . . . .=',1PG20.13/)
+     & 5X,'  SIMPLE COMPRESSION C1  . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'  SHEAR C2 . . . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'  SIMPLE TENSION C3  . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'  PLANE STRAIN C4  . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'  BIAXIAL TENSION C5 . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'                                                   ',/
+     & 5X,'  LOW STRESS TRIAXIALITY PARABOLA PARAMETER A. . .=',1PG20.13/ 
+     & 5X,'  LOW STRESS TRIAXIALITY PARABOLA PARAMETER B. . .=',1PG20.13/ 
+     & 5X,'  LOW STRESS TRIAXIALITY PARABOLA PARAMETER C. . .=',1PG20.13/ 
+     & 5X,'                                                   ',/
+     & 5X,'  HIGH STRESS TRIAXIALITY PARABOLA PARAMETER D . .=',1PG20.13/ 
+     & 5X,'  HIGH STRESS TRIAXIALITY PARABOLA PARAMETER E . .=',1PG20.13/ 
+     & 5X,'  HIGH STRESS TRIAXIALITY PARABOLA PARAMETER F . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'ELEMENT DELETION :',/,
-     & 5X,'Fraction of failed IPs for shell deletion  . . . .=',F5.1,/
-     & 5X,'S-Flag . . . . . . . . . . . . . . . . . . . . . .=',I10,/)
+     & 5X,'FRACTION OF FAILED IPS FOR SHELL DELETION  . . . .=',F5.1,/
+     & 5X,'S-FLAG . . . . . . . . . . . . . . . . . . . . . .=',I10,/)
  1400 FORMAT(
      & 5X,'ELEMENT LENGTH REGULARIZATION USED:',/,
-     & 5X,'Regularization function ID . . . . . . . . . . . .=',I10,/,
-     & 5X,'Reference Element Length . . . . . . . . . . . . .=',1PG20.13,/)
+     & 5X,'REGULARIZATION FUNCTION ID . . . . . . . . . . . .=',I10,/,
+     & 5X,'REFERENCE ELEMENT LENGTH . . . . . . . . . . . . .=',1PG20.13,/)
  1500 FORMAT(
      & 5X,'JOHNSON-COOK STRAIN-RATE DEPENDENCY:',/,
-     & 5X,'Reference strain-rate  . . . . . . . . . . . . . .=',1PG20.13,/,
-     & 5X,'Johnson-Cook parameter . . . . . . . . . . . . . .=',1PG20.13,/)
+     & 5X,'REFERENCE STRAIN-RATE  . . . . . . . . . . . . . .=',1PG20.13,/,
+     & 5X,'JOHNSON-COOK PARAMETER . . . . . . . . . . . . . .=',1PG20.13,/)
  1600 FORMAT(
      & 5X,'TABULATED STRAIN-RATE DEPENDENCY:',/,
-     & 5X,'Strain-rate dependency function ID . . . . . . . .=',I10,/,
-     & 5X,'Strain-rate scale factor . . . . . . . . . . . . .=',1PG20.13,/)
+     & 5X,'STRAIN-RATE DEPENDENCY FUNCTION ID . . . . . . . .=',I10,/,
+     & 5X,'STRAIN-RATE SCALE FACTOR . . . . . . . . . . . . .=',1PG20.13,/)
  1900 FORMAT(
-     & 5X,'  Instability strain . . . . . . . . . . . . . . .=',1PG20.13,//)
+     & 5X,'  INSTABILITY STRAIN . . . . . . . . . . . . . . .=',1PG20.13,//)
  2000 FORMAT(
      & 5X,' --------------------------------------------------',//)
 c----------- 
