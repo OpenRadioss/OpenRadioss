@@ -138,7 +138,7 @@ jobs:
 
           # Clean possible previous pending changelists 
           p4 revert ./...
-          for cl in `p4 changes -c $P4CLIENT -s pending | grep "\[ GIT INTEG \]" | awk -F' ' '{print $2}' | sort -n`
+          for cl in `p4 changes -c $P4CLIENT -s pending | grep "\[ GIT\(HUB\)\? INTEG \]" | awk -F' ' '{print $2}' | sort -n`
           do 
             echo "Removing old pending CL $cl"
             p4 change -d $cl
@@ -154,8 +154,8 @@ jobs:
           then 
             SCRIPT_OPT='--force_sync'
           else
-            CL=`p4 changes -c $P4CLIENT -s submitted | grep "\[ GIT INTEG \]" | head -1 |awk -F' ' '{print $2}'`
-            RET=`p4 describe $CL | head -3 | tail -1 | sed -e "s/^.*\[ GIT INTEG \] //;s/ .*$//"`
+            CL=`p4 changes -c $P4CLIENT -s submitted | grep "\[ GIT\(HUB\)\? INTEG \]" | head -1 |awk -F' ' '{print $2}'`
+            RET=`p4 describe $CL | head -3 | tail -1 | sed -e "s/^.*\[ GIT\(HUB\)\? INTEG \] //;s/ .*$//"`
 
             if [ -z $RET ] || [ "$RET" = "" ]
             then 
@@ -210,7 +210,7 @@ jobs:
           while read LINE
           do
             IFS='||'; arrIN=($LINE); unset IFS;
-            message="[ GIT INTEG ] ${arrIN[0]} - ${arrIN[2]} - ${arrIN[4]}"
+            message="[ GITHUB INTEG ] ${arrIN[0]} - ${arrIN[2]} - ${arrIN[4]}"
             echo "---------------------------------"
             echo "-- ${arrIN[0]} --"
             echo "---------------------------------"
@@ -259,7 +259,7 @@ jobs:
 
           # Clean possible previous pending changelists 
           p4 revert ./...
-          for CL in `p4 changes -c $P4CLIENT -s pending | grep "\[ GIT INTEG \]" | awk -F' ' '{print $2}' | sort -n`
+          for CL in `p4 changes -c $P4CLIENT -s pending | grep "\[ GIT\(HUB\)\? INTEG \]" | awk -F' ' '{print $2}' | sort -n`
           do 
             echo "Removing old pending CL $CL"
             p4 change -d $CL
@@ -275,7 +275,7 @@ jobs:
             p4 integrate $P4REPOSYNCPERFORCE/... $P4REPOPERFORCE/...
             export LINE=$(tail -n 1 ${{ env.COMMIT_LIST_FILE }})
             IFS='||'; arrIN=($LINE); unset IFS;
-            message="[ GIT INTEG ] ${arrIN[0]} - ${arrIN[2]} - ${arrIN[4]}"
+            message="[ GITHUB INTEG ] ${arrIN[0]} - ${arrIN[2]} - ${arrIN[4]}"
 
             opened_files_nb=$(p4 opened -c default | wc -l)
             if [ ${opened_files_nb} -gt 0 ]
@@ -292,7 +292,7 @@ jobs:
           else
 
             # Getting the last known integrated commit
-            export LAST_KNOW_INTEG_COMMIT=`p4 changes -l -s submitted -m 1000 $P4REPOPERFORCE/... | grep "^\s*\[ GIT INTEG \]" | head -n 1 | sed -e "s/^.*\[ GIT INTEG \] //;s/ .*$//"`
+            export LAST_KNOW_INTEG_COMMIT=`p4 changes -l -s submitted -m 1000 $P4REPOPERFORCE/... | grep "^\s*\[ GIT\(HUB\)\? INTEG \]" | head -n 1 | sed -e "s/^.*\[ GIT\(HUB\)\? INTEG \] //;s/ .*$//"`
             export LAST_KNOW_INTEG_COMMIT_TRUNCATED=$(echo $LAST_KNOW_INTEG_COMMIT | cut -c -16)
 
             # Getting all not integrated changelist (=all until last know commit)
@@ -302,7 +302,7 @@ jobs:
               # Set correct end of step status (if not an email will be sent)
               echo "STATUS_STEP_PERFORCE_LAST_KNOWN_INTEGRATED_COMMIT=1" >> $GITHUB_ENV
 
-              for changelist in `p4 changes -s submitted -m 1000 $P4REPOSYNCPERFORCE/... | grep -B 10000 "GIT INTEG.*\s*$LAST_KNOW_INTEG_COMMIT_TRUNCATED" | head -n-1 | awk -F' ' '{print $2}' | sort -n`
+              for changelist in `p4 changes -s submitted -m 1000 $P4REPOSYNCPERFORCE/... | grep -B 10000 "GIT\(HUB\)\? INTEG.*\s*$LAST_KNOW_INTEG_COMMIT_TRUNCATED" | head -n-1 | awk -F' ' '{print $2}' | sort -n`
               do 
                 echo "---------------------------------"
                 echo "-- $changelist --"
