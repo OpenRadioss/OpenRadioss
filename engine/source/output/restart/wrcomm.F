@@ -1742,6 +1742,11 @@ C---- MAX (/H3D)
 C---- Time history strain flag
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=TH_STRAIN
+C  draped shell element
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = NUMELC_DRAPE
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = NUMELTG_DRAPE     
 C----------------------------------------------------------------
 C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------

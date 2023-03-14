@@ -77,7 +77,8 @@ Chd|====================================================================
      M           DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
      N           ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O           IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
-     P           F_DEF     ,ITASK     ,DRAPE     ,VARNL     ,NLOC_DMG   )
+     P           F_DEF     ,ITASK     ,DRAPE     ,VARNL     ,NLOC_DMG   ,
+     R           INDX_DRAPE)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -119,6 +120,7 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ), PID(MVSIZ), INDXDEL(MVSIZ), NGL(MVSIZ),NPF(*), 
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),IPARG(*),
      .   A11_IPLY(MVSIZ,*),ELCRKINI(*),FWAVE_EL(NEL)
+      INTEGER , DIMENSION(SEDRAPE) :: INDX_DRAPE
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*),TF(*),THK(*),EINT(JLT,*),FOR(NEL,5), 
      .   MOM(NEL,3),EPSP(*),GSTR(NEL,8),BUFMAT(*),G(*),A11(*),A12(*),VOL0(*),
@@ -141,7 +143,7 @@ C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
-      TYPE (DRAPE_) :: DRAPE
+      TYPE (DRAPE_) :: DRAPE(NUMEL_DRAPE)
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
@@ -149,8 +151,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IT,MX,IGTYP,IFUNC_ALPHA,IPMAT_IPLY,ILAY,LAYNPT_MAX,LAY_MAX
-      PARAMETER (LAYNPT_MAX = 10)
-      PARAMETER (LAY_MAX = 100)
+      PARAMETER (LAYNPT_MAX = 100)
+      PARAMETER (LAY_MAX = 1000)
       INTEGER MATLY(MVSIZ*LAY_MAX),MAT_IPLY(MVSIZ,NPT)
       my_real
      .   THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),
@@ -240,7 +242,7 @@ c
      .              MAT      ,PID      ,THKLY    ,MATLY    ,POSLY    , 
      .              IGTYP    ,IXFEM    ,IXLAY    ,NLAY     ,NPT      ,   
      .              ISUBSTACK,STACK    ,DRAPE    ,NFT      ,THK      ,
-     .              NEL      ,THK_LY   )
+     .              NEL      ,THK_LY   ,INDX_DRAPE)
 c
         CALL USERMAT_SHELL (ELBUF_STR ,
      1       JFT     ,JLT     ,NEL     ,PM      ,FOR     ,MOM     ,
@@ -271,7 +273,7 @@ c----------------------------
      .              MAT      ,PID      ,THKLY    ,MATLY    ,POSLY    , 
      .              IGTYP    ,IXFEM    ,IXLAY    ,NLAY     ,NPT      ,   
      .              ISUBSTACK,STACK    ,DRAPE    ,NFT     ,THK       ,
-     .              NEL      ,THK_LY   )
+     .              NEL      ,THK_LY   ,INDX_DRAPE)
 c 
         CALL MULAWC(ELBUF_STR ,
      1       JFT     ,JLT     ,NEL     ,PM      ,FOR     ,MOM     ,

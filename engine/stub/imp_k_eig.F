@@ -51,7 +51,7 @@ Chd|====================================================================
      .                     IKC    , ITASK   , EIGIPM , EIGIBUF, NDDL  ,
      .                     INLOC  , IAD_ELEM, FR_ELEM,IRBE3   ,LRBE3  ,
      .                     FRBE3  ,IRBE2    , LRBE2  , ELBUF_TAB, STACK,
-     .                     DRAPE_Q4, DRAPE_T3      )
+     .                     DRAPE_SH4N, DRAPE_SH3N   , DRAPEG  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -98,7 +98,8 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_) :: DRAPE_Q4, DRAPE_T3
+      TYPE (DRAPE_) :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPEG_) :: DRAPEG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -162,7 +163,7 @@ C
      6   RBY       ,SKEW      ,X         ,
      7   WA        ,IDDL      ,NDOF      ,DIAG_K    ,LT_K      ,
      8   IADK      ,JDIK      ,IKG       ,ETAG      ,ELBUF_TAB ,
-     9   STACK     ,DRAPE_Q4, DRAPE_T3        )
+     9   STACK     ,DRAPE_SH4N, DRAPE_SH3N   ,DRAPEG     )
 C      IF (IMON>0) CALL STOPTIME(25,ITASK+1)
 C    /---------------/
       CALL MY_BARRIER

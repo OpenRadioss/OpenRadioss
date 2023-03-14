@@ -40,8 +40,8 @@ Chd|====================================================================
       SUBROUTINE STAT_C_STRAFG(ELBUF_TAB,
      1                        X    ,IPARG ,IPM ,IGEO ,IXC ,
      2                        IXTG  ,WA,WAP0 ,IPARTC, IPARTTG,
-     3                      IPART_STATE,STAT_INDXC,STAT_INDXTG,THKE,SIZP0,
-     4                       GEO   ,STACK,DRAPE_Q4,DRAPE_T3) 
+     3                        IPART_STATE,STAT_INDXC,STAT_INDXTG,THKE,SIZP0,
+     4                        GEO   ,STACK,DRAPE_SH4N,DRAPE_SH3N,DRAPEG) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,7 +78,8 @@ C-----------------------------------------------
      .   THKE(*),X(3,*),GEO(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_)  :: DRAPE_Q4, DRAPE_T3
+      TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPEG_) :: DRAPEG
       double precision WA(*),WAP0(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -158,11 +159,13 @@ C-----------------------------------------------
          ELSE
           THK0(LFT:LLT) = THKE(LFT+NFT:LLT+NFT)
          END IF
+         NUMEL_DRAPE = NUMELC_DRAPE  
+         SEDRAPE = SCDRAPE
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
      .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    , 
      .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,NPT      ,   
-     .              ISUBSTACK,STACK    ,DRAPE_Q4 ,NFT      ,THK0     ,
-     .              NEL      ,THK_LY   )
+     .              ISUBSTACK,STACK    ,DRAPE_SH4N ,NFT      ,THK0     ,
+     .              NEL      ,THK_LY   ,DRAPEG%INDX_SH4N)
          CALL GET_Q4L(LFT ,LLT ,IXC(1,NF1),X ,GBUF%OFF,IREL ,QT )
           NPT_ALL = 0
           DO ILAY=1,NLAY
@@ -452,11 +455,13 @@ C-----------------------------------------------
           NF3 = NFT+NUMELC
           THK0(LFT:LLT) = THKE(LFT+NF3:LLT+NF3)
          END IF
+         NUMEL_DRAPE = NUMELTG_DRAPE  
+         SEDRAPE = STDRAPE
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
      .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    , 
      .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,NPT      ,   
-     .              ISUBSTACK,STACK    ,DRAPE_T3 ,NFT      ,THK0     ,
-     .              NEL      ,THK_LY   )
+     .              ISUBSTACK,STACK    ,DRAPE_SH3N ,NFT      ,THK0     ,
+     .              NEL      ,THK_LY   ,DRAPEG%INDX_SH3N)
          CALL GET_T3L(LFT    ,LLT    ,IXTG(1,NF1),X    ,GBUF%OFF,
      .                IREL   ,QT     )
           NPT_ALL = 0

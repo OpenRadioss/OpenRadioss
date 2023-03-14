@@ -100,7 +100,7 @@ C     REAL
      .        IHBE,IREP,BUF,NPG,K,ISROT,NUVARV,IVISC,
      .        IPMAT,IGTYP,MATLY,ISUBSTACK,IIGEO,IADI,IPMAT_IPLY,
      .        NPT_ALL,NPTT,ILAY,IUS,ID_PLY,IPANG,IPPOS,IPTHK,OFFSET,ISELECT,
-     .        IPLY,IUVAR
+     .        IPLY,IUVAR,IDRAPE
       INTEGER PID(MVSIZ),MAT(MVSIZ),IOK_PART(MVSIZ),JJ(15)
       my_real 
      .   XN(4*MVSIZ) , YN(4*MVSIZ) , ZN(4*MVSIZ), 
@@ -149,6 +149,7 @@ C       IF(ANIM_K == 0.AND.IPARG(8,NG) == 1)GOTO 490
         ISROT   = IPARG(41,NG)
         ISTRAIN = IPARG(44,NG)
         ISUBSTACK = IPARG(71,NG)
+        IDRAPE = ELBUF_TAB(NG)%IDRAPE
         LFT=1
         LLT=NEL
         IOK_PART(1:NEL) = 0   
@@ -597,19 +598,35 @@ C
                           DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA  
                           CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
                         ELSE
-                          IF (NLAY > 1) THEN          
-                            DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRA
-                          ELSE              
-                            DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
-                          ENDIF
+                         IF(IDRAPE > 0 .AND. IGTYP /= 17) THEN
+                           IF (NLAY > 1) THEN 
+                               DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF_DIR(1)%DIRA
+                            ELSE                                            
+                               DIR_A => ELBUF_TAB(NG)%BUFLY(1)%LBUF_DIR(1)%DIRA
+                            ENDIF                       
+                         ELSE 
+                            IF (NLAY > 1) THEN          
+                              DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRA
+                            ELSE              
+                              DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
+                            ENDIF
+                          ENDIF 
                           CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
                         ENDIF
                       ELSE
-                        IF (NLAY > 1) THEN        
-                          DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRA
-                        ELSE            
-                          DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
-                        ENDIF                 
+                        IF(IDRAPE > 0 .AND. IGTYP /= 17) THEN
+                           IF (NLAY > 1) THEN                              
+                              DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF_DIR(1)%DIRA
+                           ELSE                                            
+                               DIR_A => ELBUF_TAB(NG)%BUFLY(1)%LBUF_DIR(1)%DIRA
+                           ENDIF         
+                        ELSE         
+                          IF (NLAY > 1) THEN        
+                             DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRA
+                          ELSE            
+                            DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
+                          ENDIF
+                        ENDIF ! idrape                 
                         CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
                       ENDIF  !  IF (IHBE == 11)
 c
@@ -784,19 +801,35 @@ C
                           DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA  
                           CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
                         ELSE
+                         IF(IDRAPE > 0 .AND. IGTYP /= 17) THEN
+                           IF (NLAY > 1) THEN                              
+                                 DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF_DIR(1)%DIRA
+                           ELSE                                            
+                                 DIR_A => ELBUF_TAB(NG)%BUFLY(1)%LBUF_DIR(1)%DIRA
+                          ENDIF
+                        ELSE                         
                           IF (NLAY > 1) THEN          
                             DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%DIRA
                           ELSE              
                             DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
                           ENDIF
+                        ENDIF  
                           CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
                         ENDIF
                       ELSE
-                        IF (NLAY > 1) THEN        
-                          DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%DIRA
-                        ELSE            
-                          DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
-                        ENDIF                 
+                        IF(IDRAPE > 0 .AND. IGTYP /= 17) THEN
+                          IF (NLAY > 1) THEN                              
+                               DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF_DIR(1)%DIRA
+                          ELSE                                            
+                               DIR_A => ELBUF_TAB(NG)%BUFLY(1)%LBUF_DIR(1)%DIRA
+                          ENDIF
+                        ELSE                         
+                          IF (NLAY > 1) THEN        
+                             DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%DIRA
+                          ELSE            
+                             DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
+                          ENDIF 
+                        ENDIF ! idrape                  
                         CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
                       ENDIF  !  IF (IHBE == 11)
 c
