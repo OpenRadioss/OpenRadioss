@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: I,J,K
-        INTEGER :: SURFACE_ID,SURFACE_NODE_NUMBER
+        INTEGER :: SURFACE_ID,SURFACE_NODE_NUMBER,SURFACE_TYPE
         INTEGER :: NODE_ID
 C-----------------------------------------------
 
@@ -71,13 +71,16 @@ C-----------------------------------------------
         DO I=1,SURFACE_NUMBER
             SURFACE_ID = INIVOL%SURFCONTY(I) ! surface id
             SURFACE_NODE_NUMBER = IGRSURF(SURFACE_ID)%NSEG ! number of segment of the surface
-            DO J=1,4
-                DO K=1,SURFACE_NODE_NUMBER
-                    NODE_ID = IGRSURF(SURFACE_ID)%NODES(K,J)
-                    MIN_MAX_POSITION(1:3) = MIN(MIN_MAX_POSITION(1:3),X(1:3,NODE_ID))
-                    MIN_MAX_POSITION(4:6) = MAX(MIN_MAX_POSITION(4:6),X(1:3,NODE_ID))
+            SURFACE_TYPE = IGRSURF(SURFACE_ID)%TYPE ! type of surface
+            IF(SURFACE_TYPE/=200.AND.SURFACE_TYPE/=101) THEN
+                DO J=1,4
+                    DO K=1,SURFACE_NODE_NUMBER
+                        NODE_ID = IGRSURF(SURFACE_ID)%NODES(K,J)
+                        MIN_MAX_POSITION(1:3) = MIN(MIN_MAX_POSITION(1:3),X(1:3,NODE_ID))
+                        MIN_MAX_POSITION(4:6) = MAX(MIN_MAX_POSITION(4:6),X(1:3,NODE_ID))
+                    ENDDO
                 ENDDO
-            ENDDO
+            ENDIF
         ENDDO
         ! --------------------------
 

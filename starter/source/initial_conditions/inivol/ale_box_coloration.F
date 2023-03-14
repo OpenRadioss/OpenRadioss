@@ -80,7 +80,7 @@ C-----------------------------------------------
         INTEGER :: I,J,K
         INTEGER :: II,JJ,KK
         INTEGER, DIMENSION(5) :: IX,IY,IZ
-        INTEGER :: SURFACE_ID,SURFACE_NODE_NUMBER
+        INTEGER :: SURFACE_ID,SURFACE_NODE_NUMBER,SURFACE_TYPE
         INTEGER, DIMENSION(4) :: NODE_ID
         INTEGER :: LOW_X,UP_X
         INTEGER :: LOW_Y,UP_Y
@@ -113,56 +113,59 @@ C-----------------------------------------------
             ! ------------------
             SURFACE_ID = INIVOL%SURFCONTY(I) ! surface id
             SURFACE_NODE_NUMBER = IGRSURF(SURFACE_ID)%NSEG ! number of segment of the surface
-            DO K=1,SURFACE_NODE_NUMBER
-                ! ------------------
-                ! load the positions of the 4 nodes of the surface K
-                DO J=1,4
-                    NODE_ID(J) = IGRSURF(SURFACE_ID)%NODES(K,J) ! node id
-                    IX(J)=MAX(1,1+INT(NB_CELL_X*(X(1,NODE_ID(J))-XMIN)/(XMAX-XMIN)))
-                    IY(J)=MAX(1,1+INT(NB_CELL_Y*(X(2,NODE_ID(J))-YMIN)/(YMAX-YMIN)))
-                    IZ(J)=MAX(1,1+INT(NB_CELL_Z*(X(3,NODE_ID(J))-ZMIN)/(ZMAX-ZMIN)))
-                ENDDO
-                IX(5) = IX(1)
-                IY(5) = IY(1)
-                IZ(5) = IZ(1)
-                ! ------------------
-                ! tag the cells crossed by the segments of the surface K
-                !       1       2       3
-                !   * ----- * ----- * ----- *
-                !   | o_____|__o    |       |
-                ! a |  \    |  |    |       |           a1,b1,c1,a2,b2 are coloured
-                !   * --\-- * -o--- * ----- *
-                !   |    \  | /     |       |
-                ! b |     \ |/      |       |
-                !   * -----o* ----- * ----- *
-                !   |       |       |       |
-                ! c |       |       |       |
-                !   * ----- * ----- * ----- *
+            SURFACE_TYPE = IGRSURF(SURFACE_ID)%TYPE ! type of surface
+            IF(SURFACE_TYPE/=200.AND.SURFACE_TYPE/=101) THEN
+                DO K=1,SURFACE_NODE_NUMBER
+                    ! ------------------
+                    ! load the positions of the 4 nodes of the surface K
+                    DO J=1,4
+                        NODE_ID(J) = IGRSURF(SURFACE_ID)%NODES(K,J) ! node id
+                        IX(J)=MAX(1,1+INT(NB_CELL_X*(X(1,NODE_ID(J))-XMIN)/(XMAX-XMIN)))
+                        IY(J)=MAX(1,1+INT(NB_CELL_Y*(X(2,NODE_ID(J))-YMIN)/(YMAX-YMIN)))
+                        IZ(J)=MAX(1,1+INT(NB_CELL_Z*(X(3,NODE_ID(J))-ZMIN)/(ZMAX-ZMIN)))
+                    ENDDO
+                    IX(5) = IX(1)
+                    IY(5) = IY(1)
+                    IZ(5) = IZ(1)
+                    ! ------------------
+                    ! tag the cells crossed by the segments of the surface K
+                    !       1       2       3
+                    !   * ----- * ----- * ----- *
+                    !   | o_____|__o    |       |
+                    ! a |  \    |  |    |       |           a1,b1,c1,a2,b2 are coloured
+                    !   * --\-- * -o--- * ----- *
+                    !   |    \  | /     |       |
+                    ! b |     \ |/      |       |
+                    !   * -----o* ----- * ----- *
+                    !   |       |       |       |
+                    ! c |       |       |       |
+                    !   * ----- * ----- * ----- *
                 
 
-                DO J=1,4
-                    LOW_Z = MAX(1,IZ(J))
-                    UP_Z = MIN(NB_CELL_Z,IZ(J+1))
-                    LOW_Y = MAX(1,IY(J))
-                    UP_Y = MIN(NB_CELL_Y,IY(J+1))
-                    LOW_X = MAX(1,IX(J))
-                    UP_X = MIN(NB_CELL_X,IX(J+1))
-                    DO KK=LOW_Z,UP_Z
-                        DO JJ=LOW_Y,UP_Y
-                            DO II=LOW_X,UP_X
+                    DO J=1,4
+                        LOW_Z = MAX(1,IZ(J))
+                        UP_Z = MIN(NB_CELL_Z,IZ(J+1))
+                        LOW_Y = MAX(1,IY(J))
+                        UP_Y = MIN(NB_CELL_Y,IY(J+1))
+                        LOW_X = MAX(1,IX(J))
+                        UP_X = MIN(NB_CELL_X,IX(J+1))
+                        DO KK=LOW_Z,UP_Z
+                            DO JJ=LOW_Y,UP_Y
+                                DO II=LOW_X,UP_X
                                 ! ------------------
-                                ! the cell (ii,jj,kk) contains a node of a surface or is crossed by the segment
-                                IF(CELL(I)%INT_ARRAY_3D(II,JJ,KK)/=2) THEN
-                                    CELL(I)%INT_ARRAY_3D(II,JJ,KK) = 2
-                                ENDIF
-                                ! ------------------
+                                    ! the cell (ii,jj,kk) contains a node of a surface or is crossed by the segment
+                                    IF(CELL(I)%INT_ARRAY_3D(II,JJ,KK)/=2) THEN
+                                        CELL(I)%INT_ARRAY_3D(II,JJ,KK) = 2
+                                    ENDIF
+                                    ! ------------------
+                                ENDDO
                             ENDDO
                         ENDDO
                     ENDDO
+                    ! ------------------
                 ENDDO
                 ! ------------------
-            ENDDO
-            ! ------------------
+            ENDIF
         ENDDO
         !   ------------------
 
