@@ -498,6 +498,7 @@ Chd|        SPH_MOD                       share/modules1/sph_mod.F
 Chd|        SPLIT_CFD_MOD                 share/modules1/split_cfd_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|        STACK_VAR_MOD                 share/modules1/stack_var_mod.F
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        TABLE_GLOB_MOD                share/modules1/table_glob_mod.F
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F

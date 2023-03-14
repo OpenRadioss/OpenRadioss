@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  PHASE_PROPAGATION                   source/initial_conditions/inivol/phase_propagation.F
+Chd|  PHASE_PROPAGATION             source/initial_conditions/inivol/phase_propagation.F
 Chd|-- called by -----------
-Chd|        PHASE_DETECTION         source/initial_conditions/inivol/phase_detection.F
+Chd|        PHASE_DETECTION               source/initial_conditions/inivol/phase_detection.F
 Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE PHASE_PROPAGATION(IX,IY,IZ,NB_CELL_X,NB_CELL_Y,NB_CELL_Z,NB_BOX_LIMIT,CELL)

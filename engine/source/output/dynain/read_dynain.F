@@ -31,6 +31,7 @@ Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.
 Chd|        SPMD_GATHERV_INT              source/mpi/generic/spmd_gatherv_int.F
 Chd|        SPMD_GATHER_INT               source/mpi/generic/spmd_gather_int.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE READ_DYNAIN(IPART,DYNAIN_DATA,IPARTC,IPARTTG,IXC,IXTG)
 C-----------------------------------------------

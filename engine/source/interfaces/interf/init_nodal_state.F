@@ -25,12 +25,12 @@ Chd|  INIT_NODAL_STATE              source/interfaces/interf/init_nodal_state.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        ALLOC_1D_ARRAY                share/modules/array_mod.F     
+Chd|        ALLOC_1D_ARRAY                ../common_source/modules/array_mod.F
 Chd|        COUNT_NB_ELEM_EDGE            source/interfaces/interf/count_nb_elem_edge.F
 Chd|        COUNT_REMOTE_NB_ELEM_EDGE     source/interfaces/interf/count_remote_nb_elem_edge.F
-Chd|        DEALLOC_1D_ARRAY              share/modules/array_mod.F     
+Chd|        DEALLOC_1D_ARRAY              ../common_source/modules/array_mod.F
 Chd|        MYQSORT_INT                   ../common_source/tools/sort/myqsort_int.F
-Chd|        ARRAY_MOD                     share/modules/array_mod.F     
+Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================

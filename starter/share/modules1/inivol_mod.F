@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
 Chd|-- called by -----------
+Chd|        ALE_BOX_COLORATION            source/initial_conditions/inivol/ale_box_coloration.F
 Chd|        CONTRL                        source/starter/contrl.F       
 Chd|        HM_READ_INIVOL                source/initial_conditions/inivol/hm_read_inivol.F
 Chd|        HM_READ_MAT151                source/materials/mat/mat151/hm_read_mat151.F
@@ -31,6 +32,7 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|        QGRTAILS                      source/elements/solid_2d/quad/qgrtails.F
 Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
 Chd|        ST_QAPRINT_INIVOL             source/output/qaprint/st_qaprint_inivol.F
+Chd|        SURFACE_MIN_MAX_COMPUTATION   source/initial_conditions/inivol/surface_min_max_computation.F
 Chd|        T3GRTAILS                     source/elements/solid_2d/tria/t3grtails.F
 Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
 Chd|-- calls ---------------

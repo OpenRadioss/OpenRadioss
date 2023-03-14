@@ -72,6 +72,7 @@ Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TH_MOD                        share/modules/th_mod.F        
 Chd|====================================================================
       SUBROUTINE FREFORM(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA)

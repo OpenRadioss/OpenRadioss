@@ -26,6 +26,8 @@ Chd|-- called by -----------
 Chd|        GENDYNAIN                     source/output/dynain/gendynain.F
 Chd|-- calls ---------------
 Chd|        SPMD_DSTAT_VGATH              source/mpi/output/spmd_stat.F 
+Chd|        STRS_TXT50                    source/output/sta/sta_txt.F   
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE DYNAIN_NODE(X   ,NUMNOD  ,ITAB  ,ITABG  ,LENG  ,
      .                    NODGLOB,WEIGHT  ,NODTAG,DYNAIN_DATA)

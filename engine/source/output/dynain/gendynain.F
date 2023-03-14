@@ -27,18 +27,23 @@ Chd|        SORTIE_MAIN                   source/output/sortie_main.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
+Chd|        CLOSE_C                       source/output/tools/sortie_c.c
+Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
 Chd|        DYNAIN_C_STRAG                source/output/dynain/dynain_c_strag.F
 Chd|        DYNAIN_C_STRSG                source/output/dynain/dynain_c_strsg.F
 Chd|        DYNAIN_NODE                   source/output/dynain/dynain_node.F
 Chd|        DYNAIN_SHEL_MP                source/output/dynain/dynain_shel_mp.F
 Chd|        DYNAIN_SHEL_SPMD              source/output/dynain/dynain_shel_spmd.F
 Chd|        DYNAIN_SIZE_C                 source/output/dynain/dynain_size.F
+Chd|        OPEN_C                        source/output/tools/sortie_c.c
 Chd|        SPMD_OUTPITAB                 source/mpi/interfaces/spmd_outp.F
+Chd|        STRS_TXT50                    source/output/sta/sta_txt.F   
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
        SUBROUTINE GENDYNAIN(X  ,ELBUF_TAB, BUFEL  ,IXC      ,IXTG     ,
      2                IPARG    ,IPM      , IGEO   ,ITAB     ,IPART    ,

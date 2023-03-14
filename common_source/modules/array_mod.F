@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ARRAY_MOD                     share/modules/array_mod.F     
+Chd|  ARRAY_MOD                     modules/array_mod.F           
 Chd|-- called by -----------
-Chd|        INIT_NODAL_STATE              source/interfaces/interf/init_nodal_state.F
-Chd|        SPMD_EXCH_DELETED_SURF_EDGE   source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+Chd|        ALE_BOX_COLORATION            starter/source/initial_conditions/inivol/ale_box_coloration.F
+Chd|        INITIA                        starter/source/elements/initia/initia.F
+Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
+Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 Chd|-- calls ---------------
 Chd|====================================================================
         MODULE ARRAY_MOD
@@ -68,10 +70,11 @@ Chd|====================================================================
         CONTAINS
             ! ----------------------------
 Chd|====================================================================
-Chd|  ALLOC_1D_ARRAY                share/modules/array_mod.F     
+Chd|  ALLOC_1D_ARRAY                modules/array_mod.F           
 Chd|-- called by -----------
-Chd|        INIT_NODAL_STATE              source/interfaces/interf/init_nodal_state.F
-Chd|        SPMD_EXCH_DELETED_SURF_EDGE   source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+Chd|        INITIA                        starter/source/elements/initia/initia.F
+Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
+Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 Chd|-- calls ---------------
 Chd|====================================================================
             SUBROUTINE ALLOC_1D_ARRAY(THIS)
@@ -85,7 +88,7 @@ Chd|====================================================================
             END SUBROUTINE 
             ! ----------------------------
 Chd|====================================================================
-Chd|  ALLOC_2D_ARRAY                share/modules/array_mod.F     
+Chd|  ALLOC_2D_ARRAY                modules/array_mod.F           
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -100,8 +103,9 @@ Chd|====================================================================
             END SUBROUTINE 
             ! ----------------------------
 Chd|====================================================================
-Chd|  ALLOC_3D_ARRAY                share/modules/array_mod.F     
+Chd|  ALLOC_3D_ARRAY                modules/array_mod.F           
 Chd|-- called by -----------
+Chd|        ALE_BOX_COLORATION            starter/source/initial_conditions/inivol/ale_box_coloration.F
 Chd|-- calls ---------------
 Chd|====================================================================
             SUBROUTINE ALLOC_3D_ARRAY(THIS)
@@ -117,10 +121,11 @@ Chd|====================================================================
             END SUBROUTINE 
             ! ----------------------------   
 Chd|====================================================================
-Chd|  DEALLOC_1D_ARRAY              share/modules/array_mod.F     
+Chd|  DEALLOC_1D_ARRAY              modules/array_mod.F           
 Chd|-- called by -----------
-Chd|        INIT_NODAL_STATE              source/interfaces/interf/init_nodal_state.F
-Chd|        SPMD_EXCH_DELETED_SURF_EDGE   source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+Chd|        INITIA                        starter/source/elements/initia/initia.F
+Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
+Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 Chd|-- calls ---------------
 Chd|====================================================================
             SUBROUTINE DEALLOC_1D_ARRAY(THIS)
@@ -134,7 +139,7 @@ Chd|====================================================================
             END SUBROUTINE 
             ! ----------------------------
 Chd|====================================================================
-Chd|  DEALLOC_2D_ARRAY              share/modules/array_mod.F     
+Chd|  DEALLOC_2D_ARRAY              modules/array_mod.F           
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -149,8 +154,9 @@ Chd|====================================================================
             END SUBROUTINE 
             ! ----------------------------
 Chd|====================================================================
-Chd|  DEALLOC_3D_ARRAY              share/modules/array_mod.F     
+Chd|  DEALLOC_3D_ARRAY              modules/array_mod.F           
 Chd|-- called by -----------
+Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|====================================================================
             SUBROUTINE DEALLOC_3D_ARRAY(THIS)

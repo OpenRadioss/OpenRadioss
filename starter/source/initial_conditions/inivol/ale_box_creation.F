@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ALE_BOX_CREATION                    source/initial_conditions/inivol/ale_box_creation.F
+Chd|  ALE_BOX_CREATION              source/initial_conditions/inivol/ale_box_creation.F
 Chd|-- called by -----------
 Chd|        INITIA                        source/elements/initia/initia.F
+Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE ALE_BOX_CREATION(NB_BOX_LIMIT,NB_CELL_X,NB_CELL_Y,NB_CELL_Z,
      .                              ALE_ELEMENT_NUMBER,ELEMENT_SIZE,MIN_MAX_POSITION,

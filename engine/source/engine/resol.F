@@ -482,6 +482,7 @@ Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|        SMS_MOD                       share/modules/sms_mod.F       
 Chd|        SMS_PCG_PROJ                  share/modules/sms_mod.F       
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|        THGRELEM_MOD                  share/modules/thgrelem_mod.F  
 Chd|        THK_MOD                       share/modules/thk_mod.F       

@@ -66,6 +66,7 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE LECTUR(ICODE   ,ISKEW ,ISKWN  ,IXTG   ,IXS   ,

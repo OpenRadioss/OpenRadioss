@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FIND_CLOSEST_NODE                   source/initial_conditions/inivol/ale_element_size_computation.F
+Chd|  FIND_CLOSEST_NODE             source/initial_conditions/inivol/find_closest_node.F
 Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
+Chd|        PHASE_DETECTION               source/initial_conditions/inivol/phase_detection.F
 Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE FIND_CLOSEST_NODE(LEADING_DIRECTION,N1,N2,N3,

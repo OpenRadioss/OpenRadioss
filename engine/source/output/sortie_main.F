@@ -68,6 +68,7 @@ Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE SORTIE_MAIN(
      1            PM        ,D           ,V          ,ALE_CONNECT     ,W        ,         

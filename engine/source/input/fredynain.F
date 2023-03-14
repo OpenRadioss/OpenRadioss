@@ -31,6 +31,7 @@ Chd|        FREDEC_8KEY_I                 source/input/fredec_8key_i.F
 Chd|        WRIUSC2                       source/input/wriusc2.F        
 Chd|        NVAR                          source/input/nvar.F           
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE FREDYNAIN(IKAD,KEY0,KDYNAIN,DYNAIN_DATA)
 C-----------------------------------------------

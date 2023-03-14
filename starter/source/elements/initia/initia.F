@@ -26,6 +26,10 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ADDMASPART                    source/tools/admas/addmaspart.F
+Chd|        ALE_BOX_COLORATION            source/initial_conditions/inivol/ale_box_coloration.F
+Chd|        ALE_BOX_CREATION              source/initial_conditions/inivol/ale_box_creation.F
+Chd|        ALE_ELEMENT_SIZE_COMPUTATION  source/initial_conditions/inivol/ale_element_size_computation.F
+Chd|        ALLOC_1D_ARRAY                ../common_source/modules/array_mod.F
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        ASSTIFI                       source/interfaces/inter3d1/asstifi.F
@@ -37,6 +41,8 @@ Chd|        CHECKMP                       source/elements/initia/initia.F
 Chd|        CHEKMP2                       source/elements/initia/initia.F
 Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|        CONNESURF                     source/initial_conditions/inivol/connesurf.F
+Chd|        DEALLOC_1D_ARRAY              ../common_source/modules/array_mod.F
+Chd|        DEALLOC_3D_ARRAY              ../common_source/modules/array_mod.F
 Chd|        EPORIN3                       source/ale/ale3d/eporin3.F    
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        FXBSINI                       source/constraints/fxbody/fxbsini.F
@@ -104,10 +110,12 @@ Chd|        SPMD_MSIN_ADDMASS             source/elements/initia/spmd_msin_addma
 Chd|        SPMD_PARTSAV_PON              source/elements/initia/spmd_msin_addmass.F
 Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
 Chd|        SUINIT3                       source/elements/elbuf_init/suinit3.F
+Chd|        SURFACE_MIN_MAX_COMPUTATION   source/initial_conditions/inivol/surface_min_max_computation.F
 Chd|        TINIT3                        source/elements/truss/tinit3.F
 Chd|        XINIT3                        source/elements/xelem/xinit3.F
 Chd|        STRR                          source/tools/univ/strr.F      
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
 Chd|        BPRELOAD_MOD                  share/modules1/bpreload_mod.F 
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    

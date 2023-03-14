@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  GROUPDEF_MOD                  modules/groupdef_mod.F        
 Chd|-- called by -----------
 Chd|        ALETG                         starter/source/airbag/fvmbag1.F
+Chd|        ALE_BOX_COLORATION            starter/source/initial_conditions/inivol/ale_box_coloration.F
 Chd|        BIGBOX                        starter/source/model/box/bigbox.F
 Chd|        BIGBOX2                       starter/source/model/box/bigbox.F
 Chd|        BIGSBOX                       starter/source/model/box/bigbox.F
@@ -391,6 +392,7 @@ Chd|        ST_QAPRINT_THGROU             starter/source/output/qaprint/st_qapri
 Chd|        ST_QAPRINT_TIME_HISTORIES     starter/source/output/qaprint/st_qaprint_time_histories.F
 Chd|        ST_QAPRINT_TRANSFORMATIONS    starter/source/output/qaprint/st_qaprint_transformations.F
 Chd|        SUBSET_INI                    starter/source/model/group/subset_ini.F
+Chd|        SURFACE_MIN_MAX_COMPUTATION   starter/source/initial_conditions/inivol/surface_min_max_computation.F
 Chd|        SURFTAG                       starter/source/groups/surftag.F
 Chd|        SURFTAGADM                    starter/source/groups/surftag.F
 Chd|        SURFTAGE                      starter/source/groups/surftage.F

@@ -53,6 +53,12 @@ C
 Chd|====================================================================
 Chd|  STRS_TXT50                    source/output/sta/sta_txt.F   
 Chd|-- called by -----------
+Chd|        DYNAIN_C_STRAG                source/output/dynain/dynain_c_strag.F
+Chd|        DYNAIN_C_STRSG                source/output/dynain/dynain_c_strsg.F
+Chd|        DYNAIN_NODE                   source/output/dynain/dynain_node.F
+Chd|        DYNAIN_SHEL_MP                source/output/dynain/dynain_shel_mp.F
+Chd|        DYNAIN_SHEL_SPMD              source/output/dynain/dynain_shel_spmd.F
+Chd|        GENDYNAIN                     source/output/dynain/gendynain.F
 Chd|        GENSTAT                       source/output/sta/genstat.F   
 Chd|        STAT_C_AUXF                   source/output/sta/stat_c_auxf.F
 Chd|        STAT_C_EPSPF                  source/output/sta/stat_c_epspf.F

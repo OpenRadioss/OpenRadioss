@@ -144,6 +144,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|        SOLTOSPH_MOD                  share/modules/soltosph_mod.F  
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|        TIME_MOD                      share/modules/time_mod.F      
 Chd|        UNITS_MOD                     share/modules/units_mod.F     

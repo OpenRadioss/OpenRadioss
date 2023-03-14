@@ -27,6 +27,7 @@ Chd|        RADIOSS2                      source/engine/radioss2.F
 Chd|-- calls ---------------
 Chd|        FREFORM                       source/input/freform.F        
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE LECINP(IRUN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA)
 C-----------------------------------------------

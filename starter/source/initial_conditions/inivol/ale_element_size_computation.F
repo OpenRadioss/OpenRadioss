@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ALE_ELEMENT_SIZE_COMPUTATION        source/initial_conditions/inivol/ale_element_size_computation.F
+Chd|  ALE_ELEMENT_SIZE_COMPUTATION  source/initial_conditions/inivol/ale_element_size_computation.F
 Chd|-- called by -----------
 Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------

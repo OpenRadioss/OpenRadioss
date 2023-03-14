@@ -21,9 +21,35 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  TH_MOD                        share/modules/state_mod.F        
+Chd|  STATE_MOD                     modules/state_mod.F           
 Chd|-- called by -----------
-Chd|        FREFORM                       source/input/freform.F        
+Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
+Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
+Chd|        DYNAIN_C_STRAG                engine/source/output/dynain/dynain_c_strag.F
+Chd|        DYNAIN_C_STRSG                engine/source/output/dynain/dynain_c_strsg.F
+Chd|        DYNAIN_NODE                   engine/source/output/dynain/dynain_node.F
+Chd|        DYNAIN_SHEL_MP                engine/source/output/dynain/dynain_shel_mp.F
+Chd|        DYNAIN_SHEL_SPMD              engine/source/output/dynain/dynain_shel_spmd.F
+Chd|        DYNAIN_SIZE_C                 engine/source/output/dynain/dynain_size.F
+Chd|        ECRIT                         engine/source/output/ecrit.F  
+Chd|        FREDYNAIN                     engine/source/input/fredynain.F
+Chd|        FREFORM                       engine/source/input/freform.F 
+Chd|        GENDYNAIN                     engine/source/output/dynain/gendynain.F
+Chd|        LECINP                        engine/source/input/lecinp.F  
+Chd|        LECTUR                        engine/source/input/lectur.F  
+Chd|        RADIOSS2                      engine/source/engine/radioss2.F
+Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
+Chd|        RDCOMR                        engine/source/output/restart/rdcomm.F
+Chd|        RDRESA                        engine/source/output/restart/rdresa.F
+Chd|        RDRESB                        engine/source/output/restart/rdresb.F
+Chd|        READ_DYNAIN                   engine/source/output/dynain/read_dynain.F
+Chd|        RESOL                         engine/source/engine/resol.F  
+Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
+Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
+Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
+Chd|        WRCOMR                        engine/source/output/restart/wrcomm.F
+Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|====================================================================
         MODULE STATE_MOD

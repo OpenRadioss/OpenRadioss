@@ -21,9 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ALE_BOX_COLORATION                  source/initial_conditions/inivol/ale_box_coloration.F
+Chd|  ALE_BOX_COLORATION            source/initial_conditions/inivol/ale_box_coloration.F
 Chd|-- called by -----------
 Chd|        INITIA                        source/elements/initia/initia.F
+Chd|-- calls ---------------
+Chd|        ALLOC_3D_ARRAY                ../common_source/modules/array_mod.F
+Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
+Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
 Chd|====================================================================
         SUBROUTINE ALE_BOX_COLORATION(NB_CELL_X,NB_CELL_Y,NB_CELL_Z,SURFACE_NUMBER,
      .                                MIN_MAX_POSITION,CELL,X,IGRSURF,INIVOL,CELL_POSITION,

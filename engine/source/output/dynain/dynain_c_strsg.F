@@ -31,9 +31,11 @@ Chd|        SHELL_LOCAL_FRAME             source/output/dynain/shell_rota.F
 Chd|        SHELL_ROTA                    source/output/dynain/shell_rota.F
 Chd|        SPMD_RGATHER9_DP              source/mpi/interfaces/spmd_outp.F
 Chd|        SPMD_STAT_PGATHER             source/mpi/output/spmd_stat.F 
+Chd|        STRS_TXT50                    source/output/sta/sta_txt.F   
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE DYNAIN_C_STRSG(
      1                  ELBUF_TAB  ,IPARG     ,IPM        ,IGEO  ,IXC    ,

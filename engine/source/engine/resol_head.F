@@ -53,6 +53,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        SOLTOSPH_MOD                  share/modules/soltosph_mod.F  
 Chd|        SPH_MOD                       share/modules/sph_mod.F       
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|====================================================================
       SUBROUTINE RESOL_HEAD(

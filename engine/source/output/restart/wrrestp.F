@@ -87,6 +87,7 @@ Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        SMS_MOD                       share/modules/sms_mod.F       
 Chd|        SPH_MOD                       share/modules/sph_mod.F       
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|====================================================================
       SUBROUTINE WRRESTP(AF       ,IAF     ,XDP   ,ICH     ,ADDCNE,

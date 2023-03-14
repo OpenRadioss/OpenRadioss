@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  IN_OUT_SIDE                   source/initial_conditions/inivol/in_out_side.F
 Chd|-- called by -----------
-Chd|        GETPHASE                      source/initial_conditions/inivol/getphase.F
+Chd|        PHASE_DETECTION               source/initial_conditions/inivol/phase_detection.F
 Chd|        RATIO_FILL                    source/initial_conditions/inivol/ratio_fill.F
 Chd|-- calls ---------------
 Chd|        NFACETTE                      source/initial_conditions/inivol/nfacette.F

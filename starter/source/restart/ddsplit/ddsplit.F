@@ -251,6 +251,7 @@ Chd|        SKEW_MOD                      share/modules1/skew_mod.F
 Chd|        SPLIT_CFD_MOD                 share/modules1/split_cfd_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|        STACK_VAR_MOD                 share/modules1/stack_var_mod.F
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================

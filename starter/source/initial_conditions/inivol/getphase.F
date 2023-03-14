@@ -25,10 +25,9 @@ Chd|  GETPHASE                      source/initial_conditions/inivol/getphase.F
 Chd|-- called by -----------
 Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
-Chd|        IN_OUT_SIDE                   source/initial_conditions/inivol/in_out_side.F
-Chd|        MAIN_DIST                     source/initial_conditions/inivol/main_dist.F
 Chd|        MEAN_NODE_NORM2               source/initial_conditions/inivol/mean_node_norm2.F
 Chd|        NFACETTE                      source/initial_conditions/inivol/nfacette.F
+Chd|        PHASE_DETECTION               source/initial_conditions/inivol/phase_detection.F
 Chd|====================================================================
       SUBROUTINE GETPHASE(X         ,SURF_TYPE ,ITAGNSOL ,DIS       ,NSOLTOSF  ,
      .                    SURF_ELTYP,KNOD2SURF ,NNOD2SURF,INOD2SURF ,TAGN      ,
