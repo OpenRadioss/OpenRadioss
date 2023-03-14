@@ -46,12 +46,13 @@ Chd|====================================================================
      7            IPM    ,IGEO   ,IEXPAN ,IPARG  ,
      8            KE11   ,KE22   ,KE33   ,KE44   ,   
      9            KE12   ,KE13   ,KE14   ,KE23   ,   
-     A            KE24   ,KE34   ,UI     ,RI     ,IDRAPE,
-     B            RDRAPE )
+     A            KE24   ,KE34   ,UI     ,RI     ,DRAPE_SH4N,
+     B            INDX_DRAPE )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD 
+      USE DRAPE_MOD 
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -75,12 +76,12 @@ C-----------------------------------------------
       INTEGER JFT     ,JLT    ,NFT    ,NPT    ,
      .        MTN     ,ITHK   ,
      .        ISTRAIN ,IPLA   ,OFFSET,IHBE    ,ISMSTR,IKGEO,IEXPAN
-      INTEGER IXC(NIXC,*),IGEO(NPROPGI,*),IPM(*),IPARG(*),IDRAPE(*)
+      INTEGER IXC(NIXC,*),IGEO(NPROPGI,*),IPM(*),IPARG(*)
       INTEGER INDXOF(MVSIZ)
+      INTEGER, DIMENSION(SEDRAPE) :: INDX_DRAPE
 C     REAL OU REAL*8
       my_real
-     .   PM(NPROPM,*),GEO(NPROPG,*), BUFMAT(*),   X(3,*),THKE(*),
-     .   RDRAPE(*)
+     .   PM(NPROPM,*),GEO(NPROPG,*), BUFMAT(*),   X(3,*),THKE(*)
       my_real    
      .   OFF(MVSIZ),UI(3,4,*),RI(3,4,*)
       my_real    
@@ -89,6 +90,7 @@ C     REAL OU REAL*8
      .   KE14(6,6,MVSIZ),KE23(6,6,MVSIZ),
      .   KE24(6,6,MVSIZ),KE34(6,6,MVSIZ)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE (DRAPE_) :: DRAPE_SH4N(NUMELC_DRAPE)
 C=======================================================================
 c FUNCTION: [K] stiffness Matrix of QEPH element
 c
@@ -246,6 +248,8 @@ C
         ENDDO
         ENDDO
        ENDIF
+       NUMEL_DRAPE = NUMELC_DRAPE
+       SEDRAPE = SCDRAPE
 C
       IF (IREP>0) THEN
        CALL CMATC3(JFT    ,JLT       ,PM     ,MAT     ,GEO      ,
@@ -254,8 +258,8 @@ C
      3             HM     ,HF        ,HC     ,HZ      ,IGTYP    ,
      4             IORTH  ,HMOR      ,HFOR   ,DIR_A   ,IGEO     ,
      5             IDRIL  ,IHBE      ,HMFOR  ,GS      ,ISUBSTACK,
-     6             BID    ,ELBUF_STR ,NLAY   ,IDRAPE  ,RDRAPE   ,
-     7             NEL    )
+     6             BID    ,ELBUF_STR ,NLAY   ,DRAPE_SH4N ,NFT   , 
+     7             NEL    ,INDX_DRAPE)
       ELSE
 C
        CALL CMATC3(JFT    ,JLT       ,PM     ,MAT     ,GEO      ,
@@ -264,10 +268,9 @@ C
      3             HM     ,HF        ,HC     ,HZ      ,IGTYP    ,
      4             IORTH  ,HMOR      ,HFOR   ,DIRA    ,IGEO     ,
      5             IDRIL  ,IHBE      ,HMFOR  ,GS      ,ISUBSTACK,
-     6             BID    ,ELBUF_STR ,NLAY   ,IDRAPE  ,RDRAPE   ,
-     7             NEL    )
+     6             BID    ,ELBUF_STR ,NLAY   ,DRAPE_SH4N,  NFT   ,
+     7             NEL    ,INDX_DRAPE)
       ENDIF
-       print *,'HZ=',HZ(1)
 C-----------------------------------------------
 C     MATRICE [B]---index changed from here JFT-NPLAT (plat els)+,JLT(warped)
 C-----------------------------------------------
@@ -387,8 +390,8 @@ C-----------keep isotropic for hourglass part (36 to avoid A12=0 for LAW25)-----
      3             HM     ,HF        ,HC     ,HZ      ,IGTYP    ,
      4             IBID1  ,HMOR      ,HFOR   ,DIRA    ,IGEO     ,
      5             IDRIL  ,IHBE      ,HMFOR  ,GS      ,ISUBSTACK,
-     6             BID    ,ELBUF_STR ,NLAY   ,IDRAPE  ,RDRAPE   ,
-     7             NEL    )
+     6             BID    ,ELBUF_STR ,NLAY   ,DRAPE_SH4N   ,NFT      ,
+     7             NEL    ,INDX_DRAPE )
       ENDIF
        CALL CZLKEN3(JFT ,JLT  ,VOL  ,THK0 ,THK2 ,
      2              HM  ,HZ   ,A_I  ,PX1  ,PX2  ,

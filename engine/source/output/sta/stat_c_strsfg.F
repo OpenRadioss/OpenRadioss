@@ -43,7 +43,7 @@ Chd|====================================================================
      1                        X    ,IPARG ,IPM ,IGEO ,IXC ,
      2                        IXTG  ,WA,WAP0 ,IPARTC, IPARTTG,
      3                        IPART_STATE,STAT_INDXC,STAT_INDXTG,THKE,SIZP0,
-     4                        GEO   ,STACK,DRAPE_Q4,DRAPE_T3)
+     4                        GEO   ,STACK,DRAPE_SH4N,DRAPE_SH3N,DRAPEG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -80,7 +80,8 @@ C-----------------------------------------------
      .   THKE(*),X(3,*),GEO(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_)  :: DRAPE_Q4, DRAPE_T3
+      TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPEG_) :: DRAPEG
       double precision WA(*),WAP0(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -88,7 +89,7 @@ C-----------------------------------------------
       INTEGER I,J,K,N,II,JJ,LEN,IOFF,IE,NG,NEL,NFT,LFT,NPT,
      .   LLT,ITY,MLW,IH,IHBE, ID, IPRT0, IPRT,IR,IS,IT,J1,J2,
      .   NPG,IPG,MPT,IPT,NPTR,NPTS,NPTT,NLAY,L_PLA,ITHK,NF3,
-     .   IGTYP,NPT_ALL,IL,KK(12),NF1,IREL,IBID0,MAT_1,PID_1,ILAY
+     .   IGTYP,NPT_ALL,IL,KK(12),NF1,IREL,IBID0,MAT_1,PID_1,ILAY,IDRAPE
       INTEGER PTWA(MAX(STAT_NUMELC ,STAT_NUMELTG)),
      .        PTWA_P0(0:MAX(1,STAT_NUMELC_G,STAT_NUMELTG_G))
       double precision   
@@ -140,6 +141,7 @@ C
           IGTYP= IPARG(38,NG)
           IREP = IPARG(35,NG)
           ISUBSTACK=IPARG(71,NG)
+          IDRAPE= IPARG(92,NG)
           NPTR = ELBUF_TAB(NG)%NPTR    
           NPTS = ELBUF_TAB(NG)%NPTS    
           NPTT = ELBUF_TAB(NG)%NPTT    
@@ -170,11 +172,13 @@ C
          ELSE
           THK0(LFT:LLT) = THKE(LFT+NFT:LLT+NFT)
          END IF
+         NUMEL_DRAPE = NUMELC_DRAPE  
+         SEDRAPE = SCDRAPE
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
      .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    , 
      .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,MPT      ,   
-     .              ISUBSTACK,STACK    ,DRAPE_Q4 ,NFT      ,THK0     ,
-     .              NEL      ,THK_LY   )
+     .              ISUBSTACK,STACK    ,DRAPE_SH4N ,NFT      ,THK0     ,
+     .              NEL      ,THK_LY   ,DRAPEG%INDX_SH4N)
          L_DIRA = ELBUF_TAB(NG)%BUFLY(1)%LY_DIRA
          L_DIRB = ELBUF_TAB(NG)%BUFLY(1)%LY_DIRB
          ALLOCATE(DIRA(NLAY*NEL*L_DIRA))
@@ -184,11 +188,19 @@ C
          IF (L_DIRA == 0) THEN
            CONTINUE
          ELSEIF (IREP == 0) THEN
+          IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
+            DO J=1,NLAY
+             J1 = 1+(J-1)*L_DIRA*NEL
+             J2 = J*L_DIRA*NEL
+             DIRA(J1:J2) = ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1)%DIRA(1:NEL*L_DIRA)
+           ENDDO
+          ELSE
            DO J=1,NLAY
              J1 = 1+(J-1)*L_DIRA*NEL
              J2 = J*L_DIRA*NEL
              DIRA(J1:J2) = ELBUF_TAB(NG)%BUFLY(J)%DIRA(1:NEL*L_DIRA)
            ENDDO
+          ENDIF 
          ENDIF
          DIR_A => DIRA(1:NLAY*NEL*L_DIRA)
          DIR_B => DIRB(1:NLAY*NEL*L_DIRB)
@@ -681,11 +693,14 @@ C
           NF3 = NFT+NUMELC
           THK0(LFT:LLT) = THKE(LFT+NF3:LLT+NF3)
          END IF
+         
+         NUMEL_DRAPE = NUMELTG_DRAPE  
+         SEDRAPE = STDRAPE
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
      .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    , 
      .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,MPT      ,   
-     .              ISUBSTACK,STACK    ,DRAPE_T3 ,NFT      ,THK0     ,
-     .              NEL      ,THK_LY   )
+     .              ISUBSTACK,STACK    ,DRAPE_SH3N ,NFT      ,THK0     ,
+     .              NEL      ,THK_LY   ,DRAPEG%INDX_SH3N)
 !
          L_DIRA = ELBUF_TAB(NG)%BUFLY(1)%LY_DIRA
          L_DIRB = ELBUF_TAB(NG)%BUFLY(1)%LY_DIRB

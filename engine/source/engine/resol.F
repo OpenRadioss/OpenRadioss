@@ -568,7 +568,7 @@ Chd|====================================================================
      C  TABSENSOR ,FBSAV6,WSMCOMP,STACK,
      D  CPUTIME_MP_GLOB, CPUTIME_MP ,TAB_UMP,POIN_UMP ,SOL2SPH_TYP,
      E  IRUNN_BIS,ADDCSRECT, IAD_FRNOR,FR_NOR  ,PROCNOR,
-     F  IAD_FREDG,FR_EDG   ,DRAPE_Q4  , DRAPE_T3 ,TAB_MAT, 
+     F  IAD_FREDG,FR_EDG   ,DRAPE_SH4N  , DRAPE_SH3N ,TAB_MAT, 
      G  NATIV0_SMS,MULTI_FVM,DDP      ,SEGQUADFR,MS_2D  ,
      H  H3D_DATA   ,INTBUF_FRIC_TAB,SUBSETS,IGRNOD,IGRBRIC,
      I  IGRQUAD,IGRSH4N,IGRSH3N,IGRTRUSS,IGRBEAM,
@@ -576,7 +576,7 @@ Chd|====================================================================
      K  NLOC_DMG ,ISKWP_L,KNOTLOCPC,KNOTLOCEL,PINCH_DATA,TAG_SKINS6, ALE_CONNECTIVITY,
      L  XCELL, XFACE, NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,IBCSCYC  ,LBCSCYC,
      M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
-     N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT)
+     N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -897,7 +897,8 @@ c
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       INTEGER, INTENT(IN) :: NE_NERCVOIS(*), NE_NESDVOIS(*), NE_LERCVOIS(*), NE_LESDVOIS(*)
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
-      TYPE (DRAPE_) :: DRAPE_Q4  , DRAPE_T3 
+      TYPE (DRAPE_)   :: DRAPE_SH4N(NUMELC_DRAPE)  , DRAPE_SH3N(NUMELTG_DRAPE) 
+      TYPE(DRAPEG_)                :: DRAPEG
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
       TYPE(T_DIFFUSION), INTENT(INOUT) :: DIFFUSION
@@ -2764,9 +2765,9 @@ C------ one routine for EIG
      O                   W           , NV46     , NERCVOIS  , NESDVOIS,
      P                   LERCVOIS    , LESDVOIS    ,CRKEDGE   , INDX_CRK  , XEDGE4N ,
      Q                   XEDGE3N     ,STACK        ,SPH2SOL   ,STIFN      ,STIFR    ,
-     R                   DRAPE_Q4    , DRAPE_T3    ,H3D_DATA  ,SUBSETS    ,IGRNOD   ,
+     R                   DRAPE_SH4N    , DRAPE_SH3N    ,H3D_DATA  ,SUBSETS    ,IGRNOD   ,
      S                   FCONT_MAX   ,FANI(1,NFNCA2+1),FANI(1,NFTCA2+1), ALE_CONNECTIVITY ,
-     T                   ITASK       ,NDDL0        ,NNZK0     ,IMPBUF_TAB )
+     T                   ITASK       ,NDDL0        ,NNZK0     ,IMPBUF_TAB , DRAPEG)
 #endif
         DT2 = MAX(EM20,TSTOP-TT)
         MSTOP=2
@@ -4369,8 +4370,8 @@ C Init var parallel SMP
      M   IBORDNODE    ,NODEDGE         ,CRKNODIAD       ,ELBUF_TAB     ,
      N   XFEM_TAB     ,CONDN(IDX_CONDN),CONDNSKY        ,CRKEDGE       ,
      O   SFSAV6       ,FBSAV6          ,STABSEN         ,TABSENSOR     ,STACK         ,ITAB  ,
-     Q   DRAPE_Q4     ,DRAPE_T3        ,SUBSETS, XDP    ,PINCH_DATA%VPINCH   ,
-     R   PINCH_DATA%APINCH(1,IDX_PINCH)    ,PINCH_DATA%STIFPINCH(IDX_PINCH)    )     
+     Q   DRAPE_SH4N   ,DRAPE_SH3N      ,SUBSETS, XDP    ,PINCH_DATA%VPINCH   ,
+     R   PINCH_DATA%APINCH(1,IDX_PINCH)    ,PINCH_DATA%STIFPINCH(IDX_PINCH)  ,DRAPEG  )     
 #include "lockon.inc"
         IF(DT2TT<DT2T)THEN
           DT2T = DT2TT
@@ -8454,12 +8455,12 @@ C Regular animation
      k   WIGE          ,NERCVOIS       ,NESDVOIS       ,LERCVOIS       ,LESDVOIS      , 
      l   CRKEDGE       ,STACK          ,ISPHIO         ,VSPHIO         ,ICODE         ,
      m   INDX_CRK      ,XEDGE4N        ,XEDGE3N        ,SPH2SOL        ,STIFN_TMP     ,
-     n   STIFR_TMP     ,DRAPE_Q4       ,DRAPE_T3       ,MS_2D          ,MULTI_FVM     ,
+     n   STIFR_TMP     ,DRAPE_SH4N     ,DRAPE_SH3N      ,MS_2D          ,MULTI_FVM     ,
      o   SEGQUADFR     ,H3D_DATA       ,ISKEW          ,PSKIDS         ,ISKWP         ,
      p   KNOTLOCPC     ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6     ,IRUNN_BIS     ,
      q   TF            ,NPC            ,DYNAIN_DATA    ,FCONT_MAX      ,MDS_MATID     ,
      r   FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP         ,LLOADP        ,
-     s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ) 
+     s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ,DRAPEG  ) 
 C
         IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
           CALL SORTIE_ERROR(
@@ -8613,8 +8614,9 @@ C===============================================================================
      M  FANI(1,1+NFOA+2*(NSECT+NRBODY)),RWSAV  ,FSAVD ,
      N  DIRUL  ,LGRAV  ,IRBE3  ,LRBE3  ,FRBE3  ,
      O  FRWL6  ,IRBE2  ,LRBE2 ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,
-     P  WEIGHT_MD, STACK,SFSAV6  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_Q4  , 
-     Q  DRAPE_T3,H3D_DATA ,NDDL0,NNZK0,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC)
+     P  WEIGHT_MD, STACK,SFSAV6  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N  , 
+     Q  DRAPE_SH3N,H3D_DATA ,NDDL0,NNZK0,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,
+     R  DRAPEG )
          MSTOP=2
 #else
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
@@ -8652,9 +8654,9 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      U  IAD_RBE3M,FRWL6,IRBE2  ,LRBE2,INTBUF_TAB_CP,
      W  IKINE  ,DIAG_SMS,ICFIELD,LCFIELD,CFIELD,COUNT_REMSLV,
      X  COUNT_REMSLVE,ELBUF_TAB,ELBUF_IMP,XDP,WEIGHT_MD , STACK  ,        
-     Y  SFSAV6  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_Q4  , DRAPE_T3,
+     Y  SFSAV6  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N  , DRAPE_SH3N,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
-     A  NDDL0   ,NNZK0 ,IT_T   ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC)
+     A  NDDL0   ,NNZK0 ,IT_T   ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG)
 #else 
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
         CALL FLUSH(6)
@@ -8695,9 +8697,9 @@ C
      V ALE_CONNECTIVITY    ,W              , NV46      ,NERCVOIS  ,     NESDVOIS ,
      W LERCVOIS       ,LESDVOIS       ,CRKEDGE    ,STACK     ,     SFSAV6   ,
      X FBSAV6         ,STABSEN        ,TABSENSOR  ,INDX_CRK  ,XEDGE4N       ,
-     Y XEDGE3N        ,SPH2SOL        ,STIFN_TMP  ,STIFR_TMP ,     DRAPE_Q4 , 
-     Z DRAPE_T3       ,H3D_DATA       ,SUBSETS    ,IGRNOD    ,     FCONT_MAX,
-     A FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),NDDL0    ,NNZK0     ,IMPBUF_TAB   )
+     Y XEDGE3N        ,SPH2SOL        ,STIFN_TMP  ,STIFR_TMP ,     DRAPE_SH4N , 
+     Z DRAPE_SH3N     ,H3D_DATA       ,SUBSETS    ,IGRNOD    ,     FCONT_MAX,
+     A FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),NDDL0    ,NNZK0     ,IMPBUF_TAB ,DRAPEG  )
 #else 
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
         CALL FLUSH(6)
@@ -9305,7 +9307,7 @@ C
             IF(IPART_STACK >0) 
      .          CALL STACK_WREST(STACK%IGEO,STACK%GEO,STACK%PM )
 C
-            IF (NDRAPE > 0) CALL DRAPE_WREST(DRAPE_Q4  , DRAPE_T3) 
+            IF (NDRAPE > 0) CALL DRAPE_WREST(DRAPE_SH4N  , DRAPE_SH3N,DRAPEG) 
             IF (NUMPLY > 0) CALL PLY_INFO_WREST(PLY_INFO) 
 !
             CALL ELAPSTIME(SECS)
@@ -9573,7 +9575,7 @@ C
           IF(IPART_STACK >0) 
      .        CALL STACK_WREST(STACK%IGEO,STACK%GEO,STACK%PM)
 C
-          IF (NDRAPE > 0) CALL DRAPE_WREST(DRAPE_Q4  , DRAPE_T3)
+          IF (NDRAPE > 0) CALL DRAPE_WREST(DRAPE_SH4N  , DRAPE_SH3N ,DRAPEG)
           IF (NUMPLY > 0) CALL PLY_INFO_WREST(PLY_INFO)
 !
           CALL ELAPSTIME(SECS)
@@ -9708,7 +9710,7 @@ C
           IF(IPART_STACK >0) 
      .        CALL STACK_WREST(STACK%IGEO,STACK%GEO,STACK%PM )
 C
-          IF (NDRAPE > 0) CALL DRAPE_WREST(DRAPE_Q4  , DRAPE_T3)
+          IF (NDRAPE > 0) CALL DRAPE_WREST(DRAPE_SH4N  , DRAPE_SH3N ,DRAPEG)
           IF (NUMPLY > 0) CALL PLY_INFO_WREST(PLY_INFO)
 !
           CALL ELAPSTIME(SECS)

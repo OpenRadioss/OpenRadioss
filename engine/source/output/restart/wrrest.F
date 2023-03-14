@@ -1334,7 +1334,7 @@ C-----------------------------------------------
       INTEGER LSIZ
       
 C-----------------------------------------------*   
-        LSIZ =(3*NPT_STACK +2)*NS_STACK 
+        LSIZ =(4*NPT_STACK +2)*NS_STACK 
         CALL WRITE_I_C(IGEO,     LSIZ) 
         LSIZ =(6*NPT_STACK + 1)*NS_STACK 
         CALL WRITE_DB(GEO,     LSIZ)
@@ -1351,7 +1351,7 @@ Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|====================================================================
-      SUBROUTINE DRAPE_WREST(DRAPE_Q4,DRAPE_T3)      
+      SUBROUTINE DRAPE_WREST(DRAPE_SH4N,DRAPE_SH3N, DRAPEG)      
 C      
       USE DRAPE_MOD
 C-----------------------------------------------
@@ -1363,59 +1363,118 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
+
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(DRAPE_) :: DRAPE_Q4,DRAPE_T3
+      TYPE(DRAPE_),  DIMENSION(:),TARGET:: DRAPE_SH4N(NUMELC_DRAPE),DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE(DRAPEG_)             , TARGET :: DRAPEG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER LEN,OFF,I,J,NPT,NDIM
-        my_real, ALLOCATABLE, DIMENSION(:,:) :: RTMP
-        INTEGER, ALLOCATABLE, DIMENSION(:)   :: ITMP,INDEX,NPT_ELT
-         
+      INTEGER LEN,OFF,I,J,NPT,NDIM,N1,N2,N3,NDIM_INDX_PLY,
+     .  NDIM_SLICE,IS,NSLICE,NPT_DRP
+      my_real, DIMENSION(:,:), ALLOCATABLE :: RTMP
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITMP
+      INTEGER, DIMENSION(:)  , ALLOCATABLE :: NPTDRP_ELT,ISLICE,INDX_PLY,
+     .                                        NPT_ELT,INDEX
+      INTEGER  , DIMENSION(:), POINTER     :: INDXSH4N,INDXSH3N   
 C--------------------------------------
 C     LECTURE DES ENTIERS
 C--------------------------------------
-      NDIM= DRAPE_Q4%NDIM                         
-      CALL WRITE_I_C(NDIM,1)                      
-      ALLOCATE(INDEX(NUMELC),NPT_ELT(NUMELC))     
-      DO I=1,NUMELC                               
-        INDEX(I) = DRAPE_Q4%INDX(I)               
-        NPT_ELT(I) = DRAPE_Q4%NPT(I)          
-      ENDDO                                       
-      ALLOCATE(ITMP(NDIM),RTMP(NDIM,2))           
-      DO J=1,NDIM                                 
-        ITMP(J)  =DRAPE_Q4%IDRAPE(J)              
-        RTMP(J,1)=DRAPE_Q4%RDRAPE(J,1)            
-        RTMP(J,2)=DRAPE_Q4%RDRAPE(J,2)            
-      ENDDO                                       
-      CALL WRITE_I_C(INDEX,NUMELC)                
-      CALL WRITE_I_C(NPT_ELT,NUMELC)              
-      CALL WRITE_I_C(ITMP,NDIM)                   
-      CALL WRITE_DB(RTMP,2*NDIM)                  
-      DEALLOCATE(ITMP,RTMP,INDEX,NPT_ELT)                       
-
-C
-      NDIM= DRAPE_T3%NDIM
-      CALL WRITE_I_C(NDIM,1)                  
-      ALLOCATE(INDEX(NUMELTG),NPT_ELT(NUMELTG))     
-      DO I=1,NUMELTG                               
-        INDEX(I) = DRAPE_T3%INDX(I)               
-        NPT_ELT(I) = DRAPE_T3%NPT(I)          
-      ENDDO                                       
-      ALLOCATE(ITMP(NDIM),RTMP(NDIM,2))           
-      DO J=1,NDIM                                 
-        ITMP(J)  =DRAPE_T3%IDRAPE(J)              
-        RTMP(J,1)=DRAPE_T3%RDRAPE(J,1)            
-        RTMP(J,2)=DRAPE_T3%RDRAPE(J,2)            
-      ENDDO                                       
-      CALL WRITE_I_C(INDEX,NUMELTG)                
-      CALL WRITE_I_C(NPT_ELT,NUMELTG)              
-      CALL WRITE_I_C(ITMP,NDIM)                   
-      CALL WRITE_DB(RTMP,2*NDIM)                  
-      DEALLOCATE(ITMP,RTMP,INDEX,NPT_ELT) 
-
+      IF(NUMELC_DRAPE > 0) THEN
+          NDIM          = DRAPEG%NDIM_SH4N         
+          NDIM_SLICE    = DRAPEG%NDIM_SLICE_SH4N   
+          NDIM_INDX_PLY = DRAPEG%NDIM_INDX_PLY_SH4N 
+          INDXSH4N => DRAPEG%INDX_SH4N(1:NUMELC)
+          !!                     
+          CALL WRITE_I_C(NDIM,1) 
+          CALL WRITE_I_C(NDIM_SLICE,1)
+          CAll WRITE_I_C(NDIM_INDX_PLY,1)
+          CALL WRITE_I_C(INDXSH4N,NUMELC)  
+          ALLOCATE(NPT_ELT(NUMELC_DRAPE),NPTDRP_ELT(NUMELC_DRAPE))
+          ALLOCATE(ITMP(NDIM,2),RTMP(NDIM,2),ISLICE(NDIM_SLICE),INDX_PLY(NDIM_INDX_PLY))
+             
+          N1 = 0
+          N2 = 0
+          N3 = 0    
+          DO I=1,NUMELC_DRAPE
+            NPT_DRP =  DRAPE_SH4N(I)%NPLY_DRAPE 
+            NPT = DRAPE_SH4N(I)%NPLY                             
+            NPTDRP_ELT(I)   = NPT_DRP             
+            NPT_ELT(I) = NPT
+            DO J = 1,NPT_DRP
+                  NSLICE = DRAPE_SH4N(I)%DRAPE_PLY(J)%NSLICE
+                  ISLICE(N2 + J) =  NSLICE
+                  DO IS = 1,NSLICE
+                      ITMP(N1 + IS,1) = DRAPE_SH4N(I)%DRAPE_PLY(J)%IDRAPE(IS,1) 
+                      ITMP(N1 + IS,2) = DRAPE_SH4N(I)%DRAPE_PLY(J)%IDRAPE(IS,2)
+                      RTMP(N1 + IS,1) = DRAPE_SH4N(I)%DRAPE_PLY(J)%RDRAPE(IS,1)
+                      RTMP(N1 + IS,2) = DRAPE_SH4N(I)%DRAPE_PLY(J)%RDRAPE(IS,2)
+                  ENDDO
+                  N1 = N1 + NSLICE
+             ENDDO
+             N2 = N2 + NPT_DRP
+             DO J = 1,NPT
+               INDX_PLY(N3 + J) = DRAPE_SH4N(I)%INDX_PLY(J)
+             ENDDO
+             N3 = N3 + NPT       
+          ENDDO  
+          CALL WRITE_I_C(NPTDRP_ELT,NUMELC_DRAPE)
+          CALL WRITE_I_C(NPT_ELT,NUMELC_DRAPE)
+          CALL WRITE_I_C(ISLICE,NDIM_SLICE)
+          CALL WRITE_I_C(INDX_PLY,NDIM_INDX_PLY)  
+          CALL WRITE_I_C(ITMP,2*NDIM)            
+          CALL WRITE_DB(RTMP,2*NDIM)  
+          DEALLOCATE(NPT_ELT,NPTDRP_ELT,ITMP,RTMP,ISLICE,INDX_PLY)
+          
+      ENDIF
+      
+      IF(NUMELTG_DRAPE > 0 ) THEN
+          NDIM             = DRAPEG%NDIM_SH3N   
+          NDIM_SLICE       = DRAPEG%NDIM_SLICE_SH3N
+          NDIM_INDX_PLY    = DRAPEG%NDIM_INDX_PLY_SH3N 
+          INDXSH3N => DRAPEG%INDX_SH3N(1:NUMELTG)
+          !!                     
+          CALL WRITE_I_C(NDIM,1) 
+          CALL WRITE_I_C(NDIM_SLICE,1)
+          CAll WRITE_I_C(NDIM_INDX_PLY,1)
+          CALL WRITE_I_C(INDXSH3N,NUMELTG)  
+          ALLOCATE(NPT_ELT(NUMELTG_DRAPE),NPTDRP_ELT(NUMELTG_DRAPE))
+          ALLOCATE(ITMP(NDIM,2),RTMP(NDIM,2),ISLICE(NDIM_SLICE),INDX_PLY(NDIM_INDX_PLY))
+          N1 = 0
+          N2 = 0
+          N3 = 0    
+          DO I=1,NUMELTG_DRAPE
+            NPT_DRP =  DRAPE_SH3N(I)%NPLY_DRAPE 
+            NPT = DRAPE_SH3N(I)%NPLY                             
+            NPTDRP_ELT(I)   = NPT_DRP             
+            NPT_ELT(I) = NPT
+            DO J = 1,NPT_DRP
+                  NSLICE = DRAPE_SH3N(I)%DRAPE_PLY(J)%NSLICE
+                  ISLICE(N2 + J) =  NSLICE
+                  DO IS = 1,NSLICE
+                      ITMP(N1 + IS,1) = DRAPE_SH3N(I)%DRAPE_PLY(J)%IDRAPE(IS,1) 
+                      ITMP(N1 + IS,2) = DRAPE_SH3N(I)%DRAPE_PLY(J)%IDRAPE(IS,2)
+                      RTMP(N1 + IS,1) = DRAPE_SH3N(I)%DRAPE_PLY(J)%RDRAPE(IS,1)
+                      RTMP(N1 + IS,2) = DRAPE_SH3N(I)%DRAPE_PLY(J)%RDRAPE(IS,2)
+                  ENDDO
+                  N1 = N1 + NSLICE
+            ENDDO
+            N2 = N2 + NPT_DRP
+            DO J = 1,NPT
+               INDX_PLY(N3 + J) = DRAPE_SH3N(I)%INDX_PLY(J)
+            ENDDO
+            N3 = N3 + NPT       
+          ENDDO  
+          CALL WRITE_I_C(NPTDRP_ELT,NUMELTG_DRAPE)
+          CALL WRITE_I_C(NPT_ELT,NUMELTG_DRAPE)
+          CALL WRITE_I_C(ISLICE,NDIM_SLICE)
+          CALL WRITE_I_C(INDX_PLY,NDIM_INDX_PLY)  
+          CALL WRITE_I_C(ITMP,2*NDIM)            
+          CALL WRITE_DB(RTMP,2*NDIM)    
+          DEALLOCATE(NPT_ELT,NPTDRP_ELT,ITMP,RTMP,ISLICE,INDX_PLY)
+      ENDIF                    
       RETURN
       END
 Chd|====================================================================

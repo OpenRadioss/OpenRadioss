@@ -1016,7 +1016,7 @@ C--------------------------------------
 
         CALL READ_I_C(POIN_UMP,NUMMAT)
 
-	       CALL READ_DB(TAB_MAT,STAB_MAT)
+        CALL READ_DB(TAB_MAT,STAB_MAT)
 
         CALL READ_DB(FZERO,SFZERO)
 
@@ -3429,8 +3429,7 @@ C-----------------------------------------------
       INTEGER LSIZ
 
 C-----------------------------------------------
-
-        LSIZ =(3*NPT_STACK +2)*NS_STACK
+        LSIZ =(4*NPT_STACK +2)*NS_STACK
         CALL READ_I_C(IGEO,     LSIZ)
         LSIZ =(6*NPT_STACK + 1)*NS_STACK
         CALL READ_DB(GEO,     LSIZ)
@@ -3447,9 +3446,8 @@ Chd|        READ_DB                       source/output/tools/read_db.F
 Chd|        READ_I_C                      source/output/tools/sortie_c.c
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|====================================================================
-      SUBROUTINE DRAPE_RREST(DRAPE_Q4,DRAPE_T3)
+      SUBROUTINE DRAPE_RREST(DRAPE_SH4N,DRAPE_SH3N,DRAPEG)
 C
-
         USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3463,63 +3461,128 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       TYPE(DRAPE_) :: DRAPE_Q4,DRAPE_T3
+        TYPE(DRAPE_),   DIMENSION(*) ,TARGET       :: DRAPE_SH4N,DRAPE_SH3N
+        TYPE(DRAPEG_)                              :: DRAPEG
+        INTEGER , DIMENSION(:)    :: INDX_SH4N(NUMELC),INDX_SH3N(NUMELTG)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER LEN,OFF,I,J,NPT,NDIM,IDX
-        my_real, ALLOCATABLE, DIMENSION(:,:) ::RTMP
-        INTEGER, ALLOCATABLE, DIMENSION(:) ::ITMP,INDX,NPT_ELT
+      INTEGER LEN,OFF,II,J,IS,NSLICE,NPT,NDIM_INDX_PLY,NDIM,NDIM_SLICE,
+     .        NPT_DRAPE
+      my_real, DIMENSION(:,:), ALLOCATABLE :: RTMP
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITMP
+      INTEGER, DIMENSION(:)  , ALLOCATABLE :: NPTDRP_ELT,ISLICE,INDX_PLY,
+     .                                        NPT_ELT
 C--------------------------------------
 C     READING INTEGERS
 C--------------------------------------
-C     Shell 4 noeuds
-      CALL READ_I_C(NDIM ,1)
-      ALLOCATE(INDX(NUMELC), NPT_ELT(NUMELC),ITMP(NDIM),RTMP(NDIM,2))
-      CALL READ_I_C(INDX, NUMELC )
-      CALL READ_I_C(NPT_ELT,NUMELC  )
-      CALL READ_I_C(ITMP,NDIM)
-      CALL READ_DB(RTMP,2*NDIM)
+C     4 node Shell 
+      !!ALLOCATE(DRAPEG%INDX_SH4N(NUMELC),DRAPEG%INDX_SH3N(NUMELTG))
+      SCDRAPE = 0
+      STDRAPE = 0
+      IF(NUMELC_DRAPE > 0) THEN
+        CALL READ_I_C(NDIM ,1)
+        CALL READ_I_C(NDIM_SLICE,1)
+        CALL READ_I_C(NDIM_INDX_PLY,1)
+        DRAPEG%NDIM_SH4N          = NDIM 
+        DRAPEG%NDIM_SLICE_SH4N    = NDIM_SLICE 
+        DRAPEG%NDIM_INDX_PLY_SH4N = NDIM_INDX_PLY
+        !
+        ALLOCATE(NPT_ELT(NUMELC_DRAPE),ITMP(NDIM,2),RTMP(NDIM,2),
+     .         NPTDRP_ELT(NUMELC_DRAPE),ISLICE(NDIM_SLICE),INDX_PLY(NDIM_INDX_PLY))
+        CALL READ_I_C(DRAPEG%INDX_SH4N,NUMELC)
+        CALL READ_I_C(NPTDRP_ELT,NUMELC_DRAPE)
+        CALL READ_I_C(NPT_ELT,NUMELC_DRAPE)
+        CALL READ_I_C(ISLICE,NDIM_SLICE )
+        CALL READ_I_C(INDX_PLY,NDIM_INDX_PLY)  
+        CALL READ_I_C(ITMP,2*NDIM)            
+        CALL READ_DB(RTMP,2*NDIM)
+        NDIM_INDX_PLY = 0
+        NDIM_SLICE = 0
+        NDIM = 0
+        DO II= 1,NUMELC_DRAPE
+           DRAPE_SH4N(II)%NPLY_DRAPE = NPTDRP_ELT(II)
+           DRAPE_SH4N(II)%NPLY       = NPT_ELT(II)
+           NPT = DRAPE_SH4N(II)%NPLY 
+           ALLOCATE(DRAPE_SH4N(II)%INDX_PLY(NPT))
+           DRAPE_SH4N(II)%INDX_PLY = 0
+           DO J = 1,NPT
+              DRAPE_SH4N(II)%INDX_PLY(J)=INDX_PLY(NDIM_INDX_PLY + J) 
+           ENDDO
+           NDIM_INDX_PLY = NDIM_INDX_PLY + NPT
+           NPT_DRAPE = DRAPE_SH4N(II)%NPLY_DRAPE
+           ALLOCATE(DRAPE_SH4N(II)%DRAPE_PLY(NPT_DRAPE))
+           DO J=1 ,NPT_DRAPE
+             NSLICE = ISLICE(NDIM_SLICE + J)
+             DRAPE_SH4N(II)%DRAPE_PLY(J)%NSLICE = NSLICE 
+             ALLOCATE(DRAPE_SH4N(II)%DRAPE_PLY(J)%IDRAPE(NSLICE,2),DRAPE_SH4N(II)%DRAPE_PLY(J)%RDRAPE(NSLICE,2))
+             DRAPE_SH4N(II)%DRAPE_PLY(J)%IDRAPE = 0
+             DRAPE_SH4N(II)%DRAPE_PLY(J)%RDRAPE = ZERO
+             DO  IS= 1,NSLICE  
+                 DRAPE_SH4N(II)%DRAPE_PLY(J)%IDRAPE(IS,1) = ITMP(NDIM + IS,1)
+                 DRAPE_SH4N(II)%DRAPE_PLY(J)%IDRAPE(IS,2) = ITMP(NDIM + IS,2) 
+                 DRAPE_SH4N(II)%DRAPE_PLY(J)%RDRAPE(IS,1) = RTMP(NDIM + IS,1) 
+                 DRAPE_SH4N(II)%DRAPE_PLY(J)%RDRAPE(IS,2) = RTMP(NDIM + IS,2)
+             ENDDO             
+             NDIM = NDIM + NSLICE 
+           ENDDO
+           NDIM_SLICE = NDIM_SLICE + NPT_DRAPE
+        ENDDO ! NUMELC_DRAPE
+        DEALLOCATE(NPT_ELT,ITMP,RTMP,NPTDRP_ELT,ISLICE,INDX_PLY)
+        SCDRAPE = NUMELC
+      ENDIF
 C
-      ALLOCATE(DRAPE_Q4%NPT(NUMELC),DRAPE_Q4%INDX(NUMELC),
-     .         DRAPE_Q4%IDRAPE(NDIM),DRAPE_Q4%RDRAPE(NDIM,2))
-      DRAPE_Q4%NDIM = NDIM
-      DO I=1,NUMELC
-        IDX = INDX(I)
-        NPT = NPT_ELT(I)
-        DRAPE_Q4%NPT(I) = NPT
-        DRAPE_Q4%INDX(I) = IDX
-        DO J=1,NPT
-          DRAPE_Q4%IDRAPE(IDX + J  ) = ITMP(IDX + J)
-          DRAPE_Q4%RDRAPE(IDX + J,1) = RTMP(IDX + J,1)
-          DRAPE_Q4%RDRAPE(IDX + J,2) = RTMP(IDX + J,2)
-        ENDDO
-      ENDDO
-      DEALLOCATE(INDX,NPT_ELT,ITMP,RTMP)
-C
-CCALL READ_I_C(NDIM ,1)
-      CALL READ_I_C(NDIM ,1)
-      ALLOCATE(INDX(NUMELTG), NPT_ELT(NUMELTG),ITMP(NDIM),RTMP(NDIM,2))
-      CALL READ_I_C(INDX, NUMELTG )
-      CALL READ_I_C(NPT_ELT,NUMELTG  )
-      CALL READ_I_C(ITMP,NDIM)
-      CALL READ_DB(RTMP,2*NDIM)
-C     Shell 3 noeuds
-      ALLOCATE(DRAPE_T3%NPT(NUMELTG),DRAPE_T3%INDX(NUMELTG),
-     .         DRAPE_T3%IDRAPE(NDIM),DRAPE_T3%RDRAPE(NDIM,2))
-      DRAPE_T3%NDIM= NDIM
-      DO I=1,NUMELTG
-        IDX = INDX(I)
-        NPT = NPT_ELT(I)
-        DRAPE_T3%NPT(I) = NPT
-        DRAPE_T3%INDX(I) = IDX
-        DO J=1,NPT
-          DRAPE_T3%IDRAPE(IDX + J  ) = ITMP(IDX + J)
-          DRAPE_T3%RDRAPE(IDX + J,1) = RTMP(IDX + J,1)
-          DRAPE_T3%RDRAPE(IDX + J,2) = RTMP(IDX + J,2)
-        ENDDO
-      ENDDO
-      DEALLOCATE(INDX,NPT_ELT,ITMP,RTMP)
+C     3 Node Shell 
+      IF(NUMELC_DRAPE > 0) THEN
+        CALL READ_I_C(NDIM ,1)
+        CALL READ_I_C(NDIM_SLICE,1)
+        Call READ_I_C(NDIM_INDX_PLY,1)
+        DRAPEG%NDIM_SH3N          = NDIM 
+        DRAPEG%NDIM_SLICE_SH3N    = NDIM_SLICE 
+        DRAPEG%NDIM_INDX_PLY_SH3N = NDIM_INDX_PLY
+        ALLOCATE( NPT_ELT(NUMELTG),ITMP(NDIM,2),RTMP(NDIM,2),
+     .         NPTDRP_ELT(NUMELTG_DRAPE),ISLICE(NDIM_SLICE),INDX_PLY(NDIM_INDX_PLY))
+        CALL READ_I_C(DRAPEG%INDX_SH3N,NUMELTG)
+        CALL READ_I_C(NPTDRP_ELT,NUMELTG_DRAPE)
+        CALL READ_I_C(NPT_ELT,NUMELTG_DRAPE)
+        CALL READ_I_C(ISLICE,NDIM_SLICE)
+        CALL READ_I_C(INDX_PLY,NDIM_INDX_PLY)  
+        CALL READ_I_C(ITMP,2*NDIM)            
+        CALL READ_DB(RTMP,2*NDIM)
+        !!INDX_SH3N(1:NUMELTG) = INDX(1:NUMELTG)
+        NDIM_INDX_PLY = 0
+        NDIM_SLICE = 0
+        NDIM = 0
+        DO II= 1,NUMELTG_DRAPE
+           DRAPE_SH3N(II)%NPLY_DRAPE = NPTDRP_ELT(II)
+           DRAPE_SH3N(II)%NPLY       = NPT_ELT(II)
+           ALLOCATE(DRAPE_SH3N(II)%INDX_PLY(NPT))
+           DRAPE_SH3N(II)%INDX_PLY = 0
+           DO J = 1,NPT
+              DRAPE_SH3N(II)%INDX_PLY(J)=INDX_PLY(NDIM_INDX_PLY + J) 
+           ENDDO
+           NDIM_INDX_PLY = NDIM_INDX_PLY + NPT
+           NPT_DRAPE = DRAPE_SH3N(II)%NPLY_DRAPE
+           ALLOCATE(DRAPE_SH3N(II)%DRAPE_PLY(NPT_DRAPE))
+           DO J = 1,NPT_DRAPE
+             NSLICE = ISLICE(NDIM_SLICE + J) 
+             DRAPE_SH3N(II)%DRAPE_PLY(J)%NSLICE = NSLICE 
+             ALLOCATE(DRAPE_SH3N(II)%DRAPE_PLY(J)%IDRAPE(NSLICE,2),DRAPE_SH3N(II)%DRAPE_PLY(J)%RDRAPE(NSLICE,2))
+             DRAPE_SH3N(II)%DRAPE_PLY(J)%IDRAPE = 0
+             DRAPE_SH3N(II)%DRAPE_PLY(J)%RDRAPE = ZERO
+             DO  IS= 1,NSLICE  
+                 DRAPE_SH3N(II)%DRAPE_PLY(J)%IDRAPE(IS,1) = ITMP(NDIM + IS,1)
+                 DRAPE_SH3N(II)%DRAPE_PLY(J)%IDRAPE(IS,2) = ITMP(NDIM + IS,2) 
+                 DRAPE_SH3N(II)%DRAPE_PLY(J)%RDRAPE(IS,1) = RTMP(NDIM + IS,1) 
+                 DRAPE_SH3N(II)%DRAPE_PLY(J)%RDRAPE(IS,2) = RTMP(NDIM + IS,2)             
+             ENDDO 
+             NDIM = NDIM + NSLICE 
+           ENDDO
+           NDIM_SLICE = NDIM_SLICE + NPT_DRAPE
+        ENDDO ! NUMELTG_DRAPE
+        DEALLOCATE( NPT_ELT,ITMP,RTMP,NPTDRP_ELT,ISLICE,INDX_PLY)
+        STDRAPE = NUMELTG
+      ENDIF  
 C
       RETURN
       END
