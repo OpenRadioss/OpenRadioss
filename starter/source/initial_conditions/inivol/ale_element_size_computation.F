@@ -140,7 +140,7 @@ C-----------------------------------------------
                     MAX_NODE(FIRST:3) = MAX(MAX_NODE(FIRST:3),X(FIRST:3,IX(1+I,J)) )
                     MIN_NODE(FIRST:3) = MIN(MIN_NODE(FIRST:3),X(FIRST:3,IX(1+I,J)) )
                 ENDDO
-                DISTANCE(FIRST:3) = (ABS(MAX_NODE(1:3)-MIN_NODE(1:3)))**2
+                DISTANCE(FIRST:3) = (ABS(MAX_NODE(FIRST:3)-MIN_NODE(FIRST:3)))**2
                 LOCAL_SIZE = SQRT( SUM(DISTANCE(FIRST:3)) )
                 ELEMENT_SIZE = MAX(ELEMENT_SIZE,LOCAL_SIZE)
                 ! ---------------
