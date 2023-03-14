@@ -34,8 +34,8 @@ Chd|====================================================================
      .                   ITY      ,ISTRAIN  ,JJ   ,WA    ,IW    ,
      .                   NLAY     ,NPTR     ,NPTS ,ITHK  ,NFT   ,
      .                   THKE     ,NPG      ,IGTYP,GEO   ,IGEO  ,
-     .                   IXFEM    ,ISUBSTACK,STACK,DRAPE_SH4N, DRAPE_SH3N,
-     .                   IXC      ,IXTG     ,MPT ,DRAPEG )
+     .                   IXFEM    ,ISUBSTACK,STACK,DRAPE_Q4, DRAPE_T3,
+     .                   IXC      ,IXTG     ,MPT  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,8 +70,7 @@ C-----------------------------------------------
      .   THK_LY(NEL,MPT)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
-      TYPE(DRAPE_) :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
-      TYPE(DRAPEG_) :: DRAPEG
+      TYPE(DRAPE_) :: DRAPE_Q4, DRAPE_T3
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -143,23 +142,19 @@ C
       IXLAY = 0
 C
       IF(ITY == 7) THEN
-         NUMEL_DRAPE = NUMELTG_DRAPE
-         SEDRAPE = STDRAPE
         CALL LAYINI(
      .      ELBUF_STR,1    ,NEL             ,GEO              ,IGEO    ,
      .      MAT      ,PID  ,THKLY           ,MATLY            ,POSLY   ,
      .      IGTYP    ,IXFEM,IXLAY           ,NLAY             ,NPT     ,
-     .      ISUBSTACK,STACK,DRAPE_SH3N        ,NFT              ,GBUF%THK,
-     .      NEL      ,THK_LY  ,DRAPEG%INDX_SH3N )
+     .      ISUBSTACK,STACK,DRAPE_T3        ,NFT              ,GBUF%THK,
+     .      NEL      ,THK_LY   )
       ELSE
-        NUMEL_DRAPE = NUMELC_DRAPE  
-        SEDRAPE = SCDRAPE
        CALL LAYINI(
      .      ELBUF_STR,1    ,NEL             ,GEO              ,IGEO    ,
      .      MAT      ,PID  ,THKLY           ,MATLY            ,POSLY   ,
      .      IGTYP    ,IXFEM,IXLAY           ,NLAY             ,NPT     ,
-     .      ISUBSTACK,STACK,DRAPE_SH4N        ,NFT              ,GBUF%THK,
-     .      NEL      ,THK_LY  ,DRAPEG%INDX_SH4N)      
+     .      ISUBSTACK,STACK,DRAPE_Q4        ,NFT              ,GBUF%THK,
+     .      NEL      ,THK_LY   )      
       ENDIF  
 C------------------------
 C        STRESS

@@ -97,10 +97,9 @@ Chd|====================================================================
      V                    ALE_CONNECT ,W            , NV46     , NERCVOIS , NESDVOIS  ,
      W                    LERCVOIS    ,LESDVOIS     ,CRKEDGE   , STACK    ,DIMFB      ,
      X                    FBSAV6      ,STABSEN      ,TABSENSOR ,INDX_CRK  ,XEDGE4N    ,
-     Y                    XEDGE3N     ,SPH2SOL      ,STIFN     ,STIFR     ,DRAPE_SH4N   ,
-     Z                    DRAPE_SH3N    ,H3D_DATA     ,SUBSET    ,IGRNOD    ,FCONT_MAX  ,
-     a                    FNCONTP2    ,FTCONTP2     ,NDDL0     ,NNZK0     ,IMPBUF_TAB ,
-     b                    DRAPEG )
+     Y                    XEDGE3N     ,SPH2SOL      ,STIFN     ,STIFR     ,DRAPE_Q4   ,
+     Z                    DRAPE_T3    ,H3D_DATA     ,SUBSET    ,IGRNOD    ,FCONT_MAX  ,
+     a                    FNCONTP2    ,FTCONTP2     ,NDDL0     ,NNZK0     ,IMPBUF_TAB )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -202,11 +201,10 @@ C-----------------------------------------------
       TYPE (SUBSET_) , DIMENSION(NSUBS)  :: SUBSET
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
       TYPE (SURF_)   , DIMENSION(NSURF)  :: IGRSURF
-      TYPE(DRAPE_)    :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE(DRAPE_)    :: DRAPE_Q4, DRAPE_T3
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (IMPBUF_STRUCT_) ,TARGET :: IMPBUF_TAB
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
-      TYPE(DRAPEG_)    :: DRAPEG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -391,7 +389,7 @@ C    /---------------/
      6   RBY       ,SKEW      ,X         ,
      7   WA        ,IDDL      ,NDOF      ,DIAG_K    ,LT_K      ,
      8   IADK      ,JDIK      ,IKG       ,IBID      ,ITASK     ,
-     9   ELBUF_TAB ,STACK     ,DRAPE_SH4N, DRAPE_SH3N   ,DRAPEG )
+     9   ELBUF_TAB ,STACK     ,DRAPE_Q4, DRAPE_T3    )
 C    /---------------/
 c      CALL MY_BARRIER
 C    /---------------/
@@ -455,7 +453,7 @@ C    /---------------/
      6   RBY       ,SKEW      ,X         ,
      7   WA        ,IDDL      ,NDOF      ,DIAG_KG   ,LT_KG     ,
      8   IADK      ,JDIK      ,IKG       ,IBID      ,ITASK     ,
-     9   ELBUF_TAB ,STACK     ,DRAPE_SH4N, DRAPE_SH3N   ,DRAPEG   )
+     9   ELBUF_TAB ,STACK     ,DRAPE_Q4, DRAPE_T3      )
 C    /---------------/
 c      CALL MY_BARRIER
 C    /---------------/
@@ -900,7 +898,7 @@ C
      6             VR    ,ELBUF_TAB ,DD_IAD,WEIGHT,
      7             IPM       ,KXSP   ,SPBUF ,NODGLOB,LENG ,
      8             FOPT  ,NOM_OPT   ,NPBY   ,FNCONT   ,FTCONT    ,
-     9             GEO   ,THKE      ,STACK  ,DRAPE_SH4N, DRAPE_SH3N ,DRAPEG )
+     9             GEO   ,THKE      ,STACK  ,DRAPE_Q4, DRAPE_T3 )
          ENDIF
       ENDDO
 c

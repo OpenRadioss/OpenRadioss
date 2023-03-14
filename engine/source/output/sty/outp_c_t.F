@@ -380,8 +380,8 @@ Chd|        STACK_MOD                     share/modules/stack_mod.F
 Chd|====================================================================
       SUBROUTINE OUTP_C_TF(ITENS ,KEY   ,TEXT  ,ELBUF_TAB,IPARG,
      .                     DD_IAD,SIZLOC,SIZP0 ,THKE     ,GEO  ,
-     .                     IGEO  ,STACK ,DRAPE_SH4N, DRAPE_SH3N ,IXC  ,
-     .                     IXTG  ,SIZ_WR,DRAPEG)
+     .                     IGEO  ,STACK ,DRAPE_Q4, DRAPE_T3 ,IXC  ,
+     .                     IXTG  ,SIZ_WR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -436,8 +436,7 @@ C
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
-      TYPE(DRAPE_) :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
-      TYPE(DRAPEG_) :: DRAPEG
+      TYPE(DRAPE_) :: DRAPE_Q4, DRAPE_T3
 C-----------------------------------------------
         IF (ISPMD == 0) THEN
           WRITE(IUGEO,'(2A)')'/SHELL     /TENSOR    /',KEY
@@ -554,8 +553,8 @@ C------------------------
      .                         ITY          ,ISTRAIN  ,JJ   ,WA    ,1     ,
      .                         NLAY         ,NPTR     ,NPTS ,ITHK  ,NFT   ,
      .                         THKE         ,NPG      ,IGTYP,GEO   ,IGEO  ,
-     .                         IXFEM        ,ISUBSTACK,STACK,DRAPE_SH4N, DRAPE_SH3N,
-     .                         IXC          ,IXTG     ,MPT  ,DRAPEG )
+     .                         IXFEM        ,ISUBSTACK,STACK,DRAPE_Q4, DRAPE_T3,
+     .                         IXC          ,IXTG     ,MPT  )
                 ELSE
                   IF (MLW == 1 .OR. MLW == 3 .OR. MLW == 23) THEN
                     DO I=LFT,LLT

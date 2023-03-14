@@ -41,8 +41,8 @@ Chd|====================================================================
      1                  ELBUF_TAB  ,IPARG     ,IPM        ,IGEO  ,IXC    ,
      2                  IXTG       ,WA        ,WAP0       ,IPARTC,IPARTTG,
      3                  DYNAIN_DATA,DYNAIN_INDXC,DYNAIN_INDXTG,SIZP0  ,
-     4                  GEO        ,STACK     ,DRAPE_SH4N   ,DRAPE_SH3N,X   ,
-     5                  THKE       ,DRAPEG)
+     4                  GEO        ,STACK     ,DRAPE_Q4   ,DRAPE_T3,X   ,
+     5                  THKE       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -74,8 +74,7 @@ C-----------------------------------------------
      .   GEO(NPROPG,*) , X(*) ,THKE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE),DRAPE_SH3N(NUMELTG_DRAPE)
-      TYPE (DRAPEG_) :: DRAPEG
+      TYPE (DRAPE_)  :: DRAPE_Q4,DRAPE_T3
       double precision WA(*),WAP0(*)
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
@@ -194,14 +193,12 @@ C------------------------------------------------
           ELSE
              THK0(LFT:LLT) = THKE(LFT:LLT)
           END IF
-          NUMEL_DRAPE = NUMELC_DRAPE
-          SEDRAPE = SCDRAPE
           CALL LAYINI(
      .           ELBUF_TAB(NG),LFT      ,LLT        ,GEO        ,IGEO      ,
      .           MAT        ,PID        ,THKLY      ,MATLY      ,POSLY     ,
      .           IGTYP      ,IXFEM      ,IXLAY      ,NLAY       ,NPT       ,
-     .           ISUBSTACK  ,STACK      ,DRAPE_SH4N   ,NFT        ,THK0      , 
-     .           NEL        ,THK_LY     ,DRAPEG%INDX_SH4N)
+     .           ISUBSTACK  ,STACK      ,DRAPE_Q4   ,NFT        ,THK0      , 
+     .           NEL        ,THK_LY )
 
 C-------------------------------------------------------
 C     ELEMENT LOCAL FRAME : for rotation local -> Global
@@ -1221,14 +1218,13 @@ C------------------------------------------------
           ELSE
              THK0(LFT:LLT) = THKE(LFT:LLT)
           END IF
-          NUMEL_DRAPE = NUMELTG_DRAPE
-          SEDRAPE = STDRAPE
+
           CALL LAYINI(
      .           ELBUF_TAB(NG),LFT      ,LLT        ,GEO        ,IGEO      ,
      .           MAT        ,PID        ,THKLY      ,MATLY      ,POSLY     ,
      .           IGTYP      ,IXFEM      ,IXLAY      ,NLAY       ,NPT       ,
-     .           ISUBSTACK  ,STACK      ,DRAPE_SH3N   ,NFT        ,THK0      , 
-     .           NEL        ,THK_LY     ,DRAPEG%INDX_SH3N)
+     .           ISUBSTACK  ,STACK      ,DRAPE_Q4   ,NFT        ,THK0      , 
+     .           NEL        ,THK_LY )
 
 C-------------------------------------------------------
 C     ELEMENT LOCAL FRAME : for rotation local -> Global

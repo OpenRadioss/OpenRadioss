@@ -113,7 +113,7 @@ C-----------------------------------------------
      .        N,K,K1,K2,JTURB,
      .        OFFSET,IHBE,NPG, MPT,IPT,IADR,IPMAT,
      .        ISUBSTACK,ITHK,ID_PLY,IOK,N1,N2,N3,N4,
-     .        IMAT,IU(4),NFRAC,IPOS,ITRIMAT,NS,IAD2,IDRAPE
+     .        IMAT,IU(4),NFRAC,IPOS,ITRIMAT,NS,IAD2
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
      .        NPT_ALL,IPLY,
      .        IOK_PART(MVSIZ),JJ(5),NPGT,IUVAR,
@@ -126,7 +126,6 @@ C-----------------------------------------------
       TYPE(BUF_FAIL_) ,POINTER :: FBUF 
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
       TYPE(BUF_MAT_)  ,POINTER :: MBUF 
-      TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
       my_real, DIMENSION(:), POINTER  :: UVAR            
       my_real, DIMENSION(:) ,POINTER  :: UPARAM
       DATA NS/10/
@@ -176,8 +175,6 @@ C-----------------------------------------------
             NPTS  = ELBUF_TAB(NG)%NPTS
             NPTT  = ELBUF_TAB(NG)%NPTT
             NLAY  = ELBUF_TAB(NG)%NLAY
-            IDRAPE = ELBUF_TAB(NG)%IDRAPE
-            
             NPG   = NPTR*NPTS
             NUVAR = 0
             IPINCH= IPARG(90,NG)
@@ -973,119 +970,7 @@ c
                   IF (IGTYP == 9  .OR. IGTYP == 10 .OR.IGTYP == 11 .OR.
      .                IGTYP == 16 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR.
      .                IGTYP == 52 ) THEN
-                    IF (MLW /= 0 .AND. MLW /= 13) THEN    
-                     IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-                      LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1) 
-                      DO I=1,NEL                                                
-                        N = I + NFT          
-                        X21 = X(1,IXC(3,N))-X(1,IXC(2,N)) 
-                        X32 = X(1,IXC(4,N))-X(1,IXC(3,N)) 
-                        X34 = X(1,IXC(4,N))-X(1,IXC(5,N)) 
-                        X41 = X(1,IXC(5,N))-X(1,IXC(2,N)) 
-                        Y21 = X(2,IXC(3,N))-X(2,IXC(2,N)) 
-                        Y32 = X(2,IXC(4,N))-X(2,IXC(3,N))  
-                        Y34 = X(2,IXC(4,N))-X(2,IXC(5,N))  
-                        Y41 = X(2,IXC(5,N))-X(2,IXC(2,N))                         
-
-                        Z21 = X(3,IXC(3,N))-X(3,IXC(2,N))                         
-                        Z32 = X(3,IXC(4,N))-X(3,IXC(3,N))                         
-                        Z34 = X(3,IXC(4,N))-X(3,IXC(5,N))                         
-                        Z41 = X(3,IXC(5,N))-X(3,IXC(2,N))                         
-                                                                                  
-                        E1X = (X21+X34)                                           
-                        E1Y = (Y21+Y34)                                           
-                        E1Z = (Z21+Z34)                                           
-
-                        E2X = (X32+X41)                                           
-                        E2Y = (Y32+Y41)                                           
-                        E2Z = (Z32+Z41)                                           
-                 
-                        E3X = E1Y*E2Z-E1Z*E2Y                                     
-                        E3Y = E1Z*E2X-E1X*E2Z                                     
-                        E3Z = E1X*E2Y-E1Y*E2X                                     
-                        IF (IREP > 0) THEN                                        
-                          RX = E1X                                                
-                          RY = E1Y                                                
-                          RZ = E1Z                                                
-                          S_X = E2X                                                
-                          S_Y = E2Y                                                
-                          S_Z = E2Z                                                
-                        ENDIF                                                     
-                        IF (ISHFRAM == 0 ) THEN                  
-C------                   Convected frame symmetric - version 5 (default)        
-                          SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
-                          SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
-                          E3X = E3X * SUMA                                        
-                          E3Y = E3Y * SUMA                                        
-                          E3Z = E3Z * SUMA                                        
-C
-                          S1     = E1X*E1X+E1Y*E1Y+E1Z*E1Z                        
-                          S2     = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
-                          SUMA   = SQRT(S1/S2)                                    
-                          E1X = E1X + (E2Y*E3Z-E2Z*E3Y)*SUMA                      
-                          E1Y = E1Y + (E2Z*E3X-E2X*E3Z)*SUMA                      
-                          E1Z = E1Z + (E2X*E3Y-E2Y*E3X)*SUMA                      
-C
-                          SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z                        
-                          SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
-                          E1X = E1X * SUMA                                        
-                          E1Y = E1Y * SUMA                                        
-                          E1Z = E1Z * SUMA                                        
-C
-                          E2X = E3Y * E1Z - E3Z * E1Y                             
-                          E2Y = E3Z * E1X - E3X * E1Z                             
-                          E2Z = E3X * E1Y - E3Y * E1X                             
-                        ELSEIF (ISHFRAM == 2) THEN                                
-C------                   Convected frame non-symmetric - version 4               
-                          SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
-                          E1X = E1X*SUMA + E2Y*E3Z-E2Z*E3Y                        
-                          E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z                        
-                          E1Z = E1Z*SUMA + E2X*E3Y-E2Y*E3X                        
-                          SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z                        
-                          SUMA   = ONE/MAX(SQRT(SUMA),EM20)                        
-                          E1X = E1X*SUMA                                          
-                          E1Y = E1Y*SUMA                                          
-                          E1Z = E1Z*SUMA                                          
-C
-                          SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
-                          SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
-                          E3X = E3X * SUMA                                        
-                          E3Y = E3Y * SUMA                                        
-                          E3Z = E3Z * SUMA                                        
-C
-                          E2X = E3Y*E1Z-E3Z*E1Y                                   
-                          E2Y = E3Z*E1X-E3X*E1Z                                   
-                          E2Z = E3X*E1Y-E3Y*E1X                                   
-                          SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
-                          SUMA   = ONE/MAX(SQRT(SUMA),EM20)                        
-                          E2X = E2X*SUMA                                          
-                          E2Y = E2Y*SUMA                                          
-                          E2Z = E2Z*SUMA                                          
-                        ENDIF 
-                         IF (IREP >= 1) THEN            
-                           AA = LBUF_DIR%DIRA(I)           
-                           BB = LBUF_DIR%DIRA(I+NEL)       
-                           V1 = AA*RX + BB*S_X          
-                           V2 = AA*RY + BB*S_Y          
-                           V3 = AA*RZ + BB*S_Z          
-                           VR = V1*E1X+ V2*E1Y + V3*E1Z 
-                           VS = V1*E2X+ V2*E2Y + V3*E2Z 
-                           SUMA=SQRT(VR*VR + VS*VS)     
-                           DIR1_1 = VR/SUMA             
-                           DIR1_2 = VS/SUMA             
-                         ELSE                           
-                           DIR1_1 = LBUF_DIR%DIRA(I)       
-                           DIR1_2 = LBUF_DIR%DIRA(I+NEL)   
-                         ENDIF      
-c
-                        PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - NINTY)/NINTY
-                        VALUE(I) = PHI
-                        IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
-                        IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
-                        IS_WRITTEN_VALUE(I) = 1				
-                      ENDDO      
-                     ELSE     ! IDRAPE               
+                    IF (MLW /= 0 .AND. MLW /= 13) THEN                        
                       DO I=1,NEL                                                
                         N = I + NFT                                               
                         X21 = X(1,IXC(3,N))-X(1,IXC(2,N))                         
@@ -1172,30 +1057,30 @@ C
                           E2X = E2X*SUMA                                          
                           E2Y = E2Y*SUMA                                          
                           E2Z = E2Z*SUMA                                          
-                        ENDIF
-                        IF (IREP >= 1) THEN            
-                             AA = BUFLY%DIRA(I)           
-                             BB = BUFLY%DIRA(I+NEL)       
-                             V1 = AA*RX + BB*S_X          
-                             V2 = AA*RY + BB*S_Y          
-                             V3 = AA*RZ + BB*S_Z          
-                             VR = V1*E1X+ V2*E1Y + V3*E1Z 
-                             VS = V1*E2X+ V2*E2Y + V3*E2Z 
-                             SUMA=SQRT(VR*VR + VS*VS)     
-                             DIR1_1 = VR/SUMA             
-                             DIR1_2 = VS/SUMA             
-                        ELSE                           
-                             DIR1_1 = BUFLY%DIRA(I)       
-                             DIR1_2 = BUFLY%DIRA(I+NEL)   
-                        ENDIF   
+                        ENDIF                                                     
+                        IF (IREP >= 1) THEN                                       
+                          AA = BUFLY%DIRA(I)                              
+                          BB = BUFLY%DIRA(I+NEL)                              
+                          V1 = AA*RX + BB*S_X                                      
+                          V2 = AA*RY + BB*S_Y                                      
+                          V3 = AA*RZ + BB*S_Z                                      
+                          VR = V1*E1X+ V2*E1Y + V3*E1Z                            
+                          VS = V1*E2X+ V2*E2Y + V3*E2Z                            
+                          SUMA=SQRT(VR*VR + VS*VS)                                
+                          DIR1_1 = VR/SUMA                                        
+                          DIR1_2 = VS/SUMA                                        
+                        ELSE                                                      
+                          DIR1_1 = BUFLY%DIRA(I)                          
+                          DIR1_2 = BUFLY%DIRA(I+NEL)                          
+                        ENDIF                                       
+c
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
                         ERR = (ABS(PHI) - NINTY)/NINTY
                         VALUE(I) = PHI
                         IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
                         IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                         IS_WRITTEN_VALUE(I) = 1				
-                      ENDDO      
-                     ENDIF ! IDRAPE                                                  
+                      ENDDO                                                       
                     ENDIF  ! MLW                                                  
                   ENDIF  ! IGTYP
 
@@ -1204,76 +1089,7 @@ C
                   IF (IGTYP == 9  .OR. IGTYP == 10 .OR. IGTYP == 11 .OR. 
      .                IGTYP == 16 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR.
      .                IGTYP == 52 ) THEN
-                    IF (MLW /= 0 .AND. MLW /= 13) THEN      
-                     IF(IDRAPE > 0 . AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-                      LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1)   
-                      DO I=1,NEL                                                         
-                        N = I + NFT                                                      
-                        X21 = X(1,IXTG(3,N))-X(1,IXTG(2,N))                              
-                        X31 = X(1,IXTG(4,N))-X(1,IXTG(2,N))                              
-                        X32 = X(1,IXTG(4,N))-X(1,IXTG(3,N))                     
-
-                        Y21 = X(2,IXTG(3,N))-X(2,IXTG(2,N))                     
-                        Y31 = X(2,IXTG(4,N))-X(2,IXTG(2,N))                     
-                        Y32 = X(2,IXTG(4,N))-X(2,IXTG(3,N))                     
-
-                        Z21 = X(3,IXTG(3,N))-X(3,IXTG(2,N))                     
-                        Z31 = X(3,IXTG(4,N))-X(3,IXTG(2,N))                     
-                        Z32 = X(3,IXTG(4,N))-X(3,IXTG(3,N))                     
-                        IF (IREP > 0) THEN                                      
-                          E11 = X21                                             
-                          E12 = Y21                                             
-                          E13 = Z21                                             
-                          E21 = X31                                             
-                          E22 = Y31                                             
-                          E23 = Z31                                             
-                        ENDIF                                                   
-                        E1X= X21                                                
-                        E1Y= Y21                                                
-                        E1Z= Z21                                                
-                        X2L = SQRT(E1X*E1X+E1Y*E1Y+E1Z*E1Z)                     
-                        E1X=E1X/X2L                                             
-                        E1Y=E1Y/X2L                                             
-                        E1Z=E1Z/X2L                                             
-C
-                        E3X=Y31*Z32-Z31*Y32                                     
-                        E3Y=Z31*X32-X31*Z32                                     
-                        E3Z=X31*Y32-Y31*X32                                     
-                        SUM_ = SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)                     
-                        E3X=E3X/SUM_                                             
-                        E3Y=E3Y/SUM_                                             
-                        E3Z=E3Z/SUM_                                             
-                        AREA = HALF * SUM_                                     
-                        E2X=E3Y*E1Z-E3Z*E1Y                                     
-                        E2Y=E3Z*E1X-E3X*E1Z                                     
-                        E2Z=E3X*E1Y-E3Y*E1X                                     
-                        SUM_ = SQRT(E2X*E2X+E2Y*E2Y+E2Z*E2Z)                     
-                        E2X=E2X/SUM_                                             
-                        E2Y=E2Y/SUM_                                             
-                        E2Z=E2Z/SUM_   
-                        IF (IREP >= 1) THEN                                     
-                           AA = LBUF_DIR%DIRA(I)                            
-                           BB = LBUF_DIR%DIRA(I+NEL)                            
-                           V1 = AA*E11 + BB*E21                                  
-                           V2 = AA*E12 + BB*E22                                  
-                           V3 = AA*E13 + BB*E23                                  
-                           VR = V1*E1X + V2*E1Y + V3*E1Z                         
-                           VS = V1*E2X + V2*E2Y + V3*E2Z                         
-                           SUMA=SQRT(VR*VR + VS*VS)                              
-                           DIR1_1 = VR/SUMA                                      
-                           DIR1_2 = VS/SUMA                                      
-                         ELSE                                                    
-                           DIR1_1 = LBUF_DIR%DIRA(I)                        
-                           DIR1_2 = LBUF_DIR%DIRA(I+NEL)                        
-                         ENDIF   
-                        PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - NINTY)/NINTY
-                        VALUE(I) = PHI
-                        IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
-                        IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
-                        IS_WRITTEN_VALUE(I) = 1				
-                      ENDDO 
-                    ELSE                
+                    IF (MLW /= 0 .AND. MLW /= 13) THEN                      
                       DO I=1,NEL                                              
                         N = I + NFT                                             
                         X21 = X(1,IXTG(3,N))-X(1,IXTG(2,N))                     
@@ -1317,162 +1133,47 @@ C
                         SUM_ = SQRT(E2X*E2X+E2Y*E2Y+E2Z*E2Z)                     
                         E2X=E2X/SUM_                                             
                         E2Y=E2Y/SUM_                                             
-                        E2Z=E2Z/SUM_   
+                        E2Z=E2Z/SUM_                                             
                         IF (IREP >= 1) THEN                                     
-                           AA = BUFLY%DIRA(I)                            
-                           BB = BUFLY%DIRA(I+NEL)                            
-                           V1 = AA*E11 + BB*E21                                  
-                           V2 = AA*E12 + BB*E22                                  
-                           V3 = AA*E13 + BB*E23                                  
-                           VR = V1*E1X + V2*E1Y + V3*E1Z                         
-                           VS = V1*E2X + V2*E2Y + V3*E2Z                         
-                           SUMA=SQRT(VR*VR + VS*VS)                              
-                           DIR1_1 = VR/SUMA                                      
-                           DIR1_2 = VS/SUMA                                      
-                         ELSE                                                    
-                           DIR1_1 = BUFLY%DIRA(I)                        
-                           DIR1_2 = BUFLY%DIRA(I+NEL)                        
-                         ENDIF   
+                          AA = BUFLY%DIRA(I)                            
+                          BB = BUFLY%DIRA(I+NEL)                            
+                          V1 = AA*E11 + BB*E21                                  
+                          V2 = AA*E12 + BB*E22                                  
+                          V3 = AA*E13 + BB*E23                                  
+                          VR = V1*E1X + V2*E1Y + V3*E1Z                         
+                          VS = V1*E2X + V2*E2Y + V3*E2Z                         
+                          SUMA=SQRT(VR*VR + VS*VS)                              
+                          DIR1_1 = VR/SUMA                                      
+                          DIR1_2 = VS/SUMA                                      
+                        ELSE                                                    
+                          DIR1_1 = BUFLY%DIRA(I)                        
+                          DIR1_2 = BUFLY%DIRA(I+NEL)                        
+                        ENDIF                                         
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
                         ERR = (ABS(PHI) - NINTY)/NINTY
                         VALUE(I) = PHI
                         IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
                         IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                         IS_WRITTEN_VALUE(I) = 1				
-                      ENDDO      
-                     ENDIF    ! IDRAPE                                            
+                      ENDDO                                                     
                     ENDIF                                                       
                   ENDIF              
                 ENDIF
 c
               ELSEIF (IPLY > 0) THEN
-	         DO J=1,NLAY
-                   ID_PLY = 0
-                   IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-	     	     ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
-                   ELSEIF (IGTYP == 52) THEN
-                    ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
-                  ENDIF
+	              DO J=1,NLAY
+                 ID_PLY = 0
+                 IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+	     	            ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                 ELSEIF (IGTYP == 52) THEN
+                   ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                 ENDIF
 c
-                  IF (ID_PLY  == IPLY ) THEN
+                 IF (ID_PLY  == IPLY ) THEN
                     BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                     IF (ITY == 3) THEN
                      IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
-                      IF (MLW /= 0 .AND. MLW /= 13) THEN
-                       IF(IDRAPE > 0 . AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-                        LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1)   	
-                	DO I=1,NEL						                        
-                	  N = I + NFT						    
-                	  X21 = X(1,IXC(3,N))-X(1,IXC(2,N))			    
-                	  X32 = X(1,IXC(4,N))-X(1,IXC(3,N))			    
-                	  X34 = X(1,IXC(4,N))-X(1,IXC(5,N))			    
-                	  X41 = X(1,IXC(5,N))-X(1,IXC(2,N))			    
-
-                	  Y21 = X(2,IXC(3,N))-X(2,IXC(2,N))			    
-                	  Y32 = X(2,IXC(4,N))-X(2,IXC(3,N))			    
-                	  Y34 = X(2,IXC(4,N))-X(2,IXC(5,N))			    
-                	  Y41 = X(2,IXC(5,N))-X(2,IXC(2,N))			    
-
-                	  Z21 = X(3,IXC(3,N))-X(3,IXC(2,N))			    
-                	  Z32 = X(3,IXC(4,N))-X(3,IXC(3,N))			    
-                	  Z34 = X(3,IXC(4,N))-X(3,IXC(5,N))			    
-                	  Z41 = X(3,IXC(5,N))-X(3,IXC(2,N))			    
-                								    
-                	  E1X = (X21+X34)					    
-                	  E1Y = (Y21+Y34)					    
-                	  E1Z = (Z21+Z34)					    
-
-                	  E2X = (X32+X41)					    
-                	  E2Y = (Y32+Y41)					    
-                	  E2Z = (Z32+Z41)					    
-                   
-                	  E3X = E1Y*E2Z-E1Z*E2Y 				    
-                	  E3Y = E1Z*E2X-E1X*E2Z 				    
-                	  E3Z = E1X*E2Y-E1Y*E2X 
-			    
-                	  IF (IREP > 0) THEN					    
-                	    RX = E1X						    
-                	    RY = E1Y						    
-                	    RZ = E1Z						    
-                	    S_X = E2X						    
-                	    S_Y = E2Y						    
-                	    S_Z = E2Z						    
-                	  ENDIF 						    
-                	  IF (ISHFRAM == 0 ) THEN		    
-C------         	    Convected frame symmetric - version 5 (default)	    
-                	    SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z			    
-                	    SUMA   = ONE / MAX(SQRT(SUMA),EM20)  	    
-                	    E3X = E3X * SUMA					    
-                	    E3Y = E3Y * SUMA					    
-                	    E3Z = E3Z * SUMA					    
-C
-                	    S1     = E1X*E1X+E1Y*E1Y+E1Z*E1Z			    
-                	    S2     = E2X*E2X+E2Y*E2Y+E2Z*E2Z			    
-                	    SUMA   = SQRT(S1/S2)				    
-                	    E1X = E1X + (E2Y*E3Z-E2Z*E3Y)*SUMA  		    
-                	    E1Y = E1Y + (E2Z*E3X-E2X*E3Z)*SUMA  		    
-                	    E1Z = E1Z + (E2X*E3Y-E2Y*E3X)*SUMA  		    
-C
-                	    SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z			    
-                	    SUMA   = ONE / MAX(SQRT(SUMA),EM20)  		    
-                	    E1X = E1X * SUMA					    
-                	    E1Y = E1Y * SUMA					    
-                	    E1Z = E1Z * SUMA					    
-C
-                	    E2X = E3Y * E1Z - E3Z * E1Y 			    
-                	    E2Y = E3Z * E1X - E3X * E1Z 			    
-                	    E2Z = E3X * E1Y - E3Y * E1X 			    
-                	  ELSEIF (ISHFRAM == 2) THEN				    
-C------         	    Convected frame non-symmetric - version 4		    
-                	    SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z			    
-                	    E1X = E1X*SUMA + E2Y*E3Z-E2Z*E3Y			    
-                	    E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z			    
-                	    E1Z = E1Z*SUMA + E2X*E3Y-E2Y*E3X			    
-                	    SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z			    
-                	    SUMA   = ONE/MAX(SQRT(SUMA),EM20)			    
-                	    E1X = E1X*SUMA					    
-                	    E1Y = E1Y*SUMA					    
-                	    E1Z = E1Z*SUMA					    
-C
-                	    SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z			    
-                	    SUMA   = ONE / MAX(SQRT(SUMA),EM20)  		    
-                	    E3X = E3X * SUMA					    
-                	    E3Y = E3Y * SUMA					    
-                	    E3Z = E3Z * SUMA					    
-C
-                	    E2X = E3Y*E1Z-E3Z*E1Y				    
-                	    E2Y = E3Z*E1X-E3X*E1Z				    
-                	    E2Z = E3X*E1Y-E3Y*E1X				    
-                	    SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z			    
-                	    SUMA   = ONE/MAX(SQRT(SUMA),EM20)			    
-                	    E2X = E2X*SUMA					    
-                	    E2Y = E2Y*SUMA					    
-                	    E2Z = E2Z*SUMA					    
-                	  ENDIF	    
-                	  IF (IREP >= 1) THEN					    
-                	     AA = LBUF_DIR%DIRA(I)                            
-                	     BB = LBUF_DIR%DIRA(I+NEL)                          
-                             V1 = AA*RX + BB*S_X     
-                	     V2 = AA*RY + BB*S_Y                                   
-                	     V3 = AA*RZ + BB*S_Z                                   
-                	     VR = V1*E1X+ V2*E1Y + V3*E1Z                          
-                	     VS = V1*E2X+ V2*E2Y + V3*E2Z                          
-                	     SUMA=SQRT(VR*VR + VS*VS)                              
-                	     DIR1_1 = VR/SUMA                                      
-                	     DIR1_2 = VS/SUMA                                      
-                	  ELSE  						    
-                	     DIR1_1 = LBUF_DIR%DIRA(I)			    
-                	     DIR1_2 = LBUF_DIR%DIRA(I+NEL)	
-                	  ENDIF 		      
-c
-                          PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                          ERR = (ABS(PHI) - NINTY)/NINTY
-                          VALUE(I) = PHI
-                          IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
-                          IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
-                          IS_WRITTEN_VALUE(I) = 1				
-                	ENDDO	
-                       ELSE		    
+                      IF (MLW /= 0 .AND. MLW /= 13) THEN			    
                 	DO I=1,NEL						  
                 	  N = I + NFT						    
                 	  X21 = X(1,IXC(3,N))-X(1,IXC(2,N))			    
@@ -1560,22 +1261,22 @@ C
                 	    E2X = E2X*SUMA					    
                 	    E2Y = E2Y*SUMA					    
                 	    E2Z = E2Z*SUMA					    
-                	  ENDIF	    
+                	  ENDIF 						    
                 	  IF (IREP >= 1) THEN					    
-                	     AA = BUFLY%DIRA(I)                            
-                	     BB = BUFLY%DIRA(I+NEL)                          
-                             V1 = AA*RX + BB*S_X     
-                	     V2 = AA*RY + BB*S_Y                                   
-                	     V3 = AA*RZ + BB*S_Z                                   
-                	     VR = V1*E1X+ V2*E1Y + V3*E1Z                          
-                	     VS = V1*E2X+ V2*E2Y + V3*E2Z                          
-                	     SUMA=SQRT(VR*VR + VS*VS)                              
-                	     DIR1_1 = VR/SUMA                                      
-                	     DIR1_2 = VS/SUMA                                      
+                	    AA = BUFLY%DIRA(I)  			    
+                	    BB = BUFLY%DIRA(I+NEL)			      
+                            V1 = AA*RX + BB*S_X     
+                	    V2 = AA*RY + BB*S_Y  				    
+                	    V3 = AA*RZ + BB*S_Z  				    
+                	    VR = V1*E1X+ V2*E1Y + V3*E1Z			    
+                	    VS = V1*E2X+ V2*E2Y + V3*E2Z			    
+                	    SUMA=SQRT(VR*VR + VS*VS)				    
+                	    DIR1_1 = VR/SUMA					    
+                	    DIR1_2 = VS/SUMA					    
                 	  ELSE  						    
-                	     DIR1_1 = BUFLY%DIRA(I)			    
-                	     DIR1_2 = BUFLY%DIRA(I+NEL)	
-                	  ENDIF 		      
+                	    DIR1_1 = BUFLY%DIRA(I)			    
+                	    DIR1_2 = BUFLY%DIRA(I+NEL)	
+                	  ENDIF 				      
 c
                           PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
                           ERR = (ABS(PHI) - NINTY)/NINTY
@@ -1583,83 +1284,13 @@ c
                           IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
                           IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                           IS_WRITTEN_VALUE(I) = 1				
-                	ENDDO	
-                       ENDIF ! IDRAPE 						    
+                	ENDDO							    
                       ENDIF  ! MLW						    
                      ENDIF  ! IGTYP
 
                     ELSEIF (ITY == 7) THEN
                      IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
-                      IF (MLW /= 0 .AND. MLW /= 13) THEN
-                       IF(IDRAPE > 0 .AND. IGTYP == 17) THEN 
-                        LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1) 
-                	DO I=1,NEL						
-                	  N = I + NFT						  
-                	  X21 = X(1,IXTG(3,N))-X(1,IXTG(2,N))			  
-                	  X31 = X(1,IXTG(4,N))-X(1,IXTG(2,N))			  
-                	  X32 = X(1,IXTG(4,N))-X(1,IXTG(3,N))			  
-
-                	  Y21 = X(2,IXTG(3,N))-X(2,IXTG(2,N))			  
-                	  Y31 = X(2,IXTG(4,N))-X(2,IXTG(2,N))			  
-                	  Y32 = X(2,IXTG(4,N))-X(2,IXTG(3,N))			  
-
-                	  Z21 = X(3,IXTG(3,N))-X(3,IXTG(2,N))			  
-                	  Z31 = X(3,IXTG(4,N))-X(3,IXTG(2,N))			  
-                	  Z32 = X(3,IXTG(4,N))-X(3,IXTG(3,N))			  
-                	  IF (IREP > 0) THEN					  
-                	    E11 = X21						  
-                	    E12 = Y21						  
-                	    E13 = Z21						  
-                	    E21 = X31						  
-                	    E22 = Y31						  
-                	    E23 = Z31						  
-                	  ENDIF 						  
-                	  E1X= X21						  
-                	  E1Y= Y21						  
-                	  E1Z= Z21						  
-                	  X2L = SQRT(E1X*E1X+E1Y*E1Y+E1Z*E1Z)			  
-                	  E1X=E1X/X2L						  
-                	  E1Y=E1Y/X2L						  
-                	  E1Z=E1Z/X2L						  
-C
-                	  E3X=Y31*Z32-Z31*Y32					  
-                	  E3Y=Z31*X32-X31*Z32					  
-                	  E3Z=X31*Y32-Y31*X32					  
-                	  SUM_ = SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)			  
-                	  E3X=E3X/SUM_						  
-                	  E3Y=E3Y/SUM_						  
-                	  E3Z=E3Z/SUM_						  
-                	  AREA = HALF * SUM_					  
-                	  E2X=E3Y*E1Z-E3Z*E1Y					  
-                	  E2Y=E3Z*E1X-E3X*E1Z					  
-                	  E2Z=E3X*E1Y-E3Y*E1X					  
-                	  SUM_ = SQRT(E2X*E2X+E2Y*E2Y+E2Z*E2Z)			  
-                	  E2X=E2X/SUM_						  
-                	  E2Y=E2Y/SUM_						  
-                	  E2Z=E2Z/SUM_						  
-                	  IF (IREP >= 1) THEN	 
-                	    DIR1_1 = LBUF_DIR%DIRA(I)			    
-                	    DIR1_2 = LBUF_DIR%DIRA(I+NEL)				  
-                	    V1 = AA*E11 + BB*E21				  
-                	    V2 = AA*E12 + BB*E22				  
-                	    V3 = AA*E13 + BB*E23				  
-                	    VR = V1*E1X + V2*E1Y + V3*E1Z			  
-                	    VS = V1*E2X + V2*E2Y + V3*E2Z			  
-                	    SUMA=SQRT(VR*VR + VS*VS)				  
-                	    DIR1_1 = VR/SUMA					  
-                	    DIR1_2 = VS/SUMA					  
-                	  ELSE  			    
-                	    DIR1_1 = LBUF_DIR%DIRA(I)			    
-                	    DIR1_2 = LBUF_DIR%DIRA(I+NEL)				  
-                	  ENDIF 					
-                	  PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                          ERR = (ABS(PHI) - NINTY)/NINTY
-                          VALUE(I) = PHI
-                          IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
-                          IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
-                          IS_WRITTEN_VALUE(I) = 1				
-                	ENDDO				                    
-                       ELSE			  
+                      IF (MLW /= 0 .AND. MLW /= 13) THEN			  
                 	DO I=1,NEL						
                 	  N = I + NFT						  
                 	  X21 = X(1,IXTG(3,N))-X(1,IXTG(2,N))			  
@@ -1725,8 +1356,7 @@ C
                           IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
                           IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                           IS_WRITTEN_VALUE(I) = 1				
-                	ENDDO	
-                       ENDIF ! IDRAPE 						  
+                	ENDDO							  
                       ENDIF							  
                      ENDIF		
                     ENDIF

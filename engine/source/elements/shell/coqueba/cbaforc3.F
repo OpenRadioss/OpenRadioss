@@ -113,8 +113,8 @@ Chd|====================================================================
      J            IADC_PXFEM,GRESAV,GRTH   ,IGRTH   ,MSC     ,
      K            DMELC   ,JSMS    ,TABLE  ,IPARG   ,SENSOR_TAB,
      L            MSZ2    ,CONDN  ,CONDNSKY,ISUBSTACK,STACK ,
-     M            DRAPE_SH4N   ,NEL    ,NLOC_DMG,VPINCH, 
-     O            FPINCH  ,STIFPINCH,INDX_DRAPE)
+     M            DRAPE_Q4   ,NEL    ,NLOC_DMG,VPINCH, 
+     O            FPINCH  ,STIFPINCH)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -158,8 +158,7 @@ C-----------------------------------------------
      .        IEXPAN, ISHPLYXFEM,ITASK,JTHE,IBID,JSMS,ISUBSTACK,NEL
       INTEGER IXC(NIXC,*), IADC(4,*), IPARTC(*), NPF(*),IGEO(NPROPGI,*),
      .        IPM(*),INDXOF(MVSIZ),INOD_PXFEM(*),IEL_PXFEM(*),ITAB(*),
-     .        IADC_PXFEM(4,*),GRTH(*),IGRTH(*),IPARG(*),IPARI(NPARI,*),
-     .        INDX_DRAPE(SCDRAPE)
+     .        IADC_PXFEM(4,*),GRTH(*),IGRTH(*),IPARG(*),IPARI(NPARI,*)
 C     REAL OU REAL*8
       my_real
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
@@ -184,7 +183,7 @@ C     REAL OU REAL*8
       TYPE (FAILWAVE_STR_) :: FAILWAVE 
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG 
-      TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE)
+      TYPE (DRAPE_) :: DRAPE_Q4
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
@@ -197,7 +196,7 @@ C-----------------------------------------------
      .   IPPID,JPID,IPTHK,IPPOS,IPMAT,IPMAT_IPLY,MATLY,IFAILWAVE,
      .   J1,J2,IIGEO,IADI ,IADR,IPANG,IGTYP,IGMAT,ILAY,NPTTOT,IREP,KK(5),K,
      .   LENFPINCH,LENMPINCH,LENEPINCHXZ,LENEPINCHYZ,LENEPINCHZZ,
-     .   PTFP,PTMP,PTEPXZ,PTEPYZ,PTEPZZ,MT,NPINCH,IDRAPE
+     .   PTFP,PTMP,PTEPXZ,PTEPYZ,PTEPZZ,MT,NPINCH
       INTEGER  MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),MAT_IPLY(MVSIZ,NPT),
      .   IPLAT(MVSIZ),ISTACK(MVSIZ,NPT),FWAVE_EL(NEL)
       PARAMETER (NPG = 4)
@@ -280,23 +279,18 @@ C-------------------------------------
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF1,LBUF2,LBUF3,LBUF4     
       TYPE(G_BUFEL_) ,POINTER :: GBUF 
-      TYPE(L_BUFEL_) ,POINTER :: LBUF
-      TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
       TYPE(PINCH_LOCAL_STRUCT_) :: PINCH_LOCAL    
 C=======================================================================
 C     INITIALISATION
 C--------------------------
       ISTACK = 0
       GBUF => ELBUF_STR%GBUF
-      IDRAPE = ELBUF_STR%IDRAPE
       IBID = 0
       BID = ZERO
       IDRIL = IPARG(41)
       IREP  = IPARG(35)
       INLOC = IPARG(78)
       NPINCH= IPARG(90)
-      SEDRAPE = SCDRAPE
-      NUMEL_DRAPE = NUMELC_DRAPE
 C
       NLAY = ELBUF_STR%NLAY
       NPTR = ELBUF_STR%NPTR
@@ -345,47 +339,21 @@ c--------------------------------------------
 c-------------------------------------
       L_DIRA = ELBUF_STR%BUFLY(1)%LY_DIRA
       L_DIRB = ELBUF_STR%BUFLY(1)%LY_DIRB
-      IGTYP = IGEO(11,PID(1))
-      IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-        ALLOCATE(DIRA(NPTTOT*NEL*L_DIRA))
-        ALLOCATE(DIRB(NPTTOT*NEL*L_DIRB))
-        DIRA = ZERO
-        DIRB = ZERO
-        IF (L_DIRA == 0) THEN
-            CONTINUE
-        ELSEIF (IREP == 0) THEN
-           NPTTOT = 0
-           DO ILAY=1,NLAY
-              NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
-              DO IT=1,NPTT
-                 J = NPTTOT + IT
-                 LBUF_DIR =>  ELBUF_STR%BUFLY(ILAY)%LBUF_DIR(IT)
-                 J1 = 1+(J-1)*L_DIRA*NEL
-                 J2 = J*L_DIRA*NEL
-                 DIRA(J1:J2) = LBUF_DIR%DIRA(1:NEL*L_DIRA)
-              ENDDO
-              NPTTOT = NPTTOT + NPTT
-            ENDDO 
-        ENDIF
-        DIR_A => DIRA(1:NPTTOT*NEL*L_DIRA)
-        DIR_B => DIRB(1:NPTTOT*NEL*L_DIRB)
-      ELSE ! idrape
-        ALLOCATE(DIRA(NLAY*NEL*L_DIRA))
-        ALLOCATE(DIRB(NLAY*NEL*L_DIRB))
-        DIRA=ZERO
-        DIRB=ZERO
-        IF (L_DIRA == 0) THEN
-          CONTINUE
-        ELSEIF (IREP == 0) THEN
-           DO J=1,NLAY
-              J1 = 1+(J-1)*L_DIRA*NEL
-              J2 = J*L_DIRA*NEL
-              DIRA(J1:J2) = ELBUF_STR%BUFLY(J)%DIRA(1:NEL*L_DIRA)
-           ENDDO
-         ENDIF
-         DIR_A => DIRA(1:NLAY*NEL*L_DIRA)
-         DIR_B => DIRB(1:NLAY*NEL*L_DIRB)
-      ENDIF ! IDRAPE    
+      ALLOCATE(DIRA(NLAY*NEL*L_DIRA))
+      ALLOCATE(DIRB(NLAY*NEL*L_DIRB))
+      DIRA=ZERO
+      DIRB=ZERO
+      IF (L_DIRA == 0) THEN
+        CONTINUE
+      ELSEIF (IREP == 0) THEN
+        DO J=1,NLAY
+          J1 = 1+(J-1)*L_DIRA*NEL
+          J2 = J*L_DIRA*NEL
+          DIRA(J1:J2) = ELBUF_STR%BUFLY(J)%DIRA(1:NEL*L_DIRA)
+        ENDDO
+      ENDIF
+      DIR_A => DIRA(1:NLAY*NEL*L_DIRA)
+      DIR_B => DIRB(1:NLAY*NEL*L_DIRB)
 c-------------------------------------
       ALLOCATE(DIR1_CRK(0))
       ALLOCATE(DIR2_CRK(0))
@@ -750,9 +718,9 @@ C-----------------
      M    DIR1_CRK  ,DIR2_CRK  ,LC        ,
      N    ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O    IBID      ,IBID      ,ISUBSTACK ,STACK     ,
-     P    F_DEF(1,1,NG),ITASK  ,DRAPE_SH4N     ,VAR_REG(1,1),
+     P    F_DEF(1,1,NG),ITASK  ,DRAPE_Q4     ,VAR_REG(1,1),
      Q    PINCH_LOCAL , GBUF%FORPGPINCH(PTFP), GBUF%MOMPGPINCH(PTMP),EZZAVG  ,
-     R    AREAPINCH )
+     R    AREAPINCH)
         ELSE
           CALL CMAIN3(
      1    ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,
@@ -779,9 +747,9 @@ C-----------------
      M    DIR1_CRK  ,DIR2_CRK  ,LC        ,
      N    ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O    IBID      ,IBID      ,ISUBSTACK ,STACK     ,
-     P    F_DEF(1,1,NG),ITASK  ,DRAPE_SH4N     ,VAR_REG(1,1),NLOC_DMG ,
-     R    INDX_DRAPE )        
+     P    F_DEF(1,1,NG),ITASK  ,DRAPE_Q4     ,VAR_REG(1,1),NLOC_DMG)        
         ENDIF
+
 C-----------------
         IF ((ITASK==0).AND.(IMON_MAT == 1)) CALL STOPTIME(35,1)
 C      

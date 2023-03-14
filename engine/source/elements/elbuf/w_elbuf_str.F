@@ -95,15 +95,14 @@ C-----------------------------------------------
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: DP_RBUF
       INTEGER SDP_RBUF
 
-      TYPE(ELBUF_STRUCT_), POINTER :: ELBUF
-      TYPE(G_BUFEL_)     , POINTER :: GBUF
-      TYPE(L_BUFEL_)     , POINTER :: LBUF
+      TYPE(ELBUF_STRUCT_), POINTER   :: ELBUF
+      TYPE(G_BUFEL_)     , POINTER   :: GBUF
+      TYPE(L_BUFEL_)     , POINTER   :: LBUF
       TYPE(BUF_INTLOC_)  , POINTER :: ILBUF
-      TYPE(BUF_LAY_)     , POINTER :: BUFLY
+      TYPE(BUF_LAY_)     , POINTER   :: BUFLY
       TYPE(BUF_INTLAY_)  , POINTER :: INTLAY
       TYPE(FAIL_LOC_)    , POINTER :: FLOC
       TYPE(BUF_NLOC_)    , POINTER :: BUFNL
-      TYPE(L_BUFEL_DIR_) , POINTER :: LBUF_DIR
 C=======================================================================
       DO NG=1,NGROUP
 c----
@@ -168,9 +167,7 @@ c---------  write top structure parameters: NPAR_TAB = 9
           RBUF_L(L_REL+1) = ELBUF%IXFEM          
                  L_REL = L_REL+1                          
           RBUF_L(L_REL+1) = ELBUF%NXEL       
-                 L_REL = L_REL+1  
-          RBUF_L(L_REL+1) = ELBUF%IDRAPE       
-                 L_REL = L_REL+1                                 
+                 L_REL = L_REL+1                          
 c---------------------------------------------------          
 c         LAYERS : write buffer at layer level 
 c---------------------------------------------------
@@ -446,12 +443,10 @@ c
                 L_REL = L_REL+NEL*LY_DMG                                     
               RBUF_L(L_REL+1:L_REL+NEL*LY_GAMA) = BUFLY%GAMA(1:NEL*LY_GAMA)        
                 L_REL = L_REL+NEL*LY_GAMA                                     
-              IF(ELBUF%IDRAPE == 0 .OR.( ELBUF%IDRAPE > 0 .AND. IGTYP == 17)) THEN
-                RBUF_L(L_REL+1:L_REL+NEL*LY_DIRA) = BUFLY%DIRA(1:NEL*LY_DIRA)        
-                  L_REL = L_REL+NEL*LY_DIRA                                     
-                RBUF_L(L_REL+1:L_REL+NEL*LY_DIRB) = BUFLY%DIRB(1:NEL*LY_DIRB)        
-                  L_REL = L_REL+NEL*LY_DIRB   
-              ENDIF                                     
+              RBUF_L(L_REL+1:L_REL+NEL*LY_DIRA) = BUFLY%DIRA(1:NEL*LY_DIRA)        
+                L_REL = L_REL+NEL*LY_DIRA                                     
+              RBUF_L(L_REL+1:L_REL+NEL*LY_DIRB) = BUFLY%DIRB(1:NEL*LY_DIRB)        
+                L_REL = L_REL+NEL*LY_DIRB                                     
               RBUF_L(L_REL+1:L_REL+NEL*LY_CRKDIR) = BUFLY%CRKDIR(1:NEL*LY_CRKDIR)        
                 L_REL = L_REL+NEL*LY_CRKDIR                                 
 c          print*,'    layer a : ,npt,npg,l_rel=',npt,npg,l_rel
@@ -642,17 +637,8 @@ C------ DP of VOL0DP
                 SDP_RBUF = SDP_RBUF+NEL*L_VOL0DP
              ENDDO                                                          
             ENDDO                                                           
-           ENDDO  
-            IF(ELBUF%IDRAPE > 0 .AND.( IGTYP == 51  .OR. IGTYP == 52)) THEN
-              DO K = 1,NPTT
-                 LBUF_DIR => ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(K)
-                 RBUF_L(L_REL+1:L_REL+NEL*LY_DIRA) = LBUF_DIR%DIRA(1:NEL*LY_DIRA)        
-                 L_REL = L_REL + NEL*LY_DIRA                                     
-                 RBUF_L(L_REL+1:L_REL+NEL*LY_DIRB) = LBUF_DIR%DIRB(1:NEL*LY_DIRB)        
-                 L_REL = L_REL + NEL*LY_DIRB
-              ENDDO
-            ENDIF                                                           
-          ENDDO   ! NALY                                                           
+           ENDDO                                                             
+          ENDDO                                                              
 c          print*,'    local=',l_rel
 c          print*,'    local=',l_rel-sum
 c

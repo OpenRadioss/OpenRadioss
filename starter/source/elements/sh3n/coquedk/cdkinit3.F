@@ -63,8 +63,7 @@ Chd|====================================================================
      B                   IPARG,CPT_ELTENS,PART_AREA ,NPF, TF   ,
      C                   SH3TRIM,ISUBSTACK,STACK,RNOISE ,DRAPE,
      D                   SH3ANG,GEO_STACK,IGEO_STACK,STRTG,
-     E                   PERTURB,IYLDINI,ELE_AREA,NLOC_DMG,
-     G                   IDRAPE ,DRAPEG)
+     E                   PERTURB,IYLDINI,ELE_AREA,NLOC_DMG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -98,7 +97,7 @@ C-----------------------------------------------
      .   ISH3N,NSIGSH,NLAY,NPTR,NPTS,NPTT,IL,IR,IS,IT,IYLDINI,
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),IUSER, NSHNOD(*),NPF(*),
      .   PTSH3N(*), SH3TREE(*),IPARG(*),CPT_ELTENS,SH3TRIM(*),
-     .   ISUBSTACK,IGEO_STACK(*),PERTURB(NPERTURB),IDRAPE
+     .   ISUBSTACK,IGEO_STACK(*),PERTURB(NPERTURB)
       my_real
      .   PM(NPROPM,*),X(*),GEO(NPROPG,*),XMAS(*),
      .   IN(*),DTELEM(*), XREFTG(3,3,*),THK(*),SIGSH(NSIGSH,*),
@@ -110,8 +109,7 @@ C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
       TYPE (GRP_PARAM_STRUCT_)  :: GROUP_PARAM
       TYPE (NLOCAL_STR_) :: NLOC_DMG
-      TYPE (DRAPE_)  :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
-      TYPE (DRAPEG_) :: DRAPEG
+      TYPE (DRAPE_) :: DRAPE(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -132,8 +130,6 @@ C-----------------------------------------------
      .        X31(MVSIZ), Y31(MVSIZ), Z31(MVSIZ),
      .        X2L(MVSIZ), X3L(MVSIZ), Y3L(MVSIZ)
       my_real, ALLOCATABLE, DIMENSION(:) :: DIR_A,DIR_B
-      
-      INTEGER, ALLOCATABLE, DIMENSION(:) :: INDX
       my_real,
      .   DIMENSION(:) ,POINTER  :: UVAR
       PARAMETER (LAYNPT_MAX = 10)
@@ -184,13 +180,6 @@ C-----------------------------------------------
      .             Z1  ,Z2  ,Z3  ,E1X ,E2X ,E3X ,
      .             E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
      .             X31, Y31, Z31 ,X2L ,X3L ,Y3L )
-      IF(IDRAPE > 0 ) THEN
-        ALLOCATE(INDX(NUMELTG))
-        INDX = 0
-        INDX(1:NUMELTG) = DRAPEG%INDX(NUMELC + 1 : NUMELC + NUMELTG)
-      ELSE
-        ALLOCATE(INDX(0))
-      ENDIF        
       CALL C3INMAS(X,XREFTG(1,1,NFT+1),IXTG,GEO,PM,XMAS,IN,THK,
      .             PARTSAV,V,IPART(NFT+1),MSTG(NFT+1),INTG(NFT+1),
      .             PTG(1,NFT+1),IGEO    ,IMAT  ,IPROP   ,AREA    ,
@@ -198,8 +187,12 @@ C-----------------------------------------------
      .             MCPS(NFT+1) , TEMP,SH3TRIM,ISUBSTACK,NLAY,
      .             ELBUF_STR,STACK,GBUF%THK_I,RNOISE,DRAPE ,
      .             PERTURB,IX1   ,IX2      ,IX3    ,
-     .             X2L    ,X3L    ,Y3L   ,IDRAPE , INDX)
+     .             X2L    ,X3L    ,Y3L   )
 C-----------------------------------------------
+      ALLOCATE(DIR_A(NLAY*NEL*2))
+      ALLOCATE(DIR_B(NLAY*NEL*2))
+      DIR_A = ZERO
+      DIR_B = ZERO
       IF (MTN == 1 .OR. MTN == 3 .OR. MTN == 23) NPT = 0
       NPT_ALL = 0
       DO IL=1,NLAY
@@ -208,18 +201,6 @@ C-----------------------------------------------
       MPT  = MAX(1,NPT_ALL)
       IF (IPARG(6) == 0.OR.NPT==0) MPT=0
 C
-      IF((IGTYP == 51 .OR. IGTYP == 52) .AND. IDRAPE > 0) THEN
-         ALLOCATE(DIR_A(NPT_ALL*NEL*2))
-         ALLOCATE(DIR_B(NPT_ALL*NEL*2))
-         DIR_A = ZERO
-         DIR_B = ZERO
-      ELSE
-         ALLOCATE(DIR_A(NLAY*NEL*2))
-         ALLOCATE(DIR_B(NLAY*NEL*2))
-         DIR_A = ZERO
-         DIR_B = ZERO
-         NPT_ALL = NLAY
-      ENDIF 
       NUVAR  = 0
       NUVARR = 0
       IF (MTN>=29) THEN
@@ -267,9 +248,8 @@ C
            CALL LAYINI1(
      .        ELBUF_STR  ,LFT        ,LLT        ,GEO        ,IGEO      ,
      .        MAT        ,PID        ,MATLY      ,POSLY      ,IGTYP     ,
-     .        NLAY       ,MPT        ,ISUBSTACK  ,STACK      ,DRAPE     ,
-     .        NFT        ,GBUF%THK   ,NEL        ,IDRAPE     ,STDRAPE   ,
-     .        INDX)
+     .        NLAY       ,MPT        ,ISUBSTACK  ,STACK      ,DRAPE      ,
+     .        NFT        ,GBUF%THK   ,NEL        )
         END IF
 C------------
       IS = 1
@@ -288,8 +268,7 @@ c
      .               IGMAT    ,IMAT     ,IPROP   ,
      .               X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .               Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
-     .               E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,X ,
-     .               NPT_ALL  ,IDRAPE   ,STDRAPE ,INDX)
+     .               E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,X  )
 C-----------------------------------------------------------------------
 C       CALCUL DES CONTRAINTES INITIALES
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
@@ -299,8 +278,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
      .             NLAY     ,IREP    ,NEL     ,
      .             X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .             Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
-     .             E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
-     .            IDRAPE, IGTYP)
+     .             E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
           IHBE = 11
           CALL CSIGINI4(ELBUF_STR,IHBE   ,
      1               LFT     ,LLT    ,NFT      ,MPT      ,ISTRAIN,
@@ -419,7 +397,6 @@ C------------
 C      
       DEALLOCATE(DIR_A)
       DEALLOCATE(DIR_B)
-      IF(ALLOCATED(INDX))     DEALLOCATE(INDX)
 C---
       RETURN
       END

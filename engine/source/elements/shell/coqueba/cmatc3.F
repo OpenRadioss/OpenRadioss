@@ -43,7 +43,7 @@ Chd|====================================================================
      4                  IORTH  ,HMOR    ,HFOR   ,DIR     ,IGEO     ,
      5                  IDRIL  ,IHBE    ,HMFOR  ,GS      ,ISUBSTACK,
      6                  STACK  ,ELBUF_STR,NLAY  ,DRAPE  ,NFT       ,
-     .                  NEL   , INDX_DRAPE)
+     .                  NEL   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,7 +71,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  ,MTN  , NPT,ITHK,IGTYP,IORTH,ISUBSTACK,NLAY,NFT
       INTEGER MAT(*), PID(*),IGEO(NPROPGI,*),IDRIL,IHBE
-      INTEGER, DIMENSION(SEDRAPE) :: INDX_DRAPE
       my_real
      .   GEO(NPROPG,*), PM(NPROPM,*), AREA(*),
      .   THK0(*),THK02(*),THK(*),THKE(*), DIR(*),
@@ -79,7 +78,7 @@ C-----------------------------------------------
      .   HMFOR(MVSIZ,6),GS(*)
       TYPE (STACK_PLY) :: STACK
       TYPE(ELBUF_STRUCT_) :: ELBUF_STR
-      TYPE (DRAPE_) :: DRAPE(NUMEL_DRAPE)
+      TYPE (DRAPE_) :: DRAPE
 C-----------------------------------------------
 c FUNCTION:   stiffness modulus matrix build
 c
@@ -236,7 +235,7 @@ C         INTEGRATION PAR COUCHES
      .                MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   ,  
      .                IGTYP    ,0        ,0        ,NLAY     ,NPT     ,  
      .                ISUBSTACK,STACK    ,DRAPE   ,NFT       ,THK     ,
-     .                NEL      ,THK_LY   ,INDX_DRAPE)                               
+     .                NEL      ,THK_LY   )                               
          DO I=JFT,JLT
            HM(I,1)=ZERO
            HM(I,2)=ZERO

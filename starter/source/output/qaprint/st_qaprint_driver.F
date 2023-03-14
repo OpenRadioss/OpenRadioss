@@ -126,7 +126,7 @@ Chd|====================================================================
      K                             SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS      ,SIGTRUSS         ,
      L                             NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL ,
      M                             IMERGE      ,NMERGE_TOT ,IEXLNK          ,NUVARI         ,NUVAR            ,
-     N                             IUSER       ,USER       ,DRAPEG)
+     N                             IUSER       ,USER      )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -176,7 +176,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ITAB(NUMNOD),IXR_KJ(5,*)
       INTEGER, INTENT(IN) :: NNLINK(10,SNNLINK), LNLINK(SLNLINK)
       TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTERS
-      INTEGER,INTENT(IN) :: NOM_SECT(SNOM_SECT),NSTRF(SNSTRF),IGEO_STACK(4* NPT_STACK+2,NS_STACK)
+      INTEGER,INTENT(IN) :: NOM_SECT(SNOM_SECT),NSTRF(SNSTRF),IGEO_STACK(3* NPT_STACK+2,*)
       my_real,INTENT(IN) :: SECBUF(SSECBUF)    
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
       TYPE(MONVOL_METADATA_), INTENT(IN) :: T_MONVOL_METADATA
@@ -184,10 +184,9 @@ C-----------------------------------------------
       TYPE(DETONATOR_STRUCT_) :: DETONATORS
       my_real, INTENT(IN) :: XLAS(*)
       INTEGER, INTENT(IN) :: LAS(*)
-      TYPE (DRAPE_)       :: DRAPE(NUMELC_DRAPE +  NUMELTG_DRAPE)
-      TYPE (DRAPEG_)                         :: DRAPEG
+      TYPE (DRAPE_)       :: DRAPE(*)
       INTEGER, INTENT(IN) :: IACTIV(LACTIV,*)
-      my_real, INTENT(IN) :: FACTIV(LRACTIV,*),GEO_STACK(6*NPT_STACK+1,NS_STACK),PM_STACK(20,NS_STACK)
+      my_real, INTENT(IN) :: FACTIV(LRACTIV,*),GEO_STACK(6*NPT_STACK+1,*),PM_STACK(20,*)
       TYPE (UNIT_TYPE_) ::UNITAB
       my_real, INTENT(IN) :: XYZREF(SX)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
@@ -222,7 +221,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IUSER(NUVARI+100)
       my_real, INTENT(IN) :: USER(NUVAR)
       INTEGER,INTENT(IN) :: IPARG(NPARG,NGROUP)
-      
 C-----------------------------------------------
 C      NOM_OPT(LNOPT1,SNOM_OPT1) 
 C         * Possibly, NOM_OPT(1) = ID
@@ -464,7 +462,7 @@ C-----------------------------------------------
      .                    IXC    ,IXTG     ,IXQ      ,IXP    ,IXT    ,
      .                    IXR    ,IXS      )
       CALL ST_QAPRINT_TRANSFORMATIONS(RTRANS,LSUBMODEL,IGRNOD)
-      CALL ST_QAPRINT_COMPOSITE_OPTIONS(DRAPE,DRAPEG)
+      CALL ST_QAPRINT_COMPOSITE_OPTIONS(DRAPE)
       CALL ST_QAPRINT_ALE_OPTIONS_DRIVER
       CALL ST_QAPRINT_INIVOL()  
       CALL ST_QAPRINT_REFSTA(XREFC     ,XREFTG  ,XREFS    ,TAGXREF   ,IXS   ,IXC   ,IXTG   ,ITAB, XYZREF)   
