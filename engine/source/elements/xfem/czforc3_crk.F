@@ -157,7 +157,8 @@ C--------------------------------
       INTEGER 
      .   I,J,NEL,MX,NNOD,NPG,IBID,ISROT,IXLAY,NXLAY,NLAYER,NPTT,
      .   IR,IS,IT,IPT,NG,L_DIRA,L_DIRB,J1,J2,IXFEM2,IPTHK,
-     .   IORTH,ILEV,IGMAT,IGTYP,IREP,NUPARAM,IADBUF,IMAT
+     .   IORTH,ILEV,IGMAT,IGTYP,IREP,NUPARAM,IADBUF,IMAT,
+     .   ACTIFXFEM
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),FWAVE(MVSIZ)
       PARAMETER (NNOD = 4)
       my_real 
@@ -252,6 +253,7 @@ C
       IGTYP = IGEO(11,PID(1))
       IGMAT = IGEO(98,PID(1))
       IREP  = IPARG(35)
+      ACTIFXFEM = IPARG(70)
       IMAT  = IXC(1,JFT)
       IADBUF = MAX(1,IPM(7,IMAT))
       NUPARAM= IPM(9,IMAT)       
@@ -487,7 +489,8 @@ C--------------------------
      7                VRL2    ,VRL3     ,VRL4   ,X1G  ,X2G ,
      8                X3G     ,X4G      ,Y1G    ,Y2G  ,Y3G ,
      9                Y4G     ,Z1G      ,Z2G    ,Z3G  ,Z4G ,
-     A                IXFEM2  ,IEXPAN   ,EINTTH ,ITASK,GBUF%VOL)
+     A                IXFEM2  ,IEXPAN   ,EINTTH ,ITASK,GBUF%VOL,
+     B                ACTIFXFEM)
 C
         CALL CNDT3(
      1             JFT    ,JLT    ,OFF    , DT2T   ,AMU   ,

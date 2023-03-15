@@ -153,7 +153,7 @@ c     indx utilise localement contrairement aux coques 4n
       INTEGER 
      .   I,J,J1,J2,IR,IS,IT,IPT,IFLAG,IGTYP,IXFEM2,IREP,IMAT,
      .   IUN,NPG,IBID,IDRIL,NG,IXLAY,NXLAY,NLAYER,NPTT,STEP,
-     .   L_DIRA,L_DIRB,ILEV,IGMAT,IPTHK,ISH3NFR,IDRAPE
+     .   L_DIRA,L_DIRB,ILEV,IGMAT,IPTHK,ISH3NFR,IDRAPE,ACTIFXFEM
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ),FWAVE(MVSIZ)
       my_real STI(MVSIZ),STIR(MVSIZ),RHO(MVSIZ),
      .   SSP(MVSIZ),VISCMX(MVSIZ),AREA(MVSIZ),
@@ -236,6 +236,7 @@ c
       IGTYP  = IGEO(11,PID(1))
       IREP   = IPARG(35)
       IDRIL  = IPARG(41)
+      ACTIFXFEM = IPARG(70)
 C-----------------------------------------
       GBUF  => XFEM_STR%GBUF
       NXLAY  = XFEM_STR%NLAY
@@ -463,7 +464,8 @@ c        IFLAG = MOD(NCYCLE,NCPRI)
      2                   PMSAV,IPARTTG,RHO   ,VOL00,IXTG    ,X        ,
      3                   R    ,THK02  ,AREA  ,GRESAV  ,GRTH     ,
      4                   IGRTH,OFF    ,IXFEM2,ILEV ,IEL_CRK ,IADTG_CRK,
-     5                   NFT  ,IEXPAN  ,EINTTH ,ITASK,MAT,GBUF%VOL)
+     5                   NFT  ,IEXPAN  ,EINTTH ,ITASK,MAT,GBUF%VOL,
+     6                   ACTIFXFEM)
 C----------------------------
 C     FORCES INTERNES
 C----------------------------

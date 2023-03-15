@@ -659,6 +659,14 @@ C------------
       DO I=LFT,LLT
         IF (GBUF%G_VOL > 0) GBUF%VOL(I) = AREA(I)*GBUF%THK(I)
       ENDDO
+      IF (IXFEM > 0) THEN
+        DO IXEL=1,NXEL
+          DO I=LFT,LLT
+            IF (XFEM_STR(NG,IXEL)%GBUF%G_VOL > 0) 
+     .      XFEM_STR(NG,IXEL)%GBUF%VOL(I) = AREA(I)*GBUF%THK(I)
+          END DO
+        ENDDO
+      ENDIF
 c-----------
       DEALLOCATE(DIR_A)
       DEALLOCATE(DIR_B)

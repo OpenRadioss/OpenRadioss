@@ -153,7 +153,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IGTYP,ICSEN,IXLAY,NXLAY,NLAYER,IFLAG,IUN,NPG,NPTT,IBID,
-     .   IR,IS,IT,IPT,NG,L_DIRA,L_DIRB,J1,J2,ILEV,IGMAT,IPTHK,IREP
+     .   IR,IS,IT,IPT,NG,L_DIRA,L_DIRB,J1,J2,ILEV,IGMAT,IPTHK,IREP,
+     .   ACTIFXFEM
       INTEGER MAT(MVSIZ),PID(MVSIZ),NDT(MVSIZ),NGL(MVSIZ),FWAVE(MVSIZ)
 C
       my_real 
@@ -241,6 +242,7 @@ C
       IGTYP = IGEO(11,PID(1))
       IGMAT = IGEO(98,PID(1))
       IREP  = IPARG(35)
+      ACTIFXFEM = IPARG(70)
 C-----------------------------------------
       GBUF => XFEM_STR%GBUF
       NXLAY = XFEM_STR%NLAY
@@ -519,7 +521,8 @@ c        IFLAG = MOD(NCYCLE,NCPRI)
      7                VRL2   ,VRL3      ,VRL4   ,X1G   ,X2G   ,
      8                X3G    ,X4G       ,Y1G    ,Y2G   ,Y3G   ,
      9                Y4G    ,Z1G       ,Z2G    ,Z3G   ,Z4G   ,
-     A                IXFEM  ,IEXPAN    ,EINTTH ,ITASK ,GBUF%OFF)
+     A                IXFEM  ,IEXPAN    ,EINTTH ,ITASK ,GBUF%VOL,
+     B                ACTIFXFEM)
        ENDIF
 C--------------------------
 C     PAS DE TEMPS

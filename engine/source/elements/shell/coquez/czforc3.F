@@ -175,7 +175,7 @@ C--------------------------------
       INTEGER 
      .   I,J,IR,IS,MX,NNOD,NUPAR,NLAY,NXLAY,ILAY,NPG,IXEL,IFAILWAVE,
      .   IBID,ISROT,NG,IXFEM2,L_DIRA,L_DIRB,J1,J2,IORTH,IGTYP,IGMAT,IXLAY,
-     .   NPTTOT,IREP,IPOUT,IDRAPE,NPTT,IT
+     .   NPTTOT,IREP,IPOUT,IDRAPE,NPTT,IT,ACTIFXFEM
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),FWAVE_EL(NEL)
       PARAMETER (NNOD = 4)
       my_real 
@@ -256,6 +256,7 @@ C-----
       IREP  = IPARG(35)
       INLOC = IPARG(78)
       IINT  = IPARG(36)
+      ACTIFXFEM = IPARG(70)
       NLAY  = ELBUF_STR%NLAY
       SEDRAPE = SCDRAPE
       NUMEL_DRAPE = NUMELC_DRAPE
@@ -574,7 +575,7 @@ C--------------------------
      8               X3G     ,X4G      ,Y1G    ,Y2G     ,Y3G      ,
      9               Y4G     ,Z1G      ,Z2G    ,Z3G     ,Z4G      ,
      A               IBID    ,IEXPAN   ,GBUF%EINTTH     ,ITASK    ,
-     B               GBUF%VOL)
+     B               GBUF%VOL,ACTIFXFEM)
 C
          CALL CNDT3(
      1        JFT    ,JLT    ,OFF    ,DT2T   ,AMU     ,
