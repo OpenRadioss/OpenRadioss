@@ -37,7 +37,7 @@ Chd|        TABLE_MOD                     share/modules1/table_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_FAIL_TAB2(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,UNITAB   ,MAT_ID ,FAIL_ID  ,
+     .           MAXFUNC  ,NFUNC    ,UNITAB   ,FAIL_ID,MAT_ID   ,
      .           TABLE    ,TITR     ,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -128,6 +128,13 @@ Card7
 C--------------------------------------------------------------------------------
 C     Setting default values 
 C--------------------------------------------------------------------------------
+      IF (ITAB_EPSF == 0 .AND. FCRIT == ZERO) THEN 
+        CALL ANCMSG(MSGID=3000,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO_BLIND,
+     .              I1=MAT_ID,
+     .              C1=TITR)        
+      ENDIF
       IF (FCRIT == ZERO) FCRIT  = ONE
       IF (FAILIP == 0)   FAILIP = 1
       IF (DN <= ZERO)    DN     = ONE
