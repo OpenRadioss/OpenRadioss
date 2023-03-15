@@ -49,7 +49,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -73,14 +72,13 @@ C     REAL
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-C---------------------------------------------------- 
-C	Calcul des adresses des buffers d'interfaces. 
-C----------------------------------------------------
+      INTEGER :: NMN,NRTM,NSN,NTY
+      INTEGER :: NLINSA,NLINMA,NSNE, NMNE,NLINS, NLINM
 C
       NRTM  =IPARI(4,NIN)
       NSN   =IPARI(5,NIN)
       NMN   =IPARI(6,NIN)
-
+      NTY   = IPARI(7,NIN)
       NLN   =IPARI(35,NIN)
       NLINS  =IPARI(51,NIN)
       NLINM  =IPARI(52,NIN)
@@ -97,17 +95,17 @@ C
 C
        IF(INTBUF_TAB%VARIABLES(16)==ZERO)INTBUF_TAB%VARIABLES(16)=EP30
        CALL I20BUCE_CRIT(
-     1  ITASK	     ,X 	   ,V		 ,MS	       ,
-     2  NTY	     ,NIN	   ,IPARI(22,NIN),NSN	       ,
-     3  NMN	     ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%XSAV,
-     4  INTBUF_TAB%STFA,XSLV_L	   ,XMSR_L	 ,VSLV_L       ,
+     1  ITASK      ,X      ,V    ,MS         ,
+     2  NTY      ,NIN    ,IPARI(22,NIN),NSN        ,
+     3  NMN      ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%XSAV,
+     4  INTBUF_TAB%STFA,XSLV_L     ,XMSR_L   ,VSLV_L       ,
      5  VMSR_L       ,INTBUF_TAB%DAANC6,INTBUF_TAB%AVX_ANCR,INTBUF_TAB%AVX_ANCR(1+3*NLN),
-     6  NSNE	     ,NMNE	   ,NLINSA	 ,NLINMA       ,
+     6  NSNE       ,NMNE     ,NLINSA   ,NLINMA       ,
      7  INTBUF_TAB%NSVL,INTBUF_TAB%MSRL,INTBUF_TAB%CRITX,INTBUF_TAB%PENISE,
      8  INTBUF_TAB%PENIME,INTBUF_TAB%STFS,INTBUF_TAB%XA,INTBUF_TAB%VA,
      9  IPARI(35,NIN),INTBUF_TAB%NLG,INTBUF_TAB%PENIS,INTBUF_TAB%PENIM,
-     A  INTBUF_TAB%PENIA,NRTM	   ,INTBUF_TAB%IXLINS,DXANCG       ,
-     B  IKINE	     ,DIAG_SMS     ,INTBUF_TAB%ALPHAK,INTBUF_TAB%AVX_ANCR(1+6*NLN) ,
+     A  INTBUF_TAB%PENIA,NRTM    ,INTBUF_TAB%IXLINS,DXANCG       ,
+     B  IKINE      ,DIAG_SMS     ,INTBUF_TAB%ALPHAK,INTBUF_TAB%AVX_ANCR(1+6*NLN) ,
      C  INTBUF_TAB%STFAC(1),H3D_DATA)
 
       RETURN

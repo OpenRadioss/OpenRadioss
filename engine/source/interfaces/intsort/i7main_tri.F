@@ -83,7 +83,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "scr04_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
 C common pour variable globale en memoire partagee
@@ -125,6 +124,7 @@ C-----------------------------------------------
      .   CURV_MAX(NRTM_T),RDUM1(1)
       REAL T1  !elapsed time in smp
       LOGICAL TYPE18
+      INTEGER :: NRTM,NSN,NMN,NTY
 C-----------------------------------------------
       I_MEM  = 0
       I_MEMG = 0

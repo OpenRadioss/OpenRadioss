@@ -47,7 +47,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -61,23 +60,16 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KD(50), JD(50), JFI, KFI, IGAP, IDEL, ITHK
+      INTEGER :: NRTM, NMN
 C     REAL
       my_real
      .   STARTT, STOPT, GAPMAX_M, GAPSCALE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-C---------------------------------------------------- 
-C	Calcul des adresses des buffers d'interfaces. 
-C----------------------------------------------------
 C
-      NRTS  =IPARI(3,NIN)
       NRTM  =IPARI(4,NIN)
-      NSN   =IPARI(5,NIN)
       NMN   =IPARI(6,NIN)
-      IGAP  =IPARI(21,NIN)
-      IDEL  =IPARI(17,NIN)
 C
       GAPMAX_M = INTBUF_TAB%VARIABLES(36)
       GAPSCALE = INTBUF_TAB%VARIABLES(45)

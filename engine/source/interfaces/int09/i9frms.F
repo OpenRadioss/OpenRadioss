@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE I9FRMS(X    ,SKEW,A   ,FN ,FT   ,
      2                  IRECT,LMSR,CRST,MSR,NSV  ,
      3                  ILOC ,IRTL,MS  ,NOR,LCODE,
-     4                  ISKEW,FRIC,MSMN,MSMT)
+     4                  ISKEW,FRIC,MSMN,MSMT,NMN,NSN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,7 +40,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr04_c.inc"
 #include      "scr08_a_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -52,6 +51,7 @@ C     REAL
       my_real
      .   X(3,*), SKEW(LSKEW,*), A(*), FN(*), FT(*), MSMN(*), MSMT(*),
      .   CRST(2,*), MS(*), NOR(3,*), FRIC
+      INTEGER, INTENT(in) :: NMN,NSN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

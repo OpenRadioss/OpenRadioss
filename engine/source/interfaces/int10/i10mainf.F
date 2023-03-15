@@ -74,7 +74,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "warn_c.inc"
 #include      "parit_c.inc"
 #include      "task_c.inc"
@@ -138,6 +137,7 @@ C     REAL
      .   VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ)
 
       my_real, DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
+      INTEGER :: NTY,NSN
 C
       IDUM = 0
       NSN   =IPARI(5)

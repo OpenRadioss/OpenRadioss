@@ -60,7 +60,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr04_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
 #include      "impl1_c.inc"
@@ -92,6 +91,7 @@ C-----------------------------------------------
       my_real TS,STARTT,STOPT
       INTEGER NSLV,SIZ,NBT8
       my_real, DIMENSION(:,:), ALLOCATABLE :: FTSAV_BUF
+      INTEGER :: NTY
 C-----------------------------------------------
       !CALL STARTIME(96,1)
       NBT8 = 0

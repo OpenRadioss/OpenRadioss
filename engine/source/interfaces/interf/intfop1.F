@@ -61,7 +61,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr04_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
@@ -87,7 +86,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, IAD,IDUM, ISENS
+      INTEGER N, IAD,IDUM, ISENS, NTY
       my_real TS
 C-----------------------------------------------
       IF (IMPL_S==1) IAD = 1

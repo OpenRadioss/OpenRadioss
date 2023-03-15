@@ -1601,7 +1601,6 @@ C     REAL
       my_real, DIMENSION(MVSIZ) :: H1,H2,H3,H4
 C-----------------------------------------------
       INTY   = IPARI(7)
-C-------NSN defined in scr04_c.inc--
        GAP  =INTBUF_TAB%VARIABLES(2)
         DO NFT = 0 , NUM_IMP - 1 , NVSIZ
           LFT=1

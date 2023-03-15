@@ -46,7 +46,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr04_c.inc"
 #include      "com01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -66,27 +65,20 @@ C-----------------------------------------------
       INTEGER INTTH, IEULT, ISIZES, ISIZEM
       my_real
      .    UPW, STENS
+      INTEGER :: NRTS,NRTM,NMN,NSN
 C-----------------------------------------------
 C
       NRTS  =IPARI(3)
       NRTM  =IPARI(4)
       NSN   =IPARI(5)
       NMN   =IPARI(6)
-      NTY   =IPARI(7)
-      NST   =IPARI(8)
-      MST   =IPARI(9)
       INTTH =IPARI(12)
       IEULT =IPARI(14)
 C
       UPW   = INTBUF_TAB%VARIABLES(14)
       STENS = INTBUF_TAB%VARIABLES(15)
-c      IF(IMACH==3)THEN
-        ISIZES = NRTS
-        ISIZEM = NRTM
-c      ELSE
-c        ISIZES = 0
-c        ISIZEM = 0
-c      END IF
+      ISIZES = NRTS
+      ISIZEM = NRTM
       IF(N2D==0)THEN
         CALL I9WAL3
      1  (X         ,V         ,VG        ,A         ,INTBUF_TAB%CSTS,
@@ -95,16 +87,16 @@ c      END IF
      4   INTBUF_TAB%IRECTM,UPW       ,IXS       ,ELBUF_TAB ,
      5   IPARG     ,PM        ,NALE      ,INTBUF_TAB%STFNS,INTBUF_TAB%IELES,
      6   INTBUF_TAB%IELEM,INTBUF_TAB%STFAC(1),INTTH     ,IEULT     ,STENS     ,
-     7   INTBUF_TAB%N,ISIZES    ,ISIZEM    )
+     7   INTBUF_TAB%N,ISIZES    ,ISIZEM, NRTS, NRTM, NSN,NMN    )
       ELSE
         CALL I9WAL2
      1  (X         ,V         ,VG        ,A         ,INTBUF_TAB%CSTS,
      2   INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,ICODE     ,ISKEW     ,
      3   SKEW      ,INTBUF_TAB%MSR,INTBUF_TAB%LNSV,INTBUF_TAB%NSEGS,INTBUF_TAB%IRECTS,
-     4   INTBUF_TAB%IRECTM,UPW       ,IXQ	,ELBUF_TAB ,
+     4   INTBUF_TAB%IRECTM,UPW       ,IXQ ,ELBUF_TAB ,
      5   IPARG     ,PM        ,NALE      ,INTBUF_TAB%STFNS,INTBUF_TAB%IELES,
      6   INTBUF_TAB%IELEM,INTBUF_TAB%STFAC(1),INTTH     ,IEULT     ,STENS     ,
-     7   ISIZES    ,ISIZEM    )
+     7   ISIZES    ,ISIZEM, NRTS,NRTM,NSN,NMN    )
       ENDIF
 C
       RETURN

@@ -83,7 +83,6 @@ C-----------------------------------------------
 #include      "impl1_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
-#include      "scr04_c.inc"
 #include      "sms_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
@@ -131,6 +130,7 @@ C-----------------------------------------------
      .        NSVG(MVSIZ),
      .        CAND_N_N(MVSIZ), CAND_E_N(MVSIZ), INDEX2(LINDMAX),
      .        NSMS(MVSIZ)
+      INTEGER :: NSN 
 C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,
@@ -169,7 +169,6 @@ C     REAL
 C---------------------------------------------------- 
 C
       NSN   =IPARI(5,NIN) 
-      NTY   =IPARI(7,NIN)
       IBC   =IPARI(11,NIN)
       IF(IPARI(33,NIN)==1) RETURN
       NOINT =IPARI(15,NIN)

@@ -57,7 +57,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "impl2_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
@@ -101,6 +100,7 @@ C     REAL
      .    MSI(MVSIZ),KI11(9,MVSIZ),KJ11(9,MVSIZ),
      .    KK11(9,MVSIZ),KL11(9,MVSIZ),KI12(9,MVSIZ),
      .    KJ12(9,MVSIZ),KK12(9,MVSIZ),KL12(9,MVSIZ)
+      INTEGER :: NSN,NTY
 C
       NSN   =IPARI(5,NIN)
       NTY   =IPARI(7,NIN)
@@ -414,7 +414,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "task_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
@@ -457,6 +456,7 @@ C     REAL
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), OFF(MVSIZ),
      .   GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),
      .    MSI(MVSIZ)
+      INTEGER :: NSN,NTY
 C
       NSN   =IPARI(5,NIN)
       NTY   =IPARI(7,NIN)
@@ -614,7 +614,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "impl2_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -654,6 +653,7 @@ C     REAL
      .   GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),
      .    DXI(MVSIZ),DYI(MVSIZ),DZI(MVSIZ),
      .    MSI(MVSIZ)
+      INTEGER :: NSN,NTY
 C   ---- A(3,I) input:D(3,I); output:Fint(3,I)----- 
       IF(NUM_IMP==0) RETURN
 C

@@ -84,7 +84,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
 #include      "timeri_c.inc"
@@ -146,9 +145,8 @@ C-----------------------------------------------
      .   BMINMA_AND_R(6), !intersection fluid in local domain and remote lag faces
      .   BMINMA_AND(6),  !intersection fluid in local domain and all faces
      .   vel(4), vel_max
+      INTEGER :: NRTM,NSN,NTY,NMN
 C-----------------------------------------------
-    !  if(itask==0.and.ibug22_tri==1)print *, 
-    ! .        "entree subroutine i22main_tri.F"
       I_MEMG = 0
       I_MEM = 0
       IS_CONTACT=.FALSE.

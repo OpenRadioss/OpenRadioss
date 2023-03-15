@@ -101,7 +101,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr04_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 #include      "warn_c.inc"
@@ -181,6 +180,7 @@ c      INTEGER, ALLOCATABLE, DIMENSION(:) :: ISENSINT
       INTEGER :: INACTI
       LOGICAL :: M151_ALLOC
       SAVE XE,VE,MSE, KINETE,M151_ALLOC
+      INTEGER :: NTY
 C-----------------------------------------------
       BID = ZERO
 C-----------------------------------------------
@@ -479,11 +479,7 @@ C
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 22) THEN
 C-----------------------------------------------------------------------
-c          IF(IPARI(44,N)/=0)THEN
-            NRTMDIM=IPARI(4,N)
-c          ELSE
-c            NRTMDIM=0
-c          END IF
+          NRTMDIM=IPARI(4,N)
 C
           NN1 = NINTER+NRWALL+NRBODY+NSECT+NJOINT
      .         +NVOLU+NRBAG+NFXBODY+1

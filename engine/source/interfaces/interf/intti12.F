@@ -64,7 +64,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "vect01_c.inc"
-#include      "scr04_c.inc"
 #include      "scr06_c.inc"
 #include      "units_c.inc"
 #include      "conv_c.inc"
@@ -96,6 +95,7 @@ C-----------------------------------------------
       my_real, DIMENSION(MVSIZ) :: ZN1,ZN2,ZN3,ZN4
       my_real, DIMENSION(MVSIZ) :: XP,YP,ZP
       my_real, DIMENSION(MVSIZ) :: H1,H2,H3,H4
+      INTEGER :: NRTS, NRTM, NSN, NMN, NST, MST
 C-----------------------------------------------
       ITEST =0
 
@@ -243,7 +243,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -251,6 +250,8 @@ C-----------------------------------------------
       INTEGER ILEV,IREF
       my_real
      .  GAP
+      INTEGER :: NRTS, NRTM, NSN, NMN, NST, MST
+
 C-----------------------------------------------
 
       NRTS  =IPARI(3)
@@ -318,12 +319,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr04_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
      .  ITIED,ILEV,IREF
+      INTEGER :: NRTS, NRTM, NSN, NMN, NST, MST
+
 C-----------------------------------------------
       NRTS  =IPARI(3)
       NRTM  =IPARI(4)

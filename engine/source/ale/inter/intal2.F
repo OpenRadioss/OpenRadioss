@@ -50,7 +50,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr04_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -63,17 +62,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C
+      INTEGER :: NSN,NMN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      NRTS  =IPARI(3)
-      NRTM  =IPARI(4)
       NSN   =IPARI(5)
       NMN   =IPARI(6)
-      NTY   =IPARI(7)
-      NST   =IPARI(8)
-      MST   =IPARI(9)
 
       IF(N2D == 0)THEN
        CALL IQEL03
@@ -91,13 +85,14 @@ C-----------------------------------------------
      1   (X         ,SKEW      ,A         ,E         ,MSM       ,
      2    INTBUF_TAB%IRECTM,INTBUF_TAB%NRT,INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
      3    INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,MS        ,INTBUF_TAB%N,LCOD      ,
-     4    ISKEW           ,FSAV,ITAB ,FCONT,FNCONT,FTCONT,H3D_DATA)
+     4    ISKEW           ,FSAV,ITAB ,FCONT,FNCONT,FTCONT,H3D_DATA, 
+     5    NSN, NMN)
 
       CALL IQELA2
      1   (X         ,SKEW      ,A         ,E         ,MSM       ,
      2    INTBUF_TAB%IRECTM,INTBUF_TAB%NRT,INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
      3    INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,LCOD      ,V         ,ISKEW     ,
-     4    INTBUF_TAB%N,ITAB      )
+     4    INTBUF_TAB%N,ITAB, NSN, NMN     )
 
       RETURN
       END

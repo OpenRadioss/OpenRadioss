@@ -71,7 +71,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr04_c.inc"
 #include      "timeri_c.inc"
       COMMON /I10MAINC/BMINMA,RESULT,NSNR,NSNROLD,I_MEMG
       INTEGER RESULT,NSNR,NSNROLD,I_MEMG
@@ -104,6 +103,7 @@ C     REAL
       my_real
      .   STARTT, GAP, MAXBOX, MINBOX, STOPT,DIST,TZINF,DIST1,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX
+      INTEGER :: NMN, NSN,NRTM,NTY
 C-----------------------------------------------
 C     REAL
 C-----------------------------------------------

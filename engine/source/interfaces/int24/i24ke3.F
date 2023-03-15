@@ -36,7 +36,6 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|====================================================================
       SUBROUTINE I24KE3( A     ,V      ,MS   ,
      1                   IPARI ,INTBUF_TAB,X    ,NIN   ,
-c     2                   NUM_IMP,CAND_N,CAND_E     ,IND_SUBT,
      3                   IDDL  ,K_DIAG ,K_LT ,IADK ,JDIK  ,
      4                   GAP_IMP,LREM  ,INTBUF_TAB_IMP)
 C-----------------------------------------------
@@ -61,7 +60,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "impl2_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
@@ -113,9 +111,6 @@ C     REAL
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ), 
      .   GAPV(MVSIZ),MSI(MVSIZ),GAPS(MVSIZ),
-c     .   TEMPI(MVSIZ),PHI(MVSIZ),AREASI(MVSIZ),
-c     .     XX0(MVSIZ,17),YY0(MVSIZ,17),ZZ0(MVSIZ,17),
-c     .     VX(MVSIZ,17),VY(MVSIZ,17),VZ(MVSIZ,17),
      .    KI11(9,MVSIZ),KJ11(9,MVSIZ),OFF(MVSIZ),
      .    KK11(9,MVSIZ),KL11(9,MVSIZ),KI12(9,MVSIZ),
      .    KJ12(9,MVSIZ),KK12(9,MVSIZ),KL12(9,MVSIZ),
@@ -123,6 +118,7 @@ c     .     VX(MVSIZ,17),VY(MVSIZ,17),VZ(MVSIZ,17),
       INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM
       INTEGER ICURV,INTKG1
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAG_S,TAG_M
+      INTEGER :: NSN, NMN
 C---------------------------------------------------- 
 C	Calcul des adresses des buffers d'interfaces. 
 C	Les adresses des buffers J10-JFI et K10-KFI 
@@ -133,14 +129,10 @@ C	dans la routine sans commentaires additionnels habituels
 C----------------------------------------------------
 C
       NSN   =IPARI(5,NIN)
-      NTY   =IPARI(7,NIN)
-C      IBC   =IPARI(11,NIN)
-C      IVIS2 =IPARI(14,NIN)
+      NMN   = IPARI(6,NIN)
       IF(IPARI(33,NIN)==1) RETURN
       NOINT =IPARI(15,NIN)
       IGAP  =IPARI(21,NIN)
-C      INACTI=IPARI(22,NIN)
-C      ISECIN=IPARI(28,NIN)
       MFROT =IPARI(30,NIN)
       IFQ =IPARI(31,NIN) 
       IBAG =IPARI(32,NIN) 
@@ -216,37 +208,6 @@ C
           JLT = MIN( NVSIZ, I_STOK - NFT )
           IDNJ = 3*NFT + 1
           IDHJ = 4*NFT + 1
-C preparation 
-c          CALL I24CORK3(
-c     1  JLT       ,X       ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,
-c     2  CAND_E(NFT+1),CAND_N(NFT+1) ,INTBUF_TAB%STFM,
-c     2  INTBUF_TAB%STFNS,STIF  ,
-c     3  XX0       ,YY0        ,ZZ0       ,VX           ,VY           ,   
-c     5  VZ        ,XI         ,YI        ,ZI           ,VXI          ,
-c     7  VYI       ,VZI        ,IXX       ,NSVG         ,INTBUF_TAB%NVOISIN,
-c     9  MS,MSI    ,NSN        ,V         ,
-c     A  KINI      ,NTY        ,NIN       ,IGSTI        ,KMIN         ,  
-c     B  KMAX      ,INTBUF_TAB%GAP_S,GAPS    ,ITRIV     )
-
-c          CALL I24DSTK3(
-c     1                  JLT    ,CAND_E(NFT+1)  ,CAND_N(NFT+1) ,
-c     2                  X1     ,X2     ,X3     ,X4     ,Y1     ,
-c     3                  Y2     ,Y3     ,Y4     ,Z1     ,Z2     ,
-c     4                  Z3     ,Z4     ,XI     ,YI     ,ZI     ,
-c     5                  VX1    ,VX2    ,VX3    ,VX4    ,VXI    ,
-c     6                  VY1    ,VY2    ,VY3    ,VY4    ,VYI    ,
-c     7                  VZ1    ,VZ2    ,VZ3    ,VZ4    ,VZI    ,
-c     8                  N1     ,N2     ,N3     ,H1     ,H2     ,
-c     9                  H3     ,H4     ,NIN    ,NSN    ,IX1    ,
-c     A                  IX2    ,IX3    ,IX4    ,NSVG   ,STIF   ,
-c     B                  INTBUF_TAB%MSEGLO  ,GAPS   ,INTBUF_TAB%GAP_NM  ,
-c     B                  INTBUF_TAB%IRECTM,INTBUF_TAB%IRTLM,SUBTRIA,
-c     C                  PENE   ,XX0    ,YY0    ,ZZ0    ,
-c     E                  VX     ,VY     ,VZ     ,IXX    ,INTBUF_TAB%MVOISIN,
-c     F                  INTBUF_TAB%GAP_M,IND_SUBT(NFT+1)  ,ITRIV  ,
-c     G                  INTBUF_TAB%PENE_OLD,EPS     ,NM1    ,NM2    ,
-c     I                  NM3   ,INTBUF_TAB%ICONT_I)
-C     
             CALL I24CORKM(
      1               JLT     ,X      ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,
      +               INTBUF_TAB_IMP%CAND_E(NFT+1) ,INTBUF_TAB_IMP%CAND_N(NFT+1),
@@ -408,56 +369,8 @@ C---------------------
            STIF(I) = STIF_OLDFI(NIN)%P(1,-JG) 
           END IF
          END DO 
-c        ELSE
-c         DO I=1,JLT
-c          JG = NSVG(I)
-c          N  = CAND_N(I)
-c          IF(JG > 0)THEN
-c           STIF(I) = STIF_OLD(2,N) 
-c          ELSE
-c           STIF(I) = STIF_OLDFI(NIN)%P(2,-JG) 
-c          END IF
-c         END DO 
         END IF !(INCONV < 0 THEN
-c       ELSE
-C  ------(IGSTI/=6)     
-c       DO I=1,JLT
-c       IF(PENE(I) == ZERO)CYCLE
-c        DPENE(I) = MAX(ZERO,-VNM(I)*DT1)
-c        JG = NSVG(I)
-c        N  = CAND_N(I)
-c        IF(JG > 0)THEN
-c          IF(PENE_OLD(2,N) /= ZERO.and.TT /= ZERO)THEN
-c            IF(PENE(I) > PENE_OLD(2,N) .and. 
-c     .            DPENE(I) < PENE(I)-PENE_OLD(2,N))THEN
-c              STIF(I) = (STIF_OLD(2,N)*PENE_OLD(2,N)+ STIF(I)*DPENE(I))
-c     .                                /PENE(I)
-c            ELSE
-c              STIF(I) = STIF_OLD(2,N) 
-c            ENDIF
-c          ENDIF
-c        ELSE
-c          JG = -JG
-c          IF(PENE_OLDFI(NIN)%P(2,JG) /= ZERO.and.TT /= ZERO)THEN
-c            IF(PENE(I) > PENE_OLDFI(NIN)%P(2,JG) .and. 
-c     .       DPENE(I) < PENE(I)-PENE_OLDFI(NIN)%P(2,JG))THEN
-c              STIF(I) = (STIF_OLDFI(NIN)%P(2,JG)*PENE_OLDFI(NIN)%P(2,JG)
-c     .                  + STIF(I)*DPENE(I)) / PENE(I)
-c            ELSE
-c              STIF(I) = STIF_OLDFI(NIN)%P(2,JG) 
-c            ENDIF
-c          ENDIF
-c        ENDIF
-c       ENDDO
        END IF !(IGSTI==6) THEN
-C-----
-c      DO I=1,JLT
-c       IF(STIGLO<=ZERO)THEN
-c        STIF(I) = HALF*STIF(I) 
-c       ELSEIF(STIF(I)/=ZERO)THEN
-c        STIF(I) = STIGLO 
-c       ENDIF
-c      ENDDO
 C---------------------------------
 C    ----sans frottement d'abord--- 
       DO I=1,JLT

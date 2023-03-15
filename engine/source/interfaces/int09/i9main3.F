@@ -56,7 +56,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "scr04_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -92,15 +91,12 @@ C-----------------------------------------------
       my_real, DIMENSION(MVSIZ) :: H1,H2,H3,H4
       my_real
      .   STARTT, FRIC, GAP, STOPT,DIST
+      INTEGER :: NMN,NSN,NTY
 C-----------------------------------------------
 C
-      NRTS  =IPARI(3)
-      NRTM  =IPARI(4)
       NSN   =IPARI(5)
       NMN   =IPARI(6)
       NTY   =IPARI(7)
-      NST   =IPARI(8)
-      MST   =IPARI(9)
 C
       IF(NMN==0)RETURN
 C
@@ -159,7 +155,7 @@ C-----------------------------------------------------
      2    INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%CSTS,INTBUF_TAB%MSR,
      .    INTBUF_TAB%NSV,
      3    INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,MS        ,INTBUF_TAB%N,LCOD  ,
-     4    ISKEW     ,FRIC      ,MSMN      ,MSMT      )
+     4    ISKEW     ,FRIC      ,MSMN      ,MSMT      , NMN, NSN)
 C-----------------------------------------------------
 C     CALCUL DES ACCEL. MAINS ET VITESSES SECONDS
 C-----------------------------------------------------
@@ -169,7 +165,7 @@ C-----------------------------------------------------
      .    INTBUF_TAB%NSV,
      3    INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,LCOD         ,V         ,ISKEW  ,
      4    INTBUF_TAB%N,MS        ,INTBUF_TAB%VARIABLES(1),MSMN      ,MSMT   ,
-     5    INTBUF_TAB%STFNS,ITAB      ,FSAV      )
+     5    INTBUF_TAB%STFNS,ITAB      ,FSAV, NMN,  NSN      )
 C
       RETURN
       END

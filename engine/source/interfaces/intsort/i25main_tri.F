@@ -89,10 +89,8 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
-C common pour variable globale en memoire partagee
       COMMON /I25MAINC/BMINMA,CURV_MAX_MAX,RESULT,NSNR,NSNROLD,I_MEMG,I_MEMG_E,I_MEMG_S,NMN_G
       INTEGER RESULT,NSNR,NSNROLD,I_MEMG,I_MEMG_E,I_MEMG_S,NMN_G
       my_real 
@@ -132,6 +130,7 @@ C     REAL
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,DRAD,
      .   C_MAXL,PMAX_GAP,VMAXDT,MARGE,TZINF,SX,SY,SZ,SX2,SY2,SZ2,DGAPLOAD,
      .   CURV_MAX(NRTM_T),BMINMA_OLD(6),BGAPEMX,BSAV(6)
+      INTEGER :: NMN,NRTM,NSN,NTY
 C-----------------------------------------------
       I_MEM = 0
       I_MEMG = 0

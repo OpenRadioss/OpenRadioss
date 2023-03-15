@@ -59,7 +59,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "vect01_c.inc"
-#include      "scr04_c.inc"
 #include      "parit_c.inc"
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
@@ -104,6 +103,7 @@ C-----------------------------------------------
       my_real
      .   ANSMX,ASCALV,ASCALF,FSCALV,FMX,FMY,FMZ,STARTT,FRIC,SFRIC,VISC, 
      .   STIFF, GAP, STOPT,DIST
+      INTEGER :: NSN,NMN
 C=======================================================================
       NSN   = IPARI(5)
       NMN   = IPARI(6)

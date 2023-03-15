@@ -65,8 +65,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
-#include      "scr04_c.inc"
-#include      "bucki_c.inc"
 #include      "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -126,19 +124,15 @@ C     REAL
       my_real
      .   STARTT, FRIC, GAP,  STOPT,  
      .   VISC,VISCF,FNOR,DEPTH,FRIC_LAST,FNOR_LAST
-
-C     INTEGER aa,bb,cc,dd 
-C     INTEGER FLAG
+      INTEGER :: NMN, NTY, NSN
 C-----------------------------------------------
 C----     
 
 
-      NRTS   = IPARI(3)
-      NRTM   = IPARI(4)
       NSN    = IPARI(5)
       NMN    = IPARI(6)
+      NTY   = IPARI(7)
       IBC   =IPARI(11)
-      IBUC  =IPARI(12)
       NCIMP =IPARI(13)
       NRTM4 =IPARI(14)
       NOINT =IPARI(15)
@@ -232,7 +226,7 @@ C
 
         CALL I8LOC3(X ,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
      .          INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%NSEGM,
-     .          XI,YI,ZI,FACE, ITAB,DISTANCE,IFLINEAR,DISTLIN)
+     .          XI,YI,ZI,FACE, ITAB,DISTANCE,IFLINEAR,DISTLIN,NSN)
         IF(NSPMD > 1) THEN
 
           CALL SPMD_I8_ILOC(INTBUF_TAB%ILOCS,    INTBUF_TAB%MSR,ITAB,T8%BUFFER,

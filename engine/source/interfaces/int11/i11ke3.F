@@ -55,7 +55,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "impl2_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
@@ -95,6 +94,7 @@ C     REAL
      .     K1I11(9,MVSIZ),K1J11(9,MVSIZ),K2I11(9,MVSIZ),
      .     K2J11(9,MVSIZ),K1I12(9,MVSIZ),K1J12(9,MVSIZ),
      .     K2I12(9,MVSIZ),K2J12(9,MVSIZ),OFF(MVSIZ),BID(MVSIZ)
+      INTEGER :: NRTS
 C-----------------------------------------------
       IF(NUM_IMP==0) RETURN
       IBID=0
@@ -321,7 +321,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -357,6 +356,7 @@ C     REAL
      .     VYM1(MVSIZ), VYM2(MVSIZ), VZM1(MVSIZ), VZM2(MVSIZ),
      .     MS1(MVSIZ),  MS2(MVSIZ),  MM1(MVSIZ),  MM2(MVSIZ),
      .     BID(MVSIZ)
+      INTEGER :: NRTS
 C-----------------------------------------------
       IF(NUM_IMP==0) RETURN
 C
@@ -479,7 +479,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "impl2_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -515,6 +514,7 @@ C     REAL
      .     MS1(MVSIZ),  MS2(MVSIZ),  MM1(MVSIZ),  MM2(MVSIZ) ,
      .     DXS1(MVSIZ),DYS1(MVSIZ),DZS1(MVSIZ),
      .     DXS2(MVSIZ),DYS2(MVSIZ),DZS2(MVSIZ),BID(MVSIZ)
+      INTEGER :: NRTS
 C-----------------------------------------------
       IF(NUM_IMP==0) RETURN
 C

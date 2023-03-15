@@ -158,7 +158,6 @@ C-----------------------------------------------
 #include      "impl1_c.inc"
 #include      "intstamp_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
 #include      "warn_c.inc" 
@@ -243,6 +242,7 @@ C-----------------------------------------------
       INTEGER :: MAX_IGE,SIZE_X_IGE
       INTEGER :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
       INTEGER, DIMENSION(NBINTC) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
+      INTEGER :: NTY
 C-----------------------------------------------
 C Single region
       I_MEM = 0
@@ -728,7 +728,7 @@ C
           INTBUF_TAB(N)%METRIC%NCONT   = IPARI(18,N)
           INTBUF_TAB(N)%METRIC%MULTIMP = IPARI(23,N)
           INTBUF_TAB(N)%METRIC%NSNR   = MAX(INTBUF_TAB(N)%METRIC%NSNR , IPARI(24,N))
-          INTBUF_TAB(N)%METRIC%NSN    = NSN 
+          INTBUF_TAB(N)%METRIC%NSN    = IPARI(5,N) 
           CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_TRI)   
         ENDIF
 

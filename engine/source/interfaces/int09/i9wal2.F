@@ -39,7 +39,7 @@ Chd|====================================================================
      4   IRECT     ,UPW       ,IXQ       ,ELBUF_TAB ,
      5   IPARG     ,PM        ,NALE      ,EE        ,IELES     ,
      6   IELEM     ,TSTIF     ,INTTH     ,IEULT     ,STENS     ,
-     7   ISIZES    ,ISIZEM    )
+     7   ISIZES    ,ISIZEM, NRTS, NRTM,NSN,NMN) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,14 +53,14 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "scr04_c.inc"
 #include      "scr08_a_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IRECT(4,*), NSV(*), ILOC(*), IRTL(*), ICODE(*), ISKEW(*),
+      INTEGER, INTENT(IN) :: NRTS, NRTM,NSN,NMN
+      INTEGER IRECT(4,*), NSV(NSN), ILOC(*), IRTL(NSN), ICODE(*), ISKEW(*),
      .   MSR(*), IRECTS(4,*), LMSR(*), NSEG(*),IXQ(NIXQ,*),
      .   IPARG(NPARG,*), IELES(*), IELEM(*),NALE(*) ,
      .   INTTH, IEULT, ISIZES, ISIZEM

@@ -56,7 +56,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr04_c.inc"
 #include      "com08_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -65,16 +64,12 @@ C     REAL
       my_real
      .   STARTT,PTMAX
 
-      INTEGER IBC
+      INTEGER IBC,NSN,NMN,NTY
 C-----------------------------------------------
 C
-      NRTS  =IPARI(3)
-      NRTM  =IPARI(4)
       NSN   =IPARI(5)
       NMN   =IPARI(6)
       NTY   =IPARI(7)
-      NST   =IPARI(8)
-      MST   =IPARI(9)
       IBC   =IPARI(11)
 C
 C

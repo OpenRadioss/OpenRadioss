@@ -105,7 +105,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "warn_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
@@ -257,7 +256,7 @@ C     REAL
       INTEGER,TARGET, DIMENSION(1):: IFRICORTH_BID
       my_real,TARGET, DIMENSION(1):: TABCOEF_FRIC_BID
 
-      INTEGER :: NEDGE_REM
+      INTEGER :: NEDGE_REM,NRTM,NSN,NTY
 C=======================================================================
 C
       NRTM   =IPARI(4,NIN)

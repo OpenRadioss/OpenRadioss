@@ -33,7 +33,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE IQELA2(
      1                  X,SKEW,A,E,MSM,IRECT,LMSR,CRST,MSR,NSV,
-     2                  ILOC,IRTL,LCODE,V,ISKEW,NOR,ITAB
+     2                  ILOC,IRTL,LCODE,V,ISKEW,NOR,ITAB,NSN,NMN
      .                  )
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -45,7 +45,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr04_c.inc"
 #include      "scr08_a_c.inc"
 #include      "param_c.inc"
 #include      "warn_c.inc"
@@ -55,6 +54,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), LMSR(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), LCODE(*), ISKEW(*), ITAB(*)
       my_real X(3,NUMNOD), SKEW(LSKEW,*), A(SA), E(*), MSM(*), CRST(2,*), V(SV),NOR(3,*)
+      INTEGER, INTENT(IN) :: NSN,NMN
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
