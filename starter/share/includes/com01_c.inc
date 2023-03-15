@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../COM01/
-      COMMON /COM01/ N2D,    NCPRI,  IUSERWI, IALE,    NGROUP,
+      COMMON /COM01/ N2D,    NCPRI,  IALE,    NGROUP,
      .               NCYCLE, IRUN,   IGER,    LBUFEL,  IRODDL,
      .               IEULER, IMULTI_FVM, ITHERM, IHSH,    ITESTV,  ITURB,
      .               ILAG,   ISECUT, IDAMP,   IRXDP,   NMULT,
@@ -46,7 +46,7 @@ C.../COM01/
      .              IS17OLD ,NSEGQUADFR, NUMBCSN,INTERADHESION,NITSCHE,
      .              INISPRI ,INISHVAR1,NVSPRI,NVSOLID6,TH_STRAIN
 
-      INTEGER        N2D,    NCPRI,  IUSERWI, IALE,    NGROUP,
+      INTEGER        N2D,    NCPRI,  IALE,    NGROUP,
      .               NCYCLE, IRUN,   IGER,    LBUFEL,  IRODDL,
      .               IEULER, IMULTI_FVM, ITHERM, IHSH,    ITESTV,  ITURB,
      .               ILAG,   ISECUT, IDAMP,   IRXDP,  NMULT, 

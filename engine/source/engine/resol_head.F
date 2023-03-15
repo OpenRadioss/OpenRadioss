@@ -57,15 +57,15 @@ Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|====================================================================
       SUBROUTINE RESOL_HEAD(
-     .           ITASK     ,AF          ,IAF            ,IDATA     , RDATA,XDP       ,
-     .           GRAPHE    ,IFLOW       ,RFLOW          ,MCP       , TEMP            ,
-     .           ELBUF_TAB ,XFEM_TAB    ,INTBUF_TAB     ,STACK     , IRUNN_BIS       ,
-     .           MULTI_FVM ,H3D_DATA    ,INTBUF_FRIC_TAB,SUBSETS   , IGRNOD          ,
-     .           IGRBRIC   ,IGRQUAD     ,IGRSH4N        ,IGRSH3N   , IGRTRUSS        ,
-     .           IGRBEAM   ,IGRSPRING   ,IGRPART        ,IGRSURF   , IGRSLIN         , 
-     .           FORNEQS   ,MATPARAM_TAB,GROUP_PARAM_TAB,PINCH_DATA, ALE_CONNECTIVITY,
-     .           T_MONVOL  ,DRAPE_SH4N  ,DRAPE_SH3N       ,SENSOR_TAB, EBCS_TAB        , 
-     .           DIFFUSION ,SEGVAR,DYNAIN_DATA,DRAPEG)
+     .           ITASK       ,AF          ,IAF            ,IDATA      , RDATA,XDP       ,
+     .           GRAPHE      ,IFLOW       ,RFLOW          ,MCP        , TEMP            ,
+     .           ELBUF_TAB   ,XFEM_TAB    ,INTBUF_TAB     ,STACK      , IRUNN_BIS       ,
+     .           MULTI_FVM   ,H3D_DATA    ,INTBUF_FRIC_TAB,SUBSETS    , IGRNOD          ,
+     .           IGRBRIC     ,IGRQUAD     ,IGRSH4N        ,IGRSH3N    , IGRTRUSS        ,
+     .           IGRBEAM     ,IGRSPRING   ,IGRPART        ,IGRSURF    , IGRSLIN         , 
+     .           FORNEQS     ,MATPARAM_TAB,GROUP_PARAM_TAB,PINCH_DATA , ALE_CONNECTIVITY,
+     .           DRAPE_SH4N  ,DRAPE_SH3N  ,T_MONVOL       ,SENSOR_TAB ,EBCS_TAB       ,
+     .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -96,6 +96,7 @@ C-----------------------------------------------
       USE DIFFUSION_MOD
       USE SEGVAR_MOD
       USE STATE_MOD
+      USE USER_WINDOWS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -150,6 +151,7 @@ C     REAL
       TYPE(T_DIFFUSION), INTENT(INOUT) :: DIFFUSION
       TYPE(t_segvar) :: SEGVAR
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE(USER_WINDOWS_),INTENT(INOUT)      :: USER_WINDOWS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -181,7 +183,7 @@ C
      3                   ITAB           ,ITABM1         ,IFILL          ,
      4  IMS             ,NPC            ,IBCL           ,MATPARAM_TAB   ,GROUP_PARAM_TAB,
      5  IBFV            ,IECRAN         ,ILAS           ,LACCELM        ,NNLINK         ,LNLINK      ,
-     6  IUSER           ,IPARG          ,DD_IAD         ,IGRV           ,IEXLNK         ,KINET       ,
+     6  IPARG          ,DD_IAD         ,IGRV           ,IEXLNK         ,KINET       ,
      7  IPARI           ,NPRW           ,ICONX          ,NPBY           ,
      8  LPBY            ,LRIVET         ,NSTRF          ,LJOINT         ,NODPOR         ,MONVOL      ,ITHGRP           ,IAD_ELEM  ,
      9  FR_ELEM         ,WEIGHT         ,MAIN_PROC      ,ICODT          ,ICODR          ,ADSKY       ,IADS             ,ILINK     ,
@@ -192,7 +194,7 @@ C
      E  W               ,VEUL           ,FILL           ,DFILL          ,ALPH           ,WB          ,DSAVE            ,ASAVE     ,
      .  MSNF            , 
      F  TF              ,FORC           ,VEL            ,FSAV           ,FZERO          ,XLAS        ,ACCELM           ,
-     G  GRAV            ,FR_WAVE        ,FAILWAVE       ,PARTS0         ,USER           ,ELBUF       ,RWBUF            ,SENSOR_TAB,
+     G  GRAV            ,FR_WAVE        ,FAILWAVE       ,PARTS0         ,ELBUF       ,RWBUF            ,SENSOR_TAB,
      H  RWSAV           ,RBY            ,RIVET          ,SECBUF         ,VOLMON         ,LAMBDA      ,
      I  WA              ,FV             ,A              ,AR             ,STIFN          ,STIFR       ,PARTSAV          ,FSKY      ,
      J  UWA             ,VAL2           ,PHI            ,SEGVAR         ,R              ,CRFLSW      ,
@@ -236,7 +238,7 @@ C
      x  IBCR            ,FRADIA         ,RES_SMS        ,TABLE          ,IRBE2          ,LRBE2       ,IAD_RBE2         ,
      y  FR_RBE2         ,PHIE           ,MSF            ,
      z  PROCNE_PXFEM    ,IADSDP_PXFEM   ,IADRCP_PXFEM   ,ICFIELD        ,LCFIELD        ,CFIELD      ,
-     1  IADUSERW        ,FR_USERWI      ,MSZ2           ,DIAG_SMS       ,ILOADP         ,LLOADP      ,LOADP            ,
+     1  MSZ2            ,DIAG_SMS       ,ILOADP         ,LLOADP      ,LOADP            ,
      2  INOD_CRKXFEM    ,IEL_CRKXFEM    ,IADC_CRKXFEM   ,ADSKY_CRKXFEM  ,
      3  CNE_CRKXFEM     ,PROCNE_CRKXFEM ,IADSDP_CRKXFEM ,IADRCP_CRKXFEM ,IBUFSSG_IO     ,
      4  IBC_PLY         ,DMINT2         ,IBORDNODE      ,
@@ -258,7 +260,7 @@ C
      K  NLOC_DMG        ,ISKWP_L        ,KNOTLOCPC      ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6  ,ALE_CONNECTIVITY ,
      L  XCELL           , XFACE         ,NE_NERCVOIS    ,NE_NESDVOIS    ,NE_LERCVOIS    ,NE_LESDVOIS ,IBCSCYC          ,LBCSCYC   ,
      M  T_MONVOL        ,ID_GLOBAL_VOIS ,FACE_VOIS      ,TAGSLV_RBY     ,DYNAIN_DATA    ,FCONT_MAX   ,EBCS_TAB         ,DIFFUSION ,
-     N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT    ,DRAPEG)
+     N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS )
 C
       CALL TRACE_OUT(2)
 C

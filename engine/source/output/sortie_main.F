@@ -122,7 +122,7 @@ Chd|====================================================================
      p            KNOTLOCPC ,KNOTLOCEL   ,PINCH_DATA ,TAG_SKINS6,IRUNN_BIS, 
      q            TF        ,NPC         ,DYNAIN_DATA,FCONT_MAX,MDS_MATID,
      r            FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP   ,LLOADP   ,
-     s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG) 
+     s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG,USER_WINDOWS) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -150,6 +150,7 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE MESSAGE_MOD
       USE STATE_MOD
+      USE USER_WINDOWS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -263,6 +264,7 @@ C-----------------------------------------------
       TYPE (SENSOR_STR_), DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE(USER_WINDOWS_),INTENT(IN)        :: USER_WINDOWS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -325,7 +327,7 @@ C-------should use relative velocity for dynamic condensed nodes (Nd of S10)
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
      4             XMOM_SMS ,SENSOR_TAB,QFRICINT ,IPARI  ,
      5             WEIGHT_MD,TFEXTH ,IFLAG   ,MS_2D, MULTI_FVM ,
-     6             MAS_ND   ,KEND   ,H3D_DATA,DYNAIN_DATA)
+     6             MAS_ND   ,KEND   ,H3D_DATA,DYNAIN_DATA,USER_WINDOWS%USREINT)
         DEALLOCATE(VMCDN)
        ELSE
         BID = ZERO
@@ -334,7 +336,7 @@ C-------should use relative velocity for dynamic condensed nodes (Nd of S10)
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
      4             XMOM_SMS ,SENSOR_TAB,QFRICINT ,IPARI  ,
      5             WEIGHT_MD,TFEXTH  ,IFLAG  ,MS_2D, MULTI_FVM ,
-     6             BID      ,BID     ,H3D_DATA,DYNAIN_DATA)
+     6             BID      ,BID     ,H3D_DATA,DYNAIN_DATA,USER_WINDOWS%USREINT)
        ENDIF
 C---------------------------------------
 C       CALCUL DU FLUX ET DE LA ROTATION

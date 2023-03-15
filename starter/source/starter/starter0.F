@@ -80,6 +80,8 @@ Chd|====================================================================
       USE INOUTFILE_MOD
       USE DETONATORS_MOD
       USE EBCS_MOD
+      USE USER_WINDOWS_MOD
+      USE USER_INTERFACE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -318,8 +320,10 @@ C init to 0 variable position writing double precision (XDP)
       IRXDP            = 0
 C
       IF(IR4R8==2) ITESTV=-ITESTV
-C
-C Dynamical Libraries initialization
+C------------------------------------------------
+C Dynamic Libraries initialization
+C------------------------------------------------
+        CALL USER_WINDOWS_INIT(USER_WINDOWS)
         USERLIB_LIST(1:100)=0
         IF(GOT_USERL_ALTNAME==1)THEN
           DLIBFILE(1:LEN_USERL_ALTNAME)=USERL_ALTNAME(1:LEN_USERL_ALTNAME)
@@ -783,7 +787,7 @@ c 2d seatbelt translation
 C-------------------------------------------------------------------
 C     Control variables (count options)
 C-------------------------------------------------------------------
-      CALL CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS)
+      CALL CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS)
 C-------------------------------------------------------------------
 C     Parameters modification and parameters write (-HSTP_READ -HSTP_WRITE ARGUMENTS)
 C-------------------------------------------------------------------
@@ -877,7 +881,7 @@ C--------------------------------------------------
 C      Main reading routine
 C--------------------------------------------------
         CALL LECTUR(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,EBCS_TAB,SEATBELT_CONVERTED_ELEMENTS,
-     .              NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE   )
+     .              NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS  )
 
 c       stop CPU timer for lectur
         CALL STOPTIME(2,1)
@@ -897,6 +901,7 @@ C --------------------------------------------------
       ENDIF
 C
       IF(ALLOCATED(SEATBELT_CONVERTED_ELEMENTS)) DEALLOCATE(SEATBELT_CONVERTED_ELEMENTS)  
+      CALL USER_WINDOWS_CLEAN(USER_WINDOWS)
 C
       IF (IERR==0)THEN
         !   -----------------------------

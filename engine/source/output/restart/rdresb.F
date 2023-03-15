@@ -88,7 +88,7 @@ Chd|====================================================================
       SUBROUTINE RDRESB(AF ,IAF  ,LVARREA, XDP   ,
      .           IRUNN, MULTI_FVM,H3D_DATA,MATPARAM_TAB,GROUP_PARAM_TAB,
      .           PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL  ,
-     .           SENSOR_TAB, EBCS_TAB,DYNAIN_DATA)
+     .           SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -116,6 +116,7 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE OUTPUTS_MOD
       USE STATE_MOD
+      USE USER_WINDOWS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -168,6 +169,7 @@ C-----------------------------------------------
       TYPE(SENSOR_STR_)   ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE(USER_WINDOWS_),INTENT(INOUT) :: USER_WINDOWS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -185,6 +187,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+
       DO I=1,LMXVREA
         TABVREA(I)=ZERO
       ENDDO
@@ -244,7 +247,7 @@ C
         CALL READ_I_C(IXR,SIXR)
 
         CALL READ_I_C(ITAB,SITAB)
-c       WRITE(6,*) "ITAB = ",ITAB(1:SITAB)
+C       WRITE(6,*) "ITAB = ",ITAB(1:SITAB)
         CALL READ_I_C(ITABM1,SITABM1)
 
         CALL READ_I_C(GJBUFI,SGJBUFI)
@@ -432,7 +435,7 @@ c       WRITE(6,*) "ITAB = ",ITAB(1:SITAB)
 
         CALL READ_I_C(LNLINK,SLNLINK)
 
-        CALL READ_I_C(IUSER,SIUSER)
+        CALL USERWI_READ(USER_WINDOWS,ISPMD,NSPMD,NUMNOD)
 
         CALL READ_I_C(IPARG,SIPARG)
 
@@ -699,11 +702,6 @@ C
         CALL READ_I_C(LNODPOR,SLNODPOR)
 
         CALL READ_I_C(LLAGF,SLLAGF)
-
-        IF(IUSERWI /=0)THEN
-           CALL READ_I_C(IADUSERW,NSPMD+1)
-           CALL READ_I_C(FR_USERWI,SFR_USERWI)
-        ENDIF
 C
         WEIGHT_MD = WEIGHT
 
@@ -1037,8 +1035,6 @@ C--------------------------------------
         CALL READ_NLOC_STRUCT(NLOC_DMG)
 
         CALL READ_DB(PARTS0,SPARTS0)
-
-        CALL READ_DB(USER,SUSER)
 
         CALL READ_DB(ELBUF,SELBUF)
 

@@ -280,11 +280,11 @@ Chd|====================================================================
      L   BRMPC        ,GJBUFR       ,W              ,VEUL         ,FILL        ,
      M   DFILL        ,WB           ,DSAV           ,ASAV         ,MSNF        ,
      N   SPBUF        ,FAC          ,VEL            ,FSAV         ,FZERO       ,
-     O   XLAS         ,ACCELM       ,FBVEL        ,GRAVFAC     ,
-     P   FR_WAVE      ,FAILWAVE     ,PARTS0         ,USERW        ,ELBUF       ,
+     O   XLAS         ,ACCELM       ,FBVEL          ,GRAVFAC      ,
+     P   FR_WAVE      ,FAILWAVE     ,PARTS0         ,ELBUF        ,
      Q   RWL          ,RWSAV        ,RBY            ,RIVET        ,
      R   SECBUF       ,RVOLU        ,RCONX          ,NLOC_DMG     ,
-     S   FVMAIN     ,LIBAGALE     ,LENTHG         ,LBUFMAT      ,LBUFGEO     ,
+     S   FVMAIN       ,LIBAGALE     ,LENTHG         ,LBUFMAT      ,LBUFGEO     ,
      T   LBUFSF       ,LENXLAS                      ,LNOM_OPT     ,LENLAS      ,           
      U   LENVOLU                    ,NPTS           ,CNE          ,LCNE        ,           
      V   ADDCNE       ,CNI2         ,LCNI2G         ,ADDCNI2      ,CEPI2       ,           
@@ -324,12 +324,12 @@ Chd|====================================================================
      8   MS_PLY       ,
      9   ZI_PLY       ,INOD_PXFEM   ,IEL_PXFEM      ,ICODPLY      ,ISKWPLY     ,
      A   ADDCNE_PXFEM ,CNE_PXFEM    ,CEL_PXFEM      ,ITHVAR       ,XDP,TABLE   ,
-     B   CELSPH       ,ICFIELD      ,LCFIELD        ,CFIELD       ,USERNODS    ,IUSERW   ,
-     C   SUSERW       ,SIUSERW      ,MSZ2           ,ITASK        ,DIAG_SMS    ,
+     B   CELSPH       ,ICFIELD      ,LCFIELD        ,CFIELD       ,
+     C   MSZ2         ,ITASK        ,DIAG_SMS    ,
      D   ILOADP       ,LLOADP       ,LOADP,
      E   INOD_CRKXFEM ,IEL_CRKXFEM  ,ADDCNE_CRKXFEM ,CNE_CRKXFEM  ,CEL_CRKXFEM ,
      F   IBUFSSG_IO   ,INTERCEP     ,IBORDNODE      ,IEDGESH      ,IBORDEDGE   ,
-     G   LINALE       ,NODEDGE,IEDGE,CEP_CRKXFEM    ,IEDGE_TMP    ,
+     G   LINALE       ,NODEDGE      ,IEDGE          ,CEP_CRKXFEM  ,IEDGE_TMP   ,
      H   CRKNODIAD    ,ELBUF_TAB    ,NOM_OPT        ,LGAUGE       ,GAUGE       ,
      I   IGAUP        ,NGAUP        ,NODLEVXF       ,FRONTB_R2R   ,DFLOW       ,
      J   VFLOW        ,WFLOW        ,SPH2SOL        ,SOL2SPH      ,IRST        ,
@@ -352,7 +352,7 @@ Chd|====================================================================
      B   SIZE_ALE_ELM ,PINCH_DATA  ,TAG_SKINS6      ,IBCSCYC      ,LBCSCYC  ,T_MONVOL,
      C INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER, LEN_CEP ,DYNAIN_DATA,
-     E   DRAPEG)
+     E   DRAPEG,USER_WINDOWS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -394,6 +394,7 @@ C-----------------------------------------------
       USE SEATBELT_MOD
       USE OUTMAX_MOD
       USE STATE_MOD
+      USE USER_WINDOWS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -485,8 +486,7 @@ C-----------------------------------------------
      .        IRBE2(NRBE2L,*),LRBE2(*),INOD_PXFEM(*) ,
      .        IEL_PXFEM(*) ,ICODPLY(*),ISKWPLY(*) ,ADDCNE_PXFEM(0:*),
      .        CNE_PXFEM(*),CEL_PXFEM(*),ITHVAR(*), CELSPH(NUMSPH),
-     .        ICFIELD(*),LCFIELD(*),USERNODS(*),SUSERW,SIUSERW,
-     .        IUSERW(*),ILOADP(*),LLOADP(*),INOD_CRKXFEM(*),
+     .        ICFIELD(*),LCFIELD(*),ILOADP(*),LLOADP(*),INOD_CRKXFEM(*),
      .        IEL_CRKXFEM(*),ADDCNE_CRKXFEM(0:*),CNE_CRKXFEM(*),
      .        CEL_CRKXFEM(*),IBORDNODE(*),IEDGESH(*),IBORDEDGE(*),
      .        LINALE(*),NODEDGE(2,*),IEDGE(*),CEP_CRKXFEM(*),
@@ -519,7 +519,7 @@ C-----------------------------------------------
      .       WB(*), ASAV(*), DSAV(*), MSNF(*),
      .       SPBUF(*), FAC(*), VEL(*), FACTIV(*),
      .       FSAV(*), FZERO(*), XLAS(*), ACCELM(*),
-     .       FBVEL(*), GRAVFAC(*), FR_WAVE(*), USERW(*), ELBUF(*),
+     .       FBVEL(*), GRAVFAC(*), FR_WAVE(*), ELBUF(*),
      .       RWL(*), RWSAV(*), RBY(*), RIVET(*),
      .       SECBUF(*), RVOLU(*), PARTS0(*), RCONX(*),
      .       DRSAV(*), ARSAV(*), STSAV(*), STRSAV(*), FSAVSAV(*),
@@ -640,6 +640,8 @@ C-----------------------------------------------
 !                  of the remote connected element
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
         TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
+        TYPE(USER_WINDOWS_),INTENT(IN) :: USER_WINDOWS
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -674,7 +676,7 @@ C-----------------------------------------------
      .        DD_RBYM2(3,NRBYM),NSKYRBMK_L, LAG_SEC,
      .        NRBE2_L,LLRBE2_L,NBDDRBE2,NUMELCPXFE_L,NUMNODPXFE_L,
      .        ITAG_PXFEM(NPLYXFE),INDEX_PXFEM(NPLYXFE),
-     .        LCNEPXFEM_L,LLCFIELD_L,SFR_USERWI_L,SUSERW_L,SIUSERW_L,
+     .        LCNEPXFEM_L,LLCFIELD_L,
      .        ITASK,LLLOADP_L,NUMELCRKXFE_L,NUMNODCRKXFE_L,LCNECRKXFEM_L,
      .        NUMELCCRKXFE_L,NUMELTGCRKXFE_L,
      .        NUMEDGES_L,NBDDEDGE_L,
@@ -726,7 +728,7 @@ C SPH Modif Structures
       INTEGER ,DIMENSION(:,:), ALLOCATABLE :: SPH_SEND_ARR,SPH_RECV_ARR
       INTEGER ,DIMENSION(:), ALLOCATABLE :: SPHLOCAL
       INTEGER RECV_COUNT(NSPMD),SEND_COUNT(NSPMD)
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IUSERW_L,IEDGECRK_L,
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IEDGECRK_L,
      .       IBORDEDGE_L,NODEDGE_L,IEDGESH4_L,IEDGESH3_L,TAGEDGE,
      .       IEDGE_L,EDGELOCAL,EDGEGLOBAL
 
@@ -1337,7 +1339,7 @@ C--------------------------------------
       CALL C_FRONT(P        ,NBDDACC,NBDDKIN,NBDDNRB,
      2             NPBY     ,NRBYKIN_L,LJOINT ,NBDDNCJ,IBVEL  ,
      3             NBDDNRBM ,IADLL    ,LLL    ,NLAGF_L, FRONT_RM,
-     4             NRBYMK_L ,NBDDNRBYM,USERNODS,SFR_USERWI_L,
+     4             NRBYMK_L ,NBDDNRBYM,
      5             SDD_R2R_ELEM,ADDCSRECT,CSRECT  ,NBDDNORT_L,NBDDNOR_MAX_L,
      6             NBCCNOR_L,NBCCFR25_L,NBDDEDGT_L,NBDDEDG_MAX_L,NRTMX25_L ,
      7             IPARI    ,INTBUF_TAB,INTERCEP  ,NODGLOB      ,NODLOCAL  ,
@@ -1637,16 +1639,6 @@ C--------------------------------------
       LLBCSCYC_L = 0
       IF (NBCSCYC>0)
      .  CALL C_IBCSCYC(IBCSCYC,LBCSCYC,P-1  ,NBCSCYC_L,LLBCSCYC_L)
-C--------------------------------------
-C Userwindow - preparation
-C--------------------------------------
-      IF (P==1) THEN
-        SIUSERW_L = SIUSERW
-        SUSERW_L = SUSERW
-      ELSE
-        SIUSERW_L = 0
-        SUSERW_L = 0
-      ENDIF
 C--------------------------------------------
 C DRAPE option preparation
 C--------------------------------------------
@@ -1739,8 +1731,8 @@ C--------------------------------------------
      O   NRBE3_L   ,LLRBE3_L  ,NBDDRBE3M ,NSKYRBE3_L,NSLARBM_L ,
      N   NSKYRBMK_L,NBDDNRBYM ,MADCL_NMADNOD_L,NRADIA_L,NRBE2_L,
      Q   LLRBE2_L  ,NBDDRBE2  ,NUMELCPXFE_L,
-     R   NUMNODPXFE_L,LCNEPXFEM_L,LLCFIELD_L,SFR_USERWI_L,SUSERW_L,
-     S SIUSERW_L,LLLOADP_L,NUMELCRKXFE_L,NUMNODCRKXFE_L,LCNECRKXFEM_L,
+     R   NUMNODPXFE_L,LCNEPXFEM_L,LLCFIELD_L,
+     S   LLLOADP_L,NUMELCRKXFE_L,NUMNODCRKXFE_L,LCNECRKXFEM_L,
      T   SLONFSPH_L,SLPRTSPH_L,SSPHVELN_L,I2NSN25_L,NUMELCCRKXFE_L,
      U   NUMELTGCRKXFE_L,NUMEDGES_L,NBDDEDGE_L,SDD_R2R_ELEM,NOD_XFE_L,
      V   NSPHSOL_L,FIRST_SPHSOL_L,NCLUSTER_L,LENTHGR,NUMNOR_L,
@@ -2202,15 +2194,11 @@ C LLINK
 C--------------------------------------
       IF (NLINK>0)
      .  CALL W_LLINK(NNLINK,LLLINK,NODLOCAL,P-1,NLLINK_L,LEN_IA)
-C--------------------------------------
-C USERWINDOW Partie Entiere
-C--------------------------------------
-      IF(P==1.AND.IUSERWI/=0)THEN
-        ALLOCATE(IUSERW_L(SIUSERW_L))
-        CALL SPMD_USERWI_REST(IUSERW,IUSERW_L,NODLOCAL)
-        CALL  WRITE_I_C(IUSERW_L,SIUSERW_L)
-        DEALLOCATE(IUSERW_L)
-      ENDIF
+C--------------
+C--------------
+C USER WINDOWS 
+C--------------
+        CALL SPMD_USERWI_REST(USER_WINDOWS,NODLOCAL,NUMNOD,NUMNOD_L,P,NSPMD)
 C--------------------------------------
 C IPARG
 C--------------------------------------
@@ -2496,6 +2484,7 @@ C--------------------------------------
       ENDIF
       NBCFD = MAX(NRCVVOIS,NSNDVOIS,NERVOIS,NESVOIS,NSEGFL_L)
       IF(NUMSKW>0) CALL SPLIT_SKEW(P,ISKWP_L,ISKWP,TAG_SKN,MULTIPLE_SKEW)
+
       CALL W_FRONT(
      1   P       ,NBDDACC ,NBDDKIN ,NODLOCAL,
      2   NBDDPROC,NBDDBOUN,NODGLOB ,NUMNOD_L,NBDDNRB ,
@@ -2514,7 +2503,7 @@ C--------------------------------------
      F   IACCP   ,NACCP   ,IRBE3   ,LRBE3   ,ITABRBE3M,
      G   NBDDRBE3M,IRBYM   ,LCRBYM  ,FRONT_RM ,DD_RBYM2,
      H   NBDDNRBYM,IRBE2   ,LRBE2   ,NBDDRBE2,ITABRBE2M,
-     I   USERNODS,IEDGE_TMP,NODEDGE,EDGELOCAL,NBDDEDGE_L,
+     I   IEDGE_TMP,NODEDGE,EDGELOCAL,NBDDEDGE_L,
      J   IGAUP   ,NGAUP    ,FRONTB_R2R,SDD_R2R_ELEM,ADDCSRECT,
      K   CSRECT  ,NBDDNORT_L,NBDDNOR_MAX_L,NBCCFR25_L,NBCCNOR_L,
      L   NUMNOR_L ,NBDDEDGT_L,NBDDEDG_MAX_L,INTERCEP ,NBDDCNDM,
@@ -3029,12 +3018,6 @@ C PARTS0
 C--------------------------------------------
       CALL WRITE_DB(PARTS0,NPART)
       LEN_AM = LEN_AM + NPART
-C--------------------------------------
-C USERWINDOW (float)
-C--------------------------------------
-      IF(P==1.AND.IUSERWI/=0)THEN
-        CALL  WRITE_DB(USERW,SUSERW_L)
-      ENDIF
 C--------------------------------------------
 C Element Buffer
 C--------------------------------------------

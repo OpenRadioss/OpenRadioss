@@ -45,7 +45,7 @@ Chd|====================================================================
      3                 A          ,AR        ,FXBIPM   ,FXBRPM   ,MONVOL     ,
      4                 XMOM_SMS   ,SENSOR_TAB,QFRICINT ,IPARI    ,WEIGHT_MD  ,
      5                 TFEXTH     ,IFLAG     ,MS_2D    ,MULTI_FVM,MAS_ND     ,
-     6                 KEND       ,H3D_DATA  ,DYNAIN_DATA)
+     6                 KEND       ,H3D_DATA  ,DYNAIN_DATA,USREINT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -98,6 +98,7 @@ C-----------------------------------------------
      .   PARTSAV(NPSAV,*), MS(NUMNOD), V(3,NUMNOD), A(3,NUMNOD), 
      .   IN(NUMNOD), R(3,NUMNOD), RBY(NRBY,*), AR(3,NUMNOD),FXBRPM(*),
      .   XMOM_SMS(3,*),QFRICINT(*),MS_2D(*),KEND,MAS_ND
+      my_real, INTENT(IN) :: USREINT
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(H3D_DATABASE), INTENT(INOUT) :: H3D_DATA
       TYPE (SENSOR_STR_), DIMENSION(NSENSOR) :: SENSOR_TAB

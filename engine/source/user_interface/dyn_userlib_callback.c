@@ -123,6 +123,7 @@ extern void MAT_SOLID_GET_NOD_V(my_real * USER_V);
 extern void USERWINDOW_GET_A(double * A_BUF);
 extern void USERWINDOW_GET_AR(double * AR_BUF);
 extern void GET_TABLE_VALUE_DYDX(int *ITABLE, double *XX, double *XXDIM, double *YY, double *DXDY);
+extern void GET_USER_WINDOW_NODES(int *INTERNAL_ID,int *USER_ID);
 
 void init_callback(void ** callback_array){
 
@@ -196,7 +197,8 @@ void init_callback(void ** callback_array){
 //  callback_array[68] = RAD_UMAT_INPUT_REWIND;     STARTER ROUTINE
 //  callback_array[69] = RAD_UMAT_CLOSE_INPUT;      STARTER ROUTINE
   callback_array[71] = GET_TABLE_VALUE_DYDX;
-
+//  callback_array[72] = SET_USER_WINDOW_NODES;     STARTER ROUTINE
+  callback_array[73] = GET_USER_WINDOW_NODES;
 }
 #elif 1
 void init_callback(){

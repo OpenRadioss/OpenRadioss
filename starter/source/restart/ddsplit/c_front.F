@@ -34,7 +34,7 @@ Chd|====================================================================
       SUBROUTINE C_FRONT(PROC     ,NBDDACC,NBDDKIN,NBDDNRB,
      2                   NPBY     ,NRBYKIN_L,LJOINT ,NBDDNCJ,IBVEL  ,
      3                   NBDDNRBM ,IADLL    ,LLL    ,NLAGF_L,FRONT_RM,
-     4                   NRBYMK_L ,NBDDNRBYM, USERNODS,SFR_USERWI_L,
+     4                   NRBYMK_L ,NBDDNRBYM, 
      5                   SDD_R2R_ELEM,ADDCSRECT,CSRECT,NBDDNORT,NBDDNOR_MAX,
      6                   NBCCNOR,NBCCFR25,NBDDEDGT  ,NBDDEDG_MAX,NRTMX25   ,
      7                   IPARI  ,INTBUF_TAB,INTERCEP,NODGLOB    ,NODLOCAL  ,
@@ -43,7 +43,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE FRONT_MOD
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
+      USE USER_WINDOWS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,7 +65,7 @@ C-----------------------------------------------
      .          NBDDNOR_MAX, NBCCNOR, NBCCFR25, NBDDEDGT,NBDDEDG_MAX,NRTMX25,
      .          NPBY(NNPBY,*), LJOINT(*),
      .          IBVEL(NBVELP,*) , IADLL(*), LLL(*),FRONT_RM(NRBYM,*),
-     .          USERNODS(*),SFR_USERWI_L,SDD_R2R_ELEM,
+     .          SDD_R2R_ELEM,
      .          ADDCSRECT(*), CSRECT(*), IPARI(NPARI,*)
        INTEGER, INTENT(IN) :: NUMNOD_L
        INTEGER, DIMENSION(NUMNOD_L), INTENT(IN) :: NODGLOB
@@ -399,31 +400,5 @@ C ---------------------
 
       END IF ! NINTER25/=0
 C
-C ---------------------
-C Fontiere UserWindow comptage de la taille du tableau FR_USERW
-C ---------------------
-      SFR_USERWI_L = 0
-      IF (IUSERWI /= 0)THEN
-        IF(PROC/=1)THEN
-C pour les procs autre que le premier on note les noeuds
-C dont on va recevoir les accels.
-          DO II=1,NUMNOD_L
-            I=NODGLOB(II)
-            IF(USERNODS(I)==1)THEN
-               SFR_USERWI_L=SFR_USERWI_L+1
-            ENDIF
-          ENDDO
-        ELSE
-          DO I=1,NUMNOD
-             IF(USERNODS(I)==1)THEN
-               DO P=2,NSPMD
-                 IF(NLOCAL(I,P)==1)THEN          
-                    SFR_USERWI_L=SFR_USERWI_L+1
-                 ENDIF
-               ENDDO
-             ENDIF
-          ENDDO
-        ENDIF
-      ENDIF
       RETURN
       END

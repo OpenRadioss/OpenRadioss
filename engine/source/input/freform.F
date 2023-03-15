@@ -144,7 +144,7 @@ C-----------------------------------------------
       INTEGER IKAD(0:NKEY+1),
      .   KDTIX, KIMPL, KFLSEC, KFUNC, KKEREL, KDYREL, KRUN, KTITLE,
      .   KDT, KTFILE, KPRINT, KRFILE, KVERS, KALE, KDEL,
-     .   KVEL, KBCS, KBCSR, KUSERW, KDEBUG,KOUTP,KDTNOD,KALESUB,KPROC,
+     .   KVEL, KBCS, KBCSR, KDEBUG,KOUTP,KDTNOD,KALESUB,KPROC,
      .   KNOISE,KDELIN,KFSHFT,KPARIT,KINIV,KRBODY,KANIM,KINTER,
      .   KUPWM, KMON,KDT1,KINCMP,KTH, KSTOP, KKILL,
      .   KMADYM,KSPMD,KRAD2R,KDAMP,N_DAMP, KATFIL,KBTFIL,KCTFIL,KDTFIL,
@@ -196,7 +196,7 @@ C-----------------------------------------------
      .     'RFILE'   ,'VERS '   ,''        ,''        ,'ALE  '   ,
      .     'DEL  '   ,'VEL  '   ,'BCS  '   ,'BCSR '   ,'INTER'   ,
      .     'DTIX '   ,'IMPL '   ,'FUNCT'   ,'FLSEC'   ,'DYREL'   ,
-     .     'KEREL'   ,'RBODY'   ,'ANIM'    ,'USERW'   ,'DEBUG'   ,
+     .     'KEREL'   ,'RBODY'   ,'ANIM'    ,''        ,'DEBUG'   ,
      .     'OUTP '   ,'DTNOD'   ,'ALESU'   ,'PROC'    ,''        ,
      .     '@TFIL'   ,'DELIN'   ,'FSHFT'   ,'PARIT'   ,'INIV '   ,
      .     'UPWM '   ,'MON'     ,''        ,'DT1'     ,'INCMP'   ,
@@ -216,7 +216,7 @@ C-----------------------------------------------
      .     KRFILE/6/  ,KVERS/7/    ,                           KALE/10/  ,
      .     KDEL/11/   ,KVEL/12/    ,KBCS/13/     ,KBCSR/14/   ,KINTER/15/,
      .     KDTIX/16/  ,KIMPL/17/   ,KFUNC/18/    ,KFLSEC/19/  ,KDYREL/20/,
-     .     KKEREL/21/ ,KRBODY/22/  ,KANIM/23/    ,KUSERW/24/  ,KDEBUG/25/,
+     .     KKEREL/21/ ,KRBODY/22/  ,KANIM/23/                 ,KDEBUG/25/,
      .     KOUTP/26/  ,KDTNOD/27/  ,KALESUB/28/   ,KPROC/29/  ,
      .     KNOISE/31/ ,KDELIN/32/  ,KFSHFT/33/   ,KPARIT/34/  ,KINIV/35/ ,
      .     KUPWM/36/  ,KMON/37/    ,              KDT1/39/    ,KINCMP/40/,
@@ -668,18 +668,6 @@ C
        BETATE = ZERO
        ISTAT=3
        ISTATG = -IABS(ISTATG)
-      ENDIF
-C-----------------------
-C     USER WINDOW
-C-----------------------
-      IUSERW = 0
-      NUSERW = 0
-      IKEY=KUSERW
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       IUSERW = 1
-       CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
-       READ(IUSC2,*)NUSERW
-       MFID = MFID + NUSERW
       ENDIF
 C-----------------------
 C     ALE SUB-CYCLING

@@ -94,7 +94,7 @@ Chd|====================================================================
      .           ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
      .           H3D_DATA ,INTBUF_FRIC_TAB,SUBSET,MATPARAM_TAB,GROUP_PARAM_TAB,
      .           PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .           SENSOR_TAB,EBCS_TAB,DYNAIN_DATA)
+     .           SENSOR_TAB,EBCS_TAB,DYNAIN_DATA,USER_WINDOWS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -126,6 +126,7 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE OUTPUTS_MOD
       USE STATE_MOD
+      USE USER_WINDOWS_MOD
 C ecriture restart pour version spmd
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -141,19 +142,20 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP)      :: ELBUF_TAB
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP,NXEL) :: XFEM_TAB
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-      TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
+      TYPE(MULTI_FVM_STRUCT), INTENT(INOUT)               :: MULTI_FVM
 c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
-      TYPE(H3D_DATABASE), INTENT(IN) :: H3D_DATA
+      TYPE(H3D_DATABASE), INTENT(IN)                      :: H3D_DATA
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
-      TYPE(SUBSET_), TARGET, DIMENSION(NSUBS) :: SUBSET
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE(GRP_PARAM_STRUCT_) , DIMENSION(NGROUP) :: GROUP_PARAM_TAB
-      TYPE(PINCH) :: PINCH_DATA
-      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
+      TYPE(SUBSET_), TARGET, DIMENSION(NSUBS)             :: SUBSET
+      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT)         :: MATPARAM_TAB
+      TYPE(GRP_PARAM_STRUCT_) , DIMENSION(NGROUP)         :: GROUP_PARAM_TAB
+      TYPE(PINCH)                                         :: PINCH_DATA
+      TYPE(t_ale_connectivity), INTENT(IN)                :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN)  :: T_MONVOL
       TYPE (SENSOR_STR_)  , DIMENSION(NSENSOR),INTENT(IN) :: SENSOR_TAB
-      TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
-      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE(t_ebcs_tab), INTENT(INOUT)                     :: EBCS_TAB
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT)               :: DYNAIN_DATA
+      TYPE(USER_WINDOWS_),INTENT(IN)                      :: USER_WINDOWS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -545,7 +547,7 @@ C--------------------------------------
 
         CALL WRITE_I_C(LNLINK,SLNLINK)
 
-        CALL WRITE_I_C(IUSER,SIUSER)
+        CALL USERWI_WRITE(USER_WINDOWS,ISPMD,NSPMD,NUMNOD)
 
         CALL WRITE_I_C(IPARG,SIPARG)
 
@@ -816,11 +818,6 @@ C
         CALL WRITE_I_C(LNODPOR,SLNODPOR)
 
         CALL WRITE_I_C(LLAGF,SLLAGF)
-
-        IF(IUSERWI /=0)THEN
-          CALL WRITE_I_C(IADUSERW,NSPMD+1)
-          CALL WRITE_I_C(FR_USERWI,SFR_USERWI)
-        ENDIF
 
         IF(ICRACK3D > 0)THEN
           CALL WRITE_I_C(IAD_EDGE,SIAD_EDGE)
@@ -1111,8 +1108,6 @@ C--------------------------------------
          CALL WRITE_NLOC_STRUCT(NLOC_DMG)
 
          CALL WRITE_DB(PARTS0,SPARTS0)
-
-         CALL WRITE_DB(USER,SUSER)
 
          CALL WRITE_DB(ELBUF,SELBUF)
 

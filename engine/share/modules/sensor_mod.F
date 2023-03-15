@@ -305,34 +305,3 @@ c
 
       END MODULE SENSOR_MOD
 
-
-Chd|====================================================================
-Chd|  SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        GET_U_NUMSENS                 source/user_interface/usensor.F
-Chd|        GET_U_SENS                    source/user_interface/usensor.F
-Chd|        GET_U_SENS_ACTI               source/user_interface/usensor.F
-Chd|        GET_U_SENS_DELAY              source/user_interface/usensor.F
-Chd|        GET_U_SENS_FPAR               source/user_interface/usensor.F
-Chd|        GET_U_SENS_ID                 source/user_interface/usensor.F
-Chd|        GET_U_SENS_IPAR               source/user_interface/usensor.F
-Chd|        GET_U_SENS_VALUE              source/user_interface/usensor.F
-Chd|        SET_U_SENS_ACTI               source/user_interface/usensor.F
-Chd|        SET_U_SENS_DEACTI             source/user_interface/usensor.F
-Chd|        SET_U_SENS_MAXVALUE           source/user_interface/usensor.F
-Chd|        SET_U_SENS_VALUE              source/user_interface/usensor.F
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
-      MODULE SENSOR_VARIABLE_MOD
-C-----------------------------------------------
-         USE SENSOR_MOD
-C-----------------------------------------------
-C   m y _ r e a l
-C-----------------------------------------------
-#include      "my_real.inc"
-         TYPE (SENSOR_STR_)       ,DIMENSION(:) , ALLOCATABLE :: SENSOR_TAB       ! NSENSOR
-      END MODULE SENSOR_VARIABLE_MOD
-      
-

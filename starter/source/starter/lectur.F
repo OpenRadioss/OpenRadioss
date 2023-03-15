@@ -66,7 +66,7 @@ Chd|        CREATE_MAP_TABLES             source/model/sets/map_tables.F
 Chd|        CREATE_SEATBELT               source/tools/seatbelts/create_seatbelt.F
 Chd|        DAMPDTNODA                    source/general_controls/damping/dampdtnoda.F
 Chd|        DDPRINT                       source/spmd/domdec2.F         
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
+Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.Fi
 Chd|        DEALLOCATE_DETONATORS         share/modules1/detonators_mod.F
 Chd|        DEALLOCATE_ELBUF              source/elements/elbuf_init/deallocate_buffer.F
 Chd|        DEALLOCATE_IGRSURF_SPLIT      source/spmd/deallocate_igrsurf_split.F
@@ -506,7 +506,7 @@ Chd|        TABLE_GLOB_MOD                share/modules1/table_glob_mod.F
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================
       SUBROUTINE LECTUR(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,EBCS_TAB,SEATBELT_CONVERTED_ELEMENTS,
-     .                  NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE)
+     .                  NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE,USER_WINDOWS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -569,7 +569,6 @@ C-----------------------------------------------
       USE INIVOL_ARRAY_MOD
       USE INIVOL_INTERF_MOD
       USE SENSOR_MOD
-      USE SENSOR_VARIABLE_MOD
       USE RANDOM_MOD
       USE ALE_EBCS_MOD
       USE INVERTED_GROUP_MOD
@@ -579,6 +578,8 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SEATBELT_MOD
       USE STATE_MOD
+      USE USER_WINDOWS_MOD
+      USE USER_SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -594,6 +595,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)::NB_SEATBELT_SHELLS
       INTEGER,INTENT(INOUT)::SEATBELT_CONVERTED_ELEMENTS(3,NB_SEATBELT_SHELLS)
       INTEGER,INTENT(IN)::NB_DYNA_INCLUDE
+      TYPE(USER_WINDOWS_), INTENT(INOUT) :: USER_WINDOWS
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -973,7 +975,7 @@ C======================================================================|
       INTEGER LXINTD
       my_real TOTADDMAS
       CHARACTER*ncharline ERR_MSG
-      INTEGER, DIMENSION(:), ALLOCATABLE :: USERNODS,IBORDEDGE,INOM_OPT
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IBORDEDGE,INOM_OPT
       DOUBLE PRECISION RSIBUFSSG,RNIGE,RRIGE,RXIGE,RVIGE
       INTEGER INTMAX, LLINAL,ITET4_10
 C---------      Itet=2 of S10
@@ -1107,7 +1109,6 @@ C SEATBELTS
 C   
       INTEGER  :: NUMSH3,NUMSH4, NSLICE,NPT_DRAPE,JJ,ISL, IP,IE, IDSHEL
       INTEGER , DIMENSION(:), ALLOCATABLE :: INDXSH  
-C======================================================================|
 c   BEGINNING
 !     domain decomposition statistic
       DDSTAT(1:50,1:PARASIZ)=0
@@ -4892,6 +4893,7 @@ c
       ! size initialization for user sensor
       CALL SENSOR_USER_INIT()
       ! -------------
+      IF (ALLOCATED(SENSOR_TAB))DEALLOCATE(SENSOR_TAB)
       ALLOCATE( SENSOR_TAB(NSENSOR) )
 c
       IF (NSENSOR > 0) THEN
@@ -5051,24 +5053,14 @@ C--------------------------------------------
       ERR_MSG='USER WINDOWS'
       ERR_CATEGORY='USER WINDOWS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      USREINT=ZERO
 C
-      IF (IUSERWI /= 0 ) THEN
-        ALLOCATE(USERNODS(NUMNOD))
-        USERNODS(1:NUMNOD)=0
+      IF (USER_WINDOWS%HAS_USER_WINDOW /= 0 ) THEN
 !
 !==============
-        CALL HM_READ_WINDOW_USER(NUVAR,NUVARI,USERNODS,LSUBMODEL)
+        CALL HM_READ_WINDOW_USER(USER_WINDOWS,LSUBMODEL,ITAB,
+     *                           X, V, VR, MS, IN)
 !==============
 !
-        SFR_USERWI=0
-      ELSE
-        SIUSER = 0
-        SUSER  = 0
-        ALLOCATE (IUSER(SIUSER)    ,STAT=stat)
-        ALLOCATE (USER(SUSER)      ,STAT=stat)
-        ALLOCATE(USERNODS(0))
-        SFR_USERWI=0
       ENDIF
       CALL TRACE_OUT1()
 C---------------------------
@@ -10287,8 +10279,7 @@ C----------------------------------------------
      J        NSIGSH      ,SIGSH      ,NSIGI           ,SIGSP         ,NSIGS            ,
      K        SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS     ,SIGTRUSS         ,
      L        NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL,
-     L        IMERGE      ,NMERGE_TOT ,IEXLNK          ,NUVARI        ,NUVAR            ,
-     N        IUSER       ,USER       ,DRAPEG)
+     M        IMERGE      ,NMERGE_TOT ,IEXLNK ,DRAPEG         ,USER_WINDOWS  )
 !
       DEALLOCATE (SIGI)
       DEALLOCATE (SIGSH)
@@ -10608,7 +10599,7 @@ c
      2         IPM          ,ICODE       ,ISKEW          ,ISKWN       ,BID13      ,
      3         IBCSLAG      ,IPART       ,IPARTS         ,IPARTQ      ,IPARTC     ,
      4         IPARTT       ,IPARTP      ,IPARTR         ,IPARTG     ,
-     5         IPARTX       ,NPC         ,IXTG        ,GROUP_PARAM_TAB,
+     5         IPARTX       ,NPC         ,IXTG           ,GROUP_PARAM_TAB,
      6         IXTG1        ,IXS         ,IXS10          ,IXS20       ,IXS16      ,
      7         IXQ          ,IXC         ,IXT            ,IXP         ,IXR        ,
      8         ITAB         ,ITABM1      ,GJBUFI         ,ALE_CONNECTIVITY%NALE   ,
@@ -10628,7 +10619,7 @@ c
      M         DFILL        ,WB          ,DSAVE          ,ASAVE       ,MSNF       ,    
      N         SPBUF        ,FORC        ,VEL            ,FSAV        ,FZERO      ,    
      O         XLAS         ,ACCELM      ,FBVEL          ,GRAV       ,    
-     P         FR_WAVE      ,FAILWAVE    ,PARTS0         ,USER        ,ELBUF      ,                
+     P         FR_WAVE      ,FAILWAVE    ,PARTS0         ,ELBUF      ,                
      Q         RWBUF        ,RWSAV       ,RBY            ,RIVET       ,    
      R         SECBUF       ,VOLMON      ,RCONX          ,NLOC_DMG    ,                             
      S         FVMAIN       ,LIBAGALE    ,LENTHG         ,LBUFMAT     ,LBUFGEO    ,
@@ -10671,8 +10662,8 @@ c
      8         MS_PLY,
      9         ZI_PLY       ,INOD_PXFEM  ,IEL_PXFEM      ,ICODEP      ,ISKEWP     ,
      A         ADDCNE_PXFEM ,CNE_PXFEM   ,CEL_PXFEM      ,ITHVAR      ,XDP,TABLE  ,
-     B         CELSPH       ,ICFIELD     ,LCFIELD        ,CFIELD      ,USERNODS   ,IUSER   ,
-     C         SUSER        ,SIUSER      ,MSZ2           ,ITASK       ,DIAG_SMS,
+     B         CELSPH       ,ICFIELD     ,LCFIELD        ,CFIELD      ,
+     C         MSZ2         ,ITASK       ,DIAG_SMS,
      D         ILOADP       ,LLOADP      ,LOADP,
      E         INOD_CRKXFEM ,IEL_CRKXFEM ,ADDCNE_CRKXFEM ,CNE_CRKXFEM ,CEL_CRKXFEM,
      F         IBUFSSG_IO   ,INTERCEP    ,IBORDNODE      ,IEDGESH     ,IBORDEDGE  ,
@@ -10699,7 +10690,7 @@ c
      B         SIZE_ALE_ELM(P),PINCH_DATA ,TAG_SKINS6    ,IBCSCYC      ,LBCSCYC   ,T_MONVOL,
      C         INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP,DYNAIN_DATA,
-     E         DRAPEG)
+     E         DRAPEG,USER_WINDOWS)
       GOTO 220
  221  CONTINUE
 

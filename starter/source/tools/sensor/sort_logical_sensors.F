@@ -30,7 +30,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        SENSOR_VARIABLE_MOD           share/modules1/sensor_mod.F   
 Chd|====================================================================
-      SUBROUTINE SORT_LOGICAL_SENSORS()
+      SUBROUTINE SORT_LOGICAL_SENSORS(SENSOR_TAB)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -56,7 +56,6 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SENSOR_MOD
-      USE SENSOR_VARIABLE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,6 +64,10 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
