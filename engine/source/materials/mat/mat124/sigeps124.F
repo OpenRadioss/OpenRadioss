@@ -814,7 +814,7 @@ c
               ENDIF
             ! -> Exponential type
             ELSEIF (DTYPE == 3) THEN 
-              OMEGAT(I) = ONE - EXP(-(EPS_INEL(I)/WF))
+              OMEGAT(I) = ONE - EXP(-(H(I)*EPS_INEL(I)/WF))
             ENDIF
             OMEGAT(I) = MAX(OMEGAT(I),UVAR(I,12))
             OMEGAT(I) = MIN(MAX(OMEGAT(I),ZERO),ZEP999)
