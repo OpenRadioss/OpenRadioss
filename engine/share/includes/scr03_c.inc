@@ -26,15 +26,15 @@ C...recopie par defaut en spmd
 
       PARAMETER (LSCR03 = 22)
       COMMON /SCR03/ NRLINK, NALELK, NCRST, IOUTV, INVERS,
-     .               IUSERW, NUSERW, CODVERS, NOTUSED, ICODRUN,
+     .               CODVERS, NOTUSED, ICODRUN,
      .               IMINVER, ISRCVER, PCODVER, PMINVER, PSRCVER,
      .               PINVERS, PIRUN, PCODRUN,IISROT,NXREF, NALELINK,
      .               ST_INVERS,PDEL
       INTEGER NRLINK, NALELK, NCRST, IOUTV, INVERS,
-     .               IUSERW, NUSERW, CODVERS, NOTUSED, ICODRUN,
-     .               IMINVER, ISRCVER, PCODVER, PMINVER, PSRCVER,
-     .               PINVERS, PIRUN, PCODRUN,IISROT,NXREF, NALELINK,
-     .               ST_INVERS,PDEL
+     .                CODVERS, NOTUSED, ICODRUN,
+     .                IMINVER, ISRCVER, PCODVER, PMINVER, PSRCVER,
+     .                PINVERS, PIRUN, PCODRUN,IISROT,NXREF, NALELINK,
+     .                ST_INVERS,PDEL
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 Clm110 +++
 C     CODE OF THIS RUN (1:ENGINE)

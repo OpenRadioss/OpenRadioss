@@ -41,7 +41,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        RESTMOD                       share/modules1/restart_mod.F  
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_WINDOW_USER(NUVAR,NUVARI,USERNODS,LSUBMODEL)
+      SUBROUTINE HM_READ_WINDOW_USER(USER_WINDOWS, LSUBMODEL,ITAB,
+     *                               X, V, VR, MS, IN)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -62,8 +63,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE RESTMOD
       USE HM_OPTION_READ_MOD
+      USE USER_WINDOWS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,6 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "my_allocate.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr15_c.inc"
@@ -81,21 +83,24 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(INOUT)  :: NUVAR,NUVARI
-      INTEGER ,DIMENSION(NUMNOD),INTENT(INOUT) :: USERNODS
-      TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
+      TYPE(USER_WINDOWS_),INTENT(INOUT)      :: USER_WINDOWS
+      TYPE(SUBMODEL_DATA),INTENT(IN)          :: LSUBMODEL(*)
+      INTEGER, DIMENSION(NUMNOD),INTENT(IN)   :: ITAB
+      my_real, DIMENSION(3,NUMNOD),INTENT(IN) :: X, V, VR
+      my_real, DIMENSION(NUMNOD),INTENT(IN)   :: MS,IN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(LEN=4096) :: SCR_FILE_NAME
-      CHARACTER(LEN=ncharline) :: RLINE
-      CHARACTER (LEN=4) :: CWIN
+      CHARACTER(LEN=4096)       :: SCR_FILE_NAME
+      CHARACTER(LEN=ncharline)  :: RLINE
+      CHARACTER (LEN=4)         :: CWIN
       CHARACTER(LEN=nchartitle) :: TITLE
-      CHARACTER(LEN=ncharkey) :: KEY
-      LOGICAL :: IS_AVAILABLE
+      CHARACTER(LEN=ncharkey)   :: KEY
+      LOGICAL                   :: IS_AVAILABLE
+      INTEGER ,DIMENSION(100)   :: IUPARAM
       INTEGER NLINES,I,J,STAT,USERWI_ID
       INTEGER SCR_FILE_NAME_LEN
-      INTEGER ,DIMENSION(100) :: IUPARAM
+      INTEGER NUVAR,NUVARI
 !
       CHARACTER OPTION*256
       INTEGER SIZE
@@ -113,7 +118,10 @@ C-----------------------------------------------
 
       CALL HM_OPTION_START('/USERWI')
 !
-      CALL HM_OPTION_READ_KEY(LSUBMODEL)
+      CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     *                        OPTION_ID   = USERWI_ID)
+
+      USER_WINDOWS%USER_WINDOWS_ID = USERWI_ID
 
       CALL HM_GET_INTV ('Number_of_datalines' ,NLINES ,IS_AVAILABLE, LSUBMODEL)
 
@@ -135,10 +143,11 @@ C-----------------------------------------------
       ENDIF ! IF (NLINES > 0)
 !
       CLOSE(UNIT=30)
+      
 C-----  memory (user buffer length estimation)
       IUPARAM = 0
-      NUVAR   = 0
-      NUVARI  = 0
+      USER_WINDOWS%NUVAR   = 0
+      USER_WINDOWS%NUVARI  = 0
 !
       CALL ST_USERLIB_USERWIS_INI(ROOTNAM,ROOTLEN,
      .             IUPARAM ,NUMNOD  ,ITAB,
@@ -146,22 +155,22 @@ C-----  memory (user buffer length estimation)
      .             NUVAR   ,NUVARI  )
       CALL USER_OUTPUT(IOUT,1,ROOTNAM,ROOTLEN,1)
 !
-      SUSER  = NUVAR
-      SIUSER = NUVARI+100
+      USER_WINDOWS%NUVAR   = NUVAR
+      USER_WINDOWS%NUVARI  = NUVARI
 
-      ALLOCATE (IUSER(SIUSER)    ,STAT=stat)
-      ALLOCATE (USER(SUSER)      ,STAT=stat)
-      USER     = ZERO
-      IUSER    = 0
-      IUSER(NUVARI+1) = NUVAR
-      IUSER(NUVARI+2) = NUVARI
-      IUSER(NUVARI+3) = IUPARAM(1)
-      IUSER(NUVARI+4) = IUPARAM(2)
-      IUSER(NUVARI+5) = IUPARAM(3)
-      IUSER(NUVARI+6) = IUPARAM(4)
-      IUSER(NUVARI+7) = IUPARAM(5)
-      IUSER(NUVARI+8) = IUPARAM(6)
-C-----  buffer initialisation
+      USER_WINDOWS%S_USER  = NUVAR
+      USER_WINDOWS%S_IUSER = NUVARI+100
+
+      MY_ALLOCATE(USER_WINDOWS%IUSER,USER_WINDOWS%S_IUSER)
+      MY_ALLOCATE(USER_WINDOWS%USER,USER_WINDOWS%S_USER)
+
+      USER_WINDOWS%USER(1:USER_WINDOWS%S_USER) = ZERO
+      USER_WINDOWS%IUSER(1:USER_WINDOWS%S_IUSER) = 0
+      
+      USER_WINDOWS%IUSER(NUVARI+1:NUVARI+100)=IUPARAM(1:100)
+
+
+C-----  Scratch file initialisation
       WRITE(CWIN,'(I4.4)') 1
       SCR_FILE_NAME='SI'//ROOTNAM(1:ROOTLEN)//'_'//CWIN//'.scr'
       SCR_FILE_NAME_LEN=LEN_TRIM(SCR_FILE_NAME)
@@ -170,22 +179,18 @@ C-----  buffer initialisation
 
         ! Read & Dump in scratch file
       DO J=1,NLINES   
-       CALL HM_GET_STRING_INDEX('arraydatalines', RLINE, J, ncharline, IS_AVAILABLE)
-       WRITE(30,FMT='(A)')TRIM(RLINE)
+         CALL HM_GET_STRING_INDEX('arraydatalines', RLINE, J, ncharline, IS_AVAILABLE)
+         WRITE(30,FMT='(A)')TRIM(RLINE)
       ENDDO
       CLOSE(UNIT=30)
 !
-      CALL ST_USERLIB_USERWIS(ROOTNAM,ROOTLEN,
-     .             NUMNOD  ,ITAB,
-     .             X       ,V       ,VR       ,MS      ,IN  ,
-     .              NUVAR   ,NUVARI  ,USER     ,IUSER )
+      CALL ST_USERLIB_USERWIS(ROOTNAM, ROOTLEN, NUMNOD, ITAB,
+     .                        X, V, VR, MS, IN,
+     .                        USER_WINDOWS%NUVAR, USER_WINDOWS%NUVARI, 
+     .                        USER_WINDOWS%USER,  USER_WINDOWS%IUSER )
+     
       CALL USER_OUTPUT(IOUT,1,ROOTNAM,ROOTLEN,1)
 !
-      IF (NSPMD > 1)THEN
-C Stick the nodes involved in user window to processor 1
-        CALL SPMD_USERWIS_SPMD(IUSER,USERNODS)
-        CALL USERWIS_FRONT(USERNODS)
-      ENDIF
 !---------
       RETURN
       END

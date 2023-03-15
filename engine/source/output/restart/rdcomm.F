@@ -121,7 +121,7 @@ C     LECTURE DES VARIABLES ENTIERES.
 C-----------------------------------------------
       N2D     =TABVINT(1)
       NCPRI   =TABVINT(2)
-      IUSERWI =TABVINT(3)
+      !IUSERWI =TABVINT(3)
       IALE    =TABVINT(4)
       NGROUP  =TABVINT(5)
       NCYCLE  =TABVINT(6)
@@ -212,7 +212,7 @@ C Empty field           = TABVINT(47)
 
       SNNLINK   = TABVINT(86)
       SLNLINK   = TABVINT(87)
-      SIUSER    = TABVINT(88)
+      !SIUSER   = TABVINT(88) - unused
       SIPARG    = TABVINT(89)
       SDD_IAD   = TABVINT(90)
       SIGRV     = TABVINT(91)
@@ -339,7 +339,7 @@ C
       SGRAV     = TABVINT(212)
       SFR_WAVE  = TABVINT(213)
       SPARTS0   = TABVINT(214)
-      SUSER     = TABVINT(215)
+      !SUSER     = TABVINT(215) unused
       SELBUF    = TABVINT(216)
       SBUFIN    = 0 !TABVINT(217)
       SRWBUF    = TABVINT(218)
@@ -675,8 +675,8 @@ C No more used        TABVINT(NEXT + 22 )
         IPREAD    = TABVINT(NEXT + 44 )
         NSFLSW    = TABVINT(NEXT + 45 )
         NTFLSW    = TABVINT(NEXT + 46 )
-        IUSERW    = TABVINT(NEXT + 47 )
-        NUSERW    = TABVINT(NEXT + 48 )
+       ! IUSERW    = TABVINT(NEXT + 47 )
+       ! NUSERW    = TABVINT(NEXT + 48 )
         IRAD2R    = TABVINT(NEXT + 49 )
         NNOISE    = TABVINT(NEXT + 50 )
         RNOI      = TABVINT(NEXT + 51 )
@@ -1237,8 +1237,6 @@ C
       SLCFIELD = TABVINT(NEXT)
       NEXT = NEXT + 1
       NLOAD = TABVINT(NEXT)
-      NEXT = NEXT + 1
-      SFR_USERWI = TABVINT(NEXT)
       NEXT = NEXT + 1
       IDAMP_RDOF = TABVINT(NEXT)
       NEXT = NEXT + 1
@@ -1860,7 +1858,7 @@ C-----
       T1S    =TABVREA(25)
       DT2S   =TABVREA(26)
       EPOR   =TABVREA(27)
-      USREINT=TABVREA(28)
+      ! unused USREINT=TABVREA(28)
       R2RFX1 =TABVREA(29)
       R2RFX2 =TABVREA(30)
       DAMPA  =TABVREA(31)

@@ -190,8 +190,8 @@ C-----------------------------------------------
       USE MDS_RESTART_MOD
       USE SEGVAR_MOD
       USE SCRATCHFILE_MOD
-      USE SENSOR_VARIABLE_MOD
       USE STATE_MOD
+      USE USER_INTERFACE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -998,7 +998,7 @@ c
       CALL RDRESB(AF       ,IAF     ,LVARREA ,XDP    ,
      .            IRUNN , MULTI_FVM,H3D_DATA,MATPARAM_TAB,GROUP_PARAM_TAB,
      .           PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL    ,
-     .           SENSOR_TAB, EBCS_TAB,DYNAIN_DATA)
+     .           SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS)
 
       IF (NSPMD > 1)  CALL SPMD_RST_CHECK()
 c----------
@@ -2210,16 +2210,16 @@ C Send Data / Fem Structures
 C---------------------------------------------------------------------
          ITASK=0
          IRUNN_BIS = IRUNN
-         CALL RESOL_HEAD(ITASK,AF,IAF,IDATA,RDATA,XDP,
-     .                   GRAPHE , IFLOW,   RFLOW , MCP    , TEMP  ,
-     .                   ELBUF_TAB,XFEM_TAB,INTBUF_TAB,STACK,IRUNN_BIS,
-     .                   MULTI_FVM,H3D_DATA,INTBUF_FRIC_TAB,SUBSETS,IGRNOD,
-     .                   IGRBRIC, IGRQUAD, IGRSH4N,IGRSH3N,IGRTRUSS,
-     .                   IGRBEAM, IGRSPRING,IGRPART,IGRSURF,IGRSLIN,
-     .                   FORNEQS  ,MATPARAM_TAB,GROUP_PARAM_TAB,
-     .                   PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                   DRAPE_SH4N ,DRAPE_SH3N,SENSOR_TAB,EBCS_TAB,DIFFUSION,SEGVAR,
-     .                   DYNAIN_DATA,DRAPEG)
+
+         CALL RESOL_HEAD(ITASK        ,AF              ,IAF             ,IDATA      ,RDATA,XDP ,
+     .                   GRAPHE       ,IFLOW           ,RFLOW           ,MCP        ,TEMP      ,
+     .                   ELBUF_TAB    ,XFEM_TAB        ,INTBUF_TAB      ,STACK      ,IRUNN_BIS ,
+     .                   MULTI_FVM    ,H3D_DATA        ,INTBUF_FRIC_TAB ,SUBSETS    ,IGRNOD    ,
+     .                   IGRBRIC      ,IGRQUAD         ,IGRSH4N         ,IGRSH3N    ,IGRTRUSS  ,
+     .                   IGRBEAM      ,IGRSPRING       ,IGRPART         ,IGRSURF    ,IGRSLIN   ,
+     .                   FORNEQS      ,MATPARAM_TAB    ,GROUP_PARAM_TAB ,PINCH_DATA ,ALE_CONNECTIVITY,
+     .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSOR_TAB ,EBCS_TAB        ,
+     .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    )
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")
@@ -2238,6 +2238,8 @@ C---------------------------------------------------------------------
       ELSE
         N = 1
       ENDIF
+      
+      CALL USER_WINDOWS_CLEAN(USER_WINDOWS)
       DEALLOCATE(GRAPHE)
       DEALLOCATE(IFLOW, RFLOW)
       CALL FVDEAL()

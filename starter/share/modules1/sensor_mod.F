@@ -164,26 +164,6 @@ c--------------------------
       END MODULE SENSOR_MOD
 
 
-Chd|====================================================================
-Chd|  SENSOR_VARIABLE_MOD           share/modules1/sensor_mod.F   
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        SORT_LOGICAL_SENSORS          source/tools/sensor/sort_logical_sensors.F
-Chd|        SET_U_SENS_FPAR               source/user_interface/uaccess.F
-Chd|        SET_U_SENS_IPAR               source/user_interface/uaccess.F
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|====================================================================
-      MODULE SENSOR_VARIABLE_MOD
-C-----------------------------------------------
-         USE SENSOR_MOD
-C-----------------------------------------------
-C   m y _ r e a l
-C-----------------------------------------------
-#include      "my_real.inc"
-         TYPE (SENSOR_STR_)       ,DIMENSION(:) , ALLOCATABLE :: SENSOR_TAB       ! NSENSOR
 
-         ! Logical sensors : and, or,not,sens sorted list
-      END MODULE SENSOR_VARIABLE_MOD
       
 

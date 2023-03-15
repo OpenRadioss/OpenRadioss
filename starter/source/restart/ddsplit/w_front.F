@@ -57,12 +57,12 @@ Chd|====================================================================
      F   IACCP   ,NACCP   ,IRBE3   ,LRBE3   ,ITABRBE3M,
      G   NBDDRBE3M,IRBYM  ,LCRBYM  ,FRONT_RM ,DD_RBYM2,
      H   NBDDNRBYM,IRBE2  ,LRBE2   ,NBDDRBE2,ITABRBE2M,
-     I   USERNODS,IEDGE_TMP,NODEDGE,EDGELOCAL,NBDDEDGE_L,
+     I   IEDGE_TMP,NODEDGE,EDGELOCAL,NBDDEDGE_L,
      J   IGAUP   ,NGAUP ,FRONTB_R2R,SDD_R2R_ELEM,ADDCSRECT,
      K   CSRECT,NBDDNORT ,NBDDNOR_MAX,NBCCFR25 ,NBCCNOR ,
      L   NUMNOR_L,NBDDEDGT,NBDDEDG_MAX,INTERCEP,NBDDCNDM,
      M   ITABCNDM,MULTI_FVM,IGRSURF,ISKWP_L,ALE_ELM,
-     N   SIZE_ALE_ELM  ) 
+     N   SIZE_ALE_ELM) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SPLIT_CFD_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE USER_WINDOWS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,7 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       INTEGER  PROC, NBDDACC, NBDDKIN, NBDDPROC, NBDDBOUN, NUMELS_L,
+      INTEGER  PROC, NBDDACC, NBDDKIN, NBDDPROC, NBDDBOUN, NUMELS_L,
      .          NUMNOD_L, NBDDNRB, LEN_IA, NBDDI2M, NBDDNCJ,NBDDNRBM,
      .          NNODT_L, NNODL_L, ISP0, NRCVVOIS, NSNDVOIS, NERVOIS,
      .          NESVOIS, NSEGFL_L, NUMEL, NBCFD, NUMELQ_L,NUMELTG_L,
@@ -111,19 +112,19 @@ C-----------------------------------------------
      .          IRBE3(NRBE3L,*), LRBE3(*),ITABRBE3M(*),NBDDRBE3M,
      .          IRBYM(NIRBYM,*), DD_RBYM2(3,NRBYM), FRONT_RM(NRBYM,*),
      .          LCRBYM(*),NBDDNRBYM,IRBE2(NRBE2L,*), LRBE2(*),NBDDRBE2,
-     .          ITABRBE2M(*),USERNODS(*),IEDGE_TMP(3,*),NODEDGE(2,*),
+     .          ITABRBE2M(*),IEDGE_TMP(3,*),NODEDGE(2,*),
      .          EDGELOCAL(*),NBDDEDGE_L, IGAUP(*), NGAUP(*),
      .          FRONTB_R2R(SFRONTB_R2R,NSPMD),SDD_R2R_ELEM,
      .          ADDCSRECT(*), CSRECT(*),NBDDCNDM,ITABCNDM(*)
-       my_real
+      my_real
      .          GEO(NPROPG,*)
 
-       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-       TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
-       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
-       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
-       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
-       INTEGER, DIMENSION(*), INTENT(IN) :: ISKWP_L
+      TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
+      TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
+      TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
+      TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
+      TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+      INTEGER, DIMENSION(*), INTENT(IN) :: ISKWP_L
       INTEGER, INTENT(IN) :: SIZE_ALE_ELM  
       TYPE(split_cfd_type), INTENT(IN) :: ALE_ELM 
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
@@ -151,7 +152,7 @@ C-----------------------------------------------
      
       INTEGER SPLIST
 
-      INTEGER, DIMENSION(:), ALLOCATABLE :: FR_USERWI,DD_R2R_ELEM      
+      INTEGER, DIMENSION(:), ALLOCATABLE :: DD_R2R_ELEM      
       INTEGER, DIMENSION(:), ALLOCATABLE :: PLIST
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_SM, TAG_MS
       INTEGER TAGP(NSPMD)
@@ -174,10 +175,8 @@ C---------------------------------------------------------------------
       INTEGER ::  IERR
       INTEGER ::  IFV
       INTEGER ::  L
-      INTEGER ::  LEN_USERW
       INTEGER ::  NB_FREDGE
       INTEGER ::  NL
-      INTEGER ::  NUSERWI_L
       INTEGER ::  OFFSET
       INTEGER ::  SHIFT_EDG
       INTEGER ::  SOLV
@@ -203,8 +202,6 @@ C---------------------------------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: DP_RBE3M  !(NBDDRBE3M)
       INTEGER, DIMENSION(:), ALLOCATABLE :: D_RBY  !(NSPMD+1)
       INTEGER, DIMENSION(:), ALLOCATABLE :: FR_NOR  !(NBDDNORT)
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IADUSERW  !(NSPMD+1)
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IADUSERW2  !(NSPMD+1)
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_CNDM  !(NSPMD+1)
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_I2M  !(NSPMD+1)
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_RBE2  !(NSPMD+1)
@@ -290,8 +287,6 @@ C---------------------------------------------------------------------
       ALLOCATE(DP_RBE3M(NBDDRBE3M))
       ALLOCATE(D_RBY(NSPMD+1))
       ALLOCATE(FR_NOR(NBDDNORT))
-      ALLOCATE(IADUSERW(NSPMD+1))
-      ALLOCATE(IADUSERW2(NSPMD+1))
       ALLOCATE(IAD_CNDM(NSPMD+1))
       ALLOCATE(IAD_I2M(NSPMD+1))
       ALLOCATE(IAD_RBE2(NSPMD+1))
@@ -2224,65 +2219,6 @@ c        NLAGF = 0
           DD_LAGF(3,NSPMD+1) = DD_LAGF(3,NSPMD+1)+DD_LAGF(3,P)
         END DO
       END IF
-C ---------------------
-C Fontiere UserWindow
-C ---------------------
-      IF(IUSERWI /= 0 ) THEN
-        IADUSERW(1:NSPMD+1)=1
-        IADUSERW2(1:NSPMD+1)=0
-        IF(PROC/=1)THEN
-C pour les procs autre que le premier on note les noeuds
-C dont on va recevoir les accels.
-          DO I=1,NUMNOD
-            IF(USERNODS(I)==1 .AND. NLOCAL(I,PROC)==1)THEN          
-               IADUSERW(PROC+1)=IADUSERW(PROC+1)+1
-            ENDIF
-          ENDDO
-          DO P=PROC+2,NSPMD+1
-            IADUSERW(P)=IADUSERW(P-1)
-          ENDDO
-        ELSE
-          DO I=1,NUMNOD
-             IF(USERNODS(I)==1)THEN
-               DO P=2,NSPMD
-                 IF(NLOCAL(I,P)==1)THEN          
-                    IADUSERW2(P)=IADUSERW2(P)+1
-                 ENDIF
-               ENDDO
-             ENDIF
-          ENDDO
-          IADUSERW(1)=1
-          DO P=2,NSPMD+1
-            IADUSERW(P)=IADUSERW(P-1)+IADUSERW2(P-1)
-          ENDDO
-        ENDIF
-C On remplit le tableau FR_USERW
-        LEN_USERW=IADUSERW(NSPMD+1)-IADUSERW(1)
-        ALLOCATE(FR_USERWI(LEN_USERW))
-        IF (PROC/=1)THEN
-          IAD=1
-          DO I=1,NUMNOD
-            IF(USERNODS(I)==1 .AND.NLOCAL(I,PROC)==1)THEN
-               FR_USERWI(IAD)=NODLOCAL(I)
-               IAD=IAD+1
-            ENDIF
-          ENDDO
-         ELSE
-          IADUSERW2=IADUSERW
-          DO I=1,NUMNOD
-            IF(USERNODS(I)==1 )THEN
-              DO P=2,NSPMD
-                IF (NLOCAL(I,P)==1)THEN         
-                  IAD = IADUSERW2(P)
-                  FR_USERWI(IAD)=NODLOCAL(I)
-                  IADUSERW2(P)=IADUSERW2(P)+1
-                ENDIF
-              ENDDO
-            ENDIF
-          ENDDO
-        ENDIF
-        NUSERWI_L=IADUSERW(NSPMD+1)-IADUSERW(1)
-      ENDIF
 C-------------------------
 C  xfem edge boundary treatment
       IF(ICRACK3D > 0)THEN
@@ -2759,12 +2695,6 @@ C
       IF ((NSUBDOM>0).AND.(IDDOM==0)) THEN
         DEALLOCATE(DD_R2R_ELEM)      
       ENDIF
-      IF (IUSERWI /=0)THEN
-        CALL WRITE_I_C(IADUSERW,NSPMD+1)
-        LEN_IA = LEN_IA + NSPMD+1
-        CALL WRITE_I_C(FR_USERWI,NUSERWI_L)
-        DEALLOCATE(FR_USERWI)
-      ENDIF
 C
       IF(ICRACK3D > 0)THEN
         CALL WRITE_I_C(IAD_EDGE,NSPMD+1)
@@ -2802,8 +2732,6 @@ C
         DEALLOCATE( DP_RBE3M  )!(NBDDRBE3M)
         DEALLOCATE( D_RBY  )!(NSPMD+1)
         DEALLOCATE( FR_NOR  )!(NBDDNORT)
-        DEALLOCATE( IADUSERW  )!(NSPMD+1)
-        DEALLOCATE( IADUSERW2  )!(NSPMD+1)
         DEALLOCATE( IAD_CNDM  )!(NSPMD+1)
         DEALLOCATE( IAD_I2M  )!(NSPMD+1)
         DEALLOCATE( IAD_RBE2  )!(NSPMD+1)

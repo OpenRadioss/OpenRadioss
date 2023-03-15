@@ -35,8 +35,18 @@ Chd|====================================================================
 C-----------------------------------------------------------------------------------
 C     MODULE dedicated to pass arrays from RADIOSS to user routines.
 C-----------------------------------------------------------------------------------
-        
         TYPE (USER_WINDOWS_)::USER_WINDOWS
-        TYPE (SENSOR_STR_)       ,DIMENSION(:) , ALLOCATABLE :: SENSOR_TAB       ! NSENSOR
-
       END MODULE USER_INTERFACE_MOD
+
+
+      ! Need to have sensor_tab in a separate module as long as the array is not embedded in a Type
+      ! Otherwise issues with Allocation / Reallocation
+      MODULE USER_SENSOR_MOD
+         USE SENSOR_MOD
+#include "my_real.inc"
+C-----------------------------------------------------------------------------------
+C     MODULE dedicated to pass sensors arrays
+C-----------------------------------------------------------------------------------
+        TYPE (SENSOR_STR_),DIMENSION(:) , ALLOCATABLE :: SENSOR_TAB       ! NSENSOR
+      END MODULE USER_SENSOR_MOD
+

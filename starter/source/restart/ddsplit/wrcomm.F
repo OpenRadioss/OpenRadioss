@@ -87,7 +87,7 @@ C-----
       TABVREA(11)=DTFAC
       TABVREA(12)=DTMIN
       TABVREA(13)=VOLMIN
-          TABVREA(14)=TFEXT
+      TABVREA(14)=TFEXT
       TABVREA(15)=REINT
       TABVREA(16)=0 !no longer used
       TABVREA(17)=0 !no longer used
@@ -101,7 +101,7 @@ C-----
       TABVREA(25)=T1S
       TABVREA(26)=DT2S
       TABVREA(27)=DT12S
-      TABVREA(28)=USREINT
+      TABVREA(28)=ZERO     !old USREINT
       TABVREA(29)=R2RFX1
       TABVREA(30)=R2RFX2
       TABVREA(31)=DAMPA

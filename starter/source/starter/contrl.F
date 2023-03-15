@@ -82,7 +82,7 @@ Chd|        RESTMOD                       share/modules1/restart_mod.F
 Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS)
+      SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS)
 C----------------------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -102,6 +102,7 @@ C-----------------------------------------------
       USE RESTMOD
       USE GRP_SIZE_MOD
       USE ANIM_MOD
+      USE USER_WINDOWS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -169,6 +170,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       INTEGER,INTENT(IN)::IS_DYNA
       TYPE(DETONATOR_STRUCT_) :: DETONATORS
+      TYPE(USER_WINDOWS_), INTENT(INOUT) :: USER_WINDOWS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1117,7 +1119,7 @@ C----------------------------------------------------------
       CALL CONTRBE2(ICR,LSUBMODEL)
       IF(IISROT==1.OR.ICR>0)IRODDL = 1
 C----------------------------------------------------------
-      CALL HM_OPTION_COUNT('/USERWI',   IUSERWI)
+      CALL HM_OPTION_COUNT('/USERWI',USER_WINDOWS%HAS_USER_WINDOW)
       NCPRI=1
       IF(DTINI==ZERO)DTINI=EP06
       IF(VOLMIN==ZERO)VOLMIN=-EP30
@@ -1440,7 +1442,7 @@ C
         ENDIF
       ENDIF
 C                                                                    012
-      WRITE(IOUT,5500)INTEG8,IPARITH,ISUB,MSHSUB,IUSERWI,IHBE_DS,
+      WRITE(IOUT,5500)INTEG8,IPARITH,ISUB,MSHSUB,USER_WINDOWS%HAS_USER_WINDOW,IHBE_DS,
      .      ITET4_D,ITET10_D,ISST_DS,ICPRE_D,IHBE_D,ISST_D,ITHK_D,
      .      IPLA_D,ISTR_D,ISHEA_D,INSH,ISH3N_D, NPTS_D, IFRAME_DS
       WRITE(IOUT,5501)ISHFRAM

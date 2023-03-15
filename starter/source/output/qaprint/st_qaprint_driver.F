@@ -125,9 +125,8 @@ Chd|====================================================================
      J                             NSIGSH      ,SIGSH      ,NSIGI           ,SIGSP          ,NSIGS            ,
      K                             SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS      ,SIGTRUSS         ,
      L                             NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL ,
-     M                             IMERGE      ,NMERGE_TOT ,IEXLNK          ,NUVARI         ,NUVAR            ,
-     N                             IUSER       ,USER       ,DRAPEG)
-C============================================================================
+     M                             IMERGE      ,NMERGE_TOT ,IEXLNK          ,DRAPEG         ,USER_WINDOWS)
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
@@ -150,6 +149,7 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE INIMAP1D_MOD
       USE INIMAP2D_MOD
+      USE USER_WINDOWS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -218,11 +218,8 @@ C-----------------------------------------------
      .                       SIGRS(NSIGRS,*)
       INTEGER, INTENT(IN) :: IMERGE(*),MERGE_NODE_TAB(*),NMERGE_TOT
       my_real, INTENT(IN) :: MERGE_NODE_TOL(*)
-      INTEGER, INTENT(IN) :: NUVARI,NUVAR
-      INTEGER, INTENT(IN) :: IUSER(NUVARI+100)
-      my_real, INTENT(IN) :: USER(NUVAR)
       INTEGER,INTENT(IN) :: IPARG(NPARG,NGROUP)
-      
+      TYPE(USER_WINDOWS_),INTENT(IN)      :: USER_WINDOWS
 C-----------------------------------------------
 C      NOM_OPT(LNOPT1,SNOM_OPT1) 
 C         * Possibly, NOM_OPT(1) = ID
@@ -481,7 +478,7 @@ C-----------------------------------------------
      .                    SIGI     ,NSIGBEAM ,SIGBEAM ,NSIGTRUSS,SIGTRUSS,
      .                    NSIGRS   ,SIGRS    )
       CALL ST_QAPRINT_MULTIDOMAINS(IPART,IEXLNK,IGRNOD)
-      CALL ST_QAPRINT_USERWI(NUVARI,NUVAR,IUSER,USER)
+      CALL ST_QAPRINT_USERWI(USER_WINDOWS)
       CALL ST_QAPRINT_INTERNAL_GROUPS(IPARG)
 C-----------------------------------------------------------------------
 

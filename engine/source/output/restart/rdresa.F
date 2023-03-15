@@ -452,7 +452,6 @@ C   j ai un doute sur SVISCN - et du flag KDTINT
         SPROCNE_PXFE = 0
         SPROCNE_CRKXFE = 0
       ENDIF
-      SUWA = NUSERW
 C      
        IF (NS10E >0 .AND. IPARI0 /= 0) THEN
         SADDCNCND = NUMNOD + 1

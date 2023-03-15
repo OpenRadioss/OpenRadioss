@@ -499,7 +499,7 @@ Chd|====================================================================
      3          ITAB   ,ITABM1  ,IFILL  ,
      4  IMS    ,NPC    ,IBCL    ,MATPARAM_TAB   ,GROUP_PARAM_TAB,
      5  IBFV   ,IDUM   ,LAS     ,LACCELM,NNLINK ,LNLINK ,
-     6  IUSER  ,IPARG  ,DD_IAD  ,IGRV   ,IEXLNK ,KINET  ,
+     6  IPARG  ,DD_IAD  ,IGRV   ,IEXLNK ,KINET  ,
      7  IPARI  ,        NPRW    ,ICONX  ,NPBY   ,
      8  LPBY   ,LRIVET ,NSTRF   ,LJOINT ,NODPOR ,MONVOL ,ITHGRP,IAD_ELEM,
      9  FR_ELEM,WEIGHT,MAIN_PROC,ICODT,ICODR, ADSKY  ,IADS   ,ILINK  ,
@@ -510,7 +510,7 @@ Chd|====================================================================
      E  W      ,VEUL   ,FILL    ,DFILL  ,ALPH   ,WB     ,DSAVE  ,ASAVE  ,
      .  MSNF   ,
      F  TF     ,FORC   ,VEL     ,FSAV   ,FZERO  ,XLAS   ,ACCELM ,
-     G  AGRV   ,FR_WAVE,FAILWAVE,PARTS0 ,USER   ,ELBUF  ,RWBUF  ,SENSOR_TAB,
+     G  AGRV   ,FR_WAVE,FAILWAVE,PARTS0 ,ELBUF  ,RWBUF  ,SENSOR_TAB,
      H  RWSAV  ,RBY     ,RIVET  ,SECBUF ,VOLMON ,LAMBDA ,
      I  WA     ,FV     ,A       ,AR     ,STIFN  ,STIFR  ,PARTSAV,FSKY
      J         ,UWA    ,VAL2    ,PHI    ,SEGVAR ,R      ,CRFLSW ,
@@ -554,7 +554,7 @@ Chd|====================================================================
      x  IBCR    ,FRADIA  ,RES_SMS ,TABLE   ,IRBE2   ,LRBE2  ,IAD_RBE2 ,
      y  FR_RBE2 ,PHIE    ,MSF     ,
      z  PROCNE_PXFEM  ,IADSDP_PXFEM,IADRCP_PXFEM,ICFIELD,LCFIELD,CFIELD,
-     1  IADUSERW, FR_USERWI, MSZ2 ,DIAG_SMS,ILOADP  ,LLOADP  ,LOADP   ,
+     1  MSZ2 ,DIAG_SMS,ILOADP  ,LLOADP  ,LOADP   ,
      2  INOD_CRK,IEL_CRK ,IADC_CRK,ADSKY_CRK,
      3  CNE_CRK,PROCNE_CRK,IADSDP_CRK,IADRCP_CRK, IBUFSSG_IO,
      4  IBC_PLY ,DMINT2  ,IBORDNODE,
@@ -576,7 +576,7 @@ Chd|====================================================================
      K  NLOC_DMG ,ISKWP_L,KNOTLOCPC,KNOTLOCEL,PINCH_DATA,TAG_SKINS6, ALE_CONNECTIVITY,
      L  XCELL, XFACE, NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,IBCSCYC  ,LBCSCYC,
      M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
-     N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG)
+     N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -622,7 +622,6 @@ C-----------------------------------------------
       USE INTBUF_FRIC_MOD
       USE PBLAST_MOD
       USE GROUPDEF_MOD
-      USE USER_INTERFACE_MOD
       USE FAILWAVE_MOD
       USE NLOCAL_REG_MOD
       USE MATPARAM_DEF_MOD
@@ -648,7 +647,7 @@ C-----------------------------------------------
       USE ANIM_MOD
       USE OUTPUTS_MOD
       USE STATE_MOD
-C----6---------------------------------------------------------------7---------8
+      USE USER_WINDOWS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -736,7 +735,7 @@ C-----------------------------------------------
      .   ADSKY(*),IADS(*),LACCELM(3,*),DD_IAD(NSPMD+1,*),FR_ELEM(*),
      .   IAD_ELEM(2,*),IAD_RBY(*),FR_RBY(*),NNLINK(10,*),LNLINK(*),
      .   IAF(*),ITHGRP(*),IGRV(*),WEIGHT(*),MAIN_PROC(*),WEIGHT_MD(*),
-     .   KXX(NIXX,*),IXX(*),IEXLNK(NR2R,*),ITABM1(*),IUSER(*),
+     .   KXX(NIXX,*),IXX(*),IEXLNK(NR2R,*),ITABM1(*),
      .   IFRAME(LISKN,*),KXSP(NISP,*),IXSP(*),NOD2SP(*),
      .   ISPCOND(NISPCOND,*),ISPSYM(NSPCOND,*),IBVEL(NBVELP,*),LBVEL(*),
      .   ISPHIO(NISPHIO,*),LPRTSPH(*),LONFSPH(*),LAGBUF(*),IBCSLAG(*),
@@ -779,7 +778,7 @@ C-----------------------------------------------
       INTEGER IDATA(*), IBFTEMP(*), IBCV(*), IBFFLUX(*), WEIGHT_RM(*),
      .        ICODT_PLY(*), ISKEW_PLY(*),INOD_PXFEM(*),IEL_PXFEM(*),
      .        IADC_PXFEM(*),ADSKY_PXFEM(*),ICODE_PLY(*),MADCLNOD(*),
-     .        PROCNE_PXFEM(*),IADUSERW(*), FR_USERWI(*),
+     .        PROCNE_PXFEM(*),
      .        IBUFSSG_IO(*),IBC_PLY(*),DD_R2R_ELEM(*),
      .        SPH2SOL(*), SOL2SPH(2,*), IRST(3,*), SOL2SPH_TYP(*),IRUNN_BIS,
      .        ADDCSRECT(*), IAD_FRNOR(*), FR_NOR(*), PROCNOR(*), 
@@ -803,7 +802,7 @@ c     .   X(3,*)    ,D(3,*)      ,V(3,*)   ,VR(3,*),DAMP(*),
      .   TANI(*),VOLMON(*),EANI(*),AGRV(*), THKE(*), BUFSF(*),AF(*),
      .   SECBUF(*),SECFCUM(7,NUMNOD,NSECT),LAMBDA(*), 
      .   FR_WAVE(*),PARTS0(*),BUFGEO(*),
-     .   USER(*),SPBUF(NSPBUF,*),XFRAME(NXFRAME,*),
+     .   SPBUF(NSPBUF,*),XFRAME(NXFRAME,*),
      .   WASPH(*),W16(*),VSPHIO(*),FBVEL(*),DAMPR(NRDAMP,*),
      .   RDATA(*),PV(*),FSAVD(NTHVKI,*),GJBUFR(LKJNR,*),RBMPC(*),
      .   SPHVELN(*),RBYL(NRBY,*),FSKYM(*), MSNF(*),VISCN(*),
@@ -875,15 +874,16 @@ c
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       INTEGER, INTENT(IN) :: NE_NERCVOIS(*), NE_NESDVOIS(*), NE_LERCVOIS(*), NE_LESDVOIS(*)
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
-      TYPE (DRAPE_)   :: DRAPE_SH4N(NUMELC_DRAPE)  , DRAPE_SH3N(NUMELTG_DRAPE) 
-      TYPE(DRAPEG_)                :: DRAPEG
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
-      TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
-      TYPE(T_DIFFUSION), INTENT(INOUT) :: DIFFUSION
-      TYPE(t_segvar) :: SEGVAR
+      TYPE (DRAPE_)                                      :: DRAPE_SH4N(NUMELC_DRAPE)  , DRAPE_SH3N(NUMELTG_DRAPE) 
+      TYPE(DRAPEG_)                                      :: DRAPEG
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR)             :: SENSOR_TAB
+      TYPE(t_ebcs_tab), INTENT(INOUT)                    :: EBCS_TAB
+      TYPE(T_DIFFUSION), INTENT(INOUT)                   :: DIFFUSION
+      TYPE(t_segvar)                                     :: SEGVAR
       TYPE(inter_struct_type), DIMENSION(:), ALLOCATABLE :: INTER_STRUCT   !   structure for interface
       TYPE(sorting_comm_type), DIMENSION(:), ALLOCATABLE :: SORT_COMM   ! structure for interface sorting comm
-      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT)              :: DYNAIN_DATA
+      TYPE(USER_WINDOWS_),INTENT(INOUT)                  :: USER_WINDOWS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1831,18 +1831,6 @@ C-----------------------------------------------
 C /IMPDISP/FGEO
       FXVEL_FGEO = 0
 C-----------------------------------------------
-C     USER WINDOWS
-C-----------------------------------------------
-      IF(IUSERWI /= 0)THEN
-        ALLOCATE(A_SAV(3,NUMNOD))
-        A_SAV(1:3,1:NUMNOD)=ZERO
-        ALLOCATE(AR_SAV(3,NUMNOD))
-        AR_SAV(1:3,1:NUMNOD)=ZERO
-      ELSE
-        ALLOCATE(A_SAV(0,0))
-        ALLOCATE(AR_SAV(0,0))
-      ENDIF
-C-----------------------------------------------
 C     End Allocations Phase 1
 C-----------------------------------------------
 C INTERFACES RENUM
@@ -2024,12 +2012,10 @@ C
 
 
 !$OMP END PARALLEL
-
 C========================================================================================
 C                                  NON PARALLEL SECTION (SMP)
 C========================================================================================
        CALL SPLIT_ASSPAR4(ADSKY,NUMNOD,NTHREAD,NODFT_ASSPAR,NODLT_ASSPAR,SADSKY)
-
        ! Allocation & initialization of /INT18 + LAW151
        CALL INT18_LAW151_ALLOC(MULTI_FVM,IPARI)
        CALL INT18_LAW151_INIT(MULTI_FVM,IGRBRIC,IPARI    ,IXS,
@@ -2039,7 +2025,6 @@ C===============================================================================
      4  MULTI_FVM%FORCE_INT_PON)
        ! allocation & initialization for /FAIL/ALTER
        CALL FAIL_WIND_FRWAVE_INIT(NGROUP)
-
        ! Check if ALE elements are deactivated to avoid some mpi comm. in the ALE solver
        GLOBAL_ACTIVE_ALE_ELEMENT = .FALSE.
        CALL CHECK_ALE_COMM(IPARG,ELBUF_TAB,GLOBAL_ACTIVE_ALE_ELEMENT)
@@ -2124,7 +2109,7 @@ C ---------------------
         ALLOCATE(MCLUSTER(3))
         MCLUSTER(1:3)=0
       ENDIF
-      
+
       ! -------------------------
       ! initialization of SHOOT_STRUCT for 
       ! the deactivation node algo
@@ -2800,6 +2785,7 @@ C     pointer to list of paticles to be sorted (to be sorted == active)
 C     to be sorted > active
         KSP2SORT=KSPH23
       END IF
+
 C-------------------------------
 C       POINTERS FOR USER ROUTINES
 C-------------------------------
@@ -3105,36 +3091,20 @@ C----------------------------
 C------------------------
 C       USER WINDOW
 C------------------------
-        IF (IUSERWI /= 0) THEN
+        IF(USER_WINDOWS%HAS_USER_WINDOW /= 0 ) THEN
           CALL TRACE_IN(9,2,ZERO)
-          IF (ISPMD == 0)THEN
-           DTU = EP30
-           NUVAR  = SUSER
-           NUVARI = SIUSER - 100
-           IF (USERL_AVAIL>0)THEN
-             CALL ENG_USERLIB_USERWI(RAD_INPUTNAME,LEN_RAD_INPUTNAME,
-     1                              NUVAR    ,NUVARI    ,NUMNOD   ,
-     2         NCYCLE    ,LENWA    ,IUSER    ,ITAB     ,TT       ,
-     3         DT1       ,DTU      ,USREINT  ,TFEXT    ,USER     ,
-     4         D         ,X        ,V        ,VR       ,MS       ,
-     5         IN        ,STIFN    ,STIFR    ,A        ,AR       ,
-     6         WA        )
 
-           ELSE
-             ! ----------------
-             ! ERROR to be printed & exit
-             OPTION='USER WINDOWS'
-             SIZE_OPT=LEN_TRIM(OPTION)
-             CALL ANCMSG(MSGID=257,C1=OPTION(1:SIZE_OPT),ANMODE=ANINFO)
-             CALL ARRET(2)
-             ! ----------------
-           ENDIF
-           DT2 = MIN(DT2,DTU)
-          ENDIF
-          IF(NSPMD> 1)THEN
-            CALL SPMD_EXCH_USERWI(A,AR,IADUSERW,FR_USERWI)
-          ENDIF
+          CALL USER_WINDOWS_ROUTINE( ISPMD        ,NSPMD         ,USERL_AVAIL   ,
+     1                               USER_WINDOWS ,RAD_INPUTNAME ,LEN_RAD_INPUTNAME,
+     2                               NUMNOD       ,NCYCLE        ,ITAB             ,
+     3                               TT           ,DT1           ,TFEXT            ,
+     4                               D            ,X            ,V                ,
+     5                               VR           ,MS           ,IN               ,
+     6                               STIFN        ,STIFR        ,A                ,
+     7                               AR           ,DT2)
+
           CALL TRACE_OUT(9)
+
         ENDIF
 C----------------------------------
 C       FUNCTIONS
@@ -8438,7 +8408,8 @@ C Regular animation
      p   KNOTLOCPC     ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6     ,IRUNN_BIS     ,
      q   TF            ,NPC            ,DYNAIN_DATA    ,FCONT_MAX      ,MDS_MATID     ,
      r   FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP         ,LLOADP        ,
-     s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ,DRAPEG  ) 
+     s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ,DRAPEG        ,
+     t   USER_WINDOWS    ) 
 C
         IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
           CALL SORTIE_ERROR(
@@ -8737,18 +8708,20 @@ C===============================================================================
 C----------------------------------------------------------------
 C         USER WINDOWS - Save Accelerations before reset to zero
 C----------------------------------------------------------------
-        IF(IUSERWI /= 0)THEN 
-          DO I=1,NUMNOD
-            A_SAV(1,I)=A(1,I)*MS(I)
-            A_SAV(2,I)=A(2,I)*MS(I)
-            A_SAV(3,I)=A(3,I)*MS(I)            
-          ENDDO
-          IF(IRODDL/=0)THEN
-          DO I=1,NUMNOD
-            AR_SAV(1,I)=AR(1,I)*IN(I)
-            AR_SAV(2,I)=AR(2,I)*IN(I)
-            AR_SAV(3,I)=AR(3,I)*IN(I)            
-          ENDDO
+        IF(USER_WINDOWS%HAS_USER_WINDOW /= 0)THEN 
+          IF(ISPMD == 0) THEN
+            DO I=1,NUMNOD
+              USER_WINDOWS%A_SAV(1,I)=A(1,I)*MS(I)
+              USER_WINDOWS%A_SAV(2,I)=A(2,I)*MS(I)
+              USER_WINDOWS%A_SAV(3,I)=A(3,I)*MS(I)            
+            ENDDO
+            IF(IRODDL/=0)THEN
+              DO I=1,NUMNOD
+                USER_WINDOWS%AR_SAV(1,I)=AR(1,I)*IN(I)
+                USER_WINDOWS%AR_SAV(2,I)=AR(2,I)*IN(I)
+                USER_WINDOWS%AR_SAV(3,I)=AR(3,I)*IN(I)            
+              ENDDO
+            ENDIF
           ENDIF
         ENDIF
 C------------------------------------------
@@ -9232,7 +9205,8 @@ C--------------------------------------------------------
      .                 ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
      .                 H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                 SENSOR_TAB, EBCS_TAB,DYNAIN_DATA)
+     .                 SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS)
+
           IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
           CALL FVWREST()
           IF (IMPL_S>0) THEN
@@ -9499,7 +9473,8 @@ C--------------------------------------------------------
      .                 ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
      .                 H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                 SENSOR_TAB, EBCS_TAB,DYNAIN_DATA)
+     .                 SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS)
+
         IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
         CALL FVWREST()
         IF (IMPL_S>0) THEN
@@ -9635,7 +9610,8 @@ C--------------------------------------------------------
      .                    ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
      .                    H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                    PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                    SENSOR_TAB, EBCS_TAB,DYNAIN_DATA)
+     .                    SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS)
+
               IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
               CALL FVWREST()
               IF (IMPL_S>0) THEN
