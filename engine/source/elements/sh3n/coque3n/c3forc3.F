@@ -174,7 +174,8 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),FWAVE_EL(NEL)
       INTEGER I,J,IFLAG,NPG,IBID,IDRIL,NG,IR,IS,N1,N2,N3,
      .   IXEL,IXLAY,ILAY,NXLAY,NLAY,L_DIRA,L_DIRB,J1,J2,IGMAT,IGTYP,
-     .   IMAT,NPTTOT,IREP,ipr,IFRAM_OLD,IPRI,IFAILWAVE, IDRAPE,NPTT,IT
+     .   IMAT,NPTTOT,IREP,ipr,IFRAM_OLD,IPRI,IFAILWAVE, IDRAPE,NPTT,IT,
+     .   ACTIFXFEM
       my_real 
      .   STI(MVSIZ),STIR(MVSIZ),RHO(MVSIZ),BID,
      .   VISCMX(MVSIZ),AREA(MVSIZ),
@@ -236,6 +237,7 @@ C-----------------------------------------------
       IBID   = 0
       BID    = ZERO
       IDRIL  = IPARG(41)
+      ACTIFXFEM = IPARG(70)
       INLOC  = IPARG(78)
       NLAY  = ELBUF_STR%NLAY
       SEDRAPE = STDRAPE
@@ -541,7 +543,7 @@ c      IFLAG=MOD(NCYCLE,NCPRI)
      3                R    ,THK02  ,AREA  ,GRESAV ,GRTH     ,
      4                IGRTH,OFF    ,IBID  ,IBID ,IBID   ,IBID     ,
      5                IBID ,IEXPAN ,GBUF%EINTTH ,ITASK  ,MAT      ,
-     6                GBUF%VOL)
+     6                GBUF%VOL,ACTIFXFEM)
 C----------------------------
 C     INTERNAL FORCES
 C----------------------------

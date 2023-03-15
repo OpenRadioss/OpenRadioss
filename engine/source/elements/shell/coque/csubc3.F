@@ -36,7 +36,7 @@ Chd|====================================================================
      6                  X1  ,X2  ,X3  ,X4  ,Y1  ,Y2    ,
      7                  Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4    ,
      8                  IPARTC ,IADC ,FSKY ,FSKYV,GRESAV,
-     9                  GRTH,IGRTH,ITASK,GVOL)
+     9                  GRTH,IGRTH,ITASK,GVOL,ACTIFXFEM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,6 +60,7 @@ C-----------------------------------------------
       INTEGER NGL(MVSIZ), NDT(*),PID(*),MAT(MVSIZ), IXC(NIXC,*),
      .                  IPARTC(*),JFT, JLT, IADC(4,*),GRTH(*),
      .                  IGRTH(*),ITASK
+      INTEGER, INTENT(IN) :: ACTIFXFEM
 C     REAL
       my_real
      .   X(3,*), GEO(NPROPG,*), OFFG(*), OFF(*), SIGY(*),
@@ -114,7 +115,8 @@ C
      7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
      8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
      9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
-     A                  IBID,IBID ,BID  ,ITASK,GVOL)
+     A                  IBID,IBID ,BID  ,ITASK,GVOL,
+     B                  ACTIFXFEM)
           ENDIF
           IF(IPARIT/=0)THEN
            IF (IVECTOR==1) THEN
@@ -245,7 +247,8 @@ C
      7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
      8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
      9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
-     A                  IBID,IBID ,BID  ,ITASK,GVOL)
+     A                  IBID,IBID ,BID  ,ITASK,GVOL,
+     B                  ACTIFXFEM)
             ELSE
              IF(JFTN>JFT)THEN
               DO I=JFT,JFTN-1
@@ -260,7 +263,8 @@ C
      7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
      8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
      9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
-     A                  IBID,IBID ,BID  ,ITASK,GVOL)
+     A                  IBID,IBID ,BID  ,ITASK,GVOL,
+     B                  ACTIFXFEM)
              ENDIF
 C
              IF(JLT >JLTN)THEN
@@ -276,7 +280,8 @@ C
      7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
      8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
      9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
-     A                  IBID,IBID ,BID  ,ITASK,GVOL)
+     A                  IBID,IBID ,BID  ,ITASK,GVOL,
+     B                  ACTIFXFEM)
              ENDIF
             ENDIF
 C

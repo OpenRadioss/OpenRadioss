@@ -137,7 +137,7 @@ c  indx utilise localement contrairement aux coques 4n
      .   IFLAG,LENF,LENM,LENS,IR,IS,IT,IPT,NPTT,N1,N2,N3,
      .   I,II,J,JJ,NG,NPG,NNOD,NPTR,NPTS,NLAY,L_DIRA,L_DIRB,IFAILWAVE,
      .   PT0,PT1,PT2,PT3,PTF,PTM,PTE,PTEP,PTS,IGTYP,IBID,J1,J2,
-     .   IGMAT,ILAY,NPTTOT,IREP,KK(5),K,IDRAPE
+     .   IGMAT,ILAY,NPTTOT,IREP,KK(5),K,IDRAPE,ACTIFXFEM
       INTEGER, DIMENSION(NEL) :: OFFLY
       PARAMETER (NPG = 3)
       PARAMETER (NNOD = 3)
@@ -216,6 +216,7 @@ C---
       BID  = ZERO
       IGTYP = IGEO(11,IXTG(5,1))
       IREP = IPARG(35)
+      ACTIFXFEM = IPARG(70)
       INLOC= IPARG(78)
       SEDRAPE = STDRAPE
       NUMEL_DRAPE = NUMELTG_DRAPE
@@ -646,7 +647,8 @@ c      IFLAG=MOD(NCYCLE,NCPRI)
      2                PMSAV,IPARTTG,RHO  ,VOL00,IXTG   ,X         ,
      3                R    ,THK02  ,AREA ,GRESAV ,GRTH      ,
      4                IGRTH,OFF    ,IBID ,IBID ,IBID   ,IBID      ,
-     5                IBID ,IBID   ,GBUF%EINTTH,ITASK  ,MAT ,GBUF%VOL)
+     5                IBID ,IBID   ,GBUF%EINTTH,ITASK  ,MAT ,GBUF%VOL,
+     6                ACTIFXFEM)
 c
       IF (IPARIT == 0) THEN
         CALL C3UPDT3(JFT  ,JLT  ,F   ,M   ,NVC  ,

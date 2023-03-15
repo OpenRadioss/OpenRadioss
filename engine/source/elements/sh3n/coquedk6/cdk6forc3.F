@@ -138,7 +138,8 @@ c  indx utilise localement contrairement aux coques 4n
       INTEGER 
      .   I, J, NG,NPG,NNOD,PT0,PT1,PT2,NVS,IFLAG,IBID,NFAIL,
      .   IR,IS,ILAY,NLAY,L_DIRA,L_DIRB,J1,J2,N1,N2,N3,
-     .   IGTYP,IGMAT,NPTTOT,IREP,IFAILWAVE,IDRAPE,IT,NPTT
+     .   IGTYP,IGMAT,NPTTOT,IREP,IFAILWAVE,IDRAPE,IT,NPTT,
+     .   ACTIFXFEM
       INTEGER ,DIMENSION(:) ,POINTER     :: FWAVE_NOD
       PARAMETER (NNOD = 3)
       my_real 
@@ -198,6 +199,7 @@ C=======================================================================
       IBID = 0
       BID  = ZERO
       IREP = IPARG(35)
+      ACTIFXFEM = IPARG(70)
       INLOC= IPARG(78)
       NLAY = ELBUF_STR%NLAY      
       SEDRAPE = STDRAPE
@@ -430,7 +432,8 @@ C--------------------------
      2                PMSAV,IPARTTG,RHO  ,VOL0,IXTG   ,X      ,
      3                R    ,THK02  ,AREA ,GRESAV ,GRTH   ,
      4                IGRTH,OFF    ,IBID ,IBID,IBID   ,IBID   ,
-     5                IBID ,IEXPAN ,GBUF%EINTTH,ITASK ,MAT,GBUF%VOL)
+     5                IBID ,IEXPAN ,GBUF%EINTTH,ITASK ,MAT,GBUF%VOL,
+     6                ACTIFXFEM)
       IF(IPARIT==0)THEN
         CALL CDK6UPDT3(JFT  ,JLT  ,F   ,M   ,NVC  ,
      2             GBUF%OFF,OFF  ,STI ,STIR,STIFN,

@@ -192,7 +192,7 @@ C-----------------------------------------------
      .   IPPID,JPID,IPTHK,IPPOS,IPMAT,IPMAT_IPLY,MATLY,IFAILWAVE,
      .   J1,J2,IIGEO,IADI ,IADR,IPANG,IGTYP,IGMAT,ILAY,NPTTOT,IREP,KK(5),K,
      .   LENFPINCH,LENMPINCH,LENEPINCHXZ,LENEPINCHYZ,LENEPINCHZZ,
-     .   PTFP,PTMP,PTEPXZ,PTEPYZ,PTEPZZ,MT,NPINCH,IDRAPE
+     .   PTFP,PTMP,PTEPXZ,PTEPYZ,PTEPZZ,MT,NPINCH,IDRAPE,ACTIFXFEM
       INTEGER  MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),MAT_IPLY(MVSIZ,NPT),
      .   IPLAT(MVSIZ),ISTACK(MVSIZ,NPT),FWAVE_EL(NEL)
       PARAMETER (NPG = 4)
@@ -289,6 +289,7 @@ C--------------------------
       IDRIL = IPARG(41)
       IREP  = IPARG(35)
       INLOC = IPARG(78)
+      ACTIFXFEM = IPARG(70)
       NPINCH= IPARG(90)
       SEDRAPE = SCDRAPE
       NUMEL_DRAPE = NUMELC_DRAPE
@@ -1083,7 +1084,7 @@ C--------------------------
      8               X3G     ,X4G      ,Y1G    ,Y2G     ,Y3G      ,
      9               Y4G     ,Z1G      ,Z2G    ,Z3G     ,Z4G      ,
      A               IBID    ,IEXPAN   ,GBUF%EINTTH     ,ITASK    ,
-     B               GBUF%VOL)
+     B               GBUF%VOL,ACTIFXFEM)
 C----------------------------
 C     CALCUL  DT
 C----------------------------
