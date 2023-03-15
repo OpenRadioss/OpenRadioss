@@ -40,6 +40,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -48,8 +49,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-       INTEGER I,J,II,IUS,IPT,ILAY,CPT_CS_DATA,INTER_ID
-       CHARACTER MES*80,CHINFO*10
+       INTEGER I,J,II,IUS,IPT,ILAY,CPT_CS_DATA,INTER_ID,S_CHINTER
+       CHARACTER MES*80,CHINFO*10,CH_INTER*25
 C-----------------------------------------------
         DO I=1,H3D_DATA%N_OUTP_H3D
           IF(H3D_DATA%OUTPUT_LIST(I)%OK == 1 )  THEN
@@ -57,16 +58,24 @@ C-----------------------------------------------
 c-------noda
               IF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE ==  1) THEN
 c------------scalar
+                  CH_INTER= ''
+                  S_CHINTER = 0
                   IF(H3D_DATA%OUTPUT_LIST(I)%INTER /= 0 )THEN
-                    INTER_ID = IPARI(15,H3D_DATA%OUTPUT_LIST(I)%INTER)
-                  ELSE
-                    INTER_ID = 0
+                     IF(H3D_DATA%OUTPUT_LIST(I)%INTER <= NINTER )THEN
+                        INTER_ID = IPARI(15,H3D_DATA%OUTPUT_LIST(I)%INTER)
+                        CH_INTER= 'Interface Id='
+                        S_CHINTER = 13
+                     ELSE
+                        INTER_ID = 0
+                        CH_INTER= 'Sum of all Interfaces'
+                        S_CHINTER = 21
+                     ENDIF
                   ENDIF
                   CALL C_H3D_CREATE_NODAL_SCALAR_DATATYPE(
      .                      H3D_DATA%OUTPUT_LIST(I)%N_OUTP, H3D_DATA%OUTPUT_LIST(I)%STRING1, H3D_DATA%OUTPUT_LIST(I)%S_STRING1,
      .                      H3D_DATA%OUTPUT_LIST(I)%INFO1, H3D_DATA%OUTPUT_LIST(I)%STRING2, H3D_DATA%OUTPUT_LIST(I)%S_STRING2,
-     .                      INTER_ID,H3D_DATA%OUTPUT_LIST(I)%COMMENT,
-     .                                    H3D_DATA%OUTPUT_LIST(I)%S_COMMENT)
+     .                      INTER_ID,H3D_DATA%OUTPUT_LIST(I)%COMMENT,H3D_DATA%OUTPUT_LIST(I)%S_COMMENT,H3D_DATA%OUTPUT_LIST(I)%INTER,
+     .                      S_CHINTER,CH_INTER)
               ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE ==  2) THEN
 c------------vector
                   CALL C_H3D_CREATE_NODAL_VECTOR_DATATYPE(

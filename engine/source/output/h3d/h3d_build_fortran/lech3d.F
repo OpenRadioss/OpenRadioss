@@ -723,14 +723,13 @@ C--------------------------
 	      IF ( IS_SCALAR == 1 ) THEN
            	IF(H3D_KEYWORD_NODAL_SCALAR(J)%IS_INTER /= 0 ) THEN
            	  IF(IS_INTER_ALL == 0 )THEN
-           	    CPT_H3D = CPT_H3D + 1
-           	    INTER_INPUT(CPT_H3D) = 0
-           	    IS_AVAILABLE_KEY(CPT_H3D) = 1 
            	    IF(H3D_KEYWORD_NODAL_SCALAR(J)%IS_INTER == 1) THEN
            	      IF(INTER /= 0) THEN 
                          DO K=1,NINTER
                            IF(IPARI(15,K) == INTER) THEN
 c                             H3D_DATA%OUTPUT_LIST(I)%INTER = K 
+           	             CPT_H3D = CPT_H3D + 1
+           	             IS_AVAILABLE_KEY(CPT_H3D) = 1 
                              INTER_INPUT(CPT_H3D) = K
                              IF(KEY3_GLOB(1:4) == 'SKID' ) THEN
                                 NINTERSKID = NINTERSKID +1
@@ -743,6 +742,11 @@ c                             H3D_DATA%OUTPUT_LIST(I)%INTER = K
                              ENDIF
                             ENDIF
                           ENDDO
+                       ELSEIF(KEY3_GLOB(1:8) == 'CSE_FRIC' ) THEN
+                          H3D_DATA%N_SCAL_CSE_FRIC  = 1
+           	          CPT_H3D = CPT_H3D + 1
+           	          IS_AVAILABLE_KEY(CPT_H3D) = 1 
+                          INTER_INPUT(CPT_H3D) = NINTER + 1
                        ENDIF
            	    ENDIF
            	  ELSE

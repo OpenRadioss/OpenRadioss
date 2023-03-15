@@ -1768,6 +1768,17 @@ C
 C-------------------------------------------
 C        2 - Frictionnal energy: allocs tabs
 C--------------------------------------------
+      IF(H3D_DATA%N_SCAL_CSE_FRIC >0.AND.S_EFRIC== 0)THEN
+        MY_ALLOCATE(EFRICG,NUMNOD)
+        IF(NINTSTAMP/=0) THEN
+           MY_ALLOCATE(EFRICG_STAMP,NUMNODG)
+        ELSE
+           MY_ALLOCATE(EFRICG_STAMP,0)
+        ENDIF
+      ELSEIF(S_EFRIC==0)THEN
+        MY_ALLOCATE(EFRICG,0)
+        MY_ALLOCATE(EFRICG_STAMP,0)
+      ENDIF
       IF(H3D_DATA%N_SCAL_CSE_FRICINT  > 0.AND.S_EFRICINT==0) THEN
 C
          NINEFRICG = H3D_DATA%N_SCAL_CSE_FRICINT

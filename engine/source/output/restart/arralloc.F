@@ -1865,16 +1865,13 @@ C
            ENDIF
          END IF 
 C
-         IF(H3D_DATA%N_SCAL_CSE_FRIC >0.OR.S_EFRIC > 0)THEN
+         IF(S_EFRIC > 0)THEN
             MY_ALLOCATE(EFRICG,NUMNOD)
             IF(NINTSTAMP/=0) THEN
               MY_ALLOCATE(EFRICG_STAMP,NUMNODG)
             ELSE
               MY_ALLOCATE(EFRICG_STAMP,0)
             ENDIF
-         ELSE
-            MY_ALLOCATE(EFRICG,0)
-            MY_ALLOCATE(EFRICG_STAMP,0)
          ENDIF
 C
          IF(NINTSTAMP/=0.AND.(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.OR.

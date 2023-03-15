@@ -69,10 +69,10 @@ extern "C"
 /*=================================================================*/
 
 void c_h3d_create_nodal_scalar_datatype_(int *cpt_data, char *name, int *size, int *info, char *name1, int *size1, int *INTER_ID,
-                                         char *comment, int *s_comment)
+                                         char *comment, int *s_comment, int *is_inter, int *size_inter0, char *ch_inter0)
 {
-    char *cname,*cname1,*ccomment;
-    int cname_len,cname_len1,ccomment_len;
+    char *cname,*cname1,*ccomment,*chinter;
+    int cname_len,cname_len1,ccomment_len,chinter_len;
     int i;
     float node[3]; 
     H3D_ID node_id;
@@ -80,9 +80,14 @@ void c_h3d_create_nodal_scalar_datatype_(int *cpt_data, char *name, int *size, i
     char* edata_type;
     
     char * CH_INTER_ID = new char [100];
-    CH_INTER_ID[0] ='\0'; 
+    CH_INTER_ID[0] ='\0';  
 
-    cname_len = *size + 10;
+    chinter_len = 10 + *size_inter0;
+    chinter=(char*) malloc(sizeof(char)*chinter_len);
+    for(i=0;i<*size_inter0;i++)  chinter[i] = ch_inter0[i];
+    chinter[*size_inter0]='\0'; 
+
+    cname_len = *size + 10 + *size_inter0;
     cname=(char*) malloc(sizeof(char)*cname_len);
     for(i=0;i<*size;i++)  cname[i] = name[i];
     cname[*size]='\0'; 
@@ -118,15 +123,33 @@ void c_h3d_create_nodal_scalar_datatype_(int *cpt_data, char *name, int *size, i
         pool_count = 2;
 
         dt_id++; 
-        if (*INTER_ID != 0) 
-        {
-             sprintf(CH_INTER_ID, " %d",*INTER_ID );
+        if (*is_inter != 0) 
+           {
+           if (*INTER_ID != 0) 
+             {
+                sprintf(CH_INTER_ID, " %d",*INTER_ID );
 #ifdef _WIN64
-             strcat_s(cname,cname_len,CH_INTER_ID);
+                strcat_s(chinter,chinter_len,CH_INTER_ID);
 #else
-             cname = strcat(cname,CH_INTER_ID);
+                chinter = strcat(chinter,CH_INTER_ID);
 #endif
-        }
+
+#ifdef _WIN64
+                strcat_s(cname,cname_len,chinter);
+#else
+                cname = strcat(cname,chinter);
+#endif
+             }
+           else if (*INTER_ID == 0) 
+            {
+#ifdef _WIN64
+                strcat_s(cname,cname_len,chinter);
+#else
+                cname = strcat(cname,chinter);
+#endif
+            }
+           }
+     
             edata_type=(char*)malloc(sizeof(char)*(strlen(cname)+1));
 
 #ifdef _WIN64
@@ -183,15 +206,15 @@ void c_h3d_create_nodal_scalar_datatype_(int *cpt_data, char *name, int *size, i
 
 
 void _FCALL C_H3D_CREATE_NODAL_SCALAR_DATATYPE(int *cpt_data, char *name, int *size, int *info, char *name1, int *size1, int *inter_id,
-                                               char *comment, int *s_comment)
-{c_h3d_create_nodal_scalar_datatype_ (cpt_data, name, size, info, name1, size1, inter_id, comment, s_comment);}
+                                               char *comment, int *s_comment, int *is_inter, int *size_inter0, char *ch_inter0)
+{c_h3d_create_nodal_scalar_datatype_ (cpt_data, name, size, info, name1, size1, inter_id, comment, s_comment, is_inter, size_inter0, ch_inter0);}
 
 void c_h3d_create_nodal_scalar_datatype__ (int *cpt_data, char *name, int *size, int *info, char *name1, int *size1, int *inter_id,
-                                           char *comment, int *s_comment)
-{c_h3d_create_nodal_scalar_datatype_ (cpt_data, name, size, info, name1, size1, inter_id, comment, s_comment);}
+                                           char *comment, int *s_comment, int *is_inter, int *size_inter0, char *ch_inter0)
+{c_h3d_create_nodal_scalar_datatype_ (cpt_data, name, size, info, name1, size1, inter_id, comment, s_comment, is_inter, size_inter0, ch_inter0);}
 
 void c_create_nodal_scalar_datatype (int *cpt_data, char *name, int *size, int *info, char *name1, int *size1, int *inter_id,
-                                      char *comment, int *s_comment)
-{c_h3d_create_nodal_scalar_datatype_ (cpt_data, name, size, info, name1, size1, inter_id, comment, s_comment);}
+                                      char *comment, int *s_comment, int *is_inter, int *size_inter0, char *ch_inter0)
+{c_h3d_create_nodal_scalar_datatype_ (cpt_data, name, size, info, name1, size1, inter_id, comment, s_comment, is_inter, size_inter0, ch_inter0);}
 
 }

@@ -326,24 +326,7 @@ C--------------------------------------------------
           IS_WRITTEN_VALUE(I) = 1  
         ENDDO
 C--------------------------------------------------
-      ELSEIF(KEYWORD == 'CSE_FRIC')THEN
-C--------------------------------------------------
-        IF(INTERFRIC > 0) THEN
-          IF(INTERFRIC <= NINEFRIC ) THEN
-             DO I=1,NUMNOD
-                VALUE(I)=CSEFRIC(INTERFRIC,I)		 
-                IS_WRITTEN_VALUE(I) = 1
-             ENDDO
-          ELSE
-             DO I=1,NUMNOD
-                K=NODGLOB(I)
-                VALUE(I)=CSEFRIC_STAMP(INTERFRIC-NINEFRIC,K)		 
-                IS_WRITTEN_VALUE(I) = 1
-             ENDDO
-          ENDIF 
-        ENDIF
-C--------------------------------------------------
-      ELSEIF(KEYWORD == 'CSE_FRICG')THEN
+      ELSEIF(KEYWORD == 'CSE_FRIC'.AND.INTERFRIC== 0)THEN
 C--------------------------------------------------
         IF(NINTSTAMP==0) THEN
            DO I=1,NUMNOD
@@ -364,6 +347,22 @@ C--------------------------------------------------
               ENDDO
            ENDIF
         ENDIF
+C--------------------------------------------------
+      ELSEIF(KEYWORD == 'CSE_FRIC'.AND.INTERFRIC > 0)THEN
+C--------------------------------------------------
+        IF(INTERFRIC <= NINEFRIC ) THEN
+           DO I=1,NUMNOD
+              VALUE(I)=CSEFRIC(INTERFRIC,I)		 
+              IS_WRITTEN_VALUE(I) = 1
+           ENDDO
+        ELSE
+           DO I=1,NUMNOD
+              K=NODGLOB(I)
+              VALUE(I)=CSEFRIC_STAMP(INTERFRIC-NINEFRIC,K)		 
+              IS_WRITTEN_VALUE(I) = 1
+           ENDDO
+        ENDIF
+
       ENDIF
 c	 
       CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_NODE,NODAL_SCALAR,NUMNOD,0,0,
