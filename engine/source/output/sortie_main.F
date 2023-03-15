@@ -169,6 +169,7 @@ C-----------------------------------------------
 #include      "scrnoi_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
+#include      "scr20_c.inc"
 #include      "scr23_c.inc"
 #include      "param_c.inc"
 #include      "scrfs_c.inc"
@@ -182,6 +183,7 @@ C-----------------------------------------------
 #include      "filescount_c.inc"
 #include      "intstamp_c.inc"
 #include      "my_allocate.inc"
+#include      "chara_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

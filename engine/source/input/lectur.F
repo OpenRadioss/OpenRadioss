@@ -157,6 +157,7 @@ C-----------------------------------------------
 #include      "intstamp_c.inc"
 #include      "ale_param.inc"
 #include      "my_allocate.inc"
+#include      "couple_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
