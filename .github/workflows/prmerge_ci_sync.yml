@@ -293,7 +293,7 @@ jobs:
 
             # Getting the last known integrated commit
             export LAST_KNOW_INTEG_COMMIT=`p4 changes -l -s submitted -m 1000 $P4REPOPERFORCE/... | grep "^\s*\[ GIT\(HUB\)\? INTEG \]" | head -n 1 | sed -e "s/^.*\[ GIT\(HUB\)\? INTEG \] //;s/ .*$//"`
-            export LAST_KNOW_INTEG_COMMIT_TRUNCATED=$(echo $LAST_KNOW_INTEG_COMMIT | cut -c -16)
+            export LAST_KNOW_INTEG_COMMIT_TRUNCATED=$(echo $LAST_KNOW_INTEG_COMMIT | cut -c -14)
 
             # Getting all not integrated changelist (=all until last know commit)
             if [ ! -z "$LAST_KNOW_INTEG_COMMIT_TRUNCATED" ]
