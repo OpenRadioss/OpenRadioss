@@ -75,7 +75,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "warn_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
@@ -165,6 +164,7 @@ C     REAL
       INTEGER,TARGET, DIMENSION(1):: TABPARTS_FRIC_BID
       INTEGER,TARGET, DIMENSION(1):: ADPARTS_FRIC_BID
       my_real,TARGET, DIMENSION(1):: TABCOEF_FRIC_BID
+      INTEGER :: NRTS, NTY
 C-----------------------------------------------
 C	Calcul des adresses des buffers d'interfaces. 
 C	Les adresses des buffers J10-JFI et K10-KFI 
@@ -175,6 +175,7 @@ C	dans la routine sans commentaires additionnels habituels
 C----------------------------------------------------
 C
       NRTS  =IPARI(3)
+      NTY   =IPARI(7)
       IBC   =IPARI(11)
       IVIS2 =IPARI(14)
       NOINT =IPARI(15)

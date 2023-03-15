@@ -63,8 +63,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "vect01_c.inc"
-#include      "scr04_c.inc"
-#include      "bucki_c.inc"
 #include      "parit_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
@@ -118,14 +116,13 @@ C     REAL
       my_real
      .   STARTT, FRIC, GAP, MAXBOX, MINBOX, STOPT, FB_CAM, FB_IMM,
      .   VISC,VISCF,FNOR,DEPTH
+      INTEGER :: NMN, NTY, NSN
 C-----------------------------------------------
 C----     
-      NRTS   = IPARI(3)
-      NRTM   = IPARI(4)
       NSN    = IPARI(5)
       NMN    = IPARI(6)
+      NTY   = IPARI(7) 
       IBC   =IPARI(11)
-      IBUC  =IPARI(12)
       NCIMP =IPARI(13)
       NRTM4 =IPARI(14)
       NOINT =IPARI(15)

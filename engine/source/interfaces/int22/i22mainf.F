@@ -89,7 +89,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "warn_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
@@ -180,6 +179,7 @@ C-----------------------------------------------
       INTEGER ICURV
       my_real, DIMENSION(:,:,:), ALLOCATABLE,TARGET  :: FSAVPARIT
       my_real, POINTER                               :: pFSAVparit
+      INTEGER :: NRTM, NSN, NTY
 
       IADM      = 0
       

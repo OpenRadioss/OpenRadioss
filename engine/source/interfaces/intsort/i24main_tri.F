@@ -73,7 +73,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
 #include      "impl1_c.inc"
@@ -115,6 +114,7 @@ C     REAL
      .   CURV_MAX(NRTM_T),BMINMA_OLD(6),FORNEQS(*)
 C
       INTEGER, DIMENSION(:),ALLOCATABLE :: CAND_A
+      INTEGER :: NMN, NSN,NRTM,NTY,NSNE
       SAVE CAND_A
 C-----------------------------------------------
       I_MEM = 0

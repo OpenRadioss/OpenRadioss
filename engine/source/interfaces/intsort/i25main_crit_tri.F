@@ -47,7 +47,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -64,7 +63,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .   STARTT, STOPT
-      INTEGER :: ISENS
+      INTEGER :: ISENS, NMN, NSN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

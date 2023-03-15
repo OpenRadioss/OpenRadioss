@@ -74,7 +74,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
 C common pour variable globale en memoire partagee
@@ -113,6 +112,7 @@ C     REAL
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,
      .   SX,SY,SZ,SX2,SY2,SZ2,
      .   C_MAXL,CURV_MAX(NRTM_T),RDUM1(1)
+      INTEGER :: NMN,NSN,NTY
 C-----------------------------------------------
       I_MEM = 0
       I_MEMG = 0
@@ -125,7 +125,6 @@ C     Specific TYPE7 :
       ITIED = 0 
 C
       LOC_PROC=ISPMD+1
-      NRTM   =IPARI(4,NIN)
       NSN    =IPARI(5,NIN)
       NMN    =IPARI(6,NIN)
       NTY    =IPARI(7,NIN)

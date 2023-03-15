@@ -79,7 +79,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "scr04_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
 C common pour variable globale en memoire partagee
@@ -123,6 +122,7 @@ C-----------------------------------------------
         REAL T1  !elapsed time in smp
         LOGICAL TYPE18
         INTEGER :: FIRST, LAST,ijk
+        INTEGER :: NSN,NMN,NTY,NRTM
 C-----------------------------------------------
         NUM_IMP = 0
 

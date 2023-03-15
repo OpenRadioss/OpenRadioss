@@ -47,7 +47,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -64,6 +63,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   STARTT, GAP, STOPT, DRAD, DGAPLOADP
+      INTEGER :: NRTS
 C-----------------------------------------------
 C	Calcul des adresses des buffers d'interfaces. 
 C	Les adresses des buffers J10-JFI et K10-KFI 

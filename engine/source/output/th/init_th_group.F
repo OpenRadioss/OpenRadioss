@@ -43,7 +43,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com01_c.inc"
-#include      "vect04_c.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
@@ -64,7 +63,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,ID,NN,NVAR,ITYP,CPT,GRTMP,IGRTMP(NGRTH+NELEM),
      .       IGR1,FLAG,OFFSET,NG,CPT1,IGRELE,NENTITY
-!
+      INTEGER :: NEL,NFT
       INTEGER, DIMENSION(:), POINTER :: ELEM
 C-----------------------------------------------
       CPT = 1

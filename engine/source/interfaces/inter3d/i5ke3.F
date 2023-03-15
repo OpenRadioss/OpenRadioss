@@ -55,7 +55,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "impl2_c.inc"
 #include      "vect01_c.inc"
 C-----------------------------------------------
@@ -104,8 +103,8 @@ C     REAL
       my_real, DIMENSION(MVSIZ) :: ZN1,ZN2,ZN3,ZN4
       my_real, DIMENSION(MVSIZ) :: XP,YP,ZP
       my_real, DIMENSION(MVSIZ) :: H1,H2,H3,H4,STIF
+      INTEGER :: NSN,NTY
 C=======================================================================
-C-------NSN defined in scr04_c.inc--
       NSN   = IPARI(5)
       NTY   = IPARI(7)
       MFROT = IPARI(30)

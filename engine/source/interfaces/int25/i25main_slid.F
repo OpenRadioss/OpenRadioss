@@ -78,7 +78,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "spmd_c.inc"
 #include      "task_c.inc"
 #include      "warn_c.inc" 
@@ -126,6 +125,7 @@ C     rassembler les trois structures + COMM_PATTERN
       INTEGER SIZBUFS_GLOB(NSPMD,NINTER25)  !number of nodes to send per proc per interf
       INTEGER SIZBUFR_GLOB(NSPMD,NINTER25)  !number of nodes to recv per proc per interf
       INTEGER NB_TOT
+      INTEGER :: NRTM, NSN
 C-----------------------------------------------
 
 

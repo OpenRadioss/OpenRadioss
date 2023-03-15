@@ -131,7 +131,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "warn_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
@@ -186,7 +185,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, I_STOK, JLT_NEW, JLT , NFT, IVIS2,
-     .        IBC, NOINT, NSEG, ISECIN, IBAG, IADM,
+     .        IBC,  NSEG, ISECIN, IBAG, IADM,
      .        IGAP, INACTI, IFQ, MFROT, IGSTI, NISUB, ITIED,
      .        JLT_TIED, NB_LOC, I_STOK_LOC,DEBUT,
      .        ILAGM, LENR, LENT, MAXCC,INTTH,IFORM, H, IERROR,
@@ -263,13 +262,15 @@ C-----------------------------------------------
       INTEGER,TARGET, DIMENSION(1):: ADPARTS_FRIC_BID
       INTEGER,TARGET, DIMENSION(1):: IFRICORTH_BID
       my_real,TARGET, DIMENSION(1):: TABCOEF_FRIC_BID
-      
+      INTEGER :: NSN, NTY, NOINT
+      INTEGER :: NRTM
       LOGICAL TYPE18
       INTEGER :: IDIR
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       TYPE18=.FALSE.
+      NRTM  =IPARI(4,NIN)
       NSN   =IPARI(5,NIN)
       NTY   =IPARI(7,NIN)
       IBC   =IPARI(11,NIN)

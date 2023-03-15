@@ -47,7 +47,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -65,12 +64,10 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   STARTT, STOPT
+      INTEGER :: NSN, NRTS
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-C---------------------------------------------------- 
-C	Calcul des adresses des buffers d'interfaces. 
-C----------------------------------------------------
 C
       NSN   =IPARI(5,NIN)
       NRTS  =IPARI(3,NIN)
@@ -86,11 +83,11 @@ C
        CALL I21GAP3(
      1  ITASK ,INTBUF_TAB%IRECTS,NRTS ,NSN ,INTBUF_TAB%NSV,
      2  INTBUF_TAB%VARIABLES(2),IGAP  ,INTBUF_TAB%GAP_S,INTBUF_TAB%VARIABLES(13) ,
-     .  				     INTBUF_TAB%VARIABLES(6)  ,
+     .               INTBUF_TAB%VARIABLES(6)  ,
      3 INTBUF_TAB%VARIABLES(16),INTBUF_TAB%VARIABLES(8),INTBUF_TAB%VARIABLES(5),THKNOD,
-     .  				       INTBUF_TAB%VARIABLES(19),
+     .                 INTBUF_TAB%VARIABLES(19),
      4  INTBUF_TAB%VARIABLES(23),INTBUF_TAB%VARIABLES(22),INTBUF_TAB%VARIABLES(32),IDEL,
-     .  				       INTBUF_TAB%THKNOD0   ,
+     .                 INTBUF_TAB%THKNOD0   ,
      5  INTBUF_TAB%GAP_S(1+NSN) ,INTBUF_TAB%VARIABLES(46))
 
 C

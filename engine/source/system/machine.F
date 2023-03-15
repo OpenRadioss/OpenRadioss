@@ -251,18 +251,6 @@ Chd|====================================================================
 #if defined(_OPENMP)
 !$OMP BARRIER
 #endif
-        IF(PARALLEL_END==1) THEN
-#if defined(_OPENMP)
-          CALL OMP_SET_LOCK(LLOCK(1,1))
-          IF(IOCLOSE==0) THEN
-           CLOSE(UNIT=IOUT)
-           CLOSE(UNIT=IUHIS)
-           IOCLOSE = 1
-          ENDIF  
-          CALL OMP_UNSET_LOCK(LLOCK(1,1))
-#endif
-          CALL ARRET(7)
-        END IF
       RETURN
       END
 C

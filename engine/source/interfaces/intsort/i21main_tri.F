@@ -58,7 +58,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr04_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
       COMMON /I21MAINC/RESULT21,I_MEMG
@@ -90,6 +89,7 @@ C     REAL
      .   STARTT,GAP,MAXBOX,MINBOX,STOPT,DIST,TZINF,
      .   XMAX, YMAX, ZMAX, XMIN, YMIN, ZMIN, GAPMIN, GAPMAX,
      .   DD(3)
+      INTEGER :: NRTM,NSN,NTY,NMN
 C-----------------------------------------------
       I_MEM = 0
       I_MEMG = 0
