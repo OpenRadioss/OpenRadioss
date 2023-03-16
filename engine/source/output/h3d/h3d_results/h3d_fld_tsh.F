@@ -90,7 +90,7 @@ C-----------------------------------------------
         DAM    => FBUF%FLOC(IFAIL)%DAM
         ES1(1:NEL) = EVAR(1,1:NEL)
         ES2(1:NEL) = EVAR(2,1:NEL)
-        ES4(1:NEL) = EVAR(3,1:NEL)
+        ES4(1:NEL) = TWO*EVAR(3,1:NEL)
          CALL FAIL_FLD_TSH(
      1            NEL       ,NPAR      ,NVARF     ,NFUNC    ,IFUNC      ,
      2            NPF       ,TF        ,TT        ,DT1      ,UPARAMF,   
