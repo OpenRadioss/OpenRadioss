@@ -27,9 +27,17 @@ Chd|        RADIOSS2                      source/engine/radioss2.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE UPIDMID_DUM(IERR)
-C---------+---------+---+---+--------------------------------------------
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
        INTEGER IERR
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------       
        IERR=0
       END
 Chd|====================================================================
@@ -45,13 +53,27 @@ Chd|        GET_U_MAT                     source/user_interface/upidmid.F
 Chd|====================================================================
       my_real FUNCTION 
      .      GET_U_MAT(IVAR,IM)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------     
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "scr05_c.inc"
-C
-      INTEGER IVAR,IM,NVAR,DEPLA,IADBUF
-C=======================================================================
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: IVAR,IM
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------      
+      INTEGER NVAR,DEPLA,IADBUF
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
 C     NVAR = NUPARAM = NINT(PM(26,IM)) old
 C     NVAR = NUPARAM = IPM(9,IM)
 C
@@ -66,12 +88,8 @@ C       GET_U_MAT = PM(1,IM)
            CALL GET_VAR_USER_F(1,DEPLA,GET_U_MAT)
         ENDIF
       ELSEIF(IVAR>NVAR)THEN
-        WRITE(IOUT,*)
-     .      ' **ERROR USER MATERIAL PARAMETER INDEX(',IVAR,
-     .      ') EXCEED NUPARAM(',NVAR,')'
-        WRITE(ISTDO,*)
-     .      ' **ERROR USER MATERIAL PARAMETER INDEX(',IVAR,
-     .      ') EXCEED NUPARAM(',NVAR,')'
+        WRITE(IOUT,*) ' **ERROR USER MATERIAL PARAMETER INDEX(',IVAR,') EXCEED NUPARAM(',NVAR,')'
+        WRITE(ISTDO,*)' **ERROR USER MATERIAL PARAMETER INDEX(',IVAR,') EXCEED NUPARAM(',NVAR,')'
       ELSE
 C       IADBUF = IPM(7,IM)
 C       GET_U_MAT = BUFMAT(IADBUF-1+IVAR)
@@ -114,19 +132,30 @@ Chd|        GET_U_GEO                     source/user_interface/upidmid.F
 Chd|====================================================================
       my_real FUNCTION 
      .      GET_U_GEO(IVAR,IP)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------     
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "scr05_c.inc"
-
-      INTEGER IVAR,IP,NVAR,DEPLA
-      my_real 
-     .      NV,RESULTAT
-C
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: IVAR,IP
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------      
+      INTEGER NVAR,DEPLA
+      my_real NV,RESULTAT
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------       
 C     GEO(I,J)  == LOCA(ISH3+I+(J-1)*NPROPG)
 C     BUFGEO(I) == LOCA(ISH4+I)
-C
-C
       DEPLA=26+(IP-1)*NPROPG
       IF (IRESP == 1) THEN
         CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
@@ -136,12 +165,8 @@ C
       NVAR = NINT(NV)
 C     NVAR = NINT(GEO(26,IP))
       IF(IVAR>NVAR)THEN
-        WRITE(IOUT,*)
-     .      ' **ERROR USER PROPERTY PARAMETER INDEX(',IVAR,
-     .      ') EXCEED NUPARAG(',NVAR,')'
-        WRITE(ISTDO,*)
-     .      ' **ERROR USER PROPERTY PARAMETER INDEX(',IVAR,
-     .      ') EXCEED NUPARAG(',NVAR,')'
+        WRITE(IOUT,*) ' **ERROR USER PROPERTY PARAMETER INDEX(',IVAR,') EXCEED NUPARAG(',NVAR,')'
+        WRITE(ISTDO,*)' **ERROR USER PROPERTY PARAMETER INDEX(',IVAR,') EXCEED NUPARAG(',NVAR,')'
       ELSE
         DEPLA=27+(IP-1)*NPROPG
         IF (IRESP == 1) THEN
@@ -158,7 +183,7 @@ C       GET_U_GEO = BUFGEO(NINT(GEO(27,IP))-1+IVAR)
 C
       RETURN
       END
-C  029
+
 Chd|====================================================================
 Chd|  GET_U_PNU                     source/user_interface/upidmid.F
 Chd|-- called by -----------
@@ -176,18 +201,30 @@ Chd|        GET_VAR_USER_F_SP             source/user_interface/eng_callback_c.c
 Chd|        GET_U_PNU                     source/user_interface/upidmid.F
 Chd|====================================================================
       INTEGER FUNCTION GET_U_PNU(IVAR,IP,K)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------      
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "scr05_c.inc"
-      INTEGER IVAR,IP,K,DEPLA,NVAR
-      my_real
-     .      NV
-C
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: IVAR,IP,K
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------     
+      INTEGER DEPLA,NVAR 
+      my_real NV
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------    
 C     GEO(I,J)  == LOCA(ISH3+I+(J-1)*NPROPG)
 C     BUFGEO(I) == LOCA(ISH4+I)
-C
-C
 C
       DEPLA=K-1+(IP-1)*NPROPG
       IF (IRESP==1) THEN
@@ -198,12 +235,8 @@ C
       NVAR=NINT(NV)
 C     NVAR = NINT(GEO(K-1,IP))
       IF(IVAR>NVAR)THEN
-        WRITE(IOUT,*)
-     .      ' **ERROR IN FUNCTION GET_U_PNU(INDEX,IP,GEO,BUFGEO,',
-     .      K,'), INDEX(',IVAR,') EXCEED ALLOCATED VALUE(',NVAR,')'
-        WRITE(ISTDO,*)
-     .      ' **ERROR IN FUNCTION GET_U_PNU(INDEX,IP,GEO,BUFGEO,',
-     .      K,'), INDEX(',IVAR,') EXCEED ALLOCATED VALUE(',NVAR,')'
+        WRITE(IOUT,*) ' **ERROR IN FUNCTION GET_U_PNU(INDEX,IP,GEO,BUFGEO,',K,'), INDEX(',IVAR,') EXCEED ALLOCATED VALUE(',NVAR,')'
+        WRITE(ISTDO,*)' **ERROR IN FUNCTION GET_U_PNU(INDEX,IP,GEO,BUFGEO,',K,'), INDEX(',IVAR,') EXCEED ALLOCATED VALUE(',NVAR,')'
       ELSE
         DEPLA=K+(IP-1)*NPROPG
         IF (IRESP==1) THEN
@@ -231,25 +264,34 @@ Chd|        GET_VAR_USER_I                source/user_interface/eng_callback_c.c
 Chd|        GET_U_MNU                     source/user_interface/upidmid.F
 Chd|====================================================================
       INTEGER FUNCTION GET_U_MNU(IVAR,IM,K)
-C------------------------------------------
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
-C------------------------------------------
-      INTEGER IVAR,IM,K,KFUNC,NVAR,DEPLA,NFUNC
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: IVAR,IM,K
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------      
+      INTEGER KFUNC,NVAR,DEPLA,NFUNC
       PARAMETER (KFUNC=29)
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C----------------------------------------------- 
 C     NFUNC = IPM(10,IM))
       DEPLA = 10+(IM-1)*NPROPMI
       CALL GET_VAR_USER_I(19,DEPLA,NFUNC)
 C
       IF (IVAR > NFUNC)THEN
-        WRITE(IOUT,*)
-     .      ' **ERROR IN FUNCTION GET_U_MNU(INDEX,IP,GEO,BUFGEO,',
-     .      K,'), INDEX(',IVAR,') EXCEED ALLOCATED VALUE(',NFUNC,')'
-        WRITE(ISTDO,*)
-     .      ' **ERROR IN FUNCTION GET_U_MNU(INDEX,IP,GEO,BUFGEO,',
-     .      K,'), INDEX(',IVAR,') EXCEED ALLOCATED VALUE(',NFUNC,')'
+        WRITE(IOUT,*) ' **ERROR IN FUNCTION GET_U_MNU(INDEX,IP,GEO,BUFGEO,',K,'), INDEX(',IVAR,') EXCEED ALLOCATED VALUE(',NFUNC,')'
+        WRITE(ISTDO,*)' **ERROR IN FUNCTION GET_U_MNU(INDEX,IP,GEO,BUFGEO,',K,'), INDEX(',IVAR,') EXCEED ALLOCATED VALUE(',NFUNC,')'
       ELSEIF(K==KFUNC) THEN
 C       GET_U_MNU = IFUNC = IPM(10+IVAR,IM))
         DEPLA = 10+IVAR+(IM-1)*NPROPMI
@@ -259,7 +301,7 @@ C
 C
       RETURN
       END
-C  029
+
 Chd|====================================================================
 Chd|  GET_U_PID                     source/user_interface/upidmid.F
 Chd|-- called by -----------
@@ -268,10 +310,25 @@ Chd|-- calls ---------------
 Chd|        GET_VAR_USER_I                source/user_interface/eng_callback_c.c
 Chd|====================================================================
       INTEGER FUNCTION GET_U_PID(IP)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------      
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C----------------------------------------------
 #include      "param_c.inc"
-      INTEGER IP,DEPLA,VAR
-C---------------------------------------------
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C----------------------------------------------- 
+      INTEGER,INTENT(IN) :: IP
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------       
+      INTEGER DEPLA,VAR
+C-----------------------------------------------
+C   S o u r c e  C o d e 
+C-----------------------------------------------   
 C     GET_U_PID = NINT(GEO(40,IP))
       DEPLA = 1+(IP-1)*NPROPGI
       CALL GET_VAR_USER_I(20,DEPLA,VAR)
@@ -287,9 +344,22 @@ Chd|-- calls ---------------
 Chd|        GET_VAR_USER_I                source/user_interface/eng_callback_c.c
 Chd|====================================================================
       INTEGER FUNCTION GET_U_MID(IM)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------      
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "param_c.inc"
-      INTEGER IM,DEPLA
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: IM
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------      
+      INTEGER DEPLA
 C-----------------------------------------
 C     GET_U_MID =IPM(1,IM)
 C---
@@ -298,12 +368,7 @@ C---
 C---
       RETURN
       END
-C=======================================================================
-C
-C     THESE FUNCTIONS ARE MISSING IN RADIOSS V42b LIBRARY
-C     but added in userwi.F
-C     
-C=======================================================================
+
 Chd|====================================================================
 Chd|  GET_U_M                       source/user_interface/upidmid.F
 Chd|-- called by -----------
@@ -311,9 +376,26 @@ Chd|-- calls ---------------
 Chd|        GET_U_MID                     source/user_interface/upidmid.F
 Chd|====================================================================
       INTEGER FUNCTION GET_U_M(MID)
-      INTEGER MID,I,GET_U_MID
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com04_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: MID
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,GET_U_MID
       EXTERNAL GET_U_MID
-C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       GET_U_M = 0
       DO I=1,NUMMAT
         IF(GET_U_MID(I)==MID)THEN
@@ -323,7 +405,7 @@ C
       ENDDO
       RETURN
       END
-C=======================================================================
+
 Chd|====================================================================
 Chd|  GET_U_P                       source/user_interface/upidmid.F
 Chd|-- called by -----------
@@ -331,9 +413,26 @@ Chd|-- calls ---------------
 Chd|        GET_U_PID                     source/user_interface/upidmid.F
 Chd|====================================================================
       INTEGER FUNCTION GET_U_P(PID)
-      INTEGER PID,I,GET_U_PID
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com04_c.inc"    
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------    
+      INTEGER,INTENT(IN) :: PID
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------      
+      INTEGER I,GET_U_PID
       EXTERNAL GET_U_PID
-C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C----------------------------------------------- 
       GET_U_P = 0
       DO I=1,NUMGEO
         IF(GET_U_PID(I)==PID)THEN
@@ -350,9 +449,17 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
       INTEGER FUNCTION GET_U_PROC()
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "task_c.inc"
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       GET_U_PROC = ISPMD+1
 C
       RETURN
@@ -364,10 +471,18 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
       INTEGER FUNCTION GET_U_TASK()
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
 #include      "implicit_f.inc"
-C=======================================================================
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
       INTEGER OMP_GET_THREAD_NUM
       EXTERNAL OMP_GET_THREAD_NUM
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------      
       GET_U_TASK = OMP_GET_THREAD_NUM()+1
 C
       RETURN

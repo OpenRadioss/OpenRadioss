@@ -41,6 +41,8 @@ Chd|====================================================================
       INTEGER FUNCTION GET_U_NUMTABLE(TID) 
       USE TABLE_GLOB_MOD
       USE TABLE_MOD
+#include      "implicit_f.inc"
+#include      "com04_c.inc"         
       TYPE(TTABLE) CUR_TABLE
       INTEGER I,TID
 C need NTABLE

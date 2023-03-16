@@ -27,8 +27,11 @@ Chd|        RADIOSS2                      source/engine/radioss2.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE UTABLE_DUM(IERR)
-C---------+---------+---+---+--------------------------------------------
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
        INTEGER IERR
        IERR=0
       END
@@ -40,8 +43,18 @@ Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       INTEGER FUNCTION GET_U_NUMTABLE(TID) 
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE TABLE_GLOB_MOD
       USE TABLE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------      
+#include      "implicit_f.inc"
+C-----------------------------------------------
+#include      "com04_c.inc"     
+C----------------------------------------------- 
       TYPE(TTABLE) CUR_TABLE
       INTEGER I,TID
 C need NTABLE
@@ -64,6 +77,9 @@ Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|====================================================================
       SUBROUTINE GET_U_TABLE(ITABLE,XX,YY) 
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE TABLE_GLOB_MOD
       USE INTERFACE_TABLE_MOD
 C-----------------------------------------------
