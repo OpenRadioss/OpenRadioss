@@ -37,13 +37,26 @@ Chd|        ALE51_GRADIENT_RECONSTRUCTION2engine/source/ale/alemuscl/ale51_gradi
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE ALEMUSCL_MOD
-
+C-----------------------------------------------
+        IMPLICIT NONE
 #include      "my_real.inc"
-     
-      my_real, DIMENSION(:, :), ALLOCATABLE :: VOLUME_FRACTION
-      my_real, DIMENSION(:, :), ALLOCATABLE :: NODE_MAX_VALUE, NODE_MIN_VALUE
-      my_real, DIMENSION(:, :, :), ALLOCATABLE :: GRAD
-      my_real, DIMENSION(:, :), ALLOCATABLE :: ELCENTER
-      INTEGER, POINTER, DIMENSION(:) :: pCNEL, pADDCNEL, pADDTMPL
+C-----------------------------------------------
+        TYPE ALEMUSCL_BUFFER_t     
+          my_real, DIMENSION(:, :), ALLOCATABLE :: VOLUME_FRACTION
+          my_real, DIMENSION(:, :), ALLOCATABLE :: NODE_MAX_VALUE, NODE_MIN_VALUE
+          my_real, DIMENSION(:, :, :), ALLOCATABLE :: GRAD
+          my_real, DIMENSION(:, :), ALLOCATABLE :: ELCENTER
+          INTEGER, POINTER, DIMENSION(:) :: pCNEL, pADDCNEL, pADDTMPL
+        END TYPE
+      
+        TYPE ALEMUSCL_PARAM_t
+          INTEGER           IALEMUSCL
+          REAL              I_BETA
+          INTEGER           I_LAW
+          INTEGER           I_MUSCL_OFF      
+        END TYPE
+      
+        TYPE(ALEMUSCL_BUFFER_t) :: ALEMUSCL_Buffer
+        TYPE(ALEMUSCL_PARAM_t) :: ALEMUSCL_Param
       
       END MODULE ALEMUSCL_MOD

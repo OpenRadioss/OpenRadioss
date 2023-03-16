@@ -58,7 +58,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -147,7 +146,7 @@ C-----------------------------------------------
             ENDIF
             IF (JTHE>0) TV(I)  = GBUF%TEMP(IS+1)
             !MOMENTUM
-            IF(IALEFVM == 1)THEN          
+            IF(ALEFVM_Param%IEnabled == 1)THEN          
               IS       = IVOI-MFT
               MassV    = RHOV(I)*GBUF%VOL(IS)                      
               VxV(I)   = GBUF%MOM(JJ(1) + IS)/MassV

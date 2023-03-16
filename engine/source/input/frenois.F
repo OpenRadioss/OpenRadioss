@@ -32,7 +32,7 @@ Chd|        WRIUSC2                       source/input/wriusc2.F
 Chd|        NVAR                          source/input/nvar.F           
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE FRENOIS(IKAD,KEY0,KNOISE,IFID,MFID)
+      SUBROUTINE FRENOIS(IKAD,KEY0,KNOISE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IKAD(0:*),KNOISE,IFID,MFID
+      INTEGER IKAD(0:*),KNOISE
       CHARACTER KEY0(*)*5, KEY2*5, KEY3*5, KEY4*5, KEY5*5
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -67,9 +67,7 @@ C-----------------------------------------------
       IKEY=KNOISE
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
- 1160  READ(IUSC1,REC=IKAD(IKEY)+K,
-     .      FMT='(7X,A,1X,A,1X,A,1X,A,19X,I10)',
-     .      ERR=9990)KEY2,KEY3,KEY4,KEY5,NBC
+ 1160  READ(IUSC1,REC=IKAD(IKEY)+K, FMT='(7X,A,1X,A,1X,A,1X,A,19X,I10)',ERR=9990)KEY2,KEY3,KEY4,KEY5,NBC
        K=K+1
        IF(KEY2(1:3)=='VEL')THEN
         NOISEV=1
@@ -94,7 +92,6 @@ c         K=K+1
           NNOISE=NNOISE+NVAR(CARTE)
  1300    CONTINUE
          CALL READ10(IKAD(IKEY)+KK,NBC-1,KEY0(IKEY))
-C        IFID=IFID + NNOISE
          IF(KEY2(1:4)=='INIT')RNOI=2
         ELSE
          RNOI=1

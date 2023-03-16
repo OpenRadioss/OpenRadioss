@@ -58,7 +58,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "inter22.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -75,7 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
-      IF(IALEFVM==0)RETURN
+      IF(ALEFVM_Param%IEnabled==0)RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
@@ -87,18 +86,18 @@ C-----------------------------------------------
       !-------------------------------------------------------------!  
       IF(INT22==0)THEN    
         DO I=LFT,LLT
-          II                              = I + NFT
-          FCELL(1,II)                     = ZERO
-          FCELL(2,II)                     = ZERO
-          FCELL(3,II)                     = ZERO      
+          II                         = I + NFT
+          ALEFVM_Buffer%FCELL(1,II)  = ZERO
+          ALEFVM_Buffer%FCELL(2,II)  = ZERO
+          ALEFVM_Buffer%FCELL(3,II)  = ZERO      
         ENDDO!next I
       ELSE
         DO I=LFT,LLT
-          II                              = I + NFT
-          FCELL(1,II)                     = ZERO
-          FCELL(2,II)                     = ZERO
-          FCELL(3,II)                     = ZERO 
-          IB                              = NINT(IAD22(I))
+          II                        = I + NFT
+          ALEFVM_Buffer%FCELL(1,II) = ZERO
+          ALEFVM_Buffer%FCELL(2,II) = ZERO
+          ALEFVM_Buffer%FCELL(3,II) = ZERO 
+          IB                        = NINT(IAD22(I))
           IF(IB/=ZERO)THEN
             BRICK_LIST(NIN,IB)%FCELL(1:3) = ZERO
           ENDIF               

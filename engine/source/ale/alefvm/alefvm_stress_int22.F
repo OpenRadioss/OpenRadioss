@@ -48,7 +48,7 @@ C This subroutine is treating an uncut cell.
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ALEFVM_MOD       !F_FACE
+      USE ALEFVM_MOD
       USE ELBUFDEF_MOD     !TYPE(ELBUF_STRUCT_)
       USE I22BUFBRIC_MOD   !BRICK_LIST
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "nsvis_c.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
+
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -105,7 +105,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
-      IF(IALEFVM==0)RETURN
+      IF(ALEFVM_Param%IEnabled==0)RETURN
       IMAT        = IXS(1,LFT+NFT)
       IALEFVM_FLG = IPM(251,IMAT)  
       IF(IALEFVM_FLG <= 1)RETURN       
@@ -301,19 +301,19 @@ C-----------------------------------------------
 
  
         !DEBUG-OUTPUT---------------!
-        if(IALEFVM_OUTP_STRESS /= 0)then
+        if(ALEFVM_Param%IOUTP_STRESS /= 0)then
           debug_outp = .FALSE.
-          if(IALEFVM_OUTP_STRESS>0)then
+          if(ALEFVM_Param%IOUTP_STRESS>0)then
             do i=lft,llt
               ii = nft + i
-              if(ixs(11,ii)==IALEFVM_OUTP_STRESS)THEN
+              if(ixs(11,ii)==ALEFVM_Param%IOUTP_STRESS)THEN
                 debug_outp = .TRUE.
                 idbf   = i
                 idbl   = i
                 EXIT
               endif
              enddo
-          elseif(IALEFVM_OUTP_STRESS==-1)then
+          elseif(ALEFVM_Param%IOUTP_STRESS==-1)then
             debug_outp=.TRUE.
                 idbf   = lft
                 idbl   = llt          

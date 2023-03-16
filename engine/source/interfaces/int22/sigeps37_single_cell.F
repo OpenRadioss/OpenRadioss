@@ -30,8 +30,8 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE SIGEPS37_SINGLE_CELL (
-     1   ELBUF_TAB, IXS,  BUFMAT , IPARG, IPM,
-     2   IDLOC    , NG ,  brickID, VOL  
+     1                                 ELBUF_TAB, IXS,  BUFMAT , IPARG, IPM,
+     2                                 IDLOC    , NG ,  brickID, VOL  
      .                                )
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -250,10 +250,8 @@ C-----------------------------------------------
          
            LBUF%SSP(IDLOC)            = SSP    ;                                    
 
-
-
-           FCELL(5, brickID ) = SSP                                         
-           FCELL(6, brickID ) = P  
+           ALEFVM_Buffer%FCELL(5, brickID ) = SSP                                         
+           ALEFVM_Buffer%FCELL(6, brickID ) = P  
 
 C-----------------------------------------------
       RETURN

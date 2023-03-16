@@ -178,13 +178,8 @@ C-----------------------------
 C       SPMD EXCHANGE
 C-----------------------------
       IF (NSPMD > 1) THEN
-C
-C Part not parallel smt
-C
 !$OMP SINGLE
-        CALL SPMD_E1VOIS(PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2                     LESDVOIS,LENCOM  )
-C END part not parallel smt
+        CALL SPMD_E1VOIS(PHI,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
 !$OMP END SINGLE
       ENDIF
 C-----------------------------
@@ -235,13 +230,8 @@ C-----------------------------
 C       SPMD EXCHANGE
 C-----------------------------
       IF (NSPMD > 1) THEN
-C
-C Part not parallel smt
-C
 !$OMP SINGLE
-        CALL SPMD_E1VOIS(PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2                     LESDVOIS,LENCOM  )
-C END part not parallel smt
+        CALL SPMD_E1VOIS(PHI,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
 !$OMP END SINGLE
       ENDIF  
 C-----------------------------
@@ -473,9 +463,6 @@ C
             YY2 = X(2,N4)-X(2,N2)
             ZZ2 = X(3,N4)-X(3,N2)
 c incoming vector surface
-cc            A1 = YY1*YY2 - ZZ1*ZZ2            
-cc            A2 = ZZ1*ZZ2 - XX1*XX2            
-cc            A3 = XX1*XX2 - YY1*YY2
             A1  = YY1*ZZ2 - YY2*ZZ1
             A2  = XX2*ZZ1 - XX1*ZZ2
             A3  = XX1*YY2 - XX2*YY1

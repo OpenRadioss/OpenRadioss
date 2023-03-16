@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
+      USE ALEMUSCL_MOD,only : ALEMUSCL_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +57,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "submod_c.inc"
 #include "scr05_c.inc"
-#include "alemuscl.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -67,33 +67,35 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------     
       INTEGER :: NALEMUSCL
       LOGICAL :: IS_AVAILABLE
-      
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------       
       CALL HM_OPTION_COUNT('/ALE/MUSCL', NALEMUSCL)
       
       IF (NALEMUSCL > 0) THEN
          CALL HM_OPTION_START('/ALE/MUSCL')
          CALL HM_OPTION_NEXT()
-         CALL HM_GET_FLOATV('ALE_MUSCL_BETA', I_BETA, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         CALL HM_GET_INTV('MAT_Iflag', IALEMUSCL, IS_AVAILABLE, LSUBMODEL)
+         CALL HM_GET_FLOATV('ALE_MUSCL_BETA', ALEMUSCL_Param%I_BETA, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         CALL HM_GET_INTV('MAT_Iflag', ALEMUSCL_Param%IALEMUSCL, IS_AVAILABLE, LSUBMODEL)
          
          !---default I_BETA
-         IF (I_BETA == ZERO) THEN
-            I_BETA = TWO
+         IF (ALEMUSCL_Param%I_BETA == ZERO) THEN
+            ALEMUSCL_Param%I_BETA = TWO
          ENDIF
 
          !---default IALEMUSCL
-         IF (IALEMUSCL == 0) THEN
-            IALEMUSCL = 1
-         ELSEIF (IALEMUSCL == 1) THEN
-            IALEMUSCL = 2
-         ELSEIF (IALEMUSCL < -1 .OR. IALEMUSCL >= 2) THEN
-            IALEMUSCL = 1
+         IF (ALEMUSCL_Param%IALEMUSCL == 0) THEN
+            ALEMUSCL_Param%IALEMUSCL = 1
+         ELSEIF (ALEMUSCL_Param%IALEMUSCL == 1) THEN
+            ALEMUSCL_Param%IALEMUSCL = 2
+         ELSEIF (ALEMUSCL_Param%IALEMUSCL < -1 .OR. ALEMUSCL_Param%IALEMUSCL >= 2) THEN
+            ALEMUSCL_Param%IALEMUSCL = 1
          ENDIF
                   
          !---MUSCL off / disabled
-         IF(IALEMUSCL == -1)THEN
-           IALEMUSCL = 0
-           I_BETA = 1.0 ! was initialized this way in starter0.F beofre making MUSCL default formulation
+         IF(ALEMUSCL_Param%IALEMUSCL == -1)THEN
+           ALEMUSCL_Param%IALEMUSCL = 0
+           ALEMUSCL_Param%I_BETA = 1.0 ! was initialized this way in starter0.F beofre making MUSCL default formulation
            NALEMUSCL=0
          ENDIF
          

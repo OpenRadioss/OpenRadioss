@@ -65,7 +65,6 @@ C-----------------------------------------------
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -106,7 +105,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
-      IF(IALEFVM==0)RETURN
+      IF(ALEFVM_Param%IEnabled==0)RETURN
       MT          = IXS(1,NFT+LFT)
       IALEFVM_FLG = IPM(251,MT)
       IF(IALEFVM_FLG <= 1)RETURN
@@ -252,32 +251,32 @@ C-----------------------------------------------
       !-------------------------------------------------------------!
       ! EXTERNAL FORCE WORK                                         !
       !-------------------------------------------------------------! 
-      WFEXT_CELL(LFT+NFT:LLT+NFT) = ZERO
-      TFEXTT                      = ZERO
+      ALEFVM_Buffer%WFEXT_CELL(LFT+NFT:LLT+NFT) = ZERO
+      TFEXTT = ZERO
       DO I=LFT,LLT   
-        II                        = I + NFT 
+        II = I + NFT 
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
         ! < W, 2S.n> = 2S.wn
-        SWn(1)                    = Wface(1,1,I)*N1X(I) + Wface(2,1,I)*N1Y(I) + Wface(3,1,I)*N1Z(I)           
-        SWn(2)                    = Wface(1,2,I)*N2X(I) + Wface(2,2,I)*N2Y(I) + Wface(3,2,I)*N2Z(I)           
-        SWn(3)                    = Wface(1,3,I)*N3X(I) + Wface(2,3,I)*N3Y(I) + Wface(3,3,I)*N3Z(I)           
-        SWn(4)                    = Wface(1,4,I)*N4X(I) + Wface(2,4,I)*N4Y(I) + Wface(3,4,I)*N4Z(I)           
-        SWn(5)                    = Wface(1,5,I)*N5X(I) + Wface(2,5,I)*N5Y(I) + Wface(3,5,I)*N5Z(I)           
-        SWn(6)                    = Wface(1,6,I)*N6X(I) + Wface(2,6,I)*N6Y(I) + Wface(3,6,I)*N6Z(I)           
-        WFEXT_ADD                 = ZERO                                                                
+        SWn(1) = Wface(1,1,I)*N1X(I) + Wface(2,1,I)*N1Y(I) + Wface(3,1,I)*N1Z(I)           
+        SWn(2) = Wface(1,2,I)*N2X(I) + Wface(2,2,I)*N2Y(I) + Wface(3,2,I)*N2Z(I)           
+        SWn(3) = Wface(1,3,I)*N3X(I) + Wface(2,3,I)*N3Y(I) + Wface(3,3,I)*N3Z(I)           
+        SWn(4) = Wface(1,4,I)*N4X(I) + Wface(2,4,I)*N4Y(I) + Wface(3,4,I)*N4Z(I)           
+        SWn(5) = Wface(1,5,I)*N5X(I) + Wface(2,5,I)*N5Y(I) + Wface(3,5,I)*N5Z(I)           
+        SWn(6) = Wface(1,6,I)*N6X(I) + Wface(2,6,I)*N6Y(I) + Wface(3,6,I)*N6Z(I)           
+        WFEXT_ADD = ZERO                                                                
         Do J=1,NV46
           IV = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
           !IF(IV /= 0)CYCLE                                   !domain border only
-          IX(1)                   = IXS(ICF(1,J)+1,II)                                       
-          IX(2)                   = IXS(ICF(2,J)+1,II)                                       
-          IX(3)                   = IXS(ICF(3,J)+1,II)                                       
-          IX(4)                   = IXS(ICF(4,J)+1,II)                                       
+          IX(1) = IXS(ICF(1,J)+1,II)                                       
+          IX(2) = IXS(ICF(2,J)+1,II)                                       
+          IX(3) = IXS(ICF(3,J)+1,II)                                       
+          IX(4) = IXS(ICF(4,J)+1,II)                                       
           IF(SUM(IABS(NALE(IX(1:4))))==4)CYCLE          !4 lagrangian nodes only    
           !dt * P*S*wn          
-          WFEXT_ADD               = WFEXT_ADD  - DT1*THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))*SWn(J)*HALF  !Swn=2S.w.n
+          WFEXT_ADD = WFEXT_ADD  - DT1*THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))*SWn(J)*HALF  !Swn=2S.w.n
         ENDDO
-        WFEXT_CELL(II)            = WFEXT_ADD                             
-        TFEXTT                    = TFEXTT + WFEXT_ADD                    
+        ALEFVM_Buffer%WFEXT_CELL(II) = WFEXT_ADD                             
+        TFEXTT = TFEXTT + WFEXT_ADD                    
       ENDDO  
       
 #include "lockon.inc"
@@ -285,9 +284,8 @@ C-----------------------------------------------
 #include "lockoff.inc"
       
 
-
         !DEBUG-OUTPUT---------------!
-        if(IALEFVM_OUTP_TFEXT == 1)then
+        if(ALEFVM_Param%IOUTP_TFEXT == 1)then
           IF(TFEXTT /= ZERO)THEN
 !#!include "lockon.inc"       
             print *, "    |----alefvm_tfext.F------|"
@@ -296,9 +294,9 @@ C-----------------------------------------------
             print *, "     NCYCLE =", NCYCLE
             do i=lft,llt
               ii = nft + i
-              if(WFEXT_CELL(II)==ZERO)CYCLE
+              if(ALEFVM_Buffer%WFEXT_CELL(II)==ZERO)CYCLE
               write(*,FMT='(A,I10,A,F30.16,A,F30.16,A,6F30.16)')   "      brique=", ixs(11,ii),"      Wfext=",
-     .             WFEXT_CELL(II), "P(I)=", P(I), "SWn(1:6)=",Swn(1:6)
+     .             ALEFVM_Buffer%WFEXT_CELL(II), "P(I)=", P(I), "SWn(1:6)=",Swn(1:6)
             enddo
           ENDIF
 !#!include "lockoff.inc"       

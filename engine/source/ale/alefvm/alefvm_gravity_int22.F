@@ -63,7 +63,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "inter22.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -87,7 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
-      IF(IALEFVM==0)RETURN
+      IF(ALEFVM_Param%IEnabled==0)RETURN
       IF(INT22==0)  RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
@@ -104,18 +103,18 @@ C-----------------------------------------------
         II            = I+NFT
         NVERTEX       = 0
         ACCEL(1:3,I)  = ZERO
-        FCELL(1:3,II) = ZERO
+        ALEFVM_Buffer%FCELL(1:3,II) = ZERO
         !loop on main cell vertexes
         MCELL         = BRICK_LIST(NIN,IB)%MainID
         MNOD          = BRICK_LIST(NIN,IB)%POLY(MCELL)%NumNOD 
         DO K=1,MNOD
           J           = BRICK_LIST(NIN,IB)%POLY(MCELL)%ListNodID(K)
           INOD        = IXS(1+J,I+NFT)
-          IF(VERTEX(4,INOD)==ZERO) CYCLE
+          IF(ALEFVM_Buffer%VERTEX(4,INOD)==ZERO) CYCLE
           NVERTEX     = NVERTEX + 1
-          ACCEL(1,I)  = ACCEL(1,I) + VERTEX(1,INOD)
-          ACCEL(2,I)  = ACCEL(2,I) + VERTEX(2,INOD)
-          ACCEL(3,I)  = ACCEL(3,I) + VERTEX(3,INOD) 
+          ACCEL(1,I)  = ACCEL(1,I) + ALEFVM_Buffer%VERTEX(1,INOD)
+          ACCEL(2,I)  = ACCEL(2,I) + ALEFVM_Buffer%VERTEX(2,INOD)
+          ACCEL(3,I)  = ACCEL(3,I) + ALEFVM_Buffer%VERTEX(3,INOD) 
         ENDDO        
         IF(NVERTEX>0)THEN
           ACCEL(1,I) = ACCEL(1,I) / NVERTEX
@@ -132,25 +131,25 @@ C-----------------------------------------------
         IB          = NINT(IAD22(I))
         IF(IB<=0)CYCLE      
         II          = I + NFT
-        FCELL(1,II) = FCELL(1,II) + M_CELL(I) * ACCEL(1,I)
-        FCELL(2,II) = FCELL(2,II) + M_CELL(I) * ACCEL(2,I)
-        FCELL(3,II) = FCELL(3,II) + M_CELL(I) * ACCEL(3,I)                
+        ALEFVM_Buffer%FCELL(1,II) = ALEFVM_Buffer%FCELL(1,II) + M_CELL(I) * ACCEL(1,I)
+        ALEFVM_Buffer%FCELL(2,II) = ALEFVM_Buffer%FCELL(2,II) + M_CELL(I) * ACCEL(2,I)
+        ALEFVM_Buffer%FCELL(3,II) = ALEFVM_Buffer%FCELL(3,II) + M_CELL(I) * ACCEL(3,I)                
       ENDDO!next I
 
         !DEBUG-OUTPUT---------------!
-        if(IALEFVM_OUTP_GRAV /= 0)then
+        if(ALEFVM_Param%IOUTP_GRAV /= 0)then
           debug_outp = .FALSE.
-          if(IALEFVM_OUTP_GRAV>0)then
+          if(ALEFVM_Param%IOUTP_GRAV>0)then
             do i=lft,llt
               ii = nft + i
-              if(ixs(11,ii)==IALEFVM_OUTP_GRAV)THEN
+              if(ixs(11,ii)==ALEFVM_Param%IOUTP_GRAV)THEN
                 debug_outp = .TRUE.
                 idbf   = i
                 idbl   = i
                 EXIT
               endif
              enddo
-          elseif(IALEFVM_OUTP_GRAV==-1)then
+          elseif(ALEFVM_Param%IOUTP_GRAV==-1)then
             debug_outp=.TRUE.
                 idbf   = lft
                 idbl   = llt          
@@ -180,9 +179,9 @@ C-----------------------------------------------
      .                                  "#--------- nod_3 ---------","#--------- nod_4 ---------",
      .                                  "#--------- nod_5 ---------","#--------- nod_6 ---------",
      .                                  "#--------- nod_7 ---------","#--------- nod_8 --------#"     
-            write (*,FMT='(A,8E26.14)') "           acc-X =", VERTEX(1,IXS(2:9,I))          
-            write (*,FMT='(A,8E26.14)') "           acc-Y =", VERTEX(2,IXS(2:9,I))
-            write (*,FMT='(A,8E26.14)') "           acc-Z =", VERTEX(3,IXS(2:9,I))                       
+            write (*,FMT='(A,8E26.14)') "           acc-X =", ALEFVM_Buffer%VERTEX(1,IXS(2:9,I))          
+            write (*,FMT='(A,8E26.14)') "           acc-Y =", ALEFVM_Buffer%VERTEX(2,IXS(2:9,I))
+            write (*,FMT='(A,8E26.14)') "           acc-Z =", ALEFVM_Buffer%VERTEX(3,IXS(2:9,I))                       
             print *, "      "          
           enddo
 !#!include "lockoff.inc"       

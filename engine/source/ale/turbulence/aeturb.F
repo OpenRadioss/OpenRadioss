@@ -129,13 +129,8 @@ C-----------------------------
 C       SPMD EXCHANGE : XE, VAL2
 C-----------------------------
       IF (NSPMD > 1) THEN
-C
-C Part not parallel smt
-C
 !$OMP SINGLE
-        CALL SPMD_EVOIS(XE      ,VAL2  ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2                  LESDVOIS,LENCOM)
-C END Part not parallel smt
+        CALL SPMD_EVOIS(XE,VAL2,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
 !$OMP END SINGLE
 
       END IF

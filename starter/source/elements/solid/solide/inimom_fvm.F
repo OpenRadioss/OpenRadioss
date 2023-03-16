@@ -50,7 +50,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 #include      "inter22.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -99,7 +98,7 @@ C Check activation flag for FVM momentum
 
         IALEL = IPARG1(7)+IPARG1(11)
         IF(IALEL == 0)RETURN
-        IF(IALEFVM==0)RETURN !global unplug if option not present in input file
+        IF(ALEFVM_Param%IEnabled==0)RETURN !global unplug if option not present in input file
                 
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
@@ -110,25 +109,25 @@ C-----------------------------------------------
       !-----------------------------------------      
       !automatic FVM SOLVER for ALE
       IF(INT22>0)THEN
-        IF(I_ALE_SOLVER<=1) THEN
-          I_ALE_SOLVER=5
-          IF(IALEFVM_IPRINT_1==0)THEN
+        IF(ALEFVM_Param%ISOLVER<=1) THEN
+          ALEFVM_Param%ISOLVER=5
+          IF(ALEFVM_Param%IPRINT_1==0)THEN
             !print *, "** WARNING INT22 : UNDEFINED /ALE/SOLVER CARD"
             !print *, "                   ENABLING IT AUTOMATICALLY WITH IMOM_VEL=5"
-            IALEFVM_IPRINT_1 = 1
+            ALEFVM_Param%IPRINT_1 = 1
           ENDIF
-        ELSEIF(I_ALE_SOLVER/=5)THEN
-          I_ALE_SOLVER=5
-          IF(IALEFVM_IPRINT_2==0)THEN
+        ELSEIF(ALEFVM_Param%ISOLVER/=5)THEN
+          ALEFVM_Param%ISOLVER=5
+          IF(ALEFVM_Param%IPRINT_2==0)THEN
             print *, "** WARNING INT22 : /ALE/SOLVER CARD"
             print *, "                   RECOMMENDED VALUE IS IMOM_VEL=5"
-            IALEFVM_IPRINT_2 = 1
+            ALEFVM_Param%IPRINT_2 = 1
           ENDIF
         ENDIF
       ENDIF
       
-      IF(I_ALE_SOLVER>0)THEN
-        IPM(251,MAT(1)) = I_ALE_SOLVER
+      IF(ALEFVM_Param%ISOLVER>0)THEN
+        IPM(251,MAT(1)) = ALEFVM_Param%ISOLVER
         ! 0: Default = 1 expect if /ALE/MAT or /EULER/MAT has IFROM flag defined.
         ! 1 : FEM
         ! 2 : FVM U average
@@ -146,8 +145,6 @@ C-----------------------------------------------
       IF(MLW /= 11) THEN
 
         DO  I=LFT,LLT
-c          IALEFVM_FLG = IPM(251,MAT(I))
-c          IF(IALEFVM_FLG==0)CYCLE       
           II          = I+NFT
           !---nod-1
           VX1(I)      = V(1,IXS(2,II))
@@ -196,12 +193,12 @@ c          IF(IALEFVM_FLG==0)CYCLE
         !write(*,*) "MOMENTUM from inimom_fvm.F"
         DO I=LFT,LLT
           II          = I+NFT
-          FCELL(1,II) = MOM(I,1)
-          FCELL(2,II) = MOM(I,2)
-          FCELL(3,II) = MOM(I,3)  
-          FCELL(4,II) = RHO(I) 
-          FCELL(5,II) = SSP(I)
-          FCELL(6,II) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3)) 
+          ALEFVM_Buffer%FCELL(1,II) = MOM(I,1)
+          ALEFVM_Buffer%FCELL(2,II) = MOM(I,2)
+          ALEFVM_Buffer%FCELL(3,II) = MOM(I,3)  
+          ALEFVM_Buffer%FCELL(4,II) = RHO(I) 
+          ALEFVM_Buffer%FCELL(5,II) = SSP(I)
+          ALEFVM_Buffer%FCELL(6,II) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3)) 
         ENDDO
         
       !-----------------------------------------
@@ -245,12 +242,12 @@ c          IF(IALEFVM_FLG==0)CYCLE
             MOM(I,1)	= Vx*RHO(I)
             MOM(I,2)	= Vy*RHO(I)
             MOM(I,3)	= Vz*RHO(I)		    
-            FCELL(1,II) = MOM(I,1)
-            FCELL(2,II) = MOM(I,2)
-            FCELL(3,II) = MOM(I,3)  
-            FCELL(4,II) = RHO(I)
-            FCELL(5,II) = SSP(I)
-            FCELL(6,II) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
+            ALEFVM_Buffer%FCELL(1,II) = MOM(I,1)
+            ALEFVM_Buffer%FCELL(2,II) = MOM(I,2)
+            ALEFVM_Buffer%FCELL(3,II) = MOM(I,3)  
+            ALEFVM_Buffer%FCELL(4,II) = RHO(I)
+            ALEFVM_Buffer%FCELL(5,II) = SSP(I)
+            ALEFVM_Buffer%FCELL(6,II) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
           ENDDO                              
         ELSEIF(ITYP == 3)THEN
           T0 = ZERO
@@ -262,12 +259,12 @@ c          IF(IALEFVM_FLG==0)CYCLE
             MOM(I,1)	= Vx*RHO(I)
             MOM(I,2)	= Vy*RHO(I)
             MOM(I,3)	= Vz*RHO(I)		    
-            FCELL(1,II) = MOM(I,1)
-            FCELL(2,II) = MOM(I,2)
-            FCELL(3,II) = MOM(I,3)  
-            FCELL(4,II) = RHO(I)
-            FCELL(5,II) = SSP(I)
-            FCELL(6,II) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
+            ALEFVM_Buffer%FCELL(1,II) = MOM(I,1)
+            ALEFVM_Buffer%FCELL(2,II) = MOM(I,2)
+            ALEFVM_Buffer%FCELL(3,II) = MOM(I,3)  
+            ALEFVM_Buffer%FCELL(4,II) = RHO(I)
+            ALEFVM_Buffer%FCELL(5,II) = SSP(I)
+            ALEFVM_Buffer%FCELL(6,II) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
           ENDDO                              
         ENDIF
         

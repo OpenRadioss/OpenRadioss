@@ -45,7 +45,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD
-C      USE ALEFVM_MOD,only:ALEFVM_Param
+      USE ALEFVM_MOD,only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,7 +59,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "conv_c.inc"
-#include      "alefvm.inc"
 #include      "fluid_scr_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -81,8 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      LOGICAL LOI_FLUID
-      EXTERNAL LOI_FLUID              
+      LOGICAL,EXTERNAL :: LOI_FLUID                 
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -91,7 +89,7 @@ C-----------------------------------------------
         !  EULER & ALE : CHECK CONSISTENCY BETWEEN MAT and PROP          !
         !################################################################!  
         ! JALE_FROM_MAT = PM(72)        0:lagrange   1:ale    2:euler 
-        ! JALE_FROM_PROP = IGEO(62)     0:lagrange   1:ale    2:euler       
+        ! JALE_FROM_PROP = IGEO(62)     0:lagrange   1:ale    2:euler
         
         !/ALE/MAT or /EULER/MAT
         JALE_FROM_MAT = 0
@@ -156,10 +154,8 @@ C-----------------------------------------------
               ENDIF
            ELSE
               IF(IGTYP/=14.AND.IGTYP/=15)THEN  
-                 CALL ANCMSG(MSGID=42,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=ID) 
+                 !material set to void for normal termination otherwise engine will set value to non allocated arrays.
+                 CALL ANCMSG(MSGID=42,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID) 
                  !material set to void for normal termination otherwise engine will set value to non allocated arrays.
                  MID=0 
                  PM(1:NPROPM,IMID) =  ZERO
@@ -177,9 +173,10 @@ C-----------------------------------------------
             CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID),LTITR)
             CALL FRETITL2(TITR2,IPM(NPROPMI-LTITR+1,IMID),LTITR)
             CALL ANCMSG(MSGID=101, MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .                I1=ID, C1=TITR,
-     .                I2=PID,C2=TITR1,
-     .                I3=MID,C3=TITR2, I4=ILAW)          
+     .                  I1=ID, C1=TITR,
+     .                  I2=PID,C2=TITR1,
+     .                  I3=MID,C3=TITR2, 
+     .                  I4=ILAW)          
           ENDIF
         ENDIF
 
@@ -210,6 +207,7 @@ C-----------------------------------------------
             MID1 = NINTRI(uID1,IPM,NPROPMI,NUMMAT,1)
             MID2 = NINTRI(uID2,IPM,NPROPMI,NUMMAT,1)
             ILAW1 = IPM(2,MID1)
+            ILAW2 = IPM(2,MID2)                        
             ILAW2 = IPM(2,MID2)   
             PM(15,MID1) = UPWMG
             PM(15,MID2) = UPWMG
@@ -341,7 +339,7 @@ C-----------------------------------------------
          ENDIF
          
         !---ALEFVM (obsolete)---! 
-        IF( (JALE_FROM_PROP /= 0 .OR. JALE_FROM_MAT /= 0) .AND. IALEFVM == 1)THEN
+        IF( (JALE_FROM_PROP /= 0 .OR. JALE_FROM_MAT /= 0) .AND. ALEFVM_Param%IEnabled == 1)THEN
          !Momentum Convection : %MOM(1:3,:)
           !local flags
           CODCONV = CODCONV + 11100000
@@ -382,6 +380,34 @@ C-----------------------------------------------
        ENDIF
       !-------------------------------------        
      
-c-----------------------------------------               
+
+       !################################################################!   
+       !  CFD CONSISTENCY (OBSOLETE OPTION /CAA)                        !
+       !################################################################!
+       IGFLU=0
+       IF(IPID > 0)IGFLU=IGEO(36,IPID)
+       !### CAA without fluid material (CAA is obsolete)
+       IF(ICAA /= 0)THEN
+         IF(    JALE_FROM_PROP==1 .OR. JALE_FROM_PROP==2
+     .     .OR. JALE_FROM_MAT==1  .OR. JALE_FROM_MAT==2 )THEN !ALE or EULER
+           IF(.NOT.loi_fluid(ilaw)) THEN
+             CALL ANCMSG(MSGID=37,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,
+     .                   I1=ID  ,C1=TITR ,
+     .                   I2=MID ,C2=TITR2,
+     .                   I3=ILAW)
+           ENDIF
+         ENDIF
+       ENDIF
+       !### /PROP/FLUID without FLUID material 
+       IF(  (IGFLU==1) .AND. .NOT.(loi_fluid(ilaw)) .AND. (ICAA == 0) .AND. (IGTYP == 14) )THEN
+          CALL ANCMSG(MSGID=38,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
+     .                I1=ID  ,C1=TITR ,
+     .                I2=PID ,C2=TITR1,
+     .                I3=MID ,C3=TITR2,
+     .                I4=ILAW )
+       ENDIF
+      !-------------------------------------
+      
+                
       RETURN
       END SUBROUTINE ALE_EULER_INIT

@@ -78,11 +78,9 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "inter22.inc"
-#include      "i22edges.inc"
 #include      "task_c.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -200,12 +198,12 @@ C-----------------------------------------------
           IDm                           = BRICK_LIST(NIN,IBm)%ID
           NGm                           = BRICK_LIST(NIN,IBm)%NG
           GBUF                          =>ELBUF_TAB(NGm)%GBUF                                
-          VALEL(1)                      = FCELL(1,IEm) !rho.ux
-          VALEL(2)                      = FCELL(2,IEm) !rho.uy
-          VALEL(3)                      = FCELL(3,IEm) !rho.uz
-          VALEL(4)                      = FCELL(4,IEm) !rho
-          VALEL(5)                      = FCELL(5,IEm) !ssp
-          VALEL(6)                      = FCELL(6,IEm) !P  
+          VALEL(1)                      = ALEFVM_Buffer%FCELL(1,IEm) !rho.ux
+          VALEL(2)                      = ALEFVM_Buffer%FCELL(2,IEm) !rho.uy
+          VALEL(3)                      = ALEFVM_Buffer%FCELL(3,IEm) !rho.uz
+          VALEL(4)                      = ALEFVM_Buffer%FCELL(4,IEm) !rho
+          VALEL(5)                      = ALEFVM_Buffer%FCELL(5,IEm) !ssp
+          VALEL(6)                      = ALEFVM_Buffer%FCELL(6,IEm) !P  
           SR1                           = SQRT(VALEL(4))     
           DO J=1,NV46
             NAdj                        = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%NAdjCell
@@ -225,20 +223,20 @@ C-----------------------------------------------
                   IBvm                    = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(4) 
                   NGvm                    = BRICK_LIST(NIN,IBvm)%NG
                   IDvm                    = BRICK_LIST(NIN,IBvm)%IDLOC
-                  VALVOIS(J,1,IADj)       = FCELL(1,IEvm)
-                  VALVOIS(J,2,IADj)       = FCELL(2,IEvm)
-                  VALVOIS(J,3,IADj)       = FCELL(3,IEvm)
-                  VALVOIS(J,4,IADj)       = FCELL(4,IEvm)
-                  VALVOIS(J,5,IADj)       = FCELL(5,IEvm)
-                  VALVOIS(J,6,IADj)       = FCELL(6,IEvm)
+                  VALVOIS(J,1,IADj)       = ALEFVM_Buffer%FCELL(1,IEvm)
+                  VALVOIS(J,2,IADj)       = ALEFVM_Buffer%FCELL(2,IEvm)
+                  VALVOIS(J,3,IADj)       = ALEFVM_Buffer%FCELL(3,IEvm)
+                  VALVOIS(J,4,IADj)       = ALEFVM_Buffer%FCELL(4,IEvm)
+                  VALVOIS(J,5,IADj)       = ALEFVM_Buffer%FCELL(5,IEvm)
+                  VALVOIS(J,6,IADj)       = ALEFVM_Buffer%FCELL(6,IEvm)
                 ELSE
                 !NOT IN CUT CELL (FRONTIER TO USUAL DOMAIN)
-                  VALVOIS(J,1,IADj)       = FCELL(1,IEv)
-                  VALVOIS(J,2,IADj)       = FCELL(2,IEv)
-                  VALVOIS(J,3,IADj)       = FCELL(3,IEv)
-                  VALVOIS(J,4,IADj)       = FCELL(4,IEv)
-                  VALVOIS(J,5,IADj)       = FCELL(5,IEv)  
-                  VALVOIS(J,6,IADj)       = FCELL(6,IEv)                                  
+                  VALVOIS(J,1,IADj)       = ALEFVM_Buffer%FCELL(1,IEv)
+                  VALVOIS(J,2,IADj)       = ALEFVM_Buffer%FCELL(2,IEv)
+                  VALVOIS(J,3,IADj)       = ALEFVM_Buffer%FCELL(3,IEv)
+                  VALVOIS(J,4,IADj)       = ALEFVM_Buffer%FCELL(4,IEv)
+                  VALVOIS(J,5,IADj)       = ALEFVM_Buffer%FCELL(5,IEv)  
+                  VALVOIS(J,6,IADj)       = ALEFVM_Buffer%FCELL(6,IEv)                                  
                 ENDIF                                             
               ENDIF
               SR2                         = SQRT(VALVOIS(J,4,IADj))
@@ -247,10 +245,10 @@ C-----------------------------------------------
               !======================================================!
               IMAT                          = IXS(1,IE)
               IALEFVM_FLG                   = IPM(251,IMAT)
-              IF(IALEFVM_IFORM/=0)IALEFVM_FLG = IALEFVM_IFORM !for debug purpose if set in alefvm_init.F
+              IF(ALEFVM_Param%IFORM/=0)IALEFVM_FLG = ALEFVM_Param%IFORM !for debug purpose if set in alefvm_init.F
               
               
-              SELECT CASE(I_ALE_SOLVER)
+              SELECT CASE(ALEFVM_Param%ISOLVER)
                 CASE(1)
                   !CENTERED FVM - U average              
                   VF(1)                     = HALF * (VALEL(1)/VALEL(4)+VALVOIS(J,1,IADj)/VALVOIS(J,4,IADj))
@@ -393,7 +391,7 @@ c                   pause
               K                             = 0
               DO L=1,NUMNOD                                     
                 iNOD                        = BRICK_LIST(NIN,IB)%POLY(ICELL)%ListNodID(L)               
-                IF(IsNodeOnFace(iNOD,J))K   = K +1                         
+                IF(INT22_BUF%IsNodeOnFace(iNOD,J))K   = K +1                         
               ENDDO
               Face                          = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Surf
               IF(IBv==0)THEN
@@ -407,7 +405,7 @@ c                   pause
                 Kv                          = 0
                 DO L=1,NUMNOD                                     
                   iNOD                      = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%ListNodID(L)               
-                  IF(IsNodeOnFace(iNOD,Jv))Kv= Kv +1                         
+                  IF(INT22_BUF%IsNodeOnFace(iNOD,Jv))Kv= Kv +1                         
                 ENDDO   
               ENDIF
               Face                          = min(Face,FaceV)

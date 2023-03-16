@@ -137,10 +137,10 @@ C-----------------------------------------------
           DO J=IADF,IADL
             !Acceleration on FVM vertexes
             N1=IABS(LGRAV(J))
-            VERTEX(1,N1) =  SKEW(K1,ISK)*AA
-            VERTEX(2,N1) =  SKEW(K2,ISK)*AA
-            VERTEX(3,N1) =  SKEW(K3,ISK)*AA
-            VERTEX(4,N1) = ONE
+            ALEFVM_Buffer%VERTEX(1,N1) =  SKEW(K1,ISK)*AA
+            ALEFVM_Buffer%VERTEX(2,N1) =  SKEW(K2,ISK)*AA
+            ALEFVM_Buffer%VERTEX(3,N1) =  SKEW(K3,ISK)*AA
+            ALEFVM_Buffer%VERTEX(4,N1) = ONE
             !--- TODO : TFEXTT            
             ! VV = SKEW(K1,ISK)*V(1,N1)+SKEW(K2,ISK)*V(2,N1)+SKEW(K3,ISK)*V(3,N1)
             ! IF(LGRAV(J)>0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
@@ -151,10 +151,10 @@ C-----------------------------------------------
           DO J=IADF,IADL
             !Acceleration on FVM vertexes
             N1=IABS(LGRAV(J))
-            VERTEX(1,N1) = VERTEX(1,N1)+SKEW(K1,ISK)*AA
-            VERTEX(2,N1) = VERTEX(2,N1)+SKEW(K2,ISK)*AA
-            VERTEX(3,N1) = VERTEX(3,N1)+SKEW(K3,ISK)*AA
-            VERTEX(4,N1) = ONE
+            ALEFVM_Buffer%VERTEX(1,N1) = ALEFVM_Buffer%VERTEX(1,N1)+SKEW(K1,ISK)*AA
+            ALEFVM_Buffer%VERTEX(2,N1) = ALEFVM_Buffer%VERTEX(2,N1)+SKEW(K2,ISK)*AA
+            ALEFVM_Buffer%VERTEX(3,N1) = ALEFVM_Buffer%VERTEX(3,N1)+SKEW(K3,ISK)*AA
+            ALEFVM_Buffer%VERTEX(4,N1) = ONE
             !--- TODO : TFEXTT            
             ! VV = SKEW(K1,ISK)*V(1,N1)+SKEW(K2,ISK)*V(2,N1)+SKEW(K3,ISK)*V(3,N1)
             ! IF(LGRAV(J)>0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)

@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE UNITAB_MOD
       USE SENSOR_MOD
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,10 +67,8 @@ C-----------------------------------------------
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER ISU1,ISU2,ILAGM,NI
       INTEGER IPARI(*),NPC1(*),NPC(*)
-      my_real
-     .   STFAC,XFILTR
-      my_real
-     .   FRIGAP(*),FRIC_P(*),TF(*)
+      my_real STFAC,XFILTR
+      my_real FRIGAP(*),FRIC_P(*),TF(*)
       CHARACTER TITR*nchartitle,TITR1*nchartitle
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
@@ -87,7 +86,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr12_c.inc"
 #include      "remesh_c.inc"
-#include      "thknod_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -340,7 +338,7 @@ C
           IF(GAPSCALE==ZERO)GAPSCALE=ONE
 
 ce flag dit sil faut calculer les epaisseurs nodales dans l'engine
-          IF(IGAP==2) ITHKNOD=1
+          IF(IGAP==2) INTER_ITHKNOD=1 !defined in interface module (common_source directory)
 C
           IF(IGAP==2)THEN
               IF(PMAX==ZERO) PMAX=EP30

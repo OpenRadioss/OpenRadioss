@@ -64,9 +64,9 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "inter22.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -78,9 +78,9 @@ C subroutine is unplugged
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: IXS(NIXS,*),NV46,IALEFVM_FLG, ITASK,IPM(NPROPMI,*),IPARG(NPARG,*),NG ,NALE(*)
+      INTEGER :: IXS(NIXS,NUMELS),NV46,IALEFVM_FLG, ITASK,IPM(NPROPMI,NUMMAT),IPARG(NPARG,NGROUP),NG ,NALE(*)
       INTEGER :: NBF, NBL, tNB, NIN
-      my_real :: A(3,*),X(3,*),V(3,*),MS(*),W(3,*),BID1,BID2,BID3,BID4
+      my_real :: A(3,NUMNOD),X(3,NUMNOD),V(3,NUMNOd),MS(*),W(3,NUMNOD),BID1,BID2,BID3,BID4
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -95,7 +95,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
-      IF(IALEFVM==0)    RETURN
+      IF(ALEFVM_Param%IEnabled==0)    RETURN
       IF(INT22 == 0) RETURN   
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
@@ -109,7 +109,7 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
       !IPRES_MOM = 0,1,2,3,4  : (P1+P2)/2
       !IPRES_MOM =         5  : (rho1c1P1+rho2c2P2)/(rho1c1+rho2c2) + (rho1c1*rho2c2/(rho1c1+rho2c2)) <uel-uadj,nel>  acoustic solver 
       
-      IPRES_MOM =  I_ALE_SOLVER
+      IPRES_MOM =  ALEFVM_Param%ISOLVER
       
 !      print *, "IPRES_MOM, SFINT3, int22", IPRES_MOM
 
@@ -245,10 +245,10 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
                 F0(2)       = F0(2) - Pf*SURF*N(2) 
                 F0(3)       = F0(3) - Pf*SURF*N(3)
               ELSE! THEN IBV==0
-                P2          = F_FACE(1  ,4  ,IV)
-                Z2          = F_FACE(1  ,3  ,IV)
-                UN2         = F_FACE(3  ,JV ,IV)
-                M2          = F_FACE(1  ,5  ,IV)
+                P2          = ALEFVM_Buffer%F_FACE(1  ,4  ,IV)
+                Z2          = ALEFVM_Buffer%F_FACE(1  ,3  ,IV)
+                UN2         = ALEFVM_Buffer%F_FACE(3  ,JV ,IV)
+                M2          = ALEFVM_Buffer%F_FACE(1  ,5  ,IV)
                 SURF        = AREA
                 DENOM       = Z1+Z2
                 !Pf          = COEF1*(HALF*(P1+P2)) + COEF2*((Z1*P2 + Z2*P1)/DENOM 
@@ -366,10 +366,10 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
                   F0(2)       = F0(2) - Pf*SURF*N(2) 
                   F0(3)       = F0(3) - Pf*SURF*N(3)                       
                 ELSE! THEN IBV==0
-                  P2          = F_FACE(1  ,4  ,IV)
-                  Z2          = F_FACE(1  ,3  ,IV)
-                  UN2         = F_FACE(3  ,JV ,IV)
-                  M2          = F_FACE(1  ,5  ,IV)
+                  P2          = ALEFVM_Buffer%F_FACE(1  ,4  ,IV)
+                  Z2          = ALEFVM_Buffer%F_FACE(1  ,3  ,IV)
+                  UN2         = ALEFVM_Buffer%F_FACE(3  ,JV ,IV)
+                  M2          = ALEFVM_Buffer%F_FACE(1  ,5  ,IV)
                   SURF        = AREA
                   DENOM       = Z1+Z2
                   !Pf          = COEF1*(HALF*(P1+P2)) + COEF2*((Z1*P2 + Z2*P1)/DENOM 
@@ -386,24 +386,24 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
         ENDDO! next ISECND 
         
 
-        FINT_CELL(1,II) = F0(1)
-        FINT_CELL(2,II) = F0(2)
-        FINT_CELL(3,II) = F0(3)
+        ALEFVM_Buffer%FINT_CELL(1,II) = F0(1)
+        ALEFVM_Buffer%FINT_CELL(2,II) = F0(2)
+        ALEFVM_Buffer%FINT_CELL(3,II) = F0(3)
         
               !  write (*,FMT='(A,I6,A,3F30.16)') "22.brick ID=", ixs(11,II),"  Fint=", F0(1:3)
 
 
         !Fcell already contains gravity force, so do not erase but add               
-        FCELL(1,II)       = FCELL(1,II) + F0(1) !+ FEXT_CELL(1,II)
-        FCELL(2,II)       = FCELL(2,II) + F0(2) !+ FEXT_CELL(2,II)
-        FCELL(3,II)       = FCELL(3,II) + F0(3) !+ FEXT_CELL(3,II)              
+        ALEFVM_Buffer%FCELL(1,II) = ALEFVM_Buffer%FCELL(1,II) + F0(1) !+ FEXT_CELL(1,II)
+        ALEFVM_Buffer%FCELL(2,II) = ALEFVM_Buffer%FCELL(2,II) + F0(2) !+ FEXT_CELL(2,II)
+        ALEFVM_Buffer%FCELL(3,II) = ALEFVM_Buffer%FCELL(3,II) + F0(3) !+ FEXT_CELL(3,II)              
 
       ENDDO!next IB
 
       !-------------------------------------------------------------!
       ! Debug Output                                                !
       !-------------------------------------------------------------!
-        if(IALEFVM_OUTP_FINT /= 0)then
+        if(ALEFVM_Param%IOUTP_FINT /= 0)then
 
           call my_barrier
 
@@ -422,9 +422,9 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
      .                                  "#--- internal force -----#"  
      
 
-              write (*,FMT='(A,8E26.14)' ) "         force-X           =", FCELL(1,II)          
-              write (*,FMT='(A,8E26.14)' ) "         force-Y           =", FCELL(2,II)
-              write (*,FMT='(A,8E26.14)' ) "         force-Z           =", FCELL(3,II)  
+              write (*,FMT='(A,8E26.14)' ) "         force-X           =", ALEFVM_Buffer%FCELL(1,II)          
+              write (*,FMT='(A,8E26.14)' ) "         force-Y           =", ALEFVM_Buffer%FCELL(2,II)
+              write (*,FMT='(A,8E26.14)' ) "         force-Z           =", ALEFVM_Buffer%FCELL(3,II)  
               write (*,FMT='(A,8E26.14)' ) "               P           =", BRICK_LIST(NIN,I)%SIG(0)  
 
                            

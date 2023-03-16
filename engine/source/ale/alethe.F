@@ -65,6 +65,7 @@ C-----------------------------------------------
       USE I22TRI_MOD 
       USE SEGVAR_MOD        
       USE ALE_CONNECTIVITY_MOD
+      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,7 +78,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "conv_c.inc"
-#include      "alemuscl.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -117,12 +117,8 @@ C=======================================================================
         !  SPMD EXCHANGES                     !
         !-------------------------------------!
         IF (NSPMD  > 1) THEN
-          ! Part not parallel smt
 !$OMP SINGLE
-          CALL SPMD_XVOIS(
-     1                    X,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,
-     2                    LENCOMN)
-          ! END part not parallel smt
+          CALL SPMD_XVOIS(X,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,LENCOMN)
 !$OMP   END SINGLE
         END IF
        !-----------------------------!
@@ -265,7 +261,7 @@ C----------------------
         !     LAW51 :                 !
         !       SUBMATERIAL TREATMENT !
         !-----------------------------!
-         IF (TRIMAT   >  0 .AND. IALEMUSCL   >  0) THEN
+         IF (TRIMAT   >  0 .AND. ALEMUSCL_Param%IALEMUSCL   >  0) THEN
             IF (N2D  ==  0) THEN
                CALL ALE51_GRADIENT_RECONSTRUCTION(IPARG, ELBUF_TAB, IXS, X, ALE_CONNECT,
      .              NV46,NERCVOIS,NESDVOIS,  LERCVOIS,LESDVOIS,LENCOM, ITASK, 

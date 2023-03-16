@@ -67,7 +67,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "inter22.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -88,7 +87,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
-      IF(IALEFVM==0)    RETURN
+      IF(ALEFVM_Param%IEnabled==0)    RETURN
       IF(IALEFVM_FLG <= 1)RETURN  
       IMAT = IXS(1,LFT+NFT)
       ILAW = IPM(2,IMAT)
@@ -103,11 +102,11 @@ C-----------------------------------------------
         !-------------------------------------------------------------!
         DO I=LFT,LLT
           II          = I + NFT
-          DMOM(1:3,I) = FCELL(1:3,II)
+          DMOM(1:3,I) = ALEFVM_Buffer%FCELL(1:3,II)
           IF(DT1==ZERO)THEN
             DMOM(1:3,I) = HALF*DT2 * DMOM(1:3,I)          
           ELSE
-            DMOM(1:3,I) =        DT2 * DMOM(1:3,I)                    
+            DMOM(1:3,I) = DT2 * DMOM(1:3,I)                    
           ENDIF
         ENDDO!next I
 
@@ -120,19 +119,19 @@ C-----------------------------------------------
 
 
         !DEBUG-OUTPUT---------------!
-        if(IALEFVM_OUTP_SCHEME /= 0)then
+        if(ALEFVM_Param%IOUTP_SCHEME /= 0)then
           debug_outp = .FALSE.
-          if(IALEFVM_OUTP_SCHEME>0)then
+          if(ALEFVM_Param%IOUTP_SCHEME>0)then
             do i=lft,llt
               ii = nft + i
-              if(ixs(11,ii)==IALEFVM_OUTP_SCHEME)THEN
+              if(ixs(11,ii)==ALEFVM_Param%IOUTP_SCHEME)THEN
                 debug_outp = .TRUE.
                 idbf   = i
                 idbl   = i
                 EXIT
               endif
              enddo
-          elseif(IALEFVM_OUTP_SCHEME==-1)then
+          elseif(ALEFVM_Param%IOUTP_SCHEME==-1)then
             debug_outp=.TRUE.
                 idbf   = lft
                 idbl   = llt          
@@ -192,7 +191,9 @@ C-----------------------------------------------
       
         DO I=LFT,LLT
           II                    = I + NFT
-          INT22_FCELL_ANIM(II)  = SQRT ( FCELL(1,II)*FCELL(1,II) + FCELL(2,II)*FCELL(2,II) + FCELL(3,II)*FCELL(3,II) )        
+          INT22_FCELL_ANIM(II)  = SQRT ( ALEFVM_Buffer%FCELL(1,II)*ALEFVM_Buffer%FCELL(1,II) 
+     .                                 + ALEFVM_Buffer%FCELL(2,II)*ALEFVM_Buffer%FCELL(2,II) 
+     .                                 + ALEFVM_Buffer%FCELL(3,II)*ALEFVM_Buffer%FCELL(3,II) )        
         ENDDO!next I 
         
         NIN = 1
@@ -200,7 +201,7 @@ C-----------------------------------------------
           II = I+NFT
           IB = NINT(IAD22(I))
           IF (IB>0)THEN
-            BRICK_LIST(NIN,IB)%FCELL(1:3) = FCELL(1:3,II)
+            BRICK_LIST(NIN,IB)%FCELL(1:3) = ALEFVM_Buffer%FCELL(1:3,II)
           ENDIF
         ENDDO
         
@@ -209,12 +210,12 @@ C-----------------------------------------------
       
       DO I=LFT,LLT
         II          = I + NFT
-        FCELL(1,II) = MOM(I,1)
-        FCELL(2,II) = MOM(I,2)
-        FCELL(3,II) = MOM(I,3)
-        FCELL(4,II) = RHO(I)
-        FCELL(5,II) = SSP(I)
-        FCELL(6,II) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))        
+        ALEFVM_Buffer%FCELL(1,II) = MOM(I,1)
+        ALEFVM_Buffer%FCELL(2,II) = MOM(I,2)
+        ALEFVM_Buffer%FCELL(3,II) = MOM(I,3)
+        ALEFVM_Buffer%FCELL(4,II) = RHO(I)
+        ALEFVM_Buffer%FCELL(5,II) = SSP(I)
+        ALEFVM_Buffer%FCELL(6,II) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))        
       ENDDO!next I 
       
       

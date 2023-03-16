@@ -68,7 +68,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -446,46 +445,46 @@ c-----------
 c-----------
               !/ANIM/ELEM/FINT || FINTX || FINTY || FINXY || FINYZ || FINXZ
               ELSEIF (IFUNC>=4952 .AND. IFUNC<=4958)THEN                                                                                
-                IALEFVM_FLG = IALEFVM_IFORM                                                                    
+                IALEFVM_FLG = ALEFVM_Param%IFORM                                                                    
                 IF(IALEFVM_FLG >= 2)THEN                                                                   
                   IF(IFUNC>=4952 .AND. IFUNC<=4954)THEN                                                                                             
                     DO I=LFT,LLT                                                                                                                        
                       N      = I+NFT  
                       IF(EL2FA(NN1+ N)/=0)THEN                                                                                                                 
-                      FUNC(EL2FA(NN1+ N)) =         FINT_CELL(IFUNC-4951, N) 
+                      FUNC(EL2FA(NN1+ N)) = ALEFVM_Buffer%FINT_CELL(IFUNC-4951, N) 
                       ENDIF                                                                                        
                     ENDDO                                                                                                                               
                   ELSEIF(IFUNC==4955)THEN                                                                                                             
                     DO I=LFT,LLT                                                                                                                        
                        N      = I+NFT 
                       IF(EL2FA(NN1+ N)/=0)THEN                                                                                                                                                                           
-                      FUNC(EL2FA(NN1+ N)) = SQRT (  FINT_CELL(1, N)* FINT_CELL(1, N)+                                                                               
-     +                                              FINT_CELL(2, N)* FINT_CELL(2, N) ) 
+                      FUNC(EL2FA(NN1+ N)) = SQRT (  ALEFVM_Buffer%FINT_CELL(1, N)* ALEFVM_Buffer%FINT_CELL(1, N)+                                                                               
+     +                                              ALEFVM_Buffer%FINT_CELL(2, N)* ALEFVM_Buffer%FINT_CELL(2, N) ) 
                       ENDIF                                                                             
                     ENDDO                                                                                                                               
                   ELSEIF(IFUNC==4956)THEN                                                                                                             
                     DO I=LFT,LLT                                                                                                                        
                        N      = I+NFT  
                       IF(EL2FA(NN1+ N)/=0)THEN                                                                                                                                        
-                      FUNC(EL2FA(NN1+ N)) = SQRT ( FINT_CELL(2, N)* FINT_CELL(2, N)+                                                                                
-     +                                             FINT_CELL(3, N)* FINT_CELL(3, N) )
+                      FUNC(EL2FA(NN1+ N)) = SQRT ( ALEFVM_Buffer%FINT_CELL(2, N)* ALEFVM_Buffer%FINT_CELL(2, N)+                                                                                
+     +                                             ALEFVM_Buffer%FINT_CELL(3, N)* ALEFVM_Buffer%FINT_CELL(3, N) )
                       ENDIF 
                     ENDDO                                                                                                                               
                   ELSEIF(IFUNC==4957)THEN                                                                                                             
                     DO I=LFT,LLT                                                                                                                        
                        N      = I+NFT   
                       IF(EL2FA(NN1+ N)/=0)THEN                                                                                                                
-                      FUNC(EL2FA(NN1+ N)) = SQRT ( FINT_CELL(1, N)* FINT_CELL(1,N)+                                                                                
-     +                                             FINT_CELL(3, N)* FINT_CELL(3,N) )
+                      FUNC(EL2FA(NN1+ N)) = SQRT ( ALEFVM_Buffer%FINT_CELL(1, N)* ALEFVM_Buffer%FINT_CELL(1,N)+                                                                                
+     +                                             ALEFVM_Buffer%FINT_CELL(3, N)* ALEFVM_Buffer%FINT_CELL(3,N) )
                       ENDIF                                                                               
                     ENDDO                                                                                                                               
                   ELSEIF(IFUNC==4958)THEN                                                                                                             
                     DO I=LFT,LLT                                                                                                                        
                        N      = I+NFT   
                       IF(EL2FA(NN1+ N)/=0)THEN                                                                                                                
-                      FUNC(EL2FA(NN1+ N)) = SQRT ( FINT_CELL(1, N)* FINT_CELL(1, N)+                                                                                
-     +                                             FINT_CELL(2, N)* FINT_CELL(2, N)+                                                                                
-     +                                             FINT_CELL(3, N)* FINT_CELL(3, N) )
+                      FUNC(EL2FA(NN1+ N)) = SQRT ( ALEFVM_Buffer%FINT_CELL(1, N)* ALEFVM_Buffer%FINT_CELL(1, N)+                                                                                
+     +                                             ALEFVM_Buffer%FINT_CELL(2, N)* ALEFVM_Buffer%FINT_CELL(2, N)+                                                                                
+     +                                             ALEFVM_Buffer%FINT_CELL(3, N)* ALEFVM_Buffer%FINT_CELL(3, N) )
                       ENDIF                                                                               
                     ENDDO                                                                                                                               
                   ENDIF                                                                                                                                 

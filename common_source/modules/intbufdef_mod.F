@@ -1119,7 +1119,8 @@ C=======================================================================
 
 c INTBUF_SIZE array maximum length defined as parameter
 c (maximum number of different arrays composing INTBUF_TAB structure)
-        INTEGER, PARAMETER :: L_INTBUF_SIZE_MAX = 514
+      INTEGER, PARAMETER :: L_INTBUF_SIZE_MAX = 514
+      INTEGER INTER_ITHKNOD !Flag to fill THKNOD array  (enabled with Ithick parameter from interface type 25 or 21)
 
 c
 c---------------

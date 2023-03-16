@@ -49,7 +49,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "lon_c.inc"
 #include      "scr02_c.inc"
 #include      "scr07_c.inc"
 #include      "scr18_c.inc"
@@ -62,8 +61,8 @@ C-----------------------------------------------
       INTEGER I
       CHARACTER CART*ncharline
 C-----------------------------------------------
-      IFID=0
-      MFID=0
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       NNOISE=0
       NCUTS=0
 C

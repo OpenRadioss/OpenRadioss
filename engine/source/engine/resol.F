@@ -702,15 +702,12 @@ C-----------------------------------------------
 #include      "remesh_c.inc"
 #include      "com_xfem1.inc"
 #include      "tabsiz_c.inc"
-#include      "thknod_c.inc"
 #include      "sms_c.inc"
 #include      "filescount_c.inc"
 #include      "inter22.inc"
 #include      "userlib.inc"
-#include      "alefvm.inc"
 #include      "drape_c.inc"
 #include      "thermal_c.inc"
-#include      "alemuscl.inc"
 C-----------------------------------------------
       COMMON /VGLOB/DMAS,DINER
       my_real DMAS,DINER
@@ -1364,7 +1361,7 @@ C
            ALLOCATE(LOADP_TAGDEL(0))       
         ENDIF
 C
-          IF((IDEL7NG>0).OR.(IRAD2R/=0).OR.(IALEMUSCL>0).OR.(PDEL>0))THEN
+          IF((IDEL7NG>0).OR.(IRAD2R/=0).OR.(ALEMUSCL_Param%IALEMUSCL>0).OR.(PDEL>0))THEN
             SIZE_ADDCNEL = NUMNOD+1
             SIZE_CNEL = LCNEL
             NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
@@ -1380,7 +1377,7 @@ C
           IERROR = IERROR + IERROR2
           ALLOCATE(ADDCNEL(0:SIZE_ADDCNEL),STAT=IERROR2)
           IERROR = IERROR + IERROR2
-          IF((IDEL7NG>0).OR.(IRAD2R/=0).OR.(IALEMUSCL>0).OR.(PDEL>0))THEN
+          IF((IDEL7NG>0).OR.(IRAD2R/=0).OR.(ALEMUSCL_Param%IALEMUSCL>0).OR.(PDEL>0))THEN
 C Allocation of inverse connectivity array
             ALLOCATE(ADDTMPL(0:NUMNOD+1),STAT=IERROR2)
             IERROR = IERROR + IERROR2
@@ -1394,9 +1391,9 @@ C Allocation of inverse connectivity array
      .            I1=IERROR)
               CALL ARRET(2)
             END IF
-            pCNEL => CNEL
-            pADDCNEL => ADDCNEL
-            pADDTMPL => ADDTMPL
+            ALEMUSCL_Buffer%pCNEL => CNEL
+            ALEMUSCL_Buffer%pADDCNEL => ADDCNEL
+            ALEMUSCL_Buffer%pADDTMPL => ADDTMPL
           ELSE
             ALLOCATE(ADDTMPL(0),TAGEL(0))
           END IF
@@ -1642,7 +1639,7 @@ C--------------------------------------------
              ALLOCATE(ERR_THK_SH3 (0))
           END IF
 C
-          IF(ITHKNOD/=0)THEN
+          IF(INTER_ITHKNOD/=0)THEN
             ALLOCATE(THKSH4 (NUMELC),THKSH3 (NUMELTG),
      .               THKNOD (NUMNOD),
      .               STAT=IERROR)
@@ -2947,7 +2944,7 @@ C----------------------------------
 C----------------------------------
 C       Gather actual thickness of shells
 C----------------------------------
-      IF(ITHKNOD/=0)THEN
+      IF(INTER_ITHKNOD/=0)THEN
         NSGDONE=1
         THKNOD(NODFT:NODLT)=ZERO
 C       /---------------/
@@ -6868,7 +6865,7 @@ C-----------------------------------------------
       !-----------------------------
       !FINITE VOLUME METHOD FOR ALE
       !-----------------------------
-        IF(IALEFVM>0)THEN
+        IF(ALEFVM_Param%IEnabled>0)THEN
           CALL ALEFVM_ACCELE(
      1                       A      , AR     , V   , VR   , FZERO,
      2                       NODFTSK, NODLTSK, ITAB, MSNF , MS   ,
@@ -8222,7 +8219,7 @@ C-----------------------------
 C FINITE VOLUME METHOD FOR ALE
 C-----------------------------
 
-      IF(IALEFVM>0)THEN
+      IF(ALEFVM_Param%IEnabled>0)THEN
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
@@ -9242,7 +9239,7 @@ C xfem for layerd shell (cracks)
               CALL CRKXFEM_WRESTANIM(CRKEDGE,CRKSKY,INDX_CRK,XEDGE4N,XEDGE3N)
             ENDIF
 c-------------------------------
-            IF(IALEFVM > 0) CALL WRITE_DB(FCELL ,6*NUMELS)
+            IF(ALEFVM_Param%IEnabled > 0) CALL WRITE_DB(ALEFVM_Buffer%FCELL ,6*NUMELS)
 c-------------------------------
 C foam + air
             IF(IALELAG > 0 )CALL ALELAG_WREST() 
@@ -9512,7 +9509,7 @@ c-------------------------------
             CALL CRKXFEM_WRESTANIM(CRKEDGE,CRKSKY,INDX_CRK,XEDGE4N,XEDGE3N)
           ENDIF
 c-------------------------------
-          IF(IALEFVM > 0) CALL WRITE_DB(FCELL ,6*NUMELS)
+          IF(ALEFVM_Param%IEnabled > 0) CALL WRITE_DB(ALEFVM_Buffer%FCELL ,6*NUMELS)
 c-------------------------------
 C foam + air
           IF(IALELAG > 0 )CALL ALELAG_WREST() 
@@ -9647,7 +9644,7 @@ C xfem for layerd shell (cracks)
             CALL CRKXFEM_WRESTANIM(CRKEDGE,CRKSKY,INDX_CRK,XEDGE4N,XEDGE3N)
           ENDIF
 c-------------------------------
-          IF(IALEFVM > 0) CALL WRITE_DB(FCELL ,6*NUMELS)
+          IF(ALEFVM_Param%IEnabled > 0) CALL WRITE_DB(ALEFVM_Buffer%FCELL ,6*NUMELS)
 c-------------------------------
 C foam + air
           IF(IALELAG > 0 )CALL ALELAG_WREST()
@@ -9784,12 +9781,12 @@ C
         IF(ALLOCATED(INT22_FCELL_ANIM)) DEALLOCATE (INT22_FCELL_ANIM)        
         
         !ALEFVM
-        IF(ALLOCATED(WFEXT_CELL))       DEALLOCATE (WFEXT_CELL)
-        IF(ALLOCATED(FEXT_CELL))        DEALLOCATE (FEXT_CELL)        
-        IF(ALLOCATED(FCELL))            DEALLOCATE (FCELL)
-        IF(ALLOCATED(FINT_CELL))        DEALLOCATE (FINT_CELL)
-        IF(ALLOCATED(VERTEX))           DEALLOCATE (VERTEX)
-        IF(ALLOCATED(F_FACE))           DEALLOCATE (F_FACE)
+        IF(ALLOCATED(ALEFVM_Buffer%WFEXT_CELL))       DEALLOCATE (ALEFVM_Buffer%WFEXT_CELL)
+        IF(ALLOCATED(ALEFVM_Buffer%FEXT_CELL))        DEALLOCATE (ALEFVM_Buffer%FEXT_CELL)        
+        IF(ALLOCATED(ALEFVM_Buffer%FCELL))            DEALLOCATE (ALEFVM_Buffer%FCELL)
+        IF(ALLOCATED(ALEFVM_Buffer%FINT_CELL))        DEALLOCATE (ALEFVM_Buffer%FINT_CELL)
+        IF(ALLOCATED(ALEFVM_Buffer%VERTEX))           DEALLOCATE (ALEFVM_Buffer%VERTEX)
+        IF(ALLOCATED(ALEFVM_Buffer%F_FACE))           DEALLOCATE (ALEFVM_Buffer%F_FACE)
 
         !/LOAD/PBLAST
         CALL PBLAST_DEALLOCATE(PBLAST_TAB)

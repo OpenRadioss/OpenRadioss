@@ -429,7 +429,6 @@ C-----------------------------------------------
 #include      "submod_c.inc"
 #include      "r2r_c.inc"
 #include      "inter22.inc"
-#include      "alefvm.inc"
 #include      "drape_c.inc"
 #include      "thermal_c.inc"
 #include      "debug_rst.inc"
@@ -3461,7 +3460,7 @@ C
 C--------------------------------------
 C     ALEFVM WORKING ARRAY : MUST BE INIT. FOR CYCLE 0
 C--------------------------------------
-       IF(IALEFVM > 0)CALL WRITE_DB(FCELL ,6*NUMELS)
+       IF(ALEFVM_Param%IEnabled > 0)CALL WRITE_DB(ALEFVM_Buffer%FCELL ,6*NUMELS)
 C--------------------------------------------
 C  for foam+air
        IF(IALELAG > 0) THEN

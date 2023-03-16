@@ -56,6 +56,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE UNITAB_MOD
       USE SENSOR_MOD
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,7 +91,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "scr12_c.inc"
-#include      "thknod_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -566,7 +566,7 @@ C-------used for TPFIT
         ENDIF
         FRIGAP(14)=VISC
 C-------MAIN side gap changes with thickness change
-        IF(ITHK==1) ITHKNOD=1
+        IF(ITHK==1) INTER_ITHKNOD=1 !defined in interface module (common_source directory)
 C
 C-------* Storage IPARI FRIGAP *----------------------------
 C
