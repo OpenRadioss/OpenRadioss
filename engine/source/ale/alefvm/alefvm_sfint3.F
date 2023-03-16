@@ -65,7 +65,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "inter22.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -102,7 +101,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
-      IF(IALEFVM==0)    RETURN
+      IF(ALEFVM_Param%IEnabled==0)    RETURN
       IMAT        = IXS(1,LFT+NFT)
       ILAW        = IPM(2,IMAT)
       IALEFVM_FLG = IPM(251,IMAT)
@@ -200,7 +199,7 @@ C-----------------------------------------------
       !IPRES_MOM = 0,1,2,3,4  : (P1+P2)/2
       !IPRES_MOM =   5        : (rho1c1P1+rho2c2P2)/(rho1c1+rho2c2) + (rho1c1*rho2c2/(rho1c1+rho2c2)) <uel-uadj,nel>  acoustic solver 
       
-      IPRES_MOM = I_ALE_SOLVER
+      IPRES_MOM = ALEFVM_Param%ISOLVER
       
 !      print *, "IPRES_MOM, SFINT3", IPRES_MOM
       
@@ -209,9 +208,9 @@ C-----------------------------------------------
           DO I=LFT,LLT
             II               = I + NFT
             IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
-            P1               = F_FACE(1,4,II)
-            M1               = F_FACE(1,5,II)
-            Z_1              = F_FACE(1,3,II) ! impedance
+            P1               = ALEFVM_Buffer%F_FACE(1,4,II)
+            M1               = ALEFVM_Buffer%F_FACE(1,5,II)
+            Z_1              = ALEFVM_Buffer%F_FACE(1,3,II) ! impedance
             DO J=1,NV46
               IV  = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
               IF(IV > 0)THEN
@@ -220,11 +219,11 @@ C-----------------------------------------------
                 DO JV=1,NV46
                   IF(ALE_CONNECT%ee_connect%connected(IAD3 + JV - 1)==II)EXIT
                 ENDDO
-                U1N1         = + F_FACE(3, J,II)
-                U2N1         = - F_FACE(3,JV,IV)     !UN2 = <U2,N2> = <U2,-N1> 
-                Z_2          =   F_FACE(1, 3,IV)
-                P2           =   F_FACE(1, 4,IV)
-                M2           =   F_FACE(1, 5,IV)
+                U1N1         = + ALEFVM_Buffer%F_FACE(3, J,II)
+                U2N1         = - ALEFVM_Buffer%F_FACE(3,JV,IV)     !UN2 = <U2,N2> = <U2,-N1> 
+                Z_2          =   ALEFVM_Buffer%F_FACE(1, 3,IV)
+                P2           =   ALEFVM_Buffer%F_FACE(1, 4,IV)
+                M2           =   ALEFVM_Buffer%F_FACE(1, 5,IV)
                 DENOM        =   Z_1 + Z_2
                 Mf           = MIN(M1,M2)
                 THETA        = MIN(ONE,Mf)                 !see dellacherie,omnes,raviart : fixing low mach issue
@@ -232,7 +231,7 @@ C-----------------------------------------------
               ELSE
               !--ADJACENT ELEM DOES NOT EXIST
                 !SLIDING RWALL BC
-                U1N1         = + F_FACE(3, J,II)
+                U1N1         = + ALEFVM_Buffer%F_FACE(3, J,II)
                 !Pf          =  P1
                 Mf           = M1
                 THETA        = MIN(ONE,Mf)                 !see dellacherie,omnes,raviart : fixing low mach issue
@@ -248,7 +247,7 @@ C-----------------------------------------------
           DO I=LFT,LLT                                                       
             II    = I + NFT 
             IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
-            P1    = F_FACE(1,4,II)                                                
+            P1    = ALEFVM_Buffer%F_FACE(1,4,II)                                                
             DO J=1,NV46                                                      
               IV  = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
               IF(IV > 0)THEN                                              
@@ -257,7 +256,7 @@ C-----------------------------------------------
                 DO JV=1,NV46                                                 
                   IF(ALE_CONNECT%ee_connect%connected(IAD3 + JV - 1)==II)EXIT                                   
                 ENDDO                                                        
-                P2           = F_FACE(1,4,IV)
+                P2           = ALEFVM_Buffer%F_FACE(1,4,IV)
                 Pf           = HALF*(P1+P2) 
               ELSE                                                           
               !--ADJACENT ELEM DOES NOT EXIST                                
@@ -291,14 +290,14 @@ c     ." id=", ixs(11,ii)," ncycle=", NCYCLE, " F=", FFACE(1:3,J,I) , "Pf=", Pf
               !  write (*,FMT='(A,I6,A,3F30.16)') "   brick ID=", ixs(11,II),"  Fint=", F0(1:3,I)
 
         
-        FINT_CELL(1,II) = F0(1,I)
-        FINT_CELL(2,II) = F0(2,I)
-        FINT_CELL(3,II) = F0(3,I)
+        ALEFVM_Buffer%FINT_CELL(1,II) = F0(1,I)
+        ALEFVM_Buffer%FINT_CELL(2,II) = F0(2,I)
+        ALEFVM_Buffer%FINT_CELL(3,II) = F0(3,I)
         
         !Fcell already contains gravity force, so do not erase but add               
-        FCELL(1,II)  = FCELL(1,II) + F0(1,I) + FEXT_CELL(1,II)
-        FCELL(2,II)  = FCELL(2,II) + F0(2,I) + FEXT_CELL(2,II)
-        FCELL(3,II)  = FCELL(3,II) + F0(3,I) + FEXT_CELL(3,II)              
+        ALEFVM_Buffer%FCELL(1,II)  = ALEFVM_Buffer%FCELL(1,II) + F0(1,I) + ALEFVM_Buffer%FEXT_CELL(1,II)
+        ALEFVM_Buffer%FCELL(2,II)  = ALEFVM_Buffer%FCELL(2,II) + F0(2,I) + ALEFVM_Buffer%FEXT_CELL(2,II)
+        ALEFVM_Buffer%FCELL(3,II)  = ALEFVM_Buffer%FCELL(3,II) + F0(3,I) + ALEFVM_Buffer%FEXT_CELL(3,II)              
       ENDDO!next I
 
 

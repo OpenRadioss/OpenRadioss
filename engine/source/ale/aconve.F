@@ -56,6 +56,7 @@ C-----------------------------------------------
       USE I22BUFBRIC_MOD
       USE SEGVAR_MOD      
       USE ALE_CONNECTIVITY_MOD
+      USE ALEFVM_MOD,only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +72,6 @@ C-----------------------------------------------
 #include      "conv_c.inc"
 #include      "spmd_c.inc"
 #include      "inter22.inc"
-#include      "alefvm.inc"
 #include      "warn_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -431,10 +431,8 @@ C----------------------
         !    SPMD EXCHANGES                             !
         !-----------------------------------------------! 
         IF (NSPMD > 1) THEN
-          ! Partie non parallele smt
 !$OMP SINGLE
-          CALL SPMD_E1VOIS(PHI     ,NERCVOIS,NESDVOIS,LERCVOIS, LESDVOIS,LENCOM  )
-          ! Fin Partie non parallele smt
+          CALL SPMD_E1VOIS(PHI,NERCVOIS,NESDVOIS,LERCVOIS, LESDVOIS,LENCOM  )
 !$OMP END SINGLE
         END IF
 
@@ -546,7 +544,7 @@ C     ALE ON / OFF
            !        N V A R = 6         !                                                    
            !----------------------------!                                                    
            ELSEIF (NVAR == 6) THEN                                                           
-             IF(IALEFVM==0)THEN                                                              
+             IF(ALEFVM_Param%IEnabled==0)THEN                                                              
                IF (MTN == 51 .AND. ITRIMAT /= 0) THEN                                        
                  VAR => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(5*LLT+1:6*LLT)                 
                ELSE                                                                          
@@ -559,7 +557,7 @@ C     ALE ON / OFF
            !        N V A R = 7         !                                                    
            !----------------------------!                                                    
            ELSEIF (NVAR == 7) THEN                                                           
-             IF(IALEFVM==0)THEN                                                              
+             IF(ALEFVM_Param%IEnabled==0)THEN                                                              
                VAR => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(2*LLT+1:3*LLT)                   
              ELSE                                                                                                                                          
                VAR => ELBUF_TAB(NG)%GBUF%MOM(  LLT*1+1 : LLT*1+LLT )                                                         
@@ -568,7 +566,7 @@ C     ALE ON / OFF
            !        N V A R = 8         !                                                    
            !----------------------------!                                                    
            ELSEIF (NVAR == 8) THEN                                                           
-             IF(IALEFVM == 0)THEN                                                            
+             IF(ALEFVM_Param%IEnabled == 0)THEN                                                            
                VAR => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(3*LLT+1:4*LLT)                   
              ELSE                                                                            
                VAR => ELBUF_TAB(NG)%GBUF%MOM( LLT*2+1 : LLT*2+LLT )                                                        

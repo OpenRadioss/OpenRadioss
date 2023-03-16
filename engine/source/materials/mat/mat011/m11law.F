@@ -43,6 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE ALE_CONNECTIVITY_MOD
+      USE ALEFVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +59,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -151,7 +151,7 @@ C=======================================================================
         EIS(I)    = EIS(I) + EINT(I) / VOL(I)
       ENDDO
 
-      IF(IALEFVM==1)THEN
+      IF(ALEFVM_Param%IEnabled == 1)THEN
         IF(ITYP /= 3)THEN        
           DO I=LFT,LLT
             IF(IVxFUN>0)THEN
@@ -243,7 +243,7 @@ C=======================================================================
           RKV(I)  = RK(I)/VOL(I)
           REV(I)  = RE(I)/VOL(I)
           TV(I)   = T(I)
-          IF(IALEFVM == 1)THEN !otherwise %MOM is not allocated
+          IF(ALEFVM_Param%IEnabled == 1)THEN !otherwise %MOM is not allocated
             MASS    = RHO(I) * VOL(I)
             VxV(I)  = MOM(I,1)/MASS
             VyV(I)  = MOM(I,2)/MASS
@@ -305,7 +305,7 @@ C=======================================================================
           T(I)   =TV(I)
         ENDIF
         
-      IF(IALEFVM==1)THEN   
+      IF(ALEFVM_Param%IEnabled==1)THEN   
         IF(IVxFUN>0)THEN
           XmomN = Vx0(I)*FINTER(IVxFUN,TSCAL,NPF,TF,DYDX)*RHON*VOL(I)
         ELSE
@@ -363,7 +363,7 @@ C        LIQUIDE
          EINT(I)    = EN
          SSP_EQ(I)  = EP20
          IF(IPFUN/=0.AND.JTUR/=0)P(I)=P(I)+TWO_THIRD*RK(I)
-         IF(IALEFVM==1)THEN
+         IF(ALEFVM_Param%IEnabled==1)THEN
            MOM(I,1)   = XmomN
            MOM(I,2)   = YmomN
            MOM(I,3)   = ZmomN			    
@@ -379,7 +379,7 @@ C        LIQUIDE
          ALP       = PM(98,MX)*DT1
          IF(IPFUN/=0.AND.JTUR/=0)PN=PN + TWO_THIRD*RK(I)
          IF(IPFUN/=0 .AND. VN(I)<=0)PN=PN - HALF*RHON*VN(I)**2
-         IF(IALEFVM==1)THEN
+         IF(ALEFVM_Param%IEnabled==1)THEN
            MOM(I,1) = XmomN
            MOM(I,2) = YmomN
            MOM(I,3) = ZmomN		    

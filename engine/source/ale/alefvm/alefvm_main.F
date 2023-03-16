@@ -88,7 +88,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "task_c.inc"
 #include      "inter22.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -137,7 +136,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------       
-      IF(IALEFVM==0)RETURN
+      IF(ALEFVM_Param%IEnabled==0)RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------  
@@ -174,9 +173,9 @@ C-----------------------------------------------
       ! ALEFVM : FINITE VOLUME FOR MOMENTUM                                                 
       !--------------------------------------------- 
 
-       VERTEX(1:4,1:NUMNOD) = ZERO ! for alefvm_expand_momentum.F => vel on nodes           
+       ALEFVM_Buffer%VERTEX(1:4,1:NUMNOD) = ZERO ! for alefvm_expand_momentum.F => vel on nodes           
 
-       IF(IALEFVM > 0) THEN                                                                 
+       IF(ALEFVM_Param%Ienabled > 0) THEN                                                                 
          CALL MY_BARRIER 
                                                                                     
          DO NG=ITASK+1,NGROUP,NTHREAD                                                       
@@ -233,10 +232,10 @@ C-----------------------------------------------
 
  
        DO N=NODFT,NODLT
-         IF(VERTEX(4,N) == ZERO .OR. NALE(N)==0)CYCLE
-         V(1,N)      = VERTEX(1,N) 
-         V(2,N)      = VERTEX(2,N) 
-         V(3,N)      = VERTEX(3,N)            
+         IF(ALEFVM_Buffer%VERTEX(4,N) == ZERO .OR. NALE(N)==0)CYCLE
+         V(1,N)      = ALEFVM_Buffer%VERTEX(1,N) 
+         V(2,N)      = ALEFVM_Buffer%VERTEX(2,N) 
+         V(3,N)      = ALEFVM_Buffer%VERTEX(3,N)            
        ENDDO
             
 #include "vectorize.inc"
@@ -260,7 +259,7 @@ C-----------------------------------------------
        ENDIF
 
        CALL MY_BARRIER
-       VERTEX(4,1:NUMNOD) = ZERO ! was needed for alefvm_expand_momentum.F reset here for gravity on next cycle
+       ALEFVM_Buffer%VERTEX(4,1:NUMNOD) = ZERO ! was needed for alefvm_expand_momentum.F reset here for gravity on next cycle
 
       RETURN
       END

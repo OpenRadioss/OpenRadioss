@@ -86,17 +86,9 @@ C-----------------------------------------------
 
 C  SPMD : COMM D
       IF(NSPMD > 1)THEN
-C
-C Part not parallel smt
-C
 !$OMP SINGLE
-
          LENCOM = NBRCVOIS(NSPMD+1)+NBSDVOIS(NSPMD+1)
-         CALL SPMD_XVOIS(
-     1        D     ,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,
-     2        LENCOM)
-
-C End part not parallel smt
+         CALL SPMD_XVOIS(D,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,LENCOM)
 !$OMP END SINGLE
 
       END IF

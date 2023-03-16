@@ -66,7 +66,6 @@ C-----------------------------------------------
 #include      "com06_c.inc"
 #include      "buckcom.inc"
 #include      "scr06_c.inc"
-#include      "fsi_ar_c.inc"
 #include      "nchar_c.inc"
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -126,7 +125,6 @@ C      IRREF = 0
       IMP_LR=0
       IKPROJ=0
       ISMDISP = 0
-      IACUSLV = 0
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
        IMPL_S=1
@@ -165,9 +163,7 @@ C      IRREF = 0
        M_ORDER =0
        M_OCORE =0
        IRIG_M = 0
- 1160  READ(IUSC1,REC=IKAD(IKEY)+K,
-     .      FMT='(7X,A,1X,A,1X,A,25X,I10)',
-     .      ERR=9990)KEY2,KEY3,KEY4,NBC
+ 1160  READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,1X,A,25X,I10)',ERR=9990)KEY2,KEY3,KEY4,NBC
        K=K+1
 C----------------------------
 C      Dynamic implicit

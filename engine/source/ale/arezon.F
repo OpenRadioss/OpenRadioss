@@ -101,7 +101,7 @@ C     ALE ON / OFF
      6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         !-----------------------------!
-        ! CONDITIONS DE DEBRANCHEMENT !
+        ! UNPLUG CONDITIONS           !
         !-----------------------------!
         IF (NVAR == 11 .AND. MTN /= 81) CYCLE
         IF (JALE+JEUL == 0)             CYCLE
@@ -129,7 +129,7 @@ C     ALE ON / OFF
               PHI(J) = ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ADD+I)
             END DO
           ELSE
-            DO I=LFT,LLT !autre materiaux ou mtn=51 avec SIG global
+            DO I=LFT,LLT !other material laws or mtn=51
               J = I+NFT
               K = (IDX-1)*NEL + I
               PHI(J) = ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%SIG(K)
@@ -152,7 +152,6 @@ C     ALE ON / OFF
           ELSEIF (MTN == 6) THEN
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%RK(1:LLT)
           ELSEIF (MTN >= 28 .AND. MTN /= 67 .AND. MTN /= 49) THEN
-            !VAR => ELBUF_STR(NG)%BUFLY(NM)%MAT(1,1,1)%VAR(1:LLT)
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%PLA(1:LLT)
           ELSE
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%PLA(1:LLT)
@@ -185,14 +184,11 @@ C---------------------
        CALL MY_BARRIER
 C---------------------
        !------------------------------------! 
-       ! ECHANGES SPMD PHI SUR ELTS VOISINS !
+       ! SPMD EXCHANGES                     !
        !------------------------------------! 
        IF (NSPMD > 1)THEN
-         !Part no parallel smt
 !$OMP SINGLE
-         CALL SPMD_E1VOIS(PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2                    LESDVOIS,LENCOM  )
-        !END part not parallel smt
+         CALL SPMD_E1VOIS(PHI,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM  )
 !$OMP  END SINGLE
        END IF
 
@@ -212,7 +208,7 @@ C     ALE ON / OFF
      6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         !-----------------------------!
-        ! CONDITIONS DE DEBRANCHEMENT !
+        ! UNPLUG CONDITIONS           !
         !-----------------------------!
         IF (NVAR == 11 .AND. MTN /= 81) CYCLE
         IF (MAX(1,JMULT) < NM)         CYCLE
@@ -279,7 +275,6 @@ C     ALE ON / OFF
           ELSEIF (MTN == 6) THEN
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%RK(1:LLT)
           ELSEIF (MTN >= 28 .AND. MTN /= 67 .AND. MTN /= 49) THEN
-            !VAR => ELBUF_STR(NG)%BUFLY(NM)%MAT(1,1,1)%VAR(1:LLT)
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%PLA(1:LLT)
           ELSE
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%PLA(1:LLT)

@@ -103,6 +103,8 @@ C-----------------------------------------------
       USE RESTMOD
       USE GRP_SIZE_MOD
       USE ANIM_MOD
+      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
+      USE ALEFVM_MOD,only:ALEFVM_Param
       USE USER_WINDOWS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -153,12 +155,10 @@ C-----------------------------------------------
 #include      "r2r_c.inc"
 #include      "userlib.inc"
 #include      "spmd_c.inc"
-#include      "alefvm.inc"
 #include      "drape_c.inc"
 #include      "thermal_c.inc"
 #include      "inter22.inc"
 #include      "alesolver.inc"
-#include      "alemuscl.inc"
 #include      "boltpr_c.inc"
 #include      "ige3d_c.inc"
 #include      "submod_c.inc"
@@ -835,7 +835,7 @@ C---------------------------------------------------
 C-----      
       CALL HM_OPTION_COUNT('/INTER/TYPE22',INT22)
       IF(INT22>0)NSUB22=2
-      IF(INT22>0)IALEFVM=1 !AUTOMATICALLY ENABLING ALE FVM SCHEME FOR FSI INTER22
+      IF(INT22>0)ALEFVM_Param%IEnabled=1 !AUTOMATICALLY ENABLING ALE FVM SCHEME FOR FSI INTER22
 C-----      
       CALL HM_OPTION_COUNT('/INTER/SUB',NINTSUB)
       NINTER = HM_NINTER - NINTSUB
@@ -1409,25 +1409,25 @@ C
         END SELECT
       ENDIF
 
-      IF(I_ALE_SOLVER /= 0)IALEMUSCL=0 !muscl not compatible with FVM solver for int22
+      IF(ALEFVM_Param%ISOLVER /= 0)ALEMUSCL_Param%IALEMUSCL=0 !muscl not compatible with FVM solver for int22
       CALL HM_OPTION_COUNT('/ALE/MUSCL', NALEMUSCL)     
       IF( UPWSM/=ONE)THEN
-       IF(NALEMUSCL>0 .OR. IALEMUSCL>0)THEN
+       IF(NALEMUSCL>0 .OR. ALEMUSCL_Param%IALEMUSCL>0)THEN
          NALEMUSCL=0 
-         IALEMUSCL=0     
+         ALEMUSCL_Param%IALEMUSCL=0     
          !ignore muscl et utiliser upwsm3  (backward compatibility)
          !double check engine file with /ALE/MUSCL/OFF
         ENDIF
       ENDIF
             
       IF(JALE+JEUL/=0)THEN
-        IF(IALEMUSCL == 1 .AND. JUPW/=0 ) THEN   !eta3 + muscl(law51) : conflict
+        IF(ALEMUSCL_Param%IALEMUSCL == 1 .AND. JUPW/=0 ) THEN   !eta3 + muscl(law51) : conflict
            CALL ANCMSG(MSGID=1564, MSGTYPE=MSGWARNING, ANMODE=ANINFO)
-        ELSEIF(IALEMUSCL == 0 .OR. JUPW/=0)THEN
+        ELSEIF(ALEMUSCL_Param%IALEMUSCL == 0 .OR. JUPW/=0)THEN
           WRITE (IOUT,5360)UPWMG,UPWOG !,UPWSM
         END IF
-        IF (IALEMUSCL == 1 .OR. IALEMUSCL==2) THEN
-           WRITE (IOUT, 5504) I_BETA,IALEMUSCL-1
+        IF (ALEMUSCL_Param%IALEMUSCL == 1 .OR. ALEMUSCL_Param%IALEMUSCL==2) THEN
+           WRITE (IOUT, 5504) ALEMUSCL_Param%I_BETA,ALEMUSCL_Param%IALEMUSCL-1
         ENDIF
       ENDIF
       
@@ -1448,7 +1448,7 @@ C                                                                    012
      .      IPLA_D,ISTR_D,ISHEA_D,INSH,ISH3N_D, NPTS_D, IFRAME_DS
       WRITE(IOUT,5501)ISHFRAM
       IF(ISH3NFRAM>0)WRITE(IOUT,5901)ISH3NFRAM
-      IF(JALE/=0 .AND. IALEFVM/=0)WRITE(IOUT,5502)I_ALE_SOLVER
+      IF(JALE/=0 .AND. ALEFVM_Param%IEnabled/=0)WRITE(IOUT,5502)ALEFVM_Param%ISOLVER
       IF(JALE/=0 .AND. ISFINT/=0) WRITE(IOUT,5503)ISFINT      
       WRITE(IOUT,5700)LAGM_TOL
       WRITE(IOUT,5800)IMAS_DS

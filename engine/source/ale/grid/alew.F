@@ -86,17 +86,9 @@ C
 C     SPMD EXCHANGE : X, D, WA (X is already OK if INCOMP=0)
 C     
       IF(NSPMD > 1)THEN
-C     
-C     Part not parallel smt
-C     
 !$OMP SINGLE
-
          LENCOM=NBRCVOIS(NSPMD+1)+NBSDVOIS(NSPMD+1)
-         CALL SPMD_WVOIS(
-     1        X	  ,D	   ,WA    ,NBRCVOIS,NBSDVOIS,
-     2        LNRCVOIS,LNSDVOIS,LENCOM)
-
-C     End part not parallel smt
+         CALL SPMD_WVOIS(X,D,WA,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,LENCOM)
 !$OMP END SINGLE
 
       END IF

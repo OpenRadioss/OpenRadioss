@@ -33,7 +33,7 @@ Chd|        IXYZ                          source/input/ixyz.F
 Chd|        NVAR                          source/input/nvar.F           
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE FRELNK(IKAD,KEY0,KVEL,NRLINK,IFID,VEL_SK_FR)
+      SUBROUTINE FRELNK(IKAD,KEY0,KVEL,NRLINK,VEL_SK_FR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,8 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IKAD(0:*),
-     .        KVEL,NRLINK,IFID,VEL_SK_FR(*)
+      INTEGER IKAD(0:*),KVEL,NRLINK,VEL_SK_FR(*)
       CHARACTER KEY0(*)*5
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -65,7 +64,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, NBC, K, KK, NS, K4,IKEY,NVEL
       CHARACTER KEYA*80, CARTE*ncharline, KEY2*5, KEY3*5
-C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       K=0
       NVEL = 0 
       LLLINK=0
@@ -73,8 +74,7 @@ C
       DO N=1,NRLINK
        NVEL = NVEL + 1
  605  CONTINUE
-       READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,1X,I5,25X,I10)',
-     .        ERR=9990)KEY2,KEY3,K4,NBC
+       READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,1X,I5,25X,I10)', ERR=9990)KEY2,KEY3,K4,NBC
        IF ( VEL_SK_FR(NVEL)>99999) K4 = VEL_SK_FR(NVEL)
        K=K+1
        IF(KEY2=='ALE  ')THEN
@@ -88,7 +88,6 @@ C
         K=K+1
         NS=NS+NVAR(CARTE)
        ENDDO
-C       IFID=IFID+NS
        LLLINK=LLLINK+NS
 C version spmd 
        IF(IMACH==3) THEN

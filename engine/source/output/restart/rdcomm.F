@@ -47,6 +47,9 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE DRAPE_MOD
       USE STATE_MOD
+      USE INTBUFDEF_MOD
+      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
+      USE ALEFVM_MOD,only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,17 +103,14 @@ C-----------------------------------------------
 #include      "com_xfem1.inc"
 #include      "sysunit.inc"
 #include      "intstamp_c.inc"
-#include      "thknod_c.inc"
 #include      "sms_c.inc"
 #include      "submodel.inc"
 #include      "inter18.inc"
 #include      "inter22.inc"
-#include      "alefvm.inc"
 #include      "drape_c.inc"
 #include      "ige3d_c.inc"
 #include      "thermal_c.inc"
 #include      "alesolver.inc"
-#include      "alemuscl.inc"
 #include      "ale_param.inc"
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1059,7 +1059,7 @@ C
       NINTSTAMP = TABVINT(NEXT)
 C
       NEXT   = NEXT + 1
-      ITHKNOD = TABVINT(NEXT)
+      INTER_ITHKNOD = TABVINT(NEXT)  !defined in interface module (common_source directory)
 C
 C  rigid material
 C
@@ -1425,18 +1425,18 @@ C Stack info
       NEXT     = NEXT + 1
       NS_STACK  = TABVINT(NEXT)  
 C
-      NEXT           = NEXT + 1
-      IALEFVM        = TABVINT(NEXT)           
-      NEXT           = NEXT + 1
-      I_ALE_SOLVER   = TABVINT(NEXT)  
+      NEXT                  = NEXT + 1
+      ALEFVM_Param%IEnabled = TABVINT(NEXT)           
+      NEXT                  = NEXT + 1
+      ALEFVM_Param%ISOLVER  = TABVINT(NEXT)  
 C MUSCL keyword, compression parameter beta
-      NEXT           = NEXT + 1
-      IALEMUSCL      = TABVINT(NEXT)
-      IALEMUSCL      = IALEMUSCL * (1-I_MUSCL_OFF) !/ALE/MUSCL/OFF : freform.F
-      NEXT           = NEXT + 1
-      I_BETA         = TABVINT(NEXT)
-      NEXT           = NEXT + 1
-      I_LAW         = TABVINT(NEXT)
+      NEXT                     = NEXT + 1
+      ALEMUSCL_Param%IALEMUSCL = TABVINT(NEXT)
+      ALEMUSCL_PAram%IALEMUSCL = ALEMUSCL_Param%IALEMUSCL * (1-ALEMUSCL_Param%I_MUSCL_OFF) !/ALE/MUSCL/OFF : freform.F
+      NEXT                     = NEXT + 1
+      ALEMUSCL_Param%I_BETA    = TABVINT(NEXT)
+      NEXT                     = NEXT + 1
+      ALEMUSCL_Param%I_LAW     = TABVINT(NEXT)
 C ITETRA=3
       NEXT=NEXT+1
       ISFEM =TABVINT(NEXT)
@@ -1536,7 +1536,7 @@ C SMS auto switch
       MULTI_FVM%IS_USED = .FALSE.
       IF (ISUSED == 1) THEN
          MULTI_FVM%IS_USED = .TRUE.
-         MULTI_FVM%BETA = I_BETA
+         MULTI_FVM%BETA = ALEMUSCL_Param%I_BETA
       ENDIF
       NEXT = NEXT + 1
       ISUSED = TABVINT(NEXT)

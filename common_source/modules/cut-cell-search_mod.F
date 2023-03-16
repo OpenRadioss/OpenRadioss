@@ -100,10 +100,30 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
 C-----------------------------------------------
-      TYPE(BRICK_ENTITY), TARGET,ALLOCATABLE,DIMENSION(:,:) :: 
-     .        BRICK_LIST 
-      TYPE(EDGE_ENTITY),  TARGET,ALLOCATABLE,DIMENSION(:,:) :: 
-     .        EDGE_LIST 
+      TYPE(BRICK_ENTITY), TARGET,ALLOCATABLE,DIMENSION(:,:) :: BRICK_LIST 
+      TYPE(EDGE_ENTITY),  TARGET,ALLOCATABLE,DIMENSION(:,:) :: EDGE_LIST 
+      
+      TYPE INT22_BUF_t
+        INTEGER, DIMENSION(2,12)  :: iEDGE                   !12 without diagonals, 24 with diagonals
+        INTEGER, DIMENSION(2,2,6) :: iFACE                   ! 2 nodes per face definig a diagonal
+        INTEGER, DIMENSION(6,4)   :: nodFACE                 ! quad face
+        INTEGER, DIMENSION(6)     :: bNodFACE                ! binary code
+        INTEGER, DIMENSION(8,3)   :: i22WhichEdge            !provide 3 edge number (from 1 to 12) related to local node given as index 1.
+                                                             !  + : intersection point is the maximum of both if multiple intersection point on edge
+                                                             !  - : intersection point is the minimum of both if multiple intersection point on edge
+        LOGICAL, DIMENSION(8,6)   :: IsNodeOnFace            !tell if brick node is on a given face
+        INTEGER, DIMENSION(8,3)   :: iFacesFromNode          !from a node 1:8 gives 3 connected faces
+        INTEGER, DIMENSION(6,8)   :: iGetEdge                !from a node and a face, gives the normal edge
+        INTEGER, DIMENSION(6,8)   :: iGetOppositeNode        !idem with opposite note instead of edge number
+        INTEGER, DIMENSION(6,8,2) :: IGetTransvNodes         !from face and node, provides 2 other transverse nodes
+        INTEGER, DIMENSION(6,4)   :: iGetEdgesFromFace       !from a face_id provides all edge_ids composing the face
+        INTEGER, DIMENSION(6,4)   :: iNormalEdgesList        !from a face_id provides all edge_ids normal to the face.    
+        INTEGER, DIMENSION(12,2)  :: iGetAdjFace             !from a edge_id get adjfaces
+        INTEGER, DIMENSION(6,12)  :: iGetNodeFromEdgeAndFace ! From face_id and edge_id provide node_id which is intersection.
+        INTEGER, DIMENSION(6,4)   :: iLeftEdge               ! From node_id 1:4 and face 1:6 gives Left edge (clockwise edge path)      
+      END TYPE
+      
+      TYPE(INT22_BUF_t) :: INT22_BUF
       
       END MODULE I22BUFBRIC_MOD
 C
@@ -456,19 +476,19 @@ C-----------------------------------------------
 
       INTEGER,  DIMENSION(:),ALLOCATABLE :: 
      .        UBOUND, LBOUND,
-     .        ICANDB                             !ICANDB:(numero de la brique candidate pour l'acces dans BRICK_LIST)   IGROUP->ICANDB         
-!     .        MMTAG                
+     .        ICANDB                             !ICANDB:(id of brick which is candidate for access in BRICK_LIST)   IGROUP->ICANDB         
+           
       INTEGER ::
-     .        NB                                 !NB: nombre de briques candidates
+     .        NB                                 !NB: number of candidates (bricks)
      
       INTEGER, ALLOCATABLE, DIMENSION(:) ::
      .         EIX1,EIY1,
      .         EIZ1,EIX2,
      .         EIY2,EIZ2
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)   :: LIST_B, LIST_E,    !liste des briques dans CAND_B(1:RI_STOK) et CAND_e(1:RI_STOK) sans doublons
-     .                                        IADF, IADL,        ! IADF : add(list_B)->First_add(cand_b)    IADL : add(list_B)->Last_add(cand_b)   (CAND_B est connexe par ID de bric)
-     .                                        GET_LIST_E_POS_FROM_CAND_E_POS ,  ! IAD_CAND_TO_LIST : add(CAND_E)->add(List_E) surjectif
+      INTEGER, ALLOCATABLE, DIMENSION(:)   :: LIST_B, LIST_E,    !list of bricks in CAND_B(1:RI_STOK) & CAND_e(1:RI_STOK), no duplicates
+     .                                        IADF, IADL,        ! IADF : add(list_B)->First_add(cand_b)    IADL : add(list_B)->Last_add(cand_b)   (CAND_B is connected regarde brick ids)
+     .                                        GET_LIST_E_POS_FROM_CAND_E_POS ,  ! IAD_CAND_TO_LIST : add(CAND_E)->add(List_E) surjective
      .                                        LIST_B_ADD
       INTEGER :: NCANDB, NCANDE,
      .           NCANDB_ADD

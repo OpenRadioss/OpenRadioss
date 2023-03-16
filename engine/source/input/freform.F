@@ -86,6 +86,7 @@ C-----------------------------------------------
       USE FVBAG_MOD
       USE TH_MOD
       USE STATE_MOD
+      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,7 +103,6 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "units_c.inc"
 #include      "warn_c.inc"
-#include      "lon_c.inc"
 #include      "scr02_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
@@ -132,7 +132,6 @@ C-----------------------------------------------
 #include      "alesolver.inc"
 #include      "scrupw_c.inc"
 #include      "ale_param.inc"
-#include      "alemuscl.inc"
 C-----------------------------------------------
 C   L o c a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -1782,7 +1781,7 @@ C-----------------------
 C-----------------------
 C      /ALE/MUSCL
 C-----------------------
-      I_MUSCL_OFF = 0
+      ALEMUSCL_Param%I_MUSCL_OFF = 0
       IKEY          = KALE
       K             = 0
       DO WHILE (IKAD(IKEY) + K /= IKAD(IKEY + 1))
@@ -1792,11 +1791,11 @@ C-----------------------
        !---------------------------------------!
        IF (KEY2(1:5) == 'MUSCL') THEN
           IF(KEY3(1:3)=='OFF')THEN
-              I_MUSCL_OFF = 1
+              ALEMUSCL_Param%I_MUSCL_OFF = 1
           ELSEIF(KEY3(1:2)=='ON')THEN
-              I_MUSCL_OFF = 0
-              IALEMUSCL = 1
-              I_BETA = TWO
+              ALEMUSCL_Param%I_MUSCL_OFF = 0
+              ALEMUSCL_Param%IALEMUSCL = 1
+              ALEMUSCL_Param%I_BETA = TWO
           ELSE
             GOTO 9990
           ENDIF
@@ -2267,13 +2266,13 @@ C--------------------
 C--------------------
 C     LINK
 C--------------------
-      CALL FRELNK(IKAD(0),KEY0,KVEL,NRLINK,IFID,VEL_SK_FR)
+      CALL FRELNK(IKAD(0),KEY0,KVEL,NRLINK,VEL_SK_FR)
 C--------------------
 C     ALE LINK
 C--------------------
       LLINAL = 0
-      IF(NALELK/=0)  CALL FRALNK (IKAD(0),KEY0,KVEL,NALELK,IFID)       !format v5.1
-      IF(NALELINK/=0)CALL FRALNK2(IKAD(0),KEY0,KALE,NALELINK,IFID) !format v12
+      IF(NALELK/=0)  CALL FRALNK (IKAD(0),KEY0,KVEL,NALELK)       !format v5.1
+      IF(NALELINK/=0)CALL FRALNK2(IKAD(0),KEY0,KALE,NALELINK) !format v12
       !LLINAL is now LINALE() dimension for engine ALE links definitions.
 C--------------------
 C     ALE ON / OFF
@@ -2299,8 +2298,7 @@ C--------------------
 C     SECTIONS FLUIDE
 C--------------------
       NTFLSW=0
-      IF(NSFLSW/=0)CALL FREFLW(
-     .      IKAD(0),KEY0,KFLSEC,NSFLSW,NTFLSW,IFID,MFID)
+      IF(NSFLSW/=0)CALL FREFLW(IKAD(0),KEY0,KFLSEC,NSFLSW,NTFLSW)
 C   Sections fluides non portees en SPMD
       IF (NSFLSW>0.AND.IMACH==3) THEN
        CALL ANCMSG(MSGID=201,ANMODE=ANINFO)
@@ -2317,7 +2315,7 @@ C--------------------
 C-----------------------
 C     ANIMATION FILES
 C-----------------------
-      CALL FREANIM(IKAD(0),KEY0,KANIM,IFID,MFID)
+      CALL FREANIM(IKAD(0),KEY0,KANIM)
 C-----------------------
 C     OUTPUT FILES
 C-----------------------
@@ -2329,7 +2327,7 @@ C-----------------------
 C--------------------
 C     NOISE
 C--------------------
-      CALL FRENOIS(IKAD(0),KEY0,KNOISE,IFID,MFID)
+      CALL FRENOIS(IKAD(0),KEY0,KNOISE)
 C--------------------
 C     UPWIND PARAMETERS (ETA1,ETA2,ETA3)
 C--------------------

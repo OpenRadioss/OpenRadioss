@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE I22TRI_MOD        
       USE ALE_CONNECTIVITY_MOD
+      USE ALEFVM_MOD,only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,15 +67,13 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "inter22.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real PM, V, W, X
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ), IPM(NPROPMI,NUMMAT)
       INTEGER ITASK,NV46
-      my_real FLUX(*), FLU2(*), MS(*), VEUL(*), FILL(NUMNOD,*),
-     .        DFILL(NUMNOD,*), VOL(*), ALPH(2,*)
+      my_real FLUX(*), FLU2(*), MS(*), VEUL(*), FILL(NUMNOD,*),DFILL(NUMNOD,*), VOL(*), ALPH(2,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_STR    
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
@@ -141,12 +140,10 @@ C     ALE ON / OFF
         NEL = LLT
 c
         IF(N2D == 0.AND.JEUL == 0.AND. ISOLNOD == 4)THEN
-         CALL A4FLUX3(PM,IXS,V,W,X,FLUX(6*NFT+1),FLU2(NF1),
-     .               ALE_CONNECT)
+         CALL A4FLUX3(PM,IXS,V,W,X,FLUX(6*NFT+1),FLU2(NF1),ALE_CONNECT)
         ELSEIF(N2D == 0.AND.JEUL == 0)THEN
-         IF(IALEFVM==0)THEN        
-           CALL AFLUX3(PM,IXS,V,W,X,FLUX(6*NFT+1),FLU2(NF1),
-     .                 ALE_CONNECT,NSG,GBUF%TAG22)
+         IF(ALEFVM_Param%IEnabled==0)THEN        
+           CALL AFLUX3(PM,IXS,V,W,X,FLUX(6*NFT+1),FLU2(NF1),ALE_CONNECT,NSG,GBUF%TAG22)
          ELSE
            CALL ALEFVM_AFLUX3(PM       ,IXS  ,V    ,W           ,FLUX(6*NFT+1),
      2                        FLU2(NF1),VEUL ,ALE_CONNECT,GBUF%TAG22   ,
@@ -158,18 +155,15 @@ c
      .               FLUX(4*NFT+1),FLU2(NF1),
      .               FILL,DFILL,VOL,ALE_CONNECT,ALPH)
         ELSEIF(N2D == 0.AND.JEUL /= 0)THEN
-         IF(IALEFVM==0)THEN
-           CALL EFLUX3(
-     .               PM,IXS,V,FLUX(6*NFT+1),FLU2(NF1),VEUL,
-     .               ALE_CONNECT,GBUF%TAG22)
+         IF(ALEFVM_Param%IEnabled==0)THEN
+           CALL EFLUX3(PM,IXS,V,FLUX(6*NFT+1),FLU2(NF1),VEUL,ALE_CONNECT,GBUF%TAG22)
          ELSE
            CALL ALEFVM_EFLUX3(PM   ,IXS     ,V           ,FLUX(6*NFT+1),FLU2(NF1),
      2                        VEUL ,ALE_CONNECT   ,GBUF%TAG22  ,IPM      ,
      3                        NV46 ,GBUF%MOM,ITASK       ,X            ,NEL      )
          ENDIF
         ELSEIF(N2D /= 0.AND.JEUL /= 0)THEN
-         CALL EFLUX2(PM,IXQ,V,X,FLUX(4*NFT+1),FLU2(NF1),
-     .               FILL,DFILL,VOL,ALE_CONNECT,ALPH)
+         CALL EFLUX2(PM,IXQ,V,X,FLUX(4*NFT+1),FLU2(NF1),FILL,DFILL,VOL,ALE_CONNECT,ALPH)
         ENDIF
       ENDDO
       
@@ -180,14 +174,14 @@ C-----------
       IF(INT22 > 0)THEN
         IF(I22_ALEUL == 2)THEN
           CALL EFLUX3_INT22_FVM(
-     .      PM         , IXS          , V              , FLUX(1)      , FLU2(1)   ,
-     .      VEUL       , IPARG          , ELBUF_STR    , ITASK     ,
+     .      PM         , IXS          , V            , FLUX(1)   , FLU2(1)   ,
+     .      VEUL       , IPARG        , ELBUF_STR    , ITASK     ,
      .      NV46       , IPM          , X)         
         ELSE
           CALL AFLUX3_INT22_FVM(
-     .      PM         , IXS          , V              , FLUX(1)      , FLU2(1)   ,
-     .      VEUL       , IPARG          , ELBUF_STR    , ITASK     ,
-     .      NV46       , IPM          , X              , W)         
+     .      PM         , IXS          , V            , FLUX(1)   , FLU2(1)   ,
+     .      VEUL       , IPARG        , ELBUF_STR    , ITASK     ,
+     .      NV46       , IPM          , X            , W)         
        ENDIF
       ENDIF
       

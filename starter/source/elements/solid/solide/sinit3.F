@@ -81,6 +81,7 @@ C-----------------------------------------------
       USE BPRELOAD_MOD
       USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE ALEFVM_MOD,only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -101,7 +102,6 @@ C-----------------------------------------------
 #include      "scry_c.inc"
 #include      "sphcom.inc"
 #include      "vect01_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -446,7 +446,7 @@ C--------------------------------------------------------------------
 C----------------------------------------
 C Cell momentum for FVM
 C----------------------------------------      
-      IF(IALEFVM /= 0) THEN      
+      IF(ALEFVM_Param%IEnabled /= 0) THEN      
         CALL INIMOM_FVM(V   ,  GBUF%RHO,  GBUF%VOL,  GBUF%MOM,  IXS,
      .                  IPM ,  MAT     ,  IPARG_GR,  NPF     ,  TF ,
      .                  PM  ,  LBUF%SSP,  GBUF%SIG,  NEL

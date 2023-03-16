@@ -74,16 +74,11 @@ C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-!     NEBCS
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "mvsiz_p.inc"
-!     IPARIT
-!     DTFAC1
-!     SMPD
-!     SNPC,STF
-#include "tabsiz_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -334,14 +329,14 @@ C     -------------------------
 C     Multifluid law: update global values
 C     -------------------------
             CALL MULTI_EVOLVE_GLOBAL(TIMESTEP, NG, ELBUF_TAB, 
-     .           IPARG, ITASK, IXS, IXQ, IXTG, MULTI_FVM, VERTEX)  
+     .           IPARG, ITASK, IXS, IXQ, IXTG, MULTI_FVM, ALEFVM_Buffer%VERTEX)  
             IF (NBMAT > 1) THEN
 C     -------------------------  
 C     Multifluid law: evolve partial values
 C     -------------------------
                CALL MULTI_EVOLVE_PARTIAL(TIMESTEP, NG, ELBUF_TAB, 
      .              IPARG, ITASK, IXS, IXQ, IXTG,  MULTI_FVM, 
-     .              PM, IPM, VERTEX, CURRENT_TIME)                  
+     .              PM, IPM, ALEFVM_Buffer%VERTEX, CURRENT_TIME)                  
             ENDIF
          ENDIF                  !IF (MATLAW == 151) THEN
       ENDDO                     !NG = ITASK + 1, NGROUP, NTHREAD    

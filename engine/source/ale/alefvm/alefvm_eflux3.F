@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE I22TRI_MOD
       USE ALEFVM_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE ALEFVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +64,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -116,7 +116,7 @@ C (used to compute centroid force)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
-      IF(IALEFVM == 0)    RETURN
+      IF(ALEFVM_Param%IEnabled == 0)    RETURN
       IMAT        = IXS(1,LFT+NFT)
       IALEFVM_FLG = IPM(251,IMAT)
       IF(IALEFVM_FLG <= 1)RETURN
@@ -137,30 +137,30 @@ C-----------------------------------------------
         II                 = I + NFT
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
         LGTH = ALE_CONNECT%ee_connect%iad_connect(II+1) - IAD2
-        VALEL(1,I)         = FCELL(1,II) !rho.ux
-        VALEL(2,I)         = FCELL(2,II) !rho.uy
-        VALEL(3,I)         = FCELL(3,II) !rho.uz
-        VALEL(4,I)         = FCELL(4,II) !rho
-        VALEL(5,I)         = FCELL(5,II) !ssp
-        VALEL(6,I)         = FCELL(6,II) !P                   
+        VALEL(1,I)         = ALEFVM_Buffer%FCELL(1,II) !rho.ux
+        VALEL(2,I)         = ALEFVM_Buffer%FCELL(2,II) !rho.uy
+        VALEL(3,I)         = ALEFVM_Buffer%FCELL(3,II) !rho.uz
+        VALEL(4,I)         = ALEFVM_Buffer%FCELL(4,II) !rho
+        VALEL(5,I)         = ALEFVM_Buffer%FCELL(5,II) !ssp
+        VALEL(6,I)         = ALEFVM_Buffer%FCELL(6,II) !P                   
         DO J=1,LGTH
           IDV = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
           IF(IDV <= 0) THEN
             !no adjacent elem
-            VALVOIS(1,J,I) = -FCELL(1,II) 
-            VALVOIS(2,J,I) = -FCELL(2,II) 
-            VALVOIS(3,J,I) = -FCELL(3,II) 
-            VALVOIS(4,J,I) =  FCELL(4,II) 
-            VALVOIS(5,J,I) =  FCELL(5,II) 
-            VALVOIS(6,J,I) =  FCELL(6,II)               
+            VALVOIS(1,J,I) = -ALEFVM_Buffer%FCELL(1,II) 
+            VALVOIS(2,J,I) = -ALEFVM_Buffer%FCELL(2,II) 
+            VALVOIS(3,J,I) = -ALEFVM_Buffer%FCELL(3,II) 
+            VALVOIS(4,J,I) =  ALEFVM_Buffer%FCELL(4,II) 
+            VALVOIS(5,J,I) =  ALEFVM_Buffer%FCELL(5,II) 
+            VALVOIS(6,J,I) =  ALEFVM_Buffer%FCELL(6,II)               
           ELSE
             !adjacent elem does exist
-            VALVOIS(1,J,I) = FCELL(1,IDV)
-            VALVOIS(2,J,I) = FCELL(2,IDV)
-            VALVOIS(3,J,I) = FCELL(3,IDV) 
-            VALVOIS(4,J,I) = FCELL(4,IDV)  
-            VALVOIS(5,J,I) = FCELL(5,IDV) 
-            VALVOIS(6,J,I) = FCELL(6,IDV)
+            VALVOIS(1,J,I) = ALEFVM_Buffer%FCELL(1,IDV)
+            VALVOIS(2,J,I) = ALEFVM_Buffer%FCELL(2,IDV)
+            VALVOIS(3,J,I) = ALEFVM_Buffer%FCELL(3,IDV) 
+            VALVOIS(4,J,I) = ALEFVM_Buffer%FCELL(4,IDV)  
+            VALVOIS(5,J,I) = ALEFVM_Buffer%FCELL(5,IDV) 
+            VALVOIS(6,J,I) = ALEFVM_Buffer%FCELL(6,IDV)
           ENDIF
           
         ENDDO!next J
@@ -203,10 +203,10 @@ C-----------------------------------------------
       !======================================================!
       !UPDATE LATER WITH LINEAR INTERPOLATION INSTEAD OF MEAN VALUE
       !MEAN VALUE OK FOR CARTESIAN REGULAR MESH
-      IF(IALEFVM_IFORM/=0)IALEFVM_FLG = IALEFVM_IFORM !for debug purpose if set in alefvm_init.F
+      IF(ALEFVM_Param%IFORM/=0)IALEFVM_FLG = ALEFVM_Param%IFORM !for debug purpose if set in alefvm_init.F
   
   
-      SELECT CASE(I_ALE_SOLVER)
+      SELECT CASE(ALEFVM_Param%ISOLVER)
 
         CASE(1)
         !CENTERED FVM - U average
@@ -218,9 +218,9 @@ C-----------------------------------------------
                VEC(3,J)      = HALF * (VALEL(3,I)/VALEL(4,I) + VALVOIS(3,J,I)/VALVOIS(4,J,I)) 
             ENDDO!next J 
             DO J=1,NV46
-              F_FACE(1,J,II) = VEC(1,J)
-              F_FACE(2,J,II) = VEC(2,J)
-              F_FACE(3,J,II) = VEC(3,J)
+              ALEFVM_Buffer%F_FACE(1,J,II) = VEC(1,J)
+              ALEFVM_Buffer%F_FACE(2,J,II) = VEC(2,J)
+              ALEFVM_Buffer%F_FACE(3,J,II) = VEC(3,J)
             ENDDO        
             !---face-1
             VX1(I)           = VEC(1,1)
@@ -258,9 +258,9 @@ C-----------------------------------------------
                VEC(3,J)      = (VALEL(3,I) + VALVOIS(3,J,I)) / (VALEL(4,I)+VALVOIS(4,J,I))
             ENDDO!next J 
             DO J=1,NV46
-              F_FACE(1,J,II) = VEC(1,J)
-              F_FACE(2,J,II) = VEC(2,J)
-              F_FACE(3,J,II) = VEC(3,J)
+              ALEFVM_Buffer%F_FACE(1,J,II) = VEC(1,J)
+              ALEFVM_Buffer%F_FACE(2,J,II) = VEC(2,J)
+              ALEFVM_Buffer%F_FACE(3,J,II) = VEC(3,J)
             ENDDO        
             !---face-1
             VX1(I)           = VEC(1,1)
@@ -300,9 +300,9 @@ C-----------------------------------------------
               VEC(3,J)      = (VALEL(3,I)/SR1 + VALVOIS(3,J,I)/SR2) / (SR1+SR2) 
             ENDDO!next J 
             DO J=1,NV46
-              F_FACE(1,J,II) = VEC(1,J)
-              F_FACE(2,J,II) = VEC(2,J)
-              F_FACE(3,J,II) = VEC(3,J)
+              ALEFVM_Buffer%F_FACE(1,J,II) = VEC(1,J)
+              ALEFVM_Buffer%F_FACE(2,J,II) = VEC(2,J)
+              ALEFVM_Buffer%F_FACE(3,J,II) = VEC(3,J)
             ENDDO        
             !---face-1
             VX1(I)           = VEC(1,1)
@@ -352,9 +352,9 @@ C-----------------------------------------------
               ENDIF
             ENDDO!next J 
             DO J=1,NV46
-              F_FACE(1,J,II) = VEC(1,J)
-              F_FACE(2,J,II) = VEC(2,J)
-              F_FACE(3,J,II) = VEC(3,J)
+              ALEFVM_Buffer%F_FACE(1,J,II) = VEC(1,J)
+              ALEFVM_Buffer%F_FACE(2,J,II) = VEC(2,J)
+              ALEFVM_Buffer%F_FACE(3,J,II) = VEC(3,J)
             ENDDO        
             !---face-1
             VX1(I)           = VEC(1,1)
@@ -415,9 +415,9 @@ C-----------------------------------------------
               ENDDO!next J 
             ENDIF
             DO J=1,NV46
-              F_FACE(1,J,II) = VEC(1,J)
-              F_FACE(2,J,II) = VEC(2,J)
-              F_FACE(3,J,II) = VEC(3,J)
+              ALEFVM_Buffer%F_FACE(1,J,II) = VEC(1,J)
+              ALEFVM_Buffer%F_FACE(2,J,II) = VEC(2,J)
+              ALEFVM_Buffer%F_FACE(3,J,II) = VEC(3,J)
             ENDDO        
             !---face-1
             VX1(I)           = VEC(1,1)
@@ -517,9 +517,9 @@ C             endif
               VEC(3,J)  = VEC(3,J) / SRF
             ENDDO!next J
             DO J=1,NV46
-              F_FACE(1,J,II) = VEC(1,J)
-              F_FACE(2,J,II) = VEC(2,J)
-              F_FACE(3,J,II) = VEC(3,J)
+              ALEFVM_Buffer%F_FACE(1,J,II) = VEC(1,J)
+              ALEFVM_Buffer%F_FACE(2,J,II) = VEC(2,J)
+              ALEFVM_Buffer%F_FACE(3,J,II) = VEC(3,J)
             ENDDO        
             !---face-1
             VX1(I)           = VEC(1,1)
@@ -565,19 +565,19 @@ C             endif
 
 
         !DEBUG-OUTPUT---------------!
-        if(IALEFVM_OUTP_FLUX /= 0)then
+        if(ALEFVM_Param%IOUTP_FLUX /= 0)then
           debug_outp = .FALSE.
-          if(IALEFVM_OUTP_FLUX>0)then
+          if(ALEFVM_Param%IOUTP_FLUX>0)then
             do i=lft,llt
               ii = nft + i
-              if(ixs(11,ii)==IALEFVM_OUTP_FLUX)THEN
+              if(ixs(11,ii)==ALEFVM_Param%IOUTP_FLUX)THEN
                 debug_outp = .TRUE.
                 idbf   = i
                 idbl   = i
                 EXIT
               endif
              enddo
-          elseif(IALEFVM_OUTP_FLUX==-1)then
+          elseif(ALEFVM_Param%IOUTP_FLUX==-1)then
             debug_outp=.TRUE.
                 idbf   = lft
                 idbl   = llt          
@@ -595,16 +595,16 @@ C             endif
             write (*,FMT='(A,6E26.14)') "       Flux(1:6) =", FLUX1(I),FLUX2(I),FLUX3(I),FLUX4(I),FLUX5(I),FLUX6(I)
             write(*,FMT='(A24,1A20)')       "                        ",  
      .                                  "#--------- cell-----------"          
-            write (*,FMT='(A,1E26.14)') "       V_cell-X  =", FCELL(1,II)           
-            write (*,FMT='(A,1E26.14)') "       V_cell-Y  =", FCELL(2,II)           
-            write (*,FMT='(A,1E26.14)') "       V_cell-Z  =", FCELL(3,II)  
+            write (*,FMT='(A,1E26.14)') "       V_cell-X  =", ALEFVM_Buffer%FCELL(1,II)           
+            write (*,FMT='(A,1E26.14)') "       V_cell-Y  =", ALEFVM_Buffer%FCELL(2,II)           
+            write (*,FMT='(A,1E26.14)') "       V_cell-Z  =", ALEFVM_Buffer%FCELL(3,II)  
             write(*,FMT='(A24,6A26)')   "                        ",    
      .                                  "#--------- adj_1 ---------","#--------- adj_2 ---------",
      .                                  "#--------- adj_3 ---------","#--------- adj_4 ---------",
      .                                  "#--------- adj_5 ---------","#--------- adj_6 --------#"
-            write (*,FMT='(A,6E26.14)') "       V_faces-X =", F_FACE(1,1:6,II)           
-            write (*,FMT='(A,6E26.14)') "       V_faces-Y =", F_FACE(2,1:6,II)
-            write (*,FMT='(A,6E26.14)') "       V_faces-Z =", F_FACE(3,1:6,II)                        
+            write (*,FMT='(A,6E26.14)') "       V_faces-X =", ALEFVM_Buffer%F_FACE(1,1:6,II)           
+            write (*,FMT='(A,6E26.14)') "       V_faces-Y =", ALEFVM_Buffer%F_FACE(2,1:6,II)
+            write (*,FMT='(A,6E26.14)') "       V_faces-Z =", ALEFVM_Buffer%F_FACE(3,1:6,II)                        
             print *, "      "          
           enddo
 !#!include "lockoff.inc"       

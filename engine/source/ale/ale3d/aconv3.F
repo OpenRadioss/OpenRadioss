@@ -36,7 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE I22TRI_MOD  ! , use only : ibug22_convec
-      USE ALEFVM_MOD  ! ,use only WFEXT
+      USE ALEFVM_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -58,7 +58,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -105,10 +104,10 @@ C-----------------------------------------------
         DELTA(I)         = HALF * DT1 *(-VALEL(I)*FLU1(I) - VL(1,I)-VL(2,I)-VL(3,I)-VL(4,I)-VL(5,I)-VL(6,I))
       ENDDO
 
-      IF(IALEFVM/=0)THEN
+      IF(ALEFVM_Param%IEnabled/=0)THEN
         IF(NVAR==2)THEN
           DO I=LFT,LLT
-            DELTA(I)     = DELTA(I) + (IALEFVM_WFEXT)*DT1*WFEXT_CELL(I+NFT)
+            DELTA(I) = DELTA(I) + (ALEFVM_Param%IWFEXT)*DT1*ALEFVM_Buffer%WFEXT_CELL(I+NFT)
           ENDDO
         ENDIF
       ENDIF

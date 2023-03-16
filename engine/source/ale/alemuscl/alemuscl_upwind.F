@@ -109,7 +109,9 @@ C-----------------------------------------------
         II = I + NFT
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
         !!! Element centroid
-        XK = ELCENTER(II,1) ; YK = ELCENTER(II,2) ; ZK = ELCENTER(II,3)
+        XK = ALEMUSCL_Buffer%ELCENTER(II,1) ; 
+        YK = ALEMUSCL_Buffer%ELCENTER(II,2) ; 
+        ZK = ALEMUSCL_Buffer%ELCENTER(II,3)
         !!! Neighbors
         DO KK = 1, NV46
           !!! Only for outgoing fluxes
@@ -167,10 +169,10 @@ C-----------------------------------------------
             ZF = ZF / SURF
 
             !!! Reconstruct second order value for ALPHA(II) on the face
-            ALPHAK = VOLUME_FRACTION(II,ITRIMAT)
-     .           + GRAD(II,1,ITRIMAT) * (XF - XK)
-     .           + GRAD(II,2,ITRIMAT) * (YF - YK)
-     .           + GRAD(II,3,ITRIMAT) * (ZF - ZK)
+            ALPHAK = ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)
+     .           + ALEMUSCL_Buffer%GRAD(II,1,ITRIMAT) * (XF - XK)
+     .           + ALEMUSCL_Buffer%GRAD(II,2,ITRIMAT) * (YF - YK)
+     .           + ALEMUSCL_Buffer%GRAD(II,3,ITRIMAT) * (ZF - ZK)
             !!! Partial volume flux is then computed as:
             FLUX(KK, II) = ALPHAK * FLUX(KK, II)
             IF (NEIGHBOOR_LIST(KK) > 0)THEN

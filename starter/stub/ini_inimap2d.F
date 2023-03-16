@@ -63,8 +63,6 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 !     IOUT
 #include      "units_c.inc"
-!     IALEFVM
-#include      "alefvm.inc"
 !     N0PHAS, NVPHAS
 #include      "mmale51_c.inc"
 C-----------------------------------------------
@@ -81,7 +79,6 @@ C-----------------------------------------------
       TYPE(FUNC2D_STRUCT), DIMENSION(NFUNC2D), INTENT(IN) :: FUNC2D
       my_real, POINTER, DIMENSION(:) :: THETA
       CHARACTER*2 :: Str1, Str2
-C      TYPE(KDTREE_TAB) :: KDTREES(4 * NINIMAP2D)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (GROUP_)  , DIMENSION(NGRQUAD) :: IGRQUAD

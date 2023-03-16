@@ -40,15 +40,11 @@ C This subroutine is treating an uncut cell.
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ALEFVM_MOD
+      USE ALEFVM_MOD,only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -67,7 +63,7 @@ C full FVM formulation. Especially output options.
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
-      IF(IALEFVM == 0)    RETURN
+      IF(ALEFVM_Param%IEnabled == 0)    RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -80,25 +76,25 @@ C-----------------------------------------------
       !    0: all off              !
       !    1: all according below  !
       !----------------------------!      
-      IALEFVM_OUTP        = 0
+      ALEFVM_Param%IOUTP        = 0
       !----------------------------!
       !  SPECIFIC OUTPUTS          !
       !    0 OFF                   !
       !   -1 all elem in group     !
       !   >0 only given user id    !
       !----------------------------!     
-      IALEFVM_OUTP_GRAV   =  0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_GRAV
-      IALEFVM_OUTP_STRESS = -0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_STRESS
-      IALEFVM_OUTP_FINT   = -0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_FINT
-      IALEFVM_OUTP_FLUX   = -0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_FLUX
-      IALEFVM_OUTP_CONV   = -0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_CONV
-      IALEFVM_OUTP_EPSDOT =  0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_EPSDOT
-      IALEFVM_OUTP_SCHEME = -1     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_SCHEME
-      IALEFVM_OUTP_BCS    =  0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_BCS
-      IALEFVM_OUTP_TFEXT  =  0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_TFEXT      
+      ALEFVM_Param%IOUTP_GRAV   =  0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => ALEFVM_Param%IOUTP_GRAV
+      ALEFVM_Param%IOUTP_STRESS = -0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => ALEFVM_Param%IOUTP_STRESS
+      ALEFVM_Param%IOUTP_FINT   = -0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => ALEFVM_Param%IOUTP_FINT
+      ALEFVM_Param%IOUTP_FLUX   = -0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => ALEFVM_Param%IOUTP_FLUX
+      ALEFVM_Param%IOUTP_CONV   = -0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => ALEFVM_Param%IOUTP_CONV
+      ALEFVM_Param%IOUTP_EPSDOT =  0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => ALEFVM_Param%IOUTP_EPSDOT
+      ALEFVM_Param%IOUTP_SCHEME = -1     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => ALEFVM_Param%IOUTP_SCHEME
+      ALEFVM_Param%IOUTP_BCS    =  0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => ALEFVM_Param%IOUTP_BCS
+      ALEFVM_Param%IOUTP_TFEXT  =  0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => ALEFVM_Param%IOUTP_TFEXT      
 
       DO I=1,NVAR
-        FLAG(I)%ptr =FLAG(I)%ptr * IALEFVM_OUTP
+        FLAG(I)%ptr =FLAG(I)%ptr * ALEFVM_Param%IOUTP
       ENDDO
       
       !----------------------------!
@@ -108,14 +104,14 @@ C-----------------------------------------------
       !    IFORM=4 Centered        ! obsolete
       !    IFORM=5 Interpolated    ! obsolete
       !----------------------------!
-      IALEFVM_IFORM       = 0      ;  !Now set through control card /EULER/MAT or /ALE/MAT
+      ALEFVM_Param%IFORM       = 0      ;  !Now set through control card /EULER/MAT or /ALE/MAT
       
       !----------------------------!
       !  FVM FORMULATION           !
       !    IFORM =0   +0*WFEXT     !
       !    IFORM =1   +1*WFEXT     ! 
       !----------------------------!
-      IALEFVM_WFEXT       = 0      ;      
+      ALEFVM_Param%IWFEXT       = 0      ;      
       !----------------------------!
 
 

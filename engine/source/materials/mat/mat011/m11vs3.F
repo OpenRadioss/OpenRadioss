@@ -58,12 +58,10 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARG(NPARG,*), IXS(NIXS,*), MAT(*),IALEFVM_FLG,
-     .        NEL
+      INTEGER IPARG(NPARG,*), IXS(NIXS,*), MAT(*),IALEFVM_FLG,NEL
       my_real ::
      . PM(NPROPM,*), V(3,*),X(3,*),DVP(*),VN(MVSIZ),W(3,*),
      . VEL(MVSIZ),VD2(MVSIZ),VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ), 
@@ -148,7 +146,7 @@ C-----------------------------------------------
             ENDIF
             IF (JTHE>0) TV(I) = GBUF%TEMP(IS+1)
             !MOMENTUM
-            IF(IALEFVM==1)THEN
+            IF(ALEFVM_Param%IEnabled==1)THEN
             !USE INPUT VALUE, NOT THIS!
               IS       = IVOI-MFT
               MassV    = RHOV(I)*GBUF%VOL(IS)

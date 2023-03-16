@@ -140,7 +140,6 @@ C-----------------------------------------------
 #include      "vale_c.inc"
 #include      "inter18.inc"
 #include      "inter22.inc"
-#include      "alefvm.inc"
 #include      "mmale51_c.inc" 
 #include      "scr07_c.inc"
 #include      "stati_c.inc"
@@ -268,7 +267,7 @@ C  IOUTPRT (assembly report)
        DO N=NODFT,NODLT
         IF(ALE_CONNECTIVITY%NALE(N) /= 0) MS0(N) = MS(N)
        ENDDO
-       IF(IALEFVM > 0)THEN
+       IF(ALEFVM_Param%IEnabled > 0)THEN
          DO N=NODFT,NODLT
            IF(ALE_CONNECTIVITY%NALE(N) /= 0) V(1:3,N) = ZERO !reset velocities
          ENDDO       
@@ -383,10 +382,8 @@ C
 C             Comm SPMD SEGVAR Pi -> P0
               IF(NSPMD > 1) THEN
 
-C Part not parallel smt
 !$OMP SINGLE
-                CALL SPMD_SEGCOM(
-     .            SEGVAR,NPSEGCOM,LSEGCOM,NPSEGCOM(NSPMD+1),0)
+                CALL SPMD_SEGCOM(SEGVAR,NPSEGCOM,LSEGCOM,NPSEGCOM(NSPMD+1),0)
 !$OMP END SINGLE
               ENDIF
             ENDIF
@@ -416,11 +413,8 @@ C              Envoi X pour interface type 12 ?
             IF(NSEGFLU > 0) THEN
 C Comm SPMD SEGVAR P0 -> Pi
                IF(NSPMD > 1) THEN
-C Part not parallel smt
 !$OMP SINGLE
-                 CALL SPMD_SEGCOM(
-     .             SEGVAR,NPSEGCOM,LSEGCOM,NPSEGCOM(NSPMD+1),1)
-
+                 CALL SPMD_SEGCOM(SEGVAR,NPSEGCOM,LSEGCOM,NPSEGCOM(NSPMD+1),1)
 C Comm SPMD P0 -> Pi time T=0 depending on EBCS type
                  IF(TT == ZERO)THEN
                     CALL SPMD_INIT_EBCS(V,ISIZXV,IAD_ELEM,FR_ELEM, EBCS_TAB)
@@ -706,7 +700,7 @@ C
          !---------------------------------------------
          !     ALEFVM : FINITE VOLUME FOR MOMENTUM
          !---------------------------------------------          
-          IF(IALEFVM > 0) THEN
+          IF(ALEFVM_Param%IEnabled > 0) THEN
             !GRAVITY INIT
             ! VERTEX(4,1:NUMNOD) = ZERO  !-> not needed, nodes remain the same ones and VERTEX is initialized on allocation
             CALL ALEFVM_GRAV_INIT(
@@ -722,13 +716,11 @@ C
          !---------------------------------------------
          ! TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
          !---------------------------------------------
-c non parallel SMP section (SPMD communications in S4ALESFEM)
 !$OMP SINGLE
           IF(ISFEM >= 1) THEN
             CALL S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,VARNOD,PM,
      .                     IAD_ELEM,FR_ELEM)
           ENDIF
-c end non parallel SMP section
 !$OMP END SINGLE
 
          !---------------------------------------------
@@ -865,21 +857,20 @@ C
              ! WA[1..IADC-1] : FLUX
              ! WA[IADC..IADD-1] : BUFVOIS (buffer elements voisins en SPMD)
              ! WA[IADD..LENWA] : BUFCOM (wa pour comm spmd)
-C Partie non parallele smt
 !$OMP SINGLE
               LENCOM=NBRCVOIS(NSPMD+1)+NBSDVOIS(NSPMD+1)
               IF(M51_IFLG6 == 0) THEN
               !======LAW11-NRF/SPMD=====================================!
-                 ! comm noeuds voisins
+                 ! comm adjacent domains
                  CALL SPMD_XVOIS(
      1              V       ,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,
      2              LENCOM  )
-                 ! a optimiser en fct des combinaisons d'options possibles
+                 ! to be optimized depending on combination of options
                  IF(INCOMP == 1.OR.ITURB+ITHERM == 0)
      .             CALL SPMD_XVOIS(
      1               X       ,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,
      2               LENCOM  )
-                   ! comm elements voisins
+                   ! comm adjacent elems
                  CALL SPMD_L11VOIS(
      1             BUFVOIS ,IPARG   ,ELBUF_TAB,PM      ,IXS     ,
      2             IXQ     ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,

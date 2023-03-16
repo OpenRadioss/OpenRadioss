@@ -89,8 +89,9 @@ C-----------------------------------------------
          !!! Reset mat, rhs
          mat(1:2, 1:2) = ZERO ; rhs(1:2) = ZERO
          !!! Value of the target function in the element
-         VALK = VOLUME_FRACTION(II,ITRIMAT)
-         YK = ELCENTER(II,2) ; ZK = ELCENTER(II,3)
+         VALK = ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)
+         YK = ALEMUSCL_Buffer%ELCENTER(II,2) ;
+         ZK = ALEMUSCL_Buffer%ELCENTER(II,3)
          !!! IXS(2:9, II) : Node global ID
          IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
          LGTH = ALE_CONNECT%ee_connect%iad_connect(II+1)-IAD2
@@ -98,8 +99,9 @@ C-----------------------------------------------
             VOIS_ID = ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1)
             IF (VOIS_ID > 0) THEN
                !!! Value of the target function in the current neighbor
-               VALL = VOLUME_FRACTION(VOIS_ID,ITRIMAT)
-               YL = ELCENTER(VOIS_ID,2) ; ZL = ELCENTER(VOIS_ID,3)
+               VALL = ALEMUSCL_Buffer%VOLUME_FRACTION(VOIS_ID,ITRIMAT)
+               YL = ALEMUSCL_Buffer%ELCENTER(VOIS_ID,2) ;
+               ZL = ALEMUSCL_Buffer%ELCENTER(VOIS_ID,3) ;
             ELSE
                IF(VOIS_ID == 0) THEN
                  VALL = VALK
@@ -114,8 +116,8 @@ C-----------------------------------------------
                YF = HALF * (X(2, NODEID1) + X(2, NODEID2))
                ZF = HALF * (X(3, NODEID1) + X(3, NODEID2))
 
-               YL = TWO * YF - ELCENTER(II,2)
-               ZL = TWO * ZF - ELCENTER(II,3)
+               YL = TWO * YF - ALEMUSCL_Buffer%ELCENTER(II,2)
+               ZL = TWO * ZF - ALEMUSCL_Buffer%ELCENTER(II,3)
             ENDIF
 
             !!! Incrementing mat and rhs
@@ -135,8 +137,8 @@ C-----------------------------------------------
          sol(1) = undet * (rhs(1) * mat(2,2) - rhs(2) * mat(1,2))
          sol(2) = undet * (- mat(2,1) * rhs(1) + mat(1, 1) * rhs(2))
          !!! Solution goes to the gradient
-         GRAD(II,2,ITRIMAT) = -sol(1)
-         GRAD(II,3,ITRIMAT) = -sol(2)
+         ALEMUSCL_Buffer%GRAD(II,2,ITRIMAT) = -sol(1)
+         ALEMUSCL_Buffer%GRAD(II,3,ITRIMAT) = -sol(2)
       ENDDO  ! I = LFT, LLT
 C-----------------------------------------------      
       END SUBROUTINE GRADIENT_RECONSTRUCTION2

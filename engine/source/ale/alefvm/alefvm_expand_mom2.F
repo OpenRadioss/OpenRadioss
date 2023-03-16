@@ -56,7 +56,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -85,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
-      IF(IALEFVM==0)    RETURN    
+      IF(ALEFVM_Param%IEnabled==0)    RETURN    
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
@@ -115,10 +114,10 @@ C-----------------------------------------------
         IN(8)             = IXS(9,II)
 #include "lockon.inc"         
         DO K=1,8
-          VERTEX(1,IN(K)) = VERTEX(1,IN(K)) + MOM(I,1)/EIGHT 
-          VERTEX(2,IN(K)) = VERTEX(2,IN(K)) + MOM(I,2)/EIGHT
-          VERTEX(3,IN(K)) = VERTEX(3,IN(K)) + MOM(I,3)/EIGHT		   
-          VERTEX(4,IN(K)) = VERTEX(4,IN(K)) + ONE
+          ALEFVM_Buffer%VERTEX(1,IN(K)) = ALEFVM_Buffer%VERTEX(1,IN(K)) + MOM(I,1)/EIGHT 
+          ALEFVM_Buffer%VERTEX(2,IN(K)) = ALEFVM_Buffer%VERTEX(2,IN(K)) + MOM(I,2)/EIGHT
+          ALEFVM_Buffer%VERTEX(3,IN(K)) = ALEFVM_Buffer%VERTEX(3,IN(K)) + MOM(I,3)/EIGHT		   
+          ALEFVM_Buffer%VERTEX(4,IN(K)) = ALEFVM_Buffer%VERTEX(4,IN(K)) + ONE
         ENDDO
 #include "lockoff.inc"
       ENDDO        

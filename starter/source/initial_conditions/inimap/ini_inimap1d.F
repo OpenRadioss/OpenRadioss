@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
+      USE ALEFVM_MOD,only:ALEFVM_Param
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,9 +62,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 !     MVSIZ
 #include      "mvsiz_p.inc"
-!     IOUT
-!     IALEFVM
-#include      "alefvm.inc"
 !     N0PHAS, NVPHAS
 #include      "mmale51_c.inc"
 C-----------------------------------------------
@@ -637,7 +635,7 @@ C     Burn Fraction / Detonation Times
                ENDIF  
                                                                                                                                    
 
-               IF (.NOT. MULTI_FVM%IS_USED .AND. IALEFVM  ==  0) THEN
+               IF (.NOT. MULTI_FVM%IS_USED .AND. ALEFVM_Param%IEnabled  ==  0) THEN
 C     VEL
                   DO INODE = 1, NBNODE
                      IF (ITY  ==  1) THEN
@@ -809,7 +807,7 @@ C     CYLINDRICAL
                      MULTI_FVM%VEL(1, ELEMID) = VALUE * NX                                   
                      MULTI_FVM%VEL(2, ELEMID) = VALUE * NY                                   
                      MULTI_FVM%VEL(3, ELEMID) = VALUE * NZ                                   
-                  ELSE IF (IALEFVM  >  0) THEN                                              
+                  ELSE IF (ALEFVM_Param%IEnabled  >  0) THEN                                              
                      GBUF%MOM(ELEMID - NFT + 0 * NEL) = VALUE * NX * GBUF%RHO(ELEMID - NFT)  
                      GBUF%MOM(ELEMID - NFT + 1 * NEL) = VALUE * NY * GBUF%RHO(ELEMID - NFT)  
                      GBUF%MOM(ELEMID - NFT + 2 * NEL) = VALUE * NZ * GBUF%RHO(ELEMID - NFT)  

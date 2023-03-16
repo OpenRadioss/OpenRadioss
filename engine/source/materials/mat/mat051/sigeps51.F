@@ -63,6 +63,8 @@ C-----------------------------------------------
       USE I22BUFBRIC_MOD
       USE I22TRI_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE ALEFVM_MOD,only:ALEFVM_Param
+C-----------------------------------------------      
 ! ARTIFICIAL VISCO :  EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
 ! NON UTILISE      :  EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX
 ! PLASTICITY       :  DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
@@ -75,12 +77,6 @@ C-----------------------------------------------
 !VISCMAX : local sforc3.F : SSP_EQ  (boucle sur ILAY)
 !UVAR    : BUFLY%MAT%VAR
 !OFF     : unused
-
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-#include      "comlock.inc"
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
@@ -156,9 +152,10 @@ C          UVAR(21+ IAD) = E0 = rho0.e0 (/= rho.e(t) at t=0 in UVAR 8) due to in
 C          UVAR(22+ IAD) = SSP0
 C          UVAR(23+ IAD) = AV0
 C-----------------------------------------------
-C   I N P U T   A r g u m e n t s
+C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-C
+#include      "implicit_f.inc"
+#include      "comlock.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -167,10 +164,9 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "mvsiz_p.inc"
 #include      "inter22.inc"
-#include      "alefvm.inc"
 #include      "tabsiz_c.inc"
 #include      "com04_c.inc"
-C
+C-----------------------------------------------
       INTEGER NEL, NUPARAM, NUVAR,NFT,N48,NIX,JTHE,NUMEL,
      .        IX(NIX,NUMEL), PID(NEL), ILAY, NG,IPARG(SIPARG),MAT(NEL),
      .        IPM(NPROPMI,NUMMAT),NV46
@@ -719,7 +715,7 @@ C         |==================================!
               ENDIF
             ENDIF
             ! sauvegarde de la quantite de mouvement imposee
-            IF(IALEFVM  /=  0)THEN
+            IF(ALEFVM_Param%IEnabled  /=  0)THEN
               MOM = RHO(I) * VEL_IN * VOLUME(I)
               GBUF%MOM(NEL*(1-1)+I) = -MOM * XN
               GBUF%MOM(NEL*(2-1)+I) = -MOM * YN

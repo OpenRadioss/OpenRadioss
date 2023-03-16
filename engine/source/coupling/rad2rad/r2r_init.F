@@ -66,7 +66,7 @@ Chd|====================================================================
      4                    IBFV,DX,RBY,NPBY,XDP,STIFN,STIFR,DD_R2R_ELEM,
      5                    SDD_R2R_ELEM,WEIGHT_MD,ILENXV,NUMSPH_GLO_R2R,
      6                    FLG_SPHINOUT_R2R,IPARI,NLOC_DMG)
-C----6------------------------------------------
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE RAD2R_MOD
@@ -88,14 +88,13 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr18_c.inc"
 #include      "scr17_c.inc"
-#include      "scr24_c.inc"
 #include      "rad2r_c.inc"
 #include      "scr05_c.inc"
 #include      "scr03_c.inc"
 #include      "task_c.inc"
 #include      "sphcom.inc"
 #include      "my_allocate.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IEXLNK(NR2R,NR2RLNK), ITAB(*),
@@ -123,12 +122,13 @@ C
       INTEGER, DIMENSION(:), POINTER :: GRNOD
       INTEGER, POINTER, DIMENSION(:) :: IDXI,POSI
       my_real, POINTER, DIMENSION(:) :: MSNL
-C******************************************************************************C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       INFO=NUMELS+NUMELQ+NUMELC
       NBK = 0
       SIZE_TAG_RBY = 0
-      IF((NINTER>0).AND.(IDTMIN(10)/=3).AND.
-     .                     (IDTMIN(11)/=3).AND.(IDTMIN(11)/=8)) THEN
+      IF((NINTER>0).AND.(IDTMIN(10)/=3).AND.(IDTMIN(11)/=3).AND.(IDTMIN(11)/=8)) THEN
         ILENXV = ILENXV + 2
       ENDIF
 C             
@@ -165,8 +165,7 @@ C
 C----- Connection of first socket-----------c
        IF (ISPMD==0) THEN
          SOCKET(1)=SOCK0 
-         CALL SEND_SOCK_INIT_C(IROOT,ROOTLEN,ISPMD,
-     .        	SOCKET(1),NTHREAD,NSPMD)
+         CALL SEND_SOCK_INIT_C(IROOT,ROOTLEN,ISPMD,SOCKET(1),NTHREAD,NSPMD)
        ENDIF
 C----- Synchronisation of the process - transfer of hostname     
        IF (NSPMD>1) CALL SPMD_R2R_SYNC(ADDR)       
@@ -184,10 +183,10 @@ C----- Connection of socket of threads--------c
          END DO       
        ENDIF                            	       
 C----- Initialize Fifos        		       
-       CALL OPENFIFO_C(IROOT,ROOTLEN,FDW,FDR,SOCKET(1),ISPMD,NTHREAD,PPID)       
+       CALL OPENFIFO_C(IROOT,ROOTLEN,R2R_FDW,R2R_FDR,SOCKET(1),ISPMD,NTHREAD,PPID)       
 C----- set signal catch  
-       CALL GET_IBUF_C(IPID,1)
-       CALL CATCH_SIG_C(IPID)
+       CALL GET_IBUF_C(R2R_IPID,1)
+       CALL CATCH_SIG_C(R2R_IPID)
 C----- send link interface data
        CALL SEND_IBUF_C(NR2RLNK,1)
        CALL SEND_IBUF_C(IRODDL,1)
@@ -287,7 +286,7 @@ C
        CALL GET_IBUF_C(IDEL_LOC,1)
        IDEL7NG = MAX(IDEL7NG,IDEL_LOC)
        IF (IDEL7NG>=1) IDEL7NOK = 1     
-C----- Actualize  mass and inertia
+C----- Update mass and inertia
 C
         R2RFX1 = ZERO
         R2RFX2 = ZERO
@@ -316,10 +315,8 @@ C
             NNG  = IGRNOD(IDG)%NENTITY
             GRNOD => IGRNOD(IDG)%ENTITY
             IF (RBYLNK(IEX)==1) THEN  
-              CALL GET_MASS_RBY_C(IDP,NNG,GRNOD,MS,IN,X,NPBY,
-     .        	                  NRBODY,RBY,NNPBY,NRBY)
-              CALL R2R_RBY(NNG,ITAB,GRNOD,X,MS,IN,NPBY,RBY,
-     .                     XDP,1,WEIGHT)
+              CALL GET_MASS_RBY_C(IDP,NNG,GRNOD,MS,IN,X,NPBY,NRBODY,RBY,NNPBY,NRBY)
+              CALL R2R_RBY(NNG,ITAB,GRNOD,X,MS,IN,NPBY,RBY,XDP,1,WEIGHT)
             ELSEIF (NLLNK(IEX)==1) THEN
 C---------- Coupling of non local dof - mass not modifed - 
               CALL SEND_IBUF_C(IDP,1) 
@@ -395,11 +392,11 @@ C----- ----- ----- ----- ----- -----
          CALL CONNECTION_SOCK_C(ITSK-1,SOCKET(ITSK),ADDR)       
        END DO               
 C----- Initialize Fifos 
-        CALL OPENFIFO_C(IROOT,ROOTLEN,FDW,FDR,SOCKET(1),ISPMD,NTHREAD,PPID)
+        CALL OPENFIFO_C(IROOT,ROOTLEN,R2R_FDW,R2R_FDR,SOCKET(1),ISPMD,NTHREAD,PPID)
         CALL OPENSEM_C(IROOT,ROOTLEN,ISPMD,NTHREAD,PPID)
 C----- set signal catch
-        CALL GET_IBUF_C(IPID,1)	
-        CALL CATCH_SIG_C(IPID)	
+        CALL GET_IBUF_C(R2R_IPID,1)	
+        CALL CATCH_SIG_C(R2R_IPID)	
 C----- send link interface data
         CALL SEND_IBUF_C(NR2RLNK,1)
         CALL SEND_IBUF_C(IRODDL,1)
@@ -540,7 +537,7 @@ Chd|====================================================================
      1   IDP   ,NNG   ,ITAB ,GRNOD,X,
      2   DD_R2R,NGLOB,WEIGHT,ADDCNEL,CNEL,IXC,OFC,IEX,INFO,TYP,
      3   ICODT,ICODR,IBFV,DX)
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE RAD2R_MOD
@@ -563,7 +560,6 @@ C-----------------------------------------------
      .        WEIGHT(*), DD_R2R(*),OFC,
      .        ADDCNEL(0:*),CNEL(0:*),IXC(NIXC,*),IEX,
      .        INFO,TYP,ICODT(*),ICODR(*),IBFV(NIFV,*)     
-C     REAL
       my_real
      .        X(3,*),DX(3,*)
 C-----------------------------------------------
@@ -576,9 +572,7 @@ C-----------------------------------------------
       INTEGER, ALLOCATABLE :: IBUFEL(:),IBUFELNBNOD(:),IBUFELNOD(:),
      .        IBUFCNEL(:),CNELEMDB(:),DBIBUF(:),DBIBUFNONBEL(:),
      .        IBUFCNELDB(:)       
-      my_real
-     .        BUFR(3,NGLOB),BUFR2(3,NGLOB)
-C
+      my_real BUFR(3,NGLOB),BUFR2(3,NGLOB)
 C-----------------------------------------------
 C*******************************************************************************************************************************************************C
 C-  Array: (for each spmd domain)                                                            concatenation on proc 0 :         length :
@@ -722,8 +716,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .        BUFR1(NGLOB), BUFR2(NGLOB)
+      my_real BUFR1(NGLOB), BUFR2(NGLOB)
 C
 C******************************************************************************C
       CALL SPMD_R2R_RGET(MS,NNG,GRNOD,DD_R2R,WEIGHT,BUFR1)
@@ -767,8 +760,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LRBUF
-      my_real
-     .        BUFR1(NGLOB), BUFR2(NGLOB)
+      my_real BUFR1(NGLOB), BUFR2(NGLOB)
 C
 C******************************************************************************C
       IF(ISPMD==0)
@@ -882,7 +874,7 @@ Chd|====================================================================
      1   IDP      ,NNG   ,GRNOD,MS      ,IN,DD_R2R   ,
      2   NGLOB ,WEIGHT ,IAD_ELEM,FR_ELEM,FLAG_ROT,
      3   X,NPBY,RBY,ITAB,IEX,XDP)
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -894,7 +886,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "scr05_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB,
@@ -986,7 +978,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE R2R_RBY(NNOD,ITAB,IBUF,X,MS,IN,NPBY,RBY,XDP,NPROC,
      .                   WEIGHT)     
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -997,7 +989,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "scr05_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NNOD,IBUF(*),NPBY(*),ITAB(*),NPROC,WEIGHT(*)
@@ -1007,8 +999,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N,ID,NOD,W,TAG(NRBODY)
-      my_real
-     .        RBYL(NRBY),XIIN
+      my_real RBYL(NRBY),XIIN
 C
 C******************************************************************************C
       TAG(:) = 0   

@@ -44,7 +44,7 @@ C     3 - upwind this value on the edge and store it in the flux
 C-----------------------------------------------
       USE I22BUFBRIC_MOD
       USE I22TRI_MOD
-      USE ALEMUSCL_MOD
+      USE ALEMUSCL_MOD,only:ALEMUSCL_Buffer
       USE SEGVAR_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
@@ -97,7 +97,8 @@ C-----------------------------------------------
         II = I + NFT
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
         !!! Element centroid
-        YK = ELCENTER(II,2) ; ZK = ELCENTER(II,3)
+        YK = ALEMUSCL_Buffer%ELCENTER(II,2) ; 
+        ZK = ALEMUSCL_Buffer%ELCENTER(II,3)
         !!! Neighbors
         DO KK = 1, NV46
           !!! Only for outgoing fluxes
@@ -125,9 +126,9 @@ C-----------------------------------------------
             ZF = HALF * (X(3, NODEID1) + X(3, NODEID2))
 
             !!! Reconstruct second order value for ALPHA(II) on the face
-            ALPHAK = VOLUME_FRACTION(II,ITRIMAT)
-     .           + GRAD(II,2,ITRIMAT) * (YF - YK)
-     .           + GRAD(II,3,ITRIMAT) * (ZF - ZK)
+            ALPHAK = ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)
+     .           + ALEMUSCL_Buffer%GRAD(II,2,ITRIMAT) * (YF - YK)
+     .           + ALEMUSCL_Buffer%GRAD(II,3,ITRIMAT) * (ZF - ZK)
 
             !!! Partial volume flux is then computed as:
             FLUX(KK, II) = ALPHAK * FLUX(KK, II)

@@ -172,6 +172,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE H3D_INC_MOD
       USE OUTPUTS_MOD
+      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -208,7 +209,6 @@ C-----------------------------------------------
 #include      "sms_c.inc"
 #include      "lagmult.inc"
 #include      "sphcom.inc"
-#include      "alemuscl.inc"
 #include      "intstamp_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -420,7 +420,7 @@ C
      8       NRBYKIN_L,KINDRBY,SENSOR_TAB,LBUFIDEL24, INTBUF_TAB,
      9       SORT_COMM)
 C
-        IF(IDEL7NG>0.OR.IRAD2R>0.OR.IALEMUSCL>0.OR.PDEL>0) THEN
+        IF(IDEL7NG>0.OR.IRAD2R>0.OR.ALEMUSCL_Param%IALEMUSCL>0.OR.PDEL>0) THEN
            CALL CHKINIT(
      2       IXS        ,IXQ       ,IXC       ,IXT         ,IXP       ,
      3       IXR        ,IXTG      ,IXS10       ,IXS20     ,

@@ -37,7 +37,7 @@ Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
-      SUBROUTINE FREANIM(IKAD,KEY0,KANIM,IFID,MFID)
+      SUBROUTINE FREANIM(IKAD,KEY0,KANIM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,8 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IKAD(0:*),
-     .        KANIM,IFID,MFID
+      INTEGER IKAD(0:*),KANIM
       CHARACTER KEY0(*)*5
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

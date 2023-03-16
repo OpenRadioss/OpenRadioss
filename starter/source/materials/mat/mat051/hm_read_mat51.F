@@ -73,7 +73,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
-      USE MATPARAM_DEF_MOD
+      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,7 +87,6 @@ C-----------------------------------------------
 #include      "submod_c.inc"
 #include      "param_c.inc"
 #include      "mmale51_c.inc"
-#include      "alemuscl.inc"
 #include      "alesolver.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -156,7 +155,7 @@ C-----------------------------------------------
       NFUNC = 10
       UPARAM(1:NUPARAM) = ZERO
       IFUNC(1:NFUNC)    = 0
-      IF (IALEMUSCl  >  0) I_LAW = 51  ! Communicate LAW to ALEMUSC_MOD
+      IF (ALEMUSCL_Param%IALEMUSCl  >  0) ALEMUSCL_Param%I_LAW = 51  ! Communicate LAW to ALEMUSC_MOD
       IFLG6_SUBMAT_DEFINED(1:4)=.TRUE.
       !----------------!
       NITER  = 10

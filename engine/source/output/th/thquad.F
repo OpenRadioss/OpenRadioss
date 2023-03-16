@@ -40,8 +40,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD   
-      USE MULTI_FVM_MOD      
+      USE ELBUFDEF_MOD
+      USE MULTI_FVM_MOD
+      USE ALEFVM_MOD,only:ALEFVM_Param   
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +55,6 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -458,7 +458,7 @@ C MACH NUMBER
      .                       MULTI_FVM%VEL(3, N)*MULTI_FVM%VEL(3, N)) / 
      .                       MULTI_FVM%SOUND_SPEED(N)
 
-              ELSEIF(I_ALE_SOLVER>1)THEN
+              ELSEIF(ALEFVM_Param%ISOLVER>1)THEN
 C SSP
                 WWA(239550)= LBUF%SSP(I)                              
                 IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN   

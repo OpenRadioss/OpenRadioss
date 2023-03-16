@@ -82,6 +82,9 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE OUTMAX_MOD
       USE STATE_MOD
+      USE INTBUFDEF_MOD
+      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
+      USE ALEFVM_MOD,only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,8 +138,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "alefvm.inc"
-#include      "alemuscl.inc"
 #include      "alesolver.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
@@ -169,7 +170,6 @@ C-----------------------------------------------
 #include      "sysunit.inc"
 #include      "tabsiz_c.inc"
 #include      "thermal_c.inc"
-#include      "thknod_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1230,7 +1230,7 @@ C
       TABVINT(LVARINT) = NINTSTAMP
 C
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = ITHKNOD
+      TABVINT(LVARINT) = INTER_ITHKNOD !defined in interface module (common_source directory)
 
 C  rigid material
       LVARINT=LVARINT+1
@@ -1598,15 +1598,15 @@ C Stack info
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NS_STACK  
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=IALEFVM             
+      TABVINT(LVARINT)=ALEFVM_Param%IEnabled
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=I_ALE_SOLVER  
+      TABVINT(LVARINT)=ALEFVM_Param%ISOLVER
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=IALEMUSCL
+      TABVINT(LVARINT)=ALEMUSCL_Param%IALEMUSCL
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=I_BETA
+      TABVINT(LVARINT)=ALEMUSCL_Param%I_BETA
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=I_LAW
+      TABVINT(LVARINT)=ALEMUSCL_Param%I_LAW
 C
 
 C ITETRA=3

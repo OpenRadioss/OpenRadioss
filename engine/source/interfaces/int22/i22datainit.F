@@ -43,7 +43,6 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 #include      "subvolumes.inc"
-#include      "i22edges.inc"
 #include      "inter22.inc"
 #include      "task_c.inc"
 #include      "com01_c.inc"
@@ -596,7 +595,7 @@ C=======================================================================
       DO I=83,106;GNnod(:,I) = (/4,2,2,2,2,0/);ENDDO                                  
       !----------------------------------------------------!
       !  SUBVOLUME 'G'RAPH : 'C'ORNER                      !  !EDGE id => intersection node id (CORNER).
-      !----------------------------------------------------!  dernier indice = premier, puis utikser Gcorner dans i22anim en fonction de %SECID_Cell() = > plus de b-lock E-LSEIF
+      !----------------------------------------------------!
       !TETRA
       Gcorner(:, 1)=(/1,2,3,1,0,0,0/)      * -1
       Gcorner(:, 2)=(/6,5,4,6,0,0,0/)      * -1
@@ -656,14 +655,14 @@ C=======================================================================
       Gcorner(:,50)=(/-3,+7,-6,+10,-3,0,0/)
       !----------------------------------------------------!
       !POLY4
-      Gcorner(:,51)=(/-02,-03,-08,-09,-06,-05,-02/) !ok
-      Gcorner(:,52)=(/+02,+05,+06,+09,+08,+03,+02/) !ok
-      Gcorner(:,53)=(/-04,-06,-12,-11,-03,-01,-04/) !ok
-      Gcorner(:,54)=(/+03,+11,+12,+06,+04,+01,+03/) !ok
-      Gcorner(:,55)=(/+10,+02,+01,+07,+09,+12,+10/) !ok
-      Gcorner(:,56)=(/+01,+07,+09,+12,+10,+02,+01/) !ok
-      Gcorner(:,57)=(/+05,+10,+11,+08,+07,+04,+05/) !ok
-      Gcorner(:,58)=(/-11,-10,-05,-04,-07,-08,-11/) !ok
+      Gcorner(:,51)=(/-02,-03,-08,-09,-06,-05,-02/)
+      Gcorner(:,52)=(/+02,+05,+06,+09,+08,+03,+02/)
+      Gcorner(:,53)=(/-04,-06,-12,-11,-03,-01,-04/)
+      Gcorner(:,54)=(/+03,+11,+12,+06,+04,+01,+03/)
+      Gcorner(:,55)=(/+10,+02,+01,+07,+09,+12,+10/)
+      Gcorner(:,56)=(/+01,+07,+09,+12,+10,+02,+01/) 
+      Gcorner(:,57)=(/+05,+10,+11,+08,+07,+04,+05/)
+      Gcorner(:,58)=(/-11,-10,-05,-04,-07,-08,-11/)
       !----------------------------------------------------!
       !POLY4A
       Gcorner(:,59)=(/+11,-09,-06,-05,+01,+03,0/)    
@@ -873,52 +872,52 @@ c      DATA b22CombiEdge(11) /B'000000000000000000000000000000000000000000000000
 c      DATA b22CombiEdge(12) /B'0000000000000000000000000000000000000000000000000000000000'/                    
 
 C=======================================================================
-C definitions from i22edges.inc
+C definitions
 C=======================================================================
 
       !diagonal vectors
-      iFACE(1:2,1,1)=(/1,3/); iFACE(1:2,2,1)=(/2,4/)   
-      iFACE(1:2,1,2)=(/3,8/); iFACE(1:2,2,2)=(/4,7/) 
-      iFACE(1:2,1,3)=(/5,7/); iFACE(1:2,2,3)=(/6,8/) 
-      iFACE(1:2,1,4)=(/1,6/); iFACE(1:2,2,4)=(/2,5/) 
-      iFACE(1:2,1,5)=(/2,7/); iFACE(1:2,2,5)=(/3,6/) 
-      iFACE(1:2,1,6)=(/4,5/); iFACE(1:2,2,6)=(/1,8/)
+      INT22_BUF%iFACE(1:2,1,1)=(/1,3/); INT22_BUF%iFACE(1:2,2,1)=(/2,4/)   
+      INT22_BUF%iFACE(1:2,1,2)=(/3,8/); INT22_BUF%iFACE(1:2,2,2)=(/4,7/) 
+      INT22_BUF%iFACE(1:2,1,3)=(/5,7/); INT22_BUF%iFACE(1:2,2,3)=(/6,8/) 
+      INT22_BUF%iFACE(1:2,1,4)=(/1,6/); INT22_BUF%iFACE(1:2,2,4)=(/2,5/) 
+      INT22_BUF%iFACE(1:2,1,5)=(/2,7/); INT22_BUF%iFACE(1:2,2,5)=(/3,6/) 
+      INT22_BUF%iFACE(1:2,1,6)=(/4,5/); INT22_BUF%iFACE(1:2,2,6)=(/1,8/)
       
       !face_id -> (node_id, node_id, node_id, node_id)
-      nodFACE(1,1:4) = (/1,2,3,4/) 
-      nodFACE(2,1:4) = (/4,3,7,8/) 
-      nodFACE(3,1:4) = (/8,7,6,5/) 
-      nodFACE(4,1:4) = (/5,6,2,1/) 
-      nodFACE(5,1:4) = (/3,2,6,7/) 
-      nodFACE(6,1:4) = (/5,1,4,8/)
+      INT22_BUF%nodFACE(1,1:4) = (/1,2,3,4/) 
+      INT22_BUF%nodFACE(2,1:4) = (/4,3,7,8/) 
+      INT22_BUF%nodFACE(3,1:4) = (/8,7,6,5/) 
+      INT22_BUF%nodFACE(4,1:4) = (/5,6,2,1/) 
+      INT22_BUF%nodFACE(5,1:4) = (/3,2,6,7/) 
+      INT22_BUF%nodFACE(6,1:4) = (/5,1,4,8/)
       
       !same in binary
-      bNodFACE(01) = B'000011110' !last digit is position 0 and is unused
-      bNodFACE(02) = B'110011000'      
-      bNodFACE(03) = B'111100000'
-      bNodFACE(04) = B'001100110'
-      bNodFACE(05) = B'011001100'
-      bNodFACE(06) = B'100110010'
+      INT22_BUF%bNodFACE(01) = B'000011110' !last digit is position 0 and is unused
+      INT22_BUF%bNodFACE(02) = B'110011000'      
+      INT22_BUF%bNodFACE(03) = B'111100000'
+      INT22_BUF%bNodFACE(04) = B'001100110'
+      INT22_BUF%bNodFACE(05) = B'011001100'
+      INT22_BUF%bNodFACE(06) = B'100110010'
       
       !(node_id, face_id) -> Is_On_face
-      IsNodeOnFace(1,1:6) = (/.TRUE. ,.FALSE.,.FALSE.,.TRUE .,.FALSE.,.TRUE. /)
-      IsNodeOnFace(2,1:6) = (/.TRUE. ,.FALSE.,.FALSE.,.TRUE. ,.TRUE. ,.FALSE./)
-      IsNodeOnFace(3,1:6) = (/.TRUE. ,.TRUE. ,.FALSE.,.FALSE.,.TRUE. ,.FALSE./)
-      IsNodeOnFace(4,1:6) = (/.TRUE. ,.TRUE. ,.FALSE.,.FALSE.,.FALSE.,.TRUE. /)
-      IsNodeOnFace(5,1:6) = (/.FALSE.,.FALSE.,.TRUE. ,.TRUE. ,.FALSE.,.TRUE. /)
-      IsNodeOnFace(6,1:6) = (/.FALSE.,.FALSE.,.TRUE. ,.TRUE. ,.TRUE. ,.FALSE./)
-      IsNodeOnFace(7,1:6) = (/.FALSE.,.TRUE. ,.TRUE. ,.FALSE.,.TRUE. ,.FALSE./)
-      IsNodeOnFace(8,1:6) = (/.FALSE.,.TRUE. ,.TRUE. ,.FALSE.,.FALSE.,.TRUE. /)                                    
+      INT22_BUF%IsNodeOnFace(1,1:6) = (/.TRUE. ,.FALSE.,.FALSE.,.TRUE .,.FALSE.,.TRUE. /)
+      INT22_BUF%IsNodeOnFace(2,1:6) = (/.TRUE. ,.FALSE.,.FALSE.,.TRUE. ,.TRUE. ,.FALSE./)
+      INT22_BUF%IsNodeOnFace(3,1:6) = (/.TRUE. ,.TRUE. ,.FALSE.,.FALSE.,.TRUE. ,.FALSE./)
+      INT22_BUF%IsNodeOnFace(4,1:6) = (/.TRUE. ,.TRUE. ,.FALSE.,.FALSE.,.FALSE.,.TRUE. /)
+      INT22_BUF%IsNodeOnFace(5,1:6) = (/.FALSE.,.FALSE.,.TRUE. ,.TRUE. ,.FALSE.,.TRUE. /)
+      INT22_BUF%IsNodeOnFace(6,1:6) = (/.FALSE.,.FALSE.,.TRUE. ,.TRUE. ,.TRUE. ,.FALSE./)
+      INT22_BUF%IsNodeOnFace(7,1:6) = (/.FALSE.,.TRUE. ,.TRUE. ,.FALSE.,.TRUE. ,.FALSE./)
+      INT22_BUF%IsNodeOnFace(8,1:6) = (/.FALSE.,.TRUE. ,.TRUE. ,.FALSE.,.FALSE.,.TRUE. /)                                    
 
       !edge number -> (node_id, node_id)            
-      iEDGE(1:2, 1)=(/1,2/) ; iEDGE(1:2,  4)=(/3,2/);
-      iEDGE(1:2, 2)=(/1,4/) ; iEDGE(1:2,  5)=(/3,4/);
-      iEDGE(1:2, 3)=(/1,5/) ; iEDGE(1:2,  6)=(/3,7/);
-      iEDGE(1:2, 7)=(/6,2/) ; iEDGE(1:2, 10)=(/8,4/);
-      iEDGE(1:2, 8)=(/6,5/) ; iEDGE(1:2, 11)=(/8,5/);
-      iEDGE(1:2, 9)=(/6,7/) ; iEDGE(1:2, 12)=(/8,7/);
+      INT22_BUF%iEDGE(1:2, 1)=(/1,2/) ; INT22_BUF%iEDGE(1:2,  4)=(/3,2/);
+      INT22_BUF%iEDGE(1:2, 2)=(/1,4/) ; INT22_BUF%iEDGE(1:2,  5)=(/3,4/);
+      INT22_BUF%iEDGE(1:2, 3)=(/1,5/) ; INT22_BUF%iEDGE(1:2,  6)=(/3,7/);
+      INT22_BUF%iEDGE(1:2, 7)=(/6,2/) ; INT22_BUF%iEDGE(1:2, 10)=(/8,4/);
+      INT22_BUF%iEDGE(1:2, 8)=(/6,5/) ; INT22_BUF%iEDGE(1:2, 11)=(/8,5/);
+      INT22_BUF%iEDGE(1:2, 9)=(/6,7/) ; INT22_BUF%iEDGE(1:2, 12)=(/8,7/);
       
-!      !Identification des diagonales.(si besoin)
+!      !diagonals Identification (if needed)
 !      iEDGE(1:2, 13)=(/1,3/) ; iEDGE(1:2, 16)=(/2,4/);
 !      iEDGE(1:2, 14)=(/1,6/) ; iEDGE(1:2, 17)=(/2,5/);
 !      iEDGE(1:2, 15)=(/1,8/) ; iEDGE(1:2, 18)=(/2,7/);
@@ -929,103 +928,130 @@ C=======================================================================
 !      iEDGE(1:2, 23)=(/5,7/) ; iEDGE(1:2, 24)=(/6,8/); 
      
       ! node_id -> 3 adjacent edges
-      i22WhichEdge(1, 1:3)=(/-01,-02,-03/)
-      i22WhichEdge(2, 1:3)=(/ 01, 04, 07/)
-      i22WhichEdge(3, 1:3)=(/-04,-05,-06/)
-      i22WhichEdge(4, 1:3)=(/ 02, 05, 10/)
-      i22WhichEdge(5, 1:3)=(/ 03, 08, 11/)
-      i22WhichEdge(6, 1:3)=(/-07,-08,-09/)
-      i22WhichEdge(7, 1:3)=(/ 06, 09, 12/)
-      i22WhichEdge(8, 1:3)=(/-10,-11,-12/) 
+      INT22_BUF%i22WhichEdge(1, 1:3)=(/-01,-02,-03/)
+      INT22_BUF%i22WhichEdge(2, 1:3)=(/ 01, 04, 07/)
+      INT22_BUF%i22WhichEdge(3, 1:3)=(/-04,-05,-06/)
+      INT22_BUF%i22WhichEdge(4, 1:3)=(/ 02, 05, 10/)
+      INT22_BUF%i22WhichEdge(5, 1:3)=(/ 03, 08, 11/)
+      INT22_BUF%i22WhichEdge(6, 1:3)=(/-07,-08,-09/)
+      INT22_BUF%i22WhichEdge(7, 1:3)=(/ 06, 09, 12/)
+      INT22_BUF%i22WhichEdge(8, 1:3)=(/-10,-11,-12/) 
       
       ! node_id -> 3 adjacent faces
-      iFacesFromNode(1,1:3) = (/ 1,4,6 /)                                         
-      iFacesFromNode(2,1:3) = (/ 1,4,5 /)  
-      iFacesFromNode(3,1:3) = (/ 1,2,5 /)  
-      iFacesFromNode(4,1:3) = (/ 1,2,6 /)  
-      iFacesFromNode(5,1:3) = (/ 3,4,6 /)  
-      iFacesFromNode(6,1:3) = (/ 3,4,5 /)  
-      iFacesFromNode(7,1:3) = (/ 2,3,5 /)  
-      iFacesFromNode(8,1:3) = (/ 2,3,6 /)                                            
+      INT22_BUF%iFacesFromNode(1,1:3) = (/ 1,4,6 /)                                         
+      INT22_BUF%iFacesFromNode(2,1:3) = (/ 1,4,5 /)  
+      INT22_BUF%iFacesFromNode(3,1:3) = (/ 1,2,5 /)  
+      INT22_BUF%iFacesFromNode(4,1:3) = (/ 1,2,6 /)  
+      INT22_BUF%iFacesFromNode(5,1:3) = (/ 3,4,6 /)  
+      INT22_BUF%iFacesFromNode(6,1:3) = (/ 3,4,5 /)  
+      INT22_BUF%iFacesFromNode(7,1:3) = (/ 2,3,5 /)  
+      INT22_BUF%iFacesFromNode(8,1:3) = (/ 2,3,6 /)                                            
       
       !(face_id,node_id) -> edge_id
-      iGetEdge(1,1)=+03;      iGetEdge(1,2)=-07;      iGetEdge(1,3)=+06;      iGetEdge(1,4)=-10
-      iGetEdge(2,4)=-02;      iGetEdge(2,3)=+04;      iGetEdge(2,7)=-09;      iGetEdge(2,8)=+11
-      iGetEdge(3,8)=+10;      iGetEdge(3,7)=-06;      iGetEdge(3,6)=+07;      iGetEdge(3,5)=-03
-      iGetEdge(4,5)=-11;      iGetEdge(4,6)=+09;      iGetEdge(4,2)=-04;      iGetEdge(4,1)=+02
-      iGetEdge(5,3)=+05;      iGetEdge(5,2)=-01;      iGetEdge(5,6)=+08;      iGetEdge(5,7)=-12
-      iGetEdge(6,5)=-08;      iGetEdge(6,1)=+01;      iGetEdge(6,4)=-05;      iGetEdge(6,8)=+12                             
+      INT22_BUF%iGetEdge(1,1)=+03; INT22_BUF%iGetEdge(1,2)=-07; INT22_BUF%iGetEdge(1,3)=+06; INT22_BUF%iGetEdge(1,4)=-10
+      INT22_BUF%iGetEdge(2,4)=-02; INT22_BUF%iGetEdge(2,3)=+04; INT22_BUF%iGetEdge(2,7)=-09; INT22_BUF%iGetEdge(2,8)=+11
+      INT22_BUF%iGetEdge(3,8)=+10; INT22_BUF%iGetEdge(3,7)=-06; INT22_BUF%iGetEdge(3,6)=+07; INT22_BUF%iGetEdge(3,5)=-03
+      INT22_BUF%iGetEdge(4,5)=-11; INT22_BUF%iGetEdge(4,6)=+09; INT22_BUF%iGetEdge(4,2)=-04; INT22_BUF%iGetEdge(4,1)=+02
+      INT22_BUF%iGetEdge(5,3)=+05; INT22_BUF%iGetEdge(5,2)=-01; INT22_BUF%iGetEdge(5,6)=+08; INT22_BUF%iGetEdge(5,7)=-12
+      INT22_BUF%iGetEdge(6,5)=-08; INT22_BUF%iGetEdge(6,1)=+01; INT22_BUF%iGetEdge(6,4)=-05; INT22_BUF%iGetEdge(6,8)=+12                             
 
       !(face_id) -> {edge_ids}
-      iNormalEdgesList(1,1:4)= (/ +03,+06,-07,-10 /) 
-      iNormalEdgesList(2,1:4)= (/ -02,+04,-09,+11 /)
-      iNormalEdgesList(3,1:4)= (/ -03,-06,+07,+10 /)
-      iNormalEdgesList(4,1:4)= (/ +02,-04,+09,-11 /)
-      iNormalEdgesList(5,1:4)= (/ -01,+05,+08,-12 /)
-      iNormalEdgesList(6,1:4)= (/ +01,-05,-08,+12 /)                              
+      INT22_BUF%iNormalEdgesList(1,1:4)= (/ +03,+06,-07,-10 /) 
+      INT22_BUF%iNormalEdgesList(2,1:4)= (/ -02,+04,-09,+11 /)
+      INT22_BUF%iNormalEdgesList(3,1:4)= (/ -03,-06,+07,+10 /)
+      INT22_BUF%iNormalEdgesList(4,1:4)= (/ +02,-04,+09,-11 /)
+      INT22_BUF%iNormalEdgesList(5,1:4)= (/ -01,+05,+08,-12 /)
+      INT22_BUF%iNormalEdgesList(6,1:4)= (/ +01,-05,-08,+12 /)                              
 
 
       !(face_id,node_id) -> opposite node
-      IGetOppositeNode(1,1)=05;    IGetOppositeNode(1,2)=06;      IGetOppositeNode(1,3)=07;      IGetOppositeNode(1,4)=08
-      IGetOppositeNode(2,4)=01;    IGetOppositeNode(2,3)=02;      IGetOppositeNode(2,7)=06;      IGetOppositeNode(2,8)=05
-      IGetOppositeNode(3,8)=04;    IGetOppositeNode(3,7)=03;      IGetOppositeNode(3,6)=02;      IGetOppositeNode(3,5)=01
-      IGetOppositeNode(4,5)=08;    IGetOppositeNode(4,6)=07;      IGetOppositeNode(4,2)=03;      IGetOppositeNode(4,1)=04
-      IGetOppositeNode(5,3)=04;    IGetOppositeNode(5,2)=01;      IGetOppositeNode(5,6)=05;      IGetOppositeNode(5,7)=08
-      IGetOppositeNode(6,5)=06;    IGetOppositeNode(6,1)=02;      IGetOppositeNode(6,4)=03;      IGetOppositeNode(6,8)=07  
+      INT22_BUF%IGetOppositeNode(1,1)=05; INT22_BUF%IGetOppositeNode(1,2)=06; 
+      INT22_BUF%IGetOppositeNode(2,4)=01; INT22_BUF%IGetOppositeNode(2,3)=02; 
+      INT22_BUF%IGetOppositeNode(3,8)=04; INT22_BUF%IGetOppositeNode(3,7)=03; 
+      INT22_BUF%IGetOppositeNode(4,5)=08; INT22_BUF%IGetOppositeNode(4,6)=07; 
+      INT22_BUF%IGetOppositeNode(5,3)=04; INT22_BUF%IGetOppositeNode(5,2)=01; 
+      INT22_BUF%IGetOppositeNode(6,5)=06; INT22_BUF%IGetOppositeNode(6,1)=02;
+       
+      INT22_BUF%IGetOppositeNode(1,3)=07; INT22_BUF%IGetOppositeNode(1,4)=08;
+      INT22_BUF%IGetOppositeNode(2,7)=06; INT22_BUF%IGetOppositeNode(2,8)=05;
+      INT22_BUF%IGetOppositeNode(3,6)=02; INT22_BUF%IGetOppositeNode(3,5)=01;
+      INT22_BUF%IGetOppositeNode(4,2)=03; INT22_BUF%IGetOppositeNode(4,1)=04;
+      INT22_BUF%IGetOppositeNode(5,6)=05; INT22_BUF%IGetOppositeNode(5,7)=08;
+      INT22_BUF%IGetOppositeNode(6,4)=03; INT22_BUF%IGetOppositeNode(6,8)=07; 
       
       !(face_id,node_id) -> (tangent node 1, tangent node 2)
-      IGetTransvNodes(:,:,:)   = 0
+      INT22_BUF%IGetTransvNodes(:,:,:)   = 0
       !     
-      IGetTransvNodes(1,1,1:2) = (/4,2/) ; IGetTransvNodes(2,4,1:2) = (/3,8/) ; IGetTransvNodes(3,8,1:2) = (/5,7/) ;
-      IGetTransvNodes(1,2,1:2) = (/1,3/) ; IGetTransvNodes(2,3,1:2) = (/7,4/) ; IGetTransvNodes(3,7,1:2) = (/8,6/) ;
-      IGetTransvNodes(1,3,1:2) = (/2,4/) ; IGetTransvNodes(2,7,1:2) = (/8,3/) ; IGetTransvNodes(3,6,1:2) = (/7,5/) ;
-      IGetTransvNodes(1,4,1:2) = (/3,1/) ; IGetTransvNodes(2,8,1:2) = (/4,7/) ; IGetTransvNodes(3,5,1:2) = (/6,8/) ;
-      !
-      IGetTransvNodes(4,5,1:2) = (/1,6/) ; IGetTransvNodes(5,3,1:2) = (/2,7/) ; IGetTransvNodes(6,1,1:2) = (/4,5/) ;
-      IGetTransvNodes(4,6,1:2) = (/5,2/) ; IGetTransvNodes(5,2,1:2) = (/6,3/) ; IGetTransvNodes(6,4,1:2) = (/8,1/) ;
-      IGetTransvNodes(4,2,1:2) = (/6,1/) ; IGetTransvNodes(5,6,1:2) = (/7,2/) ; IGetTransvNodes(6,8,1:2) = (/5,4/) ;
-      IGetTransvNodes(4,1,1:2) = (/2,5/) ; IGetTransvNodes(5,7,1:2) = (/3,6/) ; IGetTransvNodes(6,5,1:2) = (/1,8/) ;      
+      INT22_BUF%IGetTransvNodes(1,1,1:2) = (/4,2/) ; 
+      INT22_BUF%IGetTransvNodes(1,2,1:2) = (/1,3/) ; 
+      INT22_BUF%IGetTransvNodes(1,3,1:2) = (/2,4/) ; 
+      INT22_BUF%IGetTransvNodes(1,4,1:2) = (/3,1/) ; 
+      
+      INT22_BUF%IGetTransvNodes(2,4,1:2) = (/3,8/) ; 
+      INT22_BUF%IGetTransvNodes(2,3,1:2) = (/7,4/) ; 
+      INT22_BUF%IGetTransvNodes(2,7,1:2) = (/8,3/) ; 
+      INT22_BUF%IGetTransvNodes(2,8,1:2) = (/4,7/) ; 
+
+      INT22_BUF%IGetTransvNodes(3,8,1:2) = (/5,7/) ;
+      INT22_BUF%IGetTransvNodes(3,7,1:2) = (/8,6/) ;
+      INT22_BUF%IGetTransvNodes(3,6,1:2) = (/7,5/) ;
+      INT22_BUF%IGetTransvNodes(3,5,1:2) = (/6,8/) ;      
+
+      INT22_BUF%IGetTransvNodes(4,5,1:2) = (/1,6/) ; 
+      INT22_BUF%IGetTransvNodes(4,6,1:2) = (/5,2/) ; 
+      INT22_BUF%IGetTransvNodes(4,2,1:2) = (/6,1/) ; 
+      INT22_BUF%IGetTransvNodes(4,1,1:2) = (/2,5/) ; 
+      
+      INT22_BUF%IGetTransvNodes(5,3,1:2) = (/2,7/) ; 
+      INT22_BUF%IGetTransvNodes(5,2,1:2) = (/6,3/) ; 
+      INT22_BUF%IGetTransvNodes(5,6,1:2) = (/7,2/) ; 
+      INT22_BUF%IGetTransvNodes(5,7,1:2) = (/3,6/) ; 
+
+      INT22_BUF%IGetTransvNodes(6,1,1:2) = (/4,5/) ;
+      INT22_BUF%IGetTransvNodes(6,4,1:2) = (/8,1/) ;
+      INT22_BUF%IGetTransvNodes(6,8,1:2) = (/5,4/) ;
+      INT22_BUF%IGetTransvNodes(6,5,1:2) = (/1,8/) ;            
 
       ! face_id -> (edge_id, edge_id, edge_id, edge_id)
-      iGetEdgesFromFace(1,1:4) = (/01,02,05,04/)
-      iGetEdgesFromFace(2,1:4) = (/05,10,12,06/)
-      iGetEdgesFromFace(3,1:4) = (/12,11,08,09/)
-      iGetEdgesFromFace(4,1:4) = (/01,03,08,07/)
-      iGetEdgesFromFace(5,1:4) = (/04,06,09,07/)
-      iGetEdgesFromFace(6,1:4) = (/02,03,11,10/) 
+      INT22_BUF%iGetEdgesFromFace(1,1:4) = (/01,02,05,04/)
+      INT22_BUF%iGetEdgesFromFace(2,1:4) = (/05,10,12,06/)
+      INT22_BUF%iGetEdgesFromFace(3,1:4) = (/12,11,08,09/)
+      INT22_BUF%iGetEdgesFromFace(4,1:4) = (/01,03,08,07/)
+      INT22_BUF%iGetEdgesFromFace(5,1:4) = (/04,06,09,07/)
+      INT22_BUF%iGetEdgesFromFace(6,1:4) = (/02,03,11,10/) 
       
       ! edge_id -> edge_id, edge_id     
-      iGetAdjFace( 01, 1:2 ) = (/ 01,04 /)
-      iGetAdjFace( 02, 1:2 ) = (/ 01,06 /)
-      iGetAdjFace( 03, 1:2 ) = (/ 04,06 /)
-      iGetAdjFace( 04, 1:2 ) = (/ 01,05 /)
-      iGetAdjFace( 05, 1:2 ) = (/ 01,02 /)
-      iGetAdjFace( 06, 1:2 ) = (/ 02,05 /)
-      iGetAdjFace( 07, 1:2 ) = (/ 04,05 /)
-      iGetAdjFace( 08, 1:2 ) = (/ 03,04 /)
-      iGetAdjFace( 09, 1:2 ) = (/ 03,05 /)
-      iGetAdjFace( 10, 1:2 ) = (/ 02,06 /)
-      iGetAdjFace( 11, 1:2 ) = (/ 03,06 /)
-      iGetAdjFace( 12, 1:2 ) = (/ 02,03 /)
+      INT22_BUF%iGetAdjFace( 01, 1:2 ) = (/ 01,04 /)
+      INT22_BUF%iGetAdjFace( 02, 1:2 ) = (/ 01,06 /)
+      INT22_BUF%iGetAdjFace( 03, 1:2 ) = (/ 04,06 /)
+      INT22_BUF%iGetAdjFace( 04, 1:2 ) = (/ 01,05 /)
+      INT22_BUF%iGetAdjFace( 05, 1:2 ) = (/ 01,02 /)
+      INT22_BUF%iGetAdjFace( 06, 1:2 ) = (/ 02,05 /)
+      INT22_BUF%iGetAdjFace( 07, 1:2 ) = (/ 04,05 /)
+      INT22_BUF%iGetAdjFace( 08, 1:2 ) = (/ 03,04 /)
+      INT22_BUF%iGetAdjFace( 09, 1:2 ) = (/ 03,05 /)
+      INT22_BUF%iGetAdjFace( 10, 1:2 ) = (/ 02,06 /)
+      INT22_BUF%iGetAdjFace( 11, 1:2 ) = (/ 03,06 /)
+      INT22_BUF%iGetAdjFace( 12, 1:2 ) = (/ 02,03 /)
       
       
       !FACE_ID,EDGE_ID- > NODE_ID
-      iGetNodeFromEdgeAndFace(:,:) =  0
+      INT22_BUF%iGetNodeFromEdgeAndFace(:,:) =  0
       
-      iGetNodeFromEdgeAndFace(1,03) = 1 ; iGetNodeFromEdgeAndFace(2,02) = 4
-      iGetNodeFromEdgeAndFace(1,06) = 3 ; iGetNodeFromEdgeAndFace(2,04) = 3
-      iGetNodeFromEdgeAndFace(1,07) = 6 ; iGetNodeFromEdgeAndFace(2,09) = 7
-      iGetNodeFromEdgeAndFace(1,10) = 8 ; iGetNodeFromEdgeAndFace(2,11) = 8           
+      INT22_BUF%iGetNodeFromEdgeAndFace(1,03) = 1 ; INT22_BUF%iGetNodeFromEdgeAndFace(2,02) = 4
+      INT22_BUF%iGetNodeFromEdgeAndFace(1,06) = 3 ; INT22_BUF%iGetNodeFromEdgeAndFace(2,04) = 3
+      INT22_BUF%iGetNodeFromEdgeAndFace(1,07) = 6 ; INT22_BUF%iGetNodeFromEdgeAndFace(2,09) = 7
+      INT22_BUF%iGetNodeFromEdgeAndFace(1,10) = 8 ; INT22_BUF%iGetNodeFromEdgeAndFace(2,11) = 8           
 
-      iGetNodeFromEdgeAndFace(3,03) = 5 ; iGetNodeFromEdgeAndFace(4,02) = 1
-      iGetNodeFromEdgeAndFace(3,06) = 7 ; iGetNodeFromEdgeAndFace(4,04) = 2
-      iGetNodeFromEdgeAndFace(3,07) = 6 ; iGetNodeFromEdgeAndFace(4,09) = 6
-      iGetNodeFromEdgeAndFace(3,10) = 8 ; iGetNodeFromEdgeAndFace(4,11) = 5
+      INT22_BUF%iGetNodeFromEdgeAndFace(3,03) = 5 ; INT22_BUF%iGetNodeFromEdgeAndFace(4,02) = 1
+      INT22_BUF%iGetNodeFromEdgeAndFace(3,06) = 7 ; INT22_BUF%iGetNodeFromEdgeAndFace(4,04) = 2
+      INT22_BUF%iGetNodeFromEdgeAndFace(3,07) = 6 ; INT22_BUF%iGetNodeFromEdgeAndFace(4,09) = 6
+      INT22_BUF%iGetNodeFromEdgeAndFace(3,10) = 8 ; INT22_BUF%iGetNodeFromEdgeAndFace(4,11) = 5
       
-      iGetNodeFromEdgeAndFace(5,01) = 2 ; iGetNodeFromEdgeAndFace(6,01) = 1
-      iGetNodeFromEdgeAndFace(5,05) = 3 ; iGetNodeFromEdgeAndFace(6,05) = 4 
-      iGetNodeFromEdgeAndFace(5,08) = 6 ; iGetNodeFromEdgeAndFace(6,08) = 5 
-      iGetNodeFromEdgeAndFace(5,12) = 7 ; iGetNodeFromEdgeAndFace(6,12) = 8 
+      INT22_BUF%iGetNodeFromEdgeAndFace(5,01) = 2 ; INT22_BUF%iGetNodeFromEdgeAndFace(6,01) = 1
+      INT22_BUF%iGetNodeFromEdgeAndFace(5,05) = 3 ; INT22_BUF%iGetNodeFromEdgeAndFace(6,05) = 4 
+      INT22_BUF%iGetNodeFromEdgeAndFace(5,08) = 6 ; INT22_BUF%iGetNodeFromEdgeAndFace(6,08) = 5 
+      INT22_BUF%iGetNodeFromEdgeAndFace(5,12) = 7 ; INT22_BUF%iGetNodeFromEdgeAndFace(6,12) = 8 
       
 
 
@@ -1033,12 +1059,12 @@ C=======================================================================
       !next edge is clockwise edge when face is looked from cell centroid.
       ! "-" : means centripetal
       ! "+" : means centrifugal
-      iLeftEdge(1,1)=+02 ;      iLeftEdge(1,2)=-01 ;      iLeftEdge(1,3)=+04 ;      iLeftEdge(1,4)=-05 ;  !1234  <-  nodFACE(1,1:4) = (/1,2,3,4/) 
-      iLeftEdge(2,1)=-10 ;      iLeftEdge(2,2)=+05 ;      iLeftEdge(2,3)=-06 ;      iLeftEdge(2,4)=+12 ;  !4378  <-  nodFACE(2,1:4) = (/4,3,7,8/) 
-      iLeftEdge(3,1)=+11 ;      iLeftEdge(3,2)=-12 ;      iLeftEdge(3,3)=+09 ;      iLeftEdge(3,4)=-08 ;  !8765  <-  nodFACE(3,1:4) = (/8,7,6,5/) 
-      iLeftEdge(4,1)=-03 ;      iLeftEdge(4,2)=+08 ;      iLeftEdge(4,3)=-07 ;      iLeftEdge(4,4)=+01 ;  !5621  <-  nodFACE(4,1:4) = (/5,6,2,1/) 
-      iLeftEdge(5,1)=+06 ;      iLeftEdge(5,2)=-04 ;      iLeftEdge(5,3)=+07 ;      iLeftEdge(5,4)=-09 ;  !3267  <-  nodFACE(5,1:4) = (/3,2,6,7/) 
-      iLeftEdge(6,1)=-11 ;      iLeftEdge(6,2)=+03 ;      iLeftEdge(6,3)=-02 ;      iLeftEdge(6,4)=+10 ;  !5148  <-  nodFACE(6,1:4) = (/5,1,4,8/)             
+      INT22_BUF%iLeftEdge(1,1)=+02; INT22_BUF%iLeftEdge(1,2)=-01; INT22_BUF%iLeftEdge(1,3)=+04; INT22_BUF%iLeftEdge(1,4)=-05;  !1234  <-  nodFACE(1,1:4) = (/1,2,3,4/) 
+      INT22_BUF%iLeftEdge(2,1)=-10; INT22_BUF%iLeftEdge(2,2)=+05; INT22_BUF%iLeftEdge(2,3)=-06; INT22_BUF%iLeftEdge(2,4)=+12;  !4378  <-  nodFACE(2,1:4) = (/4,3,7,8/) 
+      INT22_BUF%iLeftEdge(3,1)=+11; INT22_BUF%iLeftEdge(3,2)=-12; INT22_BUF%iLeftEdge(3,3)=+09; INT22_BUF%iLeftEdge(3,4)=-08;  !8765  <-  nodFACE(3,1:4) = (/8,7,6,5/) 
+      INT22_BUF%iLeftEdge(4,1)=-03; INT22_BUF%iLeftEdge(4,2)=+08; INT22_BUF%iLeftEdge(4,3)=-07; INT22_BUF%iLeftEdge(4,4)=+01;  !5621  <-  nodFACE(4,1:4) = (/5,6,2,1/) 
+      INT22_BUF%iLeftEdge(5,1)=+06; INT22_BUF%iLeftEdge(5,2)=-04; INT22_BUF%iLeftEdge(5,3)=+07; INT22_BUF%iLeftEdge(5,4)=-09;  !3267  <-  nodFACE(5,1:4) = (/3,2,6,7/) 
+      INT22_BUF%iLeftEdge(6,1)=-11; INT22_BUF%iLeftEdge(6,2)=+03; INT22_BUF%iLeftEdge(6,3)=-02; INT22_BUF%iLeftEdge(6,4)=+10;  !5148  <-  nodFACE(6,1:4) = (/5,1,4,8/)             
       
       IF(INT22>0)THEN
         DO NIN=1,INT22

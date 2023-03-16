@@ -52,7 +52,7 @@ C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE SCHLIEREN_MOD  
-      USE I22TRI_MOD  ,  ONLY : INT22_FCELL_ANIM  
+      USE I22TRI_MOD,only:INT22_FCELL_ANIM  
       USE ALEFVM_MOD  
       USE MULTI_FVM_MOD   
       USE ALE_CONNECTIVITY_MOD
@@ -74,7 +74,6 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "spmd_c.inc"
 #include      "mmale51_c.inc"
-#include      "alefvm.inc"
 #include      "inter22.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
@@ -1287,32 +1286,32 @@ c-----------
                       IF(IFUNC>=4952 .AND. IFUNC<=4954)THEN                                                                 
                         DO I=LFT,LLT 
                           II      = I+NFT                                                                          
-                          EVAR(I) =       FINT_CELL(IFUNC-4951,II)                                              
+                          EVAR(I) = ALEFVM_Buffer%FINT_CELL(IFUNC-4951,II)                                              
                         ENDDO 
                       ELSEIF(IFUNC==4955)THEN
                         DO I=LFT,LLT  
                           II      = I+NFT                                                                                                                                                                        
-                          EVAR(I) = SQRT (  FINT_CELL(1,II)* FINT_CELL(1,II)+ 
-     +                                      FINT_CELL(2,II)* FINT_CELL(2,II) )                                 
+                          EVAR(I) = SQRT (  ALEFVM_Buffer%FINT_CELL(1,II)* ALEFVM_Buffer%FINT_CELL(1,II)+ 
+     +                                      ALEFVM_Buffer%FINT_CELL(2,II)* ALEFVM_Buffer%FINT_CELL(2,II) )                                 
                         ENDDO 
                       ELSEIF(IFUNC==4956)THEN
                         DO I=LFT,LLT   
                           II      = I+NFT                                                                                                                                      
-                          EVAR(I) = SQRT ( FINT_CELL(2,II)* FINT_CELL(2,II)+ 
-     +                                     FINT_CELL(3,II)* FINT_CELL(3,II) )                                
+                          EVAR(I) = SQRT ( ALEFVM_Buffer%FINT_CELL(2,II)* ALEFVM_Buffer%FINT_CELL(2,II)+ 
+     +                                     ALEFVM_Buffer%FINT_CELL(3,II)* ALEFVM_Buffer%FINT_CELL(3,II) )                                
                         ENDDO 
                       ELSEIF(IFUNC==4957)THEN
                         DO I=LFT,LLT                                                                
                           II      = I+NFT                                         
-                          EVAR(I) = SQRT ( FINT_CELL(1,II)* FINT_CELL(1,II)+ 
-     +                                     FINT_CELL(3,II)* FINT_CELL(3,II) )                                
+                          EVAR(I) = SQRT ( ALEFVM_Buffer%FINT_CELL(1,II)* ALEFVM_Buffer%FINT_CELL(1,II)+ 
+     +                                     ALEFVM_Buffer%FINT_CELL(3,II)* ALEFVM_Buffer%FINT_CELL(3,II) )                                
                         ENDDO 
                       ELSEIF(IFUNC==4958)THEN
                         DO I=LFT,LLT  
                           II      = I+NFT                                         
-                          EVAR(I) = SQRT ( FINT_CELL(1,II)* FINT_CELL(1,II)+ 
-     +                                     FINT_CELL(2,II)* FINT_CELL(2,II)+ 
-     +                                     FINT_CELL(3,II)* FINT_CELL(3,II) )                             
+                          EVAR(I) = SQRT ( ALEFVM_Buffer%FINT_CELL(1,II)* ALEFVM_Buffer%FINT_CELL(1,II)+ 
+     +                                     ALEFVM_Buffer%FINT_CELL(2,II)* ALEFVM_Buffer%FINT_CELL(2,II)+ 
+     +                                     ALEFVM_Buffer%FINT_CELL(3,II)* ALEFVM_Buffer%FINT_CELL(3,II) )                             
                         ENDDO 
                       ENDIF    
                     ENDIF                                                                                    
@@ -1407,7 +1406,7 @@ c-----------Mach Number
                       VEL(0) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))                            
                       EVAR(I) = VEL(0)/MULTI_FVM%SOUND_SPEED(I + NFT)                                    
                    ENDDO                                                                                  
-                ELSEIF(I_ALE_SOLVER>1)THEN                                                                  
+                ELSEIF(ALEFVM_Param%ISOLVER>1)THEN                                                                  
                      L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                                                     
                      IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                                          
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                        
