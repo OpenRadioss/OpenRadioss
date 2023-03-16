@@ -179,13 +179,13 @@ Chd|====================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#ifdef __INTEL_COMPILER
-      use omp_lib
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
+#ifdef __INTEL_COMPILER
+      use omp_lib
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -246,7 +246,15 @@ Chd|        SET_STACK_VALUES              source/system/machine.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CHECK_KMP_STACK()
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s 
+C-----------------------------------------------
 #include      "com01_c.inc"
+C-----------------------------------------------
       KMP_SET =0
       RETURN
       END
@@ -270,6 +278,13 @@ Chd|        CHECK_KMP_STACK               source/system/machine.F
 Chd|        SET_STACK_C                   source/system/machine_c.c     
 Chd|====================================================================
       SUBROUTINE SET_STACK_VALUES()
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s 
+C-----------------------------------------------
 #include      "com01_c.inc"
 C Check & Set Stacksize value
        INTEGER Stack

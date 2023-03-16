@@ -244,8 +244,10 @@ Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|====================================================================
       SUBROUTINE MY_BARRIER
+#include     "implicit_f.inc"
 #include     "comlock.inc"
-#include     "my_real.inc"
+#include     "task_c.inc"
+#include     "units_c.inc"
 #if defined(_OPENMP)
 !$OMP BARRIER
 #endif
@@ -547,13 +549,14 @@ Chd|====================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#ifdef __INTEL_COMPILER
-      use omp_lib
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "task_c.inc"
+C-----------------------------------------------
+#ifdef __INTEL_COMPILER
+      use omp_lib
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -634,6 +637,8 @@ Chd|        CHECK_KMP_STACK               source/system/machine.F
 Chd|        SET_STACK_C                   source/system/stacksize_c.c   
 Chd|====================================================================
       SUBROUTINE SET_STACK_VALUES( )
+#include      "implicit_f.inc"
+#include      "task_c.inc"
 C Check & Set Stacksize value
        INTEGER Stack
 

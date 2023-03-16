@@ -1701,7 +1701,7 @@ c        Ntarget(IB)                = NTAG ! number of secnd cell whose nodes we
         BRICK_LIST(NIN,IB)%NTarget = NTAG
         ! Ntarget always lower or equal to 9 (max number of secnd cell if one main per secnd)
         ! enumeration of the target
-        !ACHTUNG : what happen if 2 secnd cells have the same main cell. Doubloon are not possible by tagging main target
+        !Warning : what happen if 2 secnd cells have the same main cell. Duplicates are not possible by tagging main target
       ENDDO!next IB
 
       !------------------------------------------------------------!
