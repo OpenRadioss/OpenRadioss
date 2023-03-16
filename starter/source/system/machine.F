@@ -176,6 +176,8 @@ Chd|        SET_STACK_VALUES              source/system/machine.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CHECK_KMP_STACK()
+#ifdef __INTEL_COMPILER
+      use omp_lib
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -183,9 +185,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#ifdef __INTEL_COMPILER
-      use omp_lib
+#include      "com01_c.inc"      
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -211,6 +211,8 @@ C
          ENDIF
       ENDIF
 #elif 1
+#include      "implicit_f.inc"
+#include      "com01_c.inc"    
       KMP_SET =0
 #endif
       END
