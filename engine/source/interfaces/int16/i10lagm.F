@@ -27,11 +27,11 @@ Chd|        I16MAIN                       source/interfaces/int16/i16main.F
 Chd|-- calls ---------------
 Chd|        I10LLL                        source/interfaces/int16/i10lagm.F
 Chd|====================================================================
-      SUBROUTINE I10LAGM(X    ,V      ,LLL     ,JLL   ,SLL   ,
-     2                  XLL   ,CANDN  ,CANDE   ,I_STOK,IXS   ,
-     3                  IXS10 ,IADLL  ,EMINX   ,NSV   ,NELEM ,
-     4                  N_MUL_MX,ITASK  ,A     ,ITIED ,
-     5                  NINT  ,NKMAX  ,COMNTAG )
+      SUBROUTINE I10LAGM(X      ,V      ,LLL     ,JLL   ,SLL   ,
+     2                  XLL     ,CANDN  ,CANDE   ,I_STOK,IXS   ,
+     3                  IXS10   ,IADLL  ,EMINX   ,NSV   ,NELEM ,
+     4                  N_MUL_MX,ITASK  ,A       ,ITIED ,
+     5                  NINT    ,NKMAX  ,COMNTAG )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +52,6 @@ C-----------------------------------------------
       INTEGER I_STOK,N_MUL_MX,ITASK,ITIED,NINT,NKMAX ,
      .  LLL(*),JLL(*),SLL(*),CANDN(*),CANDE(*),COMNTAG(*),
      .  IXS(NIXS,*),IXS10(6,*),IADLL(*),NSV(*)  ,NELEM(*) 
-C     REAL
       my_real
      .  X(3,*),V(3,*),XLL(*),
      .  EMINX(6,*),A(3,*)
@@ -117,7 +116,7 @@ C-----------------------------------------------
 C                 b  = [L] vo+/dt   +   vout
 C-----------------------------------------------
 C-----------------------------------------------------------------------
-C     boucle sur les candidats au contact   
+C     loop over contact candidates   
 C-----------------------------------------------------------------------
       FIRST = 1 + I_STOK * ITASK / NTHREAD
       LAST = I_STOK*(ITASK+1) / NTHREAD
@@ -128,7 +127,7 @@ C-----------------------------------------------------------------------
        IE = NELEM(LE)
        I10 = IE - NUMELS8
 C-----------------------------------------------------------------------
-C      test si shell 16  
+C      check shell 16  
 C-----------------------------------------------------------------------
        IF(I10.GE .1.AND.I10.LE .NUMELS10)THEN
         IS = NSV(CANDN(IC))
@@ -141,11 +140,11 @@ C-----------------------------------------------------------------------
      .             X(3,IS)+DT2*(V(3,IS)+DT12*A(3,IS))-EMINX(6,LE),DIST)
 c        IF (DIST<0.) CANDN(I) = -CANDN(I)
 C-----------------------------------------------------------------------
-C       test si dans la boite   
+C       check if inside box   
 C-----------------------------------------------------------------------
         IF(DIST.LE .ZERO)THEN
 c
-c      print *, "dans la boite",XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX
+c      print *, "inside box",XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX
 c
           LLT = LLT+1
           III(LLT,7)=IS
@@ -156,10 +155,8 @@ c
           III(LLT,2)=IXS(4,IE)
           III(LLT,3)=IXS(6,IE)
           III(LLT,4)=IXS(7,IE)
-          DO K=1,6
-            III(LLT,K+8)=IXS10(K,I10)
-          ENDDO
-          DO K=1,10
+
+          DO K=1,7
             I = III(LLT,K)
             XX(LLT,K)=X(1,I)
             YY(LLT,K)=X(2,I)
@@ -167,7 +164,7 @@ c
           ENDDO
 c
 C-----------------------------------------------------------------------
-C     calcul de  [L] par paquet de mvsiz   
+C     calculation of  [L]  
 C-----------------------------------------------------------------------
           IF(LLT==MVSIZ-1)THEN
             CALL I10LLL(
@@ -185,7 +182,7 @@ c debug
        ENDIF
       ENDDO
 C-----------------------------------------------------------------------
-C     calcul de  [L] pour dernier paquet   
+C     calculation of  [L] (last group due to MVSIZ partitioning)   
 C-----------------------------------------------------------------------
       IF(LLT/=0) CALL I10LLL(
      1       LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
@@ -235,7 +232,6 @@ C-----------------------------------------------
       INTEGER LLT,N_MUL_MX,ITIED,NINT ,NKMAX   
       INTEGER LLL(*),JLL(*),SLL(*),COMNTAG(*),
      .        III(MVSIZ,7),IADLL(*)
-C     REAL
       my_real
      .  XLL(*),V(3,*),A(3,*)
       my_real
@@ -251,7 +247,7 @@ C-----------------------------------------------
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
      .   NI(MVSIZ,7) 
 C-----------------------------------------------
-C      calcul de r,s,t
+C      calculation of r,s,t
 C-----------------------------------------------
 c
 c      print *, "XX(1,1),XX(1,9)",XX(1,1),XX(1,9)
@@ -259,12 +255,12 @@ c
       CALL I10RST(LLT   ,R     ,S     ,T     ,NI    ,
      2            NX    ,NY    ,NZ    ,XX    ,YY    ,ZZ    )
 C-----------------------------------------------
-C      calcul de [L]
+C      calculation of [L]
 C-----------------------------------------------
       IF(ITIED==0)THEN
        DO I=1,LLT
 C-----------------------------------------------
-C       test si contact
+C       contact check
 C-----------------------------------------------
         IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
      .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
@@ -282,11 +278,11 @@ c
 c
           VN = NX(I)*VX + NY(I)*VY + NZ(I)*VZ
 C-----------------------------------------------
-C         test si vitesse entrante en s
+C         check incoming velocity in s
 C-----------------------------------------------
           IF(S(I)*VN<=ZERO)THEN
 c
-c      print *, "vitesse entrante",vn
+c      print *, "incoming velocity",vn
 c      print *, "s = ",S(I)
 c
            AA = ONE/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
@@ -336,7 +332,7 @@ C      ITIED = 1
 C-----------------------------------------------
        DO I=1,LLT
 C-----------------------------------------------
-C       test si contact
+C       contact check
 C-----------------------------------------------
         IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
      .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
@@ -356,11 +352,11 @@ c      print *, "nx,ny,nz ", NX(I),NY(I),NZ(I)
 c
           VN = NX(I)*VX + NY(I)*VY + NZ(I)*VZ
 C-----------------------------------------------
-C         test si vitesse entrante en s
+C         check incoming velocity in s
 C-----------------------------------------------
           IF(S(I)*VN<=ZERO)THEN
 c          
-c      print *, "vitesse entrante",vn
+c      print *, "incoming velocity",vn
 c      print *, "s = ",S(I)
 c
 #include "lockon.inc"
@@ -423,7 +419,7 @@ C      ITIED = 2
 C-----------------------------------------------
        DO I=1,LLT
 C-----------------------------------------------
-C       test si contact
+C       contact check
 C-----------------------------------------------
         IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
      .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
@@ -515,7 +511,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LLT
-C     REAL
       my_real
      .   XX(MVSIZ,7),YY(MVSIZ,7),ZZ(MVSIZ,7)
       my_real
@@ -574,14 +569,14 @@ C
          TT(I) = ZERO
        ENDDO
 C-----------------------------------------------
-C      calcul de r,s,t   et   Ni(r,s,t)
+C      calculation of r,s,t   &   Ni(r,s,t)
 C-----------------------------------------------
        DO ITER=1,NITERMAX
 c
 c      print *, "iter",iter
 c
 C-----------------------------------------------
-C          calcul de Ni(r,s,t); [J]; [J]-1
+C          calculation of Ni(r,s,t); [J]; [J]-1
 C-----------------------------------------------
            CALL I10DERI(LLT,RR ,SS    ,TT    ,NI    ,
      2            DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,
@@ -593,7 +588,7 @@ c
 c      print *, "jter",jter
 c
 C-----------------------------------------------
-C            calcul de r,s,t new
+C            calculation of updated de r,s,t
 C-----------------------------------------------
              CALL I10RSTN(LLT,RR,SS   ,TT    ,NI    ,CONV  ,
      2            DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,
@@ -604,12 +599,10 @@ c      print *, "r,s,t",r(1),s(1),t(1)
 c      print *, "rr,ss,tt",rr(1),ss(1),tt(1)
 c
 C-----------------------------------------------
-C            calcul de Ni(-1<r<1 , -1<s<1 , -1<t<1)
+C            calculation of Ni(-1<r<1 , -1<s<1 , -1<t<1)
 C-----------------------------------------------
              CALL I10NI(LLT,RR ,SS ,TT ,NI  )
-C  pb de parith on si conv fonction de mvsiz !!!!!!!
-C             IF(CONV/=0)RETURN
-C
+
            ENDDO
       ENDDO
 C
@@ -653,7 +646,7 @@ C-----------------------------------------------
      .  UMT_UMR,UMT_UPR,UPT_UMR,UPT_UPR,
      .  A,R05,S05,T05
 C-----------------------------------------------------------------------
-C     calcul de Ni
+C     calculation of Ni
 C-----------------------------------------------------------------------
       DO I=1,LLT
 C
@@ -824,13 +817,6 @@ C-----------------------------------------------
      .  UMT_UMR,UMT_UPR,UPT_UMR,UPT_UPR,
      .  A,R05,S05,T05
 C-----------------------------------------------
-C/*
-C
-C
-C*/
-C-----------------------------------------------
-C
-C-----------------------------------------------
 C                _ 
 C               \
 C    x(r,s,t) = /_ (xi * Ni(r,s,t))
@@ -952,7 +938,7 @@ C
      +          + DNIDT(4)*ZZ(I,4) + DNIDT(5)*ZZ(I,5) + DNIDT(6)*ZZ(I,6)
 C-----------------------------------------------------------------------
 C          -1
-C       [J]          Inversion du jacobien
+C       [J]          Jacobian inverse
 C-----------------------------------------------------------------------
         DRDX(I)=DYDS(I)*DZDT(I)-DZDS(I)*DYDT(I)
         DRDY(I)=DZDS(I)*DXDT(I)-DXDS(I)*DZDT(I)
@@ -977,7 +963,7 @@ C
       DO I=1,LLT
 C-----------------------------------------------------------------------
 C          -1            
-C       [J]              Inversion du jacobien suite
+C       [J]              Jacobian inverse (next)
 C-----------------------------------------------------------------------
         D = ONE/DET(I)
         DRDX(I)=D*DRDX(I)
