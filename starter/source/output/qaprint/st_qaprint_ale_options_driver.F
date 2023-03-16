@@ -31,17 +31,11 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
+      USE ALEMUSCL_MOD, only : ALEMUSCL_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "alemuscl.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -52,11 +46,11 @@ C-----------------------------------------------
       IF (MYQAKEY('/ALE/MUSCL')) THEN
 C              
         WRITE(VARNAME,'(A)') 'I_BETA'
-        TEMP_DOUBLE = I_BETA
+        TEMP_DOUBLE = ALEMUSCL_Param%I_BETA
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 C
         WRITE(VARNAME,'(A)') 'IALEMUSCL'
-        TEMP_INT = IALEMUSCL
+        TEMP_INT = ALEMUSCL_Param%IALEMUSCL
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
 C
       ENDIF        

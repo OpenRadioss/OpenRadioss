@@ -61,7 +61,8 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD      
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD     
+      USE ALEMUSCL_MOD,only:ALEMUSCL_Param     
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +75,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "submod_c.inc"
 #include      "param_c.inc"
-#include      "alemuscl.inc"
 #include      "inter22.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -109,7 +109,7 @@ C-----------------------------------------------
       !================================= !
       ! Communicate LAW to ALEMUSC_MOD  !
       !=================================!
-      IF (IALEMUSCl > 0) I_LAW = 37
+      IF (ALEMUSCL_Param%IALEMUSCl > 0) ALEMUSCL_Param%I_LAW = 37
       IF(TRIMAT==0)TRIMAT = -2 !allows to detect bimaterial law BIMAT/BIPHAS (used for /ANIM/BRIC/VFRAC)
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)

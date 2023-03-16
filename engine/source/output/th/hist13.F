@@ -69,9 +69,8 @@ C-----------------------------------------------
      .   IXTG(NIXTG,*), IWA(*), ITAB(*),
      .   IPARI(NPARI,*),LACCELM(3,*),IPART(LIPART1,*), NPBY(NNPBY,*),
      .   ITHGRP(NITHGR,*), ITHBUF(*)
-C     REAL
-      my_real
-     .   PM(NPROPM,*)
+
+      my_real PM(NPROPM,NUMMAT)
       CHARACTER CHRUN_OLD*2
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -79,13 +78,14 @@ C-----------------------------------------------
       INTEGER ITITLE(80), IFILNAM(2148), ICODE, I, NJOINV, NRBAGV,
      .   NG, II, N, IH, ITY, NEL, NFT, K, MTN, NACCELV,NINTERS,
      .   IRUNR,NN,IAD,J,ITYP
-C     REAL
-      my_real
-     .   TITLE(20)
+
+      my_real TITLE(20)
       CHARACTER EOR*8, CH8*8, CARD*80, FILNAM*100, BLA*7
 
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
+      
+      INTEGER  NGLV, NMTV, NINV, NRWV, NRBV, NNODV, NSCV, NELQV, NELSV, NELCV, NELTV, NELPV, NELRV, NELTGV, NELURV      
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -94,8 +94,9 @@ C-----------------------------------------------
       EXTERNAL STRI
       DATA BLA/'       '/
       DATA EOR/'ZZZZZEOR'/
-C
-C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       NINTERS = 0
       DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)

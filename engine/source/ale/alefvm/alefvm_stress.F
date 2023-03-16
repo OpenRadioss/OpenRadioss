@@ -62,7 +62,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "nsvis_c.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -106,7 +105,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
-      IF(IALEFVM==0)RETURN
+      IF(ALEFVM_Param%IEnabled==0)RETURN
       IMAT        = IXS(1,LFT+NFT)
       IALEFVM_FLG = IPM(251,IMAT)  
       IF(IALEFVM_FLG <= 1)RETURN       
@@ -242,32 +241,32 @@ C-----------------------------------------------
         SURF(6)             = HALF*NORM(6)
         !---storage
         !   index1=1 centroid data
-        F_FACE(1  ,1  ,II)  = RHO(I)
-        F_FACE(1  ,2  ,II)  = SSP(I)
-        F_FACE(1  ,3  ,II)  = RHO(I)*SSP(I)
-        F_FACE(1  ,4  ,II)  = P(I)
-        F_FACE(1  ,5  ,II)  = SQRT(MOM(I,1)*MOM(I,1)+MOM(I,2)*MOM(I,2)+MOM(I,3)*MOM(I,3))/RHO(I)/VOL(I) / SSP(I)    ! material velocity (rho.U/rho) divided by sound speed is mach number : M=U/ssps
-        F_FACE(1  ,6  ,II)  = ZERO   !available
+        ALEFVM_Buffer%F_FACE(1  ,1  ,II)  = RHO(I)
+        ALEFVM_Buffer%F_FACE(1  ,2  ,II)  = SSP(I)
+        ALEFVM_Buffer%F_FACE(1  ,3  ,II)  = RHO(I)*SSP(I)
+        ALEFVM_Buffer%F_FACE(1  ,4  ,II)  = P(I)
+        ALEFVM_Buffer%F_FACE(1  ,5  ,II)  = SQRT(MOM(I,1)*MOM(I,1)+MOM(I,2)*MOM(I,2)+MOM(I,3)*MOM(I,3))/RHO(I)/VOL(I) / SSP(I)    ! material velocity (rho.U/rho) divided by sound speed is mach number : M=U/ssps
+        ALEFVM_Buffer%F_FACE(1  ,6  ,II)  = ZERO   !available
         !   index1=2 Surface
-        F_FACE(2  ,1:6,II)  = SURF(1:6)
+        ALEFVM_Buffer%F_FACE(2  ,1:6,II)  = SURF(1:6)
         !   index1=3 Normal Velocity
-        F_FACE(3  ,1:6,II)  = U_N(1:6)
+        ALEFVM_Buffer%F_FACE(3  ,1:6,II)  = U_N(1:6)
       ENDDO
 
         !DEBUG-OUTPUT---------------!
-        if(IALEFVM_OUTP_STRESS /= 0)then
+        if(ALEFVM_Param%IOUTP_STRESS /= 0)then
           debug_outp = .FALSE.
-          if(IALEFVM_OUTP_STRESS>0)then
+          if(ALEFVM_Param%IOUTP_STRESS>0)then
             do i=lft,llt
               ii = nft + i
-              if(ixs(11,ii)==IALEFVM_OUTP_STRESS)THEN
+              if(ixs(11,ii)==ALEFVM_Param%IOUTP_STRESS)THEN
                 debug_outp = .TRUE.
                 idbf   = i
                 idbl   = i
                 EXIT
               endif
              enddo
-          elseif(IALEFVM_OUTP_STRESS==-1)then
+          elseif(ALEFVM_Param%IOUTP_STRESS==-1)then
             debug_outp=.TRUE.
                 idbf   = lft
                 idbl   = llt          
@@ -295,19 +294,19 @@ C-----------------------------------------------
             write (*,FMT='(A,3E26.14,A)')  "                            |_", S6(I),S5(I),S3(I),"_|" 
             write (*,FMT='(A,2E26.14)')    "           p               =  ",-THIRD*SUM(SIG(I,1:3)),P(I)
             write (*,FMT='(A,1E26.14)')    "           q               =  ",QVIS(I)           
-            write (*,FMT='(A,1E26.14)')    "           M               =  ",F_FACE(1  ,5  ,II)  
-            write (*,FMT='(A,1E26.14)')    "         rho               =  ",F_FACE(1  ,1  ,II)
-            write (*,FMT='(A,1E26.14)')    "           u               =  ",F_FACE(1  ,5  ,II)*SSP(I)  
-            write (*,FMT='(A,1E26.14)')    "         ssp               =  ",F_FACE(1  ,2  ,II)
-            write (*,FMT='(A,1E26.14)')    "           z               =  ",F_FACE(1  ,3  ,II)   
+            write (*,FMT='(A,1E26.14)')    "           M               =  ",ALEFVM_Buffer%F_FACE(1  ,5  ,II)  
+            write (*,FMT='(A,1E26.14)')    "         rho               =  ",ALEFVM_Buffer%F_FACE(1  ,1  ,II)
+            write (*,FMT='(A,1E26.14)')    "           u               =  ",ALEFVM_Buffer%F_FACE(1  ,5  ,II)*SSP(I)  
+            write (*,FMT='(A,1E26.14)')    "         ssp               =  ",ALEFVM_Buffer%F_FACE(1  ,2  ,II)
+            write (*,FMT='(A,1E26.14)')    "           z               =  ",ALEFVM_Buffer%F_FACE(1  ,3  ,II)   
             write (*,FMT='(A,3E26.14)')    "       rho.U               =  ",MOM(I,1:3)  
             write (*,FMT='(A,3E26.14)')    "           V               =  ",VOL(I)                                                                                     
             write(*,FMT='(A34,6A26)')      "                                  ",    
      .                                     "#-------- face_1 ---------","#-------- face_2 ---------",
      .                                     "#-------- face_3 ---------","#-------- face_4 ---------",
      .                                     "#-------- face_5 ---------","#-------- face_6 --------#"  
-            write (*,FMT='(A,8E26.14)')    "    SURF                   =", F_FACE(1,1:6,II)          
-            write (*,FMT='(A,8E26.14)')    "    <U,n>                  =", F_FACE(2,1:6,II)
+            write (*,FMT='(A,8E26.14)')    "    SURF                   =", ALEFVM_Buffer%F_FACE(1,1:6,II)          
+            write (*,FMT='(A,8E26.14)')    "    <U,n>                  =", ALEFVM_Buffer%F_FACE(2,1:6,II)
             print *, "      "          
           enddo
 !#!include "lockoff.inc"       

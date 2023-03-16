@@ -641,7 +641,6 @@ C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "ddspmd_c.inc"
 #include      "sysunit.inc"
-#include      "thknod_c.inc"
 #include      "titr_c.inc"
 #include      "units_c.inc"
 #include      "warn_c.inc"
@@ -650,7 +649,6 @@ C-----------------------------------------------
 #include      "intread_c.inc"
 #include      "elbuf_c.inc"
 #include      "userlib.inc"
-#include      "alefvm.inc"
 #include      "drape_c.inc"
 #include      "mmale51_c.inc"
 #include      "thermal_c.inc"
@@ -1152,7 +1150,7 @@ C ply xfem
       EPLYXFE = 0
       INTPLYXFEM = 0
 C
-      ITHKNOD=0
+      INTER_ITHKNOD=0  !defined in interface module (common_source directory)
       IRIGID_MAT = 0
 C
 !      IKINE1LAG = 0
@@ -2270,9 +2268,9 @@ C---
        WFLOW = ZERO
       ENDIF
 
-      IF(IALEFVM > 0)THEN
-        ALLOCATE (FCELL(6,NUMELS)   ,STAT=stat)
-        FCELL(:,:) = ZERO
+      IF(ALEFVM_Param%IEnabled > 0)THEN
+        ALLOCATE (ALEFVM_Buffer%FCELL(6,NUMELS)   ,STAT=stat)
+        ALEFVM_Buffer%FCELL(:,:) = ZERO
       ENDIF
 
 C----------------------------------      

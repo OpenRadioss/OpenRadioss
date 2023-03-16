@@ -51,7 +51,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD 
-      USE ALEMUSCL_MOD
+      USE ALEMUSCL_MOD, only : ALEMUSCL_Buffer
       USE TRIMAT_MOD
       USE SEGVAR_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -115,8 +115,8 @@ C     ALE ON / OFF
             DO I=LFT,LLT 
                II     = I+NFT    
                !!! Element centroid
-               ELCENTER(II,2) = FOURTH * (X(2, IXQ(2, II)) + X(2, IXQ(3, II)) + X(2, IXQ(4, II)) + X(2, IXQ(5, II)))
-               ELCENTER(II,3) = FOURTH * (X(3, IXQ(2, II)) + X(3, IXQ(3, II)) + X(3, IXQ(4, II)) + X(3, IXQ(5, II)))
+               ALEMUSCL_Buffer%ELCENTER(II,2) = FOURTH * (X(2, IXQ(2, II)) + X(2, IXQ(3, II)) + X(2, IXQ(4, II)) + X(2, IXQ(5, II)))
+               ALEMUSCL_Buffer%ELCENTER(II,3) = FOURTH * (X(3, IXQ(2, II)) + X(3, IXQ(3, II)) + X(3, IXQ(4, II)) + X(3, IXQ(5, II)))
             ENDDO  
          ENDIF
       ENDDO  ! NG=ITASK+1,NGROUP,NTHREAD
@@ -144,8 +144,8 @@ C     ALE ON / OFF
             !!!   Volume fraction
             DO I=LFT,LLT 
                II     = I+NFT    
-               VOLUME_FRACTION(II,ITRIMAT) = VOLP(I)/VOLG(I)
-               VOLUME_FRACTION(II,ITRIMAT) = MAX(ZERO,MIN(ONE,VOLUME_FRACTION(II,ITRIMAT))) 
+               ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT) = VOLP(I)/VOLG(I)
+               ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT) = MAX(ZERO,MIN(ONE,ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT))) 
             ENDDO  
          ENDDO  
       ENDDO  ! NG=ITASK+1,NGROUP,NTHREAD
@@ -157,13 +157,11 @@ C     ALE ON / OFF
 !$OMP SINGLE
          !!! Volumic fractions comm
          DO ITRIMAT = 1, TRIMAT
-            CALL SPMD_E1VOIS(VOLUME_FRACTION(1,ITRIMAT), NERCVOIS, NESDVOIS,
-     .           LERCVOIS, LESDVOIS, LENCOM)
+            CALL SPMD_E1VOIS(ALEMUSCL_Buffer%VOLUME_FRACTION(1,ITRIMAT), NERCVOIS, NESDVOIS,LERCVOIS, LESDVOIS, LENCOM)
          ENDDO
          !!! Centroid coordinates comm
          DO JJ = 1, 3
-            CALL SPMD_E1VOIS(ELCENTER(1,JJ), NERCVOIS, NESDVOIS,
-     .           LERCVOIS, LESDVOIS, LENCOM)
+            CALL SPMD_E1VOIS(ALEMUSCL_Buffer%ELCENTER(1,JJ), NERCVOIS, NESDVOIS,LERCVOIS, LESDVOIS, LENCOM)
          ENDDO
 !$OMP END SINGLE
       ENDIF
@@ -171,19 +169,19 @@ C     ALE ON / OFF
       
       FIRST = 1 + ITASK * NUMNOD / NTHREAD
       LAST = (1 + ITASK) * NUMNOD / NTHREAD
-      NODE_MAX_VALUE(FIRST:LAST,1:TRIMAT) = -EP30
-      NODE_MIN_VALUE(FIRST:LAST,1:TRIMAT) = EP30
+      ALEMUSCL_Buffer%NODE_MAX_VALUE(FIRST:LAST,1:TRIMAT) = -EP30
+      ALEMUSCL_Buffer%NODE_MIN_VALUE(FIRST:LAST,1:TRIMAT) = EP30
       DO ITRIMAT = 1, TRIMAT
         DO NODE_ID = FIRST,LAST
-            JMIN = pADDCNEL(NODE_ID)
-            JMAX = pADDTMPL(NODE_ID) - 1
+            JMIN = ALEMUSCL_Buffer%pADDCNEL(NODE_ID)
+            JMAX = ALEMUSCL_Buffer%pADDTMPL(NODE_ID) - 1
             DO JJ = JMIN, JMAX
-               ELEM_ID = pCNEL(JJ)
+               ELEM_ID = ALEMUSCL_Buffer%pCNEL(JJ)
                IF (ELEM_ID   /=  0 .AND. ELEM_ID  <=  NUMELQ) THEN
-                  NODE_MAX_VALUE(NODE_ID,ITRIMAT) = MAX(NODE_MAX_VALUE(NODE_ID,ITRIMAT), 
-     .                 VOLUME_FRACTION(ELEM_ID,ITRIMAT))
-                  NODE_MIN_VALUE(NODE_ID,ITRIMAT) = MIN(NODE_MIN_VALUE(NODE_ID,ITRIMAT), 
-     .                 VOLUME_FRACTION(ELEM_ID,ITRIMAT))
+                  ALEMUSCL_Buffer%NODE_MAX_VALUE(NODE_ID,ITRIMAT) = MAX(ALEMUSCL_Buffer%NODE_MAX_VALUE(NODE_ID,ITRIMAT), 
+     .                 ALEMUSCL_Buffer%VOLUME_FRACTION(ELEM_ID,ITRIMAT))
+                  ALEMUSCL_Buffer%NODE_MIN_VALUE(NODE_ID,ITRIMAT) = MIN(ALEMUSCL_Buffer%NODE_MIN_VALUE(NODE_ID,ITRIMAT), 
+     .                 ALEMUSCL_Buffer%VOLUME_FRACTION(ELEM_ID,ITRIMAT))
                ENDIF
             ENDDO
          ENDDO
@@ -193,7 +191,8 @@ C     ALE ON / OFF
       IF(NSPMD > 1)THEN
 !$OMP SINGLE
          DO ITRIMAT = 1, TRIMAT
-            CALL  SPMD_EXCH_MIN_MAX(IAD_ELEM ,FR_ELEM ,NODE_MIN_VALUE(1,ITRIMAT), NODE_MAX_VALUE(1,ITRIMAT) )
+            CALL  SPMD_EXCH_MIN_MAX(IAD_ELEM ,FR_ELEM ,
+     .                              ALEMUSCL_Buffer%NODE_MIN_VALUE(1,ITRIMAT), ALEMUSCL_Buffer%NODE_MAX_VALUE(1,ITRIMAT) )
          ENDDO
 !$OMP END SINGLE
       ENDIF
@@ -225,8 +224,8 @@ C     ALE ON / OFF
 C     MPI exchange for gradients
 !$OMP SINGLE
          DO ITRIMAT = 1, TRIMAT
-            CALL SPMD_EXCHANGE_GRAD(3, NUMELS + NSVOIS + NUMELQ + NQVOIS,3,GRAD(1,1,ITRIMAT), 
-     .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
+            CALL SPMD_EXCHANGE_GRAD(3, NUMELS + NSVOIS + NUMELQ + NQVOIS,3,ALEMUSCL_Buffer%GRAD(1,1,ITRIMAT), 
+     .                              NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
          ENDDO
 !$OMP END SINGLE         
       ENDIF

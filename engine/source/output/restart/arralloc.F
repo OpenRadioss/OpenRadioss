@@ -115,9 +115,7 @@ C-----------------------------------------------
 #include      "intstamp_c.inc"
 #include      "spmd_c.inc"
 #include      "sphcom.inc"
-#include      "alefvm.inc"
 #include      "thermal_c.inc"
-#include      "alemuscl.inc"
 #include      "ale_param.inc"
 #include      "fxbcom.inc"
 #include      "eigcom.inc"
@@ -2053,31 +2051,31 @@ C
           ALLOCATE (ENRTAG(1))
         END IF
         
-        IF(IALEFVM == 1)THEN
+        IF(ALEFVM_Param%IEnabled == 1)THEN
 C        
-          ALLOCATE (WFEXT_CELL(NUMELS)  ,STAT=IERR)
+          ALLOCATE (ALEFVM_Buffer%WFEXT_CELL(NUMELS)   ,STAT=IERR)
           IF (IERR /= 0) GOTO 1000
-          WFEXT_CELL(:) = ZERO
+          ALEFVM_Buffer%WFEXT_CELL(:) = ZERO
+C       
+          ALLOCATE (ALEFVM_Buffer%FEXT_CELL(3,NUMELS)  ,STAT=IERR)
+          IF (IERR /= 0) GOTO 1000
+          ALEFVM_Buffer%FEXT_CELL(:,:) = ZERO
 C        
-          ALLOCATE (FEXT_CELL(3,NUMELS)   ,STAT=IERR)
+          ALLOCATE (ALEFVM_Buffer%FCELL(6,NUMELS)      ,STAT=IERR)
           IF (IERR /= 0) GOTO 1000
-          FEXT_CELL(:,:) = ZERO
-C        
-          ALLOCATE (FCELL(6,NUMELS)       ,STAT=IERR)
-          IF (IERR /= 0) GOTO 1000
-          FCELL(:,:) = ZERO    
+          ALEFVM_Buffer%FCELL(:,:) = ZERO    
 C   
-          ALLOCATE (FINT_CELL(3,NUMELS)       ,STAT=IERR)
+          ALLOCATE (ALEFVM_Buffer%FINT_CELL(3,NUMELS)  ,STAT=IERR)
           IF (IERR /= 0) GOTO 1000
-          FCELL(:,:) = ZERO    
+          ALEFVM_Buffer%FCELL(:,:) = ZERO    
 C     
-          ALLOCATE (VERTEX(4,NUMNOD)      ,STAT=IERR)
+          ALLOCATE (ALEFVM_Buffer%VERTEX(4,NUMNOD)     ,STAT=IERR)
           IF (IERR /= 0) GOTO 1000
-          VERTEX(:,:) = ZERO
+          ALEFVM_Buffer%VERTEX(:,:) = ZERO
 C      
-          ALLOCATE (F_FACE(1:3,6,NUMELS)    ,STAT=IERR)
+          ALLOCATE (ALEFVM_Buffer%F_FACE(1:3,6,NUMELS) ,STAT=IERR)
           IF (IERR /= 0) GOTO 1000
-          F_FACE(:,:,:) = ZERO
+          ALEFVM_Buffer%F_FACE(:,:,:) = ZERO
           
           !          index 2:    1                       2                       3                       4                       5                       6     
           ! index 1 
@@ -2090,39 +2088,39 @@ C
 C          
         ENDIF
 
-        IF (IALEMUSCL > 0 .AND. .NOT. MULTI_FVM%IS_USED) THEN
-           IF (I_LAW == 51) THEN
+        IF (ALEMUSCL_Param%IALEMUSCL > 0 .AND. .NOT. MULTI_FVM%IS_USED) THEN
+           IF (ALEMUSCL_Param%I_LAW == 51) THEN
               NBMAT = TRIMAT
-           ELSEIF (I_LAW == 37) THEN
+           ELSEIF (ALEMUSCL_Param%I_LAW == 37) THEN
               NBMAT = 1
            ELSE
               NBMAT = 0
            ENDIF
            IF(NBMAT>0)THEN
-             ALLOCATE(VOLUME_FRACTION(NUMELS + NSVOIS + NUMELQ + NQVOIS,NBMAT), STAT = IERR)
+             ALLOCATE(ALEMUSCL_Buffer%VOLUME_FRACTION(NUMELS + NSVOIS + NUMELQ + NQVOIS,NBMAT), STAT = IERR)
              IF (IERR /= 0) GOTO 1000
-             VOLUME_FRACTION(:, :) = ZERO
-             ALLOCATE(NODE_MAX_VALUE(NUMNOD,NBMAT), STAT = IERR)
+             ALEMUSCL_Buffer%VOLUME_FRACTION(:, :) = ZERO
+             ALLOCATE(ALEMUSCL_Buffer%NODE_MAX_VALUE(NUMNOD,NBMAT), STAT = IERR)
              IF (IERR /= 0) GOTO 1000
-             NODE_MAX_VALUE(:, :) = ZERO
-             ALLOCATE(NODE_MIN_VALUE(NUMNOD,NBMAT), STAT = IERR)
+             ALEMUSCL_Buffer%NODE_MAX_VALUE(:, :) = ZERO
+             ALLOCATE(ALEMUSCL_Buffer%NODE_MIN_VALUE(NUMNOD,NBMAT), STAT = IERR)
              IF (IERR /= 0) GOTO 1000
-             NODE_MIN_VALUE(:, :) = ZERO
-             ALLOCATE(GRAD(NUMELS + NSVOIS + NUMELQ + NQVOIS,3,NBMAT), STAT = IERR)
+             ALEMUSCL_Buffer%NODE_MIN_VALUE(:, :) = ZERO
+             ALLOCATE(ALEMUSCL_Buffer%GRAD(NUMELS + NSVOIS + NUMELQ + NQVOIS,3,NBMAT), STAT = IERR)
              IF (IERR /= 0) GOTO 1000
-             GRAD(:, :, :) = ZERO
-             ALLOCATE(ELCENTER(NUMELS + NSVOIS + NUMELQ + NQVOIS,3), STAT = IERR)
+             ALEMUSCL_Buffer%GRAD(:, :, :) = ZERO
+             ALLOCATE(ALEMUSCL_Buffer%ELCENTER(NUMELS + NSVOIS + NUMELQ + NQVOIS,3), STAT = IERR)
              IF (IERR /= 0) GOTO 1000
-             ELCENTER(:, :) = ZERO
+             ALEMUSCL_Buffer%ELCENTER(:, :) = ZERO
            ENDIF
         ENDIF
         
         !/EBCS/NRF VOLUME FRACTION ALLOCATION
         IF(MULTI_FVM%IS_USED)THEN
            NBMAT = MULTI_FVM%NBMAT
-        ELSEIF (I_LAW == 51) THEN       
+        ELSEIF (ALEMUSCL_Param%I_LAW == 51) THEN       
            NBMAT = TRIMAT             
-        ELSEIF (I_LAW == 37) THEN   
+        ELSEIF (ALEMUSCL_PAram%I_LAW == 37) THEN   
            NBMAT = 1                  
         ELSE                          
            NBMAT = 0                  
@@ -2132,9 +2130,9 @@ C
         
         IF (MULTI_FVM%IS_USED) THEN
            CALL MULTI_ALLOCATE(MULTI_FVM)
-           ALLOCATE (VERTEX(4,NUMNOD)      ,STAT=IERR)
+           ALLOCATE (ALEFVM_Buffer%VERTEX(4,NUMNOD)      ,STAT=IERR)
            IF (IERR /= 0) GOTO 1000
-           VERTEX(:,:) = ZERO
+           ALEFVM_Buffer%VERTEX(:,:) = ZERO
            ALLOCATE(MULTI_FVM%FVM_CONNECTIVITY%KVOIS(SIELVS), STAT = IERR)
            IF (IERR /= 0) GOTO 1000
            MULTI_FVM%FVM_CONNECTIVITY%KVOIS = 0

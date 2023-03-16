@@ -77,6 +77,9 @@ Chd|        USER_INTERFACE_MOD            share/modules1/user_interface_mod.F
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE STARTER0   
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
       USE MULTI_FVM_MOD
       USE SUBMODEL_MOD
@@ -84,6 +87,8 @@ Chd|====================================================================
       USE INOUTFILE_MOD
       USE DETONATORS_MOD
       USE EBCS_MOD
+      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
+      USE ALEFVM_MOD,only:ALEFVM_Param
       USE USER_WINDOWS_MOD
       USE USER_INTERFACE_MOD
 C-----------------------------------------------
@@ -134,12 +139,10 @@ C-----------------------------------------------
 #include      "commandline.inc"
 #include      "userlib.inc"
 #include      "ngr2usr_c.inc"
-#include      "alefvm.inc"
 #include      "inter22.inc"
 #include      "ige3d_c.inc"
 #include      "thermal_c.inc"
 #include      "alesolver.inc"
-#include      "alemuscl.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -300,18 +303,18 @@ C ITESTV Format   [Version][YY][MM][DD]
       ITESTV           = 210290720
       ICAA             = 0
       ISFINT           = 3 !ALE default : surface integration for total stress tensor
-      IALEFVM          = 0
-      I_ALE_SOLVER     = 0
-      IALEFVM_IPRINT_1 = 0
-      IALEFVM_IPRINT_2 = 0
+      ALEFVM_Param%IEnabled = 0
+      ALEFVM_Param%ISOLVER  = 0
+      ALEFVM_Param%IPRINT_1 = 0
+      ALEFVM_Param%IPRINT_2 = 0
 C MUSCL Activation
-      IALEMUSCL        = 1
+      ALEMUSCL_Param%IALEMUSCL = 1
 C MUSCL compression coefficient, default value set to 1.
-      I_BETA           = TWO
-      RATIO22          = ONE + TEN/HUNDRED
-      RADIOSSV         = 100090402
-      IFLEXPIPE        = 1
-      LEN              = ncharfield*2
+      ALEMUSCL_Param%I_BETA = TWO
+      RATIO22 = ONE + TEN/HUNDRED
+      RADIOSSV = 100090402
+      IFLEXPIPE = 1
+      LEN = ncharfield*2
 C
 C No Decay for Starter
       TAGLEN           = 0

@@ -100,10 +100,30 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
 C-----------------------------------------------
-      TYPE(BRICK_ENTITY), TARGET,ALLOCATABLE,DIMENSION(:,:) :: 
-     .        BRICK_LIST 
-      TYPE(EDGE_ENTITY),  TARGET,ALLOCATABLE,DIMENSION(:,:) :: 
-     .        EDGE_LIST 
+      TYPE(BRICK_ENTITY), TARGET,ALLOCATABLE,DIMENSION(:,:) :: BRICK_LIST 
+      TYPE(EDGE_ENTITY),  TARGET,ALLOCATABLE,DIMENSION(:,:) :: EDGE_LIST 
+      
+      TYPE INT22_BUF_t
+        INTEGER, DIMENSION(2,12)  :: iEDGE                   !12 sans les diagonales, 24 avec les diagonales
+        INTEGER, DIMENSION(2,2,6) :: iFACE                   ! 2 noeuds par face definissant une diagonale
+        INTEGER, DIMENSION(6,4)   :: nodFACE                 ! les 4 noeuds d un HEXA8 definissant la facette
+        INTEGER, DIMENSION(6)     :: bNodFACE                ! version binaire
+        INTEGER, DIMENSION(8,3)   :: i22WhichEdge            !provide 3 edge number (from 1 to 12) related to local node given as index 1.
+                                                             !  + : intersection point is the maximum of both if multiple intersection point on edge
+                                                             !  - : intersection point is the minimum of both if multiple intersection point on edge
+        LOGICAL, DIMENSION(8,6)   :: IsNodeOnFace            !tell if brick node is on a given face
+        INTEGER, DIMENSION(8,3)   :: iFacesFromNode          !from a node 1:8 gives 3 connected faces
+        INTEGER, DIMENSION(6,8)   :: iGetEdge                !from a node and a face, gives the normal edge
+        INTEGER, DIMENSION(6,8)   :: iGetOppositeNode        !idem with opposite note instead of edge number
+        INTEGER, DIMENSION(6,8,2) :: IGetTransvNodes         !from face and node, provides 2 other transverse nodes
+        INTEGER, DIMENSION(6,4)   :: iGetEdgesFromFace       !from a face_id provides all edge_ids composing the face
+        INTEGER, DIMENSION(6,4)   :: iNormalEdgesList        !from a face_id provides all edge_ids normal to the face.    
+        INTEGER, DIMENSION(12,2)  :: iGetAdjFace             !from a edge_id get adjfaces
+        INTEGER, DIMENSION(6,12)  :: iGetNodeFromEdgeAndFace ! From face_id and edge_id provide node_id which is intersection.
+        INTEGER, DIMENSION(6,4)   :: iLeftEdge               ! From node_id 1:4 and face 1:6 gives Left edge (clockwise edge path)      
+      END TYPE
+      
+      TYPE(INT22_BUF_t) :: INT22_BUF
       
       END MODULE I22BUFBRIC_MOD
 C

@@ -26,8 +26,7 @@ Chd|-- called by -----------
 Chd|        INTAL2                        source/ale/inter/intal2.F     
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE IQEL03(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,
-     +                  NSN,NSEG,CRST,NOR)
+      SUBROUTINE IQEL03(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,NSN,NSEG,CRST,NOR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,18 +41,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr08_s_c.inc"
 #include      "scr08_a_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II, I, J, K, L, JJ, NN, LK, NUM, NPT, K1, K2, K3, NODE1,
-     .   NODE2, KK
+      INTEGER II, I, J, K, L, JJ, NN, LK, NUM, NPT, K1, K2, K3, NODE1,NODE2, KK
       my_real N1, N2, N3, XX112, XX212, XX312, XX114, XX214, XX314, XX123,
      .        XX223, XX323, XX134, XX234, XX334, SS, TT, TP, TM, FS1, FS2,
      .        FS3, SP, SM, FT1, FT2, FT3, SCK, TCK, AJ4, AJ5, AJ6, AJ7, AJ8,
-     .       AJ9, V1, V2, V3, XMG, XM1, XM2
+     .        AJ9, V1, V2, V3, XMG, XM1, XM2,
+     .        XS1,YS1,ZS1
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO II=1,NSN
         I=NSV(II)

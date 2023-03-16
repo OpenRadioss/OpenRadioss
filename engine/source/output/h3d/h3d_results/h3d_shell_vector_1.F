@@ -54,7 +54,7 @@ C-----------------------------------------------
       USE SCHLIEREN_MOD 
       USE STACK_MOD 
       USE MULTI_FVM_MOD              
-      USE ALEFVM_MOD
+      USE ALEFVM_MOD,only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +67,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 #include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -192,7 +191,7 @@ C--------------------------------------------------
                   ENDDO
                ELSE
                   DO I=1,NEL
-                     IF(GBUF%G_MOM>0  .AND. IALEFVM > 0)THEN
+                     IF(GBUF%G_MOM>0  .AND. ALEFVM_Param%IEnabled > 0)THEN
                         VALUE(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I) 
                         VALUE(2) = GBUF%MOM(JJ(2) + I) / GBUF%RHO(I)
                         VALUE(3) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I)

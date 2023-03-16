@@ -68,7 +68,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 #include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -205,7 +204,7 @@ C--------------------------------------------------
                   ENDDO
                ELSE
                   DO I=1,NEL
-                     IF(GBUF%G_MOM>0 .AND. IALEFVM > 0)THEN
+                     IF(GBUF%G_MOM>0 .AND. ALEFVM_Param%IEnabled > 0)THEN
                         EVAR(1,I) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I) 
                         EVAR(2,I) = GBUF%MOM(JJ(2) + I) / GBUF%RHO(I)
                         EVAR(3,I) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I)

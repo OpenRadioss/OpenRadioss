@@ -140,7 +140,6 @@ C-----------------------------------------------
 #include      "vale_c.inc"
 #include      "inter18.inc"
 #include      "inter22.inc"
-#include      "alefvm.inc"
 #include      "mmale51_c.inc" 
 #include      "scr07_c.inc"
 #include      "stati_c.inc"
@@ -268,7 +267,7 @@ C  IOUTPRT (assembly report)
        DO N=NODFT,NODLT
         IF(ALE_CONNECTIVITY%NALE(N) /= 0) MS0(N) = MS(N)
        ENDDO
-       IF(IALEFVM > 0)THEN
+       IF(ALEFVM_Param%IEnabled > 0)THEN
          DO N=NODFT,NODLT
            IF(ALE_CONNECTIVITY%NALE(N) /= 0) V(1:3,N) = ZERO !reset velocities
          ENDDO       
@@ -706,7 +705,7 @@ C
          !---------------------------------------------
          !     ALEFVM : FINITE VOLUME FOR MOMENTUM
          !---------------------------------------------          
-          IF(IALEFVM > 0) THEN
+          IF(ALEFVM_Param%IEnabled > 0) THEN
             !GRAVITY INIT
             ! VERTEX(4,1:NUMNOD) = ZERO  !-> not needed, nodes remain the same ones and VERTEX is initialized on allocation
             CALL ALEFVM_GRAV_INIT(

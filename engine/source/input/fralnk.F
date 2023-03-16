@@ -33,7 +33,7 @@ Chd|        IXYZ                          source/input/ixyz.F
 Chd|        NVAR                          source/input/nvar.F           
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE FRALNK(IKAD,KEY0,KVEL,NALELK,IFID)
+      SUBROUTINE FRALNK(IKAD,KEY0,KVEL,NALELK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IKAD(0:*),KVEL,NALELK,IFID
+      INTEGER IKAD(0:*),KVEL,NALELK
       CHARACTER KEY0(*)*5
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -170,7 +170,7 @@ Chd|        IXYZ                          source/input/ixyz.F
 Chd|        NVAR                          source/input/nvar.F           
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE FRALNK2(IKAD,KEY0,KALELINK,NALELK,IFID)
+      SUBROUTINE FRALNK2(IKAD,KEY0,KALELINK,NALELK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -182,8 +182,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IKAD(0:*),
-     .        KALELINK,NALELK,IFID
+      INTEGER IKAD(0:*),KALELINK,NALELK
       CHARACTER KEY0(*)*5
 C-----------------------------------------------
 C   C o m m o n   B l o c k s

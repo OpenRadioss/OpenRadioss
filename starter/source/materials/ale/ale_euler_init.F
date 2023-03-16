@@ -45,7 +45,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD
-C      USE ALEFVM_MOD,only:ALEFVM_Param
+      USE ALEFVM_MOD,only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,7 +59,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "conv_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -85,7 +84,7 @@ C-----------------------------------------------
         !  EULER & ALE : CHECK CONSISTENCY BETWEEN MAT and PROP          !
         !################################################################!  
         ! JALE_FROM_MAT = PM(72)        0:lagrange   1:ale    2:euler 
-        ! JALE_FROM_PROP = IGEO(62)     0:lagrange   1:ale    2:euler       
+        ! JALE_FROM_PROP = IGEO(62)     0:lagrange   1:ale    2:euler
         
         !/ALE/MAT or /EULER/MAT
         JALE_FROM_MAT = 0
@@ -323,7 +322,7 @@ C-----------------------------------------------
          ENDIF
          
         !---ALEFVM (obsolete)---! 
-        IF( (JALE_FROM_PROP /= 0 .OR. JALE_FROM_MAT /= 0) .AND. IALEFVM == 1)THEN
+        IF( (JALE_FROM_PROP /= 0 .OR. JALE_FROM_MAT /= 0) .AND. ALEFVM_Param%IEnabled == 1)THEN
           !Momentum Convection : %MOM(1:3,:)
           CODV(6) = 1
           CODV(7) = 1

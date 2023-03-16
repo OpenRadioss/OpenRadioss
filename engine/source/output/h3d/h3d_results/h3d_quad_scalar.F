@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE STACK_MOD   
       USE MULTI_FVM_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE ALEFVM_MOD,only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +72,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
-#include      "alefvm.inc"
 #include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1193,7 +1193,7 @@ C--------------------------------------------------
                       VALUE(I) = VEL(0)/MULTI_FVM%SOUND_SPEED(I + NFT)
                       IS_WRITTEN_VALUE(I) = 1                             
                    ENDDO
-                ELSEIF(I_ALE_SOLVER>1)THEN
+                ELSEIF(ALEFVM_Param%ISOLVER>1)THEN
                      L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                        
                      IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN              
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)            

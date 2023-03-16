@@ -50,8 +50,7 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "i22edges.inc"  
+C-----------------------------------------------  
 #include      "inter22.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -88,7 +87,7 @@ C-----------------------------------------------
       DO K=1,NumNOD
        I           = ListNOD(K)
         DO J=1,3
-         IFAC      = iFacesFromNode(I,J)      
+         IFAC      = INT22_BUF%iFacesFromNode(I,J)      
          !IF(RATIO(IFAC)==ZERO)CYCLE
          NFAC(I)   = NFAC(I) + ONE
          ALPHA(I)  = ALPHA(I) + RATIO(IFAC)

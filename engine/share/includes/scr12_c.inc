@@ -20,11 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C.../SCR12/
-C...recopie par defaut en spmd
-      INTEGER LSCR12
-      PARAMETER (LSCR12 = 16)
-      COMMON /SCR12/ NGLV, NMTV, NINV, NRWV, NRBV, NNODV, NSCV, NELQV,
-     .   NELSV, NELCV, NELTV, NELPV, NELRV, NELTGV,NELURV,CPTREAC
-      INTEGER NGLV, NMTV, NINV, NRWV, NRBV, NNODV, NSCV, NELQV, NELSV,
-     .   NELCV, NELTV, NELPV, NELRV, NELTGV, NELURV,CPTREAC
+
+      COMMON /SCR12/ CPTREAC
+      INTEGER        CPTREAC

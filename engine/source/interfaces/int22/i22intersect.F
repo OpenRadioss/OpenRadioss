@@ -64,8 +64,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "task_c.inc"
-#include      "i22edges.inc"
-C-----------------------------------------------s
+C-----------------------------------------------
 C=======================================================================
 C 6   creation of edge list and addresses for each candidate cell
 C================================================================     
@@ -239,7 +238,7 @@ C================================================================
         d_3 = zero
         DO J=1,12
           K=(I-1)*12+J
-          EDGE_LIST(NIN,K)%NODE(1:2)    = IXS(iEDGE(1:2,J)+1,BRICK_LIST(NIN,I)%ID)                        ! ids cell nodes
+          EDGE_LIST(NIN,K)%NODE(1:2)    = IXS(INT22_BUF%iEDGE(1:2,J)+1,BRICK_LIST(NIN,I)%ID)                        ! ids cell nodes
           EDGE_LIST(NIN,K)%NBCUT        = 0
           EDGE_LIST(NIN,K)%CUTSHELL     = 0
           EDGE_LIST(NIN,K)%CUTCOOR(1:2) = ZERO
@@ -370,7 +369,7 @@ C          END IF
             N_CUT_EDGE    = 0
             DO J=1,12                                                   !12 edges !opposite sign for nodes power ?
               K       = (I-1)*12+J                                      !k : address number in EDGE_LIST
-              POW(1:2)= POWER(iEDGE(1:2, J))
+              POW(1:2)= POWER(INT22_BUF%iEDGE(1:2, J))
               iN(1:2) = EDGE_LIST(NIN,K)%NODE(1:2)                      !IXS(1+iEDGE(1, J),NS)
               DEJA    = EDGE_LIST(NIN,K)%NBCUT                                 !is edge already cut by another shell ?
               NBCUT   = -1

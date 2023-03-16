@@ -66,6 +66,7 @@ C-----------------------------------------------
       USE I22BUFBRIC_MOD  
       USE SEGVAR_MOD   
       USE ALE_CONNECTIVITY_MOD
+      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,7 +81,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "inter22.inc"
-#include      "alemuscl.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -273,7 +273,7 @@ C     ALE ON / OFF
         LFT=1
         VOLG => ELBUF_TAB(NG)%GBUF%VOL
         IF(N2D == 0)THEN
-           IF (IALEMUSCL  >  0) THEN
+           IF (ALEMUSCL_Param%IALEMUSCL  >  0) THEN
               CALL ALEMUSCL_UPWIND(FLUX, ALE_CONNECT, ALPHA  ,    X, IXS, FLUX_VOIS, N4_VOIS, 
      .                             ITAB, NV46       , ITRIMAT,SEGVAR)
            ELSE
@@ -281,7 +281,7 @@ C     ALE ON / OFF
      .                             ITAB, NV46       , ITRIMAT, SEGVAR)
            ENDIF
         ELSE
-           IF (IALEMUSCL  >  0) THEN
+           IF (ALEMUSCL_Param%IALEMUSCL  >  0) THEN
               CALL ALEMUSCL_UPWIND2(FLUX, ALE_CONNECT, ALPHA  , X    , IXQ, FLUX_VOIS, N4_VOIS, 
      .                              ITAB, NV46       , ITRIMAT,SEGVAR)
            ELSE

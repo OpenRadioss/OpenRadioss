@@ -60,7 +60,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "param_c.inc"
-#include      "alefvm.inc"
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -96,7 +95,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
-      IF(IALEFVM==0)RETURN
+      IF(ALEFVM_Param%IEnabled==0)RETURN
       MT          = IXS(1,NFT+LFT)
       IALEFVM_FLG = IPM(251,MT)
       IF(IALEFVM_FLG <= 1)RETURN
@@ -186,12 +185,12 @@ C-----------------------------------------------
       !-------------------------------------------------------------! 
       DO I=LFT,LLT   
         II           = I + NFT
-        Vface(1:3,1) = F_FACE(1:3,1,II)
-        Vface(1:3,2) = F_FACE(1:3,2,II)
-        Vface(1:3,3) = F_FACE(1:3,3,II)
-        Vface(1:3,4) = F_FACE(1:3,4,II)                
-        Vface(1:3,5) = F_FACE(1:3,5,II)
-        Vface(1:3,6) = F_FACE(1:3,6,II)                
+        Vface(1:3,1) = ALEFVM_Buffer%F_FACE(1:3,1,II)
+        Vface(1:3,2) = ALEFVM_Buffer%F_FACE(1:3,2,II)
+        Vface(1:3,3) = ALEFVM_Buffer%F_FACE(1:3,3,II)
+        Vface(1:3,4) = ALEFVM_Buffer%F_FACE(1:3,4,II)                
+        Vface(1:3,5) = ALEFVM_Buffer%F_FACE(1:3,5,II)
+        Vface(1:3,6) = ALEFVM_Buffer%F_FACE(1:3,6,II)                
       ENDDO  
       
       !-------------------------------------------------------------!
@@ -247,19 +246,19 @@ C-----------------------------------------------
       
 
         !DEBUG-OUTPUT---------------!
-        if(IALEFVM_OUTP_EPSDOT /= 0)then
+        if(ALEFVM_Param%IOUTP_EPSDOT /= 0)then
           debug_outp = .FALSE.
-          if(IALEFVM_OUTP_EPSDOT>0)then
+          if(ALEFVM_Param%IOUTP_EPSDOT>0)then
             do i=lft,llt
               ii = nft + i
-              if(ixs(11,ii)==IALEFVM_OUTP_EPSDOT)THEN
+              if(ixs(11,ii)==ALEFVM_Param%IOUTP_EPSDOT)THEN
                 debug_outp = .TRUE.
                 idbf   = i
                 idbl   = i
                 EXIT
               endif
              enddo
-          elseif(IALEFVM_OUTP_EPSDOT==-1)then
+          elseif(ALEFVM_Param%IOUTP_EPSDOT==-1)then
             debug_outp=.TRUE.
                 idbf   = lft
                 idbl   = llt          

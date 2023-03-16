@@ -47,7 +47,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "vect01_c.inc"
 #include "com04_c.inc"
-#include "alemuscl.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -70,12 +69,15 @@ C-----------------------------------------------
       DO I = LFT, LLT
          II = I + NFT
          !!! Element centroid
-         XK = ELCENTER(II,1) ; YK = ELCENTER(II,2) ; ZK = ELCENTER(II,3)
+         XK = ALEMUSCL_Buffer%ELCENTER(II,1) ; 
+         YK = ALEMUSCL_Buffer%ELCENTER(II,2) ; 
+         ZK = ALEMUSCL_Buffer%ELCENTER(II,3) ;
          reduc_factor = EP30
          NNUM = 0
          DO ITRIMAT = 1, TRIMAT
-            IF(ABS(GRAD(II,1,ITRIMAT)) + ABS(GRAD(II,2,ITRIMAT)) + 
-     .           ABS(GRAD(II,3,ITRIMAT)) > ZERO) THEN
+            IF(ABS(ALEMUSCL_Buffer%GRAD(II,1,ITRIMAT)) + 
+     .         ABS(ALEMUSCL_Buffer%GRAD(II,2,ITRIMAT)) + 
+     .         ABS(ALEMUSCL_Buffer%GRAD(II,3,ITRIMAT)) > ZERO) THEN
                NNUM = NNUM + 1
                !!! Check the nodes of the element
                DO JJ = 1, 8
@@ -83,19 +85,19 @@ C-----------------------------------------------
                   !!! Get the node coordinates
                   XN = X(1, NODE_ID) ; YN = X(2, NODE_ID) ; ZN = X(3, NODE_ID) 
                   !!! Interpolate the function at the node
-                  VALNODE = VOLUME_FRACTION(II,ITRIMAT) 
-     .                 + GRAD(II,1,ITRIMAT) * (XN - XK)  
-     .                 + GRAD(II,2,ITRIMAT) * (YN - YK)
-     .                 + GRAD(II,3,ITRIMAT) * (ZN - ZK)
+                  VALNODE = ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT) 
+     .                 + ALEMUSCL_Buffer%GRAD(II,1,ITRIMAT) * (XN - XK)  
+     .                 + ALEMUSCL_Buffer%GRAD(II,2,ITRIMAT) * (YN - YK)
+     .                 + ALEMUSCL_Buffer%GRAD(II,3,ITRIMAT) * (ZN - ZK)
                   nodal_reduc_factor = ONE
-                  IF (VALNODE - VOLUME_FRACTION(II,ITRIMAT) > ZERO) THEN
+                  IF (VALNODE - ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT) > ZERO) THEN
                      nodal_reduc_factor = 
-     .                    MIN((NODE_MAX_VALUE(NODE_ID,ITRIMAT) - VOLUME_FRACTION(II,ITRIMAT))
-     .                    / (VALNODE - VOLUME_FRACTION(II,ITRIMAT)), I_BETA)
-                  ELSE IF (VALNODE - VOLUME_FRACTION(II,ITRIMAT) < ZERO) THEN
+     .                    MIN((ALEMUSCL_Buffer%NODE_MAX_VALUE(NODE_ID,ITRIMAT) - ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT))
+     .                    / (VALNODE - ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)), ALEMUSCL_Param%I_BETA)
+                  ELSE IF (VALNODE - ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT) < ZERO) THEN
                      nodal_reduc_factor = 
-     .                    MIN((NODE_MIN_VALUE(NODE_ID,ITRIMAT) - VOLUME_FRACTION(II,ITRIMAT)) 
-     .                    / (VALNODE - VOLUME_FRACTION(II,ITRIMAT)), I_BETA)
+     .                    MIN((ALEMUSCL_Buffer%NODE_MIN_VALUE(NODE_ID,ITRIMAT) - ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)) 
+     .                    / (VALNODE - ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)), ALEMUSCL_PAram%I_BETA)
                   ENDIF
                   reduc_factor(ITRIMAT) = MIN(reduc_factor(ITRIMAT), nodal_reduc_factor)
                ENDDO  ! JJ = 1, 8
@@ -107,12 +109,13 @@ C-----------------------------------------------
          !!!   reduc_factor = 0.
          !!!ENDIF
          DO ITRIMAT = 1, TRIMAT
-            IF(ABS(GRAD(II,1,ITRIMAT)) + ABS(GRAD(II,2,ITRIMAT)) + 
-     .           ABS(GRAD(II,3,ITRIMAT)) > ZERO) THEN
+            IF(ABS(ALEMUSCL_Buffer%GRAD(II,1,ITRIMAT)) + 
+     .         ABS(ALEMUSCL_Buffer%GRAD(II,2,ITRIMAT)) + 
+     .         ABS(ALEMUSCL_Buffer%GRAD(II,3,ITRIMAT)) > ZERO) THEN
             !!!   Limitation of the gradient
-               GRAD(II,1,ITRIMAT) = reduc_factor(ITRIMAT) * GRAD(II,1,ITRIMAT)
-               GRAD(II,2,ITRIMAT) = reduc_factor(ITRIMAT) * GRAD(II,2,ITRIMAT)
-               GRAD(II,3,ITRIMAT) = reduc_factor(ITRIMAT) * GRAD(II,3,ITRIMAT)
+               ALEMUSCL_Buffer%GRAD(II,1,ITRIMAT) = reduc_factor(ITRIMAT) * ALEMUSCL_Buffer%GRAD(II,1,ITRIMAT)
+               ALEMUSCL_Buffer%GRAD(II,2,ITRIMAT) = reduc_factor(ITRIMAT) * ALEMUSCL_Buffer%GRAD(II,2,ITRIMAT)
+               ALEMUSCL_Buffer%GRAD(II,3,ITRIMAT) = reduc_factor(ITRIMAT) * ALEMUSCL_Buffer%GRAD(II,3,ITRIMAT)
             ENDIF
          ENDDO
       ENDDO  ! I = LFT, LLT

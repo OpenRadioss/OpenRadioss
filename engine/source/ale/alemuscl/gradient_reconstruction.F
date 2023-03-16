@@ -101,8 +101,10 @@ C-----------------------------------------------
          !!! Reset mat, rhs
          mat(1:3, 1:3) = ZERO ; rhs(1:3) = ZERO
          !!! Value of the target function in the element
-         VALK = VOLUME_FRACTION(II,ITRIMAT)
-         XK = ELCENTER(II,1) ; YK = ELCENTER(II,2) ; ZK = ELCENTER(II,3)
+         VALK = ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)
+         XK = ALEMUSCL_Buffer%ELCENTER(II,1) ;
+         YK = ALEMUSCL_Buffer%ELCENTER(II,2) ;
+         ZK = ALEMUSCL_Buffer%ELCENTER(II,3)
          !!! IXS(2:9, II) : Node global ID
          IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
          LGTH = ALE_CONNECT%ee_connect%iad_connect(II+1)-IAD2
@@ -111,8 +113,10 @@ C-----------------------------------------------
             !IF (VOIS_ID /= 0 .AND. VOIS_ID <= NUMELS) THEN
             IF (VOIS_ID > 0) THEN
                !!! Value of the target function in the current neighbor
-               VALL = VOLUME_FRACTION(VOIS_ID,ITRIMAT)
-               XL = ELCENTER(VOIS_ID,1) ; YL = ELCENTER(VOIS_ID,2) ; ZL = ELCENTER(VOIS_ID,3)
+               VALL = ALEMUSCL_Buffer%VOLUME_FRACTION(VOIS_ID,ITRIMAT)
+               XL = ALEMUSCL_Buffer%ELCENTER(VOIS_ID,1) ;
+               YL = ALEMUSCL_Buffer%ELCENTER(VOIS_ID,2) ; 
+               ZL = ALEMUSCL_Buffer%ELCENTER(VOIS_ID,3) ;
             ELSE
                IF(VOIS_ID == 0) THEN
                  VALL = VALK
@@ -161,9 +165,9 @@ c$$$                  XF = XF + FOURTH * X(1, NODE_ID)
 c$$$                  YF = YF + FOURTH * X(2, NODE_ID)
 c$$$                  ZF = ZF + FOURTH * X(3, NODE_ID)
 c$$$               ENDDO
-               XL = TWO * XF - ELCENTER(II,1)
-               YL = TWO * YF - ELCENTER(II,2)
-               ZL = TWO * ZF - ELCENTER(II,3)
+               XL = TWO * XF - ALEMUSCL_Buffer%ELCENTER(II,1)
+               YL = TWO * YF - ALEMUSCL_Buffer%ELCENTER(II,2)
+               ZL = TWO * ZF - ALEMUSCL_Buffer%ELCENTER(II,3)
             ENDIF
 
             !!! Incrementing mat and rhs
@@ -184,9 +188,9 @@ c$$$               ENDDO
          CALL CG(3, mat, rhs, sol, 3, EM10)
          !CALL DIRECT_SOLVE(mat, rhs ,sol)
          !!! Solution goes to the gradient
-         GRAD(II,1,ITRIMAT) = -sol(1)
-         GRAD(II,2,ITRIMAT) = -sol(2)
-         GRAD(II,3,ITRIMAT) = -sol(3)
+         ALEMUSCL_Buffer%GRAD(II,1,ITRIMAT) = -sol(1)
+         ALEMUSCL_Buffer%GRAD(II,2,ITRIMAT) = -sol(2)
+         ALEMUSCL_Buffer%GRAD(II,3,ITRIMAT) = -sol(3)
       ENDDO  ! I = LFT, LLT
 C-----------------------------------------------      
       END SUBROUTINE GRADIENT_RECONSTRUCTION

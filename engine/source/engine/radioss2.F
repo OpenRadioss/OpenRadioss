@@ -192,6 +192,7 @@ C-----------------------------------------------
       USE SEGVAR_MOD
       USE SCRATCHFILE_MOD
       USE STATE_MOD
+      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
       USE USER_INTERFACE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -240,12 +241,10 @@ C-----------------------------------------------
 #include      "filescount_c.inc"
 #include      "rad2r_c.inc"
 #include      "userlib.inc"
-#include      "alefvm.inc"
 #include      "drape_c.inc"
 #include      "thermal_c.inc"
 #include      "inter22.inc"
 #include      "alesolver.inc"
-#include      "alemuscl.inc"
 #include      "couple_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -477,7 +476,7 @@ C------------------------------------------------------------------
       NSMSPCG=0
       IUDYNAIN = 19833333
       I_DT_NODA_ALE_ON_KEY = 0
-      I_MUSCL_OFF = 0
+      ALEMUSCL_Param%I_MUSCL_OFF = 0
       IUTITLHIS=110
       IUTITLHI(1)=110
       IUTITLHI(2)=111
@@ -944,7 +943,7 @@ C
       SIPM  = NPROPMI*NUMMAT
 
       IF (MULTI_FVM%IS_USED) THEN
-           MULTI_FVM%MUSCL = IALEMUSCL
+           MULTI_FVM%MUSCL = ALEMUSCL_Param%IALEMUSCL
       ENDIF
 
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
@@ -1307,7 +1306,7 @@ C--------------------------------------------
       ENDIF
       IF(ICRACK3D > 0) CALL CRKXFEM_RREST(INOD_CRKXFEM,IEL_CRKXFEM,NODLEVXF)
       CALL CRKXFEM_RRESTANIM()
-      IF(IALEFVM  > 0) CALL READ_DB(FCELL ,6*NUMELS)
+      IF(ALEFVM_Param%IEnabled  > 0) CALL READ_DB(ALEFVM_Buffer%FCELL ,6*NUMELS)
       IF(IALELAG  > 0) CALL ALELAG_RREST()
 C--------------------------------------
       IF(SRTHBUF > 0) CALL RTHBUFREST(RTHBUF,SRTHBUF)

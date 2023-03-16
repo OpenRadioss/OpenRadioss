@@ -51,6 +51,7 @@ C
       ! ISFINT=3 : surface integration for SIG_total    !
       !-------------------------------------------------!  
 C
+      USE ALEFVM_MOD,only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +68,6 @@ C-----------------------------------------------
 #include      "nsvis_c.inc"
 #include      "fluid_scr_c.inc"
 #include      "inter22.inc"
-#include      "alefvm.inc"
 #include      "alesolver.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -256,7 +256,7 @@ C-----------------------------------------------
          S5(I)=(SIG(I,5)+SVIS(I,5))*VOL_LOC
          S6(I)=(SIG(I,6)+SVIS(I,6))*VOL_LOC 
         ENDDO
-        IF(IALEFVM/=0)THEN
+        IF(ALEFVM_Param%IEnabled/=0)THEN
           DO I=LFT,LLT
             Pbak(I) =0.125 * (S1(I)+S2(I)+S3(I))/THREE/VOL(I)
           ENDDO

@@ -105,6 +105,7 @@ C-----------------------------------------------
       USE ANIM_MOD
       USE OUTPUTS_MOD
       USE STATE_MOD
+      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -152,7 +153,6 @@ C-----------------------------------------------
 #include      "userlib.inc"
 #include      "scr_thermal_c.inc"
 #include      "alesolver.inc"
-#include      "alemuscl.inc"
 #include      "spmd_c.inc"
 #include      "intstamp_c.inc"
 #include      "ale_param.inc"
@@ -1078,23 +1078,23 @@ C----------------------------------------
          ENDIF
          Label2='UPWIND   '
          Label3='UPWIND   '
-         IF(IALEMUSCL==0)THEN
+         IF(ALEMUSCL_Param%IALEMUSCL==0)THEN
            Label4='UPWIND   '
          ELSE
            Label4='MUSCL    '
          ENDIF
          !--Labels for Colocated Scheme
-         IF(IALEMUSCL==0)THEN
+         IF(ALEMUSCL_Param%IALEMUSCL==0)THEN
            Label5='1ST-ORDER'
            Label6='1ST-ORDER'
            Label7='1ST-ORDER'
            Label8='1ST-ORDER'
-         ELSEIF(IALEMUSCL==1)THEN
+         ELSEIF(ALEMUSCL_Param%IALEMUSCL==1)THEN
            Label5='2ND-ORDER'
            Label6='2ND-ORDER'
            Label7='2ND-ORDER'
            Label8='2ND-ORDER'
-         ELSEIF(IALEMUSCL==2)THEN
+         ELSEIF(ALEMUSCL_Param%IALEMUSCL==2)THEN
            Label5='1ST-ORDER'
            Label6='1ST-ORDER'
            Label7='1ST-ORDER'
@@ -1123,8 +1123,8 @@ C----------------------------------------
              WRITE(IOUT,1003)Label5,Label6,Label7,Label8
              IF(MULTI_FVM%LOWMACH_OPT)
      .       WRITE(IOUT,1004)
-             IF(IALEMUSCL/=0)
-     .       WRITE(IOUT,1005)I_BETA
+             IF(ALEMUSCL_Param%IALEMUSCL/=0)
+     .       WRITE(IOUT,1005)ALEMUSCL_Param%I_BETA
            ENDIF
            WRITE(IOUT,1006) DTFAC1(102),DTMIN1(102)
            WRITE(IOUT,1007)Label9

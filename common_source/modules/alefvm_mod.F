@@ -62,15 +62,37 @@ Chd|-- calls ---------------
 Chd|====================================================================
       MODULE ALEFVM_MOD
 C-----------------------------------------------
-C   m y _ r e a l
-C-----------------------------------------------
+        IMPLICIT NONE
 #include      "my_real.inc"
 C-----------------------------------------------
-C   G l o b a l   V a r i a b l e s   D e f i n i t i o n
-C-----------------------------------------------
-        my_real, DIMENSION(:)    , ALLOCATABLE :: WFEXT_CELL
-        my_real, DIMENSION(:,:)  , ALLOCATABLE :: FCELL, FEXT_CELL
-        my_real, DIMENSION(:,:)  , ALLOCATABLE :: VERTEX  , FINT_CELL      
-        my_real, DIMENSION(:,:,:), ALLOCATABLE :: F_FACE
 
+        TYPE ALEFVM_BUFFER_t
+          my_real, DIMENSION(:)    , ALLOCATABLE :: WFEXT_CELL
+          my_real, DIMENSION(:,:)  , ALLOCATABLE :: FCELL, FEXT_CELL
+          my_real, DIMENSION(:,:)  , ALLOCATABLE :: VERTEX, FINT_CELL      
+          my_real, DIMENSION(:,:,:), ALLOCATABLE :: F_FACE
+        END TYPE ALEFVM_BUFFER_t
+        
+        TYPE ALEFVM_PARAM_t
+          INTEGER IEnabled     
+          INTEGER ISOLVER
+          INTEGER IOUTP
+          INTEGER IOUTP_GRAV
+          INTEGER IOUTP_STRESS
+          INTEGER IOUTP_FINT
+          INTEGER IOUTP_FLUX
+          INTEGER IOUTP_SCHEME
+          INTEGER IOUTP_CONV
+          INTEGER IFORM
+          INTEGER IOUTP_EPSDOT
+          INTEGER IOUTP_BCS
+          INTEGER IOUTP_TFEXT
+          INTEGER IWFEXT
+          INTEGER IPRINT_1
+          INTEGER IPRINT_2                
+        END TYPE ALEFVM_PARAM_t
+        
+        TYPE(ALEFVM_BUFFER_t),TARGET :: ALEFVM_Buffer
+        TYPE(ALEFVM_PARAM_t),TARGET :: ALEFVM_Param      
+      
       END MODULE ALEFVM_MOD

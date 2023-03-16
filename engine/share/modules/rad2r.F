@@ -61,6 +61,8 @@ C-----------------------------------------------
      
       DOUBLE PRECISION, ALLOCATABLE ::
      .      R2R_KINE(:,:) 
+     
+      INTEGER R2R_FDR,R2R_FDW,R2R_IPID
           
 C-----------------------------------------------
       END MODULE RAD2R_MOD
