@@ -86,8 +86,9 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
+Chd|        HM_GET_FLOAT_ARRAY_2INDEXES   source/devtools/hm_reader/hm_get_float_array_2indexes.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
+Chd|        HM_GET_INT_ARRAY_2INDEXES     source/devtools/hm_reader/hm_get_int_array_2indexes.F
 Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
 Chd|        HM_GET_STRING_INDEX           source/devtools/hm_reader/hm_get_string_index.F
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F

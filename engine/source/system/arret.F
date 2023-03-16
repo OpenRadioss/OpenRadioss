@@ -237,6 +237,7 @@ Chd|        LAG_I2MAIN                    source/tools/lagmul/lag_i2main.F
 Chd|        LAG_MULTP                     source/tools/lagmul/lag_mult.F
 Chd|        LAG_MULT_H                    source/tools/lagmul/lag_mult_h.F
 Chd|        LAG_MULT_HP                   source/tools/lagmul/lag_mult_h.F
+Chd|        LAG_MULT_SDP                  source/tools/lagmul/lag_mult_solv.F
 Chd|        LAG_RWALL                     source/tools/lagmul/lag_rwall.F
 Chd|        LECDAMP                       source/input/lecdamp.F        
 Chd|        LECFLSW                       source/fluid/lecflsw.F        

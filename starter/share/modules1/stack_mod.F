@@ -53,9 +53,11 @@ Chd|        LAYINI1                       source/elements/shell/coqueba/layini1.
 Chd|        LAYINI_XFE                    source/elements/xfem/cbufxfe.F
 Chd|        LECSTACK_PLY                  source/properties/composite_options/stack/lecstack_ply.F
 Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        PRE_STACKGROUP                source/stack/pres_stackgroup.F
 Chd|        SHELLTHK_UPD                  source/properties/composite_options/drape/shellthk_upd.F
 Chd|        SPMD_ANIM_PLY_INIT            source/spmd/spmd_anim_ply_init.F
 Chd|        STACKGROUP                    source/stack/stackgroup.F     
+Chd|        STACKGROUP_DRAPE              source/stack/stackgroup_drape.F
 Chd|        T3GRHEAD                      source/elements/solid_2d/tria/t3grhead.F
 Chd|        T3GRTAILS                     source/elements/solid_2d/tria/t3grtails.F
 Chd|        STACK_VAR_MOD                 share/modules1/stack_var_mod.F

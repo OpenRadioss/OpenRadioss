@@ -482,6 +482,7 @@ Chd|  SPMD_MUMPS_INI                source/mpi/implicit/imp_spmd.F
 Chd|-- called by -----------
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
 Chd|        IMP_MUMPS1                    source/implicit/imp_mumps.F   
+Chd|        LAG_MULT_SDP                  source/tools/lagmul/lag_mult_solv.F
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -531,6 +532,7 @@ Chd|  SPMD_MUMPS_DEAL               source/mpi/implicit/imp_spmd.F
 Chd|-- called by -----------
 Chd|        DEALLOCM_IMP                  source/implicit/imp_solv.F    
 Chd|        IMP_MUMPS1                    source/implicit/imp_mumps.F   
+Chd|        LAG_MULT_SDP                  source/tools/lagmul/lag_mult_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_MUMPS_DEAL(MUMPS_PAR)
@@ -678,6 +680,7 @@ Chd|====================================================================
 Chd|  SPMD_MUMPS_EXEC               source/mpi/implicit/imp_spmd.F
 Chd|-- called by -----------
 Chd|        IMP_MUMPS2                    source/implicit/imp_mumps.F   
+Chd|        LAG_MULT_SDP                  source/tools/lagmul/lag_mult_solv.F
 Chd|-- calls ---------------
 Chd|        IMP_ERRMUMPS                  source/implicit/imp_solv.F    
 Chd|====================================================================

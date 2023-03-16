@@ -320,6 +320,7 @@ Chd|        PRELECSEC4BOLT                starter/source/tools/sect/prelecsec4bo
 Chd|        PREPARE_SPLIT_I17             starter/source/restart/ddsplit/inter_tools.F
 Chd|        PREREAD_RBODY_LAGMUL          starter/source/constraints/general/rbody/preread_rbody_lagmul.F
 Chd|        PRESEARCHIGEO3D               starter/source/elements/ige3d/searchigeo3d.F
+Chd|        PRE_STACKGROUP                starter/source/stack/pres_stackgroup.F
 Chd|        PRINTBCS                      starter/source/constraints/general/bcs/printbcs.F
 Chd|        PRINTGROUP                    starter/source/output/outfile/printgroup.F
 Chd|        QA_PRINT_GROUPS               starter/source/output/qaprint/st_qaprint_groups.F
@@ -378,6 +379,7 @@ Chd|        SSURFIGEO                     starter/source/groups/ssurftagigeo.F
 Chd|        SSURFTAG                      starter/source/groups/ssurftag.F
 Chd|        SSURFTAGIGEO                  starter/source/groups/ssurftagigeo.F
 Chd|        STACKGROUP                    starter/source/stack/stackgroup.F
+Chd|        STACKGROUP_DRAPE              starter/source/stack/stackgroup_drape.F
 Chd|        ST_QAPRINT_DFS_DETONATORS     starter/source/output/qaprint/st_qaprint_dfs_detonators.F
 Chd|        ST_QAPRINT_DFS_LASERS         starter/source/output/qaprint/st_qaprint_dfs_lasers.F
 Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F

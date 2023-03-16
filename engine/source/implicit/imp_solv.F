@@ -3084,6 +3084,7 @@ Chd|        UPD_RHS                       source/implicit/upd_glob_k.F
 Chd|        WEIGHTDDL                     source/implicit/recudis.F     
 Chd|        ZERO1                         source/system/zero.F          
 Chd|        ZEROR                         source/system/zero.F          
+Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
@@ -3091,8 +3092,7 @@ Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F
 Chd|        IMP_WORKI                     share/modules/impbufdef_mod.F 
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STACK_MOD                     share/modules/stack_mod.F 
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F      
+Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE IMP_CHKM(
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,

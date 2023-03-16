@@ -39,6 +39,7 @@ Chd|        CNCOEFORT                     source/elements/sh3n/coquedk/cncoef3.F
 Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
 Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
 Chd|        CZKE3                         source/elements/shell/coquez/czke3.F
+Chd|        CZKEL3                        source/elements/shell/coquez/czkel3.F
 Chd|        C_TF_NE                       source/output/sty/c_tf_ne.F   
 Chd|        DRAPE_RREST                   source/output/restart/rdresb.F
 Chd|        DRAPE_WREST                   source/output/restart/wrrest.F
@@ -53,6 +54,7 @@ Chd|        GENDYNAIN                     source/output/dynain/gendynain.F
 Chd|        GENOUTP                       source/output/sty/genoutp.F   
 Chd|        GENSTAT                       source/output/sta/genstat.F   
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
+Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
 Chd|        IMP_GLOB_K                    source/implicit/imp_glob_k.F  
 Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
 Chd|        IMP_GLOB_KHP                  source/implicit/imp_glob_k.F  

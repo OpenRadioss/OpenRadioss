@@ -783,7 +783,6 @@ C
 Chd|====================================================================
 Chd|  LAG_MULT_SDP                  source/tools/lagmul/lag_mult_solv.F
 Chd|-- called by -----------
-Chd|        LAG_MULTP                     source/tools/lagmul/lag_mult.F
 Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|        LAG_MULT_HP                   source/tools/lagmul/lag_mult_h.F
