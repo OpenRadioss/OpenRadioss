@@ -1603,8 +1603,6 @@ C Friction interface
         NEXT    = NEXT + 1 
         IDTS6   =  TABVINT(NEXT)                    
         NEXT    = NEXT + 1                      
-        IDTHEPH =  TABVINT(NEXT)                    
-        NEXT    = NEXT + 1                      
         IDT1SOL =  TABVINT(NEXT)                    
         NEXT    = NEXT + 1                      
         IDT1TET10=  TABVINT(NEXT)  
@@ -1612,7 +1610,7 @@ C Friction interface
         IDT1SH  =  TABVINT(NEXT)  
          
       ELSE
-        NEXT    = NEXT + 5                 
+        NEXT    = NEXT + 4                 
       END IF
 !
 !     H3D -> number of inter skid lines    

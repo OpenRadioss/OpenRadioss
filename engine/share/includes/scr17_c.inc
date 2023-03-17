@@ -22,16 +22,16 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../SCR17/
       COMMON /SCR17/IDEL7,IDT1SH,IDEL7NG,IDEL7NOK,IDEL2NG,
-     .              NSOLOFF,NSH4OFF,NSH3OFF,IQEPHV5,NTRSOFF,
+     .              NSOLOFF,NSH4OFF,NSH3OFF,NTRSOFF,
      .              NPOUOFF,NSPROFF,LCNEL,ISMOOTH4,
-     .              LIDFS,LIRNUR,ISHV51,IDTHEPH,IDTS6,
+     .              LIDFS,LIRNUR,ISHV51,IDTS6,
      .              LNOPT1,LTITR,LILSET1,LISLIN1,LISUB1,
      .              LISURF1,LIPART1,LIGRN1,IDT1SOL,INEG_V,
      .              IDT1TET10,IDTTSH
       INTEGER       IDEL7,IDT1SH,IDEL7NG,IDEL7NOK,IDEL2NG,
-     .              NSOLOFF,NSH4OFF,NSH3OFF,IQEPHV5,NTRSOFF,
+     .              NSOLOFF,NSH4OFF,NSH3OFF,NTRSOFF,
      .              NPOUOFF,NSPROFF,LCNEL,ISMOOTH4,
-     .              LIDFS,LIRNUR,ISHV51,IDTHEPH,IDTS6,
+     .              LIDFS,LIRNUR,ISHV51,IDTS6,
      .              LNOPT1,LTITR,LILSET1,LISLIN1,LISUB1,
      .              LISURF1,LIPART1,LIGRN1,IDT1SOL,INEG_V,
      .              IDT1TET10,IDTTSH

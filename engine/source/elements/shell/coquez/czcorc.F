@@ -128,13 +128,9 @@ C-----------------------------------------------
      .   DT05,DT025,EXZ,EYZ,DDRX,DDRY,V13X,V24X,VHIX,DDRZ1,DDRZ2
       my_real :: OFF_LOC
 C----------------------------------------------
-C valeur original en DP
-C      TOL=EM8
 C test version SP
       IF(IRESP == 1)THEN
         TOL=EM7
-C        TOL=EM6
-C        TOL=EM5
       ELSE
         TOL=EM8
       END IF
@@ -192,7 +188,7 @@ C----------------------------
         VQ(I,3,3)=R33(I)
       ENDDO 
 C--------------------------
-C     TRANSMET GLOBAL-->LOCAL
+C     TRANSFERT GLOBAL-->LOCAL
 C--------------------------
       IF(IXFEM==0)THEN
         DO I=JFT,JLT
@@ -379,7 +375,7 @@ C
         L13(I)=X13_2(I)+Y13_2(I)
 C-------------------------------
         L24(I)=X24_2(I)+Y24_2(I)
-C  ---------Facteur pour longueur caracteristique---
+C  
         C1 =CORELV(I,1,2)*CORELV(I,2,4)-CORELV(I,2,2)*
      .      CORELV(I,1,4)
         C2 =CORELV(I,1,1)*CORELV(I,2,3)-CORELV(I,2,1)*CORELV(I,1,3)
@@ -387,7 +383,7 @@ C  ---------Facteur pour longueur caracteristique---
 C
        ENDDO
       ELSE
-C Partie Normale
+C 
        DO I=JFT,JLT
         LXYZ0(1)=FOURTH*(XL2(I)+XL3(I)+XL4(I))
         LXYZ0(2)=FOURTH*(YL2(I)+YL3(I)+YL4(I))
@@ -430,7 +426,7 @@ C
        ENDDO
       ENDIF
 C----------------------------
-C---------Facteur pour longueur caracteristique---
+C---------characteristic length ratio ---
 C----------------------------
        FACDT = FIVE_OVER_4
 C-------same than QBAT       
@@ -462,11 +458,6 @@ C-------cas thk >>L----
         DO I=JFT,JLT
 	     S1=EM01*THK(I)*THK(I)
          LM(I)=MAX(LM(I),S1)
-        ENDDO
-       ELSEIF (IQEPHV5 == 10) THEN
-C-----------cas explicite revient comme avant---
-        DO I=JFT,JLT
-         LM(I) = LL(I)
         ENDDO
        END IF 
        IF (IVECTOR == 1)THEN
@@ -646,7 +637,7 @@ C         K=IXC(5,I)
         ENDIF
        END IF
 C--------------------------
-C-------Correction 2nd order rigid rotation due a V(t+dt/2),X(t+dt)----
+C-------Correction 2nd order rigid rotation due to V(t+dt/2),X(t+dt)----
 C--------------------------
        IF (ISHV51>51.AND.(IMPL_S == 0.OR.IMP_LR>0)) THEN
         DT05 = HALF*DT1
@@ -678,52 +669,9 @@ C--------------------------
         ENDDO
        ENDIF 
 C--------------------------
-C-------TRANSMET 3DDL ROTATIONS A 2DDL ROTATIONS----
+C------- 3 ROTATIONS to 2 ROTATIONS----
 C--------------------------
-      IF(IQEPHV5 == 0)THEN
-C     debut ancienne formulation v4 hourglass flexion.
-C+++ Partie Vectorielle
        IF (IVECTOR == 1)THEN
-            CALL CZCORP4V(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,
-     2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
-     3                    V24    ,VHI    ,RLXYZV ,VQN    ,VQ     ,
-     4                    X13    ,X24    ,Y13    ,Y24    ,MX13   ,
-     6                    MX23   ,MX34   ,MY13   ,MY23   ,MY34   ,
-     7                    Z1     ,DI     ,DB     ,CORELV ,RLZ    ,
-     8                    LL     ,X13_2  ,Y13_2  ,X24_2  ,Y24_2  ,
-     9                    L13    ,L24    )
-
-      ELSE
-C--- fin vouvelle partie vectorielle
-       IF(IXFEM==0)THEN
-             CALL CZCORP4(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,
-     2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
-     3                    V24    ,VHI    ,RLXYZ  ,VQN    ,VQ     ,
-     4                    X13    ,X24    ,Y13    ,Y24    ,MX13   ,
-     6                    MX23   ,MX34   ,MY13   ,MY23   ,MY34   ,
-     7                    Z1     ,DI     ,DB     ,COREL  ,RLZ    ,
-     8                    LL     ,X13_2  ,Y13_2  ,X24_2  ,Y24_2  ,
-     9                    L13    ,L24    )
-       ELSE IF(IXFEM==1)THEN
-            CALL CZCORP4X(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,
-     2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
-     3                    V24    ,VHI    ,RLXYZ  ,VQN    ,VQ     ,
-     4                    X13    ,X24    ,Y13    ,Y24    ,MX13   ,
-     6                    MX23   ,MX34   ,MY13   ,MY23   ,MY34   ,
-     7                    Z1     ,DI     ,DB     ,COREL  ,RLZ    ,
-     8                    LL     ,X13_2  ,Y13_2  ,X24_2  ,Y24_2  ,
-     9                    L13    ,L24    ,VRX1   ,VRX2   ,VRX3   ,
-     A                    VRX4   ,VRY1   ,VRY2   ,VRY3   ,VRY4   ,
-     B                    VRZ1   ,VRZ2   ,VRZ3   ,VRZ4   )
-       END IF !IF(IXFEM==0)THEN
-      END IF !IF (IVECTOR == 1)THEN
-C     fin ancienne formulation v4 hourglass flexion.
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C     nouvelle formulation v5 hourglass flexion (elements gauches)
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-      ELSE
-       IF (IVECTOR == 1)THEN
-C      Partie Vectorielle
             CALL CZCORP5V(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,
      2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
      3                    V24    ,VHI    ,RLXYZV ,VQN    ,VQ     ,
@@ -734,7 +682,6 @@ C      Partie Vectorielle
      9                    L13    ,L24    ,IDRIL  ,DIZ    )
 
        ELSE
-C---   fin partie vectorielle
         IF(IXFEM==0)THEN
              CALL CZCORP5(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,
      2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
@@ -757,9 +704,6 @@ C---   fin partie vectorielle
      B                    VRZ1   ,VRZ2   ,VRZ3   ,VRZ4   )
         END IF
        END IF !IF (IVECTOR == 1)THEN
-      END IF !IF(IQEPHV5 == 0)THEN
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C     fin nouvelle formulation v5 hourglass flexion (elements gauches)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       DO I=JFT,JLT
         V13(I,1)=V13(I,1)*AREA_I(I)

@@ -148,9 +148,9 @@ C-----------------------------------------------
      .   KNOISE,KDELIN,KPARIT,KINIV,KRBODY,KANIM,KINTER,
      .   KUPWM, KMON,KDT1,KINCMP,KTH, KSTOP, KKILL,
      .   KMADYM,KSPMD,KRAD2R,KDAMP,N_DAMP, KATFIL,KBTFIL,KCTFIL,KDTFIL,
-     .   KETFIL,KFTFIL,KGTFIL,KHTFIL,KITFIL, KRERUN, KQEPH, KFXINP,
+     .   KETFIL,KFTFIL,KGTFIL,KHTFIL,KITFIL, KRERUN,  KFXINP,
      .   NFXINP,KOSHSUB,KEIG,NEIGOFF,NEOFF,KFVBAG,
-     .   NFVMESH,KSTATF,KSHVER,KDT1HEPH,KABF,KDTSDE,
+     .   NFVMESH,KSTATF,KSHVER,KABF,KDTSDE,
      .   KAABF,KBABF,KCABF,KDABF,KEABF,KFABF,KGABF,KHABF,KIABF,NFVMODI,
      .   KUPWIND,KTHERMAL,KH3D,KREPORT,KNEGVOL,KADYREL,KDT1TET10,KPERF,
      .   KDYNAIN,KDTTSH,KMASS
@@ -203,9 +203,9 @@ C-----------------------------------------------
      .     ''        ,'TH'      ,'STOP'    ,'KILL'    ,'MADYM'   ,
      .     'SPMD '   ,'RAD2R'   ,'DAMP'    ,'ATFIL'   ,'BTFIL'   ,
      .     'CTFIL'   ,'DTFIL'   ,'ETFIL'   ,'FTFIL'   ,'GTFIL'   ,
-     .     'HTFIL'   ,'ITFIL'   ,'RERUN'   ,'QEPH '   ,'FXINP'   ,
+     .     'HTFIL'   ,'ITFIL'   ,'RERUN'   ,''        ,'FXINP'   ,
      .     'SHSUB'   ,''        ,'EIG'     ,''        ,'FVMBA'   ,
-     .     ''        ,'STATE'   ,'SHVER'   ,'DT1HE'   ,'ABF'     ,
+     .     ''        ,'STATE'   ,'SHVER'   ,''        ,'ABF'     ,
      .     'DTSDE'   ,'AABF'    ,'BABF'    ,'CABF'    ,'DABF'    ,
      .     'EABF '   ,'FABF'    ,'GABF'    ,'HABF'    ,'IABF'    ,
      .     'UPWIN'   ,'THERM'   ,'H3D'     ,'REPOR'   ,'NEGVO'  ,
@@ -223,9 +223,9 @@ C-----------------------------------------------
      .                 KTH/42/     ,KSTOP/43/    ,KKILL/44/   ,KMADYM/45/,
      .     KSPMD/46/  ,KRAD2R/47/  ,KDAMP/48/    ,KATFIL/49/  ,KBTFIL/50/,
      .     KCTFIL/51/ ,KDTFIL/52/  ,KETFIL/53/   ,KFTFIL/54/  ,KGTFIL/55/,
-     .     KHTFIL/56/ ,KITFIL/57/  ,KRERUN/58/   ,KQEPH/59/   ,KFXINP/60/,
+     .     KHTFIL/56/ ,KITFIL/57/  ,KRERUN/58/   ,KFXINP/60/,
      .     KOSHSUB/61/,             KEIG/63/     ,             KFVBAG/65/,
-     .                 KSTATF/67/  ,KSHVER/68/   ,KDT1HEPH/69/,KABF/70/  ,
+     .                 KSTATF/67/  ,KSHVER/68/   ,KABF/70/  ,
      .     KDTSDE/71/ ,KAABF/72/   ,KBABF/73/    ,KCABF/74/   ,KDABF/75/ ,
      .     KEABF/76/  ,KFABF/77/   ,KGABF/78/    ,KHABF/79/   ,KIABF/80/ ,
      .     KUPWIND/81/,KTHERMAL/82/,KH3D/83/     ,KREPORT/84/ ,
@@ -810,23 +810,6 @@ C than we print out a message.
       ENDIF
       WRITE(IIN,'(2A,I2.2,A)')ROOTNAM(1:ROOTLEN),'D',IRUNN,TITLE
       WRITE(CHRUN,'(I4.4)')IRUNN
-C-----------------------
-C  OPTION /QEPH/V4 pour re-emuler le calcul de l'hourglass en flexion
-C  en version 44
-C  par defaut : calcul plus robuste de l'hourglass en flexion
-C                             (cas des elements tres gauches)
-C--------------------------------------------------------
-      IKEY   = KQEPH
-      IQEPHV5=11
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-         READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A)',
-     .                           ERR=9990)KEY2
-         IF(KEY2(1:2)=='V4') THEN
-          IQEPHV5=0
-         ELSEIF(KEY2(1:3)=='V10') THEN
-          IQEPHV5=10
-         END IF
-      END IF
 C-----------------------
 C  OPTION /SHVER/V51 pour revenir aux anciens vers sans correction
 C  par defaut : Correction 2nd order rigid rotation pour QEPH,QBAT,DKT18,S3N6
@@ -2232,14 +2215,6 @@ C        IF (KEY2=='REMES') NFVMESH=NFVMESH+NBC/6
       ENDIF
       WRITE(IIN,'(2I8)')NFVMESH,NFVMODI
 C-----------------------
-C  OPTION /DT1HEPH use full integrated solid timestep.
-C--------------------------------------------------------
-      IKEY   = KDT1HEPH
-      IDTHEPH=0
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-        IDTHEPH=1
-      END IF
-          IF (IDTHEPH==0.AND.IDT1SOL==1) IDTHEPH=1
 C-----------------------
 C  OPTION /DT1TET10
 C--------------------------------------------------------
