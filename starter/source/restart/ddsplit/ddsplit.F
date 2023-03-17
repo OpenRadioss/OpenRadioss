@@ -1660,9 +1660,10 @@ C--------------------------------------------
          ENDIF
          
          OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR
-         IF(NUMELC_DRAPE > 0) THEN
+         
+         IF(NUMELTG_DRAPE > 0) THEN
             CALL C_DRAPE(DRAPEG%INDX(NUMELC+1),CEP(MIN(OFF+1,LEN_CEP)),P-1,
-     .                  NUMELTG,NUMSH3N_L)
+     .                    NUMELTG,NUMSH3N_L)
          ENDIF
        ENDIF      
 C--------------------------------------------

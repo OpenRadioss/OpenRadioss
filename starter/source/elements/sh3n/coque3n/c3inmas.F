@@ -548,13 +548,13 @@ C
                   ELSEIF(IINT == 2)THEN                                              
                      DO IT=1,NPTT                                                                                        
                         THINNING = DRAPE_PLY%RDRAPE(IT,1)                                                                
-                        THK_IT(IT)   = HALF*THKLY*W_GAUSS(IT,NPTT)*THINNING ! Gauss distribution of NPTT through laye    r
+                        THK_IT(IT)   = HALF*THKLY*W_GAUSS(IT,NPTT)*THINNING ! Gauss distribution of NPTT through layer
                      ENDDO  ! nptt                                                                                       
                   ENDIF ! iint
                 ENDIF  
                   DO IT=1,NPTT                                   
                     EMS_NPTT = PM(89,MATLY)*THK_IT(IT)*AREA(I)   
-                    EM(I) = EM(I) + EMS_NPTT                    
+                    EM(I) = EM(I) + EMS_NPTT                  
                   ENDDO                                       
                 ENDDO ! NLAY
              ENDIF    !IE
@@ -726,6 +726,7 @@ C---         Test stability condition for inertia
         IPPOS  =  IPTHK + NLAY  !  NPT
         NTHK   =  IPPOS + NLAY  !  NPT
         !!
+        
         IPOS = IGEO(99,IPROP)                  
         THICKT  = STACK%GEO(1,ISUBSTACK)
         ZSHIFT  = GEO(199,IPROP)
@@ -737,7 +738,7 @@ C---         Test stability condition for inertia
           ZSHIFT = -ONE                               
         ELSEIF(IPOS == 4) THEN                        
           ZSHIFT = ZERO                               
-        ENDIF          
+        ENDIF 
         IF(IDRAPE == 0) THEN
            DO I=LFT,LLT
              XI(I)=ZERO
@@ -770,9 +771,8 @@ C---         Test stability condition for inertia
                        THICKT  = STACK%GEO(1,ISUBSTACK)                           
                        THKLY   = STACK%GEO(I3,ISUBSTACK)*THICKT                   
                        DO IT=1,NPTT                                               
-                          IPT = IPT_ALL + IT                                      
-                          THINNING = DRAPE_PLY%RDRAPE(IT,1)                        
-                          THK_IT(IT) =  HALF*THKLY*W_GAUSS(IT,NPTT)*THINNING       
+                          IPT = IPT_ALL + IT     
+                          THK_IT(IT) =  HALF*THKLY*W_GAUSS(IT,NPTT)
                           RATIO_THKLY(IPT,I) = THK_IT(IT)/THK(I)                 
                           IF (IPT == 1) THEN                                     
                              LAYPOS(IPT,I) = ZSHIFT + HALF*RATIO_THKLY(IPT,I)     
@@ -788,7 +788,6 @@ C---         Test stability condition for inertia
                      XIL = MS_NPTT*(AREA(I)/NINE_OVER_2+THK_IT(IT)*THK_IT(IT)*ONE_OVER_12 +
      .                                  POS_IT(IT)*POS_IT(IT))
                      XI(I) = XI(I) + XIL
-                     write(3,*) 'position T3', IT, POS_IT(IT),THK_IT(IT)
                   ENDDO
                   IPT_ALL = IPT_ALL + NPTT
              ENDDO ! NLAY
@@ -842,9 +841,8 @@ C             Test stability condition for inertia
                        THICKT  = STACK%GEO(1,ISUBSTACK)                           
                        THKLY   = STACK%GEO(I3,ISUBSTACK)*THICKT                   
                        DO IT=1,NPTT                                               
-                          IPT = IPT_ALL + IT                                      
-                          THINNING = DRAPE_PLY%RDRAPE(IT,1)                        
-                          THK_IT(IT) =  HALF*THKLY*W_GAUSS(IT,NPTT)*THINNING       
+                          IPT = IPT_ALL + IT   
+                          THK_IT(IT) =  HALF*THKLY*W_GAUSS(IT,NPTT)  
                           RATIO_THKLY(IPT,I) = THK_IT(IT)/THK(I)                 
                           IF (IPT == 1) THEN                                     
                              LAYPOS(IPT,I) = ZSHIFT + HALF*RATIO_THKLY(IPT,I)     
@@ -931,9 +929,8 @@ C             Test stability condition for inertia
                        THICKT  = STACK%GEO(1,ISUBSTACK)                           
                        THKLY   = STACK%GEO(I3,ISUBSTACK)*THICKT                   
                        DO IT=1,NPTT                                               
-                          IPT = IPT_ALL + IT                                      
-                          THINNING = DRAPE_PLY%RDRAPE(IT,1)                        
-                          THK_IT(IT) =  HALF*THKLY*W_GAUSS(IT,NPTT)*THINNING       
+                          IPT = IPT_ALL + IT
+                          THK_IT(IT) =  HALF*THKLY*W_GAUSS(IT,NPTT)       
                           RATIO_THKLY(IPT,I) = THK_IT(IT)/THK(I)                 
                           IF (IPT == 1) THEN                                     
                              LAYPOS(IPT,I) = ZSHIFT + HALF*RATIO_THKLY(IPT,I)     
