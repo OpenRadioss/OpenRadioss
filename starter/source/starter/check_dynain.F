@@ -59,7 +59,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, N ,NELC , NELTG , IO_ERR1 , IP , NPRT , 
      .   FLG_CHK , IS_CHECK , JWARN, NELMIN , NELMAX , IPRT ,
-     .   NELTGG , NELCG , IPRTALL , IERR2 ,IS_READ,
+     .   NELTGG , NELCG , IPRTALL , IERR2 ,IS_READ,ZIPF ,
      .   DYNPART(NPART), IPART_DYNAIN(NPART)
 C        
       INTEGER WORK(70000)
@@ -135,7 +135,7 @@ C--     Check dynain file is requested --
          IS_READ = 1
 
         ELSEIF(KEYA(1:10)=='/DYNAIN/DT') THEN
-          READ(71,*,END=20) T0,DT0
+          READ(71,*,END=20) T0,DT0, ZIPF
 
           READ(71,'(A)',END=20) CARTE
           J=1
@@ -152,7 +152,7 @@ C--     Counting and storing parts id --
                    K=K+1
                  ENDDO
                  NPRT = NPRT + 1
-                 READ(CARTE(J:K),'(I10)') IPRT
+                 READ(CARTE(J:K-1),'(I10)') IPRT
                  DYNPART(NPRT) = IPRT
                  J = K
                ENDIF
