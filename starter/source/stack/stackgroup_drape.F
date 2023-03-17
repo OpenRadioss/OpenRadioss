@@ -510,8 +510,8 @@ C #####################################################"
              ELSE
                IF(NPT > 0) THEN
                  DO J=1,NPT
-                   IDPLY = IWORK_T(II)%PLYID(J) 
-                    NPT_LAY = IGEO(4,IDPLY)
+                    IDPLY = IWORK_T(II)%PLYID(J)
+                    NPT_LAY = IGEO_STACK(4,IDPLY)
                     ICSH(II) = ICSH(II) + NPT_LAY*IDPLY*IDPLY
                     IWORK_T(II)%NPT_LAY(J) = NPT_LAY
                  ENDDO

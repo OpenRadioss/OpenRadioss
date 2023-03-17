@@ -79,10 +79,10 @@ C-----------------------------------------------
       INTEGER I, J, N, IADR, IPTHK, IPMAT, IPPOS ,IPPID, IPID,
      .  IPANG,MAT_LY(MVSIZ),IT,ITL,ILAY,NPTT,MAX_NPTT,IPT,JMLY,IINT,
      .  IPID_LY,IPT_ALL,MAT_LAY,IDX,IE,NSLICE,IP,IDRAPE,IPOS
-      PARAMETER (MAX_NPTT = 10)
       my_real
-     .   THK_IT(MAX_NPTT,MVSIZ),POS_IT(MAX_NPTT,MVSIZ),ZSHIFT,THK_NPTT,
+     .   ZSHIFT,THK_NPTT,
      .   THKL,POS_NPTT,POS_0,THICKT,THINNING,THK_LY(MVSIZ),POS_LY(MVSIZ)
+      my_real , DIMENSION(:,:),ALLOCATABLE ::  THK_IT
 C-----------------------------------------------
       TYPE (DRAPE_PLY_), POINTER  :: DRAPE_PLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF 
@@ -151,6 +151,17 @@ C=======================================================================
       IPPOS = 400                               
       IPMAT = 100
       IDRAPE = ELBUF_STR%IDRAPE
+      MAX_NPTT = 0
+      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+        DO ILAY=1,NLAY
+           MAX_NPTT = MAX_NPTT + ELBUF_STR%BUFLY(ILAY)%NPTT
+        ENDDO  
+      ENDIF
+      IF(MAX_NPTT > 0 ) THEN
+        ALLOCATE(THK_IT(MAX_NPTT,MVSIZ))
+      ELSE 
+          ALLOCATE(THK_IT(0,0))
+      ENDIF  
 c
 c---------------------------------------------------------
       IF (IXFEM == 1 .and. IXLAY > 0) THEN  ! traitement des elements fantomes
@@ -546,6 +557,7 @@ c----
         END SELECT
 c-----------
       END IF   ! IXFEM
+       DEALLOCATE(THK_IT)
 c-----------
       RETURN
       END SUBROUTINE LAYINI
