@@ -119,7 +119,7 @@ C     Printing
 C-----------------------------------------------
       WRITE(IOUT,1000)
       IF(IDT1SH /=0)   WRITE(IOUT,4720)
-      IF(IDTHEPH /= 0) WRITE(IOUT,4710)
+      IF(IDT1SOL /= 0) WRITE(IOUT,4710)
       IF(IDT1SOL/=0)   WRITE(IOUT,4730)
       IF(IDT1TET10/=0) WRITE(IOUT,4740)
       IF(NODADT == 0)THEN
