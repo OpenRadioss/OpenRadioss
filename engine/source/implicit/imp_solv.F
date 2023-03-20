@@ -145,7 +145,7 @@ Chd|====================================================================
      7  X      ,D      ,V      ,VR     ,DR     ,THKE   ,DAMP   ,MS     ,
      8  IN     ,PM     ,SKEW   ,GEO    ,EANI   ,BUFMAT ,BUFGEO ,BUFSF  ,
      9  TF     ,FORC   ,VEL    ,FSAV   ,AGRV   ,FR_WAVE,PARTS0 ,
-     A  USER   ,ELBUF  ,RBY    ,RIVET  ,FR_ELEM,IAD_ELEM,
+     A  ELBUF  ,RBY    ,RIVET  ,FR_ELEM,IAD_ELEM,
      B  WA             ,A      ,AR     ,STIFN  ,STIFR  ,PARTSAV,FSKY   ,
      C  FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,FSKYM  ,IGEO   ,IPM    ,
      D  TFEXT  ,NODFT  ,NODLT  ,NINT7  ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
@@ -231,7 +231,7 @@ C-----------------------------------------------
      .   RIVET(*),WA(*), A(3,*) ,AR(3,*),PARTSAV(*) ,TFEXT,
      .   STIFN(*) ,STIFR(*),FSKY(*),FSKYI(*),DR(3,*),
      .   EANI(*),AGRV(*), THKE(*),FR_WAVE(*),PARTS0(*),BUFGEO(*),
-     .   USER(*), XFRAME(NXFRAME,*),W16(*),FBVEL(*),FSKYM(*),BUFSF(*),
+     .   XFRAME(NXFRAME,*),W16(*),FBVEL(*),FSKYM(*),BUFSF(*),
      .   FOPT(6,*),FSAVD(NTHVKI,*), FAC_K(*), DIAG_SMS(*),
      .   CFIELD(*),FORNEQS(*),MAXDGAP(NINTER),FTHREAC(6,*)
       INTEGER  NUM_IMP(*),NS_IMP(*),NE_IMP(*),IND_IMP(*),NINT7
@@ -3104,7 +3104,7 @@ Chd|====================================================================
      7  X      ,D      ,V      ,VR     ,DR     ,THKE   ,DAMP   ,MS     ,
      8  IN     ,PM     ,SKEW   ,GEO    ,EANI   ,BUFMAT ,BUFGEO ,BUFSF  ,
      9  TF     ,FORC   ,VEL    ,FSAV   ,AGRV   ,FR_WAVE,PARTS0 ,
-     A  USER   ,ELBUF  ,RBY    ,RIVET  ,FR_ELEM,IAD_ELEM,
+     A  ELBUF  ,RBY    ,RIVET  ,FR_ELEM,IAD_ELEM,
      B  WA            ,A      ,AR     ,STIFN  ,STIFR  ,PARTSAV,FSKY   ,
      C  FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,FSKYM  ,IGEO   ,IPM    ,
      D  TFEXT  ,NODFT  ,NODLT  ,NINT7  ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
@@ -3174,7 +3174,7 @@ C     REAL
      .   RIVET(*),WA(*), A(3,*) ,AR(3,*),PARTSAV(*) ,TFEXT,
      .   STIFN(*) ,STIFR(*),FSKY(*),FSKYI(*),DR(3,*),
      .   EANI(*),AGRV(*), THKE(*),FR_WAVE(*),PARTS0(*),BUFGEO(*),
-     .   USER(*), XFRAME(NXFRAME,*),W16(*),FBVEL(*),FSKYM(*),BUFSF(*),
+     .   XFRAME(NXFRAME,*),W16(*),FBVEL(*),FSKYM(*),BUFSF(*),
      .   FOPT(6,*),FSAVD(NTHVKI,*),CFIELD(*),FRBE3(*),
      .   FTHREAC(6,*)
       INTEGER  NDDL0,NNZK0,NINT7
