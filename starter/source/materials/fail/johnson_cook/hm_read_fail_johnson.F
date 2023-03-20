@@ -36,7 +36,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_FAIL_JOHNSON(
      .           UPARAM    ,MAXUPARAM ,NUPARAM ,NUVAR  ,IFUNC  ,
      .           MAXFUNC   ,NFUNC     ,UNITAB  ,IMID_F ,FAIL_ID,
-     .           LSUBMODEL ,IXFEM     )
+     .           LSUBMODEL ,IXFEM     ,ILAW    ,TITR   )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -76,17 +76,20 @@ C NFUNC    |  1      | I | W | SIZE OF IFUNC =< MAXFUNC
 C FAIL_ID  |  1      | I | W | ID OF FAILURE CRITERIA
 C----------+---------+---+---+--------------------------------------------
 #include      "units_c.inc"
+#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)             ::MAXUPARAM,MAXFUNC,FAIL_ID,IMID_F
+      INTEGER,INTENT(IN)           ::MAXUPARAM,MAXFUNC,FAIL_ID,IMID_F,
+     .                               ILAW
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          ::IFUNC(MAXFUNC),NFUNC,IXFEM
-      my_real,INTENT(INOUT)          ::UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)            ::NUPARAM,NUVAR
+      INTEGER,INTENT(INOUT)        ::IFUNC(MAXFUNC),NFUNC,IXFEM
+      my_real,INTENT(INOUT)        ::UPARAM(MAXUPARAM)
+      INTEGER,INTENT(INOUT)        ::NUPARAM,NUVAR
+      CHARACTER, INTENT(IN)        ::TITR*nchartitle
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -114,6 +117,15 @@ C--------------------------------------------------
       CALL HM_GET_INTV           ('Ifail_so'     ,ISOLID  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV         ('Dadv         ',DADV    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV           ('Ixfem'        ,IXFEM   ,IS_AVAILABLE,LSUBMODEL)
+!
+      ! CHECK COMPATIBILITY WITH MATERIAL LAW
+      IF (ILAW == 25) THEN 
+        CALL ANCMSG(MSGID=3001,
+     .              MSGTYPE=MSGWARNING,
+     .              ANMODE=ANINFO_BLIND,
+     .              I1=IMID_F,
+     .              C1=TITR)         
+      ENDIF
 !
       P_THICKFAIL = ZERO
 !!      EPSP0 =  EPSP0 / FAC_T
