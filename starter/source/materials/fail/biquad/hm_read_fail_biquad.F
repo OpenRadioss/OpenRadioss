@@ -37,7 +37,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_FAIL_BIQUAD(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
      .           MAXFUNC  ,NFUNC    ,UNITAB   ,MAT_ID ,FAIL_ID  ,
-     .           LSUBMODEL)
+     .           LSUBMODEL,TITR     )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -68,6 +68,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
+#include      "scr17_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -80,6 +81,7 @@ C OUTPUT ARGUMENTS
       INTEGER,INTENT(INOUT) :: NUPARAM,NUVAR,NFUNC
       INTEGER,INTENT(INOUT) :: IFUNC(MAXFUNC)
       my_real,INTENT(INOUT) :: UPARAM(MAXUPARAM)
+      CHARACTER, INTENT(IN) :: TITR*nchartitle
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -87,6 +89,7 @@ C-----------------------------------------------
       my_real   :: C1,C2,C3,C4,C5,E1,E2,E3,E4,PTHK,INST,REF_LEN,REF_SIZ_UNIT
       my_real   :: X_1(2)
       my_real   :: X_2(3)
+      my_real   :: XMIN,YMIN
       LOGICAL   :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
       IS_ENCRYPTED   = .FALSE.
@@ -157,6 +160,29 @@ c
 c---------------------------------------------------
 c
       CALL BIQUAD_COEFFICIENTS(C1,C2,C3,C4,C5,PTHK,MFLAG,X_1,X_2,E1,E2,E3,E4)
+c
+      ! Check if minimum of first parabola is negative 
+      XMIN = -X_1(1)/(TWO*X_1(2))
+      YMIN = X_1(2)*(XMIN**2) + X_1(1)*XMIN + C2
+      IF (YMIN < ZERO) THEN 
+        CALL ANCMSG(MSGID=3004,
+     .              MSGTYPE=MSGWARNING,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=MAT_ID,
+     .              C1=TITR)          
+      ENDIF
+      ! Check if minimum of second parabola is negative 
+      IF (SFLAG == 1) THEN 
+        XMIN = -X_2(2)/(TWO*X_2(3))
+        YMIN = X_2(3)*(XMIN**2) + X_2(2)*XMIN + X_2(1)
+        IF (YMIN < ZERO) THEN 
+          CALL ANCMSG(MSGID=3005,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=MAT_ID,
+     .                C1=TITR)          
+        ENDIF
+      ENDIF
 c
 c---------------------------------------------------
       UPARAM(1)  = C2
