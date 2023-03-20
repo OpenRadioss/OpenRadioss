@@ -376,7 +376,9 @@ C
                                 ! Absolute spring length
                                 WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
      .                                        (X(2,NODE2)-X(2,NODE1))**2 + 
-     .                                        (X(3,NODE2)-X(3,NODE1))**2)   
+     .                                        (X(3,NODE2)-X(3,NODE1))**2)  
+                                ! Failure criterion
+                                WWA(66)= GBUF%RUPTCRIT(I)
                                 DO L=IADV,IADV+NVAR-1
                                     K=ITHBUF(L)
                                     IJK=IJK+1

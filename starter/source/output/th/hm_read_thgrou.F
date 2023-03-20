@@ -147,7 +147,7 @@ C
       CHARACTER*10 VARRIV(NVARRIV),VARRIVG(NVARRIVG)
 C-----------------------------------------------
       PARAMETER (NVARN = 637,NVARS =239554 ,NVARC = 37856,NVART = 6)
-      PARAMETER (NVARP = 337,NVARR = 65,NVARUR = 12)
+      PARAMETER (NVARP = 337,NVARR = 66,NVARUR = 12)
       PARAMETER (NVARNS = 4,NVARSPH = 41)
       PARAMETER (NVARIN = 28,NVARRW = 6,NVARRB =15,NVARFX =4)
       PARAMETER (NVARFXM = 3)
@@ -978,7 +978,8 @@ C   springs
      . 'D2G_Z   ','D1L_X   ','D1L_Y   ','D1L_Z   ','D2L_X   ',
      . 'D2L_Y   ','D2L_Z   ','R1G_X   ','R1G_Y   ','R1G_Z   ',
      . 'R2G_X   ','R2G_Y   ','R2G_Z   ','R1L_X   ','R1L_Y   ',
-     . 'G1L_Z   ','G2L_X   ','G2L_Y   ','G2L_Z   ','LENGTH  '/
+     . 'G1L_Z   ','G2L_X   ','G2L_Y   ','G2L_Z   ','LENGTH  ',
+     . 'FAIL    '/
 
       DATA VARNS/
      . 'OFF     ','FX      ','LX      ','IE      '/

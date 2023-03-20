@@ -370,15 +370,10 @@ C-------------------------------
         ENDIF
         IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF( IFAIL(I) == 0 ) THEN
-           IF(DLIM > ONE) THEN
-!        Rupture uniaxiale
-            OFF(I)=ZERO
-            NINDX = NINDX + 1
-            INDX(NINDX) = I
-            IDEL7NOK = 1
-           ENDIF
+!        Uniaxial failure          
+           CRIT(I) = MAX(CRIT(I),DLIM)
           ELSE
-!         Rupture multiaxiale
+!         Multiaxial failure
             CRIT(I) = CRIT(I) + DLIM**2
           ENDIF
         ENDIF
@@ -435,15 +430,10 @@ C-------------------------------
         ENDIF
         IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL(I) == 0) THEN
-           IF (DLIM > ONE) THEN
-!         Rupture uniaxiale
-            OFF(I)=ZERO
-            NINDX = NINDX + 1
-            INDX(NINDX) = I
-            IDEL7NOK = 1
-           ENDIF
+!        Uniaxial failure          
+           CRIT(I) = MAX(CRIT(I),DLIM)
           ELSE
-!         Rupture multiaxiale
+!         Multiaxial failure
             CRIT(I) = CRIT(I) + DLIM**2
           ENDIF
         ENDIF
@@ -498,15 +488,10 @@ C-------------------------------
         ENDIF
         IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL(I) == 0) THEN
-           IF (DLIM > ONE) THEN
-!         Rupture uniaxiale
-            OFF(I)=ZERO
-            NINDX = NINDX + 1
-            INDX(NINDX) = I
-            IDEL7NOK = 1
-           ENDIF
+!        Uniaxial failure          
+           CRIT(I) = MAX(CRIT(I),DLIM)
           ELSE
-!         Rupture multiaxiale
+!         Multiaxial failure
             CRIT(I) = CRIT(I) + DLIM**2
           ENDIF
         ENDIF
@@ -606,15 +591,10 @@ C-------------------------------
         ENDIF
         IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL(I) == 0) THEN
-           IF (DLIM > ONE) THEN
-!         Rupture uniaxiale
-            OFF(I)=ZERO
-            NINDX = NINDX + 1
-            INDX(NINDX) = I
-            IDEL7NOK = 1
-           ENDIF
+!        Uniaxial failure          
+           CRIT(I) = MAX(CRIT(I),DLIM)
           ELSE
-!         Rupture multiaxiale
+!         Multiaxial failure
             CRIT(I) = CRIT(I) + DLIM**2
           ENDIF
         ENDIF
@@ -670,15 +650,10 @@ C-------------------------------------
         ENDIF
         IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL(I) == 0) THEN
-           IF (DLIM > ONE) THEN
-!         Rupture uniaxiale
-            OFF(I)=ZERO
-            NINDX = NINDX + 1
-            INDX(NINDX) = I
-            IDEL7NOK = 1
-           ENDIF
+!        Uniaxial failure          
+           CRIT(I) = MAX(CRIT(I),DLIM)
           ELSE
-!         Rupture multiaxiale
+!         Multiaxial failure
             CRIT(I) = CRIT(I)  +  DLIM**2
           ENDIF
         ENDIF
@@ -734,15 +709,10 @@ C-----------------------------------
         ENDIF
         IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL(I) == 0) THEN
-           IF (DLIM > ONE) THEN
-!         Rupture uniaxiale
-            OFF(I)=ZERO
-            NINDX = NINDX + 1
-            INDX(NINDX) = I
-            IDEL7NOK = 1
-           ENDIF
+!        Uniaxial failure          
+           CRIT(I) = MAX(CRIT(I),DLIM)
           ELSE
-!         Rupture multiaxiale
+!         Multiaxial failure
             CRIT(I) = CRIT(I) + DLIM**2
           ENDIF
         ENDIF
@@ -758,10 +728,20 @@ C---- smoothing factor alpha = 2PI*fc*dt/(2PI*fc*dt+1) ---
         ASRATE = UPARAM(IADBUF + NUPAR + 2)
         ASRATE = (2*PI*ASRATE*DT1)/(ONE+2*PI*ASRATE*DT1)
         IF (ISRATE /= 0) THEN
-         CRIT(I) = ASRATE*CRIT(I) + (ONE - ASRATE)*CRITNEW(I)
-         CRITNEW(I) = CRIT(I)
+          IF (CRITNEW(I) < ONE) THEN 
+            CRIT(I) = ASRATE*CRIT(I) + (ONE - ASRATE)*CRITNEW(I)
+            CRITNEW(I) = MIN(CRIT(I),ONE)
+          ELSE
+            CRITNEW(I) = ONE
+          ENDIF  
+        ELSE
+          IF (CRITNEW(I) < ONE) THEN
+            CRITNEW(I) = MIN(CRIT(I),ONE) 
+          ELSE
+            CRITNEW(I) = ONE
+          ENDIF              
         ENDIF
-        IF (OFF(I) == ONE .AND. IFAIL(I) == 1 .AND. CRIT(I) > ONE) THEN
+        IF (OFF(I) == ONE .AND. CRIT(I) >= ONE) THEN
           OFF(I)=ZERO
           NINDX = NINDX + 1
           INDX(NINDX) = I
