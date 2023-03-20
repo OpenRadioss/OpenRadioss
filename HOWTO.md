@@ -22,6 +22,7 @@ Install as sudo or root
             yum install make
             yum install cmake
             yum install perl
+            yum install python
             yum install git-lfs
             
   To enable the devtoolset-11, you can run `scl enable devtoolset-11 bash`
@@ -34,6 +35,7 @@ Install as sudo or root
            dnf install gcc-c++
            dnf install make
            dnf install cmake
+           dnf install python
            dnf install perl
            dnf install git-lfs
 
@@ -41,11 +43,12 @@ Install as sudo or root
 * Ubuntu
 
            apt-get update
-		   apt-get upgrade
+           apt-get upgrade
            apt-get install build-essential
            apt-get install gfortran
            apt-get install cmake
            apt-get install perl
+           apt-get install python
            apt-get install git-lfs
 
 
@@ -96,7 +99,7 @@ This chapter explains how to setup
 
    Minimum required packages are 
    
-* In the Base Toolkit: Intel DPC++/C++, Intel Math Kernel Library
+* In the Base Toolkit: Intel DPC++/C++, Intel Math Kernel Library, Intel distribution for Python.
 * In the HPC Toolkit: Intel Intel® oneAPI DPC++/C++ Compiler, Intel® Fortran Compiler, Intel® MPI Library
 
 Choose the default directory to install Intel oneAPI

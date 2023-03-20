@@ -24,7 +24,6 @@ else()
 set (cdir "_c" )
 endif()
 
-include (CMake_Compilers${cdir}/cmake_${arch}_compilers.txt)
 
 # source files & include directories
 # -------------------------------------
@@ -194,9 +193,9 @@ add_custom_command(
          OUTPUT 
             ${Build_includes_directory}/starter_message_description.inc
          COMMAND 
-            perl ../../Compiling_tools/script/merge_files.pl ${source_directory}/source/output/message/starter_message_description.txt ${source_directory}/../hm_cfg_files/messages/CONFIG/msg_hw_radioss_reader.txt >  ${Build_includes_directory}/fullstarter_message_description.txt
+            python ${source_directory}/../Compiling_tools/script/merge_files.py -file1=${source_directory}/source/output/message/starter_message_description.txt -file2=${source_directory}/../hm_cfg_files/messages/CONFIG/msg_hw_radioss_reader.txt -outfile=${Build_includes_directory}/fullstarter_message_description.txt
          COMMAND
-           perl ../../Compiling_tools/script/build_message.pl ${Build_includes_directory}/fullstarter_message_description.txt >  ${Build_includes_directory}/starter_message_description.inc
+            python ${source_directory}/../Compiling_tools/script/build_message.py -inputfile=${Build_includes_directory}/fullstarter_message_description.txt -outfile=${Build_includes_directory}/starter_message_description.inc
          DEPENDS 
               ${source_directory}/source/output/message/starter_message_description.txt ${source_directory}/../hm_cfg_files/messages/CONFIG/msg_hw_radioss_reader.txt
          )
@@ -209,9 +208,7 @@ add_custom_command(
             ${Build_includes_directory}/__foo.inc 
             ${Build_includes_directory}/build_info.inc
          COMMAND
-            bash ../../Compiling_tools/script/or_compile_info_cm.sh  linux64 0 s 0 linux64  > ${Build_includes_directory}/build_info.inc
-         COMMAND
-           ls  ${Build_includes_directory}
+            python ${source_directory}/../Compiling_tools/script/or_build_info.py -arch=${arch} -outfile=${Build_includes_directory}/build_info.inc
          DEPENDS 
          )
 else()
