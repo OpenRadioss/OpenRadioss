@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
 Copyright>    
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,6 +36,4 @@ C...mis a 0 par defaut en spmd
      .        NSTH, NSSTAT, NSOUTP, NSABF, NSTOPSENS,
      .        LSTOPSENS(MX_STOP),ICTLSTOP,NERR_POSIT,NSH3D,
      .        NSTOPSENS_OLD,LSTOPSENS_OLD(MX_STOP),NSDYNANIN
-      COMMON /SCR07R/ BIGFOR, FREE1, FREE2, FREE3, FREE4
-      my_real BIGFOR, FREE1, FREE2, FREE3, FREE4
 

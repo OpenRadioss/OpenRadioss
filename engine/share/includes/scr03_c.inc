@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
 Copyright>    
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,7 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../SCR03/
-C...recopie par defaut en spmd
       INTEGER LSCR03
 
       PARAMETER (LSCR03 = 22)
@@ -36,7 +35,6 @@ C...recopie par defaut en spmd
      .                PINVERS, PIRUN, PCODRUN,IISROT,NXREF, NALELINK,
      .                ST_INVERS,PDEL
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-Clm110 +++
 C     CODE OF THIS RUN (1:ENGINE)
 C     ICODRUN
 C     MINOR VERSION CODE OF THIS RUN
@@ -55,12 +53,9 @@ C     SOURCE VERSION CODE OF PREVIOUS RUN (READ FROM RESTART)
 C     PSRCVER
 C     INPUT VERSION OF PREVIOUS RUN (READ FROM RESTART)
 C     PINVERS
-Clm110 ---
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-Clm110 +++
       INTEGER IRADIOS, IRESFIL
 C     RADIOSS FILE R/W CODE
       PARAMETER (IRADIOS=2143942393)
 C     RESTART FILE CODE
       PARAMETER (IRESFIL=101)
-Clm110 ---

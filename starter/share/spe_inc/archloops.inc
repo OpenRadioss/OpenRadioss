@@ -20,99 +20,99 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cow50c3 ARCHINFO
-Cow50c3 Champ 1 = taille de groupe (NVISIZ)
-Cow50c3 Champ 2 = Machine Scalaire ou vectorielle (IVECTOR)
+C ARCHINFO
+C Champ 1 = taille de groupe (NVISIZ)
+C Champ 2 = Machine Scalaire ou vectorielle (IVECTOR)
 
       DO I=1,128
          ARCHINFO(I,1)=0
          ARCHINFO(I,2)=0
       ENDDO
-Cow Machine generique - passe partout
+C   Machine generique - passe partout
       ARCHINFO(1,1)=32
       ARCHINFO(1,2)=0
       ARCHN(1)='Generic'
-Cow Aciennes machines CRAY (ymp, ymp_spmd, CPP_c90, t90, t90_i3e
+C   Aciennes machines CRAY (ymp, ymp_spmd, CPP_c90, t90, t90_i3e
       ARCHINFO(2,1)=512
       ARCHINFO(2,2)=1
       ARCHN(2)='CRAY SV1'
-Cow SGI65
+C   SGI65
       ARCHINFO(3,1)=128
       ARCHINFO(3,2)=0
       ARCHN(3)='SGI 65'
-Cow HP11 - PA
+C   HP11 - PA
       ARCHINFO(4,1)=64
       ARCHINFO(4,2)=0
       ARCHN(4)='PA-RISC HP11'
-Cow Power4
+C   Power4
       ARCHINFO(5,1)=32
       ARCHINFO(5,2)=0
       ARCHN(5)='aix64'
-Cow deca
+C   deca
       ARCHINFO(6,1)=32
       ARCHINFO(6,2)=0
       ARCHN(6)='DEC ALPHA'
-Cow VPP5000
+C   VPP5000
       ARCHINFO(7,1)=1024
       ARCHINFO(7,2)=1
       ARCHN(7)='FUJITSU VPP5000'
-Cow SX6
+C   SX6
       ARCHINFO(8,1)=4095
       ARCHINFO(8,2)=1
       ARCHN(8)='NEC SX6'
-Cow Pentium4
+C   Pentium4
       ARCHINFO(9,1)=32
       ARCHINFO(9,2)=0
       ARCHN(9)='linux32 pgi'
-Cow LINUX IA64
+C   LINUX IA64
       ARCHINFO(10,1)=256
       ARCHINFO(10,2)=0
       ARCHN(10)='linuxia64'
-Cow HP IA64
+C   HP IA64
       ARCHINFO(11,1)=256
       ARCHINFO(11,2)=0
       ARCHN(11)='IA64 HPUX11'
-Cow Opteron
+C   Opteron
       ARCHINFO(12,1)=128
       ARCHINFO(12,2)=0
       ARCHN(12)='pgi_linux64'
-Cow Primepower
+C   Primepower
       ARCHINFO(13,1)=64
       ARCHINFO(13,2)=0
       ARCHN(13)='FUJITSU PRIMEPOWER'
-Cow CX1
+C   CX1
       ARCHINFO(14,1)=511
       ARCHINFO(14,2)=1
       ARCHN(14)='CRAY X1'
-Cow SUN
+C   SUN
       ARCHINFO(15,1)=32
       ARCHINFO(15,2)=0
       ARCHN(15)='SUN SPARC'
-Cow WNT
+C   WNT
       ARCHINFO(16,1)=32
       ARCHINFO(16,2)=0
       ARCHN(16)='WNT'
-Cow alinux
+C   alinux
       ARCHINFO(17,1)=32
       ARCHINFO(17,2)=0
       ARCHN(17)='ALPHA LINUX'
-Cow p4linux964_spmd
+C   p4linux964_spmd
       ARCHINFO(18,1)=128
       ARCHINFO(18,2)=0
       ARCHN(18)='linux64'
-Cow wmr
+C   wmr
       ARCHINFO(19,1)=32
       ARCHINFO(19,2)=0
       ARCHN(19)='MY RADIOSS WINDOWS'
-Cow lmr
+C   lmr
       ARCHINFO(20,1)=32
       ARCHINFO(20,2)=0
       ARCHN(20)='MY RADIOSS LINUX'
-Cel win64_spmd
+C   win64_spmd
       ARCHINFO(21,1)=128
       ARCHINFO(21,2)=0
       ARCHN(21)='win64'
-Cel p4win64_spmd
+C   p4win64_spmd
       ARCHINFO(22,1)=128
       ARCHINFO(22,2)=0
       ARCHN(22)='win64'

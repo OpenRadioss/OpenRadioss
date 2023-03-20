@@ -46,7 +46,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-Cel50c50      INTEGER FR_WAVE(*), IAD_ELEM(2,*), FR_ELEM(*), SIZE, LENR
       INTEGER IAD_ELEM(2,*), FR_ELEM(*), SIZE, LENR
       my_real
      .        FR_WAVE(*)

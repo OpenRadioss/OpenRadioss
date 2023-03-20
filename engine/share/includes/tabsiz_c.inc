@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,7 +55,6 @@ C
      .  SIADLL, SIADRBM, SIADI18, SILINK, SFR_RL, SLLINK,
      .  SIADRL, SLINALE, SNEFLSW, SNNFLSW, SICUT,SLGRAV,SFASOLFR,
      .  SDD_R2R, SFR_LAGF, SLLAGF,SIGEO,SIPM,SXCELL,
-Cow53a6+1 Inutile dans l engine mais par coherebce avec le starter
      .  SFR_IAD,SDD_FRONT, SICONTACT,
      .  SISKWP, SNSKWP, SISENSP, SNSENSP, SIACCP, SNACCP,
      .  SILEVSET,
@@ -102,7 +101,6 @@ Cow53a6+1 Inutile dans l engine mais par coherebce avec le starter
      .  SIADLL, SIADRBM, SIADI18, SILINK, SFR_RL, SLLINK,
      .  SIADRL, SLINALE, SNEFLSW, SNNFLSW, SICUT,SLGRAV,SFASOLFR,
      .  SDD_R2R, SFR_LAGF, SLLAGF,SIGEO,SIPM,SXCELL,
-Cow53a6+1 Inutile dans l engine mais par coherebce avec le starter
      .  SFR_IAD,SDD_FRONT, SICONTACT,
      .  SISKWP, SNSKWP, SISENSP, SNSENSP, SIACCP, SNACCP,
      .  SILEVSET,

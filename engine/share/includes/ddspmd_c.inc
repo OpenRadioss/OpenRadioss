@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
 Copyright>    
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,14 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../DDSPMDV5/
-Cow51c4
-Cow51c4       necessite avant l include scr19_c.inc
 
       COMMON /DDSPMDV5/ TPSREF,TPSENG,
      .  SOL1TNL(0:MAXLAW,3),SOL8TNL(0:MAXLAW,3),
      .  SHTNL(0:MAXLAW,0:3,3),
      .  SOLTELT(20),SHTELT(30),TRITNL(0:MAXLAW,0:3,3),TRITELT(10),
-Cow51e11+2
      .  TET4TNL(0:MAXLAW,3),TET10TNL(0:MAXLAW,3),TET4TELT(10),
      .  TET10TELT(10),
      .  RUPTURE_SHELL(MAXFAIL,6),
@@ -40,7 +37,6 @@ Cow51e11+2
      .   TPSREF,TPSENG,SOL1TNL,SOL8TNL,
      .   SHTNL,
      .   TRITNL,SOLTELT,SHTELT,TRITELT,
-Cow51e11+2
      .   TET4TNL,TET10TNL,TET4TELT,
      .   TET10TELT,
      .   RUPTURE_SHELL,

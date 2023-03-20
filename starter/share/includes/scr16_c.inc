@@ -21,14 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../SCR16/
-C...recopie par defaut en spmd
       COMMON /SCR16R/ DTOUTP0,TOUTP0
       my_real
      .    DTOUTP0,TOUTP0
 C
       INTEGER MX_OUTP,MX_OUTP2
       PARAMETER (MX_OUTP = 140,MX_OUTP2 = 50000)
-C...recopie par defaut en spmd
       COMMON /SCR16/NV_OUTP,OUTP_V(MX_OUTP),NN_OUTP,OUTP_N(MX_OUTP),
      .        NSS_OUTP,OUTP_SS(MX_OUTP),NCS_OUTP,OUTP_CS(MX_OUTP),
      .        NTS_OUTP,OUTP_TS(MX_OUTP),NPS_OUTP,OUTP_PS(MX_OUTP),

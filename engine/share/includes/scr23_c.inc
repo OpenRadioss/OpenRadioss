@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
 Copyright>    
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,7 +24,6 @@ C.../SCR23/
       COMMON /SCR23/ NIXX,MAXNX,NANIM2D,NANIM3D
       INTEGER NIXX,MAXNX,NANIM2D,NANIM3D
 C-----------------------------------------------------------------
-Clm048 this include file could be distributed the following way :
 C      (to be sent from starter to engine).
 C      /PARAM/ .. NIXX
 C      /COM04/ .. MAXNX

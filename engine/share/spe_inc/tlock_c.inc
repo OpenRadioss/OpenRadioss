@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cow41r2 #if CPP_mach == CPP_deca_mp || (CPP_mach == CPP_sgi6 && _MIPS_SZLONG == 64)||(CPP_mach == CPP_hp11 && CPP_rel == 640) || (CPP_mach == CPP_hp11 && CPP_rel == 600) || (CPP_mach == CPP_sx4_i3e && defined(_OPENMP)) || CPP_mach == CPP_pwr4  
 #if CPP_mach == CPP_deca_mp || (CPP_mach == CPP_sgi6 && _MIPS_SZLONG == 64)||(CPP_mach == CPP_hp11 && CPP_rel == 640)
 #define tlock INTEGER*8
 #elif (CPP_mach == CPP_hp11 && CPP_rel == 600) || (CPP_mach == CPP_sx4_i3e && defined(_OPENMP)) || (CPP_mach == CPP_pwr4) || (CPP_mach == CPP_sun25 && CPP_rel == 580) || (CPP_mach == CPP_ppw) || CPP_mach == CPP_cx1 || CPP_mach == CPP_il

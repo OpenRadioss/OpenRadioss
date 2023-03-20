@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
 Copyright>    
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Clm41x33 +++
 C
 C.../UPLAS/
 #include      "task_common.inc"
@@ -40,9 +39,7 @@ c$dir thread_private(/UTAG/)
 C     
       INTEGER U_TAGPLAS
 C
-Clm41x33 ---
 C
-Cmw51d8+++
 C.../UVAR/
       task_common /UVAR/ UUVAR(MVSIZ,5000)
 c$dir thread_private(/UVAR/)
@@ -51,4 +48,3 @@ c$dir thread_private(/UVAR/)
       my_real
      .   UUVAR
 C     
-Cmw51d8---

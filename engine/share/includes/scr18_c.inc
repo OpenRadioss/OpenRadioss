@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
 Copyright>    
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,7 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../SCR18/
-C...recopie par defaut en spmd
       COMMON /SCR18R/ DTFAC1(102),DTMIN1(102),DT_THERM,MIN_ASPECT,MIN_DEFV,PERCENT_ADDMASS,
      .    DT_STOP_PERCENT_ADDMASS,MASS0_START,PERCENT_ADDMASS_OLD
       my_real

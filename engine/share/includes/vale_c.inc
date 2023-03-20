@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
 Copyright>    
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -20,8 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cel46b5      COMMON /VALE/IFSUB,NELTSA,ITYPTSA
-Cel46b5 +2   INTEGER IFSUB,NELTSA,ITYPTSA
       COMMON /VALE/IFSUB,IFSUBM
       INTEGER IFSUB,IFSUBM
       COMMON /VALER/DT1SAVE
