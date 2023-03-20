@@ -384,6 +384,7 @@ c--------------------------------------------
 c----
         DO I=1,NUMMAT-1
           IMID  = IPM(1,I)
+          ILAW  = IPM(2,I)
           IF (IMID == MAT_ID) THEN
             IXFEM = 0
             CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)
@@ -394,8 +395,8 @@ c--------------------------------------------
             CASE(1)
               CALL HM_READ_FAIL_JOHNSON(
      .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB,MAT_ID    ,FAIL_ID  ,
-     .             LSUBMODEL,IXFEM    )
+     .             MAXFUNC  ,NFUNC    ,UNITAB,MAT_ID  ,FAIL_ID   ,
+     .             LSUBMODEL,IXFEM    ,ILAW           ,TITR      )
 c---
             CASE(2)
               CALL HM_READ_FAIL_TBUTCHER(
