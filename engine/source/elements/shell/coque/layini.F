@@ -192,8 +192,7 @@ c----
           IPPOS  =  IPTHK + ELBUF_STR%NLAY ! layer position address 
 c
           NPTT    = ELBUF_STR%BUFLY(IXLAY)%NPTT
-          IPID    = STACK%IGEO(IPPID,ISUBSTACK)
-          IINT    = IGEO(47,IPID)
+          IINT    = IGEO(47,PID(1))
 C---
           IPOS = IGEO(99,PID(1))
           THICKT   = STACK%GEO(1,ISUBSTACK)
@@ -361,8 +360,7 @@ c
                 IPT_ALL = 0
                 DO ILAY=1,NLAY
                   NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
-                  IPID = STACK%IGEO(IPPID,ISUBSTACK)
-                  IINT = IGEO(47,IPID)
+                  IINT = IGEO(47,PID(1))
                   IF(IINT == 1) THEN
                         DO I=JFT,JLT                                                                  
                           MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material                         
@@ -416,8 +414,7 @@ c
                 DO ILAY=1,NLAY
                   NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
 cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (igtyp = 19)
-                  IPID = STACK%IGEO(IPPID,ISUBSTACK)
-                  IINT = IGEO(47,IPID)
+                  IINT = IGEO(47,PID(1))
                   IF(IINT == 1) THEN
                         DO I=JFT,JLT                                                                  
                           MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material                         

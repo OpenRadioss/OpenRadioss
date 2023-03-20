@@ -3631,7 +3631,8 @@ C-------------------------
                 IP = DRAPE_WRK(IDSHEL)%INDX_PLY(JJ)                                                                 
                 DRAPE(I)%INDX_PLY(IP) = JJ                                                                      
                 NSLICE = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%NSLICE   
-                DRAPE(I)%DRAPE_PLY(JJ)%NSLICE = NSLICE 
+                DRAPE(I)%DRAPE_PLY(JJ)%NSLICE = NSLICE   
+                DRAPE(I)%DRAPE_PLY(JJ)%IPID = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IPID 
                 ALLOCATE(DRAPE(I)%DRAPE_PLY(JJ)%RDRAPE(NSLICE,2))                                        
                 ALLOCATE(DRAPE(I)%DRAPE_PLY(JJ)%IDRAPE(NSLICE,2))   
                 DO ISL = 1,NSLICE                                                                                     
