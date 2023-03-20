@@ -100,13 +100,13 @@ C-----------------------------------------------
       INTEGER NANGLE,I,J,K,INFO,REG_FUNC,MFLAG,SFLAG,RATE_FUNC,IPIV2(2),IPIV3(3)
       my_real 
      .    PTHK,REF_SIZ,REF_SIZ_UNIT,EPSD0,CJC,RATE_SCALE,REF_RATE_UNIT,
-     .    R1,R2,R4,R5,C5,C5_MIN
+     .    R1,R2,R4,R5,C5,C5_MIN,THETA_MYREAL
       my_real, DIMENSION(:), ALLOCATABLE :: C1,C2,C3,C4,INST
       DOUBLE PRECISION A_1(2,2),B_1(2),A_2(3,3),B_2(3),
      .                 TRIAX_1_LIN,TRIAX_2_LIN,TRIAX_3_LIN,
      .                 TRIAX_4_LIN,TRIAX_5_LIN,TRIAX_1_QUAD,
      .                 TRIAX_2_QUAD,TRIAX_3_QUAD,TRIAX_4_QUAD,
-     .                 TRIAX_5_QUAD,COS2(10,10)
+     .                 TRIAX_5_QUAD,COS2(10,10),XMIN,YMIN
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: THETA,THETA_RAD,Q_X11,Q_X12,Q_X13,
      .                                               Q_X21,Q_X22,Q_X23,Q_INST
       DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: X_1,X_2,AMAT,BVEC
@@ -381,7 +381,7 @@ c
       IF (.NOT.ALLOCATED(THETA))     ALLOCATE(THETA(NANGLE))
       IF (.NOT.ALLOCATED(THETA_RAD)) ALLOCATE(THETA_RAD(NANGLE))
 c
-      ! Computation of angles
+      ! Computation of angles and check curves
       DO J = 1, NANGLE
         IF (NANGLE > 1) THEN 
           THETA(J)     = (J-1)*(90.0D0/(NANGLE-1))
@@ -390,6 +390,37 @@ c
           THETA(J)     = ZERO
           THETA_RAD(J) = ZERO
         ENDIF
+c
+        ! Check if minimum of first parabola is negative 
+        XMIN = -X_1(J,2)/(TWO*X_1(J,3))
+        YMIN = X_1(J,3)*(XMIN**2) + X_1(J,2)*XMIN + X_1(J,1)
+        IF (YMIN < ZERO) THEN 
+          THETA_MYREAL = THETA(J)
+          CALL ANCMSG(MSGID=3002,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=MAT_ID,
+     .                C1=TITR,
+     .                I2=J,
+     .                R1=THETA_MYREAL)          
+        ENDIF
+c
+        ! Check if minimum of second parabola is negative 
+        IF (SFLAG == 1) THEN 
+          XMIN = -X_2(J,2)/(TWO*X_2(J,3))
+          YMIN = X_2(J,3)*(XMIN**2) + X_2(J,2)*XMIN + X_2(J,1)
+          IF (YMIN < ZERO) THEN 
+            THETA_MYREAL = THETA(J)
+            CALL ANCMSG(MSGID=3003,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=MAT_ID,
+     .                  C1=TITR,
+     .                  I2=J,
+     .                  R1=THETA_MYREAL)              
+          ENDIF
+        ENDIF
+c
       ENDDO
 c
       ! Allocation of the A-MATRIX and the Pivot vector

@@ -535,7 +535,7 @@ c---
               CALL HM_READ_FAIL_BIQUAD(
      .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
      .             MAXFUNC  ,NFUNC    ,UNITAB         ,MAT_ID    ,FAIL_ID  ,
-     .             LSUBMODEL)
+     .             LSUBMODEL,TITR     )
 c---
             CASE(31)
               CALL HM_READ_FAIL_FABRIC(
