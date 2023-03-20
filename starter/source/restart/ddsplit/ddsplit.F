@@ -3518,10 +3518,12 @@ C--------------------------------------------
        IF (NDRAPE > 0) THEN
 C    write drape structure
          OFF  = NUMELS + NUMELQ
-         CALL W_DRAPE(DRAPE,DRAPEG%INDX,CEP(MIN(OFF+1,LEN_CEP)),P-1,
+         IF(NUMELC_DRAPE > 0) 
+     .      CALL W_DRAPE(DRAPE,DRAPEG%INDX,CEP(MIN(OFF+1,LEN_CEP)),P-1,
      .                  NUMELC,NUMELC_L,NUMSH4N_L,LEN_IA,LEN_AM)
          OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR
-         CALL W_DRAPE(DRAPE,DRAPEG%INDX,CEP(MIN(OFF+1,LEN_CEP)),P-1,
+         IF(NUMELTG_DRAPE > 0) 
+     .      CALL W_DRAPE(DRAPE,DRAPEG%INDX(NUMELC +1),CEP(MIN(OFF+1,LEN_CEP)),P-1,
      .                 NUMELTG,NUMELTG_L,NUMSH3N_L,LEN_IA,LEN_AM)
        ENDIF
 C--------------------------------------------

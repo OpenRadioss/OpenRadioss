@@ -50,16 +50,15 @@ C-----------------------------------------------
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,MY_ID,NPT,J,TEMP_INT,IEDRP,KK,NSLICE,IP
+      INTEGER I,II,MY_ID,NPT,J,TEMP_INT,IE_DRAPE,KK,NSLICE,IP
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
 C-----------------------------------------------
       IF (MYQAKEY('/DRAPE')) THEN
-        DO I = 1,NUMELC + NUMELTG
-          IEDRP = DRAPEG%INDX(I)
-          !!NPT = DRAPE(I)%NPT
-          IF(IEDRP == 0) CYCLE
-           NPT =  DRAPE(I)%NPLY_DRAPE 
+        DO I = 1,NUMELC+ NUMELTG
+           IE_DRAPE = DRAPEG%INDX(I)
+           IF(IE_DRAPE == 0) CYCLE
+            NPT =  DRAPE(IE_DRAPE)%NPLY 
             IF (NPT > 0) THEN
               IF (I <= NUMELC) THEN
                 WRITE(VARNAME,'(A)') 'SHELL INTERNAL NUMBER'
@@ -71,8 +70,9 @@ C-----------------------------------------------
                 CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
               ENDIF
               DO II = 1, NPT
-                IP = DRAPE(I)%INDX_PLY(II)
-                DRAPE_PLY =>  DRAPE(I)%DRAPE_PLY(IP)
+                IP = DRAPE(IE_DRAPE)%INDX_PLY(II)
+                IF(IP == 0) CYCLE
+                DRAPE_PLY =>  DRAPE(IE_DRAPE)%DRAPE_PLY(IP)
                 NSLICE = DRAPE_PLY%NSLICE
                 WRITE(VARNAME,'(A,I10)') 'IDDRAPE',IP
                 TEMP_INT = DRAPE_PLY%IPID

@@ -45,7 +45,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER CEP(*), P, NUMEL, NUMEL_L, LEN_AM,LEN_IA
       TYPE(DRAPE_), DIMENSION(NUMELC_DRAPE + NUMELTG_DRAPE):: DRAPE
-      INTEGER, DIMENSION(NUMELC + NUMELTG) :: INDX
+      INTEGER, DIMENSION(NUMEL) :: INDX
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
