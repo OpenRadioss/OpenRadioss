@@ -1,6 +1,0 @@
-# Fixed compiler switches for linux64 Gfortran binary
-set ( CMAKE_Fortran_COMPILER "flang" )
-set ( CMAKE_C_COMPILER "clang" )
-set ( CMAKE_CXX_COMPILER "clang" )
-set ( CMAKE_CPP_COMPILER "clang" )
-

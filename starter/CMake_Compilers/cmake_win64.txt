@@ -2,6 +2,8 @@
 # Simplify usage for target compilation
 #########################################
 
+# Build Option
+set(BUILD_SHARED_LIBS FALSE)
 
 # Executable name
 # ---------------
@@ -92,7 +94,7 @@ set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${pre
 endif()
 
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS "$(AD) /defaultlib:libiomp5md.lib /nodefaultlib:vcomp.lib /nodefaultlib:vcompd.lib /STACK:1500000000 ${reader_lib} ${MKL_Lib}  ${metis_lib} svml_dispmd.lib")
+set (CMAKE_EXE_LINKER_FLAGS " /defaultlib:libiomp5md.lib /nodefaultlib:vcomp.lib /nodefaultlib:vcompd.lib /STACK:1500000000 ${reader_lib} ${MKL_Lib}  ${metis_lib} svml_dispmd.lib")
 
 #Libraries
 set (LINK "advapi32.lib")

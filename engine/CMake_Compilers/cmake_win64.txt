@@ -2,6 +2,8 @@
 # Simplify usage for target compilation
 #########################################
 
+# No shared libraries
+set(BUILD_SHARED_LIBS FALSE)
 
 # General machine flag setting
 set ( cppmach "-DCPP_mach=CPP_p4win64" )
@@ -129,7 +131,7 @@ set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/O2 ${
 endif()
 
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS " /STACK:1500000000 ${AD} ${MKL_libraries} ${mpi_lib} libifport.lib svml_dispmt.lib libifcoremt.lib libmmt.lib Psapi.lib libvcruntime.lib" )
+set (CMAKE_EXE_LINKER_FLAGS " /STACK:1500000000 ${MKL_libraries} ${mpi_lib} libifport.lib svml_dispmt.lib libifcoremt.lib libmmt.lib Psapi.lib libvcruntime.lib" )
 
 #Libraries
 set (LINK "advapi32.lib"  )
