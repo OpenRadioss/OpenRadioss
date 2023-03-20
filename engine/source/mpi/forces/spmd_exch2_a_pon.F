@@ -1494,7 +1494,6 @@ C cas 3D    seul possible
                ENDIF
              ENDIF
            ELSE
-Cel46b5    N2D==0 .AND. IFSUBM==1
              IF(IVECTOR==1) THEN
 C cas 3D    seul possible
                IF(IRODDL/=0) THEN
@@ -1833,7 +1832,6 @@ C
                ENDIF
              ENDIF
            ELSE
-Cel46b5    N2D==0 .AND. IFSUBM==1
              IF(IVECTOR==1) THEN
 C cas 3D    seul possible
                IF(IRODDL/=0) THEN

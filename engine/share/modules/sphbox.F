@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Cel50c42+++
 Chd|====================================================================
 Chd|  SPHBOX                        share/modules/sphbox.F        
 Chd|-- called by -----------
@@ -140,4 +139,3 @@ C dim1 WACOMPR = dim1 WACOMP = SIZSPW
       END TYPE SPSYM_STRUCT
 
       END MODULE SPHBOX
-Cel50c42---

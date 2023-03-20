@@ -21,7 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../SCR18/
-C...recopie par defaut en spmd
       COMMON /SCR18R/ DTFAC1(102),DTMIN1(102),DT_THERM,MIN_ASPECT,MIN_DEFV,
      .        DTFSUB, DTMSUB, DTIN, DTMX, 
      .        DMTMXS, DMNMXS, DEMXS, DMTMXK, DMNMXK, DEMXK, MASS0_START

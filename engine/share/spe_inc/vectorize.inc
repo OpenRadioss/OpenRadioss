@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 CDIR$ IVDEP
 #elif CPP_mach == CPP_cvx
 C$DIR NO_RECURRENCE
-Cow41p6+1 #elif CPP_mach == CPP_sx4 ||  CPP_mach == CPP_sx4_i3e
 #elif CPP_mach == CPP_sx4 ||  CPP_mach == CPP_sx4_i3e ||  CPP_mach == CPP_sx5_spmd
 *VDIR NODEP
 #elif CPP_mach == CPP_vpp || CPP_mach == CPP_vpp_spmd

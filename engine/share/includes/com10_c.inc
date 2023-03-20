@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
 Copyright>    
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,24 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../COM10/
-C...recopie par defaut en spmd
       INTEGER LCOM10
 Csm41p3      PARAMETER (LCOM10 = 13)
-Cvf50c2      PARAMETER (LCOM10 = 32)
-Cvf51e1      PARAMETER (LCOM10 = 34)
       PARAMETER (LCOM10 = 35)
 C
       COMMON /COM10/ NSNOD, NSELQ, NSELS, NSELC, NSELT,
      .               NSELP, NSELR, NSRBY, NSMAT, NSELTG,
      .               NTHGRP,NTHGRP0,NSELU, NTHGRP01(10),
      .               NTHGRP1(10),NSFXBY,NSMOD
-Cvf51e1     .               NTHGRP1(10),NSFXBY
-Cvf50c2     .               NTHGRP1(10)
 Csm41p3      .               NTHGRP,NTHGRP0,NSELU
       INTEGER        NSNOD, NSELQ, NSELS, NSELC, NSELT,
      .               NSELP, NSELR, NSRBY, NSMAT, NSELTG,
      .               NTHGRP,NTHGRP0,NSELU, NTHGRP01,NTHGRP1,
      .               NSFXBY,NSMOD
-Cvf51e1     .               NSFXBY
-Cvf50c2     .               NTHGRP,NTHGRP0,NSELU, NTHGRP01,NTHGRP1
 Csm41p3      .               NTHGRP,NTHGRP0,NSELU 

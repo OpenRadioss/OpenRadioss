@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 #include "hardware.inc"
 #if CPP_mach == CPP_ymp || CPP_mach == CPP_ymp_spmd || CPP_mach == CPP_c90 || CPP_mach == CPP_t90 || CPP_mach == CPP_t90_i3e || CPP_mach == cx1 || CPP_mach == cx1_spmd
 CDIR$ NEXTSCALAR
-Cow41p6 #elif CPP_mach == CPP_sx4 || CPP_mach == CPP_sx4_i3e
 #elif CPP_mach == CPP_sx4 || CPP_mach == CPP_sx4_i3e || CPP_mach == CPP_sx5_spmd
 *VDIR NOVECTOR
 #elif CPP_mach == CPP_vpp || CPP_mach == CPP_vpp_spmd

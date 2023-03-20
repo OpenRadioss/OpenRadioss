@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
 Copyright>    
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,12 +31,6 @@ C.../LGMULTI/
      .                 LAG_NHL  ,NBCSLAG  ,NRBYLAG  ,LMPC     ,NFVLAG  ,
      .                 NRWLAG   ,NHMAX    ,LAGMOD   ,LAGOPT   ,LAG_NC  ,
      .                 NITER_GC ,NITER_CHL
-Cmw41p11     .                 NRWLAG
-Cmw41p4     .                 LAG_NHL  ,NBCSLAG  ,NRBYLAG  ,LMPC     ,NFVLAG  
-Cmw41p3      .                 LAG_NHL  ,NBCSLAG  ,NRBYLAG  ,LMPC
-Cmw41p1      .                 LAG_NHL  ,NBCSLAG  ,LMPC
-Cmw41n11     .                 LAG_NHL  ,NBCSLAG
-Cmw41p11++
 C.../LGMULTR/
       COMMON /LGMULTR/ LAGM_TOL ,LAG_ALPH ,LAG_ALPHS,LAG_ERSQ2
       my_real

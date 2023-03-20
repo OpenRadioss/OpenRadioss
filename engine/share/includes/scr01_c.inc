@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
 Copyright>    
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,4 @@ c$dir thread_private(/SCR01/)
      .   NB12, NB13,NB14,NB15,NB16,NB17,NB18,NB19,NB20,NB21,NB22,
      .   NBFI, NBFAIL, NBIPFAIL
 Cpm51e01     .   NBFI
-Cmw50c13     .   NB12, NB13, NB14, NB15, NB16, NB17, NB18, NB19, NB20,NBFI
-Cgw41p8+1
       INTEGER ITASKP1

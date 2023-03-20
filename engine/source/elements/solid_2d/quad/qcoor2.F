@@ -78,7 +78,6 @@ C----------------------------
       Z4(I)=X(3,NC4(I))
    20 CONTINUE
 C
-Cel033
       DO I=LFT,LLT
         VD2(I)=ZERO
         VIS(I)=ZERO

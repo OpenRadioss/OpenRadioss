@@ -145,7 +145,7 @@ C-----------------------------------------------
      .   KDTIX, KIMPL, KFLSEC, KFUNC, KKEREL, KDYREL, KRUN, KTITLE,
      .   KDT, KTFILE, KPRINT, KRFILE, KVERS, KALE, KDEL,
      .   KVEL, KBCS, KBCSR, KDEBUG,KOUTP,KDTNOD,KALESUB,KPROC,
-     .   KNOISE,KDELIN,KFSHFT,KPARIT,KINIV,KRBODY,KANIM,KINTER,
+     .   KNOISE,KDELIN,KPARIT,KINIV,KRBODY,KANIM,KINTER,
      .   KUPWM, KMON,KDT1,KINCMP,KTH, KSTOP, KKILL,
      .   KMADYM,KSPMD,KRAD2R,KDAMP,N_DAMP, KATFIL,KBTFIL,KCTFIL,KDTFIL,
      .   KETFIL,KFTFIL,KGTFIL,KHTFIL,KITFIL, KRERUN, KQEPH, KFXINP,
@@ -198,7 +198,7 @@ C-----------------------------------------------
      .     'DTIX '   ,'IMPL '   ,'FUNCT'   ,'FLSEC'   ,'DYREL'   ,
      .     'KEREL'   ,'RBODY'   ,'ANIM'    ,''        ,'DEBUG'   ,
      .     'OUTP '   ,'DTNOD'   ,'ALESU'   ,'PROC'    ,''        ,
-     .     '@TFIL'   ,'DELIN'   ,'FSHFT'   ,'PARIT'   ,'INIV '   ,
+     .     '@TFIL'   ,'DELIN'   ,''        ,'PARIT'   ,'INIV '   ,
      .     'UPWM '   ,'MON'     ,''        ,'DT1'     ,'INCMP'   ,
      .     ''        ,'TH'      ,'STOP'    ,'KILL'    ,'MADYM'   ,
      .     'SPMD '   ,'RAD2R'   ,'DAMP'    ,'ATFIL'   ,'BTFIL'   ,
@@ -218,7 +218,7 @@ C-----------------------------------------------
      .     KDTIX/16/  ,KIMPL/17/   ,KFUNC/18/    ,KFLSEC/19/  ,KDYREL/20/,
      .     KKEREL/21/ ,KRBODY/22/  ,KANIM/23/                 ,KDEBUG/25/,
      .     KOUTP/26/  ,KDTNOD/27/  ,KALESUB/28/   ,KPROC/29/  ,
-     .     KNOISE/31/ ,KDELIN/32/  ,KFSHFT/33/   ,KPARIT/34/  ,KINIV/35/ ,
+     .     KNOISE/31/ ,KDELIN/32/                ,KPARIT/34/  ,KINIV/35/ ,
      .     KUPWM/36/  ,KMON/37/    ,              KDT1/39/    ,KINCMP/40/,
      .                 KTH/42/     ,KSTOP/43/    ,KKILL/44/   ,KMADYM/45/,
      .     KSPMD/46/  ,KRAD2R/47/  ,KDAMP/48/    ,KATFIL/49/  ,KBTFIL/50/,
@@ -585,15 +585,6 @@ C     //
 C-----------------------
       IKEY=KPROC
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-      ENDIF
-C-----------------------
-C
-C-----------------------
-      BIGFOR = ZERO
-      IKEY=KFSHFT
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
-       READ(IUSC2,*)BIGFOR
       ENDIF
 C-----------------------
 C     DYNAMIC RELAXATION

@@ -62,7 +62,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "vect07_c.inc"
+#include      "vect01_c.inc"
 #include      "scr04_c.inc"
 #include      "bucki_c.inc"
 #include      "parit_c.inc"
