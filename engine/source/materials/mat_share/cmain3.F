@@ -147,12 +147,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IT,MX,IGTYP,IFUNC_ALPHA,IPMAT_IPLY,ILAY,LAYNPT_MAX,LAY_MAX
-      PARAMETER (LAYNPT_MAX = 100)
-      PARAMETER (LAY_MAX = 1000)
-      INTEGER MATLY(MVSIZ*LAY_MAX),MAT_IPLY(MVSIZ,NPT)
+      INTEGER MAT_IPLY(MVSIZ,NPT)
+      INTEGER, DIMENSION(:) , ALLOCATABLE :: MATLY   !!  MATLY(MVSIZ*LAY_MAX)
+      my_real, DIMENSION(:) , ALLOCATABLE :: THKLY   !!  THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX)
+      my_real, DIMENSION(:,:), ALLOCATABLE :: POSLY,THK_LY
+        !!         POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX) THK_LY(NEL,LAY_MAX*LAYNPT_MAX)
       my_real
-     .   THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),
-     .   THK_LY(NEL,LAY_MAX*LAYNPT_MAX),TSTAR(MVSIZ),DTEMP(MVSIZ),
+     .   TSTAR(MVSIZ),DTEMP(MVSIZ),
      .   SXX(MVSIZ),SYY(MVSIZ), SXY(MVSIZ),SYZ(MVSIZ),SZX(MVSIZ),
      .   EPSXX(MVSIZ),EPSYY(MVSIZ),EPSXY(MVSIZ),EPSYZ(MVSIZ),EPSZX(MVSIZ),
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
@@ -209,7 +210,19 @@ c-----Tstar computation for Jhonson cook failure : T* = (T-T0)/(TM-T0)----
         ENDDO
       ELSE
         TSTAR(JFT:JLT) = ZERO
-      ENDIF     
+      ENDIF  
+! Npt_max
+      LAYNPT_MAX = 0
+      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+        DO ILAY=1,NLAY
+           LAYNPT_MAX = LAYNPT_MAX + ELBUF_STR%BUFLY(ILAY)%NPTT
+        ENDDO  
+      ELSE
+         LAYNPT_MAX = 1  
+      ENDIF
+      LAY_MAX   = MAX(NLAY,NPT)
+      ALLOCATE(MATLY(MVSIZ*LAY_MAX), THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX),
+     .         POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),THK_LY(NEL,LAY_MAX*LAYNPT_MAX))  
 c
 c----------------------------
       IF (NPT == 0) THEN
@@ -346,6 +359,7 @@ C---------------------------------------------------------
         IF (MTN /=78)  ETIMP(JFT:JLT) = ZCFAC(JFT:JLT,1)
         CALL PUT_ETFAC(NEL ,ETIMP ,MTN)
       END IF
+       DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)
 c-----------
       RETURN
       END SUBROUTINE CMAIN3

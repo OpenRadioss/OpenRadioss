@@ -195,6 +195,7 @@ C  re-set the thickness of shell according to /DRAPE layer thinning
                  ELSE ! IGTYP == 17
                   DO J=1,NPT
                     IP= DRAPE(IE)%INDX_PLY(J)
+                    I3 = IPTHK + J
                     THKLY  = STACK%GEO(I3 ,ISUBS)*THICKT
                     IF(IP > 0) THEN
                        DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(IP)
@@ -241,7 +242,8 @@ C
                 ENDDO
              ELSE
                 IF(IGTYP == 51 .OR. IGTYP == 52) THEN
-                  DO J=1,NPT
+                  DO J=1,NPT  
+                    I3 = IPTHK + J
                     IP= DRAPE(IE)%INDX_PLY(J)
                     THKLY  = STACK%GEO(I3 ,ISUBS)*THICKT
                     IPID = STACK%IGEO(IPPID + J,ISUBS)
@@ -270,6 +272,7 @@ C
                   ENDDO
                  ELSE ! IGTYP == 17
                   DO J=1,NPT
+                    I3 = IPTHK + J
                     IP= DRAPE(IE)%INDX_PLY(J)
                     THKLY  = STACK%GEO(I3 ,ISUBS)*THICKT
                     IF(IP > 0) THEN
