@@ -142,7 +142,7 @@ C------------------------------------------
         ENDIF
       ENDDO
 C-----------
-      CALL DT1LAWP(PM,GEO,MXT,MXG,DELTAX,DTX)
+      CALL DT1LAWP(PM,GEO,MXT,MXG,DELTAX,DTX,IGTYP)
       NDEPAR=NUMELS+NUMELC+NUMELT+NFT
 C-----------
       DO I=1,NEL

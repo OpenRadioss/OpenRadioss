@@ -99,6 +99,7 @@ C----------------------------------------------
         FSH(I) = AL(I)/(FACDT(I)+CST)
         FSH(I) = MAX(ONE,FSH(I))
       ENDDO
+      IF (IGTYP == 18) FSH(LFT:LLT) = ONE
       IF (IDTMINS /= 2 .OR. JSMS == 0) THEN
         IF (NODADT /= 0 .OR. IDTMINS == 2) THEN
           DO I=JFT,JLT

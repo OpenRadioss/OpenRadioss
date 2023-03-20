@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        PINIT3                        source/elements/beam/pinit3.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DT1LAWP(PM,GEO,MAT,MXG,DELTAX,DTX)
+      SUBROUTINE DT1LAWP(PM,GEO,MAT,MXG,DELTAX,DTX,IGTYP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,7 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(MVSIZ), MXG(MVSIZ)
+      INTEGER MAT(MVSIZ), MXG(MVSIZ),IGTYP
 C     REAL
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*), DELTAX(MVSIZ), DTX(MVSIZ)
@@ -76,7 +76,8 @@ C
          DMP =DMP*SQRT(TWO)
          FAC =SQRT(ONE+DMP*DMP)-DMP
 C
-         DTX(I) = FAC * DELTAX(I) / MAX(EM20,SSP)/SQRT(FSH)
+         DTX(I) = FAC * DELTAX(I) / MAX(EM20,SSP)
+         IF (IGTYP /= 18) DTX(I) = DTX(I)/SQRT(FSH)
         ENDDO
 C-----------
       RETURN
