@@ -4,3 +4,17 @@ exec
 *.swo
 *~
 *.bak
+qa-tests/scripts/.qa_fail_list
+qa-tests/scripts/.qa_last_exe_name
+qa-tests/scripts/.qa-start
+qa-tests/scripts/tracker.info
+qa-tests/scripts/qaruns.summary
+qa-tests/scripts/QA.summary
+qa-tests/scripts/detail.info
+qa-tests/scripts/brief.info
+qa-tests/scripts/.run.id
+qa-tests/scripts/Extracted_data
+qa-tests/scripts/Output_files
+qa-tests/scripts/Screen_Output
+qa-tests/scripts/*.tmp
+qa-tests/scripts/my_results
