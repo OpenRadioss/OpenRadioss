@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       K=0
-      NVEL = 0 
+      NVEL=0 
       LLLINK=0
       IKEY=KVEL
       DO N=1,NRLINK
@@ -102,11 +102,10 @@ C version spmd
        ENDIF
        CALL READ10(IKAD(IKEY)+KK,NBC,KEY0(IKEY))
       ENDDO
-C
+C-----------------------------------------------
       RETURN
-C
+C-----------------------------------------------
  9990 CONTINUE
-      CALL ANCMSG(MSGID=73,ANMODE=ANINFO,
-     .            C1=KEY0(IKEY))
+      CALL ANCMSG(MSGID=73,ANMODE=ANINFO,C1=KEY0(IKEY))
       CALL ARRET(0)
       END

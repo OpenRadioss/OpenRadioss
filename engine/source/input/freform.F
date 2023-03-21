@@ -77,6 +77,11 @@ Chd|        TH_MOD                        share/modules/th_mod.F
 Chd|====================================================================
       SUBROUTINE FREFORM(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA)
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is Engine reader.
+C It reads all Engine options from user input file
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
@@ -135,15 +140,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   P a r a m e t e r s
 C-----------------------------------------------
-      INTEGER NKEY,IRUNR
+      INTEGER NKEY, NUM_ALE_KEY2
       PARAMETER (NKEY = 91)
+      PARAMETER (NUM_ALE_KEY2 = 22)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IKAD(0:NKEY+1),
      .   KDTIX, KIMPL, KFLSEC, KFUNC, KKEREL, KDYREL, KRUN, KTITLE,
      .   KDT, KTFILE, KPRINT, KRFILE, KVERS, KALE, KDEL,
-     .   KVEL, KBCS, KBCSR, KDEBUG,KOUTP,KDTNOD,KALESUB,KPROC,
+     .   KVEL, KBCS, KBCSR, KDEBUG,KOUTP,KALESUB,KPROC,
      .   KNOISE,KDELIN,KPARIT,KINIV,KRBODY,KANIM,KINTER,
      .   KUPWM, KMON,KDT1,KINCMP,KTH, KSTOP, KKILL,
      .   KMADYM,KSPMD,KRAD2R,KDAMP,N_DAMP, KATFIL,KBTFIL,KCTFIL,KDTFIL,
@@ -163,32 +169,28 @@ C-----------------------------------------------
      .   NSPHOF,NALEOF,NEULEROF,NTHERMOF, IDTGRX,ibid, M1, M2, IFORM,
      .   GR_ID, NLINKOFF,IS_PREVKEYA_NCHARKEY,IS_KEYA_NCHARKEY, IFLAG,
      .   DT_CTRL_COMPATIBILITY(3), LOWMACH_OPT,IO_ERR, NITERP, IOK_READ,
-     .   ID_BAG, IERR1, ID_DT_OPTION, FVMBAG_L_TYPE
+     .   ID_BAG, IERR1, ID_DT_OPTION, FVMBAG_L_TYPE, INUM,INTDT
+      INTEGER :: BCS_SK_FR(10000),VEL_SK_FR(10000),NSLASH(NKEY)
+      INTEGER :: NBALEOFF, NBALEON, NBPARTALEON, NBPARTALEOFF     
       my_real
      .   TSTOP0,DTFAC0, DTMIN0, DTHIS0, ALP, GAM,
      .   A1, A2, A3, VM, DTFACA,DTMINA, DTHIS01(9),vt, TMP,DTFAC_AMS,
      .   LAMBDA,L_TYPE
-      CHARACTER KEY(9)*5, TITLE*81,
-     .  KEY1*5, KEY2*5,KEY3*5,   CH4*4, KEY4*5, KEY5*5, StrIAL*32
+      CHARACTER KEY(9)*5, TITLE*81, KEY1*5, KEY2*5,KEY3*5,   CH4*4, KEY4*5, KEY5*5, StrIAL*32
       CHARACTER(LEN=ncharline) :: KEYA
       CHARACTER(LEN=ncharline) :: CARTE,KEYW,MOT1,LINE
       CHARACTER(LEN=ncharkey), DIMENSION(9) :: KEY_H3D
       CHARACTER(LEN=5), DIMENSION(NKEY) :: KEY0
-      CHARACTER(LEN=5), DIMENSION(24)   ::  KEYALE
+      CHARACTER(LEN=5), DIMENSION(24)  ::  KEYALE
       CHARACTER(len=ncharline) :: STRING_RESTART
-      INTEGER BCS_SK_FR(10000),VEL_SK_FR(10000),NSLASH(NKEY)
-      INTEGER :: NBALEOFF, NBALEON, NBPARTALEON, NBPARTALEOFF
-      INTEGER :: NUM_ALE_KEY2, INUM
       LOGICAL :: lFOUND
 C-----------------------------------------------
       INTEGER LEN_IUSC1_FN,LEN_IUSC2_FN,LEN_IUSCTMP_FN
       CHARACTER(LEN=10192) :: IUSC1_FN,IUSC2_FN,IUSCTMP_FN
-      
-
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NVAR,INTDT
+      INTEGER,EXTERNAL :: NVAR
 C-----------------------------------------------
       DATA KEY0/
      .     'RUN  '   ,'TITLE'   ,'DT   '   ,'TFILE'   ,'PRINT'   ,
@@ -196,7 +198,7 @@ C-----------------------------------------------
      .     'DEL  '   ,'VEL  '   ,'BCS  '   ,'BCSR '   ,'INTER'   ,
      .     'DTIX '   ,'IMPL '   ,'FUNCT'   ,'FLSEC'   ,'DYREL'   ,
      .     'KEREL'   ,'RBODY'   ,'ANIM'    ,''        ,'DEBUG'   ,
-     .     'OUTP '   ,'DTNOD'   ,'ALESU'   ,'PROC'    ,''        ,
+     .     'OUTP '   ,''        ,'ALESU'   ,'PROC'    ,''        ,
      .     '@TFIL'   ,'DELIN'   ,''        ,'PARIT'   ,'INIV '   ,
      .     'UPWM '   ,'MON'     ,''        ,'DT1'     ,'INCMP'   ,
      .     ''        ,'TH'      ,'STOP'    ,'KILL'    ,'MADYM'   ,
@@ -211,25 +213,25 @@ C-----------------------------------------------
      .     'ADYRE'   ,'DT1TE'   ,'PERF'    ,'DYNAI'   ,'DTTSH'   ,
      .     'MASS '    /
 
-      DATA KRUN/1/    ,KTITLE/2/   ,KDT/3/       ,KTFILE/4/   ,KPRINT/5/ ,
-     .     KRFILE/6/  ,KVERS/7/    ,                           KALE/10/  ,
-     .     KDEL/11/   ,KVEL/12/    ,KBCS/13/     ,KBCSR/14/   ,KINTER/15/,
-     .     KDTIX/16/  ,KIMPL/17/   ,KFUNC/18/    ,KFLSEC/19/  ,KDYREL/20/,
-     .     KKEREL/21/ ,KRBODY/22/  ,KANIM/23/                 ,KDEBUG/25/,
-     .     KOUTP/26/  ,KDTNOD/27/  ,KALESUB/28/   ,KPROC/29/  ,
-     .     KNOISE/31/ ,KDELIN/32/                ,KPARIT/34/  ,KINIV/35/ ,
-     .     KUPWM/36/  ,KMON/37/    ,              KDT1/39/    ,KINCMP/40/,
-     .                 KTH/42/     ,KSTOP/43/    ,KKILL/44/   ,KMADYM/45/,
-     .     KSPMD/46/  ,KRAD2R/47/  ,KDAMP/48/    ,KATFIL/49/  ,KBTFIL/50/,
-     .     KCTFIL/51/ ,KDTFIL/52/  ,KETFIL/53/   ,KFTFIL/54/  ,KGTFIL/55/,
-     .     KHTFIL/56/ ,KITFIL/57/  ,KRERUN/58/   ,KFXINP/60/,
-     .     KOSHSUB/61/,             KEIG/63/     ,             KFVBAG/65/,
-     .                 KSTATF/67/  ,KSHVER/68/   ,KABF/70/  ,
-     .     KDTSDE/71/ ,KAABF/72/   ,KBABF/73/    ,KCABF/74/   ,KDABF/75/ ,
-     .     KEABF/76/  ,KFABF/77/   ,KGABF/78/    ,KHABF/79/   ,KIABF/80/ ,
-     .     KUPWIND/81/,KTHERMAL/82/,KH3D/83/     ,KREPORT/84/ ,
-     .     KNEGVOL/85/,KADYREL/86/ ,KDT1TET10/87/,KPERF/88/,
-     .     KDYNAIN/89/,KDTTSH/90/  ,KMASS/91/
+      DATA KRUN/1/    ,KTITLE/2/    ,KDT/3/       ,KTFILE/4/   ,KPRINT/5/  ,
+     .     KRFILE/6/  ,KVERS/7/     ,                           KALE/10/   ,
+     .     KDEL/11/   ,KVEL/12/     ,KBCS/13/     ,KBCSR/14/   ,KINTER/15/ ,
+     .     KDTIX/16/  ,KIMPL/17/    ,KFUNC/18/    ,KFLSEC/19/  ,KDYREL/20/ ,
+     .     KKEREL/21/ ,KRBODY/22/   ,KANIM/23/                 ,KDEBUG/25/ ,
+     .     KOUTP/26/  ,              KALESUB/28/  ,KPROC/29/   ,
+     .     KNOISE/31/ ,KDELIN/32/   ,              KPARIT/34/  ,KINIV/35/  ,
+     .     KUPWM/36/  ,KMON/37/     ,              KDT1/39/    ,KINCMP/40/ ,
+     .                 KTH/42/      ,KSTOP/43/    ,KKILL/44/   ,KMADYM/45/ ,
+     .     KSPMD/46/  ,KRAD2R/47/   ,KDAMP/48/    ,KATFIL/49/  ,KBTFIL/50/ ,
+     .     KCTFIL/51/ ,KDTFIL/52/   ,KETFIL/53/   ,KFTFIL/54/  ,KGTFIL/55/ ,
+     .     KHTFIL/56/ ,KITFIL/57/   ,KRERUN/58/   ,KFXINP/60/,
+     .     KOSHSUB/61/,              KEIG/63/     ,             KFVBAG/65/ ,
+     .                 KSTATF/67/   ,KSHVER/68/   ,KABF/70/  ,
+     .     KDTSDE/71/ ,KAABF/72/    ,KBABF/73/    ,KCABF/74/   ,KDABF/75/  ,
+     .     KEABF/76/  ,KFABF/77/    ,KGABF/78/    ,KHABF/79/   ,KIABF/80/  ,
+     .     KUPWIND/81/,KTHERMAL/82/ ,KH3D/83/     ,KREPORT/84/ ,KNEGVOL/85/,
+     .     KADYREL/86/,KDT1TET10/87/,KPERF/88/    ,KDYNAIN/89/ ,KDTTSH/90/ ,
+     .     KMASS/91/
 
       DATA KEYALE/
      .     'BCS  '   ,'CLOSE'   ,'GRID '   ,'LINK '   ,'MAT  '   ,
@@ -237,9 +239,10 @@ C-----------------------------------------------
      .     'DONEA'   ,'STAND'   ,'SPRIN'   ,'DISP '   ,'SUPG '   ,
      .     '0    '   ,'1    '   ,'2    '   ,'3    '   ,'4    '   ,
      .     'LOWMA'   ,'LAPLA'   ,'     '   ,'     '   /
-      NUM_ALE_KEY2=21
-
-C------------------------------------------------------------------
+      
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       KEY=" "
       KEY2=" "
       KEY3=" "
@@ -251,7 +254,7 @@ C------------------------------------------------------------------
       CALL OPEN_F_SCRATCH_FILE(IUSC2,1,ROOTN,LENROOTN,IUSC2_FN)
       LEN_IUSC2_FN=LEN_TRIM(IUSC2_FN)
 
-C attention IBM/MPI ne supporte pas de REWIND sur STDIN !
+C warning IBM/MPI does not support REWIND with STDIN !
       IUSC_TMP=60
       CALL OPEN_F_SCRATCH_FILE(IUSC_TMP,1,ROOTN,LENROOTN,IUSCTMP_FN)
       LEN_IUSCTMP_FN=LEN_TRIM(IUSCTMP_FN)
@@ -364,8 +367,7 @@ C---
           I=I+1
           I1=I
           IF (J2>1000) THEN
-            CALL ANCMSG(MSGID=74,ANMODE=ANINFO,
-     .                  C1=KEYA(1:I1-1),C2='/VEL')
+            CALL ANCMSG(MSGID=74,ANMODE=ANINFO,C1=KEYA(1:I1-1),C2='/VEL')
             CALL ARRET(2)
           END IF
           IF(I < LEN_TRIM(KEYA)) THEN
@@ -385,7 +387,7 @@ C---
       ISTDI=IUSC_TMP
       REWIND(ISTDI)
 C---------------------------------------------------
-C     CALCUL DES RECORDS
+C     CURSORS INITIALIZATION
 C---------------------------------------------------
       IKAD(0)=1
       DO I=1,NKEY+1
@@ -395,60 +397,54 @@ C---------------------------------------------------
         IKAD(I)=IKAD(I-1)
       ENDDO
 C---------------------------------------------------
-C     ECRITURE CLASSEE(SUR PREMIER MOT CLEF) EN ACCES DIRECTE
+C     KEYWORD CLASSIFYING / DIRECT ACCESS
 C---------------------------------------------------
       IKOLD=0
       IS_KEYA_NCHARKEY = 0
       IS_PREVKEYA_NCHARKEY = 0
       DO N=1,NCT
-       READ(ISTDI,'(A)') KEYA
-       IF(KEYA(1:1)=='#')CYCLE
-       IF(KEYA(1:1)=='$')CYCLE
-       IF(KEYA==' ')     CYCLE
-c
-       IF(KEYA(1:4)=='/H3D' .OR. KEYA(1:6)=='/STATE'.OR. KEYA(1:7)==
-     .      '/DYNAIN'.OR.KEYA(1:5)=='/ANIM')THEN
-         IS_KEYA_NCHARKEY = 1
-       ELSE
-         IS_KEYA_NCHARKEY = 0
-       ENDIF
-c
-       IF(IS_KEYA_NCHARKEY == 1)THEN
-         IF(IS_PREVKEYA_NCHARKEY == 1 .AND. IKOLD /=0)THEN
-           WRITE(IUSC1,REC=IKOLD,FMT='(A,I10)') KEYW,NBC
-         ELSEIF(IKOLD/=0)THEN
-           WRITE(IUSC1,REC=IKOLD,FMT='(17A,I10)')'/',(KEY(I),'/',I=1,8),NBC
-         ENDIF
-         KEYW = KEYA
-         IS_PREVKEYA_NCHARKEY = 1
-         CALL REDKEY1_H3D(KEY_H3D,KEY0,NKEY,KEYA,IKEY,IR)
-         IF(IR/=0) CYCLE
-         NBC=0
-         IKOLD=IKAD(IKEY)
-
-       ELSEIF(KEYA(1:1)=='/')THEN
-         IF(IS_PREVKEYA_NCHARKEY == 1 .AND. IKOLD /=0)THEN
-           WRITE(IUSC1,REC=IKOLD,FMT='(A,I10)') KEYW,NBC
-         ELSEIF(IKOLD/=0)THEN
-           WRITE(IUSC1,REC=IKOLD,FMT='(17A,I10)')'/',(KEY(I),'/',I=1,8),NBC
-         ENDIF
-         IS_PREVKEYA_NCHARKEY = 0
-         CALL REDKEY1(KEY,KEY0,NKEY,KEYA,IKEY,IR)
-         IF(IR/=0) CYCLE
-         NBC=0
-         IKOLD=IKAD(IKEY)
-
-       ELSEIF( IS_PREVKEYA_NCHARKEY == 1) THEN
-         NBC=NBC+1
-         WRITE(IUSC1,REC=IKAD(IKEY),FMT='(A)')KEYA
-
-       ELSE
-         NBC=NBC+1
-         WRITE(IUSC1,REC=IKAD(IKEY),FMT='(A)')KEYA
-       ENDIF
-       IKAD(IKEY)=IKAD(IKEY)+1
-
-
+        READ(ISTDI,'(A)') KEYA
+        IF(KEYA(1:1)=='#')CYCLE
+        IF(KEYA(1:1)=='$')CYCLE
+        IF(KEYA==' ')     CYCLE
+        !---
+        IF(KEYA(1:4)=='/H3D' .OR. KEYA(1:6)=='/STATE'.OR. KEYA(1:7)=='/DYNAIN'.OR.KEYA(1:5)=='/ANIM')THEN
+          IS_KEYA_NCHARKEY = 1
+        ELSE
+          IS_KEYA_NCHARKEY = 0
+        ENDIF
+        !---
+        IF(IS_KEYA_NCHARKEY == 1)THEN
+          IF(IS_PREVKEYA_NCHARKEY == 1 .AND. IKOLD /=0)THEN
+            WRITE(IUSC1,REC=IKOLD,FMT='(A,I10)') KEYW,NBC
+          ELSEIF(IKOLD/=0)THEN
+            WRITE(IUSC1,REC=IKOLD,FMT='(17A,I10)')'/',(KEY(I),'/',I=1,8),NBC
+          ENDIF
+          KEYW = KEYA
+          IS_PREVKEYA_NCHARKEY = 1
+          CALL REDKEY1_H3D(KEY_H3D,KEY0,NKEY,KEYA,IKEY,IR)
+          IF(IR/=0) CYCLE
+          NBC=0
+          IKOLD=IKAD(IKEY)
+        ELSEIF(KEYA(1:1)=='/')THEN
+          IF(IS_PREVKEYA_NCHARKEY == 1 .AND. IKOLD /=0)THEN
+            WRITE(IUSC1,REC=IKOLD,FMT='(A,I10)') KEYW,NBC
+          ELSEIF(IKOLD/=0)THEN
+            WRITE(IUSC1,REC=IKOLD,FMT='(17A,I10)')'/',(KEY(I),'/',I=1,8),NBC
+          ENDIF
+          IS_PREVKEYA_NCHARKEY = 0
+          CALL REDKEY1(KEY,KEY0,NKEY,KEYA,IKEY,IR)
+          IF(IR/=0) CYCLE
+          NBC=0
+          IKOLD=IKAD(IKEY)
+        ELSEIF( IS_PREVKEYA_NCHARKEY == 1) THEN
+          NBC=NBC+1
+          WRITE(IUSC1,REC=IKAD(IKEY),FMT='(A)')KEYA
+        ELSE
+          NBC=NBC+1
+          WRITE(IUSC1,REC=IKAD(IKEY),FMT='(A)')KEYA
+        ENDIF
+        IKAD(IKEY)=IKAD(IKEY)+1
       ENDDO !next N
 c
       IF( IS_PREVKEYA_NCHARKEY == 1) THEN
@@ -461,25 +457,22 @@ C
         IKAD(I)=IKAD(I-1)
       ENDDO
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-        CLOSE(UNIT=IUSC_TMP)
-        CALL DELETE_USER_FILE(IUSCTMP_FN,LEN_IUSCTMP_FN)
-        ISTDI = 5
-       IF (GOT_INPUT==1) THEN
+      CLOSE(UNIT=IUSC_TMP)
+      CALL DELETE_USER_FILE(IUSCTMP_FN,LEN_IUSCTMP_FN)
+      ISTDI = 5
+      IF (GOT_INPUT==1) THEN
         ISTDI=80
         CLOSE(UNIT=ISTDI, STATUS='DELETE', IOSTAT=IO_ERR)
-       ELSE
+      ELSE
         CLOSE (UNIT=ISTDI)
-       ENDIF
+      ENDIF
 C========================================================================
-C---- Distinction d'un fichier de relance de calcul
-C   /RERUN/ROOTNAME/IRUN
+C   /RERUN/ROOTNAME/IRUN  (RERUN OPTION)
 C---------------
-C RERUN OPTION
-C
-      IKEY=KRERUN
-      IRUNN=1
-      MCHECK =0
-      TSTOP0= ZERO
+      IKEY = KRERUN
+      IRUNN = 1
+      MCHECK = 0
+      TSTOP0 = ZERO
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        IRUNN=0
        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A4,2X,I5)',ERR=9990)CH4,IRUNN
@@ -493,8 +486,7 @@ C If IRUNN was set in input and is different from -input run number,
 C than we print out a message.
         IF (IRUNN /= 0)THEN
           IF (IRUNN /= RUNN)THEN
-           WRITE(ISTDO,'(A,A)') ' ** WARNING ** : RUN NUMBER FOUND IN ',
-     *               '/RUN CARD FROM INPUT FILE'
+            WRITE(ISTDO,'(A,A)') ' ** WARNING ** : RUN NUMBER FOUND IN ','/RUN CARD FROM INPUT FILE'
             WRITE(ISTDO,'(A)')   '                 RUN NUMBER IGNORED '
           ENDIF
         ENDIF
@@ -531,23 +523,21 @@ C--------------------
         ENDIF
       END IF
 C--------------------
-C     OPTION V181 ET +
+C     /PARIT
 C--------------------
       IPARIT = -1
       IKEY=KPARIT
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A,1X,I5)',
-     .        ERR=9990)KEY2,K4
+       READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A,1X,I5)',ERR=9990)KEY2,K4
        IF(KEY2=='OFF')THEN
          IPARIT = 0
        ELSEIF(KEY2=='ON')THEN
          IPARIT = K4 + 1
        ENDIF
       ENDIF
-C
-      IKEY=KDTNOD
-      NODADT = 0
-      IF(IKAD(IKEY)/=IKAD(IKEY+1)) NODADT = 1
+C--------------------
+C     /DTIX
+C--------------------
       IKEY=KDTIX
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
@@ -556,19 +546,21 @@ C
        DTIN=ZERO
        DTMX=EP30
       ENDIF
-      IMPL=0
-C
+C--------------------
+C     /FLSEC
+C--------------------
       NSFLSW=0
       IKEY=KFLSEC
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
- 110   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(49X,I10)',
-     .      ERR=9990)NBC
+ 110   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(49X,I10)',ERR=9990)NBC
        K=K+NBC+1
        NSFLSW=NSFLSW+1
        IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 110
       ENDIF
-C
+C--------------------
+C     /FUNCT
+C--------------------
       NFCT=0
       IKEY=KFUNC
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
@@ -586,7 +578,7 @@ C-----------------------
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
       ENDIF
 C-----------------------
-C     DYNAMIC RELAXATION
+C     /KEREL (KINETIC ENERGY RELAXATION)
 C-----------------------
       ISTAT = 0
       ISTATG = 0
@@ -609,6 +601,9 @@ c------- add T_START,T_STOP
        PERIOD = ZERO
        ISTAT=2
       ENDIF
+C-----------------------
+C     /DYREL (DYNAMIC RELAXATION)
+C-----------------------    
       IKEY=KDYREL
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        IF(ISTAT==0)ISTAT=1
@@ -627,7 +622,9 @@ c------- add T_START,T_STOP
       ELSE
        BETATE = ZERO
       ENDIF
-C
+C-----------------------
+C     /ADYREL (ADAPTATIVE DYNAMIC RELAXATION)
+C-----------------------
       IKEY=KADYREL
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        ISTATG = 0
@@ -660,7 +657,7 @@ C
        ISTATG = -IABS(ISTATG)
       ENDIF
 C-----------------------
-C     ALE SUB-CYCLING
+C     /ALESUB (ALE SUB-CYCLING, OBSOLETE)
 C-----------------------
       IALESUB = 0
       IKEY=KALESUB
@@ -676,19 +673,16 @@ C-----------------------
         CALL ANCMSG(MSGID=197,ANMODE=ANINFO)
         IERR=IERR+1
       ENDIF
+      
 C-----------------------
-C     STOP/KILL
+C     /STOP
 C-----------------------
-C         /STOP/LSENSOR
-C------------------------
       NSTOPSENS = 0
       LSTOPSENS(1:NSENSOR) = 0
-C
       IKEY=KSTOP
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
         K=0
- 1150   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',
-     .      ERR=9990)KEY2,NBC
+ 1150   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',ERR=9990)KEY2,NBC
         K=K+1
         IF(KEY2=='LSENS')THEN    ! IF STOP BASED ON SENSOR ACTIVATION
 c        First lign
@@ -703,31 +697,25 @@ c        First lign
 c        Second lign
           IOK_READ = 0
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-          READ(IUSC2,*,ERR=148,END=148)
-     .        NSANIM,NSTH,NSSTAT,NSOUTP,NSABF,NSH3D,NSDYNANIN
+          READ(IUSC2,*,ERR=148,END=148)NSANIM,NSTH,NSSTAT,NSOUTP,NSABF,NSH3D,NSDYNANIN
           IOK_READ = 1
 c        Ensure Backward compatibility : without NSH3D
 148       IF (IOK_READ == 0) THEN
             CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-            READ(IUSC2,*,ERR=9990,END=9990)
-     .        NSANIM,NSTH,NSSTAT,NSOUTP,NSABF
+            READ(IUSC2,*,ERR=9990,END=9990)NSANIM,NSTH,NSSTAT,NSOUTP,NSABF
           ENDIF
-C
            K=K+1
         ELSE
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-          READ(IUSC2,*,ERR=150,END=149)
-     .       DEMXS,DMTMXS,DMNMXS,NTH,NANIM,NERR_POSIT
+          READ(IUSC2,*,ERR=150,END=149)DEMXS,DMTMXS,DMNMXS,NTH,NANIM,NERR_POSIT
           GOTO 151
  149      CONTINUE
-          READ(IUSC2,*,ERR=150,END=150)
-     .       DEMXS,DMTMXS,DMNMXS,NTH,NANIM
+          READ(IUSC2,*,ERR=150,END=150)DEMXS,DMTMXS,DMNMXS,NTH,NANIM
           GOTO 151
  150      CONTINUE
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           READ(IUSC2,*)DEMXS,DMTMXS,DMNMXS
  151      CONTINUE
-C
           K=K+NBC
         ENDIF
         IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 1150
@@ -735,6 +723,10 @@ C
       IF(DMTMXS==ZERO)DMTMXS=EP30
       IF(DMNMXS==ZERO)DMNMXS=EP30
       IF(DEMXS==ZERO) DEMXS =EP30
+      
+C-----------------------
+C     /KILL
+C-----------------------
       IKEY=KKILL
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
         CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
@@ -742,8 +734,7 @@ C
      .       DEMXK,DMTMXK,DMNMXK,NTH,NANIM,NERR_POSIT
         GOTO 156
  154    CONTINUE
-        READ(IUSC2,*,ERR=155,END=155)
-     .       DEMXK,DMTMXK,DMNMXK,NTH,NANIM
+        READ(IUSC2,*,ERR=155,END=155)DEMXK,DMTMXK,DMNMXK,NTH,NANIM
         GOTO 156
  155    CONTINUE
         CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
@@ -753,53 +744,50 @@ C
       IF(DMTMXK==ZERO)DMTMXK=EP20
       IF(DMNMXK==ZERO)DMNMXK=EP20
       IF(DEMXK==ZERO) DEMXK =EP20
-C========================================================================
-C--------------------
-C     CONTROL CARD 1
-C--------------------
-      IF (MCHECK == 0) THEN
-      IKEY=KRUN
-      IRUNN=1
-      IRUNR=0
-      CHRUN0='  '
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       IRUNN=0
-       READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A4,2X,I5,1X,A1)',
-     .                           ERR=9990)CH4,IRUNN,CHRUN0(2:2)
-       IF(CHRUN0(2:2)/=' ')CHRUN0(1:1)='_'
-       CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
-       READ(IUSC2,*)TSTOP0
-      ENDIF
 
-      IF (GOT_INPUT == 1) THEN
-C RUNN is -input run number,
-C if RUNN = 0 (common starter / engine input file) RUNN is set to 1 in Engine.
-        IF (RUNN==0 ) RUNN=1
-C IRUNN is the run number read from input.
-C If IRUNN was set in input and is different from -input run number,
-C than we print out a message.
-        IF (IRUNN /= 0)THEN
-          IF (IRUNN /= RUNN)THEN
-           WRITE(ISTDO,'(A,A)') ' ** WARNING ** : RUN NUMBER FOUND IN ',
-     *               '/RUN CARD FROM INPUT FILE'
-            WRITE(ISTDO,'(A)')   '                 RUN NUMBER IGNORED '
-          ENDIF
+C--------------------------
+C     /RUN
+C--------------------------  
+      IF (MCHECK == 0) THEN          
+        IKEY=KRUN
+        IRUNN=1
+        CHRUN0='  '
+        IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
+          IRUNN=0
+          READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A4,2X,I5,1X,A1)',ERR=9990)CH4,IRUNN,CHRUN0(2:2)
+          IF(CHRUN0(2:2)/=' ')CHRUN0(1:1)='_'
+          CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
+          READ(IUSC2,*)TSTOP0
         ENDIF
-
-        IRUNN = RUNN
-        IF (IRUNN == 0) IRUNN = 1
-      ENDIF
-      IF(ROOTLEN==0) THEN
-       CALL ANCMSG(MSGID=194,ANMODE=ANINFO)
-       IERR=IERR+1
-      ENDIF
-      IF(IRUNN<=0) THEN
-       CALL ANCMSG(MSGID=195,ANMODE=ANINFO)
-       IERR=IERR+1
-       IRUNN=1
-      ENDIF
+        IF (GOT_INPUT == 1) THEN
+          !RUNN is -input run number,
+          !if RUNN = 0 (common starter / engine input file) RUNN is set to 1 in Engine.
+          IF (RUNN==0 ) RUNN=1
+          !IRUNN is the run number read from input.
+          !If IRUNN was set in input and is different from -input run number,than we print out a message.
+          IF (IRUNN /= 0)THEN
+            IF (IRUNN /= RUNN)THEN
+             WRITE(ISTDO,'(A,A)') ' ** WARNING ** : RUN NUMBER FOUND IN ', '/RUN CARD FROM INPUT FILE'
+              WRITE(ISTDO,'(A)')  '                 RUN NUMBER IGNORED '
+            ENDIF
+          ENDIF
+          IRUNN = RUNN
+          IF (IRUNN == 0) IRUNN = 1
+        ENDIF
+        IF(ROOTLEN==0) THEN
+         CALL ANCMSG(MSGID=194,ANMODE=ANINFO)
+         IERR=IERR+1
+        ENDIF
+        IF(IRUNN<=0) THEN
+         CALL ANCMSG(MSGID=195,ANMODE=ANINFO)
+         IERR=IERR+1
+         IRUNN=1
+        ENDIF
       ENDIF ! MCHECK == 0
 
+C--------------------------
+C     /TITLE
+C--------------------------  
       IKEY=KTITLE
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY)+1,FMT='(A)',ERR=9990)TITLE
@@ -809,63 +797,51 @@ C than we print out a message.
       ENDIF
       WRITE(IIN,'(2A,I2.2,A)')ROOTNAM(1:ROOTLEN),'D',IRUNN,TITLE
       WRITE(CHRUN,'(I4.4)')IRUNN
+      
 C-----------------------
-C  OPTION /SHVER/V51 pour revenir aux anciens vers sans correction
-C  par defaut : Correction 2nd order rigid rotation pour QEPH,QBAT,DKT18,S3N6
-C--------------------------------------------------------
-      IKEY   = KSHVER
-      ISHV51 = 52
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-         READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A)',
-     .                           ERR=9990)KEY2
-         IF(KEY2(1:3)=='V51')ISHV51=51
-      END IF
-C-----------------------
-C  OPTION /NEGVOL/keyword SMSTR: INEG_V=1;STOP: INEG_V=0;
+C   /NEGVOL  (SMSTR: INEG_V=1;STOP: INEG_V=0)
 C--------------------------------------------------------
       IKEY   = KNEGVOL
       INEG_V = 1
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-         READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A)',
-     .                           ERR=9990)KEY2
-         IF(KEY2(1:4)=='STOP') INEG_V = 0
+        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A)',ERR=9990)KEY2
+        IF(KEY2(1:4)=='STOP') INEG_V = 0
       END IF
+
 C-----------------------
-C  OPTION /DTSDE pour dt for degenerated solid element
+C   /DTSDE
+C    time step for degenerated solid element
 C----change to default; to return back use /DTSDE/OFF
 C----reput /DTSDE/OFF as default after instability issue; re-use /DTSDE if needed
 C--------------------------------------------------------
       IKEY   = KDTSDE
       IDTS6 = 0
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-          IDTS6=1
-         READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A)',
-     .                           ERR=9990)KEY2
-         IF(KEY2(1:3)=='OFF') IDTS6 = 0
+        IDTS6=1
+        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A)',ERR=9990)KEY2
+        IF(KEY2(1:3)=='OFF') IDTS6 = 0
       END IF
+
 C--------------------
-C     CONTROL CARD 2 ET 2BIS
+C     /DT
 C--------------------
       IKEY=KDT
       DTFAC0=ZERO
       DTMIN0=ZERO
-      INTDT = 0
-      IDTGR(11)  = 0
-C      KDTINT=1
-C     temporaire :
+      INTDT=0
+      IDTGR(11)=0
       KDTINT=0
       KDTSMSTR=1
       NODSUBDT=0
 C
-      TOL_SMS= ZERO
-      NCPRISMS= 0
+      TOL_SMS=ZERO
+      NCPRISMS=0
       M_VS_SMS=0
 C
-      IDTMINS_INT= 0
-      DTFACS_INT = ZERO
-      DTMINS_INT = ZERO
-      IDT_THERM = 0
-C
+      IDTMINS_INT=0
+      DTFACS_INT=ZERO
+      DTMINS_INT=ZERO
+      IDT_THERM=0
 C
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
@@ -1004,7 +980,7 @@ C
         IF(KEY3(1:4)=='STOP')THEN
            IDT = 1
            IF((KEY2(1:4)=='NODA').AND.(IDT_PERCENT_ADDMASS == 1)) THEN
-C--       case DT/NODA/STOP + % of added mass - IDTMIN set to 8
+C--        case DT/NODA/STOP + % of added mass - IDTMIN set to 8
              IDT = 8
              IDT_PERCENT_ADDMASS = 2
              DT_STOP_PERCENT_ADDMASS = DTMINA
@@ -1074,14 +1050,14 @@ C
          IDTMIN(9) = IDT
         ELSEIF(KEY2=='INTER')THEN
          IF(INTDT==0.and.(IDT/=3.and.IDT/=8.and.IDT/=7))THEN
-C           si /DT/INTER/DEL lu + tard ce qui suit sera ecrase
+C           if /DT/INTER/DEL is read later, then following definition can be erased
             DTFAC1(10) = DTFACA
             DTMIN1(10) = DTMINA
             IDTMIN(10) = IDT
          ENDIF
          IF(IDT==2)INTDT=1
          IF(NODADT==0.AND.(IDT==3.OR.IDT==8))THEN
-C           si /DT/NODA lu + tard ce qui suit sera ecrase
+C           if /DT/NODA is read later, then following definition can be erased
             DTFAC1(11) = DTFACA
             DTMIN1(11) = DTMINA
             IDTMIN(11) = IDT
@@ -1089,7 +1065,7 @@ C           si /DT/NODA lu + tard ce qui suit sera ecrase
             DTFACS_INT = DTFACA
             DTMINS_INT = DTMINA
             IDTMINS_INT= 1
-C           si /DT/AMS lu + tard ce qui suit sera ecrase
+C           if /DT/AMS is read later, then following definition can be erased
             IF(K4>=1)THEN
               CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
               READ(IUSC2,*,ERR=3001,END=3001)TOL_SMS,M_VS_SMS
@@ -1217,7 +1193,7 @@ C
             K=K+1
           ENDIF
         ELSEIF(KEY2(1:5)=='CST_A')THEN
-C--    Cas hybride CST_AMS : /DT/NODA/CST + /DT/AMS
+C--    hybrid case CST_AMS : /DT/NODA/CST + /DT/AMS
           DT_CTRL_COMPATIBILITY(3) = 1
 C        Set of /DT/NODA/CST
           DTFAC1(11) = DTFACA
@@ -1268,33 +1244,28 @@ C
 C   Check of compatibility of time step control options - /DT/CST_AMS can not be used with /DT/AMS or /DT/NODA/CST
       IF (DT_CTRL_COMPATIBILITY(3) == 1) THEN
         IF ((DT_CTRL_COMPATIBILITY(1)+DT_CTRL_COMPATIBILITY(2)) > 0) THEN
-          CALL ANCMSG(MSGID=279,ANMODE=ANINFO,
-     .            C1=KEY0(IKEY))
+          CALL ANCMSG(MSGID=279,ANMODE=ANINFO,C1=KEY0(IKEY))
           CALL ARRET(0)
         ENDIF
       ENDIF
 C AMS is not compatible with thermal time step
       IF (IDT_THERM == 1.AND.IDTMINS/=0) THEN
-          CALL ANCMSG(MSGID=301,ANMODE=ANINFO,
-     .            C1=KEY0(IKEY))
+          CALL ANCMSG(MSGID=301,ANMODE=ANINFO,C1=KEY0(IKEY))
           CALL ARRET(0)
       ENDIF
 C
+C--------------------------
+C     /DT1
+C--------------------------  
       IKEY=KDT1
       IDT1SH = 0
       IDT1SOL= 0
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
- 161   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,1X,I5)',
-     .                              ERR=9990)KEY2,KEY3,K4
-c       IF(KEY2=='BRICK')THEN
-c         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,1X,I5)',ERR=9990)KEY2,KEY3,K4
-c       ENDIF
-
+ 161   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,1X,I5)', ERR=9990)KEY2,KEY3,K4
        K=K+1
        CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
        READ(IUSC2,*,ERR=9990,END=9990)DTFACA,DTMINA
-
        K=K+1
        IF(KEY3(1:4)=='STOP')THEN
            IDT = 1
@@ -1307,7 +1278,6 @@ c       ENDIF
        ELSE
            IDT = 0
        ENDIF
-
        IF(KEY2=='SHELL')THEN
          IDT1SH = 1
          DTFAC1(3) = DTFACA
@@ -1338,7 +1308,10 @@ c       ENDIF
        ENDIF
        IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 161
       ENDIF
-C
+      
+C--------------------------
+C     /TFILE
+C-------------------------- 
       ITTYP = 0
       IKEY=KTFILE
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
@@ -1349,7 +1322,11 @@ C
        ITTYP=0
        DTHIS0=EP30
       ENDIF
-       IKEY=KATFIL
+      
+C--------------------------
+C     /ATFIL
+C--------------------------       
+      IKEY=KATFIL
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5)',ERR=9990)AFORM(1)
        CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
@@ -1358,6 +1335,10 @@ C
        DTHIS01(1)=EP30
        THIS1(1)= EP30
       ENDIF
+      
+C--------------------------
+C     /BTFIL
+C--------------------------       
       IKEY=KBTFIL
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5)',ERR=9990)AFORM(2)
@@ -1367,6 +1348,10 @@ C
        DTHIS01(2)=EP30
        THIS1(2)=EP30
       ENDIF
+      
+C--------------------------
+C     /CTFIL
+C--------------------------       
       IKEY=KCTFIL
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5)',ERR=9990)AFORM(3)
@@ -1376,6 +1361,10 @@ C
        DTHIS01(3)=EP30
        THIS1(3)=EP30
       ENDIF
+      
+C--------------------------
+C     /DTFIL
+C--------------------------       
       IKEY=KDTFIL
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5)',ERR=9990)AFORM(4)
@@ -1385,6 +1374,10 @@ C
        DTHIS01(4)=EP30
        THIS1(4)=EP30
       ENDIF
+      
+C--------------------------
+C     /ETFIL
+C--------------------------       
       IKEY=KETFIL
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5)',ERR=9990)AFORM(5)
@@ -1394,6 +1387,10 @@ C
        DTHIS01(5)=EP30
        THIS1(5)=EP30
       ENDIF
+      
+C--------------------------
+C     /KTFIL
+C--------------------------       
       IKEY=KFTFIL
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5)',ERR=9990)AFORM(6)
@@ -1403,6 +1400,10 @@ C
        DTHIS01(6)=EP30
        THIS1(6)=EP30
       ENDIF
+      
+C--------------------------
+C     /GTFIL
+C--------------------------       
       IKEY=KGTFIL
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5)',ERR=9990)AFORM(7)
@@ -1412,6 +1413,10 @@ C
        DTHIS01(7)=EP30
        THIS1(7)=EP30
       ENDIF
+      
+C--------------------------
+C     /HTFIL
+C--------------------------       
       IKEY=KHTFIL
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5)',ERR=9990)AFORM(8)
@@ -1421,6 +1426,10 @@ C
        DTHIS01(8)=EP30
        THIS1(8)=EP30
       ENDIF
+      
+C--------------------------
+C     /ITFIL
+C--------------------------       
       IKEY=KITFIL
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5)',ERR=9990)AFORM(9)
@@ -1430,13 +1439,15 @@ C
        DTHIS01(9)=EP30
        THIS1(9)=EP30
       ENDIF
+      
+C--------------------------
+C     /TH
+C--------------------------       
       IKEY=KTH
       TH_VERS=40
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
- 1160  READ(IUSC1,REC=IKAD(IKEY)+K,
-     .      FMT='(7X,A,1X,A,1X,A,1X,A,19X,I10)',
-     .      ERR=9990)KEY2,KEY3,KEY4,KEY5,NBC
+ 1160  READ(IUSC1,REC=IKAD(IKEY)+K, FMT='(7X,A,1X,A,1X,A,1X,A,19X,I10)', ERR=9990)KEY2,KEY3,KEY4,KEY5,NBC
        K=K+1
        IF(KEY2(1:4)=='VERS')THEN
          READ(KEY3,'(I4)')TH_VERS
@@ -1452,7 +1463,10 @@ C
        K=K+NBC
        IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 1160
       ENDIF
-C
+
+C--------------------------
+C     /PRINT
+C-------------------------- 
       IKEY=KPRINT
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5,X,I5)',ERR=9990)NCPRI0,NCPRI_HEAD0
@@ -1460,6 +1474,10 @@ C
        NCPRI0=-100
        NCPRI_HEAD0=0
       ENDIF
+      
+C--------------------------
+C     /RFILE
+C--------------------------       
       RF_CHECK = 0
       IKEY=KRFILE
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
@@ -1498,14 +1516,11 @@ C
         IRETYP=0
       ENDIF
 
-c      WRITE(IIN,'(65X,I5,1X,3I1)')INVERS,ITTYP,IRLTYP,IRETYP
-      WRITE(IIN,'(1P4E16.9,I8,I10,2I8)')
-     .    TSTOP0,DTHIS0,DTFAC0,DTMIN0,NCPRI0,NCRST,MULTIREST,NCPRI_HEAD0
-C     .    TSTOP,DTHIS0,DTHIS01,DTFAC0,DTMIN0,NCPRI,NCRST,MULTIREST
-       WRITE(IIN,'(1P5E16.9)')(DTHIS01(I), I=1,5)
-       WRITE(IIN,'(1P4E16.9)')(DTHIS01(I+5), I=1,4)
+      WRITE(IIN,'(1P4E16.9,I8,I10,2I8)')TSTOP0,DTHIS0,DTFAC0,DTMIN0,NCPRI0,NCRST,MULTIREST,NCPRI_HEAD0
+      WRITE(IIN,'(1P5E16.9)')(DTHIS01(I), I=1,5)
+      WRITE(IIN,'(1P4E16.9)')(DTHIS01(I+5), I=1,4)
 
-c     on met la valeur de ITTYP a 4 (Binary IEEE 32 bits) par defaut
+c     ITTYP set to 4 by default (Binary IEEE 32 bits) 
       IF(ITTYP==0) ITTYP=4
 
       ITFORM=ITTYP-1
@@ -1513,17 +1528,13 @@ c     on met la valeur de ITTYP a 4 (Binary IEEE 32 bits) par defaut
         IF (AFORM(I)==0) AFORM(I)=4
         AFORM(I)=AFORM(I)-1
       END DO
-C
-C     IRFE=IRFORM/3
-C     IRFL=IRFORM-3*IRFE
+
       IRFE=IRFORM/5
       IRFL=IRFORM-5*IRFE
-c      IF(IRETYP/=0) IRFE=IRETYP-1
-c      IF(IRLTYP/=0) IRFL=IRLTYP-1
-C     IRFORM=3*IRFE+IRFL
       IRFORM=5*IRFE+IRFL
+
 C--------------------
-C     CONTROL CARD 5 '/ALE/GRID/*'
+C     /ALE/GRID
 C--------------------
       IKEY=KALE
       ALP=ZERO
@@ -1537,7 +1548,7 @@ C--------------------
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A32)',ERR=9990)StrIAL
        IF(StrIAL(1:4)=='GRID')StrIAL(1:5)=StrIAL(7:11)          !Shift String "/ALE  /GRID /*****    => StrIAL = '*****' , len=5
-       CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))                    !                     12345678901
+       CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY)) 
        !---------------------------------------!
        !    '/ALE/GRID/DONEA'                  !
        !---------------------------------------!
@@ -1550,8 +1561,7 @@ C--------------------
        ELSEIF(StrIAL(1:4)=='DISP'.OR.StrIAL(1:1)=='1')THEN
         IAL=1
         READ(IUSC2,*,ERR=1161,END=1161)ALP,A1,A2,A3,VM  !format kept for backward compatibility
-        IF(ALP/=ZERO.OR.VM/=ZERO
-     .     .OR.A1/=ZERO.OR.A2/=ZERO.OR.A3/=ZERO)GOTO 1162
+        IF(ALP/=ZERO.OR.VM/=ZERO.OR.A1/=ZERO.OR.A2/=ZERO.OR.A3/=ZERO)GOTO 1162
  1161   REWIND(IUSC2)
         A1=ZERO; A2=ZERO; A3=ZERO;
         READ(IUSC2,*,ERR=9990,END=9990)ALP,VM           !new format scale factor removed (hidden flags)
@@ -1569,7 +1579,6 @@ C--------------------
        !---------------------------------------!
        ELSEIF(StrIAL(1:4)=='ZERO'.OR.StrIAL(1:1)=='3')THEN
         IAL=3
-        !READ(IUSC2,*,ERR=9990,END=9990)ALP
        !---------------------------------------!
        !    '/ALE/GRID/STANDARD'               !
        !---------------------------------------!
@@ -1595,7 +1604,6 @@ C--------------------
       ENDIF
       WRITE(IIN,'(1P6E10.3)')ALP,GAM,A1,A2,A3,VM
 
-
       !---------------------------------------!
       !    '/ALE/LOWMACH                      !
       !---------------------------------------!
@@ -1615,10 +1623,9 @@ C--------------------
       ENDDO
       WRITE(IIN,'(I8)') LOWMACH_OPT
 
-
-C--------------------
-C     CONTROL CARD 6(DEL)
-C--------------------
+C--------------------------
+C     /DEL
+C-------------------------- 
       NINTOF=0
       NELSOF=0
       NELQOF=0
@@ -1637,18 +1644,16 @@ C--------------------
       NTHERMOF=0
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
- 200   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,31X,I10)',
-     .      ERR=9990)KEY2,KEY3,NBC
+ 200   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,31X,I10)',ERR=9990)KEY2,KEY3,NBC
        K3 = 0
-       IF(KEY3(1:3)/='NOD'.AND.KEY3(1:3)/='SEG')
-     .      READ(KEY3,FMT='(I5)',ERR=9990)K3
+       IF(KEY3(1:3)/='NOD'.AND.KEY3(1:3)/='SEG')READ(KEY3,FMT='(I5)',ERR=9990)K3
        K=K+1
        NOF=0
-       DO 210 I=1,NBC
-        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
-        K=K+1
-        NOF=NOF+NVAR(CARTE)
- 210   CONTINUE
+       DO I=1,NBC
+         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
+         K=K+1
+         NOF=NOF+NVAR(CARTE)
+       ENDDO
        NDEL=NDEL+1
        IF(K3==1)NOF=NOF/2
        IF(KEY2=='INTER'.AND.KEY3(1:3)=='NOD')THEN
@@ -1684,14 +1689,13 @@ C--------------------
        ENDIF
        IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 200
       ENDIF
-      WRITE(IIN,'(10I8)')NINTOF,NELSOF,NELQOF,NELCOF,NELTOF,
-     .                  NELPOF,NELROF,NELTGOF,NINTNOF,NINTSOF
+      WRITE(IIN,'(10I8)')NINTOF,NELSOF,NELQOF,NELCOF,NELTOF,NELPOF,NELROF,NELTGOF,NINTNOF,NINTSOF
       WRITE(IIN,'(I8)')NSPHOF
       WRITE(IIN,'(3I8)')NALEOF,NEULEROF,NTHERMOF
-C--------------------
-C     CONTROL CARD 7
-C       ALE LINKS (OLD FORMAT)
-C--------------------
+
+C--------------------------
+C     /VEL
+C-------------------------- 
       NRLINK=0
       NALELK=0
       IKEY=KVEL
@@ -1703,6 +1707,7 @@ C--------------------
        ELSEIF(KEY2=='ROT  ')THEN
         NRLINK=NRLINK+1
        ELSEIF(KEY2=='ALE  ')THEN
+        ! /VEL/ALE (OBSOLETE, replaced with /ALE/LINK)
         NALELK=NALELK+1
        ELSE
         CALL ERRMSG(KEY2)
@@ -1710,8 +1715,9 @@ C--------------------
        K=K+NBC+1
       ENDDO
       WRITE(IIN,'(2I8)')NRLINK,NALELK
+      
 C-----------------------
-C     ALE LINKS
+C     /ALE/LINK
 C-----------------------
       IKEY          = KALE
       NALELINK      = 0
@@ -1723,7 +1729,6 @@ C-----------------------
                NALELINK=NALELINK+1
             ELSEIF(KEY3(1:5)=='OFF  ')THEN
                NALELINK=NALELINK+1
-
             ELSEIF(KEY3(1:5)=='ON   ')THEN
                NALELINK=NALELINK+1
             ELSE
@@ -1742,7 +1747,7 @@ C-----------------------
       UPWMG2        = ZERO
       UPWOG2        = ZERO
       UPWSM2        = ZERO
-      CUPWM         = ONE     !SUPG enabled
+      CUPWM         = ONE    !SUPG enabled
       I_SUPG_ON_OFF = 0      !test if card is present to check user input in case of both /ALE/SUPG & /UPWM/SUPG
                              !  1 : ON
                              !  2 : OFF
@@ -1825,6 +1830,7 @@ C--------------------
          K = K + 1 + NBC
       ENDDO
       WRITE (IIN, '(I8, I8)') NBPARTALEON, NBPARTALEOFF
+      
 C-----------------------
 C     /ALE/SOLVER/FINT
 C-----------------------
@@ -1851,8 +1857,9 @@ C-----------------------
        ENDIF
        K = K + 1
       ENDDO
+      
 C--------------------
-C   /ALE/ CHECK KEY2
+C   /ALE : check for valid sub-keywords
 C--------------------
       IKEY         = KALE
       K            = 0
@@ -1874,13 +1881,11 @@ C--------------------
            ENDIF
          ENDIF
  998     CONTINUE
-      ! ENDIF
        K = K + 1
       ENDDO
 
-
 C--------------------
-C     CONTROL CARD 8(DEF CHANGES)
+C     /BCS
 C--------------------
       NUBCS1=0
       NBCS1=0
@@ -1888,14 +1893,13 @@ C--------------------
       IKEY=KBCS
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
- 400   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',
-     .      ERR=9990)KEY2,NBC
+ 400   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',ERR=9990)KEY2,NBC
        K=K+1
-       DO 410 I=1,NBC
-        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
-        K=K+1
-        NUBCS1=NUBCS1+NVAR(CARTE)
- 410   CONTINUE
+       DO I=1,NBC
+         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
+         K=K+1
+         NUBCS1=NUBCS1+NVAR(CARTE)
+       ENDDO
        NBCS1 = NBCS1 + 1
        IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 400
       ENDIF
@@ -1903,26 +1907,27 @@ C--------------------
       IKEY=KBCSR
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
- 420   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',
-     .      ERR=9990)KEY2,NBC
+ 420   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',ERR=9990)KEY2,NBC
        K=K+1
        DO I=1,NBC
-        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
-        K=K+1
-        NUBCS2=NUBCS2+NVAR(CARTE)
+         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
+         K=K+1
+         NUBCS2=NUBCS2+NVAR(CARTE)
        ENDDO
        NBCS2 = NBCS2 + 1
        IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 420
       ENDIF
       NUM_BCS=NUBCS1+NUBCS2
-C
+
+C--------------------
+C     /INIV
+C--------------------
       NINIV = 0
       NINIVT= 0
       IKEY=KINIV
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
- 440   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,7X,I5,25X,I10)',
-     .      ERR=9990)KEY2,K3,NBC
+ 440   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,7X,I5,25X,I10)',ERR=9990)KEY2,K3,NBC
        K=K+1
        IF (KEY2(1:4)=="AXIS") THEN
          M=2
@@ -1931,23 +1936,24 @@ C
        ENDIF
        K=K+M
        IF (K3==2) THEN
-        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
-C-----------  NVAR(CARTE) should be =1
-        K=K+1
-        NINIVT=NINIVT+(NBC-M)*2*NVAR(CARTE)
+         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
+         ! NVAR(CARTE) should be =1
+         K=K+1
+         NINIVT=NINIVT+(NBC-M)*2*NVAR(CARTE)
        ELSE
          DO I=1,NBC-M
-          READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
-          K=K+1
-          NINIVT=NINIVT+(2-K3)*NVAR(CARTE)
+           READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
+           K=K+1
+            NINIVT=NINIVT+(2-K3)*NVAR(CARTE)
          ENDDO
        END IF
        NINIV=NINIV + 1
        IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 440
       ENDIF
       WRITE(IIN,'(2I8)')NUM_BCS,NINIVT/2
+
 C--------------------
-C     CONTROL CARD 9(TEMP CHANGES)
+C     /INTER
 C--------------------
       NINTCH=0
       INTCH_IFOP = 0
@@ -1957,19 +1963,18 @@ C--------------------
       NBTOPFOP = 0
       IKEY=KINTER
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       K=0
-C      options /inter/fop , /inter/top, /inter/nofop, /inter/notop
- 500   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',
-     .      ERR=9990)KEY2,NBC
-       K=K+NBC+1
-       NINTCH=NINTCH+1
-       IF(KEY2=='FOP') THEN
-C        IFOP = 1
-         IF (INTCH_IFOP/=0) THEN
-           GO TO 9990
-         ELSE
-           INTCH_IFOP=NINTCH
-           NBTOPFOP = NBTOPFOP + 1
+        K=0
+        !options /inter/fop , /inter/top, /inter/nofop, /inter/notop
+ 500    READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',ERR=9990)KEY2,NBC
+        K=K+NBC+1
+        NINTCH=NINTCH+1
+        IF(KEY2=='FOP') THEN
+C         IFOP = 1
+          IF (INTCH_IFOP/=0) THEN
+            GO TO 9990
+          ELSE
+            INTCH_IFOP=NINTCH
+            NBTOPFOP = NBTOPFOP + 1
          ENDIF
        ELSEIF(KEY2=='NOFOP') THEN
 C        IFOP = 0
@@ -1998,22 +2003,24 @@ C        ITOP = 0
        ENDIF
        IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 500
       ENDIF
-C
+
+C--------------------
+C     /RBODY
+C--------------------
       IKEY=KRBODY
       NRBYON=0
       NRBYOF=0
       NRBYNF=0
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
- 550   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',
-     .      ERR=9990)KEY2,NBC
+ 550   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',ERR=9990)KEY2,NBC
        K=K+1
        NOF=0
-       DO 560 I=1,NBC
-        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
-        K=K+1
-        NOF=NOF+NVAR(CARTE)
- 560   CONTINUE
+       DO I=1,NBC
+         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
+         K=K+1
+         NOF=NOF+NVAR(CARTE)
+       ENDDO
        NRBYNF=NRBYNF+1
        IF(KEY2=='ON')THEN
         NRBYON=NRBYON+NOF
@@ -2024,59 +2031,55 @@ C
        ENDIF
        IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 550
       ENDIF
-C
-C prise en compte des cas /inter/fop et /inter/top
+      ! cases /inter/fop and /inter/top
       WRITE(IIN,'(10I8)')NINTCH-NBTOPFOP,NRBYON,NRBYOF
+
 C--------------------
-C     COUPLAGE MADYMO/RADIOSS.
+C     /MADYMO (COUPLING)
 C--------------------
       IKEY=KMADYM
       IMADCPL = 0
-C--------------------
       IF (IKAD(IKEY)/=IKAD(IKEY+1)) THEN
        K=0
- 650   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',
-     .      ERR=9990) KEY2,NBC
-       IF(KEY2/='ON'  .AND.
-     *    KEY2/='ON2' .AND.
-     *    KEY2/='MPP' )THEN
-        CALL ERRMSG(KEY2)
+ 650   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',ERR=9990) KEY2,NBC
+       IF(KEY2/='ON'  .AND. KEY2/='ON2' .AND. KEY2/='MPP' )THEN
+         CALL ERRMSG(KEY2)
        ELSEIF(KEY2=='ON2')THEN
-        IMADCPL = 1
+         IMADCPL = 1
        ELSEIF(KEY2=='MPP')THEN
-        IMADCPL = 1
+         IMADCPL = 1
        ENDIF
        K=K+1
-       DO 660 I=1,NBC
+       DO I=1,NBC
         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990) CARTE
         K=K+1
- 660   CONTINUE
+       ENDDO
        IF(IKAD(IKEY)+K/=IKAD(IKEY+1)) GO TO 650
       ENDIF
+      
 C--------------------
-C     EXTERNAL PROCESS COUPLING (rad2rad)
+C     /RAD2RAD
 C--------------------
       IKEY=KRAD2R
       IRAD2R=0
-C--------------------
       IF (IKAD(IKEY)/=IKAD(IKEY+1)) THEN
         K=0
- 670    READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',
-     .      ERR=9990) KEY2,NBC
+ 670    READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',ERR=9990) KEY2,NBC
         IF(KEY2/='ON')THEN
           CALL ERRMSG(KEY2)
         ELSEIF(KEY2=='ON')THEN
           IRAD2R = 1
-C     Connection initale avec rad2rad  C
+          !initial connexion with rad2rad
           IF (ISPMD==0) CALL CONNECTION_SOCK_INIT_C(SOCK0)
         ENDIF
         K=K+1
-        DO 680 I=1,NBC
+        DO I=1,NBC
           READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990) CARTE
           K=K+1
- 680    CONTINUE
+        ENDDO
         IF(IKAD(IKEY)+K/=IKAD(IKEY+1)) GO TO 670
       ENDIF
+      
 C--------------------------------------------------
 C     /PERF
 C-------------------------------------------------
@@ -2084,8 +2087,7 @@ C-------------------------------------------------
       GLOBAL_INTERFACE_SORTING_ALGO = 1
       IF (IKAD(IKEY)/=IKAD(IKEY+1)) THEN
         K=0
- 700    READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',
-     .      ERR=9990) KEY2,NBC
+ 700    READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',ERR=9990) KEY2,NBC
         IF(KEY2=='SORT1') THEN
           GLOBAL_INTERFACE_SORTING_ALGO = 1
         ELSEIF(KEY2=='SORT2') THEN
@@ -2096,23 +2098,21 @@ C-------------------------------------------------
         K = K +1
         IF(IKAD(IKEY)+K/=IKAD(IKEY+1)) GO TO 700
       ENDIF
+      
 C--------------------
-C     RADIOSS SPMD specific options
+C     /SPMD
 C--------------------
       IKEY=KSPMD
       IDDW=0
       IPREAD=0
       IDDWSTAT=0
-C
       IF (IKAD(IKEY)/=IKAD(IKEY+1)) THEN
        K=0
- 750   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',
-     .      ERR=9990) KEY2,NBC
+ 750   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',ERR=9990) KEY2,NBC
        IF(KEY2=='DDW')THEN
          IDDW=1
          CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
          READ(IUSC2,*) TPSENG
-
        ELSEIF(KEY2=='PREAD')THEN
          IPREAD = 1
        ELSEIF(KEY2=='DDWST')THEN
@@ -2122,15 +2122,15 @@ C
          CALL ERRMSG(KEY2)
        ENDIF
        K=K+1
-       DO 760 I=1,NBC
+       DO I=1,NBC
         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990) CARTE
         K=K+1
- 760   CONTINUE
+       ENDDO
        IF(IKAD(IKEY)+K/=IKAD(IKEY+1)) GO TO 750
       ENDIF
 C
 C--------------------
-C     RAYLEIGH DAMPING
+C     /DAMP
 C--------------------
       IDAMP0=0
       N_DAMP=0
@@ -2144,8 +2144,9 @@ C--------------------
         IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 770
       ENDIF
       WRITE(IIN,'(I8)')N_DAMP
+      
 C--------------------
-C    FLEXIBLE BODY INPUT FILES
+C    /FXINP (FLEXIBLE BODY INPUT FILES)
 C--------------------
       IKEY=KFXINP
       NFXINP=0
@@ -2158,65 +2159,63 @@ C--------------------
          IF (IKAD(IKEY)+K/=IKAD(IKEY+1)) GO TO 780
       ENDIF
       WRITE(IIN,'(I8)')NFXINP
+      
 C-----------------------
-C     SHELLS SUB-CYCLING
+C     /SHSUB (SHELLS SUB-CYCLING)
 C-----------------------
       ISHSUB = 0
       IKEY=KOSHSUB
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       ISHSUB=1
-       READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5,X,I5)',ERR=9990)
-     .      NCPRISH,NCTRLSH
-       WRITE(IIN,'(2I8)')NCPRISH,NCTRLSH
+        ISHSUB=1
+        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5,X,I5)',ERR=9990)NCPRISH,NCTRLSH
+        WRITE(IIN,'(2I8)')NCPRISH,NCTRLSH
       ELSE
-       NCPRISH=0
-       NCTRLSH=0
+        NCPRISH=0
+        NCTRLSH=0
       ENDIF
+      
 C--------------------
-C    EIGENPROBLEM DEACTIVATION
+C    /EIG (EIGENPROBLEM DEACTIVATION)
 C--------------------
       IKEY=KEIG
       NEIGOFF=0
       NEOFF=0
       IF (IKAD(IKEY)/=IKAD(IKEY+1)) THEN
          K=0
- 790     READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',
-     .        ERR=9990)KEY2,NBC
+ 790     READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',ERR=9990)KEY2,NBC
          K=K+1
          NOF=0
-         DO 800 I=1,NBC
-            READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
-            K=K+1
-            NOF=NOF+NVAR(CARTE)
- 800     CONTINUE
+         DO I=1,NBC
+           READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
+           K=K+1
+           NOF=NOF+NVAR(CARTE)
+         ENDDO
          NEIGOFF=NEIGOFF+1
          NEOFF=NEOFF+NOF
-         IF (KEY2/='OFF') CALL ERRMSG(KEY2)
-         IF (IKAD(IKEY)+K/=IKAD(IKEY+1)) GOTO 790
+         IF(KEY2/='OFF') CALL ERRMSG(KEY2)
+         IF(IKAD(IKEY)+K/=IKAD(IKEY+1)) GOTO 790
       ENDIF
       WRITE(IIN,'(2I8)')NEIGOFF, NEOFF
+      
 C-----------------------
-C    FVMBAG REMESH/MODIF
+C    /FVMBAG (REMESH/MODIF)
 C-----------------------
       IKEY=KFVBAG
       NFVMESH=0
       NFVMODI=0
-      IF (IKAD(IKEY)/=IKAD(IKEY+1)) THEN
-         K=0
-  810    READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A5,37X,I10)',ERR=9990)
-     .      KEY2, NBC
-         K=K+NBC+1
-C Le mot clef doit etre repete (FA)
-C        IF (KEY2=='REMES') NFVMESH=NFVMESH+NBC/6
-         IF (KEY2=='REMES') NFVMESH=NFVMESH+1
-         IF (KEY2=='MODIF') NFVMODI=NFVMODI+1
-         IF (IKAD(IKEY)+K/=IKAD(IKEY+1)) GO TO 810
+      IF(IKAD(IKEY)/=IKAD(IKEY+1)) THEN
+        K=0
+  810   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A5,37X,I10)',ERR=9990)KEY2, NBC
+        K=K+NBC+1
+        IF (KEY2=='REMES') NFVMESH=NFVMESH+1
+        IF (KEY2=='MODIF') NFVMODI=NFVMODI+1
+        IF (IKAD(IKEY)+K/=IKAD(IKEY+1)) GO TO 810
       ENDIF
       WRITE(IIN,'(2I8)')NFVMESH,NFVMODI
+      
 C-----------------------
-C-----------------------
-C  OPTION /DT1TET10
-C--------------------------------------------------------
+C  /DT1TET10
+C--------------------
       IKEY   = KDT1TET10
       IDT1TET10=0
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
@@ -2225,33 +2224,38 @@ C--------------------------------------------------------
         IF(NITERP == 0)NITERP=1
         IDT1TET10=1+NITERP
       END IF
+      
 C-----------------------
-C  OPTION /DTTSH use full shell timestep for thick shells.
-C--------------------------------------------------------
+C  /DTTSH (full shell timestep for thick shells)
+C--------------------
       IKEY   = KDTTSH
       IDTTSH=0
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
         IDTTSH=1
       END IF
-C-----------------------
-C  OPTION /MASS/RESET
-C--------------------------------------------------------
+
+C--------------------
+C  /MASS/RESET
+C--------------------
       IKEY   = KMASS
       IMASSI = 0
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
         READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A)',ERR=9990)KEY2
         IF(KEY2(1:5)=='RESET'.AND.IRUNN>1.AND.MCHECK==0) IMASSI = 1
       END IF
+      
 C--------------------
-C     DELETE INTERFACE 7 AFTER SHELL DELETE
+C     /DEL/INTER (TYPE7 SHELL DELETION)
 C--------------------
       CALL FREDLI7(IKAD(0),KEY0,KDELIN)
+      
 C--------------------
-C     DELETE INTERFACES
+C     /DEL/INTER (INTERFACE DELETION)
 C--------------------
       CALL FREDLI(IKAD(0),KEY0,KDEL,NDEL)
+      
 C--------------------
-C     DELETE ELEMENTS
+C     /DEL (ELEMENT DELETION)
 C--------------------
       CALL RDELE(NDEL,'BRICK',IKAD(KDEL),KEY0(IKEY))
       CALL RDELE(NDEL,'QUAD ',IKAD(KDEL),KEY0(IKEY))
@@ -2263,8 +2267,9 @@ C--------------------
       CALL RDELE(NDEL,'SH3N ',IKAD(KDEL),KEY0(IKEY))
       CALL RDELE(NDEL,'SPCEL',IKAD(KDEL),KEY0(IKEY))
       CALL RDELE(NDEL,'SPHCE',IKAD(KDEL),KEY0(IKEY))
+      
 C--------------------
-C     LINK
+C     /ALE/LINK (and obsolete option /VEL/ALE)
 C--------------------
       CALL FRELNK(IKAD(0),KEY0,KVEL,NRLINK,VEL_SK_FR)
 C--------------------
@@ -2274,84 +2279,85 @@ C--------------------
       IF(NALELK/=0)  CALL FRALNK (IKAD(0),KEY0,KVEL,NALELK)       !format v5.1
       IF(NALELINK/=0)CALL FRALNK2(IKAD(0),KEY0,KALE,NALELINK) !format v12
       !LLINAL is now LINALE() dimension for engine ALE links definitions.
+      
 C--------------------
-C     ALE ON / OFF
+C     /ALE (ON/OFF)
 C--------------------
       IF (NBALEON + NBALEOFF /= 0) CALL FRALEONOFF(IKAD(0), KEY0, KALE, NBALEON + NBALEOFF)
+
 C--------------------
-C     BCS
+C     /BCS
 C--------------------
       CALL FREBCS(IKAD(0),KEY0,KBCS,KBCSR,NBCS1,NBCS2,BCS_SK_FR)
+
 C--------------------
-C     CHANGE INTERF
+C     /INTER
 C--------------------
-      CALL FREINT(IKAD(0)   ,KEY0,KINTER,NINTCH,INVERS,
-     .            INTCH_IFOP,INTCH_ITOP)
+      CALL FREINT(IKAD(0),KEY0,KINTER,NINTCH,INVERS,INTCH_IFOP,INTCH_ITOP)
+
 C--------------------
-C     RBODY ON OFF
+C     /RBODY (ON/OFF)
 C--------------------
       CALL FRERBO(IKAD(0),KEY0,KRBODY,NRBYNF)
+      
 C--------------------
-C     OPTION V181
-C--------------------
-C--------------------
-C     SECTIONS FLUIDE
+C     /FLSEC (FLOW SECTIONS,OBSOLETE)
 C--------------------
       NTFLSW=0
       IF(NSFLSW/=0)CALL FREFLW(IKAD(0),KEY0,KFLSEC,NSFLSW,NTFLSW)
-C   Sections fluides non portees en SPMD
+      !not compatible SPMD
       IF (NSFLSW>0.AND.IMACH==3) THEN
        CALL ANCMSG(MSGID=201,ANMODE=ANINFO)
        IERR=IERR+1
       ENDIF
+      
 C--------------------
-C     CHANGE FUNCTION
+C     /FUNCT (FUNCTION UPDATES)
 C--------------------
       CALL FREFUNC(IKAD(0),KEY0,KFUNC,NFCT)
+      
 C--------------------
-C     REINITIALISATION DES VITESSES
+C     /INIV (VELOCITY INITIALIZATIONS)
 C--------------------
       CALL FREINIV(IKAD(0),KEY0,KINIV,NINIV)
+      
 C-----------------------
-C     ANIMATION FILES
+C     /ANIM (ANIMATION FILES)
 C-----------------------
       CALL FREANIM(IKAD(0),KEY0,KANIM)
 C-----------------------
-C     OUTPUT FILES
+C     /OUTP (OUTPUT FILES)
 C-----------------------
       CALL FREOUTP(IKAD(0),KEY0,KOUTP)
+      
 C-----------------------
-C     DEBUG PRINT
+C     /DEBUG
 C-----------------------
       CALL FREDEBUG(IKAD(0),KEY0,KDEBUG)
+      
 C--------------------
-C     NOISE
+C     /NOISE
 C--------------------
       CALL FRENOIS(IKAD(0),KEY0,KNOISE)
 C--------------------
-C     UPWIND PARAMETERS (ETA1,ETA2,ETA3)
+C     /UPWIND (PARAMETERS ETA1,ETA2,ETA3)
 C--------------------
       CALL FREUPWIND(IKAD(0),KEY0,KUPWIND)
+      
 C--------------------
-C     UPWIND METHOD FOR MOMENTUM ADVECTION
+C     /UPWM (MOMENTUM ADVECTION METHOD)
 C--------------------
       CALL FREUPWM(IKAD(0),KEY0,KUPWM)
-      !print *, "UPWM      ",UPWM
-      !print *, "CUPWM     ",CUPWM
-      !print *, "UPWMG2    ",UPWMG2
-      !print *, "UPWOG2    ",UPWOG2
-      !print *, "UPWSM2    ",UPWSM2
-      !print *, "UPW_UPDATE",UPW_UPDATE
+
 C--------------------
-C     INSTRUMENTATION DU CODE
+C     /MON (MONITORING)
 C--------------------
       IKEY=KMON
       IMON = 1
       IMONM = 0
       IMON_MAT = 0
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A,1X,I5)',
-     .        ERR=9990)KEY2,K4
+       READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A,1X,I5)',ERR=9990)KEY2,K4
        IF(KEY2=='OFF')THEN
          IMON = 0
          IMONM = 0
@@ -2372,48 +2378,59 @@ c         IMON = K4 + 1
 c         IMONM = 3
        ENDIF
       ENDIF
+      
 C--------------------
-C     INCOMPRESSIBLE
+C     /INCMP (OBSOLETE OPTION, incompressible)
 C--------------------
       INCOMP = 0
       IKEY=KINCMP
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       INCOMP=1
+        INCOMP=1
       ENDIF
+      
 C--------------------
-C     COUPLAGE MADYMO/RADIOSS
+C     /MADYMO (COUPLING)
 C--------------------
-      IF (IMADCPL/=0) CALL FRECPL(IKAD,KEY0,KMADYM)
+      IF(IMADCPL/=0) CALL FRECPL(IKAD,KEY0,KMADYM)
+      
 C--------------------
-C     DAMPING
+C     /DAMP
 C--------------------
       CALL FREDAMP(IKAD(0),KEY0,KDAMP,N_DAMP)
+
 C-----------------------
-C     IMPLICIT OPTIONS
+C     /IMPL
 C-----------------------
+      IMPL=0
       CALL FREIMPL(IKAD(0),KEY0,KIMPL)
+      
 C--------------------
-C    OUTPUT FILES FOR FLEXIBLE BODIES
+C    /FXINP (OUTPUT FILES FOR FLEXIBLE BODIES)
 C--------------------
       CALL FREFXINP(IKAD(0),KEY0,KFXINP,NFXINP)
+      
 C--------------------
-C    EIGENPROBLEM DEACTIVATION
+C    /EIG (EIGENPROBLEM DEACTIVATION)
 C--------------------
       CALL FREEIG(IKAD(0),KEY0,KEIG,NEIGOFF)
+      
 C--------------------
-C     FVMBAG REMESH
+C     /FVMBAG (REMESH)
 C--------------------
       CALL FREFVBAG(IKAD(0),KEY0,KFVBAG)
+
 C-----------------------
-C     STATE FILES
+C     /STATE
 C-----------------------
       CALL FRESTAT(IKAD(0),KEY0,KSTATF)
+      
 C-----------------------
-C     DYNAIN FILES
+C     /DYNAIN
 C-----------------------
       CALL FREDYNAIN(IKAD(0),KEY0,KDYNAIN,DYNAIN_DATA)
+      
 C-----------------------
-C     ABF FILES
+C     /ABF (and /AABF, /BABF, /CABF, /DABF, /EABF, /FABF, /GABF, /HABF, /IABF)
 C-----------------------
       ABFILE = 0
       NABFILE = 0
@@ -2433,17 +2450,20 @@ C-----------------------
         ABFILE(1) = ABFILE(1) + 1
       ENDIF
 #endif
+
 C-----------------------
-C     THERMAL ANALYSIS
+C     /THERM
 C-----------------------
       CALL FRETHERMAL(IKAD(0),KEY0,KTHERMAL)
+
 C-----------------------
-C     H3DFILES
+C     /H3D
 C-----------------------
       CALL H3D_INI(H3D_DATA,KH3D,NSLASH)
       CALL H3D_READ(IKAD(0),KEY0,KH3D,NSLASH,H3D_DATA)
+
 C-----------------------
-C     REPORT
+C     /REPORT
 C-----------------------
       IKEY=KREPORT
       IREPORT = 0
@@ -2451,12 +2471,8 @@ C-----------------------
       IMVW = 0
       IMVW_REF = 0
       K = 0
-
       DO WHILE(IKAD(IKEY)+K/=IKAD(IKEY+1))
-        READ(IUSC1,REC=IKAD(IKEY)+K,
-     .      FMT='(7X,A,1X,A,1X,A,1X,A,19X,I10)',
-     .      ERR=9990)KEY2,KEY3,KEY4,KEY5,NBC
-
+        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,1X,A,1X,A,19X,I10)',ERR=9990)KEY2,KEY3,KEY4,KEY5,NBC
         IREPORT=1
         IF(KEY2=='HTML')THEN
           IHTML = 1
@@ -2483,7 +2499,7 @@ C-----------------------
               IMVW=4
             ENDIF
           ELSE
-c autoselect of files format
+            !autoselect of files format
             IF(NSLASH(KANIM) /= 0)THEN
               IF(NSLASH(KTFILE) /= 0)THEN
                 IMVW=1
@@ -2502,7 +2518,6 @@ c autoselect of files format
         K = K + 1
       ENDDO
 C========================================================================
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       CLOSE(UNIT=IUSC1)
       CLOSE(UNIT=IUSC2)
       CALL DELETE_USER_FILE(IUSC1_FN,LEN_IUSC1_FN)
@@ -2513,8 +2528,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C
  9990 CONTINUE
 C
-      CALL ANCMSG(MSGID=73,ANMODE=ANINFO,
-     .            C1=KEY0(IKEY))
+      CALL ANCMSG(MSGID=73,ANMODE=ANINFO,C1=KEY0(IKEY))
       CALL ARRET(0)
       RETURN
       
@@ -2528,6 +2542,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       
       END
+
 Chd|====================================================================
 Chd|  NGR2USR                       source/input/freform.F        
 Chd|-- called by -----------
@@ -2565,6 +2580,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------      
       IF(IU==0)THEN
         NGR2USR=0
         RETURN
@@ -2578,7 +2596,7 @@ C-----------------------------------------------
       ENDDO
        TSTOP = TT
 #include "lockon.inc"
-       WRITE(IOUT,*) ' ** ERROR ** : NODE GROUP',IU,' NOT FOUND'
+       WRITE(IOUT,*)  ' ** ERROR ** : NODE GROUP',IU,' NOT FOUND'
        WRITE(ISTDO,*) ' ** ERROR ** : NODE GROUP',IU,' NOT FOUND'
        NGR2USR=0
 #include "lockoff.inc"
@@ -2601,25 +2619,33 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      INTEGER L,IASC(*)
-      CHARACTER TITR*(*)
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(INOUT) :: IASC(*)
+      INTEGER,INTENT(IN) :: L
+      CHARACTER,INTENT(IN) :: TITR*(*)
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------      
       INTEGER I,J,LTITR
-C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       J=1
       LTITR=LEN(TITR)
       DO I=1,L
-        IASC(I)=  ICHAR(TITR(J:J))*65536
+        IASC(I)= ICHAR(TITR(J:J))*65536
         J = J+1
-        IF(J>LTITR) GOTO 10
-        IASC(I)=  IASC(I) + ICHAR(TITR(J:J))*256
+        IF(J>LTITR) EXIT
+        IASC(I)= IASC(I) + ICHAR(TITR(J:J))*256
         J = J+1
-        IF(J>LTITR) GOTO 10
-        IASC(I)=  IASC(I) + ICHAR(TITR(J:J))
+        IF(J>LTITR) EXIT
+        IASC(I)= IASC(I) + ICHAR(TITR(J:J))
         J = J+1
-        IF(J>LTITR) GOTO 10
+        IF(J>LTITR) EXIt
       ENDDO
- 10   CONTINUE
-C
+C-----------------------------------------------
       RETURN
       END
 Chd|====================================================================
@@ -2641,24 +2667,33 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      INTEGER L,IASC(*)
-      CHARACTER TITR*(*)
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: IASC(*)
+      INTEGER,INTENT(IN) :: L
+      CHARACTER,INTENT(INOUT) :: TITR*(*)
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------      
       INTEGER I,J,LTITR
-C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------   
       J=1
       LTITR=LEN(TITR)
       DO I=1,L
         TITR(J:J)=CHAR(IASC(I)/65536)
         J=J+1
-        IF(J>LTITR) GOTO 10
+        IF(J>LTITR) EXIT
         TITR(J:J)=CHAR(MOD(IASC(I),65536)/256)
         J=J+1
-        IF(J>LTITR) GOTO 10
+        IF(J>LTITR) EXIT
         TITR(J:J)=CHAR(MOD(IASC(I),256))
         J=J+1
-        IF(J>LTITR) GOTO 10
+        IF(J>LTITR) EXIT
       ENDDO
- 10   CONTINUE
+C----------------------------------------------- 
       RETURN
       END
 Chd|====================================================================
@@ -2671,27 +2706,33 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      my_real
-     . ASC(*)
-      INTEGER L
-      CHARACTER TITR*(*)
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      my_real,INTENT(INOUT) :: ASC(*)
+      INTEGER,INTENT(IN) :: L
+      CHARACTER,INTENT(IN) :: TITR*(*)
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------      
       INTEGER I,J,LTITR
-C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------      
       J=1
       LTITR=LEN(TITR)
       DO I=1,L
         ASC(I)=  ICHAR(TITR(J:J))*65536
         J = J+1
-        IF(J>LTITR) GOTO 10
+        IF(J>LTITR) EXIT
         ASC(I)=  ASC(I) + ICHAR(TITR(J:J))*256
         J = J+1
-        IF(J>LTITR) GOTO 10
+        IF(J>LTITR) EXIT
         ASC(I)=  ASC(I) + ICHAR(TITR(J:J))
         J = J+1
-        IF(J>LTITR) GOTO 10
+        IF(J>LTITR) EXIT
       ENDDO
- 10   CONTINUE
-C
+C----------------------------------------------- 
       RETURN
       END
 Chd|====================================================================
@@ -2704,25 +2745,32 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      my_real
-     . ASC(*)
-      INTEGER L
-      CHARACTER TITR*(*)
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      my_real,INTENT(IN) :: ASC(*)
+      INTEGER,INTENT(IN) :: L
+      CHARACTER,INTENT(INOUT) :: TITR*(*)
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------      
       INTEGER I,J,LTITR
-C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------  
       J=1
       LTITR=LEN(TITR)
       DO I=1,L
         TITR(J:J)=CHAR(NINT(ASC(I))/65536)
         J=J+1
-        IF(J>LTITR) GOTO 10
+        IF(J>LTITR) EXIT
         TITR(J:J)=CHAR(MOD(NINT(ASC(I)),65536)/256)
         J=J+1
-        IF(J>LTITR) GOTO 10
+        IF(J>LTITR) EXIT
         TITR(J:J)=CHAR(MOD(NINT(ASC(I)),256))
         J=J+1
-        IF(J>LTITR) GOTO 10
+        IF(J>LTITR) EXIT
       ENDDO
- 10   CONTINUE
+C-----------------------------------------------  
       RETURN
       END
