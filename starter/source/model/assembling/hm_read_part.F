@@ -41,7 +41,7 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_PART(IPART,PM,GEO,IPM,IGEO,IWA,THK_PART,
-     .                        UNITAB,LSUBMODEL,MULTI_FVM)
+     .                        UNITAB,LSUBMODEL,MULTI_FVM,MLAW_TAG)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD           
       USE HM_OPTION_READ_MOD
       USE MULTI_FVM_MOD
+      USE ELBUFTAG_MOD 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,6 +100,7 @@ C MODIFIED ARGUMENT
       INTEGER,INTENT(INOUT)::IPM(NPROPMI,NUMMAT)
       my_real,INTENT(INOUT)::PM(NPROPM,NUMMAT)
       TYPE(MULTI_FVM_STRUCT),INTENT(INOUT)::MULTI_FVM     
+      TYPE(MLAW_TAG_) , DIMENSION(NUMMAT) , INTENT(INOUT) :: MLAW_TAG      
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -329,100 +331,13 @@ C compatibility of global material and ply material for type11
 
         IF(ILAW == 70 .AND. IGEO(31,IPID) == 1) WRITE(IOUT,2000)
 
-        !################################################################!   !(14)'SOLID'     
-        !  EULERIAN AND ALE CASES : ALLOWS ONLY IGTYP=14 & IGTYP=15      !   !(14)'FLUID'
-        !################################################################!   !(15)'POROUS'                
-        ILAW=0
-        JALE=0
-        IF(IMID > 0)THEN
-          ILAW=IPM(2,IMID)
-          JALE=NINT(PM(72,IMID) ) 
-        ENDIF
-        IF(JALE > 0)THEN
-           IF (ILAW  ==  151 .AND. N2D /= 0) THEN
-C     Allow SHELL3N for 2D law 151
-              IF(IGTYP/=14.AND.IGTYP/=15.AND.IGTYP/=1)THEN  
-                 CALL ANCMSG(MSGID=42,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=ID) 
-                 MID=0 
-                 PM(1:NPROPM,IMID) =  ZERO
-                 IPM(1:NPROPMI,IMID) = 0                  
-              ENDIF
-           ELSE
-              IF(IGTYP/=14.AND.IGTYP/=15)THEN  
-                 CALL ANCMSG(MSGID=42,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=ID) 
-!material set to void for normal termination otherwise engine will set value to non allocated arrays.
-                 MID=0 
-                 PM(1:NPROPM,IMID) =  ZERO
-                 IPM(1:NPROPMI,IMID) = 0                  
-              ENDIF
-           ENDIF
-        ENDIF
 
-        !################################################################!
-        !  EULER & ALE : CHECK CONSISTENCY BETWEEN MAT and PROP          !
-        !################################################################!  
-        ! JALE_FROM_MAT = PM(72)        0:lagrange   1:ale    2:euler 
-        ! JALE_FROM_PROP = IGEO(62)     0:lagrange   1:ale    2:euler       
-        
-        !/ALE/MAT or /EULER/MAT
-        JALE_FROM_MAT = 0
-        IF(IMID > 0)THEN
-          JALE_FROM_MAT = PM(72,IMID)
-          !character string for possible error message
-          IF(JALE_FROM_MAT == 1)THEN
-            CHAR_MAT = 'ALE  '
-          ELSEIF(JALE_FROM_MAT == 2)THEN
-            CHAR_MAT = 'EULER'
-          ENDIF
-        ELSE
-          JALE_FROM_MAT = 0
-        ENDIF
-        
-        JALE_FROM_PROP = 0
-        !/PROP_TYPE14 (IALE_FLAG)
-        IF(IPID > 0)THEN
-          JALE_FROM_PROP = IGEO(62,IPID)
-          !character string for possible error message          
-          IF(JALE_FROM_PROP == 1)THEN
-            CHAR_PROP = 'ALE  '
-          ELSEIF(JALE_FROM_PROP == 2)THEN
-            CHAR_PROP = 'EULER'
-          ENDIF          
-        ELSE
-          JALE_FROM_PROP = 0
-        ENDIF
-        
-        !display error message if MATERIAL and PROPERTY have inconsistent definitions     
-        IF(JALE_FROM_MAT > 0 .AND. JALE_FROM_PROP > 0)THEN
-          IF(JALE_FROM_MAT /= JALE_FROM_PROP)THEN
-            CALL ANCMSG(MSGID=130,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
-     .                I1=ID, C1=TITR,
-     .                I2=PID,C2=TITR1,C3=CHAR_PROP,
-     .                I3=MID,C4=TITR2,C5=CHAR_MAT )          
-          ENDIF
-        ENDIF
-        
-        !################################################################!
-        !  /HEAT/MAT : thermal global flag  ITHEM & ITHERM_FE            !
-        !################################################################!  
-        ! JALE_FROM_MAT = PM(72)        0:lagrange   1:ale    2:euler 
-        ! JALE_FROM_PROP = IGEO(62)     0:lagrange   1:ale    2:euler 
-        ! ITHERM : 1 => there are elements which require temperature at centroids
-        ! ITHERM_FE : 1 => there are elements which require for temperature at nodes
-        JTHE = NINT(PM(71,IMID))
-        IF( JTHE > 0 )THEN
-          IF(JALE_FROM_PROP>0 .OR. JALE_FROM_MAT>0)THEN
-            ITHERM = 1
-          ELSE
-            ITHERM_FE = 1
-          ENDIF
-        ENDIF            
+c-------------------------------------------------------------------
+c      ALE EULER SPECIFIC TREATMENTS
+c-------------------------------------------------------------------
+        !SSP BUFFER + UPWIND + TURB + CHECK + CONVECTION FLAGS
+        CALL ALE_EULER_INIT( MLAW_TAG,IPM,PM,IGEO,TITR,TITR1,TITR2,IGTYP,ID,ILAW,MID,IMID,PID,IPID)           
+c-------------------------------------------------------------------            
 
 C             
         WRITE(IOUT,'(A,I10,2A)')'     SUBSET  :',SID

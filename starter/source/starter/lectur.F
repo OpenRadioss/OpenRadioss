@@ -2231,8 +2231,8 @@ C-----------------------------------------------------
       IWORK = 0
       ALLOCATE (THK_PART(NPART)    ,STAT=stat)
 C
-      CALL HM_READ_PART(IPART  ,PM     ,GEO    ,IPM,IGEO,IWORK , THK_PART,
-     .             UNITAB,LSUBMODEL,MULTI_FVM)
+      CALL HM_READ_PART(IPART  ,PM      ,GEO       ,IPM     ,IGEO ,IWORK ,THK_PART,
+     .                  UNITAB,LSUBMODEL,MULTI_FVM ,MLAW_TAG)
 
       CALL TRACE_OUT1()
       

@@ -20,9 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-CFP41j004
-Clm52a1      INTEGER LCONV,CODV,NVCONV
-      INTEGER LCONV,CODV,NVCONV,ICONVCP
-      PARAMETER(LCONV=10)
-      COMMON/CONVAR/CODV(LCONV),NVCONV,ICONVCP
 
+      INTEGER LCONV,CODV,NVCONV
+      
+      PARAMETER(LCONV=10)
+      
+      COMMON/CONVAR/CODV(LCONV),NVCONV

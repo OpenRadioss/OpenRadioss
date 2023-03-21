@@ -36,13 +36,18 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE READ_EULER_MAT(LSUBMODEL,UNITAB,IPM,PM)
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C  This subroutine is reading keyword /EULER/MAT
+C  and setting corresponding parameters in materail buffer (PM array)
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
-C============================================================================
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -66,7 +71,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: FLRD
-      INTEGER II,KK,NB_EULERMAT,ILAW,IALEFVM_FLG,ID
+      INTEGER II,KK,NB_EULERMAT,ILAW,ID
       CHARACTER TITR*nchartitle,KEY*80
       LOGICAL IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
@@ -79,7 +84,6 @@ C-----------------------------------------------
           CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID)
           CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
           CALL HM_GET_FLOATV('EULER_FLRD',FLRD,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          IALEFVM_FLG = 0
           DO II=1,NUMMAT-1                                
             IF(IPM(1,II) == ID)THEN                        
                 ILAW = IPM(2,II)                          
@@ -90,15 +94,8 @@ C-----------------------------------------------
                 FLRD=MIN(ONE,FLRD)                        
               ENDIF                                      
               PM(72,II)  = TWOP1                         
-              PM(92,II)  = FLRD      
-              IPM(251,II)= IALEFVM_FLG                    
-              IF(IALEFVM_FLG>=2)THEN                   
-                WRITE(IOUT,2021)ID,IALEFVM_FLG, FLRD      
-                IALEFVM = 1                              
-              ELSE                                       
-                WRITE(IOUT,2020)ID,FLRD                   
-                IALEFVM_FLG = 1                          
-              ENDIF                                      
+              PM(92,II)  = FLRD                             
+              WRITE(IOUT,2020)ID,FLRD                                                          
             ENDIF                                        
           ENDDO                                          
         ENDDO
@@ -108,12 +105,6 @@ C-----------------------------------------------
      & 5X,'    -----------------  ',/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
      & 5X,'REDUCTION FACTOR ON BOUNDARY FLUXES . .=',1PG20.13//)
- 2021 FORMAT(
-     & 5X,'    EULERIAN MATERIAL  ',/,
-     & 5X,'    -----------------  ',/,
-     & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
-     & 5X,'FINITE VOLUME METHOD FOR MOMENTUM . . .=',I10/,     
-     & 5X,'REDUCTION FACTOR ON BOUNDARY FLUXES . .=',1PG20.13//) 
              
       RETURN
       END SUBROUTINE READ_EULER_MAT

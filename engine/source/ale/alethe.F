@@ -47,17 +47,17 @@ Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-sear
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
       SUBROUTINE ALETHE (
-     1                 IPARG   ,ELBUF_TAB ,FLUX    ,VAL2    ,PHI     ,
-     2                 ALE_CONNECT   ,IXS       ,IXQ     ,V       ,W       ,
-     3                 X       ,PM        ,MS      ,VEUL    ,FILL    ,
-     4                 DFILL   ,ALPH      ,FV      ,BUFMAT  ,TF      ,
-     5                 NPF     ,ITASK     ,NBRCVOIS,NBSDVOIS,LNRCVOIS,
-     6                 LNSDVOIS,NERCVOIS  ,NESDVOIS,LERCVOIS,LESDVOIS,
-     7                 IADS    ,SEGVAR    ,MSNF    ,NODFT   ,NODLT   ,
-     8                 BHOLE   ,IPM       ,QMV     ,ITAB    ,ITABM1  ,
-     9                 LENQMV  ,NV46      ,LGAUGE  ,GAUGE   ,
-     A                 IGAUP   ,NGAUP     ,VOLN,
-     B                 IAD_ELEM, FR_ELEM)
+     1                 IPARG       ,ELBUF_TAB ,FLUX     ,VAL2     ,PHI     ,
+     2                 ALE_CONNECT ,IXS       ,IXQ      ,V        ,W       ,
+     3                 X           ,PM        ,MS       ,VEUL     ,FILL    ,
+     4                 DFILL       ,ALPH      ,FV       ,BUFMAT   ,TF      ,
+     5                 NPF         ,ITASK     ,NBRCVOIS ,NBSDVOIS ,LNRCVOIS,
+     6                 LNSDVOIS    ,NERCVOIS  ,NESDVOIS ,LERCVOIS ,LESDVOIS,
+     7                 IADS        ,SEGVAR    ,MSNF     ,NODFT    ,NODLT   ,
+     8                 BHOLE       ,IPM       ,QMV      ,ITAB     ,ITABM1  ,
+     9                 LENQMV      ,NV46      ,LGAUGE   ,GAUGE    ,
+     A                 IGAUP       ,NGAUP     ,VOLN,
+     B                 IAD_ELEM    ,FR_ELEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -101,8 +101,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITRIMAT,NVAR,I, LENCOMN,LENCOM
-      my_real,
-     .    DIMENSION(:,:),ALLOCATABLE:: FLUX_SAV
+      my_real,DIMENSION(:,:),ALLOCATABLE:: FLUX_SAV
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -115,7 +114,7 @@ C     DIFFUSIVE TERMS
 C=======================================================================
       IF (ITHERM+ITURB /= 0) THEN
         !-------------------------------------!
-        !  ECHANGES SPMD X SUR NOEUDS VOISINS !
+        !  SPMD EXCHANGES                     !
         !-------------------------------------!
         IF (NSPMD  > 1) THEN
           ! Part not parallel smt
@@ -150,18 +149,18 @@ C------------------------
        !   TURBULENCY                !
        !-----------------------------!
         IF (ITURB /= 0) THEN
-C         SPMD exchange : PHI+VAL2 dans AKTURB et AETURB
-          CALL AKTURB(IPARG   ,ELBUF_TAB,FLUX    ,VAL2    ,PHI         ,
-     2                ALE_CONNECT   ,IXS      ,IXQ     ,PM      ,ITASK       ,
-     3                NERCVOIS,NESDVOIS ,LERCVOIS,LESDVOIS,LENCOM      )
-          CALL AETURB(IPARG   ,ELBUF_TAB ,FLUX    ,VAL2    ,PHI       ,
-     2                ALE_CONNECT   ,IXS     ,IXQ     ,PM      ,ITASK       ,
-     3                NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM      )
+C         SPMD exchange : PHI+VAL2
+          CALL AKTURB(IPARG       ,ELBUF_TAB ,FLUX     ,VAL2     ,PHI         ,
+     2                ALE_CONNECT ,IXS       ,IXQ      ,PM       ,ITASK       ,
+     3                NERCVOIS    ,NESDVOIS  ,LERCVOIS ,LESDVOIS ,LENCOM      )
+          CALL AETURB(IPARG       ,ELBUF_TAB ,FLUX     ,VAL2     ,PHI         ,
+     2                ALE_CONNECT ,IXS       ,IXQ      ,PM       ,ITASK       ,
+     3                NERCVOIS    ,NESDVOIS  ,LERCVOIS ,LESDVOIS ,LENCOM      )
           ENDIF
       ENDIF !(ITHERM+ITURB /= 0)
 
 C=======================================================================
-C     TERMES CONVECTIFS
+C     CONVECTIVE TERM (REYNOLDS TRANSPORTATION THEOREM)
 C=======================================================================
       IF(IALE+IEULER /= 0)THEN
       !-----------------------------!
@@ -177,10 +176,10 @@ C=======================================================================
             MSNF(I)=ZERO           !MSNF are mass of fluid nodes, 
           ENDDO                  
         ENDIF
-        CALL AFLUX0(IPARG,ELBUF_TAB,PM    ,IXS         ,IXQ    ,
-     .              V    ,W     ,X        ,FLUX        ,VAL2   ,
-     .              MS   ,VEUL  ,FILL     ,DFILL       ,PHI    ,
-     .              ALE_CONNECT,ALPH  ,ITASK    ,NV46        ,IPM    )
+        CALL AFLUX0(IPARG      ,ELBUF_TAB,PM      ,IXS       ,IXQ    ,
+     .              V          ,W        ,X        ,FLUX     ,VAL2   ,
+     .              MS         ,VEUL     ,FILL     ,DFILL    ,PHI    ,
+     .              ALE_CONNECT,ALPH     ,ITASK    ,NV46     ,IPM    )
 C----------------------
         CALL MY_BARRIER
 C----------------------
@@ -198,49 +197,49 @@ C-----------------------
         !-----------------------------!
         ITRIMAT  = 0
         IF (TRIMAT  > 0) THEN
-          CALL ALE51_INIT(IPARG  ,PM      ,IXS  ,IXQ   ,
-     2                    V      ,W       ,X    ,FLUX  ,VAL2 ,
+          CALL ALE51_INIT(IPARG  ,PM      ,IXS  ,IXQ         ,
+     2                    V      ,W       ,X    ,FLUX        ,VAL2 ,
      3                    MS     ,VEUL    ,PHI  ,ALE_CONNECT ,ITASK,
-     4                    ITRIMAT,FLUX_SAV,QMV  ,NV46  ,ELBUF_TAB)
+     4                    ITRIMAT,FLUX_SAV,QMV  ,NV46        ,ELBUF_TAB)
         ENDIF
         !-----------------------------!
         !     REZONE DEVIATEUR        !
         !-----------------------------!
-        CALL AREZON(IPARG   ,ELBUF_TAB, FLUX   ,PHI   ,ALE_CONNECT   ,  
-     2              6       ,2       ,1       ,ITASK ,NERCVOIS,  
-     3              NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,  
+        CALL AREZON(IPARG   ,ELBUF_TAB, FLUX   ,PHI   ,ALE_CONNECT ,  
+     2              6       ,2        ,1       ,ITASK ,NERCVOIS    ,  
+     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE       ,  
      4              ITRIMAT ,IXS)                                    
-        CALL AREZON(IPARG   ,ELBUF_TAB ,FLUX    ,PHI   ,  ALE_CONNECT ,  
-     2              6       ,2       ,2       ,ITASK ,NERCVOIS,  
-     3              NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,  
+        CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
+     2              6       ,2        ,2       ,ITASK  ,NERCVOIS   ,  
+     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
      4              ITRIMAT ,IXS)                                    
-        CALL AREZON(IPARG   ,ELBUF_TAB ,FLUX    ,PHI   , ALE_CONNECT  ,  
-     2              6       ,2       ,3       ,ITASK ,NERCVOIS,  
-     3              NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,  
+        CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
+     2              6       ,2        ,3       ,ITASK  ,NERCVOIS   ,  
+     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
      4              ITRIMAT ,IXS)                                    
-        CALL AREZON(IPARG   ,ELBUF_TAB ,FLUX    ,PHI   , ALE_CONNECT  ,  
-     2              6       ,2       ,4       ,ITASK ,NERCVOIS,  
-     3              NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,  
+        CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
+     2              6       ,2        ,4       ,ITASK  ,NERCVOIS   ,  
+     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
      4              ITRIMAT ,IXS)                                    
-        CALL AREZON(IPARG   ,ELBUF_TAB ,FLUX    ,PHI   ,  ALE_CONNECT ,  
-     2              6       ,2       ,5       ,ITASK ,NERCVOIS,  
-     3              NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,  
+        CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
+     2              6       ,2        ,5       ,ITASK  ,NERCVOIS   ,  
+     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
      4              ITRIMAT ,IXS)                                    
-        CALL AREZON(IPARG   ,ELBUF_TAB ,FLUX    ,PHI   , ALE_CONNECT  ,  
-     2              6       ,2       ,6       ,ITASK ,NERCVOIS,  
-     3              NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,  
+        CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
+     2              6       ,2        ,6       ,ITASK  ,NERCVOIS   ,  
+     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
      4              ITRIMAT ,IXS)                                    
         !------------------------------!
         !     REZONING : EPS_PLAS      !
         !------------------------------!
-          CALL AREZON(IPARG   ,ELBUF_TAB ,FLUX    ,PHI   , ALE_CONNECT  ,
-     2                1       ,10      ,1       ,ITASK ,NERCVOIS,
-     3                NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,
+          CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
+     2                1       ,10       ,1       ,ITASK ,NERCVOIS   ,
+     3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                ITRIMAT ,IXS)
 c---------specific to law81
-          CALL AREZON(IPARG   ,ELBUF_TAB ,FLUX    ,PHI   , ALE_CONNECT  ,
-     2                1       ,11      ,0       ,ITASK ,NERCVOIS,
-     3                NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,
+          CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
+     2                1       ,11       ,0       ,ITASK ,NERCVOIS   ,
+     3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                ITRIMAT ,IXS)
 C-----------------------------
 C       MASS & ENERGY CONVECTION
@@ -251,19 +250,19 @@ C-----------------------------
           !3,4   : Turbulency
           !5     : law37 massic fraction
           !6,7,8 : MomX, MomY, MomZ (ALE with Full FVM)
-           IF((NVAR /= 9.AND.CODV(NVAR) /= 0).OR.(ICONVCP == 1.AND.CODV(NVAR) /= 0))THEN
+           IF((NVAR /= 9.AND.CODV(NVAR) /= 0))THEN
               CALL ACONVE(
-     1                    IPARG    ,ELBUF_TAB ,FLUX   , VAL2     ,PHI     ,
-     2                    ALE_CONNECT    ,NVAR      ,ITASK  , NERCVOIS ,NESDVOIS,
-     3                    LERCVOIS ,LESDVOIS  ,LENCOM , SEGVAR   ,BHOLE   ,
-     4                    ITRIMAT  ,QMV       ,0      , IXS      ,IXQ     ,
-     5                    PM       ,IPM       ,BUFMAT, X)
+     1                    IPARG       ,ELBUF_TAB ,FLUX    , VAL2     ,PHI     ,
+     2                    ALE_CONNECT ,NVAR      ,ITASK   , NERCVOIS ,NESDVOIS,
+     3                    LERCVOIS    ,LESDVOIS  ,LENCOM  , SEGVAR   ,BHOLE   ,
+     4                    ITRIMAT     ,QMV       ,0       , IXS      ,IXQ     ,
+     5                    PM          ,IPM       ,BUFMAT  , X)
             ENDIF
 
          ENDDO  
 C----------------------       
         !-----------------------------!
-        !     TRIMATERIAL :           !
+        !     LAW51 :                 !
         !       SUBMATERIAL TREATMENT !
         !-----------------------------!
          IF (TRIMAT   >  0 .AND. IALEMUSCL   >  0) THEN
@@ -280,39 +279,39 @@ C----------------------
 
          DO ITRIMAT = 1,TRIMAT
             CALL AFLUXT(IPARG,ELBUF_TAB,PM,IXS,IXQ,
-     2                  V       ,W       ,X       ,FLUX    ,VAL2    ,
-     3                  MS      ,VEUL    ,PHI     ,ALE_CONNECT   ,ITASK   ,
-     4                  ITRIMAT ,FLUX_SAV,NERCVOIS,NESDVOIS,
-     5                  LERCVOIS,LESDVOIS,LENCOM  ,QMV     ,ITAB    ,
+     2                  V       ,W       ,X       ,FLUX       ,VAL2    ,
+     3                  MS      ,VEUL    ,PHI     ,ALE_CONNECT,ITASK   ,
+     4                  ITRIMAT ,FLUX_SAV,NERCVOIS,NESDVOIS   ,
+     5                  LERCVOIS,LESDVOIS,LENCOM  ,QMV        ,ITAB    ,
      6                  ITABM1  ,NV46    ,SEGVAR)
         !-----------------------------!
         !     LAW51 REZONING :        !
         !        DEVIATORIC STRESS    ! 
         !-----------------------------!
             IF(ITRIMAT /= 4 ) THEN
-               CALL AREZON(IPARG   ,ELBUF_TAB, FLUX   ,PHI   ,ALE_CONNECT   ,
-     2                     1       ,2       ,1       ,ITASK ,NERCVOIS,
-     3                     NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,
+               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
+     2                     1       ,2        ,1       ,ITASK ,NERCVOIS   ,
+     3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                     ITRIMAT,IXS)
-               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT   ,
-     2                     1       ,2       ,2       ,ITASK ,NERCVOIS,
-     3                     NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,
+               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
+     2                     1       ,2        ,2       ,ITASK ,NERCVOIS   ,
+     3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                     ITRIMAT,IXS)
-               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT   ,
-     2                     1       ,2       ,3       ,ITASK ,NERCVOIS,
-     3                     NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,
+               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
+     2                     1       ,2        ,3       ,ITASK ,NERCVOIS   ,
+     3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                     ITRIMAT,IXS)
-               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT   ,
-     2                     1       ,2       ,4       ,ITASK ,NERCVOIS,
-     3                     NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,
+               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
+     2                     1       ,2        ,4       ,ITASK ,NERCVOIS   ,
+     3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                     ITRIMAT,IXS)
-               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT   ,
-     2                     1       ,2       ,5       ,ITASK ,NERCVOIS,
-     3                     NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,
+               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
+     2                     1       ,2        ,5       ,ITASK ,NERCVOIS   ,
+     3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                     ITRIMAT,IXS)
-               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT   ,
-     2                     1       ,2       ,6       ,ITASK ,NERCVOIS,
-     3                     NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,
+               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
+     2                     1       ,2        ,6       ,ITASK ,NERCVOIS   ,
+     3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                     ITRIMAT,IXS)
             ENDIF
         !-----------------------------!
@@ -323,41 +322,41 @@ C----------------------
             CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT   ,
      2                  1       ,10      ,1        ,ITASK ,NERCVOIS,
      3                  NESDVOIS,LERCVOIS,LESDVOIS,LENCOM ,BHOLE   ,
-     4                  ITRIMAT,IXS)
+     4                  ITRIMAT ,IXS)
         !-----------------------------!
         !     LAW51 :                 !
         !        EINT CONVECTION      !
         !-----------------------------!
-            CALL ACONVE(IPARG   ,ELBUF_TAB,FLUX  ,VAL2    ,PHI     ,
-     2                  ALE_CONNECT   ,2       ,ITASK ,NERCVOIS,NESDVOIS,
-     3                  LERCVOIS,LESDVOIS,LENCOM,SEGVAR  ,BHOLE   ,
-     4                  ITRIMAT ,QMV     ,0     ,IXS     ,IXQ     ,
-     5                  PM      ,IPM     ,BUFMAT, X )
+            CALL ACONVE(IPARG       ,ELBUF_TAB,FLUX  ,VAL2    ,PHI     ,
+     2                  ALE_CONNECT ,2        ,ITASK ,NERCVOIS,NESDVOIS,
+     3                  LERCVOIS    ,LESDVOIS ,LENCOM,SEGVAR  ,BHOLE   ,
+     4                  ITRIMAT     ,QMV      ,0     ,IXS     ,IXQ     ,
+     5                  PM          ,IPM      ,BUFMAT,X )
         !-----------------------------!
         !     LAW51 :                 !
         !       MASS CONVECTION       !
         !-----------------------------!
-            CALL ACONVE(IPARG   ,ELBUF_TAB,FLUX  ,VAL2    ,PHI     ,
-     2                  ALE_CONNECT   ,1       ,ITASK ,NERCVOIS,NESDVOIS,
-     3                  LERCVOIS,LESDVOIS,LENCOM,SEGVAR  ,BHOLE   ,
-     4                  ITRIMAT ,QMV     ,1     ,IXS     ,IXQ     ,
-     5                  PM      ,IPM     ,BUFMAT, X )
+            CALL ACONVE(IPARG       ,ELBUF_TAB,FLUX  ,VAL2    ,PHI     ,
+     2                  ALE_CONNECT ,1        ,ITASK ,NERCVOIS,NESDVOIS,
+     3                  LERCVOIS    ,LESDVOIS ,LENCOM,SEGVAR  ,BHOLE   ,
+     4                  ITRIMAT     ,QMV      ,1     ,IXS     ,IXQ     ,
+     5                  PM          ,IPM      ,BUFMAT,X )
          ENDDO!next ITRIMAT
         !-----------------------------!
          IF (TRIMAT > 0) THEN
-           CALL ALE51_FINISH(IPARG,ELBUF_TAB,PM   ,IXS     ,IXQ,
-     .                       V    ,W        ,X    ,FLUX    ,VAL2 ,MS  ,VEUL,
-     .                       PHI  ,ALE_CONNECT    ,ITASK,FLUX_SAV,QMV  ,NV46,ELBUF_TAB      )
+           CALL ALE51_FINISH(IPARG,ELBUF_TAB   ,PM   ,IXS     ,IXQ,
+     .                       V    ,W           ,X    ,FLUX    ,VAL2 ,MS  ,VEUL,
+     .                       PHI  ,ALE_CONNECT ,ITASK,FLUX_SAV,QMV  ,NV46,ELBUF_TAB      )
          ENDIF
 C----------------------
         !-----------------------------!
         !     PRESSURE GAUGE          !
         !-----------------------------!
          IF (NBGAUGE > 0) CALL AGAUGE(
-     1     IPARG   ,ELBUF_TAB,PHI    ,IXS     ,IXQ     ,
-     2     X       ,ALE_CONNECT   ,ITASK  ,NERCVOIS,NESDVOIS,
-     3     LERCVOIS,LESDVOIS,LENCOM ,LGAUGE  ,
-     4     GAUGE   ,V       ,IGAUP  ,NGAUP   )
+     1     IPARG   ,ELBUF_TAB  ,PHI    ,IXS     ,IXQ     ,
+     2     X       ,ALE_CONNECT,ITASK  ,NERCVOIS,NESDVOIS,
+     3     LERCVOIS,LESDVOIS   ,LENCOM ,LGAUGE  ,
+     4     GAUGE   ,V          ,IGAUP  ,NGAUP   )
         !-----------------------------!
 
       ENDIF
