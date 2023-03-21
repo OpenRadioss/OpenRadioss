@@ -30,11 +30,7 @@ C ALLOC
       INTEGER IADI,IADR,IXDP,IADIF,IADRF
 C----------------------------------------------------------------------
 C
-#if CPP_mach == CPP_p4win32
-      CPUNAM ='win32'
-      ARCHTITLE='Windows 32 bits, Intel compiler'
-C
-#elif CPP_mach == CPP_p4win64
+#if CPP_mach == CPP_p4win64
 #if CPP_rel == 10
       CPUNAM ='win64 plmpi'
       ARCHTITLE='Windows 64 bits, Intel compiler, Platform MPI'
@@ -47,24 +43,6 @@ C
 #elif 1
       CPUNAM ='win64'
       ARCHTITLE='Windows 64 bits, Intel compiler'
-#endif
-C
-#elif CPP_mach == CPP_linux
-      CPUNAM ='linux32 pgi'
-      ARCHTITLE='Linux 32 bits, PGI compiler'
-C
-#elif CPP_mach == CPP_p4linux932
-      CPUNAM ='linux32'
-      ARCHTITLE='Linux 32 bits, Intel compiler'
-C
-#elif CPP_mach == CPP_linux964
-      CPUNAM ='pgi_linux64'
-      ARCHTITLE='Linux 64 bits, PGI compiler'
-C
-#elif CPP_mach == CPP_linux64_spmd
-#if CPP_rel == 60
-      CPUNAM='linux64 pgi plmpi'
-      ARCHTITLE='Linux 64 bits, PGI compiler, Platform MPI'
 #endif
 C
 #elif CPP_mach == CPP_p4linux964_spmd || CPP_mach == CPP_p4linux964
@@ -107,42 +85,6 @@ C
 #endif
 #endif
 C
-#elif CPP_mach == CPP_il
-      CPUNAM = 'linuxia64'
-      ARCHTITLE='Linux Itanium 64 bits, Intel compiler'
-C
-#elif CPP_mach == CPP_il_spmd
-#if CPP_rel == 10
-      CPUNAM = 'linuxia64 plmpi'
-      ARCHTITLE='Linux Itanium 64 bits, Intel compiler, Platform MPI'
-#elif CPP_rel == 30
-      CPUNAM = 'linuxia64 sgimpi'
-      ARCHTITLE='Linux Itanium 64 bits, Intel compiler, SGI MPI'
-#endif
-C
-#elif CPP_mach == CPP_pwr4 ||  CPP_mach == CPP_pwr4_spmd
-#if defined(MPI)
-      CPUNAM ='aix64 aixmpi'
-      ARCHTITLE='AIX 64 bits, IBM compiler, POE MPI'
-C
-#elif 1
-      CPUNAM ='aix64'
-      ARCHTITLE='AIX 64 bits, IBM compiler'
-#endif
-C
-#elif CPP_mach == CPP_sun25
-#if CPP_rel == 1000
-      CPUNAM ='solarisx64'
-      ARCHTITLE='Solaris 64 bits, SUN compiler'
-#endif
-C
-#elif CPP_mach == CPP_sol10x64_spmd
-      CPUNAM ='solarisx64 sunmpi'
-      ARCHTITLE='Solaris 64 bits, SUN compiler, SUN MPI'
-C
-#elif CPP_mach == CPP_macosx64
-      CPUNAM ='macosx'
-      ARCHTITLE='Mac OS/X 64 bits, Intel compiler'
 #elif 1
 C (elif 1) remplace (else) qui ne marche pas sur sgi6 avec des (elif)
       DATA CPUNAM /'UNKNOWN PLATFORM'/
