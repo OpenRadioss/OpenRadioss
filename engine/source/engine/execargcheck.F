@@ -635,7 +635,8 @@ C-----------------------------------------------
 C machine.inc include
         INTEGER RDFLEXCOMP
         INTEGER IDUM
-
+C-----------------------------------------------
+#include "machine.inc"
 C-----------------------------------------------
 
          LBT = LEN_TRIM(BTAG)

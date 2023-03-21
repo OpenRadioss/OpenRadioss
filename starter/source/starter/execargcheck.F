@@ -1074,7 +1074,8 @@ C machine.inc include
 
 C variables inutiles mais definies dans machine.inc
         INTEGER IBUILTIN,NSPMD,BMUL0,IEXPM,ICRAY,IRESP,IMACH,IRFORM,LENBT,READER_ID
-
+C-----------------------------------------------
+#include "machine.inc"
 C-----------------------------------------------
 
          WRITE(6,'(A,A)') ' '
