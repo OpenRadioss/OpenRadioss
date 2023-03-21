@@ -38,7 +38,6 @@ Chd|        ADMLIST                       source/model/remesh/admlist.F
 Chd|        ALELEC                        source/ale/alelec.F           
 Chd|        ALE_CHECK_LAG                 source/ale/ale_check_lag.F    
 Chd|        ALE_EULER_INIT                source/materials/ale/ale_euler_init.F
-Chd|        ALE_SET_CONVECTION_CODES      source/materials/ale/ale_set_convection_codes.F
 Chd|        ALLOCBUF_AUTO                 source/elements/elbuf_init/allocbuf_auto.F
 Chd|        ANPRINT                       source/output/analyse/analyse_arret.F
 Chd|        AREA                          source/properties/spring/hm_read_prop32.F

@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ALE_EULER_INIT                source/materials/ale/ale_euler_init.F
-Chd|        ALE_SET_CONVECTION_CODES      source/materials/ale/ale_set_convection_codes.F
 Chd|        FILL_BUFFER_51_0              source/materials/mat/mat051/fill_buffer_51_0.F
 Chd|        HM_READ_EOS                   source/materials/eos/hm_read_eos.F
 Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
@@ -222,8 +221,6 @@ c------------------------------------------------------------------
 c-------------------------------------------------------------------
 c      ALE EULER SPECIFIC TREATMENTS 
 c-------------------------------------------------------------------
-      !SSP BUFFER + UPWIND + TURB + CHECK
-      CALL ALE_EULER_INIT( MLAW_TAG,IPM,PM )
       
       !SPECIFIC TREATMENTS FOR LAW151 MATERIAL LAWS RELATED TO PSH PARAMETERS & EOS
       IF (MULTI_FVM%IS_USED) THEN
@@ -232,11 +229,6 @@ c-------------------------------------------------------------------
          CALL MULTI_CHECK_PSH(MULTI_FVM, NUMMAT, NPROPMI, NPROPM, IPM, PM)
          CALL MULTI_CHECK_EOS(MULTI_FVM, NUMMAT, NPROPMI, NPROPM, IPM, PM)
       ENDIF   
-      
-c-------------------------------------------------------------------
-      !ALE CONVECTION CODES (REYNOLDS TRANSPORTATION)
-c-------------------------------------------------------------------
-      CALL ALE_SET_CONVECTION_CODES(IPM,PM)   
 
 C------------------------------
       RETURN
