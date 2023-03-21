@@ -106,6 +106,7 @@ Chd|        UACCESS_DUM                   source/user_interface/uaccess.F
 Chd|        UFUNC_DUM                     source/user_interface/ufunc.F 
 Chd|        UPIDMID_DUM                   source/user_interface/upidmid.F
 Chd|        USENSOR_DUM                   source/user_interface/usensor.F
+Chd|        USER_WINDOWS_CLEAN            ../common_source/modules/user_windows_mod.F
 Chd|        USRPLAS_DUM                   source/user_interface/usrplas.F
 Chd|        UTABLE_DUM                    source/user_interface/utable.F
 Chd|        WIGEREST                      source/output/restart/rdresb.F
@@ -141,13 +142,13 @@ Chd|        RESTMOD                       share/modules/restart_mod.F
 Chd|        SCRATCHFILE_MOD               share/modules/scratchfiles_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
 Chd|        SOLTOSPH_MOD                  share/modules/soltosph_mod.F  
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|        TIME_MOD                      share/modules/time_mod.F      
 Chd|        UNITS_MOD                     share/modules/units_mod.F     
+Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
 Chd|====================================================================
       SUBROUTINE RADIOSS2(IDATA,MIDATA,RDATA,MRDATA) 
 C-----------------------------------------------

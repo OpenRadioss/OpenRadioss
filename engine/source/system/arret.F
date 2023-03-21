@@ -406,6 +406,7 @@ Chd|        UPD_ASPC0                     source/constraints/general/bcs/bc_imp0
 Chd|        UPGRADE_REM_2RY               source/mpi/interfaces/spmd_i7tool.F
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
+Chd|        USER_WINDOWS_ROUTINE          source/user_interface/user_windows.F
 Chd|        WCIUSC2                       source/input/wciusc2.F        
 Chd|        WRITE_INTBUF                  source/output/restart/write_intbuf.F
 Chd|        WRIUSC2                       source/input/wriusc2.F        

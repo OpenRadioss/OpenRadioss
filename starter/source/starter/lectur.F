@@ -66,7 +66,7 @@ Chd|        CREATE_MAP_TABLES             source/model/sets/map_tables.F
 Chd|        CREATE_SEATBELT               source/tools/seatbelts/create_seatbelt.F
 Chd|        DAMPDTNODA                    source/general_controls/damping/dampdtnoda.F
 Chd|        DDPRINT                       source/spmd/domdec2.F         
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.Fi
+Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        DEALLOCATE_DETONATORS         share/modules1/detonators_mod.F
 Chd|        DEALLOCATE_ELBUF              source/elements/elbuf_init/deallocate_buffer.F
 Chd|        DEALLOCATE_IGRSURF_SPLIT      source/spmd/deallocate_igrsurf_split.F
@@ -491,7 +491,6 @@ Chd|        REORDER_MOD                   share/modules1/reorder_mod.F
 Chd|        RESTMOD                       share/modules1/restart_mod.F  
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        SENSOR_VARIABLE_MOD           share/modules1/sensor_mod.F   
 Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SET_MOD                       share/modules1/set_mod.F      
 Chd|        SKEW_MOD                      share/modules1/skew_mod.F     
@@ -503,6 +502,8 @@ Chd|        STACK_VAR_MOD                 share/modules1/stack_var_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        TABLE_GLOB_MOD                share/modules1/table_glob_mod.F
+Chd|        USER_SENSOR_MOD               share/modules1/user_interface_mod.F
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================
       SUBROUTINE LECTUR(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,EBCS_TAB,SEATBELT_CONVERTED_ELEMENTS,

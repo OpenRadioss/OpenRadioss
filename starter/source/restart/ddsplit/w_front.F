@@ -38,6 +38,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        SPLIT_CFD_MOD                 share/modules1/split_cfd_mod.F
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE W_FRONT(
      1   PROC    ,NBDDACC ,NBDDKIN ,NODLOCAL,

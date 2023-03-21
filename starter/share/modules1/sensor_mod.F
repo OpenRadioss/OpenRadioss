@@ -91,7 +91,8 @@ Chd|        WRITE_SENSOR_TAB              source/tools/sensor/write_sensor_tab.F
 Chd|        SET_U_SENS_FPAR               source/user_interface/uaccess.F
 Chd|        SET_U_SENS_IPAR               source/user_interface/uaccess.F
 Chd|        SET_U_SENS_SPMD_NODE_LIST     source/tools/sensor/set_u_sens_spmd_node_list.F
-Chd|        SENSOR_VARIABLE_MOD           share/modules1/sensor_mod.F   
+Chd|        USER_INTERFACE_MOD            share/modules1/user_interface_mod.F
+Chd|        USER_SENSOR_MOD               share/modules1/user_interface_mod.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE SENSOR_MOD

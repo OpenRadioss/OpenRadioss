@@ -1071,6 +1071,7 @@ Chd|        SETRBYON                      source/constraints/general/rbody/hm_re
 Chd|        SET_ADMESH                    source/model/remesh/set_admesh.F
 Chd|        SET_INIT                      source/model/sets/set_init.F  
 Chd|        SET_INTERCEP                  source/spmd/node/ddtools.F    
+Chd|        SET_USER_WINDOW_NODES         source/user_interface/user_windows_tools.F
 Chd|        SGRHEAD                       source/elements/solid/solide/sgrhead.F
 Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
 Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
@@ -1105,6 +1106,7 @@ Chd|        SPLIT_REMNODE_I25             source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_REMNODE_I25_E2S         source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_REMNODE_I25_EDGE        source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_REMNODE_I7              source/restart/ddsplit/inter_tools.F
+Chd|        SPMD_USERWI_REST              source/user_interface/user_windows_tools.F
 Chd|        SPTRI                         source/elements/sph/sptri.F   
 Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
 Chd|        SREFDERI3                     source/elements/solid/solide/srefsta3.F

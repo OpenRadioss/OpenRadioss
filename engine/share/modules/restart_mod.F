@@ -29,6 +29,7 @@ Chd|        UPGRADE_LCAND_EDG             ../common_source/interf/upgrade_multim
 Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
 Chd|        CRKXFEM_RRESTANIM             source/output/restart/rdresb.F
 Chd|        CRKXFEM_WRESTANIM             source/output/restart/wrrest.F
+Chd|        GET_USER_WINDOW_NODES         source/user_interface/userwindow_interface_routines.F
 Chd|        MAT_SOLID_GET_NOD_V           source/user_interface/uaccess.F
 Chd|        MAT_SOLID_GET_NOD_X           source/user_interface/uaccess.F
 Chd|        PREPARE_DEBUG                 share/modules/debug_mod.F     

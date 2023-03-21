@@ -120,7 +120,6 @@ Chd|        ELAPSTIME                     source/system/timer.F
 Chd|        ENER_W0                       source/general_controls/damping/static.F
 Chd|        ENGINE_USER_CHECK             source/user_interface/dyn_userlib.c
 Chd|        ENGINE_USER_INITIALIZE        source/user_interface/dyn_userlib.c
-Chd|        ENG_USERLIB_USERWI            source/user_interface/dyn_userlib.c
 Chd|        ERR_THK                       source/elements/shell/err_thk.F
 Chd|        EULDX                         source/ale/grid/euldx.F       
 Chd|        FAIL_WIND_FRWAVE_INIT         source/materials/fail/alter/fail_wind_frwave_init.F
@@ -361,7 +360,6 @@ Chd|        SPMD_EXCH_SUB_POFF            source/mpi/spmd_exch_sub.F
 Chd|        SPMD_EXCH_SUB_PON             source/mpi/spmd_exch_sub.F    
 Chd|        SPMD_EXCH_TAGNCONT            source/mpi/forces/spmd_exch_tagncont.F
 Chd|        SPMD_EXCH_THKNOD              source/mpi/nodes/spmd_exch_thknod.F
-Chd|        SPMD_EXCH_USERWI              source/mpi/user_interface/spmd_exch_userwi.F
 Chd|        SPMD_EXCH_VMAX                source/mpi/elements/spmd_exch_dttsh.F
 Chd|        SPMD_EXCH_WAVE                source/mpi/nodes/spmd_exch_wave.F
 Chd|        SPMD_EXSUM_FB6                source/mpi/generic/spmd_exsum_fb6.F
@@ -415,6 +413,7 @@ Chd|        UPGRADE_REM_2RY               source/mpi/interfaces/spmd_i7tool.F
 Chd|        UPXFEM1                       source/elements/xfem/upxfem1.F
 Chd|        UPXFEM2                       source/elements/xfem/upxfem2.F
 Chd|        UPXFEM_TAGXP                  source/elements/xfem/upxfem_tagxp.F
+Chd|        USER_WINDOWS_ROUTINE          source/user_interface/user_windows.F
 Chd|        VITESSE                       source/assembly/vitesse.F     
 Chd|        VITESSEPINCH                  source/assembly/vitessepinch.F
 Chd|        WRITE_DB                      source/output/tools/write_db.F
@@ -489,7 +488,7 @@ Chd|        THK_MOD                       share/modules/thk_mod.F
 Chd|        THREAC_MOD                    share/modules/threac_mod.F    
 Chd|        TIME_MOD                      share/modules/time_mod.F      
 Chd|        UNITS_MOD                     share/modules/units_mod.F     
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|        XFEM2VARS_MOD                 share/modules/xfem2vars_mod.F 
 Chd|        i22EDGE_MOD                   ../common_source/modules/cut-cell-buffer_mod.F
 Chd|====================================================================

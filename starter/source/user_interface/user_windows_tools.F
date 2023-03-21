@@ -21,10 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SPMD_USERWIS_SPMD             source/user_interface/userwis_ini_spmd.F
+Chd|  SET_USER_WINDOW_NODES         source/user_interface/user_windows_tools.F
 Chd|-- called by -----------
-Chd|        HM_READ_WINDOW_USER           source/tools/userwi/hm_read_window_user.F
 Chd|-- calls ---------------
+Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
+Chd|        USERWIS_FRONT                 source/user_interface/user_windows_tools.F
+Chd|        USR2SYS                       source/system/sysfus.F        
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        RESTMOD                       share/modules1/restart_mod.F  
+Chd|        USER_INTERFACE_MOD            share/modules1/user_interface_mod.F
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE SET_USER_WINDOW_NODES(USERNODS,NUMBER_USERNODS)
 !$COMMENT
@@ -109,9 +115,9 @@ C-----------------------------------------------
 
       END
 Chd|====================================================================
-Chd|  USERWIS_FRONT                 source/user_interface/userwis_ini_spmd.F
+Chd|  USERWIS_FRONT                 source/user_interface/user_windows_tools.F
 Chd|-- called by -----------
-Chd|        HM_READ_WINDOW_USER           source/tools/userwi/hm_read_window_user.F
+Chd|        SET_USER_WINDOW_NODES         source/user_interface/user_windows_tools.F
 Chd|-- calls ---------------
 Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
 Chd|====================================================================
@@ -160,10 +166,16 @@ C======================================================================|
       
       END
 Chd|====================================================================
-Chd|  SPMD_USERWI_REST              source/user_interface/userwis_ini_spmd.F
+Chd|  SPMD_USERWI_REST              source/user_interface/user_windows_tools.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
+Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
+Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        NLOCAL                        source/spmd/node/ddtools.F    
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_USERWI_REST(USER_WINDOWS,NODLOCAL,NUMNOD,NUMNOD_L,
      *                             P,NSPMD)

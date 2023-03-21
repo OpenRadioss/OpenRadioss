@@ -60,6 +60,7 @@ Chd|        SUBSET_INI                    source/groups/subset_ini.F
 Chd|        SURF_INI                      source/groups/surf_ini.F      
 Chd|        TABLE_RRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTR                  source/tools/curve/table_tools.F
+Chd|        USERWI_READ                   source/user_interface/userwindow_interface_routines.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
 Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
@@ -84,6 +85,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        SPH_MOD                       share/modules/sph_mod.F       
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE RDRESB(AF ,IAF  ,LVARREA, XDP   ,
      .           IRUNN, MULTI_FVM,H3D_DATA,MATPARAM_TAB,GROUP_PARAM_TAB,

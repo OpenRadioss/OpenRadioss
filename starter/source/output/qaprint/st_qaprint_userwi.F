@@ -25,6 +25,7 @@ Chd|  ST_QAPRINT_USERWI             source/output/qaprint/st_qaprint_userwi.F
 Chd|-- called by -----------
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|-- calls ---------------
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_USERWI(USER_WINDOWS)
 C-----------------------------------------------

@@ -23,8 +23,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_EXCH_USERWI              source/mpi/user_interface/spmd_exch_userwi.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        USER_WINDOWS_ROUTINE          source/user_interface/user_windows.F
 Chd|-- calls ---------------
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_EXCH_USERWI(A,AR,USER_WINDOWS)
 C-----------------------------------------------

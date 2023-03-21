@@ -111,6 +111,7 @@ Chd|        READ_SENSOR_VEL               source/tools/sensor/read_sensor_vel.F
 Chd|        READ_SENSOR_WORK              source/tools/sensor/read_sensor_work.F
 Chd|        SENSOR_USER_CONVERT_LOCAL_ID  source/tools/sensor/sensor_user_convert_local_id.F
 Chd|        SETRB2ON                      source/constraints/general/rbe2/hm_read_rbe2.F
+Chd|        SET_USER_WINDOW_NODES         source/user_interface/user_windows_tools.F
 Chd|        UELT_SPMD_ADDITIONAL_NODE     source/user_interface/uaccess.F
 Chd|        W_ITABM1                      source/restart/ddsplit/w_itabm1.F
 Chd|-- calls ---------------

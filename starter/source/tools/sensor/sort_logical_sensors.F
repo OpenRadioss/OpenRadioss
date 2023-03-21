@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        SENSOR_VARIABLE_MOD           share/modules1/sensor_mod.F   
 Chd|====================================================================
       SUBROUTINE SORT_LOGICAL_SENSORS(SENSOR_TAB)
 C-----------------------------------------------

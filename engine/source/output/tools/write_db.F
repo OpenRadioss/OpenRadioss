@@ -56,6 +56,7 @@ Chd|        STAT_INIMAP2D_FILE_SPMD       source/output/sta/stat_inimap2d_file_s
 Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
 Chd|        THCWREST                      source/output/restart/wrrest.F
+Chd|        USERWI_WRITE                  source/user_interface/userwindow_interface_routines.F
 Chd|        WRITE_ELGROUP_PARAM           source/output/restart/write_elgroup_param.F
 Chd|        WRITE_INTBUF                  source/output/restart/write_intbuf.F
 Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F

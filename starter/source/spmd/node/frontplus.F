@@ -89,7 +89,7 @@ Chd|        SET_IBUFSSG_IO                source/starter/lectur.F
 Chd|        SPLIT_JOINT                   source/constraints/general/cyl_joint/split_joint.F
 Chd|        SPMDSET                       source/constraints/general/rbody/spmdset.F
 Chd|        UELT_SPMD_ADDITIONAL_NODE     source/user_interface/uaccess.F
-Chd|        USERWIS_FRONT                 source/user_interface/userwis_ini_spmd.F
+Chd|        USERWIS_FRONT                 source/user_interface/user_windows_tools.F
 Chd|-- calls ---------------
 Chd|        REALLOC_IFRONT                source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    

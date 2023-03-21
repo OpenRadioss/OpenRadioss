@@ -81,6 +81,7 @@ Chd|        REFSTA_MOD                    share/modules1/refsta_mod.F
 Chd|        RESTMOD                       share/modules1/restart_mod.F  
 Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS)
 C----------------------------------------------------------

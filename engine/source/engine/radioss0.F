@@ -28,7 +28,6 @@ Chd|        EXECARGCHECK                  source/engine/execargcheck.F
 Chd|        INIT_DYN_LIB_STRUC            share/modules/dynlib_mod.F    
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|        RADIOSS_SET_ENV_VARIABLE      ../common_source/comm/radioss_set_env_variable.c
-Chd|        USERWINDOW_ACCESS_DUM         source/user_interface/userwindow_interface_routines.F
 Chd|        DYNLIB_MOD                    share/modules/dynlib_mod.F    
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|====================================================================

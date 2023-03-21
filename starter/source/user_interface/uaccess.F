@@ -895,7 +895,8 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        SENSOR_VARIABLE_MOD           share/modules1/sensor_mod.F   
+Chd|        USER_INTERFACE_MOD            share/modules1/user_interface_mod.F
+Chd|        USER_SENSOR_MOD               share/modules1/user_interface_mod.F
 Chd|====================================================================
       INTEGER FUNCTION SET_U_SENS_IPAR(IVAR,VAR)
 C-----------------------------------------------
@@ -951,7 +952,8 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        SENSOR_VARIABLE_MOD           share/modules1/sensor_mod.F   
+Chd|        USER_INTERFACE_MOD            share/modules1/user_interface_mod.F
+Chd|        USER_SENSOR_MOD               share/modules1/user_interface_mod.F
 Chd|====================================================================
       INTEGER FUNCTION SET_U_SENS_FPAR(IVAR,VAR)
 C-----------------------------------------------

@@ -21,10 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SPMD_USERWI_READ         source/user_interface/userwindow_interface_routines.F
+Chd|  USERWI_READ                   source/user_interface/userwindow_interface_routines.F
 Chd|-- called by -----------
-Chd|        RADIOSS0                      source/engine/radioss0.F      
+Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
+Chd|        READ_DB                       source/output/tools/read_db.F 
+Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE USERWI_READ(USER_WINDOWS,ISPMD,NSPMD,NUMNOD)
 !$COMMENT
@@ -114,10 +118,14 @@ C-----------------------------------------------
       ENDIF 
       END
 Chd|====================================================================
-Chd|  SPMD_USERWI_READ         source/user_interface/userwindow_interface_routines.F
+Chd|  USERWI_WRITE                  source/user_interface/userwindow_interface_routines.F
 Chd|-- called by -----------
-Chd|        RADIOSS0                      source/engine/radioss0.F      
+Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
+Chd|        WRITE_DB                      source/output/tools/write_db.F
+Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE USERWI_WRITE(USER_WINDOWS,ISPMD,NSPMD,NUMNOD)
 !$COMMENT
@@ -189,9 +197,10 @@ C-----------------------------------------------
       
       END
 Chd|====================================================================
-Chd|  USERWINDOW_GET_A              source/user_interface/userwindow_interface_routines.F
+Chd|  GET_USER_WINDOW_NODES         source/user_interface/userwindow_interface_routines.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
+Chd|        RESTMOD                       share/modules/restart_mod.F   
 Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
 Chd|====================================================================
       SUBROUTINE GET_USER_WINDOW_NODES(INTERNAL_ID,USER_ID)

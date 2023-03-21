@@ -67,6 +67,7 @@ Chd|        STACK_RREST                   source/output/restart/rdresb.F
 Chd|        TABLE_RRESTR                  source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTR_MAT              source/tools/curve/table_tools.F
 Chd|        THCRREST                      source/output/restart/rdresb.F
+Chd|        USERWI_READ                   source/user_interface/userwindow_interface_routines.F
 Chd|        WIGEREST                      source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        READ_DB_C                     source/output/tools/sortie_c.c

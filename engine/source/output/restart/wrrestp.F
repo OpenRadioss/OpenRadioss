@@ -41,6 +41,7 @@ Chd|        SPMD_SAVEFI                   source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_SAVESPH                  source/mpi/sph/spmd_sptool.F  
 Chd|        TABLE_WRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
+Chd|        USERWI_WRITE                  source/user_interface/userwindow_interface_routines.F
 Chd|        WRCOMI                        source/output/restart/wrcomm.F
 Chd|        WRCOMR                        source/output/restart/wrcomm.F
 Chd|        WRITE_C_C                     source/output/tools/sortie_c.c
@@ -89,6 +90,7 @@ Chd|        SMS_MOD                       share/modules/sms_mod.F
 Chd|        SPH_MOD                       share/modules/sph_mod.F       
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE WRRESTP(AF       ,IAF     ,XDP   ,ICH     ,ADDCNE,
      .           ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,

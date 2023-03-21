@@ -77,6 +77,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_DRIVER(IGEO        ,GEO        ,BUFGEO          ,IPM            ,PM               ,
      2                             BUFMAT      ,NOM_OPT    ,INOM_OPT        ,NUMLOADP       ,ILOADP           ,

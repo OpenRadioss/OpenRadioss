@@ -107,7 +107,7 @@ Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|        SPLIT_SKEW                    source/restart/ddsplit/split_skew.F
 Chd|        SPMD_NE_CONNECT               source/ale/spmd_ne_connect.F  
-Chd|        SPMD_USERWI_REST              source/user_interface/userwis_ini_spmd.F
+Chd|        SPMD_USERWI_REST              source/user_interface/user_windows_tools.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        TABLE_WRESTI                  source/tools/curve/table_tools.F
@@ -254,6 +254,7 @@ Chd|        STACK_MOD                     share/modules1/stack_mod.F
 Chd|        STACK_VAR_MOD                 share/modules1/stack_var_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================
       SUBROUTINE DDSPLIT(

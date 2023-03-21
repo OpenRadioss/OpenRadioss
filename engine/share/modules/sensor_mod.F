@@ -200,7 +200,7 @@ Chd|        SET_U_SENS_ACTI               source/user_interface/usensor.F
 Chd|        SET_U_SENS_DEACTI             source/user_interface/usensor.F
 Chd|        SET_U_SENS_MAXVALUE           source/user_interface/usensor.F
 Chd|        SET_U_SENS_VALUE              source/user_interface/usensor.F
-Chd|        SENSOR_VARIABLE_MOD           share/modules/sensor_mod.F    
+Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE SENSOR_MOD

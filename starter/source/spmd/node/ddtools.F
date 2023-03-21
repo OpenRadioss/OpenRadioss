@@ -138,6 +138,7 @@ Chd|        SPLIT_CAND_I25                source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_CAND_I7                 source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_CFD_SOLIDE              source/spmd/split_cfd_solide.F
 Chd|        SPLIT_JOINT                   source/constraints/general/cyl_joint/split_joint.F
+Chd|        SPMD_USERWI_REST              source/user_interface/user_windows_tools.F
 Chd|        W_FI                          source/restart/ddsplit/w_fi.F 
 Chd|        W_FRONT                       source/restart/ddsplit/w_front.F
 Chd|        print_JOINT                   source/constraints/general/cyl_joint/split_joint.F
@@ -298,6 +299,7 @@ Chd|        SPLIT_JOINT                   source/constraints/general/cyl_joint/s
 Chd|        SPLIT_REMNODE_I24             source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_XSAV                    source/restart/ddsplit/inter_tools.F
 Chd|        SPMDSET                       source/constraints/general/rbody/spmdset.F
+Chd|        SPMD_USERWI_REST              source/user_interface/user_windows_tools.F
 Chd|        THPINIT                       source/output/th/thpinit.F    
 Chd|        WRWEIGHT_RM                   source/restart/ddsplit/wrweight_rm.F
 Chd|        W_FBFT                        source/restart/ddsplit/w_fbft.F

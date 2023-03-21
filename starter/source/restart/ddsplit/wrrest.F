@@ -47,6 +47,7 @@ Chd|        SPLIT_CAND_RVAL               source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_NODE_RVAL               source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEG_RVAL_I20            source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_XSAV                    source/restart/ddsplit/inter_tools.F
+Chd|        SPMD_USERWI_REST              source/user_interface/user_windows_tools.F
 Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
 Chd|        THCWREST                      source/restart/ddsplit/wrrest.F

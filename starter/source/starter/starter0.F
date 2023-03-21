@@ -62,6 +62,8 @@ Chd|        ST_UTABLE_DUM                 source/user_interface/utable.F
 Chd|        TITRE1                        source/output/outfile/titre1.F
 Chd|        TRACE_IN1                     source/system/trace_back.F    
 Chd|        TRACE_OUT1                    source/system/trace_back.F    
+Chd|        USER_WINDOWS_CLEAN            ../common_source/modules/user_windows_mod.F
+Chd|        USER_WINDOWS_INIT             ../common_source/modules/user_windows_mod.F
 Chd|        WRITE_C_C                     source/output/tools/write_routines.c
 Chd|        ANEND                         source/output/analyse/analyse_arret.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
@@ -71,6 +73,8 @@ Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
+Chd|        USER_INTERFACE_MOD            share/modules1/user_interface_mod.F
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE STARTER0   
       USE MESSAGE_MOD

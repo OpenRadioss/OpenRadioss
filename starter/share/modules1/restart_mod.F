@@ -28,7 +28,6 @@ Chd|        UPGRADE_LCAND_E2S             ../common_source/interf/upgrade_multim
 Chd|        UPGRADE_LCAND_EDG             ../common_source/interf/upgrade_multimp.F
 Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
 Chd|        CONTRL                        source/starter/contrl.F       
-Chd|        HM_READ_WINDOW_USER           source/tools/userwi/hm_read_window_user.F
 Chd|        LECLAS                        source/loads/laser/leclas.F   
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        NEW_LINK                      source/coupling/rad2rad/new_link.F
@@ -46,6 +45,7 @@ Chd|        R2R_SPLIT                     source/coupling/rad2rad/r2r_split.F
 Chd|        R2R_VOID                      source/coupling/rad2rad/r2r_void.F
 Chd|        R2R_VOID_1D                   source/coupling/rad2rad/r2r_void.F
 Chd|        READ_EBCS                     source/boundary_conditions/ebcs/read_ebcs.F
+Chd|        SET_USER_WINDOW_NODES         source/user_interface/user_windows_tools.F
 Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        ST_QAPRINT_EBCS               source/output/qaprint/st_qaprint_ebcs.F
 Chd|        TAGNOD_R2R_S                  source/coupling/rad2rad/tagnod_r2r.F

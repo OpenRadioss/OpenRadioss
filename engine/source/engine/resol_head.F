@@ -55,6 +55,7 @@ Chd|        SPH_MOD                       share/modules/sph_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
+Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE RESOL_HEAD(
      .           ITASK       ,AF          ,IAF            ,IDATA      , RDATA,XDP       ,
