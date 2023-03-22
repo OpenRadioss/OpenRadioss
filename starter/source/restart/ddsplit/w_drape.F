@@ -94,56 +94,58 @@ C
           ENDIF
          ENDIF 
       ENDDO
+      IF(NELDRP_L > 0) THEN
 C      
-      ALLOCATE(ITMP(NDIM,2),RTMP(NDIM,2),ISLICE(NDIM_SLICE),INDX_PLY(NDIM_INDX_PLY))
+          ALLOCATE(ITMP(NDIM,2),RTMP(NDIM,2),ISLICE(NDIM_SLICE),INDX_PLY(NDIM_INDX_PLY))
 C
-      NDIM_SLICE = 0
-      NDIM_INDX_PLY = 0
-      NDIM = 0 
-      NELDRP_L = 0
-      NEL = 0
-      DO I = 1, NUMEL
-        IF(CEP(I)== P) THEN
-          II = INDX(I)
-          NEL = NEL + 1 
-          IF(II > 0) THEN
-            NELDRP_L = NELDRP_L + 1  
-            NPT_DRP =  DRAPE(II)%NPLY_DRAPE
-            NPT = DRAPE(II)%NPLY
-            DO J = 1,NPT_DRP
-              NSLICE = DRAPE(II)%DRAPE_PLY(J)%NSLICE
-              ISLICE(NDIM_SLICE + J) =  NSLICE
-              DO IS = 1,NSLICE
-                  ITMP(NDIM + IS,1) = DRAPE(II)%DRAPE_PLY(J)%IDRAPE(IS,1) 
-                  ITMP(NDIM + IS,2) = DRAPE(II)%DRAPE_PLY(J)%IDRAPE(IS,2)
-                  RTMP(NDIM + IS,1) = DRAPE(II)%DRAPE_PLY(J)%RDRAPE(IS,1)
-                  RTMP(NDIM + IS,2) = DRAPE(II)%DRAPE_PLY(J)%RDRAPE(IS,2)
-              ENDDO
-              NDIM = NDIM + NSLICE
-            ENDDO
-            NDIM_SLICE = NDIM_SLICE + NPT_DRP
-            DO J = 1,NPT
-              INDX_PLY(NDIM_INDX_PLY + J) = DRAPE(II)%INDX_PLY(J)
-            ENDDO
-            NDIM_INDX_PLY = NDIM_INDX_PLY + NPT
-          ENDIF
-        ENDIF  
-      ENDDO      
+          NDIM_SLICE = 0
+          NDIM_INDX_PLY = 0
+          NDIM = 0 
+          NELDRP_L = 0
+          NEL = 0
+          DO I = 1, NUMEL
+            IF(CEP(I)== P) THEN
+              II = INDX(I)
+              NEL = NEL + 1 
+              IF(II > 0) THEN
+                NELDRP_L = NELDRP_L + 1  
+                NPT_DRP =  DRAPE(II)%NPLY_DRAPE
+                NPT = DRAPE(II)%NPLY
+                DO J = 1,NPT_DRP
+                  NSLICE = DRAPE(II)%DRAPE_PLY(J)%NSLICE
+                  ISLICE(NDIM_SLICE + J) =  NSLICE
+                  DO IS = 1,NSLICE
+                      ITMP(NDIM + IS,1) = DRAPE(II)%DRAPE_PLY(J)%IDRAPE(IS,1) 
+                      ITMP(NDIM + IS,2) = DRAPE(II)%DRAPE_PLY(J)%IDRAPE(IS,2)
+                      RTMP(NDIM + IS,1) = DRAPE(II)%DRAPE_PLY(J)%RDRAPE(IS,1)
+                      RTMP(NDIM + IS,2) = DRAPE(II)%DRAPE_PLY(J)%RDRAPE(IS,2)
+                  ENDDO
+                  NDIM = NDIM + NSLICE
+                ENDDO
+                NDIM_SLICE = NDIM_SLICE + NPT_DRP
+                DO J = 1,NPT
+                  INDX_PLY(NDIM_INDX_PLY + J) = DRAPE(II)%INDX_PLY(J)
+                ENDDO
+                NDIM_INDX_PLY = NDIM_INDX_PLY + NPT
+              ENDIF
+            ENDIF  
+          ENDDO      
 C     
-      CALL WRITE_I_C(NDIM, 1)
-      CALL WRITE_I_C(NDIM_SLICE,1)
-      Call WRITE_I_C(NDIM_INDX_PLY,1) 
-      CALL WRITE_I_C(INDEX,NUMEL_L)
-      CALL WRITE_I_C(NPTDRP_ELT,NELDRP_L)
-      CALL WRITE_I_C(NPT_ELT,NELDRP_L)
-      CALL WRITE_I_C(ISLICE,NDIM_SLICE)
-      CALL WRITE_I_C(INDX_PLY,NDIM_INDX_PLY)  
-      CALL WRITE_I_C(ITMP,2*NDIM)            
-      CALL WRITE_DB(RTMP,2*NDIM)
-      LEN_AM = LEN_AM + 2*NDIM            
-      LEN_IA = LEN_IA + 2*NDIM +  NUMEL_L   + 2*NELDRP_L    
-     .                + NDIM_SLICE + NDIM_INDX_PLY  + 3   
-       DEALLOCATE(ITMP,RTMP,ISLICE,INDX_PLY,NPT_ELT,NPTDRP_ELT, INDEX) 
+          CALL WRITE_I_C(NDIM, 1)
+          CALL WRITE_I_C(NDIM_SLICE,1)
+          Call WRITE_I_C(NDIM_INDX_PLY,1) 
+          CALL WRITE_I_C(INDEX,NUMEL_L)
+          CALL WRITE_I_C(NPTDRP_ELT,NELDRP_L)
+          CALL WRITE_I_C(NPT_ELT,NELDRP_L)
+          CALL WRITE_I_C(ISLICE,NDIM_SLICE)
+          CALL WRITE_I_C(INDX_PLY,NDIM_INDX_PLY)
+          CALL WRITE_I_C(ITMP,2*NDIM)     
+          CALL WRITE_DB(RTMP,2*NDIM)
+          LEN_AM = LEN_AM + 2*NDIM            
+          LEN_IA = LEN_IA + 2*NDIM +  NUMEL_L   + 2*NELDRP_L    
+     .                    + NDIM_SLICE + NDIM_INDX_PLY  + 3   
+           DEALLOCATE(ITMP,RTMP,ISLICE,INDX_PLY,NPT_ELT,NPTDRP_ELT, INDEX) 
+       ENDIF
 ! --------------------------------------
       RETURN
       END
