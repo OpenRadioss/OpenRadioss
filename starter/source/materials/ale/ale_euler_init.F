@@ -60,6 +60,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "conv_c.inc"
 #include      "alefvm.inc"
+#include      "fluid_scr_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -73,10 +74,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,uID1,uID2,MID1,MID2,ILAW1,ILAW2,JALE,JTUR,IMAT,MAT_ID
+      INTEGER II,uID1,uID2,MID1,MID2,ILAW1,ILAW2,JALE,JTUR,IMAT,MAT_ID,IGFLU
       INTEGER JTHE,STAT,JALE_FROM_MAT,JALE_FROM_PROP,CODCONV,CODREZO
       INTEGER,EXTERNAL :: NINTRI   
-      CHARACTER*5 CHAR_PROP,CHAR_MAT             
+      CHARACTER*5 CHAR_PROP,CHAR_MAT   
+C-----------------------------------------------
+C   E x t e r n a l   F u n c t i o n s
+C-----------------------------------------------
+      LOGICAL LOI_FLUID
+      EXTERNAL LOI_FLUID              
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -154,7 +160,7 @@ C-----------------------------------------------
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
      .                I1=ID) 
-!material set to void for normal termination otherwise engine will set value to non allocated arrays.
+                 !material set to void for normal termination otherwise engine will set value to non allocated arrays.
                  MID=0 
                  PM(1:NPROPM,IMID) =  ZERO
                  IPM(1:NPROPMI,IMID) = 0                  
@@ -199,12 +205,16 @@ C-----------------------------------------------
         IF(JALE_FROM_PROP > 0 .OR. JALE_FROM_MAT > 0)THEN               
           MLAW_TAG(IMID)%L_SSP    = 1 
           IF(ILAW == 20)THEN
-            uID1                  = NINT(PM(21,IMID))
-            uID2                  = NINT(PM(22,IMID))
-            MID1                  = NINTRI(uID1,IPM,NPROPMI,NUMMAT,1)
-            MID2                  = NINTRI(uID2,IPM,NPROPMI,NUMMAT,1)
-            ILAW1                 = IPM(2,MID1)
-            ILAW2                 = IPM(2,MID2)               
+            uID1 = NINT(PM(21,IMID))
+            uID2 = NINT(PM(22,IMID))
+            MID1 = NINTRI(uID1,IPM,NPROPMI,NUMMAT,1)
+            MID2 = NINTRI(uID2,IPM,NPROPMI,NUMMAT,1)
+            ILAW1 = IPM(2,MID1)
+            ILAW2 = IPM(2,MID2)   
+            IPM(15,MID1) = UPWMG
+            IPM(15,MID2) = UPWMG
+            IPM(16,MID1) = UPWOG
+            IPM(16,MID2) = UPWOG                        
             MLAW_TAG(MID1)%L_SSP = 1 ! boundary layer material (ilaw updated later in sgrtail.F)
             MLAW_TAG(MID2)%L_SSP = 1 ! boundary layer material (ilaw updated later in sgrtail.F) 
           ENDIF                                                    
@@ -240,9 +250,8 @@ C-----------------------------------------------
         !################################################################!      
         !  CONVERTION-REZONING CODES/FLAGS (Reynolds transport theorem)
         !################################################################!-     
-        CODV(1:LCONV)=0
-        CODCONV=0
-        CODREZO=0
+        CODCONV=0  !convection : local flags related to current material law (CODV are global values)
+        CODREZO=0  !rezoning   : local flags
       
         !default convection
         IF(JALE_FROM_PROP /= 0 .OR. JALE_FROM_MAT /= 0)THEN
@@ -277,6 +286,9 @@ C-----------------------------------------------
      .       ILAW==47 .OR.
      .       ILAW==49 .OR.
      .       ILAW>=50     )THEN
+                !local flags
+                CODCONV = CODCONV + 11
+                !global flags
                 CODV(1) = 01
                 CODV(2) = 01
           ENDIF
@@ -284,12 +296,18 @@ C-----------------------------------------------
       
         !turbulency
         IF(JTUR > 0) THEN
+          !local flags
+          CODCONV = CODCONV + 1100
+          !global flags
           CODV(3)=1
           CODV(4)=1
         ENDIF
         
         !specific convection (massic fraction, and lee-tarver parameter)
         IF(ILAW == 37 .OR. ILAW == 41)THEN
+          !local flags
+          CODCONV = CODCONV + 10000
+          !global flags
           CODV(5)=1
         ENDIF
       
@@ -319,35 +337,51 @@ C-----------------------------------------------
          ENDIF
        
          IF( (JALE_FROM_PROP /= 0 .OR. JALE_FROM_MAT /= 0)  .AND. ILAW == 1)THEN
-          CODREZO=1
+           CODREZO=1
          ENDIF
          
         !---ALEFVM (obsolete)---! 
         IF( (JALE_FROM_PROP /= 0 .OR. JALE_FROM_MAT /= 0) .AND. IALEFVM == 1)THEN
-          !Momentum Convection : %MOM(1:3,:)
+         !Momentum Convection : %MOM(1:3,:)
+          !local flags
+          CODCONV = CODCONV + 11100000
+          !global flags
           CODV(6) = 1
           CODV(7) = 1
           CODV(8) = 1                    
         ENDIF
-        
-        !corresponding integer  CODV(1:10) -> CODCONV
-        DO II=1,LCONV
-           CODCONV=CODCONV+CODV(II)*10**(II-1)
-        ENDDO
-        
+               
         !storing values in material buffer for backward compatibility
         PM(10,IMID)=CODCONV+EM01
         PM(11,IMID)=CODREZO+EM01
-
-        !ALE CONVECTION INDEXES
-        NVCONV=0
-        DO II=1,LCONV
-         IF(CODV(II) == 1)THEN
-            NVCONV=NVCONV+1
-            CODV(II)=NVCONV
+        
+       !################################################################!   
+       !  CFD CONSISTENCY (OBSOLETE OPTION /CAA)                        !
+       !################################################################!
+       IGFLU=0
+       IF(IPID > 0)IGFLU=IGEO(36,IPID)
+       !### CAA without fluid material (CAA is obsolete)
+       IF(ICAA /= 0)THEN
+         IF(    JALE_FROM_PROP==1 .OR. JALE_FROM_PROP==2
+     .     .OR. JALE_FROM_MAT==1  .OR. JALE_FROM_MAT==2 )THEN !ALE or EULER
+           IF(.NOT.loi_fluid(ilaw)) THEN
+             CALL ANCMSG(MSGID=37,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,
+     .                   I1=ID  ,C1=TITR ,
+     .                   I2=MID ,C2=TITR2,
+     .                   I3=ILAW)
+           ENDIF
          ENDIF
-        ENDDO
-      
+       ENDIF
+       !### /PROP/FLUID without FLUID material 
+       IF(  (IGFLU==1) .AND. .NOT.(loi_fluid(ilaw)) .AND. (ICAA == 0) .AND. (IGTYP == 14) )THEN
+          CALL ANCMSG(MSGID=38,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
+     .                I1=ID  ,C1=TITR ,
+     .                I2=PID ,C2=TITR1,
+     .                I3=MID ,C3=TITR2,
+     .                I4=ILAW )
+       ENDIF
+      !-------------------------------------        
+     
 c-----------------------------------------               
       RETURN
       END SUBROUTINE ALE_EULER_INIT

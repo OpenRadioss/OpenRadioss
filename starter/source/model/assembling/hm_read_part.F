@@ -85,7 +85,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com_xfem1.inc"
 #include      "param_c.inc"
-#include      "fluid_scr_c.inc"
+#include      "conv_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -113,13 +113,11 @@ C-----------------------------------------------
       INTEGER PID,MID,SID,ID,ID1,ID2,I,IMID,IPID,ISID,K,ITH, IGTYP,XFEMFLG,
      .        IXFEM,IHBE,ILAW,UID,IFLAGUNIT,J,IDMAT_PLY,
      .        ILAW_PLY,IPMAT,NPT,IDPARTSPH,SUB_INDEX,SIZE, IDS, CNT, 
-     .        IFIX_TMP, IGFLU, JALE,JTHE,STAT,JALE_FROM_MAT,JALE_FROM_PROP
+     .        IFIX_TMP,STAT
       my_real BID, THICK,FAC_L,MP,VOL,DIAM
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      LOGICAL LOI_FLUID
-      EXTERNAL LOI_FLUID
       my_real GET_U_GEO
       EXTERNAL GET_U_GEO
       INTEGER NINTRI
@@ -144,6 +142,10 @@ C-----------------------------------------------
       DO I=1,NUMMAT
          IWA(NUMGEO+I) = 0
       ENDDO
+C--------------------------------------------------
+C ALE or EULER CONVECTION CODES (CONVECTION/REZONING/EBCS)
+C--------------------------------------------------      
+        CODV(1:LCONV)=0      
 C--------------------------------------------------
 C START BROWSING MODEL PARTS
 C--------------------------------------------------
@@ -375,50 +377,21 @@ C
      .                C1=LINE1)
         ENDIF
 
-       !################################################################!   
-       !  CFD CONSISTENCY                                               !
-       !################################################################!
-       ILAW=0
-       IGFLU=0
-       IF(IMID > 0)ILAW =IPM(2,IMID)
-       IF(IPID > 0)IGFLU=IGEO(36,IPID)
-       !IGTYP = IGEO(11,I)
-       !### CAA without fluid material (CAA is obsolete)
-       IF(ICAA/=0)THEN
-         IF(JALE==1 .OR. JALE==2)THEN !ALE or EULER
-           IF(loi_fluid(ilaw).eqv..false.) THEN
-             CALL ANCMSG(MSGID=37,
-     .                   MSGTYPE=MSGWARNING,
-     .                   ANMODE=ANINFO_BLIND_1,
-     .                   I1=ID,
-     .                   C1=TITR,
-     .                   I2=MID,
-     .                   C2=TITR2,
-     .                   I3=ILAW)
-           ENDIF
-         ENDIF
-       ENDIF
-       !### /PROP/FLUID without FLUID material 
-       IF(      (IGFLU==1) 
-     .    .AND. (loi_fluid(ilaw).eqv. .false.) 
-     .    .AND. (ICAA == 0)
-     .    .AND. (IGTYP == 14)
-     .  )THEN
-          CALL ANCMSG(MSGID=38,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=ID,
-     .                C1=TITR,
-     .                I2=PID,
-     .                C2=TITR1,
-     .                I3=MID,
-     .                C3=TITR2,
-     .                I4=ILAW )
-       ENDIF
-      !-------------------------------------
-
       ENDDO ! NPART
       
+C--------------------------------------------------
+C ALE or EULER CONVECTION CODES (CONVECTION/REZONING/EBCS)
+C--------------------------------------------------   
+      NVCONV=0
+      DO I=1,LCONV
+        IF(CODV(I) == 1)THEN
+          NVCONV=NVCONV+1
+          CODV(I)=NVCONV
+        ENDIF
+      ENDDO      
+C--------------------------------------------------
+C LAW151 - MULTIFLUID
+C--------------------------------------------------   
       MULTI_FVM%IS_USED = IS_ASSOCIATED_LAW51
       
       IMULTI_FVM = 0
@@ -435,14 +408,14 @@ C
      .        C1      = 'MULTI_FVM%VEL')
          MULTI_FVM%VEL(: ,:) = ZERO
       ENDIF      
-      
+C--------------------------------------------------         
       IF (XFEMFLG == 0) ICRACK3D = 0
-
+C--------------------------------------------------   
       DO I=1,NPART
          IWA(IPART(2,I)) = 1
          IWA(NUMGEO+IPART(1,I)) = 1
       ENDDO
-
+C--------------------------------------------------   
       CNT = 0
       DO I=1,NUMGEO
          IF (IWA(I) ==  0) CNT = CNT+1
@@ -453,7 +426,7 @@ C
          IF (IWA(NUMGEO+I) ==  0) CNT = CNT+1
       ENDDO
       IDS = 3
-      
+C--------------------------------------------------         
 C     SOL2SPH : Orthotropic flag transferred to SPH property
       DO I=1,NPART
         IDPARTSPH = IGEO(38,IPART(2,I))
