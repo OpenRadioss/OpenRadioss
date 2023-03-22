@@ -584,6 +584,7 @@ C-----------------------------------------------
       USE USER_SENSOR_MOD
       USE ALE_MOD
       USE OUTPUT_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -848,6 +849,7 @@ C
       INTEGER :: EBCS_TAG_CELL_SPMD(NUMELQ+NUMELTG+NUMELS)
 C
       TYPE (DYNAIN_DATABASE) :: DYNAIN_DATA
+      TYPE (INTERFACES_)  :: INTERFACES
 
 
 C-----------------------------------------------
@@ -7118,6 +7120,7 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       NINTSTAMP=0
       NMNT   = 0
+      INTERFACES%PARAMETERS%ISTIF_DT = 0
 C PROBINT egalement initialisee dans ENGINE (rdresa)
       PROBINT=HALF
 
@@ -7170,7 +7173,7 @@ C--------------------------------------------------------------
      4           FRIC_P   ,I2RUPT   ,AREASL   ,UNITAB     ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),
      5           DEF_INTER,NPC1     ,SENSOR_TAB,MULTI_FVM ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),
      6           INTBUF_FRIC_TAB    ,IDDLEVEL ,LSUBMODEL  ,TF                          ,
-     7           KLOADPINTER        ,DGAPINT  )
+     7           KLOADPINTER        ,DGAPINT  ,INTERFACES)
 C
 
        IF(.NOT. ALLOCATED(ALE_CONNECTIVITY%NALE)) ALLOCATE(ALE_CONNECTIVITY%NALE(0))
@@ -8395,7 +8398,8 @@ C
      I            FXBCPM  ,FXBCPS     ,FXBLM     ,FXBFLS   ,FXBDLS  ,
      J            FXB_MATRIX,FXB_MATRIX_ADD,FXB_LAST_ADRESS,INOM_OPT(11),R_SKEW,
      K            KNOD2EL1D,NOD2EL1D  ,EBCS_TAB  ,RBY_INIAXIS,ALEA  ,
-     L            KNOD2ELC,NOD2ELC    ,DR        ,SLRBODY , DRAPEG) 
+     L            KNOD2ELC,NOD2ELC    ,DR        ,SLRBODY , DRAPEG  ,
+     M            IPARI   ,INTBUF_TAB ,INTERFACES) 
 
 
       IF (NINTER>0.AND.NUMELIG3D>0) THEN
@@ -10688,7 +10692,7 @@ c
      B         SIZE_ALE_ELM(P),PINCH_DATA ,TAG_SKINS6    ,IBCSCYC      ,LBCSCYC   ,T_MONVOL,
      C         INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP,DYNAIN_DATA,
-     E         DRAPEG,USER_WINDOWS,OUTPUT)
+     E         DRAPEG       ,USER_WINDOWS ,OUTPUT        ,INTERFACES )
       GOTO 220
  221  CONTINUE
 

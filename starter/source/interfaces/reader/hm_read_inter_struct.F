@@ -57,7 +57,7 @@ Chd|====================================================================
      4        AREASL      ,NI         ,NOM_OPT        ,TITR     ,DEF_INTER ,
      5        IDINT7      ,IDINT7B    ,IDINT11        ,NPC1     ,SENSOR_TAB,
      6        NOM_OPTFRIC,INTBUF_FRIC_TAB,IGRBRIC     ,NOINT    ,KEY       ,
-     7        LSUBMODEL  ,TF          )
+     7        LSUBMODEL  ,TF          ,INTERFACES  )
 C============================================================================
 
 C-----------------------------------------------
@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE SENSOR_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -98,6 +99,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE (SURF_)   ,TARGET , DIMENSION(NSLIN)   :: IGRSLIN
+      TYPE (INTERFACES_) ,INTENT(INOUT):: INTERFACES
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -155,7 +157,8 @@ C--------------------------------------------------
      1         IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,
      2         IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P    ,DEF_INTER  ,
      3         SENSOR_TAB ,NOM_OPT    ,UNITAB    ,LSUBMODEL  ,TITR       ,
-     4         NOM_OPTFRIC,INTBUF_FRIC_TAB,NPC   ,NPC1       ,TF         )
+     4         NOM_OPTFRIC,INTBUF_FRIC_TAB,NPC   ,NPC1       ,TF         ,
+     5         INTERFACES%PARAMETERS)
 
           CASE ('TYPE24')
 C--------------------------------------------------
@@ -166,7 +169,7 @@ C--------------------------------------------------
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI          ,
      2        IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P     ,DEF_INTER  ,
      3        SENSOR_TAB ,NOM_OPT     ,UNITAB     ,LSUBMODEL  ,TITR      ,
-     4        NOM_OPTFRIC,INTBUF_FRIC_TAB )
+     4        NOM_OPTFRIC,INTBUF_FRIC_TAB,INTERFACES%PARAMETERS )
 
           CASE ('TYPE23')
 C--------------------------------------------------

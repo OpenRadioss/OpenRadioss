@@ -76,7 +76,8 @@ Chd|====================================================================
      H                   DIMFB     ,H3D_DATA,INTBUF_FRIC_TAB  ,NISKYFIE,
      I                   APINCH    ,STIFPINCH,NPC   ,TF       ,CONDN   ,
      J                   CONDNSKYI ,QFRICINT,TAGNCONT,KLOADPINTER,LOADPINTER,
-     K                   LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC)
+     K                   LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,
+     .                                                            INTERFACES)
 C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -88,6 +89,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE TRI25EBOX
       USE OUTPUTS_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -147,6 +149,7 @@ C     REAL
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(INTBUF_FRIC_STRUCT_), TARGET, DIMENSION(NINTERFRIC) ::  INTBUF_FRIC_TAB
+      TYPE (INTERFACES_) ,INTENT(IN):: INTERFACES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -236,13 +239,13 @@ C     REAL
      .     , DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
       my_real
      .     RCURVI(MVSIZ), ANGLMI(MVSIZ), ANGLT, PADM,PENMIN,MARGE
-      INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM, IS, IM
+      INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM, IS, IM, ISTIF_MSDT
       INTEGER ICURV,ILEV,NREBOU,NPT ,NRTSE,IEDG4,SFSAVPARIT,NCY_PFIT,NINLOADP
       my_real
      .    XFILTR_FRIC,FRIC_COEFS(MVSIZ,10),VISCFFRIC(MVSIZ),FRICC(MVSIZ),
      .    FRIC_COEFS2(MVSIZ,10),VISCFFRIC2(MVSIZ),FRICC2(MVSIZ),
      .    DIR1(MVSIZ,3),DIR2(MVSIZ,3),DIR_FRICMI(MVSIZ,2),FRICC_E(4*MVSIZ),
-     .    VISCFFRIC_E(4*MVSIZ),TNCY,T_PFIT,FINC,DGAPLOADPMAX
+     .    VISCFFRIC_E(4*MVSIZ),TNCY,T_PFIT,FINC,DGAPLOADPMAX,DTSTIF
 
       INTEGER, DIMENSION(:) ,POINTER  :: TABCOUPLEPARTS_FRIC
       INTEGER, DIMENSION(:) ,POINTER  :: TABPARTS_FRIC 
@@ -333,6 +336,9 @@ C
       VISCADHFACT  = INTBUF_TAB%VARIABLES(44)
 C
       PMAX_GAP = ZERO
+C
+      ISTIF_MSDT =IPARI(97,NIN)
+      DTSTIF = INTBUF_TAB%VARIABLES(48)
 C
       ILEV  = IPARI(20,NIN)
       NRTSE = IPARI(52,NIN)
@@ -599,7 +605,8 @@ C         Extraction of global data to local arrays
      J  Z1         ,X2       ,Y2          ,Z2          ,X3                   ,
      K  Y3         ,Z3       ,X4          ,Y4          ,Z4      ,
      L  INTTH      ,TEMP     ,TEMPI       ,INTBUF_TAB%IELES     ,IELESI      ,
-     M  INTBUF_TAB%IELEM,IELEMI )
+     M  INTBUF_TAB%IELEM,IELEMI,ISTIF_MSDT,DTSTIF      ,INTBUF_TAB%STIFMSDT_S,
+     N  INTBUF_TAB%STIFMSDT_M,NRTM        ,INTERFACES%PARAMETERS)
           CALL I_CORPFIT3(
      1               JLT      ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS,STIF      ,NSN    ,
      2               CAND_E_N ,CAND_N_N,NIN     ,IGSTI   ,KMIN     ,
@@ -860,7 +867,8 @@ C         preparation candidats retenus
      F IAM          ,JAM          ,IBM          ,JBM          ,IAS     ,
      G JAS          ,IBS          ,JBS          ,ITAB         ,EDGE_ID ,
      H INTFRIC      ,INTBUF_TAB%IPARTFRIC_E     ,IPARTFRICSI  ,IPARTFRICMI,
-     I IGAP         ,INTBUF_TAB%GAP_E_L,IGSTI   ,KMIN         ,KMAX )
+     I IGAP         ,INTBUF_TAB%GAP_E_L,IGSTI   ,KMIN         ,KMAX    ,
+     J ISTIF_MSDT   ,DTSTIF        ,INTBUF_TAB%STIFMSDT_EDG,INTERFACES%PARAMETERS)
           CALL I_COR_EPFIT3(
      1               JLT      ,INTBUF_TAB%STFE,STIF    ,CS_LOC ,CM_LOC ,
      2               NEDGE    ,NIN     ,INACTI  ,IPARI(40,NIN),TNCY) 
@@ -1042,7 +1050,8 @@ C         preparation candidats retenus
      F JBS          ,IAM       ,INTBUF_TAB%STFE,EDGE_ID, ITAB,
      G INTFRIC      ,INTBUF_TAB%IPARTFRIC_E    ,IPARTFRIC_ES   ,IPARTFRIC_EM,
      H IGSTI       ,KMIN        ,KMAX  ,INTBUF_TAB%E2S_NOD_NORMAL,NADMSR,
-     I NORMALN1,NORMALN2,NORMALM1,NORMALM2)
+     I NORMALN1   ,NORMALN2      ,NORMALM1      ,NORMALM2     , ISTIF_MSDT,
+     J DTSTIF    ,INTBUF_TAB%STIFMSDT_EDG,INTBUF_TAB%STIFMSDT_M,NRTM,INTERFACES%PARAMETERS)
 
           CALL I25DST3_E2S(
      1      JLT    ,CS_LOC,CM_LOC ,HS1   ,HS2   ,

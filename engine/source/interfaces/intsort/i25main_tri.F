@@ -357,30 +357,21 @@ C
           NEDGE_LOCAL = INTBUF_TAB%NB_INTERNAL_EDGES + INTBUF_TAB%NB_BOUNDARY_EDGES_LOCAL
           IEDGE   = IPARI(58,NIN)
           CALL SPMD_TRI25VOX(
-     1      INTBUF_TAB%NSV,NSN     ,X            ,V            ,MS     ,
-     2      BMINMA       ,WEIGHT  ,INTBUF_TAB%STFNS,NIN        ,ISENDTO,
-     3      IRCVFROM     ,IAD_ELEM,FR_ELEM      ,NSNR   ,IPARI(21,NIN),
-     4      INTBUF_TAB%GAP_S,ITAB    ,KINET        ,IFQ          ,INACTI ,
-     5      NSNFIOLD,IPARI(47,NIN),INTBUF_TAB%IELES,INTBUF_TAB%AREAS,TEMP,
-     6      NUM_IMP     ,NODNX_SMS,INTBUF_TAB%GAP_SL,NTY   ,INTBUF_TAB%IRTLM,
+     1      INTBUF_TAB%NSV   ,NSN         ,X               ,V            ,MS           ,
+     2      BMINMA          ,WEIGHT       ,INTBUF_TAB%STFNS,NIN          ,ISENDTO      ,
+     3      IRCVFROM        ,IAD_ELEM     ,FR_ELEM         ,NSNR         ,IPARI(21,NIN),
+     4      INTBUF_TAB%GAP_S,ITAB         ,KINET           ,IFQ          ,INACTI       ,
+     5      NSNFIOLD        ,IPARI(47,NIN),INTBUF_TAB%IELES,INTBUF_TAB%AREAS,TEMP      ,
+     6      NUM_IMP         ,NODNX_SMS    ,INTBUF_TAB%GAP_SL,NTY         ,INTBUF_TAB%IRTLM,
      7      INTBUF_TAB%TIME_S,INTBUF_TAB%SECND_FR,INTBUF_TAB%PENE_OLD,INTBUF_TAB%STIF_OLD ,
-     8      INTBUF_TAB%NBINFLG,ILEV ,INTBUF_TAB%ICONT_I,IPARI(72,NIN),INTBUF_TAB%IPARTFRICS,
-     9      ITIED ,IVIS2, INTBUF_TAB%IF_ADH,
-     A      INTBUF_TAB%LEDGE,NEDGE,NLEDGE,INTBUF_TAB%STFM,
-     .      NEDGE_LOCAL,
-     B      INTBUF_TAB%GAPE,
-     C      INTBUF_TAB%GAP_E_L,
-     D      INTBUF_TAB%STFE,
-     E      INTBUF_TAB%EDGE_BISECTOR,
-     F      INTBUF_TAB%VTX_BISECTOR,
-     G      INTBUF_TAB%ADMSR,
-     H      INTBUF_TAB%IRECTM,
-     I      INTBUF_TAB%EBINFLG,
-     J      INTBUF_TAB%MVOISIN,
-     K      IEDGE, 
-     L      ICODT,
-     M      ISKEW,INTBUF_TAB%IPARTFRIC_E,
-     N      INTBUF_TAB%E2S_NOD_NORMAL)
+     8      INTBUF_TAB%NBINFLG,ILEV       ,INTBUF_TAB%ICONT_I,IPARI(72,NIN),INTBUF_TAB%IPARTFRICS,
+     9      ITIED           ,IVIS2        , INTBUF_TAB%IF_ADH,INTBUF_TAB%LEDGE,NEDGE   ,
+     A      NLEDGE          ,INTBUF_TAB%STFM,NEDGE_LOCAL,INTBUF_TAB%GAPE,INTBUF_TAB%GAP_E_L,      
+     B      INTBUF_TAB%STFE ,INTBUF_TAB%EDGE_BISECTOR,INTBUF_TAB%VTX_BISECTOR,INTBUF_TAB%ADMSR,
+     .                                                                       INTBUF_TAB%IRECTM,
+     D      INTBUF_TAB%EBINFLG,INTBUF_TAB%MVOISIN,IEDGE      ,ICODT       , ISKEW            ,
+     E      INTBUF_TAB%IPARTFRIC_E,INTBUF_TAB%E2S_NOD_NORMAL,IPARI(97,NIN),INTBUF_TAB%STIFMSDT_S,
+     .                                                                     INTBUF_TAB%STIFMSDT_EDG)
 
 C local renumbering of old candidates to collision
           CALL SPMD_RNUM25(
@@ -556,21 +547,15 @@ C
      2      IPARI(21,NIN),NSNR,MULTIMP      ,NTY,IPARI(47,NIN),
      3      ILEV         ,NSNFIOLD,IPARI   ,NSNROLD, RENUM, H3D_DATA ,
      4      IPARI(72,NIN),FLAGREMN,LREMNORMAX,NRTM ,INTBUF_TAB%KREMNODE,
-     5      INTBUF_TAB%REMNODE,IVIS2)
+     5      INTBUF_TAB%REMNODE,IVIS2,IPARI(97,NIN))
         IPARI(24,NIN) = NSNR
 
         NEDGE_REMOTE_OLD = NEDGE_REMOTE
 
         IF(IEDGE /= 0) THEN
-        CALL SPMD_TRI25EGAT(RESULT,
-     .        NIN, 
-     .        NEDGE,
-     .        INTBUF_TAB%CANDS_E2E,
-     .        INTBUF_TAB%I_STOK_E(1),
-     .        INTBUF_TAB%CANDS_E2S,
-     .        INTBUF_TAB%I_STOK_E(2),
-     .        IGAP,
-     .        IPARI(72,NIN))
+        CALL SPMD_TRI25EGAT(
+     1        RESULT       ,NIN       , NEDGE,INTBUF_TAB%CANDS_E2E,INTBUF_TAB%I_STOK_E(1),
+     2        INTBUF_TAB%CANDS_E2S,INTBUF_TAB%I_STOK_E(2),IGAP,IPARI(72,NIN),IPARI(97,NIN))      
         ENDIF
 
         IPARI(69 ,NIN) = NEDGE_REMOTE_OLD

@@ -93,11 +93,12 @@ Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
-      SUBROUTINE WRRESTP(AF       ,IAF     ,XDP   ,ICH     ,ADDCNE,
-     .           ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
-     .           H3D_DATA ,INTBUF_FRIC_TAB,SUBSET,MATPARAM_TAB,GROUP_PARAM_TAB,
-     .           PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .           SENSOR_TAB,EBCS_TAB,DYNAIN_DATA,USER_WINDOWS,OUTPUT)
+      SUBROUTINE WRRESTP(AF    ,IAF       ,XDP       ,ICH       ,ADDCNE,
+     .           ELBUF_TAB     ,XFEM_TAB  ,INTBUF_TAB, MULTI_FVM,
+     .           H3D_DATA      ,INTBUF_FRIC_TAB,SUBSET,MATPARAM_TAB,GROUP_PARAM_TAB,
+     .           PINCH_DATA    ,ALE_CONNECTIVITY, T_MONVOL,
+     .           SENSOR_TAB    ,EBCS_TAB  ,DYNAIN_DATA,USER_WINDOWS,OUTPUT,
+     .           INTERFACES    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -132,6 +133,7 @@ C-----------------------------------------------
       USE USER_WINDOWS_MOD
       USE ALE_MOD
       USE OUTPUT_MOD
+      USE INTERFACES_MOD
 C ecriture restart pour version spmd
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -159,9 +161,10 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN)  :: T_MONVOL
       TYPE (SENSOR_STR_)  , DIMENSION(NSENSOR),INTENT(IN) :: SENSOR_TAB
       TYPE(t_ebcs_tab), INTENT(INOUT)                     :: EBCS_TAB
-      TYPE (DYNAIN_DATABASE), INTENT(INOUT)               :: DYNAIN_DATA
+      TYPE (DYNAIN_DATABASE), INTENT(IN)                  :: DYNAIN_DATA
       TYPE(USER_WINDOWS_),INTENT(IN)                      :: USER_WINDOWS
       TYPE(OUTPUT_),INTENT(IN)                            :: OUTPUT
+      TYPE (INTERFACES_) ,INTENT(IN)                      :: INTERFACES
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -225,7 +228,7 @@ C--------------------------------------
 C     PREPARATION DES VARIABLES ENTIERES ET REELLES.
 C--------------------------------------
       IPARI0 = IPARIT
-      CALL WRCOMI(LMXVINT,LVARINT,TABVINT,1,MULTI_FVM,H3D_DATA,DYNAIN_DATA)
+      CALL WRCOMI(LMXVINT,LVARINT,TABVINT,1,MULTI_FVM,H3D_DATA,DYNAIN_DATA,INTERFACES%PARAMETERS)
 C
       ENTMP(1) = TFEXT
       ENTMP(2) = EHOUR
@@ -271,7 +274,7 @@ C
         IF(ISPMD==0) ALE%GRID%VGZ = ENTMP(1)
       ENDIF
 C
-      CALL WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA)
+      CALL WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA,INTERFACES%PARAMETERS)
 C--------------------------------------
 C     OPEN
 C--------------------------------------

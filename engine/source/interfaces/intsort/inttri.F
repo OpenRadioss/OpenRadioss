@@ -404,6 +404,20 @@ C   Inter Type 21 ithe=2 : prepare to communicate tri criteria
           INTLIST21(NBINTC21) = KK
        ENDIF
       END DO
+
+C   Stiffness based on mass and time step for Int 24/25
+C       Cyle 1 : update secondary and main nodal masses
+      IF(NCYCLE == 1 ) THEN
+         DO KK=1,NBINTC
+            N = INTLIST(KK)
+            NTY = IPARI(7,N)
+            IF (NTY == 24 .OR. NTY == 25 ) THEN
+               IF(IPARI(97,N) > 0.AND.IPARI(98,N)==1) THEN
+                  CALL INTMASS_UPDATE( N   ,IPARI(1,N), INTBUF_TAB(N), MS  )
+              ENDIF
+            ENDIF
+          ENDDO   
+       ENDIF  
 C
 C Critere de retri interface
 C

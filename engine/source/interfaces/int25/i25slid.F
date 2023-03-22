@@ -799,7 +799,7 @@ Chd|====================================================================
      2                  IFQ    ,INACTI ,IGAP   ,INTTH  ,ILEV   ,
      3                  ITAB   ,NSV    ,IAD_FRNOR,FR_NOR ,NADD ,
      4                  KADD   ,RSIZ   ,ISIZ   ,SIZBUFS,FR_SLIDE ,
-     5                  INDEX  ,INTFRIC, IVIS2)
+     5                  INDEX  ,INTFRIC, IVIS2 ,ISTIF_MSDT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -825,6 +825,7 @@ C-----------------------------------------------
       INTEGER ITAB(*), INDEX(*), FR_SLIDE(4,*)
       INTEGER IAD_FRNOR(NINTER25,NSPMD+1),FR_NOR(*),
      .        NADD(*), KADD(*), IRTLM(4,NSN), NSV(*)
+      INTEGER , INTENT(INOUT) :: ISTIF_MSDT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -867,6 +868,8 @@ C Friction
       IF(INTFRIC > 0 ) THEN
         ISIZ = ISIZ + 1
       ENDIF
+C---Stiffness based on mass and time step
+      IF(ISTIF_MSDT > 0) RSIZ = RSIZ + 1
 C
 C -- IDTMINS==2
       IF(IDTMINS == 2)THEN
@@ -950,7 +953,8 @@ Chd|====================================================================
      .                  NODNX_SMS,X      ,V      ,MS     ,TEMP   ,
      .                  INTBUF_TAB,RBUF  ,IBUF   ,
      4                  RSIZ   ,ISIZ   ,SIZBUFS,FR_SLIDE ,INDEX  ,
-     5                  MAIN_PROC ,INTFRIC,IVIS2, ICODT, ISKEW)
+     5                  MAIN_PROC ,INTFRIC,IVIS2, ICODT, ISKEW   ,
+     7                  ISTIF_MSDT) 
 
 C-----------------------------------------------
 C   M o d u l e s
@@ -984,6 +988,7 @@ C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
       TYPE(real_pointer), DIMENSION(NSPMD,NINTER25) :: RBUF
       TYPE(int_pointer) , DIMENSION(NSPMD,NINTER25) :: IBUF
+      INTEGER , INTENT(IN) :: ISTIF_MSDT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1177,6 +1182,22 @@ C Friction
               END DO
               ISHIFT = ISHIFT + 1
             ENDIF
+
+            IF(ISTIF_MSDT > 0) THEN
+              LR = 0
+#include      "vectorize.inc"
+              DO J = 1, NSEND
+                I = INDEX(IDEB+J)
+                IF(I <= NSN)THEN
+                  RBUF(P,NI25)%p(LR+RSHIFT)= INTBUF_TAB%STIFMSDT_S(I)
+                ELSE
+                  II = I-NSN
+                  RBUF(P,NI25)%p(LR+RSHIFT)= STIF_MSDT_FI(NIN)%P(II)
+                END IF
+                LR = LR + RSIZ
+              END DO 
+	      RSHIFT = RSHIFT + 1	
+            ENDIF 
 
 C
 C -- IDTMINS==2

@@ -68,7 +68,8 @@ C-----------------------------------------------
      .        INTKG,INTPLY,NISUB,NISUBS,NISUBM,NISUBE,L24ADD,NREMNODE,
      .        FLAGREMNODE,NRTSE,NADMSR,IEDGE4,NRTM_FE,NRTM_IGE,NRTS_FE,
      .        NRTS_IGE,NSN_FE,NSN_IGE,NMN_FE,NMN_IGE,INTFRIC,NREMNOR,IVIS2,
-     .        NEDGE,INTNITSCHE,ITHK,IFLAGLOADP,NREMNODE_EDG,NREMNODE_E2S
+     .        NEDGE,INTNITSCHE,ITHK,IFLAGLOADP,NREMNODE_EDG,NREMNODE_E2S,
+     .        ISTIF_MSDT
 C-----------------------------------------------
 
       DO NIN = 1,NINTER 
@@ -343,6 +344,10 @@ C=======================================================================
         INTBUF_TAB(NIN)%S_IFPEN_E2S     = 0 
         INTBUF_TAB(NIN)%S_E2S_NOD_NORMAL = 0
         INTBUF_TAB(NIN)%S_E2S_ACTNOR    = 0 
+        INTBUF_TAB(NIN)%S_E2S_ACTNOR    = 0 
+        INTBUF_TAB(NIN)%S_STIFMSDT_S    = 0 
+        INTBUF_TAB(NIN)%S_STIFMSDT_M    = 0 
+        INTBUF_TAB(NIN)%S_STIFMSDT_EDG  = 0 
 ! FRICTION INTERFACE
         INTBUF_TAB(NIN)%S_IPARTFRICS   = 0
         INTBUF_TAB(NIN)%S_IPARTFRICM   = 0
@@ -426,6 +431,8 @@ C   T25 transient gap for main side
         ITHK = IPARI(91,NIN)
 
         IFLAGLOADP = IPARI(95,NIN)
+        
+        ISTIF_MSDT = IPARI(97,NIN)
         
 
 cc        print*,'-------INTBUF_INI_STARTER NI ITYP PROC',NIN,ITYP,PROC                                     
@@ -1398,6 +1405,12 @@ C----   size real arrays
             INTBUF_TAB(NIN)%S_FACNRTS = NRTS 
           ENDIF
 
+!   Stiffness based on mass and time step
+          IF(ISTIF_MSDT > 0) THEN
+            INTBUF_TAB(NIN)%S_STIFMSDT_S        = NSN 
+            INTBUF_TAB(NIN)%S_STIFMSDT_M        = NRTM
+          ENDIF
+
 
 C=======================================================================
         ELSEIF (ITYP == 25) THEN
@@ -1566,6 +1579,15 @@ C----   size real arrays
             INTBUF_TAB(NIN)%S_KREMNODE_E2S = 2*(NRTM + 1)
             INTBUF_TAB(NIN)%S_REMNODE_E2S  = NREMNODE_E2S
           ENDIF
+!   Stiffness based on mass and time step
+          IF(ISTIF_MSDT > 0) THEN
+            INTBUF_TAB(NIN)%S_STIFMSDT_S        = NSN 
+            INTBUF_TAB(NIN)%S_STIFMSDT_M        = NRTM
+            IF(IEDGE/=0) THEN
+               INTBUF_TAB(NIN)%S_STIFMSDT_EDG   = NEDGE 
+            ENDIF
+          ENDIF
+
 
         ENDIF !END ALL INTERFACE TYPES
 
@@ -2082,6 +2104,12 @@ C----------to be cleaned
           INTBUF_TAB(NIN)%GAP_E_L(1:INTBUF_TAB(NIN)%S_GAP_E_L) = 0
           MY_ALLOCATE(INTBUF_TAB(NIN)%STFE,INTBUF_TAB(NIN)%S_STFE ) !JD(18)
           INTBUF_TAB(NIN)%STFE(1:INTBUF_TAB(NIN)%S_STFE) = 0
+          MY_ALLOCATE(INTBUF_TAB(NIN)%STIFMSDT_S,INTBUF_TAB(NIN)%S_STIFMSDT_S )
+          INTBUF_TAB(NIN)%STIFMSDT_S(1:INTBUF_TAB(NIN)%S_STIFMSDT_S) = 0
+          MY_ALLOCATE(INTBUF_TAB(NIN)%STIFMSDT_M,INTBUF_TAB(NIN)%S_STIFMSDT_M )
+          INTBUF_TAB(NIN)%STIFMSDT_M(1:INTBUF_TAB(NIN)%S_STIFMSDT_M) = 0
+          MY_ALLOCATE(INTBUF_TAB(NIN)%STIFMSDT_EDG,INTBUF_TAB(NIN)%S_STIFMSDT_EDG )
+          INTBUF_TAB(NIN)%STIFMSDT_EDG(1:INTBUF_TAB(NIN)%S_STIFMSDT_EDG) = 0
 !type2
           MY_ALLOCATE(INTBUF_TAB(NIN)%CSTS_BIS,INTBUF_TAB(NIN)%S_CSTS_BIS)
           INTBUF_TAB(NIN)%CSTS_BIS(1:INTBUF_TAB(NIN)%S_CSTS_BIS) = 0

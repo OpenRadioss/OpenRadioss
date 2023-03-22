@@ -172,6 +172,7 @@ C Type 25 Interface
 C Type 25 Interface FLAGREMN
       TYPE(int_pointer)  :: REMNOR_FI
       TYPE(int_pointer)  :: KREMNOR_FI
+      TYPE(real_pointer)  :: STIF_MSDT_FI
 
       END TYPE I25_TMP_STRUCT
 

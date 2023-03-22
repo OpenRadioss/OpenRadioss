@@ -817,7 +817,11 @@ C---------to be cleaned later
         integer ::   S_E2S_NOD_NORMAL ! 3*NADMSR
 C       Orthotropic friction 
         integer ::   S_DIR_FRICM !  2*NRTM         : orhotropic directions for friction 
-
+C   Stiffness based on mass and time step
+        integer ::   S_STIFMSDT_S       ! NSN : nodal mass on secondary node *STFACM
+        integer ::   S_STIFMSDT_M       ! NRTM : main mass *STFACM
+        integer ::   S_STIFMSDT_EDG     ! NEDGE : edge mass *STFACM
+C
 C=======================================================================
 c DEFINE ARRAYS (integers arrays)
 C=======================================================================
@@ -1098,6 +1102,10 @@ C-------to be cleaned later
         my_real, DIMENSION(:) , POINTER ::   STFE
         my_real, DIMENSION(:) , POINTER ::   GAPMSAV
         REAL(4), DIMENSION(:) , POINTER ::   E2S_NOD_NORMAL  !
+
+        my_real, DIMENSION(:) , POINTER ::   STIFMSDT_S
+        my_real, DIMENSION(:) , POINTER ::   STIFMSDT_M
+        my_real, DIMENSION(:) , POINTER ::   STIFMSDT_EDG
         INTEGER :: NRTM_FREE
 
 C MPI Communicators
@@ -1124,8 +1132,9 @@ C=======================================================================
 
 c INTBUF_SIZE array maximum length defined as parameter
 c (maximum number of different arrays composing INTBUF_TAB structure)
-      INTEGER, PARAMETER :: L_INTBUF_SIZE_MAX = 514
+      INTEGER, PARAMETER :: L_INTBUF_SIZE_MAX = 516
       INTEGER INTER_ITHKNOD !Flag to fill THKNOD array  (enabled with Ithick parameter from interface type 25 or 21)
+
 
 c
 c---------------

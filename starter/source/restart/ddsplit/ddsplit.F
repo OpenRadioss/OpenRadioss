@@ -351,7 +351,7 @@ Chd|====================================================================
      B   SIZE_ALE_ELM ,PINCH_DATA  ,TAG_SKINS6      ,IBCSCYC      ,LBCSCYC  ,T_MONVOL,
      C INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER, LEN_CEP ,DYNAIN_DATA,
-     E   DRAPEG,USER_WINDOWS,OUTPUT)
+     E   DRAPEG       ,USER_WINDOWS,OUTPUT          ,INTERFACES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -396,6 +396,7 @@ C-----------------------------------------------
       USE USER_WINDOWS_MOD
       USE ALE_MOD
       USE OUTPUT_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -435,8 +436,9 @@ C-----------------------------------------------
       TYPE INTERMASURFEP
         INTEGER, DIMENSION(:), POINTER :: P
       END TYPE INTERMASURFEP
-      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE (DYNAIN_DATABASE), INTENT(IN)    :: DYNAIN_DATA
       TYPE (OUTPUT_),INTENT(IN)             :: OUTPUT
+      TYPE (INTERFACES_)   ,INTENT(IN)      :: INTERFACES
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1741,10 +1743,10 @@ C--------------------------------------------
      2   NE_NSVOIS, NE_NQVOIS, NE_NTGVOIS,NBCSCYC_L,LLBCSCYC_L,
      3   ALE_CONNECTIVITY,N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
-     5   NUMSH4N_L,NUMSH3N_L)
+     5   NUMSH4N_L,NUMSH3N_L,INTERFACES%PARAMETERS)
      
 
-      CALL WRCOMR(LMXVREA,LVARREA,TABVREA,MSNDP(P),P)
+      CALL WRCOMR(LMXVREA,LVARREA,TABVREA,MSNDP(P),P,INTERFACES%PARAMETERS)
 C--------------------------------------
 C     write TEXT
 C--------------------------------------

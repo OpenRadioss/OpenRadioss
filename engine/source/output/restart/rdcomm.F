@@ -39,7 +39,8 @@ Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
-      SUBROUTINE RDCOMI(LMXVINT,LVARINT,TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA)
+      SUBROUTINE RDCOMI(LMXVINT,LVARINT,TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
+     .                  INTER_PARAMETERS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,6 +56,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE ALE_MOD
+      USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,6 +65,7 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE (PARAMETERS_) ,INTENT(INOUT):: INTER_PARAMETERS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1743,6 +1746,9 @@ C  draped shell element
       NUMELC_DRAPE= TABVINT(NEXT)
       NEXT       = NEXT + 1
       NUMELTG_DRAPE= TABVINT(NEXT)
+C
+      NEXT       = NEXT + 1
+      INTER_PARAMETERS%ISTIF_DT   = TABVINT(NEXT)
 C--------------------------------------
       RETURN
       END
@@ -1756,7 +1762,7 @@ Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
-      SUBROUTINE RDCOMR(LMXVREA, LVARREA, TABVREA,DYNAIN_DATA)
+      SUBROUTINE RDCOMR(LMXVREA, LVARREA, TABVREA,DYNAIN_DATA,INTER_PARAMETERS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1764,6 +1770,7 @@ C-----------------------------------------------
        USE OUTPUTS_MOD        
        USE STATE_MOD  
        USE ALE_MOD
+       USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1774,6 +1781,7 @@ C-----------------------------------------------
       INTEGER LMXVREA,LVARREA
       my_real TABVREA(LMXVREA)
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE (PARAMETERS_) ,INTENT(INOUT):: INTER_PARAMETERS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -2101,6 +2109,9 @@ C  INITIAL COORDS OF SPH RESERVE
       YI_RES = TABVREA(RVARINT)
       RVARINT = RVARINT + 1
       ZI_RES = TABVREA(RVARINT)
+C
+      RVARINT = RVARINT + 1
+      INTER_PARAMETERS%DT_STIFINT = TABVREA(RVARINT)
            
       RETURN
       END

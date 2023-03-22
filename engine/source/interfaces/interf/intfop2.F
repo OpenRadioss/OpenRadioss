@@ -75,7 +75,8 @@ Chd|====================================================================
      N       KNOT      ,IGEO       ,MULTI_FVM  ,H3D_DATA  ,INTBUF_FRIC_TAB,
      P       PSKIDS    ,T2MAIN_SMS ,FORNEQS    ,KNOTLOCPC,KNOTLOCEL,
      Q       APINCH    ,STIFPINCH   ,T2FAC_SMS ,TAGNCONT ,
-     R       KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
+     R       KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,
+     S       INTERFACES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -90,6 +91,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE SENSOR_MOD
       USE OUTPUTS_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -159,6 +161,7 @@ C-----------------------------------------------
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (INTERFACES_) ,INTENT(IN):: INTERFACES
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
 C-----------------------------------------------  
@@ -553,7 +556,8 @@ C
      G  FBSAV6      ,ISENSINT(1,N),
      H  DIMFB      ,H3D_DATA    ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
      I  T2FAC_SMS  ,NPC         ,TF          ,TAGNCONT    ,KLOADPINTER ,
-     J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC)
+     J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,
+     K  INTERFACES)
 
           ELSE
            CALL I24MAINF(
@@ -574,7 +578,8 @@ C
      G  FBSAV6     ,ISENSINT(1,N),
      H  DIMFB     ,H3D_DATA     ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
      I  T2FAC_SMS ,NPC         ,TF           ,TAGNCONT    ,KLOADPINTER ,
-     J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC)
+     J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,
+     K  INTERFACES)
            IAD=IAD+NUM_IMP(N)
           END IF
 C-----------------------------------------------------------------------
@@ -612,7 +617,7 @@ C
      H  DIMFB      ,H3D_DATA    ,INTBUF_FRIC_TAB,NISKYFIE(N),
      I  APINCH     ,STIFPINCH   ,NPC         ,TF         , CONDN      ,
      J  CONDNSKYI  ,QFRICINT    ,TAGNCONT    ,KLOADPINTER,LOADPINTER  ,
-     K  LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC)
+     K  LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,INTERFACES)
 
          IF(IMPL_S == 1) IAD=IAD+NUM_IMP(N)
 C-----------------------------------------------------------------------

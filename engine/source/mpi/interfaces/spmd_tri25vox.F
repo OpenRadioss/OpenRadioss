@@ -34,29 +34,20 @@ Chd|        TRI25EBOX                     share/modules/tri25ebox.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_TRI25VOX(
-     1   NSV     ,NSN      ,X      ,V     ,MS     ,
-     2   BMINMAL ,WEIGHT   ,STIFN  ,NIN   ,ISENDTO,
-     3   IRCVFROM,IAD_ELEM ,FR_ELEM,NSNR  ,IGAP   ,
-     4   GAP_S   ,ITAB     ,KINET  ,IFQ   ,INACTI ,
-     5   NSNFIOLD,INTTH    ,IELES  ,AREAS ,TEMP   ,
-     6   NUM_IMP ,NODNX_SMS,GAP_S_L       ,ITYP,
-     7   IRTLM   ,I24_TIME_S,I24_FRFI,I24_PENE_OLD,
-     8   I24_STIF_OLD ,NBINFLG,ILEV ,I24_ICONT_I  ,
-     9   INTFRIC ,IPARTFRICS,ITIED  ,IVIS2, IF_ADH,
-     A   LEDGE, NEDGE, LNDEDGE, STFM, NEDGE_LOCAL,
-     B   GAPE,
-     C   GAP_E_L,
-     D   STFE,
-     E   EDG_BISECTOR,
-     F   VTX_BISECTOR,
-     G   ADMSR,
-     H   IRECT,
-     I   EBINFLG,
-     J   MVOISIN, 
-     K   IEDGE, 
-     L   ICODT,
-     M   ISKEW,IPARTFRIC_E,
-     N   E2S_NOD_NORMAL)
+     1   NSV       ,NSN       ,X        ,V       ,MS         ,
+     2   BMINMAL   ,WEIGHT    ,STIFN    ,NIN     ,ISENDTO    ,
+     3   IRCVFROM  ,IAD_ELEM  ,FR_ELEM  ,NSNR    ,IGAP       ,
+     4   GAP_S     ,ITAB      ,KINET    ,IFQ     ,INACTI     ,
+     5   NSNFIOLD  ,INTTH     ,IELES    ,AREAS   ,TEMP       ,
+     6   NUM_IMP   ,NODNX_SMS ,GAP_S_L  ,ITYP    ,IRTLM      ,
+     7   I24_TIME_S,I24_FRFI  ,I24_PENE_OLD,I24_STIF_OLD     ,
+     8   NBINFLG   ,ILEV      ,I24_ICONT_I,INTFRIC,IPARTFRICS ,
+     9   ITIED     ,IVIS2     , IF_ADH  ,LEDGE   , NEDGE     ,
+     A   LNDEDGE   , STFM     , NEDGE_LOCAL,GAPE , GAP_E_L   ,
+     B   STFE      ,EDG_BISECTOR,VTX_BISECTOR,ADMSR,IRECT    ,
+     D   EBINFLG   ,MVOISIN   ,IEDGE    , ICODT  ,ISKEW      ,
+     E   IPARTFRIC_E,E2S_NOD_NORMAL,ISTIF_MSDT,STIFMSDT_S    ,
+     .                                        STIFMSDT_EDG   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -103,6 +94,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IEDGE
       INTEGER, INTENT(IN) :: ICODT(*)
       INTEGER, INTENT(IN) :: ISKEW(*)
+      INTEGER, INTENT(IN) :: ISTIF_MSDT
 
 C     INTEGER :: NSNFIEOLD(*)
 
@@ -114,6 +106,7 @@ C     INTEGER :: NSNFIEOLD(*)
      .        GAP_E_L(*),
      .        STFE(*)
       REAL*4  EDG_BISECTOR(3,4,*),VTX_BISECTOR(3,2,*),E2S_NOD_NORMAL(3,*)
+      my_real , INTENT(IN) ::  STIFMSDT_S(NSN), STIFMSDT_EDG(NEDGE) 
 
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -288,6 +281,9 @@ C Friction
       IF(INTFRIC > 0 ) THEN    
         ISIZ = ISIZ + 1
       ENDIF
+
+C---Stiffness based on mass and time step
+      IF(ISTIF_MSDT > 0) RSIZ = RSIZ + 1
 
 C -- IDTMINS==2      
       IF(IDTMINS == 2)THEN     
@@ -629,6 +625,8 @@ C TO DO: single precision
                L2 = L2 + 3
                RBUF_EDGE(P)%p(L2:L2+2) = E2S_NOD_NORMAL(1:3,NN2)
 
+               IF(ISTIF_MSDT > 0) RBUF_EDGE(P)%p(E_STIFE_MSDT_FI+ L) = STIFMSDT_EDG(I) 
+              
                L = L + E_RBUF_SIZE
             ENDDO
             
@@ -765,6 +763,17 @@ C Friction
                END DO
                ISHIFT = ISHIFT + 1             
             ENDIF
+
+            IF(ISTIF_MSDT > 0) THEN
+               L = 0
+#include      "vectorize.inc"
+               DO J = 1, NB
+                 I = INDEX(J)
+                 RBUF(P)%p(L+RSHIFT)    =STIFMSDT_S(I)
+                 L = L + RSIZ
+               END DO 
+	       RSHIFT = RSHIFT + 1	
+            ENDIF 
                
 C -- IDTMINS==2
             IF(IDTMINS==2)THEN

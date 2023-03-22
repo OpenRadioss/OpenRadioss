@@ -70,7 +70,7 @@ Chd|====================================================================
      I                   FORNEQS  ,T2FAC_SMS,NPC    ,TF       ,TAGNCONT,
      J                   KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,DGAPLOADINT,
      .                                                         S_LOADPINTER,
-     K                   INTEREFRIC)
+     K                   INTEREFRIC,INTERFACES)
 C========================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -83,6 +83,7 @@ C-----------------------------------------------
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
       USE OUTPUTS_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -140,6 +141,7 @@ C     REAL
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(INTBUF_FRIC_STRUCT_), TARGET, DIMENSION(NINTERFRIC) ::  INTBUF_FRIC_TAB
+      TYPE (INTERFACES_) ,INTENT(IN):: INTERFACES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -150,7 +152,7 @@ C-----------------------------------------------
      .        NB_LOC, I_STOK_LOC,DEBUT, I_STOK_GLO,
      .        ILAGM, LENR, LENT, MAXCC,INTTH,IFORM,INTPLY,INTFRIC,
      .        NSETPRTS ,NPARTFRIC, IERROR, INTNITSCHE, IORTHFRIC,
-     .        NFORTH ,NFISOT ,JJ
+     .        NFORTH ,NFISOT ,JJ ,ISTIF_MSDT
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), CN_LOC(MVSIZ),CE_LOC(MVSIZ),
      .        CAND_N_N(MVSIZ),CAND_E_N(MVSIZ),CAND_T_N(MVSIZ),
@@ -202,7 +204,7 @@ C     REAL
      .     RCURVI(MVSIZ), ANGLMI(MVSIZ), ANGLT, PADM,PENMIN,MARGE
       INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM,NCY_PFIT
       my_real
-     .     T_PFIT,FA,FB,F_PFIT,TNCY,FINC
+     .     T_PFIT,FA,FB,F_PFIT,TNCY,FINC,DTSTIF
       INTEGER ICURV,ILEV,NREBOU,NPT ,NRTSE,IEDG4,SFSAVPARIT,NINLOADP
       my_real
      .    XFILTR_FRIC,FRIC_COEFS(MVSIZ,10),VISCFFRIC(MVSIZ),FRICC(MVSIZ),
@@ -286,6 +288,10 @@ C
       PMAX_GAP = ZERO
       ILEV  = IPARI(20,NIN)
       NRTSE = IPARI(52,NIN)
+C
+      ISTIF_MSDT =IPARI(97,NIN)
+      DTSTIF = INTBUF_TAB%VARIABLES(48)
+C
 
       IFRIC = 0
 C--- Corresponding Friction model  
@@ -454,7 +460,8 @@ C-------ISPT2 change    dimension NSN, initialis   au Starter
      I  IXX3     ,IXX4        , XX1       ,XX2         ,XX3          ,
      3  XX4      ,YY1         ,YY2        ,YY3         ,YY4          ,
      4  ZZ1      ,ZZ2         ,ZZ3        ,ZZ4         ,NINLOADP     ,
-     5  DIST     ) 
+     5  DIST     ,ISTIF_MSDT  ,DTSTIF     ,INTBUF_TAB%STIFMSDT_S,INTBUF_TAB%STIFMSDT_M,
+     6  NRTM     ,INTERFACES%PARAMETERS) 
           CALL I_CORPFIT3(
      1               JLT      ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS,STIF      ,NSN    ,
      2               CAND_E_N ,CAND_N_N,NIN     ,IGSTI   ,KMIN     ,

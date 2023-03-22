@@ -371,6 +371,10 @@ C=======================================================================
         N = N+1 
         INTBUF_TAB(NI)%S_PENIS        = INTBUF_SIZE(N)
         N = N+1
+        INTBUF_TAB(NI)%S_STIFMSDT_S   = INTBUF_SIZE(N)
+        N = N+1
+        INTBUF_TAB(NI)%S_STIFMSDT_M   = INTBUF_SIZE(N)
+        N = N+1
         INTBUF_TAB(NI)%S_GAP_M        = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_GAP_S        = INTBUF_SIZE(N)
@@ -400,6 +404,8 @@ C=======================================================================
         INTBUF_TAB(NI)%S_GAP_E_L     = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_STFE        = INTBUF_SIZE(N)
+        N = N+1
+        INTBUF_TAB(NI)%S_STIFMSDT_EDG = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_FTSAVX       = INTBUF_SIZE(N)
         N = N+1
@@ -1437,6 +1443,18 @@ C=======================================================================
           CALL READ_DB(INTBUF_TAB(NI)%PENIS,SIZ)
         ENDIF
 
+        SIZ = INTBUF_TAB(NI)%S_STIFMSDT_S
+        ALLOCATE(INTBUF_TAB(NI)%STIFMSDT_S(SIZ))
+        IF(SIZ>0)THEN
+          CALL READ_DB(INTBUF_TAB(NI)%STIFMSDT_S,SIZ)
+        ENDIF
+
+        SIZ = INTBUF_TAB(NI)%S_STIFMSDT_M
+        ALLOCATE(INTBUF_TAB(NI)%STIFMSDT_M(SIZ))
+        IF(SIZ>0)THEN
+          CALL READ_DB(INTBUF_TAB(NI)%STIFMSDT_M,SIZ)
+        ENDIF
+
         SIZ = INTBUF_TAB(NI)%S_GAP_M
         ALLOCATE(INTBUF_TAB(NI)%GAP_M(SIZ))
         IF(SIZ>0)THEN
@@ -1527,6 +1545,12 @@ C=======================================================================
         ALLOCATE(INTBUF_TAB(NI)%STFE(SIZ))
         IF(SIZ>0)THEN
           CALL READ_DB(INTBUF_TAB(NI)%STFE,SIZ)
+        ENDIF
+
+        SIZ = INTBUF_TAB(NI)%S_STIFMSDT_EDG
+        ALLOCATE(INTBUF_TAB(NI)%STIFMSDT_EDG(SIZ))
+        IF(SIZ>0)THEN
+          CALL READ_DB(INTBUF_TAB(NI)%STIFMSDT_EDG,SIZ)
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_RIGE

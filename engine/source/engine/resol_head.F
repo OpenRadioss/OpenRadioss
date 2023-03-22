@@ -67,7 +67,7 @@ Chd|====================================================================
      .           FORNEQS     ,MATPARAM_TAB,GROUP_PARAM_TAB,PINCH_DATA , ALE_CONNECTIVITY,
      .           DRAPE_SH4N  ,DRAPE_SH3N  ,T_MONVOL       ,SENSOR_TAB ,EBCS_TAB         ,
      .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS     ,
-     .           OUTPUT )
+     .           OUTPUT      ,INTERFACES  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -100,6 +100,7 @@ C-----------------------------------------------
       USE STATE_MOD
       USE USER_WINDOWS_MOD
       USE OUTPUT_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -156,6 +157,7 @@ C     REAL
       TYPE(DYNAIN_DATABASE), INTENT(INOUT)    :: DYNAIN_DATA
       TYPE(USER_WINDOWS_),INTENT(INOUT)       :: USER_WINDOWS
       TYPE(OUTPUT_),INTENT(INOUT)             :: OUTPUT
+      TYPE(INTERFACES_),INTENT(INOUT)         :: INTERFACES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -258,7 +260,7 @@ C
      K  NLOC_DMG        ,ISKWP_L        ,KNOTLOCPC      ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6  ,ALE_CONNECTIVITY ,
      L  XCELL           , XFACE         ,NE_NERCVOIS    ,NE_NESDVOIS    ,NE_LERCVOIS    ,NE_LESDVOIS ,IBCSCYC          ,LBCSCYC   ,
      M  T_MONVOL        ,ID_GLOBAL_VOIS ,FACE_VOIS      ,TAGSLV_RBY     ,DYNAIN_DATA    ,FCONT_MAX   ,EBCS_TAB         ,DIFFUSION ,
-     N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS ,OUTPUT)
+     N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS ,OUTPUT          ,INTERFACES)
 C
       CALL TRACE_OUT(2)
 C

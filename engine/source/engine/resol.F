@@ -573,7 +573,7 @@ Chd|====================================================================
      K  NLOC_DMG ,ISKWP_L,KNOTLOCPC,KNOTLOCEL,PINCH_DATA,TAG_SKINS6, ALE_CONNECTIVITY,
      L  XCELL, XFACE, NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,IBCSCYC  ,LBCSCYC,
      M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
-     N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT)
+     N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -647,6 +647,7 @@ C-----------------------------------------------
       USE USER_WINDOWS_MOD
       USE ALE_MOD
       USE OUTPUT_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -876,6 +877,7 @@ c
       TYPE (DYNAIN_DATABASE), INTENT(INOUT)              :: DYNAIN_DATA
       TYPE(USER_WINDOWS_),INTENT(INOUT)                  :: USER_WINDOWS
       TYPE(OUTPUT_),INTENT(INOUT)                        :: OUTPUT
+      TYPE (INTERFACES_) ,INTENT(INOUT)                  :: INTERFACES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2931,6 +2933,10 @@ C
         IF (IMON>0) CALL STOPTIME(5,1)
        ENDIF
       END IF
+
+
+       IF(NCYCLE==1.AND.INTERFACES%PARAMETERS%ISTIF_DT>0) 
+     .                  INTERFACES%PARAMETERS%DT_STIFINT = DT1
 C----------------------------------
       IF(IMONM > 0) CALL STOPTIME(47,1)
       IF(IMON>0) CALL STOPTIME(6,1)
@@ -3972,7 +3978,8 @@ C Init var parallel SMP
      N     KNOT              ,IGEO           ,MULTI_FVM      ,H3D_DATA        ,INTBUF_FRIC_TAB ,
      P     PSKIDS            ,T2MAIN_SMS   ,FORNEQS        ,KNOTLOCPC       ,KNOTLOCEL      ,
      Q     PINCH_DATA%APINCH(1,IDX_PINCH),PINCH_DATA%STIFPINCH(IDX_PINCH),T2FAC_SMS,TAGNCONT   ,
-     R     KLOADPINTER       ,LOADPINTER     ,LOADP_HYD_INTER ,DGAPLOADINT    ,S_LOADPINTER   )
+     R     KLOADPINTER       ,LOADPINTER     ,LOADP_HYD_INTER ,DGAPLOADINT    ,S_LOADPINTER    ,
+     S     INTERFACES%PARAMETERS)
 
          IF(NINTSTAMP/=0.AND.(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0.OR.
      .          ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0))THEN
@@ -9184,11 +9191,12 @@ C--------------------------------------------------------
 
           ICH = 0
           IF (RESTART_FILE==1) THEN
-          CALL WRRESTP(AF    ,IAF    ,XDP    ,ICH   ,ADSKY  ,
-     .                 ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
-     .                 H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
+          CALL WRRESTP(AF        , IAF        ,XDP        ,ICH        ,ADSKY          ,
+     .                 ELBUF_TAB , XFEM_TAB   ,INTBUF_TAB , MULTI_FVM ,
+     .                 H3D_DATA  , INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                 SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS,OUTPUT)
+     .                 SENSOR_TAB, EBCS_TAB   ,DYNAIN_DATA ,USER_WINDOWS,OUTPUT        ,
+     .                 INTERFACES)
 
           IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
           CALL FVWREST()
@@ -9452,11 +9460,12 @@ C--------------------------------------------------------
              CALL SPMD_I21TEMPCOM(IPARI,TEMP,INTBUF_TAB,SENSOR_TAB) 
           ENDIF
 
-          CALL WRRESTP(AF    ,IAF    ,XDP    ,ICH   ,ADSKY  ,
-     .                 ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
-     .                 H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
-     .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                 SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS,OUTPUT)
+          CALL WRRESTP(AF        , IAF             ,XDP       ,ICH         ,ADSKY          ,
+     .                 ELBUF_TAB , XFEM_TAB        ,INTBUF_TAB, MULTI_FVM  ,
+     .                 H3D_DATA  , INTBUF_FRIC_TAB ,SUBSETS   ,MATPARAM_TAB,GROUP_PARAM_TAB,
+     .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL ,
+     .                 SENSOR_TAB, EBCS_TAB        ,DYNAIN_DATA,USER_WINDOWS,OUTPUT        ,
+     .                 INTERFACES )
 
         IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
         CALL FVWREST()
@@ -9589,11 +9598,12 @@ C--------------------------------------------------------
              ENDIF
 
               ICH = 1
-              CALL WRRESTP(AF    ,IAF    ,XDP    ,ICH   ,ADSKY     ,
-     .                    ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
-     .                    H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
-     .                    PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                    SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS,OUTPUT)
+              CALL WRRESTP(AF       ,IAF            ,XDP          ,ICH        ,ADSKY          ,
+     .                    ELBUF_TAB ,XFEM_TAB       ,INTBUF_TAB  , MULTI_FVM  ,
+     .                    H3D_DATA  ,INTBUF_FRIC_TAB,SUBSETS     ,MATPARAM_TAB,GROUP_PARAM_TAB,
+     .                    PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL ,
+     .                    SENSOR_TAB, EBCS_TAB      ,DYNAIN_DATA ,USER_WINDOWS,OUTPUT         ,
+     .                    INTERFACES )
 
               IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
               CALL FVWREST()
