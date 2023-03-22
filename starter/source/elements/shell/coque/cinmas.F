@@ -628,19 +628,6 @@ C
      .                    R1=EMS(I),R2=MST)
              ENDIF
             ENDIF 
-C correction la position de la surface neutre au CDG
-            DO ILAY=1,NLAY   !  NPT
-              I4 = IPPOS + ILAY
-              IF(ABS(STACK%GEO(I4,ISUBSTACK)) < EM15) 
-     .                     STACK%GEO(I4,ISUBSTACK)=ZERO
-            ENDDO         
-            IF(ABS(MZI) > EM02) THEN
-              DO ILAY=1,NLAY   !  NPT
-                I4 = IPPOS + ILAY
-                DMS = MZI/EMS(I)
-                STACK%GEO(I4,ISUBSTACK) = STACK%GEO(I4,ISUBSTACK) - DMS
-              ENDDO
-            ENDIF       
           ENDDO ! LFT,LLT
 C------
           IF( JTHE > 0 ) THEN
@@ -830,19 +817,7 @@ C------
      .                  R1=EMS(I),R2=MST)                     
            ENDIF                                              
           ENDIF                                               
-C correction la position de la surface neutre au CDG
-          DO ILAY=1,NLAY   !  NPT                                      
-            I4 = IPPOS + ILAY                                          
-            IF(ABS(STACK%GEO(I4,ISUBSTACK)) < EM15)                    
-     .                   STACK%GEO(I4,ISUBSTACK)=ZERO                  
-          ENDDO                                                        
-          IF(ABS(MZI) > EM02) THEN                                     
-            DO ILAY=1,NLAY   !  NPT                                    
-              I4 = IPPOS + ILAY                                        
-              DMS = MZI/EMS(I)                                         
-              STACK%GEO(I4,ISUBSTACK) = STACK%GEO(I4,ISUBSTACK) - DMS  
-            ENDDO                                                      
-          ENDIF                                                        
+C                              
         ENDDO                                                          
 C------
          IF( JTHE > 0 ) THEN                           

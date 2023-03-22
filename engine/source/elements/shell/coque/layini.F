@@ -161,11 +161,11 @@ C=======================================================================
         ALLOCATE(THK_IT(MAX_NPTT,MVSIZ))
       ELSE 
           ALLOCATE(THK_IT(0,0))
-      ENDIF  
+      ENDIF 
 c
 c---------------------------------------------------------
       IF (IXFEM == 1 .and. IXLAY > 0) THEN  ! traitement des elements fantomes
-c                                           ! layer = ixlay    
+c                                           ! layer = ixlay  
 c---------------------------------------------------------
         SELECT CASE (IGTYP)
 c----
@@ -193,35 +193,38 @@ c----
 c
           NPTT    = ELBUF_STR%BUFLY(IXLAY)%NPTT
           IINT    = IGEO(47,PID(1))
-C---
-          IPOS = IGEO(99,PID(1))
-          THICKT   = STACK%GEO(1,ISUBSTACK)
-          ZSHIFT = GEO(199, PID(1))
-          IF(IPOS == 0 )THEN                         
-            ZSHIFT = - HALF                           
-          ELSEIF(IPOS == 2 )THEN                      
-            ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)     
-          ELSEIF(IPOS == 3) THEN                      
-            ZSHIFT = -ONE                             
-          ELSEIF(IPOS == 4) THEN                      
-            ZSHIFT = ZERO                             
-          ENDIF 
-          IPT_ALL = 0
-          DO I=JFT,JLT
-              THK_LY(I) = STACK%GEO(IPTHK  + IXLAY,ISUBSTACK)  ! layer thickness ratio
-              POS_LY(I) = STACK%GEO(IPPOS  + IXLAY,ISUBSTACK)  ! layer position ratio
-              MAT_LY(I) = STACK%IGEO(IPMAT + IXLAY,ISUBSTACK)  ! layer material
-              RATIO_THKLY(I,IXLAY) = THK_LY(I)
-              JMLY = (IXLAY - 1)*JLT + I                                                
-              DO IT=1,NPTT                                                                                  
-                 IPT = IPT_ALL + IT
-                 J = (IT-1)*JLT + I                                                                       
-                 THK_IT(IPT,I) = THK_LY(I)/NPTT  ! uniform distribution of NPTT through layer 
-                 THKLY(J)    = THK_IT(IPT,I)                                                            
-                 MATLY(JMLY) = MAT_LY(I)    ! layer defined
-                 POSLY(I,IPT) = ZERO                          
-              ENDDO                                                                                         
-          ENDDO
+C---   
+          IF(IINT == 1 ) THEN
+            DO I=JFT,JLT
+                THK_LY(I) = STACK%GEO(IPTHK  + IXLAY,ISUBSTACK)  ! layer thickness ratio
+                POS_LY(I) = STACK%GEO(IPPOS  + IXLAY,ISUBSTACK)  ! layer position ratio
+                MAT_LY(I) = STACK%IGEO(IPMAT + IXLAY,ISUBSTACK)  ! layer material
+                RATIO_THKLY(I,IXLAY) = THK_LY(I)
+                JMLY = (IXLAY - 1)*JLT + I                                                
+                DO IT=1,NPTT    
+                   J = (IT-1)*JLT + I                                                                     
+                   THK_IT(IT,I) = ONE/NPTT  ! 
+                   THKLY(J)    = THK_IT(IT,I)                                                          
+                   MATLY(JMLY) = MAT_LY(I)    ! layer defined
+                   POSLY(I,IT) = ZERO                     
+                ENDDO                                                                                     
+             ENDDO
+          ELSEIF(IINT == 2)THEN
+            DO I=JFT,JLT
+                THK_LY(I) = STACK%GEO(IPTHK  + IXLAY,ISUBSTACK)  ! layer thickness ratio
+                POS_LY(I) = STACK%GEO(IPPOS  + IXLAY,ISUBSTACK)  ! layer position ratio
+                MAT_LY(I) = STACK%IGEO(IPMAT + IXLAY,ISUBSTACK)  ! layer material
+                RATIO_THKLY(I,IXLAY) = THK_LY(I)
+                JMLY = (IXLAY - 1)*JLT + I                                                
+                DO IT=1,NPTT    
+                   J = (IT-1)*JLT + I                                                                     
+                   THK_IT(IT,I) = HALF*THK_LY(I)*W_GAUSS(IT,NPTT)
+                   THKLY(J)    = THK_IT(IT,I)                                                          
+                   MATLY(JMLY) = MAT_LY(I)    ! layer defined
+                   POSLY(I,IT) = ZERO                     
+                ENDDO                                                                                     
+             ENDDO         
+          ENDIF   
 c-----------
         END SELECT
 c---------------------------------------------------------
@@ -312,7 +315,7 @@ c----
                        POSLY(I,N) = POSLY(I,N-1)            
      .                   + HALF*(RATIO_THKLY(I,N)+RATIO_THKLY(I,N-1))
                      ENDIF ! IF (N == 1) 
-                     POS_LY(I)  = POSLY(I,ILAY)
+                     POS_LY(I)  = POSLY(I,N)
                    ELSE ! draped ply
                      DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(IP)
                      THINNING = DRAPE_PLY%RDRAPE(1,1)
@@ -364,11 +367,11 @@ c
                   IF(IINT == 1) THEN
                         DO I=JFT,JLT                                                                  
                           MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material                         
-                          THICKT   = STACK%GEO(1,ISUBSTACK)                                                         
+                          THICKT     = STACK%GEO(1,ISUBSTACK)                                                         
                           THK_LY(I)  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)*THICKT ! layer thickness ratio            
                           POS_LY(I)  = STACK%GEO(IPPOS  + ILAY,ISUBSTACK)*THICKT   ! layer position ratio           
                           RATIO_THKLY(I,ILAY) = THK_LY(I)/THK(I)                                                    
-                          JMLY = (ILAY-1)*JLT + I                                                   
+                          JMLY = (ILAY-1)*JLT + I                       
                           DO IT=1,NPTT                                                                            
                               IPT = IPT_ALL + IT                                                                    
                               J = (IPT-1)*JLT + I                                                                   
@@ -395,14 +398,14 @@ c
                           DO IT=1,NPTT                                                                            
                               IPT = IPT_ALL + IT                                                                    
                               J = (IPT-1)*JLT + I                                                                   
-                              THK_IT(IPT,I) = HALF*THK_LY(I)*W_GAUSS(IT,NPTT)/THK(I)/NPTT  ! uniform distribution of NPTT through layer   
+                              THK_IT(IPT,I) = HALF*THK_LY(I)*W_GAUSS(IT,NPTT)/THK(I) ! uniform distribution of NPTT through layer   
                               IF (IPT  == 1)  THEN                                                                  
                                   POSLY(I,IPT) = ZSHIFT + HALF*THK_IT(IPT,I) ! integr. point "IT" position ratio    
                               ELSE                                                                                  
                                   POSLY(I,IPT) = POSLY(I,IPT - 1)           ! integr. point "IT" position ratio       
      .                                 + HALF*(THK_IT(IPT,I) + THK_IT(IPT-1,I))                                     
                               ENDIF ! IF (ILAY == 1)                                                                
-                              THKLY(J) = THK_IT(IPT,I)                                                              
+                              THKLY(J) = THK_IT(IPT,I)                                            
                          ENDDO                                                                               
                          MATLY(JMLY) = MAT_LY(I)    ! layer defined                      
                         ENDDO ! DO I=JFT,JLT    
@@ -416,9 +419,9 @@ c
 cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (igtyp = 19)
                   IINT = IGEO(47,PID(1))
                   IF(IINT == 1) THEN
-                        DO I=JFT,JLT                                                                  
+                        DO I=JFT,JLT                                                            
                           MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material                         
-                          THICKT   = STACK%GEO(1,ISUBSTACK)                                                         
+                          THICKT     = STACK%GEO(1,ISUBSTACK)                                                         
                           THK_LY(I)  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)*THICKT ! layer thickness ratio            
                           POS_LY(I)  = STACK%GEO(IPPOS  + ILAY,ISUBSTACK)*THICKT   ! layer position ratio           
                           RATIO_THKLY(I,ILAY) = THK_LY(I)/THK(I)                                                    
@@ -453,8 +456,8 @@ cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (i
                                  ELSE                                                                                
                                      POSLY(I,IPT) = POSLY(I,IPT - 1)           ! integr. point "IT" position ratio    
      .                                    + HALF*(THK_IT(IPT,I) + THK_IT(IPT-1,I))                                   
-                                 ENDIF ! IF (ILAY == 1)                                                              
-                                 THKLY(J) = THK_IT(IPT,I)                                                          
+                                 ENDIF ! IF (ILAY == 1) 
+                                  THKLY(J) = THK_IT(IPT,I)                                                          
                                ENDDO                           
                              ELSE 
                                DO IT=1,NPTT                                                                         
@@ -470,8 +473,8 @@ cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (i
                                  THKLY(J) = THK_IT(IPT,I)                                                      
                                ENDDO 
                              ENDIF  ! IP 
-                         ENDIF ! IE                                                                                
-                          MATLY(JMLY) = MAT_LY(I)    ! layer defined                
+                         ENDIF ! IE                                                               
+                          MATLY(JMLY) = MAT_LY(I)    ! layer defined 
                         ENDDO ! DO I=JFT,JLT        
                         IPT_ALL = IPT_ALL + NPTT                                                                       
                    ELSEIF (IINT == 2) THEN  !  Gauss distribution
