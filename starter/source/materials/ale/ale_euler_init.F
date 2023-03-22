@@ -211,10 +211,10 @@ C-----------------------------------------------
             MID2 = NINTRI(uID2,IPM,NPROPMI,NUMMAT,1)
             ILAW1 = IPM(2,MID1)
             ILAW2 = IPM(2,MID2)   
-            IPM(15,MID1) = UPWMG
-            IPM(15,MID2) = UPWMG
-            IPM(16,MID1) = UPWOG
-            IPM(16,MID2) = UPWOG                        
+            PM(15,MID1) = UPWMG
+            PM(15,MID2) = UPWMG
+            PM(16,MID1) = UPWOG
+            PM(16,MID2) = UPWOG                        
             MLAW_TAG(MID1)%L_SSP = 1 ! boundary layer material (ilaw updated later in sgrtail.F)
             MLAW_TAG(MID2)%L_SSP = 1 ! boundary layer material (ilaw updated later in sgrtail.F) 
           ENDIF                                                    
