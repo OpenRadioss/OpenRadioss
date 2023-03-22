@@ -56,7 +56,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr01_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -138,7 +137,6 @@ C        IF(ANIM_K==0.AND.IPARG(8,NG)==1)GOTO 490
          ISTRAIN = IPARG(44,NG)
          ISHPLYXFEM = IPARG(50,NG)
          ISUBSTACK = IPARG(71,NG)
-         NB1   =IAD - 1
          LFT=1
          LLT=NEL
 !
@@ -172,8 +170,6 @@ C
              NNI = NN5
           ENDIF
 C
-          IADD  = NB1
-          IAD2  = NB2
 C
           FAC   = ZERO
           A1    = ZERO
@@ -199,20 +195,17 @@ C------------------------
            IF(ITENS==1)THEN
              NS1 = 5
              NS2 = 3
-             IADD = NB10 + NS1 * NEL * (ILAYER-1)
              A1   = ONE
              A2   = ZERO
            ELSEIF(ITENS==2)THEN
              NS1 = 5
              NS2 = 3
-             IADD = NB10 + NS1 * NEL * (ILAYER-1)
              A1   = ZERO
              A2   = ONE
            ELSEIF(ITENS==3)THEN
              NS1 = 5
              NS2 = 3
              IF(MLW==1)THEN
-               IADD = NB1
                A1   = ONE
                A2   = SIX
              ELSEIF(MLW==2.OR.MLW==19.OR.
@@ -220,11 +213,9 @@ C------------------------
      .            MLW==22.OR.MLW==25.OR.
      .            MLW==27.OR.MLW==32.OR.
      .            MLW>=28)THEN 
-               IADD = NB10 + NS1 * NEL * (NPT-1)
                A1   = ZERO
                A2   = ZERO
              ELSEIF(MLW==3.OR.MLW==23)THEN
-               IADD = NB1
                A1   = ZERO
                A2   = ZERO
              ENDIF
@@ -232,7 +223,6 @@ C------------------------
              NS1 = 5
              NS2 = 3
              IF(MLW==1)THEN
-               IADD = NB1
                A1   = ZERO
                A2   = ZERO
              ELSEIF(MLW==2.OR.MLW==19.OR.
@@ -240,11 +230,9 @@ C------------------------
      .            MLW==22.OR.MLW==25.OR.
      .            MLW==27.OR.MLW==32.OR.
      .            MLW>=28)THEN 
-               IADD = NB10
                A1   = ONE
                A2   = ZERO
              ELSEIF(MLW==3.OR.MLW==23)THEN
-               IADD = NB1
                A1   = ONE
                A2   = ZERO
              ENDIF
@@ -252,7 +240,6 @@ C------------------------
              NS1 = 5
              NS2 = 3
              IF(MLW==1.OR.MLW==3.OR.MLW==23)THEN
-               IADD = NB1
                A1   = ONE
                A2   = ZERO
              ELSEIF(MLW==2.OR.MLW==19.OR.
@@ -261,7 +248,6 @@ C------------------------
      .            MLW==27.OR.MLW==32.OR.
      .            MLW>=28)THEN 
                IPT = MIN(NPT,ITENS-100)
-               IADD = NB10 + NS1 * NEL * (ILAYER - 1)
                A1   = ONE
                A2   = ZERO
                IF(IPT == IPLY ) ION = 1
@@ -274,13 +260,9 @@ C------------------------
              NS1 = 8
              NS2 = 8
              IF(ISTRAIN==1)THEN
-               IADD = NB8
-               IAD2 = NB8 + 5
                A1   = ZERO
                A2   = ZERO
              ELSE
-               IADD = NB1
-               IAD2 = NB1
                A1   = ZERO
                A2   = ZERO
              ENDIF
@@ -289,13 +271,9 @@ C------------------------
              NS1 = 8
              NS2 = 8
              IF(ISTRAIN==1)THEN
-               IADD = NB8
-               IAD2 = NB8 + 5
                A1   = ZERO
                A2   = ZERO
              ELSE
-               IADD = NB1
-               IAD2 = NB1
                A1   = ZERO
                A2   = ZERO
              ENDIF
@@ -304,13 +282,9 @@ C------------------------
              NS1 = 8
              NS2 = 8
              IF(ISTRAIN==1)THEN
-               IADD = NB8
-               IAD2 = NB8 + 5
                A1   = ZERO
                A2   = ZERO
              ELSE
-               IADD = NB1
-               IAD2 = NB1
                A1   = ZERO
                A2   = ZERO
              ENDIF
@@ -319,13 +293,9 @@ C------------------------
              NS1 = 8
              NS2 = 8
              IF(ISTRAIN==1)THEN
-               IADD = NB8
-               IAD2 = NB8 + 5
                A1   = ZERO
                A2   = ZERO
              ELSE
-               IADD = NB1
-               IAD2 = NB1
                A1   = ZERO
                A2   = ZERO
              ENDIF
@@ -337,13 +307,9 @@ C------------------------
              IF(IPT == IPLY ) ION = 1
              IF(ISTRAIN==1.AND.NPT/=0)THEN
 cc             IPT = ILAYER          
-              IADD = NB8
-              IAD2 = NB8 + 5
               A1   = ONE
               A2   = HALF*(((2*ILAYER-ONE)/NPT)-ONE)
              ELSE
-               IADD = NB1
-               IAD2 = NB1
                A1   = ZERO
                A2   = ZERO
              ENDIF

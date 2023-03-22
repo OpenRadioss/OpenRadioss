@@ -113,7 +113,6 @@ C
 C
       RETURN
       END
-Cel nouvelle routine
 Chd|====================================================================
 Chd|  I25ASS2                       source/interfaces/int25/i25ass3.F
 Chd|-- called by -----------

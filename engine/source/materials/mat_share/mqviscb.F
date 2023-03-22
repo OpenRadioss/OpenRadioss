@@ -665,7 +665,6 @@ C--------------------------
 
       RETURN
       END
-C nouvelle routine
 Chd|====================================================================
 Chd|  FMQVISCB                      source/materials/mat_share/mqviscb.F
 Chd|-- called by -----------

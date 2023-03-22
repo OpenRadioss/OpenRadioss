@@ -75,7 +75,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "vect01_c.inc"
 #include      "parit_c.inc"
-#include      "vecfx_c.inc"
 #include      "timeri_c.inc"
 #include      "param_c.inc" 
 C-----------------------------------------------
@@ -123,6 +122,12 @@ C Variables utilisees en arguments dans les routines solides
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ)
       my_real :: SSP(MVSIZ)
+      my_real :: F11(MVSIZ),F12(MVSIZ),F13(MVSIZ),F14(MVSIZ),
+     .   F15(MVSIZ), F16(MVSIZ), F17(MVSIZ), F18(MVSIZ), F21(MVSIZ),
+     .   F22(MVSIZ), F23(MVSIZ), F24(MVSIZ), F25(MVSIZ), F26(MVSIZ),
+     .   F27(MVSIZ), F28(MVSIZ), F31(MVSIZ), F32(MVSIZ), F33(MVSIZ),
+     .   F34(MVSIZ), F35(MVSIZ), F36(MVSIZ), F37(MVSIZ), F38(MVSIZ)
+
 C
 
       my_real, 
@@ -222,7 +227,13 @@ C----------------------------
         CALL S8FINT3(ELBUF_STR%BUFLY(1) ,VOLGP,GBUF%QVIS,
      .               PX1,PX2,PX3,PX4,PX5,PX6,PX7,PX8,
      .               PY1,PY2,PY3,PY4,PY5,PY6,PY7,PY8,
-     .               PZ1,PZ2,PZ3,PZ4,PZ5,PZ6,PZ7,PZ8,NEL)
+     .               PZ1,PZ2,PZ3,PZ4,PZ5,PZ6,PZ7,PZ8,NEL,
+     .               F11, F12, F13, F14,
+     .               F15, F16, F17, F18, F21,
+     .               F22, F23, F24, F25, F26,
+     .               F27, F28, F31, F32, F33,
+     .               F34, F35, F36, F37, F38)
+
 C----------------------------
 C     CONVECTE --> GLOBAL.
 C----------------------------

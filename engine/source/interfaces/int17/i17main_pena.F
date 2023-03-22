@@ -21,7 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C I17MAIN_LAG split in 3 routines for SPMD reorganization
-C nouvelle routine ne contenant plus que l'appel du critere de tri
 Chd|====================================================================
 Chd|  I17MAIN_CRIT_TRI              source/interfaces/int17/i17main_pena.F
 Chd|-- called by -----------
@@ -129,7 +128,6 @@ C
       RETURN
       END
 C
-C nouvelle routine ne contenant plus que l'appel du tri
 Chd|====================================================================
 Chd|  I17MAIN_TRI                   source/interfaces/int17/i17main_pena.F
 Chd|-- called by -----------
@@ -350,7 +348,6 @@ C
       RETURN
       END
 C
-C nouvelle routine ne contenant plus que le traitment de force
 Chd|====================================================================
 Chd|  I17MAIN_PENA                  source/interfaces/int17/i17main_pena.F
 Chd|-- called by -----------

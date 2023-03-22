@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  UPD_GLOB_K                    source/implicit/upd_glob_k.F  
 Chd|-- called by -----------
@@ -208,7 +207,6 @@ C -----update---condense-IKC>=1------------------------------------
 C
       RETURN
       END
-C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  CONDENS_K                     source/implicit/upd_glob_k.F  
 Chd|-- called by -----------
@@ -262,7 +260,6 @@ C
 C
       RETURN
       END
-C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  CONDENS_K0                    source/implicit/upd_glob_k.F  
 Chd|-- called by -----------
@@ -382,7 +379,6 @@ C
 C
       RETURN
       END
-C   ----  nouvelle routine---NDDL n'est pas modifie------
 Chd|====================================================================
 Chd|  CONDENS_B                     source/implicit/upd_glob_k.F  
 Chd|-- called by -----------
@@ -435,7 +431,6 @@ C
 C
       RETURN
       END
-C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  UPD_INT_K                     source/implicit/upd_glob_k.F  
 Chd|-- called by -----------

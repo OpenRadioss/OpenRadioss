@@ -345,7 +345,6 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
       END
 
-C nouvelle routine servant uniquement a l initialisation de front pour le spmd
 Chd|====================================================================
 Chd|  INIEND2D                      source/interfaces/inter3d1/iniend.F
 Chd|-- called by -----------

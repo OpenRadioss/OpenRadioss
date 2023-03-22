@@ -143,7 +143,6 @@ Chd|        CHECKPARA                     source/model/box/rdbox.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE INSIDE_PARALLELEPIPED(P1, P2, P3, P4, P, OK)
-C---nouvelle routine 10.0 SA1
 C  nodes inside parallelepiped in 3D.
 C
 C

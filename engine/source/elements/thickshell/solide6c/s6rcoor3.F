@@ -477,7 +477,6 @@ C
      .   DI)
       RETURN
       END
-C  |---- nouvelle routine---
 Chd|====================================================================
 Chd|  S6PROJ3                       source/elements/thickshell/solide6c/s6rcoor3.F
 Chd|-- called by -----------

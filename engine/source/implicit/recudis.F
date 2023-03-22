@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  RECUDIS                       source/implicit/recudis.F     
 Chd|-- called by -----------
@@ -74,7 +73,6 @@ C----No ddl actuelle -> IDDL(NUMNOD)+J(1-6)-NKC-----
 C
       RETURN
       END
-C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  RECUKIN                       source/implicit/recudis.F     
 Chd|-- called by -----------
@@ -224,7 +222,6 @@ C----No ddl actuelle -> IDDL(NUMNOD)+J(1-6)-NKC-----
 C
       RETURN
       END
-C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  WEIGHTDDL                     source/implicit/recudis.F     
 Chd|-- called by -----------

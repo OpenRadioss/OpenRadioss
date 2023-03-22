@@ -493,7 +493,6 @@ C
       RETURN
       END
 
-C   -------nouvelle routine----------------------
 Chd|====================================================================
 Chd|  CZFINTNM                      source/elements/shell/coquez/czfintn.F
 Chd|-- called by -----------

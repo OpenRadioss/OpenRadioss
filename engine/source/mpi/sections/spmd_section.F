@@ -401,7 +401,6 @@ C
 #endif
       RETURN
       END
-C nouvelle routine maj section en SPMD
 Chd|====================================================================
 Chd|  SPMD_EXCH_SEC                 source/mpi/sections/spmd_section.F
 Chd|-- called by -----------
@@ -828,7 +827,6 @@ C
       RETURN
       END
 C
-C nouvelle routine cut section en SPMD (ecriture deplacement)
 Chd|====================================================================
 Chd|  SPMD_WRT_CUTD                 source/mpi/sections/spmd_section.F
 Chd|-- called by -----------
@@ -1016,7 +1014,6 @@ C
       RETURN
       END
 C
-C nouvelle routine cut section en SPMD (ecriture force)
 Chd|====================================================================
 Chd|  SPMD_WRT_CUTF                 source/mpi/sections/spmd_section.F
 Chd|-- called by -----------
