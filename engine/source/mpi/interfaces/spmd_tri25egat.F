@@ -29,15 +29,10 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-      SUBROUTINE SPMD_TRI25EGAT(RESULT,
-     . NIN, 
-     . NEDGE,
-     . CANDS_E2E,
-     . I_STOK_E2E,
-     . CANDS_E2S,
-     . I_STOK_E2S,
-     . IGAP,
-     . INTFRIC)
+      SUBROUTINE SPMD_TRI25EGAT(
+     1   RESULT    ,NIN        , NEDGE   ,CANDS_E2E  ,I_STOK_E2E  ,
+     2   CANDS_E2S  ,I_STOK_E2S,IGAP     ,INTFRIC    ,ISTIF_MSDT  )
+
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,6 +62,7 @@ C-----------------------------------------------
       INTEGER :: I_STOK_E2E,I_STOK_E2S
       INTEGER :: CANDS_E2E(*),CANDS_E2S(*)
       INTEGER :: IGAP , INTFRIC
+      INTEGER , INTENT(IN) :: ISTIF_MSDT
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -145,6 +141,11 @@ C         MY_ALLOCATE(MAIN_FIE(NIN)%P,NEDGE_KEPT)
           ENDIF
           IF(ASSOCIATED(STIFIE(NIN)%P)) DEALLOCATE(STIFIE(NIN)%P)
           MY_ALLOCATE(STIFIE(NIN)%P,NEDGE_KEPT)
+
+          IF(ISTIF_MSDT > 0) THEN
+             IF(ASSOCIATED(STIFE_MSDT_FI(NIN)%P))DEALLOCATE(STIFE_MSDT_FI(NIN)%P)
+             ALLOCATE(STIFE_MSDT_FI(NIN)%P(NODFI))        
+          ENDIF
 
           IF(ASSOCIATED(EDG_BISECTOR_FIE(NIN)%P)) DEALLOCATE(EDG_BISECTOR_FIE(NIN)%P)
           ALLOCATE(EDG_BISECTOR_FIE(NIN)%P(3,3,NEDGE_KEPT))
@@ -269,6 +270,10 @@ C=======================================================================
                 ENDIF
                  
                 STIFIE(NIN)%p(NN) = XREM_EDGE(E_STIFE,I+IDEB)
+
+                IF(ISTIF_MSDT > 0) THEN
+                   STIFE_MSDT_FI(NIN)%P(NN) = XREM_EDGE(E_STIFE_MSDT_FI,I+IDEB)      
+                ENDIF
 
 C               MAIN_FIE(NIN)%P(NN) = XREM_EDGE(E_MAIN,I+IDEB)
                 

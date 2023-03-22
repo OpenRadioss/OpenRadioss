@@ -106,7 +106,7 @@ C-----------------------------------------------
      .        LENADD, MG, L, N, N_OLD_IMPACT,
      .        P, RSIZ(NINTER25), ISIZ(NINTER25), SIZBUFS(NSPMD), IADBUFR(NSPMD+1),
      .        NADMAX, LADMAX, NSLIDMX, NSENDTOT, NSNF, NSNL, NSNRF, NSNRL,INTFRIC ,
-     .        FLAGREMN, LREMNORMAX
+     .        FLAGREMN, LREMNORMAX, ISTIF_MSDT
       INTEGER SIZOPT, K_STOK, I_OPT_STOK
       my_real
      .       TS, STARTT, STOPT
@@ -290,6 +290,7 @@ C
              INTTH =IPARI(47,NIN)
              INTFRIC =IPARI(72,NIN)
              IVIS2 =IPARI(14,NIN)
+             ISTIF_MSDT = IPARI(97,NIN)
              ITYP  = 25
 C
 C            NADD(1:NADMSR+1), KADD <=> liste sky line des noeuds secnd concerns / tous les sommets frontires
@@ -317,8 +318,8 @@ C           compute index of nodes to send to the all domains
      1        NIN    ,NI25   ,NSN    ,NSNR   ,ITYP     ,
      2        IFQ    ,INACTI ,IGAP   ,INTTH  ,ILEV     ,
      3        ITAB   ,INTBUF_TAB(NIN)%NSV,IAD_FRNOR,FR_NOR ,NADD ,
-     4        KADD   ,RSIZ(NI25)   ,ISIZ(NI25)   ,SIZBUFS,FR_SLIDE ,
-     5        INDXTOSEND,INTFRIC, IVIS2)
+     4        KADD   ,RSIZ(NI25)    ,ISIZ(NI25),SIZBUFS,FR_SLIDE ,
+     5        INDXTOSEND,INTFRIC   , IVIS2   ,ISTIF_MSDT)
 C
             DO P=1,NSPMD
               NULLIFY(RBUFS(P,NI25)%P)
@@ -348,11 +349,12 @@ C ==========================================================================
      1        NIN    ,NI25     ,NSN      ,NSNR   ,ITYP    ,
      2        IFQ    ,INACTI   ,IGAP     ,INTTH  ,ILEV    ,
      3        ITAB   ,IAD_FRNOR,FR_NOR   ,
-     4        LENT25 ,NADD   ,KADD       ,KINET    ,
+     4        LENT25 ,NADD     ,KADD     ,KINET    ,
      5        NODNX_SMS ,X     ,V        ,MS    ,TEMP  ,
      .        INTBUF_TAB(NIN)  ,RBUFS, IBUFS,
      6        RSIZ(NI25),      ISIZ(NI25),  SIZBUFS, FR_SLIDE,INDXTOSEND, 
-     7        MAIN_PROC,INTFRIC ,IVIS2, ICODT,ISKEW) 
+     7        MAIN_PROC,INTFRIC ,IVIS2  , ICODT  ,ISKEW ,
+     8        ISTIF_MSDT) 
 
 
 C ==========================================================================
@@ -398,6 +400,7 @@ C
           INTFRIC =IPARI(72,NIN)
           FLAGREMN =IPARI(63,NIN)
           LREMNORMAX =IPARI(82,NIN)
+          ISTIF_MSDT = IPARI(97,NIN)
           ITYP  = 25
 
 C         filtrer => ne garder que les anciens impacts + les candidats au glissement 
@@ -455,7 +458,8 @@ C
              CALL SPMD_I25_SLIDE_GAT(NSN  ,NIN, NI25,
      2                               IGAP  ,NSNR   ,INTTH   ,ILEV, INTBUF_TAB(NIN), 
      3                               FR_NOR,IAD_FRNOR, SIZBUFS, ITAB, H3D_DATA    ,
-     4                               INTFRIC,FLAGREMN,LREMNORMAX,NRTM,IVIS2)
+     4                               INTFRIC,FLAGREMN,LREMNORMAX,NRTM,IVIS2       ,
+     5                               ISTIF_MSDT)
         ! Passer intbuftab(nin)
 C : Les noeuds qui glissent de P0 vers P1 et qui sont locaux a P1 se trouvent quand
 C : meme dans la structure frontiere *FI(NIN)%P a la position du proc P1

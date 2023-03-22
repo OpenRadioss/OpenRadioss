@@ -36,7 +36,7 @@ Chd|====================================================================
      3                        ILEV  ,NSNFIOLD,IPARI,NSNROLD ,
      4                        RENUM ,H3D_DATA,INTFRIC,FLAGREMN,
      5                        LREMNORMAX,NRTM,KREMNOD,REMNOD,
-     6                        IVIS2)
+     6                        IVIS2,ISTIF_MSDT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,6 +70,7 @@ C-----------------------------------------------
      .        NSNFIOLD(*), IPARI(NPARI,NINTER), NSNROLD, RENUM(*),
      .        KREMNOD(*), REMNOD(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      INTEGER , INTENT(IN) :: ISTIF_MSDT
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -209,6 +210,10 @@ c IF_ADHFI allocation is done later once NSNR_OLD is calculated
             IF(ASSOCIATED(GAP_LFI(NIN)%P)) DEALLOCATE(GAP_LFI(NIN)%P)
             ALLOCATE(GAP_LFI(NIN)%P(NODFI),STAT=IERROR7)
           ENDIF
+        ENDIF
+        IF(ISTIF_MSDT > 0) THEN
+           IF(ASSOCIATED(STIF_MSDT_FI(NIN)%P))DEALLOCATE(STIF_MSDT_FI(NIN)%P)
+           ALLOCATE(STIF_MSDT_FI(NIN)%P(NODFI),STAT=IERROR7)        
         ENDIF
 C
         NSNR_OLD=IPARI(24,NIN)
@@ -444,6 +449,18 @@ C Friction model
             ENDDO
             ISHIFT = ISHIFT + 1
           ENDIF
+
+C Stif based on mass and dt
+
+          IF(ISTIF_MSDT > 0) THEN
+#include      "vectorize.inc"	      	    	    
+             DO J = 1, NN
+                I = IAUX(J)
+                STIF_MSDT_FI(NIN)%P(NN2+J) = XREM(RSHIFT,I+IDEB)
+             ENDDO
+	     RSHIFT = RSHIFT + 1
+          ENDIF
+
 C -- IDTMINS==2
           IF(IDTMINS==2)THEN
 #include      "vectorize.inc"

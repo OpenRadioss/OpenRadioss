@@ -9,7 +9,7 @@ Copyright>
 Copyright>        This program is distributed in the hope that it will be useful,
 Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
 Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-Copyright>        GNU Affero General Public License for more details.
+Copyright>        GNU Affero General Public License for more details
 Copyright>
 Copyright>        You should have received a copy of the GNU Affero General Public License
 Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
@@ -43,7 +43,7 @@ Chd|====================================================================
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,
      2        IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P     ,DEF_INTER ,
      3        SENSOR_TAB ,NOM_OPT    ,UNITAB     ,LSUBMODEL  ,TITR      ,
-     4        NOM_OPTFRIC,INTBUF_FRIC_TAB )
+     4        NOM_OPTFRIC,INTBUF_FRIC_TAB,PARAMETERS )
 C============================================================================
 C     
 C-----------------------------------------------
@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE UNITAB_MOD
       USE SENSOR_MOD
+      USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,6 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
+      TYPE (PARAMETERS_) ,INTENT(INOUT):: PARAMETERS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -99,12 +101,13 @@ C-----------------------------------------------
      .    IFLAGUNIT,ISYM,IEDGE,NOD1,IDUM,IGNORE,IDEL24,KK,II, 
      .    IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,IREM24I2,IPRINT,    
      .    INTFRIC,MULTIMPE,IASSIGN,ICURV,INTPLY,INTTH,NPREF,
-     .    INTNITSCHE,IPEN0,NA1,NA2,IADM,NRADM,IFORM
+     .    INTNITSCHE,IPEN0,NA1,NA2,IADM,NRADM,IFORM,IPSTIF
       my_real
      .    FRIC,GAP,STARTT,BUMULT,STOPT,C1,C2,C3,C4,C5,C6,ALPHA,
      .    GAPSCALE,GAPMAX,STMIN,STMAX,STIFF,EDG_ANGL,
      .    PERCENT_SIZE,GAPMAX_S,GAPMAX_M,PENMAX,PENMIN,VISC,VISCF,
-     .    ETEN_M,PADM,ANGLADM,RSTH,FHEAT,TINT,CADM,TPFIT
+     .    ETEN_M,PADM,ANGLADM,RSTH,FHEAT,TINT,CADM,TPFIT,STFACM,
+     .    DTSTIF
       CHARACTER MESS*40, MSGTITL*nchartitle
       CHARACTER OPT*ncharkey,KEY*ncharkey,KEY1*ncharkey,
      .          BCFLAG*ncharfield, BCFLAGM*ncharfield
@@ -151,6 +154,8 @@ C Initializations
       IADM = 0
       IFORM = 0
       IVIS2=0
+      IPSTIF = 0
+
 C-------for the moment
 C     IGSTI = 0
       IBAG = 0
@@ -186,6 +191,7 @@ C
       RSTH = EP30
       FHEAT= ONE
       TINT = ZERO
+      STFACM= ZERO
 C
       IASSIGN = 1
 C
@@ -221,6 +227,8 @@ C
       CALL HM_GET_INTV('ISENSOR',IDSENS,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Fric_ID',INTFRIC,IS_AVAILABLE,LSUBMODEL)
 C
+      CALL HM_GET_INTV('IPSTIF',IPSTIF,IS_AVAILABLE,LSUBMODEL)
+C
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -242,6 +250,9 @@ C
       CALL HM_GET_FLOATV('Tpressfit',TPFIT,IS_AVAILABLE,LSUBMODEL,UNITAB) 
 C
       CALL HM_GET_FLOATV('Xfreq',ALPHA,IS_AVAILABLE,LSUBMODEL,UNITAB)
+C
+      CALL HM_GET_FLOATV('STFAC_MDT',STFACM,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('DTSTIF',DTSTIF,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
       IF (MFROT>0) THEN
          CALL HM_GET_FLOATV('C1',C1,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -619,6 +630,19 @@ C bmult augmente pour les tres gros modeles et interface 7 ou 20
         END IF
         FRIGAP(4)=BUMULT
 
+C---------
+        IF(STFACM > ZERO) IPARI(97)   = 1
+        IPARI(98) = IPSTIF
+c        IF(STFACM == UN) STFACM = 0.1
+        FRIGAP(47) = STFACM
+        IF(STFACM > 0) THEN
+           FRIGAP(48) = DTSTIF 
+           PARAMETERS%ISTIF_DT = 1
+        ELSE
+           DTSTIF = ZERO 
+        ENDIF
+
+
 C
 C....* Card6 *.............
 C
@@ -834,7 +858,8 @@ C........* PRINT INTERFACES INPUT *.....................
      . '    IDEL: DO NOT REMOVE NON-CONNECTED NODES FROM SECONDARY SURFACE'
           ENDIF         
        ENDIF
-        
+C
+        IF(STFACM > 0) WRITE(IOUT,3500) STFACM,DTSTIF, IPSTIF
 C
        IF(INTFRIC > 0 ) THEN
           WRITE(IOUT,5030) INTFRIC
@@ -1081,6 +1106,12 @@ C     .       '    BUCKET FACTOR . . . . . . . . . . . . . . ',1PG20.13/,
      .       '    CRITICAL DAMPING FACTOR . . . . . . . . . . ',1PG20.13/,
      .       '    QUADRATIC DAMPING FLAG. . . . . . . . . . .            ',I5/)
 C----------   
+C
+ 3500 FORMAT(/
+     .    '    STIFFNESS BASED OF TIME STEP AND MASSES  :'/,
+     .    '    SCALE FACTOR . . . . . . . . . . . . . . . . . ',1PG20.13/,
+     .    '    TIME STEP  . . . . . . . . . . . . . . . . . . ',1PG20.13/,   
+     .    '    FLAG FOR PENALTY STIFFNESS . . . . . . . . . . ',1PG20.13/)   
 C
  5030 FORMAT(/
      .       '    INTERFACE FRICTION MODEL.  . . . . . . . . ',I10)

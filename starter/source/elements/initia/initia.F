@@ -190,7 +190,8 @@ Chd|====================================================================
      I                  FXBCPM     ,FXBCPS       ,FXBLM        ,FXBFLS       ,FXBDLS,
      J                  FXB_MATRIX ,FXB_MATRIX_ADD,FXB_LAST_ADRESS,PTR_NOPT_FXB,R_SKEW,
      K                  KNOD2EL1D  ,NOD2EL1D     ,EBCS_TAB     ,RBY_INIAXIS  ,ALEA    ,
-     K                  KNOD2ELC   ,NOD2ELC      ,DR           ,SLRBODY , DRAPEG)
+     L                  KNOD2ELC   ,NOD2ELC      ,DR           ,SLRBODY      , DRAPEG ,
+     M                  IPARI      ,INTBUF_TAB   ,INTERFACES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -214,6 +215,8 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE ALE_CONNECTIVITY_MOD
       USE ARRAY_MOD
+      USE INTERFACES_MOD
+      USE INTBUFDEF_MOD 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -278,6 +281,7 @@ C-----------------------------------------------
      .        NUMEL,STAT,
      .        NCTRLMAX,NSIGBEAM,NSIGTRUSS
       INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*),SLRBODY
+      INTEGER,INTENT(IN) :: IPARI(NPARI,NINTER) 
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
       my_real
      .   ELBUF(*), MS(*), IN(*), V(*), X(*), GEO(*),PM(NPROPM,*),
@@ -339,6 +343,8 @@ C-----------------------------------------------
       TYPE (DRAPE_)  , DIMENSION(NUMELC_DRAPE + NUMELTG_DRAPE):: DRAPE 
       TYPE (DRAPEG_)                            :: DRAPEG 
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TYPE(INTBUF_STRUCT_) , INTENT(IN   ) ::  INTBUF_TAB(NINTER)
+      TYPE(INTERFACES_) , INTENT(INOUT   ) ::  INTERFACES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1623,6 +1629,20 @@ C---------------------------------------------------------------
      G               MCPP )
       IF(I7STIFS/=0)
      .  CALL ASSTIFI(VOLNOD,BVOLNOD,ETNOD,NSHNOD,STIFINT)
+C---------------------------------------------------------------
+C Contact Stiffness based on mass and time step : 
+C        Initial time step estimation in starter
+C---------------------------------------------------------------
+        IF(INTERFACES%PARAMETERS%ISTIF_DT > 0) THEN
+
+            CALL ININTMASS( IPARI, INTBUF_TAB,MS , INTERFACES%PARAMETERS%ISTIF_DT )
+        ENDIF 
+       
+        INTERFACES%PARAMETERS%DT_STIFINT = ZERO
+        IF(INTERFACES%PARAMETERS%ISTIF_DT > 0) THEN
+           CALL DTNODA_STIFINT( MS   ,STIFN ,INTERFACES%PARAMETERS%DT_STIFINT)
+        ENDIF
+C
 C
 C--------------------------------------------
 C Laser impact

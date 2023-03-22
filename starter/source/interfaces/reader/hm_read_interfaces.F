@@ -51,7 +51,7 @@ Chd|====================================================================
      4           FRIC_P   ,I2RUPT   ,AREASL    ,UNITAB     ,NOM_OPT    ,
      5           DEF_INTER,NPC1     ,SENSOR_TAB,MULTI_FVM  ,NOM_OPTFRIC,
      6           INTBUF_FRIC_TAB    ,IDDLEVEL  ,LSUBMODEL  ,TF         ,
-     7           KLOADPINTER        ,DGAPINT   )
+     7           KLOADPINTER        ,DGAPINT   ,INTERFACES)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE SENSOR_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------      
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,6 +105,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRTRUS) :: IGRTRUSS
       TYPE (SURF_)   , DIMENSION(NSURF) ,TARGET   :: IGRSURF
       TYPE (SURF_)   , DIMENSION(NSLIN) ,TARGET   :: IGRSLIN
+      TYPE (INTERFACES_) ,INTENT(INOUT):: INTERFACES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -251,7 +253,7 @@ C---------------------------------------------------------------
      4          AREASL(NI)   ,NI         ,NOM_OPT        ,TITR      ,DEF_INTER   ,
      5          IDINT7       ,IDINT7B    ,IDINT11        ,NPC1     , SENSOR_TAB  ,
      6          NOM_OPTFRIC,INTBUF_FRIC_TAB,IGRBRIC      ,NOINT    , KEY         ,
-     7          LSUBMODEL    ,TF         )
+     7          LSUBMODEL    ,TF         ,INTERFACES  )
 
         END SELECT
 

@@ -356,6 +356,10 @@ C=======================================================================
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_PENIS
         N = N+1
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_STIFMSDT_S  
+        N = N+1
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_STIFMSDT_M
+        N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_GAP_M
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_GAP_S
@@ -385,6 +389,8 @@ C=======================================================================
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_GAP_E_L
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_STFE
+        N = N+1
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_STIFMSDT_EDG 
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_FTSAVX
         N = N+1
@@ -1027,6 +1033,12 @@ C=======================================================================
         SIZ = INTBUF_TAB(NI)%S_PENIS
         CALL WRITE_DB(INTBUF_TAB(NI)%PENIS,SIZ)
 
+        SIZ = INTBUF_TAB(NI)%S_STIFMSDT_S
+        CALL WRITE_DB(INTBUF_TAB(NI)%STIFMSDT_S,SIZ)
+
+        SIZ = INTBUF_TAB(NI)%S_STIFMSDT_M
+        CALL WRITE_DB(INTBUF_TAB(NI)%STIFMSDT_M,SIZ)
+
         SIZ = INTBUF_TAB(NI)%S_GAP_M
         CALL WRITE_DB(INTBUF_TAB(NI)%GAP_M,SIZ)
 
@@ -1075,6 +1087,8 @@ C=======================================================================
         SIZ = INTBUF_TAB(NI)%S_STFE
         CALL WRITE_DB(INTBUF_TAB(NI)%STFE,SIZ)
 
+        SIZ = INTBUF_TAB(NI)%S_STIFMSDT_EDG
+        CALL WRITE_DB(INTBUF_TAB(NI)%STIFMSDT_EDG,SIZ)
 !type10
         SIZ = INTBUF_TAB(NI)%S_CAND_F
         CALL WRITE_DB(INTBUF_TAB(NI)%CAND_F,SIZ)

@@ -497,7 +497,7 @@ C new composite shell pid max nbs 200
       NPROPM =250
       NPARG  = 100
       NPARI  = 100
-      NPARIR=46
+      NPARIR=48
       LFXVELR = 9
       NIBCLD = 8 
       LFACCLD = 2

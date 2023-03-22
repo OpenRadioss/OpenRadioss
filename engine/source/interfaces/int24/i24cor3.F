@@ -47,12 +47,14 @@ Chd|====================================================================
      I               IXX3     ,IXX4      , XX1     ,XX2   ,XX3       ,
      3               XX4      ,YY1       ,YY2      ,YY3   ,YY4       ,
      4               ZZ1      ,ZZ2       ,ZZ3      ,ZZ4   ,NINLOADP  ,
-     5               DIST    ) 
+     5               DIST     ,ISTIF_MSDT,DTSTIF   ,STIFMSDT_S,STIFMSDT_M,
+     6               NRTM     ,PARAMETERS) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE DEBUG_MOD
+      USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,6 +81,8 @@ C-----------------------------------------------
      .        IPARTFRICMI(MVSIZ),IREP_FRICM(*),IREP_FRICMI(MVSIZ),
      .        IXX3(MVSIZ),IXX4(MVSIZ)
            INTEGER  , INTENT(IN) :: NINLOADP
+      INTEGER , INTENT(IN) :: ISTIF_MSDT
+      INTEGER , INTENT(IN) :: NRTM
 C     REAL
       my_real
      .   X(3,*), STF(*), STFN(*),
@@ -93,15 +97,19 @@ C     REAL
      .   DIR_FRICM(2,*) ,DIR_FRICMI(MVSIZ,2) ,
      .   XX1(MVSIZ), XX2(MVSIZ), XX3(MVSIZ), XX4(MVSIZ),
      .   YY1(MVSIZ), YY2(MVSIZ), YY3(MVSIZ), YY4(MVSIZ),
-     .   ZZ1(MVSIZ), ZZ2(MVSIZ), ZZ3(MVSIZ), ZZ4(MVSIZ)
+     .   ZZ1(MVSIZ), ZZ2(MVSIZ), ZZ3(MVSIZ), ZZ4(MVSIZ),
+     .   STIF_MSDT(MVSIZ)
       my_real  , INTENT(INOUT) :: DIST(MVSIZ)
+      my_real , INTENT(IN) :: DTSTIF
+      my_real , INTENT(IN) ::  STIFMSDT_S(NSN) ,STIFMSDT_M(NRTM)
+      TYPE (PARAMETERS_) ,INTENT(IN):: PARAMETERS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J  ,IL, L, NN, IG,JFT, IX,  NI,IGF,IPT,IE,NS1,NS2,
      .        ICONT1,ICONT2,NSI,IPT2,NS
       my_real
-     .        SX1, SY1, SZ1, SX2, SY2, SZ2, NORM
+     .        SX1, SY1, SZ1, SX2, SY2, SZ2, NORM, DTS
 C-----------------------------------------------
 C initiailisation
       DO I=1,JLT
@@ -501,7 +509,7 @@ C
             STIF(I)=ABS(STIFI(NIN)%P(NN))
           END IF
           STIF(I)=HALF*(STF(L)+STIF(I))
-          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
+c          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
       ELSEIF(IGSTI==3)THEN
          DO I=1,JLT
@@ -514,7 +522,7 @@ C
             STIF(I)=ABS(STIFI(NIN)%P(NN))
           END IF
           STIF(I)=MAX(STF(L),STIF(I))
-          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
+c          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
       ELSEIF(IGSTI==4.OR.IGSTI==6)THEN
          DO I=1,JLT
@@ -527,7 +535,7 @@ C
             STIF(I)=ABS(STIFI(NIN)%P(NN))
           END IF
           STIF(I)=MIN(STF(L),STIF(I))
-          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
+c          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
       ELSEIF(IGSTI==5)THEN
          DO I=1,JLT
@@ -541,7 +549,7 @@ C
           END IF
           STIF(I)=STF(L)*STIF(I)/
      .            MAX(EM30,(STF(L)+STIF(I)))
-          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
+c          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
       ENDIF
 c      DO I=1,JLT
@@ -554,6 +562,40 @@ c           STIF(I) = ZEP3*STIF(I)
 c          END IF
 c        END IF
 c      END DO !I=1,JLT
+
+
+C------------------------------------------
+C   Stiffness based on mass and time step
+C------------------------------------------
+
+      IF(ISTIF_MSDT > 0) THEN
+         IF(DTSTIF > ZERO) THEN
+            DTS = DTSTIF
+         ELSE
+            DTS = PARAMETERS%DT_STIFINT
+         ENDIF
+         DO I=1,JLT
+            L  = CAND_E(I)
+            NI = CAND_N(I)
+            IF(NI<=NSN)THEN
+              STIF_MSDT(I) = STIFMSDT_S(NI)
+            ELSE
+              NN = NI - NSN
+              STIF_MSDT(I) = ABS(STIF_MSDT_FI(NIN)%P(NN))
+            ENDIF
+            STIF_MSDT(I) = STIFMSDT_M(L)*STIF_MSDT(I)/(STIFMSDT_M(L)+STIF_MSDT(I))
+            STIF_MSDT(I) = STIF_MSDT(I)/(DTS*DTS)
+            STIF(I)=MAX(STIF(I),STIF_MSDT(I))
+         ENDDO
+      ENDIF
+C
+      DO I=1,JLT
+         STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
+      ENDDO
+C----------
+
+
+
 C----------
       IF(IDTMINS==2)THEN
        DO I=1,JLT

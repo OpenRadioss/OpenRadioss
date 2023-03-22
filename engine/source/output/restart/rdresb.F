@@ -91,7 +91,7 @@ Chd|====================================================================
       SUBROUTINE RDRESB( AF               ,IAF      ,LVARREA      ,XDP             ,IRUNN      ,
      .                   MULTI_FVM        ,H3D_DATA ,MATPARAM_TAB ,GROUP_PARAM_TAB ,PINCH_DATA , 
      .                   ALE_CONNECTIVITY ,T_MONVOL ,SENSOR_TAB   ,EBCS_TAB        ,DYNAIN_DATA,
-     .                   USER_WINDOWS     ,OUTPUT)
+     .                   USER_WINDOWS     ,OUTPUT   ,INTERFACES   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -122,6 +122,7 @@ C-----------------------------------------------
       USE USER_WINDOWS_MOD
       USE ALE_MOD
       USE OUTPUT_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -175,6 +176,8 @@ C-----------------------------------------------
       TYPE(DYNAIN_DATABASE), INTENT(INOUT)                 :: DYNAIN_DATA
       TYPE(USER_WINDOWS_),INTENT(INOUT)                    :: USER_WINDOWS
       TYPE(OUTPUT_),INTENT(INOUT)                          :: OUTPUT
+      TYPE (INTERFACES_) ,INTENT(INOUT)                    :: INTERFACES
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -791,7 +794,7 @@ C--------------------------------------
 C--------------------------------------
 C allocation + lecture struture interface partie entiere
 C--------------------------------------
-        CALL SPMD_INITFI(IPARI,1,H3D_DATA)
+        CALL SPMD_INITFI(IPARI,1,H3D_DATA,INTERFACES%PARAMETERS)
 C
 C--------------------------------------
 C     Lecture + Init Frontiere SPMD pour SPH (partie entiere)
@@ -858,7 +861,7 @@ C-----
       CALL READ_DB(TABVREA,LVARREA)
 C
 C-----
-      CALL RDCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA)
+      CALL RDCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA,INTERFACES%PARAMETERS)
 C--------------------------------------
 C     READING REALS
 C--------------------------------------
@@ -1032,7 +1035,7 @@ C--------------------------------------
         CALL READ_DB(PCONTACT ,SRCONTACT)
 
 C lecture struture interface partie reelle si irunn > 1
-        IF(IRUNN>1.OR.MCHECK/=0)CALL SPMD_INITFI(IPARI,2,H3D_DATA)
+        IF(IRUNN>1.OR.MCHECK/=0)CALL SPMD_INITFI(IPARI,2,H3D_DATA,INTERFACES%PARAMETERS)
 C--------------------------------------
 C     Lecture + Init Frontiere SPMD pour SPH (partie reelle)
 C--------------------------------------

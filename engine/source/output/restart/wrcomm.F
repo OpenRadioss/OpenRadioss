@@ -39,7 +39,7 @@ Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
-      SUBROUTINE WRCOMI(LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA)
+      SUBROUTINE WRCOMI(LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA,INTER_PARAMETERS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE ALE_MOD
+      USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +66,8 @@ C-----------------------------------------------
       INTEGER LMXVINT,LVARINT,TABVINT(*),ISP
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(H3D_DATABASE), INTENT(IN) :: H3D_DATA
-      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE (DYNAIN_DATABASE), INTENT(IN) :: DYNAIN_DATA
+      TYPE (PARAMETERS_) ,INTENT(IN):: INTER_PARAMETERS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1708,6 +1710,9 @@ C  draped shell element
       TABVINT(LVARINT) = NUMELC_DRAPE
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NUMELTG_DRAPE     
+C
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = INTER_PARAMETERS%ISTIF_DT  
 C----------------------------------------------------------------
 C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------
@@ -1725,7 +1730,7 @@ Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
-      SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA)
+      SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA,INTER_PARAMETERS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1733,6 +1738,7 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE STATE_MOD
       USE ALE_MOD
+      USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1742,7 +1748,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LMXVREA,LVARREA, I
       my_real TABVREA(*)
-      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE (DYNAIN_DATABASE), INTENT(IN) :: DYNAIN_DATA
+      TYPE (PARAMETERS_) ,INTENT(IN):: INTER_PARAMETERS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -2055,7 +2062,10 @@ C  INITIAL MASS IN STARTER
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = YI_RES  
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = ZI_RES      
+      TABVREA(RVARINT) = ZI_RES
+C
+      RVARINT = RVARINT + 1
+      TABVREA(RVARINT) = INTER_PARAMETERS%DT_STIFINT         
 C      
       LVARREA =RVARINT
 C----------------------------------------------------------------

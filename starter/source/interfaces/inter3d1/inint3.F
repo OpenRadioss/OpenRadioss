@@ -1511,7 +1511,7 @@ C----  INTBUF_TAB%CRIT V/A is used temporarily for sorting and Pen-max
      G INTBUF_TAB%PENE_OLD  ,IPARTNS     ,IPARTS      , IGEO      ,FILLSOL   ,
      H PM_STACK  ,IWORKSH    ,IPARI(72)  ,TAGPRT_FRIC   , INTBUF_TAB%IPARTFRICS,
      G INTBUF_TAB%IPARTFRICM,INTBUF_FRIC_TAB,IPARI(86) , NRTS   ,INTBUF_TAB%IRECTS ,
-     I INTBUF_TAB%IELNRTS,INTBUF_TAB%ADRECTS,INTBUF_TAB%FACNRTS,NMN,INTBUF_TAB%MSR   )
+     I INTBUF_TAB%IELNRTS,INTBUF_TAB%ADRECTS,INTBUF_TAB%FACNRTS,NMN,INTBUF_TAB%MSR )        
        IPARI(21) = IGAP
 C---------GAP_S for fictive nodes       
         IF (NSNE >0) THEN
@@ -1870,24 +1870,24 @@ C-----------------------------------------------------------
           ALLOCATE(IPARTSM(0))
        ENDIF
        CALL I25STI3(
-     1 X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%STFM  ,IXS       ,PM ,
-     2 GEO       ,NRTM0     ,IXC         ,-NUMINT   ,INTBUF_TAB%STFAC(1),
-     3            NTY       ,INTBUF_TAB%VARIABLES(2),NOINT     ,
-     4 INTBUF_TAB%STFNS,NSN      ,MS          ,INTBUF_TAB%NSV,IXTG  ,
-     5 IGAP      ,RWA   ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,INTBUF_TAB%VARIABLES(13),
-     6 GAPSCALE  ,IXT   ,IXP,INTBUF_TAB%VARIABLES(6),INTBUF_TAB%VARIABLES(35),
-     9 INACTI    ,KNOD2ELS  ,KNOD2ELC   ,KNOD2ELTG ,NOD2ELS   ,
-     A NOD2ELC   ,NOD2ELTG  ,IPARI(47) ,
-     B INTBUF_TAB%IELES,INTBUF_TAB%IELEM, INTBUF_TAB%AREAS ,SH4TREE   ,SH3TREE,
-     C IPART     ,IPARTC    ,IPARTTG   ,THK ,THK_PART,
-     D IXR       ,ITAB      ,INTBUF_TAB%VARIABLES(7),IXS10 ,INTBUF_TAB%MSEGTYP24   ,
-     E NRTM_SH    ,IXS16    ,IXS20    ,INTBUF_TAB%GAP_NM,
-     F ILEV      ,INTBUF_TAB%VARIABLES(36),ID,TITR ,IGAP0 ,
-     G INTBUF_TAB%PENE_OLD ,IPARTS, IGEO   ,FILLSOL ,
-     H PM_STACK  ,IWORKSH  ,INTBUF_TAB%VARIABLES(28),INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,
-     I KNOD2EL1D,NOD2EL1D  ,IPARI(72)  ,TAGPRT_FRIC  ,INTBUF_TAB%IPARTFRICS     ,
-     J INTBUF_TAB%IPARTFRICM,INTBUF_FRIC_TAB,IVIS2   ,GAPM_MX  ,GAPS_MX  ,
-     K GAPM_L_MX ,GAPS_L_MX ,IPARTSM     ,DRAD       )
+     1 X          ,INTBUF_TAB%IRECTM,INTBUF_TAB%STFM  ,IXS           ,PM                 ,
+     2 GEO        ,NRTM0            ,IXC              ,-NUMINT       ,INTBUF_TAB%STFAC(1),
+     3 NTY        ,INTBUF_TAB%VARIABLES(2),NOINT      ,
+     4 INTBUF_TAB%STFNS,NSN         ,MS               ,INTBUF_TAB%NSV,IXTG               ,
+     5 IGAP       ,RWA              ,INTBUF_TAB%GAP_S ,INTBUF_TAB%GAP_M,INTBUF_TAB%VARIABLES(13),
+     6 GAPSCALE   ,IXT              ,IXP,INTBUF_TAB%VARIABLES(6)     ,INTBUF_TAB%VARIABLES(35),
+     9 INACTI     ,KNOD2ELS         ,KNOD2ELC        ,KNOD2ELTG      ,NOD2ELS               ,
+     A NOD2ELC    ,NOD2ELTG         ,IPARI(47)       ,
+     B INTBUF_TAB%IELES,INTBUF_TAB%IELEM, INTBUF_TAB%AREAS,SH4TREE   ,SH3TREE               ,
+     C IPART      ,IPARTC           ,IPARTTG         ,THK            ,THK_PART              ,
+     D IXR        ,ITAB             ,INTBUF_TAB%VARIABLES(7),IXS10   ,INTBUF_TAB%MSEGTYP24  ,
+     E NRTM_SH    ,IXS16            ,IXS20           ,INTBUF_TAB%GAP_NM,
+     F ILEV       ,INTBUF_TAB%VARIABLES(36),ID       ,TITR           ,IGAP0                 ,
+     G INTBUF_TAB%PENE_OLD          ,IPARTS          ,IGEO           ,FILLSOL               ,
+     H PM_STACK   ,IWORKSH          ,INTBUF_TAB%VARIABLES(28),INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,
+     I KNOD2EL1D  ,NOD2EL1D         ,IPARI(72)       ,TAGPRT_FRIC    ,INTBUF_TAB%IPARTFRICS   ,
+     J INTBUF_TAB%IPARTFRICM,INTBUF_FRIC_TAB,IVIS2   ,GAPM_MX       , GAPS_MX               ,
+     K GAPM_L_MX  ,GAPS_L_MX        ,IPARTSM         ,DRAD          )
        IPARI(21) = IGAP
 C-----------------------------------------------------------
 C      ELEMENT NEIGHBROURS & FREE EDGES
@@ -1976,11 +1976,11 @@ C
 C
        IF(IEDGE/=0)THEN
 
-         CALL I25STI_EDG(NEDGE,INTBUF_TAB%LEDGE,INTBUF_TAB%STFE,INTBUF_TAB%STFM,IGAP          ,
-     2                   INTBUF_TAB%GAPE,INTBUF_TAB%GAP_E_L,INTBUF_TAB%GAP_M,INTBUF_TAB%GAP_ML,
-     .                                                                       INTBUF_TAB%GAP_SL,
-     3                   INTBUF_TAB%VARIABLES(40),IPARI(72)  ,INTBUF_TAB%IPARTFRIC_E,
-     J                   INTBUF_TAB%IPARTFRICM  ,IPARTSM     ,BGAPEMX_L  ,NSN,INTBUF_TAB%NSV)
+         CALL I25STI_EDG(
+     1   NEDGE          ,INTBUF_TAB%LEDGE  ,INTBUF_TAB%STFE  ,INTBUF_TAB%STFM  ,IGAP             ,
+     2   INTBUF_TAB%GAPE,INTBUF_TAB%GAP_E_L,INTBUF_TAB%GAP_M ,INTBUF_TAB%GAP_ML,INTBUF_TAB%GAP_SL,                                                                   
+     3   INTBUF_TAB%VARIABLES(40),IPARI(72),INTBUF_TAB%IPARTFRIC_E,INTBUF_TAB%IPARTFRICM,IPARTSM ,               
+     4   BGAPEMX_L     ,NSN                ,INTBUF_TAB%NSV   )
 
          INTBUF_TAB%I_STOK_E(1:2)=0
          CAND_E_OLD(1:2) = INTBUF_TAB%I_STOK_E(1:2)

@@ -349,6 +349,10 @@ C=======================================================================
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_PENIS
       N = N+1
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_STIFMSDT_S
+      N = N+1
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_STIFMSDT_M
+      N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_GAP_M
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_GAP_S
@@ -379,6 +383,8 @@ C=======================================================================
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_GAP_E_L
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_STFE
+      N = N+1
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_STIFMSDT_EDG
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_FTSAVX
       N = N+1

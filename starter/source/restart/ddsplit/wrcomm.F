@@ -29,13 +29,14 @@ Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|====================================================================
-      SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,MS_ND,P)
+      SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,MS_ND,P,INTER_PARAMETERS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ANIM_MOD
       USE OUTPUTS_MOD
       USE ALE_MOD
+      USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,6 +67,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IVAR,J,RVARINT,P
+      TYPE (PARAMETERS_) ,INTENT(IN):: INTER_PARAMETERS
 C--------------------------------------
 C     PREPARATION DES VARIABLES REELLES POUR ECRITURE SUR RFILE.
 C--------------------------------------
@@ -323,7 +325,10 @@ C INITIAL COORDS OF SPH RESERVE
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = YI_RES  
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = ZI_RES  
+      TABVREA(RVARINT) = ZI_RES 
+C
+      RVARINT = RVARINT + 1
+      TABVREA(RVARINT) = INTER_PARAMETERS%DT_STIFINT   
 C
 C---- fin check point restart      
 C      

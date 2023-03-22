@@ -3475,7 +3475,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-      SUBROUTINE SPMD_INITFI(IPARI,IFLAG,H3D_DATA)
+      SUBROUTINE SPMD_INITFI(IPARI,IFLAG,H3D_DATA,PARAMETERS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3485,6 +3485,7 @@ C-----------------------------------------------
       USE INTSTAMP_GLOB_MOD
       USE H3D_MOD
       USE INTERFACE_MODIFICATION_MOD
+      USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3509,6 +3510,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), IFLAG
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (PARAMETERS_) ,INTENT(IN):: PARAMETERS
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -3737,7 +3739,10 @@ C INT 25
         IERROR = IERROR + IERROR1
         ALLOCATE (ISKEW_FI(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
-
+        IF(PARAMETERS%ISTIF_DT > 0) THEN
+           MY_ALLOCATE(STIF_MSDT_FI,NINTER)
+           MY_ALLOCATE(STIFE_MSDT_FI,NINTER)
+        ENDIF
 C
         IF(INTHEAT > 0 ) THEN
          ALLOCATE (FTHESKYFI(NINTER),STAT=IERROR1)
@@ -3940,6 +3945,10 @@ C INT25
           NULLIFY(CANDF_SI(I)%P)
           NULLIFY(ISKEW_FI(I)%P)
           NULLIFY(ICODT_FI(I)%P)
+          IF(PARAMETERS%ISTIF_DT > 0) THEN
+             NULLIFY(STIF_MSDT_FI(I)%P)
+             NULLIFY(STIFE_MSDT_FI(I)%P)
+          ENDIF
 C INT25 E2E
 C         NULLIFY(MAIN_FIE(I)%P)
           NULLIFY(GAPE_L_FIE(I)%P)
@@ -4365,6 +4374,11 @@ C
                  ALLOCATE(STIF_OLDFI(I)%P(2,LENR),STAT=IERROR1)
                  STIF_OLDFI(I)%P(1:2,1:LENR)=ZERO
                  IERROR = IERROR + IERROR1
+
+                 IF(IPARI(97,I) > 0) THEN
+                    MY_ALLOCATE(STIF_MSDT_FI(I)%P,LENR)
+                    STIF_MSDT_FI(I)%P(1:LENR)=ZERO
+                 ENDIF
                ENDIF
               ELSEIF(ITYP==11)THEN
 C type11
@@ -4718,6 +4732,10 @@ C                 MY_ALLOCATE(MAIN_FIE(I)%P,LENR_EDGE)
                      ALLOCATE(IPARTFRIC_FIE(I)%P(LENR),STAT=IERROR1)
                      CALL READ_I_C(IPARTFRIC_FIE(I)%P,LENR_EDGE)
                   ENDIF
+                  IF(IPARI(97,I) > 0) THEN
+                    MY_ALLOCATE(STIFE_MSDT_FI(I)%P,LENR_EDGE)
+                    STIFE_MSDT_FI(I)%P(1:LENR_EDGE)=ZERO
+                  ENDIF
 
                 ENDIF
               ENDIF
@@ -5033,6 +5051,9 @@ C rajout partie edge
               CALL READ_DB(SECND_FRFI(I)%P(1,1),6*LENR)
               CALL READ_DB(PENE_OLDFI(I)%P(1,1),5*LENR)
               CALL READ_DB(STIF_OLDFI(I)%P(1,1),2*LENR)
+              IF(IPARI(97,I) > 0) THEN
+                 CALL READ_DB(STIF_MSDT_FI(I)%P(1),LENR) ! stif based on mass and dt
+              ENDIF
           ENDIF  ! fin partie type 24 & 25
 C
           IF (ITYP==24) THEN
@@ -5091,7 +5112,11 @@ C
                  CALL READ_I_C(NODAMSFIE(I)%P(1),LENR*2)
                  MY_ALLOCATE(PROCAMSFIE(I)%P,LENR*2)
                  CALL READ_I_C(PROCAMSFIE(I)%P(1),LENR*2)
-              ENDIF
+                ENDIF
+
+                IF(IPARI(97,I) > 0) THEN
+                   CALL READ_DB(STIFE_MSDT_FI(I)%P(1),LENR)
+                ENDIF
               ENDIF
             ENDIF
           ENDIF
@@ -5641,6 +5666,7 @@ C
                 CALL WRITE_DB(SECND_FRFI(I)%P(1,1),6*LENR)
                 CALL WRITE_DB(PENE_OLDFI(I)%P(1,1),5*LENR)
                 CALL WRITE_DB(STIF_OLDFI(I)%P(1,1),2*LENR)
+                IF(IPARI(97,I) > 0) CALL WRITE_DB(STIF_MSDT_FI(I)%P(1),LENR) ! stif based on mass and dt
               ENDIF  ! fin partie type 24 & 25
 C             
               IF (ITYP==24) THEN
@@ -5679,6 +5705,10 @@ C
                     CALL WRITE_I_C(NODAMSFIE(I)%P(1),LENR*2)
                     CALL WRITE_I_C(PROCAMSFIE(I)%P(1),LENR*2)
                   END IF
+
+                  IF(IPARI(97,I) > 0) THEN
+                   CALL WRITE_DB(STIFE_MSDT_FI(I)%P(1),LENR)
+                  ENDIF
 
                 ENDIF
               ENDIF

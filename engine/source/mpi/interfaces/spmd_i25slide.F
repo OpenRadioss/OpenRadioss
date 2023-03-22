@@ -245,7 +245,8 @@ Chd|====================================================================
       SUBROUTINE SPMD_I25_SLIDE_GAT(NSN  ,NIN, NI25,
      2                             IGAP  ,NSNR   ,INTTH   ,ILEV,INTBUF_TAB,
      3                             FR_NOR, IAD_FRNOR, NB_SLID   ,ITAB, H3D_DATA,
-     4                             INTFRIC,FLAGREMN , LREMNORMAX,NRTM,IVIS2 )
+     4                             INTFRIC,FLAGREMN , LREMNORMAX,NRTM,IVIS2 ,
+     5                             ISTIF_MSDT)
 c
 c -  Nodes in IREM are not necessarily from their PMAIN processor.
 c -  IREM is reordered according to ITAB for each PMAIN 
@@ -363,6 +364,7 @@ C-----------------------------------------------
      .        NB_SLID(NSPMD), ! NB of new sliding secnd nodes
      .        ITAB(*)
       INTEGER, INTENT(INOUT) :: NSNR
+      INTEGER, INTENT(IN) :: ISTIF_MSDT
       INTEGER IAD_FRNOR(NINTER25,NSPMD+1),FR_NOR(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
@@ -418,7 +420,7 @@ C
 
       MY_ALLOCATE(INDEX,NSNR_TOT)
       INDEX(1:NSNR_TOT) = 0
-      CALL REALLOCATE_FI1(NODFI,TMP,NIN,INTTH,IGAP,ILEV,INTFRIC,FLAGREMN,IVIS2)
+      CALL REALLOCATE_FI1(NODFI,TMP,NIN,INTTH,IGAP,ILEV,INTFRIC,FLAGREMN,IVIS2,ISTIF_MSDT)
       NSNFI(NIN)%P(1:NSPMD) = TMP%NSNFI%P(1:NSPMD)
 C
 C Compactage des candidats
@@ -767,6 +769,24 @@ C Friction
              END DO
              ISHIFT = ISHIFT + 1
           ENDIF
+C Stiffness based on masses and time step
+            IF(ISTIF_MSDT > 0) THEN
+             NBLOCAL = 0
+             DO J = 1, NN
+               I = IAUX(J)
+               K = IDEB_NEW+J -NBLOCAL
+               IF (I > 0) THEN
+                 L = IDEB_OLD+I
+                 STIF_MSDT_FI(NIN)%P(K) = TMP%STIF_MSDT_FI%P(L) 
+               ELSEIF( I < 0 ) THEN
+                 L = INDX_FOR_P(P)%P(-I)
+                  STIF_MSDT_FI(NIN)%P(K) =  XREM(RSHIFT,  L) 
+               ELSEIF(I == 0) THEN
+                 NBLOCAL = NBLOCAL+1
+               END IF
+             END DO
+             RSHIFT = RSHIFT + 1
+          ENDIF
 C
           IF(IDTMINS==2)THEN
              NBLOCAL  = 0
@@ -1056,11 +1076,11 @@ C
 C
 C   ALLOCATIONS FOR THE ASSEMBLY  
 C
-      CALL REALLOCATE_FI2(NIN, INTTH, NODFI, LSKYFI, H3D_DATA, IVIS2) 
+      CALL REALLOCATE_FI2(NIN, INTTH, NODFI, LSKYFI, H3D_DATA) 
 C
 C      ! DEALLOCATE old structures
 C
-      CALL DEALLOCATE_FI1_TMP(NODFI,TMP,NIN,INTTH,IGAP,ILEV,INTFRIC,FLAGREMN,IVIS2)
+      CALL DEALLOCATE_FI1_TMP(NODFI,TMP,NIN,INTTH,IGAP,ILEV,INTFRIC,FLAGREMN,IVIS2,ISTIF_MSDT)
 C
       DO I = 1, INTBUF_TAB%I_STOK(1)
         N = INTBUF_TAB%CAND_N(I)
@@ -1100,7 +1120,7 @@ Chd|        TRI25TMP                      share/modules/tri25tmp_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE REALLOCATE_FI1(NEW_SIZE,TMP,NIN,INTTH,IGAP,ILEV,INTFRIC,
-     .                          FLAGREMN,IVIS2)
+     .                          FLAGREMN,IVIS2,ISTIF_MSDT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1122,6 +1142,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) ::  NEW_SIZE,NIN,INTTH,IGAP,ILEV,INTFRIC,FLAGREMN,
      .                        IVIS2
+      INTEGER, INTENT(IN) :: ISTIF_MSDT
       TYPE(I25_TMP_STRUCT) TMP
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -1153,6 +1174,9 @@ C-----------------------------------------------
       ENDIF
       IF(INTFRIC > 0 ) THEN
        TMP%IPARTFRICSFI%P=>IPARTFRICSFI(NIN)%P
+      ENDIF 
+      IF(ISTIF_MSDT > 0 ) THEN
+       TMP%STIF_MSDT_FI%P=>STIF_MSDT_FI(NIN)%P
       ENDIF 
       IF(IDTMINS == 2) THEN
        TMP%NODNXFI%P=>NODNXFI(NIN)%P
@@ -1220,6 +1244,9 @@ C     WRITE(6,*) "NEW SIZE:",NEW_SIZE
       IF(INTFRIC > 0 ) THEN
        MY_ALLOCATE(IPARTFRICSFI(NIN)%P,NEW_SIZE)
       ENDIF 
+      IF(ISTIF_MSDT > 0 ) THEN
+       MY_ALLOCATE(STIF_MSDT_FI(NIN)%P,NEW_SIZE)
+      ENDIF 
       IF(IDTMINS == 2) THEN
        MY_ALLOCATE(NODNXFI(NIN)%P,NEW_SIZE)
        MY_ALLOCATE(NODAMSFI(NIN)%P,NEW_SIZE)
@@ -1265,7 +1292,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI25TMP                      share/modules/tri25tmp_mod.F  
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-      SUBROUTINE DEALLOCATE_FI1_TMP(NEW_SIZE,TMP,NIN,INTTH,IGAP,ILEV,INTFRIC,FLAGREMN,IVIS2)
+      SUBROUTINE DEALLOCATE_FI1_TMP(NEW_SIZE,TMP,NIN,INTTH,IGAP,ILEV,INTFRIC,
+     .                          FLAGREMN,IVIS2,ISTIF_MSDT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1284,6 +1312,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) ::  NEW_SIZE,NIN,INTTH,IGAP,ILEV,INTFRIC,FLAGREMN,IVIS2
+      INTEGER, INTENT(IN) :: ISTIF_MSDT
       TYPE(I25_TMP_STRUCT) TMP
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -1314,6 +1343,9 @@ C-----------------------------------------------
       ENDIF
       IF(INTFRIC > 0 ) THEN
        DEALLOCATE(TMP%IPARTFRICSFI%P)
+      ENDIF 
+      IF(ISTIF_MSDT > 0 ) THEN
+       DEALLOCATE(TMP%STIF_MSDT_FI%P)
       ENDIF 
       IF(IDTMINS == 2) THEN
        DEALLOCATE(TMP%NODNXFI%P)
@@ -1363,7 +1395,7 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-      SUBROUTINE REALLOCATE_FI2(NIN, INTTH, NODFI, LSKYFI,H3D_DATA,IVIS2) 
+      SUBROUTINE REALLOCATE_FI2(NIN, INTTH, NODFI, LSKYFI,H3D_DATA) 
 C
 C                               
 C
@@ -1388,7 +1420,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) ::  NIN, INTTH, NODFI, LSKYFI, IVIS2
+      INTEGER, INTENT(IN) ::  NIN, INTTH, NODFI, LSKYFI
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s

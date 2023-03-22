@@ -65,7 +65,8 @@ C LEDGEFIE and IREM
 #define E_MAIN 18
 #define E_EDG_BIS 19
 #define E_VTX_BIS 22
-#define E_RBUF_SIZE 40
+#define E_STIFE_MSDT_FI 41
+#define E_RBUF_SIZE 41
 
 C macro for LEDGE
 

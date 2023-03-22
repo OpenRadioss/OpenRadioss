@@ -28,10 +28,10 @@ Chd|-- calls ---------------
 Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
 Chd|====================================================================
       SUBROUTINE I25STI_EDG(
-     1 NEDGE ,LEDGE  ,STFE  ,STFM  ,IGAP   ,
-     2 GAPE  ,GAP_E_L,GAP_M ,GAP_M_L,GAP_S_L,
-     3 BGAPEMX,INTFRIC,IPARTFRIC_E,IPARTFRICM,
-     4 IPARTSM,BGAPEMX_L,NSN ,NSV)
+     1 NEDGE    ,LEDGE     ,STFE       ,STFM      ,IGAP      ,
+     2 GAPE     ,GAP_E_L   ,GAP_M      ,GAP_M_L   ,GAP_S_L   ,
+     3 BGAPEMX  ,INTFRIC   ,IPARTFRIC_E,IPARTFRICM,IPARTSM   ,
+     4 BGAPEMX_L,NSN       ,NSV        )
 C-----------------------------------------------
       USE INTBUF_FRIC_MOD  
 C-----------------------------------------------
@@ -138,9 +138,6 @@ C
            ENDIF
         END DO
       ENDIF
-C
-
-
 C        
       RETURN
       END

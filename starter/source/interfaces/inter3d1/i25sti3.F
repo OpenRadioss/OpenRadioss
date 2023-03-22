@@ -35,24 +35,24 @@ Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I25STI3(
-     1 X     ,IRECT ,STF   ,IXS   ,PM    ,
-     2 GEO   ,NRT   ,IXC   ,NINT  ,STFAC ,
-     3        NTY   ,GAP   ,NOINT ,
-     4 STFN  ,NSN   ,MS    ,NSV   ,IXTG  ,
-     5 IGAP  ,WA    ,GAP_S ,GAP_M ,GAPMIN,
-     6 GAPSCALE,IXT ,IXP   ,GAPINF,GAPMAX_S,
-     9 INACTI ,KNOD2ELS ,KNOD2ELC ,KNOD2ELTG ,NOD2ELS ,
-     A NOD2ELC,NOD2ELTG ,INTTH,
-     B IELES  ,IELEM    ,AREAS    ,SH4TREE ,SH3TREE ,
-     C IPART  ,IPARTC   ,IPARTTG  ,THK ,THK_PART    ,
-     D IXR    ,ITAB    ,BGAPSMX   ,IXS10   ,MSEGTYP ,
-     E NRT_SH ,IXS16    ,IXS20    ,GAP_N   ,
-     F ILEV   ,GAPMAX_M ,ID,TITR ,IGAP0    ,
-     G PEN_OLD,IPARTS   ,IGEO    ,FILLSOL ,
-     H PM_STACK, IWORKSH,PERCENT_SIZE,GAP_S_L ,GAP_M_L,
-     I KNOD2EL1D,NOD2EL1D,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
-     J IPARTFRICM,INTBUF_FRIC_TAB,IVIS2 ,GAPM_MX,GAPS_MX,
-     K GAPM_L_MX,GAPS_L_MX ,IPARTSM,DRAD)
+     1 X         ,IRECT      ,STF       ,IXS       ,PM         ,
+     2 GEO       ,NRT        ,IXC       ,NINT      ,STFAC      ,
+     3 NTY       ,GAP        ,NOINT     , 
+     4 STFN      ,NSN        ,MS        ,NSV       ,IXTG       ,
+     5 IGAP      ,WA         ,GAP_S     ,GAP_M     ,GAPMIN     ,
+     6 GAPSCALE  ,IXT ,IXP   ,GAPINF    ,GAPMAX_S  ,
+     9 INACTI    ,KNOD2ELS   ,KNOD2ELC  ,KNOD2ELTG ,NOD2ELS    ,
+     A NOD2ELC   ,NOD2ELTG   ,INTTH,
+     B IELES     ,IELEM      ,AREAS     ,SH4TREE   ,SH3TREE    ,
+     C IPART     ,IPARTC     ,IPARTTG   ,THK       ,THK_PART   ,
+     D IXR       ,ITAB       ,BGAPSMX   ,IXS10     ,MSEGTYP    ,
+     E NRT_SH    ,IXS16      ,IXS20     ,GAP_N     ,
+     F ILEV      ,GAPMAX_M   ,ID,TITR   ,IGAP0     ,
+     G PEN_OLD   ,IPARTS     ,IGEO      ,FILLSOL   ,
+     H PM_STACK  , IWORKSH   ,PERCENT_SIZE,GAP_S_L ,GAP_M_L    ,
+     I KNOD2EL1D ,NOD2EL1D   ,INTFRIC   ,TAGPRT_FRIC,IPARTFRICS,
+     J IPARTFRICM,INTBUF_FRIC_TAB,IVIS2 ,GAPM_MX   ,GAPS_MX    ,
+     K GAPM_L_MX ,GAPS_L_MX  ,IPARTSM   ,DRAD      )
 C-----------------------------------------------
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
