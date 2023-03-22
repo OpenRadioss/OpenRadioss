@@ -258,7 +258,6 @@ C
        RETURN
        END
 C
-C ----nouvelle routine ---
 Chd|====================================================================
 Chd|  CBADEFSH_PLY                  source/properties/composite_options/stack/cbadef_ply.F
 Chd|-- called by -----------

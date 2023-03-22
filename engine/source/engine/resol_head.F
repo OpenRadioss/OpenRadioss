@@ -164,12 +164,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-C   mis au debut de resol_head a cause de trace Back
-C      IF (NTHREAD>1) PARALLEL_SECTION = 1
-C=======================================================================
       IOCLOSE = 0
 C-----------------------------------------------
-C     TRACE BACK  (Init process principal == thread 0)
+C     TRACE BACK  
 C-----------------------------------------------
       ITASKP1 = 1
       ITASKP1_DEF = 1
@@ -184,7 +181,7 @@ C
      3                   ITAB           ,ITABM1         ,IFILL          ,
      4  IMS             ,NPC            ,IBCL           ,MATPARAM_TAB   ,GROUP_PARAM_TAB,
      5  IBFV            ,IECRAN         ,ILAS           ,LACCELM        ,NNLINK         ,LNLINK      ,
-     6  IPARG          ,DD_IAD         ,IGRV           ,IEXLNK         ,KINET       ,
+     6  IPARG           ,DD_IAD         ,IGRV           ,IEXLNK         ,KINET       ,
      7  IPARI           ,NPRW           ,ICONX          ,NPBY           ,
      8  LPBY            ,LRIVET         ,NSTRF          ,LJOINT         ,NODPOR         ,MONVOL      ,ITHGRP           ,IAD_ELEM  ,
      9  FR_ELEM         ,WEIGHT         ,MAIN_PROC      ,ICODT          ,ICODR          ,ADSKY       ,IADS             ,ILINK     ,

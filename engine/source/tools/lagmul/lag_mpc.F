@@ -185,7 +185,6 @@ C---
       RETURN
       END
 C
-C nouvelle routine MPC SPMD
 Chd|====================================================================
 Chd|  LAG_MPCP                      source/tools/lagmul/lag_mpc.F 
 Chd|-- called by -----------

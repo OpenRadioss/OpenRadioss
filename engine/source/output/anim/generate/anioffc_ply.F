@@ -54,7 +54,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "remesh_c.inc"
-#include      "scr01_c.inc"
 #include      "scr17_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
@@ -71,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT,
-     .        N, J, LLT, MLW, NBX, IP,  NN, K1, K2,MT,JALE, IMID, 
+     .        N, J, LLT, MLW,  IP,  NN, K1, K2,MT,JALE, IMID, 
      .        N1,N2,N3,N4, NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        N_FA, IHBE, SH_IH, ISTRAIN, IEXPAN,ISHPLYXFEM,NELXFE,IE,
      .        PLYELEMS(NUMELC),IPT,ELC,MPT,NGL(MVSIZ),ISUBSTACK,IPMAT_IPLY,
@@ -119,7 +118,6 @@ C
           ISUBSTACK = IPARG(71,NG)
           LFT=1
           LLT=NEL
-          NBX = IAD - 1
 C-----------------------------------------------
 C       COQUES 4 N
 C-----------------------------------------------
@@ -138,7 +136,6 @@ C
              IFAILURE =  IPARG(43,NG)
              N_FA =NEL_PLY
              NELXFE = NELXFE + NEL
-             NBX  = NB6
              
               DO I=1,NEL
                 PID(I) = IXC(6,NFT + I)
@@ -150,12 +147,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
                  NEL5 = NEL*5
                  NEL8 = NEL*8
                  NPTM = MAX(1,MPT)
-                 NN13=NB12 + NPG*NEL8
-                 NN14=NN13 + NPG*NEL8*ISTRAIN
-                 NN15=NN14 + NPTM*NPG*NEL
                  IF (MPT >= ONE) THEN
-                   NN16=NN15 + NPG*MPT*NEL5
-                   NN16A=NN16 + 2*MPT*NEL
                  ENDIF
                  NBM_S = 6*NEL*MPT+NEL
                  NUVARR = ZERO
@@ -177,17 +169,12 @@ C
                       NUVARR = MAX(NUVARR,IPM(221,MATLY))
                  ENDDO
               ENDIF 
-               NBM_S = NBM_S + NEL*MPT*NUVARR
-               NBX = NN16A  + NBM_S*MAX(NPG,1) 
-               IF(IFAILURE == 1)NBX= NBX + NEL 
-C                NBX = NN16A  + NBM_S*MAX(NPG,1) + NEL 
-C     .                       + MAX(NPG,1)*NUVARD*NPT*NEL       
+              NBM_S = NBM_S + NEL*MPT*NUVARR
 C-----------------------------------------------
 C       COQUES 3 N
 C-----------------------------------------------
            ELSEIF(ITY==7)THEN
 c it's not available for T3  
-             NBX = NBX+16*NEL
            ENDIF
 C-----------------------------------------------
            IF(ITY == 3)THEN

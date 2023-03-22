@@ -600,7 +600,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr01_c.inc"
 #include      "scr17_c.inc"
 #include      "task_c.inc"
 #include      "sphcom.inc"
@@ -914,7 +913,6 @@ C Void elements never break and doesn't have ELBUF
 C
           ELSEIF(ITY == 4)THEN
             IF ((R2R_SIU == 0).OR.(IPARTR2R > 0)) THEN
-            NB1 = KAD
 #include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFT
@@ -945,7 +943,6 @@ C
 C
           ELSEIF(ITY == 5)THEN
             IF ((R2R_SIU == 0).OR.(IPARTR2R > 0)) THEN
-            NB1 = KAD
 #include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFP
@@ -976,7 +973,6 @@ C
 C
           ELSEIF(ITY == 6)THEN
             IF ((R2R_SIU == 0).OR.(IPARTR2R > 0)) THEN
-            NB1 = KAD
 #include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFR
@@ -1094,7 +1090,6 @@ C Void elements never break and doesn't have ELBUF
             END IF
 C
  	    ELSEIF(ITY == 51) THEN
- 	      NB1 = KAD
 #include "vectorize.inc"
  	      DO I = LFT,LLT
  	        IF(ABS(GBUF%OFF(I))>=ONE) THEN

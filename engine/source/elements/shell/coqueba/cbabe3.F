@@ -633,7 +633,6 @@ C--------pour rigidite en rzz-------
        END IF !(ISROT==0) THEN
        RETURN
        END
-C   ----nouvelle routine ---
 Chd|====================================================================
 Chd|  CBABEC3                       source/elements/shell/coqueba/cbabe3.F
 Chd|-- called by -----------

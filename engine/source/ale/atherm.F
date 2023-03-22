@@ -59,7 +59,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr01_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "vect01_c.inc"
@@ -188,7 +187,6 @@ C     ALE ON / OFF
         NFT=IPARG(3,NG)
         IAD=IPARG(4,NG)
         LFT=1
-        NB3 =IAD +   7*LLT
         IF(N2D == 0)THEN
           CALL AFIMP3(PM,X,IXS,T,FLUX(6*NFT+1),VAL2,ALE_CONNECT,FV)
         ELSE

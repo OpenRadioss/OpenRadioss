@@ -3526,7 +3526,6 @@ C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
 C
       RETURN
       END
-Cel nouvelle routine
 Chd|====================================================================
 Chd|  I24ASS2                       source/interfaces/int24/i24for3.F
 Chd|-- called by -----------

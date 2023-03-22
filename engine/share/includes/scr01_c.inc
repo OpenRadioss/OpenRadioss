@@ -20,18 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C.../SCR01/
-C$PAR INSTANCE TASK /SCR01/
 #include      "task_common.inc"
-      task_common /SCR01/ NB1,NB2,NB3,NB4,NB5,NB6,NB7,NB8,NB9,NB10,
-     .   NB11, NB12, NB13, NB14, NB15, NB16, NB17, NB18, NB19, NB20,
-     .   NB21,NB22,NBFI, ITASKP1, NBFAIL, NBIPFAIL
-Cpm51e01     .   NB21,NB22,NBFI, ITASKP1
-c$dir thread_private(/SCR01/)
-!IBM* THREADLOCAL /SCR01/
-!$OMP THREADPRIVATE(/SCR01/)
-      INTEGER NB1, NB2, NB3, NB4, NB5, NB6, NB7, NB8, NB9, NB10, NB11,
-     .   NB12, NB13,NB14,NB15,NB16,NB17,NB18,NB19,NB20,NB21,NB22,
-     .   NBFI, NBFAIL, NBIPFAIL
-Cpm51e01     .   NBFI
+      task_common /SCR01/ ITASKP1                  
       INTEGER ITASKP1

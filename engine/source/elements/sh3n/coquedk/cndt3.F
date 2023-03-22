@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C  |--nouvelle routine commune des elements coques---------
 Chd|====================================================================
 Chd|  CNDT3                         source/elements/sh3n/coquedk/cndt3.F
 Chd|-- called by -----------

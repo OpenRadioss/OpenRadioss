@@ -2933,7 +2933,6 @@ C
 C
       RETURN
       END
-C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  FR_A2B                        source/mpi/implicit/imp_fri.F 
 Chd|-- called by -----------
@@ -2980,7 +2979,6 @@ C---------
 C
       RETURN
       END
-C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  FR_A2BD                       source/mpi/implicit/imp_fri.F 
 Chd|-- called by -----------
@@ -3097,7 +3095,6 @@ C------RBE2-------
 C
       RETURN
       END
-C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  DIM_NRMAX                     source/mpi/implicit/imp_fri.F 
 Chd|-- called by -----------
@@ -3254,7 +3251,6 @@ C
 C
       RETURN
       END
-C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  IND_NRMAX                     source/mpi/implicit/imp_fri.F 
 Chd|-- called by -----------

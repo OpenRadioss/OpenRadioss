@@ -126,8 +126,6 @@ C     REAL
      .   VISC,VISCF,FNOR,DEPTH,FRIC_LAST,FNOR_LAST
       INTEGER :: NMN, NTY, NSN
 C-----------------------------------------------
-C----     
-
 
       NSN    = IPARI(5)
       NMN    = IPARI(6)
@@ -206,9 +204,6 @@ C
         LFT=1
         LLT=NSN                   
         IF(NSPMD > 1) THEN
-        ! WRITE(6,*) "================================="
-        ! WRITE(6,*) __FILE__,__LINE__,T8%S_COMM,NMN,NSN
-        ! WRITE(6,*) "================================="
 
           CALL SPMD_I8_INDEX(NMN,T8%SPMD_COMM_PATTERN,INDEX_IN_COMM,T8%S_COMM)
 

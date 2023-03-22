@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C  | nouvelle routine base sur SRROTA3-->par vector
 Chd|====================================================================
 Chd|  VRROTA3                       source/elements/thickshell/solide6c/vrrota3.F
 Chd|-- called by -----------

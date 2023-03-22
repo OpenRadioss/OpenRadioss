@@ -597,7 +597,6 @@ C-----------------------------------------------
       INTEGER I,J,EP,ISYM
       my_real
      .    K(3,3,MVSIZ)
-C----nouvelle routine---- QI^tKQJ avec K13=K23=0--K33 traite diff-----
        IF (ISYM==1) THEN
         DO I=1,3 
         DO J=I,3 
@@ -1792,7 +1791,6 @@ C-----------------------------------------------
       INTEGER I,J,EP,ISYM
       my_real
      .    K(3,3,MVSIZ)
-C----nouvelle routine---- QI^tKQJ K33 =0-----
 C-----------------------------------------------
        IF (ISYM==1) THEN
         DO I=1,3 

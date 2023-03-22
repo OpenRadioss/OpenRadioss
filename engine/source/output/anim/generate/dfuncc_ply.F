@@ -58,7 +58,6 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr01_c.inc"
 #include      "scr14_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
@@ -91,7 +90,7 @@ C     REAL
      .        ISTRAIN,NN, K1, K2,JTURB,MT,IMID, IALEL,IPID,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NF,
      .        LLL,NINTLAY,NFAIL,
-     .        OFFSET,K,II,II_L,INC,KK,IHBE, N13, N14, N15, N16,
+     .        OFFSET,K,II,II_L,INC,KK,IHBE, 
      .        NPTM,NPG, NBVU, I1, MPT, NEL5, NEL8,
      .        IPT,BUF,NPTR,NPTS,NPTT,NLAY,IR,IS,PTF,LENF,IL,
      .        IADR,IPMAT,PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),
@@ -435,29 +434,16 @@ C -
               ENDDO
             ELSEIF (MLW == 25 .AND. IREP == 0) THEN
               IF (IHBE == 11) THEN  
-               NB13= NB12 + 8*NPG*NEL
-               NB14= NB13 + 8*NPG*NEL*ISTRAIN
-               NB15= NB14 + MAX(1,NPT)*NPG*NEL
                DO I=LFT,LLT 
                  EVAR(I) = ZERO
                  N = I + NFT 
                  ILAYER = PLYELEMS(N)
-                 IF(ILAYER > 0) THEN
-                    DO K=1,NPG
-                     I1 = NB15+NPT*5*NEL*(K-1)+5*LLT*(ILAYER-1)+(I-1)*5
-c                     EVAR(I) = EVAR(I) + BUFEL(I1+ IFUNC - 14)/NPG
-                    ENDDO  
-                 ENDIF
                 ENDDO 
               ELSE
 c                IADD  = NB10 + 5 * NEL * (ILAYER - 1)
                 DO I=LFT,LLT
                   N = I + NFT 
                   ILAYER = PLYELEMS(N)
-                  IF(ILAYER > 0) THEN
-c                   IADD  = NB10 + 5 * NEL * (ILAYER - 1)
-c                   EVAR(I) = BUFEL(IADD + (I-1)*5 + IFUNC - 14)
-                  ENDIF 
                 ENDDO
               ENDIF
             ELSE 
@@ -509,10 +495,6 @@ C------------------------
               NEL5 = NEL*5
               NEL8 = NEL*8    
 C-------QBAT,DKT18,
-              N13=NB12 + NPG*NEL8
-              N14=N13  + NPG*NEL8*ISTRAIN
-              N15=N14  + NPTM*NPG*NEL
-              N16=N15  + NPG*MPT*NEL5
 C
               IF (ITY == 7) THEN
                IGTYP = NINT(GEO(12,IXTG(6,NFT+1)))

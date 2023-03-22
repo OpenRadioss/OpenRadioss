@@ -694,7 +694,6 @@ C
       RETURN
       END
 C
-Cel nouvelle routine
 Chd|====================================================================
 Chd|  I7ASS0                        source/interfaces/int07/i7ass3.F
 Chd|-- called by -----------
@@ -1120,7 +1119,6 @@ C
       RETURN
       END
 C
-Cel nouvelle routine
 Chd|====================================================================
 Chd|  I7ASS2                        source/interfaces/int07/i7ass3.F
 Chd|-- called by -----------
@@ -1447,7 +1445,6 @@ C
       RETURN
       END
 C
-Cel nouvelle routine
 Chd|====================================================================
 Chd|  I7ASS25                       source/interfaces/int07/i7ass3.F
 Chd|-- called by -----------
