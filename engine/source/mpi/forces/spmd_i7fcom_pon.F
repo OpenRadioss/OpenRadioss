@@ -345,8 +345,13 @@ C routine calcul place supplementaire int20
      +          NSNFI(NIN)%P(1),NSVFI(NIN)%P(1),ISIZENV,LEN20)
           END IF
 C precomptage du nombre de contacts par processeur+calcul nsnfi total
-          CALL INTCONTP(
-     +      NI,ISKYFI(NIN)%P(1),NSNFI(NIN)%P(1),ISIZENV,NSNFITOT,LENI)
+          IF(NI > 0) THEN
+            CALL INTCONTP(NI,ISKYFI(NIN)%P,NSNFI(NIN)%P,ISIZENV,NSNFITOT,LENI)
+          ELSE
+            DO J = 1, NSPMD
+              NSNFITOT(J) = NSNFITOT(J) + NSNFI(NIN)%P(J)
+            END DO
+          ENDIF
 C ajout partie edge
           IF(NTY==20)THEN
             NI = NISKYFIE(NIN)
