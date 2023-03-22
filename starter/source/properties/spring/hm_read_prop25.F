@@ -895,6 +895,7 @@ C
       PROP_TAG(IGTYP)%G_NUVAR = MAX(PROP_TAG(IGTYP)%G_NUVAR,NINT(GEO(25))) ! additional internal variables for h=6  
       PROP_TAG(IGTYP)%G_DEFINI = 6
       PROP_TAG(IGTYP)%G_FORINI = 6
+      PROP_TAG(IGTYP)%G_RUPTCRIT = 1
 C
       RETURN
 C-----------

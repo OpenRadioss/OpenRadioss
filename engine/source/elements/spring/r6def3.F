@@ -49,7 +49,7 @@ Chd|====================================================================
      R                  VZ1    ,VZ2    ,NUVAR  ,UVAR   ,DX0     ,
      S                  DY0    ,DZ0    ,RX0    ,RY0    ,RZ0     ,
      T                  FX0    ,FY0    ,FZ0    ,XMOM0  ,YMOM0   ,
-     U                  ZMOM0  )
+     U                  ZMOM0  ,CRITNEW)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,6 +94,7 @@ C     REAL
      .   VZ1(MVSIZ),VZ2(MVSIZ),UVAR(NUVAR,*),DX0(*),DY0(*),DZ0(*),
      .   RX0(*),RY0(*),RZ0(*),FX0(*),FY0(*),FZ0(*),XMOM0(*),YMOM0(*),ZMOM0(*)
       DOUBLE PRECISION ALDP(MVSIZ),AL2DP(MVSIZ)
+      my_real, INTENT(INOUT) :: CRITNEW(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -304,15 +305,17 @@ C
             ENDIF
           ENDIF
           IF (IFAIL(I) == 0) THEN
-C---      Rupture uniaxiale
+C---      Uniaxial failure
+            CRIT(I) = MAX(CRIT(I),XA*DLIM)
             IF ((XA*DLIM) > ONE) THEN
               OFF(I)=ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
               IDEL7NOK = 1
+              CRITNEW(I) = ONE
             ENDIF
           ELSE
-C---      Rupture multiaxiale
+C---      Multiaxial failure
             CRIT(I)= CRIT(I) + XA * DLIM**XB
           ENDIF
         ENDIF
@@ -377,15 +380,17 @@ C---- Cisaillement
             ENDIF
           ENDIF
           IF (IFAIL(I) == 0) THEN
-C---      Rupture uniaxiale
+C---      Uniaxial failure
+            CRIT(I) = MAX(CRIT(I),XA*DLIM)
             IF ((XA*DLIM) > ONE) THEN
               OFF(I)=ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
               IDEL7NOK = 1
+              CRITNEW(I) = ONE
             ENDIF
           ELSE
-C---      Rupture multiaxiale
+C---      Multiaxial failure
             CRIT(I)= CRIT(I) + XA * DLIM**XB
           ENDIF
         ENDIF
@@ -493,15 +498,17 @@ C
             ENDIF
           ENDIF
           IF (IFAIL(I) == 0) THEN
-C---      Rupture uniaxiale
+C---      Uniaxial failure
+            CRIT(I) = MAX(CRIT(I),XA*DLIM)
             IF ((XA*DLIM) > ONE) THEN
               OFF(I)=ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
               IDEL7NOK = 1
+              CRITNEW(I) = ONE
             ENDIF
           ELSE
-C---      Rupture multiaxiale
+C---      Multiaxial failure
             CRIT(I)= CRIT(I) + XA * DLIM**XB
           ENDIF
         ENDIF
@@ -567,15 +574,17 @@ C
             ENDIF
           ENDIF
           IF (IFAIL(I) == 0) THEN
-C---      Rupture uniaxiale
+C---      Uniaxial Failure
+            CRIT(I) = MAX(CRIT(I),XA*DLIM)
             IF ((XA*DLIM) > ONE) THEN
               OFF(I)=ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
               IDEL7NOK = 1
+              CRITNEW(I) = ONE
             ENDIF
           ELSE
-C---      Rupture multiaxiale
+C---      Multiaxial failure
             CRIT(I)= CRIT(I) + XA * DLIM**XB
           ENDIF
         ENDIF
@@ -591,12 +600,26 @@ C-------------------------------
 C     RUPTURE COUPLEE
 C-------------------------------
       DO I=LFT,LLT
+        IF (IFAIL(I) == 0) THEN 
+          IF (CRITNEW(I) < ONE) THEN 
+            CRITNEW(I) = MIN(CRIT(I),ONE)
+          ELSE 
+            CRITNEW(I) = ONE
+          ENDIF
+        ELSEIF (IFAIL(I) == 1) THEN 
+          IF (CRITNEW(I) < ONE) THEN 
+            CRITNEW(I) = MIN(CRIT(I)/(XL0(I)*XL0(I)),ONE)
+          ELSE 
+            CRITNEW(I) = ONE
+          ENDIF
+        ENDIF
         IF (OFF(I) == ONE .AND. IFAIL(I) == 1) THEN
           IF (CRIT(I)/(XL0(I)*XL0(I)) > ONE) THEN
             OFF(I)=ZERO
             NINDX = NINDX + 1
             INDX(NINDX) = I
             IDEL7NOK = 1
+            CRITNEW(I) = ONE
           ENDIF
         ENDIF
       ENDDO

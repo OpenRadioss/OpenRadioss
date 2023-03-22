@@ -622,7 +622,7 @@ C
      R VZ1                    ,VZ2                    ,NUVAR                  ,GBUF%VAR               ,GBUF%DEFINI(II(1))     ,
      S GBUF%DEFINI(II(2))     ,GBUF%DEFINI(II(3))     ,GBUF%DEFINI(II(4))     ,GBUF%DEFINI(II(5))     ,GBUF%DEFINI(II(6))     ,
      T GBUF%FORINI(II(1))     ,GBUF%FORINI(II(2))     ,GBUF%FORINI(II(3))     ,GBUF%FORINI(II(4))     ,GBUF%FORINI(II(5))     ,
-     U GBUF%FORINI(II(6))     )
+     U GBUF%FORINI(II(6))     ,GBUF%RUPTCRIT          )
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)

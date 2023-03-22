@@ -378,7 +378,11 @@ C
      .                                        (X(2,NODE2)-X(2,NODE1))**2 + 
      .                                        (X(3,NODE2)-X(3,NODE1))**2)  
                                 ! Failure criterion
-                                WWA(66)= GBUF%RUPTCRIT(I)
+                                IF (GBUF%G_RUPTCRIT > 0) THEN 
+                                  WWA(66) = GBUF%RUPTCRIT(I)
+                                ELSE
+                                  WWA(66) = ZERO
+                                ENDIF
                                 DO L=IADV,IADV+NVAR-1
                                     K=ITHBUF(L)
                                     IJK=IJK+1
