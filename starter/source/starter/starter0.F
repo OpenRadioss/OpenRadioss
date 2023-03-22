@@ -228,7 +228,7 @@ C IMINVER : MINOR VERSION CODE  = 1 IF MINOR RELEASE A(A~1) OF 4.4 RELEASE
 C ISRCVER : SOURCE VERSION CODE = 41*100+9
 C                                   IF RELEASE WAS BUILT FROM SOURCE Bug41i
 C-------------------------------------------------------------------
-      CODVERS          = 2022
+      CODVERS          = 2023
       IMINVER          = 1
       ISRCVER          = 1
 C-------------------------------------------------------------------
@@ -360,6 +360,7 @@ C------------------------------------------------
 #endif
 C-----------------------------------------------------
 C Avoid linking issue with dynamical libraries
+C-----------------------------------------------------
         IERR=0
         CALL ST_UACCESS_DUM(IERR)      
         CALL ST_UTABLE_DUM(IERR)
@@ -668,6 +669,7 @@ C-------------------------------------------------
       CALL INICOD
 C-------------------------------------------------------------------
 C Runnumber is taken from input name or previous treatments
+C-------------------------------------------------------------------
       IRUN = RUNN
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       ALLOCATE(LSUBMODEL(LSUBMOD))
