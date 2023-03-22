@@ -25,6 +25,7 @@ Chd|  HM_READ_PART                  source/model/assembling/hm_read_part.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
+Chd|        ALE_EULER_INIT                source/materials/ale/ale_euler_init.F
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL                       source/starter/freform.F      
 Chd|        FRETITL2                      source/starter/freform.F      
@@ -35,6 +36,7 @@ Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_st
 Chd|        UDOUBLE                       source/system/sysfus.F        
 Chd|        GET_U_GEO                     source/user_interface/uaccess.F
 Chd|        NINTRI                        source/system/nintrr.F        
+Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F

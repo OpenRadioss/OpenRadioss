@@ -188,6 +188,7 @@ Chd|        HM_READ_EOS_STIFFENED_GAS     source/materials/eos/hm_read_eos_stiff
 Chd|        HM_READ_EOS_TABULATED         source/materials/eos/hm_read_eos_tabulated.F
 Chd|        HM_READ_EREF                  source/loads/reference_state/eref/hm_read_eref.F
 Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
+Chd|        HM_READ_FAIL_BIQUAD           source/materials/fail/biquad/hm_read_fail_biquad.F
 Chd|        HM_READ_FAIL_ENERGY           source/materials/fail/energy/hm_read_fail_energy.F
 Chd|        HM_READ_FAIL_FABRIC           source/materials/fail/fabric/hm_read_fail_fabric.F
 Chd|        HM_READ_FAIL_FLD              source/materials/fail/fld/hm_read_fail_fld.F
