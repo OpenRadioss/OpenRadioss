@@ -355,7 +355,7 @@ C Element time steps
 C------------------------------------------
       AIRE(:) = ZERO
       CALL DTMAIN(GEO      , PM       , IPM        , PID    , MAT    , FV    ,
-     .     GBUF%EINT, GBUF%TEMP, GBUF%DELTAX, GBUF%RK, GBUF%RE, BUFMAT, DELTAX, AIRE, VOLU, DTX, IGEO)
+     .     GBUF%EINT, GBUF%TEMP, GBUF%DELTAX, GBUF%RK, GBUF%RE, BUFMAT, DELTAX, AIRE, VOLU, DTX, IGEO,IGTYP)
 C     
       DO I=LFT,LLT
          IF(IXS(10,I+NFT)/=0) THEN

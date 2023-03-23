@@ -353,7 +353,7 @@ C       CALCUL DES DT ELEMENTAIRES
 C------------------------------------------
         CALL DTMAIN(GEO       ,PM        ,IPM         ,IPROP   ,IMAT    ,FV    ,
      .              LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT,
-     .              TBID      ,TBID      ,TBID        ,TBID    ,IGEO    )
+     .              TBID      ,TBID      ,TBID        ,TBID    ,IGEO    ,IGTYP)
 
         ENDDO
        ENDDO

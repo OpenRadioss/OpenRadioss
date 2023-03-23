@@ -63,7 +63,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|====================================================================
       SUBROUTINE DTMAIN(GEO  ,PM   ,IPM   ,PID   ,MAT   ,FV    ,
      .                  EINT ,TEMP ,DELTAX,RK    ,RE    ,BUFMAT, DDELTAX, AIRE, VOL, DTX,
-     .                  IGEO )
+     .                  IGEO ,IGTYP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -81,6 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: IGTYP
       INTEGER             :: IPM(*), PID(*), MAT(*),IGEO(NPROPGI,*)
       my_real             :: PM(*),GEO(*),FV,EINT(*),TEMP(*),DELTAX(*),RK(*),RE(*), DDELTAX(*),
      .     AIRE(*), VOL(*), DTX(*)
@@ -128,9 +129,16 @@ c
         CALL DT42LAW(PM,GEO,PID,MAT, DDELTAX, AIRE, VOL, DTX, LLT )
       CASE (51)
         CALL DT51LAW(PM,GEO,PID,MAT,BUFMAT,IPM, DDELTAX, AIRE, VOL, DTX)
-      CASE (59,83,116,117,120)
-        DTX(LFT:LLT) = EP20
-        WRITE(IOUT,1000) MTN
+      CASE (59,83,116,117)
+          DTX(LFT:LLT) = EP20
+          WRITE(IOUT,1000) MTN
+      CASE (120)
+        IF (IGTYP == 43)THEN
+          DTX(LFT:LLT) = EP20
+          WRITE(IOUT,1000) MTN
+        ELSE
+          CALL DT1LAW(PM,GEO,PID,MAT, DDELTAX, AIRE, VOL, DTX )
+        ENDIF
       CASE (105)
         CALL DT105LAW(PM,GEO,PID,MAT, DDELTAX, AIRE, VOL, DTX)
       CASE (70)

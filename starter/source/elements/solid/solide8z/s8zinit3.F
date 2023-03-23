@@ -596,7 +596,7 @@ C------------------------------------------
         AIRE(:) = ZERO
         CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .       LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
-     .       VOLU, DTX,IGEO)
+     .       VOLU, DTX,IGEO,IGTYP)
 c
        DO 10 I=LFT,LLT
         IF(IXS(10,I+NFT)/=0.AND.INVERS>14) THEN
