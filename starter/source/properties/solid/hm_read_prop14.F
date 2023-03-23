@@ -35,8 +35,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_PROP14(GEO,IGEO,PROP_TAG ,MULTI_FVM,IGTYP,IG,TITR,UNITAB,LSUBMODEL,
-     .                          IPART)
+      SUBROUTINE HM_READ_PROP14(GEO,IGEO,PROP_TAG,MULTI_FVM,IGTYP,IG,TITR,UNITAB,LSUBMODEL,IPART)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -106,8 +105,6 @@ C-----------------------------------------------
       NSPHDIR = 0
       ID_PARTSPH = 0
 C--------------------------------------------------
-C EXTRACT DATA (IS OPTION ENCRYPTED)
-C--------------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
@@ -118,15 +115,12 @@ C--------------------------------------------------
       CALL HM_GET_INTV('Icpre',ICPRE,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('I_rot',ITET4,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Iframe',JCVT,IS_AVAILABLE,LSUBMODEL)
-c      CALL HM_GET_INTV('Istrain',ISTRAIN,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Ndir',NSPHDIR,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('SPHPART_ID',ID_PARTSPH,IS_AVAILABLE,LSUBMODEL)
-c      CALL HM_GET_INTV('Imod',IET,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Itetra10',ITET10,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Inpts_R',NPTR,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Inpts_S',NPTS,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Inpts_T',NPTT,IS_AVAILABLE,LSUBMODEL)
-c      CALL HM_GET_INTV('Iplas',IPLAS,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -138,9 +132,9 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('dn',CVIS,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('deltaT_min',DTMIN,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
-      ICSTR = 0                              
+      ICSTR = 0
       ID_SENS = 0
-      ISTRAIN=1 
+      ISTRAIN = 1
       IPLAS = 2
       IET = 0
       
@@ -324,8 +318,7 @@ C--------------------------------------------------
 
 C--------------------------------------------------
 C BUFFER STORAGE
-C--------------------------------------------------
-
+C--------------------------------------------------     
       IGEO(4)  = NPT                                  
       IGEO(5)  = ISMSTR               
       IGEO(9)  = IPLAS-1                                       
@@ -339,23 +332,22 @@ C--------------------------------------------------
       IGEO(38) = IPARTSPH
       IGEO(39) = ID_SENS
       IGEO(62) = I_ALE_FLAG
-
+      
       GEO(14)  = QA
       GEO(15)  = QB
       GEO(16)  = VNS1
       GEO(17)  = VNS2
       GEO(172)= DTMIN
-
-
+      
 C--------------------------------------------------
 C LISTING OUTPUTS
 C--------------------------------------------------
 
       IF(.NOT.IS_ENCRYPTED)THEN
         IF(IGEO(31) == 1) THEN   
-          WRITE(IOUT,1100)IG,IHBE,ISMSTR,IPLAS,JCVT,ITET4,ITET10,ICPRE,ICSTR,CVIS,QA,QB,QH,VNS1,VNS2,DTMIN, ISTRAIN
+          WRITE(IOUT,1100)IG,IHBE,ISMSTR,I_ALE_FLAG,IPLAS,JCVT,ITET4,ITET10,ICPRE,ICSTR,CVIS,QA,QB,QH,VNS1,VNS2,DTMIN, ISTRAIN
         ELSE
-          WRITE(IOUT,1000)IG,IHBE,ISMSTR,IPLAS,JCVT,ITET4,ITET10,ICPRE,ICSTR,CVIS,QA,QB,QH,VNS1,VNS2,DTMIN, ISTRAIN
+          WRITE(IOUT,1000)IG,IHBE,ISMSTR,I_ALE_FLAG,IPLAS,JCVT,ITET4,ITET10,ICPRE,ICSTR,CVIS,QA,QB,QH,VNS1,VNS2,DTMIN, ISTRAIN
         ENDIF
           IF (IET > 0) WRITE(IOUT,2010) IET
           IF (NPT > 200) THEN
@@ -373,6 +365,11 @@ C--------------------------------------------------
       IF (ITET10 == 1000) ITET10 = 0
       IGEO(50) = ITET10
 
+C--------------------------------------------------
+C /ALE/CLOSE/<prop_id>
+C--------------------------------------------------
+      CALL HM_READ_ALE_CLOSE(UNITAB, LSUBMODEL, GEO)    !GEO(129) & GEO(130)
+      
 C--------------------------------------------------
 C SIZES FOR INITIALIZATION (lecgeo)
 C--------------------------------------------------
@@ -411,6 +408,7 @@ C---
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/,
      & 5X,'SOLID FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'SMALL STRAIN FLAG . . . . . . . . . . .=',I10/,
+     & 5X,'IALE FLAG (0:LAGRANGE,1:ALE,2:EULER). .=',I10/,       
      & 5X,'SOLID STRESS PLASTICITY FLAG. . . . . .=',I10/,
      & 5X,'COROTATIONAL SYSTEM FLAG. . . . . . . .=',I10/,
      & 5X,'TETRA4 FORMULATION FLAG. . . . .  . . .=',I10/,
@@ -439,6 +437,7 @@ C---
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/,
      & 5X,'SOLID FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'SMALL STRAIN FLAG . . . . . . . . . . .=',I10/,
+     & 5X,'IALE FLAG (0:LAGRANGE,1:ALE,2:EULER). .=',I10/,       
      & 5X,'SOLID STRESS PLASTICITY FLAG. . . . . .=',I10/,
      & 5X,'COROTATIONAL SYSTEM FLAG. . . . . . . .=',I10/,
      & 5X,'TETRA4 FORMULATION FLAG. . . . .  . . .=',I10/,
@@ -464,12 +463,9 @@ C---
      & 5X,'CORRESPONDING PART FOR SPH PARTICLES. .=',I10/,
      & 5X,'SENSOR TO ACTIVATE SPH PARTICLES ......=',I10/)
 C
-
-
-
-
-
       END SUBROUTINE HM_READ_PROP14
+
+
 Chd|====================================================================
 Chd|  HM_READ_PROP14F               source/properties/solid/hm_read_prop14.F
 Chd|-- called by -----------
@@ -484,7 +480,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_PROP14F(GEO,IGEO,PROP_TAG ,MULTI_FVM,IGTYP,IG,TITR,UNITAB,LSUBMODEL)
+      SUBROUTINE HM_READ_PROP14F(GEO,IGEO,PROP_TAG,MULTI_FVM,IGTYP,IG,TITR,UNITAB,LSUBMODEL)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -548,14 +544,7 @@ C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
-C EXTRACT DATA (IS OPTION ENCRYPTED)
-C--------------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
-C--------------------------------------------------
-C EXTRACT DATAS (INTEGER VALUES)
-C--------------------------------------------------
-C--------------------------------------------------
-C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
       CALL HM_GET_FLOATV('qa',QA,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('qb',QB,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -697,5 +686,4 @@ C---
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I8/,
      & 5X,'CONFIDENTIAL DATA'//)
 C
-
       END SUBROUTINE HM_READ_PROP14F
