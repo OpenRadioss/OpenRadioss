@@ -963,7 +963,7 @@ C
      B        NINDX      ,XREFC      ,XREFTG     ,XREFS     ,MSSA     ,
      C        SH3TRIM    ,ISUBSTACK  ,BUFMAT     ,IPM       ,STACK    ,
      D        RNOISE     ,STRC       ,STRTG      ,PERTURB   ,NEL      ,
-     E        GROUP_PARAM_TAB(NG))
+     E        GROUP_PARAM_TAB(NG)    ,IGTYP)
 C
        ELSE
 C Element types

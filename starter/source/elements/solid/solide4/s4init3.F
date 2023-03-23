@@ -300,7 +300,7 @@ c
       AIRE(:) = ZERO
       CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AIRE, 
-     .     VOLU, DTX ,IGEO)
+     .     VOLU, DTX ,IGEO,IGTYP)
 C------------------------------------------
 c
       DO 10 I=LFT,LLT

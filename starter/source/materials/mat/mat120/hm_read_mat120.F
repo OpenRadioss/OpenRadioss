@@ -229,21 +229,21 @@ c
       UPARAM(33) = C12            
 c
       UPARAM(34) = THICK ! For connect element  (type43)
-      ITABLE(1) = YTAB_ID     ! Yield function table = f(epsp,epsdot,temp)
+      ITABLE(1)  = YTAB_ID     ! Yield function table = f(epsp,epsdot,temp)
 c------------------
       PM(1)  = RHOR
       PM(89) = RHO0
       PM(27) = SSP
       PM(100)= BULK      
 c--------------------------------
-      PARMAT(1)  = C11
+      PARMAT(1)  = BULK
       PARMAT(2)  = E
       PARMAT(3)  = NU
       PARMAT(4)  = ISRATE
       PARMAT(5)  = FCUT
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = TWO*G/(C11+FOUR_OVER_3*G) ! == (1-2*nu)/(1-nu)
+      PARMAT(17) = TWO*G/(BULK+FOUR_OVER_3*G) ! == (1-2*nu)/(1-nu)
 c-----------------
 c     Element buffer variable allocation
 c-----------------

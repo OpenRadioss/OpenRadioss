@@ -244,9 +244,10 @@ C--------------------------------------------------
      .       +NUMELX+NFT
      
       AIRE(:) = ZERO
+      IGTYP = IPARG(38)
       CALL DTMAIN(GEO       ,PM        ,IPM         ,NGEO    ,MXT     ,FV    ,
      .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AIRE, 
-     .     GBUF%VOL, DTX, IGEO)
+     .     GBUF%VOL, DTX, IGEO,IGTYP)
 
        DO I=LFT,LLT
          DTELEM(NDEPAR+I)=DTX(I)

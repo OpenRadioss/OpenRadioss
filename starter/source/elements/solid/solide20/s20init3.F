@@ -251,7 +251,7 @@ C----------------------------------------
           AIRE(:) = ZERO
           CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .         LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
-     .         GBUF%VOL, DTX       , IGEO)
+     .         GBUF%VOL, DTX       , IGEO,IGTYP)
 C----------------------------------------
 c         INITIALISATION DES MASSES
 C
@@ -297,7 +297,7 @@ C------------------------------------------
       AIRE(:) = ZERO
       CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
-     .     GBUF%VOL, DTX        , IGEO )
+     .     GBUF%VOL, DTX        , IGEO,IGTYP )
 c
       CALL S20MASS3(
      1     MASS        ,MAS,PARTSAV,IPARTS(NF1),MSS(1,NF1),GBUF%VOL   ,

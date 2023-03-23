@@ -451,7 +451,7 @@ C
       AIRE(:) = ZERO
       CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AIRE, 
-     .     GBUF%VOL, DTX, IGEO)
+     .     GBUF%VOL, DTX, IGEO,IGTYP)
 c
       CALL S16MASS3(
      1        MASS         ,MAS,PARTSAV,IPARTS(NF1),MSS(1,NF1),VOLG,

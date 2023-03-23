@@ -64,7 +64,7 @@ Chd|====================================================================
      B                   NINDX  ,XREFC  ,XREFTG ,XREFS   ,MSSA  ,
      C                   SH3TRIM,ISUBSTACK,BUFMAT,IPM    ,STACK ,
      D                   RNOISE ,STRC  ,STRTG   ,PERTURB ,NEL   ,
-     E                   GROUP_PARAM)
+     E                   GROUP_PARAM   ,IGTYP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -93,6 +93,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NVC, IHBE, ISOLNOD, NDDIM, ILEV,NRIG_MAT,NUMEL,
      .        NINDX,ISUBSTACK,NEL
+      INTEGER ,INTENT(IN) :: IGTYP
       INTEGER IXC(NIXC,*),IXS(NIXS,*),IXTG(NIXTG,*),IXS10(6,*),
      .        IPARTS(*),IPARTC(*),IPARTT(*),IGEO(NPROPGI,*),
      .        NSHNOD(*), SH4TREE(KSH4TREE,*), SH3TREE(*),
@@ -111,7 +112,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IGTYP, NDEPAR, NDSA,NC(20),N,JJ,KK,J,K,IP,NF1,NF2,
+      INTEGER I,  NDEPAR, NDSA,NC(20),N,JJ,KK,J,K,IP,NF1,NF2,
      .   ILAW,IMAT,IPROP,IE,IBID(MVSIZ),NREFSTA
       INTEGER NC10(MVSIZ,10)
       INTEGER, DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4,IX5,IX6,IX7,IX8,MXT,PID,NGL
@@ -211,7 +212,8 @@ C
         ENDIF                   
 C
         CALL DTMAIN(GEO  ,PM   ,VOID  ,PID   ,MXT   ,VOID  ,
-     .              VOID ,VOID ,VOID  ,VOID  ,VOID  ,BUFMAT, DDELTAX, AREA, VOLU, DTX, IGEO)
+     .              VOID ,VOID ,VOID  ,VOID  ,VOID  ,BUFMAT, 
+     .              DDELTAX, AREA, VOLU, DTX, IGEO,IGTYP)
 C
         DO I=1,NEL
          DTELEM(NFT+I)=DTX(I)
@@ -360,7 +362,7 @@ C
 C  
 C Element time step
         CALL DTMAIN(GEO  ,PM   ,VOID  ,PID   ,MXT   ,VOID  ,  
-     .              VOID ,VOID ,VOID  ,VOID  ,VOID  ,BUFMAT, DDELTAX, AREA, VOLU, DTX , IGEO)  
+     .              VOID ,VOID ,VOID  ,VOID  ,VOID  ,BUFMAT, DDELTAX, AREA, VOLU, DTX , IGEO,IGTYP)  
 C
         DO  I=1,NEL
           N = I + NFT

@@ -244,7 +244,7 @@ C------------------------------------------
       AIRE(:) = ZERO
       CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .     LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
-     .     VOLU, DTX , IGEO)
+     .     VOLU, DTX , IGEO,IGTYP)
 C----------------------------------------
 C     INITIALISATION DES MASSES
 C----------------------------------------

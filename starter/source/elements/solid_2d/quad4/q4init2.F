@@ -335,7 +335,7 @@ C      CALCUL DES DT ELEMENTAIRES
 C-------------------------------------------
        CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AREA, 
-     .     GBUF%VOL, DTX, IGEO)
+     .     GBUF%VOL, DTX, IGEO,IGTYP)
        DO 10 I=LFT,LLT
         IF(IXQ(6,I+NFT)/=0) THEN
           IF(IGTYP/=0 .AND. IGTYP/=6 .AND.

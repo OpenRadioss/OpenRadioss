@@ -357,7 +357,7 @@ C         moyene density,sig,...---
           AIRE(:) = ZERO
           CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .         LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
-     .         VOLU, DTX , IGEO)
+     .         VOLU, DTX , IGEO,IGTYP)
 C
           CALL SVALUE0(
      .         LBUF%RHO,LBUF%VOL,LBUF%OFF,LBUF%SIG,LBUF%EINT,DTX,
@@ -397,7 +397,7 @@ C Element time step
         AIRE(:) = ZERO
         CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .       LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
-     .       VOLU, DTX, IGEO)
+     .       VOLU, DTX, IGEO,IGTYP)
 C------------------------------------------
        IF(IGTYP == 22) THEN
         DO I=1,NEL
