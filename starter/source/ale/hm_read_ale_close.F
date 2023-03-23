@@ -80,9 +80,9 @@ C-----------------------------------------------
       RETURN
 C-----------------------------------------------
  2010 FORMAT(
-     & 5X,'    ELEMENT CLOSURE  ',/,
-     & 5X,'    ---------------  ',/,
+     & 5X,'    ALE ELEMENT CLOSURE  ',/,
+     & 5X,'    -------------------  ',/,
      & 5X,'MAXIMUM LENGTH FOR ACTIVATION . . . . .=',1PG20.13/,
-     & 5X,'MAXIMUM LENGTH FOR RESISTANCE . . . . .=',1PG20.13//)
+     & 5X,'MAXIMUM LENGTH FOR RESISTANCE . . . . .=',1PG20.13/)
 C-----------------------------------------------
       END SUBROUTINE HM_READ_ALE_CLOSE

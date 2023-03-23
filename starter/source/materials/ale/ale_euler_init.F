@@ -31,7 +31,7 @@ Chd|        NINTRI                        source/system/nintrr.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE ALE_EULER_INIT(MLAW_TAG,IPM,PM, IGEO,TITR,TITR1,TITR2,IGTYP,ID,ILAW,MID,IMID,PID,IPID)
+      SUBROUTINE ALE_EULER_INIT(MLAW_TAG,IPM,PM, IGEO,TITR,TITR1,TITR2,IGTYP,ID,ILAW,MID,IMID,PID,IPID,JALE_FROM_PROP,JALE_FROM_MAT)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -67,14 +67,14 @@ C-----------------------------------------------
       CHARACTER*nchartitle,INTENT(IN) :: TITR,TITR1,TITR2
       INTEGER,INTENT(INOUT)::IGEO(NPROPGI,NUMGEO)      
       INTEGER,INTENT(IN) :: ID,IMID,PID,IPID,IGTYP,ILAW
-      INTEGER,INTENT(INOUT) :: MID
+      INTEGER,INTENT(INOUT) :: MID,JALE_FROM_PROP,JALE_FROM_MAT
       INTEGER, DIMENSION(NPROPMI,NUMMAT), INTENT(INOUT) :: IPM
       my_real, DIMENSION(NPROPM,NUMMAT), INTENT(INOUT) :: PM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II,uID1,uID2,MID1,MID2,ILAW1,ILAW2,JALE,JTUR,IMAT,MAT_ID,IGFLU
-      INTEGER JTHE,STAT,JALE_FROM_MAT,JALE_FROM_PROP,CODCONV,CODREZO
+      INTEGER JTHE,STAT,CODCONV,CODREZO
       INTEGER,EXTERNAL :: NINTRI   
       CHARACTER*5 CHAR_PROP,CHAR_MAT   
 C-----------------------------------------------
