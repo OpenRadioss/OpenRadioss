@@ -148,7 +148,7 @@ C--     Counting and storing parts id --
             DO WHILE (J<=LEN_TRIM(CARTE))
                IF(CARTE(J:J)/=' ') THEN
                  K=J
-                 DO WHILE(CARTE(K:K)/=' '.AND.K<=LEN_TRIM(CARTE))
+                 DO WHILE(CARTE(K:K)/=' '.AND.CARTE(K:K)/=CHAR(13).AND.K<=LEN_TRIM(CARTE))
                    K=K+1
                  ENDDO
                  NPRT = NPRT + 1
