@@ -39,7 +39,7 @@ C-----------------------------------------------
 #include      "my_real.inc"
 C-----------------------------------------------
         TYPE ALEMUSCL_BUFFER_    
-          my_real, DIMENSION(:, :), ALLOCATABLE :   : VOLUME_FRACTION
+          my_real, DIMENSION(:, :), ALLOCATABLE    :: VOLUME_FRACTION
           my_real, DIMENSION(:, :), ALLOCATABLE    :: NODE_MAX_VALUE, NODE_MIN_VALUE
           my_real, DIMENSION(:, :, :), ALLOCATABLE :: GRAD
           my_real, DIMENSION(:, :), ALLOCATABLE    :: ELCENTER
