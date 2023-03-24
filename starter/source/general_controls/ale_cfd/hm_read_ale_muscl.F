@@ -65,8 +65,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------     
-      INTEGER :: NALEMUSCL
+      INTEGER :: NALEMUSCL,IALEMUSCL
       LOGICAL :: IS_AVAILABLE
+      my_real :: BETA
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------       
@@ -75,33 +76,37 @@ C-----------------------------------------------
       IF (NALEMUSCL > 0) THEN
          CALL HM_OPTION_START('/ALE/MUSCL')
          CALL HM_OPTION_NEXT()
-         CALL HM_GET_FLOATV('ALE_MUSCL_BETA', ALEMUSCL_Param%I_BETA, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         CALL HM_GET_INTV('MAT_Iflag', ALEMUSCL_Param%IALEMUSCL, IS_AVAILABLE, LSUBMODEL)
+         CALL HM_GET_FLOATV('ALE_MUSCL_BETA', BETA, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         CALL HM_GET_INTV('MAT_Iflag', IALEMUSCL, IS_AVAILABLE, LSUBMODEL)
          
-         !---default I_BETA
-         IF (ALEMUSCL_Param%I_BETA == ZERO) THEN
-            ALEMUSCL_Param%I_BETA = TWO
+         !---default BETA
+         IF (BETA == ZERO) THEN
+           BETA = TWO
          ENDIF
 
          !---default IALEMUSCL
-         IF (ALEMUSCL_Param%IALEMUSCL == 0) THEN
-            ALEMUSCL_Param%IALEMUSCL = 1
-         ELSEIF (ALEMUSCL_Param%IALEMUSCL == 1) THEN
-            ALEMUSCL_Param%IALEMUSCL = 2
-         ELSEIF (ALEMUSCL_Param%IALEMUSCL < -1 .OR. ALEMUSCL_Param%IALEMUSCL >= 2) THEN
-            ALEMUSCL_Param%IALEMUSCL = 1
+         IF (IALEMUSCL == 0) THEN
+           IALEMUSCL = 1
+         ELSEIF (IALEMUSCL == 1) THEN
+           IALEMUSCL = 2
+         ELSEIF (IALEMUSCL < -1 .OR. IALEMUSCL >= 2) THEN
+           IALEMUSCL = 1
          ENDIF
                   
          !---MUSCL off / disabled
-         IF(ALEMUSCL_Param%IALEMUSCL == -1)THEN
-           ALEMUSCL_Param%IALEMUSCL = 0
-           ALEMUSCL_Param%I_BETA = 1.0 ! was initialized this way in starter0.F beofre making MUSCL default formulation
+         IF(IALEMUSCL == -1)THEN
+           IALEMUSCL = 0
+           BETA = TWO
            NALEMUSCL=0
          ENDIF
          
+         ALEMUSCL_Param%IALEMUSCL = IALEMUSCL
+         ALEMUSCL_Param%Beta = BETA
+         
          IF (IRESP == 1) THEN
-! Not available in single precision
+            ! Not available in single precision
             CALL ANCMSG(MSGID = 1563, ANMODE = ANINFO, MSGTYPE = MSGERROR)
          ENDIF
       ENDIF
+C-----------------------------------------------
       END SUBROUTINE HM_READ_ALE_MUSCL

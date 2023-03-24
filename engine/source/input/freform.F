@@ -1800,7 +1800,7 @@ C-----------------------
           ELSEIF(KEY3(1:2)=='ON')THEN
               ALEMUSCL_Param%I_MUSCL_OFF = 0
               ALEMUSCL_Param%IALEMUSCL = 1
-              ALEMUSCL_Param%I_BETA = TWO
+              ALEMUSCL_Param%BETA = TWO
           ELSE
             GOTO 9990
           ENDIF

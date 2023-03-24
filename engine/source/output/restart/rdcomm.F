@@ -1435,7 +1435,7 @@ C MUSCL keyword, compression parameter beta
       ALEMUSCL_Param%IALEMUSCL = TABVINT(NEXT)
       ALEMUSCL_PAram%IALEMUSCL = ALEMUSCL_Param%IALEMUSCL * (1-ALEMUSCL_Param%I_MUSCL_OFF) !/ALE/MUSCL/OFF : freform.F
       NEXT                     = NEXT + 1
-      ALEMUSCL_Param%I_BETA    = TABVINT(NEXT)
+      ALEMUSCL_Param%BETA      = TABVINT(NEXT)
       NEXT                     = NEXT + 1
       ALEMUSCL_Param%I_LAW     = TABVINT(NEXT)
 C ITETRA=3
@@ -1537,7 +1537,7 @@ C SMS auto switch
       MULTI_FVM%IS_USED = .FALSE.
       IF (ISUSED == 1) THEN
          MULTI_FVM%IS_USED = .TRUE.
-         MULTI_FVM%BETA = ALEMUSCL_Param%I_BETA
+         MULTI_FVM%BETA = ALEMUSCL_Param%BETA
       ENDIF
       NEXT = NEXT + 1
       ISUSED = TABVINT(NEXT)

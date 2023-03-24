@@ -45,8 +45,8 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF (MYQAKEY('/ALE/MUSCL')) THEN
 C              
-        WRITE(VARNAME,'(A)') 'I_BETA'
-        TEMP_DOUBLE = ALEMUSCL_Param%I_BETA
+        WRITE(VARNAME,'(A)') 'BETA'
+        TEMP_DOUBLE = ALEMUSCL_Param%BETA
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 C
         WRITE(VARNAME,'(A)') 'IALEMUSCL'

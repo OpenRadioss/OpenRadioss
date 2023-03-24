@@ -38,22 +38,22 @@ C-----------------------------------------------
         IMPLICIT NONE
 #include      "my_real.inc"
 C-----------------------------------------------
-        TYPE ALEMUSCL_BUFFER_t     
-          my_real, DIMENSION(:, :), ALLOCATABLE :: VOLUME_FRACTION
-          my_real, DIMENSION(:, :), ALLOCATABLE :: NODE_MAX_VALUE, NODE_MIN_VALUE
+        TYPE ALEMUSCL_BUFFER_    
+          my_real, DIMENSION(:, :), ALLOCATABLE :   : VOLUME_FRACTION
+          my_real, DIMENSION(:, :), ALLOCATABLE    :: NODE_MAX_VALUE, NODE_MIN_VALUE
           my_real, DIMENSION(:, :, :), ALLOCATABLE :: GRAD
-          my_real, DIMENSION(:, :), ALLOCATABLE :: ELCENTER
-          INTEGER, POINTER, DIMENSION(:) :: pCNEL, pADDCNEL, pADDTMPL
+          my_real, DIMENSION(:, :), ALLOCATABLE    :: ELCENTER
+          INTEGER, POINTER, DIMENSION(:)           :: pCNEL, pADDCNEL, pADDTMPL
         END TYPE
       
-        TYPE ALEMUSCL_PARAM_t
-          INTEGER           IALEMUSCL
-          REAL              I_BETA
-          INTEGER           I_LAW
-          INTEGER           I_MUSCL_OFF      
+        TYPE ALEMUSCL_PARAM_
+          my_real  BETA
+          INTEGER  IALEMUSCL
+          INTEGER  I_LAW
+          INTEGER  I_MUSCL_OFF      
         END TYPE
       
-        TYPE(ALEMUSCL_BUFFER_t) :: ALEMUSCL_Buffer
-        TYPE(ALEMUSCL_PARAM_t) :: ALEMUSCL_Param
+        TYPE(ALEMUSCL_BUFFER_) :: ALEMUSCL_Buffer !Cell data
+        TYPE(ALEMUSCL_PARAM_)  :: ALEMUSCL_Param  !global parameters
       
       END MODULE ALEMUSCL_MOD

@@ -1124,7 +1124,7 @@ C----------------------------------------
              IF(MULTI_FVM%LOWMACH_OPT)
      .       WRITE(IOUT,1004)
              IF(ALEMUSCL_Param%IALEMUSCL/=0)
-     .       WRITE(IOUT,1005)ALEMUSCL_Param%I_BETA
+     .       WRITE(IOUT,1005)ALEMUSCL_Param%BETA
            ENDIF
            WRITE(IOUT,1006) DTFAC1(102),DTMIN1(102)
            WRITE(IOUT,1007)Label9
