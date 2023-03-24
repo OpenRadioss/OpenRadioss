@@ -35,6 +35,7 @@ Chd|        INTER_DCOD_FUNCTION           source/interfaces/reader/inter_dcod_fu
 Chd|        INTER_DCOD_SENSOR             source/interfaces/reader/inter_dcod_sensor.F
 Chd|        NGR2USR                       source/system/nintrr.F        
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   

@@ -156,7 +156,6 @@ Chd|        ALEMUSCL_UPWIND2              engine/source/ale/alemuscl/alemuscl_up
 Chd|        ALETHE                        engine/source/ale/alethe.F    
 Chd|        DELTAX22                      engine/source/interfaces/int22/deltax22.F
 Chd|        DESTROY_CELL                  engine/source/interfaces/int22/destroy_cell.F
-Chd|        DFUNCS                        engine/source/output/anim/generate/dfunc6.F
 Chd|        EFLUX3                        engine/source/ale/euler3d/eflux3.F
 Chd|        EFLUX3_INT22_FVM              engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
 Chd|        H3D_VELVECC22                 engine/source/output/h3d/h3d_results/h3d_velvecc22.F

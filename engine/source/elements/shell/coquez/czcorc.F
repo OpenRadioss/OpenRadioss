@@ -28,9 +28,6 @@ Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
 Chd|-- calls ---------------
 Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
 Chd|        CORTDIR3                      source/elements/shell/coque/cortdir3.F
-Chd|        CZCORP4                       source/elements/shell/coquez/czcorc.F
-Chd|        CZCORP4V                      source/elements/shell/coquez/czcorc.F
-Chd|        CZCORP4X                      source/elements/shell/coquez/czcorc.F
 Chd|        CZCORP5                       source/elements/shell/coquez/czcorc.F
 Chd|        CZCORP5V                      source/elements/shell/coquez/czcorc.F
 Chd|        CZCORP5X                      source/elements/shell/coquez/czcorc.F
@@ -762,7 +759,6 @@ C
 Chd|====================================================================
 Chd|  CZCORP4V                      source/elements/shell/coquez/czcorc.F
 Chd|-- called by -----------
-Chd|        CZCORC1                       source/elements/shell/coquez/czcorc.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CZCORP4V(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,
@@ -988,7 +984,6 @@ C
 Chd|====================================================================
 Chd|  CZCORP4                       source/elements/shell/coquez/czcorc.F
 Chd|-- called by -----------
-Chd|        CZCORC1                       source/elements/shell/coquez/czcorc.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CZCORP4(JFT    ,JLT    ,VR      ,NPT    ,TOL    ,
@@ -1215,7 +1210,6 @@ C
 Chd|====================================================================
 Chd|  CZCORP4X                      source/elements/shell/coquez/czcorc.F
 Chd|-- called by -----------
-Chd|        CZCORC1                       source/elements/shell/coquez/czcorc.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CZCORP4X(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,

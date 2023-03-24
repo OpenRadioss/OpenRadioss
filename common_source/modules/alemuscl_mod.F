@@ -24,16 +24,13 @@ Chd|====================================================================
 Chd|  ALEMUSCL_MOD                  modules/alemuscl_mod.F        
 Chd|-- called by -----------
 Chd|        ALE51_GRADIENT_RECONSTRUCTION engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
-Chd|        ALEMUSCL_DEALLOCATE           engine/source/ale/alemuscl/alemuscl_deallocate.F
 Chd|        ALEMUSCL_UPWIND               engine/source/ale/alemuscl/alemuscl_upwind.F
-Chd|        ALEMUSCL_UPWIND2              engine/source/ale/alemuscl/alemuscl_upwind2.F
 Chd|        GRADIENT_LIMITATION           engine/source/ale/alemuscl/gradient_limitation.F
 Chd|        GRADIENT_LIMITATION2          engine/source/ale/alemuscl/gradient_limitation2.F
 Chd|        GRADIENT_RECONSTRUCTION       engine/source/ale/alemuscl/gradient_reconstruction.F
 Chd|        GRADIENT_RECONSTRUCTION2      engine/source/ale/alemuscl/gradient_reconstruction2.F
 Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
-Chd|        ALE51_GRADIENT_RECONSTRUCTION2engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE ALEMUSCL_MOD

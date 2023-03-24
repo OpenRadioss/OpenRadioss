@@ -47,6 +47,8 @@ Chd|        FILLCNI2                      starter/source/spmd/domdec2.F
 Chd|        FILL_INTERCEP                 starter/source/spmd/node/ddtools.F
 Chd|        FILTER_NODE_NODLOC            starter/source/restart/ddsplit/inter_tools.F
 Chd|        FXBTAGN                       starter/source/constraints/fxbody/fxbtagn.F
+Chd|        HM_READ_INTER_TYPE21          starter/source/interfaces/int21/hm_read_inter_type21.F
+Chd|        HM_READ_INTER_TYPE25          starter/source/interfaces/int25/hm_read_inter_type25.F
 Chd|        I11EDGE                       starter/source/interfaces/inter3d1/i11edge.F
 Chd|        I20INI3                       starter/source/interfaces/inter3d1/i20ini3.F
 Chd|        I20STA                        starter/source/interfaces/inter3d1/inintr2.F
@@ -168,6 +170,7 @@ Chd|        UPGRADE_REMNODE2              starter/source/interfaces/interf1/upgr
 Chd|        UPGRADE_REMNODE_E2S           starter/source/interfaces/interf1/upgrade_remnode.F
 Chd|        UPGRADE_REMNODE_EDG           starter/source/interfaces/interf1/upgrade_remnode.F
 Chd|        UPGRADE_REMNODE_EDG2          starter/source/interfaces/interf1/upgrade_remnode.F
+Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
 Chd|        W_FI                          starter/source/restart/ddsplit/w_fi.F
 Chd|        W_FRONT                       starter/source/restart/ddsplit/w_front.F
 Chd|        W_INTBUF_SIZE                 starter/source/restart/ddsplit/inter_tools.F
@@ -430,6 +433,7 @@ Chd|        NDDLI_NS                      engine/source/mpi/implicit/imp_fri.F
 Chd|        NL_SOLV                       engine/source/implicit/nl_solv.F
 Chd|        PRINTIME_INTERF               engine/source/system/timer_interf.F
 Chd|        PRINT_STIF                    engine/source/implicit/imp_solv.F
+Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
 Chd|        RECUKIN                       engine/source/implicit/recudis.F
 Chd|        RER02                         engine/source/implicit/upd_glob_k.F
 Chd|        RER_INT_V                     engine/source/implicit/upd_glob_k.F
@@ -490,6 +494,7 @@ Chd|        UPD_KML                       engine/source/mpi/implicit/imp_fri.F
 Chd|        UPD_KSL                       engine/source/mpi/implicit/imp_fri.F
 Chd|        UPD_RHS                       engine/source/implicit/upd_glob_k.F
 Chd|        UPD_RHS_FR                    engine/source/implicit/imp_solv.F
+Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
 Chd|        WRITE_INTBUF                  engine/source/output/restart/write_intbuf.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|        IMP_INTBUF                    engine/share/modules/imp_mod_def.F

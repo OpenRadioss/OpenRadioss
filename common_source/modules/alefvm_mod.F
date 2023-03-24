@@ -36,7 +36,6 @@ Chd|        ALEFVM_FRESET                 engine/source/ale/alefvm/alefvm_freset
 Chd|        ALEFVM_GRAVITY                engine/source/ale/alefvm/alefvm_gravity.F
 Chd|        ALEFVM_GRAVITY_INT22          engine/source/ale/alefvm/alefvm_gravity_int22.F
 Chd|        ALEFVM_GRAV_INIT              engine/source/ale/alefvm/alefvm_grav_init.F
-Chd|        ALEFVM_INIT                   engine/source/ale/alefvm/alefvm_init.F
 Chd|        ALEFVM_MAIN                   engine/source/ale/alefvm/alefvm_main.F
 Chd|        ALEFVM_SCHEME                 engine/source/ale/alefvm/alefvm_scheme.F
 Chd|        ALEFVM_SFINT3                 engine/source/ale/alefvm/alefvm_sfint3.F
@@ -49,7 +48,7 @@ Chd|        DFUNC0                        engine/source/output/anim/generate/dfu
 Chd|        DFUNCS                        engine/source/output/anim/generate/dfunc6.F
 Chd|        EFLUX3_INT22_FVM              engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
 Chd|        H3D_QUAD_VECTOR               engine/source/output/h3d/h3d_results/h3d_quad_vector.F
-Chd|        H3D_SHELL_VECTOR_1            engine/source/output/h3d/h3d_results/h3d_shell_vector_1.F
+Chd|        M11LAW                        engine/source/materials/mat/mat011/m11law.F
 Chd|        M11VS2                        engine/source/materials/mat/mat011/m11vs2.F
 Chd|        M11VS3                        engine/source/materials/mat/mat011/m11vs3.F
 Chd|        MULTI_TIMEEVOLUTION           engine/source/multifluid/multi_timeevolution.F
