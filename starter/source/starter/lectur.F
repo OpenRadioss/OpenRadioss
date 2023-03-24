@@ -3225,6 +3225,7 @@ C- Isogeometric Elements
 C
 C       fill, 1st level surfaces
         FLAGG = 1
+        INSEG = 0
         CALL HM_READ_SURF(
      1       ITAB      ,ITABM1    ,
      2       IGRSURF   ,IXS       ,IXQ       ,IXC       ,IXT       ,
