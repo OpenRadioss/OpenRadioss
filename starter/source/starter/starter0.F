@@ -310,7 +310,7 @@ C ITESTV Format   [Version][YY][MM][DD]
 C MUSCL Activation
       ALEMUSCL_Param%IALEMUSCL = 1
 C MUSCL compression coefficient, default value set to 1.
-      ALEMUSCL_Param%I_BETA = TWO
+      ALEMUSCL_Param%BETA = TWO
       RATIO22 = ONE + TEN/HUNDRED
       RADIOSSV = 100090402
       IFLEXPIPE = 1

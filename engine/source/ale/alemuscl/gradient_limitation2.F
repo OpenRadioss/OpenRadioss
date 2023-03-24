@@ -89,11 +89,11 @@ C-----------------------------------------------
                   IF (VALNODE - ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT) > ZERO) THEN
                      nodal_reduc_factor = 
      .                    MIN((ALEMUSCL_Buffer%NODE_MAX_VALUE(NODE_ID,ITRIMAT) - ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT))
-     .                    / (VALNODE - ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)), ALEMUSCL_Param%I_BETA)
+     .                    / (VALNODE - ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)), ALEMUSCL_Param%BETA)
                   ELSE IF (VALNODE - ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT) < ZERO) THEN
                      nodal_reduc_factor = 
      .                    MIN((ALEMUSCL_Buffer%NODE_MIN_VALUE(NODE_ID,ITRIMAT) - ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)) 
-     .                    / (VALNODE - ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)), ALEMUSCL_Param%I_BETA)
+     .                    / (VALNODE - ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)), ALEMUSCL_Param%BETA)
                   ENDIF
                   reduc_factor(ITRIMAT) = MIN(reduc_factor(ITRIMAT), nodal_reduc_factor)
                ENDDO  ! JJ = 1, 8

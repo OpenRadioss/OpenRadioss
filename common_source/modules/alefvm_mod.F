@@ -65,14 +65,14 @@ C-----------------------------------------------
 #include      "my_real.inc"
 C-----------------------------------------------
 
-        TYPE ALEFVM_BUFFER_t
+        TYPE ALEFVM_BUFFER_
           my_real, DIMENSION(:)    , ALLOCATABLE :: WFEXT_CELL
           my_real, DIMENSION(:,:)  , ALLOCATABLE :: FCELL, FEXT_CELL
           my_real, DIMENSION(:,:)  , ALLOCATABLE :: VERTEX, FINT_CELL      
           my_real, DIMENSION(:,:,:), ALLOCATABLE :: F_FACE
-        END TYPE ALEFVM_BUFFER_t
+        END TYPE ALEFVM_BUFFER_
         
-        TYPE ALEFVM_PARAM_t
+        TYPE ALEFVM_PARAM_
           INTEGER IEnabled     
           INTEGER ISOLVER
           INTEGER IOUTP
@@ -89,9 +89,9 @@ C-----------------------------------------------
           INTEGER IWFEXT
           INTEGER IPRINT_1
           INTEGER IPRINT_2                
-        END TYPE ALEFVM_PARAM_t
+        END TYPE ALEFVM_PARAM_
         
-        TYPE(ALEFVM_BUFFER_t),TARGET :: ALEFVM_Buffer
-        TYPE(ALEFVM_PARAM_t),TARGET :: ALEFVM_Param      
+        TYPE(ALEFVM_BUFFER_),TARGET :: ALEFVM_Buffer
+        TYPE(ALEFVM_PARAM_),TARGET :: ALEFVM_Param      
       
       END MODULE ALEFVM_MOD
