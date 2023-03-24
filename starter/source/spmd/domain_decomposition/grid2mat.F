@@ -472,8 +472,8 @@ C-----------------------------------------------
 C additional test for barrier
         MID = ABS(IXS(1,II))
         PID = ABS(IXS(10,II))
-        JALE_FROM_MAT = NINT(PM(72,MID))
-        JALE_FROM_PROP = IGEO(62,PID)
+        JALE_FROM_MAT = NINT(PM(72,MID)) !old way to enable ALE/EULER framework (backward compatibility)
+        JALE_FROM_PROP = IGEO(62,PID)    !new way to enable ALE/EULER framework
         JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if inconsistent, error message was displayed in PART reader
         MLN = NINT(PM(19,MID))
         IF(JALE==0.AND.(MLN==28.OR.MLN==68))THEN
@@ -854,8 +854,10 @@ C if FSI
           NB_ELEM_ALE = 0
           DO I = 1, NUMELS
             MID = ABS(IXS(1,I))
-            JALE = NINT(PM(72,MID))
-            MLN = NINT(PM(19,MID))
+            PID = ABS(IXS(10,I))
+            JALE_FROM_MAT = NINT(PM(72,MID)) !old way to enable ALE/EULER framework (backward compatibility)
+            JALE_FROM_PROP = IGEO(62,PID)    !new way to enable ALE/EULER framework
+            JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if inconsistent, error message was displayed in PART reader            MLN = NINT(PM(19,MID))
             IF(JALE==0.AND.MLN/=18)THEN
 
             ELSE
@@ -952,8 +954,12 @@ C
         COST_R2R = ZERO
         DO I=1,NELEM
           SCAL = ONE
-          IF (I<=NUMELS) THEN
-              JALE = NINT(PM(72,MID))
+          IF (I<=NUMELS) THEN             
+              MID = ABS(IXS(1,I))
+              PID = ABS(IXS(10,I))
+              JALE_FROM_MAT = NINT(PM(72,MID)) !new way to enable ALE/EULER framework (backward compatibility)
+              JALE_FROM_PROP = IGEO(62,PID)    !old way to enable ALE/EULER framework
+              JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if inconsistent, error message was displayed in PART reader
               MLN = NINT(PM(19,MID))
               IF (JALE/=0) SCAL = 2.5
               IF (MLN==51) SCAL = 4.5
@@ -2048,7 +2054,10 @@ C poids interface deja calcul
           DO I = 1, NELEM
             IF(I<=NUMELS)THEN
               MID = ABS(IXS(1,I))
-              JALE = NINT(PM(72,MID))
+              PID = ABS(IXS(10,I))
+              JALE_FROM_MAT = NINT(PM(72,MID)) !old way to enable ALE/EULER framework (backward compatibility)
+              JALE_FROM_PROP = IGEO(62,PID)    !new way to enable ALE/EULER framework
+              JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if inconsistent, error message was displayed in PART reader            MLN = NINT(PM(19,MID))              
               MLN = NINT(PM(19,MID))
               IF(JALE==0.AND.MLN/=18)THEN
                 IWD(NCOND*(I-1)+ICELEM) = NINT(WD(I)*100)

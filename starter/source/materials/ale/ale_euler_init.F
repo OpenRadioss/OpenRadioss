@@ -74,7 +74,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II,uID1,uID2,MID1,MID2,ILAW1,ILAW2,JALE,JTUR,IMAT,MAT_ID,IGFLU
-      INTEGER JTHE,STAT,CODCONV,CODREZO
+      INTEGER JTHE,STAT,CODCONV,CODREZO,IEXPAN
       INTEGER,EXTERNAL :: NINTRI   
       CHARACTER*5 CHAR_PROP,CHAR_MAT   
 C-----------------------------------------------
@@ -119,22 +119,20 @@ C-----------------------------------------------
         ELSE
           JALE_FROM_PROP = 0
         ENDIF
-        
-        !backward compatibility
-        IF(JALE_FROM_PROP >0)THEN
-          IF(JALE_FROM_MAT == 0)THEN
-            PM(72,IMID)=JALE_FROM_PROP
-          ENDIF
-        ENDIF
-        
+               
         !display error message if MATERIAL and PROPERTY have inconsistent definitions     
         IF(JALE_FROM_MAT > 0 .AND. JALE_FROM_PROP > 0)THEN
-          IF(JALE_FROM_MAT /= JALE_FROM_PROP)THEN
-            CALL ANCMSG(MSGID=130,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
-     .                I1=ID, C1=TITR,
-     .                I2=PID,C2=TITR1,C3=CHAR_PROP,
-     .                I3=MID,C4=TITR2,C5=CHAR_MAT )      
-          ENDIF
+         IF(ILAW==77)THEN
+             !law77 is not compatible with ALE or EULER framework
+             CALL ANCMSG(MSGID=1120,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=MID,C1=TITR2 )                        
+         ELSE
+           IF(JALE_FROM_MAT /= JALE_FROM_PROP)THEN
+             CALL ANCMSG(MSGID=130,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
+     .                   I1=ID, C1=TITR,
+     .                   I2=PID,C2=TITR1,C3=CHAR_PROP,
+     .                   I3=MID,C4=TITR2,C5=CHAR_MAT )      
+           ENDIF
+         ENDIF
         ENDIF        
         
         !################################################################!   !(14)'SOLID'     
@@ -197,6 +195,16 @@ C-----------------------------------------------
         ENDIF
         
         !################################################################!
+        !  /THERM/STRESS                                                 !
+        !################################################################!  
+        IEXPAN=IPM(218,IMID)
+        IF(IEXPAN > 0)THEN
+          IF(JALE_FROM_PROP>0 .OR. JALE_FROM_MAT>0)THEN
+             CALL ANCMSG(MSGID=1723,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMAT,C1=TITR)    
+          ENDIF       
+        ENDIF
+        
+        !################################################################!
         !  SOUND SPEED BUFFER  
         !################################################################!       
         IF(JALE_FROM_PROP > 0 .OR. JALE_FROM_MAT > 0)THEN               
@@ -230,7 +238,7 @@ C-----------------------------------------------
         ELSE
           ILAG=1                                       
         ENDIF   
-      
+              
         !################################################################!     
         !  UPWIND  (backward compatibility)
         !################################################################!         
