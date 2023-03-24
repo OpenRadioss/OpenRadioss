@@ -277,6 +277,7 @@ C---
             ISUBSTACK=IPARG(71,NG)
             ISEATBELT=IPARG(91,NG)
             LFT   = 1
+            IF(NEL > NVSIZ) STOP
             LLT   = MIN(NVSIZ,NEL)
             MTN   = MLW
             JFT=LFT

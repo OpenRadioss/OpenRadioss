@@ -309,6 +309,7 @@ C
         IF (ITY==1 .OR. ITY==2) JPLASOL=IPLA
 C---------------------------------
         LFT   = 1                  
+        IF(NEL > NVSIZ) STOP
         LLT   = MIN(NVSIZ,NEL)     
         MTN   = MLW                
         JFT=LFT                    
