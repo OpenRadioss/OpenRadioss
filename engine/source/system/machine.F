@@ -241,7 +241,6 @@ Chd|        UPDATE_STRUCT_INT21           source/interfaces/int21/update_struct_
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|        WRITE_CUT_CELL_BUFFER         source/interfaces/int22/write_cut_cell_buffer.F
 Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
 Chd|====================================================================
       SUBROUTINE MY_BARRIER
 #include     "implicit_f.inc"

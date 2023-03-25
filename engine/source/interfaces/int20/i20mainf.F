@@ -28,7 +28,9 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        I11CDCOR3                     source/interfaces/int11/i11cdcor3.F
+Chd|        I20COR3                       source/interfaces/int20/i20cor3.F
 Chd|        I20COR3E                      source/interfaces/int20/i20cor3.F
+Chd|        I20DST3                       source/interfaces/int20/i20dst3.F
 Chd|        I20DST3E                      source/interfaces/int20/i20cor3.F
 Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
 Chd|        I20FOR3C                      source/interfaces/int20/i20for3.F

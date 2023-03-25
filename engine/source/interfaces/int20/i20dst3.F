@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  I20DST3                       source/interfaces/int20/i20dst3.F
 Chd|-- called by -----------
+Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
 Chd|-- calls ---------------
 Chd|        I20CGAP0                      source/interfaces/int20/i20dst3.F
 Chd|        I20CGAP1                      source/interfaces/int20/i20dst3.F

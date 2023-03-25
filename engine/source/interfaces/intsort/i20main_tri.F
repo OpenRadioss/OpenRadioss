@@ -28,6 +28,7 @@ Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
+Chd|        I20BUCE                       source/interfaces/intsort/i20buce.F
 Chd|        I20BUC_EDGE                   source/interfaces/intsort/i20buce.F
 Chd|        I20XSAVE                      source/interfaces/intsort/i20xsave.F
 Chd|        I20XSINIR                     source/interfaces/intsort/i20main_tri.F
@@ -38,6 +39,7 @@ Chd|        SPMD_GET_INACTI7              source/mpi/interfaces/send_cand.F
 Chd|        SPMD_RNUMCD20                 source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_TRI20BOX                 source/mpi/interfaces/spmd_tri20box.F
 Chd|        SPMD_TRI20BOXE                source/mpi/interfaces/spmd_tri20boxe.F
+Chd|        SPMD_TRI20GAT                 source/mpi/interfaces/spmd_i7crit.F
 Chd|        SPMD_TRI20GATE                source/mpi/interfaces/spmd_i7crit.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         

@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  I20BUCE                       source/interfaces/intsort/i20buce.F
 Chd|-- called by -----------
+Chd|        I20MAIN_TRI                   source/interfaces/intsort/i20main_tri.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         

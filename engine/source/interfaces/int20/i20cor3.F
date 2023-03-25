@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  I20COR3                       source/interfaces/int20/i20cor3.F
 Chd|-- called by -----------
+Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
 Chd|-- calls ---------------
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_TRI20GAT                 source/mpi/interfaces/spmd_i7crit.F
 Chd|-- called by -----------
+Chd|        I20MAIN_TRI                   source/interfaces/intsort/i20main_tri.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         

@@ -265,7 +265,6 @@ Chd|        MULTI_MUSCL_GRADIENTS         source/multifluid/multi_muscl_gradient
 Chd|        MULTI_NRF_EBCS                source/multifluid/multi_nrf_ebcs.F
 Chd|        MULTI_SUBMATLAW               source/multifluid/multi_submatlaw.F
 Chd|        MULTI_TIMEEVOLUTION           source/multifluid/multi_timeevolution.F
-Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        NDOF_FV                       source/implicit/ind_glob_k.F  
 Chd|        PBLAST_1                      source/loads/pblast/pblast_1.F
 Chd|        PBLAST_2                      source/loads/pblast/pblast_2.F
