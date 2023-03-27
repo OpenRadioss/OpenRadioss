@@ -38,7 +38,8 @@ Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE ALE_EBCS_MOD
-
+        IMPLICIT NONE
+#include      "my_real.inc"
       INTEGER NEBCS   
 
       END MODULE ALE_EBCS_MOD

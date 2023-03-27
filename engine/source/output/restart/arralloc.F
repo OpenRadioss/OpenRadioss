@@ -89,6 +89,7 @@ C-----------------------------------------------
       USE SEGVAR_MOD 
       USE OUTMAX_MOD
       USE OUTPUTS_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -116,7 +117,6 @@ C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "sphcom.inc"
 #include      "thermal_c.inc"
-#include      "ale_param.inc"
 #include      "fxbcom.inc"
 #include      "eigcom.inc"
 #include      "inter18.inc"
@@ -224,15 +224,15 @@ C
         IF (IERR/=0) GOTO 1000
         GJBUFI = 0
 
-        ALLOCATE (ALE_CONNECTIVITY%NALE(SNALE),STAT=IERR)
+        ALLOCATE (ALE_CONNECTIVITY%NALE(ALE%GLOBAL%SNALE),STAT=IERR)
         IF (IERR/=0) GOTO 1000
-        ALE_CONNECTIVITY%NALE(1:SNALE) = 0  
+        ALE_CONNECTIVITY%NALE(1:ALE%GLOBAL%SNALE) = 0  
 
-        ALLOCATE (ID_GLOBAL_VOIS(SIELVS),STAT=IERR)
+        ALLOCATE (ID_GLOBAL_VOIS(ALE%GLOBAL%SIELVS),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         ID_GLOBAL_VOIS = 0 
 
-        ALLOCATE (FACE_VOIS(SIELVS),STAT=IERR)
+        ALLOCATE (FACE_VOIS(ALE%GLOBAL%SIELVS),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         FACE_VOIS = 0 
 
@@ -2133,7 +2133,7 @@ C
            ALLOCATE (ALEFVM_Buffer%VERTEX(4,NUMNOD)      ,STAT=IERR)
            IF (IERR /= 0) GOTO 1000
            ALEFVM_Buffer%VERTEX(:,:) = ZERO
-           ALLOCATE(MULTI_FVM%FVM_CONNECTIVITY%KVOIS(SIELVS), STAT = IERR)
+           ALLOCATE(MULTI_FVM%FVM_CONNECTIVITY%KVOIS(ALE%GLOBAL%SIELVS), STAT = IERR)
            IF (IERR /= 0) GOTO 1000
            MULTI_FVM%FVM_CONNECTIVITY%KVOIS = 0
         ENDIF
@@ -2211,7 +2211,7 @@ C------end shell pinching-------------------
 C-------TAG_SKINS6----------------------
          ALLOCATE(TAG_SKINS6(NUMELS),STAT=IERR)
 C-------ALE BUFFER----------------------
-         IF ((IALE > 0 .AND. NWALE_RST == 6) ) THEN
+         IF ((IALE > 0 .AND. ALE%GRID%NWALE_RST == 6) ) THEN
             SXCELL = NUMELS + NUMELQ + NE_NSVOIS + NE_NQVOIS
             ALLOCATE(XCELL(3, SXCELL),STAT=IERR)
             IF (IERR/=0) GOTO 1000
@@ -2377,6 +2377,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2452,9 +2453,9 @@ C   I28
 C   I29
         WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SGJBUFI : ',SGJBUFI
 C   I30
-        WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SNALE :   ',SNALE
+        WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SNALE :   ',ALE%GLOBAL%SNALE
 C   I31
-        WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SIELVS :  ',SIELVS
+        WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SIELVS :  ',ALE%GLOBAL%SIELVS
 C   I33
         WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SIFILL :  ',SIFILL
 C   I34

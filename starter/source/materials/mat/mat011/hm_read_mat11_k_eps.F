@@ -44,6 +44,8 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE ALEFVM_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +56,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr17_c.inc"
 #include      "param_c.inc"
-#include      "alesolver.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -109,7 +110,7 @@ C     Initial and reference density
       ENDIF
       PM(1) = RHOR
       PM(89) = RHO0 
-      IS_BOUNDARY_MATERIAL = .TRUE.
+      ALE%GLOBAL%IS_BOUNDARY_MATERIAL = .TRUE.
 C    
       CARL     = ZERO
       T0       = ZERO

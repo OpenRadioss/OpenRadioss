@@ -119,6 +119,7 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -154,7 +155,6 @@ C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "tabsiz_c.inc"
 #include      "task_c.inc"
-#include      "ale_param.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -254,7 +254,7 @@ C       WRITE(6,*) "ITAB = ",ITAB(1:SITAB)
 
         CALL READ_I_C(GJBUFI,SGJBUFI)
 
-        CALL READ_I_C(ALE_CONNECTIVITY%NALE,SNALE)
+        CALL READ_I_C(ALE_CONNECTIVITY%NALE,ALE%GLOBAL%SNALE)
 
         IF (IALE + IEULER + IALELAG + ITHERM /= 0) THEN
            CALL READ_I_C(ITMP, 1)
@@ -274,9 +274,9 @@ C       WRITE(6,*) "ITAB = ",ITAB(1:SITAB)
            CALL READ_I_C(ALE_CONNECTIVITY%ee_connect%iface2, ITMP)
         ENDIF
 
-        CALL READ_I_C(ID_GLOBAL_VOIS,SIELVS)
+        CALL READ_I_C(ID_GLOBAL_VOIS,ALE%GLOBAL%SIELVS)
 
-        CALL READ_I_C(FACE_VOIS,SIELVS)
+        CALL READ_I_C(FACE_VOIS,ALE%GLOBAL%SIELVS)
 
         IF(ALE_CONNECTIVITY%has_ne_connect) THEN
            CALL READ_I_C(NE_NERCVOIS, NSPMD + 1)
@@ -286,7 +286,7 @@ C       WRITE(6,*) "ITAB = ",ITAB(1:SITAB)
            ALLOCATE(NE_LESDVOIS(NE_NESDVOIS(NSPMD+1)))
            CALL READ_I_C(NE_LESDVOIS, NE_NESDVOIS(NSPMD+1))
         ENDIF
-        IF (IALE > 0 .AND. NWALE_RST >= 0) THEN
+        IF (IALE > 0 .AND. ALE%GRID%NWALE_RST >= 0) THEN
          IF(ALE_CONNECTIVITY%has_nn_connect)THEN
            ALLOCATE(ALE_CONNECTIVITY%NN_CONNECT%IAD_CONNECT(NUMNOD + 1))
            CALL READ_I_C(ALE_CONNECTIVITY%NN_CONNECT%IAD_CONNECT, NUMNOD + 1)

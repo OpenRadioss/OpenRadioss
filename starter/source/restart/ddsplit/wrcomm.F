@@ -34,6 +34,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ANIM_MOD
       USE OUTPUTS_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,7 +48,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com06_c.inc"
-#include      "com07_c.inc"
 #include      "com08_c.inc"
 #include      "lagmult.inc"
 #include      "remesh_c.inc"
@@ -108,11 +108,11 @@ C-----
       TABVREA(32)=DAMPB
       TABVREA(33)=DAMPW
 C-----
-      TABVREA(34)=ALPHA
-      TABVREA(35)=GAMMA
-      TABVREA(36)=VGX
-      TABVREA(37)=VGY
-      TABVREA(38)=VGZ
+      TABVREA(34)=ALE%GRID%ALPHA
+      TABVREA(35)=ALE%GRID%GAMMA
+      TABVREA(36)=ALE%GRID%VGX
+      TABVREA(37)=ALE%GRID%VGY
+      TABVREA(38)=ALE%GRID%VGZ
 C-----
       TABVREA(39)=SPASORT
       TABVREA(40)=SPATRUE
@@ -142,7 +142,7 @@ C
       TABVREA(108)=FAC_LENGTH
       TABVREA(109)=FAC_TIME
       TABVREA(110)=T1SH
-      TABVREA(111) =  UPWSM
+      TABVREA(111) =  ALE%UPWIND%UPWSM
       RVARINT = 111
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = TPSREF

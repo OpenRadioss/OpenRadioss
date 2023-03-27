@@ -67,8 +67,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IGEO(*)
-      INTEGER ,INTENT(IN) :: IGTYP,PROP_ID,IPM(NPROPMI,*),NPC(*)
-      my_real, INTENT(IN) :: PLD(*),PM(NPROPM,*)
+      INTEGER ,INTENT(IN) :: IGTYP,PROP_ID,IPM(NPROPMI,NUMMAT),NPC(*)
+      my_real, INTENT(IN) :: PLD(*),PM(NPROPM,NUMMAT)
       my_real, INTENT(INOUT) ::  GEO(*)
       CHARACTER IDTITL*nchartitle
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG

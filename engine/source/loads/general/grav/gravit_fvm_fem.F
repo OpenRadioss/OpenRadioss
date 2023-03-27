@@ -37,6 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,27 +56,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NALE(SNALE)
+      INTEGER, INTENT(IN) :: NALE(ALE%GLOBAL%SNALE)
       INTEGER NPC(*),NDDIM,NVDIM
       INTEGER IGRV(NIGRV,*),IB(*)
       INTEGER WEIGHT(*), ITASK
-      my_real
-     .   AGRV(LFACGRV,*), TF(*), A(3,*), V(3,*), MS(*),
-     .   X(3,*), SKEW(LSKEW,*)
+      my_real AGRV(LFACGRV,*), TF(*), A(3,*), V(3,*), MS(*), X(3,*), SKEW(LSKEW,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, IFUNC, K1, K2, K3, ISENS,K,NN,
-     .    IAD,J, IADF, IADL, ISMOOTH
-
-      my_real
-     .   NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS,
-     .   GAMA, TFEXTT,FCX,FCY
-      my_real
-     .   FINTER,FINTER_SMOOTH
-      EXTERNAL FINTER,FINTER_SMOOTH
-C=======================================================================
+      INTEGER NL, N1, ISK, N2, IFUNC, K1, K2, K3, ISENS,K,NN, IAD,J, IADF, IADL, ISMOOTH
+      my_real NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS, GAMA, TFEXTT,FCX,FCY
+      my_real, EXTERNAL :: FINTER,FINTER_SMOOTH
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       TFEXTT=ZERO
 C
       DO NL=1,NGRAV
@@ -103,8 +98,6 @@ C
         ENDIF
 C
         IF (IFUNC > 0) THEN
-!!          A0   = FCY*FINTER(IFUNC,(TS-DT1)*FCX,NPC,TF,DYDX)
-!!          GAMA = FCY*FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
           IF (ISMOOTH == 0) THEN
             A0   = FCY*FINTER(IFUNC,(TS-DT1)*FCX,NPC,TF,DYDX)
             GAMA = FCY*FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)

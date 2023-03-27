@@ -44,7 +44,6 @@ Chd|-- calls ---------------
 Chd|====================================================================
       MODULE MMAIN_MOD
       CONTAINS
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 Chd|====================================================================
 Chd|  MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- called by -----------
@@ -183,6 +182,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE MESSAGE_MOD
       USE ANIM_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -218,9 +218,7 @@ C-----------------------------------------------
       INTEGER NELTST, ITYPTST, OFFSET, ISTRAIN, 
      .        IEXPAN,NG,ILAY,IPTR,IPTS,IPTT,IBIDON1,IBIDON2,IBIDON3 ,
      .        IBIDON4, IADBUF, ITASK,H3D_STRAIN
-C
-      my_real
-     .   DT2T
+      my_real DT2T
       my_real
      .   PM(NPROPM,*), GEO(*), FBID(*), V(*), TF(*), VARNL(NEL),
      .   BUFMAT(*), STIFN(*), X(3,*),OFF(*),W(*),SIGY(*) ,ET(*) ,
@@ -293,9 +291,7 @@ C-----------------------------------------------
       INTEGER LENGTH
       TARGET :: DELTAX
 C--------------------------------------------    
-       my_real
-     .  FINTER 
-      EXTERNAL FINTER
+       my_real, EXTERNAL :: FINTER 
 C--------------------------------------------    
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
@@ -414,7 +410,7 @@ C
           VOL_AVG(1:NEL) = VOLN(1:NEL) - HALF*DVOL(1:NEL)
       ENDIF
 C-----due to too much returns of QA, temporarily add IRESP here
-      IF((INCOMP/=1.OR.(JEUL+JALE)/=1).AND.JLAG/=0.AND.N2D==0.AND.JSPH==0.AND.IRESP==1
+      IF((ALE%GLOBAL%INCOMP/=1.OR.(JEUL+JALE)/=1).AND.JLAG/=0.AND.N2D==0.AND.JSPH==0.AND.IRESP==1
      .     .AND.IMPL_S==0.AND.ISMSTR/=1.AND.ISMSTR/=3.AND.ISMSTR/=11)THEN
 C-----due to issue w/ SP ----in srho3.F R4_AMU is calculated for SP :      
 C--    R4_AMU =VOL0DP/VOLDP -1   because RHO*VOLDP=RHO0*VOL0DP   

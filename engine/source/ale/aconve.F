@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE SEGVAR_MOD      
       USE ALE_CONNECTIVITY_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +71,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
-#include      "conv_c.inc"
 #include      "spmd_c.inc"
 #include      "inter22.inc"
 #include      "warn_c.inc"
@@ -93,7 +93,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NMN, NM, NG, JMUL, IADR,  I, J, K, NF1,ISILENT,NFX,  IOFF, IMAT
-      INTEGER JCODV(LCONV),CODTOT,NGSEG,ISEG,ISOLNOD
+      INTEGER JCODV(ALE%GLOBAL%LCONV),CODTOT,NGSEG,ISEG,ISOLNOD
       INTEGER ADD0, ADD
 
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     

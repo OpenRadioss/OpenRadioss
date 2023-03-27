@@ -108,6 +108,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE USER_WINDOWS_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -126,7 +127,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com05_c.inc"
 #include      "com06_c.inc"
-#include      "com07_c.inc"
 #include      "com08_c.inc"
 #include      "com09_c.inc"
 #include      "com10_c.inc"
@@ -145,11 +145,9 @@ C-----------------------------------------------
 #include      "scr23_c.inc"
 #include      "titr_c.inc"
 #include      "param_c.inc"
-#include      "ale_param.inc"
 #include      "sphcom.inc"
 #include      "lagmult.inc"
 #include      "fxbcom.inc"
-#include      "fluid_scr_c.inc"
 #include      "scr14_c.inc"
 #include      "remesh_c.inc"
 #include      "sysunit.inc"
@@ -160,7 +158,6 @@ C-----------------------------------------------
 #include      "drape_c.inc"
 #include      "thermal_c.inc"
 #include      "inter22.inc"
-#include      "alesolver.inc"
 #include      "boltpr_c.inc"
 #include      "ige3d_c.inc"
 #include      "submod_c.inc"
@@ -170,7 +167,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       INTEGER,INTENT(IN)::IS_DYNA
       TYPE(DETONATOR_STRUCT_) :: DETONATORS
       TYPE(USER_WINDOWS_), INTENT(INOUT) :: USER_WINDOWS
@@ -180,25 +177,22 @@ C-----------------------------------------------
       INTEGER I, J, N, ISFIL, IPCT, IBID,INSH,
      .        IHBE_DD,IPARITH,JALE,JEUL,
      .        IUN,NSHFRAM,JUPW,IMAT,IG,ISH3N_DD,IFRAME_DDS,
-     .   IPLA_DDS,NPTS_DD,UID,IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,NPT,
-     .   ISROT,L1,NPTS, NIMPDISP,NIMPVEL,NIMPACC,ICR,
-     .   STAT,IERROR,ID,IDX,IDY,IDZ,NCTRL,BID,NSH3NFRAM,NS17_OLD,
+     .        IPLA_DDS,NPTS_DD,UID,IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,NPT,
+     .        ISROT,L1,NPTS, NIMPDISP,NIMPVEL,NIMPACC,ICR,
+     .        STAT,IERROR,ID,IDX,IDY,IDZ,NCTRL,BID,NSH3NFRAM,NS17_OLD,
      .        IGNORE_SPMD,IGNORE_THREADS,GOT_VARIABLE,KROT,OLD_RSB,
      .        NRAFX,NRAFY,NRAFZ,NFUNCT0,NTABLE0,NTABLE1,
      .        IRFE,IRFL, HM_NINTER_DEF,NB_AMS,NUMNUSR,NPERTURB_HM
       INTEGER IARCHS(8)
       INTEGER IS_BEGIN,SCHAR
-      my_real
-     .   DTINI, DTX ,RBID
-      CHARACTER CART*ncharline, XRFILE*ncharline,
-     .   KEY*ncharline,KEY2*ncharline,TMPLINE*ncharline
+      my_real DTINI, DTX ,RBID
+      CHARACTER CART*ncharline, XRFILE*ncharline,KEY*ncharline,KEY2*ncharline,TMPLINE*ncharline
       CHARACTER TITR*nchartitle,MESS*40, ERRMSG*40
       CHARACTER (LEN=255) :: STR_NBTHREADS
 
 C OpenMP specific
 #if defined(_OPENMP)
-       INTEGER OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS,
-     .NTHREAD1
+       INTEGER OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS,NTHREAD1
        EXTERNAL OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS
        CHARACTER (LEN=255) :: STR
 #endif
@@ -247,10 +241,8 @@ C=======================================================================
       IMOT=0
       REEL=ZEP66  
 C=======================================================================
-C     LECTURE DES SYSTEMES D'UNITES
-C     Cette option doit rester la premiere lue car elle sert a convertir
-C     les valeurs par defaut de toutes les options dans le systeme
-C     d'unites defini par l'utilisateur
+C     UNIT SYSTEM READER
+C     First option to be read in order to convert other options.
 C=======================================================================
       WRITE(ISTDO,'(A)')TITRE(12)
       CALL HM_OPTION_COUNT('/UNIT',NUNIT0)
@@ -278,8 +270,7 @@ C
           CALL HM_OPTION_START('/UNIT')
 C     
           DO N=1,NUNIT0
-            CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                         OPTION_ID = ID)
+            CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID = ID)
             UNIT_NAME = ''
             CALL HM_GET_STRING('UNIT_NAME',UNIT_NAME,2*ncharfield,IS_AVAILABLE)
 c
@@ -314,7 +305,7 @@ C
         NSPMD = NCPU
       ENDIF
 C
-C Calcul du nombre de threads
+C thread number
 C
       IGNORE_THREADS=0
       GOT_VARIABLE=0
@@ -322,7 +313,7 @@ C
       STR = ' '
       CALL  GETENV('OMP_NUM_THREADS',STR)
       NTHREAD1=0
-C nthread1 : nombre de threads fixe par la variable environnememt
+C nthread1 : thread number determined by environment variable
       READ(STR,'(I10)',ERR=999)NTHREAD1
       IF(NTHREAD1>0)THEN
         NTHREAD = NTHREAD1
@@ -332,19 +323,18 @@ C nthread1 : nombre de threads fixe par la variable environnememt
           IGNORE_THREADS=1
         END IF
         NTHREAD = NTH
-C       CALL OMP_SET_NUM_THREADS(NTHREAD)
       ELSE
         IF(NTHREAD1>0)THEN
           GOT_VARIABLE=1
         END IF
       ENDIF
-C cas ou ni -nt, ni OMP_NUM_THREADS, ni /SPMD sont renseignes
+C case no -nt, no OMP_NUM_THREADS, no /SPMD 
       NTHREAD = MAX(NTHREAD,1)
       NTHREAD_S = NTHREAD
       NTHREAD_R2R = NTHREAD
       CALL OMP_SET_NUM_THREADS(NTHREAD_S)
 
-c else (open mp non defined)
+c else (open mp not defined)
 #elif 1
       IF (GOT_NTH ==1) THEN
         IF (NTHREAD/=0) THEN
@@ -355,7 +345,7 @@ c else (open mp non defined)
       NTHREAD_S = 1
 #endif
 C-------------------------------------------------------------------
-C Option /ARCH non presente, IARCH= IBUILTIN et Grpsiz = ARCHINFO(IBUILTIN)
+C  /ARCH option not defined, IARCH= IBUILTIN & Grpsiz = ARCHINFO(IBUILTIN)
         IARCH = IBUILTIN
         NVSIZ = ARCHINFO(IBUILTIN,1)
         IVECTOR = ARCHINFO(IBUILTIN,2)
@@ -484,10 +474,7 @@ C-------------------------------------------------------------------
       IF (NSHFRAM == 1) THEN
         ISHFRAM = 2
       ELSEIF (NSHFRAM > 1) THEN
-        CALL ANCMSG(MSGID=546,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO,
-     .              I1=NSHFRAM)
+        CALL ANCMSG(MSGID=546,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NSHFRAM)
       ENDIF      
 C-------------------------------------------------------------------
 C     READGING OF /SH_3NFR
@@ -535,46 +522,34 @@ C maximum number of SMP threads equal to NTHMAX
 C
       IF (GOT_INSPIRE_ALM == 1)THEN
         IF (NTHREAD_S==1)THEN
-          WRITE(ISTDO,'(A,I4,A)')' .. SOLVER RUNNING ON ',NTHREAD_S,
-     .    ' THREAD'
+          WRITE(ISTDO,'(A,I4,A)')' .. SOLVER RUNNING ON ',NTHREAD_S,' THREAD'
         ELSE
-          WRITE(ISTDO,'(A,I4,A)')' .. SOLVER RUNNING ON ',NTHREAD_S,
-     .    ' THREADS'
+          WRITE(ISTDO,'(A,I4,A)')' .. SOLVER RUNNING ON ',NTHREAD_S,' THREADS'
         ENDIF
       ELSE
         IF (NTHREAD_S==1)THEN
-          WRITE(ISTDO,'(A,I4,A)')' .. STARTER RUNNING ON ',NTHREAD_S,
-     .    ' THREAD'
+          WRITE(ISTDO,'(A,I4,A)')' .. STARTER RUNNING ON ',NTHREAD_S,' THREAD'
         ELSE
-          WRITE(ISTDO,'(A,I4,A)')' .. STARTER RUNNING ON ',NTHREAD_S,
-     .    ' THREADS'
+          WRITE(ISTDO,'(A,I4,A)')' .. STARTER RUNNING ON ',NTHREAD_S,' THREADS'
         ENDIF
       ENDIF
     
 c warning if stacksize value lower than 512 M
       IF (STACKSIZ>0 .AND. STACKSIZ<=512)THEN
-          CALL ANCMSG(MSGID=1032,
-     .        MSGTYPE=MSGWARNING,
-     .        ANMODE=ANINFO_BLIND_1)
+        CALL ANCMSG(MSGID=1032,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1)
       ENDIF
 
 c warning if KMP_STACKSIZE value not set
       IF (NTHREAD_S > 1 .AND. KMP_SET == 1)THEN
-          CALL ANCMSG(MSGID=1004,
-     .        MSGTYPE=MSGWARNING,
-     .        ANMODE=ANINFO_BLIND_1)
-
+        CALL ANCMSG(MSGID=1004,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1)
       ENDIF
 
 c warning if KMP_STACKSIZE value lower than default value
       IF (NTHREAD_S > 1 .AND. KMP_SET == 2)THEN
-          CALL ANCMSG(MSGID=1005,
-     .        MSGTYPE=MSGWARNING,
-     .        ANMODE=ANINFO_BLIND_1)
-
+        CALL ANCMSG(MSGID=1005,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1)
       ENDIF
 C=======================================================================
-C     DENOMBREMENT DES OPTIONS
+C     OPTIONS NUMBERING
 C=======================================================================
 C     WRITE(ISTDO,'(/,A)')' .. OPTIONS COUNTING'
 C-------------------------------------------------------------------
@@ -588,9 +563,7 @@ C     Pre-read Nodes & Cnodes and compute NUMNOD taking into account that some n
 C------
 C     numnod=0 : ask user to provide relevant input file.
       IF(NUMNOD==0)THEN
-          CALL ANCMSG(MSGID=3,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO)
+          CALL ANCMSG(MSGID=3,MSGTYPE=MSGERROR,ANMODE=ANINFO)
           CALL ARRET(2)
       ENDIF
 C-------------------------------------------------------------------
@@ -623,7 +596,7 @@ C---------------------------------------------------
       LENGRVR=0
 C---  Xfem -------------------------------------------------------
 C---
-C   ATTENTION:    NUMNOD, NUMELC, NUMELTG ==> will be changed (by xfem)
+C   WARNING: NUMNOD, NUMELC, NUMELTG ==> will be changed (by xfem)
 C---
       NLEVMAX     = 0                    
       CALL HM_OPTION_COUNT('/INICRACK',NINICRACK)
@@ -960,7 +933,7 @@ C---------------------------------------------------
 C     DFS, ALE, EULER
 C---------------------------------------------------
       FLG_FSI = 0    
-      IS_BOUNDARY_MATERIAL = .FALSE.  
+      ALE%GLOBAL%IS_BOUNDARY_MATERIAL = .FALSE.  
 C-----
       CALL HM_OPTION_COUNT('/EBCS',NEBCS)
 C---------------------------------------------------
@@ -995,12 +968,13 @@ C---------------------------------------------------
 C---------------------------------------------------
       NALEBCS = 0
       CALL HM_OPTION_COUNT('/ALE/BCS', NALEBCS)
-      IF(ICAA == 1) NWALE = -1
+      IF(ALE%GLOBAL%ICAA == 1) ALE%GRID%NWALE = -1
       DT_INPUT = ZERO
 !     *******************************     !
 !     /ALE/GRID: ALE grid formulation     !
 !     *******************************     !
-      CALL HM_READ_ALE_GRID(DT_INPUT, ALPHA, GAMMA, VGX, VGY, VGZ, VOLMIN, LSUBMODEL, UNITAB)
+      CALL HM_READ_ALE_GRID(DT_INPUT, ALE%GRID%ALPHA, ALE%GRID%GAMMA, ALE%GRID%VGX, ALE%GRID%VGY, ALE%GRID%VGZ, 
+     .                      VOLMIN, LSUBMODEL, UNITAB)
 
 !     ******************************************************************     !
 !     /ALE/MUSCL: activation of second order methods for LAW51 or LAW151     !
@@ -1015,12 +989,12 @@ C---------------------------------------------------
 !     ****************     !
 !     /ALE/SOLVER/FINT     !
 !     ****************     !
-      CALL HM_READ_ALE_SOLVER(LSUBMODEL, UNITAB, ICAA, ISFINT)
+      CALL HM_READ_ALE_SOLVER(LSUBMODEL, UNITAB, ALE%GLOBAL%ICAA, ALE%GLOBAL%ISFINT)
 
 !     -------     !
 !     /UPWIND     !
 !     -------     !
-      CALL HM_READ_UPWIND(JUPW, UPWMG, UPWOG, UPWSM, LSUBMODEL, UNITAB)
+      CALL HM_READ_UPWIND(JUPW, ALE%UPWIND%UPWMG, ALE%UPWIND%UPWOG, ALE%UPWIND%UPWSM, LSUBMODEL, UNITAB)
 C---------------------------------------------------
 C   OPTIONS DE L'ENGINE LUES DANS LE STARTER
 C---------------------------------------------------
@@ -1031,8 +1005,7 @@ C---------------------------------------------------
       CALL HM_OPTION_COUNT('/DT',NDT_ENG)
       CALL HM_OPTION_COUNT('/STOP',NSTOP_ENG)
       CALL HM_OPTION_COUNT('/VERS',NVERS_ENG)
-      NGINE=NRUN_ENG+NANIM_ENG+NTFILE_ENG+NRFILE_ENG+
-     +      NDT_ENG+NSTOP_ENG+NVERS_ENG
+      NGINE=NRUN_ENG+NANIM_ENG+NTFILE_ENG+NRFILE_ENG+NDT_ENG+NSTOP_ENG+NVERS_ENG
 C---------------------------------------------------
       NDSOLV=0
 C----------------------------------------------------------
@@ -1062,7 +1035,7 @@ C=======================================================================
         DTHIS1(I)= 0
       ENDDO
 C----------------------------------------------------------
-C     solide avec rotation
+C     solids with rotation
 C----------------------------------------------------------
       KROT = 0
       CALL HM_PREREAD_INIVEL(KROT,LSUBMODEL)
@@ -1073,18 +1046,16 @@ C----------------------------------------------------------
       CALL HM_OPTION_START('MATERIAL')
       DO I = 1, HM_NUMMAT
          MAT_NUMBER    = I 
-         CALL HM_OPTION_READ_KEY(LSUBMODEL,KEYWORD2    = KEY   )
+         CALL HM_OPTION_READ_KEY(LSUBMODEL,KEYWORD2    = KEY)
          IF (KEY(1:5) == 'LAW13' .OR. KEY(1:5) == 'RIGID') IRODDL0 = 1
          IF (KEY(1:5) == 'LAW68' .OR. KEY(1:5) == 'COSSE') IISROT = 1
       ENDDO
 C--------------------------------------------
-C     PRELECTURE DES PIDS pour triangles SH3N6 et rotation solides 
-C     PRELECTURE DES PIDS, PARTS & SOLIDS pour Solids TO SPH
+C     PRE-READ OF Prop IDS for triangles SH3N6 & solid rotations 
+C     PRE-READ OF Prop IDS , PARTS & SOLIDSfor sol to SPH
 C--------------------------------------------
       ALLOCATE(IGEO(NPROPGI*NUMGEO),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                           C1='IGEO')
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='IGEO')
       IGEO=0
       NUMELTG6 = 0
       NSPHSOL  = 0
@@ -1096,18 +1067,13 @@ c
 
       IF(NSPHSOL/=0.AND.NUMELS8/=0)THEN
         ALLOCATE(IPART(LIPART1*NPART),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='IPART')
+        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='IPART')
         IPART=0
         CALL HM_PREREAD_PART(IPART,IGEO,LSUBMODEL)
 C
         ALLOCATE(IXS(NIXS*NUMELS8),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='IPART')
-        CALL HM_PRELCE16S(IPART,IGEO,IXS,NSPHSOL,LSUBMODEL,
-     .                    IS_DYNA   )
+        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='IPART')
+        CALL HM_PRELCE16S(IPART,IGEO,IXS,NSPHSOL,LSUBMODEL,IS_DYNA)
 C
         IREST_MSELT=1
 C
@@ -1149,16 +1115,15 @@ C
       REINT = ZERO
       UREINT = ZERO
       HEAT_STORED = ZERO
-      HEAT_MECA   = ZERO
-      HEAT_CONV   = ZERO
-      HEAT_RADIA  = ZERO
-      HEAT_FFLUX  = ZERO
+      HEAT_MECA = ZERO
+      HEAT_CONV = ZERO
+      HEAT_RADIA = ZERO
+      HEAT_FFLUX = ZERO
       ECONTD = ZERO
       ECONT_CUMU = ZERO
 
       IRUN=0
       IGER=0
-      IPAT=0
       IANIM=0
       IH3D=0
 C
@@ -1392,32 +1357,30 @@ C
       ENDIF
       
       IF(JALE+JEUL/=0)THEN         
-        WRITE(IOUT,'(A,I10)')
-     . '    ISFINT: ALE/EULER MOMENTUM INTEGRATION FORMULATION. .',
-     . ISFINT
+        WRITE(IOUT,'(A,I10)')'    ISFINT: ALE/EULER MOMENTUM INTEGRATION FORMULATION. .',ALE%GLOBAL%ISFINT
       ENDIF 
-      IF(ICAA==1)THEN
+      IF(ALE%GLOBAL%ICAA==1)THEN
         WRITE(IOUT,5380)
       END IF            
       IF(JALE/=0)THEN
-        WRITE (IOUT,5100)NWALE
-        SELECT CASE (NWALE)
-          CASE(0);WRITE (IOUT,5199) ALPHA,GAMMA, VGX,VGY,VGZ,VOLMIN
-          CASE(1);WRITE (IOUT,5200) ALPHA,VGX,VGY,VGZ,VOLMIN
-          CASE(2);WRITE (IOUT,5300) DT_INPUT, ALPHA,GAMMA,VGX,VGY,VOLMIN
+        WRITE (IOUT,5100)ALE%GRID%NWALE
+        SELECT CASE (ALE%GRID%NWALE)
+          CASE(0);WRITE (IOUT,5199) ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY,ALE%GRID%VGZ,VOLMIN
+          CASE(1);WRITE (IOUT,5200) ALE%GRID%ALPHA,ALE%GRID%VGX,ALE%GRID%VGY,ALE%GRID%VGZ,VOLMIN
+          CASE(2);WRITE (IOUT,5300) DT_INPUT, ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY,VOLMIN
           CASE(3);WRITE (IOUT,5350) 
-          CASE(4);WRITE (IOUT,5351) ALPHA,GAMMA,VGX,VGY 
-          CASE(5);WRITE (IOUT,5353) ALPHA,NINT(VGX)               
+          CASE(4);WRITE (IOUT,5351) ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY 
+          CASE(5);WRITE (IOUT,5353) ALE%GRID%ALPHA,NINT(ALE%GRID%VGX)               
         END SELECT
       ENDIF
 
       IF(ALEFVM_Param%ISOLVER /= 0)ALEMUSCL_Param%IALEMUSCL=0 !muscl not compatible with FVM solver for int22
       CALL HM_OPTION_COUNT('/ALE/MUSCL', NALEMUSCL)     
-      IF( UPWSM/=ONE)THEN
+      IF(ALE%UPWIND%UPWSM/=ONE)THEN
        IF(NALEMUSCL>0 .OR. ALEMUSCL_Param%IALEMUSCL>0)THEN
          NALEMUSCL=0 
          ALEMUSCL_Param%IALEMUSCL=0     
-         !ignore muscl et utiliser upwsm3  (backward compatibility)
+         !ignore muscl & use upwsm3  (backward compatibility)
          !double check engine file with /ALE/MUSCL/OFF
         ENDIF
       ENDIF
@@ -1426,7 +1389,7 @@ C
         IF(ALEMUSCL_Param%IALEMUSCL == 1 .AND. JUPW/=0 ) THEN   !eta3 + muscl(law51) : conflict
            CALL ANCMSG(MSGID=1564, MSGTYPE=MSGWARNING, ANMODE=ANINFO)
         ELSEIF(ALEMUSCL_Param%IALEMUSCL == 0 .OR. JUPW/=0)THEN
-          WRITE (IOUT,5360)UPWMG,UPWOG !,UPWSM
+          WRITE (IOUT,5360)ALE%UPWIND%UPWMG,ALE%UPWIND%UPWOG !,UPWSM
         END IF
         IF (ALEMUSCL_Param%IALEMUSCL == 1 .OR. ALEMUSCL_Param%IALEMUSCL==2) THEN
            WRITE (IOUT, 5504) ALEMUSCL_Param%BETA,ALEMUSCL_Param%IALEMUSCL-1
@@ -1439,19 +1402,17 @@ C
       IF(N2D/=0) IHBE_DS = 2
       IF(N2D==0)THEN
         IF(NUMELQ/=0. OR. (NUMELTG/=0.AND.N2D/=0) )THEN
-          CALL ANCMSG(MSGID   = 286,
-     .                MSGTYPE = MSGERROR,
-     .                ANMODE  = ANINFO)
+          CALL ANCMSG(MSGID   = 286,MSGTYPE = MSGERROR,ANMODE  = ANINFO)
         ENDIF
       ENDIF
 C                                                                    012
       WRITE(IOUT,5500)INTEG8,IPARITH,ISUB,MSHSUB,USER_WINDOWS%HAS_USER_WINDOW,IHBE_DS,
-     .      ITET4_D,ITET10_D,ISST_DS,ICPRE_D,IHBE_D,ISST_D,ITHK_D,
-     .      IPLA_D,ISTR_D,ISHEA_D,INSH,ISH3N_D, NPTS_D, IFRAME_DS
+     .                ITET4_D,ITET10_D,ISST_DS,ICPRE_D,IHBE_D,ISST_D,ITHK_D,
+     .                IPLA_D,ISTR_D,ISHEA_D,INSH,ISH3N_D, NPTS_D, IFRAME_DS
       WRITE(IOUT,5501)ISHFRAM
       IF(ISH3NFRAM>0)WRITE(IOUT,5901)ISH3NFRAM
       IF(JALE/=0 .AND. ALEFVM_Param%IEnabled/=0)WRITE(IOUT,5502)ALEFVM_Param%ISOLVER
-      IF(JALE/=0 .AND. ISFINT/=0) WRITE(IOUT,5503)ISFINT      
+      IF(JALE/=0 .AND. ALE%GLOBAL%ISFINT/=0) WRITE(IOUT,5503)ALE%GLOBAL%ISFINT      
       WRITE(IOUT,5700)LAGM_TOL
       WRITE(IOUT,5800)IMAS_DS
       IF ((NUMSPH>0).AND.(NSPHSOL==0)) WRITE (IOUT,5600) SPASORT,LVOISPH,KVOISPH
@@ -1480,11 +1441,9 @@ c        WRITE(IOUT,3002) LMA,LAM
         STR_NBTHREADS = 'THREAD'
       ENDIF
       IF(GOT_INSPIRE_ALM == 1)THEN
-        WRITE(IOUT,4001) NTHREAD_S,STR_NBTHREADS,NSPMD,NTHREAD,IARCH,
-     .                 ARCHN(IARCH),NVSIZ 
+        WRITE(IOUT,4001) NTHREAD_S,STR_NBTHREADS,NSPMD,NTHREAD,IARCH,ARCHN(IARCH),NVSIZ 
       ELSE
-        WRITE(IOUT,4000) NTHREAD_S,STR_NBTHREADS,NSPMD,NTHREAD,IARCH,
-     .                 ARCHN(IARCH),NVSIZ 
+        WRITE(IOUT,4000) NTHREAD_S,STR_NBTHREADS,NSPMD,NTHREAD,IARCH,ARCHN(IARCH),NVSIZ 
       ENDIF
 C
       IF(IGNORE_SPMD==1.OR.IGNORE_THREADS==1)THEN

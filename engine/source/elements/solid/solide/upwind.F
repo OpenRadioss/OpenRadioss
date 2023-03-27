@@ -29,6 +29,10 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE UPWIND(RHO,VIS,VDX,VDY,VDZ,R,S,T,DELTAX,GAM)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -42,19 +46,14 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
-#include      "scrupw_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   R(3,*),S(3,*),T(3,*),
-     .   VDX(*),VDY(*),VDZ(*),DELTAX(*),RHO(*),VIS(*),GAM(*)
+      my_real R(3,*),S(3,*),T(3,*),VDX(*),VDY(*),VDZ(*),DELTAX(*),RHO(*),VIS(*),GAM(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .  FAC,PE,D1,D2,D3,DIST,CH1,CH2,
-     .  DV(MVSIZ),V(MVSIZ)
+      my_real FAC,PE,D1,D2,D3,DIST,CH1,CH2,DV(MVSIZ),V(MVSIZ)
       INTEGER I
 C-----------------------------------------------
 
@@ -62,8 +61,8 @@ C-----------------------------------------------
       ! /UPWM/TG                                   !
       !   Taylor Galerkine                         !
       !--------------------------------------------!
-      IF(UPWM==2)THEN
-        FAC=CUPWM*HALF*DT1
+      IF(ALE%UPWIND%UPWM==2)THEN
+        FAC=ALE%UPWIND%CUPWM*HALF*DT1
         DO I=LFT,LLT
          GAM(I)=FAC
         END DO
@@ -72,7 +71,7 @@ C-----------------------------------------------
       ! /UPWM/SUPG                                 !
       !   Streaminline Upwind Petrov Galerkine     !
       !--------------------------------------------!
-      ELSEIF(UPWM==3)THEN
+      ELSEIF(ALE%UPWIND%UPWM==3)THEN
         IF(N2D==0)THEN
           DO  I=LFT,LLT
             V(I)=VDX(I)**2+VDY(I)**2+VDZ(I)**2
@@ -89,7 +88,7 @@ C-----------------------------------------------
             V(I)=VDY(I)**2+VDZ(I)**2
           ENDDO 
         ENDIF               
-        CH2=CUPWM*HALF
+        CH2=ALE%UPWIND%CUPWM*HALF
         CH1=CH2*THIRD
         DO  I=LFT,LLT
           FAC=HALF*RHO(I)/MAX(EM20,VIS(I))
@@ -117,6 +116,10 @@ Chd|====================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -128,7 +131,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
-#include      "scrupw_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -148,8 +150,8 @@ C-----------------------------------------------
       ! /UPWM/TG                                   !
       !   Taylor Galerkine                         !
       !--------------------------------------------!
-      IF(UPWM==2)THEN
-        FAC=CUPWM*HALF*DT1
+      IF(ALE%UPWIND%UPWM==2)THEN
+        FAC=ALE%UPWIND%CUPWM*HALF*DT1
         DO I=LFT,LLT
          GAM(I)=FAC
         END DO
@@ -158,7 +160,7 @@ C-----------------------------------------------
       ! /UPWM/SUPG                                 !
       !   Streaminline Upwind Petrov Galerkine     !
       !--------------------------------------------!
-      ELSEIF(UPWM==3)THEN
+      ELSEIF(ALE%UPWIND%UPWM==3)THEN
         IF(N2D==0)THEN
           DO  I=LFT,LLT
             V(I)=VDX(I)**2+VDY(I)**2+VDZ(I)**2
@@ -175,7 +177,7 @@ C-----------------------------------------------
             V(I)=VDY(I)**2+VDZ(I)**2
           ENDDO 
         ENDIF               
-        CH2=CUPWM*HALF
+        CH2=ALE%UPWIND%CUPWM*HALF
         CH1=CH2*THIRD
         DO  I=LFT,LLT
           FAC=HALF*RHO(I)/MAX(EM20,VIS(I))

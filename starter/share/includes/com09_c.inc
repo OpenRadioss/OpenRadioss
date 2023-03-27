@@ -20,11 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C.../COM09/
-      INTEGER LCOM09
-      PARAMETER (LCOM09 = 7)
-C
-      COMMON /COM09/ IPAT, IANIM, IOUTP, NHIN2, IDELI7, IBAGSURF,
-     .               ISTATF, IH3D
-      INTEGER IPAT, IANIM, IOUTP, NHIN2, IDELI7, IBAGSURF,
-     .               ISTATF, IH3D
+
+
+      COMMON /COM09/  IANIM, IOUTP, NHIN2, IDELI7, IBAGSURF,ISTATF, IH3D
+      INTEGER         IANIM, IOUTP, NHIN2, IDELI7, IBAGSURF,ISTATF, IH3D

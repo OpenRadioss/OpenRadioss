@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +79,7 @@ C-----------------------------------------------
       INTEGER BUF_NOD(*),
      .   NB_SURF,FLAG,
      .   EANI2(*),NB_LINE,
-     .   IXR_KJ(*),INOM_OPT(*),RESERVEP(*),NALE_R2R(SNALE),
+     .   IXR_KJ(*),INOM_OPT(*),RESERVEP(*),NALE_R2R(ALE%GLOBAL%SNALE),
      .   NSPCOND0,RBY_MSN(2,*)
       INTEGER, INTENT(INOUT) ::  IWORKSH(3,NUMELC+NUMELTG)
       TYPE (SUBSET_) , DIMENSION(NSUBS)   :: SUBSET
@@ -595,9 +596,9 @@ C-------------------------------------------------------------------------------
 C-------------Split of NALE_R2R----------------------------------------------------C
 C----------------------------------------------------------------------------------C
 
-          IF (SNALE>0) THEN
+          IF (ALE%GLOBAL%SNALE>0) THEN
 C
-            ALLOCATE(NALE_R2R_TEMP(SNALE))
+            ALLOCATE(NALE_R2R_TEMP(ALE%GLOBAL%SNALE))
             DO J=1,NUMNOD_OLD
 	      NALE_R2R_TEMP(J)=NALE_R2R(J)
 	    END DO

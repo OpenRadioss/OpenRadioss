@@ -90,6 +90,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE MULTI_FVM_MOD
       USE HM_OPTION_READ_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,7 +103,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "tablen_c.inc"
-#include      "fluid_scr_c.inc"
 #include      "submod_c.inc"
 #include      "sysunit.inc"
 C-----------------------------------------------
@@ -113,10 +113,8 @@ C-----------------------------------------------
      .        IGEO(NPROPGI,*),IPM(NPROPMI,*),NPC(*),
      .        IPART(LIPART1,*),IDRAPEID(*),NUMGEO_STACK(NUMGEO+NUMSTACK),
      .        NPROP_STACK,IADBUF
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      my_real
-     .   GEO(NPROPG,*), X(*), PM(NPROPM,*),
-     .   PLD(*),RTRANS(NTRANSF,*),KNOT(*)
+      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
+      my_real GEO(NPROPG,NUMGEO), X(*), PM(NPROPM,NUMMAT),PLD(*),RTRANS(NTRANSF,*),KNOT(*)
 
       DOUBLE PRECISION BUFGEO(*)
 
@@ -140,9 +138,8 @@ C-----------------------------------------------
      
       INTEGER JPID1,JPID2,NISUB,IPISUB,IFRAM,E_TYPE,OFF_DEF(NSUBMOD),CPT,
      .        CPT1,SUB_INDEX
-      my_real
-     .    FN, FT, DX, ANGL,PUN,HTEST,HCLOS,CVIS,RBID,VX,VY,VZ,
-     .    FAC_L,FAC_T,FAC_M, TMIN,TMAX,DT,THICKT,IERREL,DN_P,ZSHIFT,PTHK
+      my_real FN, FT, DX, ANGL,PUN,HTEST,HCLOS,CVIS,RBID,VX,VY,VZ,
+     .        FAC_L,FAC_T,FAC_M, TMIN,TMAX,DT,THICKT,IERREL,DN_P,ZSHIFT,PTHK
       CHARACTER IDTITL*ncharline, MESS*40,KEY*ncharline, KEY2*ncharkey,
      .          STRING*ncharfield,TITR1*nchartitle,
      .          CHROT*7,SOLVERKEYWORD*ncharline
@@ -269,7 +266,7 @@ C--------------------------------------------------
       DO CPT=1,HM_NUMGEO
         I = I + 1
         IGFLU = 0
-        IF(ICAA == 1)IGFLU=1
+        IF(ALE%GLOBAL%ICAA == 1)IGFLU=1
         ISORTH = 0
         IHGFLU = 0
 c
@@ -459,7 +456,7 @@ C            HM READING PROPERTY TYPE14 (SOLID,FLUID)
 C--------------------------------------------------
           CASE ('TYPE14','SOLID')
             IGTYP=14
-            IF (ICAA == 0 .AND. IGFLU == 0) THEN
+            IF (ALE%GLOBAL%ICAA == 0 .AND. IGFLU == 0) THEN
              CALL HM_READ_PROP14(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP,PROP_ID,IDTITL,UNITAB,LSUBMODEL,
      .                          IPART )
             ELSE

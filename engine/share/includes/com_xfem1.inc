@@ -20,18 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C ... X-FEM (CRACK)
-      INTEGER LXFEMI
-      PARAMETER (LXFEMI = 25)
+
 C
-      COMMON /XFEMI/ NUMELCRK ,NODXVARI  ,ELEXVARIC ,ELEXVARR,
-     .               ICRACK3D ,ELEXVARITG,NXEL      ,NCRKPART,
+      COMMON /XFEMI/ NUMELCRK ,
+     .               ICRACK3D ,NXEL      ,NCRKPART,
      .               NCRKXFE  ,ECRKXFE   ,ECRKXFEC  ,ECRKXFETG,NLEVMAX    ,
      .               NUMEDGES ,NXLAYMAX  ,IENRNOD   ,NXFENODG ,NLEVXFE  ,
      .               NUMELCRK2
 C
-      INTEGER        NUMELCRK ,NODXVARI  ,ELEXVARIC ,ELEXVARR,
-     .               ICRACK3D ,ELEXVARITG,NXEL      ,NCRKPART,
+      INTEGER        NUMELCRK ,
+     .               ICRACK3D ,NXEL      ,NCRKPART,
      .               NCRKXFE  ,ECRKXFE   ,ECRKXFEC  ,ECRKXFETG,NLEVMAX    ,
      .               NUMEDGES ,NXLAYMAX  ,IENRNOD   ,NXFENODG ,NLEVXFE  ,
      .               NUMELCRK2

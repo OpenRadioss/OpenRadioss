@@ -29,7 +29,11 @@ Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F
 Chd|====================================================================
       SUBROUTINE I12M2S(NSN,IRECTS,IRTL,NODVAR,NRTM,NRTS,
      .                  ISEGM,ISEGS,SEGVAR,JCODV)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE SEGVAR_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -37,16 +41,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSN,IRECTS(4,*),IRTL(*),NRTM,NRTS,ISEGM(*),ISEGS(*),
-     .        JCODV(*)
-      my_real
-     .   NODVAR(*)
+      INTEGER NSN,IRECTS(4,*),IRTL(*),NRTM,NRTS,ISEGM(*),ISEGS(*),JCODV(*)
+      my_real NODVAR(*)
       TYPE(t_segvar),TARGET :: SEGVAR
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "conv_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -58,7 +59,7 @@ C-----------------------------------------------
       !-------------------------------------!
       !   main SEGMENT -> SECND NODES     !
       !-------------------------------------!
-      DO KVAR=1,NVCONV
+      DO KVAR=1,ALE%GLOBAL%NVCONV
       
        SELECT CASE(KVAR)
          CASE(1)
@@ -75,7 +76,7 @@ C-----------------------------------------------
         
         DO II=1,NSN
           I=IRTL(II)
-          ADS=NVCONV*(II-1)+KVAR
+          ADS=ALE%GLOBAL%NVCONV*(II-1)+KVAR
           NODVAR(ADS)=ptr(ISEGM(I))
         ENDDO
         
@@ -88,7 +89,7 @@ C-----------------------------------------------
       !-------------------------------------!      
       !   SECND NODE -> SECND SEGMENT       !
       !-------------------------------------!
-      DO KVAR=1,NVCONV
+      DO KVAR=1,ALE%GLOBAL%NVCONV
 
        SELECT CASE(KVAR)
          CASE(1)
@@ -107,7 +108,7 @@ C-----------------------------------------------
           ptr(ISEGS(I))=ZERO
           DO J=1,NIR
              II=IRECTS(J,I)
-             ADS=NVCONV*(II-1)+KVAR
+             ADS=ALE%GLOBAL%NVCONV*(II-1)+KVAR
              ptr(ISEGS(I))=ptr(ISEGS(I))+NODVAR(ADS)
           ENDDO
           ptr(ISEGS(I))=ptr(ISEGS(I))/FLOAT(NIR)

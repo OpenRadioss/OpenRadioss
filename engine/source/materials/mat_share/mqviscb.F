@@ -50,7 +50,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE I22TRI_MOD
-      USE I22BUFBRIC_MOD 
+      USE I22BUFBRIC_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,6 +65,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "cong1_c.inc"
 #include      "impl1_c.inc"
@@ -77,35 +79,28 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "inter22.inc"
 #include      "scr_thermal_c.inc"
-#include      "alesolver.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NELTST,ITYPTST,PID(*),MAT(*), NGL(*),
-     .         IGEO(NPROPGI,*),G_DT,IPM(NPROPMI,*)
-      my_real
-     .   DT2T
-C
-      my_real
-     .   PM(NPROPM,*), OFF(*), RHO(*), RK(*), T(*), RE(*),STI(*),
-     .   OFFG(*),GEO(NPROPG,*),
-     .   VOL(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
-     .   PSH(*), PNEW(*),QVIS(*) ,SSP_EQ(*),CONDE(*), 
-     .   D1(*), D2(*), D3(*), VOL0(*), MSSA(*), DMELS(*),FACQ0
+      INTEGER NELTST,ITYPTST,PID(*),MAT(*), NGL(*),IGEO(NPROPGI,NUMGEO),G_DT,IPM(NPROPMI,NUMMAT)
+      my_real DT2T
+      my_real PM(NPROPM,NUMMAT), OFF(*), RHO(*), RK(*), T(*), RE(*),STI(*),
+     .        OFFG(*),GEO(NPROPG,NUMGEO),
+     .        VOL(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
+     .        PSH(*), PNEW(*),QVIS(*) ,SSP_EQ(*),CONDE(*), 
+     .        D1(*), D2(*), D3(*), VOL0(*), MSSA(*), DMELS(*),FACQ0
       my_real, INTENT(IN) :: RHOREF(MVSIZ), RHOSP(MVSIZ)
       my_real, INTENT(INOUT) :: DTEL(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J, MT, K,ICOUNT,LIST(MVSIZ),ERROR, ALE_OR_EULER, ID_MIN
-      my_real
-     .   DD(MVSIZ), AL(MVSIZ),
-     .   DTX(MVSIZ), AD(MVSIZ), QX(MVSIZ), CX(MVSIZ), RHO0(MVSIZ), NRHO(MVSIZ),
-     .   DTY(MVSIZ), QA, QB, VISI, FACQ,QAA,
-     .   CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, TLI, AKK, XMU, TMU, RPR,
-     .   ATU, QAD, QBD, QAAP, DT, NUI
-      my_real 
-     .   TIDT,TVOL,TRHO,TAIRE,  DTMIN(MVSIZ), RHOS(MVSIZ)
+      my_real DD(MVSIZ), AL(MVSIZ),
+     .        DTX(MVSIZ), AD(MVSIZ), QX(MVSIZ), CX(MVSIZ), RHO0(MVSIZ), NRHO(MVSIZ),
+     .        DTY(MVSIZ), QA, QB, VISI, FACQ,QAA,
+     .        CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, TLI, AKK, XMU, TMU, RPR,
+     .        ATU, QAD, QBD, QAAP, DT, NUI
+      my_real TIDT,TVOL,TRHO,TAIRE,  DTMIN(MVSIZ), RHOS(MVSIZ)
 #ifdef MYREAL8 
       my_real, PARAMETER :: REAL_THREE = 3.0D0
       my_real, PARAMETER :: REAL_ONE = 1.0D0
@@ -113,16 +108,14 @@ C-----------------------------------------------
       my_real, PARAMETER :: REAL_THREE = 3.0
       my_real, PARAMETER :: REAL_ONE = 1.0
 #endif
-
-
-      
+     
 C=======================================================================
 
        ! by default don't apply /DT/NODA/* to ALE/EULER cells ; unless if /DT/NODA/ALEON is enabled (hidden card introduced for backward compatibility)
-       MT           = MAT(LFT)
+       MT = MAT(LFT)
        ALE_OR_EULER = 0 
        IF(NINT(PM(72,MT))==1 .OR. NINT(PM(72,MT))==2)ALE_OR_EULER = 1
-       IF(I_DT_NODA_ALE_ON==1)                         ALE_OR_EULER = 0   
+       IF( ALE%GLOBAL%I_DT_NODA_ALE_ON==1) ALE_OR_EULER = 0   
 
       IF(IMPL==ZERO)THEN
           DO I=LFT,LLT
@@ -676,6 +669,11 @@ Chd|====================================================================
      .                     SSP  ,OFF,OFFG, AIRE ,DELTAX ,VIS  ,
      .                     VD2  ,QVIS   )
 C============================================================================
+C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -688,6 +686,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "cong1_c.inc"
 #include      "impl1_c.inc"
@@ -698,38 +697,30 @@ C-----------------------------------------------
 #include      "scr18_c.inc"
 #include      "units_c.inc"
 #include      "vect01_c.inc"
-#include      "alesolver.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C
       INTEGER NELTST,ITYPTST,PID(*),MAT(*),NEL,NGL(*)
-      my_real
-     .   DT2T
-C
-      my_real
-     .   PM(NPROPM,*),GEO(NPROPG,*), DELTAX(*), SSP(*), AIRE(*), 
-     .    QVIS(*) ,VIS(*), UVAR(NEL,*),OFF(*), VD2(*),OFFG(*)
+      my_real DT2T
+      my_real PM(NPROPM,NUMMAT),GEO(NPROPG,NUMGEO),DELTAX(*),SSP(*),AIRE(*),QVIS(*),VIS(*),UVAR(NEL,*),OFF(*),VD2(*),OFFG(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J, MT, K,ICOUNT,LIST(MVSIZ),ERROR, ALE_OR_EULER
-      my_real
-     .   AL(MVSIZ),
-     .   DTX(MVSIZ), AD(MVSIZ), QX(MVSIZ), CX(MVSIZ),SSP_EQ(MVSIZ),
-     .   RHO0(MVSIZ),DTMIN(MVSIZ),QA, QB, VISI, FACQ,QAA,
-     .   CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, TLI, AKK, XMU, TMU, RPR,
-     .   ATU, QAD, QBD, QAAP,DD
-      my_real 
-     .   TIDT,TVOL,TRHO,TAIRE, DTINV
+      my_real AL(MVSIZ),
+     .        DTX(MVSIZ), AD(MVSIZ), QX(MVSIZ), CX(MVSIZ),SSP_EQ(MVSIZ),
+     .        RHO0(MVSIZ),DTMIN(MVSIZ),QA, QB, VISI, FACQ,QAA,
+     .        CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, TLI, AKK, XMU, TMU, RPR,
+     .        ATU, QAD, QBD, QAAP,DD
+      my_real TIDT,TVOL,TRHO,TAIRE, DTINV
 C-----------------------------------------------
-C=======================================================================
 
       ! by default don't apply /DT/NODA/* to ALE/EULER cells ; unless if /DT/NODA/ALEON is enabled (hidden card introduced for backward compatibility)
-      MT           = MAT(LFT)
+      MT = MAT(LFT)
       ALE_OR_EULER = 0 
       IF(NINT(PM(72,MT))==1 .OR. NINT(PM(72,MT))==2)ALE_OR_EULER = 1
-      IF(I_DT_NODA_ALE_ON==1)                         ALE_OR_EULER = 0   
+      IF( ALE%GLOBAL%I_DT_NODA_ALE_ON==1)ALE_OR_EULER = 0   
 
       DTINV = DT1 / MAX(EM20 , DT1**2)
       IF(IMPL==ZERO)THEN
@@ -749,7 +740,6 @@ C=======================================================================
          IF(OFF(I)==ONE)THEN
            AL(I)=SQRT(AIRE(I))
            RHO0(I)=PM(192,MT)
-C qvis  ... entre volumique stra
             DD = QVIS(I)  ! volumic strain
            AD(I)= MAX(ZERO,DD)
          ENDIF
@@ -772,28 +762,24 @@ C
           CNS1=GEO(16,PID(I))
           CNS2=GEO(17,PID(I))*SSP(I)*AL(I)*UVAR(I,1)
           QAA = QA*QA*AD(I)
-          QX(I)=(QB+CNS1)*SSP(I)+DELTAX(I) * QAA
-     .     + VISI*(TWO*VIS(I)+CNS2) / MAX(EM20,UVAR(I,1)*DELTAX(I))
+          QX(I)=(QB+CNS1)*SSP(I)+DELTAX(I) * QAA + VISI*(TWO*VIS(I)+CNS2) / MAX(EM20,UVAR(I,1)*DELTAX(I))
           QVIS(I)=UVAR(I,1)*AD(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))  
            DTMIN(I) = GEO(172,PID(I)) 
       ENDDO
 C
       DO I=LFT,LLT
         SSP_EQ(I) = MAX(EM20,QX(I)+SQRT(QX(I)*QX(I)+CX(I)*CX(I)))
-        DTX(I) = DELTAX(I) / SSP_EQ(I)
-       
+        DTX(I) = DELTAX(I) / SSP_EQ(I)      
       ENDDO
 C
       ! KDTSMSTR==1 en version 5, par defaut.
-      IF(KDTSMSTR==1.AND.
-     .   ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3))THEN
+      IF(KDTSMSTR==1.AND.ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3))THEN
         DO 50 I=LFT,LLT
           IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) GO TO 50
           IF(N2D==0) THEN 
             TIDT = ONE/DTX(I)
             IF(OFFG(I)>ONE)THEN
               TRHO = RHO0(I) * TIDT
-c              TVOL = VOL0(I) * TIDT
             ELSE
               TRHO = UVAR(I,1) * TIDT
               TVOL = UVAR(I,3) * TIDT
@@ -804,9 +790,8 @@ c              TVOL = VOL0(I) * TIDT
             TIDT = ONE/DTX(I)
             TRHO = UVAR(I,1) * TIDT
             TAIRE = AIRE(I) * TIDT
-cc            STI(I) = HALF * TRHO * TAIRE
           ENDIF
-C         dt2 remplace par dt2t                 
+C         dt2 replaced with dt2t                 
   50    CONTINUE
         IF(ALE_OR_EULER==0)THEN
           DO I=LFT,LLT
@@ -866,17 +851,14 @@ C
         IF (ERROR==1) THEN
           TSTOP = TT
 #include "lockon.inc"
-          WRITE(IOUT,*)
-     . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SOLID ELEMENTS'
-          WRITE(ISTDO,*)
-     . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SOLID ELEMENTS'
+          WRITE(IOUT,*) ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SOLID ELEMENTS'
+          WRITE(ISTDO,*)' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SOLID ELEMENTS'
 #include "lockoff.inc"
         ENDIF
       ELSEIF(IDTMIN(ITY)==2)THEN
         ICOUNT=0
         DO 75 I=LFT,LLT
-        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.
-     .    OR.OFFG(I)<ZERO) GO TO 75
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.OR.OFFG(I)<ZERO) GO TO 75
           OFF(I) = ZERO
           ICOUNT=ICOUNT+1
           LIST(ICOUNT)=I
@@ -885,10 +867,8 @@ C
         DO J=1,ICOUNT
           I = LIST(J)
 #include "lockon.inc"
-          WRITE(IOUT,*)
-     . ' -- DELETE SOLID ELEMENTS',NGL(I)
-          WRITE(ISTDO,*)
-     . ' -- DELETE SOLID ELEMENTS',NGL(I)
+          WRITE(IOUT,*)' -- DELETE SOLID ELEMENTS',NGL(I)
+          WRITE(ISTDO,*)' -- DELETE SOLID ELEMENTS',NGL(I)
 #include "lockoff.inc"
          IDEL7NOK = 1
         ENDDO
@@ -896,11 +876,9 @@ C
         ICOUNT = 0
         DO 76 I=LFT,LLT
            IF(DTMIN(I)/=0) THEN
-             IF(DTX(I)>DTMIN(I).OR.
-     .      OFF(I)<ONE.OR.OFFG(I)<=ZERO.OR.OFFG(I)==TWO) GO TO 76
+             IF(DTX(I)>DTMIN(I).OR.OFF(I)<ONE.OR.OFFG(I)<=ZERO.OR.OFFG(I)==TWO) GO TO 76
             ELSE
-              IF(DTX(I)>DTMIN1(ITY).OR.
-     .      OFF(I)<ONE.OR.OFFG(I)<=ZERO.OR.OFFG(I)==TWO) GO TO 76
+              IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)<ONE.OR.OFFG(I)<=ZERO.OR.OFFG(I)==TWO) GO TO 76
            ENDIF
           OFFG(I) = TWO
           ICOUNT=ICOUNT+1
@@ -910,10 +888,8 @@ C
         DO J=1,ICOUNT
           I=LIST(J)
 #include "lockon.inc"
-          WRITE(IOUT,*)
-     . '-- CONSTANT TIME STEP FOR SOLID ELEMENT NUMBER ',NGL(I)
-          WRITE(ISTDO,*)
-     . '-- CONSTANT TIME STEP FOR SOLID ELEMENT NUMBER ',NGL(I)
+          WRITE(IOUT,*)'-- CONSTANT TIME STEP FOR SOLID ELEMENT NUMBER ',NGL(I)
+          WRITE(ISTDO,*)'-- CONSTANT TIME STEP FOR SOLID ELEMENT NUMBER ',NGL(I)
 #include "lockoff.inc"
         ENDDO
       ELSEIF(IDTMIN(ITY)==5)THEN
@@ -926,10 +902,8 @@ C
         IF (ERROR==1) THEN
           MSTOP = 2
 #include "lockon.inc"
-          WRITE(IOUT,*)
-     . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SOLID ELEMENTS'
-          WRITE(ISTDO,*)
-     . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SOLID ELEMENTS'
+          WRITE(IOUT,*)' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SOLID ELEMENTS'
+          WRITE(ISTDO,*)' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SOLID ELEMENTS'
 #include "lockoff.inc"
         ENDIF
       ENDIF
@@ -938,8 +912,7 @@ C
       !/DT/NODA & /DT/NODA/CST HAS NO EFFECT WITH ALE/EULER    
       IF(NODADT==0 .OR. ALE_OR_EULER==1)THEN
        DO 80 I=LFT,LLT
-        IF(DTX(I)>DT2T.OR.OFF(I)<=ZERO.OR.
-     .    OFFG(I)<=ZERO) GO TO 80 
+        IF(DTX(I)>DT2T.OR.OFF(I)<=ZERO.OR.OFFG(I)<=ZERO) GO TO 80 
 C nelts et itypts remplaces par neltst et itypst
         DT2T    = DTX(I)
         NELTST =NGL(I)

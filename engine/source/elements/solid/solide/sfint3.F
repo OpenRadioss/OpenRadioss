@@ -45,14 +45,16 @@ Chd|====================================================================
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C
       !-------------------------------------------------!
       ! ISFINT=1 : volume integration for SIG_total     !
       ! ISFINT=2 : volume integration for SIG_dev only  !
       ! ISFINT=3 : surface integration for SIG_total    !
       !-------------------------------------------------!  
-C
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALEFVM_MOD , only:ALEFVM_Param
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,9 +69,7 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "nsvis_c.inc"
-#include      "fluid_scr_c.inc"
 #include      "inter22.inc"
-#include      "alesolver.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -97,18 +97,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-      my_real
-     .   S1(MVSIZ), S2(MVSIZ), S3(MVSIZ),
-     .   S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),
-     .   FINT,FINTD,QVIS_LOC,VOL_LOC
-      my_real
-     .   P(MVSIZ)
+      my_real S1(MVSIZ), S2(MVSIZ), S3(MVSIZ),S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),FINT,FINTD,QVIS_LOC,VOL_LOC,P(MVSIZ)
 C-----------------------------------------------
 
       !-------------------------------------------------!
       ! ISFINT=3 : surface integration for SIG_total    !
       !-------------------------------------------------!  
-      IF(ISFINT==3 .AND. JALE+JEUL/=0)THEN
+      IF(ALE%GLOBAL%ISFINT==3 .AND. JALE+JEUL/=0)THEN
         !------------------------------!
         !    TOTAL STRESS TENSOR       ! 
         !------------------------------!  
@@ -198,7 +193,7 @@ C-----------------------------------------------
       ! ISFINT=1 : volume integration for SIG_total     !
       ! ISFINT=2 : volume integration for SIG_dev only  !
       !-------------------------------------------------!       
-      IF((ICAA==1.OR.ISFINT==2) .AND. JALE+JEUL/=0)THEN
+      IF((ALE%GLOBAL%ICAA==1.OR.ALE%GLOBAL%ISFINT==2) .AND. JALE+JEUL/=0)THEN
         DO I=LFT,LLT
          QVIS_LOC = QVIS(I)
          VOL_LOC = VOL(I) 

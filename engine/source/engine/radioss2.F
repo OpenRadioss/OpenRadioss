@@ -195,6 +195,7 @@ C-----------------------------------------------
       USE STATE_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE USER_INTERFACE_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -234,7 +235,6 @@ C-----------------------------------------------
 #include      "warn_c.inc"
 #include      "parit_c.inc"
 #include      "titr_c.inc"
-#include      "fluid_scr_c.inc"
 #include      "flowcom.inc"
 #include      "impl1_c.inc"
 #include      "tabsiz_c.inc"
@@ -245,15 +245,13 @@ C-----------------------------------------------
 #include      "drape_c.inc"
 #include      "thermal_c.inc"
 #include      "inter22.inc"
-#include      "alesolver.inc"
 #include      "couple_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MRDATA,MIDATA
       INTEGER IDATA(*)
-      my_real
-     .  RDATA(*)
+      my_real RDATA(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -279,8 +277,7 @@ C-----------------------------------------------
 
       CHARACTER ABC(26)*1, FILNAMTH*100, FILTH*3, LINE*256,
      .          FILNAMABF*100,FILNAMABF_TMP*100
-      DATA ABC/'a','b','c','d','e','f','g','h','i','j','k','l','m','n',
-     .           'o','p','q','r','s','t','u','v','w','x','y','z'/
+      DATA ABC/'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'/
       EXTERNAL RESOL_HEAD
       INTEGER LHEADER, LVARINT, LVARREA
       INTEGER PRADIOS,PRESFIL
@@ -290,8 +287,7 @@ C-----------------------------------------------
 C Madymo Stuff
       INTEGER IERROR,MADSTRLEN
       CHARACTER MAD_OPTION_STRING*256,RMAD_OPTION_STRING*256
-      INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,
-     .        K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
       INTEGER BUFTEST(100),NB_MAN,NB_MAN_TOT,TOPINT,FLAG_MAIN,J, ILAW51,ILAW37,ILAW20
 
       my_real, DIMENSION(:), ALLOCATABLE :: MCP,TEMP
@@ -299,10 +295,8 @@ C Madymo Stuff
       TYPE(PRGRAPH), DIMENSION(:), ALLOCATABLE :: GRAPHE
       INTEGER, DIMENSION(:), ALLOCATABLE :: IFLOW
       CHARACTER*128 MESS1,MESS2,MESS3
-      my_real
-     .       , DIMENSION(:), ALLOCATABLE :: RFLOW
-      my_real
-     .   RNB_INDEX_ABF,RMAXINT
+      my_real, DIMENSION(:), ALLOCATABLE :: RFLOW
+      my_real RNB_INDEX_ABF,RMAXINT
       SAVE ITASK, IRFE, ITID
       SAVE IXDP
       INTEGER MLN,IMID,MMALE,IFAILURE_NXT,FLAG_CST_AMS
@@ -375,7 +369,8 @@ C Constant initialization
 C------------------------------------------------------------------
       CODVERS= 101
       MSGID  =  38
-      ICAA   =   0    ! active dans input par /CAA et transmis ds restart
+      
+      CALL ALE%init()
 C CODVERS : VERSION CODE        = 44 IF RELEASE 4.4
 C IMINVER : MINOR VERSION CODE  = 1 IF MINOR RELEASE A(A~1) OF 4.4 RELEASE
 C ISRCVER : SOURCE VERSION CODE = 41*100+9
@@ -476,7 +471,6 @@ C------------------------------------------------------------------
       NRBE2L = 11
       NSMSPCG=0
       IUDYNAIN = 19833333
-      I_DT_NODA_ALE_ON_KEY = 0
       ALEMUSCL_Param%I_MUSCL_OFF = 0
       IUTITLHIS=110
       IUTITLHI(1)=110
@@ -1277,7 +1271,7 @@ C--------------------------------------------
         ENDDO
       ENDIF !IF(ILAW20 == 0)
 
-      IF(I_DT_NODA_ALE_ON_KEY==1) I_DT_NODA_ALE_ON = 1
+      IF(ALE%GLOBAL%I_DT_NODA_ALE_ON_KEY==1) ALE%GLOBAL%I_DT_NODA_ALE_ON = 1
                           
 C--------------------------------------------
 C     UNIT restart info

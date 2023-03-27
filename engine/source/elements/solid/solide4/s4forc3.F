@@ -99,6 +99,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -131,7 +132,7 @@ C
      
       DOUBLE PRECISION
      .        XDP(3,*)
-         
+ 
       my_real
      .   DT2T
       my_real
@@ -143,10 +144,7 @@ C
      .   F13(MVSIZ),F23(MVSIZ),F33(MVSIZ),
      .   F14(MVSIZ),F24(MVSIZ),F34(MVSIZ),D(*),
      .   TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*), MSSA(*), DMELS(*), VOLN(MVSIZ)
-      my_real
-     .   MSNF(*),VARNOD(*),CONDN(*),CONDNSKY(*),
-      ! tableau SPMD voisin ALE/CFD
-     .   BUFVOIS(6,*)
+      my_real MSNF(*),VARNOD(*),CONDN(*),CONDNSKY(*),BUFVOIS(6,*)
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
@@ -567,11 +565,9 @@ C--------------------------
 C     UPDATE DES MASSES
 C     TRANSPORT FORCES
 C----------------------------
-      IF (JALE+JEUL > 0 .AND. INCOMP == 0)THEN
+      IF (JALE+JEUL > 0 .AND. ALE%GLOBAL%INCOMP == 0)THEN
         IF(IPARIT == 0)THEN
-          CALL A4MASS3(MS,GBUF%RHO,
-     .                 VOLN,NC1,NC2,NC3,NC4,
-     .                 MSNF,OFF)
+          CALL A4MASS3(MS,GBUF%RHO,VOLN,NC1,NC2,NC3,NC4,MSNF,OFF)
         ELSE
           CALL A4MASS3P(FSKYM,GBUF%RHO,VOLN,IADS,OFF)
         ENDIF
@@ -612,9 +608,7 @@ C
      3                           BID,BID,BID,BID,BID,
      4                           BID,BID,BID,BID,GBUF%OFF,
      5                           LFT,LLT,NEL)
-C-------------------------
-C     ASSEMBLE
-C-------------------------
+
 C----------------------------
 C     INTERNAL FORCES
 C----------------------------

@@ -113,6 +113,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -140,8 +141,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),IPARG(NPARG,*), NPF(*),IADS(8,*),
-     .        IPARTS(*),IPM(NPROPMI,*),ITASK,IMATVIS,GRTH(*),IGRTH(*),
+      INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP), NPF(*),IADS(8,*),
+     .        IPARTS(*),IPM(NPROPMI,NUMMAT),ITASK,IMATVIS,GRTH(*),IGRTH(*),
      .        IGEO(NPROPGI,*), TAGPRT_SMS(*)        
       INTEGER NELTST,ITYPTST,OFFSET,NEL ,ICP, NDDIM,
      .        NVC,ISTRAIN,IEXPAN,NG,NPTS,IOUTPRT,NALE(*),H3D_STRAIN
@@ -151,7 +152,7 @@ C-----------------------------------------------
       my_real
      .   DT2T
       my_real
-     .   PM(NPROPM,*), GEO(NPROPG,*), X(*), A(*), V(3,*), MS(*), W(*), 
+     .   PM(NPROPM,NUMMAT), GEO(NPROPG,*), X(*), A(*), V(3,*), MS(*), W(*), 
      .   FLUX(6,*), FSKYM(*),
      .   FLU1(*), VEUL(*), FV(*), TF(*), BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),MSNF(*),
@@ -654,7 +655,7 @@ C Balance thermal material
       ENDIF
 C
 C ALE or EULER : update masses 
-      IF (JALE+JEUL > 0 .AND. INCOMP == 0) THEN
+      IF (JALE+JEUL > 0 .AND. ALE%GLOBAL%INCOMP == 0) THEN
         IF(IPARIT == 0)THEN
           CALL AMASS3(MS,GBUF%RHO,VEUL(LVEUL*NFT+44),GBUF%TAG22,
      .                VOLN,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
@@ -805,20 +806,20 @@ C
 C Energy, momentum, mass balance per part in case of output
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IFLAG == 0.OR.TT >= THIS.OR.MDESS /= 0.                             
-     .  OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS).                  
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS).                  
      .  OR.TT >= THIS1(1).OR.TT >= THIS1(2).                     
      .  OR.TT >= THIS1(3).OR.TT >= THIS1(4).OR.TT >= THIS1(5).   
      .  OR.TT >= THIS1(6).OR.TT >= THIS1(7).OR.TT >= THIS1(8).   
      .  OR.TT >= THIS1(9).OR.NTH /= 0.OR.NANIM /= 0.             
-     .  OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(1)).              
-     .  OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(2)).              
-     .  OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(3)).              
-     .  OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(4)).              
-     .  OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(5)).              
-     .  OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(6)).              
-     .  OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(7)).              
-     .  OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(8)).              
-     .  OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(9)))THEN          
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(1)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(2)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(3)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(4)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(5)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(6)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(7)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(8)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(9)))THEN          
         IF (MTN == 11) THEN                                      
           EINT => ELBUF_TAB(NG)%GBUF%EINS(1:NEL)                     
         ELSE                                                     

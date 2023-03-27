@@ -91,12 +91,12 @@ C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),
      .     IPARG_GR(NPARG),IPARTS(*),IGEO(NPROPGI,*),
-     .     IPM(NPROPMI,*),IPART(LIPART1,*),PTSOL(*),
+     .     IPM(NPROPMI,NUMMAT),IPART(LIPART1,*),PTSOL(*),
      .     NG,NDDIM, NSIGI ,NVC,NEL,IUSER, NSIGS, NPF(*),
      .     STRSGLOB(*),STRAGLOB(*),FAIL_INI(*), 
      .     KXSP(NISP,*), IPARTSP(*), NOD2SP(*), SOL2SPH(2,*), IRST(3,*)
       my_real
-     .     MAS(*), PM(NPROPM,*), X(3,*), GEO(NPROPG,*),
+     .     MAS(*), PM(NPROPM,NUMMAT), X(3,*), GEO(NPROPG,*),
      .     DTELEM(*),SIGI(NSIGS,*),SKEW(LSKEW,*),STIFN(*),
      .     PARTSAV(20,*), V(3, *), MSS(8,*), 
      .     SIGSP(NSIGI,*),MSNF(*), MSSF(8,*), WMA(*),

@@ -46,6 +46,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,12 +54,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "fluid_scr_c.inc"
+#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
 C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -71,10 +72,9 @@ C----------------------------------------------
       CALL HM_OPTION_COUNT('/CAA', NB_CAA)
       CALL HM_OPTION_START('/CAA')
       DO I=1,NB_CAA
-        CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                       SUBMODEL_ID = SUB_ID)
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,SUBMODEL_ID = SUB_ID)
         IF(SUB_ID == 0) THEN
-          ICAA=1
+          ALE%GLOBAL%ICAA=1
           EXIT
         END IF        
       ENDDO

@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +79,6 @@ C-----------------------------------------------
 #include      "com09_c.inc"
 #include      "units_c.inc"
 #include      "scr12_c.inc"
-#include      "fluid_scr_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -235,12 +235,11 @@ C
      .                  C3='TYPE2',
      .                  I2=ILEV)
       ENDIF
-      IF (ICAA == 1 .AND. ILEV == 0) ILEV=4
+      IF (ALE%GLOBAL%ICAA == 1 .AND. ILEV == 0) ILEV=4
       IF (ILEV == 5) ILEV=0
 
 ! IDEL2
-      IF ((ILEV/=0 .AND. ILEV/=1 .AND. ILEV/=5 .AND. ILEV/=25 .AND. ILEV/=26 .AND. ILEV/=27 .AND. ILEV/=28)) 
-     .      IDEL2 = 0
+      IF ((ILEV/=0 .AND. ILEV/=1 .AND. ILEV/=5 .AND. ILEV/=25 .AND. ILEV/=26 .AND. ILEV/=27 .AND. ILEV/=28)) IDEL2 = 0
       IF (N2D == 1)  IDEL2 = 0
       IPARI(17) = IDEL2
 

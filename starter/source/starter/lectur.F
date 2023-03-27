@@ -581,6 +581,7 @@ C-----------------------------------------------
       USE STATE_MOD
       USE USER_WINDOWS_MOD
       USE USER_SENSOR_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -614,13 +615,11 @@ C-----------------------------------------------
 #include      "com_xfem1.inc"
 #include      "eigcom.inc"
 #include      "flowcom.inc"
-#include      "fluid_scr_c.inc"
 #include      "fxbcom.inc"
 #include      "intstamp_c.inc"
 #include      "lagmult.inc"
 #include      "sphcom.inc"
 #include      "param_c.inc"
-#include      "ale_param.inc"
 #include      "remesh_c.inc"
 #include      "tabsiz_c.inc"
 #include      "tablen_c.inc"
@@ -2237,8 +2236,8 @@ C
 C--------------------------------------------
 C     STOCKAGE DYNAMIQUE (A.L.E.) ENTIER
 C--------------------------------------------
-      SNALE  = MAX(IALE,IEULER,IALELAG)*NUMNOD
-      SIELVS = 6*NUMELS+MAX(IALE,ITHERM,IEULER,IALELAG)* (4 * NUMELQ + 3 * NUMELTG)
+      ALE%GLOBAL%SNALE  = MAX(IALE,IEULER,IALELAG)*NUMNOD
+      ALE%GLOBAL%SIELVS = 6*NUMELS+MAX(IALE,ITHERM,IEULER,IALELAG)* (4 * NUMELQ + 3 * NUMELTG)
       SIFILL = NMULT*NUMNOD
       SIMS   = NMULT*NUMNOD
 C---
@@ -3725,7 +3724,7 @@ C---
      .                           MSGTYPE=MSGERROR,
      .                           C1='TAGNO')
          TAGNO(:) = 0
-         ALLOCATE (NALE_R2R(SNALE),STAT=stat)
+         ALLOCATE (NALE_R2R(ALE%GLOBAL%SNALE),STAT=stat)
          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='NALE_R2R')
@@ -4174,9 +4173,9 @@ C--------------------------------------------
       SDFILL  = NMULT*NUMNOD
       SALPH   = 2*NMULT*(NUMELQ+NUMELS)
       SWB     = 0
-      IF (NWALE == 2) THEN
+      IF (ALE%GRID%NWALE == 2) THEN
         SWB  = 3*NUMNOD
-      ELSEIF (NWALE == 4) THEN
+      ELSEIF (ALE%GRID%NWALE == 4) THEN
         SWB  = 4*NUMNOD
       ENDIF
       ALLOCATE (WB(SWB)          ,STAT=stat)
@@ -4184,7 +4183,7 @@ C--------------------------------------------
      .                           MSGTYPE=MSGERROR,
      .                         C1='WB')
       IF (SWB > 0) WB = ZERO
-      IF (NWALE == 4) THEN
+      IF (ALE%GRID%NWALE == 4) THEN
         WMA => WB(3*NUMNOD+1:SWB)
       ELSE
         WMA => WB

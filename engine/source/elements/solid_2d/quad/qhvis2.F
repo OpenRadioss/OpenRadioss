@@ -35,6 +35,10 @@ Chd|====================================================================
      .                  AREA,CXX,MAT,VD2,VIS,EANI,PID,GEO,
      .                  PARTSAV,IPARTQ,EHOU, IPARG)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -54,7 +58,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
-#include      "scrupw_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -77,7 +80,7 @@ C-----------------------------------------------
      .   HGY(MVSIZ), HGZ(MVSIZ), 
      .   HY,HZ,FAC,PX1H1,PX2H1,EHOURT, ARE
 C-----------------------------------------------
-      IF(MTN==11 .OR. ((MTN==17.OR.MTN==47) .AND. UPWM==0))THEN
+      IF(MTN==11 .OR. ((MTN==17.OR.MTN==47) .AND. ALE%UPWIND%UPWM==0))THEN
        DO 2 I=LFT,LLT
          T11(I) = ZERO
          T12(I) = ZERO
@@ -109,18 +112,18 @@ C
 C
       ISFLUID=IPARG(63)
  
-      IF(ISFLUID==1 .AND. UPWM==0)THEN
+      IF(ISFLUID==1 .AND. ALE%UPWIND%UPWM==0)THEN
        DO I=LFT,LLT
         FCL(I)=FCL(I)*CXX(I)
         FCQ(I)=ZERO
        ENDDO
-      ELSEIF(ISFLUID==1 .AND. UPWM==1)THEN
+      ELSEIF(ISFLUID==1 .AND. ALE%UPWIND%UPWM==1)THEN
        DO 30 I=LFT,LLT
          FCL(I)=MIN(FCL(I)*CXX(I),
      .           MAX(20.*CAQ(I)*VIS(I),FCL(I)*SQRT(VD2(I))))
          FCQ(I)=0.
   30   CONTINUE
-      ELSEIF(ISFLUID==1 .AND. UPWM>0)THEN
+      ELSEIF(ISFLUID==1 .AND. ALE%UPWIND%UPWM>0)THEN
        DO 35 I=LFT,LLT
         IF(VIS(I)>ZERO)THEN
 C         FCQ(I)=FCL(I)

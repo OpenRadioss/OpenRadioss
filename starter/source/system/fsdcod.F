@@ -71,12 +71,12 @@ C-----------------------------------------------
       INTEGER IBFV(NIFV,*),NPC(*), NPC1(*), IBCL(NIBCLD,*), IPRES(NIBCLD,*),
      .   ISKEW(*), ISKN(LISKN,*), ITABM1(*),
      .   LACCELM(3,*),INSEL(*),IBCSLAG(5,*), 
-     .   IPM(NPROPMI,*), IGEO(NPROPGI,*),IBCV(NICONV,*),
+     .   IPM(NPROPMI,NUMMAT), IGEO(NPROPGI,NUMGEO),IBCV(NICONV,*),
      .   IBCR(NIRADIA,*),IBFFLUX(NITFLUX,*)
       INTEGER ,DIMENSION(NIFV,NFXVEL)  ,INTENT(INOUT) :: IBFVEL
       INTEGER ,DIMENSION(NIFT,NFXTEMP) ,INTENT(INOUT) :: IBFT
       my_real
-     .   PM(NPROPM,*), GEO(NPROPG,*),SKEW(LSKEW,*),
+     .   PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),SKEW(LSKEW,*),
      .   DAMPR(NRDAMP,*), PLD(*),BUFMAT(*)
       TYPE(TTABLE) , DIMENSION(NTABLE) :: TABLE
       DOUBLE PRECISION BUFGEO(*)
@@ -2246,9 +2246,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(MLAW_TAG_), TARGET, DIMENSION(NUMMAT)  :: MLAW_TAG
-      INTEGER IPM(NPROPMI,*)
-      my_real
-     .        PM(NPROPM,*)
+      INTEGER IPM(NPROPMI,NUMMAT)
+      my_real  PM(NPROPM,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

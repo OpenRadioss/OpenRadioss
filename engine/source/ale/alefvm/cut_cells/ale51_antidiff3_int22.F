@@ -37,7 +37,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD 
       USE I22BUFBRIC_MOD 
-      USE I22TRI_MOD      
+      USE I22TRI_MOD   
+      USE ALE_MOD   
 C-----------------------------------------------
 C   D e c r i p t i o n
 C-----------------------------------------------
@@ -58,7 +59,6 @@ C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com07_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
@@ -250,7 +250,7 @@ C-----------------------------------------------
               IFV    = BRICK_LIST(NIN,IB)%Adjacent_Brick(K,5)
               ICELLv = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%Adjacent_Cell(IADJ)                         
               IF(tmpFLUX(K,IADJ)>ZERO)THEN
-                FF(K,IADJ) = HALF * ( FF(K,IADJ)*(ONE-UPWSM)+ALPH*tmpFLUX(K,IADJ)*(ONE+UPWSM) )
+                FF(K,IADJ) = HALF * ( FF(K,IADJ)*(ONE-ALE%UPWIND%UPWSM)+ALPH*tmpFLUX(K,IADJ)*(ONE+ALE%UPWIND%UPWSM) )
 
                 
                 

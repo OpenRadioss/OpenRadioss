@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,20 +67,18 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
-#include      "fluid_scr_c.inc"
 #include      "sysunit.inc"
-C     NSUBMOD
 #include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IX(*),ITABM1(*),ISKN(LISKN,*),
-     .        IGEO(NPROPGI,*),IPM(NPROPMI,*),NPC(*),
+     .        IGEO(NPROPGI,NUMGEO),IPM(NPROPMI,NUMMAT),NPC(*),
      .        IPART(LIPART1,*),IDRAPEID(*),PLY_INFO(2,NUMPLY),
      .        NPROP_STACK,NUMGEO_STACK(NUMGEO+NUMSTACK)
       my_real
-     .   GEO(NPROPG,*), X(*), PM(NPROPM,*),
+     .   GEO(NPROPG,NUMGEO), X(*), PM(NPROPM,NUMMAT),
      .   PLD(*),RTRANS(NTRANSF,*)
       TYPE(STACK_INFO_ ) , DIMENSION (1:NPROP_STACK) :: STACK_INFO
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -183,7 +182,7 @@ C
       DO 600 I=1,NUMSTACK 
         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = IG, UNIT_ID = UID, OPTION_TITR = IDTITL)
         IGFLU = 0
-        IF(ICAA == 1)IGFLU=1
+        IF(ALE%GLOBAL%ICAA == 1)IGFLU=1
         ISORTH = 0
         IHGFLU = 0
         IFLAGUNIT = 0
@@ -247,7 +246,7 @@ C-------------------------------
       DO II = 1, NUMPLY  
          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = IG, UNIT_ID = UID, OPTION_TITR = IDTITL)
          IGFLU = 0
-         IF(ICAA == 1)I GFLU = 1
+         IF(ALE%GLOBAL%ICAA == 1)I GFLU = 1
          ISORTH = 0
          IHGFLU = 0
          IFLAGUNIT = 0

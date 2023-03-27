@@ -50,6 +50,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ALEFVM_MOD , only:ALEFVM_Param
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,8 +65,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
-#include      "fluid_scr_c.inc"
-#include      "alesolver.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -220,7 +219,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 
-      IF(ICAA/=0 .OR. ALEFVM_Param%IENabled/=0 .OR. ISFINT>=2)THEN
+      IF(ALE%GLOBAL%ICAA/=0 .OR. ALEFVM_Param%IENabled/=0 .OR. ALE%GLOBAL%ISFINT>=2)THEN
         DO I=LFT,LLT
           II=I+NFT
           N1X(I)=VEUL(14,II)

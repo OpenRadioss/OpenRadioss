@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C.../tabsize/
-C
+
       COMMON /TABLESIZI/
      .  SICODE, SLSHSUB, SISKEW, SISKWN, SIFRAME, SNETH,
      .  SIBCSLAG, SIPART, SNOM_OPT, SNPC, SIXUR, SIXTG,
      .  SIXTG1, SIXS, SIXQ, SIXC, SIXT, SIXP,
-     .  SIXR, SITAB, SITABM1, SGJBUFI, SNALE, SIELVS,
+     .  SIXR, SITAB, SITABM1, SGJBUFI,
      .  SIFILL, SIMS, SISUBS, SIGRN, SISURF,
      .  SISLIN, SIBUFSSG, SKXX, SIXX, SKXSP, SIXSP,
      .  SNOD2SP, SISPSYM, SISPCOND, SISPHIO, SLPRTSPH, SLONFSPH,
@@ -71,7 +70,7 @@ C
      .  SICODE, SLSHSUB, SISKEW, SISKWN, SIFRAME, SNETH,
      .  SIBCSLAG, SIPART, SNOM_OPT, SNPC, SIXUR, SIXTG,
      .  SIXTG1, SIXS, SIXQ, SIXC, SIXT, SIXP,
-     .  SIXR, SITAB, SITABM1, SGJBUFI, SNALE, SIELVS,
+     .  SIXR, SITAB, SITABM1, SGJBUFI,
      .  SIFILL, SIMS, SISUBS, SIGRN, SISURF,
      .  SISLIN, SIBUFSSG, SKXX, SIXX, SKXSP, SIXSP,
      .  SNOD2SP, SISPSYM, SISPCOND, SISPHIO, SLPRTSPH, SLONFSPH,

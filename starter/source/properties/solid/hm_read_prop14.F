@@ -61,6 +61,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE ELBUFTAG_MOD            
       USE MULTI_FVM_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +77,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "tablen_c.inc"
-#include      "fluid_scr_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -421,8 +421,7 @@ C--------------------------------------------------
         IF(GEO(39)/=ZERO.AND.IGEO(9)== 0)IGEO(9)=NINT(GEO(39))
         IF(GEO(171)/=ZERO.AND.IGEO(10)== 0)IGEO(10)=NINT(GEO(171))
         GEO(12)= IGTYP + 0.1
-c        GEO(171)= IGEO(10)
-        IF(ICAA==1) THEN
+        IF(ALE%GLOBAL%ICAA==1) THEN
          GEO(1) = IGEO(4)
          IGEO(36) = 1
         ENDIF
@@ -531,6 +530,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE ELBUFTAG_MOD            
       USE MULTI_FVM_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -544,7 +544,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "param_c.inc"
 #include      "tablen_c.inc"
-#include      "fluid_scr_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -636,7 +635,7 @@ C
         GEO(13) = QH
 C    
       !PSEUDO-VISCOSITY IS REQUIRED FOR STABILITY AND FOR SHOCK MODELING (STAGGERED SCHEME) 
-      IF(ICAA == 0)THEN
+      IF(ALE%GLOBAL%ICAA == 0)THEN
         !CAA is an obsolete option. Unless it is defined, program will set default values
         IF (QA == ZERO) QA = ONEP1         
         IF (QB == ZERO) QB = FIVEEM2     

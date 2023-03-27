@@ -44,6 +44,10 @@ Chd|====================================================================
      .   VZ1,VZ2,VZ3,VZ4,VZ5,VZ6,VZ7,VZ8,
      .   IPARG1)
 C-----------------------------------------------
+C   M o d u l e  s
+C-----------------------------------------------
+      USE ALE_MOD     
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -56,12 +60,12 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "param_c.inc"
-#include      "scrupw_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   PM(NPROPM,*), RHO(*),VOLGP(LVEUL,*),
+     .   PM(NPROPM,NUMMAT), RHO(*),VOLGP(LVEUL,*),
      .   F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),
      .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
      .   F15(*),F25(*),F35(*),F16(*),F26(*),F36(*),
@@ -88,34 +92,33 @@ C-----------------------------------------------
      .   F1(MVSIZ),F2(MVSIZ),F3(MVSIZ),GAM(MVSIZ),
      .   A1(MVSIZ),A2(MVSIZ),A3(MVSIZ),A4(MVSIZ),
      .   A5(MVSIZ),A6(MVSIZ),A7(MVSIZ),A8(MVSIZ),FAC
-      my_real
-     .   AAA,DM,DMX,DMY,DMZ
+      my_real AAA,DM,DMX,DMY,DMZ
       INTEGER IFLG,IADBUF
-       INTEGER I
+      INTEGER I
        
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------       
-      IF(UPWM==0.AND.IPARG1(64)==1)RETURN   !silent boundary
+      IF(ALE%UPWIND%UPWM==0.AND.IPARG1(64)==1)RETURN   !silent boundary
              
 C-----------------------------------------------
 C     Forces de transports calcul es par volume fini
 C-----------------------------------------------
 C   DMi = 0.5*DT1*QMV(i,I)  masse entrant par la face i
-      IF(MTN==51 .AND. UPWM/=3 .AND. IPARG1(64)==0)THEN
+      IF(MTN==51 .AND. ALE%UPWIND%UPWM/=3 .AND. IPARG1(64)==0)THEN
         IADBUF = NINT(PM(27,MAT(1)))
         IFLG = NINT(BUFMAT(31+IADBUF-1))
 C
         IF(IFLG>1)RETURN
 C
-        IF(UPWM==0.)THEN
+        IF(ALE%UPWIND%UPWM==0.)THEN
          MX = MAT(LFT)
          DO I=LFT,LLT
           GAM(I)= PM(15,MX)
          ENDDO
         ELSE
          DO I=LFT,LLT
-          GAM(I)= CUPWM
+          GAM(I)= ALE%UPWIND%CUPWM
          ENDDO
         ENDIF
 C
@@ -208,8 +211,8 @@ C
         RETURN
       ENDIF
 C
-C CALCUL DE LA FORCE DE TRANSPORT AU CENTRE
-C STANDARD UPWIND UTILISANT LES DONNEES MATERIAUX
+C 'REYNOLDS THEOREM' : TERM CALCULATED AT CENTROID
+C  STANDARD UPWIND WITH MATERIAL PARAMETERS
 C
        MX = MAT(LFT) 
        DO I=LFT,LLT

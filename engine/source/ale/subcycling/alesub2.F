@@ -35,6 +35,10 @@ Chd|====================================================================
      4   STIFN  ,DT2T ,NELTSA,ITYPTSA,NELTS  ,
      5   WEIGHT ,FSKY ,FSKYV )
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 C /ALESUB is an obsolete option
@@ -53,7 +57,6 @@ C-----------------------------------------------
 #include      "scr06_c.inc"
 #include      "units_c.inc"
 #include      "task_c.inc"
-#include      "vale_c.inc"
 #include      "parit_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -75,15 +78,15 @@ C--------------------------------------------------------
 C       ALE SUB-CYCLING (PART 2)
 C--------------------------------------------------------
       IF(ITASK == 0) THEN
-          DT2=DT2*DTFSUB
+          DT2=DT2*ALE%SUB%DTFSUB
           IF(DT2S /= ZERO)DT2=MIN(DT2,ONEP1*DT2S)
           IF(TT > ZERO)THEN
-           DT12S=HALF*(DT1+INT(DT2/DT1SAVE)*DT1SAVE)
+           DT12S=HALF*(DT1+INT(DT2/ALE%SUB%DT1SAVE)*ALE%SUB%DT1SAVE)
           ELSE
            DT12S=HALF*DT2
           ENDIF
           DT2S=DT2
-          DT1=DT1SAVE
+          DT1=ALE%SUB%DT1SAVE
           IPRI=MOD(NCYCLE,IABS(NCPRI))
           IF(IPRI == 0.AND.ISPMD == 0)THEN
             WRITE(IOUT,1000) ' FLUID TIME STEP ',DT2S,' SOLID',NELTS
@@ -115,9 +118,9 @@ C RESET LAGRANGIAN VELOCITIES
             INDX2(NINDX2) = N
           ENDIF
         ENDDO
-        IF (NINDX2 /= 0)
-     .  CALL BCS3V(NINDX2,INDX2,ISKEW,ICODT(2*NUMNOD+1),V,
-     .  	   DSAVE ,SKEW)
+        IF (NINDX2 /= 0)THEN
+          CALL BCS3V(NINDX2,INDX2,ISKEW,ICODT(2*NUMNOD+1),V,DSAVE ,SKEW)
+        ENDIF
       ENDDO
 C
 C DISPLACEMENT BACKUP
@@ -158,7 +161,6 @@ C Parith/OFF
  	  A(1,N)=A(1,N)*WEIGHT(N)
  	  A(2,N)=A(2,N)*WEIGHT(N)
  	  A(3,N)=A(3,N)*WEIGHT(N)
-C
  	  ASAVE(1,N)=A(1,N)
  	  ASAVE(2,N)=A(2,N)
  	  ASAVE(3,N)=A(3,N)

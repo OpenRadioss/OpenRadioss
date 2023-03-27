@@ -396,6 +396,7 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -414,7 +415,6 @@ C-----------------------------------------------
 #include      "intstamp_c.inc"
 #include      "lagmult.inc"
 #include      "param_c.inc"
-#include      "ale_param.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
 #include      "scr15_c.inc"
@@ -2038,7 +2038,7 @@ C     ----------------------    C
 
           IF(ALE_CONNECTIVITY%has_nn_connect .OR. ALE_CONNECTIVITY%has_ne_connect)THEN
             CALL W_ING2LOC(ALE_CONNECTIVITY,
-     .            ELEMID_L,NUMNOD,NODGLOB,NODLOCAL,NUMNOD_L,LEN_IA,NWALE)
+     .            ELEMID_L,NUMNOD,NODGLOB,NODLOCAL,NUMNOD_L,LEN_IA,ALE%GRID%NWALE)
           ENDIF
 
         DEALLOCATE(ELEMID_L)
@@ -2860,9 +2860,9 @@ C
         CALL WRITE_DB(ALPH,SALPH)
         LEN_AM = LEN_AM + SALPH
       END IF
-      IF(NWALE==2) THEN
+      IF(ALE%GRID%NWALE==2) THEN
         CALL W_R3NLOC(WB,NODGLOB,NUMNOD_L,LEN_AM)
-      ELSEIF(NWALE==4) THEN
+      ELSEIF(ALE%GRID%NWALE==4) THEN
         CALL W_R3NLOC(WB,NODGLOB,NUMNOD_L,LEN_AM)
         CALL W_RNLOC(WMA,NODGLOB,NUMNOD_L,LEN_AM)
       ENDIF

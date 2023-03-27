@@ -41,6 +41,7 @@ C-----------------------------------------------
       USE INOUTFILE_MOD
       USE SENSOR_MOD
       USE ANIM_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -109,7 +110,7 @@ C-----------------------------
       MSG_R2R = 0
       IF ((IRAD2R==1).AND.(NCYCLE<2)) R2R_MFILR = 0   
 C
-      IF(IALESUB/=0 .AND. TT+DT2<=T1S+DT2S)RETURN
+      IF(ALE%SUB%IALESUB/=0 .AND. TT+DT2<=T1S+DT2S)RETURN
 C SOUS CYCLAGE ALE
 C-----------------------------
 C     SENSOR 

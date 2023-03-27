@@ -42,6 +42,10 @@ Chd|====================================================================
      B   N3Z,     N4Z,     N5Z,     N6Z,
      C   NEL)
 C-----------------------------------------------
+C   M o d u l e  s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -53,7 +57,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
-C     REAL
       my_real
      .   VOLN(*),DELTAX(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
@@ -63,22 +66,17 @@ C     REAL
      .   N1Y(*), N2Y(*), N3Y(*), N4Y(*), N5Y(*), N6Y(*),
      .   N1Z(*), N2Z(*), N3Z(*), N4Z(*), N5Z(*), N6Z(*)
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "fluid_scr_c.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NFAC
-C     REAL
-      my_real
-     .   XIOFF(MVSIZ), AREAM(MVSIZ), ATEST(MVSIZ), AREA(6,MVSIZ)
+      my_real XIOFF(MVSIZ), AREAM(MVSIZ), ATEST(MVSIZ), AREA(6,MVSIZ)
 C-----------------------------------------------
-      DO 10 I=1,NEL
-      XIOFF(I)=ONE
-   10 AREAM(I)=EM20
+      DO I=1,NEL
+        XIOFF(I)=ONE
+        AREAM(I)=EM20
+      ENDDO
 C
-      IF(ICAA==0)THEN
+      IF(ALE%GLOBAL%ICAA==0)THEN
         CALL SLEN(X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,1,AREA,AREAM)
         CALL SLEN(X5,X6,X7,X8,Y5,Y6,Y7,Y8,Z5,Z6,Z7,Z8,2,AREA,AREAM)
         CALL SLEN(X1,X2,X6,X5,Y1,Y2,Y6,Y5,Z1,Z2,Z6,Z5,3,AREA,AREAM)
@@ -86,8 +84,9 @@ C
         CALL SLEN(X3,X4,X8,X7,Y3,Y4,Y8,Y7,Z3,Z4,Z8,Z7,5,AREA,AREAM)
         CALL SLEN(X4,X1,X5,X8,Y4,Y1,Y5,Y8,Z4,Z1,Z5,Z8,6,AREA,AREAM)
 C
-        DO 50 I=1,NEL
-   50   DELTAX(I)=FOUR*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
+        DO I=1,NEL
+          DELTAX(I)=FOUR*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
+        ENDDO
 C
       ELSE
         CALL SLENA(

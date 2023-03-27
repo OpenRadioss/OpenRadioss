@@ -20,10 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C.../COM_ENGCARDS/
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      COMMON /COM_ENGCARDS/ INVERS_ENGINE,NCRST,MULTIREST,NGINE,
-     .        NRUN_ENG,NANIM_ENG,NTFILE_ENG,NSTOP_ENG,NRFILE_ENG,NDT_ENG,NVERS_ENG
-      INTEGER        INVERS_ENGINE,NCRST,MULTIREST,NGINE,
-     .               NRUN_ENG,NANIM_ENG,NTFILE_ENG,NSTOP_ENG,NRFILE_ENG,NDT_ENG,NVERS_ENG
-C
+
+
+      COMMON /COM_ENGCARDS/ NGINE,NRUN_ENG,NANIM_ENG,NTFILE_ENG,NSTOP_ENG,NRFILE_ENG,NDT_ENG,NVERS_ENG
+      INTEGER               NGINE,NRUN_ENG,NANIM_ENG,NTFILE_ENG,NSTOP_ENG,NRFILE_ENG,NDT_ENG,NVERS_ENG

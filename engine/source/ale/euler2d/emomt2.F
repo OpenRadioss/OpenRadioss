@@ -37,6 +37,10 @@ Chd|====================================================================
      .                  NC1,NC2,NC3,NC4,MAT,
      .                  QMV,BUFMAT)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -51,7 +55,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
-#include      "scrupw_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -88,19 +91,19 @@ C-----------------------------------------------
 C     Reynolds transportation theorem
 C-----------------------------------------------
 C   DMi = 0.5*DT1*QMV(i,I)  incoming mass from face i
-      IF(MTN == 51 .AND. UPWM /= 3)THEN
+      IF(MTN == 51 .AND. ALE%UPWIND%UPWM /= 3)THEN
         IADBUF = NINT(PM(27,MAT(1)))
         IFLG = NINT(BUFMAT(31+IADBUF-1))
 C
         IF(IFLG > 1)RETURN
 C
-        IF(UPWM == 0.)THEN
+        IF(ALE%UPWIND%UPWM == 0.)THEN
          DO I=LFT,LLT
           GAM(I)= PM(15,MAT(I))
          ENDDO
         ELSE
          DO I=LFT,LLT
-          GAM(I)= CUPWM
+          GAM(I)= ALE%UPWIND%CUPWM
          ENDDO
         ENDIF
 C
@@ -146,13 +149,13 @@ C
         ENDDO
         RETURN
       ENDIF
-      IF(UPWM == 0.AND.MTN == 11)RETURN
-      IF(UPWM > 1)THEN
+      IF(ALE%UPWIND%UPWM == 0.AND.MTN == 11)RETURN
+      IF(ALE%UPWIND%UPWM > 1)THEN
        PC=FOURTH
        PD=ONE_OVER_16
        PS=ONE_OVER_16
        PP=ONE_OVER_16
-       DT1H=HALF*DT1*CUPWM
+       DT1H=HALF*DT1*ALE%UPWIND%CUPWM
        DO I=LFT,LLT
         Y13(I)=Y3(I)-Y1(I)
         Z13(I)=Z3(I)-Z1(I)
@@ -177,8 +180,8 @@ C
 C
 C FORCE AT CENTROID
 C
-      IF(UPWM < 2.OR.MTN == 11)THEN
-       IF(MTN == 11.AND.UPWM > 1)THEN
+      IF(ALE%UPWIND%UPWM < 2.OR.MTN == 11)THEN
+       IF(MTN == 11.AND.ALE%UPWIND%UPWM > 1)THEN
         CALL UPWIND(RHO,VIS,VDY,VDY,VDZ,S,S,T,DELTAX,GAM)
         DO I=LFT,LLT
          FAC=4.*GAM(I)/AIRE(I)
@@ -265,7 +268,7 @@ C
         T24(I) =  T24(I)+(PS+A3(I))*F2P(I)
        ENDDO
 C
-       IF(UPWM == 2)THEN
+       IF(ALE%UPWIND%UPWM == 2)THEN
         DO I=LFT,LLT
          FAC=-DT1H/TR(I)
          F1(I)=FAC*(-F1P(I)*DZZP(I)+F2P(I)*DYZP(I))
@@ -303,7 +306,7 @@ C NODE 2
         T23(I) =  T23(I)+(PS+A3(I))*F2P(I)
         T24(I) =  T24(I)+PD*F2P(I)
        ENDDO
-       IF(UPWM == 2)THEN
+       IF(ALE%UPWIND%UPWM == 2)THEN
         DO I=LFT,LLT
          FAC=-DT1H/TR(I)
          F1(I)=FAC*(-F1P(I)*DZZP(I)+F2P(I)*DYZP(I))
@@ -341,7 +344,7 @@ C NODE 3
         T23(I) =  T23(I)+(PP+A2(I))*F2P(I)
         T24(I) =  T24(I)+(PS+A3(I))*F2P(I)
        ENDDO
-       IF(UPWM == 2)THEN
+       IF(ALE%UPWIND%UPWM == 2)THEN
         DO I=LFT,LLT
          FAC=-DT1H/TR(I)
          F1(I)=FAC*(-F1P(I)*DZZP(I)+F2P(I)*DYZP(I))
@@ -379,7 +382,7 @@ C NODE  4
         T23(I) =  T23(I)+(PS+A2(I))*F2P(I)
         T24(I) =  T24(I)+(PP+A3(I))*F2P(I)
        ENDDO
-       IF(UPWM == 2)THEN
+       IF(ALE%UPWIND%UPWM == 2)THEN
         DO I=LFT,LLT
          FAC=-DT1H/TR(I)
          F1(I)=FAC*(-F1P(I)*DZZP(I)+F2P(I)*DYZP(I))

@@ -142,6 +142,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -929,7 +930,7 @@ C
       ENDIF
 C
 C Mass update
-      IF (JALE == 3 .AND. JLAG == 1 .AND. INCOMP == 0) THEN  ! law 77 
+      IF (JALE == 3 .AND. JLAG == 1 .AND. ALE%GLOBAL%INCOMP == 0) THEN  ! law 77 
        IF(IPARIT == 0)THEN         
           CALL AMASS3F(MSF,MBUF%VAR,
      .                FVOLN,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
@@ -937,7 +938,7 @@ C Mass update
         ELSE
           CALL AMASS3PF(FSKYM,MBUF%VAR,FVOLN,IADS,OFF)
         ENDIF
-      ELSEIF (JALE+JEUL > 0 .AND. INCOMP == 0)THEN
+      ELSEIF (JALE+JEUL > 0 .AND. ALE%GLOBAL%INCOMP == 0)THEN
         IF(IPARIT == 0)THEN
           CALL AMASS3(MS,GBUF%RHO,VEUL(LVEUL*NFT+44),GBUF%TAG22,
      .                VOLN,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,

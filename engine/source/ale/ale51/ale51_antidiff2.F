@@ -43,6 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
        USE SEGVAR_MOD     
        USE ALE_CONNECTIVITY_MOD
+       USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +53,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "com04_c.inc"
-#include      "com07_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 C-----------------------------------------------
@@ -154,8 +154,8 @@ C         outgoing flux
 C-----------------------------------------------
           DO K=1,4
             IF(FLUX(K,II) > ZERO)THEN
-              FF(K) = 0.5* (FF(K)*(1.-UPWSM)
-     .                    + ALPH(II)*FLUX(K,II)*(1.+UPWSM))
+              FF(K) = 0.5* (FF(K)*(1.-ALE%UPWIND%UPWSM)
+     .                    + ALPH(II)*FLUX(K,II)*(1.+ALE%UPWIND%UPWSM))
               FLUX(K,II) = FF(K)
               IF(JV(K) < 0)THEN
                 !nothing to do

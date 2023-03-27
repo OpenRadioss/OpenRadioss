@@ -38,8 +38,8 @@ C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutine is setting global parameter for ALE/EULER framework
 C    %L_SSP           : buffer size to allocate sound speed in element buffer
-C    UPWMG            : global parameter for 'M'omentum convection : upwind
-C    UPWOG            : global parameter for 'O'ther convections (energy, mass) : upwind
+C    ALE%UPWIND%UPWMG : global parameter for 'M'omentum convection : upwind
+C    ALE%UPWIND%UPWOG : global parameter for 'O'ther convections (energy, mass) : upwind
 C    IALE,IEULER,ILAG : global flag to detect if ALE, EULER, or none of them was defined in the input file
 C-----------------------------------------------
 C   M o d u l e s
@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,8 +60,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "conv_c.inc"
-#include      "fluid_scr_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -218,10 +217,10 @@ C-----------------------------------------------
             ILAW1 = IPM(2,MID1)
             ILAW2 = IPM(2,MID2)                        
             ILAW2 = IPM(2,MID2)   
-            PM(15,MID1) = UPWMG
-            PM(15,MID2) = UPWMG
-            PM(16,MID1) = UPWOG
-            PM(16,MID2) = UPWOG                        
+            PM(15,MID1) = ALE%UPWIND%UPWMG
+            PM(15,MID2) = ALE%UPWIND%UPWMG
+            PM(16,MID1) = ALE%UPWIND%UPWOG
+            PM(16,MID2) = ALE%UPWIND%UPWOG                        
             MLAW_TAG(MID1)%L_SSP = 1 ! boundary layer material (ilaw updated later in sgrtail.F)
             MLAW_TAG(MID2)%L_SSP = 1 ! boundary layer material (ilaw updated later in sgrtail.F) 
           ENDIF                                                    
@@ -255,8 +254,8 @@ C-----------------------------------------------
         !  UPWIND  (backward compatibility)
         !################################################################!         
         IF (JALE_FROM_PROP /= 0 .OR. JALE_FROM_MAT /= 0) THEN                                
-          PM(15,IMID) = UPWMG                                 
-          PM(16,IMID) = UPWOG                                 
+          PM(15,IMID) = ALE%UPWIND%UPWMG                                 
+          PM(16,IMID) = ALE%UPWIND%UPWOG                                 
         ENDIF    
 
         !################################################################!      
@@ -307,8 +306,8 @@ C-----------------------------------------------
                 !local flags
                 CODCONV = CODCONV + 11
                 !global flags
-                CODV(1) = 01
-                CODV(2) = 01
+                ALE%GLOBAL%CODV(1) = 01
+                ALE%GLOBAL%CODV(2) = 01
           ENDIF
         ENDIF
       
@@ -317,8 +316,8 @@ C-----------------------------------------------
           !local flags
           CODCONV = CODCONV + 1100
           !global flags
-          CODV(3)=1
-          CODV(4)=1
+          ALE%GLOBAL%CODV(3)=1
+          ALE%GLOBAL%CODV(4)=1
         ENDIF
         
         !specific convection (massic fraction, and lee-tarver parameter)
@@ -326,7 +325,7 @@ C-----------------------------------------------
           !local flags
           CODCONV = CODCONV + 10000
           !global flags
-          CODV(5)=1
+          ALE%GLOBAL%CODV(5)=1
         ENDIF
       
         !default rezoning(remapping) for deviatoric stress
@@ -364,9 +363,9 @@ C-----------------------------------------------
           !local flags
           CODCONV = CODCONV + 11100000
           !global flags
-          CODV(6) = 1
-          CODV(7) = 1
-          CODV(8) = 1                    
+          ALE%GLOBAL%CODV(6) = 1
+          ALE%GLOBAL%CODV(7) = 1
+          ALE%GLOBAL%CODV(8) = 1                    
         ENDIF
                
         !storing values in material buffer for backward compatibility
@@ -379,7 +378,7 @@ C-----------------------------------------------
        IGFLU=0
        IF(IPID > 0)IGFLU=IGEO(36,IPID)
        !### CAA without fluid material (CAA is obsolete)
-       IF(ICAA /= 0)THEN
+       IF(ALE%GLOBAL%ICAA /= 0)THEN
          IF(    JALE_FROM_PROP==1 .OR. JALE_FROM_PROP==2
      .     .OR. JALE_FROM_MAT==1  .OR. JALE_FROM_MAT==2 )THEN !ALE or EULER
            IF(.NOT.loi_fluid(ilaw)) THEN
@@ -391,7 +390,7 @@ C-----------------------------------------------
          ENDIF
        ENDIF
        !### /PROP/FLUID without FLUID material 
-       IF(  (IGFLU==1) .AND. .NOT.(loi_fluid(ilaw)) .AND. (ICAA == 0) .AND. (IGTYP == 14) )THEN
+       IF(  (IGFLU==1) .AND. .NOT.(loi_fluid(ilaw)) .AND. (ALE%GLOBAL%ICAA == 0) .AND. (IGTYP == 14) )THEN
           CALL ANCMSG(MSGID=38,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
      .                I1=ID  ,C1=TITR ,
      .                I2=PID ,C2=TITR1,
@@ -407,7 +406,7 @@ C-----------------------------------------------
        IGFLU=0
        IF(IPID > 0)IGFLU=IGEO(36,IPID)
        !### CAA without fluid material (CAA is obsolete)
-       IF(ICAA /= 0)THEN
+       IF(ALE%GLOBAL%ICAA /= 0)THEN
          IF(    JALE_FROM_PROP==1 .OR. JALE_FROM_PROP==2
      .     .OR. JALE_FROM_MAT==1  .OR. JALE_FROM_MAT==2 )THEN !ALE or EULER
            IF(.NOT.loi_fluid(ilaw)) THEN
@@ -419,7 +418,7 @@ C-----------------------------------------------
          ENDIF
        ENDIF
        !### /PROP/FLUID without FLUID material 
-       IF(  (IGFLU==1) .AND. .NOT.(loi_fluid(ilaw)) .AND. (ICAA == 0) .AND. (IGTYP == 14) )THEN
+       IF(  (IGFLU==1) .AND. .NOT.(loi_fluid(ilaw)) .AND. (ALE%GLOBAL%ICAA == 0) .AND. (IGTYP == 14) )THEN
           CALL ANCMSG(MSGID=38,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
      .                I1=ID  ,C1=TITR ,
      .                I2=PID ,C2=TITR1,

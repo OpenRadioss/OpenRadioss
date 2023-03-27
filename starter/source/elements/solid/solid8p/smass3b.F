@@ -27,11 +27,16 @@ Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SMASS3B(
-     1   RHO    ,MS ,VOLGP,LVLOC,MSS,
-     2   PARTSAV,X  ,V    ,IPART,MSNF,
-     3   MSSF   ,WMA,RHOCP,MCP   ,MCPS ,
-     4   MSSA, VOLU, 
-     5   NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8)
+     1                   RHO    ,MS  ,VOLGP,LVLOC,MSS,
+     2                   PARTSAV,X   ,V    ,IPART,MSNF,
+     3                   MSSF   ,WMA ,RHOCP,MCP  ,MCPS,
+     4                   MSSA   ,VOLU, 
+     5                   NC1    ,NC2 ,NC3  ,NC4  ,NC5 ,
+     6                   NC6    ,NC7 ,NC8)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,7 +51,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "vect01_c.inc"
 #include      "scr05_c.inc"
-#include      "ale_param.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -481,7 +485,7 @@ C
        ENDIF
       ENDIF
 C
-      IF(JALE>0 .AND. NWALE==4)THEN
+      IF(JALE>0 .AND. ALE%GRID%NWALE==4)THEN
         DO I=LFT,LLT
           I1 = NC1(I)
           I2 = NC2(I)

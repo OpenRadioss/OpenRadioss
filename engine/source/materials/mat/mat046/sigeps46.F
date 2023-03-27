@@ -39,6 +39,10 @@ Chd|====================================================================
      B     IPM    ,MAT    ,WXX     ,WYY,WZZ ,MTN     ,DELTAX ,
      C     AIRE)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -47,10 +51,9 @@ C-----------------------------------------------
 #include      "scr06_c.inc"
 #include      "scr14_c.inc"
 #include      "com01_c.inc"
-C---------+---------+---+---+--------------------------------------------
+C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-C
       INTEGER NEL, NUPARAM, NUVAR,MAT(NEL),NGL(NEL),IPM(NPROPMI,*),IPT
       my_real TIME,TIMESTEP,UPARAM(*),
      .   RHO(NEL),RHO0(NEL),VOLUME(NEL),EINT(NEL),
@@ -73,8 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
-     . UVAR(NEL,NUVAR), OFF(NEL),WXX(NEL),WYY(NEL),WZZ(NEL)
+      my_real UVAR(NEL,NUVAR), OFF(NEL),WXX(NEL),WYY(NEL),WZZ(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -86,20 +88,21 @@ C-----------------------------------------------
       my_real 
      . VIS,C1,SMAG2,
      . DAV(MVSIZ),DXX(MVSIZ),DYY(MVSIZ),DZZ(MVSIZ),
-C     . DAV,DXX(MVSIZ),DYY(MVSIZ),DZZ(MVSIZ),
      . DXY(MVSIZ),DYZ(MVSIZ),DZX(MVSIZ),SS(MVSIZ),
      . CA,VIS2(MVSIZ),VIS2N,VISCPRESSION,
      . VIS1(MVSIZ),DELTA(MVSIZ),FAC,KAPA,E,C,VIS1O,VIS1N,Y2P,YPM
-C
-C CONSTANTES
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+C CONSTANT
 C
       YPM=ONZEP225
       KAPA=ZEP4187
       E=NINEP793
 C
-C INITIALISATION
+C INITIALIZATION
 C
-      IF(TIME==ZERO .AND. INCOMP==1)THEN
+      IF(TIME==ZERO .AND. ALE%GLOBAL%INCOMP==1)THEN
        DO I=1,NEL
         SIGOXX(I)=THIRD*(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))
         SIGOYY(I)=SIGOXX(I)
@@ -113,7 +116,7 @@ C
        ENDDO
       ENDIF
 C-----------------------------------------------
-C     LOI FLUIDE VISQUEUX L.E.S 
+C     VISCOUS FLOW (L.E.S) 
 C-----------------------------------------------
        IADBUF = IPM(7,MAT(1))-1
        VIS  = UPARAM(IADBUF+1)
@@ -122,9 +125,9 @@ C-----------------------------------------------
        SMAG2= UPARAM(IADBUF+4)
        CA   = UPARAM(IADBUF+5)
 C
-C PRESSION
+C PRESSURE
 C
-      IF(INCOMP==1)THEN
+      IF(ALE%GLOBAL%INCOMP==1)THEN
        DO I=1,NEL
         SIGNXX(I)=SIGOXX(I)+C1*(DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))
         SIGNYY(I)=SIGNXX(I)
@@ -146,25 +149,20 @@ C
        ENDDO
       ENDIF
 C
-C CONTRAINTES VISQUEUSE
-C VISCOSITE TURBULENTE DE SS MAILLE
+C VISCOUS STRESS
+C TURBULENT VISCOSITY IN SUC CELL
 C
       DO I=1,NEL
         DAV(I)=THIRD*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
-C        DXX(I)=EPSPXX(I)-DAV
-C        DYY(I)=EPSPYY(I)-DAV
-C        DZZ(I)=EPSPZZ(I)-DAV
         DXY(I)=HALF*EPSPXY(I)
         DYZ(I)=HALF*EPSPYZ(I)
         DZX(I)=HALF*EPSPZX(I)
-C        SS(I)=SQRT(TWO*(DXX(I)**2+DYY(I)**2+DZZ(I)**2+
-        SS(I)=SQRT(TWO*(EPSPXX(I)**2+EPSPYY(I)**2+EPSPZZ(I)**2+
-     .                  DXY(I)**2+DYZ(I)**2+DZX(I)**2))
+        SS(I)=SQRT(TWO*(EPSPXX(I)**2+EPSPYY(I)**2+EPSPZZ(I)**2+DXY(I)**2+DYZ(I)**2+DZX(I)**2))
         DXX(I)=EPSPXX(I)-DAV(I)
         DYY(I)=EPSPYY(I)-DAV(I)
         DZZ(I)=EPSPZZ(I)-DAV(I)
       ENDDO
-C PARTIE COURANTE
+      
       IF(MTN==46)THEN
         IF(N2D==0)THEN
           IF(ISGS==3)THEN
@@ -193,38 +191,26 @@ C PARTIE COURANTE
          UVAR(I,1)=VIS1(I)/VIS
         ENDDO
       ELSE
-C PAROI
+      
+C BOUNDARY LAYER
         DO I=1,NEL
          IF(ISGS/=0)THEN
-C         C=SS(I)*KAPA*DELTA(I)/VIS(I)
          C=SS(I)*KAPA*DELTAX(I)*DELTAX(I)/VIS
-c         Y2P=12
          Y2P=UVAR(I,1)
-c         K=0
-C ITERATIONS POUR CALCULER Y2+ ET VISCOSITE EQUIVALENTE
-C COMME DANS FERMETURE K-EPSILON
-c  10     CONTINUE
-c          K=K+1
-c          VIS1O=VIS1N
+
+C ITERATION FOR Y2+ ET EQUIVALENT VISCOSITY (SAME AS K-EPSILON WITH DOMAIN CLOSURE)
+
           Y2P=C/LOG(E*Y2P)
           Y2P=MAX(Y2P,YPM)
           VIS1N=KAPA*Y2P/LOG(E*Y2P)
           VIS2N=ZERO
           IF(ISGS>=2)VIS2N=KAPA*Y2P
-c          IF(ABS(VIS1O-VIS1N)<0.01)GOTO20
-c          IF(K>10)THEN
-c           WRITE(ISTDO,*)' *** WARNING WALL ELEMENT ',NGL(I)
-c           GOTO 20
-c          ENDIF
-c         GOTO10
-c  20     CONTINUE
           UVAR(I,1)=Y2P
          ELSE
           VIS1N=ONE
           VIS2N=ZERO
           UVAR(I,1)=ONE
          ENDIF
-c         UVAR(I,1)=VIS1N
          VIS1(I)=VIS*VIS1N
          VIS2(I)=VIS*VIS2N
         ENDDO
@@ -235,24 +221,18 @@ C
         VIS2(I)=THREE*RHO(I)*VIS2(I)
         VISCPRESSION=VIS2(I)*DAV(I)
         VISCMAX(I) = VIS1(I)+HALF*VIS2(I)
-C        VISCMAX(I) = VIS1(I)
         VIS1(I)=2.*VIS1(I)
         SIGVXX(I)=VIS1(I)*DXX(I)+VISCPRESSION
         SIGVYY(I)=VIS1(I)*DYY(I)+VISCPRESSION
         SIGVZZ(I)=VIS1(I)*DZZ(I)+VISCPRESSION
-C        SIGVXX(I)=VIS1(I)*DXX(I)
-C        SIGVYY(I)=VIS1(I)*DYY(I)
-C        SIGVZZ(I)=VIS1(I)*DZZ(I)
         SIGVXY(I)=VIS1(I)*DXY(I)
         SIGVYZ(I)=VIS1(I)*DYZ(I)
         SIGVZX(I)=VIS1(I)*DZX(I)
       ENDDO
 C
-C STOCKAGE VORTICITE
+C VORTICITY STORAGE
 C
-      IF((ANIM_E(10)==1 .OR. ANIM_SE(10)==1)
-     .                                 .AND. TIMESTEP/=0.)THEN
-c      IF(ANIM_E(10)==1 .AND. TIMESTEP/=0.)THEN
+      IF((ANIM_E(10)==1 .OR. ANIM_SE(10)==1) .AND. TIMESTEP/=0.)THEN
         FAC=FOUR/TIMESTEP
         IF(N2D==0)THEN
          DO  I=1,NEL

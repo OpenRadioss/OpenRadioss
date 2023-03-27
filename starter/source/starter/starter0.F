@@ -93,6 +93,7 @@ C-----------------------------------------------
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE USER_WINDOWS_MOD
       USE USER_INTERFACE_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -111,7 +112,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
-#include      "com07_c.inc"
 #include      "com08_c.inc"
 #include      "com09_c.inc"
 #include      "com10_c.inc"
@@ -129,7 +129,6 @@ C-----------------------------------------------
 #include      "scr23_c.inc"
 #include      "param_c.inc"
 #include      "lagmult.inc"
-#include      "fluid_scr_c.inc"
 #include      "flowcom.inc"
 #include      "submod_c.inc"
 #include      "xtimscr_c.inc"
@@ -144,7 +143,6 @@ C-----------------------------------------------
 #include      "inter22.inc"
 #include      "ige3d_c.inc"
 #include      "thermal_c.inc"
-#include      "alesolver.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -172,8 +170,7 @@ C
       CHARACTER(len=2048) :: TMP_NAME 
       INTEGER :: NB_DYNA_INCLUDE
 C
-      my_real
-     .   UNITE, RTITR
+      my_real UNITE, RTITR
 C
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(SUBMODEL_DATA) , DIMENSION(:), ALLOCATABLE :: LSUBMODEL
@@ -214,8 +211,7 @@ C ===================================================
       IOUT=6 
       ISTDO=6
 C=======================================================================
-      CALL  RADIOSS_TITLE(ISTDO,CPUNAM,ARCHTITLE,
-     *                      FILNAM,ROOTLEN,CHRUN,IRESP,1)
+      CALL  RADIOSS_TITLE(ISTDO,CPUNAM,ARCHTITLE,FILNAM,ROOTLEN,CHRUN,IRESP,1)
 C=======================================================================
 
 C-------------------------------------------------------------------
@@ -287,12 +283,10 @@ C-------------------------------------------------------------------
       IDDOM = 0
       FLG_SWALE = 0
 #if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
-      CALL GET_ENVIRONMENT_VARIABLE("R2R_ENV_IPID",VAL,
-     .       LEN_ENV,STATUS,.TRUE.)
+      CALL GET_ENVIRONMENT_VARIABLE("R2R_ENV_IPID",VAL,LEN_ENV,STATUS,.TRUE.)
 C---------> IPID = 0 --> Multidomains starter fils--------------
       IF (LEN_ENV==1) IPID = 0
-      CALL GET_ENVIRONMENT_VARIABLE("R2R_ENV_SWALE",VAL,
-     .       LEN_ENV,STATUS,.TRUE.)
+      CALL GET_ENVIRONMENT_VARIABLE("R2R_ENV_SWALE",VAL,LEN_ENV,STATUS,.TRUE.)
 C---------> IPID = 0 --> Multidomains switch ALE----------------
       IF (LEN_ENV==1) FLG_SWALE = 1
 #endif
@@ -303,8 +297,9 @@ C      To be modified when structure of rst file is modified
 C-------------------------------------------------------------------
 C ITESTV Format   [Version][YY][MM][DD]
       ITESTV           = 210290720
-      ICAA             = 0
-      ISFINT           = 3 !ALE default : surface integration for total stress tensor
+      
+      CALL ALE%init()
+      
       ALEFVM_Param%IEnabled = 0
       ALEFVM_Param%ISOLVER  = 0
       ALEFVM_Param%IPRINT_1 = 0
@@ -319,14 +314,14 @@ C MUSCL compression coefficient, default value set to 1.
       LEN = ncharfield*2
 C
 C No Decay for Starter
-      TAGLEN           = 0
-      CHECKSUMLEN      = 0
-      ALTDOCTAG        = '0'
-      CHECKSUM         = '0'
-      UNITMAX          = 0
+      TAGLEN      = 0
+      CHECKSUMLEN = 0
+      ALTDOCTAG   = '0'
+      CHECKSUM    = '0'
+      UNITMAX     = 0
 C---
 C init to 0 variable position writing double precision (XDP)
-      IRXDP            = 0
+      IRXDP       = 0
 C
       IF(IR4R8==2) ITESTV=-ITESTV
 C------------------------------------------------
@@ -343,17 +338,12 @@ C------------------------------------------------
         ENDIF
         USERL_AVAIL=0
 #ifndef SANITIZE 
-        CALL DYN_USERLIB_INIT(DLIBFILE,DLIBFILE_SIZE,USERL_AVAIL,
-     *                        DLIBTKVERS,IRESP,GOT_USERL_ALTNAME)
+        CALL DYN_USERLIB_INIT(DLIBFILE,DLIBFILE_SIZE,USERL_AVAIL,DLIBTKVERS,IRESP,GOT_USERL_ALTNAME)
 C------------------------------------------------
 C Mds lib initialization
 C------------------------------------------------
 #ifdef DNC
-       CALL MDS_USERLIB_INIT (IRESP,
-     .                        MDS_AVAIL, 
-     .                        MDS_VER,
-     .                        MDS_PATH,
-     .                        MDS_PATH_LEN)
+       CALL MDS_USERLIB_INIT (IRESP, MDS_AVAIL, MDS_VER, MDS_PATH, MDS_PATH_LEN)
 #else
       MDS_AVAIL=0
 #endif
@@ -580,7 +570,7 @@ c 2 new values for ISPHIO, NSEG and IAS for inlet outlet in spmd
       SEGINDX=0
       NHIN2 =0
       NIFV = 16
-      NALENOVS = 6
+      ALE%GLOBAL%NALENOVS = 6
       NLEDGE  = 15
       NRTRANS = 19
 C
@@ -647,7 +637,7 @@ C
       LLACCELM = 25
       LLGAUGE  = 37
 C    
-      I_DT_NODA_ALE_ON = 0 ! by default DT NODA * options are no longer available for ALE grid points.
+      ALE%GLOBAL%I_DT_NODA_ALE_ON = 0 ! by default DT NODA * options are no longer available for ALE grid points.
 C
       INP = ISTDI
       FLAG_KEY_M = 0

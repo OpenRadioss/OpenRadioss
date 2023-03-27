@@ -38,6 +38,10 @@ Chd|====================================================================
      4   MSSA ,IX1   ,IX2   ,IX3   ,IX4,
      5   FILL, VOLU)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -52,7 +56,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "vect01_c.inc"
 #include      "sms_c.inc"
-#include      "ale_param.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -173,7 +176,7 @@ C
        ENDDO      
       ENDIF
 C
-      IF(JALE > 0 .AND. NWALE == 4)THEN
+      IF(JALE > 0 .AND. ALE%GRID%NWALE == 4)THEN
         DO I=LFT,LLT
           I1 = IX1(I)
           I2 = IX2(I)

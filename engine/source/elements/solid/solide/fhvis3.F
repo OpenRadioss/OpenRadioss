@@ -36,6 +36,10 @@ Chd|====================================================================
      .   PX3H1, PX3H2, PX3H3, PX4H1, PX4H2, PX4H3,
      .   VOL,MAT,CXX,VIS,VD2,DELTAX,EANI,PID,GEO,PARTSAV,IPARTS)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -50,12 +54,10 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "vect01_c.inc"
 #include      "com08_c.inc"
-#include      "scrupw_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*),PID(*),IPARTS(*)
-C     REAL
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*), RHO(*),OFF(*),
      .   VX1(*),VX2(*),VX3(*),VX4(*),VX5(*),VX6(*),VX7(*),VX8(*),
@@ -105,7 +107,7 @@ C-----------------------------------------------
           CAQ(I)=FOURTH*OFF(I)*GEO(13,PID(I))
        ENDDO
 C        
-       IF(UPWM > 1 .OR. JLAG == 1)THEN
+       IF(ALE%UPWIND%UPWM > 1 .OR. JLAG == 1)THEN
          DO I=LFT,LLT
            IF(VIS(I)>ZERO)THEN
              FCQ(I)=ZERO
@@ -115,12 +117,12 @@ C
              FCL(I)=CAQ(I)*RHO(I)*CXX(I)*DELTAX(I)**2
            ENDIF
          ENDDO
-       ELSEIF(UPWM == 0)THEN
+       ELSEIF(ALE%UPWIND%UPWM == 0)THEN
           DO I=LFT,LLT
             FCL(I)=CAQ(I)*RHO(I)*CXX(I)*VOL(I)**TWO_THIRD
             FCQ(I)=ZERO
           ENDDO
-       ELSEIF(UPWM == 1)THEN
+       ELSEIF(ALE%UPWIND%UPWM == 1)THEN
           DO I=LFT,LLT
             FCL(I)=CAQ(I)*RHO(I)*DELTAX(I)**2
             FCL(I)=MIN(FCL(I)*CXX(I),

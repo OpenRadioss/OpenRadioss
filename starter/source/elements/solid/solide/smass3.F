@@ -43,6 +43,10 @@ Chd|====================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -62,15 +66,12 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "vect01_c.inc"
-#include      "ale_param.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, IP,I1,I2,I3,I4,I5,I6,I7,I8
-      my_real
-     .   XX,YY,ZZ,XY,YZ,ZX, MASSP,INER,RCP
-      my_real
-     .   MASS(MVSIZ),MASSF(MVSIZ)
+      my_real XX,YY,ZZ,XY,YZ,ZX, MASSP,INER,RCP
+      my_real MASS(MVSIZ),MASSF(MVSIZ)
 C-------------------------------
 C=======================================================================
        DO I=LFT,LLT
@@ -234,9 +235,8 @@ C           STOP 1119
          INS(8,I)=INER
         ENDDO
        ENDIF
-
 C
-      IF(JALE > 0 .AND. NWALE == 4)THEN
+      IF(JALE > 0 .AND. ALE%GRID%NWALE == 4)THEN
         DO I=LFT,LLT
           I1 = NC1(I)
           I2 = NC2(I)
