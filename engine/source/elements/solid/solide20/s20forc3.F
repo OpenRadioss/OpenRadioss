@@ -263,14 +263,14 @@ C
      6   GBUF%EPSD,GBUF%G_PLA,GBUF%G_EPSD,NEL,CONDEG)
 c
       DO N=1,NPE
-        DO I=LFT,LLT
+        DO I=1,NEL
           UL(I,N) = ZERO
         ENDDO
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
         VOLG(I) = ZERO
       ENDDO
-      IF(JTHE < 0) THEM(LFT:LLT,1:NPE) = ZERO
+      IF(JTHE < 0) THEM(1:NEL,1:NPE) = ZERO
 C
 C-----------------------------
 C     POINTS D' INTEGRATION 
@@ -306,7 +306,7 @@ C
       ENDDO
 C-------------
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         AA = MAX(UL(I,1),UL(I,2),UL(I,3),UL(I,4),
      .           UL(I,5),UL(I,6),UL(I,7),UL(I,8))
         BB = MAX(UL(I,9) ,UL(I,10),UL(I,11),UL(I,12),UL(I,13),UL(I,14),
@@ -347,7 +347,7 @@ C
 C         for heat transfert
 C
           IF(JTHE < 0 ) THEN
-             CALL S20TEMPCG(LFT,LLT,NPE, NC,NI(1,IP),TEMP,TEMPEL)
+             CALL S20TEMPCG(1,NEL,NPE, NC,NI(1,IP),TEMP,TEMPEL)
           ENDIF             
 C------------------------------------------------------
 C         CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES

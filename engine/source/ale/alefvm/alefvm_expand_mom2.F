@@ -93,7 +93,7 @@ C-----------------------------------------------
       ! EXPANDING CELL VALUE TO FACES AND NODES                     !
       !   SPECIFIC TREATMENT IS DONE TO HAVE WALL BCS WITH NODES    !
       !-------------------------------------------------------------!
-      DO I=LFT,LLT
+      DO I=1,NEL
         !!---DETECT BORDER FACES---!
         !IBORDER(1:6) = 0 !0=not a border face. 1:otherwise
         !DO J=1,NV46

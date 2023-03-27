@@ -76,7 +76,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: IXS(NIXS,*), NV46, IALEFVM_FLG, ITASK,IPM(NPROPMI,*),NALE(*),NEL
-      my_real :: MOM(NEL,3), VOL(MVSIZ), RHO(MVSIZ), V(3,*),VEUL(*),MSNF(NUMNOD),X(3,*),IAD22(*),SSP(*),SIG(LLT,6)
+      my_real :: MOM(NEL,3), VOL(MVSIZ), RHO(MVSIZ), V(3,*),VEUL(*),MSNF(NUMNOD),X(3,*),IAD22(*),SSP(*),SIG(NEL,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -89,7 +89,7 @@ C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
       IF(ALEFVM_Param%IEnabled==0)    RETURN
       IF(IALEFVM_FLG <= 1)RETURN  
-      IMAT = IXS(1,LFT+NFT)
+      IMAT = IXS(1,1+NFT)
       ILAW = IPM(2,IMAT)
 
 C-----------------------------------------------
@@ -100,7 +100,7 @@ C-----------------------------------------------
         !-------------------------------------------------------------!
         ! INTEGRAL ON EACH FACE  from Integral(DIV(SIGMA),Volume)     !
         !-------------------------------------------------------------!
-        DO I=LFT,LLT
+        DO I=1,NEL
           II          = I + NFT
           DMOM(1:3,I) = ALEFVM_Buffer%FCELL(1:3,II)
           IF(DT1==ZERO)THEN
@@ -110,7 +110,7 @@ C-----------------------------------------------
           ENDIF
         ENDDO!next I
 
-        DO I=LFT,LLT
+        DO I=1,NEL
           II          = I + NFT
           MOM(I,1)    = MOM(I,1) + dMOM(1,I)
           MOM(I,2)    = MOM(I,2) + dMOM(2,I)
@@ -174,7 +174,7 @@ C-----------------------------------------------
      .                        X   ,V   , IXS  , NV46,
      .                        MOM ,VEUL, ITASK, NALE , NEL )
       
-      DO I=LFT,LLT
+      DO I=1,NEL
         !MOM=[rhoU]*VOL -> U : needed for fluxes calculation
         II          = I + NFT
         !MASS        = RHO(I) * VOL(I)
@@ -189,7 +189,7 @@ C-----------------------------------------------
       !internal force in animation file USER7 -> ||Fint||      
       IF(INT22 > 0)THEN
       
-        DO I=LFT,LLT
+        DO I=1,NEL
           II                    = I + NFT
           INT22_FCELL_ANIM(II)  = SQRT ( ALEFVM_Buffer%FCELL(1,II)*ALEFVM_Buffer%FCELL(1,II) 
      .                                 + ALEFVM_Buffer%FCELL(2,II)*ALEFVM_Buffer%FCELL(2,II) 
@@ -197,7 +197,7 @@ C-----------------------------------------------
         ENDDO!next I 
         
         NIN = 1
-        DO I=LFT,LLT
+        DO I=1,NEL
           II = I+NFT
           IB = NINT(IAD22(I))
           IF (IB>0)THEN
@@ -208,7 +208,7 @@ C-----------------------------------------------
       ENDIF
       
       
-      DO I=LFT,LLT
+      DO I=1,NEL
         II          = I + NFT
         ALEFVM_Buffer%FCELL(1,II) = MOM(I,1)
         ALEFVM_Buffer%FCELL(2,II) = MOM(I,2)

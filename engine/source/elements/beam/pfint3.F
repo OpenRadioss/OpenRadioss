@@ -43,7 +43,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -66,7 +65,7 @@ C     REAL
       my_real
      .   OFF_L
 C---------------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         F11(I)= -F1(I)
         F21(I)= -F2(I)
         F31(I)= -F3(I)
@@ -78,7 +77,7 @@ C
 C
 C     CONTRIBUTION AU MOMENT DU CISAILLEMENT
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         M11(I)=-M1(I)
         M21(I)=-M2(I)+HALF*AL(I)*F3(I)
         M31(I)=-M3(I)-HALF*AL(I)*F2(I)
@@ -90,7 +89,7 @@ C
 C---------------------------------------------------
 C     LIBERATION DES ROTATIONS
 C---------------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IG=PID(I)
         IR1Y=NINT(GEO(8 ,IG))
         IR1Z=NINT(GEO(9 ,IG))
@@ -104,12 +103,12 @@ C ... this looks suspicious - DWS
       ENDDO
 C
       OFF_L = ZERO
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (OFF(I) < ONE) OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
       IF (OFF_L < ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF (OFFG(I) < ZERO) THEN
             F11(I)=ZERO
             F21(I)=ZERO

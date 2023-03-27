@@ -120,8 +120,8 @@ C-----------------------------------------------
 C=======================================================================
 
       NIN       = 1
-      MXT_1     = IXS(1,LFT)
-      DO I=LFT,LLT
+      MXT_1     = IXS(1,1)
+      DO I=1,NEL
         VIS(I)  = ZERO
         NGEO(I) = IXS(10,I)
         NGL(I)  = IXS(11,I)
@@ -138,7 +138,7 @@ C=======================================================================
       ENDDO
 
 
-        DO I=LFT,LLT
+        DO I=1,NEL
          VDX1(I)=ZERO
          VDX2(I)=ZERO
          VDX3(I)=ZERO
@@ -170,7 +170,7 @@ C=======================================================================
       !     NODAL COORDINATES     |
       !----------------------------
       IF(IRESP==1)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           XD1(I)=XDP(1,NC1(I))
           YD1(I)=XDP(2,NC1(I))
           ZD1(I)=XDP(3,NC1(I))
@@ -197,7 +197,7 @@ C=======================================================================
           ZD8(I)=XDP(3,NC8(I))
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           XD1(I)=X(1,NC1(I))
           YD1(I)=X(2,NC1(I))
           ZD1(I)=X(3,NC1(I))
@@ -241,13 +241,13 @@ C=======================================================================
         GAMA(I,5) = ONE
         GAMA(I,6) = ZERO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
        OFF(I) = ABS(OFFG(I))
        OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
 
       !copy and cast XD (DP) to X (SP) to assure coherence between XD and X
-      DO I=LFT,LLT
+      DO I=1,NEL
         X1(I)= XD1(I)
         Y1(I)= YD1(I)
         Z1(I)= ZD1(I)
@@ -274,7 +274,7 @@ C=======================================================================
         Z8(I)= ZD8(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
        VX1(I)=V(1,NC1(I))
        VY1(I)=V(2,NC1(I))
        VZ1(I)=V(3,NC1(I))
@@ -303,7 +303,7 @@ C=======================================================================
 
 
       IF(OFF_L<ZERO)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFFG(I)<ZERO)THEN
             VX1(I)=ZERO
             VY1(I)=ZERO
@@ -335,7 +335,7 @@ C=======================================================================
 
       IF(IPARG(64,NG)==1)THEN
         !boundary material
-        VD2(LFT:LLT)=ZERO
+        VD2(1:NEL)=ZERO
         RETURN
       ENDIF
 
@@ -346,7 +346,7 @@ C=======================================================================
 
       IF(INT22==0)THEN
         IF(JALE/=0)THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             WDX(I) = ONE_OVER_8*( W(1,NC1(I))+W(1,NC2(I))+W(1,NC3(I))+W(1,NC4(I))+W(1,NC5(I))+W(1,NC6(I))+W(1,NC7(I))+W(1,NC8(I)))
             WDY(I) = ONE_OVER_8*( W(2,NC1(I))+W(2,NC2(I))+W(2,NC3(I))+W(2,NC4(I))+W(2,NC5(I))+W(2,NC6(I))+W(2,NC7(I))+W(2,NC8(I)))
             WDZ(I) = ONE_OVER_8*( W(3,NC1(I))+W(3,NC2(I))+W(3,NC3(I))+W(3,NC4(I))+W(3,NC5(I))+W(3,NC6(I))+W(3,NC7(I))+W(3,NC8(I)))
@@ -356,7 +356,7 @@ C=======================================================================
             VD2(I) = VDX(I)*VDX(I)+VDY(I)*VDY(I)+VDZ(I)*VDZ(I)
           ENDDO
         ELSEIF(JEUL/=0)THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             VDX(I) = MOM(I,1)/RHO(I)
             VDY(I) = MOM(I,2)/RHO(I)
             VDZ(I) = MOM(I,3)/RHO(I)
@@ -365,7 +365,7 @@ C=======================================================================
         ENDIF
       ELSEIF(INT22/=0)THEN
        IF(JEUL/=0)THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
            WDX(I) = ZERO
            WDY(I) = ZERO
            WDZ(I) = ZERO
@@ -375,7 +375,7 @@ C=======================================================================
            VD2(I) = VDX(I)*VDX(I)+VDY(I)*VDY(I)+VDZ(I)*VDZ(I)
           ENDDO !next I
        ELSEIF(JALE/=0)THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
           IB = 0
           IF(INT22/=0)IB = NINT(TAG22(I))
           IsCutCell = .FALSE.
@@ -462,10 +462,10 @@ C=======================================================================
         enddo
       endif
 
-      ! VD2(LFT:LLT) = ZERO
-      ! VDX(LFT:LLT) = ZERO
-      ! VDY(LFT:LLT) = ZERO
-      ! VDZ(LFT:LLT) = ZERO
+      ! VD2(1:NEL) = ZERO
+      ! VDX(1:NEL) = ZERO
+      ! VDY(1:NEL) = ZERO
+      ! VDZ(1:NEL) = ZERO
 
 
       !Here due to convection subroutine aconve.F

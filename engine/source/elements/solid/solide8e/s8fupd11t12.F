@@ -46,7 +46,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -74,7 +73,7 @@ C-----------------------------------------------
 C=======================================================================
 C-----Always in global system and fixed then (not like Ismstr=11
         NCH=0
-        DO I=LFT,LLT
+        DO I=1,NEL
          IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) THEN
            NCH = NCH +1
            INDEX(NCH) = I
@@ -145,7 +144,7 @@ C
      .              XD1   ,XD2   ,XD3   ,XD4   ,XD5   ,XD6   ,XD7   ,XD8   ,
      .              YD1   ,YD2   ,YD3   ,YD4   ,YD5   ,YD6   ,YD7   ,YD8   ,
      .              ZD1   ,ZD2   ,ZD3   ,ZD4   ,ZD5   ,ZD6   ,ZD7   ,ZD8   ,
-     .              INDEX ,NCH   ,LLT)
+     .              INDEX ,NCH   ,NEL)
 C-----------
       RETURN
       END

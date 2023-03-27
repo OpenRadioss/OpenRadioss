@@ -84,7 +84,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "scr14_c.inc"
 #include      "scr17_c.inc"
-#include      "vect01_c.inc"
 #include      "units_c.inc"
 #include      "com01_c.inc"
 #include      "impl1_c.inc"
@@ -184,7 +183,7 @@ C
       I13 = I12 + 6
       I14 = I13 + 6
       NUPAR = NUPAR +  84    
-      DO I=LFT,LLT
+      DO I=1,NEL
 C
        INDEX1(I) = I
        IADBUF= IPM(7,MID(I)) - 1
@@ -228,7 +227,7 @@ C
       ENDDO      
 C
       IF (INISPRI /= 0 .and. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           XL0(I)= X0(I)
 ! if not initialized length
           IF (XL0(I) == ZERO) XL0(I) = ALDP(I)
@@ -236,45 +235,45 @@ C
       ENDIF
 C
       IF (TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           X0(I)= ALDP(I)                   ! cast double vers My_real
         ENDDO
       ENDIF
 C
       IF (SCODVER >= 101) THEN
         IF (TT == ZERO) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             X0_ERR(I)= ALDP(I)-X0(I)         ! difference entre double et My_real
           ENDDO
         ENDIF
       ENDIF
 C
       IF ( INISPRI /= 0 .and. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           X0(I)= XL0(I)
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         X0DP(I)= X0(I)                     ! cast double vers My_real
       ENDDO
 C
       IF (SCODVER >= 101) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           X0DP(I)= X0(I) + X0_ERR(I)         ! difference entre double et My_real
         ENDDO
       ENDIF
 C---------------------
 C     TRANSLATIONS
 C---------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         DXOLD(I)=DX(I)
         DYOLD(I)=DY(I)
         DZOLD(I)=DZ(I)
       ENDDO
 !
       IF (INISPRI /= 0 .and. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           DXOLD(I)=DX0(I)
           DYOLD(I)=DY0(I)
           DZOLD(I)=DZ0(I)
@@ -283,7 +282,7 @@ C---------------------
 C
       DT05=HALF*DT1
       IF (ISMDISP > 0) THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
         VX21  = VX2(I)-VX1(I)
         VY21  = VY2(I)-VY1(I)
         VZ21  = VZ2(I)-VZ1(I)
@@ -307,7 +306,7 @@ C
         CRIT(I) = ZERO
        ENDDO
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
          VX21  = VX2(I)-VX1(I)
          VY21  = VY2(I)-VY1(I)
          VZ21  = VZ2(I)-VZ1(I)
@@ -337,7 +336,7 @@ C
        ENDDO
       ENDIF !(ISMDISP > 0) THEN
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IADBUF = IPM(7,MID(I)) - 1
         ILENG = NINT(UPARAM(IADBUF + 2))
         IF (ILENG /= 0) THEN
@@ -354,7 +353,7 @@ C-------------------------------
       IF4 = 18
       COMPT = 0
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
         IFUNC(I) = IPM(10 + IF1 + 1,MID(I))
         IFV(I)   = IPM(10 + IF2 + 1,MID(I))
@@ -444,7 +443,7 @@ C
 C
         COMPT = 0
         COMPT2 = 0
-        DO I=LFT,LLT
+        DO I=1,NEL
           ADHER(I) = 0
           IF (SLIPRING_STRAND(I) > 0) THEN
             COMPT = COMPT + 1
@@ -488,7 +487,7 @@ C
      .                    E6(1,1) ,ANIM   ,ANIM_FE(11),POSX(1)  ,XL0,
      .                    DMN     ,DMX    ,LSCALE ,YIELDX ,AK    ,  
      .                    IECROU  ,IFUNC  ,IFUNC2 ,COORD_OLD,FX_MAX,
-     .                    XK_COMP ,LLT    ,INDEX1 ,FLAG     ,XKP   ,
+     .                    XK_COMP ,NEL    ,INDEX1 ,FLAG     ,XKP   ,
      .                    EPS_OLD,FRAM_FACTOR)
 C
 
@@ -571,7 +570,7 @@ C--     Computation of material flow for slipring and retractor
      9                     ALDP_B2,X0DP_B2,EX2DP,EY2DP,EZ2DP,XL02,
      A                     XKP_B2,COMPT,INDEX2)
 C
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF (SLIPRING_STRAND(I) > 0) THEN   
             FX(I) = FX(I) + DFX(I)
             E6(I,1) = E6(I,1) + (DX(I)-DXOLD(I))*DFX(I)*HALF
@@ -590,7 +589,7 @@ C
 C
 C---------------------
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         CC = UPARAM(IADBUF + NUPAR + 3)
         CN = UPARAM(IADBUF + NUPAR + 9)
         XA = UPARAM(IADBUF + NUPAR + 15)
@@ -637,7 +636,7 @@ C
         ENDIF
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
         IFUNC(I) = 0
         IFV(I)   = IPM(10 + IF2 + 2,MID(I))
@@ -667,7 +666,7 @@ C
      .            IECROU  ,IFUNC  ,IFV     ,IFUNC2     ,EPLA    ,
      .            COORD_OLD,FX_MAX,NOT_USED,NOT_USED)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
         CC  = UPARAM(IADBUF + NUPAR + 4)
         CN  = UPARAM(IADBUF + NUPAR + 10)
@@ -715,7 +714,7 @@ C
         ENDIF
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
         IFUNC(I) = 0
         IFV(I)   = IPM(10 + IF2 + 3,MID(I))
@@ -745,7 +744,7 @@ C
      .            IECROU  ,IFUNC  ,IFV     ,IFUNC2     ,EPLA    ,
      .            COORD_OLD,FX_MAX,NOT_USED,NOT_USED)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
         CC  = UPARAM(IADBUF + NUPAR + 5)
         CN  = UPARAM(IADBUF + NUPAR + 11)
@@ -795,7 +794,7 @@ C
 C---------------------
 C     ROTATIONS
 C---------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
         XIN(I)=  UINER(I)
         XK(I) =  UPARAM(IADBUF + I11 + 4)
@@ -816,21 +815,21 @@ C
         XCR(I)= MAX(XC(I),YC(I),ZC(I)) + XHR(I) +XCR(I)+XH(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         DXOLD(I)=RX(I)
         DYOLD(I)=RY(I)
         DZOLD(I)=RZ(I)
       ENDDO
 !
       IF ( INISPRI /= 0 .AND. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           DXOLD(I)=RX0(I)
           DYOLD(I)=RY0(I)
           DZOLD(I)=RZ0(I)
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         X21  = (RX2(I)-RX1(I))*DT1
         Y21  = (RY2(I)-RY1(I))*DT1
         Z21  = (RZ2(I)-RZ1(I))*DT1
@@ -839,7 +838,7 @@ C
         RZ(I) = DZOLD(I) + X21*EXZ2(I)+Y21*EYZ2(I)+Z21*EZZ2(I)
       ENDDO
 C-------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
         IFUNC(I) = 0
         IFV(I)   = IPM(10 + IF2 + 4,MID(I))
@@ -867,7 +866,7 @@ C-------------------------------
      .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,EPLA    ,
      .            COORD_OLD,MX_MAX ,NOT_USED,NOT_USED)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
         CC  = UPARAM(IADBUF + NUPAR + 6)
         CN  = UPARAM(IADBUF + NUPAR + 12)
@@ -915,7 +914,7 @@ C
         ENDIF
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
         IFUNC(I) = 0
         IFV(I)   = IPM(10 + IF2 + 5,MID(I))
@@ -943,7 +942,7 @@ C
      .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,EPLA    ,
      .            COORD_OLD,MX_MAX ,NOT_USED,NOT_USED)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
         CC  =  UPARAM(IADBUF + NUPAR + 7)
         CN  =  UPARAM(IADBUF + NUPAR + 13)
@@ -991,7 +990,7 @@ C
         ENDIF
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
         IFUNC(I) = 0
         IFV(I)   = IPM(10 + IF2 + 6,MID(I))
@@ -1019,7 +1018,7 @@ C
      .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,EPLA     ,
      .            COORD_OLD,MX_MAX ,NOT_USED,NOT_USED)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
         CC  = UPARAM(IADBUF + NUPAR + 8)
         CN  = UPARAM(IADBUF + NUPAR + 14)
@@ -1067,13 +1066,13 @@ C
         ENDIF
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         E(I) = E6(I,1)+E6(I,2)+E6(I,3)+E6(I,4)+E6(I,5)+E6(I,6)
       ENDDO
 C-------------------------------
 C     RUPTURE COUPLEE
 C-------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
         ISRATE = NINT(UPARAM(IADBUF + NUPAR + 27))
 C---- smoothing factor alpha = 2PI*fc*dt/(2PI*fc*dt+1) ---
@@ -1109,7 +1108,7 @@ C-------------------------------
       CALL REPLA3(ZK   ,RPZ ,TF  ,NPF  ,IECROU,
      .            IFUNC,IFV ,EPLA)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
           IADBUF= IPM(7,MID(I)) - 1
           XK(I)=UPARAM(IADBUF + I11 + 1)
           YK(I)=UPARAM(IADBUF + I11 + 2)
@@ -1122,7 +1121,7 @@ C
      .            IFUNC,IFV ,EPLA)
       CALL REPLA3(ZK   ,DPZ ,TF  ,NPF  ,IECROU,
      .            IFUNC,IFV ,EPLA)
-      DO I=LFT,LLT
+      DO I=1,NEL
 C        XM(I)=XM(I)*XL0(I)
         XKM(I)=XKM(I)/XL0(I)
         XCM(I)=XCM(I)/XL0(I)

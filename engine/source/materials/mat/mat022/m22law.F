@@ -103,7 +103,7 @@ C-----------------------------------------------
      
       FACQ0 = ONE
       IF(IPLA==0)THEN
-       MX = MAT(LFT)
+       MX = MAT(1)
        RHO0_1 =PM( 1,MX)
        C1_1   =PM(32,MX)
        CA_1   =PM(38,MX)
@@ -117,7 +117,7 @@ C-----------------------------------------------
        YLDL_1 =PM(47,MX)
        QL_1   =PM(48,MX)
        ICC_1  =NINT(PM(49,MX))
-       DO 10 I=LFT,LLT
+       DO 10 I=1,NEL
        RHO0(I) =RHO0_1
        G0(I)   =PM(22,MX)*OFF(I)
        C1(I)   =C1_1
@@ -135,7 +135,7 @@ C-----------------------------------------------
    10 CONTINUE
       ELSE
 
-      MX = MAT(LFT)
+      MX = MAT(1)
       RHO0_1 =PM( 1,MX)
       C1_1   =PM(32,MX)
       CA_1   =PM(38,MX)
@@ -149,7 +149,7 @@ C-----------------------------------------------
       QL_1   =PM(46,MX)
       YLDL_1 =PM(47,MX)
       ICC_1  =NINT(PM(49,MX))
-      DO 11 I=LFT,LLT
+      DO 11 I=1,NEL
        RHO0(I) =RHO0_1
        G0(I)   =PM(22,MX)*OFF(I)
        C1(I)   =C1_1
@@ -167,14 +167,14 @@ C-----------------------------------------------
    11 CONTINUE
       ENDIF
 
-      DO 15 I=LFT,LLT
+      DO 15 I=1,NEL
       EPD(I)=OFF(I) * MAX(   ABS(D1(I)), ABS(D2(I)), ABS(D3(I)), HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
       EPSP = MAX(EPD(I),EPDR(I))
       CE(I) = ONE +CC(I) * LOG(EPSP/EPDR(I))
  15   CONTINUE
 
       IF(IPLA/=2)THEN
-       DO 20 I=LFT,LLT
+       DO 20 I=1,NEL
        IF(CN(I)==ONE) THEN
         AK(I)= CA(I)+CB(I)*EPXE(I)
         QH(I)= CB(I)*CE(I)
@@ -196,7 +196,7 @@ C-----------------------------------------------
        IF(EPXE(I)>EPSL(I))QH(I)=QL(I)
  20    CONTINUE
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
        IF(CN(I)==ONE) THEN
         AK(I)= CA(I)+CB(I)*EPXE(I)
        ELSE
@@ -212,7 +212,7 @@ C-----------------------------------------------
       ENDIF
 
       IF(IPLA==0)THEN
-      DO I=LFT,LLT
+      DO I=1,NEL
        AK(I) = MIN(AK(I),SIGMX(I))
        HL    = THREE*G0(I)*QL(I)/(THREE*G0(I)+QL(I))
        DEPSL = MAX(ZERO,EPXE(I)-EPSL(I))
@@ -242,7 +242,7 @@ C-----------------------------------------------
        AJ2(I)=SQRT(THREE*AJ2(I))
       ENDDO
       ELSEIF(IPLA==2)THEN
-      DO I=LFT,LLT
+      DO I=1,NEL
        AK(I) = MIN(AK(I),SIGMX(I))
        DEPSL = MAX(ZERO,EPXE(I)-EPSL(I))
        AK(I) = MIN(AK(I),YLDL(I)+QL(I)*DEPSL)
@@ -281,7 +281,7 @@ C-----------------------------------------------
        ENDIF
       ENDDO
       ELSE
-      DO I=LFT,LLT
+      DO I=1,NEL
        AK(I) = MIN(AK(I),SIGMX(I))
        DEPSL = MAX(ZERO,EPXE(I)-EPSL(I))
        AK(I) = MIN(AK(I),YLDL(I)+QL(I)*DEPSL)
@@ -322,7 +322,7 @@ C-----------------------------------------------
       ENDIF
 
       IF(IPLA==0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          SCALE= MIN(ONE,AK(I) / MAX(AJ2(I),EM15))
          SIG(I,1)=SCALE*SIG(I,1)
          SIG(I,2)=SCALE*SIG(I,2)
@@ -334,7 +334,7 @@ C-----------------------------------------------
          DPLA(I) =  (ONE -SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)      
         ENDDO
         ELSEIF(IPLA==2)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          SCALE= MIN(ONE,AK(I) / MAX(AJ2(I),EM15))
          SIG(I,1)=SCALE*SIG(I,1)
          SIG(I,2)=SCALE*SIG(I,2)
@@ -346,7 +346,7 @@ C-----------------------------------------------
          DPLA(I) = (ONE -SCALE)*AJ2(I)/MAX(THREE*G(I),EM15)       
         ENDDO
         ELSEIF(IPLA==1)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          SCALE= MIN(ONE,AK(I) / MAX(AJ2(I),EM15))
          DPLA(I)=(ONE -SCALE)*AJ2(I)*G0(I)/ MAX(G(I)*(THREE*G0(I)+QH(I)),EM15)
          AK(I)=MAX(ZERO,AK(I)+DPLA(I)*QH(I))
@@ -378,7 +378,7 @@ C-----------------------------------------------
      6        NGL     ,QNEW    ,SSP_EQ  ,G_DT    ,DTEL)
       ENDIF
 
-      DO 120 I=LFT,LLT
+      DO 120 I=1,NEL
       PNEW(I)=C1(I)*AMU(I)
  120  CONTINUE
 
@@ -386,12 +386,12 @@ C----------------------------
 C     TEST DE RUPTURE DUCTILE
 C---------------------------
       IF(PDAM==ONE.AND.CODVERS>=42)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFF(I)<EM01) OFF(I)=ZERO
           IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
         ENDDO
 C
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(EPMX(I)/=ZERO.AND.OFF(I)>=ONE.AND. EPXE(I)>EPMX(I))THEN
             OFF(I)=OFF(I)*FOUR_OVER_5
             II=I+NFT
@@ -405,7 +405,7 @@ C
 
       DTA = HALF*DT1
 
-      DO I=LFT,LLT
+      DO I=1,NEL
        SIG(I,1)=(SIG(I,1)-PNEW(I))*OFF(I)
        SIG(I,2)=(SIG(I,2)-PNEW(I))*OFF(I)
        SIG(I,3)=(SIG(I,3)-PNEW(I))*OFF(I)
@@ -423,7 +423,7 @@ C
        QOLD(I)=QNEW(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
        DEFP(I)=EPXE(I)
        SIGY(I)=MAX(SIGY(I),AK(I))
       ENDDO

@@ -102,7 +102,7 @@ C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
       IF(ALEFVM_Param%IEnabled==0)    RETURN
-      IMAT        = IXS(1,LFT+NFT)
+      IMAT        = IXS(1,1+NFT)
       ILAW        = IPM(2,IMAT)
       IALEFVM_FLG = IPM(251,IMAT)
       IF(IALEFVM_FLG <= 1)RETURN       
@@ -119,7 +119,7 @@ C-----------------------------------------------
       ! NORMAL VECTOR FOR ALE                                       !
       !-------------------------------------------------------------!                                       
 !      IF(JALE==1 .OR. JEUL==0)THEN  !lagrangian bricks also
-        DO I=LFT,LLT
+        DO I=1,NEL
           II     = I + NFT
 	  !---8 local node numbers NC1 TO NC8 for solid element I ---!
           NC1=IXS(2,II)
@@ -164,7 +164,7 @@ C-----------------------------------------------
           Y8(I)=X(2,NC8)
           Z8(I)=X(3,NC8)
         ENDDO    
-        DO I=LFT,LLT        
+        DO I=1,NEL        
           ! Face-1
           NX(1,I)=(Y3(I)-Y1(I))*(Z2(I)-Z4(I)) - (Z3(I)-Z1(I))*(Y2(I)-Y4(I))
           NY(1,I)=(Z3(I)-Z1(I))*(X2(I)-X4(I)) - (X3(I)-X1(I))*(Z2(I)-Z4(I))
@@ -205,7 +205,7 @@ C-----------------------------------------------
       
       SELECT CASE (IPRES_MOM)
         CASE(5) ! acoustic solver
-          DO I=LFT,LLT
+          DO I=1,NEL
             II               = I + NFT
             IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
             P1               = ALEFVM_Buffer%F_FACE(1,4,II)
@@ -244,7 +244,7 @@ C-----------------------------------------------
             ENDDO!next J
           ENDDO!next I     
         CASE DEFAULT
-          DO I=LFT,LLT                                                       
+          DO I=1,NEL                                                       
             II    = I + NFT 
             IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
             P1    = ALEFVM_Buffer%F_FACE(1,4,II)                                                
@@ -277,7 +277,7 @@ c     ." id=", ixs(11,ii)," ncycle=", NCYCLE, " F=", FFACE(1:3,J,I) , "Pf=", Pf
       !-------------------------------------------------------------!
       ! INTEGRAL ON EACH FACE  from Integral(DIV(SIGMA),Volume)     !
       !-------------------------------------------------------------!
-      DO I=LFT,LLT
+      DO I=1,NEL
         II           = I + NFT
         IF(INT22/=0)THEN
           IB           = NINT(IAD22(I))

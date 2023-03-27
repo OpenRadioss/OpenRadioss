@@ -81,7 +81,7 @@ C-----------------------------------------------
      .   EPS, SOFF1, SOFF2, ALPHN, ALPHNN, C11, C12, ALPHT, DA,
      .   IALPH1, IALPH2
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         SIGT(I,1)=ZERO
         SIGT(I,2)=ZERO
         SIGT(I,3)=ZERO
@@ -101,32 +101,32 @@ C-----------------------------------------------
       ENDDO
 
       IF(L_TEMP>0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           TEMPT(I)=ZERO     
         ENDDO
       ENDIF
 
       IF(L_PLAS>0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           PLAST(I)=ZERO     
         ENDDO
       ENDIF
       
       IF(L_BFRAC>0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           BFRACT(I)=ZERO     
         ENDDO
       ENDIF         
       
       IF(L_BULK>0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           BULKT(I)=ZERO     
         ENDDO
       ENDIF            
 C-----------------------------------------------
 C     MULTIMATERIAUX TAUX DE REMPLISSAGE
 C-----------------------------------------------
-       DO I=LFT,LLT
+       DO I=1,NEL
          ALPH1N(I)=ZERO      
          ALPH2N(I)=ZERO        
          ALPN1= MAX(ZERO,FILL(NC1(I),1))
@@ -143,7 +143,7 @@ C-----------------------------------------------
        ENDDO
 
        IF(JMULT>1)THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
            ALPN1= MAX(ZERO,FILL(NC1(I),2))
            ALPN2= MAX(ZERO,FILL(NC2(I),2))
            ALPN3= MAX(ZERO,FILL(NC3(I),2))
@@ -164,7 +164,7 @@ C-----------------------------------------------
 
       IF(JMULT==1)THEN
        IALPH1 = 0
-       DO I=LFT,LLT
+       DO I=1,NEL
          DALPH1(I)=ZERO
          IF(ALPH1N(I)/=ZERO.AND.ALPH1N(I)/=ONE)THEN
           ALPHN=(VOLO1(I)-DT1*HALF*(FLU11(I)
@@ -205,7 +205,7 @@ C-----------------------------------------------
          ENDIF
        ENDDO !next I
 
-       DO I=LFT,LLT
+       DO I=1,NEL
          IF(ALPH1(I)<EPS)THEN
           ALPH1(I)=ZERO
           OFF1(I) =ZERO
@@ -226,7 +226,7 @@ C-----------------------------------------------
 
        IF(IALPH1==1) THEN
          CALL IDP_LOCK(2)
-         DO I=LFT,LLT
+         DO I=1,NEL
            IF(ALPH1(I)==ZERO)THEN
              FILL(NC1(I),1)= MIN(ZERO,FILL(NC1(I),1))
              FILL(NC2(I),1)= MIN(ZERO,FILL(NC2(I),1))
@@ -245,7 +245,7 @@ C-----------------------------------------------
       ELSEIF(JMULT==2)THEN
        IALPH1 = 0
        IALPH2 = 0
-       DO I=LFT,LLT
+       DO I=1,NEL
          DALPH1(I)=ZERO
          DALPH2(I)=ZERO
          MX1=NINT(PM(21,MAT(I)))
@@ -336,7 +336,7 @@ C-----------------------------------------------
          ENDIF
        ENDDO
 
-       DO I=LFT,LLT
+       DO I=1,NEL
          IF(ALPH1(I)<EPS)THEN
           ALPH1(I)=ZERO
           OFF1(I) =ZERO
@@ -373,7 +373,7 @@ C-----------------------------------------------
 
        IF(IALPH1==1) THEN
          CALL IDP_LOCK(2)
-         DO I=LFT,LLT
+         DO I=1,NEL
            IF(ALPH1(I)==ZERO)THEN
              FILL(NC1(I),1)= MIN(ZERO,FILL(NC1(I),1))
              FILL(NC2(I),1)= MIN(ZERO,FILL(NC2(I),1))
@@ -391,7 +391,7 @@ C-----------------------------------------------
 
        IF(IALPH2==1) THEN
          CALL IDP_LOCK(2)
-         DO I=LFT,LLT
+         DO I=1,NEL
            IF(ALPH2(I)==ZERO)THEN
              FILL(NC1(I),2)= MIN(ZERO,FILL(NC1(I),2))
              FILL(NC2(I),2)= MIN(ZERO,FILL(NC2(I),2))

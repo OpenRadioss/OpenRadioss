@@ -386,12 +386,12 @@ C=======================================================================
      6   GBUF%EPSD,GBUF%G_PLA,GBUF%G_EPSD,NEL,CONDEG)
 
       DO N=1,NPE
-        DO I=LFT,LLT
+        DO I=1,NEL
           UL(I,N) = ZERO
         ENDDO
       ENDDO
-      IF (JTHE < 0) THEM(LFT:LLT,1:NPE) = ZERO
-      DO I=LFT,LLT
+      IF (JTHE < 0) THEM(1:NEL,1:NPE) = ZERO
+      DO I=1,NEL
         VOLG(I)  = ZERO
       ENDDO
 C-----------------------------
@@ -399,7 +399,7 @@ C     POINTS D' INTEGRATION - SIGS
 C-----------------------------
       DO IT=1,NPTT
         DO IR=1,NPTR
-          DO I=LFT,LLT
+          DO I=1,NEL
             SIGSM(I) = ZERO
             VOLSM(I) = ZERO
           ENDDO
@@ -439,7 +439,7 @@ C-----------
             !--------------------------
             ! SOUS INTEGRATION DE SIGS
             !-------------------------
-            DO I=LFT,LLT
+            DO I=1,NEL
               AA         = ONE / SQRT(SX(I,IP)*SX(I,IP) + SY(I,IP)*SY(I,IP) +SZ(I,IP)*SZ(I,IP))
               SX(I,IP)   = SX(I,IP) * AA
               SY(I,IP)   = SY(I,IP) * AA
@@ -464,19 +464,19 @@ C-----------
              VOLSM(I)    = VOLSM(I) + LBUF%VOL(I)
             ENDDO!next I
           ENDDO!next ILAY 
-          DO I=LFT,LLT
+          DO I=1,NEL
             SIGSM(I) = SIGSM(I) / VOLSM(I)
           ENDDO
           DO IL=1,NLAY
             IP = IR + ( (IL-1) + (IT-1)*NLAY ) * NPTR
-            DO I = LFT,LLT
+            DO I = 1,NEL
               SIGS(I,IP) = SIGS(I,IP)-SIGSM(I)
             ENDDO
           ENDDO!IL=1,NLAY
        ENDDO!IR=1,NPTR
       ENDDO!IT=1,NPTT
 C-------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         AA = MAX(UL(I,1),UL(I,2),UL(I,3),UL(I,4),
      .           UL(I,5),UL(I,6),UL(I,7),UL(I,8))
         BB = MAX(UL(I,9) ,UL(I,10),UL(I,11),UL(I,12),UL(I,13),UL(I,14),
@@ -486,7 +486,7 @@ C-------------------------
         DELTAX(I) = SQRT(TWO*VOLG(I)/MAX(AA,BB))
       ENDDO
       IF (ICP == 1 .OR. ICP == 2) THEN
-        CALL S16SIGP3(LFT,LLT,NEL,NPTR,NLAY,
+        CALL S16SIGP3(1,NEL,NEL,NPTR,NLAY,
      .                NPTT,ICP,MTN,NPE,NIPMAX, 
      .                PX, PY, PZ, VX, VY, VZ, 
      .                W_GAUSS,GBUF%PLA,PM,MXT,GBUF%SIG,DT1,
@@ -529,7 +529,7 @@ C
 C    for heat transfert
 C
           IF(JTHE < 0 ) THEN
-             CALL S20TEMPCG(LFT,LLT,NPE, NC,NI(1,IP), TEMP,TEMPEL)
+             CALL S20TEMPCG(1,NEL,NPE, NC,NI(1,IP), TEMP,TEMPEL)
           ENDIF
       !------------------------------------------------------
       !     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES

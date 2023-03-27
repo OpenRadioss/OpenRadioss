@@ -77,15 +77,15 @@ C
 C      IF(ANIM_E(10)==1.AND. DT1/=0.)THEN
         FAC=FOUR/DT1
         IF(N2D==0)THEN
-          DO 5 I=LFT,LLT
+          DO 5 I=1,NEL
  5        VORTI(I)=FAC*SQRT(WXX(I)**2+WYY(I)**2+WZZ(I)**2)
         ELSE
-          DO 6 I=LFT,LLT
+          DO 6 I=1,NEL
  6        VORTI(I)=FAC*WZZ(I)
         ENDIF
       ENDIF
 C
-      MX     =MAT(LFT)
+      MX     =MAT(1)
 C
       RHO0_1=PM( 1,MX)
       VIS_1 =PM(24,MX)
@@ -98,7 +98,7 @@ C
       C6_1  =PM(36,MX)
       PSH_1 =PM(88,MX)
 C
-      DO 10 I=LFT,LLT
+      DO 10 I=1,NEL
       RHO0(I)=RHO0_1
       VIS(I) =VIS_1
       PC(I)  =PC_1
@@ -111,9 +111,9 @@ C
       PSH(I) =PSH_1
    10 CONTINUE
 C
-      MX     =MAT(LFT)
+      MX     =MAT(1)
       IF(JPOR/=2)THEN
-      DO 20 I=LFT,LLT
+      DO 20 I=1,NEL
       YP0=PM(51,MX)
       CMU=PM(81,MX)
       AX =PM(47,MX)
@@ -130,19 +130,19 @@ C
       TMU(I)   =VIS(I)-XMU
    20 CONTINUE
       ELSE
-        DO 21 I=LFT,LLT
+        DO 21 I=1,NEL
          VIS(I)=ZERO
          TMU(I)=ZERO 
    21   CONTINUE
       ENDIF
 C
-      DO 30 I=LFT,LLT
+      DO 30 I=1,NEL
       VIS2(I)=TWO*VIS(I)
    30 DAV(I) =-(D1(I)+D2(I)+D3(I))*THIRD
 C------------------------------
 C     CONTRAINTES DEVIATORIQUES
 C------------------------------
-      DO 40 I=LFT,LLT
+      DO 40 I=1,NEL
       SIG(I,1)=VIS2(I)*(D1(I)+DAV(I))
       SIG(I,2)=VIS2(I)*(D2(I)+DAV(I))
       SIG(I,3)=VIS2(I)*(D3(I)+DAV(I))
@@ -150,19 +150,19 @@ C------------------------------
       SIG(I,5)=VIS(I) *D5(I)
    40 SIG(I,6)=VIS(I) *D6(I)
 C
-      DO 50 I=LFT,LLT
+      DO 50 I=1,NEL
       DF(I)  =RHO0(I)/RHO(I)
       AMU(I) =ONE/DF(I)-ONE
       AMU2(I)= MAX(ZERO,AMU(I))**2
    50 ESPE(I)=DF(I)*EINT(I)/VOLN(I)
 C
-      DO 60 I=LFT,LLT
+      DO 60 I=1,NEL
       RK2T=TWO*RK(I)/(THREE*VOLN(I))
       DPDM(I) = DPDM(I)
      .     +(C5(I)+C6(I)*AMU(I))*DF(I)*DF(I)*RK2T + RK2T*DF(I)
    60 CONTINUE
 C
-      DO 70 I=LFT,LLT
+      DO 70 I=1,NEL
    70 SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
 C
       RETURN

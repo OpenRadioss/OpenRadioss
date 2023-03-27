@@ -70,7 +70,7 @@ C     REAL
      .  XXD(MVSIZ,10), YYD(MVSIZ,10), ZZD(MVSIZ,10)
 C-----------------------------------------------
         NCH=0
-        DO I=LFT,LLT
+        DO I=1,NEL
          IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) THEN
            NCH = NCH +1
            INDEX(NCH) = I

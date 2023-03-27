@@ -91,11 +91,11 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF(N2D==1 .AND. JHBE==17) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           FAC(I) = AIR(I)
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           FAC(I) = VOL(I)
         ENDDO
       ENDIF
@@ -103,20 +103,20 @@ C
 C     ADD VISCOUS STRESSES "SVIS" & "QVIS" INTO THE TOTAL ONES
 C     REMOVE PRESSURE FROM STRESSES FOR THE CONSTANT PRESSURE CASE
       IF(ICP==1) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           P(I)=THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3)+
      .                SVIS(I,1)+SVIS(I,2)+SVIS(I,3))
           S1(I)=(SIG(I,1)+SVIS(I,1)-P(I))*FAC(I)
           S2(I)=(SIG(I,2)+SVIS(I,2)-P(I))*FAC(I)
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           S1(I)=(SIG(I,1)+SVIS(I,1)-QVIS(I))*FAC(I)
           S2(I)=(SIG(I,2)+SVIS(I,2)-QVIS(I))*FAC(I)
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         FY1(I) = FY1(I) - S1(I)*PY1(I)- S2(I)*BZY1(I)
         FY2(I) = FY2(I) - S1(I)*PY2(I)- S2(I)*BZY2(I)
         FY3(I) = FY3(I) - S1(I)*PY3(I)- S2(I)*BZY3(I)
@@ -129,18 +129,18 @@ C
 C
       IF(N2D==1.AND.JHBE==17) THEN
          IF(ICP==1) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             S3(I)=(SIG(I,3)+SVIS(I,3)-P(I))*FAC(I)
             S4(I)=(SIG(I,4)+SVIS(I,4))*FAC(I)
           ENDDO
 	 ELSE
-          DO I=LFT,LLT
+          DO I=1,NEL
             S3(I)=(SIG(I,3)+SVIS(I,3)-QVIS(I))*FAC(I)
             S4(I)=(SIG(I,4)+SVIS(I,4))*FAC(I)
           ENDDO
 	 END IF
          IF(JCVT/=0) THEN
-            DO I=LFT,LLT
+            DO I=1,NEL
               T1=S1(I)*R22(I)+S4(I)*R23(I)
               T2=S4(I)*R32(I)+S2(I)*R33(I)
               T3=S1(I)*R32(I)+S4(I)*R33(I)
@@ -150,7 +150,7 @@ C
               S4(I)=R22(I)*T3+R23(I)*T2
             ENDDO
           ENDIF
-          DO I=LFT,LLT
+          DO I=1,NEL
             FAY(I) = FAY(I) + (S1(I)-S3(I))*AY(I)
             FAZ(I) = FAZ(I) + S4(I)*AY(I)
           ENDDO

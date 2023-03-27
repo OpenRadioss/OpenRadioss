@@ -96,7 +96,7 @@ C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
       IF(ALEFVM_Param%IEnabled==0)RETURN
-      MT          = IXS(1,NFT+LFT)
+      MT          = IXS(1,NFT+1)
       IALEFVM_FLG = IPM(251,MT)
       IF(IALEFVM_FLG <= 1)RETURN
 C-----------------------------------------------
@@ -107,7 +107,7 @@ C-----------------------------------------------
       ! NORMAL VECTOR FOR ALE                                       !
       !-------------------------------------------------------------!                                       
       IF(JALE==1)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           II     = I + NFT
 	  !---8 local node numbers NC1 TO NC8 for solid element I ---!
           NC1(I)=IXS(2,II)
@@ -152,7 +152,7 @@ C-----------------------------------------------
           Y8(I)=X(2,NC8(I))
           Z8(I)=X(3,NC8(I))
         ENDDO    
-        DO I=LFT,LLT        
+        DO I=1,NEL        
           ! Face-1
           N1X(I)=(Y3(I)-Y1(I))*(Z2(I)-Z4(I)) - (Z3(I)-Z1(I))*(Y2(I)-Y4(I))
           N1Y(I)=(Z3(I)-Z1(I))*(X2(I)-X4(I)) - (X3(I)-X1(I))*(Z2(I)-Z4(I))
@@ -183,7 +183,7 @@ C-----------------------------------------------
       !-------------------------------------------------------------!
       ! TOTAL TENSOR                                                !
       !-------------------------------------------------------------! 
-      DO I=LFT,LLT   
+      DO I=1,NEL   
         II           = I + NFT
         Vface(1:3,1) = ALEFVM_Buffer%F_FACE(1:3,1,II)
         Vface(1:3,2) = ALEFVM_Buffer%F_FACE(1:3,2,II)
@@ -203,7 +203,7 @@ C-----------------------------------------------
       
       ! WARNING : Tangentiel velocity is here missing since F_FACE is godunov normal velocity
       
-      DO I=LFT,LLT
+      DO I=1,NEL
         II=I+NFT
         GradV(1,1) =  HALF/VOL(I) * ( Vface(1,1)*N1X(I) + Vface(1,2)*N2X(I) + Vface(1,3)*N3X(I) 
      .                                + Vface(1,4)*N4X(I) + Vface(1,5)*N5X(I) + Vface(1,6)*N6X(I) )

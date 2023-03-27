@@ -50,7 +50,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -101,8 +100,8 @@ C     REAL
       DOUBLE PRECISION X0(8),Y0(8),Z0(8),DETM1,DETJ0
 C-----------------------------------------------
 C
-      MXT_1 = IXS(1,LFT)
-      DO I=LFT,LLT
+      MXT_1 = IXS(1,1)
+      DO I=1,NEL
         NGEO(I)=IXS(10,I)
         NGL(I)=IXS(11,I)
         MXT(I)=MXT_1
@@ -118,7 +117,7 @@ C
 C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         X1(I)=X(1,NC1(I))
         Y1(I)=X(2,NC1(I))
         Z1(I)=X(3,NC1(I))
@@ -147,7 +146,7 @@ C----------------------------
 C-----------
 C     Local system
 C-----------
-      DO I=LFT,LLT
+      DO I=1,NEL
         X0(1) = ZERO
         Y0(1) = ZERO
         Z0(1) = ZERO
@@ -206,7 +205,7 @@ C-----------
 C-----------
 C
 C-----------
-      DO I = LFT,LLT
+      DO I = 1,NEL
         X1(I) = ZERO
         Y1(I) = ZERO
         Z1(I) = ZERO
@@ -232,17 +231,17 @@ C-----------
         Y8(I) = SAV(I,20)
         Z8(I) = SAV(I,21)
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(OFFG(I)>ONE)THEN
           OFF(I) = OFFG(I)-ONE
         ENDIF
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
         OFF(I) = MIN(ONE,OFFG(I))
       ENDDO
 C-----------
       DO J=1,9
-        DO I=LFT,LLT
+        DO I=1,NEL
           K11(J,I)=ZERO
           K12(J,I)=ZERO
           K13(J,I)=ZERO
@@ -282,7 +281,7 @@ C-----------
         ENDDO
       ENDDO
 
-      DO J=LFT,LLT
+      DO J=1,NEL
         DO I=1,576
           KL(I,J)=ZERO
         ENDDO

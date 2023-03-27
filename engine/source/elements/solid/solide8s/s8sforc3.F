@@ -506,21 +506,21 @@ C-----------
 !      ENDIF
 C-----------
       IOFFS=0
-      DO I=LFT,LLT
+      DO I=1,NEL
         OFFS(I)=EP20
         DELTAX(I)=EP30
         IDEG(I)=0
       ENDDO
-      IF(JTHE < 0) THEM(LFT:LLT,1:8) =ZERO
+      IF(JTHE < 0) THEM(1:NEL,1:8) =ZERO
 
 !      IF (ICP == 2) THEN
-!      MX = MXT(LFT)
+!      MX = MXT(1)
 !       C1 =PM(32,MX)
-!       DO I=LFT,LLT
+!       DO I=1,NEL
 !        NU(I)=MIN(HALF,PM(21,MX))
 !        E0(I) =THREE*(ONE-TWO*NU(I))*C1
 !       ENDDO
-!       CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0  ,GBUF%PLA,
+!       CALL S8ZSIGP3(1  ,NEL       ,GBUF%SIG,E0  ,GBUF%PLA,
 !     2               FAC  ,GBUF%G_PLA,NEL     )
 !      ENDIF 
       CALL S8EPRST_INI(PR ,PS ,PT )
@@ -575,7 +575,7 @@ C-------now [B](Pij) is always in global system w/ ISMSTR10
 !     .   PZC1, PZC2, PZC3, PZC4, 
 !     .   GBUF%JAC_I)
 !C----------just for initialization     
-!         SMAX(LFT:LLT)=EP10
+!         SMAX(1:NEL)=EP10
 !       END IF !(ISMSTR == 11) THEN
 !C     
 !       IF (ICP ==1) THEN
@@ -629,8 +629,8 @@ C-------now [B](Pij) is always in global system w/ ISMSTR10
 !     .    PY5(1,IP), PY6(1,IP), PY7(1,IP), PY8(1,IP),
 !     .    PZ1(1,IP), PZ2(1,IP), PZ3(1,IP), PZ4(1,IP),
 !     .    PZ5(1,IP), PZ6(1,IP), PZ7(1,IP), PZ8(1,IP),
-!     .    LBUF%PIJ , LLT  )
-!          VOLP(LFT:LLT,IP)=VOLG(LFT:LLT)
+!     .    LBUF%PIJ , NEL  )
+!          VOLP(1:NEL,IP)=VOLG(1:NEL)
 !        ENDDO    !  IT=1,NPTT
 !        ENDDO     !  IS=1,NPTS
 !       ENDDO      !  IR=1,NPTR
@@ -700,12 +700,12 @@ C-------now [B](Pij) is always in global system w/ ISMSTR10
 !     .    MFZZ(1,IP),ICP ,DETF0 ,JFAC(1,IP) ,NU ,ISELECT)
 !C     
 !         IF (JCVT > 0.AND.(ISMSTR==10.OR.ISMSTR==12)) THEN
-!          CALL SORDEFT3(LFT,LLT,MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP),
+!          CALL SORDEFT3(1,NEL,MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP),
 !     .         MFYX(1,IP), MFYY(1,IP), MFYZ(1,IP),
 !     .         MFZX(1,IP), MFZY(1,IP), MFZZ(1,IP),
 !     .         R11, R21, R31, R12, R22, R32, R13, R23, R33)
 !         ELSEIF (IDTMIN(1)==3.AND.ISMSTR == 12.AND.ISORTH==0) THEN
-!          CALL SORDEFT12(LFT,LLT,MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP),
+!          CALL SORDEFT12(1,NEL,MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP),
 !     .         MFYX(1,IP), MFYY(1,IP), MFYZ(1,IP),
 !     .         MFZX(1,IP), MFZY(1,IP), MFZZ(1,IP),
 !     .         R11, R21, R31, R12, R22, R32, R13, R23, R33,GBUF%OFF)
@@ -826,7 +826,7 @@ C --------------------------
 !     .             ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
 !     .             NEL)
 !       END IF 
-!       print*,'GBUF%OFF s8esav3 s8sforc : ',GBUF%OFF(LFT)
+!       print*,'GBUF%OFF s8esav3 s8sforc : ',GBUF%OFF(1)
 !      END IF !(ISMSTR <= 3) THEN
 C      
       IF (ICP==1.OR.ICP==2) THEN
@@ -841,7 +841,7 @@ C
 C-----don't do it w/ degenerated elm, but limit to law28 after QA   
         IF (IDTS6==0)  CALL DEGENES8(IXS(1,NF1),IDEG)
         IF (ICP==1.AND.MTN==28) THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
           IF (IDEG(I)>0) IDEG(I) = IDEG(I) + 10
          ENDDO
         END IF !(ICP==1.AND.MTN==28) THEN
@@ -859,7 +859,7 @@ C-------------------------------------------
 C    COMPUTE AVERAGE TEMPERATURE IN ELEMENT (for output)
 C-------------------------------------------
       IF(JTHE < 0 ) THEN 
-        DO I=LFT,LLT
+        DO I=1,NEL
            IF(GBUF%OFF(I) == ZERO) CYCLE
            TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
      .                          + TEMP(NC3(I)) + TEMP(NC4(I)) 
@@ -882,7 +882,7 @@ c-------------------------------------------
               ZT = A_GAUSS(IT,NPTT)
               IP = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
               CALL BASIS8 (ZR,ZS,ZT,H,PR2,PS2,PT2)
-              DO I=LFT,LLT
+              DO I=1,NEL
                 INOD(1) = NLOC_DMG%IDXI(NC1(I))
                 INOD(2) = NLOC_DMG%IDXI(NC2(I))
                 INOD(3) = NLOC_DMG%IDXI(NC3(I))
@@ -930,7 +930,7 @@ C-----------Begin integrating points-----
           LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
 C-----avoid multi-print	  
           IF (IOFFS == 1)THEN
-           DO I=LFT,LLT
+           DO I=1,NEL
             IF (OFFS(I)<=TWO) LBUF%OFF(I)=OFFS(I)
            ENDDO
           END IF
@@ -1004,11 +1004,11 @@ C
      .    DSV, ICP, FAC,SDV ,ISELECT,IDEG)
 c
 !         IF (IDTMIN(1)==3.AND.ISMSTR == 12.AND.ISORTH==0.AND.JCVT==0) THEN
-!          CALL SORDEF12(LFT,LLT,DXX, DYY, DZZ,
+!          CALL SORDEF12(1,NEL,DXX, DYY, DZZ,
 !     .         D4, D5, D6,
 !     .         R11, R21, R31, R12, R22, R32, R13, R23, R33,OFFG0)
 !         ENDIF
-         DO I=LFT,LLT
+         DO I=1,NEL
            RHOO(I) = LBUF%RHO(I)
          ENDDO
           DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+SDV(1:NEL)   
@@ -1017,11 +1017,11 @@ c
      3                0          , GBUF%TAG22,VOLP(1,IP),LBUF%VOL0DP,AMU  ,GBUF%OFF )
 C                                       
 !       IF (ISMSTR == 12.AND.IDTMIN(1)==3.AND.ISORTH==0.AND.JCVT==0) THEN
-!         CALL SROTO12_SIG(LFT,LLT,LBUF%SIG,NEL,
+!         CALL SROTO12_SIG(1,NEL,LBUF%SIG,NEL,
 !     .           R11, R21, R31, R12, R22, R32, R13, R23, R33,OFFG0)
 !!! temporary replaced by (the same) SROTO12_SIG() in order to do not affect
 !!! the other multidimensional buffer ARRAYS which are still not modified
-!!!         CALL SROTO12(LFT,LLT,LBUF%SIG,
+!!!         CALL SROTO12(1,NEL,LBUF%SIG,
 !!!     .           R11, R21, R31, R12, R22, R32, R13, R23, R33,OFFG0)
 !    !   ENDIF ! (ISMSTR == 10.AND.IDTMIN(1)==3)
 !         IF (JCVT == 0) THEN
@@ -1047,7 +1047,7 @@ C    for heat transfert
 C
 !      IF(JTHE < 0 ) THEN
 !            CALL S8ZTEMPEL(
-!     .           LFT,LLT,NI,
+!     .           1,NEL,NI,
 !     .           A_GAUSS(IR,NPTR),A_GAUSS(IS,NPTS),A_GAUSS(IT,NPTT),
 !     .           NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
 !     .           TEMP,TEMPEL)
@@ -1081,14 +1081,14 @@ c
 C
 !       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
 !        IF (ISORTH==0.AND.JCVT==0) THEN
-!         CALL SROTO12_SIG(LFT,LLT,LBUF%SIG,NEL,
+!         CALL SROTO12_SIG(1,NEL,LBUF%SIG,NEL,
 !     .           R11, R12, R13, R21, R22, R23, R31, R32, R33,OFFG0)
 !!! temporary replaced by (the same) SROTO12_SIG() in order to do not affect
 !!! the other multidimensional buffer ARRAYS which are still not modified
-!!!         CALL SROTO12(LFT,LLT,LBUF%SIG,
+!!!         CALL SROTO12(1,NEL,LBUF%SIG,
 !!!     .           R11, R12, R13, R21, R22, R23, R31, R32, R33,OFFG0)
 !         IF (ISTRAIN == 1) THEN 
-!          CALL SORDEF12(LFT,LLT,DXX, DXY, DXZ,
+!          CALL SORDEF12(1,NEL,DXX, DXY, DXZ,
 !     .         D4, D5, D6,
 !     .         R11, R12, R13, R21, R22, R23, R31, R32, R33,OFFG0)
 !         ENDIF
@@ -1119,7 +1119,7 @@ c-------------------------
 c     Virtual internal forces of regularized non local ddl 
 c--------------------------
       IF (INLOC > 0) THEN  
-        IMAT = MXT(LFT)
+        IMAT = MXT(1)
         ZR = A_GAUSS(IR,NPTR)
         ZS = A_GAUSS(IS,NPTS) 
         ZT = A_GAUSS(IT,NPTT)
@@ -1137,7 +1137,7 @@ c--------------------------
      .       IMAT     ,H        ,WI       ,IP       ,
      .       ITASK    ,DT2T     ,GBUF%VOL )
        ENDIF
-       DO I=LFT,LLT
+       DO I=1,NEL
         OFFG(I)=MIN(OFFG(I),OFF(I))
         IF (LBUF%OFF(I)>ONE .AND. GBUF%OFF(I) == ONE) THEN
           OFFS(I)=MIN(LBUF%OFF(I),OFFS(I))
@@ -1168,7 +1168,7 @@ C
 C-----------End integrating points-----
 c
       IF (IOFFS == 1) THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
           IF (OFFS(I)<=TWO) GBUF%OFF(I)=OFFS(I)
        END DO
 c-------------------
@@ -1177,7 +1177,7 @@ c-------------------
          DO IT=1,NPTT
             LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
           IP = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
-          DO I=LFT,LLT
+          DO I=1,NEL
               IF (GBUF%OFF(I) > ONE) LBUF%OFF(I)=GBUF%OFF(I)
           END DO
          END DO 

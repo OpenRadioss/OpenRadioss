@@ -45,7 +45,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -72,18 +71,18 @@ C     REAL
      .   DMPM(MVSIZ),DMPF(MVSIZ),RHO(MVSIZ),G(MVSIZ)
 C-----------------------------------------------
       IF (IMPL_S == 0 .OR. IDYNA > 0) THEN
-        DO I=LFT,LLT                    
+        DO I=1,NEL                    
           DMPM(I)=GEO(16,PID(I))*AL(I)  
           DMPF(I)=GEO(17,PID(I))*AL(I)  
         ENDDO 
       ELSE
-        DO I=LFT,LLT                    
+        DO I=1,NEL                    
           DMPM(I)=ZERO  
           DMPF(I)=ZERO  
         ENDDO 
       ENDIF                                 
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         RHO(I) =PM( 1,MAT(I))
         G(I)   =PM(22,MAT(I))
         YM(I)  =PM(20,MAT(I))
@@ -97,7 +96,7 @@ C-----------------------------
 C     DAMPING terms removed to pforce3
 C-----------------------------
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EXX(I)=EXX(I)*DT1
         EXY(I)=EXY(I)*DT1
         EXZ(I)=EXZ(I)*DT1
@@ -106,14 +105,14 @@ C
         KZZ(I)=KZZ(I)*DT1
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         DEGMB(I) =(FOR(I,1)*EXX(I)+FOR(I,2)*EXY(I)+FOR(I,3)*EXZ(I))
         DEGFX(I) =(MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)+MOM(I,3)*KZZ(I))
       ENDDO
 C
 C     CISSAILLEMENT TRANSVERSAL CALCULE AVEC K1=12EI/L**2 K2=5/6GA
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         SH(I)=FIVE_OVER_6*G(I)*A1(I)
         YMA2(I)=TWELVE*YM(I)/AL(I)**2
         SH10(I)=YMA2(I)*B1(I)
@@ -137,19 +136,19 @@ C
         MOM(I,3)=MOM(I,3)*OFF(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         DEGMB(I) = DEGMB(I)
      +            +FOR(I,1)*EXX(I)+FOR(I,2)*EXY(I)+FOR(I,3)*EXZ(I)
         DEGFX(I) = DEGFX(I)
      +            +MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)+MOM(I,3)*KZZ(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EINT(I,1) = EINT(I,1) + DEGMB(I)*AL(I)*HALF*OFF(I)
         EINT(I,2) = EINT(I,2) + DEGFX(I)*AL(I)*HALF*OFF(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         F1(I) =  FOR(I,1)
         F2(I) =  FOR(I,2) 
         F3(I) =  FOR(I,3)  

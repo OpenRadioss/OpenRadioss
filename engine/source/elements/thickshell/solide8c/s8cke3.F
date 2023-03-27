@@ -268,19 +268,19 @@ C-----------
      .   K66,K67,K68,K77,K78,K88,JHBE,GBUF%GAMA,GAMA,
      .   NEL)
 C
-      PID=NGEO(LFT)
+      PID=NGEO(1)
 C      IGTYP=NINT(GEO(12,PID))
 C      CALL GET_GAMA(MTN,NEL,NBGAMA,JCVT,PM,IXS(1,NF1),IGTYP)
-      MX = MXT(LFT)
-      DO I=LFT,LLT
+      MX = MXT(1)
+      DO I=1,NEL
         NU(I)=MIN(HALF,PM(21,MX))
         C1 =PM(32,MX)
-        E0(I) =THREE*(ONE-TWO*NU(LFT))*C1
+        E0(I) =THREE*(ONE-TWO*NU(1))*C1
         DELTAX(I)=EP30
 		      IDEG(I)=0
       ENDDO
       IF (JHBE/=14.AND.JHBE<20) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           NU(I)=ZERO
         ENDDO
       ENDIF 
@@ -305,13 +305,13 @@ c
      .   AJC4,AJC5,AJC6,
      .   AJC7,AJC8,AJC9,SMAX)
       IF (ICPG==2) THEN
-       CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0  ,GBUF%PLA,
+       CALL S8ZSIGP3(1  ,NEL       ,GBUF%SIG,E0  ,GBUF%PLA,
      2               FAC  ,GBUF%G_PLA,NEL     )
-       DO I=LFT,LLT
+       DO I=1,NEL
         NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)
        ENDDO
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
         NU1(I)=NU(I)
        ENDDO
       ENDIF 
@@ -321,7 +321,7 @@ c
        IADBUF = 0
       ENDIF
       NPPT = NPTS*NPTT*NPTR*NLAY
-      CALL MMATS(LFT    ,LLT     ,PM    ,MXT    ,HH    ,
+      CALL MMATS(1    ,NEL     ,PM    ,MXT    ,HH    ,
      .           MTN    ,IKORTH  ,IPM   ,IGEO   ,GAMA  ,
      .           BUFMAT(IADBUF)  ,DM    ,DGM    ,GM    ,
      .           JHBE  ,GBUF%SIG ,BID   ,NPPT   ,NEL   )
@@ -448,7 +448,7 @@ C----------------------------
      .   K66,K67,K68,K77,K78,K88)
      
       IF (NEIG>0) CALL S8EOFF(
-     1   LFT, LLT, IXS(1,NF1), ETAG, OFFG)
+     1   1, NEL, IXS(1,NF1), ETAG, OFFG)
       CALL ASSEM_S8(
      1    IXS(1,NF1),NEL   ,IDDL  ,NDOF  ,K_DIAG,
      2    K_LT  ,IADK  ,JDIK  ,K11   ,K12   ,     

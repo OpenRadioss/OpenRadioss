@@ -82,13 +82,13 @@ C     REAL
      .  DIMENSION(:), POINTER :: SIGP
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C=======================================================================
-      MX     =MAT(LFT)
+      MX     =MAT(1)
 C
       DO J=1,6
         JJ(J) = NEL*(J-1)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         G(I)   =PM(22,MX)
         C1(I)  =PM(31,MX)
         C2(I)  =PM(32,MX)
@@ -100,7 +100,7 @@ C
         PSH(I) =PM(88,MX)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         POLD(I)=(SIG(I,1)+SIG(I,2)+SIG(I,3)) * THIRD
         SIG(I,1)=ZERO
         SIG(I,2)=ZERO
@@ -110,7 +110,7 @@ C
         SIG(I,6)=ZERO
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         DF(I)  =RHO0(I)/RHO(I)
         AMU(I) =ONE/DF(I)-ONE
         AMU2(I)= MAX(ZERO,AMU(I))**2
@@ -119,7 +119,7 @@ C
 C--------------------------------------------------
 C     VITESSE DU SON APPROCHEE COURANTE
 C--------------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         DPDM(I)=ONEP333*G(I)
      .    +C2(I)+TWO*C3(I)*MAX(ZERO,AMU(I))+THREE*C4(I)*AMU(I)*AMU(I)
      .         +C6(I)*ESPE(I)
@@ -128,7 +128,7 @@ C--------------------------------------------------
      .         (C5(I)+C6(I)*AMU(I))*ESPE(I))
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 C--------------------------------------------------
@@ -143,23 +143,23 @@ C--------------------------------------------------
 C--------------------------------------------------
 C     PRESSION
 C--------------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         EINT(I)=EINT(I)+HALF*DVOL(I)*(POLD(I)-PSH(I))*OFF(I)
         ESPE(I)=DF(I)*EINT(I)/ MAX(EM15,VNEW(I))
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         A(I)=C1(I)+AMU(I)*(C2(I)+C4(I)*AMU(I)*AMU(I))+C3(I)*AMU2(I)
         B(I)=C5(I)+C6(I)*AMU(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
         PNEW(I)=(A(I)+(ESPE(I)-PSH(I)*DVV)*B(I))/(ONE + B(I)*DVV)
         PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EINT(I)=EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
       ENDDO
 C--------------------------------------------------
@@ -168,8 +168,8 @@ C--------------------------------------------------
       DO IPT=1,NPT
         LBUF => BUFLY%LBUF(1,1,IPT)
         SIGP => BUFLY%LBUF(1,1,IPT)%SIG(1:NEL*6)
-        JPT=(IPT-1)*LLT
-        DO I=LFT,LLT
+        JPT=(IPT-1)*NEL
+        DO I=1,NEL
           SIGP(JJ(1)+I)= SIGP(JJ(1)+I)-PNEW(I)
           SIGP(JJ(2)+I)= SIGP(JJ(2)+I)-PNEW(I)
           SIGP(JJ(3)+I)= SIGP(JJ(3)+I)-PNEW(I)
@@ -180,7 +180,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C     CONTRAINTE MOYENNE (OUTPUT)
 C--------------------------------------------------
-        DO I=LFT,LLT
+        DO I=1,NEL
           SIG(I,1)=SIG(I,1)+ONE_OVER_8*SIGP(JJ(1)+I)
           SIG(I,2)=SIG(I,2)+ONE_OVER_8*SIGP(JJ(2)+I)
           SIG(I,3)=SIG(I,3)+ONE_OVER_8*SIGP(JJ(3)+I)
@@ -195,7 +195,7 @@ C  DIVISION PAR LE VOLUME POUR L'ALE <(:o))=
 C  VOL EST LE VOLUME INITIAL EN LAG.
 C
 C---------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         EINT(I)=EINT(I) / MAX(EM15,VOL(I))
       ENDDO
 C-----------

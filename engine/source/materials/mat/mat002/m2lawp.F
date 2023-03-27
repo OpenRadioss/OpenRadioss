@@ -48,7 +48,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -86,18 +85,18 @@ C-----------------------------------------------
       NPIF = 0
 C
       IF (IMPL_S == 0 .OR. IDYNA > 0) THEN
-        DO I=LFT,LLT                    
+        DO I=1,NEL                    
           DMPM(I)=GEO(16,PID(I))*AL(I)  
           DMPF(I)=GEO(17,PID(I))*AL(I)  
         ENDDO
       ELSE
-        DO I=LFT,LLT                    
+        DO I=1,NEL                    
           DMPM(I)=ZERO  
           DMPF(I)=ZERO  
         ENDDO 
       ENDIF                                 
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         RHO(I) =PM( 1,MAT(I))
         G(I)   =PM(22,MAT(I))
         YM(I)  =PM(20,MAT(I))
@@ -126,11 +125,11 @@ C        SHF(I) =GEO(13,PID(I))
 C-----------------------------
 C     DAMPING terms removed to pforce3
 C-----------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         ESP(I) = (EINT(I,1)+EINT(I,2))/AL(I)/A1(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EXX(I)=EXX(I)*DT1
         EXY(I)=EXY(I)*DT1
         EXZ(I)=EXZ(I)*DT1
@@ -139,7 +138,7 @@ C
         KZZ(I)=KZZ(I)*DT1
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         DEGMB(I) = FOR(I,1)*EXX(I)
         DEGSH(I) = FOR(I,2)*EXY(I)+FOR(I,3)*EXZ(I)
         DEGFX(I) = MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)+MOM(I,3)*KZZ(I)
@@ -147,7 +146,7 @@ C
 C
 C     CISAILLEMENT TRANSVERSAL CALCULE AVEC K1=12EI/L**2 K2=5/6GA
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         SH(I)=FIVE_OVER_6*G(I)*A1(I)
         YMA2(I)=TWELVE*YM(I)/AL(I)**2
         SH10(I)=YMA2(I)*B1(I)
@@ -166,7 +165,7 @@ C
 C-------------
 C     CRITERE
 C-------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         YEQ(I)= F1(I)*F1(I) + THREE * A1(I) *
      +                    ( M1(I)*M1(I) / MAX(B3(I),EM20)
      +                    + M2(I)*M2(I) / MAX(B1(I),EM20)
@@ -177,7 +176,7 @@ C-------------
 C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
       IF (EPIF /= ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           EPSP(I)=ABS(DEGMB(I)+DEGFX(I))/(YEQ(I)+ EM20)/A1(I)
           TMP2(I)=ABS(DEGMB(I)+DEGFX(I))
           TMP3(I)=EPSP(I)
@@ -185,12 +184,12 @@ C-------------
           EPSP(I)=LOG(EPSP(I)/EPDR(I))
         ENDDO
         IF (NPIF == ZERO) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             EPSP(I)=(ONE + CC(I) * EPSP(I))
             IF (ICC(I) == 1) YMAX(I) = YMAX(I) * EPSP(I)
           ENDDO
-        ELSEIF (NPIF == LLT) THEN
-          DO I=LFT,LLT
+        ELSEIF (NPIF == NEL) THEN
+          DO I=1,NEL
             EPSP(I)=(ONE + CC(I) * EPSP(I))
             TMP1(I)=EPSP(I)
             EPSP(I)= CC(I)*EXP((-Z3(I)+Z4(I) * EPSP(I))*ESP(I))
@@ -199,7 +198,7 @@ C-------------
             EPSP(I)=ONE
           ENDDO
         ELSE
-          DO I=LFT,LLT
+          DO I=1,NEL
             IF (IRTY(I) == 0)THEN
               EPSP(I)=(ONE + CC(I) * EPSP(I))
               TMP1(I)=YMAX(I)
@@ -215,28 +214,28 @@ C-------------
           ENDDO
         ENDIF
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           EPSP(I)=ONE
         ENDDO
       ENDIF
 C-----------------------------------
 C     YIELD
 C-----------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         YLD(I)= CA(I) + CB(I) * EXP(CN(I) * LOG(PLA(I)+EM30))
         YLDTMP(I)=YLD(I)
         YLD(I)= MIN(YLD(I)*EPSP(I),YMAX(I))
         RR(I) = MIN(ONE,YLD(I)/(YEQ(I)+ EM20))
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         TMP1(I)  = F1(I)
         F1(I) = F1(I)*RR(I)
         DWELM(I) =(F1(I)+FOR(I,1))*(F1(I)-FOR(I,1))/YM(I)/A1(I)
         DEGMB(I) = DEGMB(I)+ F1(I)*EXX(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         TMP1(I)= M1(I)
         TMP2(I)= M2(I)
         TMP3(I)= M3(I)
@@ -249,7 +248,7 @@ C
         DEGFX(I) = DEGFX(I)+ M1(I)*KXX(I)+M2(I)*KYY(I)+M3(I)*KZZ(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         DWPLA(I)=DEGMB(I)+DEGFX(I)-DWELM(I)-DWELF(I)
         DEGSH(I)= DEGSH(I)+FOR(I,2)*EXY(I)+FOR(I,3)*EXZ(I)
         FACT=HALF*OFF(I)*AL(I)
@@ -259,7 +258,7 @@ C
 C-----------------------
 C     EPS PLASTIQUE
 C-----------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         TMP1(I)=EPSP(I)*DWPLA(I)/YLD(I)
 c       PLA(I)=PLA(I)+OFF(I)*MAX(ZERO,0.5*EPSP(I)*DWPLA(I)/YLD(I)/A1(I))
         PLA(I)=PLA(I)+OFF(I)*MAX(ZERO,HALF*TMP1(I)/A1(I))
@@ -267,13 +266,13 @@ c       PLA(I)=PLA(I)+OFF(I)*MAX(ZERO,0.5*EPSP(I)*DWPLA(I)/YLD(I)/A1(I))
 C--------------------------------
 C     TEST DE RUPTURE DUCTILE
 C--------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I)=ZERO
         IF (OFF(I) < ONE)   OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C
       NINDX  = 0
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (OFF(I) < ONE)      CYCLE
         IF (PLA(I) < EPMX(I)) CYCLE
         OFF(I)=FOUR_OVER_5
@@ -291,7 +290,7 @@ C
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         FOR(I,1)=F1(I)*OFF(I)
         FOR(I,2)=FOR(I,2)*OFF(I)
         FOR(I,3)=FOR(I,3)*OFF(I)
@@ -300,7 +299,7 @@ C
         MOM(I,3)=M3(I)*OFF(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         FA1(I) =  FOR(I,1)
         FA2(I) =  FOR(I,2) 
         FA3(I) =  FOR(I,3)  

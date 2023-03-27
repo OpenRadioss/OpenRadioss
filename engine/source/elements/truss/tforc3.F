@@ -108,7 +108,7 @@ C
      .            EZ  ,X1       ,X2  ,Y1  ,Y2 ,
      .            Z1  ,Z2       )
 C-------     activation only in compression in laws
-      DO I=LFT,LLT
+      DO I=1,NEL
        IF (GEO(2,PID(I))>ZERO .AND. GBUF%OFF(I)>ZERO) OFF(I)=ZERO
       ENDDO
       CALL TDLEN3(JFT    , JLT   ,PM        ,GBUF%OFF,OFF   ,
@@ -150,7 +150,7 @@ c
 c
       ENDIF ! IF (MTN)
 C-------     activation for GBUF%OFF + save the strain in buffer
-      DO I=LFT,LLT
+      DO I=1,NEL
        IF (GEO(2,PID(I))>ZERO) THEN
          IF (GBUF%OFF(I)==ZERO.AND.OFF(I)==ONE) GBUF%OFF(I)=ONE
        END IF

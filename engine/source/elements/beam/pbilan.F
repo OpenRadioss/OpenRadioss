@@ -90,12 +90,12 @@ C-----------------------------------------------
       RBIDON = ZERO
       OFF(1:MVSIZ) = ZERO
       FLAG = 0
-      DO I=LFT,LLT
+      DO I=1,NEL
         SECT(I)=GEO(1,PID(I))
         RHO(I) =PM(1,MAT(I))
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         XX(I)=X1G(I)+X2G(I)
         YY(I)=Y1G(I)+Y2G(I)
         ZZ(I)=Z1G(I)+Z2G(I)
@@ -107,7 +107,7 @@ C
      .        +VZ1G(I)*VZ1G(I)+VZ2G(I)*VZ2G(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         XX(I)=XX(I)*HALF
         YY(I)=YY(I)*HALF
         ZZ(I)=ZZ(I)*HALF
@@ -117,11 +117,11 @@ C
         VA2(I)=VA2(I)*HALF
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         XMAS(I)=RHO(I)*AL(I)*SECT(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EI(I)= EINT(I,1) + EINT(I,2)
         EK(I)= XMAS(I)*VA2(I)*HALF
         XM(I)= XMAS(I)*VXA(I)
@@ -129,7 +129,7 @@ C
         ZM(I)= XMAS(I)*VZA(I) 
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         XCG(I)= XMAS(I)*XX(I)
         YCG(I)= XMAS(I)*YY(I)
         ZCG(I)= XMAS(I)*ZZ(I)
@@ -151,10 +151,10 @@ C
       ENDDO
 C
       IF (IGRE /= 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           OFF(I) = ONE
         ENDDO
-        CALL GRELEM_SAV(LFT   ,LLT   ,GRESAV,IGRTH ,GRTH  ,
+        CALL GRELEM_SAV(1   ,NEL   ,GRESAV,IGRTH ,GRTH  ,
      2                  OFF   ,EI    ,EK    ,XM    ,YM    ,
      3                  ZM    ,XMAS  ,XCG   ,YCG   ,ZCG   ,
      4                  XXM   ,YYM   ,ZZM   ,IXX   ,IYY   ,
@@ -162,7 +162,7 @@ C
      6                  REK   ,FLAG  )
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         M = IPARTP(I)
         PARTSAV(1,M)=PARTSAV(1,M) + EI(I)
         PARTSAV(2,M)=PARTSAV(2,M) + EK(I)
@@ -187,7 +187,7 @@ C
       ENDDO
 C
       IF (ANIM_FT(1) /= 0 .OR. H3D_DATA%UND_FORC /= 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           TANI(1,I)= FOR(I,1)
           TANI(2,I)= FOR(I,2)
           TANI(3,I)= FOR(I,3)
@@ -206,7 +206,7 @@ C          TANI(15,I)= E2Z(I)
         ENDDO
       ENDIF
       OFF(1:MVSIZ) = ONE
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF,IPARTP,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(1,NEL,EI,EK,OFF,IPARTP,ITASK) 
 C-----------------------------------------------
       RETURN
       END

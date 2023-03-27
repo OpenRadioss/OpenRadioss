@@ -38,7 +38,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -55,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         SIGM(I,1) = ZERO
         SIGM(I,2) = ZERO
         SIGM(I,3) = ZERO
@@ -70,16 +69,16 @@ c        EPLASM(I) = ZERO
         PP(I)     = ZERO
       ENDDO
       IF (G_PLA > 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           EPLASM(I) = ZERO
         ENDDO
       ENDIF
       IF (G_EPSD > 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           EPSDM(I) = ZERO
         ENDDO
       ENDIF
-      DO I=LFT,LLT
+      DO I=1,NEL
         FY1(I)=ZERO
         FZ1(I)=ZERO
         FY2(I)=ZERO

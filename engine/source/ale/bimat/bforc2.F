@@ -286,7 +286,7 @@ c
 
       IF (ISORTH == 0) THEN 
 C       propriete isotrope
-        DO I=LFT,LLT                                            
+        DO I=1,NEL                                            
           GAMA(I,1) = ONE                                
           GAMA(I,2) = ZERO                                  
           GAMA(I,3) = ZERO
@@ -295,7 +295,7 @@ C       propriete isotrope
           GAMA(I,6) = ZERO 
         ENDDO
       ELSE
-        DO I=LFT,LLT                                            
+        DO I=1,NEL                                            
           GAMA(I,1) = ONE                                
           GAMA(I,2) = ZERO                                  
           GAMA(I,3) = ZERO
@@ -402,7 +402,7 @@ C--------------
      2                                      BIDM,BIDM,BIDM,BIDM,BIDM,
      3                                      BIDM,BIDM,BIDM,BIDM,BIDM,
      4                                      BIDM,BIDM,BIDM,BIDM,GBUF%OFF,
-     5                                      LFT,LLT,NEL)
+     5                                      1,NEL,NEL)
 
       IF (IPARIT==0) THEN
       CALL BCUMU2 (LBUF1%FRAC,LBUF2%FRAC,A,FILL(1,1),
@@ -463,7 +463,7 @@ c
 c
       IF (ISORTH == 0) THEN 
 C       propriete isotrope
-        DO I=LFT,LLT                                            
+        DO I=1,NEL                                            
           GAMA(I,1) = ONE                                
           GAMA(I,2) = ZERO                                  
           GAMA(I,3) = ZERO
@@ -472,7 +472,7 @@ C       propriete isotrope
           GAMA(I,6) = ZERO 
         ENDDO
       ELSE
-        DO I=LFT,LLT                                            
+        DO I=1,NEL                                            
           GAMA(I,1) = ONE                                
           GAMA(I,2) = ZERO                                  
           GAMA(I,3) = ZERO
@@ -578,7 +578,7 @@ C--------------
      2                                      BIDM,BIDM,BIDM,BIDM,BIDM,
      3                                      BIDM,BIDM,BIDM,BIDM,BIDM,
      4                                      BIDM,BIDM,BIDM,BIDM,GBUF%OFF,
-     5                                      LFT,LLT,NEL)
+     5                                      1,NEL,NEL)
         IF(IPARIT==0)THEN
           CALL BCUMU2(LBUF2%FRAC,LBUF1%FRAC,A,FILL(1,2),
      .             LBUF%SIG,LBUF%EINT,LBUF%RHO,LBUF%QVIS,GBUF%QVIS,

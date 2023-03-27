@@ -100,8 +100,8 @@ C-----------------------------------------------
       my_real
      .   OFF_L
 C=======================================================================
-      MXT_1 = IXS(1,LFT)
-      DO I=LFT,LLT
+      MXT_1 = IXS(1,1)
+      DO I=1,NEL
         VIS(I)=ZERO
         NGEO(I)=IXS(10,I)
         NGL(I)=IXS(11,I)
@@ -122,7 +122,7 @@ C=======================================================================
       !     NODAL COORDINATES     |
       !----------------------------
       IF(IRESP==1)THEN 
-        DO I=LFT,LLT
+        DO I=1,NEL
           XD1(I)=XDP(1,NC1(I))  
           YD1(I)=XDP(2,NC1(I))  
           ZD1(I)=XDP(3,NC1(I))  
@@ -149,7 +149,7 @@ C=======================================================================
           ZD8(I)=XDP(3,NC8(I))  	  	  	  
         ENDDO
       ELSE	
-        DO I=LFT,LLT
+        DO I=1,NEL
           XD1(I)=X(1,NC1(I))  
           YD1(I)=X(2,NC1(I))  
           ZD1(I)=X(3,NC1(I))  
@@ -186,7 +186,7 @@ C=======================================================================
      .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ  ,
      .       E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z )
       IF (ISORTH == 0) THEN            
-        DO I=LFT,LLT                                            
+        DO I=1,NEL                                            
           GAMA(I,1) = ONE                               
           GAMA(I,2) = ZERO                                
           GAMA(I,3) = ZERO             
@@ -202,7 +202,7 @@ C=======================================================================
       ENDIF                             
       IF(ISMSTR<=4.AND.JLAG>0.OR.(ISMSTR==12.AND.IDTMIN(1)==3)) THEN
 C
-       DO I=LFT,LLT
+       DO I=1,NEL
          IF(ABS(OFFG(I))>ONE)THEN
           XD1(I)=SAV(I,1)
           YD1(I)=SAV(I,2)
@@ -237,14 +237,14 @@ C
        ENDDO
 
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
          OFF(I) = ABS(OFFG(I))
          OFF_L  = MIN(OFF_L,OFFG(I))
         ENDDO
       ENDIF
 
       !copy and cast XD (DP) to X (SP) to assure coherence between XD and X      
-      DO I=LFT,LLT
+      DO I=1,NEL
         X1(I)= XD1(I) 
         Y1(I)= YD1(I) 
         Z1(I)= ZD1(I)
@@ -271,7 +271,7 @@ C
         Z8(I)= ZD8(I) 
       ENDDO    
             
-      DO I=LFT,LLT
+      DO I=1,NEL
        VX1(I)=V(1,NC1(I))
        VY1(I)=V(2,NC1(I))
        VZ1(I)=V(3,NC1(I))
@@ -299,7 +299,7 @@ C
       ENDDO
       
       IF(ISROT/=0)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
         VXR(I)=(VR(1,NC1(I))+VR(1,NC2(I))+VR(1,NC3(I))+VR(1,NC4(I)) + VR(1,NC5(I))+VR(1,NC6(I))+VR(1,NC7(I))+VR(1,NC8(I)))/EIGHT
         VYR(I)=(VR(2,NC1(I))+VR(2,NC2(I))+VR(2,NC3(I))+VR(2,NC4(I)) + VR(2,NC5(I))+VR(2,NC6(I))+VR(2,NC7(I))+VR(2,NC8(I)))/EIGHT
         VZR(I)=(VR(3,NC1(I))+VR(3,NC2(I))+VR(3,NC3(I))+VR(3,NC4(I)) + VR(3,NC5(I))+VR(3,NC6(I))+VR(3,NC7(I))+VR(3,NC8(I)))/EIGHT
@@ -310,7 +310,7 @@ C
       ENDIF
       
       IF(OFF_L<ZERO)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFFG(I)<ZERO)THEN
             VX1(I)=ZERO
             VY1(I)=ZERO
@@ -341,7 +341,7 @@ C
       ENDIF
 
       IF (JLAG/=0)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
         VD2(I)=ZERO
 	VDX1(I)=ZERO
 	VDY1(I)=ZERO
@@ -371,7 +371,7 @@ C
        RETURN
       ELSEIF(JALE/=0)THEN
        IF(IPARG(64,NG)==1)THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
          VD2(I) =ZERO
 	 VDX1(I)=ZERO
 	 VDY1(I)=ZERO
@@ -400,7 +400,7 @@ C
          ENDDO
          RETURN
        ENDIF
-       DO I=LFT,LLT
+       DO I=1,NEL
         VDX1(I)=VX1(I)-W(1,NC1(I))
         VDY1(I)=VY1(I)-W(2,NC1(I))
         VDZ1(I)=VZ1(I)-W(3,NC1(I))
@@ -428,7 +428,7 @@ C
        ENDDO
       ELSEIF(JEUL/=0)THEN
        IF(IPARG(64,NG)==1)THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
          VD2(I) =ZERO
          VDX1(I)=ZERO
 	 VDY1(I)=ZERO
@@ -457,7 +457,7 @@ C
          ENDDO
          RETURN
        ENDIF      
-       DO I=LFT,LLT
+       DO I=1,NEL
         VDX1(I)=VX1(I)
         VDY1(I)=VY1(I)
         VDZ1(I)=VZ1(I)
@@ -485,7 +485,7 @@ C
        ENDDO
       ENDIF
 
-      DO I=LFT,LLT
+      DO I=1,NEL
        VDX(I)=ONE_OVER_8*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I)+VDX5(I)+VDX6(I)+VDX7(I)+VDX8(I))
        VDY(I)=ONE_OVER_8*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I)+VDY5(I)+VDY6(I)+VDY7(I)+VDY8(I))
        VDZ(I)=ONE_OVER_8*(VDZ1(I)+VDZ2(I)+VDZ3(I)+VDZ4(I)+VDZ5(I)+VDZ6(I)+VDZ7(I)+VDZ8(I))

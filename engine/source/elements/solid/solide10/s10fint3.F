@@ -67,7 +67,7 @@ C     REAL
      .   S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),
      .   FINT, QVIS_LOC, VOL_LOC
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
        QVIS_LOC = QVIS(I)
        VOL_LOC = VOL(I)
        SIGG(I,1) = SIGG(I,1) + WIP * SIG(I,1)
@@ -89,24 +89,24 @@ C-----------------------------------------------
       ENDDO
 C
       IF(NODADT_THERM == 1) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           CONDEG(I)= CONDEG(I)+ CONDE(I)
         ENDDO
       ENDIF
 c
       IF ((ISRAT > 0).OR.(G_EPSD > 0)) THEN                                                    
-        DO I=LFT,LLT
+        DO I=1,NEL
          EPSDG(I) = EPSDG(I) + WIP * EPSD(I)
         ENDDO
       ENDIF
       IF (G_PLA > 0) THEN                                                    
-        DO I=LFT,LLT                                                          
+        DO I=1,NEL                                                          
           EPLASG(I)  = EPLASG(I)  + WIP * EPLAS(I)                              
         ENDDO                                                                 
       ENDIF                                                                  
 C
       DO N=1,10
-        DO I=LFT,LLT
+        DO I=1,NEL
           FX(I,N)=FX(I,N)-(S1(I)*PX(I,N)+S4(I)*PY(I,N)+S6(I)*PZ(I,N))
           FY(I,N)=FY(I,N)-(S2(I)*PY(I,N)+S5(I)*PZ(I,N)+S4(I)*PX(I,N))
           FZ(I,N)=FZ(I,N)-(S3(I)*PZ(I,N)+S6(I)*PX(I,N)+S5(I)*PY(I,N))

@@ -106,7 +106,7 @@ C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
       IF(ALEFVM_Param%IEnabled==0)RETURN
-      IMAT        = IXS(1,LFT+NFT)
+      IMAT        = IXS(1,1+NFT)
       IALEFVM_FLG = IPM(251,IMAT)  
       IF(IALEFVM_FLG <= 1)RETURN       
 C-----------------------------------------------
@@ -121,7 +121,7 @@ C-----------------------------------------------
       !-------------------------------------------------------------!
       ! TOTAL TENSOR                                                !
       !-------------------------------------------------------------! 
-      DO I=LFT,LLT                          
+      DO I=1,NEL                          
         S1(I) = SIG(I,1) + SVIS(I,1) - QVIS(I) 
         S2(I) = SIG(I,2) + SVIS(I,2) - QVIS(I) 
         S3(I) = SIG(I,3) + SVIS(I,3) - QVIS(I) 
@@ -130,7 +130,7 @@ C-----------------------------------------------
         S6(I) = SIG(I,6) + SVIS(I,6)		   
       ENDDO 
       
-      DO I=LFT,LLT
+      DO I=1,NEL
         P(I)      = -THIRD*(S1(I)+S2(I)+S3(I))        
       ENDDO
       
@@ -139,7 +139,7 @@ C-----------------------------------------------
       ! NORMAL VECTOR FOR ALE                                       !
       !-------------------------------------------------------------!                                       
 !      IF(JALE==1 .OR. JEUL==0)THEN  !lagrangian bricks also
-        DO I=LFT,LLT
+        DO I=1,NEL
           II     = I + NFT
 	  !---8 local node numbers NC1 TO NC8 for solid element I ---!
           NC1(I)=IXS(2,II)
@@ -184,7 +184,7 @@ C-----------------------------------------------
           Y8(I)=X(2,NC8(I))
           Z8(I)=X(3,NC8(I))
         ENDDO    
-        DO I=LFT,LLT        
+        DO I=1,NEL        
           ! Face-1
           N1X(I)=(Y3(I)-Y1(I))*(Z2(I)-Z4(I)) - (Z3(I)-Z1(I))*(Y2(I)-Y4(I))
           N1Y(I)=(Z3(I)-Z1(I))*(X2(I)-X4(I)) - (X3(I)-X1(I))*(Z2(I)-Z4(I))
@@ -218,7 +218,7 @@ C-----------------------------------------------
       ! 1:3 : INTEGRAL ON EACH FACE  from Integral(DIV(SIGMA),Volume)!
       ! 4   : max(u+x,u-c)                                           !
       !--------------------------------------------------------------!
-      DO I=LFT,  LLT
+      DO I=1,  NEL
         II                  = I + NFT
         MASS                = RHO(I)*VOL(I)
         NORM(1)             = SQRT(N1X(I)*N1X(I) + N1Y(I)*N1Y(I) + N1Z(I)*N1Z(I)) 
