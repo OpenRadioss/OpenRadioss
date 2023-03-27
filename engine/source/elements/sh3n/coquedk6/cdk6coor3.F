@@ -116,7 +116,7 @@ C
        PID(I)  = IXTG(5,I)
        NGL(I)  = IXTG(6,I)
 C----------------------------
-C     COORDONNEES
+C     COORDINATES
 C----------------------------
        X1(I)=X(1,NC1)
        Y1(I)=X(2,NC1)
@@ -160,7 +160,7 @@ C-----------------------------------------------
       DO I=NVS+1,JLT
         IVS(I)=JVS(I-NVS)
       ENDDO 
-C----------Element central----------
+C----------Central Element----------
       DO I=JFT,JLT
        RX(I)=X2(I)-X1(I)
        RY(I)=Y2(I)-Y1(I)
@@ -210,8 +210,8 @@ C----------------------------
           IF (OFFG(I) == ONE) OFFG(I)=TWO
         ENDDO
       ENDIF
-C----------Elements cotes----------
-C--------avec voisins---------------------------------------
+C----------Element edges----------
+C--------with adjacent elems---------------------------------------
       DO EP=JFT,NVS
         I =IVS(EP)
         VX4(I)=V(1,NC4(I))
@@ -236,10 +236,10 @@ C--------avec voisins---------------------------------------
         Y6(I)=X(2,NC6(I))-Y3(I)
         Z6(I)=X(3,NC6(I))-Z3(I)
       ENDDO
-C--------sans voisins---------------------------------------
+C--------without adjacent elems---------------------------------------
       DO EP=NVS+1,JLT
         I =IVS(EP)
-C--------sans cote node 4 ---------------------------------------
+C--------without edge node 4 ---------------------------------------
        IF (NC4(I) <= 0) THEN
         VX4(I)=ZERO
         VY4(I)=ZERO
@@ -367,7 +367,7 @@ C----------------------------
         VY6(I)=VY0
         VZ6(I)=VZ0
       ENDDO
-C---------normales des elements voisins---
+C---------normal vector of adjacent elems---
       DO I=JFT,JLT
 C---------node 4---
         A =-YL2(I)*ZL4(I)
@@ -436,25 +436,23 @@ C----------------------------
 C--------------------------
 C-------Correction 2nd order rigid rotation due a V(t+dt/2),X(t+dt)----
 C--------------------------
-       IF (ISHV51 > 51) THEN
-         DT05 = HALF*DT1
-         DO I=JFT,JLT
-           VZ21=VZ2(I)-VZ1(I)
-           VZ31=VZ3(I)-VZ1(I)
-           EXZ =  YL3(I)*VZ21-YL2(I)*VZ31
-           EYZ = -XL3(I)*VZ21+XL2(I)*VZ31
-           DDRY=DT05*EXZ/AREA2(I)
-           DDRX=DT05*EYZ/AREA2(I)
-	          V21X = VLX(I,1)
-	          V31X = VLX(I,2)
-           DDRZ1=DT05*VLY(I,1)/XL2(I)
-           DDRZ2=DT05*V31X/YL3(I)
-           VLX(I,1) = VLX(I,1)-DDRY*VZ21-DDRZ1*VLY(I,1)
-           VLX(I,2) = VLX(I,2)-DDRY*VZ31-DDRZ1*VLY(I,2)
-           VLY(I,1) = VLY(I,1)-DDRX*VZ21-DDRZ2*V21X
-           VLY(I,2) = VLY(I,2)-DDRX*VZ31-DDRZ2*V31X
-         ENDDO
-       ENDIF 
+      DT05 = HALF*DT1                                  
+      DO I=JFT,JLT                                     
+        VZ21=VZ2(I)-VZ1(I)
+        VZ31=VZ3(I)-VZ1(I)
+        EXZ =  YL3(I)*VZ21-YL2(I)*VZ31
+        EYZ = -XL3(I)*VZ21+XL2(I)*VZ31
+        DDRY=DT05*EXZ/AREA2(I)
+        DDRX=DT05*EYZ/AREA2(I)
+        V21X = VLX(I,1)
+        V31X = VLX(I,2)                         
+        DDRZ1=DT05*VLY(I,1)/XL2(I)
+        DDRZ2=DT05*V31X/YL3(I)
+        VLX(I,1) = VLX(I,1)-DDRY*VZ21-DDRZ1*VLY(I,1)   
+        VLX(I,2) = VLX(I,2)-DDRY*VZ31-DDRZ1*VLY(I,2)
+        VLY(I,1) = VLY(I,1)-DDRX*VZ21-DDRZ2*V21X
+        VLY(I,2) = VLY(I,2)-DDRX*VZ31-DDRZ2*V31X
+      ENDDO                                            
 C----------------------------
       OFF_L = ZERO
       DO I=JFT,JLT

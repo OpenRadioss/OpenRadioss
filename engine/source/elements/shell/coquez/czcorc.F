@@ -125,7 +125,7 @@ C-----------------------------------------------
      .   DT05,DT025,EXZ,EYZ,DDRX,DDRY,V13X,V24X,VHIX,DDRZ1,DDRZ2
       my_real :: OFF_LOC
 C----------------------------------------------
-C test version SP
+
       IF(IRESP == 1)THEN
         TOL=EM7
       ELSE
@@ -194,12 +194,9 @@ C--------------------------
           IXCTMP4=IXC(4,I)
           IXCTMP5=IXC(5,I)
           
-          LXYZ0(1)=FOURTH*(X(1,IXCTMP4)+X(1,IXCTMP5)
-     .                  + X(1,IXCTMP2)+X(1,IXCTMP3))
-          LXYZ0(2)=FOURTH*(X(2,IXCTMP4)+X(2,IXCTMP5)
-     .                  + X(2,IXCTMP2)+X(2,IXCTMP3))
-          LXYZ0(3)=FOURTH*(X(3,IXCTMP4)+X(3,IXCTMP5)
-     .                  + X(3,IXCTMP2)+X(3,IXCTMP3))
+          LXYZ0(1)=FOURTH*(X(1,IXCTMP4)+X(1,IXCTMP5) + X(1,IXCTMP2)+X(1,IXCTMP3))
+          LXYZ0(2)=FOURTH*(X(2,IXCTMP4)+X(2,IXCTMP5) + X(2,IXCTMP2)+X(2,IXCTMP3))
+          LXYZ0(3)=FOURTH*(X(3,IXCTMP4)+X(3,IXCTMP5) + X(3,IXCTMP2)+X(3,IXCTMP3))
 
           J=IXCTMP2
           K=IXCTMP3
@@ -228,12 +225,9 @@ C--------------------------
         ENDDO
       ELSE IF(IXFEM==1)THEN
         DO I=JFT,JLT
-          LXYZ0(1)=FOURTH*(X3G(I)+X4G(I)
-     .                   +X1G(I)+X2G(I))
-          LXYZ0(2)=FOURTH*(Y3G(I)+Y4G(I)
-     .                   +Y1G(I)+Y2G(I))
-          LXYZ0(3)=FOURTH*(Z3G(I)+Z4G(I)
-     .                   +Z1G(I)+Z2G(I))
+          LXYZ0(1)=FOURTH*(X3G(I)+X4G(I)+X1G(I)+X2G(I))
+          LXYZ0(2)=FOURTH*(Y3G(I)+Y4G(I)+Y1G(I)+Y2G(I))
+          LXYZ0(3)=FOURTH*(Z3G(I)+Z4G(I)+Z1G(I)+Z2G(I))
           XX=X2G(I)-X1G(I)
           YY=Y2G(I)-Y1G(I)
           ZZ=Z2G(I)-Z1G(I)
@@ -243,13 +237,11 @@ C--------------------------
           YY=Y1G(I)-LXYZ0(2)
           ZZ=Z1G(I)-LXYZ0(3)
           Z1(I)=R13(I)*XX+R23(I)*YY+R33(I)*ZZ
-C          K=IXC(4,I)
           XX=X3G(I)-X1G(I)
           YY=Y3G(I)-Y1G(I)
           ZZ=Z3G(I)-Z1G(I)
           XL3(I)=R11(I)*XX+R21(I)*YY+R31(I)*ZZ
           YL3(I)=R12(I)*XX+R22(I)*YY+R32(I)*ZZ
-C          K=IXC(5,I)
           XX=X4G(I)-X1G(I)
           YY=Y4G(I)-Y1G(I)
           ZZ=Z4G(I)-Z1G(I)
@@ -287,8 +279,7 @@ C----------------------------
             XL4(I) = SMSTR(II(5)+I)
             YL4(I) = SMSTR(II(6)+I)
             Z1(I) = ZERO
-            AREA(I) = HALF*
-     .              ((XL2(I)-XL4(I))*YL3(I)-XL3(I)*(YL2(I)-YL4(I)))
+            AREA(I) = HALF*((XL2(I)-XL4(I))*YL3(I)-XL3(I)*(YL2(I)-YL4(I)))
             AREA_I(I) = ONE/MAX(EM20,AREA(I))
           ELSE
             SMSTR(II(1)+I) = XL2(I)
@@ -310,8 +301,7 @@ C----------------------------
             XL4(I) = SMSTR(II(5)+I)
             YL4(I) = SMSTR(II(6)+I)
             Z1(I) = ZERO
-            AREA(I) = HALF*
-     .              ((XL2(I)-XL4(I))*YL3(I)-XL3(I)*(YL2(I)-YL4(I)))
+            AREA(I) = HALF*((XL2(I)-XL4(I))*YL3(I)-XL3(I)*(YL2(I)-YL4(I)))
             AREA_I(I) = ONE/MAX(EM20,AREA(I))
           ELSE
             SMSTR(II(1)+I)=XL2(I)
@@ -364,7 +354,6 @@ C
         PX2(I) = -Y13(I)
         PY2(I) =  X13(I)
 C
-C
         X13_2(I) =X13(I)*X13(I)
         Y13_2(I) =Y13(I)*Y13(I)
         X24_2(I) =X24(I)*X24(I)
@@ -373,8 +362,7 @@ C
 C-------------------------------
         L24(I)=X24_2(I)+Y24_2(I)
 C  
-        C1 =CORELV(I,1,2)*CORELV(I,2,4)-CORELV(I,2,2)*
-     .      CORELV(I,1,4)
+        C1 =CORELV(I,1,2)*CORELV(I,2,4)-CORELV(I,2,2)*CORELV(I,1,4)
         C2 =CORELV(I,1,1)*CORELV(I,2,3)-CORELV(I,2,1)*CORELV(I,1,3)
         HS(I) =MAX(ABS(C1),ABS(C2))*AREA_I(I)
 C
@@ -415,7 +403,7 @@ C-
         L13(I)=X13_2(I)+Y13_2(I)
 C-------------------------------
         L24(I)=X24_2(I)+Y24_2(I)
-C  ---------Facteur pour longueur caracteristique---
+C  ---------Factor for characteristic length---
         C1 =COREL(I,1,2)*COREL(I,2,4)-COREL(I,2,2)*COREL(I,1,4)
         C2 =COREL(I,1,1)*COREL(I,2,3)-COREL(I,2,1)*COREL(I,1,3)
         HS(I) =MAX(ABS(C1),ABS(C2))*AREA_I(I)
@@ -453,79 +441,55 @@ C
 C-------cas thk >>L----
        IF (IMPL_S>0) THEN
         DO I=JFT,JLT
-	     S1=EM01*THK(I)*THK(I)
+	 S1=EM01*THK(I)*THK(I)
          LM(I)=MAX(LM(I),S1)
         ENDDO
        END IF 
        IF (IVECTOR == 1)THEN
         DO I=JFT,JLT
          K=IXC(2,I)
-         RLXYZV(I,1,1) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)
-     1                +VQ(I,3,1)*VR(3,K)
-         RLXYZV(I,2,1) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)
-     1                +VQ(I,3,2)*VR(3,K)
+         RLXYZV(I,1,1) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)+VQ(I,3,1)*VR(3,K)
+         RLXYZV(I,2,1) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)+VQ(I,3,2)*VR(3,K)
          K=IXC(3,I)
-         RLXYZV(I,1,2) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)
-     1                +VQ(I,3,1)*VR(3,K)
-         RLXYZV(I,2,2) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)
-     1                +VQ(I,3,2)*VR(3,K)
+         RLXYZV(I,1,2) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)+VQ(I,3,1)*VR(3,K)
+         RLXYZV(I,2,2) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)+VQ(I,3,2)*VR(3,K)
          K=IXC(4,I)
-         RLXYZV(I,1,3) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)
-     1                +VQ(I,3,1)*VR(3,K)
-         RLXYZV(I,2,3) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)
-     1                +VQ(I,3,2)*VR(3,K)
+         RLXYZV(I,1,3) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)+VQ(I,3,1)*VR(3,K)
+         RLXYZV(I,2,3) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)+VQ(I,3,2)*VR(3,K)
          K=IXC(5,I)
-         RLXYZV(I,1,4) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)
-     1                +VQ(I,3,1)*VR(3,K)
-         RLXYZV(I,2,4) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)
-     1                +VQ(I,3,2)*VR(3,K)
+         RLXYZV(I,1,4) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)+VQ(I,3,1)*VR(3,K)
+         RLXYZV(I,2,4) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)+VQ(I,3,2)*VR(3,K)
         ENDDO
        ELSE
         IF(IXFEM==0)THEN
         DO I=JFT,JLT
          K=IXC(2,I)
-         RLXYZ(I,1,1) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)
-     1                +VQ(I,3,1)*VR(3,K)
-         RLXYZ(I,2,1) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)
-     1                +VQ(I,3,2)*VR(3,K)
+         RLXYZ(I,1,1) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)+VQ(I,3,1)*VR(3,K)
+         RLXYZ(I,2,1) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)+VQ(I,3,2)*VR(3,K)
          K=IXC(3,I)
-         RLXYZ(I,1,2) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)
-     1                +VQ(I,3,1)*VR(3,K)
-         RLXYZ(I,2,2) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)
-     1                +VQ(I,3,2)*VR(3,K)
+         RLXYZ(I,1,2) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)+VQ(I,3,1)*VR(3,K)
+         RLXYZ(I,2,2) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)+VQ(I,3,2)*VR(3,K)
          K=IXC(4,I)
-         RLXYZ(I,1,3) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)
-     1                +VQ(I,3,1)*VR(3,K)
-         RLXYZ(I,2,3) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)
-     1                +VQ(I,3,2)*VR(3,K)
+         RLXYZ(I,1,3) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)+VQ(I,3,1)*VR(3,K)
+         RLXYZ(I,2,3) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)+VQ(I,3,2)*VR(3,K)
          K=IXC(5,I)
-         RLXYZ(I,1,4) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)
-     1                +VQ(I,3,1)*VR(3,K)
-         RLXYZ(I,2,4) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)
-     1                +VQ(I,3,2)*VR(3,K)
+         RLXYZ(I,1,4) =VQ(I,1,1)*VR(1,K)+VQ(I,2,1)*VR(2,K)+VQ(I,3,1)*VR(3,K)
+         RLXYZ(I,2,4) =VQ(I,1,2)*VR(1,K)+VQ(I,2,2)*VR(2,K)+VQ(I,3,2)*VR(3,K)
         ENDDO
         ELSE IF(IXFEM==1)THEN
         DO I=JFT,JLT
 
-         RLXYZ(I,1,1) =VQ(I,1,1)*VRX1(I)+VQ(I,2,1)*VRY1(I)
-     1                +VQ(I,3,1)*VRZ1(I)
-         RLXYZ(I,2,1) =VQ(I,1,2)*VRX1(I)+VQ(I,2,2)*VRY1(I)
-     1                +VQ(I,3,2)*VRZ1(I)
+         RLXYZ(I,1,1) =VQ(I,1,1)*VRX1(I)+VQ(I,2,1)*VRY1(I)+VQ(I,3,1)*VRZ1(I)
+         RLXYZ(I,2,1) =VQ(I,1,2)*VRX1(I)+VQ(I,2,2)*VRY1(I)+VQ(I,3,2)*VRZ1(I)
 
-         RLXYZ(I,1,2) =VQ(I,1,1)*VRX2(I)+VQ(I,2,1)*VRY2(I)
-     1                +VQ(I,3,1)*VRZ2(I)
-         RLXYZ(I,2,2) =VQ(I,1,2)*VRX2(I)+VQ(I,2,2)*VRY2(I)
-     1                +VQ(I,3,2)*VRZ2(I)
+         RLXYZ(I,1,2) =VQ(I,1,1)*VRX2(I)+VQ(I,2,1)*VRY2(I)+VQ(I,3,1)*VRZ2(I)
+         RLXYZ(I,2,2) =VQ(I,1,2)*VRX2(I)+VQ(I,2,2)*VRY2(I)+VQ(I,3,2)*VRZ2(I)
 
-         RLXYZ(I,1,3) =VQ(I,1,1)*VRX3(I)+VQ(I,2,1)*VRY3(I)
-     1                +VQ(I,3,1)*VRZ3(I)
-         RLXYZ(I,2,3) =VQ(I,1,2)*VRX3(I)+VQ(I,2,2)*VRY3(I)
-     1                +VQ(I,3,2)*VRZ3(I)
+         RLXYZ(I,1,3) =VQ(I,1,1)*VRX3(I)+VQ(I,2,1)*VRY3(I)+VQ(I,3,1)*VRZ3(I)
+         RLXYZ(I,2,3) =VQ(I,1,2)*VRX3(I)+VQ(I,2,2)*VRY3(I)+VQ(I,3,2)*VRZ3(I)
 
-         RLXYZ(I,1,4) =VQ(I,1,1)*VRX4(I)+VQ(I,2,1)*VRY4(I)
-     1                +VQ(I,3,1)*VRZ4(I)
-         RLXYZ(I,2,4) =VQ(I,1,2)*VRX4(I)+VQ(I,2,2)*VRY4(I)
-     1                +VQ(I,3,2)*VRZ4(I)
+         RLXYZ(I,1,4) =VQ(I,1,1)*VRX4(I)+VQ(I,2,1)*VRY4(I)+VQ(I,3,1)*VRZ4(I)
+         RLXYZ(I,2,4) =VQ(I,1,2)*VRX4(I)+VQ(I,2,2)*VRY4(I)+VQ(I,3,2)*VRZ4(I)
         ENDDO
         ENDIF
        ENDIF 
@@ -604,39 +568,27 @@ C--------------------------
         IF(IXFEM==0)THEN
         DO I=JFT,JLT
          K=IXC(2,I)
-         RLZ(I,1) =(VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
-     1              +VQ(I,3,3)*VR(3,K))*AREA_I(I)
+         RLZ(I,1) =(VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)+VQ(I,3,3)*VR(3,K))*AREA_I(I)
          K=IXC(3,I)
-         RLZ(I,2) =(VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
-     1              +VQ(I,3,3)*VR(3,K))*AREA_I(I)
+         RLZ(I,2) =(VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)+VQ(I,3,3)*VR(3,K))*AREA_I(I)
          K=IXC(4,I)
-         RLZ(I,3) =(VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
-     1              +VQ(I,3,3)*VR(3,K))*AREA_I(I)
+         RLZ(I,3) =(VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)+VQ(I,3,3)*VR(3,K))*AREA_I(I)
          K=IXC(5,I)
-         RLZ(I,4) =(VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
-     1              +VQ(I,3,3)*VR(3,K))*AREA_I(I)
+         RLZ(I,4) =(VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)+VQ(I,3,3)*VR(3,K))*AREA_I(I)
         ENDDO
         ELSE IF(IXFEM==1)THEN
         DO I=JFT,JLT
-C         K=IXC(2,I)
-         RLZ(I,1) =(VQ(I,1,3)*VRX1(I)+VQ(I,2,3)*VRY1(I)
-     1              +VQ(I,3,3)*VRZ1(I))*AREA_I(I)
-C         K=IXC(3,I)
-         RLZ(I,2) =(VQ(I,1,3)*VRX2(I)+VQ(I,2,3)*VRY2(I)
-     1              +VQ(I,3,3)*VRZ2(I))*AREA_I(I)
-C         K=IXC(4,I)
-         RLZ(I,3) =(VQ(I,1,3)*VRX3(I)+VQ(I,2,3)*VRY3(I)
-     1              +VQ(I,3,3)*VRZ3(I))*AREA_I(I)
-C         K=IXC(5,I)
-         RLZ(I,4) =(VQ(I,1,3)*VRX4(I)+VQ(I,2,3)*VRY4(I)
-     1              +VQ(I,3,3)*VRZ4(I))*AREA_I(I)
+         RLZ(I,1) =(VQ(I,1,3)*VRX1(I)+VQ(I,2,3)*VRY1(I)+VQ(I,3,3)*VRZ1(I))*AREA_I(I)
+         RLZ(I,2) =(VQ(I,1,3)*VRX2(I)+VQ(I,2,3)*VRY2(I)+VQ(I,3,3)*VRZ2(I))*AREA_I(I)
+         RLZ(I,3) =(VQ(I,1,3)*VRX3(I)+VQ(I,2,3)*VRY3(I)+VQ(I,3,3)*VRZ3(I))*AREA_I(I)
+         RLZ(I,4) =(VQ(I,1,3)*VRX4(I)+VQ(I,2,3)*VRY4(I)+VQ(I,3,3)*VRZ4(I))*AREA_I(I)
         ENDDO
         ENDIF
        END IF
 C--------------------------
 C-------Correction 2nd order rigid rotation due to V(t+dt/2),X(t+dt)----
 C--------------------------
-       IF (ISHV51>51.AND.(IMPL_S == 0.OR.IMP_LR>0)) THEN
+       IF (IMPL_S == 0.OR.IMP_LR>0) THEN
         DT05 = HALF*DT1
         DT025 =FOURTH*DT1
         DO I=JFT,JLT
@@ -647,7 +599,7 @@ C--------------------------
          V13X = V13(I,1)
          V24X = V24(I,1)
          VHIX = VHI(I,1)
-	        IF (ABS(X13(I)-X24(I)) < EM10) THEN
+	 IF (ABS(X13(I)-X24(I)) < EM10) THEN
            DDRZ1 = ZERO
          ELSE
            DDRZ1 = DT025*(V13(I,2)-V24(I,2))/(X13(I)-X24(I))
@@ -655,7 +607,7 @@ C--------------------------
          V13(I,1) = V13(I,1)-DDRY*V13(I,3)-DDRZ1*V13(I,2)
          V24(I,1) = V24(I,1)-DDRY*V24(I,3)-DDRZ1*V24(I,2)
          VHI(I,1) = VHI(I,1)-DDRY*VHI(I,3)-DDRZ1*VHI(I,2)
-	        IF (ABS(Y13(I)+Y24(I)) < EM10) THEN
+	 IF (ABS(Y13(I)+Y24(I)) < EM10) THEN
            DDRZ2 = ZERO
          ELSE
            DDRZ2 = DT025*(V13X+V24X)/(Y13(I)+Y24(I))
@@ -811,7 +763,7 @@ C-----------------------------------------------
         ELSE
          PLAT(I)=.FALSE.
 C--------------------------------------------------
-C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
+C WARPING SPECIAL TREATMENT
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
          A_4=AREA(I)*FOURTH
@@ -853,26 +805,24 @@ C
          VQN(I,3,4)= SZ2*SL
 C
          K=IXC(2,I)
-          RRXYZ(1,1) =RLXYZV(I,1,1)
-          RRXYZ(2,1) =RLXYZV(I,2,1)
-          RRXYZ(3,1) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
-     1               +VQ(I,3,3)*VR(3,K)
+         RRXYZ(1,1) =RLXYZV(I,1,1)
+         RRXYZ(2,1) =RLXYZV(I,2,1)
+         RRXYZ(3,1) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)+VQ(I,3,3)*VR(3,K)
 
          K=IXC(3,I)
-          RRXYZ(1,2) =RLXYZV(I,1,2)
-          RRXYZ(2,2) =RLXYZV(I,2,2)
-          RRXYZ(3,2) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
-     1               +VQ(I,3,3)*VR(3,K)
+         RRXYZ(1,2) =RLXYZV(I,1,2)
+         RRXYZ(2,2) =RLXYZV(I,2,2)
+         RRXYZ(3,2) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)+VQ(I,3,3)*VR(3,K)
+         
          K=IXC(4,I)
-          RRXYZ(1,3) =RLXYZV(I,1,3) 
-          RRXYZ(2,3) =RLXYZV(I,2,3)
-          RRXYZ(3,3) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
-     1               +VQ(I,3,3)*VR(3,K)
+         RRXYZ(1,3) =RLXYZV(I,1,3) 
+         RRXYZ(2,3) =RLXYZV(I,2,3)
+         RRXYZ(3,3) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)+VQ(I,3,3)*VR(3,K)
+         
          K=IXC(5,I)
-          RRXYZ(1,4) =RLXYZV(I,1,4)
-          RRXYZ(2,4) =RLXYZV(I,2,4)
-          RRXYZ(3,4) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
-     1               +VQ(I,3,3)*VR(3,K)
+         RRXYZ(1,4) =RLXYZV(I,1,4)
+         RRXYZ(2,4) =RLXYZV(I,2,4)
+         RRXYZ(3,4) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)+VQ(I,3,3)*VR(3,K)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C-----------------------full projection------------------
          AR(1)=-Z1(I)*VHI(I,2)+Y13(I)*V13(I,3)+Y24(I)*V24(I,3)
@@ -884,22 +834,15 @@ C-----------------------full projection------------------
          AR(3)= X13(I)*V13(I,2)+X24(I)*V24(I,2)+MX13(I)*VHI(I,2)
      1         -Y13(I)*V13(I,1)-Y24(I)*V24(I,1)-MY13(I)*VHI(I,1)
      2          +RRXYZ(3,1)+RRXYZ(3,2)+RRXYZ(3,3)+RRXYZ(3,4)
-         AD(1)= VQN(I,1,1)*RRXYZ(1,1)+VQN(I,2,1)*RRXYZ(2,1)+
-     1          VQN(I,3,1)*RRXYZ(3,1)
-         AD(2)= VQN(I,1,2)*RRXYZ(1,2)+VQN(I,2,2)*RRXYZ(2,2)+
-     1          VQN(I,3,2)*RRXYZ(3,2)
-         AD(3)= VQN(I,1,3)*RRXYZ(1,3)+VQN(I,2,3)*RRXYZ(2,3)+
-     1          VQN(I,3,3)*RRXYZ(3,3)
-         AD(4)= VQN(I,1,4)*RRXYZ(1,4)+VQN(I,2,4)*RRXYZ(2,4)+
-     1          VQN(I,3,4)*RRXYZ(3,4)
+         AD(1)= VQN(I,1,1)*RRXYZ(1,1)+VQN(I,2,1)*RRXYZ(2,1)+VQN(I,3,1)*RRXYZ(3,1)
+         AD(2)= VQN(I,1,2)*RRXYZ(1,2)+VQN(I,2,2)*RRXYZ(2,2)+VQN(I,3,2)*RRXYZ(3,2)
+         AD(3)= VQN(I,1,3)*RRXYZ(1,3)+VQN(I,2,3)*RRXYZ(2,3)+VQN(I,3,3)*RRXYZ(3,3)
+         AD(4)= VQN(I,1,4)*RRXYZ(1,4)+VQN(I,2,4)*RRXYZ(2,4)+VQN(I,3,4)*RRXYZ(3,4)
 C      
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-         XX = CORELV(I,1,1)*CORELV(I,1,1)+CORELV(I,1,2)*CORELV(I,1,2)
-     1       +CORELV(I,1,3)*CORELV(I,1,3)+CORELV(I,1,4)*CORELV(I,1,4)
-         YY = CORELV(I,2,1)*CORELV(I,2,1)+CORELV(I,2,2)*CORELV(I,2,2)
-     1       +CORELV(I,2,3)*CORELV(I,2,3)+CORELV(I,2,4)*CORELV(I,2,4)
-         XY = CORELV(I,1,1)*CORELV(I,2,1)+CORELV(I,1,2)*CORELV(I,2,2)
-     1       +CORELV(I,1,3)*CORELV(I,2,3)+CORELV(I,1,4)*CORELV(I,2,4)
+         XX = CORELV(I,1,1)*CORELV(I,1,1)+CORELV(I,1,2)*CORELV(I,1,2)+CORELV(I,1,3)*CORELV(I,1,3)+CORELV(I,1,4)*CORELV(I,1,4)
+         YY = CORELV(I,2,1)*CORELV(I,2,1)+CORELV(I,2,2)*CORELV(I,2,2)+CORELV(I,2,3)*CORELV(I,2,3)+CORELV(I,2,4)*CORELV(I,2,4)
+         XY = CORELV(I,1,1)*CORELV(I,2,1)+CORELV(I,1,2)*CORELV(I,2,2)+CORELV(I,1,3)*CORELV(I,2,3)+CORELV(I,1,4)*CORELV(I,2,4)
          ZZ = FOUR*Z2(I)
          C1 = Z1(I)/A_4
          BTB_C = TWO *C1*C1
@@ -911,30 +854,27 @@ C
          D(2)= XX+ZZ+4-BTB(2)
          D(3)= -XY+BTB(3)
          DETA = D(1)*D(2)-D(3)*D(3)
-        IF (DETA<=EM20) THEN
-         Z1(I)=ZERO
-         PLAT(I)=.TRUE.
-        ELSE         
-         DETA = ONE/DETA
-         DI(I,1) = D(2)*DETA
-         DI(I,2) = D(1)*DETA
-         DI(I,4) =-D(3)*DETA
-         DI(I,3) = ONE/MAX(XX+YY,EM20)
-         DI(I,5) = ZERO
-         DI(I,6) = ZERO
+         IF (DETA<=EM20) THEN
+          Z1(I)=ZERO
+          PLAT(I)=.TRUE.
+         ELSE         
+          DETA = ONE/DETA
+          DI(I,1) = D(2)*DETA
+          DI(I,2) = D(1)*DETA
+          DI(I,4) =-D(3)*DETA
+          DI(I,3) = ONE/MAX(XX+YY,EM20)
+          DI(I,5) = ZERO
+          DI(I,6) = ZERO
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-         DO J=1,NNOD
-          DB(I,1,J)= DI(I,1)*VQN(I,1,J)+DI(I,4)*VQN(I,2,J)
-          DB(I,2,J)= DI(I,4)*VQN(I,1,J)+DI(I,2)*VQN(I,2,J)
-          DB(I,3,J)= DI(I,3)*VQN(I,3,J)
-         ENDDO
+          DO J=1,NNOD
+           DB(I,1,J)= DI(I,1)*VQN(I,1,J)+DI(I,4)*VQN(I,2,J)
+           DB(I,2,J)= DI(I,4)*VQN(I,1,J)+DI(I,2)*VQN(I,2,J)
+           DB(I,3,J)= DI(I,3)*VQN(I,3,J)
+          ENDDO
 C      
-          DBAD(1)= DB(I,1,1)*AD(1)+DB(I,1,2)*AD(2)
-     1            +DB(I,1,3)*AD(3)+DB(I,1,4)*AD(4)
-          DBAD(2)= DB(I,2,1)*AD(1)+DB(I,2,2)*AD(2)
-     1            +DB(I,2,3)*AD(3)+DB(I,2,4)*AD(4)
-          DBAD(3)= DB(I,3,1)*AD(1)+DB(I,3,2)*AD(2)
-     1            +DB(I,3,3)*AD(3)+DB(I,3,4)*AD(4)
+          DBAD(1)= DB(I,1,1)*AD(1)+DB(I,1,2)*AD(2)+DB(I,1,3)*AD(3)+DB(I,1,4)*AD(4)
+          DBAD(2)= DB(I,2,1)*AD(1)+DB(I,2,2)*AD(2)+DB(I,2,3)*AD(3)+DB(I,2,4)*AD(4)
+          DBAD(3)= DB(I,3,1)*AD(1)+DB(I,3,2)*AD(2)+DB(I,3,3)*AD(3)+DB(I,3,4)*AD(4)
 C 
           ALR(1) =DI(I,1)*AR(1)+DI(I,4)*AR(2)-DBAD(1)
           ALR(2) =DI(I,4)*AR(1)+DI(I,2)*AR(2)-DBAD(2)
@@ -953,7 +893,7 @@ C
      1            +VQN(I,3,4)*DBAD(3)
      2            -DB(I,1,4)*AR(1)-DB(I,2,4)*AR(2)-DB(I,3,4)*AR(3)
 C
-         C1 = 2.0*ALR(3)
+          C1 = 2.0*ALR(3)
           V13(I,1)= V13(I,1)+C1*Y13(I)
           V24(I,1)= V24(I,1)+C1*Y24(I)
           VHI(I,1)= VHI(I,1)+FOUR*(ALR(3)*MY13(I)-Z1(I)*ALR(2))
@@ -973,7 +913,7 @@ C
           RLXYZV(I,2,2)= RRXYZ(2,2)-ALR(2)-VQN(I,2,2)*ALD(2)
           RLXYZV(I,2,3)= RRXYZ(2,3)-ALR(2)-VQN(I,2,3)*ALD(3)
           RLXYZV(I,2,4)= RRXYZ(2,4)-ALR(2)-VQN(I,2,4)*ALD(4)
-        ENDIF 
+         ENDIF 
 C
         END IF !IF(Z2(I)<LL(I)*TOL.OR.NPT == 1)
 C
@@ -1036,11 +976,10 @@ C----------------------------------
        ELSE
          PLAT(I)=.FALSE.
 C--------------------------------------------------
-C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
+C WARPING SPECIAL TREATMENT
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
         A_4=AREA(I)*FOURTH
-C
 C----------  node N ----------
         SZ1=MX13(I)*Y24(I)-MY13(I)*X24(I)
         SZ2=A_4+SZ1
@@ -1078,26 +1017,25 @@ C
         VQN(I,2,4)= VQN(I,2,4)*SL
         VQN(I,3,4)= SZ2*SL
 C
-        K=IXC(2,I)
+         K=IXC(2,I)
          RRXYZ(1,1) =RLXYZ(I,1,1)
          RRXYZ(2,1) =RLXYZ(I,2,1)
-         RRXYZ(3,1) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
-     1              +VQ(I,3,3)*VR(3,K)
+         RRXYZ(3,1) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)+VQ(I,3,3)*VR(3,K)
+         
         K=IXC(3,I)
          RRXYZ(1,2) =RLXYZ(I,1,2)
          RRXYZ(2,2) =RLXYZ(I,2,2)
-         RRXYZ(3,2) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
-     1              +VQ(I,3,3)*VR(3,K)
-        K=IXC(4,I)
+         RRXYZ(3,2) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)+VQ(I,3,3)*VR(3,K)
+         
+         K=IXC(4,I)
          RRXYZ(1,3) =RLXYZ(I,1,3) 
          RRXYZ(2,3) =RLXYZ(I,2,3)
-         RRXYZ(3,3) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
-     1              +VQ(I,3,3)*VR(3,K)
-        K=IXC(5,I)
+         RRXYZ(3,3) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)+VQ(I,3,3)*VR(3,K)
+         
+         K=IXC(5,I)
          RRXYZ(1,4) =RLXYZ(I,1,4)
          RRXYZ(2,4) =RLXYZ(I,2,4)
-         RRXYZ(3,4) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
-     1              +VQ(I,3,3)*VR(3,K)
+         RRXYZ(3,4) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)+VQ(I,3,3)*VR(3,K)
 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C-----------------------full projection------------------
@@ -1267,7 +1205,7 @@ C----------------------------------
        ELSE
          PLAT(I)=.FALSE.
 C--------------------------------------------------
-C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
+C WAPRING SPECIAL TREATMENT
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
         A_4=AREA(I)*FOURTH
@@ -1497,7 +1435,7 @@ C-----------------------------------------------
         ELSE
          PLAT(I)=.FALSE.
 C--------------------------------------------------
-C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
+C WARPING SPECIAL TREATMENT
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
          A_4=AREA(I)*FOURTH
@@ -1821,7 +1759,7 @@ C----------------------------------
         ELSE
          PLAT(I)=.FALSE.
 C--------------------------------------------------
-C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
+C WARPING SPECIAL TREATMENT
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
          A_4=AREA(I)*FOURTH
@@ -2148,7 +2086,7 @@ C=======================================================================
         ELSE
          PLAT(I)=.FALSE.
 C--------------------------------------------------
-C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
+C WARPING SPECIAL TREATMENT
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
          A_4=AREA(I)*FOURTH
@@ -2647,7 +2585,7 @@ C--------------------------
          Z1(I)=ZERO
         ELSE
 C--------------------------------------------------
-C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
+C WARPING SPECIAL TREATMENT
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
          A_4=AREA(I)*FOURTH
@@ -2942,15 +2880,12 @@ C--------------------------
         BXV2= Y24(I)*V13(I,2)-Y13(I)*V24(I,2)
         BYV1=-X24(I)*V13(I,1)+X13(I)*V24(I,1)
 C----------------------------------
-C  VITESSE DE DEFORMATION HOURGLASS
+C  HOURGLASS STRAIN RATE
 C----------------------------------
         HG1=VHI(I,1)-MX13(I)*VDEF1-MY13(I)*BYV1     
         HG2=VHI(I,2)-MX13(I)*BXV2 -MY13(I)*VDEF2
-C 
-c        HG1=HG1+( Y24(I)*V13(I,3)-Y13(I)*V24(I,3))*Z1(I)
-c        HG2=HG2+(-X24(I)*V13(I,3)+X13(I)*V24(I,3))*Z1(I)
-	    HOURG(I,11) = HG1
-	    HOURG(I,12) = HG2
+	HOURG(I,11) = HG1
+        HOURG(I,12) = HG2
       ENDDO
 C
       RETURN

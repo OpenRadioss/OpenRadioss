@@ -306,6 +306,7 @@ C     DT_CTRL_COMPATIBILITY(3) = 1 -> if /DT/CST_AMS is present
       IDT_ALE     = 0
 C     FLAG for Hybrid CST + AMS
       FLAG_CST_AMS = 0
+                 
 C---------------------------------------------------
 C     ENUMERATION OF CARDS BY OPTION
 C---------------------------------------------------
@@ -538,6 +539,7 @@ C--------------------
 C--------------------
 C     /DTIX
 C--------------------
+      NODADT=0
       IKEY=KDTIX
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))

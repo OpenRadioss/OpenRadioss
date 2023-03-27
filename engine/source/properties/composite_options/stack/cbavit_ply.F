@@ -154,7 +154,7 @@ C
      
          ENDDO 
 C ---
-       IF (ISHV51>51.AND.IMPL_S==0) THEN
+       IF (IMPL_S==0) THEN
           DT05 = HALF*DT1
           DT025 =FOURTH*DT1
           DO I=JFT,JLT
