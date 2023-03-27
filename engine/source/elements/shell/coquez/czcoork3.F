@@ -267,53 +267,49 @@ C--------------------------
        Z2(I)=Z1(I)*Z1(I)
        IF (Z2(I)<LL(I)*TOL.OR.NPT==1) THEN
          Z1(I)=ZERO
-c         PLAT(I)=.TRUE.
        ELSE
-c         PLAT(I)=.FALSE.
 C--------------------------------------------------
-C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
+C WARPING SPECIAL TREATMENT
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
-        A_4=AREA(I)*FOURTH
-C
+         A_4=AREA(I)*FOURTH
 C----------  node N ----------
-        SZ1=MX13(I)*Y24(I)-MY13(I)*X24(I)
-        SZ2=A_4+SZ1
-        SZ=Z2(I)*L24(I)
-        SL=ONE/SQRT(SZ+SZ2*SZ2)
-        VQN(I,1,1)=-Z1(I)*Y24(I)
-        VQN(I,2,1)= Z1(I)*X24(I)
-        VQN(I,3,1)= SZ2*SL
-        VQN(I,1,3)=-VQN(I,1,1)
-        VQN(I,2,3)=-VQN(I,2,1)
-        VQN(I,1,1)= VQN(I,1,1)*SL
-        VQN(I,2,1)= VQN(I,2,1)*SL
+         SZ1=MX13(I)*Y24(I)-MY13(I)*X24(I)
+         SZ2=A_4+SZ1
+         SZ=Z2(I)*L24(I)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
+         VQN(I,1,1)=-Z1(I)*Y24(I)
+         VQN(I,2,1)= Z1(I)*X24(I)
+         VQN(I,3,1)= SZ2*SL
+         VQN(I,1,3)=-VQN(I,1,1)
+         VQN(I,2,3)=-VQN(I,2,1)
+         VQN(I,1,1)= VQN(I,1,1)*SL
+         VQN(I,2,1)= VQN(I,2,1)*SL
 C
-        SZ2=A_4-SZ1
-        SL=ONE/SQRT(SZ+SZ2*SZ2)
-        VQN(I,1,3)= VQN(I,1,3)*SL
-        VQN(I,2,3)= VQN(I,2,3)*SL
-        VQN(I,3,3)= SZ2*SL
+         SZ2=A_4-SZ1
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
+         VQN(I,1,3)= VQN(I,1,3)*SL
+         VQN(I,2,3)= VQN(I,2,3)*SL
+         VQN(I,3,3)= SZ2*SL
 C
-        SZ1=MX13(I)*Y13(I)-MY13(I)*X13(I)
-        SZ2=A_4+SZ1
-        SZ=Z2(I)*L13(I)
-        SL=ONE/SQRT(SZ+SZ2*SZ2)
-        VQN(I,1,2)=-Z1(I)*Y13(I)
-        VQN(I,2,2)= Z1(I)*X13(I)
-        VQN(I,3,2)= SZ2*SL
-        VQN(I,1,4)=-VQN(I,1,2)
-        VQN(I,2,4)=-VQN(I,2,2)
-        VQN(I,1,2)= VQN(I,1,2)*SL
-        VQN(I,2,2)= VQN(I,2,2)*SL
+         SZ1=MX13(I)*Y13(I)-MY13(I)*X13(I)
+         SZ2=A_4+SZ1
+         SZ=Z2(I)*L13(I)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
+         VQN(I,1,2)=-Z1(I)*Y13(I)
+         VQN(I,2,2)= Z1(I)*X13(I)
+         VQN(I,3,2)= SZ2*SL
+         VQN(I,1,4)=-VQN(I,1,2)
+         VQN(I,2,4)=-VQN(I,2,2)
+         VQN(I,1,2)= VQN(I,1,2)*SL
+         VQN(I,2,2)= VQN(I,2,2)*SL
 C
-        SZ2=A_4-SZ1
-        SL=ONE/SQRT(SZ+SZ2*SZ2)
-        VQN(I,1,4)= VQN(I,1,4)*SL
-        VQN(I,2,4)= VQN(I,2,4)*SL
-        VQN(I,3,4)= SZ2*SL
+         SZ2=A_4-SZ1
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
+         VQN(I,1,4)= VQN(I,1,4)*SL
+         VQN(I,2,4)= VQN(I,2,4)*SL
+         VQN(I,3,4)= SZ2*SL
        ENDIF
-C
       ENDDO
 C
       NPLAT=JFT-1
@@ -336,6 +332,5 @@ C
       ENDDO
 C
       RETURN
- 2001 FORMAT(/' ZERO OR NEGATIVE SHELL SUB-AREA : ELEMENT NB:',
-     .          I8/)
+ 2001 FORMAT(/' ZERO OR NEGATIVE SHELL SUB-AREA : ELEMENT NB:',I8/)
       END

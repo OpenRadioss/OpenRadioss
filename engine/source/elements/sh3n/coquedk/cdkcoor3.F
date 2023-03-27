@@ -59,7 +59,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,ISMSTR,IREP,NLAY,NEL
       INTEGER IXTG(NIXTG,*),MAT(*),PID(*),NGL(*)
-C     REAL
       my_real
      .   X(3,*),V(3,*),R(3,*), OFFG(*), OFF(*),
      .   R11(*),R12(*),R13(*),R21(*),R22(*),R23(*),
@@ -78,7 +77,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NC1, NC2, NC3,I, J,I1, I2, I3, N, NLYMAX,II(4),IBID,MAT_1
-C     REAL
       my_real
      .   VX2(MVSIZ), VX3(MVSIZ),VY2(MVSIZ), VY3(MVSIZ), 
      .   VZ2(MVSIZ), VZ3(MVSIZ),
@@ -106,7 +104,7 @@ C
        PID(I)  = IXTG(5,I)
        NGL(I)  = IXTG(6,I)
 C----------------------------
-C     COORDONNEES
+C     COORDINATES
 C----------------------------
        X1(I)=X(1,NC1)
        Y1(I)=X(2,NC1)
@@ -228,23 +226,21 @@ C----------------------------
 C--------------------------
 C-------Correction 2nd order rigid rotation due a V(t+dt/2),X(t+dt)----
 C--------------------------
-       IF (ISHV51 > 51) THEN
-        DT05 = HALF*DT1
-        DO I=JFT,JLT
-         EXZ =  YL3(I)*VLZ(I,1)-YL2(I)*VLZ(I,2)
-         EYZ = -XL3(I)*VLZ(I,1)+XL2(I)*VLZ(I,2)
-         DDRY=DT05*EXZ/AREA2(I)
-         DDRX=DT05*EYZ/AREA2(I)
-	        V21X = VLX(I,1)
-	        V31X = VLX(I,2)
-         DDRZ1=DT05*VLY(I,1)/XL2(I)
-         DDRZ2=DT05*V31X/YL3(I)
-         VLX(I,1) = VLX(I,1)-DDRY*VLZ(I,1)-DDRZ1*VLY(I,1)
-         VLX(I,2) = VLX(I,2)-DDRY*VLZ(I,2)-DDRZ1*VLY(I,2)
-         VLY(I,1) = VLY(I,1)-DDRX*VLZ(I,1)-DDRZ2*V21X
-         VLY(I,2) = VLY(I,2)-DDRX*VLZ(I,2)-DDRZ2*V31X
-         ENDDO
-       ENDIF 
+      DT05 = HALF*DT1                                     
+      DO I=JFT,JLT                                        
+        EXZ =  YL3(I)*VLZ(I,1)-YL2(I)*VLZ(I,2)
+        EYZ = -XL3(I)*VLZ(I,1)+XL2(I)*VLZ(I,2)
+        DDRY=DT05*EXZ/AREA2(I)
+        DDRX=DT05*EYZ/AREA2(I)
+        V21X = VLX(I,1)
+        V31X = VLX(I,2)
+        DDRZ1=DT05*VLY(I,1)/XL2(I)
+        DDRZ2=DT05*V31X/YL3(I)
+        VLX(I,1) = VLX(I,1)-DDRY*VLZ(I,1)-DDRZ1*VLY(I,1)
+        VLX(I,2) = VLX(I,2)-DDRY*VLZ(I,2)-DDRZ1*VLY(I,2)
+        VLY(I,1) = VLY(I,1)-DDRX*VLZ(I,1)-DDRZ2*V21X
+        VLY(I,2) = VLY(I,2)-DDRX*VLZ(I,2)-DDRZ2*V31X
+      ENDDO                                              
 C----------------------------
 C     OFF
 C----------------------------
@@ -336,65 +332,65 @@ C IREP=0 ->QEPH IREP=1 ->Q4, IREP=2-> E1=R(ISHFRAM=1)
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=JFT,JLT
 C---------E3------------
-       E3X(I) = RY(I) * SZ(I) - RZ(I) * SY(I) 
-       E3Y(I) = RZ(I) * SX(I) - RX(I) * SZ(I) 
-       E3Z(I) = RX(I) * SY(I) - RY(I) * SX(I) 
-       DET(I) = SQRT(E3X(I)*E3X(I) + E3Y(I)*E3Y(I) + E3Z(I)*E3Z(I))
-       IF (DET(I) < EM20 .AND. OFF(I) /= ZERO) THEN
-         OFF(I)=ZERO
-         IDEL7NOK = 1
-       ENDIF
-       OFF_LOC = ZERO
-       IF(ABS(OFF(I))/=ZERO) OFF_LOC = ONE
-       DET(I)=MAX(EM20,DET(I))
-       CC = OFF_LOC/DET(I)
-       CC = MAX(CC,EM20)
-       E3X(I) = E3X(I) * CC 
-       E3Y(I) = E3Y(I) * CC 
-       E3Z(I) = E3Z(I) * CC 
+        E3X(I) = RY(I) * SZ(I) - RZ(I) * SY(I) 
+        E3Y(I) = RZ(I) * SX(I) - RX(I) * SZ(I) 
+        E3Z(I) = RX(I) * SY(I) - RY(I) * SX(I) 
+        DET(I) = SQRT(E3X(I)*E3X(I) + E3Y(I)*E3Y(I) + E3Z(I)*E3Z(I))
+        IF (DET(I) < EM20 .AND. OFF(I) /= ZERO) THEN
+          OFF(I)=ZERO
+          IDEL7NOK = 1
+        ENDIF
+        OFF_LOC = ZERO
+        IF(ABS(OFF(I))/=ZERO) OFF_LOC = ONE
+        DET(I)=MAX(EM20,DET(I))
+        CC = OFF_LOC/DET(I)
+        CC = MAX(CC,EM20)
+        E3X(I) = E3X(I) * CC 
+        E3Y(I) = E3Y(I) * CC 
+        E3Z(I) = E3Z(I) * CC 
       ENDDO 
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       IF (IREP==2) THEN
        DO I=JFT,JLT
-        E1X(I) = RX(I)
-        E1Y(I) = RY(I)
-        E1Z(I) = RZ(I)
+         E1X(I) = RX(I)
+         E1Y(I) = RY(I)
+         E1Z(I) = RZ(I)
        ENDDO 
       ELSEIF (IREP==1) THEN
        DO I=JFT,JLT
-        C2 = SQRT(SX(I)*SX(I) + SY(I)*SY(I) + SZ(I)*SZ(I))
-        E1X(I) = RX(I)*C2+(SY(I)*E3Z(I)-SZ(I)*E3Y(I))
-        E1Y(I) = RY(I)*C2+(SZ(I)*E3X(I)-SX(I)*E3Z(I))
-        E1Z(I) = RZ(I)*C2+(SX(I)*E3Y(I)-SY(I)*E3X(I))
+         C2 = SQRT(SX(I)*SX(I) + SY(I)*SY(I) + SZ(I)*SZ(I))
+         E1X(I) = RX(I)*C2+(SY(I)*E3Z(I)-SZ(I)*E3Y(I))
+         E1Y(I) = RY(I)*C2+(SZ(I)*E3X(I)-SX(I)*E3Z(I))
+         E1Z(I) = RZ(I)*C2+(SX(I)*E3Y(I)-SY(I)*E3X(I))
        ENDDO 
       ELSE
        DO I=JFT,JLT
-        C1C1 = RX(I)*RX(I) + RY(I)*RY(I) + RZ(I)*RZ(I)
-        C2C2 = SX(I)*SX(I) + SY(I)*SY(I) + SZ(I)*SZ(I)
-        IF(C1C1 /= ZERO) THEN
-          C2_1(I) = SQRT(C2C2/MAX(EM20,C1C1))
-          C1_1(I) = ONE
-        ELSEIF(C2C2 /= ZERO)THEN
-          C2_1(I) = ONE
-          C1_1(I) = SQRT(C1C1/MAX(EM20,C2C2))
-        END IF 
+         C1C1 = RX(I)*RX(I) + RY(I)*RY(I) + RZ(I)*RZ(I)
+         C2C2 = SX(I)*SX(I) + SY(I)*SY(I) + SZ(I)*SZ(I)
+         IF(C1C1 /= ZERO) THEN
+           C2_1(I) = SQRT(C2C2/MAX(EM20,C1C1))
+           C1_1(I) = ONE
+         ELSEIF(C2C2 /= ZERO)THEN
+           C2_1(I) = ONE
+           C1_1(I) = SQRT(C1C1/MAX(EM20,C2C2))
+         END IF 
        ENDDO
        DO I=JFT,JLT
-          E1X(I) = RX(I)*C2_1(I)+(SY(I)*E3Z(I)-SZ(I)*E3Y(I))*C1_1(I)
-          E1Y(I) = RY(I)*C2_1(I)+(SZ(I)*E3X(I)-SX(I)*E3Z(I))*C1_1(I) 
-          E1Z(I) = RZ(I)*C2_1(I)+(SX(I)*E3Y(I)-SY(I)*E3X(I))*C1_1(I)
+         E1X(I) = RX(I)*C2_1(I)+(SY(I)*E3Z(I)-SZ(I)*E3Y(I))*C1_1(I)
+         E1Y(I) = RY(I)*C2_1(I)+(SZ(I)*E3X(I)-SX(I)*E3Z(I))*C1_1(I) 
+         E1Z(I) = RZ(I)*C2_1(I)+(SX(I)*E3Y(I)-SY(I)*E3X(I))*C1_1(I)
        ENDDO 
       ENDIF 
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        DO I=JFT,JLT
-        C1 = SQRT(E1X(I)*E1X(I) + E1Y(I)*E1Y(I) + E1Z(I)*E1Z(I))
-        IF ( C1 /= ZERO) C1 = ONE / MAX(EM20,C1)
-        E1X(I) = E1X(I)*C1
-        E1Y(I) = E1Y(I)*C1
-        E1Z(I) = E1Z(I)*C1
-        E2X(I) = E3Y(I) * E1Z(I) - E3Z(I) * E1Y(I)
-        E2Y(I) = E3Z(I) * E1X(I) - E3X(I) * E1Z(I)
-        E2Z(I) = E3X(I) * E1Y(I) - E3Y(I) * E1X(I)
+         C1 = SQRT(E1X(I)*E1X(I) + E1Y(I)*E1Y(I) + E1Z(I)*E1Z(I))
+         IF(C1 /= ZERO) C1 = ONE / MAX(EM20,C1)
+         E1X(I) = E1X(I)*C1
+         E1Y(I) = E1Y(I)*C1
+         E1Z(I) = E1Z(I)*C1
+         E2X(I) = E3Y(I) * E1Z(I) - E3Z(I) * E1Y(I)
+         E2Y(I) = E3Z(I) * E1X(I) - E3X(I) * E1Z(I)
+         E2Z(I) = E3X(I) * E1Y(I) - E3Y(I) * E1X(I)
        ENDDO 
 c-----------
       RETURN
