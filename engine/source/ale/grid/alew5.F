@@ -39,6 +39,7 @@ C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -65,7 +66,6 @@ C     C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com07_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "tabsiz_c.inc"  
@@ -92,9 +92,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      LAMBDA=ALPHA
-      NITER=NINT(VGX)
-      IFORM=NINT(GAMMA)
+      LAMBDA=ALE%GRID%ALPHA
+      NITER=NINT(ALE%GRID%VGX)
+      IFORM=NINT(ALE%GRID%GAMMA)
       
       WA(1:3,NODFT:NODLT)=X(1:3,NODFT:NODLT)      
       CALL MY_BARRIER

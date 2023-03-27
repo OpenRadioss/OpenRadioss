@@ -37,6 +37,10 @@ Chd|====================================================================
      .   VOL,MAT,CXX,VIS,VD2,DELTAX,EANI,PID,GEO,PARTSAV,IPARTS,
      .   OFFG,VOL0, IPARG1, IFVM_SKIP)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -53,7 +57,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scrupw_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
 #include      "parit_c.inc"
@@ -63,7 +66,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*),PID(*),IPARTS(*), IPARG1(*)
       my_real
-     .   PM(NPROPM,*),GEO(NPROPG,*), RHO(*),OFF(*),
+     .   PM(NPROPM,NUMMAT),GEO(NPROPG,NUMGEO), RHO(*),OFF(*),
      .   VX1(*),VX2(*),VX3(*),VX4(*),VX5(*),VX6(*),VX7(*),VX8(*),
      .   VY1(*),VY2(*),VY3(*),VY4(*),VY5(*),VY6(*),VY7(*),VY8(*),
      .   VZ1(*),VZ2(*),VZ3(*),VZ4(*),VZ5(*),VZ6(*),VZ7(*),VZ8(*),
@@ -104,7 +107,7 @@ C-----------------------------------------------
      .   VZ3478, VZ2358, VZ1467, VZ1256
 C-----------------------------------------------
       
-      IF(IPARG1(64)==1 .OR. (MTN==17 .AND. UPWM<2) .OR. INT22>0 .OR. IFVM_SKIP==1)THEN
+      IF(IPARG1(64)==1 .OR. (MTN==17 .AND. ALE%UPWIND%UPWM<2) .OR. INT22>0 .OR. IFVM_SKIP==1)THEN
 C
        DO I=LFT,LLT
 
@@ -154,7 +157,7 @@ C
       FLUID=IPARG1(63)
 C MATERIAUX FLUIDES 
       IF(FLUID==1)THEN
-       IF(UPWM>1 .OR. JLAG==1)THEN
+       IF(ALE%UPWIND%UPWM>1 .OR. JLAG==1)THEN
         DO I=LFT,LLT
          IF(VIS(I)>ZERO)THEN
           FCQ(I)=ZERO
@@ -164,16 +167,15 @@ C MATERIAUX FLUIDES
           FCL(I)=CAQ(I)*RHO(I)*CXX(I)*DELTAX(I)**2
          ENDIF
         ENDDO
-       ELSEIF(UPWM==0)THEN
+       ELSEIF(ALE%UPWIND%UPWM==0)THEN
         DO I=LFT,LLT
           FCL(I)=CAQ(I)*RHO(I)*CXX(I)*VOL(I)**TWO_THIRD
           FCQ(I)=ZERO
         ENDDO
-       ELSEIF(UPWM==1)THEN
+       ELSEIF(ALE%UPWIND%UPWM==1)THEN
         DO I=LFT,LLT
           FCL(I)=CAQ(I)*RHO(I)*DELTAX(I)**2
-          FCL(I)=MIN(FCL(I)*CXX(I),
-     .       MAX(TEN*CAQ(I)*VIS(I)*DELTAX(I),FCL(I)*SQRT(VD2(I))))
+          FCL(I)=MIN(FCL(I)*CXX(I),MAX(TEN*CAQ(I)*VIS(I)*DELTAX(I),FCL(I)*SQRT(VD2(I))))
           FCQ(I)=ZERO
         ENDDO
        ENDIF
@@ -216,14 +218,7 @@ C MATERIAUX NON FLUIDES
          ENDDO
        ENDIF
       END IF
-C FP 12/97 IMPL NON SUPPORTE 
-C      IF(IMPL/=0.)THEN
-C       DO I=LFT,LLT
-C        FCQ(I)=0.
-C       ENDDO
-C      ENDIF
-C
-C
+
       IF(JHBE==0)THEN
        DO I=LFT,LLT
         VX3478=VX3(I)-VX4(I)-VX7(I)+VX8(I)
@@ -312,15 +307,9 @@ C
         G61(I)=-ONE+PX4H1(I)
         G71(I)= ONE+PX1H1(I)
         G81(I)=-ONE+PX2H1(I)
-        HGX1(I)=
-     &    G11(I)*VX1(I)+G21(I)*VX2(I)+G31(I)*VX3(I)+G41(I)*VX4(I)
-     &   +G51(I)*VX5(I)+G61(I)*VX6(I)+G71(I)*VX7(I)+G81(I)*VX8(I)
-        HGY1(I)=
-     &    G11(I)*VY1(I)+G21(I)*VY2(I)+G31(I)*VY3(I)+G41(I)*VY4(I)
-     &   +G51(I)*VY5(I)+G61(I)*VY6(I)+G71(I)*VY7(I)+G81(I)*VY8(I)
-        HGZ1(I)=
-     &    G11(I)*VZ1(I)+G21(I)*VZ2(I)+G31(I)*VZ3(I)+G41(I)*VZ4(I)
-     &   +G51(I)*VZ5(I)+G61(I)*VZ6(I)+G71(I)*VZ7(I)+G81(I)*VZ8(I)
+        HGX1(I) = G11(I)*VX1(I)+G21(I)*VX2(I)+G31(I)*VX3(I)+G41(I)*VX4(I)+G51(I)*VX5(I)+G61(I)*VX6(I)+G71(I)*VX7(I)+G81(I)*VX8(I)
+        HGY1(I) = G11(I)*VY1(I)+G21(I)*VY2(I)+G31(I)*VY3(I)+G41(I)*VY4(I)+G51(I)*VY5(I)+G61(I)*VY6(I)+G71(I)*VY7(I)+G81(I)*VY8(I)
+        HGZ1(I) = G11(I)*VZ1(I)+G21(I)*VZ2(I)+G31(I)*VZ3(I)+G41(I)*VZ4(I)+G51(I)*VZ5(I)+G61(I)*VZ6(I)+G71(I)*VZ7(I)+G81(I)*VZ8(I)
        ENDDO
 C
        DO I=LFT,LLT
@@ -332,15 +321,9 @@ C
         G62(I)=-ONE+PX4H2(I)
         G72(I)= ONE+PX1H2(I)
         G82(I)= ONE+PX2H2(I)
-        HGX2(I)=
-     &   G12(I)*VX1(I)+G22(I)*VX2(I)+G32(I)*VX3(I)+G42(I)*VX4(I)
-     &  +G52(I)*VX5(I)+G62(I)*VX6(I)+G72(I)*VX7(I)+G82(I)*VX8(I)
-        HGY2(I)=
-     &   G12(I)*VY1(I)+G22(I)*VY2(I)+G32(I)*VY3(I)+G42(I)*VY4(I)
-     &  +G52(I)*VY5(I)+G62(I)*VY6(I)+G72(I)*VY7(I)+G82(I)*VY8(I)
-        HGZ2(I)=
-     &   G12(I)*VZ1(I)+G22(I)*VZ2(I)+G32(I)*VZ3(I)+G42(I)*VZ4(I)
-     &  +G52(I)*VZ5(I)+G62(I)*VZ6(I)+G72(I)*VZ7(I)+G82(I)*VZ8(I)
+        HGX2(I)=G12(I)*VX1(I)+G22(I)*VX2(I)+G32(I)*VX3(I)+G42(I)*VX4(I)+G52(I)*VX5(I)+G62(I)*VX6(I)+G72(I)*VX7(I)+G82(I)*VX8(I)
+        HGY2(I)=G12(I)*VY1(I)+G22(I)*VY2(I)+G32(I)*VY3(I)+G42(I)*VY4(I)+G52(I)*VY5(I)+G62(I)*VY6(I)+G72(I)*VY7(I)+G82(I)*VY8(I)
+        HGZ2(I)=G12(I)*VZ1(I)+G22(I)*VZ2(I)+G32(I)*VZ3(I)+G42(I)*VZ4(I)+G52(I)*VZ5(I)+G62(I)*VZ6(I)+G72(I)*VZ7(I)+G82(I)*VZ8(I)
        ENDDO
 C
        DO I=LFT,LLT
@@ -352,15 +335,9 @@ C
         G63(I)= ONE+PX4H3(I)
         G73(I)= ONE+PX1H3(I)
         G83(I)=-ONE+PX2H3(I)
-        HGX3(I)=
-     &   G13(I)*VX1(I)+G23(I)*VX2(I)+G33(I)*VX3(I)+G43(I)*VX4(I)
-     &  +G53(I)*VX5(I)+G63(I)*VX6(I)+G73(I)*VX7(I)+G83(I)*VX8(I)
-        HGY3(I)=
-     &   G13(I)*VY1(I)+G23(I)*VY2(I)+G33(I)*VY3(I)+G43(I)*VY4(I)
-     &  +G53(I)*VY5(I)+G63(I)*VY6(I)+G73(I)*VY7(I)+G83(I)*VY8(I)
-        HGZ3(I)=
-     &   G13(I)*VZ1(I)+G23(I)*VZ2(I)+G33(I)*VZ3(I)+G43(I)*VZ4(I)
-     &  +G53(I)*VZ5(I)+G63(I)*VZ6(I)+G73(I)*VZ7(I)+G83(I)*VZ8(I)
+        HGX3(I)=G13(I)*VX1(I)+G23(I)*VX2(I)+G33(I)*VX3(I)+G43(I)*VX4(I)+G53(I)*VX5(I)+G63(I)*VX6(I)+G73(I)*VX7(I)+G83(I)*VX8(I)
+        HGY3(I)=G13(I)*VY1(I)+G23(I)*VY2(I)+G33(I)*VY3(I)+G43(I)*VY4(I)+G53(I)*VY5(I)+G63(I)*VY6(I)+G73(I)*VY7(I)+G83(I)*VY8(I)
+        HGZ3(I)=G13(I)*VZ1(I)+G23(I)*VZ2(I)+G33(I)*VZ3(I)+G43(I)*VZ4(I)+G53(I)*VZ5(I)+G63(I)*VZ6(I)+G73(I)*VZ7(I)+G83(I)*VZ8(I)
        ENDDO       
 C
        DO I=LFT,LLT
@@ -431,9 +408,8 @@ C
       DO I=LFT,LLT     
         EHOURT= EHOURT+EHOU(I)
       ENDDO   
-C FP 12/97
-C DANS LE CAS ALE ET EULERIEN, LE TRANSPORT DE l'ENERGIE d'HOURGLAS
-C N'EST PAS CALCULE, L'ENERGIE d'HOURGLASS CUMULE N'A PAS DE SENS
+
+C ALE/EULER : hourglassenergy is not calculated
 C
       IF(JLAG==1)THEN
 C

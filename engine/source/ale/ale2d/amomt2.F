@@ -44,6 +44,10 @@ C from momentum continuity equation in 2D.
 C it results into a forces F1,F2 computed at cell 
 C centroid.
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -57,7 +61,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
-#include      "scrupw_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -135,17 +138,17 @@ C-----------------------------------------------
       !   LAW51 : convective terme computed like in FVM
       !-----------------------------------------------
       !   DMi = 0.5*DT1*QMV(i,I)  masse entrant par la face i
-      IF(MTN == 51 .AND. UPWM /= 3) THEN
+      IF(MTN == 51 .AND. ALE%UPWIND%UPWM /= 3) THEN
         IADBUF = NINT(PM(27,MAT(1)))
         IFLG = NINT(BUFMAT(31+IADBUF-1))
         IF(IFLG > 1)RETURN
-        IF(UPWM == 0.)THEN
+        IF(ALE%UPWIND%UPWM == 0.)THEN
          DO I=LFT,LLT
           GAMMA(I)= PM(15,MAT(I))
          ENDDO
         ELSE
          DO I=LFT,LLT
-          GAMMA(I)= CUPWM
+          GAMMA(I)= ALE%UPWIND%CUPWM
          ENDDO
         ENDIF
         DO I=LFT,LLT
@@ -184,7 +187,7 @@ C-----------------------------------------------
           T23(I)   = T23(I)+(ONE-A1(I))*DMZ
           T24(I)   = T24(I)+(ONE-A2(I))*DMZ
         ENDDO
-      ELSEIF (MTN /= 51 .AND. UPWM /= 3) THEN
+      ELSEIF (MTN /= 51 .AND. ALE%UPWIND%UPWM /= 3) THEN
       !-----------------------------------------------
       !   other material laws
       !-----------------------------------------------
@@ -212,7 +215,7 @@ C-----------------------------------------------
           T24(I)   =  T24(I)+(ONE-A2(I))*F2(I)
         ENDDO
 
-      ELSEIF (UPWM == 3) THEN
+      ELSEIF (ALE%UPWIND%UPWM == 3) THEN
          PC=FOURTH
          PD=ONE_OVER_16
          PS=ONE_OVER_16

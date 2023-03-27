@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
       USE GROUPDEF_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +64,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "parit_c.inc"
 #include      "impl1_c.inc"
-#include      "alesolver.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -120,22 +120,13 @@ C----------------------------------------------------------
       ENDIF
       
       !ALE or EULER grid points are not concerned about /DT/NODA & /DT/NODA/CST options
-      IF(IALE+IEULER/=0 .AND. I_DT_NODA_ALE_ON==0 .AND. NODADT/=0)THEN
+      IF(IALE+IEULER/=0 .AND. ALE%GLOBAL%I_DT_NODA_ALE_ON==0 .AND. NODADT/=0)THEN
         !NOD_LAG_COUNT = 0
         DO N=NODFT,NODLT
           IF(IABS(NALE(N))==1 .OR. IABS(NALE(N))==2)THEN
             TAG(N) = 0     
-         ! ELSE
-         !   NOD_LAG_COUNT = NOD_LAG_COUNT + 1
           ENDIF                                                        
         ENDDO        
-        !IF(NOD_LAG_COUNT == 0)THEN
-        !  NODADT = 0
-        !  IDTMIN(1) = 0
-        !  IDTMIN(2) = 0
-        !  IDTMIN(3) = 0
-        !  IDTMIN(7) = 0
-        !ENDIF 
       ENDIF      
                                                       
 C----------------------------------------------------------
@@ -232,7 +223,7 @@ C----------------------------------------------------------
          K = 0
          DTNOD = EP20
 C true dependency
-         IF(IALE+IEULER == 0 .OR. I_DT_NODA_ALE_ON==1)THEN
+         IF(IALE+IEULER == 0 .OR.  ALE%GLOBAL%I_DT_NODA_ALE_ON==1)THEN
            DO N=I,MIN(NODLT,I+1023)
              IF(STIFN(N)<=ZERO)THEN                             
                 ISTOP = -ITAB(N)                                  

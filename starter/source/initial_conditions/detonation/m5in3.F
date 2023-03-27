@@ -56,12 +56,13 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "vect01_c.inc"
 #include      "scr11_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: NGL(*),MAT(*),IPARG(NPARG),NIX,IX(NIX,*)
       INTEGER,INTENT(IN) :: M151_ID
-      my_real :: PM(NPROPM,*),  TB(*), X(3, *)
+      my_real :: PM(NPROPM,NUMMAT),  TB(*), X(3, *)
       TYPE(DETONATOR_STRUCT_)::DETONATORS      
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

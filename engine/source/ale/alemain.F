@@ -114,6 +114,7 @@ C-----------------------------------------------
       USE SEGVAR_MOD
       USE MATPARAM_DEF_MOD
       USE H3D_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -137,7 +138,6 @@ C-----------------------------------------------
 #include      "parit_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
-#include      "vale_c.inc"
 #include      "inter18.inc"
 #include      "inter22.inc"
 #include      "mmale51_c.inc" 
@@ -229,7 +229,7 @@ C-----------------------------------------------
 C  IOUTPRT (assembly report)   
          IOUTPRT = 0
          IF(MOD(NCYCLE,IABS(NCPRI)) == 0.OR.TT >= THIS.OR.MDESS /= 0.
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS).
      .   OR.TT >= THIS1(1).OR.TT >= THIS1(2).
      .   OR.TT >= THIS1(3).OR.TT >= THIS1(4).OR.TT >= THIS1(5).
      .   OR.TT >= THIS1(6).OR.TT >= THIS1(7).OR.TT >= THIS1(8).
@@ -238,15 +238,15 @@ C  IOUTPRT (assembly report)
      .   OR.TT >= TABFIS(3).OR.TT >= TABFIS(4).OR.TT >= TABFIS(5).
      .   OR.TT >= TABFIS(6).OR.TT >= TABFIS(7).OR.TT >= TABFIS(8).
      .   OR.TT >= TABFIS(9).OR.TT >= TABFIS(10).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(1)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(2)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(3)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(4)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(5)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(6)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(7)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(8)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(9)).OR.ISTAT==3) IOUTPRT=1
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(1)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(2)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(3)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(4)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(5)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(6)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(7)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(8)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(9)).OR.ISTAT==3) IOUTPRT=1
       
       ALLOCATE(QMV(2*NV46,LENQMV)) !MM-ALE 51 only                       !OPTIM : SHOULD BE ALLOCATED IN ARRALOC
       IF(M51_IFLG6 == 1)SBUFVOIS = M51_IFLG6_SIZE
@@ -261,7 +261,7 @@ C  IOUTPRT (assembly report)
         IADBH=1
       ENDIF
       !IFSUBM=1 : masse changed
-      IFSUBM=1
+      ALE%SUB%IFSUBM=1
 
       IF(IALE+IEULER /= 0)THEN
        DO N=NODFT,NODLT
@@ -308,26 +308,26 @@ C  IOUTPRT (assembly report)
       !--------------------------------------------------------
       ! F L U I D E
       !       ALE SUB-CYCLING PREPARATION
-      !       IALESUB=1 LEGACY IMPLEMENTATION, NOT PARALLEL, DELETED IN V11
-      !       IALESUB=2 PARALLEL IMPLMEMENTATION IN 2002
+      !       ALE%SUB%IALESUB=1 LEGACY IMPLEMENTATION, NOT PARALLEL, DELETED IN V11
+      !       ALE%SUB%IALESUB=2 PARALLEL IMPLMEMENTATION IN 2002
       !--------------------------------------------------------
-      IF(IALESUB /= 0) CALL MY_BARRIER    
+      IF(ALE%SUB%IALESUB /= 0) CALL MY_BARRIER    
       !-----
-      IF(IALESUB == 2)THEN
+      IF(ALE%SUB%IALESUB == 2)THEN
         IF(ITASK == 0)THEN
           IF(TT == ZERO .OR. TT+DT1 > T1S+DT2S)THEN
-            IFSUB  = 0
-            IFSUBM = 1
-            DT1SAVE= DT1
+            ALE%SUB%IFSUB  = 0
+            ALE%SUB%IFSUBM = 1
+            ALE%SUB%DT1SAVE= DT1
             DT1    = TT-T1S
             T1S    = TT
           ELSE
-            IFSUB=1
-            IFSUBM=0
+            ALE%SUB%IFSUB=1
+            ALE%SUB%IFSUBM=0
           ENDIF
         ENDIF
         CALL MY_BARRIER
-        IF(IFSUB == 0)THEN
+        IF(ALE%SUB%IFSUB == 0)THEN
           NELTSA  = NELTST
           ITYPTSA = ITYPTST
           DT2SAVE = DT2T
@@ -337,13 +337,13 @@ C  IOUTPRT (assembly report)
      1               ALE_CONNECTIVITY%NALE,V,W,DSAVE,ICODT,ISKEW,SKEW,D,
      2               ITASK,NODFT,NODLT,FSKY,FSKY      )
       ENDIF
-      IF(IALESUB == 0  .AND. ITASK == 0)THEN
-        IFSUB = 0
+      IF(ALE%SUB%IALESUB == 0  .AND. ITASK == 0)THEN
+        ALE%SUB%IFSUB = 0
         T1S   = TT
       ENDIF
       !-----      
       
-      IF(ITHERM == 1 .AND. IALE+IEULER == 0) IFSUBM=0
+      IF(ITHERM == 1 .AND. IALE+IEULER == 0) ALE%SUB%IFSUBM=0
 C----------------------------------
 C       ALE - EULER - THERMAL
 C       WA  = flux for sforc3 and qforc3
@@ -351,8 +351,7 @@ C----------------------------------
 
       CALL MY_BARRIER
 C
-      IF (IPARIT == 0 .AND. NSPMD > 1 .AND. 
-     +    IFSUBM == 1 .AND. N2D == 0 .AND. INCOMP == 0) THEN
+      IF (IPARIT == 0 .AND. NSPMD > 1 .AND. ALE%SUB%IFSUBM == 1 .AND. N2D == 0 .AND. ALE%GLOBAL%INCOMP == 0) THEN
         DO N = NODFT, NODLT
           MS(N) = MS(N)*WEIGHT(N)
           MSNF(N) = MSNF(N)*WEIGHT(N)
@@ -364,7 +363,7 @@ C
 C---------------------------------------------------------
 C       ALE - EULER  + 2D : update masses 
 C---------------------------------------------------------
-      IF (N2D > 0 .AND. IFSUBM == 1) THEN
+      IF (N2D > 0 .AND. ALE%SUB%IFSUBM == 1) THEN
         DO N = NODFT, NODLT
           MS_2D(N) = ZERO
         ENDDO
@@ -373,10 +372,10 @@ C
 C
       ENDIF
 C
-      IF(IFSUB == 0)THEN
+      IF(ALE%SUB%IFSUB == 0)THEN
         IF(ITASK==0) CALL STARTIME(MACRO_TIMER_IFSUB0,1)
         IF(IALE+IEULER+ITHERM /= 0)THEN
-          IF(INCOMP == 0) THEN
+          IF(ALE%GLOBAL%INCOMP == 0) THEN
             IF(NSEGFLU > 0 .AND. N2D == 0) THEN
               CALL SEGGETV(IPARG,ELBUF_TAB,ALE_CONNECTIVITY,ITASK,SEGVAR)
 C             Comm SPMD SEGVAR Pi -> P0
@@ -681,7 +680,7 @@ C     -------------------------
      D   FR_ELEM,         NEL)
          ENDIF
       ELSE
-         IFSUBM=0
+         ALE%SUB%IFSUBM=0
           ENDIF
 C
           CALL MY_BARRIER
@@ -868,21 +867,19 @@ C
      1              V       ,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,
      2              LENCOM  )
                  ! to be optimized depending on combination of options
-                 IF(INCOMP == 1.OR.ITURB+ITHERM == 0)
-     .             CALL SPMD_XVOIS(
-     1               X       ,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,
-     2               LENCOM  )
+                 IF(ALE%GLOBAL%INCOMP == 1.OR.ITURB+ITHERM == 0)
+     .             CALL SPMD_XVOIS(X       ,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,LENCOM  )
                    ! comm adjacent elems
                  CALL SPMD_L11VOIS(
-     1             BUFVOIS ,IPARG   ,ELBUF_TAB,PM      ,IXS     ,
-     2             IXQ     ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
-     3             LENCOM  )
+     1                 BUFVOIS ,IPARG   ,ELBUF_TAB,PM      ,IXS     ,
+     2                 IXQ     ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
+     3                 LENCOM  )
               ELSE
               !======LAW51-NRF/SPMD=====================================!
                  CALL SPMD_L51VOIS(
-     1               BUFVOIS ,IPARG   ,ELBUF_TAB,PM      ,IXS     ,
-     2               IXQ     ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
-     3               LENCOM  ,IPM     ,BUFMAT)
+     1                 BUFVOIS ,IPARG   ,ELBUF_TAB,PM      ,IXS     ,
+     2                 IXQ     ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
+     3                 LENCOM  ,IPM     ,BUFMAT)
               ENDIF
 !$OMP END SINGLE
             ENDIF
@@ -1020,17 +1017,17 @@ c      ENDIF
       !--------------------------------------------------------
       !       ALE SUB-CYCLING SUITE
       !--------------------------------------------------------
-      IF(IALESUB == 2)THEN
+      IF(ALE%SUB%IALESUB == 2)THEN
         !ifsub=0 fluid calculation
         !ifsub=2 fluid calculation + assembly
         !ifsub=1 no fluid calculation
         IF(ITASK == 0) THEN
-          IF(IFSUB == 0) THEN
-            IFSUB=2
+          IF(ALE%SUB%IFSUB == 0) THEN
+            ALE%SUB%IFSUB=2
           ENDIF
         ENDIF
         CALL MY_BARRIER
-        IF(IFSUB == 1)THEN
+        IF(ALE%SUB%IFSUB == 1)THEN
           ! getting A from ASAVE
           ! AGLOB is pointing on A (no SMP shift))
           DO N=NODFT,NODLT

@@ -211,6 +211,9 @@ Chd|        MULTI_MUSCL_FLUXES_COMPUTATIONengine/source/multifluid/multi_muscl_f
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE ALE_CONNECTIVITY_MOD
+      
+        IMPLICIT NONE
+#include      "my_real.inc"
 
 !     ************    !
 !     Connectivity
@@ -262,20 +265,20 @@ Chd|====================================================================
       CONTAINS
       
       subroutine ale_connectivity_init(this)
+      use ale_mod      
       implicit none
       class(t_ale_connectivity), intent(inout) :: this
 #include "com01_c.inc"
 #include "inter18.inc"
-#include "ale_param.inc"   
       logical result  
       result = .false.
-      if(iale > 0 .and. nwale == 6)result=.true.                 !/ale/grid/volume defined
+      if(iale > 0 .and. ALE%GRID%nwale == 6)result=.true.                 !/ale/grid/volume defined
       if(inter18_autoparam == 1)result=.true. !/inter/type18 with flag iauto set to 1
       if(inter18_is_variable_gap_defined)result=.true. !/inter/type18 with flag iauto set to 1      
       this%has_ne_connect = result
       result = .false.
-      if(iale > 0 .and. nwale < 2)result=.true.     !/ale/grid/donea, disp, spring
-      if(iale > 0 .and. nwale == 5)result=.true. !/ale/grid/laplacian
+      if(iale > 0 .and. ALE%GRID%nwale < 2)result=.true.     !/ale/grid/donea, disp, spring
+      if(iale > 0 .and. ALE%GRID%nwale == 5)result=.true. !/ale/grid/laplacian
       this%has_nn_connect = result
       end subroutine ale_connectivity_init
       subroutine ale_compute_connectivity(this, numnod, numelq, numeltg, numels, 

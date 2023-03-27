@@ -39,13 +39,16 @@ Chd|        VARCONDEC                     source/interfaces/interf/varcondec.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
-      SUBROUTINE INTTI12A(IPARI,X     ,WA    ,ITAB,
-     .        SEGVAR,TEST,SKEW,ISKWN ,INTBUF_TAB  )
-C INTERFACE FLUIDE/FLUIDE DERIVEE DES INTERFACE 2 ET 5 (SLIDING)
-      USE SEGVAR_MOD
+      SUBROUTINE INTTI12A(IPARI, X, WA, ITAB, SEGVAR, TEST, SKEW, ISKWN ,INTBUF_TAB )
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C  FLUID/FLUID INTERFACE DERIVATED FROM TYPE 2 & 5 (SLIDING)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE SEGVAR_MOD
+      USE ALE_MOD
       USE INTBUFDEF_MOD      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -66,7 +69,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "scr06_c.inc"
 #include      "units_c.inc"
-#include      "conv_c.inc"
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -74,7 +76,7 @@ C-----------------------------------------------
  
       INTEGER ITIED,NOINT,NGROUS,NGROUM,NG,
      .  L1 ,L2 ,L3 ,L4,L5,L6
-      INTEGER JCODV(LCONV),CODTOT,I,ITEST,ILEV,IREF,ICEN
+      INTEGER JCODV(ALE%GLOBAL%LCONV),CODTOT,I,ITEST,ILEV,IREF,ICEN
       INTEGER, DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4
       my_real
      .  GAP
@@ -183,12 +185,12 @@ C-----------------------------------------------
         ENDIF
       ENDIF !(ITIED==0 .OR. ITIED==3)
 
-      IF(CODTOT/=0 .AND. INCOMP==0 .AND. ITIED/=3)THEN
+      IF(CODTOT/=0 .AND. ALE%GLOBAL%INCOMP==0 .AND. ITIED/=3)THEN
         L1=1
-        L2=L1+NSN*NVCONV
-        L3=L2+NSN*NVCONV
+        L2=L1+NSN*ALE%GLOBAL%NVCONV
+        L3=L2+NSN*ALE%GLOBAL%NVCONV
         L4=L3+NRTM        
-        L5=L4+NMN*NVCONV
+        L5=L4+NMN*ALE%GLOBAL%NVCONV
         L6=L5+NMN
         !-----------------------------------------------------------------!
         !   ECHANGE DES INFORMATIONS ENTRE LES TWO FACES DE l'INTERFACE  !

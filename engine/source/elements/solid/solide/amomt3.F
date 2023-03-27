@@ -67,6 +67,10 @@ Chd|====================================================================
      Z   NC6,     NC7,     NC8,     NALE,
      1   NEL)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -79,14 +83,14 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "param_c.inc"
-#include      "scrupw_c.inc"
 #include      "inter22.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       my_real
-     .   PM(NPROPM,*), RHO(*),VOL(*),
+     .   PM(NPROPM,NUMMAT), RHO(*),VOL(*),
      .   X1(*),X2(*),X3(*),X4(*),X5(*),X6(*),X7(*),X8(*),
      .   Y1(*),Y2(*),Y3(*),Y4(*),Y5(*),Y6(*),Y7(*),Y8(*),
      .   Z1(*),Z2(*),Z3(*),Z4(*),Z5(*),Z6(*),Z7(*),Z8(*),
@@ -129,14 +133,14 @@ C-----------------------------------------------
      .   V87a(MVSIZ,3), V87b(MVSIZ,3)
       INTEGER I,J,IADBUF,IFLG, MX
 C-----------------------------------------------
-      IF(UPWM==0.AND.IPARG1(64)==1)RETURN   !silent boundary
+      IF(ALE%UPWIND%UPWM==0.AND.IPARG1(64)==1)RETURN   !silent boundary
 C-----------------------------------------------
 C  MULTIMATERIAL LAW 51
 C-----------------------------------------------
-      IF(MTN==51 .AND. UPWM/=3 .AND. IPARG1(64)==0)THEN
+      IF(MTN==51 .AND. ALE%UPWIND%UPWM/=3 .AND. IPARG1(64)==0)THEN
       !-------------------------------------------------------!
-      !     Forces de transports calculees par volume fini    !
-      !   DMi = 0.5*DT1*QMV(i,I)  masse entrant par la face i !
+      !     Reynolds theorem ('transportation force')         !
+      !   DMi = 0.5*DT1*QMV(i,I)  incoming mass from face i   !
       !-------------------------------------------------------!
       IADBUF = NINT(PM(27,MAT(1)))
       IFLG = NINT(BUFMAT(31+IADBUF-1))
@@ -256,7 +260,7 @@ C-----------------------------------------------
       !     SUPG & TG      !
       !    R,S,T frame     !
       !--------------------!
-      IF(UPWM>1)THEN
+      IF(ALE%UPWIND%UPWM>1)THEN
        DO I=LFT,LLT
         V12(I,1)=X2(I)-X1(I)
         V12(I,2)=Y2(I)-Y1(I)
@@ -356,12 +360,12 @@ C-----------------------------------------------
 
       !----------------------------------------------------!
       ! UPWIND STANDARD (upwm<2)                           !
-      ! CALCUL DE LA FORCE DE TRANSPORT AU CENTRE          !
+      ! TRANSPORTATION FORCE AT CENTROID                   !
       !----------------------------------------------------!
-      IF(UPWM<=1 .OR.IPARG1(64)==1)THEN
+      IF(ALE%UPWIND%UPWM<=1 .OR.IPARG1(64)==1)THEN
       
        IF((IPARG1(64)==1))THEN
-       ! VDX,VDY,VDZ EST CALCULE DANS M11VS3 OU M51VS3
+       ! VDX,VDY,VDZ IS CALCULATED IN M11VS3 OU M51VS3
         DO I=LFT,LLT
          A1(I) =(PX1(I)*VDX(I)+PY1(I)*VDY(I)+PZ1(I)*VDZ(I))
          A2(I) =(PX2(I)*VDX(I)+PY2(I)*VDY(I)+PZ2(I)*VDZ(I))
@@ -373,14 +377,14 @@ C-----------------------------------------------
          A4(I) = SIGN(ONE,A4(I))        
         ENDDO
        ELSE
-        IF(UPWM==ZERO)THEN
+        IF(ALE%UPWIND%UPWM==ZERO)THEN
          MX = MAT(LFT)
          DO I=LFT,LLT
           GAM(I)= PM(15,MX)
          ENDDO
         ELSE
          DO I=LFT,LLT
-          GAM(I)= CUPWM
+          GAM(I)= ALE%UPWIND%CUPWM
          ENDDO
         ENDIF
         DO I=LFT,LLT
@@ -414,7 +418,7 @@ C-----------------------------------------------
           ENDDO
        ENDIF
         
-       !repartition nodale
+       !expand to nodes
        DO I=LFT,LLT
         F11(I) = F11(I) - (ONE+A1(I))*F1(I)
         F12(I) = F12(I) - (ONE+A2(I))*F1(I)
@@ -448,8 +452,8 @@ C
 
       !-----------------------------------------------------------------------!
       ! SUPG OU TG                                                            !
-      ! FORMULATION DE LA FORCE DE TRANSPORT MINIMISANT LES PBS D'HOURGLASS   !
-      ! ON EVALUE <PHI,UJ*DUI/DXJ> DIRECTEMENT AUX NOEUDS                     !
+      ! TRANSPORTATION FORCE WHICH MINIMIZE HOURGLASS                         !
+      !  <PHI,UJ*DUI/DXJ> ESTIMATED AT NODES                                  !
       !-----------------------------------------------------------------------!
       ! NOEUD 1 (1,2,4,5)     
        CALL AJAC3_V(V12,V14,V15,AJ1,AJ2,AJ3,AJV)

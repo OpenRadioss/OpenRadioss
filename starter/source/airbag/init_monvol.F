@@ -90,10 +90,9 @@ C-----------------------------------------------
       INTEGER  IXC(NIXC,*),IXTG(NIXTG,*),NPC(*),
      .     ITABM1(*),ITAB(*),
      .     MFI,NAIRWA ,IXS(NIXS,*),
-     .     LIBAGALE,NPT(*),LRBAGALE,IPM(NPROPMI,*),IGEO(NPROPGI,*)
-C     REAL
+     .     LIBAGALE,NPT(*),LRBAGALE,IPM(NPROPMI,NUMMAT),IGEO(NPROPGI,NUMGEO)
       my_real
-     .     GEO(NPROPG,*), PM(NPROPM,*), X(3,*), V(3,*),
+     .     GEO(NPROPG,NUMGEO), PM(NPROPM,NUMMAT), X(3,*), V(3,*),
      .     PLD(2,*), MEMBAG
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC

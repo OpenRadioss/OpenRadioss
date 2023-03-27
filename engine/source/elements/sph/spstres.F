@@ -224,14 +224,13 @@ C     SMALL STRAIN
 C-----------------------------
        CALL SPMALLB3(GBUF%OFF,OFF ,KXSP(1,NF1),SPH2SOL(NF1))
 C--------------------------
-C     BILANS PAR MATERIAU
+C     SUBMATERIALS SYNTHESIS
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IFLAG==0.OR.TT>=THIS.OR.MDESS/=0 .OR.TT>=TABFIS(1).
      .   OR.TT>=TABFIS(2).OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).
      .   OR.TT>=TABFIS(5).OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).
      .   OR.TT>=TABFIS(8).OR.TT>=TABFIS(9).OR.TT>=TABFIS(10))THEN
-C    .   OR.(IALESUB==1.AND.T1S+DT2S>=THIS))THEN
          IF (MTN == 11) THEN                                     
            EINT => ELBUF_TAB(NG)%GBUF%EINS(1:NEL)                    
          ELSE                                                    

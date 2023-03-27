@@ -118,7 +118,8 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ALE_CONNECTIVITY_MOD
       USE H3D_MOD
-C----6------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -148,8 +149,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),ITAB(*),
      .   IXQ(NIXQ,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   IXR(NIXR,*), IGEO(NPROPGI,*),IPARI(NPARI,*),
-     .   IPM(NPROPMI,*),NPC(*), IPARG(NPARG,*), 
+     .   IXR(NIXR,*), IGEO(NPROPGI,NUMGEO),IPARI(NPARI,*),
+     .   IPM(NPROPMI,NUMMAT),NPC(*), IPARG(NPARG,NGROUP), 
      .   NSTRF(*), IPART(LIPART1,*) ,
      .   IPARTS(*) ,IPARTQ(*) ,IPARTT(*) ,IPARTP(*) ,
      .   IPARTR(*) ,IPARTUR(*) ,
@@ -165,7 +166,7 @@ C-----------------------------------------------
      .   TAGPRT_SMS(*),ITAGND(*),NALE(*),FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE
       my_real
      .   X(3,*),V(3,*),VR(3,*),D(3,*),MS(*),IN(*),A(3,*),AR(3,*),
-     .   DR(3,*),W(3,*),PM(NPROPM,*),SKEW(LSKEW,*),GEO(NPROPG,*),
+     .   DR(3,*),W(3,*),PM(NPROPM,NUMMAT),SKEW(LSKEW,*),GEO(NPROPG,NUMGEO),
      .   BUFMAT(*),VEUL(*),TF(*),FR_WAVE(*),ELBUF(*) ,
      .   FSAV(NTHVKI,*) ,WA(*),
      .   FV(*),VAL2(*),RBY(*),
@@ -201,12 +202,9 @@ C-----------------------------------------------
      .   L17,L18,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,
      .   ICP,ICS,IMATVIS,IEXPAN,NPTS,MPT,NPTT,NPTR,NPT0,IG,OFF_IGRTH,
      .   NCTRL,DIM6,IPARSENS,ISECT,GAMA(6),PX,PY,PZ,ISENS_ENERGY
-      my_real
-     .   BID,QMVBID
-      my_real
-     .   VOLN(MVSIZ)
-      my_real,
-     .   ALLOCATABLE, DIMENSION(:,:) :: FX,FY,FZ,MX,MY,MZ
+      my_real BID,QMVBID
+      my_real VOLN(MVSIZ)
+      my_real, ALLOCATABLE, DIMENSION(:,:) :: FX,FY,FZ,MX,MY,MZ
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C======================================================================|
@@ -217,10 +215,10 @@ C======================================================================|
         CALL ANCMSG(MSGID=246,ANMODE=ANINFO)
         CALL ARRET(2)
        END IF
-C  IOUTPRT for bilan assemblage, not need for spring which call *bilan each cycle   
+C  IOUTPRT for assembly synthesis, not need for spring which call *bilan each cycle   
          IPRI = 0
          IF(MOD(NCYCLE,IABS(NCPRI))==0.OR.TT>=THIS.OR.MDESS /= 0.
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS).
      .   OR.TT>=THIS1(1).OR.TT>=THIS1(2).
      .   OR.TT>=THIS1(3).OR.TT>=THIS1(4).OR.TT>=THIS1(5).
      .   OR.TT>=THIS1(6).OR.TT>=THIS1(7).OR.TT>=THIS1(8).
@@ -229,15 +227,15 @@ C  IOUTPRT for bilan assemblage, not need for spring which call *bilan each cycl
      .   OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).OR.TT>=TABFIS(5).
      .   OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).OR.TT>=TABFIS(8).
      .   OR.TT>=TABFIS(9).OR.TT>=TABFIS(10).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(1)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(2)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(3)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(4)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(5)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(6)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(7)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(8)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(9)).OR.ISTAT==3) IPRI=1
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(1)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(2)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(3)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(4)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(5)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(6)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(7)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(8)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(9)).OR.ISTAT==3) IPRI=1
 !
       ISENS_ENERGY = 0
       DO I=1,NSENSOR

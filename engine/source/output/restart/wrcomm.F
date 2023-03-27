@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALEFVM_MOD , only:ALEFVM_Param
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +83,6 @@ C-----------------------------------------------
 #include      "scr16_c.inc"
 #include      "scr14_c.inc"
 #include      "scrcut_c.inc"
-#include      "conv_c.inc"
 #include      "scr18_c.inc"
 #include      "scr02_c.inc"
 #include      "check.inc"
@@ -90,9 +90,7 @@ C-----------------------------------------------
 #include      "scr07_c.inc"
 #include      "timeri_c.inc"
 #include      "couple_c.inc"
-#include      "scr06_c.inc"
 #include      "cong1_c.inc"
-#include      "scrupw_c.inc"
 #include      "scr17_c.inc"
 #include      "rad2r_c.inc"
 #include      "warn_c.inc"
@@ -100,7 +98,6 @@ C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "fxbcom.inc"
 #include      "eigcom.inc"
-#include      "fluid_scr_c.inc"
 #include      "flowcom.inc"
 #include      "impl1_c.inc"
 #include      "tabsiz_c.inc"
@@ -115,8 +112,6 @@ C-----------------------------------------------
 #include      "drape_c.inc"
 #include      "ige3d_c.inc"
 #include      "thermal_c.inc"
-#include      "alesolver.inc"
-#include      "ale_param.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -190,8 +185,8 @@ C   -------- Tailles des tableaux entiers --------
       TABVINT(56)  = SITAB
       TABVINT(57)  = SITABM1
       TABVINT(58)  = SGJBUFI
-      TABVINT(59)  = SNALE
-      TABVINT(60)  = SIELVS
+      TABVINT(59)  = ALE%GLOBAL%SNALE
+      TABVINT(60)  = ALE%GLOBAL%SIELVS
       TABVINT(62)  = SIFILL
       TABVINT(63)  = SIMS
 !! to empty+++
@@ -396,7 +391,7 @@ C-----1
       TABVINT(261)=NSECT
       TABVINT(262)=NRBAG
       TABVINT(263)=NJOINT
-      TABVINT(264)=NWALE
+      TABVINT(264)=ALE%GRID%NWALE
       TABVINT(265)=NUMELTG
       TABVINT(266)=NSLAG
       TABVINT(267)=NFACX
@@ -427,7 +422,7 @@ C-----1
       TABVINT(292)=NANIM1D
       TABVINT(293)=NR2RLNK
 C-----
-      TABVINT(294)=IPAT
+      TABVINT(294)=0 !no longer used
       TABVINT(295)=IANIM
       TABVINT(296)=IOUTP
       TABVINT(297)=NHIN2
@@ -617,13 +612,13 @@ C-----
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NSEGFLU
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=NVCONV
+      TABVINT(LVARINT)=ALE%GLOBAL%NVCONV
 C-----
-      DO I=1,LCONV
-        TABVINT(LVARINT+I)=CODV(I)
+      DO I=1,ALE%GLOBAL%LCONV
+        TABVINT(LVARINT+I)=ALE%GLOBAL%CODV(I)
       ENDDO
 C-----
-      LVARINT=LVARINT+LCONV+1
+      LVARINT=LVARINT+ALE%GLOBAL%LCONV+1
       TABVINT(LVARINT)=NPEBC
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NEBCS
@@ -656,12 +651,12 @@ C No more used      TABVINT(LVARINT + 16 )
         TABVINT(LVARINT + 24 + I) = DEBUG(I)
       ENDDO
       TABVINT(LVARINT + 35 ) = ITRACE
-      TABVINT(LVARINT + 36 ) = INCOMP
+      TABVINT(LVARINT + 36 ) = ALE%GLOBAL%INCOMP
       TABVINT(LVARINT + 37 ) = 0
-      TABVINT(LVARINT + 38 ) = IALESUB
+      TABVINT(LVARINT + 38 ) = ALE%SUB%IALESUB
       TABVINT(LVARINT + 39 ) = IMPL
       TABVINT(LVARINT + 40 ) = NITMX
-      TABVINT(LVARINT + 41 ) = UPWM
+      TABVINT(LVARINT + 41 ) = ALE%UPWIND%UPWM
       TABVINT(LVARINT + 43 ) = IDDW
       TABVINT(LVARINT + 44 ) = IPREAD
       TABVINT(LVARINT + 45 ) = NSFLSW
@@ -876,7 +871,7 @@ C partie commun spmd cfd
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= NUMPORL
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)= ICAA
+      TABVINT(LVARINT)= ALE%GLOBAL%ICAA
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= ISPHBUC
       LVARINT=LVARINT+1
@@ -1263,7 +1258,7 @@ c Inlet outlet spmd, new tab ibufssg_io
       LVARINT=LVARINT+1      
       TABVINT(LVARINT)=NSUBMOD
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)= NALENOVS
+      TABVINT(LVARINT)= ALE%GLOBAL%NALENOVS
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=LNOPT1
@@ -1490,7 +1485,7 @@ C SOL2SPH flag
       TABVINT(LVARINT)=ITSOL2SPH 
 C ISFINT flag
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=ISFINT 
+      TABVINT(LVARINT)=ALE%GLOBAL%ISFINT 
 C ICNDS10 dyna condensation for S10
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NS10E 
@@ -1528,11 +1523,11 @@ C
       TABVINT(LVARINT)=NUMELS20G
 c
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=I_DT_NODA_ALE_ON
+      TABVINT(LVARINT)= ALE%GLOBAL%I_DT_NODA_ALE_ON
+      
 C Interface Adhesion
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = INTERADHESION      
-      
+      TABVINT(LVARINT) = INTERADHESION          
 c
 C Friction interface  
       LVARINT=LVARINT+1
@@ -1624,7 +1619,7 @@ C  pinching
       TABVINT(LVARINT) = NPLOADPINCH
 C
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = I_SUPG_ON_OFF      
+      TABVINT(LVARINT) = ALE%UPWIND%I_SUPG_ON_OFF      
 
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NLEDGE      
@@ -1663,7 +1658,7 @@ C  BCS/CYCLIC
       LVARINT=LVARINT+1
       IF(TABVINT(LVARINT)==1)INTER18_IS_VARIABLE_GAP_DEFINED = .TRUE.
 
-      IF ((IALE > 0 .AND. NWALE == 6) .OR. INTER18_AUTOPARAM == 1 .OR. INTER18_IS_VARIABLE_GAP_DEFINED) THEN
+      IF ((IALE > 0 .AND. ALE%GRID%NWALE == 6) .OR. INTER18_AUTOPARAM == 1 .OR. INTER18_IS_VARIABLE_GAP_DEFINED) THEN
          LVARINT = LVARINT + 1
          TABVINT(LVARINT) = NE_SLERCVOIS
          LVARINT = LVARINT + 1
@@ -1755,6 +1750,7 @@ C-----------------------------------------------
       USE ANIM_MOD
       USE OUTPUTS_MOD
       USE STATE_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1769,7 +1765,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com06_c.inc"
-#include      "com07_c.inc"
 #include      "com08_c.inc"
 #include      "cong2_c.inc"
 #include      "couple_c.inc"
@@ -1781,7 +1776,6 @@ C-----------------------------------------------
 #include      "scr18_c.inc"
 #include      "scr19_c.inc"
 #include      "scrnoi_c.inc"
-#include      "scrupw_c.inc"
 #include      "sms_c.inc"
 #include      "statr_c.inc"
 #include      "sysunit.inc"
@@ -1837,11 +1831,11 @@ C-----
       TABVREA(32)=DAMPB
       TABVREA(33)=DAMPW
 C-----
-      TABVREA(34)=ALPHA
-      TABVREA(35)=GAMMA
-      TABVREA(36)=VGX
-      TABVREA(37)=VGY
-      TABVREA(38)=VGZ
+      TABVREA(34)=ALE%GRID%ALPHA
+      TABVREA(35)=ALE%GRID%GAMMA
+      TABVREA(36)=ALE%GRID%VGX
+      TABVREA(37)=ALE%GRID%VGY
+      TABVREA(38)=ALE%GRID%VGZ
 C-----
 C      SPAOLD is not written into Rfile.
       TABVREA(39)=SPASORT
@@ -1856,36 +1850,36 @@ C      SPAOLD is not written into Rfile.
       TABVREA(61)=LAGM_TOL
       TABVREA(62)=LAG_ALPH
       TABVREA(63)=LAG_ALPHS
-       DO I=1,12
+      DO I=1,12
         TABVREA(63 + I)     = DTFAC1(I)
         TABVREA(63 + 12 +I) = DTMIN1(I)
-       ENDDO
-        TABVREA(88)  = BETA
-        TABVREA(89)  = BETATE
-        TABVREA(90)  = PERIOD
-        TABVREA(91)  = DMTMXS
-        TABVREA(92)  = DMNMXS
-        TABVREA(93)  = DMNMXS
-        TABVREA(94)  = DTIN
-        TABVREA(95)  = DTMX
-        TABVREA(96)  = MADUL
-        TABVREA(97)  = MADUT
-        TABVREA(98)  = MADUM
-        TABVREA(99)  = DTFSUB
-        TABVREA(100) = DTMSUB
-        TABVREA(101) = EPS
-        TABVREA(102) = EPS2
-        TABVREA(103) = CUPWM
+      ENDDO
+      TABVREA(88)  = BETA
+      TABVREA(89)  = BETATE
+      TABVREA(90)  = PERIOD
+      TABVREA(91)  = DMTMXS
+      TABVREA(92)  = DMNMXS
+      TABVREA(93)  = DMNMXS
+      TABVREA(94)  = DTIN               
+      TABVREA(95)  = DTMX               
+      TABVREA(96)  = MADUL              
+      TABVREA(97)  = MADUT              
+      TABVREA(98)  = MADUM              
+      TABVREA(99)  = ALE%SUB%DTFSUB
+      TABVREA(100) = ALE%SUB%DTMSUB
+      TABVREA(101) = EPS                
+      TABVREA(102) = EPS2               
+      TABVREA(103) = ALE%UPWIND%CUPWM  
 Cnoise
-        TABVREA(104) = TNOISE
-        TABVREA(105) = DTNOISE
+      TABVREA(104) = TNOISE
+      TABVREA(105) = DTNOISE
       TABVREA(106)=DWMAD
       LVARREA=106
       TABVREA(107)=FAC_MASS
       TABVREA(108)=FAC_LENGTH
       TABVREA(109)=FAC_TIME
       TABVREA(110)=T1SH
-      TABVREA(111) =  UPWSM
+      TABVREA(111) = ALE%UPWIND%UPWSM
       RVARINT = 111
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = TPSREF
@@ -2057,9 +2051,9 @@ C    BETATE_0, EINT_0,ENCIN_0,PIMAX ,PCMAX,PINT ,PCIN
       TABVREA(RVARINT) = NFIRST   
 C
       RVARINT  = RVARINT + 1
-      TABVREA(RVARINT) = VGY0            
+      TABVREA(RVARINT) = ALE%GRID%VGY0            
       RVARINT  = RVARINT + 1
-      TABVREA(RVARINT) = VGZ0
+      TABVREA(RVARINT) = ALE%GRID%VGZ0
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = ECONTD 
       RVARINT = RVARINT + 1

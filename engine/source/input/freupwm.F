@@ -44,6 +44,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,7 +58,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "scrupw_c.inc"
 #include      "nchar_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -73,44 +73,43 @@ C
        IF(KEY3(1:3)/='OFF' .AND. KEY3(1:2)/='ON')THEN
          READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A4)',ERR=9990)KEY2
          CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))  
-         READ(IUSC2,*,ERR=9990)CUPWM  
+         READ(IUSC2,*,ERR=9990)ALE%UPWIND%CUPWM  
        ELSEIF(KEY3(1:3)=='OFF')THEN
           ! /UPWM/SUPG/OFF (obsolete, replaced by /ALE/SUPG/OFF)
-           UPWM          = 0
-           UPW_UPDATE    = 0
-           I_SUPG_ON_OFF = 2
+           ALE%UPWIND%UPWM          = 0
+           ALE%UPWIND%UPW_UPDATE    = 0
+           ALE%UPWIND%I_SUPG_ON_OFF = 2
            RETURN
        ENDIF
 
-       IF(CUPWM==0.)CUPWM=1.
+       IF(ALE%UPWIND%CUPWM==0.)ALE%UPWIND%CUPWM=1.
        IF(KEY2(1:3)=='STD') THEN
-        UPWM=1
+         ALE%UPWIND%UPWM=1
        ELSEIF(KEY2(1:2)=='TG') THEN
-        UPWM=2
+         ALE%UPWIND%UPWM=2
        ELSEIF(KEY2(1:4)=='SUPG')THEN
-        I_SUPG_ON_OFF = 1
-        UPWM=3
-        CALL GET_KEYS_ID(TMPLINE, KEY2, KEY3,KEY4, ID)
-        IF(I_SUPG_ON_OFF==2)THEN
+         ALE%UPWIND%I_SUPG_ON_OFF = 1
+         ALE%UPWIND%UPWM=3
+         CALL GET_KEYS_ID(TMPLINE, KEY2, KEY3,KEY4, ID)
+        IF(ALE%UPWIND%I_SUPG_ON_OFF==2)THEN
          CALL ANCMSG(MSGID=034,ANMODE=ANINFO)
-         UPWM=0        
+         ALE%UPWIND%UPWM=0        
         ENDIF
        ELSE
         GOTO 9990
        ENDIF
       ELSE
-       IF(I_SUPG_ON_OFF /= 2)THEN
-         UPWM=3
-         CUPWM=1.
+       IF(ALE%UPWIND%I_SUPG_ON_OFF /= 2)THEN
+         ALE%UPWIND%UPWM=3
+         ALE%UPWIND%CUPWM=1.
        ELSE
-         UPWM=0
+         ALE%UPWIND%UPWM=0
        ENDIF
       ENDIF
 C
       RETURN
 C
  9990 CONTINUE
-      CALL ANCMSG(MSGID=73,ANMODE=ANINFO,
-     .            C1=KEY0(IKEY))
+      CALL ANCMSG(MSGID=73,ANMODE=ANINFO,C1=KEY0(IKEY))
       CALL ARRET(0)
       END

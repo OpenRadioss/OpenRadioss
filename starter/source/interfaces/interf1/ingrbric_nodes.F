@@ -33,6 +33,10 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE INGRBRIC_NODES(MSN,NOINT,IBUFSSG,ITAB,MSV, IXS, NBRIC,IFLAG, NALE, IPM, BUFMAT, S_MSV)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -44,7 +48,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
-#include      "alesolver.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -82,7 +85,7 @@ C-----------------------------------------------
       ENDDO
       !TAG NODES - remove nodes from boundary materials (law11, & law51 iform=2,3,4,5,6)
       ! (do not loop unnecessarily otherwise)
-      IF(IS_BOUNDARY_MATERIAL)THEN
+      IF(ALE%GLOBAL%IS_BOUNDARY_MATERIAL)THEN
         DO I=1,NBRIC
           IELEM = IBUFSSG(I)
           IS_ELEM_A_BOUNDARY_MAT = .FALSE.

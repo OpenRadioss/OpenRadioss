@@ -50,6 +50,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE I22BUFBRIC_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,6 +69,7 @@ C-----------------------------------------------
 #include      "scr06_c.inc"
 #include      "impl1_c.inc"
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "inter22.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
@@ -75,12 +77,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(*), MAT(*), IS_MAT_BCS, IB,NIN,MCELL
       
-      my_real
-     .  PM(NPROPM,*),VOLO(*), RHON(*),EINT(*),FLUX(6,*), FLU1(*),
-     .  VOLN(*), DVOL(*),DIVDE(*),OFF(*),TAG22(*),
-     .  AMU(*) ,OFFG(*)
-      DOUBLE PRECISION 
-     .   VOLDP(*),VOL0DP(*),DVDP
+      my_real PM(NPROPM,NUMMAT),VOLO(*), RHON(*),EINT(*),FLUX(6,*), FLU1(*),
+     .        VOLN(*), DVOL(*),DIVDE(*),OFF(*),TAG22(*),AMU(*) ,OFFG(*)
+      DOUBLE PRECISION VOLDP(*),VOL0DP(*),DVDP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -90,21 +89,21 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       RHON_OLD(LFT:LLT)=RHON(LFT:LLT)
-      IF(INCOMP==1 .AND. JEUL+JALE==1)THEN
-        MX            = MAT(LFT)
-        RHO0          = PM(1,MX)
-        E0            = PM(23,MX)
+      IF(ALE%GLOBAL%INCOMP==1 .AND. JEUL+JALE==1)THEN
+        MX        = MAT(LFT)
+        RHO0      = PM(1,MX)
+        E0        = PM(23,MX)
         DO I=LFT,LLT
-          DVV         = DIVDE(I)
-          RHON(I)     = RHON(I)-DVV*RHO0
-          VAVG        = HALF*(VOLN(I)+VOLO(I))
-          DVOL(I)     = VAVG*DVV
-          EINT(I)     = EINT(I)*VOLO(I)-E0*DVV*VAVG
+          DVV     = DIVDE(I)
+          RHON(I) = RHON(I)-DVV*RHO0
+          VAVG    = HALF*(VOLN(I)+VOLO(I))
+          DVOL(I) = VAVG*DVV
+          EINT(I) = EINT(I)*VOLO(I)-E0*DVV*VAVG
         ENDDO
       ELSE
         IF(JLAG/=0)THEN
-          MX          = MAT(LFT)
-          RHO0        = PM(1,MX)
+          MX      = MAT(LFT)
+          RHO0    = PM(1,MX)
 C--- due to /INIBRI/EREF        
           IF (TT==ZERO) THEN
            IF (ISMSTR==11) THEN
@@ -173,7 +172,7 @@ C             write(*,FMT='(A,I10,A,F30.16)') "brick id =", NGL(I), "   mass= ",
         ENDIF!INT22 
         !-----------------!        
                                                                                                                      
-      ENDIF!IF(INCOMP==1 .AND. JEUL+JALE==1)THEN
+      ENDIF!IF(ALE%GLOBAL%INCOMP==1 .AND. JEUL+JALE==1)THEN
 
       IF(JALE+JEUL/=0)THEN
        COUNT=0
@@ -215,7 +214,7 @@ C---------VOLN(I)=VOLO(I) for small strain excepting initial stat case
        ENDDO
       ENDIF
 C      
-      IF((INCOMP/=1 .OR. (JEUL+JALE)/=1).AND.JLAG/=0.AND.N2D==0
+      IF((ALE%GLOBAL%INCOMP/=1 .OR. (JEUL+JALE)/=1).AND.JLAG/=0.AND.N2D==0
      .     .AND.IMPL_S==0.AND.ISMSTR/=1.AND.ISMSTR/=3.AND.ISMSTR/=11)THEN
        IF(IRESP==1)THEN
 C------VOLDP doesn't change after switching to small strain,modifying VOL0DP to      

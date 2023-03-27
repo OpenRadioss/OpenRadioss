@@ -41,6 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD  
       USE ANIM_MOD   
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,9 +103,8 @@ C-----------------------------------------------
         IF(IMSCH>0) DT_CST = 1
       ENDIF
       IF ((IRAD2R==1).AND.(NCYCLE<2)) DT_CST = 1
-      IF ((IALESUB/=0).OR.(IALE/=0).OR.(ISUB>0).OR.
-     .    (TT>=TANIM .AND. TT<=TANIM_STOP).OR.
-     .    TT>=TOUTP.OR.
+      IF ((ALE%SUB%IALESUB/=0).OR.(IALE/=0).OR.(ISUB>0).OR.
+     .    (TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
      .    (MANIM>=1.AND.MANIM<=15)) THEN
         NEW_D = 1
         IF(IALE/=0.AND.NINTER>0) NEW_D = 2

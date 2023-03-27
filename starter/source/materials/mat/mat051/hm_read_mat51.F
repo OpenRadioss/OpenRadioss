@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,7 +89,6 @@ C-----------------------------------------------
 #include      "submod_c.inc"
 #include      "param_c.inc"
 #include      "mmale51_c.inc"
-#include      "alesolver.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -335,7 +335,7 @@ C-----------------------------------------------
       ! IFLG == 2                  !
       !============================!
       CASE(2)
-        IS_BOUNDARY_MATERIAL = .TRUE.
+        ALE%GLOBAL%IS_BOUNDARY_MATERIAL = .TRUE.
         CALL HM_GET_FLOATV('SCALE'       ,ABCS        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('PEXT'        ,PEXT        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('VEL_in'      ,VEL         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -362,7 +362,7 @@ C-----------------------------------------------
       !============================!
       CASE(3)
         !OBSOLETE use IFLG=6 instead
-        IS_BOUNDARY_MATERIAL = .TRUE.
+        ALE%GLOBAL%IS_BOUNDARY_MATERIAL = .TRUE.
         CALL ANCMSG(MSGID   = 75              ,
      .              MSGTYPE = MSGWARNING      ,
      .              ANMODE  = ANINFO_BLIND_1
@@ -379,7 +379,7 @@ C-----------------------------------------------
       ! IFLG == 4                  !
       !============================!
       CASE(4)
-        IS_BOUNDARY_MATERIAL = .TRUE.
+        ALE%GLOBAL%IS_BOUNDARY_MATERIAL = .TRUE.
         CALL HM_GET_FLOATV('SCALE'       ,ABCS        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('PEXT'        ,PEXT        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         DO I=1,3
@@ -400,7 +400,7 @@ C-----------------------------------------------
       ! IFLG == 5                  !
       !============================!
       CASE(5)
-        IS_BOUNDARY_MATERIAL = .TRUE.
+        ALE%GLOBAL%IS_BOUNDARY_MATERIAL = .TRUE.
         CALL HM_GET_FLOATV('SCALE'       ,ABCS        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('PEXT'        ,PEXT        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         DO I=1,3
@@ -420,7 +420,7 @@ C-----------------------------------------------
       ! IFLG == 6                  !
       !============================!
       CASE(6)
-        IS_BOUNDARY_MATERIAL = .TRUE.
+        ALE%GLOBAL%IS_BOUNDARY_MATERIAL = .TRUE.
         M51_IFLG6 = 1
         IERROR = 0
         CALL HM_GET_FLOATV('PEXT'        ,PEXT         ,IS_AVAILABLE, LSUBMODEL, UNITAB)

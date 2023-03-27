@@ -34,6 +34,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE UNITAB_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,7 +44,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com07_c.inc"
 #include      "param_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
@@ -56,7 +56,6 @@ C-----------------------------------------------
 #include      "tabsiz_c.inc"
 #include      "random_c.inc"
 #include      "sphcom.inc"
-#include      "fluid_scr_c.inc"
 #include      "sms_c.inc"
 #include      "sysunit.inc"
 #include      "eigcom.inc"
@@ -355,7 +354,7 @@ C
         CALL QAPRINT('CAA',0,0.0_8)
 
         WRITE(VARNAME,'(A,I0)') 'ICAA'
-        TEMP_INT = ICAA
+        TEMP_INT = ALE%GLOBAL%ICAA
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
 C
       END IF
@@ -497,19 +496,19 @@ C     /ALE/GRID/ *
 C----------------------------------------------
       OK_QA = MYQAKEY('/ALE/GRID')
       IF (OK_QA) THEN
-         TEMP_DOUBLE = ALPHA
+         TEMP_DOUBLE = ALE%GRID%ALPHA
          WRITE(VARNAME,'(A)') 'ALPHA_'
          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
-         TEMP_DOUBLE = GAMMA
+         TEMP_DOUBLE = ALE%GRID%GAMMA
          WRITE(VARNAME,'(A)') 'GAMMA_'
          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
-         TEMP_DOUBLE = VGX
+         TEMP_DOUBLE = ALE%GRID%VGX
          WRITE(VARNAME,'(A)') 'VGX_'
          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
-         TEMP_DOUBLE = VGY
+         TEMP_DOUBLE = ALE%GRID%VGY
          WRITE(VARNAME,'(A)') 'VGY_'
          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
-         TEMP_DOUBLE = VGZ
+         TEMP_DOUBLE = ALE%GRID%VGZ
          WRITE(VARNAME,'(A)') 'VGZ_'
          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
       ENDIF
@@ -531,13 +530,13 @@ C     /UPWIND
 C----------------------------------------------
       OK_QA = MYQAKEY('/UPWIND')
       IF (OK_QA) THEN
-         TEMP_DOUBLE = UPWMG
+         TEMP_DOUBLE = ALE%UPWIND%UPWMG
          WRITE(VARNAME,'(A)') 'UPCOEF1_'
          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
-         TEMP_DOUBLE = UPWOG
+         TEMP_DOUBLE = ALE%UPWIND%UPWOG
          WRITE(VARNAME,'(A)') 'UPCOEF2_'
          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
-         TEMP_DOUBLE = UPWSM
+         TEMP_DOUBLE = ALE%UPWIND%UPWSM
          WRITE(VARNAME,'(A)') 'UPCOEF3_'
          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
       ENDIF

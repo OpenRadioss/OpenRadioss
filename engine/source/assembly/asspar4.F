@@ -42,8 +42,11 @@ Chd|====================================================================
      8  DMSPH   ,CONDN,CONDNSKY,CONDNSKYI,MS_2D,ICNDS10 ,
      A  STIFND  ,FORNEQS ,FORNEQSKY,NFACNIT,NODFT_2,
      B  NODLT_2)
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE PLYXFEM_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +64,7 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "scr18_c.inc"
 #include      "sphcom.inc"
-#include      "vale_c.inc"
+C-----------------------------------------------
       INTEGER MAXBLOC,NBLOC,NBVAL,NBCOL,NFACNIT
       PARAMETER (MAXBLOC=1000)
       COMMON/PTMPARIT/NBLOC,NBVAL(1:MAXBLOC),NBCOL(1:MAXBLOC)
@@ -119,7 +122,7 @@ C-----------------------------------------------
           KK = NBVAL(LB)
           IF (NC==1) THEN
             IF(ITHERM_FE == 0 ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -165,7 +168,7 @@ C-----------------------------------------------
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -216,7 +219,7 @@ C-----------------------------------------------
             ENDIF
           ELSEIF(NC==2) THEN
             IF(ITHERM_FE == 0 ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -262,7 +265,7 @@ C-----------------------------------------------
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -314,7 +317,7 @@ C-----------------------------------------------
 C
           ELSEIF(NC==3) THEN
             IF(ITHERM_FE == 0 ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -386,7 +389,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -466,7 +469,7 @@ C
             ENDIF
           ELSEIF(NC==4) THEN
             IF(ITHERM_FE == 0 ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -538,7 +541,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -618,7 +621,7 @@ C
             ENDIF
           ELSEIF(NC==5) THEN
             IF(ITHERM_FE == 0 ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -716,7 +719,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -826,7 +829,7 @@ C
 C
           ELSEIF(NC==6) THEN
             IF(ITHERM_FE == 0 ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -924,7 +927,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -1033,7 +1036,7 @@ C
             ENDIF
           ELSEIF(NC==7) THEN
             IF(ITHERM_FE == 0  ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -1157,7 +1160,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -1295,7 +1298,7 @@ C
             ENDIF
           ELSEIF(NC==8) THEN
             IF(ITHERM_FE == 0  ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -1419,7 +1422,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -1557,7 +1560,7 @@ C
             ENDIF
           ELSEIF(NC==9) THEN
             IF(ITHERM_FE == 0  ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -1707,7 +1710,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -1876,7 +1879,7 @@ C
 C
           ELSEIF(NC==10) THEN
             IF(ITHERM_FE == 0  )THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2027,7 +2030,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2195,7 +2198,7 @@ C
 C
           ELSEIF(NC==11) THEN
             IF(ITHERM_FE == 0  ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2247,7 +2250,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2305,7 +2308,7 @@ C
 C
           ELSEIF(NC==12) THEN
             IF(ITHERM_FE == 0  ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2357,7 +2360,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2414,7 +2417,7 @@ C
             ENDIF
           ELSEIF(NC==13) THEN
             IF(ITHERM_FE == 0  ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2466,7 +2469,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2523,7 +2526,7 @@ C
             ENDIF
           ELSEIF(NC==14) THEN
             IF(ITHERM_FE == 0  ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2575,7 +2578,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2632,7 +2635,7 @@ C
             ENDIF
           ELSEIF(NC==15) THEN
             IF(ITHERM_FE == 0  )THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2684,7 +2687,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2741,7 +2744,7 @@ C
             ENDIF
           ELSEIF(NC==16) THEN
             IF(ITHERM_FE == 0  ) THEN
-              IF(N2D/=0.OR.IFSUBM==0)THEN
+              IF(N2D/=0.OR.ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2793,7 +2796,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2850,7 +2853,7 @@ C
             ENDIF
           ELSEIF(NC==17) THEN
             IF(ITHERM_FE == 0  ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2902,7 +2905,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2960,7 +2963,7 @@ C
             ENDIF
           ELSEIF(NC==18) THEN
             IF(ITHERM_FE == 0  )THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -3013,7 +3016,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -3070,7 +3073,7 @@ C
             ENDIF
           ELSEIF(NC==19) THEN
             IF(ITHERM_FE == 0  )THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -3122,7 +3125,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -3179,7 +3182,7 @@ C
             ENDIF
           ELSEIF(NC==20) THEN
             IF(ITHERM_FE == 0 ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -3231,7 +3234,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -3288,7 +3291,7 @@ C
             ENDIF
           ELSE
             IF(ITHERM_FE == 0 ) THEN
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
                   NCT = ADDCNE(N)
@@ -3337,7 +3340,7 @@ C
                 ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM==0)THEN
+              IF(ALE%SUB%IFSUBM==0)THEN
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
                   NCT = ADDCNE(N)
@@ -3397,7 +3400,7 @@ C
 C
 C scalaire
         IF(ITHERM_FE == 0 ) THEN
-          IF(IFSUBM==0)THEN
+          IF(ALE%SUB%IFSUBM==0)THEN
             DO N = NODFT_2, NODLT_2
               NCT = ADDCNE(N)-1
               NC = ADDCNE(N+1)-ADDCNE(N)
@@ -3449,7 +3452,7 @@ C
           ENDIF
         ELSE
           IF(NODADT_THERM == 1) THEN
-            IF(IFSUBM==0)THEN
+            IF(ALE%SUB%IFSUBM==0)THEN
               DO N = NODFT_2, NODLT_2
                 NCT = ADDCNE(N)-1
                 NC = ADDCNE(N+1)-ADDCNE(N)
@@ -3504,7 +3507,7 @@ C
               ENDDO
             ENDIF
           ELSE
-            IF(IFSUBM==0)THEN
+            IF(ALE%SUB%IFSUBM==0)THEN
               DO N = NODFT_2, NODLT_2
                 NCT = ADDCNE(N)-1
                 NC = ADDCNE(N+1)-ADDCNE(N)
@@ -3608,7 +3611,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 
-      IF( (N2D/=0).OR.(IFSUBM==1).OR.(IALELAG > 0) ) CALL MY_BARRIER
+      IF( (N2D/=0).OR.(ALE%SUB%IFSUBM==1).OR.(IALELAG > 0) ) CALL MY_BARRIER
 
 C masse stocke dans FSKY(1) et A(1) utilise pour cumul en 2D
       IF(N2D/=0) THEN
@@ -3617,7 +3620,7 @@ C masse stocke dans FSKY(1) et A(1) utilise pour cumul en 2D
           MS(I) = A(1,I)
           A(1,I) = ZERO
         ENDDO
-      ELSEIF(IFSUBM==1)THEN
+      ELSEIF(ALE%SUB%IFSUBM==1)THEN
 #include "vectorize.inc"
         DO I = NODFT, NODLT
           MS(I) = MS(I) + MSNF(I)

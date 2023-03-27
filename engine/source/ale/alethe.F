@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE SEGVAR_MOD        
       USE ALE_CONNECTIVITY_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,7 +81,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "conv_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -247,13 +247,13 @@ c---------specific to law81
 C-----------------------------
 C       MASS & ENERGY CONVECTION
 C-----------------------------
-         DO NVAR=LCONV,1,-1
+         DO NVAR=ALE%GLOBAL%LCONV,1,-1
           !1     : Mass
           !2     : Energy
           !3,4   : Turbulency
           !5     : law37 massic fraction
           !6,7,8 : MomX, MomY, MomZ (ALE with Full FVM)
-           IF((NVAR /= 9.AND.CODV(NVAR) /= 0))THEN
+           IF((NVAR /= 9.AND.ALE%GLOBAL%CODV(NVAR) /= 0))THEN
               CALL ACONVE(
      1                    IPARG       ,ELBUF_TAB ,FLUX    , VAL2     ,PHI     ,
      2                    ALE_CONNECT ,NVAR      ,ITASK   , NERCVOIS ,NESDVOIS,

@@ -186,6 +186,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
       USE PINCHTYPE_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -220,7 +221,7 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "sms_c.inc"
 #include      "thermal_c.inc" 
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -228,13 +229,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER   I,NVAR,M16STAK,NPE,NIPMAX,NPSAV_OLD
-      my_real
-     .          PROBINT
+      INTEGER I,NVAR,M16STAK,NPE,NIPMAX,NPSAV_OLD
+      my_real PROBINT
 C-----------------------------------------------
 C
       PINCH_DATA%SAPINCH = 0
-C ipari0 defini dans le starter
+C ipari0 from starter
       IF(IPARIT==-1)IPARIT=IPARI0
 C
       IF(ICRACK3D > 0)THEN
@@ -243,7 +243,6 @@ C
 C
       IF(IMACH==3.AND.IPARI0==0.AND.IPARIT==1) THEN
         IF(ISPMD==0)THEN
-C Parith/on necessite Parith/ON anterieur en SPMD (structures de donnees additionnelles)
           WRITE(ISTDO,*)' **WARNING PARALLEL ARITHMETIC DISABLED'
           WRITE(IOUT,*)' **WARNING PREVIOUS RUN WITHOUT PARITH/ON'
           WRITE(IOUT,*)' **PARALLEL ARITHMETIC IS NO MORE ACTIVABLE'
@@ -251,22 +250,21 @@ C Parith/on necessite Parith/ON anterieur en SPMD (structures de donnees additio
         IPARIT=0
       ENDIF
 
-C calcul de NISKY0 dans ts les cas
       NISKY0 = 8*NUMELS   + 4*NUMELQ    + 4*NUMELC   + 2*NUMELT  +
      .         2*NUMELP   + 3*NUMELR    + 3*NUMELTG  + 
      .         6*NUMELS10 + 12*NUMELS20 + 8*NUMELS16 + 3*NUMELTG6
       LCNEL = NISKY0
       IF(IMACH==3) THEN
-C rajout des surfaces de MV comme des elts pour parith/on SPMD
+C adding surfaces for MV as elems for parith/on SPMD
           NISKY0 = NISKY0 + 4*NSKYMV0
-C rajout des pressure loads calculee comme des elts pour parith/on SPMD
+C pressure loads 
           NISKY0 = NISKY0 + 4*NCONLD
-C rajout des flux thermiques
+C thermal fluxes
           NISKY0 = NISKY0 + 4*NUMCONV + 4*NUMRADIA + 4*NFXFLUX
           NISKY0 = NISKY0 + SLLOADP
       END IF
 C
-C Parith/ON en SPMD
+C Parith/ON + SPMD
       IF(NUMSPH/=0.AND.IMACH/=3) IPARIT=0
 C
       IF(IMACH==3.AND.IPARIT>=1) IPARIT=1
@@ -281,8 +279,9 @@ C
 C-------------------------------------------
 C     IPARITH
 C-------------------------------------------
-C AR=AM(M73) PLACE RECUPERABLE SI IRODDL=0 A CONDITION DE VERIFIER 
-C LES ROUTINES DE FORCES CONCENTEES ET DE VITESSES IMPOSEES
+C AR=AM(M73) MIGHT BE USABLE IF IRODDL=0  
+C
+C CONTENTRATED LOADS AND FORCES
 C
       NPSAV_OLD = NPSAV
       IF(NPSAV==0)NPSAV_OLD = 23
@@ -292,21 +291,16 @@ C
         SA  = 3*NUMNOD+9*NUMNOD*NTHREAD
         SAR = 3*NUMNOD+9*NUMNOD*NTHREAD
         SSTIFN = NUMNOD+3*NUMNOD*NTHREAD
-C   j ai un doute sur SVISCN - et du flag KDTINT
         SVISCN = NUMNOD+3*NUMNOD*NTHREAD
         SSTIFR = NUMNOD*IRODDL+3*NUMNOD*NTHREAD*IRODDL
-C non supported option w/IPARIT=3
         SDMSPH = 0
         SPARTSAV = NPSAV*(NPART+NTHPART)*NTHREAD
         SFSKY = 0
         SFSKYM = 0
         SFSKYD = 0
         SISKY    = 0
-
         PROBINT=0.5
-        LSKYI_SMS = MAX(NINT(5*MAX(4*NUMNOD,IMAXIMP)*PROBINT)
-     +           +4*(NUMSPH+NSKYI18)+LCNI2,ISUMNX)
-
+        LSKYI_SMS = MAX(NINT(5*MAX(4*NUMNOD,IMAXIMP)*PROBINT)+4*(NUMSPH+NSKYI18)+LCNI2,ISUMNX)
         SADSKY   = 0
         SPROCNE  = 0
         SADDCNI2 = 0
@@ -330,7 +324,6 @@ C non supported option w/IPARIT=3
         SA  = 3*NUMNOD
         SAR = 3*NUMNOD
         SSTIFN = NUMNOD
-C   j ai un doute sur SVISCN - et du flag KDTINT
         SVISCN = NUMNOD
         SSTIFR = NUMNOD
         IF(SOL2SPH_FLAG/=0) THEN
@@ -462,23 +455,18 @@ C
         SPROCNCND = 0
         SIADCND   = 0
        END IF
-
-C Si quasi compressible variables non necessaires
-      IF(INCOMP==0)THEN
-
-        SVAL2=
-     +  MAX(IALE,ITHERM,IEULER,IALELAG)*(NUMELS+NUMELQ+NUMELTG+NSVOIS+NQVOIS+NTGVOIS)
-     *  *MAX(1,NMULT)
-
-C tableau temporaire phi et valeur segsurf
-         SPHI = MAX(IALE,ITHERM,IEULER,IALELAG)*( NUMELS + NUMELQ + NUMELTG +
-     *                                            NSVOIS + NQVOIS + NTGVOIS + NSEGFLU )
+C
+      IF(ALE%GLOBAL%INCOMP==0)THEN
+        SVAL2=MAX(IALE,ITHERM,IEULER,IALELAG)*(NUMELS+NUMELQ+NUMELTG+NSVOIS+NQVOIS+NTGVOIS)*MAX(1,NMULT)
+        ! working array phi & segsurf
+        SPHI = MAX(IALE,ITHERM,IEULER,IALELAG)*( NUMELS + NUMELQ + NUMELTG + NSVOIS + NQVOIS + NTGVOIS + NSEGFLU )
       ELSE
         SVAL2 = 0
         SPHI = 0
       ENDIF
       SR = 0
       SESTIF = 0
+      
 C-------------------------------------------
 C     LINK
 C-------------------------------------------
@@ -495,19 +483,16 @@ C-------------------------------------------
       ELSE
          SIADRL = 0
       ENDIF
-      !SLINALE= SLINALE + LLINAL
-C-------------------------------------------
-C     IMPLICIT
-C-------------------------------------------
+
 C---------------------------------------------------------
-C     FLUX ET ROTATION
+C     /FLSEC (FLOW SECTION, obsolete option)
 C---------------------------------------------------------
       SCRFLSW = 9*NSFLSW
       SFLSW   = 6*NSFLSW
       SNEFLSW = 1*NSFLSW
       SNNFLSW = 8*NTFLSW
 C---------------------------------------------------------
-C     ANIMATION (VECTEURS CONTACT,FORCES INTERNES,FORCES EXTERNES)
+C     ANIMATION (vectors for CONTACT,INTERNAL FORCES, EXTERNAL FORCES)
 C     CUTS NOISE 
 C---------------------------------------------------------
       SFANI = 3*NUMNOD*(
@@ -526,10 +511,8 @@ C---------------------------------------------------------
      .                MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT)
      .              + MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
      .              + MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
-     .          + NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13))
-     .              + 2 * NUMNOD * MIN(1,ANIM_N(15)*ANIM_N(16)+H3D_DATA%N_SCAL_DAMA2)
-      STANI = 6*(NUMELC+NUMELTG)*IEPSDOT 
-     .          + 15*(NUMELT+NUMELP+NUMELR)*(MAX(ANIM_FT(1),H3D_DATA%UND_FORC))
+     .              + NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13)) + 2*NUMNOD*MIN(1,ANIM_N(15)*ANIM_N(16)+H3D_DATA%N_SCAL_DAMA2)
+      STANI = 6*(NUMELC+NUMELTG)*IEPSDOT + 15*(NUMELT+NUMELP+NUMELR)*(MAX(ANIM_FT(1),H3D_DATA%UND_FORC))
 C
       SSECFCUM = 7*NUMNOD*NSECT*ISECUT
 C     Work Array private to sph : WAPSH(LWASPH)

@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +56,6 @@ C-----------------------------------------------
 #include "param_c.inc"
 #include "com01_c.inc"
 #include "com04_c.inc"
-#include "ale_param.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -70,7 +70,7 @@ C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE
 
 !     Initializations
-      NWALE = 0
+      ALE%GRID%NWALE = 0
       ALPHA = ZERO
       GAMMA = ZERO
       VGX = ZERO
@@ -84,7 +84,7 @@ C-----------------------------------------------
       DO II = 1, NALE_GRID
          CALL HM_OPTION_READ_KEY(LSUBMODEL, KEYWORD3 = KEY)
          IF (KEY(1:5) == 'DONEA') THEN
-            IF(NUMTETRA4 > 0) NALENOVS=12
+            IF(NUMTETRA4 > 0) ALE%GLOBAL%NALENOVS=12
             CALL HM_GET_FLOATV('Alpha', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('GAMMA', GAMMA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('VEL_X', VGX, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -96,7 +96,7 @@ C-----------------------------------------------
             IF (VGY == ZERO) VGY = ONE
             IF (VGZ == ZERO) VGZ = ONE
          ELSEIF (KEY(1:4) == 'DISP') THEN
-            NWALE = 1
+            ALE%GRID%NWALE = 1
             CALL HM_GET_FLOATV('MAT_EPS', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('VEL_X', VGX, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('VEL_Y', VGY, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -111,7 +111,7 @@ C-----------------------------------------------
                CALL ANCMSG(MSGID = 787, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .              C1='SPRING')
             ENDIF 
-            NWALE = 2
+            ALE%GRID%NWALE = 2
             VGZ = ZERO
             CALL HM_GET_FLOATV('deltaT', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('MAT_GAMA0', GAMMA, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -122,7 +122,7 @@ C-----------------------------------------------
             DT_INPUT = ALPHA
             ALPHA = ALPHA / (-VGX + SQRT(VGX * VGX + ONE))
          ELSEIF (KEY(1:8) == 'STANDARD') THEN
-            NWALE = 4
+            ALE%GRID%NWALE = 4
             CALL HM_GET_FLOATV('deltaT_min', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('MAT_GAMAi', GAMMA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('DAMP4', VGX, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -139,9 +139,9 @@ C-----------------------------------------------
      .              C1='** NON-LINEAR FACTOR MUST BE BETWEEN 0 AND 1 (2ND FIELD)')
             ENDIF
          ELSEIF (KEY(1:4) == 'ZERO') THEN
-            NWALE = 3
+            ALE%GRID%NWALE = 3
          ELSEIF (KEY(1:9) == 'LAPLACIAN') THEN
-            NWALE = 5
+            ALE%GRID%NWALE = 5
             CALL HM_GET_FLOATV('LAMBDA', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_INTV('Niter', NITER, IS_AVAILABLE, LSUBMODEL)
             GAMMA = ZERO
@@ -152,16 +152,16 @@ C-----------------------------------------------
             IF (GAMMA /= ONE .AND. GAMMA /= TWO) GAMMA = ONE
             IF (VGX <= ZERO) VGX = ONE
          ELSEIF (KEY(1:6) == 'VOLUME') THEN
-            NWALE = 6
+            ALE%GRID%NWALE = 6
          ENDIF
         
       ENDDO
       
        ! NO /ALE/GRID formulation => DEFAULT = DONEA & its default values are set here
-       IF(NWALE==0 .OR. NWALE==-1)THEN
-         NWALE=0
+       IF(ALE%GRID%NWALE==0 .OR. ALE%GRID%NWALE==-1)THEN
+         ALE%GRID%NWALE=0
          CALL HM_OPTION_COUNT('/TETRA4', NTETRA4)
-         IF(NTETRA4 > 0) NALENOVS=12              
+         IF(NTETRA4 > 0) ALE%GLOBAL%NALENOVS=12              
          IF(GAMMA == ZERO) GAMMA=HUNDRED
          IF(VGX == ZERO)   VGX=ONE
          IF(VGY == ZERO)   VGY=ONE

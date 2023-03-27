@@ -36,6 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------      
       USE ALE_CONNECTIVITY_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -54,7 +55,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com07_c.inc"
 #include      "com08_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
@@ -70,7 +70,6 @@ C-----------------------------------------------
      .        LNRCVOIS(*),LNSDVOIS(*),ITAB(NUMNOD)
       my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3)     
       TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT
-
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -116,12 +115,12 @@ C  SPMD : COMM D
             DY = FAC * (DY_MAX + DY_MIN - TWO * D(2, I))
             DZ = FAC * (DZ_MAX + DZ_MIN - TWO * D(3, I))
 
-            DX=VGX*DX
-            DY=VGY*DY
-            DZ=VGZ*DZ
-            W(1,I)=SIGN(ONE,DX)*MIN(ABS(DX),ALPHA)
-            W(2,I)=SIGN(ONE,DY)*MIN(ABS(DY),ALPHA)
-            W(3,I)=SIGN(ONE,DZ)*MIN(ABS(DZ),ALPHA)
+            DX=ALE%GRID%VGX*DX
+            DY=ALE%GRID%VGY*DY
+            DZ=ALE%GRID%VGZ*DZ
+            W(1,I)=SIGN(ONE,DX)*MIN(ABS(DX),ALE%GRID%ALPHA)
+            W(2,I)=SIGN(ONE,DY)*MIN(ABS(DY),ALE%GRID%ALPHA)
+            W(3,I)=SIGN(ONE,DZ)*MIN(ABS(DZ),ALE%GRID%ALPHA)
          ELSEIF(NALE(I) == 0)THEN
             W(1,I)=V(1,I)
             W(2,I)=V(2,I)

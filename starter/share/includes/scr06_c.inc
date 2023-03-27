@@ -20,12 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C.../SCR06R/
-      COMMON /SCR06R/ HVISC, HELAS, REEL, BMUL0, UPWMG, UPWOG
-C     REAL ou REAL*8
-      my_real
-     .   HVISC, HELAS, REEL, BMUL0,UPWMG, UPWOG
-C.../SCR06/ 
-      COMMON /SCR06/ IALESUB, INCOMP
-      INTEGER IALESUB, INCOMP
+
+      COMMON /SCR06R/ HVISC, HELAS, REEL, BMUL0 
+      my_real         HVISC, HELAS, REEL, BMUL0
 

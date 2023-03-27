@@ -15,20 +15,20 @@ Copyright>        You should have received a copy of the GNU Affero General Publ
 Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Copyright>    
 Copyright>    
-Copyright>        Commercial Alternative: Altair Radioss Software 
+Copyright>        Commercial Alternative: Altair Radioss Software nod
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../SCR06/
-      COMMON /SCR06/ INERI, IPLAST, IOFC0, ISHF, NCINP, IALESUB,
-     .               INCOMP, ISHSUB, NODSUBDT,IREPORT,IH3DREADER,IHTML,
+      COMMON /SCR06/ INERI, IPLAST, IOFC0, ISHF, NCINP, 
+     .               ISHSUB, IREPORT,IH3DREADER,IHTML,
      .               IMVW,IMVW_REF,NINTSKIDOLD,ANIMCONT
-      COMMON /SCR06R/ HVISC, HELAS, HVLIN, DTFSUB, DTMSUB,DT12S,
+      COMMON /SCR06R/ HVISC, HELAS, HVLIN, DT12S,
      .        DMTMXS,DMNMXS,DEMXS,DMTMXK,DMNMXK,DEMXK
-      INTEGER INERI, IPLAST, IOFC0, ISHF, NCINP, IALESUB,
-     .        INCOMP, ISHSUB, NODSUBDT,IREPORT,IH3DREADER,IHTML,
+      INTEGER INERI, IPLAST, IOFC0, ISHF, NCINP, 
+     .        ISHSUB, IREPORT,IH3DREADER,IHTML,
      .        IMVW,IMVW_REF,NINTSKIDOLD,ANIMCONT
       my_real 
-     .        HVISC, HELAS, HVLIN, DTFSUB, DTMSUB,DT12S,
+     .        HVISC, HELAS, HVLIN, DT12S,
      .        DMTMXS,DMNMXS,DEMXS,DMTMXK,DMNMXK,DEMXK

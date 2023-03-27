@@ -32,6 +32,10 @@ Chd|====================================================================
      4                 PSH  ,DVOL ,DF   ,QNEW ,PNEW ,VIS  ,
      5                 TMU  ,EINC ,MLN  ,VOL_AVG ,NEL)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -47,14 +51,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MLN,NEL
-      my_real
-     .   OFF(*), SNEW(NEL,6), QOLD(*), EINT(*)
-      my_real
-     .   VNEW(*), ESPE(*), QNEW(*), PNEW(*), SOLD1(*), SOLD2(*),
-     .   SOLD3(*), SOLD4(*), SOLD5(*), SOLD6(*), 
-     .   DVOL(*), DF(*), D1(*), D2(*), D3(*), D4(*), D5(*),
-     .   D6(*), PSH(*), EINC(*),
-     .   VIS(*), TMU(*), VOL_AVG(*)
+      my_real OFF(*), SNEW(NEL,6), QOLD(*), EINT(*)
+      my_real VNEW(*), ESPE(*), QNEW(*), PNEW(*), SOLD1(*), SOLD2(*),
+     .        SOLD3(*), SOLD4(*), SOLD5(*), SOLD6(*), 
+     .        DVOL(*), DF(*), D1(*), D2(*), D3(*), D4(*), D5(*),
+     .        D6(*), PSH(*), EINC(*),
+     .        VIS(*), TMU(*), VOL_AVG(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -65,15 +67,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real
-     .   POLD(MVSIZ), VAVG, 
-     .   E1, E2, E3, E4, E5, E6,
-     .   DTA, TFEXTT   
+      my_real POLD(MVSIZ), VAVG, E1, E2, E3, E4, E5, E6, DTA, TFEXTT   
 C-----------------------------------------------
-C
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       DTA =HALF*DT1
 C
-      IF(INCOMP==1.AND. JLAG==0)THEN
+      IF(ALE%GLOBAL%INCOMP==1 .AND. JLAG==0)THEN
         DO I=LFT,LLT
           POLD(I)=(SOLD1(I)+SOLD2(I)+SOLD3(I))*THIRD
           EINT(I)=EINT(I)+(HALF*DVOL(I)*(POLD(I)-PSH(I)))*OFF(I)
@@ -105,7 +105,7 @@ C
        ENDDO
       ELSE
        DO I=LFT,LLT
-         EINT(I)=EINT(I)  +  (EINC(I)*(VIS(I)-TMU(I))/VIS(I)  +  HALF*DVOL(I)*(POLD(I)-PSH(I)-QOLD(I)-QNEW(I)))*OFF(I)
+         EINT(I)=EINT(I) + (EINC(I)*(VIS(I)-TMU(I))/VIS(I) + HALF*DVOL(I)*(POLD(I)-PSH(I)-QOLD(I)-QNEW(I)))*OFF(I)
        ENDDO
       ENDIF
 C

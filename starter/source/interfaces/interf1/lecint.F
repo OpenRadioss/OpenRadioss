@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
+      USE ALE_MOD
 C-----------------------------------------------      
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +83,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
-#include      "conv_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1013,7 +1013,7 @@ C-------
 C-------
           CALL PRESEGMT(IRECTS,NSV,NRTS,NSN,IPARI(8,NI))
           CALL PRESEGMT(IRECTM,MSR,NRTM,NMN,IPARI(9,NI))
-          NMNT=MAX0(NMNT,2*NVCONV*NSN+NRTM+NMN*(NVCONV+1),3*(NSN+NMN))
+          NMNT=MAX0(NMNT,2*ALE%GLOBAL%NVCONV*NSN+NRTM+NMN*(ALE%GLOBAL%NVCONV+1),3*(NSN+NMN))
           IF(IPARI(20,NI) == 1) NMNT=MAX0(NMNT,6*NMN)
 C-------
         ELSEIF (NTYP == 14) THEN

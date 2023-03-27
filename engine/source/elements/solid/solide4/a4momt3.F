@@ -52,6 +52,10 @@ Chd|====================================================================
      L   RZ,      SX,      SY,      SZ,
      M   TX,      TY,      TZ,      NEL)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD     
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -64,7 +68,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "param_c.inc"
-#include      "scrupw_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -112,7 +115,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------      
-      IF(UPWM>1)THEN
+      IF(ALE%UPWIND%UPWM>1)THEN
       !      DO I=LFT,LLT
       !       V12(1,I)=X2(I)-X1(I)
       !       V12(2,I)=Y2(I)-Y1(I)
@@ -144,8 +147,8 @@ C-----------------------------------------------
       
       ! CALCUL DE LA FORCE DE TRANSPORT AU CENTRE
       ! STANDARD UPWIND UTILISANT LES DONNEES MATERIAUX
-      IF(UPWM<2 .OR.MTN==11)THEN
-        IF(MTN==11.AND.UPWM>1)THEN
+      IF(ALE%UPWIND%UPWM<2 .OR.MTN==11)THEN
+        IF(MTN==11.AND.ALE%UPWIND%UPWM>1)THEN
           ! VDX,VDY,VDZ EST CALCULE DANS M11VS3
           DO I=LFT,LLT
              R(I,1)=RX(I)
@@ -170,15 +173,15 @@ C-----------------------------------------------
             A4(I) = FAC*(PX4(I)*VDX(I)+PY4(I)*VDY(I)+PZ4(I)*VDZ(I))
           ENDDO
           
-        ELSE!IF(MTN==11.AND.UPWM>1)
+        ELSE!IF(MTN==11.AND.ALE%UPWIND%UPWM>1)
         
-          IF(UPWM==ZERO)THEN
+          IF(ALE%UPWIND%UPWM==ZERO)THEN
             DO I=LFT,LLT
               GAM(I)= PM(15,MAT(I))
             ENDDO
           ELSE
             DO I=LFT,LLT
-              GAM(I)= CUPWM
+              GAM(I)= ALE%UPWIND%CUPWM
             ENDDO
           ENDIF
           DO I=LFT,LLT
@@ -192,7 +195,7 @@ C-----------------------------------------------
            A4(I) = SIGN(GAM(I),A4(I))
           ENDDO
           
-        ENDIF !IF(MTN==11.AND.UPWM>1)
+        ENDIF !IF(MTN==11.AND.ALE%UPWIND%UPWM>1)
        
          DO I=LFT,LLT
            FAC = FOURTH*RHO(I)*VOL(I)
@@ -218,11 +221,11 @@ C-----------------------------------------------
           F34(I) = F34(I) - (ONE+A4(I))*F3(I)
          ENDDO
 
-      ELSE ! IF(UPWM<2 .OR.MTN==11)
+      ELSE ! IF(ALE%UPWIND%UPWM<2 .OR.MTN==11)
 
       ! SUPG OU TG
-      ! FORMULATION DE LA FORCE DE TRANSPORT
-      ! ON EVALUE <PHI,UJ*DUI/DXJ> DIRECTEMENT AUX NOEUDS 
+      ! TRANSPORTATION FORCE
+      !  <PHI,UJ*DUI/DXJ> EVALUATED AT NODES 
 
         DO I=LFT,LLT
            R(I,1)=RX(I)-SX(I)
@@ -351,7 +354,7 @@ C-----------------------------------------------
      8   NEL)
      
      
-      ENDIF!IF(UPWM<2 .OR.MTN==11)
+      ENDIF!IF(ALE%UPWIND%UPWM<2 .OR.MTN==11)
 
       RETURN
       END

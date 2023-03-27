@@ -45,6 +45,10 @@ Chd|====================================================================
      F   NC5,     NC6,     NC7,     NC8,
      G   NALE,    NEL)
 C-----------------------------------------------
+C   M o d u l e  s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -55,7 +59,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scrupw_c.inc"
 #include      "inter22.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -108,7 +111,7 @@ C-----------------------------------------------
          IF (NALE(NC7(I)) == 0) OFF7(I) = ZERO
          IF (NALE(NC8(I)) == 0) OFF8(I) = ZERO
       ENDDO
-      IF (UPWM==2) THEN
+      IF (ALE%UPWIND%UPWM==2) THEN
 
       !-------------------------------------------!
       ! MOMENTUM ADVECTION                        !
@@ -117,24 +120,15 @@ C-----------------------------------------------
        DO I=1,NEL
         GAM(I)=GAM(I)/AJV(I)
 
-        DXXP(I)=
-     .   A0(I,1)*VX0(I)+A1(I,1)*VX1(I)+A2(I,1)*VX2(I)+A3(I,1)*VX3(I)  
-        DXYP(I)=
-     .   A0(I,2)*VX0(I)+A1(I,2)*VX1(I)+A2(I,2)*VX2(I)+A3(I,2)*VX3(I)  
-        DXZP(I)=
-     .   A0(I,3)*VX0(I)+A1(I,3)*VX1(I)+A2(I,3)*VX2(I)+A3(I,3)*VX3(I)  
-        DYXP(I)=
-     .   A0(I,1)*VY0(I)+A1(I,1)*VY1(I)+A2(I,1)*VY2(I)+A3(I,1)*VY3(I)  
-        DYYP(I)=
-     .   A0(I,2)*VY0(I)+A1(I,2)*VY1(I)+A2(I,2)*VY2(I)+A3(I,2)*VY3(I)  
-        DYZP(I)=
-     .   A0(I,3)*VY0(I)+A1(I,3)*VY1(I)+A2(I,3)*VY2(I)+A3(I,3)*VY3(I)  
-        DZXP(I)=
-     .   A0(I,1)*VZ0(I)+A1(I,1)*VZ1(I)+A2(I,1)*VZ2(I)+A3(I,1)*VZ3(I)  
-        DZYP(I)=
-     .   A0(I,2)*VZ0(I)+A1(I,2)*VZ1(I)+A2(I,2)*VZ2(I)+A3(I,2)*VZ3(I)  
-        DZZP(I)=
-     .   A0(I,3)*VZ0(I)+A1(I,3)*VZ1(I)+A2(I,3)*VZ2(I)+A3(I,3)*VZ3(I)  
+        DXXP(I)=A0(I,1)*VX0(I)+A1(I,1)*VX1(I)+A2(I,1)*VX2(I)+A3(I,1)*VX3(I)  
+        DXYP(I)=A0(I,2)*VX0(I)+A1(I,2)*VX1(I)+A2(I,2)*VX2(I)+A3(I,2)*VX3(I)  
+        DXZP(I)=A0(I,3)*VX0(I)+A1(I,3)*VX1(I)+A2(I,3)*VX2(I)+A3(I,3)*VX3(I)  
+        DYXP(I)=A0(I,1)*VY0(I)+A1(I,1)*VY1(I)+A2(I,1)*VY2(I)+A3(I,1)*VY3(I)  
+        DYYP(I)=A0(I,2)*VY0(I)+A1(I,2)*VY1(I)+A2(I,2)*VY2(I)+A3(I,2)*VY3(I)  
+        DYZP(I)=A0(I,3)*VY0(I)+A1(I,3)*VY1(I)+A2(I,3)*VY2(I)+A3(I,3)*VY3(I)  
+        DZXP(I)=A0(I,1)*VZ0(I)+A1(I,1)*VZ1(I)+A2(I,1)*VZ2(I)+A3(I,1)*VZ3(I)  
+        DZYP(I)=A0(I,2)*VZ0(I)+A1(I,2)*VZ1(I)+A2(I,2)*VZ2(I)+A3(I,2)*VZ3(I)  
+        DZZP(I)=A0(I,3)*VZ0(I)+A1(I,3)*VZ1(I)+A2(I,3)*VZ2(I)+A3(I,3)*VZ3(I)  
 
         FAC=EIGHT*GAM(I)
         UP0(I)=ONE +FAC*(A0(I,1)*VDX0(I)+A0(I,2)*VDY0(I)+A0(I,3)*VDZ0(I))
@@ -186,12 +180,9 @@ C-----------------------------------------------
        ENDIF
 
        DO I=1,NEL
-         F1(I)=-GAM(I)*
-     .      (-F1P(I)*(DYYP(I)+DZZP(I))+F2P(I)*DXYP(I)+F3P(I)*DXZP(I))
-         F2(I)=-GAM(I)*
-     .      ( F1P(I)*DYXP(I)-F2P(I)*(DXXP(I)+DZZP(I))+F3P(I)*DYZP(I))
-         F3(I)=-GAM(I)*
-     .      ( F1P(I)*DZXP(I)+F2P(I)*DZYP(I)-F3P(I)*(DYYP(I)+DXXP(I)))
+         F1(I)=-GAM(I)*(-F1P(I)*(DYYP(I)+DZZP(I))+F2P(I)*DXYP(I)+F3P(I)*DXZP(I))
+         F2(I)=-GAM(I)*( F1P(I)*DYXP(I)-F2P(I)*(DXXP(I)+DZZP(I))+F3P(I)*DYZP(I))
+         F3(I)=-GAM(I)*( F1P(I)*DZXP(I)+F2P(I)*DZYP(I)-F3P(I)*(DYYP(I)+DXXP(I)))
          F11(I) = F11(I) - F1(I)*OFF1(I)
          F21(I) = F21(I) - F2(I)*OFF1(I)
          F31(I) = F31(I) - F3(I)*OFF1(I)
@@ -226,24 +217,15 @@ C-----------------------------------------------
       !-------------------------------------------! 
        DO I=1,NEL
         GAM(I)=GAM(I)/AJV(I)
-        DXXP(I)=
-     .   A0(I,1)*VX0(I)+A1(I,1)*VX1(I)+A2(I,1)*VX2(I)+A3(I,1)*VX3(I)  
-        DXYP(I)=
-     .   A0(I,2)*VX0(I)+A1(I,2)*VX1(I)+A2(I,2)*VX2(I)+A3(I,2)*VX3(I)  
-        DXZP(I)=
-     .   A0(I,3)*VX0(I)+A1(I,3)*VX1(I)+A2(I,3)*VX2(I)+A3(I,3)*VX3(I)  
-        DYXP(I)=
-     .   A0(I,1)*VY0(I)+A1(I,1)*VY1(I)+A2(I,1)*VY2(I)+A3(I,1)*VY3(I)  
-        DYYP(I)=
-     .   A0(I,2)*VY0(I)+A1(I,2)*VY1(I)+A2(I,2)*VY2(I)+A3(I,2)*VY3(I)  
-        DYZP(I)=
-     .   A0(I,3)*VY0(I)+A1(I,3)*VY1(I)+A2(I,3)*VY2(I)+A3(I,3)*VY3(I)  
-        DZXP(I)=
-     .   A0(I,1)*VZ0(I)+A1(I,1)*VZ1(I)+A2(I,1)*VZ2(I)+A3(I,1)*VZ3(I)  
-        DZYP(I)=
-     .   A0(I,2)*VZ0(I)+A1(I,2)*VZ1(I)+A2(I,2)*VZ2(I)+A3(I,2)*VZ3(I)  
-        DZZP(I)=
-     .   A0(I,3)*VZ0(I)+A1(I,3)*VZ1(I)+A2(I,3)*VZ2(I)+A3(I,3)*VZ3(I)  
+        DXXP(I)=A0(I,1)*VX0(I)+A1(I,1)*VX1(I)+A2(I,1)*VX2(I)+A3(I,1)*VX3(I)  
+        DXYP(I)=A0(I,2)*VX0(I)+A1(I,2)*VX1(I)+A2(I,2)*VX2(I)+A3(I,2)*VX3(I)  
+        DXZP(I)=A0(I,3)*VX0(I)+A1(I,3)*VX1(I)+A2(I,3)*VX2(I)+A3(I,3)*VX3(I)  
+        DYXP(I)=A0(I,1)*VY0(I)+A1(I,1)*VY1(I)+A2(I,1)*VY2(I)+A3(I,1)*VY3(I)  
+        DYYP(I)=A0(I,2)*VY0(I)+A1(I,2)*VY1(I)+A2(I,2)*VY2(I)+A3(I,2)*VY3(I)  
+        DYZP(I)=A0(I,3)*VY0(I)+A1(I,3)*VY1(I)+A2(I,3)*VY2(I)+A3(I,3)*VY3(I)  
+        DZXP(I)=A0(I,1)*VZ0(I)+A1(I,1)*VZ1(I)+A2(I,1)*VZ2(I)+A3(I,1)*VZ3(I)  
+        DZYP(I)=A0(I,2)*VZ0(I)+A1(I,2)*VZ1(I)+A2(I,2)*VZ2(I)+A3(I,2)*VZ3(I)  
+        DZZP(I)=A0(I,3)*VZ0(I)+A1(I,3)*VZ1(I)+A2(I,3)*VZ2(I)+A3(I,3)*VZ3(I)  
 
         FAC=EIGHT*GAM(I)
         UP0(I)=ONE+FAC*(A0(I,1)*VDX0(I)+A0(I,2)*VDY0(I)+A0(I,3)*VDZ0(I))

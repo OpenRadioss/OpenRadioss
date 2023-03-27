@@ -2210,7 +2210,11 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
       SUBROUTINE SPMD_SEGCOM(SEGVAR,NPSEGCOM,LSEGCOM,SIZE,FLAG)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE SEGVAR_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2226,7 +2230,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "task_c.inc"
-#include      "conv_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2240,7 +2243,7 @@ C-----------------------------------------------
      .        STATUS(MPI_STATUS_SIZE), REQ_R(NSPMD), IRINDEX(NSPMD),
      .        LOC_PROC, N, KK, NN, NBIRECV, II, INDEX, LEN      
       DATA MSGOFF/3012/
-      my_real WA(SIZE*NVCONV)
+      my_real WA(SIZE*ALE%GLOBAL%NVCONV)
 C-----------------------------------------------
       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
@@ -2257,33 +2260,33 @@ C
               KK = LSEGCOM(N)
               
               NN=1
-              IF(NN <= NVCONV .AND. SEGVAR%has_rho)THEN
-               WA(NVCONV*(N-1)+NN) = SEGVAR%RHO(KK)
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_rho)THEN
+               WA(ALE%GLOBAL%NVCONV*(N-1)+NN) = SEGVAR%RHO(KK)
               ENDIF
               
               NN=2              
-              IF(NN <= NVCONV .AND. SEGVAR%has_eint)THEN
-                WA(NVCONV*(N-1)+NN) = SEGVAR%EINT(KK)
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_eint)THEN
+                WA(ALE%GLOBAL%NVCONV*(N-1)+NN) = SEGVAR%EINT(KK)
               ENDIF
               
               NN=3
-              IF(NN <= NVCONV .AND. SEGVAR%has_rk)THEN
-                WA(NVCONV*(N-1)+NN) = SEGVAR%RK(KK)
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_rk)THEN
+                WA(ALE%GLOBAL%NVCONV*(N-1)+NN) = SEGVAR%RK(KK)
               ENDIF
               
               NN=4
-              IF(NN <= NVCONV .AND. SEGVAR%has_re)THEN
-                WA(NVCONV*(N-1)+NN) = SEGVAR%RE(KK)
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_re)THEN
+                WA(ALE%GLOBAL%NVCONV*(N-1)+NN) = SEGVAR%RE(KK)
               ENDIF
               
               NN=5
-              IF(NN <= NVCONV .AND. SEGVAR%has_uvar)THEN
-                WA(NVCONV*(N-1)+NN) = SEGVAR%UVAR(KK)                                                        
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_uvar)THEN
+                WA(ALE%GLOBAL%NVCONV*(N-1)+NN) = SEGVAR%UVAR(KK)                                                        
               ENDIF
              
             ENDDO
             CALL MPI_SEND(
-     S        WA            ,LEN*NVCONV,REAL,IT_SPMD(1),MSGTYP,
+     S        WA            ,LEN*ALE%GLOBAL%NVCONV,REAL,IT_SPMD(1),MSGTYP,
      G        MPI_COMM_WORLD,IERROR    )
           ENDIF
 C
@@ -2296,7 +2299,7 @@ C
             IF(NPSEGCOM(I)>0) THEN
               NBIRECV = NBIRECV + 1
               IRINDEX(NBIRECV) = I
-              LEN = NVCONV*NPSEGCOM(I)
+              LEN = ALE%GLOBAL%NVCONV*NPSEGCOM(I)
               CALL MPI_IRECV(
      S          WA(IDEB+1),LEN,REAL,IT_SPMD(I),MSGTYP,
      G          MPI_COMM_WORLD,REQ_R(NBIRECV),ierror)
@@ -2309,33 +2312,33 @@ C
             CALL MPI_WAITANY(NBIRECV,REQ_R,INDEX,STATUS,ierror)
             I = IRINDEX(INDEX)
             IDEB2 = IAD_RECV(I)-1
-            IDEB = IDEB2 / NVCONV
+            IDEB = IDEB2 / ALE%GLOBAL%NVCONV
             DO N = 1, NPSEGCOM(I)
               KK = LSEGCOM(IDEB+N)
               
               NN=1
-              IF(NN <= NVCONV .AND. SEGVAR%has_rho)THEN
-               SEGVAR%RHO(KK) = WA(IDEB2+NVCONV*(N-1)+NN) 
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_rho)THEN
+               SEGVAR%RHO(KK) = WA(IDEB2+ALE%GLOBAL%NVCONV*(N-1)+NN) 
               ENDIF
               
               NN=2              
-              IF(NN <= NVCONV .AND. SEGVAR%has_eint)THEN
-                SEGVAR%EINT(KK) = WA(IDEB2+NVCONV*(N-1)+NN)
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_eint)THEN
+                SEGVAR%EINT(KK) = WA(IDEB2+ALE%GLOBAL%NVCONV*(N-1)+NN)
               ENDIF
               
               NN=3
-              IF(NN <= NVCONV .AND. SEGVAR%has_rk)THEN
-                SEGVAR%RK(KK) = WA(IDEB2+NVCONV*(N-1)+NN)
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_rk)THEN
+                SEGVAR%RK(KK) = WA(IDEB2+ALE%GLOBAL%NVCONV*(N-1)+NN)
               ENDIF
               
               NN=4
-              IF(NN <= NVCONV .AND. SEGVAR%has_re)THEN
-                SEGVAR%RE(KK) = WA(IDEB2+NVCONV*(N-1)+NN)
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_re)THEN
+                SEGVAR%RE(KK) = WA(IDEB2+ALE%GLOBAL%NVCONV*(N-1)+NN)
               ENDIF
               
               NN=5
-              IF(NN <= NVCONV .AND. SEGVAR%has_uvar)THEN
-                SEGVAR%UVAR(KK) = WA(IDEB2+NVCONV*(N-1)+NN)                                                       
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_uvar)THEN
+                SEGVAR%UVAR(KK) = WA(IDEB2+ALE%GLOBAL%NVCONV*(N-1)+NN)                                                       
               ENDIF
                             
             ENDDO
@@ -2351,34 +2354,34 @@ C
           LEN = NPSEGCOM(1)
           IF(LEN>0) THEN
             CALL MPI_RECV(
-     S        WA,LEN*NVCONV,REAL,IT_SPMD(1),MSGTYP,
+     S        WA,LEN*ALE%GLOBAL%NVCONV,REAL,IT_SPMD(1),MSGTYP,
      G        MPI_COMM_WORLD,status,ierror)
             DO N = 1, LEN
               KK = LSEGCOM(N)
                             
               NN=1
-              IF(NN <= NVCONV .AND. SEGVAR%has_rho)THEN
-               SEGVAR%RHO(KK) = WA(NVCONV*(N-1)+NN) 
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_rho)THEN
+               SEGVAR%RHO(KK) = WA(ALE%GLOBAL%NVCONV*(N-1)+NN) 
               ENDIF
               
               NN=2              
-              IF(NN <= NVCONV .AND. SEGVAR%has_eint)THEN
-                SEGVAR%EINT(KK) = WA(NVCONV*(N-1)+NN)
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_eint)THEN
+                SEGVAR%EINT(KK) = WA(ALE%GLOBAL%NVCONV*(N-1)+NN)
               ENDIF
               
               NN=3
-              IF(NN <= NVCONV .AND. SEGVAR%has_rk)THEN
-                SEGVAR%RK(KK) = WA(NVCONV*(N-1)+NN)
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_rk)THEN
+                SEGVAR%RK(KK) = WA(ALE%GLOBAL%NVCONV*(N-1)+NN)
               ENDIF
               
               NN=4
-              IF(NN <= NVCONV .AND. SEGVAR%has_re)THEN
-                SEGVAR%RE(KK) = WA(NVCONV*(N-1)+NN)
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_re)THEN
+                SEGVAR%RE(KK) = WA(ALE%GLOBAL%NVCONV*(N-1)+NN)
               ENDIF
               
               NN=5
-              IF(NN <= NVCONV .AND. SEGVAR%has_uvar)THEN
-                SEGVAR%UVAR(KK) = WA(NVCONV*(N-1)+NN)                                                       
+              IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_uvar)THEN
+                SEGVAR%UVAR(KK) = WA(ALE%GLOBAL%NVCONV*(N-1)+NN)                                                       
               ENDIF              
                             
             ENDDO
@@ -2394,34 +2397,34 @@ C
                 KK = LSEGCOM(IDEB+N)
                 
                 NN=1
-                IF(NN <= NVCONV .AND. SEGVAR%has_rho)THEN
-                  WA(NVCONV*(N-1)+NN) = SEGVAR%RHO(KK)
+                IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_rho)THEN
+                  WA(ALE%GLOBAL%NVCONV*(N-1)+NN) = SEGVAR%RHO(KK)
                 ENDIF
                 
                 NN=2              
-                IF(NN <= NVCONV .AND. SEGVAR%has_eint)THEN
-                   WA(NVCONV*(N-1)+NN) = SEGVAR%EINT(KK)
+                IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_eint)THEN
+                   WA(ALE%GLOBAL%NVCONV*(N-1)+NN) = SEGVAR%EINT(KK)
                 ENDIF
                 
                 NN=3
-                IF(NN <= NVCONV .AND. SEGVAR%has_rk)THEN
-                   WA(NVCONV*(N-1)+NN) = SEGVAR%RK(KK)
+                IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_rk)THEN
+                   WA(ALE%GLOBAL%NVCONV*(N-1)+NN) = SEGVAR%RK(KK)
                 ENDIF
                 
                 NN=4
-                IF(NN <= NVCONV .AND. SEGVAR%has_re)THEN
-                   WA(NVCONV*(N-1)+NN) = SEGVAR%RE(KK)
+                IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_re)THEN
+                   WA(ALE%GLOBAL%NVCONV*(N-1)+NN) = SEGVAR%RE(KK)
                 ENDIF
                 
                 NN=5
-                IF(NN <= NVCONV .AND. SEGVAR%has_uvar)THEN
-                   WA(NVCONV*(N-1)+NN) = SEGVAR%UVAR(KK)                                                       
+                IF(NN <= ALE%GLOBAL%NVCONV .AND. SEGVAR%has_uvar)THEN
+                   WA(ALE%GLOBAL%NVCONV*(N-1)+NN) = SEGVAR%UVAR(KK)                                                       
                 ENDIF
               
                               
               ENDDO
               CALL MPI_SEND(
-     S        WA            ,LEN*NVCONV,REAL,IT_SPMD(I),MSGTYP,
+     S        WA            ,LEN*ALE%GLOBAL%NVCONV,REAL,IT_SPMD(I),MSGTYP,
      G        MPI_COMM_WORLD,IERROR    )
               IDEB = IDEB + LEN
             ENDIF

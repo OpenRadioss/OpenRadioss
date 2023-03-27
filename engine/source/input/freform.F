@@ -93,6 +93,7 @@ C-----------------------------------------------
       USE TH_MOD
       USE STATE_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,9 +136,6 @@ C-----------------------------------------------
 #include      "ddspmd_c.inc"
 #include      "sms_c.inc"
 #include      "scr_thermal_c.inc"
-#include      "alesolver.inc"
-#include      "scrupw_c.inc"
-#include      "ale_param.inc"
 C-----------------------------------------------
 C   L o c a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -304,7 +302,7 @@ C     DT_CTRL_COMPATIBILITY(3) = 1 -> if /DT/CST_AMS is present
       DT_CTRL_COMPATIBILITY = 0
 
       !ALE TIME STEP
-      IDT_ALE     = 0
+      ALE%GLOBAL%IDT_ALE     = 0
 C     FLAG for Hybrid CST + AMS
       FLAG_CST_AMS = 0
                  
@@ -662,17 +660,17 @@ C-----------------------
 C-----------------------
 C     /ALESUB (ALE SUB-CYCLING, OBSOLETE)
 C-----------------------
-      IALESUB = 0
+      ALE%SUB%IALESUB = 0
       IKEY=KALESUB
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       IALESUB=2
+       ALE%SUB%IALESUB=2
        CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5)',ERR=9990)K4
-       IF(K4==1)IALESUB=1
-       READ(IUSC2,*)DTFSUB,DTMSUB
+       IF(K4==1)ALE%SUB%IALESUB=1
+       READ(IUSC2,*)ALE%SUB%DTFSUB,ALE%SUB%DTMSUB
       ENDIF
-      IF(DTFSUB==ZERO)DTFSUB=ZEP9
-      IF (IALESUB==1) THEN
+      IF(ALE%SUB%DTFSUB==ZERO)ALE%SUB%DTFSUB=ZEP9
+      IF (ALE%SUB%IALESUB==1) THEN
         CALL ANCMSG(MSGID=197,ANMODE=ANINFO)
         IERR=IERR+1
       ENDIF
@@ -835,7 +833,6 @@ C--------------------
       IDTGR(11)=0
       KDTINT=0
       KDTSMSTR=1
-      NODSUBDT=0
 C
       TOL_SMS=ZERO
       NCPRISMS=0
@@ -917,9 +914,9 @@ C
         IF(KEY3(1:3)=='ALE')THEN
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           IFLAG = 0
-          I_DT_NODA_ALE_ON_KEY = 0
+          ALE%GLOBAL%I_DT_NODA_ALE_ON_KEY = 0
           READ(IUSC2,*,ERR=9990,END=9990)IFLAG
-          IF(IFLAG==1)I_DT_NODA_ALE_ON_KEY = 1
+          IF(IFLAG==1)ALE%GLOBAL%I_DT_NODA_ALE_ON_KEY = 1
           K = K + 1
           GOTO 2003
         ELSEIF (KEY2(1:5)=='CST_A') THEN
@@ -1128,10 +1125,10 @@ C           if /DT/AMS is read later, then following definition can be erased
          DTMIN1(51) = DTMINA
          IDTMIN(51) = IDT
         ELSEIF(KEY2(1:5)=='SHNOD')THEN
-         DTFSUB = DTFACA
-         DTMSUB = DTMINA
-         NODSUBDT=1
-         IF(IDT==3)NODSUBDT=2
+         ALE%SUB%DTFSUB = DTFACA
+         ALE%SUB%DTMSUB = DTMINA
+         ALE%SUB%NODSUBDT=1
+         IF(IDT==3)ALE%SUB%NODSUBDT=2
         ELSEIF(KEY2(1:5)=='FVMBA') THEN
          IF(KEY3(1:1)=='0')THEN
            ID_DT_OPTION = 0
@@ -1233,11 +1230,11 @@ C
          DTFAC1(102) = DTFACA
          DTMIN1(102) = DTMINA
          IDTMIN(102) = IDT
-         If(IDT_ALE==0)IDT_ALE     = 1
+         If(ALE%GLOBAL%IDT_ALE==0)ALE%GLOBAL%IDT_ALE     = 1
         ELSE
          DTFAC0=DTFACA
          DTMIN0=DTMINA
-         IDT_ALE     = -1
+         ALE%GLOBAL%IDT_ALE     = -1
         ENDIF
        ENDIF
  2003  CONTINUE
@@ -1547,7 +1544,6 @@ C--------------------
       A3=ZERO
       VM=ZERO
       IAL=-1
-      NWALE_ENGINE=-1
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A32)',ERR=9990)StrIAL
        IF(StrIAL(1:4)=='GRID')StrIAL(1:5)=StrIAL(7:11)          !Shift String "/ALE  /GRID /*****    => StrIAL = '*****' , len=5
@@ -1601,9 +1597,9 @@ C--------------------
         IF(A2/=ONE .AND. A2/=TWO)A2=ONE
        ENDIF
        !defining new grid formulation
-       IF(IAL>=0)NWALE_ENGINE=IAL
+       IF(IAL>=0)ALE%GRID%NWALE_ENGINE=IAL
       ELSE  !nwale<0 nwale is unchanged. its value will be set to TABVINT(264) in rdcomm sub.
-        NWALE_ENGINE=-1
+        ALE%GRID%NWALE_ENGINE=-1
       ENDIF
       WRITE(IIN,'(1P6E10.3)')ALP,GAM,A1,A2,A3,VM
 
@@ -1745,13 +1741,13 @@ C-----------------------
 C-----------------------
 C     /ALE/SUPG
 C-----------------------
-      UPWM          = 3
-      UPW_UPDATE    = 0
-      UPWMG2        = ZERO
-      UPWOG2        = ZERO
-      UPWSM2        = ZERO
-      CUPWM         = ONE    !SUPG enabled
-      I_SUPG_ON_OFF = 0      !test if card is present to check user input in case of both /ALE/SUPG & /UPWM/SUPG
+      ALE%UPWIND%UPWM          = 3
+      ALE%UPWIND%UPW_UPDATE    = 0
+      ALE%UPWIND%UPWMG2        = ZERO
+      ALE%UPWIND%UPWOG2        = ZERO
+      ALE%UPWIND%UPWSM2        = ZERO
+      ALE%UPWIND%CUPWM         = ONE    !SUPG enabled
+      ALE%UPWIND%I_SUPG_ON_OFF = 0      !test if card is present to check user input in case of both /ALE/SUPG & /UPWM/SUPG
                              !  1 : ON
                              !  2 : OFF
       IKEY          = KALE
@@ -1763,24 +1759,24 @@ C-----------------------
        !---------------------------------------!
        IF(KEY2(1:4)=='SUPG')THEN
          IF(KEY3(1:3)=='OFF')THEN
-           UPWM            = 0
-           UPW_UPDATE      = 0
-           I_SUPG_ON_OFF   = 2
+           ALE%UPWIND%UPWM            = 0
+           ALE%UPWIND%UPW_UPDATE      = 0
+           ALE%UPWIND%I_SUPG_ON_OFF   = 2
          ELSEIF(KEY3(1:5)=='ON')THEN
-           UPWM            = 3
-           UPW_UPDATE      = 0
-           I_SUPG_ON_OFF   = 1
+           ALE%UPWIND%UPWM            = 3
+           ALE%UPWIND%UPW_UPDATE      = 0
+           ALE%UPWIND%I_SUPG_ON_OFF   = 1
          ELSE
            IF(N2D==1)THEN
            !axisymmetric case
-             UPWM          = 0
-             UPW_UPDATE    = 0
+             ALE%UPWIND%UPWM          = 0
+             ALE%UPWIND%UPW_UPDATE    = 0
            ELSE
            !3D & 2D planar
-             UPWM          = 3
+             ALE%UPWIND%UPWM          = 3
            ENDIF
-           UPW_UPDATE      = 0
-           I_SUPG_ON_OFF   = 0
+           ALE%UPWIND%UPW_UPDATE      = 0
+           ALE%UPWIND%I_SUPG_ON_OFF   = 0
          ENDIF
        ENDIF
        K = K + 1 + NBC
@@ -1837,9 +1833,9 @@ C--------------------
 C-----------------------
 C     /ALE/SOLVER/FINT
 C-----------------------
-      IKEY          = KALE
-      K             = 0
-      ISFINT        = 0 !not yet read communicated in engine
+      IKEY = KALE
+      K = 0
+      ALE%GLOBAL%ISFINT = 0 !not yet read communicated in engine
       DO WHILE (IKAD(IKEY) + K /= IKAD(IKEY + 1))
 
        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A32)',ERR=9990)StrIAL
@@ -1849,14 +1845,14 @@ C-----------------------
        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)LINE
        READ(LINE,FMT='(7X,A5,1X,A5,1X,I5)',ERR=9990)KEY2,KEY3,IFORM
        IF(IFORM==2)THEN
-         ISFINT          = 2  !FEM INT : surface integration
+         ALE%GLOBAL%ISFINT = 2  !FEM INT : surface integration
        ELSEIF(IFORM==1)THEN
-         ISFINT          = 1  !FVM INT : volume integration
+         ALE%GLOBAL%ISFINT = 1  !FVM INT : volume integration
        ELSEIF(IFORM==3)THEN
-         ISFINT          = 3  !FVM INT : volume integration
+         ALE%GLOBAL%ISFINT = 3  !FVM INT : volume integration
        ELSE
          !default
-         ISFINT          = 1
+         ALE%GLOBAL%ISFINT = 1
        ENDIF
        K = K + 1
       ENDDO
@@ -2385,10 +2381,10 @@ c         IMONM = 3
 C--------------------
 C     /INCMP (OBSOLETE OPTION, incompressible)
 C--------------------
-      INCOMP = 0
+      ALE%GLOBAL%INCOMP = 0
       IKEY=KINCMP
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-        INCOMP=1
+        ALE%GLOBAL%INCOMP=1
       ENDIF
       
 C--------------------

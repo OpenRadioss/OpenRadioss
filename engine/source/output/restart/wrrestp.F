@@ -129,6 +129,7 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
+      USE ALE_MOD
 C ecriture restart pour version spmd
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -167,7 +168,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com05_c.inc"
 #include      "com06_c.inc"
-#include      "com07_c.inc"
 #include      "com_xfem1.inc"
 #include      "intstamp_c.inc"
 #include      "param_c.inc"
@@ -190,7 +190,6 @@ C-----------------------------------------------
 #include      "remesh_c.inc"
 #include      "sphcom.inc"
 #include      "thermal_c.inc"
-#include      "ale_param.inc"
 #include      "inter18.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -263,10 +262,10 @@ C
         ECONT_CUMU = ENTMP(11)
       ENDIF
 C
-      IF(NWALE == 2) THEN
-        ENTMP(1) = VGZ
+      IF(ALE%GRID%NWALE == 2) THEN
+        ENTMP(1) = ALE%GRID%VGZ
         IF(NSPMD > 1) CALL SPMD_GLOB_DMIN9(ENTMP,1)
-        IF(ISPMD==0) VGZ = ENTMP(1)
+        IF(ISPMD==0) ALE%GRID%VGZ = ENTMP(1)
       ENDIF
 C
       CALL WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA)
@@ -410,7 +409,7 @@ C--------------------------------------
 
         CALL WRITE_I_C(GJBUFI,SGJBUFI)
 
-        CALL WRITE_I_C(ALE_CONNECTIVITY%NALE,SNALE)
+        CALL WRITE_I_C(ALE_CONNECTIVITY%NALE,ALE%GLOBAL%SNALE)
 
         IF (IALE + IEULER + IALELAG + ITHERM /= 0) THEN
            ITMP = SIZE(ALE_CONNECTIVITY%ee_connect%iad_connect)
@@ -430,21 +429,21 @@ C--------------------------------------
            CALL WRITE_I_C(ALE_CONNECTIVITY%ee_connect%iface2, ITMP)
         ENDIF
 
-        CALL WRITE_I_C(ID_GLOBAL_VOIS,SIELVS)
+        CALL WRITE_I_C(ID_GLOBAL_VOIS,ALE%GLOBAL%SIELVS)
 
-        CALL WRITE_I_C(FACE_VOIS,SIELVS)
+        CALL WRITE_I_C(FACE_VOIS,ALE%GLOBAL%SIELVS)
 
-        IF(IALE > 0 .AND. NWALE == 6 .OR. INTER18_AUTOPARAM == 1 .OR. INTER18_IS_VARIABLE_GAP_DEFINED) THEN
+        IF(IALE > 0 .AND. ALE%GRID%NWALE == 6 .OR. INTER18_AUTOPARAM == 1 .OR. INTER18_IS_VARIABLE_GAP_DEFINED) THEN
            CALL WRITE_I_C(NE_NERCVOIS, NSPMD + 1)
            CALL WRITE_I_C(NE_LERCVOIS, NE_SLERCVOIS)
            CALL WRITE_I_C(NE_NESDVOIS, NSPMD + 1)
            CALL WRITE_I_C(NE_LESDVOIS, NE_SLESDVOIS)
         ENDIF
-        IF (IALE > 0 .AND. (NWALE < 2 .OR. NWALE == 5)) THEN
+        IF (IALE > 0 .AND. (ALE%GRID%NWALE < 2 .OR. ALE%GRID%NWALE == 5)) THEN
            CALL WRITE_I_C(ALE_CONNECTIVITY%NN_CONNECT%IAD_CONNECT, NUMNOD + 1)
            CALL WRITE_I_C(ALE_CONNECTIVITY%NN_CONNECT%CONNECTED, ALE_CONNECTIVITY%NN_CONNECT%IAD_CONNECT(NUMNOD + 1))
         ENDIF
-        IF (IALE > 0 .AND. NWALE == 6 .OR. INTER18_AUTOPARAM == 1 .OR. INTER18_IS_VARIABLE_GAP_DEFINED) THEN
+        IF (IALE > 0 .AND. ALE%GRID%NWALE == 6 .OR. INTER18_AUTOPARAM == 1 .OR. INTER18_IS_VARIABLE_GAP_DEFINED) THEN
            CALL WRITE_I_C(ALE_CONNECTIVITY%NE_CONNECT%IAD_CONNECT, NUMNOD + 1)
            CALL WRITE_I_C(ALE_CONNECTIVITY%NE_CONNECT%CONNECTED,
      .          ALE_CONNECTIVITY%NE_CONNECT%IAD_CONNECT(NUMNOD + 1))

@@ -647,6 +647,7 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -693,7 +694,6 @@ C-----------------------------------------------
 #include      "chara_c.inc"
 #include      "lagmult.inc"
 #include      "warn_c.inc"
-#include      "vale_c.inc"
 #include      "impl1_c.inc"
 #include      "fxbcom.inc"
 #include      "eigcom.inc"
@@ -3699,8 +3699,8 @@ C
            CALL TRACE_OUT(12)
            CALL STOPTIME(MACRO_TIMER_ALEMAIN,1) 
         ELSE
-           IFSUB=0
-           IFSUBM=0
+           ALE%SUB%IFSUB=0
+           ALE%SUB%IFSUBM=0
            T1S=TT
         ENDIF
 
@@ -3708,7 +3708,7 @@ C===============================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
 
-      IF(IALESUB ==2 .AND. IFSUB==2)GOTO 22
+      IF(ALE%SUB%IALESUB ==2 .AND. ALE%SUB%IFSUB==2)GOTO 22
  21   CONTINUE
 C
       IF (IMON>0) CALL STARTIME(6,1)
@@ -4826,8 +4826,8 @@ C===============================================================================
           SIZE =  4 + IRODDL*4
           IF (N2D/=0) THEN
             SIZE = SIZE + 1
-            IF(IFSUBM == 1) SIZE = SIZE + 1
-          ELSEIF(IFSUBM==1)THEN
+            IF(ALE%SUB%IFSUBM == 1) SIZE = SIZE + 1
+          ELSEIF(ALE%SUB%IFSUBM==1)THEN
             SIZE = SIZE + 2
           ENDIF
 C
@@ -4855,7 +4855,7 @@ C
 
             CALL SPMD_EXCH_A_AMS_POFF(
      1       A       ,AR     ,STIFN,STIFR ,MS   ,
-     2       IAD_ELEM,FR_ELEM,MSNF ,IFSUBM,SIZE ,
+     2       IAD_ELEM,FR_ELEM,MSNF ,ALE%SUB%IFSUBM,SIZE ,
      3       LENR    ,FTHE , MCP,FR_LOC,NB_FR   ,
      4       MS_2D ,MCP_OFF,FORNEQS ,NFACNIT    ,
      5       LENC ,FANI ,H3D_DATA,FANI(1,NFNCA+1),
@@ -4863,7 +4863,7 @@ C
           ELSE 
             CALL SPMD_EXCH_A(
      1       A       ,AR     ,STIFN,STIFR ,MS   ,
-     2       IAD_ELEM,FR_ELEM,MSNF ,IFSUBM,SIZE ,
+     2       IAD_ELEM,FR_ELEM,MSNF ,ALE%SUB%IFSUBM,SIZE ,
      3       LENR    ,FTHE , MCP, DMSPH,CONDN, 
      4       MS_2D,MCP_OFF,
      5       FORNEQS ,NFACNIT,LENC ,FANI ,H3D_DATA,
@@ -4873,10 +4873,10 @@ C
 C
         ELSE
           SIZE =  4 + IRODDL*4
-          IF(IFSUBM==1)THEN
+          IF(ALE%SUB%IFSUBM==1)THEN
             SIZE = SIZE + 1
           ENDIF
-          IF(N2D /= 0.AND.IFSUBM == 1) SIZE = SIZE + 1
+          IF(N2D /= 0.AND.ALE%SUB%IFSUBM == 1) SIZE = SIZE + 1
           SIZI = NFSKYI+1
 C
           IF(ITHERM_FE > 0 )THEN
@@ -4921,7 +4921,7 @@ C
           CALL SPMD_EXCH2_A_PON(
      1     IAD_ELEM    ,FR_ELEM   ,ADSKY   ,PROCNE    ,FR_NBCC     ,
      2     SIZE        ,LENR      ,LENS    ,FSKY      ,FSKY        ,
-     3     FSKYM       ,IFSUBM    ,SIZI    ,LENI      ,IADSDP      ,
+     3     FSKYM       ,ALE%SUB%IFSUBM    ,SIZI    ,LENI      ,IADSDP      ,
      4     IADRCP      ,ISENDP    ,IRECVP  ,FFSKY     ,PROCNE_PXFEM,
      5     FR_NBCC1    ,IADSDP_PXFEM,IADRCP_PXFEM     ,ISENDP_PXFEM,
      6     IRECVP_PXFEM,LENR1     ,LENS1   ,IADSDP_CRK,IADRCP_CRK  ,
@@ -5166,7 +5166,7 @@ C   at every cycle except cycle 0, send the Nodes coordinates
 #endif
 
 CFP SKIP KINEMATIC FORCES
-      IF(IALESUB==2 .AND. IFSUB==2) GOTO 23
+      IF(ALE%SUB%IALESUB==2 .AND. ALE%SUB%IFSUB==2) GOTO 23
       
 C
 C POROUS MEDIA (not parallel) 
@@ -5815,15 +5815,15 @@ C 23  CONTINUE
       IF(ISHSUB==1 .AND.KSHSUB==2)THEN
 C       internal shell forces just computed 
 C       Nodal time step for shells (SHNOD)
-        IF(NODSUBDT/=0)THEN
+        IF(ALE%SUB%NODSUBDT/=0)THEN
 C         temporary save of DTFAC1(11), DTMIN1(11), IDTMIN(11)
             DTFNOD    =DTFAC1(11)
             DTMNOD    =DTMIN1(11)
             IDTNOD    =IDTMIN(11)
 C
-            DTFAC1(11)=DTFSUB
-            DTMIN1(11)=DTMSUB
-            IF(NODSUBDT==2)THEN
+            DTFAC1(11)=ALE%SUB%DTFSUB
+            DTMIN1(11)=ALE%SUB%DTMSUB
+            IF(ALE%SUB%NODSUBDT==2)THEN
               IDTMIN(11)=8
             END IF
 C         /---------------/
@@ -6041,8 +6041,8 @@ C----------------------------
 C           Sub-cycling for shell
 C----------------------------
  24   CONTINUE
-      IF(ISHSUB==1 .AND.KSHSUB==2)THEN
-        IF(NODSUBDT/=0)THEN
+      IF(ISHSUB==1 .AND. KSHSUB==2)THEN
+        IF(ALE%SUB%NODSUBDT/=0)THEN
             DTFAC1(11)=DTFNOD
             DTMIN1(11)=DTMNOD
             IDTMIN(11)=IDTNOD
@@ -6129,7 +6129,7 @@ C      Internal shell force computed = go back to other elements
       ENDIF
 
 C-----------------------------
-      IF(IALESUB==2 .AND.IFSUB==2)THEN
+      IF(ALE%SUB%IALESUB==2 .AND.ALE%SUB%IFSUB==2)THEN
         IF(NSPMD>1) THEN
          IWIOUT = 0
          IF (ISPMD/=0) CALL SPMD_CHKW(IWIOUT,IOUT)
@@ -6185,8 +6185,8 @@ C Init var parallel SMP
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
-        IFSUB=0
-        IFSUBM=0
+        ALE%SUB%IFSUB=0
+        ALE%SUB%IFSUBM=0
 
 C-----------------------------
 C       MAJ SPMD ecriture L01
@@ -6465,7 +6465,7 @@ C-----------------------------
           DT12=HALF*(DT1+DT2)
           DT3=DT1
         ENDIF
-        IF(IALESUB==0.AND.ISHSUB==0)DT2S=DT2
+        IF(ALE%SUB%IALESUB==0.AND.ISHSUB==0)DT2S=DT2
 C-----------------------------
 C       L01
 C-----------------------------
@@ -9407,7 +9407,7 @@ C mass & velocity
          CALL TRACE_OUT(3)      
          RETURN                 
       ENDIF
-      IF (IFSUB==0.AND.IMCONV==1) THEN
+      IF (ALE%SUB%IFSUB==0.AND.IMCONV==1) THEN
       IF(IMON>0) CALL STARTIME(7,1)
       IF(  (RESTART_FILE==1).AND.( 
      1     (((NCYCLE/NCRST)*NCRST==NCYCLE.AND.(IRAD2R==0))

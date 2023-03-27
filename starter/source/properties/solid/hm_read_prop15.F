@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_PROP15 (IG , IGTYP , GEO   ,  IGEO   ,PROP_TAG  ,UNITAB ,
-     .                   LSUBMODEL,IDTITL ,ISKN  ,ITABM1    )
+     .                           LSUBMODEL,IDTITL ,ISKN  ,ITABM1    )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,13 +61,11 @@ C-----------------------------------------------
 #include      "tablen_c.inc"
 #include      "submod_c.inc"
 #include      "sphcom.inc"
-#include      "fluid_scr_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER 
-     .        IGTYP , IGEO(*) ,ISKN(LISKN,*) ,ITABM1(*)
+      INTEGER IGTYP , IGEO(*) ,ISKN(LISKN,*) ,ITABM1(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       my_real GEO(*)
       CHARACTER IDTITL*nchartitle
@@ -75,14 +74,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IG, ISMSTR, NIP, J,K ,NPTS , 
-     .   IHBE,ISH3N,ISROT ,I8PT ,ISK,IHON ,ITU ,IRB,
-     .    IGFLU ,IHBE_OLD
+     .        IHBE,ISH3N,ISROT ,I8PT ,ISK,IHON ,ITU ,IRB,
+     .        IGFLU ,IHBE_OLD
      
-      my_real
-     .    ANGL,PUN,CVIS,RBID,VX,VY,VZ,
-     .    FAC_L,FAC_T,FAC_M, PTHK, AN, PHI
-      CHARACTER*nchartitle,
-     .   TITR
+      my_real  ANGL,PUN,CVIS,RBID,VX,VY,VZ,FAC_L,FAC_T,FAC_M, PTHK, AN, PHI
+      CHARACTER*nchartitle,TITR
       CHARACTER MESS*40,KEY*ncharkey
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
@@ -134,7 +130,7 @@ C        Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
          IGEO(11)= IGTYP
          GEO(12) = IGTYP+PUN
 
-	 IF(ICAA==0 .AND. IGFLU==0)THEN
+	 IF(ALE%GLOBAL%ICAA==0 .AND. IGFLU==0)THEN
 	   IF(GEO(14)==ZERO) GEO(14)=ONEP1
 	   IF(GEO(15)==ZERO) GEO(15)=FIVEEM2
 	 ENDIF

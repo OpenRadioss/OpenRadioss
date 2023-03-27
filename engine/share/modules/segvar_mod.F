@@ -105,20 +105,20 @@ C-----------------------------------------------
       end subroutine segvar_destroy
       
       subroutine segvar_create(this,nbmat)
+      use ale_mod      
       implicit none
-#include "constant.inc"      
-#include "../includes/conv_c.inc"   
+#include "constant.inc"       
 #include "../includes/com04_c.inc" 
       class(t_segvar), intent(inout) :: this
        integer,intent(in) :: nbmat
         this%nseg=NSEGFLU
         this%nbmat=nbmat
         if(this%nseg > 0)then
-          if(NVCONV >= 1)this%has_rho=.true.
-          if(NVCONV >= 2)this%has_eint=.true.
-          if(NVCONV >= 3)this%has_rk=.true.
-          if(NVCONV >= 4)this%has_re=.true.
-          if(NVCONV >= 5)this%has_uvar=.true.                                
+          if(ALE%GLOBAL%NVCONV >= 1)this%has_rho=.true.
+          if(ALE%GLOBAL%NVCONV >= 2)this%has_eint=.true.
+          if(ALE%GLOBAL%NVCONV >= 3)this%has_rk=.true.
+          if(ALE%GLOBAL%NVCONV >= 4)this%has_re=.true.
+          if(ALE%GLOBAL%NVCONV >= 5)this%has_uvar=.true.                                
           if(this%has_rho)then
             allocate(this%rho(this%nseg))
             this%rho(1:this%nseg)=ZERO

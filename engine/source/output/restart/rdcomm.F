@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALEFVM_MOD , only:ALEFVM_Param
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,6 +75,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
+#include      "scr06_c.inc"
 #include      "scr07_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
@@ -84,21 +86,17 @@ C-----------------------------------------------
 #include      "scrcut_c.inc"
 #include      "warn_c.inc"
 #include      "couple_c.inc"
-#include      "conv_c.inc"
 #include      "scr18_c.inc"
 #include      "scr02_c.inc"
 #include      "check.inc"
 #include      "stati_c.inc"
 #include      "timeri_c.inc"
-#include      "scr06_c.inc"
-#include      "scrupw_c.inc"
 #include      "scr17_c.inc"
 #include      "rad2r_c.inc"
 #include      "spmd_c.inc"
 #include      "fxbcom.inc"
 #include      "eigcom.inc"
 #include      "chara_c.inc"
-#include      "fluid_scr_c.inc"
 #include      "flowcom.inc"
 #include      "impl1_c.inc"
 #include      "tabsiz_c.inc"
@@ -113,8 +111,6 @@ C-----------------------------------------------
 #include      "drape_c.inc"
 #include      "ige3d_c.inc"
 #include      "thermal_c.inc"
-#include      "alesolver.inc"
-#include      "ale_param.inc"
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -162,7 +158,7 @@ C-----
         IF (IR4R8==2) ITESTV = -ITESTV
 C       ITESTV = IABS(ITESTV)
 C-----
-C   -------- Tailles des tableaux entiers --------
+C   -------- Size of integer arrays --------
       SICODE    = TABVINT(37)
       SLSHSUB   = TABVINT(38)
       SISKEW    = TABVINT(39)
@@ -185,8 +181,8 @@ C Empty field           = TABVINT(47)
       SITAB     = TABVINT(56)
       SITABM1   = TABVINT(57)
       SGJBUFI   = TABVINT(58)
-      SNALE     = TABVINT(59)
-      SIELVS    = TABVINT(60)
+      ALE%GLOBAL%SNALE     = TABVINT(59)
+      ALE%GLOBAL%SIELVS    = TABVINT(60)
       SIFILL    = TABVINT(62)
       SIMS      = TABVINT(63)
 !! to empty+++
@@ -290,7 +286,7 @@ C Empty field           = TABVINT(47)
       SNPORGEO  = TABVINT(160)
       SLNODPOR  = TABVINT(161)
 C-----
-C   tailles des tableau flottant
+C   siz of real arrays
 C
       SX        = TABVINT(162)
       SD        = TABVINT(163)
@@ -391,8 +387,8 @@ C-----1
       NSECT  =TABVINT(261)
       NRBAG  =TABVINT(262)
       NJOINT =TABVINT(263)
-      NWALE_RST = TABVINT(264)
-      NWALE=NWALE_RST
+      ALE%GRID%NWALE_RST = TABVINT(264)
+      ALE%GRID%NWALE = ALE%GRID%NWALE_RST
 !------------------------------!
       NUMELTG=TABVINT(265)
       NSLAG  =TABVINT(266)
@@ -424,7 +420,7 @@ C-----1
       NANIM1D=TABVINT(292)
       NR2RLNK=TABVINT(293)
 C-----
-      IPAT  =TABVINT(294)
+      !TABVINT(294) no longer used
       IANIM =TABVINT(295)
       IOUTP =TABVINT(296)
       NHIN2 =TABVINT(297)
@@ -613,40 +609,40 @@ C
       ENDIF
            
       NEXT=NEXT+1 
-      NRBYLAG =TABVINT(NEXT)
+      NRBYLAG = TABVINT(NEXT)
       NEXT = NEXT+1
-      NFVLAG  =TABVINT(NEXT)
+      NFVLAG = TABVINT(NEXT)
       NEXT = NEXT+1
-      NNPRW   =TABVINT(NEXT)
+      NNPRW = TABVINT(NEXT)
       NEXT = NEXT+1
-      NRWLAG  =TABVINT(NEXT)
+      NRWLAG = TABVINT(NEXT)
       NEXT = NEXT+1
-      NHMAX   =TABVINT(NEXT)
+      NHMAX = TABVINT(NEXT)
       NEXT = NEXT+1
-      LAGMOD  =TABVINT(NEXT)
+      LAGMOD = TABVINT(NEXT)
       NEXT = NEXT+1
-      LAGOPT  =TABVINT(NEXT)
+      LAGOPT = TABVINT(NEXT)
       NEXT = NEXT+1
-      NSEGFLU   =TABVINT(NEXT)
+      NSEGFLU = TABVINT(NEXT)
       NEXT = NEXT+1
-      NVCONV    =TABVINT(NEXT)
+      ALE%GLOBAL%NVCONV = TABVINT(NEXT)
 C-----
-      DO I=1,LCONV
-        CODV(I)=TABVINT(NEXT+I)
+      DO I=1,ALE%GLOBAL%LCONV
+        ALE%GLOBAL%CODV(I)=TABVINT(NEXT+I)
       ENDDO
 C-----
-      NEXT=NEXT+LCONV+1
-      NPEBC=TABVINT(NEXT)
+      NEXT = NEXT+ALE%GLOBAL%LCONV+1
+      NPEBC = TABVINT(NEXT)
       NEXT = NEXT+1
-      NEBCS=TABVINT(NEXT)
+      NEBCS = TABVINT(NEXT)
       NEXT = NEXT+1
-      NRBYKIN  =TABVINT(NEXT)
+      NRBYKIN =TABVINT(NEXT)
       NEXT = NEXT+1
-      NBCSKIN  =TABVINT(NEXT)
+      NBCSKIN = TABVINT(NEXT)
       NEXT = NEXT+1
-      NUMELS8A =TABVINT(NEXT)
+      NUMELS8A = TABVINT(NEXT)
       NEXT = NEXT+1
-      NUMELTG6 =TABVINT(NEXT)
+      NUMELTG6 = TABVINT(NEXT)
 C--------------------------------------
       IF(MCHECK/=0)THEN
         DO I=1,12
@@ -668,12 +664,12 @@ C No more used        TABVINT(NEXT + 22 )
          DEBUG(I) = TABVINT(NEXT + 24 + I )
         ENDDO
         ITRACE    = TABVINT(NEXT + 35 )
-        INCOMP    = TABVINT(NEXT + 36 )
+        ALE%GLOBAL%INCOMP = TABVINT(NEXT + 36 )
 
-        IALESUB   = TABVINT(NEXT + 38 )
+        ALE%SUB%IALESUB = TABVINT(NEXT + 38 )
         IMPL      = TABVINT(NEXT + 39 )
         NITMX     = TABVINT(NEXT + 40 )
-        UPWM      = TABVINT(NEXT + 41 )
+        ALE%UPWIND%UPWM = TABVINT(NEXT + 41 )
         IDDW      = TABVINT(NEXT + 43 )
         IPREAD    = TABVINT(NEXT + 44 )
         NSFLSW    = TABVINT(NEXT + 45 )
@@ -888,7 +884,7 @@ C partie commun spmd cfd
       NEXT = NEXT+1
       NUMPORL=TABVINT(NEXT)
       NEXT = NEXT+1
-      ICAA=TABVINT(NEXT)
+      ALE%GLOBAL%ICAA=TABVINT(NEXT)
       NEXT = NEXT+1
       ISPHBUC=TABVINT(NEXT)
       NEXT = NEXT+1
@@ -1117,7 +1113,7 @@ C    spmd rigid material
       SFR_RBYM =TABVINT(NEXT)
       NEXT = NEXT + 1
       SFR_RBYM2 =TABVINT(NEXT)
-C Tableaux Noise
+C  Noise arrays
       NEXT = NEXT + 1
       SINOISE = TABVINT(NEXT)
       NEXT = NEXT + 1
@@ -1281,7 +1277,7 @@ C xfem for layered shell (cracks)
       NEXT = NEXT + 1
       NSUBMOD  = TABVINT(NEXT)
       NEXT = NEXT + 1
-      NALENOVS = TABVINT(NEXT)
+      ALE%GLOBAL%NALENOVS = TABVINT(NEXT)
 C
       NEXT     = NEXT + 1
       LNOPT1 = TABVINT(NEXT)
@@ -1513,9 +1509,9 @@ C SOL2SPH flag
       ITSOL2SPH  = TABVINT(NEXT)
 C ISFINT flag
       NEXT       = NEXT + 1
-      IF(ISFINT==0)THEN
+      IF(ALE%GLOBAL%ISFINT==0)THEN
         !no engine keyword (/ALE/SOLVER) affecting ISFINT, then use starter setting
-        ISFINT   = TABVINT(NEXT)      
+        ALE%GLOBAL%ISFINT = TABVINT(NEXT)      
       ENDIF  
 C ICNDS10 dyna condensation for S10
       NEXT       = NEXT + 1
@@ -1557,8 +1553,8 @@ C
       NEXT       = NEXT + 1                      
       NUMELS20G  = TABVINT(NEXT)   
 !
-      NEXT             = NEXT + 1                      
-      I_DT_NODA_ALE_ON = TABVINT(NEXT) 
+      NEXT = NEXT + 1                      
+       ALE%GLOBAL%I_DT_NODA_ALE_ON = TABVINT(NEXT) 
 c interface adhesion
       NEXT    = NEXT + 1
       INTERADHESION = TABVINT(NEXT)
@@ -1655,7 +1651,7 @@ C  Pinching
 
 !
       NEXT=NEXT+1
-      IF(I_SUPG_ON_OFF==0) I_SUPG_ON_OFF = TABVINT(NEXT)
+      IF(ALE%UPWIND%I_SUPG_ON_OFF==0) ALE%UPWIND%I_SUPG_ON_OFF = TABVINT(NEXT)
 
       NEXT       = NEXT + 1
       NLEDGE     = TABVINT(NEXT) 
@@ -1695,7 +1691,8 @@ C  BCS/CYCLIC
       NEXT       = NEXT + 1
       IF(TABVINT(NEXT) == 1)INTER18_IS_VARIABLE_GAP_DEFINED = .TRUE.
 
-      IF ((IALE > 0 .AND. NWALE_RST == 6) .OR. INTER18_AUTOPARAM == 1 .OR. INTER18_IS_VARIABLE_GAP_DEFINED) THEN
+      IF ((IALE > 0 .AND.  ALE%GRID%NWALE_RST == 6) .OR. 
+     .     INTER18_AUTOPARAM == 1 .OR. INTER18_IS_VARIABLE_GAP_DEFINED) THEN
          NEXT = NEXT + 1
          NE_SLERCVOIS = TABVINT(NEXT)
          NEXT = NEXT + 1
@@ -1784,6 +1781,7 @@ C-----------------------------------------------
        USE ANIM_MOD      
        USE OUTPUTS_MOD        
        USE STATE_MOD  
+       USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1798,7 +1796,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com06_c.inc"
-#include      "com07_c.inc"
 #include      "com08_c.inc"
 #include      "cong2_c.inc"
 #include      "couple_c.inc"
@@ -1810,7 +1807,6 @@ C-----------------------------------------------
 #include      "scr18_c.inc"
 #include      "scr19_c.inc"
 #include      "scrnoi_c.inc"
-#include      "scrupw_c.inc"
 #include      "sms_c.inc"
 #include      "sphcom.inc"
 #include      "sysunit.inc"
@@ -1867,11 +1863,11 @@ C-----
       DAMPB  =TABVREA(32)
       DAMPW  =TABVREA(33)
 C-----
-      ALPHA  =TABVREA(34)
-      GAMMA  =TABVREA(35)
-      VGX    =TABVREA(36)
-      VGY    =TABVREA(37)
-      VGZ    =TABVREA(38)
+      ALE%GRID%ALPHA = TABVREA(34)
+      ALE%GRID%GAMMA = TABVREA(35)
+      ALE%GRID%VGX = TABVREA(36)
+      ALE%GRID%VGY = TABVREA(37)
+      ALE%GRID%VGZ = TABVREA(38)
 C-----
        SPASORT=TABVREA(39)
        SPATRUE=TABVREA(40)
@@ -1905,23 +1901,22 @@ C--------------------------------------
          MADUL  = TABVREA(96)
          MADUT  = TABVREA(97)
          MADUM  = TABVREA(98)
-         DTFSUB = TABVREA(99)
-         DTMSUB = TABVREA(100)
+         ALE%SUB%DTFSUB = TABVREA(99)
+         ALE%SUB%DTMSUB = TABVREA(100)
          EPS    = TABVREA(101)
          EPS2   = TABVREA(102)
-         CUPWM  = TABVREA(103)
+         ALE%UPWIND%CUPWM  = TABVREA(103)
 c noise
          TNOISE = TABVREA(104)
          DTNOISE= TABVREA(105)
        ENDIF
 
-
       DWMAD = TABVREA(106)
       FAC_MASS   = TABVREA(107)
       FAC_LENGTH = TABVREA(108)
       FAC_TIME   = TABVREA(109)
-      T1SH   = TABVREA(110)
-      UPWSM = TABVREA(111)
+      T1SH  = TABVREA(110)
+      ALE%UPWIND%UPWSM = TABVREA(111)
 
       RVARINT = 111
 
@@ -1938,14 +1933,14 @@ C THERMAL ANALYSIS
       HEAT_RADIA  = TABVREA(RVARINT)
       RVARINT = RVARINT + 1
       HEAT_FFLUX  = TABVREA(RVARINT)
-C   TABLEAU SOL1TNL
+C   SOL1TNL array
       DO I=0, MAXLAW
         RVARINT = RVARINT + 1
         SOL1TNL(I,1) = TABVREA(RVARINT)
         RVARINT = RVARINT + 1
         SOL1TNL(I,2) = TABVREA(RVARINT)
       ENDDO
-C   TABLEAU SOL8TNL
+C   SOL8TNL array
       DO I=0, MAXLAW
         RVARINT = RVARINT + 1
         SOL8TNL(I,1) = TABVREA(RVARINT)
@@ -1953,18 +1948,18 @@ C   TABLEAU SOL8TNL
         SOL8TNL(I,2) = TABVREA(RVARINT)
       ENDDO
 
-C   TABLEAU TET4TNL
+C   TET4TNL array
       DO I=0, MAXLAW
         RVARINT = RVARINT + 1
         TET4TNL(I,1) = TABVREA(RVARINT)
       ENDDO
-C   TABLEAU TET10TNL
+C   TET10TNL array
       DO I=0, MAXLAW
         RVARINT = RVARINT + 1
         TET10TNL(I,1) = TABVREA(RVARINT)
       ENDDO
 
-C   TABLEAU SHTNL
+C   SHTNL array
       DO I=0, MAXLAW
         DO J=0,3
           RVARINT = RVARINT + 1
@@ -1975,7 +1970,7 @@ C   TABLEAU SHTNL
           SHTNL(I,J,3) = TABVREA(RVARINT)
         ENDDO
       ENDDO
-C   TABLEAU TRITNL
+C   TRITNL array
       DO I=0, MAXLAW
         DO J=0,3
           RVARINT = RVARINT + 1
@@ -1986,7 +1981,7 @@ C   TABLEAU TRITNL
           TRITNL(I,J,3) = TABVREA(RVARINT)
         ENDDO
       ENDDO
-C   TABLEAU SOLTELT
+C    SOLTELT array
       DO I=1,8
         RVARINT = RVARINT + 1
         SOLTELT(I) = TABVREA(RVARINT)
@@ -1997,12 +1992,12 @@ C   TABLEAU SOLTELT
       RVARINT = RVARINT + 1
       TET10TELT(1) = TABVREA(RVARINT)
 
-C   TABLEAU SHTELT
+C   SHTELT array
       DO I=1,10
         RVARINT = RVARINT + 1
         SHTELT(I) = TABVREA(RVARINT)
       ENDDO
-C   TABLEAU TRITELT
+C   TRITELT array
       DO I=1,10
         RVARINT = RVARINT + 1
         TRITELT(I) = TABVREA(RVARINT)
@@ -2100,9 +2095,9 @@ C    /ADYREL :BETATE_0, EINT_0,ENCIN_0,PIMAX ,PCMAX,PINT ,PCIN ,FIL_
       NFIRST  = TABVREA(RVARINT)
 C     
       RVARINT = RVARINT + 1
-      IF(MCHECK/=0) VGY0= TABVREA(RVARINT)
+      IF(MCHECK/=0) ALE%GRID%VGY0= TABVREA(RVARINT)
       RVARINT = RVARINT + 1
-      IF(MCHECK/=0) VGZ0= TABVREA(RVARINT)
+      IF(MCHECK/=0) ALE%GRID%VGZ0= TABVREA(RVARINT)
 C
       RVARINT = RVARINT + 1
       ECONTD= TABVREA(RVARINT)

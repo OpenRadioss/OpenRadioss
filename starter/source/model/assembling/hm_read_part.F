@@ -72,6 +72,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE MULTI_FVM_MOD
       USE ELBUFTAG_MOD 
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,7 +86,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com_xfem1.inc"
 #include      "param_c.inc"
-#include      "conv_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -146,7 +146,7 @@ C-----------------------------------------------
 C--------------------------------------------------
 C ALE or EULER CONVECTION CODES (CONVECTION/REZONING/EBCS)
 C--------------------------------------------------      
-        CODV(1:LCONV)=0      
+        ALE%GLOBAL%CODV(1:ALE%GLOBAL%LCONV)=0      
 C--------------------------------------------------
 C START BROWSING MODEL PARTS
 C--------------------------------------------------
@@ -424,11 +424,11 @@ c-------------------------------------------------------------------
 C--------------------------------------------------
 C ALE or EULER CONVECTION CODES (CONVECTION/REZONING/EBCS)
 C--------------------------------------------------   
-      NVCONV=0
-      DO I=1,LCONV
-        IF(CODV(I) == 1)THEN
-          NVCONV=NVCONV+1
-          CODV(I)=NVCONV
+      ALE%GLOBAL%NVCONV=0
+      DO I=1,ALE%GLOBAL%LCONV
+        IF(ALE%GLOBAL%CODV(I) == 1)THEN
+          ALE%GLOBAL%NVCONV=ALE%GLOBAL%NVCONV+1
+          ALE%GLOBAL%CODV(I)=ALE%GLOBAL%NVCONV
         ENDIF
       ENDDO      
 C--------------------------------------------------

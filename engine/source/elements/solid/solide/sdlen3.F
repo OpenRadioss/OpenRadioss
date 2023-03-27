@@ -40,6 +40,10 @@ Chd|====================================================================
      .   N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
      .   N1Z, N2Z, N3Z, N4Z, N5Z, N6Z)
 C-----------------------------------------------
+C   M o d u l e  s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -62,22 +66,19 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "fluid_scr_c.inc"
 #include      "scr17_c.inc"
-#include      "alesolver.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NFAC
-      my_real
-     .   XIOFF(MVSIZ), AREAM(MVSIZ), ATEST(MVSIZ), AREA(MVSIZ,6)
+      my_real XIOFF(MVSIZ), AREAM(MVSIZ), ATEST(MVSIZ), AREA(MVSIZ,6)
 C-----------------------------------------------
       DO I=LFT,LLT
         XIOFF(I) = ONE
         AREAM(I) = EM20
       ENDDO
 
-      IF((ICAA==1 .OR. ISFINT>=2) .AND. JALE+JEUL/=0)THEN
+      IF((ALE%GLOBAL%ICAA==1 .OR. ALE%GLOBAL%ISFINT>=2) .AND. JALE+JEUL/=0)THEN
         CALL SLENA(
      .     N1X, N2X, N3X, N4X, N5X, N6X,
      .     N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
@@ -164,8 +165,7 @@ C-----------------------------------------------
       INTEGER I,IDEG(MVSIZ),J,IDET4(MVSIZ),IT(MVSIZ)
       INTEGER :: N_INDX
       INTEGER, DIMENSION(MVSIZ) :: INDX
-      my_real
-     .   FAC(MVSIZ),V_G
+      my_real FAC(MVSIZ),V_G
 C-----------------------------------------------
       IDEG(1:MVSIZ)=0
       DO J=1,6

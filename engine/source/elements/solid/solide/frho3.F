@@ -28,7 +28,10 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FRHO3(UVAR ,RHO0,DXX, DYY, DZZ,
      .                 FLUX,FLU1,VOLN,NGL,MAT,OFF,NEL)
-C      USE MESSAGE_MOD
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,19 +52,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(*),MAT(*),NEL
-C     REAL
-      my_real
-     .  UVAR(NEL,*),FLUX(MVSIZ,6), FLU1(*),
-     .  VOLN(*), DXX(*),DYY(*),DZZ(*),OFF(*),RHO0(*)
+      my_real UVAR(NEL,*),FLUX(MVSIZ,6), FLU1(*), VOLN(*), DXX(*),DYY(*),DZZ(*),OFF(*),RHO0(*)
       TARGET :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .      DVV, E0(NEL),VAVG,RV,RVP
+      my_real DVV, E0(NEL),VAVG,RV,RVP
       INTEGER I, J,COUNT,LIST(NEL),II
-      my_real,       
-     .   DIMENSION(:), POINTER :: VOLO,RHON,EINT,DVOL
+      my_real, DIMENSION(:), POINTER :: VOLO,RHON,EINT,DVOL
 C-----------------------------------------------
       RHON => UVAR(1:NEL,1)   
       EINT => UVAR(1:NEL,2)   
@@ -70,7 +68,7 @@ C-----------------------------------------------
 C
 C  incompressible flow avoir plus en cas de besoin
 C      INCOMP = 1 not tested
-      IF(INCOMP == 1)THEN
+      IF(ALE%GLOBAL%INCOMP == 1)THEN
          E0 = ZERO ! 
          DO I=LFT,LLT
           DVV=DT1*(DXX(I)+DYY(I)+DZZ(I))

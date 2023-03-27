@@ -93,6 +93,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MULTI_FVM_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -107,11 +108,8 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
-#include      "scr06_c.inc"
 #include      "timeri_c.inc"
-#include      "vale_c.inc"
 #include      "parit_c.inc"
-#include      "ale_param.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------------------------
 C     D u m m y   A r g u m e n t s
@@ -153,16 +151,16 @@ C-----------------------------------------------
 C----------------------------------------
 C     CALCUL DES VITESSES DU MAILLAGE
 C----------------------------------------
-      IF(IFSUB == 0) THEN
+      IF(ALE%SUB%IFSUB == 0) THEN
       
         IF(ITASK == 0)THEN
           DT2SAVE=DT2                                              
-          IF(IALESUB /= 0)DT2=INT(DT2S/DT2SAVE)*DT2SAVE !DT2=DT2S  
+          IF(ALE%SUB%IALESUB /= 0)DT2=INT(DT2S/DT2SAVE)*DT2SAVE !DT2=DT2S  
           SIZEN=0                                                  
           IF(IPARIT == 0)SIZEN = NUMNOD 
         ENDIF
               
-        SELECT CASE (NWALE)                                                                                     
+        SELECT CASE (ALE%GRID%NWALE)                                                                                     
                                                                                                                
           !-------------------------!                                                                             
           !---/ALE/GRID/DONEA                                                                                     

@@ -44,6 +44,10 @@ C      in grid subroutine it may needed to access nodes which
 C      are connected to a remote elem. They are sored in X(1:3,NUMNOD+1:)
 C      Consequently X is defined here X(3,SX/3) instead of X(3,NUMNOD) as usually
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -56,7 +60,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com07_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
@@ -97,7 +100,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IF(ALPHA < ZERO)THEN
+      IF(ALE%GRID%ALPHA < ZERO)THEN
  	DO I=1,NUMNOD
  	  IF(IABS(NALE(I)) == 1) THEN
  	    WB(1,I)=ZERO
@@ -106,18 +109,18 @@ C-----------------------------------------------
  	  ENDIF
  	ENDDO
 C
-         ALPHA=-ALPHA
+         ALE%GRID%ALPHA=-ALE%GRID%ALPHA
       ENDIF
 C
-      DT0X=DT2/(-VGX+SQRT(VGX**2+ONE))/ALPHA
-      IF(TT == ZERO)VGZ=DT0X
-      VGZ=MAX(DT0X,(VGZ+HALF*DT0X)/THREE_HALF)
-      IF(VGY0 == ZERO)THEN
-       VGY0=VGY
-       VGZ0=VGZ
+      DT0X=DT2/(-ALE%GRID%VGX+SQRT(ALE%GRID%VGX**2+ONE))/ALE%GRID%ALPHA
+      IF(TT == ZERO)ALE%GRID%VGZ=DT0X
+      ALE%GRID%VGZ=MAX(DT0X,(ALE%GRID%VGZ+HALF*DT0X)/THREE_HALF)
+      IF(ALE%GRID%VGY0 == ZERO)THEN
+       ALE%GRID%VGY0=ALE%GRID%VGY
+       ALE%GRID%VGZ0=ALE%GRID%VGZ
       ENDIF
-      VGY=VGY0*VGZ/VGZ0
-      GAM1=GAMMA-ONE
+      ALE%GRID%VGY=ALE%GRID%VGY0*ALE%GRID%VGZ/ALE%GRID%VGZ0
+      GAM1=ALE%GRID%GAMMA-ONE
 C
 C-----------------------------------------------
 C SPMD
@@ -132,7 +135,7 @@ C-----------------------------------------------
      	  ENDIF
      	ENDDO
       ELSE
-Cel traitement parith/off avec utilisation WBTMP
+
 #include "vectorize.inc"
         DO I=1,NUMNOD
           IF(IABS(NALE(I)) == 1) THEN
@@ -147,7 +150,7 @@ Cel traitement parith/off avec utilisation WBTMP
         ENDDO
       ENDIF
 C
-C mise a 0 de FSKY pour Parith/ON
+C zeroing FSKY for Parith/ON
 C
       IF(IPARIT /= 0) THEN
          IF(IVECTOR == 0) THEN
@@ -192,7 +195,7 @@ C
        IF ((ITY == 1 .OR. ITY == 2) .AND. MQE == 1) THEN
         ISOLNOD=IPARG(28,NG)
          
-c nombre de ressort/noeud=3 
+c number of springs/node=3 
         IF(ITY == 2)THEN
           NTR=4
           DO ITR=1,NTR
@@ -279,16 +282,16 @@ C
 C
  	  DDLF=VX(I,KK)*DDX(I)+VY(I,KK)*DDY(I)+VZ(I,KK)*DDZ(I)
  	  DLF0=ABS(VX(I,KK)*XX(I)+VY(I,KK)*XY(I)+VZ(I,KK)*XZ(I))
- 	  DLF=(DLF0-VGY)/VGY
+ 	  DLF=(DLF0-ALE%GRID%VGY)/ALE%GRID%VGY
  	  DLF=MIN(DLF,ZERO)
- 	  DLF0=DLF0-0.2*VGY
+ 	  DLF0=DLF0-0.2*ALE%GRID%VGY
  	  DLF0=MIN(DLF0,ZERO)
- 	  DLF=GAMMA+GAM1*DLF*DLF*DLF
+ 	  DLF=ALE%GRID%GAMMA+GAM1*DLF*DLF*DLF
  	  DLF=MIN(DLF,ONE)
- 	  DX(I)=DT2*DLF0*DLF/VGZ/VGZ
- 	  DDL(I)= VGX/VGZ
- 	  IF(DDLF > 0.)DLF=GAMMA
- 	  DL(I) = 1. /VGZ/VGZ *DLF
+ 	  DX(I)=DT2*DLF0*DLF/ALE%GRID%VGZ/ALE%GRID%VGZ
+ 	  DDL(I)= ALE%GRID%VGX/ALE%GRID%VGZ
+ 	  IF(DDLF > 0.)DLF=ALE%GRID%GAMMA
+ 	  DL(I) = 1. /ALE%GRID%VGZ/ALE%GRID%VGZ *DLF
 c	   DL(I)=0.
 C
          ENDDO

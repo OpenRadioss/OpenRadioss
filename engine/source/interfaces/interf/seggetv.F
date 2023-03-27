@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD    
       USE SEGVAR_MOD              
       USE ALE_CONNECTIVITY_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +55,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
-#include      "conv_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG, I, J, IV, KVAR, KK, JCODV(LCONV),CODTOT, SEGAD, IAD2, LGTH
+      INTEGER NG, I, J, IV, KVAR, KK, JCODV(ALE%GLOBAL%LCONV),CODTOT, SEGAD, IAD2, LGTH
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
 C=======================================================================

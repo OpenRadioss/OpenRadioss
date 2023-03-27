@@ -33,14 +33,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SEGVAR_MOD
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "conv_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -210,7 +207,7 @@ C VALEURS FLUIDE RENTRANT
 C        ROIN =RO
 C        ENIN =EN
 C VALEURS FLUIDE SORTANT
-        SEGAD=NVCONV*(KSEG-1)
+        SEGAD=ALE%GLOBAL%NVCONV*(KSEG-1)
         ROOU = SEGVAR%RHO(KSEG)
         ENOU = SEGVAR%EINT(KSEG)
 c        write(7,*)iseg(is),enin,roin,pn,vel,vn,s

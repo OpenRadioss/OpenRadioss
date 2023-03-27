@@ -32,6 +32,10 @@ Chd|====================================================================
      2   VDZ,     R,       S,       T,
      3   GAM,     NEL)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -43,7 +47,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "scrupw_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -65,8 +68,8 @@ C-----------------------------------------------
       !-------------!
       !   /UPWM/TG  !
       !-------------!
-      IF(UPWM==2)THEN
-        FAC=CUPWM*HALF*DT1
+      IF(ALE%UPWIND%UPWM==2)THEN
+        FAC=ALE%UPWIND%CUPWM*HALF*DT1
         DO I=1,NEL
           GAM(I)=FAC
         END DO
@@ -74,7 +77,7 @@ C-----------------------------------------------
       !-------------!
       !  /UPWM/SUPG !
       !-------------!
-      ELSEIF(UPWM==3)THEN
+      ELSEIF(ALE%UPWIND%UPWM==3)THEN
         DO  I=1,NEL
           V(I)=VDX(I)**2+VDY(I)**2+VDZ(I)**2
           D1=ABS(R(I,1)*VDX(I)+R(I,2)*VDY(I)+R(I,3)*VDZ(I)) 
@@ -83,7 +86,7 @@ C-----------------------------------------------
           GAM(I)=MAX(D1,D2,D3) !dominant direction
         ENDDO 
 
-        CH2=CUPWM*HALF
+        CH2=ALE%UPWIND%CUPWM*HALF
         CH1=CH2*THIRD
        
        !SU/PG weighting function for current node.

@@ -107,6 +107,7 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE STATE_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -117,7 +118,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
-#include      "com07_c.inc"
 #include      "com08_c.inc"
 #include      "com09_c.inc"
 #include      "param_c.inc"
@@ -140,7 +140,6 @@ C-----------------------------------------------
 #include      "scrcut_c.inc"
 #include      "scrnoi_c.inc"
 #include      "parit_c.inc"
-#include      "scrupw_c.inc"
 #include      "chara_c.inc"
 #include      "task_c.inc"
 #include      "sphcom.inc"
@@ -153,16 +152,14 @@ C-----------------------------------------------
 #include      "inter22.inc"
 #include      "userlib.inc"
 #include      "scr_thermal_c.inc"
-#include      "alesolver.inc"
 #include      "spmd_c.inc"
 #include      "intstamp_c.inc"
-#include      "ale_param.inc"
 #include      "my_allocate.inc"
 #include      "couple_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARG(NPARG,*), IPARI(NPARI,*), IXS(NIXS,*),
+      INTEGER IPARG(NPARG,NGROUP), IPARI(NPARI,*), IXS(NIXS,*),
      .   IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),ITAB(*), ITABM1(*),
      .   ISKWN(LISKN,*), NPBY(NNPBY,*),NNLINK(*) ,LLINK(*) ,LINALE(*),
@@ -226,10 +223,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NINTRN, NGR2USR
-      my_real
-     .   SYSFUS
-      EXTERNAL NGR2USR
+      INTEGER,EXTERNAL :: NGR2USR
 C-----------------------------------------------
       ! setting NOINT in IPARI(13)
       IERR = 0
@@ -247,19 +241,18 @@ C-----------------------------------------------
       READ (IIN,'(4F16.0)')(DTH1(I+5),I=1,4)
       READ (IIN,'(6F10.0)')ALP,GAM,CV1,CV2,CV3,VOLM
       READ (IIN,'(I8)') LOWMACH_OPT
-      READ (IIN,'(10I8)')   NSLIOF,NELSOF,NELQOF,NELCOF,NELTOF,
-     +                      NELPOF,NELROF,NELTGOF,NSLIOFN,NSLIOFS
-      READ (IIN,'(I8)')   NSPHOF
-      READ (IIN,'(3I8)')  NALEOF,NEULEROF,NTHERMOF
-      READ (IIN,'(2I8)')   NRLINK0,NALELK0
-      READ (IIN,'(2I8)')   NALELINK0
+      READ (IIN,'(10I8)') NSLIOF,NELSOF,NELQOF,NELCOF,NELTOF,NELPOF,NELROF,NELTGOF,NSLIOFN,NSLIOFS
+      READ (IIN,'(I8)') NSPHOF
+      READ (IIN,'(3I8)') NALEOF,NEULEROF,NTHERMOF
+      READ (IIN,'(2I8)') NRLINK0,NALELK0
+      READ (IIN,'(2I8)') NALELINK0
 C--------------
 C     ALE ON / OFF
 C--------------
       READ (IIN, '(I8, I8)') NBPARTALEON, NBPARTALEOFF
       IF(MCHECK == 0)THEN
-        NRLINK= NRLINK0
-        NALELK= NALELK0
+        NRLINK=NRLINK0
+        NALELK=NALELK0
         NALELINK=NALELINK0
         IRPREV = 0
       ENDIF
@@ -267,8 +260,8 @@ C--------------
       NRBYOF = 0
       NUBCSN = 0
       NINIV  = 0
-      READ (IIN,'(2I8)')   NUBCSN,NINIV
-      READ (IIN,'(3I8)')   NINTCH,NRBYON,NRBYOF
+      READ (IIN,'(2I8)') NUBCSN,NINIV
+      READ (IIN,'(3I8)') NINTCH,NRBYON,NRBYOF
       READ (IIN,'(I8)') NDAMPN
       READ(IIN,'(I8)') NFXINP
 C-----
@@ -323,7 +316,6 @@ C
        IF(DTH1(I) /= ZERO.AND.MCHECK == 0) DTHIS1(I)=DTH1(I)
       ENDDO
 c h3d files
-c h3d files
       H3D_DATA%DTH3D = ZERO
       H3D_DATA%TH3D_STOP = EP30
       IF(H3D_DATA%TH3D0 /= ZERO)  H3D_DATA%TH3D = H3D_DATA%TH3D0
@@ -336,29 +328,28 @@ c h3d files
         H3D_DATA%TH3D_STOP = EP30
       ENDIF
       IF (H3D_DATA%TH3D < TT-DT2.AND. H3D_DATA%DTH3D > ZERO)
-     .     H3D_DATA%TH3D = H3D_DATA%TH3D
-     .              + INT((TT-DT2-H3D_DATA%TH3D)/H3D_DATA%DTH3D)*H3D_DATA%DTH3D
+     .     H3D_DATA%TH3D = H3D_DATA%TH3D + INT((TT-DT2-H3D_DATA%TH3D)/H3D_DATA%DTH3D)*H3D_DATA%DTH3D
       IF (H3D_DATA%TH3D < TT-DT2)H3D_DATA%TH3D = H3D_DATA%TH3D+H3D_DATA%DTH3D
 C
       IF(MCHECK == 0)THEN
-        VGY0=ZERO
-        VGZ0=ZERO
+        ALE%GRID%VGY0=ZERO
+        ALE%GRID%VGZ0=ZERO
         IF(DTF /= ZERO) DTFAC=DTF
         IF(DTM /= ZERO) DTMIN=DTM
-        IF(ALP /= ZERO) ALPHA=ALP
-        IF(GAM /= ZERO) GAMMA=GAM
-        IF(CV1 /= ZERO) VGX  =CV1
-        IF(CV2 /= ZERO) VGY  =CV2
-        IF(CV3 /= ZERO) VGZ  =CV3
-        IF(NWALE_ENGINE == 2)THEN
+        IF(ALP /= ZERO) ALE%GRID%ALPHA=ALP
+        IF(GAM /= ZERO) ALE%GRID%GAMMA=GAM
+        IF(CV1 /= ZERO) ALE%GRID%VGX  =CV1
+        IF(CV2 /= ZERO) ALE%GRID%VGY  =CV2
+        IF(CV3 /= ZERO) ALE%GRID%VGZ  =CV3
+        IF(ALE%GRID%NWALE_ENGINE == 2)THEN
           IF(ALP /= ZERO) THEN
-            ALPHA    = ALP/(-VGX+SQRT(VGX**2+ ONE))
+            ALE%GRID%ALPHA = ALP/(-ALE%GRID%VGX+SQRT(ALE%GRID%VGX**2+ ONE))
             DT_INPUT = ALP
           ELSE
-            DT_INPUT = ALPHA*(-VGX+SQRT(VGX**2+ ONE))
+            DT_INPUT = ALE%GRID%ALPHA*(-ALE%GRID%VGX+SQRT(ALE%GRID%VGX**2+ ONE))
           ENDIF
         ENDIF
-        IF(NWALE_ENGINE == 1.AND.ALP == ZERO) ALPHA=EP30
+        IF(ALE%GRID%NWALE_ENGINE == 1.AND.ALP == ZERO) ALE%GRID%ALPHA=EP30
         IF(VOLM /= ZERO)VOLMIN=VOLM
         IF(INT22>0)THEN
           DTFAC22 = ONE
@@ -414,7 +405,7 @@ C
       IF(DTMIN1(52) == ZERO)DTMIN1(52) = EM20
             
       I=102
-        IF(IDT_ALE==-1)THEN
+        IF(ALE%GLOBAL%IDT_ALE==-1)THEN
           IF(DTMIN1(I) == ZERO)DTMIN1(I) = DTMIN
           IF(DTFAC1(I) == ZERO)DTFAC1(I) = DTFAC
         ELSE
@@ -1003,40 +994,40 @@ c
 C-----------------------------------
 C     ALE/EULER : UPWIND
 C----------------------------------------
-         !UPW_UPDATE == 1 : ENGINE /UPWIND CARD DETECTED
-         !UPW_UPDATE == 2 : /UPWIND CARD IS CHANGING AT LEAST ONE PARAMETER
+         ! ALE%UPWIND%UPW_UPDATE == 1 : ENGINE /UPWIND CARD DETECTED
+         !ALE%UPWIND%UPW_UPDATE == 2 : /UPWIND CARD IS CHANGING AT LEAST ONE PARAMETER
          !if /UPWIND is defined then set new parameters
       IF(ISPMD == 0.AND.MCHECK == 0)THEN
         IF(IALE /= 0.OR.IEULER /= 0)THEN
-         IF(UPW_UPDATE/=0)THEN
+         IF(ALE%UPWIND%UPW_UPDATE/=0 )THEN
            DO K=1,NUMMAT-1
              !ILAW=PM(19,K)
              JALE=PM(72,K)  ! JALE from PROP (IGEO(62,IPID)) is not checked since this option /UPWIND is obsolete
              IF(JALE /= 0)THEN
-               IF(PM(15,K)/=UPWMG2.OR.PM(16,K)/=UPWOG2)THEN
-                 UPW_UPDATE = 2
-                 PM(15,K) = UPWMG2
-                 PM(16,K) = UPWOG2
+               IF(PM(15,K)/=ALE%UPWIND%UPWMG2.OR.PM(16,K)/=ALE%UPWIND%UPWOG2)THEN
+                 ALE%UPWIND%UPW_UPDATE = 2
+                 PM(15,K) = ALE%UPWIND%UPWMG2
+                 PM(16,K) = ALE%UPWIND%UPWOG2
                ENDIF
             ENDIF
            ENDDO
-           IF(UPWSM/=UPWSM2)THEN
-             UPW_UPDATE = 2
-             UPWSM      = UPWSM2
+           IF(ALE%UPWIND%UPWSM/=ALE%UPWIND%UPWSM2)THEN
+             ALE%UPWIND%UPW_UPDATE = 2
+             ALE%UPWIND%UPWSM = ALE%UPWIND%UPWSM2
            ENDIF
          !if /UPWIND is not defined then catch parameter from previous run
-         ELSEIF(UPW_UPDATE==0)THEN
-           UPWMG2=ONE
-           UPWOG2=ONE
-           UPWSM2=ONE
+         ELSEIF(ALE%UPWIND%UPW_UPDATE==0)THEN
+           ALE%UPWIND%UPWMG2=ONE
+           ALE%UPWIND%UPWOG2=ONE
+           ALE%UPWIND%UPWSM2=ONE
            DO K=1,NUMMAT-1
              !ILAW=PM(19,K)
              JALE=PM(72,K)
              IF(JALE /= 0)THEN
-               IF(PM(15,K)/=UPWMG2.OR.PM(16,K)/=UPWOG2 .OR.UPWSM /= UPWSM2)THEN
-                 UPWMG2 = PM(15,K)
-                 UPWOG2 = PM(16,K)
-                 UPWSM2 = UPWSM
+               IF(PM(15,K)/=ALE%UPWIND%UPWMG2.OR.PM(16,K)/=ALE%UPWIND%UPWOG2 .OR.ALE%UPWIND%UPWSM /= ALE%UPWIND%UPWSM2)THEN
+                 ALE%UPWIND%UPWMG2 = PM(15,K)
+                 ALE%UPWIND%UPWOG2 = PM(16,K)
+                 ALE%UPWIND%UPWSM2 = ALE%UPWIND%UPWSM
                  EXIT
                ENDIF
             ENDIF
@@ -1051,28 +1042,29 @@ C----------------------------------------
          !-----------------------
          !     QUASI-INCOMPRESSIBLE /INCMP
          !-----------------------
-          IF(INCOMP == 1.AND.MCHECK == 0) WRITE(IOUT,1196)
+          IF(ALE%GLOBAL%INCOMP == 1.AND.MCHECK == 0) WRITE(IOUT,1196)
          !-----------------------
          !     GRID FORMULATION
          !-----------------------
          !---ALE GRID FORMULATION CHECK---!
-         IF(NWALE_ENGINE /= NWALE_RST .AND. NWALE_ENGINE /= -1) THEN !Forbid ALE grid formulation switch
-           IF(NWALE_ENGINE /= 3)THEN  !expect if new one is /ALE/ZERO
+         IF(ALE%GRID%NWALE_ENGINE /= ALE%GRID%NWALE_RST .AND. ALE%GRID%NWALE_ENGINE /= -1) THEN !Forbid ALE grid formulation switch
+           IF(ALE%GRID%NWALE_ENGINE /= 3)THEN  !expect if new one is /ALE/ZERO
              ALEform=(/'DONEA    ','DISP     ','SPRING   ', 'ZERO     ','STANDARD ', 'LAPLACIAN' ,'VOLUME   '/)
              ALEStrL=(/5,4,6,4,8,9,6/)
-             Cale1=ALEform(NWALE_ENGINE)
-             Cale2=ALEform(NWALE_RST)
-             CALL ANCMSG(MSGID=229,ANMODE=ANINFO, C1=Cale1(1:ALEStrL(NWALE_ENGINE)),C2=Cale2(1:ALEStrL(NWALE_RST)))
+             Cale1=ALEform(ALE%GRID%NWALE_ENGINE)
+             Cale2=ALEform(ALE%GRID%NWALE_RST)
+              CALL ANCMSG(MSGID=229,ANMODE=ANINFO, 
+     .                    C1=Cale1(1:ALEStrL(ALE%GRID%NWALE_ENGINE)),C2=Cale2(1:ALEStrL(ALE%GRID%NWALE_RST)))
               CALL ARRET(2)
             ELSE
-             NWALE_ENGINE = 3
+             ALE%GRID%NWALE_ENGINE = 3
             END IF
           END IF
 
          !--Labels for Staggered Scheme
-         IF(UPWM==2)THEN
+         IF(ALE%UPWIND%UPWM==2)THEN
             Label1='TG       '
-         ELSEIF(UPWM==3)THEN
+         ELSEIF(ALE%UPWIND%UPWM==3)THEN
             Label1='SUPG     '
          ELSE
             Label1='UPWIND   '
@@ -1107,16 +1099,16 @@ C----------------------------------------
          ENDIF
          ALEform=(/'DONEA    ','DISP     ','SPRING   ','ZERO     ','STANDARD ','LAPLACIAN','VOLUME   ' /)
          !effective value which will be retained during numerical solving
-         IF(NWALE_ENGINE /= -1)THEN
-           NWALE = NWALE_ENGINE
+         IF(ALE%GRID%NWALE_ENGINE /= -1)THEN
+           ALE%GRID%NWALE = ALE%GRID%NWALE_ENGINE
          ELSE
-           NWALE = NWALE_RST
+           ALE%GRID%NWALE = ALE%GRID%NWALE_RST
          ENDIF
          Label9='                '
-         Label9(1:9)=ALEform(NWALE)
-         eta1=UPWMG2
-         eta2=UPWOG2
-         IF(UPWM>1)eta1=CUPWM
+         Label9(1:9)=ALEform(ALE%GRID%NWALE)
+         eta1=ALE%UPWIND%UPWMG2
+         eta2=ALE%UPWIND%UPWOG2
+         IF(ALE%UPWIND%UPWM>1)eta1=ALE%UPWIND%CUPWM
          IF(ISPMD==0 .AND. MCHECK==0)THEN
            WRITE(IOUT,1001)
            WRITE(IOUT,1002)Label1,eta1,Label2,eta2,Label3,eta2,Label4
@@ -1129,10 +1121,10 @@ C----------------------------------------
            ENDIF
            WRITE(IOUT,1006) DTFAC1(102),DTMIN1(102)
            WRITE(IOUT,1007)Label9
-           IF(NWALE == 0) WRITE(IOUT,1200) ALPHA,GAMMA,VGX,VGY,VGZ,VOLMIN
-           IF(NWALE == 1) WRITE(IOUT,1220) ALPHA,VGX,VGY,VGZ,VOLMIN
-           IF(NWALE == 2) WRITE(IOUT,1250) DT_INPUT,ALPHA,GAMMA,VGX,VGY,VOLMIN
-           IF(NWALE == 4) WRITE(IOUT,1254) ALPHA,GAMMA,VGX,VGY
+           IF(ALE%GRID%NWALE == 0) WRITE(IOUT,1200) ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY,ALE%GRID%VGZ,VOLMIN
+           IF(ALE%GRID%NWALE == 1) WRITE(IOUT,1220) ALE%GRID%ALPHA,ALE%GRID%VGX,ALE%GRID%VGY,ALE%GRID%VGZ,VOLMIN
+           IF(ALE%GRID%NWALE == 2) WRITE(IOUT,1250) DT_INPUT,ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY,VOLMIN
+           IF(ALE%GRID%NWALE == 4) WRITE(IOUT,1254) ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY
          ENDIF
        ENDIF !(IALE/=0.OR.IEULER/=0)
           !---CHECK END-------------------!
@@ -1140,8 +1132,8 @@ C----------------------------------------
 !     FEM MOMENTUM INTEGRATION
 !-----------------------
       IF(ISPMD == 0.AND.MCHECK == 0)THEN
-        IF(IALE+IEULER/=0 .AND. ISFINT/=3)THEN
-          SELECT CASE(ISFINT)
+        IF(IALE+IEULER/=0 .AND. ALE%GLOBAL%ISFINT/=3)THEN
+          SELECT CASE(ALE%GLOBAL%ISFINT)
             !CASE(3)
             ! WRITE(IOUT,1197)   !default
             CASE(2)
@@ -2635,7 +2627,7 @@ C---------------------------------------------------------
       IF (IMPL_S == 1.OR.NEIG > 0) CALL LECIMPL
       IF (NFXINP > 0) CALL LECFXINP(NFXINP)
       IF(ISHSUB /= 0)THEN
-        IF(IALESUB /= 0)THEN
+        IF(ALE%SUB%IALESUB /= 0)THEN
          IF(ISPMD == 0) THEN
           CALL ANCMSG(MSGID=127,ANMODE=ANINFO_BLIND)
          END IF
@@ -2652,7 +2644,7 @@ C---------------------------------------------------------
          WRITE(IOUT,1111) NCPRISH,NCTRLSH
         END IF
       ENDIF
-      IF(NODSUBDT /= 0)THEN
+      IF(ALE%SUB%NODSUBDT /= 0)THEN
         IF(ISHSUB == 0)THEN
          IF(ISPMD == 0) THEN
           CALL ANCMSG(MSGID=129,ANMODE=ANINFO_BLIND)
@@ -2664,21 +2656,20 @@ C---------------------------------------------------------
          END IF
          CALL ARRET(2)
         ELSE
-         IF(DTFSUB == 0.) DTFSUB=DTFAC1(11)
+         IF(ALE%SUB%DTFSUB == 0.) ALE%SUB%DTFSUB=DTFAC1(11)
          IF(ISPMD == 0) THEN
           WRITE(IOUT,*)
      .    'NODAL TIME STEP FOR SHELLS SUBCYCLING IS ON'
-          WRITE(IOUT,1112) DTFSUB, DTMSUB, NODSUBDT-1
+          WRITE(IOUT,1112) ALE%SUB%DTFSUB, ALE%SUB%DTMSUB, ALE%SUB%NODSUBDT-1
          END IF
         END IF
       ELSE IF(NODADT /= 0.AND.ISHSUB /= 0)THEN
-         NODSUBDT=1
-         DTFSUB=DTFAC1(11)
-         DTMSUB=DTMIN1(11)
+         ALE%SUB%NODSUBDT=1
+         ALE%SUB%DTFSUB=DTFAC1(11)
+         ALE%SUB%DTMSUB=DTMIN1(11)
          IF(ISPMD == 0) THEN
-          WRITE(IOUT,*)
-     .    'NODAL TIME STEP FOR SHELLS SUBCYCLING IS ON'
-          WRITE(IOUT,1112) DTFSUB, DTMSUB, NODSUBDT-1
+          WRITE(IOUT,*) 'NODAL TIME STEP FOR SHELLS SUBCYCLING IS ON'
+          WRITE(IOUT,1112) ALE%SUB%DTFSUB, ALE%SUB%DTMSUB, ALE%SUB%NODSUBDT-1
          END IF
       END IF
       IF (NEIGOFF > 0) CALL LECEIG(NEIGOFF, NEOFF)

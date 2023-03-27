@@ -44,6 +44,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE I22BUFBRIC_MOD  
       USE I22TRI_MOD    
+      USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +53,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "fluid_scr_c.inc"
 #include      "inter22.inc"
 #include      "task_c.inc"
 #include      "com01_c.inc"
@@ -148,7 +148,7 @@ C---------------------------------------------------------------------C
         IF(IERR1>0)GOTO 1000                                                                                 
 
         CALL I22DATAINIT()                                                                                                                                                                                                                                                                                                 
-        ICAA = 1                                                                                                                                                    
+        ALE%GLOBAL%ICAA = 1                                                                                                                                                    
       ENDIF 
       
       !CALL I22DATAINIT_DB()                                                                                                                                                          
