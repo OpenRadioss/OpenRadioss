@@ -43,7 +43,7 @@ Chd|====================================================================
      4                  IORTH  ,HMOR    ,HFOR   ,DIR     ,IGEO     ,
      5                  IDRIL  ,IHBE    ,HMFOR  ,GS      ,ISUBSTACK,
      6                  STACK  ,ELBUF_STR,NLAY  ,DRAPE  ,NFT       ,
-     .                  NEL   , INDX_DRAPE)
+     .                  NEL   , INDX_DRAPE, SEDRAPE , NUMEL_DRAPE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,6 +69,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  ,MTN  , NPT,ITHK,IGTYP,IORTH,ISUBSTACK,NLAY,NFT
       INTEGER MAT(*), PID(*),IGEO(NPROPGI,*),IDRIL,IHBE
+      INTEGER ,    INTENT(IN)     ::        SEDRAPE,NUMEL_DRAPE
       INTEGER, DIMENSION(SEDRAPE) :: INDX_DRAPE
       my_real
      .   GEO(NPROPG,*), PM(NPROPM,*), AREA(*),
@@ -233,8 +234,8 @@ C         INTEGRATION PAR COUCHES
           CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO    ,  
      .                MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   ,  
      .                IGTYP    ,0        ,0        ,NLAY     ,NPT     ,  
-     .                ISUBSTACK,STACK    ,DRAPE   ,NFT       ,THK     ,
-     .                NEL      ,THK_LY   ,INDX_DRAPE)                               
+     .                ISUBSTACK,STACK    ,DRAPE   ,NFT       ,THKE     ,
+     .                NEL      ,THK_LY   ,INDX_DRAPE,SEDRAPE, NUMEL_DRAPE)                               
          DO I=JFT,JLT
            HM(I,1)=ZERO
            HM(I,2)=ZERO
@@ -320,8 +321,8 @@ C-----by layer
           CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO    ,  
      .                MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   ,  
      .                IGTYP    ,0        ,0        ,NLAY     ,NPT     ,  
-     .                ISUBSTACK,STACK    ,DRAPE   ,NFT       ,THK     , 
-     .                JLT      ,THK_LY   ,INDX_DRAPE)                               
+     .                ISUBSTACK,STACK    ,DRAPE   ,NFT       ,THKE     , 
+     .                JLT      ,THK_LY   ,INDX_DRAPE,SEDRAPE ,NUMEL_DRAPE)                               
          DO I=JFT,JLT
           HM(I,1)=A11(I)
           HM(I,2)=A11(I)

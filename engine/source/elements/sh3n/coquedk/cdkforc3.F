@@ -137,7 +137,7 @@ c  indx utilise localement contrairement aux coques 4n
      .   IFLAG,LENF,LENM,LENS,IR,IS,IT,IPT,NPTT,N1,N2,N3,
      .   I,II,J,JJ,NG,NPG,NNOD,NPTR,NPTS,NLAY,L_DIRA,L_DIRB,IFAILWAVE,
      .   PT0,PT1,PT2,PT3,PTF,PTM,PTE,PTEP,PTS,IGTYP,IBID,J1,J2,
-     .   IGMAT,ILAY,NPTTOT,IREP,KK(5),K,IDRAPE,ACTIFXFEM
+     .   IGMAT,ILAY,NPTTOT,IREP,KK(5),K,IDRAPE,ACTIFXFEM,SEDRAPE,NUMEL_DRAPE
       INTEGER, DIMENSION(NEL) :: OFFLY
       PARAMETER (NPG = 3)
       PARAMETER (NNOD = 3)
@@ -416,7 +416,7 @@ C----------------------------------------------------------------------------
      N     ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O     IBID      ,IBID      ,ISUBSTACK ,STACK     ,
      P     BID       ,ITASK     ,DRAPE_SH3N  ,VAR_REG   ,NLOC_DMG  ,
-     R    INDX_DRAPE)
+     R    INDX_DRAPE ,THKE        ,SEDRAPE     ,NUMEL_DRAPE)
 C----------------------------------------------------------------------------
 C     THICKNESS CORRECTION 
 C----------------------------

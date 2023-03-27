@@ -158,7 +158,7 @@ C--------------------------------
      .   I,J,NEL,MX,NNOD,NPG,IBID,ISROT,IXLAY,NXLAY,NLAYER,NPTT,
      .   IR,IS,IT,IPT,NG,L_DIRA,L_DIRB,J1,J2,IXFEM2,IPTHK,
      .   IORTH,ILEV,IGMAT,IGTYP,IREP,NUPARAM,IADBUF,IMAT,
-     .   ACTIFXFEM
+     .   ACTIFXFEM, SEDRAPE,NUMEL_DRAPE
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),FWAVE(MVSIZ)
       PARAMETER (NNOD = 4)
       my_real 
@@ -408,7 +408,8 @@ C
      1                 PID    ,MTN    ,NPTT     ,HM      ,HF     ,  
      2                 HC     ,HMFOR  ,IORTH    ,DIR_A   ,IGEO   ,  
      3                 ISUBSTACK,STACK,XFEM_STR ,NXLAY   ,THKG   ,
-     4                 DRAPE_SH4N ,NFT  ,NEL    ,INDX_DRAPE  )           
+     4                 DRAPE_SH4N ,NFT  ,NEL    ,INDX_DRAPE , THKE,
+     5                 SEDRAPE,NUMEL_DRAPE )           
 C----------------------------------
 C     CALCUL VITESSE DE DEFORMATION 
 C----------------------------------
@@ -473,7 +474,7 @@ C-----------------------------
      N       ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT    ,
      O       IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P       BID       ,ITASK     ,DRAPE_SH4N  ,VARNL     ,NLOC_DMG,
-     R       INDX_DRAPE)
+     R       INDX_DRAPE, THKE    ,SEDRAPE     ,NUMEL_DRAPE)
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C--------------------------

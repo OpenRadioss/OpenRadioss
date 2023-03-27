@@ -86,7 +86,8 @@ C-----------------------------------------------
       INTEGER I,J,K,N,II,JJ,LEN,IOFF,IE,NG,NEL,NFT,LFT,NPT,
      .   LLT,ITY,MLW,IH,IHBE, ID, IPRT0, IPRT,IR,IS,IT,J1,J2,
      .   NPG,IPG,MPT,IPT,NPTR,NPTS,NPTT,NLAY,L_PLA,ITHK,NF3,
-     .   IGTYP,NPT_ALL,IL,KK(12),NF1,IREL,IBID0,MAT_1,PID_1,ILAY,IDRAPE
+     .   IGTYP,NPT_ALL,IL,KK(12),NF1,IREL,IBID0,MAT_1,PID_1,ILAY,IDRAPE,
+     .   SEDRAPE,NUMEL_DRAPE
       INTEGER PTWA(MAX(STAT_NUMELC ,STAT_NUMELTG)),
      .        PTWA_P0(0:MAX(1,STAT_NUMELC_G,STAT_NUMELTG_G))
       double precision   
@@ -174,8 +175,8 @@ C
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
      .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    , 
      .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,MPT      ,   
-     .              ISUBSTACK,STACK    ,DRAPE_SH4N ,NFT      ,THK0     ,
-     .              NEL      ,THK_LY   ,DRAPEG%INDX_SH4N)
+     .              ISUBSTACK,STACK    ,DRAPE_SH4N ,NFT    ,THKE     ,
+     .              NEL      ,THK_LY   ,DRAPEG%INDX_SH4N,SEDRAPE,NUMEL_DRAPE)
          L_DIRA = ELBUF_TAB(NG)%BUFLY(1)%LY_DIRA
          L_DIRB = ELBUF_TAB(NG)%BUFLY(1)%LY_DIRB
          ALLOCATE(DIRA(NLAY*NEL*L_DIRA))
@@ -696,8 +697,8 @@ C
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
      .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    , 
      .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,MPT      ,   
-     .              ISUBSTACK,STACK    ,DRAPE_SH3N ,NFT      ,THK0     ,
-     .              NEL      ,THK_LY   ,DRAPEG%INDX_SH3N)
+     .              ISUBSTACK,STACK    ,DRAPE_SH3N ,NFT      ,THKE     ,
+     .              NEL      ,THK_LY   ,DRAPEG%INDX_SH3N, SEDRAPE,NUMEL_DRAPE)
 !
          L_DIRA = ELBUF_TAB(NG)%BUFLY(1)%LY_DIRA
          L_DIRB = ELBUF_TAB(NG)%BUFLY(1)%LY_DIRB

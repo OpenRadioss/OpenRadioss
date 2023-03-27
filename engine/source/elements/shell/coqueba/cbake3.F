@@ -52,7 +52,7 @@ Chd|====================================================================
      5            ETAG  , IDDL   ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      6            IHBE   ,THKE   ,ISMSTR ,X      ,IKGEO  ,
      7            IPM    ,IGEO   ,IEXPAN ,IPARG  ,ISUBSTACK ,STACK ,
-     8            DRAPE_SH4N  ,INDX_DRAPE)
+     8            DRAPE_SH4N  ,INDX_DRAPE,SEDRAPE,NUMEL_DRAPE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,6 +77,7 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT     ,JLT    ,NFT    ,NPT   ,MTN     ,ITHK   ,
      .   NCYCLE,ISTRAIN ,IPLA   ,OFFSET,IHBE    ,ISMSTR,IKGEO,IEXPAN
+      INTEGER ,    INTENT(IN)     ::        SEDRAPE,NUMEL_DRAPE
       INTEGER IXC(NIXC,*) ,IGEO(NPROPGI,*),IPM(*),IPARG(*)
       INTEGER INDXOF(MVSIZ),ISUBSTACK,
      .         ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
@@ -187,8 +188,6 @@ C
      3                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
      4                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34) 
 C
-      NUMEL_DRAPE = NUMELC_DRAPE
-      SEDRAPE = SCDRAPE
       IF (IREP>0) THEN
       CALL CMATC3(JFT    ,JLT     ,PM     ,MAT     ,GEO     ,
      1            PID    ,AREA    ,THK0   ,THK2    ,GBUF%THK,
@@ -197,7 +196,7 @@ C
      4            IORTH  ,HMOR    ,HFOR   ,DIR_A   ,IGEO    ,
      5            IDRIL  ,IHBE    ,HMFOR  ,GS      ,ISUBSTACK,
      6            STACK  ,ELBUF_STR,NLAY  ,DRAPE_SH4N   ,NFT      ,
-     7            NEL    ,INDX_DRAPE)
+     7            NEL    ,INDX_DRAPE,SEDRAPE,NUMEL_DRAPE)
       ELSE
       CALL CMATC3(JFT    ,JLT     ,PM     ,MAT     ,GEO     ,
      1            PID    ,AREA    ,THK0   ,THK2    ,GBUF%THK,
@@ -206,7 +205,7 @@ C
      4            IORTH  ,HMOR    ,HFOR   ,DIRA    ,IGEO    ,
      5            IDRIL  ,IHBE    ,HMFOR  ,GS      ,ISUBSTACK,
      6            STACK  ,ELBUF_STR,NLAY  ,DRAPE_SH4N  , NFT      ,
-     7            NEL    ,INDX_DRAPE)
+     7            NEL    ,INDX_DRAPE,SEDRAPE,NUMEL_DRAPE)
       ENDIF
       IF (IDRIL>0) THEN
         CALL CBADERIRZ(JFT  ,JLT  ,AREA ,X13 ,X24   ,

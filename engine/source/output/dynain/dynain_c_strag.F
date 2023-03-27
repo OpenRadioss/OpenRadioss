@@ -86,7 +86,7 @@ C-----------------------------------------------
      .   IGTYP,NPT_ALL,IL,KK(8),LARGE,IREP,IPID,IVISC,
      .   IPMAT,IXFEM,IXLAY,ISUBSTACK,IPTT,IS_WRITTEN,
      ,   LAYNPT_MAX,LAY_MAX,IERR,
-     .   JDIR,ILAY,J1,J2,IREL,G_STRA,IPT_ALL
+     .   JDIR,ILAY,J1,J2,IREL,G_STRA,IPT_ALL,SEDRAPE,NUMEL_DRAPE
       PARAMETER (LAYNPT_MAX = 10)
       PARAMETER (LAY_MAX = 100)
       INTEGER ,  DIMENSION(:),ALLOCATABLE :: PTWA, PTWA_P0
@@ -192,8 +192,8 @@ C------------------------------------------------
      .           ELBUF_TAB(NG),LFT      ,LLT        ,GEO        ,IGEO      ,
      .           MAT        ,PID        ,THKLY      ,MATLY      ,POSLY     ,
      .           IGTYP      ,IXFEM      ,IXLAY      ,NLAY       ,NPT       ,
-     .           ISUBSTACK  ,STACK      ,DRAPE_SH4N   ,NFT        ,THK0      , 
-     .           NEL        ,THK_LY     ,DRAPEG%INDX_SH4N)
+     .           ISUBSTACK  ,STACK      ,DRAPE_SH4N   ,NFT      ,THKE      , 
+     .           NEL        ,THK_LY     ,DRAPEG%INDX_SH4N,SEDRAPE,NUMEL_DRAPE)
 
 C-------------------------------------------------------
 C     ELEMENT LOCAL FRAME : for rotation local -> Global
@@ -533,8 +533,8 @@ C------------------------------------------------
      .           ELBUF_TAB(NG),LFT      ,LLT        ,GEO        ,IGEO      ,
      .           MAT        ,PID        ,THKLY      ,MATLY      ,POSLY     ,
      .           IGTYP      ,IXFEM      ,IXLAY      ,NLAY       ,NPT       ,
-     .           ISUBSTACK  ,STACK      ,DRAPE_SH3N   ,NFT        ,THK0      , 
-     .           NEL        ,THK_LY     ,DRAPEG%INDX_SH3N)
+     .           ISUBSTACK  ,STACK      ,DRAPE_SH3N   ,NFT        ,THKE      , 
+     .           NEL        ,THK_LY     ,DRAPEG%INDX_SH3N ,SEDRAPE,NUMEL_DRAPE)
 
 C-------------------------------------------------------
 C     ELEMENT LOCAL FRAME : for rotation local -> Global

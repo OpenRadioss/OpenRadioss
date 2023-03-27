@@ -94,19 +94,19 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N,IP,I1,I2,I3,I4,IPTHK,IPMAT,IPPOS,MATLY,IDPROP,
      .        IPID,IPPID,IIGEO,IADI,IADR,IPANG,NTHK,IGMAT,ILAY,NPTT,
-     .        IT,MAX_NPTT,IINT,IPID_LY,IPGMAT,IPOS,IPT,IPT_ALL,NSLICE,IE
+     .        IT,MAX_NPTT,IINT,IPID_LY,IPGMAT,IPOS,IPT,IPT_ALL,NSLICE,IE,
+     .        NLAY_MAX
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
-      PARAMETER (MAX_NPTT = 100)
       my_real XX,YY,ZZ,XY,YZ,ZX,ZSHIFT
       my_real X2(MVSIZ), X3(MVSIZ), Y3(MVSIZ),
      .   RHO(MVSIZ), THK(MVSIZ), EM(MVSIZ), XI(MVSIZ),
      .   P1, P2, P3, AA, BB, CC, A2, B2, C2, XIN, EMS, MSL, XIL,
      .   MST,DMS,INS,POSLY,THKLY,THICKT, ET,EMSCP(MVSIZ),RHOCP(MVSIZ),
-     .   EMS_NPTT,THK_IT(MAX_NPTT),POS_IT(MAX_NPTT),MS_NPTT,POS_0,
-     .   THINNING,LAYPOS(NLAY*MAX_NPTT,MVSIZ),
-     .   RATIO_THKLY(MAX_NPTT,MVSIZ)
+     .   EMS_NPTT,MS_NPTT,POS_0,THINNING
+      my_real, DIMENSION(:)  , ALLOCATABLE ::  THK_IT,   POS_IT
+      my_real, DIMENSION(:,:), ALLOCATABLE ::  LAYPOS,   RATIO_THKLY  
 C-----------------------------------------------
        TYPE (DRAPE_PLY_) , POINTER :: DRAPE_PLY   
 C-----------------------------------------------
@@ -172,6 +172,17 @@ C-----------------------------------------------
 C=======================================================================
       IGTYP = NINT(GEO(12,IPROP)) 
       IGMAT = IGEO(98,IPROP)  
+       MAX_NPTT   = 1   
+       IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+          DO ILAY=1,NLAY   !  NPT  
+              MAX_NPTT = MAX(MAX_NPTT ,ELBUF_STR%BUFLY(ILAY)%NPTT)
+          ENDDO 
+          ALLOCATE(THK_IT(MAX_NPTT),POS_IT(MAX_NPTT))
+       ELSE
+          ALLOCATE(THK_IT(0),POS_IT(0))    
+       ENDIF 
+       NLAY_MAX = MAX(NLAY, NPT)
+       ALLOCATE( LAYPOS(NLAY_MAX*MAX_NPTT,MVSIZ),RATIO_THKLY(NLAY_MAX*MAX_NPTT,MVSIZ) ) 
       IF ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT < 0) THEN
         DO I=LFT,LLT
           IF (NDRAPE == 0) THEN
@@ -1460,7 +1471,8 @@ C----------------------------------------------
              ENDDO
             ENDIF
            ENDIF
-       ENDIF ! IGMAT             
+       ENDIF ! IGMAT      
+       DEALLOCATE(THK_IT,POS_IT,   LAYPOS,RATIO_THKLY )             
 C-----------
       RETURN
       END
