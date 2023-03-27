@@ -139,7 +139,7 @@ c  indx utilise localement contrairement aux coques 4n
      .   I, J, NG,NPG,NNOD,PT0,PT1,PT2,NVS,IFLAG,IBID,NFAIL,
      .   IR,IS,ILAY,NLAY,L_DIRA,L_DIRB,J1,J2,N1,N2,N3,
      .   IGTYP,IGMAT,NPTTOT,IREP,IFAILWAVE,IDRAPE,IT,NPTT,
-     .   ACTIFXFEM
+     .   ACTIFXFEM,SEDRAPE,NUMEL_DRAPE
       INTEGER ,DIMENSION(:) ,POINTER     :: FWAVE_NOD
       PARAMETER (NNOD = 3)
       my_real 
@@ -367,7 +367,7 @@ C----------------------------------------------------------------------------
      N   ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O   IBID      ,IBID      ,ISUBSTACK ,STACK     ,
      P   BID       ,ITASK     ,DRAPE_SH3N  ,VAR_REG   ,NLOC_DMG  ,
-     R  INDX_DRAPE )
+     R   INDX_DRAPE ,THKE        ,SEDRAPE     ,NUMEL_DRAPE)
 C----------------------------------------------------------------------------
 C     FORCES VISCOCITE 
 C----------------------------

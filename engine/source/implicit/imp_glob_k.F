@@ -113,7 +113,8 @@ C-----------------------------------------------
      .   K0, K3, K5, K6, K7, K8, K9, NSG, NEL, KFTS,IOFC, ISTRA,
      .   JJ19,NPE,NIPMAX,ICNOD,NFT1,NF2,MPT,
      .   L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,L11,L12,L13,L14,L15,L16,
-     .   L17,L18,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30
+     .   L17,L18,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,
+     .   SEDRAPE,NUMEL_DRAPE
       INTEGER INDXOF(MVSIZ),ISH3N,IPRMES_EL(50)
       INTEGER ICP,ICS,IEXPAN,IETY,IG,ISUBSTACK
       SAVE
@@ -387,7 +388,7 @@ C             CALL QFORC2(
      1        ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      7        JHBE       ,THKE(NF1)  ,ISMSTR   ,X         ,IKGEO      ,
      8        IPM        ,IGEO     ,IEXPAN    ,IPARG(1,NG),ISUBSTACK,
-     9        STACK      ,DRAPE_SH4N  ,DRAPEG%INDX_SH4N)
+     9        STACK      ,DRAPE_SH4N  ,DRAPEG%INDX_SH4N, SEDRAPE,NUMEL_DRAPE)
              ELSE
 C
               
@@ -401,7 +402,7 @@ C
      1        ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      7        JHBE       ,THKE(NF1)  ,ISMSTR   ,X         ,IKGEO      ,
      8        IPM        ,IGEO     ,IEXPAN    ,IPARG(1,NG),ISUBSTACK,
-     9        STACK      ,DRAPE_SH4N     ,DRAPEG%INDX_SH4N)
+     9        STACK      ,DRAPE_SH4N     ,DRAPEG%INDX_SH4N, SEDRAPE,NUMEL_DRAPE)
 CTMP             ELSE
 CTMP              WRITE(IOUT,1001)'  Q4  SHELL'
 CTMP              WRITE(ISTDO,1001)'  Q4  SHELL'
@@ -521,7 +522,8 @@ C----6---------------------------------------------------------------7---------8
      5            ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      6            JHBE   ,THKE(NUMELC+NF1),ISMSTR ,X     ,
      7            IKGEO  ,IPM    ,IGEO   ,IEXPAN  ,IPARG(1,NG),
-     8            ISUBSTACK, STACK, DRAPE_SH3N  ,DRAPEG%INDX_SH3N)
+     8            ISUBSTACK, STACK, DRAPE_SH3N  ,DRAPEG%INDX_SH3N, 
+     9            SEDRAPE,NUMEL_DRAPE)
 
              ENDIF
 C----6---------------------------------------------------------------7---------8
@@ -3128,7 +3130,8 @@ C-----------------------------------------------
      .   K0, K3, K5, K6, K7, K8, K9, NSG, NEL, KFTS,IOFC, ISTRA,
      .   JJ19,NPE,NIPMAX,ICNOD,NFT1,LIAD,INPT,NF2,MPT,
      .   L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,L11,L12,L13,L14,L15,L16,
-     .   L17,L18,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30
+     .   L17,L18,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,
+     .   SEDRAPE, NUMEL_DRAPE
       INTEGER INDXOF(MVSIZ),ISH3N
       INTEGER ICP,ICS,IEXPAN,IETY,IG,ISUBSTACK
       my_real
@@ -3360,7 +3363,7 @@ C----6---------------------------------------------------------------7---------8
      1        ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      7        JHBE       ,THKE(NF1)  ,ISMSTR   ,X         ,IKGEO      ,
      8        IPM        ,IGEO     ,IEXPAN    ,IPARG(1,NG),ISUBSTACK , 
-     9        STACK      ,DRAPE_SH4N  ,DRAPEG%INDX_SH4N)
+     9        STACK      ,DRAPE_SH4N  ,DRAPEG%INDX_SH4N, SEDRAPE, NUMEL_DRAPE)
              ELSE
 C
               
@@ -3374,7 +3377,7 @@ C
      1        ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      7        JHBE       ,THKE(NF1)  ,ISMSTR   ,X         ,IKGEO      ,
      8        IPM        ,IGEO     ,IEXPAN    ,IPARG(1,NG),ISUBSTACK  ,
-     9        STACK      ,DRAPE_SH4N    ,DRAPEG%INDX_SH4N)
+     9        STACK      ,DRAPE_SH4N    ,DRAPEG%INDX_SH4N , SEDRAPE, NUMEL_DRAPE)
 C              CALL CKE3(
              ENDIF
 c         OPEN(UNIT=13,FILE='KE.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
@@ -3480,7 +3483,8 @@ C----6---------------------------------------------------------------7---------8
      5            ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      6            JHBE   ,THKE(NUMELC+NF1),ISMSTR ,X     ,
      7            IKGEO  ,IPM    ,IGEO   ,IEXPAN  ,IPARG(1,NG),
-     8            ISUBSTACK , STACK     , DRAPE_SH3N, DRAPEG%INDX_SH3N )
+     8            ISUBSTACK , STACK     , DRAPE_SH3N, DRAPEG%INDX_SH3N, 
+     9            SEDRAPE, NUMEL_DRAPE )
 
              ENDIF
 C----6---------------------------------------------------------------7---------8

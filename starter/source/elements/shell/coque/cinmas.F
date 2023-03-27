@@ -155,16 +155,15 @@ C-----------------------------------------------
       INTEGER I,II,J,K,N,IP,I1,I2,I3,I4,MATLY,IPTHK,IPMAT,IPPOS,ID,   
      .   ERRM,IDPROP,IPID,IPPID,ISTACK(MVSIZ,NPT),ISLV,IPID_LY,
      .   IPANG,NTHK,IGTYP,IGMAT,ILAY,NPTT,IT,IINT,IPGMAT,MAX_NPTT,
-     .   NSLICE,IPOS,IPT,IPT_ALL,IE
+     .   NSLICE,IPOS,IPT,IPT_ALL,IE,NLAY_MAX
       INTEGER*8 I8EMS(3,MVSIZ) 
       CHARACTER*nchartitle, TITR
-      PARAMETER (MAX_NPTT = 100)
       my_real 
      .   FAC,MST,DMS,THICKT,THKLY,LAYPOS,MSE,INS,MZI,EMS_NPTT,ET,ZJ,
      .   XX,YY,ZZ,XY,YZ,ZX,MSL,XIL,MS_NPTT,POS_0,THINNING
       my_real 
-     .   EMS_LAYER(MVSIZ,NLAY),POSLY(NLAY*MAX_NPTT),RATIO_THKLY(MAX_NPTT),
-     .   THK_IT(MAX_NPTT),POS_IT(MAX_NPTT)
+     .   EMS_LAYER(MVSIZ,NLAY)
+      my_real, DIMENSION(:), ALLOCATABLE  :: POSLY,RATIO_THKLY, THK_IT,POS_IT
       my_real, DIMENSION(MVSIZ) :: RHO,RHOCP,EMS,EMSCP,XI,THK
 C
 
@@ -233,7 +232,19 @@ C=======================================================================
         IPANG  =  1   !  NPT
         IPTHK  =  IPANG + NLAY   !  NPT
         IPPOS  =  IPTHK + NLAY   !  NPT
-C           
+ 
+C    
+       MAX_NPTT   = 1   
+       IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+          DO ILAY=1,NLAY   !  NPT  
+              MAX_NPTT = MAX(MAX_NPTT ,ELBUF_STR%BUFLY(ILAY)%NPTT)
+          ENDDO
+          ALLOCATE(THK_IT(MAX_NPTT),POS_IT(MAX_NPTT))
+       ELSE
+          ALLOCATE(THK_IT(0),POS_IT(0))  
+       ENDIF 
+       NLAY_MAX = MAX(NLAY, NPT)
+       ALLOCATE(POSLY(NLAY_MAX*MAX_NPTT),RATIO_THKLY(NLAY_MAX*MAX_NPTT)) 
 c-----------------------------
       IF ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT < 0 ) THEN
 c-----------------------------
@@ -1755,6 +1766,7 @@ C----------------------------------------------
           ENDIF
          ENDIF
       ENDIF ! igmat      
+      DEALLOCATE(POSLY,RATIO_THKLY,THK_IT,POS_IT ) 
 C-----------
       RETURN
       END

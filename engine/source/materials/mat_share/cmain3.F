@@ -78,7 +78,7 @@ Chd|====================================================================
      N           ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O           IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P           F_DEF     ,ITASK     ,DRAPE     ,VARNL     ,NLOC_DMG   ,
-     R           INDX_DRAPE)
+     R           INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -112,7 +112,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NFT,IR,IS,NPT,NG,NPG,NLAY,NEL,MTN,IPLA,IOFC,ITHK,
      .   KFTS,JHBE,IFAILURE,JTHE,IEXPAN,ISHPLYXFEM,ISMSTR,
-     .   IXLAY,IXEL,IXFEM,ISUBSTACK,ITASK
+     .   IXLAY,IXEL,IXFEM,ISUBSTACK,ITASK  
+      INTEGER ,    INTENT(IN)     ::        SEDRAPE,NUMEL_DRAPE
       INTEGER MAT(MVSIZ), PID(MVSIZ), INDXDEL(MVSIZ), NGL(MVSIZ),NPF(*), 
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),IPARG(*),
      .   A11_IPLY(MVSIZ,*),ELCRKINI(*),FWAVE_EL(NEL)
@@ -134,6 +135,7 @@ C-----------------------------------------------
      .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ),OFFI(MVSIZ,*),
      .   DIR1_CRK(*),DIR2_CRK(*),DMG_SCALE(MVSIZ),
      .   F_DEF(MVSIZ,*),ALDT(MVSIZ),VARNL(NEL,*)
+      my_real, DIMENSION(NEL), INTENT(IN) :: THKE
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
@@ -146,7 +148,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IT,MX,IGTYP,IFUNC_ALPHA,IPMAT_IPLY,ILAY,LAYNPT_MAX,LAY_MAX
+      INTEGER I,J,IT,MX,IGTYP,IFUNC_ALPHA,IPMAT_IPLY,ILAY,LAYNPT_MAX,NLAY_MAX
       INTEGER MAT_IPLY(MVSIZ,NPT)
       INTEGER, DIMENSION(:) , ALLOCATABLE :: MATLY   !!  MATLY(MVSIZ*LAY_MAX)
       my_real, DIMENSION(:) , ALLOCATABLE :: THKLY   !!  THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX)
@@ -212,17 +214,15 @@ c-----Tstar computation for Jhonson cook failure : T* = (T-T0)/(TM-T0)----
         TSTAR(JFT:JLT) = ZERO
       ENDIF  
 ! Npt_max
-      LAYNPT_MAX = 0
+      LAYNPT_MAX = 1
       IF(IGTYP == 51 .OR. IGTYP == 52) THEN
         DO ILAY=1,NLAY
-           LAYNPT_MAX = LAYNPT_MAX + ELBUF_STR%BUFLY(ILAY)%NPTT
+           LAYNPT_MAX = MAX(LAYNPT_MAX , ELBUF_STR%BUFLY(ILAY)%NPTT)
         ENDDO  
-      ELSE
-         LAYNPT_MAX = 1  
       ENDIF
-      LAY_MAX   = MAX(NLAY,NPT)
-      ALLOCATE(MATLY(MVSIZ*LAY_MAX), THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX),
-     .         POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),THK_LY(NEL,LAY_MAX*LAYNPT_MAX))  
+      NLAY_MAX   = MAX(NLAY,NPT,IXLAY, ELBUF_STR%NLAY)
+      ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
+     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
 c
 c----------------------------
       IF (NPT == 0) THEN
@@ -250,8 +250,8 @@ c
         CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO     ,
      .              MAT      ,PID      ,THKLY    ,MATLY    ,POSLY    , 
      .              IGTYP    ,IXFEM    ,IXLAY    ,NLAY     ,NPT      ,   
-     .              ISUBSTACK,STACK    ,DRAPE    ,NFT      ,THK      ,
-     .              NEL      ,THK_LY   ,INDX_DRAPE)
+     .              ISUBSTACK,STACK    ,DRAPE    ,NFT      ,THKE      ,
+     .              NEL      ,THK_LY   ,INDX_DRAPE,SEDRAPE ,NUMEL_DRAPE)
 c
         CALL USERMAT_SHELL (ELBUF_STR ,
      1       JFT     ,JLT     ,NEL     ,PM      ,FOR     ,MOM     ,
@@ -281,8 +281,8 @@ c----------------------------
         CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO     ,
      .              MAT      ,PID      ,THKLY    ,MATLY    ,POSLY    , 
      .              IGTYP    ,IXFEM    ,IXLAY    ,NLAY     ,NPT      ,   
-     .              ISUBSTACK,STACK    ,DRAPE    ,NFT     ,THK       ,
-     .              NEL      ,THK_LY   ,INDX_DRAPE)
+     .              ISUBSTACK,STACK    ,DRAPE    ,NFT     ,THKE       ,
+     .              NEL      ,THK_LY   ,INDX_DRAPE, SEDRAPE,NUMEL_DRAPE)
 c 
         CALL MULAWC(ELBUF_STR ,
      1       JFT     ,JLT     ,NEL     ,PM      ,FOR     ,MOM     ,
@@ -359,7 +359,7 @@ C---------------------------------------------------------
         IF (MTN /=78)  ETIMP(JFT:JLT) = ZCFAC(JFT:JLT,1)
         CALL PUT_ETFAC(NEL ,ETIMP ,MTN)
       END IF
-       DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)
+      DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)
 c-----------
       RETURN
       END SUBROUTINE CMAIN3

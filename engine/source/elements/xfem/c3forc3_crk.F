@@ -153,7 +153,8 @@ c     indx utilise localement contrairement aux coques 4n
       INTEGER 
      .   I,J,J1,J2,IR,IS,IT,IPT,IFLAG,IGTYP,IXFEM2,IREP,IMAT,
      .   IUN,NPG,IBID,IDRIL,NG,IXLAY,NXLAY,NLAYER,NPTT,STEP,
-     .   L_DIRA,L_DIRB,ILEV,IGMAT,IPTHK,ISH3NFR,IDRAPE,ACTIFXFEM
+     .   L_DIRA,L_DIRB,ILEV,IGMAT,IPTHK,ISH3NFR,IDRAPE,ACTIFXFEM,
+     .   SEDRAPE, NUMEL_DRAPE
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ),FWAVE(MVSIZ)
       my_real STI(MVSIZ),STIR(MVSIZ),RHO(MVSIZ),
      .   SSP(MVSIZ),VISCMX(MVSIZ),AREA(MVSIZ),
@@ -439,7 +440,7 @@ C--------------------------
      P   ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT      ,
      Q   IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P   BID    ,ITASK        ,DRAPE_SH3N  ,VARNL     ,NLOC_DMG ,
-     R   INDX_DRAPE)
+     R   INDX_DRAPE , THKE    ,SEDRAPE ,NUMEL_DRAPE)
 
 C--------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)

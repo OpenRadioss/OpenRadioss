@@ -106,7 +106,6 @@ c-------
         INTEGER        ::  NDIM_INDX_PLY_SH3N
         INTEGER, DIMENSION(:) , ALLOCATABLE  ::  INDX_SH3N,INDX_SH4N
       END TYPE DRAPEG_  
-      INTEGER :: NUMELC_DRAPE    ,NUMELTG_DRAPE , SCDRAPE, STDRAPE ,
-     .           SEDRAPE, NUMEL_DRAPE      
+      INTEGER :: NUMELC_DRAPE    ,NUMELTG_DRAPE , SCDRAPE, STDRAPE 
 C=======================================================================
       END MODULE DRAPE_MOD

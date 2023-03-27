@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER I,J,K,IPT,I1,I2,I3,I4,I5,II(12),
      .        PTF,PTM,PTEP,PTS,NG,IR,IS,LENF,LENM,
      .        LENS,MAT_1,PID_1,LAYNPT_MAX,LAY_MAX,IXLAY,IPT_ALL,
-     .        JPOS,IT,NPTT,ILAY,SHIFT
+     .        JPOS,IT,NPTT,ILAY,SHIFT,SEDRAPE,NUMEL_DRAPE
       INTEGER MAT(MVSIZ),PID(MVSIZ),MATLY(MVSIZ*NPT)
       my_real
      .   THKLY(MVSIZ*MPT),POSLY(MVSIZ,MPT)
@@ -146,8 +146,8 @@ C
      .      ELBUF_STR,1    ,NEL             ,GEO              ,IGEO    ,
      .      MAT      ,PID  ,THKLY           ,MATLY            ,POSLY   ,
      .      IGTYP    ,IXFEM,IXLAY           ,NLAY             ,NPT     ,
-     .      ISUBSTACK,STACK,DRAPE_SH3N        ,NFT              ,GBUF%THK,
-     .      NEL      ,THK_LY  ,DRAPEG%INDX_SH3N )
+     .      ISUBSTACK,STACK,DRAPE_SH3N        ,NFT            ,THKE    ,
+     .      NEL      ,THK_LY  ,DRAPEG%INDX_SH3N ,SEDRAPE,NUMEL_DRAPE   )
       ELSE
         NUMEL_DRAPE = NUMELC_DRAPE  
         SEDRAPE = SCDRAPE
@@ -155,8 +155,8 @@ C
      .      ELBUF_STR,1    ,NEL             ,GEO              ,IGEO    ,
      .      MAT      ,PID  ,THKLY           ,MATLY            ,POSLY   ,
      .      IGTYP    ,IXFEM,IXLAY           ,NLAY             ,NPT     ,
-     .      ISUBSTACK,STACK,DRAPE_SH4N        ,NFT              ,GBUF%THK,
-     .      NEL      ,THK_LY  ,DRAPEG%INDX_SH4N)      
+     .      ISUBSTACK,STACK,DRAPE_SH4N        ,NFT            ,THKE    ,
+     .      NEL      ,THK_LY  ,DRAPEG%INDX_SH4N,SEDRAPE,NUMEL_DRAPE     )      
       ENDIF  
 C------------------------
 C        STRESS

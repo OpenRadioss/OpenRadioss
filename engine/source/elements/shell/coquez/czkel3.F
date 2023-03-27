@@ -48,7 +48,7 @@ Chd|====================================================================
      8            KE11   ,KE22   ,KE33   ,KE44   ,   
      9            KE12   ,KE13   ,KE14   ,KE23   ,   
      A            KE24   ,KE34   ,UI     ,RI     ,DRAPE_SH4N,
-     B            INDX_DRAPE )
+     B            INDX_DRAPE ,SEDRAPE,NUMEL_DRAPE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,6 +73,7 @@ C-----------------------------------------------
       INTEGER JFT     ,JLT    ,NFT    ,NPT    ,
      .        MTN     ,ITHK   ,
      .        ISTRAIN ,IPLA   ,OFFSET,IHBE    ,ISMSTR,IKGEO,IEXPAN
+      INTEGER ,    INTENT(IN)     ::        SEDRAPE,NUMEL_DRAPE
       INTEGER IXC(NIXC,*),IGEO(NPROPGI,*),IPM(*),IPARG(*)
       INTEGER INDXOF(MVSIZ)
       INTEGER, DIMENSION(SEDRAPE) :: INDX_DRAPE
@@ -245,8 +246,6 @@ C
         ENDDO
         ENDDO
        ENDIF
-       NUMEL_DRAPE = NUMELC_DRAPE
-       SEDRAPE = SCDRAPE
 C
       IF (IREP>0) THEN
        CALL CMATC3(JFT    ,JLT       ,PM     ,MAT     ,GEO      ,
@@ -256,7 +255,7 @@ C
      4             IORTH  ,HMOR      ,HFOR   ,DIR_A   ,IGEO     ,
      5             IDRIL  ,IHBE      ,HMFOR  ,GS      ,ISUBSTACK,
      6             BID    ,ELBUF_STR ,NLAY   ,DRAPE_SH4N ,NFT   , 
-     7             NEL    ,INDX_DRAPE)
+     7             NEL    ,INDX_DRAPE,SEDRAPE,NUMEL_DRAPE)
       ELSE
 C
        CALL CMATC3(JFT    ,JLT       ,PM     ,MAT     ,GEO      ,
@@ -266,7 +265,7 @@ C
      4             IORTH  ,HMOR      ,HFOR   ,DIRA    ,IGEO     ,
      5             IDRIL  ,IHBE      ,HMFOR  ,GS      ,ISUBSTACK,
      6             BID    ,ELBUF_STR ,NLAY   ,DRAPE_SH4N,  NFT   ,
-     7             NEL    ,INDX_DRAPE)
+     7             NEL    ,INDX_DRAPE,SEDRAPE,NUMEL_DRAPE)
       ENDIF
 C-----------------------------------------------
 C     MATRICE [B]---index changed from here JFT-NPLAT (plat els)+,JLT(warped)
@@ -388,7 +387,7 @@ C-----------keep isotropic for hourglass part (36 to avoid A12=0 for LAW25)-----
      4             IBID1  ,HMOR      ,HFOR   ,DIRA    ,IGEO     ,
      5             IDRIL  ,IHBE      ,HMFOR  ,GS      ,ISUBSTACK,
      6             BID    ,ELBUF_STR ,NLAY   ,DRAPE_SH4N   ,NFT      ,
-     7             NEL    ,INDX_DRAPE )
+     7             NEL    ,INDX_DRAPE ,SEDRAPE,NUMEL_DRAPE)
       ENDIF
        CALL CZLKEN3(JFT ,JLT  ,VOL  ,THK0 ,THK2 ,
      2              HM  ,HZ   ,A_I  ,PX1  ,PX2  ,

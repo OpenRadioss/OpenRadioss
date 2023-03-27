@@ -83,7 +83,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N,II,JJ,LEN, IOFF, NG, NEL, NFT, ITY, LFT, NPT,
      .    LLT, MLW, ISTRAIN,ID, IPRT0, IPRT,NPG,IPG,IE,NPTR,NPTS,G_STRA,
-     .    ITHK,KK(8),NF1,IGTYP,IREL,IHBE,NLAY,IBID0,MAT_1,PID_1,ILAY,NF3
+     .    ITHK,KK(8),NF1,IGTYP,IREL,IHBE,NLAY,IBID0,MAT_1,PID_1,ILAY,NF3,
+     .    SEDRAPE,NUMEL_DRAPE
       INTEGER PTWA(MAX(STAT_NUMELC ,STAT_NUMELTG)),
      .        PTWA_P0(0:MAX(1,STAT_NUMELC_G,STAT_NUMELTG_G))
       double precision   
@@ -161,8 +162,8 @@ C-----------------------------------------------
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
      .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    , 
      .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,NPT      ,   
-     .              ISUBSTACK,STACK    ,DRAPE_SH4N ,NFT      ,THK0     ,
-     .              NEL      ,THK_LY   ,DRAPEG%INDX_SH4N)
+     .              ISUBSTACK,STACK    ,DRAPE_SH4N ,NFT      ,THKE     ,
+     .              NEL      ,THK_LY   ,DRAPEG%INDX_SH4N ,SEDRAPE,NUMEL_DRAPE)
          CALL GET_Q4L(LFT ,LLT ,IXC(1,NF1),X ,GBUF%OFF,IREL ,QT )
           NPT_ALL = 0
           DO ILAY=1,NLAY
@@ -457,8 +458,8 @@ C-----------------------------------------------
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
      .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    , 
      .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,NPT      ,   
-     .              ISUBSTACK,STACK    ,DRAPE_SH3N ,NFT      ,THK0     ,
-     .              NEL      ,THK_LY   ,DRAPEG%INDX_SH3N)
+     .              ISUBSTACK,STACK    ,DRAPE_SH3N ,NFT      ,THKE    ,
+     .              NEL      ,THK_LY   ,DRAPEG%INDX_SH3N,SEDRAPE,NUMEL_DRAPE)
          CALL GET_T3L(LFT    ,LLT    ,IXTG(1,NF1),X    ,GBUF%OFF,
      .                IREL   ,QT     )
           NPT_ALL = 0
