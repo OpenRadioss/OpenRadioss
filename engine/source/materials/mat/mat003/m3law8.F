@@ -84,7 +84,7 @@ C     REAL
      .  DIMENSION(:), POINTER :: SIGP, EPLA
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C=======================================================================
-      MX  =MAT(LFT)
+      MX  =MAT(1)
       G   =PM(22,MX)
       CA  =PM(38,MX)
       CB  =PM(39,MX)
@@ -93,13 +93,13 @@ C=======================================================================
       SIGMX=PM(42,MX)    
 
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         POLD(I)=(SIG(I,1)+SIG(I,2)+SIG(I,3))*THIRD
       ENDDO
 C
       G1=DT1*G
       G2=TWO*G1
-      DO I=LFT,LLT
+      DO I=1,NEL
         EPSEQ(I)=ZERO
         TSTAR(I) = ZERO       
       ENDDO
@@ -114,8 +114,8 @@ C--------------------------------------------------
         LBUF => BUFLY%LBUF(1,1,IPT)
         SIGP => BUFLY%LBUF(1,1,IPT)%SIG(1:NEL*6)
         EPLA => BUFLY%LBUF(1,1,IPT)%PLA(1:NEL)
-        JPT=(IPT-1)*LLT
-        DO I=LFT,LLT
+        JPT=(IPT-1)*NEL
+        DO I=1,NEL
          II=I+JPT
          SIGP(JJ(1)+I) = SIGP(JJ(1)+I)-POLD(I) 
          SIGP(JJ(2)+I) = SIGP(JJ(2)+I)-POLD(I) 
@@ -133,7 +133,7 @@ C--------------------------------------------------
      .       HALF*ABS(D5(I,IPT)),HALF*ABS(D6(I,IPT)))        
         ENDDO
 C
-        DO I=LFT,LLT
+        DO I=1,NEL
           DAV=-THIRD*(D1(I,IPT)+D2(I,IPT)+D3(I,IPT))
           SIGP(JJ(1)+I)=SIGP(JJ(1)+I)+G2*(D1(I,IPT)+DAV)
           SIGP(JJ(2)+I)=SIGP(JJ(2)+I)+G2*(D2(I,IPT)+DAV)
@@ -145,13 +145,13 @@ C
 C---------------------
 C     LIMITE PLASTIQUE
 C---------------------
-        DO I=LFT,LLT
+        DO I=1,NEL
           YLD(I)= MIN(SIGMX,CA+CB*EPLA(I)**CN)
         ENDDO
 C-----------------------
 C       MODULE ECROUISSAGE
 C-----------------------
-        DO I=LFT,LLT
+        DO I=1,NEL
          II=I+JPT
          IF(CN==ONE) THEN
           QH(I)= CB
@@ -168,7 +168,7 @@ C-----------------------
          ENDIF
         ENDDO
 C
-        DO I=LFT,LLT
+        DO I=1,NEL
           J = (I-1)*6
           AJ2(I)=HALF*(SIGP(JJ(1)+I)**2+SIGP(JJ(2)+I)**2+SIGP(JJ(3)+I)**2)
      .                  +SIGP(JJ(4)+I)**2+SIGP(JJ(5)+I)**2+SIGP(JJ(6)+I)**2
@@ -176,7 +176,7 @@ C
         ENDDO
 C
       IF(IPLA==0)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
         II=I+JPT
         IF (YLD(I)==ZERO) CYCLE
           SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
@@ -190,7 +190,7 @@ C
           DPLA(II)= (ONE-SCALE)*SJ2(I)/(THREE*G+QH(I))       
         ENDDO
       ELSEIF(IPLA==2)THEN
-       DO 110 I=LFT,LLT
+       DO 110 I=1,NEL
         II=I+JPT
         IF(YLD(I)==ZERO)    GO TO 110
           SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
@@ -204,7 +204,7 @@ C
           DPLA(II)=(ONE-SCALE)*SJ2(I)/(THREE*G)         
   110  CONTINUE
       ELSEIF(IPLA==1)THEN
-       DO 120 I=LFT,LLT
+       DO 120 I=1,NEL
         II=I+JPT
         IF(YLD(I)==ZERO)    GO TO 120
         SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
@@ -225,7 +225,7 @@ C       actual yield stress.
 C--------------------------------------------------
 C     EPS PLASTIQUE MOYEN (OUTPUT ET RUPTURE)
 C--------------------------------------------------
-        DO I=LFT,LLT
+        DO I=1,NEL
           EPSEQ(I)=EPSEQ(I)+ONE_OVER_8*EPLA(I)
         ENDDO
 C
@@ -234,20 +234,20 @@ C FIN BOUCLE 1 PT DE GAUSS
 C----------------------------
 C     TEST DE RUPTURE DUCTILE
 C---------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(OFF(I)<EM01) OFF(I)=ZERO
         IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C
       IWR=0
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(EPMX ==ZERO)    CYCLE
         IF(OFF(I)  <ONE)      CYCLE
         IF(EPSEQ(I)<EPMX) CYCLE
         IWR=1
       ENDDO
       IF(IWR==1) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(EPMX ==ZERO)    CYCLE
           IF(OFF(I)  <ONE)      CYCLE
           IF(EPSEQ(I)<EPMX) CYCLE
@@ -266,11 +266,11 @@ C--------------------------------------------------
         LBUF => BUFLY%LBUF(1,1,IPT)
         SIGP => BUFLY%LBUF(1,1,IPT)%SIG(1:NEL*6)
         EPLA => BUFLY%LBUF(1,1,IPT)%PLA(1:NEL)
-        JPT=(IPT-1)*LLT
+        JPT=(IPT-1)*NEL
 C--------------------------------------------------
 C       MISE A OFF AUX POINTS DE GAUSS
 C--------------------------------------------------
-        DO I=LFT,LLT
+        DO I=1,NEL
           SIGP(JJ(1)+I)=SIGP(JJ(1)+I)*OFF(I)
           SIGP(JJ(2)+I)=SIGP(JJ(2)+I)*OFF(I)
           SIGP(JJ(3)+I)=SIGP(JJ(3)+I)*OFF(I)
@@ -281,7 +281,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C     ENERGIE INTERNE DEVIATORIQUE
 C--------------------------------------------------
-        DO I=LFT,LLT
+        DO I=1,NEL
           DAV=VOLGP(I,IPT)*OFF(I)*DTA
           EINT(I)=EINT(I)+DAV*(D1(I,IPT)*(SOLD1(I,IPT)+SIGP(JJ(1)+I))+
      +                         D2(I,IPT)*(SOLD2(I,IPT)+SIGP(JJ(2)+I))+

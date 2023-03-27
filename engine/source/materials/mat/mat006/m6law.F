@@ -71,16 +71,16 @@ C-----------------------------------------------
       IF((ANIM_E(10)==1 .OR. ANIM_SE(10)==1).AND. DT1/=ZERO)THEN
          FAC=FOUR/DT1
         IF(N2D==0)THEN
-          DO 5 I=LFT,LLT
+          DO 5 I=1,NEL
  5        VORTI(I)=FAC*SQRT(WXX(I)**2+WYY(I)**2+WZZ(I)**2)
         ELSE
-          DO 6 I=LFT,LLT
+          DO 6 I=1,NEL
  6        VORTI(I)=FAC*WZZ(I)
         ENDIF
       ENDIF
 
       !EOS COEFFICIENTS
-      MX     =MAT(LFT)
+      MX     =MAT(1)
       RHO0_1=PM( 1,MX)
       PC_1  =PM(37,MX)
       C1_1  =PM(104,MX)-PM(88,MX)
@@ -91,7 +91,7 @@ C-----------------------------------------------
       C6_1  =PM(36,MX)
       TMU_1 =PM(81,MX)
       PSH_1=PM(88,MX)
-      DO 10 I=LFT,LLT
+      DO 10 I=1,NEL
       RHO0(I)=RHO0_1
       VIS(I) =PM(24,MX)*RHO(I)
       PC(I)  =PC_1
@@ -108,23 +108,23 @@ C-----------------------------------------------
       !IF TURBULENT
       IF(JTUR/=0)THEN
         IF(JPOR/=2)THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             TMU(I)=TMU(I)*RK(I)*RK(I) / MAX(EM15,(RE(I)*VNEW(I)))
             VIS(I)=VIS(I)+TMU(I)
           ENDDO
         ELSE
-          DO I=LFT,LLT
+          DO I=1,NEL
             TMU(I)=ZERO
           ENDDO
         ENDIF
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           RK(I)=ZERO
         ENDDO
       ENDIF
 
       !OUTPUT
-      DO I=LFT,LLT
+      DO I=1,NEL
        VIS2 = TWO*VIS(I)
        DAV  = -(D1(I)+D2(I)+D3(I))*THIRD
        !------------------------------!

@@ -94,7 +94,7 @@ C     REAL
      .   EPST1_1,EPST2_1,EPSM1_1,EPSM2_1,DMAX_1,SSP_1
 C=======================================================================
 C
-       DO  I=LFT,LLT
+       DO  I=1,NEL
          WPLAR(I)=ZERO
          NFIS1(I)=0
          NFIS2(I)=0
@@ -106,11 +106,11 @@ C
 C-----------------------------------------------------------
 C     STRAIN RATE FILTERING (EQUIVALENT EPSP)
 C-----------------------------------------------------------
-       MX = MAT(LFT)
+       MX = MAT(1)
        ISRATE = IPM(3,MX)
        ASRATE = PM(9,MX)*DT1     
        ASRATE = ASRATE / (ASRATE + ONE)   
-       DO I=LFT,LLT                                                                                                    
+       DO I=1,NEL                                                                                                    
          IF(ISRATE >= 1)THEN                                     
            DAV = -THIRD*(D1(I)+D2(I)+D3(I))                         
            EPD = HALF*((D1(I)+DAV )**2+(D2(I)+DAV)**2          
@@ -127,7 +127,7 @@ C--------------------------------------------
 C     STRESS TRANSFORMATION (GLOBAL -> FIBER)
 C-------------------------------------------- 
        
-        DO I=LFT,LLT
+        DO I=1,NEL
           EP1(I) = D1(I)*DT1
           EP2(I) = D2(I)*DT1
           EP3(I) = D3(I)*DT1
@@ -145,22 +145,22 @@ C--------------------------------------------
         CALL MREPLOC( GAMA,R11,R12,R13,R21,R22    ,
      2                 R23,R31,R32 ,R33,RX ,RY  ,RZ, SX    ,
      3                 SY ,SZ , TX  ,TY ,TZ )
-        DO I=LFT,LLT
+        DO I=1,NEL
          EP4(I) = HALF*EP4(I)
          EP5(I) = HALF*EP5(I)
          EP6(I) = HALF*EP6(I)
         ENDDO
-        CALL MROTENS(LFT,LLT,EP1,EP2,EP3,EP4,EP5,EP6,
+        CALL MROTENS(1,NEL,EP1,EP2,EP3,EP4,EP5,EP6,
      .               R11,R12,R13,
      .               R21,R22,R23,
      .               R31,R32,R33)
-        DO I=LFT,LLT
+        DO I=1,NEL
          EP4(I) = TWO*EP4(I)
          EP5(I) = TWO*EP5(I)
          EP6(I) = TWO*EP6(I)
         ENDDO
 C stress
-        CALL MROTENS(LFT,LLT,S1,S2,S3,S4,S5,S6,
+        CALL MROTENS(1,NEL,S1,S2,S3,S4,S5,S6,
      .               R11,R12,R13,
      .               R21,R22,R23,
      .               R31,R32,R33) 
@@ -169,7 +169,7 @@ C-----------------------------------------------------------
 C-----------------------
 C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 C-----------------------
-      CALL M25CPLA(LFT, LLT ,PM   , MAT ,NGL, OFF,
+      CALL M25CPLA(1, NEL ,PM   , MAT ,NGL, OFF,
      2             S1   ,S2   ,S3  ,S4   ,S5   ,S6    ,
      3             EP1  ,EP2  ,EP3 ,EP4  , EP5 ,EP6,
      4             EPST ,DAMT ,CRAK ,NFIS1  ,NFIS2    ,NFIS3,
@@ -177,7 +177,7 @@ C-----------------------
      6             SEQ_OUTPUT,NEL, IPG ,TSAIWU)
 C      
         IF(ISORTH > 0 .AND. JCVT == 0) THEN
-         CALL MROTENS(LFT,LLT,
+         CALL MROTENS(1,NEL,
      .              S1 ,S2 ,S3 ,
      .              S4 ,S5 ,S6 ,
      .              R11,R21,R31,
@@ -185,7 +185,7 @@ C
      .              R13,R23,R33 )
         ENDIF
      
-          DO I=LFT,LLT
+          DO I=1,NEL
               SIG(I,1) = S1(I)*OFF(I)
               SIG(I,2) = S2(I)*OFF(I)
               SIG(I,3) = S3(I)*OFF(I)
@@ -198,14 +198,14 @@ C
 C-----------------------
 C     TENSILE RUPTURE
 C-----------------------
-      MX        =MAT(LFT)
+      MX        =MAT(1)
       EPST1_1  =PM(60,MX)
       EPST2_1  =PM(61,MX)
       EPSM1_1  =PM(62,MX)
       EPSM2_1  =PM(63,MX)
       DMAX_1   =PM(64,MX)
       SSP_1 = PM(27,MX)
-      DO  I=LFT,LLT
+      DO  I=1,NEL
          EPST1(I)  =EPST1_1
          EPST2(I)  =EPST2_1
          EPSM1(I)  =EPSM1_1
@@ -217,7 +217,7 @@ C.....STRAINS IN ORTHOTROPIC DIRECTIONS
 C
 C.....GATHER DIRECTION 1
       NINDX=0
-      DO  I=LFT,LLT
+      DO  I=1,NEL
         IF(EPST(I,1) >= EPST1(I)
      +    .AND. DAMT(I,1) == ZERO .AND. OFF(I) == ONE)THEN
           NINDX=NINDX+1
@@ -244,7 +244,7 @@ C.....1.FIRST FAILURE DIRECTION 1
        ENDIF      
 C.....GATHER DIRECTION 2
        NINDX=0
-      DO  I=LFT,LLT
+      DO  I=1,NEL
         IF(EPST(I,2) >= EPST2(I)
      +         .AND. DAMT(I,2) == ZERO .AND. OFF(I) == ONE) THEN
           NINDX=NINDX+1
@@ -270,7 +270,7 @@ C.....1.FIRST FAILURE DIRECTION 2
         ENDDO
       ENDIF      
 C.....DOMMAGE GLOBAL
-c      DO  I=LFT,LLT
+c      DO  I=1,NEL
 c      DAMCR(I,1)=DAMCR(I,1)+THLY(I)*DAMT(I,1)
 c      DAMCR(I,2)=DAMCR(I,2)+THLY(I)*DAMT(I,2)
 c      DMAXT(I)  =DMAXT(I)  +THLY(I)*DMAX(I)
@@ -278,14 +278,14 @@ c      ENDDO
 C----------------------------
 C     TEST DE RUPTURE 
 C----------------------------
-      DO  I=LFT,LLT
+      DO  I=1,NEL
         IF(OFF(I) < EM01) OFF(I)=ZERO
         IF(OFF(I) < ONE  ) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 
       NINDX=0
-      MX = MAT(LFT)
-       DO  I=LFT,LLT
+      MX = MAT(1)
+       DO  I=1,NEL
            IF(OFF(I)==ONE) THEN
              IOFF=NINT(PM(42,MX))
              IF(IOFF < 0) IOFF=-(IOFF+1)
@@ -315,7 +315,7 @@ c             IF(IOFF == 6 .AND. NFIS3(I) == NPT) JOFF=1
           ENDIF
        ENDDO
       DT5=HALF*DT1
-      DO I=LFT,LLT
+      DO I=1,NEL
         EINT(I)=EINT(I) + DT5*VNEW(I)*
      .           ( D1(I)*(S01(I)+SIG(I,1))
      .           + D2(I)*(S02(I)+SIG(I,2))

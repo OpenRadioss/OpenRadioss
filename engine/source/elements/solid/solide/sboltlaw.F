@@ -99,7 +99,7 @@ C-----------------------------------------------
       FACQ0 = ONE
       REDUC1 = EM04 !EM03 !ONE 
 
-      DO I=LFT,LLT
+      DO I=1,NEL
        T1 = BPRELD(I,1)+ZEP4*(BPRELD(I,2)-BPRELD(I,1))
        T2 = BPRELD(I,1)+ZEP7*(BPRELD(I,2)-BPRELD(I,1))
        REDUC = REDUC1
@@ -141,7 +141,7 @@ C
 
       DTA =HALF*DT1
 C       
-      DO I=LFT,LLT
+      DO I=1,NEL
         PNEW(I)  = C1(I)*AMU(I)                         !
         TREPS    = D1(I)+D2(I)+D3(I)
         GGT      = DT1*GG(I)
@@ -154,7 +154,7 @@ C
         QOLD(I)  = QNEW(I)
       ENDDO
       !write(*,'("***** sboltlaw ")')
-      !DO I=LFT,LLT
+      !DO I=1,NEL
       !  write(*,'(i5,6e10.3)')i,sig(i,1:6)
       !enddo
 C
@@ -162,7 +162,7 @@ C - To avoid discontinuous element pressure when switching material law
 C   cf Law1, Law2, etc <=> Pressure is computed using total formulation P = C1*(rho/rho0-1)
       IF(ISMSTR == 1)THEN
         IF(IRESP==0)THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
            IF(TT >= (BPRELD(I,2)-TWO*DT1)) THEN
              P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
              RHO(I)=RHO0_1*(ONE+P/C1_1) ! rho will be used in next cycles to compute 
@@ -171,7 +171,7 @@ C   cf Law1, Law2, etc <=> Pressure is computed using total formulation P = C1*(
            ENDIF
           ENDDO
         ELSE ! Single precision
-          DO I=LFT,LLT
+          DO I=1,NEL
            IF(TT >= (BPRELD(I,2)-TWO*DT1)) THEN
              P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
              RHO(I)=RHO0_1*(ONE+P/C1_1)
@@ -182,7 +182,7 @@ C   cf Law1, Law2, etc <=> Pressure is computed using total formulation P = C1*(
         END IF
       ELSEIF(ISMSTR==2)THEN
         IF(IRESP==0)THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             IF(OFFG(I) > ONE)THEN
               IF(TT >= (BPRELD(I,2)-TWO*DT1)) THEN
                 P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
@@ -199,7 +199,7 @@ C   cf Law1, Law2, etc <=> Pressure is computed using total formulation P = C1*(
             END IF
           ENDDO
         ELSE ! Single precision
-          DO I=LFT,LLT
+          DO I=1,NEL
             IF(OFFG(I) > ONE)THEN
               IF(TT >= (BPRELD(I,2)-TWO*DT1)) THEN
                 P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
@@ -218,14 +218,14 @@ C   cf Law1, Law2, etc <=> Pressure is computed using total formulation P = C1*(
         END IF
       ELSEIF(ISMSTR<=4)THEN
         IF(IRESP==0)THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
             VOL0(I)=VNEW(I)*(ONE+P/C1_1)
             RHO(I)= RHO0_1*VOL0(I)/VNEW(I) ! cf rho = rho0 * V0 / V at each time step
                                            ! AMU = rho/rho0 - 1 in double precision
           ENDDO
         ELSE ! Single precision
-          DO I=LFT,LLT
+          DO I=1,NEL
             P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
             VOL0(I)   = VNEW(I)*(ONE+P/C1_1)
             RHO(I)    = RHO0_1*VOL0(I)/VNEW(I)
@@ -235,7 +235,7 @@ C   cf Law1, Law2, etc <=> Pressure is computed using total formulation P = C1*(
         END IF
       END IF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         E1=D1(I)*(SOLD1(I)+SIG(I,1))
         E2=D2(I)*(SOLD2(I)+SIG(I,2))
         E3=D3(I)*(SOLD3(I)+SIG(I,3))

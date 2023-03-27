@@ -54,7 +54,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "nsvis_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -93,7 +92,7 @@ C     REAL
      .   SS1,SS2,SS3,SVM0,FINT,FINT1,FINT2,
      .   XH1I,XH2I,YH1I,YH2I,NU1(MVSIZ),FAC(MVSIZ)
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
        S1(I)=(SIG(I,1)+SVIS(I,1)-QVIS(I))*VOL(I)
        S2(I)=(SIG(I,2)+SVIS(I,2)-QVIS(I))*VOL(I)
        S3(I)=(SIG(I,3)+SVIS(I,3)-QVIS(I))*VOL(I)
@@ -101,7 +100,7 @@ C-----------------------------------------------
        S5(I)=(SIG(I,5)+SVIS(I,5))*VOL(I)
        S6(I)=(SIG(I,6)+SVIS(I,6))*VOL(I)
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
         FINT=S1(I)*PX1(I)+S4(I)*PY1(I)+S6(I)*PZ1(I)
         F11(I)=F11(I)-FINT
         F17(I)=F17(I)+FINT
@@ -143,7 +142,7 @@ C
         F36(I)=F36(I)+FINT
       ENDDO
 C   +++ non constante part------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         RY1(I)= ZI*RY0(I)
         RX1(I)= ZI*RX0(I)
         SY1(I)= ZI*SY0(I)
@@ -151,7 +150,7 @@ C   +++ non constante part------------
         NU1(I) = NU(I)/(ONE -NU(I))
       ENDDO
 C---- asymmetric part of gama------------
-      DO I=LFT,LLT
+      DO I=1,NEL
 C   ---- I =1--------------
         XH1I =-RY1(I)*PX1H1(I)
         XH2I = SY1(I)*PX1H2(I)
@@ -220,7 +219,7 @@ C   ---- I =4--------------
 C---- symmetric part of gama------------
 C 1 1 -1 -1 -1 -1 1 1
 C 1 -1 -1 1 -1 1 1 -1
-      DO I=LFT,LLT
+      DO I=1,NEL
         XH1I =-ONE_OVER_8*RY1(I)
         XH2I = ONE_OVER_8*SY1(I)
         YH1I = ONE_OVER_8*RX1(I)
@@ -265,7 +264,7 @@ C
 C   --- non constante part------------
 C------------------------------------------------   -
 C   - for hourglass yield critiron-----
-      DO I=LFT,LLT
+      DO I=1,NEL
         SS1 =SIG(I,1)-SIG(I,2)
         SS2 =SIG(I,2)-SIG(I,3)
         SS3 =SIG(I,1)-SIG(I,3)
@@ -276,7 +275,7 @@ C   - for hourglass yield critiron-----
       ENDDO
 C----------------------------------------------    /
 C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
-      DO I=LFT,LLT
+      DO I=1,NEL
          FAC(I) = OFF(I)*VOL(I)/VOLG(I)
          SIGM(I,1) = SIGM(I,1) + FAC(I) * SIG(I,1)
          SIGM(I,2) = SIGM(I,2) + FAC(I) * SIG(I,2)
@@ -290,12 +289,12 @@ C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
       ENDDO
 c
       IF (G_PLA > 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           EPLASM(I)  = EPLASM(I)  + FAC(I) * EPLAS(I)
         ENDDO
       ENDIF
       IF (G_EPSD > 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           EPSDM(I) = EPSDM(I) + FAC(I) * EPSD(I)
         ENDDO
       ENDIF

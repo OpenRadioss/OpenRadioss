@@ -47,7 +47,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -70,7 +69,7 @@ C-----------------------------------------------
      .   SIGMX_1
 C-----------------------------------------------
 C
-      MX      =MAT(LFT)
+      MX      =MAT(1)
 C
       RHO0_1 =PM( 1,MX)
       CA_1   =PM(38,MX)
@@ -84,7 +83,7 @@ C
       EPMX_1 =PM(41,MX)
       SIGMX_1=PM(42,MX)
 C
-      DO 10 I=LFT,LLT
+      DO 10 I=1,NEL
       RHO0(I) =RHO0_1
       G(I)    =PM(22,MX)*OFF(I)
       CA(I)   =CA_1
@@ -101,10 +100,10 @@ C      PC(I)   =PM(37,MX)
       SIGMX(I)=SIGMX_1
    10 CONTINUE
 C
-      DO 15 I=LFT,LLT
+      DO 15 I=1,NEL
    15 DF(I)=RHO0(I)/RHO(I)
 C
-      DO 30 I=LFT,LLT
+      DO 30 I=1,NEL
       P(I)  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
       DAV(I)=-THIRD*(D1(I)+D2(I)+D3(I))
       G1(I)=DT1*G(I)
@@ -114,7 +113,7 @@ C
 C-------------------------------
 C     CONTRAINTES DEVIATORIQUES
 C-------------------------------
-      DO 40 I=LFT,LLT
+      DO 40 I=1,NEL
       SIG(I,1)=SIG(I,1)+P(I)+G2(I)*(D1(I)+DAV(I))
       SIG(I,2)=SIG(I,2)+P(I)+G2(I)*(D2(I)+DAV(I))
       SIG(I,3)=SIG(I,3)+P(I)+G2(I)*(D3(I)+DAV(I))
@@ -122,12 +121,12 @@ C-------------------------------
       SIG(I,5)=SIG(I,5)+G1(I)*D5(I)
    40 SIG(I,6)=SIG(I,6)+G1(I)*D6(I)
 C
-      DO 50 I=LFT,LLT
+      DO 50 I=1,NEL
       AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
      1              +SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
    50 AJ2(I)=SQRT(3.*AJ2(I))
 C
-      DO 90 I=LFT,LLT
+      DO 90 I=1,NEL
       IF(THETA(I)>=TMELT(I)) GOTO 90
 C
       TSTAR=0.
@@ -165,7 +164,7 @@ C-----------------------
       ENDIF
    90 CONTINUE
 C
-      DO 110 I=LFT,LLT
+      DO 110 I=1,NEL
       IF(THETA(I)>=TMELT(I)) GOTO 100
       IF(AJ2(I)<=AK(I))      GOTO 110
 C

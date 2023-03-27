@@ -129,7 +129,7 @@ C----
       END IF!(IDTMINS/=2.OR.JSMS==0)
 C-----------------------------------------------           
       IF(G_DT/=ZERO)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           DTEL(I) = DT(I)
         ENDDO
       ENDIF

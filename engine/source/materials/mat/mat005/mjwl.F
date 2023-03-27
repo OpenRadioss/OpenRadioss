@@ -52,7 +52,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -68,7 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         DVOL(I)=HALF*DVOL(I)
         POLD(I)=THIRD*(SOLD1(I)+SOLD2(I)+SOLD3(I))
         EINC(I)=DVOL(I)*(POLD(I)-PSH(I)-QOLD(I)-QNEW(I))
@@ -95,7 +94,7 @@ C-----------------------------------------------
       ! EINT(I) = EINT(I)  
       ELSEIF(QOPT==0)THEN
       !=== instantaneous release
-        DO I=LFT,LLT
+        DO I=1,NEL
           LAMBDA = ZERO
           IF(TT > TEND .AND. ABURN(I)==ONE)THEN   
             LAMBDA   = ONE
@@ -111,7 +110,7 @@ C-----------------------------------------------
         ENDDO   
       ELSEIF(QOPT==1)THEN
       !=== afterburning with constant rate from Tbegin to Tend
-        DO I=LFT,LLT
+        DO I=1,NEL
           LAMBDA = ZERO
           IF(TT > TEND .AND. ABURN(I)==ONE)THEN 
             LAMBDA   = ONE
@@ -128,7 +127,7 @@ C-----------------------------------------------
         ENDDO        
       ELSEIF(QOPT==2)THEN
       !=== afterburning with linear rate from Tbegin to Tend
-        DO I=LFT,LLT
+        DO I=1,NEL
           LAMBDA = ZERO
           IF(TT > TEND .AND. ABURN(I)==ONE)THEN    ! .AND. ABURN(I)==ONE  needed to add last increment
             LAMBDA   = ONE
@@ -145,7 +144,7 @@ C-----------------------------------------------
         ENDDO    
       ELSEIF(QOPT==3)THEN
       !=== Miller s extension, rate is depedent on Pressure
-        DO I=LFT,LLT
+        DO I=1,NEL
           LAMBDA = ZERO
           IF(-POLD(I)-PSH(I) > ZERO )THEN 
             LAMBDA=ABURN(I)+ DT1*A*EXP( M*LOG(ONE+ABURN(I)) )*EXP(N*LOG(ALPHA_UNIT*(-POLD(I)-PSH(I))))
@@ -158,28 +157,28 @@ C-----------------------------------------------
       ENDIF
       !================  END AFTERBURNING     ============================!
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         ESPE(I)=EINT(I)/MAX(EM20,VOLO(I))
         W1DF(I)=BFRAC(I)*W1(I)/DF(I)
         FACM(I)=BFRAC(I)*(WDR1V(I)*ER1V(I)+WDR2V(I)*ER2V(I))
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         PNEW(I)= - PSH(I) + (ONE - BFRAC(I)) * (P0(I) + BULK * AMU(I)) + 
      .        (FACM(I)+(ESPE(I))*W1DF(I))/(ONE +W1DF(I)*DVOL(I)/MAX(EM20,VOLO(I)))
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         !!! Taking -PSH as the minimum value
         PNEW(I)= MAX(ZERO - PSH(I), PNEW(I))*OFF(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         EINC(I)= EINC(I)-(PNEW(I) + PSH(I))*DVOL(I)
         EINT(I)=(EINT(I)-(PNEW(I) + PSH(I))*DVOL(I))/MAX(EM20,VOL(I))
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         SIG(I,1)=SIG(I,1)*OFF(I)-PNEW(I)
         SIG(I,2)=SIG(I,2)*OFF(I)-PNEW(I)
         SIG(I,3)=SIG(I,3)*OFF(I)-PNEW(I)

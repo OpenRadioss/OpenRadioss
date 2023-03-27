@@ -57,7 +57,7 @@ C     REAL
       my_real
      .    Q1(MVSIZ)
 C-----------------------------------------------
-      DO 10 I=LFT,LLT
+      DO 10 I=1,NEL
       S1(I)=SIG(I,1)
       S2(I)=SIG(I,2)
       S3(I)=SIG(I,3)
@@ -67,10 +67,10 @@ C-----------------------------------------------
 C
       IF(JCVT/=0) RETURN
 C---------------------------------
-      DO 20 I=LFT,LLT
+      DO 20 I=1,NEL
    20 Q1(I)=TWO*S4(I)*WYZ(I)
 C
-      DO 30 I=LFT,LLT
+      DO 30 I=1,NEL
       SIG(I,1)=S1(I)+Q1(I)
       SIG(I,2)=S2(I)-Q1(I)
    30 SIG(I,4)=S4(I)+WYZ(I)*(S2(I)-S1(I))

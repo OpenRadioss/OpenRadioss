@@ -143,7 +143,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------   
-       DO I = LFT, LLT
+       DO I = 1, NEL
         RHOEXT(I)  = ZERO
         EIEXT(I) = ZERO
           
@@ -239,7 +239,7 @@ C coordinates
        ENDDO
 
 C different Alpha values
-       DO  I=LFT,LLT 
+       DO  I=1,NEL 
            IE =NFT+I
            IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
            ALPHA(I) = POR(IE)
@@ -253,10 +253,10 @@ C different Alpha values
           ENDDO
         ENDDO
 C External gas
-       MX = MAT(LFT)
+       MX = MAT(1)
        ICONGAS = NINT(PM(201, MX))
        IF(ICONGAS > 0) THEN
-         DO I= LFT,LLT 
+         DO I= 1,NEL 
            RHOEXT(I) = PM(199, MX)
            EIEXT(I)  = PM(200, MX)
          ENDDO
@@ -266,7 +266,7 @@ C with interface
 C 
        ICLOS = NINT(PM(198, MAT(1)))
        IF(ICLOS == 2 .AND. INTBAG > 0  ) THEN
-          DO  I=LFT,LLT 
+          DO  I=1,NEL 
              IAD2 = ALE_CONNECT%ee_connect%iad_connect(I+NFT)
             II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
             IF(II == 0) THEN
@@ -326,7 +326,7 @@ C
 
       IF(ICLOS == 1 ) THEN      
 #include "lockon.inc"
-       DO  I=LFT,LLT 
+       DO  I=1,NEL 
           IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
            II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
            IF(II == 0)THEN
@@ -565,7 +565,7 @@ C
 #include "lockoff.inc"       
       ELSEIF(ICLOS == 2 .AND. INTBAG > 0  ) THEN
 #include "lockon.inc"
-          DO  I=LFT,LLT 
+          DO  I=1,NEL 
              IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
            II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
            IF(II == 0 .AND. REXCH(I,1) < EM15 )THEN
@@ -817,7 +817,7 @@ C
      
         IF(ICONGAS == 0) THEN
 #include "lockon.inc"
-          DO  I=LFT,LLT 
+          DO  I=1,NEL 
              IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
            II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
            IF(II == 0 .AND. FLUX(I,1) < ZERO )THEN
@@ -1073,8 +1073,8 @@ C------------
            
       DTINV = DT1/MAX(DT1*DT1, EM20)  
     
-      MX = MAT(LFT) 
-      DO I=LFT,LLT
+      MX = MAT(1) 
+      DO I=1,NEL
         FRHO0(I) =PM(192,MX) 
          KK(I) = MBUF%VAR(21*NEL + I)
          FAC = ONE_OVER_8*(ONE - ALPHA(I))/MAX(EM20,KK(I))       

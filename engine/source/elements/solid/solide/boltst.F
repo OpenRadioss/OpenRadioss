@@ -67,7 +67,7 @@ C-----------------------------------------------
 C
 !     Retrieve sysid of the sensors at cycle=0
       IF (NCYCLE == 0 .AND. IP == 1) THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
         ISENS = INT(BPRELD(I,10))
         IF (ISENS > 0)THEN            
          DO K=1,NSENSOR
@@ -78,7 +78,7 @@ C
        ENDDO
       ENDIF
       
-       DO I=LFT,LLT
+       DO I=1,NEL
         TS = BPRELD(I,1)
         TE = BPRELD(I,2)
         IF(BPRELD(I,3) == ZERO)THEN
@@ -108,12 +108,12 @@ C
        ENDDO
       
 ! Added to compensate loss of stress when filling the gap
-       IF(BPRELD(LFT,3) == ONE)THEN
-         TS = BPRELD(LFT,1)
-         TE = BPRELD(LFT,2)
+       IF(BPRELD(1,3) == ONE)THEN
+         TS = BPRELD(1,1)
+         TE = BPRELD(1,2)
 !         IF (TT <= (TE+EM01*(TE-TS))) THEN       ! sb : seems to be an error 
          IF (TT <= (TS+EM01*(TE-TS))) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             SIG(I,1) = BPRELD(I,4)
             SIG(I,2) = BPRELD(I,5)
             SIG(I,3) = BPRELD(I,6)
@@ -122,7 +122,7 @@ C
             SIG(I,6) = BPRELD(I,9)
           ENDDO
          ELSE IF (TT >= TE) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             BPRELD(I,3) = TWO
           ENDDO
          ENDIF

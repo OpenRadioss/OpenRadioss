@@ -89,7 +89,7 @@ C     REAL
      .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
 C-----------------------------------------------
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
       NGEO(I)=IXS(10,I)
       NGL(I)=IXS(11,I)
       MXT(I)=IXS(1,I)
@@ -103,7 +103,7 @@ C
 C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         X1(I)=X(1,NC1(I))
         Y1(I)=X(2,NC1(I))
         Z1(I)=X(3,NC1(I))
@@ -127,7 +127,7 @@ C----------------------------
 C-----------
 C     REPERE CONVECTE (ITERATIONS).
 C-----------
-      DO I=LFT,LLT
+      DO I=1,NEL
         XL=ONE_OVER_6*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
         YL=ONE_OVER_6*(Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I))
         ZL=ONE_OVER_6*(Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I))
@@ -161,7 +161,7 @@ C     PASSAGE AU REPERE CONVECTE.
 C-----------
       IF((ISMSTR==1.OR.ISMSTR==3).OR.
      .   (ISMSTR==2.AND.IDTMIN(1)==3))THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
        IF(OFFG(I)==TWO)THEN
         X1(I)=SAV(I,1)
         Y1(I)=SAV(I,2)
@@ -267,7 +267,7 @@ C
       CALL VRROTA3(
      .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
      .   X3, Y3, Z3)
-       DO I=LFT,LLT
+       DO I=1,NEL
         XL=R11(I)*X4(I)+R21(I)*Y4(I)+R31(I)*Z4(I)
         YL=R12(I)*X4(I)+R22(I)*Y4(I)+R32(I)*Z4(I)
         X4(I)=XL
@@ -289,7 +289,7 @@ C
        ENDIF
 C-----------
       DO J=1,9      
-      DO I=LFT,LLT
+      DO I=1,NEL
         K11(J,I)=ZERO
         K12(J,I)=ZERO
         K13(J,I)=ZERO

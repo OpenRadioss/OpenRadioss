@@ -46,7 +46,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -90,7 +89,7 @@ C
      .   XL, YL, ZL, VXL, VYL, VZL, OFF_L
 C=======================================================================
       OFF_L  = ZERO
-      DO 10 I=LFT,LLT
+      DO 10 I=1,NEL
       NGL(I)=IXS(11,I)
       MXT(I)=IXS(1,I)
       PID(I)=IXS(10,I)
@@ -106,7 +105,7 @@ C
 C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         X1(I)=X(1,NC(1,I))
         Y1(I)=X(2,NC(1,I))
         Z1(I)=X(3,NC(1,I))
@@ -133,7 +132,7 @@ C----------------------------
         Z8(I)=X(3,NC(8,I))
       ENDDO
 C-----------
-      DO I=LFT,LLT
+      DO I=1,NEL
         VX1(I)=V(1,NC(1,I))
         VY1(I)=V(2,NC(1,I))
         VZ1(I)=V(3,NC(1,I))
@@ -165,7 +164,7 @@ C
 C     Prepare les sorties par PART.
 C-----------
       IF(IOUTPRT/=0)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
         VGAX(I)=VX1(I)+VX2(I)+VX3(I)+VX4(I)+VX5(I)+VX6(I)+VX7(I)+VX8(I)
         VGAY(I)=VY1(I)+VY2(I)+VY3(I)+VY4(I)+VY5(I)+VY6(I)+VY7(I)+VY8(I)
         VGAZ(I)=VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I)+VZ5(I)+VZ6(I)+VZ7(I)+VZ8(I)
@@ -177,7 +176,7 @@ C-----------
      5         +VZ5(I)*VZ5(I)+VZ6(I)*VZ6(I)+VZ7(I)*VZ7(I)+VZ8(I)*VZ8(I)
        ENDDO
        IF(IPARG(80)==1) THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
           XGAX(I)=X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I)+X7(I)+X8(I)
           XGAY(I)=Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I)+Y7(I)+Y8(I)
           XGAZ(I)=Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I)+Z7(I)+Z8(I)
@@ -212,7 +211,7 @@ C-----------
 C     PASSAGE AU REPERE CONVECTE.
 C-----------
 C     X=RX' <=> X'=t(R)X chgt de base.
-       DO I=LFT,LLT
+       DO I=1,NEL
         XL=R11(I)*X1(I)+R21(I)*Y1(I)+R31(I)*Z1(I)
         YL=R12(I)*X1(I)+R22(I)*Y1(I)+R32(I)*Z1(I)
         ZL=R13(I)*X1(I)+R23(I)*Y1(I)+R33(I)*Z1(I)
@@ -265,7 +264,7 @@ C     X=RX' <=> X'=t(R)X chgt de base.
 C-----------
 C     PASSAGE AU REPERE CONVECTE.
 C-----------
-       DO I=LFT,LLT
+       DO I=1,NEL
         VXL=R11(I)*VX1(I)+R21(I)*VY1(I)+R31(I)*VZ1(I)
         VYL=R12(I)*VX1(I)+R22(I)*VY1(I)+R32(I)*VZ1(I)
         VZL=R13(I)*VX1(I)+R23(I)*VY1(I)+R33(I)*VZ1(I)
@@ -348,7 +347,7 @@ C
        ENDDO
 C-----------
       IF(OFF_L<0.)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFFG(I)<0.)THEN
             VXLOC(I,1)=0.
             VYLOC(I,1)=0.

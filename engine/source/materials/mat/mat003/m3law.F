@@ -76,7 +76,7 @@ C-----------------------------------------------
      .   SIGMX11
 C-----------------------------------------------
 C
-      MX=MAT(LFT)
+      MX=MAT(1)
       G11=PM(22,MX)
       CA11=PM(38,MX)
       CB11=PM(39,MX)
@@ -94,7 +94,7 @@ C
       !   D4 = EPS_DOT(x,y) + EPS_DOT(y,x)
       !   D5 = EPS_DOT(y,z) + EPS_DOT(z,y)
       !   D6 = EPS_DOT(x,z) + EPS_DOT(z,x)
-      DO I=LFT,LLT
+      DO I=1,NEL
        P(I)  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
        DAV(I)=-THIRD*(D1(I)+D2(I)+D3(I))
       ENDDO
@@ -108,7 +108,7 @@ C
       ! 2mu de_12 = 2G dt.e_dot_12 = 2G dt D4/2 = G dt D4
       !
       
-      DO I=LFT,LLT            
+      DO I=1,NEL            
        SIG(I,1)=SIG(I,1)+P(I)+GGDT*(D1(I)+DAV(I))
        SIG(I,2)=SIG(I,2)+P(I)+GGDT*(D2(I)+DAV(I))
        SIG(I,3)=SIG(I,3)+P(I)+GGDT*(D3(I)+DAV(I))
@@ -119,22 +119,22 @@ C
 C---------------------
 C     LIMITE PLASTIQUE
 C---------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
        YLD(I)= MIN(SIGMX11,CA11+CB11*MAX(ZERO,EPSEQ(I))**CN11)
       ENDDO
 C-----------------------
 C     MODULE ECROUISSAGE
 C-----------------------
       IF(CN11==ONE)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           QH(I)= CB11
         ENDDO   
       ELSEIF(CN11>ONE)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           QH(I)= CB11*CN11*MAX(ZERO,EPSEQ(I))**(CN11- ONE)
         ENDDO    
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(EPSEQ(I)/=ZERO)THEN
            QH(I)= CB11*CN11/MAX(ZERO,EPSEQ(I))**(ONE-CN11)
           ELSE
@@ -146,17 +146,17 @@ C-----------------------
 C---------------------------------
 C     SOUND SPEED
 C---------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
        DPDM(I)=DPDM(I)+ONEP333*G11
        SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
        AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)+SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
        SJ2(I)=SQRT(THREE*AJ2(I))
       ENDDO
       K=0
       ! sublist to avoir CYCLE on YLD(I)==ZERO
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(YLD(I)/=ZERO)THEN
           K=K+1
           LIST(K)=I
@@ -210,11 +210,11 @@ C---------------------------------
 C----------------------------
 C     TEST DE RUPTURE DUCTILE
 C---------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
        IF(OFF(I)<EM01) OFF(I)=ZERO
        IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
        IF(EPMX11==ZERO .OR. OFF(I)<ONE .OR. EPSEQ(I)<EPMX11) CYCLE
        OFF(I)=OFF(I)*FOUR_OVER_5
        II=I+NFT
@@ -223,7 +223,7 @@ C---------------------------
 #include "lockoff.inc"
        IDEL7NOK = 1
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
        SIG(I,1)=SIG(I,1)*OFF(I)
        SIG(I,2)=SIG(I,2)*OFF(I)
        SIG(I,3)=SIG(I,3)*OFF(I)
@@ -231,7 +231,7 @@ C---------------------------
        SIG(I,5)=SIG(I,5)*OFF(I)
        SIG(I,6)=SIG(I,6)*OFF(I)
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
        SIGY(I)=YLD(I)
        DEFP(I)=EPSEQ(I)
       ENDDO 

@@ -56,7 +56,7 @@ C     REAL
      . Q1, Q2, Q3
 C-----------------------------------------------
       IF (JCVT == 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          S1=SIG(I,1)
          S2=SIG(I,2)
          S3=SIG(I,3)

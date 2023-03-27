@@ -56,7 +56,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "nsvis_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -68,7 +67,7 @@ C     REAL
      .   S4, S5, S6,
      .   FINT
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         S1=(SIG(I,1)+SVIS(I,1)-QVIS(I))*VOL(I)
         S2=(SIG(I,2)+SVIS(I,2)-QVIS(I))*VOL(I)
         S3=(SIG(I,3)+SVIS(I,3)-QVIS(I))*VOL(I)

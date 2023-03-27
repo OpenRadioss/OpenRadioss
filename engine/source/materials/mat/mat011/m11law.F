@@ -99,7 +99,7 @@ C=======================================================================
       !-----------------------------------!
       !  READING USER INPUTS              !
       !-----------------------------------!      
-      MX          = MAT(LFT)
+      MX          = MAT(1)
       RHO0_1      = PM( 1,MX)
       GAM_1       = PM(25,MX)
       P0_1        = PM(31,MX)
@@ -134,7 +134,7 @@ C=======================================================================
       !-----------------------------------!
       !  ELEM INIT. FROM USER INPUTS      !
       !-----------------------------------!       
-      DO I=LFT,LLT
+      DO I=1,NEL
         RHO0(I)   = RHO0_1
         GAM(I)    = GAM_1
         P0(I)     = P0_1
@@ -147,14 +147,14 @@ C=======================================================================
         TV(I) = ZERO
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         STIF(I)   = ZERO
         EIS(I)    = EIS(I) + EINT(I) / VOL(I)
       ENDDO
 
       IF(ALEFVM_Param%IEnabled == 1)THEN
         IF(ITYP /= 3)THEN        
-          DO I=LFT,LLT
+          DO I=1,NEL
             IF(IVxFUN>0)THEN
               VxN(I) = Vx0(I)*FINTER(IVxFUN,TSCAL,NPF,TF,DYDX)
             ELSE
@@ -172,7 +172,7 @@ C=======================================================================
             ENDIF                    
           ENDDO
         ELSE!IF(ITYP /= 3)  
-          DO I=LFT,LLT
+          DO I=1,NEL
             MASS   = RHO(I) * VOL(I)
             VxN(I) = MOM(I,1) / MASS
             VyN(I) = MOM(I,2) / MASS
@@ -208,8 +208,8 @@ C=======================================================================
        FAC=FOUR
       ENDIF
 
-      MX          = MAT(LFT)
-      DO I=LFT,LLT
+      MX          = MAT(1)
+      DO I=1,NEL
         CART      = PM(34,MX)
         QVIS(I)   = ZERO
         EXPT(I)   = EXP(CART*TT**2)
@@ -219,7 +219,7 @@ C=======================================================================
       !-----------------------------------!
       ! LOOP ON ELEMENTS                  !
       !-----------------------------------!
-      DO I=LFT,LLT    
+      DO I=1,NEL    
         
         IF(INOD/=0)THEN
          VEL(I)   = V(1,INOD)**2+V(2,INOD)**2+V(3,INOD)**2
@@ -457,7 +457,7 @@ C
       ENDDO !next I
 
 C-----------
-      DO I=LFT,LLT
+      DO I=1,NEL
         EIS(I)   = EIS(I) - EINT(I) 
         SIG(I,1) = -P(I)
         SIG(I,2) = -P(I)

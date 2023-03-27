@@ -209,7 +209,7 @@ c
 C
       IF (ISORTH == 0) THEN 
 C       propriete isotrope
-        DO I=LFT,LLT                                            
+        DO I=1,NEL                                            
           GAMA(I,1) = ONE                                
           GAMA(I,2) = ZERO                                  
           GAMA(I,3) = ZERO
@@ -218,7 +218,7 @@ C       propriete isotrope
           GAMA(I,6) = ZERO 
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           GAMA(I,1) = GBUF%GAMA(I        )
           GAMA(I,2) = GBUF%GAMA(I +   NEL)
           GAMA(I,3) = GBUF%GAMA(I + 2*NEL)
@@ -454,7 +454,7 @@ C--------------
      2                                      BIDM,BIDM,BIDM,BIDM,BIDM,
      3                                      BIDM,BIDM,BIDM,BIDM,BIDM,
      4                                      BIDM,BIDM,BIDM,BIDM,GBUF%OFF,
-     5                                      LFT,LLT,NEL)
+     5                                      1,NEL,NEL)
 C--------------
 C     ASSEMBLE
 C--------------

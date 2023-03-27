@@ -75,17 +75,17 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF(N2D==1 .AND. JHBE==17) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           FAC(I) = AIRE(I)
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           FAC(I) = VOLU(I)
         ENDDO
       ENDIF
 C
 C     FOR CONSTANT SHEAR STRAIN
-      DO I=LFT,LLT
+      DO I=1,NEL
         SV = SIGM(I,4)*FAC(I)
         SY = SV*PZC1(I)
         SZ = SV*PYC1(I)
@@ -103,7 +103,7 @@ C     FOR CONSTANT SHEAR STRAIN
 C
 C     FOR CONSTANT PRESSURE CASE
       IF(ICP==1) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           SV = PP(I)*FAC(I)
           SY = SV*PYC1(I)
           SZ = SV*PZC1(I)

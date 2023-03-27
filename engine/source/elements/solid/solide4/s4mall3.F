@@ -56,7 +56,7 @@ C-----------------------------
 C     ROTATION RBY DES COORDONNEES POUR SMALL STRAIN
 C-----------------------------
       IF(ISMSTR==11)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
 C-----------------------------------------------
          IF(OFFG(I)==ZERO) CYCLE
          X=SAV(I,1)
@@ -82,7 +82,7 @@ C
 C
        ENDDO
       ELSEIF(ISMSTR<=4.AND.JLAG>0)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
        IF(OFFG(I)>ONE)THEN
 C-----------------------------------------------
          X=SAV(I,1)

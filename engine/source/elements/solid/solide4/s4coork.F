@@ -67,8 +67,8 @@ C-----------------------------------------------
 C     REAL
 C-----------------------------------------------
 C
-      MXT_1 = IXS(1,LFT)
-      DO I=LFT,LLT
+      MXT_1 = IXS(1,1)
+      DO I=1,NEL
       NGEO(I)=IXS(10,I)
       NGL(I)=IXS(11,I)
       MXT(I)=MXT_1
@@ -80,7 +80,7 @@ C
 C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         X1(I)=X(1,NC1(I))
         Y1(I)=X(2,NC1(I))
         Z1(I)=X(3,NC1(I))
@@ -97,7 +97,7 @@ C----------------------------
       ENDDO
 C-----------
       IF(ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3))THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
        IF(ABS(OFFG(I))>ONE)THEN
         X1(I)=SAV(I,1)
         Y1(I)=SAV(I,2)
@@ -120,7 +120,7 @@ C
       ENDIF
 C-----------
       DO J=1,9      
-      DO I=LFT,LLT
+      DO I=1,NEL
         K11(J,I)=ZERO
         K12(J,I)=ZERO
         K13(J,I)=ZERO

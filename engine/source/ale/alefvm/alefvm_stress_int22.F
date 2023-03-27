@@ -106,7 +106,7 @@ C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
       IF(ALEFVM_Param%IEnabled==0)RETURN
-      IMAT        = IXS(1,LFT+NFT)
+      IMAT        = IXS(1,1+NFT)
       IALEFVM_FLG = IPM(251,IMAT)  
       IF(IALEFVM_FLG <= 1)RETURN       
 C-----------------------------------------------
@@ -124,7 +124,7 @@ C-----------------------------------------------
       !-------------------------------------------------------------!
       ! PRESSURE                                                    !
       !-------------------------------------------------------------! 
-      DO I=LFT,LLT                          
+      DO I=1,NEL                          
         S1(I) = SIG(I,1) + SVIS(I,1) - QVIS(I) 
         S2(I) = SIG(I,2) + SVIS(I,2) - QVIS(I) 
         S3(I) = SIG(I,3) + SVIS(I,3) - QVIS(I) 
@@ -132,11 +132,11 @@ C-----------------------------------------------
         S5(I) = SIG(I,5) + SVIS(I,5) 
         S6(I) = SIG(I,6) + SVIS(I,6)		   
       ENDDO 
-      DO I=LFT,LLT
+      DO I=1,NEL
         P(I)      = -THIRD*(S1(I)+S2(I)+S3(I))        
       ENDDO
       ! STORAGE
-      DO I=LFT,LLT                           
+      DO I=1,NEL                           
         IB = NINT(IAD22(I))                  
         IF(IB<=0) CYCLE 
         BRICK_LIST(NIN,IB)%RHOC   = RHO(I)*SSP(I)                   
@@ -153,7 +153,7 @@ C-----------------------------------------------
       !-------------------------------------------------------------!
       ! NORMAL VECTOR FOR ALE  (can be optimize for EULER           !
       !-------------------------------------------------------------!                                       
-      DO I=LFT,LLT                          
+      DO I=1,NEL                          
       II      = I + NFT                     
       IB      = NINT(IAD22(I))              
       IF(IB<=0)CYCLE                      
@@ -188,7 +188,7 @@ C-----------------------------------------------
       ! COMPOSING THE SUPERCELL                                     !
       !   NEEDED FOR ALE_FVM_SFINT3_INT22 INTEGRAL : Pface interp.  !
       !-------------------------------------------------------------!
-      DO I=LFT, LLT
+      DO I=1, NEL
         !WARNING : Normal vectors computed in EPXLE3() if IALEFVM>0
         II                                               = I + NFT
         IB                                               = NINT(IAD22(I))

@@ -43,7 +43,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -67,7 +66,7 @@ C-----------------------------------------------
      .   TB, BFRAC1, BFRAC2, RHO0_1 , PSH_1,  B1_1 , B2_1 , R1_1,
      .   R2_1, W1_1, VDET_1, BHE_1, P0_1, BULK
 C-----------------------------------------------
-      MX         = MAT(LFT)
+      MX         = MAT(1)
       RHO0_1     = PM( 1,MX)
       B1_1       = PM(33,MX)
       B2_1       = PM(34,MX)
@@ -81,7 +80,7 @@ C-----------------------------------------------
       BULK       = PM(44,MX)
       IBFRAC_1   = NINT(PM(41,MX))
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         RHO0(I)  = RHO0_1
         B1(I)    = B1_1
         B2(I)    = B2_1
@@ -94,11 +93,11 @@ C-----------------------------------------------
         P0(I)    = P0_1
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         DF(I)    = RHO0(I)/RHO(I) ! DF = v = V/V0 = 1/(MU+1)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(BFRAC(I) < ONE) THEN
           TB=-TBURN(I)
           BFRAC1 = ZERO
@@ -113,7 +112,7 @@ C-----------------------------------------------
         ENDIF
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         R1V(I)   = B1(I)*W1(I)/(R1(I)*DF(I))
         R2V(I)   = B2(I)*W1(I)/(R2(I)*DF(I))
         WDR1V(I) = B1(I)-R1V(I)
@@ -124,13 +123,13 @@ C-----------------------------------------------
       ENDDO
 
       IF (BULK == ZERO) THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
             P(I)     =  P0(I) - PSH(I) + (WDR1V(I)*ER1V(I)+WDR2V(I)*ER2V(I)+DR1V(I))
 !!! Taking -PSH(I) as minimum value for pressure
             P(I)     = MAX(ZERO - PSH(I), P(I))
          ENDDO
       ELSE
-         DO I=LFT,LLT
+         DO I=1,NEL
             P(I)     =  - PSH(I) + (ONE - BFRAC(I)) * (P0(I) + BULK * AMU(I)) + 
      .           BFRAC(I) * (WDR1V(I)*ER1V(I)+WDR2V(I)*ER2V(I)+DR1V(I))
 !!! Taking -PSH(I) as minimum value for pressure
@@ -138,7 +137,7 @@ C-----------------------------------------------
          ENDDO
       ENDIF
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         SSP(I)   = B1_1*ER1V(I)*( (-W1_1/DF(I)/R1_1) + R1_1*DF(I) - W1_1)
      .           + B2_1*ER2V(I)*( (-W1_1/DF(I)/R2_1) + R2_1*DF(I) - W1_1)
      .           + DR1V(I)  +   (P(I) + PSH(I))*W1_1
@@ -146,19 +145,19 @@ C-----------------------------------------------
       ENDDO
 
       IF (BULK == ZERO) THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
             SSP(I)   = SQRT(ABS(SSP(I))/RHO0(I))
             SSP(I)   = MAX(SSP(I),VDET(I)*(ONE-BFRAC(I)))
          ENDDO
       ELSE
-         DO I=LFT,LLT
+         DO I=1,NEL
             SSP(I)   =  BFRAC(I) * (SSP(I) / RHO0(I)) + 
      .           (ONE - BFRAC(I)) * (BULK / RHO0(I))
             SSP(I)   = SQRT(ABS(SSP(I)))
          ENDDO
       ENDIF
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         !FLUID => NO DEVIATOR STRESS
         SIG(I,1) = ZERO
         SIG(I,2) = ZERO

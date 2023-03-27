@@ -53,7 +53,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "nsvis_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -89,7 +88,7 @@ C-----------------------------------------------
         II(I) = NEL*(I-1)
       ENDDO
 !
-      DO I=LFT,LLT
+      DO I=1,NEL
         F11(I)=ZERO
         F21(I)=ZERO
         F31(I)=ZERO
@@ -118,7 +117,7 @@ C-----------------------------------------------
 C
       DO IPT=1,8
         LBUF => BUFLY%LBUF(1,1,IPT)
-        DO I=LFT,LLT
+        DO I=1,NEL
           J = 6*(I-1)
           S1=(LBUF%SIG(II(1)+I)+SVIS(I,1)-QVIS(I))*VOLGP(I,IPT)
           S2=(LBUF%SIG(II(2)+I)+SVIS(I,2)-QVIS(I))*VOLGP(I,IPT)

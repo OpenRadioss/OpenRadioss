@@ -43,7 +43,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -62,8 +61,8 @@ C-----------------------------------------------
      .   THETL(MVSIZ), CA(MVSIZ), CB(MVSIZ), CC(MVSIZ), CN(MVSIZ), EPDR(MVSIZ), CMX(MVSIZ),
      .   SIGMX(MVSIZ),  TSTAR, CT, CE, CH, SCALE(MVSIZ), DPLA(MVSIZ)
 C------------------------------------------------------------------------------------------
-      MX = MAT(LFT)
-      DO I=LFT,LLT
+      MX = MAT(1)
+      DO I=1,NEL
         G(I)    =PM(22,MX)*OFF(I)
         CA(I)   =PM(38,MX)
         CB(I)   =PM(39,MX)
@@ -77,7 +76,7 @@ C-------------------------------------------------------------------------------
         SIGMX(I)=PM(42,MX)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         POLD(I)=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
         DAV(I) =-THIRD*(D1(I)+D2(I)+D3(I))
         G1(I)  =DT1*G(I)
@@ -86,7 +85,7 @@ C
 C-------------------------------
 C     CONTRAINTES DEVIATORIQUES
 C-------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         SIG(I,1)=SIG(I,1)+POLD(I)+G2(I)*(D1(I)+DAV(I))
         SIG(I,2)=SIG(I,2)+POLD(I)+G2(I)*(D2(I)+DAV(I))
         SIG(I,3)=SIG(I,3)+POLD(I)+G2(I)*(D3(I)+DAV(I))
@@ -95,13 +94,13 @@ C-------------------------------
         SIG(I,6)=SIG(I,6)+G1(I)*D6(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
      1                +SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
         AJ2(I)=SQRT(THREE*AJ2(I))
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(THETA(I)>=TMELT(I)) CYCLE
 C
         TSTAR=ZERO
@@ -147,7 +146,7 @@ C-------------------------------
         ENDIF
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(THETA(I)>=TMELT(I) .OR. XIST(I)/=ZERO) THEN
           EPXE(I)=ZERO
           SIG(I,1)=ZERO

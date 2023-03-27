@@ -89,13 +89,13 @@ C     REAL
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C=======================================================================
       DTA = HALF*DT1
-      MX=MAT(LFT)
+      MX=MAT(1)
       C1 = PM(32,MX)
-      DO I=LFT,LLT
+      DO I=1,NEL
         G(I) = PM(22,MX)*OFF(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         DF(I)=RHO0(I)/RHO(I)
       ENDDO
 C
@@ -105,7 +105,7 @@ C
 C-----------------------
 C     PRESSION ANCIENNE
 C-----------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         P(I) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
         G1(I)=DT1*G(I)
         G2(I)=TWO*G1(I)
@@ -121,7 +121,7 @@ C-----------------------
 C------------------------------
 C     DP/DRHO ET VITESSE DU SON
 C------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         DPDM(I)=ONEP333*G(I)+C1
         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
@@ -137,7 +137,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C     NOUVELLE PRESSION
 C--------------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         PNEW(I)=C1*AMU(I)
       ENDDO
 C--------------------------------------------------
@@ -147,7 +147,7 @@ C--------------------------------------------------
         LBUF => BUFLY%LBUF(1,1,IPT)
         SIGP => BUFLY%LBUF(1,1,IPT)%SIG(1:NEL*6)
 C
-        DO I=LFT,LLT
+        DO I=1,NEL
           DAV=ONE - DVOL(I)/VNEW(I)
           SOLD1(I)=SIGP(JJ(1)+I)*DAV
           SOLD2(I)=SIGP(JJ(2)+I)*DAV
@@ -159,7 +159,7 @@ C
 C--------------------------------------------------
 C     CONTRAINTES DEVIATORIQUES AUX POINTS DE GAUSS
 C--------------------------------------------------
-        DO I=LFT,LLT
+        DO I=1,NEL
           DAV=-THIRD*(D1(I,IPT)+D2(I,IPT)+D3(I,IPT))
           SIGP(JJ(1)+I)=SIGP(JJ(1)+I)+P(I)+G2(I)*(D1(I,IPT)+DAV)
           SIGP(JJ(2)+I)=SIGP(JJ(2)+I)+P(I)+G2(I)*(D2(I,IPT)+DAV)
@@ -171,7 +171,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C     CONTRAINTE AUX POINTS DE GAUSS
 C--------------------------------------------------
-        DO I=LFT,LLT
+        DO I=1,NEL
           SIGP(JJ(1)+I)=(SIGP(JJ(1)+I)-PNEW(I))*OFF(I)
           SIGP(JJ(2)+I)=(SIGP(JJ(2)+I)-PNEW(I))*OFF(I)
           SIGP(JJ(3)+I)=(SIGP(JJ(3)+I)-PNEW(I))*OFF(I)
@@ -182,7 +182,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C     ENERGIE INTERNE
 C--------------------------------------------------
-        DO I=LFT,LLT
+        DO I=1,NEL
           DAV=VOLGP(I,IPT)*OFF(I)*DTA
           EINT(I)=EINT(I)+DAV*(D1(I,IPT)*(SOLD1(I)+SIGP(JJ(1)+I))+
      +                         D2(I,IPT)*(SOLD2(I)+SIGP(JJ(2)+I))+
@@ -194,7 +194,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C     CONTRAINTE MOYENNE (OUTPUT)
 C--------------------------------------------------
-        DO I=LFT,LLT
+        DO I=1,NEL
           SIG(I,1)=SIG(I,1)+ONE_OVER_8*SIGP(JJ(1)+I)
           SIG(I,2)=SIG(I,2)+ONE_OVER_8*SIGP(JJ(2)+I)
           SIG(I,3)=SIG(I,3)+ONE_OVER_8*SIGP(JJ(3)+I)
@@ -205,7 +205,7 @@ C--------------------------------------------------
 C
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EINT(I)=EINT(I)/MAX(EM15,VOL(I))
       ENDDO
 C-----------

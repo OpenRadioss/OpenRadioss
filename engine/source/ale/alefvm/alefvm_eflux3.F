@@ -117,14 +117,14 @@ C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
       IF(ALEFVM_Param%IEnabled == 0)    RETURN
-      IMAT        = IXS(1,LFT+NFT)
+      IMAT        = IXS(1,1+NFT)
       IALEFVM_FLG = IPM(251,IMAT)
       IF(IALEFVM_FLG <= 1)RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       
-      DO I=LFT,LLT
+      DO I=1,NEL
         II     = I + NFT
         MAT(I) = IXS(1,II)
       ENDDO
@@ -133,7 +133,7 @@ C-----------------------------------------------
       ! INITIALIZATION : ADJAENT VALUES                      !
       !======================================================!
       !FCELL = [rhoU]. this quantity must be know for all groups
-      DO I=LFT,LLT
+      DO I=1,NEL
         II                 = I + NFT
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
         LGTH = ALE_CONNECT%ee_connect%iad_connect(II+1) - IAD2
@@ -174,7 +174,7 @@ C-----------------------------------------------
       !    where                                             !
       !      [n] : unitary normal vector on face             !
       !======================================================!
-      DO I=LFT,LLT
+      DO I=1,NEL
         II=I+NFT
         N1X(I)=VEUL(14,II)
         N2X(I)=VEUL(15,II)
@@ -210,7 +210,7 @@ C-----------------------------------------------
 
         CASE(1)
         !CENTERED FVM - U average
-          DO I=LFT,LLT
+          DO I=1,NEL
             II               = I + NFT
             DO J=1,NV46
                VEC(1,J)      = HALF * (VALEL(1,I)/VALEL(4,I) + VALVOIS(1,J,I)/VALVOIS(4,J,I)) 
@@ -250,7 +250,7 @@ C-----------------------------------------------
 
         CASE(2)
         !CENTERED FVM - rho.U average
-          DO I=LFT,LLT
+          DO I=1,NEL
             II               = I + NFT
             DO J=1,NV46
                VEC(1,J)      = (VALEL(1,I) + VALVOIS(1,J,I)) / (VALEL(4,I)+VALVOIS(4,J,I))
@@ -290,7 +290,7 @@ C-----------------------------------------------
 
         CASE(3)
         !CENTERED FVM - Roe-average
-          DO I=LFT,LLT
+          DO I=1,NEL
             II               = I + NFT
             SR1 = SQRT(VALEL(4,I))
             DO J=1,NV46
@@ -332,7 +332,7 @@ C-----------------------------------------------
           
         CASE(4)
         !CENTERED FVM - rho.c.U average
-          DO I=LFT,LLT
+          DO I=1,NEL
             II               = I + NFT
             DO J=1,NV46
               IF(DT1==ZERO)THEN            
@@ -384,7 +384,7 @@ C-----------------------------------------------
           
         CASE(5)
         !Godunov Acoustic for Riemann problem
-          DO I=LFT,LLT
+          DO I=1,NEL
             II               = I + NFT
             IF(DT1==ZERO)THEN
               DO J=1,NV46
@@ -448,7 +448,7 @@ C-----------------------------------------------
         CASE(6)
         !INTERPOLATED
         !WARNING : ADD SYMMETRY LATER IF FORMULATION IS KEPT (mean value for identical value on both sides)
-          DO I=LFT,LLT
+          DO I=1,NEL
             II               = I + NFT
             NC(1,I)          = IXS(2,II)
             NC(2,I)          = IXS(3,II)
@@ -553,7 +553,7 @@ C             endif
       ! FLUXES CALCULATION ON EACH FACE                      !
       !    FLUX_face = [0.5*V_face] . [2S*n]                 !       
       !======================================================!
-      DO I=LFT,LLT
+      DO I=1,NEL
         FLUX1(I)=HALF*(VX1(I)*N1X(I)+VY1(I)*N1Y(I)+VZ1(I)*N1Z(I))
         FLUX2(I)=HALF*(VX2(I)*N2X(I)+VY2(I)*N2Y(I)+VZ2(I)*N2Z(I))
         FLUX3(I)=HALF*(VX3(I)*N3X(I)+VY3(I)*N3Y(I)+VZ3(I)*N3Z(I))
@@ -618,7 +618,7 @@ C             endif
       ! -->RETURN                                            !
       !======================================================!
       IF(NINT(PM(19,MAT(1)))==51)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           FLUX(1,I)=FLUX1(I)
           FLUX(2,I)=FLUX2(I)
           FLUX(3,I)=FLUX3(I)
@@ -634,12 +634,12 @@ C             endif
       !    slip wall bc                                      !
       !======================================================!
       DO J=1,6
-        DO I=LFT,LLT
+        DO I=1,NEL
           UPWL(J,I)=PM(16,MAT(I))
         ENDDO !next I
       ENDDO !next J
 
-      DO I=LFT,LLT
+      DO I=1,NEL
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
        REDUC=PM(92,MAT(I))
        !---face1---!
@@ -674,7 +674,7 @@ C             endif
        ENDIF
       ENDDO !next I
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         FLUX(1,I)=FLUX1(I)-UPWL(1,I)*ABS(FLUX1(I))
         FLUX(2,I)=FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
         FLUX(3,I)=FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))

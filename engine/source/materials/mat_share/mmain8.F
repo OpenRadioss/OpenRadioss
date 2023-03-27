@@ -124,11 +124,11 @@ C=======================================================================
       ENDDO
 !
 C     tangent module
-      DO I=LFT,LLT
+      DO I=1,NEL
         ET(I)=ZERO
       ENDDO 
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         VIS(I)   = ZERO
         SVIS(I,1)= ZERO 
         SVIS(I,2)= ZERO 
@@ -176,13 +176,13 @@ C-----------------------------------------------------------------
 c     user-type laws
         NUVAR = 0
         NUVARR = 0        
-        DO I=LFT,LLT
+        DO I=1,NEL
           NUVAR  = MAX(NUVAR,IPM(8,MAT(I)))  
           NUVARR = MAX(NUVARR,IPM(221,MAT(I))) 
         ENDDO
 c
         CALL MULAW8(
-     1            LFT      ,LLT      ,NFT      ,MTN      ,NPT      ,
+     1            1      ,NEL      ,NFT      ,MTN      ,NPT      ,
      2            D1       ,D2       ,D3       ,D4       ,D5       , 
      3            D6       ,PM       ,OFF      ,GBUF%SIG ,GBUF%EINT, 
      4            GBUF%RHO ,GBUF%QVIS,GBUF%VOL ,GAMA     ,BUFLY    ,
@@ -206,7 +206,7 @@ C --------------------------
         NUMBER_FAILURE = IPM(220, MAT(1)) 
         NVARG = 0 
         NUVARR = 0        
-        DO I=LFT,LLT
+        DO I=1,NEL
           NUVARR = MAX(NUVARR,IPM(221,MAT(I))) 
         ENDDO
 c
@@ -215,7 +215,7 @@ c
           IC = 1
           IFAIL(IC) = IPM(111 +IP ,MAT(1))
           MATF(IC) = MAT(1)
-          DO I=LFT +1 ,LLT
+          DO I=1 +1 ,NEL
             IF(IPM(111 +IP ,MAT(I))/=IPM(111 +IP,MAT(I-1)))THEN
               IC = IC+1
               MATF(IC)  = MAT(I)
@@ -230,9 +230,9 @@ C----
             DFMAX  => BUFLY%FAIL(1,1,J)%FLOC(IR)%DAMMX
             TDELE  => BUFLY%FAIL(1,1,J)%FLOC(IR)%TDEL
             
-           J1 = 1 + LLT*(J-1)
-!!           J2 = (J-1)*LLT*6 - 6 --> not used
-           DO I=LFT,LLT
+           J1 = 1 + NEL*(J-1)
+!!           J2 = (J-1)*NEL*6 - 6 --> not used
+           DO I=1,NEL
 !!             I1(I) = J2 + 6*I --> not used
              SXX(I) = LBUF%SIG(JJ(1)+I)
              SYY(I) = LBUF%SIG(JJ(2)+I)
@@ -255,7 +255,7 @@ c
 c----------
            IF(IFAIL(II) == 1)THEN
 C  --- Johnson cook           
-            CALL FAIL_JOHNSON(LLT ,NUPARAM,NVARF,NFUNC,IFUNC,
+            CALL FAIL_JOHNSON(NEL ,NUPARAM,NVARF,NFUNC,IFUNC,
      2                 NPF ,TF  ,TT  ,DT1  ,BUFMAT(IADBUF),
      3                 NGL ,IPM ,MAT ,
      4                 SXX  ,SYY  ,SZZ  ,SXY   ,SYZ   ,SZX,
@@ -264,21 +264,21 @@ C  --- Johnson cook
      6                 DFMAX  ,TDELE)
            ELSEIF(IFAIL(II) == 2)THEN
 C --------  Tuler butcher          
-            CALL FAIL_TBUTCHER_S(LLT ,NUPARAM,NVARF,NFUNC,IFUNC,
+            CALL FAIL_TBUTCHER_S(NEL ,NUPARAM,NVARF,NFUNC,IFUNC,
      2                 NPF ,TF  ,TT  ,DT1  ,BUFMAT(IADBUF),
      3                 NGL ,IPM ,MAT ,
      4                 SXX  ,SYY  ,SZZ  ,SXY   ,SYZ   ,SZX,
      5                 UVARF,OFF  ,IP   ,DFMAX ,TDELE )         
            ELSEIF(IFAIL(II) == 3)THEN
 C -----------wilkins    
-            CALL FAIL_WILKINS_S(LLT ,NUPARAM,NVARF,NFUNC,IFUNC,
+            CALL FAIL_WILKINS_S(NEL ,NUPARAM,NVARF,NFUNC,IFUNC,
      2                 NPF ,TF  ,TT  ,DT1  ,BUFMAT(IADBUF),
      3                 NGL ,IPM ,MAT ,
      4                 SXX  ,SYY  ,SZZ  ,SXY   ,SYZ   ,SZX,
      5                 DPLA(J1),UVARF,OFF,IP   ,DFMAX,TDELE)
            ELSEIF(IFAIL(II) == 8)THEN
 C---- JC  + spalling
-            CALL FAIL_SPALLING_S(LLT ,NUPARAM,NVARF,NFUNC,IFUNC,
+            CALL FAIL_SPALLING_S(NEL ,NUPARAM,NVARF,NFUNC,IFUNC,
      2                 NPF ,TF  ,TT  ,DT1  ,BUFMAT(IADBUF),
      3                 NGL ,IPM ,MAT ,
      4                 SXX  ,SYY  ,SZZ  ,SXY   ,SYZ   ,SZX,
@@ -287,7 +287,7 @@ C---- JC  + spalling
      6                 DFMAX ,TDELE,GBUF%OFF)
            ELSEIF(IFAIL(II) == 9)THEN
 C---- wierzbicki
-            CALL FAIL_WIERZBICKI_S(LLT ,NUPARAM,NVARF,NFUNC,IFUNC,
+            CALL FAIL_WIERZBICKI_S(NEL ,NUPARAM,NVARF,NFUNC,IFUNC,
      2                 NPF ,TF  ,TT  ,DT1  ,BUFMAT(IADBUF),
      3                 NGL ,IPM ,MAT ,
      4                 SXX  ,SYY  ,SZZ  ,SXY   ,SYZ   ,SZX,
@@ -296,7 +296,7 @@ C---- wierzbicki
 C   tabulated failure model
            ELSEIF (IFAIL(II) == 23) THEN                             
              CALL FAIL_TAB_S(                                            
-     1       LLT      ,NVARF    ,NPF      ,TF       ,TT       ,          
+     1       NEL      ,NVARF    ,NPF      ,TF       ,TT       ,          
      2       BUFMAT(IADBUF)     ,NGL      ,IPM      ,MAT      ,DELTAX   ,          
      3       SXX      ,SYY      ,SZZ      ,SXY      ,SYZ      ,SZX,
      4       LBUF%PLA ,DPLA(J1) ,EPSP(J1) ,TSTAR,UVARF,          
@@ -305,7 +305,7 @@ C   tabulated failure model
 c ---   extended mohr coulomb failure model                  
            ELSEIF (IFAIL(II) == 27) THEN                         
              CALL FAIL_EMC(                                            
-     1       LLT      ,NVARF    ,NPF      ,TF       ,TT       ,          
+     1       NEL      ,NVARF    ,NPF      ,TF       ,TT       ,          
      2       DT1      ,BUFMAT(IADBUF)     ,NGL      ,IPM      ,MAT      ,          
      3       SXX      ,SYY      ,SZZ      ,SXY      ,SYZ      ,SZX,
      4       LBUF%PLA ,DPLA(J1) ,EPSP(J1) ,UVARF,          
@@ -313,7 +313,7 @@ c ---   extended mohr coulomb failure model
 c ---   Biquadratic failure                                               
           ELSEIF (IFAIL(II) == 30) THEN                                      
             CALL FAIL_BIQUAD_S(
-     1       LLT      ,NUPARAM,NVARF,NFUNC,IFUNC,
+     1       NEL      ,NUPARAM,NVARF,NFUNC,IFUNC,
      2       NPF      ,TF       ,TT       ,DT1      ,BUFMAT  ,
      3       NGL      ,IPM      ,MAT      ,                  
      4       SXX      ,SYY      ,SZZ      ,SXY      ,SYZ     ,SZX,
@@ -324,7 +324,7 @@ c
           ELSEIF (IFAIL(II) == 37) THEN                                      
 c ---       tabulated failure model (old, obsolete version)
               CALL FAIL_TAB_OLD_S(
-     1       LLT      ,NVARF    ,NPF      ,TF       ,TT       ,          
+     1       NEL      ,NVARF    ,NPF      ,TF       ,TT       ,          
      2       BUFMAT(IADBUF)     ,NGL      ,IPM      ,MAT      ,DELTAX   ,          
      3       SXX      ,SYY      ,SZZ      ,SXY      ,SYZ      ,SZX,
      4       LBUF%PLA ,DPLA(J1) ,EPSP(J1) ,TSTAR,UVARF,          
@@ -334,7 +334,7 @@ c
 c ---   Orthotropic biquadratic failure                                               
           ELSEIF (IFAIL(II) == 38) THEN                                      
             CALL FAIL_ORTHBIQUAD_S(
-     1        LLT      ,NUPARAM  ,NVARF    ,NFUNC    ,IFUNC    ,
+     1        NEL      ,NUPARAM  ,NVARF    ,NFUNC    ,IFUNC    ,
      2        NPF      ,TF       ,TT       ,DT1      ,BUFMAT(IADBUF),
      3        NGL      ,DPLA(J1) ,EPSP(J1) ,UVARF    ,OFF      ,                 
      4        SXX      ,SYY      ,SZZ      ,SXY      ,SYZ      ,SZX      ,
@@ -343,14 +343,14 @@ c
 c  --- RTCL failure model 
           ELSEIF (IFAIL(II) == 40) THEN                                                                
               CALL FAIL_RTCL_S(
-     1          LLT      ,NUPARAM  ,NVARF    ,TT       ,DT1      ,BUFMAT(IADBUF),
+     1          NEL      ,NUPARAM  ,NVARF    ,TT       ,DT1      ,BUFMAT(IADBUF),
      2          SXX      ,SYY      ,SZZ      ,SXY      ,SYZ      ,SZX      ,
      3          NGL      ,DPLA(J1) ,UVARF    ,OFF      ,DFMAX    ,TDELE    )
 c---------
            ENDIF
           ENDDO
 c
-           DO I=LFT,LLT
+           DO I=1,NEL
              LBUF%SIG(JJ(1)+I) = SXX(I)
              LBUF%SIG(JJ(2)+I) = SYY(I)
              LBUF%SIG(JJ(3)+I) = SZZ(I)

@@ -99,7 +99,7 @@ C-----------------------------------------------
       !ELEM VELOCITIES
       IF(INT22==0 .OR. IFVM22==0)THEN
         !FEM : from nodes
-        DO I=LFT,LLT
+        DO I=1,NEL
          VXA(I)=VX1(I)+VX2(I)+VX3(I)+VX4(I)+VX5(I)+VX6(I)+VX7(I)+VX8(I)
          VYA(I)=VY1(I)+VY2(I)+VY3(I)+VY4(I)+VY5(I)+VY6(I)+VY7(I)+VY8(I)
          VZA(I)=VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I)+VZ5(I)+VZ6(I)+VZ7(I)+VZ8(I)
@@ -110,7 +110,7 @@ C-----------------------------------------------
      4         +VZ1(I)**2+VZ2(I)**2+VZ3(I)**2+VZ4(I)**2
      5         +VZ5(I)**2+VZ6(I)**2+VZ7(I)**2+VZ8(I)**2
         ENDDO
-        DO I=LFT,LLT
+        DO I=1,NEL
           VXA(I)=VXA(I)*ONE_OVER_8
           VYA(I)=VYA(I)*ONE_OVER_8
           VZA(I)=VZA(I)*ONE_OVER_8
@@ -118,7 +118,7 @@ C-----------------------------------------------
         ENDDO
       ELSE
         !FVM - from centroid
-        DO I=LFT,LLT
+        DO I=1,NEL
           VXA(I)  = MOM(I,1)/RHO(I)/VOL(I)
           VYA(I)  = MOM(I,2)/RHO(I)/VOL(I)
           VZA(I)  = MOM(I,3)/RHO(I)/VOL(I)
@@ -126,7 +126,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         XMAS(I)= FILL(I)*RHO(I)*VNEW(I)
         EI(I)  = FILL(I)*EINT(I)*VOL(I)
         EK(I)  = XMAS(I)*VA2(I)*HALF     
@@ -135,9 +135,9 @@ C
         ZM(I)  = XMAS(I)*VZA(I)
       ENDDO
 C
-      M=IPARTS(LFT)
+      M=IPARTS(1)
       IF(IPARTSPH==0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           PARTSAV(1,M)=PARTSAV(1,M) + EI(I)
           PARTSAV(2,M)=PARTSAV(2,M) + EK(I)
           PARTSAV(3,M)=PARTSAV(3,M) + XM(I)
@@ -146,7 +146,7 @@ C
           IF (OFF(I) >= ONE) PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFF(I) < ONE)CYCLE
             PARTSAV(1,M)=PARTSAV(1,M) + EI(I)
             PARTSAV(2,M)=PARTSAV(2,M) + EK(I)
@@ -163,7 +163,7 @@ C-----------------------------------------------
       IF(FLAG==1) THEN
         IF(INT22==0 .OR. IFVM22==0)THEN
           !FEM : from nodes
-          DO I=LFT,LLT
+          DO I=1,NEL
            XX(I)=X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I)+X7(I)+X8(I)
            YY(I)=Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I)+Y7(I)+Y8(I)
            ZZ(I)=Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I)+Z7(I)+Z8(I)
@@ -180,7 +180,7 @@ C-----------------------------------------------
            ZX(I)=Z1(I)*X1(I)+Z2(I)*X2(I)+Z3(I)*X3(I)+Z4(I)*X4(I)
      .          +Z5(I)*X5(I)+Z6(I)*X6(I)+Z7(I)*X7(I)+Z8(I)*X8(I)
           ENDDO
-          DO I=LFT,LLT
+          DO I=1,NEL
             XX(I)=XX(I)*ONE_OVER_8
             YY(I)=YY(I)*ONE_OVER_8
             ZZ(I)=ZZ(I)*ONE_OVER_8
@@ -193,7 +193,7 @@ C-----------------------------------------------
           ENDDO
         ELSE
           !FVM - from centroid
-          DO I=LFT,LLT
+          DO I=1,NEL
             XX(I)   = X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I)+X7(I)+X8(I)
             YY(I)   = Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I)+Y7(I)+Y8(I)
             ZZ(I)   = Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I)+Z7(I)+Z8(I)
@@ -210,7 +210,7 @@ C-----------------------------------------------
             ZX(I)=Z1(I)*X1(I)+Z2(I)*X2(I)+Z3(I)*X3(I)+Z4(I)*X4(I)
      .           +Z5(I)*X5(I)+Z6(I)*X6(I)+Z7(I)*X7(I)+Z8(I)*X8(I)
           ENDDO
-          DO I=LFT,LLT
+          DO I=1,NEL
             XX(I)=XX(I)*ONE_OVER_8
             YY(I)=YY(I)*ONE_OVER_8
             ZZ(I)=ZZ(I)*ONE_OVER_8
@@ -223,7 +223,7 @@ C-----------------------------------------------
           ENDDO
         ENDIF
 C
-        DO I=LFT,LLT
+        DO I=1,NEL
           XCG(I)= XMAS(I)*XX(I)
           YCG(I)= XMAS(I)*YY(I)
           ZCG(I)= XMAS(I)*ZZ(I)
@@ -240,9 +240,9 @@ C
           REK(I)= ZERO
         ENDDO
 C
-        M=IPARTS(LFT)
+        M=IPARTS(1)
         IF(IPARTSPH==0)THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             PARTSAV(9,M) =PARTSAV(9,M)  + XCG(I)
             PARTSAV(10,M)=PARTSAV(10,M) + YCG(I)
             PARTSAV(11,M)=PARTSAV(11,M) + ZCG(I)
@@ -259,7 +259,7 @@ C
             PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
           ENDDO
         ELSE
-          DO I=LFT,LLT
+          DO I=1,NEL
             IF(OFF(I) < ONE)CYCLE
               PARTSAV(9,M) =PARTSAV(9,M)  + XCG(I)
               PARTSAV(10,M)=PARTSAV(10,M) + YCG(I)
@@ -281,7 +281,7 @@ C
 C
 C-----------------------------------------------
       IF (IGRE /= 0) THEN
-          CALL GRELEM_SAV(LFT   ,LLT   ,GRESAV,IGRTH ,GRTH  ,
+          CALL GRELEM_SAV(1   ,NEL   ,GRESAV,IGRTH ,GRTH  ,
      2                    OFF   ,EI    ,EK    ,XM    ,YM    ,
      3                    ZM    ,XMAS  ,XCG   ,YCG   ,ZCG   ,
      4                    XXM   ,YYM   ,ZZM   ,IXX   ,IYY   ,
@@ -291,19 +291,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       IF (JTUR /= 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           M=IPARTS(I)
           PARTSAV(7,M)=PARTSAV(7,M) + RK(I)*VOL(I)
         ENDDO
       ENDIF
 C
       IF(IEXPAN/=0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          M=IPARTS(I)
          PARTSAV(27,M)=PARTSAV(27,M) + EINTTH(I)*VOL(I)
         ENDDO
       ENDIF
-      DO I=LFT,LLT
+      DO I=1,NEL
           IF(OFF(I) < ONE) THEN
             OFF_L(I) = ZERO
           ELSE
@@ -311,7 +311,7 @@ C
           ENDIF
       ENDDO
 
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK)      
+      CALL SENSOR_ENERGY_BILAN(1,NEL,EI,EK,OFF_L,IPARTS,ITASK)      
 C
 C-----------
       RETURN

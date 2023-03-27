@@ -127,8 +127,8 @@ C-----------------------------------------------
 C-----------------------------------------------
       IUN=1
 C
-      MXT_1 = IXS(1,LFT)
-      DO I=LFT,LLT
+      MXT_1 = IXS(1,1)
+      DO I=1,NEL
       NGEO(I)  =IXS(10,I)
       NGL(I)   =IXS(11,I)
       MXT(I)   =MXT_1
@@ -161,7 +161,7 @@ C----------------------------
       
         IF(ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3))THEN
 C
-          DO I=LFT,LLT
+          DO I=1,NEL
             IF(OFFG(I)>ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+NPE)
@@ -181,7 +181,7 @@ C
 C
         ELSE
 C
-          DO I=LFT,LLT
+          DO I=1,NEL
               NN = MAX(IUN,NC(I,N))
               XX(I,N)=X(1,NN)
               YY(I,N)=X(2,NN)
@@ -195,7 +195,7 @@ C
       DO N=9,NPE
         N1=IPERM1(N)
         N2=IPERM2(N)
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(NC(I,N)==0)THEN
             XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
             YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
@@ -206,7 +206,7 @@ C
       
 
 C-----------
-      DO I=LFT,LLT      
+      DO I=1,NEL      
       DO J=1,9
         K11(J,I)  =ZERO
         K12(J,I)  =ZERO

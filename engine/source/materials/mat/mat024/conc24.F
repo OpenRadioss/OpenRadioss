@@ -58,7 +58,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 #include      "units_c.inc"
 #include      "com08_c.inc"
 #include      "scr17_c.inc"
@@ -89,7 +88,7 @@ C-----------------------------------------------
      .   SM, DSM, S1,S2,S3,S4,S5,S6,DE1,DE2, DE3, C44, C55, C66
       my_real, DIMENSION(NEL,3,3) :: CDAM
 C=======================================================================
-      DO I=LFT,LLT
+      DO I=1,NEL
         STRAIN(I,1) = STRAIN(I,1) + D1(I)*DT1
         STRAIN(I,2) = STRAIN(I,2) + D2(I)*DT1
         STRAIN(I,3) = STRAIN(I,3) + D3(I)*DT1
@@ -100,7 +99,7 @@ C=======================================================================
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 C ARMATURES
 C . . . . . . . . . . .
-      DO I=LFT,LLT
+      DO I=1,NEL
         ARM1(I) = PM(53)
         ARM2(I) = PM(54)
         ARM3(I) = PM(55)
@@ -114,7 +113,7 @@ C . . . . . . . . . . .
       ICAP = NINT(PM(57))   
 c
       ARMA = ZERO
-      DO I=LFT,LLT
+      DO I=1,NEL
         ARMA = ARMA + ARM1(I) + ARM2(I) + ARM3(I)
       ENDDO
 c     GAMA = repere  d'armature
@@ -161,7 +160,7 @@ c------
       I1 = 0
       I2 = 0
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (OFF(I) /= ZERO) THEN        !calculated in CRIT24>FR() SCLE3=-/+1 -1:elastic
           !---------------------------!
           !---      ELASTIC        ---!
@@ -234,7 +233,7 @@ c---------------------------------------------------------------
         ENDIF                  
       ENDIF                  
 c-----
-      DO I=LFT,LLT
+      DO I=1,NEL
         SIG(I,1)=SIGC(I,1)
         SIG(I,2)=SIGC(I,2)
         SIG(I,3)=SIGC(I,3)
@@ -248,14 +247,14 @@ c-----
 C . . . . . . . . . . . . . .
 C     CALCUL DU OFF
 C . . . . . . . . . . . . .
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(OFF(I) < EM01) OFF(I)=ZERO
         IF(OFF(I) < ONE)   OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C
       I1 = 0
       IF(N2D/=1) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF (OFF(I)>=ONE) THEN
             ETEST= MAX(CRAK(I,1),CRAK(I,2),CRAK(I,3))
             IF(ETEST>=EPSMAX)THEN
@@ -266,7 +265,7 @@ C
           ENDIF
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFF(I)>=ONE) THEN
             PLUS=STRAIN(I,1)+STRAIN(I,2)
             DIFF=STRAIN(I,1)-STRAIN(I,2)
@@ -294,7 +293,7 @@ c-----------------------
 c     RETOUR REPERE ARMATURE
 c-----------------------
       NBDAMA = 0
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (DAMSUM(I) > ZERO) THEN
           NBDAMA = NBDAMA + 1
           DAMAI(NBDAMA)=I
@@ -305,7 +304,7 @@ c
 c
 c     ADDITION DES FORCES ARMATURES ET RETOUR REPERE GLOBAL
       IF (ARMA > ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           SIG(I,1) = SIG(I,1) * (ONE - ARM1(I)) + ARM1(I)*SIGA(I,1)
           SIG(I,2) = SIG(I,2) * (ONE - ARM2(I)) + ARM2(I)*SIGA(I,2)
           SIG(I,3) = SIG(I,3) * (ONE - ARM3(I)) + ARM3(I)*SIGA(I,3)
@@ -315,7 +314,7 @@ c-------------------------
       CALL AGLO24(NEL,SIG,R11,R12,R13,
      .            R21,R22,R23,R31,R32,R33)
 c-------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         SIG(I,1)=SIG(I,1)*OFF(I)
         SIG(I,2)=SIG(I,2)*OFF(I)
         SIG(I,3)=SIG(I,3)*OFF(I)

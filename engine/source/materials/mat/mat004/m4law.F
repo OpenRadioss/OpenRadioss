@@ -81,7 +81,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C--------------------------------------------------------------
 C
         
-      DO I=LFT,LLT
+      DO I=1,NEL
         MX =MAT(I)
         G(I)    =PM(22,MX)
         CA(I)   =PM(38,MX)
@@ -97,7 +97,7 @@ C
         T0(I)=PM(79,MX)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         P(I)  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
         DAV(I)=-THIRD*(D1(I)+D2(I)+D3(I))
         G1(I)=DT1*G(I)*OFF(I)
@@ -106,14 +106,14 @@ C
 C-----------------------
 C     SOUND SPEED
 C-----------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         DPDM(I) = DPDM(I) + ONEP333*G(I)
         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 C-------------------------------
 C     CONTRAINTES DEVIATORIQUES
 C-------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         SIG(I,1)=SIG(I,1)+P(I)+G2(I)*(D1(I)+DAV(I))
         SIG(I,2)=SIG(I,2)+P(I)+G2(I)*(D2(I)+DAV(I))
         SIG(I,3)=SIG(I,3)+P(I)+G2(I)*(D3(I)+DAV(I))
@@ -122,7 +122,7 @@ C-------------------------------
         SIG(I,6)=SIG(I,6)+G1(I)*D6(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EPD(I)=OFF(I)*MAX(   ABS(D1(I)),   ABS(D2(I)),   ABS(D3(I)),
      .         HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
 C
@@ -135,19 +135,19 @@ C-----------------
 C     TEMPERATURE
 C-----------------
       IF(JTHE >= 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
            THETA(I)=TEMPER(I)
            IF(THETA(I)>T0(I)) TSTAR(I)=(THETA(I)- T0(I))/(TMELT(I)-T0(I))
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
            THETA(I)=TEMPEL(I)
         ENDDO
       ENDIF
 C-------------------------------
 C     CRITERE
 C-------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
        IF(THETA(I)>=TMELT(I)) THEN
         AJ2(I)=ZERO
         QH(I)=ZERO
@@ -200,7 +200,7 @@ C-------------------------------
       ENDDO
 C
       IF(IPLA==0)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
        SIG(I,1)=SCALE(I)*SIG(I,1)
        SIG(I,2)=SCALE(I)*SIG(I,2)
        SIG(I,3)=SCALE(I)*SIG(I,3)
@@ -213,7 +213,7 @@ C
       ENDDO
 C
       ELSEIF(IPLA==2)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
        SIG(I,1)=SCALE(I)*SIG(I,1)
        SIG(I,2)=SCALE(I)*SIG(I,2)
        SIG(I,3)=SCALE(I)*SIG(I,3)
@@ -226,7 +226,7 @@ C
        ENDDO
 C
       ELSEIF(IPLA==1)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
 C      plastic strain increment.
        DPLA(I)=(ONE -SCALE(I))*AJ2(I)/(THREE*G(I)+QH(I))
 C      actual yield stress.
@@ -243,7 +243,7 @@ C      actual yield stress.
        ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
        SIGY(I)=AK(I)
        DEFP(I)=EPXE(I)
       ENDDO 

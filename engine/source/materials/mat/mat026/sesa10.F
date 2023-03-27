@@ -49,7 +49,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com08_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -62,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DTA =FOURTH*DT1
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         E1(I)=D1(I)*(SOLD1(I)+SNEW(I,1)+POLD(I))
         E2(I)=D2(I)*(SOLD2(I)+SNEW(I,2)+POLD(I))
         E3(I)=D3(I)*(SOLD3(I)+SNEW(I,3)+POLD(I))
@@ -71,13 +70,13 @@ C
         E6(I)=D6(I)*(SOLD6(I)+SNEW(I,6))
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         VAVG(I)=(TWO*VOLN(I)-DVOL(I))*OFF(I)
         DVOL(I)=HALF*DVOL(I)*OFF(I)
         EINC(I)=VAVG(I)*(E1(I)+E2(I)+E3(I)+E4(I)+E5(I)+E6(I))*DTA
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EINC(I)=EINC(I)-DVOL(I)*(POLD(I)+QOLD(I))
         EINT(I)=EINT(I)+EINC(I)
       ENDDO

@@ -68,7 +68,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "scr14_c.inc"
 #include      "scr17_c.inc"
-#include      "vect01_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -121,7 +120,7 @@ C-----------------------------------------------
 C
       NOT_USED = ZERO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EPLA(I)=ZERO
         XM(I)=GEO(1,MGN(I))
         XK(I)=GEO(3,MGN(I))
@@ -143,7 +142,7 @@ C
         XCR(I)= (YC(I)+ HY(I))*ALDP(I)* ALDP(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         VRT(I) = GEO(101,MGN(I))
         VRR(I) = GEO(102,MGN(I))
         IFAIL(I) = NINT(GEO(79,MGN(I)))
@@ -151,7 +150,7 @@ C
       ENDDO
 C
       IF (INISPRI /= 0 .and. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           XL0(I)= X0(I)
 ! if not initialized length
           IF (XL0(I) == ZERO) XL0(I) = ALDP(I)
@@ -159,45 +158,45 @@ C
       ENDIF
 C
       IF (TT == ZERO)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           X0(I)= ALDP(I)                   ! cast double vers My_real
         ENDDO
       ENDIF
 C
       IF (SCODVER >= 101) THEN
         IF (TT == ZERO)THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             X0_ERR(I)= ALDP(I)-X0(I)         ! difference entre double et My_real
           ENDDO
         ENDIF
       ENDIF
 C
       IF ( INISPRI /= 0 .and. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           X0(I)= XL0(I)
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         X0DP(I)= X0(I)                     ! cast double vers My_real
       ENDDO
 C
       IF (SCODVER >= 101) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           X0DP(I)= X0(I) + X0_ERR(I)         ! difference entre double et My_real
         ENDDO
       ENDIF
 C---------------------
 C     TRANSLATIONS
 C---------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         DXOLD(I)=DX(I)
         DYOLD(I)=DY(I)
         DZOLD(I)=DZ(I)
       ENDDO
 !
       IF (INISPRI /= 0 .and. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           DXOLD(I)=DX0(I)
           DYOLD(I)=DY0(I)
           DZOLD(I)=DZ0(I)
@@ -206,7 +205,7 @@ C---------------------
 C
       DT05=HALF*DT1
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         VX21  = VX2(I)-VX1(I)
         VY21  = VY2(I)-VY1(I)
         VZ21  = VZ2(I)-VZ1(I)
@@ -235,7 +234,7 @@ C
         CRIT(I) = ZERO
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         ILENG=NINT(GEO(93,MGN(I)))
         IF (ILENG /= 0) THEN
           XL0(I)=X0(I)
@@ -246,7 +245,7 @@ C
 C
       NINDX = 0
 C---- Traction / Compression
-      DO I=LFT,LLT
+      DO I=1,NEL
         IECROU(I)= IGEO(101,MGN(I))
         IFUNC(I) = IGEO(102,MGN(I))
         IFUNC2(I)= IGEO(103,MGN(I))
@@ -272,7 +271,7 @@ C
      .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,EPLA    ,
      .            UVAR(1,1),NOT_USED,NOT_USED,NOT_USED)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         CC     = GEO(103,MGN(I))
         CN     = GEO(109,MGN(I))
         XA     = GEO(115,MGN(I))
@@ -321,7 +320,7 @@ C---      Multiaxial failure
         ENDIF
       ENDDO
 C---- Cisaillement
-      DO I=LFT,LLT
+      DO I=1,NEL
         IECROU(I)= IGEO(105,MGN(I))
         IFUNC(I) = IGEO(106,MGN(I))
         IFUNC2(I)= IGEO(107,MGN(I))
@@ -355,7 +354,7 @@ C---- Cisaillement
      .            YIELDY  ,X0DP    ,AK      ,B          ,D       ,
      .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,EPLA    ,
      .            UVAR(2,1),NOT_USED,NOT_USED,NOT_USED)
-      DO I=LFT,LLT
+      DO I=1,NEL
         CC  = GEO(104,MGN(I))
         CN  = GEO(110,MGN(I))
         XA  = GEO(116,MGN(I))
@@ -401,7 +400,7 @@ C---
 C--------------------------------------------------------------
 C     ROTATIONS
 C---------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         XIN(I)= GEO(9,MGN(I))
         XK(I) = GEO(19,MGN(I))
         XC(I) = GEO(20,MGN(I))
@@ -415,21 +414,21 @@ C---------------------
         XCR(I)= MAX(XC(I),YC(I))+XCR(I)+XHR(I)+XH(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         DXOLD(I)=RX(I)
         DYOLD(I)=RY(I)
         DZOLD(I)=RZ(I)
       ENDDO
 C
       IF ( INISPRI /= 0 .AND. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           DXOLD(I)=RX0(I)
           DYOLD(I)=RY0(I)
           DZOLD(I)=RZ0(I)
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         X21  = (RX2(I)-RX1(I))*DT1
         Y21  = (RY2(I)-RY1(I))*DT1
         Z21  = (RZ2(I)-RZ1(I))*DT1
@@ -440,7 +439,7 @@ C
 C
 C-----Torsion
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IECROU(I)= IGEO(109,MGN(I))
         IFUNC(I) = IGEO(110,MGN(I))
         IFUNC2(I)= IGEO(111,MGN(I))
@@ -465,7 +464,7 @@ C
      .            YIELDX2 ,X0DP    ,AK      ,B          ,D       ,
      .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,EPLA    ,
      .            UVAR(4,1),NOT_USED,NOT_USED,NOT_USED)
-      DO I=LFT,LLT
+      DO I=1,NEL
         CC  = GEO(105,MGN(I))
         CN  = GEO(111,MGN(I))
         XA  = GEO(117,MGN(I))
@@ -516,7 +515,7 @@ C---      Multiaxial failure
 C
 C---  Flexion radiale
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IECROU(I)= IGEO(113,MGN(I))
         IFUNC(I) = IGEO(114,MGN(I))
         IFUNC2(I)= IGEO(115,MGN(I))
@@ -549,7 +548,7 @@ C
      .            YIELDY2 ,X0DP    ,AK      ,B          ,D       ,
      .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,EPLA    ,
      .            UVAR(5,1),NOT_USED,NOT_USED,NOT_USED)
-      DO I=LFT,LLT
+      DO I=1,NEL
         CC  = GEO(106,MGN(I))
         CN  = GEO(112,MGN(I))
         XA  = GEO(118,MGN(I))
@@ -593,13 +592,13 @@ C
         ZMOM(I) = RMOM(I)*CT(I)
       ENDDO
 C-------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         E(I) = E6(I,1)+E6(I,2)+E6(I,3)+E6(I,4)
       ENDDO
 C-------------------------------
 C     RUPTURE COUPLEE
 C-------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (IFAIL(I) == 0) THEN 
           IF (CRITNEW(I) < ONE) THEN 
             CRITNEW(I) = MIN(CRIT(I),ONE)
@@ -639,7 +638,7 @@ C-------------------------------
       CALL REPLA3(YK   ,RPY ,TF  ,NPF  ,IECROU,
      .            IFUNC,IFV ,EPLA)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         XK(I)=GEO(3,MGN(I))
         YK(I)=GEO(10,MGN(I))
       ENDDO
@@ -649,7 +648,7 @@ C
       CALL REPLA3(YK   ,DPY ,TF  ,NPF  ,IECROU,
      .            IFUNC,IFV ,EPLA)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         XM(I) =XM(I)*XL0(I)
         XKM(I)=XKM(I)/XL0(I)
         XCM(I)=XCM(I)/XL0(I)

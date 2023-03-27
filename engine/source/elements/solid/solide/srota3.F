@@ -65,18 +65,18 @@ C-----------------------------------------------
       my_real
      .   Q1, Q2, Q3
 C=======================================================================
-      S1(LFT:LLT)=SIG(LFT:LLT,1)
-      S2(LFT:LLT)=SIG(LFT:LLT,2)
-      S3(LFT:LLT)=SIG(LFT:LLT,3)
-      S4(LFT:LLT)=SIG(LFT:LLT,4)
-      S5(LFT:LLT)=SIG(LFT:LLT,5)
-      S6(LFT:LLT)=SIG(LFT:LLT,6)
+      S1(1:NEL)=SIG(1:NEL,1)
+      S2(1:NEL)=SIG(1:NEL,2)
+      S3(1:NEL)=SIG(1:NEL,3)
+      S4(1:NEL)=SIG(1:NEL,4)
+      S5(1:NEL)=SIG(1:NEL,5)
+      S6(1:NEL)=SIG(1:NEL,6)
 
 C
       IF (MTN==6.OR.MTN==17.OR.MTN==46.OR.MTN==47
      .   .OR.ISMSTR==10.OR.ISMSTR==12) RETURN
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         Q1 = TWO*S4(I)*WZZ(I)
         Q2 = TWO*S6(I)*WYY(I)
         Q3 = TWO*S5(I)*WXX(I)

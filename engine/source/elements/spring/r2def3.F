@@ -66,7 +66,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "scr14_c.inc"
 #include      "scr17_c.inc"
-#include      "vect01_c.inc"
 #include      "units_c.inc"
 #include      "com01_c.inc"
 #include      "impl1_c.inc"
@@ -120,7 +119,7 @@ C-----------------------------------------------
 C
       NOT_USED = ZERO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EPLA(I)=ZERO
         XM(I)=GEO(1,MGN(I))
         XK(I)=GEO(3,MGN(I))
@@ -158,14 +157,14 @@ C
 C---------------------
 C     TRANSLATIONS
 C---------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         DXOLD(I)=DX(I)
         DYOLD(I)=DY(I)
         DZOLD(I)=DZ(I)
       ENDDO
 C
       IF (INISPRI /= 0 .and. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           DXOLD(I)=DX0(I)
           DYOLD(I)=DY0(I)
           DZOLD(I)=DZ0(I)
@@ -173,14 +172,14 @@ C
       ENDIF
 C
       IF (INISPRI /= 0 .and. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           X0_INI(I)=X0(I)
           Y0_INI(I)=Y0(I)
           Z0_INI(I)=Z0(I)
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         X21DP(I)= X2DP(1,I)-X1DP(1,I)
         Y21DP(I)= X2DP(2,I)-X1DP(2,I)
         Z21DP(I)= X2DP(3,I)-X1DP(3,I)
@@ -190,7 +189,7 @@ C
       ENDDO
 C
       IF (TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           X0DP(I)= X21DP(I)*EXX(I)+Y21DP(I)*EYX(I)+Z21DP(I)*EZX(I)
           Y0DP(I)= X21DP(I)*EXY(I)+Y21DP(I)*EYY(I)+Z21DP(I)*EZY(I)
           Z0DP(I)= X21DP(I)*EXZ(I)+Y21DP(I)*EYZ(I)+Z21DP(I)*EZZ(I)
@@ -202,7 +201,7 @@ C
         IF (INISPRI /= 0) THEN
 !  condition nedeed for spring type 8, which are not concerned by /INISPRI,
 !  and having initial length /= 0 
-          DO I=LFT,LLT
+          DO I=1,NEL
             IF (X0_INI(I) == ZERO .and. DX0(I) == ZERO) X0_INI(I) = X0DP(I)
             IF (Y0_INI(I) == ZERO .and. DY0(I) == ZERO) Y0_INI(I) = Y0DP(I)
             IF (Z0_INI(I) == ZERO .and. DZ0(I) == ZERO) Z0_INI(I) = Z0DP(I)
@@ -213,7 +212,7 @@ C
 C
       IF (SCODVER >= 101) THEN
         IF (TT == ZERO) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             X0_ERR(1,I)= X0DP(I)-X0(I)   ! difference entre double et My_real
             X0_ERR(2,I)= Y0DP(I)-Y0(I)   ! difference entre double et My_real
             X0_ERR(3,I)= Z0DP(I)-Z0(I)   ! difference entre double et My_real
@@ -222,21 +221,21 @@ C
       ENDIF
 C
       IF (INISPRI /= 0 .and. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           X0(I)=X0_INI(I)
           Y0(I)=Y0_INI(I)
           Z0(I)=Z0_INI(I)
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         X0DP(I)= X0(I)                 ! cast My_real en double
         Y0DP(I)= Y0(I)                 ! cast My_real en double
         Z0DP(I)= Z0(I)                 ! cast My_real en double
       ENDDO
 C
       IF (SCODVER >= 101) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           X0DP(I)= X0DP(I) + X0_ERR(1,I) ! AL_DP doit   tre recalcul   ainsi afin de garantir la coh  rence absolue entre AL0_DP et AL_DP
           Y0DP(I)= Y0DP(I) + X0_ERR(2,I) ! AL_DP doit   tre recalcul   ainsi afin de garantir la coh  rence absolue entre AL0_DP et AL_DP
           Z0DP(I)= Z0DP(I) + X0_ERR(3,I) ! AL_DP doit   tre recalcul   ainsi afin de garantir la coh  rence absolue entre AL0_DP et AL_DP
@@ -244,7 +243,7 @@ C
       ENDIF
 C
       IF (ISMDISP > 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF (IEQUIL(I) == 1) THEN
             SX= HALF*(RX2(I)+RX1(I))
             SY= HALF*(RY2(I)+RY1(I))
@@ -267,7 +266,7 @@ C
           CRIT(I) = ZERO
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF (IEQUIL(I) == 1) THEN
             SX= HALF*(RX2(I)+RX1(I))
             SY= HALF*(RY2(I)+RY1(I))
@@ -291,7 +290,7 @@ C
       ENDIF !(ISMDISP > 0) THEN
 C-------------------------------
       NINDX = 0
-      DO I=LFT,LLT
+      DO I=1,NEL
         IFUNC(I) = IGEO(101,MGN(I))
         IFV(I)   = IGEO(102,MGN(I))
         IFUNC2(I)= IGEO(103,MGN(I))
@@ -315,7 +314,7 @@ C-------------------------------
      .            YIELDX  ,X0DP   ,AK    ,B          ,D     ,
      .            IECROU  ,IFUNC  ,IFV   ,IFUNC2     ,EPLA  ,
      .            UVAR(1,1),NOT_USED,NOT_USED,NOT_USED)
-      DO I=LFT,LLT
+      DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
           IF (DX(I) > ZERO) THEN
@@ -342,7 +341,7 @@ C-------------------------------
           ENDIF
         ENDIF
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
         IFUNC(I) = IGEO(104,MGN(I))
         IFV(I)   = IGEO(105,MGN(I))
         IFUNC2(I)= IGEO(106,MGN(I))
@@ -367,7 +366,7 @@ C-------------------------------
      .            YIELDY  ,Y0DP   ,AK      ,B          ,D     ,
      .            IECROU  ,IFUNC  ,IFV     ,IFUNC2     ,EPLA  ,
      .            UVAR(2,1),NOT_USED,NOT_USED,NOT_USED)
-      DO I=LFT,LLT
+      DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0 ) THEN
           IF (DY(I) > ZERO) THEN
@@ -394,7 +393,7 @@ C-------------------------------
           ENDIF
         ENDIF
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
         IFUNC(I) = IGEO(107,MGN(I))
         IFV(I)   = IGEO(108,MGN(I))
         IFUNC2(I)= IGEO(109,MGN(I))
@@ -419,7 +418,7 @@ C-------------------------------
      .            YIELDZ  ,Z0DP   ,AK      ,B          ,D     ,
      .            IECROU  ,IFUNC  ,IFV     ,IFUNC2     ,EPLA  ,
      .            UVAR(3,1),NOT_USED,NOT_USED,NOT_USED)
-      DO I=LFT,LLT
+      DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0 ) THEN
           IF (DZ(I) > ZERO) THEN
@@ -449,7 +448,7 @@ C-------------------------------
 C---------------------
 C     ROTATIONS
 C---------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         XIN(I)=GEO(9,MGN(I))
         XK(I)=GEO(19,MGN(I))
         XC(I)=GEO(20,MGN(I))
@@ -468,21 +467,21 @@ C---------------------
         XCR(I)= MAX(XC(I),YC(I),ZC(I)) + XHR(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         DXOLD(I)=RX(I)
         DYOLD(I)=RY(I)
         DZOLD(I)=RZ(I)
       ENDDO
 C
       IF (INISPRI /= 0 .and. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           DXOLD(I)=RX0(I)
           DYOLD(I)=RY0(I)
           DZOLD(I)=RZ0(I)
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         X21(I)= (RX2(I)-RX1(I))*DT1
         Y21(I)= (RY2(I)-RY1(I))*DT1
         Z21(I)= (RZ2(I)-RZ1(I))*DT1
@@ -491,7 +490,7 @@ C
         RZ(I)= DZOLD(I)+X21(I)*EXZ(I)+Y21(I)*EYZ(I)+Z21(I)*EZZ(I)
       ENDDO
 C-------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IFUNC(I) = IGEO(110,MGN(I))
         IFV(I)   = IGEO(111,MGN(I))
         IFUNC2(I)= IGEO(112,MGN(I))
@@ -515,7 +514,7 @@ C-------------------------------
      .            YIELDX2 ,X0DP   ,AK    ,B          ,D     ,
      .            IECROU  ,IFUNC  ,IFV   ,IFUNC2     ,EPLA  ,
      .            UVAR(4,1),NOT_USED,NOT_USED,NOT_USED)
-      DO I=LFT,LLT
+      DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
           IF (RX(I) > ZERO) THEN
@@ -543,7 +542,7 @@ C-------------------------------
         ENDIF
       ENDDO
 C-------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IFUNC(I) = IGEO(113,MGN(I))
         IFV(I)   = IGEO(114,MGN(I))
         IFUNC2(I)= IGEO(115,MGN(I))
@@ -567,7 +566,7 @@ C-------------------------------------
      .            YIELDY2 ,Y0DP   ,AK    ,B          ,D     ,
      .            IECROU  ,IFUNC  ,IFV   ,IFUNC2     ,EPLA  ,
      .            UVAR(5,1),NOT_USED,NOT_USED,NOT_USED)
-      DO I=LFT,LLT
+      DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
           IF (RY(I) > ZERO) THEN
@@ -595,7 +594,7 @@ C-------------------------------------
         ENDIF
       ENDDO
 C-----------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IFUNC(I) = IGEO(116,MGN(I))
         IFV(I)   = IGEO(117,MGN(I))
         IFUNC2(I)= IGEO(118,MGN(I))
@@ -619,7 +618,7 @@ C-----------------------------------
      .            YIELDZ2 ,Z0DP   ,AK    ,B          ,D     ,
      .            IECROU  ,IFUNC  ,IFV   ,IFUNC2     ,EPLA  ,
      .            UVAR(6,1),NOT_USED,NOT_USED,NOT_USED)
-      DO I=LFT,LLT
+      DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
           IF (RZ(I) > ZERO) THEN
@@ -650,7 +649,7 @@ C
 C-------------------------------
 C     RUPTURE COUPLEE
 C-------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         ISRATE = NINT(GEO(96, MGN(I)))
 C---- smoothing factor alpha = 2PI*fc*dt/(2PI*fc*dt+1) ---
         ASRATE = (2*PI*GEO(97,MGN(I))*DT1)/(ONE+2*PI*GEO(97,MGN(I))*DT1)
@@ -693,7 +692,7 @@ C-------------------------------
       CALL REPLA3(ZK   ,RPZ ,TF  ,NPF  ,IECROU,
      .            IFUNC,IFV ,EPLA)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         XK(I)=GEO(3,MGN(I))
         YK(I)=GEO(10,MGN(I))
         ZK(I)=GEO(15,MGN(I))

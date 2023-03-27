@@ -49,7 +49,7 @@ C-----------------------------------------------
      .  PX(MVSIZ,*),PY(MVSIZ,*),PZ(MVSIZ,*),SSP_EQ(*),
      .  FX(MVSIZ,*), FY(MVSIZ,*), FZ(MVSIZ,*),
      .  SIG(NEL,6),VOL(*),QVIS(*),EINT(*),RHO(*),Q(*),EPLASG(*),EPLAS(*),
-     .  SIGG(NEL,6),EINTG(LLT),RHOG(*),QG(*),WI,STIG(MVSIZ,*),EPSD(*),
+     .  SIGG(NEL,6),EINTG(NEL),RHOG(*),QG(*),WI,STIG(MVSIZ,*),EPSD(*),
      .  EPSDG(*),STIN(MVSIZ,*),VOLG(*),VOL0(*),VOL0G(*),CONDE(MVSIZ),
      .  DELTAX(MVSIZ), CONDEG(MVSIZ,*)
 C-----------------------------------------------
@@ -68,7 +68,7 @@ C     REAL
       my_real
      .   FINT,AA,WIP(MVSIZ)
 C=======================================================================
-      DO I=LFT,LLT                                                 
+      DO I=1,NEL                                                 
         WIP(I) = VOL(I)/VOLG(I)                                       
         SIGG(I,1) = SIGG(I,1) + WIP(I) * SIG(I,1)		      
         SIGG(I,2) = SIGG(I,2) + WIP(I) * SIG(I,2)		      
@@ -87,18 +87,18 @@ C=======================================================================
         S6(I)=(SIG(I,6)+SVIS(I,6))*VOL(I)			   
       ENDDO                                                        
       IF (ISRAT > 0) THEN                                                    
-        DO I=LFT,LLT                                                         
+        DO I=1,NEL                                                         
           EPSDG(I) = EPSDG(I) + WIP(I) * EPSD(I)                                
         ENDDO                                                                
       ENDIF                                                                  
       IF (G_PLA > 0) THEN                                                    
-        DO I=LFT,LLT                                                          
+        DO I=1,NEL                                                          
           EPLASG(I)  = EPLASG(I)  + WIP(I) * EPLAS(I)                              
         ENDDO                                                                 
       ENDIF                                                                  
 C
       DO N=1,NPE
-        DO I=LFT,LLT
+        DO I=1,NEL
           STIN(I,N)= VOL(I)*
      .     (PX(I,N)*PX(I,N) + PY(I,N)*PY(I,N) + PZ(I,N)*PZ(I,N))
           AA=RHO(I)*SSP_EQ(I)*SSP_EQ(I)
@@ -110,7 +110,7 @@ C
       ENDDO
       IF(NODADT_THERM == 1) THEN
         DO N=1,NPE
-           DO I=LFT,LLT
+           DO I=1,NEL
               CONDE(I) = CONDE(I)*DELTAX(I)*DELTAX(I)/FOUR
               CONDEG(I,N)= CONDEG(I,N)+ CONDE(I)*
      .     (PX(I,N)*PX(I,N) + PY(I,N)*PY(I,N) + PZ(I,N)*PZ(I,N))

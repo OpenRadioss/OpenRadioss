@@ -63,22 +63,22 @@ C-----------------------------------------------
      .   T1,T2,T3,T4
 C-----------------------------------------------
       IF (N2D==1) THEN
-      DO I=LFT,LLT
+      DO I=1,NEL
         FAC(I)=AREA(I)*AREA(I)/ MAX(EM15,VOL(I))/FOUR
       ENDDO
       ELSE
-      DO I=LFT,LLT
+      DO I=1,NEL
         FAC(I)=ZERO
       ENDDO
       ENDIF
 
       IF(JCVT==0)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
          AX1(I)=(SIG(I,3)+SVIS(I,3)-SIG(I,1)-SVIS(I,1))*FAC(I)
          AX2(I)=(SIG(I,4)+SVIS(I,4))*FAC(I)
        END DO
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
          S1(I)=SIG(I,1)+SVIS(I,1)
          S2(I)=SIG(I,2)+SVIS(I,2)
          S4(I)=SIG(I,4)+SVIS(I,4)
@@ -90,13 +90,13 @@ C-----------------------------------------------
          S2(I)=R32(I)*T3+R33(I)*T2
          S4(I)=R22(I)*T3+R23(I)*T2
        END DO
-       DO I=LFT,LLT
+       DO I=1,NEL
          AX1(I)= (SIG(I,3)+SVIS(I,3)-S1(I))*FAC(I)
          AX2(I)= S4(I)*FAC(I)
        END DO
       END IF
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         S1(I) = SIG(I,1)+SVIS(I,1)-QVIS(I)
         S2(I) = SIG(I,2)+SVIS(I,2)-QVIS(I)
         S4(I) = SIG(I,4)+SVIS(I,4)
