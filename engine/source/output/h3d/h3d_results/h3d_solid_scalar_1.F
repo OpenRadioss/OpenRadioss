@@ -118,7 +118,7 @@ C-----------------------------------------------
      .   CUMUL(3),VX,VY,VZ,NX,NY,NZ,SURF,TMP_2(MVSIZ,3)
       my_real
      .   G1(MVSIZ,3),G2(MVSIZ,3),G3(MVSIZ,3),VOLN(MVSIZ),AREAM(MVSIZ),
-     .   RHO0,DET(MVSIZ),EZZ(MVSIZ),MAXDAMINI
+     .   RHO0,DET(MVSIZ),EZZ(MVSIZ),MAXDAMINI,E33
       INTEGER I,I1,II,J,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
      .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
      .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
@@ -2143,7 +2143,7 @@ C--------------------------------------------------
                   IS_WRITTEN_VALUE(I) = 1  
                 ENDDO                                
 C-------------------------------------------------- 
-              ELSEIF(KEYWORD == 'THICK' .AND.TSHELL == 1)THEN
+              ELSEIF(KEYWORD == 'THICK' )THEN
 C--------vol=mass/rho=vol0*rho0/rho  make sure GBUF%RHO is well computed in elem
 C--------thick = vol/A_m : new routine to compute A_m
                 MT = IXS(1,NFT+1)
@@ -2166,23 +2166,7 @@ C-- 2g1=2-1+5-4; 2g2 = 3-1+6-4
                   ENDDO    
                 ELSEIF (ISOLNOD == 8 )THEN
 C-- 4g1=2+3+6+7-1-4-5-8; 4g2 = 3+4+7+8-1-2-5-6; 4g3 = 5+6+7+8-1-2-3-4;               
-                  IF (JHBE==15 ) THEN
-                    DO I=1,NEL
-                      N = I + NFT
-                      NC(1:8) = IXS(2:9,N)
-                      G1(I,1:3) = X(1:3,NC(2))+X(1:3,NC(3))+X(1:3,NC(6))+X(1:3,NC(7))               
-     .                           -X(1:3,NC(1))-X(1:3,NC(4))-X(1:3,NC(5))-X(1:3,NC(8))
-                      G2(I,1:3) = X(1:3,NC(3))+X(1:3,NC(4))+X(1:3,NC(7))+X(1:3,NC(8))               
-     .                           -X(1:3,NC(1))-X(1:3,NC(2))-X(1:3,NC(5))-X(1:3,NC(6))               
-                    ENDDO
-                    CALL THS_MAREA(G1(1,1),G1(1,2),G1(1,3),G2(1,1),G2(1,2),G2(1,3),DET,NEL)                 
-                    DO I=1,NEL
-                      VOLN(I)=GBUF%VOL(I)*RHO0/GBUF%RHO(I) 
-                      AREAM(I) =ONE_OVER_16*DET(I) 
-                      VALUE(I) = VOLN(I)/AREAM(I)
-                      IS_WRITTEN_VALUE(I) = 1                       
-                    ENDDO    
-                  ELSEIF (JHBE==14 ) THEN
+                  IF (JHBE==14 ) THEN
                     DO I=1,NEL
                       N = I + NFT
                       NC(1:8) = IXS(2:9,N)
@@ -2215,8 +2199,24 @@ C------RHO0 isn't right w/ composite
                       VALUE(I) = VOLN(I)/AREAM(I)
                       IS_WRITTEN_VALUE(I) = 1                       
                     ENDDO
-                  END IF !(JHBE==15 ) THEN
-                ELSEIF (ISOLNOD == 16) THEN
+                  ELSE
+                    DO I=1,NEL
+                      N = I + NFT
+                      NC(1:8) = IXS(2:9,N)
+                      G1(I,1:3) = X(1:3,NC(2))+X(1:3,NC(3))+X(1:3,NC(6))+X(1:3,NC(7))               
+     .                           -X(1:3,NC(1))-X(1:3,NC(4))-X(1:3,NC(5))-X(1:3,NC(8))
+                      G2(I,1:3) = X(1:3,NC(3))+X(1:3,NC(4))+X(1:3,NC(7))+X(1:3,NC(8))               
+     .                           -X(1:3,NC(1))-X(1:3,NC(2))-X(1:3,NC(5))-X(1:3,NC(6))               
+                    ENDDO
+                    CALL THS_MAREA(G1(1,1),G1(1,2),G1(1,3),G2(1,1),G2(1,2),G2(1,3),DET,NEL)                 
+                    DO I=1,NEL
+                      VOLN(I)=GBUF%VOL(I)*RHO0/GBUF%RHO(I) 
+                      AREAM(I) =ONE_OVER_16*DET(I) 
+                      VALUE(I) = VOLN(I)/AREAM(I)
+                      IS_WRITTEN_VALUE(I) = 1                       
+                    ENDDO    
+                  END IF 
+                ELSEIF (ISOLNOD == 16 .OR. ISOLNOD == 20) THEN
 C---- approximated by S8                
                     DO I=1,NEL
                       N = I + NFT
@@ -2233,8 +2233,11 @@ C---- approximated by S8
                       VALUE(I) = VOLN(I)/AREAM(I)
                       IS_WRITTEN_VALUE(I) = 1                       
                     ENDDO    
+                ELSEIF (ISOLNOD == 4 .OR. ISOLNOD == 10) THEN
+C---- doesn't make sense                
                 END IF 
-              ELSEIF(KEYWORD == 'THIN'.AND.TSHELL == 1)THEN
+              ELSEIF(KEYWORD == 'THIN')THEN
+                IF(TSHELL == 1)THEN
                   FAC = ONE/NLAY
                   EZZ(1:NEL) = ZERO
                   IF (JHBE==15 ) THEN
@@ -2262,6 +2265,12 @@ C---- approximated by S8
                     VALUE(1:NEL) = -HUNDRED*(EXP(EZZ(1:NEL))-ONE)
                     IS_WRITTEN_VALUE(1:NEL) = 1                       
                   ELSEIF (JHBE==16 ) THEN
+                    DO I=1,NEL
+                      N = I + NFT
+                      NC(1:8) = IXS(2:9,N)
+                      G3(I,1:3) = X(1:3,NC(5))+X(1:3,NC(6))+X(1:3,NC(7))+X(1:3,NC(8))               
+     .                           -X(1:3,NC(1))-X(1:3,NC(2))-X(1:3,NC(3))-X(1:3,NC(4))               
+                    ENDDO
                     FAC = ONE/(NLAY*NPTR*NPTT)
                     DO IT=1,NPTT
                       DO IR=1,NPTR
@@ -2269,14 +2278,79 @@ C---- approximated by S8
                           LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,1,IT)
 C-------strain is calculated in basic system of S16 will be done later                          
                           DO I=1,NEL
-c                            EZZ(I) = EZZ(I)+FAC*LBUF%STRA(JJ(2)+I)  
+                            E33 = G3(I,1)*G3(I,1)*LBUF%STRA(JJ(1)+I)
+     .                           +G3(I,2)*G3(I,2)*LBUF%STRA(JJ(2)+I)
+     .                           +G3(I,3)*G3(I,3)*LBUF%STRA(JJ(3)+I)
+     .                           +G3(I,1)*G3(I,2)*LBUF%STRA(JJ(4)+I)
+     .                           +G3(I,2)*G3(I,3)*LBUF%STRA(JJ(5)+I)
+     .                           +G3(I,3)*G3(I,1)*LBUF%STRA(JJ(6)+I)
+                            EZZ(I) = EZZ(I)+FAC*E33  
                           ENDDO 
                         ENDDO!IL=1,NLAY
                      ENDDO!IR=1,NPTR
                     ENDDO!IT=1,NPTT
-c                    VALUE(1:NEL) = HUNDRED*EZZ(1:NEL)
-c                    IS_WRITTEN_VALUE(1:NEL) = 1                       
+                    VALUE(1:NEL) = HUNDRED*EZZ(1:NEL)
+                    IS_WRITTEN_VALUE(1:NEL) = 1                       
                   END IF 
+                ELSEIF (ISOLNOD == 8 .OR. ISOLNOD == 20) THEN
+                  IF (JCVT==0 ) THEN
+                    DO I=1,NEL
+                      N = I + NFT
+                      NC(1:8) = IXS(2:9,N)
+                      G3(I,1:3) = X(1:3,NC(5))+X(1:3,NC(6))+X(1:3,NC(7))+X(1:3,NC(8))               
+     .                           -X(1:3,NC(1))-X(1:3,NC(2))-X(1:3,NC(3))-X(1:3,NC(4))               
+                    ENDDO
+                    FAC = ONE/(NPTR*NPTS*NPTT)
+                    DO IT=1,NPTT
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+                          DO I=1,NEL
+                            E33 = G3(I,1)*G3(I,1)*LBUF%STRA(JJ(1)+I)
+     .                           +G3(I,2)*G3(I,2)*LBUF%STRA(JJ(2)+I)
+     .                           +G3(I,3)*G3(I,3)*LBUF%STRA(JJ(3)+I)
+     .                           +G3(I,1)*G3(I,2)*LBUF%STRA(JJ(4)+I)
+     .                           +G3(I,2)*G3(I,3)*LBUF%STRA(JJ(5)+I)
+     .                           +G3(I,3)*G3(I,1)*LBUF%STRA(JJ(6)+I)
+                            EZZ(I) = EZZ(I)+FAC*E33  
+                          ENDDO 
+                        ENDDO!IL=1,NLAY
+                     ENDDO!IR=1,NPTR
+                    ENDDO!IT=1,NPTT
+                    VALUE(1:NEL) = HUNDRED*EZZ(1:NEL)
+                    IS_WRITTEN_VALUE(1:NEL) = 1                       
+                  ELSE
+                    FAC = ONE/(NPTR*NPTS*NPTT)
+            	    SELECT CASE (JHBE)  					   
+            	     CASE (1,17)						   
+                       DO IT=1,NPTT
+                         DO IR=1,NPTR
+                           DO IS=1,NPTS
+                             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+                             DO I=1,NEL
+                               EZZ(I) = EZZ(I)+FAC*LBUF%STRA(JJ(2)+I)  
+                             ENDDO 
+                           ENDDO!IL=1,NLAY
+                        ENDDO!IR=1,NPTR
+                       ENDDO!IT=1,NPTT
+                       VALUE(1:NEL) = HUNDRED*EZZ(1:NEL)
+                       IS_WRITTEN_VALUE(1:NEL) = 1                       
+             	     CASE (24,14)  
+                       DO IT=1,NPTT
+                         DO IR=1,NPTR
+                           DO IS=1,NPTS
+                             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+                             DO I=1,NEL
+                               EZZ(I) = EZZ(I)+FAC*LBUF%STRA(JJ(3)+I)  
+                             ENDDO 
+                           ENDDO
+                        ENDDO!IR=1,NPTR
+                       ENDDO!IT=1,NPTT
+                       VALUE(1:NEL) = HUNDRED*EZZ(1:NEL)
+                       IS_WRITTEN_VALUE(1:NEL) = 1                       
+            	    END SELECT
+                  END IF
+                END IF !(TSHELL == 1)THEN
 C--------------------------------------------------  
               ELSEIF(KEYWORD == 'COLOR') THEN  
 C--------------------------------------------------                 
