@@ -537,11 +537,11 @@ c-----------------------------------------------
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'THICK'
-      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Thickness-TSH'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Thickness : direction s'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'THIN'
-      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Thinning(percentage) -TSH'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Thinning(percentage) : direction s'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'ENER/TMAX'
