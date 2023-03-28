@@ -5206,6 +5206,7 @@ C-----------------------------------------------
      .        INACTI, LSKYFI, LENI,INTTH,IEDGE4, IVIS2, INTNITSCHE
       INTEGER INTERACT,ISENS
       my_real TS,STARTT,STOPT
+      INTEGER, DIMENSION(NSPMD) :: SAVE_NSNFI,SAVE_NSNSI
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -5228,6 +5229,9 @@ C ecriture strutures interfaces sur fichier restart (partie entiere)
 C Issue : Restarts + INACTI + TSTART when Start timee was not reached before Restart
                INTERACT = 1
 
+               SAVE_NSNFI(1:NSPMD) = NSNFI(I)%P(1:NSPMD)
+               SAVE_NSNSI(1:NSPMD) = NSNSI(I)%P(1:NSPMD)
+
                INACTI=IPARI(22,I)
                IF (INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.ITYP==23.OR.INACTI==-1)THEN
 C
@@ -5246,6 +5250,9 @@ C
                IF((INTERACT == 0 .OR. NSNFI_FLAG(I)==1).AND.ITYP/=25) THEN
                     NSNFI(I)%P(1:NSPMD) = NSNFI_SAV(I)%P(1:NSPMD)
                     NSNSI(I)%P(1:NSPMD) = NSNSI_SAV(I)%P(1:NSPMD)
+
+                    NSNFI_SAV(I)%P(1:NSPMD) = SAVE_NSNFI(1:NSPMD)
+                    NSNSI_SAV(I)%P(1:NSPMD) = SAVE_NSNSI(1:NSPMD)
                ENDIF
 
               IF(ITYP==24)THEN
@@ -5264,6 +5271,7 @@ C
 C
               CALL WRITE_I_C(NSNSI(I)%P(1),NSPMD)
               CALL WRITE_I_C(NSNFI(I)%P(1),NSPMD)
+
               IF (LENS>0)
      .         CALL WRITE_I_C(NSVSI(I)%P(1),LENS)
 C
@@ -5528,12 +5536,11 @@ C
                   ENDIF
                ENDIF
 
-               IF(INTERACT == 0)THEN
-                    NSNFI(I)%P(1:NSPMD) = 0
-                    NSNSI(I)%P(1:NSPMD) = 0
+               IF((INTERACT == 0 .OR. NSNFI_FLAG(I)==1).AND.ITYP/=25) THEN
+                    NSNFI(I)%P(1:NSPMD) = NSNFI_SAV(I)%P(1:NSPMD)
+                    NSNSI(I)%P(1:NSPMD) = NSNSI_SAV(I)%P(1:NSPMD)
                ENDIF
               
-
 C
               IF(LENR>0) THEN
 C
