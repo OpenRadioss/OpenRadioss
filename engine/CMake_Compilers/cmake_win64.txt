@@ -109,13 +109,13 @@ set(Fortran "/fpp  /extend-source /assume:buffered_io")
 
 if ( debug STREQUAL "1" )
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " /fp:precise /Qopenmp /O1 /Qftz /extend-source /debug:all  ${precision_flag} ${Fortran} ${mpi_flag} ${MUMPS_flags} -DMETIS5 ${cppmach} ${cpprel}" )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " /fp:precise /Qopenmp /O1 /Qftz /fpp /extend-source /assume:buffered_io /debug:all  ${precision_flag} ${Fortran} ${mpi_flag} ${MUMPS_flags} -DMETIS5 ${cppmach} ${cpprel}" )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "/fp:precise /Qopenmp /O1 /Qftz /extend-source /debug:all ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel}" )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "/fp:precise /Qopenmp /O1 /Qftz /debug:all ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/fp:precise /Qopenmp /O1 /Qftz /extend-source /debug:all ${precision_flag} -DMETIS5 ${h3d_inc}  ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} /Qstd=c++11" )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/fp:precise /Qopenmp /O1 /Qftz /debug:all ${precision_flag} -DMETIS5 ${h3d_inc}  ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} /Qstd=c++11" )
 
 else ()
 
@@ -131,7 +131,7 @@ set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/O2 ${
 endif()
 
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS " /STACK:1500000000 ${MKL_libraries} ${mpi_lib} libifport.lib svml_dispmt.lib libifcoremt.lib libmmt.lib Psapi.lib libvcruntime.lib" )
+set (CMAKE_EXE_LINKER_FLAGS " /F:1500000000 ${MKL_libraries} ${mpi_lib} libifport.lib svml_dispmt.lib libifcoremt.lib libmmt.lib Psapi.lib libvcruntime.lib" )
 
 #Libraries
 set (LINK "advapi32.lib"  )

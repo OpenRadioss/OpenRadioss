@@ -16,8 +16,6 @@ enable_language (Fortran)
 enable_language (C)
 enable_language (CXX)
 
-
-
 if ( NOT DEFINED COM) 
 set (cdir "" )
 else()
