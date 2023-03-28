@@ -215,12 +215,18 @@ cd ${build_directory}
 # Get compiler settings
 source ../CMake_Compilers/cmake_${arch}_compilers.sh
 
+Fortran_path=`which $Fortran_comp`
+C_path=`which $C_comp`
+CPP_path=`which $CPP_comp`
+CXX_path=`which $CXX_comp`
+
+
 # Apply cmake
 if [ ${arch} = "win64" ]
 then
-  cmake.exe -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} ${dc}  -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=${Fortran_comp} -DCMAKE_C_COMPILER=${C_comp} -DCMAKE_CPP_COMPILER=${CPP_comp} -DCMAKE_CXX_COMPILER=${CXX_comp} .. 
+  cmake.exe -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} ${dc}  -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path} .. 
 else
-  cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug}  -Dstatic_link=$static_link ${dc} -Dsanitize=${sanitize}  -DCMAKE_Fortran_COMPILER=${Fortran_comp} -DCMAKE_C_COMPILER=${C_comp} -DCMAKE_CPP_COMPILER=${CPP_comp} -DCMAKE_CXX_COMPILER=${CXX_comp} .. 
+  cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug}  -Dstatic_link=$static_link ${dc} -Dsanitize=${sanitize}  -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path} .. 
 fi
 
 
