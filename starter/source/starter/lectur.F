@@ -7095,11 +7095,11 @@ C--------------------------------------------
      .        NIXQ, NIXTG, NIXS, ITAB,
      .        IXQ, IXTG, IXS)
       ENDIF
-      CALL ALE_CONNECTIVITY%ALE_COMPUTE_EE_CONNECTIVITY(PM,
-     .     NPROPM, NUMMAT, NUMNOD, NUMELQ, NUMELTG, NUMELS, N2D,
-     .     IALE, IEULER, ITHERM, IALELAG,
-     .     NIXQ, NIXTG, NIXS, ITAB,
-     .     IXQ, IXTG, IXS)
+      CALL ALE_CONNECTIVITY%ALE_COMPUTE_EE_CONNECTIVITY(PM,IGEO,
+     .     NPROPGI,NUMGEO, NPROPM, NUMMAT , NUMNOD, NUMELQ, NUMELTG, NUMELS, N2D,
+     .     IALE  , IEULER, ITHERM, IALELAG,
+     .     NIXQ  , NIXTG , NIXS  , ITAB   ,
+     .     IXQ   , IXTG  , IXS   )
 C
       IF (NSUBDOM > 0) THEN
 C---------------Deactivation of ALE flags if no more ALE elements in domain -------------C

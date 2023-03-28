@@ -624,8 +624,8 @@ C-----------------------------------------------
       if (allocated(this%nale)) deallocate(this%nale)
       end subroutine ale_deallocate_connectivity
 
-      subroutine ale_compute_ee_connectivity(this, pm, 
-     .     npropm, nummat, numnod, numelq, numeltg, numels, n2d, 
+      subroutine ale_compute_ee_connectivity(this, pm, igeo,
+     .     npropgi,numgeo, npropm, nummat, numnod, numelq, numeltg, numels, n2d, 
      .     iale, ieuler, itherm, ialelag,
      .     nixq, nixtg, nixs, itab,
      .     ixq, ixtg, ixs)
@@ -640,13 +640,14 @@ C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       class(t_ale_connectivity), intent(inout) :: this
-      integer, intent(in) :: numnod, numelq, numeltg, numels, 
-     .     nixq, nixtg, nixs, n2d, iale, ieuler, itherm, ialelag, npropm, nummat
+      integer, intent(in) :: numnod, numelq, numeltg, numels, npropgi,
+     .     nixq, nixtg, nixs, n2d, iale, ieuler, itherm, ialelag, npropm, nummat,numgeo
       my_real, dimension(npropm, nummat), intent(in) :: pm
       integer, dimension(numnod), intent(in) :: itab
       integer, dimension(nixq, numelq), intent(in) :: ixq
       integer, dimension(nixtg, numeltg), intent(in) :: ixtg
       integer, dimension(nixs, numels), intent(in) :: ixs
+      integer, dimension(npropgi, numgeo), intent(in) :: igeo
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -663,7 +664,7 @@ C-----------------------------------------------
       integer, dimension(:), allocatable :: iad_connect, ne_nb_connect, connected, type, ee_nb_connect, 
      .     itag
       integer(8) :: vec_ptr1
-      integer :: jal, jalt, mlw, imid, tmp, count
+      integer :: jal_from_mat, jal_from_prop, jal, jalt, mlw, imid, tmp, count
       integer, dimension(4), target :: tetra_nodes
       integer, dimension(6, 4), target :: hexa_face
       integer, dimension(6, 3), target :: tetra_face
@@ -763,7 +764,9 @@ C-----------------------------------------------
 !     /TRIA
       do ii = 1, numeltg
 !     ale : jal = 1, euler : jal = 2
-         jal = nint(pm(72, iabs(ixtg(1, ii)))) 
+         jal_from_mat = nint(pm(72, iabs(ixtg(1, ii)))) 
+         jal_from_prop = igeo(62, iabs(ixtg(5, ii)))
+         jal = max(jal_from_mat, jal_from_prop)
          jalt = jal + nint(pm(71, iabs(ixtg(1, ii))) + pm(96, iabs(ixtg(1, ii))))
          imid = iabs(ixtg(1, ii))
          if (jalt == 0) cycle
@@ -782,7 +785,9 @@ C-----------------------------------------------
 !     /QUAD
       do ii = 1, numelq
 !     ale : jal = 1, euler : jal = 2
-         jal = nint(pm(72, iabs(ixq(1, ii)))) 
+         jal_from_mat = nint(pm(72, iabs(ixq(1, ii))))
+         jal_from_prop = igeo(62,iabs(ixq(6, ii))) 
+         jal = max(jal_from_mat, jal_from_prop)
          jalt = jal + nint(pm(71, iabs(ixq(1, ii))) + pm(96, iabs(ixq(1, ii))))
          imid = iabs(ixq(1, ii))
          if (jalt == 0) cycle
@@ -800,7 +805,9 @@ C-----------------------------------------------
       enddo
 !     3D elements
       do ii = 1, numels
-         jal = nint(pm(72, iabs(ixs(1, ii)))) 
+         jal_from_mat = nint(pm(72, iabs(ixs(1, ii))))
+         jal_from_prop = igeo(62, iabs(ixs(10, ii)))
+         jal = max(jal_from_mat, jal_from_prop) 
          jalt = jal + nint(pm(71, iabs(ixs(1, ii))) + pm(96, iabs(ixs(1, ii))))
          imid = iabs(ixs(1, ii))
          if (jalt == 0) cycle
@@ -853,7 +860,9 @@ C-----------------------------------------------
 !     2D elements
 !     /TRIA
       do ii = 1, numeltg
-         jal = nint(pm(72, iabs(ixtg(1, ii)))) 
+         jal_from_mat = nint(pm(72, iabs(ixtg(1, ii)))) 
+         jal_from_prop = igeo(62,iabs(ixtg(5, ii)))
+         jal = max(jal_from_mat, jal_from_prop)
          jalt = jal + nint(pm(71, iabs(ixtg(1, ii))) + pm(96, iabs(ixtg(1, ii))))
          imid = iabs(ixtg(1, ii))
          if (jalt == 0) cycle
@@ -866,7 +875,9 @@ C-----------------------------------------------
       enddo
 !     /QUAD
       do ii = 1, numelq
-         jal = nint(pm(72, iabs(ixq(1, ii)))) 
+         jal_from_mat = nint(pm(72, iabs(ixq(1, ii))))
+         jal_from_prop = igeo(62, iabs(ixq(6, ii)) ) 
+         jal = max(jal_from_mat, jal_from_prop)
          jalt = jal + nint(pm(71, iabs(ixq(1, ii))) + pm(96, iabs(ixq(1, ii))))
          imid = iabs(ixq(1, ii))
          if (jalt == 0) cycle
@@ -879,7 +890,9 @@ C-----------------------------------------------
       enddo
 !     3D elements
       do ii = 1, numels
-         jal = nint(pm(72, iabs(ixs(1, ii)))) 
+         jal_from_mat = nint(pm(72, iabs(ixs(1, ii))))
+         jal_from_prop = igeo(62, iabs(ixs(10, ii)) ) 
+         jal = max(jal_from_mat, jal_from_prop)         
          jalt = jal + nint(pm(71, iabs(ixs(1, ii))) + pm(96, iabs(ixs(1, ii))))
          imid = iabs(ixs(1, ii))
          if (jalt == 0) cycle
@@ -928,7 +941,9 @@ C-----------------------------------------------
       if (n2d == 0) then
 !     3D elements
          do ii = 1, numels
-            jal = nint(pm(72, iabs(ixs(1, ii)))) 
+            jal_from_mat = nint(pm(72, iabs(ixs(1, ii))))
+            jal_from_prop = igeo(62, iabs(ixs(10, ii)) ) 
+            jal = max(jal_from_mat, jal_from_prop)            
             jalt = jal + nint(pm(71, iabs(ixs(1, ii))) + pm(96, iabs(ixs(1, ii))))
             if (jalt == 0) cycle
             if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and. 
@@ -949,14 +964,18 @@ C-----------------------------------------------
 !     2D elements
 !     /QUAD
          do ii = 1, numelq
-            jal = nint(pm(72, iabs(ixq(1, ii)))) 
+            jal_from_mat = nint(pm(72, iabs(ixq(1, ii))))
+            jal_from_prop = igeo(62, iabs(ixq(6, ii)) ) 
+            jal = max(jal_from_mat, jal_from_prop)            
             jalt = jal + nint(pm(71, iabs(ixq(1, ii))) + pm(96, iabs(ixq(1, ii))))
             if (jalt == 0) cycle
             ee_nb_connect(ii) = 4
          enddo   
 !     /TRIA
          do ii = 1, numeltg
-            jal = nint(pm(72, iabs(ixtg(1, ii)))) 
+            jal_from_mat = nint(pm(72, iabs(ixtg(1, ii))))
+            jal_from_prop = igeo(62, iabs(ixtg(5, ii)) ) 
+            jal = max(jal_from_mat, jal_from_prop)            
             jalt = jal + nint(pm(71, iabs(ixtg(1, ii))) + pm(96, iabs(ixtg(1, ii))))
             if (jalt == 0) cycle
             ee_nb_connect(ii) = 3
@@ -978,8 +997,10 @@ C-----------------------------------------------
       allocate(itag(numnod))
       itag(1:numnod) = 0
       if (n2d == 0) then
-         do ii = 1, numels
-            jal = nint(pm(72, iabs(ixs(1, ii)))) 
+         do ii = 1, numels 
+            jal_from_mat = nint(pm(72, iabs(ixs(1, ii))))
+            jal_from_prop = igeo(62, iabs(ixs(10, ii)) ) 
+            jal = max(jal_from_mat, jal_from_prop)            
             jalt = jal + nint(pm(71, iabs(ixs(1, ii))) + pm(96, iabs(ixs(1, ii))))
             if (jalt == 0) cycle
             iad1 = this%ee_connect%iad_connect(ii)
@@ -1050,7 +1071,9 @@ C-----------------------------------------------
       else
 !     Quad
          do ii = 1, numelq
-            jal = nint(pm(72, iabs(ixq(1, ii)))) 
+            jal_from_mat = nint(pm(72, iabs(ixq(1, ii))))
+            jal_from_prop = igeo(62, iabs(ixq(6, ii)) ) 
+            jal = max(jal_from_mat, jal_from_prop)
             jalt = jal + nint(pm(71, iabs(ixq(1, ii))) + pm(96, iabs(ixq(1, ii))))
             if (jalt == 0) cycle
             iad1 = this%ee_connect%iad_connect(ii)
@@ -1103,7 +1126,9 @@ C-----------------------------------------------
          enddo
 !     Tria
          do ii = 1, numeltg
-            jal = nint(pm(72, iabs(ixtg(1, ii)))) 
+            jal_from_mat = nint(pm(72, iabs(ixtg(1, ii))))
+            jal_from_prop = igeo(62, iabs(ixtg(5, ii)) ) 
+            jal = max(jal_from_mat, jal_from_prop)            
             jalt = jal + nint(pm(71, iabs(ixtg(1, ii))) + pm(96, iabs(ixtg(1, ii))))
             if (jalt == 0) cycle
             iad1 = this%ee_connect%iad_connect(ii)
