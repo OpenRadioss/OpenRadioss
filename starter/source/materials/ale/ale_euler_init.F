@@ -208,7 +208,7 @@ C-----------------------------------------------
         !  SOUND SPEED BUFFER  
         !################################################################!       
         IF(JALE_FROM_PROP > 0 .OR. JALE_FROM_MAT > 0)THEN               
-          MLAW_TAG(IMID)%L_SSP    = 1 
+          MLAW_TAG(IMID)%L_SSP = 1 
           IF(ILAW == 20)THEN
             uID1 = NINT(PM(21,IMID))
             uID2 = NINT(PM(22,IMID))
@@ -225,6 +225,17 @@ C-----------------------------------------------
             MLAW_TAG(MID2)%L_SSP = 1 ! boundary layer material (ilaw updated later in sgrtail.F) 
           ENDIF                                                    
         ENDIF 
+        
+        !################################################################!     
+        !  SPECIFIC TREATMENT LAW11 (BOUNDARY MATERIAL)
+        !################################################################!                
+        IF(JALE_FROM_PROP > 0)THEN
+          IF(ILAW == 11)THEN
+            IF(PM(92,IMID) == ZERO)THEN
+              PM(92,IMID) = ONE
+            ENDIF
+          ENDIF
+        ENDIF  
       
         !################################################################!     
         !  GLOBAL FLAGS 
