@@ -95,9 +95,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,JCVT,NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID
-      INTEGER I8PT,ITET4,NSPHDIR,ID_SENS,ID_PARTSPH,IPARTSPH,J,ITET10,I_ALE_FLAG
+      INTEGER I8PT,ITET4,ITET4_PREV,NSPHDIR,ID_SENS,ID_PARTSPH,IPARTSPH,J,ITET10,I_ALE_FLAG
       my_real CVIS,QA,QB,QH,VNS1,VNS2,DTMIN 
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED, lFOUND
+      CHARACTER*ncharline :: MSGLINE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -142,22 +143,46 @@ C--------------------------------------------------
 C--------------------------------------------------
 C DEFAULT VALUES & CHECKS
 C--------------------------------------------------
-      ! --default ITET4 ---
-      IF(ITET4 == 0)  ITET4 = ITET4_D
-      IF(ITET10 == 0)  ITET10 = ITET10_D
-      IF(ITET4 == 2) THEN
-        ! old single tetra4 & tetra10 formulation flag
-        ITET10 = 2
-        ITET4 = 1000
+      ! --default ITET10 ---
+      IF(ITET10 == 0)THEN
+        ITET10 = ITET10_D
       ENDIF
+      IF(ITET10/=0 .AND. ITET10/=2 .AND. ITET10/=3 .AND. ITET10/=1000)THEN
+        ITET10=1000
+      ENDIF
+
+      ! --default ITET4 ---  
+      ITET4_PREV=ITET4    
+      IF(ITET4 == 0 .OR. (ITET4 >= 4 .AND. ITET4/=1000) )THEN
+        ! use value from /DEF_SOLID (by default or in case of unexpected value) : and check it below
+        ITET4 = ITET4_D
+      ENDIF 
+      IF(ITET4 == 2) THEN
+        ! old single tetra4 & tetra10 formulation flag : set ITET4 to 1000
+        ITET10 = 2
+        ITET4 = 1000  
+        MSGLINE='   ITETRA4 IS SET TO 1000'
+        CALL ANCMSG(MSGID=2027,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=IG,C1=TITR,I2=2,C2=TRIM(MSGLINE))      
+      ELSEIF(ITET4 >=4 .AND. ITET4 /= 1000)THEN
+        ! ITET4 may have been updated (ITET4=ITET4_D) : do not allow unexpected values from /DEF_SOLID
+        MSGLINE='   ITETRA4 IS SET TO 1000'
+        CALL ANCMSG(MSGID=2027,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=IG,C1=TITR,I2=ITET4,C2=TRIM(MSGLINE))
+        ITET4 = 1000
+      ELSEIF(ITET4_PREV >= 4 .AND. ITET4_PREV/=1000)THEN  
+        !warn that unexpected user value was overwritten by value from /def_solid which is an expected one
+         MSGLINE='   ITETRA4 IS SET TO           '
+         WRITE(MSGLINE(22:31),FMT='(I0)')ITET4
+        CALL ANCMSG(MSGID=2027,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=IG,C1=TITR,I2=ITET4_PREV,C2=TRIM(MSGLINE))            
+      ENDIF
+      !backward compatibility
       IINT = 0
       IF(ITET4 < 0) THEN
         IINT = -ITET4
-        ITET4 = 0
+        ITET4 = 0   
       ENDIF
-      ID = IG
-              
-      ! --default SPHPART_ID  ---
+        
+      ! --check SPHPART_ID  ---
+      ID = IG      
       IPARTSPH=0
       lFOUND=.FALSE.
       IF(ID_PARTSPH>0)THEN
