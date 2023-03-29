@@ -162,6 +162,8 @@ C-----------------------------------------------
         ELSE
          IRUP2 = 3
         ENDIF
+        ! ----------------
+        ! law 2 : 2 sub-option
         IF (MLN==2) THEN
            CC = PM(43,MID)
            IF (CC/=0) THEN
@@ -169,15 +171,16 @@ C-----------------------------------------------
            ELSE
             INDI = 1
            ENDIF
-C          loi 25 en fonction de Crasurv
-        ELSEIF ((MLN==25).AND.(ABS(NPN)>0)) THEN
-           IFLAG = NINT( PM(40,MID))
-           IF (IFLAG/=0) THEN
+        ! ----------------
+        ! law 25 : 2 sub-option
+        ELSEIF(MLN==25) THEN
+           IF (IGTYP/=9) THEN
             INDI = 2
            ELSE
             INDI = 1
            ENDIF
-C          loi 36 en fonction des fct
+        ! ----------------
+        ! law 36 : the number of function is taken into account
         ELSEIF ((MLN==36)) THEN
            IF(ABS(NPN)>0) THEN
             NFUNC = IPM(10,MID)
@@ -191,6 +194,8 @@ C          loi 36 en fonction des fct
            ELSEIF (NFUNC>7) THEN
             INDI = 3
            ENDIF
+        ! ----------------
+        ! law 86 : prony option
         ELSEIF((MLN==86).AND.(ABS(NPN)==0)) THEN
            NFUNC = NINT(PM(40,MID))
            IF (NFUNC<=2) THEN
@@ -200,6 +205,8 @@ C          loi 36 en fonction des fct
            ELSEIF (NFUNC>7) THEN
             INDI = 3
            ENDIF
+        ! ----------------
+        ! law 42,62 and 69 : prony option
         ELSEIF((MLN==42).OR.(MLN==62).OR.(MLN==69)) THEN
 !       check the NPRONY model
            IAD=IPM(7,ABS(MID))-1
@@ -223,6 +230,8 @@ C          loi 36 en fonction des fct
             MULT = NFUNC - 2
             INDI2 = 2            
            ENDIF
+        ! ----------------
+        ! law 82 : prony option
         ELSEIF((MLN==82)) THEN
            IAD=IPM(7,ABS(MID))-1
            NFUNC=NINT(BUFMAT(IAD+1))
@@ -237,6 +246,8 @@ C          loi 36 en fonction des fct
             MULT = NFUNC - 3
             INDI2 = 2            
            ENDIF
+        ! ----------------
+        ! law 104 : 2 different algo + sub-option
         ELSEIF(MLN==104) THEN
            IAD=IPM(7,ABS(MID))-1
            FLAG_NICE_NEWTON=NINT(BUFMAT(IAD+11))
@@ -259,9 +270,12 @@ C          loi 36 en fonction des fct
              SPE_I_2 = 3
            ENDIF                
            FLAG_NON_LOCAL = IPM(253,ABS(MID))
+        ! ----------------
+        ! other laws
         ELSE
            INDI = 1
         ENDIF
+        ! ----------------
         MULT_SPE = 0.
         SPE_I_3 = 1
         IF(FLAG_NON_LOCAL/=0) THEN
