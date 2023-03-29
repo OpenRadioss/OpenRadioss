@@ -60,15 +60,15 @@ set(FLAG_PRECISE "-ffp-contract=off -fno-unsafe-math-optimizations -fno-fast-mat
 set(Fortran "-DCPP_comp=f90 -ffixed-line-length-none -fno-backslash ")
 
 if ( debug STREQUAL "1" )
- 
+set(ARCH_OPT "-O0 -march=armv8-a  -DCOMP_ARMFLANG=1 -DARCH_CPU=ARM  -nofma -fopenmp")
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} -g -O0 -ffp-contract=off -fno-unsafe-math-optimizations -fno-fast-math -fopenmp -fno-backslash -ffixed-line-length-none  -march=armv8-a -nofma -D COMP_ARMFLANG=1 -D ARCH_CPU=ARM ${ADF} " )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${ARCH_OPT} ${FLAG_PRECISE} ${Fortran}  ${ADF} " )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} -O0 -g -march=armv8-a -nofma -D COMP_ARMFLANG=1 -D ARCH_CPU=ARM -ffp-contract=off -fno-unsafe-math-optimizations -fno -fast-math " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${ARCH_OPT}  " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel}  -O0 -g -march=armv8-a -nofma -D COMP_ARMFLANG=1 -D ARCH_CPU=ARM -ffp-contract=off -fno-unsafe-math-optimizations -fno-fast-math " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${ARCH_OPT} " )
 
 else ()
 
