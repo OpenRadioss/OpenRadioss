@@ -617,7 +617,6 @@ C-----------------------------------------------
      .       DX1,DX2,R(4),UNR(4)
 C-----------------------------------------------
       NDIM=TABLE%NDIM
-      print*,'Size:',SIZE(XX),NDIM,XXDIM
       IF( XXDIM < NDIM )THEN
         CALL ANCMSG(MSGID=36,ANMODE=ANINFO,
      .              C1='TABLE INTERPOLATION')
