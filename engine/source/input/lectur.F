@@ -105,7 +105,7 @@ C-----------------------------------------------
       USE ANIM_MOD
       USE OUTPUTS_MOD
       USE STATE_MOD
-      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
+      USE ALEMUSCL_MOD , only:ALEMUSCL_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

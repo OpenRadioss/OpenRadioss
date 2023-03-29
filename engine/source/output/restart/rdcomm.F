@@ -49,8 +49,8 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE STATE_MOD
       USE INTBUFDEF_MOD
-      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
-      USE ALEFVM_MOD,only:ALEFVM_Param
+      USE ALEMUSCL_MOD , only:ALEMUSCL_Param
+      USE ALEFVM_MOD , only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1786,6 +1786,9 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   A r g u m e n t s
+C-----------------------------------------------
       INTEGER LMXVREA,LVARREA
       my_real TABVREA(LMXVREA)
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
@@ -1881,8 +1884,7 @@ C-----
        LAG_ALPHS=TABVREA(63)
 
 C-----
-C     read/write next real variable at TABVREA(LVR44A+1) if LVARREA > LVR44A,
-C                                      else, set its value to zero.
+C     read/write next real variable at TABVREA(LVR44A+1) if LVARREA > LVR44A, else, set its value to zero.
 C           (whatever the real common to store the variable).
 C--------------------------------------
        IF(MCHECK/=0)THEN

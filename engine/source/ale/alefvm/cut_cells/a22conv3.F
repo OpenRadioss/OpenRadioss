@@ -59,7 +59,7 @@ C-----------------------------------------------
       USE I22TRI_MOD
       USE ELBUFDEF_MOD
       USE I22BUFBRIC_MOD
-      USE ALEFVM_MOD,only:ALEFVM_Param
+      USE ALEFVM_MOD , only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

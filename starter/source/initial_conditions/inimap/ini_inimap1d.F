@@ -46,7 +46,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
-      USE ALEFVM_MOD,only:ALEFVM_Param
+      USE ALEFVM_MOD , only:ALEFVM_Param
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------

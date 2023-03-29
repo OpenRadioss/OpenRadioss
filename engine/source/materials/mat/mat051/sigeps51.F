@@ -63,7 +63,7 @@ C-----------------------------------------------
       USE I22BUFBRIC_MOD
       USE I22TRI_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE ALEFVM_MOD,only:ALEFVM_Param
+      USE ALEFVM_MOD , only:ALEFVM_Param
 C-----------------------------------------------      
 ! ARTIFICIAL VISCO :  EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
 ! NON UTILISE      :  EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX

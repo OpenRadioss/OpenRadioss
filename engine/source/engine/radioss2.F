@@ -192,7 +192,7 @@ C-----------------------------------------------
       USE SEGVAR_MOD
       USE SCRATCHFILE_MOD
       USE STATE_MOD
-      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
+      USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE USER_INTERFACE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
