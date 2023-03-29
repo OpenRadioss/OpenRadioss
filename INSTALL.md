@@ -23,7 +23,7 @@ OpenRadioss is made of:
     * [Under Windows in cmd.exe shell](#under-windows-in-cmd-shell)
     * [Running OpenRadioss container using Apptainer under Linux](#running-openradioss-container-using-apptainer-under-linux)
     * [Running OpenRadioss container without MPI (OpenMP only)](#running-openradioss-container-without-mpi) 
-* [Running OpenRadioss test suite from the source code](*running-openradioss-test-suite-from-the-source-code)
+* [Running OpenRadioss test suite from the source code](#running-openradioss-test-suite-from-the-source-code)
 
 
 
