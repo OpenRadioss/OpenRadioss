@@ -43,7 +43,7 @@ C     3 - upwind this value on the edge and store it in the flux
 C-----------------------------------------------
       USE I22BUFBRIC_MOD
       USE I22TRI_MOD
-      USE ALEMUSCL_MOD,only:ALEMUSCL_Buffer
+      USE ALEMUSCL_MOD , only:ALEMUSCL_Buffer
       USE SEGVAR_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------

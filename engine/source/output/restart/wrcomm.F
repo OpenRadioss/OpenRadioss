@@ -49,8 +49,8 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE STATE_MOD
       USE INTBUFDEF_MOD
-      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
-      USE ALEFVM_MOD,only:ALEFVM_Param
+      USE ALEMUSCL_MOD , only:ALEMUSCL_Param
+      USE ALEFVM_MOD , only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

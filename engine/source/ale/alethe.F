@@ -65,7 +65,7 @@ C-----------------------------------------------
       USE I22TRI_MOD 
       USE SEGVAR_MOD        
       USE ALE_CONNECTIVITY_MOD
-      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
+      USE ALEMUSCL_MOD , only:ALEMUSCL_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -87,8 +87,8 @@ C-----------------------------------------------
       USE INOUTFILE_MOD
       USE DETONATORS_MOD
       USE EBCS_MOD
-      USE ALEMUSCL_MOD,only:ALEMUSCL_Param
-      USE ALEFVM_MOD,only:ALEFVM_Param
+      USE ALEMUSCL_MOD , only:ALEMUSCL_Param
+      USE ALEFVM_MOD , only:ALEFVM_Param
       USE USER_WINDOWS_MOD
       USE USER_INTERFACE_MOD
 C-----------------------------------------------

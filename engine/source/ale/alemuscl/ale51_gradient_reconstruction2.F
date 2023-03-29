@@ -50,7 +50,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD 
-      USE ALEMUSCL_MOD, only : ALEMUSCL_Buffer
+      USE ALEMUSCL_MOD , only : ALEMUSCL_Buffer
       USE TRIMAT_MOD
       USE SEGVAR_MOD
       USE ALE_CONNECTIVITY_MOD

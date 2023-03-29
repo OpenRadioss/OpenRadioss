@@ -51,7 +51,7 @@ C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE SCHLIEREN_MOD  
-      USE I22TRI_MOD,only:INT22_FCELL_ANIM  
+      USE I22TRI_MOD , only:INT22_FCELL_ANIM  
       USE ALEFVM_MOD  
       USE MULTI_FVM_MOD   
       USE ALE_CONNECTIVITY_MOD

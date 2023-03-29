@@ -81,7 +81,7 @@ C-----------------------------------------------
       USE BPRELOAD_MOD
       USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE ALEFVM_MOD,only:ALEFVM_Param
+      USE ALEFVM_MOD , only:ALEFVM_Param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
