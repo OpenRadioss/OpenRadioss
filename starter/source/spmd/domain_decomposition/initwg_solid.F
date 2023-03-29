@@ -624,7 +624,32 @@ C
                ! 4 NPT = 202 = 4 * reference weight 
                ! if NPT > 4, element weight = reference weight + overcost
                TELT = OVERCOST_ELM*TMAT+NPTOT*TRUP + 
-     .                OVERCOST_ELM*NUMBER_LAYER*SOLTELT(10) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)     
+     .                OVERCOST_ELM*NUMBER_LAYER*SOLTELT(10) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+            ELSEIF(JHBE==15) THEN
+               ! -------------- 
+               ! Solid Thick shell
+               ! -------------- 
+               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
+                TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
+               ELSE
+                IF(MULT/=0) TMATADD = MULT * (SOL1TNL(MLN,INDI)-SOL1TNL(MLN,INDI2))
+                IF(ADD_OPTION/=0) TMATADD = OPT_1 * SOL1TNL(MLN,INDI_OPT_1) + OPT_2 * SOL1TNL(MLN,INDI_OPT_2)
+                IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2) 
+                TMAT = SOL1TNL(MLN,INDI) + TMATADD
+               ENDIF
+!              --------------
+!              Failure
+               IF(IRUP/=0) THEN
+                DO J=1,IRUP
+                 TRUP = TRUP + RUPTURE_SOL(IRUP_TAB(J),IRUP2)
+                ENDDO
+               ENDIF
+
+               NPTOT = ABS (NPN)
+              ! --------------
+               ! jhbe=15 : weight = element weight + element extracost + mat + rupture
+               TELT = NPTOT*(TMAT+TRUP) + SOLTELT(11) + NPTOT*SOLTELT(12) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+              ! --------------  
             ELSEIF (JHBE==17) THEN   
 !           ISOLIDE=17 H8C Standard 8-nodes compatible 
 !           solid full integration formulation 2*2*2 integration points, no hourglass
