@@ -48,7 +48,8 @@ Install as sudo or root
            apt-get install gfortran
            apt-get install cmake
            apt-get install perl
-           apt-get install python
+           apt-get install python3
+           apt-get install python-is-python3
            apt-get install git-lfs
 
 
