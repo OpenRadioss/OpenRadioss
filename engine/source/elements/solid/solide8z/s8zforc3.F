@@ -1195,7 +1195,7 @@ C-----------------------------
      .     NC1   ,NC2   ,NC3   ,NC4   ,NC5   ,NC6   ,NC7   ,NC8   ,NEL)
         IF (ISM12_11>0 .AND. ISORTH == 0) THEN
              CALL S8FUPD11T12(ELBUF_TAB(NG),GBUF%OFF,OFFG0  ,X  ,XDP  ,
-     .              NC1   ,NC2   ,NC3   ,NC4   ,NC5   ,NC6   ,NC7   ,NC8  )
+     .              NC1   ,NC2   ,NC3   ,NC4   ,NC5   ,NC6   ,NC7   ,NC8, NEL)
         END IF 
          DO IR=1,NPTR
           DO IS=1,NPTS
