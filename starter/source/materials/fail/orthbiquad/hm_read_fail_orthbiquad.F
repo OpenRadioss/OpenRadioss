@@ -608,7 +608,7 @@ c-----------------------------------------------------
      & 5X,'  HIGH STRESS TRIAXIALITY PARABOLA PARAMETER F . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'ELEMENT DELETION :',/,
-     & 5X,'FRACTION OF FAILED IPS FOR SHELL DELETION  . . . .=',F5.1,/
+     & 5X,'FRACTION OF FAILED IPS FOR SHELL DELETION  . . . .=',1PG20.13,/
      & 5X,'S-FLAG . . . . . . . . . . . . . . . . . . . . . .=',I10,/)
  1400 FORMAT(
      & 5X,'ELEMENT LENGTH REGULARIZATION USED:',/,
