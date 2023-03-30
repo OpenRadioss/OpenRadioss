@@ -319,7 +319,6 @@ Chd|====================================================================
 Chd|  S6CKGEO3                      source/elements/thickshell/solide6c/s6cke3.F
 Chd|-- called by -----------
 Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6cke3.F
-Chd|        S6CKEL3                       source/elements/thickshell/solide6c/s6cke3.F
 Chd|-- calls ---------------
 Chd|        S6CKEH3                       source/elements/thickshell/solide6c/s6cke3.F
 Chd|====================================================================

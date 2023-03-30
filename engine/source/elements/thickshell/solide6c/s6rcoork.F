@@ -24,7 +24,6 @@ Chd|====================================================================
 Chd|  S6RCOORK                      source/elements/thickshell/solide6c/s6rcoork.F
 Chd|-- called by -----------
 Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6cke3.F
-Chd|        S6CKEL3                       source/elements/thickshell/solide6c/s6cke3.F
 Chd|-- calls ---------------
 Chd|        S6CORTHO3                     source/elements/thickshell/solide6c/s6cortho3.F
 Chd|        VRROTA3                       source/elements/thickshell/solide6c/vrrota3.F

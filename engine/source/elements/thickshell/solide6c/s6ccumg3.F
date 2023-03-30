@@ -24,7 +24,6 @@ Chd|====================================================================
 Chd|  S6CCUMG3                      source/elements/thickshell/solide6c/s6ccumg3.F
 Chd|-- called by -----------
 Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6cke3.F
-Chd|        S6CKEL3                       source/elements/thickshell/solide6c/s6cke3.F
 Chd|-- calls ---------------
 Chd|        SETPROJKS6                    source/elements/thickshell/solide6c/s6ccumg3.F
 Chd|        SET_RI33                      source/elements/shell/coqueba/cbasumg3.F

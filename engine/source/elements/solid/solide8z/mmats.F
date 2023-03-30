@@ -28,7 +28,6 @@ Chd|        S10KE3                        source/elements/solid/solide10/s10ke3.
 Chd|        S20KE3                        source/elements/solid/solide20/s20ke3.F
 Chd|        S4KE3                         source/elements/solid/solide4/s4ke3.F
 Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6cke3.F
-Chd|        S6CKEL3                       source/elements/thickshell/solide6c/s6cke3.F
 Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
 Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
 Chd|-- calls ---------------
@@ -1035,7 +1034,6 @@ Chd|        S10KE3                        source/elements/solid/solide10/s10ke3.
 Chd|        S20KE3                        source/elements/solid/solide20/s20ke3.F
 Chd|        S4KE3                         source/elements/solid/solide4/s4ke3.F
 Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6cke3.F
-Chd|        S6CKEL3                       source/elements/thickshell/solide6c/s6cke3.F
 Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
 Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
 Chd|-- calls ---------------

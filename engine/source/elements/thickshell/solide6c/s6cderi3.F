@@ -25,7 +25,6 @@ Chd|  S6CDERI3                      source/elements/thickshell/solide6c/s6cderi3
 Chd|-- called by -----------
 Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
 Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6cke3.F
-Chd|        S6CKEL3                       source/elements/thickshell/solide6c/s6cke3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
