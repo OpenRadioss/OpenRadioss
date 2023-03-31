@@ -93,7 +93,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J,K,IET, MT
+      INTEGER I, MX, J,K,IET, MT,IPLAST
       my_real
      .   CAQ(MVSIZ), FCL(MVSIZ), FCQ(MVSIZ),DEINT(MVSIZ),
      .   H11(MVSIZ), H22(MVSIZ), H33(MVSIZ),
@@ -134,6 +134,7 @@ C +++ MAT Visco-----
       NU=PM(21,MX)
       G0=PM(22,MX)
       C1=PM(32,MX)
+      IPLAST = ELBUF_STR%GBUF%G_PLA
       SELECT CASE (MTN)
 C  +++ MAT Hydro---
         CASE (3,4,6,70) 
@@ -155,6 +156,16 @@ C  +++ MAT Hyper-elas----Et>1
       END SELECT
 C        
 C
+      IF (MTN==1.AND.ICP==1.AND.(ISMSTR>=10)) THEN           
+        DO I=LFT,LLT
+          FF = -MIN(SIG0(I,1),SIG0(I,2),SIG0(I,3))
+          FAC1 = MAX(ONE,HALF*FF/G0)
+          FAC = ONE          
+          IF (FAC1>ONE) FAC = ONEP2*FAC1         
+          GG(I)=FAC*GG(I)     
+        ENDDO
+      END IF
+C----
       IF (IET > 1 .AND. MATVIS>0 ) THEN
        CALL SZETFAC(LFT,LLT,IET,MTN,ET,GG )
       ELSEIF (MATVIS==1.AND.ISMSTR<10) THEN
@@ -209,9 +220,15 @@ C------now when IHKT=2, w.r.t. Isolid=1, fac=0.2*0.006666 ~0.001
          FCL(I)=ZEP00666666667*FCL(I)*CXX(I)
        ENDDO
       END IF
-C
 C------ w/ Prony, use Icpre=0 anyway
       IF (MATVIS>2) THEN
+       DO I=LFT,LLT
+        NU1(I) =TWO/(ONE-NU)
+        NU2(I) =NU*NU1(I)
+        NU3(I) =TWO_THIRD*(ONE + NU)
+        NU4(I) =NU
+       ENDDO
+      ELSEIF(MTN==1.AND.(ISMSTR>=10))THEN
        DO I=LFT,LLT
         NU1(I) =TWO/(ONE-NU)
         NU2(I) =NU*NU1(I)
@@ -362,7 +379,7 @@ C         SIGY(I) = 1.0E+30
         FHOUR(I,3,3) = FHOUR(I,3,3)*OFF(I)
         FHOUR(I,3,4) = FHOUR(I,3,4)*OFF(I)
        ENDDO
-      IF (MATVIS==0) 
+      IF (IPLAST==1) 
      .   CALL SZSVM(JR0,JS0,JT0,FHOUR,SIGY,SIGOLD,NU4,SMO1,SMO2,NEL) 
       !-----------For energy calculation------------
       IF(JLAG==1)THEN
@@ -457,10 +474,10 @@ C
        FHOUR(I,3,3) = FHOUR(I,3,3) + DFHOUR(I,3,3)
        FHOUR(I,3,4) = FHOUR(I,3,4) + DFHOUR(I,3,4)
       ENDDO
-      IF (MATVIS==0) 
+      IF (IPLAST==1) 
      .    CALL SZSVM(JR0,JS0,JT0,FHOUR,SIGY,SIG0,NU4,SM1,SM2,NEL) 
       !-----------ELASTIC-PLASTIC yield criterion------------
-      IF (MATVIS==0) THEN
+      IF (IPLAST==1) THEN
       DO I=LFT,LLT
         IF (SM1(I)>SIGY(I).AND.DEINT(I)>0) THEN
          SMO  = ZEP9*SMO1(I)+EM01*SMO2(I)
@@ -991,7 +1008,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J,K,IET, MT
+      INTEGER I, MX, J,K,IET, MT,IPLAST
       my_real
      .   CAQ(MVSIZ), FCL(MVSIZ), FCQ(MVSIZ),DEINT(MVSIZ),
      .   H11(MVSIZ), H22(MVSIZ), H33(MVSIZ),
@@ -1018,6 +1035,7 @@ C-----------------------------------------------
 C-----------------------------------------------
        IET =IINT
        COEFH = ZEP9999   
+       IPLAST = ELBUF_STR%GBUF%G_PLA
 C---- attention : r->eta; s->zeta; t->ksi------------
 
 C +++ MAT Visco-----
@@ -1272,7 +1290,7 @@ C         SIGY(I) = 1.0E+30
         FHOUR(I,3,3) = FHOUR(I,3,3)*OFF(I)
         FHOUR(I,3,4) = FHOUR(I,3,4)*OFF(I)
        ENDDO
-      IF (MATVIS==0) 
+      IF (IPLAST==1) 
      .   CALL SZSVM_OR(JR0,JS0,JT0,CC,CG,G33,FHOUR,SIGY,SIGOLD,NU,SMO1,SMO2,NEL) 
       !-----------For energy calculation------------
       IF(JLAG==1)THEN
@@ -1338,10 +1356,10 @@ C
        FHOUR(I,3,3) = FHOUR(I,3,3) + DFHOUR(I,3,3)
        FHOUR(I,3,4) = FHOUR(I,3,4) + DFHOUR(I,3,4)
       ENDDO
-      IF (MATVIS==0) 
+      IF (IPLAST==1) 
      .    CALL SZSVM_OR(JR0,JS0,JT0,CC,CG,G33,FHOUR,SIGY,SIG0,NU,SM1,SM2,NEL) 
       !-----------ELASTIC-PLASTIC yield criterion------------
-      IF (MATVIS==0) THEN
+      IF (IPLAST==1) THEN
       DO I=LFT,LLT
         IF (SM1(I)>SIGY(I).AND.DEINT(I)>0) THEN
          SMO  = ZEP9*SMO1(I)+EM01*SMO2(I)

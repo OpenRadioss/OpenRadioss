@@ -359,7 +359,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J,IBID,NLAR,INDEX(MVSIZ),NSM
+      INTEGER I, MX, J,IBID,NLAR,INDEX(MVSIZ),NSM,IPRES
       my_real
      .   RHO0(MVSIZ), 
      .   G(MVSIZ), G1(MVSIZ), G2(MVSIZ),
@@ -371,13 +371,15 @@ C-----------------------------------------------
      .    BID1, BID2, BID3, DTA,  YM, DPDMP,FACQ0,
      .    RHO0_1,C1_1,G2_11,
      .    SV(3),P3,P2,
-     .    EPSTH11(MVSIZ),SIGTMP(MVSIZ,6)
+     .    EPSTH11(MVSIZ),SIGTMP(MVSIZ,6),FACG,FF,FRHO
 C-----------------------------------------------
       FACQ0 = ONE
       MX = MAT(LFT)
       RHO0_1 =PM( 1,MX)
       C1_1   =PM(32,MX)
       G2_11 = TWO*PM(22,MX)
+      IPRES=0
+      IF (PM(21,MX)>0.49)IPRES=1 
       DO I=LFT,LLT
         RHO0(I) =RHO0_1
         G(I)    =PM(22,MX)*OFF(I)
@@ -475,11 +477,26 @@ C--------switch to Ismstr11
               SIGTMP(I,5)=G(I)*ES5(I)
               SIGTMP(I,6)=G(I)*ES6(I)
             ENDDO
+            IF(IPRES==1)THEN 
 #include "vectorize.inc"
-            DO J=1,NSM
-             I = INDEX(J)
-             SIG(I,1:6)=SIGL(I,1:6) + SIGTMP(J,1:6)
-            END DO
+              DO J=1,NSM
+               I = INDEX(J)
+               FF = -MIN(SIG(I,1),SIG(I,2),SIG(I,3))
+               FACG = MAX(ONE,FF/G2_11)
+               IF (FACG>ONE) FACG = ONEP2*FACG
+               FRHO = RHOREF(I)/RHO0_1
+               IF (FRHO<ONEP01) FACG = ONE
+               SIG(I,1:3)=SIGL(I,1:3) + SIGTMP(J,1:3)
+               SIG(I,4:6)=SIGL(I,4:6) + FACG*SIGTMP(J,4:6)
+               G(I) = FACG*G(I)
+              END DO
+            ELSE
+#include "vectorize.inc"
+              DO J=1,NSM
+               I = INDEX(J)
+               SIG(I,1:6)=SIGL(I,1:6) + SIGTMP(J,1:6)
+              END DO
+            END IF!(IPRES==1)THEN 
           ELSE
 		   IF (ISELECT>0) THEN
             DO I=LFT,LLT

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE NSVIS_SM12(OFFG ,MU0,SSP  ,VOL  ,D1   ,
+      SUBROUTINE NSVIS_SM12(OFFG ,MU ,SSP  ,VOL  ,D1   ,
      .                      D2   ,D3  ,D4    ,D5  ,D6   ,
      .                      VOL0 ,RHO0,STI   ,NEL   ) 
 C-----------------------------------------------
@@ -50,7 +50,7 @@ C     REAL
      .                   D1, D2, D3,D4, D5, D6,SSP
       my_real, DIMENSION(NEL),INTENT(IN) :: OFFG,VOL0
       my_real, DIMENSION(MVSIZ),INTENT(INOUT) :: STI
-      my_real, INTENT(IN) :: RHO0,MU0
+      my_real, INTENT(IN) :: RHO0,MU
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   DD, AL, CNS1, CNS2, CNS3,
-     .   DAV, PVIS, NRHO,MU,JAC,FAC,TOL
+     .   DAV, PVIS, NRHO,JAC,FAC,TOL
 #ifdef MYREAL8 
       my_real, PARAMETER :: REAL_THREE = 3.0D0
       my_real, PARAMETER :: REAL_ONE = 1.0D0
@@ -67,7 +67,6 @@ C     REAL
       my_real, PARAMETER :: REAL_ONE = 1.0
 #endif
 C-----------------------------------------------
-        MU=ZEP02-MU0
         TOL = ONE-EM02
       IF (MU>ZERO) THEN
         DO I=1,NEL
@@ -85,8 +84,6 @@ C-----------------------------------------------
           SVIS(I,4)=SVIS(I,4) + CNS3 * D4(I)
           SVIS(I,5)=SVIS(I,5) + CNS3 * D5(I)
           SVIS(I,6)=SVIS(I,6) + CNS3 * D6(I)
-          FAC =SQRT(ONE+MU*MU)-MU 
-          STI(I) = STI(I)/FAC/FAC
         ENDDO
       END IF !(MU>ZERO) THEN
 C      

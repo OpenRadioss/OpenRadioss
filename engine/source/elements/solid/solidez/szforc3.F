@@ -141,7 +141,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARG(NPARG,*), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(NPROPMI,*),ITASK,IMATVIS,GRTH(*),IGRTH(*),
-     .        IGEO(*), TAGPRT_SMS(*)        
+     .        IGEO(NPROPGI,*), TAGPRT_SMS(*)        
       INTEGER NELTST,ITYPTST,OFFSET,NEL ,ICP, NDDIM,
      .        NVC,ISTRAIN,IEXPAN,NG,NPTS,IOUTPRT,NALE(*),H3D_STRAIN
 
@@ -150,7 +150,7 @@ C-----------------------------------------------
       my_real
      .   DT2T
       my_real
-     .   PM(NPROPM,*), GEO(*), X(*), A(*), V(*), MS(*), W(*), 
+     .   PM(NPROPM,*), GEO(NPROPG,*), X(*), A(*), V(3,*), MS(*), W(*), 
      .   FLUX(6,*), FSKYM(*),
      .   FLU1(*), VEUL(*), FV(*), TF(*), BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),MSNF(*),
@@ -266,7 +266,7 @@ C 8-nodes solid connectivities
      .  R1_FREE(MVSIZ),R3_DAM(MVSIZ),R4_FREE(MVSIZ),OFFG0(MVSIZ),AMU(MVSIZ),
      .  XGXA(MVSIZ),XGYA(MVSIZ),XGZA(MVSIZ),
      .  XGXYA(MVSIZ),XGYZA(MVSIZ),XGZXA(MVSIZ),
-     .  XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ)
+     .  XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ),CNS2,RHO0_1
       my_real, 
      .  DIMENSION(:), POINTER :: EINT
 C-----
@@ -275,7 +275,7 @@ C-----
 C-----
 C----- 
 C     IBOLTP : flag bolt preloading
-      INTEGER IBOLTP,NBPRELD,IMAT,ISM12_11
+      INTEGER IBOLTP,NBPRELD,IMAT,ISM12_11,MX
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: BPRELD,DNL
       my_real :: P(MVSIZ)      
@@ -331,6 +331,13 @@ C Gather nodal variables and compute rotation
      .   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,IPARG(1,NG),
      .   GBUF%GAMA_R) 
 C
+      CNS2 = ZERO
+      IF (ICP==1.AND.MTN==1.AND.ISMSTR==12) THEN
+         MX = MXT(LFT)
+         RHO0_1 =PM( 1,MX)
+         CNS2 = ZEP02
+         IF (IGEO(35,NGEO(1))>0) CNS2=CNS2-ABS(GEO(17,NGEO(1)))
+      END IF
 C Total strain Pij are in global system for ISMSTR=10,12 and in local system for ISMSTR=11
       IF ((ISMSTR >= 10.AND.ISMSTR <= 12).AND.JLAG > 0) THEN
         CALL SGCOOR3(TT,8,X,IXS(1,NF1),
@@ -706,6 +713,10 @@ C
      .   GBUF%HOURG,JAC1,JAC5,JAC9,GBUF%EINT,GBUF%VOL,SIGY,SIGN,SIGO,ICP,
      .   LBUF%PLA,IMATVIS,ET ,R3_DAM,NEL,GBUF%STRHG,ISTRAIN)
       END IF !(ISORTH>0) THEN
+      IF (CNS2 > ZERO) 
+     .     CALL NSVIS_SM12(GBUF%OFF ,CNS2,CXX  ,VOLN ,DXX     ,
+     .                     DYY     ,DZZ    ,D4    ,D5  ,D6   ,
+     .                     LBUF%VOL,RHO0_1 ,STI   ,NEL   ) 
 C 
       IF(JCLOSE /= 0) CALL FE_CLOSE(
      1   HH,      GBUF%RHO,VOLN,    VX1,

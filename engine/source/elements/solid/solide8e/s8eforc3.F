@@ -159,7 +159,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP),NPF(*),
-     .    IADS(8,*),IPARTS(*), IPM(NPROPMI,*),GRTH(*),IGRTH(*),IGEO(*),
+     .    IADS(8,*),IPARTS(*), IPM(NPROPMI,*),GRTH(*),IGRTH(*),IGEO(NPROPGI,*),
      .    IOUTPRT
 C          
       INTEGER NELTST,ITYPTST,OFFSET,NEL,ICP, 
@@ -171,7 +171,7 @@ C
      .   DT2T
 C
       my_real
-     .   PM(NPROPM,*), GEO(*), X(*), A(*), V(*), MS(*), W(*), 
+     .   PM(NPROPM,*), GEO(NPROPG,*), X(*), A(*), V(*), MS(*), W(*), 
      .   FLUX(6,*),FLU1(*), VEUL(*), FV(*), TF(*), 
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),BUFMAT(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
@@ -320,7 +320,7 @@ c-----------------------------------------------------
      .   BZZ1(MVSIZ),BZZ2(MVSIZ),BZZ3(MVSIZ),BZZ4(MVSIZ),
      .   BZZ5(MVSIZ),BZZ6(MVSIZ),BZZ7(MVSIZ),BZZ8(MVSIZ)
 C
-      INTEGER NNEGA,INDEX(MVSIZ),ISELECT,ipr,iel,ISEL_V,ISM12_11
+      INTEGER NNEGA,INDEX(MVSIZ),ISELECT,ipr,iel,ISEL_V,ISM12_11,ICPT
       my_real
      .   PXY1(MVSIZ),PXY2(MVSIZ),PXY3(MVSIZ),PXY4(MVSIZ),
      .   PXY5(MVSIZ),PXY6(MVSIZ),PXY7(MVSIZ),PXY8(MVSIZ),
@@ -360,7 +360,7 @@ C
      .   PX3H1(MVSIZ), PX3H2(MVSIZ), PX3H3(MVSIZ),PX3H4(MVSIZ),  
      .   PX4H1(MVSIZ), PX4H2(MVSIZ), PX4H3(MVSIZ),PX4H4(MVSIZ),  
      .   SIGP(NEL,6),AMU(MVSIZ),JR_1(MVSIZ),JS_1(MVSIZ),JT_1(MVSIZ),
-     .   FLD(MVSIZ),CAQ,SIG_A(MVSIZ,3),RHO0
+     .   FLD(MVSIZ),CAQ,SIG_A(MVSIZ,3),RHO0,NUT(MVSIZ),RHO0_1,CNS2,NU0
       DOUBLE PRECISION 
      .   VOLP(MVSIZ,NNPT)
 
@@ -468,6 +468,8 @@ C-------v termes will be calculated like HEPH
       ELSE
        ISELECT=0
       ENDIF
+      ICPT = ICP
+      IF (MTN==1.AND.ISMSTR>=11) ICPT=0
 c      ipr=0
 c      iel=1        
 C-----------
@@ -550,11 +552,12 @@ C-----------
       ENDDO
       IF(JTHE < 0) THEM(LFT:LLT,1:8) =ZERO
 
+      MX = MXT(LFT)
+      NU0=PM(21,MX)
       IF (ICP == 2) THEN
-       MX = MXT(LFT)
        C1 =PM(32,MX)
        DO I=LFT,LLT
-        NU(I)=MIN(HALF,PM(21,MX))
+        NU(I)=MIN(HALF,NU0)
         E0(I) =THREE*(ONE-TWO*NU(I))*C1
        ENDDO
 c------ Sigy of GBUF%SIG is not good, take the ip of min(e_ps) 
@@ -572,9 +575,8 @@ c------ Sigy of GBUF%SIG is not good, take the ip of min(e_ps)
         ENDDO
        END IF
       ELSEIF (ICP > 0 .OR.ISELECT >1.OR.ISEL_V>0) THEN
-       MX = MXT(LFT)
        DO I=LFT,LLT
-        NU(I)=MIN(HALF,PM(21,MX))
+        NU(I)=MIN(HALF,NU0)
        ENDDO
       ENDIF 
       IF (ISELECT >1.OR.ISEL_V>0) THEN
@@ -582,6 +584,18 @@ c------ Sigy of GBUF%SIG is not good, take the ip of min(e_ps)
         NU1(I) = NU(I)/(ONE - NU(I))
        ENDDO
       ENDIF 
+      CNS2 = ZERO
+      NUT(LFT:LLT) =NU0
+      IF (ICP==1.AND.MTN==1.AND.(ISMSTR==10.OR.ISMSTR==12)) THEN
+        DO I=LFT,LLT
+          NUT(I) = TWO_THIRD*NU0*NU0
+        ENDDO
+        IF (ISMSTR==12) THEN
+          RHO0_1 =PM( 1,MX)
+          CNS2 = ZEP02
+          IF (IGEO(35,NGEO(1))>0) CNS2=CNS2-ABS(GEO(17,NGEO(1)))
+        END IF
+      END IF
       CALL S8EPRST_INI(PR ,PS ,PT )
 C-------now [B](Pij) is always in global system w/ ISMSTR10
       IF (ISMSTR >= 10.AND.ISMSTR <= 12) THEN
@@ -771,7 +785,7 @@ C
      .    VZ0(1,5), VZ0(1,6), VZ0(1,7), VZ0(1,8),
      .    MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP), MFYX(1,IP), 
      .    MFYY(1,IP), MFYZ(1,IP), MFZX(1,IP), MFZY(1,IP),
-     .    MFZZ(1,IP),ICP ,DETF0 ,JFAC(1,IP) ,NU ,ISELECT,IDEG,
+     .    MFZZ(1,IP),ICP ,DETF0 ,JFAC(1,IP) ,NUT,ISELECT,IDEG,
      .    BXX(1,IP),BYY(1,IP),BZZ(1,IP),GBUF%OFF)
 C     
          IF (JCVT > 0.AND.(ISMSTR==10.OR.ISMSTR==12)) THEN
@@ -1149,7 +1163,7 @@ C--------- modified [B] is saved in GBUF%ETOTSH verify for Ismstr=11 !!!!!
      .    VZ0(1,5), VZ0(1,6), VZ0(1,7), VZ0(1,8),
      .    MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP), MFYX(1,IP), 
      .    MFYY(1,IP), MFYZ(1,IP), MFZX(1,IP), MFZY(1,IP),
-     .    MFZZ(1,IP),ICP ,DETF0 ,JFAC(1,IP) ,NU ,ISELECT,IDEG,
+     .    MFZZ(1,IP),ICPT,DETF0 ,JFAC(1,IP) ,NU ,ISELECT,IDEG,
      .    BXX(1,IP),BYY(1,IP),BZZ(1,IP),GBUF%OFF)
          ELSEIF (ISMSTR==12) THEN
           CALL S8EDEFOT12(
@@ -1183,7 +1197,7 @@ C--------- modified [B] is saved in GBUF%ETOTSH verify for Ismstr=11 !!!!!
      .    R11, R12, R13, R21, R22, R23, R31, R32, R33,
      .    MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP), MFYX(1,IP), 
      .    MFYY(1,IP), MFYZ(1,IP), MFZX(1,IP), MFZY(1,IP),
-     .    MFZZ(1,IP),ICP  ,DETF0 ,JFAC(1,IP) ,NU ,IDEG ,
+     .    MFZZ(1,IP),ICPT ,DETF0 ,JFAC(1,IP) ,NU ,IDEG ,
      .    GBUF%OFF,ISEL_V ,ISELECT )
          END IF !(ISMSTR==11) THEN
          CALL S8EDEFO3(
@@ -1327,6 +1341,10 @@ C
      .    LBUF%PIJ, SIG_A,LBUF%EINT,VOLN,DXX, DYY, DZZ,
      .    LBUF%SIG, S1 ,S2  ,S3  ,LLT,GBUF%OFF)
       END IF
+      IF (CNS2 > ZERO) 
+     .     CALL NSVIS_SM12(GBUF%OFF ,CNS2,CXX  ,VOLN ,DXX     ,
+     .                      DYY     ,DZZ    ,D4    ,D5  ,D6   ,
+     .                      LBUF%VOL,RHO0_1,STI   ,NEL   ) 
 C----------------------------
 C     INTERNAL FORCES
 C----------------------------
@@ -1354,7 +1372,7 @@ C----------------------------
      .   PZY1, PZY2, PZY3, PZY4, PZY5, PZY6, PZY7, PZY8,
      .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
      .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   VOLN,QVIS,ICP,JFAC(1,IP),NEL,ISELECT,IDEG,SIG_A,ISEL_V) 
+     .   VOLN,QVIS,ICPT,JFAC(1,IP),NEL,ISELECT,IDEG,SIG_A,ISEL_V) 
           CALL S8EFMOY3(
      .         LBUF%SIG,
      .         VOLN   ,QVIS   ,PP     ,LBUF%EINT,LBUF%RHO,LBUF%QVIS,
@@ -1433,7 +1451,7 @@ c-------------------
         END DO 
        END DO
       END IF   ! IOFFS == 1
-      IF(ICP==1.AND.ISMSTR/=10.AND.ISMSTR/=12) THEN
+      IF(ICPT==1.AND.ISMSTR/=10.AND.ISMSTR/=12) THEN
        CALL S8ZFINTP3(
      .   PXC1, PXC2, PXC3, PXC4,
      .   PYC1, PYC2, PYC3, PYC4,
@@ -1488,7 +1506,7 @@ C-----------------------------
          DO I=LFT,LLT
           CAQ=GBUF%RHO(I)*VOLG(I)**THIRD
           FLD(I)=FOURTH*EM02*CAQ*CXX(I)*OFFG(I)
-                  IF (ISMSTR==12.AND.GBUF%OFF(I) > ONE) FLD(I)=ZERO
+          IF (ISMSTR==12.AND.GBUF%OFF(I) > ONE) FLD(I)=ZERO
          ENDDO
         CALL S8EVIS3(
      .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
@@ -1506,7 +1524,7 @@ C-----------------------------
      .   PX2H1, PX2H2, PX2H3, PX2H4,
      .   PX3H1, PX3H2, PX3H3, PX3H4, 
      .   PX4H1, PX4H2, PX4H3, PX4H4,
-     .   JT_1 ,  JR_1, JS_1 ,PM(21,MX),FLD )
+     .   JT_1 ,  JR_1, JS_1 ,NU0,FLD )
       ENDIF
 C--------------------------
 C       BILANS PAR MATERIAU

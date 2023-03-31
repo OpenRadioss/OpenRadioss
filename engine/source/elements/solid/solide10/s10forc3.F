@@ -214,7 +214,8 @@ C
      .    MFXX(MVSIZ,5),MFXY(MVSIZ,5),MFYX(MVSIZ,5),
      .    MFYY(MVSIZ,5),MFYZ(MVSIZ,5),MFZY(MVSIZ,5),
      .    MFZZ(MVSIZ,5),MFZX(MVSIZ,5),MFXZ(MVSIZ,5),DIVDE(MVSIZ),
-     .    NU(MVSIZ),FAC(MVSIZ),FACP(MVSIZ),E0(MVSIZ),C1,DVM(MVSIZ)
+     .    NU(MVSIZ),FAC(MVSIZ),FACP(MVSIZ),E0(MVSIZ),C1,DVM(MVSIZ),
+     .    VISP(MVSIZ)
 c
       my_real VARNL(NEL)
 c     Flag Bolt Preloading
@@ -314,14 +315,25 @@ C-----------
      A   CONDEG   ,GBUF%G_EPSD)
 C     
       IPLAW1 = 0
+      CNS2 = ZERO
       IF (ISM12_11>0 .AND.IDTMIN(1)==3) THEN
          MX = IXS(1,NF1)
          RHO0_1 =PM( 1,MX)
          IF (PM(21,MX)>0.49) IPLAW1=1
-         NU(LFT:LLT)=MIN(HALF,PM(21,MX))
-         FACP(LFT:LLT)=TWO*PM(21,MX)
-         CNS2 = ZERO
-         IF (IGEO(35,NGEO(1))>0) CNS2=ABS(GEO(17,NGEO(1)))
+         IF (IPLAW1==1) THEN
+           FACP(LFT:LLT)=TWO*PM(21,MX)
+           VISP(LFT:LLT)=TWO
+           CNS2 = ZEP02
+           IF (IGEO(35,NGEO(1))>0) CNS2=CNS2-ABS(GEO(17,NGEO(1)))
+         END IF 
+      ELSEIF (ISMSTR==10.AND.MTN==1) THEN
+         MX = IXS(1,NF1)
+         RHO0_1 =PM( 1,MX)
+         IF (PM(21,MX)>0.49) THEN
+           VISP(LFT:LLT)=TWO
+           CNS2 = ZEP02
+           IF (IGEO(35,NGEO(1))>0) CNS2=CNS2-ABS(GEO(17,NGEO(1)))
+         END IF 
       END IF 
 C     
       CALL S10NX3(NX)
@@ -555,8 +567,6 @@ C-----------  return to global system
      .                                D6  ,LBUF%STRA,WXX ,WYY ,WZZ,
      .                                OFF ,NEL      )
 C--------------------------
-C     BILANS PAR MATERIAU
-C--------------------------
         IFLAG=MOD(NCYCLE,NCPRI)
         IF(IOUTPRT>0)THEN
            CALL S10BILAN(PARTSAV,LBUF%EINT,LBUF%RHO,LBUF%RK,LBUF%VOL,
@@ -565,12 +575,10 @@ C--------------------------
      .                   GBUF%FILL,XX,YY,ZZ,ITASK,IPARG(1,NG),GBUF%OFF)
         ENDIF
 C-------------------------
-C       ASSEMBLE
-C-------------------------
-        IF (IPLAW1>0) 
-     .     CALL NSVIS_SM12(GBUF%OFF ,CNS2,CXX  ,VOLN ,DXX     ,
-     .                      DYY     ,DZZ    ,D4    ,D5  ,D6   ,
-     .                      LBUF%VOL,RHO0_1,STI   ,NEL   ) 
+        IF (CNS2>ZERO)
+     .     CALL NSVIS_SM12(VISP  ,CNS2,CXX  ,VOLN ,DXX     ,
+     .                     DYY     ,DZZ    ,D4    ,D5  ,D6   ,
+     .                     LBUF%VOL,RHO0_1,STI   ,NEL   ) 
 C----------------------------
 C       INTERNAL FORCES
 C----------------------------
