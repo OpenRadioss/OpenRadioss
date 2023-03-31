@@ -442,7 +442,8 @@ c
      3         AREA     ,DEPSZZ   ,DEPSYZ   ,DEPSZX   ,EPSZZ    ,NPAR     ,
      4         SIG0ZZ   ,SIG0YZ   ,SIG0ZX   ,SIGNZZ   ,SIGNYZ   ,SIGNZX  ,  
      5         LBUF%PLA ,JSMS     ,DMELS    ,UVAR     ,NUVAR    ,
-     6         NUMTABL  ,ITABLE   ,TABLE    ,NVARTMP  ,VARTMP   ,LBUF%TEMP    )                                           
+     6         NUMTABL  ,ITABLE   ,TABLE    ,NVARTMP  ,VARTMP   ,LBUF%TEMP,
+     7         LBUF%DMG)                                           
 c           mean Gauss point values for element output                                                     
             DO IEL=1,NEL
               GBUF%PLA(IEL)  = GBUF%PLA(IEL)  + FOURTH*LBUF%PLA(IEL)

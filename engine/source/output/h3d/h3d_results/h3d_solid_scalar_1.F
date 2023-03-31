@@ -1312,11 +1312,26 @@ C--------------------------------------------------
               ELSEIF(KEYWORD == 'DAMA') THEN
 C--------------------------------------------------
 c ILAYER=NULL IR=NULL IS=NULL IT=NULL
-	        IF ( ILAY == -1 .AND. IR == -1 .AND. IS == -1 .AND. IT == -1) THEN 
-                  DO I=1,NEL					      
-                    EVAR(I) = ZERO					
-                  ENDDO 
-
+              IF ( ILAY == -1 .AND. IR == -1 .AND. IS == -1 .AND. IT == -1) THEN 
+                DO I=1,NEL					      
+                  EVAR(I) = ZERO					
+                ENDDO 
+                IF (MLW == 120) THEN 
+                  DO IL=1,NLAY 						    
+                    DO IS=1,NPTS					
+                      DO IT=1,NPTT					
+                        DO IIR=1,NPTR										   
+                            DFMAX=>
+     .                        ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IIR,IS,IT)%DMG
+                            DO I=1,NEL  			       
+                              VALUE(I) = MAX(VALUE(I),DFMAX(I))
+                              IS_WRITTEN_VALUE(I) = 1		      
+                            ENDDO
+                        ENDDO 
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ELSE
                   DO IL=1,NLAY 
                     NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL								    
                     DO IS=1,NPTS					
@@ -1332,39 +1347,63 @@ c ILAYER=NULL IR=NULL IS=NULL IT=NULL
                           ENDDO 
                         ENDDO
                       ENDDO
-                     ENDDO
-                   ENDDO 
+                    ENDDO
+                  ENDDO 
+                ENDIF
 c ILAYER=NULL IR= IS= IT=
-                ELSEIF ( ILAY == -1 .AND. IR >= 0 .AND. IR <= NPTR .AND. 
+              ELSEIF ( ILAY == -1 .AND. IR >= 0 .AND. IR <= NPTR .AND. 
      .                   IS >= 0 .AND.  IS <= NPTS .AND. IT >= 0 .AND. IT <= NPTT) THEN 
+                IF (MLW == 120) THEN 
+                  IIR = IR
+                  IUS = NLAY*IIR*IS*IT
+                  DAMMAX = ZERO
+                  IF (IIR <= NPTR.AND.IS <= NPTS.AND.IT <= NPTT) THEN				 
+                    DO IL=1,NLAY   		      												
+                      DFMAX=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IIR,IS,IT)%DMG          	    
+                      DO I=1,NEL				       
+                        VALUE(I) = MAX(VALUE(I),DFMAX(I))
+                        IS_WRITTEN_VALUE(I) = 1				
+                      ENDDO
+                    ENDDO	
+                  ENDIF										
+                ELSE
                   IIR = IR
                   IUS = NLAY*IIR*IS*IT
                   DAMMAX = ZERO
                   IF (IIR <= NPTR.AND.IS <= NPTS.AND.IT <= NPTT) THEN				 
                     DO IL=1,NLAY   
-                       NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL			      
-                       DO IR=1,NFAIL												
-                  	  DFMAX=>
-     .            	    ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IIR,IS,IT)%FLOC(IR)%DAMMX
-                  	  DO I=1,NEL				       
-                  	     VALUE(I) = MAX(VALUE(I),DFMAX(I))
-                  	     IS_WRITTEN_VALUE(I) = 1				
-                  	  ENDDO
-                  	ENDDO						
+                      NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL			      
+                      DO IR=1,NFAIL												
+                        DFMAX=>
+     .                    ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IIR,IS,IT)%FLOC(IR)%DAMMX
+                        DO I=1,NEL				       
+                          VALUE(I) = MAX(VALUE(I),DFMAX(I))
+                          IS_WRITTEN_VALUE(I) = 1				
+                        ENDDO
                       ENDDO						
-                  ENDIF 						
-                ELSEIF ( ILAY > 0 .AND. ILAY <= NLAY .AND. IR >= 0 .AND. IR <= NPTR .AND. 
+                    ENDDO						
+                  ENDIF 
+                ENDIF						
+              ELSEIF ( ILAY > 0 .AND. ILAY <= NLAY .AND. IR >= 0 .AND. IR <= NPTR .AND. 
      .                   IS >= 0 .AND.  IS <= NPTS) THEN
-                      NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL			      
-                      DO IIR=1,NFAIL												
-                  	    DFMAX=>
-     .            	    ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)%FLOC(IIR)%DAMMX
-                  	    DO I=1,NEL				       
-                  	      VALUE(I) = MAX(VALUE(I),DFMAX(I))
-                  	      IS_WRITTEN_VALUE(I) = 1				
-                  	    ENDDO
-                  	  ENDDO						
-                ENDIF
+                IF(MLW == 120)THEN	 
+                    DFMAX=>ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)%DMG             
+                    DO I=1,NEL				       
+                      VALUE(I) = MAX(VALUE(I),DFMAX(I))
+                      IS_WRITTEN_VALUE(I) = 1				
+                    ENDDO
+                ELSE
+                  NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL			      
+                  DO IIR=1,NFAIL												
+                    DFMAX=>
+     .                ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)%FLOC(IIR)%DAMMX
+                    DO I=1,NEL				       
+                      VALUE(I) = MAX(VALUE(I),DFMAX(I))
+                      IS_WRITTEN_VALUE(I) = 1				
+                    ENDDO
+                  ENDDO	
+                ENDIF 	
+              ENDIF
 C-------------------------------------------------- 
               ELSEIF (KEYWORD == 'DAMG') THEN
 C--------------------------------------------------

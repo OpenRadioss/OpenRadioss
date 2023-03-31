@@ -35,7 +35,7 @@ Chd|====================================================================
      3     AREA    ,DEPSZZ  ,DEPSYZ  ,DEPSZX  ,NUPARAM ,
      4     SIGOZZ  ,SIGOYZ  ,SIGOZX  ,SIGNZZ  ,SIGNYZ  ,SIGNZX  ,
      5     PLA     ,JSMS    ,DMELS   ,UVAR    ,NUVAR   ,
-     6     NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    )
+     6     NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP   ,DMG )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,7 +67,7 @@ c
       my_real ,DIMENSION(NEL) ,INTENT(OUT) :: EPSD
       my_real ,DIMENSION(NEL) ,INTENT(OUT) :: 
      .                   SIGNZZ,SIGNYZ,SIGNZX
-      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: OFF,PLA,STIFM,DMELS
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: OFF,PLA,STIFM,DMELS,DMG
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
       INTEGER,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
       TYPE(TTABLE) ,DIMENSION(NTABLE) ,INTENT(IN)    :: TABLE
@@ -142,7 +142,7 @@ C---------------------------------------------
       STF(1:NEL)     = YOUNG *  AREA(1:NEL)                                            
       STIFM(1:NEL)   = STIFM(1:NEL)  + STF(1:NEL)*OFF(1:NEL)                                              
 C---------------------------------------------
-      DAM (1:NEL) = UVAR(1:NEL,2)
+      DAM (1:NEL) = DMG(1:NEL)
       FDAM(1:NEL) = ONE - DAM(1:NEL)
       DO I = 1,NEL
         IF (OFF(I) < 0.001) OFF(I) = ZERO
@@ -416,7 +416,7 @@ c
               DAM(I) = ONE
               OFF(I) = FOUR_OVER_5
             END IF
-            UVAR(I,2) = DAM(I)
+            DMG(I) = DAM(I)
           END IF ! GAMMA > GAMC
         ENDDO
 c       Update damaged stress

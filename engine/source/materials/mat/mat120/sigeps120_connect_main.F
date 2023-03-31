@@ -38,7 +38,8 @@ Chd|====================================================================
      3     AREA    ,DEPSZZ  ,DEPSYZ  ,DEPSZX  ,EPSZZ   ,NUPARAM ,
      4     SIGOZZ  ,SIGOYZ  ,SIGOZX  ,SIGNZZ  ,SIGNYZ  ,SIGNZX  ,
      5     PLA     ,JSMS    ,DMELS   ,UVAR    ,NUVAR   ,
-     6     NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    )   
+     6     NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    ,
+     7     DMG)   
 c====================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -61,7 +62,7 @@ C----------------------------------------------------------------
       INTEGER ,DIMENSION(NEL)     ,INTENT(IN) :: NGL
       INTEGER ,DIMENSION(NUMTABL) ,INTENT(IN) :: ITABLE
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN) :: UPARAM
-      !my_real ,DIMENSION(NEL)     ,INTENT(OUT):: DMG
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT):: DMG
       my_real ,DIMENSION(NEL)     ,INTENT(IN) :: AREA,TEMP,EPSZZ,
      .         DEPSZZ,DEPSYZ,DEPSZX,
      .         SIGOZZ,SIGOYZ,SIGOZX
@@ -133,7 +134,8 @@ C-----------
      3     AREA    ,DEPSZZ  ,DEPSYZ  ,DEPSZX  ,NUPARAM ,
      4     SIGOZZ  ,SIGOYZ  ,SIGOZX  ,SIGNZZ  ,SIGNYZ  ,SIGNZX  ,
      5     PLA     ,JSMS    ,DMELS   ,UVAR    ,NUVAR   ,
-     6     NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    )
+     6     NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    ,
+     7     DMG)
 
         ELSE                     ! tabulated Von-Mises formulation
           CALL SIGEPS120_CONNECT_TAB_VM(
@@ -142,7 +144,8 @@ C-----------
      3     AREA    ,DEPSZZ  ,DEPSYZ  ,DEPSZX  ,NUPARAM ,
      4     SIGOZZ  ,SIGOYZ  ,SIGOZX  ,SIGNZZ  ,SIGNYZ  ,SIGNZX  ,
      5     PLA     ,JSMS    ,DMELS   ,UVAR    ,NUVAR   ,
-     6     NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    )
+     6     NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    ,
+     7     DMG)
         END IF
 
 
@@ -154,7 +157,8 @@ c
      2     EPSD    ,STIFM   ,THICK   ,
      3     AREA    ,DEPSZZ  ,DEPSYZ  ,DEPSZX  ,NUPARAM ,
      4     SIGOZZ  ,SIGOYZ  ,SIGOZX  ,SIGNZZ  ,SIGNYZ  ,SIGNZX  ,
-     5     PLA     ,JSMS    ,DMELS   ,UVAR    ,NUVAR   )
+     5     PLA     ,JSMS    ,DMELS   ,UVAR    ,NUVAR   ,
+     6     DMG)
 
         ELSE                     ! analytical Von-Mises formulation
          CALL SIGEPS120_CONNECT_VM(
@@ -162,7 +166,8 @@ c
      2     EPSD    ,STIFM   ,THICK,
      3     AREA    ,DEPSZZ  ,DEPSYZ  ,DEPSZX  ,NUPARAM ,
      4     SIGOZZ  ,SIGOYZ  ,SIGOZX  ,SIGNZZ  ,SIGNYZ  ,SIGNZX  ,
-     5     PLA     ,JSMS    ,DMELS   ,UVAR    ,NUVAR   )
+     5     PLA     ,JSMS    ,DMELS   ,UVAR    ,NUVAR   ,
+     6     DMG)
         END IF
       END IF
 
