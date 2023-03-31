@@ -363,15 +363,18 @@ C     PROJECT NODAL COORDINATES AND VELOCITES INTO CO-ROTATIONAL SYSTEM
       ELSE
 C----EXX,YAVG ,AY are calculated in global system anyway, more efficient eo be done here
 C----for the moment constant in element
-        CALL Q4RCOOR2(X,IC(LCO),
-     2              Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     3              NC1,NC2,NC3,NC4,
-     4              NGL,MAT,NGEO,VD2,
-     5              R11,R12,R13,R21,R22,R23,R31,R32,R33,
-     6              GAMA,Y234,Y124,VIS,
-     7              V       ,VY1     ,VY2     ,VY3     ,
-     8              VY4     ,VZ1     ,VZ2     ,VZ3     ,VZ4     ,
-     9              YAVG    ,AY      ,EXX    )                   
+        CALL Q4RCOOR2(
+     1   X,       IC(LCO), Y1,      Y2,
+     2   Y3,      Y4,      Z1,      Z2,
+     3   Z3,      Z4,      NC1,     NC2,
+     4   NC3,     NC4,     NGL,     MAT,
+     5   NGEO,    VD2,     R11,     R12,
+     6   R13,     R21,     R22,     R23,
+     7   R31,     R32,     R33,     GAMA,
+     8   Y234,    Y124,    VIS,     V,
+     9   VY1,     VY2,     VY3,     VY4,
+     A   VZ1,     VZ2,     VZ3,     VZ4,
+     B   YAVG,    AY,      EXX,     NEL)
       ENDIF
 C     COMPUTE FAC(*) FOR PRESSURE ACCORDING TO PLASTICITY STATE
 C---- now assumed strain is used, no effect for Isolid17
@@ -479,7 +482,9 @@ C
 C       COMPUTE ADDITIONAL VOLUME CHANGE & MODIFY CURRENT DENSITY
 C       DVOL = (RHO*VOL-RHO0*VOL0')/RHO = RHO0*(VOL0-VOL0')/RHO
 C       RHO' = RHO0*VOL0'/VOL
-        CALL QLAGR2(PM,LBUF%VOL,LBUF%RHO,LBUF%EINT,VOLN,DVOL,MAT)
+        CALL QLAGR2(
+     1   PM,       LBUF%VOL, LBUF%RHO, LBUF%EINT,
+     2   VOLN,     DVOL,     MAT,      NEL)
 C
 C       COPY OLD STRESS AND DO NECESSARY TREATMENT
         CALL QROTA2(LBUF%SIG,S1,S2,S3,S4,S5,S6,WXX,NEL)
@@ -586,9 +591,11 @@ c
 C
 C     PROJECT NODAL INTERNAL FORCE INTO GLOBAL SYSTEM FOR CO-ROTATIONAL CASE
       IF(JCVT/=0) THEN
-        CALL Q4RROTA2(R22,R32,R23,R33,
-     2                FY1,FY2,FY3,FY4,
-     3                FZ1,FZ2,FZ3,FZ4)
+        CALL Q4RROTA2(
+     1   R22,     R32,     R23,     R33,
+     2   FY1,     FY2,     FY3,     FY4,
+     3   FZ1,     FZ2,     FZ3,     FZ4,
+     4   NEL)
       ENDIF
 C
 C     ADD TERMS OF INTERNAL FORCE FOR AXISYMMETRIC CASE ONLY

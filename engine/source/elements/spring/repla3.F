@@ -32,8 +32,10 @@ Chd|        R6DEF3                        source/elements/spring/r6def3.F
 Chd|-- calls ---------------
 Chd|        INTERP                        source/tools/curve/interp.F   
 Chd|====================================================================
-      SUBROUTINE REPLA3(XK    ,DPX   ,TF  ,NPF  ,IECROU,
-     .                  IFUNC ,IFV   ,EPLA)
+      SUBROUTINE REPLA3(
+     1   XK,      DPX,     TF,      NPF,
+     2   IECROU,  IFUNC,   IFV,     EPLA,
+     3   NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,10 +47,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NPF(*),IECROU(MVSIZ),IFV(MVSIZ)
 C     REAL
       my_real
@@ -61,7 +63,7 @@ C     REAL
       my_real
      .    XKI, FP
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(IFUNC(I)/=0.AND.IECROU(I)==3)THEN
           NPOINT=(NPF(IFUNC(I)+1)-NPF(IFUNC(I)))/2
 C-------------------------------------

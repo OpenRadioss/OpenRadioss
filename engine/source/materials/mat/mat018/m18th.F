@@ -27,7 +27,9 @@ Chd|        ATHERM                        source/ale/atherm.F
 Chd|-- calls ---------------
 Chd|        INTERP                        source/tools/curve/interp.F   
 Chd|====================================================================
-      SUBROUTINE M18TH(T,XK,MAT,PM,IPM,TF,NPF)
+      SUBROUTINE M18TH(
+     1   T,       XK,      MAT,     PM,
+     2   IPM,     TF,      NPF,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -35,11 +37,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NPF(*), MAT(*),  IPM(NPROPMI,*)
 C     REAL
       my_real
@@ -53,11 +55,11 @@ C     REAL
      .   BID,TSCAL,KSCAL
 C-----------------------------------------------
 C=======================================================================
-      MX = MAT(LFT)
+      MX = MAT(1)
       IFUNC = IPM(13,MX)
       KSCAL = PM(44,MX) 
       IF(IFUNC/=0)THEN
-        DO 10 I=LFT,LLT
+        DO 10 I=1,NEL
         NPOINT=(NPF(IFUNC+1)-NPF(IFUNC))/2
         TSCAL = T(I) / PM(42,MX)              
         CALL INTERP(TF(NPF(IFUNC)),TSCAL,NPOINT,XK(I),BID)

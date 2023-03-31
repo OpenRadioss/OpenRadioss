@@ -132,32 +132,43 @@ C-----------------------------------------------
 C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
 C-----------------------------------------------
-      CALL PCOOR3(X      ,NCC    ,MAT    ,PID    ,NGL    ,  
-     .            NC1   ,NC2    ,NC3    ,X1     ,X2 ,
-     .            X3    ,Y1     ,Y2     ,Y3     ,Z1 ,
-     .            Z2    ,Z3     )
-      CALL PEVEC3(GBUF%SKEW,R      ,AL     ,NC1    ,NC2     ,
-     .            NC3      ,X1     ,X2     ,X3     ,Y1      ,
-     .            Y2       ,Y3     ,Z1     ,Z2     ,Z3      ,
-     .            RX1G     ,RX2G   ,RY1G   ,RY2G   ,RZ1G    ,
-     .            RZ2G     ,E1X    ,E1Y    ,E1Z    ,E2X     ,
-     .            E2Y      ,E2Z    ,E3X    ,E3Y    ,E3Z     )
-      IF (ISMSTR /= 0) CALL PPXPY3(GBUF%LENGTH  ,AL)
+      CALL PCOOR3(
+     1   X,       NCC,     MAT,     PID,
+     2   NGL,     NC1,     NC2,     NC3,
+     3   X1,      X2,      X3,      Y1,
+     4   Y2,      Y3,      Z1,      Z2,
+     5   Z3,      NEL)
+      CALL PEVEC3(
+     1   GBUF%SKEW,R,        AL,       NC1,
+     2   NC2,      NC3,      X1,       X2,
+     3   X3,       Y1,       Y2,       Y3,
+     4   Z1,       Z2,       Z3,       RX1G,
+     5   RX2G,     RY1G,     RY2G,     RZ1G,
+     6   RZ2G,     E1X,      E1Y,      E1Z,
+     7   E2X,      E2Y,      E2Z,      E3X,
+     8   E3Y,      E3Z,      NEL)
+      IF (ISMSTR /= 0) CALL PPXPY3(
+     1   GBUF%LENGTH,AL,         NEL)
       CALL PDLEN3(JFT    ,JLT    ,PM        ,GEO        ,GBUF%OFF,
      .            DT2T   ,NELTST ,ITYPTST,STI    ,STIR   ,
      .            MSP    ,DMELP  ,GBUF%G_DT ,GBUF%DT    ,AL      ,
      .            MAT    ,PID    ,NGL       )
-      CALL PDEFO3(V     ,EXX    ,EXY     ,EXZ    ,AL      ,
-     .            NC1   ,NC2    ,NC3     ,E1X    ,E1Y     ,
-     .            E1Z   ,E2X    ,E2Y     ,E2Z    ,E3X     ,
-     .            E3Y   ,E3Z    ,VX1G    ,VX2G   ,VY1G    ,
-     .            VY2G  ,VZ1G   ,VZ2G    )
-      CALL PCURV3(R     ,GEO    ,GBUF%OFF,OFF    ,EXX     ,
-     .            EXY   ,EXZ    ,KXX     ,KYY    ,KZZ     ,
-     .            AL    ,NC1    ,NC2     ,NC3    ,RX1G    ,
-     .            RX2G  ,RY1G   ,RY2G    ,RZ1G   ,RZ2G    ,
-     .            E1X	  ,E1Y    ,E1Z     ,E2X    ,E2Y     ,
-     .            E2Z	  ,E3X    ,E3Y     ,E3Z    ,PID     )
+      CALL PDEFO3(
+     1   V,       EXX,     EXY,     EXZ,
+     2   AL,      NC1,     NC2,     NC3,
+     3   E1X,     E1Y,     E1Z,     E2X,
+     4   E2Y,     E2Z,     E3X,     E3Y,
+     5   E3Z,     VX1G,    VX2G,    VY1G,
+     6   VY2G,    VZ1G,    VZ2G,    NEL)
+      CALL PCURV3(
+     1   R,       GEO,     GBUF%OFF,OFF,
+     2   EXX,     EXY,     EXZ,     KXX,
+     3   KYY,     KZZ,     AL,      NC1,
+     4   NC2,     NC3,     RX1G,    RX2G,
+     5   RY1G,    RY2G,    RZ1G,    RZ2G,
+     6   E1X,     E1Y,     E1Z,     E2X,
+     7   E2Y,     E2Z,     E3X,     E3Y,
+     8   E3Z,     PID,     NEL)
 C---
       IGTYP = IGEO(11,PID(1))
       NUPARAM = IPM(9,MAT(1))

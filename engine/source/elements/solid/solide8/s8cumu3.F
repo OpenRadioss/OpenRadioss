@@ -26,9 +26,15 @@ Chd|-- called by -----------
 Chd|        S8FORC3                       source/elements/solid/solide8/s8forc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S8CUMU3(OFFG,E,NC,STIFN,STI,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)
+      SUBROUTINE S8CUMU3(
+     1   OFFG,    E,       NC,      STIFN,
+     2   STI,     F11,     F21,     F31,
+     3   F12,     F22,     F32,     F13,
+     4   F23,     F33,     F14,     F24,
+     5   F34,     F15,     F25,     F35,
+     6   F16,     F26,     F36,     F17,
+     7   F27,     F37,     F18,     F28,
+     8   F38,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -36,6 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NC(8,*)
       my_real
      .   OFFG(*),E(3,*),STIFN(*),STI(*),
@@ -47,7 +54,6 @@ CMasParINCLUDE 'scumu3.intmap.inc'
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -57,12 +63,12 @@ C-----------------------------------------------
      .   OFF_L
 C-----------------------------------------------
       OFF_L = 0.
-      DO I=LFT,LLT
+      DO I=1,NEL
 Cf small3b        IF(OFF(I)<1.)OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
       IF(OFF_L<0.)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFFG(I)<0.)THEN
             F11(I)=0.
             F21(I)=0.
@@ -94,11 +100,11 @@ Cf small3b        IF(OFF(I)<1.)OFFG(I) = OFF(I)
       ENDIF
 C
 C     because 2*Mnodal = 2*Melement/8
-      DO I=LFT,LLT
+      DO I=1,NEL
         STI(I)=FOURTH*STI(I)
       END DO
 C
-      DO 100 I=LFT,LLT
+      DO 100 I=1,NEL
 C
       E(1,NC(1,I))=E(1,NC(1,I))+F11(I)
       E(2,NC(1,I))=E(2,NC(1,I))+F21(I)

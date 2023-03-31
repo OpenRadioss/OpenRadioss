@@ -27,7 +27,10 @@ Chd|        A4MOMT3                       source/elements/solid/solide4/a4momt3.
 Chd|        A4MOMTN3                      source/elements/solid/solide4/a4momtn3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE UPWIND4(RHO,VIS,VDX,VDY,VDZ,R,S,T,GAM)
+      SUBROUTINE UPWIND4(
+     1   RHO,     VIS,     VDX,     VDY,
+     2   VDZ,     R,       S,       T,
+     3   GAM,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,11 +43,11 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "scrupw_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       my_real
      .   R(MVSIZ,3),S(MVSIZ,3),T(MVSIZ,3),
      .   VDX(*),VDY(*),VDZ(*),RHO(*),VIS(*),GAM(*)
@@ -64,7 +67,7 @@ C-----------------------------------------------
       !-------------!
       IF(UPWM==2)THEN
         FAC=CUPWM*HALF*DT1
-        DO I=LFT,LLT
+        DO I=1,NEL
           GAM(I)=FAC
         END DO
         
@@ -72,7 +75,7 @@ C-----------------------------------------------
       !  /UPWM/SUPG !
       !-------------!
       ELSEIF(UPWM==3)THEN
-        DO  I=LFT,LLT
+        DO  I=1,NEL
           V(I)=VDX(I)**2+VDY(I)**2+VDZ(I)**2
           D1=ABS(R(I,1)*VDX(I)+R(I,2)*VDY(I)+R(I,3)*VDZ(I)) 
           D2=ABS(S(I,1)*VDX(I)+S(I,2)*VDY(I)+S(I,3)*VDZ(I)) 
@@ -85,7 +88,7 @@ C-----------------------------------------------
        
        !SU/PG weighting function for current node.
        !SUPG is a Finite Element Method !
-        DO  I=LFT,LLT
+        DO  I=1,NEL
           FAC=HALF*RHO(I)/MAX(EM20,VIS(I))
           PE=FAC*GAM(I)
           IF(PE<=EM3)THEN

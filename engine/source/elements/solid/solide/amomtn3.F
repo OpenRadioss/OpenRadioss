@@ -27,13 +27,23 @@ Chd|        AMOMT3                        source/elements/solid/solide/amomt3.F
 Chd|-- calls ---------------
 Chd|        UPWIND_V                      source/elements/solid/solide/upwind.F
 Chd|====================================================================
-       SUBROUTINE AMOMTN3(RHO,DELTAX,VIS,VOL,
-     .   A0,A1,A2,A3,AJV,R,S,T,
-     .   VDX0,VDY0,VDZ0,
-     .   VX0,VY0,VZ0,VX1,VY1,VZ1,VX2,VY2,VZ2,VX3,VY3,VZ3,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
+      SUBROUTINE AMOMTN3(
+     1   RHO,     DELTAX,  VIS,     VOL,
+     2   A0,      A1,      A2,      A3,
+     3   AJV,     R,       S,       T,
+     4   VDX0,    VDY0,    VDZ0,    VX0,
+     5   VY0,     VZ0,     VX1,     VY1,
+     6   VZ1,     VX2,     VY2,     VZ2,
+     7   VX3,     VY3,     VZ3,     F11,
+     8   F21,     F31,     F12,     F22,
+     9   F32,     F13,     F23,     F33,
+     A   F14,     F24,     F34,     F15,
+     B   F25,     F35,     F16,     F26,
+     C   F36,     F17,     F27,     F37,
+     D   F18,     F28,     F38,     IAD22,
+     E   NC1,     NC2,     NC3,     NC4,
+     F   NC5,     NC6,     NC7,     NC8,
+     G   NALE,    NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,12 +55,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "scrupw_c.inc"
 #include      "inter22.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       my_real
      .   A0(MVSIZ,3),A1(MVSIZ,3),A2(MVSIZ,3),A3(MVSIZ,3),
      .   AJV(*),R(MVSIZ,3),S(MVSIZ,3),T(MVSIZ,3),
@@ -88,7 +98,7 @@ C-----------------------------------------------
       OFF6(1:MVSIZ) = ONE
       OFF7(1:MVSIZ) = ONE
       OFF8(1:MVSIZ) = ONE
-      DO I=LFT,LLT
+      DO I=1,NEL
          IF (NALE(NC1(I)) == 0) OFF1(I) = ZERO
          IF (NALE(NC2(I)) == 0) OFF2(I) = ZERO
          IF (NALE(NC3(I)) == 0) OFF3(I) = ZERO
@@ -104,7 +114,7 @@ C-----------------------------------------------
       ! MOMENTUM ADVECTION                        !
       ! TG : Taylor Galerkine                     !
       !-------------------------------------------!        
-       DO I=LFT,LLT
+       DO I=1,NEL
         GAM(I)=GAM(I)/AJV(I)
 
         DXXP(I)=
@@ -165,7 +175,7 @@ C-----------------------------------------------
        
        !inter22
        IF(INT22>0)THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
            IF(NINT(IAD22(I))==0)THEN
              !currently unpluged only for cut cell buffer      
              F1P(I) = ZERO
@@ -175,7 +185,7 @@ C-----------------------------------------------
          ENDDO
        ENDIF
 
-       DO I=LFT,LLT
+       DO I=1,NEL
          F1(I)=-GAM(I)*
      .      (-F1P(I)*(DYYP(I)+DZZP(I))+F2P(I)*DXYP(I)+F3P(I)*DXZP(I))
          F2(I)=-GAM(I)*
@@ -214,7 +224,7 @@ C-----------------------------------------------
       ! MOMENTUM ADVECTION                        !
       ! SUPG : Streamline Upwind Petrov Galerkine !
       !-------------------------------------------! 
-       DO I=LFT,LLT
+       DO I=1,NEL
         GAM(I)=GAM(I)/AJV(I)
         DXXP(I)=
      .   A0(I,1)*VX0(I)+A1(I,1)*VX1(I)+A2(I,1)*VX2(I)+A3(I,1)*VX3(I)  
@@ -249,7 +259,7 @@ C-----------------------------------------------
 
         !inter22
         IF(INT22>0)THEN 
-          DO I=LFT,LLT       
+          DO I=1,NEL       
             IF(NINT(IAD22(I))==0)THEN
               !currently unpluged only for cut cell buffer
               F1P(I) = ZERO
@@ -259,7 +269,7 @@ C-----------------------------------------------
           ENDDO
         ENDIF
 
-       DO I=LFT,LLT
+       DO I=1,NEL
         F11(I) = F11(I) - UP0(I)*F1P(I)*OFF1(I)
         F21(I) = F21(I) - UP0(I)*F2P(I)*OFF1(I)
         F31(I) = F31(I) - UP0(I)*F3P(I)*OFF1(I)

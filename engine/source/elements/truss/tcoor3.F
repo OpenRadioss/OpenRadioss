@@ -26,9 +26,11 @@ Chd|-- called by -----------
 Chd|        TFORC3                        source/elements/truss/tforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE TCOOR3(X   ,NCC ,MAT ,MGM ,NGL,
-     .                  NC1 ,NC2 ,X1  ,X2  ,Y1 ,
-     .                  Y2  ,Z1  ,Z2  )
+      SUBROUTINE TCOOR3(
+     1   X,       NCC,     MAT,     MGM,
+     2   NGL,     NC1,     NC2,     X1,
+     3   X2,      Y1,      Y2,      Z1,
+     4   Z2,      NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,10 +42,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER MAT(MVSIZ),MGM(MVSIZ),NGL(MVSIZ),NC1(MVSIZ),NC2(MVSIZ)
       INTEGER,INTENT(IN) :: NCC(5,*)
       my_real,INTENT(IN) :: X(3,*)
@@ -54,7 +56,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         NGL(I) = NCC(5,I)
         MAT(I) = NCC(1,I)
         NC1(I) = NCC(2,I)
@@ -64,7 +66,7 @@ C-----------------------------------------------
 C----------------------------
 C     COORDONNEES
 C----------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         X1(I) = X(1,NC1(I))
         Y1(I) = X(2,NC1(I))
         Z1(I) = X(3,NC1(I))

@@ -29,8 +29,10 @@ Chd|        RFORC3                        source/elements/spring/rforc3.F
 Chd|-- calls ---------------
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
-      SUBROUTINE R4TORS(FORX ,FORY,FORZ,XMOM ,YMOM ,
-     2                  ZMOM ,TANI,AL,H3D_DATA  )
+      SUBROUTINE R4TORS(
+     1   FORX,    FORY,    FORZ,    XMOM,
+     2   YMOM,    ZMOM,    TANI,    AL,
+     3   H3D_DATA,NEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,11 +48,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "scr14_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
 C     REAL
       my_real
      .   FORX(*), FORY(*), FORZ(*), XMOM(*),
@@ -62,7 +64,7 @@ C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
       IF (ANIM_FT(1) /= 0 .OR. H3D_DATA%UND_FORC /= 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           TANI(1,I)= FORX(I)
           TANI(2,I)= FORY(I)
           TANI(3,I)= FORZ(I)

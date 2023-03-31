@@ -539,8 +539,11 @@ C-----------------------------------------------
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ) 
         CALL SCORTHO3(
-     .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
-     .       E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z )
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      E1X,     E2X,     E3X,
+     4   E1Y,     E2Y,     E3Y,     E1Z,
+     5   E2Z,     E3Z,     NEL)
        IF (JHBE == 15) THEN                   
         DO I=1,NEL                        
           AA = DIR(I,1)                     

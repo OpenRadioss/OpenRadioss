@@ -28,15 +28,18 @@ Chd|        R23LAW114                     source/elements/spring/r23law114.F
 Chd|        RFORC3                        source/elements/spring/rforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE R4EVEC3(RLOC ,V       ,EXX2 ,EYX2 ,EZX2,
-     2                   EXY2 ,EYY2    ,EZY2 ,EXZ2 ,EYZ2,
-     3                   EZZ2 ,AL2DP   ,X1DP ,X2DP ,AL2 ,
-     4                   ALDP ,RLOC_ERR,NGL  ,AL   ,EXX ,
-     5                   EYX  ,EZX     ,EXY  ,EYY  ,EZY ,
-     6                   EXZ  ,EYZ     ,EZZ  ,RX1  ,RY1 ,
-     7                   RZ1  ,RX2     ,RY2  ,RZ2  ,VX1 ,
-     8                   VX2  ,VY1     ,VY2  ,VZ1  ,VZ2 ,
-     9                   NC1  ,NC2     )
+      SUBROUTINE R4EVEC3(
+     1   RLOC,    V,       EXX2,    EYX2,
+     2   EZX2,    EXY2,    EYY2,    EZY2,
+     3   EXZ2,    EYZ2,    EZZ2,    AL2DP,
+     4   X1DP,    X2DP,    AL2,     ALDP,
+     5   RLOC_ERR,NGL,     AL,      EXX,
+     6   EYX,     EZX,     EXY,     EYY,
+     7   EZY,     EXZ,     EYZ,     EZZ,
+     8   RX1,     RY1,     RZ1,     RX2,
+     9   RY2,     RZ2,     VX1,     VX2,
+     A   VY1,     VY2,     VZ1,     VZ2,
+     B   NC1,     NC2,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,11 +53,11 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NGL(*),NC1(*),NC2(*)
 C     REAL
       my_real
@@ -91,7 +94,7 @@ C     REAL
      .     EXZ2DP(MVSIZ),EYZ2DP(MVSIZ),EZZ2DP(MVSIZ),
      .     RX1DP, RX2DP
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         EXYDP(I)=RLOC(1,I)
         EYYDP(I)=RLOC(2,I)
         EZYDP(I)=RLOC(3,I)
@@ -101,7 +104,7 @@ C-----------------------------------------------
       ENDDO
 C
       IF (SCODVER >= 101) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
         EXYDP(I)=EXYDP(I)+RLOC_ERR(1,I)
         EYYDP(I)=EYYDP(I)+RLOC_ERR(2,I)
         EZYDP(I)=EZYDP(I)+RLOC_ERR(3,I)
@@ -114,7 +117,7 @@ C
       DT05=HALF*DT1
       IF (ISMDISP > 0) DT05=ZERO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EXXDP(I)=X2DP(1,I)-X1DP(1,I)
         EYXDP(I)=X2DP(2,I)-X1DP(2,I)
         EZXDP(I)=X2DP(3,I)-X1DP(3,I)
@@ -129,7 +132,7 @@ C
         AL2(I)=AL2DP(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (ALDP(I) <= EM15) THEN
           EXXDP(I)= ONE
           EYXDP(I)= ZERO
@@ -144,7 +147,7 @@ C
         ENDIF
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (AL2DP(I) <= EM15) THEN
           EXX2DP(I)= ONE
           EYX2DP(I)= ZERO
@@ -159,7 +162,7 @@ C
         ENDIF
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EXZDP(I)=EYXDP(I)*EZYDP(I)-EZXDP(I)*EYYDP(I)
         EYZDP(I)=EZXDP(I)*EXYDP(I)-EXXDP(I)*EZYDP(I)
         EZZDP(I)=EXXDP(I)*EYYDP(I)-EYXDP(I)*EXYDP(I)
@@ -169,7 +172,7 @@ C
         EZZ2DP(I)=EXX2DP(I)*EYY2DP(I)-EYX2DP(I)*EXY2DP(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EXYDP(I)=EYZDP(I)*EZXDP(I)-EZZDP(I)*EYXDP(I)
         EYYDP(I)=EZZDP(I)*EXXDP(I)-EXZDP(I)*EZXDP(I)
         EZYDP(I)=EXZDP(I)*EYXDP(I)-EYZDP(I)*EXXDP(I)
@@ -181,7 +184,7 @@ C
 C--------------------------------------------
 C     TORSION MOYENNE EN COORDONNEES GLOBALES
 C--------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         RX1DP   = EXX2DP(I)*RX1(I)+EYX2DP(I)*RY1(I)+EZX2DP(I)*RZ1(I)
         RX2DP   = EXX2DP(I)*RX2(I)+EYX2DP(I)*RY2(I)+EZX2DP(I)*RZ2(I)
         THETA(I) = (RX1DP+RX2DP)/TWO*DT05
@@ -199,7 +202,7 @@ C--------------------------------------------
 C
 C ... it is modified.
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EXYDP(I)= EXYDP(I)*COST(I)+EXZDP(I)*SINT(I)
         EYYDP(I)= EYYDP(I)*COST(I)+EYZDP(I)*SINT(I)
         EZYDP(I)= EZYDP(I)*COST(I)+EZZDP(I)*SINT(I)
@@ -209,7 +212,7 @@ C
         EZY2DP(I)= EZY2DP(I)*COST2(I)+EZZ2DP(I)*SINT2(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         SUM(I)   =MAX(EM15,SQRT(EXYDP(I)*EXYDP(I)+
      .                          EYYDP(I)*EYYDP(I)+
      .                          EZYDP(I)*EZYDP(I)))
@@ -225,7 +228,7 @@ C
         EZY2DP(I)=EZY2DP(I)/SUM(I) 
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EXZDP(I)=EYXDP(I)*EZYDP(I)-EZXDP(I)*EYYDP(I)
         EYZDP(I)=EZXDP(I)*EXYDP(I)-EXXDP(I)*EZYDP(I)
         EZZDP(I)=EXXDP(I)*EYYDP(I)-EYXDP(I)*EXYDP(I)
@@ -235,7 +238,7 @@ C
         EZZ2DP(I)=EXX2DP(I)*EYY2DP(I)-EYX2DP(I)*EXY2DP(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         SUM(I)   =MAX(EM15,SQRT(EXZDP(I)*EXZDP(I)+
      .                          EYZDP(I)*EYZDP(I)+
      .                          EZZDP(I)*EZZDP(I)))
@@ -251,21 +254,21 @@ C
         EZZ2DP(I)=EZZ2DP(I)/SUM(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         RLOC(1,I) = EXYDP(I)
         RLOC(2,I) = EYYDP(I)
         RLOC(3,I) = EZYDP(I)
       ENDDO
 C
       IF (SCODVER >= 101) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           RLOC_ERR(1,I) = EXYDP(I) - RLOC(1,I)
           RLOC_ERR(2,I) = EYYDP(I) - RLOC(2,I)
           RLOC_ERR(3,I) = EZYDP(I) - RLOC(3,I)
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         VX1(I)=V(1,NC1(I))
         VY1(I)=V(2,NC1(I))
         VZ1(I)=V(3,NC1(I))
@@ -274,7 +277,7 @@ C
         VZ2(I)=V(3,NC2(I))
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
        EXX(I)=EXXDP(I)
        EYX(I)=EYXDP(I)
        EZX(I)=EZXDP(I)

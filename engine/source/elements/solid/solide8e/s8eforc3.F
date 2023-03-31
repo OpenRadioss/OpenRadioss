@@ -1397,18 +1397,19 @@ c    finite element heat transfert
 C--------------------------
 C
          IF(JTHE < 0) THEN
-           CALL S8ETHERM(PM , MXT, VOLN,  NI,
-     .                   NC1, NC2, NC3, NC4,
-     .                   NC5, NC6, NC7, NC8,      
-     .     PX1(1,IP), PX2(1,IP), PX3(1,IP), PX4(1,IP),
-     .     PY1(1,IP), PY2(1,IP), PY3(1,IP), PY4(1,IP),
-     .     PZ1(1,IP), PZ2(1,IP), PZ3(1,IP), PZ4(1,IP),
-     .     PX5(1,IP), PX6(1,IP), PX7(1,IP), PX8(1,IP),
-     .     PY5(1,IP), PY6(1,IP), PY7(1,IP), PY8(1,IP),
-     .     PZ5(1,IP), PZ6(1,IP), PZ7(1,IP), PZ8(1,IP),
-     .                   DT1, TEMP,TEMPEL,DIE,
-     .                   THEM,GBUF%OFF,LBUF%OFF,
-     .     PARTSAV, IPARTS, LBUF%VOL) 
+           CALL S8ETHERM(
+     1   PM,       MXT,      VOLN,     NI,
+     2   NC1,      NC2,      NC3,      NC4,
+     3   NC5,      NC6,      NC7,      NC8,
+     4   PX1(1,IP),PX2(1,IP),PX3(1,IP),PX4(1,IP),
+     5   PY1(1,IP),PY2(1,IP),PY3(1,IP),PY4(1,IP),
+     6   PZ1(1,IP),PZ2(1,IP),PZ3(1,IP),PZ4(1,IP),
+     7   PX5(1,IP),PX6(1,IP),PX7(1,IP),PX8(1,IP),
+     8   PY5(1,IP),PY6(1,IP),PY7(1,IP),PY8(1,IP),
+     9   PZ5(1,IP),PZ6(1,IP),PZ7(1,IP),PZ8(1,IP),
+     A   DT1,      TEMP,     TEMPEL,   DIE,
+     B   THEM,     GBUF%OFF, LBUF%OFF, PARTSAV,
+     C   IPARTS,   LBUF%VOL, NEL)
           ENDIF  
         ENDDO    !  IT=1,NPTT
        ENDDO     !  IS=1,NPTS
@@ -1543,9 +1544,14 @@ C----------------------------
      .   F31, F32, F33, F34, F35, F36, F37, F38)
       ENDIF
 C----------------------------
-      IF(NFILSOL/=0) CALL SFILLOPT(GBUF%FILL,STIN,
-     1   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     2   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)    
+      IF(NFILSOL/=0) CALL SFILLOPT(
+     1   GBUF%FILL,STIN,     F11,      F21,
+     2   F31,      F12,      F22,      F32,
+     3   F13,      F23,      F33,      F14,
+     4   F24,      F34,      F15,      F25,
+     5   F35,      F16,      F26,      F36,
+     6   F17,      F27,      F37,      F18,
+     7   F28,      F38,      NEL)
 C----------------------------
       IF(IPARIT == 0)THEN
           CALL SCUMU3(GBUF%OFF,A,NC1, NC2, NC3, NC4,

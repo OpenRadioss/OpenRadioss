@@ -28,10 +28,12 @@ Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
 Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE QCOOR2(X,NCP,
-     .                  Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .                  NC1,NC2,NC3,NC4,NGL,MAT,NGEO,
-     .                  VD2,VIS)
+      SUBROUTINE QCOOR2(
+     1   X,       NCP,     Y1,      Y2,
+     2   Y3,      Y4,      Z1,      Z2,
+     3   Z3,      Z4,      NC1,     NC2,
+     4   NC3,     NC4,     NGL,     MAT,
+     5   NGEO,    VD2,     VIS,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,6 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*), MAT(*), NGL(*), NGEO(*),
      .        NCP(7,*)
 C     REAL
@@ -48,13 +51,12 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,IV
 C-----------------------------------------------
-      DO 10 I=LFT,LLT
+      DO 10 I=1,NEL
       NGEO(I)=NCP(6,I)
       NGL(I)=NCP(7,I)
       MAT(I)=NCP(1,I)
@@ -67,7 +69,7 @@ C
 C----------------------------
 C     COORDONNEES NODALES
 C----------------------------
-      DO 20 I=LFT,LLT
+      DO 20 I=1,NEL
       Y1(I)=X(2,NC1(I))
       Z1(I)=X(3,NC1(I))
       Y2(I)=X(2,NC2(I))
@@ -78,7 +80,7 @@ C----------------------------
       Z4(I)=X(3,NC4(I))
    20 CONTINUE
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         VD2(I)=ZERO
         VIS(I)=ZERO
       ENDDO

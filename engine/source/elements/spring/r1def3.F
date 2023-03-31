@@ -27,13 +27,16 @@ Chd|        RFORC3                        source/elements/spring/rforc3.F
 Chd|-- calls ---------------
 Chd|        REDEF3                        source/elements/spring/redef3.F
 Chd|====================================================================
-      SUBROUTINE R1DEF3(GEO     ,F    ,AL0  ,E       ,DL   ,
-     2                  NPF     ,TF   ,OFF  ,DPL     ,FEP  ,
-     3                  DPL2    ,ANIM ,IPOS ,FR_WAVE ,IGEO ,
-     4                  AL0_ERR ,X1DP ,X2DP ,V       ,YIELD,
-     5                  NGL     ,MGN  ,EX   ,EY      ,EZ   ,
-     6                  XK      ,XM   ,XC   ,AK      ,NC1  ,
-     7                  NC2     ,NUVAR,UVAR ,DL0     )
+      SUBROUTINE R1DEF3(
+     1   GEO,     F,       AL0,     E,
+     2   DL,      NPF,     TF,      OFF,
+     3   DPL,     FEP,     DPL2,    ANIM,
+     4   IPOS,    FR_WAVE, IGEO,    AL0_ERR,
+     5   X1DP,    X2DP,    V,       YIELD,
+     6   NGL,     MGN,     EX,      EY,
+     7   EZ,      XK,      XM,      XC,
+     8   AK,      NC1,     NC2,     NUVAR,
+     9   UVAR,    DL0,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,12 +55,12 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "impl1_c.inc" 
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NPF(*),IGEO(NPROPGI,*),NGL(*),MGN(*),
      .        NC1(*),NC2(*),NUVAR
 C     REAL
@@ -87,7 +90,7 @@ C-----------------------------------------------
 C
       NOT_USED = ZERO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EPLA(I)=ZERO
         XM(I)=GEO(1,MGN(I))
         XK(I)=GEO(2,MGN(I))
@@ -109,7 +112,7 @@ c        XC(I)=GEO(3,MGN(I)) + GEO(141,MGN(I)) ! +max slope of h
         IFUNC3(I)=IGEO(119,MGN(I))
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EXDP(I)=X2DP(1,I)-X1DP(1,I)
         EYDP(I)=X2DP(2,I)-X1DP(2,I)
         EZDP(I)=X2DP(3,I)-X1DP(3,I)
@@ -118,13 +121,13 @@ C
       ENDDO
 !
       IF (INISPRI /= 0 .and. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           DLOLD(I)=DL0(I)
         ENDDO
       ENDIF
 !
       IF (INISPRI /= 0 .and. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           XL0(I)= AL0(I)
 ! if not initialized length
           IF (XL0(I) == ZERO) XL0(I) = ALDP(I)
@@ -132,36 +135,36 @@ C
       ENDIF
 !
       IF (TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           AL0(I)=ALDP(I)                   ! cast double vers My_real
         ENDDO
       ENDIF
 C
       IF (SCODVER >= 101) THEN
         IF (TT == ZERO) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             AL0_ERR(I)=ALDP(I)-AL0(I)        ! difference entre double et My_real
           ENDDO
         ENDIF
       ENDIF
 !
       IF ( INISPRI /= 0 .and. TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           AL0(I)= XL0(I)
         ENDDO
       ENDIF
 !
-      DO I=LFT,LLT
+      DO I=1,NEL
         AL0DP(I) = AL0(I)                  ! cast My_real en double
       ENDDO
 !
       IF (SCODVER >= 101) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           AL0DP(I) = AL0DP(I) + AL0_ERR(I)   ! AL_DP doit   tre recalcul   ainsi afin de garantir la coh  rence absolue entre AL0_DP et AL_DP
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         SUM  = MAX(ALDP(I),EM15)
         EXDP(I)= EXDP(I)/SUM
         EYDP(I)= EYDP(I)/SUM
@@ -172,7 +175,7 @@ C
       ENDDO
 C
       IF (ISMDISP > 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           VX21 = V(1,NC2(I)) - V(1,NC1(I)) 
           VY21 = V(2,NC2(I)) - V(2,NC1(I)) 
           VZ21 = V(3,NC2(I)) - V(3,NC1(I)) 
@@ -180,12 +183,12 @@ C
           DL(I)= DLOLD(I)+VL21*DT1
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           DL(I)= (ALDP(I)-AL0DP(I)) 
         ENDDO
       ENDIF !(ISMDISP>0) THEN
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         ILENG=NINT(GEO(93,MGN(I)))
         IF (ILENG /= 0) THEN
           XL0(I)=AL0DP(I)
@@ -203,7 +206,7 @@ C
      .            IECROU ,IFUNC ,IFV   ,IFUNC2    ,EPLA    ,
      .            UVAR(1,1),NOT_USED,NOT_USED,NOT_USED)
       NINDX = 0
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (DL(I) > DMX(I) .OR. DL(I) < DMN(I)) THEN
             OFF(I)=ZERO
@@ -220,7 +223,7 @@ C
         WRITE(ISTDO,1100) NGL(I),TT
 #include "lockoff.inc"
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
         XM(I)=XM(I)*XL0(I)
         XK(I)=XK(I)/XL0(I)
 C--- for time step compute adding +max slope of h

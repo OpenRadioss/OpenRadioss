@@ -936,8 +936,10 @@ C
      1            PM     ,OFF    ,LBUF%RHO,LBUF%RK,LBUF%RE ,GEO   , 
      2            EINC   ,DVOL   ,VOLN   ,PNEW    ,TMU     ,VIS   ,
      3            VD2    ,MAT    ,PID    )
-        IF(JTHE == 1)CALL MTHETA(PM,LBUF%EINT,LBUF%TEMP,AMU, C1, C2,
-     2                         DF,PSH    ,PC      ,MAT)
+        IF(JTHE == 1)CALL MTHETA(
+     1   PM,       LBUF%EINT,LBUF%TEMP,AMU,
+     2   C1,       C2,       DF,       PSH,
+     3   PC,       MAT,      NEL)
       ELSEIF (MTN == 7) THEN
 c        CALL M7LAW(PM     ,OFF     ,LBUF%SIG,LBUF%EINT,LBUF%RHO,
 c     .             LBUF%QVIS,LBUF%VOL,MBUF%VAR,STIFN   )
@@ -1062,9 +1064,12 @@ C       TSAI 3D Complet
      3              S5   ,S6       ,DXX       ,DYY       ,DZZ ,
      4              D4   ,D5       ,D6        ,NEL       ,POLD, 
      5              EINC)
-        CALL GRAY20(PM,LBUF%EINT,LBUF%RHO,LBUF%TEMP,LBUF%XST,LBUF%QVIS,VOLN,
-     .              MAT, DVOL, POLD, DF,
-     .              RHO0, PNEW, P01, P02, E01, E02, CXX, DPDM)
+        CALL GRAY20(
+     1   PM,       LBUF%EINT,LBUF%RHO, LBUF%TEMP,
+     2   LBUF%XST, LBUF%QVIS,VOLN,     MAT,
+     3   DVOL,     POLD,     DF,       RHO0,
+     4   PNEW,     P01,      P02,      E01,
+     5   E02,      CXX,      DPDM,     NEL)
         IF (JSPH == 0) THEN
           CALL MQVISCB(PM,OFF   ,LBUF%RHO,LBUF%RK ,LBUF%TEMP,CXX      ,
      2         LBUF%RE  ,STIFN   ,DT2T    ,NELTST  ,ITYPTST  ,AIRE    ,
@@ -1114,11 +1119,16 @@ c
      3              DXX    ,DYY    ,DZZ    ,D4     ,D5   ,D6   , 
      4              PSH    ,DVOL   ,DF     ,QVIS   ,PNEW ,VIS  ,
      5              TMU    ,EINC   ,MTN    ,VOL_AVG,NEL  )
-        CALL ATUR17(PM,OFF ,LBUF%RHO,LBUF%RK  ,LBUF%RE ,GEO  ,VOLN,
-     .              MAT, DELTAX ,PID    ,VIS  ,VOLN    ,VD2  ,DVOL, 
-     .              AIRE, EINC, PNEW, TMU, ALOGEY)
-        IF(JTHE == 1)CALL MTHETA(PM,LBUF%EINT,LBUF%TEMP,AMU  ,C1 ,C2  ,
-     2                         DF,PSH    ,PC      ,MAT)
+        CALL ATUR17(
+     1   PM,      OFF,     LBUF%RHO,LBUF%RK,
+     2   LBUF%RE, GEO,     VOLN,    MAT,
+     3   DELTAX,  PID,     VIS,     VOLN,
+     4   VD2,     DVOL,    AIRE,    EINC,
+     5   PNEW,    TMU,     ALOGEY,  NEL)
+        IF(JTHE == 1)CALL MTHETA(
+     1   PM,       LBUF%EINT,LBUF%TEMP,AMU,
+     2   C1,       C2,       DF,       PSH,
+     3   PC,       MAT,      NEL)
       ELSEIF (MTN == 18) THEN
         CALL M18LAW(PM      ,LBUF%VOL,LBUF%EINT,LBUF%TEMP,LBUF%DELTAX,
      2              TF      ,NPF     ,DT2T    ,NELTST  ,ITYPTST ,
@@ -1232,9 +1242,12 @@ C     like law25 for shell + S33 = EPS33*E33
      2              DVOL   ,S1      ,S2       ,S3       ,S4  ,
      3              S5     ,S6      ,DXX      ,DYY      ,DZZ ,
      4              D4     ,D5      ,D6       ,NEL, POLD, DF, EINC)
-        CALL SESA20(PM     ,LBUF%EINT,LBUF%RHO,LBUF%TEMP,LBUF%Z,
-     .              LBUF%QVIS,BUFMAT ,LBUF%SSP,XK       ,VOLN  ,
-     .              MAT      ,QVIS   ,DVOL, POLD, CXX, RHO0, P01)
+        CALL SESA20(
+     1   PM,       LBUF%EINT,LBUF%RHO, LBUF%TEMP,
+     2   LBUF%Z,   LBUF%QVIS,BUFMAT,   LBUF%SSP,
+     3   XK,       VOLN,     MAT,      QVIS,
+     4   DVOL,     POLD,     CXX,      RHO0,
+     5   P01,      NEL)
         IF (JSPH == 0) THEN
          CALL MQVISC26(PM,OFF     ,LBUF%RHO,LBUF%RK ,LBUF%TEMP,CXX     ,
      2           LBUF%RE ,STIFN   ,DT2T    ,NELTST  ,ITYPTST  ,AIRE    ,

@@ -581,19 +581,29 @@ C     TRANSPORT FORCES
 C-----------------------------
       IF(JALE == 1 .OR. JEUL == 1)THEN
 C 
-       CALL A4MOMT3(PM,GBUF%RHO,VOLN,
-     .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,
-     .   Z1,Z2,Z3,Z4,VX1,VX2,VX3,VX4,
-     .   VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   PX1,PX2,PX3,PX4,
-     .   PY1,PY2,PY3,PY4,
-     .   PZ1,PZ2,PZ3,PZ4,
-     .   DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
-     .   VDX1,VDX2,VDX3,VDX4,VDY1,VDY2,VDY3,VDY4,
-     .   VDZ1,VDZ2,VDZ3,VDZ4,VDX,VDY,VDZ,
-     .   DELTAX,VIS,
-     .   MXT,RX,RY,RZ,SX,SY,SZ,TX,TY,TZ)
+       CALL A4MOMT3(
+     1   PM,      GBUF%RHO,VOLN,    X1,
+     2   X2,      X3,      X4,      Y1,
+     3   Y2,      Y3,      Y4,      Z1,
+     4   Z2,      Z3,      Z4,      VX1,
+     5   VX2,     VX3,     VX4,     VY1,
+     6   VY2,     VY3,     VY4,     VZ1,
+     7   VZ2,     VZ3,     VZ4,     F11,
+     8   F21,     F31,     F12,     F22,
+     9   F32,     F13,     F23,     F33,
+     A   F14,     F24,     F34,     PX1,
+     B   PX2,     PX3,     PX4,     PY1,
+     C   PY2,     PY3,     PY4,     PZ1,
+     D   PZ2,     PZ3,     PZ4,     DXX,
+     E   DXY,     DXZ,     DYX,     DYY,
+     F   DYZ,     DZX,     DZY,     DZZ,
+     G   VDX1,    VDX2,    VDX3,    VDX4,
+     H   VDY1,    VDY2,    VDY3,    VDY4,
+     I   VDZ1,    VDZ2,    VDZ3,    VDZ4,
+     J   VDX,     VDY,     VDZ,     DELTAX,
+     K   VIS,     MXT,     RX,      RY,
+     L   RZ,      SX,      SY,      SZ,
+     M   TX,      TY,      TZ,      NEL)
       ENDIF
 
         IF(JEUL+JALE/=0) CALL CHECK_OFF_ALE(F11,F21,F31,F12,F22,
@@ -618,13 +628,14 @@ C --------------------------
 C  --- heat transfert 
 C --------------------------
       IF(JTHE < 0 ) THEN     
-        CALL S4THERM ( PM     ,MXT    , VOLN,
-     .                   NC1, NC2, NC3, NC4,  
-     .                   PX1, PX2, PX3, PX4,
-     .                   PY1, PY2, PY3, PY4,
-     .                   PZ1, PZ2, PZ3, PZ4,
-     .                   DT1, TEMP,TEMPEL,DIE,
-     .                   THEM,GBUF%OFF,LBUF%OFF)
+        CALL S4THERM (
+     1   PM,      MXT,     VOLN,    NC1,
+     2   NC2,     NC3,     NC4,     PX1,
+     3   PX2,     PX3,     PX4,     PY1,
+     4   PY2,     PY3,     PY4,     PZ1,
+     5   PZ2,     PZ3,     PZ4,     DT1,
+     6   TEMP,    TEMPEL,  DIE,     THEM,
+     7   GBUF%OFF,LBUF%OFF,NEL)
       
       ENDIF
 c-------------------------
@@ -640,8 +651,11 @@ c--------------------------
      .        ITASK    ,DT2T     ,GBUF%VOL )
       ENDIF 
 C --------------------------
-      IF(NFILSOL/=0) CALL S4FILLOPT(GBUF%FILL,STI,
-     1   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34)
+      IF(NFILSOL/=0) CALL S4FILLOPT(
+     1   GBUF%FILL,STI,      F11,      F21,
+     2   F31,      F12,      F22,      F32,
+     3   F13,      F23,      F33,      F14,
+     4   F24,      F34,      NEL)
 C----------------------------
       IF (IPARIT == 0) THEN
         CALL S4CUMU3(GBUF%OFF,A,NC1, NC2, NC3, NC4,STIFN,STI,

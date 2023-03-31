@@ -26,11 +26,13 @@ Chd|-- called by -----------
 Chd|        TFORC3                        source/elements/truss/tforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE TDEFO3(V   ,OFFG ,OFF ,NC1 ,NC2,
-     .                  EPS ,AL   ,VX1 ,VX2 ,VY1,
-     .                  VY2 ,VZ1  ,VZ2 ,EX  ,EY ,
-     .                  EZ  ,X1   ,X2  ,Y1  ,Y2 ,
-     .                  Z1  ,Z2   )
+      SUBROUTINE TDEFO3(
+     1   V,       OFFG,    OFF,     NC1,
+     2   NC2,     EPS,     AL,      VX1,
+     3   VX2,     VY1,     VY2,     VZ1,
+     4   VZ2,     EX,      EY,      EZ,
+     5   X1,      X2,      Y1,      Y2,
+     6   Z1,      Z2,      NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,10 +45,10 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NC1(MVSIZ),NC2(MVSIZ)
       my_real
      .   V(3,*),OFFG(MVSIZ),OFF(MVSIZ),EPS(MVSIZ),AL(MVSIZ),
@@ -60,7 +62,7 @@ C-----------------------------------------------
       my_real
      .   V1(MVSIZ),V2(MVSIZ),RATIO(MVSIZ),OFF_L
 C-----------------------------------------------      
-      DO I=LFT,LLT
+      DO I=1,NEL
         VX1(I)=V(1,NC1(I))
         VY1(I)=V(2,NC1(I))
         VZ1(I)=V(3,NC1(I))
@@ -69,17 +71,17 @@ C-----------------------------------------------
         VZ2(I)=V(3,NC2(I))
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         EX(I)=X2(I)-X1(I)
         EY(I)=Y2(I)-Y1(I)
         EZ(I)=Z2(I)-Z1(I)
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         AL(I)=SQRT(EX(I)*EX(I)+EY(I)*EY(I)+EZ(I)*EZ(I))
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (AL(I) /= ZERO) THEN
           EX(I) = EX(I)/AL(I)
           EY(I) = EY(I)/AL(I)
@@ -91,12 +93,12 @@ c
         ENDIF
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         V1(I)=EX(I)*VX1(I)+EY(I)*VY1(I)+EZ(I)*VZ1(I)
         V2(I)=EX(I)*VX2(I)+EY(I)*VY2(I)+EZ(I)*VZ2(I)
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (AL(I) /= ZERO) THEN
           EPS(I)= (V2(I)-V1(I))/AL(I)     
           RATIO(I) = ( (VX2(I)-VX1(I))*(VX2(I)-VX1(I))
@@ -109,19 +111,19 @@ c
          ENDIF
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         EPS(I)= EPS(I) + HALF*DT1*( EPS(I)*EPS(I) - RATIO(I) )
       ENDDO
 c
       OFF_L = ZERO
-      DO I=LFT,LLT
+      DO I=1,NEL
         OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF(I) = MAX(ZERO,OFF(I))
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
 c
       IF (OFF_L < ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          IF (OFFG(I) < ZERO) THEN
            EPS(I)=ZERO
          ENDIF

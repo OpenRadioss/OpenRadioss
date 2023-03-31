@@ -26,8 +26,10 @@ Chd|-- called by -----------
 Chd|        RFORC3                        source/elements/spring/rforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE R1COOR3(X   ,VR  ,IXR  ,XDP  ,X1DP,
-     .                   X2DP,NGL ,MGM  ,NC1  ,NC2 )
+      SUBROUTINE R1COOR3(
+     1   X,       VR,      IXR,     XDP,
+     2   X1DP,    X2DP,    NGL,     MGM,
+     3   NC1,     NC2,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -35,11 +37,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER IXR(NIXR,*),NGL(*),MGM(*),NC1(*),NC2(*) 
       my_real
      .   X(3,*), VR(3,*)
@@ -49,7 +51,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         NGL(I)=IXR(NIXR,I)
         NC1(I)=IXR(2,I)
         NC2(I)=IXR(3,I)
@@ -60,7 +62,7 @@ C----------------------------
 C     COORDONNEES+ROTATIONS
 C----------------------------
       IF (IRESP == 1) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           X1DP(1,I)=XDP(1,NC1(I))
           X1DP(2,I)=XDP(2,NC1(I))
           X1DP(3,I)=XDP(3,NC1(I))
@@ -69,7 +71,7 @@ C----------------------------
           X2DP(3,I)=XDP(3,NC2(I))
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           X1DP(1,I)=X(1,NC1(I))
           X1DP(2,I)=X(2,NC1(I))
           X1DP(3,I)=X(3,NC1(I))

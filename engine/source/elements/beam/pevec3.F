@@ -26,12 +26,15 @@ Chd|-- called by -----------
 Chd|        PFORC3                        source/elements/beam/pforc3.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE PEVEC3(RLOC ,R    ,AL   ,NC1  ,NC2 ,
-     .                  NC3  ,X1   ,X2   ,X3   ,Y1  ,
-     .                  Y2   ,Y3   ,Z1   ,Z2   ,Z3  ,
-     .                  RX1G ,RX2G ,RY1G ,RY2G ,RZ1G,
-     .                  RZ2G ,E1X  ,E1Y  ,E1Z  ,E2X ,
-     .                  E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z )
+      SUBROUTINE PEVEC3(
+     1   RLOC,    R,       AL,      NC1,
+     2   NC2,     NC3,     X1,      X2,
+     3   X3,      Y1,      Y2,      Y3,
+     4   Z1,      Z2,      Z3,      RX1G,
+     5   RX2G,    RY1G,    RY2G,    RZ1G,
+     6   RZ2G,    E1X,     E1Y,     E1Z,
+     7   E2X,     E2Y,     E2Z,     E3X,
+     8   E3Y,     E3Z,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,10 +47,10 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ)
       my_real
      .   RLOC(3,*),R(3,*),AL(*),X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),
@@ -66,7 +69,7 @@ C-----------------------------------------------
      .   SINT(MVSIZ), R1PHI, R2PHI, THETAPHI, SUM2PHI, SUM3PHI, COPHI,
      .   SIPHI, SINPHI, COSPHI, SUMPHI
 C--------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         RX1G(I)=R(1,NC1(I))
         RY1G(I)=R(2,NC1(I))
         RZ1G(I)=R(3,NC1(I))
@@ -75,35 +78,35 @@ C--------------------------------------------
         RZ2G(I)=R(3,NC2(I))
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         E2X(I)=RLOC(1,I)
         E2Y(I)=RLOC(2,I)
         E2Z(I)=RLOC(3,I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         E1X(I)=X2(I)-X1(I)
         E1Y(I)=Y2(I)-Y1(I)
         E1Z(I)=Z2(I)-Z1(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         AL(I)=SQRT(E1X(I)**2+E1Y(I)**2+E1Z(I)**2)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         E1X(I)=E1X(I)/AL(I)
         E1Y(I)=E1Y(I)/AL(I)
         E1Z(I)=E1Z(I)/AL(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         E3X(I)=E1Y(I)*E2Z(I)-E1Z(I)*E2Y(I)
         E3Y(I)=E1Z(I)*E2X(I)-E1X(I)*E2Z(I)
         E3Z(I)=E1X(I)*E2Y(I)-E1Y(I)*E2X(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         E2X(I)=E3Y(I)*E1Z(I)-E3Z(I)*E1Y(I)
         E2Y(I)=E3Z(I)*E1X(I)-E3X(I)*E1Z(I)
         E2Z(I)=E3X(I)*E1Y(I)-E3Y(I)*E1X(I)
@@ -111,7 +114,7 @@ C
 C--------------------------------------------
 C     TORSION MOYENNE EN COORDONNEES GLOBALES
 C--------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         RX1(I)=E1X(I)*RX1G(I)+E1Y(I)*RY1G(I)+E1Z(I)*RZ1G(I)
         RX2(I)=E1X(I)*RX2G(I)+E1Y(I)*RY2G(I)+E1Z(I)*RZ2G(I)
         THETA=(RX1(I)+RX2(I))/TWO*DT1
@@ -123,36 +126,36 @@ C--------------------------------------------
 C
 C ... it is modified.
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         E2X(I)=E2X(I)*COST(I)+E3X(I)*SINT(I)
         E2Y(I)=E2Y(I)*COST(I)+E3Y(I)*SINT(I)
         E2Z(I)=E2Z(I)*COST(I)+E3Z(I)*SINT(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         SUM(I)=SQRT(E2X(I)**2+E2Y(I)**2+E2Z(I)**2)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         E2X(I)=E2X(I)/SUM(I)
         E2Y(I)=E2Y(I)/SUM(I)
         E2Z(I)=E2Z(I)/SUM(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         E3X(I)=E1Y(I)*E2Z(I)-E1Z(I)*E2Y(I)
         E3Y(I)=E1Z(I)*E2X(I)-E1X(I)*E2Z(I)
         E3Z(I)=E1X(I)*E2Y(I)-E1Y(I)*E2X(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         SUM(I)=SQRT(E3X(I)**2+E3Y(I)**2+E3Z(I)**2)
         E3X(I)=E3X(I)/SUM(I)
         E3Y(I)=E3Y(I)/SUM(I)
         E3Z(I)=E3Z(I)/SUM(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         RLOC(1,I)=E2X(I)
         RLOC(2,I)=E2Y(I)
         RLOC(3,I)=E2Z(I)

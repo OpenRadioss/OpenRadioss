@@ -1123,18 +1123,19 @@ c-------------------------
 c    finite element heat transfert  
 c-------------------------
          IF(JTHE < 0) THEN
-           CALL S8ETHERM(PM ,MXT ,VOLN,  NI,
-     .                   NC1, NC2, NC3, NC4,
-     .                   NC5, NC6, NC7, NC8, 
-     .                   PX1, PX2, PX3, PX4,
-     .                   PY1, PY2, PY3, PY4,
-     .                   PZ1, PZ2, PZ3, PZ4,
-     .                   PX5, PX6, PX7, PX8,
-     .                   PY5, PY6, PY7, PY8,
-     .                   PZ5, PZ6, PZ7, PZ8,
-     .                   DT1, TEMP,TEMPEL, DIE,
-     .                   THEM,GBUF%OFF, LBUF%OFF, 
-     .                   PARTSAV,IPARTS,LBUF%VOL) 
+           CALL S8ETHERM(
+     1   PM,      MXT,     VOLN,    NI,
+     2   NC1,     NC2,     NC3,     NC4,
+     3   NC5,     NC6,     NC7,     NC8,
+     4   PX1,     PX2,     PX3,     PX4,
+     5   PY1,     PY2,     PY3,     PY4,
+     6   PZ1,     PZ2,     PZ3,     PZ4,
+     7   PX5,     PX6,     PX7,     PX8,
+     8   PY5,     PY6,     PY7,     PY8,
+     9   PZ5,     PZ6,     PZ7,     PZ8,
+     A   DT1,     TEMP,    TEMPEL,  DIE,
+     B   THEM,    GBUF%OFF,LBUF%OFF,PARTSAV,
+     C   IPARTS,  LBUF%VOL,NEL)
          ENDIF 
         ENDDO  ! IT=1,NPTT
        ENDDO   ! IS=1,NPTS
@@ -1245,9 +1246,14 @@ C----------------------------
      .   F31, F32, F33, F34, F35, F36, F37, F38)
       ENDIF
 C----------------------------
-      IF(NFILSOL/=0) CALL SFILLOPT(GBUF%FILL,STIN,
-     1   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     2   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)    
+      IF(NFILSOL/=0) CALL SFILLOPT(
+     1   GBUF%FILL,STIN,     F11,      F21,
+     2   F31,      F12,      F22,      F32,
+     3   F13,      F23,      F33,      F14,
+     4   F24,      F34,      F15,      F25,
+     5   F35,      F16,      F26,      F36,
+     6   F17,      F27,      F37,      F18,
+     7   F28,      F38,      NEL)
 C----------------------------
       IF(IPARIT == 0)THEN
           CALL SCUMU3(GBUF%OFF,A,NC1, NC2, NC3, NC4,

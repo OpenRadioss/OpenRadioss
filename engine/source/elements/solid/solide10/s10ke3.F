@@ -218,14 +218,22 @@ C
      .               GM   ,DGM  ,IKORTH,LBUF%SIG,IUN  ,
      .               IUN  ,IP   ,NEL   )
         CALL S10CUMG3(
-     .   PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP), 
-     .   DD  ,GG   ,DG   ,G33  ,IKORTH,
-     .   K11,K12,K13,K14,K15,K16,K17,K18,K19,K10,
-     .   K22,K23,K24,K25,K26,K27,K28,K29,K20,K33,
-     .   K34,K35,K36,K37,K38,K39,K30,K44,K45,K46,
-     .   K47,K48,K49,K40,K55,K56,K57,K58,K59,K50,
-     .   K66,K67,K68,K69,K60,K77,K78,K79,K70,K88,
-     .   K89,K80,K99,K90,K00)
+     1   PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),DD,
+     2   GG,        DG,        G33,       IKORTH,
+     3   K11,       K12,       K13,       K14,
+     4   K15,       K16,       K17,       K18,
+     5   K19,       K10,       K22,       K23,
+     6   K24,       K25,       K26,       K27,
+     7   K28,       K29,       K20,       K33,
+     8   K34,       K35,       K36,       K37,
+     9   K38,       K39,       K30,       K44,
+     A   K45,       K46,       K47,       K48,
+     B   K49,       K40,       K55,       K56,
+     C   K57,       K58,       K59,       K50,
+     D   K66,       K67,       K68,       K69,
+     E   K60,       K77,       K78,       K79,
+     F   K70,       K88,       K89,       K80,
+     G   K99,       K90,       K00,       NEL)
 C----------------------------
 C     geometrical stiffness 
 C----------------------------

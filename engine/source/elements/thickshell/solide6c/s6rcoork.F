@@ -151,11 +151,16 @@ C-----------
         Z6(I)=Z6(I)-ZL
       ENDDO
        CALL S6CORTHO3(
-     .   X1, X2, X3, X4, X5, X6,
-     .   Y1, Y2, Y3, Y4, Y5, Y6,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, 
-     .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
-     .   RX , RY , RZ , SX , SY , SZ , TX , TY , TZ )
+     1   X1,      X2,      X3,      X4,
+     2   X5,      X6,      Y1,      Y2,
+     3   Y3,      Y4,      Y5,      Y6,
+     4   Z1,      Z2,      Z3,      Z4,
+     5   Z5,      Z6,      R11,     R12,
+     6   R13,     R21,     R22,     R23,
+     7   R31,     R32,     R33,     RX,
+     8   RY,      RZ,      SX,      SY,
+     9   SZ,      TX,      TY,      TZ,
+     A   NEL)
 C-----------
 C     PASSAGE AU REPERE CONVECTE.
 C-----------
@@ -259,14 +264,20 @@ C       SAV(I,15)=Z5(I)-Z6(I)
 C
       ELSE
       CALL VRROTA3(
-     .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
-     .   X1, Y1, Z1)
+     1   R11,     R12,     R13,     R21,
+     2   R22,     R23,     R31,     R32,
+     3   R33,     X1,      Y1,      Z1,
+     4   NEL)
       CALL VRROTA3(
-     .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
-     .   X2, Y2, Z2)
+     1   R11,     R12,     R13,     R21,
+     2   R22,     R23,     R31,     R32,
+     3   R33,     X2,      Y2,      Z2,
+     4   NEL)
       CALL VRROTA3(
-     .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
-     .   X3, Y3, Z3)
+     1   R11,     R12,     R13,     R21,
+     2   R22,     R23,     R31,     R32,
+     3   R33,     X3,      Y3,      Z3,
+     4   NEL)
        DO I=1,NEL
         XL=R11(I)*X4(I)+R21(I)*Y4(I)+R31(I)*Z4(I)
         YL=R12(I)*X4(I)+R22(I)*Y4(I)+R32(I)*Z4(I)

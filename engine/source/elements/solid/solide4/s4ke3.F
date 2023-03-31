@@ -167,12 +167,13 @@ c
      .              GM   ,DGM  ,IKORTH,GBUF%SIG,IBID1 ,
      .              IBID1,IBID1,NEL   )
         CALL S4CUMG3(
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   K11 ,K12  ,K13  ,K14  ,K22  ,
-     .   K23 ,K24  ,K33  ,K34  ,K44  ,
-     .   DD  ,GG   ,DG   ,G33  ,IKORTH)
+     1   PX1,     PX2,     PX3,     PX4,
+     2   PY1,     PY2,     PY3,     PY4,
+     3   PZ1,     PZ2,     PZ3,     PZ4,
+     4   K11,     K12,     K13,     K14,
+     5   K22,     K23,     K24,     K33,
+     6   K34,     K44,     DD,      GG,
+     7   DG,      G33,     IKORTH,  NEL)
 C----------------------------
 C     geometrical stiffness (membrane only)
 C----------------------------

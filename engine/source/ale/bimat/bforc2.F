@@ -194,9 +194,12 @@ c
        VDX(I)=ZERO     
       ENDDO
 C------------
-      CALL QCOOR2(X,IC(LCO),
-     .            Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .            NC1,NC2,NC3,NC4,NGL,MAT,NGEO,VD2,VIS)
+      CALL QCOOR2(
+     1   X,       IC(LCO), Y1,      Y2,
+     2   Y3,      Y4,      Z1,      Z2,
+     3   Z3,      Z4,      NC1,     NC2,
+     4   NC3,     NC4,     NGL,     MAT,
+     5   NGEO,    VD2,     VIS,     NEL)
 C------------
 C      A.L.E.
 C------------
@@ -205,14 +208,19 @@ C------------
      .             Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .             BID,BID)
        CALL QDLEN2(Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,AIRE,DELTAX,IPARG(63,NG))
-       CALL QDEFO2(V,W,
-     .                  Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     .                  PY1,PY2,PZ1,PZ2,
-     .                  WYZ,DYZ,DZY,EYY,EZZ,ETT,EYZ,EYT,EZT,
-     .                  RX,RY,RZ,SX,SY,SZ,TX,TY,TZ,
-     .                  VOLN,AIRE,AIREM,
-     .                  NC1,NC2,NC3,NC4)
+       CALL QDEFO2(
+     1   V,       W,       Y1,      Y2,
+     2   Y3,      Y4,      Z1,      Z2,
+     3   Z3,      Z4,      VY1,     VY2,
+     4   VY3,     VY4,     VZ1,     VZ2,
+     5   VZ3,     VZ4,     PY1,     PY2,
+     6   PZ1,     PZ2,     WYZ,     DYZ,
+     7   DZY,     EYY,     EZZ,     ETT,
+     8   EYZ,     EYT,     EZT,     RX,
+     9   RY,      RZ,      SX,      SY,
+     A   SZ,      TX,      TY,      TZ,
+     B   VOLN,    AIRE,    AIREM,   NC1,
+     C   NC2,     NC3,     NC4,     NEL)
        CALL BALPH2(PM,LBUF1%FRAC,LBUF2%FRAC,GBUF%VOL,FILL,
      .             LBUF1%SIG,LBUF1%EINT,LBUF1%VOL,LBUF1%RHO,
      .             FLUX(1,NF1),FLU1(NF1),LBUF1%OFF,
@@ -385,15 +393,23 @@ C------------------------
 C     FORCES DE TRANSPORT
 C------------------------
       IF (JALE>0.AND.MTN/=11)
-     .  CALL BAMOM2(PM,V,W,LBUF%RHO,LBUF1%FRAC,LBUF2%FRAC,FILL(1,1),
-     .                  B11,B12,B13,B14,B21,B22,B23,B24,
-     .                  PY1, PY2, PZ1, PZ2, AIRE, 
-     .                  MAT, NC1, NC2, NC3, NC4)
+     .  CALL BAMOM2(
+     1   PM,        V,         W,         LBUF%RHO,
+     2   LBUF1%FRAC,LBUF2%FRAC,FILL(1,1), B11,
+     3   B12,       B13,       B14,       B21,
+     4   B22,       B23,       B24,       PY1,
+     5   PY2,       PZ1,       PZ2,       AIRE,
+     6   MAT,       NC1,       NC2,       NC3,
+     7   NC4,       NEL)
       IF (JEUL>0.AND.MTN/=11)
-     .  CALL BEMOM2(PM,V,LBUF%RHO,LBUF1%FRAC,LBUF2%FRAC,FILL(1,1),
-     .                  B11,B12,B13,B14,B21,B22,B23,B24,
-     .                  PY1, PY2, PZ1, PZ2, AIRE, 
-     .                  MAT, NC1, NC2, NC3, NC4)
+     .  CALL BEMOM2(
+     1   PM,        V,         LBUF%RHO,  LBUF1%FRAC,
+     2   LBUF2%FRAC,FILL(1,1), B11,       B12,
+     3   B13,       B14,       B21,       B22,
+     4   B23,       B24,       PY1,       PY2,
+     5   PZ1,       PZ2,       AIRE,      MAT,
+     6   NC1,       NC2,       NC3,       NC4,
+     7   NEL)
 C--------------
 C     ASSEMBLE
 C--------------
@@ -561,15 +577,23 @@ C------------------------
 C       FORCES DE TRANSPORT
 C------------------------
         IF(JALE>0.AND.MTN/=11)
-     .    CALL BAMOM2(PM,V,W,LBUF%RHO,LBUF2%FRAC,LBUF1%FRAC,FILL(1,2),
-     .                  B11,B12,B13,B14,B21,B22,B23,B24,
-     .                  PY1, PY2, PZ1, PZ2, AIRE, 
-     .                  MAT, NC1, NC2, NC3, NC4)
+     .    CALL BAMOM2(
+     1   PM,        V,         W,         LBUF%RHO,
+     2   LBUF2%FRAC,LBUF1%FRAC,FILL(1,2), B11,
+     3   B12,       B13,       B14,       B21,
+     4   B22,       B23,       B24,       PY1,
+     5   PY2,       PZ1,       PZ2,       AIRE,
+     6   MAT,       NC1,       NC2,       NC3,
+     7   NC4,       NEL)
         IF(JEUL>0.AND.MTN/=11)
-     .    CALL BEMOM2(PM,V,LBUF%RHO,LBUF2%FRAC,LBUF1%FRAC,FILL(1,2),
-     .                  B11,B12,B13,B14,B21,B22,B23,B24,
-     .                  PY1, PY2, PZ1, PZ2, AIRE, 
-     .                  MAT, NC1, NC2, NC3, NC4)
+     .    CALL BEMOM2(
+     1   PM,        V,         LBUF%RHO,  LBUF2%FRAC,
+     2   LBUF1%FRAC,FILL(1,2), B11,       B12,
+     3   B13,       B14,       B21,       B22,
+     4   B23,       B24,       PY1,       PY2,
+     5   PZ1,       PZ2,       AIRE,      MAT,
+     6   NC1,       NC2,       NC3,       NC4,
+     7   NEL)
 C--------------
 C       ASSEMBLE
 C--------------

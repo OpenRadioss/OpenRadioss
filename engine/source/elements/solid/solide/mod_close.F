@@ -27,13 +27,20 @@ Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE MOD_CLOSE(GEO,NGEO,
-     .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,HH,
-     .   XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
-     .   YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
-     .   ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8)
+      SUBROUTINE MOD_CLOSE(
+     1   GEO,     NGEO,    X1,      X2,
+     2   X3,      X4,      X5,      X6,
+     3   X7,      X8,      Y1,      Y2,
+     4   Y3,      Y4,      Y5,      Y6,
+     5   Y7,      Y8,      Z1,      Z2,
+     6   Z3,      Z4,      Z5,      Z6,
+     7   Z7,      Z8,      HH,      XD1,
+     8   XD2,     XD3,     XD4,     XD5,
+     9   XD6,     XD7,     XD8,     YD1,
+     A   YD2,     YD3,     YD4,     YD5,
+     B   YD6,     YD7,     YD8,     ZD1,
+     C   ZD2,     ZD3,     ZD4,     ZD5,
+     D   ZD6,     ZD7,     ZD8,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,10 +50,10 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       DOUBLE PRECISION
      .   XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*), XD7(*), XD8(*),
      .   YD1(*), YD2(*), YD3(*), YD4(*), YD5(*), YD6(*), YD7(*), YD8(*),
@@ -71,12 +78,12 @@ C     REAL
       DATA ICF1/1,2,3,4, 2,6,7,3, 1,5,6,2/
       DATA ICF2/5,6,7,8, 1,5,8,4, 4,8,7,3/
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
        HCLOS(I)=GEO(129,NGEO(I))
        HTEST(I)=GEO(130,NGEO(I))
       ENDDO
 C      
-      DO I=LFT,LLT	
+      DO I=1,NEL	
   	X(1,1)=XD1(I)
   	X(2,1)=YD1(I)
   	X(3,1)=ZD1(I)
@@ -212,7 +219,7 @@ C
       ENDDO
       
 c copy and cast XD(DP) to X(SP) to assure coherence between XD et X      
-      DO I=LFT,LLT
+      DO I=1,NEL
         X1(I)= XD1(I) 
         Y1(I)= YD1(I) 
         Z1(I)= ZD1(I)

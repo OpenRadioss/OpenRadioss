@@ -27,10 +27,12 @@ Chd|        S16FORC3                      source/elements/thickshell/solide16/s1
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S16SIGS3(
-     1    DXX     ,DYY       ,DZZ       ,D4       ,D5      ,D6      ,
-     2    RX      ,RY        ,RZ        ,SX       ,SY      ,SZ      ,
-     3    TX      ,TY        ,TZ        ,EINT     ,VOL0    ,SIGS    ,
-     4    MXT     ,PM        ,DT1       ,VOL0DP  )
+     1   DXX,     DYY,     DZZ,     D4,
+     2   D5,      D6,      RX,      RY,
+     3   RZ,      SX,      SY,      SZ,
+     4   TX,      TY,      TZ,      EINT,
+     5   VOL0,    SIGS,    MXT,     PM,
+     6   DT1,     VOL0DP,  NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,10 +41,10 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER MXT(*) 
       my_real
      1    DXX(*) ,DYY(*) ,DZZ(*) ,D4(*) ,D5(*) ,D6(*) ,
@@ -59,10 +61,10 @@ C-----------------------------------------------
      .   AA, DXY, DYZ, DZX, DRR, DSS, DTT, DRS, DST, DTR,
      .   SHF,A11,A12,A13,A21,A22,A23,A31,A32,A33,E,NU,D11
 C-----------------------------------------------
-      MX = MXT(LFT)
+      MX = MXT(1)
       E  = PM(20,MX)
       NU = PM(21,MX)
-      DO I=LFT,LLT
+      DO I=1,NEL
         SHF = FIVE_OVER_6
         AA  = EM01 * SIGS(I)* ((ONE +NU) * (ONE -NU-NU)) / (E * (ONE -NU))
 

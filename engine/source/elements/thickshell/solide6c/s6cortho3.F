@@ -28,11 +28,16 @@ Chd|        S6RCOORK                      source/elements/thickshell/solide6c/s6
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S6CORTHO3(
-     .   X1, X2, X3, X4, X5, X6, 
-     .   Y1, Y2, Y3, Y4, Y5, Y6, 
-     .   Z1, Z2, Z3, Z4, Z5, Z6, 
-     .   E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z ,
-     .   RX , RY , RZ , SX , SY , SZ , TX , TY , TZ )
+     1   X1,      X2,      X3,      X4,
+     2   X5,      X6,      Y1,      Y2,
+     3   Y3,      Y4,      Y5,      Y6,
+     4   Z1,      Z2,      Z3,      Z4,
+     5   Z5,      Z6,      E1X,     E2X,
+     6   E3X,     E1Y,     E2Y,     E3Y,
+     7   E1Z,     E2Z,     E3Z,     RX,
+     8   RY,      RZ,      SX,      SY,
+     9   SZ,      TX,      TY,      TZ,
+     A   NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,6 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
 C     REAL
       my_real, INTENT(IN),  DIMENSION(MVSIZ) ::
      .   X1, X2, X3, X4, X5, X6, 
@@ -55,7 +61,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -66,7 +71,7 @@ C     REAL
       my_real
      .   DET,C1,C2 
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         X14=X1(I)+X4(I)
         Y14=Y1(I)+Y4(I)
         Z14=Z1(I)+Z4(I)
@@ -79,13 +84,13 @@ C--------eta---------
         RY(I)=Y3(I)+Y6(I)-Y14
         RZ(I)=Z3(I)+Z6(I)-Z14
        ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
         SX(I)= (X4(I)+X5(I)+X6(I)-X1(I)-X2(I)-X3(I))*THIRD
         SY(I)= (Y4(I)+Y5(I)+Y6(I)-Y1(I)-Y2(I)-Y3(I))*THIRD
         SZ(I)= (Z4(I)+Z5(I)+Z6(I)-Z1(I)-Z2(I)-Z3(I))*THIRD
       ENDDO
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      DO 100 I=LFT,LLT
+      DO 100 I=1,NEL
 C
        E3X(I) = TY(I) * RZ(I) - TZ(I) * RY(I) 
        E3Y(I) = TZ(I) * RX(I) - TX(I) * RZ(I) 

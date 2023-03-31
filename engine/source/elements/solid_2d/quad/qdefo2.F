@@ -27,14 +27,19 @@ Chd|        BFORC2                        source/ale/bimat/bforc2.F
 Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE QDEFO2(V,W,
-     .                  Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     .                  PY1,PY2,PZ1,PZ2,
-     .                  WYZ,DYZ,DZY,EYY,EZZ,ETT,EYZ,EYT,EZT,
-     .                  RX,RY,RZ,SX,SY,SZ,TX,TY,TZ,
-     .                  VOLN,AIRE,AIREM,
-     .                  NC1,NC2,NC3,NC4)
+      SUBROUTINE QDEFO2(
+     1   V,       W,       Y1,      Y2,
+     2   Y3,      Y4,      Z1,      Z2,
+     3   Z3,      Z4,      VY1,     VY2,
+     4   VY3,     VY4,     VZ1,     VZ2,
+     5   VZ3,     VZ4,     PY1,     PY2,
+     6   PZ1,     PZ2,     WYZ,     DYZ,
+     7   DZY,     EYY,     EZZ,     ETT,
+     8   EYZ,     EYT,     EZT,     RX,
+     9   RY,      RZ,      SX,      SY,
+     A   SZ,      TX,      TY,      TZ,
+     B   VOLN,    AIRE,    AIREM,   NC1,
+     C   NC2,     NC3,     NC4,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,6 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       my_real
      .   V(3,*), W(3,*),
      .   Y1(*),Y2(*),Y3(*),Y4(*),Z1(*),Z2(*),Z3(*),Z4(*),
@@ -62,7 +68,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -75,7 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DTH=HALF*DT1
       
-      DO I=LFT,LLT
+      DO I=1,NEL
         !from qforc2 subroutine : &W  = &V  
         !from bforc2 subroutine : &W /= &V  
         VY1(I)=W(2,NC1(I))
@@ -88,7 +93,7 @@ C-----------------------------------------------
         VZ4(I)=W(3,NC4(I))
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         YM1(I)=Y1(I)-DTH*VY1(I)
         YM2(I)=Y2(I)-DTH*VY2(I)
         YM3(I)=Y3(I)-DTH*VY3(I)
@@ -99,7 +104,7 @@ C-----------------------------------------------
         ZM4(I)=Z4(I)-DTH*VZ4(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         VY1(I)=V(2,NC1(I))
         VZ1(I)=V(3,NC1(I))
         VY2(I)=V(2,NC2(I))
@@ -110,14 +115,14 @@ C-----------------------------------------------
         VZ4(I)=V(3,NC4(I))
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         PY1(I)=HALF*(ZM2(I)-ZM4(I))
         PY2(I)=HALF*(ZM3(I)-ZM1(I))
         PZ1(I)=HALF*(YM4(I)-YM2(I))
         PZ2(I)=HALF*(YM1(I)-YM3(I))      
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         A1(I) =YM2(I)*(ZM3(I)-ZM4(I))+YM3(I)*(ZM4(I)-ZM2(I))+YM4(I)*(ZM2(I)-ZM3(I))
         A2(I) =YM2(I)*(ZM4(I)-ZM1(I))+YM4(I)*(ZM1(I)-ZM2(I))+YM1(I)*(ZM2(I)-ZM4(I))
         AIREM(I)=(A1(I)+A2(I))*HALF
@@ -125,14 +130,14 @@ C-----------------------------------------------
         YAVG(I) =YM1(I)+YM2(I)+YM3(I)+YM4(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         VY13(I)=VY1(I)-VY3(I)
         VY24(I)=VY2(I)-VY4(I)
         VZ13(I)=VZ1(I)-VZ3(I)
         VZ24(I)=VZ2(I)-VZ4(I)
        ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(AIREM(I)>ZERO) THEN
           EYY(I)=(PY1(I)*VY13(I)+PY2(I)*VY24(I))/AIREM(I)
           EZZ(I)=(PZ1(I)*VZ13(I)+PZ2(I)*VZ24(I))/AIREM(I)
@@ -153,20 +158,20 @@ C-----------------------------------------------
       ENDDO
 
       IF(N2D==1) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF (YAVG(I)<=ZERO) CYCLE
           ETT(I)=(VY1(I)+VY2(I)+VY3(I)+VY4(I))/YAVG(I)
         ENDDO
       ENDIF
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         EYZ(I)= DZY(I)+DYZ(I)
         WYZ(I)=HALF*DT1*(DZY(I)-DYZ(I))
       ENDDO
 C---------------------------------------
 C     DERIVEES POUR LE CALCUL DES FORCES
 C---------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         PY1(I)=HALF*(Z2(I)-Z4(I))
         PY2(I)=HALF*(Z3(I)-Z1(I))
         PZ1(I)=HALF*(Y4(I)-Y2(I))
@@ -175,7 +180,7 @@ C---------------------------------------
 C---------------------------------------
 C     REPERE LOCAL POUR MATERIAUX NON ISOTROPES
 C---------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         RX(I)=ONE
         RY(I)=ZERO
         RZ(I)=ZERO

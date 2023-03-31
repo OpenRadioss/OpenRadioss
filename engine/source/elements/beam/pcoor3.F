@@ -26,10 +26,12 @@ Chd|-- called by -----------
 Chd|        PFORC3                        source/elements/beam/pforc3.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE PCOOR3(X    ,NCC   ,MAT    ,PID    ,NGL,
-     .                  NC1  ,NC2   ,NC3    ,X1     ,X2 ,
-     .                  X3   ,Y1    ,Y2     ,Y3     ,Z1 ,
-     .                  Z2   ,Z3    )
+      SUBROUTINE PCOOR3(
+     1   X,       NCC,     MAT,     PID,
+     2   NGL,     NC1,     NC2,     NC3,
+     3   X1,      X2,      X3,      Y1,
+     4   Y2,      Y3,      Z1,      Z2,
+     5   Z3,      NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,10 +43,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NCC(6,*),NGL(MVSIZ),MAT(MVSIZ),PID(MVSIZ),
      .   NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ)
       my_real
@@ -57,7 +59,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         MAT(I)=NCC(1,I)
         PID(I)=NCC(5,I)
         NGL(I)=NCC(6,I)
@@ -68,7 +70,7 @@ C-----------------------------------------------
 C----------------------------
 C     COORDONNEES
 C----------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         X1(I)=X(1,NC1(I))
         Y1(I)=X(2,NC1(I))
         Z1(I)=X(3,NC1(I))

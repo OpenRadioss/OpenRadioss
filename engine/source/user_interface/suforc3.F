@@ -182,14 +182,22 @@ C----------------------------
      K MZ(1,1),MZ(1,2),MZ(1,3),MZ(1,4),MZ(1,5),MZ(1,6),MZ(1,7),MZ(1,8),
      L STI    ,STIR   ,VISCM  ,VISCR)
        IF(NFILSOL/=0) THEN
-        CALL SFILLOPT(GBUF%FILL,STI,
-     B    FX(1,1),FX(1,2),FX(1,3),FX(1,4),FX(1,5),FX(1,6),FX(1,7),FX(1,8),     
-     F    FY(1,1),FY(1,2),FY(1,3),FY(1,4),FY(1,5),FY(1,6),FY(1,7),FY(1,8),     
-     G    FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8))     
-        CALL SFILLOPT(GBUF%FILL,STIR,
-     B    MX(1,1),MX(1,2),MX(1,3),MX(1,4),MX(1,5),MX(1,6),MX(1,7),MX(1,8),     
-     F    MY(1,1),MY(1,2),MY(1,3),MY(1,4),MY(1,5),MY(1,6),MY(1,7),MY(1,8),     
-     G    MZ(1,1),MZ(1,2),MZ(1,3),MZ(1,4),MZ(1,5),MZ(1,6),MZ(1,7),MZ(1,8)) 
+        CALL SFILLOPT(
+     1   GBUF%FILL,STI,      FX(1,1),  FX(1,2),
+     2   FX(1,3),  FX(1,4),  FX(1,5),  FX(1,6),
+     3   FX(1,7),  FX(1,8),  FY(1,1),  FY(1,2),
+     4   FY(1,3),  FY(1,4),  FY(1,5),  FY(1,6),
+     5   FY(1,7),  FY(1,8),  FZ(1,1),  FZ(1,2),
+     6   FZ(1,3),  FZ(1,4),  FZ(1,5),  FZ(1,6),
+     7   FZ(1,7),  FZ(1,8),  NEL)
+        CALL SFILLOPT(
+     1   GBUF%FILL,STIR,     MX(1,1),  MX(1,2),
+     2   MX(1,3),  MX(1,4),  MX(1,5),  MX(1,6),
+     3   MX(1,7),  MX(1,8),  MY(1,1),  MY(1,2),
+     4   MY(1,3),  MY(1,4),  MY(1,5),  MY(1,6),
+     5   MY(1,7),  MY(1,8),  MZ(1,1),  MZ(1,2),
+     6   MZ(1,3),  MZ(1,4),  MZ(1,5),  MZ(1,6),
+     7   MZ(1,7),  MZ(1,8),  NEL)
         END IF    
        ELSE
         ! ----------------
@@ -253,14 +261,22 @@ C----------------------------
      K MZ(1,1),MZ(1,2),MZ(1,3),MZ(1,4),MZ(1,5),MZ(1,6),MZ(1,7),MZ(1,8),
      L STI    ,STIR   ,VISCM  ,VISCR)
        IF(NFILSOL/=0) THEN
-        CALL SFILLOPT(GBUF%FILL,STI,
-     B    FX(1,1),FX(1,2),FX(1,3),FX(1,4),FX(1,5),FX(1,6),FX(1,7),FX(1,8),     
-     F    FY(1,1),FY(1,2),FY(1,3),FY(1,4),FY(1,5),FY(1,6),FY(1,7),FY(1,8),     
-     G    FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8))     
-        CALL SFILLOPT(GBUF%FILL,STIR,
-     B    MX(1,1),MX(1,2),MX(1,3),MX(1,4),MX(1,5),MX(1,6),MX(1,7),MX(1,8),     
-     F    MY(1,1),MY(1,2),MY(1,3),MY(1,4),MY(1,5),MY(1,6),MY(1,7),MY(1,8),     
-     G    MZ(1,1),MZ(1,2),MZ(1,3),MZ(1,4),MZ(1,5),MZ(1,6),MZ(1,7),MZ(1,8)) 
+        CALL SFILLOPT(
+     1   GBUF%FILL,STI,      FX(1,1),  FX(1,2),
+     2   FX(1,3),  FX(1,4),  FX(1,5),  FX(1,6),
+     3   FX(1,7),  FX(1,8),  FY(1,1),  FY(1,2),
+     4   FY(1,3),  FY(1,4),  FY(1,5),  FY(1,6),
+     5   FY(1,7),  FY(1,8),  FZ(1,1),  FZ(1,2),
+     6   FZ(1,3),  FZ(1,4),  FZ(1,5),  FZ(1,6),
+     7   FZ(1,7),  FZ(1,8),  NEL)
+        CALL SFILLOPT(
+     1   GBUF%FILL,STIR,     MX(1,1),  MX(1,2),
+     2   MX(1,3),  MX(1,4),  MX(1,5),  MX(1,6),
+     3   MX(1,7),  MX(1,8),  MY(1,1),  MY(1,2),
+     4   MY(1,3),  MY(1,4),  MY(1,5),  MY(1,6),
+     5   MY(1,7),  MY(1,8),  MZ(1,1),  MZ(1,2),
+     6   MZ(1,3),  MZ(1,4),  MZ(1,5),  MZ(1,6),
+     7   MZ(1,7),  MZ(1,8),  NEL)
         END IF    
        ELSE
         ! ----------------
@@ -324,14 +340,22 @@ C----------------------------
      K MZ(1,1),MZ(1,2),MZ(1,3),MZ(1,4),MZ(1,5),MZ(1,6),MZ(1,7),MZ(1,8),
      L STI    ,STIR   ,VISCM  ,VISCR)
        IF(NFILSOL/=0) THEN
-        CALL SFILLOPT(GBUF%FILL,STI,
-     B    FX(1,1),FX(1,2),FX(1,3),FX(1,4),FX(1,5),FX(1,6),FX(1,7),FX(1,8),     
-     F    FY(1,1),FY(1,2),FY(1,3),FY(1,4),FY(1,5),FY(1,6),FY(1,7),FY(1,8),     
-     G    FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8))     
-        CALL SFILLOPT(GBUF%FILL,STIR,
-     B    MX(1,1),MX(1,2),MX(1,3),MX(1,4),MX(1,5),MX(1,6),MX(1,7),MX(1,8),     
-     F    MY(1,1),MY(1,2),MY(1,3),MY(1,4),MY(1,5),MY(1,6),MY(1,7),MY(1,8),     
-     G    MZ(1,1),MZ(1,2),MZ(1,3),MZ(1,4),MZ(1,5),MZ(1,6),MZ(1,7),MZ(1,8)) 
+        CALL SFILLOPT(
+     1   GBUF%FILL,STI,      FX(1,1),  FX(1,2),
+     2   FX(1,3),  FX(1,4),  FX(1,5),  FX(1,6),
+     3   FX(1,7),  FX(1,8),  FY(1,1),  FY(1,2),
+     4   FY(1,3),  FY(1,4),  FY(1,5),  FY(1,6),
+     5   FY(1,7),  FY(1,8),  FZ(1,1),  FZ(1,2),
+     6   FZ(1,3),  FZ(1,4),  FZ(1,5),  FZ(1,6),
+     7   FZ(1,7),  FZ(1,8),  NEL)
+        CALL SFILLOPT(
+     1   GBUF%FILL,STIR,     MX(1,1),  MX(1,2),
+     2   MX(1,3),  MX(1,4),  MX(1,5),  MX(1,6),
+     3   MX(1,7),  MX(1,8),  MY(1,1),  MY(1,2),
+     4   MY(1,3),  MY(1,4),  MY(1,5),  MY(1,6),
+     5   MY(1,7),  MY(1,8),  MZ(1,1),  MZ(1,2),
+     6   MZ(1,3),  MZ(1,4),  MZ(1,5),  MZ(1,6),
+     7   MZ(1,7),  MZ(1,8),  NEL)
         END IF    
        ELSE
         ! ----------------
@@ -382,10 +406,14 @@ C-----------
      L  IFAILURE,NPF   ,TF     ,IPM    ,IGEO   ,NPT    ,NEL    ,JSMS   ,     
      M  DMELS  ,PM     ,GEO    ,ITASK  ,JTHE   ,TABLE )   
        IF(NFILSOL/=0) THEN
-        CALL SFILLOPT(GBUF%FILL,STI,
-     B    FX(1,1),FX(1,2),FX(1,3),FX(1,4),FX(1,5),FX(1,6),FX(1,7),FX(1,8),     
-     F    FY(1,1),FY(1,2),FY(1,3),FY(1,4),FY(1,5),FY(1,6),FY(1,7),FY(1,8),     
-     G    FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8))     
+        CALL SFILLOPT(
+     1   GBUF%FILL,STI,      FX(1,1),  FX(1,2),
+     2   FX(1,3),  FX(1,4),  FX(1,5),  FX(1,6),
+     3   FX(1,7),  FX(1,8),  FY(1,1),  FY(1,2),
+     4   FY(1,3),  FY(1,4),  FY(1,5),  FY(1,6),
+     5   FY(1,7),  FY(1,8),  FZ(1,1),  FZ(1,2),
+     6   FZ(1,3),  FZ(1,4),  FZ(1,5),  FZ(1,6),
+     7   FZ(1,7),  FZ(1,8),  NEL)
         END IF    
 C
       ENDIF

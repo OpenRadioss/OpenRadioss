@@ -26,11 +26,13 @@ Chd|-- called by -----------
 Chd|        PFORC3                        source/elements/beam/pforc3.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE PDEFO3(V     ,EXX    ,EXY    ,EXZ    ,AL  ,
-     .                  NC1   ,NC2    ,NC3    ,E1X    ,E1Y ,
-     .                  E1Z   ,E2X    ,E2Y    ,E2Z    ,E3X ,
-     .                  E3Y   ,E3Z    ,VX1G   ,VX2G   ,VY1G,
-     .                  VY2G  ,VZ1G   ,VZ2G   )
+      SUBROUTINE PDEFO3(
+     1   V,       EXX,     EXY,     EXZ,
+     2   AL,      NC1,     NC2,     NC3,
+     3   E1X,     E1Y,     E1Z,     E2X,
+     4   E2Y,     E2Z,     E3X,     E3Y,
+     5   E3Z,     VX1G,    VX2G,    VY1G,
+     6   VY2G,    VZ1G,    VZ2G,    NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,10 +44,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ)
       my_real
      .   V(3,*),EXX(MVSIZ),EXY(MVSIZ),EXZ(MVSIZ),AL(MVSIZ),
@@ -59,7 +61,7 @@ C-----------------------------------------------
       my_real
      .   VX1(MVSIZ),VX2(MVSIZ),VY1(MVSIZ),VY2(MVSIZ),VZ1(MVSIZ),VZ2(MVSIZ)
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         VX1G(I)=V(1,NC1(I))
         VY1G(I)=V(2,NC1(I))
         VZ1G(I)=V(3,NC1(I))
@@ -68,7 +70,7 @@ C-----------------------------------------------
         VZ2G(I)=V(3,NC2(I))
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         VX1(I)=E1X(I)*VX1G(I)+E1Y(I)*VY1G(I)+E1Z(I)*VZ1G(I)
         VY1(I)=E2X(I)*VX1G(I)+E2Y(I)*VY1G(I)+E2Z(I)*VZ1G(I)
         VZ1(I)=E3X(I)*VX1G(I)+E3Y(I)*VY1G(I)+E3Z(I)*VZ1G(I)
@@ -77,7 +79,7 @@ C
         VZ2(I)=E3X(I)*VX2G(I)+E3Y(I)*VY2G(I)+E3Z(I)*VZ2G(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EXX(I)=(VX2(I)-VX1(I))/AL(I)
         EXY(I)=(VY2(I)-VY1(I))/AL(I)
         EXZ(I)=(VZ2(I)-VZ1(I))/AL(I)

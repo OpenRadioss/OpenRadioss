@@ -99,14 +99,18 @@ C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
 C
       LCO=1+5*NFT
-      CALL TCOOR3(X   ,NCT(LCO) ,MAT ,PID ,NGL,
-     .            NC1 ,NC2      ,X1  ,X2  ,Y1 ,
-     .            Y2  ,Z1       ,Z2  )
-      CALL TDEFO3(V   ,GBUF%OFF ,OFF ,NC1 ,NC2,
-     .            EPS ,AL       ,VX1 ,VX2 ,VY1,
-     .            VY2 ,VZ1      ,VZ2 ,EX  ,EY ,
-     .            EZ  ,X1       ,X2  ,Y1  ,Y2 ,
-     .            Z1  ,Z2       )
+      CALL TCOOR3(
+     1   X,       NCT(LCO),MAT,     PID,
+     2   NGL,     NC1,     NC2,     X1,
+     3   X2,      Y1,      Y2,      Z1,
+     4   Z2,      NEL)
+      CALL TDEFO3(
+     1   V,       GBUF%OFF,OFF,     NC1,
+     2   NC2,     EPS,     AL,      VX1,
+     3   VX2,     VY1,     VY2,     VZ1,
+     4   VZ2,     EX,      EY,      EZ,
+     5   X1,      X2,      Y1,      Y2,
+     6   Z1,      Z2,      NEL)
 C-------     activation only in compression in laws
       DO I=1,NEL
        IF (GEO(2,PID(I))>ZERO .AND. GBUF%OFF(I)>ZERO) OFF(I)=ZERO
@@ -117,14 +121,18 @@ C-------     activation only in compression in laws
      .            AL     )
 !
       IF (MTN == 1) THEN
-        CALL M1LAWT(PM       ,GEO        ,OFF  ,GBUF%FOR ,GBUF%EINT,
-     .              GBUF%AREA,GBUF%LENGTH,STI  ,MAT      ,PID      ,
-     .              EPS      ,AL         )
+        CALL M1LAWT(
+     1   PM,         GEO,        OFF,        GBUF%FOR,
+     2   GBUF%EINT,  GBUF%AREA,  GBUF%LENGTH,STI,
+     3   MAT,        PID,        EPS,        AL,
+     4   NEL)
 c
       ELSEIF (MTN == 2) THEN
-        CALL M2LAWT(PM       ,GEO        ,OFF     ,GBUF%FOR ,GBUF%EINT,
-     .              GBUF%AREA,GBUF%LENGTH,GBUF%PLA,STI      ,MAT      ,
-     .              PID      ,NGL        ,EPS     ,AL       )
+        CALL M2LAWT(
+     1   PM,         GEO,        OFF,        GBUF%FOR,
+     2   GBUF%EINT,  GBUF%AREA,  GBUF%LENGTH,GBUF%PLA,
+     3   STI,        MAT,        PID,        NGL,
+     4   EPS,        AL,         NEL)
 c
       ELSEIF (MTN == 34) THEN
         NUVAR =  GBUF%G_NUVAR
@@ -171,10 +179,12 @@ C-------------------------
 C     ASSEMBLE
 C-------------------------
       IF (IPARIT == 0) THEN
-        CALL TFCUM3(F       ,GBUF%FOR,STIFN  ,STI  ,FX1,
-     .              FX2     ,FY1     ,FY2    ,FZ1  ,FZ2,
-     .              GBUF%OFF,OFF     ,NC1    ,NC2  ,EX ,
-     .              EY      ,EZ      )
+        CALL TFCUM3(
+     1   F,       GBUF%FOR,STIFN,   STI,
+     2   FX1,     FX2,     FY1,     FY2,
+     3   FZ1,     FZ2,     GBUF%OFF,OFF,
+     4   NC1,     NC2,     EX,      EY,
+     5   EZ,      NEL)
       ELSE
         CALL TFCUM3P(GBUF%FOR,STI     ,FSKY ,FSKY ,IADT,
      .               FX1     ,FX2     ,FY1  ,FY2  ,FZ1 ,

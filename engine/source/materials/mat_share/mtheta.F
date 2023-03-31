@@ -26,8 +26,10 @@ Chd|-- called by -----------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE MTHETA(PM,EINT,THETA,AMU, C1, C2,
-     2                  DF,PSH ,PC   ,MAT)
+      SUBROUTINE MTHETA(
+     1   PM,      EINT,    THETA,   AMU,
+     2   C1,      C2,      DF,      PSH,
+     3   PC,      MAT,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -35,11 +37,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER MAT(*)
 C     REAL
       my_real
@@ -51,8 +53,8 @@ C-----------------------------------------------
       INTEGER I,MX
       my_real EINT0, SPH, DMU, PLIM, C2MU, C1PSH, ECOLD      
 C=======================================================================
-      MX = MAT(LFT)
-      DO I=LFT,LLT
+      MX = MAT(1)
+      DO I=1,NEL
        SPH     =PM(69,MX)
        EINT0   =PM(23,MX)
        THETA(I)=PM(79,MX)

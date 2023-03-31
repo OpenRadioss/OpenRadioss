@@ -156,8 +156,11 @@ C-----------
      .       RX, RY, RZ, SX, SY, SZ, TX, TY, TZ )
       IF (KHBE==15) THEN
        CALL SCORTHO3(
-     .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
-     .       R11, R12, R13, R21, R22, R23, R31, R32, R33)
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      R11,     R12,     R13,
+     4   R21,     R22,     R23,     R31,
+     5   R32,     R33,     NEL)
       ELSEIF (KHBE==1 .OR. KHBE==2. OR. KHBE == 12 .OR. KHBE==14 .OR.
      .    KHBE==17.OR .KHBE==24) THEN
        CALL SORTHO3(

@@ -27,10 +27,12 @@ Chd|        S16FORC3                      source/elements/thickshell/solide16/s1
 Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S20THERM(NPE ,PM   ,MAT   ,NC, VOL, 
-     .                  PX , PY , PZ,NI, 
-     .                  DT1 ,TEMPNC ,TEL ,DIE  ,FPHI,
-     .                  OFFG,OFF)
+      SUBROUTINE S20THERM(
+     1   NPE,     PM,      MAT,     NC,
+     2   VOL,     PX,      PY,      PZ,
+     3   NI,      DT1,     TEMPNC,  TEL,
+     4   DIE,     FPHI,    OFFG,    OFF,
+     5   NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,11 +42,11 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 #include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER MAT(*),NPE,NC(MVSIZ,NPE)
 C     REAL
       my_real
@@ -59,7 +61,7 @@ C     REAL
       my_real
      .  CA, CB, KC, PHIX(MVSIZ), PHIY(MVSIZ), PHIZ(MVSIZ)
 C------------------------------------------------ 
-      MX  =MAT(LFT)
+      MX  =MAT(1)
       CA = PM(75,MX)
       CB = PM(76,MX)
       PHIX(1:MVSIZ) = ZERO
@@ -69,14 +71,14 @@ C
 C - flux
 C
       DO N=1,NPE
-        DO I= LFT,LLT
+        DO I= 1,NEL
          IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
           PHIX(I) = PHIX(I) +  TEMPNC(NC(I,N))*PX(I,N)
           PHIY(I) = PHIY(I) +  TEMPNC(NC(I,N))*PY(I,N)
           PHIZ(I) = PHIZ(I) +  TEMPNC(NC(I,N))*PZ(I,N)
         ENDDO
       ENDDO
-      DO I= LFT,LLT
+      DO I= 1,NEL
         IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
         KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT          
         PHIX(I) = KC*PHIX(I)
@@ -87,14 +89,14 @@ C
 C force thermique nodale
 C
       DO N=1,NPE
-       DO I= LFT,LLT
+       DO I= 1,NEL
          IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE        
          FPHI(I,N) = FPHI(I,N) +
      .      DIE(I)*NI(N) - (PHIX(I)*PX(I,N) + PHIY(I)*PY(I,N) + PHIZ(I)*PZ(I,N))
        ENDDO
       ENDDO
 
-!      DO I= LFT,LLT
+!      DO I= 1,NEL
 !       IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
 !       PHIX = ZERO
 !       PHIY = ZERO

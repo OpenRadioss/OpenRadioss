@@ -713,14 +713,15 @@ C-------------------------
 C Finite element heat transfert  
 C--------------------------
         IF (JTHE < 0) THEN
-          CALL SCTHERM(PM     ,MXT    ,VOLN, 
-     .                 NC1,  NC2, NC3,NC4,
-     .                 NC5,  NC6, NC7,NC8,
-     .                 PX1, PX2, PX3, PX4,
-     .                 PY1, PY2, PY3, PY4,
-     .                 PZ1, PZ2, PZ3, PZ4,
-     .                 DT1, TEMP,TEMPEL,DIE,
-     .                 THEM,GBUF%OFF,LBUF%OFF) 
+          CALL SCTHERM(
+     1   PM,      MXT,     VOLN,    NC1,
+     2   NC2,     NC3,     NC4,     NC5,
+     3   NC6,     NC7,     NC8,     PX1,
+     4   PX2,     PX3,     PX4,     PY1,
+     5   PY2,     PY3,     PY4,     PZ1,
+     6   PZ2,     PZ3,     PZ4,     DT1,
+     7   TEMP,    TEMPEL,  DIE,     THEM,
+     8   GBUF%OFF,LBUF%OFF,NEL)
         ENDIF 
         DO I=1,NEL
           OFFG(I)=MIN(OFFG(I),OFF(I))
@@ -799,9 +800,14 @@ C----------------------------
      .   F21, F22, F23, F24, F25, F26, F27, F28,
      .   F31, F32, F33, F34, F35, F36, F37, F38)
 C----------------------------
-      IF(NFILSOL/=0) CALL SFILLOPT(GBUF%FILL,STI,
-     1   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     2   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)    
+      IF(NFILSOL/=0) CALL SFILLOPT(
+     1   GBUF%FILL,STI,      F11,      F21,
+     2   F31,      F12,      F22,      F32,
+     3   F13,      F23,      F33,      F14,
+     4   F24,      F34,      F15,      F25,
+     5   F35,      F16,      F26,      F36,
+     6   F17,      F27,      F37,      F18,
+     7   F28,      F38,      NEL)
 C----------------------------
 C Assemble internal forces
 C----------------------------

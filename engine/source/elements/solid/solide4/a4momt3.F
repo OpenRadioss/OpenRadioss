@@ -28,24 +28,29 @@ Chd|-- calls ---------------
 Chd|        A4MOMTN3                      source/elements/solid/solide4/a4momtn3.F
 Chd|        UPWIND4                       source/elements/solid/solide4/upwind4.F
 Chd|====================================================================
-      SUBROUTINE A4MOMT3(PM,RHO,VOL,
-     .   X1,X2,X3,X4,
-     .   Y1,Y2,Y3,Y4,
-     .   Z1,Z2,Z3,Z4,
-     .   VX1,VX2,VX3,VX4,
-     .   VY1,VY2,VY3,VY4,
-     .   VZ1,VZ2,VZ3,VZ4,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   PX1,PX2,PX3,PX4,
-     .   PY1,PY2,PY3,PY4,
-     .   PZ1,PZ2,PZ3,PZ4,
-     .   DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
-     .   VDX1,VDX2,VDX3,VDX4,
-     .   VDY1,VDY2,VDY3,VDY4,
-     .   VDZ1,VDZ2,VDZ3,VDZ4,
-     .   VDX,VDY,VDZ,
-     .   DELTAX,VIS,
-     .   MAT,RX,RY,RZ,SX,SY,SZ,TX,TY,TZ)
+      SUBROUTINE A4MOMT3(
+     1   PM,      RHO,     VOL,     X1,
+     2   X2,      X3,      X4,      Y1,
+     3   Y2,      Y3,      Y4,      Z1,
+     4   Z2,      Z3,      Z4,      VX1,
+     5   VX2,     VX3,     VX4,     VY1,
+     6   VY2,     VY3,     VY4,     VZ1,
+     7   VZ2,     VZ3,     VZ4,     F11,
+     8   F21,     F31,     F12,     F22,
+     9   F32,     F13,     F23,     F33,
+     A   F14,     F24,     F34,     PX1,
+     B   PX2,     PX3,     PX4,     PY1,
+     C   PY2,     PY3,     PY4,     PZ1,
+     D   PZ2,     PZ3,     PZ4,     DXX,
+     E   DXY,     DXZ,     DYX,     DYY,
+     F   DYZ,     DZX,     DZY,     DZZ,
+     G   VDX1,    VDX2,    VDX3,    VDX4,
+     H   VDY1,    VDY2,    VDY3,    VDY4,
+     I   VDZ1,    VDZ2,    VDZ3,    VDZ4,
+     J   VDX,     VDY,     VDZ,     DELTAX,
+     K   VIS,     MAT,     RX,      RY,
+     L   RZ,      SX,      SY,      SZ,
+     M   TX,      TY,      TZ,      NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,6 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       my_real
      .   PM(NPROPM,*), RHO(*),VOL(*),
      .   X1(*),X2(*),X3(*),X4(*),
@@ -152,7 +158,10 @@ C-----------------------------------------------
              T(I,2)=TY(I)
              T(I,3)=TZ(I)
           ENDDO
-          CALL UPWIND4(RHO,VIS,VDX,VDY,VDZ,R,S,T,GAM)
+          CALL UPWIND4(
+     1   RHO,     VIS,     VDX,     VDY,
+     2   VDZ,     R,       S,       T,
+     3   GAM,     NEL)
           DO I=LFT,LLT
             FAC=GAM(I)
             A1(I) = FAC*(PX1(I)*VDX(I)+PY1(I)*VDY(I)+PZ1(I)*VDZ(I))
@@ -237,9 +246,14 @@ C-----------------------------------------------
         !    +----->+
         !   1   R
         CALL A4MOMTN3(
-     .     RHO,VOL,VIS,R,S,T,DELTAX,VDX,VDY,VDZ,
-     .     DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
-     .     PX1,PY1,PZ1,VDX1,VDY1,VDZ1,F11,F21,F31)
+     1   RHO,     VOL,     VIS,     R,
+     2   S,       T,       DELTAX,  VDX,
+     3   VDY,     VDZ,     DXX,     DXY,
+     4   DXZ,     DYX,     DYY,     DYZ,
+     5   DZX,     DZY,     DZZ,     PX1,
+     6   PY1,     PZ1,     VDX1,    VDY1,
+     7   VDZ1,    F11,     F21,     F31,
+     8   NEL)
      
         DO I=LFT,LLT
            R(I,1)=SX(I)-TX(I)    
@@ -263,9 +277,14 @@ C-----------------------------------------------
         !    +<-----0
         !       T    2 
         CALL A4MOMTN3(
-     .     RHO,VOL,VIS,R,S,T,DELTAX,VDX,VDY,VDZ,
-     .     DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
-     .     PX2,PY2,PZ2,VDX2,VDY2,VDZ2,F12,F22,F32)
+     1   RHO,     VOL,     VIS,     R,
+     2   S,       T,       DELTAX,  VDX,
+     3   VDY,     VDZ,     DXX,     DXY,
+     4   DXZ,     DYX,     DYY,     DYZ,
+     5   DZX,     DZY,     DZZ,     PX2,
+     6   PY2,     PZ2,     VDX2,    VDY2,
+     7   VDZ2,    F12,     F22,     F32,
+     8   NEL)
      
         DO I=LFT,LLT
            R(I,1)=TX(I)
@@ -290,9 +309,14 @@ C-----------------------------------------------
         !    +------+
         !             
         CALL A4MOMTN3(
-     .     RHO,VOL,VIS,R,S,T,DELTAX,VDX,VDY,VDZ,
-     .     DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
-     .     PX3,PY3,PZ3,VDX3,VDY3,VDZ3,F13,F23,F33)
+     1   RHO,     VOL,     VIS,     R,
+     2   S,       T,       DELTAX,  VDX,
+     3   VDY,     VDZ,     DXX,     DXY,
+     4   DXZ,     DYX,     DYY,     DYZ,
+     5   DZX,     DZY,     DZZ,     PX3,
+     6   PY3,     PZ3,     VDX3,    VDY3,
+     7   VDZ3,    F13,     F23,     F33,
+     8   NEL)
      
         DO I=LFT,LLT
            R(I,1)=RX(I)
@@ -317,9 +341,14 @@ C-----------------------------------------------
         !    +------+
         !            
         CALL A4MOMTN3(
-     .     RHO,VOL,VIS,R,S,T,DELTAX,VDX,VDY,VDZ,
-     .     DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
-     .     PX4,PY4,PZ4,VDX4,VDY4,VDZ4,F14,F24,F34)
+     1   RHO,     VOL,     VIS,     R,
+     2   S,       T,       DELTAX,  VDX,
+     3   VDY,     VDZ,     DXX,     DXY,
+     4   DXZ,     DYX,     DYY,     DYZ,
+     5   DZX,     DZY,     DZZ,     PX4,
+     6   PY4,     PZ4,     VDX4,    VDY4,
+     7   VDZ4,    F14,     F24,     F34,
+     8   NEL)
      
      
       ENDIF!IF(UPWM<2 .OR.MTN==11)
