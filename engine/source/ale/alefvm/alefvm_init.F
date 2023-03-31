@@ -25,6 +25,7 @@ Chd|  ALEFVM_INIT                   source/ale/alefvm/alefvm_init.F
 Chd|-- called by -----------
 Chd|        RESTALLOC                     source/output/restart/arralloc.F
 Chd|-- calls ---------------
+Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
 Chd|====================================================================
       SUBROUTINE ALEFVM_INIT()
 C-----------------------------------------------

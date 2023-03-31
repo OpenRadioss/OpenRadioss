@@ -36,6 +36,7 @@ Chd|        EFLUX3                        source/ale/euler3d/eflux3.F
 Chd|        EFLUX3_INT22_FVM              source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        MY_BARRIER                    source/system/machine.F       
+Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F

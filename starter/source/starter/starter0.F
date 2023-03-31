@@ -66,6 +66,8 @@ Chd|        USER_WINDOWS_CLEAN            ../common_source/modules/user_windows_
 Chd|        USER_WINDOWS_INIT             ../common_source/modules/user_windows_mod.F
 Chd|        WRITE_C_C                     source/output/tools/write_routines.c
 Chd|        ANEND                         source/output/analyse/analyse_arret.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F

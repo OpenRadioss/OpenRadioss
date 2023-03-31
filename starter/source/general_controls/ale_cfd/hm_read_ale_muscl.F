@@ -31,6 +31,7 @@ Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.
 Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
 Chd|        HM_OPTION_NEXT                source/devtools/hm_reader/hm_option_next.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 

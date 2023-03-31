@@ -34,6 +34,7 @@ Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
 Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 

@@ -29,6 +29,7 @@ Chd|        H3D_WRITE_SCALAR              source/output/h3d/h3d_results/h3d_writ
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        SCHLIEREN                     source/output/anim/generate/schlieren.F
 Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         

@@ -31,6 +31,7 @@ Chd|        SCHLIEREN                     source/output/anim/generate/schlieren.
 Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
 Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
 Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         

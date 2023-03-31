@@ -65,6 +65,8 @@ Chd|        NBADIGEMESH                   source/elements/ige3d/nbadigemesh.F
 Chd|        NBADMESH                      source/model/remesh/nbadmesh.F
 Chd|        NBSPH                         source/elements/sph/nbsph.F   
 Chd|        ID                            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale_ebcs_mod.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F

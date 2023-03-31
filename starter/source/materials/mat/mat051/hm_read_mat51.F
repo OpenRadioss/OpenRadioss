@@ -35,6 +35,7 @@ Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_a
 Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_READ_MAT51_IFORM11         source/materials/mat/mat051/hm_read_mat51_iform11.F
 Chd|        LECM51__CHECK_INITIAL_STATE   source/materials/mat/mat051/lecm51__check_initial_state.F
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

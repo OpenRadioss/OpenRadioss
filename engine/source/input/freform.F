@@ -67,6 +67,7 @@ Chd|        REDKEY1                       source/input/redkey1.F
 Chd|        REDKEY1_H3D                   source/input/redkey1_h3d.F    
 Chd|        WRIUSC2                       source/input/wriusc2.F        
 Chd|        NVAR                          source/input/nvar.F           
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       

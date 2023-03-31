@@ -25,6 +25,7 @@ Chd|  ALEMUSCL_UPWIND2              source/ale/alemuscl/alemuscl_upwind2.F
 Chd|-- called by -----------
 Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
 Chd|-- calls ---------------
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
 Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F

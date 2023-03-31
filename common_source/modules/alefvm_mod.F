@@ -23,10 +23,21 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ALEFVM_MOD                    modules/alefvm_mod.F          
 Chd|-- called by -----------
+Chd|        ALE_EULER_INIT                starter/source/materials/ale/ale_euler_init.F
+Chd|        CONTRL                        starter/source/starter/contrl.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        INIMOM_FVM                    starter/source/elements/solid/solide/inimom_fvm.F
+Chd|        INI_INIMAP1D                  starter/source/initial_conditions/inimap/ini_inimap1d.F
 Chd|        LECTUR                        starter/source/starter/lectur.F
+Chd|        READ_ALE_MAT                  starter/source/materials/ale/read_ale_mat.F
+Chd|        READ_EULER_MAT                starter/source/materials/ale/read_euler_mat.F
+Chd|        SINIT3                        starter/source/elements/solid/solide/sinit3.F
+Chd|        STARTER0                      starter/source/starter/starter0.F
+Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
+Chd|        A22CONV3                      engine/source/ale/alefvm/cut_cells/a22conv3.F
 Chd|        ACONV3                        engine/source/ale/ale3d/aconv3.F
+Chd|        ACONVE                        engine/source/ale/aconve.F    
+Chd|        AFLUX0                        engine/source/ale/aflux0.F    
 Chd|        AFLUX3_INT22_FVM              engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
 Chd|        ALEFVM_AFLUX3                 engine/source/ale/alefvm/alefvm_aflux3.F
 Chd|        ALEFVM_EFLUX3                 engine/source/ale/alefvm/alefvm_eflux3.F
@@ -36,6 +47,7 @@ Chd|        ALEFVM_FRESET                 engine/source/ale/alefvm/alefvm_freset
 Chd|        ALEFVM_GRAVITY                engine/source/ale/alefvm/alefvm_gravity.F
 Chd|        ALEFVM_GRAVITY_INT22          engine/source/ale/alefvm/alefvm_gravity_int22.F
 Chd|        ALEFVM_GRAV_INIT              engine/source/ale/alefvm/alefvm_grav_init.F
+Chd|        ALEFVM_INIT                   engine/source/ale/alefvm/alefvm_init.F
 Chd|        ALEFVM_MAIN                   engine/source/ale/alefvm/alefvm_main.F
 Chd|        ALEFVM_SCHEME                 engine/source/ale/alefvm/alefvm_scheme.F
 Chd|        ALEFVM_SFINT3                 engine/source/ale/alefvm/alefvm_sfint3.F
@@ -45,18 +57,30 @@ Chd|        ALEFVM_STRESS_INT22           engine/source/ale/alefvm/alefvm_stress
 Chd|        ALEFVM_TFEXT                  engine/source/ale/alefvm/alefvm_tfext.F
 Chd|        ALEMAIN                       engine/source/ale/alemain.F   
 Chd|        DFUNC0                        engine/source/output/anim/generate/dfunc0.F
+Chd|        DFUNCC                        engine/source/output/anim/generate/dfuncc.F
 Chd|        DFUNCS                        engine/source/output/anim/generate/dfunc6.F
 Chd|        EFLUX3_INT22_FVM              engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
+Chd|        EPXLE3                        engine/source/elements/solid/solide/epxle3.F
+Chd|        H3D_QUAD_SCALAR               engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
 Chd|        H3D_QUAD_VECTOR               engine/source/output/h3d/h3d_results/h3d_quad_vector.F
+Chd|        H3D_SHELL_SCALAR_1            engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
+Chd|        H3D_SHELL_VECTOR_1            engine/source/output/h3d/h3d_results/h3d_shell_vector_1.F
+Chd|        H3D_SOLID_SCALAR_1            engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 Chd|        M11LAW                        engine/source/materials/mat/mat011/m11law.F
 Chd|        M11VS2                        engine/source/materials/mat/mat011/m11vs2.F
 Chd|        M11VS3                        engine/source/materials/mat/mat011/m11vs3.F
 Chd|        MULTI_TIMEEVOLUTION           engine/source/multifluid/multi_timeevolution.F
 Chd|        RADIOSS2                      engine/source/engine/radioss2.F
+Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
 Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
+Chd|        SFINT3                        engine/source/elements/solid/solide/sfint3.F
 Chd|        SIGEPS37_SINGLE_CELL          engine/source/interfaces/int22/sigeps37_single_cell.F
+Chd|        SIGEPS51                      engine/source/materials/mat/mat051/sigeps51.F
 Chd|        SINIT22_FVM                   engine/source/interfaces/int22/sinit22_fvm.F
+Chd|        THQUAD                        engine/source/output/th/thquad.F
+Chd|        THSOL                         engine/source/output/th/thsol.F
+Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE ALEFVM_MOD

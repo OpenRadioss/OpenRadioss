@@ -27,6 +27,7 @@ Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        SOLVE_EINT                    source/initial_conditions/inimap/ini_inimap1d.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 

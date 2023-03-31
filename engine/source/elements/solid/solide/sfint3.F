@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
+Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
 Chd|====================================================================
       SUBROUTINE SFINT3(SIG,
      .   PX1, PX2, PX3, PX4,

@@ -42,6 +42,7 @@ Chd|        SPMD_E4VOIS                   source/mpi/fluid/spmd_cfd.F
 Chd|        SPMD_E6VOIS                   source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_I4VOIS                   source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_I8VOIS                   source/mpi/fluid/spmd_cfd.F   
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F

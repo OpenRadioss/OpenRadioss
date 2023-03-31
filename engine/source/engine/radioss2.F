@@ -112,6 +112,7 @@ Chd|        UTABLE_DUM                    source/user_interface/utable.F
 Chd|        WIGEREST                      source/output/restart/rdresb.F
 Chd|        WRITE_TPL_FILE                source/implicit/imp_solv.F    
 Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        DIFFUSION_MOD                 share/modules/diffusion_mod.F 

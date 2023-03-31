@@ -26,6 +26,8 @@ Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|        WRITE_ARRAY                   ../common_source/comm/write_array.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       

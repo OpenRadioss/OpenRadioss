@@ -41,6 +41,7 @@ Chd|        ATHERM                        source/ale/atherm.F
 Chd|        BHOL2                         source/ale/ale2d/bhol2.F      
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_XVOIS                    source/mpi/fluid/spmd_cfd.F   
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F

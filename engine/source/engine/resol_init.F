@@ -65,6 +65,7 @@ Chd|        TSHCDCOM_DIM                  source/elements/thickshell/solidec/scd
 Chd|        TSHCDCOM_INI                  source/elements/thickshell/solidec/scdtdc3.F
 Chd|        ZERO1                         source/system/zero.F          
 Chd|        ZEROR                         source/system/zero.F          
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
 Chd|        DTDC_MOD                      share/modules/dtdc_mod.F      
 Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
