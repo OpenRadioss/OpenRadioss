@@ -32,11 +32,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TH_MOD                        share/modules/th_mod.F        
 Chd|====================================================================
-        SUBROUTINE INIT_TH0( IPARG,ELBUF_TAB,IGEO,IXR,
-     .                       ITHGRP,ITHGRPA,ITHGRPB,ITHGRPC,ITHGRPD,
-     .                       ITHGRPE,ITHGRPF,ITHGRPG,ITHGRPH,ITHGRPI,
-     .                       ITHBUF,ITHBUFA,ITHBUFB,ITHBUFC,ITHBUFD,
-     .                       ITHBUFE,ITHBUFF,ITHBUFG,ITHBUFH,ITHBUFI,
+        SUBROUTINE INIT_TH0( IPARG,ELBUF_TAB,IGEO,IXR,TH,
      .                       WEIGHT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -46,6 +42,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE GROUPDEF_MOD
       USE TH_MOD
+      USE TIME_HISTORY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,16 +60,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MBUFFER, NPARTL
       INTEGER IPARG(NPARG,*),IGEO(NPROPGI,*),IXR(NIXR,*)
-      INTEGER, TARGET, INTENT(in) :: ITHGRP(NITHGR,*) ,ITHGRPA(NITHGR,*),ITHGRPB(NITHGR,*),
-     .                       ITHGRPC(NITHGR,*),ITHGRPD(NITHGR,*),ITHGRPE(NITHGR,*),
-     .                       ITHGRPF(NITHGR,*),ITHGRPG(NITHGR,*),ITHGRPH(NITHGR,*),
-     .                       ITHGRPI(NITHGR,*)
-      INTEGER, INTENT(in) :: ITHBUF(SITHBUF)
-      INTEGER, TARGET, INTENT(in) :: ITHBUFA(*),ITHBUFB(*),ITHBUFC(*),ITHBUFD(*),
-     .                       ITHBUFE(*),ITHBUFF(*),ITHBUFG(*),ITHBUFH(*),ITHBUFI(*)
       INTEGER, DIMENSION(NUMNOD), INTENT(in) :: WEIGHT
 C     REAL
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
+      TYPE (TH_), INTENT(IN),TARGET :: TH
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -80,71 +71,72 @@ C-----------------------------------------------
       INTEGER :: ID,LOCAL_ID      
       INTEGER, POINTER :: ITHGR,ITHB
       INTEGER, DIMENSION(10) :: ALREADY_DONE
+      INTEGER :: SITHBUF,SITHGRP
 
 C=======================================================================
 
 C-------------------------------------------------------
 C    TH GROUP
 C-------------------------------------------------------
-
-
-
-
-
-
-
-
-
         ALREADY_DONE(1:10) = 0
 
         DO ID=1,9
             IF(NTHGRP01(ID)/=0) THEN
                 IF(ID==1) THEN
-                    ITHGR => ITHGRPA(1,1)
-                    ITHB=> ITHBUFA(1)                    
+                    ITHGR => TH%ITHGRPA(1)
+                    ITHB=> TH%ITHBUFA(1)
+                    SITHBUF = TH%SITHBUFA
                 ENDIF
                 IF(ID==2) THEN
-                    ITHGR => ITHGRPB(1,1)
-                    ITHB=> ITHBUFB(1)
+                    ITHGR => TH%ITHGRPB(1)
+                    ITHB=> TH%ITHBUFB(1)
+                    SITHBUF = TH%SITHBUFB
                 ENDIF
                 IF(ID==3) THEN
-                    ITHGR => ITHGRPC(1,1)
-                    ITHB=> ITHBUFC(1)
+                    ITHGR => TH%ITHGRPC(1)
+                    ITHB  =>TH%ITHBUFC(1)
+                    SITHBUF = TH%SITHBUFC
                 ENDIF
                 IF(ID==4) THEN
-                    ITHGR => ITHGRPD(1,1)
-                    ITHB=> ITHBUFD(1)
+                    ITHGR => TH%ITHGRPD(1)
+                    ITHB  => TH%ITHBUFD(1)
+                    SITHBUF = TH%SITHBUFD
                 ENDIF
                 IF(ID==5) THEN
-                    ITHGR => ITHGRPE(1,1)
-                    ITHB=> ITHBUFE(1)
+                    ITHGR => TH%ITHGRPE(1)
+                    ITHB  => TH%ITHBUFE(1)
+                    SITHBUF = TH%SITHBUFE
                 ENDIF
                 IF(ID==6) THEN
-                    ITHGR => ITHGRPF(1,1)
-                    ITHB=> ITHBUFF(1)
+                    ITHGR => TH%ITHGRPF(1)
+                    ITHB  => TH%ITHBUFF(1)
+                    SITHBUF = TH%SITHBUFF
                 ENDIF
                 IF(ID==7) THEN
-                    ITHGR => ITHGRPG(1,1)
-                    ITHB=> ITHBUFG(1)
+                    ITHGR => TH%ITHGRPG(1)
+                    ITHB  => TH%ITHBUFG(1)
+                    SITHBUF = TH%SITHBUFG
                 ENDIF
                 IF(ID==8) THEN
-                    ITHGR => ITHGRPH(1,1)
-                    ITHB=> ITHBUFH(1)
+                    ITHGR => TH%ITHGRPH(1)
+                    ITHB  => TH%ITHBUFH(1)
+                    SITHBUF = TH%SITHBUFH
                 ENDIF
                 IF(ID==9) THEN
-                    ITHGR => ITHGRPI(1,1)
-                    ITHB=> ITHBUFI(1)
+                    ITHGR => TH%ITHGRPI(1)
+                    ITHB  => TH%ITHBUFI(1)
+                    SITHBUF = TH%SITHBUFI
                 ENDIF
                 ALREADY_DONE(ID) = 1
                 CALL INIT_TH(IPARG,ITHB,ELBUF_TAB,IGEO,IXR,
-     .                       ITHGR,NTHGRP1(ID),ID,WEIGHT)
+     .                       ITHGR,NTHGRP1(ID),ID,WEIGHT,SITHBUF)
             ENDIF
         ENDDO
 
         ID = 10
         ALREADY_DONE(ID) = 1
-        CALL INIT_TH(IPARG,ITHBUF,ELBUF_TAB,IGEO,IXR,
-     .               ITHGRP,NTHGRP,ID,WEIGHT)
+        CALL INIT_TH(IPARG,TH%ITHBUF,ELBUF_TAB,IGEO,IXR,
+     .               TH%ITHGRP,NTHGRP,ID,WEIGHT,TH%SITHBUF)
 
         DO ID=1,9
             BOOL=.FALSE.
@@ -152,16 +144,16 @@ C-------------------------------------------------------
                 IF(ID==2.OR.ID==4.OR.ID==5.OR.ID==6.OR.ID==7.OR.ID==8.OR.ID==9) THEN
                     LOCAL_ID = 1
                     IF(ALREADY_DONE(LOCAL_ID)==0) THEN
-                        ITHGR => ITHGRPA(1,1)
-                        ITHB=> ITHBUFA(1)  
+                        ITHGR => TH%ITHGRPA(1)
+                        ITHB=> TH%ITHBUFA(1)  
                         BOOL=.TRUE.
                     ENDIF
                 
                 ELSEIF(ID==3) THEN
                     LOCAL_ID = 2
                     IF(ALREADY_DONE(LOCAL_ID)==0) THEN
-                        ITHGR => ITHGRPB(1,1)
-                        ITHB=> ITHBUFB(1)  
+                        ITHGR => TH%ITHGRPB(1)
+                        ITHB=> TH%ITHBUFB(1)  
                         BOOL=.TRUE.
                     ENDIF
                 ENDIF
@@ -169,7 +161,7 @@ C-------------------------------------------------------
             IF(BOOL.EQV..TRUE.) THEN
                 ALREADY_DONE(LOCAL_ID)=1
                 CALL INIT_TH(IPARG,ITHB,ELBUF_TAB,IGEO,IXR,
-     .                       ITHGR,NTHGRP1(ID),ID,WEIGHT)
+     .                       ITHGR,NTHGRP1(ID),ID,WEIGHT,TH%SITHBUF)
             ENDIF
         ENDDO
                         

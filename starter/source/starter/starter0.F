@@ -95,6 +95,7 @@ C-----------------------------------------------
       USE USER_WINDOWS_MOD
       USE USER_INTERFACE_MOD
       USE ALE_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -173,10 +174,11 @@ C
 C
       my_real UNITE, RTITR
 C
-      TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
+      TYPE(MULTI_FVM_STRUCT)                          :: MULTI_FVM
       TYPE(SUBMODEL_DATA) , DIMENSION(:), ALLOCATABLE :: LSUBMODEL
-      TYPE(DETONATOR_STRUCT_),TARGET :: DETONATORS
-      TYPE(t_ebcs_tab) :: EBCS_TAB
+      TYPE(DETONATOR_STRUCT_),TARGET                  :: DETONATORS
+      TYPE(t_ebcs_tab)                                :: EBCS_TAB
+      TYPE(OUTPUT_)                                   :: OUTPUT
 
       CHARACTER CWD*ncharline
       CHARACTER GLOBAL_PATH*(ncharline+2048)
@@ -882,8 +884,8 @@ c       start CPU timer for lectur
 C--------------------------------------------------
 C      Main reading routine
 C--------------------------------------------------
-        CALL LECTUR(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,EBCS_TAB,SEATBELT_CONVERTED_ELEMENTS,
-     .              NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS  )
+        CALL LECTUR(MULTI_FVM                    ,LSUBMODEL          ,IS_DYNA          ,DETONATORS   ,EBCS_TAB,
+     .              SEATBELT_CONVERTED_ELEMENTS  ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE  ,USER_WINDOWS ,OUTPUT  )
 
 c       stop CPU timer for lectur
         CALL STOPTIME(2,1)
@@ -904,6 +906,7 @@ C --------------------------------------------------
 C
       IF(ALLOCATED(SEATBELT_CONVERTED_ELEMENTS)) DEALLOCATE(SEATBELT_CONVERTED_ELEMENTS)  
       CALL USER_WINDOWS_CLEAN(USER_WINDOWS)
+      CALL TH_CLEAN(OUTPUT%TH)
 C
       IF (IERR==0)THEN
         !   -----------------------------

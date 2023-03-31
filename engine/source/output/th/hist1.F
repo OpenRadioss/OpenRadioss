@@ -45,7 +45,8 @@ Chd|====================================================================
      2                 IWA  ,PM     ,GEO  ,IPART,
      3                 SUBSET,ITHGRP,ITHBUF,IGEO ,
      4                 IPM  ,IPARTH ,NPARTH ,NVPARTH ,
-     5                 NVSUBTH ,ITTYP,ITHFLAG,ITHVAR,IFILTITL)
+     5                 NVSUBTH ,ITTYP,ITHFLAG,ITHVAR,IFILTITL,
+     6                 SITHBUF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -76,10 +77,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN)                     :: SITHBUF  ! Size of ithbuf
+      INTEGER,INTENT(IN), DIMENSION(SITHBUF) :: ITHBUF   ! Time history buffer
       INTEGER 
      .   IWA(*),
      .   IPART(LIPART1,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
-     .   ITHGRP(NITHGR,*),ITHBUF(*), IFIL,
+     .   ITHGRP(NITHGR,*), IFIL,
      .   NTHGRP2, LONG,
      .   NPARTH,IPARTH(NPARTH,*),NVPARTH,NVSUBTH,
      .   ITTYP,ITHFLAG,ITHVAR(*),IFILTITL

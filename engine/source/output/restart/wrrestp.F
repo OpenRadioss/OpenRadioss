@@ -97,7 +97,7 @@ Chd|====================================================================
      .           ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
      .           H3D_DATA ,INTBUF_FRIC_TAB,SUBSET,MATPARAM_TAB,GROUP_PARAM_TAB,
      .           PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .           SENSOR_TAB,EBCS_TAB,DYNAIN_DATA,USER_WINDOWS)
+     .           SENSOR_TAB,EBCS_TAB,DYNAIN_DATA,USER_WINDOWS,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -131,6 +131,7 @@ C-----------------------------------------------
       USE STATE_MOD
       USE USER_WINDOWS_MOD
       USE ALE_MOD
+      USE OUTPUT_MOD
 C ecriture restart pour version spmd
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -160,6 +161,7 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(t_ebcs_tab), INTENT(INOUT)                     :: EBCS_TAB
       TYPE (DYNAIN_DATABASE), INTENT(INOUT)               :: DYNAIN_DATA
       TYPE(USER_WINDOWS_),INTENT(IN)                      :: USER_WINDOWS
+      TYPE(OUTPUT_),INTENT(IN)                            :: OUTPUT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -651,46 +653,8 @@ c        CALL WRITE_I_C(INBUF,SINBUF)
           CALL WRITE_I_C(ICNDS10,3*NS10E)
         ENDIF
 
-        CALL WRITE_I_C(ITHGRP,SITHGRP)
-
-        CALL WRITE_I_C(ITHBUF,SITHBUF)
-
-        CALL WRITE_I_C(ITHGRPA,SITHGRPA)
-
-        CALL WRITE_I_C(ITHBUFA,SITHBUFA)
-
-        CALL WRITE_I_C(ITHGRPB,SITHGRPB)
-
-        CALL WRITE_I_C(ITHBUFB,SITHBUFB)
-
-        CALL WRITE_I_C(ITHGRPC,SITHGRPC)
-
-        CALL WRITE_I_C(ITHBUFC,SITHBUFC)
-
-        CALL WRITE_I_C(ITHGRPD,SITHGRPD)
-
-        CALL WRITE_I_C(ITHBUFD,SITHBUFD)
-
-        CALL WRITE_I_C(ITHGRPE,SITHGRPE)
-
-        CALL WRITE_I_C(ITHBUFE,SITHBUFE)
-
-        CALL WRITE_I_C(ITHGRPF,SITHGRPF)
-
-        CALL WRITE_I_C(ITHBUFF,SITHBUFF)
-
-        CALL WRITE_I_C(ITHGRPG,SITHGRPG)
-
-        CALL WRITE_I_C(ITHBUFG,SITHBUFG)
-
-        CALL WRITE_I_C(ITHGRPH,SITHGRPH)
-
-        CALL WRITE_I_C(ITHBUFH,SITHBUFH)
-
-        CALL WRITE_I_C(ITHGRPI,SITHGRPI)
-
-        CALL WRITE_I_C(ITHBUFI,SITHBUFI)
-
+        CALL WRITE_TH_RESTART(OUTPUT%TH)   ! Write Time History Buffer
+        
         CALL WRITE_I_C(FR_MV,SFR_MV)
 
         CALL WRITE_I_C(IAD_ELEM,SIAD_ELEM)

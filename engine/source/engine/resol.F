@@ -501,8 +501,8 @@ Chd|====================================================================
      5  IBFV   ,IDUM   ,LAS     ,LACCELM,NNLINK ,LNLINK ,
      6  IPARG  ,DD_IAD  ,IGRV   ,IEXLNK ,KINET  ,
      7  IPARI  ,        NPRW    ,ICONX  ,NPBY   ,
-     8  LPBY   ,LRIVET ,NSTRF   ,LJOINT ,NODPOR ,MONVOL ,ITHGRP,IAD_ELEM,
-     9  FR_ELEM,WEIGHT,MAIN_PROC,ICODT,ICODR, ADSKY  ,IADS   ,ILINK  ,
+     8  LPBY   ,LRIVET ,NSTRF   ,LJOINT ,NODPOR ,MONVOL ,IAD_ELEM,
+     9  FR_ELEM,WEIGHT ,MAIN_PROC,ICODT ,ICODR  ,ADSKY  ,IADS   ,ILINK  ,
      A  LLINK  ,LINALE ,NEFLSW  ,NNFLSW ,ICUT   ,CLUSTER,
      B          ITASK  ,INOISE  ,
      C  X      ,D      ,V       ,VR     ,DR     ,THKE   ,DAMP   ,MS     ,
@@ -521,8 +521,6 @@ Chd|====================================================================
      O  FSAVD  ,IBVEL  ,LBVEL   ,WASPH  ,XDP    ,W16    ,
      P  ISPHIO ,LPRTSPH,LONFSPH ,VSPHIO ,FBVEL  ,LAGBUF ,IBCSLAG,
      Q  IACTIV ,DAMPR  ,GJBUFI  ,GJBUFR , RBMPC , IBMPC ,SPHVELN,
-     R  ITHGRPA ,ITHGRPB ,ITHGRPC ,ITHGRPD ,ITHGRPE ,
-     S  ITHGRPF ,ITHGRPG ,ITHGRPH ,ITHGRPI ,
      T  NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,NERCVOIS,NESDVOIS,LERCVOIS,
      U  LESDVOIS,NPSEGCOM,LSEGCOM ,NPORGEO ,FSKYM   ,
      V  IXTG1   ,NPBYL   ,LPBYL   ,RBYL    ,IGEO    ,IPM     ,
@@ -537,8 +535,7 @@ Chd|====================================================================
      e  FXBSIG  ,FXBGRVI ,FXBGRVR ,EIGIPM  ,EIGIBUF ,EIGRPM  ,LSHSUB  ,
      f  DRSAVE  ,ARSAVE  ,STSAVE  ,STRSAVE ,FSAVSAV ,LNODPOR ,
      g  FR_I18  ,IADSDP  ,IADRCP  ,GRAPHE  ,IFLOW   ,RFLOW   ,
-     h  ITHBUF  ,ITHBUFA ,ITHBUFB ,ITHBUFC ,ITHBUFD ,ITHBUFE ,ITHBUFF ,
-     i  ITHBUFG ,ITHBUFH ,ITHBUFI ,LGRAV   ,DD_R2R  ,FASOLFR ,FR_LAGF ,
+     h  LGRAV   ,DD_R2R  ,FASOLFR ,FR_LAGF ,
      j  LLAGF   ,LPRW    ,ICONTACT,RCONTACT,SH4TREE ,SH3TREE ,
      k  IPADMESH,PADMESH ,MSC     ,MSTG    ,INC     ,INTG    ,PTG     ,
      l  ISKWP   ,NSKWP   ,ISENSP  ,NSENSP  ,IACCP   ,NACCP,IPART_STATE,
@@ -576,7 +573,7 @@ Chd|====================================================================
      K  NLOC_DMG ,ISKWP_L,KNOTLOCPC,KNOTLOCEL,PINCH_DATA,TAG_SKINS6, ALE_CONNECTIVITY,
      L  XCELL, XFACE, NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,IBCSCYC  ,LBCSCYC,
      M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
-     N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS)
+     N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -649,6 +646,7 @@ C-----------------------------------------------
       USE STATE_MOD
       USE USER_WINDOWS_MOD
       USE ALE_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -731,15 +729,13 @@ C-----------------------------------------------
      .   NODPOR(*),ICUT(*) , INOISE(*),MONVOL(*),
      .   ADSKY(*),IADS(*),LACCELM(3,*),DD_IAD(NSPMD+1,*),FR_ELEM(*),
      .   IAD_ELEM(2,*),IAD_RBY(*),FR_RBY(*),NNLINK(10,*),LNLINK(*),
-     .   IAF(*),ITHGRP(*),IGRV(*),WEIGHT(*),MAIN_PROC(*),WEIGHT_MD(*),
+     .   IAF(*),IGRV(*),WEIGHT(*),MAIN_PROC(*),WEIGHT_MD(*),
      .   KXX(NIXX,*),IXX(*),IEXLNK(NR2R,*),ITABM1(*),
      .   IFRAME(LISKN,*),KXSP(NISP,*),IXSP(*),NOD2SP(*),
      .   ISPCOND(NISPCOND,*),ISPSYM(NSPCOND,*),IBVEL(NBVELP,*),LBVEL(*),
      .   ISPHIO(NISPHIO,*),LPRTSPH(*),LONFSPH(*),LAGBUF(*),IBCSLAG(*),
      .   IACTIV(*),GJBUFI(LKJNI,*) ,IBMPC(*),NPBYL(NNPBY,*), LPBYL(*),
-     .   ITHGRPA(*), ITHGRPB(*), ITHGRPC(*), ITHGRPD(*), ITHGRPE(*),
-     .   ITHGRPF(*), ITHGRPG(*), ITHGRPH(*), ITHGRPI(*), NBRCVOIS(*),
-     .   NBSDVOIS(*),LNRCVOIS(*),LNSDVOIS(*),
+     .   NBRCVOIS(*),NBSDVOIS(*),LNRCVOIS(*),LNSDVOIS(*),
      .   NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*), NPORGEO(*),
      .   NPSEGCOM(*), LSEGCOM(*), IGEO(NPROPGI,*),
      .   IPM(NPROPMI,*),MADPRT(*), MADSH4(*), MADSH3(*), MADSOL(*),
@@ -753,9 +749,7 @@ C-----------------------------------------------
      .   FR_MAD(5,*), NODGLOB(*), LNODPOR(*), FR_I18(*), 
      .   FXBIPM(NBIPM,*),FXBNOD(*),FXBELM(*), FXBGRVI(*),
      .   EIGIPM(NEIPM,*), EIGIBUF(*), LSHSUB(*), IFLOW(*), FASOLFR(*),
-     .   DD_R2R(NSPMD+1,*), ITHBUF(*), ITHBUFA(*), ITHBUFB(*),
-     .   ITHBUFC(*), ITHBUFD(*), ITHBUFE(*),  ITHBUFF(*),  ITHBUFG(*),
-     .   ITHBUFH(*), ITHBUFI(*), LGRAV(*), FR_LAGF(3,*), LLAGF(*),
+     .   DD_R2R(NSPMD+1,*), LGRAV(*), FR_LAGF(3,*), LLAGF(*),
      .   ICONTACT(*), SH4TREE(*), SH3TREE(*), IPADMESH(*),
      .   ISKWP(*), NSKWP(*), ISENSP(2,*), NSENSP(*), IACCP(*), NACCP(*),
      .   IPART_STATE(*),SH4TRIM(*), SH3TRIM(*),IRBYM(*) ,LNRBYM(*),
@@ -881,6 +875,7 @@ c
       TYPE(sorting_comm_type), DIMENSION(:), ALLOCATABLE :: SORT_COMM   ! structure for interface sorting comm
       TYPE (DYNAIN_DATABASE), INTENT(INOUT)              :: DYNAIN_DATA
       TYPE(USER_WINDOWS_),INTENT(INOUT)                  :: USER_WINDOWS
+      TYPE(OUTPUT_),INTENT(INOUT)                        :: OUTPUT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1981,7 +1976,7 @@ C
      e   IRLEN20E ,ISLEN20E ,NISKYFIE ,IRBE3    ,R3SIZE   ,
      f   MCP      ,MS0      ,INOD_PXFEM,IEL_PXFEM,IADC_PXFEM,
      g   ADSKY_PXFEM,ICODT  ,ICODR    ,IBFV     ,ADMSMS    ,
-     h   ITHGRP   ,ITHBUF   ,NODREAC  ,IGROUC   ,NGROUC    ,
+     h   NODREAC  ,IGROUC   ,NGROUC   ,
      i   IGROUNC  ,NGROUNC  ,FR_RBY   ,FR_RBY6  ,NPBY      ,
      j   NOM_SECT ,MCPC     ,MCPTG    ,GRTH     ,IGRTH     ,
      k   NELEM    ,LAG_SEC  ,NPRW     ,DIAG_SMS ,DMELC     ,
@@ -2005,7 +2000,7 @@ C
      3   IGRBRIC ,IGRQUAD  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS   ,
      4   IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED,
      5   FXVEL_FGEO,FAILWAVE,NLOC_DMG,PINCH_DATA ,SLLOADP,
-     6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,IN0 ,SORT_COMM,STACK )
+     6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,IN0 ,SORT_COMM,STACK,OUTPUT )
 
 
 !$OMP END PARALLEL
@@ -8364,23 +8359,14 @@ C Regular animation
      C   VR            ,IN             ,WEIGHT         ,FCLUSTER       ,MCLUSTER      ,
      D   DD_IAD        ,DMAS           ,DINER          ,ACCELM         ,GAUGE         ,
      E   IPARI         ,EANI           ,IPART          ,
-     F   IGRNOD        ,SUBSETS        ,ITHGRP         ,ITHBUF         ,
+     F   IGRNOD        ,SUBSETS        ,
      G   NOM_OPT       ,AR             ,IGRSURF        ,BUFSF          ,IDATA         ,
      H   RDATA         ,KXX            ,IXX            ,BUFMAT         ,BUFGEO        ,
      I   KXSP          ,IXSP           ,NOD2SP         ,SPBUF          ,DR,
-     J   FSAVD          ,
-     L   LRIVET        ,RIVET          ,ISKWN          ,IFRAME         ,XFRAME        ,
-     M   IXS(L1)       ,IXS(L2)        ,IXS(L3),
-     N   ITHGRPA       ,ITHBUFA,
-     O   ITHGRPB       ,ITHBUFB,
-     P   ITHGRPC       ,ITHBUFC,
-     .   ITHGRPD       ,ITHBUFD,
-     .   ITHGRPE       ,ITHBUFE,
-     .   ITHGRPF       ,ITHBUFF,
-     .   ITHGRPG       ,ITHBUFG,
-     .   ITHGRPH       ,ITHBUFH,
-     .   ITHGRPI       ,ITHBUFI        ,NDMA           ,MONVOL         ,VOLMON        ,
-     .   IPM           ,IGEO           ,NODGLOB        ,IAD_ELEM       ,FR_ELEM       ,
+     J   FSAVD         ,LRIVET         ,RIVET          ,ISKWN          ,IFRAME        ,
+     M   XFRAME        ,IXS(L1)        ,IXS(L2)        ,IXS(L3)        ,NDMA          ,
+     N   MONVOL        ,VOLMON         ,IPM            ,IGEO           ,NODGLOB       ,
+     .   IAD_ELEM      ,FR_ELEM        ,
      U   FR_RBY2       ,IAD_RBY2       ,FR_WALL        ,FR_SEC         ,FXBIPM        ,FXBRPM   ,
      V   NDIN          ,FXBDEP         ,FXBVIT         ,FXBACC         ,IFLOW         ,
      W   RFLOW         ,IPARTL         ,NPARTL         ,IACCP          ,NACCP         ,
@@ -8406,7 +8392,7 @@ C Regular animation
      q   TF            ,NPC            ,DYNAIN_DATA    ,FCONT_MAX      ,MDS_MATID     ,
      r   FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP         ,LLOADP        ,
      s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ,DRAPEG        ,
-     t   USER_WINDOWS    ) 
+     t   USER_WINDOWS  ,OUTPUT  ) 
 C
         IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
           CALL SORTIE_ERROR(
@@ -9202,7 +9188,7 @@ C--------------------------------------------------------
      .                 ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
      .                 H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                 SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS)
+     .                 SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS,OUTPUT)
 
           IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
           CALL FVWREST()
@@ -9470,7 +9456,7 @@ C--------------------------------------------------------
      .                 ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
      .                 H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                 SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS)
+     .                 SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS,OUTPUT)
 
         IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
         CALL FVWREST()
@@ -9607,7 +9593,7 @@ C--------------------------------------------------------
      .                    ELBUF_TAB,XFEM_TAB,INTBUF_TAB, MULTI_FVM,
      .                    H3D_DATA ,INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                    PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
-     .                    SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS)
+     .                    SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS,OUTPUT)
 
               IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
               CALL FVWREST()

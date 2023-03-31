@@ -197,6 +197,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE USER_INTERFACE_MOD
       USE ALE_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -279,7 +280,7 @@ C-----------------------------------------------
       CHARACTER ABC(26)*1, FILNAMTH*100, FILTH*3, LINE*256,
      .          FILNAMABF*100,FILNAMABF_TMP*100
       DATA ABC/'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'/
-      EXTERNAL RESOL_HEAD
+  
       INTEGER LHEADER, LVARINT, LVARREA
       INTEGER PRADIOS,PRESFIL
       INTEGER I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,
@@ -311,6 +312,7 @@ C Madymo Stuff
       TYPE (PINCH)  :: PINCH_DATA
       TYPE(DRAPE_), DIMENSION(:), ALLOCATABLE        :: DRAPE_SH4N,DRAPE_SH3N
       TYPE(DRAPEG_)                                  :: DRAPEG
+      TYPE(OUTPUT_)                                  :: OUTPUT
 C      
       INTEGER :: CURRENT_RUN,PREVIOUS_RUN
       REAL(kind=8) :: LOCAL_STARTER_TIME,LOCAL_ENGINE_TIME,RESULT
@@ -990,11 +992,10 @@ c
       GLOBAL_COMP_TIME%RST_NAME(1:1000)=''
       GLOBAL_COMP_TIME%RST_NAME=
      .   ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_0001.rst'
-
-      CALL RDRESB(AF       ,IAF     ,LVARREA ,XDP    ,
-     .            IRUNN , MULTI_FVM,H3D_DATA,MATPARAM_TAB,GROUP_PARAM_TAB,
-     .           PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL    ,
-     .           SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS)
+      CALL RDRESB(AF                ,IAF      ,LVARREA      ,XDP             ,IRUNN     , 
+     .            MULTI_FVM        ,H3D_DATA  ,MATPARAM_TAB ,GROUP_PARAM_TAB ,PINCH_DATA,
+     .            ALE_CONNECTIVITY ,T_MONVOL  ,SENSOR_TAB   ,EBCS_TAB        ,DYNAIN_DATA,
+     .            USER_WINDOWS     ,OUTPUT)
 
       IF (NSPMD > 1)  CALL SPMD_RST_CHECK()
 c----------
@@ -1641,11 +1642,12 @@ C------------------------------------------------
           IFIL = 1
           IFILTITL = IUTITLHIS
           ITHFLAG = 10
-          CALL HIST1(FILNAMTH,IFIL, NTHGRP,LONG,
-     2    WA    ,PM      ,GEO   ,IPART ,
-     3    SUBSETS ,ITHGRP  ,ITHBUF,IGEO  ,
-     4    IPM   ,IPART   ,LIPART1    ,8     ,
-     5    12	 ,ITFORM,ITHFLAG,ITHVAR,IFILTITL)
+          CALL HIST1( FILNAMTH ,IFIL              ,NTHGRP            ,LONG,
+     2                 WA      ,PM                ,GEO               ,IPART,
+     3                 SUBSETS ,OUTPUT%TH%ITHGRP  ,OUTPUT%TH%ITHBUF  ,IGEO,
+     4                 IPM     ,IPART   ,LIPART1  ,8,
+     5                 12      ,ITFORM  ,ITHFLAG ,ITHVAR,
+     6                 IFILTITL,OUTPUT%TH%SITHBUF)
           WA(1:SWA) = ZERO
 C   Multiple th files
             IF(NTHGRP01(1)/=0)THEN
@@ -1663,11 +1665,12 @@ C   Multiple th files
               IFIL= IUNIT
               IFILTITL = IUTITLHI(1)
               ITHFLAG = 1
-              CALL HIST1(FILNAMTH,IFIL,NTHGRP1(1),LONG,
-     2                WA  ,PM  ,GEO ,IPART ,
-     3         SUBSETS ,ITHGRPA,ITHBUFA,IGEO ,
-     4         IPM   ,IPART(1+LIPART1*(NPART+NTHPART)) ,2    ,1   ,
-     5         1      ,AFORM(1),ITHFLAG,ITHVAR,IFILTITL)
+              CALL HIST1( FILNAMTH ,IFIL              ,NTHGRP1(1)        ,LONG ,
+     2                    WA       ,PM                ,GEO               ,IPART,
+     3                    SUBSETS  ,OUTPUT%TH%ITHGRPA ,OUTPUT%TH%ITHBUFA ,IGEO ,
+     4                    IPM      ,IPART(1+LIPART1*(NPART+NTHPART)) ,2  ,1    ,
+     5                    1       ,AFORM(1)           ,ITHFLAG       ,ITHVAR,
+     6                    IFILTITL,OUTPUT%TH%SITHBUFA )
             END IF
 
             IF(NTHGRP01(2)/=0)THEN
@@ -1685,11 +1688,12 @@ C   Multiple th files
               IFIL= IUNIT
               IFILTITL = IUTITLHI(2)
               ITHFLAG = 2
-              CALL HIST1(FILNAMTH,IFIL,NTHGRP1(2),LONG,
-     2                WA  ,PM  ,GEO ,IPART ,
-     3         SUBSETS ,ITHGRPB,ITHBUFB,IGEO ,
-     4         IPM,IPART(1+LIPART1*(NPART+NTHPART)+2*(NPART+NTHPART)),2,1,
-     5         1      ,AFORM(2),ITHFLAG,ITHVAR,IFILTITL)
+              CALL HIST1(FILNAMTH,IFIL              ,NTHGRP1(2)        ,LONG,
+     2                   WA      ,PM                ,GEO               ,IPART ,
+     3                   SUBSETS ,OUTPUT%TH%ITHGRPB ,OUTPUT%TH%ITHBUFB ,IGEO ,
+     4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+2*(NPART+NTHPART)),2,1,
+     5                   1       ,AFORM(2)          ,ITHFLAG          ,ITHVAR,
+     6                   IFILTITL,OUTPUT%TH%SITHBUFB)
             END IF
 
             IF(NTHGRP01(3)/=0)THEN
@@ -1707,11 +1711,12 @@ C   Multiple th files
               IFIL= IUNIT
               IFILTITL = IUTITLHI(3)
               ITHFLAG = 3
-              CALL HIST1(FILNAMTH,IFIL,NTHGRP1(3),LONG,
-     2                WA  ,PM  ,GEO ,IPART ,
-     3         SUBSETS ,ITHGRPC,ITHBUFC,IGEO ,
-     4         IPM,IPART(1+LIPART1*(NPART+NTHPART)+4*(NPART+NTHPART)),2,1,
-     5         1      ,AFORM(3),ITHFLAG,ITHVAR,IFILTITL)
+              CALL HIST1(FILNAMTH ,IFIL             ,NTHGRP1(3)        ,LONG,
+     2                   WA       ,PM               ,GEO               ,IPART ,
+     3                   SUBSETS ,OUTPUT%TH%ITHGRPC ,OUTPUT%TH%ITHBUFC ,IGEO ,
+     4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+4*(NPART+NTHPART)) ,2 ,1,
+     5                   1       ,AFORM(3)          ,ITHFLAG           ,ITHVAR,
+     6                   IFILTITL,OUTPUT%TH%SITHBUFC)
             END IF
 
             IF(NTHGRP01(4)/=0)THEN
@@ -1730,10 +1735,11 @@ C   Multiple th files
               IFIL= IUNIT
               ITHFLAG = 4
               CALL HIST1(FILNAMTH,IFIL,NTHGRP1(4),LONG,
-     2                WA  ,PM  ,GEO ,IPART ,
-     3         SUBSETS ,ITHGRPD,ITHBUFD,IGEO ,
-     4         IPM,IPART(1+LIPART1*(NPART+NTHPART)+6*(NPART+NTHPART)),2,1,
-     5         1      ,AFORM(4),ITHFLAG,ITHVAR,IFILTITL)
+     2                   WA  ,PM  ,GEO ,IPART ,
+     3                   SUBSETS ,OUTPUT%TH%ITHGRPD ,OUTPUT%TH%ITHBUFD ,IGEO,
+     4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+6*(NPART+NTHPART)) ,2 ,1,
+     5                   1       ,AFORM(4)          ,ITHFLAG           ,ITHVAR,
+     6                   IFILTITL ,OUTPUT%TH%SITHBUFD)
             END IF
 
             IF(NTHGRP01(5)/=0)THEN
@@ -1751,11 +1757,12 @@ C   Multiple th files
               IFIL= IUNIT
               IFILTITL = IUTITLHI(5)
               ITHFLAG = 5
-              CALL HIST1(FILNAMTH,IFIL,NTHGRP1(5),LONG,
-     2                WA  ,PM  ,GEO ,IPART ,
-     3         SUBSETS ,ITHGRPE,ITHBUFE,IGEO ,
-     4         IPM,IPART(1+LIPART1*(NPART+NTHPART)+8*(NPART+NTHPART)),2,1,
-     5         1      ,AFORM(5),ITHFLAG,ITHVAR,IFILTITL)
+              CALL HIST1(FILNAMTH,IFIL              ,NTHGRP1(5)        ,LONG,
+     2                   WA      ,PM                ,GEO               ,IPART,
+     3                   SUBSETS ,OUTPUT%TH%ITHGRPE ,OUTPUT%TH%ITHBUFE ,IGEO,
+     4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+8*(NPART+NTHPART)),2,1,
+     5                   1       ,AFORM(5)          ,ITHFLAG           ,ITHVAR,
+     6                   IFILTITL,OUTPUT%TH%SITHBUFE)
             END IF
 
             IF(NTHGRP01(6)/=0)THEN
@@ -1773,11 +1780,12 @@ C   Multiple th files
               IFIL= IUNIT
               IFILTITL = IUTITLHI(6)
               ITHFLAG = 6
-              CALL HIST1(FILNAMTH,IFIL,NTHGRP1(6),LONG,
-     2                WA  ,PM  ,GEO ,IPART ,
-     3         SUBSETS ,ITHGRPF,ITHBUFF,IGEO ,
-     4         IPM,IPART(1+LIPART1*(NPART+NTHPART)+10*(NPART+NTHPART)),2,1,
-     5         1      ,AFORM(6),ITHFLAG,ITHVAR,IFILTITL)
+              CALL HIST1(FILNAMTH,IFIL              ,NTHGRP1(6)        ,LONG,
+     2                   WA      ,PM                ,GEO               ,IPART ,
+     3                   SUBSETS ,OUTPUT%TH%ITHGRPF ,OUTPUT%TH%ITHBUFF ,IGEO ,
+     4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+10*(NPART+NTHPART)),2,1,
+     5                   1       ,AFORM(6)          ,ITHFLAG           ,ITHVAR,
+     6                   IFILTITL,OUTPUT%TH%SITHBUFF)
             END IF
 
             IF(NTHGRP01(7)/=0)THEN
@@ -1795,11 +1803,12 @@ C   Multiple th files
               IFIL= IUNIT
               IFILTITL = IUTITLHI(7)
               ITHFLAG = 7
-              CALL HIST1(FILNAMTH,IFIL,NTHGRP1(7),LONG,
-     2                WA  ,PM  ,GEO ,IPART ,
-     3         SUBSETS ,ITHGRPG,ITHBUFG,IGEO ,
-     4         IPM,IPART(1+LIPART1*(NPART+NTHPART)+12*(NPART+NTHPART)),2,1,
-     5         1      ,AFORM(7),ITHFLAG,ITHVAR,IFILTITL)
+              CALL HIST1(FILNAMTH,IFIL              ,NTHGRP1(7)        ,LONG,
+     2                   WA      ,PM                ,GEO               ,IPART ,
+     3                   SUBSETS ,OUTPUT%TH%ITHGRPG ,OUTPUT%TH%ITHBUFG ,IGEO ,
+     4                   IPM,IPART(1+LIPART1*(NPART+NTHPART)+12*(NPART+NTHPART)),2,1,
+     5                   1       ,AFORM(7)          ,ITHFLAG           ,ITHVAR,
+     6                   IFILTITL,OUTPUT%TH%SITHBUFG )
             END IF
 
             IF(NTHGRP01(8)/=0)THEN
@@ -1817,11 +1826,12 @@ C   Multiple th files
               IFIL= IUNIT
               IFILTITL = IUTITLHI(8)
               ITHFLAG = 8
-              CALL HIST1(FILNAMTH,IFIL,NTHGRP1(8),LONG,
-     2                WA  ,PM  ,GEO ,IPART ,
-     3         SUBSETS ,ITHGRPH,ITHBUFH,IGEO ,
-     4         IPM,IPART(1+LIPART1*(NPART+NTHPART)+14*(NPART+NTHPART)),2,1,
-     5         1      ,AFORM(8),ITHFLAG,ITHVAR,IFILTITL)
+              CALL HIST1(FILNAMTH ,IFIL              ,NTHGRP1(8),LONG,
+     2                   WA       ,PM                ,GEO               ,IPART,
+     3                   SUBSETS  ,OUTPUT%TH%ITHGRPH ,OUTPUT%TH%ITHBUFH ,IGEO,
+     4                   IPM      ,IPART(1+LIPART1*(NPART+NTHPART)+14*(NPART+NTHPART)),2,1,
+     5                   1       ,AFORM(8)           ,ITHFLAG           ,ITHVAR,
+     6                   IFILTITL,OUTPUT%TH%SITHBUFH)
             END IF
 
             IF(NTHGRP01(9)/=0)THEN
@@ -1840,10 +1850,11 @@ C   Multiple th files
               IFILTITL = IUTITLHI(9)
               ITHFLAG = 9
               CALL HIST1(FILNAMTH,IFIL,NTHGRP1(9),LONG,
-     2                WA  ,PM  ,GEO ,IPART ,
-     3         SUBSETS ,ITHGRPI,ITHBUFI,IGEO ,
-     4         IPM,IPART(1+LIPART1*(NPART+NTHPART)+16*(NPART+NTHPART)),2,1,
-     5         1      ,AFORM(9),ITHFLAG,ITHVAR,IFILTITL)
+     2                   WA  ,PM  ,GEO ,IPART ,
+     3                   SUBSETS ,OUTPUT%TH%ITHGRPI ,OUTPUT%TH%ITHBUFI ,IGEO,
+     4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+16*(NPART+NTHPART)),2,1,
+     5                   1       ,AFORM(9)          ,ITHFLAG           ,ITHVAR,
+     6                   IFILTITL,OUTPUT%TH%SITHBUFI)
             END IF
         ELSE
           WRITE(CHR_OLD,'(I2.2)')IRUNN
@@ -1851,8 +1862,9 @@ C   Multiple th files
      1           IPARG ,IXS ,IXQ ,IXC ,IXT ,
      2           IXP ,IXR ,WA  ,ITAB ,PM  ,
      3           NPBYL ,IXTG ,IRFE    ,LACCELM ,
-     4           IPARI ,IPART ,ITHGRP ,ITHBUF ,CHR_OLD)
+     4           IPARI ,IPART ,OUTPUT%TH%ITHGRP ,OUTPUT%TH%ITHBUF ,CHR_OLD)
         ENDIF
+
         IF(NABFILE /= 0) THEN
 #ifdef DNC
           IF(ABFILE(1) /=0)THEN
@@ -1860,11 +1872,11 @@ C   Multiple th files
             LONG_TMP = 9
             IFILABF = 11
             ITHFLAG = 10
-            CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP,LONG_TMP,
-     2        WA  ,PM  ,GEO ,IPART ,
-     3        SUBSETS ,ITHGRP,ITHBUF,IGEO    ,
-     4        IPM   ,IPART   ,LIPART1    ,8     ,
-     5        12	 ,ITHVAR  ,ITHFLAG)
+            CALL ABFHIST1(FILNAMABF_TMP ,IFILABF          ,NTHGRP           ,LONG_TMP,
+     2                    WA            ,PM               ,GEO              ,IPART,
+     3                    SUBSETS       ,OUTPUT%TH%ITHGRP ,OUTPUT%TH%ITHBUF ,IGEO,
+     4                    IPM           ,IPART            ,LIPART1          ,8,
+     5                    12            ,ITHVAR           ,ITHFLAG )
             FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.abf'
             LONG = 9
             LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -1893,11 +1905,11 @@ c
               IFILABF = 12
               IFIL= IUNIT
               ITHFLAG = 1
-              CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(1),LONG_TMP,
-     2                      WA  ,PM  ,GEO ,IPART ,
-     3                      SUBSETS ,ITHGRPA,ITHBUFA,IGEO    ,
-     4                      IPM ,IPART(1+LIPART1*(NPART+NTHPART)),2,1,
-     5                      1   ,ITHVAR,ITHFLAG)
+              CALL ABFHIST1(FILNAMABF_TMP ,IFILABF           ,NTHGRP1(1)        ,LONG_TMP,
+     2                      WA            ,PM                ,GEO               ,IPART,
+     3                      SUBSETS       ,OUTPUT%TH%ITHGRPA ,OUTPUT%TH%ITHBUFA ,IGEO,
+     4                      IPM           ,IPART(1+LIPART1*(NPART+NTHPART))     ,2,1,
+     5                      1             ,ITHVAR            ,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_a.abf'
               LONG = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -1923,11 +1935,11 @@ c
               IFILABF = 13
               IFIL= IUNIT
               ITHFLAG = 2
-              CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(2),LONG_TMP,
-     2                      WA  ,PM  ,GEO ,IPART ,
-     3                      SUBSETS ,ITHGRPB,ITHBUFB,IGEO    ,
-     4                      IPM   ,IPART(1+LIPART1*(NPART+NTHPART)+2*(NPART+NTHPART)),2,1,
-     5                      1   ,ITHVAR,ITHFLAG)
+              CALL ABFHIST1(FILNAMABF_TMP ,IFILAB F         ,NTHGRP1(2)        ,LONG_TMP,
+     2                      WA            ,PM               ,GEO               ,IPART,
+     3                      SUBSETS       ,OUTPUT%TH%ITHGRPB,OUTPUT%TH%ITHBUFB ,IGEO,
+     4                      IPM           ,IPART(1+LIPART1*(NPART+NTHPART)+2*(NPART+NTHPART)),2,1,
+     5                      1             ,ITHVAR           ,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_b.abf'
               LONG = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -1954,11 +1966,11 @@ c
               IFILABF = 14
               IFIL= IUNIT
               ITHFLAG = 3
-              CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(3),LONG_TMP,
-     2                      WA  ,PM  ,GEO ,IPART ,
-     3                      SUBSETS ,ITHGRPC,ITHBUFC,IGEO    ,
-     4                      IPM   ,IPART   ,2     ,1     ,
-     5                      1   ,ITHVAR,ITHFLAG)
+              CALL ABFHIST1(FILNAMABF_TMP ,IFILABF ,NTHGRP1(3) ,LONG_TMP,
+     2                      WA            ,PM      ,GEO        ,IPART ,
+     3                      SUBSETS       ,OUTPUT%TH%ITHGRPC   ,OUTPUT%TH%ITHBUFC ,IGEO,
+     4                      IPM           ,IPART               ,2 ,1,
+     5                      1             ,ITHVAR              ,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_c.abf'
               LONG = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -1984,11 +1996,11 @@ c
               IFILABF = 15
               IFIL= IUNIT
               ITHFLAG = 4
-              CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(4),LONG_TMP,
-     2      WA  ,PM  ,GEO ,IPART ,
-     3      SUBSETS ,ITHGRPD,ITHBUFD,IGEO    ,
-     4      IPM   ,IPART   ,2     ,1     ,
-     5      1   ,ITHVAR,ITHFLAG)
+              CALL ABFHIST1( FILNAMABF_TMP ,IFILABF ,NTHGRP1(4) ,LONG_TMP,
+     2                       WA            ,PM      ,GEO        ,IPART,
+     3                       SUBSETS       ,OUTPUT%TH%ITHGRPD   ,OUTPUT%TH%ITHBUFD ,IGEO,
+     4                       IPM           ,IPART   ,2     ,1   ,
+     5                       1             ,ITHVAR  ,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_d.abf'
               LONG = 11
             LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -2012,11 +2024,11 @@ c
               IFILABF = 16
               IFIL= IUNIT
               ITHFLAG = 5
-              CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(5),LONG_TMP,
-     2      WA  ,PM  ,GEO ,IPART ,
-     3      SUBSETS ,ITHGRPE,ITHBUFE,IGEO    ,
-     4      IPM   ,IPART   ,2     ,1     ,
-     5      1   ,ITHVAR,ITHFLAG)
+              CALL ABFHIST1( FILNAMABF_TMP ,IFILABF,NTHGRP1(5),LONG_TMP,
+     2                       WA            ,PM     ,GEO       ,IPART,
+     3                       SUBSETS       ,OUTPUT%TH%ITHGRPE ,OUTPUT%TH%ITHBUFE ,IGEO,
+     4                       IPM           ,IPART             ,2     ,1     ,
+     5                       1             ,ITHVAR            ,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_e.abf'
               LONG = 11
             LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -2042,10 +2054,10 @@ c
               IFIL= IUNIT
               ITHFLAG = 6
               CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(6),LONG_TMP,
-     2      WA  ,PM  ,GEO ,IPART ,
-     3      SUBSETS ,ITHGRPF,ITHBUFF,IGEO    ,
-     4      IPM   ,IPART   ,2     ,1     ,
-     5      1   ,ITHVAR,ITHFLAG)
+     2                      WA  ,PM  ,GEO ,IPART ,
+     3                      SUBSETS ,OUTPUT%TH%ITHGRPF,OUTPUT%TH%ITHBUFF,IGEO    ,
+     4                      IPM   ,IPART   ,2     ,1     ,
+     5                      1   ,ITHVAR,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_f.abf'
               LONG = 11
             LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -2072,9 +2084,9 @@ c
               ITHFLAG = 7
               CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(7),LONG_TMP,
      2                      WA  ,PM  ,GEO ,IPART ,
-     3                      SUBSETS ,ITHGRPG,ITHBUFG,IGEO    ,
-     4                      IPM   ,IPART   ,2     ,1     ,
-     5                      1   ,ITHVAR,ITHFLAG)
+     3                      SUBSETS ,OUTPUT%TH%ITHGRPG,OUTPUT%TH%ITHBUFG,IGEO    ,
+     4                      IPM     ,IPART   ,2     ,1     ,
+     5                      1       ,ITHVAR,ITHFLAG)
      
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_g.abf'
               LONG = 11
@@ -2104,11 +2116,11 @@ c
               IFIL= IUNIT
               ITHFLAG = 8
               
-              CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(8),LONG_TMP,
-     2                      WA  ,PM  ,GEO ,IPART ,
-     3                      SUBSETS ,ITHGRPH,ITHBUFH,IGEO    ,
-     4                      IPM   ,IPART   ,2     ,1     ,
-     5                      1   ,ITHVAR,ITHFLAG)
+              CALL ABFHIST1(FILNAMABF_TMP ,IFILABF ,NTHGRP1(8) ,LONG_TMP,
+     2                      WA            ,PM                  ,GEO              ,IPART,
+     3                      SUBSETS       ,OUTPUT%TH%ITHGRPH  ,OUTPUT%TH%ITHBUFH ,IGEO,
+     4                      IPM   ,IPART  ,2                  ,1     ,
+     5                      1     ,ITHVAR ,ITHFLAG )
      
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_h.abf'
               LONG = 11
@@ -2137,11 +2149,11 @@ c
               IFILABF = 20
               IFIL= IUNIT
               ITHFLAG = 9
-              CALL ABFHIST1(FILNAMABF_TMP,IFILABF,NTHGRP1(9),LONG_TMP,
-     2                      WA  ,PM  ,GEO ,IPART ,
-     3                      SUBSETS ,ITHGRPI,ITHBUFI,IGEO    ,
-     4                      IPM,IPART(1+LIPART1*(NPART+NTHPART)+16*(NPART+NTHPART)),2,1,
-     5                      1   ,ITHVAR,ITHFLAG)
+              CALL ABFHIST1(FILNAMABF_TMP ,IFILABF,NTHGRP1(9) ,LONG_TMP ,
+     2                      WA            ,PM                 ,GEO               ,IPART,
+     3                      SUBSETS       ,OUTPUT%TH%ITHGRPI  ,OUTPUT%TH%ITHBUFI ,IGEO    ,
+     4                      IPM           ,IPART(1+LIPART1*(NPART+NTHPART)+16*(NPART+NTHPART)),2,1,
+     5                      1             ,ITHVAR                                ,ITHFLAG)
      
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_i.abf'
               LONG = 11
@@ -2169,12 +2181,7 @@ c
 #endif
         ENDIF
       ENDIF
-      CALL INIT_TH0( IPARG,ELBUF_TAB,IGEO,IXR,
-     .               ITHGRP,ITHGRPA,ITHGRPB,ITHGRPC,ITHGRPD,
-     .               ITHGRPE,ITHGRPF,ITHGRPG,ITHGRPH,ITHGRPI,
-     .               ITHBUF,ITHBUFA,ITHBUFB,ITHBUFC,ITHBUFD,
-     .               ITHBUFE,ITHBUFF,ITHBUFG,ITHBUFH,ITHBUFI,
-     .               WEIGHT)
+      CALL INIT_TH0( IPARG,ELBUF_TAB,IGEO,IXR,OUTPUT%TH,WEIGHT)
       CALL TRACE_OUT(18)
 C---------------------------------------------------------------------
 #ifdef DNC
@@ -2215,7 +2222,8 @@ C---------------------------------------------------------------------
      .                   IGRBEAM      ,IGRSPRING       ,IGRPART         ,IGRSURF    ,IGRSLIN   ,
      .                   FORNEQS      ,MATPARAM_TAB    ,GROUP_PARAM_TAB ,PINCH_DATA ,ALE_CONNECTIVITY,
      .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSOR_TAB ,EBCS_TAB        ,
-     .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    )
+     .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
+     .                   OUTPUT    )
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")
@@ -2236,6 +2244,7 @@ C---------------------------------------------------------------------
       ENDIF
       
       CALL USER_WINDOWS_CLEAN(USER_WINDOWS)
+      CALL TH_CLEAN(OUTPUT%TH)
       DEALLOCATE(GRAPHE)
       DEALLOCATE(IFLOW, RFLOW)
       CALL FVDEAL()

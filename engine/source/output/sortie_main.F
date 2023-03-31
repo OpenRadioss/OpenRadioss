@@ -85,20 +85,14 @@ Chd|====================================================================
      C            VR        ,IN          ,WEIGHT     ,FCLUSTER  ,MCLUSTER ,         
      D            DD_IAD    ,DMAS        ,DINER      ,ACCELM    ,GAUGE,             
      E            IPARI     ,EANI        ,IPART,                                    
-     F            IGRNOD    ,SUBSET      ,ITHGRP     ,ITHBUF    ,         
+     F            IGRNOD    ,SUBSET      ,      
      G            NOM_OPT   ,AR          ,IGRSURF    ,BUFSF     ,IDATA    ,         
      H            RDATA     ,KXX         ,IXX        ,BUFMAT    ,BUFGEO   ,         
      I            KXSP      ,IXSP        ,NOD2SP     ,SPBUF     ,DR        ,                    
-     J            FSAVD     ,                                                                          
-     L            IXRI      ,RIVET       ,ISKWN      ,IFRAME    ,XFRAME   ,                
-     M            IXS10     ,IXS20       ,IXS16      ,ITHGRPA,                      
-     N            ITHBUFA   ,ITHGRPB     ,ITHBUFB,                                 
-     O            ITHGRPC   ,ITHBUFC     ,ITHGRPD,                                 
-     P            ITHBUFD   ,ITHGRPE     ,ITHBUFE,                                 
-     Q            ITHGRPF   ,ITHBUFF     ,ITHGRPG,                                 
-     R            ITHBUFG   ,ITHGRPH     ,ITHBUFH,                                 
-     S            ITHGRPI   ,ITHBUFI     ,NDMA       ,MONVOL    ,VOLMON   ,         
-     T            IPM       ,IGEO        ,NODGLOB    ,IAD_ELEM  ,FR_ELEM  ,         
+     J            FSAVD     ,IXRI        ,RIVET      ,ISKWN     ,IFRAME    ,               
+     M            XFRAME    ,IXS10       ,IXS20      ,IXS16     ,NDMA      ,         
+     T            MONVOL    ,VOLMON      ,IPM        ,IGEO      ,NODGLOB   ,
+     .            IAD_ELEM  ,FR_ELEM  ,         
      U            FR_RBY2   ,IAD_RBY2    ,FR_WALL    ,FR_SEC    ,FXBIPM   ,FXBRPM,  
      V            NDIN      ,FXBDEP      ,FXBVIT     ,FXBACC    ,IFLOW,             
      W            RFLOW     ,IPARTL      ,NPARTL     ,IACCP     ,NACCP,             
@@ -123,7 +117,8 @@ Chd|====================================================================
      p            KNOTLOCPC ,KNOTLOCEL   ,PINCH_DATA ,TAG_SKINS6,IRUNN_BIS, 
      q            TF        ,NPC         ,DYNAIN_DATA,FCONT_MAX,MDS_MATID,
      r            FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP   ,LLOADP   ,
-     s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG,USER_WINDOWS) 
+     s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG,USER_WINDOWS,
+     t            OUTPUT ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -152,6 +147,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -197,16 +193,12 @@ C-----------------------------------------------
      .   INOISE(*), NPBY(NNPBY,*),NEFLSW(*),NNFLSW(*),
      .   DD_IAD(NSPMD+1,*), IACCP(*), NACCP(*),
      .   IPARI(NPARI,*),WEIGHT(*),
-     .   ITHGRP(NITHGR,*),ITHBUF(*),NOM_OPT(LNOPT1,*),
+     .   NOM_OPT(LNOPT1,*),
      .   IDATA(*),KXX(NIXX,*),IXX(*),
      .   KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
      .   NPARTSAV,IXRI(4,*),
      .   ISKWN(LISKN,*),IFRAME(LISKN,*),IPM(*), IGEO(*),FXBIPM(NBIPM,*),
-     .   ITHGRPA(NITHGR,*),ITHBUFA(*), ITHGRPB(NITHGR,*),ITHBUFB(*),
-     .   ITHGRPC(NITHGR,*),ITHBUFC(*), ITHGRPD(NITHGR,*),ITHBUFD(*),
-     .   ITHGRPE(NITHGR,*),ITHBUFE(*), ITHGRPF(NITHGR,*),ITHBUFF(*),
-     .   ITHGRPG(NITHGR,*),ITHBUFG(*), ITHGRPH(NITHGR,*),ITHBUFH(*),
-     .   ITHGRPI(NITHGR,*),ITHBUFI(*), IPARTH(2,*)      ,
+     .   IPARTH(2,*),
      .   NDMA ,MONVOL(*),NODGLOB(*),
      .   FR_ELEM(*),IAD_ELEM(2,*), NDIN, IFLOW(*), FASOLFR(*), FR_MV(*),
      .   IPARTL(*), NPARTL, IPART_STATE(*), SH4TREE(*), SH3TREE(*),
@@ -248,7 +240,11 @@ C-----------------------------------------------
       INTEGER TAGNCONT(NLOADP_HYD_INTER,NUMNOD),LOADP_HYD_INTER(NLOADP_HYD)
       my_real
      .       LOADP(LFACCLD,*),FORC(*)
+
       INTEGER, DIMENSION(*), INTENT(IN) :: ISKWP
+C-----------------------------------------------      
+      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
+C-----------------------------------------------      
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP)      :: ELBUF_TAB
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP,NXEL) :: XFEM_TAB
       TYPE (CLUSTER_) ,DIMENSION(NCLUSTER)         :: CLUSTER
@@ -265,7 +261,7 @@ C-----------------------------------------------
       TYPE (SENSOR_STR_), DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
-      TYPE(USER_WINDOWS_),INTENT(IN)        :: USER_WINDOWS
+      TYPE(USER_WINDOWS_),INTENT(IN)        :: USER_WINDOWS     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -992,7 +988,7 @@ C         to avoid double points
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,                                 
      5                 PARTSAV,ACCELM,LOUT ,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
-     7                 ITHGRPA,ITHBUFA,SUBSET,GEO  ,
+     7                 OUTPUT%TH%ITHGRPA, OUTPUT%TH%ITHBUFA, SUBSET,GEO  ,
      8                 KXX   ,IXR,
      9                 KXSP  ,NOD2SP ,SPBUF ,
      B                 NPARTSAV,AR   ,VR    ,DR,
@@ -1006,7 +1002,7 @@ C         to avoid double points
      K                 FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                 IGAUP  ,NGAUP ,AFORM(1),WEIGHT_MD,SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
-     N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W)
+     N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFA)
 
             IF (SIZE_MES==1 .AND.AFORM(1)==3 .AND.ISPMD==0 ) 
      *          CALL file_size(MULTITHFILESIZE(1))
@@ -1021,7 +1017,7 @@ C         to avoid double points
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB,                               
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
-     7                  ITHGRPA,ITHBUFA,SUBSET,GEO  ,
+     7                  OUTPUT%TH%ITHGRPA,OUTPUT%TH%ITHBUFA,SUBSET,GEO  ,
      8                  KXX   ,IXR,
      9                  KXSP  ,NOD2SP ,SPBUF ,
      B                  NPARTSAV,AR   ,VR    ,DR,
@@ -1085,7 +1081,7 @@ C
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                 PARTSAV,ACCELM,LOUT ,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
-     7                 ITHGRPB,ITHBUFB,SUBSET,GEO  ,
+     7                 OUTPUT%TH%ITHGRPB,OUTPUT%TH%ITHBUFB,SUBSET,GEO  ,
      8                 KXX   ,IXR,
      9                 KXSP  ,NOD2SP ,SPBUF ,
      B                 NPARTSAV,AR   ,VR    ,DR,
@@ -1099,7 +1095,7 @@ C
      K                 FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                 IGAUP  ,NGAUP, AFORM(2),WEIGHT_MD,SIZE_MES,
      M                 RTHBUF ,THKE ,STACK,ISPHIO  ,VSPHIO,
-     N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W)
+     N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFB)
             IF (SIZE_MES==1 .AND.AFORM(2)==3 .AND.ISPMD==0 )
      *        CALL file_size(MULTITHFILESIZE(2))
      
@@ -1111,7 +1107,7 @@ C
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
-     7                  ITHGRPB,ITHBUFB,SUBSET,GEO  ,
+     7                  OUTPUT%TH%ITHGRPB,OUTPUT%TH%ITHBUFB,SUBSET,GEO  ,
      8                  KXX   ,IXR,
      9                  KXSP  ,NOD2SP ,SPBUF ,
      B                  NPARTSAV,AR   ,VR    ,DR,
@@ -1177,7 +1173,7 @@ C
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                 PARTSAV,ACCELM,LOUT ,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
-     7                 ITHGRPC,ITHBUFC,SUBSET,GEO  ,
+     7                 OUTPUT%TH%ITHGRPC,OUTPUT%TH%ITHBUFC,SUBSET,GEO  ,
      8                 KXX   ,IXR,
      9                 KXSP  ,NOD2SP ,SPBUF ,
      B                 NPARTSAV,AR   ,VR    ,DR,
@@ -1191,7 +1187,7 @@ C
      K                 FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                 IGAUP  ,NGAUP ,AFORM(3),WEIGHT_MD,SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
-     n                 ITHFLAG,PINCH_DATA,MULTI_FVM,W)
+     n                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFC)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(3)==3   .AND.
@@ -1204,7 +1200,7 @@ C
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
-     7                  ITHGRPC,ITHBUFC,SUBSET,GEO  ,
+     7                  OUTPUT%TH%ITHGRPC,OUTPUT%TH%ITHBUFC,SUBSET,GEO  ,
      8                  KXX   ,IXR,
      9                  KXSP  ,NOD2SP ,SPBUF ,
      B                  NPARTSAV,AR   ,VR    ,DR,
@@ -1266,7 +1262,7 @@ C
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                 PARTSAV,ACCELM,LOUT ,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
-     7                 ITHGRPD,ITHBUFD,SUBSET,GEO  ,
+     7                 OUTPUT%TH%ITHGRPD,OUTPUT%TH%ITHBUFD,SUBSET,GEO  ,
      8                 KXX   ,IXR,
      9                 KXSP  ,NOD2SP ,SPBUF ,
      B                 NPARTSAV,AR   ,VR    ,DR,
@@ -1280,7 +1276,7 @@ C
      K                 FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                 IGAUP  ,NGAUP ,AFORM(4),WEIGHT_MD,SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
-     N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W)
+     N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFD)
          IF(SIZE_MES==1 .AND.
      *     AFORM(4)==3   .AND.
      *     ISPMD==0 )CALL file_size(MULTITHFILESIZE(4))
@@ -1294,7 +1290,7 @@ C
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
-     7                  ITHGRPD,ITHBUFD,SUBSET,GEO  ,
+     7                  OUTPUT%TH%ITHGRPD,OUTPUT%TH%ITHBUFD,SUBSET,GEO  ,
      8                  KXX   ,IXR,
      9                  KXSP  ,NOD2SP ,SPBUF ,
      B                  NPARTSAV,AR   ,VR    ,DR,
@@ -1355,7 +1351,7 @@ C
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,LOUT ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
-     7                ITHGRPE,ITHBUFE,SUBSET,GEO  ,
+     7                OUTPUT%TH%ITHGRPE,OUTPUT%TH%ITHBUFE,SUBSET,GEO  ,
      8                KXX   ,IXR,
      9                KXSP  ,NOD2SP ,SPBUF ,
      B                NPARTSAV,AR   ,VR    ,DR,
@@ -1369,7 +1365,7 @@ C
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                IGAUP  ,NGAUP ,AFORM(5),WEIGHT_MD,SIZE_MES,
      M                RTHBUF  ,THKE ,STACK  ,ISPHIO  ,VSPHIO,
-     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W)
+     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFE)
         IF(SIZE_MES==1 .AND.
      *     AFORM(5)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(5))
@@ -1382,7 +1378,7 @@ C
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
-     7                  ITHGRPE,ITHBUFE,SUBSET,GEO  ,
+     7                  OUTPUT%TH%ITHGRPE,OUTPUT%TH%ITHBUFE,SUBSET,GEO  ,
      8                  KXX   ,IXR,
      9                  KXSP  ,NOD2SP ,SPBUF ,
      B                  NPARTSAV,AR   ,VR    ,DR,
@@ -1443,7 +1439,7 @@ C
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,LOUT ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
-     7                ITHGRPF,ITHBUFF,SUBSET,GEO  ,
+     7                OUTPUT%TH%ITHGRPF,OUTPUT%TH%ITHBUFF,SUBSET,GEO  ,
      8                KXX   ,IXR,
      9                KXSP  ,NOD2SP ,SPBUF ,
      B                NPARTSAV,AR   ,VR    ,DR,
@@ -1457,7 +1453,7 @@ C
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                IGAUP,NGAUP ,AFORM(6),WEIGHT_MD,SIZE_MES,
      M                RTHBUF,THKE ,STACK  ,ISPHIO  ,VSPHIO,
-     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W)
+     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFF)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(6)==3   .AND.
@@ -1471,7 +1467,7 @@ C
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
-     7                  ITHGRPF,ITHBUFF,SUBSET,GEO  ,
+     7                  OUTPUT%TH%ITHGRPF,OUTPUT%TH%ITHBUFF,SUBSET,GEO  ,
      8                  KXX   ,IXR,
      9                  KXSP  ,NOD2SP ,SPBUF ,
      B                  NPARTSAV,AR   ,VR    ,DR,
@@ -1533,7 +1529,7 @@ C
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,LOUT ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
-     7                ITHGRPG,ITHBUFG,SUBSET,GEO  ,
+     7                OUTPUT%TH%ITHGRPG,OUTPUT%TH%ITHBUFG,SUBSET,GEO  ,
      8                KXX   ,IXR,
      9                KXSP  ,NOD2SP ,SPBUF ,
      B                NPARTSAV,AR   ,VR    ,DR,
@@ -1547,7 +1543,7 @@ C
      K                FTHREAC,NODREAC,GRESAV ,GAUGE  ,
      L                IGAUP,NGAUP ,AFORM(7),WEIGHT_MD,SIZE_MES,
      M                RTHBUF,THKE ,STACK  ,ISPHIO  ,VSPHIO,
-     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W)
+     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFG)
         IF(SIZE_MES==1 .AND.
      *     AFORM(7)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(7))
@@ -1560,7 +1556,7 @@ C
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
-     7                  ITHGRPG,ITHBUFG,SUBSET,GEO  ,
+     7                  OUTPUT%TH%ITHGRPG,OUTPUT%TH%ITHBUFG,SUBSET,GEO  ,
      8                  KXX   ,IXR,
      9                  KXSP  ,NOD2SP ,SPBUF ,
      B                  NPARTSAV,AR   ,VR    ,DR,
@@ -1622,7 +1618,7 @@ C
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,LOUT ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
-     7                ITHGRPH,ITHBUFH,SUBSET,GEO  ,
+     7                OUTPUT%TH%ITHGRPH,OUTPUT%TH%ITHBUFH,SUBSET,GEO  ,
      8                KXX   ,IXR,
      9                KXSP  ,NOD2SP ,SPBUF ,
      B                NPARTSAV,AR   ,VR    ,DR,
@@ -1636,7 +1632,7 @@ C
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                IGAUP  ,NGAUP ,AFORM(8),WEIGHT_MD,SIZE_MES,
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
-     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W)
+     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFH)
         IF(SIZE_MES==1 .AND.
      *     AFORM(8)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(8))
@@ -1649,7 +1645,7 @@ C
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
-     7                  ITHGRPH,ITHBUFH,SUBSET,GEO  ,
+     7                  OUTPUT%TH%ITHGRPH,OUTPUT%TH%ITHBUFH,SUBSET,GEO  ,
      8                  KXX   ,IXR,
      9                  KXSP  ,NOD2SP ,SPBUF ,
      B                  NPARTSAV,AR   ,VR    ,DR,
@@ -1710,7 +1706,7 @@ C
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,LOUT ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
-     7                ITHGRPI,ITHBUFI,SUBSET,GEO  ,
+     7                OUTPUT%TH%ITHGRPI,OUTPUT%TH%ITHBUFI,SUBSET,GEO  ,
      8                KXX   ,IXR,
      9                KXSP  ,NOD2SP ,SPBUF ,
      B                NPARTSAV,AR   ,VR    ,DR,
@@ -1724,7 +1720,7 @@ C
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                IGAUP,NGAUP ,AFORM(9),WEIGHT_MD,SIZE_MES,
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
-     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W)
+     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFI)
         IF(SIZE_MES==1 .AND.
      *     AFORM(9)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(9))
@@ -1736,7 +1732,7 @@ C
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
-     7                  ITHGRPI,ITHBUFI,SUBSET,GEO  ,
+     7                  OUTPUT%TH%ITHGRPI,OUTPUT%TH%ITHBUFI,SUBSET,GEO  ,
      8                  KXX   ,IXR,
      9                  KXSP  ,NOD2SP ,SPBUF ,
      B                  NPARTSAV,AR   ,VR    ,DR,
@@ -1796,7 +1792,7 @@ C
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,LOUT ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
-     7                ITHGRP,ITHBUF,SUBSET,GEO  ,
+     7                OUTPUT%TH%ITHGRP,OUTPUT%TH%ITHBUF,SUBSET,GEO  ,
      8                KXX   ,IXR,
      9                KXSP  ,NOD2SP ,SPBUF ,
      B                NPARTSAV,AR   ,VR    ,DR,
@@ -1810,7 +1806,7 @@ C
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                IGAUP,NGAUP,ITFORM,WEIGHT_MD,SIZE_MES,
      M                RTHBUF ,THKE ,STACK,ISPHIO  ,VSPHIO,
-     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W)
+     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUF)
 
         IF(SIZE_MES==1 .AND.
      *     ITFORM==3   .AND.
@@ -1824,7 +1820,7 @@ C
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
      5                PARTSAV,ACCELM,LOUT ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
-     7                ITHGRP,ITHBUF,SUBSET,GEO  ,
+     7                OUTPUT%TH%ITHGRP,OUTPUT%TH%ITHBUF,SUBSET,GEO  ,
      8                KXX   ,IXR,
      9                KXSP  ,NOD2SP ,SPBUF ,
      B                NPARTSAV,AR   ,VR    ,DR,

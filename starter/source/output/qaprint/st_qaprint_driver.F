@@ -94,12 +94,8 @@ Chd|====================================================================
      D                             I2RUPT      ,AREASL     ,INTBUF_FRIC_TAB ,NPFRICORTH     ,
      E                             PFRICORTH   ,IREPFORTH  ,PHIFORTH        ,VFORTH         ,XREFC            ,
      F                             XREFTG      ,XREFS      ,TAGXREF         ,IXS            ,IXC              ,
-     G                             IXTG        ,RWBUF      ,NPRW            ,LPRW           ,ITHGRP           ,
-     H                             ITHBUF      ,ITHVAR     ,IPART           ,SUBSETS        ,ITHGRPA          ,
-     I                             ITHGRPB     ,ITHGRPC    ,ITHGRPD         ,ITHGRPE        ,ITHGRPF          ,
-     J                             ITHGRPG     ,ITHGRPH    ,ITHGRPI         ,ITHBUFA        ,ITHBUFB          ,
-     K                             ITHBUFC     ,ITHBUFD    ,ITHBUFE         ,ITHBUFF        ,ITHBUFG          ,
-     L                             ITHBUFH     ,ITHBUFI    ,IPARTTH         ,NTHGRPMX       ,NIMPDISP         ,
+     G                             IXTG        ,RWBUF      ,NPRW            ,LPRW           ,ITHVAR           ,
+     H                             IPART       ,SUBSETS    ,IPARTTH         ,NTHGRPMX       ,NIMPDISP         ,
      M                             NIMPVEL     ,DETONATORS ,IBCSCYC         ,NPC            ,PLD              ,
      N                             TABLE       ,NPTS       ,IRBE3           ,LRBE3          ,FRBE3            ,
      O                             MGRBY       ,IXS10      ,ISOLNOD         ,IXR            ,R_SKEW           ,
@@ -126,7 +122,7 @@ Chd|====================================================================
      J                             NSIGSH      ,SIGSH      ,NSIGI           ,SIGSP          ,NSIGS            ,
      K                             SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS      ,SIGTRUSS         ,
      L                             NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL ,
-     M                             IMERGE      ,NMERGE_TOT ,IEXLNK          ,DRAPEG         ,USER_WINDOWS)
+     M                             IMERGE      ,NMERGE_TOT ,IEXLNK          ,DRAPEG         ,USER_WINDOWS,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -151,6 +147,7 @@ C-----------------------------------------------
       USE INIMAP1D_MOD
       USE INIMAP2D_MOD
       USE USER_WINDOWS_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -221,6 +218,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: MERGE_NODE_TOL(*)
       INTEGER,INTENT(IN) :: IPARG(NPARG,NGROUP)
       TYPE(USER_WINDOWS_),INTENT(IN)      :: USER_WINDOWS
+      TYPE(OUTPUT_),INTENT(IN)            :: OUTPUT
 C-----------------------------------------------
 C      NOM_OPT(LNOPT1,SNOM_OPT1) 
 C         * Possibly, NOM_OPT(1) = ID
@@ -290,14 +288,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ISOLNOD(NUMELS),IXR(NIXR,*), R_SKEW(*),IXP(NIXP,*),IXT(NIXT,*),
      .                       IXQ(NIXQ,*),KXSP(NISP,*),IPARTSP(*),IPARTX(*)
       INTEGER, INTENT(IN) :: NPRW(NRWALL,NNPRW),LPRW(SLPRW)
-      INTEGER, INTENT(IN) :: ITHGRP(NITHGR,*),ITHBUF(SITHBUF),ITHVAR(SITHVAR),
+      INTEGER, INTENT(IN) :: ITHVAR(SITHVAR),
      .                       IPART(LIPART1*(NPART+NTHPART)),
-     .                       ITHGRPA(NITHGR,*),ITHGRPB(NITHGR,*),ITHGRPC(NITHGR,*),
-     .                       ITHGRPD(NITHGR,*),ITHGRPE(NITHGR,*),ITHGRPF(NITHGR,*),
-     .                       ITHGRPG(NITHGR,*),ITHGRPH(NITHGR,*),ITHGRPI(NITHGR,*),
-     .                       ITHBUFA(SITHBUFA),ITHBUFB(SITHBUFB),ITHBUFC(SITHBUFC),
-     .                       ITHBUFD(SITHBUFD),ITHBUFE(SITHBUFE),ITHBUFF(SITHBUFF),
-     .                       ITHBUFG(SITHBUFG),ITHBUFH(SITHBUFH),ITHBUFI(SITHBUFI),
      .                       IPARTTH(18*(NPART+NTHPART)),NTHGRPMX,IBCSCYC(*)
       INTEGER, INTENT(IN) :: NPTS,NPC(*),IRBE3(*),LRBE3(*),IRBE2(*),LRBE2(*)  
       INTEGER, INTENT(IN) :: MGRBY(NMGRBY,SMGRBY)
@@ -437,11 +429,9 @@ C-----------------------------------------------
       CALL ST_QAPRINT_FRICTION(NOM_OPT,INOM_OPT,INTBUF_FRIC_TAB,NPFRICORTH,PFRICORTH ,IREPFORTH,PHIFORTH,VFORTH) 
       CALL ST_QAPRINT_REFERENCE_STATE(XREFC     ,XREFTG    ,XREFS     ,TAGXREF   ,
      1                                IXS       ,IXC       ,IXTG      )
-      CALL ST_QAPRINT_TIME_HISTORIES(ITHGRP   ,ITHBUF   ,ITHVAR   ,IPART    ,SUBSETS  ,
-     1                               ITHGRPA  ,ITHGRPB  ,ITHGRPC  ,ITHGRPD  ,ITHGRPE  ,
-     2                               ITHGRPF  ,ITHGRPG  ,ITHGRPH  ,ITHGRPI  ,ITHBUFA  ,
-     3                               ITHBUFB  ,ITHBUFC  ,ITHBUFD  ,ITHBUFE  ,ITHBUFF  ,
-     4                               ITHBUFG  ,ITHBUFH  ,ITHBUFI  ,IPARTTH  ,NTHGRPMX )
+
+      CALL ST_QAPRINT_TIME_HISTORIES(OUTPUT%TH   ,ITHVAR   ,IPART    ,SUBSETS  ,
+     1                               IPARTTH  ,NTHGRPMX )
 
       CALL ST_QAPRINT_DFS_DETONATORS(DETONATORS)    
 

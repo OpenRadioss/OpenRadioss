@@ -88,10 +88,10 @@ Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
-      SUBROUTINE RDRESB(AF ,IAF  ,LVARREA, XDP   ,
-     .           IRUNN, MULTI_FVM,H3D_DATA,MATPARAM_TAB,GROUP_PARAM_TAB,
-     .           PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL  ,
-     .           SENSOR_TAB, EBCS_TAB,DYNAIN_DATA,USER_WINDOWS)
+      SUBROUTINE RDRESB( AF               ,IAF      ,LVARREA      ,XDP             ,IRUNN      ,
+     .                   MULTI_FVM        ,H3D_DATA ,MATPARAM_TAB ,GROUP_PARAM_TAB ,PINCH_DATA , 
+     .                   ALE_CONNECTIVITY ,T_MONVOL ,SENSOR_TAB   ,EBCS_TAB        ,DYNAIN_DATA,
+     .                   USER_WINDOWS     ,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -121,6 +121,7 @@ C-----------------------------------------------
       USE STATE_MOD
       USE USER_WINDOWS_MOD
       USE ALE_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -162,17 +163,18 @@ C-----------------------------------------------
       INTEGER IAF(*),LVARREA,LEN_G,LEN_M, IRUNN
       my_real AF(*)
       DOUBLE PRECISION XDP(*)
-      TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
-      TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE(GRP_PARAM_STRUCT_) , DIMENSION(NGROUP) :: GROUP_PARAM_TAB
-      TYPE(PINCH) :: PINCH_DATA
-      TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TYPE(MULTI_FVM_STRUCT)                               :: MULTI_FVM
+      TYPE(H3D_DATABASE)                                   :: H3D_DATA
+      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT)          :: MATPARAM_TAB
+      TYPE(GRP_PARAM_STRUCT_) , DIMENSION(NGROUP)          :: GROUP_PARAM_TAB
+      TYPE(PINCH)                                          :: PINCH_DATA
+      TYPE(t_ale_connectivity), INTENT(INOUT)              :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_),DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
-      TYPE(SENSOR_STR_)   ,DIMENSION(NSENSOR) :: SENSOR_TAB
-      TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
-      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
-      TYPE(USER_WINDOWS_),INTENT(INOUT) :: USER_WINDOWS
+      TYPE(SENSOR_STR_)   ,DIMENSION(NSENSOR)              :: SENSOR_TAB
+      TYPE(t_ebcs_tab), INTENT(INOUT)                      :: EBCS_TAB
+      TYPE(DYNAIN_DATABASE), INTENT(INOUT)                 :: DYNAIN_DATA
+      TYPE(USER_WINDOWS_),INTENT(INOUT)                    :: USER_WINDOWS
+      TYPE(OUTPUT_),INTENT(INOUT)                          :: OUTPUT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -190,7 +192,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-
       DO I=1,LMXVREA
         TABVREA(I)=ZERO
       ENDDO
@@ -536,45 +537,8 @@ c        CALL READ_I_C(INBUF,SINBUF)
 
         CALL READ_I_C(ICNDS10,3*NS10E)
 
-        CALL READ_I_C(ITHGRP,SITHGRP)
-
-        CALL READ_I_C(ITHBUF,SITHBUF)
-
-        CALL READ_I_C(ITHGRPA,SITHGRPA)
-
-        CALL READ_I_C(ITHBUFA,SITHBUFA)
-
-        CALL READ_I_C(ITHGRPB,SITHGRPB)
-
-        CALL READ_I_C(ITHBUFB,SITHBUFB)
-
-        CALL READ_I_C(ITHGRPC,SITHGRPC)
-
-        CALL READ_I_C(ITHBUFC,SITHBUFC)
-
-        CALL READ_I_C(ITHGRPD,SITHGRPD)
-
-        CALL READ_I_C(ITHBUFD,SITHBUFD)
-
-        CALL READ_I_C(ITHGRPE,SITHGRPE)
-
-        CALL READ_I_C(ITHBUFE,SITHBUFE)
-
-        CALL READ_I_C(ITHGRPF,SITHGRPF)
-
-        CALL READ_I_C(ITHBUFF,SITHBUFF)
-
-        CALL READ_I_C(ITHGRPG,SITHGRPG)
-
-        CALL READ_I_C(ITHBUFG,SITHBUFG)
-
-        CALL READ_I_C(ITHGRPH,SITHGRPH)
-
-        CALL READ_I_C(ITHBUFH,SITHBUFH)
-
-        CALL READ_I_C(ITHGRPI,SITHGRPI)
-
-        CALL READ_I_C(ITHBUFI,SITHBUFI)
+        ! Read Time History
+        CALL READ_TH_RESTART(OUTPUT%TH)
 
         CALL READ_I_C(FR_MV,SFR_MV)
 

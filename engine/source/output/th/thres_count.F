@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE THRES_COUNT(IPARG,ITHBUF,ELBUF_TAB,IGEO,IXR, 
-     .                       ITHGRP,NTHGRP2,WA_SIZE,INDEX_WA_SPRING)
+     .                       ITHGRP,NTHGRP2,WA_SIZE,INDEX_WA_SPRING,SITHBUF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: SITHBUF
       INTEGER IPARG(NPARG,*),ITHBUF(*),IXR(NIXR,*),
      .   IGEO(NPROPGI,*),ITHGRP(NITHGR,*),NTHGRP2
       INTEGER, INTENT(inout) :: WA_SIZE

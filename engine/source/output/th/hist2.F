@@ -85,7 +85,7 @@ Chd|====================================================================
      K                 FTHREAC ,NODREAC   ,GRESAV   ,GAUGE    ,
      L                 IGAUP   ,NGAUP     ,ITTYP    ,WEIGHT_MD,SIZE_MES  ,
      M                 RTHBUF  ,THKE      ,STACK    ,ISPHIO   ,VSPHIO    ,
-     N                 ITHFLAG ,PINCH_DATA,MULTI_FVM,W)
+     N                 ITHFLAG ,PINCH_DATA,MULTI_FVM,W,SITHBUF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -128,6 +128,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: SITHBUF
       INTEGER MBUFFER, NPARTL
       LOGICAL LOUT
       INTEGER IXS(NIXS,NUMELS),IPARG(NPARG,NGROUP),
@@ -1277,7 +1278,7 @@ C           SENSOR
 C-----------------------------
             CALL THSENS (SENSOR_TAB,NSENSOR,
      .           IAD    ,IAD+NN-1 ,IADV   ,IADV+NVAR-1,ITHBUF   ,
-     .           WA     ,ITTYP    )
+     .           WA     ,ITTYP    ,SITHBUF)
 C
 c----
           ENDIF  ! ITYP

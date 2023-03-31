@@ -507,8 +507,8 @@ Chd|        USER_SENSOR_MOD               share/modules1/user_interface_mod.F
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================
-      SUBROUTINE LECTUR(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,EBCS_TAB,SEATBELT_CONVERTED_ELEMENTS,
-     .                  NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE,USER_WINDOWS)
+      SUBROUTINE LECTUR( MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
+     .                   SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -583,6 +583,7 @@ C-----------------------------------------------
       USE USER_WINDOWS_MOD
       USE USER_SENSOR_MOD
       USE ALE_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -590,15 +591,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
-      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
-      INTEGER,INTENT(IN)::IS_DYNA
-      TYPE(DETONATOR_STRUCT_),TARGET :: DETONATORS
-      TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB
-      INTEGER,INTENT(IN)::NB_SEATBELT_SHELLS
-      INTEGER,INTENT(INOUT)::SEATBELT_CONVERTED_ELEMENTS(3,NB_SEATBELT_SHELLS)
-      INTEGER,INTENT(IN)::NB_DYNA_INCLUDE
+      TYPE(MULTI_FVM_STRUCT)             :: MULTI_FVM
+      TYPE(SUBMODEL_DATA)                :: LSUBMODEL(NSUBMOD)
+      INTEGER,INTENT(IN)                 ::IS_DYNA
+      TYPE(DETONATOR_STRUCT_),TARGET     :: DETONATORS
+      TYPE(T_EBCS_TAB), INTENT(INOUT)    :: EBCS_TAB
+      INTEGER,INTENT(IN)                 ::NB_SEATBELT_SHELLS
+      INTEGER,INTENT(INOUT)              ::SEATBELT_CONVERTED_ELEMENTS(3,NB_SEATBELT_SHELLS)
+      INTEGER,INTENT(IN)                 ::NB_DYNA_INCLUDE
       TYPE(USER_WINDOWS_), INTENT(INOUT) :: USER_WINDOWS
+      TYPE(OUTPUT_), INTENT(INOUT)       :: OUTPUT
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -2970,9 +2972,9 @@ C
       ENDIF
 C--------------------
       CALL TRACE_OUT1()
-C--------------------------------------------
-C    LECTURE DES GROUPES D'ELEMENTS (1st LEVEL)
-C--------------------------------------------
+C--------------------------
+C    ELEMENT GROUT READING
+C--------------------------
       ERR_MSG='GROUPS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 !
@@ -3834,11 +3836,11 @@ cc r2r with new IFRONT
          IN10 = INOM_OPT(10)
          IN20 = INOM_OPT(20)
 
-C-----on met  jour les tailles de tableaux et repointe THKEC--
+C-----ARRAY size update & rebuild THKEC--
          GOTO 208
 209      CONTINUE
 
-C-----on met a jour les nom d'options----------
+C----- OPTION name update ----------
          GOTO 210
 211      CONTINUE
          CALL R2R_NOM_OPT(NOM_OPT,INOM_OPT,IN10,IN20,SNOM_OPT_OLD)
@@ -5048,7 +5050,7 @@ C--------------------------------------------
        ALLOCATE(POIN_UMP_OLD(0), STAT=stat)
       ENDIF
 C--------------------------------------------
-C     USER'S WINDOW
+C     USER S WINDOW
 C--------------------------------------------
       ERR_MSG='USER WINDOWS'
       ERR_CATEGORY='USER WINDOWS'
@@ -6595,7 +6597,6 @@ c      CALL PRELECGRAV(NUMGRAV ,IGRNOD)
      .                 IGRNOD  ,NPC     ,SENSOR_TAB,UNITAB  ,ISKWN   ,
      .                 ITAGND  ,LSUBMODEL)
       CALL TRACE_OUT1()
-C     on saute l'external coupling
 C----------------------------------
 C     LECTURE DES CARTES INIGRAV
 C----------------------------------
@@ -8003,7 +8004,7 @@ C  or if no contact interfaces and no ams
 C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 C
 C--------------------------------------------
-C     INITIALISATION DES BUFFERS D'ELEMENTS
+C     ELEMENT BUFFER INTIALIZATION
 C--------------------------------------------
       ERR_MSG='ELEMENT BUFFER INITIALIZATION'
       ERR_CATEGORY='INTERNAL'
@@ -9270,7 +9271,7 @@ C----------------------------------
       CALL TRACE_OUT1()
 
 C--------------------------------------------
-C     LECTURE DES THPARTS
+C     THPARTS TREADING
 C--------------------------------------------
       ERR_MSG='TIME HISTORY PARTS'
       ERR_CATEGORY='TIME HISTORY'
@@ -9288,7 +9289,7 @@ C--------------------------------------------
      *                         IXT  ,IXP  ,IXR   ,KXSP,LRIVET,
      *                         IBID )
 C----------------------------------
-C     LECTURE DES GROUPES TH
+C     TH GROUP READING
 C----------------------------------
       ERR_MSG='TIME HISTORY GROUPS'
       ERR_CATEGORY='TIME HISTORY'
@@ -9326,7 +9327,7 @@ c
         NBR_TH_MONVOL = MAX(NBR_TH_MONVOL,NBR_TH_MONVOL01(I))
       ENDDO
 c
-      SITHGRP   = (NTHGRP0+NBR_TH_MONVOL)*NITHGR
+      OUTPUT%TH%SITHGRP = (NTHGRP0+NBR_TH_MONVOL)*NITHGR
       LITHPART  = NTHGRPMX*(NPART+NTHPART)
       LITHSUB   = NTHGRPMX*NSUBS
       LITHBUFMX = 0
@@ -9349,20 +9350,20 @@ c
       ALLOCATE(ITHBUFTMP(LITHBUFMX),  STAT=stat)
       ALLOCATE(ITHVAR(SITHVAR)     ,  STAT=stat)
       IF(SITHVAR > 0) ITHVAR(1:SITHVAR) = 0
-      ALLOCATE(ITHGRP(SITHGRP)     ,  STAT=stat)
+      MY_ALLOCATE(OUTPUT%TH%ITHGRP,OUTPUT%TH%SITHGRP)
 c
-      ITHGRP    = 0
+      OUTPUT%TH%ITHGRP(1:OUTPUT%TH%SITHGRP)    = 0
       ITHPART   = 0
       ITHSUB    = 0
       ITHBUFTMP = 0
-      SITHBUF   = 0
+      OUTPUT%TH%SITHBUF = 0
       ITHFLAG   = 10
 c-----
       ! New routine to read /TH with hm_reader and old reader
       CALL HM_READ_THGROU(
-     1       ITHGRP   ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
+     1       OUTPUT%TH%ITHGRP   ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
-     3       KXX      ,IXX      ,IPART    ,SITHBUF  ,
+     3       KXX      ,IXX      ,IPART    ,OUTPUT%TH%SITHBUF,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
      5       NTHGRP   ,ITHPART  ,ITHSUB   ,FXBIPM   ,IPART   ,LIPART1  ,
      6       8        ,12       ,IMERGE   ,ITHVAR   ,
@@ -9375,25 +9376,27 @@ c-----
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 0,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB)
 C
-      ALLOCATE(ITHBUF(SITHBUF),  STAT=stat)
-      ITHBUF = ITHBUFTMP(1:SITHBUF)
-      If (LITHBUFMX < SITHBUF) then
-        print*,'Allocation error :LITHBUFMX, SITHBUF=',LITHBUFMX,SITHBUF
+      MY_ALLOCATE(OUTPUT%TH%ITHBUF,OUTPUT%TH%SITHBUF)
+      OUTPUT%TH%ITHBUF(1:OUTPUT%TH%SITHBUF) = ITHBUFTMP(1:OUTPUT%TH%SITHBUF)
+
+      If (LITHBUFMX < OUTPUT%TH%SITHBUF) then
+        print*,'Allocation error :LITHBUFMX, SITHBUF=',LITHBUFMX,OUTPUT%TH%SITHBUF
       endif
       ALLOCATE(RTHBUF(SRTHBUF),  STAT=stat)
       IF(SRTHBUF > 0) CALL THSKEWC(
-     1       RTHBUF   ,ITHGRP   ,ITHBUF,X     ,IXC     ,IXTG   ,SKEW,NTHGRP)
+     1       RTHBUF   ,OUTPUT%TH%ITHGRP ,OUTPUT%TH%ITHBUF,X     ,IXC     ,IXTG   ,SKEW,NTHGRP)
+
 C--------
 C ithgrpa
 C--------
       IF (NTHGRP01(1) > 0) THEN
-       SITHGRPA = (NTHGRP01(1)+NBR_TH_MONVOL)*NITHGR
-       ALLOCATE(ITHGRPA(SITHGRPA)     ,  STAT=stat)
-       ITHGRPA   = 0
+       OUTPUT%TH%SITHGRPA = (NTHGRP01(1)+NBR_TH_MONVOL)*NITHGR
+       MY_ALLOCATE(OUTPUT%TH%ITHGRPA,OUTPUT%TH%SITHGRPA)
+       OUTPUT%TH%ITHGRPA   = 0
        ITHPART   = 0
        ITHSUB    = 0
        ITHBUFTMP = 0
-       SITHBUFA  = 0
+       OUTPUT%TH%SITHBUFA  = 0
        ITHFLAG   = 1
 c-----
         IF (NPART+NTHPART>0) THEN
@@ -9402,9 +9405,9 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPA  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
+     1       OUTPUT%TH%ITHGRPA  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
-     3       KXX      ,IXX      ,IPART    ,SITHBUFA ,
+     3       KXX      ,IXX      ,IPART    ,OUTPUT%TH%SITHBUFA ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
      5       NTHGRP1(1),ITHPART ,ITHSUB   ,FXBIPM   ,IPARTTHI,2        ,
      6       1        ,1        ,IMERGE   ,ITHVAR   ,
@@ -9417,25 +9420,25 @@ c-----
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 1,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB)
 C
-        ALLOCATE(ITHBUFA(SITHBUFA),  STAT=stat)
-        ITHBUFA = ITHBUFTMP(1:SITHBUFA)
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFA,OUTPUT%TH%SITHBUFA)
+        OUTPUT%TH%ITHBUFA = ITHBUFTMP(1:OUTPUT%TH%SITHBUFA)
       ELSE
-        SITHGRPA = 0
-        SITHBUFA = 0
-        ALLOCATE(ITHGRPA(SITHGRPA),  STAT=stat)
-        ALLOCATE(ITHBUFA(SITHBUFA),  STAT=stat)
+            OUTPUT%TH%SITHGRPA = 0
+            OUTPUT%TH%SITHBUFA = 0
+            MY_ALLOCATE(OUTPUT%TH%ITHGRPA,OUTPUT%TH%SITHGRPA)
+            MY_ALLOCATE(OUTPUT%TH%ITHBUFA,OUTPUT%TH%SITHBUFA)
       ENDIF
 C--------
 C ithgrpb
 C--------
       IF (NTHGRP01(2) > 0) THEN
-        SITHGRPB = (NTHGRP01(2)+NBR_TH_MONVOL)*NITHGR
-        ALLOCATE(ITHGRPB(SITHGRPB)     ,  STAT=stat)
-        ITHGRPB   = 0
+        OUTPUT%TH%SITHGRPB = (NTHGRP01(2)+NBR_TH_MONVOL)*NITHGR
+        MY_ALLOCATE(OUTPUT%TH%ITHGRPB,OUTPUT%TH%SITHGRPB)
+        OUTPUT%TH%ITHGRPB   = 0
         ITHPART   = 0
         ITHSUB    = 0
         ITHBUFTMP = 0
-        SITHBUFB  = 0
+        OUTPUT%TH%SITHBUFB  = 0
         ITHFLAG   = 2
 c-----
         IF (NPART+NTHPART>0) THEN
@@ -9444,9 +9447,9 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPB  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
+     1       OUTPUT%TH%ITHGRPB  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
-     3       KXX      ,IXX      ,IPART    ,SITHBUFB ,
+     3       KXX      ,IXX      ,IPART    ,OUTPUT%TH%SITHBUFB ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
      5       NTHGRP1(2),ITHPART ,ITHSUB   ,FXBIPM   ,IPARTTHI,2        ,
      6       1        ,1        ,IMERGE   ,ITHVAR   ,
@@ -9461,25 +9464,25 @@ c-----
 
 
 C
-        ALLOCATE(ITHBUFB(SITHBUFB),  STAT=stat)
-        ITHBUFB = ITHBUFTMP(1:SITHBUFB)
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFB,OUTPUT%TH%SITHBUFB)
+        OUTPUT%TH%ITHBUFB = ITHBUFTMP(1:OUTPUT%TH%SITHBUFB)
       ELSE
-        SITHGRPB = 0
-        SITHBUFB = 0
-        ALLOCATE(ITHGRPB(SITHGRPB),  STAT=stat)
-        ALLOCATE(ITHBUFB(SITHBUFB),  STAT=stat)
+            OUTPUT%TH%SITHGRPB = 0
+            OUTPUT%TH%SITHBUFB = 0
+            MY_ALLOCATE(OUTPUT%TH%ITHGRPB,OUTPUT%TH%SITHGRPB)
+            MY_ALLOCATE(OUTPUT%TH%ITHBUFB,OUTPUT%TH%SITHBUFB)
       ENDIF
 C--------
 C ithgrpc
 C--------
       IF (NTHGRP01(3) > 0) THEN
-        SITHGRPC = (NTHGRP01(3)+NBR_TH_MONVOL)*NITHGR
-        ALLOCATE(ITHGRPC(SITHGRPC)     ,  STAT=stat)
-        ITHGRPC   = 0
+        OUTPUT%TH%SITHGRPC = (NTHGRP01(3)+NBR_TH_MONVOL)*NITHGR
+        MY_ALLOCATE(OUTPUT%TH%ITHGRPC,OUTPUT%TH%SITHGRPC)
+        OUTPUT%TH%ITHGRPC   = 0
         ITHPART   = 0
         ITHSUB    = 0
         ITHBUFTMP = 0
-        SITHBUFC  = 0
+        OUTPUT%TH%SITHBUFC  = 0
         ITHFLAG   = 3
 c-----
         IF (NPART+NTHPART>0) THEN
@@ -9488,9 +9491,9 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPC  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
+     1       OUTPUT%TH%ITHGRPC  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
-     3       KXX      ,IXX      ,IPART    ,SITHBUFC ,
+     3       KXX      ,IXX      ,IPART    ,OUTPUT%TH%SITHBUFC ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
      5       NTHGRP1(3),ITHPART ,ITHSUB   ,FXBIPM   ,IPARTTHI,2        ,
      6       1        ,1        ,IMERGE   ,ITHVAR   ,
@@ -9503,25 +9506,25 @@ c-----
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 3,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB)
 C
-        ALLOCATE(ITHBUFC(SITHBUFC),  STAT=stat)
-        ITHBUFC = ITHBUFTMP(1:SITHBUFC)
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFC, OUTPUT%TH%SITHBUFC)
+        OUTPUT%TH%ITHBUFC(1:OUTPUT%TH%SITHBUFC) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFC)
       ELSE
-        SITHGRPC = 0
-        SITHBUFC = 0
-        ALLOCATE(ITHBUFC(SITHBUFC),  STAT=stat)
-        ALLOCATE(ITHGRPC(SITHGRPC),  STAT=stat)
+        OUTPUT%TH%SITHGRPC = 0
+        OUTPUT%TH%SITHBUFC = 0
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFC, OUTPUT%TH%SITHBUFC)
+        MY_ALLOCATE(OUTPUT%TH%ITHGRPC, OUTPUT%TH%SITHGRPC)
       ENDIF
 C--------
 C ithgrpd
 C--------
       IF (NTHGRP01(4) > 0) THEN
-        SITHGRPD = (NTHGRP01(4)+NBR_TH_MONVOL)*NITHGR
-        ALLOCATE(ITHGRPD(SITHGRPD)     ,  STAT=stat)
-        ITHGRPD   = 0
+        OUTPUT%TH%SITHGRPD = (NTHGRP01(4)+NBR_TH_MONVOL)*NITHGR
+        MY_ALLOCATE(OUTPUT%TH%ITHGRPD,OUTPUT%TH%SITHGRPD)
+        OUTPUT%TH%ITHGRPD   = 0
         ITHPART   = 0
         ITHSUB    = 0
         ITHBUFTMP = 0
-        SITHBUFD  = 0
+        OUTPUT%TH%SITHBUFD  = 0
         ITHFLAG   = 4
 c-----
         IF (NPART+NTHPART>0) THEN
@@ -9530,9 +9533,9 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPD  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
+     1       OUTPUT%TH%ITHGRPD  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
-     3       KXX      ,IXX      ,IPART    ,SITHBUFD ,
+     3       KXX      ,IXX      ,IPART    ,OUTPUT%TH%SITHBUFD ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
      5       NTHGRP1(4),ITHPART ,ITHSUB   ,FXBIPM   ,IPARTTHI,2        ,
      6       1        ,1        ,IMERGE   ,ITHVAR   ,
@@ -9545,25 +9548,25 @@ c-----
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 4,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB)
 C
-        ALLOCATE(ITHBUFD(SITHBUFD),  STAT=stat)
-        ITHBUFD = ITHBUFTMP(1:SITHBUFD)
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFD,OUTPUT%TH%SITHBUFD)
+        OUTPUT%TH%ITHBUFD(1:OUTPUT%TH%SITHBUFD) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFD)
       ELSE
-        SITHGRPD = 0
-        SITHBUFD = 0
-        ALLOCATE(ITHBUFD(SITHBUFD),  STAT=stat)
-        ALLOCATE(ITHGRPD(SITHGRPD),  STAT=stat)
+        OUTPUT%TH%SITHGRPD = 0
+        OUTPUT%TH%SITHBUFD = 0
+        ALLOCATE(OUTPUT%TH%ITHBUFD(OUTPUT%TH%SITHBUFD),  STAT=stat)
+        ALLOCATE(OUTPUT%TH%ITHGRPD(OUTPUT%TH%SITHGRPD),  STAT=stat)
       ENDIF
 C--------
 C ithgrpe
 C--------
       IF (NTHGRP01(5) > 0) THEN
-        SITHGRPE = (NTHGRP01(5)+NBR_TH_MONVOL)*NITHGR
-        ALLOCATE(ITHGRPE(SITHGRPE)     ,  STAT=stat)
-        ITHGRPE   = 0
+        OUTPUT%TH%SITHGRPE = (NTHGRP01(5)+NBR_TH_MONVOL)*NITHGR
+        MY_ALLOCATE(OUTPUT%TH%ITHGRPE,OUTPUT%TH%SITHGRPE)
+        OUTPUT%TH%ITHGRPE   = 0
         ITHPART   = 0
         ITHSUB    = 0
         ITHBUFTMP = 0
-        SITHBUFE  = 0
+        OUTPUT%TH%SITHBUFE  = 0
         ITHFLAG   = 5
 c-----
         IF (NPART+NTHPART>0) THEN
@@ -9573,9 +9576,9 @@ c-----
         END IF
 c-----
         CALL HM_READ_THGROU(
-     1       ITHGRPE  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
+     1       OUTPUT%TH%ITHGRPE  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
-     3       KXX      ,IXX      ,IPART    ,SITHBUFE ,
+     3       KXX      ,IXX      ,IPART    ,OUTPUT%TH%SITHBUFE ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
      5       NTHGRP1(5),ITHPART ,ITHSUB   ,FXBIPM   ,IPARTTHI,2        ,
      6       1        ,1        ,IMERGE   ,ITHVAR   ,
@@ -9588,25 +9591,25 @@ c-----
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 5,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB)
 C
-        ALLOCATE(ITHBUFE(SITHBUFE),  STAT=stat)
-        ITHBUFE = ITHBUFTMP(1:SITHBUFE)
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFE,OUTPUT%TH%SITHBUFE)
+        OUTPUT%TH%ITHBUFE = ITHBUFTMP(1:OUTPUT%TH%SITHBUFE)
       ELSE
-        SITHGRPE = 0
-        SITHBUFE = 0
-        ALLOCATE(ITHBUFE(SITHBUFE),  STAT=stat)
-        ALLOCATE(ITHGRPE(SITHGRPE),  STAT=stat)
+        OUTPUT%TH%SITHGRPE = 0
+        OUTPUT%TH%SITHBUFE = 0
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFE,OUTPUT%TH%SITHBUFE)
+        MY_ALLOCATE(OUTPUT%TH%ITHGRPE,OUTPUT%TH%SITHGRPE)
       ENDIF
 C--------
 C ithgrpf
 C--------
       IF (NTHGRP01(6) > 0) THEN
-        SITHGRPF = (NTHGRP01(6)+NBR_TH_MONVOL)*NITHGR
-        ALLOCATE(ITHGRPF(SITHGRPF)     ,  STAT=stat)
-        ITHGRPF   = 0
+        OUTPUT%TH%SITHGRPF = (NTHGRP01(6)+NBR_TH_MONVOL)*NITHGR
+        MY_ALLOCATE(OUTPUT%TH%ITHGRPF,OUTPUT%TH%SITHGRPF)
+        OUTPUT%TH%ITHGRPF   = 0
         ITHPART   = 0
         ITHSUB    = 0
         ITHBUFTMP = 0
-        SITHBUFF  = 0
+        OUTPUT%TH%SITHBUFF  = 0
         ITHFLAG   = 6
 c-----
         IF (NPART+NTHPART>0) THEN
@@ -9615,9 +9618,9 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPF  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
+     1       OUTPUT%TH%ITHGRPF  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
-     3       KXX      ,IXX      ,IPART    ,SITHBUFF ,
+     3       KXX      ,IXX      ,IPART    ,OUTPUT%TH%SITHBUFF ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
      5       NTHGRP1(6),ITHPART ,ITHSUB   ,FXBIPM   ,IPARTTHI,2        ,
      6       1        ,1        ,IMERGE   ,ITHVAR   ,
@@ -9630,21 +9633,22 @@ c-----
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 6,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB)
 C
-        ALLOCATE(ITHBUFF(SITHBUFF),  STAT=stat)
-        ITHBUFF = ITHBUFTMP(1:SITHBUFF)
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFF,OUTPUT%TH%SITHBUFF)
+        OUTPUT%TH%ITHBUFF(1:OUTPUT%TH%SITHBUFF) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFF)
       ELSE
-        SITHGRPF = 0
-        SITHBUFF = 0
-        ALLOCATE(ITHBUFF(SITHBUFF),  STAT=stat)
-        ALLOCATE(ITHGRPF(SITHGRPF),  STAT=stat)
+        OUTPUT%TH%SITHGRPF = 0
+        OUTPUT%TH%SITHBUFF = 0
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFF,OUTPUT%TH%SITHBUFF)
+        MY_ALLOCATE(OUTPUT%TH%ITHGRPF,OUTPUT%TH%SITHGRPF)
       ENDIF
 C--------
 C ithgrpg
 C--------
       IF (NTHGRP01(7) > 0) THEN
-        SITHGRPG = (NTHGRP01(7)+NBR_TH_MONVOL)*NITHGR
-        ALLOCATE(ITHGRPG(SITHGRPG)     ,  STAT=stat)
-        ITHGRPG   = 0
+        OUTPUT%TH%SITHGRPG = (NTHGRP01(7)+NBR_TH_MONVOL)*NITHGR
+        MY_ALLOCATE(OUTPUT%TH%ITHGRPG,OUTPUT%TH%SITHGRPG)
+        OUTPUT%TH%ITHGRPG = 0
+        OUTPUT%TH%SITHBUFG = 0
         ITHPART   = 0
         ITHSUB    = 0
         ITHBUFTMP = 0
@@ -9656,9 +9660,9 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPG  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
+     1       OUTPUT%TH%ITHGRPG  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
-     3       KXX      ,IXX      ,IPART    ,SITHBUFG ,
+     3       KXX      ,IXX      ,IPART    ,OUTPUT%TH%SITHBUFG ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
      5       NTHGRP1(7),ITHPART ,ITHSUB   ,FXBIPM   ,IPARTTHI,2        ,
      6       1        ,1        ,IMERGE   ,ITHVAR   ,
@@ -9671,25 +9675,25 @@ c-----
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 7,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB)
 C
-        ALLOCATE(ITHBUFG(SITHBUFG),  STAT=stat)
-        ITHBUFG = ITHBUFTMP(1:SITHBUFG)
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFG,OUTPUT%TH%SITHBUFG)
+        OUTPUT%TH%ITHBUFG(1:OUTPUT%TH%SITHBUFG) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFG)
       ELSE
-        SITHGRPG = 0
-        SITHBUFG = 0
-        ALLOCATE(ITHBUFG(SITHBUFG),  STAT=stat)
-        ALLOCATE(ITHGRPG(SITHGRPG),  STAT=stat)
+        OUTPUT%TH%SITHGRPG = 0
+        OUTPUT%TH%SITHBUFG = 0
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFG,OUTPUT%TH%SITHBUFG)
+        MY_ALLOCATE(OUTPUT%TH%ITHGRPG,OUTPUT%TH%SITHGRPG)
       ENDIF
 C--------
 C ithgrph
 C--------
       IF (NTHGRP01(8) > 0) THEN
-        SITHGRPH = (NTHGRP01(8)+NBR_TH_MONVOL)*NITHGR
-        ALLOCATE(ITHGRPH(SITHGRPH)     ,  STAT=stat)
-        ITHGRPH   = 0
+        OUTPUT%TH%SITHGRPH = (NTHGRP01(8)+NBR_TH_MONVOL)*NITHGR
+        MY_ALLOCATE(OUTPUT%TH%ITHGRPH,OUTPUT%TH%SITHGRPH)
+        OUTPUT%TH%ITHGRPH   = 0
         ITHPART   = 0
         ITHSUB    = 0
         ITHBUFTMP = 0
-        SITHBUFH  = 0
+        OUTPUT%TH%SITHBUFH  = 0
         ITHFLAG   = 8
 c-----
         IF (NPART+NTHPART>0) THEN
@@ -9698,9 +9702,9 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPH  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
+     1       OUTPUT%TH%ITHGRPH  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
-     3       KXX      ,IXX      ,IPART    ,SITHBUFH ,
+     3       KXX      ,IXX      ,IPART    ,OUTPUT%TH%SITHBUFH ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
      5       NTHGRP1(8),ITHPART ,ITHSUB   ,FXBIPM   ,IPARTTHI,2        ,
      6       1        ,1        ,IMERGE   ,ITHVAR   ,
@@ -9713,25 +9717,25 @@ c-----
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 8,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB)
 C
-        ALLOCATE(ITHBUFH(SITHBUFH),  STAT=stat)
-        ITHBUFH = ITHBUFTMP(1:SITHBUFH)
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFH,OUTPUT%TH%SITHBUFH)
+        OUTPUT%TH%ITHBUFH(1:OUTPUT%TH%SITHBUFH) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFH)
       ELSE
-        SITHGRPH = 0
-        SITHBUFH = 0
-        ALLOCATE(ITHBUFH(SITHBUFH),  STAT=stat)
-        ALLOCATE(ITHGRPH(SITHGRPH),  STAT=stat)
+        OUTPUT%TH%SITHGRPH = 0
+        OUTPUT%TH%SITHBUFH = 0
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFH,OUTPUT%TH%SITHBUFH)
+        MY_ALLOCATE(OUTPUT%TH%ITHGRPH,OUTPUT%TH%SITHGRPH)
       ENDIF
 C--------
 C ithgrpi
 C--------
       IF (NTHGRP01(9) > 0) THEN
-        SITHGRPI = (NTHGRP01(9)+NBR_TH_MONVOL)*NITHGR
-        ALLOCATE(ITHGRPI(SITHGRPI)     ,  STAT=stat)
-        ITHGRPI   = 0
+        OUTPUT%TH%SITHGRPI = (NTHGRP01(9)+NBR_TH_MONVOL)*NITHGR
+        MY_ALLOCATE(OUTPUT%TH%ITHGRPI,OUTPUT%TH%SITHGRPI)
+        OUTPUT%TH%ITHGRPI   = 0
         ITHPART   = 0
         ITHSUB    = 0
         ITHBUFTMP = 0
-        SITHBUFI  = 0
+        OUTPUT%TH%SITHBUFI  = 0
         ITHFLAG   = 9
 c-----
         IF (NPART+NTHPART>0) THEN
@@ -9740,9 +9744,9 @@ c-----
           IPARTTHI=>IPARTTH
         END IF
         CALL HM_READ_THGROU(
-     1       ITHGRPI  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
+     1       OUTPUT%TH%ITHGRPI  ,ITHBUFTMP,ITAB     ,ITABM1   ,IXTG     ,
      2       IXS      ,IXQ      ,IXC      ,IXT      ,IXP     ,IXR      ,
-     3       KXX      ,IXX      ,IPART    ,SITHBUFI ,
+     3       KXX      ,IXX      ,IPART    ,OUTPUT%TH%SITHBUFI ,
      4       NTHWA    ,KXSP     ,LRIVET   ,ISKWN    ,IFRAME  ,
      5       NTHGRP1(9),ITHPART ,ITHSUB   ,FXBIPM   ,IPARTTHI,2        ,
      6       1        ,1        ,IMERGE   ,ITHVAR   ,
@@ -9755,15 +9759,16 @@ c-----
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 9,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB)
 C
-        ALLOCATE(ITHBUFI(SITHBUFI),  STAT=stat)
-        ITHBUFI = ITHBUFTMP(1:SITHBUFI)
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFI,OUTPUT%TH%SITHBUFI)
+        OUTPUT%TH%ITHBUFI = ITHBUFTMP(1:OUTPUT%TH%SITHBUFI)
       ELSE
-        SITHGRPI = 0
-        SITHBUFI = 0
-        ALLOCATE(ITHBUFI(SITHBUFI),  STAT=stat)
-        ALLOCATE(ITHGRPI(SITHGRPI),  STAT=stat)
-        ENDIF
+        OUTPUT%TH%SITHGRPI = 0
+        OUTPUT%TH%SITHBUFI = 0
+        MY_ALLOCATE(OUTPUT%TH%ITHBUFI,OUTPUT%TH%SITHBUFI)
+        MY_ALLOCATE(OUTPUT%TH%ITHGRPI,OUTPUT%TH%SITHGRPI)
+      ENDIF
 C
+
       IF (ALLOCATED(ITHPART))   DEALLOCATE(ITHPART)
       IF (ALLOCATED(ITHSUB))    DEALLOCATE(ITHSUB)
       IF (ALLOCATED(ITHBUFTMP)) DEALLOCATE(ITHBUFTMP)
@@ -9821,34 +9826,34 @@ C
 C
 C affectation du numero de processeur (spmd)
 C
-      CALL THPINIT(ITHGRP,ITHBUF,IPARG  ,DD_IAD ,LRIVET ,
+      CALL THPINIT(OUTPUT%TH%ITHGRP,OUTPUT%TH%ITHBUF,IPARG  ,DD_IAD ,LRIVET ,
      .             0       ,NTHGRP )
       IF (NTHGRP01(1) > 0)
-     .  CALL THPINIT(ITHGRPA,ITHBUFA,IPARG     ,DD_IAD ,LRIVET ,
+     .  CALL THPINIT(OUTPUT%TH%ITHGRPA,OUTPUT%TH%ITHBUFA,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(1)   )
       IF (NTHGRP01(2) > 0)
-     .  CALL THPINIT(ITHGRPB,ITHBUFB,IPARG     ,DD_IAD ,LRIVET ,
+     .  CALL THPINIT(OUTPUT%TH%ITHGRPB,OUTPUT%TH%ITHBUFB,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(2)   )
       IF (NTHGRP01(3) > 0)
-     .  CALL THPINIT(ITHGRPC,ITHBUFC,IPARG     ,DD_IAD ,LRIVET ,
+     .  CALL THPINIT(OUTPUT%TH%ITHGRPC,OUTPUT%TH%ITHBUFC,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(3)   )
       IF (NTHGRP01(4) > 0)
-     .  CALL THPINIT(ITHGRPD,ITHBUFD,IPARG     ,DD_IAD ,LRIVET ,
+     .  CALL THPINIT(OUTPUT%TH%ITHGRPD,OUTPUT%TH%ITHBUFD,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(4)   )
       IF (NTHGRP01(5) > 0)
-     .  CALL THPINIT(ITHGRPE,ITHBUFE,IPARG     ,DD_IAD ,LRIVET ,
+     .  CALL THPINIT(OUTPUT%TH%ITHGRPE,OUTPUT%TH%ITHBUFE,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(5)   )
       IF (NTHGRP01(6) > 0)
-     .  CALL THPINIT(ITHGRPF,ITHBUFF,IPARG     ,DD_IAD ,LRIVET ,
+     .  CALL THPINIT(OUTPUT%TH%ITHGRPF,OUTPUT%TH%ITHBUFF,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(6)   )
       IF (NTHGRP01(7) > 0)
-     .  CALL THPINIT(ITHGRPG,ITHBUFG,IPARG     ,DD_IAD ,LRIVET ,
+     .  CALL THPINIT(OUTPUT%TH%ITHGRPG,OUTPUT%TH%ITHBUFG,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(7)   )
       IF (NTHGRP01(8) > 0)
-     .  CALL THPINIT(ITHGRPH,ITHBUFH,IPARG     ,DD_IAD ,LRIVET ,
+     .  CALL THPINIT(OUTPUT%TH%ITHGRPH,OUTPUT%TH%ITHBUFH,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(8)   )
       IF (NTHGRP01(9) > 0)
-     .  CALL THPINIT(ITHGRPI,ITHBUFI,IPARG     ,DD_IAD ,LRIVET ,
+     .  CALL THPINIT(OUTPUT%TH%ITHGRPI,OUTPUT%TH%ITHBUFI,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(9)   )
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -10247,12 +10252,8 @@ C----------------------------------------------
      D        I2RUPT      ,AREASL     ,INTBUF_FRIC_TAB ,NPFRICORTH    ,
      E        PFRICORTH   ,IREPFORTH  ,PHIFORTH        ,VFORTH        ,XREFC            ,
      F        XREFTG      ,XREFS      ,TAGXREF         ,IXS           ,IXC              ,
-     G        IXTG        ,RWBUF      ,NPRW            ,LPRW          ,ITHGRP           ,
-     H        ITHBUF      ,ITHVAR     ,IPART           ,SUBSETS       ,ITHGRPA          ,
-     I        ITHGRPB     ,ITHGRPC    ,ITHGRPD         ,ITHGRPE       ,ITHGRPF          ,
-     J        ITHGRPG     ,ITHGRPH    ,ITHGRPI         ,ITHBUFA       ,ITHBUFB          ,
-     K        ITHBUFC     ,ITHBUFD    ,ITHBUFE         ,ITHBUFF       ,ITHBUFG          ,
-     L        ITHBUFH     ,ITHBUFI    ,IPARTTH         ,NTHGRPMX      ,NIMPDISP         ,
+     G        IXTG        ,RWBUF      ,NPRW            ,LPRW          ,ITHVAR           ,
+     H        IPART      ,SUBSETS     ,IPARTTH         ,NTHGRPMX      ,NIMPDISP         ,
      M        NIMPVEL     ,DETONATORS ,IBCSCYC         ,NPC           ,TF               ,
      N        TABLE       ,NPTS       ,IRBE3           ,LRBE3         ,FRBE3            ,
      P        MGRBY       ,IXS10      ,ISOLNOD         ,IXR           ,R_SKEW           ,
@@ -10279,7 +10280,7 @@ C----------------------------------------------
      J        NSIGSH      ,SIGSH      ,NSIGI           ,SIGSP         ,NSIGS            ,
      K        SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS     ,SIGTRUSS         ,
      L        NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL,
-     M        IMERGE      ,NMERGE_TOT ,IEXLNK ,DRAPEG         ,USER_WINDOWS  )
+     M        IMERGE      ,NMERGE_TOT ,IEXLNK ,DRAPEG  ,USER_WINDOWS  ,OUTPUT )
 !
       DEALLOCATE (SIGI)
       DEALLOCATE (SIGSH)
@@ -10358,7 +10359,7 @@ C
           LNOM_OPT=SNOM_OPT
           LENPOR = SNODPOR
 
-          LENTHG = SITHBUF
+          LENTHG = OUTPUT%TH%SITHBUF
           LENTHGR = SRTHBUF
 Clongueur BUFMAT et BUFGEO
           LBUFMAT = SBUFMAT
@@ -10610,7 +10611,7 @@ c
      D         IACTIV       ,FACTIV      ,KINET          ,IPARI       ,NPRW       ,              
      E         LPRW         ,ICONX       ,NPBY           ,    
      F         LPBY         ,LRIVET      ,NSTRF          ,LJOINT      ,NODPOR     ,    
-     G         MONVOL       ,ICONTACT    ,LAGBUF         ,ITHGRP      ,ITHBUF     ,    
+     G         MONVOL       ,ICONTACT    ,LAGBUF         ,    
      H         FR_IAD       ,X           ,D              ,V           ,VR         ,    
      I         DR           ,THKE        ,DAMPR          ,DAMP        ,MS         ,    
      J         IN           ,TF          ,PM             ,SKEW        ,XFRAME     ,    
@@ -10635,10 +10636,7 @@ c
      c         WMA          ,    
      d         EIGIPM       ,EIGIBUF     ,EIGRPM         ,    
      e         IFLOW        ,RFLOW       ,pMEMFLOW       ,IEXLNK      ,FASOLFR    ,    
-     f         ITHGRPA      ,ITHGRPB     ,ITHGRPC        ,ITHGRPD     ,ITHGRPE    ,    
-     g         ITHGRPF      ,ITHGRPG     ,ITHGRPH        ,ITHGRPI     ,ITHBUFA    ,    
-     h         ITHBUFB      ,ITHBUFC     ,ITHBUFD        ,ITHBUFE     ,ITHBUFF    ,    
-     i         ITHBUFG      ,ITHBUFH     ,ITHBUFI        ,IPARTTH     ,    
+     f         IPARTTH      ,    
      j         FXBIPM       ,FXBRPM      ,FXBNOD         ,FXBMOD      ,FXBGLM     ,    
      k         FXBCPM       ,FXBCPS      ,FXBLM          ,FXBFLS      ,FXBDLS     ,    
      l         FXBDEP       ,FXBVIT      ,FXBACC         ,FXBELM      ,FXBSIG     ,    
@@ -10690,7 +10688,7 @@ c
      B         SIZE_ALE_ELM(P),PINCH_DATA ,TAG_SKINS6    ,IBCSCYC      ,LBCSCYC   ,T_MONVOL,
      C         INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP,DYNAIN_DATA,
-     E         DRAPEG,USER_WINDOWS)
+     E         DRAPEG,USER_WINDOWS,OUTPUT)
       GOTO 220
  221  CONTINUE
 
