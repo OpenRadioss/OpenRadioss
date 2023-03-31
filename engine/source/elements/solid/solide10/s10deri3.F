@@ -65,11 +65,11 @@ C     REAL
       DOUBLE PRECISION
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),SAV(NEL,30),VOLDP(MVSIZ,5)
       my_real
-     .   OFF(*),VOL(MVSIZ,5),DELTAX(*),DELTAX2(*),
+     .   OFF(NEL),VOL(MVSIZ,5),DELTAX(*),DELTAX2(*),
      .   RX(*),RY(*),RZ(*), SX(*),SY(*),SZ(*), TX(*),TY(*),TZ(*),
      .   NX(MVSIZ,10,5),VOLN(*),VOLG(MVSIZ),
      .   PX(MVSIZ,10,5),PY(MVSIZ,10,5),PZ(MVSIZ,10,5),
-     .   WIP(5),ALPH(5),BETA(5),OFFG(*)
+     .   WIP(5),ALPH(5),BETA(5),OFFG(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -91,7 +91,7 @@ C-----------------------------------------------
       A4M1  = A4 - ONE
       B4M1  = B4 - ONE      
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         RX(I) = XX(I,1) - XX(I,4)
         RY(I) = YY(I,1) - YY(I,4)
         RZ(I) = ZZ(I,1) - ZZ(I,4)
@@ -105,7 +105,7 @@ C
       ENDDO
 C
       DO N=1,4
-        DO I=LFT,LLT
+        DO I=1,NEL
           XA(I,N) = A4M1*XX(I,N)
           YA(I,N) = A4M1*YY(I,N)
           ZA(I,N) = A4M1*ZZ(I,N)
@@ -117,7 +117,7 @@ C
       ENDDO
 C
       DO N=5,10
-        DO I=LFT,LLT
+        DO I=1,NEL
           XA(I,N) = A4*XX(I,N)
           YA(I,N) = A4*YY(I,N)
           ZA(I,N) = A4*ZZ(I,N)
@@ -154,7 +154,7 @@ C
      .   PZ(1,K6,IP) ,PZ(1,K7,IP),PZ(1,K8,IP),PZ(1,K9,IP),PZ(1,K10,IP),
      .   NX(1,K1,IP) ,NX(1,K2,IP),NX(1,K3,IP),NX(1,K4,IP),NX(1,K5,IP),
      .   NX(1,K6,IP) ,NX(1,K7,IP),NX(1,K8,IP),NX(1,K9,IP),NX(1,K10,IP),
-     .   VOL(1,IP)   ,VOLDP(1,IP))
+     .   VOL(1,IP)   ,VOLDP(1,IP),NEL,OFFG)
 c
       ENDDO
 C
@@ -162,7 +162,7 @@ C
       IF(NPT==5)THEN
         IP = 5
 C
-        DO I=LFT,LLT
+        DO I=1,NEL
           XA(I,1) = ZERO
         ENDDO 
 C
@@ -184,13 +184,13 @@ C
      .   PZ(1,K6,IP) ,PZ(1,K7,IP),PZ(1,K8,IP),PZ(1,K9,IP),PZ(1,K10,IP),
      .   NX(1,K1,IP) ,NX(1,K2,IP),NX(1,K3,IP),NX(1,K4,IP),NX(1,K5,IP),
      .   NX(1,K6,IP) ,NX(1,K7,IP),NX(1,K8,IP),NX(1,K9,IP),NX(1,K10,IP),
-     .   VOL(1,IP)   ,VOLDP(1,IP))
+     .   VOL(1,IP)   ,VOLDP(1,IP),NEL,OFFG)
       ENDIF
 C
 C
       NNEGA = 0
       IF(JLAG/=0.AND.(ISMSTR==10.OR.(ISMSTR==12.AND.IDTMIN(1)/=3))) THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
           IF(OFFG(I) > ONE)THEN
            NNEGA=NNEGA+1
            INDEX(NNEGA)=I
@@ -199,7 +199,7 @@ C
       END IF
       ICOR=0
       DO IP=1,NPT
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFF(I)==0.)THEN
               VOL(I,IP)=ONE
           ELSEIF(OFF(I)> ONE)THEN
@@ -212,7 +212,7 @@ C-------------attention, /STOP /DEL are not implemented
       IF(JLAG/=0)THEN
        IF(ICOR/=0.AND.INCONV==1)THEN
        DO IP=1,NPT
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFF(I) == ZERO.OR.OFFG(I) > ONE)THEN
           ELSEIF(VOL(I,IP)<=ZERO)THEN
             NNEGA=NNEGA+1
@@ -383,7 +383,7 @@ Chd|====================================================================
       SUBROUTINE S10DERIT3(VOL,DELTAX,DELTAX2,
      .   XX, YY, ZZ, PX,PY,PZ, NX,
      .   RX,  RY,  RZ,  SX,  SY,  SZ , TX, TY, TZ,
-     .   WIP,ALPH,BETA,VOLN,VOLG,VOLDP)
+     .   WIP,ALPH,BETA,VOLN,VOLG,VOLDP,NEL,OFFG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -407,7 +407,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      INTEGER NEL
+      INTEGER, INTENT(IN) :: NEL ! number of element in the current group
+      my_real, DIMENSION(NEL), INTENT(IN) :: OFFG ! off array : 0 if the element is deleted
       DOUBLE PRECISION
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),VOLDP(MVSIZ,5)
       my_real
@@ -438,7 +439,7 @@ C-----------------------------------------------
       A4M1  = A4 - ONE
       B4M1  = B4 - ONE      
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         RX(I) = XX(I,1) - XX(I,4)
         RY(I) = YY(I,1) - YY(I,4)
         RZ(I) = ZZ(I,1) - ZZ(I,4)
@@ -452,7 +453,7 @@ C
       ENDDO
 C
       DO N=1,4
-        DO I=LFT,LLT
+        DO I=1,NEL
           XA(I,N) = A4M1*XX(I,N)
           YA(I,N) = A4M1*YY(I,N)
           ZA(I,N) = A4M1*ZZ(I,N)
@@ -464,7 +465,7 @@ C
       ENDDO
 C
       DO N=5,10
-        DO I=LFT,LLT
+        DO I=1,NEL
           XA(I,N) = A4*XX(I,N)
           YA(I,N) = A4*YY(I,N)
           ZA(I,N) = A4*ZZ(I,N)
@@ -501,7 +502,7 @@ C
      .   PZ(1,K6,IP) ,PZ(1,K7,IP),PZ(1,K8,IP),PZ(1,K9,IP),PZ(1,K10,IP),
      .   NX(1,K1,IP) ,NX(1,K2,IP),NX(1,K3,IP),NX(1,K4,IP),NX(1,K5,IP),
      .   NX(1,K6,IP) ,NX(1,K7,IP),NX(1,K8,IP),NX(1,K9,IP),NX(1,K10,IP),
-     .   VOL(1,IP)  ,VOLDP(1,IP))
+     .   VOL(1,IP)  ,VOLDP(1,IP),NEL,OFFG)
 c
       ENDDO
 C
@@ -509,7 +510,7 @@ C
       IF(NPT==5)THEN
         IP = 5
 C
-        DO I=LFT,LLT
+        DO I=1,NEL
           XA(I,1) = ZERO
         ENDDO 
 CC
@@ -531,18 +532,16 @@ CC
      .   PZ(1,K6,IP) ,PZ(1,K7,IP),PZ(1,K8,IP),PZ(1,K9,IP),PZ(1,K10,IP),
      .   NX(1,K1,IP) ,NX(1,K2,IP),NX(1,K3,IP),NX(1,K4,IP),NX(1,K5,IP),
      .   NX(1,K6,IP) ,NX(1,K7,IP),NX(1,K8,IP),NX(1,K9,IP),NX(1,K10,IP),
-     .   VOL(1,IP)   ,VOLDP(1,IP))
+     .   VOL(1,IP)   ,VOLDP(1,IP),NEL,OFFG)
       ENDIF
-C
-C      IF (ISMSTR/=11) RETURN 
-C      
+      
       DO IP=1,NPT
-        DO I=LFT,LLT
+        DO I=1,NEL
           VOLG(I) =VOLG(I) + VOL(I,IP)
         ENDDO
       ENDDO
 C     
-      DO I=LFT,LLT
+      DO I=1,NEL
         VOLN(I) =VOLG(I)/NPT
       ENDDO
 C-----------
