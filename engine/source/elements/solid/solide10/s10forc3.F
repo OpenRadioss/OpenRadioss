@@ -350,7 +350,8 @@ C----------------------
         CALL S10DERIT3(VOLP,DELTAX,DELTAX2,
      .   XX0, YY0, ZZ0, PX,PY,PZ, NX,
      .   RX,  RY,  RZ,  SX,  SY,  SZ , TX, TY, TZ,
-     .   WIP(1,NPT),ALPH(1,NPT),BETA(1,NPT),VOLN,VOLG,VOLDP)
+     .   WIP(1,NPT),ALPH(1,NPT),BETA(1,NPT),VOLN,VOLG,VOLDP,
+     .   NEL,GBUF%OFF)
         CALL S10LEN3(VOLP,NGL,DELTAX,DELTAX2,
      .   PX ,PY ,PZ ,VOLG,GBUF%VOL ,
      .   RX,  RY,  RZ,  SX,  SY,  SZ , TX, TY, TZ,

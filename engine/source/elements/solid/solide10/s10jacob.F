@@ -35,7 +35,7 @@ Chd|====================================================================
      .   PY1,PY2,PY3,PY4,PY5,PY6,PY7,PY8,PY9,PY10,
      .   PZ1,PZ2,PZ3,PZ4,PZ5,PZ6,PZ7,PZ8,PZ9,PZ10,
      .   NX1,NX2,NX3,NX4,NX5,NX6,NX7,NX8,NX9,NX10,
-     .   VOL,VOLDP)
+     .   VOL,VOLDP,NEL,OFFG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,6 +58,9 @@ C     REAL
      .   Z1B(MVSIZ),Z2B(MVSIZ),Z3B(MVSIZ),Z4A(MVSIZ),Z5B(MVSIZ),
      .   Z6B(MVSIZ),Z7B(MVSIZ),Z8B(MVSIZ),Z9B(MVSIZ),Z10B(MVSIZ),
      .   Z8A(MVSIZ),Z9A(MVSIZ),Z10A(MVSIZ),VOLDP(*)
+
+       INTEGER, INTENT(IN) :: NEL ! number of element in the current group
+       my_real, DIMENSION(NEL), INTENT(IN) :: OFFG ! off array : 0 if the element is deleted
 
        my_real
      .   PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),PX4(MVSIZ),PX5(MVSIZ),
@@ -147,7 +150,8 @@ C
        DTDZ=DXDR*DYDS-DYDR*DXDS
 C
        DET = DXDR * DRDX + DYDR * DRDY + DZDR * DRDZ
-
+       ! check if the element is deleted : if it's true, need to force det to 1
+       IF(OFFG(I)==ZERO) DET = ONE
        D = ONE/MAX(EM30,DET)
 C
 c       A4 = FOUR * ALPH
