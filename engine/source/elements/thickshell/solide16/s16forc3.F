@@ -503,15 +503,21 @@ C
          IP = IR + ( (IL-1) + (IT-1)*NLAY )*NPTR
 c
          CALL S20DEFO3(
-     .    NPE,  PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP), VX, VY, VZ,
-     .    DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
-     .    WXX, WYY, WZZ,LBUF%RHO,RHOO,VOLNP(1,IP),VOLN)
+     1   NPE,        PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),
+     2   VX,         VY,         VZ,         DXX,
+     3   DXY,        DXZ,        DYX,        DYY,
+     4   DYZ,        DZX,        DZY,        DZZ,
+     5   D4,         D5,         D6,         WXX,
+     6   WYY,        WZZ,        LBUF%RHO,   RHOO,
+     7   VOLNP(1,IP),VOLN,       NEL)
 C           
          IF(DT1/=ZERO)CALL S16SIGS3(
-     1    DXX      ,DYY      ,DZZ      ,D4       ,D5       ,D6       ,
-     2    RX(1,IP) ,RY(1,IP) ,RZ(1,IP) ,SX(1,IP) ,SY(1,IP) ,SZ(1,IP) ,
-     3    TX(1,IP) ,TY(1,IP) ,TZ(1,IP) ,GBUF%EINT,LBUF%VOL,SIGS(1,IP) ,
-     4    MXT      ,PM       ,DT1      ,LBUF%VOL0DP)
+     1   DXX,        DYY,        DZZ,        D4,
+     2   D5,         D6,         RX(1,IP),   RY(1,IP),
+     3   RZ(1,IP),   SX(1,IP),   SY(1,IP),   SZ(1,IP),
+     4   TX(1,IP),   TY(1,IP),   TZ(1,IP),   GBUF%EINT,
+     5   LBUF%VOL,   SIGS(1,IP), MXT,        PM,
+     6   DT1,        LBUF%VOL0DP,NEL)
 C
          DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))   
          CALL SRHO3( PM         , LBUF%VOL  ,LBUF%RHO ,LBUF%EINT, DIVDE,
@@ -587,9 +593,12 @@ C
       !--------------------------
 
          IF (JTHE < 0) THEN
-           CALL S20THERM(NPE,PM     ,MXT  , NC ,VOLN, 
-     .               PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),NI(1,IP),
-     .               DT1 ,TEMP  ,TEMPEL ,DIE  , THEM,GBUF%OFF,LBUF%OFF) 
+           CALL S20THERM(
+     1   NPE,       PM,        MXT,       NC,
+     2   VOLN,      PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),
+     3   NI(1,IP),  DT1,       TEMP,      TEMPEL,
+     4   DIE,       THEM,      GBUF%OFF,  LBUF%OFF,
+     5   NEL)
           ENDIF
         ENDDO   ! IL=1,NLAY
        ENDDO    ! IR=1,NPTR
@@ -607,7 +616,9 @@ C
       ENDIF
 C
 c-----------------------------
-      IF(NFILSOL/=0) CALL SXFILLOPT(NPE,GBUF%FILL,STIG,FX,FY,FZ)
+      IF(NFILSOL/=0) CALL SXFILLOPT(
+     1   NPE,      GBUF%FILL,STIG,     FX,
+     2   FY,       FZ,       NEL)
 c-----------------------------
       IF (IPARIT == 0)THEN
         CALL S20CUMU3(GBUF%OFF,A,NC,STIFN,STIG,FX,FY,

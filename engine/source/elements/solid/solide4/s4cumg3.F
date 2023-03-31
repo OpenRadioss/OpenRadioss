@@ -31,12 +31,13 @@ Chd|        S8ZKEG3                       source/elements/solid/solide8z/s8zlke3
 Chd|        S8ZKEG33                      source/elements/solid/solide8z/s8zlke3.F
 Chd|====================================================================
       SUBROUTINE S4CUMG3(
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   K11 ,K12  ,K13  ,K14  ,K22  ,
-     .   K23 ,K24  ,K33  ,K34  , K44 ,
-     .   DD  ,GG   ,DG   ,G33  ,IKSUP)
+     1   PX1,     PX2,     PX3,     PX4,
+     2   PY1,     PY2,     PY3,     PY4,
+     3   PZ1,     PZ2,     PZ3,     PZ4,
+     4   K11,     K12,     K13,     K14,
+     5   K22,     K23,     K24,     K33,
+     6   K34,     K44,     DD,      GG,
+     7   DG,      G33,     IKSUP,   NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,10 +45,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER IKSUP
       my_real
      .   PX1(*), PX2(*), PX3(*), PX4(*),  
@@ -65,76 +66,76 @@ C-----------------------------------------------
 C-----------------------------------------------
 C  -------symm(diag)------
       IS =1
-       CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX1, PY1, PZ1, DD, K11,IS)
-       CALL S8ZKED3(LFT,LLT,PX2, PY2 ,PZ2 ,PX2, PY2, PZ2, DD, K22,IS)
-       CALL S8ZKED3(LFT,LLT,PX3, PY3 ,PZ3 ,PX3, PY3, PZ3, DD, K33,IS)
-       CALL S8ZKED3(LFT,LLT,PX4, PY4 ,PZ4 ,PX4, PY4, PZ4, DD, K44,IS)
+       CALL S8ZKED3(1,NEL,PX1, PY1 ,PZ1 ,PX1, PY1, PZ1, DD, K11,IS)
+       CALL S8ZKED3(1,NEL,PX2, PY2 ,PZ2 ,PX2, PY2, PZ2, DD, K22,IS)
+       CALL S8ZKED3(1,NEL,PX3, PY3 ,PZ3 ,PX3, PY3, PZ3, DD, K33,IS)
+       CALL S8ZKED3(1,NEL,PX4, PY4 ,PZ4 ,PX4, PY4, PZ4, DD, K44,IS)
 C
       IF (IKSUP==0) THEN
-       CALL S8ZKEG3(LFT,LLT,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
+       CALL S8ZKEG3(1,NEL,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
      .                      PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,GG,K11,IS) 
-       CALL S8ZKEG3(LFT,LLT,PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,
+       CALL S8ZKEG3(1,NEL,PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,
      .                      PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,GG,K22,IS) 
-       CALL S8ZKEG3(LFT,LLT,PY3, PX3 ,PZ3,PX3 ,PZ3,PY3,
+       CALL S8ZKEG3(1,NEL,PY3, PX3 ,PZ3,PX3 ,PZ3,PY3,
      .                      PY3, PX3 ,PZ3,PX3 ,PZ3,PY3,GG,K33,IS) 
-       CALL S8ZKEG3(LFT,LLT,PY4, PX4 ,PZ4,PX4 ,PZ4,PY4,
+       CALL S8ZKEG3(1,NEL,PY4, PX4 ,PZ4,PX4 ,PZ4,PY4,
      .                      PY4, PX4 ,PZ4,PX4 ,PZ4,PY4,GG,K44,IS) 
       ENDIF 
 C  -------non symm------
       IS =0
-       CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX2, PY2, PZ2, DD, K12,IS)
-       CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX3, PY3, PZ3, DD, K13,IS)
-       CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX4, PY4, PZ4, DD, K14,IS)
-       CALL S8ZKED3(LFT,LLT,PX2, PY2 ,PZ2 ,PX3, PY3, PZ3, DD, K23,IS)
-       CALL S8ZKED3(LFT,LLT,PX2, PY2 ,PZ2 ,PX4, PY4, PZ4, DD, K24,IS)
-       CALL S8ZKED3(LFT,LLT,PX3, PY3 ,PZ3 ,PX4, PY4, PZ4, DD, K34,IS)
+       CALL S8ZKED3(1,NEL,PX1, PY1 ,PZ1 ,PX2, PY2, PZ2, DD, K12,IS)
+       CALL S8ZKED3(1,NEL,PX1, PY1 ,PZ1 ,PX3, PY3, PZ3, DD, K13,IS)
+       CALL S8ZKED3(1,NEL,PX1, PY1 ,PZ1 ,PX4, PY4, PZ4, DD, K14,IS)
+       CALL S8ZKED3(1,NEL,PX2, PY2 ,PZ2 ,PX3, PY3, PZ3, DD, K23,IS)
+       CALL S8ZKED3(1,NEL,PX2, PY2 ,PZ2 ,PX4, PY4, PZ4, DD, K24,IS)
+       CALL S8ZKED3(1,NEL,PX3, PY3 ,PZ3 ,PX4, PY4, PZ4, DD, K34,IS)
 C
       IF (IKSUP==0) THEN
-       CALL S8ZKEG3(LFT,LLT,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
+       CALL S8ZKEG3(1,NEL,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
      .                      PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,GG,K12,IS) 
-       CALL S8ZKEG3(LFT,LLT,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
+       CALL S8ZKEG3(1,NEL,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
      .                      PY3, PX3 ,PZ3,PX3 ,PZ3,PY3,GG,K13,IS) 
-       CALL S8ZKEG3(LFT,LLT,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
+       CALL S8ZKEG3(1,NEL,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
      .                      PY4, PX4 ,PZ4,PX4 ,PZ4,PY4,GG,K14,IS) 
-       CALL S8ZKEG3(LFT,LLT,PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,
+       CALL S8ZKEG3(1,NEL,PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,
      .                      PY3, PX3 ,PZ3,PX3 ,PZ3,PY3,GG,K23,IS) 
-       CALL S8ZKEG3(LFT,LLT,PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,
+       CALL S8ZKEG3(1,NEL,PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,
      .                      PY4, PX4 ,PZ4,PX4 ,PZ4,PY4,GG,K24,IS) 
-       CALL S8ZKEG3(LFT,LLT,PY3, PX3 ,PZ3,PX3 ,PZ3,PY3,
+       CALL S8ZKEG3(1,NEL,PY3, PX3 ,PZ3,PX3 ,PZ3,PY3,
      .                      PY4, PX4 ,PZ4,PX4 ,PZ4,PY4,GG,K34,IS) 
       ELSE 
-       CALL S8ZKEG33(LFT,LLT,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
+       CALL S8ZKEG33(1,NEL,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
      .                      PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,G33,K12,IS) 
-       CALL S8ZKEG33(LFT,LLT,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
+       CALL S8ZKEG33(1,NEL,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
      .                      PY3, PX3 ,PZ3,PX3 ,PZ3,PY3,G33,K13,IS) 
-       CALL S8ZKEG33(LFT,LLT,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
+       CALL S8ZKEG33(1,NEL,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
      .                      PY4, PX4 ,PZ4,PX4 ,PZ4,PY4,G33,K14,IS) 
-       CALL S8ZKEG33(LFT,LLT,PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,
+       CALL S8ZKEG33(1,NEL,PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,
      .                      PY3, PX3 ,PZ3,PX3 ,PZ3,PY3,G33,K23,IS) 
-       CALL S8ZKEG33(LFT,LLT,PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,
+       CALL S8ZKEG33(1,NEL,PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,
      .                      PY4, PX4 ,PZ4,PX4 ,PZ4,PY4,G33,K24,IS) 
-       CALL S8ZKEG33(LFT,LLT,PY3, PX3 ,PZ3,PX3 ,PZ3,PY3,
+       CALL S8ZKEG33(1,NEL,PY3, PX3 ,PZ3,PX3 ,PZ3,PY3,
      .                      PY4, PX4 ,PZ4,PX4 ,PZ4,PY4,G33,K34,IS) 
 C
-       CALL S8ZKEBG1(LFT,LLT,PX1, PY1 ,PZ1 ,PX2, PY2, PZ2, DG, K12,IS)
-       CALL S8ZKEBG1(LFT,LLT,PX1, PY1 ,PZ1 ,PX3, PY3, PZ3, DG, K13,IS)
-       CALL S8ZKEBG1(LFT,LLT,PX1, PY1 ,PZ1 ,PX4, PY4, PZ4, DG, K14,IS)
-       CALL S8ZKEBG1(LFT,LLT,PX2, PY2 ,PZ2 ,PX3, PY3, PZ3, DG, K23,IS)
-       CALL S8ZKEBG1(LFT,LLT,PX2, PY2 ,PZ2 ,PX4, PY4, PZ4, DG, K24,IS)
-       CALL S8ZKEBG1(LFT,LLT,PX3, PY3 ,PZ3 ,PX4, PY4, PZ4, DG, K34,IS)
+       CALL S8ZKEBG1(1,NEL,PX1, PY1 ,PZ1 ,PX2, PY2, PZ2, DG, K12,IS)
+       CALL S8ZKEBG1(1,NEL,PX1, PY1 ,PZ1 ,PX3, PY3, PZ3, DG, K13,IS)
+       CALL S8ZKEBG1(1,NEL,PX1, PY1 ,PZ1 ,PX4, PY4, PZ4, DG, K14,IS)
+       CALL S8ZKEBG1(1,NEL,PX2, PY2 ,PZ2 ,PX3, PY3, PZ3, DG, K23,IS)
+       CALL S8ZKEBG1(1,NEL,PX2, PY2 ,PZ2 ,PX4, PY4, PZ4, DG, K24,IS)
+       CALL S8ZKEBG1(1,NEL,PX3, PY3 ,PZ3 ,PX4, PY4, PZ4, DG, K34,IS)
        IS =1
-       CALL S8ZKEBG1(LFT,LLT,PX1, PY1 ,PZ1 ,PX1, PY1, PZ1, DG, K11,IS)
-       CALL S8ZKEBG1(LFT,LLT,PX2, PY2 ,PZ2 ,PX2, PY2, PZ2, DG, K22,IS)
-       CALL S8ZKEBG1(LFT,LLT,PX3, PY3 ,PZ3 ,PX3, PY3, PZ3, DG, K33,IS)
-       CALL S8ZKEBG1(LFT,LLT,PX4, PY4 ,PZ4 ,PX4, PY4, PZ4, DG, K44,IS)
+       CALL S8ZKEBG1(1,NEL,PX1, PY1 ,PZ1 ,PX1, PY1, PZ1, DG, K11,IS)
+       CALL S8ZKEBG1(1,NEL,PX2, PY2 ,PZ2 ,PX2, PY2, PZ2, DG, K22,IS)
+       CALL S8ZKEBG1(1,NEL,PX3, PY3 ,PZ3 ,PX3, PY3, PZ3, DG, K33,IS)
+       CALL S8ZKEBG1(1,NEL,PX4, PY4 ,PZ4 ,PX4, PY4, PZ4, DG, K44,IS)
 C       
-       CALL S8ZKEG33(LFT,LLT,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
+       CALL S8ZKEG33(1,NEL,PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,
      .                      PY1, PX1 ,PZ1,PX1 ,PZ1,PY1,G33,K11,IS) 
-       CALL S8ZKEG33(LFT,LLT,PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,
+       CALL S8ZKEG33(1,NEL,PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,
      .                      PY2, PX2 ,PZ2,PX2 ,PZ2,PY2,G33,K22,IS) 
-       CALL S8ZKEG33(LFT,LLT,PY3, PX3 ,PZ3,PX3 ,PZ3,PY3,
+       CALL S8ZKEG33(1,NEL,PY3, PX3 ,PZ3,PX3 ,PZ3,PY3,
      .                      PY3, PX3 ,PZ3,PX3 ,PZ3,PY3,G33,K33,IS) 
-       CALL S8ZKEG33(LFT,LLT,PY4, PX4 ,PZ4,PX4 ,PZ4,PY4,
+       CALL S8ZKEG33(1,NEL,PY4, PX4 ,PZ4,PX4 ,PZ4,PY4,
      .                      PY4, PX4 ,PZ4,PX4 ,PZ4,PY4,G33,K44,IS) 
       ENDIF 
 C

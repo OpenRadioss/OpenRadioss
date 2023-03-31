@@ -29,26 +29,43 @@ Chd|-- calls ---------------
 Chd|        AJAC3_V                       source/elements/solid/solide/ajac3.F
 Chd|        AMOMTN3                       source/elements/solid/solide/amomtn3.F
 Chd|====================================================================
-      SUBROUTINE AMOMT3(PM,RHO,VOL,
-     .   X1,X2,X3,X4,X5,X6,X7,X8,
-     .   Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,
-     .   Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8,
-     .   VX1,VX2,VX3,VX4,VX5,VX6,VX7,VX8,
-     .   VY1,VY2,VY3,VY4,VY5,VY6,VY7,VY8,
-     .   VZ1,VZ2,VZ3,VZ4,VZ5,VZ6,VZ7,VZ8,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   PX1,PX2,PX3,PX4,
-     .   PY1,PY2,PY3,PY4,
-     .   PZ1,PZ2,PZ3,PZ4,
-     .   DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
-     .   VDX1,VDX2,VDX3,VDX4,VDX5,VDX6,VDX7,VDX8,
-     .   VDY1,VDY2,VDY3,VDY4,VDY5,VDY6,VDY7,VDY8,
-     .   VDZ1,VDZ2,VDZ3,VDZ4,VDZ5,VDZ6,VDZ7,VDZ8,
-     .   VDX,VDY,VDZ,
-     .   DELTAX,VIS,
-     .   MAT,  QMV,BUFMAT,IPARG1,IXS, IAD22, 
-     .   NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
+      SUBROUTINE AMOMT3(
+     1   PM,      RHO,     VOL,     X1,
+     2   X2,      X3,      X4,      X5,
+     3   X6,      X7,      X8,      Y1,
+     4   Y2,      Y3,      Y4,      Y5,
+     5   Y6,      Y7,      Y8,      Z1,
+     6   Z2,      Z3,      Z4,      Z5,
+     7   Z6,      Z7,      Z8,      VX1,
+     8   VX2,     VX3,     VX4,     VX5,
+     9   VX6,     VX7,     VX8,     VY1,
+     A   VY2,     VY3,     VY4,     VY5,
+     B   VY6,     VY7,     VY8,     VZ1,
+     C   VZ2,     VZ3,     VZ4,     VZ5,
+     D   VZ6,     VZ7,     VZ8,     F11,
+     E   F21,     F31,     F12,     F22,
+     F   F32,     F13,     F23,     F33,
+     G   F14,     F24,     F34,     F15,
+     H   F25,     F35,     F16,     F26,
+     I   F36,     F17,     F27,     F37,
+     J   F18,     F28,     F38,     PX1,
+     K   PX2,     PX3,     PX4,     PY1,
+     L   PY2,     PY3,     PY4,     PZ1,
+     M   PZ2,     PZ3,     PZ4,     DXX,
+     N   DXY,     DXZ,     DYX,     DYY,
+     O   DYZ,     DZX,     DZY,     DZZ,
+     P   VDX1,    VDX2,    VDX3,    VDX4,
+     Q   VDX5,    VDX6,    VDX7,    VDX8,
+     R   VDY1,    VDY2,    VDY3,    VDY4,
+     S   VDY5,    VDY6,    VDY7,    VDY8,
+     T   VDZ1,    VDZ2,    VDZ3,    VDZ4,
+     U   VDZ5,    VDZ6,    VDZ7,    VDZ8,
+     V   VDX,     VDY,     VDZ,     DELTAX,
+     W   VIS,     MAT,     QMV,     BUFMAT,
+     X   IPARG1,  IXS,     IAD22,   NC1,
+     Y   NC2,     NC3,     NC4,     NC5,
+     Z   NC6,     NC7,     NC8,     NALE,
+     1   NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,6 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       my_real
      .   PM(NPROPM,*), RHO(*),VOL(*),
      .   X1(*),X2(*),X3(*),X4(*),X5(*),X6(*),X7(*),X8(*),
@@ -440,13 +458,23 @@ C
         AJ0(I,2)=-(AJ1(I,2)+AJ2(I,2)+AJ3(I,2))
         AJ0(I,3)=-(AJ1(I,3)+AJ2(I,3)+AJ3(I,3))
        ENDDO
-       CALL AMOMTN3(RHO,DELTAX,VIS,VOL,
-     .   AJ0,AJ1,AJ2,AJ3,AJV,R,S,T,
-     .   VDX1,VDY1,VDZ1,
-     .   VX1,VY1,VZ1,VX2,VY2,VZ2,VX4,VY4,VZ4,VX5,VY5,VZ5,
-     .   F11,F21,F31,F12,F22,F32,F14,F24,F34,F15,F25,F35,
-     .   F13,F23,F33,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
+       CALL AMOMTN3(
+     1   RHO,     DELTAX,  VIS,     VOL,
+     2   AJ0,     AJ1,     AJ2,     AJ3,
+     3   AJV,     R,       S,       T,
+     4   VDX1,    VDY1,    VDZ1,    VX1,
+     5   VY1,     VZ1,     VX2,     VY2,
+     6   VZ2,     VX4,     VY4,     VZ4,
+     7   VX5,     VY5,     VZ5,     F11,
+     8   F21,     F31,     F12,     F22,
+     9   F32,     F14,     F24,     F34,
+     A   F15,     F25,     F35,     F13,
+     B   F23,     F33,     F16,     F26,
+     C   F36,     F17,     F27,     F37,
+     D   F18,     F28,     F38,     IAD22,
+     E   NC1,     NC2,     NC3,     NC4,
+     F   NC5,     NC6,     NC7,     NC8,
+     G   NALE,    NEL)
        ! NOEUD 2 (2,1,3,6)     
        CALL AJAC3_V(V12,V23,V26,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
@@ -457,13 +485,23 @@ C
         AJ0(I,2)=-(AJ1(I,2)+AJ2(I,2)+AJ3(I,2))
         AJ0(I,3)=-(AJ1(I,3)+AJ2(I,3)+AJ3(I,3))
        ENDDO
-       CALL AMOMTN3(RHO,DELTAX,VIS,VOL,
-     .   AJ0,AJ1,AJ2,AJ3,AJV,R,S,T,
-     .   VDX2,VDY2,VDZ2,
-     .   VX2,VY2,VZ2,VX1,VY1,VZ1,VX3,VY3,VZ3,VX6,VY6,VZ6,
-     .   F12,F22,F32,F11,F21,F31,F13,F23,F33,F16,F26,F36,
-     .   F14,F24,F34,F15,F25,F35,F17,F27,F37,F18,F28,F38,
-     .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
+       CALL AMOMTN3(
+     1   RHO,     DELTAX,  VIS,     VOL,
+     2   AJ0,     AJ1,     AJ2,     AJ3,
+     3   AJV,     R,       S,       T,
+     4   VDX2,    VDY2,    VDZ2,    VX2,
+     5   VY2,     VZ2,     VX1,     VY1,
+     6   VZ1,     VX3,     VY3,     VZ3,
+     7   VX6,     VY6,     VZ6,     F12,
+     8   F22,     F32,     F11,     F21,
+     9   F31,     F13,     F23,     F33,
+     A   F16,     F26,     F36,     F14,
+     B   F24,     F34,     F15,     F25,
+     C   F35,     F17,     F27,     F37,
+     D   F18,     F28,     F38,     IAD22,
+     E   NC1,     NC2,     NC3,     NC4,
+     F   NC5,     NC6,     NC7,     NC8,
+     G   NALE,    NEL)
        ! NOEUD 3  (3,4,2,8)    
        CALL AJAC3_V(V43a,V23,V37,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
@@ -477,13 +515,23 @@ C
         AJ0(I,2)=-(AJ1(I,2)+AJ2(I,2)+AJ3(I,2))
         AJ0(I,3)=-(AJ1(I,3)+AJ2(I,3)+AJ3(I,3))
        ENDDO
-       CALL AMOMTN3(RHO,DELTAX,VIS,VOL,
-     .   AJ0,AJ1,AJ2,AJ3,AJV,R,S,T,
-     .   VDX3,VDY3,VDZ3,
-     .   VX3,VY3,VZ3,VX4,VY4,VZ4,VX2,VY2,VZ2,VX7,VY7,VZ7,
-     .   F13,F23,F33,F14,F24,F34,F12,F22,F32,F17,F27,F37,
-     .   F11,F21,F31,F15,F25,F35,F16,F26,F36,F18,F28,F38,
-     .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
+       CALL AMOMTN3(
+     1   RHO,     DELTAX,  VIS,     VOL,
+     2   AJ0,     AJ1,     AJ2,     AJ3,
+     3   AJV,     R,       S,       T,
+     4   VDX3,    VDY3,    VDZ3,    VX3,
+     5   VY3,     VZ3,     VX4,     VY4,
+     6   VZ4,     VX2,     VY2,     VZ2,
+     7   VX7,     VY7,     VZ7,     F13,
+     8   F23,     F33,     F14,     F24,
+     9   F34,     F12,     F22,     F32,
+     A   F17,     F27,     F37,     F11,
+     B   F21,     F31,     F15,     F25,
+     C   F35,     F16,     F26,     F36,
+     D   F18,     F28,     F38,     IAD22,
+     E   NC1,     NC2,     NC3,     NC4,
+     F   NC5,     NC6,     NC7,     NC8,
+     G   NALE,    NEL)
        ! NOEUD 4 (4,3,1,8)     
        CALL AJAC3_V(V43b,V14,V48,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
@@ -494,13 +542,23 @@ C
         AJ0(I,2)=-(AJ1(I,2)+AJ2(I,2)+AJ3(I,2))
         AJ0(I,3)=-(AJ1(I,3)+AJ2(I,3)+AJ3(I,3))
        ENDDO
-       CALL AMOMTN3(RHO,DELTAX,VIS,VOL,
-     .   AJ0,AJ1,AJ2,AJ3,AJV,R,S,T,
-     .   VDX4,VDY4,VDZ4,
-     .   VX4,VY4,VZ4,VX3,VY3,VZ3,VX1,VY1,VZ1,VX8,VY8,VZ8,
-     .   F14,F24,F34,F13,F23,F33,F11,F21,F31,F18,F28,F38,
-     .   F12,F22,F32,F15,F25,F35,F16,F26,F36,F17,F27,F37,
-     .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
+       CALL AMOMTN3(
+     1   RHO,     DELTAX,  VIS,     VOL,
+     2   AJ0,     AJ1,     AJ2,     AJ3,
+     3   AJV,     R,       S,       T,
+     4   VDX4,    VDY4,    VDZ4,    VX4,
+     5   VY4,     VZ4,     VX3,     VY3,
+     6   VZ3,     VX1,     VY1,     VZ1,
+     7   VX8,     VY8,     VZ8,     F14,
+     8   F24,     F34,     F13,     F23,
+     9   F33,     F11,     F21,     F31,
+     A   F18,     F28,     F38,     F12,
+     B   F22,     F32,     F15,     F25,
+     C   F35,     F16,     F26,     F36,
+     D   F17,     F27,     F37,     IAD22,
+     E   NC1,     NC2,     NC3,     NC4,
+     F   NC5,     NC6,     NC7,     NC8,
+     G   NALE,    NEL)
        ! NOEUD 5  (5,6,8,1)    
        CALL AJAC3_V(V56,V58,V15,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
@@ -511,13 +569,23 @@ C
         AJ0(I,2)=-(AJ1(I,2)+AJ2(I,2)+AJ3(I,2))
         AJ0(I,3)=-(AJ1(I,3)+AJ2(I,3)+AJ3(I,3))
        ENDDO
-       CALL AMOMTN3(RHO,DELTAX,VIS,VOL,
-     .   AJ0,AJ1,AJ2,AJ3,AJV,R,S,T,
-     .   VDX5,VDY5,VDZ5,
-     .   VX5,VY5,VZ5,VX6,VY6,VZ6,VX8,VY8,VZ8,VX1,VY1,VZ1,
-     .   F15,F25,F35,F16,F26,F36,F18,F28,F38,F11,F21,F31,
-     .   F12,F22,F32,F13,F23,F33,F14,F24,F34,F17,F27,F37,
-     .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
+       CALL AMOMTN3(
+     1   RHO,     DELTAX,  VIS,     VOL,
+     2   AJ0,     AJ1,     AJ2,     AJ3,
+     3   AJV,     R,       S,       T,
+     4   VDX5,    VDY5,    VDZ5,    VX5,
+     5   VY5,     VZ5,     VX6,     VY6,
+     6   VZ6,     VX8,     VY8,     VZ8,
+     7   VX1,     VY1,     VZ1,     F15,
+     8   F25,     F35,     F16,     F26,
+     9   F36,     F18,     F28,     F38,
+     A   F11,     F21,     F31,     F12,
+     B   F22,     F32,     F13,     F23,
+     C   F33,     F14,     F24,     F34,
+     D   F17,     F27,     F37,     IAD22,
+     E   NC1,     NC2,     NC3,     NC4,
+     F   NC5,     NC6,     NC7,     NC8,
+     G   NALE,    NEL)
        ! NOEUD 6  (6,5,7,2)    
        CALL AJAC3_V(V56,V67,V26,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
@@ -531,13 +599,23 @@ C
         AJ0(I,2)=-(AJ1(I,2)+AJ2(I,2)+AJ3(I,2))
         AJ0(I,3)=-(AJ1(I,3)+AJ2(I,3)+AJ3(I,3))
       ENDDO
-       CALL AMOMTN3(RHO,DELTAX,VIS,VOL,
-     .   AJ0,AJ1,AJ2,AJ3,AJV,R,S,T,
-     .   VDX6,VDY6,VDZ6,
-     .   VX6,VY6,VZ6,VX5,VY5,VZ5,VX7,VY7,VZ7,VX2,VY2,VZ2,
-     .   F16,F26,F36,F15,F25,F35,F17,F27,F37,F12,F22,F32,
-     .   F11,F21,F31,F13,F23,F33,F14,F24,F34,F18,F28,F38,
-     .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
+       CALL AMOMTN3(
+     1   RHO,     DELTAX,  VIS,     VOL,
+     2   AJ0,     AJ1,     AJ2,     AJ3,
+     3   AJV,     R,       S,       T,
+     4   VDX6,    VDY6,    VDZ6,    VX6,
+     5   VY6,     VZ6,     VX5,     VY5,
+     6   VZ5,     VX7,     VY7,     VZ7,
+     7   VX2,     VY2,     VZ2,     F16,
+     8   F26,     F36,     F15,     F25,
+     9   F35,     F17,     F27,     F37,
+     A   F12,     F22,     F32,     F11,
+     B   F21,     F31,     F13,     F23,
+     C   F33,     F14,     F24,     F34,
+     D   F18,     F28,     F38,     IAD22,
+     E   NC1,     NC2,     NC3,     NC4,
+     F   NC5,     NC6,     NC7,     NC8,
+     G   NALE,    NEL)
        ! NOEUD 7 (7,8,6,3)     
        CALL AJAC3_V(V87a,V67,V37,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
@@ -554,13 +632,23 @@ C
         AJ0(I,2)=-(AJ1(I,2)+AJ2(I,2)+AJ3(I,2))
         AJ0(I,3)=-(AJ1(I,3)+AJ2(I,3)+AJ3(I,3))
        ENDDO
-       CALL AMOMTN3(RHO,DELTAX,VIS,VOL,
-     .   AJ0,AJ1,AJ2,AJ3,AJV,R,S,T,
-     .   VDX7,VDY7,VDZ7,
-     .   VX7,VY7,VZ7,VX8,VY8,VZ8,VX6,VY6,VZ6,VX3,VY3,VZ3,
-     .   F17,F27,F37,F18,F28,F38,F16,F26,F36,F13,F23,F33,
-     .   F11,F21,F31,F12,F22,F32,F14,F24,F34,F15,F25,F35,
-     .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
+       CALL AMOMTN3(
+     1   RHO,     DELTAX,  VIS,     VOL,
+     2   AJ0,     AJ1,     AJ2,     AJ3,
+     3   AJV,     R,       S,       T,
+     4   VDX7,    VDY7,    VDZ7,    VX7,
+     5   VY7,     VZ7,     VX8,     VY8,
+     6   VZ8,     VX6,     VY6,     VZ6,
+     7   VX3,     VY3,     VZ3,     F17,
+     8   F27,     F37,     F18,     F28,
+     9   F38,     F16,     F26,     F36,
+     A   F13,     F23,     F33,     F11,
+     B   F21,     F31,     F12,     F22,
+     C   F32,     F14,     F24,     F34,
+     D   F15,     F25,     F35,     IAD22,
+     E   NC1,     NC2,     NC3,     NC4,
+     F   NC5,     NC6,     NC7,     NC8,
+     G   NALE,    NEL)
        ! NOEUD 8      
        CALL AJAC3_V(V87b,V58,V48,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
@@ -574,13 +662,23 @@ C
         AJ0(I,2)=-(AJ1(I,2)+AJ2(I,2)+AJ3(I,2))
         AJ0(I,3)=-(AJ1(I,3)+AJ2(I,3)+AJ3(I,3))
        ENDDO
-       CALL AMOMTN3(RHO,DELTAX,VIS,VOL,
-     .   AJ0,AJ1,AJ2,AJ3,AJV,R,S,T,
-     .   VDX8,VDY8,VDZ8,
-     .   VX8,VY8,VZ8,VX7,VY7,VZ7,VX5,VY5,VZ5,VX4,VY4,VZ4,
-     .   F18,F28,F38,F17,F27,F37,F15,F25,F35,F14,F24,F34,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F16,F26,F36,
-     .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
+       CALL AMOMTN3(
+     1   RHO,     DELTAX,  VIS,     VOL,
+     2   AJ0,     AJ1,     AJ2,     AJ3,
+     3   AJV,     R,       S,       T,
+     4   VDX8,    VDY8,    VDZ8,    VX8,
+     5   VY8,     VZ8,     VX7,     VY7,
+     6   VZ7,     VX5,     VY5,     VZ5,
+     7   VX4,     VY4,     VZ4,     F18,
+     8   F28,     F38,     F17,     F27,
+     9   F37,     F15,     F25,     F35,
+     A   F14,     F24,     F34,     F11,
+     B   F21,     F31,     F12,     F22,
+     C   F32,     F13,     F23,     F33,
+     D   F16,     F26,     F36,     IAD22,
+     E   NC1,     NC2,     NC3,     NC4,
+     F   NC5,     NC6,     NC7,     NC8,
+     G   NALE,    NEL)
       ENDIF
       RETURN
       END

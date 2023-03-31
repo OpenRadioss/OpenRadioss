@@ -27,9 +27,11 @@ Chd|        TFORC3                        source/elements/truss/tforc3.F
 Chd|-- calls ---------------
 Chd|        CVMGT                         source/system/machine.F       
 Chd|====================================================================
-      SUBROUTINE M2LAWT(PM   ,GEO   ,OFF  ,FOR  ,EINT,
-     .                  AREA ,AL0   ,PLA  ,STI  ,MAT ,
-     .                  MGM  ,NGL   ,EPS  ,AL   )
+      SUBROUTINE M2LAWT(
+     1   PM,      GEO,     OFF,     FOR,
+     2   EINT,    AREA,    AL0,     PLA,
+     3   STI,     MAT,     MGM,     NGL,
+     4   EPS,     AL,      NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,12 +46,12 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "units_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER MAT(MVSIZ),MGM(MVSIZ),NGL(MVSIZ)
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),OFF(*),FOR(*),EINT(*),
@@ -70,7 +72,7 @@ C-----------------------------------------------
       my_real
      .   CVMGT
 C-----------------------------------------------      
-      DO I=LFT,LLT
+      DO I=1,NEL
         YM(I)  =PM(20,MAT(I))
         PR(I)  =PM(21,MAT(I))
         CA(I)  =PM(38,MAT(I))
@@ -82,31 +84,31 @@ C-----------------------------------------------
         GAP(I) =GEO(2,MGM(I))
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (GAP(I) > ZERO .AND. AL(I) <= (AL0(I)-GAP(I))) OFF(I)=ONE
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         EINT(I)=EINT(I)+FOR(I)*EPS(I)*AL(I)*DT1*HALF
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         AREA(I)=AREA(I)*(ONE - TWO*PR(I)*EPS(I)*DT1*OFF(I))
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         YMA = YM(I)*AREA(I)
         FOR(I)=FOR(I)+YMA*EPS(I)*DT1
         STI(I)=YMA / AL(I)
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         YLD(I)=CA(I)+CB(I)*PLA(I)**CN(I)
       ENDDO
 C-----------------------
 C     MODULE ECROUISSAGE
 C-----------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (CN(I) == ONE) THEN
           HH(I)= CB(I)
         ELSE
@@ -118,36 +120,36 @@ C-----------------------
         ENDIF
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         AA(I)  = (YM(I)+HH(I))*AREA(I)
         YLD(I) = MIN(YLD(I),YMAX(I))
         FF(I)  = ABS(FOR(I))-YLD(I)*AREA(I)
         FF(I)  = MAX(ZERO,FF(I))
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         PLA(I)=PLA(I)+FF(I)/AA(I)
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         FOR(I)=CVMGT(SIGN(YLD(I)*AREA(I),FOR(I)),FOR(I),FF(I) > ZERO)
       ENDDO
 C--------------------------------
 C     TEST DE RUPTURE DUCTILE
 C-------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I)=ZERO
         IF (OFF(I) < ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO 
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (OFF(I) < ONE)      CYCLE
         IF (PLA(I) < EPMX(I)) CYCLE
         OFF(I)=OFF(I)*FOUR_OVER_5
         IDEL7NOK = 1
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (OFF(I) /= FOUR_OVER_5) CYCLE
 #include "lockon.inc"
         WRITE(IOUT,1000)  NGL(I)
@@ -155,12 +157,12 @@ c
 #include "lockoff.inc"
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         STI(I)=STI(I)*OFF(I)
         FOR(I)= FOR(I)*OFF(I)  
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         EINT(I)=EINT(I)+FOR(I)*EPS(I)*AL(I)*DT1*HALF
       ENDDO
 C

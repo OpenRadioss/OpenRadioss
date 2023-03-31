@@ -27,14 +27,20 @@ Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc
 Chd|        S8SKE3                        source/elements/solid/solide8s/s8ske3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S8SDERI3(OFFG,OFF,VOLDP,NGL,
-     .    KSI,ETA,ZETA,WI,
-     .    X1,X2,X3,X4,X5,X6,X7,X8,
-     .    Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,
-     .    Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8,
-     .    A11,A12,A13,A21,A22,A23,A31,A32,A33,
-     .    DN_R,DN_S,DN_T,INVJ,
-     .    DN_X,DN_Y,DN_Z,VOLN)
+      SUBROUTINE S8SDERI3(
+     1   OFFG,    OFF,     VOLDP,   NGL,
+     2   KSI,     ETA,     ZETA,    WI,
+     3   X1,      X2,      X3,      X4,
+     4   X5,      X6,      X7,      X8,
+     5   Y1,      Y2,      Y3,      Y4,
+     6   Y5,      Y6,      Y7,      Y8,
+     7   Z1,      Z2,      Z3,      Z4,
+     8   Z5,      Z6,      Z7,      Z8,
+     9   A11,     A12,     A13,     A21,
+     A   A22,     A23,     A31,     A32,
+     B   A33,     DN_R,    DN_S,    DN_T,
+     C   INVJ,    DN_X,    DN_Y,    DN_Z,
+     D   VOLN,    NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,12 +54,12 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "vect01_c.inc"
 #include      "scr17_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       !INTEGER ICP,IDEG(*)
 C     REAL
       my_real
@@ -94,7 +100,7 @@ C-----------------------------------------------
         DN_T(I) = TI(I)*(ONE+ETA*RI(I))*(ONE+ZETA*SI(I))/EIGHT
       ENDDO
 !     Jacobien
-      DO I=LFT,LLT
+      DO I=1,NEL
         DX_R = X1(I)*DN_R(1)+X2(I)*DN_R(2)+X3(I)*DN_R(3)+X4(I)*DN_R(4)
      .        +X5(I)*DN_R(5)+X6(I)*DN_R(6)+X7(I)*DN_R(7)+X8(I)*DN_R(8)
         DX_S = X1(I)*DN_S(1)+X2(I)*DN_S(2)+X3(I)*DN_S(3)+X4(I)*DN_S(4)
@@ -150,7 +156,7 @@ C-----------------------------------------------
       ENDDO
       
       DO J=1,8
-        DO I=LFT,LLT
+        DO I=1,NEL
           DN_X(I,J) = DN_R(J)*INVJ(1,I)+DN_S(J)*INVJ(2,I)+DN_T(J)*INVJ(3,I)
           DN_Y(I,J) = DN_R(J)*INVJ(4,I)+DN_S(J)*INVJ(5,I)+DN_T(J)*INVJ(6,I)
           DN_Z(I,J) = DN_R(J)*INVJ(7,I)+DN_S(J)*INVJ(8,I)+DN_T(J)*INVJ(9,I)
@@ -158,7 +164,7 @@ C-----------------------------------------------
       ENDDO
 
       ICOR = 0
-      DO I=LFT,LLT
+      DO I=1,NEL
         OFF(I)=OFFG(I)
         IF(OFF(I)==ZERO)THEN
          DETJ(I)=ONE
@@ -171,7 +177,7 @@ C-----------------------------------------------
       ENDDO
 C
       IF (ICOR>0.AND.IMPL_S>0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(VOLDP(I)<=ZERO.AND.OFF(I)/=ZERO)THEN
             VOLDP(I)= EM20
             OFF(I) =ZERO 
@@ -192,7 +198,7 @@ C
         ENDDO
       END IF
       
-      DO I=LFT,LLT
+      DO I=1,NEL
        VOLN(I) = VOLDP(I)
       ENDDO
 c

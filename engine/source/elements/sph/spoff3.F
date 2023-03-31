@@ -26,9 +26,10 @@ Chd|-- called by -----------
 Chd|        SPSTRES                       source/elements/sph/spstres.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SPOFF3(KXSP,VD2,VIS,OFFG,OFF,
-     .   NC1,NGL,MXT,NGEO,IPART,
-     .   IPARTSP)
+      SUBROUTINE SPOFF3(
+     1   KXSP,    VD2,     VIS,     OFFG,
+     2   OFF,     NC1,     NGL,     MXT,
+     3   NGEO,    IPART,   IPARTSP, NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -36,12 +37,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "sphcom.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       my_real
      .  VIS(*),VD2(*),OFFG(*),OFF(*)
       INTEGER NC1(*), MXT(*), NGL(*), NGEO(*), KXSP(NISP,*),
@@ -51,7 +52,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IPRT
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
        VIS(I)=ZERO
        IPRT   =IPARTSP(I)
        NGEO(I)=IPART(2,IPRT)
@@ -59,10 +60,10 @@ C-----------------------------------------------
        MXT(I) =IPART(1,IPRT)
        NC1(I) =KXSP(3,I)
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
        OFF(I) = MIN(ONE,ABS(OFFG(I)))
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
        VD2(I)=ZERO
       ENDDO
 C-----------------------------------------------

@@ -28,13 +28,19 @@ Chd|-- calls ---------------
 Chd|        SLEN                          source/elements/solid/solide/slen.F
 Chd|        SLENA                         source/elements/solid/solide/slen.F
 Chd|====================================================================
-      SUBROUTINE FDLEN3(VOLN,DELTAX,
-     .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .   N1X, N2X, N3X, N4X, N5X, N6X,
-     .   N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
-     .   N1Z, N2Z, N3Z, N4Z, N5Z, N6Z)
+      SUBROUTINE FDLEN3(
+     1   VOLN,    DELTAX,  X1,      X2,
+     2   X3,      X4,      X5,      X6,
+     3   X7,      X8,      Y1,      Y2,
+     4   Y3,      Y4,      Y5,      Y6,
+     5   Y7,      Y8,      Z1,      Z2,
+     6   Z3,      Z4,      Z5,      Z6,
+     7   Z7,      Z8,      N1X,     N2X,
+     8   N3X,     N4X,     N5X,     N6X,
+     9   N1Y,     N2Y,     N3Y,     N4Y,
+     A   N5Y,     N6Y,     N1Z,     N2Z,
+     B   N3Z,     N4Z,     N5Z,     N6Z,
+     C   NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,6 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
 C     REAL
       my_real
      .   VOLN(*),DELTAX(*),
@@ -58,7 +65,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "fluid_scr_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -68,7 +74,7 @@ C     REAL
       my_real
      .   XIOFF(MVSIZ), AREAM(MVSIZ), ATEST(MVSIZ), AREA(6,MVSIZ)
 C-----------------------------------------------
-      DO 10 I=LFT,LLT
+      DO 10 I=1,NEL
       XIOFF(I)=ONE
    10 AREAM(I)=EM20
 C
@@ -80,7 +86,7 @@ C
         CALL SLEN(X3,X4,X8,X7,Y3,Y4,Y8,Y7,Z3,Z4,Z8,Z7,5,AREA,AREAM)
         CALL SLEN(X4,X1,X5,X8,Y4,Y1,Y5,Y8,Z4,Z1,Z5,Z8,6,AREA,AREAM)
 C
-        DO 50 I=LFT,LLT
+        DO 50 I=1,NEL
    50   DELTAX(I)=FOUR*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
 C
       ELSE
@@ -91,7 +97,7 @@ C
      .     X1, X2, X3, X4, X5, X6, X7, X8,
      .     Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .     Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,AREAM)
-        DO I=LFT,LLT
+        DO I=1,NEL
           DELTAX(I)=TWO*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
         ENDDO
       ENDIF

@@ -26,9 +26,11 @@ Chd|-- called by -----------
 Chd|        S8FORC3                       source/elements/solid/solide8/s8forc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S8COOR3(OFFG,OFF,X,V,IXS,
-     .                   XLOC,YLOC,ZLOC,VXLOC,VYLOC,VZLOC,
-     .                   MXT,NC,NGL,PID)
+      SUBROUTINE S8COOR3(
+     1   OFFG,    OFF,     X,       V,
+     2   IXS,     XLOC,    YLOC,    ZLOC,
+     3   VXLOC,   VYLOC,   VZLOC,   MXT,
+     4   NC,      NGL,     PID,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,10 +42,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER IXS(11,*)
 C     REAL
       my_real
@@ -63,8 +65,8 @@ C     REAL
      .   OFF_L
 C-----------------------------------------------
       OFF_L  = ZERO
-      MXT_1 = IXS(1,LFT)
-      DO 10 I=LFT,LLT
+      MXT_1 = IXS(1,1)
+      DO 10 I=1,NEL
       NGL(I)=IXS(11,I)
       MXT(I)=MXT_1
       PID(I)=IXS(10,I)
@@ -80,7 +82,7 @@ C
 C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
-      DO 20 I=LFT,LLT
+      DO 20 I=1,NEL
       XLOC(I,1)=X(1,NC(1,I))
       YLOC(I,1)=X(2,NC(1,I))
       ZLOC(I,1)=X(3,NC(1,I))
@@ -134,7 +136,7 @@ C
       OFF_L  = MIN(OFF_L,OFFG(I))
    20 CONTINUE
       IF(OFF_L<ZERO)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFFG(I)<0.)THEN
             VXLOC(I,1)=0.
             VYLOC(I,1)=0.

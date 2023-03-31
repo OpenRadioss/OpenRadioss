@@ -26,10 +26,12 @@ Chd|-- called by -----------
 Chd|        TFORC3                        source/elements/truss/tforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE TFCUM3(F    ,FOR ,STIFN,STI ,FX1,
-     .                  FX2  ,FY1 ,FY2  ,FZ1 ,FZ2,
-     .                  OFFG ,OFF ,NC1  ,NC2 ,EX ,
-     .                  EY   ,EZ  )
+      SUBROUTINE TFCUM3(
+     1   F,       FOR,     STIFN,   STI,
+     2   FX1,     FX2,     FY1,     FY2,
+     3   FZ1,     FZ2,     OFFG,    OFF,
+     4   NC1,     NC2,     EX,      EY,
+     5   EZ,      NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,10 +43,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NC1(MVSIZ),NC2(MVSIZ)
       my_real
      .   F(3,*),FOR(*),STIFN(*),STI(*),
@@ -58,20 +60,20 @@ C-----------------------------------------------
       my_real
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),OFF_L
 C-----------------------------------------------      
-      DO I=LFT,LLT
+      DO I=1,NEL
         F11(I)=EX(I)*FOR(I)
         F21(I)=EY(I)*FOR(I)
         F31(I)=EZ(I)*FOR(I)
       ENDDO
 c
       OFF_L=ZERO
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (OFF(I) < ONE) OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
 c
       IF (OFF_L < ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF (OFFG(I) < ZERO) THEN
             F11(I)=ZERO
             F21(I)=ZERO
@@ -83,7 +85,7 @@ c
 C-------------------------
 C     ASSEMBLE
 C-------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         F(1,NC1(I))=F(1,NC1(I))+F11(I)
         F(2,NC1(I))=F(2,NC1(I))+F21(I)
         F(3,NC1(I))=F(3,NC1(I))+F31(I)

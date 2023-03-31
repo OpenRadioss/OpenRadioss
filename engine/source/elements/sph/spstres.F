@@ -154,9 +154,10 @@ C-----------
       NF1=NFT+1
 C-----------
 C GATHER PARTICLE VARIABLES
-      CALL SPOFF3(KXSP(1,NF1),VD2,VIS,GBUF%OFF,OFF,
-     .             NC1,NGL,MXT,NGEO,IPART,
-     .             IPARTSP(NF1))
+      CALL SPOFF3(
+     1   KXSP(1,NF1), VD2,         VIS,         GBUF%OFF,
+     2   OFF,         NC1,         NGL,         MXT,
+     3   NGEO,        IPART,       IPARTSP(NF1),NEL)
 C-----------
 C DOWNLOAD RHOO, RHON, DELTAX and D FROM WA.
       CALL SPLOAD3(SPBUF ,WA ,RHOO ,GBUF%RHO,DELTAX ,
@@ -173,8 +174,10 @@ C  (actually only Lagrangian case is available , not Ale neither Euler)
       END IF
 C-----------
       CALL SPDEFO3(
-     .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ,
-     .   D4, D5, D6,WXX, WYY, WZZ)
+     1   DXX,     DXY,     DXZ,     DYX,
+     2   DYY,     DYZ,     DZX,     DZY,
+     3   DZZ,     D4,      D5,      D6,
+     4   WXX,     WYY,     WZZ,     NEL)
 C-----------
 C     when particle is sleeping, stresses (global system) do not rotate.
       CALL SROTA3(GBUF%SIG,S1   ,S2   ,S3   ,S4   ,

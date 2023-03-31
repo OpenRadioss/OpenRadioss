@@ -27,7 +27,9 @@ Chd|        RFORC3                        source/elements/spring/rforc3.F
 Chd|-- calls ---------------
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
-      SUBROUTINE R3TORS(FOR ,DF,TANI,H3D_DATA)
+      SUBROUTINE R3TORS(
+     1   FOR,     DF,      TANI,    H3D_DATA,
+     2   NEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -39,11 +41,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "scr14_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       my_real
      .  FOR(*),DF(*),TANI(15,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -53,7 +55,7 @@ C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
       IF (ANIM_FT(1) /= 0 .OR. H3D_DATA%UND_FORC /= 0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           TANI(1,I)= FOR(I)+DF(I)
           TANI(2,I)= ZERO
           TANI(3,I)= ZERO

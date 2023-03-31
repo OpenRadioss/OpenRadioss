@@ -27,22 +27,28 @@ Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S6CDEFC3(
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   VX1, VX2, VX3, VX4, VX5, VX6, 
-     .   VY1, VY2, VY3, VY4, VY5, VY6, 
-     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, 
-     .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
-     .   WXX, WYY, WZZ, 
-     .   DHXX, DHXY, DHXZ,DHYX, DHYY, DHYZ,DHZX, DHZY, DHZZ,
-     .   DH4, DH5, DH6,
-     .   PX1H, PX2H, PX3H, 
-     .   PY1H, PY2H, PY3H, 
-     .   PZ1H, PZ2H, PZ3H,  
-     .   JI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
-     .   B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
-     .   DDHV,NU) 
+     1   PX1,     PX2,     PX3,     PX4,
+     2   PY1,     PY2,     PY3,     PY4,
+     3   PZ1,     PZ2,     PZ3,     PZ4,
+     4   VX1,     VX2,     VX3,     VX4,
+     5   VX5,     VX6,     VY1,     VY2,
+     6   VY3,     VY4,     VY5,     VY6,
+     7   VZ1,     VZ2,     VZ3,     VZ4,
+     8   VZ5,     VZ6,     DXX,     DXY,
+     9   DXZ,     DYX,     DYY,     DYZ,
+     A   DZX,     DZY,     DZZ,     D4,
+     B   D5,      D6,      WXX,     WYY,
+     C   WZZ,     DHXX,    DHXY,    DHXZ,
+     D   DHYX,    DHYY,    DHYZ,    DHZX,
+     E   DHZY,    DHZZ,    DH4,     DH5,
+     F   DH6,     PX1H,    PX2H,    PX3H,
+     G   PY1H,    PY2H,    PY3H,    PZ1H,
+     H   PZ2H,    PZ3H,    JI33,    B1X,
+     I   B1Y,     B2Y,     B2X,     B1122,
+     J   B1221,   B2212,   B1121,   B1XH,
+     K   B1YH,    B2XH,    B2YH,    B1122H,
+     L   B1221H,  B2212H,  B1121H,  DDHV,
+     M   NU,      NEL)
 C   ---
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -55,10 +61,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
 C     REAL
       my_real
      .   VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), 
@@ -100,7 +106,7 @@ C     REAL
       my_real 
      .  NU1,PXSVX,PYSVY,PZSVZ,PXAVX,PYAVY,PZAVZ,TERMAD
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
        VX14(I)=VX1(I)+VX4(I)
        VX25(I)=VX2(I)+VX5(I)
        VX36(I)=VX3(I)+VX6(I)
@@ -114,7 +120,7 @@ C-----------------------------------------------
        VZ36(I)=VZ3(I)+VZ6(I)
        VZHI(I)=VZ4(I)+VZ5(I)+VZ6(I)-VZ1(I)-VZ2(I)-VZ3(I)
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
        VX14N(I)=-VX1(I)+VX4(I)
        VX25N(I)=-VX2(I)+VX5(I)
        VX36N(I)=-VX3(I)+VX6(I)
@@ -132,7 +138,7 @@ C
       ENDDO
 C                                                                     12
 C   ----------constant part--------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         DXX(I)=PX1(I)*VX14(I)+PX2(I)*VX25(I)+
      .         PX3(I)*VX36(I)+PX4(I)*VXHI(I)
         DYY(I)=PY1(I)*VY14(I)+PY2(I)*VY25(I)+
@@ -163,13 +169,13 @@ C
      .         PY3(I)*VZ36(I))
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         WXX(I)=ZERO
         WYY(I)=ZERO
         WZZ(I)=ZERO
       ENDDO
 C   ----------non-constant part--------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         NU1 = NU(I)/(ONE - NU(I))
         PXAVX = PX1(I)*VX14N(I)+PX2(I)*VX25N(I)+PX3(I)*VX36N(I)
         PYAVY = PY1(I)*VY14N(I)+PY2(I)*VY25N(I)+PY3(I)*VY36N(I)

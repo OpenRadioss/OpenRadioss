@@ -26,8 +26,10 @@ Chd|-- called by -----------
 Chd|        S8FORC3                       source/elements/solid/solide8/s8forc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S8LAGR3(PM,VOL0,RHO,EINT,
-     .            MXT,VOLN,RHO0,DVOL,VD2)
+      SUBROUTINE S8LAGR3(
+     1   PM,      VOL0,    RHO,     EINT,
+     2   MXT,     VOLN,    RHO0,    DVOL,
+     3   VD2,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,10 +42,10 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
 C     REAL
       my_real
      .   PM(NPROPM,*), VOL0(*), RHO(*), EINT(*)
@@ -53,16 +55,16 @@ C     REAL
 C-----------------------------------------------
       INTEGER I, MX
 C-----------------------------------------------
-      MX = MXT(LFT)
-      DO 10 I=LFT,LLT
+      MX = MXT(1)
+      DO 10 I=1,NEL
    10 RHO0(I)=PM(1,MX)
 C
-      DO 20 I=LFT,LLT
-   20 DVOL(I)=VOLN(I)-(RHO0(LFT)/RHO(I))*VOL0(I)
+      DO 20 I=1,NEL
+   20 DVOL(I)=VOLN(I)-(RHO0(1)/RHO(I))*VOL0(I)
 C
-      DO 30 I=LFT,LLT
+      DO 30 I=1,NEL
       VD2(I)=ZERO
-      RHO(I)=RHO0(LFT)*(VOL0(I)/VOLN(I))
+      RHO(I)=RHO0(1)*(VOL0(I)/VOLN(I))
    30 EINT(I)=EINT(I)*VOL0(I)
 C
       RETURN

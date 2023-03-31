@@ -144,9 +144,11 @@ C-----------------------------------------------
 C GATHERING VECTEURS LOCAUX
 C-----------------------------------------------
       IF (JCVT==0) THEN
-       CALL S8COOR3(GBUF%OFF,OFF,X,V,IXS(LCO),
-     .             XLOC,YLOC,ZLOC,VXLOC,VYLOC,VZLOC,
-     .             MXT,NC,NGL,PID)
+       CALL S8COOR3(
+     1   GBUF%OFF,OFF,     X,       V,
+     2   IXS(LCO),XLOC,    YLOC,    ZLOC,
+     3   VXLOC,   VYLOC,   VZLOC,   MXT,
+     4   NC,      NGL,     PID,     NEL)
       ELSE
        CALL SR8COOR3(GBUF%OFF,OFF,X,V,IXS(LCO),
      .             XLOC,YLOC,ZLOC,VXLOC,VYLOC,VZLOC,
@@ -160,13 +162,20 @@ C-----------------------------------------------
 C FONCTIONS DE FORME, DEFORMATION, ET OBJECTIVITE 
 C PXJ(K,I) FONCTION J DU PT INTEGRATION K ELEMENT I
 C-----------------------------------------------
-      CALL S8DERI3(XLOC,YLOC,ZLOC,
-     .             PX1,PX2,PX3,PX4,PX5,PX6,PX7,PX8,
-     .             PY1,PY2,PY3,PY4,PY5,PY6,PY7,PY8,
-     .             PZ1,PZ2,PZ3,PZ4,PZ5,PZ6,PZ7,PZ8,
-     .             VOLGP,VOLN,DELTAX,NGL,OFF)
-      CALL S8LAGR3(PM,GBUF%VOL,GBUF%RHO,GBUF%EINT,
-     .            MXT,VOLN,RHO0,DVOL,VD2)
+      CALL S8DERI3(
+     1   XLOC,    YLOC,    ZLOC,    PX1,
+     2   PX2,     PX3,     PX4,     PX5,
+     3   PX6,     PX7,     PX8,     PY1,
+     4   PY2,     PY3,     PY4,     PY5,
+     5   PY6,     PY7,     PY8,     PZ1,
+     6   PZ2,     PZ3,     PZ4,     PZ5,
+     7   PZ6,     PZ7,     PZ8,     VOLGP,
+     8   VOLN,    DELTAX,  NGL,     OFF,
+     9   NEL)
+      CALL S8LAGR3(
+     1   PM,       GBUF%VOL, GBUF%RHO, GBUF%EINT,
+     2   MXT,      VOLN,     RHO0,     DVOL,
+     3   VD2,      NEL)
 C
         DO IPT = 1,NPT
           LBUF => ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)
@@ -248,9 +257,15 @@ C-------------------------
 C     ASSEMBLE
 C-------------------------
       IF(IPARIT==0)THEN
-          CALL S8CUMU3(GBUF%OFF,A,NC,STIFN,STI,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)
+          CALL S8CUMU3(
+     1   GBUF%OFF,A,       NC,      STIFN,
+     2   STI,     F11,     F21,     F31,
+     3   F12,     F22,     F32,     F13,
+     4   F23,     F33,     F14,     F24,
+     5   F34,     F15,     F25,     F35,
+     6   F16,     F26,     F36,     F17,
+     7   F27,     F37,     F18,     F28,
+     8   F38,     NEL)
       ELSE
           FBI = ZERO
           CALL SCUMU3P(GBUF%OFF,STI,FSKY,FSKY,IADS,

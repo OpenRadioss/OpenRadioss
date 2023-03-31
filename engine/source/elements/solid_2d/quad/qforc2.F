@@ -233,9 +233,12 @@ C
       NF1=NFT+1
 C
       IF (JCVT == 0)THEN
-        CALL QCOOR2(X,IC(LCO),
-     .              Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .              NC1,NC2,NC3,NC4,NGL,MAT,NGEO,VD2,VIS)
+        CALL QCOOR2(
+     1   X,       IC(LCO), Y1,      Y2,
+     2   Y3,      Y4,      Z1,      Z2,
+     3   Z3,      Z4,      NC1,     NC2,
+     4   NC3,     NC4,     NGL,     MAT,
+     5   NGEO,    VD2,     VIS,     NEL)
       ELSE
 C------ Co-rotational system (convective local system)      
 C       JCVT/=0 => JLAG/=0
@@ -257,14 +260,19 @@ C--------------
      .              Y234 ,Y124 )
         CALL QDLEN2(Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,AIRE,DELTAX,IPARG(63,NG))
         IF (JCVT == 0) THEN
-          CALL QDEFO2(V,V,
-     .                   Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .                   VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     .                   PY1,PY2,PZ1,PZ2,
-     .                   WYZ,DYZ,DZY,EYY,EZZ,ETT,EYZ,EYT,EZT,
-     .                   RX,RY,RZ,SX,SY,SZ,TX,TY,TZ,
-     .                   VOLN,AIRE,AIREM,
-     .                   NC1,NC2,NC3,NC4)
+          CALL QDEFO2(
+     1   V,       V,       Y1,      Y2,
+     2   Y3,      Y4,      Z1,      Z2,
+     3   Z3,      Z4,      VY1,     VY2,
+     4   VY3,     VY4,     VZ1,     VZ2,
+     5   VZ3,     VZ4,     PY1,     PY2,
+     6   PZ1,     PZ2,     WYZ,     DYZ,
+     7   DZY,     EYY,     EZZ,     ETT,
+     8   EYZ,     EYT,     EZT,     RX,
+     9   RY,      RZ,      SX,      SY,
+     A   SZ,      TX,      TY,      TZ,
+     B   VOLN,    AIRE,    AIREM,   NC1,
+     C   NC2,     NC3,     NC4,     NEL)
         ELSE
           CALL QRDEFO2(V,
      .                   Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
@@ -277,8 +285,9 @@ C--------------
      .                   R22 ,R23 ,R32 ,R33)
         END IF
 c
-        CALL QLAGR2(PM,GBUF%VOL,GBUF%RHO,GBUF%EINT,
-     .                   VOLN,DVOL,MAT)
+        CALL QLAGR2(
+     1   PM,       GBUF%VOL, GBUF%RHO, GBUF%EINT,
+     2   VOLN,     DVOL,     MAT,      NEL)
         CALL QROTA2(GBUF%SIG,S1,S2,S3,S4,S5,S6,WYZ,NEL)
       ELSEIF (JALE/=0) THEN
 C------------
@@ -288,14 +297,19 @@ C------------
      .              Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .              BID,BID)
         CALL QDLEN2(Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,AIRE,DELTAX,IPARG(63,NG))
-        CALL QDEFO2(V,W,
-     .                   Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .                   VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     .                   PY1,PY2,PZ1,PZ2,
-     .                   WYZ,DYZ,DZY,EYY,EZZ,ETT,EYZ,EYT,EZT,
-     .                   RX,RY,RZ,SX,SY,SZ,TX,TY,TZ,
-     .                   VOLN,AIRE,AIREM,
-     .                   NC1,NC2,NC3,NC4)
+        CALL QDEFO2(
+     1   V,       W,       Y1,      Y2,
+     2   Y3,      Y4,      Z1,      Z2,
+     3   Z3,      Z4,      VY1,     VY2,
+     4   VY3,     VY4,     VZ1,     VZ2,
+     5   VZ3,     VZ4,     PY1,     PY2,
+     6   PZ1,     PZ2,     WYZ,     DYZ,
+     7   DZY,     EYY,     EZZ,     ETT,
+     8   EYZ,     EYT,     EZT,     RX,
+     9   RY,      RZ,      SX,      SY,
+     A   SZ,      TX,      TY,      TZ,
+     B   VOLN,    AIRE,    AIREM,   NC1,
+     C   NC2,     NC3,     NC4,     NEL)
         CALL ALERO2(GBUF%OFF,GBUF%VOL,GBUF%RHO,FLUX(1,NF1),FLU1(NF1),W,
      .                   VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
      .                   VOLN,DVOL,VD2,
@@ -444,10 +458,12 @@ C--------------------
      .   R22  ,R23    ,R32  ,R33  ,NEL)
 C--------------
       IF(JCVT/=0)THEN
-        CALL QRROTA2(R22 ,R32 ,R23 ,R33 ,
-     .  	     F11 ,F21 ,F12 ,F22 ,
-     .  	     T11 ,T21 ,T12 ,T22 ,
-     .  	     T13 ,T23 ,T14 ,T24 )
+        CALL QRROTA2(
+     1   R22,     R32,     R23,     R33,
+     2   F11,     F21,     F12,     F22,
+     3   T11,     T21,     T12,     T22,
+     4   T13,     T23,     T14,     T24,
+     5   NEL)
       END IF
         IF(JEUL+JALE/=0) CALL CHECK_OFF_ALE(T11 ,T21 ,T12 ,T22 ,T13 ,
      1                                      T23 ,T14 ,T24 ,BIDM,BIDM,

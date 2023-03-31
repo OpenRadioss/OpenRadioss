@@ -30,8 +30,11 @@ Chd|        TSH_DIR2                      source/output/h3d/h3d_results/h3d_skin
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SCORTHO3(
-     .           RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
-     .           E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z )
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      E1X,     E2X,     E3X,
+     4   E1Y,     E2Y,     E3Y,     E1Z,
+     5   E2Z,     E3Z,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,6 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
 C     REAL
       my_real, INTENT(IN),  DIMENSION(MVSIZ) ::
      .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ
@@ -51,7 +55,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -60,7 +63,7 @@ C     REAL
       my_real
      .   DET,C1,C2 
 C-----------------------------------------------
-      DO 100 I=LFT,LLT
+      DO 100 I=1,NEL
 C
        E3X(I) = TY(I) * RZ(I) - TZ(I) * RY(I) 
        E3Y(I) = TZ(I) * RX(I) - TX(I) * RZ(I) 

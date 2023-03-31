@@ -28,9 +28,13 @@ Chd|        S20FORC3                      source/elements/solid/solide20/s20forc
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S20DEFO3(
-     .   NPE, PX, PY, PZ, VX, VY, VZ, 
-     .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY,
-     .   DZZ, D4, D5, D6, WXX, WYY, WZZ,RHO,RHOO,VOLNP,VOLN)
+     1   NPE,     PX,      PY,      PZ,
+     2   VX,      VY,      VZ,      DXX,
+     3   DXY,     DXZ,     DYX,     DYY,
+     4   DYZ,     DZX,     DZY,     DZZ,
+     5   D4,      D5,      D6,      WXX,
+     6   WYY,     WZZ,     RHO,     RHOO,
+     7   VOLNP,   VOLN,    NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,6 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NPE
       my_real
      .  VX(MVSIZ,*),VY(MVSIZ,*),VZ(MVSIZ,*),
@@ -54,7 +59,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com08_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -65,12 +69,12 @@ C     REAL
      .   DT1D2
 C-----------------------------------------------
 C                                                                     12
-      DO I=LFT,LLT
+      DO I=1,NEL
         RHOO(I)=RHO(I)
         VOLN(I)=VOLNP(I)
       ENDDO
       N = 1
-      DO I=LFT,LLT
+      DO I=1,NEL
         DXX(I)=PX(I,N)*VX(I,N)
         DYY(I)=PY(I,N)*VY(I,N)
         DZZ(I)=PZ(I,N)*VZ(I,N)
@@ -83,7 +87,7 @@ C                                                                     12
       ENDDO
 !
       DO N=2,NPE
-       DO I=LFT,LLT
+       DO I=1,NEL
         DXX(I)=DXX(I)+PX(I,N)*VX(I,N)
         DYY(I)=DYY(I)+PY(I,N)*VY(I,N)
         DZZ(I)=DZZ(I)+PZ(I,N)*VZ(I,N)
@@ -98,7 +102,7 @@ C                                                                     12
 C
       DT1D2=HALF*DT1
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
        D4(I)   =DXY(I)+DYX(I)
        D5(I)   =DYZ(I)+DZY(I)
        D6(I)   =DXZ(I)+DZX(I)

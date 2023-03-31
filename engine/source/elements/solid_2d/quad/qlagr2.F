@@ -27,8 +27,9 @@ Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2
 Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE QLAGR2(PM,VOL0,RHO,EINT,
-     .                  VOLN,DVOL,MAT)
+      SUBROUTINE QLAGR2(
+     1   PM,      VOL0,    RHO,     EINT,
+     2   VOLN,    DVOL,    MAT,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,10 +42,10 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
 C     REAL
       my_real
      .   PM(NPROPM,*), VOL0(*), RHO(*), EINT(*),
@@ -58,13 +59,13 @@ C     REAL
       my_real
      .   RHO0(MVSIZ)
 C-----------------------------------------------
-      DO 10 I=LFT,LLT
+      DO 10 I=1,NEL
    10 RHO0(I)=PM(1,MAT(I))
 C
-      DO 20 I=LFT,LLT
+      DO 20 I=1,NEL
    20 DVOL(I)=VOLN(I)-(RHO0(I)/RHO(I))*VOL0(I)
 C
-      DO 30 I=LFT,LLT
+      DO 30 I=1,NEL
       RHO(I)=RHO0(I)*(VOL0(I)/VOLN(I))
    30 EINT(I)=EINT(I)*VOL0(I)
 C

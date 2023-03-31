@@ -274,8 +274,11 @@ C---
      .       R12, R13, R11, R22, R23, R21, R32, R33, R31)
       ELSEIF (JHBE == 15 ) THEN
         CALL SCORTHO3(
-     .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
-     .       R11, R12, R13, R21, R22, R23, R31, R32, R33)
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      R11,     R12,     R13,
+     4   R21,     R22,     R23,     R31,
+     5   R32,     R33,     NEL)
       ELSE
         CALL SORTHO3(
      .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,

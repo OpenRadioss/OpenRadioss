@@ -26,10 +26,14 @@ Chd|-- called by -----------
 Chd|        BFORC2                        source/ale/bimat/bforc2.F     
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE BEMOM2(PM,V,RHO,ALPH,ALPHC,FILL,
-     .                  B11,B12,B13,B14,B21,B22,B23,B24,
-     .                  PY1, PY2, PZ1, PZ2, AIRE, 
-     .                  MAT, NC1, NC2, NC3, NC4)
+      SUBROUTINE BEMOM2(
+     1   PM,      V,       RHO,     ALPH,
+     2   ALPHC,   FILL,    B11,     B12,
+     3   B13,     B14,     B21,     B22,
+     4   B23,     B24,     PY1,     PY2,
+     5   PZ1,     PZ2,     AIRE,    MAT,
+     6   NC1,     NC2,     NC3,     NC4,
+     7   NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,11 +46,11 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       my_real
      .   PM(NPROPM,*), V(3,*), RHO(*), ALPH(*), ALPHC(*), FILL(*)
       my_real
@@ -67,12 +71,12 @@ C-----------------------------------------------
      .   A1(MVSIZ), A2(MVSIZ), G1(MVSIZ), G2(MVSIZ), FF1, FF2, FF3, FF4, DVY, DVZ
 C-----------------------------------------------
 C-------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         XMS(I)  =FOURTH*RHO(I)*ALPH(I)
         GAMMA(I)= PM(15,MAT(I))
       ENDDO
 C-------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         VY1(I)=V(2,NC1(I))
         VZ1(I)=V(3,NC1(I))
         VY2(I)=V(2,NC2(I))
@@ -83,14 +87,14 @@ C-------------------------------
         VZ4(I)=V(3,NC4(I))
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         VY13(I)=VY1(I)-VY3(I)
         VY24(I)=VY2(I)-VY4(I)
         VZ13(I)=VZ1(I)-VZ3(I)
         VZ24(I)=VZ2(I)-VZ4(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         DYY(I)=PY1(I)*VY13(I)+PY2(I)*VY24(I)
         DZZ(I)=PZ1(I)*VZ13(I)+PZ2(I)*VZ24(I)
         DYZ(I)=PZ1(I)*VY13(I)+PZ2(I)*VY24(I)
@@ -99,27 +103,27 @@ C-------------------------------
 C-----------------------------------------------
 C     CALCUL DE (V MATIERE - V MAILLAGE) MOYEN
 C---------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         VDY(I)=FOURTH*(VY1(I)+VY2(I)+VY3(I)+VY4(I))
         VDZ(I)=FOURTH*(VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I))
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         F1(I) = (VDY(I)*DYY(I)+VDZ(I)*DYZ(I))*XMS(I)
         F2(I) = (VDY(I)*DZY(I)+VDZ(I)*DZZ(I))*XMS(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         A1(I) = PY1(I)*VDY(I)+PZ1(I)*VDZ(I)
         A2(I) = PY2(I)*VDY(I)+PZ2(I)*VDZ(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         G1(I) = SIGN(GAMMA(I),A1(I))
         G2(I) = SIGN(GAMMA(I),A2(I))
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         B11(I) =  (ONE+G1(I))*F1(I)
         B12(I) =  (ONE+G2(I))*F1(I)
         B13(I) =  (ONE-G1(I))*F1(I)
@@ -131,11 +135,11 @@ C---------------------------------------
         B24(I) =  (ONE-G2(I))*F2(I)      
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         XMS(I)  =FOURTH*RHO(I)*AIRE(I)*(ONE-ALPH(I)) / MAX(EM15,DT1)
       ENDDO
 
-       DO I=LFT,LLT
+       DO I=1,NEL
         IF(ALPH(I)<ONE
      .   .AND.ALPH(I)>ZERO
      .   .AND.ALPHC(I)==ZERO

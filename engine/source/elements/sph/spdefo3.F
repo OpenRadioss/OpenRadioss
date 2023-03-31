@@ -27,8 +27,10 @@ Chd|        SPSTRES                       source/elements/sph/spstres.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPDEFO3(
-     .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, 
-     .   D4, D5, D6,WXX, WYY, WZZ)
+     1   DXX,     DXY,     DXZ,     DYX,
+     2   DYY,     DYZ,     DZX,     DZY,
+     3   DZZ,     D4,      D5,      D6,
+     4   WXX,     WYY,     WZZ,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -36,6 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
 C     REAL
       my_real
      .   DXX(*), DXY(*), DXZ(*),
@@ -46,7 +49,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com08_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -59,7 +61,7 @@ C-----------------------------------------------
 C
       DT1D2=.5*DT1
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         D4(I)   = DXY(I)+DYX(I)
         D5(I)   = DYZ(I)+DZY(I)
         D6(I)   = DXZ(I)+DZX(I)

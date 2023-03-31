@@ -278,10 +278,12 @@ C     GATHER NODAL INFORMATION &
 C     COMPUTE INTRINSIC ROTATION FOR CO-ROTATIONAL CASE & 
 C     PROJECT NODAL COORDINATES INTO CO-ROTATIONAL SYSTEM
       IF (JCVT==0) THEN
-        CALL QCOOR2(X,IXQ(1,NF1),
-     2              Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     3              NC1,NC2,NC3,NC4,
-     4              NGL,MXT,NGEO,VD2,VIS)
+        CALL QCOOR2(
+     1   X,         IXQ(1,NF1),Y1,        Y2,
+     2   Y3,        Y4,        Z1,        Z2,
+     3   Z3,        Z4,        NC1,       NC2,
+     4   NC3,       NC4,       NGL,       MXT,
+     5   NGEO,      VD2,       VIS,       NEL)
       ELSE
         CALL QRCOOR2(X,IXQ(1,NF1),
      2              Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,

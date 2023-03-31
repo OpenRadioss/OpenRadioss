@@ -385,22 +385,28 @@ C
         ENDDO
       END IF        
       CALL S6CDEFC3(
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   VX1, VX2, VX3, VX4, VX5, VX6, 
-     .   VY1, VY2, VY3, VY4, VY5, VY6,
-     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, 
-     .   DCXX,DCXY,DCXZ,DCYX,DCYY,DCYZ,DCZX,DCZY,DCZZ,DC4,DC5,DC6,
-     .   WXX, WYY, WZZ, 
-     .   DHXX, DHXY, DHXZ,DHYX, DHYY, DHYZ,DHZX, DHZY, DHZZ,
-     .   DH4, DH5, DH6,
-     .   PX1H, PX2H, PX3H, 
-     .   PY1H, PY2H, PY3H, 
-     .   PZ1H, PZ2H, PZ3H, 
-     .   JACI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
-     .   B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
-     .   DDHV,NU1) 
+     1   PX1,     PX2,     PX3,     PX4,
+     2   PY1,     PY2,     PY3,     PY4,
+     3   PZ1,     PZ2,     PZ3,     PZ4,
+     4   VX1,     VX2,     VX3,     VX4,
+     5   VX5,     VX6,     VY1,     VY2,
+     6   VY3,     VY4,     VY5,     VY6,
+     7   VZ1,     VZ2,     VZ3,     VZ4,
+     8   VZ5,     VZ6,     DCXX,    DCXY,
+     9   DCXZ,    DCYX,    DCYY,    DCYZ,
+     A   DCZX,    DCZY,    DCZZ,    DC4,
+     B   DC5,     DC6,     WXX,     WYY,
+     C   WZZ,     DHXX,    DHXY,    DHXZ,
+     D   DHYX,    DHYY,    DHYZ,    DHZX,
+     E   DHZY,    DHZZ,    DH4,     DH5,
+     F   DH6,     PX1H,    PX2H,    PX3H,
+     G   PY1H,    PY2H,    PY3H,    PZ1H,
+     H   PZ2H,    PZ3H,    JACI33,  B1X,
+     I   B1Y,     B2Y,     B2X,     B1122,
+     J   B1221,   B2212,   B1121,   B1XH,
+     K   B1YH,    B2XH,    B2YH,    B1122H,
+     L   B1221H,  B2212H,  B1121H,  DDHV,
+     M   NU1,     NEL)
       CALL S6CZERO3(
      .   F11, F21, F31, F12, F22, F32, F13, F23,
      .   F33, F14, F24, F34, F15, F25, F35, F16, F26, F36, 
@@ -644,27 +650,43 @@ C--------------------------------
      .   F31, F32, F33, F34, F35, F36,
      .   DD)
       CALL VRROTA3(
-     .   R11, R21, R31, R12, R22, R32, R13, R23, R33,
-     .   F11, F21, F31 )
+     1   R11,     R21,     R31,     R12,
+     2   R22,     R32,     R13,     R23,
+     3   R33,     F11,     F21,     F31,
+     4   NEL)
       CALL VRROTA3(
-     .   R11, R21, R31, R12, R22, R32, R13, R23, R33,
-     .   F12, F22, F32 )
+     1   R11,     R21,     R31,     R12,
+     2   R22,     R32,     R13,     R23,
+     3   R33,     F12,     F22,     F32,
+     4   NEL)
       CALL VRROTA3(
-     .   R11, R21, R31, R12, R22, R32, R13, R23, R33,
-     .   F13, F23, F33 )
+     1   R11,     R21,     R31,     R12,
+     2   R22,     R32,     R13,     R23,
+     3   R33,     F13,     F23,     F33,
+     4   NEL)
       CALL VRROTA3(
-     .   R11, R21, R31, R12, R22, R32, R13, R23, R33,
-     .   F14, F24, F34 )
+     1   R11,     R21,     R31,     R12,
+     2   R22,     R32,     R13,     R23,
+     3   R33,     F14,     F24,     F34,
+     4   NEL)
       CALL VRROTA3(
-     .   R11, R21, R31, R12, R22, R32, R13, R23, R33,
-     .   F15, F25, F35 )
+     1   R11,     R21,     R31,     R12,
+     2   R22,     R32,     R13,     R23,
+     3   R33,     F15,     F25,     F35,
+     4   NEL)
       CALL VRROTA3(
-     .   R11, R21, R31, R12, R22, R32, R13, R23, R33,
-     .   F16, F26, F36 )
+     1   R11,     R21,     R31,     R12,
+     2   R22,     R32,     R13,     R23,
+     3   R33,     F16,     F26,     F36,
+     4   NEL)
 C----------------------------
-      IF(NFILSOL/=0) CALL S6FILLOPT(GBUF%FILL,STI,
-     1   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     2   F15,F25,F35,F16,F26,F36)    
+      IF(NFILSOL/=0) CALL S6FILLOPT(
+     1   GBUF%FILL,STI,      F11,      F21,
+     2   F31,      F12,      F22,      F32,
+     3   F13,      F23,      F33,      F14,
+     4   F24,      F34,      F15,      F25,
+     5   F35,      F16,      F26,      F36,
+     6   NEL)
 C----------------------------
 C Assemble nodal forces
 C----------------------------

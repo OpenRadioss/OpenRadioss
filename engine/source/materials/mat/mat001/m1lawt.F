@@ -26,9 +26,11 @@ Chd|-- called by -----------
 Chd|        TFORC3                        source/elements/truss/tforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE M1LAWT(PM    ,GEO  ,OFF  ,FOR   ,EINT,
-     .                  AREA  ,AL0  ,STI  ,MAT   ,MGM ,
-     .                  EPS   ,AL   )
+      SUBROUTINE M1LAWT(
+     1   PM,      GEO,     OFF,     FOR,
+     2   EINT,    AREA,    AL0,     STI,
+     3   MAT,     MGM,     EPS,     AL,
+     4   NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,10 +44,10 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER MAT(MVSIZ),MGM(MVSIZ)
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),OFF(*),FOR(*),EINT(*),
@@ -57,25 +59,25 @@ C-----------------------------------------------
       my_real
      .   PR(MVSIZ),YM(MVSIZ),GAP(MVSIZ),YMA
 C-----------------------------------------------      
-      DO I=LFT,LLT
+      DO I=1,NEL
         YM(I)  = PM(20,MAT(I))
         PR(I)  = PM(21,MAT(I))
         GAP(I) = GEO(2,MGM(I))
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(GAP(I) > ZERO .AND. AL(I) <= (AL0(I)-GAP(I))) OFF(I)=ONE
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         EINT(I)=EINT(I)+FOR(I)*EPS(I)*AL(I)*DT1*HALF
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         AREA(I)=AREA(I)*(ONE - TWO*PR(I)*EPS(I)*DT1*OFF(I))
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         YMA    = YM(I)*AREA(I)
         FOR(I) = FOR(I)+YMA*EPS(I)*DT1
         STI(I) = ZERO
@@ -85,7 +87,7 @@ c
         FOR(I) = FOR(I)*OFF(I)
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         EINT(I)=EINT(I)+FOR(I)*EPS(I)*AL(I)*DT1*HALF
       ENDDO
 C-----------------------------------------------

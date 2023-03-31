@@ -28,7 +28,9 @@ Chd|        S16FORC3                      source/elements/thickshell/solide16/s1
 Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SXFILLOPT(NPE,FILL,STI,FX,FY,FZ)
+      SUBROUTINE SXFILLOPT(
+     1   NPE,     FILL,    STI,     FX,
+     2   FY,      FZ,      NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,10 +42,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NPE
       my_real
      .   FILL(*),STI(*),
@@ -53,11 +55,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         STI(I)=FILL(I)*STI(I)
       END DO              
       DO J=1,NPE
-        DO I=LFT,LLT
+        DO I=1,NEL
           FX(I,J)=FILL(I)*FX(I,J)
           FY(I,J)=FILL(I)*FY(I,J)
           FZ(I,J)=FILL(I)*FZ(I,J)

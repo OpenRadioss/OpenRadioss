@@ -327,9 +327,13 @@ C-------------
          WI = W_GAUSS(IR,NPTR)*W_GAUSS(IS,NPTS)*W_GAUSS(IT,NPTT)
 C--------
          CALL S20DEFO3(
-     .    NPE,  PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP), VX, VY, VZ,
-     .    DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
-     .    WXX, WYY, WZZ,LBUF%RHO,RHOO,VOLNP(1,IP),VOLN)
+     1   NPE,        PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),
+     2   VX,         VY,         VZ,         DXX,
+     3   DXY,        DXZ,        DYX,        DYY,
+     4   DYZ,        DZX,        DZY,        DZZ,
+     5   D4,         D5,         D6,         WXX,
+     6   WYY,        WZZ,        LBUF%RHO,   RHOO,
+     7   VOLNP(1,IP),VOLN,       NEL)
 C                                                                     
          DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))   
          CALL SRHO3( PM         , LBUF%VOL  , LBUF%RHO, LBUF%EINT, DIVDE,
@@ -397,10 +401,12 @@ C-------------------------
 c    finite element heat transfert  
 C--------------------------
           IF(JTHE < 0) THEN
-            CALL S20THERM(NPE,PM     ,MXT    ,NC,VOLN, 
-     .               PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),NI(1,IP),
-     .               DT1 ,TEMP  ,TEMPEL ,DIE  , THEM ,
-     .               GBUF%OFF,LBUF%OFF) 
+            CALL S20THERM(
+     1   NPE,       PM,        MXT,       NC,
+     2   VOLN,      PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),
+     3   NI(1,IP),  DT1,       TEMP,      TEMPEL,
+     4   DIE,       THEM,      GBUF%OFF,  LBUF%OFF,
+     5   NEL)
           ENDIF  
         ENDDO
        ENDDO
@@ -418,7 +424,9 @@ C--------------------------
       ENDIF
 C
 c-----------------------------
-      IF(NFILSOL/=0) CALL SXFILLOPT(NPE,GBUF%FILL,STIG,FX,FY,FZ)
+      IF(NFILSOL/=0) CALL SXFILLOPT(
+     1   NPE,      GBUF%FILL,STIG,     FX,
+     2   FY,       FZ,       NEL)
 c-----------------------------
       IF (IPARIT == 0)THEN
         CALL S20CUMU3(GBUF%OFF,A,NC,STIFN,STIG,FX,FY,

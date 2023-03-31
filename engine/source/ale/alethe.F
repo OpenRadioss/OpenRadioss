@@ -47,18 +47,20 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
-      SUBROUTINE ALETHE (
-     1                 IPARG       ,ELBUF_TAB ,FLUX     ,VAL2     ,PHI     ,
-     2                 ALE_CONNECT ,IXS       ,IXQ      ,V        ,W       ,
-     3                 X           ,PM        ,MS       ,VEUL     ,FILL    ,
-     4                 DFILL       ,ALPH      ,FV       ,BUFMAT   ,TF      ,
-     5                 NPF         ,ITASK     ,NBRCVOIS ,NBSDVOIS ,LNRCVOIS,
-     6                 LNSDVOIS    ,NERCVOIS  ,NESDVOIS ,LERCVOIS ,LESDVOIS,
-     7                 IADS        ,SEGVAR    ,MSNF     ,NODFT    ,NODLT   ,
-     8                 BHOLE       ,IPM       ,QMV      ,ITAB     ,ITABM1  ,
-     9                 LENQMV      ,NV46      ,LGAUGE   ,GAUGE    ,
-     A                 IGAUP       ,NGAUP     ,VOLN,
-     B                 IAD_ELEM    ,FR_ELEM)
+      SUBROUTINE ALETHE(
+     1   IPARG,      ELBUF_TAB,  FLUX,       VAL2,
+     2   PHI,        ALE_CONNECT,IXS,        IXQ,
+     3   V,          W,          X,          PM,
+     4   MS,         VEUL,       FILL,       DFILL,
+     5   ALPH,       FV,         BUFMAT,     TF,
+     6   NPF,        ITASK,      NBRCVOIS,   NBSDVOIS,
+     7   LNRCVOIS,   LNSDVOIS,   NERCVOIS,   NESDVOIS,
+     8   LERCVOIS,   LESDVOIS,   IADS,       SEGVAR,
+     9   MSNF,       NODFT,      NODLT,      BHOLE,
+     A   IPM,        QMV,        ITAB,       ITABM1,
+     B   LENQMV,     NV46,       LGAUGE,     GAUGE,
+     C   IGAUP,      NGAUP,      VOLN,       IAD_ELEM,
+     D   FR_ELEM,    NEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -82,6 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ),NPF(*),
@@ -133,10 +136,13 @@ C----------------------
         IF (ITHERM /= 0) THEN
           IF(ITASK == 0) THEN
             !exchange : SPMD PHI+VAL2 in ATHERM
-            CALL ATHERM(IPARG   ,PM      ,ELBUF_TAB ,FLUX  ,VAL2  ,
-     2                  PHI     ,ALE_CONNECT   ,IXS     ,IXQ   ,FV      ,
-     3                  X       ,BUFMAT  ,TF      ,NPF   ,NERCVOIS,
-     4                  NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,IPM     )
+            CALL ATHERM(
+     1   IPARG,      PM,         ELBUF_TAB,  FLUX,
+     2   VAL2,       PHI,        ALE_CONNECT,IXS,
+     3   IXQ,        FV,         X,          BUFMAT,
+     4   TF,         NPF,        NERCVOIS,   NESDVOIS,
+     5   LERCVOIS,   LESDVOIS,   LENCOM,     IPM,
+     6   NEL)
           ENDIF
 C------------------------
           CALL MY_BARRIER

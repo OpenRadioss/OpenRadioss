@@ -772,12 +772,18 @@ C
 C-------------------------------
 C     PLASTICITE COUPLEE
 C-------------------------------
-      CALL REPLA3(XK   ,RPX ,TF  ,NPF  ,IECROU,
-     .            IFUNC,IFV ,EPLA)
-      CALL REPLA3(YK   ,RPY ,TF  ,NPF  ,IECROU,
-     .            IFUNC,IFV ,EPLA)
-      CALL REPLA3(ZK   ,RPZ ,TF  ,NPF  ,IECROU,
-     .            IFUNC,IFV ,EPLA)
+      CALL REPLA3(
+     1   XK,      RPX,     TF,      NPF,
+     2   IECROU,  IFUNC,   IFV,     EPLA,
+     3   NEL)
+      CALL REPLA3(
+     1   YK,      RPY,     TF,      NPF,
+     2   IECROU,  IFUNC,   IFV,     EPLA,
+     3   NEL)
+      CALL REPLA3(
+     1   ZK,      RPZ,     TF,      NPF,
+     2   IECROU,  IFUNC,   IFV,     EPLA,
+     3   NEL)
 C
       DO I=1,NEL
       XK(I)=GEO(3,MGN(I))
@@ -785,12 +791,18 @@ C
       ZK(I)=GEO(15,MGN(I))
       ENDDO
 C
-      CALL REPLA3(XK   ,DPX ,TF  ,NPF  ,IECROU,
-     .            IFUNC,IFV ,EPLA)
-      CALL REPLA3(YK   ,DPY ,TF  ,NPF  ,IECROU,
-     .            IFUNC,IFV ,EPLA)
-      CALL REPLA3(ZK   ,DPZ ,TF  ,NPF  ,IECROU,
-     .            IFUNC,IFV ,EPLA)
+      CALL REPLA3(
+     1   XK,      DPX,     TF,      NPF,
+     2   IECROU,  IFUNC,   IFV,     EPLA,
+     3   NEL)
+      CALL REPLA3(
+     1   YK,      DPY,     TF,      NPF,
+     2   IECROU,  IFUNC,   IFV,     EPLA,
+     3   NEL)
+      CALL REPLA3(
+     1   ZK,      DPZ,     TF,      NPF,
+     2   IECROU,  IFUNC,   IFV,     EPLA,
+     3   NEL)
       DO I=1,NEL
         XM(I)=XM(I)*XL0(I)
         XKM(I)=XKM(I)/XL0(I)

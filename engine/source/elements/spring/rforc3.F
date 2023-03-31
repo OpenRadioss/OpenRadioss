@@ -210,8 +210,10 @@ C
 C=======================================================================
       IF (IGTYP == 4) THEN
 C=======================================================================
-        CALL R1COOR3(X   ,VR  ,IXR  ,XDP  ,X1DP,
-     2               X2DP,NGL ,MGN  ,NC1  ,NC2 )
+        CALL R1COOR3(
+     1   X,       VR,      IXR,     XDP,
+     2   X1DP,    X2DP,    NGL,     MGN,
+     3   NC1,     NC2,     NEL)
         CALL R1SENS3(GEO               ,GBUF%OFF ,SENSOR_TAB,GBUF%TOTDEPL(II(1)),
      2               GBUF%LENGTH(II(1)),IGEO      ,MGN   )
 C
@@ -224,13 +226,16 @@ C        spring may be activated by sensor and is actually inactive.
           ENDIF
         ENDDO
 C
-        CALL R1DEF3(GEO    ,GBUF%FOR(II(1)),GBUF%LENGTH(II(1)),GBUF%EINT       ,GBUF%TOTDEPL(II(1)),
-     2              NPF    ,TF             ,OFF        ,GBUF%DEP_IN_TENS(II(1)),GBUF%FOREP(II(1))  ,
-     3              GBUF%DEP_IN_COMP(II(1)),ANIM       ,GBUF%POSX    ,FR_WAVE  ,IGEO               ,
-     4              GBUF%LENGTH_ERR        ,X1DP       ,X2DP         ,V        ,GBUF%YIELD(II(1))  ,
-     5              NGL                    ,MGN        ,EX           ,EY       ,EZ                 ,
-     6              XK                     ,XM         ,XC           ,AK       ,NC1                ,
-     7              NC2                    ,NUVAR      ,GBUF%VAR     ,GBUF%DEFINI)
+        CALL R1DEF3(
+     1   GEO,                    GBUF%FOR(II(1)),        GBUF%LENGTH(II(1)),     GBUF%EINT,
+     2   GBUF%TOTDEPL(II(1)),    NPF,                    TF,                     OFF,
+     3   GBUF%DEP_IN_TENS(II(1)),GBUF%FOREP(II(1)),      GBUF%DEP_IN_COMP(II(1)),ANIM,
+     4   GBUF%POSX,              FR_WAVE,                IGEO,                   GBUF%LENGTH_ERR,
+     5   X1DP,                   X2DP,                   V,                      GBUF%YIELD(II(1)),
+     6   NGL,                    MGN,                    EX,                     EY,
+     7   EZ,                     XK,                     XM,                     XC,
+     8   AK,                     NC1,                    NC2,                    NUVAR,
+     9   GBUF%VAR,               GBUF%DEFINI,            NEL)
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
@@ -243,7 +248,8 @@ C
         CALL RBILAN(GBUF%EINT ,PARTSAV           ,IXR    ,GEO  ,V    ,
      2              IPARTR    ,GBUF%LENGTH(II(1)),GRESAV ,GRTH ,IGRTH,
      3              GBUF%OFF  ,NC1               ,NC2    ,X    ,VR   ,ITASK)
-        CALL R1TORS(GBUF%FOR(II(1)),TANI,H3D_DATA)
+        CALL R1TORS(
+     1   GBUF%FOR(II(1)),TANI,           H3D_DATA,       NEL)
         IF (IPARIT == 0) THEN
           CALL R1CUM3(F     ,GBUF%FOR(II(1)) ,STI   ,STIFN   ,FX1,
      2                FX2   ,FY1             ,FY2   ,FZ1     ,FZ2,
@@ -260,8 +266,10 @@ C
 C=======================================================================
       ELSEIF (IGTYP == 26) THEN
 C=======================================================================
-        CALL R1COOR3(X   ,VR  ,IXR  ,XDP  ,X1DP,
-     2               X2DP,NGL ,MGN  ,NC1  ,NC2 )
+        CALL R1COOR3(
+     1   X,       VR,      IXR,     XDP,
+     2   X1DP,    X2DP,    NGL,     MGN,
+     3   NC1,     NC2,     NEL)
         CALL R1SENS3(GEO               ,GBUF%OFF ,SENSOR_TAB,GBUF%TOTDEPL(II(1)),
      2               GBUF%LENGTH(II(1)),IGEO     ,MGN    )
 C
@@ -292,7 +300,8 @@ C
         CALL RBILAN(GBUF%EINT,PARTSAV           ,IXR    ,GEO  ,V    ,
      2              IPARTR   ,GBUF%LENGTH(II(1)),GRESAV ,GRTH ,IGRTH,
      3              GBUF%OFF ,NC1               ,NC2    ,X    ,VR   ,ITASK)
-        CALL R1TORS(GBUF%FOR(II(1)),TANI,H3D_DATA)
+        CALL R1TORS(
+     1   GBUF%FOR(II(1)),TANI,           H3D_DATA,       NEL)
         IF (IPARIT == 0) THEN
           CALL R1CUM3(F    ,GBUF%FOR(II(1)),STI  ,STIFN ,FX1,
      2                FX2  ,FY1            ,FY2  ,FZ1   ,FZ2,
@@ -308,8 +317,10 @@ C
 C=======================================================================
       ELSEIF (IGTYP == 27) THEN
 C=======================================================================
-        CALL R1COOR3(X   ,VR  ,IXR  ,XDP  ,X1DP,
-     2               X2DP,NGL ,MGN  ,NC1  ,NC2 )
+        CALL R1COOR3(
+     1   X,       VR,      IXR,     XDP,
+     2   X1DP,    X2DP,    NGL,     MGN,
+     3   NC1,     NC2,     NEL)
         CALL R1SENS3(GEO               ,GBUF%OFF ,SENSOR_TAB,GBUF%TOTDEPL(II(1)),
      2               GBUF%LENGTH(II(1)),IGEO      ,MGN   )
 C
@@ -340,7 +351,8 @@ C
         CALL RBILAN(GBUF%EINT ,PARTSAV           ,IXR    ,GEO  ,V    ,
      2              IPARTR    ,GBUF%LENGTH(II(1)),GRESAV ,GRTH ,IGRTH,
      3              GBUF%OFF  ,NC1               ,NC2    ,X    ,VR   ,ITASK)
-        CALL R1TORS(GBUF%FOR(II(1)),TANI,H3D_DATA)
+        CALL R1TORS(
+     1   GBUF%FOR(II(1)),TANI,           H3D_DATA,       NEL)
         IF (IPARIT == 0) THEN
           CALL R1CUM3(F     ,GBUF%FOR(II(1)) ,STI   ,STIFN   ,FX1,
      2                FX2   ,FY1             ,FY2   ,FZ1     ,FZ2,
@@ -356,11 +368,13 @@ C
 C=======================================================================
       ELSEIF (IGTYP == 8) THEN
 C=======================================================================
-        CALL R2COOR3(X   ,VR  ,IXR  ,XDP  ,X1DP,
-     2               X2DP,NGL ,X1   ,Y1   ,Z1  ,
-     3               X2  ,Y2  ,Z2   ,MGN  ,RX1 ,
-     4               RY1 ,RZ1 ,RX2  ,RY2  ,RZ2 ,
-     5               NC1 ,NC2 )
+        CALL R2COOR3(
+     1   X,       VR,      IXR,     XDP,
+     2   X1DP,    X2DP,    NGL,     X1,
+     3   Y1,      Z1,      X2,      Y2,
+     4   Z2,      MGN,     RX1,     RY1,
+     5   RZ1,     RX2,     RY2,     RZ2,
+     6   NC1,     NC2,     NEL)
         CALL R2SENS3(GEO                ,GBUF%OFF           ,SENSOR_TAB        ,GBUF%TOTDEPL(II(1)),
      2               GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)),GBUF%LENGTH(II(2)),GBUF%LENGTH(II(3)) ,
      3               GBUF%TOTROT(II(1)) ,GBUF%TOTROT(II(2)) ,GBUF%TOTROT(II(3)),IGEO              ,MGN                )
@@ -410,8 +424,10 @@ C
         CALL RBILAN(GBUF%EINT,PARTSAV,IXR    ,GEO  ,V    ,
      2              IPARTR   ,BID    ,GRESAV ,GRTH ,IGRTH,
      3              GBUF%OFF ,NC1    ,NC2    ,X    ,VR   ,ITASK)
-        CALL R2TORS(GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),GBUF%MOM(II(2)),
-     2              GBUF%MOM(II(3)),TANI           ,H3D_DATA)
+        CALL R2TORS(
+     1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
+     2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           H3D_DATA,
+     3   NEL)
         IF (IPARIT == 0) THEN
           CALL R2CUM3(
      1       F              ,GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),AR  ,
@@ -437,9 +453,11 @@ C
 C=======================================================================
       ELSEIF (IGTYP == 12) THEN
 C=======================================================================
-        CALL R3COOR3(X    ,VR  ,IXR ,XDP ,X1DP,
-     2               X2DP ,X3DP,NGL ,MGN ,NC1 ,
-     3               NC2  ,NC3 )
+        CALL R3COOR3(
+     1   X,       VR,      IXR,     XDP,
+     2   X1DP,    X2DP,    X3DP,    NGL,
+     3   MGN,     NC1,     NC2,     NC3,
+     4   NEL)
         CALL R1SENS3(GEO               ,GBUF%OFF ,SENSOR_TAB ,GBUF%TOTDEPL(II(1)),
      2               GBUF%LENGTH(II(1)),IGEO     ,MGN    )
 C
@@ -453,15 +471,18 @@ C        spring may be activated by sensor and is actually inactive.
         ENDDO
 C
         CALL R3DEF3(
-     1     GEO            ,GBUF%FOR(II(1))  ,GBUF%LENGTH(II(1)),GBUF%EINT              ,GBUF%TOTDEPL(II(1)),
-     2     NPF            ,TF               ,OFF               ,GBUF%DEP_IN_TENS(II(1)),GBUF%FOREP(II(1))  ,
-     3     GBUF%DEP_IN_COMP(II(1)),GBUF%DFS ,V                 ,IXR                    ,DF                 ,
-     4     ANIM           ,GBUF%POSX        ,FR_WAVE           ,IGEO                   ,GBUF%LENGTH_ERR    ,
-     5     X1DP           ,X2DP             ,X3DP              ,GBUF%YIELD(II(1))      ,TABLE              ,
-     6     GBUF%INIFRIC   ,NGL              ,MGN               ,EX                     ,EY                 ,
-     7     EZ             ,XK               ,XM                ,XC                     ,AK                 ,
-     8     EX2            ,EY2              ,EZ2               ,NC1                    ,NC2                ,
-     9     NC3            ,NUVAR            ,GBUF%VAR          ,GBUF%DEFINI            )
+     1   GEO,                    GBUF%FOR(II(1)),        GBUF%LENGTH(II(1)),     GBUF%EINT,
+     2   GBUF%TOTDEPL(II(1)),    NPF,                    TF,                     OFF,
+     3   GBUF%DEP_IN_TENS(II(1)),GBUF%FOREP(II(1)),      GBUF%DEP_IN_COMP(II(1)),GBUF%DFS,
+     4   V,                      IXR,                    DF,                     ANIM,
+     5   GBUF%POSX,              FR_WAVE,                IGEO,                   GBUF%LENGTH_ERR,
+     6   X1DP,                   X2DP,                   X3DP,                   GBUF%YIELD(II(1)),
+     7   TABLE,                  GBUF%INIFRIC,           NGL,                    MGN,
+     8   EX,                     EY,                     EZ,                     XK,
+     9   XM,                     XC,                     AK,                     EX2,
+     A   EY2,                    EZ2,                    NC1,                    NC2,
+     B   NC3,                    NUVAR,                  GBUF%VAR,               GBUF%DEFINI,
+     C   NEL)
 c
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
@@ -473,7 +494,9 @@ c
         CALL R3BILAN(GBUF%EINT,PARTSAV           ,IXR    ,GEO  ,V    ,
      2               IPARTR   ,GBUF%LENGTH(II(1)),GRESAV ,GRTH ,IGRTH,
      3               NC1      ,NC2               ,NC3    ,X    ,VR,ITASK)
-        CALL R3TORS(GBUF%FOR(II(1)) ,DF     ,TANI     ,H3D_DATA)
+        CALL R3TORS(
+     1   GBUF%FOR(II(1)),DF,             TANI,           H3D_DATA,
+     2   NEL)
         IF (IPARIT == 0) THEN
           CALL R3CUM3(F    ,GBUF%FOR(II(1)) ,STI ,STIFN ,DF  ,
      2                EX   ,EY              ,EZ  ,EX2   ,EY2 ,
@@ -486,11 +509,13 @@ c
 C=======================================================================
       ELSEIF (IGTYP == 13) THEN
 C=======================================================================
-       CALL R2COOR3(X   ,VR  ,IXR  ,XDP  ,X1DP,
-     2              X2DP,NGL ,X1   ,Y1   ,Z1  ,
-     3              X2  ,Y2  ,Z2   ,MGN  ,RX1 ,
-     4              RY1 ,RZ1 ,RX2  ,RY2  ,RZ2 ,
-     5              NC1 ,NC2 )
+       CALL R2COOR3(
+     1   X,       VR,      IXR,     XDP,
+     2   X1DP,    X2DP,    NGL,     X1,
+     3   Y1,      Z1,      X2,      Y2,
+     4   Z2,      MGN,     RX1,     RY1,
+     5   RZ1,     RX2,     RY2,     RZ2,
+     6   NC1,     NC2,     NEL)
        CALL R2SENS3(GEO                ,GBUF%OFF           ,SENSOR_TAB        ,GBUF%TOTDEPL(II(1)),
      2              GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)),GBUF%LENGTH(II(2)),GBUF%LENGTH(II(3)) ,
      3              GBUF%TOTROT(II(1)) ,GBUF%TOTROT(II(2)) ,GBUF%TOTROT(II(3)),IGEO              ,MGN                )
@@ -504,15 +529,18 @@ C        spring may be activated by sensor and is actually inactive.
           ENDIF
         ENDDO
 C
-        CALL R4EVEC3(GBUF%SKEW ,V            ,EXX2 ,EYX2 ,EZX2,
-     2               EXY2      ,EYY2         ,EZY2 ,EXZ2 ,EYZ2,
-     3               EZZ2      ,AL2DP        ,X1DP ,X2DP ,AL2 ,
-     4               ALDP      ,GBUF%SKEW_ERR,NGL  ,AL   ,EXX ,
-     5               EYX       ,EZX          ,EXY  ,EYY  ,EZY ,
-     6               EXZ       ,EYZ          ,EZZ  ,RX1  ,RY1 ,
-     7               RZ1       ,RX2          ,RY2  ,RZ2  ,VX1 ,
-     8               VX2       ,VY1          ,VY2  ,VZ1  ,VZ2 ,
-     9               NC1       ,NC2          )
+        CALL R4EVEC3(
+     1   GBUF%SKEW,    V,            EXX2,         EYX2,
+     2   EZX2,         EXY2,         EYY2,         EZY2,
+     3   EXZ2,         EYZ2,         EZZ2,         AL2DP,
+     4   X1DP,         X2DP,         AL2,          ALDP,
+     5   GBUF%SKEW_ERR,NGL,          AL,           EXX,
+     6   EYX,          EZX,          EXY,          EYY,
+     7   EZY,          EXZ,          EYZ,          EZZ,
+     8   RX1,          RY1,          RZ1,          RX2,
+     9   RY2,          RZ2,          VX1,          VX2,
+     A   VY1,          VY2,          VZ1,          VZ2,
+     B   NC1,          NC2,          NEL)
         CALL R4DEF3(
      1 SKEW                   ,GEO                    ,GBUF%FOR(II(1))        ,GBUF%FOR(II(2))        ,GBUF%FOR(II(3))        ,
      2 GBUF%EINT              ,GBUF%TOTDEPL(II(1))    ,GBUF%TOTDEPL(II(2))    ,GBUF%TOTDEPL(II(3))    ,NPF                    ,
@@ -549,8 +577,10 @@ C
         CALL RBILAN(GBUF%EINT,PARTSAV           ,IXR   ,GEO ,V    ,
      2              IPARTR   ,GBUF%LENGTH(II(1)),GRESAV,GRTH,IGRTH,
      3              GBUF%OFF ,NC1               ,NC2   ,X   ,VR   ,ITASK)
-        CALL R4TORS(GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),GBUF%MOM(II(2)),
-     2              GBUF%MOM(II(3)),TANI           ,AL             ,H3D_DATA       )
+        CALL R4TORS(
+     1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
+     2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
+     3   H3D_DATA,       NEL)
         IF (IPARIT == 0) THEN
           CALL R4CUM3(
      1       F              ,GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),AR  ,
@@ -574,11 +604,13 @@ C
 C=======================================================================
       ELSEIF (IGTYP == 25) THEN
 C=======================================================================
-        CALL R2COOR3(X   ,VR  ,IXR  ,XDP  ,X1DP,
-     2               X2DP,NGL ,X1   ,Y1   ,Z1  ,
-     3               X2  ,Y2  ,Z2   ,MGN  ,RX1 ,
-     4               RY1 ,RZ1 ,RX2  ,RY2  ,RZ2 ,
-     5               NC1 ,NC2 )
+        CALL R2COOR3(
+     1   X,       VR,      IXR,     XDP,
+     2   X1DP,    X2DP,    NGL,     X1,
+     3   Y1,      Z1,      X2,      Y2,
+     4   Z2,      MGN,     RX1,     RY1,
+     5   RZ1,     RX2,     RY2,     RZ2,
+     6   NC1,     NC2,     NEL)
         CALL R2SENS3(GEO                ,GBUF%OFF           ,SENSOR_TAB        ,GBUF%TOTDEPL(II(1)),
      2               GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)),GBUF%LENGTH(II(2)) ,GBUF%LENGTH(II(3)) ,
      3               GBUF%TOTROT(II(1)) ,GBUF%TOTROT(II(2)) ,GBUF%TOTROT(II(3)),IGEO               ,MGN                )
@@ -592,15 +624,18 @@ c          spring may be activated by sensor and is actually inactive.
           ENDIF
         ENDDO
 C
-        CALL R4EVEC3(GBUF%SKEW ,V             ,EXX2 ,EYX2 ,EZX2,
-     2               EXY2      ,EYY2          ,EZY2 ,EXZ2 ,EYZ2,
-     3               EZZ2      ,AL2DP         ,X1DP ,X2DP ,AL2 ,
-     4               ALDP      ,GBUF%SKEW_ERR ,NGL  ,AL   ,EXX ,
-     5               EYX       ,EZX           ,EXY  ,EYY  ,EZY ,
-     6               EXZ       ,EYZ           ,EZZ  ,RX1  ,RY1 ,
-     7               RZ1       ,RX2           ,RY2  ,RZ2  ,VX1 ,
-     8               VX2       ,VY1           ,VY2  ,VZ1  ,VZ2 ,
-     9               NC1       ,NC2           )
+        CALL R4EVEC3(
+     1   GBUF%SKEW,    V,            EXX2,         EYX2,
+     2   EZX2,         EXY2,         EYY2,         EZY2,
+     3   EXZ2,         EYZ2,         EZZ2,         AL2DP,
+     4   X1DP,         X2DP,         AL2,          ALDP,
+     5   GBUF%SKEW_ERR,NGL,          AL,           EXX,
+     6   EYX,          EZX,          EXY,          EYY,
+     7   EZY,          EXZ,          EYZ,          EZZ,
+     8   RX1,          RY1,          RZ1,          RX2,
+     9   RY2,          RZ2,          VX1,          VX2,
+     A   VY1,          VY2,          VZ1,          VZ2,
+     B   NC1,          NC2,          NEL)
         CALL R6DEF3(
      1 SKEW                   ,GEO                    ,GBUF%FOR(II(1))        ,GBUF%FOR(II(2))        ,GBUF%FOR(II(3))        ,
      2 GBUF%EINT              ,GBUF%TOTDEPL(II(1))    ,GBUF%TOTDEPL(II(2))    ,GBUF%TOTDEPL(II(3))    ,NPF                    ,
@@ -636,8 +671,10 @@ C
         CALL RBILAN(GBUF%EINT,PARTSAV           ,IXR   ,GEO ,V    ,
      2              IPARTR   ,GBUF%LENGTH(II(1)),GRESAV,GRTH,IGRTH,
      3              GBUF%OFF ,NC1               ,NC2   ,X   ,VR   ,ITASK)
-        CALL R4TORS(GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),GBUF%MOM(II(2)),
-     2              GBUF%MOM(II(3)),TANI           ,AL             ,H3D_DATA       )
+        CALL R4TORS(
+     1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
+     2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
+     3   H3D_DATA,       NEL)
         IF (IPARIT == 0) THEN
           CALL R4CUM3(
      1       F              ,GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),AR  ,
@@ -661,17 +698,23 @@ C
 C=======================================================================
       ELSEIF (IGTYP >= 29 .AND. IGTYP <= 31) THEN
 C=======================================================================
-        CALL R4COOR3(X   ,VR  ,IXR ,GBUF%SKEW ,NGL,
-     .               X1  ,Y1  ,Z1  ,X2        ,Y2 ,
-     .               Z2  ,MGN ,RX1 ,RY1       ,RZ1,
-     .               RX2 ,RY2 ,RZ2 ,NC1       ,NC2)
-        CALL R5EVEC3(GBUF%SKEW ,V    ,NGL  ,AL   ,X1 ,
-     .               Y1        ,Z1   ,X2   ,Y2   ,Z2 ,
-     .               EXX       ,EYX  ,EZX  ,EXY  ,EYY,
-     .               EZY       ,EXZ  ,EYZ  ,EZZ  ,RX1,
-     .               RY1       ,RZ1  ,RX2  ,RY2  ,RZ2,
-     .               VX1       ,VX2  ,VY1  ,VY2  ,VZ1,
-     .               VZ2       ,NC1  ,NC2  )
+        CALL R4COOR3(
+     1   X,        VR,       IXR,      GBUF%SKEW,
+     2   NGL,      X1,       Y1,       Z1,
+     3   X2,       Y2,       Z2,       MGN,
+     4   RX1,      RY1,      RZ1,      RX2,
+     5   RY2,      RZ2,      NC1,      NC2,
+     6   NEL)
+        CALL R5EVEC3(
+     1   GBUF%SKEW,V,        NGL,      AL,
+     2   X1,       Y1,       Z1,       X2,
+     3   Y2,       Z2,       EXX,      EYX,
+     4   EZX,      EXY,      EYY,      EZY,
+     5   EXZ,      EYZ,      EZZ,      RX1,
+     6   RY1,      RZ1,      RX2,      RY2,
+     7   RZ2,      VX1,      VX2,      VY1,
+     8   VY2,      VZ1,      VZ2,      NC1,
+     9   NC2,      NEL)
         CALL R5DEF3(
      1 AL                   ,GBUF%V_REPCVT(II(1):) ,GBUF%V_REPCVT(II(2):),GBUF%V_REPCVT(II(3):),GBUF%VR_REPCVT(II(1):),
      2 GBUF%VR_REPCVT(II(2):),GBUF%VR_REPCVT(II(3):),FR_WAVE             ,FR_W_E              ,
@@ -813,8 +856,10 @@ C
         CALL R5BILAN(GBUF%EINT,PARTSAV,IXR ,GBUF%MASS,V     ,
      2               IPARTR   ,UINER  ,X   ,VR       ,GRESAV,
      3               GRTH     ,IGRTH  ,NC1 ,NC2      ,ITASK)
-        CALL R4TORS(GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),GBUF%MOM(II(2)),
-     2              GBUF%MOM(II(3)),TANI           ,AL             ,H3D_DATA       )
+        CALL R4TORS(
+     1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
+     2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
+     3   H3D_DATA,       NEL)
         IF (IPARIT == 0) THEN
           CALL R5CUM3(
      1      F              ,GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),AR             ,
@@ -838,20 +883,25 @@ C
 C=======================================================================
       ELSEIF (IGTYP == 32) THEN
 C=======================================================================
-        CALL R2COOR3(X   ,VR  ,IXR  ,XDP  ,X1DP,
-     2               X2DP,NGL ,X1   ,Y1   ,Z1  ,
-     3               X2  ,Y2  ,Z2   ,MGN  ,RX1 ,
-     4               RY1 ,RZ1 ,RX2  ,RY2  ,RZ2 ,
-     5               NC1 ,NC2 )
-        CALL R4EVEC3(GBUF%SKEW ,V             ,EXX2   ,EYX2, EZX2,
-     2               EXY2      ,EYY2          ,EZY2   ,EXZ2, EYZ2,
-     3               EZZ2      ,AL2DP         ,X1DP   ,X2DP, AL2 ,
-     4               ALDP      ,GBUF%SKEW_ERR ,NGL    ,AL   ,EXX ,
-     5               EYX       ,EZX           ,EXY    ,EYY  ,EZY ,
-     6               EXZ       ,EYZ           ,EZZ    ,RX1  ,RY1 ,
-     7               RZ1       ,RX2           ,RY2    ,RZ2  ,VX1 ,
-     8               VX2       ,VY1           ,VY2    ,VZ1  ,VZ2 ,
-     9               NC1       ,NC2           )
+        CALL R2COOR3(
+     1   X,       VR,      IXR,     XDP,
+     2   X1DP,    X2DP,    NGL,     X1,
+     3   Y1,      Z1,      X2,      Y2,
+     4   Z2,      MGN,     RX1,     RY1,
+     5   RZ1,     RX2,     RY2,     RZ2,
+     6   NC1,     NC2,     NEL)
+        CALL R4EVEC3(
+     1   GBUF%SKEW,    V,            EXX2,         EYX2,
+     2   EZX2,         EXY2,         EYY2,         EZY2,
+     3   EXZ2,         EYZ2,         EZZ2,         AL2DP,
+     4   X1DP,         X2DP,         AL2,          ALDP,
+     5   GBUF%SKEW_ERR,NGL,          AL,           EXX,
+     6   EYX,          EZX,          EXY,          EYY,
+     7   EZY,          EXZ,          EYZ,          EZZ,
+     8   RX1,          RY1,          RZ1,          RX2,
+     9   RY2,          RZ2,          VX1,          VX2,
+     A   VY1,          VY2,          VZ1,          VZ2,
+     B   NC1,          NC2,          NEL)
         CALL R5DEF3(
      1 AL                   ,GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),
      2 GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)),FR_WAVE             ,FR_W_E              ,
@@ -893,8 +943,10 @@ C
         CALL R5BILAN(GBUF%EINT,PARTSAV,IXR  ,GBUF%MASS,V     ,
      2               IPARTR   ,UINER  ,X    ,VR       ,GRESAV,
      3               GRTH     ,IGRTH  ,NC1  ,NC2      ,ITASK)
-        CALL R4TORS(GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),GBUF%MOM(II(2)),
-     2             GBUF%MOM(II(3)) ,TANI           ,AL             ,H3D_DATA       )
+        CALL R4TORS(
+     1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
+     2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
+     3   H3D_DATA,       NEL)
         IF (IPARIT == 0) THEN
           CALL R4CUM3(
      1       F              ,GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),AR  ,
@@ -940,17 +992,23 @@ C
 C=======================================================================
       ELSEIF (IGTYP == 35 .OR. IGTYP == 36) THEN
 C=======================================================================
-        CALL R4COOR3(X   ,VR  ,IXR ,GBUF%SKEW ,NGL,
-     .               X1  ,Y1  ,Z1  ,X2        ,Y2 ,
-     .               Z2  ,MGN ,RX1 ,RY1       ,RZ1,
-     .               RX2 ,RY2 ,RZ2 ,NC1       ,NC2)
-        CALL R5EVEC3(GBUF%SKEW ,V    ,NGL  ,AL   ,X1 ,
-     .               Y1        ,Z1   ,X2   ,Y2   ,Z2 ,
-     .               EXX       ,EYX  ,EZX  ,EXY  ,EYY,
-     .               EZY       ,EXZ  ,EYZ  ,EZZ  ,RX1,
-     .               RY1       ,RZ1  ,RX2  ,RY2  ,RZ2,
-     .               VX1       ,VX2  ,VY1  ,VY2  ,VZ1,
-     .               VZ2       ,NC1  ,NC2  )
+        CALL R4COOR3(
+     1   X,        VR,       IXR,      GBUF%SKEW,
+     2   NGL,      X1,       Y1,       Z1,
+     3   X2,       Y2,       Z2,       MGN,
+     4   RX1,      RY1,      RZ1,      RX2,
+     5   RY2,      RZ2,      NC1,      NC2,
+     6   NEL)
+        CALL R5EVEC3(
+     1   GBUF%SKEW,V,        NGL,      AL,
+     2   X1,       Y1,       Z1,       X2,
+     3   Y2,       Z2,       EXX,      EYX,
+     4   EZX,      EXY,      EYY,      EZY,
+     5   EXZ,      EYZ,      EZZ,      RX1,
+     6   RY1,      RZ1,      RX2,      RY2,
+     7   RZ2,      VX1,      VX2,      VY1,
+     8   VY2,      VZ1,      VZ2,      NC1,
+     9   NC2,      NEL)
         CALL R5DEF3(
      1 AL                   ,GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),
      2 GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)),FR_WAVE             ,FR_W_E              ,
@@ -1002,8 +1060,10 @@ C
         CALL R5BILAN(GBUF%EINT,PARTSAV,IXR  ,GBUF%MASS,V     ,
      2               IPARTR   ,UINER  ,X    ,VR       ,GRESAV,
      3               GRTH     ,IGRTH  ,NC1  ,NC2      ,ITASK)
-        CALL R4TORS(GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),GBUF%MOM(II(2)),
-     2              GBUF%MOM(II(3)),TANI           ,AL             ,H3D_DATA       )
+        CALL R4TORS(
+     1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
+     2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
+     3   H3D_DATA,       NEL)
         IF (IPARIT == 0) THEN
           CALL R5CUM3(
      1      F              ,GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),AR             ,
@@ -1027,17 +1087,23 @@ C
 C=======================================================================
       ELSEIF (IGTYP == 44) THEN
 C=======================================================================
-        CALL R4COOR3(X   ,VR  ,IXR ,GBUF%SKEW ,NGL,
-     .               X1  ,Y1  ,Z1  ,X2        ,Y2 ,
-     .               Z2  ,MGN ,RX1 ,RY1       ,RZ1,
-     .               RX2 ,RY2 ,RZ2 ,NC1       ,NC2)
-        CALL R5EVEC3(GBUF%SKEW ,V    ,NGL  ,AL   ,X1 ,
-     .               Y1        ,Z1   ,X2   ,Y2   ,Z2 ,
-     .               EXX       ,EYX  ,EZX  ,EXY  ,EYY,
-     .               EZY       ,EXZ  ,EYZ  ,EZZ  ,RX1,
-     .               RY1       ,RZ1  ,RX2  ,RY2  ,RZ2,
-     .               VX1       ,VX2  ,VY1  ,VY2  ,VZ1,
-     .               VZ2       ,NC1  ,NC2  )
+        CALL R4COOR3(
+     1   X,        VR,       IXR,      GBUF%SKEW,
+     2   NGL,      X1,       Y1,       Z1,
+     3   X2,       Y2,       Z2,       MGN,
+     4   RX1,      RY1,      RZ1,      RX2,
+     5   RY2,      RZ2,      NC1,      NC2,
+     6   NEL)
+        CALL R5EVEC3(
+     1   GBUF%SKEW,V,        NGL,      AL,
+     2   X1,       Y1,       Z1,       X2,
+     3   Y2,       Z2,       EXX,      EYX,
+     4   EZX,      EXY,      EYY,      EZY,
+     5   EXZ,      EYZ,      EZZ,      RX1,
+     6   RY1,      RZ1,      RX2,      RY2,
+     7   RZ2,      VX1,      VX2,      VY1,
+     8   VY2,      VZ1,      VZ2,      NC1,
+     9   NC2,      NEL)
         CALL R5DEF3(
      1 AL                   ,GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),
      2 GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)),FR_WAVE             ,FR_W_E              ,
@@ -1079,8 +1145,10 @@ C
         CALL R5BILAN(GBUF%EINT,PARTSAV,IXR  ,GBUF%MASS,V     ,
      2               IPARTR   ,UINER  ,X    ,VR       ,GRESAV,
      3               GRTH     ,IGRTH  ,NC1  ,NC2      ,ITASK)
-        CALL R4TORS(GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),GBUF%MOM(II(2)),
-     2              GBUF%MOM(II(3)),TANI           ,AL             ,H3D_DATA       )
+        CALL R4TORS(
+     1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
+     2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
+     3   H3D_DATA,       NEL)
         IF (IPARIT == 0) THEN
           CALL R5CUM3(
      1      F              ,GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),AR             ,
@@ -1104,17 +1172,23 @@ C
 C=======================================================================
       ELSEIF (IGTYP == 46) THEN
 C=======================================================================
-        CALL R4COOR3(X   ,VR  ,IXR ,GBUF%SKEW ,NGL,
-     .               X1  ,Y1  ,Z1  ,X2        ,Y2 ,
-     .               Z2  ,MGN ,RX1 ,RY1       ,RZ1,
-     .               RX2 ,RY2 ,RZ2 ,NC1       ,NC2)
-        CALL R5EVEC3(GBUF%SKEW ,V    ,NGL  ,AL   ,X1 ,
-     .               Y1        ,Z1   ,X2   ,Y2   ,Z2 ,
-     .               EXX       ,EYX  ,EZX  ,EXY  ,EYY,
-     .               EZY       ,EXZ  ,EYZ  ,EZZ  ,RX1,
-     .               RY1       ,RZ1  ,RX2  ,RY2  ,RZ2,
-     .               VX1       ,VX2  ,VY1  ,VY2  ,VZ1,
-     .               VZ2       ,NC1  ,NC2  )
+        CALL R4COOR3(
+     1   X,        VR,       IXR,      GBUF%SKEW,
+     2   NGL,      X1,       Y1,       Z1,
+     3   X2,       Y2,       Z2,       MGN,
+     4   RX1,      RY1,      RZ1,      RX2,
+     5   RY2,      RZ2,      NC1,      NC2,
+     6   NEL)
+        CALL R5EVEC3(
+     1   GBUF%SKEW,V,        NGL,      AL,
+     2   X1,       Y1,       Z1,       X2,
+     3   Y2,       Z2,       EXX,      EYX,
+     4   EZX,      EXY,      EYY,      EZY,
+     5   EXZ,      EYZ,      EZZ,      RX1,
+     6   RY1,      RZ1,      RX2,      RY2,
+     7   RZ2,      VX1,      VX2,      VY1,
+     8   VY2,      VZ1,      VZ2,      NC1,
+     9   NC2,      NEL)
         CALL R5DEF3(
      1 AL                   ,GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),
      2 GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)),FR_WAVE             ,FR_W_E              ,
@@ -1156,8 +1230,10 @@ C
         CALL R5BILAN(GBUF%EINT,PARTSAV,IXR  ,GBUF%MASS,V     ,
      2               IPARTR   ,UINER  ,X    ,VR       ,GRESAV ,
      3               GRTH     ,IGRTH  ,NC1  ,NC2      ,ITASK)
-        CALL R4TORS(GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),GBUF%MOM(II(2)),
-     2              GBUF%MOM(II(3)),TANI           ,AL             ,H3D_DATA       )
+        CALL R4TORS(
+     1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
+     2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
+     3   H3D_DATA,       NEL)
         IF (IPARIT == 0) THEN
           CALL R5CUM3(
      1      F              ,GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),AR             ,

@@ -27,9 +27,12 @@ Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        GRAY21                        source/materials/mat/mat016/gray21.F
 Chd|====================================================================
-      SUBROUTINE GRAY20(PM,   EINT, RHO,  TEMP, XIST, QOLD, VOLN,
-     .                  MAT,  DVOL, POLD, DF,
-     .                  RHO0, P1,   P01,  P02,  E01,  E02,  SSP, DPDM )
+      SUBROUTINE GRAY20(
+     1   PM,      EINT,    RHO,     TEMP,
+     2   XIST,    QOLD,    VOLN,    MAT,
+     3   DVOL,    POLD,    DF,      RHO0,
+     4   P1,      P01,     P02,     E01,
+     5   E02,     SSP,     DPDM,    NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,11 +44,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       my_real
      .   PM(NPROPM,*), EINT(*), RHO(*), TEMP(*), XIST(*), QOLD(*), VOLN(*), 
      .   DVOL(*), POLD(*), DF(*), 
@@ -76,8 +79,8 @@ C-----------------------------------------------
       UNPM2       = O88P9844
       XM          = NINEP38
 
-      MX          = MAT(LFT)
-      DO I=LFT,LLT
+      MX          = MAT(1)
+      DO I=1,NEL
         DPDM(I)   = ONEP333*PM(22,MX)
         TM0(I)    = PM(29,MX)
         E00(I)    = PM(30,MX)
@@ -97,37 +100,37 @@ C-----------------------------------------------
         ALP(I)    = PM(61,MX)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         DMU(I)    = -DVOL(I)/(VOLN(I)-DVOL(I))/DF(I)
         X(I)      = ONE-DF(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         E0(I)     = C(I)**2*X(I)**2*HALF/(ONE-S(I)*X(I))*(ONE+S(I)*X(I)/THREE+(S(I)-GAM0(I))*S(I)*X(I)**2*ONE_OVER_6) 
      .            + E00(I)*(ONE+GAM0(I)*X(I)) + E0H(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         XP(I)     = ZERO
         IF(X(I)>=ZERO) XP(I)=ONE
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         TM(I)     = TM0(I)*((ONE-XP(I))*(ONE+TWO*(GAM0M(I)-FOUR_OVER_3)*X(I)+
      .             ((TWO*GAM0M(I)-FIVE_OVER_3)*(GAM0M(I)-FOUR_OVER_3)-AM(I))*X(I)**2)
      .     / (ONE-X(I))**2 + XP(I)*( ONE+(TWO*GAM0M(I)-TWO_THIRD)*X(I)+((GAM0M(I)-THIRD)*(TWO*GAM0M(I)+THIRD)-AM(I))*X(I)**2))
         TG(I)     = TM(I)*XM
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         XLAM(I)   = TWO_THIRD - TWO*GAM0M(I)+TWO*AM(I)*X(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         DELT(I)   = DSP(I)*XLAM(I)**2*TM(I)**2
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         EM1(I)    = E0(I)+RP3(I)*(TM(I)+DELT(I))+HALF*GP(I)*(TM(I)+DELT(I))**2
         EM2(I)    = EM1(I)+TM(I)*(DSP(I)-HALF*ALP(I)*(1.+(TM(I)+DELT(I))**2/TM(I)**2))
         EGG(I)    = E0(I)+RP3(I)*TG(I)+HALF*GP(I)*TG(I)**2+TM(I)*(DSP(I)-HALF*ALP(I)*UNPM2)
@@ -135,7 +138,7 @@ C-----------------------------------------------
         GEAX(I)   =(GAME(I)-G0AX(I))*GP(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         XIST0(I)  = XIST(I)
         E01(I)    = EINT(I)-(POLD(I)+QOLD(I))*DVOL(I)*HALF
         E01(I)    = MAX(ZERO,E01(I))
@@ -149,25 +152,29 @@ C-----------------------------------------------
 C-----------------------------
 C     BRANCHEMENTS
 C-----------------------------
-      CALL GRAY21(PM,RHO,TEMP,XIST,MAT,RHO0,DSP,ALP,PCR,P1,EGG,XIST0,XLAM,
-     .     EM0, EM1, EM2,
-     .     ESPE, GEAX, G0AX, TM,
-     .     DELT, RP3, X, GP)
+      CALL GRAY21(
+     1   PM,      RHO,     TEMP,    XIST,
+     2   MAT,     RHO0,    DSP,     ALP,
+     3   PCR,     P1,      EGG,     XIST0,
+     4   XLAM,    EM0,     EM1,     EM2,
+     5   ESPE,    GEAX,    G0AX,    TM,
+     6   DELT,    RP3,     X,       GP,
+     7   NEL)
 C------------------------------------
 C     PRESSION 1ERE ESTIMATION
 C------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         P01(I)    = P1(I)+HALF*PCR(I)*RHO(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(P01(I)<=PMIN(I))THEN
           P01(I)  = ZERO
           XIST(I) = FIVE
         ENDIF
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         E02(I)    = EINT(I)-(P01(I)+QOLD(I))*DVOL(I)*HALF
         E02(I)    = MAX(ZERO,E02(I))
         ESPE(I)   = E02(I)/(VOLN(I)*RHO(I))
@@ -177,18 +184,22 @@ C------------------------------------
 C-----------------------------
 C     BRANCHEMENTS
 C-----------------------------
-      CALL GRAY21(PM,RHO,TEMP,XIST,MAT,RHO0,DSP,ALP,PCR,P1,EGG,XIST0,XLAM,
-     .     EM0, EM1, EM2,
-     .     ESPE, GEAX, G0AX, TM,
-     .     DELT, RP3, X, GP)
+      CALL GRAY21(
+     1   PM,      RHO,     TEMP,    XIST,
+     2   MAT,     RHO0,    DSP,     ALP,
+     3   PCR,     P1,      EGG,     XIST0,
+     4   XLAM,    EM0,     EM1,     EM2,
+     5   ESPE,    GEAX,    G0AX,    TM,
+     6   DELT,    RP3,     X,       GP,
+     7   NEL)
 C------------------------------------
 C     PRESSION 2EME ESTIMATION
 C------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         P02(I)    = P1(I)+HALF*PCR(I)*RHO(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(P02(I)<=PMIN(I))THEN
           P02(I)  = ZERO
           XIST(I) = FIVE
@@ -197,7 +208,7 @@ C------------------------------------
 C------------------------------------
 C     VITESSE DU SON
 C------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(DMU(I)/=ZERO)THEN
           DPDM(I) = DPDM(I)+MAX(RHO0(I)*C(I)*C(I),ABS((P02(I)-POLD(I))/DMU(I)))
         ELSE
@@ -205,7 +216,7 @@ C------------------------------------
         ENDIF
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         SSP(I)    = SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 

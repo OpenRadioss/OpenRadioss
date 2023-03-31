@@ -160,11 +160,13 @@ C
       FR_W_E(1:NEL) = ZERO
 C=======================================================================
 C=======================================================================
-       CALL R23COOR3(X   ,VR  ,IXR  ,XDP  ,X1DP,
-     2              X2DP,NGL ,X1   ,Y1   ,Z1  ,
-     3              X2  ,Y2  ,Z2   ,PID  ,MID ,
-     4              RX1 ,RY1 ,RZ1  ,RX2  ,RY2  ,RZ2 ,
-     5              NC1 ,NC2 )
+       CALL R23COOR3(
+     1   X,       VR,      IXR,     XDP,
+     2   X1DP,    X2DP,    NGL,     X1,
+     3   Y1,      Z1,      X2,      Y2,
+     4   Z2,      PID,     MID,     RX1,
+     5   RY1,     RZ1,     RX2,     RY2,
+     6   RZ2,     NC1,     NC2,     NEL)
        CALL R23SENS3(GEO               ,GBUF%OFF           ,SENSOR_TAB        ,GBUF%TOTDEPL(II(1)),
      2              GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)),GBUF%LENGTH(II(2)),GBUF%LENGTH(II(3)) ,
      3              GBUF%TOTROT(II(1)) ,GBUF%TOTROT(II(2)) ,GBUF%TOTROT(II(3)),IGEO              ,PID                )
@@ -178,20 +180,25 @@ C        spring may be activated by sensor and is actually inactive.
           ENDIF
         ENDDO
 C
-        CALL R4EVEC3(GBUF%SKEW ,V            ,EXX2 ,EYX2 ,EZX2,
-     2               EXY2      ,EYY2         ,EZY2 ,EXZ2 ,EYZ2,
-     3               EZZ2      ,AL2DP        ,X1DP ,X2DP ,AL2 ,
-     4               ALDP      ,GBUF%SKEW_ERR,NGL  ,AL   ,EXX ,
-     5               EYX       ,EZX          ,EXY  ,EYY  ,EZY ,
-     6               EXZ       ,EYZ          ,EZZ  ,RX1  ,RY1 ,
-     7               RZ1       ,RX2          ,RY2  ,RZ2  ,VX1 ,
-     8               VX2       ,VY1          ,VY2  ,VZ1  ,VZ2 ,
-     9               NC1       ,NC2          )
+        CALL R4EVEC3(
+     1   GBUF%SKEW,    V,            EXX2,         EYX2,
+     2   EZX2,         EXY2,         EYY2,         EZY2,
+     3   EXZ2,         EYZ2,         EZZ2,         AL2DP,
+     4   X1DP,         X2DP,         AL2,          ALDP,
+     5   GBUF%SKEW_ERR,NGL,          AL,           EXX,
+     6   EYX,          EZX,          EXY,          EYY,
+     7   EZY,          EXZ,          EYZ,          EZZ,
+     8   RX1,          RY1,          RZ1,          RX2,
+     9   RY2,          RZ2,          VX1,          VX2,
+     A   VY1,          VY2,          VZ1,          VZ2,
+     B   NC1,          NC2,          NEL)
 C
 C
         IF (NSLIPRING > 0) THEN
-           CALL R23_114_COOR3(X   ,V   ,IXR  ,XDP  ,X3DP,
-     2                        NC3 ,VX3  ,VY3  ,VZ3)
+           CALL R23_114_COOR3(
+     1   X,       V,       IXR,     XDP,
+     2   X3DP,    NC3,     VX3,     VY3,
+     3   VZ3,     NEL)
         ENDIF
 C
         NUVAR =  NINT(GEO(25,I0)) !! from Mid
@@ -249,8 +256,10 @@ C
         CALL R23BILAN(GBUF%EINT,PARTSAV,IXR    ,GEO  ,V    ,
      2                IPARTR   ,GBUF%MASS,GRESAV ,GRTH ,IGRTH,
      3                GBUF%OFF ,NC1               ,NC2    ,X   ,VR)
-        CALL R4TORS(GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),GBUF%MOM(II(2)),
-     2              GBUF%MOM(II(3)),TANI           ,AL             ,H3D_DATA       )
+        CALL R4TORS(
+     1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
+     2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
+     3   H3D_DATA,       NEL)
         IF (IPARIT == 0) THEN
           CALL R4CUM3(
      1       F              ,GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),AR  ,

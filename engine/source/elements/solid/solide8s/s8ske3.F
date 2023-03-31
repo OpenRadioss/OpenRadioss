@@ -275,14 +275,20 @@ C
 !     .    Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8,
 !     .    DN_X,DN_Y,DN_Z,VOLM)
 ! used for ANS formulation
-         CALL S8SDERI3(OFFG,OFF,VOLN,NGL,
-     .    A_GAUSS(IT,NPTT),A_GAUSS(IR,NPTR),A_GAUSS(IS,NPTS),WI,
-     .    X1,X2,X3,X4,X5,X6,X7,X8,
-     .    Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,
-     .    Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8,
-     .    A11,A12,A13,A21,A22,A23,A31,A32,A33,
-     .    DN_R,DN_S,DN_T,INVJ,
-     .    DN_X,DN_Y,DN_Z,VOLM)
+         CALL S8SDERI3(
+     1   OFFG,            OFF,             VOLN,            NGL,
+     2   A_GAUSS(IT,NPTT),A_GAUSS(IR,NPTR),A_GAUSS(IS,NPTS),WI,
+     3   X1,              X2,              X3,              X4,
+     4   X5,              X6,              X7,              X8,
+     5   Y1,              Y2,              Y3,              Y4,
+     6   Y5,              Y6,              Y7,              Y8,
+     7   Z1,              Z2,              Z3,              Z4,
+     8   Z5,              Z6,              Z7,              Z8,
+     9   A11,             A12,             A13,             A21,
+     A   A22,             A23,             A31,             A32,
+     B   A33,             DN_R,            DN_S,            DN_T,
+     C   INVJ,            DN_X,            DN_Y,            DN_Z,
+     D   VOLM,            NEL)
          CALL S8SLKE3(KL, HH, VOLN, !DN_X,DN_Y,DN_Z,
      .    A_GAUSS(IT,NPTT),A_GAUSS(IR,NPTR),A_GAUSS(IS,NPTS),
      .    DN_R,DN_S,DN_T,INVJ,

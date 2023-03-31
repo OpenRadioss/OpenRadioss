@@ -964,23 +964,21 @@ C
      .    AJ4,AJ5,AJ6,
      .    SMAX,DELTAX,ICP,IDEG,NU ,VOLP(1,IP))
 C
-! sb
-! used for full integration
-!         CALL S8SDERI3(OFFG,OFF,VOLP(1,IP),NGL,
-!     .    A_GAUSS(IR,NPTR),A_GAUSS(IS,NPTS),A_GAUSS(IT,NPTT),WI,
-!     .    XD1,XD2,XD3,XD4,XD5,XD6,XD7,XD8,
-!     .    YD1,YD2,YD3,YD4,YD5,YD6,YD7,YD8,
-!     .    ZD1,ZD2,ZD3,ZD4,ZD5,ZD6,ZD7,ZD8,
-!     .    DN_X,DN_Y,DN_Z,VOLN)
 ! used for ANS formulation
-         CALL S8SDERI3(OFFG,OFF,VOLP(1,IP),NGL,
-     .    A_GAUSS(IT,NPTT),A_GAUSS(IR,NPTR),A_GAUSS(IS,NPTS),WI,
-     .    XD1,XD2,XD3,XD4,XD5,XD6,XD7,XD8,
-     .    YD1,YD2,YD3,YD4,YD5,YD6,YD7,YD8,
-     .    ZD1,ZD2,ZD3,ZD4,ZD5,ZD6,ZD7,ZD8,
-     .    A11,A12,A13,A21,A22,A23,A31,A32,A33,
-     .    DN_R,DN_S,DN_T,INVJ,
-     .    DN_X,DN_Y,DN_Z,VOLN)
+         CALL S8SDERI3(
+     1   OFFG,            OFF,             VOLP(1,IP),      NGL,
+     2   A_GAUSS(IT,NPTT),A_GAUSS(IR,NPTR),A_GAUSS(IS,NPTS),WI,
+     3   XD1,             XD2,             XD3,             XD4,
+     4   XD5,             XD6,             XD7,             XD8,
+     5   YD1,             YD2,             YD3,             YD4,
+     6   YD5,             YD6,             YD7,             YD8,
+     7   ZD1,             ZD2,             ZD3,             ZD4,
+     8   ZD5,             ZD6,             ZD7,             ZD8,
+     9   A11,             A12,             A13,             A21,
+     A   A22,             A23,             A31,             A32,
+     B   A33,             DN_R,            DN_S,            DN_T,
+     C   INVJ,            DN_X,            DN_Y,            DN_Z,
+     D   VOLN,            NEL)
 !         CALL S8SDEFO3(
 !     .    ULX1, ULX2, ULX3, ULX4, ULX5, ULX6, ULX7, ULX8,
 !     .    ULY1, ULY2, ULY3, ULY4, ULY5, ULY6, ULY7, ULY8,
@@ -1256,9 +1254,14 @@ C----------------------------
      .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
      .   NEL   ) 
 C----------------------------
-      IF(NFILSOL/=0) CALL SFILLOPT(GBUF%FILL,STIN,
-     1   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     2   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)    
+      IF(NFILSOL/=0) CALL SFILLOPT(
+     1   GBUF%FILL,STIN,     F11,      F21,
+     2   F31,      F12,      F22,      F32,
+     3   F13,      F23,      F33,      F14,
+     4   F24,      F34,      F15,      F25,
+     5   F35,      F16,      F26,      F36,
+     6   F17,      F27,      F37,      F18,
+     7   F28,      F38,      NEL)
 C----------------------------
       IF(IPARIT == 0)THEN
           CALL SCUMU3(GBUF%OFF,A,NC1, NC2, NC3, NC4,

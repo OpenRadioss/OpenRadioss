@@ -589,9 +589,11 @@ C          switched to small strain
         ENDDO
 C
         IF (JTHE < 0 .AND. ISOLNOD == 10) THEN
-          CALL S10THERM(PM     ,MXT    ,NC ,VOLN, 
-     .    	    PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),NX(1,1,IP),
-     .    	    DT1 ,TEMP  ,TEMPEL ,DIE  , THEM,GBUF%OFF,LBUF%OFF) 
+          CALL S10THERM(
+     1   PM,        MXT,       NC,        VOLN,
+     2   PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),NX(1,1,IP),
+     3   DT1,       TEMP,      TEMPEL,    DIE,
+     4   THEM,      GBUF%OFF,  LBUF%OFF,  NEL)
         ENDIF
 c----------
       ENDDO   ! end integration point loop
@@ -656,7 +658,9 @@ C-----------!!!-seperate LBUF%SIGL=LBUF%SIG,w/ npt>0 ISM12_11
          END IF !(IOFFS == 1) THEN
        END IF 
 c-----------------------------
-      IF(NFILSOL/=0) CALL SXFILLOPT(NPE,GBUF%FILL,STIG,FX,FY,FZ)
+      IF(NFILSOL/=0) CALL SXFILLOPT(
+     1   NPE,      GBUF%FILL,STIG,     FX,
+     2   FY,       FZ,       NEL)
 C-----
         IF (IPARIT == 0) THEN
           CALL S10CUMU3(GBUF%OFF,A,NC,STIFN,STIG,FX,FY,FZ,DELTAX2,

@@ -551,13 +551,20 @@ C
 C Lagrangian or Arbitrary Euler Lagrange simulation
        IF(JCLOSE /= 0) THEN
 C ALE option /ALE/CLOSE
-         CALL MOD_CLOSE(GEO,NGEO,
-     .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,HH,
-     .   XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
-     .   YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
-     .   ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8)
+         CALL MOD_CLOSE(
+     1   GEO,     NGEO,    X1,      X2,
+     2   X3,      X4,      X5,      X6,
+     3   X7,      X8,      Y1,      Y2,
+     4   Y3,      Y4,      Y5,      Y6,
+     5   Y7,      Y8,      Z1,      Z2,
+     6   Z3,      Z4,      Z5,      Z6,
+     7   Z7,      Z8,      HH,      XD1,
+     8   XD2,     XD3,     XD4,     XD5,
+     9   XD6,     XD7,     XD8,     YD1,
+     A   YD2,     YD3,     YD4,     YD5,
+     B   YD6,     YD7,     YD8,     ZD1,
+     C   ZD2,     ZD3,     ZD4,     ZD5,
+     D   ZD6,     ZD7,     ZD8,     NEL)
        ENDIF
 C
        IF (ISMSTR==11) THEN   
@@ -767,13 +774,19 @@ C
      .      FPX3H1, FPX3H2, FPX3H3,
      .      FPX4H1, FPX4H2, FPX4H3)
 C
-        CALL FDLEN3(FVOLN,FDELTAX,
-     .      FX1, FX2, FX3, FX4, FX5, FX6, FX7, FX8,
-     .      FY1, FY2, FY3, FY4, FY5, FY6, FY7, FY8,
-     .      FZ1, FZ2, FZ3, FZ4, FZ5, FZ6, FZ7, FZ8,
-     .      FN1X, FN2X, FN3X, FN4X, FN5X, FN6X,
-     .      FN1Y, FN2Y, FN3Y, FN4Y, FN5Y, FN6Y,
-     .      FN1Z, FN2Z, FN3Z, FN4Z, FN5Z, FN6Z)  
+        CALL FDLEN3(
+     1   FVOLN,   FDELTAX, FX1,     FX2,
+     2   FX3,     FX4,     FX5,     FX6,
+     3   FX7,     FX8,     FY1,     FY2,
+     4   FY3,     FY4,     FY5,     FY6,
+     5   FY7,     FY8,     FZ1,     FZ2,
+     6   FZ3,     FZ4,     FZ5,     FZ6,
+     7   FZ7,     FZ8,     FN1X,    FN2X,
+     8   FN3X,    FN4X,    FN5X,    FN6X,
+     9   FN1Y,    FN2Y,    FN3Y,    FN4Y,
+     A   FN5Y,    FN6Y,    FN1Z,    FN2Z,
+     B   FN3Z,    FN4Z,    FN5Z,    FN6Z,
+     C   NEL)
 C
 C Strain flow    
         CALL FDEFO3(
@@ -964,37 +977,62 @@ C
       ENDIF 
 C
       IF (JCLOSE /= 0) 
-     .  CALL FE_CLOSE(HH,GBUF%RHO,VOLN,
-     .   VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
-     .   VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
-     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)
+     .  CALL FE_CLOSE(
+     1   HH,      GBUF%RHO,VOLN,    VX1,
+     2   VX2,     VX3,     VX4,     VX5,
+     3   VX6,     VX7,     VX8,     VY1,
+     4   VY2,     VY3,     VY4,     VY5,
+     5   VY6,     VY7,     VY8,     VZ1,
+     6   VZ2,     VZ3,     VZ4,     VZ5,
+     7   VZ6,     VZ7,     VZ8,     F11,
+     8   F21,     F31,     F12,     F22,
+     9   F32,     F13,     F23,     F33,
+     A   F14,     F24,     F34,     F15,
+     B   F25,     F35,     F16,     F26,
+     C   F36,     F17,     F27,     F37,
+     D   F18,     F28,     F38,     NEL)
 C
       IALEFVM_MAT = IPM(251,IXS(1,NF1))
       IF(IALEFVM_MAT <= 1)THEN
        IF (JALE == 1 .OR. (JEUL == 1.AND.INTEG8 == 0)) THEN
 C ALE & Euler momentum transport forces 
-        CALL AMOMT3(PM,GBUF%RHO,VOLN,
-     .   X1,X2,X3,X4,X5,X6,X7,X8,
-     .   Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,
-     .   Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8,
-     .   VX1,VX2,VX3,VX4,VX5,VX6,VX7,VX8,
-     .   VY1,VY2,VY3,VY4,VY5,VY6,VY7,VY8,
-     .   VZ1,VZ2,VZ3,VZ4,VZ5,VZ6,VZ7,VZ8,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   PX1,PX2,PX3,PX4,
-     .   PY1,PY2,PY3,PY4,
-     .   PZ1,PZ2,PZ3,PZ4,
-     .   DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
-     .   VDX1,VDX2,VDX3,VDX4,VDX5,VDX6,VDX7,VDX8,
-     .   VDY1,VDY2,VDY3,VDY4,VDY5,VDY6,VDY7,VDY8,
-     .   VDZ1,VDZ2,VDZ3,VDZ4,VDZ5,VDZ6,VDZ7,VDZ8,
-     .   VDX,VDY,VDZ,
-     .   DELTAX,VIS,
-     .   MXT,QMV,BUFMAT,IPARG1,IXS,GBUF%TAG22, 
-     .   NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE) 
+        CALL AMOMT3(
+     1   PM,        GBUF%RHO,  VOLN,      X1,
+     2   X2,        X3,        X4,        X5,
+     3   X6,        X7,        X8,        Y1,
+     4   Y2,        Y3,        Y4,        Y5,
+     5   Y6,        Y7,        Y8,        Z1,
+     6   Z2,        Z3,        Z4,        Z5,
+     7   Z6,        Z7,        Z8,        VX1,
+     8   VX2,       VX3,       VX4,       VX5,
+     9   VX6,       VX7,       VX8,       VY1,
+     A   VY2,       VY3,       VY4,       VY5,
+     B   VY6,       VY7,       VY8,       VZ1,
+     C   VZ2,       VZ3,       VZ4,       VZ5,
+     D   VZ6,       VZ7,       VZ8,       F11,
+     E   F21,       F31,       F12,       F22,
+     F   F32,       F13,       F23,       F33,
+     G   F14,       F24,       F34,       F15,
+     H   F25,       F35,       F16,       F26,
+     I   F36,       F17,       F27,       F37,
+     J   F18,       F28,       F38,       PX1,
+     K   PX2,       PX3,       PX4,       PY1,
+     L   PY2,       PY3,       PY4,       PZ1,
+     M   PZ2,       PZ3,       PZ4,       DXX,
+     N   DXY,       DXZ,       DYX,       DYY,
+     O   DYZ,       DZX,       DZY,       DZZ,
+     P   VDX1,      VDX2,      VDX3,      VDX4,
+     Q   VDX5,      VDX6,      VDX7,      VDX8,
+     R   VDY1,      VDY2,      VDY3,      VDY4,
+     S   VDY5,      VDY6,      VDY7,      VDY8,
+     T   VDZ1,      VDZ2,      VDZ3,      VDZ4,
+     U   VDZ5,      VDZ6,      VDZ7,      VDZ8,
+     V   VDX,       VDY,       VDZ,       DELTAX,
+     W   VIS,       MXT,       QMV,       BUFMAT,
+     X   IPARG1,    IXS,       GBUF%TAG22,NC1,
+     Y   NC2,       NC3,       NC4,       NC5,
+     Z   NC6,       NC7,       NC8,       NALE,
+     1   NEL)
 C
        ELSEIF (JEUL == 1 .AND. INTEG8 == 1) THEN
 C SUPG and TG UPWIND not included 
@@ -1024,26 +1062,43 @@ C
      5                           LFT,LLT,NEL)
 C
        IF (JALE  == 3 )THEN       
-         CALL AMOMT3(PM,MBUF%VAR,FVOLN,
-     .   FX1,FX2,FX3,FX4,FX5,FX6,FX7,FX8,
-     .   FY1,FY2,FY3,FY4,FY5,FY6,FY7,FY8,
-     .   FZ1,FZ2,FZ3,FZ4,FZ5,FZ6,FZ7,FZ8,
-     .   FVX1,FVX2,FVX3,FVX4,FVX5,FVX6,FVX7,FVX8,
-     .   FVY1,FVY2,FVY3,FVY4,FVY5,FVY6,FVY7,FVY8,
-     .   FVZ1,FVZ2,FVZ3,FVZ4,FVZ5,FVZ6,FVZ7,FVZ8,
-     .   FF11,FF21,FF31,FF12,FF22,FF32,FF13,FF23,FF33,FF14,FF24,FF34,
-     .   FF15,FF25,FF35,FF16,FF26,FF36,FF17,FF27,FF37,FF18,FF28,FF38,
-     .   FPX1,FPX2,FPX3,FPX4,
-     .   FPY1,FPY2,FPY3,FPY4,
-     .   FPZ1,FPZ2,FPZ3,FPZ4,
-     .   FDXX,FDXY,FDXZ,FDYX,FDYY,FDYZ,FDZX,FDZY,FDZZ,
-     .   FVDX1,FVDX2,FVDX3,FVDX4,FVDX5,FVDX6,FVDX7,FVDX8,
-     .   FVDY1,FVDY2,FVDY3,FVDY4,FVDY5,FVDY6,FVDY7,FVDY8,
-     .   FVDZ1,FVDZ2,FVDZ3,FVDZ4,FVDZ5,FVDZ6,FVDZ7,FVDZ8,
-     .   FVDX,FVDY,FVDZ,
-     .   FDELTAX,VIS,
-     .   MXT,QMV,BUFMAT,IPARG1,IXS,GBUF%TAG22, 
-     .   NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)   
+         CALL AMOMT3(
+     1   PM,        MBUF%VAR,  FVOLN,     FX1,
+     2   FX2,       FX3,       FX4,       FX5,
+     3   FX6,       FX7,       FX8,       FY1,
+     4   FY2,       FY3,       FY4,       FY5,
+     5   FY6,       FY7,       FY8,       FZ1,
+     6   FZ2,       FZ3,       FZ4,       FZ5,
+     7   FZ6,       FZ7,       FZ8,       FVX1,
+     8   FVX2,      FVX3,      FVX4,      FVX5,
+     9   FVX6,      FVX7,      FVX8,      FVY1,
+     A   FVY2,      FVY3,      FVY4,      FVY5,
+     B   FVY6,      FVY7,      FVY8,      FVZ1,
+     C   FVZ2,      FVZ3,      FVZ4,      FVZ5,
+     D   FVZ6,      FVZ7,      FVZ8,      FF11,
+     E   FF21,      FF31,      FF12,      FF22,
+     F   FF32,      FF13,      FF23,      FF33,
+     G   FF14,      FF24,      FF34,      FF15,
+     H   FF25,      FF35,      FF16,      FF26,
+     I   FF36,      FF17,      FF27,      FF37,
+     J   FF18,      FF28,      FF38,      FPX1,
+     K   FPX2,      FPX3,      FPX4,      FPY1,
+     L   FPY2,      FPY3,      FPY4,      FPZ1,
+     M   FPZ2,      FPZ3,      FPZ4,      FDXX,
+     N   FDXY,      FDXZ,      FDYX,      FDYY,
+     O   FDYZ,      FDZX,      FDZY,      FDZZ,
+     P   FVDX1,     FVDX2,     FVDX3,     FVDX4,
+     Q   FVDX5,     FVDX6,     FVDX7,     FVDX8,
+     R   FVDY1,     FVDY2,     FVDY3,     FVDY4,
+     S   FVDY5,     FVDY6,     FVDY7,     FVDY8,
+     T   FVDZ1,     FVDZ2,     FVDZ3,     FVDZ4,
+     U   FVDZ5,     FVDZ6,     FVDZ7,     FVDZ8,
+     V   FVDX,      FVDY,      FVDZ,      FDELTAX,
+     W   VIS,       MXT,       QMV,       BUFMAT,
+     X   IPARG1,    IXS,       GBUF%TAG22,NC1,
+     Y   NC2,       NC3,       NC4,       NC5,
+     Z   NC6,       NC7,       NC8,       NALE,
+     1   NEL)
        ENDIF     
       ENDIF !  IALEFVM_MAT <= 1
 C
@@ -1192,15 +1247,16 @@ C Virtual internal forces of regularized non local dof
 C
       IF (JTHE < 0) THEN
 C Finite element heat transfert forces
-        CALL STHERM( PM     ,MXT    ,VOLN,
-     .               NC1,  NC2, NC3,NC4,
-     .               NC5,  NC6, NC7,NC8, 
-     .               PX1, PX2, PX3, PX4,
-     .               PY1, PY2, PY3, PY4,
-     .               PZ1, PZ2, PZ3, PZ4,
-     .               DT1 ,TEMP,TEMPEL,DIE,
-     .               THEM,GBUF%OFF,LBUF%OFF,
-     .               PARTSAV,IPARTS,GBUF%VOL) 
+        CALL STHERM(
+     1   PM,      MXT,     VOLN,    NC1,
+     2   NC2,     NC3,     NC4,     NC5,
+     3   NC6,     NC7,     NC8,     PX1,
+     4   PX2,     PX3,     PX4,     PY1,
+     5   PY2,     PY3,     PY4,     PZ1,
+     6   PZ2,     PZ3,     PZ4,     DT1,
+     7   TEMP,    TEMPEL,  DIE,     THEM,
+     8   GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
+     9   GBUF%VOL,NEL)
       ENDIF
 C
       IF (JCVT /= 0) THEN
@@ -1219,9 +1275,14 @@ C Transform forces from convected frame to global frame
         ENDIF 
       ENDIF
 C
-      IF(NFILSOL/=0) CALL SFILLOPT(GBUF%FILL,STI,
-     1   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     2   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)
+      IF(NFILSOL/=0) CALL SFILLOPT(
+     1   GBUF%FILL,STI,      F11,      F21,
+     2   F31,      F12,      F22,      F32,
+     3   F13,      F23,      F33,      F14,
+     4   F24,      F34,      F15,      F25,
+     5   F35,      F16,      F26,      F36,
+     6   F17,      F27,      F37,      F18,
+     7   F28,      F38,      NEL)
 C
 C Assemble internal forces
       IF(IPARIT == 0)THEN

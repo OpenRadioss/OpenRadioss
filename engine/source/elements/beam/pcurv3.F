@@ -26,12 +26,15 @@ Chd|-- called by -----------
 Chd|        PFORC3                        source/elements/beam/pforc3.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE PCURV3(R      ,GEO    ,OFFG   ,OFF    ,EXX  ,
-     .                  EXY    ,EXZ    ,KXX    ,KYY    ,KZZ  ,
-     .                  AL     ,NC1    ,NC2    ,NC3    ,RX1G ,
-     .                  RX2G   ,RY1G   ,RY2G   ,RZ1G   ,RZ2G ,
-     .                  E1X    ,E1Y    ,E1Z    ,E2X    ,E2Y  ,
-     .                  E2Z    ,E3X    ,E3Y    ,E3Z    ,PID  )
+      SUBROUTINE PCURV3(
+     1   R,       GEO,     OFFG,    OFF,
+     2   EXX,     EXY,     EXZ,     KXX,
+     3   KYY,     KZZ,     AL,      NC1,
+     4   NC2,     NC3,     RX1G,    RX2G,
+     5   RY1G,    RY2G,    RZ1G,    RZ2G,
+     6   E1X,     E1Y,     E1Z,     E2X,
+     7   E2Y,     E2Z,     E3X,     E3Y,
+     8   E3Z,     PID,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,11 +48,11 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),PID(MVSIZ)
       my_real
      .   R(3,*), GEO(NPROPG,*),
@@ -71,7 +74,7 @@ C-----------------------------------------------
      .   EXZ00PHI, EXY0PHI, EXZ0PHI, RX10PHI, RY10PHI, RZ10PHI, 
      .   RX20PHI, RY20PHI, RZ20PHI,OFF_L,DT05   
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         RX1(I)=E1X(I)*RX1G(I)+E1Y(I)*RY1G(I)+E1Z(I)*RZ1G(I)
         RY1(I)=E2X(I)*RX1G(I)+E2Y(I)*RY1G(I)+E2Z(I)*RZ1G(I)
         RZ1(I)=E3X(I)*RX1G(I)+E3Y(I)*RY1G(I)+E3Z(I)*RZ1G(I)
@@ -85,7 +88,7 @@ C---------------------------------
       DT05=HALF*DT1
       IF (IMPL_S > 0 .AND. ISMDISP > 0) DT05=ZERO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         RXAV(I)= HALF*DT05*(RX1(I)+RX2(I))
         EXX00(I)=EXX(I)
         EXY00(I)=EXY(I)
@@ -111,7 +114,7 @@ C ... this looks suspicious.
 C---------------------------------------------------
 C     LIBERATION DES ROTATIONS
 C---------------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IG=PID(I)
         IRX =NINT(GEO(7 ,IG))
         IR1Y=NINT(GEO(8 ,IG))
@@ -139,19 +142,19 @@ C ... !!!!!!!
      +         +(ONE -IR2Z)*(THREE_HALF*EXY(I)-HALF*RZ1(I))
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         KXX(I)=(RX2(I)-RX1(I))/AL(I)
         KYY(I)=(RY2(I)-RY1(I))/AL(I)
         KZZ(I)=(RZ2(I)-RZ1(I))/AL(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         RXAV(I)=RX1(I)+RX2(I)
         RZAV(I)=RZ1(I)+RZ2(I)
         RYAV(I)=RY1(I)+RY2(I)
       ENDDO
 C---------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         EXZ(I)=EXZ(I) + HALF*RYAV(I)
         EXY(I)=EXY(I) - HALF*RZAV(I)
       ENDDO
@@ -159,13 +162,13 @@ C----------------------------
 C     OFF
 C----------------------------
       OFF_L = ZERO
-      DO I=LFT,LLT
+      DO I=1,NEL
         OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF(I) = MAX(ZERO,OFF(I))
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
       IF (OFF_L < ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF (OFFG(I) < ZERO) THEN
             EXX(I)=ZERO
             EXZ(I)=ZERO

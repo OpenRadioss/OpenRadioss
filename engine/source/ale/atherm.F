@@ -38,10 +38,13 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectiv
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
-      SUBROUTINE ATHERM(IPARG   ,PM      ,ELBUF_TAB,FLUX  ,VAL2    ,
-     2                  T       ,ALE_CONNECT   ,IXS     ,IXQ   ,FV      ,
-     3                  X       ,BUFMAT  ,TF      ,NPF   ,NERCVOIS,
-     4                  NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,IPM     )
+      SUBROUTINE ATHERM(
+     1   IPARG,      PM,         ELBUF_TAB,  FLUX,
+     2   VAL2,       T,          ALE_CONNECT,IXS,
+     3   IXQ,        FV,         X,          BUFMAT,
+     4   TF,         NPF,        NERCVOIS,   NESDVOIS,
+     5   LERCVOIS,   LESDVOIS,   LENCOM,     IPM,
+     6   NEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,6 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER  IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ), NPF(*),
      .         NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .         IPM(NPROPMI,NUMMAT), LENCOM
@@ -141,7 +145,9 @@ c
             VAL2(J)=VAL2(J) * RPR*AX*YPLUS / (A*LOG(E*YPLUS) + AX*P)
           ENDDO!next I
         ELSEIF (MTN == 18)THEN
-          CALL M18TH(GBUF%TEMP,VAL2,MAT,PM,IPM,TF,NPF)
+          CALL M18TH(
+     1   GBUF%TEMP,VAL2,     MAT,      PM,
+     2   IPM,      TF,       NPF,      NEL)
         ELSEIF (MTN == 26)THEN
           CALL M26TH(MAT,GBUF%RHO,GBUF%TEMP,VAL2,PM,BUFMAT,GBUF%RE)
         ELSEIF (MTN == 51) THEN
@@ -152,8 +158,9 @@ c
           PH1 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH1+1:NPH1+1+LLT)
           PH2 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH2+1:NPH2+1+LLT)
           PH3 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH3+1:NPH3+1+LLT)
-          CALL M51TH(T(1+NFT),PH1,PH2,PH3,
-     .               BUFMAT(IADBUF),VAL2(1+NFT))
+          CALL M51TH(
+     1   T(1+NFT),      PH1,           PH2,           PH3,
+     2   BUFMAT(IADBUF),VAL2(1+NFT),   NEL,           NEL)
         ELSEIF (JTUR /= 0.AND.MTN /= 11) THEN
           DO I=LFT,LLT
             J=I+NFT

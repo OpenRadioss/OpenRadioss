@@ -758,12 +758,18 @@ C
 C-------------------------------
 C     PLASTICITE COUPLEE
 C-------------------------------
-      CALL REPLA3(XK   ,RPX ,TF  ,NPF  ,IECROU,
-     .            IFUNC,IFV ,EPLA)
-      CALL REPLA3(YK   ,RPY ,TF  ,NPF  ,IECROU,
-     .            IFUNC,IFV ,EPLA)
-      CALL REPLA3(ZK   ,RPZ ,TF  ,NPF  ,IECROU,
-     .            IFUNC,IFV ,EPLA)
+      CALL REPLA3(
+     1   XK,      RPX,     TF,      NPF,
+     2   IECROU,  IFUNC,   IFV,     EPLA,
+     3   NEL)
+      CALL REPLA3(
+     1   YK,      RPY,     TF,      NPF,
+     2   IECROU,  IFUNC,   IFV,     EPLA,
+     3   NEL)
+      CALL REPLA3(
+     1   ZK,      RPZ,     TF,      NPF,
+     2   IECROU,  IFUNC,   IFV,     EPLA,
+     3   NEL)
 C
       DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
@@ -773,12 +779,18 @@ C
         E(I) = E6(I,1)+E6(I,2)+E6(I,3)+E6(I,4)+E6(I,5)+E6(I,6)
       ENDDO
 C
-      CALL REPLA3(XK   ,DPX ,TF  ,NPF  ,IECROU,
-     .            IFUNC,IFV ,EPLA)
-      CALL REPLA3(YK   ,DPY ,TF  ,NPF  ,IECROU,
-     .            IFUNC,IFV ,EPLA)
-      CALL REPLA3(ZK   ,DPZ ,TF  ,NPF  ,IECROU,
-     .            IFUNC,IFV ,EPLA)
+      CALL REPLA3(
+     1   XK,      DPX,     TF,      NPF,
+     2   IECROU,  IFUNC,   IFV,     EPLA,
+     3   NEL)
+      CALL REPLA3(
+     1   YK,      DPY,     TF,      NPF,
+     2   IECROU,  IFUNC,   IFV,     EPLA,
+     3   NEL)
+      CALL REPLA3(
+     1   ZK,      DPZ,     TF,      NPF,
+     2   IECROU,  IFUNC,   IFV,     EPLA,
+     3   NEL)
 C---
  1000 FORMAT(1X,'-- RUPTURE OF SPRING ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'-- RUPTURE OF SPRING ELEMENT :',I10,' AT TIME :',G11.4)
