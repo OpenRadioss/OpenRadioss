@@ -265,7 +265,7 @@ c-----------------
         IF (YTAB_ID > 0) THEN
           WRITE(IOUT,1300) YTAB_ID,XSCALE,YSCALE
         ELSE
-          WRITE(IOUT,1400) Q,B,H,CC,EPSPMIN,EPSPMAX
+          WRITE(IOUT,1400) Q,B,H,Y0,CC,EPSPMIN,EPSPMAX
         END IF
         WRITE(IOUT,1500) A1F,A2F,A1H,A2H,AS,D1C,D2C,D1F,D2F,
      .                   D_TRX,D_JC,EXP_N,ITRX,IDAM
