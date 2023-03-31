@@ -65,8 +65,9 @@ Chd|====================================================================
      .           IGRBRIC     ,IGRQUAD     ,IGRSH4N        ,IGRSH3N    , IGRTRUSS        ,
      .           IGRBEAM     ,IGRSPRING   ,IGRPART        ,IGRSURF    , IGRSLIN         , 
      .           FORNEQS     ,MATPARAM_TAB,GROUP_PARAM_TAB,PINCH_DATA , ALE_CONNECTIVITY,
-     .           DRAPE_SH4N  ,DRAPE_SH3N  ,T_MONVOL       ,SENSOR_TAB ,EBCS_TAB       ,
-     .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS   )
+     .           DRAPE_SH4N  ,DRAPE_SH3N  ,T_MONVOL       ,SENSOR_TAB ,EBCS_TAB         ,
+     .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS     ,
+     .           OUTPUT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -98,6 +99,7 @@ C-----------------------------------------------
       USE SEGVAR_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -140,19 +142,20 @@ C     REAL
       TYPE(GROUP_)  ,DIMENSION(NGRPART) :: IGRPART
       TYPE(SURF_)   ,DIMENSION(NSURF)   :: IGRSURF
       TYPE(SURF_)   ,DIMENSION(NSURF)   :: IGRSLIN
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE(GRP_PARAM_STRUCT_) , DIMENSION(NGROUP) :: GROUP_PARAM_TAB
       TYPE(PINCH) :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
-      TYPE(DRAPE_)        :: DRAPE_SH3N(NUMELTG_DRAPE),DRAPE_SH4N(NUMELC_DRAPE)
-      TYPE(DRAPEG_)                :: DRAPEG
+      TYPE(DRAPE_)                            :: DRAPE_SH3N(NUMELTG_DRAPE),DRAPE_SH4N(NUMELC_DRAPE)
+      TYPE(DRAPEG_)                           :: DRAPEG
       TYPE(SENSOR_STR_)   ,DIMENSION(NSENSOR) :: SENSOR_TAB
-      TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
-      TYPE(T_DIFFUSION), INTENT(INOUT) :: DIFFUSION
-      TYPE(t_segvar) :: SEGVAR
-      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
-      TYPE(USER_WINDOWS_),INTENT(INOUT)      :: USER_WINDOWS
+      TYPE(t_ebcs_tab), INTENT(INOUT)         :: EBCS_TAB
+      TYPE(T_DIFFUSION), INTENT(INOUT)        :: DIFFUSION
+      TYPE(t_segvar)                          :: SEGVAR
+      TYPE(DYNAIN_DATABASE), INTENT(INOUT)    :: DYNAIN_DATA
+      TYPE(USER_WINDOWS_),INTENT(INOUT)       :: USER_WINDOWS
+      TYPE(OUTPUT_),INTENT(INOUT)             :: OUTPUT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -183,7 +186,7 @@ C
      5  IBFV            ,IECRAN         ,ILAS           ,LACCELM        ,NNLINK         ,LNLINK      ,
      6  IPARG           ,DD_IAD         ,IGRV           ,IEXLNK         ,KINET       ,
      7  IPARI           ,NPRW           ,ICONX          ,NPBY           ,
-     8  LPBY            ,LRIVET         ,NSTRF          ,LJOINT         ,NODPOR         ,MONVOL      ,ITHGRP           ,IAD_ELEM  ,
+     8  LPBY            ,LRIVET         ,NSTRF          ,LJOINT         ,NODPOR         ,MONVOL      ,IAD_ELEM  ,
      9  FR_ELEM         ,WEIGHT         ,MAIN_PROC      ,ICODT          ,ICODR          ,ADSKY       ,IADS             ,ILINK     ,
      A  LLINK           ,LINALE         ,NEFLSW         ,NNFLSW         ,ICUT           ,CLUSTER     ,
      B  ITASK           ,IAF(IF01)      ,
@@ -192,7 +195,7 @@ C
      E  W               ,VEUL           ,FILL           ,DFILL          ,ALPH           ,WB          ,DSAVE            ,ASAVE     ,
      .  MSNF            , 
      F  TF              ,FORC           ,VEL            ,FSAV           ,FZERO          ,XLAS        ,ACCELM           ,
-     G  GRAV            ,FR_WAVE        ,FAILWAVE       ,PARTS0         ,ELBUF       ,RWBUF            ,SENSOR_TAB,
+     G  GRAV            ,FR_WAVE        ,FAILWAVE       ,PARTS0         ,ELBUF          ,RWBUF       ,SENSOR_TAB,
      H  RWSAV           ,RBY            ,RIVET          ,SECBUF         ,VOLMON         ,LAMBDA      ,
      I  WA              ,FV             ,A              ,AR             ,STIFN          ,STIFR       ,PARTSAV          ,FSKY      ,
      J  UWA             ,VAL2           ,PHI            ,SEGVAR         ,R              ,CRFLSW      ,
@@ -203,8 +206,6 @@ C
      O  FSAVD           ,IBVEL          ,LBVEL          ,WASPH          ,XDP            ,W16         ,
      P  ISPHIO          ,LPRTSPH        ,LONFSPH        ,VSPHIO         ,FBVEL          ,LAGBUF      ,IBCSLAG,
      Q  IACTIV          ,DAMPR          ,GJBUFI         ,GJBUFR         ,RBMPC          ,IBMPC       ,SPHVELN,
-     R  ITHGRPA         ,ITHGRPB        ,ITHGRPC        ,ITHGRPD        ,ITHGRPE        , 
-     S  ITHGRPF         ,ITHGRPG        ,ITHGRPH        ,ITHGRPI        ,
      T  NBRCVOIS        ,NBSDVOIS       ,LNRCVOIS       ,LNSDVOIS       ,NERCVOIS       ,NESDVOIS    ,LERCVOIS         ,
      U  LESDVOIS        ,NPSEGCOM       ,LSEGCOM        ,NPORGEO        ,FSKYM          ,
      V  IXTG1           ,NPBYL          ,LPBYL          ,RBYL           ,IGEO           ,IPM         ,
@@ -219,8 +220,7 @@ C
      e  FXBSIG          ,FXBGRVI        ,FXBGRVR        ,EIGIPM         ,EIGIBUF        ,EIGRPM      ,LSHSUB           ,
      f  DRSAVE          ,ARSAVE         ,STSAVE         ,STRSAVE        ,FSAVSAV        ,LNODPOR     ,
      g  FR_I18          ,IADSDP         ,IADRCP         ,GRAPHE         ,IFLOW          ,RFLOW,
-     h  ITHBUF          ,ITHBUFA        ,ITHBUFB        ,ITHBUFC        ,ITHBUFD        ,ITHBUFE     ,ITHBUFF          ,
-     i  ITHBUFG         ,ITHBUFH        ,ITHBUFI        ,LGRAV          ,DD_R2R         ,FASOLFR     ,FR_LAGF          ,
+     h  LGRAV           ,DD_R2R         ,FASOLFR        ,FR_LAGF        ,
      j  LLAGF           ,LPRW           ,ICONTACT       ,RCONTACT       ,SH4TREE        ,SH3TREE     ,
      k  IPADMESH        ,PADMESH        ,MSC            ,MSTG           ,INC            ,INTG        ,PTG              ,
      l  ISKWP           ,NSKWP          ,ISENSP         ,NSENSP         ,IACCP          ,NACCP       ,IPART_STATE      ,
@@ -258,7 +258,7 @@ C
      K  NLOC_DMG        ,ISKWP_L        ,KNOTLOCPC      ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6  ,ALE_CONNECTIVITY ,
      L  XCELL           , XFACE         ,NE_NERCVOIS    ,NE_NESDVOIS    ,NE_LERCVOIS    ,NE_LESDVOIS ,IBCSCYC          ,LBCSCYC   ,
      M  T_MONVOL        ,ID_GLOBAL_VOIS ,FACE_VOIS      ,TAGSLV_RBY     ,DYNAIN_DATA    ,FCONT_MAX   ,EBCS_TAB         ,DIFFUSION ,
-     N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS )
+     N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS ,OUTPUT)
 C
       CALL TRACE_OUT(2)
 C

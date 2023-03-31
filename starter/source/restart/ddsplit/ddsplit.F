@@ -274,7 +274,7 @@ Chd|====================================================================
      D   IACTIV       ,FACTIV       ,KINET          ,IPARI        ,NPRW        ,
      E   LPRW         ,IEXMAD       ,NPBY        ,
      F   LPBY         ,IXRI         ,NSTRF          ,LJOINT       ,PORNOD      ,
-     G   MONVOL       ,ICONTACT     ,LAGBUF         ,ITHGRP       ,ITHBUF      ,
+     G   MONVOL       ,ICONTACT     ,LAGBUF         ,
      H   FR_IAD       ,X            ,D              ,V            ,VR          ,
      I   DR           ,THKE         ,DAMPR          ,DAMP         ,MS          ,
      J   IN           ,TF           ,PM             ,SKEW         ,XFRAME      ,
@@ -299,10 +299,7 @@ Chd|====================================================================
      c   WMA          ,
      d   EIGIPM       ,EIGIBUF      ,EIGRPM         ,
      e   IFLOW        ,RFLOW        ,MEMFLOW        ,IEXLNK       ,FASOLFR     ,
-     f   ITHGRPA      ,ITHGRPB      ,ITHGRPC        ,ITHGRPD      ,ITHGRPE     ,
-     g   ITHGRPF      ,ITHGRPG      ,ITHGRPH        ,ITHGRPI      ,ITHBUFA     ,
-     h   ITHBUFB      ,ITHBUFC      ,ITHBUFD        ,ITHBUFE      ,ITHBUFF     ,
-     i   ITHBUFG      ,ITHBUFH      ,ITHBUFI        ,IPARTH       ,
+     f   IPARTH       ,
      j   FXBIPM       ,FXBRPM       ,FXBNOD         ,FXBMOD       ,FXBGLM      ,
      k   FXBCPM       ,FXBCPS       ,FXBLM          ,FXBFLS       ,FXBDLS      ,
      l   FXBDEP       ,FXBVIT       ,FXBACC         ,FXBELM       ,FXBSIG      ,
@@ -315,7 +312,7 @@ Chd|====================================================================
      s   RBYM         ,IRBYM        ,LCRBYM         ,INOISE       ,FNOISE      ,
      t   MS0          ,ADMSMS       ,NOM_SECT       ,ISPSYM       ,
      u   SH4TREE      ,SH3TREE      ,IPADMESH       ,IBFFLUX      ,FBFFLUX     ,
-     v   SH4TRIM      ,SH3TRIM      ,PADMESH        ,MSC          ,MSTG        ,
+     v   SH4TRIM      ,SH3TRIM      ,PADMESH        ,MSC          ,MSTG        , 
      w   INC          ,INTG         ,PTG            ,MCPC         ,MCPTG       ,
      x   RCONTACT     ,ACONTACT     ,PCONTACT       ,MSCND        ,INCND       ,
      y   MSSA         ,MSTR         ,MSP            ,MSRT         ,IBCR        ,
@@ -354,7 +351,7 @@ Chd|====================================================================
      B   SIZE_ALE_ELM ,PINCH_DATA  ,TAG_SKINS6      ,IBCSCYC      ,LBCSCYC  ,T_MONVOL,
      C INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER, LEN_CEP ,DYNAIN_DATA,
-     E   DRAPEG,USER_WINDOWS)
+     E   DRAPEG,USER_WINDOWS,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -398,6 +395,7 @@ C-----------------------------------------------
       USE STATE_MOD
       USE USER_WINDOWS_MOD
       USE ALE_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -438,6 +436,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(:), POINTER :: P
       END TYPE INTERMASURFEP
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE (OUTPUT_),INTENT(IN)             :: OUTPUT
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -464,7 +463,7 @@ C-----------------------------------------------
      .        IPARI(*),NPRW(*),LPRW(*),
      .        NPBY(*),LPBY(*), IEXLNK(*),
      .        IXRI(*),NSTRF(*),LJOINT(*),PORNOD(*),MONVOL(*),FVMAIN(*),
-     .        LAGBUF(*),ITHGRP(*),ITHBUF(*), FR_IAD(*),
+     .        LAGBUF(*), FR_IAD(*),
      .        ICONTACT(*), IPARTSP(*), ISPCOND(*),
      .        DDSTAT(50), CNE(*), LCNE, ADDCNE(0:*),
      .        CNI2(*), ADDCNI2(0:*), CEPI2(*), CELI2(*),
@@ -472,10 +471,7 @@ C-----------------------------------------------
      .        KXSP(*), IXSP(*), NOD2SP(*), CEPSP(*),
      .        EIGIPM(*), EIGIBUF(*), IFLOW(*), FASOLFR(2,*),
      .        IPARTH(*),
-     .        ITHGRPA(*),ITHGRPB(*),ITHGRPC(*),ITHGRPD(*),ITHGRPE(*),
-     .        ITHGRPF(*),ITHGRPG(*),ITHGRPH(*),ITHGRPI(*),ITHBUFA(*),
-     .        ITHBUFB(*),ITHBUFC(*),ITHBUFD(*),ITHBUFE(*),ITHBUFF(*),
-     .        ITHBUFG(*),ITHBUFH(*),ITHBUFI(*), FXBIPM(*), FXBNOD(*),
+     .        FXBIPM(*), FXBNOD(*),
      .        FXBELM(*), FXBGRVI(*), IADLL(*), LLL(*),IBMPC(*),LRBAGALE,
      .        ISKWP(*), NSKWP(*), ISENSP(2,*), NSENSP(*),
      .        IACCP(P), NACCP(*), IPART_STATE(*), IFRAME(*),
@@ -2417,63 +2413,10 @@ C--------------------------------------
 C--------------------------------------------
 C TH Groups
 C--------------------------------------------
-      CALL W_TH(ITHGRP ,ITHBUF ,LENTHG,NODLOCAL,CEL   ,
-     2          NTHGRP0,NTHGRP ,P       ,LEN_IA,
-     3          CELSPH ,NUMLOCCLUSTER,NBR_TH_MONVOL)
-
-      IF (NTHGRP01(1) > 0) THEN
-        CALL W_TH(ITHGRPA    ,ITHBUFA    ,SITHBUFA,NODLOCAL,CEL   ,
-     2            NTHGRP01(1),NTHGRP1(1) ,P       ,LEN_IA,
-     3            CELSPH, NUMLOCCLUSTER ,NBR_TH_MONVOL)
-      END IF
-
-      IF (NTHGRP01(2) > 0) THEN
-        CALL W_TH(ITHGRPB ,ITHBUFB ,SITHBUFB,NODLOCAL,CEL   ,
-     2            NTHGRP01(2),NTHGRP1(2) ,P ,LEN_IA  ,
-     3            CELSPH, NUMLOCCLUSTER ,NBR_TH_MONVOL)
-      END IF
-
-      IF (NTHGRP01(3) > 0) THEN
-        CALL W_TH(ITHGRPC ,ITHBUFC ,SITHBUFC,NODLOCAL,CEL   ,
-     2            NTHGRP01(3),NTHGRP1(3) ,P ,LEN_IA  ,
-     3            CELSPH, NUMLOCCLUSTER ,NBR_TH_MONVOL)
-      END IF
-
-      IF (NTHGRP01(4) > 0) THEN
-        CALL W_TH(ITHGRPD ,ITHBUFD ,SITHBUFD,NODLOCAL,CEL   ,
-     2            NTHGRP01(4),NTHGRP1(4) ,P ,LEN_IA  ,
-     3             CELSPH, NUMLOCCLUSTER ,NBR_TH_MONVOL)
-      END IF
-
-      IF (NTHGRP01(5) > 0) THEN
-        CALL W_TH(ITHGRPE ,ITHBUFE ,SITHBUFE,NODLOCAL,CEL   ,
-     2          NTHGRP01(5),NTHGRP1(5) ,P ,LEN_IA    ,
-     3          CELSPH, NUMLOCCLUSTER  ,NBR_TH_MONVOL)
-      END IF
-
-      IF (NTHGRP01(6) > 0) THEN
-        CALL W_TH(ITHGRPF ,ITHBUFF ,SITHBUFF,NODLOCAL,CEL   ,
-     2            NTHGRP01(6),NTHGRP1(6) ,P ,LEN_IA  ,
-     3            CELSPH, NUMLOCCLUSTER ,NBR_TH_MONVOL)
-      END IF
-
-      IF (NTHGRP01(7) > 0) THEN
-        CALL W_TH(ITHGRPG ,ITHBUFG ,SITHBUFG,NODLOCAL,CEL   ,
-     2            NTHGRP01(7),NTHGRP1(7) ,P ,LEN_IA  ,
-     3            CELSPH, NUMLOCCLUSTER  ,NBR_TH_MONVOL)
-      END IF
-
-      IF (NTHGRP01(8) > 0) THEN
-        CALL W_TH(ITHGRPH ,ITHBUFH ,SITHBUFH,NODLOCAL,CEL   ,
-     2            NTHGRP01(8),NTHGRP1(8) ,P ,LEN_IA  ,
-     3            CELSPH, NUMLOCCLUSTER  ,NBR_TH_MONVOL)
-      END IF
-
-      IF (NTHGRP01(9) > 0) THEN
-        CALL W_TH(ITHGRPI ,ITHBUFI ,SITHBUFI,NODLOCAL,CEL   ,
-     2            NTHGRP01(9),NTHGRP1(9) ,P ,LEN_IA  ,
-     3            CELSPH, NUMLOCCLUSTER  ,NBR_TH_MONVOL)
-      END IF
+       CALL WRITE_TH_BUFFER(OUTPUT%TH,NODLOCAL ,CEL      ,P,
+     2                      NTHGRP0  ,NTHGRP   ,NTHGRP01 ,NTHGRP1  , 
+     3                      SCEL     ,NUMSPH   ,NUMNOD   ,NCLUSTER ,
+     4                      CELSPH   ,NUMLOCCLUSTER ,NBR_TH_MONVOL)
 C--------------------------------------
 C Frontieres SPMD
 C--------------------------------------

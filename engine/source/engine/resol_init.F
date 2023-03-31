@@ -127,7 +127,7 @@ Chd|====================================================================
      e  IRLEN20E,ISLEN20E ,NISKYFIE,IRBE3     ,R3SIZE    ,
      f  MCP     ,MS0      ,INOD_PXFEM,IEL_PXFEM,IADC_PXFEM,
      g  ADSKY_PXFEM,ICODT,ICODR    ,IBFV      ,ADMSMS    ,
-     h  ITHGRP ,ITHBUF  ,NODREAC   ,IGROUC    ,NGROUC    ,
+     h  NODREAC  ,IGROUC  ,NGROUC    ,
      i  IGROUNC  ,NGROUNC ,FR_RBY  ,FR_RBY6   ,NPBY      ,
      j  NOM_SECT ,MCPC    ,MCPTG   ,GRTH      ,IGRTH     ,
      k  NELEM    ,LAG_SEC ,NPRW    ,DIAG_SMS  ,DMELC     ,
@@ -151,7 +151,7 @@ Chd|====================================================================
      3  IGRBRIC ,IGRQUAD  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS   ,
      4  IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED ,
      5  FXVEL_FGEO,FAILWAVE,NLOC_DMG,PINCH_DATA,SLLOADP  ,
-     6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM,STACK)
+     6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM,STACK,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -174,6 +174,7 @@ C-----------------------------------------------
       USE H3D_INC_MOD
       USE OUTPUTS_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -249,8 +250,7 @@ C-----------------------------------------------
      .        ICODT(*), ICODR(*),IBFV(NIFV,*),  
      .        INOD_PXFEM(*),IEL_PXFEM(*) ,IADC_PXFEM(4,*),ELCUTC(2,*),
      .        ADSKY_PXFEM(*), KXFENOD2ELC(*),NODLEVXF(*),CRKNODIAD(*),
-     .        NODEDGE(*),IAD_EDGE(*),FR_EDGE(*),FR_NBEDGE(*),
-     .        ITHGRP(NITHGR,*) ,ITHBUF(*) ,NODREAC(*),
+     .        NODEDGE(*),IAD_EDGE(*),FR_EDGE(*),FR_NBEDGE(*), NODREAC(*),
      .        IGROUC(*),IGROUNC(*),FR_RBY(*),FR_RBY6(*),NPBY(*),
      .        NOM_SECT(*), GRTH(*),IGRTH(*), NPRW(*),IAD_RBE2(*),
      .        FR_RBE2(*),FR_RBE2M(*),R2SIZE, IRBE2(NRBE2L,*),LRBE2(*),
@@ -316,6 +316,8 @@ C-----------------------------------------------
       TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
       TYPE (STACK_PLY) :: STACK
 C-----------------------------------------------
+      TYPE(OUTPUT_),INTENT(INOUT)    :: OUTPUT
+C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IMUEL, I, J, K, NG, NINT7,NNOD,K2S,K0,IAD1,IDUM,LLL,
@@ -354,7 +356,7 @@ C initialisation tableau de noeuds pour forces de reaction
 C
         CPTREAC = 0
         IF (IREAC == 1 ) 
-     .      CALL INIT_REAC_NOD(CPTREAC,NODREAC,NTHGRP,ITHGRP,ITHBUF)
+     .      CALL INIT_REAC_NOD(CPTREAC,NODREAC,NTHGRP,OUTPUT%TH%ITHGRP,OUTPUT%TH%ITHBUF)
 C
 C initialisation tableau d elements pour TH de GROUPE D ELEMENTS
 C

@@ -27,7 +27,7 @@ Chd|        INIT_TH                       source/output/th/init_th.F
 Chd|-- calls ---------------
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
 Chd|====================================================================
-      SUBROUTINE THNOD_COUNT(ITHGRP, NTHGRP2, WA_SIZE, INDEX_WA_NOD, ITHBUF, WEIGHT)
+      SUBROUTINE THNOD_COUNT(ITHGRP, NTHGRP2, WA_SIZE, INDEX_WA_NOD, ITHBUF, WEIGHT,SITHBUF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,6 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: SITHBUF
       INTEGER ITHBUF(*),WEIGHT(NUMNOD)
       INTEGER, INTENT(inout) :: WA_SIZE,NTHGRP2
       INTEGER, DIMENSION(2*NTHGRP2+1), INTENT(inout) :: INDEX_WA_NOD

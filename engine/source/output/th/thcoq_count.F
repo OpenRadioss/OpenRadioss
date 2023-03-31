@@ -27,7 +27,7 @@ Chd|        INIT_TH                       source/output/th/init_th.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE THCOQ_COUNT(NTHGRP2 , ITHGRP , WA_SIZE, INDEX_WA_COQ,
-     .                 IPARG    ,ITHBUF  )
+     .                 IPARG    ,ITHBUF ,SITHBUF )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------       
@@ -46,6 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: SITHBUF
       INTEGER IPARG(NPARG,*),ITHBUF(SITHBUF)
       INTEGER, INTENT(inout) :: WA_SIZE,NTHGRP2
       INTEGER, DIMENSION(2*NTHGRP2+1), INTENT(inout) :: INDEX_WA_COQ

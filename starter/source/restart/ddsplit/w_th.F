@@ -30,7 +30,7 @@ Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|====================================================================
       SUBROUTINE W_TH(ITHGRP ,ITHBUF ,LENTHG,NODLOCAL,CEL   ,
-     2                NTHGRP0,NTHGRP2,PROC    ,LEN_IA,
+     2                NTHGRP0,NTHGRP2,PROC    ,
      3                CELSPH, NUMLOCCLUSTER ,NBR_TH_MONVOL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       INTEGER  PROC, LENTHG, LEN_IA, NTHGRP0, NTHGRP2,
+       INTEGER  PROC, LENTHG, NTHGRP0, NTHGRP2,
      .          ITHGRP(NITHGR,*), ITHBUF(*), NODLOCAL(*),
      .          CEL(*), CELSPH(*), NUMLOCCLUSTER(*)
        INTEGER :: NBR_TH_MONVOL ! number of /TH/MONV
@@ -66,7 +66,6 @@ C
 C Header recopie
 C
       CALL WRITE_I_C(ITHGRP,NITHGR*(NTHGRP0+NBR_TH_MONVOL))
-      LEN_IA = LEN_IA + NITHGR*(NTHGRP0+NBR_TH_MONVOL)
 C
 C buffer renumerote localement
 C
@@ -131,7 +130,6 @@ c            local number of cluster, or zero
       ENDDO
 C
       CALL WRITE_I_C(ITHBUF_L,LENTHG)
-      LEN_IA = LEN_IA + LENTHG
 C
       RETURN
       END

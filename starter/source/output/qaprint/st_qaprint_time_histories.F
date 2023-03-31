@@ -28,16 +28,14 @@ Chd|-- calls ---------------
 Chd|        ST_QAPRINT_THGROU             source/output/qaprint/st_qaprint_time_histories.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
-      SUBROUTINE ST_QAPRINT_TIME_HISTORIES(ITHGRP , ITHBUF  , ITHVAR , IPART  , SUBSETS, 
-     .                                     ITHGRPA, ITHGRPB , ITHGRPC, ITHGRPD, ITHGRPE, 
-     .                                     ITHGRPF, ITHGRPG , ITHGRPH, ITHGRPI, ITHBUFA, 
-     .                                     ITHBUFB, ITHBUFC , ITHBUFD, ITHBUFE, ITHBUFF, 
-     .                                     ITHBUFG, ITHBUFH , ITHBUFI, IPARTTH, NTHGRPMX)
+      SUBROUTINE ST_QAPRINT_TIME_HISTORIES(TH , ITHVAR , IPART  , SUBSETS, 
+     .                                     IPARTTH, NTHGRPMX)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE QA_OUT_MOD
         USE GROUPDEF_MOD
+        USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,14 +51,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(IN) :: ITHGRP(NITHGR,*) ,ITHBUF(SITHBUF)  ,ITHVAR(SITHVAR)  , 
-     .                         ITHGRPA(NITHGR,*),ITHGRPB(NITHGR,*),ITHGRPC(NITHGR,*),
-     .                         ITHGRPD(NITHGR,*),ITHGRPE(NITHGR,*),ITHGRPF(NITHGR,*),
-     .                         ITHGRPG(NITHGR,*),ITHGRPH(NITHGR,*),ITHGRPI(NITHGR,*),
-     .                         ITHBUFA(SITHBUFA),ITHBUFB(SITHBUFB),ITHBUFC(SITHBUFC),
-     .                         ITHBUFD(SITHBUFD),ITHBUFE(SITHBUFE),ITHBUFF(SITHBUFF),
-     .                         ITHBUFG(SITHBUFG),ITHBUFH(SITHBUFH),ITHBUFI(SITHBUFI),
-     .                         NTHGRPMX
+        TYPE(TH_)  :: TH
+        INTEGER, INTENT(IN) :: ITHVAR(SITHVAR)  , NTHGRPMX
         INTEGER, INTENT(IN), TARGET :: IPART(LIPART1,NPART+NTHPART),IPARTTH(18*(NPART+NTHPART))
         TYPE(SUBSET_), DIMENSION(NSUBS), INTENT(IN) :: SUBSETS
 C-----------------------------------------------
@@ -76,53 +68,53 @@ C-----------------------------------------------
 C
           !/TH
           IPARTTHI => IPART(8:9,1:NPART+NTHPART)
-          CALL ST_QAPRINT_THGROU(NTHGRP     ,ITHGRP    ,ITHBUF    ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,10       )
+          CALL ST_QAPRINT_THGROU(NTHGRP     ,TH%ITHGRP    ,TH%ITHBUF    ,ITHVAR   ,IPART    ,
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,10   ,TH%SITHGRP    ,TH%SITHBUF)
      
           !/ATH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(1:2*(NPART+NTHPART))
-          CALL ST_QAPRINT_THGROU(NTHGRP1(1) ,ITHGRPA   ,ITHBUFA   ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,1        )
+          CALL ST_QAPRINT_THGROU(NTHGRP1(1) ,TH%ITHGRPA   ,TH%ITHBUFA   ,ITHVAR   ,IPART    ,
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,1    ,TH%SITHGRPA,TH%SITHBUFA )
      
           !/BTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(2*(NPART+NTHPART)+1:4*(NPART+NTHPART))
-          CALL ST_QAPRINT_THGROU(NTHGRP1(2) ,ITHGRPB   ,ITHBUFB   ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,2        )
+          CALL ST_QAPRINT_THGROU(NTHGRP1(2) ,TH%ITHGRPB   ,TH%ITHBUFB   ,ITHVAR   ,IPART    ,
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,2    ,TH%SITHGRPB,TH%SITHBUFB )
       
           !/CTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(4*(NPART+NTHPART)+1:6*(NPART+NTHPART))
-          CALL ST_QAPRINT_THGROU(NTHGRP1(3) ,ITHGRPC   ,ITHBUFC   ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,3        )
+          CALL ST_QAPRINT_THGROU(NTHGRP1(3) ,TH%ITHGRPC   ,TH%ITHBUFC   ,ITHVAR   ,IPART    ,
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,3    ,TH%SITHGRPC,TH%SITHBUFC )
       
           !/DTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(6*(NPART+NTHPART)+1:8*(NPART+NTHPART))
-          CALL ST_QAPRINT_THGROU(NTHGRP1(4) ,ITHGRPD   ,ITHBUFD   ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,4        )
+          CALL ST_QAPRINT_THGROU(NTHGRP1(4) ,TH%ITHGRPD  , TH%ITHBUFD   ,ITHVAR   ,IPART    ,
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,4    ,TH%SITHGRPD,TH%SITHBUFD )
 
           !/ETH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(8*(NPART+NTHPART)+1:10*(NPART+NTHPART))
-          CALL ST_QAPRINT_THGROU(NTHGRP1(5) ,ITHGRPE   ,ITHBUFE   ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,5        )
+          CALL ST_QAPRINT_THGROU(NTHGRP1(5) ,TH%ITHGRPE   ,TH%ITHBUFE   ,ITHVAR   ,IPART    ,
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,5    ,TH%SITHGRPD,TH%SITHBUFD )
  
           !/FTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(10*(NPART+NTHPART)+1:12*(NPART+NTHPART))
-          CALL ST_QAPRINT_THGROU(NTHGRP1(6) ,ITHGRPF   ,ITHBUFF   ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,6        )
+          CALL ST_QAPRINT_THGROU(NTHGRP1(6) ,TH%ITHGRPF   ,TH%ITHBUFF   ,ITHVAR   ,IPART    ,
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,6    ,TH%SITHGRPE,TH%SITHBUFE )
      
           !/GTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(12*(NPART+NTHPART)+1:14*(NPART+NTHPART))
-          CALL ST_QAPRINT_THGROU(NTHGRP1(7) ,ITHGRPG   ,ITHBUFG   ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,7        )
+          CALL ST_QAPRINT_THGROU(NTHGRP1(7) ,TH%ITHGRPG   ,TH%ITHBUFG   ,ITHVAR   ,IPART    ,
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,7    ,TH%SITHGRPF,TH%SITHBUFF )
      
           !/HTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(14*(NPART+NTHPART)+1:16*(NPART+NTHPART))
-          CALL ST_QAPRINT_THGROU(NTHGRP1(8) ,ITHGRPH   ,ITHBUFH   ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,8        )
+          CALL ST_QAPRINT_THGROU(NTHGRP1(8) ,TH%ITHGRPH   ,TH%ITHBUFH   ,ITHVAR   ,IPART    ,
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,8    ,TH%SITHGRPG,TH%SITHBUFG  )
      
           !/ITH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(16*(NPART+NTHPART)+1:18*(NPART+NTHPART))
-          CALL ST_QAPRINT_THGROU(NTHGRP1(9) ,ITHGRPI   ,ITHBUFI   ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,9        )
+          CALL ST_QAPRINT_THGROU(NTHGRP1(9) ,TH%ITHGRPI   ,TH%ITHBUFI   ,ITHVAR   ,IPART    ,
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,9    ,TH%SITHGRPH,TH%SITHBUFH )
 C        
         ENDIF
 C-----------------------------------------------
@@ -140,7 +132,7 @@ Chd|        FRETITL2                      source/starter/freform.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_THGROU(NTHGROUP ,ITHGRP   ,ITHBUF   ,ITHVAR   ,IPART    ,
-     .                             IPARTTH  ,NTHGRPMX ,SUBSETS  ,ISUBVAR  ) 
+     .                             IPARTTH  ,NTHGRPMX ,SUBSETS  ,ISUBVAR  ,SITHGRP,SITHBUF) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -160,6 +152,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        INTEGER, INTENT(IN) :: SITHGRP,SITHBUF
         INTEGER, INTENT(IN) :: ITHGRP(NITHGR,*),ITHBUF(SITHBUF),ITHVAR(SITHVAR),
      .                         IPART(LIPART1,NPART+NTHPART),NTHGRPMX,ISUBVAR ,
      .                         IPARTTH(2,NPART+NTHPART),NTHGROUP

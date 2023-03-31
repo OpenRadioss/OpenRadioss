@@ -30,7 +30,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE THSENS(SENSOR_TAB,NSENSOR ,
      .           J1   ,J2   ,L1   ,L2   ,ITHBUF,
-     .           WA   ,IFORM)
+     .           WA   ,IFORM,SITHBUF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: SITHBUF
       INTEGER ,INTENT(IN) :: IFORM,J1,J2,L1,L2,NSENSOR
       INTEGER ,DIMENSION(SITHBUF) ,INTENT(IN)  :: ITHBUF
       my_real ,DIMENSION(SWA)     ,INTENT(OUT) :: WA

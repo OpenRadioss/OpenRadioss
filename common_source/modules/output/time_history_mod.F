@@ -1,0 +1,232 @@
+Copyright>        OpenRadioss
+Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
+Copyright>
+Copyright>        This program is free software: you can redistribute it and/or modify
+Copyright>        it under the terms of the GNU Affero General Public License as published by
+Copyright>        the Free Software Foundation, either version 3 of the License, or
+Copyright>        (at your option) any later version.
+Copyright>
+Copyright>        This program is distributed in the hope that it will be useful,
+Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+Copyright>        GNU Affero General Public License for more details.
+Copyright>
+Copyright>        You should have received a copy of the GNU Affero General Public License
+Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+Copyright>
+Copyright>
+Copyright>        Commercial Alternative: Altair Radioss Software
+Copyright>
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  TH_TYPE                      modules/time_history_type.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
+      MODULE TIME_HISTORY_MOD
+#include "my_real.inc" 
+
+         TYPE TH_
+            INTEGER  NITHGR
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUF
+            INTEGER  SITHBUF
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFA
+            INTEGER  SITHBUFA
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFB
+            INTEGER  SITHBUFB
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFC
+            INTEGER  SITHBUFC
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFD
+            INTEGER  SITHBUFD
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFE
+            INTEGER  SITHBUFE
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFF
+            INTEGER  SITHBUFF
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFG
+            INTEGER  SITHBUFG
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFH
+            INTEGER  SITHBUFH
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFI
+            INTEGER  SITHBUFI
+
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRP
+            INTEGER  SITHGRP
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPA
+            INTEGER  SITHGRPA
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPB
+            INTEGER  SITHGRPB
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPC
+            INTEGER  SITHGRPC
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPD
+            INTEGER  SITHGRPD
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPE
+            INTEGER  SITHGRPE
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPF
+            INTEGER  SITHGRPF
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPG
+            INTEGER  SITHGRPG
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPH
+            INTEGER  SITHGRPH
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPI
+            INTEGER  SITHGRPI
+         END TYPE TH_
+
+         CONTAINS
+
+Chd|====================================================================
+Chd|  TH_ALLOC             
+Chd|-- called by -----------
+Chd|       
+Chd|-- calls ---------------
+Chd|====================================================================
+      SUBROUTINE TH_ALLOC(TH,
+     .                       SITHGRP,  SITHBUF ,
+     .                       SITHGRPA, SITHBUFA,
+     .                       SITHGRPB, SITHBUFB,
+     .                       SITHGRPC, SITHBUFC,
+     .                       SITHGRPD, SITHBUFD,
+     .                       SITHGRPE, SITHBUFE,
+     .                       SITHGRPF, SITHBUFF,
+     .                       SITHGRPG, SITHBUFG,
+     .                       SITHGRPH, SITHBUFH,
+     .                       SITHGRPI, SITHBUFI )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+#include      "my_allocate.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+           TYPE(TH_),INTENT(INOUT)  :: TH
+           INTEGER, INTENT(IN) :: SITHGRP,  SITHBUF 
+           INTEGER, INTENT(IN) :: SITHGRPA, SITHBUFA
+           INTEGER, INTENT(IN) :: SITHGRPB, SITHBUFB
+           INTEGER, INTENT(IN) :: SITHGRPC, SITHBUFC
+           INTEGER, INTENT(IN) :: SITHGRPD, SITHBUFD
+           INTEGER, INTENT(IN) :: SITHGRPE, SITHBUFE
+           INTEGER, INTENT(IN) :: SITHGRPF, SITHBUFF
+           INTEGER, INTENT(IN) :: SITHGRPG, SITHBUFG
+           INTEGER, INTENT(IN) :: SITHGRPH, SITHBUFH
+           INTEGER, INTENT(IN) :: SITHGRPI, SITHBUFI 
+C-----------------------------------------------
+           MY_ALLOCATE(TH%ITHGRP ,TH%SITHGRP)
+           MY_ALLOCATE(TH%ITHBUF ,TH%SITHBUF)
+
+           MY_ALLOCATE(TH%ITHGRPA,TH%SITHGRPA)
+           MY_ALLOCATE(TH%ITHBUFA,TH%SITHBUFA)
+
+           MY_ALLOCATE(TH%ITHGRPB,TH%SITHGRPB)
+           MY_ALLOCATE(TH%ITHBUFB,TH%SITHBUFB)
+
+           MY_ALLOCATE(TH%ITHGRPC,TH%SITHGRPC)
+           MY_ALLOCATE(TH%ITHBUFC,TH%SITHBUFC)
+
+           MY_ALLOCATE(TH%ITHGRPD,TH%SITHGRPD)
+           MY_ALLOCATE(TH%ITHBUFD,TH%SITHBUFD)
+
+           MY_ALLOCATE(TH%ITHGRPE,TH%SITHGRPE)
+           MY_ALLOCATE(TH%ITHBUFE,TH%SITHBUFE)
+
+           MY_ALLOCATE(TH%ITHGRPF,TH%SITHGRPF)
+           MY_ALLOCATE(TH%ITHBUFF,TH%SITHBUFF)
+
+           MY_ALLOCATE(TH%ITHGRPG,TH%SITHGRPG)
+           MY_ALLOCATE(TH%ITHBUFG,TH%SITHBUFG)
+
+           MY_ALLOCATE(TH%ITHGRPH,TH%SITHGRPH)
+           MY_ALLOCATE(TH%ITHBUFH,TH%SITHBUFH)
+
+           MY_ALLOCATE(TH%ITHGRPI,TH%SITHGRPI)
+           MY_ALLOCATE(TH%ITHBUFI,TH%SITHBUFI)
+
+         END SUBROUTINE TH_ALLOC
+
+
+Chd|====================================================================
+Chd|  TH_ALLOC             
+Chd|-- called by -----------
+Chd|       
+Chd|-- calls ---------------
+Chd|====================================================================
+      SUBROUTINE TH_CLEAN(TH )
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+#include      "my_allocate.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+         TYPE(TH_),INTENT(INOUT)  :: TH
+C-----------------------------------------------
+         TH%SITHGRP = 0
+         TH%SITHBUF = 0
+
+         TH%SITHGRPA = 0
+         TH%SITHBUFA = 0
+
+         TH%SITHGRPB = 0
+         TH%SITHBUFB = 0
+
+         TH%SITHGRPC = 0
+         TH%SITHBUFC = 0
+
+         TH%SITHGRPD = 0
+         TH%SITHBUFD = 0
+
+         TH%SITHGRPE = 0
+         TH%SITHBUFE = 0
+
+         TH%SITHGRPF = 0
+         TH%SITHBUFF = 0
+
+         TH%SITHGRPG = 0
+         TH%SITHBUFG = 0
+
+         TH%SITHGRPH = 0
+         TH%SITHBUFH = 0
+
+         TH%SITHGRPI = 0
+         TH%SITHBUFI = 0
+
+
+         DEALLOCATE(TH%ITHGRP)
+         DEALLOCATE(TH%ITHBUF)
+
+         DEALLOCATE(TH%ITHGRPA)
+         DEALLOCATE(TH%ITHBUFA)
+
+         DEALLOCATE(TH%ITHGRPB)
+         DEALLOCATE(TH%ITHBUFB)
+
+         DEALLOCATE(TH%ITHGRPC)
+         DEALLOCATE(TH%ITHBUFC)
+
+         DEALLOCATE(TH%ITHGRPD)
+         DEALLOCATE(TH%ITHBUFD)
+
+         DEALLOCATE(TH%ITHGRPE)
+         DEALLOCATE(TH%ITHBUFE)
+
+         DEALLOCATE(TH%ITHGRPF)
+         DEALLOCATE(TH%ITHBUFF)
+
+         DEALLOCATE(TH%ITHGRPG)
+         DEALLOCATE(TH%ITHBUFG)
+
+         DEALLOCATE(TH%ITHGRPH)
+         DEALLOCATE(TH%ITHBUFH)
+
+         DEALLOCATE(TH%ITHGRPI)
+         DEALLOCATE(TH%ITHBUFI)
+
+       END SUBROUTINE TH_CLEAN
+
+      END MODULE TIME_HISTORY_MOD
