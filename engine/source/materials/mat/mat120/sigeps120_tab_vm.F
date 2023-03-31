@@ -37,7 +37,7 @@ Chd|====================================================================
      5      SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6      SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7      NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    ,
-     8      JTHE    ,INLOC   ,DPLANL  )
+     8      JTHE    ,INLOC   ,DPLANL  ,DMG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,7 +71,7 @@ c
      .         SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
       INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
       my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
-      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: OFF,PLA,DPLANL
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: OFF,PLA,DPLANL,DMG
       TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
@@ -192,7 +192,7 @@ c
 c------------------------------------------------------------------
 c     Computation of the nominal trial stress tensor (non damaged)
 c------------------------------------------------------------------
-      DAM (1:NEL) = UVAR(1:NEL,2)
+      DAM (1:NEL) = DMG(1:NEL)
       FDAM(1:NEL) = ONE - DAM(1:NEL)
 c
       DO I = 1,NEL
@@ -494,7 +494,7 @@ c
               DAM(I) = ONE
               OFF(I) = FOUR_OVER_5
             END IF
-            UVAR(I,2) = DAM(I)
+            DMG(I) = DAM(I)
           END IF ! GAMMA > GAMC
         ENDDO
 c       Update damaged stress
