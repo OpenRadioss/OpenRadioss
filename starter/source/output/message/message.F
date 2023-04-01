@@ -285,6 +285,7 @@ Chd|        HM_READ_MAT13                 source/materials/mat/mat013/hm_read_ma
 Chd|        HM_READ_MAT14                 source/materials/mat/mat014/hm_read_mat14.F
 Chd|        HM_READ_MAT15                 source/materials/mat/mat015/hm_read_mat15.F
 Chd|        HM_READ_MAT151                source/materials/mat/mat151/hm_read_mat151.F
+Chd|        HM_READ_MAT158                source/materials/mat/mat158/hm_read_mat158.F
 Chd|        HM_READ_MAT16                 source/materials/mat/mat016/hm_read_mat16.F
 Chd|        HM_READ_MAT19                 source/materials/mat/mat019/hm_read_mat19.F
 Chd|        HM_READ_MAT20                 source/materials/mat/mat020/hm_read_mat20.F
@@ -595,6 +596,7 @@ Chd|        LAW112_UPD                    source/materials/mat/mat112/law112_upd
 Chd|        LAW113_UPD                    source/materials/mat/mat113/law113_upd.F
 Chd|        LAW114_UPD                    source/materials/mat/mat114/law114_upd.F
 Chd|        LAW119_UPD                    source/materials/mat/mat119/law119_upd.F
+Chd|        LAW158_UPD                    source/materials/mat/mat158/law158_upd.F
 Chd|        LAW36_UPD                     source/materials/mat/mat036/law36_upd.F
 Chd|        LAW58_UPD                     source/materials/mat/mat058/law58_upd.F
 Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F

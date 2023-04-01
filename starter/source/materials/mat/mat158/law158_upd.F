@@ -21,13 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  LAW158_UPD                     source/materials/mat/mat158/law158_upd.F
+Chd|  LAW158_UPD                    source/materials/mat/mat158/law158_upd.F
 Chd|-- called by -----------
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FUNC_INTERS                   source/tools/curve/func_inters.F
-Chd|        FUNC_INTERS_SHEAR             source/tools/curve/func_inters.F
 Chd|        FUNC_SLOPE                    source/tools/curve/func_slope.F
 Chd|        MATFUN_USR2SYS                source/materials/tools/matfun_usr2sys.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

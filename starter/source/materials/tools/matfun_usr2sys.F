@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  MATFUN_USR2SYS                source/materials/tools/matfun_usr2sys.F
 Chd|-- called by -----------
+Chd|        LAW158_UPD                    source/materials/mat/mat158/law158_upd.F
 Chd|        LAW58_UPD                     source/materials/mat/mat058/law58_upd.F
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|-- calls ---------------

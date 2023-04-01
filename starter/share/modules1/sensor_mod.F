@@ -57,6 +57,7 @@ Chd|        INIPARSEN                     source/tools/sensor/iniparsen.F
 Chd|        INISEN                        source/tools/sensor/inisen.F  
 Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
 Chd|        INTER_DCOD_SENSOR             source/interfaces/reader/inter_dcod_sensor.F
+Chd|        LAW158_UPD                    source/materials/mat/mat158/law158_upd.F
 Chd|        LAW58_UPD                     source/materials/mat/mat058/law58_upd.F
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        READ_MONVOL                   source/airbag/read_monvol.F   

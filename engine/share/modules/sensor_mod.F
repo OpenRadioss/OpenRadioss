@@ -167,6 +167,7 @@ Chd|        SENSOR_TIME                   source/tools/sensor/sensor_time.F
 Chd|        SENSOR_VEL                    source/tools/sensor/sensor_vel.F
 Chd|        SENSOR_WORK                   source/tools/sensor/sensor_work.F
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
+Chd|        SIGEPS158C                    source/materials/mat/mat158/sigeps158c.F
 Chd|        SIGEPS19C                     source/materials/mat/mat019/sigeps19c.F
 Chd|        SIGEPS58C                     source/materials/mat/mat058/sigeps58c.F
 Chd|        SMS_ENCIN_2                   source/ams/sms_encin_2.F      

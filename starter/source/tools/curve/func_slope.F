@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  FUNC_SLOPE                    source/tools/curve/func_slope.F
 Chd|-- called by -----------
 Chd|        LAW111_UPD                    source/materials/mat/mat111/law111_upd.F
+Chd|        LAW158_UPD                    source/materials/mat/mat158/law158_upd.F
 Chd|        LAW58_UPD                     source/materials/mat/mat058/law58_upd.F
 Chd|        LAW90_UPD                     source/materials/mat/mat090/law90_upd.F
 Chd|-- calls ---------------

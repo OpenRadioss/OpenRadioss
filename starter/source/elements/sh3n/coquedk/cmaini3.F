@@ -31,6 +31,7 @@ Chd|        CM27IN3                       source/materials/mat/mat027/cm27in3.F
 Chd|        CM58IN3                       source/materials/mat/mat058/cm58in3.F
 Chd|        CORTHDIR                      source/elements/shell/coque/corthdir.F
 Chd|        CORTHINI                      source/elements/shell/coque/corthini.F
+Chd|        LAW158_INIT                   source/materials/mat/mat158/law158_init.F
 Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

@@ -107,6 +107,7 @@ Chd|        REDEF_SEATBELT                source/tools/seatbelts/redef_seatbelt.
 Chd|        RKENONL                       source/elements/spring/r4mat3.F
 Chd|        SIGEPS121                     source/materials/mat/mat121/sigeps121.F
 Chd|        SIGEPS121C                    source/materials/mat/mat121/sigeps121c.F
+Chd|        SIGEPS158C                    source/materials/mat/mat158/sigeps158c.F
 Chd|        SIGEPS28                      source/materials/mat/mat028/sigeps28.F
 Chd|        SIGEPS36                      source/materials/mat/mat036/sigeps36.F
 Chd|        SIGEPS36C                     source/materials/mat/mat036/sigeps36c.F

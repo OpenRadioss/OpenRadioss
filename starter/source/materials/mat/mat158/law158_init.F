@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  LAW158_INIT                       source/materials/mat/mat158/law158_init.F
+Chd|  LAW158_INIT                   source/materials/mat/mat158/law158_init.F
 Chd|-- called by -----------
 Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
 Chd|        CINIT3                        source/elements/shell/coque/cinit3.F

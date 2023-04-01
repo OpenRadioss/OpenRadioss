@@ -49,6 +49,7 @@ Chd|        CSIGINI                       source/elements/shell/coque/csigini.F
 Chd|        CUSERINI                      source/elements/shell/coque/cuserini.F
 Chd|        FAIL_WINDSHIELD_INIT          source/materials/fail/windshield_alter/fail_windshield_init.F
 Chd|        FRETITL2                      source/starter/freform.F      
+Chd|        LAW158_INIT                   source/materials/mat/mat158/law158_init.F
 Chd|        LAYINI1                       source/elements/shell/coqueba/layini1.F
 Chd|        THICKINI                      source/elements/shell/coqueba/thickini.F
 Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
