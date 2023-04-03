@@ -1066,7 +1066,8 @@ C-----------------------------------------------
                         calculate=.true.
                       endif 
                       if(calculate)then
-                       alpha_zc=(ZC-PBLAST_DATA%Curve_val_2_9(idx1))/(PBLAST_DATA%Curve_val_2_9(idx2)-PBLAST_DATA%Curve_val_2_9(idx1))
+                       alpha_zc=(ZC-PBLAST_DATA%Curve_val_2_9(idx1))
+     .                           / (PBLAST_DATA%Curve_val_2_9(idx2)-PBLAST_DATA%Curve_val_2_9(idx1))
                       endif    
                       curve_id1=idx1
                       curve_id2=idx2                                                                                   
